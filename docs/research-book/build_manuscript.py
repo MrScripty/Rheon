@@ -17,10 +17,10 @@ chapters=sorted((R/'chapters').glob('*.md'));appendices=sorted((R/'appendices').
 NS={'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main','m':'http://schemas.openxmlformats.org/officeDocument/2006/math'}
 formulas=[]
 for f in files:
- for m in re.finditer(r'\\\[(.*?)\\\]|\\\((.*?)\\\)',f.read_text(),re.S):
+ for m in re.finditer(r'\\\[(.*?)\\\]|\\\((.*?)\\\)',f.read_text(encoding="utf-8"),re.S):
   x=(m.group(1) or m.group(2)).strip()
   if x not in formulas:formulas.append(x)
-(B/'equations.md').write_text('\n\n'.join(f'MATHINDEX{i:04d}\n\n$$\n{x}\n$$' for i,x in enumerate(formulas)))
+(B/'equations.md').write_text('\n\n'.join(f'MATHINDEX{i:04d}\n\n$$\n{x}\n$$' for i,x in enumerate(formulas)),encoding='utf-8')
 subprocess.run(['pandoc','-f','markdown+tex_math_dollars','-t','docx',str(B/'equations.md'),'-o',str(B/'equations.docx')],check=True)
 with zipfile.ZipFile(B/'equations.docx') as z:body=etree.fromstring(z.read('word/document.xml'))
 equations={};current=None
@@ -131,10 +131,10 @@ doc.add_paragraph('Includes 20 checked Lean theorems, reproducible numerical mec
 link(doc.add_paragraph(),'Research repository and qualification',url='https://github.com/MrScripty/Rheon/pull/1')
 doc.add_paragraph('Contents',style='Heading 1')
 for i,f in enumerate(files):
- p=doc.add_paragraph();p.paragraph_format.space_after=Pt(3);link(p,f.read_text().splitlines()[0][2:],anchor=f'section{i}')
+ p=doc.add_paragraph();p.paragraph_format.space_after=Pt(3);link(p,f.read_text(encoding="utf-8").splitlines()[0][2:],anchor=f'section{i}')
 for index,f in enumerate(files):
  chapter_start=len(doc.paragraphs)
- lines=f.read_text().splitlines();i=0
+ lines=f.read_text(encoding="utf-8").splitlines();i=0
  while i<len(lines):
   line=lines[i].strip()
   if not line:i+=1;continue
@@ -182,7 +182,7 @@ for text,size,bold,space in [
  p=doc.add_paragraph();p.paragraph_format.space_before=Pt(space);p.paragraph_format.space_after=Pt(5)
  r=p.add_run(text);r.font.name='DejaVu Sans';r.font.size=Pt(size);r.font.bold=bold;r.font.color.rgb=RGBColor(225,238,245)
 doc.save(O/'rheon-discrete-fluid-simulation.docx')
-combined='# Rheon Discrete Fluid Simulation\n\nAuthor Puma\n\n'+'\n\n'.join(f.read_text() for f in files)
-(O/'rheon-manuscript.md').write_text(combined)
+combined='# Rheon Discrete Fluid Simulation\n\nAuthor Puma\n\n'+'\n\n'.join(f.read_text(encoding="utf-8") for f in files)
+(O/'rheon-manuscript.md').write_text(combined,encoding="utf-8")
 stats={'chapters':len(chapters),'appendices':len(appendices),'words':len(combined.split()),'unique_native_equations':len(equations),'figures':count}
-(B/'assembly-stats.json').write_text(json.dumps(stats,indent=2)+'\n');print(json.dumps(stats,indent=2))
+(B/'assembly-stats.json').write_text(json.dumps(stats,indent=2)+'\n',encoding='utf-8');print(json.dumps(stats,indent=2))

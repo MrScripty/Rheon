@@ -37,11 +37,11 @@ apply_A(p, out, topology):
         out[i] = total
 ~~~
 
-This gives positive diagonals and nonpositive off-diagonals. Known boundary pressure adds a matching right-hand-side term. A pinned pressure needs matching row and column elimination.
+This gives nonnegative diagonals, positive only with at least one positive retained coefficient, and nonpositive off-diagonals. Known boundary pressure adds a matching right-hand-side term. A pinned pressure needs matching row and column elimination.
 
 ## Pressure solve lifecycle
 
-The preconditioner is assumed SPD by a separately justified construction. Check initial residual before any quotient. Final acceptance uses a freshly computed residual.
+The lifecycle operates on the gauge-fixed SPD system or a separately justified admissible subspace. The preconditioner is assumed SPD by a separately justified construction. Check initial residual before any quotient. Final acceptance uses a freshly computed residual.
 
 ~~~
 solve(A, M, b, p, tolerances, iteration_limit):
@@ -51,6 +51,7 @@ solve(A, M, b, p, tolerances, iteration_limit):
     z = M_inverse(r)
     d = z
     rz = dot(r, z)
+    if not finite(rz) or rz <= 0: return Breakdown
     for k in 0 .. iteration_limit:
         Ad = A(d)
         curvature = dot(d, Ad)
@@ -66,10 +67,11 @@ solve(A, M, b, p, tolerances, iteration_limit):
             z = M_inverse(r)
             d = z
             rz = dot(r, z)
+            if not finite(rz) or rz <= 0: return Breakdown
             continue
         z = M_inverse(r)
         next_rz = dot(r, z)
-        if not finite(next_rz) or rz <= 0:
+        if not finite(next_rz) or next_rz <= 0:
             return Breakdown
         beta = next_rz / rz
         d = z + beta * d
