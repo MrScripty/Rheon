@@ -1,0 +1,8 @@
+{
+  "exit_code": 0,
+  "stdout": "Accepted 3 steps; time 0.060000; managed arrays 21069824 bytes; step wall time 7.403s. Wrote /workspace/shared/rheon-rust-demo-64\n",
+  "stderr": "",
+  "process_wall_seconds": 7.412869130000217,
+  "maximum_resident_kib_linux": 22464,
+  "scope": "single local three-step demonstration, not sustained real-time benchmark or whole-process hard memory guarantee"
+}
