@@ -51,4 +51,5 @@ theorem interpolation_not_mass_conservative :
     ((1 : ℚ) / 2 * 1 + 1 / 2 * 0) + (1 / 2 * 1 + 1 / 2 * 0) +
       (1 / 2 * 1 + 1 / 2 * 0) ≠ 1 + 0 + 0 := by norm_num
 
+end
 end Rheon.Transport

@@ -99,6 +99,7 @@ theorem projection_residual {n m : ℕ} (B : Fin n → Fin m → ℝ)
   have hr := rhs i
   unfold incidence at hr
   rw [hr]
+  unfold incidence
   ring
 
 theorem exact_projection {n m : ℕ} (B : Fin n → Fin m → ℝ)
@@ -110,4 +111,5 @@ theorem exact_projection {n m : ℕ} (B : Fin n → Fin m → ℝ)
   rw [projection_residual B w u p b dt rhs i, solved]
   simp
 
+end
 end Rheon.Discrete
