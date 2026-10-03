@@ -1,0 +1,26 @@
+{
+  "source_head": "ecf97d3a943ebe30d20acc1cf01b94dc08ff96a2",
+  "workflow_run": 37141752646,
+  "workflow_url": "https://github.com/MrScripty/Rheon/actions/runs/37141752646",
+  "public_theorems": 20,
+  "audited_declarations": 31,
+  "allowed_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "proof_source_sha256": {
+    "proofs/Rheon.lean": "4ef1893ee7ce13ffd1dcaf9d579906f580e94e48d600d47aa3df144e04032632",
+    "proofs/AxiomAudit.lean": "dfa3d73c935b877c330306e290c225101af540f6b78a48dedb8b875e4f3cd13a",
+    "proofs/Rheon/Discrete.lean": "3318ff99e6b955508c4e9822e5c91ecabec11fb3c921bd9fb2742357b37ad7b0",
+    "proofs/Rheon/Indexing.lean": "876724fb848c063611656366a86d2731f4566aca2314021a95a5abaa541d0f6c",
+    "proofs/Rheon/Transport.lean": "7d9ab3c135c38f4fedcfe0dffd623434db0736a5778e2b92124acef5579f5acc"
+  },
+  "claims_excluded": [
+    "geometry assembly",
+    "floating point correctness",
+    "solver convergence",
+    "continuum realism",
+    "production performance"
+  ]
+}

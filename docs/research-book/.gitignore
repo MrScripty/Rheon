@@ -1,0 +1,6 @@
+build/
+output/
+render*/
+__pycache__/
+companion/__pycache__/
+figures/*.png
