@@ -1,0 +1,53 @@
+import Rheon
+import Lean.Util.CollectAxioms
+
+open Lean Elab Command
+run_cmd do
+  let env ← getEnv
+  let allowed : Array Name := #[`propext, `Classical.choice, `Quot.sound]
+  let expected : Array Name := #[
+    `Rheon.Discrete.gradient,
+    `Rheon.Discrete.incidence,
+    `Rheon.Discrete.laplace,
+    `Rheon.Discrete.corrected,
+    `Rheon.Discrete.adjoint_identity,
+    `Rheon.Discrete.pressure_energy,
+    `Rheon.Discrete.pressure_nonnegative,
+    `Rheon.Discrete.pressure_symmetric,
+    `Rheon.Discrete.constant_gradient_zero,
+    `Rheon.Discrete.constant_pressure_nullspace,
+    `Rheon.Discrete.internal_flux_conservation,
+    `Rheon.Discrete.conservative_update,
+    `Rheon.Discrete.projection_residual,
+    `Rheon.Discrete.exact_projection,
+    `Rheon.Indexing.flatten,
+    `Rheon.Indexing.flatten_in_bounds,
+    `Rheon.Indexing.staggered_count,
+    `Rheon.Transport.blend,
+    `Rheon.Transport.blend_lower,
+    `Rheon.Transport.blend_upper,
+    `Rheon.Transport.blend_constant,
+    `Rheon.Transport.convex_sum_bounds,
+    `Rheon.Transport.upwind_positive,
+    `Rheon.Transport.explicit_diffusion_positive,
+    `Rheon.Transport.cfl_counterexample,
+    `Rheon.Transport.interpolation_not_mass_conservative]
+  for name in expected do
+    let _ ← getConstInfo name
+    pure ()
+  let mut audited := 0
+  for (name, info) in env.constants.toList do
+    let isProofOrAxiom := match info with
+      | .thmInfo _ => true
+      | .axiomInfo _ => true
+      | _ => false
+    if name.toString.startsWith "Rheon." && (isProofOrAxiom || expected.contains name) then
+      let axioms ← Lean.collectAxioms name
+      for axiomName in axioms do
+        unless allowed.contains axiomName do
+          throwError "Disallowed axiom {axiomName} in {name}"
+      logInfo m!"AUDITED {name}: {axioms}"
+      audited := audited + 1
+  if audited < expected.size then
+    throwError "Incomplete declaration audit"
+  logInfo m!"Axiom audit passed for {audited} declarations"
