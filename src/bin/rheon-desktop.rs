@@ -17,6 +17,13 @@ struct Request {
     steps: usize,
     tight: bool,
     methods: Vec<PressureImplementation>,
+    #[cfg(test)]
+    progress_gate: Option<Arc<ProgressGate>>,
+}
+#[cfg(test)]
+struct ProgressGate {
+    reached: std::sync::mpsc::SyncSender<()>,
+    release: std::sync::Mutex<std::sync::mpsc::Receiver<()>>,
 }
 struct ResultRow {
     method: PressureImplementation,
@@ -102,6 +109,17 @@ fn run(
             iterations += r.pressure.iterations;
             divergence = divergence.max(r.actual_divergence_max);
             progress.fetch_add(1, Ordering::Relaxed);
+            #[cfg(test)]
+            if progress.load(Ordering::Relaxed) == 1
+                && let Some(gate) = &request.progress_gate
+            {
+                gate.reached.send(()).map_err(|e| e.to_string())?;
+                gate.release
+                    .lock()
+                    .map_err(|e| e.to_string())?
+                    .recv_timeout(Duration::from_secs(10))
+                    .map_err(|e| e.to_string())?;
+            }
         }
         let seconds = start.elapsed().as_secs_f64();
         let pixels = guidance_pixels(&sim, 128 * 128).map_err(|e| e.to_string())?;
@@ -162,6 +180,8 @@ impl App {
             } else {
                 vec![self.selected]
             },
+            #[cfg(test)]
+            progress_gate: None,
         };
         match Worker::start(request.clone()) {
             Ok(worker) => {
@@ -303,24 +323,45 @@ mod tests {
         let deadline = Instant::now() + Duration::from_secs(10);
         while !condition() {
             assert!(Instant::now() < deadline, "worker lifecycle timed out");
-            std::thread::sleep(Duration::from_millis(1));
+            std::thread::yield_now();
         }
     }
     #[test]
     fn cancel_after_progress_joins_without_rows_and_allows_restart() {
         let mut app = App::default();
         app.size = 8;
-        app.steps = 10000;
-        app.start(true);
+        app.steps = 4;
+        let (reached, first_step) = std::sync::mpsc::sync_channel(1);
+        let (release, resume) = std::sync::mpsc::sync_channel(1);
+        let request = Request {
+            size: app.size,
+            steps: app.steps,
+            tight: app.tight,
+            methods: PressureImplementation::ALL.to_vec(),
+            progress_gate: Some(Arc::new(ProgressGate {
+                reached,
+                release: std::sync::Mutex::new(resume),
+            })),
+        };
+        app.running_request = Some(request.clone());
+        app.worker = Some(Worker::start(request).unwrap());
         let progress = Arc::clone(&app.worker.as_ref().unwrap().progress);
-        wait_until(|| progress.load(Ordering::Relaxed) > 0);
+        first_step
+            .recv_timeout(Duration::from_secs(10))
+            .expect("worker must reach its first accepted step");
+        assert_eq!(progress.load(Ordering::Relaxed), 1);
+        assert!(!app.worker.as_ref().unwrap().handle.is_finished());
+        assert!(progress.load(Ordering::Relaxed) < app.worker.as_ref().unwrap().total);
         app.cancel();
+        release.send(()).unwrap();
         wait_until(|| app.worker.as_ref().unwrap().handle.is_finished());
+        assert!(progress.load(Ordering::Relaxed) < app.worker.as_ref().unwrap().total);
         let ctx = egui::Context::default();
         app.poll(&ctx);
         assert!(app.worker.is_none());
         assert!(app.rows.is_empty());
         assert!(app.textures.is_empty());
+        assert!(app.status.contains("Cancelled { stage:"));
         app.size = 4;
         app.steps = 2;
         app.selected = PressureImplementation::SymmetricGaussSeidelPcgV1;
@@ -362,6 +403,7 @@ mod tests {
             steps: 4,
             tight: false,
             methods: PressureImplementation::ALL.to_vec(),
+            progress_gate: None,
         };
         let progress = AtomicUsize::new(0);
         let rows = run(request, &AtomicBool::new(false), &progress).unwrap();
@@ -380,7 +422,8 @@ mod tests {
                     size: 8,
                     steps: 4,
                     tight: false,
-                    methods: PressureImplementation::ALL.to_vec()
+                    methods: PressureImplementation::ALL.to_vec(),
+                    progress_gate: None
                 },
                 &AtomicBool::new(true),
                 &AtomicUsize::new(0)
