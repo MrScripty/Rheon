@@ -23,6 +23,11 @@ mod sampling;
 pub use sampling::{SamplingError, ScalarSampler, VelocitySampler};
 mod advection;
 pub use advection::{AdvectionError, advect_tracer, advect_velocity};
+mod tracer_barrier;
+pub use tracer_barrier::{
+    BarrierStepReport, TracerBarrierError, TracerBarrierReport, TracerBarrierSampler,
+    VisibleTracerSample, advect_tracer_with_barrier,
+};
 mod simulation;
 pub use simulation::{
     Simulation, SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
