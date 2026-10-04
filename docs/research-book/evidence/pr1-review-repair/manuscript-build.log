@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-review/docs/research-book/build_manuscript.py", line 146, in <module>
+    if title==trigger:figure(name,caption)
+                      ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-pr1-review/docs/research-book/build_manuscript.py", line 121, in figure
+    shape=p.add_run().add_picture(str(R/'figures'/(name+'.png')),width=Inches(4.85 if name=='multigrid-mechanism' else 5.45))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/docx/text/run.py", line 79, in add_picture
+    inline = self.part.new_pic_inline(image_path_or_stream, width, height)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/docx/parts/story.py", line 71, in new_pic_inline
+    rId, image = self.get_or_add_image(image_descriptor)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/docx/parts/story.py", line 37, in get_or_add_image
+    image_part = package.get_or_add_image_part(image_descriptor)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/docx/package.py", line 31, in get_or_add_image_part
+    return self.image_parts.get_or_add_image_part(image_descriptor)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/docx/package.py", line 74, in get_or_add_image_part
+    image = Image.from_file(image_descriptor)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/docx/image/image.py", line 41, in from_file
+    with open(path, "rb") as f:
+         ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/Rheon-pr1-review/docs/research-book/figures/staggered-grid.png'

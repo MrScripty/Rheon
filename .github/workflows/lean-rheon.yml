@@ -33,12 +33,18 @@ jobs:
           curl --fail --location --retry 3 \
             https://github.com/leanprover/elan/releases/download/v4.1.2/elan-x86_64-unknown-linux-gnu.tar.gz \
             -o "$RUNNER_TEMP/elan.tar.gz"
+          # SHA256 of official v4.1.2 Linux x86_64 release asset (see review evidence).
+          printf '%s  %s\n' f81c2e48c1588d4612cd2c8851947898a45ac8d72748a07dff3a5694f1cf589b "$RUNNER_TEMP/elan.tar.gz" \
+            | sha256sum --check --strict
           tar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP"
           "$RUNNER_TEMP/elan-init" -y --no-modify-path --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Verify pins and source policy
         run: |
           python3 scripts/check_sources.py
+          python3 -m unittest discover -s scripts -p 'test_check_sources.py' -v
+          python3 -O -m unittest discover -s scripts -p 'test_check_sources.py' -v
+          ELAN_TEST_ARCHIVE="$RUNNER_TEMP/elan.tar.gz" python3 -m unittest discover -s scripts -p 'test_bootstrap.py' -v
       - name: Fetch pinned mathematical library cache
         run: |
           set -euo pipefail
@@ -53,5 +59,6 @@ jobs:
           set -euo pipefail
           lake env lean AxiomAudit.lean 2>&1 | tee axiom-audit.log
       - name: Verify audit rejects disallowed assumptions
-        run: python3 scripts/test_audit.py
-
+        run: |
+          python3 scripts/test_audit.py
+          python3 -O scripts/test_audit.py

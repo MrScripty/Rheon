@@ -1,0 +1,19 @@
+PASS projection, transport, diffusion, rational and memory checks
+{
+  "grid": [
+    8,
+    8,
+    8
+  ],
+  "cells": 512,
+  "internal_faces": 1344,
+  "cg_iterations": 78,
+  "initial_divergence_l2": 49.74366159234345,
+  "final_divergence_l2": 4.4429348510365244e-10,
+  "residual_identity_linf_error_f64": 2.7533531010690958e-15,
+  "residual_identity_linf_error_f32": 1.7046928633135394e-06,
+  "energy_before": 642.9265375761017,
+  "energy_after": 401.94587778807875,
+  "mass_before": 512.0,
+  "mass_after": 512.0
+}

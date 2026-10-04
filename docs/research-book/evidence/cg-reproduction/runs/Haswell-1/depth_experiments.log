@@ -1,0 +1,160 @@
+{
+  "pressure_gradient_geometry": {
+    "normal_gradient": 2.0,
+    "orthogonal_two_point": 2.0,
+    "skew_two_point": 3.2,
+    "skew_error": 1.2000000000000002
+  },
+  "interface_normal_sign": {
+    "fractions": [
+      1.0,
+      0.3,
+      0.0
+    ],
+    "fraction_gradient": -0.5,
+    "levelset_gradient": 1.0,
+    "outward_normal": 1.0,
+    "wrong_positive_fraction_gradient_normal": -1.0
+  },
+  "full_gauge_residual": {
+    "compatible_sum": 0.0,
+    "retained_max": 0.001,
+    "full_max": 0.003,
+    "threshold": 0.0015,
+    "reduced_would_pass": true,
+    "full_passes": false
+  },
+  "affine_boundary_adjoint": {
+    "homogeneous_identity_error": 0.0,
+    "full_identity_error": 0.0,
+    "omitted_boundary_term_defect": 0.20999999999999996,
+    "pressure_boundary_work": 0.21000000000000002
+  },
+  "sampling": {
+    "affine_errors": {
+      "cell": 2.220446049250313e-16,
+      "x": 0.0,
+      "y": 2.220446049250313e-16,
+      "z": 2.220446049250313e-16
+    },
+    "wrong_x_offset_bias": -0.07000000000000006
+  },
+  "rotation": [
+    {
+      "steps": 10,
+      "euler_error": 0.05112303163080999,
+      "midpoint_error": 0.001666447742055502
+    },
+    {
+      "steps": 20,
+      "euler_error": 0.025297167773202064,
+      "midpoint_error": 0.00041665022520332877
+    },
+    {
+      "steps": 40,
+      "euler_error": 0.012576243906911016,
+      "midpoint_error": 0.00010416554510523442
+    },
+    {
+      "steps": 80,
+      "euler_error": 0.0062692983776175045,
+      "midpoint_error": 2.604159351142768e-05
+    }
+  ],
+  "multigrid": {
+    "fine_unknowns": 31,
+    "coarse_unknowns": 15,
+    "coarse_min_eigenvalue": 0.019214719596769507,
+    "residual_history": [
+      1.1361977414042275,
+      0.008731602659111687,
+      6.567726362846072e-05,
+      4.976501365437262e-07,
+      3.777301657188631e-09,
+      2.868253781922598e-11,
+      2.1772723964039602e-13,
+      1.8544380573903915e-15,
+      8.40494558936129e-16
+    ],
+    "coarse_space_correction_error": 3.1681503275836705e-15
+  },
+  "plic_axis": {
+    "fraction": 0.3,
+    "courant": 0.5,
+    "left_filled_outflux": 0.0,
+    "right_filled_outflux": 0.30000000000000004,
+    "uniform_fraction_flux": 0.15
+  },
+  "curvature": [
+    {
+      "h": 0.1,
+      "curvature": 3.9607805437114063,
+      "exact": 4.0,
+      "error": 0.03921945628859369
+    },
+    {
+      "h": 0.05,
+      "curvature": 3.9900496896711584,
+      "exact": 4.0,
+      "error": 0.009950310328841638
+    },
+    {
+      "h": 0.025,
+      "curvature": 3.9975031201258515,
+      "exact": 4.0,
+      "error": 0.0024968798741484832
+    },
+    {
+      "h": 0.0125,
+      "curvature": 3.999375195238035,
+      "exact": 4.0,
+      "error": 0.0006248047619648034
+    }
+  ],
+  "viscosity": {
+    "eigenvalues": [
+      -2.4927480835512574e-16,
+      0.12922249369630043,
+      0.7620968515701232,
+      20.30868065473358
+    ],
+    "energy_before": 7.0,
+    "energy_after": 0.9410370613972373,
+    "constant_null_error": 0.0
+  },
+  "apic": {
+    "support_nodes": 27,
+    "weight_sum": 1.0,
+    "first_moment_norm": 7.679948212511533e-17,
+    "moment_matrix": [
+      [
+        0.25000000000000006,
+        6.938893903907228e-18,
+        -6.938893903907228e-18
+      ],
+      [
+        1.0408340855860843e-17,
+        0.25,
+        6.938893903907228e-18
+      ],
+      [
+        -6.938893903907228e-18,
+        1.0408340855860843e-17,
+        0.25000000000000006
+      ]
+    ],
+    "affine_error": 3.8484284159040614e-16,
+    "angular_transfer_error": 1.1527756336890508e-16,
+    "truncated_renormalized_first_moment_defect": 0.2057780998730806
+  },
+  "sph_gradient": {
+    "constraint": -0.29836255506845066,
+    "gradient_linf_error": 1.1145412370794361e-10,
+    "translation_gradient_sum": [
+      0.0,
+      2.7755575615628914e-17,
+      0.0
+    ]
+  }
+}
+PASS twelve restricted depth fixtures; no full liquid or particle solver claim

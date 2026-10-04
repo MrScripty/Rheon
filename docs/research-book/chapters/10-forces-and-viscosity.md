@@ -65,7 +65,8 @@ For generalized Newtonian viscosity, coefficients depend on strain. A lagged-coe
 
 ~~~
 u_guess = old_velocity
-repeat:
+require max_iterations is a finite nonnegative integer
+for iteration in range(max_iterations):
     strain = E(u_guess)
     viscosity = material_law(strain)
     require positive finite viscosity
@@ -76,6 +77,9 @@ repeat:
     u_guess = updated guess
 return NonlinearIterationLimit
 ~~~
+
+The declared iteration budget bounds frozen-coefficient solves. Exhausting it
+(including a zero budget) returns failure without publishing a candidate velocity.
 
 A small iterate change alone can mean stagnation, not convergence. Viscosity clipping can make the linear system manageable but changes the material law. Record the range and active clipping fraction. A yield-stress model needs a stated regularization or complementarity treatment; a high-viscosity threshold is only an approximation.
 
