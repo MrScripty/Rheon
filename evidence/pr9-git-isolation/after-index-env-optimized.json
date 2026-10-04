@@ -1,0 +1,35 @@
+{
+  "after": {
+    "head": "1e966357c45a92ee2c318fc47921b3e2f8e539a7",
+    "index_sha256": "377274e1a4873752e065ebb624e6f78dd5aa4c1055592f30b158766b18e9b3f7",
+    "operator_index_sha256": "377274e1a4873752e065ebb624e6f78dd5aa4c1055592f30b158766b18e9b3f7",
+    "operator_marker_sha256": "552c8c7f4dda5bb1ceec5148d2bbb8f0ee13b141bd34eac1c601ec197d374d3b",
+    "refs_sha256": "78310b3293d4864439411fac5cca53a341cac29c51fd42f49dcdd67b55b3c757",
+    "status": "?? operator-marker.txt\n",
+    "tracked_bytes_sha256": "c66b9339156ec8d3ffb29d2e5b9b79a2bd334340a38a389380b996839a03c63c"
+  },
+  "before": {
+    "head": "1e966357c45a92ee2c318fc47921b3e2f8e539a7",
+    "index_sha256": "377274e1a4873752e065ebb624e6f78dd5aa4c1055592f30b158766b18e9b3f7",
+    "operator_index_sha256": "377274e1a4873752e065ebb624e6f78dd5aa4c1055592f30b158766b18e9b3f7",
+    "operator_marker_sha256": "552c8c7f4dda5bb1ceec5148d2bbb8f0ee13b141bd34eac1c601ec197d374d3b",
+    "refs_sha256": "78310b3293d4864439411fac5cca53a341cac29c51fd42f49dcdd67b55b3c757",
+    "status": "?? operator-marker.txt\n",
+    "tracked_bytes_sha256": "c66b9339156ec8d3ffb29d2e5b9b79a2bd334340a38a389380b996839a03c63c"
+  },
+  "changed_snapshot_fields": [],
+  "child": {
+    "environment_restored_after_setup_failure": true,
+    "environment_restored_after_suite": true,
+    "suite_success": true,
+    "tests_run": 12
+  },
+  "child_exit_code": 0,
+  "inherited_variables": [
+    "GIT_INDEX_FILE"
+  ],
+  "integration": "1e966357c45a92ee2c318fc47921b3e2f8e539a7",
+  "invoking_repository_preserved": true,
+  "optimization": 1,
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+}

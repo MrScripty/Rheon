@@ -1,0 +1,18 @@
+fatal: working tree '/tmp/tmpba_9tv6f/invoking' already exists.
+setUpClass (isolated_invariants.Invariants) ... ERROR
+
+======================================================================
+ERROR: setUpClass (isolated_invariants.Invariants)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr9-isolation/evidence/pr7-verifier-repair/test_invariants.py", line 37, in setUpClass
+    for name in git_env:
+        ^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'clone', '--shared', '--no-checkout', '--quiet', '/workspace/Rheon-pr9-isolation', '/tmp/tmpppo6pt07/cloud']' returned non-zero exit status 128.
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.004s
+
+FAILED (errors=1)
