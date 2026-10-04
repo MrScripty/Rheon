@@ -34,6 +34,7 @@ jobs:
           python3 docs/research-book/expansion/contact/sanity_checks.py
       - name: Build complete static edition and verify local links
         run: |
+          python3 -m unittest discover -s docs/education -p test_pdf_freshness.py
           python3 docs/education/build.py
           python3 docs/education/verify_site.py
       - name: Retain reviewable site

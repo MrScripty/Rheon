@@ -1,7 +1,9 @@
 from pathlib import Path
 import json
 from playwright.sync_api import sync_playwright
+from pdf_freshness import input_hashes, write_receipt
 HERE=Path(__file__).resolve().parent
+pdf_inputs=input_hashes(HERE.parents[1])
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--enable-unsafe-swiftshader'])
     page=browser.new_page(viewport={'width':1440,'height':1050},device_scale_factor=1)
@@ -42,6 +44,7 @@ with sync_playwright() as p:
     assert not errors,errors
     # PDF is created after the site build; its download is copied on the next build.
     assert not failed,failed
+    write_receipt(HERE.parents[1], pdf_inputs)
     receipt={'schema':'rheon-education-browser-v1','browser':browser.version,'webgl':True,'labs':checks,'mobile_navigation_search':True,'mobile_no_horizontal_overflow':True,'katex_no_errors':True,'page_errors':errors,'http_failures':failed}
     (HERE/'browser-qualification.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(json.dumps({k:v for k,v in receipt.items() if k!='labs'},indent=2));browser.close()
