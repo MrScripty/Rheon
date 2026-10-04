@@ -1,0 +1,12 @@
+AUDITED Rheon.SurfaceQueries.facetCoordinates: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.select_in_segment: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.select_le_candidate: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.barycentric_plane: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.barycentricPoint: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.select_le_initial: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.selectEarliest: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.selectEarliest.eq_2: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.selectEarliest.eq_1: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.barycentric_weights: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.selected_is_candidate: [propext, Quot.sound, Classical.choice]
+Surface-query axiom audit passed for 11 declarations

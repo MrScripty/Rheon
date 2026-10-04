@@ -32,3 +32,14 @@ for units, ownership, acceptance fixtures and limits.
 ```sh
 cargo run --locked --release --no-default-features --example forced_smoke
 ```
+
+## Static triangle-surface queries
+
+The library can query the first segment hit on an immutable indexed triangle
+surface and return a clipped endpoint with geometric normals and versioned
+identity. See the [book implementation addendum](docs/research-book/implementation/static-surface-queries.md)
+for numerical tolerance, ownership and the remaining solid-boundary work.
+
+```sh
+cargo run --locked --release --no-default-features --example surface_queries
+```
