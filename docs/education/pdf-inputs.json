@@ -1,7 +1,7 @@
 {
   "schema": "rheon-pdf-inputs-v1",
   "inputs": {
-    "docs/education/build.py": "3a8d5c62d3a74d72463d704eadfbfd12f4f5488c04a5a39ff82265b5eac13dc4",
+    "docs/education/build.py": "5b37162a3d8475586aab48e5e7dad600ae83707708bd31240a0bf731f3eccfc3",
     "docs/education/package-lock.json": "58883fc3bd9dc3cc343090486038c6a46719c5839cb9dac7d58e35f6656f5659",
     "docs/education/style.css": "ae5941f905ccd741304fa3e4acddafedc0f9fd36b4045655e2f30ed9ac5e9135",
     "docs/research-book/appendices/A-algorithm-reference.md": "7b855af0cad800c0208107a8d853739a89b16b2ffad5f819755a8ce0c5bb044e",
@@ -9,7 +9,7 @@
     "docs/research-book/appendices/C-bibliography.md": "8379cc07167087c544f5eaa3386ad44355ce1844175941c7b25cc68507f75923",
     "docs/research-book/appendices/D-notation-and-provenance.md": "c85a6161d147bdb315a0d0f848f42be33da7faf7d77ce168647af3f8bc1e979c",
     "docs/research-book/appendices/E-worked-matrix-laboratory.md": "78c6d702c2f7ef97b133ab2c09f1c711cc444d75ac8bcf1e2c2ae6bd36cdc143",
-    "docs/research-book/appendices/F-expansion-contracts-and-sources.md": "3924b097a248a2d54f7e877bdb732af3e12fa4bf110081aa6cf72cce8a025473",
+    "docs/research-book/appendices/F-expansion-contracts-and-sources.md": "c99bf1a1ff13c7825b394e7525c9ef76732af5e01db3492106651000f1e9fb21",
     "docs/research-book/chapters/01-purpose-and-model.md": "b64fac6a5149ead0daa8692d3627e2162c2665ad1fa9eae8c261ba5074e527e1",
     "docs/research-book/chapters/02-continuum-equations.md": "e295e677c31c1840739f07ff5be20cd6f65953c4c1355d8c4717a007dce49786",
     "docs/research-book/chapters/03-staggered-grids.md": "8c028c8ff5dd4a2ef2fe8e03ed2fd03557125b766203391569aae997c4415bd5",
@@ -25,13 +25,13 @@
     "docs/research-book/chapters/13-memory-and-parallelism.md": "acd230a37b74f2d2adec3f9460bfd2d603618d8efb3021f2789d54ef2f6ab4c8",
     "docs/research-book/chapters/14-guidance-rendering.md": "5d3b45eeb6fd0f7c0e260e0bc0e5e52bd87ae68339633fada874e8e96e923cd1",
     "docs/research-book/chapters/15-floating-point.md": "e7f6431bed40be3c4d5816f07f4b3dfc1614ae66c710b175abedaf573f131eda",
-    "docs/research-book/chapters/16-formal-contracts.md": "0210a5c80ef0d13e82a97b35d39c79b7fe082993151c007585e30dbb9da4a970",
+    "docs/research-book/chapters/16-formal-contracts.md": "55ef40e692f1997ee0b42f3f70ad030874a0b1c615dc885dc6dbb1246943b02f",
     "docs/research-book/chapters/17-rust-implementation.md": "bbfcd1ee087d1b4ab43cb3c6cf0b2c3926420cd41b9cc2cc5af18a0797a19eee",
     "docs/research-book/chapters/18-validation-program.md": "c094071b4305b58944703db0338d0a20875793eeb6d0b62193438d3360879284",
     "docs/research-book/chapters/19-forces-and-moving-boundaries.md": "59471eeb5a88046f15a4e6c0b7d1fa020578a34684d64bf9ec0ddf64e1389165",
-    "docs/research-book/chapters/20-collision-mesh-pipeline.md": "36e199b1a97c42ad4542415394fc9f9c8640e4a3025dddb983b189a9ebd5d5d8",
+    "docs/research-book/chapters/20-collision-mesh-pipeline.md": "a078951084d32b2adcfb54656ca6c8d07590de58eeed627b28a49e4a5d94542a",
     "docs/research-book/chapters/21-density-and-liquid-volume.md": "81ed8686a718a24a672dfb1215be05887b101f70eb060268a8769d7b13b98668",
-    "docs/research-book/chapters/22-viscosity-and-stress.md": "98559702563b4733dbc5df851bf4db48a7bf29845297af2b9f5334a79eeeddda",
+    "docs/research-book/chapters/22-viscosity-and-stress.md": "cc2023f5bca6445450ba927757cfdccbfdff984f77a38c775f4066cb5f052ade",
     "docs/research-book/chapters/23-wetting-and-adhesion.md": "a70f8e57eefa8b94c7c589311f08636e2d3406e5ab4767dbb9806c1ec7391df4",
     "docs/research-book/chapters/24-slip-and-wall-friction.md": "47a634063aacf2fbe11eefe838d00f5fa31286f7d7a8b8f23654e1e98c7f2fe2",
     "docs/research-book/chapters/25-capillarity-and-integration.md": "a518e6de71877a5b00cef9222e97540fe18ca204555f219b43e91faecfe03959",
@@ -54,11 +54,5 @@
     "docs/research-book/figures/staggered-grid.svg": "a58e91d1ac0786ef88a94c2ff5947631df9262ddca7dcd6760e21d02b5abd662",
     "docs/research-book/figures/transport-refinement.svg": "7c5f2626806ab7e0470976729551cc538b898583a506e057f6fec4f0b4360024"
   },
-  "pdf_sha256": "f212253960bed5bfc2624b9d3f541a1b388fca61b8605bafdaaf1b4814820814",
-  "baseline": {
-    "qualified_source_head": "388f080d8c290b7e69015134080998a44280b9fb",
-    "qualified_tree": "126e6b3f6152db968ddb095200e6e617b4bdfce8",
-    "method": "Migrated from the independently accepted edition: manuscript/style/asset-lock bindings match; current generated print.html and retained PDF are byte-identical to the frozen edition. Publication code changed without changing print rendering.",
-    "print_html_sha256": "63019e9859f9005a9940abd4fc0450570d558f561a7a23ae38ca590caa3415bd"
-  }
+  "pdf_sha256": "2d9d7b89264caff4722ff2d06475f78750fcbdb989564eb40191934bca7246d1"
 }

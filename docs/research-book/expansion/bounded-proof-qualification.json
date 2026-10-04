@@ -1,0 +1,107 @@
+{
+  "schema": "rheon-bounded-integration-qualification-v1",
+  "status": "checked",
+  "recorded_utc": "2026-10-04T11:30:12.015392+00:00",
+  "qualified_source_commit": "c6809318d8973dc9a2e3af130eac1515c68cddb3",
+  "qualified_source_tree": "90572bf83a66fa5c93a7f9fb763e4aa071ce8a74",
+  "integration_base": "2bc2a84fd4c562062ad592426794e8382f098a77",
+  "bounded_source_commit": "0ba3135754c014ed1e08e945601c401823835a5a",
+  "bounded_evidence_commit": "6463d71476dbab4aacd06094a96d8a5f567d2f2f",
+  "bounded_mapped_commits": [
+    "bdb8320a8b5d160a41d392db17a94432ddc49e2d",
+    "eaba5ab960fa1e895b5b225fb2f976c5c2941574"
+  ],
+  "public_theorems": 42,
+  "previous_public_theorems": 33,
+  "new_public_theorems": 9,
+  "new_definitions": 6,
+  "audited_declarations": 60,
+  "focused_audited_declarations": 15,
+  "allowed_transitive_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "lean_version": "4.19.0",
+  "lean_release_sha256": "6fe3ce97a58f44e2b3567d455b994eacec5bfe9ae7774f2a573444480ba813fe",
+  "dependencies": [
+    {
+      "name": "mathlib",
+      "revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+      "tracked_sources_match": true
+    },
+    {
+      "name": "plausible",
+      "revision": "77e08eddc486491d7b9e470926b3dbe50319451a",
+      "tracked_sources_match": true
+    },
+    {
+      "name": "LeanSearchClient",
+      "revision": "25078369972d295301f5a1e53c3e5850cf6d9d4c",
+      "tracked_sources_match": true
+    },
+    {
+      "name": "importGraph",
+      "revision": "e6a9f0f5ee3ccf7443a0070f92b62f8db12ae82b",
+      "tracked_sources_match": true
+    },
+    {
+      "name": "proofwidgets",
+      "revision": "c4919189477c3221e6a204008998b0d724f49904",
+      "tracked_sources_match": true
+    },
+    {
+      "name": "aesop",
+      "revision": "5d50b08dedd7d69b3d9b3176e0d58a23af228884",
+      "tracked_sources_match": true
+    },
+    {
+      "name": "Qq",
+      "revision": "fa4f7f15d97591a9cf3aa7724ba371c7fc6dda02",
+      "tracked_sources_match": true
+    },
+    {
+      "name": "batteries",
+      "revision": "f5d04a9c4973d401c8c92500711518f7c656f034",
+      "tracked_sources_match": true
+    },
+    {
+      "name": "Cli",
+      "revision": "02dbd02bc00ec4916e99b04b2245b30200e200d0",
+      "tracked_sources_match": true
+    }
+  ],
+  "method": "Fresh native root module build and shared/focused audits with existing pinned dependency build cache; no dependency/pin changes or network workaround. Source gate and four rejection fixtures pass normally and under optimized Python; negative custom/admitted/skipped-name probes pass in both modes.",
+  "source_inventory": {
+    "AxiomAudit.lean": "ff82b9cc304ed6897fb7e7c252fdae9988b86d3c060f66924f3ec7f136054bbb",
+    "Rheon/BoundedPhysics.lean": "20dd53b1b137a01f8b04de47ffbe8474561696940e17ab1ed4d3bfde388b03af",
+    "Rheon/Discrete.lean": "70a2ca5d2c5cbefacbbb8742954375fdfe8cc25c3c5b8afd05738941cfc5ee0a",
+    "Rheon/Indexing.lean": "862c33164e75daccd43603c9b5a61473fd825885d9106b766a35204e578f60bf",
+    "Rheon/Physics.lean": "26cbb4f75076c7e70a90da126f96622b75044befce26a4c17a50066c76e96050",
+    "Rheon/Transport.lean": "f967e593db1df0ec945ea6830e67b991e56da168e9f6e3f2d42c4c5866c5cf06",
+    "Rheon.lean": "94211dc1dbf7cadb5a39f441aecd690c4c619550e15e3fedf5b6a63ff3ce86a3"
+  },
+  "bounded_evidence_file_sha256": {
+    "proofs/Rheon/BoundedPhysics.lean": "20dd53b1b137a01f8b04de47ffbe8474561696940e17ab1ed4d3bfde388b03af",
+    "evidence/bounded-physics-contracts/AuditBoundedPhysics.lean": "ad9b42dd49701214c1d90d8836eccbc5ea4ad1ea06ffdeee52748d7e190ce647",
+    "evidence/bounded-physics-contracts/README.md": "28826e941006c4169da29e09e8e072fbb92b7238952a7fd42250aefa5268ea3a",
+    "evidence/bounded-physics-contracts/audit-initial-compiler-body-failure.log": "360b9115329f1ff722f2e1139a6275b445befe045f86a849df9d8fb2230dbbc8",
+    "evidence/bounded-physics-contracts/audit.log": "f3f431c2f6aacb156cb3045bc852b7c035e9ad049984ff42c7671ef3bd97bf61",
+    "evidence/bounded-physics-contracts/build-initial-warning.log": "230f69f153e1bb930275577ff1bbc75144aacab7eec449330f62ad6f690c5b45",
+    "evidence/bounded-physics-contracts/build.log": "0ea66f7f3cc115a8f2c378e6ca34cdcba10b3d6e26faf66844c27c5203b2a57d",
+    "evidence/bounded-physics-contracts/prerequisite-build.log": "dcbc06c6703ef8a53d4ed5f8ffc38b92810368868e0869c733f41811197a5470",
+    "evidence/bounded-physics-contracts/witness-optimized.json": "b1cfd020eec82b1e67fca6dba3a4dc40dc67b76722c59038a78ec299e8270846",
+    "evidence/bounded-physics-contracts/witness.json": "b1cfd020eec82b1e67fca6dba3a4dc40dc67b76722c59038a78ec299e8270846",
+    "evidence/bounded-physics-contracts/witness.py": "b7cd7fb53b855a53a9f71f1b734ae3a09fbf523ea358f3cef6860f4fd7534df6"
+  },
+  "logs": {
+    "witness-optimized.json": "b1cfd020eec82b1e67fca6dba3a4dc40dc67b76722c59038a78ec299e8270846",
+    "focused-audit.log": "f3f431c2f6aacb156cb3045bc852b7c035e9ad049984ff42c7671ef3bd97bf61",
+    "lean-build.log": "46a30e4abc68b8894fd95b721dae9fa364c65a93e267c140fa981a41525f35af",
+    "axiom-audit.log": "4e8c08d56c73e1bec1f359636a53454a6cdca66a9288415511bb3ce2c1b59371",
+    "witness.json": "b1cfd020eec82b1e67fca6dba3a4dc40dc67b76722c59038a78ec299e8270846",
+    "negative-audit.log": "6c31afa942a90b8f697f122ef8f310c31ea794a3aacffb7dcf0cacd8724a7c52"
+  },
+  "rational_witnesses": "normal and optimized outputs byte-identical; crossing/clipping, endpoint-sign omissions, positive/negative viscosity and omitted-update examples",
+  "limits": "Strict crossing of an infinite stationary plane; arbitrary fixed finite strain with exact unforced homogeneous coordinate update and nonnegative weights/masses/time. No facet containment, earliest arbitrary-mesh query, assembled symmetric-gradient/traction, solve existence/uniqueness, forcing, approximate solve, PDE or IEEE refinement."
+}

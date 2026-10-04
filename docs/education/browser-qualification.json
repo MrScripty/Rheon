@@ -40,11 +40,11 @@
   "page_errors": [],
   "http_failures": [],
   "reviewed_sources": {
-    "build.py": "68aee0844cc161a062fecc52acca890fc9fc767ee9958609021faa33862f8a5f",
-    "labs.js": "a03b699ffc6f4c37e1ce01604cd0c262bcecf36f02d587c44f25eda72b0610a2",
+    "build.py": "5b37162a3d8475586aab48e5e7dad600ae83707708bd31240a0bf731f3eccfc3",
+    "labs.js": "795cbb62a9105445aa93299c2dac1e3ed98559a851e6ed883b87035248dbe12b",
     "style.css": "ae5941f905ccd741304fa3e4acddafedc0f9fd36b4045655e2f30ed9ac5e9135",
     "package-lock.json": "58883fc3bd9dc3cc343090486038c6a46719c5839cb9dac7d58e35f6656f5659",
-    "verify_browser.py": "3da0037b6d53caec2da70b34b67ba392dffb8bddbf8465b35adc61dc60704afb"
+    "verify_browser.py": "e2aa9093b3b3fdb0d539285236a20d2ac1473f854185b1c7ea1159093d0cc03c"
   },
   "book_sources": [
     {
@@ -141,7 +141,7 @@
       "slug": "16-formal-contracts",
       "title": "16 The checked Lean companion",
       "source": "docs/research-book/chapters/16-formal-contracts.md",
-      "sha256": "0210a5c80ef0d13e82a97b35d39c79b7fe082993151c007585e30dbb9da4a970"
+      "sha256": "55ef40e692f1997ee0b42f3f70ad030874a0b1c615dc885dc6dbb1246943b02f"
     },
     {
       "slug": "17-rust-implementation",
@@ -165,7 +165,7 @@
       "slug": "20-collision-mesh-pipeline",
       "title": "20 From collision meshes to fluid boundaries",
       "source": "docs/research-book/chapters/20-collision-mesh-pipeline.md",
-      "sha256": "36e199b1a97c42ad4542415394fc9f9c8640e4a3025dddb983b189a9ebd5d5d8"
+      "sha256": "a078951084d32b2adcfb54656ca6c8d07590de58eeed627b28a49e4a5d94542a"
     },
     {
       "slug": "21-density-and-liquid-volume",
@@ -177,7 +177,7 @@
       "slug": "22-viscosity-and-stress",
       "title": "22 Viscosity, stress and dissipation",
       "source": "docs/research-book/chapters/22-viscosity-and-stress.md",
-      "sha256": "98559702563b4733dbc5df851bf4db48a7bf29845297af2b9f5334a79eeeddda"
+      "sha256": "cc2023f5bca6445450ba927757cfdccbfdff984f77a38c775f4066cb5f052ade"
     },
     {
       "slug": "23-wetting-and-adhesion",
@@ -231,10 +231,33 @@
       "slug": "F-expansion-contracts-and-sources",
       "title": "F Expansion contracts, sources and evidence",
       "source": "docs/research-book/appendices/F-expansion-contracts-and-sources.md",
-      "sha256": "3924b097a248a2d54f7e877bdb732af3e12fa4bf110081aa6cf72cce8a025473"
+      "sha256": "c99bf1a1ff13c7825b394e7525c9ef76732af5e01db3492106651000f1e9fb21"
     }
   ],
-  "pdf_sha256": "f212253960bed5bfc2624b9d3f541a1b388fca61b8605bafdaaf1b4814820814",
-  "pdf_pages": 99,
-  "pdf_inspection": "All 99 pages inspected in rendered page sheets; no empty or replacement-glyph pages. Full-size spot checks cover equations, diagrams and fixture tables."
+  "pdf_sha256": "2d9d7b89264caff4722ff2d06475f78750fcbdb989564eb40191934bca7246d1",
+  "pdf_inspection": {
+    "pages": 99,
+    "links": 119,
+    "chapter_starts": [
+      {
+        "page": 48,
+        "title": "16 The checked Lean companion"
+      },
+      {
+        "page": 59,
+        "title": "20 From collision meshes to fluid boundaries"
+      },
+      {
+        "page": 66,
+        "title": "22 Viscosity, stress and dissipation"
+      },
+      {
+        "page": 94,
+        "title": "F Expansion contracts, sources and evidence"
+      }
+    ],
+    "loopback_targets": 0,
+    "empty_or_replacement_glyph_pages": 0,
+    "visual_review": "All 99 pages inspected as contact sheets; full-size pages 48, 60, 67, 94 and 95 checked for new proof statements, formulas and scope table. No clipping or damaged equations observed."
+  }
 }
