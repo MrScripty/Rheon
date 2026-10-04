@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-04T11:13:38.426487+00:00",
+  "branch": "research/bounded-collision-viscosity-contracts",
+  "base_commit": "2bc2a84fd4c562062ad592426794e8382f098a77",
+  "qualified_source_commit": "0ba3135754c014ed1e08e945601c401823835a5a",
+  "qualified_source_tree": "b4023c850df248940e4a0702fd54b5a1e31c748b",
+  "environment": {
+    "os": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "machine": "x86_64",
+    "python": "3.12.14",
+    "lean": "Lean (version 4.19.0, x86_64-unknown-linux-gnu, commit 6caaee842e94, Release)"
+  },
+  "dependencies": [
+    {
+      "name": "mathlib",
+      "revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+      "tracked_sources_match_revision": true
+    },
+    {
+      "name": "plausible",
+      "revision": "77e08eddc486491d7b9e470926b3dbe50319451a",
+      "tracked_sources_match_revision": true
+    },
+    {
+      "name": "LeanSearchClient",
+      "revision": "25078369972d295301f5a1e53c3e5850cf6d9d4c",
+      "tracked_sources_match_revision": true
+    },
+    {
+      "name": "importGraph",
+      "revision": "e6a9f0f5ee3ccf7443a0070f92b62f8db12ae82b",
+      "tracked_sources_match_revision": true
+    },
+    {
+      "name": "proofwidgets",
+      "revision": "c4919189477c3221e6a204008998b0d724f49904",
+      "tracked_sources_match_revision": true
+    },
+    {
+      "name": "aesop",
+      "revision": "5d50b08dedd7d69b3d9b3176e0d58a23af228884",
+      "tracked_sources_match_revision": true
+    },
+    {
+      "name": "Qq",
+      "revision": "fa4f7f15d97591a9cf3aa7724ba371c7fc6dda02",
+      "tracked_sources_match_revision": true
+    },
+    {
+      "name": "batteries",
+      "revision": "f5d04a9c4973d401c8c92500711518f7c656f034",
+      "tracked_sources_match_revision": true
+    },
+    {
+      "name": "Cli",
+      "revision": "02dbd02bc00ec4916e99b04b2245b30200e200d0",
+      "tracked_sources_match_revision": true
+    }
+  ],
+  "unchanged_baseline_files": {
+    "proofs/Rheon/Physics.lean": "26cbb4f75076c7e70a90da126f96622b75044befce26a4c17a50066c76e96050",
+    "proofs/Rheon.lean": "679ed919c3196e90763388d17fc4e10e134f4cd8ca34624ee0af3e1ea974f9fc",
+    "proofs/AxiomAudit.lean": "4da987d201127d9186bf78e0393a9df73a92a8a70dbe6d168306016dcc618acc",
+    "proofs/source-inventory.json": "ce11ca522325bd52854d343db0549525be4aa1207d3163cc13ae584619721ad9",
+    "proofs/lean-toolchain": "55e97be96000b5e9e290c9e74482e5e317861499a5540353ce845471bded8cea",
+    "proofs/lake-manifest.json": "6fca0fbcd73e55375c73b69fcff247d94bf70753439a2791a1af392d3277d730",
+    "proofs/lakefile.toml": "a1d5685a03cbe77cd5a9b5c58e0229282fd3173797e62f3d307bfa3597a2d10a"
+  },
+  "tracked_baseline_preservation": "All baseline tracked files unchanged; only four additive files in qualified source commit.",
+  "checks": [
+    {
+      "command": "lake build +Rheon.Physics",
+      "cwd": "proofs",
+      "exit_code": 0,
+      "log": "prerequisite-build.log",
+      "targets": 910,
+      "mode": "local pinned-source prerequisite build; no Mathlib cache retry"
+    },
+    {
+      "command": "lake build +Rheon.BoundedPhysics",
+      "cwd": "proofs",
+      "exit_code": 0,
+      "log": "build.log",
+      "warnings": 0
+    },
+    {
+      "command": "lake env lean ../evidence/bounded-physics-contracts/AuditBoundedPhysics.lean",
+      "cwd": "proofs",
+      "exit_code": 0,
+      "log": "audit.log",
+      "audited_declarations": 15,
+      "definitions": 6,
+      "theorems": 9,
+      "allowed_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "selection": "All new-namespace theorem/axiom declarations plus all 15 expected public declarations; compiler-specialized executable bodies excluded, matching root auditor."
+    },
+    {
+      "command": "python3 evidence/bounded-physics-contracts/witness.py",
+      "cwd": ".",
+      "exit_code": 0,
+      "output": "witness.json"
+    },
+    {
+      "command": "python3 -O evidence/bounded-physics-contracts/witness.py",
+      "cwd": ".",
+      "exit_code": 0,
+      "output": "witness-optimized.json",
+      "byte_identical_to_normal": true
+    },
+    {
+      "command": "git diff --check",
+      "exit_code": 0
+    }
+  ],
+  "historical_attempts": [
+    {
+      "log": "build-initial-warning.log",
+      "result": "Compilation passed with one unnecessary tactic-sequence warning, corrected before final clean compilation. Historical log does not bind final source bytes."
+    },
+    {
+      "log": "audit-initial-compiler-body-failure.log",
+      "result": "Audit failed because it included compiler-specialized executable bodies. Selection corrected to published root logical-declaration selection; allowlist unchanged. Historical log does not bind final driver bytes."
+    }
+  ],
+  "file_sha256": {
+    "proofs/Rheon/BoundedPhysics.lean": "20dd53b1b137a01f8b04de47ffbe8474561696940e17ab1ed4d3bfde388b03af",
+    "evidence/bounded-physics-contracts/AuditBoundedPhysics.lean": "ad9b42dd49701214c1d90d8836eccbc5ea4ad1ea06ffdeee52748d7e190ce647",
+    "evidence/bounded-physics-contracts/README.md": "28826e941006c4169da29e09e8e072fbb92b7238952a7fd42250aefa5268ea3a",
+    "evidence/bounded-physics-contracts/audit-initial-compiler-body-failure.log": "360b9115329f1ff722f2e1139a6275b445befe045f86a849df9d8fb2230dbbc8",
+    "evidence/bounded-physics-contracts/audit.log": "f3f431c2f6aacb156cb3045bc852b7c035e9ad049984ff42c7671ef3bd97bf61",
+    "evidence/bounded-physics-contracts/build-initial-warning.log": "230f69f153e1bb930275577ff1bbc75144aacab7eec449330f62ad6f690c5b45",
+    "evidence/bounded-physics-contracts/build.log": "0ea66f7f3cc115a8f2c378e6ca34cdcba10b3d6e26faf66844c27c5203b2a57d",
+    "evidence/bounded-physics-contracts/prerequisite-build.log": "dcbc06c6703ef8a53d4ed5f8ffc38b92810368868e0869c733f41811197a5470",
+    "evidence/bounded-physics-contracts/witness-optimized.json": "b1cfd020eec82b1e67fca6dba3a4dc40dc67b76722c59038a78ec299e8270846",
+    "evidence/bounded-physics-contracts/witness.json": "b1cfd020eec82b1e67fca6dba3a4dc40dc67b76722c59038a78ec299e8270846",
+    "evidence/bounded-physics-contracts/witness.py": "b7cd7fb53b855a53a9f71f1b734ae3a09fbf523ea358f3cef6860f4fd7534df6"
+  },
+  "limits": [
+    "Exact-real finite planar-wall and fixed finite-strain homogeneous backward-Euler contracts only.",
+    "No triangle containment, mesh first-query, production discretization, forcing, approximate-solve, solvability/uniqueness or IEEE guarantee.",
+    "No whole-book/root audit or source-inventory passing claim: registration remains book author integration task.",
+    "No Rust changes or fresh production benchmark in this proof-only patch."
+  ],
+  "integration_pending": [
+    "Independent review.",
+    "Book author root import, 15-name shared audit registration, source-inventory hash registration and coordinated book validation."
+  ]
+}

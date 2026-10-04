@@ -1,0 +1,49 @@
+{
+  "wall": {
+    "hit": "1/2",
+    "prefix_values": [
+      "1",
+      "1/2",
+      "0"
+    ],
+    "unclipped_value_at_3_over_4": "-1/2",
+    "same_side_endpoint_hit": "2",
+    "solid_start_hit": "-1"
+  },
+  "nonnegative_viscosity": {
+    "mu": "2",
+    "new_velocity": [
+      "1/2",
+      "-1/2"
+    ],
+    "dissipation": "2",
+    "weighted_norm_before": "2",
+    "weighted_norm_after": "1/2",
+    "nonincrease": true
+  },
+  "negative_viscosity_counterexample": {
+    "mu": "-1/2",
+    "new_velocity": [
+      "4/3",
+      "-4/3"
+    ],
+    "dissipation": "-32/9",
+    "weighted_norm_before": "2",
+    "weighted_norm_after": "32/9",
+    "nonincrease": false
+  },
+  "omitted_equation_counterexample": {
+    "old_velocity": [
+      "0",
+      "0"
+    ],
+    "arbitrary_new_velocity": [
+      "1",
+      "-1"
+    ],
+    "mu": "2",
+    "dt": "1/4",
+    "weighted_norm_before": "0",
+    "weighted_norm_after": "2"
+  }
+}
