@@ -1,0 +1,18 @@
+test_clean_historical_result_and_integration_pass_without_relabeling_binary (test_integrity.EvidenceIntegrity.test_clean_historical_result_and_integration_pass_without_relabeling_binary) ... ok
+test_coordinated_duration_and_local_summary_changes_cannot_rewrite_history (test_integrity.EvidenceIntegrity.test_coordinated_duration_and_local_summary_changes_cannot_rewrite_history) ... ok
+test_different_real_release_executable_rejected_before_receipt (test_integrity.EvidenceIntegrity.test_different_real_release_executable_rejected_before_receipt) ... ok
+test_executable_alone_and_archived_replay_cannot_gain_current_sha_receipt (test_integrity.EvidenceIntegrity.test_executable_alone_and_archived_replay_cannot_gain_current_sha_receipt) ... ok
+test_fresh_output_and_provenance_mutations_rejected_without_qualification_receipt (test_integrity.EvidenceIntegrity.test_fresh_output_and_provenance_mutations_rejected_without_qualification_receipt) ... ok
+test_historical_result_controls_and_finite_guards_survive_optimization (test_integrity.EvidenceIntegrity.test_historical_result_controls_and_finite_guards_survive_optimization) ... ok
+test_integration_excludes_only_documented_timing_field (test_integrity.EvidenceIntegrity.test_integration_excludes_only_documented_timing_field) ... ok
+test_integration_png_csv_and_named_inventory_rejected (test_integrity.EvidenceIntegrity.test_integration_png_csv_and_named_inventory_rejected) ... ok
+test_integration_stable_manifest_corruption_rejected (test_integrity.EvidenceIntegrity.test_integration_stable_manifest_corruption_rejected) ... ok
+test_receipt_summary_fields_must_match_by_method_and_type (test_integrity.EvidenceIntegrity.test_receipt_summary_fields_must_match_by_method_and_type) ... ok
+test_separate_fresh_producer_replay_passes_on_fixed_historical_source (test_integrity.EvidenceIntegrity.test_separate_fresh_producer_replay_passes_on_fixed_historical_source) ... ok
+test_terminal_guard_rejects_untracked_and_ignored_protected_inventory (test_integrity.EvidenceIntegrity.test_terminal_guard_rejects_untracked_and_ignored_protected_inventory) ... ok
+test_terminal_guard_retains_tracked_check_and_accepts_clean_inventory (test_integrity.EvidenceIntegrity.test_terminal_guard_retains_tracked_check_and_accepts_clean_inventory) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 8.664s
+
+OK
