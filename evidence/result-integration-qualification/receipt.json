@@ -1,0 +1,74 @@
+{
+  "prior_pr3_head": "0de6a857adb17a6ee0312e889aff50e2cd7aa6dd",
+  "accepted_validation_head": "416744700a45a8e74de27ca4e25cd00b0931926c",
+  "accepted_terminal_repair_head": "8bc0f54604d98d838b3a1ab2f6fcdfff9af2ac51",
+  "accepted_source_tree": "71c526b8deee2ec95537c94cc90014677f669db9",
+  "accepted_source_sha256": {
+    ".github/workflows/rust-rheon.yml": "254e0c2e132b31c65bf2814a7194501dcb3f075e30eccce806104893c0d218d4",
+    "Cargo.lock": "ab9d9456171dacd0dab4cc7e46b42602b678383eed2d92d6a76db3a23a25b127",
+    "Cargo.toml": "b9b49e077be55f63a21f9833c7b7a8b452dfedc8fe0c4d9123aac257c133c60e",
+    "docs/COMPARISON.md": "01c62ca4916f3bef22da441a79d4b9c3f4c0640f105ee7a7eb60ea74cadb9f85",
+    "rust-toolchain.toml": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+    "src/advection.rs": "8be2da05d421be409760366f6fb4b06b3a5efca776aee7489703280f2cb505ba",
+    "src/bin/rheon-desktop.rs": "7ae76b2504ea216a2e72a044145398b74bedc4951515c31342ff9a6adfe4e9ed",
+    "src/bin/rheon.rs": "6a63ccb347a1296156fac4366ea507e4d0a13065d807b20a8e7f77b2f72f1f23",
+    "src/export.rs": "df895bfaba1d74bfafefb72b44e87404602d0107091f7497e7fdc1f3880d64d5",
+    "src/geometry.rs": "cae38a55436112a49d340b82b2252a7395b14b580686a83d582e5042c46255d3",
+    "src/lib.rs": "7308b59c24b526104b0caff41e273ee363a3f7bec47a91e23ad99ac733392bde",
+    "src/operator.rs": "fb9310a3e33858b4df2d87a9c86fed2851e4278da18fdaaa48372897ce9798ea",
+    "src/pressure.rs": "e3eeae1931c21cf7994ebf63e22f22412f58ff4032f8ebc3523c8019168d8d29",
+    "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+    "src/simulation.rs": "9e992e4e6d38c63e2d270b5a88aae771d484bceb143fec49ec71f00f337ec9a3",
+    "tests/advection_contract.rs": "87e831a67a916cbf32540212e602511b88b4f2dedcb1ae995287ec93014703fe",
+    "tests/cli_contract.rs": "499365b9af1eaa8805ff2d6edd035503365ec1372ec57c557f329dd56a74832c",
+    "tests/export_contract.rs": "299ace3dc49a9990b52cd2ee55c974769c3acda5fc9ce43331fdb0cbfd34c070",
+    "tests/geometry_contract.rs": "5b44f1c75958abf3073e6c168ebc44a3951f72052db0c31b1a2b4a49a7d16cf8",
+    "tests/implementation_contract.rs": "e8b3b88536bd5d38dfda7d1454e916277e5314bbb9410bda81630faffe76c621",
+    "tests/operator_contract.rs": "b0ea207c02df69aed1f5f3eb6abda8fdeb245b271c325b383c3748d945c5095e",
+    "tests/pressure_contract.rs": "0a3ed30f7ed6427dd05badb89950bf5162235db552668caeef43612a33777c0f",
+    "tests/sampling_contract.rs": "3e99ff52088aa37d4043453a57c82bbe6de0da84e990796df76a3453f1ae004d",
+    "tests/simulation_contract.rs": "f81fb0696307aa07abba0d8b44316430aeab19317c57d38db3222cdc9e33ddc6",
+    "tools/rheon_compare.py": "085c93855dffaaeab49afbacc177198094f29cbb849b66a1218364077778a396",
+    "tools/test_result_qualification.py": "72009dbd5d378d18de0459d917faa24647e6c9dbdf6b68bfe9d523f73f20e36c",
+    "tools/test_rheon_compare.py": "8e32da5ad5c0f07796fc9987b1faa9dbc22595b764a83988b0e47b41a759e7a1"
+  },
+  "local_rust_test_counts": {
+    "default": 49,
+    "core": 44,
+    "desktop": 55
+  },
+  "python_harness_tests": 20,
+  "strict_clippy_features": [
+    "default",
+    "core-only",
+    "desktop"
+  ],
+  "formatting": "passed",
+  "current_release_sha256": "3f11c4061a0f41c9ea118e3c90b2fc50a989d58d1e6ac606a00fe1519a10b988",
+  "current_release_build_info": {
+    "version": "0.1.0",
+    "debug_assertions": false,
+    "arch": "x86_64",
+    "os": "linux"
+  },
+  "current_build_environment": {
+    "RUSTFLAGS": null,
+    "CARGO_ENCODED_RUSTFLAGS": null,
+    "RUSTC_WRAPPER": null,
+    "RUSTC_WORKSPACE_WRAPPER": null,
+    "CARGO_BUILD_TARGET": null,
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_TARGET_DIR": "/workspace/.rheon-tools/target"
+  },
+  "profile": "default Cargo optimized release; compiler.txt and release-build.log retain toolchain/build facts",
+  "historical_measured_release_sha256": "e10000f4fb61ba09765d7e9cbc76cac0463550cc7aecbcd72a66d458e0a1a584",
+  "original_demo_png_csv_pairs_byte_identical": 3,
+  "retained_packets_requalified": 48,
+  "new_timing_measurements": false,
+  "default_process_deadline": null,
+  "limits": [
+    "historical fixed-binary verifier rejects the rebuilt executable; original receipt unchanged",
+    "shared-host historical timings; no controlled speedup or cross-platform scientific guarantee",
+    "headless desktop tests; no fresh native-window interaction qualification"
+  ]
+}
