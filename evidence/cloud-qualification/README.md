@@ -29,7 +29,12 @@ repository Rust 1.92.0, formatting, feature, and strict-Clippy conventions apply
 
 The environment's existing `/workspace/rheon-setup/env.sh` selects the official
 pinned toolchain, an external Cargo target directory, and one build job.
-Run these commands from the repository root:
+The historical qualification checkout is exactly
+`7e1a76dd487549a496e04b9305fa531fcc7ab2f9` (test-only additions and retained
+evidence), whose parent is the frozen source `0f2db35009624467a1f338700d8967a350443c93`.
+Use a separate checkout at that commit for the historical reproduction commands
+below. The current combined checkout contains later harness and CG repairs and
+is not the measured source. Run these commands from the historical checkout root:
 
 ```sh
 source /workspace/rheon-setup/env.sh
@@ -59,10 +64,37 @@ python3 evidence/cloud-qualification/benchmark.py "$CARGO_TARGET_DIR/release/rhe
 python3 evidence/cloud-qualification/verify.py
 ```
 
-The last command validates the committed evidence directories and source hashes;
+To use the repaired verifier from a current combined checkout against the
+unchanged retained historical evidence, explicitly supply that historical
+source checkout; do not replace its expected hashes with current source hashes:
+
+```sh
+python3 evidence/cloud-qualification/verify.py --source-root /path/to/rheon-at-7e1a76dd
+python3 -O evidence/cloud-qualification/verify.py --source-root /path/to/rheon-at-7e1a76dd
+PYTHONOPTIMIZE=1 python3 evidence/cloud-qualification/verify.py --source-root /path/to/rheon-at-7e1a76dd
+python3 -m unittest discover -s evidence/cloud-qualification -p 'test_gates.py' -v
+```
+
+The repaired verifier defaults to checking source files in the current working
+directory. It deliberately rejects a combined checkout when presented as the
+historical source. Current-source qualification belongs to its separately bound
+integration/repair receipts; these commands make no new current-source timing
+claim. The verifier checks retained artifacts, not fresh benchmark directories.
+
+The verification command validates the committed evidence directories and source hashes;
 it does not rerun timing measurements. It checks every retained run's requested
 controls, finite diagnostics, residual/divergence/Courant gates, repeat bytes,
-physical horizons and array budgets. `qualified-source-manifest.json` identifies
+physical horizons and array budgets. It compares every embedded run field to its
+retained manifest and derives iteration totals and maximum divergence from CSV.
+For each method it excludes repeat -1 (the warmup), then independently recomputes
+the median, minimum and maximum seconds, sample count, first measured run's array
+bytes and iteration total, and maximum measured step divergence. Both the
+comparison summary and benchmark receipt summary must equal those results;
+numeric booleans, wrong integer types and nonfinite measurements are rejected.
+All gates remain active under Python optimization. The original residual-product
+gate is retained as a historical check, not relabeled as the later harness's
+repaired cell-volume-scaled admission contract.
+`qualified-source-manifest.json` identifies
 the source including the added tests; the benchmark receipt's Git HEAD identifies
 the frozen parent because the evidence and test additions were not yet committed
 when measurements ran. Production numerical code remained identical to that head.

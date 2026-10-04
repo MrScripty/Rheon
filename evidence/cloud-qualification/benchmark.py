@@ -53,11 +53,13 @@ def main():
             case.update(after=snapshot(), status=job.status, error=job.error)
             if job.result:
                 case['summary'] = job.result['summary']
-                assert job.result['equal_accepted_time']
+                if job.result['equal_accepted_time'] is not True:
+                    case['status'] = 'failed'
+                    case['error'] = 'Methods accepted different times'
             receipt['cases'].append(case)
             (output / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
-            print(size, accuracy, job.status, flush=True)
-            if job.status != 'completed':
+            print(size, accuracy, case['status'], flush=True)
+            if case['status'] != 'completed':
                 return 1
     return 0
 
