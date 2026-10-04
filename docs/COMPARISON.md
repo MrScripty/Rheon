@@ -121,6 +121,29 @@ iteration budget, executable SHA256, CPU/OS/affinity/cgroup facts and all indivi
 run manifests. Median/min/max reflect measured samples only. CPU details describe
 the host, not an independently verified exclusive CPU allocation.
 
+The harness explicitly passes `--dt 0.02` to every child and rejects a missing or
+different `requested_dt` in its completion manifest. It does not infer workload
+settings from an executable's defaults.
+
+An optional `--run-timeout SECONDS` sets a positive finite wall-clock deadline
+for each measurement process, including each warmup. The default is disabled;
+choose a limit appropriate to the workload, for example `--run-timeout 120`.
+The Python API exposes the same option as `run_timeout`, default `None`.
+The limit includes startup, stepping, CSV and PNG export; it is separate from the
+reported stepping timer and never changes a solver stopping tolerance. It applies
+only to this benchmark harness, not the production CLI or native desktop.
+
+When polling observes a live child past its deadline, the harness enters
+`timing_out`, sends TERM, and sends KILL after a two-second grace period if the
+child still runs. It waits for child exit, closes the log, and saves terminal
+`timed_out` status with an error and the configured deadline. No subsequent job
+starts and no `comparison.json` is published; partial diagnostics remain.
+Explicit user cancellation remains `cancelling` then `cancelled`; the first stop
+reason is retained. A timeout makes the CLI return exit code 1. API callers must
+continue polling through `running`, `cancelling`, or `timing_out` to completion.
+Enforcement depends on polling (the CLI polls every 50 ms) and process termination
+by the OS; the deadline is not a hard bound on an unresponsive kernel wait.
+
 CLI `--build-info` exposes version/platform/debug-assertion facts; the harness
 rejects a debug-assertion-enabled executable and records those build facts. This
 does not prove arbitrary custom optimization flags; retain the release build log.

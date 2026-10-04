@@ -1,0 +1,17 @@
+{
+  "base": "0f2db35009624467a1f338700d8967a350443c93",
+  "branch": "repair/comparison-harness-contracts",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "binary": "/workspace/.rheon-tools/target/release/rheon",
+  "binary_sha256": "e10000f4fb61ba09765d7e9cbc76cac0463550cc7aecbcd72a66d458e0a1a584",
+  "solver_recompiled": false,
+  "source_sha256": {
+    "tools/rheon_compare.py": "c1cc6379429184084c8eedd31138f7dc455984bf597ed0a387f1ba08976605b3",
+    "tools/test_rheon_compare.py": "8e32da5ad5c0f07796fc9987b1faa9dbc22595b764a83988b0e47b41a759e7a1",
+    "docs/COMPARISON.md": "1c41c7bcddb0629af9f790d4baba14232c264f61b63196fb2c2686b90650909a"
+  },
+  "review_links": [
+    "https://github.com/MrScripty/Rheon/pull/3#discussion_r4175917552",
+    "https://github.com/MrScripty/Rheon/pull/3#discussion_r4175917556"
+  ]
+}
