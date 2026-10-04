@@ -1,0 +1,14 @@
+{
+  "source_merge_commit": "305acadf1e21a49961262531d621a3900c2672f6",
+  "qualified_ancestor": "7e1a76dd487549a496e04b9305fa531fcc7ab2f9",
+  "harness_ancestor": "464eab005a8d363bd3e052370af86150ebba689c",
+  "source_identity_checks": "Rust and Rust tests exactly match qualification; tools and COMPARISON.md exactly match reviewed harness repair; original book/proofs/demo fixtures unchanged.",
+  "test_counts": {
+    "test-core": 44,
+    "test-default": 49,
+    "test-desktop": 55
+  },
+  "reused_release_binary_sha256": "e10000f4fb61ba09765d7e9cbc76cac0463550cc7aecbcd72a66d458e0a1a584",
+  "release_solver_recompiled": false,
+  "historical_benchmark_scope": "Archived measurements retain their original source/harness identities, not attributed to the final integration head."
+}
