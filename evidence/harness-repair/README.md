@@ -39,5 +39,5 @@ Linux; POSIX signal assertions are skipped on other OSes. No Windows process
 termination or hard real-time deadline claim is made. Hosted exact-head CI and
 independent native review remain integration gates, not locally claimed results.
 
-Only surplus terminal blank lines in test logs are removed for Git whitespace
+Only trailing whitespace and surplus terminal blank lines in test logs are removed for Git whitespace
 checks. No PR head, review thread, review request, or merge is changed here.

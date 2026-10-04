@@ -1,9 +1,9 @@
 test_cancel_before_spawn_and_during_real_work (test_rheon_compare.ComparisonTest.test_cancel_before_spawn_and_during_real_work) ... ERROR
 test_cli_deadline_is_explicit_and_recorded (test_rheon_compare.ComparisonTest.test_cli_deadline_is_explicit_and_recorded) ... FAIL
-test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) ... 
+test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) ...
   test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) (missing=False) ... FAIL
   test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) (missing=True) ... FAIL
-test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) ... 
+test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) ...
   test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=0) ... ERROR
   test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=-1) ... ERROR
   test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=nan) ... ERROR
@@ -19,7 +19,7 @@ ResourceWarning: Enable tracemalloc to get the object allocation traceback
   test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value='1') ... ERROR
 test_invalid_selection_creates_no_output (test_rheon_compare.ComparisonTest.test_invalid_selection_creates_no_output) ... ok
 test_real_comparison_and_preserved_outputs (test_rheon_compare.ComparisonTest.test_real_comparison_and_preserved_outputs) ... ok
-test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) ... 
+test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) ...
   test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) (ignore_term=False) ... ERROR
   test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) (ignore_term=True) ... ERROR
 
