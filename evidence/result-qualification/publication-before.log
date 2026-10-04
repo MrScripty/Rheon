@@ -1,0 +1,38 @@
+test_publication_failure_has_no_owned_success_or_summary (test_result_qualification.ResultQualification.test_publication_failure_has_no_owned_success_or_summary) ...
+  test_publication_failure_has_no_owned_success_or_summary (test_result_qualification.ResultQualification.test_publication_failure_has_no_owned_success_or_summary) (operation='write') ... ERROR
+  test_publication_failure_has_no_owned_success_or_summary (test_result_qualification.ResultQualification.test_publication_failure_has_no_owned_success_or_summary) (operation='replace') ... ERROR
+
+======================================================================
+ERROR: test_publication_failure_has_no_owned_success_or_summary (test_result_qualification.ResultQualification.test_publication_failure_has_no_owned_success_or_summary) (operation='write')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 190, in test_publication_failure_has_no_owned_success_or_summary
+    self.assertEqual(job.poll(), 'failed')
+                     ^^^^^^^^^^
+  File "/workspace/Rheon-result-qualification/tools/rheon_compare.py", line 284, in poll
+    self._finish()
+  File "/workspace/Rheon-result-qualification/tools/rheon_compare.py", line 326, in _finish
+    temporary.write_text(json.dumps(self.result, indent=2, allow_nan=False)+'\n')
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 183, in write
+    raise OSError('injected summary write failure')
+OSError: injected summary write failure
+
+======================================================================
+ERROR: test_publication_failure_has_no_owned_success_or_summary (test_result_qualification.ResultQualification.test_publication_failure_has_no_owned_success_or_summary) (operation='replace')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 190, in test_publication_failure_has_no_owned_success_or_summary
+    self.assertEqual(job.poll(), 'failed')
+                     ^^^^^^^^^^
+  File "/workspace/Rheon-result-qualification/tools/rheon_compare.py", line 284, in poll
+    self._finish()
+  File "/workspace/Rheon-result-qualification/tools/rheon_compare.py", line 327, in _finish
+    temporary.replace(self.output / 'comparison.json')
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 187, in replace
+    raise OSError('injected summary rename failure')
+OSError: injected summary rename failure
+
+----------------------------------------------------------------------
+Ran 1 test in 0.031s
+
+FAILED (errors=2)

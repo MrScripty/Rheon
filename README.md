@@ -5,3 +5,19 @@ This repo will include a standalone demonstration GUI and a modular simulation f
 
 # About the name
 Derived from rheology (study of flowing/deforming matter, especially non-Newtonian liquids) + Greek rhein (to flow)
+
+## Implementation comparison
+
+The Rust fixed-box core has two preserved pressure implementations selectable
+from an optional native desktop UI and the headless CLI. The original Jacobi
+PCG remains the default; symmetric Gauss–Seidel PCG is an explicit alternative.
+See [comparison contracts, controls and verification](docs/COMPARISON.md).
+
+```sh
+cargo run --locked --release --features desktop --bin rheon-desktop
+cargo run --locked --release --bin rheon -- --list-implementations
+```
+
+The UI displays solver results and opacity projections. It is an initial
+comparison laboratory, not a complete interactive 3D editor or real-time claim.
+Use `default-features = false` for a standard-library-only library consumer.

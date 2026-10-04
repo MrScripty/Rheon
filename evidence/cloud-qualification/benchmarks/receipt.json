@@ -1,0 +1,325 @@
+{
+  "source_commit": "0f2db35009624467a1f338700d8967a350443c93",
+  "binary_sha256": "e10000f4fb61ba09765d7e9cbc76cac0463550cc7aecbcd72a66d458e0a1a584",
+  "contention_scope": "Serial runs after builds; shared VM, no exclusive host claim. Before/after snapshots do not rule out transient contention.",
+  "cases": [
+    {
+      "size": 16,
+      "steps": 12,
+      "accuracy": "standard",
+      "before": {
+        "unix_seconds": 1791082183.7793841,
+        "load_average": [
+          0.4072265625,
+          0.55908203125,
+          0.31591796875
+        ],
+        "/proc/stat": "cpu  31762 0 4437 236357 86 0 139 8006 0 0\ncpu0 6714 0 849 46007 18 0 59 2621 0 0\ncpu1 5960 0 800 48077 17 0 35 1261 0 0\ncpu2 6928 0 989 46578 14 0 14 1591 0 0\ncpu3 6933 0 902 46951 18 0 13 1322 0 0\ncpu4 5226 0 895 48742 17 0 15 1208 0 0\nintr 420039 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 21 0 5555 0 0 0 12 10 0 1738 1543 0 461 594 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 359360\nbtime 1791081623\nprocesses 10500\nprocs_running 1\nprocs_blocked 0\nsoftirq 190430 0 23172 13 3425 5337 0 155 65669 0 92659\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 429699834\nuser_usec 378346504\nsystem_usec 51353330\nnice_usec 0\nnr_periods 4370\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3         50.0\n  10303 ps               0.0\n"
+      },
+      "after": {
+        "unix_seconds": 1791082185.7044237,
+        "load_average": [
+          0.455078125,
+          0.56640625,
+          0.31982421875
+        ],
+        "/proc/stat": "cpu  31911 0 4440 237145 86 0 139 8030 0 0\ncpu0 6714 0 849 46200 18 0 59 2621 0 0\ncpu1 5960 0 801 48268 17 0 35 1261 0 0\ncpu2 7057 0 990 46625 14 0 14 1607 0 0\ncpu3 6933 0 902 47143 18 0 13 1323 0 0\ncpu4 5246 0 895 48907 17 0 15 1215 0 0\nintr 421062 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 21 0 5563 0 0 0 12 10 0 1738 1543 0 461 594 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 359837\nbtime 1791081623\nprocesses 10511\nprocs_running 1\nprocs_blocked 0\nsoftirq 191044 0 23250 13 3425 5345 0 155 65896 0 92960\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 431441926\nuser_usec 380061363\nsystem_usec 51380563\nnice_usec 0\nnr_periods 4389\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          2.5\n  10314 ps               0.0\n"
+      },
+      "status": "completed",
+      "error": null,
+      "summary": [
+        {
+          "implementation": "jacobi-pcg-v1",
+          "median_seconds": 0.244870742,
+          "min_seconds": 0.219854432,
+          "max_seconds": 0.255770431,
+          "samples": 3,
+          "managed_simulation_bytes": 333824,
+          "max_divergence": 1.0431999944437997e-07,
+          "pressure_iterations": 1644
+        },
+        {
+          "implementation": "sgs-pcg-v1",
+          "median_seconds": 0.178704082,
+          "min_seconds": 0.177284908,
+          "max_seconds": 0.182568681,
+          "samples": 3,
+          "managed_simulation_bytes": 333824,
+          "max_divergence": 1.0431693109325124e-07,
+          "pressure_iterations": 654
+        }
+      ]
+    },
+    {
+      "size": 16,
+      "steps": 12,
+      "accuracy": "tight",
+      "before": {
+        "unix_seconds": 1791082185.708232,
+        "load_average": [
+          0.455078125,
+          0.56640625,
+          0.31982421875
+        ],
+        "/proc/stat": "cpu  31911 0 4441 237146 86 0 139 8030 0 0\ncpu0 6714 0 849 46200 18 0 59 2621 0 0\ncpu1 5960 0 801 48268 17 0 35 1261 0 0\ncpu2 7057 0 991 46625 14 0 14 1607 0 0\ncpu3 6933 0 902 47144 18 0 13 1323 0 0\ncpu4 5246 0 895 48907 17 0 15 1216 0 0\nintr 421075 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 21 0 5564 0 0 0 12 10 0 1738 1543 0 461 594 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 359857\nbtime 1791081623\nprocesses 10512\nprocs_running 1\nprocs_blocked 0\nsoftirq 191052 0 23252 13 3425 5346 0 155 65898 0 92963\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 431446790\nuser_usec 380061775\nsystem_usec 51385015\nnice_usec 0\nnr_periods 4389\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          2.5\n  10315 ps               0.0\n"
+      },
+      "after": {
+        "unix_seconds": 1791082187.5310593,
+        "load_average": [
+          0.455078125,
+          0.56640625,
+          0.31982421875
+        ],
+        "/proc/stat": "cpu  32061 0 4442 237894 86 0 139 8042 0 0\ncpu0 6714 0 849 46382 18 0 59 2621 0 0\ncpu1 5960 0 802 48449 17 0 35 1262 0 0\ncpu2 7186 0 992 46668 14 0 14 1616 0 0\ncpu3 6953 0 902 47304 18 0 13 1325 0 0\ncpu4 5246 0 895 49089 17 0 15 1216 0 0\nintr 422044 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 21 0 5572 0 0 0 12 10 0 1738 1543 0 461 594 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 360355\nbtime 1791081623\nprocesses 10523\nprocs_running 1\nprocs_blocked 0\nsoftirq 191608 0 23324 13 3425 5354 0 155 66098 0 93239\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 433080761\nuser_usec 381695745\nsystem_usec 51385015\nnice_usec 0\nnr_periods 4407\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          1.8\n  10326 ps               0.0\n"
+      },
+      "status": "completed",
+      "error": null,
+      "summary": [
+        {
+          "implementation": "jacobi-pcg-v1",
+          "median_seconds": 0.21871258,
+          "min_seconds": 0.218277577,
+          "max_seconds": 0.219436962,
+          "samples": 3,
+          "managed_simulation_bytes": 333824,
+          "max_divergence": 1.0435340674908034e-07,
+          "pressure_iterations": 1701
+        },
+        {
+          "implementation": "sgs-pcg-v1",
+          "median_seconds": 0.179118555,
+          "min_seconds": 0.177387858,
+          "max_seconds": 0.184660433,
+          "samples": 3,
+          "managed_simulation_bytes": 333824,
+          "max_divergence": 1.0435237465800107e-07,
+          "pressure_iterations": 678
+        }
+      ]
+    },
+    {
+      "size": 32,
+      "steps": 6,
+      "accuracy": "standard",
+      "before": {
+        "unix_seconds": 1791082187.5348961,
+        "load_average": [
+          0.455078125,
+          0.56640625,
+          0.31982421875
+        ],
+        "/proc/stat": "cpu  32061 0 4442 237895 86 0 139 8042 0 0\ncpu0 6714 0 849 46382 18 0 59 2621 0 0\ncpu1 5961 0 802 48449 17 0 35 1262 0 0\ncpu2 7186 0 992 46668 14 0 14 1616 0 0\ncpu3 6953 0 902 47304 18 0 13 1325 0 0\ncpu4 5246 0 895 49090 17 0 15 1216 0 0\nintr 422053 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 21 0 5573 0 0 0 12 10 0 1738 1543 0 461 594 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 360365\nbtime 1791081623\nprocesses 10524\nprocs_running 1\nprocs_blocked 0\nsoftirq 191615 0 23325 13 3425 5355 0 155 66100 0 93242\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 433084223\nuser_usec 381699208\nsystem_usec 51385015\nnice_usec 0\nnr_periods 4407\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          1.8\n  10327 ps               0.0\n"
+      },
+      "after": {
+        "unix_seconds": 1791082198.5913997,
+        "load_average": [
+          0.53955078125,
+          0.5810546875,
+          0.32763671875
+        ],
+        "/proc/stat": "cpu  33009 0 4451 242325 86 0 139 8185 0 0\ncpu0 6714 0 850 47485 18 0 59 2624 0 0\ncpu1 5962 0 803 49549 17 0 35 1263 0 0\ncpu2 7852 0 994 47002 14 0 14 1719 0 0\ncpu3 7101 0 904 48241 18 0 13 1344 0 0\ncpu4 5378 0 897 50046 17 0 15 1232 0 0\nintr 426893 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 21 0 5663 0 0 0 12 10 0 1750 1551 0 462 600 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 362206\nbtime 1791081623\nprocesses 10546\nprocs_running 2\nprocs_blocked 0\nsoftirq 193240 0 23524 13 3447 5431 0 156 66991 0 93678\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 444019160\nuser_usec 392593555\nsystem_usec 51425604\nnice_usec 0\nnr_periods 4518\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          0.6\n  10349 ps               0.0\n"
+      },
+      "status": "completed",
+      "error": null,
+      "summary": [
+        {
+          "implementation": "jacobi-pcg-v1",
+          "median_seconds": 1.468411905,
+          "min_seconds": 1.443220395,
+          "max_seconds": 1.52002782,
+          "samples": 3,
+          "managed_simulation_bytes": 2646016,
+          "max_divergence": 1.1920928955078125e-07,
+          "pressure_iterations": 1689
+        },
+        {
+          "implementation": "sgs-pcg-v1",
+          "median_seconds": 1.256385056,
+          "min_seconds": 1.165401283,
+          "max_seconds": 1.33417169,
+          "samples": 3,
+          "managed_simulation_bytes": 2646016,
+          "max_divergence": 1.1920928955078125e-07,
+          "pressure_iterations": 645
+        }
+      ]
+    },
+    {
+      "size": 32,
+      "steps": 6,
+      "accuracy": "tight",
+      "before": {
+        "unix_seconds": 1791082198.5951953,
+        "load_average": [
+          0.53955078125,
+          0.5810546875,
+          0.32763671875
+        ],
+        "/proc/stat": "cpu  33009 0 4451 242327 86 0 139 8185 0 0\ncpu0 6714 0 850 47486 18 0 59 2624 0 0\ncpu1 5962 0 803 49550 17 0 35 1263 0 0\ncpu2 7852 0 994 47002 14 0 14 1719 0 0\ncpu3 7101 0 904 48241 18 0 13 1344 0 0\ncpu4 5378 0 897 50046 17 0 15 1232 0 0\nintr 426903 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 21 0 5664 0 0 0 12 10 0 1750 1551 0 462 600 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 362219\nbtime 1791081623\nprocesses 10547\nprocs_running 1\nprocs_blocked 0\nsoftirq 193251 0 23526 13 3447 5432 0 156 66995 0 93682\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 444023264\nuser_usec 392593555\nsystem_usec 51429708\nnice_usec 0\nnr_periods 4518\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          0.6\n  10350 ps               0.0\n"
+      },
+      "after": {
+        "unix_seconds": 1791082209.898978,
+        "load_average": [
+          0.568359375,
+          0.58544921875,
+          0.33349609375
+        ],
+        "/proc/stat": "cpu  33987 0 4459 246857 86 0 140 8324 0 0\ncpu0 6851 0 851 48455 18 0 59 2651 0 0\ncpu1 5964 0 805 50676 17 0 35 1265 0 0\ncpu2 8690 0 999 47182 14 0 14 1828 0 0\ncpu3 7101 0 904 49370 18 0 14 1344 0 0\ncpu4 5380 0 899 51172 17 0 15 1233 0 0\nintr 431680 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 22 0 5673 0 0 0 12 10 0 1759 1559 0 462 600 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 363939\nbtime 1791081623\nprocesses 10566\nprocs_running 1\nprocs_blocked 0\nsoftirq 194870 0 23729 13 3465 5441 0 156 67928 0 94138\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 455207908\nuser_usec 403750262\nsystem_usec 51457645\nnice_usec 0\nnr_periods 4631\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          0.4\n  10369 ps               0.0\n"
+      },
+      "status": "completed",
+      "error": null,
+      "summary": [
+        {
+          "implementation": "jacobi-pcg-v1",
+          "median_seconds": 1.50067494,
+          "min_seconds": 1.488520525,
+          "max_seconds": 1.538036425,
+          "samples": 3,
+          "managed_simulation_bytes": 2646016,
+          "max_divergence": 1.1920928955078125e-07,
+          "pressure_iterations": 1734
+        },
+        {
+          "implementation": "sgs-pcg-v1",
+          "median_seconds": 1.204326885,
+          "min_seconds": 1.202550861,
+          "max_seconds": 1.316374593,
+          "samples": 3,
+          "managed_simulation_bytes": 2646016,
+          "max_divergence": 1.1920928955078125e-07,
+          "pressure_iterations": 669
+        }
+      ]
+    },
+    {
+      "size": 64,
+      "steps": 3,
+      "accuracy": "standard",
+      "before": {
+        "unix_seconds": 1791082209.9092333,
+        "load_average": [
+          0.568359375,
+          0.58544921875,
+          0.33349609375
+        ],
+        "/proc/stat": "cpu  33988 0 4459 246861 86 0 140 8324 0 0\ncpu0 6851 0 851 48456 18 0 59 2651 0 0\ncpu1 5964 0 805 50677 17 0 35 1265 0 0\ncpu2 8690 0 999 47182 14 0 14 1829 0 0\ncpu3 7101 0 904 49371 18 0 14 1344 0 0\ncpu4 5380 0 899 51173 17 0 15 1233 0 0\nintr 431696 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 22 0 5674 0 0 0 12 10 0 1759 1559 0 462 600 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 363950\nbtime 1791081623\nprocesses 10567\nprocs_running 1\nprocs_blocked 0\nsoftirq 194884 0 23730 13 3465 5442 0 156 67934 0 94144\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 455218756\nuser_usec 403758000\nsystem_usec 51460755\nnice_usec 0\nnr_periods 4631\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          0.4\n  10370 ps               0.0\n"
+      },
+      "after": {
+        "unix_seconds": 1791082285.2617264,
+        "load_average": [
+          0.87890625,
+          0.68115234375,
+          0.388671875
+        ],
+        "/proc/stat": "cpu  40460 0 4499 276933 86 0 143 9472 0 0\ncpu0 6852 0 859 55970 18 0 61 2694 0 0\ncpu1 6048 0 817 58058 17 0 36 1338 0 0\ncpu2 13081 0 1007 49540 14 0 14 2608 0 0\ncpu3 9089 0 910 54678 18 0 14 1581 0 0\ncpu4 5388 0 904 58684 17 0 16 1249 0 0\nintr 462088 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 23 0 5857 0 0 0 12 10 0 1799 1589 0 473 621 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 374857\nbtime 1791081623\nprocesses 10622\nprocs_running 1\nprocs_blocked 0\nsoftirq 202639 0 24613 14 3540 5625 0 158 73507 0 95182\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 530872513\nuser_usec 479223764\nsystem_usec 51648749\nnice_usec 0\nnr_periods 5385\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          0.2\n  10417 ps               0.0\n"
+      },
+      "status": "completed",
+      "error": null,
+      "summary": [
+        {
+          "implementation": "jacobi-pcg-v1",
+          "median_seconds": 11.023514159,
+          "min_seconds": 10.721147707,
+          "max_seconds": 11.477697418,
+          "samples": 3,
+          "managed_simulation_bytes": 21069824,
+          "max_divergence": 7.450580596923828e-08,
+          "pressure_iterations": 1645
+        },
+        {
+          "implementation": "sgs-pcg-v1",
+          "median_seconds": 7.692393284,
+          "min_seconds": 7.669628079,
+          "max_seconds": 8.567593914,
+          "samples": 3,
+          "managed_simulation_bytes": 21069824,
+          "max_divergence": 7.450580596923828e-08,
+          "pressure_iterations": 596
+        }
+      ]
+    },
+    {
+      "size": 64,
+      "steps": 3,
+      "accuracy": "tight",
+      "before": {
+        "unix_seconds": 1791082285.2659702,
+        "load_average": [
+          0.87890625,
+          0.68115234375,
+          0.388671875
+        ],
+        "/proc/stat": "cpu  40460 0 4499 276935 86 0 143 9472 0 0\ncpu0 6852 0 859 55971 18 0 61 2694 0 0\ncpu1 6048 0 817 58059 17 0 36 1338 0 0\ncpu2 13081 0 1007 49540 14 0 14 2608 0 0\ncpu3 9089 0 910 54679 18 0 14 1581 0 0\ncpu4 5388 0 904 58685 17 0 16 1249 0 0\nintr 462096 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 23 0 5858 0 0 0 12 10 0 1799 1589 0 473 621 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 374865\nbtime 1791081623\nprocesses 10623\nprocs_running 1\nprocs_blocked 0\nsoftirq 202648 0 24614 14 3540 5626 0 158 73511 0 95185\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 530877340\nuser_usec 479223842\nsystem_usec 51653497\nnice_usec 0\nnr_periods 5385\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          0.2\n  10418 ps               0.0\n"
+      },
+      "after": {
+        "unix_seconds": 1791082368.0411673,
+        "load_average": [
+          0.97021484375,
+          0.75927734375,
+          0.443359375
+        ],
+        "/proc/stat": "cpu  47446 0 4521 310006 86 0 146 10847 0 0\ncpu0 6863 0 867 64215 18 0 64 2763 0 0\ncpu1 12298 0 824 58917 17 0 36 2500 0 0\ncpu2 13801 0 1011 56969 14 0 14 2739 0 0\ncpu3 9090 0 911 62953 18 0 14 1583 0 0\ncpu4 5392 0 906 66950 17 0 17 1261 0 0\nintr 494020 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 174 0 24 0 5869 0 0 0 12 10 0 1827 1604 0 475 626 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0\nctxt 384961\nbtime 1791081623\nprocesses 10652\nprocs_running 2\nprocs_blocked 0\nsoftirq 210371 0 25852 14 3592 5637 0 159 79270 0 95847\n",
+        "/proc/pressure/cpu": null,
+        "/sys/fs/cgroup/cpu.stat": "usage_usec 613833156\nuser_usec 561982016\nsystem_usec 51851140\nnice_usec 0\nnr_periods 6212\nnr_throttled 4\nthrottled_usec 119610\nnr_bursts 0\nburst_usec 0\n",
+        "processes": "    PID COMMAND         %CPU\n      1 tail             0.0\n      2 caas-prefix-tra  0.0\n    197 dockerd          0.0\n    248 containerd       0.1\n    513 codex            0.0\n    608 git              0.0\n  10270 codex-linux-san  0.0\n  10272 bwrap            0.0\n  10273 codex            0.0\n  10274 bash             0.0\n  10300 python3          0.2\n  10447 ps               0.0\n"
+      },
+      "status": "completed",
+      "error": null,
+      "summary": [
+        {
+          "implementation": "jacobi-pcg-v1",
+          "median_seconds": 13.36853593,
+          "min_seconds": 11.289938207,
+          "max_seconds": 13.486543229,
+          "samples": 3,
+          "managed_simulation_bytes": 21069824,
+          "max_divergence": 7.450580596923828e-08,
+          "pressure_iterations": 1820
+        },
+        {
+          "implementation": "sgs-pcg-v1",
+          "median_seconds": 8.156924352,
+          "min_seconds": 8.002222571,
+          "max_seconds": 8.357702965,
+          "samples": 3,
+          "managed_simulation_bytes": 21069824,
+          "max_divergence": 7.450580596923828e-08,
+          "pressure_iterations": 620
+        }
+      ]
+    }
+  ]
+}

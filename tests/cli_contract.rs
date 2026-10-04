@@ -75,3 +75,47 @@ fn bad_cli_values_and_cap_fail_before_output_creation() {
         assert!(!dir.exists());
     }
 }
+
+#[test]
+fn explicit_original_selection_replays_default_and_unknown_is_rejected() {
+    let base = std::env::temp_dir().join(format!("rheon-choice-{}", std::process::id()));
+    std::fs::create_dir(&base).unwrap();
+    for (name, method) in [
+        ("default", None),
+        ("original", Some("jacobi-pcg-v1")),
+        ("alternative", Some("sgs-pcg-v1")),
+    ] {
+        let mut command = std::process::Command::new(env!("CARGO_BIN_EXE_rheon"));
+        command
+            .args([
+                "--size",
+                "8",
+                "--steps",
+                "4",
+                "--source-off-at",
+                "2",
+                "--output",
+            ])
+            .arg(base.join(name));
+        if let Some(method) = method {
+            command.args(["--implementation", method]);
+        }
+        assert!(command.output().unwrap().status.success());
+        let manifest = std::fs::read_to_string(base.join(name).join("run.json")).unwrap();
+        assert!(manifest.contains(method.unwrap_or("jacobi-pcg-v1")));
+    }
+    for file in ["opacity.png", "steps.csv"] {
+        assert_eq!(
+            std::fs::read(base.join("default").join(file)).unwrap(),
+            std::fs::read(base.join("original").join(file)).unwrap()
+        );
+    }
+    let bad = std::process::Command::new(env!("CARGO_BIN_EXE_rheon"))
+        .args(["--implementation", "unknown", "--output"])
+        .arg(base.join("invalid"))
+        .output()
+        .unwrap();
+    assert!(!bad.status.success());
+    assert!(!base.join("invalid").exists());
+    std::fs::remove_dir_all(base).unwrap();
+}

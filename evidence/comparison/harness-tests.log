@@ -1,0 +1,8 @@
+test_cancel_before_spawn_and_during_real_work (test_rheon_compare.ComparisonTest.test_cancel_before_spawn_and_during_real_work) ... ok
+test_invalid_selection_creates_no_output (test_rheon_compare.ComparisonTest.test_invalid_selection_creates_no_output) ... ok
+test_real_comparison_and_preserved_outputs (test_rheon_compare.ComparisonTest.test_real_comparison_and_preserved_outputs) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.052s
+
+OK

@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-integration/evidence/publication-terminal-repair/verify.py", line 37, in <module>
+    require(binary_hash == 'e10000f4fb61ba09765d7e9cbc76cac0463550cc7aecbcd72a66d458e0a1a584', 'Release binary differs')
+  File "/workspace/Rheon-result-integration/evidence/publication-terminal-repair/verify.py", line 26, in require
+    raise ValueError(message)
+ValueError: Release binary differs

@@ -9,7 +9,9 @@ pub use geometry::{Axis, BufferPlan, GeometryError, GridGeometry};
 mod operator;
 pub use operator::{OperatorError, PressureOperator};
 mod pressure;
-pub use pressure::{PressureError, PressureReport, PressureSettings, PressureWorkspace};
+pub use pressure::{
+    PressureError, PressureImplementation, PressureReport, PressureSettings, PressureWorkspace,
+};
 mod sampling;
 pub use sampling::{SamplingError, ScalarSampler, VelocitySampler};
 mod advection;
@@ -21,4 +23,4 @@ pub use simulation::{
 #[cfg(feature = "png-export")]
 mod export;
 #[cfg(feature = "png-export")]
-pub use export::{ExportError, write_guidance_png};
+pub use export::{ExportError, guidance_pixels, write_guidance_png};

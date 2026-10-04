@@ -1,0 +1,140 @@
+test_cancel_before_spawn_and_during_real_work (test_rheon_compare.ComparisonTest.test_cancel_before_spawn_and_during_real_work) ... ERROR
+test_cli_deadline_is_explicit_and_recorded (test_rheon_compare.ComparisonTest.test_cli_deadline_is_explicit_and_recorded) ... FAIL
+test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) ...
+  test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) (missing=False) ... FAIL
+  test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) (missing=True) ... FAIL
+test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) ...
+  test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=0) ... ERROR
+  test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=-1) ... ERROR
+  test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=nan) ... ERROR
+  test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=inf) ... ERROR
+  test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=-inf) ... ERROR
+  test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=True) ... ERROR
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py:52: ResourceWarning: unclosed file <_io.FileIO name='/tmp/tmpazatvk0b/False/000-stderr.log' mode='wb' closefd=True>
+  return compile(source, filename, mode, flags,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/ast.py:52: ResourceWarning: unclosed file <_io.FileIO name='/tmp/tmpazatvk0b/True/000-stderr.log' mode='wb' closefd=True>
+  return compile(source, filename, mode, flags,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+  test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value='1') ... ERROR
+test_invalid_selection_creates_no_output (test_rheon_compare.ComparisonTest.test_invalid_selection_creates_no_output) ... ok
+test_real_comparison_and_preserved_outputs (test_rheon_compare.ComparisonTest.test_real_comparison_and_preserved_outputs) ... ok
+test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) ...
+  test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) (ignore_term=False) ... ERROR
+  test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) (ignore_term=True) ... ERROR
+
+======================================================================
+ERROR: test_cancel_before_spawn_and_during_real_work (test_rheon_compare.ComparisonTest.test_cancel_before_spawn_and_during_real_work)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 39, in test_cancel_before_spawn_and_during_real_work
+    job=Comparison(BINARY,p,['jacobi-pcg-v1'],size=32,steps=100,run_timeout=20)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+ERROR: test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 82, in test_invalid_deadlines_create_no_output
+    Comparison(BINARY,p,['jacobi-pcg-v1'],run_timeout=value)
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+ERROR: test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 82, in test_invalid_deadlines_create_no_output
+    Comparison(BINARY,p,['jacobi-pcg-v1'],run_timeout=value)
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+ERROR: test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=nan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 82, in test_invalid_deadlines_create_no_output
+    Comparison(BINARY,p,['jacobi-pcg-v1'],run_timeout=value)
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+ERROR: test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 82, in test_invalid_deadlines_create_no_output
+    Comparison(BINARY,p,['jacobi-pcg-v1'],run_timeout=value)
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+ERROR: test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=-inf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 82, in test_invalid_deadlines_create_no_output
+    Comparison(BINARY,p,['jacobi-pcg-v1'],run_timeout=value)
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+ERROR: test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 82, in test_invalid_deadlines_create_no_output
+    Comparison(BINARY,p,['jacobi-pcg-v1'],run_timeout=value)
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+ERROR: test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) (value='1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 82, in test_invalid_deadlines_create_no_output
+    Comparison(BINARY,p,['jacobi-pcg-v1'],run_timeout=value)
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+ERROR: test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) (ignore_term=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 92, in test_timeout_terminates_or_kills_then_reaps_without_more_jobs
+    job=Comparison(BINARY,p,['jacobi-pcg-v1'],run_timeout=2)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+ERROR: test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) (ignore_term=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 92, in test_timeout_terminates_or_kills_then_reaps_without_more_jobs
+    job=Comparison(BINARY,p,['jacobi-pcg-v1'],run_timeout=2)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Comparison.__init__() got an unexpected keyword argument 'run_timeout'
+
+======================================================================
+FAIL: test_cli_deadline_is_explicit_and_recorded (test_rheon_compare.ComparisonTest.test_cli_deadline_is_explicit_and_recorded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 129, in test_cli_deadline_is_explicit_and_recorded
+    self.assertEqual(result.returncode,0,result.stderr)
+AssertionError: 2 != 0 : usage: rheon_compare.py [-h] [--binary BINARY] --output OUTPUT [--size SIZE]
+                        [--steps STEPS] [--repeats REPEATS]
+                        [--accuracy {standard,tight}]
+rheon_compare.py: error: unrecognized arguments: --run-timeout 20
+
+
+======================================================================
+FAIL: test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) (missing=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 62, in test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt
+    self.assertIn('--dt',command)
+AssertionError: '--dt' not found in ['/workspace/.rheon-tools/target/release/rheon', '--implementation', 'jacobi-pcg-v1', '--size', '4', '--steps', '2', '--source-off-at', '1', '--relative-residual', '1e-09', '--pressure-divergence-limit', '1e-07', '--actual-divergence-limit', '1e-05', '--output', '/tmp/tmpazatvk0b/False/000-jacobi-pcg-v1']
+
+======================================================================
+FAIL: test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) (missing=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-harness/tools/test_rheon_compare.py", line 62, in test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt
+    self.assertIn('--dt',command)
+AssertionError: '--dt' not found in ['/workspace/.rheon-tools/target/release/rheon', '--implementation', 'jacobi-pcg-v1', '--size', '4', '--steps', '2', '--source-off-at', '1', '--relative-residual', '1e-09', '--pressure-divergence-limit', '1e-07', '--actual-divergence-limit', '1e-05', '--output', '/tmp/tmpazatvk0b/True/000-jacobi-pcg-v1']
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.131s
+
+FAILED (failures=3, errors=10)
