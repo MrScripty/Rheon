@@ -10,15 +10,126 @@ import os
 from pathlib import Path
 import platform
 import statistics
+import struct
 import subprocess
 import time
+import zlib
 
 ACCURACY = {
     'standard': (1e-9, 1e-7, 1e-5),
     'tight': (1e-11, 1e-9, 1e-5),
 }
 REQUESTED_DT = 0.02
+PRESSURE_ABSOLUTE_RESIDUAL = 1e-12
+PRESSURE_MAX_ITERATIONS = 2000
+MEMORY_MIB = 64
+RUN_SCHEMA_VERSION = 2
+SMOKE_MODEL = 'fixed-box smoke tracer, prescribed localized Y acceleration'
+STEP_FIELDS = ('step', 'time', 'dt', 'pressure_iterations', 'full_residual_max',
+               'actual_divergence_max', 'courant', 'tracer_integral', 'kinetic_energy')
 ACTIVE_STATUSES = ('running', 'cancelling', 'timing_out')
+
+def _settings(size, steps, accuracy):
+    relative, pressure, actual = ACCURACY[accuracy]
+    return {'schema_version': RUN_SCHEMA_VERSION, 'model': SMOKE_MODEL,
+            'size': size, 'steps': steps, 'source_off_at': steps // 2,
+            'requested_dt': REQUESTED_DT, 'pressure_relative_residual': relative,
+            'pressure_absolute_residual': PRESSURE_ABSOLUTE_RESIDUAL,
+            'pressure_divergence_limit': pressure, 'actual_divergence_limit': actual,
+            'pressure_iteration_limit': PRESSURE_MAX_ITERATIONS,
+            'managed_budget_bytes': MEMORY_MIB * 1024 * 1024}
+
+def _qualify_settings(data, method, size, steps, accuracy):
+    if not isinstance(data, dict):
+        raise ValueError('Run manifest must be an object')
+    expected = _settings(size, steps, accuracy) | {'implementation': method}
+    for key, value in expected.items():
+        if type(data[key]) is not type(value) or data[key] != value:
+            raise ValueError(f'Run {key} differs from requested comparison settings')
+
+def _finite_nonnegative(value, field):
+    if type(value) not in (int, float) or not math.isfinite(value) or value < 0:
+        raise ValueError(f'Run {field} must be finite and nonnegative')
+    return value
+
+def _qualify_series(data, path, size, steps, accuracy):
+    with path.open(newline='') as stream:
+        reader = csv.DictReader(stream, strict=True)
+        if reader.fieldnames != list(STEP_FIELDS):
+            raise ValueError('Run step columns differ from schema 2')
+        series = list(reader)
+    if len(series) != steps:
+        raise ValueError('Run completion does not match requested workload')
+    elapsed, iterations, maximum_divergence = 0.0, 0, 0.0
+    h = 1.0 / size
+    cell_volume = h * h * h
+    for index, row in enumerate(series, 1):
+        if set(row) != set(STEP_FIELDS):
+            raise ValueError('Run step has extra columns')
+        if int(row['step']) != index:
+            raise ValueError('Run steps must be sequential')
+        count = int(row['pressure_iterations'])
+        if not 0 <= count <= PRESSURE_MAX_ITERATIONS:
+            raise ValueError('Run pressure iterations exceed the admitted range')
+        values = {field: _finite_nonnegative(float(row[field]), field)
+                  for field in STEP_FIELDS[1:] if field != 'pressure_iterations'}
+        dt = values['dt']
+        if not 0 < dt <= REQUESTED_DT:
+            raise ValueError('Run accepted dt exceeds the requested range')
+        previous_time, elapsed = elapsed, elapsed + dt
+        if elapsed <= previous_time or values['time'] != elapsed:
+            raise ValueError('Run time differs from cumulative accepted dt')
+        # CLI RHS/residual use integrated flux units, as in pressure.rs.
+        predicted = values['full_residual_max'] * dt / cell_volume
+        if (predicted > ACCURACY[accuracy][1]
+                or values['actual_divergence_max'] > ACCURACY[accuracy][2]
+                or values['courant'] > 1.0):
+            raise ValueError('Run step exceeds pressure, actual divergence or Courant admission')
+        iterations += count
+        maximum_divergence = max(maximum_divergence, values['actual_divergence_max'])
+    for field in ('accepted_time', 'last_divergence_max', 'measured_step_seconds'):
+        _finite_nonnegative(data[field], field)
+    if data['accepted_time'] != elapsed or data['last_divergence_max'] != values['actual_divergence_max']:
+        raise ValueError('Run manifest differs from final accepted diagnostics')
+    # Two f32 field sets plus six f64 cell arrays; capacities may exceed lengths.
+    minimum_payload = 8 * (3 * size * size * (size + 1)) + 56 * size ** 3
+    for field, lower, upper in (('managed_simulation_bytes', minimum_payload, data['managed_budget_bytes']),
+                                ('raw_export_pixel_bytes', size * size, 16 * 1024 * 1024)):
+        if type(data[field]) is not int or not lower <= data[field] <= upper:
+            raise ValueError(f'Run {field} exceeds its retained payload range')
+    for field in ('whole_process_memory_cap_claimed', 'real_time_performance_claimed'):
+        if data[field] is not False:
+            raise ValueError(f'Run {field} must remain false')
+    return iterations, maximum_divergence
+
+def _qualify_png(path, size):
+    # Check the exported container, dimensions and chunk integrity, not a pixel
+    # decode or agreement with the simulation; Rust renderer tests own those.
+    with path.open('rb') as stream:
+        payload = stream.read(16 * 1024 * 1024 + 1)
+    if len(payload) > 16 * 1024 * 1024 or payload[:8] != b'\x89PNG\r\n\x1a\n':
+        raise ValueError('Run opacity export is not a bounded PNG')
+    position, chunks = 8, []
+    while position + 12 <= len(payload):
+        length = int.from_bytes(payload[position:position + 4], 'big')
+        end = position + 12 + length
+        if end > len(payload):
+            raise ValueError('Run opacity PNG is truncated')
+        kind = payload[position + 4:position + 8]
+        body = payload[position + 8:end - 4]
+        crc = int.from_bytes(payload[end - 4:end], 'big')
+        if zlib.crc32(kind + body) != crc:
+            raise ValueError('Run opacity PNG chunk checksum differs')
+        if not chunks:
+            if kind != b'IHDR' or body != struct.pack('>IIBBBBB', size, size, 8, 0, 0, 0, 0):
+                raise ValueError('Run opacity PNG differs from the requested grayscale dimensions')
+        chunks.append(kind)
+        position = end
+        if kind == b'IEND':
+            if length != 0 or position != len(payload) or b'IDAT' not in chunks:
+                raise ValueError('Run opacity PNG has invalid completion')
+            return
+    raise ValueError('Run opacity PNG has no complete end chunk')
 
 def implementations(binary: Path) -> list[dict]:
     result = subprocess.run([str(binary), '--list-implementations'], check=True, capture_output=True, text=True, timeout=10)
@@ -154,21 +265,14 @@ class Comparison:
             try:
                 method, repeat = self.jobs[self.index - 1]
                 data = json.loads((self.run_dir / 'run.json').read_text())
-                series = list(csv.DictReader((self.run_dir / 'steps.csv').read_text().splitlines()))
-                if data['implementation'] != method or data['steps'] != self.steps or len(series) != self.steps:
-                    raise ValueError('Run completion does not match requested workload')
-                if data['requested_dt'] != REQUESTED_DT:
-                    raise ValueError('Run requested_dt differs from requested comparison timestep')
-                relative, pressure, actual = ACCURACY[self.accuracy]
-                if (data['size'], data['pressure_relative_residual'], data['pressure_divergence_limit'], data['actual_divergence_limit']) != (self.size, relative, pressure, actual):
-                    raise ValueError('Run settings differ from requested comparison settings')
+                _qualify_settings(data, method, self.size, self.steps, self.accuracy)
+                iterations, divergence = _qualify_series(data, self.run_dir / 'steps.csv',
+                                                        self.size, self.steps, self.accuracy)
+                _qualify_png(self.run_dir / 'opacity.png', self.size)
                 data.update(repeat=repeat, warmup=repeat < 0, path=self.run_dir.name,
-                            pressure_iterations=sum(int(r['pressure_iterations']) for r in series),
-                            maximum_step_divergence=max(float(r['actual_divergence_max']) for r in series))
-                if not math.isfinite(data['measured_step_seconds']) or data['maximum_step_divergence'] > ACCURACY[self.accuracy][2]:
-                    raise ValueError('Run failed comparison qualification')
+                            pressure_iterations=iterations, maximum_step_divergence=divergence)
                 self.rows.append(data)
-            except (OSError, ValueError, KeyError, TypeError) as exc:
+            except (OSError, ValueError, KeyError, TypeError, csv.Error) as exc:
                 self.status, self.error = 'failed', str(exc)
                 self._save_status()
                 return self.status
@@ -177,7 +281,13 @@ class Comparison:
             self._save_status()
             return self.status
         if self.index == len(self.jobs):
-            self._finish()
+            try:
+                self._finish()
+            except (OSError, ValueError, TypeError) as exc:
+                self.result = None
+                (self.output / 'comparison.json').unlink(missing_ok=True)
+                self.status, self.error = 'failed', str(exc)
+                self._save_status()
             return self.status
         method, repeat = self.jobs[self.index]
         self.run_dir = self.output / f'{self.index:03d}-{method}'
@@ -186,6 +296,7 @@ class Comparison:
                    '--dt', str(REQUESTED_DT),
                    '--source-off-at', str(self.steps // 2), '--relative-residual', str(relative),
                    '--pressure-divergence-limit', str(pressure), '--actual-divergence-limit', str(actual),
+                   '--max-iterations', str(PRESSURE_MAX_ITERATIONS), '--memory-mib', str(MEMORY_MIB),
                    '--output', str(self.run_dir)]
         self.log = (self.output / f'{self.index:03d}-stderr.log').open('w')
         try:
@@ -210,16 +321,19 @@ class Comparison:
                             'max_divergence':max(r['maximum_step_divergence'] for r in samples),
                             'pressure_iterations':samples[0]['pressure_iterations']})
         times = {r['accepted_time'] for r in self.rows}
-        self.result = {'schema_version':1,'environment':self.environment,'workload':{'size':self.size,'steps':self.steps,
-                       'repeats':self.repeats,'accuracy':self.accuracy,'requested_dt':REQUESTED_DT,'source_off_at':self.steps//2},
-                       'equal_accepted_time':len(times)==1,'summary':summary,'runs':self.rows,
-                       'accuracy_scope':'Algebraic residual and actual velocity divergence, not physical ground-truth error',
-                       'memory_scope':'Retained simulation arrays, not process RSS', 'real_time_claim':False}
+        workload = _settings(self.size, self.steps, self.accuracy)
+        workload['run_schema_version'] = workload.pop('schema_version')
+        workload.update(repeats=self.repeats, accuracy=self.accuracy)
+        result = {'schema_version':1,'environment':self.environment,'workload':workload,
+                  'equal_accepted_time':len(times)==1,'summary':summary,'runs':self.rows,
+                  'accuracy_scope':'Algebraic residual and actual velocity divergence, not physical ground-truth error',
+                  'memory_scope':'Retained simulation arrays, not process RSS', 'real_time_claim':False}
         temporary = self.output / 'comparison.tmp'
-        temporary.write_text(json.dumps(self.result, indent=2, allow_nan=False)+'\n')
+        temporary.write_text(json.dumps(result, indent=2, allow_nan=False)+'\n')
         temporary.replace(self.output / 'comparison.json')
         self.status = 'completed'
         self._save_status()
+        self.result = result
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)

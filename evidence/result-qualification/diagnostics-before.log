@@ -1,0 +1,697 @@
+test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) ... ok
+test_child_command_pins_iteration_and_memory_limits (test_result_qualification.ResultQualification.test_child_command_pins_iteration_and_memory_limits) ... ok
+test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) ... 
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='accepted_time', value=0.07) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='last_divergence_max', value=0.5) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='measured_step_seconds', value=-1) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='managed_simulation_bytes', value=-1) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='managed_simulation_bytes', value=0) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='managed_simulation_bytes', value=67108865) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='managed_simulation_bytes', value=4096.0) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='raw_export_pixel_bytes', value=0) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='raw_export_pixel_bytes', value=16777217) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='whole_process_memory_cap_claimed', value=True) ... FAIL
+  test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='real_time_performance_claimed', value=True) ... FAIL
+test_missing_or_incomplete_png_is_rejected (test_result_qualification.ResultQualification.test_missing_or_incomplete_png_is_rejected) ... FAIL
+test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) ... ok
+test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) ... 
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='NaN') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='-inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='-0.01') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='dt', value='NaN') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='dt', value='inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='dt', value='-inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='dt', value='-0.01') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='full_residual_max', value='NaN') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='full_residual_max', value='inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='full_residual_max', value='-inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='full_residual_max', value='-0.01') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='actual_divergence_max', value='NaN') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='actual_divergence_max', value='-inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='actual_divergence_max', value='-0.01') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='courant', value='NaN') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='courant', value='inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='courant', value='-inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='courant', value='-0.01') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='tracer_integral', value='NaN') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='tracer_integral', value='inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='tracer_integral', value='-inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='tracer_integral', value='-0.01') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='NaN') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='-inf') ... FAIL
+  test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='-0.01') ... FAIL
+test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) ... 
+  test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='step', value='0') ... FAIL
+  test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='step', value='1.0') ... FAIL
+  test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='time', value='0.03') ... FAIL
+  test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='dt', value='0') ... FAIL
+  test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='dt', value='0.04') ... FAIL
+  test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='pressure_iterations', value='-1') ... FAIL
+  test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='pressure_iterations', value='2001') ... FAIL
+  test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='full_residual_max', value='1e-6') ... FAIL
+  test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='courant', value='1.01') ... FAIL
+test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) ... FAIL
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='accepted_time', value=0.07)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='last_divergence_max', value=0.5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='measured_step_seconds', value=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='managed_simulation_bytes', value=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='managed_simulation_bytes', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='managed_simulation_bytes', value=67108865)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='managed_simulation_bytes', value=4096.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='raw_export_pixel_bytes', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='raw_export_pixel_bytes', value=16777217)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='whole_process_memory_cap_claimed', value=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='real_time_performance_claimed', value=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 126, in test_manifest_diagnostics_match_the_accepted_steps
+    self.reject(manifest=lambda data: data.__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_missing_or_incomplete_png_is_rejected (test_result_qualification.ResultQualification.test_missing_or_incomplete_png_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 129, in test_missing_or_incomplete_png_is_rejected
+    self.reject(image=lambda path: path.unlink())
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='NaN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='-inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='-0.01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='dt', value='NaN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='dt', value='inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='dt', value='-inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='dt', value='-0.01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='full_residual_max', value='NaN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='full_residual_max', value='inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='full_residual_max', value='-inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='full_residual_max', value='-0.01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='actual_divergence_max', value='NaN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='actual_divergence_max', value='-inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='actual_divergence_max', value='-0.01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='courant', value='NaN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='courant', value='inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='courant', value='-inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='courant', value='-0.01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='tracer_integral', value='NaN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='tracer_integral', value='inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='tracer_integral', value='-inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='tracer_integral', value='-0.01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='NaN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='-inf')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='-0.01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 102, in test_nonfinite_or_negative_step_diagnostics_are_rejected
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='step', value='0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 111, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='step', value='1.0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 111, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='time', value='0.03')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 111, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='dt', value='0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 111, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='dt', value='0.04')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 111, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='pressure_iterations', value='-1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 111, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='pressure_iterations', value='2001')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 111, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='full_residual_max', value='1e-6')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 111, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='courant', value='1.01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 111, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows[0].__setitem__(field, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 112, in test_step_order_time_and_admission_limits_are_checked
+    self.reject(rows=lambda rows: rows.reverse())
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 54, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.737s
+
+FAILED (failures=49)

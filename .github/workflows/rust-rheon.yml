@@ -9,6 +9,7 @@ on:
       - 'tests/**'
       - 'tools/rheon_compare.py'
       - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
       - '.github/workflows/rust-rheon.yml'
   push:
     branches: [main]
@@ -20,6 +21,7 @@ on:
       - 'tests/**'
       - 'tools/rheon_compare.py'
       - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
       - '.github/workflows/rust-rheon.yml'
   workflow_dispatch:
 permissions:

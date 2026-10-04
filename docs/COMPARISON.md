@@ -121,9 +121,28 @@ iteration budget, executable SHA256, CPU/OS/affinity/cgroup facts and all indivi
 run manifests. Median/min/max reflect measured samples only. CPU details describe
 the host, not an independently verified exclusive CPU allocation.
 
-The harness explicitly passes `--dt 0.02` to every child and rejects a missing or
-different `requested_dt` in its completion manifest. It does not infer workload
-settings from an executable's defaults.
+The harness explicitly passes dt 0.02, source-off step, method, selected pressure
+and actual-divergence limits, 2000 iterations and 64 MiB to every child. It checks
+schema 2, model identity and every workload/accuracy/budget setting, including the
+CLI's fixed absolute residual 1e-12. Missing fields, changed settings and wrong
+JSON types fail qualification. The summary records these controls.
+
+Every accepted step must be present in order with finite nonnegative diagnostics,
+positive dt no greater than requested, cumulative accepted time, bounded pressure
+iterations, actual divergence and Courant number. Predicted divergence uses the
+CLI's integrated full residual multiplied by dt and divided by cell volume;
+there is no new or relaxed tolerance. Final time/divergence must agree with the
+manifest. Retained payloads must fit the declared array and export budgets.
+Opacity PNG qualification checks grayscale dimensions, chunk checksums and a
+complete container; it does not decode pixels or certify image/state agreement.
+
+Malformed or incomplete packets become terminal failures after the child is
+reaped and its log closed. No later job starts and no completed summary is
+published. Summary write/rename or completion-status write failure clears the
+owned success result and removes any published summary while preserving run
+diagnostics. This is recoverable I/O failure handling, not a durable transaction
+across two files or protection against filesystem loss/process interruption.
+Persistent failure writing the failure status itself can still raise an I/O error.
 
 An optional `--run-timeout SECONDS` sets a positive finite wall-clock deadline
 for each measurement process, including each warmup. The default is disabled;

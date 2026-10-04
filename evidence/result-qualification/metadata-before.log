@@ -1,0 +1,226 @@
+test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) ... 
+  test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='schema_version', value=3) ... FAIL
+  test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='schema_version', value=2.0) ... FAIL
+  test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='model', value='different forcing model') ... FAIL
+  test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='source_off_at', value=0) ... FAIL
+  test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='pressure_absolute_residual', value=1.0) ... FAIL
+  test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='pressure_iteration_limit', value=1) ... FAIL
+  test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='managed_budget_bytes', value=33554432) ... FAIL
+  test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='size', value=4.0) ... FAIL
+  test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='steps', value=3.0) ... FAIL
+test_child_command_pins_iteration_and_memory_limits (test_result_qualification.ResultQualification.test_child_command_pins_iteration_and_memory_limits) ... FAIL
+test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) ... 
+  test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='schema_version') ... FAIL
+  test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='model') ... FAIL
+  test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='source_off_at') ... FAIL
+  test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='pressure_absolute_residual') ... FAIL
+  test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='pressure_iteration_limit') ... FAIL
+  test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='managed_budget_bytes') ... FAIL
+
+======================================================================
+FAIL: test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='schema_version', value=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 76, in test_changed_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.__setitem__(key, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='schema_version', value=2.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 76, in test_changed_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.__setitem__(key, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='model', value='different forcing model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 76, in test_changed_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.__setitem__(key, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='source_off_at', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 76, in test_changed_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.__setitem__(key, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='pressure_absolute_residual', value=1.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 76, in test_changed_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.__setitem__(key, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='pressure_iteration_limit', value=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 76, in test_changed_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.__setitem__(key, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='managed_budget_bytes', value=33554432)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 76, in test_changed_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.__setitem__(key, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='size', value=4.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 76, in test_changed_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.__setitem__(key, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='steps', value=3.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 76, in test_changed_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.__setitem__(key, value))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_child_command_pins_iteration_and_memory_limits (test_result_qualification.ResultQualification.test_child_command_pins_iteration_and_memory_limits)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 91, in test_child_command_pins_iteration_and_memory_limits
+    self.assertIn(option, command)
+AssertionError: '--max-iterations' not found in ['/workspace/.rheon-tools/target/release/rheon', '--implementation', 'jacobi-pcg-v1', '--size', '4', '--steps', '3', '--dt', '0.02', '--source-off-at', '1', '--relative-residual', '1e-09', '--pressure-divergence-limit', '1e-07', '--actual-divergence-limit', '1e-05', '--output', '/tmp/tmp1ya_fsi5/comparison/000-jacobi-pcg-v1']
+
+======================================================================
+FAIL: test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='schema_version')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 82, in test_missing_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.pop(key))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 82, in test_missing_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.pop(key))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='source_off_at')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 82, in test_missing_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.pop(key))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='pressure_absolute_residual')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 82, in test_missing_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.pop(key))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='pressure_iteration_limit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 82, in test_missing_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.pop(key))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+======================================================================
+FAIL: test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='managed_budget_bytes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 82, in test_missing_workload_settings_are_rejected
+    self.reject(manifest=lambda data: data.pop(key))
+  File "/workspace/Rheon-result-qualification/tools/test_result_qualification.py", line 53, in reject
+    self.assertEqual(job.poll(), 'failed')
+AssertionError: 'running' != 'failed'
+- running
++ failed
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.190s
+
+FAILED (failures=16)
