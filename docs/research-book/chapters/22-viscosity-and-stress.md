@@ -27,6 +27,28 @@ Taking the inner product with v and completing a square yields
 
 Moving walls and body forces add work on the right. Energy need not decrease then. A diagnostic should compare measured energy change against viscous dissipation and declared external work, with residual and rounding budgets, rather than reject every energy increase.
 
+## Checked bridge from strain to the implicit equations
+
+The earlier Physics contracts require a scalar work identity. The new BoundedPhysics contracts derive that identity for a defined fixed finite-strain operator. For arbitrary finite dimensions n and m, let E map velocity degrees of freedom to strain samples, and let μ_e be fixed material/quadrature weights. Define
+
+\[
+(Ev)_e=\sum_iE_{ei}v_i,\quad
+(Kv)_i=\sum_eE_{ei}\mu_e(Ev)_e,\quad
+\mathcal D(v)=\sum_e\mu_e(Ev)_e^2.
+\]
+
+Thus K=Eᵀdiag(μ)E. `viscous_work` derives \(\sum_i(Kv)_iv_i=\mathcal D(v)\). `dissipation_nonnegative` derives \(\mathcal D(v)\geq0\) when every weight is nonnegative. The exact coordinate backward-Euler hypothesis is
+
+\[
+m_i v_i+\Delta t(Kv)_i=m_i u_i\quad\text{for every }i.
+\]
+
+`backward_euler_work` derives \(\sum_i m_i(u_i-v_i)v_i=\Delta t\mathcal D(v)\) directly from these equations. `backward_euler_energy_nonincrease` then applies the existing finite energy theorem: with m_i≥0, Δt≥0 and μ_e≥0, \(\sum_i m_i v_i^2\leq\sum_i m_i u_i^2\). The coordinate update and positive-weight hypotheses replace an assumed dissipative-work conclusion.
+
+The theorem permits zero masses and weights, so it does not prove invertibility, existence or uniqueness. E is arbitrary and fixed during the step; no theorem here identifies it with an assembled symmetric-gradient stencil or proves a rigid-rotation null mode. This is an unforced homogeneous step. Moving-wall work, free-surface traction, nonlinear coefficients, approximate solves and IEEE rounding remain outside its statement.
+
+For the exact witness E=[−1,1], μ=2, unit masses, Δt=1/4 and u=(1,−1), the computed update is v=(1/2,−1/2). The weighted squared norm falls from 2 to 1/2; kinetic energy with its 1/2 factor falls from 1 to 1/4. The derived work is 1/2=Δt·2. A negative weight μ=−1/2 instead gives squared norm 32/9, while an arbitrary candidate not satisfying the update can also increase it. These are exact rational witnesses, not liquid simulations or material calibration.
+
 ## Shared shear-mode oracle
 
 The reference code constructs a 32-cell periodic difference matrix with spacing 1/32 m. A sine mode has discrete eigenvalue \(\lambda_h=4\sin^2(\pi/32)/h^2\). With \(\Delta t=0.01\) s and \(\nu\) chosen from 0.01, 0.05 or 0.1 m²/s, backward Euler damps amplitude by \((1+\nu\Delta t\lambda_h)^{-n}\).

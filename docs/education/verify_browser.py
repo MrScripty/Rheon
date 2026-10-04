@@ -1,5 +1,5 @@
 from pathlib import Path
-import json
+import json,hashlib
 from playwright.sync_api import sync_playwright
 from pdf_freshness import input_hashes, write_receipt
 HERE=Path(__file__).resolve().parent
@@ -46,5 +46,8 @@ with sync_playwright() as p:
     assert not failed,failed
     write_receipt(HERE.parents[1], pdf_inputs)
     receipt={'schema':'rheon-education-browser-v1','browser':browser.version,'webgl':True,'labs':checks,'mobile_navigation_search':True,'mobile_no_horizontal_overflow':True,'katex_no_errors':True,'page_errors':errors,'http_failures':failed}
+    receipt['reviewed_sources']={name:hashlib.sha256((HERE/name).read_bytes()).hexdigest() for name in ['build.py','labs.js','style.css','package-lock.json','verify_browser.py']}
+    receipt['book_sources']=json.loads((HERE/'_site/build-receipt.json').read_text())['sources']
+    receipt['pdf_sha256']=hashlib.sha256((HERE/'downloads/Rheon-expanded-book.pdf').read_bytes()).hexdigest()
     (HERE/'browser-qualification.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(json.dumps({k:v for k,v in receipt.items() if k!='labs'},indent=2));browser.close()

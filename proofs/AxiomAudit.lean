@@ -44,7 +44,22 @@ run_cmd do
     `Rheon.Physics.implicit_energy_nonincrease,
     `Rheon.Physics.slip_power_nonpositive,
     `Rheon.Physics.young_adhesion_identity,
-    `Rheon.Physics.adhesion_bounds]
+    `Rheon.Physics.adhesion_bounds,
+    `Rheon.BoundedPhysics.segment,
+    `Rheon.BoundedPhysics.wallValue,
+    `Rheon.BoundedPhysics.wallHit,
+    `Rheon.BoundedPhysics.wall_segment_affine,
+    `Rheon.BoundedPhysics.wall_hit_range,
+    `Rheon.BoundedPhysics.wall_hit_on_surface,
+    `Rheon.BoundedPhysics.wall_first_hit,
+    `Rheon.BoundedPhysics.clipped_segment_in_halfspace,
+    `Rheon.BoundedPhysics.strain,
+    `Rheon.BoundedPhysics.viscousOperator,
+    `Rheon.BoundedPhysics.dissipation,
+    `Rheon.BoundedPhysics.viscous_work,
+    `Rheon.BoundedPhysics.dissipation_nonnegative,
+    `Rheon.BoundedPhysics.backward_euler_work,
+    `Rheon.BoundedPhysics.backward_euler_energy_nonincrease]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

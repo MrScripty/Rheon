@@ -18,6 +18,27 @@ The original fixture uses a triangulated closed cube, traces an outside-to-outsi
 
 At a hit, collision response depends on what is transported. A passive tracer trace may stop at the surface; a liquid interface needs its own boundary/contact-angle extension; a velocity sample needs prescribed normal motion plus the chosen tangential law. Repeatedly clamping a point can pin a contact line unintentionally. No-slide and no-slip mean different operations.
 
+## Checked planar first contact and clipping
+
+The mesh-query fixture and the exact collision contract have different domains. The new `BoundedPhysics.lean` contract uses an infinite stationary plane in three dimensions. Its oriented plane value is
+
+\[
+g(x)=\sum_{i=0}^{2}n_i x_i-c,\qquad
+x(t)=(1-t)a+tb.
+\]
+
+The permitted half-space is g(x)≥0. The normal points into that half-space and need not have unit length; g is a sign/plane-value function, not necessarily a signed distance. Assume strictly g(a)>0 and g(b)<0. These hypotheses exclude a zero denominator and imply
+
+\[
+t_* = \frac{g(a)}{g(a)-g(b)},\qquad 0<t_*<1.
+\]
+
+`wall_segment_affine` derives g(x(t))=(1−t)g(a)+tg(b) from the actual finite-vector definitions. `wall_hit_range` proves the range of t*. `wall_hit_on_surface` proves g(x(t*))=0. `wall_first_hit` proves every 0≤t<t* remains strictly in the permitted side. Finally, `clipped_segment_in_halfspace` proves every point on the segment from a to x(t*), parameterized by 0≤s≤1, has nonnegative plane value, including contact. The hit and clipping conclusions are derived, not assumed.
+
+The exact-rational witness uses plane values 1 and −1, giving t*=1/2. The unclipped continuation at t=3/4 has value −1/2. If the proposed end instead has value 1/2, the formula gives t*=2 outside the segment; if the start/end values are −1 and −2, it gives −1. The endpoint sign assumptions are therefore essential. Starting on the plane, grazing, same-side traces and moving planes require separate policies.
+
+This proves a bounded planar geometric contract. It does not prove triangle containment, ordering among mesh facets, watertightness, cut-cell construction or floating-point robustness. A finite-facet query must establish both that its intersection lies inside the facet and that no earlier relevant facet was missed. The closed-cube browser fixture remains an independently executed numerical query, not an implementation refinement proved by these planar lemmas.
+
 ## Cut geometry and pressure
 
 For a face opening \(A_e\), fluid control volume \(V_i\) and sample separation \(\ell_e\), a candidate pressure weight is \(w_e=A_e/(\rho_e\ell_e)\). Positive weights preserve the finite energy structure. Shared openings must be computed once for both adjacent cells. Independent face estimates can violate cancellation. The scalar volume and face metrics must agree with the chosen divergence/gradient pair, not merely look plausible.

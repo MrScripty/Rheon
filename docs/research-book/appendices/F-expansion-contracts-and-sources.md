@@ -1,6 +1,6 @@
 # F Expansion contracts, sources and evidence
 
-This edition adds original finite contracts and local numerical references. The historical 20 theorems retain their source-bound evidence. New theorem qualification is recorded separately in `expansion/proof-qualification.json`; all 33 public theorems compiled, 45 declarations passed the transitive axiom audit, and negative audit/source-integrity fixtures passed. All new derivations and implementations are Rheon research work. No cited researcher reviewed or endorsed this edition.
+This edition adds original finite contracts and local numerical references. The historical 20 theorems retain their source-bound evidence. The previous expansion receipt `expansion/proof-qualification.json` retains its 33-theorem/45-declaration source binding. Current integration qualification is recorded separately in `expansion/bounded-proof-qualification.json`: all 42 public theorems compile, 60 declarations pass the transitive axiom audit, and negative audit/source-integrity fixtures pass. The latest bounded module contributes nine theorems and six definitions. All new derivations and implementations are Rheon research work. No cited researcher reviewed or endorsed this edition.
 
 ## A map from requirements to evidence
 
@@ -8,10 +8,10 @@ This edition adds original finite contracts and local numerical references. The 
 |---|---|---|---|
 | External forces | force_work_identity | signed finite-step work | spatial force interpolation and IEEE execution |
 | Moving boundary | sealed_flux_compatibility | balanced/unbalanced component flux | swept mesh and geometric conservation |
-| Collision mesh | no geometric theorem claimed | original cube segment/triangle queries | robust arbitrary-mesh predicates and cut cells |
+| Planar collision; numerical mesh query | wall_first_hit, wall_hit_on_surface, clipped_segment_in_halfspace | exact rational crossing/clipping plus independent cube queries | finite-facet containment, earliest mesh query, robust predicates and cut cells |
 | Positive density | positive_transmissibility, weighted_pressure_energy | layered hydrostatic increments | phase-interface coefficient assembly |
 | Liquid volume | volume_source_balance | unequal-volume rational ledger | bounded multidimensional interface transport |
-| Viscosity | implicit_energy_identity, implicit_energy_nonincrease | dense solve versus periodic eigenmode | actual tensor stencil and free-surface traction |
+| Viscosity | viscous_work, dissipation_nonnegative, backward_euler_work, backward_euler_energy_nonincrease | exact rational operator step; dense solve versus periodic eigenmode | symmetric-gradient assembly, free-surface traction, forcing and approximate solves |
 | Slip | slip_power_nonpositive | affine Couette boundary equations | curved wall frame and assembly |
 | Wetting/adhesion | young_adhesion_identity, adhesion_bounds | fixed-volume spherical caps | dynamic angle, hysteresis and microscopic law |
 | Surface tension | no full capillary theorem claimed | pressure jump and independent volume integral | balanced moving-interface force and parasitic currents |
@@ -20,9 +20,15 @@ This edition adds original finite contracts and local numerical references. The 
 
 The domain is a finite set and values are exact reals. Internal_amount_balance and volume_source_balance assume balanced incidence columns. Sealed_flux_compatibility additionally assumes every cell constraint is solved, proving a necessary global compatibility condition rather than existence. Weighted_pressure_energy assumes positive areas, densities and distances and bounds a finite weighted-square energy. It does not establish that geometric assembly yields these quantities.
 
-Hydrostatic_increment assumes nonzero density/distance and a prescribed exact pressure increment. The implicit energy results assume an exact discrete work equation; nonincrease additionally assumes nonnegative masses, time and dissipation. They do not prove solver convergence. Young_adhesion_identity assumes Young balance; adhesion_bounds treats the cosine as a bounded scalar, without proving trigonometry or interfacial thermodynamics. Slip dissipation assumes a nonnegative coefficient. Force_work_identity is a finite-step algebraic identity without a stability assertion.
+Hydrostatic_increment assumes nonzero density/distance and a prescribed exact pressure increment. The implicit energy results assume an exact discrete work equation; nonincrease additionally assumes nonnegative masses, time and dissipation. BoundedPhysics now derives that work identity from defined finite strain and exact coordinate update equations with fixed nonnegative weights; it does not identify a production stencil or prove solver convergence. Young_adhesion_identity assumes Young balance; adhesion_bounds treats the cosine as a bounded scalar, without proving trigonometry or interfacial thermodynamics. Slip dissipation assumes a nonnegative coefficient. Force_work_identity is a finite-step algebraic identity without a stability assertion.
 
-No theorem proves mesh orientation, robust intersection, wetting existence, contact-line convergence, liquid volume bounds, production Rust correspondence, floating-point error or performance. The educational reference has no general liquid solver.
+No theorem proves mesh orientation, robust arbitrary-triangle intersection, wetting existence, contact-line convergence, liquid volume bounds, production Rust correspondence, floating-point error or performance. The educational reference has no general liquid solver.
+
+## Bounded assumptions and witnesses
+
+The planar lemmas use g(x)=n·x−c, permitted side g≥0, a strictly positive start and strictly negative proposed endpoint. The normal need not be unit length. They prove an interior first hit and clipping to it; grazing, wall starts, finite-facet containment and moving-wall queries are excluded. The viscosity lemmas use arbitrary fixed finite E and μ, K=Eᵀdiag(μ)E, nonnegative masses/time/weights and the exact coordinate backward-Euler equations. Their conclusion is a weighted squared-norm inequality, not solvability, stencil validity or a full timestep result.
+
+`evidence/bounded-physics-contracts/witness.py` checks rational first contact at 1/2, the forbidden unclipped continuation, out-of-range hits without endpoint signs, an implicit squared-norm decrease 2→1/2, and counterexamples with negative viscosity or an omitted update equation. Normal and optimized Python outputs agree. These witnesses are separate from the nine kernel-checked theorems and the browser's triangle-query/shear fixtures.
 
 ## Shared data and reproduction
 
@@ -125,7 +131,7 @@ The focused contribution inspected these original works and implementations on 2
 
 ## Next operator proofs, not compiled claims
 
-The nine focused targets are stationary implicit strain/wall dissipation; moving-wall work with residual norm; affine pressure constraint work; two-way impulse cancellation; rigid strain null modes; conservative redistribution/geometric conservation; balanced capillary rest; work-compatible surface energy; and contact-line friction/pinning. The current checked Physics module covers finite energy identities, conservation, positive coefficients, relative slip power and Young algebra. It does not supply these larger assembly or surface-evolution proofs.
+The nine focused targets are stationary implicit strain/wall dissipation; moving-wall work with residual norm; affine pressure constraint work; two-way impulse cancellation; rigid strain null modes; conservative redistribution/geometric conservation; balanced capillary rest; work-compatible surface energy; and contact-line friction/pinning. The current checked Physics module covers finite energy identities, conservation, positive coefficients, relative slip power and Young algebra. The new BoundedPhysics module supplies the unforced finite-strain work implication within the first target; wall terms, operator solvability, assembled strain validity and the larger surface-evolution targets remain future work.
 
 In particular, a nonnegative stiffness is insufficient for a rigid-rotation null mode. A conservative redistribution matrix needs column sums one, but positivity and barrier connectivity need additional conditions. Balanced rest assumes M is symmetric positive definite, an exact solve, and a capillary force actually in the chosen gradient range. Surface-energy conservation requires a discrete gradient satisfying its exact work identity; triangle area is not globally convex in arbitrary vertex coordinates. A scalar contact-coordinate dissipation proof cannot establish a 3D contact-line PDE.
 
