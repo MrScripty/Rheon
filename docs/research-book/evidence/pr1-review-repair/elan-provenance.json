@@ -1,0 +1,9 @@
+{
+  "official_release_url": "https://github.com/leanprover/elan/releases/tag/v4.1.2",
+  "asset_id": 258187011,
+  "size": 4985879,
+  "url": "https://github.com/leanprover/elan/releases/download/v4.1.2/elan-x86_64-unknown-linux-gnu.tar.gz",
+  "upstream_digest": null,
+  "sha256": "f81c2e48c1588d4612cd2c8851947898a45ac8d72748a07dff3a5694f1cf589b",
+  "provenance_limit": "Computed from official HTTPS release bytes; upstream publishes no digest/signature for this asset. Pin protects against later byte changes, not independent publisher authentication."
+}
