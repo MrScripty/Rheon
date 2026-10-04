@@ -1,0 +1,9 @@
+{
+  "base_commit": "777a7339029e94f8dd82187b3817481623e3ff3f",
+  "source_sha256": "e5f3c4c79422bb34746fafcfad903f0f8c8b3469c4a97429ff23b04b27200841",
+  "witness_sha256": "8ce5176f109fdfa7eb12eb4d4fafcc77eb77b32d71240bb1bb0ad9a8fb9fa878",
+  "compiler": "Rust 1.92.0, edition 2024, default unoptimized rustc profile, no numerical flags",
+  "compile_exit": 0,
+  "run_exit": 101,
+  "actual_result": "parameter=0.5 reported_z=0 reconstructed_z=1\n\nthread 'main' (98344) panicked at /tmp/rheon-pr12-exact-red-cna9tjks/main.rs:12:5:\nassertion `left == right` failed: accepted off-facet hit\n  left: 0.0\n right: 1.0\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+}
