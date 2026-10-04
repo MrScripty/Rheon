@@ -31,5 +31,8 @@
         "measured_step_seconds"
       ]
     }
-  }
+  },
+  "pr3_observed_head_at_handoff": "a97a2dbce6b794456b634d87e2b111c059a9f696",
+  "pr3_observed_head_rust_source_tests_manifest_lock_identical_to_qualified_base": true,
+  "new_combined_head_qualified_here": false
 }

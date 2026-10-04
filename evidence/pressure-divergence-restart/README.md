@@ -8,6 +8,14 @@ is valid against accepted PR2 combined head
 `source-equivalence-and-replay.json`. PR3 adds Jacobi/SGS preconditioner selection
 around this shared loop.
 
+At handoff, the coordinator had independently advanced PR3 to combined head
+`a97a2dbce6b794456b634d87e2b111c059a9f696` (parents 2d36096 and da56ed2).
+Its src/, tests/, Cargo.toml and Cargo.lock are byte-identical to 2d36096.
+The stopping/restart finding therefore remains present there, and the focused
+repair can be integrated without changing those research/proof additions.
+This read-only equivalence check does not relabel the 34f6165 test receipts as
+qualification of the newer combined head or of a future integration commit.
+
 PR2 functional repair is `f2c9e98777085443d502f63a0985302fbbc13dcc`, tree
 `1f0e5ca1823ac915887bb8a119599f3c25e826e7`, on
 `repair/pressure-divergence-restart`. Its unchanged cherry-pick onto PR3 is
