@@ -65,6 +65,19 @@ def verify(root, source_root, fixture_root):
         digest = hashlib.sha256((source_root / entry['path']).read_bytes()).hexdigest()
         require(digest == entry['sha256'], f"Historical source hash differs: {entry['path']}")
 
+    replays = json.loads((root / 'replay/receipt.json').read_text())
+    require(type(replays) is list and len(replays) == 3, 'Original replay fixture count differs')
+    require(all(type(entry) is dict and type(entry.get('fixture')) is str for entry in replays),
+            'Original replay fixture entries differ')
+    require(sorted(entry['fixture'] for entry in replays) ==
+            sorted(('evidence/demo-16', 'evidence/demo-plume', 'evidence/demo-64')),
+            'Original replay fixture inventory differs')
+    for entry in replays:
+        hashes = entry.get('byte_identical_sha256')
+        require(type(hashes) is dict and set(hashes) == {'opacity.png', 'steps.csv'},
+                'Original replay artifact hash inventory differs')
+    passed = []
+
     receipt = json.loads((root / 'benchmarks/receipt.json').read_text())
     require(len(receipt['cases']) == 6, 'Benchmark receipt case count')
     receipt_cases = {(c['size'], c['accuracy']): c for c in receipt['cases']}
@@ -112,6 +125,13 @@ def verify(root, source_root, fixture_root):
                     elapsed = 0.0
                     for row in series:
                         require(all(math.isfinite(float(v)) for v in row.values()), f'{label}: finite diagnostics')
+                        # These are norms, nonnegative smoke totals/energy, and
+                        # counts. Do not apply an unsigned rule to other fields.
+                        for field in ('full_residual_max', 'actual_divergence_max',
+                                      'courant', 'tracer_integral', 'kinetic_energy'):
+                            number(float(row[field]), f'{label}: {field}')
+                        for field in ('step', 'pressure_iterations'):
+                            number(int(row[field]), f'{label}: {field}', integer=True)
                         # Preserve the original historical gate (not the later repaired harness contract).
                         require(float(row['full_residual_max']) * float(row['dt']) <= pressure,
                                 f'{label}: historical residual gate')
@@ -147,9 +167,9 @@ def verify(root, source_root, fixture_root):
             same(recorded['status'], 'completed', f'{label}: receipt status')
             same(recorded['error'], None, f'{label}: receipt error')
             check_summary(recorded['summary'], expected_summary, f'{label} receipt')
-            print(f'PASS {label}: all 8 historical runs, controls/diagnostics, horizons/budgets, deterministic bytes and recomputed summaries')
+            passed.append(f'PASS {label}: all 8 historical runs, controls/diagnostics, horizons/budgets, deterministic bytes and recomputed summaries')
 
-    for entry in json.loads((root / 'replay/receipt.json').read_text()):
+    for entry in replays:
         fixture = fixture_root / entry['fixture']
         replay = root / 'replay' / fixture.name
         original = json.loads((fixture / 'run.json').read_text())
@@ -162,6 +182,8 @@ def verify(root, source_root, fixture_root):
             expected, actual = (fixture / name).read_bytes(), (replay / name).read_bytes()
             require(hashlib.sha256(expected).hexdigest() == digest, f'{fixture.name}/{name}: fixture hash')
             require(expected == actual, f'{fixture.name}/{name}: replay bytes')
+    for message in passed:
+        print(message)
     print('PASS original fixture bytes/manifests and historical qualified source hashes')
 
 

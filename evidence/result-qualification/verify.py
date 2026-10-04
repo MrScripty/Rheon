@@ -10,6 +10,7 @@ import csv
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import statistics
 import subprocess
@@ -22,6 +23,10 @@ BASE = '0de6a857adb17a6ee0312e889aff50e2cd7aa6dd'
 ROOT = Path('evidence/result-qualification')
 BINARY_SHA256 = 'e10000f4fb61ba09765d7e9cbc76cac0463550cc7aecbcd72a66d458e0a1a584'
 METHODS = ('jacobi-pcg-v1', 'sgs-pcg-v1')
+
+PROTECTED = ('src', 'tests', 'Cargo.toml', 'Cargo.lock', 'rust-toolchain.toml',
+                 'proofs', 'docs/research-book', 'evidence/cloud-qualification',
+                 'evidence/demo-16', 'evidence/demo-plume', 'evidence/demo-64')
 
 
 def git(*args):
@@ -37,14 +42,50 @@ def require(condition, message):
         raise ValueError(message)
 
 
+def validate_receipt_output(path):
+    root = Path.cwd().resolve()
+    path = path.absolute()
+    lexical = Path(os.path.abspath(path))
+    physical = path.resolve()
+    for name in PROTECTED:
+        protected = root / name
+        for target in (protected, protected.resolve()):
+            require(not lexical.is_relative_to(target) and not physical.is_relative_to(target),
+                    'Receipt output is inside a protected path: ' + str(path))
+    return path
+
+
+def publish_receipt(path, receipt):
+    path = validate_receipt_output(path)
+    payload = json.dumps(receipt, indent=2, allow_nan=False) + '\n'
+    stream = path.open('x')  # Existing operator files never enter cleanup.
+    identity = None
+    try:
+        with stream:
+            created = os.fstat(stream.fileno())
+            identity = (created.st_dev, created.st_ino)
+            if stream.write(payload) != len(payload):
+                raise OSError('Short receipt write')
+    except BaseException as error:
+        try:
+            current = path.lstat()
+            if identity == (current.st_dev, current.st_ino):
+                path.unlink()
+        except FileNotFoundError:
+            pass
+        except OSError as cleanup:
+            raise OSError(f'Receipt write failed: {error}; cleanup failed: {cleanup}') from error
+        raise
+
+
 def verify():
     receipt = json.loads((ROOT / 'benchmarks/receipt.json').read_text())
     require((receipt['binary_sha256'] == BINARY_SHA256), "Historical qualification failed: receipt['binary_sha256'] == BINARY_SHA256")
     source = receipt['source_commit']
-    protected = ('src', 'tests', 'Cargo.toml', 'Cargo.lock', 'rust-toolchain.toml',
-                 'proofs', 'docs/research-book', 'evidence/cloud-qualification',
-                 'evidence/demo-16', 'evidence/demo-plume', 'evidence/demo-64')
-    require((git('diff', BASE, '--', *protected) == ''), 'Protected source/evidence changed')
+    require((git('diff', BASE, '--', *PROTECTED) == ''), 'Protected source/evidence changed')
+    require(git('diff', '--cached', BASE, '--', *PROTECTED) == '', 'Staged protected source/evidence changed')
+    additions = subprocess.check_output(['git', 'ls-files', '--others', '-z', '--', *PROTECTED])
+    require(not additions, 'Untracked or ignored protected path additions')
     hashes, qualified_hashes = {}, {}
     qualified_source = git('log', '-1', '--format=%H', '--', 'tools/rheon_compare.py',
                            'tools/test_result_qualification.py')
@@ -151,7 +192,7 @@ def verify():
               'qualification_source_commit': qualified_source,
               'qualification_source_sha256': qualified_hashes,
               'retained_packets_requalified_with_final_validator': 48,
-              'protected_paths_unchanged_from_reviewed_base': list(protected),
+              'protected_paths_unchanged_from_reviewed_base': list(PROTECTED),
               'maximum_predicted_divergence': maximum_predicted, 'maximum_actual_divergence': maximum_actual,
               'checks': checks}
     return result
@@ -161,10 +202,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--receipt-output', type=Path, default=ROOT / 'successor-verification.json')
     args = parser.parse_args()
+    output = validate_receipt_output(args.receipt_output)
     result = verify()
     result['verifier_sha256'] = sha256(Path(__file__))
-    with args.receipt_output.open('x') as stream:
-        stream.write(json.dumps(result, indent=2, allow_nan=False) + '\n')
+    publish_receipt(output, result)
     print('PASS historical result qualification: 48 retained packets and receipt-bound summaries')
 
 
