@@ -20,6 +20,8 @@ mod simulation;
 pub use simulation::{
     Simulation, SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
 };
+mod forces;
+pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepReport};
 #[cfg(feature = "png-export")]
 mod export;
 #[cfg(feature = "png-export")]
