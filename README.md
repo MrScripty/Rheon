@@ -43,3 +43,14 @@ for numerical tolerance, ownership and the remaining solid-boundary work.
 ```sh
 cargo run --locked --release --no-default-features --example surface_queries
 ```
+
+## Prescribed surface translation
+
+`TranslationInterval` queries a linearly moving point against a translating
+surface over one immutable interval, reporting world contact and wall velocity.
+See the [book implementation addendum](docs/research-book/implementation/translating-surfaces.md)
+for coordinate equations, ownership and the remaining fluid boundary work.
+
+```sh
+cargo run --locked --release --no-default-features --example translating_surface
+```
