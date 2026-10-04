@@ -1,0 +1,19 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-pressure-before)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.19s
+     Running tests/pressure_contract.rs (/workspace/.rheon-tools/target/debug/deps/pressure_contract-7099cae9f7db8865)
+
+running 1 test
+
+thread 'tighter_divergence_gate_keeps_conjugate_gradient_progress' (26331) panicked at tests/pressure_contract.rs:135:66:
+called `Result::unwrap()` on an `Err` value: IterationLimit { iterations: 120, residual_max: 6.3036155812934425e-6 }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test tighter_divergence_gate_keeps_conjugate_gradient_progress ... FAILED
+
+failures:
+
+failures:
+    tighter_divergence_gate_keeps_conjugate_gradient_progress
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--test pressure_contract`

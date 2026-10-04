@@ -1,0 +1,12 @@
+diff --git a/src/pressure.rs b/src/pressure.rs
+index 6e1dfc7..0750933 100644
+--- a/src/pressure.rs
++++ b/src/pressure.rs
+@@ -364,6 +364,7 @@ impl PressureWorkspace {
+             let replaced = candidate || iteration == settings.max_iterations;
+             if replaced {
+                 report = self.true_report(operator, dt, iteration)?;
++                eprintln!("TRACE iteration={iteration} recursive_l2={recursive_l2:.17e} full_l2={:.17e} divergence={:.17e} threshold={threshold:.17e} linear_pass={} divergence_pass={}", report.true_residual_l2, report.predicted_divergence_max, report.true_residual_l2 <= threshold, report.predicted_divergence_max <= settings.divergence_limit);
+                 if accepted(report) {
+                     return Ok(report);
+                 }
