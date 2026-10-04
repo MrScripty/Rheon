@@ -299,6 +299,62 @@ fn main() -> eframe::Result {
 #[cfg(test)]
 mod tests {
     use super::*;
+    fn wait_until(mut condition: impl FnMut() -> bool) {
+        let deadline = Instant::now() + Duration::from_secs(10);
+        while !condition() {
+            assert!(Instant::now() < deadline, "worker lifecycle timed out");
+            std::thread::sleep(Duration::from_millis(1));
+        }
+    }
+    #[test]
+    fn cancel_after_progress_joins_without_rows_and_allows_restart() {
+        let mut app = App::default();
+        app.size = 8;
+        app.steps = 10000;
+        app.start(true);
+        let progress = Arc::clone(&app.worker.as_ref().unwrap().progress);
+        wait_until(|| progress.load(Ordering::Relaxed) > 0);
+        app.cancel();
+        wait_until(|| app.worker.as_ref().unwrap().handle.is_finished());
+        let ctx = egui::Context::default();
+        app.poll(&ctx);
+        assert!(app.worker.is_none());
+        assert!(app.rows.is_empty());
+        assert!(app.textures.is_empty());
+        app.size = 4;
+        app.steps = 2;
+        app.selected = PressureImplementation::SymmetricGaussSeidelPcgV1;
+        app.start(false);
+        wait_until(|| app.worker.as_ref().unwrap().handle.is_finished());
+        app.poll(&ctx);
+        assert!(app.worker.is_none());
+        assert_eq!(app.rows.len(), 1);
+        assert_eq!(app.textures.len(), 1);
+        assert_eq!(app.rows[0].method, app.selected);
+        assert_eq!(app.rows[0].pixels.len(), 16);
+    }
+    #[test]
+    fn dropping_app_cancels_and_joins_owned_worker() {
+        let cancel = Arc::new(AtomicBool::new(false));
+        let exited = Arc::new(AtomicBool::new(false));
+        let worker_cancel = Arc::clone(&cancel);
+        let worker_exited = Arc::clone(&exited);
+        let handle = std::thread::spawn(move || {
+            wait_until(|| worker_cancel.load(Ordering::Relaxed));
+            worker_exited.store(true, Ordering::Relaxed);
+            Ok(Vec::new())
+        });
+        let mut app = App::default();
+        app.worker = Some(Worker {
+            cancel: Arc::clone(&cancel),
+            progress: Arc::new(AtomicUsize::new(0)),
+            total: 1,
+            handle,
+        });
+        drop(app);
+        assert!(cancel.load(Ordering::Relaxed));
+        assert!(exited.load(Ordering::Relaxed));
+    }
     #[test]
     fn worker_runs_selected_and_equal_input_comparison() {
         let request = Request {

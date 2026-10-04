@@ -109,6 +109,37 @@ fn every_implementation_preserves_transactional_cancellation_and_replay() {
     }
 }
 #[test]
+fn cancellation_after_accepted_work_preserves_both_implementations() {
+    for method in PressureImplementation::ALL {
+        let mut reference = simulation(method);
+        reference.step(0.02, source(), |_| false).unwrap();
+        reference.step(0.02, None, |_| false).unwrap();
+        for stage in [
+            StepStage::BeforeAdvection,
+            StepStage::VelocitySlice,
+            StepStage::BeforePressure,
+            StepStage::PressureIteration,
+            StepStage::BeforeTracer,
+            StepStage::TracerSlice,
+            StepStage::BeforeCommit,
+        ] {
+            let mut s = simulation(method);
+            s.step(0.02, source(), |_| false).unwrap();
+            let before = snapshot(&s);
+            let time = s.state().time.to_bits();
+            let generation = s.state().generation;
+            assert!(s.step(0.02, None, |at| at == stage).is_err());
+            assert_eq!(snapshot(&s), before, "{method:?} {stage:?}");
+            assert_eq!(s.state().time.to_bits(), time);
+            assert_eq!(s.state().generation, generation);
+            s.step(0.02, None, |_| false).unwrap();
+            assert_eq!(snapshot(&s), snapshot(&reference));
+            assert_eq!(s.state().time.to_bits(), reference.state().time.to_bits());
+            assert_eq!(s.state().generation, reference.state().generation);
+        }
+    }
+}
+#[test]
 fn approaches_agree_with_equal_inputs_and_retained_budget() {
     let mut a = simulation(PressureImplementation::JacobiPcgV1);
     let mut b = simulation(PressureImplementation::SymmetricGaussSeidelPcgV1);
