@@ -6,6 +6,11 @@
 //! separately checks target-integer arithmetic and physical-coordinate ranges.
 mod geometry;
 pub use geometry::{Axis, BufferPlan, GeometryError, GridGeometry};
+mod collision;
+pub use collision::{
+    ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
+    TriangleSurface,
+};
 mod operator;
 pub use operator::{OperatorError, PressureOperator};
 mod pressure;
