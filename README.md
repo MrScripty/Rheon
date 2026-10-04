@@ -21,3 +21,14 @@ cargo run --locked --release --bin rheon -- --list-implementations
 The UI displays solver results and opacity projections. It is an initial
 comparison laboratory, not a complete interactive 3D editor or real-time claim.
 Use `default-features = false` for a standard-library-only library consumer.
+
+## Explicit body forces
+
+The library's `step_with_forces` adds acceleration or force density in all three
+axes, with optional box support and force-stage work diagnostics. See the
+[book implementation addendum](docs/research-book/implementation/explicit-forces.md)
+for units, ownership, acceptance fixtures and limits.
+
+```sh
+cargo run --locked --release --no-default-features --example forced_smoke
+```

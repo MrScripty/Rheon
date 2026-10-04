@@ -1,9 +1,9 @@
 //! Owned named fields and transactional publication for the fixed-box smoke
 //! milestone. Export buffers and application/GUI state are outside this module.
 use crate::{
-    AdvectionError, Axis, BufferPlan, GeometryError, GridGeometry, OperatorError, PressureError,
-    PressureImplementation, PressureOperator, PressureReport, PressureSettings, PressureWorkspace,
-    advect_tracer, advect_velocity,
+    AdvectionError, Axis, BodyForce, BufferPlan, ForcedStepReport, GeometryError, GridGeometry,
+    OperatorError, PressureError, PressureImplementation, PressureOperator, PressureReport,
+    PressureSettings, PressureWorkspace, advect_tracer, advect_velocity,
 };
 use std::fmt;
 
@@ -29,6 +29,8 @@ pub struct SmokeSource {
 pub enum StepStage {
     BeforeAdvection,
     VelocitySlice,
+    BeforeForces,
+    ForceSlice,
     BeforePressure,
     PressureIteration,
     BeforeTracer,
@@ -54,6 +56,7 @@ pub enum SimulationError {
     Advection(AdvectionError),
     InvalidConfig,
     InvalidSource,
+    InvalidForce,
     InvalidTimeStep,
     TimeResolution,
     GenerationOverflow,
@@ -256,8 +259,22 @@ impl Simulation {
         &mut self,
         requested_dt: f64,
         source: Option<SmokeSource>,
-        mut cancel: impl FnMut(StepStage) -> bool,
+        cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepReport, SimulationError> {
+        self.step_with_forces(requested_dt, source, &[], cancel)
+            .map(|report| report.step)
+    }
+    /// Advance with caller-owned external forces. The legacy smoke force is
+    /// applied first; external vectors add on their own face lattices before
+    /// projection. Empty forces preserve the original stage sequence/results.
+    /// Any error/cancellation preserves accepted fields, time and generation.
+    pub fn step_with_forces(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        forces: &[BodyForce],
+        mut cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<ForcedStepReport, SimulationError> {
         if self.paused {
             return Err(SimulationError::Paused);
         }
@@ -267,13 +284,15 @@ impl Simulation {
         if let Some(s) = source {
             validate_source(&self.grid, s)?;
         }
+        let external_rate = crate::forces::validate(&self.grid, self.config.density, forces)?;
         let next_generation = self
             .generation
             .checked_add(1)
             .ok_or(SimulationError::GenerationOverflow)?;
         let h = self.grid.spacing();
         let rate = velocity_rate(self.accepted.velocity(), h)?;
-        let acceleration = source.map_or(0.0, |s| s.vertical_acceleration.abs() / h[1]);
+        let acceleration =
+            source.map_or(0.0, |s| s.vertical_acceleration.abs() / h[1]) + external_rate;
         if !acceleration.is_finite() {
             return Err(SimulationError::ArithmeticFailure);
         }
@@ -301,6 +320,19 @@ impl Simulation {
         if let Some(s) = source {
             apply_force(&self.grid, &mut self.candidate.y, s, dt)?;
         }
+        let forces = if forces.is_empty() {
+            None
+        } else {
+            checkpoint(&mut cancel, StepStage::BeforeForces)?;
+            Some(crate::forces::apply(
+                &self.grid,
+                self.config.density,
+                forces,
+                dt,
+                self.candidate.velocity_mut(),
+                &mut cancel,
+            )?)
+        };
         checkpoint(&mut cancel, StepStage::BeforePressure)?;
         let operator = PressureOperator::new(&self.grid, self.config.density)?;
         let pressure = self.workspace.solve_velocity(
@@ -373,15 +405,18 @@ impl Simulation {
         std::mem::swap(&mut self.accepted, &mut self.candidate);
         self.time = next_time;
         self.generation = next_generation;
-        Ok(StepReport {
-            dt,
-            time: self.time,
-            generation: self.generation,
-            pressure,
-            actual_divergence_max,
-            courant,
-            tracer_integral,
-            kinetic_energy,
+        Ok(ForcedStepReport {
+            step: StepReport {
+                dt,
+                time: self.time,
+                generation: self.generation,
+                pressure,
+                actual_divergence_max,
+                courant,
+                tracer_integral,
+                kinetic_energy,
+            },
+            forces,
         })
     }
 }
