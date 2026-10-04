@@ -1,0 +1,28 @@
+{
+  "example_records": 16,
+  "implementations": {
+    "jacobi-pcg-v1": {
+      "accepted_barrier_updates": 8,
+      "final_time": 1.1,
+      "selected_right_tracer_legacy": 0.012619733810424805,
+      "selected_right_tracer_barrier": 0.0,
+      "maximum_actual_divergence": 0.0,
+      "simulation_array_bytes": 384,
+      "separately_owned_surface_array_bytes": 96,
+      "blocked_donors_each_update": 2,
+      "reverted_traces_each_update": 0
+    },
+    "sgs-pcg-v1": {
+      "accepted_barrier_updates": 8,
+      "final_time": 1.1,
+      "selected_right_tracer_legacy": 0.012619733810424805,
+      "selected_right_tracer_barrier": 0.0,
+      "maximum_actual_divergence": 0.0,
+      "simulation_array_bytes": 384,
+      "separately_owned_surface_array_bytes": 96,
+      "blocked_donors_each_update": 2,
+      "reverted_traces_each_update": 0
+    }
+  },
+  "scope": "Accepted 2x2x1 passive-tracer numerical interaction fixture; no fluid-wall pressure/continuum/refinement/performance claim."
+}
