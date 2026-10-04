@@ -17,6 +17,8 @@ ACCURACY = {
     'standard': (1e-9, 1e-7, 1e-5),
     'tight': (1e-11, 1e-9, 1e-5),
 }
+REQUESTED_DT = 0.02
+ACTIVE_STATUSES = ('running', 'cancelling', 'timing_out')
 
 def implementations(binary: Path) -> list[dict]:
     result = subprocess.run([str(binary), '--list-implementations'], check=True, capture_output=True, text=True, timeout=10)
@@ -49,9 +51,14 @@ class Comparison:
     """Owns one subprocess at a time; poll to completion and cancel before closing.
 
     Results use fresh directories. No run is overwritten or silently resumed.
-    A failure/cancellation keeps diagnostics but never creates comparison.json.
+    A failure/cancellation/timeout keeps diagnostics but never creates comparison.json.
+    run_timeout is an optional wall-clock limit per measurement child, including
+    warmups. Callers must keep polling through termination to reap the child.
     """
-    def __init__(self, binary: Path, output: Path, methods: list[str], *, size=16, steps=12, repeats=3, accuracy='standard'):
+    def __init__(self, binary: Path, output: Path, methods: list[str], *, size=16, steps=12, repeats=3, accuracy='standard', run_timeout=None):
+        if run_timeout is not None and (type(run_timeout) not in (int, float)
+                                       or not math.isfinite(run_timeout) or run_timeout <= 0):
+            raise ValueError('Run timeout must be finite and positive, or None')
         self.binary = binary.resolve(strict=True)
         known = {m['id'] for m in implementations(self.binary)}
         build = json.loads(subprocess.run([str(self.binary), '--build-info'], check=True, capture_output=True, text=True, timeout=10).stdout)
@@ -76,6 +83,8 @@ class Comparison:
         self.process = None
         self.log = None
         self.cancel_deadline = None
+        self.run_timeout = run_timeout
+        self.run_deadline = None
         self.rows = []
         self.status = 'running'
         self.error = None
@@ -83,20 +92,27 @@ class Comparison:
         self.environment = hardware() | {'executable_sha256': hashlib.sha256(self.binary.read_bytes()).hexdigest(),
                                          'timing': 'Rust Instant around accepted stepping and CSV writes, excludes process startup and PNG export',
                                          'build': build,
+                                         'run_timeout_seconds': run_timeout,
                                          'build_requirement': 'cargo build --release --locked; debug assertions checked by executable, exact optimization flags require build receipt',
                                          'warmup_runs_per_method': 1, 'execution': 'sequential, rotating method order'}
         self._save_status()
 
     def _save_status(self):
-        payload = {'status': self.status, 'completed_runs': len(self.rows), 'total_runs':len(self.jobs), 'error':self.error}
+        payload = {'status': self.status, 'completed_runs': len(self.rows), 'total_runs':len(self.jobs),
+                   'error':self.error, 'run_timeout_seconds':self.run_timeout}
         temp = self.output / 'status.tmp'
         temp.write_text(json.dumps(payload, indent=2) + '\n')
         temp.replace(self.output / 'status.json')
 
     def cancel(self):
+        self._stop('cancelling')
+
+    def _stop(self, status):
         if self.status != 'running':
             return
-        self.status = 'cancelling'
+        self.status = status
+        if status == 'timing_out':
+            self.error = f'Run {self.index} exceeded its {self.run_timeout:g}s process deadline; see its stderr.log'
         if self.process is not None:
             try:
                 self.process.terminate()
@@ -106,10 +122,13 @@ class Comparison:
         self._save_status()
 
     def poll(self):
-        if self.status not in ('running', 'cancelling'):
+        if self.status not in ACTIVE_STATUSES:
             return self.status
         if self.process is not None:
-            if self.status == 'cancelling' and self.process.poll() is None and time.monotonic() >= self.cancel_deadline:
+            if (self.status == 'running' and self.run_deadline is not None
+                    and self.process.poll() is None and time.monotonic() >= self.run_deadline):
+                self._stop('timing_out')
+            if self.status in ('cancelling', 'timing_out') and self.process.poll() is None and time.monotonic() >= self.cancel_deadline:
                 try:
                     self.process.kill()
                 except ProcessLookupError:
@@ -121,8 +140,10 @@ class Comparison:
             self.log.close()
             self.log = None
             self.process = None
-            if self.status == 'cancelling':
-                self.status = 'cancelled'
+            self.run_deadline = None
+            self.cancel_deadline = None
+            if self.status in ('cancelling', 'timing_out'):
+                self.status = 'cancelled' if self.status == 'cancelling' else 'timed_out'
                 self._save_status()
                 return self.status
             if rc != 0:
@@ -136,6 +157,8 @@ class Comparison:
                 series = list(csv.DictReader((self.run_dir / 'steps.csv').read_text().splitlines()))
                 if data['implementation'] != method or data['steps'] != self.steps or len(series) != self.steps:
                     raise ValueError('Run completion does not match requested workload')
+                if data['requested_dt'] != REQUESTED_DT:
+                    raise ValueError('Run requested_dt differs from requested comparison timestep')
                 relative, pressure, actual = ACCURACY[self.accuracy]
                 if (data['size'], data['pressure_relative_residual'], data['pressure_divergence_limit'], data['actual_divergence_limit']) != (self.size, relative, pressure, actual):
                     raise ValueError('Run settings differ from requested comparison settings')
@@ -160,12 +183,15 @@ class Comparison:
         self.run_dir = self.output / f'{self.index:03d}-{method}'
         relative, pressure, actual = ACCURACY[self.accuracy]
         command = [str(self.binary), '--implementation', method, '--size', str(self.size), '--steps', str(self.steps),
+                   '--dt', str(REQUESTED_DT),
                    '--source-off-at', str(self.steps // 2), '--relative-residual', str(relative),
                    '--pressure-divergence-limit', str(pressure), '--actual-divergence-limit', str(actual),
                    '--output', str(self.run_dir)]
         self.log = (self.output / f'{self.index:03d}-stderr.log').open('w')
         try:
+            started = time.monotonic()
             self.process = subprocess.Popen(command, stdout=self.log, stderr=self.log)
+            self.run_deadline = None if self.run_timeout is None else started + self.run_timeout
         except OSError as exc:
             self.log.close(); self.log = None
             self.status, self.error = 'failed', str(exc)
@@ -185,7 +211,7 @@ class Comparison:
                             'pressure_iterations':samples[0]['pressure_iterations']})
         times = {r['accepted_time'] for r in self.rows}
         self.result = {'schema_version':1,'environment':self.environment,'workload':{'size':self.size,'steps':self.steps,
-                       'repeats':self.repeats,'accuracy':self.accuracy,'requested_dt':0.02,'source_off_at':self.steps//2},
+                       'repeats':self.repeats,'accuracy':self.accuracy,'requested_dt':REQUESTED_DT,'source_off_at':self.steps//2},
                        'equal_accepted_time':len(times)==1,'summary':summary,'runs':self.rows,
                        'accuracy_scope':'Algebraic residual and actual velocity divergence, not physical ground-truth error',
                        'memory_scope':'Retained simulation arrays, not process RSS', 'real_time_claim':False}
@@ -203,13 +229,15 @@ def main():
     parser.add_argument('--steps',type=int,default=12)
     parser.add_argument('--repeats',type=int,default=3)
     parser.add_argument('--accuracy',choices=ACCURACY,default='standard')
+    parser.add_argument('--run-timeout',type=float,default=None,metavar='SECONDS',
+                        help='optional positive per-process wall-clock deadline, including warmups; disabled by default')
     args=parser.parse_args()
-    job=Comparison(args.binary,args.output,[m['id'] for m in implementations(args.binary.resolve())],size=args.size,steps=args.steps,repeats=args.repeats,accuracy=args.accuracy)
+    job=Comparison(args.binary,args.output,[m['id'] for m in implementations(args.binary.resolve())],size=args.size,steps=args.steps,repeats=args.repeats,accuracy=args.accuracy,run_timeout=args.run_timeout)
     try:
-        while job.poll() in ('running','cancelling'): time.sleep(0.05)
+        while job.poll() in ACTIVE_STATUSES: time.sleep(0.05)
     except KeyboardInterrupt:
         job.cancel()
-        while job.poll() == 'cancelling': time.sleep(0.05)
+        while job.poll() in ACTIVE_STATUSES: time.sleep(0.05)
     print(json.dumps(job.result or {'status':job.status,'error':job.error},indent=2))
     return 0 if job.status=='completed' else 1
 
