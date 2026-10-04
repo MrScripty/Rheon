@@ -97,3 +97,40 @@ new solver approach has an acceptance criterion. Additional native-platform or
 accessibility qualification needs a named target platform. A newly rendered
 book edition needs a separate artifact/render task; preserved historical book
 artifacts are not silently replaced. No speculative features fill those decisions.
+
+## Successor replay provenance checks
+
+The repaired verifier retains the fixed historical accepted-source/log gates.
+Run the candidate's verify.py by absolute path from historical integration checkout
+`2d36096f17c494b25c46e64335521cea5e19db5d`, not the current combined source.
+Use `--receipt-output FRESH_JSON`; the default exclusively creates
+successor-verification.json and never rewrites the original receipt.
+
+Retained replay run.json fields must match the named original fixture, excluding
+only measured_step_seconds and allowing the documented newer schema additions.
+Original PNG/CSV byte checks remain. The old replay receipts have no producing
+executable hash: their recorded rebuild identity is a historical reported build
+fact, not verified producing-binary provenance. The successor historical-only
+check reports that limit and leaves current_release_sha256/build_info null.
+Merely supplying a --binary is rejected; no current executable is retrospectively
+qualified against someone else's retained outputs.
+
+A distinct fresh helper executes the actual release binary and records its SHA,
+build information, driver hash, commands, every produced run.json/PNG/CSV hash and
+fixture hashes. It checks executable hashes around each run and before publishing,
+then verifies the whole fresh packet before creating its receipt. This is local
+provenance, not signed attestation, a proof against concurrent swap-and-restore,
+bit reproducibility or a binary-to-source theorem. From the current candidate root:
+
+```sh
+python3 evidence/result-integration-qualification/fresh_replay.py produce target/release/rheon FRESH_REPLAY_DIR
+python3 -O evidence/result-integration-qualification/fresh_replay.py check target/release/rheon FRESH_REPLAY_DIR --receipt-output FRESH_CHECK_JSON
+```
+
+Historical integration verify.py may additionally receive both --fresh-replay DIR
+and --binary EXECUTABLE to check this independently labeled fresh packet. Accepted
+historical source hashes remain historical; no binary-to-that-source assertion is
+inferred. Old list-form replay receipts cannot qualify as fresh provenance. After
+any rebuild changes the executable hash, produce another fresh replay rather than
+changing a prior receipt's hash. Incidental replay step timings make no performance
+claim and never replace old benchmark measurements.

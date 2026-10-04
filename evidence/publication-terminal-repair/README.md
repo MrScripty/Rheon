@@ -48,3 +48,19 @@ and surplus terminal blank lines.
 Parent independent review of this successor candidate is required before
 integration. No PR3 update, merge, external review request, permission/credential
 change or network-policy adjustment is made by this repair.
+
+## Successor inventory verification
+
+The repaired verifier keeps its fixed `416744700a45a8e74de27ca4e25cd00b0931926c`
+protected baseline and original e100 executable gate. Run it by absolute path from
+a clean historical terminal-repair checkout at
+`8bc0f54604d98d838b3a1ab2f6fcdfff9af2ac51`, not the current combined source.
+The complete protected inventory must have no tracked changes or untracked
+additions, including ignored additions. Generated files under a protected path
+(such as proofs/.lake) therefore require a separate clean qualification checkout;
+ignore patterns do not exempt them from the unchanged-inventory claim.
+
+Use `--receipt-output FRESH_JSON` to retain a distinct successor audit. The default
+is `successor-verification.json`, created exclusively; the historical receipt is
+never overwritten. Inventory failures occur before receipt publication or PASS.
+A fresh rebuild is not silently substituted for the fixed historical executable.

@@ -124,3 +124,20 @@ preconditioner can have a meaningful acceptance test. Native platform interactio
 and accessibility also require an actual target platform; headless tests here do
 not qualify them. No speculative solver/editor feature or repeated unchanged Rust
 check was added to fill that decision gap.
+
+## Successor timing-receipt verification
+
+The repaired verifier keeps the original fixed source/binary/data contract. Run
+the candidate's verify.py by absolute path with the working directory at historical
+`416744700a45a8e74de27ca4e25cd00b0931926c`, using `--receipt-output FRESH_JSON`.
+It is not a current combined-source benchmark qualification. Historical timings,
+source bindings, verification.json and benchmark receipts remain unchanged.
+The default new output is exclusively created `successor-verification.json`.
+
+Every original assertion condition now uses explicit failure under normal Python,
+-O and PYTHONOPTIMIZE. Each implementation's sample count, median, minimum and
+maximum must match its named case-receipt entry as well as the retained comparison
+samples. Method inventories and numeric field types are checked. Coordinated edits
+to run durations and local summaries cannot silently change the reported historic
+receipt values. Receipt summary order is immaterial; implementation identity is
+used. No benchmark timing is rerun by this verifier.
