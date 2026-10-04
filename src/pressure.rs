@@ -233,10 +233,10 @@ impl PressureWorkspace {
     ) -> Result<PressureReport, PressureError> {
         operator.apply_full(&self.pressure, &mut self.product)?;
         for i in 0..self.rhs.len() {
-            self.residual[i] = self.rhs[i] - self.product[i];
+            self.product[i] = self.rhs[i] - self.product[i];
         }
-        let squared = dot(&self.residual, &self.residual);
-        let maximum = self.residual.iter().fold(0.0_f64, |a, b| a.max(b.abs()));
+        let squared = dot(&self.product, &self.product);
+        let maximum = self.product.iter().fold(0.0_f64, |a, b| a.max(b.abs()));
         let divergence = maximum * dt / operator.geometry().cell_volume();
         if !squared.is_finite() || !divergence.is_finite() {
             return Err(PressureError::Breakdown {
@@ -334,6 +334,7 @@ impl PressureWorkspace {
                 residual_max: report.true_residual_max,
             });
         }
+        self.residual.copy_from_slice(&self.product);
         let mut rz = self.precondition(operator)?;
         self.direction.copy_from_slice(&self.preconditioned);
         for iteration in 1..=settings.max_iterations {
@@ -358,14 +359,18 @@ impl PressureWorkspace {
             }
             let recursive_l2 = dot(&self.residual, &self.residual).sqrt();
             let candidate = recursive_l2 <= threshold;
-            // Recompute at every candidate and budget exhaustion. A rejected
-            // candidate restarts directions; successful output always includes
-            // the true full residual. No unconditional short Krylov restarts.
-            let replaced = candidate || iteration == settings.max_iterations;
-            if replaced {
+            // Checking true residuals must not discard conjugate directions
+            // solely because the physical divergence needs more iterations.
+            // Replace/restart when the recursive linear candidate is rejected.
+            let mut replaced = false;
+            if candidate || iteration == settings.max_iterations {
                 report = self.true_report(operator, dt, iteration)?;
                 if accepted(report) {
                     return Ok(report);
+                }
+                if report.true_residual_l2 > threshold {
+                    self.residual.copy_from_slice(&self.product);
+                    replaced = true;
                 }
             }
             if iteration == settings.max_iterations {

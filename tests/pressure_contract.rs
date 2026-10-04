@@ -88,6 +88,75 @@ fn manufactured_three_dimensional_pressure_recovers_modulo_gauge() {
 }
 
 #[test]
+fn tighter_divergence_gate_keeps_conjugate_gradient_progress() {
+    let counts = [5, 4, 3];
+    let spacing = [0.2, 0.25, 0.3];
+    let density = 1.3;
+    let grid = GridGeometry::new(counts, spacing, [0.0; 3]).unwrap();
+    let counts = grid.counts();
+    let op = PressureOperator::new(&grid, density).unwrap();
+    let exact: Vec<f64> = (0..grid.cell_len())
+        .map(|i| ((i * 17) % 31) as f64 / 31.0)
+        .collect();
+    // Independently differentiate the closed-box field, including the gauge
+    // row. This fixture's linear tolerance passes well before its divergence.
+    let product = |pressure: &[f64]| -> Vec<f64> {
+        let strides = [1, counts[0], counts[0] * counts[1]];
+        let volume = spacing.iter().product::<f64>();
+        (0..grid.cell_len())
+            .map(|row| {
+                let p = [
+                    row % counts[0],
+                    (row / counts[0]) % counts[1],
+                    row / strides[2],
+                ];
+                let mut value = 0.0;
+                for d in 0..3 {
+                    let weight = volume / (density * spacing[d] * spacing[d]);
+                    if p[d] > 0 {
+                        value += weight * (pressure[row] - pressure[row - strides[d]]);
+                    }
+                    if p[d] + 1 < counts[d] {
+                        value += weight * (pressure[row] - pressure[row + strides[d]]);
+                    }
+                }
+                value
+            })
+            .collect()
+    };
+    let rhs = product(&exact);
+    let limits = PressureSettings {
+        relative_residual: 1e-3,
+        absolute_residual: 1e-12,
+        divergence_limit: 1e-9,
+        max_iterations: 120,
+    };
+    let mut ws = PressureWorkspace::new(&grid, grid.cell_len() * 48).unwrap();
+    let report = ws.solve_rhs(&op, &rhs, 0.02, limits, || false).unwrap();
+    let residual: Vec<f64> = rhs
+        .iter()
+        .zip(product(ws.pressure()))
+        .map(|(b, ap)| b - ap)
+        .collect();
+    let residual_l2 = residual.iter().map(|r| r * r).sum::<f64>().sqrt();
+    let maximum = residual.iter().fold(0.0_f64, |a, r| a.max(r.abs()));
+    let rhs_l2 = rhs.iter().map(|b| b * b).sum::<f64>().sqrt();
+    assert!(
+        residual_l2
+            <= limits
+                .absolute_residual
+                .max(limits.relative_residual * rhs_l2)
+    );
+    assert!(maximum * 0.02 / grid.cell_volume() <= limits.divergence_limit);
+    assert!(report.predicted_divergence_max <= limits.divergence_limit);
+    assert_eq!(ws.pressure()[0], 0.0);
+    for (actual, expected) in ws.pressure().iter().zip(&exact) {
+        assert!((actual - expected).abs() < 1e-8);
+    }
+    assert_eq!(ws.allocated_bytes(), grid.cell_len() * 48);
+}
+
+#[test]
 fn cancellation_and_iteration_exhaustion_are_explicit() {
     let grid = GridGeometry::new([3, 1, 1], [1.0; 3], [0.0; 3]).unwrap();
     let op = PressureOperator::new(&grid, 1.0).unwrap();
