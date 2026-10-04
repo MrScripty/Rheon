@@ -1,0 +1,24 @@
+//! Rheon's fixed-box smoke/tracer core and headless guidance export.
+//! See docs/MILESTONE.md for checked contracts, memory accounting, executable
+//! evidence, and the remaining GUI/performance/project limitations.
+//!
+//! The Lean indexing theorem uses unbounded natural numbers. This implementation
+//! separately checks target-integer arithmetic and physical-coordinate ranges.
+mod geometry;
+pub use geometry::{Axis, BufferPlan, GeometryError, GridGeometry};
+mod operator;
+pub use operator::{OperatorError, PressureOperator};
+mod pressure;
+pub use pressure::{PressureError, PressureReport, PressureSettings, PressureWorkspace};
+mod sampling;
+pub use sampling::{SamplingError, ScalarSampler, VelocitySampler};
+mod advection;
+pub use advection::{AdvectionError, advect_tracer, advect_velocity};
+mod simulation;
+pub use simulation::{
+    Simulation, SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
+};
+#[cfg(feature = "png-export")]
+mod export;
+#[cfg(feature = "png-export")]
+pub use export::{ExportError, write_guidance_png};

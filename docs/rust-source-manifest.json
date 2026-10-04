@@ -1,0 +1,213 @@
+{
+  "scope": "Frozen Rust fixed-box core, transactional state and headless PNG/CSV/JSON CLI milestone; local only",
+  "book_base": "4deee396c93aa07ee897e315111750ea8e5bc1ca",
+  "standards_head": "dcc56f26e884ade260770beceba2501d3746200d",
+  "toolchain": "1.92.0",
+  "files": [
+    {
+      "path": "Cargo.lock",
+      "bytes": 2610,
+      "sha256": "f48f0c96aeddf639adb36d72910df6e8ac2492ea7ce39062f981e7f2eecff650"
+    },
+    {
+      "path": "Cargo.toml",
+      "bytes": 475,
+      "sha256": "81c7b9bf7f6b37fdd730d12659da5036e5c92dff413accc65adddd0c9801fa68"
+    },
+    {
+      "path": "docs/MILESTONE.md",
+      "bytes": 8721,
+      "sha256": "b9431303f3faf02f0fece7bb966f40d1e0c598d56fd1cb5bdcb824275457bf3f"
+    },
+    {
+      "path": "evidence/clippy.log",
+      "bytes": 132,
+      "sha256": "8a52a32e5e4fcf9556e009a06b9045e3cd61a1b6c0c808f0593b680feaf6d96d"
+    },
+    {
+      "path": "evidence/core-only-dependency-tree.txt",
+      "bytes": 47,
+      "sha256": "752f74fcd9188e1c3e161d6df0a62d45aaaf285791aa79aee8dfaf213604d73e"
+    },
+    {
+      "path": "evidence/core-only-tests.log",
+      "bytes": 4481,
+      "sha256": "f4bbbcb114a992b155f3ac8434102f2b4d8082a5f1578128cbf429e8a57e0c24"
+    },
+    {
+      "path": "evidence/default-dependency-tree.txt",
+      "bytes": 532,
+      "sha256": "fb8d81ead2f821b674c4206e3fdf0cd5c2d111f3952f3e60f7f4e81997d5606c"
+    },
+    {
+      "path": "evidence/demo-16/opacity.png",
+      "bytes": 141,
+      "sha256": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe"
+    },
+    {
+      "path": "evidence/demo-16/run.json",
+      "bytes": 497,
+      "sha256": "2c1fc4f01d75fef07060d39046e1c4d6b4b95db85168dfc92927f6d50310d1de"
+    },
+    {
+      "path": "evidence/demo-16/steps.csv",
+      "bytes": 3483,
+      "sha256": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9"
+    },
+    {
+      "path": "evidence/demo-64/opacity.png",
+      "bytes": 157,
+      "sha256": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb"
+    },
+    {
+      "path": "evidence/demo-64/run.json",
+      "bytes": 498,
+      "sha256": "3c8ff07697fc493a2945c1442624d93a90544b093b32853802d34e9635646761"
+    },
+    {
+      "path": "evidence/demo-64/steps.csv",
+      "bytes": 616,
+      "sha256": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2"
+    },
+    {
+      "path": "evidence/demo-64-resources.json",
+      "bytes": 394,
+      "sha256": "c34d1ee686e3453be0f8fe95a04809398c63797a3090c2ee0191cc521f42213c"
+    },
+    {
+      "path": "evidence/demo-plume/opacity.png",
+      "bytes": 214,
+      "sha256": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc"
+    },
+    {
+      "path": "evidence/demo-plume/run.json",
+      "bytes": 497,
+      "sha256": "992688a5c075cc42f358c2c0e302b1eb4c02ac33bf19d42282c9939faffca647"
+    },
+    {
+      "path": "evidence/demo-plume/steps.csv",
+      "bytes": 16953,
+      "sha256": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175"
+    },
+    {
+      "path": "evidence/test.log",
+      "bytes": 4914,
+      "sha256": "63fed95368bcf0e54d2619751d2fefa03a7d5a6240a01fc79fee3c906cb616db"
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "bytes": 86,
+      "sha256": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800"
+    },
+    {
+      "path": "src/advection.rs",
+      "bytes": 3817,
+      "sha256": "8be2da05d421be409760366f6fb4b06b3a5efca776aee7489703280f2cb505ba"
+    },
+    {
+      "path": "src/bin/rheon.rs",
+      "bytes": 5805,
+      "sha256": "d48cb14ddaccddb1de377f32052d6ed1d777edd88b7659d1c4be0bc14ecd7fbe"
+    },
+    {
+      "path": "src/export.rs",
+      "bytes": 2730,
+      "sha256": "c2f3a02c756fe97c2010fed283645fad933d306f5269f3874a22045e30b36923"
+    },
+    {
+      "path": "src/geometry.rs",
+      "bytes": 10349,
+      "sha256": "cae38a55436112a49d340b82b2252a7395b14b580686a83d582e5042c46255d3"
+    },
+    {
+      "path": "src/lib.rs",
+      "bytes": 1063,
+      "sha256": "02edcbd231935a3b49540b42a4cf57113d14a4dde01cdfc4d4423c137d836173"
+    },
+    {
+      "path": "src/operator.rs",
+      "bytes": 13331,
+      "sha256": "94a12bde7f2697ff12d009a3f1326d6a40168a3697f4350b64b1f55f08b326f3"
+    },
+    {
+      "path": "src/pressure.rs",
+      "bytes": 13859,
+      "sha256": "fd0b81ad3201184d74ad23b319cff9fd7250693991eeebfb7e3fd3b6e4446e80"
+    },
+    {
+      "path": "src/sampling.rs",
+      "bytes": 6347,
+      "sha256": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf"
+    },
+    {
+      "path": "src/simulation.rs",
+      "bytes": 14973,
+      "sha256": "dfa300befbbba30e1bf101dc729ddfb8cfce6e05df03206b1211d265d1bce221"
+    },
+    {
+      "path": "tests/advection_contract.rs",
+      "bytes": 1688,
+      "sha256": "87e831a67a916cbf32540212e602511b88b4f2dedcb1ae995287ec93014703fe"
+    },
+    {
+      "path": "tests/cli_contract.rs",
+      "bytes": 2629,
+      "sha256": "80b96930d7b550394ab544a89af0672750f1380ed4944f335b585c79d76d58ed"
+    },
+    {
+      "path": "tests/export_contract.rs",
+      "bytes": 1126,
+      "sha256": "24be5ec5976d532a75986e080603d28f3a64773d6f0169d6f520bd6186cb9012"
+    },
+    {
+      "path": "tests/geometry_contract.rs",
+      "bytes": 4339,
+      "sha256": "5b44f1c75958abf3073e6c168ebc44a3951f72052db0c31b1a2b4a49a7d16cf8"
+    },
+    {
+      "path": "tests/operator_contract.rs",
+      "bytes": 3742,
+      "sha256": "b0ea207c02df69aed1f5f3eb6abda8fdeb245b271c325b383c3748d945c5095e"
+    },
+    {
+      "path": "tests/pressure_contract.rs",
+      "bytes": 7399,
+      "sha256": "0a3ed30f7ed6427dd05badb89950bf5162235db552668caeef43612a33777c0f"
+    },
+    {
+      "path": "tests/sampling_contract.rs",
+      "bytes": 2908,
+      "sha256": "3e99ff52088aa37d4043453a57c82bbe6de0da84e990796df76a3453f1ae004d"
+    },
+    {
+      "path": "tests/simulation_contract.rs",
+      "bytes": 7545,
+      "sha256": "f81fb0696307aa07abba0d8b44316430aeab19317c57d38db3222cdc9e33ddc6"
+    },
+    {
+      "path": ".github/workflows/rust-rheon.yml",
+      "bytes": 2927,
+      "sha256": "9814c82c95e61c65d419aa81e7a40b31bc668d97ff8be0718a0222c37152ae9f"
+    }
+  ],
+  "file_count": 37,
+  "total_bytes": 152025,
+  "qualification": {
+    "default_tests": 42,
+    "core_only_tests": 38,
+    "format": "pass",
+    "clippy_default": "pass",
+    "clippy_core_only": "pass",
+    "demo_64_step_seconds": 7.403,
+    "demo_64_steps": 3,
+    "demo_64_retained_array_bytes": 21069824,
+    "demo_64_peak_rss_kib_linux": 22464
+  },
+  "remaining": [
+    "independent integration review",
+    "hosted exact-head CI",
+    "dependency advisory qualification",
+    "GUI",
+    "real-time performance"
+  ]
+}

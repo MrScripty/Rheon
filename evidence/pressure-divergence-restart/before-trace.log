@@ -1,0 +1,138 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-pressure-restart)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.73s
+     Running tests/pressure_restart_probe.rs (/workspace/.rheon-tools/target/debug/deps/pressure_restart_probe-ef15e8813aa470de)
+
+running 1 test
+CASE relative_residual=1e-3
+TRACE iteration=18 recursive_l2=1.64672844421890371e-3 full_l2=1.64951114357386351e-3 divergence=7.57923281697436835e-4 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=19 recursive_l2=9.62800952844962963e-4 full_l2=9.84644567662901508e-4 divergence=5.28534408804626319e-4 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=20 recursive_l2=6.65805282159886275e-4 full_l2=6.78710969554886800e-4 divergence=3.28406382886559101e-4 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=21 recursive_l2=4.90938086714613037e-4 full_l2=5.07691646438769378e-4 divergence=2.42465466967193676e-4 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=22 recursive_l2=3.77770360560577417e-4 full_l2=3.87069969790377266e-4 divergence=1.72058446427758582e-4 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=23 recursive_l2=2.99206352140688511e-4 full_l2=3.09779249504227002e-4 divergence=1.25648810133475536e-4 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=24 recursive_l2=2.44842452538176147e-4 full_l2=2.50657116413717474e-4 divergence=9.66330719938864600e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=25 recursive_l2=2.02485535324391095e-4 full_l2=2.09083352418817128e-4 divergence=7.71736704675933110e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=26 recursive_l2=1.71311838939394706e-4 full_l2=1.75069413134612567e-4 divergence=5.82855595728422812e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=27 recursive_l2=1.44620822366889139e-4 full_l2=1.49055993205046597e-4 divergence=5.15442830211950350e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=28 recursive_l2=1.24247036409397380e-4 full_l2=1.26952900540614817e-4 divergence=3.88725027247923335e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=29 recursive_l2=1.05823089784693995e-4 full_l2=1.09141042492077962e-4 divergence=3.63085900723092504e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=30 recursive_l2=9.15495006407579900e-5 full_l2=9.37604339098395065e-5 divergence=3.01086154080495091e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=31 recursive_l2=7.82925320847478729e-5 full_l2=8.10607707101847181e-5 divergence=2.80040621779183637e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=32 recursive_l2=6.79668169249536612e-5 full_l2=6.99949567616532149e-5 divergence=2.31752195361719301e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=33 recursive_l2=5.82556949742816995e-5 full_l2=6.08031654375282401e-5 divergence=2.32206394893038278e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=34 recursive_l2=5.06731761008465998e-5 full_l2=5.27176503361278625e-5 divergence=1.93852122705913884e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=35 recursive_l2=4.35009936503713955e-5 full_l2=4.60450872745419334e-5 divergence=2.01246609818905887e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=36 recursive_l2=3.78899231172166349e-5 full_l2=4.01021156788774707e-5 divergence=1.75135963987512396e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=37 recursive_l2=3.25704042333425879e-5 full_l2=3.52781884355119011e-5 divergence=1.80724147001617083e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=38 recursive_l2=2.83998346608913772e-5 full_l2=3.09132252598149111e-5 divergence=1.62796061758581841e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=39 recursive_l2=2.44448444325086064e-5 full_l2=2.74606407933105182e-5 divergence=1.66819329256995308e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=40 recursive_l2=2.13365690674892273e-5 full_l2=2.42772202342169393e-5 divergence=1.54421784720100915e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=41 recursive_l2=1.83921809173114896e-5 full_l2=2.18458224565336691e-5 divergence=1.57179382253384396e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=42 recursive_l2=1.60720922032244642e-5 full_l2=1.95558151189449551e-5 divergence=1.48544198992350846e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=43 recursive_l2=1.38793200273110688e-5 full_l2=1.78809582457892446e-5 divergence=1.50314126411051543e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=44 recursive_l2=1.21469245056375456e-5 full_l2=1.62661584137952310e-5 divergence=1.44246785197902731e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=45 recursive_l2=1.05153259424385295e-5 full_l2=1.51415044082559180e-5 divergence=1.45261802622087544e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=46 recursive_l2=9.22320930226848586e-6 full_l2=1.40291674995691115e-5 divergence=1.40949132445555847e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=47 recursive_l2=8.01232932032171665e-6 full_l2=1.32911507248188940e-5 divergence=1.41394493969511838e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=48 recursive_l2=7.05175523362993385e-6 full_l2=1.25413852552786326e-5 divergence=1.38280932884260483e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=49 recursive_l2=6.15775993198332411e-6 full_l2=1.20625936403890458e-5 divergence=1.38299615459006979e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=50 recursive_l2=5.44829296210683508e-6 full_l2=1.15642742591028242e-5 divergence=1.36005583505719833e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=51 recursive_l2=4.79415063209270632e-6 full_l2=1.12504789611158050e-5 divergence=1.35705168375170153e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=52 recursive_l2=4.27597508174881518e-6 full_l2=1.09199356891916976e-5 divergence=1.33972489750888712e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=53 recursive_l2=3.80406906773991700e-6 full_l2=1.07059913976538973e-5 divergence=1.33431504082774203e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=54 recursive_l2=3.43212120564092853e-6 full_l2=1.04841971061599272e-5 divergence=1.32086795026816403e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=55 recursive_l2=3.09855843174664340e-6 full_l2=1.03277763626714278e-5 divergence=1.31359997457280997e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=56 recursive_l2=2.83796573318899875e-6 full_l2=1.01755255781495780e-5 divergence=1.30290118181738048e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=57 recursive_l2=2.60824588593223745e-6 full_l2=1.00503264892275385e-5 divergence=1.29413113495828007e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=58 recursive_l2=2.43098692458093723e-6 full_l2=9.94288271490340712e-6 divergence=1.28548283539290740e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=59 recursive_l2=2.27709669905950932e-6 full_l2=9.83296835820203209e-6 divergence=1.27542304864114442e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=60 recursive_l2=2.16007857707139892e-6 full_l2=9.75538248495656977e-6 divergence=1.26843068724014091e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=61 recursive_l2=2.05912100094377963e-6 full_l2=9.65126190264708775e-6 divergence=1.25720591094650551e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=62 recursive_l2=1.98360257482289396e-6 full_l2=9.59471538436506328e-6 divergence=1.25165763250982102e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=63 recursive_l2=1.91752638953023179e-6 full_l2=9.49097440269086925e-6 divergence=1.23936677493367390e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=64 recursive_l2=1.86915455170722383e-6 full_l2=9.45008547843258947e-6 divergence=1.23511854086544321e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=65 recursive_l2=1.82467240243934596e-6 full_l2=9.34403750387975300e-6 divergence=1.22188639222938402e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=66 recursive_l2=1.79328440370015903e-6 full_l2=9.31507636715437038e-6 divergence=1.21877737479329316e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=67 recursive_l2=1.76138349001915122e-6 full_l2=9.20589201864154263e-6 divergence=1.20477550558106844e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=68 recursive_l2=1.74032367514200052e-6 full_l2=9.18586855039717466e-6 divergence=1.20260054904027455e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=69 recursive_l2=1.71537855364750411e-6 full_l2=9.07385257909775236e-6 divergence=1.18803125319644209e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=70 recursive_l2=1.70055865632577737e-6 full_l2=9.06025830636858008e-6 divergence=1.18656464605700548e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=71 recursive_l2=1.67931468852278713e-6 full_l2=8.94622676763964646e-6 divergence=1.17162660380939112e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=72 recursive_l2=1.66831780264434619e-6 full_l2=8.93705538540162385e-6 divergence=1.17066115921845206e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=73 recursive_l2=1.64900107698828807e-6 full_l2=8.82190367009324409e-6 divergence=1.15552223739120077e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=74 recursive_l2=1.64040861907734557e-6 full_l2=8.81566747595208283e-6 divergence=1.15489337735308356e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=75 recursive_l2=1.62209183688825119e-6 full_l2=8.70015892066799665e-6 divergence=1.13968091688398943e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=76 recursive_l2=1.61505740992047810e-6 full_l2=8.69582488191853245e-6 divergence=1.13927040933751531e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=77 recursive_l2=1.59727133551556908e-6 full_l2=8.58053574862995611e-6 divergence=1.12407447767637353e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=78 recursive_l2=1.59127637639498859e-6 full_l2=8.57741859430142232e-6 divergence=1.12380266544439208e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=79 recursive_l2=1.57379251662911406e-6 full_l2=8.46275674553392870e-6 divergence=1.10868433618923259e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=80 recursive_l2=1.56851061009120580e-6 full_l2=8.46041438913189227e-6 divergence=1.10849957531596512e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=81 recursive_l2=1.55122482779391618e-6 full_l2=8.34665852771599957e-6 divergence=1.09349925661028652e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=82 recursive_l2=1.54644546655399501e-6 full_l2=8.34481004472604587e-6 divergence=1.09336878886997137e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=83 recursive_l2=1.52931659371212121e-6 full_l2=8.23214666978465841e-6 divergence=1.07851279948315924e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=84 recursive_l2=1.52490106259350417e-6 full_l2=8.23061478012740080e-6 divergence=1.07841609292188192e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=85 recursive_l2=1.50791868258824787e-6 full_l2=8.11916663781526594e-6 divergence=1.06372133476343809e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=86 recursive_l2=1.50377375309834273e-6 full_l2=8.11783969489226092e-6 divergence=1.06364560356434871e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=87 recursive_l2=1.48694140964072947e-6 full_l2=8.00768596340933165e-6 divergence=1.04912272120098286e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=88 recursive_l2=1.48300325143975544e-6 full_l2=8.00649360374781162e-6 divergence=1.04906003373095319e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=89 recursive_l2=1.46632984738200826e-6 full_l2=7.89768372268611091e-6 divergence=1.03471550539543013e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=90 recursive_l2=1.46255398589829520e-6 full_l2=7.89658150266607616e-6 divergence=1.03466095588237543e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=91 recursive_l2=1.44604953421068283e-6 full_l2=7.78914453197606948e-6 divergence=1.02049846891401809e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=92 recursive_l2=1.44240446663500350e-6 full_l2=7.78810429565614734e-6 divergence=1.02044903296979097e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=93 recursive_l2=1.42607814030855367e-6 full_l2=7.68205524368061899e-6 divergence=1.00647039062244196e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=94 recursive_l2=1.42254120646488907e-6 full_l2=7.68105909249162330e-6 divergence=1.00642421184312294e-5 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=95 recursive_l2=1.40640057807966448e-6 full_l2=7.57640321731459325e-6 divergence=9.92629935521923376e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=96 recursive_l2=1.40295524633958104e-6 full_l2=7.57543972862904525e-6 divergence=9.92585881280187191e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=97 recursive_l2=1.38700612255981360e-6 full_l2=7.47217548401883951e-6 divergence=9.78975614085442203e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=98 recursive_l2=1.38364017205971371e-6 full_l2=7.47123733551964640e-6 divergence=9.78932999166441145e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=99 recursive_l2=1.36788670415811300e-6 full_l2=7.36935840717560572e-6 divergence=9.65505779237929573e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=100 recursive_l2=1.36459098845132028e-6 full_l2=7.36844087810756799e-6 divergence=9.65464193784330499e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=101 recursive_l2=1.34903589228018928e-6 full_l2=7.26793760453454295e-6 divergence=9.52218641418293638e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=102 recursive_l2=1.34580348551676012e-6 full_l2=7.26703762816006526e-6 divergence=9.52177843963989895e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=103 recursive_l2=1.33044828627652135e-6 full_l2=7.16789800037272241e-6 divergence=9.39112291013325867e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=104 recursive_l2=1.32727388167405929e-6 full_l2=7.16701356360640901e-6 divergence=9.39072142195722032e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=105 recursive_l2=1.31211914722487221e-6 full_l2=7.06922393464634354e-6 divergence=9.26184722456942741e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=106 recursive_l2=1.30899863041480092e-6 full_l2=7.06835369544350244e-6 divergence=9.26145143886891731e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=107 recursive_l2=1.29404417313327371e-6 full_l2=6.97189928759543765e-6 divergence=9.13433856797318980e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=108 recursive_l2=1.29097431455853692e-6 full_l2=6.97104233231886690e-6 divergence=9.13394805894067113e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=109 recursive_l2=1.27621935997334375e-6 full_l2=6.87590760191211264e-6 divergence=9.00857561762317441e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=110 recursive_l2=1.27319759042264285e-6 full_l2=6.87506329026660200e-6 divergence=9.00819016388017776e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=111 recursive_l2=1.25864091561833954e-6 full_l2=6.78123219127215588e-6 divergence=8.88453668671888502e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=112 recursive_l2=1.25566516128716666e-6 full_l2=6.78040005756884955e-6 divergence=8.88415617887143222e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=113 recursive_l2=1.24130520413416039e-6 full_l2=6.68785623404587722e-6 divergence=8.76219986560104397e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=114 recursive_l2=1.23837376509475682e-6 full_l2=6.68703592449918020e-6 divergence=8.76182425183872662e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=115 recursive_l2=1.22420871023096863e-6 full_l2=6.59576284982672177e-6 divergence=8.64154313432822713e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=116 recursive_l2=1.22132016955101575e-6 full_l2=6.59495408224016565e-6 divergence=8.64117238859781442e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=117 recursive_l2=1.20734801521460476e-6 full_l2=6.50493516218558962e-6 divergence=8.52254445408521558e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=118 recursive_l2=1.20450117189149305e-6 full_l2=6.50413770071265887e-6 divergence=8.52217855891919915e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=119 recursive_l2=1.19071978205807942e-6 full_l2=6.41535634777740659e-6 divergence=8.40518183764515925e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+TRACE iteration=120 recursive_l2=1.18791359898141947e-6 full_l2=6.41456998668652416e-6 divergence=8.40482077490989354e-6 threshold=2.59930382994651762e-3 linear_pass=true divergence_pass=false
+RESULT Err(IterationLimit { iterations: 120, residual_max: 6.30361558118242e-6 })
+CASE relative_residual=1e-6
+TRACE iteration=29 recursive_l2=1.12063135195145774e-6 full_l2=1.13584786589708463e-6 divergence=5.06167519231937035e-7 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=30 recursive_l2=6.97718625609745897e-7 full_l2=7.00260167379719598e-7 divergence=3.34766988352441838e-7 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=31 recursive_l2=3.96914910110916789e-7 full_l2=4.05424627316176372e-7 divergence=1.97764766710998684e-7 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=32 recursive_l2=2.84994110095222272e-7 full_l2=2.86245550173221907e-7 divergence=1.28119636566559336e-7 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=33 recursive_l2=1.72150039671363977e-7 full_l2=1.75632144158980977e-7 divergence=8.25663060144421611e-8 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=34 recursive_l2=1.26531862643010676e-7 full_l2=1.27000882051469807e-7 divergence=5.14177099046146250e-8 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=35 recursive_l2=7.83739382996821205e-8 full_l2=7.97091961904988602e-8 divergence=3.56309301322947217e-8 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=36 recursive_l2=5.86295076303680550e-8 full_l2=5.87803183274066855e-8 divergence=2.21688290225063867e-8 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=37 recursive_l2=3.71897016673242979e-8 full_l2=3.76791323964658926e-8 divergence=1.59951634159938294e-8 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=38 recursive_l2=2.84669154165691280e-8 full_l2=2.85067559593479475e-8 divergence=1.05707087897736577e-8 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=39 recursive_l2=1.86478702309995473e-8 full_l2=1.88174976972566759e-8 divergence=7.54171917508964987e-9 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=40 recursive_l2=1.47743213925741833e-8 full_l2=1.47810871380540038e-8 divergence=5.26162852176881302e-9 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=41 recursive_l2=1.01209845799100777e-8 full_l2=1.01760788540244793e-8 divergence=4.12817409885709270e-9 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=42 recursive_l2=8.39335001245539468e-9 full_l2=8.39353146256616981e-9 divergence=2.80219218199799026e-9 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=43 recursive_l2=6.04715079791617611e-9 full_l2=6.06448506232192444e-9 divergence=2.51922327443310223e-9 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=44 recursive_l2=5.24491594639164923e-9 full_l2=5.24535938080921084e-9 divergence=1.69525689782309063e-9 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=45 recursive_l2=3.93681674572511349e-9 full_l2=3.94269732029412815e-9 divergence=1.62982153698957676e-9 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=46 recursive_l2=3.52253998992119065e-9 full_l2=3.52365939595949405e-9 divergence=1.11607493617308750e-9 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=47 recursive_l2=2.71033105993561625e-9 full_l2=2.71278901021333612e-9 divergence=1.11357500998110481e-9 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=false
+TRACE iteration=48 recursive_l2=2.46633539374689566e-9 full_l2=2.46750192368442693e-9 divergence=8.28096776335958904e-10 threshold=2.59930382994651745e-6 linear_pass=true divergence_pass=true
+RESULT Ok(PressureReport { iterations: 48, true_residual_l2: 2.467501923684427e-9, true_residual_max: 6.210725822519692e-10, predicted_divergence_max: 8.280967763359589e-10 })
+CASE relative_residual=1e-11
+TRACE iteration=39 recursive_l2=1.36370680949281969e-11 full_l2=1.37576888715637664e-11 divergence=5.42373553476712281e-12 threshold=2.59930382994651743e-11 linear_pass=true divergence_pass=true
+RESULT Ok(PressureReport { iterations: 39, true_residual_l2: 1.3757688871563766e-11, true_residual_max: 4.067801651075342e-12, predicted_divergence_max: 5.423735534767123e-12 })
+test pressure_restart_probe ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s

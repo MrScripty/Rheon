@@ -1,0 +1,25 @@
+test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) ... ok
+test_child_command_pins_iteration_and_memory_limits (test_result_qualification.ResultQualification.test_child_command_pins_iteration_and_memory_limits) ... ok
+test_combined_publication_cleanup_failures_stay_terminal (test_result_qualification.ResultQualification.test_combined_publication_cleanup_failures_stay_terminal) ... ok
+test_malformed_csv_has_terminal_failure (test_result_qualification.ResultQualification.test_malformed_csv_has_terminal_failure) ... ok
+test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) ... ok
+test_missing_or_incomplete_png_is_rejected (test_result_qualification.ResultQualification.test_missing_or_incomplete_png_is_rejected) ... ok
+test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) ... ok
+test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) ... ok
+test_publication_failure_has_no_owned_success_or_summary (test_result_qualification.ResultQualification.test_publication_failure_has_no_owned_success_or_summary) ... ok
+test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) ... ok
+test_unrepresentable_manifest_number_has_terminal_failure (test_result_qualification.ResultQualification.test_unrepresentable_manifest_number_has_terminal_failure) ... ok
+test_valid_zero_and_active_source_runs_for_both_methods (test_result_qualification.ResultQualification.test_valid_zero_and_active_source_runs_for_both_methods) ... ok
+test_cancel_before_spawn_and_during_real_work (test_rheon_compare.ComparisonTest.test_cancel_before_spawn_and_during_real_work) ... ok
+test_cli_deadline_is_explicit_and_recorded (test_rheon_compare.ComparisonTest.test_cli_deadline_is_explicit_and_recorded) ... ok
+test_cli_timeout_returns_failure_without_completion (test_rheon_compare.ComparisonTest.test_cli_timeout_returns_failure_without_completion) ... ok
+test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt (test_rheon_compare.ComparisonTest.test_explicit_dt_and_rejection_of_wrong_or_missing_manifest_dt) ... ok
+test_invalid_deadlines_create_no_output (test_rheon_compare.ComparisonTest.test_invalid_deadlines_create_no_output) ... ok
+test_invalid_selection_creates_no_output (test_rheon_compare.ComparisonTest.test_invalid_selection_creates_no_output) ... ok
+test_real_comparison_and_preserved_outputs (test_rheon_compare.ComparisonTest.test_real_comparison_and_preserved_outputs) ... ok
+test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 7.681s
+
+OK
