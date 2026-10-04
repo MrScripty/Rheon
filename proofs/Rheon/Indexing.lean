@@ -1,4 +1,4 @@
-import Mathlib
+import Mathlib.Tactic.Ring
 
 namespace Rheon.Indexing
 

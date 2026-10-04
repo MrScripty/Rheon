@@ -1,0 +1,81 @@
+name: Rheon research book and Pages
+on:
+  pull_request:
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+  push:
+    branches: [main]
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: rheon-pages-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Install renderer and locked browser assets
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+          npm ci --prefix docs/education --ignore-scripts --no-audit --no-fund
+          python3 -m pip install -r docs/research-book/expansion/requirements.txt
+          python3 -m pip install -r docs/education/requirements.txt
+          python3 -m playwright install --with-deps chromium
+      - name: Check local reference mechanisms
+        run: |
+          python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
+          python3 docs/research-book/expansion/contact/sanity_checks.py
+          python3 -O docs/research-book/expansion/contact/sanity_checks.py
+          python3 -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py
+          python3 -O -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py
+          python3 evidence/bounded-physics-contracts/witness.py
+          python3 -O evidence/bounded-physics-contracts/witness.py
+      - name: Build complete static edition and verify local links
+        run: |
+          python3 -m unittest discover -s docs/education -p test_pdf_freshness.py
+          python3 -O -m unittest discover -s docs/education -p test_pdf_freshness.py
+          python3 -m unittest discover -s docs/education -p test_publication_gates.py
+          python3 -O -m unittest discover -s docs/education -p test_publication_gates.py
+          python3 docs/education/build.py
+          python3 docs/education/verify_site.py
+      - name: Verify retained browser bindings and current Chromium laboratories
+        run: |
+          python3 docs/education/browser_qualification.py
+          python3 docs/education/verify_browser.py --check
+          python3 -O -m unittest discover -s docs/education -p test_browser_runtime.py
+      - name: Retain reviewable site
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: rheon-teaching-site-${{ github.sha }}
+          path: docs/education/_site/
+      - name: Configure Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          path: docs/education/_site
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e

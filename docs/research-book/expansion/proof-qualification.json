@@ -1,0 +1,32 @@
+{
+  "schema": "rheon-physics-proof-qualification-v1",
+  "status": "checked",
+  "qualification_base": "a97a2dbce6b794456b634d87e2b111c059a9f696",
+  "lean_version": "4.19.0",
+  "lean_release_sha256": "6fe3ce97a58f44e2b3567d455b994eacec5bfe9ae7774f2a573444480ba813fe",
+  "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+  "method": "normal pinned source build; official binary cache HTTP403, no cache qualification claimed",
+  "public_theorems": 33,
+  "new_theorems": 13,
+  "audited_declarations": 45,
+  "allowed_transitive_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "negative_audit": "custom axiom and admitted proof rejected in normal and optimized Python",
+  "source_inventory": {
+    "AxiomAudit.lean": "4da987d201127d9186bf78e0393a9df73a92a8a70dbe6d168306016dcc618acc",
+    "Rheon/Discrete.lean": "70a2ca5d2c5cbefacbbb8742954375fdfe8cc25c3c5b8afd05738941cfc5ee0a",
+    "Rheon/Indexing.lean": "862c33164e75daccd43603c9b5a61473fd825885d9106b766a35204e578f60bf",
+    "Rheon/Physics.lean": "26cbb4f75076c7e70a90da126f96622b75044befce26a4c17a50066c76e96050",
+    "Rheon/Transport.lean": "f967e593db1df0ec945ea6830e67b991e56da168e9f6e3f2d42c4c5866c5cf06",
+    "Rheon.lean": "679ed919c3196e90763388d17fc4e10e134f4cd8ca34624ee0af3e1ea974f9fc"
+  },
+  "logs": {
+    "lean-build.log": "ec6e1339ba36f652e722a6dd1df3cdffed2e5b076e9a15221f3e1aaf6101e452",
+    "axiom-audit.log": "ea1cca909ce139fed10de4808128eab86844eda7ad61f104c3538b7aa07b9d8b",
+    "negative-audit.log": "6c31afa942a90b8f697f122ef8f310c31ea794a3aacffb7dcf0cacd8724a7c52"
+  },
+  "limits": "Exact finite real contracts with explicit hypotheses; no mesh/solver/IEEE/empirical refinement. Historical receipts are unchanged."
+}

@@ -1,0 +1,293 @@
+{
+  "accessed": "2026-10-04",
+  "sources": [
+    {
+      "id": "E1",
+      "title": "Batty, Bertails and Bridson (2007). A Fast Variational Framework for Accurate Solid-Fluid Coupling.",
+      "url": "https://www.cs.ubc.ca/~rbridson/docs/batty-siggraph2007-variationalcoupling.pdf",
+      "use": "Prescribed/dynamic coupling, adjoint reaction, wall separation; Sections 2 and 4."
+    },
+    {
+      "id": "E2",
+      "title": "Robert Bridson. Author-hosted mesh_query and Tunicate implementations.",
+      "url": "https://www.cs.ubc.ca/~rbridson/",
+      "use": "Original geometry implementations linked under Downloads; independently written Rheon segment fixture uses no copied source."
+    },
+    {
+      "id": "E3",
+      "title": "Basilisk contributors. Embedded boundaries, original source.",
+      "url": "https://basilisk.fr/src/embed.h",
+      "use": "Geometry metrics, interpolation and small-cell policies; current online code, accessed 2026-10-04."
+    },
+    {
+      "id": "E4",
+      "title": "Batty and Bridson (2008). Accurate Viscous Free Surfaces for Buckling, Coiling, and Rotating Liquids.",
+      "url": "https://www.cs.ubc.ca/~rbridson/docs/batty-sca08-viscosity.pdf",
+      "use": "Section 3: normal/tangential traction, viscous variational construction."
+    },
+    {
+      "id": "E5",
+      "title": "Basilisk contributors. Implicit viscous diffusion, original source.",
+      "url": "https://basilisk.fr/src/viscosity.h",
+      "use": "Coupled stress, residual and relaxation implementation; current code, accessed 2026-10-04."
+    },
+    {
+      "id": "E6",
+      "title": "Basilisk contributors. 3D sessile drop, original test.",
+      "url": "https://basilisk.fr/src/test/sessile3D.c",
+      "use": "Constant-volume spherical-cap comparison; no code/figures copied."
+    },
+    {
+      "id": "E7",
+      "title": "Afkhami and Bussmann (2009; author preprint dated 2008). Height functions for applying contact angles to 3D VOF simulations. IJNMF 61, 827\u2013847. DOI 10.1002/fld.1974.",
+      "url": "https://web.njit.edu/~shahriar/Publication/IJNMF2.pdf",
+      "use": "Section 2.5: wall frame and 3D height-function geometry."
+    },
+    {
+      "id": "E8",
+      "title": "Basilisk contributors. Contact angles, original source.",
+      "url": "https://basilisk.fr/src/contact.h",
+      "use": "3D orientation and shallow-angle support restrictions; current code, accessed 2026-10-04."
+    },
+    {
+      "id": "E9",
+      "title": "R. G. Cox (1986). The dynamics of the spreading of liquids on a solid surface. Part 1. Viscous flow. JFM 168, 169\u2013194. DOI 10.1017/S0022112086000332.",
+      "url": "https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/dynamics-of-the-spreading-of-liquids-on-a-solid-surface-part-1-viscous-flow/97CAB1BF3439F4B1AA429FFA37C80C42",
+      "use": "Publisher abstract: contact-line stress singularity, microscopic regularization and small-capillary-number asymptotics. No full-paper reproduction."
+    },
+    {
+      "id": "E10",
+      "title": "Basilisk contributors. Surface tension, original source.",
+      "url": "https://basilisk.fr/src/tension.h",
+      "use": "Interfacial potential and capillary restriction; current code, accessed 2026-10-04."
+    }
+  ],
+  "verified_experts": [
+    {
+      "name": "Christopher Batty",
+      "url": "https://cs.uwaterloo.ca/~c2batty/",
+      "basis": "Author university page lists liquid/gas simulation, viscous flows, surface tension and embedded boundaries."
+    },
+    {
+      "name": "Shahriar Afkhami",
+      "url": "https://web.njit.edu/~shahriar/",
+      "basis": "Author NJIT page identifies computational interfacial flows, dynamic contact lines and complex liquids."
+    },
+    {
+      "name": "Robert Bridson",
+      "url": "https://www.cs.ubc.ca/~rbridson/",
+      "basis": "Author UBC page lists fluid simulation research, original implementations and primary publications."
+    }
+  ],
+  "endorsement_claimed": false,
+  "contributed_sources": [
+    {
+      "id": "R01",
+      "description": "Batty and Bridson, Accurate Viscous Free Surfaces for Buckling Coiling and Rotating Liquids, 2008.",
+      "url": "https://www.cs.ubc.ca/labs/imager/tr/2008/Batty_ViscousFluids/viscosity.pdf",
+      "inspection": "Full original text inspected, especially sections 3\u20135. Coupled symmetric-gradient viscosity, free-surface traction, variational dissipation, rigid-rotation counterexample.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R02",
+      "description": "Brackbill, Kothe, and Zemach, A Continuum Method for Modeling Surface Tension, JCP 100, 335\u2013354, 1992.",
+      "url": "https://www.ljll.fr/~frey/papers/Navier-Stokes/Brackbill%20J.U.%2C%20A%20continuum%20method%20for%20modeling%20surface%20tension.pdf",
+      "inspection": "Original-paper text surfaced through academic-hosted PDF. Continuum surface force and wall adhesion boundary treatment. DOI 10.1016/0021-9991(92)90240-Y.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R03",
+      "description": "Young, An Essay on the Cohesion of Fluids, 1805.",
+      "url": "https://catalogues.royalsociety.org/CalmView/Record.aspx/Record.aspx?id=L%26P%2F12%2F86&src=CalmView.Catalog",
+      "inspection": "Original archival metadata verified; the journal DOI endpoint returned 403. Used only for historical attribution of material-dependent contact angle, not to attribute modern notation verbatim. DOI 10.1098/rstl.1805.0005.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R04",
+      "description": "Huh and Scriven, Hydrodynamic Model of Steady Movement of a Solid Liquid Fluid Contact Line, 1971.",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/0021979771901883",
+      "inspection": "Original abstract inspected. Creeping-flow contact-line stress/dissipation singularity under adherence. DOI 10.1016/0021-9797(71)90188-3.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R05",
+      "description": "Cox, The Dynamics of the Spreading of Liquids on a Solid Surface Part 1 Viscous Flow, JFM 168, 169\u2013194, 1986.",
+      "url": "https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/abs/dynamics-of-the-spreading-of-liquids-on-a-solid-surface-part-1-viscous-flow/97CAB1BF3439F4B1AA429FFA37C80C42",
+      "inspection": "Original abstract and bibliographic details inspected. Small-Ca matched-asymptotic/slip assumptions verified. Full publisher text was not retrieved; do not present the cubic shorthand as its general finite-angle equation. DOI 10.1017/S0022112086000332.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R06",
+      "description": "Qian, Wang, and Sheng, Molecular Scale Contact Line Hydrodynamics of Immiscible Flows, PRE 68, 016306, 2003.",
+      "url": "https://sheng.people.ust.hk/wp-content/uploads/2017/08/Molecular-Scale-Contact-Line-Hydrodynamics-of-Immiscible-Flows.pdf",
+      "inspection": "Original full text inspected. Generalized Navier boundary condition, Cahn\u2013Hilliard framework, molecular comparison and fitted dynamic parameters. DOI 10.1103/PhysRevE.68.016306.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R07",
+      "description": "Batty, Bertails, and Bridson, A Fast Variational Framework for Accurate Solid Fluid Coupling, 2007.",
+      "url": "https://www.cs.ubc.ca/labs/imager/tr/2007/Batty_VariationalFluids/",
+      "inspection": "Original project, paper text, and sample-code descriptions inspected. Kinetic projection, static irregular-boundary samples, and author hindsight on improved weights. Sample archive license not verified.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R08",
+      "description": "Popinet, An Accurate Adaptive Solver for Surface Tension Driven Interfacial Flows, JCP 228, 5838\u20135866, 2009.",
+      "url": "https://www.sciencedirect.com/science/article/pii/S002199910900240X",
+      "inspection": "Original publisher abstract/conclusion inspected. Balanced-force VOF with height-function curvature and stationary-drop equilibrium. Author PDF endpoint timed out. DOI 10.1016/j.jcp.2009.04.042.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R09",
+      "description": "Basilisk original contact-angle implementation.",
+      "url": "https://basilisk.fr/src/contact.h",
+      "inspection": "Source and explicit limitations inspected. Height-function normal fallback and shallow-angle limitation are visible in the implementation.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R10",
+      "description": "Basilisk original surface-tension implementation.",
+      "url": "https://basilisk.fr/src/tension.h",
+      "inspection": "Source inspected. Explicit capillary timestep restriction and curvature potential construction.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R11",
+      "description": "Akinci, Akinci, and Teschner, Versatile Surface Tension and Adhesion for SPH Fluids, TOG 32(6), 2013.",
+      "url": "https://cg.informatik.uni-freiburg.de/publications/2013_SIGGRAPHASIA_surfaceTensionAdhesion.pdf",
+      "inspection": "Original text inspected. Cohesion and boundary attraction as practical SPH models. DOI 10.1145/2508363.2508395.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R12",
+      "description": "Weiler, Koschier, Brand, and Bender, A Physically Consistent Implicit Viscosity Solver for SPH Fluids, CGF 37(2), 2018.",
+      "url": "https://animation.rwth-aachen.de/publication/0558/",
+      "inspection": "Author abstract and accepted-paper text inspected. Conservation, refinement, and spurious-viscosity evaluation criteria.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R13",
+      "description": "Bender et al., Implicit Frictional Boundary Handling for SPH.",
+      "url": "https://animation.rwth-aachen.de/media/papers/67/2020-TVCG-ImplicitBoundaryHandling.pdf",
+      "inspection": "Original manuscript passages inspected. Boundary viscosity/friction extension and separate boundary coefficient. Filename uses 2020; final issue metadata was not verified.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R14",
+      "description": "SPlisHSPlasH Weiler2018 implementation.",
+      "url": "https://github.com/InteractiveComputerGraphics/SPlisHSPlasH/blob/master/SPlisHSPlasH/Viscosity/Viscosity_Weiler2018.cpp",
+      "inspection": "Source inspection confirms \u03bc = configured viscosity \u00d7 rest density and separate boundary coefficient. No build/execution.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R15",
+      "description": "Macklin and M\u00fcller, Position Based Fluids, 2013.",
+      "url": "https://mmacklin.com/pbf_sig_preprint.pdf",
+      "inspection": "Original algorithm inspected. Positional density constraints, artificial pressure, velocity postprocessing, and performance/accuracy tradeoff.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R16",
+      "description": "Koschier and Bender, Density Maps for Improved SPH Boundary Handling, SCA 2017.",
+      "url": "https://animation.rwth-aachen.de/publication/0554/",
+      "inspection": "Original author abstract inspected. Precomputed continuous boundary density contribution.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R17",
+      "description": "Bender, Kugelstadt, Weiler, and Koschier, Volume Maps An Implicit Boundary Representation for SPH, MIG 2019.",
+      "url": "https://animation.rwth-aachen.de/media/papers/65/2019-MIG-VolumeMaps.pdf",
+      "inspection": "Original text inspected. Kernel-independent geometric-volume contribution, rigid boundaries, comparison with density maps.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R18",
+      "description": "Guendelman, Selle, Losasso, and Fedkiw, Coupling Water and Smoke to Thin Deformable and Rigid Shells, SIGGRAPH 2005.",
+      "url": "https://graphics.stanford.edu/papers/thin_shells_fluid_coupling-sig05/",
+      "inspection": "Original abstract and paper passages inspected. Infinitesimally thin surfaces, ray-based visibility, and incompressibility treatment.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R19",
+      "description": "Basilisk original embedded-boundary implementation.",
+      "url": "https://basilisk.fr/src/embed.h",
+      "inspection": "Source inspected. Volume/face geometry, small-cell CFL restriction, tracer redistribution. Static implementation details are not asserted to establish arbitrary moving-boundary correctness.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R20",
+      "description": "Basilisk core license text.",
+      "url": "https://basilisk.fr/src/COPYING",
+      "inspection": "GPL version 3 text verified. Per-file scope and downstream compatibility still require checking.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R21",
+      "description": "SPlisHSPlasH repository license.",
+      "url": "https://github.com/InteractiveComputerGraphics/SPlisHSPlasH/blob/master/LICENSE",
+      "inspection": "MIT notice verified. Repository README separately warns that dependencies have their own terms.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R22",
+      "description": "Basilisk original 2D sessile-drop test.",
+      "url": "https://basilisk.fr/src/test/sessile.c",
+      "inspection": "Source and analytic geometry comparison inspected. The implementation tests 15\u00b0\u2013165\u00b0 and notes shallower limitations.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R23",
+      "description": "Basilisk original 3D sessile-drop test.",
+      "url": "https://basilisk.fr/src/test/sessile3D.c",
+      "inspection": "Original source inspected as the 3D comparison. No local reproduction performed.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R24",
+      "description": "Basilisk original parasitic-current test.",
+      "url": "https://www.basilisk.fr/src/test/spurious.c",
+      "inspection": "Source inspected. Constant density, diameter 0.8, Laplace-number-controlled viscosity, viscous-time observation, resolution study.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R25",
+      "description": "Basilisk original drop-oscillation test.",
+      "url": "https://basilisk.fr/src/test/oscillation.c",
+      "inspection": "Source/diagnostics inspected. Frequency error and equivalent numerical viscosity are separate quantities. Its dimensional setup must be retained when reproducing it.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R26",
+      "description": "Washburn, The Dynamics of Capillary Flow, Physical Review 17, 273\u2013283, 1921.",
+      "url": "https://journals.aps.org/pr/abstract/10.1103/PhysRev.17.273",
+      "inspection": "Original abstract inspected. Cylindrical-capillary square-root penetration formula. Full text is access controlled; no access bypass attempted.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R27",
+      "description": "Gong et al., Contactless Surface Tension Measurement of Molten Oxides Using Oscillating Drop Method in an Aerodynamic Levitator.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11470527/",
+      "inspection": "Original measurement equations and experimental cautions inspected. Supports Rayleigh frequency convention and the need to control external forcing, mode splitting, and rotation. No material values imported as Rheon presets.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R28",
+      "description": "Fran\u00e7ois, Cummins, Dendy, Kothe, Sicilian, and Williams, A Balanced Force Algorithm for Continuous and Sharp Interfacial Surface Tension Models within a Volume Tracking Framework, JCP 213, 141\u2013173, 2006.",
+      "url": "https://www.researchgate.net/publication/222522360_A_Balanced-Force_Algorithm_for_Continuous_and_Sharp_Interfacial_Surface_Tension_Models_Within_a_Volume_Tracking_Framework",
+      "inspection": "Original author-uploaded text inspected; publisher endpoint failed. Exact-curvature balanced-force experiment is an appropriate control before testing estimated curvature. DOI 10.1016/j.jcp.2005.08.004.",
+      "accessed": "2026-10-04"
+    },
+    {
+      "id": "R29",
+      "description": "SPlisHSPlasH Akinci2013 implementation.",
+      "url": "https://github.com/InteractiveComputerGraphics/SPlisHSPlasH/blob/master/SPlisHSPlasH/SurfaceTension/SurfaceTension_Akinci2013.cpp",
+      "inspection": "Original source inspected. Separate fluid and boundary force coefficients, with boundary-method branches. No assumption that every branch reproduces every original-paper conservation claim.",
+      "accessed": "2026-10-04"
+    }
+  ],
+  "research_contribution": {
+    "library_file_id": "libfile_cf9851f49eec819180946e1ead7e405f",
+    "archive_sha256": "b319c6ce791a52c6ecaeacc5a077dba593a79f48821fdda8b1ba03e90331fd61",
+    "integration": "selected prose, fixtures and source ledger folded into chapters 19\u201325; proposed targets kept separate from compiled proofs"
+  }
+}
