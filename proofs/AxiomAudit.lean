@@ -36,6 +36,7 @@ run_cmd do
     let _ ← getConstInfo name
     pure ()
   let mut audited := 0
+  let mut auditedNames : Array Name := #[]
   for (name, info) in env.constants.toList do
     let isProofOrAxiom := match info with
       | .thmInfo _ => true
@@ -48,6 +49,8 @@ run_cmd do
           throwError "Disallowed axiom {axiomName} in {name}"
       logInfo m!"AUDITED {name}: {axioms}"
       audited := audited + 1
-  if audited < expected.size then
-    throwError "Incomplete declaration audit"
+      auditedNames := auditedNames.push name
+  for name in expected do
+    unless auditedNames.contains name do
+      throwError "Expected declaration not audited: {name}"
   logInfo m!"Axiom audit passed for {audited} declarations"

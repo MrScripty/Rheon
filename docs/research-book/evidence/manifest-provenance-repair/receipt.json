@@ -1,0 +1,45 @@
+{
+  "reviewed_base": "a97f1012f5570b4ed938a6ccead2f591313ecf67",
+  "repair_source_commit": "d4147b311ebfd1b05919251dab703a628eb32316",
+  "repair_source_tree": "af29ab939cc9f0f1df3dbe3560e0c6d342f6c013",
+  "source_sha256": {
+    "proofs/scripts/check_sources.py": "a230cec2ed8882904524f12b11eb644d9120da46b9b71c95d45fbb313466402e",
+    "proofs/scripts/test_check_sources.py": "39e35076ca5d145bcefe7d9f0048783695a3e0854a879a2854a150468e241c66"
+  },
+  "protected_paths_unchanged": [
+    "proofs/Rheon",
+    "proofs/Rheon.lean",
+    "proofs/AxiomAudit.lean",
+    "proofs/source-inventory.json",
+    "proofs/lean-toolchain",
+    "proofs/lakefile.toml",
+    "proofs/lake-manifest.json",
+    ".github",
+    "docs/research-book/companion",
+    "docs/research-book/chapters",
+    "docs/research-book/appendices",
+    "docs/research-book/artwork",
+    "docs/research-book/figures"
+  ],
+  "mathlib_manifest_unchanged_identity": {
+    "url": "https://github.com/leanprover-community/mathlib4.git",
+    "type": "git",
+    "subDir": null,
+    "scope": "",
+    "rev": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "name": "mathlib",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "inherited": false,
+    "configFile": "lakefile.lean"
+  },
+  "source_gate_tests_normal_and_optimized": 4,
+  "bootstrap_tests": 2,
+  "comparator_tests_normal_and_optimized": 12,
+  "original_rejection_failures": 22,
+  "kernel_or_dependency_changes": false,
+  "new_native_lean_qualification_claimed": false,
+  "parent_independent_review": "pending",
+  "pr1_advanced": false,
+  "bot_review_requested": false
+}
