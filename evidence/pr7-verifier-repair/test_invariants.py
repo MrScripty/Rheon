@@ -30,6 +30,12 @@ def change_json(path, change):
 class Invariants(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        # Each Git subprocess must use its temporary checkout, including verifier calls.
+        git_env = subprocess.check_output(['git', 'rev-parse', '--local-env-vars'], text=True).splitlines()
+        saved_git_env = {name: os.environ[name] for name in git_env if name in os.environ}
+        cls.addClassCleanup(os.environ.update, saved_git_env)
+        for name in git_env:
+            os.environ.pop(name, None)
         cls.pool = tempfile.TemporaryDirectory()
         cls.seeds, cls.modules = {}, {}
         for scope, (commit, directory) in SCOPES.items():
