@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Independently check new qualification evidence against archived run bytes.
+"""Check evidence independently, then requalify with the final harness.
 
 Run from the repository root after serial benchmark.py completes. This reads
-evidence, does not rerun timing measurements or reuse harness acceptance helpers.
+evidence and does not rerun timing measurements. Independent byte/numeric checks
+are followed by a separate pass through the current harness's acceptance helpers.
 """
 import csv
 import hashlib
@@ -11,6 +12,10 @@ import math
 from pathlib import Path
 import statistics
 import subprocess
+import sys
+
+sys.path.insert(0, str(Path('tools').resolve()))
+from rheon_compare import _qualify_png, _qualify_series, _qualify_settings
 
 BASE = '0de6a857adb17a6ee0312e889aff50e2cd7aa6dd'
 ROOT = Path('evidence/result-qualification')
@@ -34,12 +39,16 @@ def main():
                  'proofs', 'docs/research-book', 'evidence/cloud-qualification',
                  'evidence/demo-16', 'evidence/demo-plume', 'evidence/demo-64')
     assert git('diff', BASE, '--', *protected) == '', 'Protected source/evidence changed'
-    hashes = {}
+    hashes, qualified_hashes = {}, {}
+    qualified_source = git('log', '-1', '--format=%H', '--', 'tools/rheon_compare.py',
+                           'tools/test_result_qualification.py')
     for name in ('tools/rheon_compare.py', 'tools/test_result_qualification.py',
                  'tools/test_rheon_compare.py', '.github/workflows/rust-rheon.yml'):
         committed = subprocess.check_output(['git', 'show', f'{source}:{name}'])
-        assert Path(name).read_bytes() == committed, name
-        hashes[name] = sha256(Path(name))
+        hashes[name] = hashlib.sha256(committed).hexdigest()
+        qualified = subprocess.check_output(['git', 'show', f'{qualified_source}:{name}'])
+        assert Path(name).read_bytes() == qualified, name
+        qualified_hashes[name] = sha256(Path(name))
     checks, maximum_predicted, maximum_actual = [], 0.0, 0.0
     assert [(c['size'], c['steps'], c['accuracy']) for c in receipt['cases']] == [
         (n, steps, accuracy) for n, steps in ((16, 12), (32, 6), (64, 3))
@@ -103,6 +112,11 @@ def main():
             assert manifest['last_divergence_max'] == values['actual_divergence_max']
             assert run['pressure_iterations'] == count and run['maximum_step_divergence'] == divergence
             assert math.isfinite(manifest['measured_step_seconds']) and manifest['measured_step_seconds'] >= 0
+            # Additional final-validator pass, separate from the independent
+            # archived-byte, physical-unit and summary checks above.
+            _qualify_settings(manifest, manifest['implementation'], n, steps, accuracy)
+            assert _qualify_series(manifest, path / 'steps.csv', n, steps, accuracy) == (count, divergence)
+            _qualify_png(path / 'opacity.png', n)
         for summary in comparison['summary']:
             samples = [r for r in comparison['runs'] if r['implementation'] == summary['implementation'] and not r['warmup']]
             durations = [r['measured_step_seconds'] for r in samples]
@@ -113,7 +127,10 @@ def main():
                        'summary': comparison['summary']})
         print('PASS', folder, '8 complete runs; all-step gates; archived PNG/CSV bytes and stable manifests')
     result = {'benchmark_source_commit': source, 'benchmark_source_tree': git('rev-parse', f'{source}^{{tree}}'),
-              'reviewed_base': BASE, 'harness_source_sha256': hashes, 'binary_sha256': BINARY_SHA256,
+              'reviewed_base': BASE, 'benchmark_source_sha256': hashes, 'binary_sha256': BINARY_SHA256,
+              'qualification_source_commit': qualified_source,
+              'qualification_source_sha256': qualified_hashes,
+              'retained_packets_requalified_with_final_validator': 48,
               'protected_paths_unchanged_from_reviewed_base': list(protected),
               'maximum_predicted_divergence': maximum_predicted, 'maximum_actual_divergence': maximum_actual,
               'checks': checks}

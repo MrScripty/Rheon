@@ -17,7 +17,9 @@ diagnostics, step order/time/admission violations, inconsistent manifest
 diagnostics/payloads and missing/truncated images. Separate summary write and
 rename injections raised uncaught errors before the ownership repair. The
 `*-before.log` files retain these failures rather than claiming the baseline
-passed. `metadata-after.log` and `diagnostics-after.log` are intermediate checks.
+passed. Final edge review also reproduced an unrepresentable JSON integer causing
+uncaught `OverflowError` (`overflow-before.log`); the rejection handler now records
+terminal failure for that case. `metadata-after.log` and `diagnostics-after.log` are intermediate checks.
 
 The harness pins and checks the complete schema-2 workload. It qualifies every
 step against existing numerical admission limits, using integrated residual
@@ -29,7 +31,7 @@ completed summary. Summary write/rename/completion-status failures clear owned
 success and remove a published summary. Persistent filesystem failure while
 saving failure status remains an I/O error; this is not crash-durable storage.
 
-`final-tests.log`: all 18 Python tests pass. This includes the previous 8
+`final-tests.log`: all 19 Python tests pass. This includes the previous 8
 lifecycle/deadline tests, new adversarial qualification/publication cases and
 valid zero-source/single-cell and active-source runs for both methods at both
 accuracy settings. The CI path filter now covers the new test file; its existing
@@ -89,7 +91,11 @@ throttled-time increase; boundary one-minute load ranged 0.0205–0.9497.
 This is descriptive single-host evidence, not a controlled speedup experiment.
 
 `verification.log` and `verification.json` independently check all six cases,
-all 48 runs' diagnostic gates and exact archived PNG/CSV bytes. Every non-timing
+all 48 runs' diagnostic gates and exact archived PNG/CSV bytes. A separate pass
+requalifies every retained packet with the final harness. The receipt distinguishes
+the exact measurement source from the final qualification source and hashes; the
+only later harness change adds rejection handling for `OverflowError`. It changes
+no accepted-run settings or numerical behavior, so timings are not rerun. Every non-timing
 manifest field also matches the previous cloud measurements. Maximum predicted
 divergence was 1.429882804e-09; maximum
 actual divergence was 1.192092896e-07. No original

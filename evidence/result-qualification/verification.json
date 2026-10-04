@@ -2,13 +2,21 @@
   "benchmark_source_commit": "d40bdd7a51637ac2005fd1b2a0e1c8232b945c7d",
   "benchmark_source_tree": "9b3e31a90b89d34eb0205eabab4f0a97f0af170c",
   "reviewed_base": "0de6a857adb17a6ee0312e889aff50e2cd7aa6dd",
-  "harness_source_sha256": {
+  "benchmark_source_sha256": {
     "tools/rheon_compare.py": "23de0bcf20a4118f63dc544b5e76af5e091771543ecb3f29b656c4d8300fab37",
     "tools/test_result_qualification.py": "5eddefdbec516b7f7f106916b99f7b00b64c8521a05301ace3cdb7a061670f0d",
     "tools/test_rheon_compare.py": "8e32da5ad5c0f07796fc9987b1faa9dbc22595b764a83988b0e47b41a759e7a1",
     ".github/workflows/rust-rheon.yml": "254e0c2e132b31c65bf2814a7194501dcb3f075e30eccce806104893c0d218d4"
   },
   "binary_sha256": "e10000f4fb61ba09765d7e9cbc76cac0463550cc7aecbcd72a66d458e0a1a584",
+  "qualification_source_commit": "4a9df06106d3697e80dc40b8235f707a340aa274",
+  "qualification_source_sha256": {
+    "tools/rheon_compare.py": "2be50546d11ae4378b015d0f6a0532f5b0884aa7b28f9d94d73d5655491b4962",
+    "tools/test_result_qualification.py": "478f3a032d1059780c03dba7f3846f30be77fd9a14592db76a45b7827e6c8fab",
+    "tools/test_rheon_compare.py": "8e32da5ad5c0f07796fc9987b1faa9dbc22595b764a83988b0e47b41a759e7a1",
+    ".github/workflows/rust-rheon.yml": "254e0c2e132b31c65bf2814a7194501dcb3f075e30eccce806104893c0d218d4"
+  },
+  "retained_packets_requalified_with_final_validator": 48,
   "protected_paths_unchanged_from_reviewed_base": [
     "src",
     "tests",
