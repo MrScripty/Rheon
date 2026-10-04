@@ -44,7 +44,7 @@
     "labs.js": "795cbb62a9105445aa93299c2dac1e3ed98559a851e6ed883b87035248dbe12b",
     "style.css": "ae5941f905ccd741304fa3e4acddafedc0f9fd36b4045655e2f30ed9ac5e9135",
     "package-lock.json": "58883fc3bd9dc3cc343090486038c6a46719c5839cb9dac7d58e35f6656f5659",
-    "verify_browser.py": "e2aa9093b3b3fdb0d539285236a20d2ac1473f854185b1c7ea1159093d0cc03c"
+    "verify_browser.py": "2a06bb62fc40cc80a638bc6e59a1bbb8031a0722adce84bc19d2319af9e254b5"
   },
   "book_sources": [
     {
@@ -165,7 +165,7 @@
       "slug": "20-collision-mesh-pipeline",
       "title": "20 From collision meshes to fluid boundaries",
       "source": "docs/research-book/chapters/20-collision-mesh-pipeline.md",
-      "sha256": "a078951084d32b2adcfb54656ca6c8d07590de58eeed627b28a49e4a5d94542a"
+      "sha256": "54522516a67ace1865ea25b8b0510f2538ea86e1473197692350a4f3d25d9119"
     },
     {
       "slug": "21-density-and-liquid-volume",
@@ -234,30 +234,19 @@
       "sha256": "c99bf1a1ff13c7825b394e7525c9ef76732af5e01db3492106651000f1e9fb21"
     }
   ],
-  "pdf_sha256": "2d9d7b89264caff4722ff2d06475f78750fcbdb989564eb40191934bca7246d1",
+  "pdf_sha256": "a8f26b891a39c38f96346d719256d53b2e5befff8fcd2d3a71cf8faeaecbd140",
+  "planar_statement_hit_time_rendering": true,
   "pdf_inspection": {
     "pages": 99,
     "links": 119,
-    "chapter_starts": [
-      {
-        "page": 48,
-        "title": "16 The checked Lean companion"
-      },
-      {
-        "page": 59,
-        "title": "20 From collision meshes to fluid boundaries"
-      },
-      {
-        "page": 66,
-        "title": "22 Viscosity, stress and dissipation"
-      },
-      {
-        "page": 94,
-        "title": "F Expansion contracts, sources and evidence"
-      }
-    ],
+    "external_links": 88,
     "loopback_targets": 0,
     "empty_or_replacement_glyph_pages": 0,
-    "visual_review": "All 99 pages inspected as contact sheets; full-size pages 48, 60, 67, 94 and 95 checked for new proof statements, formulas and scope table. No clipping or damaged equations observed."
+    "chapter20_start_page": 59,
+    "corrected_statement_page": 60,
+    "changed_rendered_pages_from_80d794f": [
+      60
+    ],
+    "visual_review": "Corrected page 60 visually inspected at full size: hit-time stars retained, no accidental emphasis, clipping or damaged equations. Other pages compared with the previously inspected edition."
   }
 }

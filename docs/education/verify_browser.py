@@ -4,6 +4,12 @@ from playwright.sync_api import sync_playwright
 from pdf_freshness import input_hashes, write_receipt
 HERE=Path(__file__).resolve().parent
 pdf_inputs=input_hashes(HERE.parents[1])
+def check_planar_statement(page):
+    paragraph=page.locator('p').filter(has=page.locator('code',has_text='wall_hit_on_surface'))
+    expected=['g(x(t))=(1-t)g(a)+tg(b)','t_*','g(x(t_*))=0',r'0\le t<t_*','x(t_*)',r'0\le s\le1']
+    actual=paragraph.locator('annotation[encoding="application/x-tex"]').all_text_contents()
+    if paragraph.count()!=1 or actual!=expected or paragraph.locator('em').count():
+        raise RuntimeError(f'Rendered planar statement changed: {actual!r}')
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--enable-unsafe-swiftshader'])
     page=browser.new_page(viewport={'width':1440,'height':1050},device_scale_factor=1)
@@ -33,12 +39,16 @@ with sync_playwright() as p:
     assert page.locator('.katex-error').count()==0
     assert page.locator('.katex').count()>5
     page.screenshot(path='/tmp/rheon-education-chapter.png',full_page=True)
+    page.goto('http://127.0.0.1:8765/chapters/20-collision-mesh-pipeline.html');page.wait_for_load_state('networkidle')
+    check_planar_statement(page)
+    page.screenshot(path='/tmp/rheon-education-planar-statement.png',full_page=True)
     mobile=browser.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
     mobile.goto('http://127.0.0.1:8765/index.html');mobile.locator('#menu').click();assert mobile.locator('#navigation').is_visible()
     mobile.locator('#search').fill('wetting');assert mobile.locator('.chapter-link:visible').count()==1
     mobile.screenshot(path='/tmp/rheon-education-mobile.png',full_page=True)
     mobile.goto('http://127.0.0.1:8765/labs.html#cap');mobile.wait_for_selector('#metrics dd');assert mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1')
     page.goto('http://127.0.0.1:8765/print.html');page.wait_for_load_state('networkidle');page.evaluate('document.fonts.ready')
+    check_planar_statement(page)
     (HERE/'downloads').mkdir(exist_ok=True)
     page.pdf(path=str(HERE/'downloads/Rheon-expanded-book.pdf'),print_background=True,prefer_css_page_size=True,display_header_footer=True,header_template='<div></div>',footer_template='<div style="font-size:9px;width:100%;text-align:center;color:#52676d">Rheon · Puma · <span class="pageNumber"></span> / <span class="totalPages"></span></div>')
     assert not errors,errors
@@ -49,5 +59,6 @@ with sync_playwright() as p:
     receipt['reviewed_sources']={name:hashlib.sha256((HERE/name).read_bytes()).hexdigest() for name in ['build.py','labs.js','style.css','package-lock.json','verify_browser.py']}
     receipt['book_sources']=json.loads((HERE/'_site/build-receipt.json').read_text())['sources']
     receipt['pdf_sha256']=hashlib.sha256((HERE/'downloads/Rheon-expanded-book.pdf').read_bytes()).hexdigest()
+    receipt['planar_statement_hit_time_rendering']=True
     (HERE/'browser-qualification.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(json.dumps({k:v for k,v in receipt.items() if k!='labs'},indent=2));browser.close()
