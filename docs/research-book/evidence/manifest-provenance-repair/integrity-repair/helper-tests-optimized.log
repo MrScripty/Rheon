@@ -1,0 +1,11 @@
+test_altered_historical_log_is_rejected (__main__.ArchivedEvidence.test_altered_historical_log_is_rejected) ... ok
+test_altered_historical_receipt_is_rejected (__main__.ArchivedEvidence.test_altered_historical_receipt_is_rejected) ... ok
+test_archived_record_passes_without_rewriting_receipt (__main__.ArchivedEvidence.test_archived_record_passes_without_rewriting_receipt) ... ok
+test_later_failing_source_is_never_qualified_by_historical_logs (__main__.ArchivedEvidence.test_later_failing_source_is_never_qualified_by_historical_logs) ... ok
+test_tracked_protected_changes_are_rejected (__main__.ArchivedEvidence.test_tracked_protected_changes_are_rejected) ... ok
+test_untracked_and_ignored_protected_additions_are_rejected (__main__.ArchivedEvidence.test_untracked_and_ignored_protected_additions_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 2.991s
+
+OK
