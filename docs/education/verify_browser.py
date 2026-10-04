@@ -1,64 +1,177 @@
+"""Exercise the built site without writes; render/requalify only with --render-pdf."""
 from pathlib import Path
-import json,hashlib
+from contextlib import contextmanager
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from threading import Thread
+import argparse
+import hashlib
+import json
+import shutil
 from playwright.sync_api import sync_playwright
-from pdf_freshness import input_hashes, write_receipt
-HERE=Path(__file__).resolve().parent
-pdf_inputs=input_hashes(HERE.parents[1])
+from pdf_freshness import input_hashes, verify_pdf, write_receipt
+from browser_qualification import LABS, book_sources, source_hashes, verify_browser_qualification
+
+HERE = Path(__file__).resolve().parent
+
+
+def require(condition, message):
+    if not condition:
+        raise RuntimeError(message)
+
+
+@contextmanager
+def serve_site(directory):
+    class QuietHandler(SimpleHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+    server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(directory)))
+    thread = Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        yield f'http://127.0.0.1:{server.server_port}'
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join()
+
+
 def check_planar_statement(page):
-    paragraph=page.locator('p').filter(has=page.locator('code',has_text='wall_hit_on_surface'))
-    expected=['g(x(t))=(1-t)g(a)+tg(b)','t_*','g(x(t_*))=0',r'0\le t<t_*','x(t_*)',r'0\le s\le1']
-    actual=paragraph.locator('annotation[encoding="application/x-tex"]').all_text_contents()
-    if paragraph.count()!=1 or actual!=expected or paragraph.locator('em').count():
-        raise RuntimeError(f'Rendered planar statement changed: {actual!r}')
-with sync_playwright() as p:
-    browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox','--enable-unsafe-swiftshader'])
-    page=browser.new_page(viewport={'width':1440,'height':1050},device_scale_factor=1)
-    errors=[];failed=[]
-    page.on('pageerror',lambda e:errors.append(str(e)))
-    page.on('response',lambda r:failed.append(r.url) if r.status>=400 else None)
-    page.goto('http://127.0.0.1:8765/index.html'); page.wait_for_load_state('networkidle')
-    page.screenshot(path='/tmp/rheon-education-home.png',full_page=True)
-    page.goto('http://127.0.0.1:8765/labs.html'); page.wait_for_selector('#metrics dd'); page.wait_for_timeout(500)
-    assert page.locator('canvas').count()==1,'WebGL did not initialize'
-    checks=[]
-    for lab in ['projection','collision','hydrostatic','viscous','slip','cap']:
-        page.select_option('#lab',lab);page.wait_for_timeout(80)
-        before=page.locator('#metrics').inner_text()
-        controls=page.locator('#controls select')
-        if controls.count():controls.last.select_option(index=controls.last.locator('option').count()-1)
-        ranges=page.locator('#controls input[type=range]')
-        if ranges.count():ranges.first.fill(ranges.first.get_attribute('max'));ranges.first.dispatch_event('input')
-        after=page.locator('#metrics').inner_text();assert before!=after,lab
-        page.screenshot(path=f'/tmp/rheon-education-{lab}.png',full_page=True)
-        checks.append({'lab':lab,'control_changes_metrics':True,'readout':after})
-    page.select_option('#lab','cap'); page.locator('input[type=range]').fill('12');page.locator('input[type=range]').dispatch_event('input')
-    page.screenshot(path='/tmp/rheon-education-cap90.png',full_page=True)
-    page.mouse.move(500,500);page.mouse.down();page.mouse.move(610,540,steps=5);page.mouse.up()
-    page.locator('#reset-view').click()
-    page.goto('http://127.0.0.1:8765/chapters/23-wetting-and-adhesion.html');page.wait_for_load_state('networkidle')
-    assert page.locator('.katex-error').count()==0
-    assert page.locator('.katex').count()>5
-    page.screenshot(path='/tmp/rheon-education-chapter.png',full_page=True)
-    page.goto('http://127.0.0.1:8765/chapters/20-collision-mesh-pipeline.html');page.wait_for_load_state('networkidle')
-    check_planar_statement(page)
-    page.screenshot(path='/tmp/rheon-education-planar-statement.png',full_page=True)
-    mobile=browser.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
-    mobile.goto('http://127.0.0.1:8765/index.html');mobile.locator('#menu').click();assert mobile.locator('#navigation').is_visible()
-    mobile.locator('#search').fill('wetting');assert mobile.locator('.chapter-link:visible').count()==1
-    mobile.screenshot(path='/tmp/rheon-education-mobile.png',full_page=True)
-    mobile.goto('http://127.0.0.1:8765/labs.html#cap');mobile.wait_for_selector('#metrics dd');assert mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1')
-    page.goto('http://127.0.0.1:8765/print.html');page.wait_for_load_state('networkidle');page.evaluate('document.fonts.ready')
-    check_planar_statement(page)
-    (HERE/'downloads').mkdir(exist_ok=True)
-    page.pdf(path=str(HERE/'downloads/Rheon-expanded-book.pdf'),print_background=True,prefer_css_page_size=True,display_header_footer=True,header_template='<div></div>',footer_template='<div style="font-size:9px;width:100%;text-align:center;color:#52676d">Rheon · Puma · <span class="pageNumber"></span> / <span class="totalPages"></span></div>')
-    assert not errors,errors
-    # PDF is created after the site build; its download is copied on the next build.
-    assert not failed,failed
-    write_receipt(HERE.parents[1], pdf_inputs)
-    receipt={'schema':'rheon-education-browser-v1','browser':browser.version,'webgl':True,'labs':checks,'mobile_navigation_search':True,'mobile_no_horizontal_overflow':True,'katex_no_errors':True,'page_errors':errors,'http_failures':failed}
-    receipt['reviewed_sources']={name:hashlib.sha256((HERE/name).read_bytes()).hexdigest() for name in ['build.py','labs.js','style.css','package-lock.json','verify_browser.py']}
-    receipt['book_sources']=json.loads((HERE/'_site/build-receipt.json').read_text())['sources']
-    receipt['pdf_sha256']=hashlib.sha256((HERE/'downloads/Rheon-expanded-book.pdf').read_bytes()).hexdigest()
-    receipt['planar_statement_hit_time_rendering']=True
-    (HERE/'browser-qualification.json').write_text(json.dumps(receipt,indent=2)+'\n')
-    print(json.dumps({k:v for k,v in receipt.items() if k!='labs'},indent=2));browser.close()
+    paragraph = page.locator('p').filter(has=page.locator('code', has_text='wall_hit_on_surface'))
+    expected = ['g(x(t))=(1-t)g(a)+tg(b)', 't_*', 'g(x(t_*))=0',
+                r'0\le t<t_*', 'x(t_*)', r'0\le s\le1']
+    actual = paragraph.locator('annotation[encoding="application/x-tex"]').all_text_contents()
+    require(paragraph.count() == 1 and actual == expected and not paragraph.locator('em').count(),
+            f'Rendered planar statement changed: {actual!r}')
+
+
+def exercise_browser(base_url, render_pdf=False):
+    errors, failed = [], []
+    def track(page):
+        page.on('pageerror', lambda e: errors.append(str(e)))
+        page.on('response', lambda r: failed.append(f'{r.status} {r.url}') if r.status >= 400 else None)
+        page.on('requestfailed', lambda r: failed.append(f'{r.failure} {r.url}'))
+    def check_errors():
+        require(not errors, f'Browser page errors: {errors}')
+        require(not failed, f'Browser network failures: {failed}')
+    def load(page, path):
+        page.goto(base_url.rstrip('/') + '/' + path)
+        page.wait_for_load_state('networkidle')
+        check_errors()
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(executable_path=shutil.which('chromium'), headless=True,
+                                    args=['--no-sandbox', '--enable-unsafe-swiftshader'])
+        page = browser.new_page(viewport={'width': 1440, 'height': 1050}, device_scale_factor=1)
+        track(page)
+        load(page, 'index.html')
+        page.screenshot(path='/tmp/rheon-education-home.png', full_page=True)
+        load(page, 'labs.html')
+        page.wait_for_selector('#metrics dd')
+        page.wait_for_timeout(500)
+        require(page.locator('canvas').count() == 1, 'WebGL did not initialize')
+        checks = []
+        for lab in LABS:
+            page.select_option('#lab', lab)
+            page.wait_for_timeout(80)
+            before = page.locator('#metrics').inner_text()
+            controls = page.locator('#controls select')
+            if controls.count():
+                controls.last.select_option(index=controls.last.locator('option').count()-1)
+            ranges = page.locator('#controls input[type=range]')
+            if ranges.count():
+                ranges.first.fill(ranges.first.get_attribute('max'))
+                ranges.first.dispatch_event('input')
+            after = page.locator('#metrics').inner_text()
+            require(before != after, f'Controls did not change metrics: {lab}')
+            check_errors()
+            page.screenshot(path=f'/tmp/rheon-education-{lab}.png', full_page=True)
+            checks.append({'lab': lab, 'control_changes_metrics': True, 'readout': after})
+        page.select_option('#lab', 'cap')
+        page.locator('input[type=range]').fill('12')
+        page.locator('input[type=range]').dispatch_event('input')
+        page.screenshot(path='/tmp/rheon-education-cap90.png', full_page=True)
+        page.mouse.move(500, 500)
+        page.mouse.down()
+        page.mouse.move(610, 540, steps=5)
+        page.mouse.up()
+        page.locator('#reset-view').click()
+        load(page, 'chapters/23-wetting-and-adhesion.html')
+        require(page.locator('.katex-error').count() == 0, 'KaTeX rendering errors')
+        require(page.locator('.katex').count() > 5, 'Missing rendered chapter mathematics')
+        page.screenshot(path='/tmp/rheon-education-chapter.png', full_page=True)
+        load(page, 'chapters/20-collision-mesh-pipeline.html')
+        check_planar_statement(page)
+        page.screenshot(path='/tmp/rheon-education-planar-statement.png', full_page=True)
+        mobile = browser.new_page(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True)
+        track(mobile)
+        load(mobile, 'index.html')
+        mobile.locator('#menu').click()
+        require(mobile.locator('#navigation').is_visible(), 'Mobile navigation did not open')
+        mobile.locator('#search').fill('wetting')
+        require(mobile.locator('.chapter-link:visible').count() == 1, 'Mobile chapter search failed')
+        mobile.screenshot(path='/tmp/rheon-education-mobile.png', full_page=True)
+        load(mobile, 'labs.html#cap')
+        mobile.wait_for_selector('#metrics dd')
+        require(mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'),
+                'Mobile laboratory has horizontal overflow')
+        load(page, 'print.html')
+        page.evaluate('document.fonts.ready')
+        check_planar_statement(page)
+        check_errors()
+        if render_pdf:
+            (HERE/'downloads').mkdir(exist_ok=True)
+            page.pdf(path=str(HERE/'downloads/Rheon-expanded-book.pdf'), print_background=True,
+                     prefer_css_page_size=True, display_header_footer=True, header_template='<div></div>',
+                     footer_template='<div style="font-size:9px;width:100%;text-align:center;color:#52676d">Rheon · Puma · <span class="pageNumber"></span> / <span class="totalPages"></span></div>')
+        check_errors()
+        receipt = {'schema': 'rheon-education-browser-v1', 'browser': browser.version,
+                   'webgl': True, 'labs': checks, 'mobile_navigation_search': True,
+                   'mobile_no_horizontal_overflow': True, 'katex_no_errors': True,
+                   'page_errors': errors, 'http_failures': failed,
+                   'planar_statement_hit_time_rendering': True}
+        browser.close()
+        return receipt
+
+
+def verify(render_pdf=False, base_url=None):
+    repo = HERE.parents[1]
+    inputs = input_hashes(repo)
+    sources, books = source_hashes(HERE), book_sources(repo)
+    retained = [HERE/'downloads/Rheon-expanded-book.pdf', HERE/'pdf-inputs.json',
+                HERE/'browser-qualification.json']
+    if not render_pdf:
+        verify_pdf(repo)
+        verify_browser_qualification(repo)
+        before = [p.read_bytes() for p in retained]
+    if base_url is None:
+        with serve_site(HERE/'_site') as url:
+            receipt = exercise_browser(url, render_pdf)
+    else:
+        receipt = exercise_browser(base_url, render_pdf)
+    require(source_hashes(HERE) == sources and book_sources(repo) == books,
+            'Browser source/book inputs changed during qualification')
+    if render_pdf:
+        write_receipt(repo, inputs)
+        receipt['reviewed_sources'] = sources
+        receipt['book_sources'] = books
+        receipt['pdf_sha256'] = hashlib.sha256(retained[0].read_bytes()).hexdigest()
+        retained[2].write_text(json.dumps(receipt, indent=2)+'\n')
+    else:
+        require([p.read_bytes() for p in retained] == before,
+                'Publication verification changed the retained PDF or qualification receipts')
+        verify_pdf(repo)
+        verify_browser_qualification(repo)
+    print(json.dumps({'mode': 'render-pdf' if render_pdf else 'check',
+                      'browser': receipt['browser'], 'labs': [x['lab'] for x in receipt['labs']],
+                      'page_errors': receipt['page_errors'], 'http_failures': receipt['http_failures']}, indent=2))
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--check', action='store_true', help='Read-only publication verification (default)')
+    mode.add_argument('--render-pdf', action='store_true', help='Render and requalify; inspect the new PDF before publication')
+    parser.add_argument('--url', help='Existing preview URL; otherwise serve the built site on a private local port')
+    args = parser.parse_args()
+    verify(render_pdf=args.render_pdf, base_url=args.url)

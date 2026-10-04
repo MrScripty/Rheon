@@ -1,9 +1,10 @@
 {
   "schema": "rheon-pdf-inputs-v1",
   "inputs": {
-    "docs/education/build.py": "5b37162a3d8475586aab48e5e7dad600ae83707708bd31240a0bf731f3eccfc3",
+    "docs/education/build.py": "09bd94c06225bec95810d7c2019f3a57cd51c563c031168caf16de39cbb7dda8",
     "docs/education/package-lock.json": "58883fc3bd9dc3cc343090486038c6a46719c5839cb9dac7d58e35f6656f5659",
     "docs/education/style.css": "ae5941f905ccd741304fa3e4acddafedc0f9fd36b4045655e2f30ed9ac5e9135",
+    "docs/education/verify_browser.py": "13c1ad29da35b73b7c6c614cd8baf9390ca4a789d7eb4a0cd3085f38f5a35734",
     "docs/research-book/appendices/A-algorithm-reference.md": "7b855af0cad800c0208107a8d853739a89b16b2ffad5f819755a8ce0c5bb044e",
     "docs/research-book/appendices/B-reproduction.md": "d629c809213dfed7fa87f993b75fd23a2835c19f16a5a117274a9ed5be51c271",
     "docs/research-book/appendices/C-bibliography.md": "8379cc07167087c544f5eaa3386ad44355ce1844175941c7b25cc68507f75923",
@@ -54,5 +55,5 @@
     "docs/research-book/figures/staggered-grid.svg": "a58e91d1ac0786ef88a94c2ff5947631df9262ddca7dcd6760e21d02b5abd662",
     "docs/research-book/figures/transport-refinement.svg": "7c5f2626806ab7e0470976729551cc538b898583a506e057f6fec4f0b4360024"
   },
-  "pdf_sha256": "a8f26b891a39c38f96346d719256d53b2e5befff8fcd2d3a71cf8faeaecbd140"
+  "pdf_sha256": "df96f5fc1429de17ba5b3211fdfa313ddfc16018126e4766c9aca17791e1eddd"
 }

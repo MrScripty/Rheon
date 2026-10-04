@@ -15,7 +15,9 @@ python3 build.py
 python3 -m http.server 8765 --bind 127.0.0.1 --directory _site
 ```
 
-Run `python3 docs/education/verify_browser.py` from the repository while that server is running. It uses installed Playwright and Chromium, exercises all six labs, mobile navigation/search, math and console/network checks, and renders the illustrated PDF. Rebuild once after rendering to include the PDF download. `_site` and `node_modules` are disposable generated directories; the PDF in `downloads/` is the new edition artifact.
+Install `docs/education/requirements.txt` and a Chromium browser (`python3 -m playwright install --with-deps chromium`, or use installed Chromium). Run `python3 docs/education/verify_browser.py --check` from the repository. It serves the built site on a private local port, checks retained browser source/book/PDF bindings, and exercises all six labs, mobile navigation/search, math and page/network errors. This publication mode never renders the PDF or writes qualification receipts. `--url` can select an existing preview server.
+
+For an intentional new reading PDF, run `python3 docs/education/verify_browser.py --render-pdf`, visually inspect it, then rebuild once to include the PDF download. Only this explicit mode can render and write refreshed PDF/browser receipts. `_site` and `node_modules` are disposable generated directories; the PDF in `downloads/` is the new edition artifact.
 
 The Pages workflow builds and validates on pull requests; deploy runs only from main. The coordinator owns integration, repository Pages source configuration (`GitHub Actions`) and any deployment protections. A prepared site is not a claim of a live public URL.
 

@@ -1,10 +1,10 @@
 name: Rheon research book and Pages
 on:
   pull_request:
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   push:
     branches: [main]
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,17 +28,30 @@ jobs:
           sudo apt-get install -y pandoc
           npm ci --prefix docs/education --ignore-scripts --no-audit --no-fund
           python3 -m pip install -r docs/research-book/expansion/requirements.txt
+          python3 -m pip install -r docs/education/requirements.txt
+          python3 -m playwright install --with-deps chromium
       - name: Check local reference mechanisms
         run: |
           python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
           python3 docs/research-book/expansion/contact/sanity_checks.py
+          python3 -O docs/research-book/expansion/contact/sanity_checks.py
+          python3 -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py
+          python3 -O -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py
           python3 evidence/bounded-physics-contracts/witness.py
           python3 -O evidence/bounded-physics-contracts/witness.py
       - name: Build complete static edition and verify local links
         run: |
           python3 -m unittest discover -s docs/education -p test_pdf_freshness.py
+          python3 -O -m unittest discover -s docs/education -p test_pdf_freshness.py
+          python3 -m unittest discover -s docs/education -p test_publication_gates.py
+          python3 -O -m unittest discover -s docs/education -p test_publication_gates.py
           python3 docs/education/build.py
           python3 docs/education/verify_site.py
+      - name: Verify retained browser bindings and current Chromium laboratories
+        run: |
+          python3 docs/education/browser_qualification.py
+          python3 docs/education/verify_browser.py --check
+          python3 -O -m unittest discover -s docs/education -p test_browser_runtime.py
       - name: Retain reviewable site
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

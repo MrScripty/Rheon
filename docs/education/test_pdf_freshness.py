@@ -21,7 +21,7 @@ class PdfFreshness(unittest.TestCase):
         for path, content in [(self.chapter, '# Original manuscript'),
                               (self.figure, '<svg/>'),
                               *[(self.here/name, name) for name in
-                                ['build.py', 'style.css', 'package-lock.json']]]:
+                                ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json']]]:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(content)
         self.pdf = self.here / 'downloads/Rheon-expanded-book.pdf'
@@ -53,6 +53,11 @@ class PdfFreshness(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'example.svg'):verify_pdf(self.repo)
         self.figure.write_text('<svg/>');self.pdf.write_bytes(b'different PDF')
         with self.assertRaisesRegex(ValueError, 'PDF bytes differ'):verify_pdf(self.repo)
+
+    def test_renderer_only_change_rejects_retained_pdf(self):
+        (self.here/'verify_browser.py').write_text('changed print options')
+        with self.assertRaisesRegex(ValueError, 'Stale PDF inputs.*verify_browser.py'):
+            verify_pdf(self.repo)
 
     def test_stale_html_cannot_issue_fresh_receipt(self):
         site=self.here/'_site';site.mkdir()

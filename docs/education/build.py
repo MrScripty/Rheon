@@ -14,6 +14,7 @@ def command(args,**kwargs):
     return result.stdout
 
 def build():
+    verify_reference(BOOK/'expansion')
     pdf_inputs=input_hashes(ROOT)
     if OUT.exists():shutil.rmtree(OUT)
     OUT.mkdir(); (OUT/'chapters').mkdir(); (OUT/'downloads').mkdir(); (OUT/'proofs').mkdir()
@@ -80,4 +81,11 @@ def build():
     if input_hashes(ROOT)!=pdf_inputs:raise RuntimeError('PDF inputs changed during HTML build; rebuild.')
     build_receipt['pdf_inputs']=pdf_inputs
     (OUT/'build-receipt.json').write_text(json.dumps(build_receipt,indent=2)+'\n');print(json.dumps({k:v for k,v in build_receipt.items() if k not in ['sources','pdf_inputs']},indent=2))
+def verify_reference(reference):
+    qualification=json.loads((reference/'reference-qualification.json').read_text())
+    for name,key in [('reference.py','source_sha256'),('reference-data.json','data_sha256')]:
+        digest=hashlib.sha256((reference/name).read_bytes()).hexdigest()
+        if digest!=qualification.get(key):
+            raise ValueError(f'{name} does not match reference qualification; regenerate and qualify before publication.')
+
 if __name__=='__main__':build()

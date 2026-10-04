@@ -73,10 +73,25 @@
       "passed": true
     },
     {
-      "name": "T7 exact force pressure balance",
+      "name": "T7 fixed finite pressure-gradient force balance",
       "residual": 0.0,
       "tolerance": 1e-10,
-      "passed": true
+      "passed": true,
+      "pressure": [
+        2.0,
+        5.0,
+        -1.0,
+        7.0
+      ],
+      "expected_force": [
+        6.0,
+        -9.0,
+        2.0,
+        -10.0,
+        -12.0,
+        1.0
+      ],
+      "interpretation": "Independent oriented face pressure jumps; algebraic balance only, no capillary assembly"
     },
     {
       "name": "T8 discrete gradient work identity",

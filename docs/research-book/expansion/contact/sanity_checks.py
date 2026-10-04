@@ -5,6 +5,7 @@ import math
 import platform
 import numpy as np
 import sympy as sp
+from force_balance import pressure_fixture, check_pressure_force
 
 ROOT = Path(__file__).resolve().parent
 rng = np.random.default_rng(43177)
@@ -13,7 +14,8 @@ results = []
 
 def record(name, residual, tolerance=1e-10, **details):
     value = float(abs(residual))
-    assert value <= tolerance, (name, value, tolerance)
+    if not math.isfinite(value) or value > tolerance:
+        raise ValueError((name, value, tolerance))
     results.append(dict(name=name, residual=value, tolerance=tolerance,
                         passed=True, **details))
 
@@ -90,9 +92,10 @@ newvol=vol+dt*(incidence@G)
 newmass=c0*vol+dt*c0*(incidence@G)
 record('T6 uniform moving capacity field',np.max(np.abs(newmass-c0*newvol)))
 
-G=rng.normal(size=(7,3)); p=rng.normal(size=3)
-fsigma=G@p
-record('T7 exact force pressure balance',np.linalg.norm(fsigma-G@p))
+G, p, expected_force = pressure_fixture()
+record('T7 fixed finite pressure-gradient force balance',check_pressure_force(G@p),
+       pressure=p.tolist(),expected_force=expected_force.tolist(),
+       interpretation='Independent oriented face pressure jumps; algebraic balance only, no capillary assembly')
 
 # Implicit midpoint for a harmonic energy: an explicit discrete-gradient witness.
 m,k,dt,x0,v0=2.,7.,.13,.6,-.2
@@ -141,4 +144,3 @@ out=dict(description='Mathematical identities and analytical geometry only; no R
          passed=sum(r['passed'] for r in results),checks=results)
 (ROOT/'sanity_results.json').write_text(json.dumps(out,indent=2)+'\n')
 print(json.dumps({k:out[k] for k in ['description','passed','seed']},indent=2))
-
