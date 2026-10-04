@@ -1,0 +1,49 @@
+{
+  "url": "https://github.com/MrScripty/Rheon/pull/1",
+  "state": "open",
+  "draft": true,
+  "head": "research/discrete-fluid-foundations",
+  "head_sha": "1588be9e9f31a9baee11748aca38d150dfd5fe9c",
+  "base_sha": "0cb48429789699578b640d30d9d5dc99c6921ce4",
+  "merge_commit_sha": "b547f9a09470cfe202eb1bba77a7eeafcc9190ab",
+  "run_id": 37151494668,
+  "job_id": 111286150095,
+  "threads": [
+    {
+      "id": "PRRT_kwDOSxlnis6oq_4x",
+      "path": ".github/workflows/research-numerics.yml",
+      "is_resolved": false,
+      "is_outdated": false,
+      "comments": [
+        {
+          "database_id": 4174587091,
+          "body": "_🗄️ Data Integrity & Integration_ | _🟠 Major_ | _⚡ Quick win_\n\n**Verify the committed numerical results.**\n\nBoth scripts overwrite their tracked JSON files, but this job never checks whether the regenerated values match the commit. If a pull request changes only `results.json` or `depth-results.json`, CI regenerates the correct values locally and still passes. The published evidence can therefore disagree with the experiments. Compare the numerical fields with the committed files after execution. Allow for platform metadata and documented floating-point tolerances."
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOSxlnis6oq_4z",
+      "path": "docs/research-book/appendices/A-algorithm-reference.md",
+      "is_resolved": false,
+      "is_outdated": true,
+      "comments": [
+        {
+          "database_id": 4174587093,
+          "body": "_🎯 Functional Correctness_ | _🟡 Minor_ | _⚡ Quick win_\n\n**Check `next_rz` before computing `beta`.**\n\nLine 72 checks the previous `rz`, not the newly computed `next_rz`. If `next_rz` is zero or negative, the solver continues with an invalid preconditioned residual instead of reporting breakdown. Check `next_rz <= 0`, as required by docs/research-book/chapters/05-linear-solvers.md Line 60."
+        }
+      ]
+    },
+    {
+      "id": "PRRT_kwDOSxlnis6oq_4-",
+      "path": "docs/research-book/build_manuscript.py",
+      "is_resolved": false,
+      "is_outdated": true,
+      "comments": [
+        {
+          "database_id": 4174587106,
+          "body": "_🗄️ Data Integrity & Integration_ | _🟡 Minor_ | _⚡ Quick win_\n\n**Specify UTF-8 for manuscript text I/O.**\n\nOn a non-UTF-8 locale, `f.read_text()` can misdecode the bibliography’s non-ASCII names. The DOCX can then contain corrupted names. Add `encoding=\"utf-8\"` here and to the other `read_text()` and `write_text()` calls in this builder. Python uses the locale encoding when no encoding is specified. ([docs.python.org](https://docs.python.org/3/library/pathlib.html?highlight=path+glob&utm_source=openai))\n\nBased on learnings, specify UTF-8 explicitly for cross-platform text-file reads and writes.\n<!-- coderabbit-global-learning v1 gid=b695257aa67f4bf3 scope=lang -->"
+        }
+      ]
+    }
+  ]
+}

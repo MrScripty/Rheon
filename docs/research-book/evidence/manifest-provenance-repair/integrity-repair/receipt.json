@@ -1,0 +1,83 @@
+{
+  "qualification_source_commit": "e9cacf9e6cc3bb29b35a248df4f10fc1604595cb",
+  "qualification_source_tree": "a480e84882e60b8eb08f73aef07e7f202f7922e8",
+  "source_sha256": {
+    "proofs/scripts/test_check_sources.py": "e53304e8bcb0b11a61e434d2e8be39e0b42e37a11d82af689423e97777ba4899",
+    "docs/research-book/evidence/manifest-provenance-repair/verify.py": "24f8be6891168e4af6ab2f2e310cf96ef87c509a807127e764308301ed030788",
+    "docs/research-book/evidence/manifest-provenance-repair/test_verify.py": "0ab461b5d965d8b015a1baab08cc587ba82bbfd6d7a73889618b8f3c5b930363"
+  },
+  "python": "3.12.14",
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "logs": {
+    "gate.log": {
+      "command": "python3 proofs/scripts/check_sources.py",
+      "returncode": 0,
+      "sha256": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812"
+    },
+    "gate-optimized.log": {
+      "command": "python3 -O proofs/scripts/check_sources.py",
+      "returncode": 0,
+      "sha256": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812"
+    },
+    "source-tests.log": {
+      "command": "python3 -m unittest discover -s proofs/scripts -p test_check_sources.py -v",
+      "returncode": 0,
+      "sha256": "924bd0495a456e8eb2a6912d5129e90d8c0db13d931236d2fe85d73499e8c69a"
+    },
+    "source-tests-optimized.log": {
+      "command": "python3 -O -m unittest discover -s proofs/scripts -p test_check_sources.py -v",
+      "returncode": 0,
+      "sha256": "aafb5d5b674baf10e694b1c41610f8bebf29e1e364fc18ca0d19b666688ee716"
+    },
+    "helper-tests.log": {
+      "command": "python3 docs/research-book/evidence/manifest-provenance-repair/test_verify.py -v",
+      "returncode": 0,
+      "sha256": "f0e9fa44e593874a426abc50bd047079ddc9d66589ad865f0d7edd36bbc5c120"
+    },
+    "helper-tests-optimized.log": {
+      "command": "python3 -O docs/research-book/evidence/manifest-provenance-repair/test_verify.py -v",
+      "returncode": 0,
+      "sha256": "b0a5c47f4567a285bc2fed8b0bc51e271c43f6f7b6b83d864fcee669c5d66de4"
+    },
+    "bootstrap-tests.log": {
+      "command": "ELAN_TEST_ARCHIVE=/tmp/rheon-elan-v4.1.2.tar.gz python3 -m unittest discover -s proofs/scripts -p test_bootstrap.py -v",
+      "returncode": 0,
+      "sha256": "d75f8d8b72958abfabaf1bed4963a04c677bc7edc2736516bcb56b019187b294"
+    },
+    "comparator-tests.log": {
+      "command": "python3 docs/research-book/companion/test_verify_results.py",
+      "returncode": 0,
+      "sha256": "24c628e1e076ca4a471cac145c4df4eb3c060e14ca3c723ff029df1aa66dfd5a"
+    },
+    "comparator-tests-optimized.log": {
+      "command": "python3 -O docs/research-book/companion/test_verify_results.py",
+      "returncode": 0,
+      "sha256": "43b5488a1987be0bc6c8e5c8ddbd5ed7a3f15cb524e68fcd75b939a870b449f2"
+    },
+    "verification.log": {
+      "command": "python3 docs/research-book/evidence/manifest-provenance-repair/verify.py",
+      "returncode": 0,
+      "sha256": "230cc93c5f81ef34176f47aa62f8b81e1fed8d1398d683cb983935f06fda7ca0"
+    },
+    "verification-optimized.log": {
+      "command": "python3 -O docs/research-book/evidence/manifest-provenance-repair/verify.py",
+      "returncode": 0,
+      "sha256": "230cc93c5f81ef34176f47aa62f8b81e1fed8d1398d683cb983935f06fda7ca0"
+    }
+  },
+  "log_normalization": "Trailing whitespace and terminal blank lines only",
+  "historical_archive_commit": "d72db7c1bd3fc10b27978c6dcc8ec10709195ace",
+  "historical_source_commit": "d4147b311ebfd1b05919251dab703a628eb32316",
+  "historical_receipt_sha256": "07c6ad254c0e3b12a944b541c9fc78baa799f28c7d13aff95f681f5ae3b2e43e",
+  "source_tests_per_mode": 4,
+  "helper_tests_per_mode": 6,
+  "comparator_tests_per_mode": 12,
+  "bootstrap_tests": 2,
+  "fresh_native_lean_qualification": false,
+  "parent_independent_review": "pending",
+  "pr1_updated": false,
+  "bot_review_requested": false,
+  "merged": false
+}

@@ -1,0 +1,10 @@
+2026-10-03T20:25:45.0800300Z HEAD is now at b547f9a Merge 1588be9e9f31a9baee11748aca38d150dfd5fe9c into 0cb48429789699578b640d30d9d5dc99c6921ce4
+2026-10-03T20:25:45.2124730Z Python 3.12.3
+2026-10-03T20:26:00.0420087Z Successfully installed contourpy-1.4.0 cycler-0.12.1 fonttools-4.66.1 kiwisolver-1.5.1 matplotlib-3.10.8 numpy-2.3.5 packaging-26.3 pillow-12.3.0 pyparsing-3.3.3 python-dateutil-2.9.0.post0 scipy-1.17.0 six-1.17.0
+2026-10-03T20:26:00.7034799Z   "cg_iterations": 78,
+2026-10-03T20:26:00.7035422Z   "final_divergence_l2": 4.4429348510365244e-10,
+2026-10-03T20:26:00.7035783Z   "residual_identity_linf_error_f64": 2.7533531010690958e-15,
+2026-10-03T20:26:00.7036163Z   "residual_identity_linf_error_f32": 1.7046928633135394e-06,
+2026-10-03T20:26:01.0850958Z Ran 6 tests in 0.000s
+2026-10-03T20:26:01.1204688Z ValueError: $.projection.histories.cg[53]: numerical evidence differs: 0.028793851420700668 != 0.02879384969967465
+2026-10-03T20:26:01.1253725Z ##[error]Process completed with exit code 1.

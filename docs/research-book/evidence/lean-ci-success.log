@@ -1,0 +1,287 @@
+﻿2026-10-03T17:46:41.7208807Z Current runner version: '2.337.0'
+2026-10-03T17:46:41.7241331Z ##[group]Runner Image Provisioner
+2026-10-03T17:46:41.7242516Z Hosted Compute Agent
+2026-10-03T17:46:41.7243500Z Version: 20260901.588
+2026-10-03T17:46:41.7245045Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-03T17:46:41.7246263Z Build Date: 2026-09-01T19:56:44Z
+2026-10-03T17:46:41.7247556Z Worker ID: {35574594-d965-4ea3-9df0-c52314ff6b85}
+2026-10-03T17:46:41.7248658Z Azure Region: centralus
+2026-10-03T17:46:41.7249621Z ##[endgroup]
+2026-10-03T17:46:41.7251951Z ##[group]Operating System
+2026-10-03T17:46:41.7252946Z Ubuntu
+2026-10-03T17:46:41.7254173Z 24.04.5
+2026-10-03T17:46:41.7255004Z LTS
+2026-10-03T17:46:41.7255775Z ##[endgroup]
+2026-10-03T17:46:41.7256716Z ##[group]Runner Image
+2026-10-03T17:46:41.7257635Z Image: ubuntu-24.04
+2026-10-03T17:46:41.7258739Z Version: 20260927.320.1
+2026-10-03T17:46:41.7260573Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-03T17:46:41.7263179Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-03T17:46:41.7265003Z ##[endgroup]
+2026-10-03T17:46:41.7266963Z ##[group]GITHUB_TOKEN Permissions
+2026-10-03T17:46:41.7269796Z Contents: read
+2026-10-03T17:46:41.7270778Z Metadata: read
+2026-10-03T17:46:41.7271645Z ##[endgroup]
+2026-10-03T17:46:41.7275130Z Secret source: Actions
+2026-10-03T17:46:41.7276549Z Cache mode: write
+2026-10-03T17:46:41.7278219Z Prepare workflow directory
+2026-10-03T17:46:41.7733491Z Prepare all required actions
+2026-10-03T17:46:41.7801268Z Getting action download info
+2026-10-03T17:46:42.0169090Z Download action repository 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-10-03T17:46:42.2263909Z Complete job name: discrete-contracts
+2026-10-03T17:46:42.3043889Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+2026-10-03T17:46:42.3044969Z with:
+2026-10-03T17:46:42.3045438Z   persist-credentials: false
+2026-10-03T17:46:42.3046001Z   repository: MrScripty/Rheon
+2026-10-03T17:46:42.3049801Z   token: ***
+2026-10-03T17:46:42.3050262Z   ssh-strict: true
+2026-10-03T17:46:42.3050715Z   ssh-user: git
+2026-10-03T17:46:42.3051147Z   clean: true
+2026-10-03T17:46:42.3051603Z   sparse-checkout-cone-mode: true
+2026-10-03T17:46:42.3052134Z   fetch-depth: 1
+2026-10-03T17:46:42.3052576Z   fetch-tags: false
+2026-10-03T17:46:42.3053036Z   show-progress: true
+2026-10-03T17:46:42.3053488Z   lfs: false
+2026-10-03T17:46:42.3054062Z   submodules: false
+2026-10-03T17:46:42.3054544Z   set-safe-directory: true
+2026-10-03T17:46:42.3055239Z ##[endgroup]
+2026-10-03T17:46:42.4105096Z Syncing repository: MrScripty/Rheon
+2026-10-03T17:46:42.4107080Z ##[group]Getting Git version info
+2026-10-03T17:46:42.4108115Z Working directory is '/home/runner/work/Rheon/Rheon'
+2026-10-03T17:46:42.4109385Z [command]/usr/bin/git version
+2026-10-03T17:46:42.4163242Z git version 2.55.0
+2026-10-03T17:46:42.4193121Z ##[endgroup]
+2026-10-03T17:46:42.4199959Z Temporarily overriding HOME='/home/runner/work/_temp/91d4355b-c5f5-4b5f-9914-423752396725' before making global git config changes
+2026-10-03T17:46:42.4202393Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T17:46:42.4205739Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rheon/Rheon
+2026-10-03T17:46:42.4257919Z Deleting the contents of '/home/runner/work/Rheon/Rheon'
+2026-10-03T17:46:42.4262034Z ##[group]Initializing the repository
+2026-10-03T17:46:42.4268467Z [command]/usr/bin/git init /home/runner/work/Rheon/Rheon
+2026-10-03T17:46:42.4376065Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-03T17:46:42.4377610Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-03T17:46:42.4378901Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-03T17:46:42.4379898Z hint: call:
+2026-10-03T17:46:42.4380576Z hint:
+2026-10-03T17:46:42.4382030Z hint: 	git config --global init.defaultBranch <name>
+2026-10-03T17:46:42.4382888Z hint:
+2026-10-03T17:46:42.4383980Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-03T17:46:42.4385224Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-03T17:46:42.4386185Z hint:
+2026-10-03T17:46:42.4386900Z hint: 	git branch -m <name>
+2026-10-03T17:46:42.4387643Z hint:
+2026-10-03T17:46:42.4388544Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-03T17:46:42.4394639Z Initialized empty Git repository in /home/runner/work/Rheon/Rheon/.git/
+2026-10-03T17:46:42.4406243Z [command]/usr/bin/git remote add origin https://github.com/MrScripty/Rheon
+2026-10-03T17:46:42.4456009Z ##[endgroup]
+2026-10-03T17:46:42.4457471Z ##[group]Disabling automatic garbage collection
+2026-10-03T17:46:42.4459606Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-03T17:46:42.4492467Z ##[endgroup]
+2026-10-03T17:46:42.4500716Z ##[group]Setting up auth
+2026-10-03T17:46:42.4501487Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:46:42.4534801Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:46:42.4918212Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:46:42.4961812Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T17:46:42.5221352Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-03T17:46:42.5264989Z ##[endgroup]
+2026-10-03T17:46:42.5266227Z ##[group]Fetching the repository
+2026-10-03T17:46:42.5276031Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +5621381e900bcc6b5536aa7f52cbe783c65cafcc:refs/remotes/pull/1/merge
+2026-10-03T17:46:42.8235842Z From https://github.com/MrScripty/Rheon
+2026-10-03T17:46:42.8236847Z  * [new ref]         5621381e900bcc6b5536aa7f52cbe783c65cafcc -> pull/1/merge
+2026-10-03T17:46:42.8241665Z ##[endgroup]
+2026-10-03T17:46:42.8242782Z ##[group]Determining the checkout info
+2026-10-03T17:46:42.8244768Z ##[endgroup]
+2026-10-03T17:46:42.8250953Z [command]/usr/bin/git sparse-checkout disable
+2026-10-03T17:46:42.8305775Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-03T17:46:42.8339895Z ##[group]Checking out the ref
+2026-10-03T17:46:42.8344489Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/1/merge
+2026-10-03T17:46:42.8400800Z Note: switching to 'refs/remotes/pull/1/merge'.
+2026-10-03T17:46:42.8401629Z 
+2026-10-03T17:46:42.8402327Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-03T17:46:42.8403440Z changes and commit them, and you can discard any commits you make in this
+2026-10-03T17:46:42.8404672Z state without impacting any branches by switching back to a branch.
+2026-10-03T17:46:42.8405236Z 
+2026-10-03T17:46:42.8405653Z If you want to create a new branch to retain commits you create, you may
+2026-10-03T17:46:42.8406618Z do so (now or later) by using -c with the switch command. Example:
+2026-10-03T17:46:42.8407149Z 
+2026-10-03T17:46:42.8407392Z   git switch -c <new-branch-name>
+2026-10-03T17:46:42.8407772Z 
+2026-10-03T17:46:42.8408010Z Or undo this operation with:
+2026-10-03T17:46:42.8408397Z 
+2026-10-03T17:46:42.8408606Z   git switch -
+2026-10-03T17:46:42.8408963Z 
+2026-10-03T17:46:42.8409400Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-03T17:46:42.8410243Z 
+2026-10-03T17:46:42.8411333Z HEAD is now at 5621381 Merge ecf97d3a943ebe30d20acc1cf01b94dc08ff96a2 into 0cb48429789699578b640d30d9d5dc99c6921ce4
+2026-10-03T17:46:42.8414201Z ##[endgroup]
+2026-10-03T17:46:42.8459855Z [command]/usr/bin/git log -1 --format=%H
+2026-10-03T17:46:42.8488885Z 5621381e900bcc6b5536aa7f52cbe783c65cafcc
+2026-10-03T17:46:42.8498155Z ##[group]Removing auth
+2026-10-03T17:46:42.8501948Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:46:42.8537578Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:46:42.8777798Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:46:42.8809510Z http.https://github.com/.extraheader
+2026-10-03T17:46:42.8817521Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-03T17:46:42.8854905Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T17:46:42.9092247Z ##[endgroup]
+2026-10-03T17:46:42.9312218Z ##[group]Run set -euo pipefail
+2026-10-03T17:46:42.9312932Z [36;1mset -euo pipefail[0m
+2026-10-03T17:46:42.9313737Z [36;1mcurl --fail --location --retry 3 \[0m
+2026-10-03T17:46:42.9314853Z [36;1m  https://github.com/leanprover/elan/releases/download/v4.1.2/elan-x86_64-unknown-linux-gnu.tar.gz \[0m
+2026-10-03T17:46:42.9315920Z [36;1m  -o "$RUNNER_TEMP/elan.tar.gz"[0m
+2026-10-03T17:46:42.9316650Z [36;1mtar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP"[0m
+2026-10-03T17:46:42.9317582Z [36;1m"$RUNNER_TEMP/elan-init" -y --no-modify-path --default-toolchain none[0m
+2026-10-03T17:46:42.9318447Z [36;1mecho "$HOME/.elan/bin" >> "$GITHUB_PATH"[0m
+2026-10-03T17:46:42.9586701Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-03T17:46:42.9587474Z ##[endgroup]
+2026-10-03T17:46:42.9786457Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2026-10-03T17:46:42.9788474Z                                  Dload  Upload   Total   Spent    Left  Speed
+2026-10-03T17:46:42.9792047Z 
+2026-10-03T17:46:43.1162446Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-03T17:46:43.1164090Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-03T17:46:43.3505039Z 
+2026-10-03T17:46:43.3506376Z 100 4869k  100 4869k    0     0  12.7M      0 --:--:-- --:--:-- --:--:-- 12.7M
+2026-10-03T17:46:43.4782475Z ##[group]Run python3 scripts/check_sources.py
+2026-10-03T17:46:43.4784364Z [36;1mpython3 scripts/check_sources.py[0m
+2026-10-03T17:46:43.4859310Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-03T17:46:43.4861014Z ##[endgroup]
+2026-10-03T17:46:43.5398651Z PASS exact reviewed Lean source inventory and dependency pins
+2026-10-03T17:46:43.5539851Z ##[group]Run set -euo pipefail
+2026-10-03T17:46:43.5541068Z [36;1mset -euo pipefail[0m
+2026-10-03T17:46:43.5542204Z [36;1mlake exe cache get[0m
+2026-10-03T17:46:43.5544078Z [36;1mgit diff --exit-code -- lake-manifest.json lean-toolchain lakefile.toml[0m
+2026-10-03T17:46:43.5546718Z [36;1mtest "$(git -C .lake/packages/mathlib rev-parse HEAD)" = c44e0c8ee63ca166450922a373c7409c5d26b00b[0m
+2026-10-03T17:46:43.5548854Z [36;1mlean --version[0m
+2026-10-03T17:46:43.5622339Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-03T17:46:43.5624379Z ##[endgroup]
+2026-10-03T17:46:43.8155987Z info: Version 4.2.4 of elan is available! Use `elan self update` to update.
+2026-10-03T17:46:44.1360029Z info: downloading https://releases.lean-lang.org/lean4/v4.19.0/lean-4.19.0-linux.tar.zst
+2026-10-03T17:46:46.5409812Z info: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.19.0
+2026-10-03T17:47:23.3216819Z info: mathlib: cloning https://github.com/leanprover-community/mathlib4.git
+2026-10-03T17:47:23.3217687Z info: mathlib: checking out revision 'c44e0c8ee63ca166450922a373c7409c5d26b00b'
+2026-10-03T17:47:24.4860616Z info: plausible: cloning https://github.com/leanprover-community/plausible
+2026-10-03T17:47:24.4861576Z info: plausible: checking out revision '77e08eddc486491d7b9e470926b3dbe50319451a'
+2026-10-03T17:47:24.8321077Z info: LeanSearchClient: cloning https://github.com/leanprover-community/LeanSearchClient
+2026-10-03T17:47:24.8322159Z info: LeanSearchClient: checking out revision '25078369972d295301f5a1e53c3e5850cf6d9d4c'
+2026-10-03T17:47:25.2790984Z info: importGraph: cloning https://github.com/leanprover-community/import-graph
+2026-10-03T17:47:25.2791682Z info: importGraph: checking out revision 'e6a9f0f5ee3ccf7443a0070f92b62f8db12ae82b'
+2026-10-03T17:47:26.1928902Z info: proofwidgets: cloning https://github.com/leanprover-community/ProofWidgets4
+2026-10-03T17:47:26.1929788Z info: proofwidgets: checking out revision 'c4919189477c3221e6a204008998b0d724f49904'
+2026-10-03T17:47:27.7646877Z info: aesop: cloning https://github.com/leanprover-community/aesop
+2026-10-03T17:47:27.7647813Z info: aesop: checking out revision '5d50b08dedd7d69b3d9b3176e0d58a23af228884'
+2026-10-03T17:47:28.2335344Z info: Qq: cloning https://github.com/leanprover-community/quote4
+2026-10-03T17:47:36.7586676Z info: Qq: checking out revision 'fa4f7f15d97591a9cf3aa7724ba371c7fc6dda02'
+2026-10-03T17:47:36.7587505Z info: batteries: cloning https://github.com/leanprover-community/batteries
+2026-10-03T17:47:36.7588649Z info: batteries: checking out revision 'f5d04a9c4973d401c8c92500711518f7c656f034'
+2026-10-03T17:47:37.1407268Z info: Cli: cloning https://github.com/leanprover/lean4-cli
+2026-10-03T17:47:37.1408296Z info: Cli: checking out revision '02dbd02bc00ec4916e99b04b2245b30200e200d0'
+2026-10-03T17:47:37.3422395Z ✔ [2/12] Built Cache.Lean
+2026-10-03T17:47:37.5425377Z ✔ [3/12] Built Cache.Lean:c.o
+2026-10-03T17:47:38.6436651Z ✔ [4/12] Built Cache.IO
+2026-10-03T17:47:39.5475302Z ✔ [5/12] Built Cache.Hashing
+2026-10-03T17:47:40.8495359Z ✔ [6/12] Built Cache.Requests
+2026-10-03T17:47:41.3509278Z ✔ [7/12] Built Cache.Hashing:c.o
+2026-10-03T17:47:41.4513451Z ✔ [8/12] Built Cache.IO:c.o
+2026-10-03T17:47:41.7510176Z ✔ [9/12] Built Cache.Main
+2026-10-03T17:47:42.2517026Z ✔ [10/12] Built Cache.Requests:c.o
+2026-10-03T17:47:42.4521090Z ✔ [11/12] Built Cache.Main:c.o
+2026-10-03T17:47:43.1527700Z ✔ [12/12] Built cache
+2026-10-03T17:47:45.6491665Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2026-10-03T17:47:45.6492183Z                                  Dload  Upload   Total   Spent    Left  Speed
+2026-10-03T17:47:45.6492443Z 
+2026-10-03T17:47:45.6492601Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-03T17:47:45.6493003Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-03T17:47:45.6493222Z 
+2026-10-03T17:47:45.6493384Z 100 1075k  100 1075k    0     0  3817k      0 --:--:-- --:--:-- --:--:-- 3817k
+2026-10-03T17:47:45.6494455Z 
+2026-10-03T17:47:45.6827333Z installing leantar 0.1.15
+2026-10-03T17:47:46.8520782Z Attempting to download 6641 file(s)
+2026-10-03T17:47:47.8364018Z 
+2026-10-03T17:47:47.9356782Z Downloaded: 1 file(s) [attempted 1/6641 = 0%]
+2026-10-03T17:47:48.0396759Z Downloaded: 31 file(s) [attempted 31/6641 = 0%]
+2026-10-03T17:47:48.1408010Z Downloaded: 342 file(s) [attempted 342/6641 = 5%]
+2026-10-03T17:47:48.2395490Z Downloaded: 752 file(s) [attempted 752/6641 = 11%]
+2026-10-03T17:47:48.3395757Z Downloaded: 1081 file(s) [attempted 1081/6641 = 16%]
+2026-10-03T17:47:48.4477684Z Downloaded: 1438 file(s) [attempted 1438/6641 = 21%]
+2026-10-03T17:47:48.5542746Z Downloaded: 1791 file(s) [attempted 1791/6641 = 26%]
+2026-10-03T17:47:48.6535768Z Downloaded: 2153 file(s) [attempted 2153/6641 = 32%]
+2026-10-03T17:47:48.7543432Z Downloaded: 2510 file(s) [attempted 2510/6641 = 37%]
+2026-10-03T17:47:48.8563270Z Downloaded: 2835 file(s) [attempted 2835/6641 = 42%]
+2026-10-03T17:47:48.9569368Z Downloaded: 3192 file(s) [attempted 3192/6641 = 48%]
+2026-10-03T17:47:49.0577063Z Downloaded: 3566 file(s) [attempted 3566/6641 = 53%]
+2026-10-03T17:47:49.1565730Z Downloaded: 3981 file(s) [attempted 3981/6641 = 59%]
+2026-10-03T17:47:49.2599435Z Downloaded: 4385 file(s) [attempted 4385/6641 = 66%]
+2026-10-03T17:47:49.3600624Z Downloaded: 4766 file(s) [attempted 4766/6641 = 71%]
+2026-10-03T17:47:49.4647445Z Downloaded: 5126 file(s) [attempted 5126/6641 = 77%]
+2026-10-03T17:47:49.5662883Z Downloaded: 5535 file(s) [attempted 5535/6641 = 83%]
+2026-10-03T17:47:49.6683156Z Downloaded: 5943 file(s) [attempted 5943/6641 = 89%]
+2026-10-03T17:47:49.7893191Z Downloaded: 6307 file(s) [attempted 6307/6641 = 94%]
+2026-10-03T17:47:49.7930035Z Downloaded: 6641 file(s) [attempted 6641/6641 = 100%]
+2026-10-03T17:47:49.7930814Z Downloaded: 6641 file(s) [attempted 6641/6641 = 100%] (100% success)
+2026-10-03T17:48:03.8055849Z Decompressing 6641 file(s)
+2026-10-03T17:48:03.8057277Z Unpacked in 13981 ms
+2026-10-03T17:48:03.8057567Z Completed successfully!
+2026-10-03T17:48:03.8763807Z Lean (version 4.19.0, x86_64-unknown-linux-gnu, commit 6caaee842e94, Release)
+2026-10-03T17:48:03.8823757Z ##[group]Run lake build
+2026-10-03T17:48:03.8824066Z [36;1mlake build[0m
+2026-10-03T17:48:03.8902745Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-03T17:48:03.8903121Z ##[endgroup]
+2026-10-03T17:48:10.3564965Z ✔ [6653/6657] Built Rheon.Discrete
+2026-10-03T17:48:10.6555829Z ✔ [6654/6657] Built Rheon.Transport
+2026-10-03T17:48:10.7557611Z ✔ [6655/6657] Built Rheon.Indexing
+2026-10-03T17:48:13.6591816Z ✔ [6656/6657] Built Rheon
+2026-10-03T17:48:13.6695707Z Build completed successfully.
+2026-10-03T17:48:13.6896015Z ##[group]Run set -euo pipefail
+2026-10-03T17:48:13.6896355Z [36;1mset -euo pipefail[0m
+2026-10-03T17:48:13.6896689Z [36;1mlake env lean AxiomAudit.lean 2>&1 | tee axiom-audit.log[0m
+2026-10-03T17:48:13.6967427Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-03T17:48:13.6967786Z ##[endgroup]
+2026-10-03T17:48:29.0907251Z AUDITED Rheon.Transport.convex_sum_bounds: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0914598Z AUDITED Rheon.Discrete.constant_gradient_zero._proof_1: [propext, Quot.sound]
+2026-10-03T17:48:29.0915359Z AUDITED Rheon.Indexing.flatten_in_bounds: [propext]
+2026-10-03T17:48:29.0915915Z AUDITED Rheon.Discrete.gradient: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0916689Z AUDITED Rheon.Discrete.incidence.eq_1: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0917498Z AUDITED Rheon.Discrete.exact_projection: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0918540Z AUDITED Rheon.Transport.explicit_diffusion_positive: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0919464Z AUDITED Rheon.Transport.blend_constant: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0920334Z AUDITED Rheon.Transport.cfl_counterexample: [propext, Classical.choice, Quot.sound]
+2026-10-03T17:48:29.0921129Z AUDITED Rheon.Transport.blend_upper: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0921622Z AUDITED Rheon.Transport.blend_lower: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0922229Z AUDITED Rheon.Transport.interpolation_not_mass_conservative: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0922834Z AUDITED Rheon.Discrete.corrected: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0923258Z AUDITED Rheon.Indexing.flatten: []
+2026-10-03T17:48:29.0923787Z AUDITED Rheon.Indexing.staggered_count: [propext]
+2026-10-03T17:48:29.0924220Z AUDITED Rheon.Transport.blend: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0924779Z AUDITED Rheon.Discrete.constant_pressure_nullspace: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0925374Z AUDITED Rheon.Discrete.pressure_symmetric: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0925900Z AUDITED Rheon.Discrete.gradient.eq_1: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0926432Z AUDITED Rheon.Discrete.conservative_update: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0926990Z AUDITED Rheon.Discrete.projection_residual: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0927876Z AUDITED Rheon.Discrete.pressure_energy: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0928405Z AUDITED Rheon.Transport.upwind_positive: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0928946Z AUDITED Rheon.Discrete.constant_gradient_zero: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0929472Z AUDITED Rheon.Discrete.incidence: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0929982Z AUDITED Rheon.Discrete.internal_flux_conservation._proof_1: [propext, Quot.sound]
+2026-10-03T17:48:29.0930499Z AUDITED Rheon.Discrete.adjoint_identity: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0930983Z AUDITED Rheon.Discrete.laplace: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0931517Z AUDITED Rheon.Discrete.internal_flux_conservation: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0932110Z AUDITED Rheon.Discrete.laplace.eq_1: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0932664Z AUDITED Rheon.Discrete.pressure_nonnegative: [propext, Quot.sound, Classical.choice]
+2026-10-03T17:48:29.0933107Z Axiom audit passed for 31 declarations
+2026-10-03T17:48:29.1714654Z ##[group]Run python3 scripts/test_audit.py
+2026-10-03T17:48:29.1715036Z [36;1mpython3 scripts/test_audit.py[0m
+2026-10-03T17:48:29.1784593Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-03T17:48:29.1784965Z ##[endgroup]
+2026-10-03T17:48:41.4338830Z PASS audit rejects custom and admitted assumptions
+2026-10-03T17:48:41.4522185Z Post job cleanup.
+2026-10-03T17:48:41.5408181Z [command]/usr/bin/git version
+2026-10-03T17:48:41.5452015Z git version 2.55.0
+2026-10-03T17:48:41.5489564Z Temporarily overriding HOME='/home/runner/work/_temp/5944cb2e-a22a-4fab-a7ee-8e0e0ee67dbc' before making global git config changes
+2026-10-03T17:48:41.5491159Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T17:48:41.5494928Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rheon/Rheon
+2026-10-03T17:48:41.5538090Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:48:41.5576224Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:48:41.5839336Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:48:41.5876576Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T17:48:41.6349765Z Cleaning up orphan processes
+2026-10-03T17:48:41.6676005Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

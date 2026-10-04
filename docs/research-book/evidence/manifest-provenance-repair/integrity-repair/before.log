@@ -1,0 +1,6 @@
+original helper d72db7c1bd3fc10b27978c6dcc8ec10709195ace, optimized=False, accepted protected addition proofs/Rheon/Unexpected.lean
+original helper d72db7c1bd3fc10b27978c6dcc8ec10709195ace, optimized=False, accepted protected addition proofs/Rheon/unreviewed.log
+original helper d72db7c1bd3fc10b27978c6dcc8ec10709195ace, optimized=False, source gate failed but helper accepted old success logs and rewrote receipt for later source
+original helper d72db7c1bd3fc10b27978c6dcc8ec10709195ace, optimized=True, accepted protected addition proofs/Rheon/Unexpected.lean
+original helper d72db7c1bd3fc10b27978c6dcc8ec10709195ace, optimized=True, accepted protected addition proofs/Rheon/unreviewed.log
+original helper d72db7c1bd3fc10b27978c6dcc8ec10709195ace, optimized=True, source gate failed but helper accepted old success logs and rewrote receipt for later source

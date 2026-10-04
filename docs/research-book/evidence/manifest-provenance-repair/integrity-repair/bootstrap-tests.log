@@ -1,0 +1,7 @@
+test_correct_archive_reaches_extraction_and_installer (test_bootstrap.ElanIntegrity.test_correct_archive_reaches_extraction_and_installer) ... ok
+test_corrupted_archive_never_reaches_extraction_or_installer (test_bootstrap.ElanIntegrity.test_corrupted_archive_never_reaches_extraction_or_installer) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.064s
+
+OK

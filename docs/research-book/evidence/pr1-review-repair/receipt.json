@@ -1,0 +1,46 @@
+{
+  "reviewed_head": "50ff0b2218cd62e3023fa57eecd2a2411486e039",
+  "repair_source_commit": "4dabeb7ae0c37b0a28e75d444b7ad7681d81c0e8",
+  "repair_source_tree": "3257700c1d4b643dae2780ef00aa96ebfb7cce6b",
+  "source_sha256": {
+    ".github/workflows/lean-rheon.yml": "e79d83b98214aa90edf67271c6e1289845f42799e327abe05fa1514232a8ae6e",
+    ".github/workflows/research-numerics.yml": "5ff319c0c046c1d83badc5b04324423b0f3a5bb5d141183006d2119bc771184b",
+    "docs/research-book/appendices/B-reproduction.md": "d629c809213dfed7fa87f993b75fd23a2835c19f16a5a117274a9ed5be51c271",
+    "docs/research-book/chapters/10-forces-and-viscosity.md": "cf3bb8106a9e02857aa3e91ecf5cd8d71c15dc81895ab6b0f33f3b2ec33e6578",
+    "proofs/AxiomAudit.lean": "7adad58b110c04e6797886c8ab3a4b09da9d7ae89fca905c77c3e42af9f05550",
+    "proofs/scripts/check_sources.py": "1c55fb200524b2a1da09b2bb59632ab6378c9b8ad3fd2dadc5090c3320036d3b",
+    "proofs/scripts/test_audit.py": "7c2116a269c0dd04ce44123a737c3de7d4fb40980436a83fff6da77b17656b5d",
+    "proofs/scripts/test_bootstrap.py": "08d2ead62ec79e0bdf5349223de6277610b42119db510aec808d1ec27924f041",
+    "proofs/scripts/test_check_sources.py": "3daa2f4e52b5beb550ec8856f11ad0e55b1545edf2a32a7d70e799a45264541f",
+    "proofs/source-inventory.json": "55c653094daa926a67920fac84c87e0755ab88f00b79af6c60a70412ab810ca4"
+  },
+  "protected_paths_unchanged": [
+    "docs/research-book/companion",
+    "docs/research-book/artwork",
+    "docs/research-book/figures",
+    "docs/research-book/evidence/cg-reproduction",
+    "docs/research-book/evidence/proof-qualification.json",
+    "proofs/Rheon",
+    "proofs/Rheon.lean",
+    "proofs/lean-toolchain",
+    "proofs/lakefile.toml",
+    "proofs/lake-manifest.json"
+  ],
+  "only_changed_lean_inventory_entry": "AxiomAudit.lean",
+  "audit_inventory_before": "dfa3d73c935b877c330306e290c225101af540f6b78a48dedb8b875e4f3cd13a",
+  "audit_inventory_after": "7adad58b110c04e6797886c8ab3a4b09da9d7ae89fca905c77c3e42af9f05550",
+  "elan_provenance": {
+    "official_release_url": "https://github.com/leanprover/elan/releases/tag/v4.1.2",
+    "asset_id": 258187011,
+    "size": 4985879,
+    "url": "https://github.com/leanprover/elan/releases/download/v4.1.2/elan-x86_64-unknown-linux-gnu.tar.gz",
+    "upstream_digest": null,
+    "sha256": "f81c2e48c1588d4612cd2c8851947898a45ac8d72748a07dff3a5694f1cf589b",
+    "provenance_limit": "Computed from official HTTPS release bytes; upstream publishes no digest/signature for this asset. Pin protects against later byte changes, not independent publisher authentication."
+  },
+  "full_actual_lean_project_gate": "blocked: pinned mathlib cache HTTP 403",
+  "auditor_gate_scope": "Exact auditor compiles against core-only fixture; real negative driver passes normal/optimized Python; no actual theorem qualification claimed",
+  "parent_action": "Arrange independent dot review and full pinned Lean project qualification before integration",
+  "external_review_requested": false,
+  "merge_performed": false
+}

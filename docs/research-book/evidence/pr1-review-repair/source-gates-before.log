@@ -1,0 +1,79 @@
+test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) ...
+  test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=0, optimized=True) ... FAIL
+  test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=1, optimized=True) ... FAIL
+  test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=2, optimized=True) ... FAIL
+  test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=3, optimized=True) ... FAIL
+  test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=4, optimized=True) ... FAIL
+  test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=5, optimized=True) ... FAIL
+  test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=6, optimized=True) ... FAIL
+  test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=7, optimized=True) ... FAIL
+test_reviewed_sources_pass_in_both_modes (test_check_sources.SourceGate.test_reviewed_sources_pass_in_both_modes) ... ok
+
+======================================================================
+FAIL: test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=0, optimized=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0_sfglzo/proofs/scripts/test_check_sources.py", line 53, in test_changed_sources_and_pins_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=1, optimized=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0_sfglzo/proofs/scripts/test_check_sources.py", line 53, in test_changed_sources_and_pins_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=2, optimized=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0_sfglzo/proofs/scripts/test_check_sources.py", line 53, in test_changed_sources_and_pins_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=3, optimized=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0_sfglzo/proofs/scripts/test_check_sources.py", line 53, in test_changed_sources_and_pins_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=4, optimized=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0_sfglzo/proofs/scripts/test_check_sources.py", line 53, in test_changed_sources_and_pins_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=5, optimized=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0_sfglzo/proofs/scripts/test_check_sources.py", line 53, in test_changed_sources_and_pins_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=6, optimized=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0_sfglzo/proofs/scripts/test_check_sources.py", line 53, in test_changed_sources_and_pins_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) (change=7, optimized=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/tmp0_sfglzo/proofs/scripts/test_check_sources.py", line 53, in test_changed_sources_and_pins_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.574s
+
+FAILED (failures=8)

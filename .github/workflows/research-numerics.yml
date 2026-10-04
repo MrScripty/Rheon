@@ -1,0 +1,51 @@
+name: Rheon research numerics
+on:
+  pull_request:
+    paths:
+      - 'docs/research-book/companion/**'
+      - '.github/workflows/research-numerics.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/research-book/companion/**'
+      - '.github/workflows/research-numerics.yml'
+permissions:
+  contents: read
+jobs:
+  reference-mechanisms:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      # Explicit research replay profile; not a production solver setting.
+      OPENBLAS_CORETYPE: Haswell
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Create isolated reference environment
+        run: |
+          python3 --version
+          python3 -m venv "$RUNNER_TEMP/rheon-reference"
+          "$RUNNER_TEMP/rheon-reference/bin/python" -m pip install -r docs/research-book/companion/requirements.txt
+      - name: Record selected numerical backend
+        run: |
+          "$RUNNER_TEMP/rheon-reference/bin/python" - <<'PY'
+          import json, numpy, scipy.linalg
+          from threadpoolctl import threadpool_info
+          print(json.dumps(threadpool_info(), indent=2))
+          PY
+      - name: Preserve committed numerical evidence
+        run: |
+          mkdir -p "$RUNNER_TEMP/rheon-evidence-baseline"
+          cp docs/research-book/companion/results.json docs/research-book/companion/depth-results.json "$RUNNER_TEMP/rheon-evidence-baseline/"
+      - name: Verify comparator rejection tests against committed fixtures
+        run: |
+          "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/test_verify_results.py
+      - name: Execute restricted numerical fixtures
+        run: |
+          "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/experiments.py
+          "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/depth_experiments.py
+      - name: Verify committed numerical evidence
+        run: |
+          "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/verify_results.py --baseline-dir "$RUNNER_TEMP/rheon-evidence-baseline" --cg-profile haswell-openblas-0.3.30
