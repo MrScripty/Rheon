@@ -31,4 +31,5 @@ fn raw_export_limit_rejects_before_writing() {
     let mut data = [255_u8; 4];
     reader.next_frame(&mut data).unwrap();
     assert_eq!(data, [0; 4]);
+    assert_eq!(data.as_slice(), rheon::guidance_pixels(&s, 4).unwrap());
 }

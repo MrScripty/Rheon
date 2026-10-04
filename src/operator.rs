@@ -74,6 +74,10 @@ impl<'a> PressureOperator<'a> {
         })
     }
 
+    pub(crate) fn weights(&self) -> [f64; 3] {
+        self.weight
+    }
+
     pub fn geometry(&self) -> &GridGeometry {
         self.grid
     }

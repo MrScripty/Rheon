@@ -29,10 +29,28 @@ pub fn write_guidance_png(
     output: impl Write,
     pixel_limit: usize,
 ) -> Result<usize, ExportError> {
-    let grid = simulation.grid();
-    let [nx, ny, nz] = grid.counts();
+    let [nx, ny, _] = simulation.grid().counts();
     let width = u32::try_from(nx).map_err(|_| ExportError::ImageSize)?;
     let height = u32::try_from(ny).map_err(|_| ExportError::ImageSize)?;
+    let pixels = guidance_pixels(simulation, pixel_limit)?;
+    let bytes = pixels.capacity();
+    let mut encoder = png::Encoder::new(output, width, height);
+    encoder.set_color(png::ColorType::Grayscale);
+    encoder.set_depth(png::BitDepth::Eight);
+    let mut writer = encoder.write_header()?;
+    writer.write_image_data(&pixels)?;
+    writer.finish()?;
+    Ok(bytes)
+}
+
+/// Raw +Z opacity projection, with +Y upward. Shared by PNG export and desktop
+/// display so comparison views cannot silently use a different render model.
+pub fn guidance_pixels(
+    simulation: &Simulation,
+    pixel_limit: usize,
+) -> Result<Vec<u8>, ExportError> {
+    let grid = simulation.grid();
+    let [nx, ny, nz] = grid.counts();
     let len = nx.checked_mul(ny).ok_or(ExportError::ImageSize)?;
     if len > pixel_limit {
         return Err(ExportError::PixelBudget {
@@ -64,12 +82,5 @@ pub fn write_guidance_png(
             pixels[i + nx * (ny - 1 - j)] = (255.0 * opacity.clamp(0.0, 1.0)).round() as u8;
         }
     }
-    let bytes = pixels.capacity();
-    let mut encoder = png::Encoder::new(output, width, height);
-    encoder.set_color(png::ColorType::Grayscale);
-    encoder.set_depth(png::BitDepth::Eight);
-    let mut writer = encoder.write_header()?;
-    writer.write_image_data(&pixels)?;
-    writer.finish()?;
-    Ok(bytes)
+    Ok(pixels)
 }

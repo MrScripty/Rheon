@@ -1,5 +1,8 @@
 # Fixed-box smoke and tracer milestone
 
+Historical baseline at 6ba41c7. See [the later comparison milestone](COMPARISON.md)
+for selectable approaches and the optional native desktop.
+
 Rheon now has a working headless Rust executable and reusable CPU simulation
 core. It implements a fixed orthogonal Cartesian MAC box, impermeable normal
 wall velocities, midpoint semi-Lagrangian velocity/tracer transport, localized
