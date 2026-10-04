@@ -211,6 +211,56 @@ class ResultQualification(unittest.TestCase):
                 finally:
                     self.cleanup(job)
 
+    def test_combined_publication_cleanup_failures_stay_terminal(self):
+        original_write, original_unlink = Path.write_text, Path.unlink
+        for status_also_fails in (False, True):
+            with self.subTest(status_also_fails=status_also_fails), tempfile.TemporaryDirectory() as root:
+                output = Path(root) / 'comparison'
+                job = self.completed_child(output)
+                try:
+                    job.poll()
+                    job.process.wait(timeout=10)
+                    diagnostics = {name: (job.run_dir / name).read_bytes()
+                                   for name in ('steps.csv', 'run.json', 'opacity.png')}
+                    writes, cleanup_states = [], []
+                    def write(path, *args, **kwargs):
+                        if path.name == 'status.tmp':
+                            writes.append(job.status)
+                            if job.status == 'completed':
+                                raise OSError('injected primary completion write failure')
+                            if status_also_fails and job.status == 'failed':
+                                raise OSError('injected failure-status persistence failure')
+                        return original_write(path, *args, **kwargs)
+                    def unlink(path, *args, **kwargs):
+                        if path.name == 'comparison.json':
+                            cleanup_states.append(job.status)
+                            raise OSError('injected summary cleanup failure')
+                        return original_unlink(path, *args, **kwargs)
+                    with mock.patch.object(Path, 'write_text', write), mock.patch.object(Path, 'unlink', unlink):
+                        self.assertEqual(job.poll(), 'failed')
+                        self.assertEqual(job.poll(), 'failed')
+                        self.assertEqual(job.poll(), 'failed')
+                    self.assertEqual(cleanup_states, ['failed'])
+                    self.assertEqual(writes, ['completed', 'failed'])
+                    self.assertIn('injected primary completion write failure', job.error)
+                    self.assertIn('injected summary cleanup failure', job.error)
+                    if status_also_fails:
+                        self.assertIn('injected failure-status persistence failure', job.error)
+                    self.assertIsNone(job.result)
+                    self.assertIsNone(job.process)
+                    self.assertIsNone(job.log)
+                    self.assertEqual(len(job.rows), 2)
+                    self.assertEqual(job.index, 2)
+                    self.assertTrue((output / 'comparison.json').exists())
+                    for name, data in diagnostics.items():
+                        self.assertEqual((job.run_dir / name).read_bytes(), data)
+                    status = json.loads((output / 'status.json').read_text())
+                    self.assertEqual(status['status'], 'running' if status_also_fails else 'failed')
+                    if not status_also_fails:
+                        self.assertEqual(status['error'], job.error)
+                finally:
+                    self.cleanup(job)
+
 
 if __name__ == '__main__':
     unittest.main()

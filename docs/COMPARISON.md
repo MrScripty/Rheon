@@ -138,11 +138,16 @@ complete container; it does not decode pixels or certify image/state agreement.
 
 Malformed or incomplete packets become terminal failures after the child is
 reaped and its log closed. No later job starts and no completed summary is
-published. Summary write/rename or completion-status write failure clears the
-owned success result and removes any published summary while preserving run
-diagnostics. This is recoverable I/O failure handling, not a durable transaction
-across two files or protection against filesystem loss/process interruption.
-Persistent failure writing the failure status itself can still raise an I/O error.
+published. Summary write/rename or completion-status write failure enters terminal
+failed state and clears the owned success result before attempting summary cleanup
+or failure-status persistence. Primary, cleanup and persistence errors remain in
+the job error; repeated polls stay failed and perform no further publication work.
+Run diagnostics remain intact. If cleanup fails, comparison.json can remain; if
+failure-status persistence also fails, status.json can be stale. The caller must
+honor the job's terminal status/error. This is recoverable I/O failure handling,
+not a durable transaction across two files or protection against filesystem loss
+or process interruption. Other lifecycle status writes retain their existing
+I/O error behavior.
 
 An optional `--run-timeout SECONDS` sets a positive finite wall-clock deadline
 for each measurement process, including each warmup. The default is disabled;

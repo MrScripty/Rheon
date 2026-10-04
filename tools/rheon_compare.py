@@ -284,10 +284,15 @@ class Comparison:
             try:
                 self._finish()
             except (OSError, ValueError, TypeError) as exc:
-                self.result = None
-                (self.output / 'comparison.json').unlink(missing_ok=True)
-                self.status, self.error = 'failed', str(exc)
-                self._save_status()
+                self.status, self.result, self.error = 'failed', None, str(exc)
+                try:
+                    (self.output / 'comparison.json').unlink(missing_ok=True)
+                except OSError as cleanup:
+                    self.error += f'; comparison cleanup failed: {cleanup}'
+                try:
+                    self._save_status()
+                except OSError as persistence:
+                    self.error += f'; failed status persistence failed: {persistence}'
             return self.status
         method, repeat = self.jobs[self.index]
         self.run_dir = self.output / f'{self.index:03d}-{method}'
