@@ -1,0 +1,9 @@
+/tmp/rheon-translation-admitted-lnnyaka0/TranslationFrame.lean:20:8: warning: declaration uses 'sorry'
+AUDITED Rheon.TranslationFrame.reference_contact_world: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.wallVelocity: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.clock_order: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.relativePoint: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.velocity_displacement: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.clock.eq_1: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.clock: [propext, Quot.sound, Classical.choice]
+/tmp/rheon-translation-admitted-lnnyaka0/AuditTranslationFrame.lean:5:0: error: Disallowed axiom sorryAx in Rheon.TranslationFrame.relative_segment
