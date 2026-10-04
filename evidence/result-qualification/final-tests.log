@@ -7,6 +7,7 @@ test_missing_workload_settings_are_rejected (test_result_qualification.ResultQua
 test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) ... ok
 test_publication_failure_has_no_owned_success_or_summary (test_result_qualification.ResultQualification.test_publication_failure_has_no_owned_success_or_summary) ... ok
 test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) ... ok
+test_unrepresentable_manifest_number_has_terminal_failure (test_result_qualification.ResultQualification.test_unrepresentable_manifest_number_has_terminal_failure) ... ok
 test_valid_zero_and_active_source_runs_for_both_methods (test_result_qualification.ResultQualification.test_valid_zero_and_active_source_runs_for_both_methods) ... ok
 test_cancel_before_spawn_and_during_real_work (test_rheon_compare.ComparisonTest.test_cancel_before_spawn_and_during_real_work) ... ok
 test_cli_deadline_is_explicit_and_recorded (test_rheon_compare.ComparisonTest.test_cli_deadline_is_explicit_and_recorded) ... ok
@@ -18,6 +19,6 @@ test_real_comparison_and_preserved_outputs (test_rheon_compare.ComparisonTest.te
 test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) ... ok
 
 ----------------------------------------------------------------------
-Ran 18 tests in 7.812s
+Ran 19 tests in 7.523s
 
 OK

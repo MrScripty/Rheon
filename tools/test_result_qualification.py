@@ -136,6 +136,9 @@ class ResultQualification(unittest.TestCase):
             with self.subTest(missing=field):
                 self.reject(manifest=lambda data: data.pop(field))
 
+    def test_unrepresentable_manifest_number_has_terminal_failure(self):
+        self.reject(manifest=lambda data: data.__setitem__('measured_step_seconds', 10 ** 400))
+
     def test_missing_or_incomplete_png_is_rejected(self):
         self.reject(image=lambda path: path.unlink())
         self.reject(image=lambda path: path.write_bytes(b'not a PNG'))

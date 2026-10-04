@@ -272,7 +272,7 @@ class Comparison:
                 data.update(repeat=repeat, warmup=repeat < 0, path=self.run_dir.name,
                             pressure_iterations=iterations, maximum_step_divergence=divergence)
                 self.rows.append(data)
-            except (OSError, ValueError, KeyError, TypeError, csv.Error) as exc:
+            except (OSError, ValueError, KeyError, TypeError, OverflowError, csv.Error) as exc:
                 self.status, self.error = 'failed', str(exc)
                 self._save_status()
                 return self.status
