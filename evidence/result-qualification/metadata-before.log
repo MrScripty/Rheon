@@ -1,4 +1,4 @@
-test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) ... 
+test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) ...
   test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='schema_version', value=3) ... FAIL
   test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='schema_version', value=2.0) ... FAIL
   test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='model', value='different forcing model') ... FAIL
@@ -9,7 +9,7 @@ test_changed_workload_settings_are_rejected (test_result_qualification.ResultQua
   test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='size', value=4.0) ... FAIL
   test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) (key='steps', value=3.0) ... FAIL
 test_child_command_pins_iteration_and_memory_limits (test_result_qualification.ResultQualification.test_child_command_pins_iteration_and_memory_limits) ... FAIL
-test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) ... 
+test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) ...
   test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='schema_version') ... FAIL
   test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='model') ... FAIL
   test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) (key='source_off_at') ... FAIL

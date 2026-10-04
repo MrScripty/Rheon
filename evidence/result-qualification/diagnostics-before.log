@@ -1,6 +1,6 @@
 test_changed_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_changed_workload_settings_are_rejected) ... ok
 test_child_command_pins_iteration_and_memory_limits (test_result_qualification.ResultQualification.test_child_command_pins_iteration_and_memory_limits) ... ok
-test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) ... 
+test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) ...
   test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='accepted_time', value=0.07) ... FAIL
   test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='last_divergence_max', value=0.5) ... FAIL
   test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='measured_step_seconds', value=-1) ... FAIL
@@ -14,7 +14,7 @@ test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.Re
   test_manifest_diagnostics_match_the_accepted_steps (test_result_qualification.ResultQualification.test_manifest_diagnostics_match_the_accepted_steps) (field='real_time_performance_claimed', value=True) ... FAIL
 test_missing_or_incomplete_png_is_rejected (test_result_qualification.ResultQualification.test_missing_or_incomplete_png_is_rejected) ... FAIL
 test_missing_workload_settings_are_rejected (test_result_qualification.ResultQualification.test_missing_workload_settings_are_rejected) ... ok
-test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) ... 
+test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) ...
   test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='NaN') ... FAIL
   test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='inf') ... FAIL
   test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='time', value='-inf') ... FAIL
@@ -42,7 +42,7 @@ test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualificat
   test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='inf') ... FAIL
   test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='-inf') ... FAIL
   test_nonfinite_or_negative_step_diagnostics_are_rejected (test_result_qualification.ResultQualification.test_nonfinite_or_negative_step_diagnostics_are_rejected) (field='kinetic_energy', value='-0.01') ... FAIL
-test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) ... 
+test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) ...
   test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='step', value='0') ... FAIL
   test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='step', value='1.0') ... FAIL
   test_step_order_time_and_admission_limits_are_checked (test_result_qualification.ResultQualification.test_step_order_time_and_admission_limits_are_checked) (field='time', value='0.03') ... FAIL

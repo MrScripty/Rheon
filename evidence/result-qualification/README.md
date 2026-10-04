@@ -60,4 +60,4 @@ Serial standard/tight measurements and their source/hardware/contention receipt
 are retained under `benchmarks/` when the follow-up qualification is complete.
 No exclusive-host, cross-device, desktop timing or real-time claim is implied.
 
-Logs have surplus terminal blank lines removed only for Git whitespace checks.
+Logs have trailing whitespace and surplus terminal blank lines removed only for Git whitespace checks.
