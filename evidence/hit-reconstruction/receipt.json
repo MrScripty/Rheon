@@ -1,0 +1,66 @@
+{
+  "base": "777a7339029e94f8dd82187b3817481623e3ff3f",
+  "qualified_source_commit": "acf4686a3e4faf9ba8a3fa3ed185a6e312e5ac0e",
+  "qualified_source_tree": "0a93267d0b22d723c509ae1414562c66cb8cdff6",
+  "source_parents": [
+    "777a7339029e94f8dd82187b3817481623e3ff3f"
+  ],
+  "counts": {
+    "default": 63,
+    "core": 58,
+    "desktop": 69
+  },
+  "strict_clippy": [
+    "default",
+    "core",
+    "desktop"
+  ],
+  "formatting": "passed",
+  "exact_reported_numeric_red": "Frozen z=1 triangle source reports z=0 but barycentric z=1; compile exit 0, assertion exit 101",
+  "regression": "Six signed/axis-permuted off-facet cases reject; three consistent origin-plane huge crossings retain valid hits",
+  "repair": "Full normalized reconstruction residual max(|q-u e1-v e2|) <= existing facet relative tolerance before returning hit",
+  "unchanged_original_files": 1076,
+  "legacy_replay": "All three original Jacobi PNG/CSV byte-identical; original non-timing manifest fields equal",
+  "proof_source_gate": "passed; no root proof or book artifacts modified",
+  "pdf_input_byte_gate": "passed",
+  "compiler": "Rust/Cargo 1.92.0, LLVM 21.1.3",
+  "profiles": "dev tests; unoptimized rustc exact-red witness; ordinary optimized release CLI",
+  "hardware": "5 exposed Intel Xeon Platinum 8370C CPUs, cloud VM; overlapping work, no isolated timing benchmark",
+  "binary_sha256": "6252fa251e58fb85483b5ed18eb7f7d1d5b6b5f4843eef1c24deb561742c44ec",
+  "file_sha256": {
+    "evidence/hit-reconstruction/README.md": "a7d4f1139e4e9469672ec066d281dd34c1993bf5933ae61f2922a3dbd9dc045c",
+    "evidence/hit-reconstruction/clippy-core.log": "5cf5f5319ad7de2818e3ed9aa0fac6f4a028b589354b4ff4ea2d0cbdda173487",
+    "evidence/hit-reconstruction/clippy-default.log": "1f62e8f51f231c3d5642305f4b94eab2710e2d651043f04421fb6fd999190995",
+    "evidence/hit-reconstruction/clippy-desktop.log": "5ecaf491815d7eff99ab7d4823a81aaba6c4b59a4c68715e5d20b96d98f08b58",
+    "evidence/hit-reconstruction/exact-red-receipt.json": "ea59a1605ad253ea2974a432f55344b798ceac7fda8f0797f28322e3c861221a",
+    "evidence/hit-reconstruction/exact-red-witness.rs": "8ce5176f109fdfa7eb12eb4d4fafcc77eb77b32d71240bb1bb0ad9a8fb9fa878",
+    "evidence/hit-reconstruction/exact-red.log": "bafae5a951f9b404de7d19139a330878c8d574b8f7917477f98184ac6fdf2d17",
+    "evidence/hit-reconstruction/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/hit-reconstruction/legacy-replay.log": "73abba3905942be63d1f8a405d7f4051e693e046ab68d66c2188f39834e89268",
+    "evidence/hit-reconstruction/legacy-replay/demo-16/opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe",
+    "evidence/hit-reconstruction/legacy-replay/demo-16/run.json": "09ddb2cb0d8c59ed704106005df54c26a41fa1fc0157d078be44b92228ce6146",
+    "evidence/hit-reconstruction/legacy-replay/demo-16/steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+    "evidence/hit-reconstruction/legacy-replay/demo-64/opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb",
+    "evidence/hit-reconstruction/legacy-replay/demo-64/run.json": "df44c9093fdfc799939327a559ad7400fd2382e98215904411f18fe509fcadd6",
+    "evidence/hit-reconstruction/legacy-replay/demo-64/steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+    "evidence/hit-reconstruction/legacy-replay/demo-plume/opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc",
+    "evidence/hit-reconstruction/legacy-replay/demo-plume/run.json": "61217f6b827da767d4ed6bc715fc8bc99c37f48be25fbd4e9fe9736c4ea2158e",
+    "evidence/hit-reconstruction/legacy-replay/demo-plume/steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+    "evidence/hit-reconstruction/legacy-replay/receipt.json": "781efbd968c280e4d4fff3e4718d001b7a243b89d279193f82bc25e029496973",
+    "evidence/hit-reconstruction/pdf-gate.log": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+    "evidence/hit-reconstruction/proof-source-gate.log": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812",
+    "evidence/hit-reconstruction/red-receipt.json": "f9d619580dbb0383a6106b1ff554c60d33e00c22b238f08e1c50d1ac2676032b",
+    "evidence/hit-reconstruction/red.log": "5381ca4177d249d23bba622588a6c1c78f9a760d5e20d122406576817eed14b7",
+    "evidence/hit-reconstruction/release-build.log": "832c73ba4885df06c2e94af9f1aa48da9a671d1c13183a83493bb0661cdd1610",
+    "evidence/hit-reconstruction/test-core.log": "923d2b1a79b8e3f1c5374bc03d5ce657e55ce1e5d70d15cd0c8790a800de6b1e",
+    "evidence/hit-reconstruction/test-default.log": "9d020b7b9629fe84f7167f9964a409e76f64dbd0c25c121d36040511d2701979",
+    "evidence/hit-reconstruction/test-desktop.log": "93cb6ec63e47492ea596b111e24b65fd4f84836b5650881a337e6f6d726584e0",
+    "src/collision.rs": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+    "tests/collision_contract.rs": "8625b6a0d01271b90f17fd22b0ea4f5d0869827fad6537720fb631ce565367ac"
+  },
+  "limits": [
+    "Existing numerical ambiguity model, no exact predicate or IEEE refinement proof.",
+    "No change to old source-bound receipts/proofs/book or pressure/advection implementations.",
+    "No PR edit/review request/main mutation; coordinator owns integration."
+  ]
+}
