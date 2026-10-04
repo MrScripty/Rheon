@@ -435,3 +435,54 @@ fn invalid_admission_and_queries_report_the_actual_unsupported_input() {
         );
     }
 }
+
+#[test]
+fn unresolved_large_segment_interpolation_rejects_off_facet_hits() {
+    for axis in 0..3 {
+        for plane in [-1.0, 1.0] {
+            let mut a = [0.0; 3];
+            a[axis] = plane;
+            let mut b = a;
+            b[(axis + 1) % 3] = 1.0;
+            let mut c = a;
+            c[(axis + 2) % 3] = 1.0;
+            let mesh = TriangleSurface::new(
+                stamp(),
+                vec![a, b, c],
+                vec![[0, 1, 2]],
+                SurfaceSettings::default(),
+            )
+            .unwrap();
+            let mut start = [0.25; 3];
+            start[axis] = -1e20;
+            let mut end = start;
+            end[axis] = 1e20;
+            assert_eq!(
+                mesh.first_hit(start, end, |_| false),
+                Err(SurfaceError::AmbiguousIntersection { triangle: 0 })
+            );
+        }
+        // Huge travel alone is not rejected: an exactly represented consistent
+        // contact with the origin plane still has a valid reconstruction.
+        let a = [0.0; 3];
+        let mut b = a;
+        b[(axis + 1) % 3] = 1.0;
+        let mut c = a;
+        c[(axis + 2) % 3] = 1.0;
+        let mesh = TriangleSurface::new(
+            stamp(),
+            vec![a, b, c],
+            vec![[0, 1, 2]],
+            SurfaceSettings::default(),
+        )
+        .unwrap();
+        let mut start = [0.25; 3];
+        start[axis] = -1e20;
+        let mut end = start;
+        end[axis] = 1e20;
+        let hit = mesh.first_hit(start, end, |_| false).unwrap().unwrap();
+        assert_eq!(hit.parameter, 0.5);
+        assert_eq!(hit.position[axis], 0.0);
+        assert_eq!(hit.barycentric, [0.5, 0.25, 0.25]);
+    }
+}
