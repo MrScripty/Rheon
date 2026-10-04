@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-04T17:56:17.426544+00:00",
+  "branch": "repair/cloud-evidence-optimization",
+  "accepted_base_commit": "c9b5f85e5bebb7ab46cafd7d385235cfe9ed8672",
+  "accepted_base_tree": "e783b2ec5fceadae8a277919b6dc46c05d585123",
+  "accepted_base_ordered_parents": [
+    "e3d84d2469923377a7bd0d0d419b896423ebbe1a",
+    "2c5c526812ec2b9f8e9e0f967846f4d0545c8a32"
+  ],
+  "accepted_pr2_commit": "2c5c526812ec2b9f8e9e0f967846f4d0545c8a32",
+  "qualified_source_commit": "649b7aaf42c0dd02e3b71eba5403a7fafaac93bb",
+  "qualified_source_tree": "2d71e4dee4f3fb9304cfb71bd09555002c607a2d",
+  "qualified_source_ordered_parents": [
+    "291e64aae33e2aae3b4788dd5ed85b3a0a370da0"
+  ],
+  "evidence_fix_commit": "291e64aae33e2aae3b4788dd5ed85b3a0a370da0",
+  "cancellation_nit_commit": "649b7aaf42c0dd02e3b71eba5403a7fafaac93bb",
+  "historical_source_checkout": "7e1a76dd487549a496e04b9305fa531fcc7ab2f9",
+  "historical_source_manifest_sha256": "980ec9d1874828e12b8ab844a8f8715257ee4ada62f512b841027f9d315e9d41",
+  "review": {
+    "id": 5407335527,
+    "run": "b3a0f009-b039-401d-829c-2ab3d9cc6a60",
+    "comments": [
+      4178611352,
+      4178611356,
+      4178611361,
+      4178611366
+    ],
+    "included_paths": 85,
+    "excluded_artifacts": 184
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: x86_64-unknown-linux-gnu\nrelease: 1.92.0\nLLVM version: 21.1.3",
+    "cargo_build_jobs": 1,
+    "cargo_target_dir": "/workspace/.rheon-tools/target",
+    "test_profile": "unoptimized + debuginfo",
+    "release_profile": "standard Cargo release; no new profile overrides"
+  },
+  "release_binary_sha256": "eca070b28995bd32e3d7d1898a4d28353e2179b6978cbd4ff69d81528aa3dc99",
+  "source_sha256": {
+    "evidence/cloud-qualification/README.md": "b029694c8c2c348237c82d2bd8c37378ce841f7c497da46ba7065ac3d5a4de0d",
+    "evidence/cloud-qualification/benchmark.py": "9633944d7e8c44715807f0b4c24140c6b823e83e4f82bc4a4ea1a633c76030ba",
+    "evidence/cloud-qualification/replay.py": "eb32accb0150a7acc7d6a314a7cc0eb1257f3a68a8eb036e9033b42be68e363a",
+    "evidence/cloud-qualification/test_gates.py": "d1e77028506f7ca3a9b0e34e57266da1b0be7e0833c59c7c0cdb1bf69dad3474",
+    "evidence/cloud-qualification/verify.py": "f5937e2dd38523f0d1d3a2d3720818942c521a3570996080ed00f5249ab4b577",
+    "src/bin/rheon-desktop.rs": "21681bd444ab4e8e81a5f4d0a01077d03e21725fc0bb62e971301587492afc78"
+  },
+  "evidence_sha256": {
+    "README.md": "182236f319f27a5df9af16502fa55ce3be4ec402397dee0600714368e0aaf934",
+    "baseline-normal.log": "ad62f15f88bc9b22da913a6be688f9fa19ec5719ddce36f932cdf11ee7333a51",
+    "baseline-optimized.log": "cd8fac46d63cf8add3d2ed3bb71f4e14c71cd19a236bebd3babdbf53723f326c",
+    "cancellation-targeted.log": "1ccb99d4cc10e0e8ba8d7eb7b497a3f6419c3d54ca3112fd3121dbbcdcef08d3",
+    "clippy-core.log": "bd7f7348958da03571a45cf84a01254c6f0a61c2f9bd596aae20e210cb182d78",
+    "clippy-default.log": "b4ee0cbdb147f31cddce6b39bc68fcb631900baa8a8b75b491904e3d7bca76e1",
+    "clippy-desktop.log": "71877c20d84bf635b9a637d8c499741db9e60ee79f4f960ad82f2947e2c11f81",
+    "current-source-rejected-env-optimized.log": "13743b4ef76840729dc1d46d2374aa3e7cf428225a5ceb7be3057d1e40ddc54b",
+    "current-source-rejected-normal.log": "13743b4ef76840729dc1d46d2374aa3e7cf428225a5ceb7be3057d1e40ddc54b",
+    "current-source-rejected-optimized.log": "13743b4ef76840729dc1d46d2374aa3e7cf428225a5ceb7be3057d1e40ddc54b",
+    "fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "harness-tests.log": "421a78a058d5b1a9a918b5552f788c858c9211a182cface7c191ebfe548991c1",
+    "historical-env-optimized.log": "215c7b019ae12409ce24eae3eca6677fcf43766cf5fd1a4eb4d8be9c27720e2a",
+    "historical-normal.log": "215c7b019ae12409ce24eae3eca6677fcf43766cf5fd1a4eb4d8be9c27720e2a",
+    "historical-optimized.log": "215c7b019ae12409ce24eae3eca6677fcf43766cf5fd1a4eb4d8be9c27720e2a",
+    "mutations-env-optimized.log": "6a0fe50e1d87e6e56e118996c73266df3c59e973a52b4925081e2860de6643e3",
+    "mutations-normal.log": "66a39fc0b8cc9d81f2ddb180a9510bfd8b594d28bf94bc09dd84730668bd0ac8",
+    "mutations-optimized.log": "621b1674392957000f869b299a84fb0ccfa860844f833a5aab9a85bbadd0998f",
+    "release-build.log": "15871febef2ebbf79551760bc9dac380b6fad7f092de10569f8dffa3bfbf3598",
+    "replay-normal-receipt.json": "75fe82735e7d6df4a1b3a36e627cdf81256d0702924a9fd40bf40916b2ba7200",
+    "replay-normal.log": "828207041e55e3a96aa8dc10451520ec40db57e6fefbf6eb5e1ae48e2e62a675",
+    "replay-optimized-receipt.json": "b99d12b2bb43c8fe449cf8f80932154cb0bfb9c04eb1de02270e9391d6ac1005",
+    "replay-optimized.log": "229175534bfdcd7531022d615d716dd98b82e09c4480139facd5058f6876c3dd",
+    "test-core.log": "affcc306a5a0207db610000ac1b480d579e00d73f545bad7f3db856568fb7011",
+    "test-default.log": "a84b22707b24d23299e1457afd5aa7bb20619c027756d3e89ba056036b6e3cbd",
+    "test-desktop.log": "d38518df07663d390725461d984871ae65dd5c78e5b733c278081d8953f238a9"
+  },
+  "checks": [
+    {
+      "command": "python3 -m unittest discover -s evidence/cloud-qualification -p test_gates.py -v",
+      "env": {},
+      "exit_code": 0,
+      "log": "mutations-normal.log",
+      "test_methods": 14
+    },
+    {
+      "command": "python3 evidence/cloud-qualification/verify.py --source-root /workspace/Rheon",
+      "env": {},
+      "exit_code": 0,
+      "log": "historical-normal.log",
+      "scope": "unchanged retained historical evidence, original source manifest hashes"
+    },
+    {
+      "command": "python3 evidence/cloud-qualification/verify.py",
+      "env": {},
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-source-rejected-normal.log",
+      "scope": "combined source deliberately cannot masquerade as historical source"
+    },
+    {
+      "command": "python3 -O -m unittest discover -s evidence/cloud-qualification -p test_gates.py -v",
+      "env": {},
+      "exit_code": 0,
+      "log": "mutations-optimized.log",
+      "test_methods": 14
+    },
+    {
+      "command": "python3 -O evidence/cloud-qualification/verify.py --source-root /workspace/Rheon",
+      "env": {},
+      "exit_code": 0,
+      "log": "historical-optimized.log",
+      "scope": "unchanged retained historical evidence, original source manifest hashes"
+    },
+    {
+      "command": "python3 -O evidence/cloud-qualification/verify.py",
+      "env": {},
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-source-rejected-optimized.log",
+      "scope": "combined source deliberately cannot masquerade as historical source"
+    },
+    {
+      "command": "python3 -m unittest discover -s evidence/cloud-qualification -p test_gates.py -v",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 0,
+      "log": "mutations-env-optimized.log",
+      "test_methods": 14
+    },
+    {
+      "command": "python3 evidence/cloud-qualification/verify.py --source-root /workspace/Rheon",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 0,
+      "log": "historical-env-optimized.log",
+      "scope": "unchanged retained historical evidence, original source manifest hashes"
+    },
+    {
+      "command": "python3 evidence/cloud-qualification/verify.py",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-source-rejected-env-optimized.log",
+      "scope": "combined source deliberately cannot masquerade as historical source"
+    },
+    {
+      "command": "cargo test --locked",
+      "exit_code": 0,
+      "log": "test-default.log",
+      "tests": 50
+    },
+    {
+      "command": "cargo clippy --locked --all-targets -- -D warnings",
+      "exit_code": 0,
+      "log": "clippy-default.log"
+    },
+    {
+      "command": "cargo test --locked --no-default-features",
+      "exit_code": 0,
+      "log": "test-core.log",
+      "tests": 45
+    },
+    {
+      "command": "cargo clippy --locked --no-default-features --all-targets -- -D warnings",
+      "exit_code": 0,
+      "log": "clippy-core.log"
+    },
+    {
+      "command": "cargo test --locked --features desktop",
+      "exit_code": 0,
+      "log": "test-desktop.log",
+      "tests": 56
+    },
+    {
+      "command": "cargo clippy --locked --features desktop --all-targets -- -D warnings",
+      "exit_code": 0,
+      "log": "clippy-desktop.log"
+    },
+    {
+      "command": "cargo test --locked --features desktop --bin rheon-desktop tests::cancel_after_progress_joins_without_rows_and_allows_restart -- --exact --nocapture",
+      "exit_code": 0,
+      "log": "cancellation-targeted.log",
+      "tests": 1
+    },
+    {
+      "command": "cargo fmt --all --check",
+      "exit_code": 0,
+      "log": "fmt.log"
+    },
+    {
+      "command": "cargo build --locked --release --bin rheon",
+      "exit_code": 0,
+      "log": "release-build.log"
+    },
+    {
+      "command": "python3 -m unittest discover -s tools -p 'test_*.py' -v",
+      "exit_code": 0,
+      "log": "harness-tests.log",
+      "tests": 20
+    },
+    {
+      "command": "python3 evidence/cloud-qualification/replay.py /workspace/.rheon-tools/target/release/rheon /workspace/rheon-cloud-gates-replay-normal",
+      "exit_code": 0,
+      "log": "replay-normal.log",
+      "receipt": "replay-normal-receipt.json",
+      "scope": "all three original Jacobi fixtures; byte identity, no performance qualification"
+    },
+    {
+      "command": "python3 -O evidence/cloud-qualification/replay.py /workspace/.rheon-tools/target/release/rheon /workspace/rheon-cloud-gates-replay-optimized",
+      "exit_code": 0,
+      "log": "replay-optimized.log",
+      "receipt": "replay-optimized-receipt.json",
+      "scope": "all three original Jacobi fixtures; byte identity, no performance qualification"
+    }
+  ],
+  "preservation": {
+    "baseline_paths_byte_identical": 849,
+    "only_existing_files_changed": [
+      "evidence/cloud-qualification/README.md",
+      "evidence/cloud-qualification/benchmark.py",
+      "evidence/cloud-qualification/replay.py",
+      "evidence/cloud-qualification/verify.py",
+      "src/bin/rheon-desktop.rs"
+    ],
+    "original_measurements_fixtures_manifests_book_proofs_preserved": true,
+    "ancestry_preserved": true
+  },
+  "historical_attempts": [
+    {
+      "scope": "before-repair normal and optimized verifier against combined source",
+      "logs": [
+        "baseline-normal.log",
+        "baseline-optimized.log"
+      ],
+      "qualification": false
+    },
+    {
+      "scope": "initial targeted desktop test command omitted tests:: in its exact filter and executed zero tests; not counted as passing evidence. Correct fully qualified filter executed one test and final full desktop run passed."
+    }
+  ],
+  "limits": [
+    "No fresh benchmark, replacement historical measurements, new performance or formal-Rust claim.",
+    "Headless worker/egui tests only; no native-window or cross-platform qualification.",
+    "Book/proof artifacts preserved, whole-book/Lean gates not rerun.",
+    "No PR3 advancement, PR2 retarget, main merge, immutable review-branch mutation, review-thread resolution or bot request."
+  ],
+  "pending": [
+    "Independent review of candidate source and evidence.",
+    "Coordinator-controlled integration and final immutable review coverage."
+  ],
+  "log_normalization": {
+    "scope": "surplus terminal blank lines only; no measurements or check output changed",
+    "files": {
+      "test-core.log": {
+        "original_sha256": "ec23271f797ee1c4844a483404bb77b6343bfc229e8cdac92e0c555cef932469",
+        "retained_sha256": "affcc306a5a0207db610000ac1b480d579e00d73f545bad7f3db856568fb7011"
+      },
+      "cancellation-targeted.log": {
+        "original_sha256": "55f309eb2bdb3c52fa1d32d678798553b49488cb1e1b7c52e572dacef0704348",
+        "retained_sha256": "1ccb99d4cc10e0e8ba8d7eb7b497a3f6419c3d54ca3112fd3121dbbcdcef08d3"
+      },
+      "test-default.log": {
+        "original_sha256": "b07df854002d6d1d28df3ba58afeb00b89fc50a01b75f76a4ee4571118c0a8e6",
+        "retained_sha256": "a84b22707b24d23299e1457afd5aa7bb20619c027756d3e89ba056036b6e3cbd"
+      },
+      "test-desktop.log": {
+        "original_sha256": "2bea0dcbb76c66a4594bfed03b7e7cc59cb6a33f1f67892734663f081320ea79",
+        "retained_sha256": "d38518df07663d390725461d984871ae65dd5c78e5b733c278081d8953f238a9"
+      }
+    }
+  }
+}

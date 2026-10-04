@@ -1,6 +1,7 @@
-//! Headless fixed-box smoke demonstration; desktop GUI is a later milestone.
+//! Headless fixed-box smoke demonstration and reproducible implementation selection.
 use rheon::{
-    GridGeometry, PressureSettings, Simulation, SimulationConfig, SmokeSource, write_guidance_png,
+    GridGeometry, PressureImplementation, PressureSettings, Simulation, SimulationConfig,
+    SmokeSource, write_guidance_png,
 };
 use std::{
     error::Error,
@@ -10,6 +11,9 @@ use std::{
     time::Instant,
 };
 struct Options {
+    implementation: PressureImplementation,
+    pressure: PressureSettings,
+    actual_divergence_limit: f64,
     size: u64,
     steps: usize,
     dt: f64,
@@ -19,6 +23,14 @@ struct Options {
 }
 fn parse() -> Result<Option<Options>, Box<dyn Error>> {
     let mut o = Options {
+        implementation: PressureImplementation::default(),
+        pressure: PressureSettings {
+            relative_residual: 1e-9,
+            absolute_residual: 1e-12,
+            divergence_limit: 1e-7,
+            max_iterations: 2000,
+        },
+        actual_divergence_limit: 1e-5,
         size: 64,
         steps: 30,
         dt: 0.02,
@@ -28,14 +40,43 @@ fn parse() -> Result<Option<Options>, Box<dyn Error>> {
     };
     let mut args = std::env::args().skip(1);
     while let Some(arg) = args.next() {
+        if arg == "--build-info" {
+            println!(
+                "{{\"version\":\"{}\",\"debug_assertions\":{},\"arch\":\"{}\",\"os\":\"{}\"}}",
+                env!("CARGO_PKG_VERSION"),
+                cfg!(debug_assertions),
+                std::env::consts::ARCH,
+                std::env::consts::OS
+            );
+            return Ok(None);
+        }
+        if arg == "--list-implementations" {
+            println!(
+                "[{}]",
+                PressureImplementation::ALL
+                    .into_iter()
+                    .map(|m| format!("{{\"id\":\"{}\",\"label\":\"{}\"}}", m.id(), m.label()))
+                    .collect::<Vec<_>>()
+                    .join(",")
+            );
+            return Ok(None);
+        }
         if arg == "--help" || arg == "-h" {
             println!(
-                "Rheon headless fixed-box smoke demo\n--size N (64) --steps N (30) --dt SECONDS (0.02)\n--memory-mib N (64 retained simulation array payload)\n--source-off-at STEP (source on for all steps by default)\n--output NEW_DIRECTORY (rheon-demo)\nWrites opacity.png, steps.csv and run.json. Existing directories are never overwritten.\n64 cubed and 64 MiB are configurable defaults, not real-time performance promises."
+                "Rheon headless fixed-box smoke demo\n--implementation ID (jacobi-pcg-v1) --list-implementations --build-info\n--size N (64) --steps N (30) --dt SECONDS (0.02)\n--relative-residual N (1e-9) --pressure-divergence-limit N (1e-7)\n--actual-divergence-limit N (1e-5) --max-iterations N (2000)\n--memory-mib N (64 retained simulation array payload)\n--source-off-at STEP (source on for all steps by default)\n--output NEW_DIRECTORY (rheon-demo)\nWrites opacity.png, steps.csv and run.json. Existing directories are never overwritten.\n64 cubed and 64 MiB are configurable defaults, not real-time performance promises."
             );
             return Ok(None);
         }
         let value = args.next().ok_or("missing option value")?;
         match arg.as_str() {
+            "--implementation" => {
+                o.implementation =
+                    PressureImplementation::from_id(&value).ok_or("unknown implementation ID")?
+            }
+            "--relative-residual" => o.pressure.relative_residual = value.parse()?,
+            "--pressure-divergence-limit" => o.pressure.divergence_limit = value.parse()?,
+            "--actual-divergence-limit" => o.actual_divergence_limit = value.parse()?,
+            "--max-iterations" => o.pressure.max_iterations = value.parse()?,
             "--size" => o.size = value.parse()?,
             "--steps" => o.steps = value.parse()?,
             "--dt" => o.dt = value.parse()?,
@@ -69,16 +110,11 @@ fn run(o: Options) -> Result<(), Box<dyn Error>> {
     let cfg = SimulationConfig {
         density: 1.0,
         memory_limit: budget,
-        pressure: PressureSettings {
-            relative_residual: 1e-9,
-            absolute_residual: 1e-12,
-            divergence_limit: 1e-7,
-            max_iterations: 2000,
-        },
-        actual_divergence_limit: 1e-5,
+        pressure: o.pressure,
+        actual_divergence_limit: o.actual_divergence_limit,
         max_courant: 1.0,
     };
-    let mut sim = Simulation::new(grid, cfg)?;
+    let mut sim = Simulation::with_implementation(grid, cfg, o.implementation)?;
     fs::create_dir(&o.output)?;
     let create = |name: &str| {
         OpenOptions::new()
@@ -129,7 +165,12 @@ fn run(o: Options) -> Result<(), Box<dyn Error>> {
     let mut metadata = BufWriter::new(create("run.json")?);
     writeln!(
         metadata,
-        "{{\n  \"model\": \"fixed-box smoke tracer, prescribed localized Y acceleration\",\n  \"size\": {},\n  \"steps\": {},\n  \"source_off_at\": {},\n  \"requested_dt\": {:.17e},\n  \"accepted_time\": {:.17e},\n  \"managed_simulation_bytes\": {},\n  \"managed_budget_bytes\": {},\n  \"raw_export_pixel_bytes\": {},\n  \"measured_step_seconds\": {:.9},\n  \"last_divergence_max\": {:.17e},\n  \"whole_process_memory_cap_claimed\": false,\n  \"real_time_performance_claimed\": false\n}}",
+        "{{\n  \"schema_version\": 2,\n  \"implementation\": \"{}\",\n  \"pressure_relative_residual\": {:.17e},\n  \"pressure_absolute_residual\": 1e-12,\n  \"pressure_divergence_limit\": {:.17e},\n  \"actual_divergence_limit\": {:.17e},\n  \"pressure_iteration_limit\": {},\n  \"model\": \"fixed-box smoke tracer, prescribed localized Y acceleration\",\n  \"size\": {},\n  \"steps\": {},\n  \"source_off_at\": {},\n  \"requested_dt\": {:.17e},\n  \"accepted_time\": {:.17e},\n  \"managed_simulation_bytes\": {},\n  \"managed_budget_bytes\": {},\n  \"raw_export_pixel_bytes\": {},\n  \"measured_step_seconds\": {:.9},\n  \"last_divergence_max\": {:.17e},\n  \"whole_process_memory_cap_claimed\": false,\n  \"real_time_performance_claimed\": false\n}}",
+        o.implementation.id(),
+        o.pressure.relative_residual,
+        o.pressure.divergence_limit,
+        o.actual_divergence_limit,
+        o.pressure.max_iterations,
         o.size,
         o.steps,
         o.source_off_at,

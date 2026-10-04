@@ -1,0 +1,135 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-evidence-gates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.98s
+     Running unittests src/lib.rs (/workspace/.rheon-tools/target/debug/deps/rheon-c3147dbbcb05ee21)
+
+running 1 test
+test pressure::comparison_tests::sgs_matches_independently_assembled_triangular_system ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/rheon.rs (/workspace/.rheon-tools/target/debug/deps/rheon-c4a0ddf597429b65)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/rheon-desktop.rs (/workspace/.rheon-tools/target/debug/deps/rheon_desktop-8f64e18ee0436a18)
+
+running 6 tests
+test tests::cancelled_worker_never_publishes_rows ... ok
+test tests::dropping_app_cancels_and_joins_owned_worker ... ok
+test tests::repeated_start_cannot_replace_active_work ... ok
+test tests::cancellation_before_publication_suppresses_already_finished_result ... ok
+test tests::cancel_after_progress_joins_without_rows_and_allows_restart ... ok
+test tests::worker_runs_selected_and_equal_input_comparison ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s
+
+     Running tests/advection_contract.rs (/workspace/.rheon-tools/target/debug/deps/advection_contract-225c15c5b5f70bf2)
+
+running 3 tests
+test cancellation_and_output_shape_are_explicit ... ok
+test rest_state_is_preserved_on_degenerate_grid ... ok
+test constant_translation_advects_an_interior_pulse_one_cell ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cli_contract.rs (/workspace/.rheon-tools/target/debug/deps/cli_contract-ea673c6ccdb279e4)
+
+running 4 tests
+test existing_output_is_not_overwritten ... ok
+test bad_cli_values_and_cap_fail_before_output_creation ... ok
+test executable_exports_reproducible_png_csv_and_completion_manifest ... ok
+test explicit_original_selection_replays_default_and_unknown_is_rejected ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.38s
+
+     Running tests/export_contract.rs (/workspace/.rheon-tools/target/debug/deps/export_contract-28cb0dbf0e593aa9)
+
+running 1 test
+test raw_export_limit_rejects_before_writing ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/geometry_contract.rs (/workspace/.rheon-tools/target/debug/deps/geometry_contract-a09149dd6d763813)
+
+running 7 tests
+test face_offsets_are_distinct_from_cell_offsets ... ok
+test half_cell_resolution_regression_requires_no_allocation ... ok
+test invalid_source_values_fail_before_allocation ... ok
+test conservative_axis_margin_covers_large_origins_and_adjacent_samples ... ok
+test planned_payload_is_exact_and_cap_is_explicit ... ok
+test rectangular_shapes_and_maximum_indices ... ok
+test single_cell_and_one_cell_wide_domains_are_valid ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/implementation_contract.rs (/workspace/.rheon-tools/target/debug/deps/implementation_contract-2c4da4efe4818e2e)
+
+running 5 tests
+test all_methods_recover_anisotropic_manufactured_pressure_and_failure_contracts ... ok
+test registry_has_stable_unique_ids_and_explicit_unknown_rejection ... ok
+test approaches_agree_with_equal_inputs_and_retained_budget ... ok
+test every_implementation_preserves_transactional_cancellation_and_replay ... ok
+test cancellation_after_accepted_work_preserves_both_implementations ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.03s
+
+     Running tests/operator_contract.rs (/workspace/.rheon-tools/target/debug/deps/operator_contract-f1b33944ac98063e)
+
+running 5 tests
+test independent_rectangular_dense_operator ... ok
+test all_six_faces_of_single_cell_are_walls ... ok
+test integrated_rhs_matches_independent_physical_divergence ... ok
+test nonfinite_fields_density_and_lengths_are_rejected ... ok
+test three_cell_hand_calculation_and_residual_identity ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/pressure_contract.rs (/workspace/.rheon-tools/target/debug/deps/pressure_contract-98bf10ed96cc360a)
+
+running 10 tests
+test a_rectangular_cycle_retains_circulation ... ok
+test incompatible_rhs_is_not_mean_shifted ... ok
+test eliminated_gauge_row_participates_in_physical_stopping ... ok
+test cancellation_and_iteration_exhaustion_are_explicit ... ok
+test single_cell_zero_rhs_returns_without_iteration ... ok
+test solves_hand_chain_and_reports_full_residual ... ok
+test workspace_budget_and_invalid_tolerance_fail ... ok
+test manufactured_three_dimensional_pressure_recovers_modulo_gauge ... ok
+test tighter_divergence_gate_keeps_conjugate_gradient_progress ... ok
+test random_three_dimensional_projection_checks_actual_f32_divergence ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/sampling_contract.rs (/workspace/.rheon-tools/target/debug/deps/sampling_contract-ac80565e28e12260)
+
+running 5 tests
+test convex_bounds_and_singleton_axes_hold ... ok
+test invalid_input_is_rejected_at_sampler_construction ... ok
+test component_offsets_reproduce_affine_fields ... ok
+test midpoint_rotation_matches_independent_polynomial ... ok
+test midpoint_backtrace_matches_constant_translation ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/simulation_contract.rs (/workspace/.rheon-tools/target/debug/deps/simulation_contract-8363144a7dcd92c8)
+
+running 9 tests
+test all_owned_capacities_are_accounted_and_cap_checked ... ok
+test in_place_candidate_matches_separate_output_and_scratch_diagnostic ... ok
+test actual_float_divergence_rejection_preserves_accepted_state ... ok
+test single_cell_rest_and_saturating_source_are_supported ... ok
+test solver_exhaustion_and_invalid_source_are_transactional ... ok
+test localized_smoke_is_nontrivial_finite_and_independently_divergence_checked ... ok
+test time_step_policy_reports_reduced_dt_for_large_forcing ... ok
+test exact_replay_pause_reset_and_source_toggle ... ok
+test cancellation_at_every_stage_preserves_all_accepted_bits_and_metadata ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.17s
+
+   Doc-tests rheon
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

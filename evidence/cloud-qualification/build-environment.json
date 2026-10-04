@@ -1,0 +1,9 @@
+{
+  "RUSTFLAGS": null,
+  "CARGO_ENCODED_RUSTFLAGS": null,
+  "RUSTC_WRAPPER": null,
+  "RUSTC_WORKSPACE_WRAPPER": null,
+  "CARGO_BUILD_TARGET": null,
+  "CARGO_BUILD_JOBS": "1",
+  "CARGO_TARGET_DIR": "/workspace/.rheon-tools/target"
+}

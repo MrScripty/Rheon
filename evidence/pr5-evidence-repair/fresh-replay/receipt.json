@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "scope": "fresh-original-demo-replay",
+  "producing_binary_sha256": "58531a9c8544941a1fb20cd7961905dd39e15a80492073a9b4931c78043357b9",
+  "producing_binary_path": "/workspace/.rheon-tools/target/release/rheon",
+  "producing_binary_build_info": {
+    "version": "0.1.0",
+    "debug_assertions": false,
+    "arch": "x86_64",
+    "os": "linux"
+  },
+  "producer_driver_sha256": "5bec091ea8a1afca8615a31aef994f2c3fa15941f05c0e68d21cd15632aa4e6b",
+  "runs": [
+    {
+      "fixture": "evidence/demo-16",
+      "command": [
+        "/workspace/.rheon-tools/target/release/rheon",
+        "--size",
+        "16",
+        "--steps",
+        "20",
+        "--source-off-at",
+        "12",
+        "--dt",
+        "0.02",
+        "--output",
+        "/workspace/rheon-pr5-fresh-replay/demo-16"
+      ],
+      "equal_manifest_fields": [
+        "model",
+        "size",
+        "steps",
+        "source_off_at",
+        "requested_dt",
+        "accepted_time",
+        "managed_simulation_bytes",
+        "managed_budget_bytes",
+        "raw_export_pixel_bytes",
+        "last_divergence_max",
+        "whole_process_memory_cap_claimed",
+        "real_time_performance_claimed"
+      ],
+      "produced_sha256": {
+        "run.json": "f203f69faf01d984f3522a43348db6a2375db161b6422e87c96f82023e6e33aa",
+        "steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+        "opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe"
+      },
+      "fixture_sha256": {
+        "run.json": "2c1fc4f01d75fef07060d39046e1c4d6b4b95db85168dfc92927f6d50310d1de",
+        "steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+        "opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe"
+      }
+    },
+    {
+      "fixture": "evidence/demo-plume",
+      "command": [
+        "/workspace/.rheon-tools/target/release/rheon",
+        "--size",
+        "16",
+        "--steps",
+        "100",
+        "--source-off-at",
+        "50",
+        "--dt",
+        "0.02",
+        "--output",
+        "/workspace/rheon-pr5-fresh-replay/demo-plume"
+      ],
+      "equal_manifest_fields": [
+        "model",
+        "size",
+        "steps",
+        "source_off_at",
+        "requested_dt",
+        "accepted_time",
+        "managed_simulation_bytes",
+        "managed_budget_bytes",
+        "raw_export_pixel_bytes",
+        "last_divergence_max",
+        "whole_process_memory_cap_claimed",
+        "real_time_performance_claimed"
+      ],
+      "produced_sha256": {
+        "run.json": "8a97f0c6dea2b4198b16400bb04bd4e8b0b0628ce6099e4114960a6c014a6952",
+        "steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+        "opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc"
+      },
+      "fixture_sha256": {
+        "run.json": "992688a5c075cc42f358c2c0e302b1eb4c02ac33bf19d42282c9939faffca647",
+        "steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+        "opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc"
+      }
+    },
+    {
+      "fixture": "evidence/demo-64",
+      "command": [
+        "/workspace/.rheon-tools/target/release/rheon",
+        "--size",
+        "64",
+        "--steps",
+        "3",
+        "--source-off-at",
+        "2",
+        "--dt",
+        "0.02",
+        "--output",
+        "/workspace/rheon-pr5-fresh-replay/demo-64"
+      ],
+      "equal_manifest_fields": [
+        "model",
+        "size",
+        "steps",
+        "source_off_at",
+        "requested_dt",
+        "accepted_time",
+        "managed_simulation_bytes",
+        "managed_budget_bytes",
+        "raw_export_pixel_bytes",
+        "last_divergence_max",
+        "whole_process_memory_cap_claimed",
+        "real_time_performance_claimed"
+      ],
+      "produced_sha256": {
+        "run.json": "31cef9607e555a63bf9611da8f56c6dd4e154ce2e162f155dc76361e4bcc3268",
+        "steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+        "opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb"
+      },
+      "fixture_sha256": {
+        "run.json": "3c8ff07697fc493a2945c1442624d93a90544b093b32853802d34e9635646761",
+        "steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+        "opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb"
+      }
+    }
+  ],
+  "new_performance_claim": false,
+  "identity_limit": "Executable hash checked before and after runs; no signed attestation or binary/source reproducibility claim."
+}

@@ -2,8 +2,8 @@
 //! milestone. Export buffers and application/GUI state are outside this module.
 use crate::{
     AdvectionError, Axis, BufferPlan, GeometryError, GridGeometry, OperatorError, PressureError,
-    PressureOperator, PressureReport, PressureSettings, PressureWorkspace, advect_tracer,
-    advect_velocity,
+    PressureImplementation, PressureOperator, PressureReport, PressureSettings, PressureWorkspace,
+    advect_tracer, advect_velocity,
 };
 use std::fmt;
 
@@ -159,6 +159,7 @@ pub struct StateView<'a> {
 }
 
 pub struct Simulation {
+    implementation: PressureImplementation,
     grid: GridGeometry,
     config: SimulationConfig,
     accepted: Fields,
@@ -171,6 +172,15 @@ pub struct Simulation {
 }
 impl Simulation {
     pub fn new(grid: GridGeometry, config: SimulationConfig) -> Result<Self, SimulationError> {
+        Self::with_implementation(grid, config, PressureImplementation::default())
+    }
+    /// Select once per simulation. Create a fresh simulation to compare methods
+    /// from identical initial conditions; accepted state cannot change methods.
+    pub fn with_implementation(
+        grid: GridGeometry,
+        config: SimulationConfig,
+        implementation: PressureImplementation,
+    ) -> Result<Self, SimulationError> {
         if !config.actual_divergence_limit.is_finite()
             || config.actual_divergence_limit < 0.0
             || !config.max_courant.is_finite()
@@ -191,9 +201,10 @@ impl Simulation {
         let mut remaining = config.memory_limit;
         let accepted = Fields::new(&grid, &mut remaining)?;
         let candidate = Fields::new(&grid, &mut remaining)?;
-        let workspace = PressureWorkspace::new(&grid, remaining)?;
+        let workspace = PressureWorkspace::with_implementation(&grid, remaining, implementation)?;
         remaining -= workspace.allocated_bytes();
         Ok(Self {
+            implementation,
             grid,
             config,
             accepted,
@@ -205,6 +216,10 @@ impl Simulation {
             paused: false,
         })
     }
+    pub fn implementation(&self) -> PressureImplementation {
+        self.implementation
+    }
+
     pub fn grid(&self) -> &GridGeometry {
         &self.grid
     }

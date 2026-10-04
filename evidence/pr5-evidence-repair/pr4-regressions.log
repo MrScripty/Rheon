@@ -1,0 +1,19 @@
+test_all_published_summary_fields_recomputed (test_gates.QualificationGates.test_all_published_summary_fields_recomputed) ... ok
+test_benchmark_repeat_and_original_replay_bytes_checked (test_gates.QualificationGates.test_benchmark_repeat_and_original_replay_bytes_checked) ... ok
+test_benchmark_unequal_horizons_fail_receipt_and_exit (test_gates.QualificationGates.test_benchmark_unequal_horizons_fail_receipt_and_exit) ... ok
+test_cli_exits_unsuccessfully_for_corrupted_published_summary (test_gates.QualificationGates.test_cli_exits_unsuccessfully_for_corrupted_published_summary) ... ok
+test_corrupted_source_rejected (test_gates.QualificationGates.test_corrupted_source_rejected) ... ok
+test_csv_diagnostic_gates_reject_corruption (test_gates.QualificationGates.test_csv_diagnostic_gates_reject_corruption) ... ok
+test_current_checkout_cannot_be_labeled_historical (test_gates.QualificationGates.test_current_checkout_cannot_be_labeled_historical) ... ok
+test_embedded_manifest_and_csv_measurements_must_match (test_gates.QualificationGates.test_embedded_manifest_and_csv_measurements_must_match) ... ok
+test_fresh_replay_manifest_and_bytes_checked (test_gates.QualificationGates.test_fresh_replay_manifest_and_bytes_checked) ... ok
+test_missing_step_and_unequal_horizon_flag_rejected (test_gates.QualificationGates.test_missing_step_and_unequal_horizon_flag_rejected) ... ok
+test_nonfinite_untyped_horizon_and_budget_measurements_rejected (test_gates.QualificationGates.test_nonfinite_untyped_horizon_and_budget_measurements_rejected) ... ok
+test_requested_controls_preserved_even_when_embedded_values_match (test_gates.QualificationGates.test_requested_controls_preserved_even_when_embedded_values_match) ... ok
+test_unchanged_retained_artifacts_and_source_pass (test_gates.QualificationGates.test_unchanged_retained_artifacts_and_source_pass) ... ok
+test_warmup_is_excluded_and_methods_cannot_be_regrouped (test_gates.QualificationGates.test_warmup_is_excluded_and_methods_cannot_be_regrouped) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 1.684s
+
+OK

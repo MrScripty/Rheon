@@ -1,6 +1,33 @@
 use crate::{GridGeometry, OperatorError, PressureOperator};
 use std::fmt;
 
+/// Preserved pressure approaches. Both use the same operator, gauge, residual
+/// and physical acceptance gates; only the SPD preconditioner differs.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum PressureImplementation {
+    #[default]
+    JacobiPcgV1,
+    SymmetricGaussSeidelPcgV1,
+}
+impl PressureImplementation {
+    pub const ALL: [Self; 2] = [Self::JacobiPcgV1, Self::SymmetricGaussSeidelPcgV1];
+    pub fn id(self) -> &'static str {
+        match self {
+            Self::JacobiPcgV1 => "jacobi-pcg-v1",
+            Self::SymmetricGaussSeidelPcgV1 => "sgs-pcg-v1",
+        }
+    }
+    pub fn label(self) -> &'static str {
+        match self {
+            Self::JacobiPcgV1 => "Jacobi PCG (original v1)",
+            Self::SymmetricGaussSeidelPcgV1 => "Symmetric Gauss-Seidel PCG (v1)",
+        }
+    }
+    pub fn from_id(id: &str) -> Option<Self> {
+        Self::ALL.into_iter().find(|method| method.id() == id)
+    }
+}
+
 /// Linear-system and physical stopping conditions. Tolerances are explicit:
 /// integrated residual has volume/time^2 units; divergence is inverse seconds.
 #[derive(Debug, Clone, Copy)]
@@ -120,6 +147,7 @@ fn dot(a: &[f64], b: &[f64]) -> f64 {
 /// The allocation limit covers Vec-capacity payload, not allocator metadata,
 /// stack diagnostics, velocity/tracer fields, output images or process RSS.
 pub struct PressureWorkspace {
+    implementation: PressureImplementation,
     pressure: Vec<f64>,
     rhs: Vec<f64>,
     residual: Vec<f64>,
@@ -131,6 +159,14 @@ pub struct PressureWorkspace {
 
 impl PressureWorkspace {
     pub fn new(grid: &GridGeometry, limit: usize) -> Result<Self, PressureError> {
+        Self::with_implementation(grid, limit, PressureImplementation::default())
+    }
+
+    pub fn with_implementation(
+        grid: &GridGeometry,
+        limit: usize,
+        implementation: PressureImplementation,
+    ) -> Result<Self, PressureError> {
         let n = grid.cell_len();
         let required = n.checked_mul(48).ok_or(PressureError::AllocationFailed)?;
         if required > limit {
@@ -164,6 +200,7 @@ impl PressureWorkspace {
             });
         }
         Ok(Self {
+            implementation,
             pressure,
             rhs,
             residual,
@@ -252,6 +289,55 @@ impl PressureWorkspace {
     }
 
     fn precondition(&mut self, operator: &PressureOperator<'_>) -> Result<f64, PressureError> {
+        match self.implementation {
+            PressureImplementation::JacobiPcgV1 => self.precondition_jacobi(operator),
+            PressureImplementation::SymmetricGaussSeidelPcgV1 => self.precondition_sgs(operator),
+        }
+    }
+
+    /// M = (D+L) D^-1 (D+L)^T on the gauge-eliminated SPD system.
+    /// Forward and reverse triangular solves share one buffer; no new arrays.
+    fn precondition_sgs(&mut self, operator: &PressureOperator<'_>) -> Result<f64, PressureError> {
+        let [nx, ny, nz] = operator.geometry().counts();
+        let strides = [1, nx, nx * ny];
+        let weight = operator.weights();
+        self.residual[0] = 0.0;
+        self.preconditioned[0] = 0.0;
+        for row in 1..self.residual.len() {
+            let p = [row % nx, (row / nx) % ny, row / (nx * ny)];
+            let diagonal = operator.diagonal(p);
+            let mut value = self.residual[row];
+            for d in 0..3 {
+                if p[d] > 0 {
+                    value += weight[d] * self.preconditioned[row - strides[d]];
+                }
+            }
+            self.preconditioned[row] = value / diagonal;
+            if !self.preconditioned[row].is_finite() || diagonal <= 0.0 || !diagonal.is_finite() {
+                return Err(PressureError::Breakdown { iteration: 0 });
+            }
+        }
+        for row in (1..self.residual.len()).rev() {
+            let p = [row % nx, (row / nx) % ny, row / (nx * ny)];
+            let diagonal = operator.diagonal(p);
+            let mut correction = 0.0;
+            for d in 0..3 {
+                if p[d] + 1 < [nx, ny, nz][d] {
+                    correction += weight[d] * self.preconditioned[row + strides[d]];
+                }
+            }
+            self.preconditioned[row] += correction / diagonal;
+            if !self.preconditioned[row].is_finite() {
+                return Err(PressureError::Breakdown { iteration: 0 });
+            }
+        }
+        Ok(dot(&self.residual, &self.preconditioned))
+    }
+
+    fn precondition_jacobi(
+        &mut self,
+        operator: &PressureOperator<'_>,
+    ) -> Result<f64, PressureError> {
         let grid = operator.geometry();
         let [nx, ny, nz] = grid.counts();
         self.residual[0] = 0.0;
@@ -398,5 +484,28 @@ impl PressureWorkspace {
             iterations: settings.max_iterations,
             residual_max: report.true_residual_max,
         })
+    }
+}
+
+#[cfg(test)]
+mod comparison_tests {
+    use super::*;
+
+    #[test]
+    fn sgs_matches_independently_assembled_triangular_system() {
+        // 2x2x1 uniform grid, eliminate cell0: A=[[2,0,-1],[0,2,-1],[-1,-1,2]].
+        // r=[2,4,6]: forward y=[1,2,4.5], reverse z=[3.25,4.25,4.5].
+        let g = GridGeometry::new([2, 2, 1], [1.0; 3], [0.0; 3]).unwrap();
+        let op = PressureOperator::new(&g, 1.0).unwrap();
+        let mut ws = PressureWorkspace::with_implementation(
+            &g,
+            192,
+            PressureImplementation::SymmetricGaussSeidelPcgV1,
+        )
+        .unwrap();
+        ws.residual.copy_from_slice(&[-12.0, 2.0, 4.0, 6.0]);
+        let rz = ws.precondition(&op).unwrap();
+        assert_eq!(ws.preconditioned, [0.0, 3.25, 4.25, 4.5]);
+        assert_eq!(rz, 50.5);
     }
 }

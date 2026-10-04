@@ -1,0 +1,196 @@
+{
+  "baseline": "6ba41c7cd05d1bf1851bef02048e7634245468e6",
+  "native_ui": {
+    "environment": "Cloud Linux XFCE desktop, native eframe/Glow window; actual mouse interaction",
+    "binary_build": "debug (not timing qualification)",
+    "binary_sha256": "17a8e99a0ac4e40b50238a426949a056a7f08933326f2fe8e2f03b60c73a4a5a",
+    "date_utc": "2026-10-04",
+    "observations": [
+      "Dropdown shows original Jacobi PCG and SGS PCG",
+      "Selected SGS executes 16^3/30 steps and displays table plus nonzero opacity image",
+      "Compare all runs both to accepted time 0.6 with two side-by-side opacity images",
+      "Repeated Start clicks are disabled during active run",
+      "Cancel leaves no result rows and permits a fresh restart",
+      "Restarted comparison completes",
+      "Close during an active run closes the window; pgrep -x rheon-desktop reports no remaining process"
+    ],
+    "limits": [
+      "Debug timing excluded from performance evidence",
+      "No Windows/macOS or screen-reader behavior qualification",
+      "Screenshots observed through computer-use tool, not persisted as repository image files"
+    ]
+  },
+  "baseline_replay": {
+    "resolution": 16,
+    "steps": 20,
+    "source_off_at": 12,
+    "result": "Final release PNG and every CSV diagnostic byte-identical to baseline committed evidence."
+  },
+  "preliminary_benchmarks": [
+    {
+      "workload": {
+        "size": 16,
+        "steps": 12,
+        "repeats": 3,
+        "accuracy": "standard",
+        "requested_dt": 0.02,
+        "source_off_at": 6
+      },
+      "summary": [
+        {
+          "implementation": "jacobi-pcg-v1",
+          "median_seconds": 0.14813516,
+          "min_seconds": 0.147732959,
+          "max_seconds": 0.158570895,
+          "samples": 3,
+          "managed_simulation_bytes": 333824,
+          "max_divergence": 1.0431999944437997e-07,
+          "pressure_iterations": 1644
+        },
+        {
+          "implementation": "sgs-pcg-v1",
+          "median_seconds": 0.131675689,
+          "min_seconds": 0.130191995,
+          "max_seconds": 0.132084308,
+          "samples": 3,
+          "managed_simulation_bytes": 333824,
+          "max_divergence": 1.0431693109325124e-07,
+          "pressure_iterations": 654
+        }
+      ],
+      "hardware": {
+        "system": "Linux",
+        "release": "6.18.44",
+        "machine": "x86_64",
+        "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+        "logical_cpus": 9,
+        "affinity_cpus": 9,
+        "hardware_scope": "This host only; no other device qualification",
+        "python": "3.12.14",
+        "executable_sha256": "5e3752c3ca5da0282ad2deb91a1186ebc1b59bf6c2b2a2599338446d0554d059",
+        "timing": "Rust Instant around accepted stepping and CSV writes, excludes process startup and PNG export",
+        "build_requirement": "Use cargo build --release --locked; binary path alone does not prove optimization",
+        "warmup_runs_per_method": 1,
+        "execution": "sequential, rotating method order"
+      },
+      "qualification": "Repeated release measurements on shared host while other builds could be active; not controlled speedup or real-time acceptance"
+    },
+    {
+      "workload": {
+        "size": 32,
+        "steps": 6,
+        "repeats": 3,
+        "accuracy": "standard",
+        "requested_dt": 0.02,
+        "source_off_at": 3
+      },
+      "summary": [
+        {
+          "implementation": "jacobi-pcg-v1",
+          "median_seconds": 1.166056204,
+          "min_seconds": 1.091733285,
+          "max_seconds": 1.211135307,
+          "samples": 3,
+          "managed_simulation_bytes": 2646016,
+          "max_divergence": 1.1920928955078125e-07,
+          "pressure_iterations": 1689
+        },
+        {
+          "implementation": "sgs-pcg-v1",
+          "median_seconds": 0.989351134,
+          "min_seconds": 0.948499406,
+          "max_seconds": 1.036256356,
+          "samples": 3,
+          "managed_simulation_bytes": 2646016,
+          "max_divergence": 1.1920928955078125e-07,
+          "pressure_iterations": 645
+        }
+      ],
+      "hardware": {
+        "system": "Linux",
+        "release": "6.18.44",
+        "machine": "x86_64",
+        "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+        "logical_cpus": 9,
+        "affinity_cpus": 9,
+        "hardware_scope": "This host only; no other device qualification",
+        "python": "3.12.14",
+        "executable_sha256": "5e3752c3ca5da0282ad2deb91a1186ebc1b59bf6c2b2a2599338446d0554d059",
+        "timing": "Rust Instant around accepted stepping and CSV writes, excludes process startup and PNG export",
+        "build_requirement": "Use cargo build --release --locked; binary path alone does not prove optimization",
+        "warmup_runs_per_method": 1,
+        "execution": "sequential, rotating method order"
+      },
+      "qualification": "Repeated release measurements on shared host while other builds could be active; not controlled speedup or real-time acceptance"
+    },
+    {
+      "workload": {
+        "size": 64,
+        "steps": 3,
+        "repeats": 3,
+        "accuracy": "standard",
+        "requested_dt": 0.02,
+        "source_off_at": 1
+      },
+      "summary": [
+        {
+          "implementation": "jacobi-pcg-v1",
+          "median_seconds": 7.368417486,
+          "min_seconds": 7.22768332,
+          "max_seconds": 7.485070917,
+          "samples": 3,
+          "managed_simulation_bytes": 21069824,
+          "max_divergence": 7.450580596923828e-08,
+          "pressure_iterations": 1645
+        },
+        {
+          "implementation": "sgs-pcg-v1",
+          "median_seconds": 6.075860259,
+          "min_seconds": 5.915062753,
+          "max_seconds": 6.233883548,
+          "samples": 3,
+          "managed_simulation_bytes": 21069824,
+          "max_divergence": 7.450580596923828e-08,
+          "pressure_iterations": 596
+        }
+      ],
+      "hardware": {
+        "system": "Linux",
+        "release": "6.18.44",
+        "machine": "x86_64",
+        "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+        "logical_cpus": 9,
+        "affinity_cpus": 9,
+        "hardware_scope": "This host only; no other device qualification",
+        "python": "3.12.14",
+        "executable_sha256": "5e3752c3ca5da0282ad2deb91a1186ebc1b59bf6c2b2a2599338446d0554d059",
+        "timing": "Rust Instant around accepted stepping and CSV writes, excludes process startup and PNG export",
+        "build_requirement": "Use cargo build --release --locked; binary path alone does not prove optimization",
+        "warmup_runs_per_method": 1,
+        "execution": "sequential, rotating method order"
+      },
+      "qualification": "Repeated release measurements on shared host while other builds could be active; not controlled speedup or real-time acceptance"
+    }
+  ],
+  "status": "Final local matrix passed; native debug UI workflow verified; release artifacts built; remote publication not yet performed.",
+  "verification": {
+    "default_tests": 48,
+    "core_only_tests": 43,
+    "desktop_tests": 52,
+    "harness_tests": 3,
+    "fmt": "pass",
+    "clippy_default": "pass",
+    "clippy_core_only": "pass",
+    "clippy_desktop": "pass",
+    "release_build": "pass",
+    "toolchain": "1.92.0",
+    "native_ui": "actual cloud Linux interaction verified; debug build timing excluded"
+  },
+  "final_benchmarks": [
+    "16-standard/comparison.json",
+    "16-tight/comparison.json"
+  ],
+  "release_binary_sha256": "fd707260857e906ceeb05ebda95e6b073c584ec15df5734605a2bd1543ae2255",
+  "desktop_release_binary_sha256": "7b4d45cffa22847f7131b6042097a41e7e34286f95fd1343e250ab3407c87d60",
+  "timing_limits": "16-cubed final pair was serialized after local compiler tasks drained; this shared cloud host is not exclusive hardware. 32/64-cubed preliminary timings overlapped other builds. No controlled cross-device or real-time claim."
+}

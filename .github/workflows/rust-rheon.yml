@@ -7,6 +7,9 @@ on:
       - 'rust-toolchain.toml'
       - 'src/**'
       - 'tests/**'
+      - 'tools/rheon_compare.py'
+      - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
       - '.github/workflows/rust-rheon.yml'
   push:
     branches: [main]
@@ -16,6 +19,9 @@ on:
       - 'rust-toolchain.toml'
       - 'src/**'
       - 'tests/**'
+      - 'tools/rheon_compare.py'
+      - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
       - '.github/workflows/rust-rheon.yml'
   workflow_dispatch:
 permissions:
@@ -40,10 +46,12 @@ jobs:
           cargo fmt --all --check
           cargo clippy --locked --all-targets -- -D warnings
           cargo clippy --locked --no-default-features --all-targets -- -D warnings
+          cargo clippy --locked --features desktop --all-targets -- -D warnings
       - name: Default and core-only contract tests
         run: |
           cargo test --locked
           cargo test --locked --no-default-features
+          cargo test --locked --features desktop
           cargo tree --locked --no-default-features
       - name: Execute real source-on source-off smoke export
         run: |
@@ -65,6 +73,10 @@ jobs:
           assert struct.unpack('>II', image[16:24]) == (16, 16)
           print('PASS executable completion manifest, all-step divergence and PNG dimensions')
           PY
+      - name: Real comparison harness lifecycle tests
+        run: |
+          cargo build --locked --release --bin rheon
+          python3 -m unittest discover -s tools -p 'test_*.py' -v
       - name: Retain executable smoke evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:

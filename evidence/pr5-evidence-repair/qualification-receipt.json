@@ -1,0 +1,304 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-04T18:55:58.010954+00:00",
+  "branch": "repair/pr5-evidence-integrity",
+  "accepted_base_commit": "94cdc967ad0b91ee03b272509695b4d7da24c209",
+  "accepted_base_tree": "d8b4a04402553350441618e6d4f48a906f6efdb7",
+  "qualified_source_commit": "a028e5addc2d9a7c0acb78b183dd13c761cef985",
+  "qualified_source_tree": "5bb83e4e6c40c3147cf62ae464d812b7e95d13b4",
+  "qualified_source_ordered_parents": [
+    "94cdc967ad0b91ee03b272509695b4d7da24c209"
+  ],
+  "reviewed_snapshot": "2d36096f17c494b25c46e64335521cea5e19db5d",
+  "review_findings": [
+    4178807103,
+    4178807105,
+    4178807108,
+    4178807111
+  ],
+  "reviewed_verifiers_identical_to_base_before_repair": true,
+  "original_assertion_conditions_preserved_as_explicit_guards": 36,
+  "source_sha256": {
+    "evidence/pr5-evidence-repair/README.md": "9605343ec51f6fc188780029ba79ef0f3b4969bb91702a71a9c271c0d90fb29a",
+    "evidence/pr5-evidence-repair/test_integrity.py": "798e95b17ad58fa83a0f9cd8d54979ea2779076c055e06873196d5d51700a11d",
+    "evidence/publication-terminal-repair/README.md": "4b08c9f77c9df2ca76b32ec76a29b6bdbfa865887350a643bcd1653e6a0ad34c",
+    "evidence/publication-terminal-repair/verify.py": "841964cb71034b4253bb0326079f97424fe255f2ae33eb44ba447c8648cb71f2",
+    "evidence/result-integration-qualification/README.md": "b410780c294e4e3af4b53aec3dc0cca71ca55a2f29fc3dae75b17da86beb5b73",
+    "evidence/result-integration-qualification/fresh_replay.py": "5bec091ea8a1afca8615a31aef994f2c3fa15941f05c0e68d21cd15632aa4e6b",
+    "evidence/result-integration-qualification/verify.py": "02f4120739c47fbd18c31e7d0ff2e727434487ac2be5a6734bcd2237b663b19e",
+    "evidence/result-qualification/README.md": "c8cefa0b3934c8a6e583bf5fb27d1fecea26ccfaaeac173b70beb81063fd970d",
+    "evidence/result-qualification/verify.py": "a1b25e31b381b826126bc7b9324bc0361ad872f1168ba66460195f4e9fa3ac66"
+  },
+  "evidence_sha256": {
+    "current-rejected-integration-env-optimized.log": "745eb2548c774314a6725cbdd4d01e63eaa5b7beebdb8776de4eb55f8736d271",
+    "current-rejected-integration-normal.log": "745eb2548c774314a6725cbdd4d01e63eaa5b7beebdb8776de4eb55f8736d271",
+    "current-rejected-integration-optimized.log": "745eb2548c774314a6725cbdd4d01e63eaa5b7beebdb8776de4eb55f8736d271",
+    "current-rejected-result-env-optimized.log": "843fc4af7ab7c2ad173132533c9677ce09e87cd9513ce594d8c763062e55453a",
+    "current-rejected-result-normal.log": "843fc4af7ab7c2ad173132533c9677ce09e87cd9513ce594d8c763062e55453a",
+    "current-rejected-result-optimized.log": "843fc4af7ab7c2ad173132533c9677ce09e87cd9513ce594d8c763062e55453a",
+    "current-rejected-terminal-env-optimized.log": "5be481f123a615faeb929f3c5a7a038deb4cef20660af9d42d3c4ca3e3208d9c",
+    "current-rejected-terminal-normal.log": "5be481f123a615faeb929f3c5a7a038deb4cef20660af9d42d3c4ca3e3208d9c",
+    "current-rejected-terminal-optimized.log": "5be481f123a615faeb929f3c5a7a038deb4cef20660af9d42d3c4ca3e3208d9c",
+    "fresh-check-env-optimized.log": "1528499fa61b89b167e7385c595d14d96e956adcb59b9725ab3eb6cd5d42911b",
+    "fresh-check-normal.log": "1528499fa61b89b167e7385c595d14d96e956adcb59b9725ab3eb6cd5d42911b",
+    "fresh-check-optimized.log": "1528499fa61b89b167e7385c595d14d96e956adcb59b9725ab3eb6cd5d42911b",
+    "fresh-checked-env-optimized.json": "183465c169782184c13eb12e53b1dbdf915c3bad355edeee7cd3551ce7256238",
+    "fresh-checked-normal.json": "183465c169782184c13eb12e53b1dbdf915c3bad355edeee7cd3551ce7256238",
+    "fresh-checked-optimized.json": "183465c169782184c13eb12e53b1dbdf915c3bad355edeee7cd3551ce7256238",
+    "fresh-replay/demo-16/opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe",
+    "fresh-replay/demo-16/run.json": "f203f69faf01d984f3522a43348db6a2375db161b6422e87c96f82023e6e33aa",
+    "fresh-replay/demo-16/steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+    "fresh-replay/demo-64/opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb",
+    "fresh-replay/demo-64/run.json": "31cef9607e555a63bf9611da8f56c6dd4e154ce2e162f155dc76361e4bcc3268",
+    "fresh-replay/demo-64/steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+    "fresh-replay/demo-plume/opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc",
+    "fresh-replay/demo-plume/run.json": "8a97f0c6dea2b4198b16400bb04bd4e8b0b0628ce6099e4114960a6c014a6952",
+    "fresh-replay/demo-plume/steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+    "fresh-replay/receipt.json": "183465c169782184c13eb12e53b1dbdf915c3bad355edeee7cd3551ce7256238",
+    "fresh-replay-produce.log": "18580bd28e401cfd3ac4ada598ee41e031dda8a2c61153f093a694a259e13902",
+    "harness-tests.log": "4281b368f1d6ef9bddf6958d3ecc69f0f10976ff7271eadf449253ce54332896",
+    "historical-integration-env-optimized.json": "2b0cdd959a351d1673a524bda1551a8bdf164c865ad8ace24768f71ed4d09751",
+    "historical-integration-env-optimized.log": "ff92b8a52ad1848d57bb28b9c4db78fc09184d375b664f1d28a3bc8619709261",
+    "historical-integration-normal.json": "2b0cdd959a351d1673a524bda1551a8bdf164c865ad8ace24768f71ed4d09751",
+    "historical-integration-normal.log": "ff92b8a52ad1848d57bb28b9c4db78fc09184d375b664f1d28a3bc8619709261",
+    "historical-integration-optimized.json": "2b0cdd959a351d1673a524bda1551a8bdf164c865ad8ace24768f71ed4d09751",
+    "historical-integration-optimized.log": "ff92b8a52ad1848d57bb28b9c4db78fc09184d375b664f1d28a3bc8619709261",
+    "historical-result-env-optimized.json": "101abcef32f3e905b4aa6dcba8c697ec264c6138bf556662b747598f3f77b684",
+    "historical-result-env-optimized.log": "f0a24fe004c9cb36211d73a3651c39bca3bd6ea24d5621352d3122fc5dda4d77",
+    "historical-result-normal.json": "101abcef32f3e905b4aa6dcba8c697ec264c6138bf556662b747598f3f77b684",
+    "historical-result-normal.log": "f0a24fe004c9cb36211d73a3651c39bca3bd6ea24d5621352d3122fc5dda4d77",
+    "historical-result-optimized.json": "101abcef32f3e905b4aa6dcba8c697ec264c6138bf556662b747598f3f77b684",
+    "historical-result-optimized.log": "f0a24fe004c9cb36211d73a3651c39bca3bd6ea24d5621352d3122fc5dda4d77",
+    "mutations-env-optimized.log": "35df119f0a525a90a889e06f29220d0701e1b00b016ba58568c4126ce40f5f3f",
+    "mutations-normal.log": "eec373571b8404b315937809aee163d8e75ac646b41e428be67ca7276a539be8",
+    "mutations-optimized.log": "7f00dfa34974ad02869c1a3588adc59509a6194ef3d3557bec09730624be25af",
+    "pr4-regressions.log": "b700fe0ed265e254af83f926257a27b205e45c7bce792d1690075f14b686ae2e",
+    "release-build.log": "409e66d0b1485af8a7e80819e3d6da9077f798196f302cdccc8c901f30972d1a"
+  },
+  "preservation": {
+    "baseline_files_byte_identical_outside_nine_change_paths": 876,
+    "old_receipts_logs_measurements_fixtures_unchanged": true,
+    "prior_PR4_repairs_unchanged": true,
+    "solver_CG_research_book_proofs_unchanged": true
+  },
+  "fresh_producing_binary_sha256": "58531a9c8544941a1fb20cd7961905dd39e15a80492073a9b4931c78043357b9",
+  "historical_measured_binary_sha256": "e10000f4fb61ba09765d7e9cbc76cac0463550cc7aecbcd72a66d458e0a1a584",
+  "historical_reported_integration_rebuild_sha256": "3f11c4061a0f41c9ea118e3c90b2fc50a989d58d1e6ac606a00fe1519a10b988",
+  "historical_replay_provenance_limit": "Original replay lists lacked producing-binary hash; none was inferred or retroactively fabricated.",
+  "checks": [
+    {
+      "command": "python3 -m unittest discover -s evidence/pr5-evidence-repair -p test_integrity.py -v",
+      "env": {},
+      "exit_code": 0,
+      "test_methods": 13,
+      "log": "mutations-normal.log"
+    },
+    {
+      "command": "python3 /workspace/Rheon-pr5-evidence/evidence/result-qualification/verify.py --receipt-output /workspace/Rheon-pr5-evidence/evidence/pr5-evidence-repair/historical-result-normal.json",
+      "cwd": "/workspace/Rheon-pr5-historical-result",
+      "env": {},
+      "exit_code": 0,
+      "log": "historical-result-normal.log",
+      "scope": "fixed historical source/log/data; not current-source attribution"
+    },
+    {
+      "command": "python3 /workspace/Rheon-pr5-evidence/evidence/result-integration-qualification/verify.py --receipt-output /workspace/Rheon-pr5-evidence/evidence/pr5-evidence-repair/historical-integration-normal.json",
+      "cwd": "/workspace/Rheon-pr5-historical-integration",
+      "env": {},
+      "exit_code": 0,
+      "log": "historical-integration-normal.log",
+      "scope": "fixed historical source/log/data; not current-source attribution"
+    },
+    {
+      "command": "python3 evidence/result-integration-qualification/fresh_replay.py check target/release/rheon evidence/pr5-evidence-repair/fresh-replay --receipt-output evidence/pr5-evidence-repair/fresh-checked-normal.json",
+      "env": {},
+      "exit_code": 0,
+      "log": "fresh-check-normal.log"
+    },
+    {
+      "command": "python3 evidence/publication-terminal-repair/verify.py --receipt-output FRESH_JSON",
+      "env": {},
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-rejected-terminal-normal.log",
+      "scope": "current combined source rejected; no receipt/PASS"
+    },
+    {
+      "command": "python3 evidence/result-qualification/verify.py --receipt-output FRESH_JSON",
+      "env": {},
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-rejected-result-normal.log",
+      "scope": "current combined source rejected; no receipt/PASS"
+    },
+    {
+      "command": "python3 evidence/result-integration-qualification/verify.py --receipt-output FRESH_JSON",
+      "env": {},
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-rejected-integration-normal.log",
+      "scope": "current combined source rejected; no receipt/PASS"
+    },
+    {
+      "command": "python3 -O -m unittest discover -s evidence/pr5-evidence-repair -p test_integrity.py -v",
+      "env": {},
+      "exit_code": 0,
+      "test_methods": 13,
+      "log": "mutations-optimized.log"
+    },
+    {
+      "command": "python3 -O /workspace/Rheon-pr5-evidence/evidence/result-qualification/verify.py --receipt-output /workspace/Rheon-pr5-evidence/evidence/pr5-evidence-repair/historical-result-optimized.json",
+      "cwd": "/workspace/Rheon-pr5-historical-result",
+      "env": {},
+      "exit_code": 0,
+      "log": "historical-result-optimized.log",
+      "scope": "fixed historical source/log/data; not current-source attribution"
+    },
+    {
+      "command": "python3 -O /workspace/Rheon-pr5-evidence/evidence/result-integration-qualification/verify.py --receipt-output /workspace/Rheon-pr5-evidence/evidence/pr5-evidence-repair/historical-integration-optimized.json",
+      "cwd": "/workspace/Rheon-pr5-historical-integration",
+      "env": {},
+      "exit_code": 0,
+      "log": "historical-integration-optimized.log",
+      "scope": "fixed historical source/log/data; not current-source attribution"
+    },
+    {
+      "command": "python3 -O evidence/result-integration-qualification/fresh_replay.py check target/release/rheon evidence/pr5-evidence-repair/fresh-replay --receipt-output evidence/pr5-evidence-repair/fresh-checked-optimized.json",
+      "env": {},
+      "exit_code": 0,
+      "log": "fresh-check-optimized.log"
+    },
+    {
+      "command": "python3 -O evidence/publication-terminal-repair/verify.py --receipt-output FRESH_JSON",
+      "env": {},
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-rejected-terminal-optimized.log",
+      "scope": "current combined source rejected; no receipt/PASS"
+    },
+    {
+      "command": "python3 -O evidence/result-qualification/verify.py --receipt-output FRESH_JSON",
+      "env": {},
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-rejected-result-optimized.log",
+      "scope": "current combined source rejected; no receipt/PASS"
+    },
+    {
+      "command": "python3 -O evidence/result-integration-qualification/verify.py --receipt-output FRESH_JSON",
+      "env": {},
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-rejected-integration-optimized.log",
+      "scope": "current combined source rejected; no receipt/PASS"
+    },
+    {
+      "command": "python3 -m unittest discover -s evidence/pr5-evidence-repair -p test_integrity.py -v",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 0,
+      "test_methods": 13,
+      "log": "mutations-env-optimized.log"
+    },
+    {
+      "command": "python3 /workspace/Rheon-pr5-evidence/evidence/result-qualification/verify.py --receipt-output /workspace/Rheon-pr5-evidence/evidence/pr5-evidence-repair/historical-result-env-optimized.json",
+      "cwd": "/workspace/Rheon-pr5-historical-result",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 0,
+      "log": "historical-result-env-optimized.log",
+      "scope": "fixed historical source/log/data; not current-source attribution"
+    },
+    {
+      "command": "python3 /workspace/Rheon-pr5-evidence/evidence/result-integration-qualification/verify.py --receipt-output /workspace/Rheon-pr5-evidence/evidence/pr5-evidence-repair/historical-integration-env-optimized.json",
+      "cwd": "/workspace/Rheon-pr5-historical-integration",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 0,
+      "log": "historical-integration-env-optimized.log",
+      "scope": "fixed historical source/log/data; not current-source attribution"
+    },
+    {
+      "command": "python3 evidence/result-integration-qualification/fresh_replay.py check target/release/rheon evidence/pr5-evidence-repair/fresh-replay --receipt-output evidence/pr5-evidence-repair/fresh-checked-env-optimized.json",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 0,
+      "log": "fresh-check-env-optimized.log"
+    },
+    {
+      "command": "python3 evidence/publication-terminal-repair/verify.py --receipt-output FRESH_JSON",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-rejected-terminal-env-optimized.log",
+      "scope": "current combined source rejected; no receipt/PASS"
+    },
+    {
+      "command": "python3 evidence/result-qualification/verify.py --receipt-output FRESH_JSON",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-rejected-result-env-optimized.log",
+      "scope": "current combined source rejected; no receipt/PASS"
+    },
+    {
+      "command": "python3 evidence/result-integration-qualification/verify.py --receipt-output FRESH_JSON",
+      "env": {
+        "PYTHONOPTIMIZE": "1"
+      },
+      "exit_code": 1,
+      "expected_rejection": true,
+      "log": "current-rejected-integration-env-optimized.log",
+      "scope": "current combined source rejected; no receipt/PASS"
+    },
+    {
+      "command": "cargo build --locked --release --bin rheon",
+      "exit_code": 0,
+      "log": "release-build.log"
+    },
+    {
+      "command": "python3 evidence/result-integration-qualification/fresh_replay.py produce /workspace/.rheon-tools/target/release/rheon /workspace/rheon-pr5-fresh-replay",
+      "exit_code": 0,
+      "log": "fresh-replay-produce.log",
+      "stored_outputs": "fresh-replay"
+    },
+    {
+      "command": "python3 -m unittest discover -s evidence/cloud-qualification -p test_gates.py -v",
+      "exit_code": 0,
+      "tests": 14,
+      "log": "pr4-regressions.log"
+    },
+    {
+      "command": "python3 -m unittest discover -s tools -p 'test_*.py' -v",
+      "exit_code": 0,
+      "tests": 20,
+      "log": "harness-tests.log"
+    }
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: x86_64-unknown-linux-gnu\nrelease: 1.92.0\nLLVM version: 21.1.3",
+    "cargo_build_jobs": 1,
+    "release_profile": "default Cargo release, no new compiler/profile overrides"
+  },
+  "limits": [
+    "Historical terminal exact e100 binary is unavailable in inspected release targets/dependencies; only its actual inventory guard and before-binary CLI failure cases are newly qualified, not a full historical-binary pass.",
+    "Fresh replay provenance is local hash evidence, not signed attestation, atomic executable immutability, binary/source theorem or reproducible build.",
+    "Fresh replay incidental timings are not benchmark replacement/performance claims.",
+    "No repeated Rust feature/Clippy/Lean claims; unchanged numerical source and prior receipts preserved.",
+    "No PR2 retarget, PR3 advancement, main merge, immutable PR4/5 mutation, review-thread resolution or bot request."
+  ],
+  "unresolved_findings": [],
+  "pending": [
+    "Independent review and coordinated integration."
+  ]
+}
