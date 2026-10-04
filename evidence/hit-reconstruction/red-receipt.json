@@ -1,0 +1,16 @@
+{
+  "base_commit": "777a7339029e94f8dd82187b3817481623e3ff3f",
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-default-features",
+    "--test",
+    "collision_contract",
+    "unresolved_large_segment_interpolation_rejects_off_facet_hits"
+  ],
+  "actual_exit_code": 101,
+  "collision_source_sha256": "e5f3c4c79422bb34746fafcfad903f0f8c8b3469c4a97429ff23b04b27200841",
+  "regression_fixture_sha256": "8625b6a0d01271b90f17fd22b0ea4f5d0869827fad6537720fb631ce565367ac"
+}

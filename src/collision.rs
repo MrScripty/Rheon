@@ -312,6 +312,13 @@ fn intersect(
     if [u, v, w].into_iter().any(|x| uncertain_unit(x, tolerance)) {
         return Err(SurfaceError::AmbiguousIntersection { triangle });
     }
+    // Projected barycentrics do not validate the dropped axis. Large segment
+    // interpolation can lose the plane offset; reject an inconsistent full
+    // reconstruction in the same dimensionless facet tolerance.
+    let reconstructed = std::array::from_fn(|i| u * f.e1[i] + v * f.e2[i]);
+    if scale(sub(q, reconstructed)) > tolerance {
+        return Err(SurfaceError::AmbiguousIntersection { triangle });
+    }
     Ok(Some(SurfaceHit {
         surface: stamp,
         triangle,
