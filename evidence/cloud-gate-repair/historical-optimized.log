@@ -1,0 +1,7 @@
+PASS 16-standard: all 8 historical runs, controls/diagnostics, horizons/budgets, deterministic bytes and recomputed summaries
+PASS 16-tight: all 8 historical runs, controls/diagnostics, horizons/budgets, deterministic bytes and recomputed summaries
+PASS 32-standard: all 8 historical runs, controls/diagnostics, horizons/budgets, deterministic bytes and recomputed summaries
+PASS 32-tight: all 8 historical runs, controls/diagnostics, horizons/budgets, deterministic bytes and recomputed summaries
+PASS 64-standard: all 8 historical runs, controls/diagnostics, horizons/budgets, deterministic bytes and recomputed summaries
+PASS 64-tight: all 8 historical runs, controls/diagnostics, horizons/budgets, deterministic bytes and recomputed summaries
+PASS original fixture bytes/manifests and historical qualified source hashes

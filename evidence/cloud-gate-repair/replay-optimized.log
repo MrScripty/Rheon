@@ -1,0 +1,6 @@
+Accepted 20 steps; time 0.400000; managed arrays 333824 bytes; step wall time 0.456s. Wrote /workspace/rheon-cloud-gates-replay-optimized/demo-16
+PASS demo-16 PNG/CSV byte-identical; stable manifest fields equal
+Accepted 100 steps; time 2.000000; managed arrays 333824 bytes; step wall time 1.941s. Wrote /workspace/rheon-cloud-gates-replay-optimized/demo-plume
+PASS demo-plume PNG/CSV byte-identical; stable manifest fields equal
+Accepted 3 steps; time 0.060000; managed arrays 21069824 bytes; step wall time 11.866s. Wrote /workspace/rheon-cloud-gates-replay-optimized/demo-64
+PASS demo-64 PNG/CSV byte-identical; stable manifest fields equal
