@@ -1,0 +1,32 @@
+{
+  "reviewed_base": "416744700a45a8e74de27ca4e25cd00b0931926c",
+  "repair_source_commit": "2a0f55607a9ab7fb16ece0244314c3244f7237e1",
+  "repair_source_tree": "e567d7bb191f89be49a809c4df3e3b54fb3d51a3",
+  "source_sha256": {
+    "tools/rheon_compare.py": "085c93855dffaaeab49afbacc177198094f29cbb849b66a1218364077778a396",
+    "tools/test_result_qualification.py": "72009dbd5d378d18de0459d917faa24647e6c9dbdf6b68bfe9d523f73f20e36c",
+    "docs/COMPARISON.md": "01c62ca4916f3bef22da441a79d4b9c3f4c0640f105ee7a7eb60ea74cadb9f85"
+  },
+  "binary_sha256": "e10000f4fb61ba09765d7e9cbc76cac0463550cc7aecbcd72a66d458e0a1a584",
+  "protected_paths_unchanged": [
+    "src",
+    "tests",
+    "Cargo.toml",
+    "Cargo.lock",
+    "rust-toolchain.toml",
+    "proofs",
+    "docs/research-book",
+    "evidence/cloud-qualification",
+    "evidence/result-qualification",
+    "evidence/demo-16",
+    "evidence/demo-plume",
+    "evidence/demo-64"
+  ],
+  "retained_packets_requalified": 48,
+  "new_timing_measurements": false,
+  "harness_tests": 20,
+  "baseline_combined_failure_errors": 2,
+  "failure_contract": "Terminal failed before cleanup/persistence; all errors retained; repeated polls remain failed",
+  "limits": "Cleanup failure may leave comparison.json; persistent status-write failure may leave stale status.json",
+  "parent_independent_review": "pending"
+}
