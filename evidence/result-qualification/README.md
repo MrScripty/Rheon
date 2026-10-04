@@ -57,7 +57,64 @@ No numerical implementation, stable ID, fixture, tolerance or book/proof artifac
 is changed; no external review request or PR merge is made.
 
 Serial standard/tight measurements and their source/hardware/contention receipt
-are retained under `benchmarks/` when the follow-up qualification is complete.
+are retained under `benchmarks/`. The unchanged archival benchmark wrapper loaded
+the stricter harness from commit `d40bdd7a51637ac2005fd1b2a0e1c8232b945c7d`
+(tree `9b3e31a90b89d34eb0205eabab4f0a97f0af170c`).
 No exclusive-host, cross-device, desktop timing or real-time claim is implied.
 
 Logs have trailing whitespace and surplus terminal blank lines removed only for Git whitespace checks.
+
+
+## Current-harness measurements (2026-10-04 UTC)
+
+One retained warmup and three measured samples per method, sequentially with
+rotating order. Each case has an equal accepted physical horizon. Timing includes
+accepted stepping and CSV writes, excluding startup and PNG export.
+
+| Grid / steps / accuracy | Jacobi seconds median [min, max] | SGS seconds median [min, max] | Iterations Jacobi / SGS | Array bytes (both) |
+| --- | --- | --- | --- | --- |
+| 16³ / 12 / standard | 0.2109 [0.2109, 0.2111] | 0.1781 [0.1709, 0.1795] | 1644 / 654 | 333824 |
+| 16³ / 12 / tight | 0.2142 [0.2126, 0.2157] | 0.1824 [0.1746, 0.1842] | 1701 / 678 | 333824 |
+| 32³ / 6 / standard | 1.4746 [1.4709, 1.5405] | 1.1843 [1.1215, 1.2496] | 1689 / 645 | 2646016 |
+| 32³ / 6 / tight | 1.4894 [1.4608, 1.5009] | 1.2015 [1.1366, 1.2196] | 1734 / 669 | 2646016 |
+| 64³ / 3 / standard | 10.2275 [10.2161, 10.2371] | 7.6185 [7.5783, 7.6934] | 1645 / 596 | 21069824 |
+| 64³ / 3 / tight | 11.3877 [11.2959, 11.4493] | 7.9481 [7.8273, 7.9558] | 1820 / 620 | 21069824 |
+
+Host-reported Intel Xeon Platinum 8370C, Linux x86_64, five visible/affinity
+CPUs, cgroup quota four CPUs and memory limit 16 GiB. No concurrent builds or
+tests ran during timing. Normal control/editing work and shared physical-host
+contention cannot be excluded. Before/after snapshots record load, CPU pressure,
+CPU statistics, process CPU usage and cgroup throttling. There was no recorded
+throttled-time increase; boundary one-minute load ranged 0.0205–0.9497.
+This is descriptive single-host evidence, not a controlled speedup experiment.
+
+`verification.log` and `verification.json` independently check all six cases,
+all 48 runs' diagnostic gates and exact archived PNG/CSV bytes. Every non-timing
+manifest field also matches the previous cloud measurements. Maximum predicted
+divergence was 1.429882804e-09; maximum
+actual divergence was 1.192092896e-07. No original
+fixture or archived receipt was replaced. Preserved original demo replay evidence
+remains valid because the executable hash and every production source/dependency
+file are unchanged; those replay timings were not rerun.
+
+```sh
+python3 evidence/cloud-qualification/benchmark.py target/release/rheon evidence/result-qualification/benchmarks
+python3 evidence/result-qualification/verify.py
+```
+
+The benchmark command above requires the retained output directory to be absent;
+use another fresh directory for new measurements. The verification command reads
+the committed evidence and performs no timing runs. It binds the benchmark's
+exact source commit and source hashes while separately checking protected source,
+book/proof and original evidence paths against the reviewed base.
+
+## Next product decision
+
+The documented fixed-box and selectable-pressure milestones are delivered, and
+this demonstrated comparison qualification gap is closed. The open low-resolution
+real-time objective needs a concrete target grid, accepted physical horizon,
+accuracy setting and frame-time budget before performance profiling or a new
+preconditioner can have a meaningful acceptance test. Native platform interaction
+and accessibility also require an actual target platform; headless tests here do
+not qualify them. No speculative solver/editor feature or repeated unchanged Rust
+check was added to fill that decision gap.
