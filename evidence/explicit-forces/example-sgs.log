@@ -1,0 +1,3 @@
+    Finished `release` profile [optimized] target(s) in 0.32s
+     Running `/workspace/.rheon-tools/target/release/examples/forced_smoke sgs-pcg-v1`
+sgs-pcg-v1; managed simulation arrays 333824 bytes; stationary fully filled box, passive smoke tracer
