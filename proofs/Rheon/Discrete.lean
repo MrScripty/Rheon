@@ -1,4 +1,8 @@
-import Mathlib
+import Mathlib.Data.Real.Basic
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Algebra.Order.BigOperators.Group.Finset
+import Mathlib.Data.Fintype.Fin
+import Mathlib.Tactic.Ring
 
 /-! Exact finite-dimensional contracts. B is a cells-by-faces incidence matrix
 with +1 at a face head and -1 at its tail. Physical divergence is -B u.

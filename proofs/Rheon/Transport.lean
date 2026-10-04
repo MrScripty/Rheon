@@ -1,4 +1,10 @@
-import Mathlib
+import Mathlib.Data.Real.Basic
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Algebra.Order.BigOperators.Group.Finset
+import Mathlib.Data.Fintype.Fin
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Ring
 
 namespace Rheon.Transport
 noncomputable section
