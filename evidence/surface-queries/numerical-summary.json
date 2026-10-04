@@ -1,0 +1,16 @@
+{
+  "feature_test_counts": {
+    "core": 57,
+    "default": 62,
+    "desktop": 68
+  },
+  "new_collision_fixtures": 12,
+  "example": {
+    "queries": 9,
+    "hits": 6,
+    "misses": 3,
+    "maximum_parameter_error_vs_hand_oracle": 1.1102230246251565e-16,
+    "unshifted_outside_crossing_expected_t": 0.3125
+  },
+  "scope": "Static computed triangle-surface queries; no signed solid, moving wall, cut-cell or fluid coupling claim."
+}

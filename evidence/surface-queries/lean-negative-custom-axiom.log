@@ -1,0 +1,7 @@
+AUDITED Rheon.SurfaceQueries.facetCoordinates: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.select_in_segment: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.select_le_candidate: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.barycentric_plane: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.barycentricPoint: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.SurfaceQueries.select_le_initial: [propext, Quot.sound, Classical.choice]
+/workspace/Rheon-surface-queries/evidence/surface-queries/AuditFacetSelection.lean:5:0: error: Disallowed axiom Rheon.SurfaceQueries.unreviewedAssumption in Rheon.SurfaceQueries.unreviewedAssumption
