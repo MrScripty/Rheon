@@ -15,7 +15,18 @@ def check():
     rev='c44e0c8ee63ca166450922a373c7409c5d26b00b'
     require(cfg['require']==[{'name':'mathlib','git':'https://github.com/leanprover-community/mathlib4.git','rev':rev}], 'mathlib requirement differs')
     manifest=json.loads((ROOT/'lake-manifest.json').read_text())
-    require(next(p for p in manifest['packages'] if p['name']=='mathlib')['rev']==rev, 'mathlib manifest revision differs')
+    source=cfg['require'][0]
+    entries=[p for p in manifest['packages'] if p.get('name')==source['name']]
+    require(len(entries)==1, 'mathlib manifest entry must occur exactly once')
+    # Bind the direct Git dependency to its configured origin/revision and the
+    # reviewed root package routing; a matching commit alone is insufficient.
+    expected={'name':source['name'],'url':source['git'],'type':'git',
+              'rev':source['rev'],'inputRev':source['rev'],'subDir':None,
+              'scope':'','inherited':False,'manifestFile':'lake-manifest.json',
+              'configFile':'lakefile.lean'}
+    for field,value in expected.items():
+        require(field in entries[0] and type(entries[0][field]) is type(value)
+                and entries[0][field]==value, 'mathlib manifest identity differs: '+field)
     require(all(re.fullmatch('[0-9a-f]{40}',p['rev']) for p in manifest['packages']), 'dependency revision is not a full commit SHA')
     print('PASS exact reviewed Lean source inventory and dependency pins')
 if __name__=='__main__':check()

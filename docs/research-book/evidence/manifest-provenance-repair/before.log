@@ -1,0 +1,207 @@
+test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) ... ok
+test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) ...
+  test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) (optimized=False, alteration='duplicate') ... FAIL
+  test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) (optimized=True, alteration='duplicate') ... FAIL
+  test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) (optimized=False, alteration='missing_url') ... FAIL
+  test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) (optimized=True, alteration='missing_url') ... FAIL
+test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) ...
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='url', value='https://example.invalid/mathlib4.git') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='url', value='https://example.invalid/mathlib4.git') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='type', value='path') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='type', value='path') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='inputRev', value='main') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='inputRev', value='main') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='subDir', value='alternate') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='subDir', value='alternate') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='scope', value='alternate') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='scope', value='alternate') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='inherited', value=True) ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='inherited', value=True) ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='inherited', value=0) ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='inherited', value=0) ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='manifestFile', value='alternate-manifest.json') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='manifestFile', value='alternate-manifest.json') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='configFile', value='alternate.lean') ... FAIL
+  test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='configFile', value='alternate.lean') ... FAIL
+test_reviewed_sources_pass_in_both_modes (test_check_sources.SourceGate.test_reviewed_sources_pass_in_both_modes) ... ok
+
+======================================================================
+FAIL: test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) (optimized=False, alteration='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 98, in test_manifest_mathlib_entry_is_unique_and_complete
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) (optimized=True, alteration='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 98, in test_manifest_mathlib_entry_is_unique_and_complete
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) (optimized=False, alteration='missing_url')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 98, in test_manifest_mathlib_entry_is_unique_and_complete
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) (optimized=True, alteration='missing_url')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 98, in test_manifest_mathlib_entry_is_unique_and_complete
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='url', value='https://example.invalid/mathlib4.git')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='url', value='https://example.invalid/mathlib4.git')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='type', value='path')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='type', value='path')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='inputRev', value='main')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='inputRev', value='main')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='subDir', value='alternate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='subDir', value='alternate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='scope', value='alternate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='scope', value='alternate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='inherited', value=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='inherited', value=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='inherited', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='inherited', value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='manifestFile', value='alternate-manifest.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='manifestFile', value='alternate-manifest.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=False, field='configFile', value='alternate.lean')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) (optimized=True, field='configFile', value='alternate.lean')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon-pr1-provenance/proofs/scripts/test_check_sources.py", line 80, in test_manifest_origin_and_adjacent_identity_fail_in_both_modes
+    self.assertNotEqual(result.returncode, 0)
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 4 tests in 4.258s
+
+FAILED (failures=22)

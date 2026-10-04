@@ -1,0 +1,9 @@
+test_changed_sources_and_pins_fail_in_both_modes (test_check_sources.SourceGate.test_changed_sources_and_pins_fail_in_both_modes) ... ok
+test_manifest_mathlib_entry_is_unique_and_complete (test_check_sources.SourceGate.test_manifest_mathlib_entry_is_unique_and_complete) ... ok
+test_manifest_origin_and_adjacent_identity_fail_in_both_modes (test_check_sources.SourceGate.test_manifest_origin_and_adjacent_identity_fail_in_both_modes) ... ok
+test_reviewed_sources_pass_in_both_modes (test_check_sources.SourceGate.test_reviewed_sources_pass_in_both_modes) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 6.794s
+
+OK

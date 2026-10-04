@@ -53,6 +53,51 @@ class SourceGate(unittest.TestCase):
                         self.assertNotEqual(result.returncode, 0)
                         self.assertNotIn('PASS exact reviewed', result.stdout)
 
+    def test_manifest_origin_and_adjacent_identity_fail_in_both_modes(self):
+        changes = (
+            ('url', 'https://example.invalid/mathlib4.git'), ('type', 'path'),
+            ('rev', '0' * 40), ('inputRev', 'main'), ('subDir', 'alternate'),
+            ('scope', 'alternate'), ('inherited', True), ('inherited', 0),
+            ('manifestFile', 'alternate-manifest.json'), ('configFile', 'alternate.lean'),
+        )
+        for field, value in changes:
+            with self.subTest(field=field, value=value), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory) / 'proofs'
+                shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns('.lake', '__pycache__'))
+                path = root / 'lake-manifest.json'
+                data = json.loads(path.read_text())
+                entry = next(p for p in data['packages'] if p['name'] == 'mathlib')
+                original = dict(entry)
+                entry[field] = value
+                # In particular the origin-only regression preserves the SHA
+                # and every other dependency field, not merely a broken pin.
+                self.assertEqual({k: v for k, v in entry.items() if k != field},
+                                 {k: v for k, v in original.items() if k != field})
+                path.write_text(json.dumps(data))
+                for optimized in (False, True):
+                    with self.subTest(optimized=optimized):
+                        result = self.run_gate(root, optimized)
+                        self.assertNotEqual(result.returncode, 0)
+                        self.assertNotIn('PASS exact reviewed', result.stdout)
+
+    def test_manifest_mathlib_entry_is_unique_and_complete(self):
+        for alteration in ('missing', 'duplicate', 'missing_url'):
+            with self.subTest(alteration=alteration), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory) / 'proofs'
+                shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns('.lake', '__pycache__'))
+                path = root / 'lake-manifest.json'
+                data = json.loads(path.read_text())
+                entry = next(p for p in data['packages'] if p['name'] == 'mathlib')
+                if alteration == 'missing': data['packages'].remove(entry)
+                elif alteration == 'duplicate': data['packages'].append(dict(entry))
+                else: del entry['url']
+                path.write_text(json.dumps(data))
+                for optimized in (False, True):
+                    with self.subTest(optimized=optimized):
+                        result = self.run_gate(root, optimized)
+                        self.assertNotEqual(result.returncode, 0)
+                        self.assertNotIn('PASS exact reviewed', result.stdout)
+
 
 if __name__ == '__main__':
     unittest.main()
