@@ -1,6 +1,6 @@
 # Rheon exact discrete contracts
 
-This project owns exact finite-dimensional reference definitions and 20 checked theorem statements. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
+This project owns exact finite-dimensional reference definitions and 33 checked theorem statements in four modules. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
 
 ## Reproduce
 
@@ -25,3 +25,7 @@ Discrete.lean uses arbitrary finite real matrices. Balanced columns are required
 Transport.lean proves convex interpolation bounds, one-dimensional upwind and explicit-diffusion positivity under stated step restrictions, and exact rational counterexamples. It does not prove general mass conservation for semi-Lagrangian transport.
 
 Indexing.lean uses unbounded natural numbers. Machine integer overflow and allocation limits remain implementation obligations.
+
+## Expanded physics contracts
+
+Physics.lean adds thirteen finite statements for force work, positive coefficients, weighted energy, source/flux conservation, implicit dissipation, slip power and Young adhesion. `docs/research-book/expansion/proof-qualification.json` binds their current source inventory to local pinned Lean 4.19.0 qualification: all modules compile, 45 declarations pass the axiom audit, and negative/source gates pass normally and under optimized Python. The official cache returned HTTP403; a normal pinned source build completed. The historical evidence above remains unchanged.

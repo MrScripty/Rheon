@@ -1,0 +1,172 @@
+{
+  "description": "Mathematical identities and analytical geometry only; no Rheon simulation or Lean compilation",
+  "seed": 43177,
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "sympy": "1.14.0",
+  "passed": 28,
+  "checks": [
+    {
+      "name": "T1 stationary implicit energy identity in 100 SPD systems",
+      "residual": 3.552713678800501e-14,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T2 moving wall work and residual identity in 100 SPD systems",
+      "residual": 3.8191672047105385e-14,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T3 affine projection identity in 100 feasible systems",
+      "residual": 1.0125233984581428e-13,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T4 combined linear momentum",
+      "residual": 8.881784197001252e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T4 combined energy budget",
+      "residual": 3.552713678800501e-15,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T4 relative velocity constraint",
+      "residual": 4.440892098500626e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T5 rigid rotation symmetric gradient",
+      "residual": 0.0,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T5 graph smoothing rotation counterexample",
+      "passed": true,
+      "graph_dissipation": 6.12,
+      "interpretation": "Positive graph dissipation despite zero continuum strain"
+    },
+    {
+      "name": "T6 internal face flux cancellation",
+      "residual": 2.7755575615628914e-17,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T6 redistribution conservation",
+      "residual": 1.1102230246251565e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T6 uniform moving capacity field",
+      "residual": 8.881784197001252e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T7 exact force pressure balance",
+      "residual": 0.0,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T8 discrete gradient work identity",
+      "residual": 0.0,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T8 total energy conservation",
+      "residual": 2.220446049250313e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "T9 contact coordinate dissipation",
+      "residual": 1.1102230246251565e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F2 symbolic Couette work partition",
+      "passed": true
+    },
+    {
+      "name": "F3 symbolic Poiseuille slip flux",
+      "passed": true
+    },
+    {
+      "name": "F6 symbolic spherical cap volume",
+      "passed": true
+    },
+    {
+      "name": "F6 equal volume cap at 30 degrees",
+      "residual": 2.3314683517128287e-15,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F6 equal volume cap at 60 degrees",
+      "residual": 4.440892098500626e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F6 equal volume cap at 90 degrees",
+      "residual": 0.0,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F6 equal volume cap at 120 degrees",
+      "residual": 4.440892098500626e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F6 equal volume cap at 150 degrees",
+      "residual": 0.0,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F1 synthetic shear stress",
+      "residual": 2.220446049250313e-16,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F1 synthetic wall power per area",
+      "residual": 1.3877787807814457e-17,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F3 synthetic mean speed",
+      "residual": 1.734723475976807e-18,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F5 2D pressure jump",
+      "residual": 0.0,
+      "tolerance": 1e-10,
+      "passed": true
+    },
+    {
+      "name": "F5 3D pressure jump",
+      "residual": 0.0,
+      "tolerance": 1e-10,
+      "passed": true
+    }
+  ]
+}

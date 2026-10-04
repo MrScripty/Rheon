@@ -1,6 +1,6 @@
 # 16 The checked Lean companion
 
-The companion has 20 public theorems in three modules. Lean 4.19.0 and mathlib revision c44e0c8ee63ca166450922a373c7409c5d26b00b are pinned, with locked transitive revisions. Hosted qualification at source head ecf97d3a943ebe30d20acc1cf01b94dc08ff96a2 compiled all modules and audited 31 declarations including generated equation and proof declarations.
+The foundation has 20 public theorems in three modules; the expanded edition adds thirteen in Physics.lean, for 33 in four modules. Lean 4.19.0 and mathlib revision c44e0c8ee63ca166450922a373c7409c5d26b00b are pinned, with locked transitive revisions. Hosted qualification at source head ecf97d3a943ebe30d20acc1cf01b94dc08ff96a2 compiled all modules and audited 31 declarations including generated equation and proof declarations.
 
 Only propext, Classical.choice and Quot.sound are allowed transitive axioms. Custom assumptions, admitted proofs and native-evaluation assumptions are rejected. Negative tests inject a custom axiom and an admitted theorem and verify rejection. An exact reviewed source inventory requires review when the file surface changes. It is change control; Lean's kernel does the proof check.
 
@@ -33,3 +33,5 @@ These boundaries make the proofs useful: exact algebra removes sign and structur
 ## Reproduction
 
 From proofs, fetch the pinned mathlib cache, run lake build, then lake env lean AxiomAudit.lean and the negative audit script. The workflow checks unchanged dependency files. Historical success applies to its exact source revision. Changed proof sources require new qualification.
+
+The expansion qualification and all new assumptions are recorded separately in Appendix F and `expansion/proof-qualification.json`. The pinned project compiled all 33 public statements and audited 45 declarations. Physics.lean supplies finite exact identities; geometry/stencil refinement and a coupled liquid implementation remain separate research work.

@@ -31,7 +31,20 @@ run_cmd do
     `Rheon.Transport.upwind_positive,
     `Rheon.Transport.explicit_diffusion_positive,
     `Rheon.Transport.cfl_counterexample,
-    `Rheon.Transport.interpolation_not_mass_conservative]
+    `Rheon.Transport.interpolation_not_mass_conservative,
+    `Rheon.Physics.force_work_identity,
+    `Rheon.Physics.hydrostatic_increment,
+    `Rheon.Physics.positive_transmissibility,
+    `Rheon.Physics.weighted_pressure_energy,
+    `Rheon.Physics.internal_amount_balance,
+    `Rheon.Physics.sealed_flux_compatibility,
+    `Rheon.Physics.volume_source_balance,
+    `Rheon.Physics.weighted_energy_identity,
+    `Rheon.Physics.implicit_energy_identity,
+    `Rheon.Physics.implicit_energy_nonincrease,
+    `Rheon.Physics.slip_power_nonpositive,
+    `Rheon.Physics.young_adhesion_identity,
+    `Rheon.Physics.adhesion_bounds]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

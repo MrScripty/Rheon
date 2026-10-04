@@ -26,3 +26,7 @@ Render the resulting DOCX with LibreOffice and inspect every page before deliver
 The companion README states the limits of each executed mechanism fixture. Proof qualification and source hashes are in evidence/proof-qualification.json. The separate repository-root proofs directory owns the pinned Lean project; in the standalone source archive it is included beside this README.
 
 All generated cover artwork is original to this edition, with prompts and hashes in artwork. Figures are derived from the companion scripts. The bibliography links primary sources rather than redistributing their illustrations.
+
+## Expanded solids and liquids teaching edition
+
+Chapters 19–25 and Appendix F add forces, moving collision geometry, density/volume, tensor viscosity, separate wetting/adhesion/slip, capillarity and a future fixture matrix. The original smoke milestone and production sources are unchanged. The expanded edition has 33 checked finite Lean contracts, six interactive 3D local-reference labs and original figures. Build/download instructions are in `../education/README.md`; the expanded Markdown/PDF preserve the original 18 chapters. New evidence lives in expansion, separate from historical receipts.
