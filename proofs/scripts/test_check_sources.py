@@ -78,6 +78,7 @@ class SourceGate(unittest.TestCase):
                     with self.subTest(optimized=optimized):
                         result = self.run_gate(root, optimized)
                         self.assertNotEqual(result.returncode, 0)
+                        self.assertIn(f'mathlib manifest identity differs: {field}', result.stderr)
                         self.assertNotIn('PASS exact reviewed', result.stdout)
 
     def test_manifest_mathlib_entry_is_unique_and_complete(self):
@@ -92,10 +93,14 @@ class SourceGate(unittest.TestCase):
                 elif alteration == 'duplicate': data['packages'].append(dict(entry))
                 else: del entry['url']
                 path.write_text(json.dumps(data))
+                expected_diagnostic = ('mathlib manifest identity differs: url'
+                                       if alteration == 'missing_url'
+                                       else 'mathlib manifest entry must occur exactly once')
                 for optimized in (False, True):
                     with self.subTest(optimized=optimized):
                         result = self.run_gate(root, optimized)
                         self.assertNotEqual(result.returncode, 0)
+                        self.assertIn(expected_diagnostic, result.stderr)
                         self.assertNotIn('PASS exact reviewed', result.stdout)
 
 

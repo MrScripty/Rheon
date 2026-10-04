@@ -1,5 +1,20 @@
 # Mathlib manifest provenance repair
 
+This directory records the original repair source
+`d4147b311ebfd1b05919251dab703a628eb32316`, archived at
+`d72db7c1bd3fc10b27978c6dcc8ec10709195ace`. The logs and receipt below are
+historical; pending-review and frozen-head statements describe that handoff.
+PR1 subsequently advanced to d72db7c1 and passed its actual hosted Lean and
+numerical gates, as reported by the coordinating parent.
+
+`verify.py` now checks those fixed Git objects against the original receipt and
+saved logs, without rewriting the receipt or qualifying a later source revision.
+It additionally checks protected tracked paths against the original reviewed
+base and rejects untracked **and ignored** additions under those paths. Use a
+clean checkout for that preservation assertion. It reports an archived
+log/source association, not an independent attestation of past execution.
+Fresh successor tests are recorded separately in [integrity-repair](integrity-repair/README.md).
+
 Candidate branch: `repair/pr1-manifest-provenance`, based on frozen PR1 head
 `a97f1012f5570b4ed938a6ccead2f591313ecf67`.
 [Review finding 4176232095](https://github.com/MrScripty/Rheon/pull/1#discussion_r4176232095)
