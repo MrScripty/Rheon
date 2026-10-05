@@ -1,0 +1,60 @@
+{
+  "branch": "integration/tracer-hit-reconstruction",
+  "base": "7a5184df20b3b438d8992c6f2f80372fe5344ac3",
+  "shared_repair": "d5938e4a944534629881ffd223fbb3c52f8c69c5",
+  "qualified_source_merge": "f4bf8d0f53704a9ec71e1b35073f34206467d9b3",
+  "qualified_source_tree": "2e01bb490d7691c17583ae15f93084182436badb",
+  "ordered_parents": [
+    "7a5184df20b3b438d8992c6f2f80372fe5344ac3",
+    "d5938e4a944534629881ffd223fbb3c52f8c69c5"
+  ],
+  "counts": {
+    "default": 96,
+    "core": 91,
+    "desktop": 102
+  },
+  "strict_clippy": [
+    "core",
+    "default",
+    "desktop"
+  ],
+  "formatting": "passed",
+  "cargo_target_dir": "/workspace/.rheon-tools/target-tracer-hit-integration",
+  "cache_policy": "Isolated target; copied unchanged external dependency cache, no local Rheon fingerprints/library outputs",
+  "shared_source_blob_identity": {
+    "src/collision.rs": "d15ecda83a00ee77bd789f1ec62ebb56499269c8",
+    "tests/collision_contract.rs": "289b8b8e0d8c527b0f6ca97eb3f2182de928d02d"
+  },
+  "unchanged_original_paths_except_two_repaired": 1215,
+  "legacy_replay": "Fresh release: all three original PNG/CSV byte-identical; original non-timing manifest fields equal",
+  "proof_source_pdf_gates": "passed; historical proof/book/evidence bytes preserved, no new full root build",
+  "binary_sha256": "e85e1050de1eea0c2afcd8b4088c7002a747399d4bbfb11a981a466c02d3af91",
+  "file_sha256": {
+    "evidence/hit-reconstruction-composition/README.md": "7a46bffe1a2ee41a7bec72b50b7c2d48b60d935f08acb5e3c8d3b79ecbf29f3d",
+    "evidence/hit-reconstruction-composition/clippy-core.log": "5726321b9178f35390622834d1ed2f5d23883fbaba8b752e1ca884f6bc8e2cb5",
+    "evidence/hit-reconstruction-composition/clippy-default.log": "2db4e2c4327a98745c0648a2c234cd698ecf587df1b014d446901144a9f803eb",
+    "evidence/hit-reconstruction-composition/clippy-desktop.log": "2f45d4458944da7e4731ff8309439e76936ecd1b613167e8fb06d2e445ec8a70",
+    "evidence/hit-reconstruction-composition/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-16/opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-16/run.json": "d183fa795cc3aa9c7cc9206efc88fc179377d17cb56c7c8902be15d4ed124c6f",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-16/steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-64/opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-64/run.json": "ac1e2990c2079c95ecafcefcbdb65088718fa1a8fd8e50db99a041ae573ba9d1",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-64/steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-plume/opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-plume/run.json": "697f1e5be587423d3e57d2880fd16e3f2b73e22e09165a41eb31dee8693805ea",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-plume/steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+    "evidence/hit-reconstruction-composition/legacy-replay/receipt.json": "6d6d3d7962cc2a6378a776308de78464cc6c38f53e96f8f4b9769a3fc4f05a71",
+    "evidence/hit-reconstruction-composition/legacy-replay.log": "f5e1b64707398a5ceb3c34f9dd9a2d4ae0efdc554a4c1b0519fc3b4ff41ffc6e",
+    "evidence/hit-reconstruction-composition/pdf-gate.log": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+    "evidence/hit-reconstruction-composition/proof-source-gate.log": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812",
+    "evidence/hit-reconstruction-composition/release-build.log": "b5a0d5b749ed937159fa0a0cc1eeeb60bb6d3e45fd672fcf7d0df6e2d463a828",
+    "evidence/hit-reconstruction-composition/test-core.log": "4bf42954e1b121719965164f7e9ea99d95b463a447d78871075e7f07a6054e0d",
+    "evidence/hit-reconstruction-composition/test-default.log": "b5255d507ded1cf751951f80fd8cb4fec63d7ba1805a0f5f9703db3fa3a7e58d",
+    "evidence/hit-reconstruction-composition/test-desktop.log": "a5a92f2e208c96cfd3c05227b149e3be8d8c851cf0932dcf024aa9d30b6e2c71"
+  },
+  "limits": [
+    "Existing ambiguity contract; no exact-predicate or IEEE certification.",
+    "No PR/review/main mutation by author."
+  ]
+}
