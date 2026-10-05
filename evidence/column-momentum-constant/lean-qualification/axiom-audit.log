@@ -1,0 +1,4 @@
+AUDITED Rheon.ColumnMomentum.mixing_nonnegative: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.ColumnMomentum.rounding_energy_work: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.ColumnMomentum.closed_caps_preserve_momentum: [propext, Quot.sound, Classical.choice]
+AuditColumnMomentum.lean:5:0: error: Disallowed axiom Rheon.ColumnMomentum.forbidden_review_assumption in Rheon.ColumnMomentum.forbidden_review_assumption

@@ -1,0 +1,29 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.98s
+     Running tests/column_momentum_contract.rs (/workspace/.rheon-tools/target/debug/deps/column_momentum_contract-bb38dac32d5e400e)
+
+running 2 tests
+test ordinary_unit_geometry_nonbinary_constant_parcels_are_preserved ... FAILED
+test ordinary_decimal_scale_constant_parcels_are_preserved ... FAILED
+
+failures:
+
+---- ordinary_unit_geometry_nonbinary_constant_parcels_are_preserved stdout ----
+
+thread 'ordinary_unit_geometry_nonbinary_constant_parcels_are_preserved' (127492) panicked at tests/column_momentum_contract.rs:392:10:
+called `Result::unwrap()` on an `Err` value: AcceptanceFailure
+
+---- ordinary_decimal_scale_constant_parcels_are_preserved stdout ----
+
+thread 'ordinary_decimal_scale_constant_parcels_are_preserved' (127491) panicked at tests/column_momentum_contract.rs:364:10:
+called `Result::unwrap()` on an `Err` value: AcceptanceFailure
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    ordinary_decimal_scale_constant_parcels_are_preserved
+    ordinary_unit_geometry_nonbinary_constant_parcels_are_preserved
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--test column_momentum_contract`
