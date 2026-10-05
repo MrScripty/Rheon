@@ -1,0 +1,314 @@
+{
+  "commands": [
+    {
+      "name": "debug-build",
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--example",
+        "fixed_bottom_ale"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "debug-coarse",
+      "command": [
+        "/workspace/.rheon-tools/target/debug/examples/fixed_bottom_ale",
+        ".05",
+        "10"
+      ],
+      "exit": 0,
+      "binary_sha256": "c4c4fa46af079a7abc245adefae2c1872536af73764e7aeeb9111cd2614c8383"
+    },
+    {
+      "name": "debug-coarse-normal",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/debug-coarse.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "debug-coarse-optimized",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/debug-coarse.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "debug-medium",
+      "command": [
+        "/workspace/.rheon-tools/target/debug/examples/fixed_bottom_ale",
+        ".025",
+        "20"
+      ],
+      "exit": 0,
+      "binary_sha256": "c4c4fa46af079a7abc245adefae2c1872536af73764e7aeeb9111cd2614c8383"
+    },
+    {
+      "name": "debug-medium-normal",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/debug-medium.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "debug-medium-optimized",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/debug-medium.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "debug-fine",
+      "command": [
+        "/workspace/.rheon-tools/target/debug/examples/fixed_bottom_ale",
+        ".0125",
+        "40"
+      ],
+      "exit": 0,
+      "binary_sha256": "c4c4fa46af079a7abc245adefae2c1872536af73764e7aeeb9111cd2614c8383"
+    },
+    {
+      "name": "debug-fine-normal",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/debug-fine.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "debug-fine-optimized",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/debug-fine.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "release-build",
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--example",
+        "fixed_bottom_ale",
+        "--release"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "release-coarse",
+      "command": [
+        "/workspace/.rheon-tools/target/release/examples/fixed_bottom_ale",
+        ".05",
+        "10"
+      ],
+      "exit": 0,
+      "binary_sha256": "7fa85d157238a543a4de997bb147bb736c95b383eef62b0ef0ddab98b04dfd5b"
+    },
+    {
+      "name": "release-coarse-normal",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/release-coarse.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "release-coarse-optimized",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/release-coarse.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "release-medium",
+      "command": [
+        "/workspace/.rheon-tools/target/release/examples/fixed_bottom_ale",
+        ".025",
+        "20"
+      ],
+      "exit": 0,
+      "binary_sha256": "7fa85d157238a543a4de997bb147bb736c95b383eef62b0ef0ddab98b04dfd5b"
+    },
+    {
+      "name": "release-medium-normal",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/release-medium.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "release-medium-optimized",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/release-medium.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "release-fine",
+      "command": [
+        "/workspace/.rheon-tools/target/release/examples/fixed_bottom_ale",
+        ".0125",
+        "40"
+      ],
+      "exit": 0,
+      "binary_sha256": "7fa85d157238a543a4de997bb147bb736c95b383eef62b0ef0ddab98b04dfd5b"
+    },
+    {
+      "name": "release-fine-normal",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/release-fine.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "release-fine-optimized",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-ale-native/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-ale-native/native-qualification/release-fine.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    }
+  ],
+  "status": "PASS",
+  "summaries": [
+    {
+      "profile": "debug",
+      "dt": 0.05,
+      "steps": 10,
+      "actual_final_dt": 0.05,
+      "time": 0.49999999999999994,
+      "cap_offset": 0.12499999999999999,
+      "temporal_L2_error": 0.0032651797385065177,
+      "max_total_momentum_drift": 3.61755070343861e-12,
+      "max_work_error": 1.3691606769268863e-16,
+      "max_GCL": 1.8214596497756474e-16,
+      "max_quadrature_refinement": 3.469446951953614e-18,
+      "max_physical_face_integral_error": 6.938893903907228e-18,
+      "max_true_residual": 5.805214091153964e-13,
+      "scope": "native nonzero relative transport and viscosity in preceding invariant flow; no general pressure or continuum spatial accuracy claim"
+    },
+    {
+      "profile": "debug",
+      "dt": 0.025,
+      "steps": 20,
+      "actual_final_dt": 0.024999999999999856,
+      "time": 0.5,
+      "cap_offset": 0.125,
+      "temporal_L2_error": 0.0016531384318380878,
+      "max_total_momentum_drift": 2.893463246778083e-12,
+      "max_work_error": 3.8661508110624367e-16,
+      "max_GCL": 1.968911145233676e-16,
+      "max_quadrature_refinement": 3.469446951953614e-18,
+      "max_physical_face_integral_error": 6.071532165918825e-18,
+      "max_true_residual": 3.9028666439929695e-13,
+      "scope": "native nonzero relative transport and viscosity in preceding invariant flow; no general pressure or continuum spatial accuracy claim"
+    },
+    {
+      "profile": "debug",
+      "dt": 0.0125,
+      "steps": 40,
+      "actual_final_dt": 0.012499999999999734,
+      "time": 0.5,
+      "cap_offset": 0.125,
+      "temporal_L2_error": 0.0008318929715161622,
+      "max_total_momentum_drift": 6.676437180885841e-12,
+      "max_work_error": 5.730802308260381e-16,
+      "max_GCL": 2.671474153004283e-16,
+      "max_quadrature_refinement": 1.3010426069826053e-18,
+      "max_physical_face_integral_error": 4.7704895589362195e-18,
+      "max_true_residual": 6.614324377458246e-13,
+      "scope": "native nonzero relative transport and viscosity in preceding invariant flow; no general pressure or continuum spatial accuracy claim"
+    },
+    {
+      "profile": "release",
+      "dt": 0.05,
+      "steps": 10,
+      "actual_final_dt": 0.05,
+      "time": 0.49999999999999994,
+      "cap_offset": 0.12499999999999999,
+      "temporal_L2_error": 0.0032651797385065177,
+      "max_total_momentum_drift": 3.61755070343861e-12,
+      "max_work_error": 1.3691606769268863e-16,
+      "max_GCL": 1.8214596497756474e-16,
+      "max_quadrature_refinement": 3.469446951953614e-18,
+      "max_physical_face_integral_error": 6.938893903907228e-18,
+      "max_true_residual": 5.805214091153964e-13,
+      "scope": "native nonzero relative transport and viscosity in preceding invariant flow; no general pressure or continuum spatial accuracy claim"
+    },
+    {
+      "profile": "release",
+      "dt": 0.025,
+      "steps": 20,
+      "actual_final_dt": 0.024999999999999856,
+      "time": 0.5,
+      "cap_offset": 0.125,
+      "temporal_L2_error": 0.0016531384318380878,
+      "max_total_momentum_drift": 2.893463246778083e-12,
+      "max_work_error": 3.8661508110624367e-16,
+      "max_GCL": 1.968911145233676e-16,
+      "max_quadrature_refinement": 3.469446951953614e-18,
+      "max_physical_face_integral_error": 6.071532165918825e-18,
+      "max_true_residual": 3.9028666439929695e-13,
+      "scope": "native nonzero relative transport and viscosity in preceding invariant flow; no general pressure or continuum spatial accuracy claim"
+    },
+    {
+      "profile": "release",
+      "dt": 0.0125,
+      "steps": 40,
+      "actual_final_dt": 0.012499999999999734,
+      "time": 0.5,
+      "cap_offset": 0.125,
+      "temporal_L2_error": 0.0008318929715161622,
+      "max_total_momentum_drift": 6.676437180885841e-12,
+      "max_work_error": 5.730802308260381e-16,
+      "max_GCL": 2.671474153004283e-16,
+      "max_quadrature_refinement": 1.3010426069826053e-18,
+      "max_physical_face_integral_error": 4.7704895589362195e-18,
+      "max_true_residual": 6.614324377458246e-13,
+      "scope": "native nonzero relative transport and viscosity in preceding invariant flow; no general pressure or continuum spatial accuracy claim"
+    }
+  ],
+  "debug_release_byte_equal": true,
+  "scope": "preceding physical family on fixed-bottom ALE mesh: genuine nonzero relative transport and temporal study against nonautonomous semidiscrete ODE; no general pressure coupling or continuum spatial accuracy"
+}
