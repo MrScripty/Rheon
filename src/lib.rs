@@ -85,3 +85,9 @@ pub use column_shear::{
     ColumnShearError, ColumnShearGeometry, ColumnShearInputs, ColumnShearReport, ColumnShearStage,
     ColumnShearWorkspace,
 };
+
+mod column_momentum;
+pub use column_momentum::{
+    ColumnMomentumError, ColumnMomentumInputs, ColumnMomentumReport, ColumnMomentumStage,
+    ColumnMomentumWorkspace,
+};

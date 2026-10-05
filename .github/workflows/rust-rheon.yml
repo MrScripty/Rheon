@@ -16,6 +16,10 @@ on:
       - 'tools/verify_column_shear.py'
       - 'tools/test_column_shear_verifier.py'
       - 'evidence/column-shear/**'
+      - 'examples/column_momentum.rs'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
       - '.github/workflows/rust-rheon.yml'
   push:
     branches: [main]
@@ -34,6 +38,10 @@ on:
       - 'tools/verify_column_shear.py'
       - 'tools/test_column_shear_verifier.py'
       - 'evidence/column-shear/**'
+      - 'examples/column_momentum.rs'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
       - '.github/workflows/rust-rheon.yml'
   workflow_dispatch:
 permissions:
