@@ -1,0 +1,15 @@
+AuditFreeSurface.lean:1:0: error: unknown module prefix 'FreeSurface'
+
+No directory 'FreeSurface' or file 'FreeSurface.olean' in the search path entries:
+././.lake/packages/Cli/.lake/build/lib/lean
+././.lake/packages/batteries/.lake/build/lib/lean
+././.lake/packages/Qq/.lake/build/lib/lean
+././.lake/packages/aesop/.lake/build/lib/lean
+././.lake/packages/proofwidgets/.lake/build/lib/lean
+././.lake/packages/importGraph/.lake/build/lib/lean
+././.lake/packages/LeanSearchClient/.lake/build/lib/lean
+././.lake/packages/plausible/.lake/build/lib/lean
+././.lake/packages/mathlib/.lake/build/lib/lean
+././.lake/build/lib/lean
+/workspace/.rheon-tools/lean-install/lean-4.19.0-linux/lib/lean
+/workspace/.rheon-tools/lean-install/lean-4.19.0-linux/lib/lean

@@ -1,0 +1,21 @@
+{
+  "source_sha256": "0e0e4ca38c2c1e034d805f94198391c67dadbafe66a477abe08fad8a5185cbe8",
+  "audit_sha256": "c54899c984daf23fcbe32774e1dea4b72e41a9663cfc8e7bf3708f254305cdf2",
+  "lean_version": "Lean (version 4.19.0, x86_64-unknown-linux-gnu, commit 6caaee842e94, Release)",
+  "mathlib_commit": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+  "audited_declarations": 9,
+  "negative_variants": [
+    {
+      "variant": "sorry",
+      "source_sha256": "045f71b3ba3809fcfb3a7bc302bfdcaa46ab8e17c8e7eb47d123542f894aa6dd",
+      "compile_exit": 0,
+      "audit_exit": 1
+    },
+    {
+      "variant": "axiom",
+      "source_sha256": "c1d58e56269a6f7a68ab3c6e42a88873af1bbce3d306240b1658dbdcb2f9f5cc",
+      "compile_exit": 0,
+      "audit_exit": 1
+    }
+  ]
+}

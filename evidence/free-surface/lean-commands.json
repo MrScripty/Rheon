@@ -1,0 +1,90 @@
+[
+  {
+    "name": "lean-build",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-o",
+      ".lake/build/lib/lean/FreeSurface.olean",
+      "FreeSurface.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "lean-audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "AuditFreeSurface.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "lean-negative-sorry-build",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-o",
+      ".lake/build/lib/lean/FreeSurface.olean",
+      "FreeSurface.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "lean-negative-sorry-audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "AuditFreeSurface.lean"
+    ],
+    "exit": 1
+  },
+  {
+    "name": "lean-negative-axiom-build",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-o",
+      ".lake/build/lib/lean/FreeSurface.olean",
+      "FreeSurface.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "lean-negative-axiom-audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "AuditFreeSurface.lean"
+    ],
+    "exit": 1
+  },
+  {
+    "name": "lean-restored-build",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-o",
+      ".lake/build/lib/lean/FreeSurface.olean",
+      "FreeSurface.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "lean-restored-audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "AuditFreeSurface.lean"
+    ],
+    "exit": 0
+  }
+]

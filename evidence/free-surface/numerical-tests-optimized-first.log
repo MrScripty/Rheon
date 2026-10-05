@@ -1,0 +1,20 @@
+/workspace/Rheon/tools/verify_free_surface.py:79: DeprecationWarning: Image.Image.getdata is deprecated and will be removed in Pillow 14 (2027-10-15). Use get_flattened_data instead.
+  pixels = list(image.getdata())
+E.
+======================================================================
+ERROR: test_actual_slab_evidence (test_free_surface_verifier.FreeSurfaceVerifierTest.test_actual_slab_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/Rheon/tools/test_free_surface_verifier.py", line 13, in test_actual_slab_evidence
+    self.assertEqual(len(verify(ROOT / "evidence/free-surface/demo")["results"]), 2)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/tools/verify_free_surface.py", line 126, in verify
+    require(row["result"] == ("Volume(RawBounds { cell: 0, value: 1.0000000000000004 })" if rejected else "accepted"), "retained probe result")
+  File "/workspace/Rheon/tools/verify_free_surface.py", line 19, in require
+    raise ValueError(message)
+ValueError: retained probe result
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.098s
+
+FAILED (errors=1)
