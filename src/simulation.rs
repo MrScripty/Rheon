@@ -116,6 +116,9 @@ impl From<crate::BoxFluxError> for SimulationError {
         match error {
             crate::BoxFluxError::Pressure(error) => Self::Pressure(error),
             crate::BoxFluxError::Operator(error) => Self::Operator(error),
+            crate::BoxFluxError::DivergenceLimit { actual, limit } => {
+                Self::DivergenceLimit { actual, limit }
+            }
             crate::BoxFluxError::Cancelled { stage } => Self::Cancelled {
                 stage: match stage {
                     crate::BoxFluxStage::BeforeSolve => StepStage::BeforePressure,

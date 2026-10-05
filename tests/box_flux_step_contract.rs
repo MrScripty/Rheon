@@ -504,6 +504,16 @@ fn zero_boundary_agrees_with_legacy_fields_and_default_callbacks_stay_legacy() {
 }
 
 #[test]
+fn box_flux_divergence_conversion_preserves_shared_error_payload() {
+    let actual = 0.125;
+    let limit = 1e-9;
+    assert_eq!(
+        SimulationError::from(BoxFluxError::DivergenceLimit { actual, limit }),
+        SimulationError::DivergenceLimit { actual, limit }
+    );
+}
+
+#[test]
 fn stored_divergence_rejection_after_projection_preserves_all_accepted_bits() {
     for method in PressureImplementation::ALL {
         let g = GridGeometry::new([3, 2, 2], [0.5, 1.0, 2.0], [0.0; 3]).unwrap();
@@ -520,9 +530,18 @@ fn stored_divergence_rejection_after_projection_preserves_all_accepted_bits() {
                 upper: [1.0, 1.0, 2.0],
             }),
         };
-        assert!(
-            matches!(s.step_with_box_flux(0.125,None,&[force],&mut w,boundary(0,0.375,0),|_|false),Err(SimulationError::BoxFlux(BoxFluxError::DivergenceLimit {actual,..})) if actual>0.0)
-        );
+        let error = s
+            .step_with_box_flux(0.125, None, &[force], &mut w, boundary(0, 0.375, 0), |_| {
+                false
+            })
+            .unwrap_err();
+        match error {
+            SimulationError::DivergenceLimit { actual, limit } => {
+                assert!(actual > limit);
+                assert_eq!(limit, c.actual_divergence_limit);
+            }
+            other => panic!("expected shared divergence rejection, got {other:?}"),
+        }
         assert_eq!(snapshot(s.state()), before);
         s.step_with_box_flux(0.125, None, &[], &mut w, boundary(0, 0.0, 1), |_| false)
             .unwrap();

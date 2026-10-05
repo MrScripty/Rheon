@@ -20,6 +20,8 @@ calls, not a time-continuous actuator history or moving-wall volume rule.
 The pre-step travel policy includes both previous speed and the requested side
 speeds; forcing shares the displacement budget as before. Actual stored face
 divergence (every cell, including gauge) and final Courant limits must pass.
+Stored-divergence rejection uses the shared `SimulationError::DivergenceLimit`
+with the measured value and configured limit, as on the legacy step path.
 The independent net side-flux gate rejects incompatibility without mean shifts.
 The box volume and density stay fixed. Reported dt*net outward volume flux is a
 numerical imbalance diagnostic, not an evolved mass state or exact certificate.
