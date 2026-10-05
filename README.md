@@ -65,3 +65,14 @@ for the reversion policy, normalized interpolation and ownership limits.
 ```sh
 cargo run --locked --release --no-default-features --example tracer_barrier
 ```
+
+## Prescribed normal box flux
+
+`BoxFluxWorkspace` projects a fixed rectangular control volume with prescribed
+normal inlet/outlet speeds, independent net-flux rejection and explicit boundary
+pressure work. See the [book implementation addendum](docs/research-book/implementation/prescribed-box-flux.md)
+for affine equations, output ownership and physical limits.
+
+```sh
+cargo run --locked --release --no-default-features --example box_flux
+```

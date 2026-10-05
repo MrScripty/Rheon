@@ -38,3 +38,9 @@ pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepRepo
 mod export;
 #[cfg(feature = "png-export")]
 pub use export::{ExportError, guidance_pixels, write_guidance_png};
+
+mod box_flux;
+pub use box_flux::{
+    BoxFluxError, BoxFluxReport, BoxFluxSettings, BoxFluxStage, BoxFluxStamp, BoxFluxWork,
+    BoxFluxWorkspace, PrescribedBoxFlux,
+};
