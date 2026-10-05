@@ -35,11 +35,25 @@ V_liquid_after - V_liquid_before + V_outward - V_inward - V_source = error.
 
 Compensated reductions and a budget of 64*epsilon times the sum of absolute old,
 new, boundary and source amounts make the binary64 acceptance convention explicit.
-This is not a certified floating-error bound. Nonzero products or amounts that
-underflow out of representation, nonfinite arithmetic and unresolved time are
-rejected, including unsupported nonzero face areas that underflow before
-multiplication by dt. The constant density scales represented mass as rho*V_liquid; it does
-not change a carrier pressure coefficient or introduce two-phase inertia.
+This is not a certified floating-error bound. Checked products (including face
+areas, intermediate transfers, sources and represented amounts) and quotients
+(Courant, divergence and candidate fractions) require normal finite nonzero
+results or exact zero. Subnormal results, nonzero values rounded to zero,
+nonfinite arithmetic and unresolved time are rejected with `ArithmeticFailure`
+or the time-specific error. This intentionally rejects some usable extreme
+scales, including exact subnormal intermediates, rather than rescaling them.
+The Courant numerator dt*outward_speed is checked before division by spacing.
+The constant density scales represented mass as rho*V_liquid; it does not change
+a carrier pressure coefficient or introduce two-phase inertia.
+
+For example, one cell with h=[2^538, 1.5*2^-538, 1.5*2^-538], dt=2^538,
+unit positive X velocity on both faces, an initially dry cell and left inlet
+fraction 1/2 has exact updated fraction 1/2. The X-face area is 9/16 of the
+smallest binary64 subnormal and rounds up to that subnormal. Without the scale
+check the evaluated fraction becomes 8/9 while Courant is 1, divergence is 0 and
+the rounded volume ledger balances exactly. The scale check rejects this case
+without publishing fractions, time or version. These checks do not certify all
+IEEE rounding errors or extend the exact finite-algebraic proof scope.
 
 ## State and ownership
 

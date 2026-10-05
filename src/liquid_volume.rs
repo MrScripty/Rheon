@@ -410,8 +410,8 @@ impl LiquidVolumeState {
                         amount += self.transfer[d][low] - self.transfer[d][high];
                         let a = f64::from(flow.velocity[d][low]);
                         let b = f64::from(flow.velocity[d][high]);
-                        courant += flow.dt * (b.max(0.0) - a.min(0.0)) / h[d];
-                        div += (b - a) / h[d];
+                        courant += quotient(product(flow.dt, b.max(0.0) - a.min(0.0))?, h[d])?;
+                        div += quotient(b - a, h[d])?;
                     }
                     if !courant.is_finite() || !div.is_finite() {
                         return Err(LiquidVolumeError::ArithmeticFailure);
@@ -428,18 +428,12 @@ impl LiquidVolumeState {
                     if let Some(s) = source {
                         amount += product(flow.dt, s.rate[cell])?;
                     }
-                    let fraction = amount / volume;
-                    if !fraction.is_finite() {
-                        return Err(LiquidVolumeError::ArithmeticFailure);
-                    }
+                    let fraction = quotient(amount, volume)?;
                     if !(0.0..=1.0).contains(&fraction) {
                         return Err(LiquidVolumeError::FractionBounds { cell, fraction });
                     }
-                    // Reject a positive amount that loses its representation, and
-                    // an accepted fraction whose represented amount disappears.
-                    if fraction == 0.0 && amount != 0.0 {
-                        return Err(LiquidVolumeError::ArithmeticFailure);
-                    }
+                    // Reconstructed amounts must also stay within the supported
+                    // normal-or-exact-zero scale.
                     product(volume, fraction)?;
                     self.candidate[cell] = fraction;
                 }
@@ -588,7 +582,17 @@ fn allocate(n: usize, remaining: &mut usize) -> Result<Vec<f64>, LiquidVolumeErr
 }
 fn product(a: f64, b: f64) -> Result<f64, LiquidVolumeError> {
     let v = a * b;
-    if !v.is_finite() || (v == 0.0 && a != 0.0 && b != 0.0) {
+    // Gradual underflow can severely distort a later normal result even when
+    // this intermediate rounds to a nonzero subnormal. Reject that scale too.
+    if !v.is_finite() || v.is_subnormal() || (v == 0.0 && a != 0.0 && b != 0.0) {
+        Err(LiquidVolumeError::ArithmeticFailure)
+    } else {
+        Ok(v)
+    }
+}
+fn quotient(a: f64, b: f64) -> Result<f64, LiquidVolumeError> {
+    let v = a / b;
+    if !v.is_finite() || v.is_subnormal() || (v == 0.0 && a != 0.0) {
         Err(LiquidVolumeError::ArithmeticFailure)
     } else {
         Ok(v)

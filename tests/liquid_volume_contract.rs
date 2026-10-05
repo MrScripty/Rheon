@@ -558,6 +558,100 @@ fn underflowed_face_area_rejects_instead_of_losing_representable_inflow() {
 }
 
 #[test]
+fn subnormal_face_area_rejects_instead_of_distorting_representable_inflow() {
+    // The exact X-face area is 9/16 of the smallest subnormal, which rounds
+    // upward to that subnormal. The old arithmetic accepted fraction 8/9
+    // instead of 1/2, despite Courant 1, divergence 0 and balance error 0.
+    let large = 2.0_f64.powi(538);
+    let small = 1.5 * 2.0_f64.powi(-538);
+    assert_eq!(small * small, f64::from_bits(1));
+    let g = GridGeometry::new([1; 3], [large, small, small], [0.0; 3]).unwrap();
+    let mut velocity = fields(&g);
+    velocity[0].fill(1.0);
+    let mut volume = state(&g, vec![0.0]);
+    let before = snapshot(&volume);
+    let flow = LiquidFlowInterval::new(&g, stamp(2, 0), refs(&velocity), 0.0, large).unwrap();
+    for _ in 0..2 {
+        assert_eq!(
+            volume
+                .advance(
+                    flow,
+                    inlet([[0.5, 0.0], [0.0; 2], [0.0; 2]]),
+                    None,
+                    settings(),
+                    |_| false
+                )
+                .unwrap_err(),
+            LiquidVolumeError::ArithmeticFailure
+        );
+        assert_eq!(snapshot(&volume), before);
+    }
+}
+
+#[test]
+fn underflowed_courant_intermediate_rejects_and_supported_retry_matches_fresh() {
+    for transverse_spacing in [10.0, 1e10] {
+        let g = GridGeometry::new(
+            [1; 3],
+            [1e-5, transverse_spacing, transverse_spacing],
+            [0.0; 3],
+        )
+        .unwrap();
+        let mut velocity = fields(&g);
+        velocity[0].fill(1e-15);
+        let dt = 1e-310;
+        assert_eq!(dt * f64::from(velocity[0][0]), 0.0);
+        let mut volume = state(&g, vec![0.5]);
+        let before = snapshot(&volume);
+        let flow = LiquidFlowInterval::new(&g, stamp(2, 0), refs(&velocity), 0.0, dt).unwrap();
+        let mut reached_cell_update = false;
+        assert_eq!(
+            volume
+                .advance(flow, inlet([[0.5; 2]; 3]), None, settings(), |stage| {
+                    reached_cell_update |= stage == VolumeStage::CellUpdateSlice;
+                    false
+                })
+                .unwrap_err(),
+            LiquidVolumeError::ArithmeticFailure
+        );
+        // At the larger transverse scale all face-transfer products are
+        // normal: rejection must reach the separate Courant calculation.
+        assert_eq!(reached_cell_update, transverse_spacing == 1e10);
+        assert_eq!(snapshot(&volume), before);
+
+        let retry = LiquidFlowInterval::new(&g, stamp(2, 1), refs(&velocity), 0.0, 0.5).unwrap();
+        let report = volume
+            .advance(retry, inlet([[0.5; 2]; 3]), None, settings(), |_| false)
+            .unwrap();
+        let mut fresh = state(&g, vec![0.5]);
+        let expected = fresh
+            .advance(retry, inlet([[0.5; 2]; 3]), None, settings(), |_| false)
+            .unwrap();
+        assert_eq!(snapshot(&volume), snapshot(&fresh));
+        assert_eq!(report.max_outward_courant, expected.max_outward_courant);
+        assert_eq!(report.volume_balance_error, expected.volume_balance_error);
+    }
+}
+
+#[test]
+fn normal_initial_amount_is_supported_but_subnormal_initial_amount_is_rejected() {
+    let g = GridGeometry::new([1; 3], [1.0; 3], [0.0; 3]).unwrap();
+    let mut volume =
+        LiquidVolumeState::new(g.clone(), 1.0, stamp(1, 0), vec![f64::MIN_POSITIVE], 64)
+            .unwrap();
+    let velocity = fields(&g);
+    let flow = LiquidFlowInterval::new(&g, stamp(2, 0), refs(&velocity), 0.0, 1.0).unwrap();
+    volume
+        .advance(flow, inlet([[0.0; 2]; 3]), None, settings(), |_| false)
+        .unwrap();
+    assert_eq!(volume.state().fraction, [f64::MIN_POSITIVE]);
+    assert!(matches!(
+        LiquidVolumeState::new(g, 1.0, stamp(1, 0), vec![f64::MIN_POSITIVE / 2.0], 64),
+        Err(LiquidVolumeError::ArithmeticFailure)
+    ));
+}
+
+#[test]
 fn both_accepted_pressure_methods_supply_read_only_carrier_not_free_surface_feedback() {
     use rheon::{
         BoxFluxStamp, BoxFluxStepBoundary, BoxFluxStepWorkspace, BoxFluxTracerPolicy,
