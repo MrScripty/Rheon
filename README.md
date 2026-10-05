@@ -76,3 +76,14 @@ for affine equations, output ownership and physical limits.
 ```sh
 cargo run --locked --release --no-default-features --example box_flux
 ```
+
+## Prescribed box-flux simulation steps
+
+`step_with_box_flux` publishes inlet/outlet fields and complete step work together,
+using a separately capped workspace and an explicit appearance-tracer policy.
+See the [book implementation addendum](docs/research-book/implementation/box-flux-simulation.md)
+for conservation assumptions and transactional ownership.
+
+```sh
+cargo run --locked --release --no-default-features --example box_flux_step
+```

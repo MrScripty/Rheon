@@ -33,6 +33,8 @@ pub enum StepStage {
     ForceSlice,
     BeforePressure,
     PressureIteration,
+    ProjectionSlice,
+    BeforeProjectionAcceptance,
     BeforeTracer,
     TracerSlice,
     BeforeCommit,
@@ -55,6 +57,8 @@ pub enum SimulationError {
     Pressure(PressureError),
     Advection(AdvectionError),
     TracerBarrier(crate::TracerBarrierError),
+    BoxFlux(crate::BoxFluxError),
+    BoundaryWorkspaceMismatch,
     InvalidConfig,
     InvalidSource,
     InvalidForce,
@@ -107,6 +111,32 @@ impl From<crate::TracerBarrierError> for SimulationError {
     }
 }
 
+impl From<crate::BoxFluxError> for SimulationError {
+    fn from(error: crate::BoxFluxError) -> Self {
+        match error {
+            crate::BoxFluxError::Pressure(error) => Self::Pressure(error),
+            crate::BoxFluxError::Operator(error) => Self::Operator(error),
+            crate::BoxFluxError::Cancelled { stage } => Self::Cancelled {
+                stage: match stage {
+                    crate::BoxFluxStage::BeforeSolve => StepStage::BeforePressure,
+                    crate::BoxFluxStage::PressureIteration => StepStage::PressureIteration,
+                    crate::BoxFluxStage::CorrectionSlice => StepStage::ProjectionSlice,
+                    crate::BoxFluxStage::BeforeAcceptance => StepStage::BeforeProjectionAcceptance,
+                },
+            },
+            other => Self::BoxFlux(other),
+        }
+    }
+}
+struct BoundaryStepInput<'a> {
+    workspace: &'a mut crate::BoxFluxStepWorkspace,
+    boundary: crate::BoxFluxStepBoundary,
+}
+struct StepOutcome {
+    legacy: crate::BarrierStepReport,
+    boundary: Option<crate::BoxFluxStepReport>,
+}
+
 struct Fields {
     x: Vec<f32>,
     y: Vec<f32>,
@@ -135,7 +165,7 @@ impl Fields {
         self.tracer.fill(0.0);
     }
 }
-fn allocate(n: usize, remaining: &mut usize) -> Result<Vec<f32>, SimulationError> {
+pub(crate) fn allocate(n: usize, remaining: &mut usize) -> Result<Vec<f32>, SimulationError> {
     let required = n.checked_mul(4).ok_or(SimulationError::AllocationFailed)?;
     if required > *remaining {
         return Err(SimulationError::BufferLimit {
@@ -287,8 +317,8 @@ impl Simulation {
         forces: &[BodyForce],
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<ForcedStepReport, SimulationError> {
-        self.step_impl(requested_dt, source, forces, None, cancel)
-            .map(|report| report.step)
+        self.step_impl(requested_dt, source, forces, None, None, cancel)
+            .map(|report| report.legacy.step)
     }
     /// Opt-in static passive-tracer barrier; velocity/pressure remain the fixed
     /// box model. None preserves the legacy kernel and exact callback sequence.
@@ -302,7 +332,36 @@ impl Simulation {
         barrier: Option<&crate::TriangleSurface>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<crate::BarrierStepReport, SimulationError> {
-        self.step_impl(requested_dt, source, forces, barrier, cancel)
+        self.step_impl(requested_dt, source, forces, barrier, None, cancel)
+            .map(|report| report.legacy)
+    }
+    /// Opt-in fixed-volume inlet/outlet step. Both state and boundary work report
+    /// publish only after pressure, stored divergence, Courant and tracer gates.
+    /// Boundary projection uses an independently capped caller-owned workspace;
+    /// default steps and their allocation/callback sequence remain unchanged.
+    pub fn step_with_box_flux(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        forces: &[BodyForce],
+        workspace: &mut crate::BoxFluxStepWorkspace,
+        boundary: crate::BoxFluxStepBoundary,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<crate::BoxFluxStepReport, SimulationError> {
+        let outcome = self.step_impl(
+            requested_dt,
+            source,
+            forces,
+            None,
+            Some(BoundaryStepInput {
+                workspace,
+                boundary,
+            }),
+            cancel,
+        )?;
+        Ok(outcome
+            .boundary
+            .expect("requested boundary has accepted diagnostics"))
     }
     fn step_impl(
         &mut self,
@@ -310,8 +369,9 @@ impl Simulation {
         source: Option<SmokeSource>,
         forces: &[BodyForce],
         barrier: Option<&crate::TriangleSurface>,
+        mut boundary: Option<BoundaryStepInput<'_>>,
         mut cancel: impl FnMut(StepStage) -> bool,
-    ) -> Result<crate::BarrierStepReport, SimulationError> {
+    ) -> Result<StepOutcome, SimulationError> {
         if self.paused {
             return Err(SimulationError::Paused);
         }
@@ -322,12 +382,66 @@ impl Simulation {
             validate_source(&self.grid, s)?;
         }
         let external_rate = crate::forces::validate(&self.grid, self.config.density, forces)?;
+        if let Some(input) = &boundary
+            && !input
+                .workspace
+                .matches(&self.grid, self.config.density, self.implementation)
+        {
+            return Err(SimulationError::BoundaryWorkspaceMismatch);
+        }
+        let mut boundary_work = if boundary.is_some() {
+            Some(crate::BoxFluxStepWork {
+                kinetic_old: crate::box_flux_step::interior_energy(
+                    &self.grid,
+                    self.config.density,
+                    self.accepted.velocity(),
+                )?,
+                kinetic_after_advection: 0.0,
+                kinetic_after_smoke_force: 0.0,
+                kinetic_before_projection: 0.0,
+                kinetic_accepted: 0.0,
+                advection_change: 0.0,
+                smoke_force_work: 0.0,
+                external_force_work: 0.0,
+                budget_error: 0.0,
+                boundary_volume_imbalance: 0.0,
+                tracer_old_integral: self
+                    .accepted
+                    .tracer
+                    .iter()
+                    .map(|&v| f64::from(v))
+                    .sum::<f64>()
+                    * self.grid.cell_volume(),
+                tracer_transport_change: 0.0,
+                tracer_source_change: 0.0,
+            })
+        } else {
+            None
+        };
         let next_generation = self
             .generation
             .checked_add(1)
             .ok_or(SimulationError::GenerationOverflow)?;
         let h = self.grid.spacing();
-        let rate = velocity_rate(self.accepted.velocity(), h)?;
+        let rate = if let Some(input) = &boundary {
+            let speeds = input.boundary.flux.outward_speeds();
+            let rate = (0..3)
+                .map(|d| {
+                    let old = self.accepted.velocity()[d]
+                        .iter()
+                        .fold(0.0_f64, |m, &v| m.max(f64::from(v).abs()));
+                    old.max(f64::from(speeds[d][0]).abs())
+                        .max(f64::from(speeds[d][1]).abs())
+                        / h[d]
+                })
+                .sum::<f64>();
+            if !rate.is_finite() {
+                return Err(SimulationError::ArithmeticFailure);
+            }
+            rate
+        } else {
+            velocity_rate(self.accepted.velocity(), h)?
+        };
         let acceleration =
             source.map_or(0.0, |s| s.vertical_acceleration.abs() / h[1]) + external_rate;
         if !acceleration.is_finite() {
@@ -354,8 +468,24 @@ impl Simulation {
             self.candidate.velocity_mut(),
             || cancel(StepStage::VelocitySlice),
         )?;
+        if let Some(work) = &mut boundary_work {
+            work.kinetic_after_advection = crate::box_flux_step::interior_energy(
+                &self.grid,
+                self.config.density,
+                self.candidate.velocity(),
+            )?;
+            work.advection_change = work.kinetic_after_advection - work.kinetic_old;
+        }
         if let Some(s) = source {
             apply_force(&self.grid, &mut self.candidate.y, s, dt)?;
+        }
+        if let Some(work) = &mut boundary_work {
+            work.kinetic_after_smoke_force = crate::box_flux_step::interior_energy(
+                &self.grid,
+                self.config.density,
+                self.candidate.velocity(),
+            )?;
+            work.smoke_force_work = work.kinetic_after_smoke_force - work.kinetic_after_advection;
         }
         let forces = if forces.is_empty() {
             None
@@ -371,27 +501,74 @@ impl Simulation {
             )?)
         };
         checkpoint(&mut cancel, StepStage::BeforePressure)?;
-        let operator = PressureOperator::new(&self.grid, self.config.density)?;
-        let pressure = self.workspace.solve_velocity(
-            &operator,
-            self.candidate.velocity(),
-            dt,
-            self.config.pressure,
-            || cancel(StepStage::PressureIteration),
-        )?;
-        operator.correct_candidate_in_place(
-            self.workspace.pressure(),
-            dt,
-            self.candidate.velocity_mut(),
-        )?;
-        let actual_divergence_max = self
-            .workspace
-            .actual_divergence_max(&operator, self.candidate.velocity())?;
-        if actual_divergence_max > self.config.actual_divergence_limit {
-            return Err(SimulationError::DivergenceLimit {
-                actual: actual_divergence_max,
-                limit: self.config.actual_divergence_limit,
-            });
+        let (pressure, actual_divergence_max, projection) = if let Some(input) = &mut boundary {
+            for (scratch, velocity) in input
+                .workspace
+                .provisional
+                .iter_mut()
+                .zip(self.candidate.velocity())
+            {
+                scratch.copy_from_slice(velocity);
+            }
+            let provisional = &input.workspace.provisional;
+            let report = input.workspace.projection.project(
+                [&provisional[0], &provisional[1], &provisional[2]],
+                dt,
+                input.boundary.flux,
+                crate::BoxFluxSettings {
+                    pressure: self.config.pressure,
+                    actual_divergence_limit: self.config.actual_divergence_limit,
+                },
+                self.candidate.velocity_mut(),
+                |stage| match stage {
+                    // The ordinary BeforePressure checkpoint above already ran.
+                    crate::BoxFluxStage::BeforeSolve => false,
+                    crate::BoxFluxStage::PressureIteration => cancel(StepStage::PressureIteration),
+                    crate::BoxFluxStage::CorrectionSlice => cancel(StepStage::ProjectionSlice),
+                    crate::BoxFluxStage::BeforeAcceptance => {
+                        cancel(StepStage::BeforeProjectionAcceptance)
+                    }
+                },
+            )?;
+            (report.pressure, report.actual_divergence_max, Some(report))
+        } else {
+            let operator = PressureOperator::new(&self.grid, self.config.density)?;
+            let pressure = self.workspace.solve_velocity(
+                &operator,
+                self.candidate.velocity(),
+                dt,
+                self.config.pressure,
+                || cancel(StepStage::PressureIteration),
+            )?;
+            operator.correct_candidate_in_place(
+                self.workspace.pressure(),
+                dt,
+                self.candidate.velocity_mut(),
+            )?;
+            let actual_divergence_max = self
+                .workspace
+                .actual_divergence_max(&operator, self.candidate.velocity())?;
+            if actual_divergence_max > self.config.actual_divergence_limit {
+                return Err(SimulationError::DivergenceLimit {
+                    actual: actual_divergence_max,
+                    limit: self.config.actual_divergence_limit,
+                });
+            }
+            (pressure, actual_divergence_max, None)
+        };
+        if let (Some(work), Some(report)) = (&mut boundary_work, projection) {
+            work.kinetic_before_projection = report.work.kinetic_before;
+            work.kinetic_accepted = report.work.kinetic_after;
+            work.external_force_work = forces.map_or(0.0, |f| f.applied_work);
+            work.boundary_volume_imbalance = dt * report.net_outward_flux;
+            work.budget_error = work.kinetic_accepted - work.kinetic_old
+                + report.work.correction_energy
+                - (work.advection_change
+                    + work.smoke_force_work
+                    + work.external_force_work
+                    + report.work.boundary_pressure_work
+                    + report.work.divergence_residual_work
+                    + report.work.correction_residual_work);
         }
         let courant = dt * velocity_rate(self.candidate.velocity(), h)?;
         if !courant.is_finite() {
@@ -425,6 +602,16 @@ impl Simulation {
             )?;
             None
         };
+        let transported_integral = if boundary.is_some() {
+            self.candidate
+                .tracer
+                .iter()
+                .map(|&v| f64::from(v))
+                .sum::<f64>()
+                * self.grid.cell_volume()
+        } else {
+            0.0
+        };
         if let Some(s) = source {
             apply_source(&self.grid, &mut self.candidate.tracer, s, dt)?;
         }
@@ -447,7 +634,26 @@ impl Simulation {
             .map(|&v| f64::from(v).powi(2))
             .sum::<f64>();
         let tracer_integral = tracer_sum * self.grid.cell_volume();
-        let kinetic_energy = 0.5 * self.config.density * self.grid.cell_volume() * energy_sum;
+        let kinetic_energy = boundary_work.map_or_else(
+            || 0.5 * self.config.density * self.grid.cell_volume() * energy_sum,
+            |work| work.kinetic_accepted,
+        );
+        if let Some(work) = &mut boundary_work {
+            work.tracer_transport_change = transported_integral - work.tracer_old_integral;
+            work.tracer_source_change = tracer_integral - transported_integral;
+            if [
+                work.budget_error,
+                work.boundary_volume_imbalance,
+                work.tracer_old_integral,
+                work.tracer_transport_change,
+                work.tracer_source_change,
+            ]
+            .iter()
+            .any(|v| !v.is_finite())
+            {
+                return Err(SimulationError::ArithmeticFailure);
+            }
+        }
         if !tracer_integral.is_finite() || !kinetic_energy.is_finite() {
             return Err(SimulationError::ArithmeticFailure);
         }
@@ -455,7 +661,7 @@ impl Simulation {
         std::mem::swap(&mut self.accepted, &mut self.candidate);
         self.time = next_time;
         self.generation = next_generation;
-        Ok(crate::BarrierStepReport {
+        let legacy = crate::BarrierStepReport {
             step: ForcedStepReport {
                 step: StepReport {
                     dt,
@@ -470,7 +676,19 @@ impl Simulation {
                 forces,
             },
             tracer_barrier,
-        })
+        };
+        let boundary = match (boundary, projection, boundary_work) {
+            (Some(input), Some(projection), Some(work)) => Some(crate::BoxFluxStepReport {
+                step: legacy.step,
+                projection,
+                work,
+                tracer_policy: input.boundary.tracer,
+                simulation_array_bytes: self.allocated_bytes,
+                boundary_workspace_array_bytes: input.workspace.allocated_bytes(),
+            }),
+            _ => None,
+        };
+        Ok(StepOutcome { legacy, boundary })
     }
 }
 fn checkpoint(
