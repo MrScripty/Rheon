@@ -87,3 +87,14 @@ for conservation assumptions and transactional ownership.
 ```sh
 cargo run --locked --release --no-default-features --example box_flux_step
 ```
+
+## Conservative represented liquid volume
+
+`LiquidVolumeState` transports bounded cell fractions with shared face transfers,
+explicit inlet fractions and volume sources, preserving an accepted volume ledger.
+See the [book implementation addendum](docs/research-book/implementation/conservative-liquid-volume.md)
+for interface-error evidence and the remaining free-surface pressure coupling.
+
+```sh
+cargo run --locked --release --no-default-features --example liquid_volume
+```
