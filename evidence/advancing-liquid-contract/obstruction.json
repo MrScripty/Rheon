@@ -1,0 +1,29 @@
+{
+  "kind": "research_obstruction_only",
+  "production_advance_executed": false,
+  "rendered_advancing_simulation_claimed": false,
+  "frozen_evidence_commit": "a21d55dae2088aa6f9adfb2916645379c2557bcf",
+  "native_record": "evidence/column-mac/demo/pulse-y-0.25-jacobi/case.json",
+  "native_record_sha256": "0bb33f2abdca4da595a2f904fab1e9442b9bea3120b9e72c78f7d7b478092076",
+  "height_m": 0.5625,
+  "column_area_m2": 0.25,
+  "surface_slot_velocity_m_per_s": [
+    -0.27636364102363586,
+    0.0,
+    0.0,
+    0.27636364102363586
+  ],
+  "net_surface_flux_m3_per_s": 0.0,
+  "hypothetical_kinematic_dt_s": 0.001,
+  "hypothetical_euler_height_m": [
+    0.5622236363589763,
+    0.5625,
+    0.5625,
+    0.5627763636410237
+  ],
+  "hypothetical_height_spread_m": 0.0005527272820472718,
+  "normal_top_mass_bridge_kg": 0.046875,
+  "normal_top_mass_P1_kg": 0.0390625,
+  "omitted_normal_energy_j": 0.003639876155050334,
+  "actual_static_physical_time_s": 0.0
+}
