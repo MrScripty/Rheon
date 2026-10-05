@@ -37,7 +37,8 @@ Compensated reductions and a budget of 64*epsilon times the sum of absolute old,
 new, boundary and source amounts make the binary64 acceptance convention explicit.
 This is not a certified floating-error bound. Nonzero products or amounts that
 underflow out of representation, nonfinite arithmetic and unresolved time are
-rejected. The constant density scales represented mass as rho*V_liquid; it does
+rejected, including unsupported nonzero face areas that underflow before
+multiplication by dt. The constant density scales represented mass as rho*V_liquid; it does
 not change a carrier pressure coefficient or introduce two-phase inertia.
 
 ## State and ownership

@@ -533,6 +533,31 @@ fn unrepresentable_initial_amount_or_nonzero_face_transfer_cannot_disappear() {
     assert_eq!(snapshot(&s), before);
 }
 #[test]
+fn underflowed_face_area_rejects_instead_of_losing_representable_inflow() {
+    // The grid volume and true dt*face_area are representable, while the
+    // intermediate face area is not. Reject this unsupported scale explicitly.
+    let g = GridGeometry::new([1; 3], [1e200, 1e-200, 1e-200], [0.0; 3]).unwrap();
+    let mut velocity = fields(&g);
+    velocity[0].fill(1.0);
+    let mut volume = state(&g, vec![0.0]);
+    let before = snapshot(&volume);
+    let flow = LiquidFlowInterval::new(&g, stamp(2, 0), refs(&velocity), 0.0, 1e200).unwrap();
+    assert_eq!(
+        volume
+            .advance(
+                flow,
+                inlet([[0.5, 0.0], [0.0; 2], [0.0; 2]]),
+                None,
+                settings(),
+                |_| false
+            )
+            .unwrap_err(),
+        LiquidVolumeError::ArithmeticFailure
+    );
+    assert_eq!(snapshot(&volume), before);
+}
+
+#[test]
 fn both_accepted_pressure_methods_supply_read_only_carrier_not_free_surface_feedback() {
     use rheon::{
         BoxFluxStamp, BoxFluxStepBoundary, BoxFluxStepWorkspace, BoxFluxTracerPolicy,

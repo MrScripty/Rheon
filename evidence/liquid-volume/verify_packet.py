@@ -49,12 +49,23 @@ for feature, expected_count in receipt["acceptance"]["tests"].items():
     assert not re.search(r"test result: FAILED", log)
 assert verify(packet) == json.loads((packet / "numerical-summary.json").read_text())
 red = json.loads((packet / "red-signed-zero-reconstruction.json").read_text())
-source_text = (root / "src/liquid_volume.rs").read_text()
+source_text = subprocess.check_output(
+    ["git", "show", red["accepted_source_commit"] + ":src/liquid_volume.rs"],
+    cwd=root, text=True,
+)
 assert source_text.count(red["accepted_block"]) == 1
 pre_fix = source_text.replace(red["accepted_block"], red["pre_fix_block"])
 assert hashlib.sha256(pre_fix.encode()).hexdigest() == red["reconstructed_pre_fix_source_sha256"]
 assert red["reconstructed_pre_fix_source_sha256"] == json.loads(
     (packet / "red-signed-zero-receipt.json").read_text()
+)["pre_fix_source_sha256"]
+area = json.loads((packet / "red-face-area-reconstruction.json").read_text())
+source_text = (root / "src/liquid_volume.rs").read_text()
+assert source_text.count(area["accepted_block"]) == 1
+pre_fix = source_text.replace(area["accepted_block"], area["pre_fix_block"])
+assert hashlib.sha256(pre_fix.encode()).hexdigest() == area["reconstructed_pre_fix_source_sha256"]
+assert area["reconstructed_pre_fix_source_sha256"] == json.loads(
+    (packet / "red-face-area-receipt.json").read_text()
 )["pre_fix_source_sha256"]
 print("PASS complete packet hashes, qualified source/tree/parent, 1482 base blobs,")
 print("feature test counts, independent numerics and exact pre-fix reconstruction")

@@ -350,7 +350,11 @@ impl LiquidVolumeState {
             .ok_or(LiquidVolumeError::VersionOverflow)?;
         checkpoint(&mut cancel, VolumeStage::BeforeFlux)?;
         let h = self.grid.spacing();
-        let area = [h[1] * h[2], h[0] * h[2], h[0] * h[1]];
+        let area = [
+            product(h[1], h[2])?,
+            product(h[0], h[2])?,
+            product(h[0], h[1])?,
+        ];
         for axis in Axis::ALL {
             let d = axis.index();
             let dims = self.grid.face_counts(axis);
