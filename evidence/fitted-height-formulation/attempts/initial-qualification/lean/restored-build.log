@@ -1,0 +1,18 @@
+FittedHeight.lean:14:19: error: unexpected token '|*'; expected '|' or '|ₘ'
+FittedHeight.lean:17:27: error: unexpected token '|*'; expected '|' or '|ₘ'
+FittedHeight.lean:21:10: error: unexpected token '|*'; expected '|' or '|ₘ'
+FittedHeight.lean:24:64: error: linarith failed to find a contradiction
+case h1.h
+mrate flux velocity : ℝ
+gcl : mrate + flux = 0
+a✝ : mrate * velocity + flux * velocity < 0
+⊢ False failed
+FittedHeight.lean:41:39: error: unexpected token 'by'; expected ')'
+FittedHeight.lean:45:43: error: unexpected token 'by'; expected ')'
+FittedHeight.lean:65:55: error: linarith failed to find a contradiction
+case h1.h
+energy increment dt strain force pressure residual : ℝ
+work : energy + increment + dt * strain + dt * pressure - dt * force = residual
+divergence_work : pressure = 0
+a✝ : energy + increment + dt * strain < dt * force + residual
+⊢ False failed
