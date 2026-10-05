@@ -54,6 +54,7 @@ pub enum SimulationError {
     Operator(OperatorError),
     Pressure(PressureError),
     Advection(AdvectionError),
+    TracerBarrier(crate::TracerBarrierError),
     InvalidConfig,
     InvalidSource,
     InvalidForce,
@@ -92,6 +93,17 @@ impl From<PressureError> for SimulationError {
 impl From<AdvectionError> for SimulationError {
     fn from(e: AdvectionError) -> Self {
         Self::Advection(e)
+    }
+}
+
+impl From<crate::TracerBarrierError> for SimulationError {
+    fn from(e: crate::TracerBarrierError) -> Self {
+        match e {
+            crate::TracerBarrierError::Cancelled => Self::Cancelled {
+                stage: StepStage::TracerSlice,
+            },
+            other => Self::TracerBarrier(other),
+        }
     }
 }
 
@@ -273,8 +285,33 @@ impl Simulation {
         requested_dt: f64,
         source: Option<SmokeSource>,
         forces: &[BodyForce],
-        mut cancel: impl FnMut(StepStage) -> bool,
+        cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<ForcedStepReport, SimulationError> {
+        self.step_impl(requested_dt, source, forces, None, cancel)
+            .map(|report| report.step)
+    }
+    /// Opt-in static passive-tracer barrier; velocity/pressure remain the fixed
+    /// box model. None preserves the legacy kernel and exact callback sequence.
+    /// Surface geometry is borrowed for this call and its stamp is reported only
+    /// on accepted publication. Failure preserves every accepted state bit.
+    pub fn step_with_tracer_barrier(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        forces: &[BodyForce],
+        barrier: Option<&crate::TriangleSurface>,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<crate::BarrierStepReport, SimulationError> {
+        self.step_impl(requested_dt, source, forces, barrier, cancel)
+    }
+    fn step_impl(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        forces: &[BodyForce],
+        barrier: Option<&crate::TriangleSurface>,
+        mut cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<crate::BarrierStepReport, SimulationError> {
         if self.paused {
             return Err(SimulationError::Paused);
         }
@@ -367,14 +404,27 @@ impl Simulation {
             });
         }
         checkpoint(&mut cancel, StepStage::BeforeTracer)?;
-        advect_tracer(
-            &self.grid,
-            &self.accepted.tracer,
-            [&self.candidate.x, &self.candidate.y, &self.candidate.z],
-            dt,
-            &mut self.candidate.tracer,
-            || cancel(StepStage::TracerSlice),
-        )?;
+        let tracer_barrier = if let Some(surface) = barrier {
+            Some(crate::advect_tracer_with_barrier(
+                &self.grid,
+                &self.accepted.tracer,
+                [&self.candidate.x, &self.candidate.y, &self.candidate.z],
+                dt,
+                surface,
+                &mut self.candidate.tracer,
+                || cancel(StepStage::TracerSlice),
+            )?)
+        } else {
+            advect_tracer(
+                &self.grid,
+                &self.accepted.tracer,
+                [&self.candidate.x, &self.candidate.y, &self.candidate.z],
+                dt,
+                &mut self.candidate.tracer,
+                || cancel(StepStage::TracerSlice),
+            )?;
+            None
+        };
         if let Some(s) = source {
             apply_source(&self.grid, &mut self.candidate.tracer, s, dt)?;
         }
@@ -405,18 +455,21 @@ impl Simulation {
         std::mem::swap(&mut self.accepted, &mut self.candidate);
         self.time = next_time;
         self.generation = next_generation;
-        Ok(ForcedStepReport {
-            step: StepReport {
-                dt,
-                time: self.time,
-                generation: self.generation,
-                pressure,
-                actual_divergence_max,
-                courant,
-                tracer_integral,
-                kinetic_energy,
+        Ok(crate::BarrierStepReport {
+            step: ForcedStepReport {
+                step: StepReport {
+                    dt,
+                    time: self.time,
+                    generation: self.generation,
+                    pressure,
+                    actual_divergence_max,
+                    courant,
+                    tracer_integral,
+                    kinetic_energy,
+                },
+                forces,
             },
-            forces,
+            tracer_barrier,
         })
     }
 }

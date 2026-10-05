@@ -1,0 +1,4 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-tracer-barriers)
+    Finished `release` profile [optimized] target(s) in 2.71s
+     Running `/workspace/.rheon-tools/target-tracer-barriers/release/examples/tracer_barrier`
+Static passive-concentration barrier; velocity and pressure use the fixed box.

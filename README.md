@@ -54,3 +54,14 @@ for coordinate equations, ownership and the remaining fluid boundary work.
 ```sh
 cargo run --locked --release --no-default-features --example translating_surface
 ```
+
+## Static passive-tracer barriers
+
+`step_with_tracer_barrier` checks trace legs and donor visibility in the passive
+concentration stage, while velocity and pressure retain the fixed-box model.
+See the [book implementation addendum](docs/research-book/implementation/static-tracer-barriers.md)
+for the reversion policy, normalized interpolation and ownership limits.
+
+```sh
+cargo run --locked --release --no-default-features --example tracer_barrier
+```
