@@ -1,0 +1,1 @@
+{"kind":"isolated","counts":[12,12,3],"spacing":[0.08333333333333333, 0.08333333333333333,0.25],"density":3,"dynamic_viscosity":0.15000000000000002,"duration":0.1,"steps":32,"workspace_bytes":12096,"wall":"stationary-impermeable-free-slip","free_surface":false}

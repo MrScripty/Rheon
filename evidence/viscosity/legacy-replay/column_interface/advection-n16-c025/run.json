@@ -1,0 +1,1 @@
+{"kind":"imposed-transverse-advection","counts":[16,4,2],"spacing":[0.0625,0.25,0.5],"steps":8,"dt":0.0625,"time":0.5,"speed":0.25,"courant":0.25,"phase_array_bytes":5952,"geometry_array_bytes":1536,"pressure_solved":false,"axis":"Y"}
