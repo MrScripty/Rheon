@@ -98,3 +98,11 @@ pub use column_mac::{
     ColumnMacPublicationReport, ColumnMacPublishInputs, ColumnMacStage, ColumnMacStateStamp,
     ColumnMacTransferReport, ColumnMacWorkspace, FlatColumnMacGeometry,
 };
+
+mod fitted_height;
+pub use fitted_height::{
+    FittedHeightDualFace, FittedHeightError, FittedHeightGeometry, FittedHeightInputs,
+    FittedHeightNode, FittedHeightNodeDiagnostic, FittedHeightPlan, FittedHeightPressureTerm,
+    FittedHeightReport, FittedHeightSettings, FittedHeightStage, FittedHeightTriangle,
+    FittedHeightVelocityRow, FittedHeightWorkspace,
+};
