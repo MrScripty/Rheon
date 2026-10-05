@@ -106,3 +106,10 @@ pub use fitted_height::{
     FittedHeightReport, FittedHeightSettings, FittedHeightStage, FittedHeightTriangle,
     FittedHeightVelocityRow, FittedHeightWorkspace,
 };
+
+mod translated_viscous;
+pub use translated_viscous::{
+    TranslatedViscousError, TranslatedViscousFlow, TranslatedViscousReport,
+    TranslatedViscousSettings, TranslatedViscousStage, TranslatedViscousStamp,
+    TranslatedViscousState,
+};
