@@ -1,0 +1,66 @@
+{
+  "scope": "Resolved one-cell rest and two-column/one-Z-cell manufactured pulse; no evolved surface accuracy claim.",
+  "finite_fields_pixels_ledger_carry_forward": "passed",
+  "results": [
+    {
+      "method": "jacobi-pcg-v1",
+      "rest_intervals": 16,
+      "rest_pressure": 0.125,
+      "pulse_volume": 2,
+      "pulse_mass_at_density_one": 2,
+      "pulse_fraction": [
+        1,
+        0.9375,
+        0.0625,
+        0
+      ],
+      "pulse_pressure": [
+        -0.125,
+        0.125,
+        0,
+        0
+      ],
+      "pulse_wet_divergence": [
+        0.0,
+        0.0
+      ],
+      "pulse_air_divergence": [
+        -0.125,
+        0.125
+      ],
+      "next_geometry_rejected_and_preserved": true,
+      "rounding_probe_rejected_layers": []
+    },
+    {
+      "method": "sgs-pcg-v1",
+      "rest_intervals": 16,
+      "rest_pressure": 0.125,
+      "pulse_volume": 2,
+      "pulse_mass_at_density_one": 2,
+      "pulse_fraction": [
+        1,
+        0.9375,
+        0.0625,
+        0
+      ],
+      "pulse_pressure": [
+        -0.125,
+        0.125,
+        0,
+        0
+      ],
+      "pulse_wet_divergence": [
+        0.0,
+        0.0
+      ],
+      "pulse_air_divergence": [
+        -0.125,
+        0.125
+      ],
+      "next_geometry_rejected_and_preserved": true,
+      "rounding_probe_rejected_layers": [
+        16
+      ]
+    }
+  ]
+}

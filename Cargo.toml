@@ -32,3 +32,11 @@ required-features = ["png-export"]
 name = "rheon-desktop"
 path = "src/bin/rheon-desktop.rs"
 required-features = ["desktop"]
+
+[[example]]
+name = "liquid_step"
+required-features = ["png-export"]
+
+[[example]]
+name = "free_surface"
+required-features = ["png-export"]

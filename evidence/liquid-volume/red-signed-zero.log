@@ -1,0 +1,53 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-liquid-volume)
+warning: unused imports: `LiquidVolumeError`, `LiquidVolumeSource`, and `VolumeStage`
+ --> tests/liquid_volume_contract.rs:2:75
+  |
+2 |     Axis, GridGeometry, LiquidFlowInterval, LiquidInlet, LiquidOccupancy, LiquidVolumeError,
+  |                                                                           ^^^^^^^^^^^^^^^^^
+3 |     LiquidVolumeSettings, LiquidVolumeSource, LiquidVolumeState, VolumeStage, VolumeStamp,
+  |                           ^^^^^^^^^^^^^^^^^^                     ^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `fields` is never used
+ --> tests/liquid_volume_contract.rs:7:4
+  |
+7 | fn fields(g:&GridGeometry)->[Vec<f32>;3] {[Axis::X,Axis::Y,Axis::Z].map(|a|vec![0.0;g.face_len(a)])}
+  |    ^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `snapshot` is never used
+  --> tests/liquid_volume_contract.rs:11:4
+   |
+11 | fn snapshot(s:&LiquidVolumeState)->(Vec<u64>,VolumeStamp,u64) {(s.state().fraction.iter().map(|v|v.to_bits()).collect(),s.state().stamp,s...
+   |    ^^^^^^^^
+
+warning: function `near` is never used
+  --> tests/liquid_volume_contract.rs:12:4
+   |
+12 | fn near(a:f64,b:f64) {assert!((a-b).abs()<=2e-12*a.abs().max(b.abs()).max(1.0),"{a} != {b}");}
+   |    ^^^^
+
+warning: `rheon` (test "liquid_volume_contract") generated 4 warnings (run `cargo fix --test "liquid_volume_contract" -p rheon` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.52s
+     Running tests/liquid_volume_contract.rs (/workspace/.rheon-tools/target-repaired-stack/debug/deps/liquid_volume_contract-90e8a2423e76af19)
+
+running 1 test
+test signed_zero_is_valid_empty_liquid_with_zero_volume_transfer ... FAILED
+
+failures:
+
+---- signed_zero_is_valid_empty_liquid_with_zero_volume_transfer stdout ----
+
+thread 'signed_zero_is_valid_empty_liquid_with_zero_volume_transfer' (159805) panicked at tests/liquid_volume_contract.rs:18:74:
+called `Result::unwrap()` on an `Err` value: ArithmeticFailure
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    signed_zero_is_valid_empty_liquid_with_zero_volume_transfer
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--test liquid_volume_contract`

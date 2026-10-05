@@ -1,0 +1,16 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.70s
+     Running tests/liquid_step_contract.rs (/workspace/.rheon-tools/target/debug/deps/liquid_step_contract-b2bc010d79ab5939)
+
+running 8 tests
+test combined_capacity_cap_counts_transferred_capacity_and_pressure ... ok
+test carrier_failure_and_pause_preserve_volume_pressure_and_clocks ... ok
+test accepted_actual_dt_controls_volume_interval_and_closed_step_is_coherent ... ok
+test liquid_guidance_integrates_accepted_fraction_with_explicit_pixel_budget ... ok
+test liquid_failure_after_new_pressure_prepare_preserves_all_accepted_bits_and_retry ... ok
+test volume_input_failure_and_version_overflow_precede_carrier_callbacks ... ok
+test signed_axis_transport_publishes_hand_pressure_and_synchronized_states ... ok
+test every_exercised_carrier_volume_and_final_checkpoint_rolls_back_and_replays ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+

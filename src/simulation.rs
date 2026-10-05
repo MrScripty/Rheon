@@ -135,9 +135,14 @@ struct BoundaryStepInput<'a> {
     workspace: &'a mut crate::BoxFluxStepWorkspace,
     boundary: crate::BoxFluxStepBoundary,
 }
-struct StepOutcome {
-    legacy: crate::BarrierStepReport,
-    boundary: Option<crate::BoxFluxStepReport>,
+struct StepDomains<'a> {
+    barrier: Option<&'a crate::TriangleSurface>,
+    boundary: Option<BoundaryStepInput<'a>>,
+    surface: Option<&'a crate::SlabFreeSurface>,
+}
+pub(crate) struct StepOutcome {
+    pub(crate) legacy: crate::BarrierStepReport,
+    pub(crate) boundary: Option<crate::BoxFluxStepReport>,
 }
 
 struct Fields {
@@ -372,9 +377,74 @@ impl Simulation {
         source: Option<SmokeSource>,
         forces: &[BodyForce],
         barrier: Option<&crate::TriangleSurface>,
-        mut boundary: Option<BoundaryStepInput<'_>>,
+        boundary: Option<BoundaryStepInput<'_>>,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<StepOutcome, SimulationError> {
+        let outcome = self.prepare_impl(
+            requested_dt,
+            source,
+            forces,
+            StepDomains {
+                barrier,
+                boundary,
+                surface: None,
+            },
+            cancel,
+        )?;
+        self.commit_prepared(&outcome);
+        Ok(outcome)
+    }
+    pub(crate) fn prepare_liquid_carrier(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        forces: &[BodyForce],
+        boundary: Option<(&mut crate::BoxFluxStepWorkspace, crate::BoxFluxStepBoundary)>,
+        surface: Option<&crate::SlabFreeSurface>,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<StepOutcome, SimulationError> {
+        self.prepare_impl(
+            requested_dt,
+            source,
+            forces,
+            StepDomains {
+                barrier: None,
+                surface,
+                boundary: boundary.map(|(workspace, boundary)| BoundaryStepInput {
+                    workspace,
+                    boundary,
+                }),
+            },
+            cancel,
+        )
+    }
+    pub(crate) fn density(&self) -> f64 {
+        self.config.density
+    }
+    pub(crate) fn candidate_velocity(&self) -> [&[f32]; 3] {
+        self.candidate.velocity()
+    }
+    pub(crate) fn candidate_pressure(&self) -> &[f64] {
+        self.workspace.pressure()
+    }
+    pub(crate) fn commit_prepared(&mut self, outcome: &StepOutcome) {
+        std::mem::swap(&mut self.accepted, &mut self.candidate);
+        self.time = outcome.legacy.step.step.time;
+        self.generation = outcome.legacy.step.step.generation;
+    }
+    fn prepare_impl(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        forces: &[BodyForce],
+        domains: StepDomains<'_>,
         mut cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
+        let StepDomains {
+            barrier,
+            mut boundary,
+            surface,
+        } = domains;
         if self.paused {
             return Err(SimulationError::Paused);
         }
@@ -471,6 +541,10 @@ impl Simulation {
             self.candidate.velocity_mut(),
             || cancel(StepStage::VelocitySlice),
         )?;
+        if let Some(surface) = surface {
+            PressureOperator::with_free_surface(&self.grid, self.config.density, surface)?
+                .clear_inactive(self.candidate.velocity_mut());
+        }
         if let Some(work) = &mut boundary_work {
             work.kinetic_after_advection = crate::box_flux_step::interior_energy(
                 &self.grid,
@@ -494,14 +568,26 @@ impl Simulation {
             None
         } else {
             checkpoint(&mut cancel, StepStage::BeforeForces)?;
-            Some(crate::forces::apply(
-                &self.grid,
-                self.config.density,
-                forces,
-                dt,
-                self.candidate.velocity_mut(),
-                &mut cancel,
-            )?)
+            Some(if surface.is_some() {
+                crate::forces::apply_on_domain(
+                    &self.grid,
+                    self.config.density,
+                    forces,
+                    dt,
+                    self.candidate.velocity_mut(),
+                    surface,
+                    &mut cancel,
+                )?
+            } else {
+                crate::forces::apply(
+                    &self.grid,
+                    self.config.density,
+                    forces,
+                    dt,
+                    self.candidate.velocity_mut(),
+                    &mut cancel,
+                )?
+            })
         };
         checkpoint(&mut cancel, StepStage::BeforePressure)?;
         let (pressure, actual_divergence_max, projection) = if let Some(input) = &mut boundary {
@@ -535,7 +621,11 @@ impl Simulation {
             )?;
             (report.pressure, report.actual_divergence_max, Some(report))
         } else {
-            let operator = PressureOperator::new(&self.grid, self.config.density)?;
+            let operator = if let Some(surface) = surface {
+                PressureOperator::with_free_surface(&self.grid, self.config.density, surface)?
+            } else {
+                PressureOperator::new(&self.grid, self.config.density)?
+            };
             let pressure = self.workspace.solve_velocity(
                 &operator,
                 self.candidate.velocity(),
@@ -661,15 +751,12 @@ impl Simulation {
             return Err(SimulationError::ArithmeticFailure);
         }
         checkpoint(&mut cancel, StepStage::BeforeCommit)?;
-        std::mem::swap(&mut self.accepted, &mut self.candidate);
-        self.time = next_time;
-        self.generation = next_generation;
         let legacy = crate::BarrierStepReport {
             step: ForcedStepReport {
                 step: StepReport {
                     dt,
-                    time: self.time,
-                    generation: self.generation,
+                    time: next_time,
+                    generation: next_generation,
                     pressure,
                     actual_divergence_max,
                     courant,

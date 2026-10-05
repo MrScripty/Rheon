@@ -6,6 +6,17 @@ This repo will include a standalone demonstration GUI and a modular simulation f
 # About the name
 Derived from rheology (study of flowing/deforming matter, especially non-Newtonian liquids) + Greek rhein (to flow)
 
+## Coherent carrier and liquid-volume transport
+
+`LiquidTransportSimulation` publishes the projected carrier velocity/pressure
+and conservative represented liquid fractions together. Failure or cancellation
+preserves both accepted states; candidates reuse the existing owners and capped
+workspaces. The optional PNG path exports accepted fraction-integral guidance.
+This is a transport-only coupled step on a fixed all-fluid box; free-surface
+pressure, variable-density feedback, viscosity/adhesion and geometric surface
+reconstruction remain open. See the [API and equations](docs/research-book/implementation/coupled-liquid-transport.md)
+and [native tests, replay and 3D numerical evidence](evidence/liquid-step/README.md).
+
 ## Implementation comparison
 
 The Rust fixed-box core has two preserved pressure implementations selectable
@@ -86,4 +97,15 @@ for conservation assumptions and transactional ownership.
 
 ```sh
 cargo run --locked --release --no-default-features --example box_flux_step
+```
+
+## Conservative represented liquid volume
+
+`LiquidVolumeState` transports bounded cell fractions with shared face transfers,
+explicit inlet fractions and volume sources, preserving an accepted volume ledger.
+See the [book implementation addendum](docs/research-book/implementation/conservative-liquid-volume.md)
+for interface-error evidence and the remaining free-surface pressure coupling.
+
+```sh
+cargo run --locked --release --no-default-features --example liquid_volume
 ```

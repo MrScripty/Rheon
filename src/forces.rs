@@ -96,6 +96,17 @@ pub(crate) fn apply(
     velocity: [&mut [f32]; 3],
     cancel: &mut impl FnMut(StepStage) -> bool,
 ) -> Result<ForceReport, SimulationError> {
+    apply_on_domain(grid, density, forces, dt, velocity, None, cancel)
+}
+pub(crate) fn apply_on_domain(
+    grid: &GridGeometry,
+    density: f64,
+    forces: &[BodyForce],
+    dt: f64,
+    velocity: [&mut [f32]; 3],
+    surface: Option<&crate::SlabFreeSurface>,
+    cancel: &mut impl FnMut(StepStage) -> bool,
+) -> Result<ForceReport, SimulationError> {
     let mass = density * grid.cell_volume();
     let energy = |fields: &[&mut [f32]; 3]| {
         0.5 * mass
@@ -120,6 +131,9 @@ pub(crate) fn apply(
                 for i in 0..nx {
                     let p = [i, j, k];
                     if p[d] == 0 || p[d] == grid.counts()[d] {
+                        continue;
+                    }
+                    if surface.is_some_and(|s| !s.face_active(axis, p)) {
                         continue;
                     }
                     let position = grid.face_position(axis, p).expect("bounded face");

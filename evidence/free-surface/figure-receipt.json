@@ -1,0 +1,1 @@
+{"inputs": ["demo/jacobi-pcg-v1/pulse-initial.png", "demo/jacobi-pcg-v1/pulse-final.png", "demo/jacobi-pcg-v1/pulse-final.csv", "demo/jacobi-pcg-v1/rest-steps.csv"], "output": "guidance-and-pressure.png"}

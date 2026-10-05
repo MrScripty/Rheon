@@ -1,0 +1,16 @@
+{
+  "source": "9c58ecaf31da9fa03e304486bff174d1100e8099",
+  "tree": "4bfb756ab6ac54fcfe74431b1c631af16ba15cd0",
+  "parent": "1fa666be4b05b47448f980a20d2e0d2e7f514661",
+  "source_sha256": {
+    "tools/verify_liquid_transport.py": "7bb9fdcd806d0ccd1baedc04307544c213c937871bc34e3cedfc499ad2cb7a1d",
+    "tools/test_liquid_transport_verifier.py": "11716ebd6ad8d1d72f41fb12c7006efaa008bafca17afe5228e74d0283d4d7e3",
+    "docs/research-book/implementation/liquid-output-verifier-successor.md": "f579abc04399b97423adc5f4b5d8ae837d5fe026d613aa70dd2db1fa895c4514"
+  },
+  "evidence_sha256": {
+    "evidence/liquid-verifier-successor/tests-optimized.log": "ba74fffc2ff87507d010f4fd8a1e4a593e71428f820eed307b562b5c7e5bbcd3",
+    "evidence/liquid-verifier-successor/summary.json": "29ffbd197b8bcbd3697b22de04943daa8349b3fc1e4332b13fdfe7208fe54368",
+    "evidence/liquid-verifier-successor/tests.log": "c3c3c9885ecc78e18498a0057d74ba1012983e661e3599d084e838bc8f1a4fcd"
+  },
+  "qualification": "240 committed X-slab-in-3D ledgers pass independently recomputed finite balance/budget/carry-forward; nine adversarial cases reject in normal and optimized Python; original packets unchanged."
+}

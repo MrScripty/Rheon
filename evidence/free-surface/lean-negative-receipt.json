@@ -1,0 +1,14 @@
+[
+  {
+    "variant": "sorry",
+    "source_sha256": "045f71b3ba3809fcfb3a7bc302bfdcaa46ab8e17c8e7eb47d123542f894aa6dd",
+    "compile_exit": 0,
+    "audit_exit": 1
+  },
+  {
+    "variant": "axiom",
+    "source_sha256": "a85ddc20349f1071a85863a00822410ff221f1256b525248c12b2dc596063d7f",
+    "compile_exit": 0,
+    "audit_exit": 1
+  }
+]

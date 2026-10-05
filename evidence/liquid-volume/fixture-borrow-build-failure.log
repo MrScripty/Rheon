@@ -1,0 +1,23 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-liquid-volume)
+error[E0505]: cannot move out of `g` because it is borrowed
+   --> tests/liquid_volume_contract.rs:438:32
+    |
+406 |     let g = GridGeometry::new([1; 3], [1.0; 3], [0.0; 3]).unwrap();
+    |         - binding `g` declared here
+...
+428 |     let flow = LiquidFlowInterval::new(&g, stamp(2, 0), refs(&v), 0.0, 0.5).unwrap();
+    |                                        -- borrow of `g` occurs here
+...
+438 |         LiquidVolumeState::new(g, 1000.0, stamp(1, u64::MAX), vec![0.25], 64).unwrap();
+    |                                ^ move out of `g` occurs here
+...
+441 |             .advance(flow, inlet([[0.0; 2]; 3]), None, settings(), |_| false)
+    |                      ---- borrow later used here
+    |
+help: consider cloning the value if the performance cost is acceptable
+    |
+428 |     let flow = LiquidFlowInterval::new(&g.clone(), stamp(2, 0), refs(&v), 0.0, 0.5).unwrap();
+    |                                          ++++++++
+
+For more information about this error, try `rustc --explain E0505`.
+error: could not compile `rheon` (test "liquid_volume_contract") due to 1 previous error

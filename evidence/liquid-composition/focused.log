@@ -1,0 +1,27 @@
+    Updating crates.io index
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.83s
+     Running tests/liquid_volume_contract.rs (/workspace/.rheon-tools/target/debug/deps/liquid_volume_contract-da9567f5f476901f)
+
+running 18 tests
+test actual_owned_capacity_invalid_inputs_and_resolved_clock_are_checked ... ok
+test closed_anisotropic_circulation_reuses_shared_faces_and_preserves_volume ... ok
+test geometry_interval_source_identity_and_version_limits_reject_before_callbacks ... ok
+test courant_divergence_and_raw_source_bounds_fail_without_changing_accepted_state ... ok
+test both_accepted_pressure_methods_supply_read_only_carrier_not_free_surface_feedback ... ok
+test normal_initial_amount_is_supported_but_subnormal_initial_amount_is_rejected ... ok
+test signed_sources_are_volume_per_second_and_density_scales_mass_only ... ok
+test oblique_constant_fraction_preserves_constant_and_balanced_boundary_transfer ... ok
+test subnormal_face_area_rejects_instead_of_distorting_representable_inflow ... ok
+test signed_all_axis_upwind_inlet_outlet_matches_hand_volume_and_occupancy ... ok
+test signed_zero_is_valid_empty_liquid_with_zero_volume_transfer ... ok
+test thin_positive_fractions_and_merging_supports_are_not_erased_by_clamping ... ok
+test underflowed_face_area_rejects_instead_of_losing_representable_inflow ... ok
+test underflowed_courant_intermediate_rejects_and_supported_retry_matches_fresh ... ok
+test unrepresentable_initial_amount_or_nonzero_face_transfer_cannot_disappear ... ok
+test partial_flux_and_cell_cancellation_preserve_bits_and_retry_matches_fresh ... ok
+test unsplit_three_dimensional_transfer_is_bounded_but_diffuses_geometric_cube ... ok
+test translated_slab_has_exact_binomial_oracle_and_independent_spatial_refinement ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

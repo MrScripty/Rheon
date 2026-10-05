@@ -1,0 +1,1 @@
+Packaging attempt added bindings.log after the normal check but before the optimized check. The optimized verifier correctly rejected the now-incomplete live inventory (exit 1). Collected both outputs before updating the final inventory and reran both checks.

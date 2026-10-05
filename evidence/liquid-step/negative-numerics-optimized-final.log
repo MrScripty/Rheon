@@ -1,0 +1,22 @@
+[
+  {
+    "fixture": "fraction",
+    "rejected": true,
+    "reason": "every-cell independent binomial oracle"
+  },
+  {
+    "fixture": "clock",
+    "rejected": true,
+    "reason": "step clock"
+  },
+  {
+    "fixture": "first_pressure",
+    "rejected": true,
+    "reason": "manufactured first gauge pressure"
+  },
+  {
+    "fixture": "guidance_pixel",
+    "rejected": true,
+    "reason": "independent occupancy projection: final.png"
+  }
+]

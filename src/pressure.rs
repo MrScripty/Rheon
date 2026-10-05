@@ -215,7 +215,9 @@ impl PressureWorkspace {
         self.allocated_bytes
     }
 
-    /// Last pressure scratch, with gauge cell zero. Consumers must only use it
+    /// Last pressure scratch. Closed mode fixes gauge cell zero; free-surface
+    /// mode fixes air storage to atmospheric zero and does not pin a wet cell.
+    /// Consumers must only use it
     /// as an accepted solve after a successful solve result.
     pub fn pressure(&self) -> &[f64] {
         &self.pressure
@@ -229,7 +231,12 @@ impl PressureWorkspace {
         velocity: [&[f32]; 3],
     ) -> Result<f64, PressureError> {
         operator.divergence(velocity, &mut self.product)?;
-        Ok(self.product.iter().fold(0.0_f64, |a, b| a.max(b.abs())))
+        Ok(self
+            .product
+            .iter()
+            .enumerate()
+            .filter(|(i, _)| operator.is_wet(*i))
+            .fold(0.0_f64, |a, (_, b)| a.max(b.abs())))
     }
 
     pub fn solve_velocity(
@@ -257,6 +264,13 @@ impl PressureWorkspace {
         operator.validate_cells(rhs)?;
         if self.rhs.len() != rhs.len() {
             return Err(OperatorError::LengthMismatch.into());
+        }
+        if !operator.has_gauge() {
+            for (cell, &value) in rhs.iter().enumerate() {
+                if !operator.is_wet(cell) && value != 0.0 {
+                    return Err(OperatorError::NonZeroAirRhs { cell }.into());
+                }
+            }
         }
         self.rhs.copy_from_slice(rhs);
         self.solve_loaded(operator, dt, settings, cancelled)
@@ -301,14 +315,17 @@ impl PressureWorkspace {
         let [nx, ny, nz] = operator.geometry().counts();
         let strides = [1, nx, nx * ny];
         let weight = operator.weights();
-        self.residual[0] = 0.0;
-        self.preconditioned[0] = 0.0;
-        for row in 1..self.residual.len() {
+        if operator.has_gauge() {
+            self.residual[0] = 0.0;
+            self.preconditioned[0] = 0.0;
+        }
+        let first = usize::from(operator.has_gauge());
+        for row in first..self.residual.len() {
             let p = [row % nx, (row / nx) % ny, row / (nx * ny)];
             let diagonal = operator.diagonal(p);
             let mut value = self.residual[row];
             for d in 0..3 {
-                if p[d] > 0 {
+                if p[d] > 0 && operator.is_wet(row) && operator.is_wet(row - strides[d]) {
                     value += weight[d] * self.preconditioned[row - strides[d]];
                 }
             }
@@ -317,12 +334,15 @@ impl PressureWorkspace {
                 return Err(PressureError::Breakdown { iteration: 0 });
             }
         }
-        for row in (1..self.residual.len()).rev() {
+        for row in (first..self.residual.len()).rev() {
             let p = [row % nx, (row / nx) % ny, row / (nx * ny)];
             let diagonal = operator.diagonal(p);
             let mut correction = 0.0;
             for d in 0..3 {
-                if p[d] + 1 < [nx, ny, nz][d] {
+                if p[d] + 1 < [nx, ny, nz][d]
+                    && operator.is_wet(row)
+                    && operator.is_wet(row + strides[d])
+                {
                     correction += weight[d] * self.preconditioned[row + strides[d]];
                 }
             }
@@ -340,14 +360,16 @@ impl PressureWorkspace {
     ) -> Result<f64, PressureError> {
         let grid = operator.geometry();
         let [nx, ny, nz] = grid.counts();
-        self.residual[0] = 0.0;
-        self.preconditioned[0] = 0.0;
+        if operator.has_gauge() {
+            self.residual[0] = 0.0;
+            self.preconditioned[0] = 0.0;
+        }
         for k in 0..nz {
             for j in 0..ny {
                 for i in 0..nx {
                     let p = [i, j, k];
                     let row = i + nx * (j + ny * k);
-                    if row == 0 {
+                    if row == 0 && operator.has_gauge() {
                         continue;
                     }
                     let diagonal = operator.diagonal(p);
@@ -392,7 +414,7 @@ impl PressureWorkspace {
         if !sum.is_finite() || !sum_abs.is_finite() {
             return Err(PressureError::Breakdown { iteration: 0 });
         }
-        if sum.abs() > rounding_budget {
+        if operator.has_gauge() && sum.abs() > rounding_budget {
             return Err(PressureError::IncompatibleRhs {
                 sum,
                 rounding_budget,
@@ -430,7 +452,9 @@ impl PressureWorkspace {
                 });
             }
             operator.apply_full(&self.direction, &mut self.product)?;
-            self.product[0] = 0.0;
+            if operator.has_gauge() {
+                self.product[0] = 0.0;
+            }
             let curvature = dot(&self.direction, &self.product);
             if !curvature.is_finite() || curvature <= 0.0 || !rz.is_finite() || rz <= 0.0 {
                 return Err(PressureError::Breakdown { iteration });
@@ -439,7 +463,7 @@ impl PressureWorkspace {
             if !alpha.is_finite() {
                 return Err(PressureError::Breakdown { iteration });
             }
-            for i in 1..self.rhs.len() {
+            for i in usize::from(operator.has_gauge())..self.rhs.len() {
                 self.pressure[i] += alpha * self.direction[i];
                 self.residual[i] -= alpha * self.product[i];
             }
@@ -473,7 +497,7 @@ impl PressureWorkspace {
                 self.direction.copy_from_slice(&self.preconditioned);
             } else {
                 let beta = next_rz / rz;
-                for i in 1..self.rhs.len() {
+                for i in usize::from(operator.has_gauge())..self.rhs.len() {
                     self.direction[i] = self.preconditioned[i] + beta * self.direction[i];
                 }
             }

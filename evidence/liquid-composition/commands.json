@@ -1,0 +1,13 @@
+[
+  {
+    "name": "fmt",
+    "command": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--check"
+    ],
+    "exit": 1,
+    "seconds": 0.5486232150000063
+  }
+]

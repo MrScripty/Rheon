@@ -1,0 +1,94 @@
+[
+  {
+    "name": "fmt-final",
+    "command": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 0.331811904999995
+  },
+  {
+    "name": "test-default-final",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--all-targets"
+    ],
+    "exit": 0,
+    "seconds": 7.100553322000451
+  },
+  {
+    "name": "test-core-final",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--all-targets",
+      "--no-default-features"
+    ],
+    "exit": 0,
+    "seconds": 5.370883527999467
+  },
+  {
+    "name": "test-desktop-final",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--all-targets",
+      "--features",
+      "desktop"
+    ],
+    "exit": 0,
+    "seconds": 6.777192035000553
+  },
+  {
+    "name": "clippy-default-final",
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "seconds": 0.5433467640004892
+  },
+  {
+    "name": "clippy-core-final",
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--all-targets",
+      "--no-default-features",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "seconds": 0.43503294400034065
+  },
+  {
+    "name": "clippy-desktop-final",
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--all-targets",
+      "--features",
+      "desktop",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "seconds": 0.6483254310005577
+  }
+]

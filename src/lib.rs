@@ -15,6 +15,8 @@ mod motion;
 pub use motion::{TranslatedHit, TranslatedSegment, TranslationError, TranslationInterval};
 mod operator;
 pub use operator::{OperatorError, PressureOperator};
+mod free_surface;
+pub use free_surface::{FreeSurfaceError, SlabFreeSurface};
 mod pressure;
 pub use pressure::{
     PressureError, PressureImplementation, PressureReport, PressureSettings, PressureWorkspace,
@@ -37,7 +39,10 @@ pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepRepo
 #[cfg(feature = "png-export")]
 mod export;
 #[cfg(feature = "png-export")]
-pub use export::{ExportError, guidance_pixels, write_guidance_png};
+pub use export::{
+    ExportError, guidance_pixels, liquid_guidance_pixels, write_guidance_png,
+    write_liquid_guidance_png,
+};
 
 mod box_flux;
 pub use box_flux::{
@@ -49,4 +54,17 @@ mod box_flux_step;
 pub use box_flux_step::{
     BoxFluxStepBoundary, BoxFluxStepReport, BoxFluxStepWork, BoxFluxStepWorkspace,
     BoxFluxTracerPolicy,
+};
+
+mod liquid_volume;
+pub use liquid_volume::{
+    LiquidFlowInterval, LiquidInlet, LiquidOccupancy, LiquidVolumeError, LiquidVolumeReport,
+    LiquidVolumeSettings, LiquidVolumeSource, LiquidVolumeState, LiquidVolumeView,
+    VolumeDivergenceDomain, VolumeStage, VolumeStamp,
+};
+
+mod liquid_step;
+pub use liquid_step::{
+    LiquidStepError, LiquidStepInputs, LiquidStepReport, LiquidStepStage, LiquidTransportConfig,
+    LiquidTransportSimulation, LiquidTransportView,
 };

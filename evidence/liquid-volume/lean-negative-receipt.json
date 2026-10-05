@@ -1,0 +1,10 @@
+{
+  "admitted": {
+    "compile_exit": 0,
+    "audit_exit": 1
+  },
+  "custom-axiom": {
+    "compile_exit": 0,
+    "audit_exit": 1
+  }
+}

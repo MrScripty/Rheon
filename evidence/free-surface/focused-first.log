@@ -1,0 +1,13 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.15s
+     Running tests/free_surface_contract.rs (/workspace/.rheon-tools/target/debug/deps/free_surface_contract-35fb69756b626248)
+
+running 5 tests
+test independent_anchored_matrix_has_half_distance_surface_and_no_wet_gauge ... ok
+test free_surface_admission_is_explicit_and_uses_existing_array_inventory ... ok
+test coupled_surface_redistribution_conserves_volume_and_rejects_unresolved_next_geometry ... ok
+test hydrostatic_columns_match_pressure_at_cell_centers_and_zero_air_pressure ... ok
+test resolved_hydrostatic_interval_replays_and_cancelled_pair_preserves_pressure_and_phase ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+

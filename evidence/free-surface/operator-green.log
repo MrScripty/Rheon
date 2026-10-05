@@ -1,0 +1,53 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+warning: method `clear_inactive` is never used
+   --> src/operator.rs:112:19
+    |
+ 54 | impl<'a> PressureOperator<'a> {
+    | ----------------------------- method in this implementation
+...
+112 |     pub(crate) fn clear_inactive(&self, candidate: [&mut [f32]; 3]) {
+    |                   ^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `face_active` and `validate_fractions` are never used
+  --> src/free_surface.rs:76:19
+   |
+33 | impl SlabFreeSurface {
+   | -------------------- methods in this implementation
+...
+76 |     pub(crate) fn face_active(&self, axis: Axis, p: [usize; 3]) -> bool {
+   |                   ^^^^^^^^^^^
+...
+86 |     pub(crate) fn validate_fractions(
+   |                   ^^^^^^^^^^^^^^^^^^
+
+warning: `rheon` (lib) generated 2 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.01s
+     Running tests/operator_contract.rs (/workspace/.rheon-tools/target/debug/deps/operator_contract-8854ebac8914412a)
+
+running 5 tests
+test independent_rectangular_dense_operator ... ok
+test all_six_faces_of_single_cell_are_walls ... ok
+test nonfinite_fields_density_and_lengths_are_rejected ... ok
+test integrated_rhs_matches_independent_physical_divergence ... ok
+test three_cell_hand_calculation_and_residual_identity ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/pressure_contract.rs (/workspace/.rheon-tools/target/debug/deps/pressure_contract-7099cae9f7db8865)
+
+running 10 tests
+test cancellation_and_iteration_exhaustion_are_explicit ... ok
+test a_rectangular_cycle_retains_circulation ... ok
+test incompatible_rhs_is_not_mean_shifted ... ok
+test eliminated_gauge_row_participates_in_physical_stopping ... ok
+test single_cell_zero_rhs_returns_without_iteration ... ok
+test solves_hand_chain_and_reports_full_residual ... ok
+test workspace_budget_and_invalid_tolerance_fail ... ok
+test manufactured_three_dimensional_pressure_recovers_modulo_gauge ... ok
+test tighter_divergence_gate_keeps_conjugate_gradient_progress ... ok
+test random_three_dimensional_projection_checks_actual_f32_divergence ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
