@@ -1,0 +1,90 @@
+[
+  {
+    "name": "build",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-o",
+      ".lake/build/lib/lean/ColumnMomentum.olean",
+      "ColumnMomentum.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "AuditColumnMomentum.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "sorry-build",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-o",
+      ".lake/build/lib/lean/ColumnMomentum.olean",
+      "ColumnMomentum.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "sorry-audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "AuditColumnMomentum.lean"
+    ],
+    "exit": 1
+  },
+  {
+    "name": "axiom-build",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-o",
+      ".lake/build/lib/lean/ColumnMomentum.olean",
+      "ColumnMomentum.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "axiom-audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "AuditColumnMomentum.lean"
+    ],
+    "exit": 1
+  },
+  {
+    "name": "restored-build",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-o",
+      ".lake/build/lib/lean/ColumnMomentum.olean",
+      "ColumnMomentum.lean"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "restored-audit",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "AuditColumnMomentum.lean"
+    ],
+    "exit": 0
+  }
+]

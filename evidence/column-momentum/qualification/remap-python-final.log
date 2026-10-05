@@ -1,0 +1,7 @@
+test_finite_overlap_geometry_ledgers_and_pixels_reject_tampering (test_column_momentum_verifier.ColumnMomentumVerifier.test_finite_overlap_geometry_ledgers_and_pixels_reject_tampering) ... ok
+test_real_native_records (test_column_momentum_verifier.ColumnMomentumVerifier.test_real_native_records) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.185s
+
+OK
