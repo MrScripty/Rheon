@@ -1,0 +1,1 @@
+PASS verify_pdf: current input hashes and PDF bytes match frozen receipt
