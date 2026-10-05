@@ -349,3 +349,50 @@ fn affine_parcel_means_refine_without_claiming_linear_exactness() {
         assert!(pair[0] / pair[1] > 2.5);
     }
 }
+#[test]
+fn ordinary_decimal_scale_constant_parcels_are_preserved() {
+    let axis = Axis::Y;
+    let g = GridGeometry::new([1, 4, 1], [1.0, 0.1, 0.1], [0.0; 3]).unwrap();
+    let a = geometry(&g, axis, &[2.25], 0);
+    let b = geometry(&g, axis, &[2.6], 1);
+    let u: [Vec<f32>; 2] = std::array::from_fn(|_| vec![3.0, 3.0, 0.0, 0.0]);
+    let donor = [[3.0; 2]];
+    let mut out: [Vec<f32>; 2] = std::array::from_fn(|_| vec![7.0; 4]);
+    let mut w = ColumnMomentumWorkspace::new(g.clone(), axis, 1 << 20).unwrap();
+    let r = w
+        .remap(inputs(&a, &b, &u, Some(&donor)), muts(&mut out), |_| false)
+        .unwrap();
+    gates(r);
+    assert_eq!(out, std::array::from_fn(|_| vec![3.0, 3.0, 3.0, 0.0]));
+    assert_eq!(r.mixing_loss, 0.0);
+    assert_eq!(r.rounding_momentum, [0.0; 2]);
+    assert_eq!(r.rounding_work, 0.0);
+    assert_eq!(r.mass_added, 0.0035000000000000005);
+    assert_eq!(w.mass_scratch()[2], 0.006);
+    // The floating momentum ledger still includes its measured residual; the
+    // exact-constant candidate shortcut does not overwrite diagnostics.
+    assert!(
+        r.momentum_error
+            .iter()
+            .all(|x| x.abs() <= r.momentum_budget[0])
+    );
+}
+#[test]
+fn ordinary_unit_geometry_nonbinary_constant_parcels_are_preserved() {
+    let axis = Axis::Y;
+    let g = GridGeometry::new([1, 4, 1], [1.0; 3], [0.0; 3]).unwrap();
+    let a = geometry(&g, axis, &[2.25], 0);
+    let b = geometry(&g, axis, &[2.7], 1);
+    let u = [vec![0.1, 0.1, 0.0, 0.0], vec![0.0; 4]];
+    let donor = [[0.1, 0.0]];
+    let mut out = std::array::from_fn(|_| vec![7.0; 4]);
+    let mut w = ColumnMomentumWorkspace::new(g.clone(), axis, 1 << 20).unwrap();
+    let r = w
+        .remap(inputs(&a, &b, &u, Some(&donor)), muts(&mut out), |_| false)
+        .unwrap();
+    gates(r);
+    assert_eq!(out, [vec![0.1, 0.1, 0.1, 0.0], vec![0.0; 4]]);
+    assert_eq!(r.mixing_loss, 0.0);
+    assert_eq!(r.rounding_momentum, [0.0; 2]);
+    assert_eq!(r.rounding_work, 0.0);
+}

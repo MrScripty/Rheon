@@ -411,7 +411,11 @@ impl ColumnMomentumWorkspace {
                         p_absolute[t].add(p.abs())?;
                         e_added.add(mul(0.5, mul(imported, mul(u, u)?)?)?)?;
                     }
-                    let proposed = if count + usize::from(imported > 0.0) == 1 {
+                    // An exactly constant donor set has exactly that mean. Reuse
+                    // its value to avoid spurious convex-bound rejection from
+                    // rounded overlap products. All extensive ledger gates
+                    // still run; this is neither a clamp nor a tolerance.
+                    let proposed = if count + usize::from(imported > 0.0) == 1 || lower == upper {
                         sole
                     } else {
                         div(momentum.finish()?, target_mass)?

@@ -20,6 +20,7 @@ on:
       - 'tools/verify_column_momentum.py'
       - 'tools/test_column_momentum_verifier.py'
       - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
       - '.github/workflows/rust-rheon.yml'
   push:
     branches: [main]
@@ -42,6 +43,7 @@ on:
       - 'tools/verify_column_momentum.py'
       - 'tools/test_column_momentum_verifier.py'
       - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
       - '.github/workflows/rust-rheon.yml'
   workflow_dispatch:
 permissions:

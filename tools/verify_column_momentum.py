@@ -92,7 +92,8 @@ def verify_case(dest, name):
                 if imported: parcels.append((imported,donors[c].astype(float)))
                 close(math.fsum(w for w,u in parcels),mass,2*mass,'overlap mass partition')
                 for t in range(2):
-                    candidate=float(parcels[0][1][t]) if len(parcels)==1 else math.fsum(w*float(u[t]) for w,u in parcels)/mass
+                    same_value=all(float(u[t])==float(parcels[0][1][t]) for w,u in parcels)
+                    candidate=float(parcels[0][1][t]) if same_value else math.fsum(w*float(u[t]) for w,u in parcels)/mass
                     stored=float(new[t,cell(c,j)]);expected[t,cell(c,j)]=np.float32(candidate)
                     low=min(float(u[t]) for w,u in parcels); high=max(float(u[t]) for w,u in parcels)
                     require(low <= candidate <= high and low <= stored <= high,'convex donor bounds')
