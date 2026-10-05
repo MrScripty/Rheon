@@ -91,3 +91,10 @@ pub use column_momentum::{
     ColumnMomentumError, ColumnMomentumInputs, ColumnMomentumReport, ColumnMomentumStage,
     ColumnMomentumWorkspace,
 };
+
+mod column_mac;
+pub use column_mac::{
+    ColumnMacDirection, ColumnMacError, ColumnMacExportReport, ColumnMacProjectionReport,
+    ColumnMacPublicationReport, ColumnMacPublishInputs, ColumnMacStage, ColumnMacStateStamp,
+    ColumnMacTransferReport, ColumnMacWorkspace, FlatColumnMacGeometry,
+};

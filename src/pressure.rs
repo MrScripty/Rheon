@@ -288,7 +288,7 @@ impl PressureWorkspace {
         }
         let squared = dot(&self.product, &self.product);
         let maximum = self.product.iter().fold(0.0_f64, |a, b| a.max(b.abs()));
-        let divergence = maximum * dt / operator.geometry().cell_volume();
+        let divergence = operator.scaled_residual_divergence(&self.product, dt);
         if !squared.is_finite() || !divergence.is_finite() {
             return Err(PressureError::Breakdown {
                 iteration: iterations,
@@ -314,7 +314,6 @@ impl PressureWorkspace {
     fn precondition_sgs(&mut self, operator: &PressureOperator<'_>) -> Result<f64, PressureError> {
         let [nx, ny, nz] = operator.geometry().counts();
         let strides = [1, nx, nx * ny];
-        let weight = operator.weights();
         if operator.has_gauge() {
             self.residual[0] = 0.0;
             self.preconditioned[0] = 0.0;
@@ -326,7 +325,8 @@ impl PressureWorkspace {
             let mut value = self.residual[row];
             for d in 0..3 {
                 if p[d] > 0 && operator.is_wet(row) && operator.is_wet(row - strides[d]) {
-                    value += weight[d] * self.preconditioned[row - strides[d]];
+                    value += operator.neighbor_weight(crate::Axis::ALL[d], p)
+                        * self.preconditioned[row - strides[d]];
                 }
             }
             self.preconditioned[row] = value / diagonal;
@@ -343,7 +343,10 @@ impl PressureWorkspace {
                     && operator.is_wet(row)
                     && operator.is_wet(row + strides[d])
                 {
-                    correction += weight[d] * self.preconditioned[row + strides[d]];
+                    let mut upper = p;
+                    upper[d] += 1;
+                    correction += operator.neighbor_weight(crate::Axis::ALL[d], upper)
+                        * self.preconditioned[row + strides[d]];
                 }
             }
             self.preconditioned[row] += correction / diagonal;

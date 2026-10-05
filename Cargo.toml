@@ -56,3 +56,7 @@ required-features = ["png-export"]
 [[example]]
 name = "column_momentum"
 required-features = ["png-export"]
+
+[[example]]
+name = "column_mac"
+required-features = ["png-export"]

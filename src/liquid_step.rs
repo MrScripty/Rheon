@@ -49,6 +49,7 @@ pub enum LiquidStepError {
     Cancelled,
     AllocationFailed,
     FreeSurface(crate::FreeSurfaceError),
+    ColumnMac(crate::ColumnMacError),
     BufferLimit { required: usize, limit: usize },
 }
 impl fmt::Display for LiquidStepError {
@@ -83,6 +84,9 @@ pub struct LiquidTransportView<'a> {
     pub reconstructed_surface: Option<crate::ColumnSurfaceView<'a>>,
     /// Geometry of the held interval pressure, distinct from end geometry.
     pub pressure_columns: Option<crate::ColumnSurfaceView<'a>>,
+    /// Static materialization mode: MAC liquid masses and pressure share end
+    /// geometry. Dynamics remain refused until a compatible step is supplied.
+    pub flat_column_mac: bool,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -111,6 +115,7 @@ pub struct LiquidTransportSimulation {
     allocated_bytes: usize,
     surface: Option<crate::SlabFreeSurface>,
     columns: Option<crate::ColumnSurfaceWorkspace>,
+    flat_column_mac: bool,
 }
 impl LiquidTransportSimulation {
     pub fn new(
@@ -165,6 +170,7 @@ impl LiquidTransportSimulation {
             allocated_bytes: limit - remaining,
             surface: None,
             columns: None,
+            flat_column_mac: false,
         })
     }
     /// One-liquid resolved slab pressure mode. Mixed interface geometry is not
@@ -286,11 +292,179 @@ impl LiquidTransportSimulation {
             pressure_surface: self.surface.as_ref(),
             reconstructed_surface: self.columns.as_ref().map(|s| s.state()),
             pressure_columns: self.columns.as_ref().map(|s| s.pressure_geometry()),
+            flat_column_mac: self.flat_column_mac,
             carrier_stamp: VolumeStamp {
                 id: self.carrier_id,
                 version: carrier.generation,
             },
         }
+    }
+    /// Export tangential parcel averages from this accepted static MAC state.
+    /// The report retains the actual carrier/volume revision pair and explicitly
+    /// accounts for omitted normal momentum/energy. This is a lossy restriction.
+    pub fn export_flat_column_profiles(
+        &self,
+        workspace: &mut crate::ColumnMacWorkspace,
+        expected: crate::ColumnMacStateStamp,
+        output: [&mut [f32]; 2],
+        cancel: impl FnMut(crate::ColumnMacStage) -> bool,
+    ) -> Result<crate::ColumnMacExportReport, LiquidStepError> {
+        let state = self.state();
+        let source = crate::ColumnMacStateStamp {
+            carrier: state.carrier_stamp,
+            volume: state.liquid.stamp,
+        };
+        if source != expected {
+            return Err(LiquidStepError::ColumnMac(
+                crate::ColumnMacError::StampMismatch,
+            ));
+        }
+        if !self.flat_column_mac {
+            return Err(LiquidStepError::ColumnMac(
+                crate::ColumnMacError::UnsupportedState,
+            ));
+        }
+        let geometry = crate::FlatColumnMacGeometry::new(
+            state.reconstructed_surface.unwrap(),
+            state.liquid.density,
+        )
+        .map_err(LiquidStepError::ColumnMac)?;
+        let transfer = workspace
+            .restrict(
+                geometry,
+                [state.carrier.x, state.carrier.y, state.carrier.z],
+                output,
+                cancel,
+            )
+            .map_err(LiquidStepError::ColumnMac)?;
+        Ok(crate::ColumnMacExportReport { source, transfer })
+    }
+    /// Materialize prescribed tangential parcel profiles into the existing
+    /// accepted MAC/pressure owners at unchanged physical time and geometry.
+    /// Requires a fresh rest carrier, or this same static materialization mode.
+    /// Both owner revisions and pressure/momentum geometry publish together.
+    pub fn materialize_flat_column_profiles(
+        &mut self,
+        workspace: &mut crate::ColumnMacWorkspace,
+        inputs: crate::ColumnMacPublishInputs<'_>,
+        mut cancel: impl FnMut(crate::ColumnMacStage) -> bool,
+    ) -> Result<crate::ColumnMacPublicationReport, LiquidStepError> {
+        let failure = LiquidStepError::ColumnMac;
+        let before = crate::ColumnMacStateStamp {
+            carrier: VolumeStamp {
+                id: self.carrier_id,
+                version: self.carrier.state().generation,
+            },
+            volume: self.liquid.state().stamp,
+        };
+        if inputs.expected != before {
+            return Err(failure(crate::ColumnMacError::StampMismatch));
+        }
+        if !self.flat_column_mac && self.carrier.state().generation != 0 {
+            return Err(failure(crate::ColumnMacError::UnsupportedState));
+        }
+        let volume = VolumeStamp {
+            id: before.volume.id,
+            version: before
+                .volume
+                .version
+                .checked_add(1)
+                .ok_or_else(|| failure(crate::ColumnMacError::VersionOverflow))?,
+        };
+        let columns = self
+            .columns
+            .as_ref()
+            .ok_or_else(|| failure(crate::ColumnMacError::UnsupportedState))?;
+        if self.carrier.density().to_bits() != self.liquid.state().density.to_bits()
+            || !columns.state().matches(
+                self.carrier.grid(),
+                self.liquid.state().fraction,
+                before.volume,
+            )
+        {
+            return Err(failure(crate::ColumnMacError::GeometryMismatch));
+        }
+        let geometry = crate::FlatColumnMacGeometry::new(columns.state(), self.carrier.density())
+            .map_err(failure)?;
+        let old = self.carrier.state();
+        let (accepted_momentum_before, accepted_energy_before) = workspace
+            .measure_velocity(geometry, [old.x, old.y, old.z])
+            .map_err(failure)?;
+        let total_array_bytes = self
+            .allocated_bytes
+            .checked_add(workspace.allocated_bytes())
+            .ok_or(LiquidStepError::AllocationFailed)?;
+        let (transfer, projection, generation) = self
+            .carrier
+            .prepare_column_mac(
+                geometry,
+                workspace,
+                inputs.profiles,
+                inputs.projection_dt,
+                &mut cancel,
+            )
+            .map_err(failure)?;
+        let represented_phase_mass = self.liquid.column_mac_represented_mass()?;
+        let phase_mass_error =
+            crate::column_mac::check(transfer.profile_mass - represented_phase_mass)
+                .map_err(failure)?;
+        let phase_mass_budget = crate::column_mac::check(
+            64.0 * f64::EPSILON * (transfer.profile_mass + represented_phase_mass),
+        )
+        .map_err(failure)?;
+        if phase_mass_error.abs() > phase_mass_budget {
+            return Err(failure(crate::ColumnMacError::AcceptanceFailure));
+        }
+        let mut prescribed_momentum_change = accepted_momentum_before.map(|p| -p);
+        let tangents = match geometry.normal() {
+            Axis::X => [1, 2],
+            Axis::Y => [0, 2],
+            Axis::Z => [0, 1],
+        };
+        for (t, d) in tangents.into_iter().enumerate() {
+            prescribed_momentum_change[d] += transfer.momentum_before[t];
+        }
+        let prescribed_energy_change = transfer.kinetic_before - accepted_energy_before;
+        for &value in &prescribed_momentum_change {
+            crate::column_mac::check(value).map_err(failure)?;
+        }
+        crate::column_mac::check(prescribed_energy_change).map_err(failure)?;
+        if cancel(crate::ColumnMacStage::BeforePublish) {
+            return Err(failure(crate::ColumnMacError::Cancelled {
+                stage: crate::ColumnMacStage::BeforePublish,
+            }));
+        }
+        self.pressure
+            .copy_from_slice(self.carrier.candidate_pressure());
+        self.carrier.commit_column_mac(generation);
+        self.liquid.commit_column_mac_revision(volume);
+        self.columns
+            .as_mut()
+            .unwrap()
+            .commit_column_mac_revision(volume);
+        self.flat_column_mac = true;
+        Ok(crate::ColumnMacPublicationReport {
+            before,
+            after: crate::ColumnMacStateStamp {
+                carrier: VolumeStamp {
+                    id: self.carrier_id,
+                    version: generation,
+                },
+                volume,
+            },
+            transfer,
+            projection,
+            prescribed_momentum_change,
+            prescribed_energy_change,
+            accepted_momentum_before,
+            accepted_energy_before,
+            represented_phase_mass,
+            phase_mass_error,
+            phase_mass_budget,
+            owned_array_bytes: self.allocated_bytes,
+            workspace_array_bytes: workspace.allocated_bytes(),
+            total_array_bytes,
+        })
     }
     pub fn set_paused(&mut self, paused: bool) {
         self.carrier.set_paused(paused);
@@ -344,6 +518,11 @@ impl LiquidTransportSimulation {
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         mut cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
+        if self.flat_column_mac {
+            return Err(LiquidStepError::ColumnMac(
+                crate::ColumnMacError::UnsupportedState,
+            ));
+        }
         if self.surface.is_some() || self.columns.is_some() {
             if boundary.is_some() {
                 return Err(LiquidStepError::FreeSurface(

@@ -251,6 +251,11 @@ impl ColumnSurfaceWorkspace {
             collapsed_columns: collapsed,
         })
     }
+    pub(crate) fn commit_column_mac_revision(&mut self, stamp: VolumeStamp) {
+        self.pressure.copy_from_slice(&self.accepted);
+        self.stamp = stamp;
+        self.pressure_stamp = stamp;
+    }
     pub(crate) fn commit(&mut self, report: ColumnReconstructionReport) {
         self.pressure.copy_from_slice(&self.accepted);
         self.pressure_stamp = self.stamp;

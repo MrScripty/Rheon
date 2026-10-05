@@ -473,6 +473,15 @@ impl LiquidVolumeState {
             .ok_or(LiquidVolumeError::VersionOverflow)?;
         Ok(())
     }
+    pub(crate) fn column_mac_represented_mass(&self) -> Result<f64, LiquidVolumeError> {
+        product(
+            self.density,
+            product(self.grid.cell_volume(), sum(self.accepted.iter().copied()))?,
+        )
+    }
+    pub(crate) fn commit_column_mac_revision(&mut self, stamp: VolumeStamp) {
+        self.stamp = stamp;
+    }
     pub(crate) fn commit_prepared(&mut self, report: &LiquidVolumeReport) {
         std::mem::swap(&mut self.accepted, &mut self.candidate);
         self.time = report.time;

@@ -435,6 +435,81 @@ impl Simulation {
     pub(crate) fn candidate_pressure(&self) -> &[f64] {
         self.workspace.pressure()
     }
+    pub(crate) fn prepare_column_mac(
+        &mut self,
+        geometry: crate::FlatColumnMacGeometry<'_>,
+        workspace: &mut crate::ColumnMacWorkspace,
+        profiles: [&[f32]; 2],
+        dt: f64,
+        mut cancel: impl FnMut(crate::ColumnMacStage) -> bool,
+    ) -> Result<
+        (
+            crate::ColumnMacTransferReport,
+            crate::ColumnMacProjectionReport,
+            u64,
+        ),
+        crate::ColumnMacError,
+    > {
+        if self.paused {
+            return Err(crate::ColumnMacError::Paused);
+        }
+        let generation = self
+            .generation
+            .checked_add(1)
+            .ok_or(crate::ColumnMacError::VersionOverflow)?;
+        if !dt.is_normal() || dt <= 0.0 {
+            return Err(crate::ColumnMacError::ArithmeticFailure);
+        }
+        let transfer = workspace.lift(
+            geometry,
+            profiles,
+            self.candidate.velocity_mut(),
+            &mut cancel,
+        )?;
+        let operator = PressureOperator::with_flat_column_masses(
+            &self.grid,
+            self.config.density,
+            geometry.surface_view(),
+        )?;
+        let pressure = self.workspace.solve_velocity(
+            &operator,
+            self.candidate.velocity(),
+            dt,
+            self.config.pressure,
+            || cancel(crate::ColumnMacStage::PressureIteration),
+        )?;
+        operator.correct_candidate_in_place(
+            self.workspace.pressure(),
+            dt,
+            self.candidate.velocity_mut(),
+        )?;
+        if cancel(crate::ColumnMacStage::BeforeProjectionAcceptance) {
+            return Err(crate::ColumnMacError::Cancelled {
+                stage: crate::ColumnMacStage::BeforeProjectionAcceptance,
+            });
+        }
+        let actual = self
+            .workspace
+            .actual_divergence_max(&operator, self.candidate.velocity())?;
+        if actual > self.config.actual_divergence_limit {
+            return Err(crate::ColumnMacError::AcceptanceFailure);
+        }
+        let projection = workspace.qualify_projection(
+            geometry,
+            self.workspace.pressure(),
+            dt,
+            self.candidate.velocity(),
+            pressure,
+            actual,
+        )?;
+        Ok((transfer, projection, generation))
+    }
+    pub(crate) fn commit_column_mac(&mut self, generation: u64) {
+        std::mem::swap(&mut self.accepted.x, &mut self.candidate.x);
+        std::mem::swap(&mut self.accepted.y, &mut self.candidate.y);
+        std::mem::swap(&mut self.accepted.z, &mut self.candidate.z);
+        self.generation = generation;
+    }
     pub(crate) fn commit_prepared(&mut self, outcome: &StepOutcome) {
         std::mem::swap(&mut self.accepted, &mut self.candidate);
         self.time = outcome.legacy.step.step.time;
