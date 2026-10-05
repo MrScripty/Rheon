@@ -1,0 +1,16 @@
+{
+  "method": "sgs-pcg-v1",
+  "counts": [64,8,4],
+  "steps": 32,
+  "requested_courant": 0.25,
+  "time": 5.00000000000000000e-1,
+  "carrier_generation": 32,
+  "volume_version": 32,
+  "carrier_density": 1000,
+  "represented_density": 800,
+  "owned_array_bytes": 274944,
+  "boundary_array_bytes": 142464,
+  "free_surface_pressure": false,
+  "surface_reconstruction": false,
+  "render": "+Z fraction integral; opacity=1-exp(-8*integral); +Y up"
+}

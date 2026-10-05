@@ -1,0 +1,1 @@
+{"kind":"coupled","counts":[2,2,1],"spacing":[1,1,1],"density":1,"dynamic_viscosity":0.125,"steps":9,"workspace_bytes":160,"owned_bytes":640,"wall":"stationary-impermeable-free-slip","free_surface":false}
