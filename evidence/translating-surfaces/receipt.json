@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-04T23:02:28.583336+00:00",
+  "branch": "implementation/translating-surface-queries",
+  "base_commit": "6a03fcfd8b90ec4121f184573346e08a086a4f78",
+  "base_tree": "69dbd6f4636deca4ca03f69d16ea29fe52e8b8d0",
+  "qualified_source_commit": "f0815394a7c30405b19a5c8beb34b2a42c3fb95a",
+  "qualified_source_tree": "659b12cf9bc15448eb799d5c8891f62257dcb063",
+  "ordered_source_parents": [
+    "6a03fcfd8b90ec4121f184573346e08a086a4f78"
+  ],
+  "acceptance": {
+    "tests": {
+      "default": 83,
+      "core": 78,
+      "desktop": 89
+    },
+    "new_fixture_methods": 10,
+    "new_hand_oracle_queries": 216,
+    "strict_clippy": [
+      "default",
+      "core",
+      "desktop"
+    ],
+    "formatting": "passed",
+    "example": {
+      "example_queries": 3,
+      "example_hits": 2,
+      "example_misses": 1,
+      "expected_parameters": [
+        0.5,
+        0.6666666666666666
+      ],
+      "maximum_absolute_error_parameter_time_or_z": 1.1102230246251565e-16,
+      "fixture_oracle_queries": 216,
+      "scope": "Finite translating-surface numerical fixtures, not continuum validation or timing benchmark."
+    },
+    "legacy_replay": "All three original Jacobi PNG/CSV byte-identical, original non-timing manifest fields equal",
+    "pressure_methods_and_fluid_arrays": "unchanged"
+  },
+  "rust": {
+    "version": "1.92.0",
+    "llvm": "21.1.3",
+    "test_profile": "dev",
+    "cli_example_profile": "ordinary optimized release",
+    "build_jobs": 1,
+    "custom_flags": null,
+    "binary_path": "/workspace/.rheon-tools/target-translating-surfaces/release/rheon",
+    "binary_sha256": "31719a0a667ba5a4b141287e6194ad3b3bb172dbd22f284d7105f960c519b26a"
+  },
+  "hardware": {
+    "exposed_cpus": 5,
+    "model": "Intel Xeon Platinum 8370C",
+    "environment": "cloud VM",
+    "contention": "Builds, proof checks, example and replay overlap; not an isolated benchmark."
+  },
+  "lean": {
+    "version": "4.19.0",
+    "public_theorems": 7,
+    "definitions": 4,
+    "audited_declarations_including_generated_equation": 12,
+    "allowlist": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "negative_probes": "Actually rejected admitted proof (sorryAx) and unreviewed namespace axiom",
+    "negative_probe_recipes": {
+      "admitted": "Replace first two-space ring tactic with sorry; compile disposable TranslationFrame.olean; run unmodified auditor with disposable LEAN_PATH prefix.",
+      "custom_axiom": "Append axiom Rheon.TranslationFrame.unreviewedAssumption : False; compile disposable TranslationFrame.olean; run unmodified auditor with disposable LEAN_PATH prefix."
+    },
+    "dependency_workspace": "/workspace/Rheon-bounded-physics/proofs",
+    "mathlib_commit": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "imported_source_sha256": {
+      "BoundedPhysics": "20dd53b1b137a01f8b04de47ffbe8474561696940e17ab1ed4d3bfde388b03af",
+      "Physics": "26cbb4f75076c7e70a90da126f96622b75044befce26a4c17a50066c76e96050"
+    },
+    "historical_root_rebuild": false,
+    "assumptions": "Exact real affine point/offset paths, supplied contact equality/parameters, increasing physical times. No IEEE or static enumeration correctness proof."
+  },
+  "preservation": {
+    "original_paths_except_readme_exports": 1140,
+    "original_inventory_sha256": "37e92fdd0b80d3f9e657cecffcaf0d3aae6a86599906c7b8d186124511fc2f72",
+    "frozen_surface_head": "777a7339029e94f8dd82187b3817481623e3ff3f",
+    "frozen_force_head": "6fbeebd1a11aaa860523a2f661b426f1d952a0c9",
+    "frozen_integration_head": "6a03fcfd8b90ec4121f184573346e08a086a4f78",
+    "prior_integration_binary_sha256": "8b9a9d64d74749acbc94a52a1acb47aaf3089ce3146000b80e28f2eaa146ea05",
+    "book_pdf_and_input_gate": "passed",
+    "historical_proof_source_gate": "passed"
+  },
+  "changed_source_paths": [
+    "README.md",
+    "docs/research-book/implementation/translating-surfaces.md",
+    "evidence/translating-surfaces/AuditTranslationFrame.lean",
+    "evidence/translating-surfaces/README.md",
+    "evidence/translating-surfaces/TranslationFrame.lean",
+    "examples/translating_surface.rs",
+    "src/lib.rs",
+    "src/motion.rs",
+    "tests/translation_contract.rs"
+  ],
+  "file_sha256": {
+    "README.md": "a40914c73eeb9efff9bc8a1dde91b4a336762038f555d79e3420efbc4ab4f7b1",
+    "docs/research-book/implementation/translating-surfaces.md": "0181429ee041d48f0def388c2782811b20eca20fb844ff09702627cf8f2c71fc",
+    "evidence/translating-surfaces/AuditTranslationFrame.lean": "329a225cf8e8305bc1455e23850bda44b69738414cabfc409f6902dc675fa4f8",
+    "evidence/translating-surfaces/README.md": "588238e527deb1c17a5a6fc56e786a33ff773d4c285d71be4ad0e38147be6aa1",
+    "evidence/translating-surfaces/TranslationFrame.lean": "8a30d9be2cb11d10ad99d9290901614020b78642b710ac400efa1bc55ed2f64a",
+    "evidence/translating-surfaces/clippy-core.log": "e939f742f77d473a4eab01c68edcdb6a29a3e34ce6bd192ff984a4b2a4c0f45f",
+    "evidence/translating-surfaces/clippy-default.log": "8399380eb20168761f7b8407a8698bebe69b264f5de21de8700a62e01326cf7a",
+    "evidence/translating-surfaces/clippy-desktop.log": "1b53c8caf78ef581837bd97873c852af2c3ed5f901bf2e11ab0830f620880285",
+    "evidence/translating-surfaces/example.csv": "eab287cf2f6d3c279b6b9b6d65a7ed753b63bce93b2e8585b8a5eb4fe98cdfed",
+    "evidence/translating-surfaces/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/translating-surfaces/lean-audit.log": "a7fc827398fb036b2edc9c9c3b36c77d65505dd2ce41ad53ab6aa9f06583f7d5",
+    "evidence/translating-surfaces/lean-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/translating-surfaces/lean-negative-admitted.log": "dd06d55710d2d342e474923dece76c14518ff17b85ee142429c4451a293a7376",
+    "evidence/translating-surfaces/lean-negative-custom-axiom.log": "40cb4105b1085d9301355492f331ada3a8069f011b2d1e37d03002c7cdf184f1",
+    "evidence/translating-surfaces/legacy-replay.log": "55f089601a3539d208148253461593667d57564a3ac1f9acce0c7c6a67b8a10a",
+    "evidence/translating-surfaces/legacy-replay/demo-16/opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe",
+    "evidence/translating-surfaces/legacy-replay/demo-16/run.json": "62666d46801230ddd1c666b6e6669e4d48fe3123fa4d9792218f6acbc80b33b0",
+    "evidence/translating-surfaces/legacy-replay/demo-16/steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+    "evidence/translating-surfaces/legacy-replay/demo-64/opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb",
+    "evidence/translating-surfaces/legacy-replay/demo-64/run.json": "9154ca7c51f8660a5081ed7135912f532aabb4f1f1f38d649ae11d0d6e88777c",
+    "evidence/translating-surfaces/legacy-replay/demo-64/steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+    "evidence/translating-surfaces/legacy-replay/demo-plume/opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc",
+    "evidence/translating-surfaces/legacy-replay/demo-plume/run.json": "aedd15734d720db323b6d341e9be14cb1f830e609e3d7a0f528fe0d852effb3d",
+    "evidence/translating-surfaces/legacy-replay/demo-plume/steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+    "evidence/translating-surfaces/legacy-replay/receipt.json": "394c41777e1e99c80a4106e474c60ece30442b8dfc3a8e03892eb7640a92460c",
+    "evidence/translating-surfaces/numerical-summary.json": "b9a756b9811d0526d2c5bcfe8905e1b747d20307a652b8296b21625a9462efb6",
+    "evidence/translating-surfaces/pdf-gate.log": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+    "evidence/translating-surfaces/proof-source-gate.log": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812",
+    "evidence/translating-surfaces/release-build.log": "2b431c7dd7f126f19d01512e7e0848119c94193c4f6150cb99bde2587b5c7dd0",
+    "evidence/translating-surfaces/release-example.log": "a563b98c626779e27ba14f2ffd36148516523a2cafcf77073e09e295e9d47ce5",
+    "evidence/translating-surfaces/test-core.log": "9340db73f3a62ba7fc70146c4dcb0d889459715dc2d7ad0edced25fcd5d0ee2c",
+    "evidence/translating-surfaces/test-default.log": "27a6878f182756b35378eb1f6a7da416e9c9a0bc7a086525094ddc534512a2db",
+    "evidence/translating-surfaces/test-desktop.log": "01ffd7c0d264d7f82d0b1ad44cd812d5b92e0ae13cc054eb6f9bda6c898f8333",
+    "examples/translating_surface.rs": "b02d9021321929f4f70bc0fe8566a77a0c27680c45bdc26d969be560105b3462",
+    "src/lib.rs": "0582bef7fbac322fcdb8e4369c641544e9f5350b2e42188edcf53a3a61022b84",
+    "src/motion.rs": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+    "tests/translation_contract.rs": "e1fd504cb399b313bbb1df752f79e72cb51556c5af6d85dbb91cb5c690fb5c8d"
+  },
+  "log_normalization": "Trailing blank lines removed from test logs; test/result text unchanged.",
+  "limits": [
+    "Linear translation and linear point paths only. Zero relative motion explicitly unsupported.",
+    "Numerical subtraction/static predicates/world reconstruction; no exact/adaptive or arbitrary-scale robustness guarantee.",
+    "No rotation, solid sign, cut cells, fluid response, wall work, swept-volume conservation, native GUI run, or continuum claim.",
+    "No PR, external review request, direct main mutation, or rewrite of frozen branches."
+  ]
+}

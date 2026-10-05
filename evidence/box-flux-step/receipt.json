@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-05T00:58:43.393975+00:00",
+  "branch": "implementation/box-flux-simulation",
+  "base_commit": "281ec6e570dcc7890286d35a682722eef751d502",
+  "base_tree": "bc99618014fed8cf9f794e20310fc7e16004481b",
+  "qualified_source_commit": "54b066e32550d9f9ac75192b8068b806544e2018",
+  "qualified_source_tree": "913fc8303d5eec7a48c69507873ab5493eab2f83",
+  "ordered_source_parents": [
+    "281ec6e570dcc7890286d35a682722eef751d502"
+  ],
+  "accepted_main_commit": "c63401e328e58c6d719d2dc326e196e29db2b57a",
+  "accepted_main_tree": "9cb7aca1a55b1dc70f770e81789d291833c9726c",
+  "ordered_accepted_main_parents": [
+    "6ba1cbe40645ffb6d7fc49edfa6c31e51742f379",
+    "e25947f0f299798989c4362c149608ffb654a6ea"
+  ],
+  "accepted_main_preservation": "evidence/box-flux-step/accepted-main-preservation.json",
+  "acceptance": {
+    "tests": {
+      "default": 119,
+      "core": 114,
+      "desktop": 125
+    },
+    "new_fixture_methods": 12,
+    "strict_clippy": [
+      "default",
+      "core",
+      "desktop"
+    ],
+    "formatting": "passed",
+    "legacy_replay": "All three original Jacobi PNG/CSV byte-identical; original non-timing manifest fields equal",
+    "numerical_summary": {
+      "methods": {
+        "jacobi-pcg-v1": {
+          "accepted_steps": 5,
+          "final_time": 1.5,
+          "maximum_budget_error": 2.42861286636753e-17,
+          "maximum_actual_divergence": 2.2351741790771484e-08,
+          "boundary_volume_imbalance_each_step": 0.0,
+          "simulation_array_bytes": 568,
+          "boundary_workspace_array_bytes": 452,
+          "combined_retained_array_bytes": 1020,
+          "first_transport_integral_change": 0.0625246912240982,
+          "old_endpoint_upwind_reference": 0.0625,
+          "first_pressure_boundary_work": 0.5,
+          "final_interior_kinetic_energy": 0.30700000262683536
+        },
+        "sgs-pcg-v1": {
+          "accepted_steps": 5,
+          "final_time": 1.5,
+          "maximum_budget_error": 2.42861286636753e-17,
+          "maximum_actual_divergence": 2.2351741790771484e-08,
+          "boundary_volume_imbalance_each_step": 0.0,
+          "simulation_array_bytes": 568,
+          "boundary_workspace_array_bytes": 452,
+          "combined_retained_array_bytes": 1020,
+          "first_transport_integral_change": 0.0625246912240982,
+          "old_endpoint_upwind_reference": 0.0625,
+          "first_pressure_boundary_work": 0.5,
+          "final_interior_kinetic_energy": 0.30700000262683536
+        }
+      },
+      "scope": "Accepted bounded 3x2x1 numerical interaction; clamped appearance transport. Not conservative tracer/continuum/timing/RSS evidence."
+    },
+    "ownership": "All candidate fields/time/generation and boundary work reports publish only with successful final acceptance. Eleven checkpoint kinds including partial velocity/force/correction/tracer stages preserve accepted bits; retry matches fresh execution.",
+    "boundary": "Copied versioned end-of-step prescribed normal flux; velocity advection uses previous accepted velocity, pressure imposes requested end data, tracer uses projected velocity. Fixed volume/density.",
+    "work": "Interior face energy: Eaccepted-Eold+correction=Aadvection+Wsmoke+Wexternal+Wboundary+Wdivergence_residual+Wmomentum_residual+reported floating budget error",
+    "tracer": "Explicit ClampedAppearance extension, bounded interpolation, source saturation; separately measured transport/source integrals. No reservoir concentration or conservative scalar flux.",
+    "workspace": "Independently capped caller affine workspace plus three provisional f32 face arrays; original Simulation allocation retained separately. Nominal extra 56*Ncell+4*Nface, actual Vec capacities capped. No step-time heap allocation."
+  },
+  "rust": {
+    "compiler_verbose": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: x86_64-unknown-linux-gnu\nrelease: 1.92.0\nLLVM version: 21.1.3",
+    "test_profile": "ordinary test, unoptimized + debuginfo; CARGO_INCREMENTAL=0 for final debug qualification",
+    "cli_example_profile": "ordinary optimized release",
+    "build_jobs": 1,
+    "rustflags": null,
+    "cargo_encoded_rustflags": null,
+    "debug_target": "/workspace/.rheon-tools/target-box-flux-step",
+    "debug_cache_policy": "External dependency cache seeded; stale core exports observed and log retained. Local package clean/purge performed; final qualification disables incremental reuse and recompiles local code.",
+    "binary_path": "/workspace/.rheon-tools/target-box-flux-step-release/release/rheon",
+    "binary_sha256": "8ae19b6f8aa11a934d087c8911bc505f87fbcf75ddf941b4b491a2ff915e6aef"
+  },
+  "hardware": {
+    "exposed_cpus": 5,
+    "affinity_cpus": 5,
+    "model": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz",
+    "environment": "cloud VM",
+    "contention": "Stack and feature builds/proofs/replays overlap, not isolated benchmark; no peak RSS."
+  },
+  "lean": {
+    "version": "4.19.0",
+    "public_theorems": 7,
+    "definitions": 2,
+    "audited_declarations_including_generated": 10,
+    "allowlist": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "negative_probe_exits": {
+      "admitted": {
+        "compile_exit": 0,
+        "audit_exit": 1
+      },
+      "custom-axiom": {
+        "compile_exit": 0,
+        "audit_exit": 1
+      }
+    },
+    "dependency_workspace": "/workspace/Rheon-bounded-physics/proofs",
+    "mathlib_commit": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "imported_physics_sha256": "26cbb4f75076c7e70a90da126f96622b75044befce26a4c17a50066c76e96050",
+    "imported_affine_projection_sha256": "357e470e8a4d76ebdc8b471211b6721c0d896892a7e6aaf856d57d2e7dfbe8a9",
+    "historical_root_rebuild": false,
+    "scope": "Exact finite stage work with supplied affine incidence/masses/residuals. Conditional energy nonincrease requires nonnegative masses and nonpositive total work. Uniform-volume scalar sum conservation requires column balance, not row normalization alone. No Rust/IEEE/continuum certification."
+  },
+  "preservation": {
+    "original_base_paths_except_readme_exports_simulation": 1431,
+    "original_base_inventory_sha256": "043032846ea517e1d76173f1849ebf6988886d3a37d9902aa1c92e5b11826e35",
+    "accepted_main_paths_except_readme_exports_simulation": 1190,
+    "frozen_heads": {
+      "Rheon-surface-queries": "777a7339029e94f8dd82187b3817481623e3ff3f",
+      "Rheon-explicit-forces": "6fbeebd1a11aaa860523a2f661b426f1d952a0c9",
+      "Rheon-forces-surface-integration": "6a03fcfd8b90ec4121f184573346e08a086a4f78",
+      "Rheon-translating-surfaces": "28fe4682e743a74e8f57eec98ad94475f9e5a564",
+      "Rheon-tracer-barriers": "7a5184df20b3b438d8992c6f2f80372fe5344ac3",
+      "Rheon-box-flux": "1f1fefe2587590e79787a88a89dcd6bf9d67b850",
+      "Rheon-pr12-hit-integration": "e25947f0f299798989c4362c149608ffb654a6ea",
+      "Rheon-translation-hit-integration": "23b3e365a29e9590f2eefb81bc6999bbae4de65f",
+      "Rheon-tracer-hit-integration": "32ce002fc4250d9e2c409e853804fc143cac745e"
+    },
+    "refreshed_stack_handoff": "evidence/box-flux-step/refreshed-stack-handoff.json",
+    "wip_fast_forward_snapshot": "evidence/box-flux-step/stack-fast-forward-wip-preservation.json",
+    "historical_packet_archives": "Inherited byte-preserving archive mappings/receipts unchanged; historical source identities not rebound",
+    "prior_producer_binary_sha256": {
+      "/workspace/.rheon-tools/repaired-stack-binaries/translation/rheon": "94cbd5cdfe5062910150a84352914406323a8b3a9440294babef46a5dc69f0d5",
+      "/workspace/.rheon-tools/repaired-stack-binaries/tracer/rheon": "bdfb3291ebe2ae766f4af09f23f3923cb203242bba4def36e4daab9412b18ec5",
+      "/workspace/.rheon-tools/repaired-stack-binaries/box-flux/rheon": "710c8ec451175e92cc0e03525b9954991b5786336a96c5c328594658f7059204",
+      "/workspace/.rheon-tools/target-box-flux/release/rheon": "a7e7748320f317ac55832c25d01b8cb9d17960e1951f75860550dcf63bf73ee9",
+      "/workspace/.rheon-tools/target-tracer-barriers/release/rheon": "15d69811ffd2aa835057ea4efb09aece6da63ab664485ae9c674bb00ce10a94c",
+      "/workspace/.rheon-tools/target-translating-surfaces/release/rheon": "31719a0a667ba5a4b141287e6194ad3b3bb172dbd22f284d7105f960c519b26a"
+    },
+    "book_pdf_and_input_gate": "passed",
+    "historical_source_inventory_gate": "passed",
+    "original_pressure_advection_sampling_forces_geometry_collision_translation_tracer_code": "unchanged; Simulation adds opt-in projection/ledger dispatch and crate allocation-helper visibility",
+    "legacy_pressure_ids": [
+      "jacobi-pcg-v1",
+      "sgs-pcg-v1"
+    ]
+  },
+  "changed_source_paths": [
+    "README.md",
+    "docs/research-book/implementation/box-flux-simulation.md",
+    "evidence/box-flux-step/AuditStepBudget.lean",
+    "evidence/box-flux-step/README.md",
+    "evidence/box-flux-step/StepBudget.lean",
+    "examples/box_flux_step.rs",
+    "src/box_flux_step.rs",
+    "src/lib.rs",
+    "src/simulation.rs",
+    "tests/box_flux_step_contract.rs"
+  ],
+  "file_sha256": {
+    "README.md": "44a189bcb997fbaa82d43eef8cadfea8c7c53136926845b19395ff292516106a",
+    "docs/research-book/implementation/box-flux-simulation.md": "e0eda5c809bcc5bdda4e92d44c42fe0052f142077b939bac6168bd2e252ee929",
+    "evidence/box-flux-step/AuditStepBudget.lean": "2a38d64f8f9fd3d9876560c852ae901aafde2f05d846fffc0bab322b982e264b",
+    "evidence/box-flux-step/README.md": "5697914173dfa2c7c0c70ef71199e57b7c85b69e84abaeb5658ef5481aa7b15e",
+    "evidence/box-flux-step/StepBudget.lean": "10be406be75eb7d2de0c4ef518d177e66d6278747e625b95a932c1c69f17fb5c",
+    "evidence/box-flux-step/accepted-main-preservation.json": "7515cb6bf7898bf9b213f7092ab85de976fe99ef138c3021107b2881e96043ff",
+    "evidence/box-flux-step/clippy-core.log": "1a60a10075ada936cb1762e5b367dcd69c8984cc707d96d9e3411f489a3c8750",
+    "evidence/box-flux-step/clippy-default.log": "9a30d54c8b16d7e49510b182028079bca120aeebb7d662e88f8566e6196a49f6",
+    "evidence/box-flux-step/clippy-desktop.log": "6399c30651522ef80f8236297510cd4b9b7e6667ad2c504599652912b9dd871a",
+    "evidence/box-flux-step/example.csv": "a9f20656085dfbd2f4ed52a5174ba9c5456629e9da94a6819ba68fec5d6ab704",
+    "evidence/box-flux-step/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/box-flux-step/focused-first.log": "546e9c16090ace40374bf60a8d65ab38cf78e8b7cecd4510f3d9c8810299b664",
+    "evidence/box-flux-step/focused-green.log": "e135a72dd45acfae9432a35ce3a0c19f20159d09f9bbfe17e65f0e54145dc4a4",
+    "evidence/box-flux-step/lean-audit.log": "b98a248f48926939cb017e3387e932611558e294aefda6da5ee4cbae746d30a3",
+    "evidence/box-flux-step/lean-build-first.log": "f3350d590e5e0345f08abf21633cc4508e7f4b40bdc10cae9148e8bc12d9ca06",
+    "evidence/box-flux-step/lean-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/box-flux-step/lean-missing-fin-sum-lemma.log": "cea5a5cd74d3a263120a30b2ae1a9668d1a8ed07c182590474907ec2bb06669a",
+    "evidence/box-flux-step/lean-negative-admitted-build.log": "033141540416374b29dff0c6eb003923bb86530493ced794b4814a27050c0c1a",
+    "evidence/box-flux-step/lean-negative-admitted.log": "3c41c299b4eda26e085bd0ea10c75d18f84cf967c1fca382bd4fd8940f6b7308",
+    "evidence/box-flux-step/lean-negative-custom-axiom-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/box-flux-step/lean-negative-custom-axiom.log": "f1670dfb607064b217b604d018c5f7fd25cacf7f9229e2b6dc477e1631c691a1",
+    "evidence/box-flux-step/lean-negative-receipt.json": "2b314d7b6cf63f1531ff7789793d9274050e9c038844a7843b2fa4a5796be72b",
+    "evidence/box-flux-step/legacy-replay.log": "bd99e37c433ebfa3b6d141ac131f234f5bbeea0751675cf345a09a21a635515f",
+    "evidence/box-flux-step/legacy-replay/demo-16/opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe",
+    "evidence/box-flux-step/legacy-replay/demo-16/run.json": "425fc0212f34902a94cf27f10618dee534e309e4313d350914c8c7d87886d7b8",
+    "evidence/box-flux-step/legacy-replay/demo-16/steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+    "evidence/box-flux-step/legacy-replay/demo-64/opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb",
+    "evidence/box-flux-step/legacy-replay/demo-64/run.json": "fc9c7ef695d67813f659297c3a2eda995951cd9779635c40cb4551b815dd20aa",
+    "evidence/box-flux-step/legacy-replay/demo-64/steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+    "evidence/box-flux-step/legacy-replay/demo-plume/opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc",
+    "evidence/box-flux-step/legacy-replay/demo-plume/run.json": "bf9069402a4e8af544fc283146d761df847779faceac6def4c0666f0eff62de0",
+    "evidence/box-flux-step/legacy-replay/demo-plume/steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+    "evidence/box-flux-step/legacy-replay/receipt.json": "3d4ba2b6bb6c5634ca8d2938c970e38ee527b1fbefe74b7b573e6765c2849608",
+    "evidence/box-flux-step/local-package-clean.log": "8cacc677b8b5040228b9a3fd423382b54f7b29a412b459db1fd6cacf553af828",
+    "evidence/box-flux-step/nested-workspace-match-clippy-failure.log": "3a52ff4a8d96ff1c08d4706473764f69718a29fadaf044521a1a4b076935964b",
+    "evidence/box-flux-step/numerical-summary.json": "f8e97e88068237627bccb31dfd315e320f75bc2295dfca49af381757b8e310d2",
+    "evidence/box-flux-step/pdf-gate.log": "6425a1918e33fc038b180b7b3824891a65d92e26515b927d93c032c150b02b90",
+    "evidence/box-flux-step/preserved-base-inventory.json": "043032846ea517e1d76173f1849ebf6988886d3a37d9902aa1c92e5b11826e35",
+    "evidence/box-flux-step/proof-source-gate.log": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812",
+    "evidence/box-flux-step/refreshed-stack-handoff.json": "b61fe15a8fb39e736af203504839f7681a2ef695aa1947e3fe730aaa70707ee7",
+    "evidence/box-flux-step/release-build.log": "027eaf342e6e95dc09459bf45a4484b8c7c148e77246b7ac4a7d9e392c4ea01f",
+    "evidence/box-flux-step/release-example.log": "d6372c1cdc43b8e6e0f6e9757a790ba095ea433cf6a155e46b95458c9b795ffd",
+    "evidence/box-flux-step/seeded-cache-core-missing-exports.log": "e480f78bfd856d1573d736b3ea73d4e0132678e009ab849f32549be958ab24a6",
+    "evidence/box-flux-step/stack-fast-forward-wip-preservation.json": "07da89c9c6861576773f6175eac2b37126c02686a428a2a1a6e6a16357e67973",
+    "evidence/box-flux-step/test-core.log": "077810367b8e1845717b1cf6d47dd2bfcfc1a9f4300cb66c6a9ca4e5910442f1",
+    "evidence/box-flux-step/test-default.log": "282f24670e21077cac94423499cad132ccdedc5cf2e29b2684ff06d672f922b2",
+    "evidence/box-flux-step/test-desktop.log": "f5a4785d0d282a04c544c3ccd521afc0cd8fbdf888dac9a7007a951e2069de74",
+    "examples/box_flux_step.rs": "8aa8c3e1168671605a75e96b7cdb17ed01abde9a6cf57300a8664a2fd6698d0e",
+    "src/box_flux_step.rs": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+    "src/lib.rs": "adc56859d0001922dded6bb00c9fbb261e90b94c979e5d34dc93b51fb0c12d01",
+    "src/simulation.rs": "6e91c687c7a8d8d3e700bb2e421fe40d4e63b97d959d25b23176791c9a8c4a94",
+    "tests/box_flux_step_contract.rs": "da3948118720b4f902a36cb49866ed68b9385170b4b4e60502494d59023b6bd0"
+  },
+  "log_normalization": "Trailing blank lines removed; actual assertions/results retained, empty successful logs preserved.",
+  "limits": [
+    "Fixed connected full rectangular control volume; uniform prescribed normal sides and fixed positive density.",
+    "No moving mesh walls/cut cells/swept volume/free surfaces/pressure openings/tangential no-slip/general obstacles.",
+    "No conservative tracer/reservoir concentration/combined inlet-mesh-barrier step; explicit clamped appearance extension.",
+    "No isolated timing benchmark/refinement/physical calibration/native graphical run/full historical-root proof rebuild.",
+    "No PR/external review request/main mutation/frozen branch advancement; parent owns integration."
+  ]
+}

@@ -1,0 +1,4 @@
+/tmp/rheon-tracer-admitted-7mv54hn7/VisibleWeights.lean:71:8: warning: declaration uses 'sorry'
+AUDITED Rheon.TracerBarrier.visible_bounds: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TracerBarrier.normalized_nonnegative: [propext, Quot.sound, Classical.choice]
+/tmp/rheon-tracer-admitted-7mv54hn7/AuditVisibleWeights.lean:5:0: error: Disallowed axiom sorryAx in Rheon.TracerBarrier.normalized_constant

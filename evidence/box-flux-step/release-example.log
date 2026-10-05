@@ -1,0 +1,4 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-box-flux-step)
+    Finished `release` profile [optimized] target(s) in 2.93s
+     Running `/workspace/.rheon-tools/target-box-flux-step-release/release/examples/box_flux_step`
+Clamped appearance transport; boundary volume balance does not certify tracer conservation.

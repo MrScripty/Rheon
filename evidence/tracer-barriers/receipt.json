@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-04T23:34:21.592028+00:00",
+  "branch": "implementation/static-tracer-barriers",
+  "base_commit": "28fe4682e743a74e8f57eec98ad94475f9e5a564",
+  "base_tree": "d3523b99e111fe1f552933987c3c6c4236fb8735",
+  "qualified_source_commit": "4c10e0d8c619c35eb165c6d1a876c3b8232de9a7",
+  "qualified_source_tree": "a8e1bf15e841f1ddd09415bd28827e3747d34685",
+  "ordered_source_parents": [
+    "28fe4682e743a74e8f57eec98ad94475f9e5a564"
+  ],
+  "acceptance": {
+    "tests": {
+      "default": 95,
+      "core": 90,
+      "desktop": 101
+    },
+    "new_fixture_methods": 12,
+    "strict_clippy": [
+      "default",
+      "core",
+      "desktop"
+    ],
+    "formatting": "passed",
+    "example": {
+      "example_records": 16,
+      "implementations": {
+        "jacobi-pcg-v1": {
+          "accepted_barrier_updates": 8,
+          "final_time": 1.1,
+          "selected_right_tracer_legacy": 0.012619733810424805,
+          "selected_right_tracer_barrier": 0.0,
+          "maximum_actual_divergence": 0.0,
+          "simulation_array_bytes": 384,
+          "separately_owned_surface_array_bytes": 96,
+          "blocked_donors_each_update": 2,
+          "reverted_traces_each_update": 0
+        },
+        "sgs-pcg-v1": {
+          "accepted_barrier_updates": 8,
+          "final_time": 1.1,
+          "selected_right_tracer_legacy": 0.012619733810424805,
+          "selected_right_tracer_barrier": 0.0,
+          "maximum_actual_divergence": 0.0,
+          "simulation_array_bytes": 384,
+          "separately_owned_surface_array_bytes": 96,
+          "blocked_donors_each_update": 2,
+          "reverted_traces_each_update": 0
+        }
+      },
+      "scope": "Accepted 2x2x1 passive-tracer numerical interaction fixture; no fluid-wall pressure/continuum/refinement/performance claim."
+    },
+    "legacy_replay": "All three original Jacobi PNG/CSV byte-identical and original non-timing manifest fields equal",
+    "optional_none_path": "Legacy kernel/callbacks/all accepted state bits preserved in both solver fixtures",
+    "ownership": "Actual simulation ambiguity, tracer-stage cancellation and before-commit cancellation preserve accepted fields/time/generation; clean retry agrees with fresh run",
+    "managed_arrays": "No additional persistent simulation arrays; borrowed surface separately owned/capped"
+  },
+  "rust": {
+    "compiler_verbose": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: x86_64-unknown-linux-gnu\nrelease: 1.92.0\nLLVM version: 21.1.3",
+    "test_profile": "dev",
+    "cli_example_profile": "ordinary optimized release",
+    "build_jobs": 1,
+    "rustflags": null,
+    "cargo_encoded_rustflags": null,
+    "binary_path": "/workspace/.rheon-tools/target-tracer-barriers/release/rheon",
+    "binary_sha256": "15d69811ffd2aa835057ea4efb09aece6da63ab664485ae9c674bb00ce10a94c"
+  },
+  "hardware": {
+    "exposed_cpus": 5,
+    "model": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz",
+    "environment": "cloud VM",
+    "contention": "Builds/proofs/example/replay overlap; not an isolated benchmark."
+  },
+  "lean": {
+    "version": "4.19.0",
+    "public_theorems": 8,
+    "definitions": 4,
+    "audited_declarations_including_generated_equations": 14,
+    "allowlist": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "negative_probes": "Actually rejected admitted proof (sorryAx) and unreviewed namespace axiom",
+    "negative_probe_recipes": {
+      "admitted": "Replace first two-space ring tactic by sorry; compile disposable VisibleWeights.olean; run unmodified auditor with disposable LEAN_PATH prefix.",
+      "custom_axiom": "Append axiom Rheon.TracerBarrier.unreviewedAssumption : False; compile disposable VisibleWeights.olean; run unmodified auditor with disposable LEAN_PATH prefix."
+    },
+    "dependency_workspace": "/workspace/Rheon-bounded-physics/proofs",
+    "mathlib_commit": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "imported_transport_sha256": "f967e593db1df0ec945ea6830e67b991e56da168e9f6e3f2d42c4c5866c5cf06",
+    "transport_prerequisite": "Actually built original exact Transport.lean only; no complete historical root rebuild",
+    "historical_root_rebuild": false,
+    "assumptions": "Exact finite nonnegative weights and supplied visibility mask, strictly positive retained total, visible-donor bounds and arrival/sample bounds. No proof of IEEE or geometric predicate correctness/mass conservation."
+  },
+  "preservation": {
+    "original_paths_except_readme_exports_and_step_dispatch": 1175,
+    "original_inventory_sha256": "4d31b6e031d94eb035e59a12c502fe691df9eb2a24c02972d5e1e569c9c5d61a",
+    "frozen_heads": {
+      "Rheon-surface-queries": "777a7339029e94f8dd82187b3817481623e3ff3f",
+      "Rheon-explicit-forces": "6fbeebd1a11aaa860523a2f661b426f1d952a0c9",
+      "Rheon-forces-surface-integration": "6a03fcfd8b90ec4121f184573346e08a086a4f78",
+      "Rheon-translating-surfaces": "28fe4682e743a74e8f57eec98ad94475f9e5a564"
+    },
+    "prior_translation_binary_sha256": "31719a0a667ba5a4b141287e6194ad3b3bb172dbd22f284d7105f960c519b26a",
+    "book_pdf_and_recorded_input_gate": "passed",
+    "historical_proof_source_gate": "passed",
+    "legacy_pressure_ids": [
+      "jacobi-pcg-v1",
+      "sgs-pcg-v1"
+    ],
+    "original_sampling_advection_force_pressure_geometry_code": "unchanged; simulation wraps same force/pressure stages and adds opt-in tracer dispatch"
+  },
+  "positive_donor_red_probe": {
+    "actual_red_log": "evidence/tracer-barriers/red-positive-donor-range.log",
+    "actual_pre_fix_value": 3.2500000000000004,
+    "expected_positive_visible_value": 3.25,
+    "pre_fix_source_variant_recipe": "In final src/tracer_barrier.rs replace the sole value: value.clamp(minimum, maximum) field with value,; all other source remains final. Run the zero_weight_extremes fixture.",
+    "focused_green_log": "evidence/tracer-barriers/focused-green.log",
+    "scope": "New sampler stricter positive visible-donor contract; original ScalarSampler remains unchanged."
+  },
+  "changed_source_paths": [
+    "README.md",
+    "docs/research-book/implementation/static-tracer-barriers.md",
+    "evidence/tracer-barriers/AuditVisibleWeights.lean",
+    "evidence/tracer-barriers/README.md",
+    "evidence/tracer-barriers/VisibleWeights.lean",
+    "examples/tracer_barrier.rs",
+    "src/lib.rs",
+    "src/simulation.rs",
+    "src/tracer_barrier.rs",
+    "tests/tracer_barrier_contract.rs"
+  ],
+  "file_sha256": {
+    "README.md": "466d597325e4c12e92fde58935adc0ba80aa5589fb981fd3ce047c33098e44b0",
+    "docs/research-book/implementation/static-tracer-barriers.md": "077d405c597caf58131752b06c0ce46e06badf5b382b86aa2b3562782c76b46f",
+    "evidence/tracer-barriers/AuditVisibleWeights.lean": "04fb910db2ccaf102f7c0fcec5225708632e3434f63b244336147ec2e3329297",
+    "evidence/tracer-barriers/README.md": "902e052db63485bbf003ff0f34f357c349d0393bee1d6af47e4bcdaa1a4ddf73",
+    "evidence/tracer-barriers/VisibleWeights.lean": "2fa7b0314c00859b55175db893dda09d18c4346bd87083dc27877a8f40b581b3",
+    "evidence/tracer-barriers/clippy-core.log": "22350f7b70c2426cbfa1dfb527825ebe201e4ba91ee9e76c9349815efbff5836",
+    "evidence/tracer-barriers/clippy-default.log": "97f059a21113ffd0d50265f9c1038bae7f98764bfb9f673b0c4249c50a854e7f",
+    "evidence/tracer-barriers/clippy-desktop.log": "52609858bb5e83c10052ff85a4a17753e2540bc2c12b28fdf429e96f87260061",
+    "evidence/tracer-barriers/example.csv": "8f65bdd11d047dd0ac6d3bb0e7947af3238d651358ad9b472183bedbd706b3a4",
+    "evidence/tracer-barriers/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/tracer-barriers/focused-green.log": "d33916f4a932688153639616483ab506154b83b5cb3b4e713d275f481a8b8d4c",
+    "evidence/tracer-barriers/lean-audit.log": "24279d5bd0f8c8b1cfb36acb1264b429565aa5a70f5f27ea67ade78c2edb2ddd",
+    "evidence/tracer-barriers/lean-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/tracer-barriers/lean-negative-admitted.log": "b1f5ef5ccbcf95d243bba889e1a3626c0ca23e89d5270834ddde2c161dffeabd",
+    "evidence/tracer-barriers/lean-negative-custom-axiom.log": "982ebd398b13605ec81d773b3efc02c975b7429185f958e55d9c1b81333aa0e8",
+    "evidence/tracer-barriers/legacy-replay.log": "2d4e19ff98ed60a282c616f5316433da7f7be170ceb98f8d63f207fcb055ece9",
+    "evidence/tracer-barriers/legacy-replay/demo-16/opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe",
+    "evidence/tracer-barriers/legacy-replay/demo-16/run.json": "749636e5e82c1eae740b6aa161f4a0e3a2a842f404090d9140cb521b62d23645",
+    "evidence/tracer-barriers/legacy-replay/demo-16/steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+    "evidence/tracer-barriers/legacy-replay/demo-64/opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb",
+    "evidence/tracer-barriers/legacy-replay/demo-64/run.json": "090b4d61a7574d6c83327bcdf011bf2538f0c8448cd41fce19299a6ecc95eb57",
+    "evidence/tracer-barriers/legacy-replay/demo-64/steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+    "evidence/tracer-barriers/legacy-replay/demo-plume/opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc",
+    "evidence/tracer-barriers/legacy-replay/demo-plume/run.json": "b5d3e32b49267c578f5784b8ea6ae21ec94d1c125464c7cc85f64341ef4c1c8b",
+    "evidence/tracer-barriers/legacy-replay/demo-plume/steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+    "evidence/tracer-barriers/legacy-replay/receipt.json": "70b9a5a68e4203a3878ea38d7f3e99294317b6e0971ad70ec62ca417cec83bb6",
+    "evidence/tracer-barriers/numerical-summary.json": "326edbedfdaabe08edb28a38595931a16bef39c86f439a7eebb786539a1b4516",
+    "evidence/tracer-barriers/pdf-gate.log": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+    "evidence/tracer-barriers/proof-source-gate.log": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812",
+    "evidence/tracer-barriers/red-positive-donor-range.log": "9c80af845c95f10d5ededa189f41650c8560ffc7323e5eec250d232bac450784",
+    "evidence/tracer-barriers/release-build.log": "4897dd7a6d9894e35ce04269abc7681770ef7fd1e95f9963202bebbb504dfd5a",
+    "evidence/tracer-barriers/release-example.log": "f8a13547b356bf8c8110ab523b11c10b0c6ea709fb4852aaaaf8e77593034fa0",
+    "evidence/tracer-barriers/test-core.log": "3bb1cb24442610c9a47b068dacef504ffce652620be133c0bead50ba17ce5a76",
+    "evidence/tracer-barriers/test-default.log": "5e108f67088f4fcdbfb669c5000cbfb962c7e24acd11d1404779be2b6801f779",
+    "evidence/tracer-barriers/test-desktop.log": "bbb66575206960e7bc1b5d663c706f08a1a5ead53393b8daf36f6c7e71a71f5f",
+    "evidence/tracer-barriers/transport-prerequisite-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "examples/tracer_barrier.rs": "48501413c3f16d2ffe3c38e2340e5b4d30f3a22454aea1af486f7462bd3cc811",
+    "src/lib.rs": "a69130a259ad579a27cebe187ca7c555891e94b00e2ec4ff61ac912a6d2d6b6e",
+    "src/simulation.rs": "67ec1885e95c26327906993315d091442e84aaff239c72bdfd07344922765ccb",
+    "src/tracer_barrier.rs": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+    "tests/tracer_barrier_contract.rs": "433edf41b549171f3a3c412e6d9233345f4ca8f45e6f5ebe5468638d3db9aca8"
+  },
+  "log_normalization": "Trailing blank lines removed from test/focused/red logs; actual assertion/result text retained.",
+  "limits": [
+    "Static passive concentration appearance constraint only; velocity and pressure remain fixed-box.",
+    "No moving surface, internal fluid-wall flux, solid classification, cut-cell topology, conservative scalar mass, wetting/slip, wall work, or continuum calibration.",
+    "Numerical direct visibility/piecewise linear trace model, without exact predicates or bounded-error certification.",
+    "Linear cell/facet scan; no new native GUI run, peak-RSS, isolated benchmark or performance guarantee.",
+    "No PR, external review request, direct main mutation or frozen-branch rewrite."
+  ]
+}

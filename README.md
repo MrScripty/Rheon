@@ -43,3 +43,47 @@ for numerical tolerance, ownership and the remaining solid-boundary work.
 ```sh
 cargo run --locked --release --no-default-features --example surface_queries
 ```
+
+## Prescribed surface translation
+
+`TranslationInterval` queries a linearly moving point against a translating
+surface over one immutable interval, reporting world contact and wall velocity.
+See the [book implementation addendum](docs/research-book/implementation/translating-surfaces.md)
+for coordinate equations, ownership and the remaining fluid boundary work.
+
+```sh
+cargo run --locked --release --no-default-features --example translating_surface
+```
+
+## Static passive-tracer barriers
+
+`step_with_tracer_barrier` checks trace legs and donor visibility in the passive
+concentration stage, while velocity and pressure retain the fixed-box model.
+See the [book implementation addendum](docs/research-book/implementation/static-tracer-barriers.md)
+for the reversion policy, normalized interpolation and ownership limits.
+
+```sh
+cargo run --locked --release --no-default-features --example tracer_barrier
+```
+
+## Prescribed normal box flux
+
+`BoxFluxWorkspace` projects a fixed rectangular control volume with prescribed
+normal inlet/outlet speeds, independent net-flux rejection and explicit boundary
+pressure work. See the [book implementation addendum](docs/research-book/implementation/prescribed-box-flux.md)
+for affine equations, output ownership and physical limits.
+
+```sh
+cargo run --locked --release --no-default-features --example box_flux
+```
+
+## Prescribed box-flux simulation steps
+
+`step_with_box_flux` publishes inlet/outlet fields and complete step work together,
+using a separately capped workspace and an explicit appearance-tracer policy.
+See the [book implementation addendum](docs/research-book/implementation/box-flux-simulation.md)
+for conservation assumptions and transactional ownership.
+
+```sh
+cargo run --locked --release --no-default-features --example box_flux_step
+```

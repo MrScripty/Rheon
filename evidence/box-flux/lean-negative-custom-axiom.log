@@ -1,0 +1,7 @@
+AUDITED Rheon.BoxFlux.kinetic._proof_1: []
+AUDITED Rheon.BoxFlux.boundaryWork.eq_1: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFlux.kinetic_polarization: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFlux.affine_adjoint: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFlux.compatible_flux: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFlux.gauge_boundary_work: [propext, Quot.sound, Classical.choice]
+/workspace/Rheon-box-flux/evidence/box-flux/AuditAffineProjection.lean:5:0: error: Disallowed axiom Rheon.BoxFlux.unreviewedAssumption in Rheon.BoxFlux.unreviewedAssumption

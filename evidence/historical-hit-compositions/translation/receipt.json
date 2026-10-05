@@ -1,0 +1,61 @@
+{
+  "branch": "integration/translation-hit-reconstruction",
+  "base": "28fe4682e743a74e8f57eec98ad94475f9e5a564",
+  "shared_repair": "d5938e4a944534629881ffd223fbb3c52f8c69c5",
+  "qualified_source_merge": "95bd741b82373d515db04872c1bdf57c92ffa9a8",
+  "qualified_source_tree": "44acbf4184480e3a38c7ed48a444fdb538c3bfc9",
+  "ordered_parents": [
+    "28fe4682e743a74e8f57eec98ad94475f9e5a564",
+    "d5938e4a944534629881ffd223fbb3c52f8c69c5"
+  ],
+  "counts": {
+    "default": 84,
+    "core": 79,
+    "desktop": 90
+  },
+  "strict_clippy": [
+    "core",
+    "default",
+    "desktop"
+  ],
+  "formatting": "passed",
+  "cargo_target_dir": "/workspace/.rheon-tools/target-translation-hit-integration",
+  "cache_policy": "Isolated target; copied unchanged external dependency cache, no local Rheon fingerprints/library outputs",
+  "shared_source_blob_identity": {
+    "src/collision.rs": "d15ecda83a00ee77bd789f1ec62ebb56499269c8",
+    "tests/collision_contract.rs": "289b8b8e0d8c527b0f6ca97eb3f2182de928d02d"
+  },
+  "unchanged_original_paths_except_two_repaired": 1176,
+  "legacy_replay": "Fresh release: all three original PNG/CSV byte-identical; original non-timing manifest fields equal",
+  "proof_source_pdf_gates": "passed; historical proof/book/evidence bytes preserved, no new full root build",
+  "binary_sha256": "646bb87b2dda82a8afbf47b36cd0fc325e857d521114665872a8e1c11c3f61c3",
+  "file_sha256": {
+    "evidence/hit-reconstruction-composition/README.md": "7a46bffe1a2ee41a7bec72b50b7c2d48b60d935f08acb5e3c8d3b79ecbf29f3d",
+    "evidence/hit-reconstruction-composition/clippy-core.log": "ac5e94156e5903cd736546880382874d3362bebdd0db059d8b7e0b852a624856",
+    "evidence/hit-reconstruction-composition/clippy-default.log": "754e42697ac1abdcf80312cec738ff0f16476b0aba6e4286c68c6480c2dd5fea",
+    "evidence/hit-reconstruction-composition/clippy-desktop.log": "07c46296adaf87181f60a9edc46d72fe8de3891d9d3d9b3b960a896df3bb8b8b",
+    "evidence/hit-reconstruction-composition/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-16/opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-16/run.json": "e979c62cf9e987026b09680c5a0012e9859d2bb91663951c6a299ef3b571f15b",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-16/steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-64/opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-64/run.json": "eadd64e942b7fae311085dfd9f42a0c3e7c1095eb9e015e8cf714c577eb72876",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-64/steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-plume/opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-plume/run.json": "f27d13988376efed86d3f78886b6cf33def66f64009a8eda6c635066fa7237b9",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-plume/steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+    "evidence/hit-reconstruction-composition/legacy-replay/receipt.json": "321997487077e566bbba8bfe35c661de2f566a911141f2250fbe706b298c8b35",
+    "evidence/hit-reconstruction-composition/legacy-replay.log": "58692b7bfd25e2ec3a60e526873b1dce8e6266f5b0470b3fbdfb28236f92f95e",
+    "evidence/hit-reconstruction-composition/pdf-gate.log": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+    "evidence/hit-reconstruction-composition/proof-source-gate.log": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812",
+    "evidence/hit-reconstruction-composition/release-build.log": "77a981380274e0f7db1346dc46ee0aab40fbbc181508717e4c87ef9997f4dacf",
+    "evidence/hit-reconstruction-composition/shared-target-missing-export-failure.log": "5c23819080bee09b4e4cc5d51651f12726bade89e84f88fb2a57b10bcdf5b75c",
+    "evidence/hit-reconstruction-composition/test-core.log": "119f926708def5cc3037cad7e6312474b48b6c5a55ce6c95a4b88daa0f29960b",
+    "evidence/hit-reconstruction-composition/test-default.log": "9a665ff5a057ab6f2826da0f7acb0a5c249460bb57381c0a337eb9e36940ffd3",
+    "evidence/hit-reconstruction-composition/test-desktop.log": "9cc2a4085d363a3aedddef55c2b5ea5ed8f95d296c7e3e85d3a0208eb3a215b1"
+  },
+  "limits": [
+    "Existing ambiguity contract; no exact-predicate or IEEE certification.",
+    "No PR/review/main mutation by author."
+  ]
+}

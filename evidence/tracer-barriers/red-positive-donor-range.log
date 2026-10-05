@@ -1,0 +1,24 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-tracer-barriers)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.40s
+     Running tests/tracer_barrier_contract.rs (/workspace/.rheon-tools/target/debug/deps/tracer_barrier_contract-ddeb90e4aed08b34)
+
+running 1 test
+test zero_weight_extremes_cannot_relax_the_positive_donor_range ... FAILED
+
+failures:
+
+---- zero_weight_extremes_cannot_relax_the_positive_donor_range stdout ----
+
+thread 'zero_weight_extremes_cannot_relax_the_positive_donor_range' (88712) panicked at tests/tracer_barrier_contract.rs:447:5:
+assertion `left == right` failed
+  left: 3.2500000000000004
+ right: 3.25
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    zero_weight_extremes_cannot_relax_the_positive_donor_range
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--test tracer_barrier_contract`

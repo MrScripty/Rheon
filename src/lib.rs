@@ -11,6 +11,8 @@ pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
     TriangleSurface,
 };
+mod motion;
+pub use motion::{TranslatedHit, TranslatedSegment, TranslationError, TranslationInterval};
 mod operator;
 pub use operator::{OperatorError, PressureOperator};
 mod pressure;
@@ -21,6 +23,11 @@ mod sampling;
 pub use sampling::{SamplingError, ScalarSampler, VelocitySampler};
 mod advection;
 pub use advection::{AdvectionError, advect_tracer, advect_velocity};
+mod tracer_barrier;
+pub use tracer_barrier::{
+    BarrierStepReport, TracerBarrierError, TracerBarrierReport, TracerBarrierSampler,
+    VisibleTracerSample, advect_tracer_with_barrier,
+};
 mod simulation;
 pub use simulation::{
     Simulation, SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
@@ -31,3 +38,15 @@ pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepRepo
 mod export;
 #[cfg(feature = "png-export")]
 pub use export::{ExportError, guidance_pixels, write_guidance_png};
+
+mod box_flux;
+pub use box_flux::{
+    BoxFluxError, BoxFluxReport, BoxFluxSettings, BoxFluxStage, BoxFluxStamp, BoxFluxWork,
+    BoxFluxWorkspace, PrescribedBoxFlux,
+};
+
+mod box_flux_step;
+pub use box_flux_step::{
+    BoxFluxStepBoundary, BoxFluxStepReport, BoxFluxStepWork, BoxFluxStepWorkspace,
+    BoxFluxTracerPolicy,
+};

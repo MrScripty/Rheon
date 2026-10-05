@@ -1,0 +1,15 @@
+{
+  "actual_exit": 101,
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-default-features",
+    "--test",
+    "box_flux_contract",
+    "nonzero_boundary_flux_cannot_underflow_out_of_the_compatibility_gate"
+  ],
+  "pre_guard_box_flux_sha256": "19affa2cd5de4135a89bf81cd7c0e82334a6d8d3988e0f9d8987bb5de984551b",
+  "fixture_sha256": "474b509cfe2fb36a9173f4c1d44bad7d892d7546ea8c482034ff7d3f864b1d3a"
+}

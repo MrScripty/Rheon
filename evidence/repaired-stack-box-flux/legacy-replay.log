@@ -1,0 +1,6 @@
+Accepted 20 steps; time 0.400000; managed arrays 333824 bytes; step wall time 0.362s. Wrote evidence/repaired-stack-box-flux/legacy-replay/demo-16
+PASS demo-16 PNG/CSV byte-identical; stable manifest fields equal
+Accepted 100 steps; time 2.000000; managed arrays 333824 bytes; step wall time 1.873s. Wrote evidence/repaired-stack-box-flux/legacy-replay/demo-plume
+PASS demo-plume PNG/CSV byte-identical; stable manifest fields equal
+Accepted 3 steps; time 0.060000; managed arrays 21069824 bytes; step wall time 11.632s. Wrote evidence/repaired-stack-box-flux/legacy-replay/demo-64
+PASS demo-64 PNG/CSV byte-identical; stable manifest fields equal
