@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-04T22:51:59.842838+00:00",
+  "branch": "integration/forces-surface-queries",
+  "qualified_source_commit": "4aab8f72cb71d264dcf79626fcb0c9db3a432f1a",
+  "qualified_source_tree": "019755ded340b2f4104d3f614ea248771dc12e6c",
+  "ordered_parents": [
+    "6ba1cbe40645ffb6d7fc49edfa6c31e51742f379",
+    "777a7339029e94f8dd82187b3817481623e3ff3f"
+  ],
+  "conflict_resolution": {
+    "README.md": "Retain explicit-body-force and static-surface sections verbatim, each with its own fenced command.",
+    "src/lib.rs": "Automatic three-way merge inspected; both complete exports retained; no other module edits."
+  },
+  "test_counts": {
+    "default": 73,
+    "core": 68,
+    "desktop": 79
+  },
+  "strict_clippy": [
+    "core",
+    "default",
+    "desktop"
+  ],
+  "formatting": "passed",
+  "lean": {
+    "ForceWork": "Fresh build and 7-declaration audit passed",
+    "FacetSelection": "Fresh build and 11-declaration audit passed",
+    "toolchain": "4.19.0",
+    "dependency_source": "/workspace/Rheon-bounded-physics/proofs",
+    "mathlib_commit": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "historical_root_rebuild": false
+  },
+  "replay": "All three original PNG/CSV byte-identical and non-timing manifest fields equal",
+  "binary_sha256": "8b9a9d64d74749acbc94a52a1acb47aaf3089ce3146000b80e28f2eaa146ea05",
+  "preserved_current_main_paths_except_readme_exports": 1078,
+  "preserved_added_surface_paths": 35,
+  "file_sha256": {
+    "evidence/forces-surface-integration/FacetSelection-audit.log": "a7c4c1f8a844a2ae6d83e81e2e2a5bf8e3b6513681d978031b375f893537e600",
+    "evidence/forces-surface-integration/FacetSelection-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forces-surface-integration/ForceWork-audit.log": "abbc8585557e95aaa777cd9030f6895aa1871b02d0a0d4f180a6cf3515ba653a",
+    "evidence/forces-surface-integration/ForceWork-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forces-surface-integration/README.md": "458d35419cbc74bdc629a8a5b1b490b74841c521527ad52a7fadcbf4d867d383",
+    "evidence/forces-surface-integration/clippy-core.log": "79ed178a3fcd2f9ec5b875ccef0df4227cbd654a5998a3e4db7022059fcdafc7",
+    "evidence/forces-surface-integration/clippy-default.log": "e652e8126282c96890e32d1ab4e0ced33b43ba547fc556ed4ae940ad3d35eac7",
+    "evidence/forces-surface-integration/clippy-desktop.log": "a41cd37f87b946f6c6e27d228c503426d9e8ef6fa43ccfdfb0dd3bdc19f0f064",
+    "evidence/forces-surface-integration/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forces-surface-integration/legacy-replay/demo-16/opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe",
+    "evidence/forces-surface-integration/legacy-replay/demo-16/run.json": "4d037f60dbf8aacea8958b5550e64c95058fdec4a3b2ceb5deca1828f5a8e127",
+    "evidence/forces-surface-integration/legacy-replay/demo-16/steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+    "evidence/forces-surface-integration/legacy-replay/demo-64/opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb",
+    "evidence/forces-surface-integration/legacy-replay/demo-64/run.json": "c5e0d094e4a5bdfbf23712117c42dabbbca30c0e7ca54dbfabd670b226cb6a4c",
+    "evidence/forces-surface-integration/legacy-replay/demo-64/steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+    "evidence/forces-surface-integration/legacy-replay/demo-plume/opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc",
+    "evidence/forces-surface-integration/legacy-replay/demo-plume/run.json": "1e61f294ebe778df8b64f5f00319063fb00c142c2dd82f40da4bbd3d829dc846",
+    "evidence/forces-surface-integration/legacy-replay/demo-plume/steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+    "evidence/forces-surface-integration/legacy-replay/receipt.json": "7531e089766e59b85a2d8ad4ea131ac0a3cf0853fa8a6260e32ac8344db9957f",
+    "evidence/forces-surface-integration/legacy-replay.log": "54dcec8d0b012671c2f8070410fa1fa4f26caa8152300371359e19c950edc3da",
+    "evidence/forces-surface-integration/pdf-gate.log": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+    "evidence/forces-surface-integration/proof-source-gate.log": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812",
+    "evidence/forces-surface-integration/release-build.log": "ea04b7ee5b26cd2fdea5bd31a661bfde7d985000132a6c46f2e9773e7c37061b",
+    "evidence/forces-surface-integration/test-core.log": "adaf628d057a01204ab5ea30f53ba7db4a8720e9354a8b217c74030ca3798c9f",
+    "evidence/forces-surface-integration/test-default.log": "d6c2803b31542fe07be9368cae3ccfefcd0fa71842cdd70e49a3eb0c0e600da4",
+    "evidence/forces-surface-integration/test-desktop.log": "670ab3ae2ee4a74eb1b1a5b1152f55b048b6cdf7dade45f4940b98e6eb230562"
+  },
+  "limits": [
+    "No isolated benchmark, native desktop window, complete historical root Lean rebuild, or continuum validation.",
+    "No PR edit, external review request, or main mutation."
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "branch": "integration/pr12-hit-reconstruction",
+  "base": "6a03fcfd8b90ec4121f184573346e08a086a4f78",
+  "shared_repair": "d5938e4a944534629881ffd223fbb3c52f8c69c5",
+  "qualified_source_merge": "86b0fa7918bab0cbee045bcd814bdb1795622bf1",
+  "qualified_source_tree": "9b95a10d9354857317c5c2b90a833db43424ec0b",
+  "ordered_parents": [
+    "6a03fcfd8b90ec4121f184573346e08a086a4f78",
+    "d5938e4a944534629881ffd223fbb3c52f8c69c5"
+  ],
+  "counts": {
+    "default": 74,
+    "core": 69,
+    "desktop": 80
+  },
+  "strict_clippy": [
+    "core",
+    "default",
+    "desktop"
+  ],
+  "formatting": "passed",
+  "shared_source_blob_identity": {
+    "src/collision.rs": "d15ecda83a00ee77bd789f1ec62ebb56499269c8",
+    "tests/collision_contract.rs": "289b8b8e0d8c527b0f6ca97eb3f2182de928d02d"
+  },
+  "unchanged_original_paths_except_two_repaired": 1140,
+  "legacy_replay": "Fresh release; all three original PNG/CSV byte-identical, original non-timing manifest fields equal",
+  "proof_source_and_pdf_gates": "passed; no original proof/book/evidence edits",
+  "binary_sha256": "7ea1433fee103ad54a44a4a4d6c7e66ad36dc347dc05a67670c048840bbc6b8d",
+  "file_sha256": {
+    "evidence/hit-reconstruction-composition/README.md": "a00c8601920aaa6547f82736af066a4e1ae899895fa5e6c17d5c2f96ccf9221e",
+    "evidence/hit-reconstruction-composition/clippy-core.log": "4b4508d246ac27f6b74afd54260c5c54e3619b3c7bf2e52838c87c42fda5a8e0",
+    "evidence/hit-reconstruction-composition/clippy-default.log": "642ca776881ee6a2999174d232b92acc9356618e3f8e4293a92c382c20f892af",
+    "evidence/hit-reconstruction-composition/clippy-desktop.log": "9dd5d8c3aad3408fbd6508f61dcb688529fbd2f6a7e621e9d94290225e21e156",
+    "evidence/hit-reconstruction-composition/fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-16/opacity.png": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-16/run.json": "a83dced2dd70b35221b6aab35ce92c4f427d54e926402c72455f71212827df35",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-16/steps.csv": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-64/opacity.png": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-64/run.json": "84ddaf01ee1936a7050b164193eb5318a30817003d2e123498ea2281b7d102fa",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-64/steps.csv": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-plume/opacity.png": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-plume/run.json": "250ea19fd8ff572f1466009c9768ca31d955a498d35ea8cce9796040ac682b62",
+    "evidence/hit-reconstruction-composition/legacy-replay/demo-plume/steps.csv": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175",
+    "evidence/hit-reconstruction-composition/legacy-replay/receipt.json": "04ae281799f7a300ab26ea89bc379b8316cd1a25a49e6c46bb93ebf44c403e04",
+    "evidence/hit-reconstruction-composition/legacy-replay.log": "1318add20b22535729ac7e0f5c7dc336ca51cf3940a5a4bdf36bb63e9d3b08b0",
+    "evidence/hit-reconstruction-composition/pdf-gate.log": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+    "evidence/hit-reconstruction-composition/proof-source-gate.log": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812",
+    "evidence/hit-reconstruction-composition/release-build.log": "80e94d4311ed10b0923a1d43cc1bcc4994a5379e0a120147d9e83c25710fc3f3",
+    "evidence/hit-reconstruction-composition/test-core.log": "b033783b4032cdd748a0060baa3368565659375084628a231ad07ce423a677c5",
+    "evidence/hit-reconstruction-composition/test-default.log": "34c2a7c3567853ddfd3a35617b6b766029631e6fd147f624798164e5a5b60238",
+    "evidence/hit-reconstruction-composition/test-desktop.log": "13967c20ed21a6cee11bf3ba06b6ebb1298dfb5a1303dd9f2fef11ffeed5f0e0"
+  },
+  "limits": [
+    "No exact predicate, full root Lean rebuild, native GUI run or continuum claim.",
+    "No PR/review/main mutation by author."
+  ]
+}

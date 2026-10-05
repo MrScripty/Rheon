@@ -1,0 +1,49 @@
+warning: struct `ClippedSegment` is never constructed
+  --> /tmp/rheon-pr12-exact-red-cna9tjks/collision.rs:68:12
+   |
+68 | pub struct ClippedSegment {
+   |            ^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `allocated_bytes` is never read
+  --> /tmp/rheon-pr12-exact-red-cna9tjks/collision.rs:82:5
+   |
+77 | pub struct TriangleSurface {
+   |            --------------- field in this struct
+...
+82 |     allocated_bytes: usize,
+   |     ^^^^^^^^^^^^^^^
+   |
+   = note: `TriangleSurface` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: methods `stamp`, `vertices`, `triangles`, `allocated_bytes`, and `clip_segment` are never used
+   --> /tmp/rheon-pr12-exact-red-cna9tjks/collision.rs:137:12
+    |
+ 84 | impl TriangleSurface {
+    | -------------------- methods in this implementation
+...
+137 |     pub fn stamp(&self) -> SurfaceStamp {
+    |            ^^^^^
+...
+140 |     pub fn vertices(&self) -> &[[f64; 3]] {
+    |            ^^^^^^^^
+...
+143 |     pub fn triangles(&self) -> &[[usize; 3]] {
+    |            ^^^^^^^^^
+...
+146 |     pub fn allocated_bytes(&self) -> usize {
+    |            ^^^^^^^^^^^^^^^
+...
+190 |     pub fn clip_segment(
+    |            ^^^^^^^^^^^^
+
+warning: 3 warnings emitted
+
+parameter=0.5 reported_z=0 reconstructed_z=1
+
+thread 'main' (98344) panicked at /tmp/rheon-pr12-exact-red-cna9tjks/main.rs:12:5:
+assertion `left == right` failed: accepted off-facet hit
+  left: 0.0
+ right: 1.0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

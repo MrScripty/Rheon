@@ -1,0 +1,6 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-surface-queries)
+    Finished `release` profile [optimized] target(s) in 1.53s
+     Running `/workspace/.rheon-tools/target/release/examples/surface_queries`
+static surface version 0; retained array payload 480 bytes
+static surface version 1; retained array payload 480 bytes
+static surface version 2; retained array payload 480 bytes
