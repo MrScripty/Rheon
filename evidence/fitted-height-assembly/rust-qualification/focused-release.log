@@ -1,0 +1,22 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `release` profile [optimized] target(s) in 14.34s
+     Running tests/fitted_height_contract.rs (/workspace/.rheon-tools/target/release/deps/fitted_height_contract-64a13795f3d1dba4)
+
+running 14 tests
+test actual_graph_translation_has_shared_gcl_and_full_vector_work ... ok
+test constant_velocity_carries_every_component_with_changing_masses ... ok
+test arithmetic_kinematic_shape_failures_preserve_output ... ok
+test declared_capacity_and_real_payload_are_bounded ... ok
+test actual_rebuilt_geometry_matches_mass_derivative ... ok
+test divergence_defect_is_reported_and_nonzero_pressure_work_is_adjoint ... ok
+test invalid_geometry_and_uncertain_pressure_rank_are_rejections ... ok
+test full_vector_affine_strain_and_prescribed_traction_patch ... ok
+test marginal_correct_wrong_flux_circulation_is_rejected ... ok
+test density_width_viscosity_scaling_and_zero_viscosity_are_explicit ... ok
+test rigid_rotation_and_full_vector_translation_are_strain_null_modes ... ok
+test shared_geometry_mass_and_affine_gradient_partition ... ok
+test every_cancellation_preserves_output_and_retry_matches ... ok
+test numerical_pressure_image_rank_constant_mode_and_transpose ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
