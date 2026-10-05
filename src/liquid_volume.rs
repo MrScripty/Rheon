@@ -324,14 +324,17 @@ impl LiquidVolumeState {
         inlet: LiquidInlet,
         source: Option<LiquidVolumeSource<'_>>,
         settings: LiquidVolumeSettings,
-        mut cancel: impl FnMut(VolumeStage) -> bool,
+        cancel: impl FnMut(VolumeStage) -> bool,
     ) -> Result<LiquidVolumeReport, LiquidVolumeError> {
-        if flow.grid != &self.grid {
-            return Err(LiquidVolumeError::GeometryMismatch);
-        }
-        if flow.start.to_bits() != self.time.to_bits() {
-            return Err(LiquidVolumeError::TimeMismatch);
-        }
+        let report = self.prepare_advance(flow, inlet, source, settings, cancel)?;
+        self.commit_prepared(&report);
+        Ok(report)
+    }
+    pub(crate) fn validate_advance(
+        &self,
+        source: Option<LiquidVolumeSource<'_>>,
+        settings: LiquidVolumeSettings,
+    ) -> Result<(), LiquidVolumeError> {
         if !settings.max_outward_courant.is_finite()
             || settings.max_outward_courant <= 0.0
             || settings.max_outward_courant > 1.0
@@ -343,11 +346,33 @@ impl LiquidVolumeState {
         if source.is_some_and(|s| s.rate.len() != self.grid.cell_len()) {
             return Err(LiquidVolumeError::LengthMismatch);
         }
-        let next = self
-            .stamp
+        self.stamp
             .version
             .checked_add(1)
             .ok_or(LiquidVolumeError::VersionOverflow)?;
+        Ok(())
+    }
+    pub(crate) fn commit_prepared(&mut self, report: &LiquidVolumeReport) {
+        std::mem::swap(&mut self.accepted, &mut self.candidate);
+        self.time = report.time;
+        self.stamp = report.stamp;
+    }
+    pub(crate) fn prepare_advance(
+        &mut self,
+        flow: LiquidFlowInterval<'_>,
+        inlet: LiquidInlet,
+        source: Option<LiquidVolumeSource<'_>>,
+        settings: LiquidVolumeSettings,
+        mut cancel: impl FnMut(VolumeStage) -> bool,
+    ) -> Result<LiquidVolumeReport, LiquidVolumeError> {
+        if flow.grid != &self.grid {
+            return Err(LiquidVolumeError::GeometryMismatch);
+        }
+        if flow.start.to_bits() != self.time.to_bits() {
+            return Err(LiquidVolumeError::TimeMismatch);
+        }
+        self.validate_advance(source, settings)?;
+        let next = self.stamp.version + 1;
         checkpoint(&mut cancel, VolumeStage::BeforeFlux)?;
         let h = self.grid.spacing();
         let area = [
@@ -524,16 +549,16 @@ impl LiquidVolumeState {
             }
         }
         checkpoint(&mut cancel, VolumeStage::BeforeCommit)?;
-        std::mem::swap(&mut self.accepted, &mut self.candidate);
-        self.time = flow.end;
-        self.stamp.version = next;
         Ok(LiquidVolumeReport {
-            stamp: self.stamp,
+            stamp: VolumeStamp {
+                id: self.stamp.id,
+                version: next,
+            },
             flow: flow.stamp,
             inlet: inlet.stamp,
             source: source.map(|s| s.stamp),
             dt: flow.dt,
-            time: self.time,
+            time: flow.end,
             liquid_volume_before: before,
             liquid_volume_after: after,
             inward_boundary_volume: inward,
@@ -553,7 +578,7 @@ impl LiquidVolumeState {
         })
     }
 }
-fn allocate(n: usize, remaining: &mut usize) -> Result<Vec<f64>, LiquidVolumeError> {
+pub(crate) fn allocate(n: usize, remaining: &mut usize) -> Result<Vec<f64>, LiquidVolumeError> {
     let required = n
         .checked_mul(8)
         .ok_or(LiquidVolumeError::AllocationFailed)?;

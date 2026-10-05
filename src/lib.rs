@@ -37,7 +37,10 @@ pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepRepo
 #[cfg(feature = "png-export")]
 mod export;
 #[cfg(feature = "png-export")]
-pub use export::{ExportError, guidance_pixels, write_guidance_png};
+pub use export::{
+    ExportError, guidance_pixels, liquid_guidance_pixels, write_guidance_png,
+    write_liquid_guidance_png,
+};
 
 mod box_flux;
 pub use box_flux::{
@@ -56,4 +59,10 @@ pub use liquid_volume::{
     LiquidFlowInterval, LiquidInlet, LiquidOccupancy, LiquidVolumeError, LiquidVolumeReport,
     LiquidVolumeSettings, LiquidVolumeSource, LiquidVolumeState, LiquidVolumeView, VolumeStage,
     VolumeStamp,
+};
+
+mod liquid_step;
+pub use liquid_step::{
+    LiquidStepError, LiquidStepInputs, LiquidStepReport, LiquidStepStage, LiquidTransportConfig,
+    LiquidTransportSimulation, LiquidTransportView,
 };

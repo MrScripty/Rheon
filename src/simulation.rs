@@ -135,9 +135,9 @@ struct BoundaryStepInput<'a> {
     workspace: &'a mut crate::BoxFluxStepWorkspace,
     boundary: crate::BoxFluxStepBoundary,
 }
-struct StepOutcome {
-    legacy: crate::BarrierStepReport,
-    boundary: Option<crate::BoxFluxStepReport>,
+pub(crate) struct StepOutcome {
+    pub(crate) legacy: crate::BarrierStepReport,
+    pub(crate) boundary: Option<crate::BoxFluxStepReport>,
 }
 
 struct Fields {
@@ -367,6 +367,50 @@ impl Simulation {
             .expect("requested boundary has accepted diagnostics"))
     }
     fn step_impl(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        forces: &[BodyForce],
+        barrier: Option<&crate::TriangleSurface>,
+        boundary: Option<BoundaryStepInput<'_>>,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<StepOutcome, SimulationError> {
+        let outcome = self.prepare_impl(requested_dt, source, forces, barrier, boundary, cancel)?;
+        self.commit_prepared(&outcome);
+        Ok(outcome)
+    }
+    pub(crate) fn prepare_liquid_carrier(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        forces: &[BodyForce],
+        boundary: Option<(&mut crate::BoxFluxStepWorkspace, crate::BoxFluxStepBoundary)>,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<StepOutcome, SimulationError> {
+        self.prepare_impl(
+            requested_dt,
+            source,
+            forces,
+            None,
+            boundary.map(|(workspace, boundary)| BoundaryStepInput {
+                workspace,
+                boundary,
+            }),
+            cancel,
+        )
+    }
+    pub(crate) fn candidate_velocity(&self) -> [&[f32]; 3] {
+        self.candidate.velocity()
+    }
+    pub(crate) fn candidate_pressure(&self) -> &[f64] {
+        self.workspace.pressure()
+    }
+    pub(crate) fn commit_prepared(&mut self, outcome: &StepOutcome) {
+        std::mem::swap(&mut self.accepted, &mut self.candidate);
+        self.time = outcome.legacy.step.step.time;
+        self.generation = outcome.legacy.step.step.generation;
+    }
+    fn prepare_impl(
         &mut self,
         requested_dt: f64,
         source: Option<SmokeSource>,
@@ -661,15 +705,12 @@ impl Simulation {
             return Err(SimulationError::ArithmeticFailure);
         }
         checkpoint(&mut cancel, StepStage::BeforeCommit)?;
-        std::mem::swap(&mut self.accepted, &mut self.candidate);
-        self.time = next_time;
-        self.generation = next_generation;
         let legacy = crate::BarrierStepReport {
             step: ForcedStepReport {
                 step: StepReport {
                     dt,
-                    time: self.time,
-                    generation: self.generation,
+                    time: next_time,
+                    generation: next_generation,
                     pressure,
                     actual_divergence_max,
                     courant,
