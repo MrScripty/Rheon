@@ -118,7 +118,7 @@ fn declared_capacity_and_real_payload_are_bounded() {
             plan.triangles,
             plan.pressure_modes
         ),
-        (35, 32, 48, 33)
+        (35, 32, 48, 32)
     );
     assert_eq!(w.allocated_bytes(), plan.nominal_bytes);
     let settings = FittedHeightSettings {
@@ -258,7 +258,7 @@ fn numerical_pressure_image_rank_constant_mode_and_transpose() {
     for c in [2, 3, 4, 6, 8, 12] {
         let w = workspace(&cap(c));
         let plan = w.plan();
-        assert_eq!(plan.pressure_modes, 8 * c + 1);
+        assert_eq!(plan.pressure_modes, 8 * c);
         let mut q = vec![vec![0.0; plan.triangles]; plan.pressure_modes];
         for term in w.pressure_basis() {
             q[term.mode][term.triangle] += term.value;
@@ -328,10 +328,10 @@ fn actual_graph_translation_has_shared_gcl_and_full_vector_work() {
             .count(),
         76
     );
-    near(r.strain_power, 2600634373.0 / 1259712000.0, 1e-13);
+    near(r.strain_power, 2595531373.0 / 1259712000.0, 1e-13);
     near(
         r.advection_dissipation,
-        11833343748992221.0 / 26447905382400000.0,
+        23503996984881317.0 / 52895810764800000.0,
         1e-13,
     );
     near(r.convection_work_error, 0.0, 1e-13);
@@ -635,4 +635,41 @@ fn density_width_viscosity_scaling_and_zero_viscosity_are_explicit() {
     assert_eq!(ra.strain_power.to_bits(), rb.strain_power.to_bits());
     assert_eq!(rz.strain_power, 0.0);
     assert!(oz.iter().all(|o| o.strain_force == [0.0; 3]));
+}
+
+#[test]
+fn periodic_seam_is_neighbor_center_intersection_with_true_derivative() {
+    let points = reference_cap();
+    let mut w = workspace(&points);
+    let left = w
+        .nodes()
+        .iter()
+        .position(|n| n.position[0] == 0.0 && n.position[1] > 0.0 && n.position[1] < 1.0)
+        .unwrap();
+    let right = w
+        .nodes()
+        .iter()
+        .position(|n| n.position[0] == 1.0 && n.position[1] > 0.0 && n.position[1] < 1.0)
+        .unwrap();
+    near(w.nodes()[left].position[1], 13.0 / 24.0, 2e-15);
+    assert_ne!(w.nodes()[left].position[1], 0.5);
+    assert_eq!(
+        w.nodes()[left].periodic_index,
+        w.nodes()[right].periodic_index
+    );
+    let p = w.nodes()[11].position;
+    let q = [w.nodes()[16].position[0] - 1.0, w.nodes()[16].position[1]];
+    let split = w.nodes()[left].position;
+    near(
+        (split[0] - p[0]) * (q[1] - p[1]) - (split[1] - p[1]) * (q[0] - p[0]),
+        0.0,
+        2e-15,
+    );
+    let u = field(&w, |_| [0.25, 0.0, 0.125]);
+    let pressure = vec![0.0; w.plan().pressure_modes];
+    inspect(&mut w, &u, &pressure);
+    let motion = w.node_motion_scratch(left).unwrap();
+    near(motion[0], 13.0 / 96.0, 2e-15);
+    near(motion[1], 5.0 / 192.0, 2e-15);
+    assert_eq!(motion, w.node_motion_scratch(right).unwrap());
 }

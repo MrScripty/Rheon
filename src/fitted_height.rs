@@ -177,9 +177,7 @@ impl FittedHeightPlan {
         let nodes = times(8)?;
         let tris = times(12)?;
         let xy = times(11)?;
-        let rank = nodes
-            .checked_add(1)
-            .ok_or(FittedHeightError::IntegerOverflow)?;
+        let rank = nodes;
         let rank_entries = tris
             .checked_mul(xy)
             .ok_or(FittedHeightError::IntegerOverflow)?;
@@ -535,6 +533,10 @@ impl FittedHeightWorkspace {
         &self.faces
     }
     /// [divergence, reconstructed pressure] per triangle; working scratch only.
+    /// Actual differentiated mesh motion, working scratch only.
+    pub fn node_motion_scratch(&self, index: usize) -> Option<[f64; 2]> {
+        Some(self.motion.get(index)?.map(|v| v.d))
+    }
     pub fn triangle_scratch(&self) -> &[[f64; 2]] {
         &self.triangle_scratch
     }
@@ -630,6 +632,20 @@ impl FittedHeightWorkspace {
             }
         }
         self.edges.sort_unstable_by_key(|e| e.ends);
+        // A seam has a real neighboring macrotriangle across the period;
+        // it is not a physical boundary edge with a midpoint split.
+        let left = self
+            .edges
+            .iter()
+            .position(|e| e.ends == [0, c + 1])
+            .unwrap();
+        let right = self
+            .edges
+            .iter()
+            .position(|e| e.ends == [c, 2 * c + 1])
+            .unwrap();
+        self.edges[left].owners[1] = self.edges[right].owners[0];
+        self.edges[right].owners[1] = self.edges[left].owners[0];
         for i in 0..self.nodes.len() {
             self.motion[i] = self.nodes[i].position.map(|v| Dual { v, d: 0.0 });
         }
@@ -739,9 +755,22 @@ impl FittedHeightWorkspace {
         if e.owners[1] == NONE {
             return Ok([a[0].add(b[0])?.scale(0.5)?, a[1].add(b[1])?.scale(0.5)?]);
         }
-        let [p, q] = e
-            .owners
-            .map(|i| self.motion[2 * (self.plan.columns + 1) + i]);
+        let c = self.plan.columns;
+        let period = checked(self.nodes[c].position[0] - self.nodes[0].position[0])?;
+        if e.ends == [c, 2 * c + 1] {
+            let left = *self
+                .edges
+                .iter()
+                .find(|edge| edge.ends == [0, c + 1])
+                .unwrap();
+            let mut point = self.split_position(left)?;
+            point[0] = point[0].add(Dual { v: period, d: 0.0 })?;
+            return Ok(point);
+        }
+        let [p, mut q] = e.owners.map(|i| self.motion[2 * (c + 1) + i]);
+        if e.ends == [0, c + 1] {
+            q[0] = q[0].sub(Dual { v: period, d: 0.0 })?;
+        }
         let ab = difference(b, a)?;
         let pq = difference(q, p)?;
         let s = cross(difference(p, a)?, pq)?.div(cross(ab, pq)?)?;
