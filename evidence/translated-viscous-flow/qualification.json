@@ -1,0 +1,108 @@
+{
+  "source_commit": "96bb0efb5674d5a9505dcfae1d4ee5d2b73df001",
+  "source_tree": "f367758fdad3ae4433669e27e29b6856b0561ca3",
+  "ordered_source_parents": [
+    "6b9ec40d25e88bb88fd84db2fd69c75ffa2e7ded"
+  ],
+  "rust_commands": 10,
+  "rust_test_counts": {
+    "test-default": 217,
+    "test-core": 211,
+    "test-desktop": 223,
+    "focused-release": 23
+  },
+  "strict_clippy_feature_modes": 3,
+  "native_profiles": 2,
+  "native_dt_cases": 3,
+  "normal_optimized_native_validations": 12,
+  "corruptions_rejected_per_native_validation": 8,
+  "native_accepted_steps": 140,
+  "native_rollback_trials": 560,
+  "debug_release_byte_equal": true,
+  "python_reference_tests_per_mode": 7,
+  "python_reference_modes": 2,
+  "reference_normal_optimized_byte_equal": true,
+  "historical_files_preserved": 5331,
+  "new_Lean_claims": 0,
+  "native_summary": [
+    {
+      "profile": "debug",
+      "dt": 0.05,
+      "steps": 10,
+      "time": 0.49999999999999994,
+      "offset": 0.12499999999999999,
+      "temporal_L2_error": 0.002043355737493865,
+      "max_work_error": 3.889250657363692e-16,
+      "max_momentum_drift": 1.2989609388114332e-13,
+      "total_momentum_drift": 1.5920598173124745e-13,
+      "reference": "evidence/fitted-height-periodic-repair/reference.py spatial values; new co-moving trajectory and dense BE; no old fitted-height-formulation path",
+      "scope": "restricted invariant flow; semidiscrete temporal accuracy only"
+    },
+    {
+      "profile": "debug",
+      "dt": 0.025,
+      "steps": 20,
+      "time": 0.5000000000000001,
+      "offset": 0.12500000000000003,
+      "temporal_L2_error": 0.0010360112869715152,
+      "max_work_error": 3.5641057750960764e-16,
+      "max_momentum_drift": 4.871658632055187e-13,
+      "total_momentum_drift": 2.0750068330244176e-12,
+      "reference": "evidence/fitted-height-periodic-repair/reference.py spatial values; new co-moving trajectory and dense BE; no old fitted-height-formulation path",
+      "scope": "restricted invariant flow; semidiscrete temporal accuracy only"
+    },
+    {
+      "profile": "debug",
+      "dt": 0.0125,
+      "steps": 40,
+      "time": 0.5000000000000002,
+      "offset": 0.12500000000000006,
+      "temporal_L2_error": 0.0005217744430019333,
+      "max_work_error": 5.193777761287777e-16,
+      "max_momentum_drift": 3.086420008457935e-13,
+      "total_momentum_drift": 1.9126922268242197e-12,
+      "reference": "evidence/fitted-height-periodic-repair/reference.py spatial values; new co-moving trajectory and dense BE; no old fitted-height-formulation path",
+      "scope": "restricted invariant flow; semidiscrete temporal accuracy only"
+    },
+    {
+      "profile": "release",
+      "dt": 0.05,
+      "steps": 10,
+      "time": 0.49999999999999994,
+      "offset": 0.12499999999999999,
+      "temporal_L2_error": 0.002043355737493865,
+      "max_work_error": 3.889250657363692e-16,
+      "max_momentum_drift": 1.2989609388114332e-13,
+      "total_momentum_drift": 1.5920598173124745e-13,
+      "reference": "evidence/fitted-height-periodic-repair/reference.py spatial values; new co-moving trajectory and dense BE; no old fitted-height-formulation path",
+      "scope": "restricted invariant flow; semidiscrete temporal accuracy only"
+    },
+    {
+      "profile": "release",
+      "dt": 0.025,
+      "steps": 20,
+      "time": 0.5000000000000001,
+      "offset": 0.12500000000000003,
+      "temporal_L2_error": 0.0010360112869715152,
+      "max_work_error": 3.5641057750960764e-16,
+      "max_momentum_drift": 4.871658632055187e-13,
+      "total_momentum_drift": 2.0750068330244176e-12,
+      "reference": "evidence/fitted-height-periodic-repair/reference.py spatial values; new co-moving trajectory and dense BE; no old fitted-height-formulation path",
+      "scope": "restricted invariant flow; semidiscrete temporal accuracy only"
+    },
+    {
+      "profile": "release",
+      "dt": 0.0125,
+      "steps": 40,
+      "time": 0.5000000000000002,
+      "offset": 0.12500000000000006,
+      "temporal_L2_error": 0.0005217744430019333,
+      "max_work_error": 5.193777761287777e-16,
+      "max_momentum_drift": 3.086420008457935e-13,
+      "total_momentum_drift": 1.9126922268242197e-12,
+      "reference": "evidence/fitted-height-periodic-repair/reference.py spatial values; new co-moving trajectory and dense BE; no old fitted-height-formulation path",
+      "scope": "restricted invariant flow; semidiscrete temporal accuracy only"
+    }
+  ],
+  "scope": "Restricted translating varying-height family with viscous third velocity, actual material transport and analytic zero pressure. Semidiscrete temporal validation only; general liquid advancing refusal unchanged."
+}
