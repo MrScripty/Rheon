@@ -1,0 +1,14 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-box-flux)
+error[E0624]: associated constant `ALL` is private
+  --> examples/box_flux.rs:13:29
+   |
+13 |             let old = Axis::ALL.map(|a| vec![0.0; grid.face_len(a)]);
+   |                             ^^^ private associated constant
+   |
+  ::: /workspace/Rheon-box-flux/src/geometry.rs:12:5
+   |
+12 |     pub(crate) const ALL: [Self; 3] = [Self::X, Self::Y, Self::Z];
+   |     ------------------------------- private associated constant defined here
+
+For more information about this error, try `rustc --explain E0624`.
+error: could not compile `rheon` (example "box_flux" test) due to 1 previous error

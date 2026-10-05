@@ -1,0 +1,30 @@
+    Checking rheon v0.1.0 (/workspace/Rheon-box-flux)
+error: the loop variable `j` is only used to index `a`
+   --> tests/box_flux_contract.rs:150:18
+    |
+150 |         for j in i..n {
+    |                  ^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.92.0/index.html#needless_range_loop
+    = note: `-D clippy::needless-range-loop` implied by `-D warnings`
+    = help: to override `-D warnings` add `#[allow(clippy::needless_range_loop)]`
+help: consider using an iterator
+    |
+150 -         for j in i..n {
+150 +         for <item> in a.iter_mut().take(n).skip(i) {
+    |
+
+error: the loop variable `j` is only used to index `a`
+   --> tests/box_flux_contract.rs:157:26
+    |
+157 |                 for j in i..n {
+    |                          ^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.92.0/index.html#needless_range_loop
+help: consider using an iterator
+    |
+157 -                 for j in i..n {
+157 +                 for <item> in a.iter_mut().take(n).skip(i) {
+    |
+
+error: could not compile `rheon` (test "box_flux_contract") due to 2 previous errors
