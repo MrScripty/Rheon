@@ -1,0 +1,84 @@
+{
+  "refreshed_pr12": "e25947f0f299798989c4362c149608ffb654a6ea",
+  "published_stack": [
+    {
+      "branch": "integration/translation-repaired-stack",
+      "head": "f6f67b6bb0b75a372b92cbb96efb6a18875391de",
+      "tree": "c5d96bf5cd205ebadb9a75146528cbde5765a7b3",
+      "head_parents": [
+        "2152d675f861bbe59b4cf703b0d347464b19fa12"
+      ],
+      "qualified_source_merge": "2152d675f861bbe59b4cf703b0d347464b19fa12",
+      "qualified_source_tree": "02fc98909a02b91839e654584c20a484b4443b21",
+      "ordered_source_parents": [
+        "e25947f0f299798989c4362c149608ffb654a6ea",
+        "23b3e365a29e9590f2eefb81bc6999bbae4de65f"
+      ],
+      "incoming_candidate": "23b3e365a29e9590f2eefb81bc6999bbae4de65f",
+      "preserved_incoming_paths": 1230,
+      "all_predecessor_evidence_blobs_preserved": true,
+      "tests": {
+        "default": 84,
+        "core": 79,
+        "desktop": 90
+      },
+      "receipt": "/workspace/Rheon-translation-repaired-stack/evidence/repaired-stack-translation/receipt.json",
+      "historical_archive": "evidence/historical-hit-compositions/translation",
+      "remote_verified": true
+    },
+    {
+      "branch": "integration/tracer-repaired-stack",
+      "head": "62123bb0b4eb45003c8c2ef45b94a3a8e0200ef2",
+      "tree": "5044c6f8993e187699d6afc6084a50a3ed146afe",
+      "head_parents": [
+        "f4825c75d3b0b31ea8c37761c00d9dafb0baffe9"
+      ],
+      "qualified_source_merge": "f4825c75d3b0b31ea8c37761c00d9dafb0baffe9",
+      "qualified_source_tree": "64b772b3747288a878cd34888d1cf323c047ff80",
+      "ordered_source_parents": [
+        "f6f67b6bb0b75a372b92cbb96efb6a18875391de",
+        "32ce002fc4250d9e2c409e853804fc143cac745e"
+      ],
+      "incoming_candidate": "32ce002fc4250d9e2c409e853804fc143cac745e",
+      "preserved_incoming_paths": 1268,
+      "all_predecessor_evidence_blobs_preserved": true,
+      "tests": {
+        "default": 96,
+        "core": 91,
+        "desktop": 102
+      },
+      "receipt": "/workspace/Rheon-tracer-repaired-stack/evidence/repaired-stack-tracer/receipt.json",
+      "historical_archive": "evidence/historical-hit-compositions/tracer",
+      "remote_verified": true
+    },
+    {
+      "branch": "integration/box-flux-repaired-stack",
+      "head": "281ec6e570dcc7890286d35a682722eef751d502",
+      "tree": "bc99618014fed8cf9f794e20310fc7e16004481b",
+      "head_parents": [
+        "bd3825e9e5c53affd7ee6a7749884b14b1cd9d1a"
+      ],
+      "qualified_source_merge": "bd3825e9e5c53affd7ee6a7749884b14b1cd9d1a",
+      "qualified_source_tree": "39f32903b21694dceffdd2064c0f962e4f9cfed3",
+      "ordered_source_parents": [
+        "62123bb0b4eb45003c8c2ef45b94a3a8e0200ef2",
+        "1f1fefe2587590e79787a88a89dcd6bf9d67b850"
+      ],
+      "incoming_candidate": "1f1fefe2587590e79787a88a89dcd6bf9d67b850",
+      "preserved_incoming_paths": 1290,
+      "all_predecessor_evidence_blobs_preserved": true,
+      "tests": {
+        "default": 107,
+        "core": 102,
+        "desktop": 113
+      },
+      "receipt": "/workspace/Rheon-box-flux-repaired-stack/evidence/repaired-stack-box-flux/receipt.json",
+      "historical_archive": "evidence/box-flux",
+      "remote_verified": true
+    }
+  ],
+  "historical_packet_rule": "Predecessor canonical packet retained; incoming translation/tracer packets archived byte-for-byte under evidence/historical-hit-compositions/{translation,tracer}. Archived receipts keep original source identities/paths; preservation maps resolve old paths without rebinding.",
+  "qualification": "All default/core/desktop tests, strict Clippy, fmt, original Jacobi replays and book/proof byte gates pass at each source merge.",
+  "feature_work": "Unpublished implementation/box-flux-simulation fast-forwarded onto final repaired stack with every WIP file byte-preserved; implementation and focused proof/tests continue.",
+  "review_status": "No PR/external review request/main mutation/frozen-candidate advancement. Parent owns integration."
+}

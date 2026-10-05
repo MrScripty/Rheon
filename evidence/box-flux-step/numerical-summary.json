@@ -1,0 +1,33 @@
+{
+  "methods": {
+    "jacobi-pcg-v1": {
+      "accepted_steps": 5,
+      "final_time": 1.5,
+      "maximum_budget_error": 2.42861286636753e-17,
+      "maximum_actual_divergence": 2.2351741790771484e-08,
+      "boundary_volume_imbalance_each_step": 0.0,
+      "simulation_array_bytes": 568,
+      "boundary_workspace_array_bytes": 452,
+      "combined_retained_array_bytes": 1020,
+      "first_transport_integral_change": 0.0625246912240982,
+      "old_endpoint_upwind_reference": 0.0625,
+      "first_pressure_boundary_work": 0.5,
+      "final_interior_kinetic_energy": 0.30700000262683536
+    },
+    "sgs-pcg-v1": {
+      "accepted_steps": 5,
+      "final_time": 1.5,
+      "maximum_budget_error": 2.42861286636753e-17,
+      "maximum_actual_divergence": 2.2351741790771484e-08,
+      "boundary_volume_imbalance_each_step": 0.0,
+      "simulation_array_bytes": 568,
+      "boundary_workspace_array_bytes": 452,
+      "combined_retained_array_bytes": 1020,
+      "first_transport_integral_change": 0.0625246912240982,
+      "old_endpoint_upwind_reference": 0.0625,
+      "first_pressure_boundary_work": 0.5,
+      "final_interior_kinetic_energy": 0.30700000262683536
+    }
+  },
+  "scope": "Accepted bounded 3x2x1 numerical interaction; clamped appearance transport. Not conservative tracer/continuum/timing/RSS evidence."
+}

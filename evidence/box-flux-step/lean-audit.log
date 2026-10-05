@@ -1,0 +1,11 @@
+AUDITED Rheon.BoxFluxStep.transport: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFluxStep.stageWork: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFluxStep.transport_sum: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFluxStep.full_step_budget: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFluxStep.row_normalized_preserves_constant: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFluxStep.stage_telescope: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFluxStep.transport.eq_1: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFluxStep.normalized_two_cell_counterexample: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFluxStep.conditional_energy_nonincrease: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxFluxStep.column_balanced_conserves: [propext, Quot.sound, Classical.choice]
+Box-flux-step axiom audit passed for 10 declarations
