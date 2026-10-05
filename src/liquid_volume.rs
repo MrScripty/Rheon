@@ -102,6 +102,7 @@ impl LiquidInlet {
 pub enum VolumeDivergenceDomain {
     AllCells,
     LiquidSlab { axis: Axis, wet_layers: usize },
+    ReconstructedColumns { axis: Axis, geometry: VolumeStamp },
 }
 #[derive(Clone, Copy)]
 pub struct LiquidFlowInterval<'a> {
@@ -112,6 +113,7 @@ pub struct LiquidFlowInterval<'a> {
     dt: f64,
     end: f64,
     domain: VolumeDivergenceDomain,
+    columns: Option<crate::ColumnSurfaceView<'a>>,
 }
 impl<'a> LiquidFlowInterval<'a> {
     pub fn new(
@@ -145,6 +147,7 @@ impl<'a> LiquidFlowInterval<'a> {
             dt,
             end,
             domain: VolumeDivergenceDomain::AllCells,
+            columns: None,
         })
     }
     pub(crate) fn on_slab(mut self, surface: &crate::SlabFreeSurface) -> Self {
@@ -152,6 +155,14 @@ impl<'a> LiquidFlowInterval<'a> {
             axis: surface.axis(),
             wet_layers: surface.wet_layers(),
         };
+        self
+    }
+    pub(crate) fn on_columns(mut self, surface: crate::ColumnSurfaceView<'a>) -> Self {
+        self.domain = VolumeDivergenceDomain::ReconstructedColumns {
+            axis: surface.axis(),
+            geometry: surface.stamp(),
+        };
+        self.columns = Some(surface);
         self
     }
     pub fn stamp(self) -> VolumeStamp {
@@ -209,6 +220,7 @@ pub struct LiquidVolumeReport {
     pub max_outward_courant: f64,
     pub actual_divergence_max: f64,
     pub divergence_domain: VolumeDivergenceDomain,
+    pub reconstruction_volume_change: f64,
     pub fraction_min: f64,
     pub fraction_max: f64,
     pub dry_cells: usize,
@@ -345,6 +357,100 @@ impl LiquidVolumeState {
         self.commit_prepared(&report);
         Ok(report)
     }
+    /// Atomically advance represented volume and its derived bounded column
+    /// geometry under caller-supplied velocities. This does not qualify those
+    /// velocities as a coupled pressure solve; use the facade for that contract.
+    pub fn advance_reconstructed(
+        &mut self,
+        inputs: crate::ColumnVolumeInputs<'_>,
+        surface: &mut crate::ColumnSurfaceWorkspace,
+        mut cancel: impl FnMut(crate::ColumnVolumeStage) -> bool,
+    ) -> Result<crate::ColumnVolumeReport, crate::LiquidStepError> {
+        if !surface
+            .state()
+            .matches(&self.grid, &self.accepted, self.stamp)
+        {
+            return Err(crate::LiquidStepError::FreeSurface(
+                crate::FreeSurfaceError::GeometryMismatch,
+            ));
+        }
+        let flow = inputs.flow.on_columns(surface.state());
+        let mut volume =
+            self.prepare_advance(flow, inputs.inlet, inputs.source, inputs.settings, |s| {
+                cancel(crate::ColumnVolumeStage::Volume(s))
+            })?;
+        let geometry = surface
+            .prepare(&mut self.candidate, volume.stamp, |s| {
+                cancel(crate::ColumnVolumeStage::Reconstruction(s))
+            })
+            .map_err(crate::LiquidStepError::FreeSurface)?;
+        self.requalify_reconstruction(&mut volume, inputs.source)?;
+        if cancel(crate::ColumnVolumeStage::BeforeCommit) {
+            return Err(crate::LiquidStepError::Cancelled);
+        }
+        surface.commit(geometry);
+        self.commit_prepared(&volume);
+        Ok(crate::ColumnVolumeReport { volume, geometry })
+    }
+    pub(crate) fn candidate_fraction_mut(&mut self) -> &mut [f64] {
+        &mut self.candidate
+    }
+    pub(crate) fn requalify_reconstruction(
+        &self,
+        report: &mut LiquidVolumeReport,
+        source: Option<LiquidVolumeSource<'_>>,
+    ) -> Result<(), LiquidVolumeError> {
+        let volume = self.grid.cell_volume();
+        for &f in &self.candidate {
+            product(volume, f)?;
+        }
+        let after = sum(self.candidate.iter().map(|&f| volume * f));
+        let mut source_abs = Accumulator::default();
+        if let Some(s) = source {
+            for &rate in s.rate {
+                source_abs.add(product(report.dt, rate)?.abs());
+            }
+        }
+        let balance = after - report.liquid_volume_before + report.outward_boundary_volume
+            - report.inward_boundary_volume
+            - report.source_volume;
+        let budget = (64.0 * f64::EPSILON)
+            * (report.liquid_volume_before.abs()
+                + after.abs()
+                + report.outward_boundary_volume
+                + report.inward_boundary_volume
+                + source_abs.total());
+        let mass = product(self.density, after)?;
+        if [after, balance, budget, mass]
+            .iter()
+            .any(|v| !v.is_finite())
+        {
+            return Err(LiquidVolumeError::ArithmeticFailure);
+        }
+        if balance.abs() > budget {
+            return Err(LiquidVolumeError::BalanceLimit {
+                error: balance,
+                rounding_budget: budget,
+            });
+        }
+        report.reconstruction_volume_change = after - report.liquid_volume_after;
+        report.liquid_volume_after = after;
+        report.liquid_mass_after = mass;
+        report.volume_balance_error = balance;
+        report.volume_rounding_budget = budget;
+        report.fraction_min = 1.0;
+        report.fraction_max = 0.0;
+        report.dry_cells = 0;
+        report.full_cells = 0;
+        for &f in &self.candidate {
+            report.fraction_min = report.fraction_min.min(f);
+            report.fraction_max = report.fraction_max.max(f);
+            report.dry_cells += usize::from(f == 0.0);
+            report.full_cells += usize::from(f == 1.0);
+        }
+        report.mixed_cells = self.grid.cell_len() - report.dry_cells - report.full_cells;
+        Ok(())
+    }
     pub(crate) fn validate_advance(
         &self,
         source: Option<LiquidVolumeSource<'_>>,
@@ -422,8 +528,32 @@ impl LiquidVolumeState {
                         } else {
                             0.0
                         };
-                        self.transfer[d][face] =
-                            product(product(product(flow.dt, area[d])?, velocity)?, donor)?;
+                        self.transfer[d][face] = if flow.columns.is_some_and(|s| s.axis() == axis)
+                            && p[d] > 0
+                            && p[d] < self.grid.counts()[d]
+                            && velocity != 0.0
+                        {
+                            let c = quotient(product(flow.dt, velocity.abs())?, h[d])?;
+                            if c > settings.max_outward_courant {
+                                let mut donor_cell = p;
+                                if velocity > 0.0 {
+                                    donor_cell[d] -= 1;
+                                }
+                                return Err(LiquidVolumeError::CourantLimit {
+                                    cell: self.grid.cell_unchecked(donor_cell),
+                                    actual: c,
+                                    limit: settings.max_outward_courant,
+                                });
+                            }
+                            let swept = if velocity > 0.0 {
+                                (donor - (1.0 - c)).max(0.0)
+                            } else {
+                                donor.min(c)
+                            };
+                            product(self.grid.cell_volume(), swept)? * velocity.signum()
+                        } else {
+                            product(product(product(flow.dt, area[d])?, velocity)?, donor)?
+                        };
                     }
                 }
             }
@@ -468,6 +598,9 @@ impl LiquidVolumeState {
                         VolumeDivergenceDomain::AllCells => true,
                         VolumeDivergenceDomain::LiquidSlab { axis, wet_layers } => {
                             p[axis.index()] < wet_layers
+                        }
+                        VolumeDivergenceDomain::ReconstructedColumns { .. } => {
+                            flow.columns.is_some_and(|s| s.is_wet_cell(cell))
                         }
                     };
                     if check_divergence {
@@ -594,6 +727,7 @@ impl LiquidVolumeState {
             max_outward_courant: max_courant,
             actual_divergence_max: max_divergence,
             divergence_domain: flow.domain,
+            reconstruction_volume_change: 0.0,
             fraction_min: min,
             fraction_max: max,
             dry_cells: dry,

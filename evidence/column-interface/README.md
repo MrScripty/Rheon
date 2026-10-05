@@ -1,0 +1,45 @@
+# Consecutive bounded column-interface milestone
+
+This packet qualifies opt-in lower-wall column reconstruction and subsequent coupled pressure/liquid intervals. Its parent is frozen free-surface evidence 70b5ce3f7562fc749937dc2516640bb1c0a17cd3. Historical packets, book/PDF inputs and proof project remain unchanged. Exact source/tree/ordered-parent identities are in receipt.json; evidence Git history binds that root receipt.
+
+See the [new research-book implementation companion](../../docs/research-book/implementation/column-interface-continuation.md) for equations, APIs, geometry closure, memory/stamp semantics and conditional proof scope. The original binary-slab constructor retains its rejection behavior. New column geometry is a bounded single-valued bottom-attached height model, not arbitrary VOF/mesh reconstruction. Density remains one equal positive constant; pressure is atmospheric zero and held over each interval. Full grid pressure face areas and one-layer vertical velocity copying are declared approximations.
+
+## Actual qualification
+
+Final native counts are **164 default / 158 core-only / 170 desktop**, with all-target formatting and Clippy warnings denied in all three configurations. Ten focused methods cover independent variable-distance matrices; 3D manufactured pressure at unequal spacings; hydrostatics on all axes; sixteen mixed hydrostatic intervals; eight coupled pulses with both methods; a new pressure-center activation during continuation; original raw/scale rejection; late disconnected/steep geometry failure; cancellation at exercised stages; bitwise accepted pressure, velocity, tracer, phase, clock, stamp and both geometry preservation; and retry equivalence. Constructor preflight includes transferred fraction capacity and all three bounded geometry arrays. Retained facade payload is 16F+80N+3C*sizeof(ColumnHeight), nominally 48C extra on this target: 23 arrays, no per-step snapshots or allocation.
+
+The final release laboratory runs **13 scenarios, 280 accepted intervals**. Six coupled scenes total 64 intervals (two methods × pulse, pressure activation and mixed rest). Imposed vertical growth/drain supplies 32 intervals and exact analytic height/volume across layer boundaries. Five imposed X-advection scenes supply 184 intervals at n=16/32/64/128, C=1/4, and n=64 at C=1/8 on n×4×2 stored grids. Pure advection makes no coupled pressure/momentum accuracy claim. Coupled publication and activation fixtures make no general fluid convergence claim.
+
+| X cells | Courant | L1 height error | Observed refinement order |
+|---:|---:|---:|---:|
+|16|0.25|0.004340872541256276|—|
+|32|0.25|0.002235992732210151|approximately 0.96|
+|64|0.25|0.0011341191927368003|approximately 0.98|
+|128|0.25|0.0005711189879630947|approximately 0.99|
+|64|0.125|0.001319454487614584|fixed-grid donor diffusion increases|
+
+The [independent numerical summary](numerical-summary.json) retains exact values, binomial discrepancies, native open-boundary volumes and qualified scope. Donor transport has a small numerical outflow tail; conservation is within the unchanged rounding budget, not an assertion that every open-boundary final mass equals the ideal translated profile. Column closure counts and volume changes are recorded. Every raw candidate must pass original bounds and ledger before geometry closure, then the original ledger is requalified. No tolerance, theta floor or fraction clamp was introduced. Unsupported thin, steep, overtopped or disconnected geometry returns typed failure.
+
+A second final release run produces **352 byte-identical native files**. New source also replays all **31 frozen slab files** (including the SGS 16-layer fraction 1.0000000000000004 rejection), **65 frozen transport files**, and three original Jacobi PNG/CSV fixtures exactly. Stable original smoke manifest fields match; runtime fields remain excluded. All **26 Python harness methods** pass normally and with -O.
+
+The new gate checks explicit finiteness before reductions, layouts, pressure-air storage, direct held-wet divergence, held/end geometry and versions, raw and reconstructed ledger/budget/carry-forward, native pixel equations, analytic vertical translation and the transverse binomial oracle. **Twenty adversarial variants** reject normally and with -O, including a wrong shape that preserves total mass. The figure [continuation and convergence](continuation-and-convergence.png) arranges actual native guidance and accepted geometry with independently computed imposed-flow error/profile data. It was visually inspected. Native guidance remains a +Z fraction integral with coefficient 8/m, not physical shading or a reconstructed general mesh.
+
+## Frozen verifier weakness confirmation
+
+Before implementation, tools/verify_free_surface.py and tools/test_free_surface_verifier.py were checked on exact 70b5ce3. The same files were checked again in an isolated exact checkout, preserving current edits. frozen-verifier-confirmation.json records four successful commands: full frozen root/nested receipt binding and its three negative fixtures, plus twelve numerical adversarial fixtures, each normal and optimized. Pressure NaN and infinite velocity reject before maxima; balance and rounding budget are independently recomputed, and volume carry-forward/boundary/source fields are checked. This confirms the successor's repair; it does not claim that the historical assert-based composition verifier survives -O.
+
+## Conditional Lean identities
+
+ColumnSurface.lean and AuditColumnSurface.lean compile with official Lean 4.19.0, original pinned mathlib c44e0c8ee63ca166450922a373c7409c5d26b00b, in an isolated unchanged project copy. Ten exact-real theorems cover supplied ghost interpolation/gradient and edge crossing, positive theta-dependent coefficient, supplied column volume closure, three-cell axial/shared-column cancellation, individual swept-volume bounds and a one-dimensional convex donor bound. Explicit positive/nonzero and [0,1] hypotheses remain. The audit scans all namespace logical declarations and allows only propext, Classical.choice and Quot.sound. Actual sorry and additional-axiom variants compile but audit rejects each; good source is restored and rechecked. No Rust/IEEE refinement, complete graph SPD theorem, multidimensional positivity, solver-convergence or physical validation is claimed.
+
+Reproduce with an isolated provisioned copy of the original proofs project and official pinned Lean on PATH, then `python evidence/column-interface/qualify_lean.py ISOLATED_PROJECT FRESH_OUTPUT`. lean-qualification/ binds positive, negative and restored commands/logs in a nested receipt. The original proof source gate and published PDF freshness gate pass. No historical Lean source or inventory is rewritten.
+
+## Source/evidence preservation and reproduction
+
+preservation.json verifies all **1797** frozen evidence/proof/book/education files from 70b5ce3. The master inventory excludes only its own root receipt.json and includes every nested receipt. `python evidence/column-interface/verify.py --evidence-commit FROZEN_HEAD --negative-self-test` checks exact source/tree/parents, all packet bytes, root/nested Git bindings and complete historical bytes, and rejects missing nested inventory, corrupt nested hash and wrong source tree. Repeat with -O.
+
+Run `cargo run --locked --release --example column_interface -- FRESH_OUTPUT`, then `python tools/verify_column_interface.py FRESH_OUTPUT`. The new numerical test file is tools/test_column_interface_verifier.py. Native final commands are in commands-final.json; release artifact hashes and byte-identical files are in replay-receipt.json. Tooling: Rust/Cargo 1.92.0, LLVM 21.1.3, locked dependencies, one build job, default debug/release profiles, Pillow 12.3.0 and Matplotlib 3.10.8. Desktop checks compile/test the GUI; no native window or real-time performance claim is made. Example/test bit snapshots and plotting buffers are outside kernel retained-array accounting.
+
+Earlier logs retain development failures without treating them as final qualification: focused-first.log exposed the downward oracle's incorrectly liquid-filled top inlet, corrected to explicit air; focused-late.log exposed acceptance of a disconnected source proposal, repaired with an explicit gap rejection; example-activation-first.log records a missing format argument when adding a scenario, fixed before release; initial transport checks had temporary unused-method warnings before facade integration. Final logs qualify the final source. No failed native condition was hidden by weakening a gate.
+
+Remaining gaps include general oblique PLIC/cut-cell momentum, breaking/overturning interfaces, detached drops/films, general air-band extension, variable density, capillarity, viscosity/adhesion, mesh solids and validated multidirectional liquid dynamics. The full-area ghost pressure and column-volume closure are explicit bounded approximations, not a fully validated liquid simulator. No paid service, credential change, network bypass, PR or external review request was used.

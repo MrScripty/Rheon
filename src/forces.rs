@@ -104,7 +104,7 @@ pub(crate) fn apply_on_domain(
     forces: &[BodyForce],
     dt: f64,
     velocity: [&mut [f32]; 3],
-    surface: Option<&crate::SlabFreeSurface>,
+    surface: Option<crate::column_surface::PressureSurface<'_>>,
     cancel: &mut impl FnMut(StepStage) -> bool,
 ) -> Result<ForceReport, SimulationError> {
     let mass = density * grid.cell_volume();

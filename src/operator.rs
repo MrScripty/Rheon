@@ -48,7 +48,7 @@ pub struct PressureOperator<'a> {
     face_area: [f64; 3],
     weight: [f64; 3],
     acceleration_factor: [f64; 3],
-    surface: Option<&'a crate::SlabFreeSurface>,
+    surface: Option<crate::column_surface::PressureSurface<'a>>,
 }
 
 impl<'a> PressureOperator<'a> {
@@ -100,14 +100,65 @@ impl<'a> PressureOperator<'a> {
         {
             return Err(OperatorError::InvalidCoefficient);
         }
-        operator.surface = Some(surface);
+        operator.surface = Some(crate::column_surface::PressureSurface::Slab(surface));
         Ok(operator)
+    }
+    /// Ghost-fluid pressure distances from the reconstructed column height
+    /// field. No minimum-distance clamp; unsupported scales are rejected.
+    pub fn with_columns(
+        grid: &'a GridGeometry,
+        density: f64,
+        surface: crate::ColumnSurfaceView<'a>,
+    ) -> Result<Self, OperatorError> {
+        if surface.grid() != grid {
+            return Err(OperatorError::InvalidPressureDomain);
+        }
+        let mut operator = Self::new(grid, density)?;
+        operator.surface = Some(crate::column_surface::PressureSurface::Columns(surface));
+        for axis in Axis::ALL {
+            let d = axis.index();
+            let dims = grid.face_counts(axis);
+            for k in 0..dims[2] {
+                for j in 0..dims[1] {
+                    for i in 0..dims[0] {
+                        let p = [i, j, k];
+                        if p[d] == 0 || p[d] >= grid.counts()[d] {
+                            continue;
+                        }
+                        let scale = surface.face_scale(axis, p);
+                        for base in [operator.weight[d], operator.acceleration_factor[d]] {
+                            let value = base * scale;
+                            if !value.is_finite()
+                                || value.is_subnormal()
+                                || (value == 0.0 && scale != 0.0)
+                            {
+                                return Err(OperatorError::InvalidCoefficient);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Ok(operator)
+    }
+    fn face_weight(&self, axis: Axis, p: [usize; 3]) -> f64 {
+        let mut low = p;
+        low[axis.index()] -= 1;
+        let a = self.is_wet(self.grid.cell_unchecked(low));
+        let b = self.is_wet(self.grid.cell_unchecked(p));
+        if a && b {
+            self.weight[axis.index()]
+        } else if a || b {
+            self.weight[axis.index()] * self.surface.map_or(1.0, |s| s.scale(axis, p))
+        } else {
+            0.0
+        }
     }
     pub(crate) fn has_gauge(&self) -> bool {
         self.surface.is_none()
     }
     pub(crate) fn is_wet(&self, cell: usize) -> bool {
-        self.surface.is_none_or(|s| s.is_wet_cell(cell))
+        self.surface.is_none_or(|s| s.is_wet(cell))
     }
     pub(crate) fn clear_inactive(&self, candidate: [&mut [f32]; 3]) {
         if let Some(surface) = self.surface {
@@ -127,6 +178,38 @@ impl<'a> PressureOperator<'a> {
             }
         }
     }
+    pub(crate) fn extend_column_band(&self, candidate: [&mut [f32]; 3]) {
+        let Some(crate::column_surface::PressureSurface::Columns(surface)) = self.surface else {
+            return;
+        };
+        let up = surface.axis().index();
+        for (d, field) in candidate.into_iter().enumerate() {
+            let axis = Axis::ALL[d];
+            let dims = self.grid.face_counts(axis);
+            // Read only an active lower face: a copied air value cannot become
+            // the donor for another layer. Outer impermeable faces stay zero.
+            for k in 0..dims[2] {
+                for j in 0..dims[1] {
+                    for i in 0..dims[0] {
+                        let p = [i, j, k];
+                        if p[d] == 0
+                            || p[d] == self.grid.counts()[d]
+                            || p[up] == 0
+                            || surface.face_active(axis, p)
+                        {
+                            continue;
+                        }
+                        let mut below = p;
+                        below[up] -= 1;
+                        if surface.face_active(axis, below) {
+                            field[self.grid.face_unchecked(axis, p)] =
+                                field[self.grid.face_unchecked(axis, below)];
+                        }
+                    }
+                }
+            }
+        }
+    }
     fn correction(&self, axis: Axis, p: [usize; 3], pressure: &[f64]) -> Option<f64> {
         let d = axis.index();
         let mut low = p;
@@ -135,8 +218,16 @@ impl<'a> PressureOperator<'a> {
         let right = self.grid.cell_unchecked(p);
         match (self.is_wet(left), self.is_wet(right)) {
             (true, true) => Some(self.acceleration_factor[d] * (pressure[right] - pressure[left])),
-            (true, false) => Some(2.0 * self.acceleration_factor[d] * (-pressure[left])),
-            (false, true) => Some(2.0 * self.acceleration_factor[d] * pressure[right]),
+            (true, false) => Some(
+                self.surface.map_or(1.0, |s| s.scale(axis, p))
+                    * self.acceleration_factor[d]
+                    * (-pressure[left]),
+            ),
+            (false, true) => Some(
+                self.surface.map_or(1.0, |s| s.scale(axis, p))
+                    * self.acceleration_factor[d]
+                    * pressure[right],
+            ),
             (false, false) => None,
         }
     }
@@ -173,7 +264,7 @@ impl<'a> PressureOperator<'a> {
                             value += if self.is_wet(other) {
                                 self.weight[d] * (pressure[row] - pressure[other])
                             } else {
-                                2.0 * self.weight[d] * pressure[row]
+                                self.face_weight(Axis::ALL[d], coordinate) * pressure[row]
                             };
                         }
                         if coordinate[d] + 1 < self.grid.counts()[d] {
@@ -183,7 +274,7 @@ impl<'a> PressureOperator<'a> {
                             value += if self.is_wet(other) {
                                 self.weight[d] * (pressure[row] - pressure[other])
                             } else {
-                                2.0 * self.weight[d] * pressure[row]
+                                self.face_weight(Axis::ALL[d], neighbor) * pressure[row]
                             };
                         }
                     }
@@ -382,26 +473,14 @@ impl<'a> PressureOperator<'a> {
             return 1.0;
         }
         let mut value = 0.0;
-        for (d, &position) in coordinate.iter().enumerate() {
-            if position > 0 {
-                let mut neighbor = coordinate;
-                neighbor[d] -= 1;
-                value += self.weight[d]
-                    * if self.is_wet(self.grid.cell_unchecked(neighbor)) {
-                        1.0
-                    } else {
-                        2.0
-                    };
+        for d in 0..3 {
+            if coordinate[d] > 0 {
+                value += self.face_weight(Axis::ALL[d], coordinate);
             }
-            if position + 1 < self.grid.counts()[d] {
-                let mut neighbor = coordinate;
-                neighbor[d] += 1;
-                value += self.weight[d]
-                    * if self.is_wet(self.grid.cell_unchecked(neighbor)) {
-                        1.0
-                    } else {
-                        2.0
-                    };
+            if coordinate[d] + 1 < self.grid.counts()[d] {
+                let mut hi = coordinate;
+                hi[d] += 1;
+                value += self.face_weight(Axis::ALL[d], hi);
             }
         }
         value

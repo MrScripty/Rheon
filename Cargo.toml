@@ -40,3 +40,7 @@ required-features = ["png-export"]
 [[example]]
 name = "free_surface"
 required-features = ["png-export"]
+
+[[example]]
+name = "column_interface"
+required-features = ["png-export"]

@@ -68,3 +68,11 @@ pub use liquid_step::{
     LiquidStepError, LiquidStepInputs, LiquidStepReport, LiquidStepStage, LiquidTransportConfig,
     LiquidTransportSimulation, LiquidTransportView,
 };
+
+mod column_surface;
+pub use column_surface::{
+    ColumnHeight, ColumnReconstructionReport, ColumnSurfaceView, ColumnSurfaceWorkspace,
+    ReconstructionStage,
+};
+
+pub use column_surface::{ColumnVolumeInputs, ColumnVolumeReport, ColumnVolumeStage};

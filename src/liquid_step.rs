@@ -1,5 +1,5 @@
 //! Transactional fixed-box carrier and represented-volume transport. Fractions
-//! do not classify pressure unknowns or feed back into carrier inertia.
+//! classify pressure only on opt-in surface modes; inertia remains one constant.
 use crate::{
     Axis, BodyForce, BoxFluxStepBoundary, BoxFluxStepReport, BoxFluxStepWorkspace, BufferPlan,
     ForcedStepReport, GridGeometry, LiquidFlowInterval, LiquidInlet, LiquidVolumeError,
@@ -14,7 +14,8 @@ pub struct LiquidTransportConfig {
     /// memory_limit caps all facade-owned arrays, including accepted pressure
     /// and transferred initial fraction capacity. Boundary scratch is separate.
     pub carrier: SimulationConfig,
-    /// Independent constant represented-liquid density; no two-phase inertia.
+    /// Independent constant in full-box mode; surface modes require equality
+    /// with carrier density. No two-phase inertia.
     pub represented_density: f64,
     pub volume_stamp: VolumeStamp,
     /// Caller-owned identity for this carrier's published generations.
@@ -35,6 +36,7 @@ pub struct LiquidStepInputs<'a> {
 pub enum LiquidStepStage {
     Carrier(StepStage),
     Volume(VolumeStage),
+    Reconstruction(crate::ReconstructionStage),
     /// Last callback; neither owner has published yet. No callbacks or fallible
     /// operations run after this checkpoint accepts the candidate pair.
     BeforeCommit,
@@ -70,13 +72,17 @@ impl From<LiquidVolumeError> for LiquidStepError {
 pub struct LiquidTransportView<'a> {
     pub carrier: StateView<'a>,
     pub liquid: LiquidVolumeView<'a>,
-    /// Gauge-fixed pressure of the published carrier projection, in Pa. Initial
+    /// Last accepted interval projection pressure, in Pa. Closed mode fixes a
+    /// gauge; surface modes use their declared atmospheric geometry. Initial
     /// rest state uses zero pressure. Failed preparation cannot change this view.
     pub pressure: &'a [f64],
     pub carrier_stamp: VolumeStamp,
     /// Immutable pressure geometry used during this interval, not reconstructed
     /// geometry inferred from transported end fractions.
     pub pressure_surface: Option<&'a crate::SlabFreeSurface>,
+    pub reconstructed_surface: Option<crate::ColumnSurfaceView<'a>>,
+    /// Geometry of the held interval pressure, distinct from end geometry.
+    pub pressure_columns: Option<crate::ColumnSurfaceView<'a>>,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -88,6 +94,7 @@ pub struct LiquidStepReport {
     pub boundary_workspace_array_bytes: usize,
     pub total_array_bytes: usize,
     pub pressure_surface: Option<VolumeStamp>,
+    pub column_reconstruction: Option<crate::ColumnReconstructionReport>,
 }
 
 /// Owns the existing Simulation and LiquidVolumeState and one explicitly
@@ -101,6 +108,7 @@ pub struct LiquidTransportSimulation {
     carrier_id: u64,
     allocated_bytes: usize,
     surface: Option<crate::SlabFreeSurface>,
+    columns: Option<crate::ColumnSurfaceWorkspace>,
 }
 impl LiquidTransportSimulation {
     pub fn new(
@@ -154,6 +162,7 @@ impl LiquidTransportSimulation {
             carrier_id: config.carrier_id,
             allocated_bytes: limit - remaining,
             surface: None,
+            columns: None,
         })
     }
     /// One-liquid resolved slab pressure mode. Mixed interface geometry is not
@@ -179,6 +188,84 @@ impl LiquidTransportSimulation {
         state.surface = Some(surface);
         Ok(state)
     }
+    /// Opt-in lower-wall column-height geometry with geometric axial transfer
+    /// and staged reconstruction. Does not alter the frozen binary-slab mode.
+    pub fn with_reconstructed_surface(
+        grid: GridGeometry,
+        config: LiquidTransportConfig,
+        implementation: PressureImplementation,
+        fraction: Vec<f64>,
+        axis: Axis,
+    ) -> Result<Self, LiquidStepError> {
+        if config.carrier.density.to_bits() != config.represented_density.to_bits() {
+            return Err(LiquidStepError::FreeSurface(
+                crate::FreeSurfaceError::DensityMismatch,
+            ));
+        }
+        // Preflight transferred fraction capacity together with both owners
+        // and nominal geometry before allocating any reconstruction arrays.
+        let faces = Axis::ALL.into_iter().try_fold(0_usize, |n, a| {
+            n.checked_add(grid.face_len(a))
+                .ok_or(LiquidStepError::AllocationFailed)
+        })?;
+        let volume_min = fraction
+            .capacity()
+            .checked_add(grid.cell_len())
+            .and_then(|n| n.checked_add(faces))
+            .and_then(|n| n.checked_mul(8))
+            .ok_or(LiquidStepError::AllocationFailed)?;
+        let pressure_min = grid
+            .cell_len()
+            .checked_mul(8)
+            .ok_or(LiquidStepError::AllocationFailed)?;
+        let carrier_min = BufferPlan::for_grid(&grid, usize::MAX)
+            .map_err(SimulationError::from)?
+            .total_bytes;
+        let owners_min = carrier_min
+            .checked_add(volume_min)
+            .and_then(|n| n.checked_add(pressure_min))
+            .ok_or(LiquidStepError::AllocationFailed)?;
+        let geometry_min = (grid.cell_len() / grid.counts()[axis.index()])
+            .checked_mul(3)
+            .and_then(|n| n.checked_mul(std::mem::size_of::<crate::ColumnHeight>()))
+            .ok_or(LiquidStepError::AllocationFailed)?;
+        let required = owners_min
+            .checked_add(geometry_min)
+            .ok_or(LiquidStepError::AllocationFailed)?;
+        if required > config.carrier.memory_limit {
+            return Err(LiquidStepError::BufferLimit {
+                required,
+                limit: config.carrier.memory_limit,
+            });
+        }
+        let columns = crate::ColumnSurfaceWorkspace::new(
+            grid.clone(),
+            axis,
+            &fraction,
+            config.volume_stamp,
+            config.carrier.memory_limit - owners_min,
+        )
+        .map_err(LiquidStepError::FreeSurface)?;
+        crate::PressureOperator::with_columns(&grid, config.carrier.density, columns.state())
+            .map_err(SimulationError::from)?;
+        let bytes = columns.allocated_bytes();
+        let limit = config.carrier.memory_limit;
+        let mut reduced = config;
+        reduced.carrier.memory_limit = limit - bytes;
+        let mut owner =
+            Self::new(grid, reduced, implementation, fraction).map_err(|error| match error {
+                LiquidStepError::BufferLimit { required, .. } => {
+                    match required.checked_add(bytes) {
+                        Some(required) => LiquidStepError::BufferLimit { required, limit },
+                        None => LiquidStepError::AllocationFailed,
+                    }
+                }
+                other => other,
+            })?;
+        owner.allocated_bytes += bytes;
+        owner.columns = Some(columns);
+        Ok(owner)
+    }
     pub fn grid(&self) -> &GridGeometry {
         self.carrier.grid()
     }
@@ -195,6 +282,8 @@ impl LiquidTransportSimulation {
             liquid: self.liquid.state(),
             pressure: &self.pressure,
             pressure_surface: self.surface.as_ref(),
+            reconstructed_surface: self.columns.as_ref().map(|s| s.state()),
+            pressure_columns: self.columns.as_ref().map(|s| s.pressure_geometry()),
             carrier_stamp: VolumeStamp {
                 id: self.carrier_id,
                 version: carrier.generation,
@@ -229,7 +318,7 @@ impl LiquidTransportSimulation {
         mut boundary: Option<(&mut BoxFluxStepWorkspace, BoxFluxStepBoundary)>,
         mut cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
-        if let Some(surface) = &self.surface {
+        if self.surface.is_some() || self.columns.is_some() {
             if boundary.is_some() {
                 return Err(LiquidStepError::FreeSurface(
                     crate::FreeSurfaceError::UnsupportedBoxFlux,
@@ -245,9 +334,22 @@ impl LiquidTransportSimulation {
                     crate::FreeSurfaceError::DensityMismatch,
                 ));
             }
-            surface
-                .validate_fractions(self.carrier.grid(), self.liquid.state().fraction)
-                .map_err(LiquidStepError::FreeSurface)?;
+            if let Some(surface) = &self.surface {
+                surface
+                    .validate_fractions(self.carrier.grid(), self.liquid.state().fraction)
+                    .map_err(LiquidStepError::FreeSurface)?;
+            }
+            if self.columns.as_ref().is_some_and(|surface| {
+                !surface.state().matches(
+                    self.carrier.grid(),
+                    self.liquid.state().fraction,
+                    self.liquid.state().stamp,
+                )
+            }) {
+                return Err(LiquidStepError::FreeSurface(
+                    crate::FreeSurfaceError::GeometryMismatch,
+                ));
+            }
         }
         self.liquid.validate_advance(inputs.source, inputs.volume)?;
         let boundary_bytes = boundary.as_ref().map_or(0, |(w, _)| w.allocated_bytes());
@@ -260,7 +362,14 @@ impl LiquidTransportSimulation {
             inputs.smoke_source,
             inputs.forces,
             boundary.as_mut().map(|(w, b)| (&mut **w, *b)),
-            self.surface.as_ref(),
+            self.surface
+                .as_ref()
+                .map(crate::column_surface::PressureSurface::Slab)
+                .or_else(|| {
+                    self.columns
+                        .as_ref()
+                        .map(|s| crate::column_surface::PressureSurface::Columns(s.state()))
+                }),
             |stage| cancel(LiquidStepStage::Carrier(stage)),
         )?;
         let step = candidate.legacy.step.step;
@@ -277,13 +386,36 @@ impl LiquidTransportSimulation {
         if let Some(surface) = &self.surface {
             flow = flow.on_slab(surface);
         }
-        let liquid = self.liquid.prepare_advance(
+        if let Some(surface) = &self.columns {
+            flow = flow.on_columns(surface.state());
+        }
+        let mut liquid = self.liquid.prepare_advance(
             flow,
             inputs.inlet,
             inputs.source,
             inputs.volume,
             |stage| cancel(LiquidStepStage::Volume(stage)),
         )?;
+        let column_reconstruction = if let Some(surface) = &mut self.columns {
+            let report = surface
+                .prepare(
+                    self.liquid.candidate_fraction_mut(),
+                    liquid.stamp,
+                    |stage| cancel(LiquidStepStage::Reconstruction(stage)),
+                )
+                .map_err(LiquidStepError::FreeSurface)?;
+            self.liquid
+                .requalify_reconstruction(&mut liquid, inputs.source)?;
+            crate::PressureOperator::with_columns(
+                self.carrier.grid(),
+                self.carrier.density(),
+                surface.candidate(report.output_stamp),
+            )
+            .map_err(SimulationError::from)?;
+            Some(report)
+        } else {
+            None
+        };
         if cancel(LiquidStepStage::BeforeCommit) {
             return Err(LiquidStepError::Cancelled);
         }
@@ -295,6 +427,9 @@ impl LiquidTransportSimulation {
         };
         self.pressure.copy_from_slice(pressure);
         self.carrier.commit_prepared(&candidate);
+        if let (Some(surface), Some(report)) = (&mut self.columns, column_reconstruction) {
+            surface.commit(report);
+        }
         self.liquid.commit_prepared(&liquid);
         Ok(LiquidStepReport {
             carrier: candidate.legacy.step,
@@ -304,6 +439,7 @@ impl LiquidTransportSimulation {
             boundary_workspace_array_bytes: boundary_bytes,
             total_array_bytes: total_bytes,
             pressure_surface: self.surface.as_ref().map(|s| s.stamp()),
+            column_reconstruction,
         })
     }
 }

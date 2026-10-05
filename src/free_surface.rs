@@ -6,6 +6,13 @@ use std::fmt;
 #[derive(Debug, Clone, PartialEq)]
 pub enum FreeSurfaceError {
     InvalidSlab,
+    UnsupportedColumn { column: usize },
+    UnresolvedColumn { column: usize },
+    SteepColumn { column: usize, neighbor: usize },
+    ReconstructionCancelled { stage: crate::ReconstructionStage },
+    ArithmeticFailure,
+    AllocationFailed,
+    BufferLimit { required: usize, limit: usize },
     GeometryMismatch,
     DensityMismatch,
     FractionMismatch { cell: usize },

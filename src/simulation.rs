@@ -138,7 +138,7 @@ struct BoundaryStepInput<'a> {
 struct StepDomains<'a> {
     barrier: Option<&'a crate::TriangleSurface>,
     boundary: Option<BoundaryStepInput<'a>>,
-    surface: Option<&'a crate::SlabFreeSurface>,
+    surface: Option<crate::column_surface::PressureSurface<'a>>,
 }
 pub(crate) struct StepOutcome {
     pub(crate) legacy: crate::BarrierStepReport,
@@ -400,7 +400,7 @@ impl Simulation {
         source: Option<SmokeSource>,
         forces: &[BodyForce],
         boundary: Option<(&mut crate::BoxFluxStepWorkspace, crate::BoxFluxStepBoundary)>,
-        surface: Option<&crate::SlabFreeSurface>,
+        surface: Option<crate::column_surface::PressureSurface<'_>>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.prepare_impl(
@@ -542,8 +542,15 @@ impl Simulation {
             || cancel(StepStage::VelocitySlice),
         )?;
         if let Some(surface) = surface {
-            PressureOperator::with_free_surface(&self.grid, self.config.density, surface)?
-                .clear_inactive(self.candidate.velocity_mut());
+            match surface {
+                crate::column_surface::PressureSurface::Slab(s) => {
+                    PressureOperator::with_free_surface(&self.grid, self.config.density, s)?
+                }
+                crate::column_surface::PressureSurface::Columns(s) => {
+                    PressureOperator::with_columns(&self.grid, self.config.density, s)?
+                }
+            }
+            .clear_inactive(self.candidate.velocity_mut());
         }
         if let Some(work) = &mut boundary_work {
             work.kinetic_after_advection = crate::box_flux_step::interior_energy(
@@ -622,7 +629,14 @@ impl Simulation {
             (report.pressure, report.actual_divergence_max, Some(report))
         } else {
             let operator = if let Some(surface) = surface {
-                PressureOperator::with_free_surface(&self.grid, self.config.density, surface)?
+                match surface {
+                    crate::column_surface::PressureSurface::Slab(s) => {
+                        PressureOperator::with_free_surface(&self.grid, self.config.density, s)?
+                    }
+                    crate::column_surface::PressureSurface::Columns(s) => {
+                        PressureOperator::with_columns(&self.grid, self.config.density, s)?
+                    }
+                }
             } else {
                 PressureOperator::new(&self.grid, self.config.density)?
             };
@@ -638,6 +652,7 @@ impl Simulation {
                 dt,
                 self.candidate.velocity_mut(),
             )?;
+            operator.extend_column_band(self.candidate.velocity_mut());
             let actual_divergence_max = self
                 .workspace
                 .actual_divergence_max(&operator, self.candidate.velocity())?;
