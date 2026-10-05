@@ -1,0 +1,68 @@
+[
+  {
+    "name": "numerics",
+    "command": [
+      "python3",
+      "evidence/liquid-step/verify_numerics.py"
+    ],
+    "exit": 0,
+    "seconds": 0.3690217240000493
+  },
+  {
+    "name": "numerics-optimized",
+    "command": [
+      "python3",
+      "-O",
+      "evidence/liquid-step/verify_numerics.py"
+    ],
+    "exit": 0,
+    "seconds": 0.597183596999912
+  },
+  {
+    "name": "negative-numerics",
+    "command": [
+      "python3",
+      "evidence/liquid-step/test_verify_numerics.py"
+    ],
+    "exit": 0,
+    "seconds": 0.10386690699988321
+  },
+  {
+    "name": "negative-numerics-optimized",
+    "command": [
+      "python3",
+      "-O",
+      "evidence/liquid-step/test_verify_numerics.py"
+    ],
+    "exit": 0,
+    "seconds": 0.3526188849996288
+  },
+  {
+    "name": "proof-source",
+    "command": [
+      "python3",
+      "proofs/scripts/check_sources.py"
+    ],
+    "exit": 0,
+    "seconds": 0.04675249100000656
+  },
+  {
+    "name": "composition-packet",
+    "command": [
+      "python3",
+      "evidence/liquid-composition/verify.py"
+    ],
+    "exit": 0,
+    "seconds": 0.2108067970002594
+  },
+  {
+    "name": "pdf-gate",
+    "command": [
+      "python3",
+      "-c",
+      "import sys; sys.path.insert(0,\"docs/education\"); from pdf_freshness import verify_pdf; verify_pdf(\".\"); print(\"PASS frozen PDF input and byte checks\")"
+    ],
+    "exit": 0,
+    "seconds": 0.0363071450001371
+  }
+]
