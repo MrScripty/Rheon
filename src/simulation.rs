@@ -31,6 +31,7 @@ pub enum StepStage {
     VelocitySlice,
     BeforeForces,
     ForceSlice,
+    Viscosity(crate::ViscosityStage),
     BeforePressure,
     PressureIteration,
     ProjectionSlice,
@@ -62,6 +63,7 @@ pub enum SimulationError {
     InvalidConfig,
     InvalidSource,
     InvalidForce,
+    Viscosity(crate::ViscosityError),
     InvalidTimeStep,
     TimeResolution,
     GenerationOverflow,
@@ -139,10 +141,12 @@ struct StepDomains<'a> {
     barrier: Option<&'a crate::TriangleSurface>,
     boundary: Option<BoundaryStepInput<'a>>,
     surface: Option<crate::column_surface::PressureSurface<'a>>,
+    viscosity: Option<(&'a mut crate::ViscosityWorkspace, f64)>,
 }
 pub(crate) struct StepOutcome {
     pub(crate) legacy: crate::BarrierStepReport,
     pub(crate) boundary: Option<crate::BoxFluxStepReport>,
+    pub(crate) viscosity: Option<crate::ViscosityReport>,
 }
 
 struct Fields {
@@ -388,12 +392,14 @@ impl Simulation {
                 barrier,
                 boundary,
                 surface: None,
+                viscosity: None,
             },
             cancel,
         )?;
         self.commit_prepared(&outcome);
         Ok(outcome)
     }
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn prepare_liquid_carrier(
         &mut self,
         requested_dt: f64,
@@ -401,6 +407,7 @@ impl Simulation {
         forces: &[BodyForce],
         boundary: Option<(&mut crate::BoxFluxStepWorkspace, crate::BoxFluxStepBoundary)>,
         surface: Option<crate::column_surface::PressureSurface<'_>>,
+        viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.prepare_impl(
@@ -410,6 +417,7 @@ impl Simulation {
             StepDomains {
                 barrier: None,
                 surface,
+                viscosity,
                 boundary: boundary.map(|(workspace, boundary)| BoundaryStepInput {
                     workspace,
                     boundary,
@@ -444,6 +452,7 @@ impl Simulation {
             barrier,
             mut boundary,
             surface,
+            viscosity,
         } = domains;
         if self.paused {
             return Err(SimulationError::Paused);
@@ -595,6 +604,21 @@ impl Simulation {
                     &mut cancel,
                 )?
             })
+        };
+        let viscosity = if let Some((workspace, mu)) = viscosity {
+            let report = workspace
+                .prepare(
+                    self.candidate.velocity(),
+                    self.config.density,
+                    mu,
+                    dt,
+                    |stage| cancel(StepStage::Viscosity(stage)),
+                )
+                .map_err(SimulationError::Viscosity)?;
+            workspace.publish(self.candidate.velocity_mut());
+            Some(report)
+        } else {
+            None
         };
         checkpoint(&mut cancel, StepStage::BeforePressure)?;
         let (pressure, actual_divergence_max, projection) = if let Some(input) = &mut boundary {
@@ -793,7 +817,11 @@ impl Simulation {
             }),
             _ => None,
         };
-        Ok(StepOutcome { legacy, boundary })
+        Ok(StepOutcome {
+            legacy,
+            boundary,
+            viscosity,
+        })
     }
 }
 fn checkpoint(

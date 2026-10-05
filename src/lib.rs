@@ -76,3 +76,6 @@ pub use column_surface::{
 };
 
 pub use column_surface::{ColumnVolumeInputs, ColumnVolumeReport, ColumnVolumeStage};
+
+mod viscosity;
+pub use viscosity::{ViscosityError, ViscosityReport, ViscosityStage, ViscosityWorkspace};

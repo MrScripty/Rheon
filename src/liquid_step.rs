@@ -95,6 +95,8 @@ pub struct LiquidStepReport {
     pub total_array_bytes: usize,
     pub pressure_surface: Option<VolumeStamp>,
     pub column_reconstruction: Option<crate::ColumnReconstructionReport>,
+    pub viscosity: Option<crate::ViscosityReport>,
+    pub viscosity_workspace_array_bytes: usize,
 }
 
 /// Owns the existing Simulation and LiquidVolumeState and one explicitly
@@ -299,7 +301,7 @@ impl LiquidTransportSimulation {
         inputs: LiquidStepInputs<'_>,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
-        self.step_impl(inputs, None, cancel)
+        self.step_impl(inputs, None, None, cancel)
     }
     /// End-of-step prescribed carrier box flux and explicit liquid inflow
     /// donors. Appearance tracer follows the existing selected boundary policy.
@@ -310,12 +312,36 @@ impl LiquidTransportSimulation {
         boundary: BoxFluxStepBoundary,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
-        self.step_impl(inputs, Some((workspace, boundary)), cancel)
+        self.step_impl(inputs, Some((workspace, boundary)), None, cancel)
+    }
+    /// Fully filled Newtonian liquid in a sealed box with free-slip stationary
+    /// walls. mu is dynamic viscosity (Pa s). Surface geometry, box flux,
+    /// unequal material density and phase sources require another model.
+    pub fn step_viscous(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        workspace: &mut crate::ViscosityWorkspace,
+        dynamic_viscosity: f64,
+        cancel: impl FnMut(LiquidStepStage) -> bool,
+    ) -> Result<LiquidStepReport, LiquidStepError> {
+        if self.surface.is_some()
+            || self.columns.is_some()
+            || inputs.source.is_some()
+            || self.liquid.state().density.to_bits() != self.carrier.density().to_bits()
+            || self.liquid.state().fraction.iter().any(|&f| f != 1.0)
+            || !workspace.matches(self.carrier.grid())
+        {
+            return Err(
+                SimulationError::Viscosity(crate::ViscosityError::UnsupportedDomain).into(),
+            );
+        }
+        self.step_impl(inputs, None, Some((workspace, dynamic_viscosity)), cancel)
     }
     fn step_impl(
         &mut self,
         inputs: LiquidStepInputs<'_>,
         mut boundary: Option<(&mut BoxFluxStepWorkspace, BoxFluxStepBoundary)>,
+        viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         mut cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
         if self.surface.is_some() || self.columns.is_some() {
@@ -353,9 +379,11 @@ impl LiquidTransportSimulation {
         }
         self.liquid.validate_advance(inputs.source, inputs.volume)?;
         let boundary_bytes = boundary.as_ref().map_or(0, |(w, _)| w.allocated_bytes());
+        let viscosity_bytes = viscosity.as_ref().map_or(0, |(w, _)| w.allocated_bytes());
         let total_bytes = self
             .allocated_bytes
             .checked_add(boundary_bytes)
+            .and_then(|n| n.checked_add(viscosity_bytes))
             .ok_or(LiquidStepError::AllocationFailed)?;
         let candidate = self.carrier.prepare_liquid_carrier(
             inputs.requested_dt,
@@ -370,6 +398,7 @@ impl LiquidTransportSimulation {
                         .as_ref()
                         .map(|s| crate::column_surface::PressureSurface::Columns(s.state()))
                 }),
+            viscosity,
             |stage| cancel(LiquidStepStage::Carrier(stage)),
         )?;
         let step = candidate.legacy.step.step;
@@ -440,6 +469,8 @@ impl LiquidTransportSimulation {
             total_array_bytes: total_bytes,
             pressure_surface: self.surface.as_ref().map(|s| s.stamp()),
             column_reconstruction,
+            viscosity: candidate.viscosity,
+            viscosity_workspace_array_bytes: viscosity_bytes,
         })
     }
 }
