@@ -1,0 +1,10 @@
+AUDITED Rheon.LiquidVolume.closed_source_balance: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.LiquidVolume.donorUpdate: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.LiquidVolume.constant_density_mass_balance: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.LiquidVolume.outward_courant_counterexample: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.LiquidVolume.donor_unit_interval: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.LiquidVolume.donorUpdate.eq_1: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.LiquidVolume.massTotal: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.LiquidVolume.donor_nonnegative: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.LiquidVolume.amountUpdate: [propext, Quot.sound, Classical.choice]
+/workspace/Rheon-liquid-volume/evidence/liquid-volume/AuditVolumeLedger.lean:5:0: error: Disallowed axiom Rheon.LiquidVolume.unreviewedAssumption in Rheon.LiquidVolume.unreviewedAssumption

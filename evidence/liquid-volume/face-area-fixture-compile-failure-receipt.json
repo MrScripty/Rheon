@@ -1,0 +1,16 @@
+{
+  "actual_exit": 101,
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-default-features",
+    "--test",
+    "liquid_volume_contract",
+    "underflowed_face_area_rejects_instead_of_losing_representable_inflow"
+  ],
+  "pre_fix_source_commit": "ad35d710299474160a09b58660e26137e0827c24",
+  "pre_fix_source_sha256": "8c4049ce5104b73ed7da4078a36f017986bbd01e20f9ca79cfa1d3d200b400a5",
+  "fixture_sha256": "06ac14b32fb8af331c3fe649b1979b092ebe0c101919f423dda5a8b29c1f04c0"
+}

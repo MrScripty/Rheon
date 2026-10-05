@@ -1,0 +1,4 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-liquid-volume)
+    Finished `release` profile [optimized] target(s) in 2.90s
+     Running `/workspace/.rheon-tools/target-liquid-volume-release/release/examples/liquid_volume evidence/liquid-volume/spatial-reference`
+First-order represented-volume transport; no free-surface pressure or mesh-wall coupling.

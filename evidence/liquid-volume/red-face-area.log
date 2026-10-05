@@ -1,0 +1,22 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-liquid-volume)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.23s
+     Running tests/liquid_volume_contract.rs (/workspace/.rheon-tools/target-repaired-stack/debug/deps/liquid_volume_contract-90e8a2423e76af19)
+
+running 1 test
+test underflowed_face_area_rejects_instead_of_losing_representable_inflow ... FAILED
+
+failures:
+
+---- underflowed_face_area_rejects_instead_of_losing_representable_inflow stdout ----
+
+thread 'underflowed_face_area_rejects_instead_of_losing_representable_inflow' (163788) panicked at tests/liquid_volume_contract.rs:547:100:
+called `Result::unwrap_err()` on an `Ok` value: LiquidVolumeReport { stamp: VolumeStamp { id: 1, version: 1 }, flow: VolumeStamp { id: 2, version: 0 }, inlet: VolumeStamp { id: 4, version: 2 }, source: None, dt: 1e200, time: 1e200, liquid_volume_before: 0.0, liquid_volume_after: 0.0, inward_boundary_volume: 0.0, outward_boundary_volume: 0.0, source_volume: 0.0, volume_balance_error: 0.0, volume_rounding_budget: 0.0, liquid_mass_before: 0.0, liquid_mass_after: 0.0, max_outward_courant: 1.0, actual_divergence_max: 0.0, fraction_min: 0.0, fraction_max: 0.0, dry_cells: 1, mixed_cells: 0, full_cells: 0 }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    underflowed_face_area_rejects_instead_of_losing_representable_inflow
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--test liquid_volume_contract`

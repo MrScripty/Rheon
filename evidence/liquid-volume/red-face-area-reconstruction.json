@@ -1,0 +1,5 @@
+{
+  "accepted_block": "        let area = [\n            product(h[1], h[2])?,\n            product(h[0], h[2])?,\n            product(h[0], h[1])?,\n        ];",
+  "pre_fix_block": "        let area = [h[1] * h[2], h[0] * h[2], h[0] * h[1]];",
+  "reconstructed_pre_fix_source_sha256": "8c4049ce5104b73ed7da4078a36f017986bbd01e20f9ca79cfa1d3d200b400a5"
+}

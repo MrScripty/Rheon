@@ -1,0 +1,26 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-liquid-volume)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.60s
+     Running tests/liquid_volume_contract.rs (/workspace/.rheon-tools/target-repaired-stack/debug/deps/liquid_volume_contract-90e8a2423e76af19)
+
+running 15 tests
+test actual_owned_capacity_invalid_inputs_and_resolved_clock_are_checked ... ok
+test closed_anisotropic_circulation_reuses_shared_faces_and_preserves_volume ... ok
+test courant_divergence_and_raw_source_bounds_fail_without_changing_accepted_state ... ok
+test both_accepted_pressure_methods_supply_read_only_carrier_not_free_surface_feedback ... ok
+test geometry_interval_source_identity_and_version_limits_reject_before_callbacks ... ok
+test oblique_constant_fraction_preserves_constant_and_balanced_boundary_transfer ... ok
+test signed_sources_are_volume_per_second_and_density_scales_mass_only ... ok
+test signed_all_axis_upwind_inlet_outlet_matches_hand_volume_and_occupancy ... ok
+test signed_zero_is_valid_empty_liquid_with_zero_volume_transfer ... ok
+test thin_positive_fractions_and_merging_supports_are_not_erased_by_clamping ... ok
+test underflowed_face_area_rejects_instead_of_losing_representable_inflow ... ok
+test unrepresentable_initial_amount_or_nonzero_face_transfer_cannot_disappear ... ok
+slab n=16 courant=0.5 steps=4 l1_volume_error=9.37500000000000000e-2 max_balance=0.00000000000000000e0
+test unsplit_three_dimensional_transfer_is_bounded_but_diffuses_geometric_cube ... ok
+test partial_flux_and_cell_cancellation_preserve_bits_and_retry_matches_fresh ... ok
+slab n=32 courant=0.5 steps=8 l1_volume_error=6.83593750000000000e-2 max_balance=0.00000000000000000e0
+slab n=64 courant=0.5 steps=16 l1_volume_error=4.90951538085937500e-2 max_balance=0.00000000000000000e0
+slab n=64 courant=0.25 steps=32 l1_volume_error=6.03903034519479090e-2 max_balance=0.00000000000000000e0
+test translated_slab_has_exact_binomial_oracle_and_independent_spatial_refinement ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
