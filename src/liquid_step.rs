@@ -46,6 +46,7 @@ pub enum LiquidStepError {
     Volume(LiquidVolumeError),
     Cancelled,
     AllocationFailed,
+    FreeSurface(crate::FreeSurfaceError),
     BufferLimit { required: usize, limit: usize },
 }
 impl fmt::Display for LiquidStepError {
@@ -73,6 +74,9 @@ pub struct LiquidTransportView<'a> {
     /// rest state uses zero pressure. Failed preparation cannot change this view.
     pub pressure: &'a [f64],
     pub carrier_stamp: VolumeStamp,
+    /// Immutable pressure geometry used during this interval, not reconstructed
+    /// geometry inferred from transported end fractions.
+    pub pressure_surface: Option<&'a crate::SlabFreeSurface>,
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -83,6 +87,7 @@ pub struct LiquidStepReport {
     pub owned_array_bytes: usize,
     pub boundary_workspace_array_bytes: usize,
     pub total_array_bytes: usize,
+    pub pressure_surface: Option<VolumeStamp>,
 }
 
 /// Owns the existing Simulation and LiquidVolumeState and one explicitly
@@ -95,6 +100,7 @@ pub struct LiquidTransportSimulation {
     pressure: Vec<f64>,
     carrier_id: u64,
     allocated_bytes: usize,
+    surface: Option<crate::SlabFreeSurface>,
 }
 impl LiquidTransportSimulation {
     pub fn new(
@@ -147,7 +153,31 @@ impl LiquidTransportSimulation {
             pressure,
             carrier_id: config.carrier_id,
             allocated_bytes: limit - remaining,
+            surface: None,
         })
+    }
+    /// One-liquid resolved slab pressure mode. Mixed interface geometry is not
+    /// reconstructed; subsequent steps reject when binary admission is lost.
+    pub fn with_free_surface(
+        grid: GridGeometry,
+        config: LiquidTransportConfig,
+        implementation: PressureImplementation,
+        fraction: Vec<f64>,
+        surface: crate::SlabFreeSurface,
+    ) -> Result<Self, LiquidStepError> {
+        if config.carrier.density.to_bits() != config.represented_density.to_bits() {
+            return Err(LiquidStepError::FreeSurface(
+                crate::FreeSurfaceError::DensityMismatch,
+            ));
+        }
+        surface
+            .validate_fractions(&grid, &fraction)
+            .map_err(LiquidStepError::FreeSurface)?;
+        crate::PressureOperator::with_free_surface(&grid, config.carrier.density, &surface)
+            .map_err(SimulationError::from)?;
+        let mut state = Self::new(grid, config, implementation, fraction)?;
+        state.surface = Some(surface);
+        Ok(state)
     }
     pub fn grid(&self) -> &GridGeometry {
         self.carrier.grid()
@@ -164,6 +194,7 @@ impl LiquidTransportSimulation {
             carrier,
             liquid: self.liquid.state(),
             pressure: &self.pressure,
+            pressure_surface: self.surface.as_ref(),
             carrier_stamp: VolumeStamp {
                 id: self.carrier_id,
                 version: carrier.generation,
@@ -198,6 +229,26 @@ impl LiquidTransportSimulation {
         mut boundary: Option<(&mut BoxFluxStepWorkspace, BoxFluxStepBoundary)>,
         mut cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
+        if let Some(surface) = &self.surface {
+            if boundary.is_some() {
+                return Err(LiquidStepError::FreeSurface(
+                    crate::FreeSurfaceError::UnsupportedBoxFlux,
+                ));
+            }
+            if inputs.smoke_source.is_some() {
+                return Err(LiquidStepError::FreeSurface(
+                    crate::FreeSurfaceError::UnsupportedSmokeSource,
+                ));
+            }
+            if self.liquid.state().density.to_bits() != self.carrier.density().to_bits() {
+                return Err(LiquidStepError::FreeSurface(
+                    crate::FreeSurfaceError::DensityMismatch,
+                ));
+            }
+            surface
+                .validate_fractions(self.carrier.grid(), self.liquid.state().fraction)
+                .map_err(LiquidStepError::FreeSurface)?;
+        }
         self.liquid.validate_advance(inputs.source, inputs.volume)?;
         let boundary_bytes = boundary.as_ref().map_or(0, |(w, _)| w.allocated_bytes());
         let total_bytes = self
@@ -209,10 +260,11 @@ impl LiquidTransportSimulation {
             inputs.smoke_source,
             inputs.forces,
             boundary.as_mut().map(|(w, b)| (&mut **w, *b)),
+            self.surface.as_ref(),
             |stage| cancel(LiquidStepStage::Carrier(stage)),
         )?;
         let step = candidate.legacy.step.step;
-        let flow = LiquidFlowInterval::new(
+        let mut flow = LiquidFlowInterval::new(
             self.carrier.grid(),
             VolumeStamp {
                 id: self.carrier_id,
@@ -222,6 +274,9 @@ impl LiquidTransportSimulation {
             self.carrier.state().time,
             step.dt,
         )?;
+        if let Some(surface) = &self.surface {
+            flow = flow.on_slab(surface);
+        }
         let liquid = self.liquid.prepare_advance(
             flow,
             inputs.inlet,
@@ -248,6 +303,7 @@ impl LiquidTransportSimulation {
             owned_array_bytes: self.allocated_bytes,
             boundary_workspace_array_bytes: boundary_bytes,
             total_array_bytes: total_bytes,
+            pressure_surface: self.surface.as_ref().map(|s| s.stamp()),
         })
     }
 }

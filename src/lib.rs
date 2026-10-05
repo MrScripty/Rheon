@@ -15,6 +15,8 @@ mod motion;
 pub use motion::{TranslatedHit, TranslatedSegment, TranslationError, TranslationInterval};
 mod operator;
 pub use operator::{OperatorError, PressureOperator};
+mod free_surface;
+pub use free_surface::{FreeSurfaceError, SlabFreeSurface};
 mod pressure;
 pub use pressure::{
     PressureError, PressureImplementation, PressureReport, PressureSettings, PressureWorkspace,
@@ -57,8 +59,8 @@ pub use box_flux_step::{
 mod liquid_volume;
 pub use liquid_volume::{
     LiquidFlowInterval, LiquidInlet, LiquidOccupancy, LiquidVolumeError, LiquidVolumeReport,
-    LiquidVolumeSettings, LiquidVolumeSource, LiquidVolumeState, LiquidVolumeView, VolumeStage,
-    VolumeStamp,
+    LiquidVolumeSettings, LiquidVolumeSource, LiquidVolumeState, LiquidVolumeView,
+    VolumeDivergenceDomain, VolumeStage, VolumeStamp,
 };
 
 mod liquid_step;

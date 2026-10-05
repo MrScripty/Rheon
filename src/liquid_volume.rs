@@ -98,6 +98,11 @@ impl LiquidInlet {
 }
 /// Immutable carrier velocities held constant over one explicit interval.
 /// The stamp describes supplied data, not certified pressure/interface coupling.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum VolumeDivergenceDomain {
+    AllCells,
+    LiquidSlab { axis: Axis, wet_layers: usize },
+}
 #[derive(Clone, Copy)]
 pub struct LiquidFlowInterval<'a> {
     grid: &'a GridGeometry,
@@ -106,6 +111,7 @@ pub struct LiquidFlowInterval<'a> {
     start: f64,
     dt: f64,
     end: f64,
+    domain: VolumeDivergenceDomain,
 }
 impl<'a> LiquidFlowInterval<'a> {
     pub fn new(
@@ -138,7 +144,15 @@ impl<'a> LiquidFlowInterval<'a> {
             start,
             dt,
             end,
+            domain: VolumeDivergenceDomain::AllCells,
         })
+    }
+    pub(crate) fn on_slab(mut self, surface: &crate::SlabFreeSurface) -> Self {
+        self.domain = VolumeDivergenceDomain::LiquidSlab {
+            axis: surface.axis(),
+            wet_layers: surface.wet_layers(),
+        };
+        self
     }
     pub fn stamp(self) -> VolumeStamp {
         self.stamp
@@ -194,6 +208,7 @@ pub struct LiquidVolumeReport {
     pub liquid_mass_after: f64,
     pub max_outward_courant: f64,
     pub actual_divergence_max: f64,
+    pub divergence_domain: VolumeDivergenceDomain,
     pub fraction_min: f64,
     pub fraction_max: f64,
     pub dry_cells: usize,
@@ -449,7 +464,15 @@ impl LiquidVolumeState {
                         });
                     }
                     max_courant = max_courant.max(courant);
-                    max_divergence = max_divergence.max(div.abs());
+                    let check_divergence = match flow.domain {
+                        VolumeDivergenceDomain::AllCells => true,
+                        VolumeDivergenceDomain::LiquidSlab { axis, wet_layers } => {
+                            p[axis.index()] < wet_layers
+                        }
+                    };
+                    if check_divergence {
+                        max_divergence = max_divergence.max(div.abs());
+                    }
                     if let Some(s) = source {
                         amount += product(flow.dt, s.rate[cell])?;
                     }
@@ -570,6 +593,7 @@ impl LiquidVolumeState {
             liquid_mass_after: mass_after,
             max_outward_courant: max_courant,
             actual_divergence_max: max_divergence,
+            divergence_domain: flow.domain,
             fraction_min: min,
             fraction_max: max,
             dry_cells: dry,
