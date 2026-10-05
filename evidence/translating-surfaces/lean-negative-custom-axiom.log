@@ -1,0 +1,7 @@
+AUDITED Rheon.TranslationFrame.reference_contact_world: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.wallVelocity: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.clock_order: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.relativePoint: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.velocity_displacement: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.TranslationFrame.clock.eq_1: [propext, Quot.sound, Classical.choice]
+/tmp/rheon-translation-custom-axiom-tqkmu64o/AuditTranslationFrame.lean:5:0: error: Disallowed axiom Rheon.TranslationFrame.unreviewedAssumption in Rheon.TranslationFrame.unreviewedAssumption

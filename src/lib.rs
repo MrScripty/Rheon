@@ -11,6 +11,8 @@ pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
     TriangleSurface,
 };
+mod motion;
+pub use motion::{TranslatedHit, TranslatedSegment, TranslationError, TranslationInterval};
 mod operator;
 pub use operator::{OperatorError, PressureOperator};
 mod pressure;
