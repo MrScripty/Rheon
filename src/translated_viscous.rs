@@ -41,17 +41,17 @@ impl From<FittedHeightError> for TranslatedViscousError {
         Self::Fitted(e)
     }
 }
-fn check(x: f64) -> Result<f64, TranslatedViscousError> {
+pub(crate) fn check(x: f64) -> Result<f64, TranslatedViscousError> {
     if x == 0.0 || x.is_normal() {
         Ok(x)
     } else {
         Err(TranslatedViscousError::ArithmeticFailure)
     }
 }
-fn add(a: f64, b: f64) -> Result<f64, TranslatedViscousError> {
+pub(crate) fn add(a: f64, b: f64) -> Result<f64, TranslatedViscousError> {
     check(a + b)
 }
-fn mul(a: f64, b: f64) -> Result<f64, TranslatedViscousError> {
+pub(crate) fn mul(a: f64, b: f64) -> Result<f64, TranslatedViscousError> {
     let x = check(a * b)?;
     if a != 0.0 && b != 0.0 && x == 0.0 {
         Err(TranslatedViscousError::ArithmeticFailure)
@@ -59,7 +59,7 @@ fn mul(a: f64, b: f64) -> Result<f64, TranslatedViscousError> {
         Ok(x)
     }
 }
-fn div(a: f64, b: f64) -> Result<f64, TranslatedViscousError> {
+pub(crate) fn div(a: f64, b: f64) -> Result<f64, TranslatedViscousError> {
     if !b.is_normal() {
         return Err(TranslatedViscousError::ArithmeticFailure);
     }
@@ -70,14 +70,14 @@ fn div(a: f64, b: f64) -> Result<f64, TranslatedViscousError> {
         Ok(x)
     }
 }
-fn dot(a: &[f64], b: &[f64]) -> Result<f64, TranslatedViscousError> {
+pub(crate) fn dot(a: &[f64], b: &[f64]) -> Result<f64, TranslatedViscousError> {
     let mut s = 0.0;
     for (&x, &y) in a.iter().zip(b) {
         s = add(s, mul(x, y)?)?;
     }
     Ok(s)
 }
-fn norm(a: &[f64]) -> Result<f64, TranslatedViscousError> {
+pub(crate) fn norm(a: &[f64]) -> Result<f64, TranslatedViscousError> {
     check(dot(a, a)?.sqrt())
 }
 fn checkpoint(
@@ -191,6 +191,20 @@ pub struct TranslatedViscousFlow {
     offset: f64,
     stamp: TranslatedViscousStamp,
     allocated_bytes: usize,
+}
+pub(crate) struct TranslatedViscousScratch<'a> {
+    pub frame: &'a FittedHeightWorkspace,
+    pub accepted: &'a [[f64; 3]],
+    pub candidate: &'a mut [[f64; 3]],
+    pub solution: &'a mut [f64],
+    pub rhs: &'a mut [f64],
+    pub residual: &'a mut [f64],
+    pub direction: &'a mut [f64],
+    pub product: &'a mut [f64],
+    pub preconditioned: &'a mut [f64],
+    pub nodal: &'a mut [f64],
+    pub force: &'a mut [f64],
+    pub free_nodes: &'a [usize],
 }
 struct Budget {
     used: usize,
@@ -397,6 +411,38 @@ impl TranslatedViscousFlow {
             stamp: self.stamp,
             density: self.density,
         }
+    }
+    pub(crate) fn settings(&self) -> TranslatedViscousSettings {
+        self.settings
+    }
+    pub(crate) fn ale_scratch(&mut self) -> TranslatedViscousScratch<'_> {
+        TranslatedViscousScratch {
+            frame: &self.frame,
+            accepted: &self.accepted,
+            candidate: &mut self.candidate,
+            solution: &mut self.solution,
+            rhs: &mut self.rhs,
+            residual: &mut self.residual,
+            direction: &mut self.direction,
+            product: &mut self.product,
+            preconditioned: &mut self.preconditioned,
+            nodal: &mut self.nodal,
+            force: &mut self.force,
+            free_nodes: &self.free_nodes,
+        }
+    }
+    pub(crate) fn accept_ale(
+        &mut self,
+        geometry: &mut FittedHeightWorkspace,
+        time: f64,
+        offset: f64,
+        stamp: TranslatedViscousStamp,
+    ) {
+        std::mem::swap(&mut self.frame, geometry);
+        std::mem::swap(&mut self.accepted, &mut self.candidate);
+        self.time = time;
+        self.offset = offset;
+        self.stamp = stamp;
     }
     pub fn allocated_bytes(&self) -> usize {
         self.allocated_bytes
@@ -650,7 +696,7 @@ impl TranslatedViscousFlow {
         Ok(report)
     }
 }
-fn scatter(
+pub(crate) fn scatter(
     frame: &FittedHeightWorkspace,
     node: usize,
     value: f64,
@@ -666,7 +712,7 @@ fn scatter(
     }
     Ok(())
 }
-fn embed(
+pub(crate) fn embed(
     frame: &FittedHeightWorkspace,
     v: &[f64],
     out: &mut [f64],
@@ -683,7 +729,7 @@ fn embed(
     }
     Ok(())
 }
-fn stiffness(
+pub(crate) fn stiffness(
     frame: &FittedHeightWorkspace,
     input: &[f64],
     out: &mut [f64],
@@ -744,7 +790,7 @@ fn precondition(
     }
     Ok(())
 }
-fn quantities(
+pub(crate) fn quantities(
     frame: &FittedHeightWorkspace,
     u: &[[f64; 3]],
 ) -> Result<(f64, [f64; 3]), TranslatedViscousError> {

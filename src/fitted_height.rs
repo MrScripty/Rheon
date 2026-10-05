@@ -489,6 +489,51 @@ impl FittedHeightWorkspace {
         w.build(cap, bottom_x, &mut cancel)?;
         Ok(w)
     }
+    /// Candidate-only fixed-topology reconstruction using existing capacities.
+    /// Rejection may leave this workspace incomplete; no accepted flow owns it
+    /// while this method runs. Coefficients and limits retain their constructor
+    /// values, and the caller must publish only after all composed gates pass.
+    pub(crate) fn reassemble(
+        &mut self,
+        cap: &[[f64; 2]],
+        bottom_x: &[f64],
+    ) -> Result<(), FittedHeightError> {
+        let c = self.plan.columns;
+        if cap.len() != c + 1 || bottom_x.len() != c + 1 {
+            return Err(FittedHeightError::ShapeMismatch);
+        }
+        for p in cap {
+            checked(p[0])?;
+            checked(p[1])?;
+            if p[1] < self.settings.minimum_height {
+                return Err(FittedHeightError::InvalidGeometry);
+            }
+        }
+        for &x in bottom_x {
+            checked(x)?;
+        }
+        if cap[0][1].to_bits() != cap[c][1].to_bits()
+            || cap.windows(2).any(|p| p[1][0] <= p[0][0])
+            || bottom_x.windows(2).any(|p| p[1] <= p[0])
+            || cap[c][0].to_bits() != add(cap[0][0], checked(bottom_x[c] - bottom_x[0])?)?.to_bits()
+        {
+            return Err(FittedHeightError::InvalidGeometry);
+        }
+        self.nodes.clear();
+        self.macro_triangles.clear();
+        self.edges.clear();
+        self.triangles.clear();
+        self.embedding.clear();
+        self.pieces.clear();
+        self.faces.clear();
+        self.pressure_terms.clear();
+        self.pressure_columns.clear();
+        self.mass.fill(0.0);
+        self.motion.fill([Dual::default(); 2]);
+        self.candidate.fill(FittedHeightNodeDiagnostic::default());
+        self.triangle_scratch.fill([0.0; 2]);
+        self.build(cap, bottom_x, &mut |_| false)
+    }
     pub fn plan(&self) -> FittedHeightPlan {
         self.plan
     }

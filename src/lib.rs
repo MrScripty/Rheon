@@ -113,3 +113,9 @@ pub use translated_viscous::{
     TranslatedViscousSettings, TranslatedViscousStage, TranslatedViscousStamp,
     TranslatedViscousState,
 };
+
+mod fixed_bottom_ale;
+pub use fixed_bottom_ale::{
+    FixedBottomAleError, FixedBottomAleFlow, FixedBottomAleReport, FixedBottomAleStage,
+    FixedBottomAleState, FixedBottomAleTransfer,
+};
