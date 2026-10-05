@@ -1,0 +1,97 @@
+{
+  "qualified_source_commit": "ad35d710299474160a09b58660e26137e0827c24",
+  "qualified_source_tree": "6f496bef0ff4bf30b99de708e4cc90901a84e118",
+  "scope": "Actual initial release checks before the subsequently demonstrated face-area guard; historical command paths are mapped without changing nested receipt bytes. Final checks rerun into the original fresh destinations.",
+  "path_mapping": [
+    {
+      "original_path": "evidence/liquid-volume/release-build.log",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/release-build.log",
+      "sha256": "52ddf2dc72c708f20fc25deb110255f38313e0c727ce3d9483ba555402fe87cd"
+    },
+    {
+      "original_path": "evidence/liquid-volume/release-example.log",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/release-example.log",
+      "sha256": "d9124528fdeabd742a4c6631018ef5e652a9c9c58d9c6d5f45881bfaa24db943"
+    },
+    {
+      "original_path": "evidence/liquid-volume/example.csv",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/example.csv",
+      "sha256": "2aa1e18d10bea8306f0ee084573c856a2d40619e791dd20eb09ca3fd36c5cc87"
+    },
+    {
+      "original_path": "evidence/liquid-volume/spatial-reference/slab-n16-c050.csv",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/spatial-reference/slab-n16-c050.csv",
+      "sha256": "81aea1d3e2abdb2081785fe45834aa24e0051a6e1f1266c6d0fd2e76c58fd14a"
+    },
+    {
+      "original_path": "evidence/liquid-volume/spatial-reference/slab-n32-c050.csv",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/spatial-reference/slab-n32-c050.csv",
+      "sha256": "ca0044296a68939e48f4c6fcd4c0ae16c7296124020ad37f36d10941d5be2397"
+    },
+    {
+      "original_path": "evidence/liquid-volume/spatial-reference/slab-n64-c025.csv",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/spatial-reference/slab-n64-c025.csv",
+      "sha256": "7df2999c1baa04b62a5d85ca64c840d8ecb87bcc1d504efe57dcb9d22e51b349"
+    },
+    {
+      "original_path": "evidence/liquid-volume/spatial-reference/slab-n64-c050.csv",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/spatial-reference/slab-n64-c050.csv",
+      "sha256": "165eb187a0f47a4da1c274d334e3885c02437819cf799a1192e45f2d0e63f820"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay.log",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay.log",
+      "sha256": "da9ebad5fabaf2e52a5d9a63dc10f04dbde98c614e4cfaef71def05fa59d99f4"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/demo-16/opacity.png",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/demo-16/opacity.png",
+      "sha256": "792ac052b762f5dac87b0b114cfcd8261e2330b21ca95357c8813ed2409429fe"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/demo-16/run.json",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/demo-16/run.json",
+      "sha256": "b6e4b2d80f73dc2ee4e6641df48fb88303331042d3d092769535f68723c6cdd3"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/demo-16/steps.csv",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/demo-16/steps.csv",
+      "sha256": "fb4334e7eb4368e2b8aaf7feabe2e808f336cac514c4acb6819c0e44a581efe9"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/demo-64/opacity.png",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/demo-64/opacity.png",
+      "sha256": "56d28c4111f00964895dca88c1a9518de0b7d8dc9c792343d24cbebad56b77eb"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/demo-64/run.json",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/demo-64/run.json",
+      "sha256": "866d59d33296cfcea749cf655355fd4d536c9fa1fe7486cead85a188df3ffeba"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/demo-64/steps.csv",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/demo-64/steps.csv",
+      "sha256": "883c7348ce61942dc2c0360c6c184d27613c5aeb6503a5a027053b5b21cd1dd2"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/demo-plume/opacity.png",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/demo-plume/opacity.png",
+      "sha256": "4a89ce73b2535fa4e9ee6664dd2f747207b5c4249cdf6a34d8947782a2a592cc"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/demo-plume/run.json",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/demo-plume/run.json",
+      "sha256": "8f8db87560499ec7351cdd7e41d7e48f6a46ef5e179c5e81cd9e2c2cd9d6487b"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/demo-plume/steps.csv",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/demo-plume/steps.csv",
+      "sha256": "23b5b3f5abe9da9469ba8b0a1a40895272a46d6a4c1b4a13b9d78d89de8b5175"
+    },
+    {
+      "original_path": "evidence/liquid-volume/legacy-replay/receipt.json",
+      "archived_path": "evidence/liquid-volume/pre-area-guard-release/legacy-replay/receipt.json",
+      "sha256": "ff24fe5b12a7577969699ab92cb668c4aaf1a5ce0dcf5ca98b08fa55aa9e7958"
+    }
+  ]
+}

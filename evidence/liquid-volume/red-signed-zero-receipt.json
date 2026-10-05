@@ -1,0 +1,16 @@
+{
+  "actual_exit": 101,
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--no-default-features",
+    "--test",
+    "liquid_volume_contract",
+    "signed_zero_is_valid_empty_liquid_with_zero_volume_transfer"
+  ],
+  "pre_fix_source_sha256": "0ae722cd6524556acead5f39dde65aec930eeb8a8e2ce52c1a5fc434ad8af0b8",
+  "fixture_sha256": "813e5e3a2ed532ae5e8303df5e3db8743d05798ff37065ff1c07f4366f5f9cb0",
+  "scope": "Accepted [0,1] includes signed zero; redundant sign check rejected represented empty liquid."
+}

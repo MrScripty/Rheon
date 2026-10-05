@@ -1,0 +1,182 @@
+{
+  "working_directory": "/workspace/Rheon-liquid-volume",
+  "commands": [
+    {
+      "name": "test-default",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--all-targets"
+      ],
+      "exit_code": 0,
+      "log": "test-default.log"
+    },
+    {
+      "name": "test-core",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--all-targets",
+        "--no-default-features"
+      ],
+      "exit_code": 0,
+      "log": "test-core.log"
+    },
+    {
+      "name": "test-desktop",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--all-targets",
+        "--features",
+        "desktop"
+      ],
+      "exit_code": 0,
+      "log": "test-desktop.log"
+    },
+    {
+      "name": "clippy-default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--offline",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log": "clippy-default.log"
+    },
+    {
+      "name": "clippy-core",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--offline",
+        "--all-targets",
+        "--no-default-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log": "clippy-core.log"
+    },
+    {
+      "name": "clippy-desktop",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--offline",
+        "--all-targets",
+        "--features",
+        "desktop",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log": "clippy-desktop.log"
+    },
+    {
+      "name": "fmt",
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "exit_code": 0,
+      "log": "fmt.log"
+    },
+    {
+      "name": "focused-green",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--no-default-features",
+        "--test",
+        "liquid_volume_contract",
+        "--",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "log": "focused-green.log"
+    },
+    {
+      "name": "release-build",
+      "command": [
+        "cargo",
+        "build",
+        "--release",
+        "--locked",
+        "--offline",
+        "--bin",
+        "rheon"
+      ],
+      "exit_code": 0,
+      "log": "release-build.log"
+    },
+    {
+      "name": "release-example",
+      "command": [
+        "cargo",
+        "run",
+        "--release",
+        "--locked",
+        "--offline",
+        "--no-default-features",
+        "--example",
+        "liquid_volume",
+        "--",
+        "evidence/liquid-volume/spatial-reference"
+      ],
+      "exit_code": 0,
+      "log": "release-example.log"
+    },
+    {
+      "name": "legacy-replay",
+      "command": [
+        "python3",
+        "evidence/cloud-qualification/replay.py",
+        "/workspace/.rheon-tools/target-liquid-volume-release/release/rheon",
+        "evidence/liquid-volume/legacy-replay"
+      ],
+      "exit_code": 0,
+      "log": "legacy-replay.log"
+    },
+    {
+      "name": "proof-source-gate",
+      "command": [
+        "python3",
+        "proofs/scripts/check_sources.py"
+      ],
+      "exit_code": 0,
+      "log": "proof-source-gate.log"
+    },
+    {
+      "name": "pdf-gate",
+      "command": [
+        "python3",
+        "-c",
+        "from pathlib import Path; from docs.education.pdf_freshness import verify_pdf; verify_pdf(Path.cwd())"
+      ],
+      "exit_code": 0,
+      "log": "pdf-gate.log"
+    }
+  ],
+  "proof_results": "lean-build.log and lean-audit.log succeeded; negative variants compiled exit 0/audit exit 1, lean-negative-receipt.json",
+  "log_normalization": "Only trailing blank lines removed; actual assertions/build output retained; empty successful logs preserved."
+}
