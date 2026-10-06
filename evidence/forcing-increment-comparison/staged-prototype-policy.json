@@ -1,0 +1,24 @@
+{
+  "arithmetic_policy_sha256": "46c5169923050b9aa150fed05e787356f49577f379c3c8bd238f61dd80052840",
+  "new_target": "/workspace/.rheon-tools/increment-comparison-staged-target",
+  "owner_advances": 0,
+  "parent_prototype": "5270e91c1ee1e14b936d66d750ce8a631c078cfb",
+  "phases": [
+    "scalar/layout/stack preflight",
+    "B0 only with exact-bit checks",
+    "A0 on actual B0 fields",
+    "E1 same unknowns without search",
+    "stop"
+  ],
+  "policy_id": "E1-106-nearest-even-native-geometry-zero-refinement-v1",
+  "production_changes": 0,
+  "scope": "Add a B0-only stop so identical-field A0 can execute before E1; no arithmetic, equations, candidate or source restoration change",
+  "source_sha256": {
+    "evidence/forcing-increment-comparison/library-test-overlay-staged.rs": "1b2157f2377f4eee8283b041f6c8d599af178f5e33b932fffa93852008f9fb0a",
+    "evidence/forcing-increment-comparison/native_inputs.rs": "f12ff66f6b8418c080fb44e935e5d764a9f7531867bd4c4cde7b2db1e2639c1c",
+    "evidence/forcing-increment-comparison/native_staged.rs": "f5bbaeaf3340bd288d5726202edf28aa91f42b2ff921d6cd3a6ada903400083d",
+    "evidence/forcing-increment-comparison/native_tests_staged.rs": "e77a3e385040c7b6b5527ee24ef23b7bfe857193c9a6383cc396d497b8eb4fab",
+    "evidence/forcing-increment-comparison/scalar.rs": "7ef1ed888434287b373ca9632f727be897d10f70681f42aef1823ee9d5199bf2"
+  },
+  "source_status": "FROZEN_BEFORE_STAGED_EXECUTION"
+}
