@@ -1,0 +1,54 @@
+{
+  "base": "f0b81b4a5f76cb706e645fad4f38faf028c5727e",
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "evidence/forcing-increment-contract/verify.py"
+      ],
+      "exit": 0,
+      "seconds": 1.0805767490091966,
+      "stderr": "post-git-normal-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "post-git-normal.log",
+      "stdout_sha256": "5eb7fe67a0a7c7b7203a6e268ad4bccc1fc6699e58b9ce24182f62648589cf50"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-O",
+        "evidence/forcing-increment-contract/verify.py"
+      ],
+      "exit": 0,
+      "seconds": 0.9046747119864449,
+      "stderr": "post-git-optimized-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "post-git-optimized.log",
+      "stdout_sha256": "5eb7fe67a0a7c7b7203a6e268ad4bccc1fc6699e58b9ce24182f62648589cf50"
+    }
+  ],
+  "committed_proposal_blobs": {
+    "docs/research-book/implementation/forcing-increment-state-contract.md": "62329edbdf0064a69f387f010de463970e6c4115dd5ec56b5c2713508d2e07ef",
+    "evidence/forcing-increment-contract/README.md": "7bbda5403de1442ef5b9e31f8238c138676715b59f772d20bef7262b08be2562",
+    "evidence/forcing-increment-contract/examples-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract/examples-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract/examples.py": "29773303d16cedb081005227c1dbfad46997dae9ef8c0b3eddd471098e685df5",
+    "evidence/forcing-increment-contract/receipt.json": "960545c689a41f9f53d0e1671e8caa36449aed4baf895ccde638f749b8d8dd5c",
+    "evidence/forcing-increment-contract/results-normal.json": "5b64e99de41b375a49c57ef45e3586cc0a71386c67c0a91700a1913fdbad7ee0",
+    "evidence/forcing-increment-contract/results-optimized.json": "5b64e99de41b375a49c57ef45e3586cc0a71386c67c0a91700a1913fdbad7ee0",
+    "evidence/forcing-increment-contract/verification-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract/verification-normal.log": "5eb7fe67a0a7c7b7203a6e268ad4bccc1fc6699e58b9ce24182f62648589cf50",
+    "evidence/forcing-increment-contract/verification-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract/verification-optimized.log": "5eb7fe67a0a7c7b7203a6e268ad4bccc1fc6699e58b9ce24182f62648589cf50",
+    "evidence/forcing-increment-contract/verify.py": "af97e98d0fd78573293e3404b118623f56c383996104cbe2400cf4c8562d81ca"
+  },
+  "evidence": "fd73aece1dc2a8c0308f9f6f80935276f86a08b5",
+  "evidence_tree": "6fdcd991e8837e48388bf8b2d7e4b1351d507765",
+  "no_native_compensated_implementation": true,
+  "original_native_refusals_retained": 5,
+  "owner_advances": 0,
+  "production_changes": 0,
+  "receipt_sha256": "960545c689a41f9f53d0e1671e8caa36449aed4baf895ccde638f749b8d8dd5c",
+  "recorder_sha256": "6a5de84a7a5d14669b41be14fcaed09265e53417320067397352bc0893315d69",
+  "status": "PASS_RESEARCH_CONTRACT_ONLY"
+}
