@@ -1,5 +1,6 @@
-//! Bounded two-column endpoint-donor xy research counterpart. The physical mass
-//! path is integrated; momentum uses endpoint donors and is first order.
+//! Bounded two-column periodic, z-invariant extrusion. The original xy API is
+//! the zero-third slice; the explicit extrusion API advances all components.
+//! The physical mass path is integrated; endpoint donor momentum is first order.
 //! No continuum traction, sign-isolation or mesh-family theorem is implied.
 #![allow(clippy::needless_range_loop)]
 use crate::translated_viscous::{add, check, div, dot, mul, norm};
@@ -17,6 +18,7 @@ const ROWS: [usize; 15] = [0, 2, 3, 4, 5, 6, 8, 10, 11, 12, 14, 16, 17, 18, 20];
 const BOTTOM: [f64; 3] = [0., 0.5, 1.];
 const LIMIT: f64 = 1e-11;
 const NEWTON: f64 = 1e-13;
+const W: usize = 12;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CoupledDiscreteStage {
@@ -25,6 +27,9 @@ pub enum CoupledDiscreteStage {
     BeforeSolve,
     Iteration,
     BeforeAcceptance,
+    BeforeThirdSolve,
+    ThirdAssembly,
+    AfterThirdSolve,
     BeforePublish,
 }
 #[derive(Debug, Clone, PartialEq)]
@@ -40,6 +45,8 @@ pub enum CoupledDiscreteError {
     QuadratureRefinement { error: f64 },
     ConservationFailure,
     WorkFailure,
+    ThirdConservationFailure,
+    ThirdWorkFailure,
     Cancelled { stage: CoupledDiscreteStage },
 }
 impl From<TranslatedViscousError> for CoupledDiscreteError {
@@ -183,6 +190,43 @@ pub struct CoupledDiscreteReport {
     pub mass_after: f64,
     pub endpoint_vs_path_momentum_max: f64,
 }
+/// Third component on the same periodic extrusion, observed from actual old/new
+/// nodal velocity. Both engineering shears have weight mu, not 2 mu.
+#[derive(Debug, Clone, Copy, Default)]
+pub struct CoupledThirdReport {
+    pub coefficients: [f64; W],
+    pub momentum_before: f64,
+    pub momentum_after: f64,
+    pub energy_before: f64,
+    pub energy_after: f64,
+    pub backward_euler_loss: f64,
+    pub mixing_loss: f64,
+    pub shear_x_loss: f64,
+    pub shear_y_loss: f64,
+    pub viscous_loss: f64,
+    pub gcl_work: f64,
+    pub residual_work: f64,
+    pub ledger_error: f64,
+    pub work_allowance: f64,
+    pub finite_momentum_rate_norm: f64,
+    pub direct_momentum_rate_norm: f64,
+}
+/// Full-vector work on the moving, doubly periodic, z-invariant extrusion.
+/// Pressure/geometry are the unchanged xy model; this is not general 3D flow.
+#[derive(Debug, Clone, Copy)]
+pub struct CoupledExtrudedReport {
+    pub planar: CoupledDiscreteReport,
+    pub third: CoupledThirdReport,
+    pub energy_before: f64,
+    pub energy_after: f64,
+    pub backward_euler_loss: f64,
+    pub mixing_loss: f64,
+    pub viscous_loss: f64,
+    pub gcl_work: f64,
+    pub residual_work: f64,
+    pub ledger_error: f64,
+    pub work_allowance: f64,
+}
 /// Small qualified topology only. Reuses the existing accepted-state owner and
 /// one candidate frame. Arrays and stack scratch are fixed and budgeted; steps
 /// allocate no heap storage and retain no accepted-state history.
@@ -203,6 +247,13 @@ const STEP_STACK_BYTES: usize = 4 * std::mem::size_of::<[[f64; 38]; 38]>()
     + 12 * std::mem::size_of::<[f64; V]>()
     + 4 * std::mem::size_of::<[[f64; 15]; 15]>()
     + 8 * std::mem::size_of::<[f64; 66]>();
+// Additional conservative fixed caller/callee reservation for the opt-in third
+// block. Existing scalar vectors are reused; no third accepted owner is added.
+const THIRD_STACK_BYTES: usize = 8 * std::mem::size_of::<[[f64; W]; W]>()
+    + 8 * std::mem::size_of::<[f64; W]>()
+    + 4 * std::mem::size_of::<[[f64; W]; N]>()
+    + 4 * std::mem::size_of::<[[f64; 3]; N]>()
+    + 4 * std::mem::size_of::<CoupledExtrudedReport>();
 impl CoupledDiscreteFlow {
     pub fn nominal_bytes() -> Result<usize, CoupledDiscreteError> {
         TranslatedViscousFlow::nominal_bytes(2)?
@@ -218,6 +269,33 @@ impl CoupledDiscreteFlow {
         settings: TranslatedViscousSettings,
         id: u64,
     ) -> Result<Self, CoupledDiscreteError> {
+        Self::initialize(geometry, velocity, fitted, settings, id, false)
+    }
+    /// Same two-column graph with x/z periods one and every field independent
+    /// of z. Bottom is impermeable/free-slip; cap traction is weakly natural.
+    /// Nonzero third velocity is permitted by periodic z, without end walls.
+    pub fn new_extruded(
+        geometry: FittedHeightGeometry<'_>,
+        velocity: &[[f64; 3]],
+        fitted: FittedHeightSettings,
+        settings: TranslatedViscousSettings,
+        id: u64,
+    ) -> Result<Self, CoupledDiscreteError> {
+        Self::initialize(geometry, velocity, fitted, settings, id, true)
+    }
+    pub fn nominal_extruded_bytes() -> Result<usize, CoupledDiscreteError> {
+        Self::nominal_bytes()?
+            .checked_add(THIRD_STACK_BYTES)
+            .ok_or(TranslatedViscousError::AllocationFailed.into())
+    }
+    fn initialize(
+        geometry: FittedHeightGeometry<'_>,
+        velocity: &[[f64; 3]],
+        fitted: FittedHeightSettings,
+        settings: TranslatedViscousSettings,
+        id: u64,
+        extruded: bool,
+    ) -> Result<Self, CoupledDiscreteError> {
         if geometry.cap.len() != 3
             || geometry.bottom_x != BOTTOM
             || geometry.extrusion_width != 1.
@@ -225,7 +303,7 @@ impl CoupledDiscreteFlow {
             || geometry.dynamic_viscosity != 0.05
             || geometry.cap[0][1] + geometry.cap[1][1] != 2.25
             || velocity.len() != N
-            || velocity.iter().any(|u| u[2] != 0.)
+            || (!extruded && velocity.iter().any(|u| u[2] != 0.))
         {
             return Err(CoupledDiscreteError::UnsupportedSlice);
         }
@@ -237,7 +315,10 @@ impl CoupledDiscreteFlow {
         {
             return Err(CoupledDiscreteError::UnsupportedSlice);
         }
-        let required = Self::nominal_bytes()?;
+        let extra = if extruded { THIRD_STACK_BYTES } else { 0 };
+        let required = Self::nominal_bytes()?
+            .checked_add(extra)
+            .ok_or(TranslatedViscousError::AllocationFailed)?;
         if required > settings.memory_limit {
             return Err(TranslatedViscousError::BufferLimit {
                 required,
@@ -245,7 +326,11 @@ impl CoupledDiscreteFlow {
             }
             .into());
         }
-        let flow = TranslatedViscousFlow::new_coupled_xy(geometry, velocity, fitted, settings, id)?;
+        let flow = if extruded {
+            TranslatedViscousFlow::new_coupled_extruded(geometry, velocity, fitted, settings, id)?
+        } else {
+            TranslatedViscousFlow::new_coupled_xy(geometry, velocity, fitted, settings, id)?
+        };
         let frame = FittedHeightWorkspace::new(geometry, fitted, |_| false)?;
         let mut work = Work {
             geometry: frame,
@@ -280,9 +365,11 @@ impl CoupledDiscreteFlow {
         let (q, eta) = coordinates(accepted.template, accepted.velocity, &work.r)?;
         let zero = [0.; V];
         let initial = work.point(q, eta, &zero, 0., &mut |_| false)?;
-        for (a, b) in initial.u.iter().flatten().zip(velocity.iter().flatten()) {
-            if (a - b).abs() > LIMIT {
-                return Err(CoupledDiscreteError::ConstraintFailure);
+        for i in 0..N {
+            for d in 0..2 {
+                if add(initial.u[i][d], -velocity[i][d])?.abs() > LIMIT {
+                    return Err(CoupledDiscreteError::ConstraintFailure);
+                }
             }
         }
         let allocated_bytes = flow
@@ -290,6 +377,7 @@ impl CoupledDiscreteFlow {
             .checked_add(work.geometry.allocated_bytes())
             .and_then(|x| x.checked_add(std::mem::size_of::<Self>()))
             .and_then(|x| x.checked_add(STEP_STACK_BYTES))
+            .and_then(|x| x.checked_add(extra))
             .ok_or(TranslatedViscousError::AllocationFailed)?;
         if allocated_bytes > settings.memory_limit {
             return Err(TranslatedViscousError::BufferLimit {
@@ -342,8 +430,32 @@ impl CoupledDiscreteFlow {
     pub fn step(
         &mut self,
         h: f64,
-        mut cancel: impl FnMut(CoupledDiscreteStage) -> bool,
+        cancel: impl FnMut(CoupledDiscreteStage) -> bool,
     ) -> Result<CoupledDiscreteReport, CoupledDiscreteError> {
+        if self.flow.state().velocity.iter().any(|u| u[2] != 0.) {
+            return Err(CoupledDiscreteError::UnsupportedSlice);
+        }
+        self.advance(h, false, cancel).map(|r| r.planar)
+    }
+    /// Advance the explicitly periodic z-invariant three-component model.
+    /// All arithmetic, third/total work and candidate inspection precede the
+    /// existing common geometry/velocity/pressure/clock publication barrier.
+    pub fn step_extruded(
+        &mut self,
+        h: f64,
+        cancel: impl FnMut(CoupledDiscreteStage) -> bool,
+    ) -> Result<CoupledExtrudedReport, CoupledDiscreteError> {
+        if self.allocated_bytes < Self::nominal_extruded_bytes()? {
+            return Err(CoupledDiscreteError::UnsupportedSlice);
+        }
+        self.advance(h, true, cancel)
+    }
+    fn advance(
+        &mut self,
+        h: f64,
+        extruded: bool,
+        mut cancel: impl FnMut(CoupledDiscreteStage) -> bool,
+    ) -> Result<CoupledExtrudedReport, CoupledDiscreteError> {
         if !h.is_normal() || h <= 0. || h > 0.05 {
             return Err(TranslatedViscousError::InvalidSettings.into());
         }
@@ -458,6 +570,20 @@ impl CoupledDiscreteFlow {
         let endpoint = self.work.point(q, eta, &unknown, h, &mut cancel)?;
         let scratch = self.flow.ale_scratch();
         scratch.candidate.copy_from_slice(&endpoint.u);
+        let third = if extruded {
+            third_step(
+                &mut self.work.geometry,
+                &mut self.work.diagnostic,
+                &unknown[6..],
+                scratch,
+                &fine,
+                h,
+                &mut cancel,
+            )?
+        } else {
+            CoupledThirdReport::default()
+        };
+        let complete = combined_report(report, third)?;
         let candidate_pressure: [f64; P] = unknown[6..]
             .try_into()
             .map_err(|_| CoupledDiscreteError::UnsupportedSlice)?;
@@ -465,8 +591,348 @@ impl CoupledDiscreteFlow {
         self.flow
             .accept_ale(&mut self.work.geometry, time_after, 0., after);
         self.pressure = candidate_pressure;
-        Ok(report)
+        Ok(complete)
     }
+}
+#[allow(clippy::too_many_arguments)]
+fn third_step(
+    geometry: &mut FittedHeightWorkspace,
+    diagnostic: &mut [FittedHeightNodeDiagnostic; N],
+    pressure: &[f64],
+    scratch: crate::translated_viscous::TranslatedViscousScratch<'_>,
+    e: &Equation,
+    h: f64,
+    cancel: &mut impl FnMut(CoupledDiscreteStage) -> bool,
+) -> Result<CoupledThirdReport, CoupledDiscreteError> {
+    barrier(cancel, CoupledDiscreteStage::BeforeThirdSolve)?;
+    let mut r = [[0.; W]; N];
+    for i in 0..N {
+        let row = geometry.velocity_embedding(i, 2).unwrap();
+        let old_row = scratch.frame.velocity_embedding(i, 2).unwrap();
+        if row.columns != old_row.columns || row.weights != old_row.weights {
+            return Err(CoupledDiscreteError::UnsupportedSlice);
+        }
+        for k in 0..2 {
+            if let Some(j) = row.columns[k] {
+                let j = j
+                    .checked_sub(V)
+                    .filter(|&j| j < W)
+                    .ok_or(CoupledDiscreteError::UnsupportedSlice)?;
+                r[i][j] = add(r[i][j], row.weights[k])?;
+            }
+        }
+        let sum = r[i].iter().try_fold(0., |sum, &x| add(sum, x))?;
+        if add(sum, -1.)? != 0. {
+            return Err(CoupledDiscreteError::UnsupportedSlice);
+        }
+    }
+    let old_xi: [f64; W] = std::array::from_fn(|j| scratch.accepted[scratch.free_nodes[j]][2]);
+    for i in 0..N {
+        if add(dot(&r[i], &old_xi)?, -scratch.accepted[i][2])?.abs() > LIMIT {
+            return Err(CoupledDiscreteError::ConstraintFailure);
+        }
+    }
+    let mut stiffness = [[0.; W]; W];
+    for (t, tri) in geometry.triangles().iter().enumerate() {
+        barrier(cancel, CoupledDiscreteStage::ThirdAssembly)?;
+        let k = geometry.triangle_stiffness(t)?;
+        let ids = tri.nodes.map(|i| geometry.nodes()[i].periodic_index);
+        for a in 0..3 {
+            for b in 0..3 {
+                for j in 0..W {
+                    for l in 0..W {
+                        stiffness[j][l] = add(
+                            stiffness[j][l],
+                            mul(mul(k[3 * a + 2][3 * b + 2], r[ids[a]][j])?, r[ids[b]][l])?,
+                        )?;
+                    }
+                }
+            }
+        }
+    }
+    let mut matrix = [[0.; W]; W];
+    scratch.rhs.fill(0.);
+    for i in 0..N {
+        for j in 0..W {
+            scratch.rhs[j] = add(
+                scratch.rhs[j],
+                mul(r[i][j], mul(e.start.mass[i], scratch.accepted[i][2])?)?,
+            )?;
+            for k in 0..W {
+                matrix[j][k] = add(matrix[j][k], mul(e.end.mass[i], mul(r[i][j], r[i][k])?)?)?;
+            }
+        }
+    }
+    for f in 0..e.end.faces {
+        let [a, b] = e.end.pairs[f];
+        for j in 0..W {
+            let difference = add(r[a][j], -r[b][j])?;
+            for k in 0..W {
+                let donor = add(
+                    mul(e.integral.plus[f], r[a][k])?,
+                    -mul(e.integral.minus[f], r[b][k])?,
+                )?;
+                matrix[j][k] = add(matrix[j][k], mul(difference, donor)?)?;
+            }
+        }
+    }
+    for j in 0..W {
+        for k in 0..W {
+            matrix[j][k] = add(matrix[j][k], mul(h, stiffness[j][k])?)?;
+        }
+    }
+    let rhs: [f64; W] = scratch
+        .rhs
+        .try_into()
+        .map_err(|_| CoupledDiscreteError::UnsupportedSlice)?;
+    let xi = linear(matrix, rhs)?;
+    scratch.solution.copy_from_slice(&xi);
+    for i in 0..N {
+        scratch.candidate[i][2] = dot(&r[i], &xi)?;
+    }
+    // Inspect the actual full candidate with the same physical operators. This
+    // leaves the published frame's diagnostics consistent with all components.
+    let inspected = geometry.inspect(
+        FittedHeightInputs {
+            velocity: scratch.candidate,
+            pressure_coefficients: pressure,
+        },
+        diagnostic,
+        |_| false,
+    )?;
+    let mut out = CoupledThirdReport {
+        coefficients: xi,
+        ..Default::default()
+    };
+    let mut gcl = [0.; N];
+    scratch.force.fill(0.);
+    for i in 0..N {
+        gcl[i] = add(e.end.mass[i], -e.start.mass[i])?;
+        let w0 = scratch.accepted[i][2];
+        let w1 = scratch.candidate[i][2];
+        out.momentum_before = add(out.momentum_before, mul(e.start.mass[i], w0)?)?;
+        out.momentum_after = add(out.momentum_after, mul(e.end.mass[i], w1)?)?;
+        out.energy_before = add(
+            out.energy_before,
+            mul(mul(0.5, e.start.mass[i])?, mul(w0, w0)?)?,
+        )?;
+        out.energy_after = add(
+            out.energy_after,
+            mul(mul(0.5, e.end.mass[i])?, mul(w1, w1)?)?,
+        )?;
+        let dw = add(w1, -w0)?;
+        out.backward_euler_loss = add(
+            out.backward_euler_loss,
+            mul(mul(0.5, e.start.mass[i])?, mul(dw, dw)?)?,
+        )?;
+    }
+    for f in 0..e.end.faces {
+        let [i, j] = e.end.pairs[f];
+        let wi = scratch.candidate[i][2];
+        let wj = scratch.candidate[j][2];
+        let transported = add(mul(e.integral.plus[f], wi)?, -mul(e.integral.minus[f], wj)?)?;
+        scratch.force[i] = add(scratch.force[i], transported)?;
+        scratch.force[j] = add(scratch.force[j], -transported)?;
+        let net = add(e.integral.plus[f], -e.integral.minus[f])?;
+        gcl[i] = add(gcl[i], net)?;
+        gcl[j] = add(gcl[j], -net)?;
+        let dw = add(wi, -wj)?;
+        out.mixing_loss = add(
+            out.mixing_loss,
+            mul(
+                mul(0.5, add(e.integral.plus[f], e.integral.minus[f])?)?,
+                mul(dw, dw)?,
+            )?,
+        )?;
+    }
+    let mut rate = [0.; W];
+    let mut direct = [0.; W];
+    let mut increment = [0.; W];
+    for j in 0..W {
+        increment[j] = add(xi[j], -old_xi[j])?;
+    }
+    for i in 0..N {
+        let w0 = scratch.accepted[i][2];
+        let w1 = scratch.candidate[i][2];
+        let force = add(scratch.force[i], mul(h, diagnostic[i].strain_force[2])?)?;
+        let stable = add(
+            mul(e.end.mass[i], dot(&r[i], &increment)?)?,
+            mul(add(e.end.mass[i], -e.start.mass[i])?, w0)?,
+        )?;
+        let direct_inertia = add(mul(e.end.mass[i], w1)?, -mul(e.start.mass[i], w0)?)?;
+        for j in 0..W {
+            rate[j] = add(rate[j], mul(r[i][j], add(stable, force)?)?)?;
+            direct[j] = add(direct[j], mul(r[i][j], add(direct_inertia, force)?)?)?;
+        }
+        out.gcl_work = add(out.gcl_work, mul(mul(0.5, gcl[i])?, mul(w1, w1)?)?)?;
+    }
+    out.residual_work = dot(&xi, &rate)?;
+    for j in 0..W {
+        rate[j] = div(rate[j], h)?;
+        direct[j] = div(direct[j], h)?;
+    }
+    out.finite_momentum_rate_norm = norm(&rate)?;
+    out.direct_momentum_rate_norm = norm(&direct)?;
+    // Local differences preserve the constant shear nullspace. These are the
+    // two full engineering-strain entries already used in element assembly.
+    for tri in geometry.triangles() {
+        let ids = tri.nodes.map(|i| geometry.nodes()[i].periodic_index);
+        let base = scratch.candidate[ids[0]][2];
+        let mut gradient = [0.; 2];
+        for a in 1..3 {
+            for d in 0..2 {
+                gradient[d] = add(
+                    gradient[d],
+                    mul(
+                        tri.gradients[a][d],
+                        add(scratch.candidate[ids[a]][2], -base)?,
+                    )?,
+                )?;
+            }
+        }
+        let weight = mul(mul(h, 0.05)?, tri.area)?;
+        out.shear_x_loss = add(
+            out.shear_x_loss,
+            mul(weight, mul(gradient[0], gradient[0])?)?,
+        )?;
+        out.shear_y_loss = add(
+            out.shear_y_loss,
+            mul(weight, mul(gradient[1], gradient[1])?)?,
+        )?;
+    }
+    out.viscous_loss = add(out.shear_x_loss, out.shear_y_loss)?;
+    out.ledger_error = add(
+        add(
+            add(
+                add(
+                    add(
+                        add(out.energy_after, -out.energy_before)?,
+                        out.backward_euler_loss,
+                    )?,
+                    out.mixing_loss,
+                )?,
+                out.viscous_loss,
+            )?,
+            out.gcl_work,
+        )?,
+        -out.residual_work,
+    )?;
+    let scale = add(
+        add(
+            add(
+                add(
+                    add(
+                        add(out.energy_before, out.energy_after)?,
+                        out.backward_euler_loss,
+                    )?,
+                    out.mixing_loss,
+                )?,
+                out.viscous_loss,
+            )?,
+            out.gcl_work.abs(),
+        )?,
+        out.residual_work.abs(),
+    )?;
+    out.work_allowance = mul(128. * f64::EPSILON, scale)?;
+    if out.finite_momentum_rate_norm > LIMIT
+        || out.direct_momentum_rate_norm > LIMIT
+        || add(out.momentum_after, -out.momentum_before)?.abs() > LIMIT
+    {
+        return Err(CoupledDiscreteError::ThirdConservationFailure);
+    }
+    if out.ledger_error.abs() > out.work_allowance
+        || out.residual_work.abs() > out.work_allowance
+        || out.backward_euler_loss < 0.
+        || out.mixing_loss < 0.
+        || out.viscous_loss < 0.
+    {
+        return Err(CoupledDiscreteError::ThirdWorkFailure);
+    }
+    let force_allowance = mul(
+        128. * f64::EPSILON,
+        add(e.end.strain_power, inspected.strain_power)?,
+    )?;
+    if add(
+        mul(h, inspected.strain_power)?,
+        -add(mul(h, e.end.strain_power)?, out.viscous_loss)?,
+    )?
+    .abs()
+        > mul(h, force_allowance)?
+        || inspected.divergence_max > LIMIT
+    {
+        return Err(CoupledDiscreteError::ThirdWorkFailure);
+    }
+    barrier(cancel, CoupledDiscreteStage::AfterThirdSolve)?;
+    Ok(out)
+}
+fn combined_report(
+    planar: CoupledDiscreteReport,
+    third: CoupledThirdReport,
+) -> Result<CoupledExtrudedReport, CoupledDiscreteError> {
+    let mut r = CoupledExtrudedReport {
+        planar,
+        third,
+        energy_before: add(planar.energy_before, third.energy_before)?,
+        energy_after: add(planar.energy_after, third.energy_after)?,
+        backward_euler_loss: add(planar.backward_euler_loss, third.backward_euler_loss)?,
+        mixing_loss: add(planar.mixing_loss, third.mixing_loss)?,
+        viscous_loss: add(planar.viscous_loss, third.viscous_loss)?,
+        gcl_work: add(planar.gcl_work, third.gcl_work)?,
+        residual_work: add(planar.residual_work, third.residual_work)?,
+        ledger_error: 0.,
+        work_allowance: 0.,
+    };
+    r.ledger_error = add(
+        add(
+            add(
+                add(
+                    add(
+                        add(
+                            add(r.energy_after, -r.energy_before)?,
+                            r.backward_euler_loss,
+                        )?,
+                        r.mixing_loss,
+                    )?,
+                    r.viscous_loss,
+                )?,
+                planar.pressure_work,
+            )?,
+            r.gcl_work,
+        )?,
+        -r.residual_work,
+    )?;
+    let scale = add(
+        add(
+            add(
+                add(
+                    add(
+                        add(add(r.energy_before, r.energy_after)?, r.backward_euler_loss)?,
+                        r.mixing_loss,
+                    )?,
+                    r.viscous_loss,
+                )?,
+                planar.pressure_work.abs(),
+            )?,
+            r.gcl_work.abs(),
+        )?,
+        r.residual_work.abs(),
+    )?;
+    r.work_allowance = mul(128. * f64::EPSILON, scale)?;
+    if r.residual_work.abs() > r.work_allowance || r.ledger_error.abs() > r.work_allowance {
+        return Err(CoupledDiscreteError::ThirdWorkFailure);
+    }
+    if norm(&[
+        planar.finite_momentum_rate_norm,
+        third.finite_momentum_rate_norm,
+    ])? > LIMIT
+        || norm(&[
+            planar.direct_momentum_rate_norm,
+            third.direct_momentum_rate_norm,
+        ])? > LIMIT
+    {
+        return Err(CoupledDiscreteError::ThirdConservationFailure);
+    }
+    Ok(r)
 }
 fn unit(i: usize) -> [f64; V] {
     let mut z = [0.; V];
@@ -902,7 +1368,9 @@ impl Work {
             }
         }
         start.z = accepted_z;
-        start.u.copy_from_slice(old);
+        for i in 0..N {
+            start.u[i] = [old[i][0], old[i][1], 0.];
+        }
         start.mass = *m0;
         let end = self.point(q, eta, unknown, h, cancel)?;
         let mut integral = Integrals {

@@ -265,7 +265,15 @@ impl TranslatedViscousFlow {
         settings: TranslatedViscousSettings,
         id: u64,
     ) -> Result<Self, TranslatedViscousError> {
-        Self::initialize(geometry, initial_velocity, fitted, settings, id, false)
+        Self::initialize(
+            geometry,
+            initial_velocity,
+            fitted,
+            settings,
+            id,
+            false,
+            false,
+        )
     }
     /// Coupled xy owner initialization; translating public contracts stay intact.
     pub(crate) fn new_coupled_xy(
@@ -275,7 +283,25 @@ impl TranslatedViscousFlow {
         settings: TranslatedViscousSettings,
         id: u64,
     ) -> Result<Self, TranslatedViscousError> {
-        Self::initialize(geometry, initial_velocity, fitted, settings, id, true)
+        Self::initialize(
+            geometry,
+            initial_velocity,
+            fitted,
+            settings,
+            id,
+            true,
+            false,
+        )
+    }
+    /// Full velocity on the same doubly periodic, z-invariant coupled extrusion.
+    pub(crate) fn new_coupled_extruded(
+        geometry: FittedHeightGeometry<'_>,
+        initial_velocity: &[[f64; 3]],
+        fitted: FittedHeightSettings,
+        settings: TranslatedViscousSettings,
+        id: u64,
+    ) -> Result<Self, TranslatedViscousError> {
+        Self::initialize(geometry, initial_velocity, fitted, settings, id, true, true)
     }
     fn initialize(
         geometry: FittedHeightGeometry<'_>,
@@ -284,6 +310,7 @@ impl TranslatedViscousFlow {
         settings: TranslatedViscousSettings,
         id: u64,
         coupled_xy: bool,
+        coupled_third: bool,
     ) -> Result<Self, TranslatedViscousError> {
         let c = geometry
             .cap
@@ -319,7 +346,7 @@ impl TranslatedViscousFlow {
             for &x in v {
                 check(x)?;
             }
-            if (coupled_xy && v[2] != 0.0)
+            if (coupled_xy && !coupled_third && v[2] != 0.0)
                 || (!coupled_xy && (v[0].to_bits() != speed.to_bits() || v[1] != 0.0))
             {
                 return Err(TranslatedViscousError::UnsupportedVelocity);

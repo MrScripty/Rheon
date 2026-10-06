@@ -123,5 +123,5 @@ pub use fixed_bottom_ale::{
 mod coupled_discrete;
 pub use coupled_discrete::{
     CoupledDiscreteError, CoupledDiscreteFlow, CoupledDiscreteReport, CoupledDiscreteStage,
-    CoupledDiscreteState,
+    CoupledDiscreteState, CoupledExtrudedReport, CoupledThirdReport,
 };
