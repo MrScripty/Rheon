@@ -1,0 +1,19 @@
+{
+  "status": "PASS_LOCAL_INTEGRATION_BINDING",
+  "source": "8a19cc209436e052422e8f72fbb982a92dddf484",
+  "tree": "67c7965ac6800ce9c0fb2c3b492ab5ab7f4bc37e",
+  "Rust_tests_passed": {
+    "default": 246,
+    "no-default": 240,
+    "desktop": 252
+  },
+  "actual_commands": 15,
+  "current_path_controls": 54,
+  "original_temporal_gate": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "fine_native_refusals": 6,
+  "hosted_CI_qualified": false
+}
+REJECTED rust_source_sha256: unchanged Rust source Cargo.lock
+REJECTED file_sha256: integration evidence evidence/forcing-main-integration/check_finer_fit.py
+REJECTED Rust_tests_passed: actual native counts
+REJECTED original_forcing_temporal_gate: retained failed gate and scope

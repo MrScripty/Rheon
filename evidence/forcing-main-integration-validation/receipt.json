@@ -1,0 +1,20 @@
+{
+  "actual_binding_corruption_rejections_per_mode": 4,
+  "file_sha256": {
+    "evidence/forcing-main-integration-validation/normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-main-integration-validation/normal.log": "50ddd5223a28cb72f7cd463d159d6e735dfc3bc8b7e05c989b42522b63840cc3",
+    "evidence/forcing-main-integration-validation/optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-main-integration-validation/optimized.log": "50ddd5223a28cb72f7cd463d159d6e735dfc3bc8b7e05c989b42522b63840cc3",
+    "evidence/forcing-main-integration-validation/verify.py": "49887cb13def9ea0d595b38185a36f28cf6c4c18b67a8605d1ffc3f23355a96c"
+  },
+  "hosted_CI_qualified": false,
+  "integration_receipt_sha256": "1c6add0275eb75b978df2b47b3f4c6b8464e5a92cb5ed2486e588b62d7b3e47f",
+  "normal_optimized_byte_identical": true,
+  "ordered_source_parents": [
+    "8ad29bba1e33d0e3bfb8d79f33dc64be2cf2bbcd",
+    "773bd2725e35590cfe9cbca5625f5239b98f03c2"
+  ],
+  "source": "8a19cc209436e052422e8f72fbb982a92dddf484",
+  "status": "PASS_INTEGRATION_RECEIPT_BINDING",
+  "tree": "67c7965ac6800ce9c0fb2c3b492ab5ab7f4bc37e"
+}

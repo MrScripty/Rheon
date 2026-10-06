@@ -1,0 +1,39 @@
+{
+  "force": false,
+  "integration_commit": "8a19cc209436e052422e8f72fbb982a92dddf484",
+  "integration_tree": "67c7965ac6800ce9c0fb2c3b492ab5ab7f4bc37e",
+  "ordered_integration_parents": [
+    "8ad29bba1e33d0e3bfb8d79f33dc64be2cf2bbcd",
+    "773bd2725e35590cfe9cbca5625f5239b98f03c2"
+  ],
+  "rewrite": false,
+  "status": "PASS_ORDINARY_COMPOSITION_ANCESTRY",
+  "verified_histories": [
+    {
+      "commit": "4be8f9dffa179a22c7ef127ca2948f18d0c245a3",
+      "is_ancestor_of_integration": true,
+      "ordered_parents": [
+        "c63401e328e58c6d719d2dc326e196e29db2b57a",
+        "7dd6cd53a6ab079ef8bc9ec1a053bd9eafbed458"
+      ],
+      "tree": "fdaee0494a05b985c8a71f80eb901caf580da1da"
+    },
+    {
+      "commit": "7985ca568d4c921fab782d22db9c05729329112e",
+      "is_ancestor_of_integration": true,
+      "ordered_parents": [
+        "e6243021792ae894f7eab29e34ca64278159dbcb"
+      ],
+      "tree": "b7d4bbda61fc9c4df79c949e9d12e389518a3869"
+    },
+    {
+      "commit": "773bd2725e35590cfe9cbca5625f5239b98f03c2",
+      "is_ancestor_of_integration": true,
+      "ordered_parents": [
+        "56bd1147811a816b2485aaf1f74729f26a9b7d7c",
+        "be99b8962ba9c20d9e0a99218a1d2f62f120da45"
+      ],
+      "tree": "24222bab14a8ca2118578544b9982ca50e5beacf"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "status": "DESCRIPTIVE_ACTUAL_FINER_HOLDOUT_COMPARISON",
+  "training_h": [
+    0.0125,
+    0.00625,
+    0.003125
+  ],
+  "actual_h": 0.0015625,
+  "predicted_error_components": [
+    4.359396356900212e-08,
+    1.5669312125599077e-08,
+    7.814089849136898e-09,
+    -1.566931197641286e-08
+  ],
+  "actual_error_components": [
+    4.359415338439643e-08,
+    1.566940954766949e-08,
+    7.814205504885763e-09,
+    -1.5669409325624883e-08
+  ],
+  "max_prediction_gap": 1.898153943052927e-13,
+  "actual_geometry_max_error": 4.359415338439643e-08,
+  "additional_actual_halving_ratio": 1.9438043110168854,
+  "original_temporal_gate": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "scope": "An actual endpoint excluded from the fit; no extrapolated qualification or formal order theorem.",
+  "source_sha256": "9b62f906ec36481777456aad08b6912cacb09ef3ceb2113f36d2778f09960f55",
+  "input_sha256": {
+    "first-reference-diagnosis.json": "f89d7c758a848719ea848ca8b473871bddfd2d135146e076d27fc3e29d341a7c",
+    "first-probe-replay.json": "385a29b3b957664caff66c001bc28c33c3e03245c227d751b4c7c1fcc39b78d1"
+  }
+}

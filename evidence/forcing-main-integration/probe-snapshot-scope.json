@@ -1,0 +1,19 @@
+{
+  "checked_bit_fields": [
+    "velocity[16][3]",
+    "positions[19][2]",
+    "nodal_mass[16]",
+    "pressure_coefficients[16]",
+    "time"
+  ],
+  "checked_exact_fields": [
+    "stamp",
+    "triangles[24][3]",
+    "periodic_indices[19]"
+  ],
+  "derived_endpoint_coordinates": "q and eta are reconstructed from these public positions and velocities by emit()",
+  "native_refusals": 6,
+  "production_owner_or_workspace_added": false,
+  "scope": "The refusal snapshot compares public physical state fields; it does not assert equality of every workspace scratch or derived operator buffer.",
+  "snapshot_source": "examples/forcing_temporal_probe.rs"
+}

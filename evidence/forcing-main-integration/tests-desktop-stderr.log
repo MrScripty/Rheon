@@ -1,0 +1,266 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.26
+   Compiling syn v3.0.6
+   Compiling bitflags v2.13.2
+   Compiling once_cell v1.21.4
+   Compiling log v0.4.34
+   Compiling rustix v1.1.5
+   Compiling linux-raw-sys v0.12.1
+   Compiling syn v2.0.119
+   Compiling libc v0.2.190
+   Compiling smallvec v1.16.2
+   Compiling pin-project-lite v0.2.17
+   Compiling serde_core v1.0.229
+   Compiling pkg-config v0.3.34
+   Compiling serde v1.0.229
+   Compiling serde_derive v1.0.229
+   Compiling winnow v1.0.4
+   Compiling libloading v0.8.9
+   Compiling autocfg v1.5.1
+   Compiling equivalent v1.0.2
+   Compiling hashbrown v0.17.1
+   Compiling indexmap v2.14.2
+   Compiling toml_parser v1.1.3+spec-1.1.0
+   Compiling toml_datetime v1.1.1+spec-1.1.0
+   Compiling toml_edit v0.25.15+spec-1.1.0
+   Compiling dlib v0.5.3
+   Compiling wayland-sys v0.31.11
+   Compiling polling v3.11.0
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.14
+   Compiling cc v1.6.0
+   Compiling proc-macro-crate v3.5.0
+   Compiling zvariant_utils v4.2.0
+   Compiling enumflags2_derive v0.7.12
+   Compiling parking v2.2.1
+   Compiling enumflags2 v0.7.12
+   Compiling zvariant_derive v5.15.0
+   Compiling wayland-backend v0.3.17
+   Compiling zcheapstr v1.1.0
+   Compiling slab v0.4.12
+   Compiling endi v1.1.1
+   Compiling futures-core v0.3.34
+   Compiling synstructure v0.14.0
+   Compiling downcast-rs v1.2.1
+   Compiling scoped-tls v1.0.1
+   Compiling memchr v2.8.3
+   Compiling crossbeam-utils v0.8.23
+   Compiling quick-xml v0.41.0
+   Compiling wayland-client v0.31.15
+   Compiling wayland-scanner v0.31.11
+   Compiling zerofrom-derive v0.1.8
+   Compiling tracing-attributes v0.1.31
+   Compiling tracing-core v0.1.36
+   Compiling futures-io v0.3.34
+   Compiling fastrand v2.5.0
+   Compiling tracing v0.1.44
+   Compiling zerofrom v0.1.8
+   Compiling concurrent-queue v2.5.0
+   Compiling yoke-derive v0.8.4
+   Compiling event-listener v5.4.2
+   Compiling stable_deref_trait v1.2.1
+   Compiling yoke v0.8.3
+   Compiling event-listener-strategy v0.5.4
+   Compiling futures-lite v2.6.1
+   Compiling zvariant v5.15.0
+   Compiling zbus_names v4.3.4
+   Compiling async-io v2.6.0
+   Compiling zerovec-derive v0.11.6
+   Compiling zerovec v0.11.8
+   Compiling errno v0.3.14
+   Compiling bytemuck_derive v1.12.1
+   Compiling displaydoc v0.2.7
+   Compiling async-task v4.7.1
+   Compiling bytemuck v1.25.2
+   Compiling signal-hook-registry v1.4.8
+   Compiling async-channel v2.5.0
+   Compiling wayland-protocols v0.32.13
+   Compiling cfg_aliases v0.2.2
+   Compiling thiserror v1.0.69
+   Compiling atomic-waker v1.1.2
+   Compiling khronos_api v3.1.0
+   Compiling piper v0.2.5
+   Compiling async-signal v0.2.14
+   Compiling zbus_xml v5.2.1
+   Compiling async-lock v3.4.2
+   Compiling thiserror-impl v1.0.69
+   Compiling zerocopy v0.8.59
+   Compiling version_check v0.9.5
+   Compiling getrandom v0.3.4
+   Compiling ahash v0.8.12
+   Compiling async-process v2.5.0
+   Compiling zbus-lockstep v0.5.2
+   Compiling blocking v1.7.0
+   Compiling async-executor v1.14.0
+   Compiling tinystr v0.8.4
+   Compiling zbus_macros v5.19.0
+   Compiling async-broadcast v0.7.2
+   Compiling ordered-stream v0.2.0
+   Compiling uuid v1.27.0
+   Compiling async-trait v0.1.92
+   Compiling serde_repr v0.1.21
+   Compiling async-recursion v1.2.0
+   Compiling rustix v0.38.44
+   Compiling xml-rs v0.8.29
+   Compiling writeable v0.6.4
+   Compiling hex v0.4.3
+   Compiling litemap v0.8.3
+   Compiling icu_locale_core v2.3.0
+   Compiling zbus v5.19.0
+   Compiling gl_generator v0.14.0
+   Compiling zbus-lockstep-macros v0.5.2
+   Compiling zerotrie v0.2.5
+   Compiling potential_utf v0.1.6
+   Compiling x11-dl v2.21.0
+   Compiling percent-encoding v2.3.2
+   Compiling icu_properties_data v2.3.0
+   Compiling xcursor v0.3.11
+   Compiling static_assertions v1.1.0
+   Compiling parking_lot_core v0.9.12
+   Compiling xkeysym v0.2.1
+   Compiling cursor-icon v1.2.0
+   Compiling linux-raw-sys v0.4.15
+   Compiling utf8_iter v1.0.4
+   Compiling icu_normalizer_data v2.3.0
+   Compiling icu_collections v2.3.0
+   Compiling wayland-csd-frame v0.3.0
+   Compiling atspi-common v0.9.0
+   Compiling wayland-cursor v0.31.14
+   Compiling icu_provider v2.3.1
+   Compiling wayland-protocols-wlr v0.3.12
+   Compiling memmap2 v0.9.11
+   Compiling accesskit v0.21.1
+   Compiling scopeguard v1.2.0
+   Compiling lock_api v0.4.14
+   Compiling calloop v0.13.0
+   Compiling num-traits v0.2.19
+   Compiling gethostname v1.1.0
+   Compiling x11rb-protocol v0.13.2
+   Compiling smithay-client-toolkit v0.19.2
+   Compiling ttf-parser v0.25.1
+   Compiling foldhash v0.1.5
+   Compiling as-raw-xcb-connection v1.0.1
+   Compiling x11rb v0.13.2
+   Compiling hashbrown v0.15.5
+   Compiling owned_ttf_parser v0.25.1
+   Compiling icu_normalizer v2.3.0
+   Compiling calloop-wayland-source v0.3.0
+   Compiling parking_lot v0.12.5
+   Compiling icu_properties v2.3.0
+   Compiling atspi-proxies v0.9.0
+   Compiling winit v0.30.13
+   Compiling emath v0.33.3
+   Compiling ab_glyph_rasterizer v0.1.10
+   Compiling thiserror v2.0.21
+   Compiling raw-window-handle v0.6.2
+   Compiling ab_glyph v0.2.32
+   Compiling ecolor v0.33.3
+   Compiling atspi-connection v0.9.0
+   Compiling idna_adapter v1.2.2
+   Compiling accesskit_consumer v0.31.0
+   Compiling xkbcommon-dl v0.4.2
+   Compiling glutin_glx_sys v0.6.1
+   Compiling glutin_egl_sys v0.7.1
+   Compiling wayland-protocols-plasma v0.3.12
+   Compiling calloop v0.14.5
+   Compiling thiserror-impl v2.0.21
+   Compiling futures-macro v0.3.34
+   Compiling profiling v1.0.18
+   Compiling smol_str v0.2.2
+   Compiling nohash-hasher v0.2.0
+   Compiling futures-task v0.3.34
+   Compiling pxfm v0.1.30
+   Compiling smithay-client-toolkit v0.20.0
+   Compiling epaint_default_fonts v0.33.3
+   Compiling dpi v0.1.2
+   Compiling epaint v0.33.3
+   Compiling moxcms v0.8.1
+   Compiling futures-util v0.3.34
+   Compiling calloop-wayland-source v0.4.1
+   Compiling png v0.18.1
+   Compiling accesskit_atspi_common v0.14.2
+   Compiling idna v1.1.0
+   Compiling atspi v0.25.0
+   Compiling form_urlencoded v1.2.2
+   Compiling glutin v0.32.3
+   Compiling wayland-protocols-misc v0.3.12
+   Compiling wayland-protocols-experimental v20250721.0.1
+   Compiling memoffset v0.9.1
+   Compiling unicode-segmentation v1.13.3
+   Compiling byteorder-lite v0.1.0
+   Compiling image v0.25.10
+   Compiling egui v0.33.3
+   Compiling url v2.5.8
+   Compiling accesskit_unix v0.17.2
+   Compiling glutin-winit v0.5.0
+   Compiling accesskit_winit v0.29.2
+   Compiling webbrowser v1.2.4
+   Compiling smithay-clipboard v0.7.3
+   Compiling arboard v3.6.1
+   Compiling web-time v1.1.0
+   Compiling glow v0.16.0
+   Compiling litrs v1.0.0
+   Compiling document-features v0.2.12
+   Compiling egui_glow v0.33.3
+   Compiling egui-winit v0.33.3
+   Compiling eframe v0.33.3
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5m 12s
+     Running unittests src/lib.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/rheon-c3147dbbcb05ee21)
+     Running unittests src/bin/rheon.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/rheon-c4a0ddf597429b65)
+     Running unittests src/bin/rheon-desktop.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/rheon_desktop-8f64e18ee0436a18)
+     Running tests/advection_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/advection_contract-225c15c5b5f70bf2)
+     Running tests/box_flux_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/box_flux_contract-d9daa3190bb0368b)
+     Running tests/box_flux_step_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/box_flux_step_contract-52fc4a4a39f26494)
+     Running tests/cli_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/cli_contract-ea673c6ccdb279e4)
+     Running tests/collision_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/collision_contract-ec1d57f50f7c22ec)
+     Running tests/column_mac_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/column_mac_contract-84c0efa63f242805)
+     Running tests/column_momentum_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/column_momentum_contract-2479918279c1d934)
+     Running tests/column_shear_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/column_shear_contract-fa45691cee60a018)
+     Running tests/column_surface_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/column_surface_contract-e6ac370714eade6b)
+     Running tests/coupled_discrete_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/coupled_discrete_contract-10613f4cceb906e8)
+     Running tests/export_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/export_contract-28cb0dbf0e593aa9)
+     Running tests/extruded_third_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/extruded_third_contract-c83d5583037c9eb4)
+     Running tests/fitted_height_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/fitted_height_contract-dedb6c246a44cb5d)
+     Running tests/fixed_bottom_ale_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/fixed_bottom_ale_contract-6df4403b23f6196c)
+     Running tests/forced_extruded_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/forced_extruded_contract-9f77823690b077e8)
+     Running tests/forces_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/forces_contract-9aed3fd324e79eb4)
+     Running tests/free_surface_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/free_surface_contract-6ecf559bc9265e49)
+     Running tests/geometry_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/geometry_contract-a09149dd6d763813)
+     Running tests/implementation_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/implementation_contract-2c4da4efe4818e2e)
+     Running tests/liquid_scale_division_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/liquid_scale_division_contract-28d905a85561cde9)
+     Running tests/liquid_step_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/liquid_step_contract-2376a13465b2ee89)
+     Running tests/liquid_volume_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/liquid_volume_contract-d90f78f6e3c4db6d)
+     Running tests/operator_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/operator_contract-f1b33944ac98063e)
+     Running tests/pressure_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/pressure_contract-98bf10ed96cc360a)
+     Running tests/sampling_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/sampling_contract-ac80565e28e12260)
+     Running tests/simulation_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/simulation_contract-8363144a7dcd92c8)
+     Running tests/tracer_barrier_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/tracer_barrier_contract-6b0eba546143e9b3)
+     Running tests/translated_viscous_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/translated_viscous_contract-df01259cbdae83bb)
+     Running tests/translation_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/translation_contract-f255d91a13159707)
+     Running tests/viscosity_contract.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/deps/viscosity_contract-adfd0b6fa9566a8f)
+     Running unittests examples/box_flux.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/box_flux-e4bc24769de2f4be)
+     Running unittests examples/box_flux_step.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/box_flux_step-bb6b90d106203ea3)
+     Running unittests examples/column_interface.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/column_interface-d8770f5a7ee34e7d)
+     Running unittests examples/column_mac.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/column_mac-2d30407d54618dc2)
+     Running unittests examples/column_momentum.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/column_momentum-89fb993d98b59caf)
+     Running unittests examples/column_shear.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/column_shear-9138cbe48f592eaa)
+     Running unittests examples/coupled_discrete.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/coupled_discrete-700e69340b620793)
+     Running unittests examples/coupled_discrete_identity.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/coupled_discrete_identity-e81dbd219ea49c8b)
+     Running unittests examples/coupled_layout_probe.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/coupled_layout_probe-a15eb3aa2f64c1ad)
+     Running unittests examples/extruded_third.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/extruded_third-93b5f766828b2837)
+     Running unittests examples/fitted_height.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/fitted_height-392ce84affdef75b)
+     Running unittests examples/fitted_pressure_path.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/fitted_pressure_path-08ea4ac35b3e1ecc)
+     Running unittests examples/fixed_bottom_ale.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/fixed_bottom_ale-6056ebbfb3c70de3)
+     Running unittests examples/forced_extruded.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/forced_extruded-10be416d5e7adea3)
+     Running unittests examples/forced_smoke.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/forced_smoke-4a40f27e5d40b94e)
+     Running unittests examples/forcing_temporal_probe.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/forcing_temporal_probe-d6087c59f0f1ca07)
+     Running unittests examples/free_surface.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/free_surface-f4f207575f99faf4)
+     Running unittests examples/liquid_step.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/liquid_step-17f4a8be190a78ea)
+     Running unittests examples/liquid_volume.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/liquid_volume-4d310505543b29f4)
+     Running unittests examples/surface_queries.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/surface_queries-772124ed9c6bf40c)
+     Running unittests examples/tracer_barrier.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/tracer_barrier-cc4a021baa40c297)
+     Running unittests examples/translated_viscous.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/translated_viscous-cbeebccd7bf9838a)
+     Running unittests examples/translating_surface.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/translating_surface-5969049d5d878e30)
+     Running unittests examples/viscosity.rs (/workspace/.rheon-tools/forced-extruded-capture-target/debug/examples/viscosity-6c495fe0d3e50082)

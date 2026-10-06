@@ -1,0 +1,424 @@
+{
+  "status": "PASS_ACTUAL_EXECUTED_PATH_LEDGER",
+  "source_commit": "8a19cc209436e052422e8f72fbb982a92dddf484",
+  "actual_test_method": "ColumnVerifierTest.test_rust_ci_triggers_for_each_example_and_column_verifier",
+  "actual_test_methods": 1,
+  "tracked_example_count": 24,
+  "actual_control_count": 54,
+  "tracked_examples": [
+    "examples/box_flux.rs",
+    "examples/box_flux_step.rs",
+    "examples/column_interface.rs",
+    "examples/column_mac.rs",
+    "examples/column_momentum.rs",
+    "examples/column_shear.rs",
+    "examples/coupled_discrete.rs",
+    "examples/coupled_discrete_identity.rs",
+    "examples/coupled_layout_probe.rs",
+    "examples/extruded_third.rs",
+    "examples/fitted_height.rs",
+    "examples/fitted_pressure_path.rs",
+    "examples/fixed_bottom_ale.rs",
+    "examples/forced_extruded.rs",
+    "examples/forced_smoke.rs",
+    "examples/forcing_temporal_probe.rs",
+    "examples/free_surface.rs",
+    "examples/liquid_step.rs",
+    "examples/liquid_volume.rs",
+    "examples/surface_queries.rs",
+    "examples/tracer_barrier.rs",
+    "examples/translated_viscous.rs",
+    "examples/translating_surface.rs",
+    "examples/viscosity.rs"
+  ],
+  "additional_paths": [
+    "tools/verify_column_interface.py",
+    "tools/test_column_interface_verifier.py",
+    "evidence/column-interface/demo/jacobi-pcg-v1-activation/final.png"
+  ],
+  "controls": [
+    {
+      "event": "pull_request",
+      "path": "examples/box_flux.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/box_flux_step.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/column_interface.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/column_mac.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/column_momentum.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/column_shear.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/coupled_discrete.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/coupled_discrete_identity.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/coupled_layout_probe.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/extruded_third.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/fitted_height.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/fitted_pressure_path.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/fixed_bottom_ale.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/forced_extruded.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/forced_smoke.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/forcing_temporal_probe.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/free_surface.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/liquid_step.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/liquid_volume.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/surface_queries.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/tracer_barrier.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/translated_viscous.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/translating_surface.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "examples/viscosity.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "tools/verify_column_interface.py",
+      "matched_patterns": [
+        "tools/verify_column_interface.py"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "tools/test_column_interface_verifier.py",
+      "matched_patterns": [
+        "tools/test_column_interface_verifier.py"
+      ]
+    },
+    {
+      "event": "pull_request",
+      "path": "evidence/column-interface/demo/jacobi-pcg-v1-activation/final.png",
+      "matched_patterns": [
+        "evidence/column-interface/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/box_flux.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/box_flux_step.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/column_interface.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/column_mac.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/column_momentum.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/column_shear.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/coupled_discrete.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/coupled_discrete_identity.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/coupled_layout_probe.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/extruded_third.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/fitted_height.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/fitted_pressure_path.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/fixed_bottom_ale.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/forced_extruded.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/forced_smoke.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/forcing_temporal_probe.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/free_surface.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/liquid_step.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/liquid_volume.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/surface_queries.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/tracer_barrier.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/translated_viscous.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/translating_surface.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "examples/viscosity.rs",
+      "matched_patterns": [
+        "examples/**"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "tools/verify_column_interface.py",
+      "matched_patterns": [
+        "tools/verify_column_interface.py"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "tools/test_column_interface_verifier.py",
+      "matched_patterns": [
+        "tools/test_column_interface_verifier.py"
+      ]
+    },
+    {
+      "event": "push",
+      "path": "evidence/column-interface/demo/jacobi-pcg-v1-activation/final.png",
+      "matched_patterns": [
+        "evidence/column-interface/**"
+      ]
+    }
+  ],
+  "source_sha256": {
+    ".github/workflows/rust-rheon.yml": "d5d101c12ede6a74d4a1f293bcde15d52cbc93ab026654def6c3f035a7b07a6b",
+    "tools/test_column_interface_verifier.py": "a392d4480ef70c98a2b9a28e035f61f53068f79c08627b8188db80885fc1cc47",
+    "evidence/column-interface-path-ledger/run_ledger.py": "efd12ff7249ba207f97ba6dfe697dc3f022759de55f4647376a6e4ddc43733af"
+  }
+}
