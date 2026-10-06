@@ -25,8 +25,14 @@ def main():
   require(sha((O/path).read_bytes())==oldreceipt['artifacts'][path],'original reference/native publication '+path)
  for path in ['main-native.log','main-completed.json','initial-bits.json','binary-binding.json','pure_e2.rs']:
   require(sha((N/path).read_bytes())==newreceipt['artifact_sha256'][path],'pure-E2 frozen publication '+path)
- for path in ['FittedHeightWorkspace-overlay.rs','TranslatedViscousFlow-overlay.rs','candidate_helpers.rs','inputs.rs','trajectory_inputs.rs']:
+ for path in ['FittedHeightWorkspace-overlay.rs','TranslatedViscousFlow-overlay.rs','inputs.rs','trajectory_inputs.rs']:
   require((N/path).read_bytes()==(O/path).read_bytes(),'same fixture/geometry/public physical boundary '+path)
+ # The sole helper change is the already reviewed E2 arithmetic selector.
+ # Require the exact seven-line addition; all physical/helper bytes remain equal.
+ selector=('    pub(super) fn select_working_affine(&mut self, enabled: bool) {\n'
+           '        self.work\n            .research\n            .as_deref_mut()\n'
+           '            .unwrap()\n            .select_working_affine(enabled);\n    }\n')
+ helpers=(N/'candidate_helpers.rs').read_text();require(helpers.count(selector)==1 and helpers.replace(selector,'').encode()==(O/'candidate_helpers.rs').read_bytes(),'only accepted arithmetic selector helper addition')
  auth=data(O/'reference-authorization.json');oldpolicy=data(O/'protocol.json');roster=data(O/'roster.json');case=roster['trajectories'][47]
  require(auth['driver_sha256']==sha((O/'run_references.py').read_bytes()) and auth['protocol_sha256']==sha((O/'protocol.json').read_bytes()) and auth['original_sources_sha256']==roster['original_sources_sha256'],'original reference provenance')
  require(auth['parameters']==oldpolicy['reference_integrations'] and auth['rhs_cap']==5000 and auth['parameter_search'] is False,'original integration policy')

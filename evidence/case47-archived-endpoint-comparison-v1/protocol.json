@@ -104,7 +104,7 @@
   "preserved_base_tree": "caac00c38b8bc0281294d8c885ef6000f0a34425",
   "reader_sha256": {
     "README.md": "a67c3b88ac0733e30e3d56a9a7f7377b19f4ed4b7e95765be6ea7c31d7aa16db",
-    "analyze.py": "c362857c1234b51a55e6ab495d50b567353407cbc9ea56e386b0eec88046872f"
+    "analyze.py": "9abfa7e82397126c4486f7b772cfbf1c74a1af1694ed638242de5a18f8b761d1"
   },
   "status": "ARCHIVED_COMPARISON_SOURCE_ONLY"
 }
