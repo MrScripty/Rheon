@@ -1,0 +1,17 @@
+{
+  "status": "PASS_FROZEN_GIT_LEDGER_BINDING",
+  "source_commit": "f9ac166f7cd3b789d6f632b1fa1572d50b5d126f",
+  "source_tree": "f5c0409880c6c18bed24bd66069572b14ff4b275",
+  "evidence_commit": "e93adff3542d3d7421db37125eef4b8af43fa179",
+  "evidence_tree": "ce5cc0ad5524818ff5fa352ce97a8c8d2100e7bb",
+  "root_sha256": "d79de66bd2e38647ab0aa9d6b09c0ff8a28bdfc01ca72ec9247c466f3e1868fd",
+  "tracked_examples": 22,
+  "actual_path_controls": 50,
+  "actual_binding_and_unsupported_count_controls_per_mode": 4,
+  "normal_optimized_results_byte_identical": true,
+  "file_sha256": {
+    "evidence/column-interface-path-ledger-validation/normal.log": "79c38051e525ddd574c55e3320a1120de26328b9ab23d45cf96ad580595a7165",
+    "evidence/column-interface-path-ledger-validation/optimized.log": "79c38051e525ddd574c55e3320a1120de26328b9ab23d45cf96ad580595a7165"
+  },
+  "hosted_CI_qualified": false
+}
