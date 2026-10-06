@@ -1,0 +1,352 @@
+{
+  "status": "PASS_PHYSICAL_PROBE_REPLAY_WITH_NATIVE_REFUSALS_RETAINED",
+  "actual_publications": 202,
+  "actual_steps": 194,
+  "actual_constructors": 8,
+  "completed_cases": 3,
+  "refused_cases": 5,
+  "original_reversed_five_interval_qualification": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "rows": [
+    {
+      "probe_status": "REFUSED",
+      "kind": "initial",
+      "field": "nonconstant",
+      "load": "forward",
+      "h": 0.0015625,
+      "accepted_steps": 0,
+      "expected_steps": 64,
+      "attempted_step": 1,
+      "state_preserved": true,
+      "error": "IterationLimit",
+      "physical_equation_replay": "PASS_UNCHANGED_FROZEN_GATES",
+      "maxima": {
+        "full_momentum": 0.0,
+        "direct_full_momentum": 0.0,
+        "third_momentum_change": 0.0,
+        "third_work_ratio": 0.0,
+        "total_work_ratio": 0.0,
+        "GCL_ratio": 0.0,
+        "quadrature": 0.0,
+        "constant_deviation": 0.0
+      },
+      "last_actual_clock": 0.0,
+      "last_actual_stamp": {
+        "id": 131,
+        "version": 0
+      },
+      "last_actual_q": [
+        0.0,
+        0.5,
+        1.0
+      ]
+    },
+    {
+      "probe_status": "REFUSED",
+      "kind": "initial",
+      "field": "nonconstant",
+      "load": "forward",
+      "h": 0.00078125,
+      "accepted_steps": 0,
+      "expected_steps": 128,
+      "attempted_step": 1,
+      "state_preserved": true,
+      "error": "IterationLimit",
+      "physical_equation_replay": "PASS_UNCHANGED_FROZEN_GATES",
+      "maxima": {
+        "full_momentum": 0.0,
+        "direct_full_momentum": 0.0,
+        "third_momentum_change": 0.0,
+        "third_work_ratio": 0.0,
+        "total_work_ratio": 0.0,
+        "GCL_ratio": 0.0,
+        "quadrature": 0.0,
+        "constant_deviation": 0.0
+      },
+      "last_actual_clock": 0.0,
+      "last_actual_stamp": {
+        "id": 131,
+        "version": 0
+      },
+      "last_actual_q": [
+        0.0,
+        0.5,
+        1.0
+      ]
+    },
+    {
+      "probe_status": "COMPLETE",
+      "kind": "initial",
+      "field": "nonconstant",
+      "load": "reversed",
+      "h": 0.0015625,
+      "accepted_steps": 64,
+      "expected_steps": 64,
+      "physical_equation_replay": "PASS_UNCHANGED_FROZEN_GATES",
+      "maxima": {
+        "full_momentum": 1.2165313946260582e-13,
+        "direct_full_momentum": 1.2318837565732657e-13,
+        "third_momentum_change": 2.664426838883127e-16,
+        "third_work_ratio": 0.007138348109858274,
+        "total_work_ratio": 0.0034564807033825445,
+        "GCL_ratio": 0.020869870918197128,
+        "quadrature": 3.321957340012959e-19,
+        "constant_deviation": 0.0
+      },
+      "last_actual_clock": 0.0999999999999999,
+      "last_actual_stamp": {
+        "id": 131,
+        "version": 64
+      },
+      "last_actual_q": [
+        0.09941172690541965,
+        0.6243616551708986,
+        0.9998741724223739
+      ],
+      "error_components": [
+        4.359415338439643e-08,
+        1.566940954766949e-08,
+        7.814205504885763e-09,
+        -1.5669409325624883e-08
+      ],
+      "geometry_max_error": 4.359415338439643e-08,
+      "additional_halving_ratio": 1.9438043110168854,
+      "original_geometry_band": [
+        1.7,
+        2.3
+      ],
+      "additional_pair_in_original_band": true,
+      "original_five_interval_band_pass": false
+    },
+    {
+      "probe_status": "REFUSED",
+      "kind": "initial",
+      "field": "nonconstant",
+      "load": "reversed",
+      "h": 0.00078125,
+      "accepted_steps": 0,
+      "expected_steps": 128,
+      "attempted_step": 1,
+      "state_preserved": true,
+      "error": "IterationLimit",
+      "physical_equation_replay": "PASS_UNCHANGED_FROZEN_GATES",
+      "maxima": {
+        "full_momentum": 0.0,
+        "direct_full_momentum": 0.0,
+        "third_momentum_change": 0.0,
+        "third_work_ratio": 0.0,
+        "total_work_ratio": 0.0,
+        "GCL_ratio": 0.0,
+        "quadrature": 0.0,
+        "constant_deviation": 0.0
+      },
+      "last_actual_clock": 0.0,
+      "last_actual_stamp": {
+        "id": 131,
+        "version": 0
+      },
+      "last_actual_q": [
+        0.0,
+        0.5,
+        1.0
+      ]
+    },
+    {
+      "probe_status": "COMPLETE",
+      "kind": "pressure_state",
+      "field": "nonconstant",
+      "load": "forward",
+      "h": 0.0015625,
+      "accepted_steps": 64,
+      "expected_steps": 64,
+      "physical_equation_replay": "PASS_UNCHANGED_FROZEN_GATES",
+      "maxima": {
+        "full_momentum": 1.1300678207855131e-13,
+        "direct_full_momentum": 1.169711569326065e-13,
+        "third_momentum_change": 2.664426838883127e-16,
+        "third_work_ratio": 0.0053323291471573395,
+        "total_work_ratio": 0.004410410433472331,
+        "GCL_ratio": 0.022470877446136007,
+        "quadrature": 4.607859233063394e-19,
+        "constant_deviation": 0.0
+      },
+      "last_actual_clock": 0.0999999999999999,
+      "last_actual_stamp": {
+        "id": 131,
+        "version": 64
+      },
+      "last_actual_q": [
+        0.09984106404072067,
+        0.624585329024316,
+        1.0000844134682092
+      ],
+      "error_components": [
+        -1.6207343384033734e-08,
+        -1.0936355976376433e-07,
+        4.1553287033480046e-08,
+        1.0936355998580893e-07
+      ],
+      "geometry_max_error": 1.0936355998580893e-07,
+      "additional_halving_ratio": 2.010471945398751,
+      "original_geometry_band": [
+        1.7,
+        2.3
+      ],
+      "additional_pair_in_original_band": true,
+      "original_five_interval_band_pass": true
+    },
+    {
+      "probe_status": "REFUSED",
+      "kind": "pressure_state",
+      "field": "nonconstant",
+      "load": "forward",
+      "h": 0.00078125,
+      "accepted_steps": 1,
+      "expected_steps": 128,
+      "attempted_step": 2,
+      "state_preserved": true,
+      "error": "IterationLimit",
+      "physical_equation_replay": "PASS_UNCHANGED_FROZEN_GATES",
+      "maxima": {
+        "full_momentum": 1.5096948593795314e-13,
+        "direct_full_momentum": 1.5615310064043231e-13,
+        "third_momentum_change": 1.3322134194415636e-16,
+        "third_work_ratio": 0.004519629020604432,
+        "total_work_ratio": 0.0004770696237922201,
+        "GCL_ratio": 0.00762847230156281,
+        "quadrature": 1.1286714022163552e-19,
+        "constant_deviation": 0.0
+      },
+      "last_actual_clock": 0.00078125,
+      "last_actual_stamp": {
+        "id": 131,
+        "version": 1
+      },
+      "last_actual_q": [
+        0.0007793548156308786,
+        0.5009738578027717,
+        0.9999999053098506
+      ]
+    },
+    {
+      "probe_status": "COMPLETE",
+      "kind": "pressure_state",
+      "field": "nonconstant",
+      "load": "reversed",
+      "h": 0.0015625,
+      "accepted_steps": 64,
+      "expected_steps": 64,
+      "physical_equation_replay": "PASS_UNCHANGED_FROZEN_GATES",
+      "maxima": {
+        "full_momentum": 1.1561716764245262e-13,
+        "direct_full_momentum": 1.2141427826893125e-13,
+        "third_momentum_change": 2.664426838883127e-16,
+        "third_work_ratio": 0.007343214369232344,
+        "total_work_ratio": 0.004005662254837626,
+        "GCL_ratio": 0.017728639752982667,
+        "quadrature": 3.7269449679189215e-19,
+        "constant_deviation": 0.0
+      },
+      "last_actual_clock": 0.0999999999999999,
+      "last_actual_stamp": {
+        "id": 131,
+        "version": 64
+      },
+      "last_actual_q": [
+        0.09916430536755252,
+        0.6240111611581725,
+        0.9998624984323057
+      ],
+      "error_components": [
+        4.3720052203544135e-08,
+        1.627057100161977e-08,
+        6.1641630688669125e-09,
+        -1.6270570668552864e-08
+      ],
+      "geometry_max_error": 4.3720052203544135e-08,
+      "additional_halving_ratio": 1.9473547014754231,
+      "original_geometry_band": [
+        1.7,
+        2.3
+      ],
+      "additional_pair_in_original_band": true,
+      "original_five_interval_band_pass": false
+    },
+    {
+      "probe_status": "REFUSED",
+      "kind": "pressure_state",
+      "field": "nonconstant",
+      "load": "reversed",
+      "h": 0.00078125,
+      "accepted_steps": 1,
+      "expected_steps": 128,
+      "attempted_step": 2,
+      "state_preserved": true,
+      "error": "IterationLimit",
+      "physical_equation_replay": "PASS_UNCHANGED_FROZEN_GATES",
+      "maxima": {
+        "full_momentum": 1.029390638730156e-13,
+        "direct_full_momentum": 1.2401361814264083e-13,
+        "third_momentum_change": 8.882326298087495e-17,
+        "third_work_ratio": 0.0022588519505063924,
+        "total_work_ratio": 0.0008459468895914471,
+        "GCL_ratio": 0.008416790554251952,
+        "quadrature": 4.1345795737850535e-20,
+        "constant_deviation": 0.0
+      },
+      "last_actual_clock": 0.00078125,
+      "last_actual_stamp": {
+        "id": 131,
+        "version": 1
+      },
+      "last_actual_q": [
+        0.0007793141712673973,
+        0.5009738213966671,
+        0.9999998912741005
+      ]
+    }
+  ],
+  "new_capture_corruption_rejections": [
+    {
+      "control": "published third velocity",
+      "status": "REJECTED",
+      "reason": "actual accepted third embedding"
+    },
+    {
+      "control": "published pressure",
+      "status": "REJECTED",
+      "reason": "pressure report belongs to publication"
+    },
+    {
+      "control": "published geometry",
+      "status": "REJECTED",
+      "reason": "actual PS geometry"
+    },
+    {
+      "control": "mass",
+      "status": "REJECTED",
+      "reason": "actual physical masses"
+    },
+    {
+      "control": "work allowance",
+      "status": "REJECTED",
+      "reason": "actual reported total fixed_work_allowance"
+    },
+    {
+      "control": "Newton report",
+      "status": "REJECTED",
+      "reason": "unchanged native solve limits"
+    },
+    {
+      "control": "unbounded counter",
+      "status": "REJECTED",
+      "reason": "unchanged solve bound equation_evaluations"
+    },
+    {
+      "control": "promote old failure",
+      "status": "REJECTED",
+      "reason": "actual complete endpoint"
+    }
+  ],
+  "original_physical_verifier_changed": false,
+  "source": "922466bd9efdf4612462288fbe2df5a679ef4ccb"
+}

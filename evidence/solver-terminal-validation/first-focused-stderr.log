@@ -1,0 +1,21 @@
+   Compiling simd-adler32 v0.3.10
+   Compiling adler2 v2.0.1
+   Compiling cfg-if v1.0.5
+   Compiling crc32fast v1.5.2
+   Compiling miniz_oxide v0.9.1
+   Compiling flate2 v1.1.10
+   Compiling miniz_oxide v0.8.9
+   Compiling fdeflate v0.3.7
+   Compiling bitflags v2.13.2
+   Compiling png v0.18.1
+   Compiling rheon v0.1.0 (/workspace/Rheon-finer-refusals)
+error[E0560]: struct `rheon::TranslatedViscousSettings` has no field named `absolute_tolerance`
+   --> tests/solver_iteration_boundary_contract.rs:160:17
+    |
+160 |                 absolute_tolerance: 1e-12,
+    |                 ^^^^^^^^^^^^^^^^^^ `rheon::TranslatedViscousSettings` does not have this field
+    |
+    = note: available fields are: `memory_limit`, `max_iterations`, `relative_residual`, `absolute_residual`, `momentum_limit`, `divergence_limit`
+
+For more information about this error, try `rustc --explain E0560`.
+error: could not compile `rheon` (test "solver_iteration_boundary_contract") due to 1 previous error

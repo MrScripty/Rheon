@@ -1,0 +1,177 @@
+{
+  "status": "PASS_ACTUAL_TERMINAL_CHECK_ACCOUNTING",
+  "boundary": [
+    {
+      "case": "initial_reversed",
+      "h": 0.05,
+      "budget": 1,
+      "corrections": 1,
+      "terminal_validation": true,
+      "calls": 8,
+      "status": "REFUSED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.05,
+      "budget": 2,
+      "corrections": 2,
+      "terminal_validation": true,
+      "calls": 15,
+      "status": "REFUSED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.05,
+      "budget": 3,
+      "corrections": 3,
+      "terminal_validation": true,
+      "calls": 22,
+      "status": "ACCEPTED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.05,
+      "budget": 7,
+      "corrections": 3,
+      "terminal_validation": false,
+      "calls": 22,
+      "status": "ACCEPTED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.05,
+      "budget": 8,
+      "corrections": 3,
+      "terminal_validation": false,
+      "calls": 22,
+      "status": "ACCEPTED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.05,
+      "budget": 512,
+      "corrections": 3,
+      "terminal_validation": false,
+      "calls": 22,
+      "status": "ACCEPTED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.0015625,
+      "budget": 1,
+      "corrections": 1,
+      "terminal_validation": true,
+      "calls": 8,
+      "status": "REFUSED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.0015625,
+      "budget": 2,
+      "corrections": 2,
+      "terminal_validation": true,
+      "calls": 15,
+      "status": "REFUSED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.0015625,
+      "budget": 3,
+      "corrections": 3,
+      "terminal_validation": true,
+      "calls": 22,
+      "status": "ACCEPTED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.0015625,
+      "budget": 7,
+      "corrections": 3,
+      "terminal_validation": false,
+      "calls": 22,
+      "status": "ACCEPTED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.0015625,
+      "budget": 8,
+      "corrections": 3,
+      "terminal_validation": false,
+      "calls": 22,
+      "status": "ACCEPTED"
+    },
+    {
+      "case": "initial_reversed",
+      "h": 0.0015625,
+      "budget": 512,
+      "corrections": 3,
+      "terminal_validation": false,
+      "calls": 22,
+      "status": "ACCEPTED"
+    },
+    {
+      "case": "rest_seed",
+      "h": null,
+      "budget": 1,
+      "corrections": 0,
+      "terminal_validation": false,
+      "calls": 1,
+      "status": "ACCEPTED"
+    },
+    {
+      "case": "nonzero_accepted_one_update_limit",
+      "h": null,
+      "budget": 1,
+      "corrections": 1,
+      "terminal_validation": true,
+      "calls": 8,
+      "status": "REFUSED"
+    }
+  ],
+  "finer_actual_accepted_steps": 194,
+  "finer_original_attempts_refused": 5,
+  "finer_same_owner_refusal_retries": 5,
+  "fully_published_terminal_acceptances": [
+    {
+      "kind": "pressure_state",
+      "load": "reversed",
+      "h": 0.0015625,
+      "step": 7,
+      "rate_norm": 4.390146019200842e-14,
+      "calls": 50,
+      "time_after": 0.0109375
+    },
+    {
+      "kind": "pressure_state",
+      "load": "reversed",
+      "h": 0.00078125,
+      "step": 1,
+      "rate_norm": 6.552095265785172e-14,
+      "calls": 50,
+      "time_after": 0.00078125
+    }
+  ],
+  "maximum_computed_corrections": 7,
+  "maximum_counted_newton_equations": 50,
+  "unchanged_newton_threshold": 1e-13,
+  "original_temporal_band_pass": false,
+  "arithmetic_floor_proved": false,
+  "actual_corruption_rejections": [
+    {
+      "control": "false convergence",
+      "status": "REJECTED"
+    },
+    {
+      "control": "over-budget call",
+      "status": "REJECTED"
+    },
+    {
+      "control": "extra correction",
+      "status": "REJECTED"
+    },
+    {
+      "control": "altered last unknown",
+      "status": "REJECTED"
+    }
+  ]
+}

@@ -1,0 +1,3667 @@
+{
+  "source": "922466bd9efdf4612462288fbe2df5a679ef4ccb",
+  "original_maximum_unperturbed_residual_checks": 7,
+  "candidate_maximum_unperturbed_residual_checks": 8,
+  "maximum_computed_Newton_correction_solves": 7,
+  "maximum_counted_Newton_equation_evaluations": 50,
+  "maximum_accepted_total_work_equation_evaluations_excluding_seed": 52,
+  "unchanged_Newton_gate": 1e-13,
+  "unchanged_reported_Newton_equation_budget": 200,
+  "reported_iterations_remain_loop_passes": true,
+  "additional_Newton_correction_solve_permitted": false,
+  "equation_evaluation_performs_existing_15_by_15_chart_solves": true,
+  "seed_assembly_and_diagnostic_observations_are_excluded_from_these_work_equation_totals": true,
+  "older_documentation_budget_ambiguity_preserved": true,
+  "attempts": [
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 1,
+      "authorized_correction_cap": 1,
+      "computed_Newton_correction_solves": 1,
+      "unperturbed_Newton_residual_checks": 2,
+      "counted_Newton_equation_evaluations": 8,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 8,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 2,
+      "authorized_correction_cap": 2,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 15,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 3,
+      "authorized_correction_cap": 3,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 8,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 512,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 1,
+      "authorized_correction_cap": 1,
+      "computed_Newton_correction_solves": 1,
+      "unperturbed_Newton_residual_checks": 2,
+      "counted_Newton_equation_evaluations": 8,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 8,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 2,
+      "authorized_correction_cap": 2,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 15,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 3,
+      "authorized_correction_cap": 3,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 8,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 512,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 1,
+      "authorized_correction_cap": 1,
+      "computed_Newton_correction_solves": 0,
+      "unperturbed_Newton_residual_checks": 1,
+      "counted_Newton_equation_evaluations": 1,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 3,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-boundary",
+      "case": null,
+      "retry": false,
+      "configured_budget": 1,
+      "authorized_correction_cap": 1,
+      "computed_Newton_correction_solves": 1,
+      "unperturbed_Newton_residual_checks": 2,
+      "counted_Newton_equation_evaluations": 8,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 8,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "forward",
+        0.0015625
+      ],
+      "retry": true,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "forward",
+        0.00078125
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "forward",
+        0.00078125
+      ],
+      "retry": true,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 6,
+      "unperturbed_Newton_residual_checks": 7,
+      "counted_Newton_equation_evaluations": 43,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 45,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.00078125
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "initial",
+        "reversed",
+        0.00078125
+      ],
+      "retry": true,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 6,
+      "unperturbed_Newton_residual_checks": 7,
+      "counted_Newton_equation_evaluations": 43,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 45,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 6,
+      "unperturbed_Newton_residual_checks": 7,
+      "counted_Newton_equation_evaluations": 43,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 45,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.00078125
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.00078125
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "forward",
+        0.00078125
+      ],
+      "retry": true,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 52,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 6,
+      "unperturbed_Newton_residual_checks": 7,
+      "counted_Newton_equation_evaluations": 43,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 45,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 5,
+      "unperturbed_Newton_residual_checks": 6,
+      "counted_Newton_equation_evaluations": 36,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 38,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 4,
+      "unperturbed_Newton_residual_checks": 5,
+      "counted_Newton_equation_evaluations": 29,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 31,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 2,
+      "unperturbed_Newton_residual_checks": 3,
+      "counted_Newton_equation_evaluations": 15,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 17,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.0015625
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 3,
+      "unperturbed_Newton_residual_checks": 4,
+      "counted_Newton_equation_evaluations": 22,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 24,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.00078125
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 2,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 52,
+      "Newton_gate_passed": true
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.00078125
+      ],
+      "retry": false,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    },
+    {
+      "stream": "trace-finer",
+      "case": [
+        "pressure_state",
+        "reversed",
+        0.00078125
+      ],
+      "retry": true,
+      "configured_budget": 7,
+      "authorized_correction_cap": 7,
+      "computed_Newton_correction_solves": 7,
+      "unperturbed_Newton_residual_checks": 8,
+      "counted_Newton_equation_evaluations": 50,
+      "separate_qualification_equation_evaluations": 0,
+      "total_work_equation_evaluations_excluding_seed_and_diagnostic_observations": 50,
+      "Newton_gate_passed": false
+    }
+  ]
+}

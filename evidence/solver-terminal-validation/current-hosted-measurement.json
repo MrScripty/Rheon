@@ -1,0 +1,17 @@
+{
+  "source": "922466bd9efdf4612462288fbe2df5a679ef4ccb",
+  "feature_paths_pending": false,
+  "all_modes_completed": true,
+  "measured_feature_paths_seconds": {
+    "default": 841.3139320840273,
+    "core-only": 837.1958541519998,
+    "desktop": 1367.8146196480084
+  },
+  "current_common_path_seconds": 73.55248786696757,
+  "serialized_Rust_matrix_seconds": 3046.9165086110297,
+  "measured_independent_critical_path_seconds": 1367.8146196480084,
+  "job_timeout_seconds": 1800,
+  "cold_host_setup_measured": false,
+  "hosted_CI_qualified": false,
+  "concurrency_caveat": "Default/core-only local tests overlapped bounded numerical capture or common checks. These wall times include shared CPU/build-resource contention, cache/build ordering and do not guarantee hosted timings. The local matrix includes all-target test compilation plus separate doc tests; the inert proposal retains the original hosted cargo test command."
+}

@@ -1,0 +1,9 @@
+{
+  "original_newton_check_records_compared": 611,
+  "original_newton_check_records_byte_identical": true,
+  "original_actual_finer_publications_compared": 143,
+  "original_actual_finer_publications_byte_identical": true,
+  "new_actual_finer_publications": 202,
+  "comparison_excludes_frozen_refusal_markers": true,
+  "original_refusal_markers_preserved_in_original_packet": true
+}

@@ -1,0 +1,26 @@
+{
+  "actual_command_exit": 0,
+  "actual_render_log": "PASS actual published geometry and unchanged-gate scientific PNG/PDF; no simulated states\n",
+  "visually_inspected": [
+    "accepted-geometry.png",
+    "accepted-gates.png"
+  ],
+  "cache_warnings_retained": true,
+  "readonly_cache_fallback": "Matplotlib used its permitted temporary cache; no permission/security changes",
+  "exports": {
+    "accepted-geometry": {
+      "png_dimensions": [
+        1980,
+        1260
+      ],
+      "pdf_header": "%PDF-1.4"
+    },
+    "accepted-gates": {
+      "png_dimensions": [
+        1980,
+        720
+      ],
+      "pdf_header": "%PDF-1.4"
+    }
+  }
+}

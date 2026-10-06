@@ -1,0 +1,4 @@
+  File "/workspace/Rheon-finer-refusals/evidence/solver-terminal-validation/audit_trace.py", line 43
+    require(bool(a['refusals'])==not passed and calls<=200,'refusal decision and work bound')
+                                 ^^^
+SyntaxError: invalid syntax

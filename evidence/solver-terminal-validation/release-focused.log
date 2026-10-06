@@ -1,0 +1,10 @@
+
+running 5 tests
+test fixed_workspace_reservation_and_strict_tolerances_are_unchanged ... ok
+test terminal_check_cancellation_preserves_state_and_retries_identically ... ok
+test insufficient_corrections_and_seed_controls_preserve_accepted_state ... ok
+test final_authorized_correction_matches_larger_budget_without_extra_solve ... ok
+test all_downstream_barriers_preserve_nonzero_accepted_state_and_resume ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 16.97s
+
