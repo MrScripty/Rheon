@@ -1,0 +1,46 @@
+{
+  "base": "4d60e9637431a8d9792944bcd9ff00979ead237e",
+  "base_tree": "76e112bba2f055214fade4f1ff8997a85de9cb3e",
+  "binary_compatibility_token": "E1-public-fixed-pressure-forward-106-native-zero-refinement-v2",
+  "binary_rebuild_permitted_without_full_preflight": false,
+  "binary_sha256": "c37e2345ee5bae08c594f906bdb49dd3edbce37e46baab99a9f10f761a64af6f",
+  "binary_source": "77962729f8de389c25b3f595708ab50d4b3362c0",
+  "binary_source_tree": "b578331d1dd8e768b2ec794689f5906acb71bb56",
+  "candidate_main_calls": 1,
+  "continued_trajectory": false,
+  "correction_limit": 7,
+  "equation_call_limit": 200,
+  "equations_changed": false,
+  "external_supplemental_reservation": 2048,
+  "fixed_case": {
+    "acceleration": [
+      0.0625,
+      -0.125,
+      0.03125
+    ],
+    "field": "nonconstant",
+    "h": 0.00078125,
+    "id": 131,
+    "kind": "pressure_state",
+    "load": "forward",
+    "prefix_version": 1
+  },
+  "legacy_counter_is_not_complete_certificate": true,
+  "maximum_cancel_retry_pairs": 12,
+  "new_additional_cap": 67584,
+  "old_E1_status": "UNEXECUTED",
+  "old_additional_cap": 65536,
+  "old_resource_protocol_status": "BLOCKED_ADDITIONAL_MEMORY_CAP",
+  "parameter_search": false,
+  "production_adoption": false,
+  "production_limits_changed": false,
+  "protocol_id": "E1-public-fixed-pressure-forward-66KiB-same-binary-v1",
+  "reason": "User explicitly authorizes a new 66 KiB experimental resource allowance; the 16-byte certificate excess does not warrant unrelated arithmetic rewriting. Preserve old failed protocol; no production limit change.",
+  "same_binary_selected": true,
+  "source_sha256": {
+    "evidence/forcing-public-call-66k/README.md": "e952ebf01c04ab674c6c24d5b0a4d20402da85956a628ccfa5fed9af6304410c",
+    "evidence/forcing-public-call-66k/run.py": "95783c0d1fa9d62a036e6537b854ea4e32e84da10e79f799e024937c73a06f23"
+  },
+  "source_status": "FROZEN_BEFORE_NEW_PROTOCOL_CANDIDATE_EXECUTION",
+  "threshold": 1e-13
+}
