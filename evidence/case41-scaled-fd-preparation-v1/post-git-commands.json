@@ -1,0 +1,29 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "evidence/case41-scaled-fd-preparation-v1/record_post_git.py",
+      "2f91fe0b33a0645ecab26356bdfe829b7ca30c3d"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "post-git-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "post-git-normal.json",
+    "stdout_sha256": "ced344181f5f6945f74efddfbce19e0bc05b3a126f648a1f413b453fedc389e0"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "evidence/case41-scaled-fd-preparation-v1/record_post_git.py",
+      "2f91fe0b33a0645ecab26356bdfe829b7ca30c3d"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "post-git-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "post-git-optimized.json",
+    "stdout_sha256": "ced344181f5f6945f74efddfbce19e0bc05b3a126f648a1f413b453fedc389e0"
+  }
+]

@@ -1,0 +1,107 @@
+{
+  "FD_capture_authorized": false,
+  "FD_memory_preflight_pending": true,
+  "all_original_failures_retained": true,
+  "base": "998de18438a339d44896d24ecf9634ad469cdcdf",
+  "base_tree": "351f165a4bcc4aa6338e2be96d1e31698aec0b6e",
+  "binary_sha256": "48f58e62577eef569e942d3e8e7139701613091076a736c015bee5256691ba72",
+  "frozen_worktrees": {
+    "Rheon": {
+      "head": "f76841e9217e781d91c5bfeabadb6b4c6f42b20b",
+      "status": ""
+    },
+    "Rheon-affine-rounding-contract": {
+      "head": "c210d9ff630504748fad129337aaa84e013522a6",
+      "status": ""
+    },
+    "Rheon-column-final-repair": {
+      "head": "be99b8962ba9c20d9e0a99218a1d2f62f120da45",
+      "status": ""
+    },
+    "Rheon-e1-diagnostics": {
+      "head": "b46d26c8fe06f9c331c5cee4e06af6e34fa9190c",
+      "status": ""
+    },
+    "Rheon-e1-trajectories": {
+      "head": "008fdd02ca41e88821bfa8999283347bab3455eb",
+      "status": ""
+    },
+    "Rheon-e2-fixed-candidates": {
+      "head": "2f23503d9bf74842e39f9fe0760edf4bfeb41b4c",
+      "status": ""
+    },
+    "Rheon-e2-followup": {
+      "head": "998de18438a339d44896d24ecf9634ad469cdcdf",
+      "status": ""
+    },
+    "Rheon-finer-refusals": {
+      "head": "dad53b4054034fe0c2ff6240464df7441ab4e6a9",
+      "status": ""
+    },
+    "Rheon-forcing-arithmetic": {
+      "head": "f0b81b4a5f76cb706e645fad4f38faf028c5727e",
+      "status": ""
+    },
+    "Rheon-increment-comparison": {
+      "head": "1e90ed562f200327925c3f0b0255067aa413e0f1",
+      "status": ""
+    },
+    "Rheon-increment-contract": {
+      "head": "704842c368953e47df279728935e20cfda89f0c5",
+      "status": ""
+    },
+    "Rheon-oracle-repair": {
+      "head": "ec26e48df958f0ebc60af414253ff98c0007dc13",
+      "status": ""
+    },
+    "Rheon-public-call": {
+      "head": "4d60e9637431a8d9792944bcd9ff00979ead237e",
+      "status": ""
+    },
+    "Rheon-public-call-66k": {
+      "head": "e3b6858d2d29fc8837dbf2acd84db0c01784a352",
+      "status": ""
+    },
+    "Rheon-public-generalization": {
+      "head": "676c6feaf906a965920f37792e07e2d4d623b3d2",
+      "status": ""
+    },
+    "Rheon-terminal-main": {
+      "head": "49c47b9a344ec277e2eaa0a5315b27a51ed2f17c",
+      "status": ""
+    }
+  },
+  "identities": {
+    "2f91fe0b33a0645ecab26356bdfe829b7ca30c3d": [
+      "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "MrScripty <TheEnvironmentGuy@protonmail.com>"
+    ],
+    "653aa247c3be12ac8901ab3abae88469a71e7dbb": [
+      "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "MrScripty <TheEnvironmentGuy@protonmail.com>"
+    ],
+    "c238111d8c8d159c157e489294a25998aaf36516": [
+      "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "MrScripty <TheEnvironmentGuy@protonmail.com>"
+    ]
+  },
+  "native_ELF_invocations": 0,
+  "native_equations": 0,
+  "new_corrections": 0,
+  "owner_advances": 0,
+  "preserved_base": {
+    "files": 8058,
+    "path_content_sha256": "30d294560f1557a83d3d89855caf80d515c51b054c2c981aa4396679d00b3354"
+  },
+  "protocol_sha256": "71fdd1d58fd2148fc869fc136996afa00232846480e323e766f6ac91672845f8",
+  "pure_E2_jobs_authorized": false,
+  "receipt_sha256": "fb56a44b025fd372d7dfef3946fc6a69fc630fa39ddd79f5039562d592834156",
+  "result_commit": "2f91fe0b33a0645ecab26356bdfe829b7ca30c3d",
+  "result_inventory": {
+    "files": 8127,
+    "path_content_sha256": "0cfe0d8bc3c2313098db33e541043dff3125d80e1d70ae6da20aec211c0783fa"
+  },
+  "result_tree": "ec43224d93c6ef3cd2d423512e4e4b8bbd177909",
+  "scalar_runtime_preflight_pending": true,
+  "status": "PASS_PUBLISHED_COMPILE_ONLY_PREPARATION"
+}
