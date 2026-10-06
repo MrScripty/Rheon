@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/workspace/.rheon-tools/public-call-v2-target/release/deps/rheon-beaa99042d1278c3",
+    "--exact",
+    "research_public_call::research_public_candidate_and_controls",
+    "--nocapture"
+  ],
+  "binary_sha256": "c37e2345ee5bae08c594f906bdb49dd3edbce37e46baab99a9f10f761a64af6f",
+  "candidate_main_calls_requested": 1,
+  "compatibility_token": "E1-public-fixed-pressure-forward-106-native-zero-refinement-v2",
+  "continued_trajectory": false,
+  "maximum_cancel_retry_pairs": 12,
+  "memory_authorization_sha256": "6746b78770dce8128ab5b89451ffea237a4d1c715dbf8d547471e6af7099ce65",
+  "new_cap": 67584,
+  "original_cap_stays_failed": true,
+  "parameter_search": false,
+  "production_adoption": false,
+  "protocol_id": "E1-public-fixed-pressure-forward-66KiB-same-binary-v1"
+}
