@@ -1,0 +1,49 @@
+{
+  "qualified_source_commit": "da08e95904151d82f58f6da32e3705f8e4ed390d",
+  "commands": [
+    {
+      "name": "native-default",
+      "command": [
+        "cargo",
+        "run",
+        "--release",
+        "--quiet",
+        "--example",
+        "extruded_third"
+      ],
+      "exit": 0,
+      "stdout": "evidence/extruded-third-velocity/final-qualification/native-default.jsonl",
+      "stderr": "evidence/extruded-third-velocity/final-qualification/native-default-stderr.log"
+    },
+    {
+      "name": "native-no-default",
+      "command": [
+        "cargo",
+        "run",
+        "--release",
+        "--quiet",
+        "--no-default-features",
+        "--example",
+        "extruded_third"
+      ],
+      "exit": 0,
+      "stdout": "evidence/extruded-third-velocity/final-qualification/native-no-default.jsonl",
+      "stderr": "evidence/extruded-third-velocity/final-qualification/native-no-default-stderr.log"
+    },
+    {
+      "name": "legacy-default",
+      "command": [
+        "cargo",
+        "run",
+        "--release",
+        "--quiet",
+        "--example",
+        "coupled_discrete_identity"
+      ],
+      "exit": 0,
+      "stdout": "evidence/extruded-third-velocity/final-qualification/legacy-default.jsonl",
+      "stderr": "evidence/extruded-third-velocity/final-qualification/legacy-default-stderr.log"
+    }
+  ],
+  "status": "PASS"
+}
