@@ -1,0 +1,208 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "name": "format",
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-no-default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--no-default-features",
+        "--example",
+        "coupled_discrete_identity",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--example",
+        "coupled_discrete_identity",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-desktop",
+      "command": [
+        "cargo",
+        "clippy",
+        "--features",
+        "desktop",
+        "--example",
+        "coupled_discrete_identity",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "native-default",
+      "command": [
+        "cargo",
+        "run",
+        "--release",
+        "--example",
+        "coupled_discrete_identity"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "native-no-default",
+      "command": [
+        "cargo",
+        "run",
+        "--release",
+        "--no-default-features",
+        "--example",
+        "coupled_discrete_identity"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/test_reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-initial-trajectory",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/verify_trajectory.py",
+        "/workspace/Rheon-oracle-repair/evidence/fitted-discrete-refinement/trials/repaired-initial-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-pressure-trajectory",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/verify_trajectory.py",
+        "/workspace/Rheon-oracle-repair/evidence/fitted-discrete-refinement/trials/repaired-pressure-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-native-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/replay.py",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/oracle-qualification/native-default.jsonl",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-frozen-base",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon-oracle-repair/evidence/native-coupled-discrete/verify.py",
+        "--evidence-commit",
+        "a9428641b46de41b21a736849ab90c053d704b39",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/test_reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-initial-trajectory",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/verify_trajectory.py",
+        "/workspace/Rheon-oracle-repair/evidence/fitted-discrete-refinement/trials/repaired-initial-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-pressure-trajectory",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/verify_trajectory.py",
+        "/workspace/Rheon-oracle-repair/evidence/fitted-discrete-refinement/trials/repaired-pressure-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-native-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/replay.py",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/oracle-qualification/native-default.jsonl",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-frozen-base",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon-oracle-repair/evidence/native-coupled-discrete/verify.py",
+        "--evidence-commit",
+        "a9428641b46de41b21a736849ab90c053d704b39",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "frozen-oracle-reproduction",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon-oracle-repair/evidence/coupled-oracle-repair/reproduce_old.py"
+      ],
+      "exit": 0
+    }
+  ],
+  "source_sha256": {
+    "docs/research-book/implementation/coupled-qualification-oracle-repair.md": "5059c9afeef4a117ea82ee87870ab1709ff4f480d46671883c0b9380fbb6ca9f",
+    "evidence/coupled-oracle-repair/README.md": "dbd30faca9a3c84a975cfe6ecc3475ab567f2328fe4a1b3550c1b50d48bc47bd",
+    "evidence/coupled-oracle-repair/qualify.py": "8c3352f8a0635ab7f0456182a726216ea1948cb430ac391e3c9fc059a4c90316",
+    "evidence/coupled-oracle-repair/replay.py": "764d95b3dffc9a0181f76f796fe957c7223c8b6374f148cee395bd839745678b",
+    "evidence/coupled-oracle-repair/reproduce_old.py": "834214295aa6bf88bfa3dba7a798263cb2b0d74c4a5241fa2a951e7706bb5425",
+    "evidence/coupled-oracle-repair/test_reference.py": "35bd8f12c7ba8a63bed36a27295081213a7409e806088c1bad096687d1694c41",
+    "evidence/coupled-oracle-repair/verify.py": "1ad93ffe2b80995ff22d815ea8a976c06b3a95637e245056473210523a9be14d",
+    "evidence/coupled-oracle-repair/verify_trajectory.py": "8a95375d02633a3c397db573b04a90239180f643ee55324b8757e07c0498ec6b",
+    "examples/coupled_discrete_identity.rs": "17d07a49f71cdb198706d7569bb222fbcfdf62d25342b9c07c35fe6edc80e7ed"
+  },
+  "focused_tests_per_mode": 10,
+  "focused_malformed_rejections_per_mode": 15,
+  "actual_research_replayed_steps": 248,
+  "actual_native_replayed_steps": 248,
+  "regenerated_reference_trajectories_per_research_validator": 2,
+  "actual_mode_byte_equal": true,
+  "native_feature_byte_equal": true,
+  "numerical_native_fields_identical_to_frozen_capture": true,
+  "original_stored_convergence_data_remains_true": true,
+  "no_simulation_Rust_changes": true,
+  "new_Lean_claims": 0
+}

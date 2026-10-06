@@ -1,0 +1,30 @@
+{
+  "source_commit": "5dc5d8c3dad8a2e40bff93b4dcd2a92c760df268",
+  "source_tree": "8951462829ee5e24dee7b6aeed505cf98325a44e",
+  "ordered_source_parents": [
+    "a9428641b46de41b21a736849ab90c053d704b39"
+  ],
+  "actual_commands": 17,
+  "focused_tests_per_mode": 10,
+  "focused_malformed_rejections_per_mode": 15,
+  "actual_research_replayed_steps": 248,
+  "actual_native_replayed_steps": 248,
+  "actual_native_physical_corruption_rejections": 12,
+  "actual_frozen_oracle_counterexamples": {
+    "actual_frozen_host_accepted_malformed_cells": 10,
+    "actual_frozen_native_accepted_omitted_field_cells": 124,
+    "actual_stored_trajectories_remain_valid": true,
+    "not_a_governing_equation_counterexample": true
+  },
+  "original_stored_convergence_data_remains_true": true,
+  "actual_regenerated_reference_relationship_verified": true,
+  "actual_error_and_ratio_recomputation_verified": true,
+  "actual_state_stamp_export": true,
+  "numerical_native_fields_identical_to_frozen_capture": true,
+  "required_physical_fields_unconditional": true,
+  "unchanged_prior_Rust_inputs": 78,
+  "historical_files_preserved": 6003,
+  "new_physics": false,
+  "new_Lean_claims": 0,
+  "separate_governing_equation_investigation": true
+}
