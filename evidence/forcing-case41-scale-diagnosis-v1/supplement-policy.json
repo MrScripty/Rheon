@@ -1,0 +1,17 @@
+{
+  "base_protocol_sha256": "02b6abffdb59954b7748f1ac43b5f6d9fccc8e87d5751aa2475357bd47eb516c",
+  "native_executions": 0,
+  "no_Newton_column_capture_needed_for_this_diagnosis": true,
+  "source_sha256": {
+    "pressure_scaling.py": "a65d2adaac201ae1e850f116ba593f48299163d678053cb3e25e02452f1db345",
+    "provenance.py": "74985c0038f0268adfa39f2aa56e86425f08d57cda809ed4ae1e6c98e41ee1d0"
+  },
+  "supplement_measurements": [
+    "exact pressure projection of stored/latent/rho rate",
+    "pressure column max-abs scales",
+    "exact infinity condition after rational column normalization",
+    "pressure fit coefficient versus current ulp without alternative candidate",
+    "pinned local source/book/Lean threshold provenance"
+  ],
+  "threshold_changes": 0
+}
