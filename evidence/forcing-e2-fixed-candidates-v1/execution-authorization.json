@@ -1,0 +1,16 @@
+{
+  "E2_binary_sha256": "f7a85747e4dfc3cdd8815554fdc5f12a81bd8d875596cc4ff4fbacbb8f0f3983",
+  "E2_fixed_equations_requested": 4,
+  "baseline_binary_sha256": "b07f3c9abeb0bb2cde6fa8c7d0b4fe816795f51fe6492457e2d0ca6a81cd1b8c",
+  "controller_iterations": 0,
+  "coordinator_authorization_sha256": "04e66ff7695ea5d11956e1efce23d087fd1146fea0ca8257a84896661ab541a3",
+  "new_references": false,
+  "owner_advances": 0,
+  "preflight_receipt_sha256": "11727197c95aa464e63c9a413ac975d62cbde6b78a20263d2fda7e66f3c603a8",
+  "protocol_sha256": "cf62cfc426dbc45f2ca24afb1120723b8d3e18fe5d606c47011e854aa5affeb5",
+  "review_disposition": "ACK_DIAGNOSTICS_ONLY",
+  "runner_sha256": "63f7cb8b006b3d9219b91a970b87a52f2c9243560b45cb7db2db223cb06a5993",
+  "source": "cbeaa72b403cb1f3af4f95727cc29ec660c99ca3",
+  "source_tree": "2539d960f279d5f50aa213f3374651d7c51b5957",
+  "trajectory_reruns": false
+}

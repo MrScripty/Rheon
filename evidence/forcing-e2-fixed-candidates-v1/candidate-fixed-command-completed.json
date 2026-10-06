@@ -1,0 +1,20 @@
+{
+  "accepted_owners_advanced": 0,
+  "accepted_owners_constructed": 0,
+  "argv": [
+    "/workspace/.rheon-tools/e2-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+    "--exact",
+    "research_public_call::fixed_capture_e2_experiment",
+    "--nocapture"
+  ],
+  "controller_iterations": 0,
+  "env": {
+    "RHEON_E2_FIXED_CAPTURE_ALLOW": "E2-two-fixed-candidates-native-known-v1"
+  },
+  "exit": 0,
+  "published": false,
+  "seconds": 0.22020828200038522,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "6b4d8a9fc1a0adf1503f191e7b9b6b60f53e3904b2066d9e481bf4c06aa06894",
+  "third_solve_executed": false
+}
