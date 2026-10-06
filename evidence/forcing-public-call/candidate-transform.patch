@@ -1,0 +1,173 @@
+--- frozen/src/coupled_discrete.rs
++++ research/candidate.rs
+@@ -2,7 +2,8 @@
+ //! the zero-third slice; the explicit extrusion API advances all components.
+ //! The physical mass path is integrated; endpoint donor momentum is first order.
+ //! No continuum traction, sign-isolation or mesh-family theorem is implied.
+-#![allow(clippy::needless_range_loop)]
++#![allow(clippy::needless_range_loop, dead_code)]
++use super::scalar;
+ use crate::translated_viscous::{add, check, div, dot, mul, norm};
+ use crate::*;
+ 
+@@ -149,7 +150,8 @@
+     endpoint_convection: [f64; V],
+     sign_roots: usize,
+ }
+-struct Work {
++struct Work<'a> {
++    research: Option<&'a mut scalar::ChartWorkspace>,
+     geometry: FittedHeightWorkspace,
+     r: [[[f64; V]; 2]; N],
+     diagnostic: [FittedHeightNodeDiagnostic; N],
+@@ -254,9 +256,9 @@
+ /// Small qualified topology only. Reuses the existing accepted-state owner and
+ /// one candidate frame. Arrays and stack scratch are fixed and budgeted; steps
+ /// allocate no heap storage and retain no accepted-state history.
+-pub struct CoupledDiscreteFlow {
++pub struct CoupledDiscreteFlow<'a> {
+     flow: TranslatedViscousFlow,
+-    work: Work,
++    work: Work<'a>,
+     pressure: [f64; P],
+     allocated_bytes: usize,
+ }
+@@ -282,7 +284,7 @@
+     + 4 * std::mem::size_of::<CoupledForceReport>()
+     + 4 * std::mem::size_of::<CoupledForcedExtrudedReport>();
+ const MAX_FORCES: usize = 16;
+-impl CoupledDiscreteFlow {
++impl<'a> CoupledDiscreteFlow<'a> {
+     pub fn nominal_bytes() -> Result<usize, CoupledDiscreteError> {
+         TranslatedViscousFlow::nominal_bytes(2)?
+             .checked_add(FittedHeightPlan::new(2)?.nominal_bytes)
+@@ -380,6 +382,7 @@
+         };
+         let frame = FittedHeightWorkspace::new(geometry, fitted, |_| false)?;
+         let mut work = Work {
++            research: None,
+             geometry: frame,
+             r: [[[0.; V]; 2]; N],
+             diagnostic: [Default::default(); N],
+@@ -409,7 +412,7 @@
+             return Err(CoupledDiscreteError::UnsupportedSlice);
+         }
+         let accepted = flow.state();
+-        let (q, eta) = coordinates(accepted.template, accepted.velocity, &work.r)?;
++        let (q, eta) = coordinates(accepted.template, accepted.velocity, &work.r, None)?;
+         let zero = [0.; V];
+         let initial = work.point(q, eta, &zero, 0., &mut |_| false)?;
+         for i in 0..N {
+@@ -571,7 +574,12 @@
+                 .checked_add(1)
+                 .ok_or(TranslatedViscousError::VersionOverflow)?,
+         };
+-        let (q, eta) = coordinates(accepted.template, accepted.velocity, &self.work.r)?;
++        let (q, eta) = coordinates(
++            accepted.template,
++            accepted.velocity,
++            &self.work.r,
++            self.work.research.as_deref_mut(),
++        )?;
+         let old_mass: [f64; N] = accepted
+             .template
+             .nodal_mass()
+@@ -714,46 +722,6 @@
+                     "{{\"event\":\"refusal\",\"reason\":\"correction_budget_exhausted\",\"checks\":{},\"calls\":{},\"accepted_version\":{},\"h\":{:?},\"newton_threshold\":{:?}}}",
+                     iterations, calls, before.version, h, NEWTON,
+                 );
+-                // Observe the refused final candidate at both quadrature
+-                // orders. These extra diagnostic evaluations never enter
+-                // acceptance, counters or published state.
+-                for order in [16, 32] {
+-                    match self.work.equation(
+-                        q,
+-                        eta,
+-                        &unknown,
+-                        h,
+-                        order,
+-                        old_velocity,
+-                        &old_mass,
+-                        acceleration,
+-                        &mut cancel,
+-                    ) {
+-                        Ok(observed) => match norm(&observed.rate) {
+-                            Ok(rate_norm) => eprintln!(
+-                                "{{\"event\":\"post_window_observation\",\"order\":{},\"rate_norm\":{:?},\"rate\":{:?},\"direct_rate\":{:?},\"unknown\":{:?},\"candidate_q\":{:?},\"candidate_planar_velocity\":{:?},\"candidate_mass\":{:?},\"did_not_participate_in_acceptance\":true}}",
+-                                order,
+-                                rate_norm,
+-                                observed.rate,
+-                                observed.direct_rate,
+-                                unknown,
+-                                observed.end.q,
+-                                observed.end.u,
+-                                observed.end.mass,
+-                            ),
+-                            Err(error) => eprintln!(
+-                                "{{\"event\":\"post_window_observation\",\"order\":{},\"error\":{:?},\"did_not_participate_in_acceptance\":true}}",
+-                                order,
+-                                format!("{error:?}"),
+-                            ),
+-                        },
+-                        Err(error) => eprintln!(
+-                            "{{\"event\":\"post_window_observation\",\"order\":{},\"error\":{:?},\"did_not_participate_in_acceptance\":true}}",
+-                            order,
+-                            format!("{error:?}"),
+-                        ),
+-                    }
+-                }
+             }
+             // END RHEON REFUSAL DIAGNOSTIC
+             return Err(CoupledDiscreteError::IterationLimit);
+@@ -1214,6 +1182,7 @@
+     frame: &FittedHeightWorkspace,
+     u: &[[f64; 3]],
+     r: &[[[f64; V]; 2]; N],
++    research: Option<&mut scalar::ChartWorkspace>,
+ ) -> Result<([f64; 3], [f64; 6]), CoupledDiscreteError> {
+     let q = [
+         frame.nodes()[3].position[0],
+@@ -1221,6 +1190,9 @@
+         frame.nodes()[3].position[1],
+     ];
+     let z = coefficients(u, r)?;
++    if let Some(research) = research {
++        research.set_accepted(z);
++    }
+     Ok((q, [z[2], z[3], z[12], z[0], z[1], z[4]]))
+ }
+ fn coefficients(u: &[[f64; 3]], r: &[[[f64; V]; 2]; N]) -> Result<[f64; V], CoupledDiscreteError> {
+@@ -1288,7 +1260,7 @@
+     }
+     Ok(z)
+ }
+-impl Work {
++impl Work<'_> {
+     fn seed(
+         &mut self,
+         q: [f64; 3],
+@@ -1407,7 +1379,17 @@
+             }
+             rhs[i] = -dot(&p.d[ROWS[i]], &p.z)?;
+         }
+-        let values = linear(block, rhs)?;
++        let values = if let Some(research) = self.research.as_deref_mut() {
++            let values = research.solve(&p.d, &p.z)?;
++            for i in 0..15 {
++                if add(dot(&block[i], &values)?, -rhs[i])?.abs() > LIMIT {
++                    return Err(CoupledDiscreteError::LinearFailure);
++                }
++            }
++            values
++        } else {
++            linear(block, rhs)?
++        };
+         for j in 0..15 {
+             p.z[UNKNOWN[j]] = values[j];
+         }
+@@ -1988,3 +1970,5 @@
+     (9.85611511545268382e-01, 1.62743947309057432e-02),
+     (9.97263861849481570e-01, 7.01861000947050576e-03),
+ ];
++
++include!("candidate_helpers.rs");

@@ -1,0 +1,14 @@
+[
+  {
+    "original_sha256": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+    "overlay": "evidence/forcing-public-call/FittedHeightWorkspace-overlay.rs",
+    "path": "src/fitted_height.rs",
+    "test_only_change": "derive Clone; no arithmetic/acceptance change"
+  },
+  {
+    "original_sha256": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+    "overlay": "evidence/forcing-public-call/TranslatedViscousFlow-overlay.rs",
+    "path": "src/translated_viscous.rs",
+    "test_only_change": "derive Clone; no arithmetic/acceptance change"
+  }
+]
