@@ -1,0 +1,23 @@
+{
+  "status": "PASS_CAPTURED_REFUSAL_ANALYSIS",
+  "actual_native_fixed_candidate_checks": 5,
+  "ordinary_optimized_parity": true,
+  "precision_digits_checked": [
+    80,
+    120
+  ],
+  "corruptions_rejected": [
+    "native vector",
+    "false publication",
+    "missing refused case",
+    "weakened target",
+    "new accepted endpoint",
+    "temporal promotion",
+    "work failure ignored"
+  ],
+  "remaining_actual_native_refusals": 5,
+  "accepted_endpoints_added": 0,
+  "original_temporal_failure_retained": true,
+  "production_solver_defect_established": false,
+  "arithmetic_floor_proved": false
+}

@@ -1,0 +1,12 @@
+--- a/src/coupled_discrete.rs
++++ b/src/coupled_discrete.rs
+@@ -1988,3 +1988,9 @@
+     (9.85611511545268382e-01, 1.62743947309057432e-02),
+     (9.97263861849481570e-01, 7.01861000947050576e-03),
+ ];
++// BEGIN ARITHMETIC PROBE TEST OVERLAY
++#[cfg(test)]
++mod arithmetic_probe {
++    include!("../evidence/forcing-residual-arithmetic/native_probe.rs");
++}
++// END ARITHMETIC PROBE TEST OVERLAY

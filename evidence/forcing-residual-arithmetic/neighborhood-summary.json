@@ -1,0 +1,39 @@
+{
+  "native_equation_evaluations": 220,
+  "newton_target": 1e-13,
+  "published_endpoints": 0,
+  "floor_proved": false,
+  "scope": "Fixed single-parameter one-ULP neighborhood of each captured 22-variable unknown; not exhaustive over representable endpoints or pressure/velocity combinations.",
+  "rows": [
+    {
+      "case": 0,
+      "minimum_norm": 1.2895136266126543e-13,
+      "neighbors_meeting_target": 0,
+      "actual_evaluations": 44
+    },
+    {
+      "case": 1,
+      "minimum_norm": 1.6158481962471314e-13,
+      "neighbors_meeting_target": 0,
+      "actual_evaluations": 44
+    },
+    {
+      "case": 2,
+      "minimum_norm": 1.8622864314172473e-13,
+      "neighbors_meeting_target": 0,
+      "actual_evaluations": 44
+    },
+    {
+      "case": 3,
+      "minimum_norm": 1.180552533445528e-13,
+      "neighbors_meeting_target": 0,
+      "actual_evaluations": 44
+    },
+    {
+      "case": 4,
+      "minimum_norm": 1.196577430922556e-13,
+      "neighbors_meeting_target": 0,
+      "actual_evaluations": 44
+    }
+  ]
+}

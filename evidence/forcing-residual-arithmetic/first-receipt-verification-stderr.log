@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-forcing-arithmetic/evidence/forcing-residual-arithmetic/verify_receipt.py", line 33, in <module>
+    r=json.loads((P/'receipt.json').read_text());verify(r);controls=[]
+                                                 ^^^^^^^^^
+  File "/workspace/Rheon-forcing-arithmetic/evidence/forcing-residual-arithmetic/verify_receipt.py", line 19, in verify
+    for path,digest in r['file_sha256'].items():require(hashlib.sha256((P/path).read_bytes()).hexdigest()==digest,'diagnosis artifact hash: '+path)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-forcing-arithmetic/evidence/forcing-residual-arithmetic/verify_receipt.py", line 6, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: diagnosis artifact hash: freeze.log
