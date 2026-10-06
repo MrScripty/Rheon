@@ -1,0 +1,9 @@
+{
+  "main_commit": "56bd1147811a816b2485aaf1f74729f26a9b7d7c",
+  "main_tree": "eedba607888670219cc3ce7152c9a9e699295b78",
+  "expected_ancestor_exit_codes": {
+    "4be8f9dffa179a22c7ef127ca2948f18d0c245a3": 0,
+    "7985ca568d4c921fab782d22db9c05729329112e": 0
+  },
+  "no_merge_or_history_rewrite": true
+}

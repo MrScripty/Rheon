@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "name": "format",
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "release-contracts",
+      "command": [
+        "cargo",
+        "test",
+        "--release",
+        "--test",
+        "extruded_third_contract",
+        "--test",
+        "coupled_discrete_contract",
+        "--test",
+        "translated_viscous_contract",
+        "--",
+        "--nocapture"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-no-default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--no-default-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-desktop",
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--features",
+        "desktop",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    }
+  ],
+  "source_sha256": {
+    "src/coupled_discrete.rs": "32ee93d12ffa0418cda460cffe8f5a72eb664f7d8838f163062a2c4e16c3dbf5",
+    "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+    "src/lib.rs": "7e73b8a791786568a1aac585a9fdd56d28f9846351dfe06ecdbecd3096e72102",
+    "tests/extruded_third_contract.rs": "19968c75c9dd95c1c19cc2a4f6a605d4a047bc20290562fe693fc7e8b628fbe2",
+    "examples/extruded_third.rs": "bac7303bda410e3856b6fcd7a9511ab5ebb7ebc8355b72978b66fa8f79cd3ebc",
+    "evidence/extruded-third-velocity/replay.py": "5c92fbe8b2ca8ba079e7270d9fc34cfae6fd83e0f85c5b7ae04ae58a543b4d7e"
+  },
+  "actual_mapped_capture_numerical_payload_identical": true,
+  "full_feature_test_matrix_pending": true
+}

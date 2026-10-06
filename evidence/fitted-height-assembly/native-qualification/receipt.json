@@ -1,0 +1,79 @@
+{
+  "commands": [
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--example",
+        "fitted_height"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/workspace/.rheon-tools/target/debug/examples/fitted_height"
+      ],
+      "exit": 0,
+      "sha256": "ce3ddc401e9eb1ba9ffa948ef4f97ac2b95f5468fb574a48335b1394c6f8e027"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-height-assembly/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-height-assembly/native-qualification/debug.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-height-assembly/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-height-assembly/native-qualification/debug.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--example",
+        "fitted_height",
+        "--release"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/workspace/.rheon-tools/target/release/examples/fitted_height"
+      ],
+      "exit": 0,
+      "sha256": "6a95eb608c33bf3319e0975ae2d288b7862165f5a2bb0d57e5db5fba7d2f7b92"
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-height-assembly/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-height-assembly/native-qualification/release.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-height-assembly/verify_native.py",
+        "/workspace/Rheon/evidence/fitted-height-assembly/native-qualification/release.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    }
+  ],
+  "debug_release_byte_equal": true,
+  "scope": "actual native instantaneous operators, no advancing solve"
+}

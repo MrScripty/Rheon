@@ -68,3 +68,60 @@ pub use liquid_step::{
     LiquidStepError, LiquidStepInputs, LiquidStepReport, LiquidStepStage, LiquidTransportConfig,
     LiquidTransportSimulation, LiquidTransportView,
 };
+
+mod column_surface;
+pub use column_surface::{
+    ColumnHeight, ColumnReconstructionReport, ColumnSurfaceView, ColumnSurfaceWorkspace,
+    ReconstructionStage,
+};
+
+pub use column_surface::{ColumnVolumeInputs, ColumnVolumeReport, ColumnVolumeStage};
+
+mod viscosity;
+pub use viscosity::{ViscosityError, ViscosityReport, ViscosityStage, ViscosityWorkspace};
+
+mod column_shear;
+pub use column_shear::{
+    ColumnShearError, ColumnShearGeometry, ColumnShearInputs, ColumnShearReport, ColumnShearStage,
+    ColumnShearWorkspace,
+};
+
+mod column_momentum;
+pub use column_momentum::{
+    ColumnMomentumError, ColumnMomentumInputs, ColumnMomentumReport, ColumnMomentumStage,
+    ColumnMomentumWorkspace,
+};
+
+mod column_mac;
+pub use column_mac::{
+    ColumnMacDirection, ColumnMacError, ColumnMacExportReport, ColumnMacProjectionReport,
+    ColumnMacPublicationReport, ColumnMacPublishInputs, ColumnMacStage, ColumnMacStateStamp,
+    ColumnMacTransferReport, ColumnMacWorkspace, FlatColumnMacGeometry,
+};
+
+mod fitted_height;
+pub use fitted_height::{
+    FittedHeightDualFace, FittedHeightError, FittedHeightGeometry, FittedHeightInputs,
+    FittedHeightNode, FittedHeightNodeDiagnostic, FittedHeightPlan, FittedHeightPressureTerm,
+    FittedHeightReport, FittedHeightSettings, FittedHeightStage, FittedHeightTriangle,
+    FittedHeightVelocityRow, FittedHeightWorkspace,
+};
+
+mod translated_viscous;
+pub use translated_viscous::{
+    TranslatedViscousError, TranslatedViscousFlow, TranslatedViscousReport,
+    TranslatedViscousSettings, TranslatedViscousStage, TranslatedViscousStamp,
+    TranslatedViscousState,
+};
+
+mod fixed_bottom_ale;
+pub use fixed_bottom_ale::{
+    FixedBottomAleError, FixedBottomAleFlow, FixedBottomAleReport, FixedBottomAleStage,
+    FixedBottomAleState, FixedBottomAleTransfer,
+};
+
+mod coupled_discrete;
+pub use coupled_discrete::{
+    CoupledDiscreteError, CoupledDiscreteFlow, CoupledDiscreteReport, CoupledDiscreteStage,
+    CoupledDiscreteState, CoupledExtrudedReport, CoupledThirdReport,
+};

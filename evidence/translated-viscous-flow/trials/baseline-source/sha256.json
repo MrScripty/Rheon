@@ -1,0 +1,6 @@
+{
+  "src/lib.rs": "8f194e2204315c81d907f0ae454b2bd91358ea950f9bd4685ae66225b6222134",
+  "src/translated_viscous.rs": "4702f4e42ab31c3122fa7b1fd332370a43d33d4fd6fd98ec3d52abb97e28fed7",
+  "examples/translated_viscous.rs": "cd21ba55572510da15203f2c0b0cfc268a3289248759222b967f20ad51b82c3c",
+  "tests/translated_viscous_contract.rs": "c122407674f191512ba27668d2af5c9e35a0cceb1ece911a3efdfe0c30bcc06d"
+}

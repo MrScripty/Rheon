@@ -1,0 +1,20 @@
+{
+  "status": "REMAINING_SCOPE_LIMITS_REPRODUCED",
+  "controls": [
+    {
+      "control": "fabricated_later_wet_pressure",
+      "status": "ACCEPTED_SCOPE_LIMIT",
+      "scenarios": 13,
+      "mutated_sha256": "d5cfec25a04b9aa33ed8946ad56a4199487e4d8497a8baee815cba808f7ad413",
+      "meaning": "No independent reconstruction of later held wet pressure solve. Not valid pressure evidence."
+    },
+    {
+      "control": "reversed_coupled_vector_with_matching_pixels",
+      "status": "ACCEPTED_SCOPE_LIMIT",
+      "mutated_sha256": "353f162aef62dfcc458c0731510c0b378ae51bc6a21ea35ff991a1f6c7ac23fa",
+      "meaning": "Energy/divergence/pixel checks do not replay coupled vector transitions. Not valid dynamics evidence."
+    }
+  ],
+  "closed_by_final_artifact_repair": false,
+  "closed_by_newer_coupled_replay": false
+}

@@ -1,0 +1,204 @@
+{
+  "cases": 22,
+  "publications": 76,
+  "results": [
+    {
+      "name": "pulse-x-0.25-jacobi",
+      "publications": 4,
+      "initial_prescribed_energy": 0.0375000011175871,
+      "final_energy": 2.291711103505124e-05,
+      "max_stored_divergence": 1.1920928955078126e-08,
+      "max_dense_pressure_difference": 1.6653345369377348e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-x-0.25-sgs",
+      "publications": 4,
+      "initial_prescribed_energy": 0.0375000011175871,
+      "final_energy": 2.291711103505124e-05,
+      "max_stored_divergence": 1.1920928955078126e-08,
+      "max_dense_pressure_difference": 1.6653345369377348e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-x-0.5-jacobi",
+      "publications": 4,
+      "initial_prescribed_energy": 0.043750001303851614,
+      "final_energy": 1.513440240999173e-05,
+      "max_stored_divergence": 5.463759104410807e-08,
+      "max_dense_pressure_difference": 2.220446049250313e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-x-0.5-sgs",
+      "publications": 4,
+      "initial_prescribed_energy": 0.043750001303851614,
+      "final_energy": 1.513440240999173e-05,
+      "max_stored_divergence": 5.463759104410807e-08,
+      "max_dense_pressure_difference": 2.220446049250313e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-x-0.75-jacobi",
+      "publications": 4,
+      "initial_prescribed_energy": 0.07343750428408391,
+      "final_energy": 0.0001479171256933118,
+      "max_stored_divergence": 7.947285970052083e-08,
+      "max_dense_pressure_difference": 3.3306690738754696e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-x-0.75-sgs",
+      "publications": 4,
+      "initial_prescribed_energy": 0.07343750428408391,
+      "final_energy": 0.0001479171256933118,
+      "max_stored_divergence": 7.947285970052083e-08,
+      "max_dense_pressure_difference": 4.440892098500626e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-y-0.25-jacobi",
+      "publications": 4,
+      "initial_prescribed_energy": 0.0375000011175871,
+      "final_energy": 2.291711103505124e-05,
+      "max_stored_divergence": 1.1920928955078126e-08,
+      "max_dense_pressure_difference": 1.6653345369377348e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-y-0.25-sgs",
+      "publications": 4,
+      "initial_prescribed_energy": 0.0375000011175871,
+      "final_energy": 2.291711103505124e-05,
+      "max_stored_divergence": 1.1920928955078126e-08,
+      "max_dense_pressure_difference": 1.1102230246251565e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-y-0.5-jacobi",
+      "publications": 4,
+      "initial_prescribed_energy": 0.043750001303851614,
+      "final_energy": 1.513440240999173e-05,
+      "max_stored_divergence": 5.463759104410807e-08,
+      "max_dense_pressure_difference": 1.1102230246251565e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-y-0.5-sgs",
+      "publications": 4,
+      "initial_prescribed_energy": 0.043750001303851614,
+      "final_energy": 1.513440240999173e-05,
+      "max_stored_divergence": 5.463759104410807e-08,
+      "max_dense_pressure_difference": 2.220446049250313e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-y-0.75-jacobi",
+      "publications": 4,
+      "initial_prescribed_energy": 0.07343750428408391,
+      "final_energy": 0.0001479171256933118,
+      "max_stored_divergence": 7.947285970052083e-08,
+      "max_dense_pressure_difference": 1.1102230246251565e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-y-0.75-sgs",
+      "publications": 4,
+      "initial_prescribed_energy": 0.07343750428408391,
+      "final_energy": 0.0001479171256933118,
+      "max_stored_divergence": 7.947285970052083e-08,
+      "max_dense_pressure_difference": 2.220446049250313e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-z-0.25-jacobi",
+      "publications": 4,
+      "initial_prescribed_energy": 0.0375000011175871,
+      "final_energy": 2.291711103505124e-05,
+      "max_stored_divergence": 1.1920928955078126e-08,
+      "max_dense_pressure_difference": 1.6653345369377348e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-z-0.25-sgs",
+      "publications": 4,
+      "initial_prescribed_energy": 0.0375000011175871,
+      "final_energy": 2.291711103505124e-05,
+      "max_stored_divergence": 1.1920928955078126e-08,
+      "max_dense_pressure_difference": 5.551115123125783e-17,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-z-0.5-jacobi",
+      "publications": 4,
+      "initial_prescribed_energy": 0.043750001303851614,
+      "final_energy": 1.513440240999173e-05,
+      "max_stored_divergence": 5.463759104410807e-08,
+      "max_dense_pressure_difference": 1.1102230246251565e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-z-0.5-sgs",
+      "publications": 4,
+      "initial_prescribed_energy": 0.043750001303851614,
+      "final_energy": 1.513440240999173e-05,
+      "max_stored_divergence": 5.463759104410807e-08,
+      "max_dense_pressure_difference": 1.1102230246251565e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-z-0.75-jacobi",
+      "publications": 4,
+      "initial_prescribed_energy": 0.07343750428408391,
+      "final_energy": 0.0001479171256933118,
+      "max_stored_divergence": 7.947285970052083e-08,
+      "max_dense_pressure_difference": 1.1102230246251565e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "pulse-z-0.75-sgs",
+      "publications": 4,
+      "initial_prescribed_energy": 0.07343750428408391,
+      "final_energy": 0.0001479171256933118,
+      "max_stored_divergence": 7.947285970052083e-08,
+      "max_dense_pressure_difference": 2.220446049250313e-16,
+      "curl_weighted_rms": 0.0
+    },
+    {
+      "name": "curl-n8",
+      "publications": 1,
+      "initial_prescribed_energy": 0.14062499836947145,
+      "final_energy": 0.13527277807022997,
+      "max_stored_divergence": 2.365009641458471e-07,
+      "max_dense_pressure_difference": 0.0,
+      "curl_weighted_rms": 0.0078443787351211
+    },
+    {
+      "name": "curl-n16",
+      "publications": 1,
+      "initial_prescribed_energy": 0.140624999516483,
+      "final_energy": 0.13927396195806072,
+      "max_stored_divergence": 4.766929246474705e-07,
+      "max_dense_pressure_difference": 0.0,
+      "curl_weighted_rms": 0.0019658315824685824
+    },
+    {
+      "name": "curl-n32",
+      "publications": 1,
+      "initial_prescribed_energy": 0.1406250010023054,
+      "final_energy": 0.1402864266938288,
+      "max_stored_divergence": 1.4324052883818439e-06,
+      "max_dense_pressure_difference": 0.0,
+      "curl_weighted_rms": 0.0004917520737056974
+    },
+    {
+      "name": "curl-n64",
+      "publications": 1,
+      "initial_prescribed_energy": 0.14062499984452148,
+      "final_energy": 0.14054030552947436,
+      "max_stored_divergence": 3.8146844205449656e-06,
+      "max_dense_pressure_difference": 0.0,
+      "curl_weighted_rms": 0.00012295673132786157
+    }
+  ]
+}

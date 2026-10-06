@@ -1,0 +1,14 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.98s
+     Running tests/fixed_bottom_ale_contract.rs (/workspace/.rheon-tools/target/debug/deps/fixed_bottom_ale_contract-0f905c438f75c917)
+
+running 6 tests
+test memory_budget_and_unsupported_carrier_reject_before_owner_creation ... ok
+test arithmetic_iteration_and_path_failures_preserve_state ... ok
+test strict_acceptance_failure_preserves_the_accepted_pair ... ok
+test constants_remain_constant_and_zero_viscosity_still_transports ... ok
+test nonzero_relative_transport_and_viscosity_publish_one_geometry ... ok
+test cancellation_preserves_nonzero_accepted_geometry_and_recovers_cleanly ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.63s
+

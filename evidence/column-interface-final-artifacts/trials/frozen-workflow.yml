@@ -1,0 +1,120 @@
+name: Rheon Rust headless milestone
+on:
+  pull_request:
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'src/**'
+      - 'tests/**'
+      - 'tools/rheon_compare.py'
+      - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
+      - 'tools/verify_viscosity.py'
+      - 'tools/test_viscosity_verifier.py'
+      - 'evidence/viscosity/**'
+      - 'tools/verify_column_shear.py'
+      - 'tools/test_column_shear_verifier.py'
+      - 'evidence/column-shear/**'
+      - 'examples/column_momentum.rs'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
+      - 'examples/column_mac.rs'
+      - 'tools/verify_column_mac.py'
+      - 'tools/test_column_mac_verifier.py'
+      - 'evidence/column-mac/**'
+      - '.github/workflows/rust-rheon.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'src/**'
+      - 'tests/**'
+      - 'tools/rheon_compare.py'
+      - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
+      - 'tools/verify_viscosity.py'
+      - 'tools/test_viscosity_verifier.py'
+      - 'evidence/viscosity/**'
+      - 'tools/verify_column_shear.py'
+      - 'tools/test_column_shear_verifier.py'
+      - 'evidence/column-shear/**'
+      - 'examples/column_momentum.rs'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
+      - 'examples/column_mac.rs'
+      - 'tools/verify_column_mac.py'
+      - 'tools/test_column_mac_verifier.py'
+      - 'evidence/column-mac/**'
+      - '.github/workflows/rust-rheon.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  core-and-executable:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CARGO_BUILD_JOBS: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Create isolated Python test environment
+        run: |
+          python3 -m venv "$RUNNER_TEMP/rheon-tests"
+          "$RUNNER_TEMP/rheon-tests/bin/python" -m pip install --index-url https://pypi.org/simple --only-binary=:all: Pillow==12.3.0 numpy==2.3.5
+      - name: Select official pinned Rust toolchain
+        run: |
+          rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
+          rustc --version --verbose
+          cargo --version
+      - name: Formatting and strict lints
+        run: |
+          cargo fmt --all --check
+          cargo clippy --locked --all-targets -- -D warnings
+          cargo clippy --locked --no-default-features --all-targets -- -D warnings
+          cargo clippy --locked --features desktop --all-targets -- -D warnings
+      - name: Default and core-only contract tests
+        run: |
+          cargo test --locked
+          cargo test --locked --no-default-features
+          cargo test --locked --features desktop
+          cargo tree --locked --no-default-features
+      - name: Execute real source-on source-off smoke export
+        run: |
+          cargo run --locked --release --bin rheon -- --size 16 --steps 12 --source-off-at 8 --output "$RUNNER_TEMP/rheon-smoke"
+          python3 - <<'PY'
+          import csv, json, os, pathlib, struct
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'rheon-smoke'
+          result = json.loads((p / 'run.json').read_text(encoding='utf-8'))
+          assert result['size'] == 16 and result['steps'] == 12
+          assert result['managed_simulation_bytes'] == 333824
+          assert result['last_divergence_max'] <= 1e-5
+          assert result['whole_process_memory_cap_claimed'] is False
+          assert result['real_time_performance_claimed'] is False
+          rows = list(csv.DictReader((p / 'steps.csv').read_text(encoding='utf-8').splitlines()))
+          assert len(rows) == 12
+          assert all(float(row['actual_divergence_max']) <= 1e-5 for row in rows)
+          image = (p / 'opacity.png').read_bytes()
+          assert image[:8] == b'\x89PNG\r\n\x1a\n'
+          assert struct.unpack('>II', image[16:24]) == (16, 16)
+          print('PASS executable completion manifest, all-step divergence and PNG dimensions')
+          PY
+      - name: Real comparison harness lifecycle tests
+        run: |
+          cargo build --locked --release --bin rheon
+          "$RUNNER_TEMP/rheon-tests/bin/python" -m unittest discover -s tools -p 'test_*.py' -v
+      - name: Retain executable smoke evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: rheon-headless-smoke-${{ github.sha }}
+          path: ${{ runner.temp }}/rheon-smoke/
+          if-no-files-found: error
+          retention-days: 14

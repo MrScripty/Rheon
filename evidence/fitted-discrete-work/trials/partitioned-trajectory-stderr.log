@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon/evidence/fitted-discrete-work/trajectory.py", line 110, in <module>
+    if __name__=='__main__':print(json.dumps(study(),indent=2))
+                                             ^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/trajectory.py", line 98, in study
+    cell=owner.advance(h);loss+=np.array([cell['backward_Euler_loss'],cell['mixing_loss'],cell['viscous_loss']]);max_work=max(max_work,abs(cell['discrete_residual_work'])/cell['fixed_work_allowance']);max_gcl=max(max_gcl,max(abs(g)/a for g,a in zip(cell['actual_local_GCL_defect'],cell['local_GCL_allowance'])));max_rate=max(max_rate,cell['finite_momentum_rate_norm']);max_quad=max(max_quad,cell['quadrature_16_32_difference'])
+         ^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/trajectory.py", line 39, in advance
+    cell=step.solve(h,state=(np.array(old.q),np.array(old.eta)),diagnostics=False)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/step.py", line 120, in solve
+    residual=equation(unknown)
+             ^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/step.py", line 114, in equation
+    return evaluate(q0,eta0,unknown,h)['residual']/h
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/step.py", line 73, in evaluate
+    f=transfers(q0,eta0,unknown,h,order,diagnostics,partition);u0=a['flux']['velocity'];u1=b['flux']['velocity']
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/step.py", line 49, in transfers
+    boundaries,root_calls=sign_partition(q0,eta0,unknown,h)if partition is None else partition
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/step.py", line 39, in sign_partition
+    root=brentq(face,a,b,xtol=np.nextafter(0.,1.),rtol=4*EPS,maxiter=64)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/scipy/optimize/_zeros_py.py", line 846, in brentq
+    r = _zeros._brentq(f, a, b, xtol, rtol, maxiter, args, full_output, disp)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Failed to converge after 64 iterations.

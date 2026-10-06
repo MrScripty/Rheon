@@ -1,0 +1,42 @@
+[
+  {
+    "command": [
+      "python",
+      "reference.py",
+      "normal.json"
+    ],
+    "cwd": "evidence/fitted-height-formulation",
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "test_reference.py"
+    ],
+    "cwd": "evidence/fitted-height-formulation",
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-O",
+      "reference.py",
+      "optimized.json"
+    ],
+    "cwd": "evidence/fitted-height-formulation",
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-O",
+      "-m",
+      "unittest",
+      "test_reference.py"
+    ],
+    "cwd": "evidence/fitted-height-formulation",
+    "exit": 0
+  }
+]

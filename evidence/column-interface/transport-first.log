@@ -1,0 +1,24 @@
+    Checking rheon v0.1.0 (/workspace/Rheon)
+warning: method `candidate_fraction_mut` is never used
+   --> src/liquid_volume.rs:395:19
+    |
+253 | impl LiquidVolumeState {
+    | ---------------------- method in this implementation
+...
+395 |     pub(crate) fn candidate_fraction_mut(&mut self) -> &mut [f64] {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `candidate` is never used
+   --> src/column_surface.rs:184:19
+    |
+123 | impl ColumnSurfaceWorkspace {
+    | --------------------------- method in this implementation
+...
+184 |     pub(crate) fn candidate(&self, stamp: VolumeStamp) -> ColumnSurfaceView<'_> {
+    |                   ^^^^^^^^^
+
+warning: `rheon` (lib) generated 2 warnings
+warning: `rheon` (lib test) generated 2 warnings (2 duplicates)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.77s

@@ -1,0 +1,173 @@
+{
+  "status": "PASS",
+  "composition_commit": "acebeaa388a9971e6e5fa9677d58aa15d7a677f3",
+  "composition_tree": "feb64eaecf5b41fa58c5ac5621667f6cb1cef26c",
+  "ordered_composition_parents": [
+    "d1617802d184d17933fc56c101f89733708802b6",
+    "ec26e48df958f0ebc60af414253ff98c0007dc13"
+  ],
+  "commands": [
+    {
+      "name": "format",
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "tests-default",
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "tests-no-default",
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets",
+        "--no-default-features"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-no-default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--no-default-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "tests-desktop",
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets",
+        "--features",
+        "desktop"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-desktop",
+      "command": [
+        "cargo",
+        "clippy",
+        "--all-targets",
+        "--features",
+        "desktop",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-oracle",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "evidence/coupled-oracle-repair/verify.py",
+        "--evidence-commit",
+        "ec26e48df958f0ebc60af414253ff98c0007dc13",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-equation",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "evidence/coupled-equation-consistency/verify.py",
+        "--evidence-commit",
+        "d1617802d184d17933fc56c101f89733708802b6",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-oracle",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "evidence/coupled-oracle-repair/verify.py",
+        "--evidence-commit",
+        "ec26e48df958f0ebc60af414253ff98c0007dc13",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-equation",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "evidence/coupled-equation-consistency/verify.py",
+        "--evidence-commit",
+        "d1617802d184d17933fc56c101f89733708802b6",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "native-identity",
+      "command": [
+        "cargo",
+        "run",
+        "--release",
+        "--example",
+        "coupled_discrete_identity"
+      ],
+      "exit": 0
+    }
+  ],
+  "native_capture_identical_to_frozen_oracle": true,
+  "file_sha256": {
+    "clippy-default-stderr.log": "39c012a08a965d73557501ce1e036c72dc881ec7cf5296c1c592ce008c7e2cb0",
+    "clippy-default.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "clippy-desktop-stderr.log": "dfdfc963cf49fa1e0bf14a917d285bbf10672734e76e1fe8c31959b7a751cd1a",
+    "clippy-desktop.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "clippy-no-default-stderr.log": "19b3f59df0ccc8e6e08803ec856adfba6d5c81f117391fc1b2e3516325323489",
+    "clippy-no-default.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "format-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-identity-stderr.log": "ab266901af47f6b368b241ca82e55f3e13015255f8b9e099550722ad1f7f85a4",
+    "native-identity.log": "2593970e3f0748da1c0074a7900711fdf7b7366d45e202cc834e41b0dc30269b",
+    "normal-equation-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "normal-equation.log": "38e9dba02f46f66d98cdf4c6652134762c0346adfc9a87bb5f10425c2cc921ef",
+    "normal-oracle-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "normal-oracle.log": "38e9dba02f46f66d98cdf4c6652134762c0346adfc9a87bb5f10425c2cc921ef",
+    "optimized-equation-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "optimized-equation.log": "38e9dba02f46f66d98cdf4c6652134762c0346adfc9a87bb5f10425c2cc921ef",
+    "optimized-oracle-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "optimized-oracle.log": "38e9dba02f46f66d98cdf4c6652134762c0346adfc9a87bb5f10425c2cc921ef",
+    "tests-default-stderr.log": "48d81c50f95d2cb9d8b83dea29ce46c3260bb8034df715ccf4f5c207c226b648",
+    "tests-default.log": "e97c895c5c50f917c3e2e0c14b8f56e63971b6f4b6f8af400a5869ad2d67426d",
+    "tests-desktop-stderr.log": "85f5edc66d673028572d65aa43aa70917fac2e6dfc7d295797f74e8e11d83e66",
+    "tests-desktop.log": "4a67964f5d789963b8a9a7ce07996bc42dfec3a92457c05dd09119dd0a47663f",
+    "tests-no-default-stderr.log": "b24e40c7d3b1f8f9a9f070939c97b0e4f85e233e645cc7d7dc4083526e863e17",
+    "tests-no-default.log": "f3d825976b01de13b06115049323248cc7d438dd66431e5ae7bec545a18e039e"
+  }
+}

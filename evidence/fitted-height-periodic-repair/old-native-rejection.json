@@ -1,0 +1,12 @@
+[
+  {
+    "variant": "frozen_rank33",
+    "rejected": true,
+    "reason": "pressure image dimension"
+  },
+  {
+    "variant": "rank_header_only_changed",
+    "rejected": true,
+    "reason": "physical position"
+  }
+]

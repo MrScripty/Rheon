@@ -1,0 +1,59 @@
+"""Focused independent geometry/operator regressions; also run under python -O."""
+from fractions import Fraction as Q
+import unittest
+import reference as r
+
+
+class Contracts(unittest.TestCase):
+    def test_actual_geometric_flux_for_both_motion_directions(self):
+        for speed in (Q(-1,3),Q(0),Q(1,4),Q(7,9)):
+            points, micro, ids, _, _ = r.mesh(speed)
+            mass, rate, _, _, _ = r.operators(points,micro)
+            merged_rate = r.merge(rate,ids)
+            flux = r.dual_flux(points,micro,ids,speed=speed)
+            self.assertEqual([a+b for a,b in zip(merged_rate,r.flux_divergence(flux,max(ids)+1))],[Q(0)]*(max(ids)+1))
+            self.assertEqual(sum(mass),Q(57,16))
+            self.assertEqual(sum(rate),0)
+
+    def test_constant_all_components_with_changing_mass(self):
+        points,micro,ids,_,_=r.mesh()
+        _,rate,k,div,_=r.operators(points,micro)
+        flux=r.dual_flux(points,micro,ids)
+        v=(Q(1,4),Q(0),Q(-7,8))
+        raw=[x for _ in points for x in v]
+        self.assertEqual(r.mv(k,raw),[Q(0)]*len(raw))
+        self.assertEqual(r.mv(div,raw),[Q(0)]*len(micro))
+        for component in v:
+            self.assertEqual([component*(a+b) for a,b in zip(r.merge(rate,ids),r.flux_divergence(flux,max(ids)+1))],[Q(0)]*(max(ids)+1))
+
+    def test_full_vector_traction_detects_wrong_third_shear(self):
+        points,micro,_,_,_=r.mesh()
+        _,_,k,div,areas=r.operators(points,micro)
+        r.patch(points,micro,k,div,areas)
+        k[17][17]+=Q(1,100)
+        with self.assertRaisesRegex(ValueError,'traction patch'):
+            r.patch(points,micro,k,div,areas)
+
+    def test_inversion_and_zero_division_rejected(self):
+        points,micro,_,_,_=r.mesh()
+        with self.assertRaisesRegex(ValueError,'inverted'):
+            r.gradients(points,tuple(reversed(micro[0])))
+        with self.assertRaisesRegex(ValueError,'degenerate'):
+            r.Dual(Q(1))/r.Dual(Q(0))
+
+    def test_nonzero_pressure_required_by_analytic_traction(self):
+        result=r.flat_cap()
+        self.assertGreater(result['zero_pressure_normal_traction_error'],.27)
+        self.assertLess(result['derived_predictor_BE_residual'],1e-12)
+
+    def test_end_to_end_rational_work_and_pressure_image(self):
+        result=r.witness()
+        self.assertEqual(result['pressure_image_row_rank'],33)
+        self.assertEqual(result['geometric_conservation_max_residual'],'0')
+        self.assertEqual(result['third_momentum_rate'],'0')
+        self.assertEqual(Q(result['kinetic_energy_rate'])+Q(result['advection_dissipation'])+Q(result['strain_power']),0)
+        self.assertEqual(Q(result['finite_algebra_new_energy'])-Q(result['finite_algebra_old_energy'])+Q(result['finite_algebra_time_loss'])+Q(result['finite_algebra_flux_loss']),0)
+
+
+if __name__=='__main__':
+    unittest.main()

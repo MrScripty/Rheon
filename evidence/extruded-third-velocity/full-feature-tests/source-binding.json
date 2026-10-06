@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "qualified_source_commit": "3e1bf03ac5103ab3efeb9dc5e341751901162c7e",
+  "source_sha256": {
+    "src/coupled_discrete.rs": "32ee93d12ffa0418cda460cffe8f5a72eb664f7d8838f163062a2c4e16c3dbf5",
+    "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+    "src/lib.rs": "7e73b8a791786568a1aac585a9fdd56d28f9846351dfe06ecdbecd3096e72102",
+    "tests/extruded_third_contract.rs": "19968c75c9dd95c1c19cc2a4f6a605d4a047bc20290562fe693fc7e8b628fbe2",
+    "examples/extruded_third.rs": "bac7303bda410e3856b6fcd7a9511ab5ebb7ebc8355b72978b66fa8f79cd3ebc"
+  },
+  "commands": [
+    {
+      "name": "default",
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "no-default",
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets",
+        "--no-default-features"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "desktop",
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets",
+        "--features",
+        "desktop"
+      ],
+      "exit": 0
+    }
+  ],
+  "qualified_source_tree": "ee49a7546f549250195cba4640d65cbd906969d4",
+  "file_sha256": {
+    "evidence/extruded-third-velocity/full-feature-tests/default-stderr.log": "249575a5c8779eeabc4e6376aa7492b0e28bb26367df946835d6cd95fff1e8ba",
+    "evidence/extruded-third-velocity/full-feature-tests/default.log": "15d582bb9845d498c04a91f496e985cb43c41f2bf19d5cfb2faddc7de9e69619",
+    "evidence/extruded-third-velocity/full-feature-tests/desktop-stderr.log": "a975b91d449d76bd7c769795e1e8b01b7174d451de215686bcd79cae662f30d2",
+    "evidence/extruded-third-velocity/full-feature-tests/desktop.log": "2653156f5f08200dbe3b188331f2787cf88e8f4fe4e2368259c52978b3605cb3",
+    "evidence/extruded-third-velocity/full-feature-tests/no-default-stderr.log": "b37487abf2c64cb0f7447cb95f45ae0f5f093a5481cb4b48d55e7df1eaa14c6b",
+    "evidence/extruded-third-velocity/full-feature-tests/no-default.log": "3777a401883158b07e26dff42652622089129b8baf73edc1883570cdb4a326c9",
+    "evidence/extruded-third-velocity/full-feature-tests/receipt.json": "2a8fcf3ada2a752f7d38e094a2efb39d206caa175807cc62708842a944f26701"
+  },
+  "scope": "Three completed full Rust feature matrices on the unchanged native source; final successor Python replay and rendering qualification remains pending."
+}

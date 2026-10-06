@@ -7,9 +7,26 @@ on:
       - 'rust-toolchain.toml'
       - 'src/**'
       - 'tests/**'
+      - 'examples/**'
       - 'tools/rheon_compare.py'
       - 'tools/test_rheon_compare.py'
       - 'tools/test_result_qualification.py'
+      - 'tools/verify_viscosity.py'
+      - 'tools/test_viscosity_verifier.py'
+      - 'tools/verify_column_interface.py'
+      - 'tools/test_column_interface_verifier.py'
+      - 'evidence/column-interface/**'
+      - 'evidence/viscosity/**'
+      - 'tools/verify_column_shear.py'
+      - 'tools/test_column_shear_verifier.py'
+      - 'evidence/column-shear/**'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
+      - 'tools/verify_column_mac.py'
+      - 'tools/test_column_mac_verifier.py'
+      - 'evidence/column-mac/**'
       - '.github/workflows/rust-rheon.yml'
   push:
     branches: [main]
@@ -19,9 +36,26 @@ on:
       - 'rust-toolchain.toml'
       - 'src/**'
       - 'tests/**'
+      - 'examples/**'
       - 'tools/rheon_compare.py'
       - 'tools/test_rheon_compare.py'
       - 'tools/test_result_qualification.py'
+      - 'tools/verify_viscosity.py'
+      - 'tools/test_viscosity_verifier.py'
+      - 'tools/verify_column_interface.py'
+      - 'tools/test_column_interface_verifier.py'
+      - 'evidence/column-interface/**'
+      - 'evidence/viscosity/**'
+      - 'tools/verify_column_shear.py'
+      - 'tools/test_column_shear_verifier.py'
+      - 'evidence/column-shear/**'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
+      - 'tools/verify_column_mac.py'
+      - 'tools/test_column_mac_verifier.py'
+      - 'evidence/column-mac/**'
       - '.github/workflows/rust-rheon.yml'
   workflow_dispatch:
 permissions:
@@ -29,7 +63,7 @@ permissions:
 jobs:
   core-and-executable:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       CARGO_BUILD_JOBS: '1'
     steps:
@@ -39,7 +73,7 @@ jobs:
       - name: Create isolated Python test environment
         run: |
           python3 -m venv "$RUNNER_TEMP/rheon-tests"
-          "$RUNNER_TEMP/rheon-tests/bin/python" -m pip install --index-url https://pypi.org/simple --only-binary=:all: Pillow==12.3.0
+          "$RUNNER_TEMP/rheon-tests/bin/python" -m pip install --index-url https://pypi.org/simple --only-binary=:all: Pillow==12.3.0 numpy==2.3.5
       - name: Select official pinned Rust toolchain
         run: |
           rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy

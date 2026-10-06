@@ -1,0 +1,13 @@
+{
+  "kind": "completed-native-run-failed-accuracy-oracle",
+  "native_energy_gate_passed": true,
+  "native_stability_gate_passed": true,
+  "n": 64,
+  "steps": 2053,
+  "stability_policy": 0.02,
+  "maximum_modal_error": 1.6443641185470703e-05,
+  "maximum_amplitude_error": 1.9970587233131276e-05,
+  "modal_oracle_limit": 3e-06,
+  "accuracy_oracle_passed": false,
+  "acceptance_tolerance_changed": false
+}

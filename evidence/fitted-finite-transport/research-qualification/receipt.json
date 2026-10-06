@@ -1,0 +1,49 @@
+{
+  "commands": [
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-finite-transport/reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-finite-transport/numerical.py"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-finite-transport/test_reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-finite-transport/reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-finite-transport/numerical.py"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-finite-transport/test_reference.py"
+      ],
+      "exit": 0
+    }
+  ]
+}

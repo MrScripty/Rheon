@@ -1,0 +1,55 @@
+[
+  {
+    "command": [
+      "python",
+      "reference.py",
+      "normal.json"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "diagnose_seam.py",
+      "normal-diagnosis.json"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-m",
+      "unittest",
+      "test_reference.py"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-O",
+      "reference.py",
+      "optimized.json"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-O",
+      "diagnose_seam.py",
+      "optimized-diagnosis.json"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-O",
+      "-m",
+      "unittest",
+      "test_reference.py"
+    ],
+    "exit": 0
+  }
+]

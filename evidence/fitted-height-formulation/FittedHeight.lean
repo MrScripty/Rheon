@@ -1,0 +1,77 @@
+import Mathlib.Data.Real.Basic
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.Linarith
+
+/-! Conditional finite exact-real identities for the selected fitted formulation.
+No continuum, geometry, inverse positivity, IEEE or Rust theorem is claimed. -/
+namespace Rheon.FittedHeight
+noncomputable section
+
+theorem triangle_mass_partition (rho b area : ℝ) :
+    rho*b*area/3+rho*b*area/3+rho*b*area/3=rho*b*area := by ring
+
+theorem shared_momentum_cancel (f ui uj : ℝ) :
+    (f*(ui+uj)/2+(abs f)*(ui-uj)/2)+(-f*(uj+ui)/2+(abs f)*(uj-ui)/2)=0 := by ring
+
+theorem donor_pair_work (f ui uj : ℝ) :
+    (ui-uj)*(f*(ui+uj)/2+(abs f)*(ui-uj)/2)=
+      f*(ui^2-uj^2)/2+(abs f)*(ui-uj)^2/2 := by ring
+
+theorem donor_pair_nonnegative (f ui uj : ℝ) :
+    0 ≤ (abs f)*(ui-uj)^2/2 := by positivity
+
+theorem gcl_constant_momentum (mrate flux velocity : ℝ)
+    (gcl : mrate+flux=0) : mrate*velocity+flux*velocity=0 := by
+  calc
+    mrate*velocity+flux*velocity = (mrate+flux)*velocity := by ring
+    _ = 0 := by rw [gcl]; ring
+
+theorem kinetic_derivative (mass rate velocity acceleration : ℝ) :
+    velocity*(rate*velocity+mass*acceleration)-rate*velocity^2/2=
+      rate*velocity^2/2+mass*velocity*acceleration := by ring
+
+theorem residual_energy_work (tdot qwork masswork conv diss strain pressure force rm rd rg : ℝ)
+    (kinetic : tdot=qwork-masswork/2)
+    (pairs : conv= -masswork/2+diss+rg/2)
+    (balance : qwork+conv+strain+pressure-force=rm)
+    (adjoint : pressure=rd) :
+    tdot=force-diss-strain+rm-rd-rg/2 := by linarith
+
+theorem pressure_adjoint (b00 b01 b10 b11 u0 u1 p0 p1 : ℝ) :
+    p0*(b00*u0+b01*u1)+p1*(b10*u0+b11*u1)=
+      u0*(b00*p0+b10*p1)+u1*(b01*p0+b11*p1) := by ring
+
+theorem full_strain_factors (mu area ax ay shear zx zy : ℝ) :
+    2*mu*area*(ax^2+ay^2+2*(shear/2)^2+2*(zx/2)^2+2*(zy/2)^2)=
+      mu*area*(2*ax^2+2*ay^2+shear^2+zx^2+zy^2) := by ring
+
+theorem full_strain_nonnegative (mu area ax ay shear zx zy : ℝ)
+    (hm : 0 ≤ mu) (ha : 0 ≤ area) :
+    0 ≤ mu*area*(2*ax^2+2*ay^2+shear^2+zx^2+zy^2) := by positivity
+
+theorem changing_mass_BE (oldmass newmass old new : ℝ) :
+    new*(newmass*new-oldmass*old)=
+      (newmass*new^2-oldmass*old^2)/2+oldmass*(new-old)^2/2+
+      (newmass-oldmass)*new^2/2 := by ring
+
+theorem donor_step_energy (energy time_loss mass_delta_work flux_work diss : ℝ)
+    (momentum_work : energy+time_loss+mass_delta_work+flux_work=0)
+    (face_work : flux_work= -mass_delta_work+diss) :
+    energy+time_loss+diss=0 := by linarith
+
+theorem force_BE_work (mass old new : ℝ) :
+    mass*new*(new-old)=mass*(new^2-old^2)/2+mass*(new-old)^2/2 := by ring
+
+theorem coupled_BE_energy (energy increment dt strain force pressure residual : ℝ)
+    (work : energy+increment+dt*strain+dt*pressure-dt*force=residual)
+    (divergence_work : pressure=0) :
+    energy+increment+dt*strain=dt*force+residual := by
+  rw [divergence_work] at work
+  simp only [mul_zero, add_zero] at work
+  linarith
+
+theorem flat_cap_shear_numerator (k height : ℝ) :
+    6*(-k^2)*height+k^2*(height*(6+k^2*height^2)-k^2*height^3)=0 := by ring
+
+end
+end Rheon.FittedHeight

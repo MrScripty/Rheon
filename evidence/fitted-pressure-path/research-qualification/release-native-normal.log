@@ -1,0 +1,9 @@
+REJECTED zero_pressure
+REJECTED omit_vertical_momentum
+REJECTED zero_path_divergence
+REJECTED zero_local_continuity
+REJECTED force_pressure_reused
+REJECTED nonmaterial_geometry
+REJECTED flux_circulation
+REJECTED false_publication
+PASS {"accepted_advancing_steps": 0, "exact_path_obstruction_preserved": true, "final_divergence": 0.00010267516012274947, "final_local_continuity_defect": 1.6276778520868613e-05, "force_work_error": -2.753439837244187e-15, "momentum_residual": 3.797011533315797e-15}

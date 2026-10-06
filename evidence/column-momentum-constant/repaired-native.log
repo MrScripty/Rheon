@@ -1,0 +1,16 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.38s
+     Running tests/column_momentum_contract.rs (/workspace/.rheon-tools/target/debug/deps/column_momentum_contract-bb38dac32d5e400e)
+
+running 8 tests
+test hand_derived_closed_exchange_all_axes ... ok
+test large_support_change_uses_explicit_parcels ... ok
+test every_callback_rolls_back_and_retry_is_identical ... ok
+test ordinary_decimal_scale_constant_parcels_are_preserved ... ok
+test ordinary_unit_geometry_nonbinary_constant_parcels_are_preserved ... ok
+test refused_inputs_and_late_scale_failure_preserve_outputs ... ok
+test identity_and_constants_cover_cut_classification_and_single_node ... ok
+test affine_parcel_means_refine_without_claiming_linear_exactness ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

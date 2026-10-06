@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "scope": "Inline JavaScript controls and exact canvas/data commands in Node VM; browser rasterization not tested",
+  "publications": 268,
+  "cases": 20,
+  "default_interval": "0.003125",
+  "play_wrap_pause": true,
+  "html_sha256": "7c34c47ca2e00dc570f30bfe68eadb50b22b700cc5c694a2b1a00ddddf1bc6a9",
+  "native_sha256": "92780344d3d22f8ca4011a707988d4ca6e397c97429729fd5c267c347e353a85",
+  "checker_sha256": "0335c32c8eaf3c4c5778733777a20a2f08ce111a6eaf9ff01db1d65cfa0aefe0"
+}

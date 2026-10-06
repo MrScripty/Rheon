@@ -1,0 +1,13 @@
+REJECTED false_public_step
+REJECTED zero_pressure
+REJECTED omit_normal_acceleration
+REJECTED omit_BE_loss
+REJECTED omit_mixing_loss
+REJECTED mislabel_viscosity
+REJECTED hide_continuous_momentum
+REJECTED claim_exact_physical_integrated_momentum
+REJECTED substitute_physical_momentum_flux
+REJECTED face_circulation
+REJECTED stale_endpoint_mass
+REJECTED wrong_pressure_work
+PASS {"actual_physical_integrated_momentum_gate_pass": false, "continuous_momentum_gate_pass": false, "discrete_work": -1.0585037077523602e-16, "finite_momentum_rate_norm": 1.0485082174848855e-14, "fixed_allowance": 4.5494750940185436e-14, "interval": 0.025, "ledger_error": 1.6061867246813103e-16, "new_public_step_enabled": false}

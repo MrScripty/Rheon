@@ -1,0 +1,806 @@
+{
+  "status": "PASS",
+  "scope": "conditional temporal consistency of declared semidiscrete ALE donor momentum and algebraic multiplier; no continuum spatial/traction validation",
+  "rows": [
+    {
+      "kind": "initial",
+      "rows": [
+        {
+          "interval": 0.05,
+          "tangent_acceleration_error": 0.001191582746488653,
+          "tangent_multiplier_error": 0.007879759963524843,
+          "discrete_unknown_scaled_coefficient_error": 0.013851432193040258,
+          "pressure_endpoint_coefficient_error": 0.0023652207660192948,
+          "pressure_actual_average_coefficient_error": 0.002945992077609775,
+          "pressure_average_scaled_bias_error": 0.005378858848972739,
+          "first_pressure_difference_minus_true_derivative": 0.025572602631992992,
+          "first_pressure_difference_limit_error": 0.013813034507765045,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.03726511429726572,
+          "integrated_actual_path_momentum_norm": 0.00011414864507576625,
+          "actual_path_momentum_rate_norm": 0.002282972901515325,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.011488968963904986,
+          "initial_point_momentum_residual_norm": 0.004661435027467227,
+          "endpoint_vs_path_donor_momentum_norm": 7.172214120969745e-08,
+          "donor_momentum_rate_defect_norm": 1.434442824193949e-06,
+          "donor_scaled_coefficient_error": 2.8688856483878978e-05,
+          "pressure_impulse_error_norm": 8.332228453770913e-06,
+          "pressure_impulse_rate_error_norm": 0.00016664456907541824,
+          "pressure_impulse_scaled_coefficient_error": 0.0002760905095872425,
+          "one_step_velocity_error": 1.7116921118519892e-05,
+          "one_step_geometry_error": 4.5019263994472425e-07,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            4.156424553494742e-15,
+            9.315465065995454e-16,
+            0.0
+          ]
+        },
+        {
+          "interval": 0.025,
+          "tangent_acceleration_error": 0.0005981195364371788,
+          "tangent_multiplier_error": 0.003771733106166675,
+          "discrete_unknown_scaled_coefficient_error": 0.006789371936193607,
+          "pressure_endpoint_coefficient_error": 0.0010552860875653067,
+          "pressure_actual_average_coefficient_error": 0.0014133328423472972,
+          "pressure_average_scaled_bias_error": 0.002628501068613262,
+          "first_pressure_difference_minus_true_derivative": 0.03129206696045305,
+          "first_pressure_difference_limit_error": 0.006768915502151316,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.03726511429726572,
+          "integrated_actual_path_momentum_norm": 2.4905062834964523e-05,
+          "actual_path_momentum_rate_norm": 0.0009962025133985809,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.005546100454636593,
+          "initial_point_momentum_residual_norm": 0.0020457759930446093,
+          "endpoint_vs_path_donor_momentum_norm": 8.856020439580172e-09,
+          "donor_momentum_rate_defect_norm": 3.542408175832069e-07,
+          "donor_scaled_coefficient_error": 1.4169632703328271e-05,
+          "pressure_impulse_error_norm": 2.0840136403666177e-06,
+          "pressure_impulse_rate_error_norm": 8.33605456146647e-05,
+          "pressure_impulse_scaled_coefficient_error": 0.00014071400431536817,
+          "one_step_velocity_error": 4.321041474761579e-06,
+          "one_step_geometry_error": 5.847701733951993e-08,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            4.440892098500626e-15,
+            1.2804427657053807e-15,
+            0.0
+          ]
+        },
+        {
+          "interval": 0.0125,
+          "tangent_acceleration_error": 0.00029966728066350577,
+          "tangent_multiplier_error": 0.0018450432730305055,
+          "discrete_unknown_scaled_coefficient_error": 0.0033601210869521974,
+          "pressure_endpoint_coefficient_error": 0.0004964806422520578,
+          "pressure_actual_average_coefficient_error": 0.0006923736830050688,
+          "pressure_average_scaled_bias_error": 0.0012982324736209143,
+          "first_pressure_difference_minus_true_derivative": 0.034266506328553714,
+          "first_pressure_difference_limit_error": 0.0033495512770248996,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.03726511429726572,
+          "integrated_actual_path_momentum_norm": 5.796621833172177e-06,
+          "actual_path_momentum_rate_norm": 0.00046372974665377415,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.0027245705245577474,
+          "initial_point_momentum_residual_norm": 0.0009554081617828687,
+          "endpoint_vs_path_donor_momentum_norm": 1.1002349374629212e-09,
+          "donor_momentum_rate_defect_norm": 8.801879499703369e-08,
+          "donor_scaled_coefficient_error": 7.041503599762695e-06,
+          "pressure_impulse_error_norm": 5.21203720620395e-07,
+          "pressure_impulse_rate_error_norm": 4.16962976496316e-05,
+          "pressure_impulse_scaled_coefficient_error": 7.095412279446546e-05,
+          "one_step_velocity_error": 1.0860722863174029e-06,
+          "one_step_geometry_error": 7.448636929474617e-09,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            4.039039339532452e-15,
+            1.3508975157301464e-15,
+            0.0
+          ]
+        },
+        {
+          "interval": 0.00625,
+          "tangent_acceleration_error": 0.00014999015965866822,
+          "tangent_multiplier_error": 0.0009124699360293803,
+          "discrete_unknown_scaled_coefficient_error": 0.0016712588936856397,
+          "pressure_endpoint_coefficient_error": 0.00024053978068611857,
+          "pressure_actual_average_coefficient_error": 0.0003426955892480213,
+          "pressure_average_scaled_bias_error": 0.0006448389598951404,
+          "first_pressure_difference_minus_true_derivative": 0.03576476391261748,
+          "first_pressure_difference_limit_error": 0.0016658807384646,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.03726511429726572,
+          "integrated_actual_path_momentum_norm": 1.3969471275856656e-06,
+          "actual_path_momentum_rate_norm": 0.00022351154041370648,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.0013503109096257068,
+          "initial_point_momentum_residual_norm": 0.00046129900322414483,
+          "endpoint_vs_path_donor_momentum_norm": 1.371099099330229e-10,
+          "donor_momentum_rate_defect_norm": 2.193758558928366e-08,
+          "donor_scaled_coefficient_error": 3.5100136942853855e-06,
+          "pressure_impulse_error_norm": 1.3033141018338465e-07,
+          "pressure_impulse_rate_error_norm": 2.0853025629341543e-05,
+          "pressure_impulse_scaled_coefficient_error": 3.5590012463247194e-05,
+          "one_step_velocity_error": 2.722774056481264e-07,
+          "one_step_geometry_error": 9.398042344344049e-10,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            4.5175506980014604e-15,
+            9.747680475811563e-16,
+            0.0
+          ]
+        },
+        {
+          "interval": 0.003125,
+          "tangent_acceleration_error": 7.503583355280956e-05,
+          "tangent_multiplier_error": 0.00045374205288509385,
+          "discrete_unknown_scaled_coefficient_error": 0.0008334892783878847,
+          "pressure_endpoint_coefficient_error": 0.00011835773037656848,
+          "pressure_actual_average_coefficient_error": 0.00017048584545387225,
+          "pressure_average_scaled_bias_error": 0.00032144829878187343,
+          "first_pressure_difference_minus_true_derivative": 0.03651472810406669,
+          "first_pressure_difference_limit_error": 0.0008307786313279274,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.03726511429726572,
+          "integrated_actual_path_momentum_norm": 3.428035301806337e-07,
+          "actual_path_momentum_rate_norm": 0.00010969712965780278,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.0006721808478399848,
+          "initial_point_momentum_residual_norm": 0.0002266067436766702,
+          "endpoint_vs_path_donor_momentum_norm": 1.7112987708084662e-11,
+          "donor_momentum_rate_defect_norm": 5.476156066587091e-09,
+          "donor_scaled_coefficient_error": 1.752369941307869e-06,
+          "pressure_impulse_error_norm": 3.25868217906549e-08,
+          "pressure_impulse_rate_error_norm": 1.0427782973009568e-05,
+          "pressure_impulse_scaled_coefficient_error": 1.7837925499283282e-05,
+          "one_step_velocity_error": 6.816432458693723e-08,
+          "one_step_geometry_error": 1.180215924989625e-10,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            4.301761854716424e-15,
+            1.27887815809513e-15,
+            0.0
+          ]
+        }
+      ],
+      "metrics": {
+        "tangent_acceleration_error": {
+          "ratios": [
+            1.9922150571883326,
+            1.995945420243603,
+            1.99791293872516,
+            1.9989137530284977
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "tangent_multiplier_error": {
+          "ratios": [
+            2.089161598057313,
+            2.0442518402137844,
+            2.0220318502319374,
+            2.0109882481191472
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "discrete_unknown_scaled_coefficient_error": {
+          "ratios": [
+            2.040163997968555,
+            2.020573592587973,
+            2.010532957908213,
+            2.0051354432754662
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_endpoint_coefficient_error": {
+          "ratios": [
+            2.2413076358053687,
+            2.125533198592563,
+            2.0640271677137583,
+            2.032311534876633
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_actual_average_coefficient_error": {
+          "ratios": [
+            2.084429080921236,
+            2.0412861970909866,
+            2.0203752389236986,
+            2.0101116801555423
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_average_scaled_bias_error": {
+          "ratios": [
+            2.0463597725720173,
+            2.0246767216368275,
+            2.0132661863855508,
+            2.0060425341765815
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "actual_path_momentum_rate_norm": {
+          "ratios": [
+            2.2916755085538587,
+            2.148239401476992,
+            2.074746323144828,
+            2.0375331707488122
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "actual_path_scaled_defect_coefficient_error": {
+          "ratios": [
+            2.0715400050679027,
+            2.0355870419382285,
+            2.017735697116579,
+            2.0088506150760685
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "initial_point_momentum_residual_norm": {
+          "ratios": [
+            2.2785657096942877,
+            2.141258652455958,
+            2.0711255717121864,
+            2.0356808263497275
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_impulse_rate_error_norm": {
+          "ratios": [
+            1.9990820339124833,
+            1.9992313541871796,
+            1.9995322688791135,
+            1.9997563895715735
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_impulse_scaled_coefficient_error": {
+          "ratios": [
+            1.962068458861199,
+            1.983168824776791,
+            1.9936526537532908,
+            1.9951878633351834
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "first_pressure_difference_limit_error": {
+          "ratios": [
+            2.040656956550122,
+            2.0208424777910925,
+            2.0106789157740645,
+            2.00520412495665
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "one_step_velocity_error": {
+          "ratios": [
+            3.9612952614541492,
+            3.9785947300185156,
+            3.9888446995156555,
+            3.994426810477114
+          ],
+          "expected_ratio": 4,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "one_step_geometry_error": {
+          "ratios": [
+            7.698625210839458,
+            7.850700456096006,
+            7.92573246273717,
+            7.962985539638999
+          ],
+          "expected_ratio": 8,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "donor_momentum_rate_defect_norm": {
+          "ratios": [
+            4.049343703473742,
+            4.024604263159307,
+            4.012237109631161,
+            4.006019062008917
+          ],
+          "expected_ratio": 4,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "donor_scaled_coefficient_error": {
+          "ratios": [
+            2.024671851736871,
+            2.012302131579653,
+            2.006118554815581,
+            2.0030095310044587
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        }
+      },
+      "reference_calls": [
+        242,
+        509
+      ],
+      "pressure_reference_refinement_max_difference": 8.311060173404883e-15,
+      "pressure_is_algebraic": true,
+      "pressure_first_difference_is_not_an_evolution_equation": true
+    },
+    {
+      "kind": "pressure_state",
+      "rows": [
+        {
+          "interval": 0.05,
+          "tangent_acceleration_error": 0.0011708399217825152,
+          "tangent_multiplier_error": 0.009340890562450452,
+          "discrete_unknown_scaled_coefficient_error": 0.015239064975330209,
+          "pressure_endpoint_coefficient_error": 0.0025497197570583186,
+          "pressure_actual_average_coefficient_error": 0.003581991699504422,
+          "pressure_average_scaled_bias_error": 0.006150153923369623,
+          "first_pressure_difference_minus_true_derivative": 0.02795221705343164,
+          "first_pressure_difference_limit_error": 0.015206553529983114,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.04069954064227949,
+          "integrated_actual_path_momentum_norm": 0.00013116917715602029,
+          "actual_path_momentum_rate_norm": 0.0026233835431204054,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.013400072860351466,
+          "initial_point_momentum_residual_norm": 0.005338219911920236,
+          "endpoint_vs_path_donor_momentum_norm": 2.940009911893546e-07,
+          "donor_momentum_rate_defect_norm": 5.880019823787092e-06,
+          "donor_scaled_coefficient_error": 3.137608376948899e-05,
+          "pressure_impulse_error_norm": 8.398136348845788e-06,
+          "pressure_impulse_rate_error_norm": 0.00016796272697691575,
+          "pressure_impulse_scaled_coefficient_error": 0.00026511156210864295,
+          "one_step_velocity_error": 1.7894448510308434e-05,
+          "one_step_geometry_error": 4.490150062874676e-07,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            4.36524189191545e-15,
+            1.3426759704060487e-15,
+            0.0
+          ]
+        },
+        {
+          "interval": 0.025,
+          "tangent_acceleration_error": 0.0005875341540576822,
+          "tangent_multiplier_error": 0.004487867153290919,
+          "discrete_unknown_scaled_coefficient_error": 0.007490496229189228,
+          "pressure_endpoint_coefficient_error": 0.0011446975124907658,
+          "pressure_actual_average_coefficient_error": 0.001724209194953708,
+          "pressure_average_scaled_bias_error": 0.003019386945687405,
+          "first_pressure_difference_minus_true_derivative": 0.034152702249569046,
+          "first_pressure_difference_limit_error": 0.007473226555716713,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.04069954064227949,
+          "integrated_actual_path_momentum_norm": 2.8548704864347515e-05,
+          "actual_path_momentum_rate_norm": 0.0011419481945739004,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.006487682687017996,
+          "initial_point_momentum_residual_norm": 0.00233586514325803,
+          "endpoint_vs_path_donor_momentum_norm": 6.360523456753352e-08,
+          "donor_momentum_rate_defect_norm": 2.544209382701341e-06,
+          "donor_scaled_coefficient_error": 1.5517715570446664e-05,
+          "pressure_impulse_error_norm": 2.0972987343323585e-06,
+          "pressure_impulse_rate_error_norm": 8.389194937329433e-05,
+          "pressure_impulse_scaled_coefficient_error": 0.00013486714394467483,
+          "one_step_velocity_error": 4.50122717928604e-06,
+          "one_step_geometry_error": 5.825224913547089e-08,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            3.552713678800501e-15,
+            8.925152283900673e-16,
+            0.0
+          ]
+        },
+        {
+          "interval": 0.0125,
+          "tangent_acceleration_error": 0.00029432284829643285,
+          "tangent_multiplier_error": 0.00219941865406883,
+          "discrete_unknown_scaled_coefficient_error": 0.0037127489342289135,
+          "pressure_endpoint_coefficient_error": 0.0005403595227013862,
+          "pressure_actual_average_coefficient_error": 0.0008459448358873651,
+          "pressure_average_scaled_bias_error": 0.0014954716472012435,
+          "first_pressure_difference_minus_true_derivative": 0.0374043838622726,
+          "first_pressure_difference_limit_error": 0.003703848537464396,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.04069954064227949,
+          "integrated_actual_path_momentum_norm": 6.632631944354347e-06,
+          "actual_path_momentum_rate_norm": 0.0005306105555483477,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.003191668705050559,
+          "initial_point_momentum_residual_norm": 0.001088598810043187,
+          "endpoint_vs_path_donor_momentum_norm": 1.4684049390194659e-08,
+          "donor_momentum_rate_defect_norm": 1.1747239512155728e-06,
+          "donor_scaled_coefficient_error": 7.716591546592541e-06,
+          "pressure_impulse_error_norm": 5.240776456720201e-07,
+          "pressure_impulse_rate_error_norm": 4.19262116537616e-05,
+          "pressure_impulse_scaled_coefficient_error": 6.802467590492803e-05,
+          "one_step_velocity_error": 1.129122436115117e-06,
+          "one_step_geometry_error": 7.415531522170227e-09,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            3.1480894280289107e-15,
+            1.2910679469957387e-15,
+            0.0
+          ]
+        },
+        {
+          "interval": 0.00625,
+          "tangent_acceleration_error": 0.00014730366300596433,
+          "tangent_multiplier_error": 0.0010887233293335205,
+          "discrete_unknown_scaled_coefficient_error": 0.0018482129373546998,
+          "pressure_endpoint_coefficient_error": 0.0002622521278790367,
+          "pressure_actual_average_coefficient_error": 0.0004190024742802296,
+          "pressure_average_scaled_bias_error": 0.0007441332083307433,
+          "first_pressure_difference_minus_true_derivative": 0.039048464375835625,
+          "first_pressure_difference_limit_error": 0.0018436945926394435,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.04069954064227949,
+          "integrated_actual_path_momentum_norm": 1.5966901170568411e-06,
+          "actual_path_momentum_rate_norm": 0.0002554704187290946,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.001582910850504889,
+          "initial_point_momentum_residual_norm": 0.0005249601143347017,
+          "endpoint_vs_path_donor_momentum_norm": 3.520070216840205e-09,
+          "donor_momentum_rate_defect_norm": 5.632112346944328e-07,
+          "donor_scaled_coefficient_error": 3.84776045469066e-06,
+          "pressure_impulse_error_norm": 1.30991459654641e-07,
+          "pressure_impulse_rate_error_norm": 2.0958633544742558e-05,
+          "pressure_impulse_scaled_coefficient_error": 3.4161115301480556e-05,
+          "one_step_velocity_error": 2.8278504986781595e-07,
+          "one_step_geometry_error": 9.353499086373063e-10,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            3.382927618589271e-15,
+            1.2524703496552547e-15,
+            0.0
+          ]
+        },
+        {
+          "interval": 0.003125,
+          "tangent_acceleration_error": 7.36878279318598e-05,
+          "tangent_multiplier_error": 0.0005416331297028337,
+          "discrete_unknown_scaled_coefficient_error": 0.0009220621716045789,
+          "pressure_endpoint_coefficient_error": 0.0001291530525771068,
+          "pressure_actual_average_coefficient_error": 0.00020851770856240845,
+          "pressure_average_scaled_bias_error": 0.0003711606386299627,
+          "first_pressure_difference_minus_true_derivative": 0.039873334523398765,
+          "first_pressure_difference_limit_error": 0.000919785739384048,
+          "expected_nonvanishing_first_pressure_derivative_error": 0.04069954064227949,
+          "integrated_actual_path_momentum_norm": 3.915885039718194e-07,
+          "actual_path_momentum_rate_norm": 0.0001253083212709822,
+          "physical_integrated_original_gate_pass": false,
+          "physical_pointwise_original_gate_pass": false,
+          "actual_path_scaled_defect_coefficient_error": 0.000788239866025994,
+          "initial_point_momentum_residual_norm": 0.00025770686980168973,
+          "endpoint_vs_path_donor_momentum_norm": 8.612254877609722e-10,
+          "donor_momentum_rate_defect_norm": 2.755921560835111e-07,
+          "donor_scaled_coefficient_error": 1.9212505082453767e-06,
+          "pressure_impulse_error_norm": 3.274457956590915e-08,
+          "pressure_impulse_rate_error_norm": 1.0478265461090928e-05,
+          "pressure_impulse_scaled_coefficient_error": 1.7117872116384086e-05,
+          "one_step_velocity_error": 7.07611047892177e-08,
+          "one_step_geometry_error": 1.1744538674918203e-10,
+          "discrete_work_gate_pass": true,
+          "all_full_constraint_maxima": [
+            4.0091898984712104e-15,
+            9.011888457699513e-16,
+            0.0
+          ]
+        }
+      ],
+      "metrics": {
+        "tangent_acceleration_error": {
+          "ratios": [
+            1.992803165052369,
+            1.9962233902613502,
+            1.9980687668609822,
+            1.9990230020374349
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "tangent_multiplier_error": {
+          "ratios": [
+            2.0813652105546057,
+            2.040478807883418,
+            2.0201814315995597,
+            2.010075214436841
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "discrete_unknown_scaled_coefficient_error": {
+          "ratios": [
+            2.034453327130196,
+            2.017506802071145,
+            2.008831806762957,
+            2.0044341848862826
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_endpoint_coefficient_error": {
+          "ratios": [
+            2.2274179241556507,
+            2.1183998141980545,
+            2.0604581059896145,
+            2.030553073629191
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_actual_average_coefficient_error": {
+          "ratios": [
+            2.0774693175212957,
+            2.038205237277766,
+            2.018949499858074,
+            2.0094335256653943
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_average_scaled_bias_error": {
+          "ratios": [
+            2.0368882935504167,
+            2.019019853260441,
+            2.0096827160232773,
+            2.0048817974812905
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "actual_path_momentum_rate_norm": {
+          "ratios": [
+            2.297287701478681,
+            2.1521399878556493,
+            2.0769941122264206,
+            2.0387346677211786
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "actual_path_scaled_defect_coefficient_error": {
+          "ratios": [
+            2.065463665041036,
+            2.032693016274452,
+            2.016328780633816,
+            2.0081588342966263
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "initial_point_momentum_residual_norm": {
+          "ratios": [
+            2.285328811608776,
+            2.1457539009852136,
+            2.0736790859297987,
+            2.0370435399672053
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_impulse_rate_error_norm": {
+          "ratios": [
+            2.0021316494808263,
+            2.000942753094354,
+            2.00042677230161,
+            2.0002006651357047
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "pressure_impulse_scaled_coefficient_error": {
+          "ratios": [
+            1.9657238550065015,
+            1.9826208967634997,
+            1.9912896667627187,
+            1.9956402915747813
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "first_pressure_difference_limit_error": {
+          "ratios": [
+            2.0348042999379863,
+            2.017692267954559,
+            2.008927374550655,
+            2.004482689494739
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "one_step_velocity_error": {
+          "ratios": [
+            3.97545997959311,
+            3.986482807633386,
+            3.992864674574947,
+            3.9963345782993716
+          ],
+          "expected_ratio": 4,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "one_step_geometry_error": {
+          "ratios": [
+            7.708114501179902,
+            7.855438138360554,
+            7.928082799488135,
+            7.9641264295450975
+          ],
+          "expected_ratio": 8,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        },
+        "donor_momentum_rate_defect_norm": {
+          "ratios": [
+            2.311138329952985,
+            2.1657934019891747,
+            2.085760863511384,
+            2.043640293317224
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": false,
+          "fine_band_pass": true
+        },
+        "donor_scaled_coefficient_error": {
+          "ratios": [
+            2.0219524985523276,
+            2.0109546393315205,
+            2.0054760782172742,
+            2.002737507772846
+          ],
+          "expected_ratio": 2,
+          "coarse_band_pass": true,
+          "fine_band_pass": true
+        }
+      },
+      "reference_calls": [
+        242,
+        482
+      ],
+      "pressure_reference_refinement_max_difference": 8.659739592076221e-15,
+      "pressure_is_algebraic": true,
+      "pressure_first_difference_is_not_an_evolution_equation": true
+    }
+  ],
+  "repeated_pressure": [
+    {
+      "scope": "physical microtriangle pressure pulled back by frozen labels; reference-area-weighted RMS, not continuum spatial error",
+      "kind": "initial",
+      "rows": [
+        {
+          "interval": 0.05,
+          "steps": 2,
+          "host_pressure_ALE_pullback_RMS_error": 0.00027198833130926157,
+          "native_pressure_ALE_pullback_RMS_error": 0.00027198833131004637,
+          "host_native_pressure_max_difference": 1.0059661437189504e-14
+        },
+        {
+          "interval": 0.025,
+          "steps": 4,
+          "host_pressure_ALE_pullback_RMS_error": 0.00013743222765352623,
+          "native_pressure_ALE_pullback_RMS_error": 0.00013743222765133376,
+          "host_native_pressure_max_difference": 2.1864454691211677e-14
+        },
+        {
+          "interval": 0.0125,
+          "steps": 8,
+          "host_pressure_ALE_pullback_RMS_error": 6.907946316197911e-05,
+          "native_pressure_ALE_pullback_RMS_error": 6.907946315515181e-05,
+          "host_native_pressure_max_difference": 2.8336707980081144e-14
+        },
+        {
+          "interval": 0.00625,
+          "steps": 16,
+          "host_pressure_ALE_pullback_RMS_error": 3.463108207871222e-05,
+          "native_pressure_ALE_pullback_RMS_error": 3.463108208353523e-05,
+          "host_native_pressure_max_difference": 4.639691408847568e-14
+        },
+        {
+          "interval": 0.003125,
+          "steps": 32,
+          "host_pressure_ALE_pullback_RMS_error": 1.733844620788817e-05,
+          "native_pressure_ALE_pullback_RMS_error": 1.733844621961326e-05,
+          "host_native_pressure_max_difference": 1.8541331664456706e-13
+        }
+      ],
+      "native_pressure_error_ratios": [
+        1.9790724196080276,
+        1.9894802503410065,
+        1.9947243631753133,
+        1.9973578742229237
+      ]
+    },
+    {
+      "scope": "physical microtriangle pressure pulled back by frozen labels; reference-area-weighted RMS, not continuum spatial error",
+      "kind": "pressure_state",
+      "rows": [
+        {
+          "interval": 0.05,
+          "steps": 2,
+          "host_pressure_ALE_pullback_RMS_error": 0.0002815256164264046,
+          "native_pressure_ALE_pullback_RMS_error": 0.0002815256164259422,
+          "host_native_pressure_max_difference": 7.147060721024445e-15
+        },
+        {
+          "interval": 0.025,
+          "steps": 4,
+          "host_pressure_ALE_pullback_RMS_error": 0.00014227641629866003,
+          "native_pressure_ALE_pullback_RMS_error": 0.00014227641630064935,
+          "host_native_pressure_max_difference": 1.872807464664561e-14
+        },
+        {
+          "interval": 0.0125,
+          "steps": 8,
+          "host_pressure_ALE_pullback_RMS_error": 7.153586735311264e-05,
+          "native_pressure_ALE_pullback_RMS_error": 7.153586735191769e-05,
+          "host_native_pressure_max_difference": 2.482389294122811e-14
+        },
+        {
+          "interval": 0.00625,
+          "steps": 16,
+          "host_pressure_ALE_pullback_RMS_error": 3.58796947776656e-05,
+          "native_pressure_ALE_pullback_RMS_error": 3.5879694789601455e-05,
+          "host_native_pressure_max_difference": 8.013728569622458e-14
+        },
+        {
+          "interval": 0.003125,
+          "steps": 32,
+          "host_pressure_ALE_pullback_RMS_error": 1.7967106550883824e-05,
+          "native_pressure_ALE_pullback_RMS_error": 1.7967106555327613e-05,
+          "host_native_pressure_max_difference": 2.8342779512247063e-13
+        }
+      ],
+      "native_pressure_error_ratios": [
+        1.9787229939151716,
+        1.9888822428157125,
+        1.9937702305274347,
+        1.9969656593906264
+      ]
+    }
+  ],
+  "original_coarse_pressure_flux_diagnostic_pass": false,
+  "numerical_or_physical_gates_relaxed": 0,
+  "new_Lean_claims": 0,
+  "new_Rust_changes": 0
+}

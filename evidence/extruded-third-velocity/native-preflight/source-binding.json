@@ -1,0 +1,29 @@
+{
+  "qualified_source_commit": "3e1bf03ac5103ab3efeb9dc5e341751901162c7e",
+  "qualified_source_tree": "ee49a7546f549250195cba4640d65cbd906969d4",
+  "source_sha256": {
+    "src/coupled_discrete.rs": "32ee93d12ffa0418cda460cffe8f5a72eb664f7d8838f163062a2c4e16c3dbf5",
+    "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+    "src/lib.rs": "7e73b8a791786568a1aac585a9fdd56d28f9846351dfe06ecdbecd3096e72102",
+    "tests/extruded_third_contract.rs": "19968c75c9dd95c1c19cc2a4f6a605d4a047bc20290562fe693fc7e8b628fbe2",
+    "examples/extruded_third.rs": "bac7303bda410e3856b6fcd7a9511ab5ebb7ebc8355b72978b66fa8f79cd3ebc",
+    "evidence/extruded-third-velocity/replay.py": "5c92fbe8b2ca8ba079e7270d9fc34cfae6fd83e0f85c5b7ae04ae58a543b4d7e"
+  },
+  "file_sha256": {
+    "evidence/extruded-third-velocity/native-preflight/clippy-default-stderr.log": "732eba517adbe1272b37b00f81c1543a8dc68e9099b26c1aa6aaa9a6dc313154",
+    "evidence/extruded-third-velocity/native-preflight/clippy-default.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/native-preflight/clippy-desktop-stderr.log": "a835fb15f45a449ea6b0463b1a9210410b22560a6c931788a568d4f5f69c4c39",
+    "evidence/extruded-third-velocity/native-preflight/clippy-desktop.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/native-preflight/clippy-no-default-stderr.log": "a5fe249b049ed460958702fec5180d481d2736733d8785f1449f4789ff7c37b3",
+    "evidence/extruded-third-velocity/native-preflight/clippy-no-default.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/native-preflight/format-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/native-preflight/format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/native-preflight/receipt.json": "6c469baadd0365d9021fd54ea2f2dfdbccd5a1ae9b6e54730b706ba72ebf3180",
+    "evidence/extruded-third-velocity/native-preflight/release-contracts-stderr.log": "a8dbba1173d54a6f56851e9547abb77e69a5e545f6b883a54a9fbe2a47467c15",
+    "evidence/extruded-third-velocity/native-preflight/release-contracts.log": "cdfd7a49e48a434047b34a4075c14534d0f56d7c65125630843c8da23f887c4b"
+  },
+  "scope": "Current-source formatting, focused full/legacy release contracts, three strict all-target Clippy modes, mapped publication identity. Full feature tests and final mode-qualified replay/renders are unfinished.",
+  "full_feature_test_matrix_pending": true,
+  "final_normal_optimized_replay_pending": true,
+  "actual_state_render_pending": true
+}

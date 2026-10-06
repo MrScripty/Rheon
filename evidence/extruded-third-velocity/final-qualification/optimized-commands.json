@@ -1,0 +1,30 @@
+{
+  "qualified_source_commit": "da08e95904151d82f58f6da32e3705f8e4ed390d",
+  "commands": [
+    {
+      "name": "optimized-schema-tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/extruded-third-velocity/test_replay.py"
+      ],
+      "exit": 0,
+      "stdout": "evidence/extruded-third-velocity/final-qualification/optimized-schema-tests.log",
+      "stderr": "evidence/extruded-third-velocity/final-qualification/optimized-schema-tests-stderr.log"
+    },
+    {
+      "name": "optimized-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/extruded-third-velocity/replay.py",
+        "/workspace/Rheon/evidence/extruded-third-velocity/final-qualification/native-default.jsonl",
+        "--negative-self-test"
+      ],
+      "exit": 0,
+      "stdout": "evidence/extruded-third-velocity/final-qualification/optimized-replay.json",
+      "stderr": "evidence/extruded-third-velocity/final-qualification/optimized-replay-stderr.log"
+    }
+  ],
+  "status": "PASS"
+}

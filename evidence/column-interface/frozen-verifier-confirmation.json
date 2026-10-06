@@ -1,0 +1,54 @@
+{
+  "frozen_commit": "70b5ce3f7562fc749937dc2516640bb1c0a17cd3",
+  "before_implementation_confirmation": "Also passed directly on original frozen workspace before the new branch edits.",
+  "isolated_confirmation": [
+    {
+      "command": [
+        "python",
+        "evidence/free-surface/verify.py",
+        "--evidence-commit",
+        "70b5ce3f7562fc749937dc2516640bb1c0a17cd3",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "python",
+        "-O",
+        "evidence/free-surface/verify.py",
+        "--evidence-commit",
+        "70b5ce3f7562fc749937dc2516640bb1c0a17cd3",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools",
+        "-p",
+        "test_free_surface_verifier.py"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "python",
+        "-O",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools",
+        "-p",
+        "test_free_surface_verifier.py"
+      ],
+      "exit": 0
+    }
+  ]
+}

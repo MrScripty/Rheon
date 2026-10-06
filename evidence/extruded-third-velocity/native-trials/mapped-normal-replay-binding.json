@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "controls": 12,
+  "source_sha256": "5c92fbe8b2ca8ba079e7270d9fc34cfae6fd83e0f85c5b7ae04ae58a543b4d7e",
+  "input_sha256": "92780344d3d22f8ca4011a707988d4ca6e397c97429729fd5c267c347e353a85",
+  "output_sha256": "83fec935220506244743dc150881902e3c6e47ddbedbb38f701113d40a20de7b",
+  "scope": "Preliminary normal-mode reader before integer topology gate; final 13-control mode qualification remains pending."
+}

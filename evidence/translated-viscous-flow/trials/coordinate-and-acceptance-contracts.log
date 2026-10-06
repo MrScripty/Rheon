@@ -1,0 +1,15 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.43s
+     Running tests/translated_viscous_contract.rs (/workspace/.rheon-tools/target/debug/deps/translated_viscous_contract-3883379598ce2687)
+
+running 7 tests
+test arithmetic_and_iteration_failures_preserve_accepted_state ... ok
+test lost_physical_geometry_and_clock_resolution_preserve_state ... ok
+test inviscid_and_constant_fields_are_preserved_without_solver_drift ... ok
+test strict_acceptance_failure_preserves_both_states ... ok
+test unsupported_xy_and_trace_and_insufficient_memory_are_rejected ... ok
+test repeated_translation_and_viscous_decay_publish_one_state ... ok
+test each_cancellation_preserves_velocity_geometry_pressure_clock_and_identity ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.95s
+

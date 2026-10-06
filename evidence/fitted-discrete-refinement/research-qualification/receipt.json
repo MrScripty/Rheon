@@ -1,0 +1,402 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "name": "optimized-cells",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/cells.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/test_reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-initial-trajectory",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/trajectory.py",
+        "initial",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-initial-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-pressure-trajectory",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/trajectory.py",
+        "pressure_state",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-pressure-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-initial-0.05-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-initial-0.05-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-initial-0.025-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-initial-0.025-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-initial-0.0125-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-initial-0.0125-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-initial-0.00625-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-initial-0.00625-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-initial-0.003125-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-initial-0.003125-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-pressure_state-0.05-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-pressure_state-0.05-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-pressure_state-0.025-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-pressure_state-0.025-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-pressure_state-0.0125-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-pressure_state-0.0125-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-pressure_state-0.00625-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-pressure_state-0.00625-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-pressure_state-0.003125-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-pressure_state-0.003125-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-initial-trajectory-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_trajectory.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-initial-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-pressure-trajectory-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_trajectory.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-pressure-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-frozen-predecessor",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-work/verify.py",
+        "--evidence-commit",
+        "aa89d1af95f84d86e4fb58f09c523035187b2006",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-initial-0.05-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-initial-0.05-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-initial-0.025-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-initial-0.025-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-initial-0.0125-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-initial-0.0125-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-initial-0.00625-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-initial-0.00625-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-initial-0.003125-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-initial-0.003125-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-pressure_state-0.05-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-pressure_state-0.05-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-pressure_state-0.025-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-pressure_state-0.025-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-pressure_state-0.0125-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-pressure_state-0.0125-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-pressure_state-0.00625-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-pressure_state-0.00625-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-pressure_state-0.003125-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-pressure_state-0.003125-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-initial-trajectory-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_trajectory.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-initial-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-pressure-trajectory-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/verify_trajectory.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/optimized-pressure-trajectory.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-frozen-predecessor",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-discrete-work/verify.py",
+        "--evidence-commit",
+        "aa89d1af95f84d86e4fb58f09c523035187b2006",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "initial-independent-coarse",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/independent_work.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-initial-0.05-cell.json",
+        "16"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "pressure_state-independent-coarse",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/independent_work.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/normal-pressure_state-0.05-cell.json",
+        "16"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "initial-independent-fine",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/independent_work.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/initial-fine-final-cell.json",
+        "16"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "pressure-independent-fine",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/independent_work.py",
+        "/workspace/Rheon/evidence/fitted-discrete-refinement/research-qualification/pressure-fine-final-cell.json",
+        "16"
+      ],
+      "exit": 0
+    }
+  ],
+  "actual_prior_normal_runs": [
+    "trials/refined-cells.json",
+    "trials/new-tests-stderr.log",
+    "trials/repaired-initial-trajectory.json",
+    "trials/repaired-pressure-trajectory.json"
+  ],
+  "versions": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "sympy": "1.14.0",
+    "mpmath": "1.3.0"
+  },
+  "OPENBLAS_NUM_THREADS": 1,
+  "source_sha256": {
+    "docs/research-book/implementation/fitted-discrete-work-refinement.md": "03f6ea7d60349d3247adeed7791f4e7d4a87cbd52c057e37513601441fe4695b",
+    "evidence/fitted-discrete-refinement/README.md": "c3dd8a0f0519323ea919596ededad36b9019da1da6d999221a46ec699b815ea9",
+    "evidence/fitted-discrete-refinement/cells.py": "606525eb0fe0a2a8144b514d844870ee5422305d2aafe6f2a6ee97d961334e75",
+    "evidence/fitted-discrete-refinement/certificate.py": "57d25e7daf0a35bf408f79763f898de331d8c8dd6428542a0ebdcd4eec65a732",
+    "evidence/fitted-discrete-refinement/diagnose.py": "d03bc80f923d185b79cf9f0774d00344c11093e68348900adcb1e5cf0d361018",
+    "evidence/fitted-discrete-refinement/independent_work.py": "f9434695435d675e2db3d95eb3aa6a2a044def998ea737ddd0332b8cc5592e9b",
+    "evidence/fitted-discrete-refinement/qualify.py": "4a34b8d2c2c394b907e5a83d34f28b2538bdedf43cc5418688659b3ccf8654cd",
+    "evidence/fitted-discrete-refinement/rate.py": "00d3ae69d53e125be057840746df951d2e17241dd416a6d30e45a1bf28eee345",
+    "evidence/fitted-discrete-refinement/render.py": "cc838cdcb5bd3453e0e121cf938ac7f4cad8f1c7dd30c6bbc04532ca91c6edf0",
+    "evidence/fitted-discrete-refinement/temporal.py": "e499438f17178b8a29bd3dd37dce02300482b85d2f691155b747fcf8c45f6c96",
+    "evidence/fitted-discrete-refinement/test_reference.py": "a588e4e72f86098896e960a6b4311d5f19ced404f86d2f8e5367433c2adda488",
+    "evidence/fitted-discrete-refinement/trajectory.py": "322ea6bf608c289f06a6296ff95cafc10640f1685ec147a45780e81e0be017c1",
+    "evidence/fitted-discrete-refinement/verify.py": "fa89a68f86aa1e0080d06b9b506fa26ab38fed4ddc4244bbfed34d69f6890612",
+    "evidence/fitted-discrete-refinement/verify_cell.py": "3852cfdf29624a7972e69bfcc53704e969f43012292d3fb0be168f2a213c1baf",
+    "evidence/fitted-discrete-refinement/verify_trajectory.py": "3694a7b6073f6d99def6ca2448e86a1c74c5f1505a22e2d01b68024c4a7a2c5f"
+  },
+  "tests_per_mode": 23,
+  "cell_replays": 20,
+  "cell_corruption_rejections": 240,
+  "trajectory_replays": 4,
+  "trajectory_corruption_rejections": 16,
+  "complete_replayed_steps": 248,
+  "accepted_steps_in_completed_refinement_cases": 248,
+  "actual_cancellation_trials": 16,
+  "actual_injected_failure_trials": 16,
+  "invalid_interval_failures": 16,
+  "independent_80_digit_runs": 4,
+  "actual_mode_byte_equal": true,
+  "new_Rust_temporal_builds": 0,
+  "new_Lean_claims": 0,
+  "new_public_step_enabled": false
+}

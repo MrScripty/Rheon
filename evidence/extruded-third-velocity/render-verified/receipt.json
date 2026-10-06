@@ -1,0 +1,15 @@
+{
+  "status": "RENDERED_FROM_ACTUAL_SCHEMA_VERIFIED_PUBLICATIONS",
+  "actual_publications": 268,
+  "animated_states": 33,
+  "native_input_sha256": "92780344d3d22f8ca4011a707988d4ca6e397c97429729fd5c267c347e353a85",
+  "renderer_sha256": "89a8d67b0f6428b14e5b300cf07f6f979654689eb21c2f172e17e5000faec91c",
+  "file_sha256": {
+    "published-third.gif": "dda631590f82b11798ca460f1ecc0c4f4d844fd897780f4c1f465fd34d70091a",
+    "published-third.html": "c148606e8e37d625ca902027fa5cb0dd0504d2f981ce4e528d4c092ed680e221",
+    "published-third.pdf": "777dd393fc7fcee9e9a08e4ce657a7227daa84f3549e445c04c269bbce377816",
+    "published-third.png": "ca4fa67450089ad55dacd9f9e95afbc26a6b07a4aa85a7ca4e00b6a5f65582fe"
+  },
+  "physics_replay_not_replaced_by_render": true,
+  "no_second_simulator": true
+}

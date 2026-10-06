@@ -1,0 +1,16 @@
+REJECTED mass
+REJECTED flux
+REJECTED third_strain
+REJECTED pressure_force
+REJECTED scope
+{
+  "nodes": 35,
+  "triangles": 48,
+  "periodic_mass_nodes": 32,
+  "pressure_modes": 33,
+  "native_bytes": 55408,
+  "samples": 2,
+  "reference": "frozen exact-rational fitted-height-formulation/reference.py",
+  "all_components_checked": 3,
+  "scope": "instantaneous geometry/operators only"
+}

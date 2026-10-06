@@ -1,0 +1,11 @@
+AUDITED Rheon.BoxViscosity.explicit_energy_nonincrease: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxViscosity.rounded_coordinate_energy: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxViscosity.modal_factor_nonexpansive: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxViscosity.mac_patch_work: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxViscosity.affine_shear_local_dissipation: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxViscosity.mac_patch_symmetry: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxViscosity.mac_patch_dissipation_nonnegative: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxViscosity.modal_step: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxViscosity.explicit_coordinate_energy: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.BoxViscosity.rigid_rotation_local_shear: [propext, Quot.sound, Classical.choice]
+AuditBoxViscosity.lean:5:0: error: Disallowed axiom Rheon.BoxViscosity.forbidden_review_assumption in Rheon.BoxViscosity.forbidden_review_assumption

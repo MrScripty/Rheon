@@ -1,0 +1,24 @@
+REJECTED velocity
+REJECTED cap_offset
+REJECTED clock
+REJECTED pressure
+REJECTED physical_geometry
+REJECTED liquid_volume
+REJECTED energy
+REJECTED face_circulation
+REJECTED endpoint_frozen_flux
+{
+  "dt": 0.025,
+  "steps": 20,
+  "actual_final_dt": 0.024999999999999856,
+  "time": 0.5,
+  "cap_offset": 0.125,
+  "temporal_L2_error": 0.0016531384318380878,
+  "max_total_momentum_drift": 2.893463246778083e-12,
+  "max_work_error": 3.8661508110624367e-16,
+  "max_GCL": 1.968911145233676e-16,
+  "max_quadrature_refinement": 3.469446951953614e-18,
+  "max_physical_face_integral_error": 6.071532165918825e-18,
+  "max_true_residual": 3.9028666439929695e-13,
+  "scope": "native nonzero relative transport and viscosity in preceding invariant flow; no general pressure or continuum spatial accuracy claim"
+}

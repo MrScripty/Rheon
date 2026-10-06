@@ -1,0 +1,5 @@
+wet_layers,accepted,preserved_on_rejection,time,result
+2,true,true,0.125,accepted
+4,true,true,0.125,accepted
+8,true,true,0.125,accepted
+16,false,true,0,"Volume(FractionBounds { cell: 0, fraction: 1.0000000000000004 })"

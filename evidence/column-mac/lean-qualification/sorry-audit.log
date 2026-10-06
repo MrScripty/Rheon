@@ -1,0 +1,6 @@
+AUDITED Rheon.ColumnMac.projection_energy_given_residual_work: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.ColumnMac.weighted_velocity_energy_expansion: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.ColumnMac.two_node_pressure_power_nonnegative: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.ColumnMac.constant_transfer: [propext, Quot.sound, Classical.choice]
+AUDITED Rheon.ColumnMac.lift_energy_partition: [propext, Quot.sound, Classical.choice]
+AuditColumnMac.lean:5:0: error: Disallowed axiom sorryAx in Rheon.ColumnMac.two_cell_face_mass_partition

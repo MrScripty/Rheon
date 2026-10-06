@@ -1,0 +1,49 @@
+    Finished `release` profile [optimized] target(s) in 0.08s
+     Running tests/fitted_height_contract.rs (/workspace/.rheon-tools/target/release/deps/fitted_height_contract-64a13795f3d1dba4)
+
+running 15 tests
+test constant_velocity_carries_every_component_with_changing_masses ... ok
+test arithmetic_kinematic_shape_failures_preserve_output ... ok
+test actual_graph_translation_has_shared_gcl_and_full_vector_work ... ok
+test declared_capacity_and_real_payload_are_bounded ... ok
+test divergence_defect_is_reported_and_nonzero_pressure_work_is_adjoint ... ok
+test actual_rebuilt_geometry_matches_mass_derivative ... ok
+test invalid_geometry_and_uncertain_pressure_rank_are_rejections ... ok
+test full_vector_affine_strain_and_prescribed_traction_patch ... ok
+test marginal_correct_wrong_flux_circulation_is_rejected ... ok
+test density_width_viscosity_scaling_and_zero_viscosity_are_explicit ... ok
+test periodic_seam_is_neighbor_center_intersection_with_true_derivative ... ok
+test shared_geometry_mass_and_affine_gradient_partition ... ok
+test rigid_rotation_and_full_vector_translation_are_strain_null_modes ... ok
+test every_cancellation_preserves_output_and_retry_matches ... ok
+test numerical_pressure_image_rank_constant_mode_and_transpose ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/fixed_bottom_ale_contract.rs (/workspace/.rheon-tools/target/release/deps/fixed_bottom_ale_contract-0795db260b079060)
+
+running 7 tests
+test arithmetic_iteration_and_path_failures_preserve_state ... ok
+test memory_budget_and_unsupported_carrier_reject_before_owner_creation ... ok
+test constants_remain_constant_and_zero_viscosity_still_transports ... ok
+test strict_acceptance_failure_preserves_the_accepted_pair ... ok
+test constrained_velocity_convex_bound_failure_is_retained_as_a_limit ... ok
+test nonzero_relative_transport_and_viscosity_publish_one_geometry ... ok
+test cancellation_preserves_nonzero_accepted_geometry_and_recovers_cleanly ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+
+     Running tests/translated_viscous_contract.rs (/workspace/.rheon-tools/target/release/deps/translated_viscous_contract-e3a4dcb92af295e0)
+
+running 8 tests
+test arithmetic_and_iteration_failures_preserve_accepted_state ... ok
+test lost_physical_geometry_and_clock_resolution_preserve_state ... ok
+test strict_acceptance_failure_preserves_both_states ... ok
+test inviscid_and_constant_fields_are_preserved_without_solver_drift ... ok
+test unrepresentable_initial_energy_is_rejected ... ok
+test unsupported_xy_and_trace_and_insufficient_memory_are_rejected ... ok
+test repeated_translation_and_viscous_decay_publish_one_state ... ok
+test each_cancellation_preserves_velocity_geometry_pressure_clock_and_identity ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+

@@ -31,6 +31,7 @@ pub enum StepStage {
     VelocitySlice,
     BeforeForces,
     ForceSlice,
+    Viscosity(crate::ViscosityStage),
     BeforePressure,
     PressureIteration,
     ProjectionSlice,
@@ -62,6 +63,7 @@ pub enum SimulationError {
     InvalidConfig,
     InvalidSource,
     InvalidForce,
+    Viscosity(crate::ViscosityError),
     InvalidTimeStep,
     TimeResolution,
     GenerationOverflow,
@@ -138,11 +140,13 @@ struct BoundaryStepInput<'a> {
 struct StepDomains<'a> {
     barrier: Option<&'a crate::TriangleSurface>,
     boundary: Option<BoundaryStepInput<'a>>,
-    surface: Option<&'a crate::SlabFreeSurface>,
+    surface: Option<crate::column_surface::PressureSurface<'a>>,
+    viscosity: Option<(&'a mut crate::ViscosityWorkspace, f64)>,
 }
 pub(crate) struct StepOutcome {
     pub(crate) legacy: crate::BarrierStepReport,
     pub(crate) boundary: Option<crate::BoxFluxStepReport>,
+    pub(crate) viscosity: Option<crate::ViscosityReport>,
 }
 
 struct Fields {
@@ -388,19 +392,22 @@ impl Simulation {
                 barrier,
                 boundary,
                 surface: None,
+                viscosity: None,
             },
             cancel,
         )?;
         self.commit_prepared(&outcome);
         Ok(outcome)
     }
+    #[allow(clippy::too_many_arguments)]
     pub(crate) fn prepare_liquid_carrier(
         &mut self,
         requested_dt: f64,
         source: Option<SmokeSource>,
         forces: &[BodyForce],
         boundary: Option<(&mut crate::BoxFluxStepWorkspace, crate::BoxFluxStepBoundary)>,
-        surface: Option<&crate::SlabFreeSurface>,
+        surface: Option<crate::column_surface::PressureSurface<'_>>,
+        viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.prepare_impl(
@@ -410,6 +417,7 @@ impl Simulation {
             StepDomains {
                 barrier: None,
                 surface,
+                viscosity,
                 boundary: boundary.map(|(workspace, boundary)| BoundaryStepInput {
                     workspace,
                     boundary,
@@ -426,6 +434,81 @@ impl Simulation {
     }
     pub(crate) fn candidate_pressure(&self) -> &[f64] {
         self.workspace.pressure()
+    }
+    pub(crate) fn prepare_column_mac(
+        &mut self,
+        geometry: crate::FlatColumnMacGeometry<'_>,
+        workspace: &mut crate::ColumnMacWorkspace,
+        profiles: [&[f32]; 2],
+        dt: f64,
+        mut cancel: impl FnMut(crate::ColumnMacStage) -> bool,
+    ) -> Result<
+        (
+            crate::ColumnMacTransferReport,
+            crate::ColumnMacProjectionReport,
+            u64,
+        ),
+        crate::ColumnMacError,
+    > {
+        if self.paused {
+            return Err(crate::ColumnMacError::Paused);
+        }
+        let generation = self
+            .generation
+            .checked_add(1)
+            .ok_or(crate::ColumnMacError::VersionOverflow)?;
+        if !dt.is_normal() || dt <= 0.0 {
+            return Err(crate::ColumnMacError::ArithmeticFailure);
+        }
+        let transfer = workspace.lift(
+            geometry,
+            profiles,
+            self.candidate.velocity_mut(),
+            &mut cancel,
+        )?;
+        let operator = PressureOperator::with_flat_column_masses(
+            &self.grid,
+            self.config.density,
+            geometry.surface_view(),
+        )?;
+        let pressure = self.workspace.solve_velocity(
+            &operator,
+            self.candidate.velocity(),
+            dt,
+            self.config.pressure,
+            || cancel(crate::ColumnMacStage::PressureIteration),
+        )?;
+        operator.correct_candidate_in_place(
+            self.workspace.pressure(),
+            dt,
+            self.candidate.velocity_mut(),
+        )?;
+        if cancel(crate::ColumnMacStage::BeforeProjectionAcceptance) {
+            return Err(crate::ColumnMacError::Cancelled {
+                stage: crate::ColumnMacStage::BeforeProjectionAcceptance,
+            });
+        }
+        let actual = self
+            .workspace
+            .actual_divergence_max(&operator, self.candidate.velocity())?;
+        if actual > self.config.actual_divergence_limit {
+            return Err(crate::ColumnMacError::AcceptanceFailure);
+        }
+        let projection = workspace.qualify_projection(
+            geometry,
+            self.workspace.pressure(),
+            dt,
+            self.candidate.velocity(),
+            pressure,
+            actual,
+        )?;
+        Ok((transfer, projection, generation))
+    }
+    pub(crate) fn commit_column_mac(&mut self, generation: u64) {
+        std::mem::swap(&mut self.accepted.x, &mut self.candidate.x);
+        std::mem::swap(&mut self.accepted.y, &mut self.candidate.y);
+        std::mem::swap(&mut self.accepted.z, &mut self.candidate.z);
+        self.generation = generation;
     }
     pub(crate) fn commit_prepared(&mut self, outcome: &StepOutcome) {
         std::mem::swap(&mut self.accepted, &mut self.candidate);
@@ -444,6 +527,7 @@ impl Simulation {
             barrier,
             mut boundary,
             surface,
+            viscosity,
         } = domains;
         if self.paused {
             return Err(SimulationError::Paused);
@@ -542,8 +626,15 @@ impl Simulation {
             || cancel(StepStage::VelocitySlice),
         )?;
         if let Some(surface) = surface {
-            PressureOperator::with_free_surface(&self.grid, self.config.density, surface)?
-                .clear_inactive(self.candidate.velocity_mut());
+            match surface {
+                crate::column_surface::PressureSurface::Slab(s) => {
+                    PressureOperator::with_free_surface(&self.grid, self.config.density, s)?
+                }
+                crate::column_surface::PressureSurface::Columns(s) => {
+                    PressureOperator::with_columns(&self.grid, self.config.density, s)?
+                }
+            }
+            .clear_inactive(self.candidate.velocity_mut());
         }
         if let Some(work) = &mut boundary_work {
             work.kinetic_after_advection = crate::box_flux_step::interior_energy(
@@ -589,6 +680,21 @@ impl Simulation {
                 )?
             })
         };
+        let viscosity = if let Some((workspace, mu)) = viscosity {
+            let report = workspace
+                .prepare(
+                    self.candidate.velocity(),
+                    self.config.density,
+                    mu,
+                    dt,
+                    |stage| cancel(StepStage::Viscosity(stage)),
+                )
+                .map_err(SimulationError::Viscosity)?;
+            workspace.publish(self.candidate.velocity_mut());
+            Some(report)
+        } else {
+            None
+        };
         checkpoint(&mut cancel, StepStage::BeforePressure)?;
         let (pressure, actual_divergence_max, projection) = if let Some(input) = &mut boundary {
             for (scratch, velocity) in input
@@ -622,7 +728,14 @@ impl Simulation {
             (report.pressure, report.actual_divergence_max, Some(report))
         } else {
             let operator = if let Some(surface) = surface {
-                PressureOperator::with_free_surface(&self.grid, self.config.density, surface)?
+                match surface {
+                    crate::column_surface::PressureSurface::Slab(s) => {
+                        PressureOperator::with_free_surface(&self.grid, self.config.density, s)?
+                    }
+                    crate::column_surface::PressureSurface::Columns(s) => {
+                        PressureOperator::with_columns(&self.grid, self.config.density, s)?
+                    }
+                }
             } else {
                 PressureOperator::new(&self.grid, self.config.density)?
             };
@@ -638,6 +751,7 @@ impl Simulation {
                 dt,
                 self.candidate.velocity_mut(),
             )?;
+            operator.extend_column_band(self.candidate.velocity_mut());
             let actual_divergence_max = self
                 .workspace
                 .actual_divergence_max(&operator, self.candidate.velocity())?;
@@ -778,7 +892,11 @@ impl Simulation {
             }),
             _ => None,
         };
-        Ok(StepOutcome { legacy, boundary })
+        Ok(StepOutcome {
+            legacy,
+            boundary,
+            viscosity,
+        })
     }
 }
 fn checkpoint(

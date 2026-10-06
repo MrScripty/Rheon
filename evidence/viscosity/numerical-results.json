@@ -1,0 +1,120 @@
+{
+  "results": [
+    {
+      "case": "jacobi-pcg-v1-coupled-mu0",
+      "kind": "coupled",
+      "intervals": 9,
+      "final_energy": 0.006911091168859684
+    },
+    {
+      "case": "jacobi-pcg-v1-coupled-mu0.125",
+      "kind": "coupled",
+      "intervals": 9,
+      "final_energy": 0.00222748468234249
+    },
+    {
+      "case": "material-n16-nu0.01",
+      "kind": "isolated",
+      "intervals": 27,
+      "amplitude": 0.9805093942686558,
+      "continuum_rms": 2.093590373986283e-05,
+      "time_error": 7.039518373441744e-06,
+      "energy_ratio": 0.9613986722490927,
+      "modal_error": 2.0568183978220134e-07
+    },
+    {
+      "case": "material-n16-nu0.1",
+      "kind": "isolated",
+      "intervals": 265,
+      "amplitude": 0.821328607162086,
+      "continuum_rms": 0.00017486597241431046,
+      "time_error": 6.017980953620938e-05,
+      "energy_ratio": 0.6745806809428173,
+      "modal_error": 2.0308986425909836e-07
+    },
+    {
+      "case": "sgs-pcg-v1-coupled-mu0",
+      "kind": "coupled",
+      "intervals": 9,
+      "final_energy": 0.006911091168859684
+    },
+    {
+      "case": "sgs-pcg-v1-coupled-mu0.125",
+      "kind": "coupled",
+      "intervals": 9,
+      "final_energy": 0.00222748468234249
+    },
+    {
+      "case": "space-n16",
+      "kind": "isolated",
+      "intervals": 27,
+      "amplitude": 0.9061421866016999,
+      "continuum_rms": 4.719882586855489e-05,
+      "time_error": 0.000162832126334167,
+      "energy_ratio": 0.821093662339311,
+      "modal_error": 7.455322903471284e-08
+    },
+    {
+      "case": "space-n32",
+      "kind": "isolated",
+      "intervals": 104,
+      "amplitude": 0.9060474853853504,
+      "continuum_rms": 1.1292690002522024e-05,
+      "time_error": 4.237178866639546e-05,
+      "energy_ratio": 0.8209220457731217,
+      "modal_error": 1.5695808863736005e-07
+    },
+    {
+      "case": "space-n64",
+      "kind": "isolated",
+      "intervals": 411,
+      "amplitude": 0.9060241884966166,
+      "continuum_rms": 2.370520530849834e-06,
+      "time_error": 1.1821430784153542e-05,
+      "energy_ratio": 0.8208798301411561,
+      "modal_error": 2.0628145518397645e-06
+    },
+    {
+      "case": "space-n8",
+      "kind": "isolated",
+      "intervals": 8,
+      "amplitude": 0.9066195608247966,
+      "continuum_rms": 0.00022468840645827647,
+      "time_error": 0.00054247149340092,
+      "energy_ratio": 0.8219590280701483,
+      "modal_error": 6.757973403104245e-08
+    },
+    {
+      "case": "time-n12-s128",
+      "kind": "isolated",
+      "intervals": 128,
+      "amplitude": 0.906493573573321,
+      "continuum_rms": 0.00017972883265887933,
+      "time_error": 3.419158690087798e-05,
+      "energy_ratio": 0.8217305989297434,
+      "modal_error": 2.0609569217899804e-07
+    },
+    {
+      "case": "time-n12-s32",
+      "kind": "isolated",
+      "intervals": 32,
+      "amplitude": 0.9063911056651752,
+      "continuum_rms": 0.00014099959952798446,
+      "time_error": 0.00013665949504670927,
+      "energy_ratio": 0.8215448364289406,
+      "modal_error": 5.9357021742201255e-08
+    },
+    {
+      "case": "time-n12-s64",
+      "kind": "isolated",
+      "intervals": 64,
+      "amplitude": 0.90645950121401,
+      "continuum_rms": 0.00016685068876483067,
+      "time_error": 6.826394621195497e-05,
+      "energy_ratio": 0.8216688273411582,
+      "modal_error": 1.213732239158105e-07
+    }
+  ],
+  "free_surface_viscosity_validated": false,
+  "physical_material_calibration_claimed": false
+}
