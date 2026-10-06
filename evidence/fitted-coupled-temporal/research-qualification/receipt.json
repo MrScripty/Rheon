@@ -1,0 +1,214 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "name": "normal-exact",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/exact.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-study",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/study.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/test_reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-coarse-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/normal-coarse-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-medium-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/normal-medium-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-fine-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/normal-fine-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-independent",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/independent.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/normal-coarse-cell.json",
+        "16"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-certificate",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/certificate.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/normal-coarse-cell.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-frozen-predecessor",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/fitted-pressure-path/verify.py",
+        "--evidence-commit",
+        "00c502f1fe5be7f9c527ebb14ba5b78e450cb031",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-exact",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/exact.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-study",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/study.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/test_reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-coarse-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/optimized-coarse-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-medium-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/optimized-medium-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-fine-replay",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/verify_cell.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/optimized-fine-cell.json",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-independent",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/independent.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/optimized-coarse-cell.json",
+        "16"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-certificate",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/certificate.py",
+        "/workspace/Rheon/evidence/fitted-coupled-temporal/research-qualification/optimized-coarse-cell.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-frozen-predecessor",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/fitted-pressure-path/verify.py",
+        "--evidence-commit",
+        "00c502f1fe5be7f9c527ebb14ba5b78e450cb031",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    }
+  ],
+  "versions": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "sympy": "1.14.0",
+    "mpmath": "1.3.0"
+  },
+  "exact_mode_byte_equal": true,
+  "source_sha256": {
+    "docs/research-book/implementation/fitted-coupled-temporal-prototype.md": "eae2f68b8f94b162ee91cda4e7e87611450e8c9bef0c70051ee52d20c8dbede7",
+    "evidence/fitted-coupled-temporal/README.md": "ff8013d1d329e6e1e01ec7d0ba82c35f0a709bb952bdfc4c232d966400973d37",
+    "evidence/fitted-coupled-temporal/cell.py": "14a7b9a85f02fa5bab59073521fa17b2972b191c48d0fa79e565000a62e999d0",
+    "evidence/fitted-coupled-temporal/certificate.py": "0ef1328a9fae7d1f859a9bc29298a3e0fb4563e749fa236a5ff970bb58d6366f",
+    "evidence/fitted-coupled-temporal/exact.py": "26a61d5bfb7404e181f7bf2d0d582f90ba2fd8565ea33f096bdba7c96c21930c",
+    "evidence/fitted-coupled-temporal/independent.py": "d6d8d5d9d61475cec0470f86dcdc67811183e104ec3d39f3e2a15adb167ac3e1",
+    "evidence/fitted-coupled-temporal/model.py": "6f3ec893af86e7465b4ac0afca9e28b22eaf71d18f42b3c302862413d2a1b499",
+    "evidence/fitted-coupled-temporal/qualify.py": "db63afac7d55483ca085971b6ad4d58db9717d98da7c56f93aa0ec55d05ee5df",
+    "evidence/fitted-coupled-temporal/render.py": "8629a3ee99dc984b51b6aeb830974e114fa65a2a4e53773b55524a06180d2849",
+    "evidence/fitted-coupled-temporal/study.py": "849e3f03c1ab1019f85ca27cab54dceaf3aabb3b73d35ea7c27c58a2d6009fde",
+    "evidence/fitted-coupled-temporal/test_reference.py": "2c72d2441ac62f6158cedcbb2880d1ed31ec6da7f69250024d2fde5040d22a9e",
+    "evidence/fitted-coupled-temporal/verify.py": "e6cb484d8c5da25beae80f4cd97e77dfa967785c06052af0a7e7e930973e615a",
+    "evidence/fitted-coupled-temporal/verify_cell.py": "3cd6bc8dfbb94ee8030285d1402d1a04e72dcb59f012639482e04c7656562d9c"
+  },
+  "reference_tests_per_mode": 13,
+  "actual_cell_replays": 6,
+  "corruption_rejections": 48,
+  "independent_rational_80_digit_runs": 2,
+  "actual_interval_certificates": 2,
+  "interval_boxes_per_certificate": 512,
+  "accepted_advancing_steps": 0,
+  "new_Rust_temporal_builds": 0,
+  "new_Lean_claims": 0
+}

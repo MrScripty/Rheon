@@ -1,0 +1,10 @@
+The first exact interval attempt used SymPy's exact inverse at each center.
+It was interrupted after approximately 199 seconds while in DomainMatrix
+fraction-free RREF (sdm_rref_den integer/rational gcd elimination).
+No interval result or passing claim was produced by that attempt.
+The preserved source is unscaled-certificate.py.txt.
+The replacement uses a binary approximate inverse only as an exact rational
+preconditioner; the interval Neumann norm itself is evaluated exactly.
+A separate first formal-geometry check failed with NameError: require; its
+nested physical positivity checks needed removal for formal rational identities.
+Physical positivity checks remain in the actual rational interval path.

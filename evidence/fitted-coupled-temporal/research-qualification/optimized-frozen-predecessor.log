@@ -1,0 +1,4 @@
+REJECTED nested_inventory
+REJECTED nested_hash
+REJECTED source_tree
+PASS 63 packet files including nested receipts; qualified source and complete historical bytes
