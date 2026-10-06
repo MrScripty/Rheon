@@ -1,0 +1,25 @@
+{
+  "additional_memory_bound": 65616,
+  "additional_memory_cap": 67584,
+  "binary_sha256": "b07f3c9abeb0bb2cde6fa8c7d0b4fe816795f51fe6492457e2d0ca6a81cd1b8c",
+  "case_indices": [
+    41,
+    47
+  ],
+  "exact_scalar_probes": 36,
+  "fixed_candidate_e1_not_executed": true,
+  "native_accepted_owners_advanced": 0,
+  "native_accepted_owners_constructed": 0,
+  "native_reference_equations": 4,
+  "native_scalar_groups": 23,
+  "new_controller_iterations": 0,
+  "newton_target": 1e-13,
+  "parameter_search": false,
+  "production_adoption": false,
+  "protocol_sha256": "b0ca65fc5b0eac9e2f637be1ffd648f3068e538b85a356dc6b98f45624a753a9",
+  "remaining_memory": 1968,
+  "source": "00d7de13b82396836e8f1efad6e3049034f5c2e7",
+  "source_tree": "e6487beb81407818a0280513fd2a1bbbc986d883",
+  "status": "PASS_FIXED_CANDIDATE_PREFLIGHT",
+  "third_solve_executed": false
+}

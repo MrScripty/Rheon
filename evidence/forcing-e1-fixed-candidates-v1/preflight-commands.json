@@ -1,0 +1,140 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "--config",
+        "skip_children=true",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/harness.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/inputs.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/trajectory_inputs.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/fixed_inputs.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/candidate_probe.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/reference_probe.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/candidate.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/reference.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/scalar.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/candidate_helpers.rs",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/reference_helpers.rs"
+      ],
+      "exit": 0,
+      "seconds": 0.24572414699650835,
+      "stderr": "format-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "format.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/prepare.py",
+        "install"
+      ],
+      "exit": 0,
+      "seconds": 0.07225885298976209,
+      "stderr": "install-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "install.log",
+      "stdout_sha256": "656e869c0ebcc9a3876eacf56a40ae0afcc94a571be09b69bc7bf77f68575f54"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--locked",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "exit": 0,
+      "seconds": 26.448591584005044,
+      "stderr": "build-stderr.log",
+      "stderr_sha256": "a249e81e13972f326824064f466b3e56f85de5a8e2f2ecbb096fc346cbf715c4",
+      "stdout": "build.log",
+      "stdout_sha256": "0addd7a1ca526683be34f910ecee4f94556e1bcdb7f24914927cb44431eaa483"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--tests",
+        "--locked",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "seconds": 12.887054858991178,
+      "stderr": "clippy-stderr.log",
+      "stderr_sha256": "04ff8d51965cbcdc1f1ceb36cf75d0adce557a1f5d5ed2534a26dae2889179fb",
+      "stdout": "clippy.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e1-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_scalar_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.004829361991141923,
+      "stderr": "scalar-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "scalar-native.log",
+      "stdout_sha256": "abd4c57666443846367688f0b276b74af859d95663cf3123d24a208703afa9b4"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e1-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_type_layout",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.002995782997459173,
+      "stderr": "type-layout-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "type-layout.log",
+      "stdout_sha256": "bc21171e99540c9a4b09d758053d502666933687a67f488bc5e5e5adda0d3cb8"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e1-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::fixed_capture_reference_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.3523152000125265,
+      "stderr": "reference-fixed-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "reference-fixed-native.log",
+      "stdout_sha256": "95db081f7aad81fe9761d5c250ba3100984f0616ddbd42bce75b7bf87c63e272"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/prepare.py",
+        "restore"
+      ],
+      "exit": 0,
+      "seconds": 0.07142959200427867,
+      "stderr": "restore-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "restore.log",
+      "stdout_sha256": "e4b04955ae181c8e8da8615993cec1ed1bedadc9254bbcefc5bdf1fe8d55c265"
+    }
+  ],
+  "generalization_executed": false,
+  "source": "00d7de13b82396836e8f1efad6e3049034f5c2e7",
+  "source_tree": "e6487beb81407818a0280513fd2a1bbbc986d883"
+}

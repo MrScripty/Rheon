@@ -1,0 +1,30 @@
+{
+  "artifacts": {
+    "README.md": "0b7dfe48f78e473bfb7c42c6f2d2d045df3724dc931f2cfc9b44e0b6a333ef4d",
+    "analyze.py": "212665c505d70a3cd3c61671ba9c5e8085efd0afc23a7b5a2b2baa9a356ae228",
+    "analyze_v2.py": "72b4891433ef09434872e1b64f1ba9800da9d286546d61a4ed7bc21e19a0c4c0",
+    "analyze_v3.py": "863cce1dfd63af8aa3ab5aeffad891a6873a28792b29fc29ce96d46732624806",
+    "inputs.json": "55c99c474f41eb7e8196bb315c032ca4dc85c33e4a6f62db27200b639a0ac33a",
+    "outcome-normal-stderr.log": "81ab47825d3b7a7d53022a442f6f37ec13bb7268cc5a319db2a43655d2d92d6f",
+    "outcome-normal.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outcome-v2-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outcome-v2-normal.json": "2f03fb8294ffcd9df982e9d1e9225860c677930a1f33b02f4171e885a2dac5ce",
+    "outcome-v2-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outcome-v2-optimized.json": "2f03fb8294ffcd9df982e9d1e9225860c677930a1f33b02f4171e885a2dac5ce",
+    "outcome-v3-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outcome-v3-normal.json": "0fe84eb92cb85f5038b3044dff4d413f7fbaa24fed1864f344cf8d7381a254bc",
+    "outcome-v3-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outcome-v3-optimized.json": "0fe84eb92cb85f5038b3044dff4d413f7fbaa24fed1864f344cf8d7381a254bc",
+    "protocol.json": "8f0679cb04e600e0ca0659a561c0c63b9ae8ad9cdfd8b41d7081d0507551e028",
+    "reader-v2-policy.json": "5fc0e4bc903605c5273e6fc702eaf769608d42e159f6efd656bb3287e6d6ce7d",
+    "reader-v3-policy.json": "75a6542105d24d3d50bfac431a9db82d10b6b6109dc37ef40da34ef03e0fe74d"
+  },
+  "corrected_reader_source": "4c747b8002179ba2b39a9c5a978be5fc8fcad947",
+  "new_reference_integrations": 0,
+  "new_trajectory_steps": 0,
+  "original_failed_attempts_preserved": true,
+  "original_source": "00d7de13b82396836e8f1efad6e3049034f5c2e7",
+  "outcome_sha256": "0fe84eb92cb85f5038b3044dff4d413f7fbaa24fed1864f344cf8d7381a254bc",
+  "source_tree": "088f03fc64acaaad6c74e8243bc19a2347bc6d60",
+  "status": "FROZEN_EXISTING_SIGNED_GEOMETRY_DIAGNOSIS"
+}

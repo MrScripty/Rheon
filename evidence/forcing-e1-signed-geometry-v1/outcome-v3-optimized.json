@@ -1,0 +1,4330 @@
+{
+  "coordinate_labels": [
+    "left_cap_x",
+    "left_cap_height",
+    "middle_cap_x",
+    "middle_cap_height"
+  ],
+  "existing_complete_endpoints": 46,
+  "failed_checks": [
+    {
+      "coarse_dominance_amplification": 5.505147874494397,
+      "coarser_h": 0.05,
+      "coarser_index": 15,
+      "dominant_coordinate_switch": true,
+      "dominant_mode_switch": true,
+      "field": "constant",
+      "finer_h": 0.025,
+      "finer_index": 16,
+      "fixed_coordinate_in_original_band": false,
+      "fixed_coordinate_ratio": 0.4775080728704491,
+      "fixed_finer_dominant_coordinate": 0,
+      "kind": "initial",
+      "load": "reversed",
+      "normalized_component_change": [
+        -1.2335522837636503e-05,
+        3.649527211546655e-06,
+        8.384347256473745e-06,
+        -3.649527222648885e-06
+      ],
+      "original_band": [
+        1.7,
+        2.3
+      ],
+      "original_check": true,
+      "ratio": 2.6287525524166684,
+      "ratio_factorization_gap": 0.0,
+      "same_sign_components": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "signed_component_ratios": [
+        0.4775080728704491,
+        2.551230397192102,
+        3.298458191110474,
+        2.55123039997823
+      ],
+      "signed_margin": -0.32875255241666856,
+      "signed_normalized_component_ratios": [
+        0.23875403643522455,
+        1.275615198596051,
+        1.649229095555237,
+        1.275615199989115
+      ],
+      "status": "FAIL_ORIGINAL_BAND"
+    },
+    {
+      "coarse_dominance_amplification": 1.0,
+      "coarser_h": 0.025,
+      "coarser_index": 16,
+      "dominant_coordinate_switch": false,
+      "dominant_mode_switch": false,
+      "field": "constant",
+      "finer_h": 0.0125,
+      "finer_index": 17,
+      "fixed_coordinate_in_original_band": false,
+      "fixed_coordinate_ratio": 1.4451889232076398,
+      "fixed_finer_dominant_coordinate": 0,
+      "kind": "initial",
+      "load": "reversed",
+      "normalized_component_change": [
+        -6.220897673658854e-06,
+        1.7392303686136756e-06,
+        4.214424773607561e-06,
+        -1.7392304041408124e-06
+      ],
+      "original_band": [
+        1.7,
+        2.3
+      ],
+      "original_check": true,
+      "ratio": 1.4451889232076398,
+      "ratio_factorization_gap": 0.0,
+      "same_sign_components": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "signed_component_ratios": [
+        1.4451889232076398,
+        2.3024181615368167,
+        2.968845813007792,
+        2.3024181693489494
+      ],
+      "signed_margin": -0.25481107679236015,
+      "signed_normalized_component_ratios": [
+        0.7225944616038199,
+        1.1512090807684083,
+        1.484422906503896,
+        1.1512090846744747
+      ],
+      "status": "FAIL_ORIGINAL_BAND"
+    },
+    {
+      "coarse_dominance_amplification": 5.505147867311441,
+      "coarser_h": 0.05,
+      "coarser_index": 5,
+      "dominant_coordinate_switch": true,
+      "dominant_mode_switch": true,
+      "field": "nonconstant",
+      "finer_h": 0.025,
+      "finer_index": 6,
+      "fixed_coordinate_in_original_band": false,
+      "fixed_coordinate_ratio": 0.4775080733000236,
+      "fixed_finer_dominant_coordinate": 0,
+      "kind": "initial",
+      "load": "reversed",
+      "normalized_component_change": [
+        -1.2335522844297842e-05,
+        3.6495272026648706e-06,
+        8.384347247591961e-06,
+        -3.6495272004444246e-06
+      ],
+      "original_band": [
+        1.7,
+        2.3
+      ],
+      "original_check": true,
+      "ratio": 2.6287525513516203,
+      "ratio_factorization_gap": 0.0,
+      "same_sign_components": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "signed_component_ratios": [
+        0.4775080733000236,
+        2.5512303951110975,
+        3.298458187948957,
+        2.551230394775718
+      ],
+      "signed_margin": -0.3287525513516205,
+      "signed_normalized_component_ratios": [
+        0.2387540366500118,
+        1.2756151975555488,
+        1.6492290939744785,
+        1.275615197387859
+      ],
+      "status": "FAIL_ORIGINAL_BAND"
+    },
+    {
+      "coarse_dominance_amplification": 1.0,
+      "coarser_h": 0.025,
+      "coarser_index": 6,
+      "dominant_coordinate_switch": false,
+      "dominant_mode_switch": false,
+      "field": "nonconstant",
+      "finer_h": 0.0125,
+      "finer_index": 7,
+      "fixed_coordinate_in_original_band": false,
+      "fixed_coordinate_ratio": 1.4451889226786736,
+      "fixed_finer_dominant_coordinate": 0,
+      "kind": "initial",
+      "load": "reversed",
+      "normalized_component_change": [
+        -6.22089768698153e-06,
+        1.7392303508501072e-06,
+        4.214424755843993e-06,
+        -1.7392303597318914e-06
+      ],
+      "original_band": [
+        1.7,
+        2.3
+      ],
+      "original_check": true,
+      "ratio": 1.4451889226786736,
+      "ratio_factorization_gap": 0.0,
+      "same_sign_components": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "signed_component_ratios": [
+        1.4451889226786736,
+        2.3024181575139893,
+        2.968845804967751,
+        2.3024181592918804
+      ],
+      "signed_margin": -0.25481107732132635,
+      "signed_normalized_component_ratios": [
+        0.7225944613393368,
+        1.1512090787569946,
+        1.4844229024838755,
+        1.1512090796459402
+      ],
+      "status": "FAIL_ORIGINAL_BAND"
+    },
+    {
+      "coarse_dominance_amplification": 3.95603520788345,
+      "coarser_h": 0.05,
+      "coarser_index": 35,
+      "dominant_coordinate_switch": true,
+      "dominant_mode_switch": true,
+      "field": "constant",
+      "finer_h": 0.025,
+      "finer_index": 36,
+      "fixed_coordinate_in_original_band": false,
+      "fixed_coordinate_ratio": 0.6372544844593078,
+      "fixed_finer_dominant_coordinate": 0,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "normalized_component_change": [
+        -1.1582768569828872e-05,
+        3.611155940941302e-06,
+        8.9740465702981e-06,
+        -3.611155952043532e-06
+      ],
+      "original_band": [
+        1.7,
+        2.3
+      ],
+      "original_check": true,
+      "ratio": 2.5210011769026384,
+      "ratio_factorization_gap": 0.0,
+      "same_sign_components": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "signed_component_ratios": [
+        0.6372544844593078,
+        2.531411767742264,
+        3.44121892164585,
+        2.5314117704179053
+      ],
+      "signed_margin": -0.22100117690263854,
+      "signed_normalized_component_ratios": [
+        0.3186272422296539,
+        1.265705883871132,
+        1.720609460822925,
+        1.2657058852089527
+      ],
+      "status": "FAIL_ORIGINAL_BAND"
+    },
+    {
+      "coarse_dominance_amplification": 1.0,
+      "coarser_h": 0.025,
+      "coarser_index": 36,
+      "dominant_coordinate_switch": false,
+      "dominant_mode_switch": false,
+      "field": "constant",
+      "finer_h": 0.0125,
+      "finer_index": 37,
+      "fixed_coordinate_in_original_band": false,
+      "fixed_coordinate_ratio": 1.4886771857807277,
+      "fixed_finer_dominant_coordinate": 0,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "normalized_component_change": [
+        -5.83878187021547e-06,
+        1.7194499069006497e-06,
+        4.538279210208884e-06,
+        -1.7194499513095707e-06
+      ],
+      "original_band": [
+        1.7,
+        2.3
+      ],
+      "original_check": true,
+      "ratio": 1.4886771857807277,
+      "ratio_factorization_gap": 0.0,
+      "same_sign_components": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "signed_component_ratios": [
+        1.4886771857807277,
+        2.289680561605296,
+        3.146734812959728,
+        2.289680570820834
+      ],
+      "signed_margin": -0.21132281421927224,
+      "signed_normalized_component_ratios": [
+        0.7443385928903639,
+        1.144840280802648,
+        1.573367406479864,
+        1.144840285410417
+      ],
+      "status": "FAIL_ORIGINAL_BAND"
+    },
+    {
+      "coarse_dominance_amplification": 3.956035500065592,
+      "coarser_h": 0.05,
+      "coarser_index": 25,
+      "dominant_coordinate_switch": true,
+      "dominant_mode_switch": true,
+      "field": "nonconstant",
+      "finer_h": 0.025,
+      "finer_index": 26,
+      "fixed_coordinate_in_original_band": false,
+      "fixed_coordinate_ratio": 0.6372543944213753,
+      "fixed_finer_dominant_coordinate": 0,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "normalized_component_change": [
+        -1.158276646012757e-05,
+        3.6111556944717904e-06,
+        8.974053333776766e-06,
+        -3.6111556900308983e-06
+      ],
+      "original_band": [
+        1.7,
+        2.3
+      ],
+      "original_check": true,
+      "ratio": 2.5210010069037616,
+      "ratio_factorization_gap": 0.0,
+      "same_sign_components": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "signed_component_ratios": [
+        0.6372543944213753,
+        2.5314117121978876,
+        3.4412215733127045,
+        2.531411711370731
+      ],
+      "signed_margin": -0.2210010069037618,
+      "signed_normalized_component_ratios": [
+        0.31862719721068766,
+        1.2657058560989438,
+        1.7206107866563523,
+        1.2657058556853655
+      ],
+      "status": "FAIL_ORIGINAL_BAND"
+    },
+    {
+      "coarse_dominance_amplification": 1.0,
+      "coarser_h": 0.025,
+      "coarser_index": 26,
+      "dominant_coordinate_switch": false,
+      "dominant_mode_switch": false,
+      "field": "nonconstant",
+      "finer_h": 0.0125,
+      "finer_index": 27,
+      "fixed_coordinate_in_original_band": false,
+      "fixed_coordinate_ratio": 1.488677366350941,
+      "fixed_finer_dominant_coordinate": 0,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "normalized_component_change": [
+        -5.838777650812865e-06,
+        1.7194494139616268e-06,
+        4.538292737166216e-06,
+        -1.719449427284303e-06
+      ],
+      "original_band": [
+        1.7,
+        2.3
+      ],
+      "original_check": true,
+      "ratio": 1.488677366350941,
+      "ratio_factorization_gap": 0.0,
+      "same_sign_components": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "signed_component_ratios": [
+        1.488677366350941,
+        2.2896804545014313,
+        3.1467421505218183,
+        2.28968045696267
+      ],
+      "signed_margin": -0.211322633649059,
+      "signed_normalized_component_ratios": [
+        0.7443386831754705,
+        1.1448402272507157,
+        1.5733710752609091,
+        1.144840228481335
+      ],
+      "status": "FAIL_ORIGINAL_BAND"
+    }
+  ],
+  "failed_checks_fixed_finer_coordinate_in_band": 0,
+  "failed_checks_with_dominant_mode_switch": 4,
+  "failed_checks_without_mode_switch": 4,
+  "families": [
+    {
+      "checks": [
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.05,
+          "coarser_index": 10,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.025,
+          "finer_index": 11,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.1543851131141802,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            -1.7041112132520908e-08,
+            -5.82687153638517e-06,
+            -1.831410458397187e-05,
+            5.82687153638517e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.1543851131141802,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "signed_component_ratios": [
+            2.0032579550231135,
+            2.1543851131141802,
+            -1.4447674031329663,
+            2.1543851131141802
+          ],
+          "signed_margin": 0.14561488688581958,
+          "signed_normalized_component_ratios": [
+            1.0016289775115568,
+            1.0771925565570901,
+            -0.7223837015664831,
+            1.0771925565570901
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.025,
+          "coarser_index": 11,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0125,
+          "finer_index": 12,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.0802429461830516,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            1.0317539100856976e-07,
+            -2.911741567857007e-06,
+            -9.203125221901587e-06,
+            2.911741567857007e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.0802429461830516,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9804673590436384,
+            2.0802429461830516,
+            1.072084343780692,
+            2.0802429461830516
+          ],
+          "signed_margin": 0.2197570538169482,
+          "signed_normalized_component_ratios": [
+            0.9902336795218192,
+            1.0401214730915258,
+            0.536042171890346,
+            1.0401214730915258
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0125,
+          "coarser_index": 12,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00625,
+          "finer_index": 13,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.04092881757552,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            8.069208745631329e-08,
+            -1.4553829963404041e-06,
+            -4.613223811844591e-06,
+            1.4553829963404041e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.04092881757552,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9848395807906232,
+            2.04092881757552,
+            1.6226301199667796,
+            2.04092881757552
+          ],
+          "signed_margin": 0.25907118242448,
+          "signed_normalized_component_ratios": [
+            0.9924197903953116,
+            1.02046440878776,
+            0.8113150599833898,
+            1.02046440878776
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.00625,
+          "coarser_index": 13,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.003125,
+          "finer_index": 14,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.0206721779137795,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            4.7772363842568666e-08,
+            -7.275594171574085e-07,
+            -2.309542299627765e-06,
+            7.275594171574085e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.0206721779137795,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9910646338454632,
+            2.0206721779137795,
+            1.8273813113750592,
+            2.0206721779137795
+          ],
+          "signed_margin": 0.2793278220862203,
+          "signed_normalized_component_ratios": [
+            0.9955323169227316,
+            1.0103360889568898,
+            0.9136906556875296,
+            1.0103360889568898
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        }
+      ],
+      "errors": [
+        {
+          "accepted_steps": 2,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.10008866168394252,
+            1.000092162796277,
+            0.6249362851424483,
+            1.249907837203723
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-37751958527/3602879701896397",
+            "-292956490304/3602879701896397",
+            "-27674098544/3602879701896397",
+            "292956490304/3602879701896397"
+          ],
+          "expected_steps": 2,
+          "geometry_max_error": 4.065588009360965e-06,
+          "h": 0.05,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 10,
+          "normalized_max_error": 8.13117601872193e-05,
+          "paired_reference_difference_over_h": [
+            -1.1102230246251565e-15,
+            2.6645352591003757e-14,
+            -1.3322676295501878e-14,
+            -2.6645352591003757e-14
+          ],
+          "signed_error_components": [
+            -5.239136697671176e-07,
+            -4.065588009360965e-06,
+            -3.84055267366179e-07,
+            4.065588009360965e-06
+          ],
+          "signed_error_over_h": [
+            -1.0478273395342352e-05,
+            -8.13117601872193e-05,
+            -7.68110534732358e-06,
+            8.13117601872193e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 4,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.10008892406680521,
+            1.0000943412620702,
+            0.6249369350226965,
+            1.2499056587379298
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-37690561450/3602879701896397",
+            "-271962973120/3602879701896397",
+            "2946878240/277144592453569",
+            "271962973120/3602879701896397"
+          ],
+          "expected_steps": 4,
+          "geometry_max_error": 1.8871222162708534e-06,
+          "h": 0.025,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 11,
+          "normalized_max_error": 7.548488865083414e-05,
+          "paired_reference_difference_over_h": [
+            -2.220446049250313e-15,
+            5.3290705182007514e-14,
+            -2.6645352591003757e-14,
+            -5.3290705182007514e-14
+          ],
+          "signed_error_components": [
+            -2.615308070802458e-07,
+            -1.8871222162708534e-06,
+            2.658249809162072e-07,
+            1.8871222162708534e-06
+          ],
+          "signed_error_over_h": [
+            -1.0461232283209831e-05,
+            -7.548488865083414e-05,
+            1.0632999236648288e-05,
+            7.548488865083414e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 8,
+          "actual_clock": 0.09999999999999999,
+          "actual_coordinates": [
+            0.10008905354251636,
+            1.000095321219948,
+            0.6249369171492714,
+            1.249904678780052
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-38062289972/3602879701896397",
+            "-261472318528/3602879701896397",
+            "71467170176/3602879701896397",
+            "261472318528/3602879701896397"
+          ],
+          "expected_steps": 8,
+          "geometry_max_error": 9.071643385372141e-07,
+          "h": 0.0125,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 12,
+          "normalized_max_error": 7.257314708297713e-05,
+          "paired_reference_difference_over_h": [
+            -4.440892098500626e-15,
+            1.0658141036401503e-13,
+            -5.3290705182007514e-14,
+            -1.0658141036401503e-13
+          ],
+          "signed_error_components": [
+            -1.3205509592773002e-07,
+            -9.071643385372141e-07,
+            2.4795155573187344e-07,
+            9.071643385372141e-07
+          ],
+          "signed_error_over_h": [
+            -1.0564407674218401e-05,
+            -7.257314708297713e-05,
+            1.9836124458549875e-05,
+            7.257314708297713e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 16,
+          "actual_clock": 0.10000000000000002,
+          "actual_coordinates": [
+            0.10008911906573878,
+            1.000095783898261,
+            0.6249368220061423,
+            1.249904216101739
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-38353013856/3602879701896397",
+            "-19709903744/277144592453569",
+            "88088060608/3602879701896397",
+            "19709903744/277144592453569"
+          ],
+          "expected_steps": 16,
+          "geometry_max_error": 4.4448602554147953e-07,
+          "h": 0.00625,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 13,
+          "normalized_max_error": 7.111776408663673e-05,
+          "paired_reference_difference_over_h": [
+            -8.881784197001252e-15,
+            2.1316282072803006e-13,
+            -1.0658141036401503e-13,
+            -2.1316282072803006e-13
+          ],
+          "signed_error_components": [
+            -6.653187351046697e-08,
+            -4.4448602554147953e-07,
+            1.5280842668996542e-07,
+            4.4448602554147953e-07
+          ],
+          "signed_error_over_h": [
+            -1.0645099761674715e-05,
+            -7.111776408663673e-05,
+            2.4449348270394466e-05,
+            7.111776408663673e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 32,
+          "actual_clock": 0.10000000000000005,
+          "actual_coordinates": [
+            0.1000891521823869,
+            1.0000960084148969,
+            0.6249367528192487,
+            1.2499039915851031
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-38525131936/3602879701896397",
+            "-253607439616/3602879701896397",
+            "96409063680/3602879701896397",
+            "253607439616/3602879701896397"
+          ],
+          "expected_steps": 32,
+          "geometry_max_error": 2.1996938959212287e-07,
+          "h": 0.003125,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 14,
+          "normalized_max_error": 7.039020466947932e-05,
+          "paired_reference_difference_over_h": [
+            -1.7763568394002505e-14,
+            4.263256414560601e-13,
+            -2.1316282072803006e-13,
+            -4.263256414560601e-13
+          ],
+          "signed_error_components": [
+            -3.341522539224151e-08,
+            -2.1996938959212287e-07,
+            8.362153303131947e-08,
+            2.1996938959212287e-07
+          ],
+          "signed_error_over_h": [
+            -1.0692872125517283e-05,
+            -7.039020466947932e-05,
+            2.675889057002223e-05,
+            7.039020466947932e-05
+          ],
+          "status": "COMPLETE"
+        }
+      ],
+      "existing_reference_resolution_status": "PASS",
+      "existing_tight_reference_max_step": 0.003125,
+      "existing_tight_reference_rtol": 2e-12,
+      "field": "constant",
+      "kind": "initial",
+      "load": "forward",
+      "paired_reference_geometry_difference": [
+        -5.551115123125783e-17,
+        1.3322676295501878e-15,
+        -6.661338147750939e-16,
+        -1.3322676295501878e-15
+      ]
+    },
+    {
+      "checks": [
+        {
+          "coarse_dominance_amplification": 5.505147874494397,
+          "coarser_h": 0.05,
+          "coarser_index": 15,
+          "dominant_coordinate_switch": true,
+          "dominant_mode_switch": true,
+          "finer_h": 0.025,
+          "finer_index": 16,
+          "fixed_coordinate_in_original_band": false,
+          "fixed_coordinate_ratio": 0.4775080728704491,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -1.2335522837636503e-05,
+            3.649527211546655e-06,
+            8.384347256473745e-06,
+            -3.649527222648885e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.6287525524166684,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            0.4775080728704491,
+            2.551230397192102,
+            3.298458191110474,
+            2.55123039997823
+          ],
+          "signed_margin": -0.32875255241666856,
+          "signed_normalized_component_ratios": [
+            0.23875403643522455,
+            1.275615198596051,
+            1.649229095555237,
+            1.275615199989115
+          ],
+          "status": "FAIL_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.025,
+          "coarser_index": 16,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0125,
+          "finer_index": 17,
+          "fixed_coordinate_in_original_band": false,
+          "fixed_coordinate_ratio": 1.4451889232076398,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -6.220897673658854e-06,
+            1.7392303686136756e-06,
+            4.214424773607561e-06,
+            -1.7392304041408124e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.4451889232076398,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.4451889232076398,
+            2.3024181615368167,
+            2.968845813007792,
+            2.3024181693489494
+          ],
+          "signed_margin": -0.25481107679236015,
+          "signed_normalized_component_ratios": [
+            0.7225944616038199,
+            1.1512090807684083,
+            1.484422906503896,
+            1.1512090846744747
+          ],
+          "status": "FAIL_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0125,
+          "coarser_index": 17,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00625,
+          "finer_index": 18,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.755377481703129,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -3.125099433676226e-06,
+            8.475382262673747e-07,
+            2.1121650828348493e-06,
+            -8.475382884398641e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.755377481703129,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.755377481703129,
+            2.1590931330458716,
+            2.641242893757512,
+            2.159093146573097
+          ],
+          "signed_margin": 0.05537748170312895,
+          "signed_normalized_component_ratios": [
+            0.8776887408515645,
+            1.0795465665229358,
+            1.320621446878756,
+            1.0795465732865486
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.00625,
+          "coarser_index": 18,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.003125,
+          "finer_index": 19,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.8845022905735482,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -1.5659363472586563e-06,
+            4.1840015896355e-07,
+            1.0575593201167521e-06,
+            -4.1840028330852874e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.8845022905735482,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.8845022905735482,
+            2.081748980496755,
+            2.382469488742701,
+            2.0817490067779594
+          ],
+          "signed_margin": 0.18450229057354828,
+          "signed_normalized_component_ratios": [
+            0.9422511452867741,
+            1.0408744902483775,
+            1.1912347443713505,
+            1.0408745033889797
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        }
+      ],
+      "errors": [
+        {
+          "accepted_steps": 2,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09941187675439268,
+            0.9998750012986222,
+            0.6243627122896755,
+            1.2501249987013778
+          ],
+          "dominant_coordinate": 2,
+          "dominant_label": "middle_cap_x",
+          "dominant_mode": "middle_cap_x",
+          "exact_error_over_h": [
+            "13939045732/3602879701896397",
+            "60855928088/3602879701896397",
+            "76736507984/3602879701896397",
+            "-60855928032/3602879701896397"
+          ],
+          "expected_steps": 2,
+          "geometry_max_error": 1.064932974914612e-06,
+          "h": 0.05,
+          "height_pair_signed_error_sum": 7.771561172376096e-16,
+          "index": 15,
+          "normalized_max_error": 2.129865949829224e-05,
+          "paired_reference_difference_over_h": [
+            -1.1018963519404679e-13,
+            -5.10702591327572e-14,
+            -9.103828801926284e-14,
+            5.773159728050814e-14
+          ],
+          "signed_error_components": [
+            1.9344311891211774e-07,
+            8.445456568528797e-07,
+            1.064932974914612e-06,
+            -8.445456560757236e-07
+          ],
+          "signed_error_over_h": [
+            3.868862378242355e-06,
+            1.6890913137057595e-05,
+            2.129865949829224e-05,
+            -1.6890913121514473e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 4,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09941208842090417,
+            0.9998744877876135,
+            0.6243619702145067,
+            1.2501255122123864
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "58382450576/3602879701896397",
+            "47707120576/3602879701896397",
+            "46528713440/3602879701896397",
+            "-47707120480/3602879701896397"
+          ],
+          "expected_steps": 4,
+          "geometry_max_error": 4.0510963039697145e-07,
+          "h": 0.025,
+          "height_pair_signed_error_sum": 6.661338147750939e-16,
+          "index": 16,
+          "normalized_max_error": 1.6204385215878858e-05,
+          "paired_reference_difference_over_h": [
+            -2.2037927038809357e-13,
+            -1.021405182655144e-13,
+            -1.8207657603852567e-13,
+            1.1546319456101628e-13
+          ],
+          "signed_error_components": [
+            4.0510963039697145e-07,
+            3.310346481377735e-07,
+            3.228578060454623e-07,
+            -3.310346474716397e-07
+          ],
+          "signed_error_over_h": [
+            1.6204385215878858e-05,
+            1.324138592551094e-05,
+            1.2914312241818493e-05,
+            -1.3241385898865587e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 8,
+          "actual_clock": 0.09999999999999999,
+          "actual_coordinates": [
+            0.09941196362730989,
+            0.9998743005299098,
+            0.624361756105294,
+            1.2501256994700902
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "80795596532/3602879701896397",
+            "41440882784/3602879701896397",
+            "31344647968/3602879701896397",
+            "-41440882560/3602879701896397"
+          ],
+          "expected_steps": 8,
+          "geometry_max_error": 2.803160361192214e-07,
+          "h": 0.0125,
+          "height_pair_signed_error_sum": 7.771561172376096e-16,
+          "index": 17,
+          "normalized_max_error": 2.2425282889537712e-05,
+          "paired_reference_difference_over_h": [
+            -4.4075854077618715e-13,
+            -2.042810365310288e-13,
+            -3.6415315207705135e-13,
+            2.3092638912203256e-13
+          ],
+          "signed_error_components": [
+            2.803160361192214e-07,
+            1.437769444612158e-07,
+            1.0874859335263665e-07,
+            -1.437769436840597e-07
+          ],
+          "signed_error_over_h": [
+            2.2425282889537712e-05,
+            1.1502155556897264e-05,
+            8.699887468210932e-06,
+            -1.1502155494724775e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 16,
+          "actual_clock": 0.10000000000000002,
+          "actual_coordinates": [
+            0.09941184300116329,
+            0.9998742233443236,
+            0.6243616885299655,
+            1.2501257766556764
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "7081150296/277144592453569",
+            "38387304512/3602879701896397",
+            "23734771264/3602879701896397",
+            "-38387304064/3602879701896397"
+          ],
+          "expected_steps": 16,
+          "geometry_max_error": 1.5968988952008711e-07,
+          "h": 0.00625,
+          "height_pair_signed_error_sum": 7.771561172376096e-16,
+          "index": 18,
+          "normalized_max_error": 2.5550382323213938e-05,
+          "paired_reference_difference_over_h": [
+            -8.815170815523743e-13,
+            -4.085620730620576e-13,
+            -7.283063041541027e-13,
+            4.618527782440651e-13
+          ],
+          "signed_error_components": [
+            1.5968988952008711e-07,
+            6.659135831643681e-08,
+            4.1173264908600515e-08,
+            -6.659135753928069e-08
+          ],
+          "signed_error_over_h": [
+            2.5550382323213938e-05,
+            1.065461733062989e-05,
+            6.5877223853760825e-06,
+            -1.0654617206284911e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 32,
+          "actual_clock": 0.10000000000000005,
+          "actual_coordinates": [
+            0.09941176804976962,
+            0.999874188741144,
+            0.6243616646384602,
+            1.250125811258856
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "97696834128/3602879701896397",
+            "36879859072/3602879701896397",
+            "19924512256/3602879701896397",
+            "-36879858176/3602879701896397"
+          ],
+          "expected_steps": 32,
+          "geometry_max_error": 8.473849584522686e-08,
+          "h": 0.003125,
+          "height_pair_signed_error_sum": 7.771561172376096e-16,
+          "index": 19,
+          "normalized_max_error": 2.7116318670472594e-05,
+          "paired_reference_difference_over_h": [
+            -1.7630341631047486e-12,
+            -8.171241461241152e-13,
+            -1.4566126083082054e-12,
+            9.237055564881302e-13
+          ],
+          "signed_error_components": [
+            8.473849584522686e-08,
+            3.198817866145731e-08,
+            1.7281759578935407e-08,
+            -3.1988177884301194e-08
+          ],
+          "signed_error_over_h": [
+            2.7116318670472594e-05,
+            1.023621717166634e-05,
+            5.53016306525933e-06,
+            -1.0236216922976382e-05
+          ],
+          "status": "COMPLETE"
+        }
+      ],
+      "existing_reference_resolution_status": "PASS",
+      "existing_tight_reference_max_step": 0.003125,
+      "existing_tight_reference_rtol": 2e-12,
+      "field": "constant",
+      "kind": "initial",
+      "load": "reversed",
+      "paired_reference_geometry_difference": [
+        -5.509481759702339e-15,
+        -2.55351295663786e-15,
+        -4.551914400963142e-15,
+        2.886579864025407e-15
+      ]
+    },
+    {
+      "checks": [
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.05,
+          "coarser_index": 0,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.025,
+          "finer_index": 1,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.1543851131141802,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            -1.7041112132520908e-08,
+            -5.82687153638517e-06,
+            -1.831410458397187e-05,
+            5.82687153638517e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.1543851131141802,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "signed_component_ratios": [
+            2.0032579550231135,
+            2.1543851131141802,
+            -1.4447674031329663,
+            2.1543851131141802
+          ],
+          "signed_margin": 0.14561488688581958,
+          "signed_normalized_component_ratios": [
+            1.0016289775115568,
+            1.0771925565570901,
+            -0.7223837015664831,
+            1.0771925565570901
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.025,
+          "coarser_index": 1,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0125,
+          "finer_index": 2,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.0802429461830516,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            1.0317539100856976e-07,
+            -2.911741567857007e-06,
+            -9.203125221901587e-06,
+            2.911741567857007e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.0802429461830516,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9804673590436384,
+            2.0802429461830516,
+            1.072084343780692,
+            2.0802429461830516
+          ],
+          "signed_margin": 0.2197570538169482,
+          "signed_normalized_component_ratios": [
+            0.9902336795218192,
+            1.0401214730915258,
+            0.536042171890346,
+            1.0401214730915258
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0125,
+          "coarser_index": 2,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00625,
+          "finer_index": 3,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.04092881757552,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            8.069208745631329e-08,
+            -1.4553829963404041e-06,
+            -4.613223811844591e-06,
+            1.4553829963404041e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.04092881757552,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9848395807906232,
+            2.04092881757552,
+            1.6226301199667796,
+            2.04092881757552
+          ],
+          "signed_margin": 0.25907118242448,
+          "signed_normalized_component_ratios": [
+            0.9924197903953116,
+            1.02046440878776,
+            0.8113150599833898,
+            1.02046440878776
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.00625,
+          "coarser_index": 3,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.003125,
+          "finer_index": 4,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.0206721779137795,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            4.7772363842568666e-08,
+            -7.275594171574085e-07,
+            -2.309542299627765e-06,
+            7.275594171574085e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.0206721779137795,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9910646338454632,
+            2.0206721779137795,
+            1.8273813113750592,
+            2.0206721779137795
+          ],
+          "signed_margin": 0.2793278220862203,
+          "signed_normalized_component_ratios": [
+            0.9955323169227316,
+            1.0103360889568898,
+            0.9136906556875296,
+            1.0103360889568898
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.003125,
+          "coarser_index": 4,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0015625,
+          "finer_index": 40,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.010388818440392,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            2.576158841804954e-08,
+            -3.637460821437344e-07,
+            -1.1555049184153177e-06,
+            3.637460821437344e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": false,
+          "ratio": 2.010388818440392,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9951931208574547,
+            2.010388818440392,
+            1.9172108227173366,
+            2.010388818440392
+          ],
+          "signed_margin": 0.28961118155960763,
+          "signed_normalized_component_ratios": [
+            0.9975965604287274,
+            1.005194409220196,
+            0.9586054113586683,
+            1.005194409220196
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarser_h": 0.0015625,
+          "coarser_index": 40,
+          "finer_h": 0.00078125,
+          "finer_index": 41,
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": false,
+          "status": "INCOMPLETE_NO_ENDPOINT"
+        }
+      ],
+      "errors": [
+        {
+          "accepted_steps": 2,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.10008866168394252,
+            1.000092162796277,
+            0.6249362851424483,
+            1.249907837203723
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-37751958527/3602879701896397",
+            "-292956490304/3602879701896397",
+            "-27674098544/3602879701896397",
+            "292956490304/3602879701896397"
+          ],
+          "expected_steps": 2,
+          "geometry_max_error": 4.065588009360965e-06,
+          "h": 0.05,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 0,
+          "normalized_max_error": 8.13117601872193e-05,
+          "paired_reference_difference_over_h": [
+            -1.1102230246251565e-15,
+            2.6645352591003757e-14,
+            -1.3322676295501878e-14,
+            -2.6645352591003757e-14
+          ],
+          "signed_error_components": [
+            -5.239136697671176e-07,
+            -4.065588009360965e-06,
+            -3.84055267366179e-07,
+            4.065588009360965e-06
+          ],
+          "signed_error_over_h": [
+            -1.0478273395342352e-05,
+            -8.13117601872193e-05,
+            -7.68110534732358e-06,
+            8.13117601872193e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 4,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.10008892406680521,
+            1.0000943412620702,
+            0.6249369350226965,
+            1.2499056587379298
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-37690561450/3602879701896397",
+            "-271962973120/3602879701896397",
+            "2946878240/277144592453569",
+            "271962973120/3602879701896397"
+          ],
+          "expected_steps": 4,
+          "geometry_max_error": 1.8871222162708534e-06,
+          "h": 0.025,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 1,
+          "normalized_max_error": 7.548488865083414e-05,
+          "paired_reference_difference_over_h": [
+            -2.220446049250313e-15,
+            5.3290705182007514e-14,
+            -2.6645352591003757e-14,
+            -5.3290705182007514e-14
+          ],
+          "signed_error_components": [
+            -2.615308070802458e-07,
+            -1.8871222162708534e-06,
+            2.658249809162072e-07,
+            1.8871222162708534e-06
+          ],
+          "signed_error_over_h": [
+            -1.0461232283209831e-05,
+            -7.548488865083414e-05,
+            1.0632999236648288e-05,
+            7.548488865083414e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 8,
+          "actual_clock": 0.09999999999999999,
+          "actual_coordinates": [
+            0.10008905354251636,
+            1.000095321219948,
+            0.6249369171492714,
+            1.249904678780052
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-38062289972/3602879701896397",
+            "-261472318528/3602879701896397",
+            "71467170176/3602879701896397",
+            "261472318528/3602879701896397"
+          ],
+          "expected_steps": 8,
+          "geometry_max_error": 9.071643385372141e-07,
+          "h": 0.0125,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 2,
+          "normalized_max_error": 7.257314708297713e-05,
+          "paired_reference_difference_over_h": [
+            -4.440892098500626e-15,
+            1.0658141036401503e-13,
+            -5.3290705182007514e-14,
+            -1.0658141036401503e-13
+          ],
+          "signed_error_components": [
+            -1.3205509592773002e-07,
+            -9.071643385372141e-07,
+            2.4795155573187344e-07,
+            9.071643385372141e-07
+          ],
+          "signed_error_over_h": [
+            -1.0564407674218401e-05,
+            -7.257314708297713e-05,
+            1.9836124458549875e-05,
+            7.257314708297713e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 16,
+          "actual_clock": 0.10000000000000002,
+          "actual_coordinates": [
+            0.10008911906573878,
+            1.000095783898261,
+            0.6249368220061423,
+            1.249904216101739
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-38353013856/3602879701896397",
+            "-19709903744/277144592453569",
+            "88088060608/3602879701896397",
+            "19709903744/277144592453569"
+          ],
+          "expected_steps": 16,
+          "geometry_max_error": 4.4448602554147953e-07,
+          "h": 0.00625,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 3,
+          "normalized_max_error": 7.111776408663673e-05,
+          "paired_reference_difference_over_h": [
+            -8.881784197001252e-15,
+            2.1316282072803006e-13,
+            -1.0658141036401503e-13,
+            -2.1316282072803006e-13
+          ],
+          "signed_error_components": [
+            -6.653187351046697e-08,
+            -4.4448602554147953e-07,
+            1.5280842668996542e-07,
+            4.4448602554147953e-07
+          ],
+          "signed_error_over_h": [
+            -1.0645099761674715e-05,
+            -7.111776408663673e-05,
+            2.4449348270394466e-05,
+            7.111776408663673e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 32,
+          "actual_clock": 0.10000000000000005,
+          "actual_coordinates": [
+            0.1000891521823869,
+            1.0000960084148969,
+            0.6249367528192487,
+            1.2499039915851031
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-38525131936/3602879701896397",
+            "-253607439616/3602879701896397",
+            "96409063680/3602879701896397",
+            "253607439616/3602879701896397"
+          ],
+          "expected_steps": 32,
+          "geometry_max_error": 2.1996938959212287e-07,
+          "h": 0.003125,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 4,
+          "normalized_max_error": 7.039020466947932e-05,
+          "paired_reference_difference_over_h": [
+            -1.7763568394002505e-14,
+            4.263256414560601e-13,
+            -2.1316282072803006e-13,
+            -4.263256414560601e-13
+          ],
+          "signed_error_components": [
+            -3.341522539224151e-08,
+            -2.1996938959212287e-07,
+            8.362153303131947e-08,
+            2.1996938959212287e-07
+          ],
+          "signed_error_over_h": [
+            -1.0692872125517283e-05,
+            -7.039020466947932e-05,
+            2.675889057002223e-05,
+            7.039020466947932e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 64,
+          "actual_clock": 0.0999999999999999,
+          "actual_coordinates": [
+            0.10008916884974711,
+            1.000096118967945,
+            0.6249367128139586,
+            1.249903881032055
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-1043728320/97375127078281",
+            "-252296906240/3602879701896397",
+            "2718167808/97375127078281",
+            "252296906240/3602879701896397"
+          ],
+          "expected_steps": 64,
+          "geometry_max_error": 1.0941634154271185e-07,
+          "h": 0.0015625,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 40,
+          "normalized_max_error": 7.002645858733558e-05,
+          "paired_reference_difference_over_h": [
+            -3.552713678800501e-14,
+            8.526512829121202e-13,
+            -4.263256414560601e-13,
+            -8.526512829121202e-13
+          ],
+          "signed_error_components": [
+            -1.6747865178023957e-08,
+            -1.0941634154271185e-07,
+            4.361624295068367e-08,
+            1.0941634154271185e-07
+          ],
+          "signed_error_over_h": [
+            -1.0718633713935333e-05,
+            -7.002645858733558e-05,
+            2.791439548843755e-05,
+            7.002645858733558e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 1,
+          "endpoint_missing": true,
+          "expected_steps": 128,
+          "h": 0.00078125,
+          "index": 41,
+          "retained_partial_clock": 0.00078125,
+          "status": "REFUSED"
+        }
+      ],
+      "existing_reference_resolution_status": "PASS",
+      "existing_tight_reference_max_step": 0.003125,
+      "existing_tight_reference_rtol": 2e-12,
+      "field": "nonconstant",
+      "kind": "initial",
+      "load": "forward",
+      "paired_reference_geometry_difference": [
+        -5.551115123125783e-17,
+        1.3322676295501878e-15,
+        -6.661338147750939e-16,
+        -1.3322676295501878e-15
+      ]
+    },
+    {
+      "checks": [
+        {
+          "coarse_dominance_amplification": 5.505147867311441,
+          "coarser_h": 0.05,
+          "coarser_index": 5,
+          "dominant_coordinate_switch": true,
+          "dominant_mode_switch": true,
+          "finer_h": 0.025,
+          "finer_index": 6,
+          "fixed_coordinate_in_original_band": false,
+          "fixed_coordinate_ratio": 0.4775080733000236,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -1.2335522844297842e-05,
+            3.6495272026648706e-06,
+            8.384347247591961e-06,
+            -3.6495272004444246e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.6287525513516203,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            0.4775080733000236,
+            2.5512303951110975,
+            3.298458187948957,
+            2.551230394775718
+          ],
+          "signed_margin": -0.3287525513516205,
+          "signed_normalized_component_ratios": [
+            0.2387540366500118,
+            1.2756151975555488,
+            1.6492290939744785,
+            1.275615197387859
+          ],
+          "status": "FAIL_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.025,
+          "coarser_index": 6,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0125,
+          "finer_index": 7,
+          "fixed_coordinate_in_original_band": false,
+          "fixed_coordinate_ratio": 1.4451889226786736,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -6.22089768698153e-06,
+            1.7392303508501072e-06,
+            4.214424755843993e-06,
+            -1.7392303597318914e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.4451889226786736,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.4451889226786736,
+            2.3024181575139893,
+            2.968845804967751,
+            2.3024181592918804
+          ],
+          "signed_margin": -0.25481107732132635,
+          "signed_normalized_component_ratios": [
+            0.7225944613393368,
+            1.1512090787569946,
+            1.4844229024838755,
+            1.1512090796459402
+          ],
+          "status": "FAIL_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0125,
+          "coarser_index": 7,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00625,
+          "finer_index": 8,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.75537748012763,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -3.1250994603215787e-06,
+            8.47538190740238e-07,
+            2.1121650473077125e-06,
+            -8.475381996220221e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.75537748012763,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.75537748012763,
+            2.1590931253160286,
+            2.6412428760552906,
+            2.159093127248489
+          ],
+          "signed_margin": 0.05537748012763011,
+          "signed_normalized_component_ratios": [
+            0.877688740063815,
+            1.0795465626580143,
+            1.3206214380276453,
+            1.0795465636242445
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.00625,
+          "coarser_index": 8,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.003125,
+          "finer_index": 9,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.8845022870969885,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -1.5659364005493615e-06,
+            4.184000879092764e-07,
+            1.0575592490624786e-06,
+            -4.184001056728448e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.8845022870969885,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.8845022870969885,
+            2.0817489654789245,
+            2.382469453217397,
+            2.081748969233382
+          ],
+          "signed_margin": 0.18450228709698857,
+          "signed_normalized_component_ratios": [
+            0.9422511435484943,
+            1.0408744827394623,
+            1.1912347266086984,
+            1.040874484616691
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.003125,
+          "coarser_index": 9,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0015625,
+          "finer_index": 42,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.9438044685606797,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -7.83934788195495e-07,
+            2.077955585377822e-07,
+            5.290762317144981e-07,
+            -2.07795594064919e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": false,
+          "ratio": 1.9438044685606797,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9438044685606797,
+            2.0414413281789363,
+            2.211584495246806,
+            2.04144133555785
+          ],
+          "signed_margin": 0.24380446856067972,
+          "signed_normalized_component_ratios": [
+            0.9719022342803398,
+            1.0207206640894682,
+            1.105792247623403,
+            1.020720667778925
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0015625,
+          "coarser_index": 42,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00078125,
+          "finer_index": 43,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.9722758914186573,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -3.921914082383182e-07,
+            1.0355570623232779e-07,
+            2.6462558366802114e-07,
+            -1.0355563517805422e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": false,
+          "ratio": 1.9722758914186573,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9722758914186573,
+            2.0208679302513533,
+            2.1117397828327276,
+            2.0208679159329184
+          ],
+          "signed_margin": 0.2722758914186574,
+          "signed_normalized_component_ratios": [
+            0.9861379457093287,
+            1.0104339651256766,
+            1.0558698914163638,
+            1.0104339579664592
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        }
+      ],
+      "errors": [
+        {
+          "accepted_steps": 2,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09941187675439268,
+            0.9998750012986222,
+            0.6243627122896755,
+            1.2501249987013778
+          ],
+          "dominant_coordinate": 2,
+          "dominant_label": "middle_cap_x",
+          "dominant_mode": "middle_cap_x",
+          "exact_error_over_h": [
+            "13939045756/3602879701896397",
+            "4681225240/277144592453569",
+            "76736508016/3602879701896397",
+            "-60855928112/3602879701896397"
+          ],
+          "expected_steps": 2,
+          "geometry_max_error": 1.0649329753587011e-06,
+          "h": 0.05,
+          "height_pair_signed_error_sum": 1.1102230246251565e-16,
+          "index": 5,
+          "normalized_max_error": 2.1298659507174023e-05,
+          "paired_reference_difference_over_h": [
+            -1.0297318553398327e-13,
+            -2.6645352591003757e-14,
+            -8.881784197001252e-14,
+            1.7763568394002505e-14
+          ],
+          "signed_error_components": [
+            1.9344311924518465e-07,
+            8.44545657296969e-07,
+            1.0649329753587011e-06,
+            -8.445456571859467e-07
+          ],
+          "signed_error_over_h": [
+            3.868862384903693e-06,
+            1.689091314593938e-05,
+            2.1298659507174023e-05,
+            -1.6890913143718933e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 4,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09941208842090417,
+            0.9998744877876135,
+            0.6243619702145067,
+            1.2501255122123864
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "58382450624/3602879701896397",
+            "47707120640/3602879701896397",
+            "3579131808/277144592453569",
+            "-47707120640/3602879701896397"
+          ],
+          "expected_steps": 4,
+          "geometry_max_error": 4.0510963073003836e-07,
+          "h": 0.025,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 6,
+          "normalized_max_error": 1.6204385229201534e-05,
+          "paired_reference_difference_over_h": [
+            -2.0594637106796654e-13,
+            -5.3290705182007514e-14,
+            -1.7763568394002505e-13,
+            3.552713678800501e-14
+          ],
+          "signed_error_components": [
+            4.0510963073003836e-07,
+            3.310346485818627e-07,
+            3.2285780648955154e-07,
+            -3.310346485818627e-07
+          ],
+          "signed_error_over_h": [
+            1.6204385229201534e-05,
+            1.3241385943274508e-05,
+            1.2914312259582061e-05,
+            -1.3241385943274508e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 8,
+          "actual_clock": 0.09999999999999999,
+          "actual_coordinates": [
+            0.09941196362730989,
+            0.9998743005299098,
+            0.624361756105294,
+            1.2501256994700902
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "80795596628/3602879701896397",
+            "3187760224/277144592453569",
+            "31344648096/3602879701896397",
+            "-41440882880/3602879701896397"
+          ],
+          "expected_steps": 8,
+          "geometry_max_error": 2.803160364522883e-07,
+          "h": 0.0125,
+          "height_pair_signed_error_sum": 1.1102230246251565e-16,
+          "index": 7,
+          "normalized_max_error": 2.2425282916183065e-05,
+          "paired_reference_difference_over_h": [
+            -4.118927421359331e-13,
+            -1.0658141036401503e-13,
+            -3.552713678800501e-13,
+            7.105427357601002e-14
+          ],
+          "signed_error_components": [
+            2.803160364522883e-07,
+            1.4377694490530502e-07,
+            1.0874859379672586e-07,
+            -1.437769447942827e-07
+          ],
+          "signed_error_over_h": [
+            2.2425282916183065e-05,
+            1.1502155592424401e-05,
+            8.699887503738069e-06,
+            -1.1502155583542617e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 16,
+          "actual_clock": 0.10000000000000002,
+          "actual_coordinates": [
+            0.09941184300116329,
+            0.9998742233443236,
+            0.6243616885299655,
+            1.2501257766556764
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "92054954040/3602879701896397",
+            "38387304768/3602879701896397",
+            "23734771520/3602879701896397",
+            "-38387304704/3602879701896397"
+          ],
+          "expected_steps": 16,
+          "geometry_max_error": 1.5968988985315402e-07,
+          "h": 0.00625,
+          "height_pair_signed_error_sum": 1.1102230246251565e-16,
+          "index": 8,
+          "normalized_max_error": 2.5550382376504643e-05,
+          "paired_reference_difference_over_h": [
+            -8.237854842718662e-13,
+            -2.1316282072803006e-13,
+            -7.105427357601002e-13,
+            1.4210854715202004e-13
+          ],
+          "signed_error_components": [
+            1.5968988985315402e-07,
+            6.659135876052602e-08,
+            4.1173265352689725e-08,
+            -6.659135864950372e-08
+          ],
+          "signed_error_over_h": [
+            2.5550382376504643e-05,
+            1.0654617401684163e-05,
+            6.587722456430356e-06,
+            -1.0654617383920595e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 32,
+          "actual_clock": 0.10000000000000005,
+          "actual_coordinates": [
+            0.09941176804976962,
+            0.999874188741144,
+            0.6243616646384602,
+            1.250125811258856
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "97696834512/3602879701896397",
+            "36879859584/3602879701896397",
+            "19924512768/3602879701896397",
+            "-36879859456/3602879701896397"
+          ],
+          "expected_steps": 32,
+          "geometry_max_error": 8.473849617829377e-08,
+          "h": 0.003125,
+          "height_pair_signed_error_sum": 1.1102230246251565e-16,
+          "index": 9,
+          "normalized_max_error": 2.7116318777054005e-05,
+          "paired_reference_difference_over_h": [
+            -1.6475709685437323e-12,
+            -4.263256414560601e-13,
+            -1.4210854715202004e-12,
+            2.8421709430404007e-13
+          ],
+          "signed_error_components": [
+            8.473849617829377e-08,
+            3.198817910554652e-08,
+            1.7281760023024617e-08,
+            -3.198817899452422e-08
+          ],
+          "signed_error_over_h": [
+            2.7116318777054005e-05,
+            1.0236217313774887e-05,
+            5.5301632073678775e-06,
+            -1.023621727824775e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 64,
+          "actual_clock": 0.0999999999999999,
+          "actual_coordinates": [
+            0.09941172690541963,
+            0.9998741724223739,
+            0.6243616551708986,
+            1.2501258275776261
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "100521257248/3602879701896397",
+            "36131197184/3602879701896397",
+            "18018314752/3602879701896397",
+            "-36131196928/3602879701896397"
+          ],
+          "expected_steps": 64,
+          "geometry_max_error": 4.3594146195702344e-08,
+          "h": 0.0015625,
+          "height_pair_signed_error_sum": 1.1102230246251565e-16,
+          "index": 42,
+          "normalized_max_error": 2.79002535652495e-05,
+          "paired_reference_difference_over_h": [
+            -3.2951419370874646e-12,
+            -8.526512829121202e-13,
+            -2.8421709430404007e-12,
+            5.684341886080801e-13
+          ],
+          "signed_error_components": [
+            4.3594146195702344e-08,
+            1.5669408992557976e-08,
+            7.814198399458405e-09,
+            -1.5669408881535674e-08
+          ],
+          "signed_error_over_h": [
+            2.79002535652495e-05,
+            1.0028421755237105e-05,
+            5.001086975653379e-06,
+            -1.0028421684182831e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 128,
+          "actual_clock": 0.09999999999999977,
+          "actual_coordinates": [
+            0.09941170541474607,
+            0.9998741645067665,
+            0.6243616510570607,
+            1.2501258354932334
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "101934275712/3602879701896397",
+            "35758098432/3602879701896397",
+            "17064900608/3602879701896397",
+            "-35758098432/3602879701896397"
+          ],
+          "expected_steps": 128,
+          "geometry_max_error": 2.2103472635537358e-08,
+          "h": 0.00078125,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 43,
+          "normalized_max_error": 2.8292444973487818e-05,
+          "paired_reference_difference_over_h": [
+            -6.590283874174929e-12,
+            -1.7053025658242404e-12,
+            -5.6843418860808015e-12,
+            1.1368683772161603e-12
+          ],
+          "signed_error_components": [
+            2.2103472635537358e-08,
+            7.753801600784982e-09,
+            3.700360462488561e-09,
+            -7.753801600784982e-09
+          ],
+          "signed_error_over_h": [
+            2.8292444973487818e-05,
+            9.924866049004777e-06,
+            4.736461391985358e-06,
+            -9.924866049004777e-06
+          ],
+          "status": "COMPLETE"
+        }
+      ],
+      "existing_reference_resolution_status": "PASS",
+      "existing_tight_reference_max_step": 0.003125,
+      "existing_tight_reference_rtol": 2e-12,
+      "field": "nonconstant",
+      "kind": "initial",
+      "load": "reversed",
+      "paired_reference_geometry_difference": [
+        -5.1486592766991635e-15,
+        -1.3322676295501878e-15,
+        -4.440892098500626e-15,
+        8.881784197001252e-16
+      ]
+    },
+    {
+      "checks": [
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.05,
+          "coarser_index": 30,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.025,
+          "finer_index": 31,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.1556912314898624,
+          "fixed_finer_dominant_coordinate": 3,
+          "normalized_component_change": [
+            5.7230347128012227e-08,
+            -5.8768742539072605e-06,
+            -1.8497948872653325e-05,
+            5.876874245025476e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.1556912314898624,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9886091052013108,
+            2.1556912317617942,
+            -2.0492797428177494,
+            2.1556912314898624
+          ],
+          "signed_margin": 0.1443087685101374,
+          "signed_normalized_component_ratios": [
+            0.9943045526006554,
+            1.0778456158808971,
+            -1.0246398714088747,
+            1.0778456157449312
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.025,
+          "coarser_index": 31,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0125,
+          "finer_index": 32,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.080902207549742,
+          "fixed_finer_dominant_coordinate": 3,
+          "normalized_component_change": [
+            1.391879950185526e-07,
+            -2.935086760302852e-06,
+            -9.29667800519951e-06,
+            2.9350867425392835e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.080902207549742,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9726750860004207,
+            2.080902208078986,
+            0.991305658143458,
+            2.080902207549742
+          ],
+          "signed_margin": 0.21909779245025796,
+          "signed_normalized_component_ratios": [
+            0.9863375430002104,
+            1.040451104039493,
+            0.495652829071729,
+            1.040451103774871
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0125,
+          "coarser_index": 32,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00625,
+          "finer_index": 33,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.0412601679132187,
+          "fixed_finer_dominant_coordinate": 3,
+          "normalized_component_change": [
+            9.839774661735134e-08,
+            -1.4666389169804006e-06,
+            -4.660406283107932e-06,
+            1.4666388814532638e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.0412601679132187,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.98086767947693,
+            2.0412601689539227,
+            1.5963880270946929,
+            2.0412601679132187
+          ],
+          "signed_margin": 0.2587398320867811,
+          "signed_normalized_component_ratios": [
+            0.990433839738465,
+            1.0206300844769614,
+            0.7981940135473464,
+            1.0206300839566094
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.00625,
+          "coarser_index": 33,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.003125,
+          "finer_index": 34,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.0208382783557224,
+          "fixed_finer_dominant_coordinate": 3,
+          "normalized_component_change": [
+            5.654734014370888e-08,
+            -7.330819329354199e-07,
+            -2.3332336063219827e-06,
+            7.330818618811463e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.0208382783557224,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.989065128482041,
+            2.0208382804175695,
+            1.8164739708244453,
+            2.0208382783557224
+          ],
+          "signed_margin": 0.27916172164427744,
+          "signed_normalized_component_ratios": [
+            0.9945325642410205,
+            1.0104191402087848,
+            0.9082369854122226,
+            1.0104191391778612
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        }
+      ],
+      "errors": [
+        {
+          "accepted_steps": 2,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09984058068770675,
+            1.000080454289772,
+            0.6245848193943021,
+            1.249919545710228
+          ],
+          "dominant_coordinate": 3,
+          "dominant_label": "middle_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-35997117386/3602879701896397",
+            "-22551488272/277144592453569",
+            "-33728482536/3602879701896397",
+            "293169347568/3602879701896397"
+          ],
+          "expected_steps": 2,
+          "geometry_max_error": 4.068541997304109e-06,
+          "h": 0.05,
+          "height_pair_signed_error_sum": 4.440892098500626e-16,
+          "index": 30,
+          "normalized_max_error": 8.137083994608219e-05,
+          "paired_reference_difference_over_h": [
+            -7.654987754790454e-13,
+            6.306066779870889e-13,
+            3.9390712913700554e-12,
+            -6.217248937900877e-13
+          ],
+          "signed_error_components": [
+            -4.995603567758966e-07,
+            -4.06854199686002e-06,
+            -4.6807672371418363e-07,
+            4.068541997304109e-06
+          ],
+          "signed_error_over_h": [
+            -9.991207135517932e-06,
+            -8.13708399372004e-05,
+            -9.361534474283673e-06,
+            8.137083994608219e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 4,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09984082903712646,
+            1.0000826354826269,
+            0.6245855158813858,
+            1.2499173645173731
+          ],
+          "dominant_coordinate": 3,
+          "dominant_label": "middle_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-36203311442/3602879701896397",
+            "-20922744352/277144592453569",
+            "32917401984/3602879701896397",
+            "271995676640/3602879701896397"
+          ],
+          "expected_steps": 4,
+          "geometry_max_error": 1.8873491425264177e-06,
+          "h": 0.025,
+          "height_pair_signed_error_sum": 4.440892098500626e-16,
+          "index": 31,
+          "normalized_max_error": 7.549396570105671e-05,
+          "paired_reference_difference_over_h": [
+            -1.5309975509580909e-12,
+            1.2612133559741778e-12,
+            7.878142582740111e-12,
+            -1.2434497875801753e-12
+          ],
+          "signed_error_components": [
+            -2.512109370661486e-07,
+            -1.8873491420823285e-06,
+            2.284103599592413e-07,
+            1.8873491425264177e-06
+          ],
+          "signed_error_over_h": [
+            -1.0048437482645944e-05,
+            -7.549396568329314e-05,
+            9.136414398369652e-06,
+            7.549396570105671e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 8,
+          "actual_clock": 0.09999999999999999,
+          "actual_coordinates": [
+            0.09984095290274506,
+            1.0000836158457824,
+            0.6245855178846809,
+            1.2499163841542176
+          ],
+          "dominant_coordinate": 3,
+          "dominant_label": "middle_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-36704789044/3602879701896397",
+            "-20109300928/277144592453569",
+            "66412214464/3602879701896397",
+            "261420912192/3602879701896397"
+          ],
+          "expected_steps": 8,
+          "geometry_max_error": 9.069859869814678e-07,
+          "h": 0.0125,
+          "height_pair_signed_error_sum": 4.440892098500626e-16,
+          "index": 32,
+          "normalized_max_error": 7.255887895851743e-05,
+          "paired_reference_difference_over_h": [
+            -3.0619951019161817e-12,
+            2.5224267119483557e-12,
+            1.5756285165480222e-11,
+            -2.4868995751603507e-12
+          ],
+          "signed_error_components": [
+            -1.273453184708062e-07,
+            -9.069859865373786e-07,
+            2.3041365504461453e-07,
+            9.069859869814678e-07
+          ],
+          "signed_error_over_h": [
+            -1.0187625477664497e-05,
+            -7.255887892299029e-05,
+            1.8433092403569162e-05,
+            7.255887895851743e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 16,
+          "actual_clock": 0.10000000000000002,
+          "actual_coordinates": [
+            0.09984101596041838,
+            1.000084078505269,
+            0.6245854318053926,
+            1.249915921494731
+          ],
+          "dominant_coordinate": 3,
+          "dominant_label": "middle_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-37059304288/3602879701896397",
+            "-256136788480/3602879701896397",
+            "83203097664/3602879701896397",
+            "256136788736/3602879701896397"
+          ],
+          "expected_steps": 16,
+          "geometry_max_error": 4.44326500481651e-07,
+          "h": 0.00625,
+          "height_pair_signed_error_sum": 4.440892098500626e-16,
+          "index": 33,
+          "normalized_max_error": 7.109224007706416e-05,
+          "paired_reference_difference_over_h": [
+            -6.1239902038323635e-12,
+            5.044853423896711e-12,
+            3.1512570330960443e-11,
+            -4.973799150320701e-12
+          ],
+          "signed_error_components": [
+            -6.428764515176155e-08,
+            -4.443265000375618e-07,
+            1.4433436679173184e-07,
+            4.44326500481651e-07
+          ],
+          "signed_error_over_h": [
+            -1.0286023224281848e-05,
+            -7.109224000600989e-05,
+            2.3093498686677094e-05,
+            7.109224007706416e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 32,
+          "actual_clock": 0.10000000000000005,
+          "actual_coordinates": [
+            0.09984104792753051,
+            1.0000843029594,
+            0.6245853669295642,
+            1.2499156970406
+          ],
+          "dominant_coordinate": 3,
+          "dominant_label": "middle_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-2866387504/277144592453569",
+            "-253495582464/3602879701896397",
+            "91609457664/3602879701896397",
+            "253495582976/3602879701896397"
+          ],
+          "expected_steps": 32,
+          "geometry_max_error": 2.1987236942244692e-07,
+          "h": 0.003125,
+          "height_pair_signed_error_sum": 4.440892098500626e-16,
+          "index": 34,
+          "normalized_max_error": 7.035915821518302e-05,
+          "paired_reference_difference_over_h": [
+            -1.2247980407664727e-11,
+            1.0089706847793423e-11,
+            6.302514066192089e-11,
+            -9.947598300641403e-12
+          ],
+          "signed_error_components": [
+            -3.2320533013829866e-08,
+            -2.198723689783577e-07,
+            7.945853841562212e-08,
+            2.1987236942244692e-07
+          ],
+          "signed_error_over_h": [
+            -1.0342570564425557e-05,
+            -7.035915807307447e-05,
+            2.5426732292999077e-05,
+            7.035915821518302e-05
+          ],
+          "status": "COMPLETE"
+        }
+      ],
+      "existing_reference_resolution_status": "PASS",
+      "existing_tight_reference_max_step": 0.003125,
+      "existing_tight_reference_rtol": 2e-12,
+      "field": "constant",
+      "kind": "pressure_state",
+      "load": "forward",
+      "paired_reference_geometry_difference": [
+        -3.827493877395227e-14,
+        3.1530333899354446e-14,
+        1.9695356456850277e-13,
+        -3.108624468950438e-14
+      ]
+    },
+    {
+      "checks": [
+        {
+          "coarse_dominance_amplification": 3.95603520788345,
+          "coarser_h": 0.05,
+          "coarser_index": 35,
+          "dominant_coordinate_switch": true,
+          "dominant_mode_switch": true,
+          "finer_h": 0.025,
+          "finer_index": 36,
+          "fixed_coordinate_in_original_band": false,
+          "fixed_coordinate_ratio": 0.6372544844593078,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -1.1582768569828872e-05,
+            3.611155940941302e-06,
+            8.9740465702981e-06,
+            -3.611155952043532e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.5210011769026384,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            0.6372544844593078,
+            2.531411767742264,
+            3.44121892164585,
+            2.5314117704179053
+          ],
+          "signed_margin": -0.22100117690263854,
+          "signed_normalized_component_ratios": [
+            0.3186272422296539,
+            1.265705883871132,
+            1.720609460822925,
+            1.2657058852089527
+          ],
+          "status": "FAIL_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.025,
+          "coarser_index": 36,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0125,
+          "finer_index": 37,
+          "fixed_coordinate_in_original_band": false,
+          "fixed_coordinate_ratio": 1.4886771857807277,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -5.83878187021547e-06,
+            1.7194499069006497e-06,
+            4.538279210208884e-06,
+            -1.7194499513095707e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.4886771857807277,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.4886771857807277,
+            2.289680561605296,
+            3.146734812959728,
+            2.289680570820834
+          ],
+          "signed_margin": -0.21132281421927224,
+          "signed_normalized_component_ratios": [
+            0.7443385928903639,
+            1.144840280802648,
+            1.573367406479864,
+            1.144840285410417
+          ],
+          "status": "FAIL_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0125,
+          "coarser_index": 37,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00625,
+          "finer_index": 38,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.7722147108556647,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -2.935394064484953e-06,
+            8.386268923743501e-07,
+            2.2659730891660956e-06,
+            -8.386269456650552e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.7722147108556647,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.7722147108556647,
+            2.152025344705669,
+            2.802233667966143,
+            2.1520253560795592
+          ],
+          "signed_margin": 0.07221471085566478,
+          "signed_normalized_component_ratios": [
+            0.8861073554278324,
+            1.0760126723528345,
+            1.4011168339830715,
+            1.0760126780397796
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.00625,
+          "coarser_index": 38,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.003125,
+          "finer_index": 39,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.8920167596811042,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -1.4709642259802536e-06,
+            4.1392555161223754e-07,
+            1.1361992946490318e-06,
+            -4.139256404300795e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.8920167596811042,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.8920167596811042,
+            2.0779608962316787,
+            2.503527250508931,
+            2.0779609145250895
+          ],
+          "signed_margin": 0.1920167596811042,
+          "signed_normalized_component_ratios": [
+            0.9460083798405521,
+            1.0389804481158393,
+            1.2517636252544655,
+            1.0389804572625447
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        }
+      ],
+      "errors": [
+        {
+          "accepted_steps": 2,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09916453246736101,
+            0.9998633422596086,
+            0.624012226366945,
+            1.2501366577403914
+          ],
+          "dominant_coordinate": 2,
+          "dominant_label": "middle_cap_x",
+          "dominant_mode": "middle_cap_x",
+          "exact_error_over_h": [
+            "19514628108/3602879701896397",
+            "61976583512/3602879701896397",
+            "77200555864/3602879701896397",
+            "-61976583456/3602879701896397"
+          ],
+          "expected_steps": 2,
+          "geometry_max_error": 1.071372932925918e-06,
+          "h": 0.05,
+          "height_pair_signed_error_sum": 7.771561172376096e-16,
+          "index": 35,
+          "normalized_max_error": 2.142745865851836e-05,
+          "paired_reference_difference_over_h": [
+            -5.264677582772492e-12,
+            -1.4011014570769476e-12,
+            2.7062796448262816e-11,
+            1.425526363618701e-12
+          ],
+          "signed_error_components": [
+            2.708198680312357e-07,
+            8.600978750328281e-07,
+            1.071372932925918e-06,
+            -8.60097874255672e-07
+          ],
+          "signed_error_over_h": [
+            5.416397360624714e-06,
+            1.7201957500656562e-05,
+            2.142745865851836e-05,
+            -1.720195748511344e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 4,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09916468662664124,
+            0.9998628219317726,
+            0.6240114663293143,
+            1.2501371780682273
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "61245949880/3602879701896397",
+            "48966023072/3602879701896397",
+            "44868145632/3602879701896397",
+            "-3766617152/277144592453569"
+          ],
+          "expected_steps": 4,
+          "geometry_max_error": 4.2497914826133965e-07,
+          "h": 0.025,
+          "height_pair_signed_error_sum": 6.661338147750939e-16,
+          "index": 36,
+          "normalized_max_error": 1.6999165930453586e-05,
+          "paired_reference_difference_over_h": [
+            -1.0529355165544985e-11,
+            -2.802202914153895e-12,
+            5.412559289652563e-11,
+            2.851052727237402e-12
+          ],
+          "signed_error_components": [
+            4.2497914826133965e-07,
+            3.397700389928815e-07,
+            3.1133530220550654e-07,
+            -3.397700383267477e-07
+          ],
+          "signed_error_over_h": [
+            1.6999165930453586e-05,
+            1.359080155971526e-05,
+            1.2453412088220261e-05,
+            -1.3590801533069907e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 8,
+          "actual_clock": 0.09999999999999999,
+          "actual_coordinates": [
+            0.09916454712184049,
+            0.9998626305536292,
+            0.624011253933173,
+            1.2501373694463709
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "82282378564/3602879701896397",
+            "42771051904/3602879701896397",
+            "28517271584/3602879701896397",
+            "-3290080896/277144592453569"
+          ],
+          "expected_steps": 8,
+          "geometry_max_error": 2.854743475083632e-07,
+          "h": 0.0125,
+          "height_pair_signed_error_sum": 8.881784197001252e-16,
+          "index": 37,
+          "normalized_max_error": 2.2837947800669056e-05,
+          "paired_reference_difference_over_h": [
+            -2.105871033108997e-11,
+            -5.60440582830779e-12,
+            1.0825118579305126e-10,
+            5.702105454474804e-12
+          ],
+          "signed_error_components": [
+            2.854743475083632e-07,
+            1.4839189566018263e-07,
+            9.893916097514222e-08,
+            -1.483918947720042e-07
+          ],
+          "signed_error_over_h": [
+            2.2837947800669056e-05,
+            1.187135165281461e-05,
+            7.915132878011377e-06,
+            -1.1871351581760337e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 16,
+          "actual_clock": 0.10000000000000002,
+          "actual_coordinates": [
+            0.09916442273087964,
+            0.9998625511162633,
+            0.6240111903012607,
+            1.2501374488837367
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "92858250256/3602879701896397",
+            "39749580096/3602879701896397",
+            "20353243136/3602879701896397",
+            "-39749579648/3602879701896397"
+          ],
+          "expected_steps": 16,
+          "geometry_max_error": 1.6108338665721256e-07,
+          "h": 0.00625,
+          "height_pair_signed_error_sum": 7.771561172376096e-16,
+          "index": 38,
+          "normalized_max_error": 2.577334186515401e-05,
+          "paired_reference_difference_over_h": [
+            -4.211742066217994e-11,
+            -1.120881165661558e-11,
+            2.1650237158610253e-10,
+            1.1404210908949608e-11
+          ],
+          "signed_error_components": [
+            1.6108338665721256e-07,
+            6.895452975275163e-08,
+            3.530724868028301e-08,
+            -6.895452897559551e-08
+          ],
+          "signed_error_over_h": [
+            2.577334186515401e-05,
+            1.103272476044026e-05,
+            5.649159788845282e-06,
+            -1.1032724636095281e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 32,
+          "actual_clock": 0.10000000000000005,
+          "actual_coordinates": [
+            0.09916434678594951,
+            0.9998625153454811,
+            0.6240111690970136,
+            1.2501374846545188
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "98157957408/3602879701896397",
+            "38258256128/3602879701896397",
+            "16259653760/3602879701896397",
+            "-2942942720/277144592453569"
+          ],
+          "expected_steps": 32,
+          "geometry_max_error": 8.513845653479457e-08,
+          "h": 0.003125,
+          "height_pair_signed_error_sum": 6.661338147750939e-16,
+          "index": 39,
+          "normalized_max_error": 2.7244306091134263e-05,
+          "paired_reference_difference_over_h": [
+            -8.423484132435988e-11,
+            -2.241762331323116e-11,
+            4.3300474317220505e-10,
+            2.2808421817899216e-11
+          ],
+          "signed_error_components": [
+            8.513845653479457e-08,
+            3.318374752758757e-08,
+            1.410300154436328e-08,
+            -3.3183746861453756e-08
+          ],
+          "signed_error_over_h": [
+            2.7244306091134263e-05,
+            1.0618799208828023e-05,
+            4.51296049419625e-06,
+            -1.0618798995665202e-05
+          ],
+          "status": "COMPLETE"
+        }
+      ],
+      "existing_reference_resolution_status": "PASS",
+      "existing_tight_reference_max_step": 0.003125,
+      "existing_tight_reference_rtol": 2e-12,
+      "field": "constant",
+      "kind": "pressure_state",
+      "load": "reversed",
+      "paired_reference_geometry_difference": [
+        -2.632338791386246e-13,
+        -7.005507285384738e-14,
+        1.3531398224131408e-12,
+        7.127631818093505e-14
+      ]
+    },
+    {
+      "checks": [
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.05,
+          "coarser_index": 20,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.025,
+          "finer_index": 21,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.1556912324416233,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            5.723034546267769e-08,
+            -5.876874276111721e-06,
+            -1.8497948857110202e-05,
+            5.876874293875289e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.1556912324416233,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9886091055289967,
+            2.1556912324416233,
+            -2.049279753192789,
+            2.1556912329854865
+          ],
+          "signed_margin": 0.14430876755837652,
+          "signed_normalized_component_ratios": [
+            0.9943045527644984,
+            1.0778456162208117,
+            -1.0246398765963944,
+            1.0778456164927432
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.025,
+          "coarser_index": 21,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0125,
+          "finer_index": 22,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.080902209402096,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            1.3918799168788354e-07,
+            -2.935086804711773e-06,
+            -9.296677974113265e-06,
+            2.9350868402389096e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.080902209402096,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9726750866364196,
+            2.080902209402096,
+            0.9913056581141331,
+            2.0809022104605845
+          ],
+          "signed_margin": 0.21909779059790369,
+          "signed_normalized_component_ratios": [
+            0.9863375433182098,
+            1.040451104701048,
+            0.49565282905706654,
+            1.0404511052302923
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0125,
+          "coarser_index": 22,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00625,
+          "finer_index": 23,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.0412601715556833,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            9.83977399560132e-08,
+            -1.4666390057982426e-06,
+            -4.6604062209354424e-06,
+            1.4666390768525162e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.0412601715556833,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9808676807473706,
+            2.0412601715556833,
+            1.5963880303058933,
+            2.0412601736370912
+          ],
+          "signed_margin": 0.25873982844431653,
+          "signed_normalized_component_ratios": [
+            0.9904338403736853,
+            1.0206300857778416,
+            0.7981940151529466,
+            1.0206300868185456
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.00625,
+          "coarser_index": 23,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.003125,
+          "finer_index": 24,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.020838285572188,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            5.6547326821032584e-08,
+            -7.330821105711038e-07,
+            -2.333233481977004e-06,
+            7.33082252679651e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.020838285572188,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9890651310301493,
+            2.020838285572188,
+            1.8164739788100912,
+            2.0208382896958828
+          ],
+          "signed_margin": 0.2791617144278118,
+          "signed_normalized_component_ratios": [
+            0.9945325655150746,
+            1.010419142786094,
+            0.9082369894050456,
+            1.0104191448479414
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.003125,
+          "coarser_index": 24,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0015625,
+          "finer_index": 44,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.0104719577083277,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            3.0128828321096535e-08,
+            -3.6648017953666567e-07,
+            -1.167373220312129e-06,
+            3.6648046375376e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": false,
+          "ratio": 2.0104719577083277,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.994190744904926,
+            2.0104719577083277,
+            1.9122081221611833,
+            2.0104719659147117
+          ],
+          "signed_margin": 0.28952804229167217,
+          "signed_normalized_component_ratios": [
+            0.997095372452463,
+            1.0052359788541638,
+            0.9561040610805916,
+            1.0052359829573558
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0015625,
+          "coarser_index": 44,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00078125,
+          "finer_index": 45,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 2.0052492755918827,
+          "fixed_finer_dominant_coordinate": 1,
+          "normalized_component_change": [
+            1.5529524333146583e-08,
+            -1.832245288824197e-07,
+            -5.83870445325374e-07,
+            1.832250973166083e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": false,
+          "ratio": 2.0052492755918827,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9970101690101483,
+            2.0052492755918827,
+            1.9570335589702004,
+            2.005249291962676
+          ],
+          "signed_margin": 0.2947507244081171,
+          "signed_normalized_component_ratios": [
+            0.9985050845050741,
+            1.0026246377959414,
+            0.9785167794851002,
+            1.002624645981338
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        }
+      ],
+      "errors": [
+        {
+          "accepted_steps": 2,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09984058068770675,
+            1.000080454289772,
+            0.6245848193943021,
+            1.249919545710228
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-35997117380/3602879701896397",
+            "-293169347456/3602879701896397",
+            "-33728482592/3602879701896397",
+            "293169347392/3602879701896397"
+          ],
+          "expected_steps": 2,
+          "geometry_max_error": 4.068541995749797e-06,
+          "h": 0.05,
+          "height_pair_signed_error_sum": -8.881784197001252e-16,
+          "index": 20,
+          "normalized_max_error": 8.137083991499594e-05,
+          "paired_reference_difference_over_h": [
+            -6.966649479522857e-13,
+            8.038014698286133e-13,
+            3.539391002504999e-12,
+            -8.171241461241152e-13
+          ],
+          "signed_error_components": [
+            -4.995603566926299e-07,
+            -4.068541995749797e-06,
+            -4.6807672449133975e-07,
+            4.068541994861619e-06
+          ],
+          "signed_error_over_h": [
+            -9.991207133852598e-06,
+            -8.137083991499594e-05,
+            -9.361534489826795e-06,
+            8.137083989723237e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 4,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09984082903712646,
+            1.0000826354826269,
+            0.6245855158813858,
+            1.2499173645173731
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-2784870110/277144592453569",
+            "-271995676416/3602879701896397",
+            "32917401872/3602879701896397",
+            "271995676288/3602879701896397"
+          ],
+          "expected_steps": 4,
+          "geometry_max_error": 1.8873491409721055e-06,
+          "h": 0.025,
+          "height_pair_signed_error_sum": -8.881784197001252e-16,
+          "index": 21,
+          "normalized_max_error": 7.549396563888422e-05,
+          "paired_reference_difference_over_h": [
+            -1.3933298959045715e-12,
+            1.6076029396572267e-12,
+            7.078782005009998e-12,
+            -1.6342482922482304e-12
+          ],
+          "signed_error_components": [
+            -2.512109369828819e-07,
+            -1.8873491409721055e-06,
+            2.284103591820852e-07,
+            1.887349140083927e-06
+          ],
+          "signed_error_over_h": [
+            -1.0048437479315275e-05,
+            -7.549396563888422e-05,
+            9.136414367283408e-06,
+            7.549396560335708e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 8,
+          "actual_clock": 0.09999999999999999,
+          "actual_coordinates": [
+            0.09984095290274506,
+            1.0000836158457824,
+            0.6245855178846809,
+            1.2499163841542176
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-36704789020/3602879701896397",
+            "-261420911744/3602879701896397",
+            "66412214240/3602879701896397",
+            "261420911488/3602879701896397"
+          ],
+          "expected_steps": 8,
+          "geometry_max_error": 9.069859854271556e-07,
+          "h": 0.0125,
+          "height_pair_signed_error_sum": -8.881784197001252e-16,
+          "index": 22,
+          "normalized_max_error": 7.255887883417245e-05,
+          "paired_reference_difference_over_h": [
+            -2.786659791809143e-12,
+            3.2152058793144533e-12,
+            1.4157564010019996e-11,
+            -3.268496584496461e-12
+          ],
+          "signed_error_components": [
+            -1.2734531838753949e-07,
+            -9.069859854271556e-07,
+            2.304136542674584e-07,
+            9.069859845389772e-07
+          ],
+          "signed_error_over_h": [
+            -1.0187625471003159e-05,
+            -7.255887883417245e-05,
+            1.8433092341396673e-05,
+            7.255887876311817e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 16,
+          "actual_clock": 0.10000000000000002,
+          "actual_coordinates": [
+            0.09984101596041838,
+            1.000084078505269,
+            0.6245854318053926,
+            1.249915921494731
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-37059304240/3602879701896397",
+            "-256136787840/3602879701896397",
+            "83203097216/3602879701896397",
+            "256136787328/3602879701896397"
+          ],
+          "expected_steps": 16,
+          "geometry_max_error": 4.443264989273388e-07,
+          "h": 0.00625,
+          "height_pair_signed_error_sum": -8.881784197001252e-16,
+          "index": 23,
+          "normalized_max_error": 7.10922398283742e-05,
+          "paired_reference_difference_over_h": [
+            -5.573319583618286e-12,
+            6.430411758628907e-12,
+            2.8315128020039992e-11,
+            -6.536993168992922e-12
+          ],
+          "signed_error_components": [
+            -6.428764506849483e-08,
+            -4.443264989273388e-07,
+            1.4433436601457572e-07,
+            4.4432649803916036e-07
+          ],
+          "signed_error_over_h": [
+            -1.0286023210959172e-05,
+            -7.10922398283742e-05,
+            2.3093498562332115e-05,
+            7.109223968626566e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 32,
+          "actual_clock": 0.10000000000000005,
+          "actual_coordinates": [
+            0.09984104792753051,
+            1.0000843029594,
+            0.6245853669295642,
+            1.2499156970406
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-37263037456/3602879701896397",
+            "-253495581184/3602879701896397",
+            "2475931264/97375127078281",
+            "253495580160/3602879701896397"
+          ],
+          "expected_steps": 32,
+          "geometry_max_error": 2.198723678681347e-07,
+          "h": 0.003125,
+          "height_pair_signed_error_sum": -8.881784197001252e-16,
+          "index": 24,
+          "normalized_max_error": 7.03591577178031e-05,
+          "paired_reference_difference_over_h": [
+            -1.1146639167236572e-11,
+            1.2860823517257813e-11,
+            5.6630256040079985e-11,
+            -1.3073986337985843e-11
+          ],
+          "signed_error_components": [
+            -3.232053293056314e-08,
+            -2.198723678681347e-07,
+            7.9458537638466e-08,
+            2.1987236697995627e-07
+          ],
+          "signed_error_over_h": [
+            -1.0342570537780205e-05,
+            -7.03591577178031e-05,
+            2.542673204430912e-05,
+            7.0359157433586e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 64,
+          "actual_clock": 0.0999999999999999,
+          "actual_coordinates": [
+            0.09984106404072068,
+            1.0000844134682092,
+            0.6245853290243161,
+            1.2499155865317908
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-37371588000/3602879701896397",
+            "-252175197184/3602879701896397",
+            "95815362048/3602879701896397",
+            "252175195136/3602879701896397"
+          ],
+          "expected_steps": 64,
+          "geometry_max_error": 1.093635586535413e-07,
+          "h": 0.0015625,
+          "height_pair_signed_error_sum": -8.881784197001252e-16,
+          "index": 44,
+          "normalized_max_error": 6.999267753826643e-05,
+          "paired_reference_difference_over_h": [
+            -2.2293278334473143e-11,
+            2.5721647034515627e-11,
+            1.1326051208015997e-10,
+            -2.6147972675971687e-11
+          ],
+          "signed_error_components": [
+            -1.6207342759533283e-08,
+            -1.093635586535413e-07,
+            4.15532894759707e-08,
+            1.0936355776536288e-07
+          ],
+          "signed_error_over_h": [
+            -1.0372699366101301e-05,
+            -6.999267753826643e-05,
+            2.659410526462125e-05,
+            6.999267696983225e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 128,
+          "actual_clock": 0.09999999999999977,
+          "actual_coordinates": [
+            0.09984107213225962,
+            1.0000844682931327,
+            0.6245853087038201,
+            1.2499155317068673
+          ],
+          "dominant_coordinate": 1,
+          "dominant_label": "left_cap_height",
+          "dominant_mode": "height",
+          "exact_error_over_h": [
+            "-37427539008/3602879701896397",
+            "-251515061248/3602879701896397",
+            "97918977024/3602879701896397",
+            "251515057152/3602879701896397"
+          ],
+          "expected_steps": 128,
+          "geometry_max_error": 5.453863516358126e-08,
+          "h": 0.00078125,
+          "height_pair_signed_error_sum": -8.881784197001252e-16,
+          "index": 45,
+          "normalized_max_error": 6.980945300938401e-05,
+          "paired_reference_difference_over_h": [
+            -4.4586556668946287e-11,
+            5.1443294069031253e-11,
+            2.2652102416031994e-10,
+            -5.2295945351943374e-11
+          ],
+          "signed_error_components": [
+            -8.115803820651912e-09,
+            -5.453863516358126e-08,
+            2.12327935233958e-08,
+            5.453863427540284e-08
+          ],
+          "signed_error_over_h": [
+            -1.0388228890434448e-05,
+            -6.980945300938401e-05,
+            2.7177975709946622e-05,
+            6.980945187251564e-05
+          ],
+          "status": "COMPLETE"
+        }
+      ],
+      "existing_reference_resolution_status": "PASS",
+      "existing_tight_reference_max_step": 0.003125,
+      "existing_tight_reference_rtol": 2e-12,
+      "field": "nonconstant",
+      "kind": "pressure_state",
+      "load": "forward",
+      "paired_reference_geometry_difference": [
+        -3.4833247397614286e-14,
+        4.0190073491430667e-14,
+        1.7696955012524995e-13,
+        -4.085620730620576e-14
+      ]
+    },
+    {
+      "checks": [
+        {
+          "coarse_dominance_amplification": 3.956035500065592,
+          "coarser_h": 0.05,
+          "coarser_index": 25,
+          "dominant_coordinate_switch": true,
+          "dominant_mode_switch": true,
+          "finer_h": 0.025,
+          "finer_index": 26,
+          "fixed_coordinate_in_original_band": false,
+          "fixed_coordinate_ratio": 0.6372543944213753,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -1.158276646012757e-05,
+            3.6111556944717904e-06,
+            8.974053333776766e-06,
+            -3.6111556900308983e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 2.5210010069037616,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            0.6372543944213753,
+            2.5314117121978876,
+            3.4412215733127045,
+            2.531411711370731
+          ],
+          "signed_margin": -0.2210010069037618,
+          "signed_normalized_component_ratios": [
+            0.31862719721068766,
+            1.2657058560989438,
+            1.7206107866563523,
+            1.2657058556853655
+          ],
+          "status": "FAIL_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.025,
+          "coarser_index": 26,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0125,
+          "finer_index": 27,
+          "fixed_coordinate_in_original_band": false,
+          "fixed_coordinate_ratio": 1.488677366350941,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -5.838777650812865e-06,
+            1.7194494139616268e-06,
+            4.538292737166216e-06,
+            -1.719449427284303e-06
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.488677366350941,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.488677366350941,
+            2.2896804545014313,
+            3.1467421505218183,
+            2.28968045696267
+          ],
+          "signed_margin": -0.211322633649059,
+          "signed_normalized_component_ratios": [
+            0.7443386831754705,
+            1.1448402272507157,
+            1.5733710752609091,
+            1.144840228481335
+          ],
+          "status": "FAIL_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.0125,
+          "coarser_index": 27,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.00625,
+          "finer_index": 28,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.7722152165389267,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -2.935385625679743e-06,
+            8.386259064963042e-07,
+            2.2660001430807597e-06,
+            -8.3862589761452e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.7722152165389267,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.7722152165389267,
+            2.1520251388170393,
+            2.802250929981977,
+            2.1520251372069596
+          ],
+          "signed_margin": 0.07221521653892671,
+          "signed_normalized_component_ratios": [
+            0.8861076082694633,
+            1.0760125694085196,
+            1.4011254649909886,
+            1.0760125686034798
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.00625,
+          "coarser_index": 28,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.003125,
+          "finer_index": 29,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.892017864875706,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -1.4709473483698332e-06,
+            4.139235798561458e-07,
+            1.13625340247836e-06,
+            -4.13923544329009e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": true,
+          "ratio": 1.892017864875706,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.892017864875706,
+            2.077960495908604,
+            2.503563304246496,
+            2.0779604889564096
+          ],
+          "signed_margin": 0.19201786487570605,
+          "signed_normalized_component_ratios": [
+            0.946008932437853,
+            1.038980247954302,
+            1.251781652123248,
+            1.0389802444782048
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarse_dominance_amplification": 1.0,
+          "coarser_h": 0.003125,
+          "coarser_index": 29,
+          "dominant_coordinate_switch": false,
+          "dominant_mode_switch": false,
+          "finer_h": 0.0015625,
+          "finer_index": 46,
+          "fixed_coordinate_in_original_band": true,
+          "fixed_coordinate_ratio": 1.9473568284231613,
+          "fixed_finer_dominant_coordinate": 0,
+          "normalized_component_change": [
+            -7.364982534951992e-07,
+            2.0562911373644965e-07,
+            5.680060510826479e-07,
+            -2.0562914926358644e-07
+          ],
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": false,
+          "ratio": 1.9473568284231613,
+          "ratio_factorization_gap": 0.0,
+          "same_sign_components": [
+            true,
+            true,
+            true,
+            true
+          ],
+          "signed_component_ratios": [
+            1.9473568284231613,
+            2.039494031881949,
+            2.2879737350112643,
+            2.039494038705447
+          ],
+          "signed_margin": 0.2473568284231613,
+          "signed_normalized_component_ratios": [
+            0.9736784142115806,
+            1.0197470159409745,
+            1.1439868675056322,
+            1.0197470193527236
+          ],
+          "status": "PASS_ORIGINAL_BAND"
+        },
+        {
+          "coarser_h": 0.0015625,
+          "coarser_index": 46,
+          "finer_h": 0.00078125,
+          "finer_index": 47,
+          "original_band": [
+            1.7,
+            2.3
+          ],
+          "original_check": false,
+          "status": "INCOMPLETE_NO_ENDPOINT"
+        }
+      ],
+      "errors": [
+        {
+          "accepted_steps": 2,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09916453246736101,
+            0.9998633422596086,
+            0.624012226366945,
+            1.2501366577403914
+          ],
+          "dominant_coordinate": 2,
+          "dominant_label": "middle_cap_x",
+          "dominant_mode": "middle_cap_x",
+          "exact_error_over_h": [
+            "19514620507/3602879701896397",
+            "61976584400/3602879701896397",
+            "77200531496/3602879701896397",
+            "-61976584400/3602879701896397"
+          ],
+          "expected_steps": 2,
+          "geometry_max_error": 1.0713725947519848e-06,
+          "h": 0.05,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 25,
+          "normalized_max_error": 2.1427451895039695e-05,
+          "paired_reference_difference_over_h": [
+            -2.3972490659218693e-11,
+            -3.7481129311345285e-12,
+            9.521272659185342e-12,
+            3.7481129311345285e-12
+          ],
+          "signed_error_components": [
+            2.7081976254617057e-07,
+            8.600978873563037e-07,
+            1.0713725947519848e-06,
+            -8.600978873563037e-07
+          ],
+          "signed_error_over_h": [
+            5.4163952509234115e-06,
+            1.7201957747126073e-05,
+            2.1427451895039695e-05,
+            -1.7201957747126073e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 4,
+          "actual_clock": 0.1,
+          "actual_coordinates": [
+            0.09916468662664124,
+            0.9998628219317726,
+            0.6240114663293143,
+            1.2501371780682273
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "61245934678/3602879701896397",
+            "3766617296/277144592453569",
+            "44868096896/3602879701896397",
+            "-48966024864/3602879701896397"
+          ],
+          "expected_steps": 4,
+          "geometry_max_error": 4.249790427762745e-07,
+          "h": 0.025,
+          "height_pair_signed_error_sum": -1.1102230246251565e-16,
+          "index": 26,
+          "normalized_max_error": 1.699916171105098e-05,
+          "paired_reference_difference_over_h": [
+            -4.7944981318437385e-11,
+            -7.496225862269057e-12,
+            1.9042545318370685e-11,
+            7.496225862269057e-12
+          ],
+          "signed_error_components": [
+            4.249790427762745e-07,
+            3.3977005131635707e-07,
+            3.1133496403157324e-07,
+            -3.3977005142737937e-07
+          ],
+          "signed_error_over_h": [
+            1.699916171105098e-05,
+            1.3590802052654283e-05,
+            1.245339856126293e-05,
+            -1.3590802057095175e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 8,
+          "actual_clock": 0.09999999999999999,
+          "actual_coordinates": [
+            0.09916454712184049,
+            0.9998626305536292,
+            0.624011253933173,
+            1.2501373694463709
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "82282348160/3602879701896397",
+            "42771055456/3602879701896397",
+            "28517174112/3602879701896397",
+            "-42771055424/3602879701896397"
+          ],
+          "expected_steps": 8,
+          "geometry_max_error": 2.854742420232981e-07,
+          "h": 0.0125,
+          "height_pair_signed_error_sum": 1.1102230246251565e-16,
+          "index": 27,
+          "normalized_max_error": 2.2837939361863846e-05,
+          "paired_reference_difference_over_h": [
+            -9.588996263687477e-11,
+            -1.4992451724538114e-11,
+            3.808509063674137e-11,
+            1.4992451724538114e-11
+          ],
+          "signed_error_components": [
+            2.854742420232981e-07,
+            1.483919079836582e-07,
+            9.893882280120891e-08,
+            -1.483919078726359e-07
+          ],
+          "signed_error_over_h": [
+            2.2837939361863846e-05,
+            1.1871352638692656e-05,
+            7.915105824096713e-06,
+            -1.1871352629810872e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 16,
+          "actual_clock": 0.10000000000000002,
+          "actual_coordinates": [
+            0.09916442273087964,
+            0.9998625511162633,
+            0.6240111903012607,
+            1.2501374488837367
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "92858189448/3602879701896397",
+            "39749587200/3602879701896397",
+            "20353048192/3602879701896397",
+            "-39749587200/3602879701896397"
+          ],
+          "expected_steps": 16,
+          "geometry_max_error": 1.6108328117214743e-07,
+          "h": 0.00625,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 28,
+          "normalized_max_error": 2.577332498754359e-05,
+          "paired_reference_difference_over_h": [
+            -1.9177992527374954e-10,
+            -2.998490344907623e-11,
+            7.617018127348274e-11,
+            2.998490344907623e-11
+          ],
+          "signed_error_components": [
+            1.6108328117214743e-07,
+            6.89545420762272e-08,
+            3.530691050634971e-08,
+            -6.89545420762272e-08
+          ],
+          "signed_error_over_h": [
+            2.577332498754359e-05,
+            1.1032726732196352e-05,
+            5.6491056810159535e-06,
+            -1.1032726732196352e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 32,
+          "actual_clock": 0.10000000000000005,
+          "actual_coordinates": [
+            0.09916434678594951,
+            0.9998625153454811,
+            0.6240111690970136,
+            1.2501374846545188
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "98157835792/3602879701896397",
+            "2942943872/277144592453569",
+            "16259263872/3602879701896397",
+            "-38258270464/3602879701896397"
+          ],
+          "expected_steps": 32,
+          "geometry_max_error": 8.513835104972944e-08,
+          "h": 0.003125,
+          "height_pair_signed_error_sum": -1.1102230246251565e-16,
+          "index": 29,
+          "normalized_max_error": 2.7244272335913422e-05,
+          "paired_reference_difference_over_h": [
+            -3.835598505474991e-10,
+            -5.996980689815246e-11,
+            1.5234036254696548e-10,
+            5.996980689815246e-11
+          ],
+          "signed_error_components": [
+            8.513835104972944e-08,
+            3.3183759851063144e-08,
+            1.410266337042998e-08,
+            -3.3183759962085446e-08
+          ],
+          "signed_error_over_h": [
+            2.7244272335913422e-05,
+            1.0618803152340206e-05,
+            4.5128522785375935e-06,
+            -1.0618803187867343e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 64,
+          "actual_clock": 0.0999999999999999,
+          "actual_coordinates": [
+            0.09916430536755251,
+            0.9998624984323057,
+            0.6240111611581725,
+            1.2501375015676943
+          ],
+          "dominant_coordinate": 0,
+          "dominant_label": "left_cap_x",
+          "dominant_mode": "left_cap_x",
+          "exact_error_over_h": [
+            "100811350400/3602879701896397",
+            "37517413376/3602879701896397",
+            "1093292800/277144592453569",
+            "-37517413376/3602879701896397"
+          ],
+          "expected_steps": 64,
+          "geometry_max_error": 4.371995404595097e-08,
+          "h": 0.0015625,
+          "height_pair_signed_error_sum": 0.0,
+          "index": 46,
+          "normalized_max_error": 2.798077058940862e-05,
+          "paired_reference_difference_over_h": [
+            -7.671197010949982e-10,
+            -1.199396137963049e-10,
+            3.0468072509393096e-10,
+            1.199396137963049e-10
+          ],
+          "signed_error_components": [
+            4.371995404595097e-08,
+            1.627058443531837e-08,
+            6.1638222303983525e-09,
+            -1.627058443531837e-08
+          ],
+          "signed_error_over_h": [
+            2.798077058940862e-05,
+            1.0413174038603756e-05,
+            3.944846227454946e-06,
+            -1.0413174038603756e-05
+          ],
+          "status": "COMPLETE"
+        },
+        {
+          "accepted_steps": 25,
+          "endpoint_missing": true,
+          "expected_steps": 128,
+          "h": 0.00078125,
+          "index": 47,
+          "retained_partial_clock": 0.019531250000000007,
+          "status": "REFUSED"
+        }
+      ],
+      "existing_reference_resolution_status": "PASS",
+      "existing_tight_reference_max_step": 0.003125,
+      "existing_tight_reference_rtol": 2e-12,
+      "field": "nonconstant",
+      "kind": "pressure_state",
+      "load": "reversed",
+      "paired_reference_geometry_difference": [
+        -1.1986245329609346e-12,
+        -1.8740564655672642e-13,
+        4.760636329592671e-13,
+        1.8740564655672642e-13
+      ]
+    }
+  ],
+  "missing_finer_endpoints": 2,
+  "new_reference_integrations": 0,
+  "new_trajectory_steps": 0,
+  "original_geometry_failures": 8,
+  "original_temporal_qualification": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "reference_resolution_already_passed": true,
+  "remedy_established": false,
+  "scope": "Descriptive signed components of existing discrete endpoints. Paired reference differences are observations, not rigorous error enclosures. Dominant-mode changes and variation of error/h are separated; no continuum proof or altered metric qualification.",
+  "status": "PASS_SIGNED_COMPONENT_DIAGNOSIS_WITH_ORIGINAL_BAND_FAILURES",
+  "thresholds_changed": false
+}
