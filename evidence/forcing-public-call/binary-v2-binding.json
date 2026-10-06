@@ -1,0 +1,8 @@
+{
+  "binary": "/workspace/.rheon-tools/public-call-v2-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "c37e2345ee5bae08c594f906bdb49dd3edbce37e46baab99a9f10f761a64af6f",
+  "candidate_E1_executed": false,
+  "new_binary_memory_qualification_required": true,
+  "prototype": "77962729f8de389c25b3f595708ab50d4b3362c0",
+  "prototype_tree": "b578331d1dd8e768b2ec794689f5906acb71bb56"
+}

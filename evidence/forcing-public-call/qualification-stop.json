@@ -1,0 +1,52 @@
+{
+  "aligned_additional_bound": 65552,
+  "cancellation_retry_controls": "NOT_RUN_MEMORY_GATE_BLOCKED",
+  "candidate_E1_executed": false,
+  "candidate_owner_publications": 0,
+  "cap": 65536,
+  "chart_disabled_candidate_fixed_call_terminal": {
+    "calls": 50,
+    "converged": false,
+    "corrections": 7,
+    "event": "terminal_validation",
+    "newton_threshold": 1e-13,
+    "rate_norm": 1.1895444217920825e-13
+  },
+  "exact_scalar_probes": 36,
+  "fixed_candidate_comparison_E1_success_retained_without_full_call_claim": true,
+  "native_fixed_public_call_terminal": [
+    {
+      "calls": 50,
+      "converged": false,
+      "corrections": 7,
+      "event": "terminal_validation",
+      "newton_threshold": 1e-13,
+      "rate_norm": 1.1895444217920825e-13
+    },
+    {
+      "calls": 50,
+      "converged": false,
+      "corrections": 7,
+      "event": "terminal_validation",
+      "newton_threshold": 1e-13,
+      "rate_norm": 1.1895444217920825e-13
+    }
+  ],
+  "native_initial_controller_checks_exact": true,
+  "native_original_failure_preserved": true,
+  "native_prefix_bitwise_rust_checks": {
+    "accepted_coefficients": 22,
+    "mass_floats": 16,
+    "positions_floats": 38,
+    "pressure_floats": 16,
+    "stamp": true,
+    "time": 1,
+    "velocity_floats": 48
+  },
+  "new_binary_sha256": "c37e2345ee5bae08c594f906bdb49dd3edbce37e46baab99a9f10f761a64af6f",
+  "parameter_search": false,
+  "production_adoption": false,
+  "production_bytes_restored": true,
+  "scalar_groups": 23,
+  "status": "STOPPED_BEFORE_E1_PUBLIC_CALL_MEMORY_GATE"
+}
