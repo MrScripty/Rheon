@@ -1,0 +1,127 @@
+{
+  "acceptance_promotions": 0,
+  "cases": {
+    "nonzero_e1_first_ledger_term": {
+      "acceleration": "-64/1",
+      "be_loss": "0/1",
+      "e0": "0/1",
+      "e1": "1/9007199254740992",
+      "energy_change": "0/1",
+      "exact_embedding": "9007199254740993/9007199254740992",
+      "external_work": "-2/1",
+      "first_defect_term": "-1/4503599627370496",
+      "h": "1/32",
+      "ledger_defect": "-27021597764222977/81129638414606681695789005144064",
+      "new_u_hex": "0x1.0000000000000p+0",
+      "new_z": [
+        "1/1",
+        "4503599627370497/4503599627370496"
+      ],
+      "nodal_residual": "2/1",
+      "nodal_work": "2/1",
+      "old_u": "1/1",
+      "old_z": [
+        "1/1",
+        "1/1"
+      ],
+      "r": [
+        "1/2",
+        "1/2"
+      ],
+      "reduced_work": "162259276829213390413175774511105/81129638414606681695789005144064",
+      "second_defect_term": "-9007199254740993/81129638414606681695789005144064",
+      "stable_nodal_residual": "18014398509481985/9007199254740992"
+    },
+    "nonzero_signed_gcl_work": [
+      {
+        "be_loss": "7/1",
+        "energy_change": "562949953421321/562949953421312",
+        "g": "1/281474976710656",
+        "gcl": [
+          "1/281474976710656",
+          "0/1"
+        ],
+        "gcl_work": "9/562949953421312",
+        "ledger": "0/1",
+        "m0": [
+          "2/1",
+          "3/1"
+        ],
+        "m1": [
+          "281474976710657/281474976710656",
+          "4/1"
+        ],
+        "minus": "1/1",
+        "mixing_loss": "6/1",
+        "new_u": [
+          "3/1",
+          "1/1"
+        ],
+        "old_u": [
+          "2/1",
+          "-1/1"
+        ],
+        "omitted_gcl_ledger": "-9/562949953421312",
+        "plus": "2/1",
+        "residual": [
+          "1125899906842627/281474976710656",
+          "2/1"
+        ],
+        "residual_work": "3940649673949193/281474976710656",
+        "reversed_gcl_ledger": "-9/281474976710656"
+      },
+      {
+        "be_loss": "7/1",
+        "energy_change": "562949953421303/562949953421312",
+        "g": "-1/281474976710656",
+        "gcl": [
+          "-1/281474976710656",
+          "0/1"
+        ],
+        "gcl_work": "-9/562949953421312",
+        "ledger": "0/1",
+        "m0": [
+          "2/1",
+          "3/1"
+        ],
+        "m1": [
+          "281474976710655/281474976710656",
+          "4/1"
+        ],
+        "minus": "1/1",
+        "mixing_loss": "6/1",
+        "new_u": [
+          "3/1",
+          "1/1"
+        ],
+        "old_u": [
+          "2/1",
+          "-1/1"
+        ],
+        "omitted_gcl_ledger": "9/562949953421312",
+        "plus": "2/1",
+        "residual": [
+          "1125899906842621/281474976710656",
+          "2/1"
+        ],
+        "residual_work": "3940649673949175/281474976710656",
+        "reversed_gcl_ledger": "9/281474976710656"
+      }
+    ]
+  },
+  "limitations": "Illustrative exact identities, not a native solver, conservation acceptance, restart or floor proof.",
+  "native_compensation_implemented": false,
+  "owner_advances": 0,
+  "production_changes": 0,
+  "rejected_corruptions": [
+    "omitted first nonzero endpoint-embedding work term",
+    "omitted second nonzero embedding work term",
+    "reversed first nonzero endpoint-embedding work term",
+    "reversed second nonzero embedding work term",
+    "omitted positive GCL work",
+    "reversed positive GCL-work sign",
+    "omitted negative GCL work",
+    "reversed negative GCL-work sign"
+  ],
+  "status": "PASS_ADDITIONAL_ANALYTICAL_EXAMPLES_ONLY"
+}
