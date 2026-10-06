@@ -1,0 +1,11 @@
+
+running 1 test
+test research_public_call::case47_pure_e2_original_128_or_cancel ... FAILED
+
+failures:
+
+failures:
+    research_public_call::case47_pure_e2_original_128_or_cancel
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+

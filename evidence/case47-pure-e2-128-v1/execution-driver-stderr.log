@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-fd-pure-e2/evidence/case47-pure-e2-128-v1/run_once_v2.py", line 42, in <module>
+    main,data=job('main',None)
+              ^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-fd-pure-e2/evidence/case47-pure-e2-128-v1/run_once_v2.py", line 40, in job
+    require((P/(label+'-native.log')).stat().st_size<=before['stdout_cap'] and (P/(label+'-native-stderr.log')).stat().st_size<=before['stderr_cap'],'bounded native journals');require(r.returncode==0,'native test failure: stop, retain evidence')
+                                                                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-fd-pure-e2/evidence/case47-pure-e2-128-v1/run_once_v2.py", line 6, in require
+    if not ok:raise ValueError(msg)
+              ^^^^^^^^^^^^^^^^^^^^^
+ValueError: native test failure: stop, retain evidence

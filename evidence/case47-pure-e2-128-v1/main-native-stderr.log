@@ -1,0 +1,6 @@
+
+thread 'research_public_call::case47_pure_e2_original_128_or_cancel' (486470) panicked at src/../evidence/case47-pure-e2-128-v1/pure_e2.rs:60:9:
+assertion `left == right` failed
+  left: [4569195645339543461, 0, 4598175219545276416]
+ right: [0, 0, 4598175219545276416]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
