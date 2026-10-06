@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/analyze_metric.py", line 26, in <module>
+    if __name__=='__main__':print(json.dumps(run(int(sys.argv[1])if len(sys.argv)>1 else 80),indent=2,sort_keys=True))
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/analyze_metric.py", line 16, in run
+    mp.mp.dps=dps;C=ROOT/'evidence/forcing-e2-fixed-candidates-v1';c=next(x for x in json.loads((C/'inputs.json').read_text())['cases']if x['index']==41);c=dict(c,acceleration=[.0625,-.125,.03125]);records=f.a.records(C/'candidate-fixed.log');out=[];L=Q(1);U=Q(1);mass=sum(map(Q,c['accepted_publication']['mass']));f.require(mass==Q(27,8),'actual conserved fixture mass');T=L/U;acc=U/T;force=mass*acc;pressure_coordinate=force/L
+                                                                                                                                                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-case41-next-plan/evidence/forcing-case41-scale-diagnosis-v1/analyze.py", line 8, in require
+    if not ok: raise ValueError(msg)
+               ^^^^^^^^^^^^^^^^^^^^^
+ValueError: actual conserved fixture mass

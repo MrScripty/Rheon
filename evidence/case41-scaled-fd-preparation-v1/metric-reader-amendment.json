@@ -1,0 +1,12 @@
+{
+  "frozen_compile_source": "c238111d8c8d159c157e489294a25998aaf36516",
+  "native_equations_before_or_after_repair": 0,
+  "new_corrections": 0,
+  "new_owners": 0,
+  "new_reader_sha256": "357c3b77eb8409ec9966056af375574e4d610040bba1b62aaa1e288aa92f1433",
+  "old_failed_commands_sha256": "b91cb4617192c814b2ab8859e745d5fb4a6e9c61e82aacfbf2e79891b8285a9b",
+  "old_reader_sha256": "f22ac22ca385f1a7ba510f75ff4b63d07f8ca93d713be6c61f031ca0c58d4ab6",
+  "reason": "The exact sum of captured nodal masses differs from nominal27/8 by \u22129/2^56 while native sequential sum reports27/8. Fix the nominal scale interpretation; keep actual matrix masses and all physical data/gates unchanged.",
+  "scale_values_changed": false,
+  "status": "EXISTING_DATA_READER_REPAIR_ONLY"
+}
