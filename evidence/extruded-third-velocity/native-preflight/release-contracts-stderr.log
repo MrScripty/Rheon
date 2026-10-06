@@ -1,0 +1,6 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `release` profile [optimized] target(s) in 46.97s
+     Running tests/coupled_discrete_contract.rs (/workspace/.rheon-tools/target/release/deps/coupled_discrete_contract-e636e7cac59d88cb)
+     Running tests/extruded_third_contract.rs (/workspace/.rheon-tools/target/release/deps/extruded_third_contract-af830e686e472e95)
+ACTUAL third failure: LinearFailure; assembly visits 24; accepted stamp TranslatedViscousStamp { id: 91, version: 0 }
+     Running tests/translated_viscous_contract.rs (/workspace/.rheon-tools/target/release/deps/translated_viscous_contract-e3a4dcb92af295e0)
