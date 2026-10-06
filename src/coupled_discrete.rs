@@ -188,6 +188,8 @@ pub struct CoupledDiscreteReport {
     pub gcl_max: f64,
     pub quadrature_error: f64,
     pub full_constraints: f64,
+    /// Loop passes, including a converged seed check. A terminal residual
+    /// validation adds no pass or correction; see equation_evaluations.
     pub iterations: usize,
     pub equation_evaluations: usize,
     pub sign_roots: usize,
@@ -672,17 +674,49 @@ impl CoupledDiscreteFlow {
                 return Err(CoupledDiscreteError::IterationLimit);
             }
         }
+        // The budget bounds computed corrections. Validate the final authorized
+        // correction before exhaustion, without another Jacobian or solve.
+        if !converged {
+            if calls >= 200 {
+                return Err(CoupledDiscreteError::IterationLimit);
+            }
+            barrier(&mut cancel, CoupledDiscreteStage::Iteration)?;
+            let terminal = self.work.equation(
+                q,
+                eta,
+                &unknown,
+                h,
+                16,
+                old_velocity,
+                &old_mass,
+                acceleration,
+                &mut cancel,
+            )?;
+            calls += 1;
+            converged = norm(&terminal.rate)? <= NEWTON;
+            // BEGIN RHEON REFUSAL DIAGNOSTIC
+            #[cfg(rheon_newton_trace)]
+            eprintln!(
+                "{{\"event\":\"terminal_validation\",\"corrections\":{},\"calls\":{},\"rate_norm\":{:?},\"newton_threshold\":{:?},\"converged\":{}}}",
+                iterations,
+                calls,
+                norm(&terminal.rate)?,
+                NEWTON,
+                converged,
+            );
+            // END RHEON REFUSAL DIAGNOSTIC
+        }
         if !converged {
             // BEGIN RHEON REFUSAL DIAGNOSTIC
             #[cfg(rheon_newton_trace)]
             {
                 eprintln!(
-                    "{{\"event\":\"refusal\",\"reason\":\"seven_check_newton_window_exhausted\",\"checks\":{},\"calls\":{},\"accepted_version\":{},\"h\":{:?},\"newton_threshold\":{:?}}}",
+                    "{{\"event\":\"refusal\",\"reason\":\"correction_budget_exhausted\",\"checks\":{},\"calls\":{},\"accepted_version\":{},\"h\":{:?},\"newton_threshold\":{:?}}}",
                     iterations, calls, before.version, h, NEWTON,
                 );
-                // Observe the unused seventh correction at both quadrature
-                // orders. These two evaluations never enter the solver's
-                // acceptance decision, counters or published state.
+                // Observe the refused final candidate at both quadrature
+                // orders. These extra diagnostic evaluations never enter
+                // acceptance, counters or published state.
                 for order in [16, 32] {
                     match self.work.equation(
                         q,

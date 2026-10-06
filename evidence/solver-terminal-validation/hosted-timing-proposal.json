@@ -1,0 +1,15 @@
+{
+  "active_workflow_changed": false,
+  "original_serial_job_timeout_minutes": 30,
+  "original_local_15_command_total_seconds": 2372.8391881120333,
+  "measured_feature_paths_seconds": {
+    "default": 630.6891069159974,
+    "core-only": 639.4522094740023,
+    "desktop": 1010.8264997520018
+  },
+  "measured_executable_smoke_seconds_warm": 13.127,
+  "measured_lifecycle_37_methods_seconds_warm": 59.044,
+  "hosted_timing_qualified": false,
+  "caveat": "Cold host setup, independent builds and runner variation are unmeasured. 1010.82s is the local longest feature path, not a hosted guarantee.",
+  "measurement_receipt_sha256": "1c6add0275eb75b978df2b47b3f4c6b8464e5a92cb5ed2486e588b62d7b3e47f"
+}
