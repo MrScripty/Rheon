@@ -1,0 +1,26 @@
+{
+  "status": "FROZEN_EXACT_REFUSAL_DIAGNOSIS_ORIGINAL_FAILURE_RETAINED",
+  "source": "19392a5e5829342204acea50e0e7d75657a18408",
+  "tree": "d55223fb5766011c6e743427202f8a4ddbe04908",
+  "source_paths": 312,
+  "packet_files": 56,
+  "preserved_baseline_paths": 6670,
+  "exact_original_refusals": 6,
+  "preserved_state_retries": 6,
+  "original_checks_per_refusal": 7,
+  "original_calls_per_refusal": 49,
+  "unused_candidates_meet_threshold_only": 2,
+  "actual_corruption_rejections": 8,
+  "independent_candidate_evaluations": 54,
+  "original_temporal_gate": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "observed_candidates_publish": false,
+  "arithmetic_floor_proved": false,
+  "general_convergence_rate_proved": false,
+  "hosted_CI_qualified": false
+}
+REJECTED source_sha256: qualified source .coderabbit.config.ts
+REJECTED file_sha256: frozen refusal evidence evidence/forcing-finer-refusals/analysis-normal-stderr.log
+REJECTED historical_git_blobs: complete preserved baseline inventory
+REJECTED observed_candidates_publish: honest diagnostic scope
+REJECTED original_temporal_gate: honest diagnostic scope
+REJECTED original_newton_threshold: exact receipt limits and counts

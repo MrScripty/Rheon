@@ -1,0 +1,37 @@
+{
+  "actual_binding_corruption_rejections_per_mode": 6,
+  "actual_trace_corruption_rejections_per_mode": 8,
+  "evidence_commit": "9d579233e396167221ccff3cdc4b291ac2eeb62d",
+  "evidence_tree": "2cd145dede378747df2be4e233cd2a76e0a38283",
+  "file_sha256": {
+    "evidence/forcing-finer-refusals-validation/final-precommit-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-finer-refusals-validation/final-precommit-normal.log": "f582b023007a5b44ed778976fda8f82296729eea51d7b5c297cfe1f17c769547",
+    "evidence/forcing-finer-refusals-validation/final-precommit-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-finer-refusals-validation/final-precommit-optimized.log": "f582b023007a5b44ed778976fda8f82296729eea51d7b5c297cfe1f17c769547",
+    "evidence/forcing-finer-refusals-validation/frozen-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-finer-refusals-validation/frozen-normal.log": "f582b023007a5b44ed778976fda8f82296729eea51d7b5c297cfe1f17c769547",
+    "evidence/forcing-finer-refusals-validation/frozen-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-finer-refusals-validation/frozen-optimized.log": "f582b023007a5b44ed778976fda8f82296729eea51d7b5c297cfe1f17c769547",
+    "evidence/forcing-finer-refusals-validation/precommit-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-finer-refusals-validation/precommit-normal.log": "fc54cddbeb829ab8cf069b13ef5fdd7a3c8b698e4c8b321f66cde1d01bdff128",
+    "evidence/forcing-finer-refusals-validation/precommit-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-finer-refusals-validation/precommit-optimized.log": "fc54cddbeb829ab8cf069b13ef5fdd7a3c8b698e4c8b321f66cde1d01bdff128"
+  },
+  "hosted_CI_qualified": false,
+  "normal_optimized_byte_identical": true,
+  "observations_promoted": false,
+  "ordered_evidence_parents": [
+    "19392a5e5829342204acea50e0e7d75657a18408"
+  ],
+  "ordered_source_chain": [
+    "c59007a1e6a37e67f0677740da007070b159a9a7",
+    "19392a5e5829342204acea50e0e7d75657a18408"
+  ],
+  "original_refusals": 6,
+  "original_temporal_gate": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "preserved_state_retries": 6,
+  "root_receipt_sha256": "57ec968a6eafb97b4b5d36340b91de9d456edae46357b944a8ad363c97708991",
+  "source": "19392a5e5829342204acea50e0e7d75657a18408",
+  "source_tree": "d55223fb5766011c6e743427202f8a4ddbe04908",
+  "status": "PASS_FROZEN_EXACT_REFUSAL_BINDING"
+}
