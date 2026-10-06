@@ -1,0 +1,54 @@
+{
+  "base": "2f23503d9bf74842e39f9fe0760edf4bfeb41b4c",
+  "base_tree": "d178347673f026cd9336f5909318208416d9e783",
+  "checks": {
+    "E1_refusal_trace_and_state_exact": true,
+    "E2_comparison_calls": 1,
+    "E2_corrections": 2,
+    "E2_counted_equations": 15,
+    "E2_prefix_reports_and_states_exact": true,
+    "E2_version": 26,
+    "affine_probes": 6,
+    "binary_sha256": "854e7f690480276cdfdff536473504fda02c60199de134161d61ad1e7af80753",
+    "exact_primitive_probes": 36,
+    "memory_bound": 65760,
+    "memory_cap": 67584,
+    "native_scalar_groups": 23,
+    "native_source": "409c140cb761d267da78d2a8cdac623ff45e9772",
+    "native_source_tree": "34ebbb1c24ad5a3888c96a485ac9ec9da02d5a4d",
+    "negative_controls": [
+      "wrong version",
+      "wrong pressure",
+      "omitted third shear",
+      "false work",
+      "relaxed planar gate",
+      "wrong third publication",
+      "wrong force"
+    ],
+    "new_native_executions_in_verification": 0,
+    "new_reference_integrations": 0,
+    "original_geometry_band_failures_preserved": 8,
+    "original_runtime_failures_preserved": 2,
+    "physical_cells_readonly_replayed": 26,
+    "production_adoption": false,
+    "status": "PASS_FRESH_CASE47_BOUND_RESULTS"
+  },
+  "new_native_executions": 0,
+  "new_owner_advances": 0,
+  "original_failures_retained": true,
+  "preserved_base": {
+    "files": 7926,
+    "path_content_sha256": "c9318b32d8498fd0d699cbafee765b6f8905c41a788ec5e6c7caeb0397b9edf8"
+  },
+  "receipt_sha256": {
+    "forcing-case41-scale-diagnosis-v1": "7b8fece094c70c3b4c9ec58469ecbb2528e8dd2991e1b071587986ecf316a7c5",
+    "forcing-case47-public-call-v1": "3988a95f7940db624ed4fd72e210538233bcc61f98638963eafe2319e650e1bf"
+  },
+  "result_commit": "3ea1b7af6f48f42947740b89ec8457e88439872e",
+  "result_inventory": {
+    "files": 8052,
+    "path_content_sha256": "5bb25253dd940135b1c18668b232f6150b7f1f627bcb59326ff19b7c9834a017"
+  },
+  "result_tree": "fa4d3878bf2424885c696ce656ec7bdca2865835",
+  "status": "PASS_PUBLISHED_BOUNDED_FOLLOWUP_TREE"
+}

@@ -1,0 +1,24 @@
+{
+  "artifacts": {
+    "post-git-frozen-worktrees.json": "d7b7fb2b2f0ed487545b378b863484bbb561b3fed5962aa83c2304e30420c502",
+    "post-git-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "post-git-normal.json": "10e7f14d07231a7d23c86b96f2ad12ee6322ab4786e4025237a7d395a8577880",
+    "post-git-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "post-git-optimized.json": "10e7f14d07231a7d23c86b96f2ad12ee6322ab4786e4025237a7d395a8577880"
+  },
+  "binary_sha256": "854e7f690480276cdfdff536473504fda02c60199de134161d61ad1e7af80753",
+  "case41_new_native_equations": 0,
+  "compiled_native_source": "409c140cb761d267da78d2a8cdac623ff45e9772",
+  "compiled_native_tree": "34ebbb1c24ad5a3888c96a485ac9ec9da02d5a4d",
+  "new_native_invocations_in_postGit": 0,
+  "normal_optimized_parity": true,
+  "old_base_files_byte_preserved": 7926,
+  "old_worktrees_unchanged": 15,
+  "receipt_sha256": {
+    "forcing-case41-scale-diagnosis-v1": "7b8fece094c70c3b4c9ec58469ecbb2528e8dd2991e1b071587986ecf316a7c5",
+    "forcing-case47-public-call-v1": "3988a95f7940db624ed4fd72e210538233bcc61f98638963eafe2319e650e1bf"
+  },
+  "result_commit": "3ea1b7af6f48f42947740b89ec8457e88439872e",
+  "result_tree": "fa4d3878bf2424885c696ce656ec7bdca2865835",
+  "status": "PASS_PUBLISHED_BOUNDED_FOLLOWUP_TREE"
+}

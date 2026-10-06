@@ -1,0 +1,80 @@
+{
+  "status": "PASS_15_FROZEN_WORKTREES_UNCHANGED",
+  "worktrees": [
+    {
+      "clean": true,
+      "head": "f76841e9217e781d91c5bfeabadb6b4c6f42b20b",
+      "path": "/workspace/Rheon"
+    },
+    {
+      "clean": true,
+      "head": "676c6feaf906a965920f37792e07e2d4d623b3d2",
+      "path": "/workspace/Rheon-public-generalization"
+    },
+    {
+      "clean": true,
+      "head": "e3b6858d2d29fc8837dbf2acd84db0c01784a352",
+      "path": "/workspace/Rheon-public-call-66k"
+    },
+    {
+      "clean": true,
+      "head": "4d60e9637431a8d9792944bcd9ff00979ead237e",
+      "path": "/workspace/Rheon-public-call"
+    },
+    {
+      "clean": true,
+      "head": "1e90ed562f200327925c3f0b0255067aa413e0f1",
+      "path": "/workspace/Rheon-increment-comparison"
+    },
+    {
+      "clean": true,
+      "head": "704842c368953e47df279728935e20cfda89f0c5",
+      "path": "/workspace/Rheon-increment-contract"
+    },
+    {
+      "clean": true,
+      "head": "f0b81b4a5f76cb706e645fad4f38faf028c5727e",
+      "path": "/workspace/Rheon-forcing-arithmetic"
+    },
+    {
+      "clean": true,
+      "head": "dad53b4054034fe0c2ff6240464df7441ab4e6a9",
+      "path": "/workspace/Rheon-finer-refusals"
+    },
+    {
+      "clean": true,
+      "head": "be99b8962ba9c20d9e0a99218a1d2f62f120da45",
+      "path": "/workspace/Rheon-column-final-repair"
+    },
+    {
+      "clean": true,
+      "head": "ec26e48df958f0ebc60af414253ff98c0007dc13",
+      "path": "/workspace/Rheon-oracle-repair"
+    },
+    {
+      "clean": true,
+      "head": "49c47b9a344ec277e2eaa0a5315b27a51ed2f17c",
+      "path": "/workspace/Rheon-terminal-main"
+    },
+    {
+      "clean": true,
+      "head": "008fdd02ca41e88821bfa8999283347bab3455eb",
+      "path": "/workspace/Rheon-e1-trajectories"
+    },
+    {
+      "clean": true,
+      "head": "b46d26c8fe06f9c331c5cee4e06af6e34fa9190c",
+      "path": "/workspace/Rheon-e1-diagnostics"
+    },
+    {
+      "clean": true,
+      "head": "c210d9ff630504748fad129337aaa84e013522a6",
+      "path": "/workspace/Rheon-affine-rounding-contract"
+    },
+    {
+      "clean": true,
+      "head": "2f23503d9bf74842e39f9fe0760edf4bfeb41b4c",
+      "path": "/workspace/Rheon-e2-fixed-candidates"
+    }
+  ]
+}
