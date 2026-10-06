@@ -1,0 +1,10 @@
+{
+  "binary": "/workspace/.rheon-tools/case47-pure-e2-128-v1-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "ff7931a683e1e5c7e39cf890dec7930280b15f9b5eacef7256cc665fa71e2f4b",
+  "generalization_executed": false,
+  "protocol_sha256": "b75e75e575793c8f9e1f20dacd16065f1a2ebdd242a6b5686777dcbad8c7b08f",
+  "prototype": "27b9d521ab4f6ea12658a4bd7e4c0085a6ce8136",
+  "prototype_tree": "0414732ea85aa11e23a90780b2b6e2a61bfb818d",
+  "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
+  "target": "/workspace/.rheon-tools/case47-pure-e2-128-v1-target"
+}

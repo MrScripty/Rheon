@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-fd-pure-e2/evidence/case47-pure-e2-128-v1/qualify_preflight.py", line 16, in <module>
+    scalar=load('public_scalar',P/'check_scalar.py').run(P/'scalar-native.log');affine=load('public_affine',P/'check_affine.py').run();memory=json.loads((P/'memory-normal.json').read_text());require(memory['status']=='PASS_PURE_E2_MEMORY_PREFLIGHT' and memory['bound']<=67584,'fresh memory pass');require((P/'memory-normal.json').read_bytes()==(P/'memory-optimized.json').read_bytes(),'memory mode parity')
+                                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

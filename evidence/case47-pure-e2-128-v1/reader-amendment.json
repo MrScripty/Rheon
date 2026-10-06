@@ -1,0 +1,19 @@
+{
+  "compiled_source": "27b9d521ab4f6ea12658a4bd7e4c0085a6ce8136",
+  "compiled_source_tree": "0414732ea85aa11e23a90780b2b6e2a61bfb818d",
+  "failed_artifact_sha256": {
+    "memory-commands.json": "bacf322166a0e60f93eefa866923d7628307675dc9d67a12fb7e51c18ca59736",
+    "memory-normal-stderr.log": "88b2c258fff7f1785badcff2bf927c6c712ea7ac31a6a5af142c36b406d11ef6",
+    "memory-normal.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "qualification-driver-stderr.log": "0577324439028789bd47a4c2dc27eaeb21ed4637b86f715d1f481c60a2bcb0f0",
+    "qualification-driver.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "native_rust_changed": false,
+  "new_reader_sha256": {
+    "audit_observation_v2.py": "6e41458aa6f7ecdf977ac14e56ae98b3bbef6043cd0de857b7dcdab63ec98479",
+    "qualify_preflight_v2.py": "a06721cfb40d9a9e08faa379e6b44e40ad0bbee99bcfabf512924d806a5083b4",
+    "run_once_v2.py": "3a183ba7e90497bee283690fe2f96b286791d81c87c60428848459d0577af8bf"
+  },
+  "owner_advances": 0,
+  "reason": "Rust debug tuple layout is not JSON; extract only the single explicit control_bytes integer instead of parsing unrelated tuples. Original failed audit/qualification outputs preserved. All Rust, gates and scalar results unchanged; zero owners so far."
+}

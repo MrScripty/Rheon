@@ -1,0 +1,14 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "evidence/case47-pure-e2-128-v1/audit_observation.py"
+    ],
+    "exit": 1,
+    "owner_advances": 0,
+    "stderr": "memory-normal-stderr.log",
+    "stderr_sha256": "88b2c258fff7f1785badcff2bf927c6c712ea7ac31a6a5af142c36b406d11ef6",
+    "stdout": "memory-normal.json",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]
