@@ -1,0 +1,18 @@
+{
+  "baseline_parent": "d0899499c8e32b59cf80fc6140345b0866e68ef3",
+  "native_solver_changed": false,
+  "successful_reproduction_exit": 0,
+  "first_reproduction_exit": 101,
+  "first_rest_control_failure": "ThirdWorkFailure with constant third component 0.25; archived exact sources and logs",
+  "command": "CARGO_TARGET_DIR=/workspace/.rheon-tools/finer-refusal-trace-target cargo run --locked --release --quiet --example solver_iteration_boundary",
+  "files": {
+    "evidence/solver-iteration-boundary/original-zero-rest-public-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/solver-iteration-boundary/original-public.jsonl": "bb9bf21b1b1334c00ca5eb52b6e316e80e21059d84335b0267593daba1ba15cd",
+    "evidence/solver-iteration-boundary/first-boundary-example.rs": "d7b663912851508045bad913f9139b28fe1a71f196c96af5ee2cd53131888786",
+    "evidence/solver-iteration-boundary/original-zero-rest-public.jsonl": "38209d2cfa1744768edf248736dfdec3a967f9e6a8e92b5ae082eee7199482ce",
+    "evidence/solver-iteration-boundary/first-boundary-fixture.rs": "8d01f9e25fff7c948507d79f3d44e7f343b4f96d1514450c016c092f6bba312d",
+    "evidence/solver-iteration-boundary/original-public-stderr.log": "5dddc8804eab7114a0664efca96a14cad29bd83d4f50c93d92e52174a612e404",
+    "examples/solver_iteration_boundary.rs": "d7b663912851508045bad913f9139b28fe1a71f196c96af5ee2cd53131888786",
+    "tests/common/iteration_boundary_fixture.rs": "5ad85c5bf0fa5ae67e37c06668bccddb0030c5e341723a6e791ade9bab3c578c"
+  }
+}

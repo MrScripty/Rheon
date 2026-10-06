@@ -1,0 +1,4 @@
+
+thread 'main' (419917) panicked at examples/solver_iteration_boundary.rs:35:64:
+called `Result::unwrap()` on an `Err` value: ThirdWorkFailure
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

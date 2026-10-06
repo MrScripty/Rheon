@@ -1,0 +1,7 @@
+# Unchanged native solver: public correction-boundary reproduction
+
+Parent d0899499c8e32b59cf80fc6140345b0866e68ef3. No native solver changes. Dedicated release target, Rust 1.92, ordinary configuration. `original-zero-rest-public.jsonl` completes successfully: at both h=0.05 and h=0.0015625, three authorized computed corrections are refused, whereas larger budgets accept exactly the same endpoint after the fourth residual check (22 equation calls). Budgets one and two refuse without changing captured accepted fields. Zero rest accepts its seed with one check/one call and time 0.025, then one-update forced failure preserves that accepted state.
+
+The first attempt incorrectly assumed nonzero constant third velocity would make a valid rest control: it fails ThirdWorkFailure. That exit-101 log and exact example/helper sources remain archived. No numerical threshold or third-work gate was relaxed to make this control pass.
+
+The shared viscous CG checks each completed update before checking the cap again. Chapter 10 declares the nonlinear budget bounds frozen-coefficient solves and evaluates the candidate residual before exhaustion. The coupled loop instead performs its final authorized correction and returns without checking that result. The copied research seven-check loop and older native prose are ambiguous about counters; this reproduction alone does not prove convergence of any finer temporal trajectory.
