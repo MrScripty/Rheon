@@ -1,0 +1,31 @@
+{
+  "A0_norm": 1.1895842873679072e-13,
+  "B0_bitwise_float_checks": 1935,
+  "B0_norm": 1.1895444217920825e-13,
+  "E1_fine_norm": 9.979078763725605e-14,
+  "E1_norm": 9.978631585490488e-14,
+  "additional_live_bound": 64024,
+  "artifacts": 75,
+  "combined_reservation_bytes": 538920,
+  "exact_scalar_probes": 36,
+  "isolated_planar_gates_pass": true,
+  "kernel_stack_bound": 1920,
+  "owner_advances": 0,
+  "preserved_files": 6996,
+  "production_changes": 0,
+  "reserved_additional_bytes": 64152,
+  "result_corruptions_rejected": [
+    "false original A0 pass",
+    "false original B0 pass",
+    "E1 mislabeled identical fields",
+    "alternate geometry silently accepted",
+    "unrun third/public step promoted",
+    "hidden candidate search",
+    "invented owner advance",
+    "original temporal failure promoted",
+    "signed zero corrupted"
+  ],
+  "scalar_assertion_groups": 23,
+  "searches": 0,
+  "status": "PASS_BOUNDED_EXPERIMENT_BINDING_ONLY"
+}
