@@ -1,0 +1,1161 @@
+{
+  "actual_disassembly_sha256": "496eb217d5d300a6f134334d6963d37b4a9f964d7a5ce48103f4e541aa4708e0",
+  "archive_sha256": "fe379826a40fcb548657dba724d83a2482cd689ba91c2a5657ceefa797920ea8",
+  "binary": "/workspace/.rheon-tools/case47-pure-e2-128-v2-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "6e6ea0505c81cbf8624b177c6c782ff8cb29cc0830c0524e79088e8307a10989",
+  "candidate_descriptor_additions_in_residual": 16,
+  "candidate_owner_descriptor_bytes": 8856,
+  "common_native_owner_bytes_credited": 17696,
+  "common_native_owner_regions_credited": 2,
+  "compiled_source": "e37b0bb34ace62f16dc931488146d6a396b27be0",
+  "compiled_source_tree": "5e3fef4bdb87087acbeb7bdf56303fa9669b2b2a",
+  "control_bytes": 120,
+  "disjoint_outer_regions": [
+    {
+      "bytes": 8856,
+      "name": "constructor return slot, later public Result output",
+      "offset": 1232
+    },
+    {
+      "bytes": 8856,
+      "name": "settled candidate owner",
+      "offset": 10096
+    },
+    {
+      "bytes": 62096,
+      "name": "ChartWorkspace",
+      "offset": 18960
+    }
+  ],
+  "frames": {
+    "candidate-public-call": {
+      "address": "0x11c350",
+      "below_rsp_bytes": 0,
+      "direct_calls": [
+        {
+          "address": "0x11c3b8",
+          "instruction": "call   7b4c0 <rheon::fitted_height::FittedHeightPlan::new>",
+          "name": null
+        },
+        {
+          "address": "0x11c41a",
+          "instruction": "call   7b4c0 <rheon::fitted_height::FittedHeightPlan::new>",
+          "name": null
+        },
+        {
+          "address": "0x11c506",
+          "instruction": "call   1ac960 <rheon::research_public_call::observe>",
+          "name": "rheon::research_public_call::observe"
+        },
+        {
+          "address": "0x11c595",
+          "instruction": "call   1ac960 <rheon::research_public_call::observe>",
+          "name": "rheon::research_public_call::observe"
+        },
+        {
+          "address": "0x11c91c",
+          "instruction": "call   1ac960 <rheon::research_public_call::observe>",
+          "name": "rheon::research_public_call::observe"
+        },
+        {
+          "address": "0x11cac9",
+          "instruction": "call   11c100 <rheon::research_public_call::candidate::coordinates>",
+          "name": "rheon::research_public_call::candidate::coordinates"
+        },
+        {
+          "address": "0x11ccdf",
+          "instruction": "call   1ac960 <rheon::research_public_call::observe>",
+          "name": "rheon::research_public_call::observe"
+        },
+        {
+          "address": "0x11cd62",
+          "instruction": "call   135bc0 <rheon::research_public_call::candidate::Work::seed>",
+          "name": "rheon::research_public_call::candidate::Work::seed"
+        },
+        {
+          "address": "0x11cdf2",
+          "instruction": "call   *0x1b2a98(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11ce98",
+          "instruction": "call   1ac960 <rheon::research_public_call::observe>",
+          "name": "rheon::research_public_call::observe"
+        },
+        {
+          "address": "0x11cefd",
+          "instruction": "call   150bb0 <rheon::research_public_call::candidate::Work::equation>",
+          "name": "rheon::research_public_call::candidate::Work::equation"
+        },
+        {
+          "address": "0x11cf7e",
+          "instruction": "call   *%rax",
+          "name": null
+        },
+        {
+          "address": "0x11cfe0",
+          "instruction": "call   *0x1b28aa(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11d043",
+          "instruction": "call   *0x1b2847(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11d070",
+          "instruction": "call   1b20e0 <rheon::translated_viscous::norm>",
+          "name": null
+        },
+        {
+          "address": "0x11d2af",
+          "instruction": "call   *0x1b2613(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>",
+          "name": null
+        },
+        {
+          "address": "0x11d2c0",
+          "instruction": "call   1b20e0 <rheon::translated_viscous::norm>",
+          "name": null
+        },
+        {
+          "address": "0x11d301",
+          "instruction": "call   *0x1b2579(%rip)        # 2cf880 <memset@GLIBC_2.2.5>",
+          "name": null
+        },
+        {
+          "address": "0x11d416",
+          "instruction": "call   *0x1b2474(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11d4e8",
+          "instruction": "call   150bb0 <rheon::research_public_call::candidate::Work::equation>",
+          "name": "rheon::research_public_call::candidate::Work::equation"
+        },
+        {
+          "address": "0x11d56c",
+          "instruction": "call   *%rbp",
+          "name": null
+        },
+        {
+          "address": "0x11d5c9",
+          "instruction": "call   *%rbp",
+          "name": null
+        },
+        {
+          "address": "0x11d647",
+          "instruction": "call   115300 <rheon::translated_viscous::div>",
+          "name": null
+        },
+        {
+          "address": "0x11d7bc",
+          "instruction": "call   1a04d0 <core::array::drain::drain_array_with>",
+          "name": null
+        },
+        {
+          "address": "0x11d7d4",
+          "instruction": "call   157d30 <rheon::research_public_call::candidate::linear>",
+          "name": "rheon::research_public_call::candidate::linear"
+        },
+        {
+          "address": "0x11d84b",
+          "instruction": "call   *%rax",
+          "name": null
+        },
+        {
+          "address": "0x11d8a7",
+          "instruction": "call   *0x1b1fe3(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11d8fd",
+          "instruction": "call   *0x1b1f8d(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11da39",
+          "instruction": "call   *0x1b1e89(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>",
+          "name": null
+        },
+        {
+          "address": "0x11da95",
+          "instruction": "call   1ac960 <rheon::research_public_call::observe>",
+          "name": "rheon::research_public_call::observe"
+        },
+        {
+          "address": "0x11db0d",
+          "instruction": "call   150bb0 <rheon::research_public_call::candidate::Work::equation>",
+          "name": "rheon::research_public_call::candidate::Work::equation"
+        },
+        {
+          "address": "0x11db88",
+          "instruction": "call   *0x1b1d02(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11dbf4",
+          "instruction": "call   1b20e0 <rheon::translated_viscous::norm>",
+          "name": null
+        },
+        {
+          "address": "0x11dc37",
+          "instruction": "call   1b20e0 <rheon::translated_viscous::norm>",
+          "name": null
+        },
+        {
+          "address": "0x11dd2f",
+          "instruction": "call   *0x1b1b93(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>",
+          "name": null
+        },
+        {
+          "address": "0x11ddfb",
+          "instruction": "call   *0x1b1ac7(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>",
+          "name": null
+        },
+        {
+          "address": "0x11de28",
+          "instruction": "call   1ac960 <rheon::research_public_call::observe>",
+          "name": "rheon::research_public_call::observe"
+        },
+        {
+          "address": "0x11de9b",
+          "instruction": "call   150bb0 <rheon::research_public_call::candidate::Work::equation>",
+          "name": "rheon::research_public_call::candidate::Work::equation"
+        },
+        {
+          "address": "0x11df2f",
+          "instruction": "call   *0x1b195b(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11dfca",
+          "instruction": "call   150bb0 <rheon::research_public_call::candidate::Work::equation>",
+          "name": "rheon::research_public_call::candidate::Work::equation"
+        },
+        {
+          "address": "0x11e065",
+          "instruction": "call   *%r14",
+          "name": null
+        },
+        {
+          "address": "0x11e0cc",
+          "instruction": "call   *%r14",
+          "name": null
+        },
+        {
+          "address": "0x11e127",
+          "instruction": "call   158650 <rheon::research_public_call::candidate::qualify>",
+          "name": "rheon::research_public_call::candidate::qualify"
+        },
+        {
+          "address": "0x11e1d0",
+          "instruction": "call   *0x1b16ba(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11e241",
+          "instruction": "call   14c690 <rheon::research_public_call::candidate::Work::point>",
+          "name": "rheon::research_public_call::candidate::Work::point"
+        },
+        {
+          "address": "0x11e2b8",
+          "instruction": "call   *0x1b15d2(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11e315",
+          "instruction": "call   115270 <rheon::translated_viscous::TranslatedViscousFlow::ale_scratch>",
+          "name": null
+        },
+        {
+          "address": "0x11e341",
+          "instruction": "call   *0x1b1549(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11e38e",
+          "instruction": "call   1158c0 <rheon::research_public_call::candidate::third_step>",
+          "name": "rheon::research_public_call::candidate::third_step"
+        },
+        {
+          "address": "0x11e422",
+          "instruction": "call   *0x1b1468(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11e4ae",
+          "instruction": "call   115380 <rheon::research_public_call::candidate::force_work>",
+          "name": "rheon::research_public_call::candidate::force_work"
+        },
+        {
+          "address": "0x11e558",
+          "instruction": "call   *0x1b1332(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11e59b",
+          "instruction": "call   120db0 <rheon::research_public_call::candidate::combined_report>",
+          "name": "rheon::research_public_call::candidate::combined_report"
+        },
+        {
+          "address": "0x11e6d9",
+          "instruction": "call   *0x1b11e9(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>",
+          "name": null
+        },
+        {
+          "address": "0x11e755",
+          "instruction": "call   *0x1b1135(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11e9f4",
+          "instruction": "call   1ac960 <rheon::research_public_call::observe>",
+          "name": "rheon::research_public_call::observe"
+        },
+        {
+          "address": "0x11ef2b",
+          "instruction": "call   *0x1b095f(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x11efff",
+          "instruction": "call   *0x1b0893(%rip)        # 2cf898 <_DYNAMIC+0x2b0>",
+          "name": null
+        }
+      ],
+      "fixed_decrement_bytes": 145736,
+      "fixed_probe_loop_bytes": 139264,
+      "frame_bound": 146048,
+      "name": "rheon::research_public_call::candidate::public_call",
+      "push_bytes": 304,
+      "return_address_bytes": 8,
+      "size": 11445,
+      "stack_mutations": [
+        {
+          "address": "0x11c350",
+          "instruction": "push   %rbp"
+        },
+        {
+          "address": "0x11c351",
+          "instruction": "push   %r15"
+        },
+        {
+          "address": "0x11c353",
+          "instruction": "push   %r14"
+        },
+        {
+          "address": "0x11c355",
+          "instruction": "push   %r13"
+        },
+        {
+          "address": "0x11c357",
+          "instruction": "push   %r12"
+        },
+        {
+          "address": "0x11c359",
+          "instruction": "push   %rbx"
+        },
+        {
+          "address": "0x11c364",
+          "instruction": "sub    $0x1000,%rsp"
+        },
+        {
+          "address": "0x11c373",
+          "instruction": "cmp    %r11,%rsp"
+        },
+        {
+          "address": "0x11c378",
+          "instruction": "sub    $0x908,%rsp"
+        },
+        {
+          "address": "0x11c4cf",
+          "instruction": "add    $0x23908,%rsp"
+        },
+        {
+          "address": "0x11c4d6",
+          "instruction": "pop    %rbx"
+        },
+        {
+          "address": "0x11c4d7",
+          "instruction": "pop    %r12"
+        },
+        {
+          "address": "0x11c4d9",
+          "instruction": "pop    %r13"
+        },
+        {
+          "address": "0x11c4db",
+          "instruction": "pop    %r14"
+        },
+        {
+          "address": "0x11c4dd",
+          "instruction": "pop    %r15"
+        },
+        {
+          "address": "0x11c4df",
+          "instruction": "pop    %rbp"
+        },
+        {
+          "address": "0x11caa9",
+          "instruction": "sub    $0x8,%rsp"
+        },
+        {
+          "address": "0x11cac2",
+          "instruction": "push   0x588(%r15)"
+        },
+        {
+          "address": "0x11cace",
+          "instruction": "add    $0x10,%rsp"
+        },
+        {
+          "address": "0x11ceab",
+          "instruction": "sub    $0x8,%rsp"
+        },
+        {
+          "address": "0x11cee2",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11ceeb",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11cef4",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11cef5",
+          "instruction": "push   0x50(%rsp)"
+        },
+        {
+          "address": "0x11cef9",
+          "instruction": "push   0x60(%rsp)"
+        },
+        {
+          "address": "0x11cf02",
+          "instruction": "add    $0x30,%rsp"
+        },
+        {
+          "address": "0x11d496",
+          "instruction": "sub    $0x8,%rsp"
+        },
+        {
+          "address": "0x11d4cd",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11d4d6",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11d4df",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11d4e0",
+          "instruction": "push   0x50(%rsp)"
+        },
+        {
+          "address": "0x11d4e4",
+          "instruction": "push   0x60(%rsp)"
+        },
+        {
+          "address": "0x11d4ed",
+          "instruction": "add    $0x30,%rsp"
+        },
+        {
+          "address": "0x11dab9",
+          "instruction": "sub    $0x8,%rsp"
+        },
+        {
+          "address": "0x11db00",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11db01",
+          "instruction": "push   %r10"
+        },
+        {
+          "address": "0x11db03",
+          "instruction": "push   %r11"
+        },
+        {
+          "address": "0x11db05",
+          "instruction": "push   0x50(%rsp)"
+        },
+        {
+          "address": "0x11db09",
+          "instruction": "push   0x60(%rsp)"
+        },
+        {
+          "address": "0x11db12",
+          "instruction": "add    $0x30,%rsp"
+        },
+        {
+          "address": "0x11de44",
+          "instruction": "sub    $0x8,%rsp"
+        },
+        {
+          "address": "0x11de8b",
+          "instruction": "push   %r14"
+        },
+        {
+          "address": "0x11de8d",
+          "instruction": "push   %r10"
+        },
+        {
+          "address": "0x11de92",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11de93",
+          "instruction": "push   0x50(%rsp)"
+        },
+        {
+          "address": "0x11de97",
+          "instruction": "push   0x60(%rsp)"
+        },
+        {
+          "address": "0x11dea0",
+          "instruction": "add    $0x30,%rsp"
+        },
+        {
+          "address": "0x11df87",
+          "instruction": "sub    $0x8,%rsp"
+        },
+        {
+          "address": "0x11dfb6",
+          "instruction": "push   %r14"
+        },
+        {
+          "address": "0x11dfc0",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11dfc1",
+          "instruction": "push   %rbp"
+        },
+        {
+          "address": "0x11dfc2",
+          "instruction": "push   0x50(%rsp)"
+        },
+        {
+          "address": "0x11dfc6",
+          "instruction": "push   0x60(%rsp)"
+        },
+        {
+          "address": "0x11dfcf",
+          "instruction": "add    $0x30,%rsp"
+        },
+        {
+          "address": "0x11e0d5",
+          "instruction": "sub    $0x8,%rsp"
+        },
+        {
+          "address": "0x11e112",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x11e113",
+          "instruction": "push   0x68(%rsp)"
+        },
+        {
+          "address": "0x11e117",
+          "instruction": "push   0x88(%rsp)"
+        },
+        {
+          "address": "0x11e11e",
+          "instruction": "push   0x100(%rsp)"
+        },
+        {
+          "address": "0x11e125",
+          "instruction": "push   %r8"
+        },
+        {
+          "address": "0x11e12c",
+          "instruction": "add    $0x30,%rsp"
+        },
+        {
+          "address": "0x11e365",
+          "instruction": "sub    $0x8,%rsp"
+        },
+        {
+          "address": "0x11e38c",
+          "instruction": "push   %r12"
+        },
+        {
+          "address": "0x11e393",
+          "instruction": "add    $0x10,%rsp"
+        }
+      ]
+    },
+    "native-prefix": {
+      "address": "0x1a3b50",
+      "below_rsp_bytes": 0,
+      "direct_calls": [
+        {
+          "address": "0x1a3c97",
+          "instruction": "call   168200 <rheon::research_public_call::reference::CoupledDiscreteFlow::new_forced_extruded>",
+          "name": "rheon::research_public_call::reference::CoupledDiscreteFlow::new_forced_extruded"
+        },
+        {
+          "address": "0x1a3cd3",
+          "instruction": "call   *0x12bbb7(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x1a3d2a",
+          "instruction": "call   1a2a10 <rheon::research_public_call::snapshot_fields>",
+          "name": "rheon::research_public_call::snapshot_fields"
+        },
+        {
+          "address": "0x1a3d4a",
+          "instruction": "call   1acc40 <<rheon::research_public_call::Snapshot as core::cmp::PartialEq>::eq>",
+          "name": "<rheon::research_public_call::Snapshot as core::cmp::PartialEq>::eq"
+        },
+        {
+          "address": "0x1a3e0e",
+          "instruction": "call   1629a0 <rheon::research_public_call::reference::public_call>",
+          "name": "rheon::research_public_call::reference::public_call"
+        },
+        {
+          "address": "0x1a3e39",
+          "instruction": "call   *0x12ba51(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x1a3ea0",
+          "instruction": "call   *0x12ba72(%rip)        # 2cf918 <_DYNAMIC+0x330>",
+          "name": null
+        },
+        {
+          "address": "0x1a3f24",
+          "instruction": "call   *0x12b9b6(%rip)        # 2cf8e0 <_DYNAMIC+0x2f8>",
+          "name": null
+        },
+        {
+          "address": "0x1a3f3e",
+          "instruction": "call   *0x12b92c(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1a3f94",
+          "instruction": "call   1a2a10 <rheon::research_public_call::snapshot_fields>",
+          "name": "rheon::research_public_call::snapshot_fields"
+        },
+        {
+          "address": "0x1a3fa9",
+          "instruction": "call   1acc40 <<rheon::research_public_call::Snapshot as core::cmp::PartialEq>::eq>",
+          "name": "<rheon::research_public_call::Snapshot as core::cmp::PartialEq>::eq"
+        },
+        {
+          "address": "0x1a3ffe",
+          "instruction": "call   1a2a10 <rheon::research_public_call::snapshot_fields>",
+          "name": "rheon::research_public_call::snapshot_fields"
+        },
+        {
+          "address": "0x1a4064",
+          "instruction": "call   *0x12b8ae(%rip)        # 2cf918 <_DYNAMIC+0x330>",
+          "name": null
+        },
+        {
+          "address": "0x1a40f8",
+          "instruction": "call   *0x12b7e2(%rip)        # 2cf8e0 <_DYNAMIC+0x2f8>",
+          "name": null
+        },
+        {
+          "address": "0x1a4117",
+          "instruction": "call   *0x12b753(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1a412d",
+          "instruction": "call   *0x12b75d(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x1a4187",
+          "instruction": "call   *0x12b75b(%rip)        # 2cf8e8 <_DYNAMIC+0x300>",
+          "name": null
+        },
+        {
+          "address": "0x1a41dc",
+          "instruction": "call   *0x12b776(%rip)        # 2cf958 <_DYNAMIC+0x370>",
+          "name": null
+        },
+        {
+          "address": "0x1a4201",
+          "instruction": "call   1bfe11 <core::panicking::assert_failed>",
+          "name": null
+        },
+        {
+          "address": "0x1a4241",
+          "instruction": "call   *0x12b6a1(%rip)        # 2cf8e8 <_DYNAMIC+0x300>",
+          "name": null
+        },
+        {
+          "address": "0x1a4262",
+          "instruction": "call   *0x12b608(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1a4277",
+          "instruction": "call   1a0d90 <core::ptr::drop_in_place<rheon::translated_viscous::TranslatedViscousFlow>>",
+          "name": null
+        },
+        {
+          "address": "0x1a4284",
+          "instruction": "call   1a0bb0 <core::ptr::drop_in_place<rheon::fitted_height::FittedHeightWorkspace>>",
+          "name": null
+        },
+        {
+          "address": "0x1a428c",
+          "instruction": "call   2b41b0 <_Unwind_Resume@plt>",
+          "name": null
+        }
+      ],
+      "fixed_decrement_bytes": 18824,
+      "fixed_probe_loop_bytes": 0,
+      "frame_bound": 18880,
+      "name": "rheon::research_public_call::verified_prefix",
+      "push_bytes": 48,
+      "return_address_bytes": 8,
+      "size": 1857,
+      "stack_mutations": [
+        {
+          "address": "0x1a3b50",
+          "instruction": "push   %rbp"
+        },
+        {
+          "address": "0x1a3b51",
+          "instruction": "push   %r15"
+        },
+        {
+          "address": "0x1a3b53",
+          "instruction": "push   %r14"
+        },
+        {
+          "address": "0x1a3b55",
+          "instruction": "push   %r13"
+        },
+        {
+          "address": "0x1a3b57",
+          "instruction": "push   %r12"
+        },
+        {
+          "address": "0x1a3b59",
+          "instruction": "push   %rbx"
+        },
+        {
+          "address": "0x1a3b5a",
+          "instruction": "sub    $0x1000,%rsp"
+        },
+        {
+          "address": "0x1a3b69",
+          "instruction": "sub    $0x1000,%rsp"
+        },
+        {
+          "address": "0x1a3b78",
+          "instruction": "sub    $0x1000,%rsp"
+        },
+        {
+          "address": "0x1a3b87",
+          "instruction": "sub    $0x1000,%rsp"
+        },
+        {
+          "address": "0x1a3b96",
+          "instruction": "sub    $0x988,%rsp"
+        },
+        {
+          "address": "0x1a4133",
+          "instruction": "add    $0x4988,%rsp"
+        },
+        {
+          "address": "0x1a413a",
+          "instruction": "pop    %rbx"
+        },
+        {
+          "address": "0x1a413b",
+          "instruction": "pop    %r12"
+        },
+        {
+          "address": "0x1a413d",
+          "instruction": "pop    %r13"
+        },
+        {
+          "address": "0x1a413f",
+          "instruction": "pop    %r14"
+        },
+        {
+          "address": "0x1a4141",
+          "instruction": "pop    %r15"
+        },
+        {
+          "address": "0x1a4143",
+          "instruction": "pop    %rbp"
+        }
+      ]
+    },
+    "outer": {
+      "address": "0x1aa5f0",
+      "below_rsp_bytes": 0,
+      "direct_calls": [
+        {
+          "address": "0x1aa633",
+          "instruction": "call   *0x125327(%rip)        # 2cf960 <_DYNAMIC+0x378>",
+          "name": null
+        },
+        {
+          "address": "0x1aa688",
+          "instruction": "call   *0x12524a(%rip)        # 2cf8d8 <bcmp@GLIBC_2.2.5>",
+          "name": null
+        },
+        {
+          "address": "0x1aa6ab",
+          "instruction": "call   *0x1251bf(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1aa6cf",
+          "instruction": "call   *0x12528b(%rip)        # 2cf960 <_DYNAMIC+0x378>",
+          "name": null
+        },
+        {
+          "address": "0x1aa6fe",
+          "instruction": "call   *0x12516c(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1aa7bd",
+          "instruction": "call   *0x1250ad(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1aa81a",
+          "instruction": "call   *0x125060(%rip)        # 2cf880 <memset@GLIBC_2.2.5>",
+          "name": null
+        },
+        {
+          "address": "0x1aa82f",
+          "instruction": "call   1218a0 <rheon::research_public_call::candidate::public_constructor>",
+          "name": "rheon::research_public_call::candidate::public_constructor"
+        },
+        {
+          "address": "0x1aa857",
+          "instruction": "call   *0x125033(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x1aa8c8",
+          "instruction": "call   1a1f50 <rheon::research_public_call::pure_e2_initial>",
+          "name": "rheon::research_public_call::pure_e2_initial"
+        },
+        {
+          "address": "0x1aa969",
+          "instruction": "call   *0x124f71(%rip)        # 2cf8e0 <_DYNAMIC+0x2f8>",
+          "name": null
+        },
+        {
+          "address": "0x1aa985",
+          "instruction": "call   1a0fd0 <rheon::research_public_call::pure_e2_bits>",
+          "name": "rheon::research_public_call::pure_e2_bits"
+        },
+        {
+          "address": "0x1aa9be",
+          "instruction": "call   1ab320 <rheon::research_public_call::emit>",
+          "name": "rheon::research_public_call::emit"
+        },
+        {
+          "address": "0x1aaa33",
+          "instruction": "call   1a0fd0 <rheon::research_public_call::pure_e2_bits>",
+          "name": "rheon::research_public_call::pure_e2_bits"
+        },
+        {
+          "address": "0x1aaab5",
+          "instruction": "call   11c350 <rheon::research_public_call::candidate::public_call>",
+          "name": "rheon::research_public_call::candidate::public_call"
+        },
+        {
+          "address": "0x1aab20",
+          "instruction": "call   *0x124df2(%rip)        # 2cf918 <_DYNAMIC+0x330>",
+          "name": null
+        },
+        {
+          "address": "0x1aabc2",
+          "instruction": "call   *0x124d18(%rip)        # 2cf8e0 <_DYNAMIC+0x2f8>",
+          "name": null
+        },
+        {
+          "address": "0x1aabdc",
+          "instruction": "call   *0x124c8e(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1aabfb",
+          "instruction": "call   1a0fd0 <rheon::research_public_call::pure_e2_bits>",
+          "name": "rheon::research_public_call::pure_e2_bits"
+        },
+        {
+          "address": "0x1aac23",
+          "instruction": "call   *0x124c67(%rip)        # 2cf890 <memcpy@GLIBC_2.14>",
+          "name": null
+        },
+        {
+          "address": "0x1aad04",
+          "instruction": "call   1ab320 <rheon::research_public_call::emit>",
+          "name": "rheon::research_public_call::emit"
+        },
+        {
+          "address": "0x1aadff",
+          "instruction": "call   *0x124adb(%rip)        # 2cf8e0 <_DYNAMIC+0x2f8>",
+          "name": null
+        },
+        {
+          "address": "0x1aaecb",
+          "instruction": "call   *0x124a47(%rip)        # 2cf918 <_DYNAMIC+0x330>",
+          "name": null
+        },
+        {
+          "address": "0x1aaf84",
+          "instruction": "call   *0x124956(%rip)        # 2cf8e0 <_DYNAMIC+0x2f8>",
+          "name": null
+        },
+        {
+          "address": "0x1aaf9e",
+          "instruction": "call   *0x1248cc(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1ab008",
+          "instruction": "call   *0x1248d2(%rip)        # 2cf8e0 <_DYNAMIC+0x2f8>",
+          "name": null
+        },
+        {
+          "address": "0x1ab016",
+          "instruction": "call   1a0d90 <core::ptr::drop_in_place<rheon::translated_viscous::TranslatedViscousFlow>>",
+          "name": null
+        },
+        {
+          "address": "0x1ab023",
+          "instruction": "call   1a0bb0 <core::ptr::drop_in_place<rheon::fitted_height::FittedHeightWorkspace>>",
+          "name": null
+        },
+        {
+          "address": "0x1ab0d3",
+          "instruction": "call   *0x124817(%rip)        # 2cf8f0 <_DYNAMIC+0x308>",
+          "name": null
+        },
+        {
+          "address": "0x1ab120",
+          "instruction": "call   *0x1247c2(%rip)        # 2cf8e8 <_DYNAMIC+0x300>",
+          "name": null
+        },
+        {
+          "address": "0x1ab157",
+          "instruction": "call   1bfec9 <core::panicking::assert_failed>",
+          "name": null
+        },
+        {
+          "address": "0x1ab1a3",
+          "instruction": "call   *0x12473f(%rip)        # 2cf8e8 <_DYNAMIC+0x300>",
+          "name": null
+        },
+        {
+          "address": "0x1ab1c5",
+          "instruction": "call   *0x1246bd(%rip)        # 2cf888 <_DYNAMIC+0x2a0>",
+          "name": null
+        },
+        {
+          "address": "0x1ab1e3",
+          "instruction": "call   *0x12470f(%rip)        # 2cf8f8 <_DYNAMIC+0x310>",
+          "name": null
+        },
+        {
+          "address": "0x1ab21a",
+          "instruction": "call   *0x124730(%rip)        # 2cf950 <_DYNAMIC+0x368>",
+          "name": null
+        },
+        {
+          "address": "0x1ab235",
+          "instruction": "call   *0x1246bd(%rip)        # 2cf8f8 <_DYNAMIC+0x310>",
+          "name": null
+        },
+        {
+          "address": "0x1ab26c",
+          "instruction": "call   *0x124676(%rip)        # 2cf8e8 <_DYNAMIC+0x300>",
+          "name": null
+        },
+        {
+          "address": "0x1ab2a6",
+          "instruction": "call   *0x1245c4(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1ab2e4",
+          "instruction": "call   *0x124586(%rip)        # 2cf870 <_DYNAMIC+0x288>",
+          "name": null
+        },
+        {
+          "address": "0x1ab2ed",
+          "instruction": "call   2b41b0 <_Unwind_Resume@plt>",
+          "name": null
+        },
+        {
+          "address": "0x1ab2fd",
+          "instruction": "call   1a0d90 <core::ptr::drop_in_place<rheon::translated_viscous::TranslatedViscousFlow>>",
+          "name": null
+        },
+        {
+          "address": "0x1ab30a",
+          "instruction": "call   1a0bb0 <core::ptr::drop_in_place<rheon::fitted_height::FittedHeightWorkspace>>",
+          "name": null
+        },
+        {
+          "address": "0x1ab312",
+          "instruction": "call   2b41b0 <_Unwind_Resume@plt>",
+          "name": null
+        }
+      ],
+      "fixed_decrement_bytes": 81064,
+      "fixed_probe_loop_bytes": 73728,
+      "frame_bound": 81152,
+      "name": "rheon::research_public_call::case47_pure_e2_original_128_or_cancel",
+      "push_bytes": 80,
+      "return_address_bytes": 8,
+      "size": 3367,
+      "stack_mutations": [
+        {
+          "address": "0x1aa5f0",
+          "instruction": "push   %rbp"
+        },
+        {
+          "address": "0x1aa5f1",
+          "instruction": "push   %r15"
+        },
+        {
+          "address": "0x1aa5f3",
+          "instruction": "push   %r14"
+        },
+        {
+          "address": "0x1aa5f5",
+          "instruction": "push   %r13"
+        },
+        {
+          "address": "0x1aa5f7",
+          "instruction": "push   %r12"
+        },
+        {
+          "address": "0x1aa5f9",
+          "instruction": "push   %rbx"
+        },
+        {
+          "address": "0x1aa604",
+          "instruction": "sub    $0x1000,%rsp"
+        },
+        {
+          "address": "0x1aa613",
+          "instruction": "cmp    %r11,%rsp"
+        },
+        {
+          "address": "0x1aa618",
+          "instruction": "sub    $0xca8,%rsp"
+        },
+        {
+          "address": "0x1aa9ba",
+          "instruction": "push   $0x0"
+        },
+        {
+          "address": "0x1aa9bc",
+          "instruction": "push   $0x8"
+        },
+        {
+          "address": "0x1aa9c3",
+          "instruction": "add    $0x10,%rsp"
+        },
+        {
+          "address": "0x1aad01",
+          "instruction": "push   %rax"
+        },
+        {
+          "address": "0x1aad02",
+          "instruction": "push   $0x8"
+        },
+        {
+          "address": "0x1aad09",
+          "instruction": "add    $0x10,%rsp"
+        },
+        {
+          "address": "0x1ab028",
+          "instruction": "add    $0x13ca8,%rsp"
+        },
+        {
+          "address": "0x1ab02f",
+          "instruction": "pop    %rbx"
+        },
+        {
+          "address": "0x1ab030",
+          "instruction": "pop    %r12"
+        },
+        {
+          "address": "0x1ab032",
+          "instruction": "pop    %r13"
+        },
+        {
+          "address": "0x1ab034",
+          "instruction": "pop    %r14"
+        },
+        {
+          "address": "0x1ab036",
+          "instruction": "pop    %r15"
+        },
+        {
+          "address": "0x1ab038",
+          "instruction": "pop    %rbp"
+        }
+      ]
+    },
+    "shared-observe": {
+      "address": "0x1ac960",
+      "below_rsp_bytes": 0,
+      "direct_calls": [
+        {
+          "address": "0x1ac998",
+          "instruction": "call   *0x122eda(%rip)        # 2cf878 <_DYNAMIC+0x290>",
+          "name": null
+        }
+      ],
+      "fixed_decrement_bytes": 0,
+      "fixed_probe_loop_bytes": 0,
+      "frame_bound": 16,
+      "name": "rheon::research_public_call::observe",
+      "push_bytes": 8,
+      "return_address_bytes": 8,
+      "size": 62,
+      "stack_mutations": [
+        {
+          "address": "0x1ac988",
+          "instruction": "push   %rax"
+        }
+      ]
+    }
+  },
+  "full_public_positive_stack_peak": 3648,
+  "layout_sha256": "b17904520c719851267bfa305aab40d6789bc481f441cde4fd5229be20a0627f",
+  "native_owner_descriptor_bytes": 8848,
+  "new_equations": 0,
+  "new_owner_advances": 0,
+  "no_shrink_or_native_residual_slack_credit": true,
+  "numerical_test_invocations": 0,
+  "original_allowance_complete_frame_accounting_established": false,
+  "original_bound": 67088,
+  "original_guessed_allowance": 1024,
+  "rebuilds": 0,
+  "remaining_outer_residual_bytes": 1360,
+  "scope": "Supplement the declared additional numerical-memory certificate. Credit only two source-matched ordinary native owner descriptor regions demonstrated by the same ELF native-prefix constructor move. Keep the whole remaining conservative outer frame, both candidate descriptor additions and existing public/observation charges. Common libtest, allocator, environment parsing and bounded journal formatting remain outside this numerical certificate as in its original scope; this is not process RSS.",
+  "status": "READONLY_OUTER_FRAME_CLARIFICATION_SUPPLEMENT_FOR_REVIEW",
+  "supplemented_bound_for_review": 67424,
+  "supplemented_remaining": 160,
+  "symbol_table_sha256": "0f3a3b885749f73f205d25c3e5a9467694419724292c44494399a725bd5dcc6e",
+  "unchanged_cap": 67584,
+  "workspace_bytes": 62096
+}

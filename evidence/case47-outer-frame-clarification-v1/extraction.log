@@ -1,0 +1,10 @@
+{
+  "binary_sha256": "6e6ea0505c81cbf8624b177c6c782ff8cb29cc0830c0524e79088e8307a10989",
+  "numerical_test_invocations": 0,
+  "original_allowance_complete_frame_accounting_established": false,
+  "original_bound": 67088,
+  "rebuilds": 0,
+  "status": "READONLY_OUTER_FRAME_CLARIFICATION_SUPPLEMENT_FOR_REVIEW",
+  "supplemented_bound_for_review": 67424,
+  "supplemented_remaining": 160
+}

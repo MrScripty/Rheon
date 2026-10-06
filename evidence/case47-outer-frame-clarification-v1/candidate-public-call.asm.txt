@@ -1,0 +1,2667 @@
+000000000011c350 <rheon::research_public_call::candidate::public_call>:
+  11c350:	55                   	push   %rbp
+  11c351:	41 57                	push   %r15
+  11c353:	41 56                	push   %r14
+  11c355:	41 55                	push   %r13
+  11c357:	41 54                	push   %r12
+  11c359:	53                   	push   %rbx
+  11c35a:	49 89 e3             	mov    %rsp,%r11
+  11c35d:	49 81 eb 00 30 02 00 	sub    $0x23000,%r11
+  11c364:	48 81 ec 00 10 00 00 	sub    $0x1000,%rsp
+  11c36b:	48 c7 04 24 00 00 00 	movq   $0x0,(%rsp)
+  11c372:	00 
+  11c373:	4c 39 dc             	cmp    %r11,%rsp
+  11c376:	75 ec                	jne    11c364 <rheon::research_public_call::candidate::public_call+0x14>
+  11c378:	48 81 ec 08 09 00 00 	sub    $0x908,%rsp
+  11c37f:	4c 89 84 24 f0 00 00 	mov    %r8,0xf0(%rsp)
+  11c386:	00 
+  11c387:	49 89 cd             	mov    %rcx,%r13
+  11c38a:	f2 0f 11 84 24 88 00 	movsd  %xmm0,0x88(%rsp)
+  11c391:	00 00 
+  11c393:	49 89 d4             	mov    %rdx,%r12
+  11c396:	49 89 f7             	mov    %rsi,%r15
+  11c399:	48 89 fb             	mov    %rdi,%rbx
+  11c39c:	48 89 94 24 c0 00 00 	mov    %rdx,0xc0(%rsp)
+  11c3a3:	00 
+  11c3a4:	4c 8b b6 90 22 00 00 	mov    0x2290(%rsi),%r14
+  11c3ab:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11c3b2:	00 
+  11c3b3:	be 02 00 00 00       	mov    $0x2,%esi
+  11c3b8:	e8 03 f1 f5 ff       	call   7b4c0 <rheon::fitted_height::FittedHeightPlan::new>
+  11c3bd:	83 bc 24 88 08 00 00 	cmpl   $0x1,0x888(%rsp)
+  11c3c4:	01 
+  11c3c5:	75 21                	jne    11c3e8 <rheon::research_public_call::candidate::public_call+0x98>
+  11c3c7:	48 8b 84 24 90 08 00 	mov    0x890(%rsp),%rax
+  11c3ce:	00 
+  11c3cf:	48 8b ac 24 98 08 00 	mov    0x898(%rsp),%rbp
+  11c3d6:	00 
+  11c3d7:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11c3de:	00 
+  11c3df:	3c 1a                	cmp    $0x1a,%al
+  11c3e1:	74 2a                	je     11c40d <rheon::research_public_call::candidate::public_call+0xbd>
+  11c3e3:	e9 93 00 00 00       	jmp    11c47b <rheon::research_public_call::candidate::public_call+0x12b>
+  11c3e8:	48 8b ac 24 d0 08 00 	mov    0x8d0(%rsp),%rbp
+  11c3ef:	00 
+  11c3f0:	48 81 fd 9f f8 ff ff 	cmp    $0xfffffffffffff89f,%rbp
+  11c3f7:	0f 87 6c 06 00 00    	ja     11ca69 <rheon::research_public_call::candidate::public_call+0x719>
+  11c3fd:	b8 1a 00 00 00       	mov    $0x1a,%eax
+  11c402:	48 81 c5 60 07 00 00 	add    $0x760,%rbp
+  11c409:	3c 1a                	cmp    $0x1a,%al
+  11c40b:	75 6e                	jne    11c47b <rheon::research_public_call::candidate::public_call+0x12b>
+  11c40d:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11c414:	00 
+  11c415:	be 02 00 00 00       	mov    $0x2,%esi
+  11c41a:	e8 a1 f0 f5 ff       	call   7b4c0 <rheon::fitted_height::FittedHeightPlan::new>
+  11c41f:	83 bc 24 88 08 00 00 	cmpl   $0x1,0x888(%rsp)
+  11c426:	01 
+  11c427:	75 1a                	jne    11c443 <rheon::research_public_call::candidate::public_call+0xf3>
+  11c429:	48 8b 84 24 90 08 00 	mov    0x890(%rsp),%rax
+  11c430:	00 
+  11c431:	48 8b ac 24 98 08 00 	mov    0x898(%rsp),%rbp
+  11c438:	00 
+  11c439:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11c440:	00 
+  11c441:	eb 38                	jmp    11c47b <rheon::research_public_call::candidate::public_call+0x12b>
+  11c443:	48 03 ac 24 d0 08 00 	add    0x8d0(%rsp),%rbp
+  11c44a:	00 
+  11c44b:	0f 92 c0             	setb   %al
+  11c44e:	48 81 fd 68 dd ff ff 	cmp    $0xffffffffffffdd68,%rbp
+  11c455:	0f 93 c1             	setae  %cl
+  11c458:	08 c1                	or     %al,%cl
+  11c45a:	48 8d 85 98 22 00 00 	lea    0x2298(%rbp),%rax
+  11c461:	48 81 c5 78 1f 06 00 	add    $0x61f78,%rbp
+  11c468:	48 39 c5             	cmp    %rax,%rbp
+  11c46b:	0f 92 c0             	setb   %al
+  11c46e:	08 c8                	or     %cl,%al
+  11c470:	0f 85 0c 06 00 00    	jne    11ca82 <rheon::research_public_call::candidate::public_call+0x732>
+  11c476:	b8 2a 00 00 00       	mov    $0x2a,%eax
+  11c47b:	3c 2a                	cmp    $0x2a,%al
+  11c47d:	75 1f                	jne    11c49e <rheon::research_public_call::candidate::public_call+0x14e>
+  11c47f:	48 81 fd 80 a0 ff ff 	cmp    $0xffffffffffffa080,%rbp
+  11c486:	0f 83 a3 05 00 00    	jae    11ca2f <rheon::research_public_call::candidate::public_call+0x6df>
+  11c48c:	48 81 c5 80 5f 00 00 	add    $0x5f80,%rbp
+  11c493:	49 39 ee             	cmp    %rbp,%r14
+  11c496:	73 49                	jae    11c4e1 <rheon::research_public_call::candidate::public_call+0x191>
+  11c498:	c6 43 08 1a          	movb   $0x1a,0x8(%rbx)
+  11c49c:	eb 27                	jmp    11c4c5 <rheon::research_public_call::candidate::public_call+0x175>
+  11c49e:	48 89 c2             	mov    %rax,%rdx
+  11c4a1:	48 c1 ea 08          	shr    $0x8,%rdx
+  11c4a5:	88 43 08             	mov    %al,0x8(%rbx)
+  11c4a8:	89 53 09             	mov    %edx,0x9(%rbx)
+  11c4ab:	48 89 d0             	mov    %rdx,%rax
+  11c4ae:	48 c1 e8 30          	shr    $0x30,%rax
+  11c4b2:	88 43 0f             	mov    %al,0xf(%rbx)
+  11c4b5:	48 c1 ea 20          	shr    $0x20,%rdx
+  11c4b9:	66 89 53 0d          	mov    %dx,0xd(%rbx)
+  11c4bd:	48 89 6b 10          	mov    %rbp,0x10(%rbx)
+  11c4c1:	48 89 4b 18          	mov    %rcx,0x18(%rbx)
+  11c4c5:	48 c7 03 01 00 00 00 	movq   $0x1,(%rbx)
+  11c4cc:	48 89 d8             	mov    %rbx,%rax
+  11c4cf:	48 81 c4 08 39 02 00 	add    $0x23908,%rsp
+  11c4d6:	5b                   	pop    %rbx
+  11c4d7:	41 5c                	pop    %r12
+  11c4d9:	41 5d                	pop    %r13
+  11c4db:	41 5e                	pop    %r14
+  11c4dd:	41 5f                	pop    %r15
+  11c4df:	5d                   	pop    %rbp
+  11c4e0:	c3                   	ret
+  11c4e1:	4c 8b b4 24 f0 00 00 	mov    0xf0(%rsp),%r14
+  11c4e8:	00 
+  11c4e9:	49 83 fe 10          	cmp    $0x10,%r14
+  11c4ed:	76 12                	jbe    11c501 <rheon::research_public_call::candidate::public_call+0x1b1>
+  11c4ef:	c6 43 08 1d          	movb   $0x1d,0x8(%rbx)
+  11c4f3:	4c 89 73 10          	mov    %r14,0x10(%rbx)
+  11c4f7:	48 c7 43 18 10 00 00 	movq   $0x10,0x18(%rbx)
+  11c4fe:	00 
+  11c4ff:	eb c4                	jmp    11c4c5 <rheon::research_public_call::candidate::public_call+0x175>
+  11c501:	4c 89 e7             	mov    %r12,%rdi
+  11c504:	31 f6                	xor    %esi,%esi
+  11c506:	e8 55 04 09 00       	call   1ac960 <rheon::research_public_call::observe>
+  11c50b:	84 c0                	test   %al,%al
+  11c50d:	74 08                	je     11c517 <rheon::research_public_call::candidate::public_call+0x1c7>
+  11c50f:	66 c7 43 08 29 00    	movw   $0x29,0x8(%rbx)
+  11c515:	eb ae                	jmp    11c4c5 <rheon::research_public_call::candidate::public_call+0x175>
+  11c517:	66 0f 57 c0          	xorpd  %xmm0,%xmm0
+  11c51b:	66 0f 29 84 24 90 00 	movapd %xmm0,0x90(%rsp)
+  11c522:	00 00 
+  11c524:	48 c7 84 24 a0 00 00 	movq   $0x0,0xa0(%rsp)
+  11c52b:	00 00 00 00 00 
+  11c530:	48 be ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rsi
+  11c537:	ff ff 7f 
+  11c53a:	4d 85 f6             	test   %r14,%r14
+  11c53d:	0f 84 07 03 00 00    	je     11c84a <rheon::research_public_call::candidate::public_call+0x4fa>
+  11c543:	49 6b c6 58          	imul   $0x58,%r14,%rax
+  11c547:	48 89 44 24 68       	mov    %rax,0x68(%rsp)
+  11c54c:	31 ed                	xor    %ebp,%ebp
+  11c54e:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+  11c552:	66 0f 57 c0          	xorpd  %xmm0,%xmm0
+  11c556:	f2 0f 11 44 24 18    	movsd  %xmm0,0x18(%rsp)
+  11c55c:	66 0f 57 e4          	xorpd  %xmm4,%xmm4
+  11c560:	49 be 00 00 00 00 00 	movabs $0x7ff0000000000000,%r14
+  11c567:	00 f0 7f 
+  11c56a:	eb 15                	jmp    11c581 <rheon::research_public_call::candidate::public_call+0x231>
+  11c56c:	f2 0f 11 5c 24 30    	movsd  %xmm3,0x30(%rsp)
+  11c572:	48 83 c5 58          	add    $0x58,%rbp
+  11c576:	48 39 6c 24 68       	cmp    %rbp,0x68(%rsp)
+  11c57b:	0f 84 d5 03 00 00    	je     11c956 <rheon::research_public_call::candidate::public_call+0x606>
+  11c581:	f2 0f 11 4c 24 38    	movsd  %xmm1,0x38(%rsp)
+  11c587:	f2 0f 11 64 24 10    	movsd  %xmm4,0x10(%rsp)
+  11c58d:	be 01 00 00 00       	mov    $0x1,%esi
+  11c592:	4c 89 e7             	mov    %r12,%rdi
+  11c595:	e8 c6 03 09 00       	call   1ac960 <rheon::research_public_call::observe>
+  11c59a:	84 c0                	test   %al,%al
+  11c59c:	0f 85 8e 03 00 00    	jne    11c930 <rheon::research_public_call::candidate::public_call+0x5e0>
+  11c5a2:	41 80 7c 2d 00 00    	cmpb   $0x0,0x0(%r13,%rbp,1)
+  11c5a8:	48 be ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rsi
+  11c5af:	ff ff 7f 
+  11c5b2:	f2 0f 10 54 24 30    	movsd  0x30(%rsp),%xmm2
+  11c5b8:	0f 85 7d 03 00 00    	jne    11c93b <rheon::research_public_call::candidate::public_call+0x5eb>
+  11c5be:	f2 41 0f 10 4c 2d 38 	movsd  0x38(%r13,%rbp,1),%xmm1
+  11c5c5:	66 0f 57 ed          	xorpd  %xmm5,%xmm5
+  11c5c9:	66 0f 2e cd          	ucomisd %xmm5,%xmm1
+  11c5cd:	f2 0f 10 64 24 10    	movsd  0x10(%rsp),%xmm4
+  11c5d3:	75 02                	jne    11c5d7 <rheon::research_public_call::candidate::public_call+0x287>
+  11c5d5:	7b 29                	jnp    11c600 <rheon::research_public_call::candidate::public_call+0x2b0>
+  11c5d7:	66 48 0f 7e c8       	movq   %xmm1,%rax
+  11c5dc:	48 89 c1             	mov    %rax,%rcx
+  11c5df:	48 21 f1             	and    %rsi,%rcx
+  11c5e2:	4c 39 f1             	cmp    %r14,%rcx
+  11c5e5:	0f 84 f2 02 00 00    	je     11c8dd <rheon::research_public_call::candidate::public_call+0x58d>
+  11c5eb:	4c 21 f0             	and    %r14,%rax
+  11c5ee:	4c 39 f0             	cmp    %r14,%rax
+  11c5f1:	0f 84 e6 02 00 00    	je     11c8dd <rheon::research_public_call::candidate::public_call+0x58d>
+  11c5f7:	48 85 c0             	test   %rax,%rax
+  11c5fa:	0f 84 dd 02 00 00    	je     11c8dd <rheon::research_public_call::candidate::public_call+0x58d>
+  11c600:	41 0f b6 44 2d 50    	movzbl 0x50(%r13,%rbp,1),%eax
+  11c606:	84 c0                	test   %al,%al
+  11c608:	74 29                	je     11c633 <rheon::research_public_call::candidate::public_call+0x2e3>
+  11c60a:	66 0f 28 c1          	movapd %xmm1,%xmm0
+  11c60e:	f2 0f 5e 05 aa 5c f0 	divsd  -0xfa356(%rip),%xmm0        # 222c0 <anon.485632902e5df01beb12ac6c448330b3.119.llvm.11743308955839318461+0x60>
+  11c615:	ff 
+  11c616:	66 0f 2e c5          	ucomisd %xmm5,%xmm0
+  11c61a:	75 1d                	jne    11c639 <rheon::research_public_call::candidate::public_call+0x2e9>
+  11c61c:	7a 1b                	jp     11c639 <rheon::research_public_call::candidate::public_call+0x2e9>
+  11c61e:	66 0f 2e cd          	ucomisd %xmm5,%xmm1
+  11c622:	66 0f 28 c8          	movapd %xmm0,%xmm1
+  11c626:	0f 85 ba 02 00 00    	jne    11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c62c:	7b 38                	jnp    11c666 <rheon::research_public_call::candidate::public_call+0x316>
+  11c62e:	e9 b3 02 00 00       	jmp    11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c633:	66 0f 28 c2          	movapd %xmm2,%xmm0
+  11c637:	eb 2d                	jmp    11c666 <rheon::research_public_call::candidate::public_call+0x316>
+  11c639:	66 48 0f 7e c1       	movq   %xmm0,%rcx
+  11c63e:	48 89 ca             	mov    %rcx,%rdx
+  11c641:	48 21 f2             	and    %rsi,%rdx
+  11c644:	4c 39 f2             	cmp    %r14,%rdx
+  11c647:	0f 84 99 02 00 00    	je     11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c64d:	4c 21 f1             	and    %r14,%rcx
+  11c650:	4c 39 f1             	cmp    %r14,%rcx
+  11c653:	0f 84 8d 02 00 00    	je     11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c659:	66 0f 28 c8          	movapd %xmm0,%xmm1
+  11c65d:	48 85 c9             	test   %rcx,%rcx
+  11c660:	0f 84 80 02 00 00    	je     11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c666:	f2 0f 58 e1          	addsd  %xmm1,%xmm4
+  11c66a:	66 0f 2e e5          	ucomisd %xmm5,%xmm4
+  11c66e:	75 02                	jne    11c672 <rheon::research_public_call::candidate::public_call+0x322>
+  11c670:	7b 29                	jnp    11c69b <rheon::research_public_call::candidate::public_call+0x34b>
+  11c672:	66 48 0f 7e e1       	movq   %xmm4,%rcx
+  11c677:	48 89 ca             	mov    %rcx,%rdx
+  11c67a:	48 21 f2             	and    %rsi,%rdx
+  11c67d:	4c 39 f2             	cmp    %r14,%rdx
+  11c680:	0f 84 c2 02 00 00    	je     11c948 <rheon::research_public_call::candidate::public_call+0x5f8>
+  11c686:	4c 21 f1             	and    %r14,%rcx
+  11c689:	4c 39 f1             	cmp    %r14,%rcx
+  11c68c:	0f 84 b6 02 00 00    	je     11c948 <rheon::research_public_call::candidate::public_call+0x5f8>
+  11c692:	48 85 c9             	test   %rcx,%rcx
+  11c695:	0f 84 ad 02 00 00    	je     11c948 <rheon::research_public_call::candidate::public_call+0x5f8>
+  11c69b:	f2 41 0f 10 5c 2d 40 	movsd  0x40(%r13,%rbp,1),%xmm3
+  11c6a2:	66 0f 2e dd          	ucomisd %xmm5,%xmm3
+  11c6a6:	75 02                	jne    11c6aa <rheon::research_public_call::candidate::public_call+0x35a>
+  11c6a8:	7b 26                	jnp    11c6d0 <rheon::research_public_call::candidate::public_call+0x380>
+  11c6aa:	66 48 0f 7e d9       	movq   %xmm3,%rcx
+  11c6af:	48 89 ca             	mov    %rcx,%rdx
+  11c6b2:	48 21 f2             	and    %rsi,%rdx
+  11c6b5:	4c 39 f2             	cmp    %r14,%rdx
+  11c6b8:	0f 84 1f 02 00 00    	je     11c8dd <rheon::research_public_call::candidate::public_call+0x58d>
+  11c6be:	4c 21 f1             	and    %r14,%rcx
+  11c6c1:	0f 84 16 02 00 00    	je     11c8dd <rheon::research_public_call::candidate::public_call+0x58d>
+  11c6c7:	4c 39 f1             	cmp    %r14,%rcx
+  11c6ca:	0f 84 0d 02 00 00    	je     11c8dd <rheon::research_public_call::candidate::public_call+0x58d>
+  11c6d0:	84 c0                	test   %al,%al
+  11c6d2:	74 2d                	je     11c701 <rheon::research_public_call::candidate::public_call+0x3b1>
+  11c6d4:	66 0f 28 cb          	movapd %xmm3,%xmm1
+  11c6d8:	f2 0f 5e 0d e0 5b f0 	divsd  -0xfa420(%rip),%xmm1        # 222c0 <anon.485632902e5df01beb12ac6c448330b3.119.llvm.11743308955839318461+0x60>
+  11c6df:	ff 
+  11c6e0:	66 0f 2e cd          	ucomisd %xmm5,%xmm1
+  11c6e4:	75 21                	jne    11c707 <rheon::research_public_call::candidate::public_call+0x3b7>
+  11c6e6:	7a 1f                	jp     11c707 <rheon::research_public_call::candidate::public_call+0x3b7>
+  11c6e8:	66 0f 2e dd          	ucomisd %xmm5,%xmm3
+  11c6ec:	66 0f 28 d0          	movapd %xmm0,%xmm2
+  11c6f0:	66 0f 28 d9          	movapd %xmm1,%xmm3
+  11c6f4:	0f 85 ec 01 00 00    	jne    11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c6fa:	7b 39                	jnp    11c735 <rheon::research_public_call::candidate::public_call+0x3e5>
+  11c6fc:	e9 e5 01 00 00       	jmp    11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c701:	66 0f 28 c8          	movapd %xmm0,%xmm1
+  11c705:	eb 2e                	jmp    11c735 <rheon::research_public_call::candidate::public_call+0x3e5>
+  11c707:	66 48 0f 7e c9       	movq   %xmm1,%rcx
+  11c70c:	48 89 ca             	mov    %rcx,%rdx
+  11c70f:	48 21 f2             	and    %rsi,%rdx
+  11c712:	66 0f 28 d0          	movapd %xmm0,%xmm2
+  11c716:	4c 39 f2             	cmp    %r14,%rdx
+  11c719:	0f 84 c7 01 00 00    	je     11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c71f:	4c 21 f1             	and    %r14,%rcx
+  11c722:	0f 84 be 01 00 00    	je     11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c728:	66 0f 28 d9          	movapd %xmm1,%xmm3
+  11c72c:	4c 39 f1             	cmp    %r14,%rcx
+  11c72f:	0f 84 b1 01 00 00    	je     11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c735:	f2 0f 10 44 24 18    	movsd  0x18(%rsp),%xmm0
+  11c73b:	f2 0f 58 c3          	addsd  %xmm3,%xmm0
+  11c73f:	66 0f 2e c5          	ucomisd %xmm5,%xmm0
+  11c743:	75 02                	jne    11c747 <rheon::research_public_call::candidate::public_call+0x3f7>
+  11c745:	7b 26                	jnp    11c76d <rheon::research_public_call::candidate::public_call+0x41d>
+  11c747:	66 48 0f 7e c1       	movq   %xmm0,%rcx
+  11c74c:	48 89 ca             	mov    %rcx,%rdx
+  11c74f:	48 21 f2             	and    %rsi,%rdx
+  11c752:	4c 39 f2             	cmp    %r14,%rdx
+  11c755:	0f 84 e9 01 00 00    	je     11c944 <rheon::research_public_call::candidate::public_call+0x5f4>
+  11c75b:	4c 21 f1             	and    %r14,%rcx
+  11c75e:	0f 84 e0 01 00 00    	je     11c944 <rheon::research_public_call::candidate::public_call+0x5f4>
+  11c764:	4c 39 f1             	cmp    %r14,%rcx
+  11c767:	0f 84 d7 01 00 00    	je     11c944 <rheon::research_public_call::candidate::public_call+0x5f4>
+  11c76d:	f2 0f 11 44 24 18    	movsd  %xmm0,0x18(%rsp)
+  11c773:	f2 41 0f 10 44 2d 48 	movsd  0x48(%r13,%rbp,1),%xmm0
+  11c77a:	66 0f 2e c5          	ucomisd %xmm5,%xmm0
+  11c77e:	75 02                	jne    11c782 <rheon::research_public_call::candidate::public_call+0x432>
+  11c780:	7b 26                	jnp    11c7a8 <rheon::research_public_call::candidate::public_call+0x458>
+  11c782:	66 48 0f 7e c1       	movq   %xmm0,%rcx
+  11c787:	48 89 ca             	mov    %rcx,%rdx
+  11c78a:	48 21 f2             	and    %rsi,%rdx
+  11c78d:	4c 39 f2             	cmp    %r14,%rdx
+  11c790:	0f 84 47 01 00 00    	je     11c8dd <rheon::research_public_call::candidate::public_call+0x58d>
+  11c796:	4c 21 f1             	and    %r14,%rcx
+  11c799:	0f 84 3e 01 00 00    	je     11c8dd <rheon::research_public_call::candidate::public_call+0x58d>
+  11c79f:	4c 39 f1             	cmp    %r14,%rcx
+  11c7a2:	0f 84 35 01 00 00    	je     11c8dd <rheon::research_public_call::candidate::public_call+0x58d>
+  11c7a8:	84 c0                	test   %al,%al
+  11c7aa:	74 2d                	je     11c7d9 <rheon::research_public_call::candidate::public_call+0x489>
+  11c7ac:	66 0f 28 d8          	movapd %xmm0,%xmm3
+  11c7b0:	f2 0f 5e 1d 08 5b f0 	divsd  -0xfa4f8(%rip),%xmm3        # 222c0 <anon.485632902e5df01beb12ac6c448330b3.119.llvm.11743308955839318461+0x60>
+  11c7b7:	ff 
+  11c7b8:	66 0f 2e dd          	ucomisd %xmm5,%xmm3
+  11c7bc:	75 21                	jne    11c7df <rheon::research_public_call::candidate::public_call+0x48f>
+  11c7be:	7a 1f                	jp     11c7df <rheon::research_public_call::candidate::public_call+0x48f>
+  11c7c0:	66 0f 2e c5          	ucomisd %xmm5,%xmm0
+  11c7c4:	66 0f 28 d1          	movapd %xmm1,%xmm2
+  11c7c8:	66 0f 28 c3          	movapd %xmm3,%xmm0
+  11c7cc:	0f 85 14 01 00 00    	jne    11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c7d2:	7b 39                	jnp    11c80d <rheon::research_public_call::candidate::public_call+0x4bd>
+  11c7d4:	e9 0d 01 00 00       	jmp    11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c7d9:	66 0f 28 d9          	movapd %xmm1,%xmm3
+  11c7dd:	eb 2e                	jmp    11c80d <rheon::research_public_call::candidate::public_call+0x4bd>
+  11c7df:	66 48 0f 7e d8       	movq   %xmm3,%rax
+  11c7e4:	48 89 c1             	mov    %rax,%rcx
+  11c7e7:	48 21 f1             	and    %rsi,%rcx
+  11c7ea:	66 0f 28 d1          	movapd %xmm1,%xmm2
+  11c7ee:	4c 39 f1             	cmp    %r14,%rcx
+  11c7f1:	0f 84 ef 00 00 00    	je     11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c7f7:	4c 21 f0             	and    %r14,%rax
+  11c7fa:	0f 84 e6 00 00 00    	je     11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c800:	66 0f 28 c3          	movapd %xmm3,%xmm0
+  11c804:	4c 39 f0             	cmp    %r14,%rax
+  11c807:	0f 84 d9 00 00 00    	je     11c8e6 <rheon::research_public_call::candidate::public_call+0x596>
+  11c80d:	f2 0f 10 4c 24 38    	movsd  0x38(%rsp),%xmm1
+  11c813:	f2 0f 58 c8          	addsd  %xmm0,%xmm1
+  11c817:	66 0f 2e cd          	ucomisd %xmm5,%xmm1
+  11c81b:	75 06                	jne    11c823 <rheon::research_public_call::candidate::public_call+0x4d3>
+  11c81d:	0f 8b 49 fd ff ff    	jnp    11c56c <rheon::research_public_call::candidate::public_call+0x21c>
+  11c823:	66 48 0f 7e c8       	movq   %xmm1,%rax
+  11c828:	48 89 c1             	mov    %rax,%rcx
+  11c82b:	48 21 f1             	and    %rsi,%rcx
+  11c82e:	4c 39 f1             	cmp    %r14,%rcx
+  11c831:	74 0e                	je     11c841 <rheon::research_public_call::candidate::public_call+0x4f1>
+  11c833:	4c 21 f0             	and    %r14,%rax
+  11c836:	74 09                	je     11c841 <rheon::research_public_call::candidate::public_call+0x4f1>
+  11c838:	4c 39 f0             	cmp    %r14,%rax
+  11c83b:	0f 85 2b fd ff ff    	jne    11c56c <rheon::research_public_call::candidate::public_call+0x21c>
+  11c841:	66 0f 28 e1          	movapd %xmm1,%xmm4
+  11c845:	e9 fe 00 00 00       	jmp    11c948 <rheon::research_public_call::candidate::public_call+0x5f8>
+  11c84a:	66 0f 57 d2          	xorpd  %xmm2,%xmm2
+  11c84e:	66 0f 57 e4          	xorpd  %xmm4,%xmm4
+  11c852:	49 be 00 00 00 00 00 	movabs $0x7ff0000000000000,%r14
+  11c859:	00 f0 7f 
+  11c85c:	48 8b 84 24 a0 00 00 	mov    0xa0(%rsp),%rax
+  11c863:	00 
+  11c864:	48 89 84 24 40 02 00 	mov    %rax,0x240(%rsp)
+  11c86b:	00 
+  11c86c:	66 0f 28 84 24 90 00 	movapd 0x90(%rsp),%xmm0
+  11c873:	00 00 
+  11c875:	66 0f 29 84 24 30 02 	movapd %xmm0,0x230(%rsp)
+  11c87c:	00 00 
+  11c87e:	f3 0f 7e 8c 24 88 00 	movq   0x88(%rsp),%xmm1
+  11c885:	00 00 
+  11c887:	66 0f d6 4c 24 40    	movq   %xmm1,0x40(%rsp)
+  11c88d:	66 48 0f 7e c8       	movq   %xmm1,%rax
+  11c892:	48 89 c1             	mov    %rax,%rcx
+  11c895:	48 21 f1             	and    %rsi,%rcx
+  11c898:	41 b5 0e             	mov    $0xe,%r13b
+  11c89b:	4c 39 f1             	cmp    %r14,%rcx
+  11c89e:	74 0a                	je     11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11c8a0:	4c 21 f0             	and    %r14,%rax
+  11c8a3:	74 05                	je     11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11c8a5:	4c 39 f0             	cmp    %r14,%rax
+  11c8a8:	75 4a                	jne    11c8f4 <rheon::research_public_call::candidate::public_call+0x5a4>
+  11c8aa:	8b 44 24 08          	mov    0x8(%rsp),%eax
+  11c8ae:	89 44 24 50          	mov    %eax,0x50(%rsp)
+  11c8b2:	0f b7 44 24 0c       	movzwl 0xc(%rsp),%eax
+  11c8b7:	66 89 44 24 54       	mov    %ax,0x54(%rsp)
+  11c8bc:	44 88 6b 08          	mov    %r13b,0x8(%rbx)
+  11c8c0:	40 88 7b 09          	mov    %dil,0x9(%rbx)
+  11c8c4:	8b 44 24 50          	mov    0x50(%rsp),%eax
+  11c8c8:	89 43 0a             	mov    %eax,0xa(%rbx)
+  11c8cb:	0f b7 44 24 54       	movzwl 0x54(%rsp),%eax
+  11c8d0:	66 89 43 0e          	mov    %ax,0xe(%rbx)
+  11c8d4:	48 89 73 10          	mov    %rsi,0x10(%rbx)
+  11c8d8:	e9 e4 fb ff ff       	jmp    11c4c1 <rheon::research_public_call::candidate::public_call+0x171>
+  11c8dd:	c6 43 08 1b          	movb   $0x1b,0x8(%rbx)
+  11c8e1:	e9 df fb ff ff       	jmp    11c4c5 <rheon::research_public_call::candidate::public_call+0x175>
+  11c8e6:	c6 43 08 11          	movb   $0x11,0x8(%rbx)
+  11c8ea:	f2 0f 11 53 10       	movsd  %xmm2,0x10(%rbx)
+  11c8ef:	e9 d1 fb ff ff       	jmp    11c4c5 <rheon::research_public_call::candidate::public_call+0x175>
+  11c8f4:	66 0f 57 c0          	xorpd  %xmm0,%xmm0
+  11c8f8:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+  11c8fc:	73 ac                	jae    11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11c8fe:	66 0f 2e 0d aa 57 f0 	ucomisd -0xfa856(%rip),%xmm1        # 220b0 <anon.485632902e5df01beb12ac6c448330b3.108.llvm.11743308955839318461+0x78>
+  11c905:	ff 
+  11c906:	77 a2                	ja     11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11c908:	f2 0f 11 54 24 18    	movsd  %xmm2,0x18(%rsp)
+  11c90e:	f2 0f 11 64 24 10    	movsd  %xmm4,0x10(%rsp)
+  11c914:	be 02 00 00 00       	mov    $0x2,%esi
+  11c919:	4c 89 e7             	mov    %r12,%rdi
+  11c91c:	e8 3f 00 09 00       	call   1ac960 <rheon::research_public_call::observe>
+  11c921:	84 c0                	test   %al,%al
+  11c923:	74 57                	je     11c97c <rheon::research_public_call::candidate::public_call+0x62c>
+  11c925:	41 b5 29             	mov    $0x29,%r13b
+  11c928:	40 b7 02             	mov    $0x2,%dil
+  11c92b:	e9 7a ff ff ff       	jmp    11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11c930:	66 c7 43 08 29 01    	movw   $0x129,0x8(%rbx)
+  11c936:	e9 8a fb ff ff       	jmp    11c4c5 <rheon::research_public_call::candidate::public_call+0x175>
+  11c93b:	c6 43 08 1c          	movb   $0x1c,0x8(%rbx)
+  11c93f:	e9 81 fb ff ff       	jmp    11c4c5 <rheon::research_public_call::candidate::public_call+0x175>
+  11c944:	66 0f 28 e0          	movapd %xmm0,%xmm4
+  11c948:	c6 43 08 11          	movb   $0x11,0x8(%rbx)
+  11c94c:	f2 0f 11 63 10       	movsd  %xmm4,0x10(%rbx)
+  11c951:	e9 6f fb ff ff       	jmp    11c4c5 <rheon::research_public_call::candidate::public_call+0x175>
+  11c956:	f2 0f 11 a4 24 90 00 	movsd  %xmm4,0x90(%rsp)
+  11c95d:	00 00 
+  11c95f:	f2 0f 10 54 24 18    	movsd  0x18(%rsp),%xmm2
+  11c965:	f2 0f 11 94 24 98 00 	movsd  %xmm2,0x98(%rsp)
+  11c96c:	00 00 
+  11c96e:	f2 0f 11 8c 24 a0 00 	movsd  %xmm1,0xa0(%rsp)
+  11c975:	00 00 
+  11c977:	e9 e0 fe ff ff       	jmp    11c85c <rheon::research_public_call::candidate::public_call+0x50c>
+  11c97c:	4d 8b 97 00 02 00 00 	mov    0x200(%r15),%r10
+  11c983:	4d 8b 87 08 02 00 00 	mov    0x208(%r15),%r8
+  11c98a:	49 8b af 78 03 00 00 	mov    0x378(%r15),%rbp
+  11c991:	49 8b 97 80 03 00 00 	mov    0x380(%r15),%rdx
+  11c998:	f2 41 0f 10 8f 30 03 	movsd  0x330(%r15),%xmm1
+  11c99f:	00 00 
+  11c9a1:	4c 89 bc 24 d0 02 00 	mov    %r15,0x2d0(%rsp)
+  11c9a8:	00 
+  11c9a9:	4c 89 94 24 d8 02 00 	mov    %r10,0x2d8(%rsp)
+  11c9b0:	00 
+  11c9b1:	4c 89 84 24 e0 02 00 	mov    %r8,0x2e0(%rsp)
+  11c9b8:	00 
+  11c9b9:	66 41 0f 10 87 68 03 	movupd 0x368(%r15),%xmm0
+  11c9c0:	00 00 
+  11c9c2:	66 0f 11 84 24 e8 02 	movupd %xmm0,0x2e8(%rsp)
+  11c9c9:	00 00 
+  11c9cb:	48 89 ac 24 f8 02 00 	mov    %rbp,0x2f8(%rsp)
+  11c9d2:	00 
+  11c9d3:	48 89 94 24 00 03 00 	mov    %rdx,0x300(%rsp)
+  11c9da:	00 
+  11c9db:	f2 0f 11 8c 24 08 03 	movsd  %xmm1,0x308(%rsp)
+  11c9e2:	00 00 
+  11c9e4:	48 89 ac 24 50 01 00 	mov    %rbp,0x150(%rsp)
+  11c9eb:	00 
+  11c9ec:	48 89 94 24 58 01 00 	mov    %rdx,0x158(%rsp)
+  11c9f3:	00 
+  11c9f4:	f2 0f 10 94 24 88 00 	movsd  0x88(%rsp),%xmm2
+  11c9fb:	00 00 
+  11c9fd:	f2 0f 58 d0          	addsd  %xmm0,%xmm2
+  11ca01:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+  11ca05:	66 0f 2e d1          	ucomisd %xmm1,%xmm2
+  11ca09:	48 b9 ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rcx
+  11ca10:	ff ff 7f 
+  11ca13:	75 21                	jne    11ca36 <rheon::research_public_call::candidate::public_call+0x6e6>
+  11ca15:	7a 1f                	jp     11ca36 <rheon::research_public_call::candidate::public_call+0x6e6>
+  11ca17:	66 0f 2e c2          	ucomisd %xmm2,%xmm0
+  11ca1b:	73 3f                	jae    11ca5c <rheon::research_public_call::candidate::public_call+0x70c>
+  11ca1d:	49 89 d6             	mov    %rdx,%r14
+  11ca20:	49 ff c6             	inc    %r14
+  11ca23:	75 67                	jne    11ca8c <rheon::research_public_call::candidate::public_call+0x73c>
+  11ca25:	31 f6                	xor    %esi,%esi
+  11ca27:	41 b5 18             	mov    $0x18,%r13b
+  11ca2a:	e9 7b fe ff ff       	jmp    11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11ca2f:	b0 12                	mov    $0x12,%al
+  11ca31:	e9 6f fa ff ff       	jmp    11c4a5 <rheon::research_public_call::candidate::public_call+0x155>
+  11ca36:	66 48 0f 7e d6       	movq   %xmm2,%rsi
+  11ca3b:	48 89 f0             	mov    %rsi,%rax
+  11ca3e:	48 21 c8             	and    %rcx,%rax
+  11ca41:	41 b5 11             	mov    $0x11,%r13b
+  11ca44:	4c 39 f0             	cmp    %r14,%rax
+  11ca47:	74 1b                	je     11ca64 <rheon::research_public_call::candidate::public_call+0x714>
+  11ca49:	48 89 f0             	mov    %rsi,%rax
+  11ca4c:	4c 21 f0             	and    %r14,%rax
+  11ca4f:	74 13                	je     11ca64 <rheon::research_public_call::candidate::public_call+0x714>
+  11ca51:	4c 39 f0             	cmp    %r14,%rax
+  11ca54:	0f 84 50 fe ff ff    	je     11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11ca5a:	eb bb                	jmp    11ca17 <rheon::research_public_call::candidate::public_call+0x6c7>
+  11ca5c:	41 b5 16             	mov    $0x16,%r13b
+  11ca5f:	e9 46 fe ff ff       	jmp    11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11ca64:	e9 41 fe ff ff       	jmp    11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11ca69:	b8 12 00 00 00       	mov    $0x12,%eax
+  11ca6e:	48 81 c5 60 07 00 00 	add    $0x760,%rbp
+  11ca75:	3c 1a                	cmp    $0x1a,%al
+  11ca77:	0f 84 90 f9 ff ff    	je     11c40d <rheon::research_public_call::candidate::public_call+0xbd>
+  11ca7d:	e9 f9 f9 ff ff       	jmp    11c47b <rheon::research_public_call::candidate::public_call+0x12b>
+  11ca82:	b8 12 00 00 00       	mov    $0x12,%eax
+  11ca87:	e9 ef f9 ff ff       	jmp    11c47b <rheon::research_public_call::candidate::public_call+0x12b>
+  11ca8c:	48 89 54 24 68       	mov    %rdx,0x68(%rsp)
+  11ca91:	f2 0f 11 94 24 88 00 	movsd  %xmm2,0x88(%rsp)
+  11ca98:	00 00 
+  11ca9a:	4d 8d 8f 90 05 00 00 	lea    0x590(%r15),%r9
+  11caa1:	49 8b 77 08          	mov    0x8(%r15),%rsi
+  11caa5:	49 8b 57 10          	mov    0x10(%r15),%rdx
+  11caa9:	48 83 ec 08          	sub    $0x8,%rsp
+  11caad:	48 8d bc 24 90 08 00 	lea    0x890(%rsp),%rdi
+  11cab4:	00 
+  11cab5:	4c 89 54 24 40       	mov    %r10,0x40(%rsp)
+  11caba:	4c 89 d1             	mov    %r10,%rcx
+  11cabd:	4c 89 44 24 38       	mov    %r8,0x38(%rsp)
+  11cac2:	41 ff b7 88 05 00 00 	push   0x588(%r15)
+  11cac9:	e8 32 f6 ff ff       	call   11c100 <rheon::research_public_call::candidate::coordinates>
+  11cace:	48 83 c4 10          	add    $0x10,%rsp
+  11cad2:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11cad9:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11cae0:	00 00 
+  11cae2:	0f b6 bc 24 91 08 00 	movzbl 0x891(%rsp),%edi
+  11cae9:	00 
+  11caea:	8b 8c 24 92 08 00 00 	mov    0x892(%rsp),%ecx
+  11caf1:	89 8c 24 e0 be 00 00 	mov    %ecx,0xbee0(%rsp)
+  11caf8:	0f b7 8c 24 96 08 00 	movzwl 0x896(%rsp),%ecx
+  11caff:	00 
+  11cb00:	66 89 8c 24 e4 be 00 	mov    %cx,0xbee4(%rsp)
+  11cb07:	00 
+  11cb08:	48 8b b4 24 98 08 00 	mov    0x898(%rsp),%rsi
+  11cb0f:	00 
+  11cb10:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11cb17:	00 
+  11cb18:	83 f8 01             	cmp    $0x1,%eax
+  11cb1b:	75 1d                	jne    11cb3a <rheon::research_public_call::candidate::public_call+0x7ea>
+  11cb1d:	8b 84 24 e0 be 00 00 	mov    0xbee0(%rsp),%eax
+  11cb24:	89 44 24 08          	mov    %eax,0x8(%rsp)
+  11cb28:	0f b7 84 24 e4 be 00 	movzwl 0xbee4(%rsp),%eax
+  11cb2f:	00 
+  11cb30:	66 89 44 24 0c       	mov    %ax,0xc(%rsp)
+  11cb35:	e9 70 fd ff ff       	jmp    11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11cb3a:	4c 89 b4 24 e0 00 00 	mov    %r14,0xe0(%rsp)
+  11cb41:	00 
+  11cb42:	48 89 ac 24 e8 00 00 	mov    %rbp,0xe8(%rsp)
+  11cb49:	00 
+  11cb4a:	0f 10 84 24 a8 08 00 	movups 0x8a8(%rsp),%xmm0
+  11cb51:	00 
+  11cb52:	0f 10 8c 24 b8 08 00 	movups 0x8b8(%rsp),%xmm1
+  11cb59:	00 
+  11cb5a:	0f 10 94 24 c8 08 00 	movups 0x8c8(%rsp),%xmm2
+  11cb61:	00 
+  11cb62:	0f 29 94 24 00 38 01 	movaps %xmm2,0x13800(%rsp)
+  11cb69:	00 
+  11cb6a:	0f 29 8c 24 f0 37 01 	movaps %xmm1,0x137f0(%rsp)
+  11cb71:	00 
+  11cb72:	0f 29 84 24 e0 37 01 	movaps %xmm0,0x137e0(%rsp)
+  11cb79:	00 
+  11cb7a:	44 88 ac 24 c8 00 00 	mov    %r13b,0xc8(%rsp)
+  11cb81:	00 
+  11cb82:	40 88 bc 24 c9 00 00 	mov    %dil,0xc9(%rsp)
+  11cb89:	00 
+  11cb8a:	8b 84 24 e0 be 00 00 	mov    0xbee0(%rsp),%eax
+  11cb91:	89 84 24 ca 00 00 00 	mov    %eax,0xca(%rsp)
+  11cb98:	0f b7 84 24 e4 be 00 	movzwl 0xbee4(%rsp),%eax
+  11cb9f:	00 
+  11cba0:	66 89 84 24 ce 00 00 	mov    %ax,0xce(%rsp)
+  11cba7:	00 
+  11cba8:	48 89 b4 24 d0 00 00 	mov    %rsi,0xd0(%rsp)
+  11cbaf:	00 
+  11cbb0:	48 89 8c 24 d8 00 00 	mov    %rcx,0xd8(%rsp)
+  11cbb7:	00 
+  11cbb8:	0f 29 84 24 10 01 00 	movaps %xmm0,0x110(%rsp)
+  11cbbf:	00 
+  11cbc0:	0f 29 8c 24 20 01 00 	movaps %xmm1,0x120(%rsp)
+  11cbc7:	00 
+  11cbc8:	0f 29 94 24 30 01 00 	movaps %xmm2,0x130(%rsp)
+  11cbcf:	00 
+  11cbd0:	44 88 ac 24 f8 00 00 	mov    %r13b,0xf8(%rsp)
+  11cbd7:	00 
+  11cbd8:	40 88 bc 24 f9 00 00 	mov    %dil,0xf9(%rsp)
+  11cbdf:	00 
+  11cbe0:	8b 84 24 e0 be 00 00 	mov    0xbee0(%rsp),%eax
+  11cbe7:	89 84 24 fa 00 00 00 	mov    %eax,0xfa(%rsp)
+  11cbee:	0f b7 84 24 e4 be 00 	movzwl 0xbee4(%rsp),%eax
+  11cbf5:	00 
+  11cbf6:	66 89 84 24 fe 00 00 	mov    %ax,0xfe(%rsp)
+  11cbfd:	00 
+  11cbfe:	48 89 b4 24 00 01 00 	mov    %rsi,0x100(%rsp)
+  11cc05:	00 
+  11cc06:	48 89 8c 24 08 01 00 	mov    %rcx,0x108(%rsp)
+  11cc0d:	00 
+  11cc0e:	66 0f 28 84 24 e0 37 	movapd 0x137e0(%rsp),%xmm0
+  11cc15:	01 00 
+  11cc17:	66 0f 28 8c 24 f0 37 	movapd 0x137f0(%rsp),%xmm1
+  11cc1e:	01 00 
+  11cc20:	66 0f 28 94 24 00 38 	movapd 0x13800(%rsp),%xmm2
+  11cc27:	01 00 
+  11cc29:	66 0f 29 94 24 80 05 	movapd %xmm2,0x580(%rsp)
+  11cc30:	00 00 
+  11cc32:	66 0f 29 8c 24 70 05 	movapd %xmm1,0x570(%rsp)
+  11cc39:	00 00 
+  11cc3b:	66 0f 29 84 24 60 05 	movapd %xmm0,0x560(%rsp)
+  11cc42:	00 00 
+  11cc44:	49 83 bf 00 01 00 00 	cmpq   $0x10,0x100(%r15)
+  11cc4b:	10 
+  11cc4c:	0f 85 a3 00 00 00    	jne    11ccf5 <rheon::research_public_call::candidate::public_call+0x9a5>
+  11cc52:	49 8b 87 f8 00 00 00 	mov    0xf8(%r15),%rax
+  11cc59:	0f b6 08             	movzbl (%rax),%ecx
+  11cc5c:	48 8b 50 10          	mov    0x10(%rax),%rdx
+  11cc60:	48 89 94 24 20 03 00 	mov    %rdx,0x320(%rsp)
+  11cc67:	00 
+  11cc68:	0f 10 40 01          	movups 0x1(%rax),%xmm0
+  11cc6c:	0f 11 84 24 11 03 00 	movups %xmm0,0x311(%rsp)
+  11cc73:	00 
+  11cc74:	48 8b 50 78          	mov    0x78(%rax),%rdx
+  11cc78:	48 89 94 24 88 03 00 	mov    %rdx,0x388(%rsp)
+  11cc7f:	00 
+  11cc80:	0f 10 40 68          	movups 0x68(%rax),%xmm0
+  11cc84:	0f 11 84 24 78 03 00 	movups %xmm0,0x378(%rsp)
+  11cc8b:	00 
+  11cc8c:	0f 10 40 58          	movups 0x58(%rax),%xmm0
+  11cc90:	0f 11 84 24 68 03 00 	movups %xmm0,0x368(%rsp)
+  11cc97:	00 
+  11cc98:	66 0f 10 40 18       	movupd 0x18(%rax),%xmm0
+  11cc9d:	66 0f 10 48 28       	movupd 0x28(%rax),%xmm1
+  11cca2:	66 0f 10 50 38       	movupd 0x38(%rax),%xmm2
+  11cca7:	66 0f 10 58 48       	movupd 0x48(%rax),%xmm3
+  11ccac:	66 0f 11 9c 24 58 03 	movupd %xmm3,0x358(%rsp)
+  11ccb3:	00 00 
+  11ccb5:	66 0f 11 94 24 48 03 	movupd %xmm2,0x348(%rsp)
+  11ccbc:	00 00 
+  11ccbe:	66 0f 11 8c 24 38 03 	movupd %xmm1,0x338(%rsp)
+  11ccc5:	00 00 
+  11ccc7:	66 0f 11 84 24 28 03 	movupd %xmm0,0x328(%rsp)
+  11ccce:	00 00 
+  11ccd0:	88 8c 24 10 03 00 00 	mov    %cl,0x310(%rsp)
+  11ccd7:	be 04 00 00 00       	mov    $0x4,%esi
+  11ccdc:	4c 89 e7             	mov    %r12,%rdi
+  11ccdf:	e8 7c fc 08 00       	call   1ac960 <rheon::research_public_call::observe>
+  11cce4:	84 c0                	test   %al,%al
+  11cce6:	74 15                	je     11ccfd <rheon::research_public_call::candidate::public_call+0x9ad>
+  11cce8:	41 b5 29             	mov    $0x29,%r13b
+  11cceb:	c6 44 24 18 04       	movb   $0x4,0x18(%rsp)
+  11ccf0:	e9 54 19 00 00       	jmp    11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11ccf5:	41 b5 1a             	mov    $0x1a,%r13b
+  11ccf8:	e9 4c 19 00 00       	jmp    11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11ccfd:	49 8d b7 90 03 00 00 	lea    0x390(%r15),%rsi
+  11cd04:	0f 28 84 24 10 01 00 	movaps 0x110(%rsp),%xmm0
+  11cd0b:	00 
+  11cd0c:	0f 28 8c 24 20 01 00 	movaps 0x120(%rsp),%xmm1
+  11cd13:	00 
+  11cd14:	66 0f 28 94 24 30 01 	movapd 0x130(%rsp),%xmm2
+  11cd1b:	00 00 
+  11cd1d:	66 0f 29 94 24 00 38 	movapd %xmm2,0x13800(%rsp)
+  11cd24:	01 00 
+  11cd26:	0f 29 8c 24 f0 37 01 	movaps %xmm1,0x137f0(%rsp)
+  11cd2d:	00 
+  11cd2e:	0f 29 84 24 e0 37 01 	movaps %xmm0,0x137e0(%rsp)
+  11cd35:	00 
+  11cd36:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11cd3d:	00 
+  11cd3e:	48 8d 94 24 c8 00 00 	lea    0xc8(%rsp),%rdx
+  11cd45:	00 
+  11cd46:	48 8d 8c 24 e0 37 01 	lea    0x137e0(%rsp),%rcx
+  11cd4d:	00 
+  11cd4e:	48 89 74 24 48       	mov    %rsi,0x48(%rsp)
+  11cd53:	f2 0f 10 44 24 10    	movsd  0x10(%rsp),%xmm0
+  11cd59:	f2 0f 10 4c 24 18    	movsd  0x18(%rsp),%xmm1
+  11cd5f:	4d 89 e0             	mov    %r12,%r8
+  11cd62:	e8 59 8e 01 00       	call   135bc0 <rheon::research_public_call::candidate::Work::seed>
+  11cd67:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11cd6e:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11cd75:	00 00 
+  11cd77:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11cd7e:	00 
+  11cd7f:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11cd83:	8b 8c 24 92 08 00 00 	mov    0x892(%rsp),%ecx
+  11cd8a:	89 8c 24 e0 be 00 00 	mov    %ecx,0xbee0(%rsp)
+  11cd91:	0f b7 8c 24 96 08 00 	movzwl 0x896(%rsp),%ecx
+  11cd98:	00 
+  11cd99:	66 89 8c 24 e4 be 00 	mov    %cx,0xbee4(%rsp)
+  11cda0:	00 
+  11cda1:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11cda8:	00 
+  11cda9:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11cdae:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11cdb5:	00 
+  11cdb6:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11cdbb:	83 f8 01             	cmp    $0x1,%eax
+  11cdbe:	75 1d                	jne    11cddd <rheon::research_public_call::candidate::public_call+0xa8d>
+  11cdc0:	8b 84 24 e0 be 00 00 	mov    0xbee0(%rsp),%eax
+  11cdc7:	89 44 24 08          	mov    %eax,0x8(%rsp)
+  11cdcb:	0f b7 84 24 e4 be 00 	movzwl 0xbee4(%rsp),%eax
+  11cdd2:	00 
+  11cdd3:	66 89 44 24 0c       	mov    %ax,0xc(%rsp)
+  11cdd8:	e9 6c 18 00 00       	jmp    11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11cddd:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11cde4:	00 
+  11cde5:	48 8d bc 24 98 01 00 	lea    0x198(%rsp),%rdi
+  11cdec:	00 
+  11cded:	ba 98 00 00 00       	mov    $0x98,%edx
+  11cdf2:	ff 15 98 2a 1b 00    	call   *0x1b2a98(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11cdf8:	44 88 ac 24 80 01 00 	mov    %r13b,0x180(%rsp)
+  11cdff:	00 
+  11ce00:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11ce05:	88 84 24 81 01 00 00 	mov    %al,0x181(%rsp)
+  11ce0c:	8b 84 24 e0 be 00 00 	mov    0xbee0(%rsp),%eax
+  11ce13:	89 84 24 82 01 00 00 	mov    %eax,0x182(%rsp)
+  11ce1a:	0f b7 84 24 e4 be 00 	movzwl 0xbee4(%rsp),%eax
+  11ce21:	00 
+  11ce22:	66 89 84 24 86 01 00 	mov    %ax,0x186(%rsp)
+  11ce29:	00 
+  11ce2a:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11ce2f:	48 89 84 24 88 01 00 	mov    %rax,0x188(%rsp)
+  11ce36:	00 
+  11ce37:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+  11ce3c:	48 89 84 24 90 01 00 	mov    %rax,0x190(%rsp)
+  11ce43:	00 
+  11ce44:	48 c7 44 24 70 00 00 	movq   $0x0,0x70(%rsp)
+  11ce4b:	00 00 
+  11ce4d:	48 c7 44 24 58 00 00 	movq   $0x0,0x58(%rsp)
+  11ce54:	00 00 
+  11ce56:	c6 44 24 0f 00       	movb   $0x0,0xf(%rsp)
+  11ce5b:	49 8b 8f 40 03 00 00 	mov    0x340(%r15),%rcx
+  11ce62:	48 85 c9             	test   %rcx,%rcx
+  11ce65:	0f 84 22 0c 00 00    	je     11da8d <rheon::research_public_call::candidate::public_call+0x173d>
+  11ce6b:	48 89 c8             	mov    %rcx,%rax
+  11ce6e:	48 83 f9 07          	cmp    $0x7,%rcx
+  11ce72:	b9 07 00 00 00       	mov    $0x7,%ecx
+  11ce77:	48 0f 43 c1          	cmovae %rcx,%rax
+  11ce7b:	48 89 84 24 40 01 00 	mov    %rax,0x140(%rsp)
+  11ce82:	00 
+  11ce83:	b8 01 00 00 00       	mov    $0x1,%eax
+  11ce88:	48 89 84 24 80 00 00 	mov    %rax,0x80(%rsp)
+  11ce8f:	00 
+  11ce90:	be 05 00 00 00       	mov    $0x5,%esi
+  11ce95:	4c 89 e7             	mov    %r12,%rdi
+  11ce98:	e8 c3 fa 08 00       	call   1ac960 <rheon::research_public_call::observe>
+  11ce9d:	84 c0                	test   %al,%al
+  11ce9f:	0f 85 f9 0b 00 00    	jne    11da9e <rheon::research_public_call::candidate::public_call+0x174e>
+  11cea5:	f2 0f 10 44 24 40    	movsd  0x40(%rsp),%xmm0
+  11ceab:	48 83 ec 08          	sub    $0x8,%rsp
+  11ceaf:	41 b9 10 00 00 00    	mov    $0x10,%r9d
+  11ceb5:	48 8d bc 24 90 08 00 	lea    0x890(%rsp),%rdi
+  11cebc:	00 
+  11cebd:	48 8b 74 24 50       	mov    0x50(%rsp),%rsi
+  11cec2:	48 8d 94 24 d0 00 00 	lea    0xd0(%rsp),%rdx
+  11cec9:	00 
+  11ceca:	48 8d 8c 24 18 01 00 	lea    0x118(%rsp),%rcx
+  11ced1:	00 
+  11ced2:	4c 8d 84 24 88 01 00 	lea    0x188(%rsp),%r8
+  11ced9:	00 
+  11ceda:	48 8d 84 24 c8 00 00 	lea    0xc8(%rsp),%rax
+  11cee1:	00 
+  11cee2:	50                   	push   %rax
+  11cee3:	48 8d 84 24 a0 00 00 	lea    0xa0(%rsp),%rax
+  11ceea:	00 
+  11ceeb:	50                   	push   %rax
+  11ceec:	48 8d 84 24 28 03 00 	lea    0x328(%rsp),%rax
+  11cef3:	00 
+  11cef4:	50                   	push   %rax
+  11cef5:	ff 74 24 50          	push   0x50(%rsp)
+  11cef9:	ff 74 24 60          	push   0x60(%rsp)
+  11cefd:	e8 ae 3c 03 00       	call   150bb0 <rheon::research_public_call::candidate::Work::equation>
+  11cf02:	48 83 c4 30          	add    $0x30,%rsp
+  11cf06:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11cf0d:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11cf14:	00 00 
+  11cf16:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11cf1d:	00 
+  11cf1e:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11cf22:	48 8d 94 24 92 08 00 	lea    0x892(%rsp),%rdx
+  11cf29:	00 
+  11cf2a:	8b 0a                	mov    (%rdx),%ecx
+  11cf2c:	89 8c 24 08 86 00 00 	mov    %ecx,0x8608(%rsp)
+  11cf33:	0f b7 4a 04          	movzwl 0x4(%rdx),%ecx
+  11cf37:	66 89 8c 24 0c 86 00 	mov    %cx,0x860c(%rsp)
+  11cf3e:	00 
+  11cf3f:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11cf46:	00 
+  11cf47:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11cf4c:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11cf53:	00 
+  11cf54:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11cf59:	83 f8 01             	cmp    $0x1,%eax
+  11cf5c:	0f 84 ca 10 00 00    	je     11e02c <rheon::research_public_call::candidate::public_call+0x1cdc>
+  11cf62:	ba e8 78 00 00       	mov    $0x78e8,%edx
+  11cf67:	48 8d bc 24 e0 be 00 	lea    0xbee0(%rsp),%rdi
+  11cf6e:	00 
+  11cf6f:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11cf76:	00 
+  11cf77:	48 8b 05 12 29 1b 00 	mov    0x1b2912(%rip),%rax        # 2cf890 <memcpy@GLIBC_2.14>
+  11cf7e:	ff d0                	call   *%rax
+  11cf80:	44 88 ac 24 e8 b0 01 	mov    %r13b,0x1b0e8(%rsp)
+  11cf87:	00 
+  11cf88:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11cf8d:	88 84 24 e9 b0 01 00 	mov    %al,0x1b0e9(%rsp)
+  11cf94:	0f b7 84 24 0c 86 00 	movzwl 0x860c(%rsp),%eax
+  11cf9b:	00 
+  11cf9c:	48 8d 8c 24 ea b0 01 	lea    0x1b0ea(%rsp),%rcx
+  11cfa3:	00 
+  11cfa4:	66 89 41 04          	mov    %ax,0x4(%rcx)
+  11cfa8:	8b 84 24 08 86 00 00 	mov    0x8608(%rsp),%eax
+  11cfaf:	89 01                	mov    %eax,(%rcx)
+  11cfb1:	4c 8b 74 24 10       	mov    0x10(%rsp),%r14
+  11cfb6:	4c 89 b4 24 f0 b0 01 	mov    %r14,0x1b0f0(%rsp)
+  11cfbd:	00 
+  11cfbe:	48 8b 6c 24 20       	mov    0x20(%rsp),%rbp
+  11cfc3:	48 89 ac 24 f8 b0 01 	mov    %rbp,0x1b0f8(%rsp)
+  11cfca:	00 
+  11cfcb:	ba e8 78 00 00       	mov    $0x78e8,%edx
+  11cfd0:	48 8d bc 24 00 b1 01 	lea    0x1b100(%rsp),%rdi
+  11cfd7:	00 
+  11cfd8:	48 8d b4 24 e0 be 00 	lea    0xbee0(%rsp),%rsi
+  11cfdf:	00 
+  11cfe0:	ff 15 aa 28 1b 00    	call   *0x1b28aa(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11cfe6:	44 88 ac 24 e0 37 01 	mov    %r13b,0x137e0(%rsp)
+  11cfed:	00 
+  11cfee:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11cff3:	88 84 24 e1 37 01 00 	mov    %al,0x137e1(%rsp)
+  11cffa:	8b 84 24 08 86 00 00 	mov    0x8608(%rsp),%eax
+  11d001:	48 8d 8c 24 48 7f 01 	lea    0x17f48(%rsp),%rcx
+  11d008:	00 
+  11d009:	89 81 9a b8 ff ff    	mov    %eax,-0x4766(%rcx)
+  11d00f:	0f b7 84 24 0c 86 00 	movzwl 0x860c(%rsp),%eax
+  11d016:	00 
+  11d017:	66 89 81 9e b8 ff ff 	mov    %ax,-0x4762(%rcx)
+  11d01e:	4c 89 b4 24 e8 37 01 	mov    %r14,0x137e8(%rsp)
+  11d025:	00 
+  11d026:	48 89 ac 24 f0 37 01 	mov    %rbp,0x137f0(%rsp)
+  11d02d:	00 
+  11d02e:	ba e8 78 00 00       	mov    $0x78e8,%edx
+  11d033:	48 8d bc 24 f8 37 01 	lea    0x137f8(%rsp),%rdi
+  11d03a:	00 
+  11d03b:	48 8d b4 24 e0 be 00 	lea    0xbee0(%rsp),%rsi
+  11d042:	00 
+  11d043:	ff 15 47 28 1b 00    	call   *0x1b2847(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11d049:	48 ff 44 24 58       	incq   0x58(%rsp)
+  11d04e:	48 8b 84 24 80 00 00 	mov    0x80(%rsp),%rax
+  11d055:	00 
+  11d056:	48 89 44 24 70       	mov    %rax,0x70(%rsp)
+  11d05b:	ba 16 00 00 00       	mov    $0x16,%edx
+  11d060:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11d067:	00 
+  11d068:	48 8d b4 24 e0 37 01 	lea    0x137e0(%rsp),%rsi
+  11d06f:	00 
+  11d070:	e8 6b 50 09 00       	call   1b20e0 <rheon::translated_viscous::norm>
+  11d075:	44 0f b6 ac 24 88 08 	movzbl 0x888(%rsp),%r13d
+  11d07c:	00 00 
+  11d07e:	41 80 fd 1a          	cmp    $0x1a,%r13b
+  11d082:	0f 85 83 15 00 00    	jne    11e60b <rheon::research_public_call::candidate::public_call+0x22bb>
+  11d088:	49 8b 87 40 03 00 00 	mov    0x340(%r15),%rax
+  11d08f:	48 83 f8 07          	cmp    $0x7,%rax
+  11d093:	b9 07 00 00 00       	mov    $0x7,%ecx
+  11d098:	48 0f 43 c1          	cmovae %rcx,%rax
+  11d09c:	48 89 84 24 08 86 00 	mov    %rax,0x8608(%rsp)
+  11d0a3:	00 
+  11d0a4:	f2 0f 10 84 24 90 08 	movsd  0x890(%rsp),%xmm0
+  11d0ab:	00 00 
+  11d0ad:	f2 0f 11 84 24 90 03 	movsd  %xmm0,0x390(%rsp)
+  11d0b4:	00 00 
+  11d0b6:	48 8d 44 24 70       	lea    0x70(%rsp),%rax
+  11d0bb:	48 89 84 24 88 08 00 	mov    %rax,0x888(%rsp)
+  11d0c2:	00 
+  11d0c3:	48 8b 0d 8e 27 1b 00 	mov    0x1b278e(%rip),%rcx        # 2cf858 <_DYNAMIC+0x270>
+  11d0ca:	48 89 8c 24 90 08 00 	mov    %rcx,0x890(%rsp)
+  11d0d1:	00 
+  11d0d2:	48 8d 44 24 58       	lea    0x58(%rsp),%rax
+  11d0d7:	48 89 84 24 98 08 00 	mov    %rax,0x898(%rsp)
+  11d0de:	00 
+  11d0df:	48 89 8c 24 a0 08 00 	mov    %rcx,0x8a0(%rsp)
+  11d0e6:	00 
+  11d0e7:	48 8d 44 24 40       	lea    0x40(%rsp),%rax
+  11d0ec:	48 89 84 24 a8 08 00 	mov    %rax,0x8a8(%rsp)
+  11d0f3:	00 
+  11d0f4:	48 8b 15 a5 27 1b 00 	mov    0x1b27a5(%rip),%rdx        # 2cf8a0 <_DYNAMIC+0x2b8>
+  11d0fb:	48 89 94 24 b0 08 00 	mov    %rdx,0x8b0(%rsp)
+  11d102:	00 
+  11d103:	48 8d 84 24 58 01 00 	lea    0x158(%rsp),%rax
+  11d10a:	00 
+  11d10b:	48 89 84 24 b8 08 00 	mov    %rax,0x8b8(%rsp)
+  11d112:	00 
+  11d113:	48 8b 05 8e 27 1b 00 	mov    0x1b278e(%rip),%rax        # 2cf8a8 <_DYNAMIC+0x2c0>
+  11d11a:	48 89 84 24 c0 08 00 	mov    %rax,0x8c0(%rsp)
+  11d121:	00 
+  11d122:	48 8d 84 24 e8 02 00 	lea    0x2e8(%rsp),%rax
+  11d129:	00 
+  11d12a:	48 89 84 24 c8 08 00 	mov    %rax,0x8c8(%rsp)
+  11d131:	00 
+  11d132:	48 89 94 24 d0 08 00 	mov    %rdx,0x8d0(%rsp)
+  11d139:	00 
+  11d13a:	48 8d 84 24 f8 00 00 	lea    0xf8(%rsp),%rax
+  11d141:	00 
+  11d142:	48 89 84 24 d8 08 00 	mov    %rax,0x8d8(%rsp)
+  11d149:	00 
+  11d14a:	48 8d 35 bf 51 0a 00 	lea    0xa51bf(%rip),%rsi        # 1c2310 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  11d151:	48 89 b4 24 e0 08 00 	mov    %rsi,0x8e0(%rsp)
+  11d158:	00 
+  11d159:	48 8d 84 24 60 05 00 	lea    0x560(%rsp),%rax
+  11d160:	00 
+  11d161:	48 89 84 24 e8 08 00 	mov    %rax,0x8e8(%rsp)
+  11d168:	00 
+  11d169:	48 8d 05 40 44 0a 00 	lea    0xa4440(%rip),%rax        # 1c15b0 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  11d170:	48 89 84 24 f0 08 00 	mov    %rax,0x8f0(%rsp)
+  11d177:	00 
+  11d178:	48 8d 84 24 80 01 00 	lea    0x180(%rsp),%rax
+  11d17f:	00 
+  11d180:	48 89 84 24 f8 08 00 	mov    %rax,0x8f8(%rsp)
+  11d187:	00 
+  11d188:	48 8d 3d 41 4b 0a 00 	lea    0xa4b41(%rip),%rdi        # 1c1cd0 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  11d18f:	48 89 bc 24 00 09 00 	mov    %rdi,0x900(%rsp)
+  11d196:	00 
+  11d197:	48 8d 84 24 90 03 00 	lea    0x390(%rsp),%rax
+  11d19e:	00 
+  11d19f:	48 89 84 24 08 09 00 	mov    %rax,0x908(%rsp)
+  11d1a6:	00 
+  11d1a7:	48 89 94 24 10 09 00 	mov    %rdx,0x910(%rsp)
+  11d1ae:	00 
+  11d1af:	4c 8d ac 24 e0 37 01 	lea    0x137e0(%rsp),%r13
+  11d1b6:	00 
+  11d1b7:	4c 89 ac 24 18 09 00 	mov    %r13,0x918(%rsp)
+  11d1be:	00 
+  11d1bf:	48 89 bc 24 20 09 00 	mov    %rdi,0x920(%rsp)
+  11d1c6:	00 
+  11d1c7:	48 8d 84 24 90 38 01 	lea    0x13890(%rsp),%rax
+  11d1ce:	00 
+  11d1cf:	48 89 84 24 28 09 00 	mov    %rax,0x928(%rsp)
+  11d1d6:	00 
+  11d1d7:	48 89 bc 24 30 09 00 	mov    %rdi,0x930(%rsp)
+  11d1de:	00 
+  11d1df:	48 8d 84 24 68 ab 01 	lea    0x1ab68(%rsp),%rax
+  11d1e6:	00 
+  11d1e7:	48 89 84 24 38 09 00 	mov    %rax,0x938(%rsp)
+  11d1ee:	00 
+  11d1ef:	48 89 b4 24 40 09 00 	mov    %rsi,0x940(%rsp)
+  11d1f6:	00 
+  11d1f7:	48 8d 84 24 c8 7d 01 	lea    0x17dc8(%rsp),%rax
+  11d1fe:	00 
+  11d1ff:	48 89 84 24 48 09 00 	mov    %rax,0x948(%rsp)
+  11d206:	00 
+  11d207:	48 8d 05 22 48 0a 00 	lea    0xa4822(%rip),%rax        # 1c1a30 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  11d20e:	48 89 84 24 50 09 00 	mov    %rax,0x950(%rsp)
+  11d215:	00 
+  11d216:	48 8d 84 24 48 7f 01 	lea    0x17f48(%rsp),%rax
+  11d21d:	00 
+  11d21e:	48 89 84 24 58 09 00 	mov    %rax,0x958(%rsp)
+  11d225:	00 
+  11d226:	48 8d 05 b3 35 0a 00 	lea    0xa35b3(%rip),%rax        # 1c07e0 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  11d22d:	48 89 84 24 60 09 00 	mov    %rax,0x960(%rsp)
+  11d234:	00 
+  11d235:	48 8d 05 6c 52 f0 ff 	lea    -0xfad94(%rip),%rax        # 224a8 <anon.485632902e5df01beb12ac6c448330b3.119.llvm.11743308955839318461+0x248>
+  11d23c:	48 89 84 24 68 09 00 	mov    %rax,0x968(%rsp)
+  11d243:	00 
+  11d244:	48 89 94 24 70 09 00 	mov    %rdx,0x970(%rsp)
+  11d24b:	00 
+  11d24c:	48 8d 84 24 08 86 00 	lea    0x8608(%rsp),%rax
+  11d253:	00 
+  11d254:	48 89 84 24 78 09 00 	mov    %rax,0x978(%rsp)
+  11d25b:	00 
+  11d25c:	48 89 8c 24 80 09 00 	mov    %rcx,0x980(%rsp)
+  11d263:	00 
+  11d264:	48 8d 05 35 8e 19 00 	lea    0x198e35(%rip),%rax        # 2b60a0 <anon.e7ddcf5b0e4373e18097a5a18a3fff73.62.llvm.14324991568266189146+0x18>
+  11d26b:	48 89 84 24 e0 be 00 	mov    %rax,0xbee0(%rsp)
+  11d272:	00 
+  11d273:	48 c7 84 24 e8 be 00 	movq   $0x11,0xbee8(%rsp)
+  11d27a:	00 11 00 00 00 
+  11d27f:	48 c7 84 24 00 bf 00 	movq   $0x0,0xbf00(%rsp)
+  11d286:	00 00 00 00 00 
+  11d28b:	4c 8d b4 24 88 08 00 	lea    0x888(%rsp),%r14
+  11d292:	00 
+  11d293:	4c 89 b4 24 f0 be 00 	mov    %r14,0xbef0(%rsp)
+  11d29a:	00 
+  11d29b:	48 c7 84 24 f8 be 00 	movq   $0x10,0xbef8(%rsp)
+  11d2a2:	00 10 00 00 00 
+  11d2a7:	48 8d bc 24 e0 be 00 	lea    0xbee0(%rsp),%rdi
+  11d2ae:	00 
+  11d2af:	ff 15 13 26 1b 00    	call   *0x1b2613(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>
+  11d2b5:	ba 16 00 00 00       	mov    $0x16,%edx
+  11d2ba:	4c 89 f7             	mov    %r14,%rdi
+  11d2bd:	4c 89 ee             	mov    %r13,%rsi
+  11d2c0:	e8 1b 4e 09 00       	call   1b20e0 <rheon::translated_viscous::norm>
+  11d2c5:	44 0f b6 ac 24 88 08 	movzbl 0x888(%rsp),%r13d
+  11d2cc:	00 00 
+  11d2ce:	41 80 fd 1a          	cmp    $0x1a,%r13b
+  11d2d2:	0f 85 33 13 00 00    	jne    11e60b <rheon::research_public_call::candidate::public_call+0x22bb>
+  11d2d8:	f2 0f 10 05 c8 51 f0 	movsd  -0xfae38(%rip),%xmm0        # 224a8 <anon.485632902e5df01beb12ac6c448330b3.119.llvm.11743308955839318461+0x248>
+  11d2df:	ff 
+  11d2e0:	66 0f 2e 84 24 90 08 	ucomisd 0x890(%rsp),%xmm0
+  11d2e7:	00 00 
+  11d2e9:	0f 83 2c 0b 00 00    	jae    11de1b <rheon::research_public_call::candidate::public_call+0x1acb>
+  11d2ef:	ba 20 0f 00 00       	mov    $0xf20,%edx
+  11d2f4:	4c 8d b4 24 e8 29 02 	lea    0x229e8(%rsp),%r14
+  11d2fb:	00 
+  11d2fc:	4c 89 f7             	mov    %r14,%rdi
+  11d2ff:	31 f6                	xor    %esi,%esi
+  11d301:	ff 15 79 25 1b 00    	call   *0x1b2579(%rip)        # 2cf880 <memset@GLIBC_2.2.5>
+  11d307:	b8 01 00 00 00       	mov    $0x1,%eax
+  11d30c:	4c 89 74 24 78       	mov    %r14,0x78(%rsp)
+  11d311:	45 31 f6             	xor    %r14d,%r14d
+  11d314:	f2 0f 10 44 24 60    	movsd  0x60(%rsp),%xmm0
+  11d31a:	48 89 84 24 48 01 00 	mov    %rax,0x148(%rsp)
+  11d321:	00 
+  11d322:	f2 42 0f 10 8c f4 80 	movsd  0x180(%rsp,%r14,8),%xmm1
+  11d329:	01 00 00 
+  11d32c:	66 0f 54 0d 2c 52 f0 	andpd  -0xfadd4(%rip),%xmm1        # 22560 <anon.485632902e5df01beb12ac6c448330b3.119.llvm.11743308955839318461+0x300>
+  11d333:	ff 
+  11d334:	f2 0f 58 0d f4 4c f0 	addsd  -0xfb30c(%rip),%xmm1        # 22030 <_IO_stdin_used+0x264>
+  11d33b:	ff 
+  11d33c:	66 0f 57 d2          	xorpd  %xmm2,%xmm2
+  11d340:	66 0f 2e ca          	ucomisd %xmm2,%xmm1
+  11d344:	75 02                	jne    11d348 <rheon::research_public_call::candidate::public_call+0xff8>
+  11d346:	7b 44                	jnp    11d38c <rheon::research_public_call::candidate::public_call+0x103c>
+  11d348:	66 48 0f 7e c8       	movq   %xmm1,%rax
+  11d34d:	48 89 c1             	mov    %rax,%rcx
+  11d350:	48 ba ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdx
+  11d357:	ff ff 7f 
+  11d35a:	48 21 d1             	and    %rdx,%rcx
+  11d35d:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  11d364:	00 f0 7f 
+  11d367:	48 39 d1             	cmp    %rdx,%rcx
+  11d36a:	0f 84 99 0a 00 00    	je     11de09 <rheon::research_public_call::candidate::public_call+0x1ab9>
+  11d370:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11d377:	00 f0 7f 
+  11d37a:	48 21 c8             	and    %rcx,%rax
+  11d37d:	0f 84 86 0a 00 00    	je     11de09 <rheon::research_public_call::candidate::public_call+0x1ab9>
+  11d383:	48 39 c8             	cmp    %rcx,%rax
+  11d386:	0f 84 7d 0a 00 00    	je     11de09 <rheon::research_public_call::candidate::public_call+0x1ab9>
+  11d38c:	66 0f 28 d9          	movapd %xmm1,%xmm3
+  11d390:	f2 0f 59 1d 80 4d f0 	mulsd  -0xfb280(%rip),%xmm3        # 22118 <anon.485632902e5df01beb12ac6c448330b3.108.llvm.11743308955839318461+0xe0>
+  11d397:	ff 
+  11d398:	f2 0f 11 5c 24 60    	movsd  %xmm3,0x60(%rsp)
+  11d39e:	66 0f 2e da          	ucomisd %xmm2,%xmm3
+  11d3a2:	75 13                	jne    11d3b7 <rheon::research_public_call::candidate::public_call+0x1067>
+  11d3a4:	7a 11                	jp     11d3b7 <rheon::research_public_call::candidate::public_call+0x1067>
+  11d3a6:	66 0f 2e ca          	ucomisd %xmm2,%xmm1
+  11d3aa:	0f 85 5d 0a 00 00    	jne    11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11d3b0:	7b 4f                	jnp    11d401 <rheon::research_public_call::candidate::public_call+0x10b1>
+  11d3b2:	e9 56 0a 00 00       	jmp    11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11d3b7:	f3 0f 7e 4c 24 60    	movq   0x60(%rsp),%xmm1
+  11d3bd:	66 48 0f 7e c8       	movq   %xmm1,%rax
+  11d3c2:	48 89 c1             	mov    %rax,%rcx
+  11d3c5:	48 ba ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdx
+  11d3cc:	ff ff 7f 
+  11d3cf:	48 21 d1             	and    %rdx,%rcx
+  11d3d2:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  11d3d9:	00 f0 7f 
+  11d3dc:	48 39 d1             	cmp    %rdx,%rcx
+  11d3df:	0f 84 28 0a 00 00    	je     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11d3e5:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11d3ec:	00 f0 7f 
+  11d3ef:	48 21 c8             	and    %rcx,%rax
+  11d3f2:	0f 84 15 0a 00 00    	je     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11d3f8:	48 39 c8             	cmp    %rcx,%rax
+  11d3fb:	0f 84 0c 0a 00 00    	je     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11d401:	ba b0 00 00 00       	mov    $0xb0,%edx
+  11d406:	48 8d bc 24 08 86 00 	lea    0x8608(%rsp),%rdi
+  11d40d:	00 
+  11d40e:	48 8d b4 24 80 01 00 	lea    0x180(%rsp),%rsi
+  11d415:	00 
+  11d416:	ff 15 74 24 1b 00    	call   *0x1b2474(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11d41c:	f2 42 0f 10 84 f4 08 	movsd  0x8608(%rsp,%r14,8),%xmm0
+  11d423:	86 00 00 
+  11d426:	f2 0f 58 44 24 60    	addsd  0x60(%rsp),%xmm0
+  11d42c:	66 0f ef c9          	pxor   %xmm1,%xmm1
+  11d430:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+  11d434:	75 02                	jne    11d438 <rheon::research_public_call::candidate::public_call+0x10e8>
+  11d436:	7b 4e                	jnp    11d486 <rheon::research_public_call::candidate::public_call+0x1136>
+  11d438:	66 48 0f 7e c0       	movq   %xmm0,%rax
+  11d43d:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+  11d442:	48 b9 ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rcx
+  11d449:	ff ff 7f 
+  11d44c:	48 21 c8             	and    %rcx,%rax
+  11d44f:	41 b5 11             	mov    $0x11,%r13b
+  11d452:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11d459:	00 f0 7f 
+  11d45c:	48 39 c8             	cmp    %rcx,%rax
+  11d45f:	0f 84 93 f8 ff ff    	je     11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11d465:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11d46a:	48 21 c8             	and    %rcx,%rax
+  11d46d:	0f 84 85 f8 ff ff    	je     11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11d473:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11d47a:	00 f0 7f 
+  11d47d:	48 39 c8             	cmp    %rcx,%rax
+  11d480:	0f 84 c3 11 00 00    	je     11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11d486:	f2 42 0f 11 84 f4 08 	movsd  %xmm0,0x8608(%rsp,%r14,8)
+  11d48d:	86 00 00 
+  11d490:	f2 0f 10 44 24 40    	movsd  0x40(%rsp),%xmm0
+  11d496:	48 83 ec 08          	sub    $0x8,%rsp
+  11d49a:	41 b9 10 00 00 00    	mov    $0x10,%r9d
+  11d4a0:	48 8d bc 24 90 08 00 	lea    0x890(%rsp),%rdi
+  11d4a7:	00 
+  11d4a8:	48 8b 74 24 50       	mov    0x50(%rsp),%rsi
+  11d4ad:	48 8d 94 24 d0 00 00 	lea    0xd0(%rsp),%rdx
+  11d4b4:	00 
+  11d4b5:	48 8d 8c 24 18 01 00 	lea    0x118(%rsp),%rcx
+  11d4bc:	00 
+  11d4bd:	4c 8d 84 24 10 86 00 	lea    0x8610(%rsp),%r8
+  11d4c4:	00 
+  11d4c5:	48 8d 84 24 c8 00 00 	lea    0xc8(%rsp),%rax
+  11d4cc:	00 
+  11d4cd:	50                   	push   %rax
+  11d4ce:	48 8d 84 24 a0 00 00 	lea    0xa0(%rsp),%rax
+  11d4d5:	00 
+  11d4d6:	50                   	push   %rax
+  11d4d7:	48 8d 84 24 28 03 00 	lea    0x328(%rsp),%rax
+  11d4de:	00 
+  11d4df:	50                   	push   %rax
+  11d4e0:	ff 74 24 50          	push   0x50(%rsp)
+  11d4e4:	ff 74 24 60          	push   0x60(%rsp)
+  11d4e8:	e8 c3 36 03 00       	call   150bb0 <rheon::research_public_call::candidate::Work::equation>
+  11d4ed:	48 83 c4 30          	add    $0x30,%rsp
+  11d4f1:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11d4f8:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11d4ff:	00 00 
+  11d501:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11d508:	00 
+  11d509:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11d50d:	48 8d 94 24 92 08 00 	lea    0x892(%rsp),%rdx
+  11d514:	00 
+  11d515:	8b 0a                	mov    (%rdx),%ecx
+  11d517:	89 8c 24 90 03 00 00 	mov    %ecx,0x390(%rsp)
+  11d51e:	0f b7 4a 04          	movzwl 0x4(%rdx),%ecx
+  11d522:	66 89 8c 24 94 03 00 	mov    %cx,0x394(%rsp)
+  11d529:	00 
+  11d52a:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11d531:	00 
+  11d532:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11d537:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11d53e:	00 
+  11d53f:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11d544:	83 f8 01             	cmp    $0x1,%eax
+  11d547:	0f 84 a3 0e 00 00    	je     11e3f0 <rheon::research_public_call::candidate::public_call+0x20a0>
+  11d54d:	ba b0 3a 00 00       	mov    $0x3ab0,%edx
+  11d552:	4c 8d b4 24 e0 be 00 	lea    0xbee0(%rsp),%r14
+  11d559:	00 
+  11d55a:	4c 89 f7             	mov    %r14,%rdi
+  11d55d:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11d564:	00 
+  11d565:	48 8b 2d 24 23 1b 00 	mov    0x1b2324(%rip),%rbp        # 2cf890 <memcpy@GLIBC_2.14>
+  11d56c:	ff d5                	call   *%rbp
+  11d56e:	44 88 ac 24 48 06 00 	mov    %r13b,0x648(%rsp)
+  11d575:	00 
+  11d576:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11d57b:	88 84 24 49 06 00 00 	mov    %al,0x649(%rsp)
+  11d582:	0f b7 84 24 94 03 00 	movzwl 0x394(%rsp),%eax
+  11d589:	00 
+  11d58a:	48 8d 8c 24 4a 06 00 	lea    0x64a(%rsp),%rcx
+  11d591:	00 
+  11d592:	66 89 41 04          	mov    %ax,0x4(%rcx)
+  11d596:	8b 84 24 90 03 00 00 	mov    0x390(%rsp),%eax
+  11d59d:	89 01                	mov    %eax,(%rcx)
+  11d59f:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11d5a4:	48 89 84 24 50 06 00 	mov    %rax,0x650(%rsp)
+  11d5ab:	00 
+  11d5ac:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+  11d5b1:	48 89 84 24 58 06 00 	mov    %rax,0x658(%rsp)
+  11d5b8:	00 
+  11d5b9:	ba 98 00 00 00       	mov    $0x98,%edx
+  11d5be:	48 8d bc 24 60 06 00 	lea    0x660(%rsp),%rdi
+  11d5c5:	00 
+  11d5c6:	4c 89 f6             	mov    %r14,%rsi
+  11d5c9:	ff d5                	call   *%rbp
+  11d5cb:	48 ff 44 24 58       	incq   0x58(%rsp)
+  11d5d0:	4c 8b 74 24 78       	mov    0x78(%rsp),%r14
+  11d5d5:	31 ed                	xor    %ebp,%ebp
+  11d5d7:	f2 0f 10 84 ec 48 06 	movsd  0x648(%rsp,%rbp,8),%xmm0
+  11d5de:	00 00 
+  11d5e0:	f2 0f 5c 84 ec e8 b0 	subsd  0x1b0e8(%rsp,%rbp,8),%xmm0
+  11d5e7:	01 00 
+  11d5e9:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+  11d5ed:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+  11d5f1:	75 02                	jne    11d5f5 <rheon::research_public_call::candidate::public_call+0x12a5>
+  11d5f3:	7b 44                	jnp    11d639 <rheon::research_public_call::candidate::public_call+0x12e9>
+  11d5f5:	66 48 0f 7e c0       	movq   %xmm0,%rax
+  11d5fa:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+  11d5ff:	48 b9 ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rcx
+  11d606:	ff ff 7f 
+  11d609:	48 21 c8             	and    %rcx,%rax
+  11d60c:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11d613:	00 f0 7f 
+  11d616:	48 39 c8             	cmp    %rcx,%rax
+  11d619:	0f 84 8c 04 00 00    	je     11daab <rheon::research_public_call::candidate::public_call+0x175b>
+  11d61f:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11d624:	48 21 c8             	and    %rcx,%rax
+  11d627:	48 39 c8             	cmp    %rcx,%rax
+  11d62a:	0f 84 7b 04 00 00    	je     11daab <rheon::research_public_call::candidate::public_call+0x175b>
+  11d630:	48 85 c0             	test   %rax,%rax
+  11d633:	0f 84 72 04 00 00    	je     11daab <rheon::research_public_call::candidate::public_call+0x175b>
+  11d639:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11d640:	00 
+  11d641:	f2 0f 10 4c 24 60    	movsd  0x60(%rsp),%xmm1
+  11d647:	e8 b4 7c ff ff       	call   115300 <rheon::translated_viscous::div>
+  11d64c:	44 0f b6 ac 24 88 08 	movzbl 0x888(%rsp),%r13d
+  11d653:	00 00 
+  11d655:	41 80 fd 1a          	cmp    $0x1a,%r13b
+  11d659:	0f 85 ac 0f 00 00    	jne    11e60b <rheon::research_public_call::candidate::public_call+0x22bb>
+  11d65f:	f2 0f 10 84 24 90 08 	movsd  0x890(%rsp),%xmm0
+  11d666:	00 00 
+  11d668:	f2 41 0f 11 06       	movsd  %xmm0,(%r14)
+  11d66d:	48 ff c5             	inc    %rbp
+  11d670:	49 81 c6 b0 00 00 00 	add    $0xb0,%r14
+  11d677:	48 83 fd 16          	cmp    $0x16,%rbp
+  11d67b:	0f 85 56 ff ff ff    	jne    11d5d7 <rheon::research_public_call::candidate::public_call+0x1287>
+  11d681:	48 8b 8c 24 48 01 00 	mov    0x148(%rsp),%rcx
+  11d688:	00 
+  11d689:	48 83 f9 06          	cmp    $0x6,%rcx
+  11d68d:	48 89 c8             	mov    %rcx,%rax
+  11d690:	48 83 d0 00          	adc    $0x0,%rax
+  11d694:	48 83 44 24 78 08    	addq   $0x8,0x78(%rsp)
+  11d69a:	49 89 ce             	mov    %rcx,%r14
+  11d69d:	f2 0f 10 44 24 60    	movsd  0x60(%rsp),%xmm0
+  11d6a3:	48 83 f9 06          	cmp    $0x6,%rcx
+  11d6a7:	0f 82 6d fc ff ff    	jb     11d31a <rheon::research_public_call::candidate::public_call+0xfca>
+  11d6ad:	48 8d 84 24 90 2a 02 	lea    0x22a90(%rsp),%rax
+  11d6b4:	00 
+  11d6b5:	31 c9                	xor    %ecx,%ecx
+  11d6b7:	f2 0f 10 84 cc d0 eb 	movsd  0x1ebd0(%rsp,%rcx,8),%xmm0
+  11d6be:	01 00 
+  11d6c0:	f2 0f 11 40 88       	movsd  %xmm0,-0x78(%rax)
+  11d6c5:	f2 0f 10 84 cc 80 ec 	movsd  0x1ec80(%rsp,%rcx,8),%xmm0
+  11d6cc:	01 00 
+  11d6ce:	f2 0f 11 40 90       	movsd  %xmm0,-0x70(%rax)
+  11d6d3:	f2 0f 10 84 cc 30 ed 	movsd  0x1ed30(%rsp,%rcx,8),%xmm0
+  11d6da:	01 00 
+  11d6dc:	f2 0f 11 40 98       	movsd  %xmm0,-0x68(%rax)
+  11d6e1:	f2 0f 10 84 cc e0 ed 	movsd  0x1ede0(%rsp,%rcx,8),%xmm0
+  11d6e8:	01 00 
+  11d6ea:	f2 0f 11 40 a0       	movsd  %xmm0,-0x60(%rax)
+  11d6ef:	f2 0f 10 84 cc 90 ee 	movsd  0x1ee90(%rsp,%rcx,8),%xmm0
+  11d6f6:	01 00 
+  11d6f8:	f2 0f 11 40 a8       	movsd  %xmm0,-0x58(%rax)
+  11d6fd:	f2 0f 10 84 cc 40 ef 	movsd  0x1ef40(%rsp,%rcx,8),%xmm0
+  11d704:	01 00 
+  11d706:	f2 0f 11 40 b0       	movsd  %xmm0,-0x50(%rax)
+  11d70b:	f2 0f 10 84 cc f0 ef 	movsd  0x1eff0(%rsp,%rcx,8),%xmm0
+  11d712:	01 00 
+  11d714:	f2 0f 11 40 b8       	movsd  %xmm0,-0x48(%rax)
+  11d719:	f2 0f 10 84 cc a0 f0 	movsd  0x1f0a0(%rsp,%rcx,8),%xmm0
+  11d720:	01 00 
+  11d722:	f2 0f 11 40 c0       	movsd  %xmm0,-0x40(%rax)
+  11d727:	f2 0f 10 84 cc 50 f1 	movsd  0x1f150(%rsp,%rcx,8),%xmm0
+  11d72e:	01 00 
+  11d730:	f2 0f 11 40 c8       	movsd  %xmm0,-0x38(%rax)
+  11d735:	f2 0f 10 84 cc 00 f2 	movsd  0x1f200(%rsp,%rcx,8),%xmm0
+  11d73c:	01 00 
+  11d73e:	f2 0f 11 40 d0       	movsd  %xmm0,-0x30(%rax)
+  11d743:	f2 0f 10 84 cc b0 f2 	movsd  0x1f2b0(%rsp,%rcx,8),%xmm0
+  11d74a:	01 00 
+  11d74c:	f2 0f 11 40 d8       	movsd  %xmm0,-0x28(%rax)
+  11d751:	f2 0f 10 84 cc 60 f3 	movsd  0x1f360(%rsp,%rcx,8),%xmm0
+  11d758:	01 00 
+  11d75a:	f2 0f 11 40 e0       	movsd  %xmm0,-0x20(%rax)
+  11d75f:	f2 0f 10 84 cc 10 f4 	movsd  0x1f410(%rsp,%rcx,8),%xmm0
+  11d766:	01 00 
+  11d768:	f2 0f 11 40 e8       	movsd  %xmm0,-0x18(%rax)
+  11d76d:	f2 0f 10 84 cc c0 f4 	movsd  0x1f4c0(%rsp,%rcx,8),%xmm0
+  11d774:	01 00 
+  11d776:	f2 0f 11 40 f0       	movsd  %xmm0,-0x10(%rax)
+  11d77b:	f2 0f 10 84 cc 70 f5 	movsd  0x1f570(%rsp,%rcx,8),%xmm0
+  11d782:	01 00 
+  11d784:	f2 0f 11 40 f8       	movsd  %xmm0,-0x8(%rax)
+  11d789:	f2 0f 10 84 cc 20 f6 	movsd  0x1f620(%rsp,%rcx,8),%xmm0
+  11d790:	01 00 
+  11d792:	f2 0f 11 00          	movsd  %xmm0,(%rax)
+  11d796:	48 ff c1             	inc    %rcx
+  11d799:	48 05 b0 00 00 00    	add    $0xb0,%rax
+  11d79f:	48 83 f9 16          	cmp    $0x16,%rcx
+  11d7a3:	0f 82 0e ff ff ff    	jb     11d6b7 <rheon::research_public_call::candidate::public_call+0x1367>
+  11d7a9:	4c 8d b4 24 e0 be 00 	lea    0xbee0(%rsp),%r14
+  11d7b0:	00 
+  11d7b1:	4c 89 f7             	mov    %r14,%rdi
+  11d7b4:	48 8d b4 24 e8 b0 01 	lea    0x1b0e8(%rsp),%rsi
+  11d7bb:	00 
+  11d7bc:	e8 0f 2d 08 00       	call   1a04d0 <core::array::drain::drain_array_with>
+  11d7c1:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11d7c8:	00 
+  11d7c9:	48 8d b4 24 e8 29 02 	lea    0x229e8(%rsp),%rsi
+  11d7d0:	00 
+  11d7d1:	4c 89 f2             	mov    %r14,%rdx
+  11d7d4:	e8 57 a5 03 00       	call   157d30 <rheon::research_public_call::candidate::linear>
+  11d7d9:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11d7e0:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11d7e7:	00 00 
+  11d7e9:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11d7f0:	00 
+  11d7f1:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11d7f5:	48 8d 94 24 92 08 00 	lea    0x892(%rsp),%rdx
+  11d7fc:	00 
+  11d7fd:	8b 0a                	mov    (%rdx),%ecx
+  11d7ff:	89 4c 24 28          	mov    %ecx,0x28(%rsp)
+  11d803:	0f b7 4a 04          	movzwl 0x4(%rdx),%ecx
+  11d807:	66 89 4c 24 2c       	mov    %cx,0x2c(%rsp)
+  11d80c:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11d813:	00 
+  11d814:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11d819:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11d820:	00 
+  11d821:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11d826:	83 f8 01             	cmp    $0x1,%eax
+  11d829:	0f 84 c8 0d 00 00    	je     11e5f7 <rheon::research_public_call::candidate::public_call+0x22a7>
+  11d82f:	ba 98 00 00 00       	mov    $0x98,%edx
+  11d834:	48 8d bc 24 90 03 00 	lea    0x390(%rsp),%rdi
+  11d83b:	00 
+  11d83c:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11d843:	00 
+  11d844:	48 8b 05 45 20 1b 00 	mov    0x1b2045(%rip),%rax        # 2cf890 <memcpy@GLIBC_2.14>
+  11d84b:	ff d0                	call   *%rax
+  11d84d:	44 88 ac 24 98 05 00 	mov    %r13b,0x598(%rsp)
+  11d854:	00 
+  11d855:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11d85a:	88 84 24 99 05 00 00 	mov    %al,0x599(%rsp)
+  11d861:	0f b7 44 24 2c       	movzwl 0x2c(%rsp),%eax
+  11d866:	48 8d 8c 24 9a 05 00 	lea    0x59a(%rsp),%rcx
+  11d86d:	00 
+  11d86e:	66 89 41 04          	mov    %ax,0x4(%rcx)
+  11d872:	8b 44 24 28          	mov    0x28(%rsp),%eax
+  11d876:	89 01                	mov    %eax,(%rcx)
+  11d878:	4c 8b 74 24 10       	mov    0x10(%rsp),%r14
+  11d87d:	4c 89 b4 24 a0 05 00 	mov    %r14,0x5a0(%rsp)
+  11d884:	00 
+  11d885:	48 8b 6c 24 20       	mov    0x20(%rsp),%rbp
+  11d88a:	48 89 ac 24 a8 05 00 	mov    %rbp,0x5a8(%rsp)
+  11d891:	00 
+  11d892:	ba 98 00 00 00       	mov    $0x98,%edx
+  11d897:	48 8d bc 24 b0 05 00 	lea    0x5b0(%rsp),%rdi
+  11d89e:	00 
+  11d89f:	48 8d b4 24 90 03 00 	lea    0x390(%rsp),%rsi
+  11d8a6:	00 
+  11d8a7:	ff 15 e3 1f 1b 00    	call   *0x1b1fe3(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11d8ad:	44 88 ac 24 08 86 00 	mov    %r13b,0x8608(%rsp)
+  11d8b4:	00 
+  11d8b5:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11d8ba:	88 84 24 09 86 00 00 	mov    %al,0x8609(%rsp)
+  11d8c1:	8b 44 24 28          	mov    0x28(%rsp),%eax
+  11d8c5:	48 8d 8c 24 0a 86 00 	lea    0x860a(%rsp),%rcx
+  11d8cc:	00 
+  11d8cd:	89 01                	mov    %eax,(%rcx)
+  11d8cf:	0f b7 44 24 2c       	movzwl 0x2c(%rsp),%eax
+  11d8d4:	66 89 41 04          	mov    %ax,0x4(%rcx)
+  11d8d8:	4c 89 b4 24 10 86 00 	mov    %r14,0x8610(%rsp)
+  11d8df:	00 
+  11d8e0:	48 89 ac 24 18 86 00 	mov    %rbp,0x8618(%rsp)
+  11d8e7:	00 
+  11d8e8:	ba 98 00 00 00       	mov    $0x98,%edx
+  11d8ed:	48 8d bc 24 20 86 00 	lea    0x8620(%rsp),%rdi
+  11d8f4:	00 
+  11d8f5:	48 8d b4 24 90 03 00 	lea    0x390(%rsp),%rsi
+  11d8fc:	00 
+  11d8fd:	ff 15 8d 1f 1b 00    	call   *0x1b1f8d(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11d903:	31 c0                	xor    %eax,%eax
+  11d905:	eb 12                	jmp    11d919 <rheon::research_public_call::candidate::public_call+0x15c9>
+  11d907:	f2 0f 11 84 c4 80 01 	movsd  %xmm0,0x180(%rsp,%rax,8)
+  11d90e:	00 00 
+  11d910:	48 ff c0             	inc    %rax
+  11d913:	48 83 f8 16          	cmp    $0x16,%rax
+  11d917:	74 6d                	je     11d986 <rheon::research_public_call::candidate::public_call+0x1636>
+  11d919:	f2 0f 10 84 c4 80 01 	movsd  0x180(%rsp,%rax,8),%xmm0
+  11d920:	00 00 
+  11d922:	f2 0f 58 84 c4 98 05 	addsd  0x598(%rsp,%rax,8),%xmm0
+  11d929:	00 00 
+  11d92b:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+  11d92f:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+  11d933:	75 02                	jne    11d937 <rheon::research_public_call::candidate::public_call+0x15e7>
+  11d935:	7b d0                	jnp    11d907 <rheon::research_public_call::candidate::public_call+0x15b7>
+  11d937:	66 48 0f 7e c1       	movq   %xmm0,%rcx
+  11d93c:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11d941:	48 ba ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdx
+  11d948:	ff ff 7f 
+  11d94b:	48 21 d1             	and    %rdx,%rcx
+  11d94e:	41 b5 11             	mov    $0x11,%r13b
+  11d951:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  11d958:	00 f0 7f 
+  11d95b:	48 39 d1             	cmp    %rdx,%rcx
+  11d95e:	0f 84 94 f3 ff ff    	je     11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11d964:	48 8b 4c 24 10       	mov    0x10(%rsp),%rcx
+  11d969:	48 21 d1             	and    %rdx,%rcx
+  11d96c:	0f 84 86 f3 ff ff    	je     11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11d972:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  11d979:	00 f0 7f 
+  11d97c:	48 39 d1             	cmp    %rdx,%rcx
+  11d97f:	75 86                	jne    11d907 <rheon::research_public_call::candidate::public_call+0x15b7>
+  11d981:	e9 c3 0c 00 00       	jmp    11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11d986:	48 8d 44 24 70       	lea    0x70(%rsp),%rax
+  11d98b:	48 89 84 24 88 08 00 	mov    %rax,0x888(%rsp)
+  11d992:	00 
+  11d993:	48 8b 05 be 1e 1b 00 	mov    0x1b1ebe(%rip),%rax        # 2cf858 <_DYNAMIC+0x270>
+  11d99a:	48 89 84 24 90 08 00 	mov    %rax,0x890(%rsp)
+  11d9a1:	00 
+  11d9a2:	48 8d 4c 24 58       	lea    0x58(%rsp),%rcx
+  11d9a7:	48 89 8c 24 98 08 00 	mov    %rcx,0x898(%rsp)
+  11d9ae:	00 
+  11d9af:	48 89 84 24 a0 08 00 	mov    %rax,0x8a0(%rsp)
+  11d9b6:	00 
+  11d9b7:	48 8d 84 24 08 86 00 	lea    0x8608(%rsp),%rax
+  11d9be:	00 
+  11d9bf:	48 89 84 24 a8 08 00 	mov    %rax,0x8a8(%rsp)
+  11d9c6:	00 
+  11d9c7:	48 8d 0d 02 43 0a 00 	lea    0xa4302(%rip),%rcx        # 1c1cd0 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  11d9ce:	48 89 8c 24 b0 08 00 	mov    %rcx,0x8b0(%rsp)
+  11d9d5:	00 
+  11d9d6:	48 8d 84 24 80 01 00 	lea    0x180(%rsp),%rax
+  11d9dd:	00 
+  11d9de:	48 89 84 24 b8 08 00 	mov    %rax,0x8b8(%rsp)
+  11d9e5:	00 
+  11d9e6:	48 89 8c 24 c0 08 00 	mov    %rcx,0x8c0(%rsp)
+  11d9ed:	00 
+  11d9ee:	48 8d 05 bb 87 19 00 	lea    0x1987bb(%rip),%rax        # 2b61b0 <anon.e7ddcf5b0e4373e18097a5a18a3fff73.62.llvm.14324991568266189146+0x128>
+  11d9f5:	48 89 84 24 e0 be 00 	mov    %rax,0xbee0(%rsp)
+  11d9fc:	00 
+  11d9fd:	48 c7 84 24 e8 be 00 	movq   $0x5,0xbee8(%rsp)
+  11da04:	00 05 00 00 00 
+  11da09:	48 c7 84 24 00 bf 00 	movq   $0x0,0xbf00(%rsp)
+  11da10:	00 00 00 00 00 
+  11da15:	48 8d 84 24 88 08 00 	lea    0x888(%rsp),%rax
+  11da1c:	00 
+  11da1d:	48 89 84 24 f0 be 00 	mov    %rax,0xbef0(%rsp)
+  11da24:	00 
+  11da25:	48 c7 84 24 f8 be 00 	movq   $0x4,0xbef8(%rsp)
+  11da2c:	00 04 00 00 00 
+  11da31:	48 8d bc 24 e0 be 00 	lea    0xbee0(%rsp),%rdi
+  11da38:	00 
+  11da39:	ff 15 89 1e 1b 00    	call   *0x1b1e89(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>
+  11da3f:	48 8b 44 24 58       	mov    0x58(%rsp),%rax
+  11da44:	48 3d c8 00 00 00    	cmp    $0xc8,%rax
+  11da4a:	0f 87 0d 0c 00 00    	ja     11e65d <rheon::research_public_call::candidate::public_call+0x230d>
+  11da50:	48 8b 8c 24 80 00 00 	mov    0x80(%rsp),%rcx
+  11da57:	00 
+  11da58:	48 3b 8c 24 40 01 00 	cmp    0x140(%rsp),%rcx
+  11da5f:	00 
+  11da60:	48 8d 49 01          	lea    0x1(%rcx),%rcx
+  11da64:	48 89 8c 24 80 00 00 	mov    %rcx,0x80(%rsp)
+  11da6b:	00 
+  11da6c:	0f 85 1e f4 ff ff    	jne    11ce90 <rheon::research_public_call::candidate::public_call+0xb40>
+  11da72:	80 7c 24 0f 00       	cmpb   $0x0,0xf(%rsp)
+  11da77:	0f 85 a3 03 00 00    	jne    11de20 <rheon::research_public_call::candidate::public_call+0x1ad0>
+  11da7d:	48 3d c8 00 00 00    	cmp    $0xc8,%rax
+  11da83:	75 08                	jne    11da8d <rheon::research_public_call::candidate::public_call+0x173d>
+  11da85:	41 b5 21             	mov    $0x21,%r13b
+  11da88:	e9 6b f2 ff ff       	jmp    11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11da8d:	be 05 00 00 00       	mov    $0x5,%esi
+  11da92:	4c 89 e7             	mov    %r12,%rdi
+  11da95:	e8 c6 ee 08 00       	call   1ac960 <rheon::research_public_call::observe>
+  11da9a:	84 c0                	test   %al,%al
+  11da9c:	74 15                	je     11dab3 <rheon::research_public_call::candidate::public_call+0x1763>
+  11da9e:	41 b5 29             	mov    $0x29,%r13b
+  11daa1:	c6 44 24 18 05       	movb   $0x5,0x18(%rsp)
+  11daa6:	e9 45 f2 ff ff       	jmp    11ccf0 <rheon::research_public_call::candidate::public_call+0x9a0>
+  11daab:	41 b5 11             	mov    $0x11,%r13b
+  11daae:	e9 45 f2 ff ff       	jmp    11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11dab3:	f2 0f 10 44 24 40    	movsd  0x40(%rsp),%xmm0
+  11dab9:	48 83 ec 08          	sub    $0x8,%rsp
+  11dabd:	48 8d 84 24 c8 00 00 	lea    0xc8(%rsp),%rax
+  11dac4:	00 
+  11dac5:	4c 8d 94 24 98 00 00 	lea    0x98(%rsp),%r10
+  11dacc:	00 
+  11dacd:	4c 8d 9c 24 18 03 00 	lea    0x318(%rsp),%r11
+  11dad4:	00 
+  11dad5:	48 8d bc 24 90 08 00 	lea    0x890(%rsp),%rdi
+  11dadc:	00 
+  11dadd:	48 8d 94 24 d0 00 00 	lea    0xd0(%rsp),%rdx
+  11dae4:	00 
+  11dae5:	48 8d 8c 24 18 01 00 	lea    0x118(%rsp),%rcx
+  11daec:	00 
+  11daed:	4c 8d 84 24 88 01 00 	lea    0x188(%rsp),%r8
+  11daf4:	00 
+  11daf5:	41 b9 10 00 00 00    	mov    $0x10,%r9d
+  11dafb:	48 8b 74 24 50       	mov    0x50(%rsp),%rsi
+  11db00:	50                   	push   %rax
+  11db01:	41 52                	push   %r10
+  11db03:	41 53                	push   %r11
+  11db05:	ff 74 24 50          	push   0x50(%rsp)
+  11db09:	ff 74 24 60          	push   0x60(%rsp)
+  11db0d:	e8 9e 30 03 00       	call   150bb0 <rheon::research_public_call::candidate::Work::equation>
+  11db12:	48 83 c4 30          	add    $0x30,%rsp
+  11db16:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11db1d:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11db24:	00 00 
+  11db26:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11db2d:	00 
+  11db2e:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11db32:	8b 8c 24 92 08 00 00 	mov    0x892(%rsp),%ecx
+  11db39:	89 8c 24 e0 be 00 00 	mov    %ecx,0xbee0(%rsp)
+  11db40:	0f b7 8c 24 96 08 00 	movzwl 0x896(%rsp),%ecx
+  11db47:	00 
+  11db48:	66 89 8c 24 e4 be 00 	mov    %cx,0xbee4(%rsp)
+  11db4f:	00 
+  11db50:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11db57:	00 
+  11db58:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11db5d:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11db64:	00 
+  11db65:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11db6a:	83 f8 01             	cmp    $0x1,%eax
+  11db6d:	0f 84 4d f2 ff ff    	je     11cdc0 <rheon::research_public_call::candidate::public_call+0xa70>
+  11db73:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11db7a:	00 
+  11db7b:	48 8d bc 24 f8 37 01 	lea    0x137f8(%rsp),%rdi
+  11db82:	00 
+  11db83:	ba e8 78 00 00       	mov    $0x78e8,%edx
+  11db88:	ff 15 02 1d 1b 00    	call   *0x1b1d02(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11db8e:	44 88 ac 24 e0 37 01 	mov    %r13b,0x137e0(%rsp)
+  11db95:	00 
+  11db96:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11db9b:	88 84 24 e1 37 01 00 	mov    %al,0x137e1(%rsp)
+  11dba2:	8b 84 24 e0 be 00 00 	mov    0xbee0(%rsp),%eax
+  11dba9:	89 84 24 e2 37 01 00 	mov    %eax,0x137e2(%rsp)
+  11dbb0:	0f b7 84 24 e4 be 00 	movzwl 0xbee4(%rsp),%eax
+  11dbb7:	00 
+  11dbb8:	66 89 84 24 e6 37 01 	mov    %ax,0x137e6(%rsp)
+  11dbbf:	00 
+  11dbc0:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11dbc5:	48 89 84 24 e8 37 01 	mov    %rax,0x137e8(%rsp)
+  11dbcc:	00 
+  11dbcd:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+  11dbd2:	48 89 84 24 f0 37 01 	mov    %rax,0x137f0(%rsp)
+  11dbd9:	00 
+  11dbda:	48 ff 44 24 58       	incq   0x58(%rsp)
+  11dbdf:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11dbe6:	00 
+  11dbe7:	48 8d b4 24 e0 37 01 	lea    0x137e0(%rsp),%rsi
+  11dbee:	00 
+  11dbef:	ba 16 00 00 00       	mov    $0x16,%edx
+  11dbf4:	e8 e7 44 09 00       	call   1b20e0 <rheon::translated_viscous::norm>
+  11dbf9:	44 0f b6 ac 24 88 08 	movzbl 0x888(%rsp),%r13d
+  11dc00:	00 00 
+  11dc02:	41 80 fd 1a          	cmp    $0x1a,%r13b
+  11dc06:	0f 85 ff 09 00 00    	jne    11e60b <rheon::research_public_call::candidate::public_call+0x22bb>
+  11dc0c:	f2 0f 10 05 94 48 f0 	movsd  -0xfb76c(%rip),%xmm0        # 224a8 <anon.485632902e5df01beb12ac6c448330b3.119.llvm.11743308955839318461+0x248>
+  11dc13:	ff 
+  11dc14:	66 0f 2e 84 24 90 08 	ucomisd 0x890(%rsp),%xmm0
+  11dc1b:	00 00 
+  11dc1d:	0f 93 44 24 0f       	setae  0xf(%rsp)
+  11dc22:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11dc29:	00 
+  11dc2a:	48 8d b4 24 e0 37 01 	lea    0x137e0(%rsp),%rsi
+  11dc31:	00 
+  11dc32:	ba 16 00 00 00       	mov    $0x16,%edx
+  11dc37:	e8 a4 44 09 00       	call   1b20e0 <rheon::translated_viscous::norm>
+  11dc3c:	44 0f b6 ac 24 88 08 	movzbl 0x888(%rsp),%r13d
+  11dc43:	00 00 
+  11dc45:	41 80 fd 1a          	cmp    $0x1a,%r13b
+  11dc49:	0f 85 bc 09 00 00    	jne    11e60b <rheon::research_public_call::candidate::public_call+0x22bb>
+  11dc4f:	f2 0f 10 84 24 90 08 	movsd  0x890(%rsp),%xmm0
+  11dc56:	00 00 
+  11dc58:	f2 0f 11 84 24 08 86 	movsd  %xmm0,0x8608(%rsp)
+  11dc5f:	00 00 
+  11dc61:	48 8d 44 24 70       	lea    0x70(%rsp),%rax
+  11dc66:	48 89 84 24 88 08 00 	mov    %rax,0x888(%rsp)
+  11dc6d:	00 
+  11dc6e:	4c 8b 2d e3 1b 1b 00 	mov    0x1b1be3(%rip),%r13        # 2cf858 <_DYNAMIC+0x270>
+  11dc75:	4c 89 ac 24 90 08 00 	mov    %r13,0x890(%rsp)
+  11dc7c:	00 
+  11dc7d:	48 8d 6c 24 58       	lea    0x58(%rsp),%rbp
+  11dc82:	48 89 ac 24 98 08 00 	mov    %rbp,0x898(%rsp)
+  11dc89:	00 
+  11dc8a:	4c 89 ac 24 a0 08 00 	mov    %r13,0x8a0(%rsp)
+  11dc91:	00 
+  11dc92:	48 8d 84 24 08 86 00 	lea    0x8608(%rsp),%rax
+  11dc99:	00 
+  11dc9a:	48 89 84 24 a8 08 00 	mov    %rax,0x8a8(%rsp)
+  11dca1:	00 
+  11dca2:	4c 8b 35 f7 1b 1b 00 	mov    0x1b1bf7(%rip),%r14        # 2cf8a0 <_DYNAMIC+0x2b8>
+  11dca9:	4c 89 b4 24 b0 08 00 	mov    %r14,0x8b0(%rsp)
+  11dcb0:	00 
+  11dcb1:	48 8d 05 f0 47 f0 ff 	lea    -0xfb810(%rip),%rax        # 224a8 <anon.485632902e5df01beb12ac6c448330b3.119.llvm.11743308955839318461+0x248>
+  11dcb8:	48 89 84 24 b8 08 00 	mov    %rax,0x8b8(%rsp)
+  11dcbf:	00 
+  11dcc0:	4c 89 b4 24 c0 08 00 	mov    %r14,0x8c0(%rsp)
+  11dcc7:	00 
+  11dcc8:	48 8d 44 24 0f       	lea    0xf(%rsp),%rax
+  11dccd:	48 89 84 24 c8 08 00 	mov    %rax,0x8c8(%rsp)
+  11dcd4:	00 
+  11dcd5:	48 8b 05 f4 1b 1b 00 	mov    0x1b1bf4(%rip),%rax        # 2cf8d0 <_DYNAMIC+0x2e8>
+  11dcdc:	48 89 84 24 d0 08 00 	mov    %rax,0x8d0(%rsp)
+  11dce3:	00 
+  11dce4:	48 8d 05 45 85 19 00 	lea    0x198545(%rip),%rax        # 2b6230 <anon.e7ddcf5b0e4373e18097a5a18a3fff73.62.llvm.14324991568266189146+0x1a8>
+  11dceb:	48 89 84 24 e0 be 00 	mov    %rax,0xbee0(%rsp)
+  11dcf2:	00 
+  11dcf3:	48 c7 84 24 e8 be 00 	movq   $0x6,0xbee8(%rsp)
+  11dcfa:	00 06 00 00 00 
+  11dcff:	48 c7 84 24 00 bf 00 	movq   $0x0,0xbf00(%rsp)
+  11dd06:	00 00 00 00 00 
+  11dd0b:	48 8d 84 24 88 08 00 	lea    0x888(%rsp),%rax
+  11dd12:	00 
+  11dd13:	48 89 84 24 f0 be 00 	mov    %rax,0xbef0(%rsp)
+  11dd1a:	00 
+  11dd1b:	48 c7 84 24 f8 be 00 	movq   $0x5,0xbef8(%rsp)
+  11dd22:	00 05 00 00 00 
+  11dd27:	48 8d bc 24 e0 be 00 	lea    0xbee0(%rsp),%rdi
+  11dd2e:	00 
+  11dd2f:	ff 15 93 1b 1b 00    	call   *0x1b1b93(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>
+  11dd35:	80 7c 24 0f 00       	cmpb   $0x0,0xf(%rsp)
+  11dd3a:	0f 85 e0 00 00 00    	jne    11de20 <rheon::research_public_call::candidate::public_call+0x1ad0>
+  11dd40:	48 8d 44 24 70       	lea    0x70(%rsp),%rax
+  11dd45:	48 89 84 24 88 08 00 	mov    %rax,0x888(%rsp)
+  11dd4c:	00 
+  11dd4d:	4c 89 ac 24 90 08 00 	mov    %r13,0x890(%rsp)
+  11dd54:	00 
+  11dd55:	48 89 ac 24 98 08 00 	mov    %rbp,0x898(%rsp)
+  11dd5c:	00 
+  11dd5d:	4c 89 ac 24 a0 08 00 	mov    %r13,0x8a0(%rsp)
+  11dd64:	00 
+  11dd65:	48 8d 84 24 58 01 00 	lea    0x158(%rsp),%rax
+  11dd6c:	00 
+  11dd6d:	48 89 84 24 a8 08 00 	mov    %rax,0x8a8(%rsp)
+  11dd74:	00 
+  11dd75:	48 8b 05 2c 1b 1b 00 	mov    0x1b1b2c(%rip),%rax        # 2cf8a8 <_DYNAMIC+0x2c0>
+  11dd7c:	48 89 84 24 b0 08 00 	mov    %rax,0x8b0(%rsp)
+  11dd83:	00 
+  11dd84:	48 8d 44 24 40       	lea    0x40(%rsp),%rax
+  11dd89:	48 89 84 24 b8 08 00 	mov    %rax,0x8b8(%rsp)
+  11dd90:	00 
+  11dd91:	4c 89 b4 24 c0 08 00 	mov    %r14,0x8c0(%rsp)
+  11dd98:	00 
+  11dd99:	48 8d 05 08 47 f0 ff 	lea    -0xfb8f8(%rip),%rax        # 224a8 <anon.485632902e5df01beb12ac6c448330b3.119.llvm.11743308955839318461+0x248>
+  11dda0:	48 89 84 24 c8 08 00 	mov    %rax,0x8c8(%rsp)
+  11dda7:	00 
+  11dda8:	4c 89 b4 24 d0 08 00 	mov    %r14,0x8d0(%rsp)
+  11ddaf:	00 
+  11ddb0:	48 8d 05 d9 84 19 00 	lea    0x1984d9(%rip),%rax        # 2b6290 <anon.e7ddcf5b0e4373e18097a5a18a3fff73.62.llvm.14324991568266189146+0x208>
+  11ddb7:	48 89 84 24 e0 37 01 	mov    %rax,0x137e0(%rsp)
+  11ddbe:	00 
+  11ddbf:	48 c7 84 24 e8 37 01 	movq   $0x6,0x137e8(%rsp)
+  11ddc6:	00 06 00 00 00 
+  11ddcb:	48 c7 84 24 00 38 01 	movq   $0x0,0x13800(%rsp)
+  11ddd2:	00 00 00 00 00 
+  11ddd7:	48 8d 84 24 88 08 00 	lea    0x888(%rsp),%rax
+  11ddde:	00 
+  11dddf:	48 89 84 24 f0 37 01 	mov    %rax,0x137f0(%rsp)
+  11dde6:	00 
+  11dde7:	48 c7 84 24 f8 37 01 	movq   $0x5,0x137f8(%rsp)
+  11ddee:	00 05 00 00 00 
+  11ddf3:	48 8d bc 24 e0 37 01 	lea    0x137e0(%rsp),%rdi
+  11ddfa:	00 
+  11ddfb:	ff 15 c7 1a 1b 00    	call   *0x1b1ac7(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>
+  11de01:	41 b5 21             	mov    $0x21,%r13b
+  11de04:	e9 ef ee ff ff       	jmp    11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11de09:	66 0f 28 c1          	movapd %xmm1,%xmm0
+  11de0d:	f2 0f 11 44 24 10    	movsd  %xmm0,0x10(%rsp)
+  11de13:	41 b5 11             	mov    $0x11,%r13b
+  11de16:	e9 dd ee ff ff       	jmp    11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11de1b:	c6 44 24 0f 01       	movb   $0x1,0xf(%rsp)
+  11de20:	be 06 00 00 00       	mov    $0x6,%esi
+  11de25:	4c 89 e7             	mov    %r12,%rdi
+  11de28:	e8 33 eb 08 00       	call   1ac960 <rheon::research_public_call::observe>
+  11de2d:	84 c0                	test   %al,%al
+  11de2f:	74 0d                	je     11de3e <rheon::research_public_call::candidate::public_call+0x1aee>
+  11de31:	41 b5 29             	mov    $0x29,%r13b
+  11de34:	c6 44 24 18 06       	movb   $0x6,0x18(%rsp)
+  11de39:	e9 b2 ee ff ff       	jmp    11ccf0 <rheon::research_public_call::candidate::public_call+0x9a0>
+  11de3e:	f3 0f 7e 44 24 40    	movq   0x40(%rsp),%xmm0
+  11de44:	48 83 ec 08          	sub    $0x8,%rsp
+  11de48:	4c 8d b4 24 c8 00 00 	lea    0xc8(%rsp),%r14
+  11de4f:	00 
+  11de50:	4c 8d 94 24 98 00 00 	lea    0x98(%rsp),%r10
+  11de57:	00 
+  11de58:	48 8d 84 24 18 03 00 	lea    0x318(%rsp),%rax
+  11de5f:	00 
+  11de60:	48 8d bc 24 90 08 00 	lea    0x890(%rsp),%rdi
+  11de67:	00 
+  11de68:	48 8d 94 24 d0 00 00 	lea    0xd0(%rsp),%rdx
+  11de6f:	00 
+  11de70:	48 8d 8c 24 18 01 00 	lea    0x118(%rsp),%rcx
+  11de77:	00 
+  11de78:	4c 8d 84 24 88 01 00 	lea    0x188(%rsp),%r8
+  11de7f:	00 
+  11de80:	41 b9 10 00 00 00    	mov    $0x10,%r9d
+  11de86:	48 8b 74 24 50       	mov    0x50(%rsp),%rsi
+  11de8b:	41 56                	push   %r14
+  11de8d:	41 52                	push   %r10
+  11de8f:	48 89 c5             	mov    %rax,%rbp
+  11de92:	50                   	push   %rax
+  11de93:	ff 74 24 50          	push   0x50(%rsp)
+  11de97:	ff 74 24 60          	push   0x60(%rsp)
+  11de9b:	e8 10 2d 03 00       	call   150bb0 <rheon::research_public_call::candidate::Work::equation>
+  11dea0:	48 83 c4 30          	add    $0x30,%rsp
+  11dea4:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11deab:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11deb2:	00 00 
+  11deb4:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11debb:	00 
+  11debc:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11dec0:	8b 8c 24 92 08 00 00 	mov    0x892(%rsp),%ecx
+  11dec7:	89 8c 24 e0 37 01 00 	mov    %ecx,0x137e0(%rsp)
+  11dece:	0f b7 8c 24 96 08 00 	movzwl 0x896(%rsp),%ecx
+  11ded5:	00 
+  11ded6:	66 89 8c 24 e4 37 01 	mov    %cx,0x137e4(%rsp)
+  11dedd:	00 
+  11dede:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11dee5:	00 
+  11dee6:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11deeb:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11def2:	00 
+  11def3:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11def8:	83 f8 01             	cmp    $0x1,%eax
+  11defb:	75 1d                	jne    11df1a <rheon::research_public_call::candidate::public_call+0x1bca>
+  11defd:	8b 84 24 e0 37 01 00 	mov    0x137e0(%rsp),%eax
+  11df04:	89 44 24 08          	mov    %eax,0x8(%rsp)
+  11df08:	0f b7 84 24 e4 37 01 	movzwl 0x137e4(%rsp),%eax
+  11df0f:	00 
+  11df10:	66 89 44 24 0c       	mov    %ax,0xc(%rsp)
+  11df15:	e9 2f 07 00 00       	jmp    11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11df1a:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11df21:	00 
+  11df22:	48 8d bc 24 f8 be 00 	lea    0xbef8(%rsp),%rdi
+  11df29:	00 
+  11df2a:	ba e8 78 00 00       	mov    $0x78e8,%edx
+  11df2f:	ff 15 5b 19 1b 00    	call   *0x1b195b(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11df35:	44 88 ac 24 e0 be 00 	mov    %r13b,0xbee0(%rsp)
+  11df3c:	00 
+  11df3d:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11df42:	88 84 24 e1 be 00 00 	mov    %al,0xbee1(%rsp)
+  11df49:	8b 84 24 e0 37 01 00 	mov    0x137e0(%rsp),%eax
+  11df50:	89 84 24 e2 be 00 00 	mov    %eax,0xbee2(%rsp)
+  11df57:	0f b7 84 24 e4 37 01 	movzwl 0x137e4(%rsp),%eax
+  11df5e:	00 
+  11df5f:	66 89 84 24 e6 be 00 	mov    %ax,0xbee6(%rsp)
+  11df66:	00 
+  11df67:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11df6c:	48 89 84 24 e8 be 00 	mov    %rax,0xbee8(%rsp)
+  11df73:	00 
+  11df74:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+  11df79:	48 89 84 24 f0 be 00 	mov    %rax,0xbef0(%rsp)
+  11df80:	00 
+  11df81:	f2 0f 10 44 24 40    	movsd  0x40(%rsp),%xmm0
+  11df87:	48 83 ec 08          	sub    $0x8,%rsp
+  11df8b:	48 8d bc 24 90 08 00 	lea    0x890(%rsp),%rdi
+  11df92:	00 
+  11df93:	48 8d 94 24 d0 00 00 	lea    0xd0(%rsp),%rdx
+  11df9a:	00 
+  11df9b:	48 8d 8c 24 18 01 00 	lea    0x118(%rsp),%rcx
+  11dfa2:	00 
+  11dfa3:	4c 8d 84 24 88 01 00 	lea    0x188(%rsp),%r8
+  11dfaa:	00 
+  11dfab:	41 b9 20 00 00 00    	mov    $0x20,%r9d
+  11dfb1:	48 8b 74 24 50       	mov    0x50(%rsp),%rsi
+  11dfb6:	41 56                	push   %r14
+  11dfb8:	48 8d 84 24 a0 00 00 	lea    0xa0(%rsp),%rax
+  11dfbf:	00 
+  11dfc0:	50                   	push   %rax
+  11dfc1:	55                   	push   %rbp
+  11dfc2:	ff 74 24 50          	push   0x50(%rsp)
+  11dfc6:	ff 74 24 60          	push   0x60(%rsp)
+  11dfca:	e8 e1 2b 03 00       	call   150bb0 <rheon::research_public_call::candidate::Work::equation>
+  11dfcf:	48 83 c4 30          	add    $0x30,%rsp
+  11dfd3:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11dfda:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11dfe1:	00 00 
+  11dfe3:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11dfea:	00 
+  11dfeb:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11dfef:	8b 8c 24 92 08 00 00 	mov    0x892(%rsp),%ecx
+  11dff6:	89 8c 24 08 86 00 00 	mov    %ecx,0x8608(%rsp)
+  11dffd:	0f b7 8c 24 96 08 00 	movzwl 0x896(%rsp),%ecx
+  11e004:	00 
+  11e005:	66 89 8c 24 0c 86 00 	mov    %cx,0x860c(%rsp)
+  11e00c:	00 
+  11e00d:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11e014:	00 
+  11e015:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11e01a:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11e021:	00 
+  11e022:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11e027:	83 f8 01             	cmp    $0x1,%eax
+  11e02a:	75 1d                	jne    11e049 <rheon::research_public_call::candidate::public_call+0x1cf9>
+  11e02c:	8b 84 24 08 86 00 00 	mov    0x8608(%rsp),%eax
+  11e033:	89 44 24 08          	mov    %eax,0x8(%rsp)
+  11e037:	0f b7 84 24 0c 86 00 	movzwl 0x860c(%rsp),%eax
+  11e03e:	00 
+  11e03f:	66 89 44 24 0c       	mov    %ax,0xc(%rsp)
+  11e044:	e9 00 06 00 00       	jmp    11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11e049:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11e050:	00 
+  11e051:	48 8d bc 24 f8 37 01 	lea    0x137f8(%rsp),%rdi
+  11e058:	00 
+  11e059:	4c 8b 35 30 18 1b 00 	mov    0x1b1830(%rip),%r14        # 2cf890 <memcpy@GLIBC_2.14>
+  11e060:	ba e8 78 00 00       	mov    $0x78e8,%edx
+  11e065:	41 ff d6             	call   *%r14
+  11e068:	44 88 ac 24 e0 37 01 	mov    %r13b,0x137e0(%rsp)
+  11e06f:	00 
+  11e070:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11e075:	88 84 24 e1 37 01 00 	mov    %al,0x137e1(%rsp)
+  11e07c:	8b 84 24 08 86 00 00 	mov    0x8608(%rsp),%eax
+  11e083:	89 84 24 e2 37 01 00 	mov    %eax,0x137e2(%rsp)
+  11e08a:	0f b7 84 24 0c 86 00 	movzwl 0x860c(%rsp),%eax
+  11e091:	00 
+  11e092:	66 89 84 24 e6 37 01 	mov    %ax,0x137e6(%rsp)
+  11e099:	00 
+  11e09a:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11e09f:	48 89 84 24 e8 37 01 	mov    %rax,0x137e8(%rsp)
+  11e0a6:	00 
+  11e0a7:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+  11e0ac:	48 89 84 24 f0 37 01 	mov    %rax,0x137f0(%rsp)
+  11e0b3:	00 
+  11e0b4:	4c 8d ac 24 08 86 00 	lea    0x8608(%rsp),%r13
+  11e0bb:	00 
+  11e0bc:	48 8d b4 24 80 01 00 	lea    0x180(%rsp),%rsi
+  11e0c3:	00 
+  11e0c4:	ba b0 00 00 00       	mov    $0xb0,%edx
+  11e0c9:	4c 89 ef             	mov    %r13,%rdi
+  11e0cc:	41 ff d6             	call   *%r14
+  11e0cf:	f3 0f 7e 44 24 40    	movq   0x40(%rsp),%xmm0
+  11e0d5:	48 83 ec 08          	sub    $0x8,%rsp
+  11e0d9:	48 8d bc 24 90 08 00 	lea    0x890(%rsp),%rdi
+  11e0e0:	00 
+  11e0e1:	48 8d b4 24 e8 37 01 	lea    0x137e8(%rsp),%rsi
+  11e0e8:	00 
+  11e0e9:	48 8d 94 24 e8 be 00 	lea    0xbee8(%rsp),%rdx
+  11e0f0:	00 
+  11e0f1:	4c 89 e9             	mov    %r13,%rcx
+  11e0f4:	4c 8b 84 24 f0 00 00 	mov    0xf0(%rsp),%r8
+  11e0fb:	00 
+  11e0fc:	4c 8b 4c 24 70       	mov    0x70(%rsp),%r9
+  11e101:	f2 0f 10 8c 24 90 00 	movsd  0x90(%rsp),%xmm1
+  11e108:	00 00 
+  11e10a:	48 8d 84 24 98 00 00 	lea    0x98(%rsp),%rax
+  11e111:	00 
+  11e112:	50                   	push   %rax
+  11e113:	ff 74 24 68          	push   0x68(%rsp)
+  11e117:	ff b4 24 88 00 00 00 	push   0x88(%rsp)
+  11e11e:	ff b4 24 00 01 00 00 	push   0x100(%rsp)
+  11e125:	41 50                	push   %r8
+  11e127:	e8 24 a5 03 00       	call   158650 <rheon::research_public_call::candidate::qualify>
+  11e12c:	48 83 c4 30          	add    $0x30,%rsp
+  11e130:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11e137:	0f b6 ac 24 90 08 00 	movzbl 0x890(%rsp),%ebp
+  11e13e:	00 
+  11e13f:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11e146:	00 
+  11e147:	88 4c 24 38          	mov    %cl,0x38(%rsp)
+  11e14b:	8b 8c 24 92 08 00 00 	mov    0x892(%rsp),%ecx
+  11e152:	89 8c 24 90 03 00 00 	mov    %ecx,0x390(%rsp)
+  11e159:	0f b7 8c 24 96 08 00 	movzwl 0x896(%rsp),%ecx
+  11e160:	00 
+  11e161:	66 89 8c 24 94 03 00 	mov    %cx,0x394(%rsp)
+  11e168:	00 
+  11e169:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11e170:	00 
+  11e171:	48 89 4c 24 30       	mov    %rcx,0x30(%rsp)
+  11e176:	4c 8b b4 24 a0 08 00 	mov    0x8a0(%rsp),%r14
+  11e17d:	00 
+  11e17e:	83 f8 01             	cmp    $0x1,%eax
+  11e181:	75 38                	jne    11e1bb <rheon::research_public_call::candidate::public_call+0x1e6b>
+  11e183:	8b 84 24 90 03 00 00 	mov    0x390(%rsp),%eax
+  11e18a:	89 44 24 08          	mov    %eax,0x8(%rsp)
+  11e18e:	0f b7 84 24 94 03 00 	movzwl 0x394(%rsp),%eax
+  11e195:	00 
+  11e196:	66 89 44 24 0c       	mov    %ax,0xc(%rsp)
+  11e19b:	4c 89 74 24 20       	mov    %r14,0x20(%rsp)
+  11e1a0:	48 8b 44 24 30       	mov    0x30(%rsp),%rax
+  11e1a5:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+  11e1aa:	0f b6 44 24 38       	movzbl 0x38(%rsp),%eax
+  11e1af:	88 44 24 18          	mov    %al,0x18(%rsp)
+  11e1b3:	41 89 ed             	mov    %ebp,%r13d
+  11e1b6:	e9 8e 04 00 00       	jmp    11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11e1bb:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11e1c2:	00 
+  11e1c3:	48 8d bc 24 90 81 00 	lea    0x8190(%rsp),%rdi
+  11e1ca:	00 
+  11e1cb:	ba a0 01 00 00       	mov    $0x1a0,%edx
+  11e1d0:	ff 15 ba 16 1b 00    	call   *0x1b16ba(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11e1d6:	f2 0f 10 84 24 48 0a 	movsd  0xa48(%rsp),%xmm0
+  11e1dd:	00 00 
+  11e1df:	f2 0f 11 44 24 68    	movsd  %xmm0,0x68(%rsp)
+  11e1e5:	0f 10 84 24 50 0a 00 	movups 0xa50(%rsp),%xmm0
+  11e1ec:	00 
+  11e1ed:	0f 29 84 24 c0 02 00 	movaps %xmm0,0x2c0(%rsp)
+  11e1f4:	00 
+  11e1f5:	8b 84 24 90 03 00 00 	mov    0x390(%rsp),%eax
+  11e1fc:	89 84 24 b0 00 00 00 	mov    %eax,0xb0(%rsp)
+  11e203:	0f b7 84 24 94 03 00 	movzwl 0x394(%rsp),%eax
+  11e20a:	00 
+  11e20b:	66 89 84 24 b4 00 00 	mov    %ax,0xb4(%rsp)
+  11e212:	00 
+  11e213:	f2 0f 10 44 24 40    	movsd  0x40(%rsp),%xmm0
+  11e219:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11e220:	00 
+  11e221:	48 8d 94 24 c8 00 00 	lea    0xc8(%rsp),%rdx
+  11e228:	00 
+  11e229:	48 8d 8c 24 10 01 00 	lea    0x110(%rsp),%rcx
+  11e230:	00 
+  11e231:	4c 8d 84 24 80 01 00 	lea    0x180(%rsp),%r8
+  11e238:	00 
+  11e239:	48 8b 74 24 48       	mov    0x48(%rsp),%rsi
+  11e23e:	4d 89 e1             	mov    %r12,%r9
+  11e241:	e8 4a e4 02 00       	call   14c690 <rheon::research_public_call::candidate::Work::point>
+  11e246:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11e24d:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11e254:	00 00 
+  11e256:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11e25d:	00 
+  11e25e:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11e262:	8b 8c 24 92 08 00 00 	mov    0x892(%rsp),%ecx
+  11e269:	89 8c 24 90 03 00 00 	mov    %ecx,0x390(%rsp)
+  11e270:	0f b7 8c 24 96 08 00 	movzwl 0x896(%rsp),%ecx
+  11e277:	00 
+  11e278:	66 89 8c 24 94 03 00 	mov    %cx,0x394(%rsp)
+  11e27f:	00 
+  11e280:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11e287:	00 
+  11e288:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11e28d:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11e294:	00 
+  11e295:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11e29a:	83 f8 01             	cmp    $0x1,%eax
+  11e29d:	0f 84 4d 01 00 00    	je     11e3f0 <rheon::research_public_call::candidate::public_call+0x20a0>
+  11e2a3:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11e2aa:	00 
+  11e2ab:	48 8d bc 24 20 86 00 	lea    0x8620(%rsp),%rdi
+  11e2b2:	00 
+  11e2b3:	ba c0 38 00 00       	mov    $0x38c0,%edx
+  11e2b8:	ff 15 d2 15 1b 00    	call   *0x1b15d2(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11e2be:	44 88 ac 24 08 86 00 	mov    %r13b,0x8608(%rsp)
+  11e2c5:	00 
+  11e2c6:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11e2cb:	88 84 24 09 86 00 00 	mov    %al,0x8609(%rsp)
+  11e2d2:	8b 84 24 90 03 00 00 	mov    0x390(%rsp),%eax
+  11e2d9:	89 84 24 0a 86 00 00 	mov    %eax,0x860a(%rsp)
+  11e2e0:	0f b7 84 24 94 03 00 	movzwl 0x394(%rsp),%eax
+  11e2e7:	00 
+  11e2e8:	66 89 84 24 0e 86 00 	mov    %ax,0x860e(%rsp)
+  11e2ef:	00 
+  11e2f0:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11e2f5:	48 89 84 24 10 86 00 	mov    %rax,0x8610(%rsp)
+  11e2fc:	00 
+  11e2fd:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+  11e302:	48 89 84 24 18 86 00 	mov    %rax,0x8618(%rsp)
+  11e309:	00 
+  11e30a:	48 8d bc 24 d0 07 00 	lea    0x7d0(%rsp),%rdi
+  11e311:	00 
+  11e312:	4c 89 fe             	mov    %r15,%rsi
+  11e315:	e8 56 6f ff ff       	call   115270 <rheon::translated_viscous::TranslatedViscousFlow::ale_scratch>
+  11e31a:	48 8b bc 24 f0 07 00 	mov    0x7f0(%rsp),%rdi
+  11e321:	00 
+  11e322:	48 83 ff 10          	cmp    $0x10,%rdi
+  11e326:	0f 85 c7 0c 00 00    	jne    11eff3 <rheon::research_public_call::candidate::public_call+0x2ca3>
+  11e32c:	48 8b bc 24 e8 07 00 	mov    0x7e8(%rsp),%rdi
+  11e333:	00 
+  11e334:	48 8d b4 24 08 91 00 	lea    0x9108(%rsp),%rsi
+  11e33b:	00 
+  11e33c:	ba 80 01 00 00       	mov    $0x180,%edx
+  11e341:	ff 15 49 15 1b 00    	call   *0x1b1549(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11e347:	49 8d 97 90 1b 00 00 	lea    0x1b90(%r15),%rdx
+  11e34e:	48 8d 8c 24 b0 01 00 	lea    0x1b0(%rsp),%rcx
+  11e355:	00 
+  11e356:	f2 0f 10 8c 24 a0 00 	movsd  0xa0(%rsp),%xmm1
+  11e35d:	00 00 
+  11e35f:	f2 0f 10 44 24 40    	movsd  0x40(%rsp),%xmm0
+  11e365:	48 83 ec 08          	sub    $0x8,%rsp
+  11e369:	48 8d bc 24 90 08 00 	lea    0x890(%rsp),%rdi
+  11e370:	00 
+  11e371:	4c 8d 84 24 d8 07 00 	lea    0x7d8(%rsp),%r8
+  11e378:	00 
+  11e379:	4c 8d 8c 24 e8 37 01 	lea    0x137e8(%rsp),%r9
+  11e380:	00 
+  11e381:	48 8b 74 24 50       	mov    0x50(%rsp),%rsi
+  11e386:	f2 0f 11 4c 24 68    	movsd  %xmm1,0x68(%rsp)
+  11e38c:	41 54                	push   %r12
+  11e38e:	e8 2d 75 ff ff       	call   1158c0 <rheon::research_public_call::candidate::third_step>
+  11e393:	48 83 c4 10          	add    $0x10,%rsp
+  11e397:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11e39e:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11e3a5:	00 00 
+  11e3a7:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11e3ae:	00 
+  11e3af:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11e3b3:	8b 8c 24 92 08 00 00 	mov    0x892(%rsp),%ecx
+  11e3ba:	89 8c 24 90 03 00 00 	mov    %ecx,0x390(%rsp)
+  11e3c1:	0f b7 8c 24 96 08 00 	movzwl 0x896(%rsp),%ecx
+  11e3c8:	00 
+  11e3c9:	66 89 8c 24 94 03 00 	mov    %cx,0x394(%rsp)
+  11e3d0:	00 
+  11e3d1:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11e3d8:	00 
+  11e3d9:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11e3de:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11e3e5:	00 
+  11e3e6:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11e3eb:	83 f8 01             	cmp    $0x1,%eax
+  11e3ee:	75 1d                	jne    11e40d <rheon::research_public_call::candidate::public_call+0x20bd>
+  11e3f0:	8b 84 24 90 03 00 00 	mov    0x390(%rsp),%eax
+  11e3f7:	89 44 24 08          	mov    %eax,0x8(%rsp)
+  11e3fb:	0f b7 84 24 94 03 00 	movzwl 0x394(%rsp),%eax
+  11e402:	00 
+  11e403:	66 89 44 24 0c       	mov    %ax,0xc(%rsp)
+  11e408:	e9 3c 02 00 00       	jmp    11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11e40d:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11e414:	00 
+  11e415:	48 8d bc 24 10 07 00 	lea    0x710(%rsp),%rdi
+  11e41c:	00 
+  11e41d:	ba c0 00 00 00       	mov    $0xc0,%edx
+  11e422:	ff 15 68 14 1b 00    	call   *0x1b1468(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11e428:	f2 0f 10 84 24 68 09 	movsd  0x968(%rsp),%xmm0
+  11e42f:	00 00 
+  11e431:	f2 0f 11 44 24 48    	movsd  %xmm0,0x48(%rsp)
+  11e437:	44 88 ac 24 f8 06 00 	mov    %r13b,0x6f8(%rsp)
+  11e43e:	00 
+  11e43f:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11e444:	88 84 24 f9 06 00 00 	mov    %al,0x6f9(%rsp)
+  11e44b:	8b 84 24 90 03 00 00 	mov    0x390(%rsp),%eax
+  11e452:	89 84 24 fa 06 00 00 	mov    %eax,0x6fa(%rsp)
+  11e459:	0f b7 84 24 94 03 00 	movzwl 0x394(%rsp),%eax
+  11e460:	00 
+  11e461:	66 89 84 24 fe 06 00 	mov    %ax,0x6fe(%rsp)
+  11e468:	00 
+  11e469:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11e46e:	48 89 84 24 00 07 00 	mov    %rax,0x700(%rsp)
+  11e475:	00 
+  11e476:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+  11e47b:	48 89 84 24 08 07 00 	mov    %rax,0x708(%rsp)
+  11e482:	00 
+  11e483:	f2 0f 10 44 24 40    	movsd  0x40(%rsp),%xmm0
+  11e489:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11e490:	00 
+  11e491:	48 8d b4 24 10 03 00 	lea    0x310(%rsp),%rsi
+  11e498:	00 
+  11e499:	4c 8d 84 24 90 00 00 	lea    0x90(%rsp),%r8
+  11e4a0:	00 
+  11e4a1:	b9 10 00 00 00       	mov    $0x10,%ecx
+  11e4a6:	48 8d 94 24 08 91 00 	lea    0x9108(%rsp),%rdx
+  11e4ad:	00 
+  11e4ae:	e8 cd 6e ff ff       	call   115380 <rheon::research_public_call::candidate::force_work>
+  11e4b3:	44 0f b6 ac 24 88 08 	movzbl 0x888(%rsp),%r13d
+  11e4ba:	00 00 
+  11e4bc:	41 80 fd 2a          	cmp    $0x2a,%r13b
+  11e4c0:	0f 85 45 01 00 00    	jne    11e60b <rheon::research_public_call::candidate::public_call+0x22bb>
+  11e4c6:	f2 0f 10 84 24 90 08 	movsd  0x890(%rsp),%xmm0
+  11e4cd:	00 00 
+  11e4cf:	f2 0f 10 4c 24 48    	movsd  0x48(%rsp),%xmm1
+  11e4d5:	f2 0f 11 84 24 80 00 	movsd  %xmm0,0x80(%rsp)
+  11e4dc:	00 00 
+  11e4de:	f2 0f 58 c8          	addsd  %xmm0,%xmm1
+  11e4e2:	66 0f 57 c0          	xorpd  %xmm0,%xmm0
+  11e4e6:	f2 0f 11 4c 24 78    	movsd  %xmm1,0x78(%rsp)
+  11e4ec:	66 0f 2e c8          	ucomisd %xmm0,%xmm1
+  11e4f0:	0f 85 f1 01 00 00    	jne    11e6e7 <rheon::research_public_call::candidate::public_call+0x2397>
+  11e4f6:	0f 8a eb 01 00 00    	jp     11e6e7 <rheon::research_public_call::candidate::public_call+0x2397>
+  11e4fc:	40 88 ac 24 90 03 00 	mov    %bpl,0x390(%rsp)
+  11e503:	00 
+  11e504:	0f b6 44 24 38       	movzbl 0x38(%rsp),%eax
+  11e509:	88 84 24 91 03 00 00 	mov    %al,0x391(%rsp)
+  11e510:	8b 84 24 b0 00 00 00 	mov    0xb0(%rsp),%eax
+  11e517:	89 84 24 92 03 00 00 	mov    %eax,0x392(%rsp)
+  11e51e:	0f b7 84 24 b4 00 00 	movzwl 0xb4(%rsp),%eax
+  11e525:	00 
+  11e526:	66 89 84 24 96 03 00 	mov    %ax,0x396(%rsp)
+  11e52d:	00 
+  11e52e:	48 8b 44 24 30       	mov    0x30(%rsp),%rax
+  11e533:	48 89 84 24 98 03 00 	mov    %rax,0x398(%rsp)
+  11e53a:	00 
+  11e53b:	4c 89 b4 24 a0 03 00 	mov    %r14,0x3a0(%rsp)
+  11e542:	00 
+  11e543:	48 8d bc 24 a8 03 00 	lea    0x3a8(%rsp),%rdi
+  11e54a:	00 
+  11e54b:	48 8d b4 24 90 81 00 	lea    0x8190(%rsp),%rsi
+  11e552:	00 
+  11e553:	ba a0 01 00 00       	mov    $0x1a0,%edx
+  11e558:	ff 15 32 13 1b 00    	call   *0x1b1332(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11e55e:	f2 0f 10 44 24 68    	movsd  0x68(%rsp),%xmm0
+  11e564:	f2 0f 11 84 24 48 05 	movsd  %xmm0,0x548(%rsp)
+  11e56b:	00 00 
+  11e56d:	0f 28 84 24 c0 02 00 	movaps 0x2c0(%rsp),%xmm0
+  11e574:	00 
+  11e575:	0f 11 84 24 50 05 00 	movups %xmm0,0x550(%rsp)
+  11e57c:	00 
+  11e57d:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11e584:	00 
+  11e585:	48 8d b4 24 90 03 00 	lea    0x390(%rsp),%rsi
+  11e58c:	00 
+  11e58d:	48 8d 94 24 f8 06 00 	lea    0x6f8(%rsp),%rdx
+  11e594:	00 
+  11e595:	f2 0f 10 44 24 78    	movsd  0x78(%rsp),%xmm0
+  11e59b:	e8 10 28 00 00       	call   120db0 <rheon::research_public_call::candidate::combined_report>
+  11e5a0:	8b 84 24 88 08 00 00 	mov    0x888(%rsp),%eax
+  11e5a7:	44 0f b6 ac 24 90 08 	movzbl 0x890(%rsp),%r13d
+  11e5ae:	00 00 
+  11e5b0:	0f b6 8c 24 91 08 00 	movzbl 0x891(%rsp),%ecx
+  11e5b7:	00 
+  11e5b8:	88 4c 24 18          	mov    %cl,0x18(%rsp)
+  11e5bc:	8b 8c 24 92 08 00 00 	mov    0x892(%rsp),%ecx
+  11e5c3:	89 4c 24 28          	mov    %ecx,0x28(%rsp)
+  11e5c7:	0f b7 8c 24 96 08 00 	movzwl 0x896(%rsp),%ecx
+  11e5ce:	00 
+  11e5cf:	66 89 4c 24 2c       	mov    %cx,0x2c(%rsp)
+  11e5d4:	48 8b 8c 24 98 08 00 	mov    0x898(%rsp),%rcx
+  11e5db:	00 
+  11e5dc:	48 89 4c 24 10       	mov    %rcx,0x10(%rsp)
+  11e5e1:	48 8b 8c 24 a0 08 00 	mov    0x8a0(%rsp),%rcx
+  11e5e8:	00 
+  11e5e9:	48 89 4c 24 20       	mov    %rcx,0x20(%rsp)
+  11e5ee:	83 f8 01             	cmp    $0x1,%eax
+  11e5f1:	0f 85 49 01 00 00    	jne    11e740 <rheon::research_public_call::candidate::public_call+0x23f0>
+  11e5f7:	8b 44 24 28          	mov    0x28(%rsp),%eax
+  11e5fb:	89 44 24 08          	mov    %eax,0x8(%rsp)
+  11e5ff:	0f b7 44 24 2c       	movzwl 0x2c(%rsp),%eax
+  11e604:	66 89 44 24 0c       	mov    %ax,0xc(%rsp)
+  11e609:	eb 3e                	jmp    11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11e60b:	0f b6 84 24 89 08 00 	movzbl 0x889(%rsp),%eax
+  11e612:	00 
+  11e613:	88 44 24 18          	mov    %al,0x18(%rsp)
+  11e617:	8b 84 24 8a 08 00 00 	mov    0x88a(%rsp),%eax
+  11e61e:	89 44 24 08          	mov    %eax,0x8(%rsp)
+  11e622:	0f b7 84 24 8e 08 00 	movzwl 0x88e(%rsp),%eax
+  11e629:	00 
+  11e62a:	66 89 44 24 0c       	mov    %ax,0xc(%rsp)
+  11e62f:	48 8b 84 24 90 08 00 	mov    0x890(%rsp),%rax
+  11e636:	00 
+  11e637:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+  11e63c:	48 8b 84 24 98 08 00 	mov    0x898(%rsp),%rax
+  11e643:	00 
+  11e644:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+  11e649:	48 8b 74 24 10       	mov    0x10(%rsp),%rsi
+  11e64e:	48 8b 4c 24 20       	mov    0x20(%rsp),%rcx
+  11e653:	0f b6 7c 24 18       	movzbl 0x18(%rsp),%edi
+  11e658:	e9 4d e2 ff ff       	jmp    11c8aa <rheon::research_public_call::candidate::public_call+0x55a>
+  11e65d:	48 8d 44 24 70       	lea    0x70(%rsp),%rax
+  11e662:	48 89 84 24 e0 be 00 	mov    %rax,0xbee0(%rsp)
+  11e669:	00 
+  11e66a:	48 8b 05 e7 11 1b 00 	mov    0x1b11e7(%rip),%rax        # 2cf858 <_DYNAMIC+0x270>
+  11e671:	48 89 84 24 e8 be 00 	mov    %rax,0xbee8(%rsp)
+  11e678:	00 
+  11e679:	48 8d 4c 24 58       	lea    0x58(%rsp),%rcx
+  11e67e:	48 89 8c 24 f0 be 00 	mov    %rcx,0xbef0(%rsp)
+  11e685:	00 
+  11e686:	48 89 84 24 f8 be 00 	mov    %rax,0xbef8(%rsp)
+  11e68d:	00 
+  11e68e:	48 8d 05 6b 7b 19 00 	lea    0x197b6b(%rip),%rax        # 2b6200 <anon.e7ddcf5b0e4373e18097a5a18a3fff73.62.llvm.14324991568266189146+0x178>
+  11e695:	48 89 84 24 88 08 00 	mov    %rax,0x888(%rsp)
+  11e69c:	00 
+  11e69d:	48 c7 84 24 90 08 00 	movq   $0x3,0x890(%rsp)
+  11e6a4:	00 03 00 00 00 
+  11e6a9:	48 c7 84 24 a8 08 00 	movq   $0x0,0x8a8(%rsp)
+  11e6b0:	00 00 00 00 00 
+  11e6b5:	48 8d 84 24 e0 be 00 	lea    0xbee0(%rsp),%rax
+  11e6bc:	00 
+  11e6bd:	48 89 84 24 98 08 00 	mov    %rax,0x898(%rsp)
+  11e6c4:	00 
+  11e6c5:	48 c7 84 24 a0 08 00 	movq   $0x2,0x8a0(%rsp)
+  11e6cc:	00 02 00 00 00 
+  11e6d1:	48 8d bc 24 88 08 00 	lea    0x888(%rsp),%rdi
+  11e6d8:	00 
+  11e6d9:	ff 15 e9 11 1b 00    	call   *0x1b11e9(%rip)        # 2cf8c8 <_DYNAMIC+0x2e0>
+  11e6df:	41 b5 21             	mov    $0x21,%r13b
+  11e6e2:	e9 11 e6 ff ff       	jmp    11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11e6e7:	f3 0f 7e 44 24 78    	movq   0x78(%rsp),%xmm0
+  11e6ed:	66 48 0f 7e c0       	movq   %xmm0,%rax
+  11e6f2:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+  11e6f7:	48 b9 ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rcx
+  11e6fe:	ff ff 7f 
+  11e701:	48 21 c8             	and    %rcx,%rax
+  11e704:	41 b5 11             	mov    $0x11,%r13b
+  11e707:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11e70e:	00 f0 7f 
+  11e711:	48 39 c8             	cmp    %rcx,%rax
+  11e714:	0f 84 de e5 ff ff    	je     11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11e71a:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11e71f:	48 21 c8             	and    %rcx,%rax
+  11e722:	0f 84 d0 e5 ff ff    	je     11ccf8 <rheon::research_public_call::candidate::public_call+0x9a8>
+  11e728:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11e72f:	00 f0 7f 
+  11e732:	48 39 c8             	cmp    %rcx,%rax
+  11e735:	0f 84 0e ff ff ff    	je     11e649 <rheon::research_public_call::candidate::public_call+0x22f9>
+  11e73b:	e9 bc fd ff ff       	jmp    11e4fc <rheon::research_public_call::candidate::public_call+0x21ac>
+  11e740:	48 8d b4 24 a8 08 00 	lea    0x8a8(%rsp),%rsi
+  11e747:	00 
+  11e748:	48 8d bc 24 30 83 00 	lea    0x8330(%rsp),%rdi
+  11e74f:	00 
+  11e750:	ba d8 02 00 00       	mov    $0x2d8,%edx
+  11e755:	ff 15 35 11 1b 00    	call   *0x1b1135(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11e75b:	8b 44 24 28          	mov    0x28(%rsp),%eax
+  11e75f:	89 84 24 b8 00 00 00 	mov    %eax,0xb8(%rsp)
+  11e766:	0f b7 44 24 2c       	movzwl 0x2c(%rsp),%eax
+  11e76b:	66 89 84 24 bc 00 00 	mov    %ax,0xbc(%rsp)
+  11e772:	00 
+  11e773:	f2 0f 10 4c 24 40    	movsd  0x40(%rsp),%xmm1
+  11e779:	f2 0f 10 44 24 68    	movsd  0x68(%rsp),%xmm0
+  11e77f:	f2 0f 59 c1          	mulsd  %xmm1,%xmm0
+  11e783:	66 0f 57 d2          	xorpd  %xmm2,%xmm2
+  11e787:	66 0f 2e c2          	ucomisd %xmm2,%xmm0
+  11e78b:	75 22                	jne    11e7af <rheon::research_public_call::candidate::public_call+0x245f>
+  11e78d:	7a 20                	jp     11e7af <rheon::research_public_call::candidate::public_call+0x245f>
+  11e78f:	f2 0f 10 5c 24 68    	movsd  0x68(%rsp),%xmm3
+  11e795:	66 0f 2e da          	ucomisd %xmm2,%xmm3
+  11e799:	75 02                	jne    11e79d <rheon::research_public_call::candidate::public_call+0x244d>
+  11e79b:	7b 56                	jnp    11e7f3 <rheon::research_public_call::candidate::public_call+0x24a3>
+  11e79d:	66 0f 2e ca          	ucomisd %xmm2,%xmm1
+  11e7a1:	0f 85 66 f6 ff ff    	jne    11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e7a7:	0f 8a 60 f6 ff ff    	jp     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e7ad:	eb 44                	jmp    11e7f3 <rheon::research_public_call::candidate::public_call+0x24a3>
+  11e7af:	66 48 0f 7e c0       	movq   %xmm0,%rax
+  11e7b4:	48 89 c1             	mov    %rax,%rcx
+  11e7b7:	48 ba ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdx
+  11e7be:	ff ff 7f 
+  11e7c1:	48 21 d1             	and    %rdx,%rcx
+  11e7c4:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  11e7cb:	00 f0 7f 
+  11e7ce:	48 39 d1             	cmp    %rdx,%rcx
+  11e7d1:	0f 84 36 f6 ff ff    	je     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e7d7:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11e7de:	00 f0 7f 
+  11e7e1:	48 21 c8             	and    %rcx,%rax
+  11e7e4:	0f 84 23 f6 ff ff    	je     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e7ea:	48 39 c8             	cmp    %rcx,%rax
+  11e7ed:	0f 84 1a f6 ff ff    	je     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e7f3:	f2 0f 10 94 24 90 00 	movsd  0x90(%rsp),%xmm2
+  11e7fa:	00 00 
+  11e7fc:	66 0f 28 e0          	movapd %xmm0,%xmm4
+  11e800:	f2 0f 59 e2          	mulsd  %xmm2,%xmm4
+  11e804:	66 0f 57 db          	xorpd  %xmm3,%xmm3
+  11e808:	f2 0f 11 64 24 38    	movsd  %xmm4,0x38(%rsp)
+  11e80e:	66 0f 2e e3          	ucomisd %xmm3,%xmm4
+  11e812:	75 14                	jne    11e828 <rheon::research_public_call::candidate::public_call+0x24d8>
+  11e814:	7a 12                	jp     11e828 <rheon::research_public_call::candidate::public_call+0x24d8>
+  11e816:	66 0f 2e c3          	ucomisd %xmm3,%xmm0
+  11e81a:	75 02                	jne    11e81e <rheon::research_public_call::candidate::public_call+0x24ce>
+  11e81c:	7b 53                	jnp    11e871 <rheon::research_public_call::candidate::public_call+0x2521>
+  11e81e:	66 0f 2e d3          	ucomisd %xmm3,%xmm2
+  11e822:	75 42                	jne    11e866 <rheon::research_public_call::candidate::public_call+0x2516>
+  11e824:	7a 40                	jp     11e866 <rheon::research_public_call::candidate::public_call+0x2516>
+  11e826:	eb 49                	jmp    11e871 <rheon::research_public_call::candidate::public_call+0x2521>
+  11e828:	f3 0f 7e 54 24 38    	movq   0x38(%rsp),%xmm2
+  11e82e:	66 48 0f 7e d0       	movq   %xmm2,%rax
+  11e833:	48 89 c1             	mov    %rax,%rcx
+  11e836:	48 ba ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdx
+  11e83d:	ff ff 7f 
+  11e840:	48 21 d1             	and    %rdx,%rcx
+  11e843:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  11e84a:	00 f0 7f 
+  11e84d:	48 39 d1             	cmp    %rdx,%rcx
+  11e850:	74 14                	je     11e866 <rheon::research_public_call::candidate::public_call+0x2516>
+  11e852:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11e859:	00 f0 7f 
+  11e85c:	48 21 c8             	and    %rcx,%rax
+  11e85f:	74 05                	je     11e866 <rheon::research_public_call::candidate::public_call+0x2516>
+  11e861:	48 39 c8             	cmp    %rcx,%rax
+  11e864:	75 0b                	jne    11e871 <rheon::research_public_call::candidate::public_call+0x2521>
+  11e866:	f2 0f 10 44 24 38    	movsd  0x38(%rsp),%xmm0
+  11e86c:	e9 9c f5 ff ff       	jmp    11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e871:	66 0f ef d2          	pxor   %xmm2,%xmm2
+  11e875:	66 0f 2e c2          	ucomisd %xmm2,%xmm0
+  11e879:	75 22                	jne    11e89d <rheon::research_public_call::candidate::public_call+0x254d>
+  11e87b:	7a 20                	jp     11e89d <rheon::research_public_call::candidate::public_call+0x254d>
+  11e87d:	f2 0f 10 5c 24 68    	movsd  0x68(%rsp),%xmm3
+  11e883:	66 0f 2e da          	ucomisd %xmm2,%xmm3
+  11e887:	75 02                	jne    11e88b <rheon::research_public_call::candidate::public_call+0x253b>
+  11e889:	7b 56                	jnp    11e8e1 <rheon::research_public_call::candidate::public_call+0x2591>
+  11e88b:	66 0f 2e ca          	ucomisd %xmm2,%xmm1
+  11e88f:	0f 85 78 f5 ff ff    	jne    11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e895:	0f 8a 72 f5 ff ff    	jp     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e89b:	eb 44                	jmp    11e8e1 <rheon::research_public_call::candidate::public_call+0x2591>
+  11e89d:	66 48 0f 7e c0       	movq   %xmm0,%rax
+  11e8a2:	48 89 c1             	mov    %rax,%rcx
+  11e8a5:	48 ba ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdx
+  11e8ac:	ff ff 7f 
+  11e8af:	48 21 d1             	and    %rdx,%rcx
+  11e8b2:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  11e8b9:	00 f0 7f 
+  11e8bc:	48 39 d1             	cmp    %rdx,%rcx
+  11e8bf:	0f 84 48 f5 ff ff    	je     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e8c5:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11e8cc:	00 f0 7f 
+  11e8cf:	48 21 c8             	and    %rcx,%rax
+  11e8d2:	0f 84 35 f5 ff ff    	je     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e8d8:	48 39 c8             	cmp    %rcx,%rax
+  11e8db:	0f 84 2c f5 ff ff    	je     11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e8e1:	f2 0f 10 54 24 60    	movsd  0x60(%rsp),%xmm2
+  11e8e7:	f2 0f 59 d0          	mulsd  %xmm0,%xmm2
+  11e8eb:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+  11e8ef:	f2 0f 11 54 24 30    	movsd  %xmm2,0x30(%rsp)
+  11e8f5:	66 0f 2e d1          	ucomisd %xmm1,%xmm2
+  11e8f9:	75 1a                	jne    11e915 <rheon::research_public_call::candidate::public_call+0x25c5>
+  11e8fb:	7a 18                	jp     11e915 <rheon::research_public_call::candidate::public_call+0x25c5>
+  11e8fd:	f2 0f 10 54 24 60    	movsd  0x60(%rsp),%xmm2
+  11e903:	66 0f 2e d1          	ucomisd %xmm1,%xmm2
+  11e907:	75 02                	jne    11e90b <rheon::research_public_call::candidate::public_call+0x25bb>
+  11e909:	7b 46                	jnp    11e951 <rheon::research_public_call::candidate::public_call+0x2601>
+  11e90b:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+  11e90f:	75 35                	jne    11e946 <rheon::research_public_call::candidate::public_call+0x25f6>
+  11e911:	7a 33                	jp     11e946 <rheon::research_public_call::candidate::public_call+0x25f6>
+  11e913:	eb 3c                	jmp    11e951 <rheon::research_public_call::candidate::public_call+0x2601>
+  11e915:	f3 0f 7e 44 24 30    	movq   0x30(%rsp),%xmm0
+  11e91b:	66 48 0f 7e c0       	movq   %xmm0,%rax
+  11e920:	48 ba ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdx
+  11e927:	ff ff 7f 
+  11e92a:	48 21 c2             	and    %rax,%rdx
+  11e92d:	48 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%rcx
+  11e934:	00 f0 7f 
+  11e937:	48 39 ca             	cmp    %rcx,%rdx
+  11e93a:	74 0a                	je     11e946 <rheon::research_public_call::candidate::public_call+0x25f6>
+  11e93c:	48 21 c8             	and    %rcx,%rax
+  11e93f:	74 05                	je     11e946 <rheon::research_public_call::candidate::public_call+0x25f6>
+  11e941:	48 39 c8             	cmp    %rcx,%rax
+  11e944:	75 0b                	jne    11e951 <rheon::research_public_call::candidate::public_call+0x2601>
+  11e946:	f2 0f 10 44 24 30    	movsd  0x30(%rsp),%xmm0
+  11e94c:	e9 bc f4 ff ff       	jmp    11de0d <rheon::research_public_call::candidate::public_call+0x1abd>
+  11e951:	44 0f b6 b4 24 b0 01 	movzbl 0x1b0(%rsp),%r14d
+  11e958:	00 00 
+  11e95a:	0f 10 84 24 b1 01 00 	movups 0x1b1(%rsp),%xmm0
+  11e961:	00 
+  11e962:	0f 29 84 24 60 01 00 	movaps %xmm0,0x160(%rsp)
+  11e969:	00 
+  11e96a:	48 8b 84 24 c0 01 00 	mov    0x1c0(%rsp),%rax
+  11e971:	00 
+  11e972:	48 89 84 24 6f 01 00 	mov    %rax,0x16f(%rsp)
+  11e979:	00 
+  11e97a:	0f 10 84 24 c8 01 00 	movups 0x1c8(%rsp),%xmm0
+  11e981:	00 
+  11e982:	0f 29 84 24 50 02 00 	movaps %xmm0,0x250(%rsp)
+  11e989:	00 
+  11e98a:	0f 10 84 24 d8 01 00 	movups 0x1d8(%rsp),%xmm0
+  11e991:	00 
+  11e992:	0f 29 84 24 60 02 00 	movaps %xmm0,0x260(%rsp)
+  11e999:	00 
+  11e99a:	0f 10 84 24 e8 01 00 	movups 0x1e8(%rsp),%xmm0
+  11e9a1:	00 
+  11e9a2:	0f 29 84 24 70 02 00 	movaps %xmm0,0x270(%rsp)
+  11e9a9:	00 
+  11e9aa:	0f 10 84 24 f8 01 00 	movups 0x1f8(%rsp),%xmm0
+  11e9b1:	00 
+  11e9b2:	0f 29 84 24 80 02 00 	movaps %xmm0,0x280(%rsp)
+  11e9b9:	00 
+  11e9ba:	0f 10 84 24 08 02 00 	movups 0x208(%rsp),%xmm0
+  11e9c1:	00 
+  11e9c2:	0f 29 84 24 90 02 00 	movaps %xmm0,0x290(%rsp)
+  11e9c9:	00 
+  11e9ca:	66 0f 10 84 24 18 02 	movupd 0x218(%rsp),%xmm0
+  11e9d1:	00 00 
+  11e9d3:	66 0f 29 84 24 a0 02 	movapd %xmm0,0x2a0(%rsp)
+  11e9da:	00 00 
+  11e9dc:	48 8b 84 24 28 02 00 	mov    0x228(%rsp),%rax
+  11e9e3:	00 
+  11e9e4:	48 89 84 24 b0 02 00 	mov    %rax,0x2b0(%rsp)
+  11e9eb:	00 
+  11e9ec:	be 0a 00 00 00       	mov    $0xa,%esi
+  11e9f1:	4c 89 e7             	mov    %r12,%rdi
+  11e9f4:	e8 67 df 08 00       	call   1ac960 <rheon::research_public_call::observe>
+  11e9f9:	84 c0                	test   %al,%al
+  11e9fb:	74 0d                	je     11ea0a <rheon::research_public_call::candidate::public_call+0x26ba>
+  11e9fd:	41 b5 29             	mov    $0x29,%r13b
+  11ea00:	c6 44 24 18 0a       	movb   $0xa,0x18(%rsp)
+  11ea05:	e9 e6 e2 ff ff       	jmp    11ccf0 <rheon::research_public_call::candidate::public_call+0x9a0>
+  11ea0a:	41 0f 10 87 90 03 00 	movups 0x390(%r15),%xmm0
+  11ea11:	00 
+  11ea12:	41 0f 10 8f a0 03 00 	movups 0x3a0(%r15),%xmm1
+  11ea19:	00 
+  11ea1a:	41 0f 10 17          	movups (%r15),%xmm2
+  11ea1e:	41 0f 10 5f 10       	movups 0x10(%r15),%xmm3
+  11ea23:	66 41 0f 10 67 20    	movupd 0x20(%r15),%xmm4
+  11ea29:	66 41 0f 10 6f 30    	movupd 0x30(%r15),%xmm5
+  11ea2f:	41 0f 11 07          	movups %xmm0,(%r15)
+  11ea33:	41 0f 11 4f 10       	movups %xmm1,0x10(%r15)
+  11ea38:	41 0f 11 97 90 03 00 	movups %xmm2,0x390(%r15)
+  11ea3f:	00 
+  11ea40:	41 0f 11 9f a0 03 00 	movups %xmm3,0x3a0(%r15)
+  11ea47:	00 
+  11ea48:	41 0f 10 87 b0 03 00 	movups 0x3b0(%r15),%xmm0
+  11ea4f:	00 
+  11ea50:	41 0f 10 8f c0 03 00 	movups 0x3c0(%r15),%xmm1
+  11ea57:	00 
+  11ea58:	41 0f 11 47 20       	movups %xmm0,0x20(%r15)
+  11ea5d:	41 0f 11 4f 30       	movups %xmm1,0x30(%r15)
+  11ea62:	66 41 0f 11 a7 b0 03 	movupd %xmm4,0x3b0(%r15)
+  11ea69:	00 00 
+  11ea6b:	66 41 0f 11 af c0 03 	movupd %xmm5,0x3c0(%r15)
+  11ea72:	00 00 
+  11ea74:	41 0f 10 47 40       	movups 0x40(%r15),%xmm0
+  11ea79:	41 0f 10 4f 50       	movups 0x50(%r15),%xmm1
+  11ea7e:	41 0f 10 97 d0 03 00 	movups 0x3d0(%r15),%xmm2
+  11ea85:	00 
+  11ea86:	41 0f 10 9f e0 03 00 	movups 0x3e0(%r15),%xmm3
+  11ea8d:	00 
+  11ea8e:	41 0f 11 57 40       	movups %xmm2,0x40(%r15)
+  11ea93:	41 0f 11 5f 50       	movups %xmm3,0x50(%r15)
+  11ea98:	41 0f 11 87 d0 03 00 	movups %xmm0,0x3d0(%r15)
+  11ea9f:	00 
+  11eaa0:	41 0f 11 8f e0 03 00 	movups %xmm1,0x3e0(%r15)
+  11eaa7:	00 
+  11eaa8:	41 0f 10 47 60       	movups 0x60(%r15),%xmm0
+  11eaad:	41 0f 10 4f 70       	movups 0x70(%r15),%xmm1
+  11eab2:	41 0f 10 97 f0 03 00 	movups 0x3f0(%r15),%xmm2
+  11eab9:	00 
+  11eaba:	41 0f 10 9f 00 04 00 	movups 0x400(%r15),%xmm3
+  11eac1:	00 
+  11eac2:	41 0f 11 57 60       	movups %xmm2,0x60(%r15)
+  11eac7:	41 0f 11 5f 70       	movups %xmm3,0x70(%r15)
+  11eacc:	41 0f 11 87 f0 03 00 	movups %xmm0,0x3f0(%r15)
+  11ead3:	00 
+  11ead4:	41 0f 11 8f 00 04 00 	movups %xmm1,0x400(%r15)
+  11eadb:	00 
+  11eadc:	41 0f 10 87 80 00 00 	movups 0x80(%r15),%xmm0
+  11eae3:	00 
+  11eae4:	41 0f 10 8f 90 00 00 	movups 0x90(%r15),%xmm1
+  11eaeb:	00 
+  11eaec:	41 0f 10 97 10 04 00 	movups 0x410(%r15),%xmm2
+  11eaf3:	00 
+  11eaf4:	41 0f 10 9f 20 04 00 	movups 0x420(%r15),%xmm3
+  11eafb:	00 
+  11eafc:	41 0f 11 97 80 00 00 	movups %xmm2,0x80(%r15)
+  11eb03:	00 
+  11eb04:	41 0f 11 9f 90 00 00 	movups %xmm3,0x90(%r15)
+  11eb0b:	00 
+  11eb0c:	41 0f 11 87 10 04 00 	movups %xmm0,0x410(%r15)
+  11eb13:	00 
+  11eb14:	41 0f 11 8f 20 04 00 	movups %xmm1,0x420(%r15)
+  11eb1b:	00 
+  11eb1c:	41 0f 10 87 a0 00 00 	movups 0xa0(%r15),%xmm0
+  11eb23:	00 
+  11eb24:	41 0f 10 8f b0 00 00 	movups 0xb0(%r15),%xmm1
+  11eb2b:	00 
+  11eb2c:	41 0f 10 97 30 04 00 	movups 0x430(%r15),%xmm2
+  11eb33:	00 
+  11eb34:	41 0f 10 9f 40 04 00 	movups 0x440(%r15),%xmm3
+  11eb3b:	00 
+  11eb3c:	41 0f 11 97 a0 00 00 	movups %xmm2,0xa0(%r15)
+  11eb43:	00 
+  11eb44:	41 0f 11 9f b0 00 00 	movups %xmm3,0xb0(%r15)
+  11eb4b:	00 
+  11eb4c:	41 0f 11 87 30 04 00 	movups %xmm0,0x430(%r15)
+  11eb53:	00 
+  11eb54:	41 0f 11 8f 40 04 00 	movups %xmm1,0x440(%r15)
+  11eb5b:	00 
+  11eb5c:	41 0f 10 87 c0 00 00 	movups 0xc0(%r15),%xmm0
+  11eb63:	00 
+  11eb64:	41 0f 10 8f d0 00 00 	movups 0xd0(%r15),%xmm1
+  11eb6b:	00 
+  11eb6c:	41 0f 10 97 50 04 00 	movups 0x450(%r15),%xmm2
+  11eb73:	00 
+  11eb74:	41 0f 10 9f 60 04 00 	movups 0x460(%r15),%xmm3
+  11eb7b:	00 
+  11eb7c:	41 0f 11 97 c0 00 00 	movups %xmm2,0xc0(%r15)
+  11eb83:	00 
+  11eb84:	41 0f 11 9f d0 00 00 	movups %xmm3,0xd0(%r15)
+  11eb8b:	00 
+  11eb8c:	41 0f 11 87 50 04 00 	movups %xmm0,0x450(%r15)
+  11eb93:	00 
+  11eb94:	41 0f 11 8f 60 04 00 	movups %xmm1,0x460(%r15)
+  11eb9b:	00 
+  11eb9c:	41 0f 10 87 e0 00 00 	movups 0xe0(%r15),%xmm0
+  11eba3:	00 
+  11eba4:	41 0f 10 8f f0 00 00 	movups 0xf0(%r15),%xmm1
+  11ebab:	00 
+  11ebac:	41 0f 10 97 70 04 00 	movups 0x470(%r15),%xmm2
+  11ebb3:	00 
+  11ebb4:	41 0f 10 9f 80 04 00 	movups 0x480(%r15),%xmm3
+  11ebbb:	00 
+  11ebbc:	41 0f 11 97 e0 00 00 	movups %xmm2,0xe0(%r15)
+  11ebc3:	00 
+  11ebc4:	41 0f 11 9f f0 00 00 	movups %xmm3,0xf0(%r15)
+  11ebcb:	00 
+  11ebcc:	41 0f 11 87 70 04 00 	movups %xmm0,0x470(%r15)
+  11ebd3:	00 
+  11ebd4:	41 0f 11 8f 80 04 00 	movups %xmm1,0x480(%r15)
+  11ebdb:	00 
+  11ebdc:	41 0f 10 87 00 01 00 	movups 0x100(%r15),%xmm0
+  11ebe3:	00 
+  11ebe4:	41 0f 10 8f 10 01 00 	movups 0x110(%r15),%xmm1
+  11ebeb:	00 
+  11ebec:	41 0f 10 97 90 04 00 	movups 0x490(%r15),%xmm2
+  11ebf3:	00 
+  11ebf4:	41 0f 10 9f a0 04 00 	movups 0x4a0(%r15),%xmm3
+  11ebfb:	00 
+  11ebfc:	41 0f 11 97 00 01 00 	movups %xmm2,0x100(%r15)
+  11ec03:	00 
+  11ec04:	41 0f 11 9f 10 01 00 	movups %xmm3,0x110(%r15)
+  11ec0b:	00 
+  11ec0c:	41 0f 11 87 90 04 00 	movups %xmm0,0x490(%r15)
+  11ec13:	00 
+  11ec14:	41 0f 11 8f a0 04 00 	movups %xmm1,0x4a0(%r15)
+  11ec1b:	00 
+  11ec1c:	41 0f 10 87 20 01 00 	movups 0x120(%r15),%xmm0
+  11ec23:	00 
+  11ec24:	41 0f 10 8f 30 01 00 	movups 0x130(%r15),%xmm1
+  11ec2b:	00 
+  11ec2c:	41 0f 10 97 b0 04 00 	movups 0x4b0(%r15),%xmm2
+  11ec33:	00 
+  11ec34:	41 0f 10 9f c0 04 00 	movups 0x4c0(%r15),%xmm3
+  11ec3b:	00 
+  11ec3c:	41 0f 11 97 20 01 00 	movups %xmm2,0x120(%r15)
+  11ec43:	00 
+  11ec44:	41 0f 11 9f 30 01 00 	movups %xmm3,0x130(%r15)
+  11ec4b:	00 
+  11ec4c:	41 0f 11 87 b0 04 00 	movups %xmm0,0x4b0(%r15)
+  11ec53:	00 
+  11ec54:	41 0f 11 8f c0 04 00 	movups %xmm1,0x4c0(%r15)
+  11ec5b:	00 
+  11ec5c:	41 0f 10 87 40 01 00 	movups 0x140(%r15),%xmm0
+  11ec63:	00 
+  11ec64:	41 0f 10 8f 50 01 00 	movups 0x150(%r15),%xmm1
+  11ec6b:	00 
+  11ec6c:	41 0f 10 97 d0 04 00 	movups 0x4d0(%r15),%xmm2
+  11ec73:	00 
+  11ec74:	41 0f 10 9f e0 04 00 	movups 0x4e0(%r15),%xmm3
+  11ec7b:	00 
+  11ec7c:	41 0f 11 97 40 01 00 	movups %xmm2,0x140(%r15)
+  11ec83:	00 
+  11ec84:	41 0f 11 9f 50 01 00 	movups %xmm3,0x150(%r15)
+  11ec8b:	00 
+  11ec8c:	41 0f 11 87 d0 04 00 	movups %xmm0,0x4d0(%r15)
+  11ec93:	00 
+  11ec94:	41 0f 11 8f e0 04 00 	movups %xmm1,0x4e0(%r15)
+  11ec9b:	00 
+  11ec9c:	41 0f 10 87 60 01 00 	movups 0x160(%r15),%xmm0
+  11eca3:	00 
+  11eca4:	41 0f 10 8f 70 01 00 	movups 0x170(%r15),%xmm1
+  11ecab:	00 
+  11ecac:	41 0f 10 97 f0 04 00 	movups 0x4f0(%r15),%xmm2
+  11ecb3:	00 
+  11ecb4:	41 0f 10 9f 00 05 00 	movups 0x500(%r15),%xmm3
+  11ecbb:	00 
+  11ecbc:	41 0f 11 97 60 01 00 	movups %xmm2,0x160(%r15)
+  11ecc3:	00 
+  11ecc4:	41 0f 11 9f 70 01 00 	movups %xmm3,0x170(%r15)
+  11eccb:	00 
+  11eccc:	41 0f 11 87 f0 04 00 	movups %xmm0,0x4f0(%r15)
+  11ecd3:	00 
+  11ecd4:	41 0f 11 8f 00 05 00 	movups %xmm1,0x500(%r15)
+  11ecdb:	00 
+  11ecdc:	41 0f 10 87 80 01 00 	movups 0x180(%r15),%xmm0
+  11ece3:	00 
+  11ece4:	41 0f 10 8f 90 01 00 	movups 0x190(%r15),%xmm1
+  11eceb:	00 
+  11ecec:	41 0f 10 97 10 05 00 	movups 0x510(%r15),%xmm2
+  11ecf3:	00 
+  11ecf4:	41 0f 10 9f 20 05 00 	movups 0x520(%r15),%xmm3
+  11ecfb:	00 
+  11ecfc:	41 0f 11 97 80 01 00 	movups %xmm2,0x180(%r15)
+  11ed03:	00 
+  11ed04:	41 0f 11 9f 90 01 00 	movups %xmm3,0x190(%r15)
+  11ed0b:	00 
+  11ed0c:	41 0f 11 87 10 05 00 	movups %xmm0,0x510(%r15)
+  11ed13:	00 
+  11ed14:	41 0f 11 8f 20 05 00 	movups %xmm1,0x520(%r15)
+  11ed1b:	00 
+  11ed1c:	41 0f 10 87 a0 01 00 	movups 0x1a0(%r15),%xmm0
+  11ed23:	00 
+  11ed24:	41 0f 10 8f b0 01 00 	movups 0x1b0(%r15),%xmm1
+  11ed2b:	00 
+  11ed2c:	41 0f 10 97 30 05 00 	movups 0x530(%r15),%xmm2
+  11ed33:	00 
+  11ed34:	41 0f 10 9f 40 05 00 	movups 0x540(%r15),%xmm3
+  11ed3b:	00 
+  11ed3c:	41 0f 11 97 a0 01 00 	movups %xmm2,0x1a0(%r15)
+  11ed43:	00 
+  11ed44:	41 0f 11 9f b0 01 00 	movups %xmm3,0x1b0(%r15)
+  11ed4b:	00 
+  11ed4c:	41 0f 11 87 30 05 00 	movups %xmm0,0x530(%r15)
+  11ed53:	00 
+  11ed54:	41 0f 11 8f 40 05 00 	movups %xmm1,0x540(%r15)
+  11ed5b:	00 
+  11ed5c:	41 0f 10 87 c0 01 00 	movups 0x1c0(%r15),%xmm0
+  11ed63:	00 
+  11ed64:	41 0f 10 8f d0 01 00 	movups 0x1d0(%r15),%xmm1
+  11ed6b:	00 
+  11ed6c:	41 0f 10 97 50 05 00 	movups 0x550(%r15),%xmm2
+  11ed73:	00 
+  11ed74:	41 0f 10 9f 60 05 00 	movups 0x560(%r15),%xmm3
+  11ed7b:	00 
+  11ed7c:	41 0f 11 97 c0 01 00 	movups %xmm2,0x1c0(%r15)
+  11ed83:	00 
+  11ed84:	41 0f 11 9f d0 01 00 	movups %xmm3,0x1d0(%r15)
+  11ed8b:	00 
+  11ed8c:	41 0f 11 87 50 05 00 	movups %xmm0,0x550(%r15)
+  11ed93:	00 
+  11ed94:	41 0f 11 8f 60 05 00 	movups %xmm1,0x560(%r15)
+  11ed9b:	00 
+  11ed9c:	49 8b 87 e0 01 00 00 	mov    0x1e0(%r15),%rax
+  11eda3:	49 8b 8f 70 05 00 00 	mov    0x570(%r15),%rcx
+  11edaa:	49 89 8f e0 01 00 00 	mov    %rcx,0x1e0(%r15)
+  11edb1:	49 89 87 70 05 00 00 	mov    %rax,0x570(%r15)
+  11edb8:	49 8b 87 e8 01 00 00 	mov    0x1e8(%r15),%rax
+  11edbf:	49 8b 8f 78 05 00 00 	mov    0x578(%r15),%rcx
+  11edc6:	49 89 8f e8 01 00 00 	mov    %rcx,0x1e8(%r15)
+  11edcd:	49 89 87 78 05 00 00 	mov    %rax,0x578(%r15)
+  11edd4:	49 8b 87 f0 01 00 00 	mov    0x1f0(%r15),%rax
+  11eddb:	49 8b 8f 80 05 00 00 	mov    0x580(%r15),%rcx
+  11ede2:	49 89 8f f0 01 00 00 	mov    %rcx,0x1f0(%r15)
+  11ede9:	49 89 87 80 05 00 00 	mov    %rax,0x580(%r15)
+  11edf0:	41 0f 10 87 f8 01 00 	movups 0x1f8(%r15),%xmm0
+  11edf7:	00 
+  11edf8:	41 0f 10 8f 10 02 00 	movups 0x210(%r15),%xmm1
+  11edff:	00 
+  11ee00:	41 0f 11 8f f8 01 00 	movups %xmm1,0x1f8(%r15)
+  11ee07:	00 
+  11ee08:	41 0f 11 87 10 02 00 	movups %xmm0,0x210(%r15)
+  11ee0f:	00 
+  11ee10:	49 8b 87 08 02 00 00 	mov    0x208(%r15),%rax
+  11ee17:	49 8b 8f 20 02 00 00 	mov    0x220(%r15),%rcx
+  11ee1e:	49 89 8f 08 02 00 00 	mov    %rcx,0x208(%r15)
+  11ee25:	49 89 87 20 02 00 00 	mov    %rax,0x220(%r15)
+  11ee2c:	f2 0f 10 84 24 88 00 	movsd  0x88(%rsp),%xmm0
+  11ee33:	00 00 
+  11ee35:	f2 41 0f 11 87 68 03 	movsd  %xmm0,0x368(%r15)
+  11ee3c:	00 00 
+  11ee3e:	49 c7 87 70 03 00 00 	movq   $0x0,0x370(%r15)
+  11ee45:	00 00 00 00 
+  11ee49:	48 8b 84 24 e8 00 00 	mov    0xe8(%rsp),%rax
+  11ee50:	00 
+  11ee51:	49 89 87 78 03 00 00 	mov    %rax,0x378(%r15)
+  11ee58:	48 8b 84 24 e0 00 00 	mov    0xe0(%rsp),%rax
+  11ee5f:	00 
+  11ee60:	49 89 87 80 03 00 00 	mov    %rax,0x380(%r15)
+  11ee67:	45 88 b7 10 22 00 00 	mov    %r14b,0x2210(%r15)
+  11ee6e:	48 8b 84 24 6f 01 00 	mov    0x16f(%rsp),%rax
+  11ee75:	00 
+  11ee76:	49 89 87 20 22 00 00 	mov    %rax,0x2220(%r15)
+  11ee7d:	0f 28 84 24 60 01 00 	movaps 0x160(%rsp),%xmm0
+  11ee84:	00 
+  11ee85:	41 0f 11 87 11 22 00 	movups %xmm0,0x2211(%r15)
+  11ee8c:	00 
+  11ee8d:	48 8b 84 24 b0 02 00 	mov    0x2b0(%rsp),%rax
+  11ee94:	00 
+  11ee95:	49 89 87 88 22 00 00 	mov    %rax,0x2288(%r15)
+  11ee9c:	0f 28 84 24 a0 02 00 	movaps 0x2a0(%rsp),%xmm0
+  11eea3:	00 
+  11eea4:	41 0f 11 87 78 22 00 	movups %xmm0,0x2278(%r15)
+  11eeab:	00 
+  11eeac:	0f 28 84 24 90 02 00 	movaps 0x290(%rsp),%xmm0
+  11eeb3:	00 
+  11eeb4:	41 0f 11 87 68 22 00 	movups %xmm0,0x2268(%r15)
+  11eebb:	00 
+  11eebc:	0f 28 84 24 50 02 00 	movaps 0x250(%rsp),%xmm0
+  11eec3:	00 
+  11eec4:	66 0f 28 8c 24 60 02 	movapd 0x260(%rsp),%xmm1
+  11eecb:	00 00 
+  11eecd:	66 0f 28 94 24 70 02 	movapd 0x270(%rsp),%xmm2
+  11eed4:	00 00 
+  11eed6:	66 0f 28 9c 24 80 02 	movapd 0x280(%rsp),%xmm3
+  11eedd:	00 00 
+  11eedf:	66 41 0f 11 9f 58 22 	movupd %xmm3,0x2258(%r15)
+  11eee6:	00 00 
+  11eee8:	66 41 0f 11 97 48 22 	movupd %xmm2,0x2248(%r15)
+  11eeef:	00 00 
+  11eef1:	66 41 0f 11 8f 38 22 	movupd %xmm1,0x2238(%r15)
+  11eef8:	00 00 
+  11eefa:	41 0f 11 87 28 22 00 	movups %xmm0,0x2228(%r15)
+  11ef01:	00 
+  11ef02:	8b 84 24 b8 00 00 00 	mov    0xb8(%rsp),%eax
+  11ef09:	89 44 24 08          	mov    %eax,0x8(%rsp)
+  11ef0d:	0f b7 84 24 bc 00 00 	movzwl 0xbc(%rsp),%eax
+  11ef14:	00 
+  11ef15:	66 89 44 24 0c       	mov    %ax,0xc(%rsp)
+  11ef1a:	48 8d 7b 20          	lea    0x20(%rbx),%rdi
+  11ef1e:	48 8d b4 24 30 83 00 	lea    0x8330(%rsp),%rsi
+  11ef25:	00 
+  11ef26:	ba d8 02 00 00       	mov    $0x2d8,%edx
+  11ef2b:	ff 15 5f 09 1b 00    	call   *0x1b095f(%rip)        # 2cf890 <memcpy@GLIBC_2.14>
+  11ef31:	0f b7 44 24 0c       	movzwl 0xc(%rsp),%eax
+  11ef36:	66 89 44 24 54       	mov    %ax,0x54(%rsp)
+  11ef3b:	8b 44 24 08          	mov    0x8(%rsp),%eax
+  11ef3f:	89 44 24 50          	mov    %eax,0x50(%rsp)
+  11ef43:	0f b7 44 24 54       	movzwl 0x54(%rsp),%eax
+  11ef48:	66 89 43 0e          	mov    %ax,0xe(%rbx)
+  11ef4c:	8b 44 24 50          	mov    0x50(%rsp),%eax
+  11ef50:	89 43 0a             	mov    %eax,0xa(%rbx)
+  11ef53:	48 8b 84 24 40 02 00 	mov    0x240(%rsp),%rax
+  11ef5a:	00 
+  11ef5b:	48 89 83 08 03 00 00 	mov    %rax,0x308(%rbx)
+  11ef62:	0f 28 84 24 30 02 00 	movaps 0x230(%rsp),%xmm0
+  11ef69:	00 
+  11ef6a:	0f 11 83 f8 02 00 00 	movups %xmm0,0x2f8(%rbx)
+  11ef71:	44 88 6b 08          	mov    %r13b,0x8(%rbx)
+  11ef75:	0f b6 44 24 18       	movzbl 0x18(%rsp),%eax
+  11ef7a:	88 43 09             	mov    %al,0x9(%rbx)
+  11ef7d:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  11ef82:	48 89 43 10          	mov    %rax,0x10(%rbx)
+  11ef86:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+  11ef8b:	48 89 43 18          	mov    %rax,0x18(%rbx)
+  11ef8f:	48 8b 84 24 f0 00 00 	mov    0xf0(%rsp),%rax
+  11ef96:	00 
+  11ef97:	48 89 83 10 03 00 00 	mov    %rax,0x310(%rbx)
+  11ef9e:	f2 0f 10 84 24 80 00 	movsd  0x80(%rsp),%xmm0
+  11efa5:	00 00 
+  11efa7:	f2 0f 11 83 18 03 00 	movsd  %xmm0,0x318(%rbx)
+  11efae:	00 
+  11efaf:	f2 0f 10 44 24 48    	movsd  0x48(%rsp),%xmm0
+  11efb5:	f2 0f 11 83 20 03 00 	movsd  %xmm0,0x320(%rbx)
+  11efbc:	00 
+  11efbd:	f2 0f 10 44 24 78    	movsd  0x78(%rsp),%xmm0
+  11efc3:	f2 0f 11 83 28 03 00 	movsd  %xmm0,0x328(%rbx)
+  11efca:	00 
+  11efcb:	f2 0f 10 44 24 38    	movsd  0x38(%rsp),%xmm0
+  11efd1:	f2 0f 11 83 30 03 00 	movsd  %xmm0,0x330(%rbx)
+  11efd8:	00 
+  11efd9:	f2 0f 10 44 24 30    	movsd  0x30(%rsp),%xmm0
+  11efdf:	f2 0f 11 83 38 03 00 	movsd  %xmm0,0x338(%rbx)
+  11efe6:	00 
+  11efe7:	48 c7 03 00 00 00 00 	movq   $0x0,(%rbx)
+  11efee:	e9 d9 d4 ff ff       	jmp    11c4cc <rheon::research_public_call::candidate::public_call+0x17c>
+  11eff3:	48 8d 15 f6 72 19 00 	lea    0x1972f6(%rip),%rdx        # 2b62f0 <anon.e7ddcf5b0e4373e18097a5a18a3fff73.62.llvm.14324991568266189146+0x268>
+  11effa:	be 10 00 00 00       	mov    $0x10,%esi
+  11efff:	ff 15 93 08 1b 00    	call   *0x1b0893(%rip)        # 2cf898 <_DYNAMIC+0x2b0>
+  11f005:	cc                   	int3
+  11f006:	cc                   	int3
+  11f007:	cc                   	int3
+  11f008:	cc                   	int3
+  11f009:	cc                   	int3
+  11f00a:	cc                   	int3
+  11f00b:	cc                   	int3
+  11f00c:	cc                   	int3
+  11f00d:	cc                   	int3
+  11f00e:	cc                   	int3
+  11f00f:	cc                   	int3
+
