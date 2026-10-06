@@ -1,0 +1,27 @@
+--- frozen/candidate_helpers.rs
++++ candidate_helpers-v2.rs
+@@ -9,6 +9,9 @@
+         pressure: [f64; 16],
+         allocated_bytes: usize,
+     ) -> Self {
++        let descriptor = std::mem::size_of::<Self>()
++            - std::mem::size_of::<super::reference::CoupledDiscreteFlow>();
++        let allocated_bytes = allocated_bytes.checked_add(descriptor).unwrap();
+         Self {
+             flow,
+             work: Work {
+@@ -24,6 +27,14 @@
+     }
+     pub(super) fn set_chart(&mut self, chart: &'a mut scalar::ChartWorkspace) {
+         assert!(self.work.research.is_none());
++        let descriptor = std::mem::size_of::<Self>()
++            - std::mem::size_of::<super::reference::CoupledDiscreteFlow>();
++        let reservation = self
++            .allocated_bytes
++            .checked_add(65536 - descriptor)
++            .unwrap();
++        assert!(reservation <= self.flow.settings().memory_limit);
++        self.allocated_bytes = reservation;
+         self.work.research = Some(chart);
+     }
+ }
