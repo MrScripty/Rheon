@@ -1,0 +1,10 @@
+{
+  "binary": "/workspace/.rheon-tools/e1-trajectories-v2-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "681b88152796730270154f3c372c6bd4a547c2e722330a39df622e6cc1442798",
+  "generalization_executed": false,
+  "protocol_sha256": "256ff8e7aa27d2fa968a42284a8de86c11bcd0ed3e820f64866c333582554d95",
+  "prototype": "050c0a86d71a32e0e9392bd37d1d74045d291b5a",
+  "prototype_tree": "3942fa171b8c97ff890734540283e970d532fa51",
+  "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
+  "target": "/workspace/.rheon-tools/e1-trajectories-v2-target"
+}

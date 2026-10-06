@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/qualify.py", line 60, in <module>
+    if __name__=='__main__':print(json.dumps(run(),indent=2,sort_keys=True))
+                                             ^^^^^
+  File "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/qualify.py", line 54, in run
+    memory=module('actual_generalization_memory',P/'audit_memory_closed.py').run();require(memory==json.loads((P/'memory-closed-normal.json').read_text()),'fresh kernel/caller memory replay')
+                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/qualify.py", line 6, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: fresh kernel/caller memory replay

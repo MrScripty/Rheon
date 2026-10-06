@@ -1,0 +1,148 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "--config",
+        "skip_children=true",
+        "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/harness.rs",
+        "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/inputs.rs",
+        "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/trajectory_inputs.rs",
+        "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/candidate_helpers.rs",
+        "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/reference_helpers.rs"
+      ],
+      "exit": 0,
+      "seconds": 0.1757225110050058,
+      "stderr": "format-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "format.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/prepare.py",
+        "install"
+      ],
+      "exit": 0,
+      "seconds": 0.08406064299924765,
+      "stderr": "install-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "install.log",
+      "stdout_sha256": "656e869c0ebcc9a3876eacf56a40ae0afcc94a571be09b69bc7bf77f68575f54"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--locked",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "exit": 0,
+      "seconds": 18.023357506011962,
+      "stderr": "build-stderr.log",
+      "stderr_sha256": "e5f0eac9d744307d570883ff24375af2f91da21119c3e1085b4ca62f2bd7b1db",
+      "stdout": "build.log",
+      "stdout_sha256": "613d58a0c395911301d7463474a373aa0bdf7399060ea9667339b57cb57536c2"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--tests",
+        "--locked",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "seconds": 11.338993003999349,
+      "stderr": "clippy-stderr.log",
+      "stderr_sha256": "dae5084f31755429971c22a82c6efc1a143bae2d17fd80011a40f66e7c0398e0",
+      "stdout": "clippy.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e1-trajectories-v2-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_scalar_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.005225086992140859,
+      "stderr": "scalar-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "scalar-native.log",
+      "stdout_sha256": "c827cccbe085df24d336934a7819c951c35bc721d4026431669cdeea220d3597"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e1-trajectories-v2-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_type_layout",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.006393080999259837,
+      "stderr": "type-layout-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "type-layout.log",
+      "stdout_sha256": "a039f59baa46527dae66a915a21aab3c13487d23e0707ef883f3411757218c1a"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e1-trajectories-v2-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_generalization_baseline",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 13.963084150993382,
+      "stderr": "baseline-native-stderr.log",
+      "stderr_sha256": "356a182960df091ec3973c1e0a6fa77b488c79bb129a41a51c390bd8e2badf9d",
+      "stdout": "baseline-native.log",
+      "stdout_sha256": "958a3b656556fee26e0a858e729fb63134226bcb98fcdab78dae0bca256ba4dc"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e1-trajectories-v2-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_constructor_baseline",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.017086371997720562,
+      "stderr": "constructor-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "constructor-native.log",
+      "stdout_sha256": "02775e43ac940206d167aefe91edb94e557b6c6b780a4d4f8ae644e59e5b4203"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/prepare.py",
+        "restore"
+      ],
+      "exit": 0,
+      "seconds": 0.06278215799829923,
+      "stderr": "restore-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "restore.log",
+      "stdout_sha256": "e4b04955ae181c8e8da8615993cec1ed1bedadc9254bbcefc5bdf1fe8d55c265"
+    }
+  ],
+  "generalization_executed": false,
+  "source": "050c0a86d71a32e0e9392bd37d1d74045d291b5a",
+  "source_tree": "3942fa171b8c97ff890734540283e970d532fa51"
+}

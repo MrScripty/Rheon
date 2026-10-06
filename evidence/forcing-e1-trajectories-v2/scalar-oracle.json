@@ -1,0 +1,358 @@
+{
+  "combined_baseline_and_additional_reservation_bytes": 538920,
+  "compiled_stack_proof_still_required": true,
+  "e1_executed": false,
+  "exact_scalar_probes": 36,
+  "layout": {
+    "additional_bytes_with_ceiling": 64152,
+    "baseline_force_stack_bytes": 3776,
+    "baseline_forced_nominal_bytes": 474768,
+    "baseline_step_stack_bytes": 392416,
+    "baseline_third_stack_bytes": 20672,
+    "borrow_descriptor_bytes": 8,
+    "conformance_groups": 23,
+    "e1_not_executed": true,
+    "event": "preflight_layout",
+    "kernel_stack_ceiling": 2048,
+    "policy_id": "E1-original-complete-trajectory-66KiB-v2",
+    "scalar_bytes": 32,
+    "workspace_bytes": 62096
+  },
+  "native_assertion_groups": 23,
+  "owner_advances": 0,
+  "rows": [
+    {
+      "case": 0,
+      "expected": [
+        "40564819207303340847894502572032",
+        0,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 0,
+      "expected": [
+        "40564819207303340847894502572032",
+        -106,
+        false
+      ],
+      "op": "mul",
+      "refused": false
+    },
+    {
+      "case": 0,
+      "expected": [
+        "40564819207303340847894502572032",
+        106,
+        false
+      ],
+      "op": "div",
+      "refused": false
+    },
+    {
+      "case": 1,
+      "expected": [
+        "40564819207303340847894502572033",
+        0,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 1,
+      "expected": [
+        "40564819207303340847894502572032",
+        -105,
+        false
+      ],
+      "op": "mul",
+      "refused": false
+    },
+    {
+      "case": 1,
+      "expected": [
+        "40564819207303340847894502572032",
+        105,
+        false
+      ],
+      "op": "div",
+      "refused": false
+    },
+    {
+      "case": 2,
+      "expected": [
+        "50706024009129176059868128215040",
+        2,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 2,
+      "expected": [
+        "53241325209585634862861534625792",
+        2,
+        false
+      ],
+      "op": "mul",
+      "refused": false
+    },
+    {
+      "case": 2,
+      "expected": [
+        "69539690069662870024962004409198",
+        -2,
+        false
+      ],
+      "op": "div",
+      "refused": false
+    },
+    {
+      "case": 3,
+      "expected": [
+        "40564819207303345351494129942528",
+        -1021,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 3,
+      "expected": null,
+      "op": "mul",
+      "refused": true
+    },
+    {
+      "case": 3,
+      "expected": [
+        "81129638414606663681390495662084",
+        -1,
+        false
+      ],
+      "op": "div",
+      "refused": false
+    },
+    {
+      "case": 4,
+      "expected": [
+        "81129638414606672688589750403072",
+        1023,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 4,
+      "expected": null,
+      "op": "mul",
+      "refused": true
+    },
+    {
+      "case": 4,
+      "expected": [
+        "81129638414606672688589750403072",
+        1022,
+        false
+      ],
+      "op": "div",
+      "refused": false
+    },
+    {
+      "case": 5,
+      "expected": [
+        "40564819207303340847894502572032",
+        -1,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 5,
+      "expected": null,
+      "op": "mul",
+      "refused": true
+    },
+    {
+      "case": 5,
+      "expected": [
+        "40564819207303340847894502572032",
+        -1021,
+        false
+      ],
+      "op": "div",
+      "refused": false
+    },
+    {
+      "case": 6,
+      "expected": [
+        "0",
+        0,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 6,
+      "expected": [
+        "40564819207303340847894502572032",
+        0,
+        true
+      ],
+      "op": "mul",
+      "refused": false
+    },
+    {
+      "case": 6,
+      "expected": [
+        "40564819207303340847894502572032",
+        0,
+        true
+      ],
+      "op": "div",
+      "refused": false
+    },
+    {
+      "case": 7,
+      "expected": [
+        "0",
+        0,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 7,
+      "expected": [
+        "0",
+        0,
+        true
+      ],
+      "op": "mul",
+      "refused": false
+    },
+    {
+      "case": 7,
+      "expected": null,
+      "op": "div",
+      "refused": true
+    },
+    {
+      "case": 8,
+      "expected": [
+        "0",
+        0,
+        true
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 8,
+      "expected": [
+        "0",
+        0,
+        false
+      ],
+      "op": "mul",
+      "refused": false
+    },
+    {
+      "case": 8,
+      "expected": null,
+      "op": "div",
+      "refused": true
+    },
+    {
+      "case": 9,
+      "expected": [
+        "70988433612780846483815379501056",
+        2,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 9,
+      "expected": [
+        "60847228810955011271841753858048",
+        3,
+        false
+      ],
+      "op": "mul",
+      "refused": false
+    },
+    {
+      "case": 9,
+      "expected": [
+        "54086425609737787797192670096043",
+        0,
+        false
+      ],
+      "op": "div",
+      "refused": false
+    },
+    {
+      "case": 10,
+      "expected": [
+        "40564819207303340847894502572032",
+        -599,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 10,
+      "expected": null,
+      "op": "mul",
+      "refused": true
+    },
+    {
+      "case": 10,
+      "expected": [
+        "40564819207303340847894502572032",
+        0,
+        false
+      ],
+      "op": "div",
+      "refused": false
+    },
+    {
+      "case": 11,
+      "expected": [
+        "40564819207303340847894502572032",
+        800,
+        false
+      ],
+      "op": "add",
+      "refused": false
+    },
+    {
+      "case": 11,
+      "expected": [
+        "40564819207303340847894502572032",
+        0,
+        false
+      ],
+      "op": "mul",
+      "refused": false
+    },
+    {
+      "case": 11,
+      "expected": null,
+      "op": "div",
+      "refused": true
+    }
+  ],
+  "status": "PASS_SCALAR_ORACLE_AND_LAYOUT_ONLY"
+}

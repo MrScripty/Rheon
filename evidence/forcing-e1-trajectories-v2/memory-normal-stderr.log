@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/audit_memory.py", line 126, in <module>
+    if __name__=='__main__':print(json.dumps(run(),indent=2,sort_keys=True))
+                                             ^^^^^
+  File "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/audit_memory.py", line 106, in run
+    require(bool(pair['candidate']) and bool(pair['reference']),'matched constructor category '+suffix)
+  File "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/audit_memory.py", line 6, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: matched constructor category CoupledDiscreteFlow::new_forced_extruded
