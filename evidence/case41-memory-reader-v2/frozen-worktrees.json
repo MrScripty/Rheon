@@ -1,0 +1,110 @@
+[
+  {
+    "clean": true,
+    "head": "f76841e9217e781d91c5bfeabadb6b4c6f42b20b",
+    "tree": "b9d0444dd5b661bae470b8fe6fa9fb9f547311fc",
+    "worktree": "/workspace/Rheon"
+  },
+  {
+    "clean": true,
+    "head": "c210d9ff630504748fad129337aaa84e013522a6",
+    "tree": "412bcae8cf87b79b73a995e6f47d377859c6cebc",
+    "worktree": "/workspace/Rheon-affine-rounding-contract"
+  },
+  {
+    "clean": true,
+    "head": "8fc718ff603e7a7123037e592b4f40f59762e011",
+    "tree": "d9b51b3e2c1b186ea2d4b139d53bfe38a4ff678f",
+    "worktree": "/workspace/Rheon-case41-next-plan"
+  },
+  {
+    "clean": true,
+    "head": "be99b8962ba9c20d9e0a99218a1d2f62f120da45",
+    "tree": "24222bab14a8ca2118578544b9982ca50e5beacf",
+    "worktree": "/workspace/Rheon-column-final-repair"
+  },
+  {
+    "clean": true,
+    "head": "b46d26c8fe06f9c331c5cee4e06af6e34fa9190c",
+    "tree": "96045fb873ad9f1e00134a46e6e3d6efcda69567",
+    "worktree": "/workspace/Rheon-e1-diagnostics"
+  },
+  {
+    "clean": true,
+    "head": "008fdd02ca41e88821bfa8999283347bab3455eb",
+    "tree": "cd1b58c862bb8f76d75adbbcdc3cd79648012338",
+    "worktree": "/workspace/Rheon-e1-trajectories"
+  },
+  {
+    "clean": true,
+    "head": "2f23503d9bf74842e39f9fe0760edf4bfeb41b4c",
+    "tree": "d178347673f026cd9336f5909318208416d9e783",
+    "worktree": "/workspace/Rheon-e2-fixed-candidates"
+  },
+  {
+    "clean": true,
+    "head": "998de18438a339d44896d24ecf9634ad469cdcdf",
+    "tree": "351f165a4bcc4aa6338e2be96d1e31698aec0b6e",
+    "worktree": "/workspace/Rheon-e2-followup"
+  },
+  {
+    "clean": true,
+    "head": "26154d9a32e193b35d9cda0b02b2d7c5f770cfeb",
+    "tree": "0ab66f91dc28e2c762cb9ff65207f05482e699f7",
+    "worktree": "/workspace/Rheon-fd-pure-e2"
+  },
+  {
+    "clean": true,
+    "head": "dad53b4054034fe0c2ff6240464df7441ab4e6a9",
+    "tree": "57648befc4e108bf8d727b3367adf7e119cdebc1",
+    "worktree": "/workspace/Rheon-finer-refusals"
+  },
+  {
+    "clean": true,
+    "head": "f0b81b4a5f76cb706e645fad4f38faf028c5727e",
+    "tree": "59927a7fb02d949859b78f7e78865d1717f19870",
+    "worktree": "/workspace/Rheon-forcing-arithmetic"
+  },
+  {
+    "clean": true,
+    "head": "1e90ed562f200327925c3f0b0255067aa413e0f1",
+    "tree": "b491b694b05b761acf6e3ec0f27ac9d1d37b8614",
+    "worktree": "/workspace/Rheon-increment-comparison"
+  },
+  {
+    "clean": true,
+    "head": "704842c368953e47df279728935e20cfda89f0c5",
+    "tree": "70d8e13d50d2b2b9e6cc94185c60b73a1997d627",
+    "worktree": "/workspace/Rheon-increment-contract"
+  },
+  {
+    "clean": true,
+    "head": "ec26e48df958f0ebc60af414253ff98c0007dc13",
+    "tree": "452d56712e2cc1bcbeeec29297eb1c18bb9f40c4",
+    "worktree": "/workspace/Rheon-oracle-repair"
+  },
+  {
+    "clean": true,
+    "head": "4d60e9637431a8d9792944bcd9ff00979ead237e",
+    "tree": "76e112bba2f055214fade4f1ff8997a85de9cb3e",
+    "worktree": "/workspace/Rheon-public-call"
+  },
+  {
+    "clean": true,
+    "head": "e3b6858d2d29fc8837dbf2acd84db0c01784a352",
+    "tree": "d9d88dd63e9bbc7d1b6b0c49e041af1fc220403e",
+    "worktree": "/workspace/Rheon-public-call-66k"
+  },
+  {
+    "clean": true,
+    "head": "676c6feaf906a965920f37792e07e2d4d623b3d2",
+    "tree": "129ae953bcf59750cd6ba9054ff4b9d03ed81184",
+    "worktree": "/workspace/Rheon-public-generalization"
+  },
+  {
+    "clean": true,
+    "head": "49c47b9a344ec277e2eaa0a5315b27a51ed2f17c",
+    "tree": "69def74e09a06c46a812eaadb8530a53306b9daa",
+    "worktree": "/workspace/Rheon-terminal-main"
+  }
+]

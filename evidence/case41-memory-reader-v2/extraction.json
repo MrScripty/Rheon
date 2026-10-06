@@ -1,0 +1,63 @@
+{
+  "binary": "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "48f58e62577eef569e942d3e8e7139701613091076a736c015bee5256691ba72",
+  "build_invocations": 0,
+  "compiled_source": "c238111d8c8d159c157e489294a25998aaf36516",
+  "compiled_source_tree": "c87e9c658cad27df708a34aa63bccf9868095598",
+  "files": {
+    "candidate-array-helper-1.asm.txt": {
+      "address": "0x1b3710",
+      "sha256": "9e90d1c10ea3a0b6b24c3ab46a8f6b2866fb162ef1806d2cf03437f7bc780a9b",
+      "symbol": "core::array::drain::drain_array_with"
+    },
+    "candidate-array-helper-2.asm.txt": {
+      "address": "0x1b3390",
+      "sha256": "9f8f399d4b622f9ed30b0cbe213978e5fa02c39a81efacf69af7e8f68cbb443a",
+      "symbol": "core::array::drain::drain_array_with"
+    },
+    "candidate-capture.asm.txt": {
+      "address": "0x12a050",
+      "sha256": "b7edca55c7047dfe0f6143cfec853f9f8c195ec1858ac08982c3494cc5094a06",
+      "symbol": "rheon::research_public_call::candidate::case41_fd_capture"
+    },
+    "candidate-observer.asm.txt": {
+      "address": "0x140080",
+      "sha256": "4008facf397507efba7ff8688d5f7241e4fea2ef3efd0379389a5a7d42a19967",
+      "symbol": "rheon::research_public_call::candidate::Work::case41_fd_equation"
+    },
+    "candidate-partition.asm.txt": {
+      "address": "0x166c30",
+      "sha256": "5440334f20612f602e93e70eeb6c7ea6cf2fa1f68eeeff71b1ca1dd690a9bcbf",
+      "symbol": "rheon::research_public_call::candidate::Work::partition"
+    },
+    "candidate-point.asm.txt": {
+      "address": "0x1566a0",
+      "sha256": "d4dbd0cbf9a231071716463108145ee7111788a202b6a5c2b3cd74f8cde115d9",
+      "symbol": "rheon::research_public_call::candidate::Work::point"
+    },
+    "candidate-sort-helper.asm.txt": {
+      "address": "0x1ceb40",
+      "sha256": "9242ba736558c06a1fab202cdad32f8929bf20ce727c796f362b1b380666b651",
+      "symbol": "core::slice::sort::unstable::ipnsort"
+    },
+    "outer-test.asm.txt": {
+      "address": "0x1b5db0",
+      "sha256": "55db00c27b15d9e03d7cbd4d9dd5253c208c9e096dd65c6dd8f1a0ca08ce26e7",
+      "symbol": "rheon::research_public_call::case41_six_columns_only"
+    },
+    "reference-observer.asm.txt": {
+      "address": "0x17db00",
+      "sha256": "a0387bb98bfdea3a6014ba4d00371561144ca7278685c1adfd3fb0265a42b1cd",
+      "symbol": "rheon::research_public_call::reference::Work::capture_equations"
+    }
+  },
+  "matches_original_archive": true,
+  "native_equations": 0,
+  "objdump_argv": [
+    "objdump",
+    "-d",
+    "-C",
+    "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3"
+  ],
+  "owner_advances": 0
+}

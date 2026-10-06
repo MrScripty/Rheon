@@ -1,0 +1,104 @@
+00000000001b5db0 <rheon::research_public_call::case41_six_columns_only>:
+  1b5db0:	41 56                	push   %r14
+  1b5db2:	53                   	push   %rbx
+  1b5db3:	49 89 e3             	mov    %rsp,%r11
+  1b5db6:	49 81 eb 00 f0 00 00 	sub    $0xf000,%r11
+  1b5dbd:	48 81 ec 00 10 00 00 	sub    $0x1000,%rsp
+  1b5dc4:	48 c7 04 24 00 00 00 	movq   $0x0,(%rsp)
+  1b5dcb:	00 
+  1b5dcc:	4c 39 dc             	cmp    %r11,%rsp
+  1b5dcf:	75 ec                	jne    1b5dbd <rheon::research_public_call::case41_six_columns_only+0xd>
+  1b5dd1:	48 81 ec d8 02 00 00 	sub    $0x2d8,%rsp
+  1b5dd8:	48 8d 35 d4 26 e7 ff 	lea    -0x18d92c(%rip),%rsi        # 284b3 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.43.llvm.10282014458859423806>
+  1b5ddf:	48 8d 7c 24 40       	lea    0x40(%rsp),%rdi
+  1b5de4:	ba 15 00 00 00       	mov    $0x15,%edx
+  1b5de9:	ff 15 41 95 12 00    	call   *0x129541(%rip)        # 2df330 <_DYNAMIC+0x378>
+  1b5def:	83 7c 24 40 01       	cmpl   $0x1,0x40(%rsp)
+  1b5df4:	0f 84 91 00 00 00    	je     1b5e8b <rheon::research_public_call::case41_six_columns_only+0xdb>
+  1b5dfa:	48 8b 44 24 58       	mov    0x58(%rsp),%rax
+  1b5dff:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+  1b5e04:	0f 10 44 24 48       	movups 0x48(%rsp),%xmm0
+  1b5e09:	0f 29 04 24          	movaps %xmm0,(%rsp)
+  1b5e0d:	48 83 f8 36          	cmp    $0x36,%rax
+  1b5e11:	0f 85 b4 00 00 00    	jne    1b5ecb <rheon::research_public_call::case41_six_columns_only+0x11b>
+  1b5e17:	48 8b 5c 24 08       	mov    0x8(%rsp),%rbx
+  1b5e1c:	48 8d 35 a5 26 e7 ff 	lea    -0x18d95b(%rip),%rsi        # 284c8 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.45.llvm.10282014458859423806>
+  1b5e23:	ba 36 00 00 00       	mov    $0x36,%edx
+  1b5e28:	48 89 df             	mov    %rbx,%rdi
+  1b5e2b:	ff 15 77 94 12 00    	call   *0x129477(%rip)        # 2df2a8 <bcmp@GLIBC_2.2.5>
+  1b5e31:	85 c0                	test   %eax,%eax
+  1b5e33:	0f 85 92 00 00 00    	jne    1b5ecb <rheon::research_public_call::case41_six_columns_only+0x11b>
+  1b5e39:	48 8b 34 24          	mov    (%rsp),%rsi
+  1b5e3d:	48 85 f6             	test   %rsi,%rsi
+  1b5e40:	74 0e                	je     1b5e50 <rheon::research_public_call::case41_six_columns_only+0xa0>
+  1b5e42:	ba 01 00 00 00       	mov    $0x1,%edx
+  1b5e47:	48 89 df             	mov    %rbx,%rdi
+  1b5e4a:	ff 15 f0 93 12 00    	call   *0x1293f0(%rip)        # 2df240 <_DYNAMIC+0x288>
+  1b5e50:	48 c7 84 24 c0 f2 00 	movq   $0x0,0xf2c0(%rsp)
+  1b5e57:	00 00 00 00 00 
+  1b5e5c:	48 8d 5c 24 40       	lea    0x40(%rsp),%rbx
+  1b5e61:	ba 7f f2 00 00       	mov    $0xf27f,%edx
+  1b5e66:	48 89 df             	mov    %rbx,%rdi
+  1b5e69:	31 f6                	xor    %esi,%esi
+  1b5e6b:	ff 15 df 93 12 00    	call   *0x1293df(%rip)        # 2df250 <memset@GLIBC_2.2.5>
+  1b5e71:	48 8d 3d a8 15 e7 ff 	lea    -0x18ea58(%rip),%rdi        # 27420 <rheon::research_public_call::FIXED_CASES>
+  1b5e78:	48 89 de             	mov    %rbx,%rsi
+  1b5e7b:	e8 d0 41 f7 ff       	call   12a050 <rheon::research_public_call::candidate::case41_fd_capture>
+  1b5e80:	48 81 c4 d8 f2 00 00 	add    $0xf2d8,%rsp
+  1b5e87:	5b                   	pop    %rbx
+  1b5e88:	41 5e                	pop    %r14
+  1b5e8a:	c3                   	ret
+  1b5e8b:	4c 8d 74 24 28       	lea    0x28(%rsp),%r14
+  1b5e90:	48 8b 44 24 58       	mov    0x58(%rsp),%rax
+  1b5e95:	48 89 44 24 30       	mov    %rax,0x30(%rsp)
+  1b5e9a:	0f 10 44 24 48       	movups 0x48(%rsp),%xmm0
+  1b5e9f:	0f 29 44 24 20       	movaps %xmm0,0x20(%rsp)
+  1b5ea4:	48 8d 3d 32 15 e7 ff 	lea    -0x18eace(%rip),%rdi        # 273dd <anon.9edbdfa1096475c9f24f3bdc5a1ad100.7.llvm.10282014458859423806>
+  1b5eab:	48 8d 0d ce 2d 11 00 	lea    0x112dce(%rip),%rcx        # 2c8c80 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.9.llvm.10282014458859423806>
+  1b5eb2:	4c 8d 05 ef 3e 11 00 	lea    0x113eef(%rip),%r8        # 2c9da8 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.44.llvm.10282014458859423806>
+  1b5eb9:	48 8d 54 24 20       	lea    0x20(%rsp),%rdx
+  1b5ebe:	be 2b 00 00 00       	mov    $0x2b,%esi
+  1b5ec3:	ff 15 ef 93 12 00    	call   *0x1293ef(%rip)        # 2df2b8 <_DYNAMIC+0x300>
+  1b5ec9:	eb 2b                	jmp    1b5ef6 <rheon::research_public_call::case41_six_columns_only+0x146>
+  1b5ecb:	4c 8d 74 24 08       	lea    0x8(%rsp),%r14
+  1b5ed0:	48 c7 44 24 40 00 00 	movq   $0x0,0x40(%rsp)
+  1b5ed7:	00 00 
+  1b5ed9:	48 8d 15 e0 3e 11 00 	lea    0x113ee0(%rip),%rdx        # 2c9dc0 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.46.llvm.10282014458859423806>
+  1b5ee0:	4c 8d 05 e9 3e 11 00 	lea    0x113ee9(%rip),%r8        # 2c9dd0 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.47.llvm.10282014458859423806>
+  1b5ee7:	48 89 e6             	mov    %rsp,%rsi
+  1b5eea:	48 8d 4c 24 40       	lea    0x40(%rsp),%rcx
+  1b5eef:	31 ff                	xor    %edi,%edi
+  1b5ef1:	e8 ee 90 01 00       	call   1cefe4 <core::panicking::assert_failed>
+  1b5ef6:	0f 0b                	ud2
+  1b5ef8:	48 89 c3             	mov    %rax,%rbx
+  1b5efb:	48 8b 34 24          	mov    (%rsp),%rsi
+  1b5eff:	48 85 f6             	test   %rsi,%rsi
+  1b5f02:	74 0e                	je     1b5f12 <rheon::research_public_call::case41_six_columns_only+0x162>
+  1b5f04:	49 8b 3e             	mov    (%r14),%rdi
+  1b5f07:	ba 01 00 00 00       	mov    $0x1,%edx
+  1b5f0c:	ff 15 2e 93 12 00    	call   *0x12932e(%rip)        # 2df240 <_DYNAMIC+0x288>
+  1b5f12:	48 89 df             	mov    %rbx,%rdi
+  1b5f15:	e8 96 e1 10 00       	call   2c40b0 <_Unwind_Resume@plt>
+  1b5f1a:	48 89 c3             	mov    %rax,%rbx
+  1b5f1d:	48 8b 74 24 20       	mov    0x20(%rsp),%rsi
+  1b5f22:	48 8d 04 75 00 00 00 	lea    0x0(,%rsi,2),%rax
+  1b5f29:	00 
+  1b5f2a:	48 85 c0             	test   %rax,%rax
+  1b5f2d:	74 e3                	je     1b5f12 <rheon::research_public_call::case41_six_columns_only+0x162>
+  1b5f2f:	eb d3                	jmp    1b5f04 <rheon::research_public_call::case41_six_columns_only+0x154>
+  1b5f31:	cc                   	int3
+  1b5f32:	cc                   	int3
+  1b5f33:	cc                   	int3
+  1b5f34:	cc                   	int3
+  1b5f35:	cc                   	int3
+  1b5f36:	cc                   	int3
+  1b5f37:	cc                   	int3
+  1b5f38:	cc                   	int3
+  1b5f39:	cc                   	int3
+  1b5f3a:	cc                   	int3
+  1b5f3b:	cc                   	int3
+  1b5f3c:	cc                   	int3
+  1b5f3d:	cc                   	int3
+  1b5f3e:	cc                   	int3
+  1b5f3f:	cc                   	int3
+

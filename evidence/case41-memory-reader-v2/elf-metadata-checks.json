@@ -1,0 +1,36 @@
+[
+  {
+    "argv": [
+      "nm",
+      "-S",
+      "-nC",
+      "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3"
+    ],
+    "exit": 0,
+    "matches_archived": true,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "3f2f09aa79ad923091b6e297fce78256fd0e5f58811d04089ca18110d03c5314"
+  },
+  {
+    "argv": [
+      "readelf",
+      "-rW",
+      "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3"
+    ],
+    "exit": 0,
+    "matches_archived": true,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "bf36569c2e4ae31c9cf4d6e14b064a00dc4cd0ad8d49d1941c94eaf50855d6ff"
+  },
+  {
+    "argv": [
+      "readelf",
+      "-hW",
+      "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3"
+    ],
+    "exit": 0,
+    "matches_archived": true,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "5a27d8c791d1dec56e59b1712b64cccb1601ee1a1888c63b0dd42733d1497876"
+  }
+]

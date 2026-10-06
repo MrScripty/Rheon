@@ -1,0 +1,27 @@
+{
+  "complete_memory_bound": null,
+  "controls": [
+    {
+      "case": "one-sided-missing-point",
+      "reason": "absorbed body retains actual point and partition calls",
+      "status": "REJECTED"
+    },
+    {
+      "case": "missing-absorbed-body-edge",
+      "reason": "absorbed body retains actual point and partition calls",
+      "status": "REJECTED"
+    },
+    {
+      "case": "outer-smaller-than-workspace",
+      "reason": "outer contains full workspace",
+      "status": "REJECTED"
+    },
+    {
+      "case": "unknown-indirect-call",
+      "status": "BLOCKED_WITH_TRANSFER_RETAINED"
+    }
+  ],
+  "native_equations": 0,
+  "owner_advances": 0,
+  "status": "PASS_READER_CHECKS_AND_FOUR_FAIL_CLOSED_CONTROLS"
+}

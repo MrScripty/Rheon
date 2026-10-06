@@ -1,0 +1,42 @@
+00000000001b3390 <core::array::drain::drain_array_with>:
+  1b3390:	50                   	push   %rax
+  1b3391:	48 8b 06             	mov    (%rsi),%rax
+  1b3394:	4c 8b 82 18 01 00 00 	mov    0x118(%rdx),%r8
+  1b339b:	4c 39 c0             	cmp    %r8,%rax
+  1b339e:	73 6b                	jae    1b340b <core::array::drain::drain_array_with+0x7b>
+  1b33a0:	48 8b 4e 08          	mov    0x8(%rsi),%rcx
+  1b33a4:	4c 39 c1             	cmp    %r8,%rcx
+  1b33a7:	73 62                	jae    1b340b <core::array::drain::drain_array_with+0x7b>
+  1b33a9:	48 8b 76 10          	mov    0x10(%rsi),%rsi
+  1b33ad:	4c 39 c6             	cmp    %r8,%rsi
+  1b33b0:	73 59                	jae    1b340b <core::array::drain::drain_array_with+0x7b>
+  1b33b2:	48 8b 92 10 01 00 00 	mov    0x110(%rdx),%rdx
+  1b33b9:	48 c1 e0 05          	shl    $0x5,%rax
+  1b33bd:	f2 0f 10 44 02 08    	movsd  0x8(%rdx,%rax,1),%xmm0
+  1b33c3:	f2 0f 10 4c 02 18    	movsd  0x18(%rdx,%rax,1),%xmm1
+  1b33c9:	48 c1 e1 05          	shl    $0x5,%rcx
+  1b33cd:	f2 0f 10 54 0a 08    	movsd  0x8(%rdx,%rcx,1),%xmm2
+  1b33d3:	f2 0f 10 5c 0a 18    	movsd  0x18(%rdx,%rcx,1),%xmm3
+  1b33d9:	48 c1 e6 05          	shl    $0x5,%rsi
+  1b33dd:	f2 0f 10 64 32 08    	movsd  0x8(%rdx,%rsi,1),%xmm4
+  1b33e3:	f2 0f 10 6c 32 18    	movsd  0x18(%rdx,%rsi,1),%xmm5
+  1b33e9:	f2 0f 11 07          	movsd  %xmm0,(%rdi)
+  1b33ed:	f2 0f 11 4f 08       	movsd  %xmm1,0x8(%rdi)
+  1b33f2:	f2 0f 11 57 10       	movsd  %xmm2,0x10(%rdi)
+  1b33f7:	f2 0f 11 5f 18       	movsd  %xmm3,0x18(%rdi)
+  1b33fc:	f2 0f 11 67 20       	movsd  %xmm4,0x20(%rdi)
+  1b3401:	f2 0f 11 6f 28       	movsd  %xmm5,0x28(%rdi)
+  1b3406:	48 89 f8             	mov    %rdi,%rax
+  1b3409:	59                   	pop    %rcx
+  1b340a:	c3                   	ret
+  1b340b:	48 8d 3d 06 cd 11 00 	lea    0x11cd06(%rip),%rdi        # 2d0118 <anon.a769ce136999d774f2c23fe4e856fb3c.14.llvm.314653179004520100>
+  1b3412:	ff 15 40 be 12 00    	call   *0x12be40(%rip)        # 2df258 <_DYNAMIC+0x2a0>
+  1b3418:	cc                   	int3
+  1b3419:	cc                   	int3
+  1b341a:	cc                   	int3
+  1b341b:	cc                   	int3
+  1b341c:	cc                   	int3
+  1b341d:	cc                   	int3
+  1b341e:	cc                   	int3
+  1b341f:	cc                   	int3
+

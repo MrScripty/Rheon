@@ -1,0 +1,74 @@
+[
+  {
+    "FD_allow_present": false,
+    "argv": [
+      "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_scalar_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.0031180939986370504,
+    "stderr": "scalar-native-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "scalar-native.log",
+    "stdout_sha256": "4efe46d087efdbbbdddcdc24bf210b0dfe73bc2d41976628a1e720d20a0a7df8"
+  },
+  {
+    "FD_allow_present": false,
+    "argv": [
+      "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_type_layout",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.0030542480089934543,
+    "stderr": "type-layout-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "type-layout.log",
+    "stdout_sha256": "fbc9527f6f180ac7ca4e2ac2b2e7487742ede54cb7d5cf83fd5b32ed86156981"
+  },
+  {
+    "FD_allow_present": false,
+    "argv": [
+      "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::scalar_affine_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.002616129000671208,
+    "stderr": "affine-native-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "affine-native.log",
+    "stdout_sha256": "abb961a4dc19e0e652a17647b634e094253f0b8db652a4700706115161ff830b"
+  },
+  {
+    "FD_allow_present": false,
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/Rheon-case41-memory-reader/evidence/case41-memory-reader-v2/audit_memory.py"
+    ],
+    "exit": 0,
+    "seconds": 3.252347337998799,
+    "stderr": "memory-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "memory-normal.log",
+    "stdout_sha256": "aa1a5332d68ef04693d3de0baf4fa0f887c63f1f1bb987092e4aae2c02eb6bc2"
+  },
+  {
+    "FD_allow_present": false,
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "/workspace/Rheon-case41-memory-reader/evidence/case41-memory-reader-v2/audit_memory.py"
+    ],
+    "exit": 0,
+    "seconds": 3.0208045179897454,
+    "stderr": "memory-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "memory-optimized.log",
+    "stdout_sha256": "aa1a5332d68ef04693d3de0baf4fa0f887c63f1f1bb987092e4aae2c02eb6bc2"
+  }
+]

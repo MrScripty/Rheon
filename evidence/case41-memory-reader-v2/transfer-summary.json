@@ -1,0 +1,75 @@
+{
+  "candidate_only_targets": [
+    {
+      "address": "0x2bb0a7",
+      "callers": [
+        "rheon::research_public_call::candidate::case41_fd_capture"
+      ],
+      "names": [
+        "core::panicking::assert_failed"
+      ],
+      "transfer_count": 1
+    },
+    {
+      "address": "0x1b3710",
+      "callers": [
+        "rheon::research_public_call::candidate::Work::point"
+      ],
+      "names": [
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with"
+      ],
+      "transfer_count": 1
+    },
+    {
+      "address": "0x1b3390",
+      "callers": [
+        "rheon::research_public_call::candidate::Work::point"
+      ],
+      "names": [
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with",
+        "core::array::drain::drain_array_with"
+      ],
+      "transfer_count": 1
+    },
+    {
+      "address": "0x1ceb40",
+      "callers": [
+        "rheon::fitted_height::FittedHeightWorkspace::build"
+      ],
+      "names": [
+        "core::slice::sort::unstable::ipnsort"
+      ],
+      "transfer_count": 1
+    }
+  ],
+  "common_target_does_not_prove_common_memory": true,
+  "complete_memory_bound": null,
+  "counts": {
+    "candidate": {
+      "external_dynamic_binding": 60,
+      "external_linked_function": 319
+    },
+    "reference": {
+      "external_dynamic_binding": 145,
+      "external_linked_function": 576
+    }
+  },
+  "distinct_candidate_targets": 41,
+  "distinct_reference_targets": 41,
+  "status": "BLOCKED_EXTERNAL_TRANSFER_ACCOUNTING"
+}

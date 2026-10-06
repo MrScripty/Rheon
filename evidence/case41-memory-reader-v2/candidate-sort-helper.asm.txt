@@ -1,0 +1,94 @@
+00000000001ceb40 <core::slice::sort::unstable::ipnsort>:
+  1ceb40:	48 83 fe 02          	cmp    $0x2,%rsi
+  1ceb44:	0f 82 cf 00 00 00    	jb     1cec19 <core::slice::sort::unstable::ipnsort+0xd9>
+  1ceb4a:	49 89 d0             	mov    %rdx,%r8
+  1ceb4d:	48 8b 07             	mov    (%rdi),%rax
+  1ceb50:	48 8b 4f 28          	mov    0x28(%rdi),%rcx
+  1ceb54:	48 39 c1             	cmp    %rax,%rcx
+  1ceb57:	75 0d                	jne    1ceb66 <core::slice::sort::unstable::ipnsort+0x26>
+  1ceb59:	48 8b 47 08          	mov    0x8(%rdi),%rax
+  1ceb5d:	48 8b 4f 30          	mov    0x30(%rdi),%rcx
+  1ceb61:	48 39 c1             	cmp    %rax,%rcx
+  1ceb64:	74 46                	je     1cebac <core::slice::sort::unstable::ipnsort+0x6c>
+  1ceb66:	48 39 c1             	cmp    %rax,%rcx
+  1ceb69:	73 41                	jae    1cebac <core::slice::sort::unstable::ipnsort+0x6c>
+  1ceb6b:	b8 02 00 00 00       	mov    $0x2,%eax
+  1ceb70:	b1 01                	mov    $0x1,%cl
+  1ceb72:	48 83 fe 02          	cmp    $0x2,%rsi
+  1ceb76:	74 45                	je     1cebbd <core::slice::sort::unstable::ipnsort+0x7d>
+  1ceb78:	48 8d 57 58          	lea    0x58(%rdi),%rdx
+  1ceb7c:	0f 1f 40 00          	nopl   0x0(%rax)
+  1ceb80:	4c 8b 4a d0          	mov    -0x30(%rdx),%r9
+  1ceb84:	4c 8b 52 f8          	mov    -0x8(%rdx),%r10
+  1ceb88:	4d 39 ca             	cmp    %r9,%r10
+  1ceb8b:	75 0c                	jne    1ceb99 <core::slice::sort::unstable::ipnsort+0x59>
+  1ceb8d:	4c 8b 4a d8          	mov    -0x28(%rdx),%r9
+  1ceb91:	4c 8b 12             	mov    (%rdx),%r10
+  1ceb94:	4d 39 ca             	cmp    %r9,%r10
+  1ceb97:	74 24                	je     1cebbd <core::slice::sort::unstable::ipnsort+0x7d>
+  1ceb99:	4d 39 ca             	cmp    %r9,%r10
+  1ceb9c:	73 1f                	jae    1cebbd <core::slice::sort::unstable::ipnsort+0x7d>
+  1ceb9e:	48 ff c0             	inc    %rax
+  1ceba1:	48 83 c2 28          	add    $0x28,%rdx
+  1ceba5:	48 39 c6             	cmp    %rax,%rsi
+  1ceba8:	75 d6                	jne    1ceb80 <core::slice::sort::unstable::ipnsort+0x40>
+  1cebaa:	eb 1a                	jmp    1cebc6 <core::slice::sort::unstable::ipnsort+0x86>
+  1cebac:	48 83 fe 02          	cmp    $0x2,%rsi
+  1cebb0:	0f 85 7e 00 00 00    	jne    1cec34 <core::slice::sort::unstable::ipnsort+0xf4>
+  1cebb6:	b8 02 00 00 00       	mov    $0x2,%eax
+  1cebbb:	31 c9                	xor    %ecx,%ecx
+  1cebbd:	48 39 f0             	cmp    %rsi,%rax
+  1cebc0:	75 58                	jne    1cec1a <core::slice::sort::unstable::ipnsort+0xda>
+  1cebc2:	84 c9                	test   %cl,%cl
+  1cebc4:	74 53                	je     1cec19 <core::slice::sort::unstable::ipnsort+0xd9>
+  1cebc6:	48 8d 04 b6          	lea    (%rsi,%rsi,4),%rax
+  1cebca:	48 d1 ee             	shr    $1,%rsi
+  1cebcd:	48 8d 04 c7          	lea    (%rdi,%rax,8),%rax
+  1cebd1:	48 83 c0 f8          	add    $0xfffffffffffffff8,%rax
+  1cebd5:	48 83 c7 20          	add    $0x20,%rdi
+  1cebd9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  1cebe0:	0f 10 47 e0          	movups -0x20(%rdi),%xmm0
+  1cebe4:	0f 10 48 e0          	movups -0x20(%rax),%xmm1
+  1cebe8:	0f 11 4f e0          	movups %xmm1,-0x20(%rdi)
+  1cebec:	0f 11 40 e0          	movups %xmm0,-0x20(%rax)
+  1cebf0:	0f 10 47 f0          	movups -0x10(%rdi),%xmm0
+  1cebf4:	0f 10 48 f0          	movups -0x10(%rax),%xmm1
+  1cebf8:	0f 11 4f f0          	movups %xmm1,-0x10(%rdi)
+  1cebfc:	0f 11 40 f0          	movups %xmm0,-0x10(%rax)
+  1cec00:	48 8b 0f             	mov    (%rdi),%rcx
+  1cec03:	48 8b 10             	mov    (%rax),%rdx
+  1cec06:	48 89 17             	mov    %rdx,(%rdi)
+  1cec09:	48 89 08             	mov    %rcx,(%rax)
+  1cec0c:	48 83 c7 28          	add    $0x28,%rdi
+  1cec10:	48 83 c0 d8          	add    $0xffffffffffffffd8,%rax
+  1cec14:	48 ff ce             	dec    %rsi
+  1cec17:	75 c7                	jne    1cebe0 <core::slice::sort::unstable::ipnsort+0xa0>
+  1cec19:	c3                   	ret
+  1cec1a:	48 89 f0             	mov    %rsi,%rax
+  1cec1d:	48 83 c8 01          	or     $0x1,%rax
+  1cec21:	48 0f bd c8          	bsr    %rax,%rcx
+  1cec25:	83 f1 3f             	xor    $0x3f,%ecx
+  1cec28:	01 c9                	add    %ecx,%ecx
+  1cec2a:	83 f1 7e             	xor    $0x7e,%ecx
+  1cec2d:	31 d2                	xor    %edx,%edx
+  1cec2f:	e9 7c 61 ff ff       	jmp    1c4db0 <core::slice::sort::unstable::quicksort::quicksort>
+  1cec34:	48 8d 4f 58          	lea    0x58(%rdi),%rcx
+  1cec38:	b8 02 00 00 00       	mov    $0x2,%eax
+  1cec3d:	eb 16                	jmp    1cec55 <core::slice::sort::unstable::ipnsort+0x115>
+  1cec3f:	90                   	nop
+  1cec40:	49 39 d1             	cmp    %rdx,%r9
+  1cec43:	0f 82 72 ff ff ff    	jb     1cebbb <core::slice::sort::unstable::ipnsort+0x7b>
+  1cec49:	48 ff c0             	inc    %rax
+  1cec4c:	48 83 c1 28          	add    $0x28,%rcx
+  1cec50:	48 39 c6             	cmp    %rax,%rsi
+  1cec53:	74 c4                	je     1cec19 <core::slice::sort::unstable::ipnsort+0xd9>
+  1cec55:	48 8b 51 d0          	mov    -0x30(%rcx),%rdx
+  1cec59:	4c 8b 49 f8          	mov    -0x8(%rcx),%r9
+  1cec5d:	49 39 d1             	cmp    %rdx,%r9
+  1cec60:	75 de                	jne    1cec40 <core::slice::sort::unstable::ipnsort+0x100>
+  1cec62:	48 8b 51 d8          	mov    -0x28(%rcx),%rdx
+  1cec66:	4c 8b 09             	mov    (%rcx),%r9
+  1cec69:	49 39 d1             	cmp    %rdx,%r9
+  1cec6c:	75 d2                	jne    1cec40 <core::slice::sort::unstable::ipnsort+0x100>
+  1cec6e:	eb d9                	jmp    1cec49 <core::slice::sort::unstable::ipnsort+0x109>
+

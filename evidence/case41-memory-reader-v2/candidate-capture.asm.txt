@@ -1,0 +1,1639 @@
+000000000012a050 <rheon::research_public_call::candidate::case41_fd_capture>:
+  12a050:	55                   	push   %rbp
+  12a051:	41 57                	push   %r15
+  12a053:	41 56                	push   %r14
+  12a055:	41 55                	push   %r13
+  12a057:	41 54                	push   %r12
+  12a059:	53                   	push   %rbx
+  12a05a:	48 81 ec 00 10 00 00 	sub    $0x1000,%rsp
+  12a061:	48 c7 04 24 00 00 00 	movq   $0x0,(%rsp)
+  12a068:	00 
+  12a069:	48 81 ec 00 10 00 00 	sub    $0x1000,%rsp
+  12a070:	48 c7 04 24 00 00 00 	movq   $0x0,(%rsp)
+  12a077:	00 
+  12a078:	48 81 ec 98 05 00 00 	sub    $0x598,%rsp
+  12a07f:	48 89 74 24 30       	mov    %rsi,0x30(%rsp)
+  12a084:	49 89 fe             	mov    %rdi,%r14
+  12a087:	48 83 bf 80 07 00 00 	cmpq   $0x29,0x780(%rdi)
+  12a08e:	29 
+  12a08f:	0f 85 91 17 00 00    	jne    12b826 <rheon::research_public_call::candidate::case41_fd_capture+0x17d6>
+  12a095:	48 8d 9c 24 98 05 00 	lea    0x598(%rsp),%rbx
+  12a09c:	00 
+  12a09d:	ba 80 01 00 00       	mov    $0x180,%edx
+  12a0a2:	48 89 df             	mov    %rbx,%rdi
+  12a0a5:	4c 89 f6             	mov    %r14,%rsi
+  12a0a8:	ff 15 b2 51 1b 00    	call   *0x1b51b2(%rip)        # 2df260 <memcpy@GLIBC_2.14>
+  12a0ae:	48 8d bc 24 18 24 00 	lea    0x2418(%rsp),%rdi
+  12a0b5:	00 
+  12a0b6:	48 89 de             	mov    %rbx,%rsi
+  12a0b9:	e8 62 93 08 00       	call   1b3420 <core::array::drain::drain_array_with>
+  12a0be:	41 0f 10 86 80 01 00 	movups 0x180(%r14),%xmm0
+  12a0c5:	00 
+  12a0c6:	0f 29 84 24 20 03 00 	movaps %xmm0,0x320(%rsp)
+  12a0cd:	00 
+  12a0ce:	41 0f 10 86 90 01 00 	movups 0x190(%r14),%xmm0
+  12a0d5:	00 
+  12a0d6:	0f 29 84 24 30 03 00 	movaps %xmm0,0x330(%rsp)
+  12a0dd:	00 
+  12a0de:	41 0f 10 86 a0 01 00 	movups 0x1a0(%r14),%xmm0
+  12a0e5:	00 
+  12a0e6:	0f 29 84 24 40 03 00 	movaps %xmm0,0x340(%rsp)
+  12a0ed:	00 
+  12a0ee:	41 0f 10 86 b0 01 00 	movups 0x1b0(%r14),%xmm0
+  12a0f5:	00 
+  12a0f6:	0f 29 84 24 50 03 00 	movaps %xmm0,0x350(%rsp)
+  12a0fd:	00 
+  12a0fe:	41 0f 10 86 c0 01 00 	movups 0x1c0(%r14),%xmm0
+  12a105:	00 
+  12a106:	0f 29 84 24 60 03 00 	movaps %xmm0,0x360(%rsp)
+  12a10d:	00 
+  12a10e:	4d 8b ae d8 01 00 00 	mov    0x1d8(%r14),%r13
+  12a115:	41 0f 10 86 d0 01 00 	movups 0x1d0(%r14),%xmm0
+  12a11c:	00 
+  12a11d:	0f 29 84 24 70 03 00 	movaps %xmm0,0x370(%rsp)
+  12a124:	00 
+  12a125:	41 0f 10 86 e0 01 00 	movups 0x1e0(%r14),%xmm0
+  12a12c:	00 
+  12a12d:	4d 8b be e8 01 00 00 	mov    0x1e8(%r14),%r15
+  12a134:	0f 29 84 24 80 01 00 	movaps %xmm0,0x180(%rsp)
+  12a13b:	00 
+  12a13c:	0f 29 84 24 80 03 00 	movaps %xmm0,0x380(%rsp)
+  12a143:	00 
+  12a144:	41 0f 10 86 f0 01 00 	movups 0x1f0(%r14),%xmm0
+  12a14b:	00 
+  12a14c:	49 8b 9e f8 01 00 00 	mov    0x1f8(%r14),%rbx
+  12a153:	0f 29 84 24 70 01 00 	movaps %xmm0,0x170(%rsp)
+  12a15a:	00 
+  12a15b:	0f 29 84 24 90 03 00 	movaps %xmm0,0x390(%rsp)
+  12a162:	00 
+  12a163:	f2 41 0f 10 86 b8 07 	movsd  0x7b8(%r14),%xmm0
+  12a16a:	00 00 
+  12a16c:	f2 41 0f 10 8e a8 07 	movsd  0x7a8(%r14),%xmm1
+  12a173:	00 00 
+  12a175:	f2 41 0f 10 96 b0 07 	movsd  0x7b0(%r14),%xmm2
+  12a17c:	00 00 
+  12a17e:	f2 0f 10 1d 6a 7a ef 	movsd  -0x108596(%rip),%xmm3        # 21bf0 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.48.llvm.10282014458859423806+0x80>
+  12a185:	ff 
+  12a186:	f2 0f 5c d8          	subsd  %xmm0,%xmm3
+  12a18a:	f2 0f 10 25 1e 7b ef 	movsd  -0x1084e2(%rip),%xmm4        # 21cb0 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.71.llvm.10282014458859423806+0x40>
+  12a191:	ff 
+  12a192:	f2 0f 58 e1          	addsd  %xmm1,%xmm4
+  12a196:	f2 0f 11 8c 24 a0 01 	movsd  %xmm1,0x1a0(%rsp)
+  12a19d:	00 00 
+  12a19f:	f2 0f 11 84 24 a8 01 	movsd  %xmm0,0x1a8(%rsp)
+  12a1a6:	00 00 
+  12a1a8:	f2 0f 11 94 24 b0 01 	movsd  %xmm2,0x1b0(%rsp)
+  12a1af:	00 00 
+  12a1b1:	f2 0f 11 9c 24 b8 01 	movsd  %xmm3,0x1b8(%rsp)
+  12a1b8:	00 00 
+  12a1ba:	f2 0f 11 a4 24 c0 01 	movsd  %xmm4,0x1c0(%rsp)
+  12a1c1:	00 00 
+  12a1c3:	f2 0f 11 84 24 c8 01 	movsd  %xmm0,0x1c8(%rsp)
+  12a1ca:	00 00 
+  12a1cc:	48 8d 84 24 a0 01 00 	lea    0x1a0(%rsp),%rax
+  12a1d3:	00 
+  12a1d4:	48 89 84 24 90 00 00 	mov    %rax,0x90(%rsp)
+  12a1db:	00 
+  12a1dc:	48 c7 84 24 98 00 00 	movq   $0x3,0x98(%rsp)
+  12a1e3:	00 03 00 00 00 
+  12a1e8:	48 8d 05 31 ad ef ff 	lea    -0x1052cf(%rip),%rax        # 24f20 <anon.d4e3d1f0c0662585dc808c704bf49f13.5.llvm.11613841210682681214+0x9d4>
+  12a1ef:	48 89 84 24 a0 00 00 	mov    %rax,0xa0(%rsp)
+  12a1f6:	00 
+  12a1f7:	48 c7 84 24 a8 00 00 	movq   $0x3,0xa8(%rsp)
+  12a1fe:	00 03 00 00 00 
+  12a203:	0f 28 05 06 80 ef ff 	movaps -0x107ffa(%rip),%xmm0        # 22210 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.72.llvm.10282014458859423806+0x480>
+  12a20a:	0f 11 84 24 b0 00 00 	movups %xmm0,0xb0(%rsp)
+  12a211:	00 
+  12a212:	48 b8 9a 99 99 99 99 	movabs $0x3fa999999999999a,%rax
+  12a219:	99 a9 3f 
+  12a21c:	48 89 84 24 c0 00 00 	mov    %rax,0xc0(%rsp)
+  12a223:	00 
+  12a224:	48 c7 84 24 a0 03 00 	movq   $0x40,0x3a0(%rsp)
+  12a22b:	00 40 00 00 00 
+  12a230:	48 c7 84 24 a8 03 00 	movq   $0x2400,0x3a8(%rsp)
+  12a237:	00 00 24 00 00 
+  12a23c:	48 c7 84 24 b0 03 00 	movq   $0x4000000,0x3b0(%rsp)
+  12a243:	00 00 00 00 04 
+  12a248:	0f 28 05 01 83 ef ff 	movaps -0x107cff(%rip),%xmm0        # 22550 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.72.llvm.10282014458859423806+0x7c0>
+  12a24f:	0f 11 84 24 b8 03 00 	movups %xmm0,0x3b8(%rsp)
+  12a256:	00 
+  12a257:	66 0f 6f 05 91 8b ef 	movdqa -0x10746f(%rip),%xmm0        # 22df0 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.72.llvm.10282014458859423806+0x1060>
+  12a25e:	ff 
+  12a25f:	f3 0f 7f 84 24 c8 03 	movdqu %xmm0,0x3c8(%rsp)
+  12a266:	00 00 
+  12a268:	48 8d bc 24 98 05 00 	lea    0x598(%rsp),%rdi
+  12a26f:	00 
+  12a270:	48 8d b4 24 90 00 00 	lea    0x90(%rsp),%rsi
+  12a277:	00 
+  12a278:	48 8d 94 24 a0 03 00 	lea    0x3a0(%rsp),%rdx
+  12a27f:	00 
+  12a280:	48 89 74 24 38       	mov    %rsi,0x38(%rsp)
+  12a285:	e8 f6 4f f5 ff       	call   7f280 <rheon::fitted_height::FittedHeightWorkspace::new>
+  12a28a:	31 c0                	xor    %eax,%eax
+  12a28c:	48 3b 84 24 98 05 00 	cmp    0x598(%rsp),%rax
+  12a293:	00 
+  12a294:	0f 80 c0 15 00 00    	jo     12b85a <rheon::research_public_call::candidate::case41_fd_capture+0x180a>
+  12a29a:	4c 8d a4 24 a0 03 00 	lea    0x3a0(%rsp),%r12
+  12a2a1:	00 
+  12a2a2:	48 8d b4 24 98 05 00 	lea    0x598(%rsp),%rsi
+  12a2a9:	00 
+  12a2aa:	ba f8 01 00 00       	mov    $0x1f8,%edx
+  12a2af:	4c 89 e7             	mov    %r12,%rdi
+  12a2b2:	ff 15 a8 4f 1b 00    	call   *0x1b4fa8(%rip)        # 2df260 <memcpy@GLIBC_2.14>
+  12a2b8:	48 8b 84 24 b0 03 00 	mov    0x3b0(%rsp),%rax
+  12a2bf:	00 
+  12a2c0:	48 8d 15 29 be 19 00 	lea    0x19be29(%rip),%rdx        # 2c60f0 <__frame_dummy_init_array_entry+0xff8>
+  12a2c7:	48 85 c0             	test   %rax,%rax
+  12a2ca:	0f 84 51 19 00 00    	je     12bc21 <rheon::research_public_call::candidate::case41_fd_capture+0x1bd1>
+  12a2d0:	48 8b 8c 24 a8 03 00 	mov    0x3a8(%rsp),%rcx
+  12a2d7:	00 
+  12a2d8:	f3 0f 6f 01          	movdqu (%rcx),%xmm0
+  12a2dc:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a2e3:	00 00 
+  12a2e5:	f3 41 0f 6f 8e c0 04 	movdqu 0x4c0(%r14),%xmm1
+  12a2ec:	00 00 
+  12a2ee:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a2f2:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a2f6:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a2fc:	0f 85 a0 15 00 00    	jne    12b8a2 <rheon::research_public_call::candidate::case41_fd_capture+0x1852>
+  12a302:	48 ff c0             	inc    %rax
+  12a305:	48 83 f8 02          	cmp    $0x2,%rax
+  12a309:	0f 84 16 19 00 00    	je     12bc25 <rheon::research_public_call::candidate::case41_fd_capture+0x1bd5>
+  12a30f:	f3 0f 6f 41 18       	movdqu 0x18(%rcx),%xmm0
+  12a314:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a31b:	00 00 
+  12a31d:	f3 41 0f 6f 8e d0 04 	movdqu 0x4d0(%r14),%xmm1
+  12a324:	00 00 
+  12a326:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a32a:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a32e:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a334:	0f 85 79 15 00 00    	jne    12b8b3 <rheon::research_public_call::candidate::case41_fd_capture+0x1863>
+  12a33a:	48 83 f8 03          	cmp    $0x3,%rax
+  12a33e:	0f 84 e8 18 00 00    	je     12bc2c <rheon::research_public_call::candidate::case41_fd_capture+0x1bdc>
+  12a344:	f3 0f 6f 41 30       	movdqu 0x30(%rcx),%xmm0
+  12a349:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a350:	00 00 
+  12a352:	f3 41 0f 6f 8e e0 04 	movdqu 0x4e0(%r14),%xmm1
+  12a359:	00 00 
+  12a35b:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a35f:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a363:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a369:	0f 85 55 15 00 00    	jne    12b8c4 <rheon::research_public_call::candidate::case41_fd_capture+0x1874>
+  12a36f:	48 83 f8 04          	cmp    $0x4,%rax
+  12a373:	0f 84 ba 18 00 00    	je     12bc33 <rheon::research_public_call::candidate::case41_fd_capture+0x1be3>
+  12a379:	f3 0f 6f 41 48       	movdqu 0x48(%rcx),%xmm0
+  12a37e:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a385:	00 00 
+  12a387:	f3 41 0f 6f 8e f0 04 	movdqu 0x4f0(%r14),%xmm1
+  12a38e:	00 00 
+  12a390:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a394:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a398:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a39e:	0f 85 31 15 00 00    	jne    12b8d5 <rheon::research_public_call::candidate::case41_fd_capture+0x1885>
+  12a3a4:	48 83 f8 05          	cmp    $0x5,%rax
+  12a3a8:	0f 84 8c 18 00 00    	je     12bc3a <rheon::research_public_call::candidate::case41_fd_capture+0x1bea>
+  12a3ae:	f3 0f 6f 41 60       	movdqu 0x60(%rcx),%xmm0
+  12a3b3:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a3ba:	00 00 
+  12a3bc:	f3 41 0f 6f 8e 00 05 	movdqu 0x500(%r14),%xmm1
+  12a3c3:	00 00 
+  12a3c5:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a3c9:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a3cd:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a3d3:	0f 85 0d 15 00 00    	jne    12b8e6 <rheon::research_public_call::candidate::case41_fd_capture+0x1896>
+  12a3d9:	48 83 f8 06          	cmp    $0x6,%rax
+  12a3dd:	0f 84 5e 18 00 00    	je     12bc41 <rheon::research_public_call::candidate::case41_fd_capture+0x1bf1>
+  12a3e3:	f3 0f 6f 41 78       	movdqu 0x78(%rcx),%xmm0
+  12a3e8:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a3ef:	00 00 
+  12a3f1:	f3 41 0f 6f 8e 10 05 	movdqu 0x510(%r14),%xmm1
+  12a3f8:	00 00 
+  12a3fa:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a3fe:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a402:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a408:	0f 85 e9 14 00 00    	jne    12b8f7 <rheon::research_public_call::candidate::case41_fd_capture+0x18a7>
+  12a40e:	48 83 f8 07          	cmp    $0x7,%rax
+  12a412:	0f 84 30 18 00 00    	je     12bc48 <rheon::research_public_call::candidate::case41_fd_capture+0x1bf8>
+  12a418:	f3 0f 6f 81 90 00 00 	movdqu 0x90(%rcx),%xmm0
+  12a41f:	00 
+  12a420:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a427:	00 00 
+  12a429:	f3 41 0f 6f 8e 20 05 	movdqu 0x520(%r14),%xmm1
+  12a430:	00 00 
+  12a432:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a436:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a43a:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a440:	0f 85 c2 14 00 00    	jne    12b908 <rheon::research_public_call::candidate::case41_fd_capture+0x18b8>
+  12a446:	48 83 f8 08          	cmp    $0x8,%rax
+  12a44a:	0f 84 ff 17 00 00    	je     12bc4f <rheon::research_public_call::candidate::case41_fd_capture+0x1bff>
+  12a450:	f3 0f 6f 81 a8 00 00 	movdqu 0xa8(%rcx),%xmm0
+  12a457:	00 
+  12a458:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a45f:	00 00 
+  12a461:	f3 41 0f 6f 8e 30 05 	movdqu 0x530(%r14),%xmm1
+  12a468:	00 00 
+  12a46a:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a46e:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a472:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a478:	0f 85 9b 14 00 00    	jne    12b919 <rheon::research_public_call::candidate::case41_fd_capture+0x18c9>
+  12a47e:	48 83 f8 09          	cmp    $0x9,%rax
+  12a482:	0f 84 ce 17 00 00    	je     12bc56 <rheon::research_public_call::candidate::case41_fd_capture+0x1c06>
+  12a488:	f3 0f 6f 81 c0 00 00 	movdqu 0xc0(%rcx),%xmm0
+  12a48f:	00 
+  12a490:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a497:	00 00 
+  12a499:	f3 41 0f 6f 8e 40 05 	movdqu 0x540(%r14),%xmm1
+  12a4a0:	00 00 
+  12a4a2:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a4a6:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a4aa:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a4b0:	0f 85 74 14 00 00    	jne    12b92a <rheon::research_public_call::candidate::case41_fd_capture+0x18da>
+  12a4b6:	48 83 f8 0a          	cmp    $0xa,%rax
+  12a4ba:	0f 84 9d 17 00 00    	je     12bc5d <rheon::research_public_call::candidate::case41_fd_capture+0x1c0d>
+  12a4c0:	f3 0f 6f 81 d8 00 00 	movdqu 0xd8(%rcx),%xmm0
+  12a4c7:	00 
+  12a4c8:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a4cf:	00 00 
+  12a4d1:	f3 41 0f 6f 8e 50 05 	movdqu 0x550(%r14),%xmm1
+  12a4d8:	00 00 
+  12a4da:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a4de:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a4e2:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a4e8:	0f 85 4d 14 00 00    	jne    12b93b <rheon::research_public_call::candidate::case41_fd_capture+0x18eb>
+  12a4ee:	48 83 f8 0b          	cmp    $0xb,%rax
+  12a4f2:	0f 84 6c 17 00 00    	je     12bc64 <rheon::research_public_call::candidate::case41_fd_capture+0x1c14>
+  12a4f8:	f3 0f 6f 81 f0 00 00 	movdqu 0xf0(%rcx),%xmm0
+  12a4ff:	00 
+  12a500:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a507:	00 00 
+  12a509:	f3 41 0f 6f 8e 60 05 	movdqu 0x560(%r14),%xmm1
+  12a510:	00 00 
+  12a512:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a516:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a51a:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a520:	0f 85 23 14 00 00    	jne    12b949 <rheon::research_public_call::candidate::case41_fd_capture+0x18f9>
+  12a526:	48 83 f8 0c          	cmp    $0xc,%rax
+  12a52a:	0f 84 3b 17 00 00    	je     12bc6b <rheon::research_public_call::candidate::case41_fd_capture+0x1c1b>
+  12a530:	f3 0f 6f 81 08 01 00 	movdqu 0x108(%rcx),%xmm0
+  12a537:	00 
+  12a538:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a53f:	00 00 
+  12a541:	f3 41 0f 6f 8e 70 05 	movdqu 0x570(%r14),%xmm1
+  12a548:	00 00 
+  12a54a:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a54e:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a552:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a558:	0f 85 f9 13 00 00    	jne    12b957 <rheon::research_public_call::candidate::case41_fd_capture+0x1907>
+  12a55e:	48 83 f8 0d          	cmp    $0xd,%rax
+  12a562:	0f 84 0a 17 00 00    	je     12bc72 <rheon::research_public_call::candidate::case41_fd_capture+0x1c22>
+  12a568:	f3 0f 6f 81 20 01 00 	movdqu 0x120(%rcx),%xmm0
+  12a56f:	00 
+  12a570:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a577:	00 00 
+  12a579:	f3 41 0f 6f 8e 80 05 	movdqu 0x580(%r14),%xmm1
+  12a580:	00 00 
+  12a582:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a586:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a58a:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a590:	0f 85 cf 13 00 00    	jne    12b965 <rheon::research_public_call::candidate::case41_fd_capture+0x1915>
+  12a596:	48 83 f8 0e          	cmp    $0xe,%rax
+  12a59a:	0f 84 d9 16 00 00    	je     12bc79 <rheon::research_public_call::candidate::case41_fd_capture+0x1c29>
+  12a5a0:	f3 0f 6f 81 38 01 00 	movdqu 0x138(%rcx),%xmm0
+  12a5a7:	00 
+  12a5a8:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a5af:	00 00 
+  12a5b1:	f3 41 0f 6f 8e 90 05 	movdqu 0x590(%r14),%xmm1
+  12a5b8:	00 00 
+  12a5ba:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a5be:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a5c2:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a5c8:	0f 85 a5 13 00 00    	jne    12b973 <rheon::research_public_call::candidate::case41_fd_capture+0x1923>
+  12a5ce:	48 83 f8 0f          	cmp    $0xf,%rax
+  12a5d2:	0f 84 a8 16 00 00    	je     12bc80 <rheon::research_public_call::candidate::case41_fd_capture+0x1c30>
+  12a5d8:	f3 0f 6f 81 50 01 00 	movdqu 0x150(%rcx),%xmm0
+  12a5df:	00 
+  12a5e0:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a5e7:	00 00 
+  12a5e9:	f3 41 0f 6f 8e a0 05 	movdqu 0x5a0(%r14),%xmm1
+  12a5f0:	00 00 
+  12a5f2:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a5f6:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a5fa:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a600:	0f 85 7b 13 00 00    	jne    12b981 <rheon::research_public_call::candidate::case41_fd_capture+0x1931>
+  12a606:	bf 0f 00 00 00       	mov    $0xf,%edi
+  12a60b:	48 83 f8 10          	cmp    $0x10,%rax
+  12a60f:	0f 84 85 16 00 00    	je     12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12a615:	f3 0f 6f 81 68 01 00 	movdqu 0x168(%rcx),%xmm0
+  12a61c:	00 
+  12a61d:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a624:	00 00 
+  12a626:	f3 41 0f 6f 8e b0 05 	movdqu 0x5b0(%r14),%xmm1
+  12a62d:	00 00 
+  12a62f:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a633:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a637:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a63d:	0f 85 4c 13 00 00    	jne    12b98f <rheon::research_public_call::candidate::case41_fd_capture+0x193f>
+  12a643:	48 83 f8 11          	cmp    $0x11,%rax
+  12a647:	0f 84 3a 16 00 00    	je     12bc87 <rheon::research_public_call::candidate::case41_fd_capture+0x1c37>
+  12a64d:	f3 0f 6f 81 80 01 00 	movdqu 0x180(%rcx),%xmm0
+  12a654:	00 
+  12a655:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a65c:	00 00 
+  12a65e:	f3 41 0f 6f 8e c0 05 	movdqu 0x5c0(%r14),%xmm1
+  12a665:	00 00 
+  12a667:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a66b:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a66f:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a675:	0f 85 22 13 00 00    	jne    12b99d <rheon::research_public_call::candidate::case41_fd_capture+0x194d>
+  12a67b:	48 83 f8 12          	cmp    $0x12,%rax
+  12a67f:	0f 84 09 16 00 00    	je     12bc8e <rheon::research_public_call::candidate::case41_fd_capture+0x1c3e>
+  12a685:	f3 0f 6f 81 98 01 00 	movdqu 0x198(%rcx),%xmm0
+  12a68c:	00 
+  12a68d:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a694:	00 00 
+  12a696:	f3 41 0f 6f 8e d0 05 	movdqu 0x5d0(%r14),%xmm1
+  12a69d:	00 00 
+  12a69f:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a6a3:	66 0f d7 f1          	pmovmskb %xmm1,%esi
+  12a6a7:	81 fe ff ff 00 00    	cmp    $0xffff,%esi
+  12a6ad:	0f 85 f8 12 00 00    	jne    12b9ab <rheon::research_public_call::candidate::case41_fd_capture+0x195b>
+  12a6b3:	48 83 f8 13          	cmp    $0x13,%rax
+  12a6b7:	0f 84 d8 15 00 00    	je     12bc95 <rheon::research_public_call::candidate::case41_fd_capture+0x1c45>
+  12a6bd:	f3 0f 6f 81 b0 01 00 	movdqu 0x1b0(%rcx),%xmm0
+  12a6c4:	00 
+  12a6c5:	66 0f 7f 84 24 90 00 	movdqa %xmm0,0x90(%rsp)
+  12a6cc:	00 00 
+  12a6ce:	f3 41 0f 6f 8e e0 05 	movdqu 0x5e0(%r14),%xmm1
+  12a6d5:	00 00 
+  12a6d7:	66 0f 74 c8          	pcmpeqb %xmm0,%xmm1
+  12a6db:	66 0f d7 c1          	pmovmskb %xmm1,%eax
+  12a6df:	3d ff ff 00 00       	cmp    $0xffff,%eax
+  12a6e4:	0f 85 cf 12 00 00    	jne    12b9b9 <rheon::research_public_call::candidate::case41_fd_capture+0x1969>
+  12a6ea:	48 8b 8c 24 a0 04 00 	mov    0x4a0(%rsp),%rcx
+  12a6f1:	00 
+  12a6f2:	48 8d 15 c7 b9 19 00 	lea    0x19b9c7(%rip),%rdx        # 2c60c0 <__frame_dummy_init_array_entry+0xfc8>
+  12a6f9:	48 85 c9             	test   %rcx,%rcx
+  12a6fc:	0f 84 1f 15 00 00    	je     12bc21 <rheon::research_public_call::candidate::case41_fd_capture+0x1bd1>
+  12a702:	49 8d 86 80 01 00 00 	lea    0x180(%r14),%rax
+  12a709:	48 8b b4 24 98 04 00 	mov    0x498(%rsp),%rsi
+  12a710:	00 
+  12a711:	f3 0f 7e 06          	movq   (%rsi),%xmm0
+  12a715:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a71b:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a720:	4c 39 00             	cmp    %r8,(%rax)
+  12a723:	0f 85 ce 12 00 00    	jne    12b9f7 <rheon::research_public_call::candidate::case41_fd_capture+0x19a7>
+  12a729:	48 83 f9 01          	cmp    $0x1,%rcx
+  12a72d:	0f 84 f2 14 00 00    	je     12bc25 <rheon::research_public_call::candidate::case41_fd_capture+0x1bd5>
+  12a733:	f3 0f 7e 46 08       	movq   0x8(%rsi),%xmm0
+  12a738:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a73e:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a743:	4d 39 86 88 01 00 00 	cmp    %r8,0x188(%r14)
+  12a74a:	0f 85 b3 12 00 00    	jne    12ba03 <rheon::research_public_call::candidate::case41_fd_capture+0x19b3>
+  12a750:	48 83 f9 02          	cmp    $0x2,%rcx
+  12a754:	0f 84 d2 14 00 00    	je     12bc2c <rheon::research_public_call::candidate::case41_fd_capture+0x1bdc>
+  12a75a:	f3 0f 7e 46 10       	movq   0x10(%rsi),%xmm0
+  12a75f:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a765:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a76a:	4d 39 86 90 01 00 00 	cmp    %r8,0x190(%r14)
+  12a771:	0f 85 9b 12 00 00    	jne    12ba12 <rheon::research_public_call::candidate::case41_fd_capture+0x19c2>
+  12a777:	48 83 f9 03          	cmp    $0x3,%rcx
+  12a77b:	0f 84 b2 14 00 00    	je     12bc33 <rheon::research_public_call::candidate::case41_fd_capture+0x1be3>
+  12a781:	f3 0f 7e 46 18       	movq   0x18(%rsi),%xmm0
+  12a786:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a78c:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a791:	4d 39 86 98 01 00 00 	cmp    %r8,0x198(%r14)
+  12a798:	0f 85 83 12 00 00    	jne    12ba21 <rheon::research_public_call::candidate::case41_fd_capture+0x19d1>
+  12a79e:	48 83 f9 04          	cmp    $0x4,%rcx
+  12a7a2:	0f 84 92 14 00 00    	je     12bc3a <rheon::research_public_call::candidate::case41_fd_capture+0x1bea>
+  12a7a8:	f3 0f 7e 46 20       	movq   0x20(%rsi),%xmm0
+  12a7ad:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a7b3:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a7b8:	4d 39 86 a0 01 00 00 	cmp    %r8,0x1a0(%r14)
+  12a7bf:	0f 85 6b 12 00 00    	jne    12ba30 <rheon::research_public_call::candidate::case41_fd_capture+0x19e0>
+  12a7c5:	48 83 f9 05          	cmp    $0x5,%rcx
+  12a7c9:	0f 84 72 14 00 00    	je     12bc41 <rheon::research_public_call::candidate::case41_fd_capture+0x1bf1>
+  12a7cf:	f3 0f 7e 46 28       	movq   0x28(%rsi),%xmm0
+  12a7d4:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a7da:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a7df:	4d 39 86 a8 01 00 00 	cmp    %r8,0x1a8(%r14)
+  12a7e6:	0f 85 53 12 00 00    	jne    12ba3f <rheon::research_public_call::candidate::case41_fd_capture+0x19ef>
+  12a7ec:	48 83 f9 06          	cmp    $0x6,%rcx
+  12a7f0:	0f 84 52 14 00 00    	je     12bc48 <rheon::research_public_call::candidate::case41_fd_capture+0x1bf8>
+  12a7f6:	f3 0f 7e 46 30       	movq   0x30(%rsi),%xmm0
+  12a7fb:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a801:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a806:	4d 39 86 b0 01 00 00 	cmp    %r8,0x1b0(%r14)
+  12a80d:	0f 85 38 12 00 00    	jne    12ba4b <rheon::research_public_call::candidate::case41_fd_capture+0x19fb>
+  12a813:	48 83 f9 07          	cmp    $0x7,%rcx
+  12a817:	0f 84 32 14 00 00    	je     12bc4f <rheon::research_public_call::candidate::case41_fd_capture+0x1bff>
+  12a81d:	f3 0f 7e 46 38       	movq   0x38(%rsi),%xmm0
+  12a822:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a828:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a82d:	4d 39 86 b8 01 00 00 	cmp    %r8,0x1b8(%r14)
+  12a834:	0f 85 1d 12 00 00    	jne    12ba57 <rheon::research_public_call::candidate::case41_fd_capture+0x1a07>
+  12a83a:	48 83 f9 08          	cmp    $0x8,%rcx
+  12a83e:	0f 84 12 14 00 00    	je     12bc56 <rheon::research_public_call::candidate::case41_fd_capture+0x1c06>
+  12a844:	f3 0f 7e 46 40       	movq   0x40(%rsi),%xmm0
+  12a849:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a84f:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a854:	4d 39 86 c0 01 00 00 	cmp    %r8,0x1c0(%r14)
+  12a85b:	0f 85 02 12 00 00    	jne    12ba63 <rheon::research_public_call::candidate::case41_fd_capture+0x1a13>
+  12a861:	48 83 f9 09          	cmp    $0x9,%rcx
+  12a865:	0f 84 f2 13 00 00    	je     12bc5d <rheon::research_public_call::candidate::case41_fd_capture+0x1c0d>
+  12a86b:	f3 0f 7e 46 48       	movq   0x48(%rsi),%xmm0
+  12a870:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a876:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a87b:	4d 39 86 c8 01 00 00 	cmp    %r8,0x1c8(%r14)
+  12a882:	0f 85 e7 11 00 00    	jne    12ba6f <rheon::research_public_call::candidate::case41_fd_capture+0x1a1f>
+  12a888:	48 83 f9 0a          	cmp    $0xa,%rcx
+  12a88c:	0f 84 d2 13 00 00    	je     12bc64 <rheon::research_public_call::candidate::case41_fd_capture+0x1c14>
+  12a892:	f3 0f 7e 46 50       	movq   0x50(%rsi),%xmm0
+  12a897:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a89d:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a8a2:	4d 39 86 d0 01 00 00 	cmp    %r8,0x1d0(%r14)
+  12a8a9:	0f 85 cc 11 00 00    	jne    12ba7b <rheon::research_public_call::candidate::case41_fd_capture+0x1a2b>
+  12a8af:	48 83 f9 0b          	cmp    $0xb,%rcx
+  12a8b3:	0f 84 b2 13 00 00    	je     12bc6b <rheon::research_public_call::candidate::case41_fd_capture+0x1c1b>
+  12a8b9:	f3 0f 7e 46 58       	movq   0x58(%rsi),%xmm0
+  12a8be:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a8c4:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a8c9:	4d 39 c5             	cmp    %r8,%r13
+  12a8cc:	0f 85 b5 11 00 00    	jne    12ba87 <rheon::research_public_call::candidate::case41_fd_capture+0x1a37>
+  12a8d2:	48 83 f9 0c          	cmp    $0xc,%rcx
+  12a8d6:	0f 84 96 13 00 00    	je     12bc72 <rheon::research_public_call::candidate::case41_fd_capture+0x1c22>
+  12a8dc:	66 0f 6f 84 24 80 01 	movdqa 0x180(%rsp),%xmm0
+  12a8e3:	00 00 
+  12a8e5:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a8ea:	f3 0f 7e 46 60       	movq   0x60(%rsi),%xmm0
+  12a8ef:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a8f5:	66 49 0f 7e c1       	movq   %xmm0,%r9
+  12a8fa:	4d 39 c8             	cmp    %r9,%r8
+  12a8fd:	0f 85 90 11 00 00    	jne    12ba93 <rheon::research_public_call::candidate::case41_fd_capture+0x1a43>
+  12a903:	48 83 f9 0d          	cmp    $0xd,%rcx
+  12a907:	0f 84 6c 13 00 00    	je     12bc79 <rheon::research_public_call::candidate::case41_fd_capture+0x1c29>
+  12a90d:	f3 0f 7e 46 68       	movq   0x68(%rsi),%xmm0
+  12a912:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a918:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a91d:	4d 39 c7             	cmp    %r8,%r15
+  12a920:	0f 85 79 11 00 00    	jne    12ba9f <rheon::research_public_call::candidate::case41_fd_capture+0x1a4f>
+  12a926:	48 83 f9 0e          	cmp    $0xe,%rcx
+  12a92a:	0f 84 50 13 00 00    	je     12bc80 <rheon::research_public_call::candidate::case41_fd_capture+0x1c30>
+  12a930:	66 0f 6f 84 24 70 01 	movdqa 0x170(%rsp),%xmm0
+  12a937:	00 00 
+  12a939:	66 49 0f 7e c0       	movq   %xmm0,%r8
+  12a93e:	f3 0f 7e 46 70       	movq   0x70(%rsi),%xmm0
+  12a943:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a949:	66 49 0f 7e c1       	movq   %xmm0,%r9
+  12a94e:	4d 39 c8             	cmp    %r9,%r8
+  12a951:	0f 85 54 11 00 00    	jne    12baab <rheon::research_public_call::candidate::case41_fd_capture+0x1a5b>
+  12a957:	48 83 f9 0f          	cmp    $0xf,%rcx
+  12a95b:	0f 84 39 13 00 00    	je     12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12a961:	f3 0f 7e 46 78       	movq   0x78(%rsi),%xmm0
+  12a966:	66 0f d6 44 24 28    	movq   %xmm0,0x28(%rsp)
+  12a96c:	66 48 0f 7e c1       	movq   %xmm0,%rcx
+  12a971:	48 39 cb             	cmp    %rcx,%rbx
+  12a974:	0f 85 3d 11 00 00    	jne    12bab7 <rheon::research_public_call::candidate::case41_fd_capture+0x1a67>
+  12a97a:	48 bd 00 00 00 00 00 	movabs $0x7ff0000000000000,%rbp
+  12a981:	00 f0 7f 
+  12a984:	48 8d 9c 24 98 05 00 	lea    0x598(%rsp),%rbx
+  12a98b:	00 
+  12a98c:	48 8d b4 24 a0 03 00 	lea    0x3a0(%rsp),%rsi
+  12a993:	00 
+  12a994:	ba f8 01 00 00       	mov    $0x1f8,%edx
+  12a999:	48 89 df             	mov    %rbx,%rdi
+  12a99c:	ff 15 be 48 1b 00    	call   *0x1b48be(%rip)        # 2df260 <memcpy@GLIBC_2.14>
+  12a9a2:	4c 8d a4 24 98 07 00 	lea    0x798(%rsp),%r12
+  12a9a9:	00 
+  12a9aa:	45 31 ff             	xor    %r15d,%r15d
+  12a9ad:	ba 00 16 00 00       	mov    $0x1600,%edx
+  12a9b2:	4c 89 e7             	mov    %r12,%rdi
+  12a9b5:	31 f6                	xor    %esi,%esi
+  12a9b7:	ff 15 93 48 1b 00    	call   *0x1b4893(%rip)        # 2df250 <memset@GLIBC_2.2.5>
+  12a9bd:	4c 89 e1             	mov    %r12,%rcx
+  12a9c0:	66 0f ef c0          	pxor   %xmm0,%xmm0
+  12a9c4:	f3 0f 7f 84 24 50 23 	movdqu %xmm0,0x2350(%rsp)
+  12a9cb:	00 00 
+  12a9cd:	48 c7 84 24 60 23 00 	movq   $0x0,0x2360(%rsp)
+  12a9d4:	00 00 00 00 00 
+  12a9d9:	f3 0f 7f 84 24 68 23 	movdqu %xmm0,0x2368(%rsp)
+  12a9e0:	00 00 
+  12a9e2:	48 c7 84 24 78 23 00 	movq   $0x0,0x2378(%rsp)
+  12a9e9:	00 00 00 00 00 
+  12a9ee:	f3 0f 7f 84 24 80 23 	movdqu %xmm0,0x2380(%rsp)
+  12a9f5:	00 00 
+  12a9f7:	48 c7 84 24 90 23 00 	movq   $0x0,0x2390(%rsp)
+  12a9fe:	00 00 00 00 00 
+  12aa03:	f3 0f 7f 84 24 b0 1d 	movdqu %xmm0,0x1db0(%rsp)
+  12aa0a:	00 00 
+  12aa0c:	f3 0f 7f 84 24 c0 1d 	movdqu %xmm0,0x1dc0(%rsp)
+  12aa13:	00 00 
+  12aa15:	f3 0f 7f 84 24 d0 1d 	movdqu %xmm0,0x1dd0(%rsp)
+  12aa1c:	00 00 
+  12aa1e:	f3 0f 7f 84 24 e0 1d 	movdqu %xmm0,0x1de0(%rsp)
+  12aa25:	00 00 
+  12aa27:	48 c7 84 24 f0 1d 00 	movq   $0x0,0x1df0(%rsp)
+  12aa2e:	00 00 00 00 00 
+  12aa33:	f3 0f 7f 84 24 10 1e 	movdqu %xmm0,0x1e10(%rsp)
+  12aa3a:	00 00 
+  12aa3c:	f3 0f 7f 84 24 20 1e 	movdqu %xmm0,0x1e20(%rsp)
+  12aa43:	00 00 
+  12aa45:	f3 0f 7f 84 24 30 1e 	movdqu %xmm0,0x1e30(%rsp)
+  12aa4c:	00 00 
+  12aa4e:	f3 0f 7f 84 24 40 1e 	movdqu %xmm0,0x1e40(%rsp)
+  12aa55:	00 00 
+  12aa57:	48 c7 84 24 50 1e 00 	movq   $0x0,0x1e50(%rsp)
+  12aa5e:	00 00 00 00 00 
+  12aa63:	f3 0f 7f 84 24 a0 1e 	movdqu %xmm0,0x1ea0(%rsp)
+  12aa6a:	00 00 
+  12aa6c:	f3 0f 7f 84 24 90 1e 	movdqu %xmm0,0x1e90(%rsp)
+  12aa73:	00 00 
+  12aa75:	f3 0f 7f 84 24 80 1e 	movdqu %xmm0,0x1e80(%rsp)
+  12aa7c:	00 00 
+  12aa7e:	f3 0f 7f 84 24 70 1e 	movdqu %xmm0,0x1e70(%rsp)
+  12aa85:	00 00 
+  12aa87:	48 c7 84 24 b0 1e 00 	movq   $0x0,0x1eb0(%rsp)
+  12aa8e:	00 00 00 00 00 
+  12aa93:	f3 0f 7f 84 24 00 1f 	movdqu %xmm0,0x1f00(%rsp)
+  12aa9a:	00 00 
+  12aa9c:	f3 0f 7f 84 24 f0 1e 	movdqu %xmm0,0x1ef0(%rsp)
+  12aaa3:	00 00 
+  12aaa5:	f3 0f 7f 84 24 e0 1e 	movdqu %xmm0,0x1ee0(%rsp)
+  12aaac:	00 00 
+  12aaae:	f3 0f 7f 84 24 d0 1e 	movdqu %xmm0,0x1ed0(%rsp)
+  12aab5:	00 00 
+  12aab7:	48 c7 84 24 10 1f 00 	movq   $0x0,0x1f10(%rsp)
+  12aabe:	00 00 00 00 00 
+  12aac3:	f3 0f 7f 84 24 60 1f 	movdqu %xmm0,0x1f60(%rsp)
+  12aaca:	00 00 
+  12aacc:	f3 0f 7f 84 24 50 1f 	movdqu %xmm0,0x1f50(%rsp)
+  12aad3:	00 00 
+  12aad5:	f3 0f 7f 84 24 40 1f 	movdqu %xmm0,0x1f40(%rsp)
+  12aadc:	00 00 
+  12aade:	f3 0f 7f 84 24 30 1f 	movdqu %xmm0,0x1f30(%rsp)
+  12aae5:	00 00 
+  12aae7:	48 c7 84 24 70 1f 00 	movq   $0x0,0x1f70(%rsp)
+  12aaee:	00 00 00 00 00 
+  12aaf3:	f3 0f 7f 84 24 c0 1f 	movdqu %xmm0,0x1fc0(%rsp)
+  12aafa:	00 00 
+  12aafc:	f3 0f 7f 84 24 b0 1f 	movdqu %xmm0,0x1fb0(%rsp)
+  12ab03:	00 00 
+  12ab05:	f3 0f 7f 84 24 a0 1f 	movdqu %xmm0,0x1fa0(%rsp)
+  12ab0c:	00 00 
+  12ab0e:	f3 0f 7f 84 24 90 1f 	movdqu %xmm0,0x1f90(%rsp)
+  12ab15:	00 00 
+  12ab17:	48 c7 84 24 d0 1f 00 	movq   $0x0,0x1fd0(%rsp)
+  12ab1e:	00 00 00 00 00 
+  12ab23:	f3 0f 7f 84 24 20 20 	movdqu %xmm0,0x2020(%rsp)
+  12ab2a:	00 00 
+  12ab2c:	f3 0f 7f 84 24 10 20 	movdqu %xmm0,0x2010(%rsp)
+  12ab33:	00 00 
+  12ab35:	f3 0f 7f 84 24 00 20 	movdqu %xmm0,0x2000(%rsp)
+  12ab3c:	00 00 
+  12ab3e:	f3 0f 7f 84 24 f0 1f 	movdqu %xmm0,0x1ff0(%rsp)
+  12ab45:	00 00 
+  12ab47:	48 c7 84 24 30 20 00 	movq   $0x0,0x2030(%rsp)
+  12ab4e:	00 00 00 00 00 
+  12ab53:	f3 0f 7f 84 24 80 20 	movdqu %xmm0,0x2080(%rsp)
+  12ab5a:	00 00 
+  12ab5c:	f3 0f 7f 84 24 70 20 	movdqu %xmm0,0x2070(%rsp)
+  12ab63:	00 00 
+  12ab65:	f3 0f 7f 84 24 60 20 	movdqu %xmm0,0x2060(%rsp)
+  12ab6c:	00 00 
+  12ab6e:	f3 0f 7f 84 24 50 20 	movdqu %xmm0,0x2050(%rsp)
+  12ab75:	00 00 
+  12ab77:	48 c7 84 24 90 20 00 	movq   $0x0,0x2090(%rsp)
+  12ab7e:	00 00 00 00 00 
+  12ab83:	f3 0f 7f 84 24 e0 20 	movdqu %xmm0,0x20e0(%rsp)
+  12ab8a:	00 00 
+  12ab8c:	f3 0f 7f 84 24 d0 20 	movdqu %xmm0,0x20d0(%rsp)
+  12ab93:	00 00 
+  12ab95:	f3 0f 7f 84 24 c0 20 	movdqu %xmm0,0x20c0(%rsp)
+  12ab9c:	00 00 
+  12ab9e:	f3 0f 7f 84 24 b0 20 	movdqu %xmm0,0x20b0(%rsp)
+  12aba5:	00 00 
+  12aba7:	48 c7 84 24 f0 20 00 	movq   $0x0,0x20f0(%rsp)
+  12abae:	00 00 00 00 00 
+  12abb3:	f3 0f 7f 84 24 40 21 	movdqu %xmm0,0x2140(%rsp)
+  12abba:	00 00 
+  12abbc:	f3 0f 7f 84 24 30 21 	movdqu %xmm0,0x2130(%rsp)
+  12abc3:	00 00 
+  12abc5:	f3 0f 7f 84 24 20 21 	movdqu %xmm0,0x2120(%rsp)
+  12abcc:	00 00 
+  12abce:	f3 0f 7f 84 24 10 21 	movdqu %xmm0,0x2110(%rsp)
+  12abd5:	00 00 
+  12abd7:	48 c7 84 24 50 21 00 	movq   $0x0,0x2150(%rsp)
+  12abde:	00 00 00 00 00 
+  12abe3:	f3 0f 7f 84 24 a0 21 	movdqu %xmm0,0x21a0(%rsp)
+  12abea:	00 00 
+  12abec:	f3 0f 7f 84 24 90 21 	movdqu %xmm0,0x2190(%rsp)
+  12abf3:	00 00 
+  12abf5:	f3 0f 7f 84 24 80 21 	movdqu %xmm0,0x2180(%rsp)
+  12abfc:	00 00 
+  12abfe:	f3 0f 7f 84 24 70 21 	movdqu %xmm0,0x2170(%rsp)
+  12ac05:	00 00 
+  12ac07:	48 c7 84 24 b0 21 00 	movq   $0x0,0x21b0(%rsp)
+  12ac0e:	00 00 00 00 00 
+  12ac13:	f3 0f 7f 84 24 00 22 	movdqu %xmm0,0x2200(%rsp)
+  12ac1a:	00 00 
+  12ac1c:	f3 0f 7f 84 24 f0 21 	movdqu %xmm0,0x21f0(%rsp)
+  12ac23:	00 00 
+  12ac25:	f3 0f 7f 84 24 e0 21 	movdqu %xmm0,0x21e0(%rsp)
+  12ac2c:	00 00 
+  12ac2e:	f3 0f 7f 84 24 d0 21 	movdqu %xmm0,0x21d0(%rsp)
+  12ac35:	00 00 
+  12ac37:	48 c7 84 24 10 22 00 	movq   $0x0,0x2210(%rsp)
+  12ac3e:	00 00 00 00 00 
+  12ac43:	f3 0f 7f 84 24 60 22 	movdqu %xmm0,0x2260(%rsp)
+  12ac4a:	00 00 
+  12ac4c:	f3 0f 7f 84 24 50 22 	movdqu %xmm0,0x2250(%rsp)
+  12ac53:	00 00 
+  12ac55:	f3 0f 7f 84 24 40 22 	movdqu %xmm0,0x2240(%rsp)
+  12ac5c:	00 00 
+  12ac5e:	f3 0f 7f 84 24 30 22 	movdqu %xmm0,0x2230(%rsp)
+  12ac65:	00 00 
+  12ac67:	48 c7 84 24 70 22 00 	movq   $0x0,0x2270(%rsp)
+  12ac6e:	00 00 00 00 00 
+  12ac73:	f3 0f 7f 84 24 c0 22 	movdqu %xmm0,0x22c0(%rsp)
+  12ac7a:	00 00 
+  12ac7c:	f3 0f 7f 84 24 b0 22 	movdqu %xmm0,0x22b0(%rsp)
+  12ac83:	00 00 
+  12ac85:	f3 0f 7f 84 24 a0 22 	movdqu %xmm0,0x22a0(%rsp)
+  12ac8c:	00 00 
+  12ac8e:	f3 0f 7f 84 24 90 22 	movdqu %xmm0,0x2290(%rsp)
+  12ac95:	00 00 
+  12ac97:	48 c7 84 24 d0 22 00 	movq   $0x0,0x22d0(%rsp)
+  12ac9e:	00 00 00 00 00 
+  12aca3:	f3 0f 7f 84 24 20 23 	movdqu %xmm0,0x2320(%rsp)
+  12acaa:	00 00 
+  12acac:	f3 0f 7f 84 24 10 23 	movdqu %xmm0,0x2310(%rsp)
+  12acb3:	00 00 
+  12acb5:	f3 0f 7f 84 24 00 23 	movdqu %xmm0,0x2300(%rsp)
+  12acbc:	00 00 
+  12acbe:	f3 0f 7f 84 24 f0 22 	movdqu %xmm0,0x22f0(%rsp)
+  12acc5:	00 00 
+  12acc7:	48 c7 84 24 30 23 00 	movq   $0x0,0x2330(%rsp)
+  12acce:	00 00 00 00 00 
+  12acd3:	f3 0f 7f 84 24 08 24 	movdqu %xmm0,0x2408(%rsp)
+  12acda:	00 00 
+  12acdc:	f3 0f 7f 84 24 f8 23 	movdqu %xmm0,0x23f8(%rsp)
+  12ace3:	00 00 
+  12ace5:	f3 0f 7f 84 24 e8 23 	movdqu %xmm0,0x23e8(%rsp)
+  12acec:	00 00 
+  12acee:	f3 0f 7f 84 24 d8 23 	movdqu %xmm0,0x23d8(%rsp)
+  12acf5:	00 00 
+  12acf7:	f3 0f 7f 84 24 c8 23 	movdqu %xmm0,0x23c8(%rsp)
+  12acfe:	00 00 
+  12ad00:	f3 0f 7f 84 24 b8 23 	movdqu %xmm0,0x23b8(%rsp)
+  12ad07:	00 00 
+  12ad09:	f3 0f 7f 84 24 a8 23 	movdqu %xmm0,0x23a8(%rsp)
+  12ad10:	00 00 
+  12ad12:	f3 0f 7f 84 24 98 23 	movdqu %xmm0,0x2398(%rsp)
+  12ad19:	00 00 
+  12ad1b:	48 c7 84 24 90 07 00 	movq   $0x0,0x790(%rsp)
+  12ad22:	00 00 00 00 00 
+  12ad27:	f3 0f 7f 84 24 98 1d 	movdqu %xmm0,0x1d98(%rsp)
+  12ad2e:	00 00 
+  12ad30:	48 c7 84 24 a8 1d 00 	movq   $0x0,0x1da8(%rsp)
+  12ad37:	00 00 00 00 00 
+  12ad3c:	f3 0f 7f 84 24 f8 1d 	movdqu %xmm0,0x1df8(%rsp)
+  12ad43:	00 00 
+  12ad45:	48 c7 84 24 08 1e 00 	movq   $0x0,0x1e08(%rsp)
+  12ad4c:	00 00 00 00 00 
+  12ad51:	f3 0f 7f 84 24 58 1e 	movdqu %xmm0,0x1e58(%rsp)
+  12ad58:	00 00 
+  12ad5a:	48 c7 84 24 68 1e 00 	movq   $0x0,0x1e68(%rsp)
+  12ad61:	00 00 00 00 00 
+  12ad66:	f3 0f 7f 84 24 b8 1e 	movdqu %xmm0,0x1eb8(%rsp)
+  12ad6d:	00 00 
+  12ad6f:	48 c7 84 24 c8 1e 00 	movq   $0x0,0x1ec8(%rsp)
+  12ad76:	00 00 00 00 00 
+  12ad7b:	f3 0f 7f 84 24 18 1f 	movdqu %xmm0,0x1f18(%rsp)
+  12ad82:	00 00 
+  12ad84:	48 c7 84 24 28 1f 00 	movq   $0x0,0x1f28(%rsp)
+  12ad8b:	00 00 00 00 00 
+  12ad90:	f3 0f 7f 84 24 78 1f 	movdqu %xmm0,0x1f78(%rsp)
+  12ad97:	00 00 
+  12ad99:	48 c7 84 24 88 1f 00 	movq   $0x0,0x1f88(%rsp)
+  12ada0:	00 00 00 00 00 
+  12ada5:	f3 0f 7f 84 24 d8 1f 	movdqu %xmm0,0x1fd8(%rsp)
+  12adac:	00 00 
+  12adae:	48 c7 84 24 e8 1f 00 	movq   $0x0,0x1fe8(%rsp)
+  12adb5:	00 00 00 00 00 
+  12adba:	f3 0f 7f 84 24 38 20 	movdqu %xmm0,0x2038(%rsp)
+  12adc1:	00 00 
+  12adc3:	48 c7 84 24 48 20 00 	movq   $0x0,0x2048(%rsp)
+  12adca:	00 00 00 00 00 
+  12adcf:	f3 0f 7f 84 24 98 20 	movdqu %xmm0,0x2098(%rsp)
+  12add6:	00 00 
+  12add8:	48 c7 84 24 a8 20 00 	movq   $0x0,0x20a8(%rsp)
+  12addf:	00 00 00 00 00 
+  12ade4:	f3 0f 7f 84 24 f8 20 	movdqu %xmm0,0x20f8(%rsp)
+  12adeb:	00 00 
+  12aded:	48 c7 84 24 08 21 00 	movq   $0x0,0x2108(%rsp)
+  12adf4:	00 00 00 00 00 
+  12adf9:	f3 0f 7f 84 24 58 21 	movdqu %xmm0,0x2158(%rsp)
+  12ae00:	00 00 
+  12ae02:	48 c7 84 24 68 21 00 	movq   $0x0,0x2168(%rsp)
+  12ae09:	00 00 00 00 00 
+  12ae0e:	f3 0f 7f 84 24 b8 21 	movdqu %xmm0,0x21b8(%rsp)
+  12ae15:	00 00 
+  12ae17:	48 c7 84 24 c8 21 00 	movq   $0x0,0x21c8(%rsp)
+  12ae1e:	00 00 00 00 00 
+  12ae23:	f3 0f 7f 84 24 18 22 	movdqu %xmm0,0x2218(%rsp)
+  12ae2a:	00 00 
+  12ae2c:	48 c7 84 24 28 22 00 	movq   $0x0,0x2228(%rsp)
+  12ae33:	00 00 00 00 00 
+  12ae38:	f3 0f 7f 84 24 78 22 	movdqu %xmm0,0x2278(%rsp)
+  12ae3f:	00 00 
+  12ae41:	48 c7 84 24 88 22 00 	movq   $0x0,0x2288(%rsp)
+  12ae48:	00 00 00 00 00 
+  12ae4d:	f3 0f 7f 84 24 d8 22 	movdqu %xmm0,0x22d8(%rsp)
+  12ae54:	00 00 
+  12ae56:	48 c7 84 24 e8 22 00 	movq   $0x0,0x22e8(%rsp)
+  12ae5d:	00 00 00 00 00 
+  12ae62:	f3 0f 7f 84 24 38 23 	movdqu %xmm0,0x2338(%rsp)
+  12ae69:	00 00 
+  12ae6b:	48 c7 84 24 48 23 00 	movq   $0x0,0x2348(%rsp)
+  12ae72:	00 00 00 00 00 
+  12ae77:	48 8b 84 24 00 06 00 	mov    0x600(%rsp),%rax
+  12ae7e:	00 
+  12ae7f:	4c 8b 9c 24 08 06 00 	mov    0x608(%rsp),%r11
+  12ae86:	00 
+  12ae87:	48 83 c0 38          	add    $0x38,%rax
+  12ae8b:	48 8d 15 fe b1 19 00 	lea    0x19b1fe(%rip),%rdx        # 2c6090 <__frame_dummy_init_array_entry+0xf98>
+  12ae92:	66 0f ef c0          	pxor   %xmm0,%xmm0
+  12ae96:	49 bd ff ff ff ff ff 	movabs $0x7fffffffffffffff,%r13
+  12ae9d:	ff ff 7f 
+  12aea0:	4c 89 e6             	mov    %r12,%rsi
+  12aea3:	48 89 5c 24 20       	mov    %rbx,0x20(%rsp)
+  12aea8:	eb 2c                	jmp    12aed6 <rheon::research_public_call::candidate::case41_fd_capture+0xe86>
+  12aeaa:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+  12aeb0:	f2 42 0f 11 9c c6 b0 	movsd  %xmm3,0xb0(%rsi,%r8,8)
+  12aeb7:	00 00 00 
+  12aeba:	48 83 c0 40          	add    $0x40,%rax
+  12aebe:	49 ff c7             	inc    %r15
+  12aec1:	48 81 c6 60 01 00 00 	add    $0x160,%rsi
+  12aec8:	66 0f 6f cb          	movdqa %xmm3,%xmm1
+  12aecc:	49 83 ff 10          	cmp    $0x10,%r15
+  12aed0:	0f 83 9d 01 00 00    	jae    12b073 <rheon::research_public_call::candidate::case41_fd_capture+0x1023>
+  12aed6:	4d 39 df             	cmp    %r11,%r15
+  12aed9:	0f 83 b8 0c 00 00    	jae    12bb97 <rheon::research_public_call::candidate::case41_fd_capture+0x1b47>
+  12aedf:	48 8b 78 c8          	mov    -0x38(%rax),%rdi
+  12aee3:	4c 8b 40 d0          	mov    -0x30(%rax),%r8
+  12aee7:	f2 0f 10 10          	movsd  (%rax),%xmm2
+  12aeeb:	48 83 ff ff          	cmp    $0xffffffffffffffff,%rdi
+  12aeef:	74 4e                	je     12af3f <rheon::research_public_call::candidate::case41_fd_capture+0xeef>
+  12aef1:	48 83 ff 16          	cmp    $0x16,%rdi
+  12aef5:	0f 83 82 0c 00 00    	jae    12bb7d <rheon::research_public_call::candidate::case41_fd_capture+0x1b2d>
+  12aefb:	f2 0f 10 58 f8       	movsd  -0x8(%rax),%xmm3
+  12af00:	f2 0f 58 1c fe       	addsd  (%rsi,%rdi,8),%xmm3
+  12af05:	66 0f 2e d8          	ucomisd %xmm0,%xmm3
+  12af09:	75 02                	jne    12af0d <rheon::research_public_call::candidate::case41_fd_capture+0xebd>
+  12af0b:	7b 29                	jnp    12af36 <rheon::research_public_call::candidate::case41_fd_capture+0xee6>
+  12af0d:	66 49 0f 7e d9       	movq   %xmm3,%r9
+  12af12:	4d 89 ca             	mov    %r9,%r10
+  12af15:	4d 21 ea             	and    %r13,%r10
+  12af18:	49 39 ea             	cmp    %rbp,%r10
+  12af1b:	0f 84 3f 0c 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12af21:	49 21 e9             	and    %rbp,%r9
+  12af24:	49 39 e9             	cmp    %rbp,%r9
+  12af27:	0f 84 33 0c 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12af2d:	4d 85 c9             	test   %r9,%r9
+  12af30:	0f 84 2a 0c 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12af36:	f2 0f 11 1c fe       	movsd  %xmm3,(%rsi,%rdi,8)
+  12af3b:	66 0f 28 cb          	movapd %xmm3,%xmm1
+  12af3f:	49 83 f8 ff          	cmp    $0xffffffffffffffff,%r8
+  12af43:	74 4b                	je     12af90 <rheon::research_public_call::candidate::case41_fd_capture+0xf40>
+  12af45:	49 83 f8 15          	cmp    $0x15,%r8
+  12af49:	0f 87 35 0c 00 00    	ja     12bb84 <rheon::research_public_call::candidate::case41_fd_capture+0x1b34>
+  12af4f:	f2 42 0f 58 14 c6    	addsd  (%rsi,%r8,8),%xmm2
+  12af55:	66 0f 2e d0          	ucomisd %xmm0,%xmm2
+  12af59:	75 02                	jne    12af5d <rheon::research_public_call::candidate::case41_fd_capture+0xf0d>
+  12af5b:	7b 26                	jnp    12af83 <rheon::research_public_call::candidate::case41_fd_capture+0xf33>
+  12af5d:	66 48 0f 7e d7       	movq   %xmm2,%rdi
+  12af62:	49 89 f9             	mov    %rdi,%r9
+  12af65:	4d 21 e9             	and    %r13,%r9
+  12af68:	49 39 e9             	cmp    %rbp,%r9
+  12af6b:	0f 84 ef 0b 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12af71:	48 21 ef             	and    %rbp,%rdi
+  12af74:	0f 84 e6 0b 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12af7a:	48 39 ef             	cmp    %rbp,%rdi
+  12af7d:	0f 84 dd 0b 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12af83:	f2 42 0f 11 14 c6    	movsd  %xmm2,(%rsi,%r8,8)
+  12af89:	eb 09                	jmp    12af94 <rheon::research_public_call::candidate::case41_fd_capture+0xf44>
+  12af8b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  12af90:	66 0f 28 d1          	movapd %xmm1,%xmm2
+  12af94:	48 8b 78 d8          	mov    -0x28(%rax),%rdi
+  12af98:	4c 8b 40 e0          	mov    -0x20(%rax),%r8
+  12af9c:	f2 0f 10 18          	movsd  (%rax),%xmm3
+  12afa0:	48 83 ff ff          	cmp    $0xffffffffffffffff,%rdi
+  12afa4:	0f 84 b6 00 00 00    	je     12b060 <rheon::research_public_call::candidate::case41_fd_capture+0x1010>
+  12afaa:	48 83 ff 15          	cmp    $0x15,%rdi
+  12afae:	0f 87 c9 0b 00 00    	ja     12bb7d <rheon::research_public_call::candidate::case41_fd_capture+0x1b2d>
+  12afb4:	f2 0f 10 60 f8       	movsd  -0x8(%rax),%xmm4
+  12afb9:	f2 0f 58 a4 fe b0 00 	addsd  0xb0(%rsi,%rdi,8),%xmm4
+  12afc0:	00 00 
+  12afc2:	66 0f 2e e0          	ucomisd %xmm0,%xmm4
+  12afc6:	75 02                	jne    12afca <rheon::research_public_call::candidate::case41_fd_capture+0xf7a>
+  12afc8:	7b 2a                	jnp    12aff4 <rheon::research_public_call::candidate::case41_fd_capture+0xfa4>
+  12afca:	66 49 0f 7e e1       	movq   %xmm4,%r9
+  12afcf:	4d 89 ca             	mov    %r9,%r10
+  12afd2:	4d 21 ea             	and    %r13,%r10
+  12afd5:	66 0f 28 ca          	movapd %xmm2,%xmm1
+  12afd9:	49 39 ea             	cmp    %rbp,%r10
+  12afdc:	0f 84 7e 0b 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12afe2:	49 21 e9             	and    %rbp,%r9
+  12afe5:	0f 84 75 0b 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12afeb:	49 39 e9             	cmp    %rbp,%r9
+  12afee:	0f 84 6c 0b 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12aff4:	f2 0f 11 a4 fe b0 00 	movsd  %xmm4,0xb0(%rsi,%rdi,8)
+  12affb:	00 00 
+  12affd:	49 83 f8 ff          	cmp    $0xffffffffffffffff,%r8
+  12b001:	74 67                	je     12b06a <rheon::research_public_call::candidate::case41_fd_capture+0x101a>
+  12b003:	49 83 f8 15          	cmp    $0x15,%r8
+  12b007:	0f 87 77 0b 00 00    	ja     12bb84 <rheon::research_public_call::candidate::case41_fd_capture+0x1b34>
+  12b00d:	f2 42 0f 58 9c c6 b0 	addsd  0xb0(%rsi,%r8,8),%xmm3
+  12b014:	00 00 00 
+  12b017:	66 0f 2e d8          	ucomisd %xmm0,%xmm3
+  12b01b:	75 06                	jne    12b023 <rheon::research_public_call::candidate::case41_fd_capture+0xfd3>
+  12b01d:	0f 8b 8d fe ff ff    	jnp    12aeb0 <rheon::research_public_call::candidate::case41_fd_capture+0xe60>
+  12b023:	66 48 0f 7e df       	movq   %xmm3,%rdi
+  12b028:	49 89 f9             	mov    %rdi,%r9
+  12b02b:	4d 21 e9             	and    %r13,%r9
+  12b02e:	66 0f 28 cc          	movapd %xmm4,%xmm1
+  12b032:	49 39 e9             	cmp    %rbp,%r9
+  12b035:	0f 84 25 0b 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12b03b:	48 21 ef             	and    %rbp,%rdi
+  12b03e:	0f 84 1c 0b 00 00    	je     12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12b044:	48 39 ef             	cmp    %rbp,%rdi
+  12b047:	0f 85 63 fe ff ff    	jne    12aeb0 <rheon::research_public_call::candidate::case41_fd_capture+0xe60>
+  12b04d:	e9 0e 0b 00 00       	jmp    12bb60 <rheon::research_public_call::candidate::case41_fd_capture+0x1b10>
+  12b052:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  12b059:	1f 84 00 00 00 00 00 
+  12b060:	66 0f 28 e2          	movapd %xmm2,%xmm4
+  12b064:	49 83 f8 ff          	cmp    $0xffffffffffffffff,%r8
+  12b068:	75 99                	jne    12b003 <rheon::research_public_call::candidate::case41_fd_capture+0xfb3>
+  12b06a:	66 0f 28 dc          	movapd %xmm4,%xmm3
+  12b06e:	e9 47 fe ff ff       	jmp    12aeba <rheon::research_public_call::candidate::case41_fd_capture+0xe6a>
+  12b073:	48 8b b4 24 a8 05 00 	mov    0x5a8(%rsp),%rsi
+  12b07a:	00 
+  12b07b:	48 83 fe 04          	cmp    $0x4,%rsi
+  12b07f:	0f 82 25 0c 00 00    	jb     12bcaa <rheon::research_public_call::candidate::case41_fd_capture+0x1c5a>
+  12b085:	0f 84 30 0c 00 00    	je     12bcbb <rheon::research_public_call::candidate::case41_fd_capture+0x1c6b>
+  12b08b:	48 8b 84 24 a0 05 00 	mov    0x5a0(%rsp),%rax
+  12b092:	00 
+  12b093:	48 8b 58 48          	mov    0x48(%rax),%rbx
+  12b097:	4c 8b 78 50          	mov    0x50(%rax),%r15
+  12b09b:	4c 8b 60 60          	mov    0x60(%rax),%r12
+  12b09f:	48 8d bc 24 90 00 00 	lea    0x90(%rsp),%rdi
+  12b0a6:	00 
+  12b0a7:	48 8d b4 24 18 24 00 	lea    0x2418(%rsp),%rsi
+  12b0ae:	00 
+  12b0af:	ba 10 00 00 00       	mov    $0x10,%edx
+  12b0b4:	48 89 7c 24 38       	mov    %rdi,0x38(%rsp)
+  12b0b9:	e8 02 c7 ff ff       	call   1277c0 <rheon::research_public_call::candidate::coefficients>
+  12b0be:	66 0f 10 84 24 98 00 	movupd 0x98(%rsp),%xmm0
+  12b0c5:	00 00 
+  12b0c7:	f3 0f 7e 8c 24 a8 00 	movq   0xa8(%rsp),%xmm1
+  12b0ce:	00 00 
+  12b0d0:	80 bc 24 90 00 00 00 	cmpb   $0x0,0x90(%rsp)
+  12b0d7:	00 
+  12b0d8:	0f 85 f3 0b 00 00    	jne    12bcd1 <rheon::research_public_call::candidate::case41_fd_capture+0x1c81>
+  12b0de:	48 8b 84 24 f0 00 00 	mov    0xf0(%rsp),%rax
+  12b0e5:	00 
+  12b0e6:	48 89 84 24 80 02 00 	mov    %rax,0x280(%rsp)
+  12b0ed:	00 
+  12b0ee:	0f 10 94 24 c0 00 00 	movups 0xc0(%rsp),%xmm2
+  12b0f5:	00 
+  12b0f6:	0f 10 9c 24 d0 00 00 	movups 0xd0(%rsp),%xmm3
+  12b0fd:	00 
+  12b0fe:	0f 10 a4 24 e0 00 00 	movups 0xe0(%rsp),%xmm4
+  12b105:	00 
+  12b106:	0f 29 a4 24 70 02 00 	movaps %xmm4,0x270(%rsp)
+  12b10d:	00 
+  12b10e:	0f 29 9c 24 60 02 00 	movaps %xmm3,0x260(%rsp)
+  12b115:	00 
+  12b116:	0f 29 94 24 50 02 00 	movaps %xmm2,0x250(%rsp)
+  12b11d:	00 
+  12b11e:	f2 0f 10 94 24 f8 00 	movsd  0xf8(%rsp),%xmm2
+  12b125:	00 00 
+  12b127:	0f 10 9c 24 00 01 00 	movups 0x100(%rsp),%xmm3
+  12b12e:	00 
+  12b12f:	0f 29 9c 24 a0 01 00 	movaps %xmm3,0x1a0(%rsp)
+  12b136:	00 
+  12b137:	0f 10 9c 24 10 01 00 	movups 0x110(%rsp),%xmm3
+  12b13e:	00 
+  12b13f:	0f 29 9c 24 b0 01 00 	movaps %xmm3,0x1b0(%rsp)
+  12b146:	00 
+  12b147:	0f 10 9c 24 20 01 00 	movups 0x120(%rsp),%xmm3
+  12b14e:	00 
+  12b14f:	0f 29 9c 24 c0 01 00 	movaps %xmm3,0x1c0(%rsp)
+  12b156:	00 
+  12b157:	0f 10 9c 24 30 01 00 	movups 0x130(%rsp),%xmm3
+  12b15e:	00 
+  12b15f:	0f 29 9c 24 d0 01 00 	movaps %xmm3,0x1d0(%rsp)
+  12b166:	00 
+  12b167:	48 8b 84 24 40 01 00 	mov    0x140(%rsp),%rax
+  12b16e:	00 
+  12b16f:	48 89 84 24 e0 01 00 	mov    %rax,0x1e0(%rsp)
+  12b176:	00 
+  12b177:	66 0f 10 9c 24 b0 00 	movupd 0xb0(%rsp),%xmm3
+  12b17e:	00 00 
+  12b180:	48 8b 4c 24 30       	mov    0x30(%rsp),%rcx
+  12b185:	66 0f 29 81 c0 f1 00 	movapd %xmm0,0xf1c0(%rcx)
+  12b18c:	00 
+  12b18d:	66 0f d6 89 d0 f1 00 	movq   %xmm1,0xf1d0(%rcx)
+  12b194:	00 
+  12b195:	66 0f 11 99 d8 f1 00 	movupd %xmm3,0xf1d8(%rcx)
+  12b19c:	00 
+  12b19d:	0f 28 a4 24 50 02 00 	movaps 0x250(%rsp),%xmm4
+  12b1a4:	00 
+  12b1a5:	0f 28 ac 24 60 02 00 	movaps 0x260(%rsp),%xmm5
+  12b1ac:	00 
+  12b1ad:	0f 28 b4 24 70 02 00 	movaps 0x270(%rsp),%xmm6
+  12b1b4:	00 
+  12b1b5:	0f 11 a1 e8 f1 00 00 	movups %xmm4,0xf1e8(%rcx)
+  12b1bc:	0f 11 a9 f8 f1 00 00 	movups %xmm5,0xf1f8(%rcx)
+  12b1c3:	0f 11 b1 08 f2 00 00 	movups %xmm6,0xf208(%rcx)
+  12b1ca:	48 8b 84 24 80 02 00 	mov    0x280(%rsp),%rax
+  12b1d1:	00 
+  12b1d2:	48 89 81 18 f2 00 00 	mov    %rax,0xf218(%rcx)
+  12b1d9:	f2 0f 11 91 20 f2 00 	movsd  %xmm2,0xf220(%rcx)
+  12b1e0:	00 
+  12b1e1:	0f 28 a4 24 a0 01 00 	movaps 0x1a0(%rsp),%xmm4
+  12b1e8:	00 
+  12b1e9:	0f 28 ac 24 b0 01 00 	movaps 0x1b0(%rsp),%xmm5
+  12b1f0:	00 
+  12b1f1:	0f 28 b4 24 c0 01 00 	movaps 0x1c0(%rsp),%xmm6
+  12b1f8:	00 
+  12b1f9:	0f 28 bc 24 d0 01 00 	movaps 0x1d0(%rsp),%xmm7
+  12b200:	00 
+  12b201:	0f 11 a1 28 f2 00 00 	movups %xmm4,0xf228(%rcx)
+  12b208:	0f 11 a9 38 f2 00 00 	movups %xmm5,0xf238(%rcx)
+  12b20f:	0f 11 b1 48 f2 00 00 	movups %xmm6,0xf248(%rcx)
+  12b216:	0f 11 b9 58 f2 00 00 	movups %xmm7,0xf258(%rcx)
+  12b21d:	48 8b 84 24 e0 01 00 	mov    0x1e0(%rsp),%rax
+  12b224:	00 
+  12b225:	48 89 81 68 f2 00 00 	mov    %rax,0xf268(%rcx)
+  12b22c:	48 89 9c 24 50 02 00 	mov    %rbx,0x250(%rsp)
+  12b233:	00 
+  12b234:	4c 89 a4 24 58 02 00 	mov    %r12,0x258(%rsp)
+  12b23b:	00 
+  12b23c:	4c 89 bc 24 60 02 00 	mov    %r15,0x260(%rsp)
+  12b243:	00 
+  12b244:	49 8b 86 b8 07 00 00 	mov    0x7b8(%r14),%rax
+  12b24b:	41 0f 10 a6 a8 07 00 	movups 0x7a8(%r14),%xmm4
+  12b252:	00 
+  12b253:	f3 41 0f 7e ae b8 07 	movq   0x7b8(%r14),%xmm5
+  12b25a:	00 00 
+  12b25c:	0f 29 a4 24 a0 01 00 	movaps %xmm4,0x1a0(%rsp)
+  12b263:	00 
+  12b264:	48 89 84 24 b0 01 00 	mov    %rax,0x1b0(%rsp)
+  12b26b:	00 
+  12b26c:	f3 0f 6f a4 24 50 02 	movdqu 0x250(%rsp),%xmm4
+  12b273:	00 00 
+  12b275:	66 49 0f 6e f7       	movq   %r15,%xmm6
+  12b27a:	66 0f 74 a4 24 a0 01 	pcmpeqb 0x1a0(%rsp),%xmm4
+  12b281:	00 00 
+  12b283:	66 0f 74 f5          	pcmpeqb %xmm5,%xmm6
+  12b287:	66 0f db e6          	pand   %xmm6,%xmm4
+  12b28b:	66 0f d7 c4          	pmovmskb %xmm4,%eax
+  12b28f:	3d ff ff 00 00       	cmp    $0xffff,%eax
+  12b294:	0f 85 58 08 00 00    	jne    12baf2 <rheon::research_public_call::candidate::case41_fd_capture+0x1aa2>
+  12b29a:	66 0f d6 8c 24 50 02 	movq   %xmm1,0x250(%rsp)
+  12b2a1:	00 00 
+  12b2a3:	66 0f 13 9c 24 58 02 	movlpd %xmm3,0x258(%rsp)
+  12b2aa:	00 00 
+  12b2ac:	f2 0f 11 94 24 60 02 	movsd  %xmm2,0x260(%rsp)
+  12b2b3:	00 00 
+  12b2b5:	66 0f 11 84 24 68 02 	movupd %xmm0,0x268(%rsp)
+  12b2bc:	00 00 
+  12b2be:	66 0f 17 9c 24 78 02 	movhpd %xmm3,0x278(%rsp)
+  12b2c5:	00 00 
+  12b2c7:	41 0f 10 86 a0 06 00 	movups 0x6a0(%r14),%xmm0
+  12b2ce:	00 
+  12b2cf:	0f 29 84 24 a0 01 00 	movaps %xmm0,0x1a0(%rsp)
+  12b2d6:	00 
+  12b2d7:	41 0f 10 86 b0 06 00 	movups 0x6b0(%r14),%xmm0
+  12b2de:	00 
+  12b2df:	0f 29 84 24 b0 01 00 	movaps %xmm0,0x1b0(%rsp)
+  12b2e6:	00 
+  12b2e7:	66 41 0f 10 86 c0 06 	movupd 0x6c0(%r14),%xmm0
+  12b2ee:	00 00 
+  12b2f0:	66 0f 29 84 24 c0 01 	movapd %xmm0,0x1c0(%rsp)
+  12b2f7:	00 00 
+  12b2f9:	48 8d bc 24 50 02 00 	lea    0x250(%rsp),%rdi
+  12b300:	00 
+  12b301:	48 8d b4 24 a0 01 00 	lea    0x1a0(%rsp),%rsi
+  12b308:	00 
+  12b309:	ba 30 00 00 00       	mov    $0x30,%edx
+  12b30e:	ff 15 94 3f 1b 00    	call   *0x1b3f94(%rip)        # 2df2a8 <bcmp@GLIBC_2.2.5>
+  12b314:	85 c0                	test   %eax,%eax
+  12b316:	0f 85 0d 08 00 00    	jne    12bb29 <rheon::research_public_call::candidate::case41_fd_capture+0x1ad9>
+  12b31c:	48 8b 44 24 30       	mov    0x30(%rsp),%rax
+  12b321:	48 89 84 24 90 07 00 	mov    %rax,0x790(%rsp)
+  12b328:	00 
+  12b329:	4d 8d a6 d0 06 00 00 	lea    0x6d0(%r14),%r12
+  12b330:	48 c7 44 24 10 00 00 	movq   $0x0,0x10(%rsp)
+  12b337:	00 00 
+  12b339:	48 c7 04 24 00 00 00 	movq   $0x0,(%rsp)
+  12b340:	00 
+  12b341:	48 8d bc 24 90 00 00 	lea    0x90(%rsp),%rdi
+  12b348:	00 
+  12b349:	48 8d 9c 24 98 05 00 	lea    0x598(%rsp),%rbx
+  12b350:	00 
+  12b351:	48 8d 8c 24 18 24 00 	lea    0x2418(%rsp),%rcx
+  12b358:	00 
+  12b359:	4c 8d 84 24 20 03 00 	lea    0x320(%rsp),%r8
+  12b360:	00 
+  12b361:	66 0f 57 c0          	xorpd  %xmm0,%xmm0
+  12b365:	48 89 de             	mov    %rbx,%rsi
+  12b368:	4c 89 f2             	mov    %r14,%rdx
+  12b36b:	4d 89 e1             	mov    %r12,%r9
+  12b36e:	e8 0d 4d 01 00       	call   140080 <rheon::research_public_call::candidate::Work::case41_fd_equation>
+  12b373:	48 8d b4 24 98 00 00 	lea    0x98(%rsp),%rsi
+  12b37a:	00 
+  12b37b:	83 bc 24 90 00 00 00 	cmpl   $0x1,0x90(%rsp)
+  12b382:	01 
+  12b383:	0f 85 2a 01 00 00    	jne    12b4b3 <rheon::research_public_call::candidate::case41_fd_capture+0x1463>
+  12b389:	48 8b 46 10          	mov    0x10(%rsi),%rax
+  12b38d:	48 89 84 24 60 01 00 	mov    %rax,0x160(%rsp)
+  12b394:	00 
+  12b395:	66 0f 10 06          	movupd (%rsi),%xmm0
+  12b399:	66 0f 29 84 24 50 01 	movapd %xmm0,0x150(%rsp)
+  12b3a0:	00 00 
+  12b3a2:	48 8d 84 24 50 01 00 	lea    0x150(%rsp),%rax
+  12b3a9:	00 
+  12b3aa:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+  12b3af:	48 8d 05 8a 2c 04 00 	lea    0x42c8a(%rip),%rax        # 16e040 <<rheon::research_public_call::candidate::CoupledDiscreteError as core::fmt::Debug>::fmt>
+  12b3b6:	48 89 44 24 48       	mov    %rax,0x48(%rsp)
+  12b3bb:	48 8d 05 ae 74 ef ff 	lea    -0x108b52(%rip),%rax        # 22870 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.72.llvm.10282014458859423806+0xae0>
+  12b3c2:	48 89 84 24 a0 01 00 	mov    %rax,0x1a0(%rsp)
+  12b3c9:	00 
+  12b3ca:	48 c7 84 24 a8 01 00 	movq   $0x1,0x1a8(%rsp)
+  12b3d1:	00 01 00 00 00 
+  12b3d6:	4c 8d 7c 24 40       	lea    0x40(%rsp),%r15
+  12b3db:	4c 89 bc 24 b0 01 00 	mov    %r15,0x1b0(%rsp)
+  12b3e2:	00 
+  12b3e3:	48 c7 84 24 b8 01 00 	movq   $0x1,0x1b8(%rsp)
+  12b3ea:	00 01 00 00 00 
+  12b3ef:	48 c7 84 24 c0 01 00 	movq   $0x0,0x1c0(%rsp)
+  12b3f6:	00 00 00 00 00 
+  12b3fb:	4c 8d b4 24 50 02 00 	lea    0x250(%rsp),%r14
+  12b402:	00 
+  12b403:	48 8d b4 24 a0 01 00 	lea    0x1a0(%rsp),%rsi
+  12b40a:	00 
+  12b40b:	4c 89 f7             	mov    %r14,%rdi
+  12b40e:	ff 15 b4 3e 1b 00    	call   *0x1b3eb4(%rip)        # 2df2c8 <_DYNAMIC+0x310>
+  12b414:	66 0f 10 84 24 50 02 	movupd 0x250(%rsp),%xmm0
+  12b41b:	00 00 
+  12b41d:	66 0f 29 44 24 40    	movapd %xmm0,0x40(%rsp)
+  12b423:	48 8b 84 24 60 02 00 	mov    0x260(%rsp),%rax
+  12b42a:	00 
+  12b42b:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+  12b430:	4c 89 bc 24 50 02 00 	mov    %r15,0x250(%rsp)
+  12b437:	00 
+  12b438:	48 8d 05 c1 25 ff ff 	lea    -0xda3f(%rip),%rax        # 11da00 <<alloc::string::String as core::fmt::Debug>::fmt>
+  12b43f:	48 89 84 24 58 02 00 	mov    %rax,0x258(%rsp)
+  12b446:	00 
+  12b447:	48 8d 05 0a ac 19 00 	lea    0x19ac0a(%rip),%rax        # 2c6058 <__frame_dummy_init_array_entry+0xf60>
+  12b44e:	48 89 84 24 a0 01 00 	mov    %rax,0x1a0(%rsp)
+  12b455:	00 
+  12b456:	48 c7 84 24 a8 01 00 	movq   $0x2,0x1a8(%rsp)
+  12b45d:	00 02 00 00 00 
+  12b462:	48 c7 84 24 c0 01 00 	movq   $0x0,0x1c0(%rsp)
+  12b469:	00 00 00 00 00 
+  12b46e:	4c 89 b4 24 b0 01 00 	mov    %r14,0x1b0(%rsp)
+  12b475:	00 
+  12b476:	48 c7 84 24 b8 01 00 	movq   $0x1,0x1b8(%rsp)
+  12b47d:	00 01 00 00 00 
+  12b482:	48 8d bc 24 a0 01 00 	lea    0x1a0(%rsp),%rdi
+  12b489:	00 
+  12b48a:	ff 15 20 3e 1b 00    	call   *0x1b3e20(%rip)        # 2df2b0 <_DYNAMIC+0x2f8>
+  12b490:	48 8b 74 24 40       	mov    0x40(%rsp),%rsi
+  12b495:	48 85 f6             	test   %rsi,%rsi
+  12b498:	0f 84 69 03 00 00    	je     12b807 <rheon::research_public_call::candidate::case41_fd_capture+0x17b7>
+  12b49e:	48 8b 7c 24 48       	mov    0x48(%rsp),%rdi
+  12b4a3:	ba 01 00 00 00       	mov    $0x1,%edx
+  12b4a8:	ff 15 92 3d 1b 00    	call   *0x1b3d92(%rip)        # 2df240 <_DYNAMIC+0x288>
+  12b4ae:	e9 54 03 00 00       	jmp    12b807 <rheon::research_public_call::candidate::case41_fd_capture+0x17b7>
+  12b4b3:	ba b0 00 00 00       	mov    $0xb0,%edx
+  12b4b8:	48 8d bc 24 50 02 00 	lea    0x250(%rsp),%rdi
+  12b4bf:	00 
+  12b4c0:	ff 15 9a 3d 1b 00    	call   *0x1b3d9a(%rip)        # 2df260 <memcpy@GLIBC_2.14>
+  12b4c6:	31 db                	xor    %ebx,%ebx
+  12b4c8:	66 0f 57 d2          	xorpd  %xmm2,%xmm2
+  12b4cc:	4c 8d bc 24 a0 01 00 	lea    0x1a0(%rsp),%r15
+  12b4d3:	00 
+  12b4d4:	48 8d 84 24 90 00 00 	lea    0x90(%rsp),%rax
+  12b4db:	00 
+  12b4dc:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+  12b4e1:	eb 2d                	jmp    12b510 <rheon::research_public_call::candidate::case41_fd_capture+0x14c0>
+  12b4e3:	66 66 66 66 2e 0f 1f 	data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  12b4ea:	84 00 00 00 00 00 
+  12b4f0:	48 ff c3             	inc    %rbx
+  12b4f3:	66 0f 6f 8c 24 80 01 	movdqa 0x180(%rsp),%xmm1
+  12b4fa:	00 00 
+  12b4fc:	f2 0f 10 44 24 30    	movsd  0x30(%rsp),%xmm0
+  12b502:	48 83 fb 06          	cmp    $0x6,%rbx
+  12b506:	66 0f 57 d2          	xorpd  %xmm2,%xmm2
+  12b50a:	0f 84 b5 02 00 00    	je     12b7c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1775>
+  12b510:	48 89 9c 24 98 01 00 	mov    %rbx,0x198(%rsp)
+  12b517:	00 
+  12b518:	f2 41 0f 10 9c de d0 	movsd  0x6d0(%r14,%rbx,8),%xmm3
+  12b51f:	06 00 00 
+  12b522:	66 0f 54 1d 66 6b ef 	andpd  -0x10949a(%rip),%xmm3        # 22090 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.72.llvm.10282014458859423806+0x300>
+  12b529:	ff 
+  12b52a:	f2 0f 58 1d 36 66 ef 	addsd  -0x1099ca(%rip),%xmm3        # 21b68 <_IO_stdin_used+0x25c>
+  12b531:	ff 
+  12b532:	66 0f 2e da          	ucomisd %xmm2,%xmm3
+  12b536:	75 02                	jne    12b53a <rheon::research_public_call::candidate::case41_fd_capture+0x14ea>
+  12b538:	7b 29                	jnp    12b563 <rheon::research_public_call::candidate::case41_fd_capture+0x1513>
+  12b53a:	66 48 0f 7e d8       	movq   %xmm3,%rax
+  12b53f:	48 89 c1             	mov    %rax,%rcx
+  12b542:	4c 21 e9             	and    %r13,%rcx
+  12b545:	48 39 e9             	cmp    %rbp,%rcx
+  12b548:	0f 84 75 06 00 00    	je     12bbc3 <rheon::research_public_call::candidate::case41_fd_capture+0x1b73>
+  12b54e:	48 21 e8             	and    %rbp,%rax
+  12b551:	48 39 e8             	cmp    %rbp,%rax
+  12b554:	0f 84 69 06 00 00    	je     12bbc3 <rheon::research_public_call::candidate::case41_fd_capture+0x1b73>
+  12b55a:	48 85 c0             	test   %rax,%rax
+  12b55d:	0f 84 60 06 00 00    	je     12bbc3 <rheon::research_public_call::candidate::case41_fd_capture+0x1b73>
+  12b563:	66 0f 28 cb          	movapd %xmm3,%xmm1
+  12b567:	f2 0f 59 0d e1 66 ef 	mulsd  -0x10991f(%rip),%xmm1        # 21c50 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.48.llvm.10282014458859423806+0xe0>
+  12b56e:	ff 
+  12b56f:	66 0f 2e ca          	ucomisd %xmm2,%xmm1
+  12b573:	f2 0f 11 4c 24 30    	movsd  %xmm1,0x30(%rsp)
+  12b579:	0f 29 9c 24 80 01 00 	movaps %xmm3,0x180(%rsp)
+  12b580:	00 
+  12b581:	75 1d                	jne    12b5a0 <rheon::research_public_call::candidate::case41_fd_capture+0x1550>
+  12b583:	7a 1b                	jp     12b5a0 <rheon::research_public_call::candidate::case41_fd_capture+0x1550>
+  12b585:	66 0f 2e da          	ucomisd %xmm2,%xmm3
+  12b589:	0f 85 1a 06 00 00    	jne    12bba9 <rheon::research_public_call::candidate::case41_fd_capture+0x1b59>
+  12b58f:	7b 38                	jnp    12b5c9 <rheon::research_public_call::candidate::case41_fd_capture+0x1579>
+  12b591:	e9 13 06 00 00       	jmp    12bba9 <rheon::research_public_call::candidate::case41_fd_capture+0x1b59>
+  12b596:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  12b59d:	00 00 00 
+  12b5a0:	66 48 0f 7e c8       	movq   %xmm1,%rax
+  12b5a5:	48 89 c1             	mov    %rax,%rcx
+  12b5a8:	4c 21 e9             	and    %r13,%rcx
+  12b5ab:	48 39 e9             	cmp    %rbp,%rcx
+  12b5ae:	0f 84 f5 05 00 00    	je     12bba9 <rheon::research_public_call::candidate::case41_fd_capture+0x1b59>
+  12b5b4:	48 21 e8             	and    %rbp,%rax
+  12b5b7:	48 39 e8             	cmp    %rbp,%rax
+  12b5ba:	0f 84 e9 05 00 00    	je     12bba9 <rheon::research_public_call::candidate::case41_fd_capture+0x1b59>
+  12b5c0:	48 85 c0             	test   %rax,%rax
+  12b5c3:	0f 84 e0 05 00 00    	je     12bba9 <rheon::research_public_call::candidate::case41_fd_capture+0x1b59>
+  12b5c9:	ba b0 00 00 00       	mov    $0xb0,%edx
+  12b5ce:	4c 89 ff             	mov    %r15,%rdi
+  12b5d1:	4c 89 e6             	mov    %r12,%rsi
+  12b5d4:	ff 15 86 3c 1b 00    	call   *0x1b3c86(%rip)        # 2df260 <memcpy@GLIBC_2.14>
+  12b5da:	f2 0f 10 94 dc a0 01 	movsd  0x1a0(%rsp,%rbx,8),%xmm2
+  12b5e1:	00 00 
+  12b5e3:	f2 0f 10 4c 24 30    	movsd  0x30(%rsp),%xmm1
+  12b5e9:	f2 0f 58 d1          	addsd  %xmm1,%xmm2
+  12b5ed:	66 0f 57 c0          	xorpd  %xmm0,%xmm0
+  12b5f1:	66 0f 2e d0          	ucomisd %xmm0,%xmm2
+  12b5f5:	75 02                	jne    12b5f9 <rheon::research_public_call::candidate::case41_fd_capture+0x15a9>
+  12b5f7:	7b 29                	jnp    12b622 <rheon::research_public_call::candidate::case41_fd_capture+0x15d2>
+  12b5f9:	66 48 0f 7e d0       	movq   %xmm2,%rax
+  12b5fe:	48 89 c1             	mov    %rax,%rcx
+  12b601:	4c 21 e9             	and    %r13,%rcx
+  12b604:	48 39 e9             	cmp    %rbp,%rcx
+  12b607:	0f 84 d0 05 00 00    	je     12bbdd <rheon::research_public_call::candidate::case41_fd_capture+0x1b8d>
+  12b60d:	48 21 e8             	and    %rbp,%rax
+  12b610:	48 39 e8             	cmp    %rbp,%rax
+  12b613:	0f 84 c4 05 00 00    	je     12bbdd <rheon::research_public_call::candidate::case41_fd_capture+0x1b8d>
+  12b619:	48 85 c0             	test   %rax,%rax
+  12b61c:	0f 84 bb 05 00 00    	je     12bbdd <rheon::research_public_call::candidate::case41_fd_capture+0x1b8d>
+  12b622:	f2 0f 11 94 24 70 01 	movsd  %xmm2,0x170(%rsp)
+  12b629:	00 00 
+  12b62b:	f2 0f 11 94 dc a0 01 	movsd  %xmm2,0x1a0(%rsp,%rbx,8)
+  12b632:	00 00 
+  12b634:	48 8d 84 24 50 02 00 	lea    0x250(%rsp),%rax
+  12b63b:	00 
+  12b63c:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+  12b641:	48 89 5c 24 08       	mov    %rbx,0x8(%rsp)
+  12b646:	48 c7 04 24 01 00 00 	movq   $0x1,(%rsp)
+  12b64d:	00 
+  12b64e:	48 8d bc 24 90 00 00 	lea    0x90(%rsp),%rdi
+  12b655:	00 
+  12b656:	48 8d b4 24 98 05 00 	lea    0x598(%rsp),%rsi
+  12b65d:	00 
+  12b65e:	4c 89 f2             	mov    %r14,%rdx
+  12b661:	48 8d 8c 24 18 24 00 	lea    0x2418(%rsp),%rcx
+  12b668:	00 
+  12b669:	4c 8d 84 24 20 03 00 	lea    0x320(%rsp),%r8
+  12b670:	00 
+  12b671:	4d 89 f9             	mov    %r15,%r9
+  12b674:	66 0f 28 c1          	movapd %xmm1,%xmm0
+  12b678:	e8 03 4a 01 00       	call   140080 <rheon::research_public_call::candidate::Work::case41_fd_equation>
+  12b67d:	83 bc 24 90 00 00 00 	cmpl   $0x1,0x90(%rsp)
+  12b684:	01 
+  12b685:	0f 85 65 fe ff ff    	jne    12b4f0 <rheon::research_public_call::candidate::case41_fd_capture+0x14a0>
+  12b68b:	48 8d 8c 24 98 00 00 	lea    0x98(%rsp),%rcx
+  12b692:	00 
+  12b693:	48 8b 41 10          	mov    0x10(%rcx),%rax
+  12b697:	48 89 84 24 10 03 00 	mov    %rax,0x310(%rsp)
+  12b69e:	00 
+  12b69f:	66 0f 10 01          	movupd (%rcx),%xmm0
+  12b6a3:	66 0f 29 84 24 00 03 	movapd %xmm0,0x300(%rsp)
+  12b6aa:	00 00 
+  12b6ac:	48 8d 84 24 00 03 00 	lea    0x300(%rsp),%rax
+  12b6b3:	00 
+  12b6b4:	48 89 44 24 70       	mov    %rax,0x70(%rsp)
+  12b6b9:	48 8d 05 80 29 04 00 	lea    0x42980(%rip),%rax        # 16e040 <<rheon::research_public_call::candidate::CoupledDiscreteError as core::fmt::Debug>::fmt>
+  12b6c0:	48 89 44 24 78       	mov    %rax,0x78(%rsp)
+  12b6c5:	48 8d 05 a4 71 ef ff 	lea    -0x108e5c(%rip),%rax        # 22870 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.72.llvm.10282014458859423806+0xae0>
+  12b6cc:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+  12b6d1:	48 c7 44 24 48 01 00 	movq   $0x1,0x48(%rsp)
+  12b6d8:	00 00 
+  12b6da:	48 8d 44 24 70       	lea    0x70(%rsp),%rax
+  12b6df:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+  12b6e4:	48 c7 44 24 58 01 00 	movq   $0x1,0x58(%rsp)
+  12b6eb:	00 00 
+  12b6ed:	48 c7 44 24 60 00 00 	movq   $0x0,0x60(%rsp)
+  12b6f4:	00 00 
+  12b6f6:	48 8d bc 24 50 01 00 	lea    0x150(%rsp),%rdi
+  12b6fd:	00 
+  12b6fe:	48 8d 74 24 40       	lea    0x40(%rsp),%rsi
+  12b703:	ff 15 bf 3b 1b 00    	call   *0x1b3bbf(%rip)        # 2df2c8 <_DYNAMIC+0x310>
+  12b709:	66 0f 10 84 24 50 01 	movupd 0x150(%rsp),%xmm0
+  12b710:	00 00 
+  12b712:	66 0f 29 44 24 70    	movapd %xmm0,0x70(%rsp)
+  12b718:	48 8b 84 24 60 01 00 	mov    0x160(%rsp),%rax
+  12b71f:	00 
+  12b720:	48 89 84 24 80 00 00 	mov    %rax,0x80(%rsp)
+  12b727:	00 
+  12b728:	48 8d 84 24 98 01 00 	lea    0x198(%rsp),%rax
+  12b72f:	00 
+  12b730:	48 89 84 24 50 01 00 	mov    %rax,0x150(%rsp)
+  12b737:	00 
+  12b738:	48 8b 05 e9 3a 1b 00 	mov    0x1b3ae9(%rip),%rax        # 2df228 <_DYNAMIC+0x270>
+  12b73f:	48 89 84 24 58 01 00 	mov    %rax,0x158(%rsp)
+  12b746:	00 
+  12b747:	48 8d 44 24 70       	lea    0x70(%rsp),%rax
+  12b74c:	48 89 84 24 60 01 00 	mov    %rax,0x160(%rsp)
+  12b753:	00 
+  12b754:	48 8d 05 a5 22 ff ff 	lea    -0xdd5b(%rip),%rax        # 11da00 <<alloc::string::String as core::fmt::Debug>::fmt>
+  12b75b:	48 89 84 24 68 01 00 	mov    %rax,0x168(%rsp)
+  12b762:	00 
+  12b763:	48 8d 05 be a8 19 00 	lea    0x19a8be(%rip),%rax        # 2c6028 <__frame_dummy_init_array_entry+0xf30>
+  12b76a:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+  12b76f:	48 c7 44 24 48 03 00 	movq   $0x3,0x48(%rsp)
+  12b776:	00 00 
+  12b778:	48 c7 44 24 60 00 00 	movq   $0x0,0x60(%rsp)
+  12b77f:	00 00 
+  12b781:	48 8d 84 24 50 01 00 	lea    0x150(%rsp),%rax
+  12b788:	00 
+  12b789:	48 89 44 24 50       	mov    %rax,0x50(%rsp)
+  12b78e:	48 c7 44 24 58 02 00 	movq   $0x2,0x58(%rsp)
+  12b795:	00 00 
+  12b797:	48 8d 7c 24 40       	lea    0x40(%rsp),%rdi
+  12b79c:	ff 15 0e 3b 1b 00    	call   *0x1b3b0e(%rip)        # 2df2b0 <_DYNAMIC+0x2f8>
+  12b7a2:	48 8b 74 24 70       	mov    0x70(%rsp),%rsi
+  12b7a7:	48 85 f6             	test   %rsi,%rsi
+  12b7aa:	0f 84 40 fd ff ff    	je     12b4f0 <rheon::research_public_call::candidate::case41_fd_capture+0x14a0>
+  12b7b0:	48 8b 7c 24 78       	mov    0x78(%rsp),%rdi
+  12b7b5:	ba 01 00 00 00       	mov    $0x1,%edx
+  12b7ba:	ff 15 80 3a 1b 00    	call   *0x1b3a80(%rip)        # 2df240 <_DYNAMIC+0x288>
+  12b7c0:	e9 2b fd ff ff       	jmp    12b4f0 <rheon::research_public_call::candidate::case41_fd_capture+0x14a0>
+  12b7c5:	48 8d 05 04 a8 19 00 	lea    0x19a804(%rip),%rax        # 2c5fd0 <__frame_dummy_init_array_entry+0xed8>
+  12b7cc:	48 89 84 24 90 00 00 	mov    %rax,0x90(%rsp)
+  12b7d3:	00 
+  12b7d4:	48 c7 84 24 98 00 00 	movq   $0x1,0x98(%rsp)
+  12b7db:	00 01 00 00 00 
+  12b7e0:	48 c7 84 24 a0 00 00 	movq   $0x8,0xa0(%rsp)
+  12b7e7:	00 08 00 00 00 
+  12b7ec:	66 0f 57 c0          	xorpd  %xmm0,%xmm0
+  12b7f0:	66 0f 11 84 24 a8 00 	movupd %xmm0,0xa8(%rsp)
+  12b7f7:	00 00 
+  12b7f9:	48 8d bc 24 90 00 00 	lea    0x90(%rsp),%rdi
+  12b800:	00 
+  12b801:	ff 15 a9 3a 1b 00    	call   *0x1b3aa9(%rip)        # 2df2b0 <_DYNAMIC+0x2f8>
+  12b807:	48 8d bc 24 98 05 00 	lea    0x598(%rsp),%rdi
+  12b80e:	00 
+  12b80f:	e8 3c 1e ff ff       	call   11d650 <core::ptr::drop_in_place<rheon::fitted_height::FittedHeightWorkspace>>
+  12b814:	48 81 c4 98 25 00 00 	add    $0x2598,%rsp
+  12b81b:	5b                   	pop    %rbx
+  12b81c:	41 5c                	pop    %r12
+  12b81e:	41 5d                	pop    %r13
+  12b820:	41 5e                	pop    %r14
+  12b822:	41 5f                	pop    %r15
+  12b824:	5d                   	pop    %rbp
+  12b825:	c3                   	ret
+  12b826:	48 c7 84 24 98 05 00 	movq   $0x0,0x598(%rsp)
+  12b82d:	00 00 00 00 00 
+  12b832:	49 81 c6 80 07 00 00 	add    $0x780,%r14
+  12b839:	48 8d 15 b8 63 ef ff 	lea    -0x109c48(%rip),%rdx        # 21bf8 <anon.9edbdfa1096475c9f24f3bdc5a1ad100.48.llvm.10282014458859423806+0x88>
+  12b840:	4c 8d 05 d9 a8 19 00 	lea    0x19a8d9(%rip),%r8        # 2c6120 <__frame_dummy_init_array_entry+0x1028>
+  12b847:	48 8d 8c 24 98 05 00 	lea    0x598(%rsp),%rcx
+  12b84e:	00 
+  12b84f:	31 ff                	xor    %edi,%edi
+  12b851:	4c 89 f6             	mov    %r14,%rsi
+  12b854:	ff 15 76 3a 1b 00    	call   *0x1b3a76(%rip)        # 2df2d0 <_DYNAMIC+0x318>
+  12b85a:	48 8b 84 24 b0 05 00 	mov    0x5b0(%rsp),%rax
+  12b861:	00 
+  12b862:	48 89 84 24 b0 03 00 	mov    %rax,0x3b0(%rsp)
+  12b869:	00 
+  12b86a:	0f 10 84 24 a0 05 00 	movups 0x5a0(%rsp),%xmm0
+  12b871:	00 
+  12b872:	0f 29 84 24 a0 03 00 	movaps %xmm0,0x3a0(%rsp)
+  12b879:	00 
+  12b87a:	48 8d 3d 74 96 ef ff 	lea    -0x10698c(%rip),%rdi        # 24ef5 <anon.d4e3d1f0c0662585dc808c704bf49f13.5.llvm.11613841210682681214+0x9a9>
+  12b881:	48 8d 0d 88 a2 19 00 	lea    0x19a288(%rip),%rcx        # 2c5b10 <__frame_dummy_init_array_entry+0xa18>
+  12b888:	4c 8d 05 e1 a6 19 00 	lea    0x19a6e1(%rip),%r8        # 2c5f70 <__frame_dummy_init_array_entry+0xe78>
+  12b88f:	48 8d 94 24 a0 03 00 	lea    0x3a0(%rsp),%rdx
+  12b896:	00 
+  12b897:	be 2b 00 00 00       	mov    $0x2b,%esi
+  12b89c:	ff 15 16 3a 1b 00    	call   *0x1b3a16(%rip)        # 2df2b8 <_DYNAMIC+0x300>
+  12b8a2:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b8a7:	49 81 c6 c0 04 00 00 	add    $0x4c0,%r14
+  12b8ae:	e9 12 01 00 00       	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b8b3:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b8b8:	49 81 c6 d0 04 00 00 	add    $0x4d0,%r14
+  12b8bf:	e9 01 01 00 00       	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b8c4:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b8c9:	49 81 c6 e0 04 00 00 	add    $0x4e0,%r14
+  12b8d0:	e9 f0 00 00 00       	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b8d5:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b8da:	49 81 c6 f0 04 00 00 	add    $0x4f0,%r14
+  12b8e1:	e9 df 00 00 00       	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b8e6:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b8eb:	49 81 c6 00 05 00 00 	add    $0x500,%r14
+  12b8f2:	e9 ce 00 00 00       	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b8f7:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b8fc:	49 81 c6 10 05 00 00 	add    $0x510,%r14
+  12b903:	e9 bd 00 00 00       	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b908:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b90d:	49 81 c6 20 05 00 00 	add    $0x520,%r14
+  12b914:	e9 ac 00 00 00       	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b919:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b91e:	49 81 c6 30 05 00 00 	add    $0x530,%r14
+  12b925:	e9 9b 00 00 00       	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b92a:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b92f:	49 81 c6 40 05 00 00 	add    $0x540,%r14
+  12b936:	e9 8a 00 00 00       	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b93b:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b940:	49 81 c6 50 05 00 00 	add    $0x550,%r14
+  12b947:	eb 7c                	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b949:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b94e:	49 81 c6 60 05 00 00 	add    $0x560,%r14
+  12b955:	eb 6e                	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b957:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b95c:	49 81 c6 70 05 00 00 	add    $0x570,%r14
+  12b963:	eb 60                	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b965:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b96a:	49 81 c6 80 05 00 00 	add    $0x580,%r14
+  12b971:	eb 52                	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b973:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b978:	49 81 c6 90 05 00 00 	add    $0x590,%r14
+  12b97f:	eb 44                	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b981:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b986:	49 81 c6 a0 05 00 00 	add    $0x5a0,%r14
+  12b98d:	eb 36                	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b98f:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b994:	49 81 c6 b0 05 00 00 	add    $0x5b0,%r14
+  12b99b:	eb 28                	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b99d:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b9a2:	49 81 c6 c0 05 00 00 	add    $0x5c0,%r14
+  12b9a9:	eb 1a                	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b9ab:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b9b0:	49 81 c6 d0 05 00 00 	add    $0x5d0,%r14
+  12b9b7:	eb 0c                	jmp    12b9c5 <rheon::research_public_call::candidate::case41_fd_capture+0x1975>
+  12b9b9:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b9be:	49 81 c6 e0 05 00 00 	add    $0x5e0,%r14
+  12b9c5:	48 c7 84 24 98 05 00 	movq   $0x0,0x598(%rsp)
+  12b9cc:	00 00 00 00 00 
+  12b9d1:	4c 8d 05 30 a7 19 00 	lea    0x19a730(%rip),%r8        # 2c6108 <__frame_dummy_init_array_entry+0x1010>
+  12b9d8:	48 8d b4 24 90 00 00 	lea    0x90(%rsp),%rsi
+  12b9df:	00 
+  12b9e0:	48 8d 8c 24 98 05 00 	lea    0x598(%rsp),%rcx
+  12b9e7:	00 
+  12b9e8:	31 ff                	xor    %edi,%edi
+  12b9ea:	4c 89 f2             	mov    %r14,%rdx
+  12b9ed:	e8 3a 35 0a 00       	call   1cef2c <core::panicking::assert_failed>
+  12b9f2:	e9 b1 02 00 00       	jmp    12bca8 <rheon::research_public_call::candidate::case41_fd_capture+0x1c58>
+  12b9f7:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12b9fc:	31 c9                	xor    %ecx,%ecx
+  12b9fe:	e9 be 00 00 00       	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba03:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba08:	b9 01 00 00 00       	mov    $0x1,%ecx
+  12ba0d:	e9 af 00 00 00       	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba12:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba17:	b9 02 00 00 00       	mov    $0x2,%ecx
+  12ba1c:	e9 a0 00 00 00       	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba21:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba26:	b9 03 00 00 00       	mov    $0x3,%ecx
+  12ba2b:	e9 91 00 00 00       	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba30:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba35:	b9 04 00 00 00       	mov    $0x4,%ecx
+  12ba3a:	e9 82 00 00 00       	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba3f:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba44:	b9 05 00 00 00       	mov    $0x5,%ecx
+  12ba49:	eb 76                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba4b:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba50:	b9 06 00 00 00       	mov    $0x6,%ecx
+  12ba55:	eb 6a                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba57:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba5c:	b9 07 00 00 00       	mov    $0x7,%ecx
+  12ba61:	eb 5e                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba63:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba68:	b9 08 00 00 00       	mov    $0x8,%ecx
+  12ba6d:	eb 52                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba6f:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba74:	b9 09 00 00 00       	mov    $0x9,%ecx
+  12ba79:	eb 46                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba7b:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba80:	b9 0a 00 00 00       	mov    $0xa,%ecx
+  12ba85:	eb 3a                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba87:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba8c:	b9 0b 00 00 00       	mov    $0xb,%ecx
+  12ba91:	eb 2e                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba93:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12ba98:	b9 0c 00 00 00       	mov    $0xc,%ecx
+  12ba9d:	eb 22                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12ba9f:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12baa4:	b9 0d 00 00 00       	mov    $0xd,%ecx
+  12baa9:	eb 16                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12baab:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12bab0:	b9 0e 00 00 00       	mov    $0xe,%ecx
+  12bab5:	eb 0a                	jmp    12bac1 <rheon::research_public_call::candidate::case41_fd_capture+0x1a71>
+  12bab7:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12babc:	b9 0f 00 00 00       	mov    $0xf,%ecx
+  12bac1:	48 8d 14 c8          	lea    (%rax,%rcx,8),%rdx
+  12bac5:	48 c7 84 24 98 05 00 	movq   $0x0,0x598(%rsp)
+  12bacc:	00 00 00 00 00 
+  12bad1:	4c 8d 05 00 a6 19 00 	lea    0x19a600(%rip),%r8        # 2c60d8 <__frame_dummy_init_array_entry+0xfe0>
+  12bad8:	48 8d 74 24 28       	lea    0x28(%rsp),%rsi
+  12badd:	48 8d 8c 24 98 05 00 	lea    0x598(%rsp),%rcx
+  12bae4:	00 
+  12bae5:	31 ff                	xor    %edi,%edi
+  12bae7:	ff 15 d3 37 1b 00    	call   *0x1b37d3(%rip)        # 2df2c0 <_DYNAMIC+0x308>
+  12baed:	e9 b6 01 00 00       	jmp    12bca8 <rheon::research_public_call::candidate::case41_fd_capture+0x1c58>
+  12baf2:	48 c7 84 24 90 00 00 	movq   $0x0,0x90(%rsp)
+  12baf9:	00 00 00 00 00 
+  12bafe:	4c 8d 05 9b a4 19 00 	lea    0x19a49b(%rip),%r8        # 2c5fa0 <__frame_dummy_init_array_entry+0xea8>
+  12bb05:	48 8d b4 24 50 02 00 	lea    0x250(%rsp),%rsi
+  12bb0c:	00 
+  12bb0d:	48 8d 94 24 a0 01 00 	lea    0x1a0(%rsp),%rdx
+  12bb14:	00 
+  12bb15:	48 8d 8c 24 90 00 00 	lea    0x90(%rsp),%rcx
+  12bb1c:	00 
+  12bb1d:	31 ff                	xor    %edi,%edi
+  12bb1f:	e8 da 33 0a 00       	call   1ceefe <core::panicking::assert_failed>
+  12bb24:	e9 7f 01 00 00       	jmp    12bca8 <rheon::research_public_call::candidate::case41_fd_capture+0x1c58>
+  12bb29:	48 c7 84 24 90 00 00 	movq   $0x0,0x90(%rsp)
+  12bb30:	00 00 00 00 00 
+  12bb35:	4c 8d 05 7c a4 19 00 	lea    0x19a47c(%rip),%r8        # 2c5fb8 <__frame_dummy_init_array_entry+0xec0>
+  12bb3c:	48 8d b4 24 50 02 00 	lea    0x250(%rsp),%rsi
+  12bb43:	00 
+  12bb44:	48 8d 94 24 a0 01 00 	lea    0x1a0(%rsp),%rdx
+  12bb4b:	00 
+  12bb4c:	48 8d 8c 24 90 00 00 	lea    0x90(%rsp),%rcx
+  12bb53:	00 
+  12bb54:	31 ff                	xor    %edi,%edi
+  12bb56:	e8 1b 35 0a 00       	call   1cf076 <core::panicking::assert_failed>
+  12bb5b:	e9 48 01 00 00       	jmp    12bca8 <rheon::research_public_call::candidate::case41_fd_capture+0x1c58>
+  12bb60:	c6 84 24 90 00 00 00 	movb   $0x11,0x90(%rsp)
+  12bb67:	11 
+  12bb68:	f2 0f 11 8c 24 98 00 	movsd  %xmm1,0x98(%rsp)
+  12bb6f:	00 00 
+  12bb71:	4c 8d 05 30 a5 19 00 	lea    0x19a530(%rip),%r8        # 2c60a8 <__frame_dummy_init_array_entry+0xfb0>
+  12bb78:	e9 81 00 00 00       	jmp    12bbfe <rheon::research_public_call::candidate::case41_fd_capture+0x1bae>
+  12bb7d:	be 16 00 00 00       	mov    $0x16,%esi
+  12bb82:	eb 08                	jmp    12bb8c <rheon::research_public_call::candidate::case41_fd_capture+0x1b3c>
+  12bb84:	be 16 00 00 00       	mov    $0x16,%esi
+  12bb89:	4c 89 c7             	mov    %r8,%rdi
+  12bb8c:	ff 15 b6 36 1b 00    	call   *0x1b36b6(%rip)        # 2df248 <_DYNAMIC+0x290>
+  12bb92:	e9 11 01 00 00       	jmp    12bca8 <rheon::research_public_call::candidate::case41_fd_capture+0x1c58>
+  12bb97:	48 8d 3d da a4 19 00 	lea    0x19a4da(%rip),%rdi        # 2c6078 <__frame_dummy_init_array_entry+0xf80>
+  12bb9e:	ff 15 b4 36 1b 00    	call   *0x1b36b4(%rip)        # 2df258 <_DYNAMIC+0x2a0>
+  12bba4:	e9 ff 00 00 00       	jmp    12bca8 <rheon::research_public_call::candidate::case41_fd_capture+0x1c58>
+  12bba9:	c6 84 24 90 00 00 00 	movb   $0x11,0x90(%rsp)
+  12bbb0:	11 
+  12bbb1:	f2 0f 11 84 24 98 00 	movsd  %xmm0,0x98(%rsp)
+  12bbb8:	00 00 
+  12bbba:	4c 8d 05 37 a4 19 00 	lea    0x19a437(%rip),%r8        # 2c5ff8 <__frame_dummy_init_array_entry+0xf00>
+  12bbc1:	eb 3b                	jmp    12bbfe <rheon::research_public_call::candidate::case41_fd_capture+0x1bae>
+  12bbc3:	c6 84 24 90 00 00 00 	movb   $0x11,0x90(%rsp)
+  12bbca:	11 
+  12bbcb:	f2 0f 11 8c 24 98 00 	movsd  %xmm1,0x98(%rsp)
+  12bbd2:	00 00 
+  12bbd4:	4c 8d 05 05 a4 19 00 	lea    0x19a405(%rip),%r8        # 2c5fe0 <__frame_dummy_init_array_entry+0xee8>
+  12bbdb:	eb 21                	jmp    12bbfe <rheon::research_public_call::candidate::case41_fd_capture+0x1bae>
+  12bbdd:	c6 84 24 90 00 00 00 	movb   $0x11,0x90(%rsp)
+  12bbe4:	11 
+  12bbe5:	f2 0f 10 84 24 70 01 	movsd  0x170(%rsp),%xmm0
+  12bbec:	00 00 
+  12bbee:	f2 0f 11 84 24 98 00 	movsd  %xmm0,0x98(%rsp)
+  12bbf5:	00 00 
+  12bbf7:	4c 8d 05 12 a4 19 00 	lea    0x19a412(%rip),%r8        # 2c6010 <__frame_dummy_init_array_entry+0xf18>
+  12bbfe:	48 8d 0d eb 9e 19 00 	lea    0x199eeb(%rip),%rcx        # 2c5af0 <__frame_dummy_init_array_entry+0x9f8>
+  12bc05:	48 8d 3d e9 92 ef ff 	lea    -0x106d17(%rip),%rdi        # 24ef5 <anon.d4e3d1f0c0662585dc808c704bf49f13.5.llvm.11613841210682681214+0x9a9>
+  12bc0c:	be 2b 00 00 00       	mov    $0x2b,%esi
+  12bc11:	48 8b 54 24 38       	mov    0x38(%rsp),%rdx
+  12bc16:	ff 15 9c 36 1b 00    	call   *0x1b369c(%rip)        # 2df2b8 <_DYNAMIC+0x300>
+  12bc1c:	e9 87 00 00 00       	jmp    12bca8 <rheon::research_public_call::candidate::case41_fd_capture+0x1c58>
+  12bc21:	31 ff                	xor    %edi,%edi
+  12bc23:	eb 75                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc25:	bf 01 00 00 00       	mov    $0x1,%edi
+  12bc2a:	eb 6e                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc2c:	bf 02 00 00 00       	mov    $0x2,%edi
+  12bc31:	eb 67                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc33:	bf 03 00 00 00       	mov    $0x3,%edi
+  12bc38:	eb 60                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc3a:	bf 04 00 00 00       	mov    $0x4,%edi
+  12bc3f:	eb 59                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc41:	bf 05 00 00 00       	mov    $0x5,%edi
+  12bc46:	eb 52                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc48:	bf 06 00 00 00       	mov    $0x6,%edi
+  12bc4d:	eb 4b                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc4f:	bf 07 00 00 00       	mov    $0x7,%edi
+  12bc54:	eb 44                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc56:	bf 08 00 00 00       	mov    $0x8,%edi
+  12bc5b:	eb 3d                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc5d:	bf 09 00 00 00       	mov    $0x9,%edi
+  12bc62:	eb 36                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc64:	bf 0a 00 00 00       	mov    $0xa,%edi
+  12bc69:	eb 2f                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc6b:	bf 0b 00 00 00       	mov    $0xb,%edi
+  12bc70:	eb 28                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc72:	bf 0c 00 00 00       	mov    $0xc,%edi
+  12bc77:	eb 21                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc79:	bf 0d 00 00 00       	mov    $0xd,%edi
+  12bc7e:	eb 1a                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc80:	bf 0e 00 00 00       	mov    $0xe,%edi
+  12bc85:	eb 13                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc87:	bf 10 00 00 00       	mov    $0x10,%edi
+  12bc8c:	eb 0c                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc8e:	bf 11 00 00 00       	mov    $0x11,%edi
+  12bc93:	eb 05                	jmp    12bc9a <rheon::research_public_call::candidate::case41_fd_capture+0x1c4a>
+  12bc95:	bf 12 00 00 00       	mov    $0x12,%edi
+  12bc9a:	4c 89 64 24 20       	mov    %r12,0x20(%rsp)
+  12bc9f:	48 89 fe             	mov    %rdi,%rsi
+  12bca2:	ff 15 a0 35 1b 00    	call   *0x1b35a0(%rip)        # 2df248 <_DYNAMIC+0x290>
+  12bca8:	0f 0b                	ud2
+  12bcaa:	48 8d 15 4f a1 19 00 	lea    0x19a14f(%rip),%rdx        # 2c5e00 <__frame_dummy_init_array_entry+0xd08>
+  12bcb1:	bf 03 00 00 00       	mov    $0x3,%edi
+  12bcb6:	e9 d1 fe ff ff       	jmp    12bb8c <rheon::research_public_call::candidate::case41_fd_capture+0x1b3c>
+  12bcbb:	48 8d 15 56 a1 19 00 	lea    0x19a156(%rip),%rdx        # 2c5e18 <__frame_dummy_init_array_entry+0xd20>
+  12bcc2:	bf 04 00 00 00       	mov    $0x4,%edi
+  12bcc7:	be 04 00 00 00       	mov    $0x4,%esi
+  12bccc:	e9 bb fe ff ff       	jmp    12bb8c <rheon::research_public_call::candidate::case41_fd_capture+0x1b3c>
+  12bcd1:	66 0f 29 84 24 90 00 	movapd %xmm0,0x90(%rsp)
+  12bcd8:	00 00 
+  12bcda:	66 0f d6 8c 24 a0 00 	movq   %xmm1,0xa0(%rsp)
+  12bce1:	00 00 
+  12bce3:	4c 8d 05 9e a2 19 00 	lea    0x19a29e(%rip),%r8        # 2c5f88 <__frame_dummy_init_array_entry+0xe90>
+  12bcea:	48 8d 0d df 9d 19 00 	lea    0x199ddf(%rip),%rcx        # 2c5ad0 <__frame_dummy_init_array_entry+0x9d8>
+  12bcf1:	e9 0f ff ff ff       	jmp    12bc05 <rheon::research_public_call::candidate::case41_fd_capture+0x1bb5>
+  12bcf6:	49 89 c6             	mov    %rax,%r14
+  12bcf9:	48 8b 74 24 40       	mov    0x40(%rsp),%rsi
+  12bcfe:	48 85 f6             	test   %rsi,%rsi
+  12bd01:	74 10                	je     12bd13 <rheon::research_public_call::candidate::case41_fd_capture+0x1cc3>
+  12bd03:	48 8b 7c 24 48       	mov    0x48(%rsp),%rdi
+  12bd08:	ba 01 00 00 00       	mov    $0x1,%edx
+  12bd0d:	ff 15 2d 35 1b 00    	call   *0x1b352d(%rip)        # 2df240 <_DYNAMIC+0x288>
+  12bd13:	48 89 5c 24 20       	mov    %rbx,0x20(%rsp)
+  12bd18:	48 8b 7c 24 20       	mov    0x20(%rsp),%rdi
+  12bd1d:	e8 2e 19 ff ff       	call   11d650 <core::ptr::drop_in_place<rheon::fitted_height::FittedHeightWorkspace>>
+  12bd22:	4c 89 f7             	mov    %r14,%rdi
+  12bd25:	e8 86 83 19 00       	call   2c40b0 <_Unwind_Resume@plt>
+  12bd2a:	49 89 c6             	mov    %rax,%r14
+  12bd2d:	48 8b 74 24 70       	mov    0x70(%rsp),%rsi
+  12bd32:	48 85 f6             	test   %rsi,%rsi
+  12bd35:	74 15                	je     12bd4c <rheon::research_public_call::candidate::case41_fd_capture+0x1cfc>
+  12bd37:	48 8b 7c 24 78       	mov    0x78(%rsp),%rdi
+  12bd3c:	ba 01 00 00 00       	mov    $0x1,%edx
+  12bd41:	ff 15 f9 34 1b 00    	call   *0x1b34f9(%rip)        # 2df240 <_DYNAMIC+0x288>
+  12bd47:	eb 03                	jmp    12bd4c <rheon::research_public_call::candidate::case41_fd_capture+0x1cfc>
+  12bd49:	49 89 c6             	mov    %rax,%r14
+  12bd4c:	48 8d 84 24 98 05 00 	lea    0x598(%rsp),%rax
+  12bd53:	00 
+  12bd54:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+  12bd59:	48 8b 7c 24 20       	mov    0x20(%rsp),%rdi
+  12bd5e:	e8 ed 18 ff ff       	call   11d650 <core::ptr::drop_in_place<rheon::fitted_height::FittedHeightWorkspace>>
+  12bd63:	4c 89 f7             	mov    %r14,%rdi
+  12bd66:	e8 45 83 19 00       	call   2c40b0 <_Unwind_Resume@plt>
+  12bd6b:	eb 00                	jmp    12bd6d <rheon::research_public_call::candidate::case41_fd_capture+0x1d1d>
+  12bd6d:	49 89 c6             	mov    %rax,%r14
+  12bd70:	48 8b 7c 24 20       	mov    0x20(%rsp),%rdi
+  12bd75:	e8 d6 18 ff ff       	call   11d650 <core::ptr::drop_in_place<rheon::fitted_height::FittedHeightWorkspace>>
+  12bd7a:	4c 89 f7             	mov    %r14,%rdi
+  12bd7d:	e8 2e 83 19 00       	call   2c40b0 <_Unwind_Resume@plt>
+  12bd82:	cc                   	int3
+  12bd83:	cc                   	int3
+  12bd84:	cc                   	int3
+  12bd85:	cc                   	int3
+  12bd86:	cc                   	int3
+  12bd87:	cc                   	int3
+  12bd88:	cc                   	int3
+  12bd89:	cc                   	int3
+  12bd8a:	cc                   	int3
+  12bd8b:	cc                   	int3
+  12bd8c:	cc                   	int3
+  12bd8d:	cc                   	int3
+  12bd8e:	cc                   	int3
+  12bd8f:	cc                   	int3
+

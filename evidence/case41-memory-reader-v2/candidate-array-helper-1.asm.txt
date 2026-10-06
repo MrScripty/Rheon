@@ -1,0 +1,45 @@
+00000000001b3710 <core::array::drain::drain_array_with>:
+  1b3710:	48 83 ec 38          	sub    $0x38,%rsp
+  1b3714:	48 89 f0             	mov    %rsi,%rax
+  1b3717:	4c 8b 06             	mov    (%rsi),%r8
+  1b371a:	48 8b 72 10          	mov    0x10(%rdx),%rsi
+  1b371e:	49 39 f0             	cmp    %rsi,%r8
+  1b3721:	73 59                	jae    1b377c <core::array::drain::drain_array_with+0x6c>
+  1b3723:	48 8b 48 08          	mov    0x8(%rax),%rcx
+  1b3727:	48 8b 40 10          	mov    0x10(%rax),%rax
+  1b372b:	48 8b 52 08          	mov    0x8(%rdx),%rdx
+  1b372f:	4f 8d 04 40          	lea    (%r8,%r8,2),%r8
+  1b3733:	42 0f 10 04 c2       	movups (%rdx,%r8,8),%xmm0
+  1b3738:	0f 29 04 24          	movaps %xmm0,(%rsp)
+  1b373c:	48 39 f1             	cmp    %rsi,%rcx
+  1b373f:	73 4b                	jae    1b378c <core::array::drain::drain_array_with+0x7c>
+  1b3741:	48 8d 0c 49          	lea    (%rcx,%rcx,2),%rcx
+  1b3745:	0f 10 04 ca          	movups (%rdx,%rcx,8),%xmm0
+  1b3749:	0f 29 44 24 10       	movaps %xmm0,0x10(%rsp)
+  1b374e:	48 39 f0             	cmp    %rsi,%rax
+  1b3751:	73 49                	jae    1b379c <core::array::drain::drain_array_with+0x8c>
+  1b3753:	48 8d 04 40          	lea    (%rax,%rax,2),%rax
+  1b3757:	0f 10 04 c2          	movups (%rdx,%rax,8),%xmm0
+  1b375b:	0f 29 44 24 20       	movaps %xmm0,0x20(%rsp)
+  1b3760:	0f 11 47 20          	movups %xmm0,0x20(%rdi)
+  1b3764:	0f 28 04 24          	movaps (%rsp),%xmm0
+  1b3768:	0f 28 4c 24 10       	movaps 0x10(%rsp),%xmm1
+  1b376d:	0f 11 4f 10          	movups %xmm1,0x10(%rdi)
+  1b3771:	0f 11 07             	movups %xmm0,(%rdi)
+  1b3774:	48 89 f8             	mov    %rdi,%rax
+  1b3777:	48 83 c4 38          	add    $0x38,%rsp
+  1b377b:	c3                   	ret
+  1b377c:	48 8d 15 ad c9 11 00 	lea    0x11c9ad(%rip),%rdx        # 2d0130 <anon.a769ce136999d774f2c23fe4e856fb3c.15.llvm.314653179004520100>
+  1b3783:	4c 89 c7             	mov    %r8,%rdi
+  1b3786:	ff 15 bc ba 12 00    	call   *0x12babc(%rip)        # 2df248 <_DYNAMIC+0x290>
+  1b378c:	48 8d 15 9d c9 11 00 	lea    0x11c99d(%rip),%rdx        # 2d0130 <anon.a769ce136999d774f2c23fe4e856fb3c.15.llvm.314653179004520100>
+  1b3793:	48 89 cf             	mov    %rcx,%rdi
+  1b3796:	ff 15 ac ba 12 00    	call   *0x12baac(%rip)        # 2df248 <_DYNAMIC+0x290>
+  1b379c:	48 8d 15 8d c9 11 00 	lea    0x11c98d(%rip),%rdx        # 2d0130 <anon.a769ce136999d774f2c23fe4e856fb3c.15.llvm.314653179004520100>
+  1b37a3:	48 89 c7             	mov    %rax,%rdi
+  1b37a6:	ff 15 9c ba 12 00    	call   *0x12ba9c(%rip)        # 2df248 <_DYNAMIC+0x290>
+  1b37ac:	cc                   	int3
+  1b37ad:	cc                   	int3
+  1b37ae:	cc                   	int3
+  1b37af:	cc                   	int3
+
