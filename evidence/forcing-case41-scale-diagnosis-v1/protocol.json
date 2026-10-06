@@ -1,0 +1,33 @@
+{
+  "arithmetic_floor": false,
+  "base": "2f23503d9bf74842e39f9fe0760edf4bfeb41b4c",
+  "base_tree": "d178347673f026cd9336f5909318208416d9e783",
+  "case": 41,
+  "followup": "No FD capture predeclared yet. Review pressure complement and scale before selecting any further check.",
+  "full_Newton_condition": false,
+  "id": "case41-existing-data-scale-pressure-range-v1",
+  "inputs": {
+    "docs/research-book/implementation/fitted-discrete-work-temporal.md": "f015bf4c10711c10de2ce52d5647d83cca356894538b110c4b27d1e341a40917",
+    "docs/research-book/implementation/native-coupled-discrete-work.md": "623a482c66646050cf3404b6acd4ffc59ce331ad8aa4ac819f073d5c06fbf5d8",
+    "evidence/forcing-e1-fixed-candidates-v1/analyze.py": "9e6761dfd0bebb785b41096eb3b8f0918074ddd0f9205c67f6640f406653bb70",
+    "evidence/forcing-e2-fixed-candidates-v1/candidate-fixed.log": "6b4d8a9fc1a0adf1503f191e7b9b6b60f53e3904b2066d9e481bf4c06aa06894",
+    "evidence/forcing-e2-fixed-candidates-v1/inputs.json": "0c0c75411d93c0663c6281ae9163c7c73cbc376e5085c6b80484d5ff34411607",
+    "evidence/forcing-public-call-66k/analyze.py": "ef5cec7ba7ff3aa23f4b73ce415d14ca194d852b0470ed0d988bb8ee3f2ae180",
+    "src/coupled_discrete.rs": "2062542bd181d60078c9141c95f022ebdce8fd0e536500a52839fbdbb5ebba0e"
+  },
+  "native_executions": 0,
+  "new_corrections": 0,
+  "operations": [
+    "22 component squared shares",
+    "exact native-minus-stored error",
+    "exact rho known/dependent mass projections",
+    "exact selected chart and mass Gram infinity condition",
+    "exact 16 pressure column range/complement",
+    "absolute target provenance search"
+  ],
+  "orders": [
+    16,
+    32
+  ],
+  "threshold_changes": 0
+}
