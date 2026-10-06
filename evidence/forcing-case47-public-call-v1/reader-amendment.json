@@ -1,0 +1,9 @@
+{
+  "case47_owner_executions_before_repair": 0,
+  "compiled_source": "409c140cb761d267da78d2a8cdac623ff45e9772",
+  "driver_sha256": "a60bf80bf498fcb0325a62f5d19fbd6960aa19e1c659f7ca44166cedc6b5779b",
+  "old_driver_sha256": "620d1aeb3e75781b551a15cd9648b08ed7ff54196535eb03b0f5896694319485",
+  "original_failure": "ValueError: fresh memory replay/mode parity",
+  "reason": "Fresh audit returns integer-address graph keys; persisted JSON canonicalizes them to strings. Normalize fresh return via JSON for same typed replay comparison. Original guard stopped before owners. No native source, binary, memory calculation, thresholds, roster or authorization changed.",
+  "status": "READER_ONLY_CANONICAL_JSON_KEY_REPAIR"
+}

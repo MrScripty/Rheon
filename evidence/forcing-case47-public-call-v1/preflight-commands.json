@@ -1,0 +1,154 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "--config",
+        "skip_children=true",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/harness.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/inputs.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/trajectory_inputs.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/fixed_inputs.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/candidate_probe.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/reference_probe.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/candidate.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/reference.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/scalar.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/candidate_helpers.rs",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/reference_helpers.rs"
+      ],
+      "exit": 0,
+      "seconds": 0.1772848190012155,
+      "stderr": "format-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "format.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/prepare.py",
+        "install"
+      ],
+      "exit": 0,
+      "seconds": 0.055633324998780154,
+      "stderr": "install-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "install.log",
+      "stdout_sha256": "656e869c0ebcc9a3876eacf56a40ae0afcc94a571be09b69bc7bf77f68575f54"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--locked",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "exit": 0,
+      "seconds": 25.036623320993385,
+      "stderr": "build-stderr.log",
+      "stderr_sha256": "c2355f6f5c9a5c966c47590d193041c7dbfcf9d2d507f507e1dfb7ad8dd0995f",
+      "stdout": "build.log",
+      "stdout_sha256": "bd70480ea476116bad74b8b20a78486b67583b2207543218276b26eb50803d17"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--tests",
+        "--locked",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "seconds": 11.015049920999445,
+      "stderr": "clippy-stderr.log",
+      "stderr_sha256": "7ef42cfce8160180d22568350841052f4d747519bd1d0f39091f0e71056d9f16",
+      "stdout": "clippy.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/case47-public-call-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_scalar_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.007185444002971053,
+      "stderr": "scalar-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "scalar-native.log",
+      "stdout_sha256": "4d56445f3d6b02fa330ca2f7b9ade7415d6e478d995dc8aec67b8bc536a91670"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/case47-public-call-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_type_layout",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.002557392988819629,
+      "stderr": "type-layout-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "type-layout.log",
+      "stdout_sha256": "68b29e4ada732da120c36241cb4994d9c70c726c43436462ac8635ee1c9f97e2"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/case47-public-call-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::scalar_affine_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.002532834987505339,
+      "stderr": "affine-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "affine-native.log",
+      "stdout_sha256": "d3e01e148b624c186f708abdf4642702d57c8ca90590e62c3116fc5e189125af"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/case47-public-call-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::case47_selector_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.0018862909928429872,
+      "stderr": "selector-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "selector-native.log",
+      "stdout_sha256": "b0eb5350e1dfa545bb092bf3a0371666247b1040d7e3634ef7318d9e6adca004"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon-e2-followup/evidence/forcing-case47-public-call-v1/prepare.py",
+        "restore"
+      ],
+      "exit": 0,
+      "seconds": 0.07375845099159051,
+      "stderr": "restore-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "restore.log",
+      "stdout_sha256": "e4b04955ae181c8e8da8615993cec1ed1bedadc9254bbcefc5bdf1fe8d55c265"
+    }
+  ],
+  "generalization_executed": false,
+  "source": "409c140cb761d267da78d2a8cdac623ff45e9772",
+  "source_tree": "34ebbb1c24ad5a3888c96a485ac9ec9da02d5a4d"
+}

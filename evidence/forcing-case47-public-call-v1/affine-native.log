@@ -1,0 +1,12 @@
+
+running 1 test
+{"event":"affine_probe","case":0,"eta":-1.0,"time":1.0000000000000002,"alpha":0.9999999999999998,"parts":["40564819207303340847894502572032",-104,true],"stored":-4.930380657631324e-32,"refused":false}
+{"event":"affine_probe","case":1,"eta":1.0,"time":5.551115123125783e-17,"alpha":1.0,"parts":["40564819207303343099694316257280",0,false],"stored":1.0,"refused":false}
+{"event":"affine_probe","case":2,"eta":0.0,"time":2.2250738585072014e-308,"alpha":0.5,"refused":true}
+{"event":"affine_probe","case":3,"eta":0.0,"time":2.409919865102884e-181,"alpha":2.409919865102884e-181,"refused":true}
+{"event":"affine_probe","case":4,"eta":1.0,"time":1.0,"alpha":0.0,"parts":["40564819207303340847894502572032",0,false],"stored":1.0,"refused":false}
+{"event":"affine_probe","case":5,"eta":0.0,"time":1.7976931348623157e308,"alpha":2.0,"refused":true}
+test research_public_call::scalar_affine_preflight ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.00s
+
