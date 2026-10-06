@@ -1,0 +1,166 @@
+name: Rheon Rust headless milestone
+on:
+  pull_request:
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'src/**'
+      - 'tests/**'
+      - 'examples/**'
+      - 'tools/rheon_compare.py'
+      - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
+      - 'tools/verify_viscosity.py'
+      - 'tools/test_viscosity_verifier.py'
+      - 'tools/verify_column_interface.py'
+      - 'tools/test_column_interface_verifier.py'
+      - 'evidence/column-interface/**'
+      - 'evidence/viscosity/**'
+      - 'tools/verify_column_shear.py'
+      - 'tools/test_column_shear_verifier.py'
+      - 'evidence/column-shear/**'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
+      - 'tools/verify_column_mac.py'
+      - 'tools/test_column_mac_verifier.py'
+      - 'evidence/column-mac/**'
+      - '.github/workflows/rust-rheon.yml'
+  push:
+    branches: [main, repair/coupled-terminal-validation]
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'src/**'
+      - 'tests/**'
+      - 'examples/**'
+      - 'tools/rheon_compare.py'
+      - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
+      - 'tools/verify_viscosity.py'
+      - 'tools/test_viscosity_verifier.py'
+      - 'tools/verify_column_interface.py'
+      - 'tools/test_column_interface_verifier.py'
+      - 'evidence/column-interface/**'
+      - 'evidence/viscosity/**'
+      - 'tools/verify_column_shear.py'
+      - 'tools/test_column_shear_verifier.py'
+      - 'evidence/column-shear/**'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
+      - 'tools/verify_column_mac.py'
+      - 'tools/test_column_mac_verifier.py'
+      - 'evidence/column-mac/**'
+      - '.github/workflows/rust-rheon.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  feature-contracts:
+    name: Feature contracts (${{ matrix.mode }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CARGO_BUILD_JOBS: '1'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - mode: default
+          flags: ''
+        - mode: core-only
+          flags: --no-default-features
+        - mode: desktop
+          flags: --features desktop
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+    - name: Select official pinned Rust toolchain
+      run: |
+        rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
+        rustc --version --verbose
+        cargo --version
+    - name: Strict lints for selected features
+      run: |
+        cargo clippy --locked ${{ matrix.flags }} --all-targets -- -D warnings
+    - name: Contract tests for selected features
+      run: |
+        cargo test --locked ${{ matrix.flags }}
+    - name: Inspect core-only dependency tree
+      if: matrix.mode == 'core-only'
+      run: |
+        cargo tree --locked --no-default-features
+  executable-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CARGO_BUILD_JOBS: '1'
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+    - name: Create isolated Python test environment
+      run: |
+        python3 -m venv "$RUNNER_TEMP/rheon-tests"
+        "$RUNNER_TEMP/rheon-tests/bin/python" -m pip install --index-url https://pypi.org/simple --only-binary=:all: Pillow==12.3.0 numpy==2.3.5
+    - name: Select official pinned Rust toolchain
+      run: |
+        rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
+        rustc --version --verbose
+        cargo --version
+    - name: Formatting
+      run: |
+        cargo fmt --all --check
+    - name: Execute real source-on source-off smoke export
+      run: |
+        cargo run --locked --release --bin rheon -- --size 16 --steps 12 --source-off-at 8 --output "$RUNNER_TEMP/rheon-smoke"
+        python3 - <<'PY'
+        import csv, json, os, pathlib, struct
+        p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'rheon-smoke'
+        result = json.loads((p / 'run.json').read_text(encoding='utf-8'))
+        assert result['size'] == 16 and result['steps'] == 12
+        assert result['managed_simulation_bytes'] == 333824
+        assert result['last_divergence_max'] <= 1e-5
+        assert result['whole_process_memory_cap_claimed'] is False
+        assert result['real_time_performance_claimed'] is False
+        rows = list(csv.DictReader((p / 'steps.csv').read_text(encoding='utf-8').splitlines()))
+        assert len(rows) == 12
+        assert all(float(row['actual_divergence_max']) <= 1e-5 for row in rows)
+        image = (p / 'opacity.png').read_bytes()
+        assert image[:8] == b'\x89PNG\r\n\x1a\n'
+        assert struct.unpack('>II', image[16:24]) == (16, 16)
+        print('PASS executable completion manifest, all-step divergence and PNG dimensions')
+        PY
+    - name: Real comparison harness lifecycle tests
+      run: |
+        cargo build --locked --release --bin rheon
+        "$RUNNER_TEMP/rheon-tests/bin/python" -m unittest discover -s tools -p 'test_*.py' -v
+    - name: Retain executable smoke evidence
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: rheon-headless-smoke-${{ github.sha }}
+        path: ${{ runner.temp }}/rheon-smoke/
+        if-no-files-found: error
+        retention-days: 14
+  core-and-executable:
+    name: core-and-executable
+    needs:
+    - feature-contracts
+    - executable-contracts
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+    - name: Require every existing qualification path
+      env:
+        FEATURE_RESULT: ${{ needs.feature-contracts.result }}
+        EXECUTABLE_RESULT: ${{ needs.executable-contracts.result }}
+      run: |
+        test "$FEATURE_RESULT" = success
+        test "$EXECUTABLE_RESULT" = success

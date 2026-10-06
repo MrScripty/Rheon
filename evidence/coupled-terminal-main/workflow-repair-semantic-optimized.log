@@ -1,0 +1,1 @@
+PASS all original checks/pins/permissions/timeouts and required gate; rejected ['drop desktop', 'weaken lint', 'drop smoke', 'early green gate', 'credential persistence']

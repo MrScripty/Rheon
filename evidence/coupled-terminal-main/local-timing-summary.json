@@ -1,0 +1,12 @@
+{
+  "source": "c0591ebc4c2619d5ad6e6decfe9d3957ace8db5b",
+  "local_total_seconds": 1235.6837420829688,
+  "per_mode_seconds": {
+    "default": 414.23231139699055,
+    "core-only": 387.0589155669877,
+    "desktop": 432.6846953059867
+  },
+  "actual_lifecycle_seconds": 84.183,
+  "actual_lifecycle_methods": 38,
+  "comparability": "Local Rust modes are serial and use a shared mutable DEBUG dependency cache. Hosted jobs use independent ubuntu runners. Local and hosted durations are different measurements, not a prediction of equivalence."
+}

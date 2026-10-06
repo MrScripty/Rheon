@@ -1,0 +1,40 @@
+﻿2026-10-06T13:19:37.9428734Z Current runner version: '2.337.0'
+2026-10-06T13:19:37.9462318Z ##[group]Runner Image Provisioner
+2026-10-06T13:19:37.9463221Z Hosted Compute Agent
+2026-10-06T13:19:37.9463962Z Version: 20260901.588
+2026-10-06T13:19:37.9465036Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-06T13:19:37.9465874Z Build Date: 2026-09-01T19:56:44Z
+2026-10-06T13:19:37.9466640Z Worker ID: {17774ad7-658c-40dc-9146-55fc55c883a4}
+2026-10-06T13:19:37.9467395Z Azure Region: centralus
+2026-10-06T13:19:37.9468052Z ##[endgroup]
+2026-10-06T13:19:37.9469625Z ##[group]Operating System
+2026-10-06T13:19:37.9470378Z Ubuntu
+2026-10-06T13:19:37.9470961Z 24.04.5
+2026-10-06T13:19:37.9471488Z LTS
+2026-10-06T13:19:37.9472093Z ##[endgroup]
+2026-10-06T13:19:37.9472701Z ##[group]Runner Image
+2026-10-06T13:19:37.9473324Z Image: ubuntu-24.04
+2026-10-06T13:19:37.9473959Z Version: 20260927.320.1
+2026-10-06T13:19:37.9475479Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-06T13:19:37.9477186Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-06T13:19:37.9478158Z ##[endgroup]
+2026-10-06T13:19:37.9479371Z ##[group]GITHUB_TOKEN Permissions
+2026-10-06T13:19:37.9481543Z Contents: read
+2026-10-06T13:19:37.9482313Z Metadata: read
+2026-10-06T13:19:37.9482880Z ##[endgroup]
+2026-10-06T13:19:37.9485814Z Secret source: Actions
+2026-10-06T13:19:37.9486780Z Cache mode: write
+2026-10-06T13:19:37.9487848Z Prepare workflow directory
+2026-10-06T13:19:37.9844076Z Prepare all required actions
+2026-10-06T13:19:37.9951297Z Complete job name: core-and-executable
+2026-10-06T13:19:38.0781889Z ##[group]Run test "$FEATURE_RESULT" = success
+2026-10-06T13:19:38.0782801Z [36;1mtest "$FEATURE_RESULT" = success[0m
+2026-10-06T13:19:38.0783548Z [36;1mtest "$EXECUTABLE_RESULT" = success[0m
+2026-10-06T13:19:38.1657353Z shell: /usr/bin/bash -e {0}
+2026-10-06T13:19:38.1658986Z env:
+2026-10-06T13:19:38.1660018Z   FEATURE_RESULT: success
+2026-10-06T13:19:38.1661088Z   EXECUTABLE_RESULT: failure
+2026-10-06T13:19:38.1662153Z ##[endgroup]
+2026-10-06T13:19:38.1950775Z ##[error]Process completed with exit code 1.
+2026-10-06T13:19:38.2167472Z Cleaning up orphan processes
+
