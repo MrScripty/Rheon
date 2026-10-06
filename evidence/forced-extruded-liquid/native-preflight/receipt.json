@@ -1,0 +1,97 @@
+{
+  "qualified_native_source": "5bb0b5d538ac0b1707142cb9691e61994fd68b8e",
+  "source_sha256": {
+    "src/coupled_discrete.rs": "e9a7692a05203bd6cff6de66ac9ce8169cef471f456475db906f6b5cf8cb5859",
+    "src/lib.rs": "136bb2a58fd6a1947ab0e5ab7afd7f5622cdd1cd92e3f89b983252c765c45dd9",
+    "tests/forced_extruded_contract.rs": "8370980423aa801257fb98b9a82be0c0634bb99df8a15d0742960dd793844c60",
+    "examples/forced_extruded.rs": "120ee9f3da4f99acf61d6a1cc07c2bed5d8d46bcde9f3ddbd140698ff29091d3"
+  },
+  "commands": [
+    {
+      "name": "format",
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-no-default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--no-default-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "clippy-desktop",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--features",
+        "desktop",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "tests-default",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--all-targets"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "tests-no-default",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--all-targets",
+        "--no-default-features"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "tests-desktop",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--all-targets",
+        "--features",
+        "desktop"
+      ],
+      "exit": 0
+    }
+  ],
+  "status": "PASS"
+}

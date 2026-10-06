@@ -1,0 +1,14 @@
+{
+  "status": "FAIL_STALE_SHARED_RELEASE_LIBRARY",
+  "actual_exit": 101,
+  "diagnostic_source_path": "/workspace/Rheon-column-final-repair/src/coupled_discrete.rs",
+  "meaning": "Forced example requires new API, while cached linked library originates in separate PR18 checkout. No capture qualified.",
+  "source_changed": false,
+  "repair": "Fresh dedicated capture target; no source or assertion changes",
+  "file_sha256": {
+    "evidence/forced-extruded-liquid/capture-cache-failure/captures-commands.json": "d2bbed747acec870140aae46d4b96d95f686372d6405d5c7b7e0650d22926a6c",
+    "evidence/forced-extruded-liquid/capture-cache-failure/driver-source.py": "b96db5835a0e18015d068670801e16eb4fd5672e4e4f12e151b3dd22646cd276",
+    "evidence/forced-extruded-liquid/capture-cache-failure/native-default-stderr.log": "055e7181cdfc6d534fed0e4eab1276786fa5adc9c2dbda1840b63c868a2e43c6",
+    "evidence/forced-extruded-liquid/capture-cache-failure/native-default.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

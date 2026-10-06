@@ -1,0 +1,8 @@
+{
+  "cargo_target_dir": "/workspace/.rheon-tools/forced-extruded-capture-target",
+  "cargo_build_jobs": "1",
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "cargo": "cargo 1.92.0 (344c4567c 2025-10-21)",
+  "Cargo_lock_sha256": "ab9d9456171dacd0dab4cc7e46b42602b678383eed2d92d6a76db3a23a25b127",
+  "dedicated_target_after_retained_shared_cache_failure": true
+}

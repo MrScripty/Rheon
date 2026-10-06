@@ -1,0 +1,26 @@
+{
+  "status": "RENDERED_ACTUAL_PUBLICATIONS",
+  "native_input_sha256": "536bd8ac2753bdc8b677cb94f0b65f746e4355db2c1abf8d18b376668fcbb0d8",
+  "renderer_sha256": "bd16f80b1a43667992037151ed24b3b1dc047dfb373f2d4a7d8f2cadb8c9fefe",
+  "output_sha256": "65e8d38ba9511eb371ff607a275182e139a4c2823b5a4688cfff0b538e0b610a",
+  "actual_plotted_publications": [
+    {
+      "id": 131,
+      "version": 32
+    },
+    {
+      "id": 131,
+      "version": 32
+    },
+    {
+      "id": 131,
+      "version": 32
+    },
+    {
+      "id": 131,
+      "version": 32
+    }
+  ],
+  "replaces_clipped_subplot_title_only": true,
+  "physical_equations_changed": false
+}

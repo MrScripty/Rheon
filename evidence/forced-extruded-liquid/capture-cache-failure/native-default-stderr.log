@@ -1,0 +1,58 @@
+error[E0412]: cannot find type `CoupledForcedExtrudedReport` in this scope
+   --> examples/forced_extruded.rs:15:21
+    |
+ 15 |     report: Option<&CoupledForcedExtrudedReport>,
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+   ::: /workspace/Rheon-column-final-repair/src/coupled_discrete.rs:217:1
+    |
+217 | pub struct CoupledExtrudedReport {
+    | -------------------------------- similarly named struct `CoupledExtrudedReport` defined here
+    |
+help: a struct with a similar name exists
+    |
+ 15 -     report: Option<&CoupledForcedExtrudedReport>,
+ 15 +     report: Option<&CoupledExtrudedReport>,
+    |
+help: you might be missing a type parameter
+    |
+  9 | fn emit<CoupledForcedExtrudedReport>(
+    |        +++++++++++++++++++++++++++++
+
+error[E0599]: no function or associated item named `new_forced_extruded` found for struct `rheon::CoupledDiscreteFlow` in the current scope
+   --> examples/forced_extruded.rs:117:54
+    |
+117 |                     let mut o = CoupledDiscreteFlow::new_forced_extruded(
+    |                                                      ^^^^^^^^^^^^^^^^^^^ function or associated item not found in `rheon::CoupledDiscreteFlow`
+    |
+note: if you're trying to build a new `rheon::CoupledDiscreteFlow` consider using one of the following associated functions:
+      rheon::CoupledDiscreteFlow::new
+      rheon::CoupledDiscreteFlow::new_extruded
+   --> /workspace/Rheon-column-final-repair/src/coupled_discrete.rs:265:5
+    |
+265 | /     pub fn new(
+266 | |         geometry: FittedHeightGeometry<'_>,
+267 | |         velocity: &[[f64; 3]],
+268 | |         fitted: FittedHeightSettings,
+269 | |         settings: TranslatedViscousSettings,
+270 | |         id: u64,
+271 | |     ) -> Result<Self, CoupledDiscreteError> {
+    | |___________________________________________^
+...
+277 | /     pub fn new_extruded(
+278 | |         geometry: FittedHeightGeometry<'_>,
+279 | |         velocity: &[[f64; 3]],
+280 | |         fitted: FittedHeightSettings,
+281 | |         settings: TranslatedViscousSettings,
+282 | |         id: u64,
+283 | |     ) -> Result<Self, CoupledDiscreteError> {
+    | |___________________________________________^
+help: there is an associated function `new_extruded` with a similar name
+    |
+117 -                     let mut o = CoupledDiscreteFlow::new_forced_extruded(
+117 +                     let mut o = CoupledDiscreteFlow::new_extruded(
+    |
+
+Some errors have detailed explanations: E0412, E0599.
+For more information about an error, try `rustc --explain E0412`.
+error: could not compile `rheon` (example "forced_extruded") due to 2 previous errors

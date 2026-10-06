@@ -1,0 +1,36 @@
+{
+  "status": "VERIFIED_REQUESTED_LOCAL_IDENTITY_PARENT_HOLD_REMAINS",
+  "changed_settings": {
+    "user.name": "MrScripty",
+    "user.email": "TheEnvironmentGuy@protonmail.com"
+  },
+  "setting_scope": "local",
+  "setting_origin": "/workspace/Rheon/.git/config",
+  "verified_by_git_own_resolution": [
+    {
+      "checkout": "/workspace/Rheon",
+      "effective_author": "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "effective_committer": "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "head": "6458b6888e59caf8baee2480efff13c5b9ab7f14"
+    },
+    {
+      "checkout": "/workspace/Rheon-column-final-repair",
+      "effective_author": "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "effective_committer": "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "head": "bc66591cb88d07a4c55cb5f9b586dd08a36b2143"
+    },
+    {
+      "checkout": "/workspace/Rheon-oracle-repair",
+      "effective_author": "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "effective_committer": "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "head": "ec26e48df958f0ebc60af414253ff98c0007dc13"
+    }
+  ],
+  "author_committer_environment_overrides_found": false,
+  "protected_global_settings_unchanged": true,
+  "only_two_identity_settings_changed": true,
+  "new_commits_since_hold": [],
+  "new_pushes_since_hold": [],
+  "existing_metadata_rewritten": false,
+  "previous_blocked_global_attempt_preserved": "evidence/forced-extruded-liquid-validation/identity-hold.json"
+}

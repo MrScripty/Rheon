@@ -1,0 +1,14 @@
+{
+  "status": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "command": [
+    "python",
+    "evidence/forced-extruded-liquid/replay.py",
+    "evidence/forced-extruded-liquid/native-trials/first-native.jsonl",
+    "--negative-self-test"
+  ],
+  "exit": 1,
+  "source_sha256": "a09ab0ebcbe742744c2cec5d64a6e96cbf4042c43f1eedee03610f12cc8393dc",
+  "native_sha256": "536bd8ac2753bdc8b677cb94f0b65f746e4355db2c1abf8d18b376668fcbb0d8",
+  "failure": "initial nonconstant reversed geometry_max_error first-order band 1.7 < ratio < 2.3",
+  "source_was_uncommitted": true
+}

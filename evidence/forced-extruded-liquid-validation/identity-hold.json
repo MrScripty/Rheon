@@ -1,0 +1,47 @@
+{
+  "status": "CONFIGURATION_ATTEMPT_BLOCKED_HOLD_REMAINS",
+  "authorized_name": "MrScripty",
+  "authorized_email": "TheEnvironmentGuy@protonmail.com",
+  "authorized_account": {
+    "login": "MrScripty",
+    "numeric_id": 10446793,
+    "verification": "Parent-reported authenticated GitHub account; no credential read or change by this agent"
+  },
+  "attempted_action": [
+    "git",
+    "config",
+    "--global",
+    "user.name",
+    "MrScripty"
+  ],
+  "sandbox_exit": 101,
+  "sandbox_reason": "bwrap: Can't mkdir parents for /home/agent/.gitconfig/.git: Not a directory",
+  "git_command_executed": false,
+  "identity_settings_changed": false,
+  "effective_author": {
+    "name": "Jeremy",
+    "email": "jeremy@vidbacon.com"
+  },
+  "effective_committer": {
+    "name": "Jeremy",
+    "email": "jeremy@vidbacon.com"
+  },
+  "setting_origin": "/home/agent/.gitconfig",
+  "setting_scope": "global",
+  "repository_or_worktree_identity_overrides_found": false,
+  "author_committer_environment_overrides_found": false,
+  "verified_owned_checkouts": [
+    "/workspace/Rheon",
+    "/workspace/Rheon-column-final-repair",
+    "/workspace/Rheon-oracle-repair"
+  ],
+  "preserved_remote_equal_heads": {
+    "implementation/forced-extruded-liquid": "6458b6888e59caf8baee2480efff13c5b9ab7f14",
+    "repair/column-interface-final-artifacts": "bc66591cb88d07a4c55cb5f9b586dd08a36b2143",
+    "repair/coupled-qualification-oracles": "ec26e48df958f0ebc60af414253ff98c0007dc13"
+  },
+  "pre_hold_unpushed_commits_on_owned_heads": [],
+  "post_hold_new_commits": [],
+  "history_rewritten": false,
+  "credentials_authentication_signing_remotes_other_settings_changed": false
+}

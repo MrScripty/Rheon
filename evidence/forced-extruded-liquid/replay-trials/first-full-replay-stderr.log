@@ -1,0 +1,15 @@
+qualified independent full reference initial nonconstant forward
+Traceback (most recent call last):
+  File "/workspace/Rheon/evidence/forced-extruded-liquid/replay.py", line 162, in <module>
+    rows=[json.loads(line)for line in Path(sys.argv[1]).read_text().splitlines()];out=replay(rows)
+                                                                                      ^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/forced-extruded-liquid/replay.py", line 132, in replay
+    ratios=[a[name]/b[name]for a,b in zip(cases,cases[1:])];require(all(lo<x<hi for x in ratios),'independently expected original-band first order '+kind+' '+field+' '+load+' '+name)
+                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/forced-extruded-liquid/replay.py", line 19, in require
+    def require(ok,s):r.require(ok,s)
+                      ^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/forced-extruded-liquid/reference.py", line 14, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: independently expected original-band first order initial nonconstant reversed geometry_max_error

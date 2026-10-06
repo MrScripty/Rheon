@@ -1,0 +1,16 @@
+{
+  "status": "LOCAL_PHYSICAL_REPLAY_COMPLETE_TEMPORAL_GATE_FAILED_IDENTITY_HOLD",
+  "compiled_native_source": "5bb0b5d538ac0b1707142cb9691e61994fd68b8e",
+  "git_checkpoint": "6458b6888e59caf8baee2480efff13c5b9ab7f14",
+  "qualification_source_is_uncommitted": true,
+  "source_paths": 291,
+  "packet_files": 108,
+  "preserved_baseline_paths": 6387,
+  "actual_publications": 536,
+  "actual_corruption_rejections": 19,
+  "temporal_gate": "FAILED_ORIGINAL_BAND",
+  "browser_status": "BLOCKED_BROWSER_SANDBOX"
+}
+REJECTED source_sha256: local source .coderabbit.config.ts
+REJECTED file_sha256: local packet evidence/forced-extruded-liquid/capture-cache-failure/captures-commands.json
+REJECTED historical_git_blobs: complete frozen baseline inventory
