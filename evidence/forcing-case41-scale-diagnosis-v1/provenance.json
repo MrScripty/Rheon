@@ -1,0 +1,984 @@
+{
+  "base": "2f23503d9bf74842e39f9fe0760edf4bfeb41b4c",
+  "corpus": [
+    {
+      "matches": [],
+      "path": "docs/research-book/README.md",
+      "sha256": "ef2cb1fcc9ce0485012650424a853af4ca98df82170e30614e5798ed7fedc74a"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/appendices/A-algorithm-reference.md",
+      "sha256": "7b855af0cad800c0208107a8d853739a89b16b2ffad5f819755a8ce0c5bb044e"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/appendices/B-reproduction.md",
+      "sha256": "d629c809213dfed7fa87f993b75fd23a2835c19f16a5a117274a9ed5be51c271"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/appendices/C-bibliography.md",
+      "sha256": "8379cc07167087c544f5eaa3386ad44355ce1844175941c7b25cc68507f75923"
+    },
+    {
+      "matches": [
+        {
+          "line": 11,
+          "text": "The dense baseline, typed outcomes, component gauges and immutable snapshots are recommendations for Rust implementation review. Sparse grids, APIC, non-Newtonian materials and integrated diffusion evaluation remain extensions. No application GUI, calibrated presets or measured production performance is claimed."
+        }
+      ],
+      "path": "docs/research-book/appendices/D-notation-and-provenance.md",
+      "sha256": "c85a6161d147bdb315a0d0f848f42be33da7faf7d77ce168647af3f8bc1e979c"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/appendices/E-worked-matrix-laboratory.md",
+      "sha256": "78c6d702c2f7ef97b133ab2c09f1c711cc444d75ac8bcf1e2c2ae6bd36cdc143"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/appendices/F-expansion-contracts-and-sources.md",
+      "sha256": "c99bf1a1ff13c7825b394e7525c9ef76732af5e01db3492106651000f1e9fb21"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/artwork/README.md",
+      "sha256": "56cd112ff7ff122411df998544dec72d7b0e70872446f2dce15b43a63a3e0e3c"
+    },
+    {
+      "matches": [
+        {
+          "line": 23,
+          "text": "The first stage should solve incompressible velocity in a stationary box with smoke-like scalar transport. This isolates pressure, advection, boundaries and memory ownership. The second adds solid obstacles and measured geometric error. The third adds liquid interfaces, volume diagnostics and liquid-specific pressure boundaries. Non-Newtonian stress and particle-grid methods are extensions whose cost must be justified by a concrete failure of the baseline."
+        }
+      ],
+      "path": "docs/research-book/chapters/01-purpose-and-model.md",
+      "sha256": "b64fac6a5149ead0daa8692d3627e2162c2665ad1fa9eae8c261ba5074e527e1"
+    },
+    {
+      "matches": [
+        {
+          "line": 11,
+          "text": "For a Newtonian fluid of constant density and viscosity, momentum becomes"
+        },
+        {
+          "line": 52,
+          "text": "These exclusions guide the API. A material enum should describe implemented constitutive behavior. If the only stress is constant Newtonian viscosity, expose that. If foam means a thresholded visual tracer, say so rather than imply a multiphase physical model."
+        }
+      ],
+      "path": "docs/research-book/chapters/02-continuum-equations.md",
+      "sha256": "e295e677c31c1840739f07ff5be20cd6f65953c4c1355d8c4717a007dce49786"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/03-staggered-grids.md",
+      "sha256": "8c028c8ff5dd4a2ef2fe8e03ed2fd03557125b766203391569aae997c4415bd5"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/04-pressure-projection.md",
+      "sha256": "4d92ed97342e52627912c2646db399fcd062da058d8707b44d29c310a50f6d11"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/05-linear-solvers.md",
+      "sha256": "6740abe423b9a92298f1f8951de94308ba0bffc0c8adb54cb9846e8caefa23df"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/06-transport.md",
+      "sha256": "64c0d8b6afe40c5810a8dde4b1b2a57879565e56601cdb6c0eb64441f663b178"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/07-corrected-advection.md",
+      "sha256": "88cc36728d2a9eabc6faae48b1a52f68743ff788af0dbe8a4c53376da799b3ab"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/08-boundary-geometry.md",
+      "sha256": "e7af58a099725baf65ecf0f28cb62c30b49b9c3ccdc2e25c5608fbe323049866"
+    },
+    {
+      "matches": [
+        {
+          "line": 75,
+          "text": "For a 1 cm feature scale, density 1000 kg per cubic metre and surface tension 0.072 newtons per metre, the dimensional time scale is approximately 0.118 seconds. At a 1 mm scale it is about 0.00373 seconds. These are scale estimates, not accepted time-step limits for an unimplemented solver."
+        }
+      ],
+      "path": "docs/research-book/chapters/09-liquid-surfaces.md",
+      "sha256": "3043c9cf0dcf35da3952f34a851f86a443dacca57c3c0290b50cedb7e1f96a4f"
+    },
+    {
+      "matches": [
+        {
+          "line": 32,
+          "text": "Newtonian stress is"
+        },
+        {
+          "line": 43,
+          "text": "A shear-dependent viscosity may use \\(\\dot\\gamma=\\sqrt{2D:D}\\) and regularized power law \\(\\mu=K(\\dot\\gamma^2+\\epsilon^2)^{(n-1)/2}\\). Regularization changes zero-shear behavior. Lagged coefficients, Picard iteration and Newton methods have different convergence requirements. Viscoelasticity additionally needs stress history and cannot be modeled by viscosity alone. Delay extensions until their constitutive tests and memory costs are justified."
+        },
+        {
+          "line": 64,
+          "text": "For generalized Newtonian viscosity, coefficients depend on strain. A lagged-coefficient iteration takes the current velocity guess, evaluates shear rate and viscosity, builds the linear viscous system, solves it, and repeats until both velocity change and nonlinear residual meet their criteria."
+        }
+      ],
+      "path": "docs/research-book/chapters/10-forces-and-viscosity.md",
+      "sha256": "cf3bb8106a9e02857aa3e91ecf5cd8d71c15dc81895ab6b0f33f3b2ec33e6578"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/11-particle-methods.md",
+      "sha256": "88ef86bcde9b8f78c6bc3d626876985d02e7f4eb0fe5cab2f480abf8dd620f1e"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/12-time-and-error.md",
+      "sha256": "4e6defe5bacecde72c7cd9aa795b2ff1bf37b2ee2708b55940d065246bdc8a51"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/13-memory-and-parallelism.md",
+      "sha256": "acd230a37b74f2d2adec3f9460bfd2d603618d8efb3021f2789d54ef2f6ab4c8"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/14-guidance-rendering.md",
+      "sha256": "5d3b45eeb6fd0f7c0e260e0bc0e5e52bd87ae68339633fada874e8e96e923cd1"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/15-floating-point.md",
+      "sha256": "e7f6431bed40be3c4d5816f07f4b3dfc1614ae66c710b175abedaf573f131eda"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/16-formal-contracts.md",
+      "sha256": "55ef40e692f1997ee0b42f3f70ad030874a0b1c615dc885dc6dbb1246943b02f"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/17-rust-implementation.md",
+      "sha256": "bbfcd1ee087d1b4ab43cb3c6cf0b2c3926420cd41b9cc2cc5af18a0797a19eee"
+    },
+    {
+      "matches": [
+        {
+          "line": 29,
+          "text": "Numerical priorities are component-aware pressure, obstacle sampling and bounded liquid volume. Formal priority is connecting array assembly to the abstract model. Non-Newtonian stress, APIC and sparsity follow needed capability rather than the project's name."
+        }
+      ],
+      "path": "docs/research-book/chapters/18-validation-program.md",
+      "sha256": "c094071b4305b58944703db0338d0a20875793eeb6d0b62193438d3360879284"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/19-forces-and-moving-boundaries.md",
+      "sha256": "59471eeb5a88046f15a4e6c0b7d1fa020578a34684d64bf9ec0ddf64e1389165"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/20-collision-mesh-pipeline.md",
+      "sha256": "54522516a67ace1865ea25b8b0510f2538ea86e1473197692350a4f3d25d9119"
+    },
+    {
+      "matches": [
+        {
+          "line": 3,
+          "text": "A liquid state needs more than a smoke concentration. Its interface locates a liquid domain, its density supplies inertial mass, and its volume ledger records transport and sources. Changing the grayscale opacity coefficient does not produce a liquid. This chapter specifies an incompressible, immiscible Newtonian research model. Compressible flow, phase change and dissolved materials are separate extensions."
+        }
+      ],
+      "path": "docs/research-book/chapters/21-density-and-liquid-volume.md",
+      "sha256": "81ed8686a718a24a672dfb1215be05887b101f70eb060268a8769d7b13b98668"
+    },
+    {
+      "matches": [
+        {
+          "line": 3,
+          "text": "Density and viscosity have different roles. Density weights inertia; dynamic viscosity relates deformation rate to stress; kinematic viscosity controls a simple diffusion time scale. Treating a viscosity slider as an arbitrary velocity damping factor hides both the material units and boundary work. The first liquid research model is Newtonian, with positive density and nonnegative viscosity."
+        },
+        {
+          "line": 7,
+          "text": "For \\(D=(\\nabla u+\\nabla u^T)/2\\), Newtonian stress is \\(\\tau=2\\mu D\\). Its power dissipation is \\(2\\mu D:D\\geq0\\). The cross derivatives matter: rigid rotation has zero symmetric strain even though velocity gradients are nonzero. A scalar component Laplacian is equivalent to the incompressible constant-viscosity interior equation only under the matching assumptions and boundary terms."
+        },
+        {
+          "line": 62,
+          "text": "Generalized Newtonian and viscoelastic materials remain later research. A shear-dependent viscosity needs an admissible range and nonlinear residual; viscoelasticity needs history and its own stress evolution. The existing finite-budget nonlinear specification in Chapter 10 remains valid. This expansion does not quietly turn it into an implemented material law."
+        }
+      ],
+      "path": "docs/research-book/chapters/22-viscosity-and-stress.md",
+      "sha256": "cc2023f5bca6445450ba927757cfdccbfdff984f77a38c775f4066cb5f052ade"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/chapters/23-wetting-and-adhesion.md",
+      "sha256": "a70f8e57eefa8b94c7c589311f08636e2d3406e5ab4767dbb9806c1ec7391df4"
+    },
+    {
+      "matches": [
+        {
+          "line": 31,
+          "text": "Dry Coulomb friction bounds a tangential force using normal contact force. Applying it to a liquid-solid wall is a separate constitutive assumption, not the default Newtonian no-slip boundary law. A penalty damping term likewise has its own units and finite-step dissipation. Label it as a numerical/constitutive choice if used. A single \u201cstickiness\u201d parameter cannot consistently identify all of these mechanisms."
+        }
+      ],
+      "path": "docs/research-book/chapters/24-slip-and-wall-friction.md",
+      "sha256": "47a634063aacf2fbe11eefe838d00f5fa31286f7d7a8b8f23654e1e98c7f2fe2"
+    },
+    {
+      "matches": [
+        {
+          "line": 43,
+          "text": "Use a periodic streamwise channel with 0 \u2264 y \u2264 H, lower wall speed 0 and upper wall speed U. For stationary fully developed incompressible Newtonian flow with no slip,"
+        }
+      ],
+      "path": "docs/research-book/chapters/25-capillarity-and-integration.md",
+      "sha256": "a518e6de71877a5b00cef9222e97540fe18ca204555f219b43e91faecfe03959"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/companion/README.md",
+      "sha256": "ca1ce252ed92bc510aefd3b878e99afc541d2367c61f86b0f256c01a192d8880"
+    },
+    {
+      "matches": [
+        {
+          "line": 41,
+          "text": "The final reduced pressure differs by at most 3.126388037344441e-13 from the"
+        }
+      ],
+      "path": "docs/research-book/evidence/cg-reproduction/README.md",
+      "sha256": "c7fd9b7e5dbf4f07e555ec5ad132ba5bf97838e2e6995208955d89cdf2f5c645"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/evidence/manifest-provenance-repair/README.md",
+      "sha256": "3d5d4bef86408bd0dd10196e1bd6797eff5f5955348874341903d1724f22f3d5"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/evidence/manifest-provenance-repair/integrity-repair/README.md",
+      "sha256": "a3a9ae46be2fb4cb2946d6cd66ddcd832325bfb52b5a8b8f427e2ff265eb43d2"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/evidence/pr1-review-repair/README.md",
+      "sha256": "4dc8cca9c13118a4a9743c69468b77f3e142778f082eea81280807f7471015e1"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/expansion/PLAN.md",
+      "sha256": "4b7d4b0d6b606c8eeb33e9cfc8a1cf5f7a60ede7956590c7d4147c7d4c8e12c6"
+    },
+    {
+      "matches": [
+        {
+          "line": 25,
+          "text": "3. Assemble compatible pressure and Newtonian symmetric strain on candidate"
+        }
+      ],
+      "path": "docs/research-book/implementation/advancing-viscous-liquid-contract.md",
+      "sha256": "bc48b33dc9a3cc2641b24a35ae5c96e96ba4693fca2a14d8661120953b5d757b"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/box-flux-simulation.md",
+      "sha256": "42f3634cca1f99aa6f13b2f032456b92d7971d7f3ce5fa018ae5353bc527868b"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/cell-aligned-free-surface.md",
+      "sha256": "0576df1ad82ece918c6ac9b433ec466e06fee1a7eb7b4e33f04a03d614c77ab6"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/column-interface-continuation.md",
+      "sha256": "5f8297e9fc6923babc9db101e4d97646a5ddd1c767b2b900e8610709f6380cfe"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/column-interface-final-artifact-qualification.md",
+      "sha256": "47248a9d8aa708ca8d6f1255f5bc4b36c41143f21f49bf16e1472ce1f8c396d9"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/column-interface-path-ledger-correction.md",
+      "sha256": "6cf54b9dc589e5e5794f59789d67da8827f40527f7a8b3fd76cf8020045e73f4"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/column-momentum-remap.md",
+      "sha256": "59fe8b95e65e396aa51cfcd688d45aab71c679731c60cbe70d991ea05fe1bf4e"
+    },
+    {
+      "matches": [
+        {
+          "line": 5,
+          "text": "The earlier Newtonian filled-box milestone (`0cc70a698232be1ed3c7e115c028856cd2de063c`, evidence `d7e48c38e908ba1e5c618105936673b91c02a93e`) is frozen. Its retained 2053-update f32 accuracy failure remains unchanged. The current prerequisite does not apply that filled-box stencil to partial cells or infer adhesion from damping."
+        },
+        {
+          "line": 22,
+          "text": "For Newtonian stress \u03c4 = 2\u03bcD(u), D(u) = (grad u + grad u transpose)/2, define"
+        }
+      ],
+      "path": "docs/research-book/implementation/column-shear-quadrature.md",
+      "sha256": "331b8ae268f63bbe5ae3c71497b9b612a14ae951892f3c00409dd8b7894c6e4b"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/conservative-liquid-volume.md",
+      "sha256": "a69466bc4ed9db6bab63e7912eec68201a32d0a2a8ab347bea432b6c8ebecbf1"
+    },
+    {
+      "matches": [
+        {
+          "line": 67,
+          "text": "the unchanged Newton/arithmetic gates."
+        }
+      ],
+      "path": "docs/research-book/implementation/coupled-equation-consistency.md",
+      "sha256": "cd9c85c27f33ea2608f76411d53f27fb1ba071383a0f02a039c8971a1fbe68bc"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/coupled-liquid-transport.md",
+      "sha256": "423565bf4f72f22f73c0ca8457adbf24ee70bd17a6659a4a824a9b3a788493d7"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/coupled-qualification-oracle-repair.md",
+      "sha256": "5059c9afeef4a117ea82ee87870ab1709ff4f480d46671883c0b9380fbb6ca9f"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/explicit-forces.md",
+      "sha256": "41be5afa89fdd467273745bd856c3371341bdd4168ced8e737017f081af6d13c"
+    },
+    {
+      "matches": [
+        {
+          "line": 133,
+          "text": ".00078125 bounded-Newton refusal remain retained. The existing conditional"
+        }
+      ],
+      "path": "docs/research-book/implementation/extruded-third-velocity.md",
+      "sha256": "61bc7a428c4a0607e29ed5e0b5b49901a995f010dbd1d728136bf10a0cb3ca70"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/fitted-ale-native-step.md",
+      "sha256": "ab78aca592d7eafbb1337b71e021e45edba9681142b21dcdb93fff678dce7bc0"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/fitted-coupled-temporal-prototype.md",
+      "sha256": "eae2f68b8f94b162ee91cda4e7e87611450e8c9bef0c70051ee52d20c8dbede7"
+    },
+    {
+      "matches": [
+        {
+          "line": 11,
+          "text": "## Reproduced Newton floor and algebraically identical repair"
+        },
+        {
+          "line": 15,
+          "text": "`2.01e-13`, then oscillates above the unchanged `1e-13` stopping target. Merely"
+        }
+      ],
+      "path": "docs/research-book/implementation/fitted-discrete-work-refinement.md",
+      "sha256": "03f6ea7d60349d3247adeed7791f4e7d4a87cbd52c057e37513601441fe4695b"
+    },
+    {
+      "matches": [
+        {
+          "line": 144,
+          "text": "measured residuals on a repeated cell. A bounded Newton loop now terminates on"
+        },
+        {
+          "line": 145,
+          "text": "the actual rate-normalized residual at `1e-13`, **stricter** than the unchanged"
+        },
+        {
+          "line": 188,
+          "text": "fails the declared bounded Newton `1e-13` convergence check. The existing"
+        },
+        {
+          "line": 205,
+          "text": "Investigate the finer-cell Newton floor while retaining its convergence check:"
+        }
+      ],
+      "path": "docs/research-book/implementation/fitted-discrete-work-temporal.md",
+      "sha256": "f015bf4c10711c10de2ce52d5647d83cca356894538b110c4b27d1e341a40917"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/fitted-finite-relative-transport.md",
+      "sha256": "c24f1822984fcf7cd4d5a8ed02b6d06a92922cd499cc2d286eb36b0ea68fdaa2"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/fitted-height-liquid-formulation.md",
+      "sha256": "c52d3f040a266db24b6cc2ca56706871924c4bd04a471bb5e3203286b4803cd5"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/fitted-height-native-assembly.md",
+      "sha256": "6bbe9d987bcab8ce62797e0960d22a7ad5cea5285635771d56be83684b0da70b"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/fitted-height-periodic-seam-repair.md",
+      "sha256": "09dafd2691a08743be73ffdacf18f6f70602811aaf5684e65198e3c911a02973"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/fitted-nonuniform-pressure-path-gate.md",
+      "sha256": "a432f647c9c49059dccde7ca680f120e78216450366430b10e22514fb16d2654"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/flat-column-mac-bridge.md",
+      "sha256": "7f7a96a2777e8e9019b167ec23acd4a0dd78c0d92ba8d5f280100a73c2cb4e8f"
+    },
+    {
+      "matches": [
+        {
+          "line": 88,
+          "text": "Newton gates remain. Arbitrarily tiny IEEE steps remain unqualified."
+        }
+      ],
+      "path": "docs/research-book/implementation/forced-extruded-liquid-proposal.md",
+      "sha256": "abf17aa0d8eb3eb7c71a6ace0e5586fe2a7f7f1a7e4682c1125e487fd74b3be1"
+    },
+    {
+      "matches": [
+        {
+          "line": 38,
+          "text": "The ephemeral H increment is a chart solve variable only. It never enters qualified inertia. Reconciliation is performed by deriving inertia from the stored fields rather than relying on a low-part correction to a latent residual. Direct inertia, body load, endpoint donor transport, force assembly, projected accumulation/division and sequential native norm retain their E1 operation order. The only proposed arithmetic change is deferred working affine-known rounding within the existing chart solve. Every existing finite-difference Newton column must rebuild the complete E2 graph. A norm computed by an offline exact oracle never replaces the native Newton norm."
+        },
+        {
+          "line": 65,
+          "text": "The machine-readable [policy](../../../evidence/forcing-affine-rounding-contract-v1/policy.json) fixes cases 41 and 47, their complete original failed prefixes, final seventh-correction unknowns, h=0.00078125 and orders 16/32. The existing inputs and journals are pinned by hash. The first future comparison evaluates four fixed equations, with zero accepted owners constructed/advanced, zero new Newton corrections, no third solve and no publication. It is blocked now. A baseline using original E1 must reproduce both order-16 failed norms bit for bit. Failure to reproduce is a provenance failure, not permission to select another state."
+        },
+        {
+          "line": 81,
+          "text": "Any later trajectory qualification retains the original 48-case/8-lifecycle roster, five coarse intervals, two finer intervals, original time, loads/initial conditions, reference settings and original geometry maximum metric. Seven corrections, 200 counted equations, the final authorized-correction validation and the two original uncounted final acceptance equations keep their source semantics. Newton 1e-13, physical momentum/full constraints 1e-11, quadrature 1e-15 and work/GCL 128*eps remain unchanged. There is no extra iteration or parameter search. Both original refusals and all eight original geometry band failures remain in comparison reports. Signed components/error over h supplement the original 1.7\u20132.3 geometry band; they do not replace it. No tighter references, new endpoints, thresholds or runs are authorized by this contract."
+        }
+      ],
+      "path": "docs/research-book/implementation/forcing-affine-rounding-contract.md",
+      "sha256": "b480105081e7f5f818dd093c1d8e7eb4265f06bf6468598de5232b9c6b07bed4"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/forcing-affine-rounding-native-known-amendment.md",
+      "sha256": "b24dbe57b2123bd15627972c8479aeb364cffdc61d14ffa73bf7f5b159ca88ea"
+    },
+    {
+      "matches": [
+        {
+          "line": 22,
+          "text": "inside that window**. If none of the seven checks has norm at most `1e-13`,"
+        },
+        {
+          "line": 40,
+          "text": "| pressure state / reversed | 0.00078125 | 1 | 1.195531e-13 | 1.236495e-13 | 6.552095e-14 |"
+        },
+        {
+          "line": 49,
+          "text": "Newton threshold when separately observed. Order-32 observations give"
+        },
+        {
+          "line": 56,
+          "text": "![Actual original checks and unused candidate observations](../../../evidence/forcing-finer-refusals/newton-window.png)"
+        },
+        {
+          "line": 61,
+          "text": "`cfg(rheon_newton_trace)` in the solver and the existing bounded probe. Removing"
+        },
+        {
+          "line": 89,
+          "text": "`analyze.py` audits all 1227 native trace events, all 135 accepted Newton paths,"
+        },
+        {
+          "line": 100,
+          "text": "Newton target. An independently rounded norm cannot replace an actual native"
+        }
+      ],
+      "path": "docs/research-book/implementation/forcing-finer-native-refusals.md",
+      "sha256": "ddc4244f985f1926f116ae256fdb9d02725d6bd8f74a8c44fdcc45564f39d768"
+    },
+    {
+      "matches": [
+        {
+          "line": 34,
+          "text": "| Terminal coarse norm | `1.1895444217920825e-13`, above unchanged Newton `1e-13` |"
+        },
+        {
+          "line": 46,
+          "text": "the input selection row (index 3), the first Newton check from version 1,"
+        },
+        {
+          "line": 174,
+          "text": "reported separately as a diagnostic, never silently substituted into Newton."
+        }
+      ],
+      "path": "docs/research-book/implementation/forcing-increment-state-contract-supplement.md",
+      "sha256": "a196a838b7d19c42f5c3f7562aa574414c3cb6f6015b25a50eda9384bfb5a99f"
+    },
+    {
+      "matches": [
+        {
+          "line": 37,
+          "text": "binary squared norms still above `(1e-13)^2`; compensation has not demonstrated"
+        },
+        {
+          "line": 147,
+          "text": "   graph for finite-difference Newton columns. Pressure columns remain linear"
+        },
+        {
+          "line": 149,
+          "text": "   terminal validation, call budget 200 and the current `1e-13` Newton check."
+        },
+        {
+          "line": 185,
+          "text": "residual Newton tests. Norms have units of reduced momentum rate; a coefficient"
+        },
+        {
+          "line": 186,
+          "text": "gap divided by h has different units and is not a Newton threshold test."
+        }
+      ],
+      "path": "docs/research-book/implementation/forcing-increment-state-contract.md",
+      "sha256": "62329edbdf0064a69f387f010de463970e6c4115dd5ec56b5c2713508d2e07ef"
+    },
+    {
+      "matches": [
+        {
+          "line": 32,
+          "text": "all 20 fixture/sign/interval trajectories and 248 steps. It retained Newton rate"
+        },
+        {
+          "line": 33,
+          "text": "`1e-13`, seven iterations, 200 calls, full/direct momentum rate `1e-11`, work/GCL"
+        },
+        {
+          "line": 41,
+          "text": "Four tighter DOP853 integrations (`rtol=1e-13`, maximum step `0.0015625`) and"
+        }
+      ],
+      "path": "docs/research-book/implementation/forcing-temporal-regime-diagnosis.md",
+      "sha256": "16d10fad4eb094936c2ba2e2af0010d1f61717d7e39ba1a30f5998629ebbef77"
+    },
+    {
+      "matches": [
+        {
+          "line": 24,
+          "text": "from both accepted fixtures, actual late linear and Newton failures, checked"
+        },
+        {
+          "line": 76,
+          "text": "its temporal accuracy. Original Jacobi fixtures, tiny-step/host Newton limits,"
+        }
+      ],
+      "path": "docs/research-book/implementation/frozen-forcing-experiment.md",
+      "sha256": "0f643ea52e282a4882bc0c7576c8345aa720d0bd8baea43851cac1258248202e"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/liquid-output-verifier-successor.md",
+      "sha256": "f579abc04399b97423adc5f4b5d8ae837d5fe026d613aa70dd2db1fa895c4514"
+    },
+    {
+      "matches": [
+        {
+          "line": 40,
+          "text": "`1e-13`, equation calls at most 200. Original direct momentum is checked as well"
+        },
+        {
+          "line": 76,
+          "text": "invalid/subnormal/underflow intervals and bounded Newton failure preserve accepted"
+        }
+      ],
+      "path": "docs/research-book/implementation/native-coupled-discrete-work.md",
+      "sha256": "623a482c66646050cf3404b6acd4ffc59ce331ad8aa4ac819f073d5c06fbf5d8"
+    },
+    {
+      "matches": [
+        {
+          "line": 60,
+          "text": "34-row momentum rates must meet `1e-11`. The old planar Newton gate remains"
+        },
+        {
+          "line": 61,
+          "text": "`1e-13`, at most seven iterations and 200 equation calls; root/quadrature bounds"
+        },
+        {
+          "line": 70,
+          "text": "interpretation and the original `.00078125` bounded-Newton refusal, remain valid."
+        }
+      ],
+      "path": "docs/research-book/implementation/native-extruded-third-velocity.md",
+      "sha256": "f0d243527c9b22428c9123599e935e6520c9fe8a45b7f5f5cce143a705db61fb"
+    },
+    {
+      "matches": [
+        {
+          "line": 59,
+          "text": "true planar Newton rate `1e-13`, full/direct momentum `1e-11`, quadrature"
+        },
+        {
+          "line": 75,
+          "text": "match a baseline. Actual late third linear failure and bounded Newton failure"
+        },
+        {
+          "line": 145,
+          "text": "reconstruction. Tiny-step/host Newton limits and original Jacobi fixtures"
+        }
+      ],
+      "path": "docs/research-book/implementation/native-forced-extruded-liquid.md",
+      "sha256": "e15679e7b05411b7e57b2cf38bcbd81f6b76e108ba20f45a77c489ee2d5e00c1"
+    },
+    {
+      "matches": [
+        {
+          "line": 1,
+          "text": "# Constant-density Newtonian viscosity in the sealed box"
+        },
+        {
+          "line": 3,
+          "text": "This implementation companion adds a bounded Newtonian update to the existing transactional carrier/liquid facade. It supports a **fully filled sealed Cartesian box**, constant positive density rho, constant nonnegative dynamic viscosity mu, and stationary impermeable **free-slip** walls. Normal wall velocity is prescribed zero. Tangential viscous traction is zero; this is not a no-slip or adhesion model. Material units are rho in kg/m\u00b3, mu in Pa s = kg/(m s), and nu = mu/rho in m\u00b2/s."
+        }
+      ],
+      "path": "docs/research-book/implementation/newtonian-box-viscosity.md",
+      "sha256": "12173e59bd303e0e9375ef8c95703c4dfd13fdf59124112930365c54a113584a"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/prescribed-box-flux.md",
+      "sha256": "0577c310cc5a294209e9a8c7c61bb59a7d72028832b636e517647ef499f22b7c"
+    },
+    {
+      "matches": [
+        {
+          "line": 5,
+          "text": "Older native prose says at most seven iterations, and the frozen refusal diagnosis records seven residual checks. That ambiguity is real: the old controller computed seven Newton corrections but checked only the seed and the first six corrections. The candidate interprets the inherited iteration budget as a cap on Newton correction solves, consistent with shared CG update semantics and Chapter 10's declared frozen-coefficient solve budget. This is a documented controller-semantic/check-order repair for review, not a claim that the check count is identical."
+        },
+        {
+          "line": 7,
+          "text": "For N=min(max_iterations,7), the candidate computes at most N Newton corrections and checks their final result once. There are at most N+1 unperturbed Newton residual checks, thus at most eight, using the unchanged 1e-13 gate. The additional validation is cancellable through the existing Iteration stage, so that callback can be visited N+1 times. Historical reported `iterations` remains the number of original loop passes: a converged seed reports one; a terminal success after N corrections reports N despite N+1 residual checks. Ordinary acceptance after k corrections reports k+1 passes/checks. It is not an exact correction count on all paths."
+        },
+        {
+          "line": 9,
+          "text": "Each computed correction uses one main equation evaluation and six finite-difference equation evaluations. The terminal check adds one equation evaluation, giving 7N+1 counted Newton calls (maximum 50), within the unchanged 200-call budget. Acceptance separately evaluates the original equation at quadrature orders 16 and 32. These two calls were already excluded from the report's Newton counter. Therefore an accepted budget-three boundary path reports 22 Newton calls but performs 24 total `work.equation` evaluations; an accepted budget-seven boundary path reports 50 but performs 52. These totals exclude seed assembly and optional diagnostic-only observations; they are not total runtime or total linear-solve counts."
+        },
+        {
+          "line": 11,
+          "text": "The source candidate's shorthand \u201cwithout another ... solve\u201d means **without another Newton correction solve** or Jacobian construction. An equation evaluation itself performs the existing 15-by-15 chart solves; the terminal evaluation adds their work. No claim of zero added chart solves is made."
+        },
+        {
+          "line": 13,
+          "text": "Actual trace accounting is recorded in `evidence/solver-terminal-validation/budget-normal.json` and its identical optimized-mode output. All preexisting Newton/work/GCL/momentum/quadrature/third-component gates and memory reservations remain. Original coarse temporal failures and remaining finer refusals are retained; no general convergence or arithmetic-floor theorem follows."
+        }
+      ],
+      "path": "docs/research-book/implementation/solver-terminal-validation-budget-clarification.md",
+      "sha256": "a80200052cf949b66907068a14fa6a1701679abb97a835c92d41a88fa47b30ec"
+    },
+    {
+      "matches": [
+        {
+          "line": 9,
+          "text": "For N=min(settings.max_iterations,7), the original loop checks the seed/previous correction and performs at most N corrections. If it has not converged, the candidate evaluates the already computed final correction once at quadrature order 16 and the existing Newton rate target 1e-13. The additional call is guarded by the existing 200-call budget and an Iteration cancellation barrier. No Jacobian or additional solve is permitted. Worst-case Newton equation calls are 7N+1 <=50, within 200. Independent order-16/order-32 acceptance evaluations, original 1e-15 quadrature gate, 1e-11 momentum gates, 128-epsilon work/GCL gates, original third-component solve and before-publication barrier all still execute. Their acceptance equations and tolerances are unchanged."
+        },
+        {
+          "line": 27,
+          "text": "This changes a bounded native solver controller only. It supplies no new physical equation, free-surface pressure law, viscosity/adhesion/density model, surface reconstruction, arbitrary mesh family, full three-dimensional simulator, continuum convergence theorem or Lean kernel claim. Existing Jacobi fixtures, subnormal rejection, checked division, research failures and theorem limitations remain. Passing a terminal Newton test alone does not imply the remaining work/constraint/third-component gates pass. Candidate numerical captures and replay must be reported as new results with their exact source and unchanged physical gates, independently of the frozen failures."
+        }
+      ],
+      "path": "docs/research-book/implementation/solver-terminal-validation-candidate.md",
+      "sha256": "da3b2cbfd239c1516dc6fe0c15b56c7a5133e7c5a07fdbee71c4f6c704620ed9"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/static-surface-queries.md",
+      "sha256": "3acf4202881b0fd9757af625f0f736b1866878f0938a4dc1fd6f08a2e6a9b86e"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/static-tracer-barriers.md",
+      "sha256": "077d405c597caf58131752b06c0ce46e06badf5b382b86aa2b3562782c76b46f"
+    },
+    {
+      "matches": [],
+      "path": "docs/research-book/implementation/translating-surfaces.md",
+      "sha256": "0181429ee041d48f0def388c2782811b20eca20fb844ff09702627cf8f2c71fc"
+    },
+    {
+      "matches": [
+        {
+          "line": 52,
+          "text": "up to a documented floating rounding allowance. Momentum and divergence are measured independently. This identity is a work accounting check; temporal accuracy is assessed separately. Default CG relative/absolute residual targets are 1e\u221212/1e\u221213; absolute momentum and divergence limits are 1e\u221211. Reported errors remain measured rather than clipped or repaired by mass/momentum fitting. Nonzero subnormal intermediates, failed checked divisions, overflow, lost clock/coordinate or local physical-edge resolution, unsupported xy/trace fields and iteration/acceptance failures reject before the final infallible swap and scalar publication."
+        }
+      ],
+      "path": "docs/research-book/translating-viscous-family.md",
+      "sha256": "f1383ff3f481b4ac8e357bde0f27ca31b04f471fa48e90526f1b1fa9adbcab60"
+    },
+    {
+      "matches": [],
+      "path": "evidence/advancing-liquid-contract/AuditMovingLiquid.lean",
+      "sha256": "5b43536c9ad513a451064879dccb4f757e2cbf2aff70b1ddd202cf8ccab008cd"
+    },
+    {
+      "matches": [],
+      "path": "evidence/advancing-liquid-contract/MovingLiquid.lean",
+      "sha256": "1917e236b458d741e94c95936ed9f5d504a8a6c0488b8be33c856f0980d04508"
+    },
+    {
+      "matches": [],
+      "path": "evidence/bounded-physics-contracts/AuditBoundedPhysics.lean",
+      "sha256": "ad9b42dd49701214c1d90d8836eccbc5ea4ad1ea06ffdeee52748d7e190ce647"
+    },
+    {
+      "matches": [],
+      "path": "evidence/box-flux/AffineProjection.lean",
+      "sha256": "357e470e8a4d76ebdc8b471211b6721c0d896892a7e6aaf856d57d2e7dfbe8a9"
+    },
+    {
+      "matches": [],
+      "path": "evidence/box-flux/AuditAffineProjection.lean",
+      "sha256": "fec8505171d92b120c6fa2d70edb666a46e7dbee8c4a0f23345cf2deab1f9e4c"
+    },
+    {
+      "matches": [],
+      "path": "evidence/box-flux-step/AuditStepBudget.lean",
+      "sha256": "2a38d64f8f9fd3d9876560c852ae901aafde2f05d846fffc0bab322b982e264b"
+    },
+    {
+      "matches": [],
+      "path": "evidence/box-flux-step/StepBudget.lean",
+      "sha256": "10be406be75eb7d2de0c4ef518d177e66d6278747e625b95a932c1c69f17fb5c"
+    },
+    {
+      "matches": [],
+      "path": "evidence/column-interface/AuditColumnSurface.lean",
+      "sha256": "6be636efba4e8d85dfaa676d40ee439f31e36e68d11630e5bf11dea92d15aad1"
+    },
+    {
+      "matches": [],
+      "path": "evidence/column-interface/ColumnSurface.lean",
+      "sha256": "6d8b204bec18260e73b07691a2d64073330948bc69df07723868c6479cea52cc"
+    },
+    {
+      "matches": [],
+      "path": "evidence/column-mac/AuditColumnMac.lean",
+      "sha256": "b2939485836735e198049287886319768aa9cd21021f5907010f9c9c7abb63fb"
+    },
+    {
+      "matches": [],
+      "path": "evidence/column-mac/ColumnMac.lean",
+      "sha256": "c3fe46b6d3c7cdee1e5340788aa5886a7c924411de78fe4722456a1354037120"
+    },
+    {
+      "matches": [],
+      "path": "evidence/column-momentum/AuditColumnMomentum.lean",
+      "sha256": "d1a86c2f82848d4a7f9dc0be58ce8da4edba8ccfacbb6e14aad02112a59fd5cd"
+    },
+    {
+      "matches": [],
+      "path": "evidence/column-momentum/ColumnMomentum.lean",
+      "sha256": "2eb4eebf756d2eeb0382283d6b66728c8e0a4d6e1fbf77b5a869e1bc35d52df4"
+    },
+    {
+      "matches": [],
+      "path": "evidence/column-shear/AuditColumnShear.lean",
+      "sha256": "6bed3a9c56432605aa9c88a6085d989a8f35d3d0b2d306acc39465c5e0634a06"
+    },
+    {
+      "matches": [],
+      "path": "evidence/column-shear/ColumnShear.lean",
+      "sha256": "dd3d5182d08f4a3d060f972a3b9f3740a323a3fa1c146238c9d78bd4222cc1b9"
+    },
+    {
+      "matches": [],
+      "path": "evidence/explicit-forces/AuditForceWork.lean",
+      "sha256": "69a6e71c6d2932f6d7c97e3a69b458eb2bcc03779b74c9707b7c3e7f75eb07f1"
+    },
+    {
+      "matches": [],
+      "path": "evidence/explicit-forces/ForceWork.lean",
+      "sha256": "6523dc9b86f70fba8b81301bb7c674f43545825a34f8524fa89134b1cf62e725"
+    },
+    {
+      "matches": [],
+      "path": "evidence/fitted-height-formulation/AuditFittedHeight.lean",
+      "sha256": "0377b9c4281737db9f0ac2dce93996c1898e491d3e7229a0d9a98def44c92587"
+    },
+    {
+      "matches": [],
+      "path": "evidence/fitted-height-formulation/FittedHeight.lean",
+      "sha256": "ad716a0e642de8cdbfbaca8491a580621efb47e55a74f40d855ad5548363a433"
+    },
+    {
+      "matches": [],
+      "path": "evidence/free-surface/AuditFreeSurface.lean",
+      "sha256": "c54899c984daf23fcbe32774e1dea4b72e41a9663cfc8e7bf3708f254305cdf2"
+    },
+    {
+      "matches": [],
+      "path": "evidence/free-surface/FreeSurface.lean",
+      "sha256": "0e0e4ca38c2c1e034d805f94198391c67dadbafe66a477abe08fad8a5185cbe8"
+    },
+    {
+      "matches": [],
+      "path": "evidence/liquid-volume/AuditVolumeLedger.lean",
+      "sha256": "7ed9affa73fade14f20fb1baea98db3a7d44eea0532d22f10e70c2469ef966de"
+    },
+    {
+      "matches": [],
+      "path": "evidence/liquid-volume/VolumeLedger.lean",
+      "sha256": "35c34d148b36f03ae3429052e14bf948ce4e7587ea6113ae56160e17fd9d0f85"
+    },
+    {
+      "matches": [],
+      "path": "evidence/surface-queries/AuditFacetSelection.lean",
+      "sha256": "db52db5d39ba70c488517315eb3b5109cda0cff84bdc2335d35d6377be8d73b9"
+    },
+    {
+      "matches": [],
+      "path": "evidence/surface-queries/FacetSelection.lean",
+      "sha256": "710b188d7c214d8cdc3605b41621fd6685c481567c0925a4cd4db0e2ac47d60a"
+    },
+    {
+      "matches": [],
+      "path": "evidence/tracer-barriers/AuditVisibleWeights.lean",
+      "sha256": "04fb910db2ccaf102f7c0fcec5225708632e3434f63b244336147ec2e3329297"
+    },
+    {
+      "matches": [],
+      "path": "evidence/tracer-barriers/VisibleWeights.lean",
+      "sha256": "2fa7b0314c00859b55175db893dda09d18c4346bd87083dc27877a8f40b581b3"
+    },
+    {
+      "matches": [],
+      "path": "evidence/translating-surfaces/AuditTranslationFrame.lean",
+      "sha256": "329a225cf8e8305bc1455e23850bda44b69738414cabfc409f6902dc675fa4f8"
+    },
+    {
+      "matches": [],
+      "path": "evidence/translating-surfaces/TranslationFrame.lean",
+      "sha256": "8a30d9be2cb11d10ad99d9290901614020b78642b710ac400efa1bc55ed2f64a"
+    },
+    {
+      "matches": [],
+      "path": "evidence/viscosity/AuditBoxViscosity.lean",
+      "sha256": "e36488fd8edbebed2dad395f29e4e87fe43e3c4e6d20a9c30671754d66cf9bbd"
+    },
+    {
+      "matches": [],
+      "path": "evidence/viscosity/BoxViscosity.lean",
+      "sha256": "cc4a3453624d8a0514f2d92918d6f016074f2409dc4cd83ce8966e25ee1c5c16"
+    },
+    {
+      "matches": [],
+      "path": "proofs/AxiomAudit.lean",
+      "sha256": "ff82b9cc304ed6897fb7e7c252fdae9988b86d3c060f66924f3ec7f136054bbb"
+    },
+    {
+      "matches": [],
+      "path": "proofs/Rheon/BoundedPhysics.lean",
+      "sha256": "20dd53b1b137a01f8b04de47ffbe8474561696940e17ab1ed4d3bfde388b03af"
+    },
+    {
+      "matches": [],
+      "path": "proofs/Rheon/Discrete.lean",
+      "sha256": "70a2ca5d2c5cbefacbbb8742954375fdfe8cc25c3c5b8afd05738941cfc5ee0a"
+    },
+    {
+      "matches": [],
+      "path": "proofs/Rheon/Indexing.lean",
+      "sha256": "862c33164e75daccd43603c9b5a61473fd825885d9106b766a35204e578f60bf"
+    },
+    {
+      "matches": [],
+      "path": "proofs/Rheon/Physics.lean",
+      "sha256": "26cbb4f75076c7e70a90da126f96622b75044befce26a4c17a50066c76e96050"
+    },
+    {
+      "matches": [],
+      "path": "proofs/Rheon/Transport.lean",
+      "sha256": "f967e593db1df0ec945ea6830e67b991e56da168e9f6e3f2d42c4c5866c5cf06"
+    },
+    {
+      "matches": [],
+      "path": "proofs/Rheon.lean",
+      "sha256": "94211dc1dbf7cadb5a39f441aecd690c4c619550e15e3fedf5b6a63ff3ce86a3"
+    },
+    {
+      "matches": [
+        {
+          "line": 20,
+          "text": "const NEWTON: f64 = 1e-13;"
+        },
+        {
+          "line": 603,
+          "text": "            #[cfg(rheon_newton_trace)]"
+        },
+        {
+          "line": 605,
+          "text": "                \"{{\\\"event\\\":\\\"newton_check\\\",\\\"iteration\\\":{},\\\"calls\\\":{},\\\"h\\\":{:?},\\\"accepted_version\\\":{},\\\"accepted_time\\\":{:?},\\\"q\\\":{:?},\\\"eta\\\":{:?},\\\"unknown\\\":{:?},\\\"rate_norm\\\":{:?},\\\"rate\\\":{:?},\\\"direct_rate\\\":{:?},\\\"candidate_q\\\":{:?},\\\"candidate_planar_velocity\\\":{:?},\\\"candidate_mass\\\":{:?},\\\"newton_threshold\\\":{:?},\\\"iteration_limit\\\":{}}}\","
+        },
+        {
+          "line": 620,
+          "text": "                NEWTON,"
+        },
+        {
+          "line": 624,
+          "text": "            if norm(&e.rate)? <= NEWTON {"
+        },
+        {
+          "line": 660,
+          "text": "            #[cfg(rheon_newton_trace)]"
+        },
+        {
+          "line": 668,
+          "text": "                #[cfg(rheon_newton_trace)]"
+        },
+        {
+          "line": 696,
+          "text": "            converged = norm(&terminal.rate)? <= NEWTON;"
+        },
+        {
+          "line": 698,
+          "text": "            #[cfg(rheon_newton_trace)]"
+        },
+        {
+          "line": 700,
+          "text": "                \"{{\\\"event\\\":\\\"terminal_validation\\\",\\\"corrections\\\":{},\\\"calls\\\":{},\\\"rate_norm\\\":{:?},\\\"newton_threshold\\\":{:?},\\\"converged\\\":{}}}\","
+        },
+        {
+          "line": 704,
+          "text": "                NEWTON,"
+        },
+        {
+          "line": 711,
+          "text": "            #[cfg(rheon_newton_trace)]"
+        },
+        {
+          "line": 714,
+          "text": "                    \"{{\\\"event\\\":\\\"refusal\\\",\\\"reason\\\":\\\"correction_budget_exhausted\\\",\\\"checks\\\":{},\\\"calls\\\":{},\\\"accepted_version\\\":{},\\\"h\\\":{:?},\\\"newton_threshold\\\":{:?}}}\","
+        },
+        {
+          "line": 715,
+          "text": "                    iterations, calls, before.version, h, NEWTON,"
+        }
+      ],
+      "path": "src/coupled_discrete.rs",
+      "sha256": "2062542bd181d60078c9141c95f022ebdce8fd0e536500a52839fbdbb5ebba0e"
+    }
+  ],
+  "finding": "The pinned owner and implementation documents specify an operational 1e-13 rate target stricter than 1e-11 physical gates. This search finds no state-specific physical/error-bound derivation for this value. This is an absence finding limited to listed source/book/Lean files, not a claim about all possible research. Lean real algebra and floating-point upper error discussions do not establish an arithmetic lower floor.",
+  "introduction_commit": [
+    "3f0271d6e4d5cee26e87e165e9ef4b9cd352be68"
+  ],
+  "status": "PINNED_LOCAL_PROVENANCE_SEARCH"
+}

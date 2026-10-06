@@ -1,0 +1,9 @@
+# Captured case41 scale and pressure-range diagnosis
+
+The exact existing-data diagnosis is in [the case41 packet](../../../evidence/forcing-case41-scale-diagnosis-v1/RESULTS.md), based on immutable E2 fixed-result commit 2f23503d9bf74842e39f9fe0760edf4bfeb41b4c. This appendix adds no owner, equation execution, correction or threshold change.
+
+For the stored order16 reduced rate r, components2/3 contribute 74.085% of ||r||². With captured pressure columns B and P=B(BᵀB)⁻¹Bᵀ, exact rational identities give Bᵀ(I−P)r=0 and ||r||²=||Pr||²+||(I−P)r||². The complementary norm is 9.845587408263399e-14, while the total exact norm remains above the original 1e-13 target. This span projection is an offline linear model; no pressure update is tested.
+
+Stored endpoint reconciliation is r_stored−r_latent=M(z_stored−H)/h with M=Rᵀdiag(m1)R. Splitting known/dependent coordinates and the exact squared-norm cross term identifies the rounding contribution without changing accepted-state arithmetic. Chart and mass Gram conditioning are modest in the given basis; the pressure normal Gram remains poorly conditioned after column normalization. Full native Newton conditioning remains unmeasured because the six acceleration FD columns are absent and mixed units require declared scaling.
+
+The bounded local source/book/Lean provenance search records the operational reason for 1e-13 (stricter than the physical 1e-11 gate), but finds no case41 state-specific physical/error-bound derivation. No arithmetic lower floor or new IEEE Lean theorem is claimed. If further diagnosis requires a full Jacobian, the smallest complete capture is the original six native FD columns at the unchanged candidate, with no correction. None is captured here. All original runtime/geometry failures, Jacobi fixtures and proof/model limitations remain.

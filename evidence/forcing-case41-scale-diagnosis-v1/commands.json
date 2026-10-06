@@ -1,0 +1,86 @@
+[
+  {
+    "argv": [
+      "python",
+      "evidence/forcing-case41-scale-diagnosis-v1/analyze.py",
+      "80"
+    ],
+    "exit": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "c03ce81d96acdbcefa9f514e8e9793ffdb953ec28ca192bac1f3cb33f24a23d7"
+  },
+  {
+    "argv": [
+      "python",
+      "-O",
+      "evidence/forcing-case41-scale-diagnosis-v1/analyze.py",
+      "80"
+    ],
+    "exit": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "c03ce81d96acdbcefa9f514e8e9793ffdb953ec28ca192bac1f3cb33f24a23d7"
+  },
+  {
+    "argv": [
+      "python",
+      "evidence/forcing-case41-scale-diagnosis-v1/analyze.py",
+      "120"
+    ],
+    "exit": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "0804fe9f761d0ba6c59000ad42816a3fd8a23944a02870b824a3f9e34ff58f37"
+  },
+  {
+    "argv": [
+      "python",
+      "-O",
+      "evidence/forcing-case41-scale-diagnosis-v1/analyze.py",
+      "120"
+    ],
+    "exit": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "0804fe9f761d0ba6c59000ad42816a3fd8a23944a02870b824a3f9e34ff58f37"
+  },
+  {
+    "argv": [
+      "python",
+      "evidence/forcing-case41-scale-diagnosis-v1/pressure_scaling.py",
+      "80"
+    ],
+    "exit": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "93da290bdb128167280814fb8f4f6dbc3cd0b053f2d9ca4f88ba380eba39fa9d"
+  },
+  {
+    "argv": [
+      "python",
+      "-O",
+      "evidence/forcing-case41-scale-diagnosis-v1/pressure_scaling.py",
+      "80"
+    ],
+    "exit": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "93da290bdb128167280814fb8f4f6dbc3cd0b053f2d9ca4f88ba380eba39fa9d"
+  },
+  {
+    "argv": [
+      "python",
+      "evidence/forcing-case41-scale-diagnosis-v1/pressure_scaling.py",
+      "120"
+    ],
+    "exit": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "816d98a46555aa6194384a31a3ef386ad2157cf071c83d692826057aac715920"
+  },
+  {
+    "argv": [
+      "python",
+      "-O",
+      "evidence/forcing-case41-scale-diagnosis-v1/pressure_scaling.py",
+      "120"
+    ],
+    "exit": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "816d98a46555aa6194384a31a3ef386ad2157cf071c83d692826057aac715920"
+  }
+]

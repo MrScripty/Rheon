@@ -1,0 +1,23 @@
+{
+  "arithmetic_floor_bound": false,
+  "full_Newton_condition": false,
+  "native_executions": 0,
+  "negative_controls": [
+    "singular matrix refused",
+    "corrupt inverse identity detected",
+    "corrupt input binding refused"
+  ],
+  "new_corrections": 0,
+  "normal_optimized_parity": true,
+  "orders": [
+    16,
+    32
+  ],
+  "owner_advances": 0,
+  "precision": [
+    80,
+    120
+  ],
+  "provenance_files": 122,
+  "status": "PASS_FRESH_EXISTING_DATA_DIAGNOSIS"
+}
