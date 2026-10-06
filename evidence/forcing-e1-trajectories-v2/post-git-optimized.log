@@ -1,0 +1,81 @@
+{
+  "artifacts": 338,
+  "authorized_additional_cap": 67584,
+  "binary_sha256": "681b88152796730270154f3c372c6bd4a547c2e722330a39df622e6cc1442798",
+  "coarse_complete": 40,
+  "complete_finer_checks_passed": 18,
+  "every_retry_report_and_state_bit_exact": true,
+  "failed_original_geometry_checks": 8,
+  "final_refusal_Newton_norms": [
+    1.0724458777318338e-13,
+    1.3144896847477506e-13
+  ],
+  "finer_complete": 6,
+  "independent_physical_maxima": {
+    "GCL_ratio": 0.026086724327622476,
+    "constant_deviation": 8.326672684688674e-16,
+    "direct_full_momentum": 1.9247982974401163e-13,
+    "full_momentum": 1.83837103743761e-13,
+    "quadrature": 5.854691731421724e-18,
+    "third_momentum_change": 3.9963692077815693e-16,
+    "third_work_ratio": 0.00817050267315026,
+    "total_work_ratio": 0.013209614437454949
+  },
+  "lifecycle_accepted_steps": 128,
+  "lifecycle_complete": 8,
+  "memory_additional_bound": 65536,
+  "memory_remaining": 2048,
+  "missing_finer_endpoint_checks": 6,
+  "native_minimum_signed_margins": {
+    "Newton_signed_margin": 3.968546542831677e-16,
+    "direct_full_norm_signed_margin": 9.807158106334055e-12,
+    "finite_full_norm_signed_margin": 9.816584099897026e-12,
+    "full_constraints_signed_margin": 9.99610207634948e-12,
+    "quadrature_signed_margin": 9.929797909331564e-16
+  },
+  "negative_controls": [
+    "trajectory omitted",
+    "refusal promoted to complete",
+    "refusal hidden",
+    "wrong accepted step count",
+    "missing interruption",
+    "changed cancellation state bits",
+    "production adoption",
+    "memory cap changed",
+    "final equations omitted",
+    "failed work promoted",
+    "band relaxed",
+    "original failure relabeled",
+    "reference unresolved",
+    "missing finer endpoint invented",
+    "reported gate relaxed",
+    "physical source replaced",
+    "repeated refusal changed",
+    "refusal norm below target"
+  ],
+  "ordinary_accepted_steps": 1034,
+  "ordinary_completed": 46,
+  "ordinary_refused": 2,
+  "ordinary_trajectories": 48,
+  "original_source_and_proof_limitations_preserved": true,
+  "parameter_search": false,
+  "physical_replay": "PASS_ALL_1034_ACCEPTED_STEPS",
+  "preserved_files": 7408,
+  "production_adoption": false,
+  "reference_integrations": 16,
+  "reference_resolution_all_pass": true,
+  "refusal_indices": [
+    41,
+    47
+  ],
+  "refusal_signed_margins": [
+    -7.244587773183377e-15,
+    -3.1448968474775056e-14
+  ],
+  "repeated_cancellations": 64,
+  "source": "050c0a86d71a32e0e9392bd37d1d74045d291b5a",
+  "source_tree": "3942fa171b8c97ff890734540283e970d532fa51",
+  "status": "PASS_COMPLETE_E1_TRAJECTORY_PACKET_WITH_FAILURES_RETAINED",
+  "temporal_qualification": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "tolerance_relaxation": false
+}
