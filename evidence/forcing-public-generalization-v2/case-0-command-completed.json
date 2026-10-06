@@ -1,0 +1,24 @@
+{
+  "argv": [
+    "/workspace/.rheon-tools/public-generalization-v2-target/release/deps/rheon-beaa99042d1278c3",
+    "--exact",
+    "research_public_call::research_generalization_candidate_one",
+    "--nocapture"
+  ],
+  "authorization_sha256": "4a7cd1dd7b0545689401cedc9bb91b58f149010dadc1fea5fccdf8103638a988",
+  "binary_sha256": "6a0776a617f8874ad6d9458f874eac3543d7296227d0710c1bc2562cb4fdf172",
+  "case_id": "initial-forward-h0.0015625-prefix0",
+  "case_index": 0,
+  "continued_trajectory": false,
+  "env": {
+    "RHEON_CASE_INDEX": "0",
+    "RHEON_PUBLIC_CALL_ALLOW": "E1-five-terminal-refusals-public-66KiB-v2"
+  },
+  "exit": 0,
+  "main_calls_requested": 1,
+  "parameter_search": false,
+  "production_adoption": false,
+  "seconds": 1.8969479930092348,
+  "stderr_sha256": "24f50921675269605b65ab5bb3885a9d17f83fc5cc3aabdbe57537c6ef481e19",
+  "stdout_sha256": "7c394b61d4a3f7cd9af9e358c7d14249ec7e21c4a0f0c7ff702b89c69018aff9"
+}

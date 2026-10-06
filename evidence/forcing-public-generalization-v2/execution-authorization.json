@@ -1,0 +1,20 @@
+{
+  "binary_sha256": "6a0776a617f8874ad6d9458f874eac3543d7296227d0710c1bc2562cb4fdf172",
+  "case_indices": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "case_roster_sha256": "7e840298fb9cbfb9e01cf47e8cf4ab3c75ebb573753838256d0baf761f221e3a",
+  "continued_trajectory": false,
+  "generalization_executed_at_authorization": false,
+  "main_calls_per_case": 1,
+  "parameter_search": false,
+  "production_adoption": false,
+  "protocol_sha256": "77ba4f6f16c35f9c5708a7f8f14afd20b1a12ba49f78ae2f85d8248fa1530e54",
+  "qualification_sha256": "35a00b80ec01438f4713f49c8e773206328040280c1e2b6ea917ff51c3d6c14a",
+  "runner_sha256": "ca446992e2523134849b307f964cf13812f5a5c2f49445bda2a0dd57bc96af87",
+  "source": "dfd29f33d9e1ab46a0f33c291573a12b501ab2df"
+}
