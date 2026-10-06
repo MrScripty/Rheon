@@ -1,0 +1,17 @@
+{
+  "status": "FROZEN_FORCING_EXPERIMENT_PHYSICAL_PASS_TEMPORAL_GATE_FAILED",
+  "source": "1d968b7c38ffcfaada47d1e9b7f722e31515f268",
+  "tree": "1fa326b0565d256c8d2dacc320b83c3dabcbd70b",
+  "source_paths": 295,
+  "packet_files": 120,
+  "preserved_baseline_paths": 6387,
+  "actual_publications": 536,
+  "actual_corruption_rejections": 19,
+  "independent_references": 16,
+  "temporal_gate": "FAILED_ORIGINAL_BAND",
+  "browser_status": "BLOCKED_BROWSER_SANDBOX",
+  "hosted_CI_qualified": false
+}
+REJECTED source_sha256: Git source .coderabbit.config.ts
+REJECTED file_sha256: frozen evidence evidence/forced-extruded-liquid/capture-cache-failure/captures-commands.json
+REJECTED historical_git_blobs: complete preserved baseline

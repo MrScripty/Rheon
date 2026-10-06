@@ -1,0 +1,17 @@
+{
+  "status": "PASS_FROZEN_BINDING_WITH_TEMPORAL_FAILURE_RETAINED",
+  "source_commit": "1d968b7c38ffcfaada47d1e9b7f722e31515f268",
+  "source_tree": "1fa326b0565d256c8d2dacc320b83c3dabcbd70b",
+  "evidence_commit": "62a7b29898d5d88665f9ff9a8030795235365d40",
+  "evidence_tree": "d477a83d4723aa8ab36d6f7ab1788d0d10d3ac74",
+  "root_sha256": "80faef4c4e6a690c3b4f0a1e3d53333aacf1ae49a08b736c4ac20eb3bc290bae",
+  "actual_binding_corruptions_rejected_per_mode": 3,
+  "normal_optimized_validation_identical": true,
+  "file_sha256": {
+    "evidence/forced-extruded-liquid-validation/frozen-normal.log": "86cd4763b992019684b761798bafe4c184a1f7e7909d3ed896e31d0f744f8c0e",
+    "evidence/forced-extruded-liquid-validation/frozen-optimized.log": "86cd4763b992019684b761798bafe4c184a1f7e7909d3ed896e31d0f744f8c0e"
+  },
+  "physical_equation_replay": "PASS",
+  "temporal_qualification": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "hosted_CI_qualified": false
+}
