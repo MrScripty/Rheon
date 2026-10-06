@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon/evidence/fitted-discrete-work/trajectory.py", line 110, in <module>
+    if __name__=='__main__':print(json.dumps(study(),indent=2))
+                                             ^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/trajectory.py", line 98, in study
+    cell=owner.advance(h);loss+=np.array([cell['backward_Euler_loss'],cell['mixing_loss'],cell['viscous_loss']]);max_work=max(max_work,abs(cell['discrete_residual_work'])/cell['fixed_work_allowance']);max_gcl=max(max_gcl,max(abs(g)/a for g,a in zip(cell['actual_local_GCL_defect'],cell['local_GCL_allowance'])));max_rate=max(max_rate,cell['finite_momentum_rate_norm']);max_quad=max(max_quad,cell['quadrature_16_32_difference'])
+         ^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/trajectory.py", line 39, in advance
+    cell=step.solve(h,state=(np.array(old.q),np.array(old.eta)),diagnostics=False)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/step.py", line 112, in solve
+    m.require(qerror<=1e-15,'physical mass/momentum quadrature refinement')
+  File "/workspace/Rheon/evidence/fitted-height-periodic-repair/reference.py", line 17, in require
+    raise ValueError(message)
+ValueError: physical mass/momentum quadrature refinement

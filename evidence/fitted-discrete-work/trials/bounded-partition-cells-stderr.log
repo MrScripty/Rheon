@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon/evidence/fitted-discrete-work/cells.py", line 22, in <module>
+    if __name__=='__main__':print(json.dumps(study(),indent=2))
+                                             ^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-work/cells.py", line 18, in study
+    step.m.require(all(.85*expected<r<1.15*expected for r in face_ratios),'endpoint vs physical momentum consistency order')
+  File "/workspace/Rheon/evidence/fitted-height-periodic-repair/reference.py", line 17, in require
+    raise ValueError(message)
+ValueError: endpoint vs physical momentum consistency order
