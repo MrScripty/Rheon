@@ -1,0 +1,21 @@
+{
+  "FD_test_invocations": 0,
+  "binary_sha256": "48f58e62577eef569e942d3e8e7139701613091076a736c015bee5256691ba72",
+  "build_invocations": 0,
+  "case47_clarification_commit": "30a312eb77b3f3a5b5aebf8af1cfb848b7257d82",
+  "compiled_source": "c238111d8c8d159c157e489294a25998aaf36516",
+  "compiled_source_tree": "c87e9c658cad27df708a34aa63bccf9868095598",
+  "complete_memory_bound": null,
+  "native_equations": 0,
+  "native_test_invocations": 3,
+  "owner_advances": 0,
+  "preserved_predecessor_files": 8392,
+  "receipt_sha256": "fb3b495a60d9b2ca5a5309b07291a93e8c9f9c5037a458429fa8a31ba5598e81",
+  "remote_tested_result": "6599a5c234643ad3d5f53c67e63797777b93212e",
+  "status": "PASS_PUBLISHED_TOOLING_DIAGNOSIS__FD_MEMORY_STILL_BLOCKED",
+  "tested_result": "6599a5c234643ad3d5f53c67e63797777b93212e",
+  "tested_result_tree": "b3c3aae6c741b659e02a7e08aa4c17b514cb505f",
+  "tested_tree_files": 8454,
+  "tooling_source": "87fcfa4e26c85a087c700d9de95ec5fc269f5e24",
+  "tooling_source_tree": "ce4d7ec44018347b9c3c4f63789bd41dc17879d5"
+}

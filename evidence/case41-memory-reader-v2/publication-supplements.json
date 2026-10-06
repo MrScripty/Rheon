@@ -1,0 +1,19 @@
+{
+  "FD_execution_allowed": false,
+  "complete_memory_bound": null,
+  "native_equations": 0,
+  "owner_advances": 0,
+  "status": "READONLY_PUBLICATION_BINDINGS__FD_STILL_BLOCKED",
+  "supplement_sha256": {
+    "PUBLISH.md": "d876828788f8f3858fa1b504e6e127104b9c9ebe4d33679b454ecab9f72bcd2c",
+    "outer-transfers-normal.json": "f53680efe4cf43c068fa672efcb0cb75ad6405ad1c9e739fa2ffb4b517758536",
+    "outer-transfers-optimized.json": "f53680efe4cf43c068fa672efcb0cb75ad6405ad1c9e739fa2ffb4b517758536",
+    "outer_transfers.py": "5c7347b43aacac81f04acbee1a434269880cfbc8302fcf5307596ef98db76d50",
+    "post-git-normal.json": "355d9fe6bd877508ce31954e262febe653c8c2105ff36df86c1f61bd2a2af57b",
+    "post-git-optimized.json": "355d9fe6bd877508ce31954e262febe653c8c2105ff36df86c1f61bd2a2af57b",
+    "post_git.py": "b2149ae6f6d5d9e4801802f7b1e75425c634055e01fb99080166686bc07cb1ca"
+  },
+  "tested_receipt_sha256": "fb3b495a60d9b2ca5a5309b07291a93e8c9f9c5037a458429fa8a31ba5598e81",
+  "tested_result": "6599a5c234643ad3d5f53c67e63797777b93212e",
+  "tested_tree": "b3c3aae6c741b659e02a7e08aa4c17b514cb505f"
+}

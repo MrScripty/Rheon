@@ -1,0 +1,82 @@
+{
+  "binary_sha256": "48f58e62577eef569e942d3e8e7139701613091076a736c015bee5256691ba72",
+  "complete_memory_bound": null,
+  "native_equations": 0,
+  "outer_frame": {
+    "below_rsp_bytes": 0,
+    "fixed_decrement_bytes": 62168,
+    "fixed_probe_loop_bytes": 57344,
+    "frame_bound": 62192,
+    "push_bytes": 16,
+    "return_address_bytes": 8
+  },
+  "outer_symbol": "rheon::research_public_call::case41_six_columns_only",
+  "owner_advances": 0,
+  "scope": "The main transfer ledger starts at capture roots. These additional outer initialization/test/panic transfers are retained separately and require boundary/cost justification too.",
+  "status": "READONLY_OUTER_TRANSFER_SUPPLEMENT__NO_COMPLETE_BOUND",
+  "transfers": [
+    {
+      "address": 1793513,
+      "instruction": "call   *0x129541(%rip)        # 2df330 <_DYNAMIC+0x378>",
+      "kind": "call",
+      "opcode": "call",
+      "target": null
+    },
+    {
+      "address": 1793579,
+      "instruction": "call   *0x129477(%rip)        # 2df2a8 <bcmp@GLIBC_2.2.5>",
+      "kind": "call",
+      "opcode": "call",
+      "target": null
+    },
+    {
+      "address": 1793610,
+      "instruction": "call   *0x1293f0(%rip)        # 2df240 <_DYNAMIC+0x288>",
+      "kind": "call",
+      "opcode": "call",
+      "target": null
+    },
+    {
+      "address": 1793643,
+      "instruction": "call   *0x1293df(%rip)        # 2df250 <memset@GLIBC_2.2.5>",
+      "kind": "call",
+      "opcode": "call",
+      "target": null
+    },
+    {
+      "address": 1793659,
+      "instruction": "call   12a050 <rheon::research_public_call::candidate::case41_fd_capture>",
+      "kind": "call",
+      "opcode": "call",
+      "target": 1220688
+    },
+    {
+      "address": 1793731,
+      "instruction": "call   *0x1293ef(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+      "kind": "call",
+      "opcode": "call",
+      "target": null
+    },
+    {
+      "address": 1793777,
+      "instruction": "call   1cefe4 <core::panicking::assert_failed>",
+      "kind": "call",
+      "opcode": "call",
+      "target": 1896420
+    },
+    {
+      "address": 1793804,
+      "instruction": "call   *0x12932e(%rip)        # 2df240 <_DYNAMIC+0x288>",
+      "kind": "call",
+      "opcode": "call",
+      "target": null
+    },
+    {
+      "address": 1793813,
+      "instruction": "call   2c40b0 <_Unwind_Resume@plt>",
+      "kind": "call",
+      "opcode": "call",
+      "target": 2900144
+    }
+  ]
+}
