@@ -1,0 +1,428 @@
+{
+  "Rust_environment_script": "/workspace/rheon-setup/env.sh",
+  "collection": "Recorded after actual completed tool executions; no wall times reconstructed.",
+  "commands": [
+    {
+      "argv_normalized": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "environment": {},
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/format-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/format.log"
+    },
+    {
+      "argv_normalized": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--example",
+        "forcing_temporal_probe",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "environment": {},
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/clippy-default-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/clippy-default.log"
+    },
+    {
+      "argv_normalized": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--example",
+        "forcing_temporal_probe",
+        "--no-default-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "environment": {},
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/clippy-no-default-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/clippy-no-default.log"
+    },
+    {
+      "argv_normalized": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--example",
+        "forcing_temporal_probe",
+        "--features",
+        "desktop",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "environment": {},
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/clippy-desktop-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/clippy-desktop.log"
+    },
+    {
+      "argv_normalized": [
+        "cargo",
+        "run",
+        "--release",
+        "--locked",
+        "--quiet",
+        "--example",
+        "forcing_temporal_probe"
+      ],
+      "environment": {
+        "CARGO_TARGET_DIR": "/workspace/.rheon-tools/forced-extruded-capture-target"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/first-native-probe-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/first-native-probe.jsonl"
+    },
+    {
+      "argv_normalized": [
+        "cargo",
+        "run",
+        "--release",
+        "--locked",
+        "--quiet",
+        "--example",
+        "forcing_temporal_probe",
+        "--no-default-features"
+      ],
+      "environment": {
+        "CARGO_TARGET_DIR": "/workspace/.rheon-tools/forced-extruded-capture-target"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/native-no-default-probe-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/native-no-default-probe.jsonl"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "evidence/forcing-temporal-diagnosis/diagnose.py",
+        "references"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/first-reference-diagnosis-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/first-reference-diagnosis.json"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "evidence/forcing-temporal-diagnosis/diagnose.py",
+        "finite"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/first-finite-diagnosis-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/first-finite-diagnosis.json"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "evidence/forcing-temporal-diagnosis/replay_probe.py",
+        "evidence/forcing-temporal-diagnosis/first-native-probe.jsonl"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/first-probe-replay-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/first-probe-replay.json"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "evidence/forcing-temporal-diagnosis/synthesize.py"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stdout": "evidence/forcing-temporal-diagnosis/diagnosis.json"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "-O",
+        "evidence/forcing-temporal-diagnosis/diagnose.py",
+        "references"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/optimized-reference-diagnosis-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/optimized-reference-diagnosis.json"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "-O",
+        "evidence/forcing-temporal-diagnosis/diagnose.py",
+        "finite"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/optimized-finite-diagnosis-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/optimized-finite-diagnosis.json"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "-O",
+        "evidence/forcing-temporal-diagnosis/replay_probe.py",
+        "evidence/forcing-temporal-diagnosis/native-no-default-probe.jsonl"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/optimized-probe-replay-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/optimized-probe-replay.json"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "-O",
+        "evidence/forcing-temporal-diagnosis/synthesize.py"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stdout": "evidence/forcing-temporal-diagnosis/optimized-diagnosis.json"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "evidence/forcing-temporal-diagnosis/plot.py"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/plot-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/plot.log"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "evidence/forcing-temporal-diagnosis/probe_controls.py"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/probe-controls-normal-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/probe-controls-normal.json"
+    },
+    {
+      "argv_normalized": [
+        "python",
+        "-O",
+        "evidence/forcing-temporal-diagnosis/probe_controls.py"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-temporal-diagnosis/probe-controls-optimized-stderr.log",
+      "stdout": "evidence/forcing-temporal-diagnosis/probe-controls-optimized.json"
+    }
+  ],
+  "git_checkpoint": "f0e2d3d722fa9cdbc7467c996a1b942a2bddca77",
+  "native_default_no_default_parity": true,
+  "normal_optimized_parity": true,
+  "production_Rust_unchanged": true,
+  "source_sha256": {
+    "Cargo.lock": "ab9d9456171dacd0dab4cc7e46b42602b678383eed2d92d6a76db3a23a25b127",
+    "Cargo.toml": "8f71e6affa03b378cbe96f0f2d6ada00fdc223c269fad165b41989d1bc9b08aa",
+    "evidence/advancing-liquid-contract/diagnose.py": "a720861bfef059c58a4f57bcef31b38ea436685c7e2ee758ea1524ad49beda7e",
+    "evidence/advancing-liquid-contract/qualify_lean.py": "f3d787d6d7d98fe9d8286201c56df3ed9913d10a4de6c568bbe7fc6afb32d5b1",
+    "evidence/advancing-liquid-contract/verify.py": "f86ae1575fb2429fb7cfca13850a6a0d73aa2ea59c2a55249a2bbdf95c1e84f8",
+    "evidence/column-mac/make_figure.py": "124a7e5bd76f5c7b374c39f7b9bb9e12f234f7290ed8b2f3154b5d58ad2e21e3",
+    "evidence/column-mac/qualify_lean.py": "403b146c5addfb003d78cf30e79fac91cc90d5a91a2f4f3b5154fb5f757e1c25",
+    "evidence/column-mac/qualify_replay.py": "a86eff50a98f159fd7f267a7c871cfd0ed9986e83a373a04c6a7666788a1e4ae",
+    "evidence/column-mac/qualify_rust.py": "2dea0fdd1de25cdd0e6062cb684379777e440fe86f4f469599694fb5ce88a0fe",
+    "evidence/column-mac/verify.py": "b87bfd1c5633fb3a9337b125e12f3b6cb60d3f5ed12b846eec59d65772ffca6d",
+    "evidence/column-momentum-constant/qualify_replay.py": "c868a7f9e8dec381f75b635b0e67a31673d2eea0a0f90c51056cb12df7893cc9",
+    "evidence/column-momentum-constant/qualify_rust.py": "2dea0fdd1de25cdd0e6062cb684379777e440fe86f4f469599694fb5ce88a0fe",
+    "evidence/column-momentum-constant/verify.py": "c4086698e898b0153abd90c3dc0ce6eab7b16a45e9011ebd03dec74a84d4ab45",
+    "evidence/column-momentum/make_figure.py": "abd5ffe5cdae013661e013a277ebae67566c0b044337a0598a56d3c7c2ed34e8",
+    "evidence/column-momentum/qualify_lean.py": "aa94add88633285304b7475659b57b011204f4313d1fbb3e79bf4c3409099bbd",
+    "evidence/column-momentum/qualify_replay.py": "c868a7f9e8dec381f75b635b0e67a31673d2eea0a0f90c51056cb12df7893cc9",
+    "evidence/column-momentum/qualify_rust.py": "2dea0fdd1de25cdd0e6062cb684379777e440fe86f4f469599694fb5ce88a0fe",
+    "evidence/column-momentum/verify.py": "d9e1e44efec5a66265f68adbd6b5672935ab019d2f7cc467dcdf661409ed50f1",
+    "evidence/column-shear/make_figure.py": "1d106abcf79047494a5547a39233e04a0ad551a9c5e47602e76c6a0e1f4fce39",
+    "evidence/column-shear/qualify_lean.py": "49598367decf36563aa653d2d5035c094eea7cfa3d14ec243e8fccb13ead35e2",
+    "evidence/column-shear/qualify_replay.py": "84c5a7f07a5d9261d977fd25d3d04fa4399079b547d3c673a97b9d81ec64aad3",
+    "evidence/column-shear/qualify_rust.py": "2dea0fdd1de25cdd0e6062cb684379777e440fe86f4f469599694fb5ce88a0fe",
+    "evidence/column-shear/verify.py": "19a0e26b711f17b8bf735af2ae92c5b5cc4dd88685d26ceaafee6889ee2b6c89",
+    "evidence/coupled-equation-consistency/finer.py": "39567ea569e91fe06c99dfdb1f19cbd6f07fc53c25e2c45331202841df88e520",
+    "evidence/coupled-equation-consistency/qualify.py": "b30b63d0c4d58ec9ab8198c9bf20775b26204f79026e70941ffd1ca901366276",
+    "evidence/coupled-equation-consistency/render.py": "b3f1011cd91308d4c5c13e28612d0bcebc099481c5d183ee014290ea7316202b",
+    "evidence/coupled-equation-consistency/study.py": "6f3c0134c1e469945269ff19e4c6324d6544481849f3851071eb33c6975b5791",
+    "evidence/coupled-equation-consistency/taylor.py": "175daeb3159191400a8501bc03cc4bc60a2d3263e57b22c6cf39982fd19a188c",
+    "evidence/coupled-equation-consistency/test_reference.py": "53f7dc095378b2ad39615a1f3421288ba9c00cc2db1e9ac0c692b36fcc9bd454",
+    "evidence/coupled-equation-consistency/verify.py": "42029f9067203f3071e1e6a3420b7adca2820ec73c65d2802d649513ec520613",
+    "evidence/coupled-oracle-repair/qualify.py": "8c3352f8a0635ab7f0456182a726216ea1948cb430ac391e3c9fc059a4c90316",
+    "evidence/coupled-oracle-repair/replay.py": "764d95b3dffc9a0181f76f796fe957c7223c8b6374f148cee395bd839745678b",
+    "evidence/coupled-oracle-repair/reproduce_old.py": "834214295aa6bf88bfa3dba7a798263cb2b0d74c4a5241fa2a951e7706bb5425",
+    "evidence/coupled-oracle-repair/test_reference.py": "35bd8f12c7ba8a63bed36a27295081213a7409e806088c1bad096687d1694c41",
+    "evidence/coupled-oracle-repair/verify.py": "1ad93ffe2b80995ff22d815ea8a976c06b3a95637e245056473210523a9be14d",
+    "evidence/coupled-oracle-repair/verify_trajectory.py": "8a95375d02633a3c397db573b04a90239180f643ee55324b8757e07c0498ec6b",
+    "evidence/extruded-third-velocity/check_browser.py": "1bf42b492416c0201fe785cf467b66d95383a97cb09a7a969d02c2c95e0e01e2",
+    "evidence/extruded-third-velocity/qualify.py": "c04ea03a22e600e7b33f1e772fa3abe6cba616039f24eace702befffe65debea",
+    "evidence/extruded-third-velocity/reference.py": "d44896d9548867d37234d2734dba6ac28861ffdfcaf2108bbb8ba9fb8878c14d",
+    "evidence/extruded-third-velocity/render_native.py": "7f13daa3048b6649b7e1025f914527cc7ac698ecda63ed903f52d7c795e62197",
+    "evidence/extruded-third-velocity/replay.py": "eab1033f182a5a1802f32097c76743a44f35e87bbb91d4eeac877aab28794d0c",
+    "evidence/extruded-third-velocity/test_reference.py": "c3b94853cf5c31c867a4d4ee102294b299ce3235833fc9dd3c5acb41cf20afa6",
+    "evidence/extruded-third-velocity/test_replay.py": "70d30d11c41b1dc93ce1a245ab8db18cd07ef2d4f8cec70fe1c26ceb8facb070",
+    "evidence/extruded-third-velocity/third_exact.py": "bad2e491b34338a635659a7f1e594336629368f022f275bb99da0c11884283f3",
+    "evidence/extruded-third-velocity/verify_final.py": "2cf9a19efe9517715ce5cbed3565a62a15b877e98285b5ac1a51ee738dd18249",
+    "evidence/fitted-ale-native/bind_final_build.py": "f0f2880f6fa4b806c8c99618f3727d862d933c7ec150de7baf82f2234b9bb841",
+    "evidence/fitted-ale-native/qualify_native.py": "f1d18c887d852934fd38da09849d8216736d05ea8eca4c81d8800fff8177de73",
+    "evidence/fitted-ale-native/qualify_rust.py": "4c1aafdb25c412f07cb375931cbfedffc11e0c6caf3dfbd4026c8d73823d74a5",
+    "evidence/fitted-ale-native/render.py": "1e476f743277fc28c480fa2689824799c0947db07973deb2038cd1e69a6d8f36",
+    "evidence/fitted-ale-native/verify.py": "82c8761cae3a1335a42e862482fc095e7d08a079bc310db42b437ee5e8042c6c",
+    "evidence/fitted-ale-native/verify_native.py": "5403ab892dfd2257245574be49cf702ad0d436973853a3270ca73285f6105fa9",
+    "evidence/fitted-coupled-temporal/cell.py": "14a7b9a85f02fa5bab59073521fa17b2972b191c48d0fa79e565000a62e999d0",
+    "evidence/fitted-coupled-temporal/certificate.py": "0ef1328a9fae7d1f859a9bc29298a3e0fb4563e749fa236a5ff970bb58d6366f",
+    "evidence/fitted-coupled-temporal/exact.py": "26a61d5bfb7404e181f7bf2d0d582f90ba2fd8565ea33f096bdba7c96c21930c",
+    "evidence/fitted-coupled-temporal/independent.py": "d6d8d5d9d61475cec0470f86dcdc67811183e104ec3d39f3e2a15adb167ac3e1",
+    "evidence/fitted-coupled-temporal/model.py": "6f3ec893af86e7465b4ac0afca9e28b22eaf71d18f42b3c302862413d2a1b499",
+    "evidence/fitted-coupled-temporal/qualify.py": "db63afac7d55483ca085971b6ad4d58db9717d98da7c56f93aa0ec55d05ee5df",
+    "evidence/fitted-coupled-temporal/render.py": "8629a3ee99dc984b51b6aeb830974e114fa65a2a4e53773b55524a06180d2849",
+    "evidence/fitted-coupled-temporal/study.py": "849e3f03c1ab1019f85ca27cab54dceaf3aabb3b73d35ea7c27c58a2d6009fde",
+    "evidence/fitted-coupled-temporal/test_reference.py": "2c72d2441ac62f6158cedcbb2880d1ed31ec6da7f69250024d2fde5040d22a9e",
+    "evidence/fitted-coupled-temporal/verify.py": "e6cb484d8c5da25beae80f4cd97e77dfa967785c06052af0a7e7e930973e615a",
+    "evidence/fitted-coupled-temporal/verify_cell.py": "3cd6bc8dfbb94ee8030285d1402d1a04e72dcb59f012639482e04c7656562d9c",
+    "evidence/fitted-discrete-refinement/cells.py": "606525eb0fe0a2a8144b514d844870ee5422305d2aafe6f2a6ee97d961334e75",
+    "evidence/fitted-discrete-refinement/certificate.py": "57d25e7daf0a35bf408f79763f898de331d8c8dd6428542a0ebdcd4eec65a732",
+    "evidence/fitted-discrete-refinement/diagnose.py": "d03bc80f923d185b79cf9f0774d00344c11093e68348900adcb1e5cf0d361018",
+    "evidence/fitted-discrete-refinement/independent_work.py": "f9434695435d675e2db3d95eb3aa6a2a044def998ea737ddd0332b8cc5592e9b",
+    "evidence/fitted-discrete-refinement/qualify.py": "4a34b8d2c2c394b907e5a83d34f28b2538bdedf43cc5418688659b3ccf8654cd",
+    "evidence/fitted-discrete-refinement/rate.py": "00d3ae69d53e125be057840746df951d2e17241dd416a6d30e45a1bf28eee345",
+    "evidence/fitted-discrete-refinement/render.py": "cc838cdcb5bd3453e0e121cf938ac7f4cad8f1c7dd30c6bbc04532ca91c6edf0",
+    "evidence/fitted-discrete-refinement/temporal.py": "e499438f17178b8a29bd3dd37dce02300482b85d2f691155b747fcf8c45f6c96",
+    "evidence/fitted-discrete-refinement/test_reference.py": "a588e4e72f86098896e960a6b4311d5f19ced404f86d2f8e5367433c2adda488",
+    "evidence/fitted-discrete-refinement/trajectory.py": "322ea6bf608c289f06a6296ff95cafc10640f1685ec147a45780e81e0be017c1",
+    "evidence/fitted-discrete-refinement/verify.py": "fa89a68f86aa1e0080d06b9b506fa26ab38fed4ddc4244bbfed34d69f6890612",
+    "evidence/fitted-discrete-refinement/verify_cell.py": "3852cfdf29624a7972e69bfcc53704e969f43012292d3fb0be168f2a213c1baf",
+    "evidence/fitted-discrete-refinement/verify_trajectory.py": "3694a7b6073f6d99def6ca2448e86a1c74c5f1505a22e2d01b68024c4a7a2c5f",
+    "evidence/fitted-discrete-work/cells.py": "c961e0455db272b70488284e26f7f011272713e75b5e942b867b3141e92e38bf",
+    "evidence/fitted-discrete-work/independent_work.py": "c0795436f7eb40519ec6c9a2a99f74c069dc0a2a22caf4dea5af09d7026705a6",
+    "evidence/fitted-discrete-work/qualify.py": "1a09ea64e6bb430e7458a368cf322286f8d8b751fd894030a98a2aabecd51ade",
+    "evidence/fitted-discrete-work/render.py": "e6cc06aff7076ef99e753100c4809776e2401b60b1332cf8ba810f59fac32a46",
+    "evidence/fitted-discrete-work/step.py": "3c720e94866a4c4fd318fa06ae25c620300153caf7c75127810ca6090a8529ad",
+    "evidence/fitted-discrete-work/test_reference.py": "04eace7aeae336fd4244b0501cce790730e0db98c8671e701e05f811aa8c6657",
+    "evidence/fitted-discrete-work/trajectory.py": "a2b255bd45e98712357b7af71f676e109d3b63f78682cbf623bf9d1feb39d1be",
+    "evidence/fitted-discrete-work/verify.py": "6901a321bdd4a2cf4879cc48fdfcd9414de12b0a7c3deedbcd2c3481558489b9",
+    "evidence/fitted-discrete-work/verify_cell.py": "c118a5b6ec1310bde2eedcb21fc316dd7683fd1f52026ef6d4d0baabf146380d",
+    "evidence/fitted-discrete-work/verify_trajectory.py": "1e4c9bb7d86da8238bbdd022f276821cb1d483f9d6f2503a72f75e4ce27c3894",
+    "evidence/fitted-finite-transport/make_figure.py": "dc1867b5a29567a74cca8bd9d4aca011c1146d7323ab093b5de4dd5dc9cb427c",
+    "evidence/fitted-finite-transport/numerical.py": "16bb385d2e8827426ba4e82b7d1e89edcf72da984286e9b312bfe752f187f8a1",
+    "evidence/fitted-finite-transport/qualify.py": "5d75bc5c77751e483f5074abc75e9a7b07fc7e0e908d2cd324c6ca0dfcff4c93",
+    "evidence/fitted-finite-transport/reference.py": "88a17db2bced80ad303ad1e884c387357811159f1c734a05c7455ea373684640",
+    "evidence/fitted-finite-transport/test_reference.py": "c7473bbfcbe2652b4b8ee04c129c988da8ae7c84165366c42dc7b751ab76ff27",
+    "evidence/fitted-finite-transport/verify.py": "22b5fa590f0948bf17f425e778ea68e25f2d2c46834087e8989f6de2e87ccbf2",
+    "evidence/fitted-height-assembly/make_figure.py": "c7cea0fd234f50abf137de32140cfbc495b8c97a73cb0a5e31aa06562a8b75a3",
+    "evidence/fitted-height-assembly/qualify_native.py": "f5dbbefc8758f9aa7e7c7a04e7fab24a800abeb0762e68ea00022e4b8eb7127a",
+    "evidence/fitted-height-assembly/qualify_rust.py": "2ae45c33421a228baa648a73b04292997de5dbde1827a46761b86bc72c4c2323",
+    "evidence/fitted-height-assembly/verify.py": "eec1a0f1dbbe30fd13b2504c8a7d8cdca42438ee85819ba038189be37958ce9c",
+    "evidence/fitted-height-assembly/verify_native.py": "6c894879887b81e1bef75b57d0fec400171a8072df966d2930a636c6b7600014",
+    "evidence/fitted-height-formulation/make_figure.py": "3808afad8158582d41cb06a404afbaa60fd3719771d4706b231d9fbd5c979ec3",
+    "evidence/fitted-height-formulation/qualify_lean.py": "6ebe10ac3995c4dafb7ae8549f23aa1fd52e270fcc2994e5c30b03cf11a7a0a9",
+    "evidence/fitted-height-formulation/reference.py": "d8a9a4ec5a99d64b8a4eef5df9b6f6dd3a325be3e402b5f0ef76db5aace9dfc5",
+    "evidence/fitted-height-formulation/test_reference.py": "682f2791b04823c38220b0ab42d6f961385c543c1093b2d8f47438fe78e4bb20",
+    "evidence/fitted-height-formulation/verify.py": "ae71e9f5ab6c388b886a8e007b4c081204444c718c92a547205265a35af63b66",
+    "evidence/fitted-height-periodic-repair/diagnose_seam.py": "37df24a5ff9e949bab0fadddfc12de4aa169c613ba264cca937e698a59f109c4",
+    "evidence/fitted-height-periodic-repair/make_figure.py": "8334e2241437222061d032ffca1e112c1161807b021a9d3048fdc676311a0c64",
+    "evidence/fitted-height-periodic-repair/qualify_native.py": "319104cd08cbdc3ea6a0aad9fb3e19ac81ca3261c636b446fc22cc2d07b2c94b",
+    "evidence/fitted-height-periodic-repair/qualify_rust.py": "2ae45c33421a228baa648a73b04292997de5dbde1827a46761b86bc72c4c2323",
+    "evidence/fitted-height-periodic-repair/reference.py": "43cae1a869d0fbda43e93af58b2bf4ec4717bfd85231bbc77a41e6690e8dc477",
+    "evidence/fitted-height-periodic-repair/test_reference.py": "176f4af86a015396330363ec1d9dbd8f0ed523adcf496408b7fe2417bbe4d353",
+    "evidence/fitted-height-periodic-repair/verify.py": "d30dcf372a12f419999218be2a5ad62bbc069c63caf9a4fef53fe267e0f209b8",
+    "evidence/fitted-height-periodic-repair/verify_native.py": "da00c345bec70d2dfb6e0e5ca17e02d90c0c31f913c4dbae8fdc4e6a13b76734",
+    "evidence/fitted-pressure-path/numerical.py": "dadd6dfa5a89c787b88f28063e60b064966c2ef25e87012e6f155b02eb31bb58",
+    "evidence/fitted-pressure-path/qualify.py": "09b4560dea06651d4a59d149e8579589cd39ae541ed7317126fed4c56fccbf35",
+    "evidence/fitted-pressure-path/qualify_rust.py": "4c1aafdb25c412f07cb375931cbfedffc11e0c6caf3dfbd4026c8d73823d74a5",
+    "evidence/fitted-pressure-path/reference.py": "76264813031ff460a209f16a0d43306748b74d35cb31dccd88dd478ebed52efd",
+    "evidence/fitted-pressure-path/render.py": "f44106833755d5685a08f79481133c62f39a89562809a0d728604b1a8dbc462e",
+    "evidence/fitted-pressure-path/test_reference.py": "7052e80fa5dd69ada5d88446a91c8d7041363e55e774687eb6900492dd9d3db3",
+    "evidence/fitted-pressure-path/verify.py": "634ec8c55f747d60ddb5898fca569d4808b9a890dd0a66effa424780818db771",
+    "evidence/fitted-pressure-path/verify_native.py": "2de1a902d2726ef8a340e15bf27999c5cc6a072b4833e62b00ea427b56a94b7d",
+    "evidence/forced-extruded-liquid-validation/render_readable.py": "bd16f80b1a43667992037151ed24b3b1dc047dfb373f2d4a7d8f2cadb8c9fefe",
+    "evidence/forced-extruded-liquid-validation/verify_frozen.py": "a9be8fe09dd14930cebaf58f46c6492befcfc155b654d9e750d573716ab74838",
+    "evidence/forced-extruded-liquid-validation/verify_local.py": "5828da15329bfda51ae1bd48b3bced1ef921bdeb44bce11a04dbe24da553a556",
+    "evidence/forced-extruded-liquid/experiments.py": "f4d0884cd95d0e09b29a95f206c1028970a4f02d993c5b8e1cae53164f90e1c1",
+    "evidence/forced-extruded-liquid/plot_refinement.py": "1c3d12a138ac642e61d2b9b20b0489399532374f677b6964af08c59a2c5865c9",
+    "evidence/forced-extruded-liquid/qualify_local.py": "b96db5835a0e18015d068670801e16eb4fd5672e4e4f12e151b3dd22646cd276",
+    "evidence/forced-extruded-liquid/reference.py": "2b203abfe1a8229614c389e0288c768f9b79a15f8130acc92660fb4d9e4005b0",
+    "evidence/forced-extruded-liquid/render_native.py": "fefb5209182db7b32062f781ce6898843e7ada6cd6921c6a9fa080a3ab298518",
+    "evidence/forced-extruded-liquid/replay.py": "5135a8b17a58a813e2dc78a3f15c2ac43e55093fe7349f638f5c38058323c989",
+    "evidence/forced-extruded-liquid/test_model.py": "647b3baedb4c1d1c711cc0c0cfbf5056a4449306fa93e7edc7042afcbf6ee749",
+    "evidence/forced-extruded-liquid/test_replay.py": "84835f40db2eddff0a57169fa62de674be72741f3161935b3f7f037ad5a0527a",
+    "evidence/forcing-temporal-diagnosis/diagnose.py": "209eb6d2c05a2c9ee6a579bcd3a38691ece62cc843ec37bbde4056fa11ce25e7",
+    "evidence/forcing-temporal-diagnosis/plot.py": "62b30d1cce41792a9471547a0cc408fe4e67cf03f23a0c874155b477f42ef394",
+    "evidence/forcing-temporal-diagnosis/probe_controls.py": "6f1b53df1957ff7a245c60d4e6e2c6d5a263d8ffa8667a2cf171b79aea53a740",
+    "evidence/forcing-temporal-diagnosis/replay_probe.py": "42d2cec6568cf678fa4941a26eba327f72b2bcb05dec8bcf119b74f401a5f89a",
+    "evidence/forcing-temporal-diagnosis/synthesize.py": "8e1db48c8855a38240859b4f6ef231a3c6cab762343a929a44fc1084877d4300",
+    "evidence/native-coupled-discrete/qualify.py": "f964e6654043963534d4a96c63a6c9c8c42741cd73b45c29ca00beb254432cc9",
+    "evidence/native-coupled-discrete/render.py": "ae7d19e09eb92613aa4bf4197367a6712844fa51a4ef089463fe948e0bea3a2b",
+    "evidence/native-coupled-discrete/replay.py": "0849f778cb27c6d127e93f5f29c73884e522de7535234345e444409e3115aa12",
+    "evidence/native-coupled-discrete/verify.py": "716309e039bb74ce88dde2df8f3cfa69a2d2658302b2e03b399378d3cf8eaf08",
+    "evidence/translated-viscous-flow/qualify_native.py": "aad400949fc62b8094235089853493b687824bf3a5207e46f3dc7f7d217bc986",
+    "evidence/translated-viscous-flow/qualify_rust.py": "bad2de6a6e7a9ee4787facd61a2379ae443571185d69f32ff78b6c33610fca7f",
+    "evidence/translated-viscous-flow/reference.py": "fb64e81061ef283f1f7bb6ebdd07ddbac6ac370d09be3302a24e9695b5ef1b9d",
+    "evidence/translated-viscous-flow/render.py": "22dabbf891906188c81c58f56714f283e2b736110162d1d4b62647d92e7906d8",
+    "evidence/translated-viscous-flow/test_reference.py": "9095e9bcd6859996a13aa143cc5bbad70c7c2deb63463a8d6c490de1d4f25244",
+    "evidence/translated-viscous-flow/verify.py": "55f1c9c30fee22bee4dada3a2592808e1c514a38c322e96f0cf1c69c818f1f11",
+    "evidence/translated-viscous-flow/verify_native.py": "d5fd7d6b043a0679db9596a69371e119b9e48df6c5bbaf5481394c5df5f141fa",
+    "examples/forced_extruded.rs": "120ee9f3da4f99acf61d6a1cc07c2bed5d8d46bcde9f3ddbd140698ff29091d3",
+    "examples/forcing_temporal_probe.rs": "e1b1686f1b8e7b0d3ecd0c54dbbb28226079059b715732b22be5acf1f8f7309a",
+    "rust-toolchain.toml": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+    "src/advection.rs": "8be2da05d421be409760366f6fb4b06b3a5efca776aee7489703280f2cb505ba",
+    "src/bin/rheon-desktop.rs": "21681bd444ab4e8e81a5f4d0a01077d03e21725fc0bb62e971301587492afc78",
+    "src/bin/rheon.rs": "6a63ccb347a1296156fac4366ea507e4d0a13065d807b20a8e7f77b2f72f1f23",
+    "src/box_flux.rs": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+    "src/box_flux_step.rs": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+    "src/collision.rs": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+    "src/column_mac.rs": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+    "src/column_momentum.rs": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0",
+    "src/column_shear.rs": "9713d9e290fa796b0255a589e335dbe5e65439fe7738cd74254ec5537b2b60ad",
+    "src/column_surface.rs": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+    "src/coupled_discrete.rs": "e9a7692a05203bd6cff6de66ac9ce8169cef471f456475db906f6b5cf8cb5859",
+    "src/export.rs": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3",
+    "src/fitted_height.rs": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+    "src/fixed_bottom_ale.rs": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47",
+    "src/forces.rs": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb",
+    "src/free_surface.rs": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+    "src/geometry.rs": "cae38a55436112a49d340b82b2252a7395b14b580686a83d582e5042c46255d3",
+    "src/lib.rs": "136bb2a58fd6a1947ab0e5ab7afd7f5622cdd1cd92e3f89b983252c765c45dd9",
+    "src/liquid_step.rs": "00f190f64f58ee40eddb2a85f9b8e01e74a7137ba6b0842b5f2de9abc458183c",
+    "src/liquid_volume.rs": "24623038f62261ce6a17b034e9b6d82c5f0aba02dd0df7aad174c885ed2a8c96",
+    "src/motion.rs": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+    "src/operator.rs": "68b06fba56f0b4f746f04f789d5e84277c34f416fb8cede14996f76156fe28ee",
+    "src/pressure.rs": "8522c99cfb0d89dc97549dd7d565446b57acdd3b2f1d1f5476444808dfb0269b",
+    "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+    "src/simulation.rs": "6a00b58b07fd16f9559a2c53fae005b260550954587f24c2b1f8548a13563bc9",
+    "src/tracer_barrier.rs": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+    "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+    "src/viscosity.rs": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+    "tests/forced_extruded_contract.rs": "8370980423aa801257fb98b9a82be0c0634bb99df8a15d0742960dd793844c60"
+  },
+  "source_was_uncommitted": true
+}

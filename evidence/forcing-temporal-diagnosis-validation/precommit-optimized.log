@@ -1,0 +1,21 @@
+{
+  "status": "DIAGNOSIS_SUPPORTED_ORIGINAL_GATE_FAILURE_RETAINED",
+  "source": "f609c0244b41bcf765705032777aff1e588cd3ae",
+  "tree": "2939c4f05d3a40ceb811cf77936c0e4b14bcfab0",
+  "source_paths": 304,
+  "packet_files": 42,
+  "preserved_baseline_paths": 6518,
+  "independent_finite_cases": 20,
+  "independent_finite_steps": 248,
+  "independent_geometry_references": 16,
+  "actual_fine_publications": 143,
+  "fine_complete_cases": 2,
+  "fine_refusals": 6,
+  "actual_corruption_rejections": 8,
+  "original_temporal_gate": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "hosted_CI_qualified": false
+}
+REJECTED source_sha256: Git source .coderabbit.config.ts
+REJECTED file_sha256: frozen diagnosis evidence evidence/forcing-temporal-diagnosis/clippy-default-stderr.log
+REJECTED historical_git_blobs: complete original baseline inventory
+REJECTED original_temporal_gate: unchanged failed temporal gate

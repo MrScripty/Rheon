@@ -1,0 +1,467 @@
+{
+  "status": "FINITE_DIAGNOSIS_RECORDED",
+  "rows": [
+    {
+      "kind": "initial",
+      "load": "forward",
+      "h": 0.05,
+      "status": "COMPLETE",
+      "actual_independent_steps": 2,
+      "expected_steps": 2,
+      "refusal": null,
+      "max_native_geometry_gap": 0.0,
+      "max_native_eta_gap": 2.220446049250313e-16,
+      "max_independent_momentum_rate": 1.4321435102595633e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.10008866168394254,
+        0.6249362851424483,
+        1.000092162796277
+      ],
+      "native_final_q": [
+        0.10008866168394254,
+        0.6249362851424483,
+        1.000092162796277
+      ]
+    },
+    {
+      "kind": "initial",
+      "load": "forward",
+      "h": 0.025,
+      "status": "COMPLETE",
+      "actual_independent_steps": 4,
+      "expected_steps": 4,
+      "refusal": null,
+      "max_native_geometry_gap": 2.7755575615628914e-17,
+      "max_native_eta_gap": 4.440892098500626e-16,
+      "max_independent_momentum_rate": 2.1662269327213913e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.10008892406680524,
+        0.6249369350226964,
+        1.0000943412620702
+      ],
+      "native_final_q": [
+        0.10008892406680521,
+        0.6249369350226964,
+        1.0000943412620702
+      ]
+    },
+    {
+      "kind": "initial",
+      "load": "forward",
+      "h": 0.0125,
+      "status": "COMPLETE",
+      "actual_independent_steps": 8,
+      "expected_steps": 8,
+      "refusal": null,
+      "max_native_geometry_gap": 2.7755575615628914e-17,
+      "max_native_eta_gap": 1.5543122344752192e-15,
+      "max_independent_momentum_rate": 4.8359574799589587e-14,
+      "max_equation_calls": 15,
+      "independent_final_q": [
+        0.10008905354251639,
+        0.6249369171492714,
+        1.000095321219948
+      ],
+      "native_final_q": [
+        0.10008905354251636,
+        0.6249369171492714,
+        1.000095321219948
+      ]
+    },
+    {
+      "kind": "initial",
+      "load": "forward",
+      "h": 0.00625,
+      "status": "COMPLETE",
+      "actual_independent_steps": 16,
+      "expected_steps": 16,
+      "refusal": null,
+      "max_native_geometry_gap": 5.551115123125783e-17,
+      "max_native_eta_gap": 1.1102230246251565e-15,
+      "max_independent_momentum_rate": 7.953090918351005e-14,
+      "max_equation_calls": 15,
+      "independent_final_q": [
+        0.1000891190657388,
+        0.6249368220061423,
+        1.000095783898261
+      ],
+      "native_final_q": [
+        0.10008911906573885,
+        0.6249368220061423,
+        1.000095783898261
+      ]
+    },
+    {
+      "kind": "initial",
+      "load": "forward",
+      "h": 0.003125,
+      "status": "COMPLETE",
+      "actual_independent_steps": 32,
+      "expected_steps": 32,
+      "refusal": null,
+      "max_native_geometry_gap": 2.7755575615628914e-17,
+      "max_native_eta_gap": 1.5543122344752192e-15,
+      "max_independent_momentum_rate": 9.942352958858829e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.10008915218238683,
+        0.6249367528192487,
+        1.0000960084148969
+      ],
+      "native_final_q": [
+        0.10008915218238686,
+        0.6249367528192487,
+        1.0000960084148969
+      ]
+    },
+    {
+      "kind": "initial",
+      "load": "reversed",
+      "h": 0.05,
+      "status": "COMPLETE",
+      "actual_independent_steps": 2,
+      "expected_steps": 2,
+      "refusal": null,
+      "max_native_geometry_gap": 1.3877787807814457e-17,
+      "max_native_eta_gap": 4.440892098500626e-16,
+      "max_independent_momentum_rate": 1.9802265848868908e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.09941187675439268,
+        0.6243627122896755,
+        0.9998750012986222
+      ],
+      "native_final_q": [
+        0.0994118767543927,
+        0.6243627122896755,
+        0.9998750012986222
+      ]
+    },
+    {
+      "kind": "initial",
+      "load": "reversed",
+      "h": 0.025,
+      "status": "COMPLETE",
+      "actual_independent_steps": 4,
+      "expected_steps": 4,
+      "refusal": null,
+      "max_native_geometry_gap": 1.1102230246251565e-16,
+      "max_native_eta_gap": 1.7763568394002505e-15,
+      "max_independent_momentum_rate": 4.321649111824972e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.09941208842090421,
+        0.6243619702145067,
+        0.9998744877876135
+      ],
+      "native_final_q": [
+        0.09941208842090421,
+        0.6243619702145068,
+        0.9998744877876135
+      ]
+    },
+    {
+      "kind": "initial",
+      "load": "reversed",
+      "h": 0.0125,
+      "status": "COMPLETE",
+      "actual_independent_steps": 8,
+      "expected_steps": 8,
+      "refusal": null,
+      "max_native_geometry_gap": 8.326672684688674e-17,
+      "max_native_eta_gap": 1.3322676295501878e-15,
+      "max_independent_momentum_rate": 8.333965107553209e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.09941196362730988,
+        0.624361756105294,
+        0.9998743005299098
+      ],
+      "native_final_q": [
+        0.09941196362730996,
+        0.624361756105294,
+        0.9998743005299098
+      ]
+    },
+    {
+      "kind": "initial",
+      "load": "reversed",
+      "h": 0.00625,
+      "status": "COMPLETE",
+      "actual_independent_steps": 16,
+      "expected_steps": 16,
+      "refusal": null,
+      "max_native_geometry_gap": 3.469446951953614e-17,
+      "max_native_eta_gap": 1.1102230246251565e-15,
+      "max_independent_momentum_rate": 7.877812197420088e-14,
+      "max_equation_calls": 15,
+      "independent_final_q": [
+        0.09941184300116332,
+        0.6243616885299657,
+        0.9998742233443236
+      ],
+      "native_final_q": [
+        0.09941184300116335,
+        0.6243616885299657,
+        0.9998742233443236
+      ]
+    },
+    {
+      "kind": "initial",
+      "load": "reversed",
+      "h": 0.003125,
+      "status": "COMPLETE",
+      "actual_independent_steps": 32,
+      "expected_steps": 32,
+      "refusal": null,
+      "max_native_geometry_gap": 1.1102230246251565e-16,
+      "max_native_eta_gap": 1.3322676295501878e-15,
+      "max_independent_momentum_rate": 9.538398049712532e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.0994117680497696,
+        0.6243616646384602,
+        0.999874188741144
+      ],
+      "native_final_q": [
+        0.09941176804976955,
+        0.6243616646384603,
+        0.999874188741144
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "forward",
+      "h": 0.05,
+      "status": "COMPLETE",
+      "actual_independent_steps": 2,
+      "expected_steps": 2,
+      "refusal": null,
+      "max_native_geometry_gap": 1.3877787807814457e-17,
+      "max_native_eta_gap": 4.440892098500626e-16,
+      "max_independent_momentum_rate": 1.355106401130786e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.09984058068770674,
+        0.6245848193943021,
+        1.000080454289772
+      ],
+      "native_final_q": [
+        0.09984058068770675,
+        0.6245848193943021,
+        1.000080454289772
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "forward",
+      "h": 0.025,
+      "status": "COMPLETE",
+      "actual_independent_steps": 4,
+      "expected_steps": 4,
+      "refusal": null,
+      "max_native_geometry_gap": 1.3877787807814457e-17,
+      "max_native_eta_gap": 9.992007221626409e-16,
+      "max_independent_momentum_rate": 1.6059816840982234e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.09984082903712645,
+        0.6245855158813858,
+        1.0000826354826269
+      ],
+      "native_final_q": [
+        0.09984082903712643,
+        0.6245855158813858,
+        1.0000826354826269
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "forward",
+      "h": 0.0125,
+      "status": "COMPLETE",
+      "actual_independent_steps": 8,
+      "expected_steps": 8,
+      "refusal": null,
+      "max_native_geometry_gap": 2.7755575615628914e-17,
+      "max_native_eta_gap": 6.661338147750939e-16,
+      "max_independent_momentum_rate": 3.712102722126473e-14,
+      "max_equation_calls": 15,
+      "independent_final_q": [
+        0.09984095290274508,
+        0.6245855178846809,
+        1.0000836158457824
+      ],
+      "native_final_q": [
+        0.0998409529027451,
+        0.6245855178846809,
+        1.0000836158457824
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "forward",
+      "h": 0.00625,
+      "status": "COMPLETE",
+      "actual_independent_steps": 16,
+      "expected_steps": 16,
+      "refusal": null,
+      "max_native_geometry_gap": 1.1102230246251565e-16,
+      "max_native_eta_gap": 6.661338147750939e-16,
+      "max_independent_momentum_rate": 7.484635405250171e-14,
+      "max_equation_calls": 15,
+      "independent_final_q": [
+        0.09984101596041839,
+        0.6245854318053927,
+        1.000084078505269
+      ],
+      "native_final_q": [
+        0.09984101596041842,
+        0.6245854318053926,
+        1.000084078505269
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "forward",
+      "h": 0.003125,
+      "status": "COMPLETE",
+      "actual_independent_steps": 32,
+      "expected_steps": 32,
+      "refusal": null,
+      "max_native_geometry_gap": 1.3877787807814457e-17,
+      "max_native_eta_gap": 7.216449660063518e-16,
+      "max_independent_momentum_rate": 9.855358547167747e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.09984104792753051,
+        0.6245853669295642,
+        1.0000843029594
+      ],
+      "native_final_q": [
+        0.09984104792753051,
+        0.6245853669295642,
+        1.0000843029594
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "reversed",
+      "h": 0.05,
+      "status": "COMPLETE",
+      "actual_independent_steps": 2,
+      "expected_steps": 2,
+      "refusal": null,
+      "max_native_geometry_gap": 1.1102230246251565e-16,
+      "max_native_eta_gap": 4.440892098500626e-16,
+      "max_independent_momentum_rate": 1.3572802009938136e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.09916453246736098,
+        0.6240122263669449,
+        0.9998633422596086
+      ],
+      "native_final_q": [
+        0.099164532467361,
+        0.624012226366945,
+        0.9998633422596086
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "reversed",
+      "h": 0.025,
+      "status": "COMPLETE",
+      "actual_independent_steps": 4,
+      "expected_steps": 4,
+      "refusal": null,
+      "max_native_geometry_gap": 2.220446049250313e-16,
+      "max_native_eta_gap": 2.886579864025407e-15,
+      "max_independent_momentum_rate": 4.677785688351918e-14,
+      "max_equation_calls": 15,
+      "independent_final_q": [
+        0.0991646866266413,
+        0.6240114663293141,
+        0.9998628219317726
+      ],
+      "native_final_q": [
+        0.09916468662664127,
+        0.6240114663293144,
+        0.9998628219317726
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "reversed",
+      "h": 0.0125,
+      "status": "COMPLETE",
+      "actual_independent_steps": 8,
+      "expected_steps": 8,
+      "refusal": null,
+      "max_native_geometry_gap": 1.1102230246251565e-16,
+      "max_native_eta_gap": 7.771561172376096e-16,
+      "max_independent_momentum_rate": 4.536035537127255e-14,
+      "max_equation_calls": 15,
+      "independent_final_q": [
+        0.09916454712184049,
+        0.6240112539331729,
+        0.9998626305536292
+      ],
+      "native_final_q": [
+        0.09916454712184052,
+        0.624011253933173,
+        0.9998626305536292
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "reversed",
+      "h": 0.00625,
+      "status": "COMPLETE",
+      "actual_independent_steps": 16,
+      "expected_steps": 16,
+      "refusal": null,
+      "max_native_geometry_gap": 2.220446049250313e-16,
+      "max_native_eta_gap": 8.881784197001252e-16,
+      "max_independent_momentum_rate": 7.464130527885172e-14,
+      "max_equation_calls": 15,
+      "independent_final_q": [
+        0.0991644227308796,
+        0.6240111903012607,
+        0.9998625511162633
+      ],
+      "native_final_q": [
+        0.09916442273087961,
+        0.6240111903012605,
+        0.9998625511162633
+      ]
+    },
+    {
+      "kind": "pressure_state",
+      "load": "reversed",
+      "h": 0.003125,
+      "status": "COMPLETE",
+      "actual_independent_steps": 32,
+      "expected_steps": 32,
+      "refusal": null,
+      "max_native_geometry_gap": 8.326672684688674e-17,
+      "max_native_eta_gap": 1.6653345369377348e-15,
+      "max_independent_momentum_rate": 9.983239011633177e-14,
+      "max_equation_calls": 22,
+      "independent_final_q": [
+        0.09916434678594944,
+        0.6240111690970135,
+        0.9998625153454811
+      ],
+      "native_final_q": [
+        0.09916434678594953,
+        0.6240111690970135,
+        0.9998625153454811
+      ]
+    }
+  ],
+  "original_newton_rate_gate": 1e-13,
+  "original_full_momentum_gate": 1e-11
+}

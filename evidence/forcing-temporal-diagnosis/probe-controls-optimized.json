@@ -1,0 +1,54 @@
+{
+  "status": "PASS_EIGHT_ACTUAL_CORRUPTION_REJECTIONS",
+  "original_sha256": "b637b8e0e7ca640363ab8c980310e4b161ba1b1985ebc914a52a7004ad26526e",
+  "actual_rejections": [
+    {
+      "control": "budget",
+      "status": "REJECTED",
+      "error": "unchanged native memory budget",
+      "corrupted_sha256": "fa7effb50612ce4b82f0b5c0bf9d43c952ed190f3c10139ddf844cac8a200cd9"
+    },
+    {
+      "control": "identity_type",
+      "status": "REJECTED",
+      "error": "fine actual step identity",
+      "corrupted_sha256": "25b405ada7fa59d8088e03855434a3dbbbeafd14ebc90da9ed06347975f19d61"
+    },
+    {
+      "control": "nonfinite_geometry",
+      "status": "REJECTED",
+      "error": "finite shaped positions",
+      "corrupted_sha256": "60e5b967dcf849562f5264840fd05e8f9829a112306fa4fe2293ab7aeb376f65"
+    },
+    {
+      "control": "physical_pressure",
+      "status": "REJECTED",
+      "error": "actual physical pressure",
+      "corrupted_sha256": "94d4f3070809a1212f9a39d611751244fec4f598c54e7c6dd03e66b3228dd29a"
+    },
+    {
+      "control": "accepted_force_work",
+      "status": "REJECTED",
+      "error": "actual reported forcing total_work",
+      "corrupted_sha256": "97ce8de2d1269289255ec56421d4e1a5f64627b798ef035a579974c8e3d230bc"
+    },
+    {
+      "control": "refusal_preservation",
+      "status": "REJECTED",
+      "error": "unchanged gate refusal and accepted state",
+      "corrupted_sha256": "5b9424f53addeda04fce7823ac6c5ef85ee69fb8ad10e1e85366a49feb5e8967"
+    },
+    {
+      "control": "refusal_error",
+      "status": "REJECTED",
+      "error": "unchanged gate refusal and accepted state",
+      "corrupted_sha256": "3ca5404728c1e848c670920ee6c9a3ef174bc77d2d91f4942b2d510fd9d3cad2"
+    },
+    {
+      "control": "fabricated_completion",
+      "status": "REJECTED",
+      "error": "actual complete endpoint",
+      "corrupted_sha256": "6abf6a5ee9bbf83295697fd251805fef4c2c2f729a32fe9db9b937793ce2eee4"
+    }
+  ]
+}

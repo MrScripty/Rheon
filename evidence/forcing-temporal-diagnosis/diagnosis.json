@@ -1,0 +1,67 @@
+{
+  "status": "DIAGNOSIS_SUPPORTED_ORIGINAL_GATE_FAILURE_RETAINED",
+  "classification": "PRE_ASYMPTOTIC_DISCRETIZATION_ERROR_CANCELLATION_AND_MAX_NORM_COMPONENT_SWITCH",
+  "coordinate_order": [
+    "cap x0",
+    "cap H0",
+    "cap x1",
+    "cap H1"
+  ],
+  "correction_to_previous_interpretation": "Earlier frozen prose mislabeled coordinate 2 as cap height; it is cap x1. Earlier source/evidence bytes are preserved.",
+  "native_vs_independent_finite_max_geometry_gap": 2.220446049250313e-16,
+  "native_vs_independent_finite_max_eta_gap": 2.886579864025407e-15,
+  "independent_finite_cases": 20,
+  "independent_finite_steps": 248,
+  "independent_geometry_references": {
+    "tighter_DOP853": 4,
+    "fixed_RK4": 12,
+    "original_resolution_factor": 1000
+  },
+  "reversed_cases": [
+    {
+      "kind": "initial",
+      "dominant_coarse_coordinate": "cap x1 (middle representative)",
+      "dominant_finer_coordinate": "cap x0 (periodic representative)",
+      "left_cap_first_order_coefficient": 2.868451690063445e-05,
+      "left_cap_second_order_coefficient": -0.0005021840051355753,
+      "coarse_second_to_first_term_ratio": 0.8753572648184775,
+      "coarse_original_ratios": [
+        2.6287525220636647,
+        1.4451889110746448
+      ],
+      "finer_original_ratios": [
+        1.7553774460130815,
+        1.884502214404335
+      ],
+      "max_coarse_holdout_prediction_gap": 4.2165937408229003e-10
+    },
+    {
+      "kind": "pressure_state",
+      "dominant_coarse_coordinate": "cap x1 (middle representative)",
+      "dominant_finer_coordinate": "cap x0 (periodic representative)",
+      "left_cap_first_order_coefficient": 2.871744435658148e-05,
+      "left_cap_second_order_coefficient": -0.0004717534032749872,
+      "coarse_second_to_first_term_ratio": 0.8213707971664799,
+      "coarse_original_ratios": [
+        2.52100122655711,
+        1.488677198300195
+      ],
+      "finer_original_ratios": [
+        1.7722147465268974,
+        1.8920168359638472
+      ],
+      "max_coarse_holdout_prediction_gap": 4.819162735537567e-09
+    }
+  ],
+  "additional_initial_reversed_ratio": 1.9438043110168854,
+  "additional_initial_reversed_error": 4.359415338439643e-08,
+  "original_geometry_band": [
+    1.7,
+    2.3
+  ],
+  "original_five_interval_geometry_qualification": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "finer_native_complete_cases": 2,
+  "finer_native_refusals": 6,
+  "finer_refusal": "IterationLimit with exact accepted-state preservation; error does not expose residual magnitude. Cause is not separately established here.",
+  "scope": "Diagnosis of the original interval-set failure in the declared finite discretization. No production change, gate relaxation, arbitrary-fine-step or general-liquid qualification; no formal asymptotic-order theorem."
+}
