@@ -1,0 +1,66 @@
+{
+  "status": "RESUMABLE_QUALIFICATION_IN_PROGRESS",
+  "source_commit": "3e1bf03ac5103ab3efeb9dc5e341751901162c7e",
+  "source_tree": "ee49a7546f549250195cba4640d65cbd906969d4",
+  "ordered_source_parents": [
+    "cac2c7b11da5f0bdb0c9f352135ce9d58bc29da2"
+  ],
+  "branch": "implementation/extruded-third-velocity",
+  "current_shell_usable": true,
+  "environment_disconnection_not_confirmed": true,
+  "running_unified_session": 77194,
+  "do_not_duplicate_running_preflight": true,
+  "completed_preliminary_physical_replay": {
+    "actual_constructors": 20,
+    "actual_steps": 248,
+    "independently_regenerated_references": 8,
+    "actual_corruption_rejections": 12,
+    "all_original_first_order_bands_pass": true
+  },
+  "current_mapped_capture_mandatory_schema_and_all_other_payload_fields_verified": true,
+  "unfinished": [
+    "Finish current preflight and bind its actual source hashes/results.",
+    "Full default/no-default/desktop Rust test matrix for changed source.",
+    "Fresh default/no-default native exports and legacy identity comparison.",
+    "Final normal/optimized strict replay and controls of mapped full-state capture.",
+    "Actual-state PNG/GIF and interactive replay viewer; native book/update.",
+    "Complete successor source/evidence receipt and historical preservation verification."
+  ],
+  "file_sha256": {
+    "evidence/extruded-third-velocity/native-trials/first-export-source.rs": "7b493980de835d69f1c367137d14f37636564f90f9fdb80df1a02ad403bff08b",
+    "evidence/extruded-third-velocity/native-trials/first-native-stderr.log": "a427a7103425bcff324dc85cdca6d3f866d3db608269c256c8447dd20d3ecce9",
+    "evidence/extruded-third-velocity/native-trials/first-native.jsonl": "b3db17956d90ab5327d39021de18a8ec172239bd3c99b7a91c64101f13dafc2e",
+    "evidence/extruded-third-velocity/native-trials/first-replay-failure-diagnostic.json": "f9e25f52f5be2a2f84f724446ccf27a8796765d345c8a79082adbf2018e70170",
+    "evidence/extruded-third-velocity/native-trials/first-replay-source.py": "5d70b1a20ae1a6a3361fb2876360c2e3e4b8247df000d1e5b38cbc06a8d2b1aa",
+    "evidence/extruded-third-velocity/native-trials/first-replay-stderr.log": "59c3ac94661a5fd897645727a581d0710536fa5978c3558a193d550f93f8f51c",
+    "evidence/extruded-third-velocity/native-trials/first-replay.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/native-trials/mapped-capture-identity.json": "bcc48249962c2d85e1033d140f46a3e0d8af1cd152beebc582aa0931e82262be",
+    "evidence/extruded-third-velocity/native-trials/mapped-native-stderr.log": "8f87d90073e3456aa53edeec92c2cd5bed5c4a5b6d254a888474bf6491e74945",
+    "evidence/extruded-third-velocity/native-trials/mapped-native.jsonl": "92780344d3d22f8ca4011a707988d4ca6e397c97429729fd5c267c347e353a85",
+    "evidence/extruded-third-velocity/native-trials/strain-square-replay-source.py": "6c2311f1da63309c9d20f0f963d58b6ac079e5441d83c7379b941338d50a05a4",
+    "evidence/extruded-third-velocity/native-trials/strain-square-replay-stderr.log": "2f77e0899e4670cbe28f5fa160a91165fa05dbf63e1a186c17ba312a08c0d9f1",
+    "evidence/extruded-third-velocity/native-trials/strain-square-replay.json": "83fec935220506244743dc150881902e3c6e47ddbedbb38f701113d40a20de7b",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-clippy-default-stderr.log": "732eba517adbe1272b37b00f81c1543a8dc68e9099b26c1aa6aaa9a6dc313154",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-clippy-default.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-clippy-desktop-stderr.log": "a835fb15f45a449ea6b0463b1a9210410b22560a6c931788a568d4f5f69c4c39",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-clippy-desktop.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-clippy-no-default-stderr.log": "a5fe249b049ed460958702fec5180d481d2736733d8785f1449f4789ff7c37b3",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-clippy-no-default.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-format-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-receipt.json": "6c469baadd0365d9021fd54ea2f2dfdbccd5a1ae9b6e54730b706ba72ebf3180",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-release-contracts-stderr.log": "a8dbba1173d54a6f56851e9547abb77e69a5e545f6b883a54a9fbe2a47467c15",
+    "evidence/extruded-third-velocity/service-boundary-1/preflight-release-contracts.log": "cdfd7a49e48a434047b34a4075c14534d0f56d7c65125630843c8da23f887c4b",
+    "evidence/extruded-third-velocity/service-boundary-1/RESUME.md": "e0291081bcc59150ae8626b784704b746baf36aa1bdca85423b2fe2c3677b1f1"
+  },
+  "new_Rust_source_sha256": {
+    "src/coupled_discrete.rs": "32ee93d12ffa0418cda460cffe8f5a72eb664f7d8838f163062a2c4e16c3dbf5",
+    "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+    "src/lib.rs": "7e73b8a791786568a1aac585a9fdd56d28f9846351dfe06ecdbecd3096e72102",
+    "tests/extruded_third_contract.rs": "19968c75c9dd95c1c19cc2a4f6a605d4a047bc20290562fe693fc7e8b628fbe2",
+    "examples/extruded_third.rs": "bac7303bda410e3856b6fcd7a9511ab5ebb7ebc8355b72978b66fa8f79cd3ebc"
+  },
+  "original_finer_refusal_preserved": true,
+  "all_prior_frozen_packets_preserved": true,
+  "new_Lean_claims": 0
+}
