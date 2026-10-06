@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/workspace/.rheon-tools/case47-public-call-v1-target/release/deps/rheon-beaa99042d1278c3",
+    "--exact",
+    "research_public_call::case47_single_public_comparison",
+    "--nocapture"
+  ],
+  "binary_sha256": "854e7f690480276cdfdff536473504fda02c60199de134161d61ad1e7af80753",
+  "comparison_calls": 1,
+  "environment": {
+    "RHEON_CASE47_MODE": "E2",
+    "RHEON_CASE47_PUBLIC_ALLOW": "case47-E1-prefix25-one-call-v1"
+  },
+  "prefix_steps": 25,
+  "preflight_sha256": "fd8cbaa956889645320e788c2885d3add03d62cefe9e0a2f82dd3358891613f0",
+  "protocol_sha256": "d3cba70753daf24d7d8194e2ef3106f5e0038a4b636413b31bf3e445465387bf",
+  "source": "409c140cb761d267da78d2a8cdac623ff45e9772",
+  "source_tree": "34ebbb1c24ad5a3888c96a485ac9ec9da02d5a4d"
+}

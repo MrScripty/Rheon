@@ -1,0 +1,32 @@
+{
+  "E1_refusal_trace_and_state_exact": true,
+  "E2_comparison_calls": 1,
+  "E2_corrections": 2,
+  "E2_counted_equations": 15,
+  "E2_prefix_reports_and_states_exact": true,
+  "E2_version": 26,
+  "affine_probes": 6,
+  "binary_sha256": "854e7f690480276cdfdff536473504fda02c60199de134161d61ad1e7af80753",
+  "exact_primitive_probes": 36,
+  "memory_bound": 65760,
+  "memory_cap": 67584,
+  "native_scalar_groups": 23,
+  "native_source": "409c140cb761d267da78d2a8cdac623ff45e9772",
+  "native_source_tree": "34ebbb1c24ad5a3888c96a485ac9ec9da02d5a4d",
+  "negative_controls": [
+    "wrong version",
+    "wrong pressure",
+    "omitted third shear",
+    "false work",
+    "relaxed planar gate",
+    "wrong third publication",
+    "wrong force"
+  ],
+  "new_native_executions_in_verification": 0,
+  "new_reference_integrations": 0,
+  "original_geometry_band_failures_preserved": 8,
+  "original_runtime_failures_preserved": 2,
+  "physical_cells_readonly_replayed": 26,
+  "production_adoption": false,
+  "status": "PASS_FRESH_CASE47_BOUND_RESULTS"
+}

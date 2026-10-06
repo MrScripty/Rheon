@@ -1,0 +1,76 @@
+[
+  {
+    "argv": [
+      "python",
+      "evidence/forcing-case47-public-call-v1/analyze.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "reader": "analyze.py",
+    "reader_sha256": "13c24a9bc9cdc032709c0c1b101edb40ab1e9312003913112a20d04385bb7ee3",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "stderr": "analysis-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-normal.json",
+    "stdout_sha256": "f3e53480f3ebfa169f603ea7fb1678faba2e2bd12d2447e3a2c4a7ac8db69f63"
+  },
+  {
+    "argv": [
+      "python",
+      "-O",
+      "evidence/forcing-case47-public-call-v1/analyze.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "reader": "analyze.py",
+    "reader_sha256": "13c24a9bc9cdc032709c0c1b101edb40ab1e9312003913112a20d04385bb7ee3",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "stderr": "analysis-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-optimized.json",
+    "stdout_sha256": "f3e53480f3ebfa169f603ea7fb1678faba2e2bd12d2447e3a2c4a7ac8db69f63"
+  },
+  {
+    "argv": [
+      "python",
+      "evidence/forcing-case47-public-call-v1/replay_physics.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "reader": "replay_physics.py",
+    "reader_sha256": "8dee2499309aab46cfd9dabb258aba5341f5ddea347c627f84e5c313ff8fca06",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "stderr": "physical-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "physical-normal.json",
+    "stdout_sha256": "6a475b11092db877d02da5c5b351682e6997f8b7643377e2c1a3618090223010"
+  },
+  {
+    "argv": [
+      "python",
+      "-O",
+      "evidence/forcing-case47-public-call-v1/replay_physics.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "reader": "replay_physics.py",
+    "reader_sha256": "8dee2499309aab46cfd9dabb258aba5341f5ddea347c627f84e5c313ff8fca06",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "stderr": "physical-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "physical-optimized.json",
+    "stdout_sha256": "6a475b11092db877d02da5c5b351682e6997f8b7643377e2c1a3618090223010"
+  }
+]
