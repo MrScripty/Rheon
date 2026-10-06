@@ -1,0 +1,27 @@
+{
+  "actual_binding_corruption_rejections_per_mode": 4,
+  "actual_probe_corruption_rejections_per_mode": 8,
+  "evidence_commit": "0c2c53737f0785cffbbfbf56bc8c6b0dc94f73f9",
+  "evidence_tree": "3b43a7c0718173f07cc95872ecfcf2f035ddfa29",
+  "fine_native_refusals": 6,
+  "hosted_CI_qualified": false,
+  "log_sha256": {
+    "evidence/forcing-temporal-diagnosis-validation/frozen-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-temporal-diagnosis-validation/frozen-normal.log": "0d7b518cf4e874be966ad91050316bdac74099ead22e2defca94061b65d49f53",
+    "evidence/forcing-temporal-diagnosis-validation/frozen-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-temporal-diagnosis-validation/frozen-optimized.log": "0d7b518cf4e874be966ad91050316bdac74099ead22e2defca94061b65d49f53",
+    "evidence/forcing-temporal-diagnosis-validation/precommit-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-temporal-diagnosis-validation/precommit-normal.log": "0d7b518cf4e874be966ad91050316bdac74099ead22e2defca94061b65d49f53",
+    "evidence/forcing-temporal-diagnosis-validation/precommit-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-temporal-diagnosis-validation/precommit-optimized.log": "0d7b518cf4e874be966ad91050316bdac74099ead22e2defca94061b65d49f53"
+  },
+  "normal_optimized_byte_identical": true,
+  "ordered_evidence_parents": [
+    "f609c0244b41bcf765705032777aff1e588cd3ae"
+  ],
+  "original_temporal_gate": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "root_receipt_sha256": "7e4879f97e43bac025de4cbabdec61a8f63041fd1a4d2ee41bd509c1d89983fe",
+  "source": "f609c0244b41bcf765705032777aff1e588cd3ae",
+  "source_tree": "2939c4f05d3a40ceb811cf77936c0e4b14bcfab0",
+  "status": "PASS_FROZEN_BINDING_ORIGINAL_TEMPORAL_FAILURE_RETAINED"
+}
