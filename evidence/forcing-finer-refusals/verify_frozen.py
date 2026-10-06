@@ -58,10 +58,19 @@ def verify(r, evidence_commit=None):
     require(r['status'] == STATUS and r['original_temporal_gate'] == 'FAIL_ORIGINAL_TEMPORAL_BAND'
             and r['observed_candidates_publish'] is False and not r['arithmetic_floor_proved']
             and not r['general_convergence_rate_proved'] and not r['production_repair_implemented'], 'honest diagnostic scope')
+    require(r['original_geometry_band'] == [1.7, 2.3] and r['original_newton_threshold'] == 1e-13
+            and r['original_iteration_window'] == 7 and r['original_equation_call_budget'] == 200
+            and r['actual_original_refusals'] == r['actual_preserved_state_retries'] == 6, 'exact receipt limits and counts')
     source = r['qualified_source_commit']
     source_tree = tree(source)
     require(git('rev-parse', source + '^{tree}').decode().strip() == r['qualified_source_tree']
-            and git('show', '-s', '--format=%P', source).decode().split() == r['ordered_source_parents'] == [BASE], 'exact additive source parent/tree')
+            and git('show', '-s', '--format=%P', source).decode().split() == r['ordered_source_parents'], 'exact additive source parent/tree')
+    chain = git('rev-list', '--reverse', BASE + '..' + source).decode().splitlines()
+    require(chain == r['ordered_source_chain'] and chain[-1] == source, 'complete additive source chain')
+    parent = BASE
+    for commit in chain:
+        require(git('show', '-s', '--format=%P', commit).decode().split() == [parent], 'ordinary source chain without rewriting')
+        parent = commit
     require(r['historical_base'] == BASE and r['legitimate_changed_baseline_paths'] == ALLOWED, 'only marked diagnostic source/config additions')
     require(r['historical_git_blobs'] == {p: b for p, b in tree(BASE).items() if p not in ALLOWED}, 'complete preserved baseline inventory')
     require(all(source_tree.get(p) == b for p, b in r['historical_git_blobs'].items()), 'frozen source/evidence rewritten')
@@ -136,12 +145,14 @@ if __name__ == '__main__':
     commit = sys.argv[sys.argv.index('--evidence-commit') + 1] if '--evidence-commit' in sys.argv else None
     print(json.dumps(verify(r, commit), indent=2))
     if '--negative-self-test' in sys.argv:
-        for field in ['source_sha256', 'file_sha256', 'historical_git_blobs', 'observed_candidates_publish', 'original_temporal_gate']:
+        for field in ['source_sha256', 'file_sha256', 'historical_git_blobs', 'observed_candidates_publish', 'original_temporal_gate', 'original_newton_threshold']:
             bad = copy.deepcopy(r)
             if field == 'observed_candidates_publish':
                 bad[field] = True
             elif field == 'original_temporal_gate':
                 bad[field] = 'PASS'
+            elif field == 'original_newton_threshold':
+                bad[field] = 2e-13
             else:
                 key = next(iter(bad[field]))
                 bad[field][key] = '0' * len(bad[field][key])
