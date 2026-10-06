@@ -1,0 +1,115 @@
+{
+  "finite_fields_geometry_pixels_ledgers_carry_forward": "passed",
+  "results": [
+    {
+      "scenario": "advection-n128-c025",
+      "geometric_intervals": 64,
+      "volume": 0.4062499999893172,
+      "height_l1_error": 0.0005711189879630947,
+      "binomial_max_error": 2.220446049250313e-16,
+      "courant": 0.25,
+      "x_cells": 128,
+      "scope": "Imposed X translation on a 3D stored grid; not coupled multidirectional accuracy.",
+      "observed_order": 0.9897090157279178
+    },
+    {
+      "scenario": "advection-n16-c025",
+      "geometric_intervals": 8,
+      "volume": 0.4062373884012935,
+      "height_l1_error": 0.004340872541256276,
+      "binomial_max_error": 1.1102230246251565e-16,
+      "courant": 0.25,
+      "x_cells": 16,
+      "scope": "Imposed X translation on a 3D stored grid; not coupled multidirectional accuracy."
+    },
+    {
+      "scenario": "advection-n32-c025",
+      "geometric_intervals": 16,
+      "volume": 0.40624935329085116,
+      "height_l1_error": 0.002235992732210151,
+      "binomial_max_error": 2.220446049250313e-16,
+      "courant": 0.25,
+      "x_cells": 32,
+      "scope": "Imposed X translation on a 3D stored grid; not coupled multidirectional accuracy.",
+      "observed_order": 0.9570695632165434
+    },
+    {
+      "scenario": "advection-n64-c0125",
+      "geometric_intervals": 64,
+      "volume": 0.4062499536915551,
+      "height_l1_error": 0.001319454487614584,
+      "binomial_max_error": 3.3306690738754696e-16,
+      "courant": 0.125,
+      "x_cells": 64,
+      "scope": "Imposed X translation on a 3D stored grid; not coupled multidirectional accuracy."
+    },
+    {
+      "scenario": "advection-n64-c025",
+      "geometric_intervals": 32,
+      "volume": 0.40624999107347787,
+      "height_l1_error": 0.0011341191927368003,
+      "binomial_max_error": 2.220446049250313e-16,
+      "courant": 0.25,
+      "x_cells": 64,
+      "scope": "Imposed X translation on a 3D stored grid; not coupled multidirectional accuracy.",
+      "observed_order": 0.9793432274662975
+    },
+    {
+      "scenario": "jacobi-pcg-v1-activation",
+      "coupled_intervals": 8,
+      "volume": 3.0,
+      "changing_pressure_classification": true,
+      "general_fluid_accuracy_claimed": false
+    },
+    {
+      "scenario": "jacobi-pcg-v1-mixed-rest",
+      "coupled_intervals": 16,
+      "volume": 2.5,
+      "changing_pressure_classification": false,
+      "general_fluid_accuracy_claimed": false
+    },
+    {
+      "scenario": "jacobi-pcg-v1-pulse",
+      "coupled_intervals": 8,
+      "volume": 2.0,
+      "changing_pressure_classification": false,
+      "general_fluid_accuracy_claimed": false
+    },
+    {
+      "scenario": "sgs-pcg-v1-activation",
+      "coupled_intervals": 8,
+      "volume": 3.0,
+      "changing_pressure_classification": true,
+      "general_fluid_accuracy_claimed": false
+    },
+    {
+      "scenario": "sgs-pcg-v1-mixed-rest",
+      "coupled_intervals": 16,
+      "volume": 2.5,
+      "changing_pressure_classification": false,
+      "general_fluid_accuracy_claimed": false
+    },
+    {
+      "scenario": "sgs-pcg-v1-pulse",
+      "coupled_intervals": 8,
+      "volume": 2.0,
+      "changing_pressure_classification": false,
+      "general_fluid_accuracy_claimed": false
+    },
+    {
+      "scenario": "vertical-down",
+      "geometric_intervals": 16,
+      "height": 1.25,
+      "volume": 1.25,
+      "height_error": 0
+    },
+    {
+      "scenario": "vertical-up",
+      "geometric_intervals": 16,
+      "height": 2.25,
+      "volume": 2.25,
+      "height_error": 0
+    }
+  ],
+  "scope": "Bounded column geometry closure. Pressure activation/atomic publication is demonstrated; convergence applies only to prescribed transverse advection."
+}

@@ -1,0 +1,39 @@
+{
+  "status": "PASS_LOCAL_REMAINING_STAGES",
+  "qualified_source_commit": "300366af8bfc60bc190e527d1011e718b511c488",
+  "commands": [
+    {
+      "name": "Execute real source-on source-off smoke export",
+      "exact_original_stage_script": "evidence/column-interface-final-artifacts/remaining-ci/smoke.sh",
+      "exit": 0,
+      "elapsed_seconds": 13.127084997002385
+    },
+    {
+      "name": "Real comparison harness lifecycle tests",
+      "exact_original_stage_script": "evidence/column-interface-final-artifacts/remaining-ci/lifecycle.sh",
+      "exit": 0,
+      "elapsed_seconds": 59.04416291999951
+    }
+  ],
+  "warm_cache": true,
+  "hosted_CI_qualified": false,
+  "python_setup": "Temporary venv uses existing system packages at the exact CI-pinned versions; no package download or toolchain install repeated",
+  "python_version": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "package_versions": {
+    "Pillow": "12.3.0",
+    "numpy": "2.3.5"
+  },
+  "binary_sha256": "426c4e2758d32692f4f340b1c938ffba73f8491f295198e589cfd981635e8520",
+  "file_sha256": {
+    "evidence/column-interface-final-artifacts/remaining-ci/lifecycle-stderr.log": "e54e9d68245ac83393602678b68520d364bc4b5049ba0378f1ad995f4628d7cb",
+    "evidence/column-interface-final-artifacts/remaining-ci/lifecycle.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/column-interface-final-artifacts/remaining-ci/lifecycle.sh": "ae059bae5e614d149e3898ed5cd87422097d29498fe0f12add3d42b7e6160f61",
+    "evidence/column-interface-final-artifacts/remaining-ci/smoke-native/opacity.png": "3e622b4d802652f511ce846e8e5651ab61f5927bffc05eee0e9c6f3fbc85f528",
+    "evidence/column-interface-final-artifacts/remaining-ci/smoke-native/run.json": "46a56cc8ec502cfd186bbf349fc194d8a9d575644ba3b279ed8e1a13f9f0c671",
+    "evidence/column-interface-final-artifacts/remaining-ci/smoke-native/steps.csv": "2109a4966227de498a5ef2df82745cbcf3c9d9463ae6156cbef24d25e31dda03",
+    "evidence/column-interface-final-artifacts/remaining-ci/smoke-stderr.log": "2420f646ec83339b0e1f7682c36e90ac17f7e621a3f873f7d0202d529b4e7d76",
+    "evidence/column-interface-final-artifacts/remaining-ci/smoke.log": "a23366628e622261ef13a732258df0bb42ca8af1f943d20f45c885d2968f1273",
+    "evidence/column-interface-final-artifacts/remaining-ci/smoke.sh": "ed2bb5550e0d36b1e4c1de44de2c431d49d0588517757f277fa24b6e4668918e"
+  },
+  "original_cancelled_run": 37424773368
+}

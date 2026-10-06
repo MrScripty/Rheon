@@ -1,0 +1,14 @@
+{
+  "status": "PASS_FROZEN_GIT_BINDING",
+  "source_commit": "6e62e2b917e369650d6ad32c67d926ef1d9c7bc4",
+  "source_tree": "afe27f15b0db8e60e0720615fa2970e1532567e6",
+  "evidence_commit": "d08ad5cd45092f64602ec0f205d3cbe1440787cc",
+  "evidence_tree": "c93be423bdd5cd6fad5b32e102c2d1a9b0b06e5a",
+  "root_sha256": "12785d9b50de2044e8ac8327315d152db65e68e5ea34f832f96da54327f6d11b",
+  "file_sha256": {
+    "evidence/column-interface-final-artifacts-validation/normal.log": "8e2460996b3da29424c04d80f24cb172b15f517873ca88f3e2a410ea02e98945",
+    "evidence/column-interface-final-artifacts-validation/optimized.log": "8e2460996b3da29424c04d80f24cb172b15f517873ca88f3e2a410ea02e98945"
+  },
+  "actual_negative_binding_controls_per_mode": 3,
+  "hosted_CI_qualified": false
+}
