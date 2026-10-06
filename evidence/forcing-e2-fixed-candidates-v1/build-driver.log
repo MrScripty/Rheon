@@ -1,0 +1,1 @@
+{"status": "PASS_NEW_BINARY_SCALAR_LAYOUT_BASELINE_CLIPPY", "source": "cbeaa72b403cb1f3af4f95727cc29ec660c99ca3", "binary_sha256": "f7a85747e4dfc3cdd8815554fdc5f12a81bd8d875596cc4ff4fbacbb8f0f3983", "memory_audit_still_required": true, "generalization_executed": false}

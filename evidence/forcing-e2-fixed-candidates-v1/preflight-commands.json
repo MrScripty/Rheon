@@ -1,0 +1,154 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "--config",
+        "skip_children=true",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/harness.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/inputs.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/trajectory_inputs.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/fixed_inputs.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/candidate_probe.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/reference_probe.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/candidate.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/reference.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/scalar.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/candidate_helpers.rs",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/reference_helpers.rs"
+      ],
+      "exit": 0,
+      "seconds": 0.23083908300031908,
+      "stderr": "format-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "format.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/prepare.py",
+        "install"
+      ],
+      "exit": 0,
+      "seconds": 0.05802152698743157,
+      "stderr": "install-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "install.log",
+      "stdout_sha256": "656e869c0ebcc9a3876eacf56a40ae0afcc94a571be09b69bc7bf77f68575f54"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--locked",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "exit": 0,
+      "seconds": 26.152221907002968,
+      "stderr": "build-stderr.log",
+      "stderr_sha256": "6571a16e7aeb0e2bda7a6a1a3ce313ea93214b301455b0a0db20c9f183f6f295",
+      "stdout": "build.log",
+      "stdout_sha256": "2b6a72d065caab776ad736747089bcbee0e283470bde551acd44f1a0ebbd8e40"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--tests",
+        "--locked",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "seconds": 10.81982863599842,
+      "stderr": "clippy-stderr.log",
+      "stderr_sha256": "1a972b919db996a0fe9cecd2611b1c9ce7a39fd0617c4c82498a5119043eacf5",
+      "stdout": "clippy.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e2-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_scalar_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.0033859969989862293,
+      "stderr": "scalar-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "scalar-native.log",
+      "stdout_sha256": "16021cac22d4e0876cd4a8ad8261c610ec638eddb24253c5c3bce621498b7915"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e2-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_type_layout",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.0019114379974780604,
+      "stderr": "type-layout-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "type-layout.log",
+      "stdout_sha256": "31b1a70119cfa98c2acc4cee4cf424326a1efc7179350c5a8d2e45db6c960ca6"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e2-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::scalar_affine_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.0021754349872935563,
+      "stderr": "affine-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "affine-native.log",
+      "stdout_sha256": "ebaaf72a67a6eac0758c960ae03089e38843ca7ec4699a8a7d23c7cfac0e971d"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/e2-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::fixed_capture_reference_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.08479996600362938,
+      "stderr": "reference-fixed-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "reference-fixed-native.log",
+      "stdout_sha256": "61a6c2cdc55baa8e12d945b8609924d2ea54ed32b20f11f99e4bbf6a95f0e34d"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-e2-fixed-candidates/evidence/forcing-e2-fixed-candidates-v1/prepare.py",
+        "restore"
+      ],
+      "exit": 0,
+      "seconds": 0.05024159098684322,
+      "stderr": "restore-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "restore.log",
+      "stdout_sha256": "e4b04955ae181c8e8da8615993cec1ed1bedadc9254bbcefc5bdf1fe8d55c265"
+    }
+  ],
+  "generalization_executed": false,
+  "source": "cbeaa72b403cb1f3af4f95727cc29ec660c99ca3",
+  "source_tree": "2539d960f279d5f50aa213f3374651d7c51b5957"
+}

@@ -1,0 +1,23 @@
+{
+  "accepted_owners_constructed_or_advanced": 0,
+  "actual_affine_scalar_probes": 6,
+  "additional_memory_bound": 65840,
+  "additional_memory_cap": 67584,
+  "binary_sha256": "f7a85747e4dfc3cdd8815554fdc5f12a81bd8d875596cc4ff4fbacbb8f0f3983",
+  "candidate_equations_executed_in_preflight": 0,
+  "controller_iterations": 0,
+  "exact_primitive_scalar_probes": 36,
+  "fresh_actual_ELF_audit": true,
+  "kernel_peak": 1696,
+  "native_scalar_groups": 23,
+  "native_source": "cbeaa72b403cb1f3af4f95727cc29ec660c99ca3",
+  "native_source_tree": "2539d960f279d5f50aa213f3374651d7c51b5957",
+  "production_adoption": false,
+  "protocol_sha256": "cf62cfc426dbc45f2ca24afb1120723b8d3e18fe5d606c47011e854aa5affeb5",
+  "public_known_coordinate_graph_unchanged": true,
+  "reference_integrations": false,
+  "remaining_memory": 1744,
+  "status": "PASS_E2_PREFLIGHT_BEFORE_FIXED_EXECUTION",
+  "stored_inertia_graph_unchanged": true,
+  "trajectory_reruns": false
+}

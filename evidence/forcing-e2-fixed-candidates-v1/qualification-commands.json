@@ -1,0 +1,27 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "evidence/forcing-e2-fixed-candidates-v1/qualify.py"
+    ],
+    "exit": 0,
+    "seconds": 3.3821738219994586,
+    "stderr": "qualification-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "qualification-normal.json",
+    "stdout_sha256": "000d9d1bbe903f0e0ffbdbfeb62d25249eff728b1e564ddb0bd3c6262c396c19"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-O",
+      "evidence/forcing-e2-fixed-candidates-v1/qualify.py"
+    ],
+    "exit": 0,
+    "seconds": 3.1600034660077654,
+    "stderr": "qualification-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "qualification-optimized.json",
+    "stdout_sha256": "000d9d1bbe903f0e0ffbdbfeb62d25249eff728b1e564ddb0bd3c6262c396c19"
+  }
+]

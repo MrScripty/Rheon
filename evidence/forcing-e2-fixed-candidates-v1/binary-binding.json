@@ -1,0 +1,10 @@
+{
+  "binary": "/workspace/.rheon-tools/e2-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "f7a85747e4dfc3cdd8815554fdc5f12a81bd8d875596cc4ff4fbacbb8f0f3983",
+  "generalization_executed": false,
+  "protocol_sha256": "cf62cfc426dbc45f2ca24afb1120723b8d3e18fe5d606c47011e854aa5affeb5",
+  "prototype": "cbeaa72b403cb1f3af4f95727cc29ec660c99ca3",
+  "prototype_tree": "2539d960f279d5f50aa213f3374651d7c51b5957",
+  "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
+  "target": "/workspace/.rheon-tools/e2-fixed-candidates-v1-target"
+}

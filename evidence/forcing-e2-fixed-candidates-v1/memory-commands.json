@@ -1,0 +1,27 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "evidence/forcing-e2-fixed-candidates-v1/audit_memory_v2.py"
+    ],
+    "exit": 0,
+    "seconds": 2.522734436002793,
+    "stderr": "memory-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "memory-normal.json",
+    "stdout_sha256": "1e3b718614a62052c208080abe7e739247c8d37dc308278ada61474ab3147366"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-O",
+      "evidence/forcing-e2-fixed-candidates-v1/audit_memory_v2.py"
+    ],
+    "exit": 0,
+    "seconds": 2.092080909991637,
+    "stderr": "memory-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "memory-optimized.json",
+    "stdout_sha256": "1e3b718614a62052c208080abe7e739247c8d37dc308278ada61474ab3147366"
+  }
+]
