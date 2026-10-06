@@ -1,0 +1,31 @@
+{
+  "evidence": "d44e1a61625f348e0fcb347a2bc520429c57db46",
+  "evidence_tree": "d9fdaeccf641eac45d29de04a76c4ebca6065229",
+  "receipt_sha256": "fb31614455c4f1d061413c25ea44877bcfac39d6d7273735cf9a4ad604f33166",
+  "bound_committed_artifacts": 51,
+  "preserved_original_files": 6879,
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "evidence/forcing-residual-arithmetic/verify_corrected_receipt.py"
+      ],
+      "exit": 0,
+      "seconds": 29.543051906002802,
+      "stdout": "post-git-normal.log",
+      "stderr": "post-git-normal-stderr.log"
+    },
+    {
+      "argv": [
+        "python3",
+        "-O",
+        "evidence/forcing-residual-arithmetic/verify_corrected_receipt.py"
+      ],
+      "exit": 0,
+      "seconds": 21.6291406609962,
+      "stdout": "post-git-optimized.log",
+      "stderr": "post-git-optimized-stderr.log"
+    }
+  ],
+  "status": "PASS"
+}
