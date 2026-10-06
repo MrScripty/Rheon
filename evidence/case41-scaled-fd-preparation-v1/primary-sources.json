@@ -1,0 +1,54 @@
+{
+  "direct_executor_fetch": "Netlib HTTPS proxy tunnel returned403; no bypass attempted. Browser reads succeeded. Raw source bodies/content digests are not archived; links identify inspected sources, not permanently pinned remote versions.",
+  "scope": "Primary pages/implementations inspected through authorized web browsing on 2026-10-06. General methodological citations only; no backend imported or external solver executed.",
+  "sources": [
+    {
+      "body_archived": false,
+      "content_digest": null,
+      "date": "2026-10-06",
+      "inspection": "browser successful",
+      "title": "LAPACK DGERFS implementation",
+      "url": "https://www.netlib.org/lapack/double/dgerfs.f"
+    },
+    {
+      "body_archived": false,
+      "content_digest": null,
+      "date": "2026-10-06",
+      "inspection": "browser successful",
+      "title": "LAPACK DGESVX documentation",
+      "url": "https://www.netlib.org/lapack/explore-html/d5/dbe/group__gesvx_ga82173a93234afc15d70b64233b3e5bc8.html"
+    },
+    {
+      "body_archived": false,
+      "content_digest": null,
+      "date": "2026-10-06",
+      "inspection": "browser successful",
+      "title": "LAPACK error measurement",
+      "url": "https://www.netlib.org/lapack/lug/node75.html"
+    },
+    {
+      "body_archived": false,
+      "content_digest": null,
+      "date": "2026-10-06",
+      "inspection": "browser successful",
+      "title": "LAPACK linear error bounds",
+      "url": "https://www.netlib.org/lapack/lug/node80.html"
+    },
+    {
+      "body_archived": false,
+      "content_digest": null,
+      "date": "2026-10-06",
+      "inspection": "browser successful",
+      "title": "MINPACK HYBRD implementation",
+      "url": "https://www.netlib.org/minpack/hybrd.f"
+    },
+    {
+      "body_archived": false,
+      "content_digest": null,
+      "date": "2026-10-06",
+      "inspection": "browser successful",
+      "title": "KINSOL mathematical considerations",
+      "url": "https://sundials.readthedocs.io/en/latest/kinsol/Mathematics_link.html"
+    }
+  ]
+}

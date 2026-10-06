@@ -1,0 +1,24 @@
+{
+  "base": "998de18438a339d44896d24ecf9634ad469cdcdf",
+  "base_tree": "351f165a4bcc4aa6338e2be96d1e31698aec0b6e",
+  "sha256": {
+    "docs/research-book/chapters/05-linear-solvers.md": "6740abe423b9a92298f1f8951de94308ba0bffc0c8adb54cb9846e8caefa23df",
+    "docs/research-book/chapters/15-floating-point.md": "e7f6431bed40be3c4d5816f07f4b3dfc1614ae66c710b175abedaf573f131eda",
+    "docs/research-book/implementation/fitted-discrete-work-temporal.md": "f015bf4c10711c10de2ce52d5647d83cca356894538b110c4b27d1e341a40917",
+    "docs/research-book/implementation/fitted-height-native-assembly.md": "6bbe9d987bcab8ce62797e0960d22a7ad5cea5285635771d56be83684b0da70b",
+    "docs/research-book/implementation/native-coupled-discrete-work.md": "623a482c66646050cf3404b6acd4ffc59ce331ad8aa4ac819f073d5c06fbf5d8",
+    "docs/research-book/implementation/native-forced-extruded-liquid.md": "e15679e7b05411b7e57b2cf38bcbd81f6b76e108ba20f45a77c489ee2d5e00c1",
+    "evidence/forcing-case41-scale-diagnosis-v1/analyze.py": "421c0dd105a09ef5a435b9b29adffc91543ae3eb20cb6ca9339395840a3dcc34",
+    "evidence/forcing-case41-scale-diagnosis-v1/provenance.json": "e6e45c88f66489b3582e9d7b1b14420b937360e173de9e53b0906b133ef697ea",
+    "evidence/forcing-case47-public-call-v1/post-git-verification.json": "0965635ea4157b1bff7db8bd46d1456730895cae2cdaebc9af9aff38f7d62499",
+    "evidence/forcing-e2-fixed-candidates-v1/candidate-fixed.log": "6b4d8a9fc1a0adf1503f191e7b9b6b60f53e3904b2066d9e481bf4c06aa06894",
+    "evidence/forcing-e2-fixed-candidates-v1/inputs.json": "0c0c75411d93c0663c6281ae9163c7c73cbc376e5085c6b80484d5ff34411607",
+    "src/coupled_discrete.rs": "2062542bd181d60078c9141c95f022ebdce8fd0e536500a52839fbdbb5ebba0e",
+    "src/fitted_height.rs": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a"
+  },
+  "target_host_chapter_introduction_commit": "31f8614fe169153f92f7d75889330b3504e083ea",
+  "target_native_introduction_commit": "3f0271d6e4d5cee26e87e165e9ef4b9cd352be68",
+  "target_native_introduction_history": [
+    "3f0271d6e4d5cee26e87e165e9ef4b9cd352be68 Add bounded coupled xy discrete-work owner and native qualification"
+  ]
+}
