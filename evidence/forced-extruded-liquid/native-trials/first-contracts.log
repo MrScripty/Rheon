@@ -1,0 +1,42 @@
+
+running 5 tests
+test bounded_iteration_failure_preserves_initial_frame_pressure_clock ... ok
+test memory_and_unsupported_field_fail_before_owner_creation ... ok
+test genuine_coupled_pressure_strain_mass_and_work_publish_together ... ok
+test invalid_scale_intervals_preserve_nonzero_accepted_state ... ok
+test every_barrier_preserves_all_accepted_bits_after_nonzero_state_and_resumes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.96s
+
+
+running 8 tests
+test additional_scratch_budget_and_initial_trace_are_enforced ... ok
+test bounded_solve_failure_preserves_all_initial_components ... ok
+test actual_published_full_velocity_has_both_shears_and_total_work ... ok
+test actual_third_linear_failure_preserves_the_published_constructor_state ... ok
+test constant_nonzero_third_velocity_survives_actual_moving_mass_publications ... ok
+test invalid_arithmetic_and_wrong_api_preserve_nonzero_accepted_state ... ok
+test zero_third_opt_in_matches_legacy_actual_state_bit_for_bit ... ok
+test every_old_and_third_barrier_preserves_nonzero_published_state_and_retry_bits ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.06s
+
+
+running 9 tests
+test actual_late_third_failure_preserves_published_forced_pressure_fixture ... ok
+test constant_third_acceleration_and_force_supplied_energy_growth ... ok
+test actual_forced_publication_has_known_impulses_and_complete_signed_work ... ok
+test force_budget_and_iteration_refusals_are_atomic ... ok
+test force_inputs_and_time_refusals_preserve_nonzero_accepted_pressure_state ... ok
+test original_flat_admission_refusal_is_observed_without_a_relaxed_chart ... FAILED
+test empty_forcing_retains_published_legacy_extrusion_and_budget ... ok
+test force_density_and_ordered_split_acceleration_publish_identical_bits ... ok
+test all_force_and_candidate_barriers_preserve_both_fixtures_and_retry_bits ... ok
+
+failures:
+
+failures:
+    original_flat_admission_refusal_is_observed_without_a_relaxed_chart
+
+test result: FAILED. 8 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 16.62s
+

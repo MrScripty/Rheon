@@ -1,0 +1,8 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `release` profile [optimized] target(s) in 52.81s
+     Running tests/forced_extruded_contract.rs (/workspace/.rheon-tools/target/release/deps/forced_extruded_contract-5fed40fa772dc103)
+
+thread 'actual_flat_gravity_probe_checks_analytic_hydrostatic_pressure' (329945) panicked at tests/forced_extruded_contract.rs:516:10:
+called `Result::unwrap()` on an `Err` value: WorkFailure
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `--test forced_extruded_contract`

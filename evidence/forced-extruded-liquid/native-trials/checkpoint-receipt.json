@@ -1,0 +1,55 @@
+{
+  "status": "PASS_FOCUSED_NATIVE_AND_CAPTURE_FULL_QUALIFICATION_PENDING",
+  "source_commit": "5bb0b5d538ac0b1707142cb9691e61994fd68b8e",
+  "source_tree": "79bdb50c5f98be9c7c9e86df05bc34f3165d3aeb",
+  "source_sha256": {
+    "src/coupled_discrete.rs": "e9a7692a05203bd6cff6de66ac9ce8169cef471f456475db906f6b5cf8cb5859",
+    "src/lib.rs": "136bb2a58fd6a1947ab0e5ab7afd7f5622cdd1cd92e3f89b983252c765c45dd9",
+    "tests/forced_extruded_contract.rs": "8370980423aa801257fb98b9a82be0c0634bb99df8a15d0742960dd793844c60",
+    "examples/forced_extruded.rs": "120ee9f3da4f99acf61d6a1cc07c2bed5d8d46bcde9f3ddbd140698ff29091d3"
+  },
+  "actual_compiled_contracts": 9,
+  "actual_old_contracts_passed_in_retained_first_trial": 13,
+  "actual_native_publications": 536,
+  "actual_native_constructors": 40,
+  "actual_native_accepted_steps": 496,
+  "actual_owner_budget": 474768,
+  "retained_flat_constructor_accepted": true,
+  "retained_flat_forced_step_error": "WorkFailure",
+  "compiled_native_export_command": [
+    "cargo",
+    "run",
+    "--release",
+    "--quiet",
+    "--example",
+    "forced_extruded"
+  ],
+  "compiled_export_exit": 0,
+  "corrected_contract_command": [
+    "cargo",
+    "test",
+    "--release",
+    "--test",
+    "forced_extruded_contract",
+    "--",
+    "--nocapture"
+  ],
+  "corrected_contract_exit": 0,
+  "file_sha256": {
+    "evidence/forced-extruded-liquid/native-trials/corrected-contracts-stderr.log": "922079109e34068e21016389adbdfca97c979818a04f1ea00f46fd9c1f1c363f",
+    "evidence/forced-extruded-liquid/native-trials/corrected-contracts.log": "2369b873915d1160a2da66ac4d5517df6f769a5f01fe769bf8d27af6556624bd",
+    "evidence/forced-extruded-liquid/native-trials/first-contracts-binding.json": "9959db3293d195cb75b69d01445e465d139b65ed965ebe3e6fd47cd47047dfa1",
+    "evidence/forced-extruded-liquid/native-trials/first-contracts-source.rs": "e360068e249b63e4b18b7c734324ca3c0cba52b3b47838162f06f864532e0821",
+    "evidence/forced-extruded-liquid/native-trials/first-contracts-stderr.log": "4542ddcff77710ead1338d83524316ae5f81b8ea20518a39627a893041140acc",
+    "evidence/forced-extruded-liquid/native-trials/first-contracts.log": "16e9023f3d128e5da56010d301d8e8747318d40b63be889aae8df45b8d04377d",
+    "evidence/forced-extruded-liquid/native-trials/first-kernel-source.rs": "e9a7692a05203bd6cff6de66ac9ce8169cef471f456475db906f6b5cf8cb5859",
+    "evidence/forced-extruded-liquid/native-trials/first-lib-source.rs": "136bb2a58fd6a1947ab0e5ab7afd7f5622cdd1cd92e3f89b983252c765c45dd9",
+    "evidence/forced-extruded-liquid/native-trials/first-native-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forced-extruded-liquid/native-trials/first-native.jsonl": "536bd8ac2753bdc8b677cb94f0b65f746e4355db2c1abf8d18b376668fcbb0d8",
+    "evidence/forced-extruded-liquid/native-trials/flat-gravity-probe-binding.json": "aa93ae1f8ff9db413714114dd8cc400136eeb37d0497c7fe8d4e9041d9d9110b",
+    "evidence/forced-extruded-liquid/native-trials/flat-gravity-probe-source.rs": "bdc23984e22b4b926326f7faba1b4d978f184d10a4ba08e110d4dc8b09ea5317",
+    "evidence/forced-extruded-liquid/native-trials/flat-gravity-probe-stderr.log": "84e6526731621ee28d29cd74fb554088bb75c3951995acd8db041c2da32e637a",
+    "evidence/forced-extruded-liquid/native-trials/flat-gravity-probe.log": "40637df6119f60e656a6eded6994859e8a910f3d8d3b8aa3912c343661ba6a5a"
+  },
+  "scope": "Full feature formatting/lint/test matrix and independent full trajectory/refinement/render remain pending. Separate PR18 artifact/CI repair is active in another checkout."
+}

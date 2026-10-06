@@ -1,0 +1,13 @@
+{
+  "status": "WORK_REFUSAL_RETAINED",
+  "exit": 101,
+  "actual_constructor_accepted": true,
+  "actual_step_error": "WorkFailure",
+  "source_sha256": "bdc23984e22b4b926326f7faba1b4d978f184d10a4ba08e110d4dc8b09ea5317",
+  "log_sha256": {
+    "evidence/forced-extruded-liquid/native-trials/flat-gravity-probe-source.rs": "bdc23984e22b4b926326f7faba1b4d978f184d10a4ba08e110d4dc8b09ea5317",
+    "evidence/forced-extruded-liquid/native-trials/flat-gravity-probe.log": "40637df6119f60e656a6eded6994859e8a910f3d8d3b8aa3912c343661ba6a5a",
+    "evidence/forced-extruded-liquid/native-trials/flat-gravity-probe-stderr.log": "84e6526731621ee28d29cd74fb554088bb75c3951995acd8db041c2da32e637a"
+  },
+  "scope": "Flat constructor acceptance does not qualify forced flat step. Expected acceptance was disproved; no gate will be relaxed."
+}

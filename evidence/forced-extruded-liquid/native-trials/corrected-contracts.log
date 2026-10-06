@@ -1,0 +1,14 @@
+
+running 9 tests
+test actual_flat_gravity_work_refusal_preserves_static_accepted_state ... ok
+test actual_late_third_failure_preserves_published_forced_pressure_fixture ... ok
+test constant_third_acceleration_and_force_supplied_energy_growth ... ok
+test actual_forced_publication_has_known_impulses_and_complete_signed_work ... ok
+test force_budget_and_iteration_refusals_are_atomic ... ok
+test force_inputs_and_time_refusals_preserve_nonzero_accepted_pressure_state ... ok
+test empty_forcing_retains_published_legacy_extrusion_and_budget ... ok
+test force_density_and_ordered_split_acceleration_publish_identical_bits ... ok
+test all_force_and_candidate_barriers_preserve_both_fixtures_and_retry_bits ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 16.85s
+

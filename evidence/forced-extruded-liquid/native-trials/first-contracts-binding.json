@@ -1,0 +1,34 @@
+{
+  "status": "FAILED_EXPECTATION_RETAINED",
+  "command": [
+    "cargo",
+    "test",
+    "--release",
+    "--test",
+    "forced_extruded_contract",
+    "--test",
+    "extruded_third_contract",
+    "--test",
+    "coupled_discrete_contract",
+    "--",
+    "--nocapture"
+  ],
+  "exit": 101,
+  "actual_new_contracts_passed": 8,
+  "actual_new_contracts_failed": 1,
+  "failure": "Test incorrectly expected native flat constructor refusal; constructor succeeded. Frozen independent chart refusal remains a separate fact.",
+  "actual_compiled_source_sha256": {
+    "src/coupled_discrete.rs": "e9a7692a05203bd6cff6de66ac9ce8169cef471f456475db906f6b5cf8cb5859",
+    "src/lib.rs": "136bb2a58fd6a1947ab0e5ab7afd7f5622cdd1cd92e3f89b983252c765c45dd9",
+    "tests/forced_extruded_contract.rs": "e360068e249b63e4b18b7c734324ca3c0cba52b3b47838162f06f864532e0821"
+  },
+  "saved_source_sha256": {
+    "evidence/forced-extruded-liquid/native-trials/first-kernel-source.rs": "e9a7692a05203bd6cff6de66ac9ce8169cef471f456475db906f6b5cf8cb5859",
+    "evidence/forced-extruded-liquid/native-trials/first-lib-source.rs": "136bb2a58fd6a1947ab0e5ab7afd7f5622cdd1cd92e3f89b983252c765c45dd9",
+    "evidence/forced-extruded-liquid/native-trials/first-contracts-source.rs": "e360068e249b63e4b18b7c734324ca3c0cba52b3b47838162f06f864532e0821"
+  },
+  "log_sha256": {
+    "evidence/forced-extruded-liquid/native-trials/first-contracts.log": "16e9023f3d128e5da56010d301d8e8747318d40b63be889aae8df45b8d04377d",
+    "evidence/forced-extruded-liquid/native-trials/first-contracts-stderr.log": "4542ddcff77710ead1338d83524316ae5f81b8ea20518a39627a893041140acc"
+  }
+}

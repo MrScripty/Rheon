@@ -1,0 +1,12 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `release` profile [optimized] target(s) in 1m 53s
+     Running tests/coupled_discrete_contract.rs (/workspace/.rheon-tools/target/release/deps/coupled_discrete_contract-e636e7cac59d88cb)
+     Running tests/extruded_third_contract.rs (/workspace/.rheon-tools/target/release/deps/extruded_third_contract-af830e686e472e95)
+ACTUAL third failure: LinearFailure; assembly visits 24; accepted stamp TranslatedViscousStamp { id: 91, version: 0 }
+     Running tests/forced_extruded_contract.rs (/workspace/.rheon-tools/target/release/deps/forced_extruded_contract-5fed40fa772dc103)
+actual late forced failure: LinearFailure, assembled triangles=24
+
+thread 'original_flat_admission_refusal_is_observed_without_a_relaxed_chart' (329726) panicked at tests/forced_extruded_contract.rs:515:10:
+flat chart remains outside this admitted model
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `--test forced_extruded_contract`

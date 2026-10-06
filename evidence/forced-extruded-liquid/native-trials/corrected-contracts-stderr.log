@@ -1,0 +1,5 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon)
+    Finished `release` profile [optimized] target(s) in 58.64s
+     Running tests/forced_extruded_contract.rs (/workspace/.rheon-tools/target/release/deps/forced_extruded_contract-5fed40fa772dc103)
+actual flat gravity WorkFailure retained; constructor accepts rest, forced publication refuses
+actual late forced failure: LinearFailure, assembled triangles=24
