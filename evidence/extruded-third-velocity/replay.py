@@ -26,6 +26,7 @@ def schema(rows):
   require(type(row['allocated_bytes'])is int and row['allocated_bytes']==BUDGET,'actual bounded owner budget')
   for name,shape in [('end_q',(3,)),('end_eta',(6,)),('third_coefficients',(12,)),('velocity',(16,3)),('pressure_coefficients',(16,)),('time',()),('positions',(19,2)),('triangles',(24,3)),('periodic_indices',(19,)),('mass',(16,)),('physical_pressure',(24,))]:strict.array(row[name],shape,name)
   require(np.array_equal(np.array(row['periodic_indices']),m.IDS),'actual periodic node identification')
+  require(all(type(i)is int for i in row['periodic_indices'])and all(type(i)is int for tri in row['triangles']for i in tri),'integer native topology and periodic indices')
   if row['step']==0:require(row['unknowns']is None and row['report']is None,'constructor has no finite-step report')
   else:
    strict.array(row['unknowns'],(22,),'finite xy unknowns');strict.keys(row['report'],['planar','third','total'],'full work report')
@@ -125,7 +126,7 @@ def replay(rows,references=True):
  return output
 def negative_controls(rows):
  controls=[]
- for name in ['missing_mass','missing_geometry','missing_pressure','missing_third','missing_total_report','false_stamp','false_clock','false_third_velocity','false_third_coefficients','missing_second_shear','false_total_energy','duplicated_coarse_case']:
+ for name in ['missing_mass','missing_geometry','missing_pressure','missing_third','missing_total_report','false_stamp','false_clock','false_third_velocity','false_third_coefficients','missing_second_shear','false_total_energy','duplicated_coarse_case','noninteger_periodic_indices']:
   bad=copy.deepcopy(rows);row=bad[1]
   if name.startswith('missing_')and name not in ['missing_second_shear','missing_total_report']:del row[{'missing_mass':'mass','missing_geometry':'positions','missing_pressure':'physical_pressure','missing_third':'third_coefficients'}[name]]
   elif name=='missing_total_report':del row['report']['total']
@@ -135,6 +136,7 @@ def negative_controls(rows):
   elif name=='false_third_coefficients':row['third_coefficients'][0]+=.01
   elif name=='missing_second_shear':del row['report']['third']['shear_y_loss']
   elif name=='false_total_energy':row['report']['total']['energy_new']+=.01
+  elif name=='noninteger_periodic_indices':row['periodic_indices'][0]=float(row['periodic_indices'][0])
   else:bad[3:8]=copy.deepcopy(bad[:5])
   try:replay(bad,references=False)
   except ValueError as error:controls.append(dict(control=name,status='REJECTED',reason=str(error)))
