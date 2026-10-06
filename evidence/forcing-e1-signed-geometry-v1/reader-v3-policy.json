@@ -1,0 +1,26 @@
+{
+  "correct_coordinate_labels": [
+    "left_cap_x",
+    "left_cap_height",
+    "middle_cap_x",
+    "middle_cap_height"
+  ],
+  "new_reference_integrations": 0,
+  "new_trajectory_steps": 0,
+  "original_protocol_sha256": "8f0679cb04e600e0ca0659a561c0c63b9ae8ad9cdfd8b41d7081d0507551e028",
+  "original_source": "00d7de13b82396836e8f1efad6e3049034f5c2e7",
+  "reader_sha256": {
+    "analyze.py": "212665c505d70a3cd3c61671ba9c5e8085efd0afc23a7b5a2b2baa9a356ae228",
+    "analyze_v2.py": "72b4891433ef09434872e1b64f1ba9800da9d286546d61a4ed7bc21e19a0c4c0",
+    "analyze_v3.py": "863cce1dfd63af8aa3ab5aeffad891a6873a28792b29fc29ce96d46732624806"
+  },
+  "reader_v2_source": "759c8befe25158398795617d7cbf117c06fbecf6",
+  "reason": "Correct metadata to the actual frozen q_to_x order [q0,q2,q1,2.25-q2]; all signed components, normalized values, endpoint errors and ratios unchanged",
+  "threshold_changes": false,
+  "v2_attempts_preserved": {
+    "outcome-v2-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outcome-v2-normal.json": "2f03fb8294ffcd9df982e9d1e9225860c677930a1f33b02f4171e885a2dac5ce",
+    "outcome-v2-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outcome-v2-optimized.json": "2f03fb8294ffcd9df982e9d1e9225860c677930a1f33b02f4171e885a2dac5ce"
+  }
+}
