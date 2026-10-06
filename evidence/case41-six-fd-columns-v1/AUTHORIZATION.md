@@ -1,0 +1,7 @@
+# Authorized bounded case41 experiment
+
+Parent instruction authorizes pending scalar and memory preflight, followed only on success by one unchanged baseline plus all six original order16 acceleration finite-difference probes. Exactly the frozen preparation ELF and delta rule are used. Zero Newton corrections, accepted owners, owner advances, qualifiers, third solves or publication. Stop before capture if preflight fails. All native refusals remain evidence; no missing column is fabricated.
+
+The compiled source is c238111d8c8d159c157e489294a25998aaf36516, tree c87e9c658cad27df708a34aa63bccf9868095598. New scripts qualify that exact unexecuted ELF rather than modifying or recompiling frozen Rust. Fresh stack accounting covers its linked FD helpers, unchanged equation/partition/point, scalar Result paths and bounded observation shell. Existing certificates are inputs to no bound; only the original source definitions and actual libc instructions are reused. New baseline/perturbation/column arrays are charged explicitly in addition to positive frame deltas, with no shrink or reservation slack credit. Journals are incremental and limited to 16 MiB stdout and 1 MiB stderr; they supply no accepted authority.
+
+External analysis records nominal deltas, actual bitwise offsets, every refusal, native checked-column replay, scaled conditioning and range/complement only. Approximate finite differences do not certify a smooth derivative or nonlinear root error. Every historical gate and failure remains unchanged.
