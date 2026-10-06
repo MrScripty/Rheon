@@ -8,7 +8,7 @@ def require(ok,msg):
  if not ok:raise ValueError(msg)
 def verify(p):
  triggers=copy.deepcopy(old[True]);triggers['push']['branches'].append('repair/coupled-terminal-validation')
- require(p['on']==triggers and p['permissions']==old['permissions'] and p['name']==old['name'],'original triggers/name/permissions plus exact candidate push scope')
+ require(p.get('on',p.get(True))==triggers and p['permissions']==old['permissions'] and p['name']==old['name'],'original triggers/name/permissions plus exact candidate push scope')
  f=p['jobs']['feature-contracts'];c=p['jobs']['executable-contracts'];g=p['jobs']['core-and-executable']
  for job in [f,c,g]:require(job['runs-on']=='ubuntu-24.04'and job['timeout-minutes']==30,'unchanged runner and per-job timeout')
  require(f['env']==c['env']=={'CARGO_BUILD_JOBS':'1'},'same bounded Cargo worker count')

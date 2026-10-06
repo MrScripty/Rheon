@@ -1,4 +1,63 @@
 name: Rheon Rust headless milestone
+on:
+  pull_request:
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'src/**'
+      - 'tests/**'
+      - 'examples/**'
+      - 'tools/rheon_compare.py'
+      - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
+      - 'tools/verify_viscosity.py'
+      - 'tools/test_viscosity_verifier.py'
+      - 'tools/verify_column_interface.py'
+      - 'tools/test_column_interface_verifier.py'
+      - 'evidence/column-interface/**'
+      - 'evidence/viscosity/**'
+      - 'tools/verify_column_shear.py'
+      - 'tools/test_column_shear_verifier.py'
+      - 'evidence/column-shear/**'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
+      - 'tools/verify_column_mac.py'
+      - 'tools/test_column_mac_verifier.py'
+      - 'evidence/column-mac/**'
+      - '.github/workflows/rust-rheon.yml'
+  push:
+    branches: [main, repair/coupled-terminal-validation]
+    paths:
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'src/**'
+      - 'tests/**'
+      - 'examples/**'
+      - 'tools/rheon_compare.py'
+      - 'tools/test_rheon_compare.py'
+      - 'tools/test_result_qualification.py'
+      - 'tools/verify_viscosity.py'
+      - 'tools/test_viscosity_verifier.py'
+      - 'tools/verify_column_interface.py'
+      - 'tools/test_column_interface_verifier.py'
+      - 'evidence/column-interface/**'
+      - 'evidence/viscosity/**'
+      - 'tools/verify_column_shear.py'
+      - 'tools/test_column_shear_verifier.py'
+      - 'evidence/column-shear/**'
+      - 'tools/verify_column_momentum.py'
+      - 'tools/test_column_momentum_verifier.py'
+      - 'evidence/column-momentum/**'
+      - 'evidence/column-momentum-constant/**'
+      - 'tools/verify_column_mac.py'
+      - 'tools/test_column_mac_verifier.py'
+      - 'evidence/column-mac/**'
+      - '.github/workflows/rust-rheon.yml'
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -105,64 +164,3 @@ jobs:
       run: |
         test "$FEATURE_RESULT" = success
         test "$EXECUTABLE_RESULT" = success
-'on':
-  pull_request:
-    paths:
-    - Cargo.toml
-    - Cargo.lock
-    - rust-toolchain.toml
-    - src/**
-    - tests/**
-    - examples/**
-    - tools/rheon_compare.py
-    - tools/test_rheon_compare.py
-    - tools/test_result_qualification.py
-    - tools/verify_viscosity.py
-    - tools/test_viscosity_verifier.py
-    - tools/verify_column_interface.py
-    - tools/test_column_interface_verifier.py
-    - evidence/column-interface/**
-    - evidence/viscosity/**
-    - tools/verify_column_shear.py
-    - tools/test_column_shear_verifier.py
-    - evidence/column-shear/**
-    - tools/verify_column_momentum.py
-    - tools/test_column_momentum_verifier.py
-    - evidence/column-momentum/**
-    - evidence/column-momentum-constant/**
-    - tools/verify_column_mac.py
-    - tools/test_column_mac_verifier.py
-    - evidence/column-mac/**
-    - .github/workflows/rust-rheon.yml
-  push:
-    branches:
-    - main
-    - repair/coupled-terminal-validation
-    paths:
-    - Cargo.toml
-    - Cargo.lock
-    - rust-toolchain.toml
-    - src/**
-    - tests/**
-    - examples/**
-    - tools/rheon_compare.py
-    - tools/test_rheon_compare.py
-    - tools/test_result_qualification.py
-    - tools/verify_viscosity.py
-    - tools/test_viscosity_verifier.py
-    - tools/verify_column_interface.py
-    - tools/test_column_interface_verifier.py
-    - evidence/column-interface/**
-    - evidence/viscosity/**
-    - tools/verify_column_shear.py
-    - tools/test_column_shear_verifier.py
-    - evidence/column-shear/**
-    - tools/verify_column_momentum.py
-    - tools/test_column_momentum_verifier.py
-    - evidence/column-momentum/**
-    - evidence/column-momentum-constant/**
-    - tools/verify_column_mac.py
-    - tools/test_column_mac_verifier.py
-    - evidence/column-mac/**
-    - .github/workflows/rust-rheon.yml
-  workflow_dispatch: null
