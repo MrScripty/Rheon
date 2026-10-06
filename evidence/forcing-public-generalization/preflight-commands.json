@@ -1,0 +1,71 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "--config",
+        "skip_children=true",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization/harness.rs",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization/inputs.rs",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization/candidate_helpers.rs",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization/reference_helpers.rs"
+      ],
+      "exit": 0,
+      "seconds": 0.10874642699491233,
+      "stderr": "format-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "format.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization/prepare.py",
+        "install"
+      ],
+      "exit": 0,
+      "seconds": 0.0578554989915574,
+      "stderr": "install-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "install.log",
+      "stdout_sha256": "656e869c0ebcc9a3876eacf56a40ae0afcc94a571be09b69bc7bf77f68575f54"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--locked",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "exit": 101,
+      "seconds": 3.549916355012101,
+      "stderr": "build-stderr.log",
+      "stderr_sha256": "6860e540a56d5fa0f45d699960d8dbe3fea54344c86782b3332fccd282f9d31d",
+      "stdout": "build.log",
+      "stdout_sha256": "2bf845b895820f3d682e43c082ed819b888e8812167061485d6588969ba7aaec"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization/prepare.py",
+        "restore"
+      ],
+      "exit": 0,
+      "seconds": 0.055417179013602436,
+      "stderr": "restore-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "restore.log",
+      "stdout_sha256": "e4b04955ae181c8e8da8615993cec1ed1bedadc9254bbcefc5bdf1fe8d55c265"
+    }
+  ],
+  "generalization_executed": false,
+  "source": "cd157ed39c9b215e7aeb547c92be0dffb0630e40",
+  "source_tree": "cf3ee0742705b9c342defe21a53ab41864fd537c"
+}
