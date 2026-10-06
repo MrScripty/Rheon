@@ -1,0 +1,11 @@
+{
+  "base": "704842c368953e47df279728935e20cfda89f0c5",
+  "production_sha256": {
+    "src/lib.rs": "136bb2a58fd6a1947ab0e5ab7afd7f5622cdd1cd92e3f89b983252c765c45dd9",
+    "src/coupled_discrete.rs": "2062542bd181d60078c9141c95f022ebdce8fd0e536500a52839fbdbb5ebba0e",
+    "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+    "src/fitted_height.rs": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a"
+  },
+  "frozen_policy_sha256": "d38866144fe5f23194e44ccbcf23470afdfaba300a7b9779179f55d1227031c7",
+  "selected_capture_sha256": "b24aa4975dabdd03a7c11d2596a89436dc9b12b78d5d81ff5d852defe49bc29a"
+}

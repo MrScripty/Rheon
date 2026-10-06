@@ -1,0 +1,35 @@
+--- frozen/src/coupled_discrete.rs
++++ research/native.rs
+@@ -5 +5,3 @@
+-#![allow(clippy::needless_range_loop)]
++#![allow(clippy::needless_range_loop, dead_code)]
++#[path = "scalar.rs"]
++mod scalar;
+@@ -152 +154,2 @@
+-struct Work {
++struct Work<'a> {
++    research: Option<&'a mut scalar::ChartWorkspace>,
+@@ -259 +262 @@
+-    work: Work,
++    work: Work<'static>,
+@@ -386,0 +390 @@
++            research: None,
+@@ -1291 +1295 @@
+-impl Work {
++impl Work<'_> {
+@@ -1410 +1414,11 @@
+-        let values = linear(block, rhs)?;
++        let values = if let Some(research) = self.research.as_deref_mut() {
++            let values = research.solve(&p.d, &p.z)?;
++            for i in 0..15 {
++                if add(dot(&block[i], &values)?, -rhs[i])?.abs() > LIMIT {
++                    return Err(CoupledDiscreteError::LinearFailure);
++                }
++            }
++            values
++        } else {
++            linear(block, rhs)?
++        };
+@@ -1990,0 +2005,2 @@
++
++include!("native_tests.rs");

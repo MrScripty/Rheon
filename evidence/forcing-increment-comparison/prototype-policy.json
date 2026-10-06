@@ -1,0 +1,72 @@
+{
+  "arithmetic": {
+    "acceptance": "all baseline thresholds and gates unchanged; no substitution of exact diagnostic norm",
+    "additional_fixed_workspace_bytes": 65536,
+    "baseline_workspace_also_required": true,
+    "behavior_neutral": false,
+    "chart_scalar_precision_bits": 106,
+    "compensation_lifetime": "ephemeral evaluator scratch only",
+    "downstream": "complete native embedding/inspection/partition/flux/force/rate/norm recomputation on stored fields",
+    "executed": false,
+    "execution_preconditions": [
+      "frozen matching prototype source and policy identity",
+      "scalar conformance checks",
+      "actual simultaneous layout/allocation receipt fits reservation",
+      "independent comparison classification"
+    ],
+    "fixed_descriptor_alignment_bytes": 3648,
+    "geometry_policy": "native qB/cap/geometry/mass/D/B assembly, no latent geometry",
+    "implemented": false,
+    "initial_projection": false,
+    "intermediate_failure": "reject nonfinite, range, subnormal, nonnormal pivot, division failure, nonzero multiply/divide rounded to zero; no clipping or precision fallback",
+    "iterative_refinement_steps": 0,
+    "known_targets": "native rounded eta and signed known coefficients, not latent h*alpha",
+    "max_corrections": 7,
+    "max_equation_calls": 200,
+    "normalization": "signed fixed significand/exponent, 106 significant bits; zero separate; 32-byte slot",
+    "pivot": "largest absolute current column value, last row on ties",
+    "range": "every nonzero scalar intermediate within binary64 normal magnitude envelope",
+    "reconciled_increment": "stored zB minus accepted z0B",
+    "retained_state_or_snapshots": false,
+    "rounding": "binary nearest ties to even after each scalar operation; one nearest-even binary64 endpoint store",
+    "scalar_slot_bytes": 32,
+    "scalar_storage_bytes": 61888,
+    "simultaneous_scalar_slots": {
+      "coordinates": 9,
+      "five_15x15_matrices": 1125,
+      "one_24x22_D": 528,
+      "scalar_temporaries": 8,
+      "twelve_22_vectors": 264
+    },
+    "solve": "15-column row-pivot elimination and back-substitution"
+  },
+  "execution_order": [
+    "freeze_source",
+    "compile_and_scalar_preflight",
+    "independent_scalar_and_layout_stack_verification",
+    "B0_bitwise",
+    "A0_identical_fields_exact",
+    "E1_same_terminal_unknowns_full_native_downstream",
+    "freeze_outcome_stop"
+  ],
+  "gate": "No E1 unless actual scalar conformance plus exact Fraction oracle and compiled stack/layout proof pass",
+  "implementation_scope": "test-only independent native copy, Work borrows ChartWorkspace; no accepted owner created or advanced",
+  "inherited_policy_sha256": "d38866144fe5f23194e44ccbcf23470afdfaba300a7b9779179f55d1227031c7",
+  "kernel_stack_ceiling_bytes": 2048,
+  "no_search": true,
+  "owner_advances": 0,
+  "policy_id": "E1-106-nearest-even-native-geometry-zero-refinement-v1",
+  "production_changes": 0,
+  "source_sha256": {
+    "evidence/forcing-increment-comparison/README.md": "f43a846718f900d8aa5ad3808fcca8d4b1396afd6fd0b4600be81e04db31e032",
+    "evidence/forcing-increment-comparison/baseline-binding.json": "469c1c0c5fdcdd4d138b4f4c11738363ab8ac104edcc410fb46cfd305ddec4a0",
+    "evidence/forcing-increment-comparison/library-test-overlay.rs": "89cf432b2be1aa910c8e37c519e62d6fd3d49d03e83e717abf14992d276e7518",
+    "evidence/forcing-increment-comparison/make_prototype.py": "8341aa8273611cff117f2108e737a2eda9f33087fd0abc0ab3f666768acfd10d",
+    "evidence/forcing-increment-comparison/native-transform.patch": "deb49f70e02276507c27dd8dc5a5742c3d326ffbf898a64a6096fd4881ee3599",
+    "evidence/forcing-increment-comparison/native.rs": "1fae152ad0b36a764774c587c741325b190fe17cb8c10400d4c25c7746869bef",
+    "evidence/forcing-increment-comparison/native_inputs.rs": "f12ff66f6b8418c080fb44e935e5d764a9f7531867bd4c4cde7b2db1e2639c1c",
+    "evidence/forcing-increment-comparison/native_tests.rs": "aa4112d197ac59d68dc5dbc26a164bb6873f8cb4f744129be2a8ffc4eee58d25",
+    "evidence/forcing-increment-comparison/scalar.rs": "7ef1ed888434287b373ca9632f727be897d10f70681f42aef1823ee9d5199bf2"
+  },
+  "status": "FROZEN_SOURCE_PENDING_PREFLIGHT"
+}
