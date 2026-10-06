@@ -1,0 +1,7 @@
+{
+  "binary_sha256": "ff7931a683e1e5c7e39cf890dec7930280b15f9b5eacef7256cc665fa71e2f4b",
+  "bound": 67088,
+  "remaining": 496,
+  "source": "27b9d521ab4f6ea12658a4bd7e4c0085a6ce8136",
+  "status": "PASS_PURE_E2_SCALAR_AND_FULL_PUBLIC_MEMORY"
+}
