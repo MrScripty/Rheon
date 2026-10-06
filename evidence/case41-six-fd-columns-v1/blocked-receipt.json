@@ -1,0 +1,33 @@
+{
+  "artifact_sha256": {
+    "AUTHORIZATION.md": "f1edf76eb7def5b615f901cd2334d53b19de906176d87333874748854815aed3",
+    "RESULTS.md": "0207e52097a6cd14d0c13ed03c89511422a6cba343d60e1d42519fb0a98f46a1",
+    "affine-native-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "affine-native.log": "abb961a4dc19e0e652a17647b634e094253f0b8db652a4700706115161ff830b",
+    "audit_memory.py": "486e091450dd19d0d6098358759cd6ca5b314c8ae4fcf25e1a5d408c624d1fba",
+    "check_affine.py": "7d9f5bce9e20880126bcb2eef3a74a2aef16d906f5883b3af7a1a5fc35d4d014",
+    "check_scalar.py": "432585a9c61212a1ed52bb71cfa8c1ff8dc44add2c4b3e257afe6620acfd0290",
+    "compiled-input.json": "c81c8ca1bd113e7677feeabc272c1ca4430f8f5c2f03cc86c813e3fb8917e889",
+    "memory-normal-stderr.log": "ddef964de635a0e3e3fd299fbe2a1712b23a8843108f89f2b1eb9d5aad6ed51e",
+    "memory-normal.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "preflight-commands.json": "8f1c5b20ce4c7f8d30c601cd759895062550a381244cf1579dcd3ebacab5e960",
+    "preflight-driver-stderr.log": "4ff546cd40cb71b0fe7ff284a70debc87c3d06f1a61efe9b8ffe602ba8134703",
+    "preflight-driver.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "preflight.py": "1ebfb78226426a379b0342f1a61acb2b5e2bfe8104b677d021b83ce105a169eb",
+    "protocol.json": "7f8618aabdc0cbc24922bbce420e4cbb938b37bd4669c85da05d31c40cbbd8b5",
+    "run_once.py": "5aade8a79bd7c07cfdca7acf5c1675d80f9fabe3ef4ea92bc72743d80a81756c",
+    "scalar-and-affine-oracles.json": "f08596624612cd35b5c21cec3a535f50b20d4de8ab2a273ec871ab534cbc5535",
+    "scalar-native-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scalar-native.log": "4efe46d087efdbbbdddcdc24bf210b0dfe73bc2d41976628a1e720d20a0a7df8",
+    "type-layout-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "type-layout.log": "fbc9527f6f180ac7ca4e2ac2b2e7487742ede54cb7d5cf83fd5b32ed86156981"
+  },
+  "native_equations": 0,
+  "native_scalar_test_invocations": 3,
+  "new_corrections": 0,
+  "owner_advances": 0,
+  "owners": 0,
+  "source": "f2d2183346fcab7f6a825b831e3f15c194ed4c96",
+  "source_tree": "da4ec51815425d758dbb24578f776c2c8d1ca962",
+  "status": "BLOCKED_MEMORY_ROUTE_MATCHING_STOPPED_BEFORE_CAPTURE"
+}

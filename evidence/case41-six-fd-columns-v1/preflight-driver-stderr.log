@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-fd-pure-e2/evidence/case41-six-fd-columns-v1/preflight.py", line 23, in <module>
+    for label,flags in [('memory-normal',[]),('memory-optimized',['-O'])]:run(label,[sys.executable,*flags,str(P/'audit_memory.py')])
+                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-fd-pure-e2/evidence/case41-six-fd-columns-v1/preflight.py", line 20, in run
+    (P/'preflight-commands.json').write_text(json.dumps(commands,indent=2,sort_keys=True)+'\n');require(r.returncode==0,'actual preflight failure '+label)
+                                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-fd-pure-e2/evidence/case41-six-fd-columns-v1/preflight.py", line 6, in require
+    if not ok:raise ValueError(msg)
+              ^^^^^^^^^^^^^^^^^^^^^
+ValueError: actual preflight failure memory-normal

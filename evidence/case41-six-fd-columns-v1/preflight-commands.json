@@ -1,0 +1,60 @@
+[
+  {
+    "FD_allow_present": false,
+    "argv": [
+      "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_scalar_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.0026542039995547384,
+    "stderr": "scalar-native-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "scalar-native.log",
+    "stdout_sha256": "4efe46d087efdbbbdddcdc24bf210b0dfe73bc2d41976628a1e720d20a0a7df8"
+  },
+  {
+    "FD_allow_present": false,
+    "argv": [
+      "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_type_layout",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.002387922999332659,
+    "stderr": "type-layout-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "type-layout.log",
+    "stdout_sha256": "fbc9527f6f180ac7ca4e2ac2b2e7487742ede54cb7d5cf83fd5b32ed86156981"
+  },
+  {
+    "FD_allow_present": false,
+    "argv": [
+      "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::scalar_affine_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.0019982520025223494,
+    "stderr": "affine-native-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "affine-native.log",
+    "stdout_sha256": "abb961a4dc19e0e652a17647b634e094253f0b8db652a4700706115161ff830b"
+  },
+  {
+    "FD_allow_present": false,
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/Rheon-fd-pure-e2/evidence/case41-six-fd-columns-v1/audit_memory.py"
+    ],
+    "exit": 1,
+    "seconds": 2.1490659729897743,
+    "stderr": "memory-normal-stderr.log",
+    "stderr_sha256": "ddef964de635a0e3e3fd299fbe2a1712b23a8843108f89f2b1eb9d5aad6ed51e",
+    "stdout": "memory-normal.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

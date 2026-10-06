@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-fd-pure-e2/evidence/case41-six-fd-columns-v1/audit_memory.py", line 80, in <module>
+    if __name__=='__main__':print(json.dumps(run(),indent=2,sort_keys=True))
+                                             ^^^^^
+  File "/workspace/Rheon-fd-pure-e2/evidence/case41-six-fd-columns-v1/audit_memory.py", line 66, in run
+    require(x and y,'matched source operation '+new)
+  File "/workspace/Rheon-fd-pure-e2/evidence/case41-six-fd-columns-v1/audit_memory.py", line 7, in require
+    if not ok: raise ValueError(msg)
+               ^^^^^^^^^^^^^^^^^^^^^
+ValueError: matched source operation Work::equation

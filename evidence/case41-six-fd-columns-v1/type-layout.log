@@ -1,0 +1,7 @@
+
+running 1 test
+{"event":"public_type_layout","native":(392416, 20672, 3776, 8848, 7800),"candidate":(392416, 20672, 3776, 8856, 7808),"snapshot_bytes":1696,"control_bytes":120,"workspace_bytes":62096}
+test research_public_call::research_public_type_layout ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
