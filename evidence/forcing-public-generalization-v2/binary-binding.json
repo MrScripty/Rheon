@@ -1,0 +1,10 @@
+{
+  "binary": "/workspace/.rheon-tools/public-generalization-v2-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "6a0776a617f8874ad6d9458f874eac3543d7296227d0710c1bc2562cb4fdf172",
+  "generalization_executed": false,
+  "protocol_sha256": "77ba4f6f16c35f9c5708a7f8f14afd20b1a12ba49f78ae2f85d8248fa1530e54",
+  "prototype": "dfd29f33d9e1ab46a0f33c291573a12b501ab2df",
+  "prototype_tree": "4fb39be2be823bfa003e99be6a10da1a59fd5d82",
+  "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
+  "target": "/workspace/.rheon-tools/public-generalization-v2-target"
+}

@@ -1,0 +1,133 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "rustfmt",
+        "--edition",
+        "2024",
+        "--check",
+        "--config",
+        "skip_children=true",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization-v2/harness.rs",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization-v2/inputs.rs",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization-v2/candidate_helpers.rs",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization-v2/reference_helpers.rs"
+      ],
+      "exit": 0,
+      "seconds": 0.15273825799522456,
+      "stderr": "format-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "format.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization-v2/prepare.py",
+        "install"
+      ],
+      "exit": 0,
+      "seconds": 0.07040860799315851,
+      "stderr": "install-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "install.log",
+      "stdout_sha256": "656e869c0ebcc9a3876eacf56a40ae0afcc94a571be09b69bc7bf77f68575f54"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--locked",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "exit": 0,
+      "seconds": 15.652299768000375,
+      "stderr": "build-stderr.log",
+      "stderr_sha256": "5abb6a9fa1bc8f70776255cf8926793e541c54044e890bbbc661023731b9b41f",
+      "stdout": "build.log",
+      "stdout_sha256": "cc0df98fe506ec33e5b35c4d5cd5632dddd63efc06bff79a039649768cae321d"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--release",
+        "--no-default-features",
+        "--lib",
+        "--tests",
+        "--locked",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "seconds": 14.253240254009143,
+      "stderr": "clippy-stderr.log",
+      "stderr_sha256": "6c41f609126c18db85cb59ed8baf8fd24587236f69c715327ba00a5e2fb18648",
+      "stdout": "clippy.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/public-generalization-v2-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_scalar_preflight",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.00620860600611195,
+      "stderr": "scalar-native-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "scalar-native.log",
+      "stdout_sha256": "cfcde5a8f65b8db4a710a639d8ac1a013046123ad3a7e44744c498cbe4239da4"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/public-generalization-v2-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_public_type_layout",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 0.004364817010355182,
+      "stderr": "type-layout-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "type-layout.log",
+      "stdout_sha256": "7b87c7a63a4ce06e23fd5793d1e55b171cc113c2a5f59dee91362543a9030658"
+    },
+    {
+      "argv": [
+        "/workspace/.rheon-tools/public-generalization-v2-target/release/deps/rheon-beaa99042d1278c3",
+        "--exact",
+        "research_public_call::research_generalization_baseline",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "seconds": 15.57241413599695,
+      "stderr": "baseline-native-stderr.log",
+      "stderr_sha256": "356a182960df091ec3973c1e0a6fa77b488c79bb129a41a51c390bd8e2badf9d",
+      "stdout": "baseline-native.log",
+      "stdout_sha256": "1f8473659c33c93e1f0f569ad9c81377ffa767c31a747dd1626c468b2d9d54fe"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-public-generalization/evidence/forcing-public-generalization-v2/prepare.py",
+        "restore"
+      ],
+      "exit": 0,
+      "seconds": 0.05611682700691745,
+      "stderr": "restore-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "restore.log",
+      "stdout_sha256": "e4b04955ae181c8e8da8615993cec1ed1bedadc9254bbcefc5bdf1fe8d55c265"
+    }
+  ],
+  "generalization_executed": false,
+  "source": "dfd29f33d9e1ab46a0f33c291573a12b501ab2df",
+  "source_tree": "4fb39be2be823bfa003e99be6a10da1a59fd5d82"
+}
