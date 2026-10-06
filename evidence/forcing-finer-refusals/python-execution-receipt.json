@@ -1,0 +1,71 @@
+{
+  "collection": "Recorded after actual completed tool executions; no wall times reconstructed.",
+  "commands": [
+    {
+      "argv": [
+        "python",
+        "evidence/forcing-finer-refusals/analyze.py",
+        "--negative-self-test"
+      ],
+      "environment": {},
+      "exit": 0,
+      "stderr": "evidence/forcing-finer-refusals/analysis-normal-stderr.log",
+      "stdout": "evidence/forcing-finer-refusals/analysis-normal.json"
+    },
+    {
+      "argv": [
+        "python",
+        "evidence/forcing-finer-refusals/replay_failure_rates.py"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-finer-refusals/independent-normal-stderr.log",
+      "stdout": "evidence/forcing-finer-refusals/independent-normal.json"
+    },
+    {
+      "argv": [
+        "python",
+        "-O",
+        "evidence/forcing-finer-refusals/analyze.py",
+        "--negative-self-test"
+      ],
+      "environment": {},
+      "exit": 0,
+      "stderr": "evidence/forcing-finer-refusals/analysis-optimized-stderr.log",
+      "stdout": "evidence/forcing-finer-refusals/analysis-optimized.json"
+    },
+    {
+      "argv": [
+        "python",
+        "-O",
+        "evidence/forcing-finer-refusals/replay_failure_rates.py"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-finer-refusals/independent-optimized-stderr.log",
+      "stdout": "evidence/forcing-finer-refusals/independent-optimized.json"
+    },
+    {
+      "argv": [
+        "python",
+        "evidence/forcing-finer-refusals/plot.py"
+      ],
+      "environment": {
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "exit": 0,
+      "stderr": "evidence/forcing-finer-refusals/plot-stderr.log",
+      "stdout": "evidence/forcing-finer-refusals/plot.log"
+    }
+  ],
+  "normal_optimized_outputs_byte_identical": true,
+  "source_sha256": {
+    "evidence/forcing-finer-refusals/analyze.py": "8ed92e41b54d65378f899373a680f1c4600b8c4a1493dcf02ce8f48b751bb5dd",
+    "evidence/forcing-finer-refusals/plot.py": "2c4ebe938a0a9f6140ab31771f49f22d1fab578d0c3a7c9f2986156a78924849",
+    "evidence/forcing-finer-refusals/replay_failure_rates.py": "9f3ea38bf8368e93b8a615239703b8d638f8ac462880cd96829d6bfb1d8acb6c"
+  }
+}

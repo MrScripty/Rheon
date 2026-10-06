@@ -1,0 +1,87 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_seconds": 19.24452729600307,
+      "exit": 0,
+      "stderr": "evidence/forcing-finer-refusals/ordinary-clippy-default-stderr.log",
+      "stdout": "evidence/forcing-finer-refusals/ordinary-clippy-default.log"
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--example",
+        "forcing_temporal_probe"
+      ],
+      "elapsed_seconds": 47.6689644910075,
+      "exit": 0,
+      "stderr": "evidence/forcing-finer-refusals/ordinary-native-default-stderr.log",
+      "stdout": "evidence/forcing-finer-refusals/ordinary-native-default.jsonl"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--no-default-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "elapsed_seconds": 13.514949404998333,
+      "exit": 0,
+      "stderr": "evidence/forcing-finer-refusals/ordinary-clippy-no-default-stderr.log",
+      "stdout": "evidence/forcing-finer-refusals/ordinary-clippy-no-default.log"
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--no-default-features",
+        "--example",
+        "forcing_temporal_probe"
+      ],
+      "elapsed_seconds": 34.45865060600045,
+      "exit": 0,
+      "stderr": "evidence/forcing-finer-refusals/ordinary-native-no-default-stderr.log",
+      "stdout": "evidence/forcing-finer-refusals/ordinary-native-no-default.jsonl"
+    }
+  ],
+  "native_outcomes_byte_identical": true,
+  "no_diagnostic_RUSTFLAGS_required": true,
+  "original_cargo_features_dependencies_and_unsafe_forbid_unchanged": true,
+  "source_binding": {
+    "Cargo.toml": {
+      "current_sha256": "894719b28d3698a87006b919df85f5fd54e94b9b236f77b5bdbd9f0eef25fdc0",
+      "original_sha256": "8f71e6affa03b378cbe96f0f2d6ada00fdc223c269fad165b41989d1bc9b08aa",
+      "stripped_original_byte_identical": true
+    },
+    "examples/forcing_temporal_probe.rs": {
+      "current_sha256": "e21f1dcca605517713118c6871b853bf3282f0a3a41afe5ac1c05ac66f0a0330",
+      "original_sha256": "e1b1686f1b8e7b0d3ecd0c54dbbb28226079059b715732b22be5acf1f8f7309a",
+      "stripped_original_byte_identical": true
+    },
+    "src/coupled_discrete.rs": {
+      "current_sha256": "356a2404c49969925d9a642f808a726b4bd230ac35415078e49216c6f49e9891",
+      "original_sha256": "e9a7692a05203bd6cff6de66ac9ce8169cef471f456475db906f6b5cf8cb5859",
+      "stripped_original_byte_identical": true
+    }
+  },
+  "status": "PASS_ORDINARY_BUILDS_WITH_DECLARED_DIAGNOSTIC_CFG"
+}

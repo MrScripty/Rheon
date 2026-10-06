@@ -1,0 +1,196 @@
+{
+  "historical_base": "f76841e9217e781d91c5bfeabadb6b4c6f42b20b",
+  "source_binding": {
+    "src/coupled_discrete.rs": {
+      "instrumented_sha256": "356a2404c49969925d9a642f808a726b4bd230ac35415078e49216c6f49e9891",
+      "original_sha256": "e9a7692a05203bd6cff6de66ac9ce8169cef471f456475db906f6b5cf8cb5859",
+      "diagnostic_blocks": 4,
+      "stripped_original_byte_identical": true
+    },
+    "examples/forcing_temporal_probe.rs": {
+      "instrumented_sha256": "e21f1dcca605517713118c6871b853bf3282f0a3a41afe5ac1c05ac66f0a0330",
+      "original_sha256": "e1b1686f1b8e7b0d3ecd0c54dbbb28226079059b715732b22be5acf1f8f7309a",
+      "diagnostic_blocks": 2,
+      "stripped_original_byte_identical": true
+    }
+  },
+  "commands": [
+    {
+      "name": "format",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "trace_enabled": false,
+      "exit": 0,
+      "elapsed_seconds": 0.5758948449947638,
+      "RUSTFLAGS": "--check-cfg=cfg(rheon_newton_trace)",
+      "CARGO_TARGET_DIR": "/workspace/.rheon-tools/finer-refusal-trace-target",
+      "stdout": "evidence/forcing-finer-refusals/format.log",
+      "stderr": "evidence/forcing-finer-refusals/format-stderr.log"
+    },
+    {
+      "name": "clippy-plain-default",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--example",
+        "forcing_temporal_probe",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "trace_enabled": false,
+      "exit": 0,
+      "elapsed_seconds": 7.863711616999353,
+      "RUSTFLAGS": "--check-cfg=cfg(rheon_newton_trace)",
+      "CARGO_TARGET_DIR": "/workspace/.rheon-tools/finer-refusal-trace-target",
+      "stdout": "evidence/forcing-finer-refusals/clippy-plain-default.log",
+      "stderr": "evidence/forcing-finer-refusals/clippy-plain-default-stderr.log"
+    },
+    {
+      "name": "native-plain-default",
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--example",
+        "forcing_temporal_probe"
+      ],
+      "trace_enabled": false,
+      "exit": 0,
+      "elapsed_seconds": 44.74771048799448,
+      "RUSTFLAGS": "--check-cfg=cfg(rheon_newton_trace)",
+      "CARGO_TARGET_DIR": "/workspace/.rheon-tools/finer-refusal-trace-target",
+      "stdout": "evidence/forcing-finer-refusals/native-plain-default.jsonl",
+      "stderr": "evidence/forcing-finer-refusals/native-plain-default-stderr.log"
+    },
+    {
+      "name": "clippy-plain-no-default",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--example",
+        "forcing_temporal_probe",
+        "--no-default-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "trace_enabled": false,
+      "exit": 0,
+      "elapsed_seconds": 4.807743194993236,
+      "RUSTFLAGS": "--check-cfg=cfg(rheon_newton_trace)",
+      "CARGO_TARGET_DIR": "/workspace/.rheon-tools/finer-refusal-trace-target",
+      "stdout": "evidence/forcing-finer-refusals/clippy-plain-no-default.log",
+      "stderr": "evidence/forcing-finer-refusals/clippy-plain-no-default-stderr.log"
+    },
+    {
+      "name": "native-plain-no-default",
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--example",
+        "forcing_temporal_probe",
+        "--no-default-features"
+      ],
+      "trace_enabled": false,
+      "exit": 0,
+      "elapsed_seconds": 33.217384225004935,
+      "RUSTFLAGS": "--check-cfg=cfg(rheon_newton_trace)",
+      "CARGO_TARGET_DIR": "/workspace/.rheon-tools/finer-refusal-trace-target",
+      "stdout": "evidence/forcing-finer-refusals/native-plain-no-default.jsonl",
+      "stderr": "evidence/forcing-finer-refusals/native-plain-no-default-stderr.log"
+    },
+    {
+      "name": "clippy-trace-default",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--example",
+        "forcing_temporal_probe",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "trace_enabled": true,
+      "exit": 0,
+      "elapsed_seconds": 5.8514845260069706,
+      "RUSTFLAGS": "--check-cfg=cfg(rheon_newton_trace) --cfg rheon_newton_trace",
+      "CARGO_TARGET_DIR": "/workspace/.rheon-tools/finer-refusal-trace-target",
+      "stdout": "evidence/forcing-finer-refusals/clippy-trace-default.log",
+      "stderr": "evidence/forcing-finer-refusals/clippy-trace-default-stderr.log"
+    },
+    {
+      "name": "native-trace-default",
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--example",
+        "forcing_temporal_probe"
+      ],
+      "trace_enabled": true,
+      "exit": 0,
+      "elapsed_seconds": 55.37232773499272,
+      "RUSTFLAGS": "--check-cfg=cfg(rheon_newton_trace) --cfg rheon_newton_trace",
+      "CARGO_TARGET_DIR": "/workspace/.rheon-tools/finer-refusal-trace-target",
+      "stdout": "evidence/forcing-finer-refusals/native-trace-default.jsonl",
+      "stderr": "evidence/forcing-finer-refusals/native-trace-default-stderr.log"
+    },
+    {
+      "name": "clippy-trace-no-default",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--example",
+        "forcing_temporal_probe",
+        "--no-default-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "trace_enabled": true,
+      "exit": 0,
+      "elapsed_seconds": 3.0564987039979314,
+      "RUSTFLAGS": "--check-cfg=cfg(rheon_newton_trace) --cfg rheon_newton_trace",
+      "CARGO_TARGET_DIR": "/workspace/.rheon-tools/finer-refusal-trace-target",
+      "stdout": "evidence/forcing-finer-refusals/clippy-trace-no-default.log",
+      "stderr": "evidence/forcing-finer-refusals/clippy-trace-no-default-stderr.log"
+    },
+    {
+      "name": "native-trace-no-default",
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--example",
+        "forcing_temporal_probe",
+        "--no-default-features"
+      ],
+      "trace_enabled": true,
+      "exit": 0,
+      "elapsed_seconds": 49.794669784998405,
+      "RUSTFLAGS": "--check-cfg=cfg(rheon_newton_trace) --cfg rheon_newton_trace",
+      "CARGO_TARGET_DIR": "/workspace/.rheon-tools/finer-refusal-trace-target",
+      "stdout": "evidence/forcing-finer-refusals/native-trace-no-default.jsonl",
+      "stderr": "evidence/forcing-finer-refusals/native-trace-no-default-stderr.log"
+    }
+  ],
+  "status": "PASS_COMPLETED_COMMANDS"
+}

@@ -1,0 +1,83 @@
+{
+  "source_binding": {
+    "src/coupled_discrete.rs": {
+      "original_sha256": "e9a7692a05203bd6cff6de66ac9ce8169cef471f456475db906f6b5cf8cb5859",
+      "current_sha256": "356a2404c49969925d9a642f808a726b4bd230ac35415078e49216c6f49e9891",
+      "stripped_original_byte_identical": true
+    },
+    "examples/forcing_temporal_probe.rs": {
+      "original_sha256": "e1b1686f1b8e7b0d3ecd0c54dbbb28226079059b715732b22be5acf1f8f7309a",
+      "current_sha256": "e21f1dcca605517713118c6871b853bf3282f0a3a41afe5ac1c05ac66f0a0330",
+      "stripped_original_byte_identical": true
+    },
+    "Cargo.toml": {
+      "original_sha256": "8f71e6affa03b378cbe96f0f2d6ada00fdc223c269fad165b41989d1bc9b08aa",
+      "current_sha256": "894719b28d3698a87006b919df85f5fd54e94b9b236f77b5bdbd9f0eef25fdc0",
+      "stripped_original_byte_identical": true
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 19.24452729600307,
+      "stdout": "evidence/forcing-finer-refusals/ordinary-clippy-default.log",
+      "stderr": "evidence/forcing-finer-refusals/ordinary-clippy-default-stderr.log"
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--example",
+        "forcing_temporal_probe"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 47.6689644910075,
+      "stdout": "evidence/forcing-finer-refusals/ordinary-native-default.jsonl",
+      "stderr": "evidence/forcing-finer-refusals/ordinary-native-default-stderr.log"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--no-default-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 13.514949404998333,
+      "stdout": "evidence/forcing-finer-refusals/ordinary-clippy-no-default.log",
+      "stderr": "evidence/forcing-finer-refusals/ordinary-clippy-no-default-stderr.log"
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--no-default-features",
+        "--example",
+        "forcing_temporal_probe"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 34.45865060600045,
+      "stdout": "evidence/forcing-finer-refusals/ordinary-native-no-default.jsonl",
+      "stderr": "evidence/forcing-finer-refusals/ordinary-native-no-default-stderr.log"
+    }
+  ]
+}

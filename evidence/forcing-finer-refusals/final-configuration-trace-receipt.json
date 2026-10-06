@@ -1,0 +1,44 @@
+{
+  "status": "PASS_FINAL_CONFIG_TRACES_BYTE_IDENTICAL",
+  "source_sha256": {
+    "src/coupled_discrete.rs": "356a2404c49969925d9a642f808a726b4bd230ac35415078e49216c6f49e9891",
+    "examples/forcing_temporal_probe.rs": "e21f1dcca605517713118c6871b853bf3282f0a3a41afe5ac1c05ac66f0a0330",
+    "Cargo.toml": "894719b28d3698a87006b919df85f5fd54e94b9b236f77b5bdbd9f0eef25fdc0"
+  },
+  "actual_commands": [
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--example",
+        "forcing_temporal_probe"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 52.825295642003766,
+      "stdout": "evidence/forcing-finer-refusals/final-trace-default.jsonl",
+      "stderr": "evidence/forcing-finer-refusals/final-trace-default-stderr.log",
+      "RUSTFLAGS": "--cfg rheon_newton_trace"
+    },
+    {
+      "argv": [
+        "cargo",
+        "run",
+        "--locked",
+        "--release",
+        "--quiet",
+        "--no-default-features",
+        "--example",
+        "forcing_temporal_probe"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 40.95519769100065,
+      "stdout": "evidence/forcing-finer-refusals/final-trace-no-default.jsonl",
+      "stderr": "evidence/forcing-finer-refusals/final-trace-no-default-stderr.log",
+      "RUSTFLAGS": "--cfg rheon_newton_trace"
+    }
+  ],
+  "first_trace_and_final_config_byte_identical": true
+}
