@@ -1,0 +1,88 @@
+{
+  "additional_cap": 67584,
+  "arithmetic_variants": [
+    "native_sequential",
+    "exact_sum_of_rounded_contributions",
+    "exact_products_sums_stored_stable",
+    "exact_products_sums_stored_direct",
+    "exact_native_force_assembly",
+    "exact_captured_flux_quadrature",
+    "combined_exact_force_transfer",
+    "actual_106_chart_inertia_only",
+    "exact_stored_known_chart_inertia_only",
+    "exact_continuous_known_chart_inertia_only",
+    "fixed_operator_chart_endpoint_substitution_stored_known",
+    "fixed_operator_chart_endpoint_substitution_continuous_known"
+  ],
+  "base": "008fdd02ca41e88821bfa8999283347bab3455eb",
+  "base_tree": "cd1b58c862bb8f76d75adbbcdc3cd79648012338",
+  "case_indices": [
+    41,
+    47
+  ],
+  "complete_fixed_equations": 4,
+  "controller_iterations_requested": 0,
+  "correction_limit_unchanged": 7,
+  "counted_controller_equation_limit_unchanged": 200,
+  "descriptor_bytes": 8,
+  "expected_terminal_norms": [
+    1.0724458777318338e-13,
+    1.3144896847477506e-13
+  ],
+  "fixed_equation_orders": [
+    16,
+    32
+  ],
+  "h": 0.00078125,
+  "maximum_diagnostic_quadrature_points": 6240,
+  "maximum_start_end_points": 8,
+  "new_reference_integrations": false,
+  "new_trajectory_execution": false,
+  "newton_target": 1e-13,
+  "numerical_body_sha256": {
+    "evidence/forcing-e1-trajectories-v2/FittedHeightWorkspace-overlay.rs": "9ed89ab8bd0a88e1cebc55b5c512721a98bd939ea6e50876412e5f51dec86ef0",
+    "evidence/forcing-e1-trajectories-v2/TranslatedViscousFlow-overlay.rs": "1734eaeed3c0f497a5380ee339253d87b246d667423f86cfe5dd565d68916765",
+    "evidence/forcing-e1-trajectories-v2/candidate.rs": "25ee50a48fff4be55b6d30cd5d41ab6eb5b72672a7933dbd19d2441fe572b248",
+    "evidence/forcing-e1-trajectories-v2/check_scalar.py": "432585a9c61212a1ed52bb71cfa8c1ff8dc44add2c4b3e257afe6620acfd0290",
+    "evidence/forcing-e1-trajectories-v2/reference.rs": "065eea4725e8b87927543895040709d082ac6cbdb61e3b90d6836bcee6b8afd3",
+    "evidence/forcing-e1-trajectories-v2/scalar.rs": "7ef1ed888434287b373ca9632f727be897d10f70681f42aef1823ee9d5199bf2"
+  },
+  "owner_advances_requested": 0,
+  "owners_constructed_requested": 0,
+  "parameter_search": false,
+  "precision_digits": [
+    80,
+    120
+  ],
+  "production_adoption": false,
+  "protocol_id": "E1-two-terminal-fixed-candidates-v1",
+  "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
+  "source_sha256": {
+    "evidence/forcing-e1-fixed-candidates-v1/FittedHeightWorkspace-overlay.rs": "9ed89ab8bd0a88e1cebc55b5c512721a98bd939ea6e50876412e5f51dec86ef0",
+    "evidence/forcing-e1-fixed-candidates-v1/README.md": "3b75d65f283094db643af6565b997f04911e691a4281412ad0ebbe020750a18f",
+    "evidence/forcing-e1-fixed-candidates-v1/TranslatedViscousFlow-overlay.rs": "1734eaeed3c0f497a5380ee339253d87b246d667423f86cfe5dd565d68916765",
+    "evidence/forcing-e1-fixed-candidates-v1/audit_base.py": "b983575e4fb6f6ec12de77e9030a7ed97bd9b5885adf5e1574299b9bc9f79bcb",
+    "evidence/forcing-e1-fixed-candidates-v1/audit_memory.py": "00962cb6a9312b886d7fe251b2419fe9a1c6a3223c68e50f3a36f9b310c8109e",
+    "evidence/forcing-e1-fixed-candidates-v1/build_preflight.py": "7f4f2deca1ed4f2d6568bb6ddab8608b6db929a48ec561f7c4dcbaedc81a21ab",
+    "evidence/forcing-e1-fixed-candidates-v1/candidate.rs": "dca221bd08c4a510677c90f796e5ebc48fb778e5126730cbb5f7730f4ec49687",
+    "evidence/forcing-e1-fixed-candidates-v1/candidate_helpers.rs": "88d577eb553251192a5a054a9bc8229bfc4ea99ad7138a330a210285ff518b45",
+    "evidence/forcing-e1-fixed-candidates-v1/candidate_probe.rs": "8d50f5264a636a9776549790a8ef7bc3a7d076ed5a9098519171be0b8abc9496",
+    "evidence/forcing-e1-fixed-candidates-v1/check_scalar.py": "432585a9c61212a1ed52bb71cfa8c1ff8dc44add2c4b3e257afe6620acfd0290",
+    "evidence/forcing-e1-fixed-candidates-v1/fixed_inputs.rs": "88f250046d8f08836f0418bd7fc81523d1de9a6141d4295a678c096c5a0d873e",
+    "evidence/forcing-e1-fixed-candidates-v1/harness.rs": "41452a53e2a0abc40c54a9eacb9ea7b6c324491f1c61ac1f6568c9ab89c48b5c",
+    "evidence/forcing-e1-fixed-candidates-v1/inputs.json": "0c0c75411d93c0663c6281ae9163c7c73cbc376e5085c6b80484d5ff34411607",
+    "evidence/forcing-e1-fixed-candidates-v1/inputs.rs": "d4aefe43a4125f70f2109072711228a787dc354ac51ece68027334f21a8117c1",
+    "evidence/forcing-e1-fixed-candidates-v1/library-overlay.rs": "6e1caabf458b0165441e8792c23b2fcf1caf7582ca71ee4dcc0abe314bceb64a",
+    "evidence/forcing-e1-fixed-candidates-v1/prepare.py": "af4bdae1ddf872184253f6f2cd79fe0f5e08fcfbe56c702f39833e66d632462a",
+    "evidence/forcing-e1-fixed-candidates-v1/probe_template.rs": "a6c880e22b948bc43ba800ff302da0554c921c4d97e2d6164c5efee14ee5f2b6",
+    "evidence/forcing-e1-fixed-candidates-v1/reference.rs": "2e0a092546425f8e7da1c772591079a305d6dce9278fbdcab3dc8d3f63bdb771",
+    "evidence/forcing-e1-fixed-candidates-v1/reference_helpers.rs": "8f2b8d1f7ce6476dd52a1fa8edba8ac4e3eede17b15018f82bf7a8dd9b76a655",
+    "evidence/forcing-e1-fixed-candidates-v1/reference_probe.rs": "1d00c8ea994792b8488a2a8904516cb1be3c09608ebe7aa9d289fed40c81b366",
+    "evidence/forcing-e1-fixed-candidates-v1/scalar.rs": "e2d1dabd04dc2e110e236a3715073ddc43ba44db79eadab440f2bde96aedc469",
+    "evidence/forcing-e1-fixed-candidates-v1/trajectory_inputs.rs": "fb1fd26c0833a54ecc5d52dc0f37f0d13a0d7f750f75fa5416dd8749ce862658"
+  },
+  "target": "/workspace/.rheon-tools/e1-fixed-candidates-v1-target",
+  "third_solve_executed": false,
+  "threshold_changes": false,
+  "workspace_bytes": 62096
+}

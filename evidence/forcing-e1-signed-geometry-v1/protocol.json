@@ -1,0 +1,24 @@
+{
+  "base": "008fdd02ca41e88821bfa8999283347bab3455eb",
+  "base_tree": "cd1b58c862bb8f76d75adbbcdc3cd79648012338",
+  "existing_complete_endpoints": 46,
+  "existing_refused_prefixes": 2,
+  "metric_changes": false,
+  "new_reference_integrations": 0,
+  "new_trajectory_steps": 0,
+  "normalize_by_original_h": true,
+  "original_failed_geometry_checks": 8,
+  "original_geometry_band": [
+    1.7,
+    2.3
+  ],
+  "production_adoption": false,
+  "protocol_id": "E1-existing-signed-geometry-components-v1",
+  "reference_resolution_already_passed": true,
+  "source_sha256": {
+    "evidence/forcing-e1-signed-geometry-v1/README.md": "0b7dfe48f78e473bfb7c42c6f2d2d045df3724dc931f2cfc9b44e0b6a333ef4d",
+    "evidence/forcing-e1-signed-geometry-v1/analyze.py": "212665c505d70a3cd3c61671ba9c5e8085efd0afc23a7b5a2b2baa9a356ae228",
+    "evidence/forcing-e1-signed-geometry-v1/inputs.json": "55c99c474f41eb7e8196bb315c032ca4dc85c33e4a6f62db27200b639a0ac33a"
+  },
+  "threshold_changes": false
+}
