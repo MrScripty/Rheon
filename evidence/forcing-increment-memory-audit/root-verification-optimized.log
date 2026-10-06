@@ -1,0 +1,26 @@
+{
+  "aligned_additional_bound": 65456,
+  "artifacts": 18,
+  "cap": 65536,
+  "enclosing_arithmetic_stack_prefix": 433776,
+  "kernel_peak": 1536,
+  "negative_controls": [
+    "outgoing direct tail jump",
+    "unresolved indirect tail jump",
+    "hidden additional callee",
+    "unbalanced return",
+    "dynamic stack mutation",
+    "increased compiled stack frame",
+    "omitted caller frame delta"
+  ],
+  "numerical_execution_repeated": false,
+  "outgoing_tail_edges_found": 0,
+  "owner_advances": 0,
+  "point_caller_delta": 1808,
+  "preserved_files": 7068,
+  "production_changes": 0,
+  "qualification_scope": "Fixed successful/defined Result paths in this already-frozen x86_64 kernel, measured Work::point/partition frames, existing native baseline reservation. Host evidence output/unwind and public controller/third/lifecycle qualification remain outside this narrow audit; no retrospective pre-execution certificate.",
+  "remaining_bytes": 80,
+  "simultaneous_full_cap_reservation": 540304,
+  "status": "PASS_ADDITIVE_STATIC_MEMORY_AUDIT_ONLY"
+}

@@ -1,0 +1,13 @@
+{
+  "frozen_binary": "/workspace/.rheon-tools/increment-comparison-staged-target/release/deps/rheon-6fcb0e06fe041f73",
+  "frozen_binary_sha256": "6ce8f08803c74654433093559e8ca0ce2c02586aff1999ffaf7bf40a59b744d0",
+  "frozen_source": "78b7365513ccf317e554d36f968da36b55f04065",
+  "native_reference_binary": "/workspace/.rheon-tools/forcing-arithmetic-target/release/deps/rheon-ab0162a1a0153f51",
+  "native_reference_binary_sha256": "aabec4cec12ed659d954a6c1e214e6623924b48094a069b671b92c7604db0b50",
+  "native_reference_hash_scope": "hash first recorded by this audit on the preserved previously executed binary; no historical pre-execution hash claimed",
+  "native_reference_provenance_log": "evidence/forcing-residual-arithmetic/native-neighborhood-stderr.log",
+  "native_reference_source": "evidence/forcing-residual-arithmetic/overlay-coupled-source.rs",
+  "native_reference_source_sha256": "fb106721f08ea5301be524ebf921609326b9d38e7b74acc88dcd24c6b57a6313",
+  "no_build_or_numerical_execution": true,
+  "numerical_evidence": "4326926f826bcda9ff7b483605a86a11becb6c98"
+}

@@ -1,0 +1,52 @@
+{
+  "artifacts": {
+    "evidence/forcing-increment-memory-audit/OUTCOME.md": "a36005a5dda8cecfe3d44fde6f548e9900c5e6ce504c03032a5e47b5361a1f76",
+    "evidence/forcing-increment-memory-audit/audit-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-memory-audit/audit-normal.json": "8d9be15962ef0706e23a694a03c42d2c659db59eb91ed0639a3977b926e18598",
+    "evidence/forcing-increment-memory-audit/audit-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-memory-audit/audit-optimized.json": "8d9be15962ef0706e23a694a03c42d2c659db59eb91ed0639a3977b926e18598",
+    "evidence/forcing-increment-memory-audit/audit.py": "53a3028c14574fd32c04a2c108755ea168caf9163c0f2dfe4a23d4ad56160c92",
+    "evidence/forcing-increment-memory-audit/binary-binding.json": "ad83b79085fa0432de2fd67343fd6c332b2adf3b50b140477b8d0f1af4b05e00",
+    "evidence/forcing-increment-memory-audit/frozen-headers.txt": "9236072e0556f81caed2ae56a5e03899868b029ff34f74f87726807017885d60",
+    "evidence/forcing-increment-memory-audit/frozen-relevant-disassembly.txt.gz": "fcfb1c3650a61fa208e9e289e965696b25775c516db4e0ddde2d044bc38014ce",
+    "evidence/forcing-increment-memory-audit/frozen-relevant-disassembly.txt.sha256": "42f091c2c70c196bee803e2230950732e791bb83b75cf87ee60c806b37f7582f",
+    "evidence/forcing-increment-memory-audit/frozen-relocations.txt": "9f135e40e75b81fe86e08ebb7124ad589106f19cdf70cdc154050aad5a8e13d4",
+    "evidence/forcing-increment-memory-audit/frozen-symbols.txt": "2fc939dd8b9164d2154fbfe97e0564dafad468e589922f3b6d41797023aa1ffa",
+    "evidence/forcing-increment-memory-audit/native-reference-disassembly.txt.gz": "a9a6f6661569c9ab546b74fea77405c25331a11b6cb57c52a64452647ea0a1a4",
+    "evidence/forcing-increment-memory-audit/native-reference-disassembly.txt.sha256": "8bf6df37ee0a47390bc250beb145201d635517a97131ea4267b7d68aee8a786f",
+    "evidence/forcing-increment-memory-audit/native-reference-headers.txt": "be64b1c650e61930a65dacfe83c55c6b016a40af265b957bd6245003b4be7f48",
+    "evidence/forcing-increment-memory-audit/native-reference-relocations.txt": "4c9ff6c757f3001d0050fadc2b3f36ce00fabd2f80ffaeee8c3422258943bf35",
+    "evidence/forcing-increment-memory-audit/native-reference-symbols.txt": "32458e3d71b55c8ad75ae2185d3781dfb4b9888a0e5f914d792cb99504f8610c",
+    "evidence/forcing-increment-memory-audit/verify.py": "bf7a56c7d08cadf9b687798f02c4144f18197c6a998b4d25d130bbd8206991e1"
+  },
+  "base": "acec66b0d50556ea6a482ec796fb0f5d36810aca",
+  "base_tree": "9364cb71dafdd5de3fa43fdfc21b310beade63a0",
+  "checks": {
+    "aligned_additional_bound": 65456,
+    "cap": 65536,
+    "enclosing_arithmetic_stack_prefix": 433776,
+    "kernel_peak": 1536,
+    "negative_controls": [
+      "outgoing direct tail jump",
+      "unresolved indirect tail jump",
+      "hidden additional callee",
+      "unbalanced return",
+      "dynamic stack mutation",
+      "increased compiled stack frame",
+      "omitted caller frame delta"
+    ],
+    "numerical_execution_repeated": false,
+    "outgoing_tail_edges_found": 0,
+    "owner_advances": 0,
+    "point_caller_delta": 1808,
+    "production_changes": 0,
+    "qualification_scope": "Fixed successful/defined Result paths in this already-frozen x86_64 kernel, measured Work::point/partition frames, existing native baseline reservation. Host evidence output/unwind and public controller/third/lifecycle qualification remain outside this narrow audit; no retrospective pre-execution certificate.",
+    "remaining_bytes": 80,
+    "simultaneous_full_cap_reservation": 540304,
+    "status": "PASS_ADDITIVE_STATIC_MEMORY_AUDIT_ONLY"
+  },
+  "preserved_inventory": {
+    "files": 7068,
+    "path_content_sha256": "b47bc00f98e7d7d5df53f604ea4bffe4cc8f3c0279d7cdbfaf03964f7aebc2b0"
+  }
+}
