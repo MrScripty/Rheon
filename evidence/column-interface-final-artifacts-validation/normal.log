@@ -1,0 +1,16 @@
+{
+  "status": "PASS_NARROW_REPAIR_LOCAL_QUALIFICATION",
+  "source": "6e62e2b917e369650d6ad32c67d926ef1d9c7bc4",
+  "tree": "afe27f15b0db8e60e0720615fa2970e1532567e6",
+  "preserved_baseline_paths": 6386,
+  "source_paths": 13,
+  "packet_files": 40,
+  "corruption_controls_per_mode": 80,
+  "ci_path_controls": 52,
+  "remaining_scope_limits": 2,
+  "local_lifecycle_methods": 37,
+  "hosted_CI_qualified": false
+}
+REJECTED source_sha256: Git source .github/workflows/rust-rheon.yml
+REJECTED file_sha256: evidence evidence/column-interface-final-artifacts/guarded_figure.py
+REJECTED historical_git_blobs: complete frozen baseline
