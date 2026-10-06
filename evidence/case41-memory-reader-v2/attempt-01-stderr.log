@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-case41-memory-reader/evidence/case41-memory-reader-v2/audit_memory.py", line 127, in <module>
+    if __name__=='__main__':print(json.dumps(run(),indent=2,sort_keys=True))
+                                             ^^^^^
+  File "/workspace/Rheon-case41-memory-reader/evidence/case41-memory-reader-v2/audit_memory.py", line 116, in run
+    added,route=peak(roots['candidate']);absolute,absroute=peak(roots['candidate'],absolute=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-case41-memory-reader/evidence/case41-memory-reader-v2/audit_memory.py", line 113, in peak
+    r=frames['candidate'][a];children=[peak(c,path+(a,),absolute) for c in graphs['candidate'][a]]
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-case41-memory-reader/evidence/case41-memory-reader-v2/audit_memory.py", line 113, in peak
+    r=frames['candidate'][a];children=[peak(c,path+(a,),absolute) for c in graphs['candidate'][a]]
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-case41-memory-reader/evidence/case41-memory-reader-v2/audit_memory.py", line 113, in peak
+    r=frames['candidate'][a];children=[peak(c,path+(a,),absolute) for c in graphs['candidate'][a]]
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 1 more time]
+  File "/workspace/Rheon-case41-memory-reader/evidence/case41-memory-reader-v2/audit_memory.py", line 111, in peak
+    require(a not in path,'acyclic capture route')
+  File "/workspace/Rheon-case41-memory-reader/evidence/case41-memory-reader-v2/audit_memory.py", line 7, in require
+    if not ok: raise ValueError(msg)
+               ^^^^^^^^^^^^^^^^^^^^^
+ValueError: acyclic capture route

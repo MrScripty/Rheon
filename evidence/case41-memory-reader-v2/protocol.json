@@ -1,0 +1,19 @@
+{
+  "FD_execution_allowed": false,
+  "frozen_history": "26154d9a32e193b35d9cda0b02b2d7c5f770cfeb",
+  "frozen_tree": "0ab66f91dc28e2c762cb9ff65207f05482e699f7",
+  "native_equations": 0,
+  "original_blocked_receipt_sha256": "see preserved preflight receipt",
+  "original_failed_reader_sha256": "486e091450dd19d0d6098358759cd6ca5b314c8ae4fcf25e1a5d408c624d1fba",
+  "owner_advances": 0,
+  "status": "SOURCE_ONLY_GUARD_TESTS_PENDING",
+  "tooling_sha256": {
+    "README.md": "67625a5a9ac05ecd71356dda61e67b57f4a89031ada4e5483941c28e139301eb",
+    "audit_memory.py": "70506b1d08e81f1861ce17449502f7883ac74974567be2a46e74897da89f1bd5",
+    "check_affine.py": "7d9f5bce9e20880126bcb2eef3a74a2aef16d906f5883b3af7a1a5fc35d4d014",
+    "check_scalar.py": "432585a9c61212a1ed52bb71cfa8c1ff8dc44add2c4b3e257afe6620acfd0290",
+    "extract.py": "2843e6dff779cc35d737313218793d992bd64acbce8daa2c7d9aee9b0a8ffb61",
+    "preflight.py": "541327d856ecc3ce39f2cc2d6aa0c497a89d13388308fbb33ddec687fdd30d9e",
+    "verify.py": "50867bfc9094da787729ba197137edddb0d96e3bfbc7e7712c2692ad638946fc"
+  }
+}
