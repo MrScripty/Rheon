@@ -1,0 +1,32 @@
+{
+  "status": "RESUMABLE_FULL_FEATURE_TESTS_RUNNING",
+  "source_commit": "3e1bf03ac5103ab3efeb9dc5e341751901162c7e",
+  "source_tree": "ee49a7546f549250195cba4640d65cbd906969d4",
+  "completed_preflight_evidence": "7254aecccdb493ce2b6bd81dc23aa95bfe33494f",
+  "completed_preflight_tree": "d382ad018cc5ffcd36f48642adf8961495e41a9e",
+  "running_unified_session": 65332,
+  "live_full_feature_test_receipt": "evidence/extruded-third-velocity/full-feature-tests/receipt.json",
+  "captured_live_status": {
+    "status": "in progress",
+    "qualified_source_commit": "3e1bf03ac5103ab3efeb9dc5e341751901162c7e",
+    "source_sha256": {
+      "src/coupled_discrete.rs": "32ee93d12ffa0418cda460cffe8f5a72eb664f7d8838f163062a2c4e16c3dbf5",
+      "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+      "src/lib.rs": "7e73b8a791786568a1aac585a9fdd56d28f9846351dfe06ecdbecd3096e72102",
+      "tests/extruded_third_contract.rs": "19968c75c9dd95c1c19cc2a4f6a605d4a047bc20290562fe693fc7e8b628fbe2",
+      "examples/extruded_third.rs": "bac7303bda410e3856b6fcd7a9511ab5ebb7ebc8355b72978b66fa8f79cd3ebc"
+    },
+    "active_command": {
+      "name": "default",
+      "command": [
+        "cargo",
+        "test",
+        "--all-targets"
+      ]
+    },
+    "commands": []
+  },
+  "next_action": "Poll existing unified session 65332; do not start another matrix. After completion, run final normal/optimized current strict reader on the mapped or final fresh export, then render actual published state and freeze final qualification.",
+  "no_confirmed_environment_blocker": true,
+  "pending_results_not_claimed_passed": true
+}
