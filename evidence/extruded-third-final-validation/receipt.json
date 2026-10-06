@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "qualified_source_commit": "da08e95904151d82f58f6da32e3705f8e4ed390d",
+  "qualified_source_tree": "9eea4cac45cf067f9e673a6a7218a7ae4e9a6386",
+  "qualified_evidence_commit": "516ec25135d6d37ec3d8d0e55d75e5649d5d8c6d",
+  "qualified_evidence_tree": "7a52daf4f0774c581878b7dcdfc835900a8f3b69",
+  "root_receipt_sha256": "930b662e8a5b45067429868b42766b1abf2f3ffe5cfddb6bbab057c9d19a81dc",
+  "verifier_sha256": "2cf9a19efe9517715ce5cbed3565a62a15b877e98285b5ac1a51ee738dd18249",
+  "commands": [
+    {
+      "command": [
+        "python",
+        "evidence/extruded-third-velocity/verify_final.py",
+        "--evidence-commit",
+        "516ec25135d6d37ec3d8d0e55d75e5649d5d8c6d",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "command": [
+        "python",
+        "-O",
+        "evidence/extruded-third-velocity/verify_final.py",
+        "--evidence-commit",
+        "516ec25135d6d37ec3d8d0e55d75e5649d5d8c6d",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    }
+  ],
+  "normal_optimized_binding_checks_byte_identical": true,
+  "actual_binding_corruptions_rejected_per_mode": 3,
+  "file_sha256": {
+    "evidence/extruded-third-final-validation/normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-final-validation/normal.log": "88c6a05b505aeb841bbf03ec8bcac70ed5dd93f3cea4b56b1ce2d2958bc39233",
+    "evidence/extruded-third-final-validation/optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/extruded-third-final-validation/optimized.log": "88c6a05b505aeb841bbf03ec8bcac70ed5dd93f3cea4b56b1ce2d2958bc39233"
+  },
+  "scope": "Postcommit Git-backed source/evidence completeness and frozen history checks; preserves the explicit browser rasterization blocker."
+}
