@@ -1,0 +1,73 @@
+{
+  "actual_disassembly_sha256": "d8db96ba6f976e4476c4c7b299b90439556b0a3203fc23c611f28edcfff26b63",
+  "binary_sha256": "c37e2345ee5bae08c594f906bdb49dd3edbce37e46baab99a9f10f761a64af6f",
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "evidence/forcing-public-call-66k/verify.py"
+      ],
+      "exit": 0,
+      "seconds": 4.354521331988508,
+      "stderr": "post-git-normal-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "post-git-normal.log",
+      "stdout_sha256": "7df64208dd3100143cd18fc97d15f720465eea2e6a117efae6588ceb7e904aab"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-O",
+        "evidence/forcing-public-call-66k/verify.py"
+      ],
+      "exit": 0,
+      "seconds": 4.140460212001926,
+      "stderr": "post-git-optimized-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "post-git-optimized.log",
+      "stdout_sha256": "7df64208dd3100143cd18fc97d15f720465eea2e6a117efae6588ceb7e904aab"
+    }
+  ],
+  "committed_result_blobs": {
+    "evidence/forcing-public-call-66k/RESULTS.md": "aef890944eacda0561ece2185757929d360d3f79f8ffa80f4fb9d006dce11906",
+    "evidence/forcing-public-call-66k/analyze.py": "ef5cec7ba7ff3aa23f4b73ce415d14ca194d852b0470ed0d988bb8ee3f2ae180",
+    "evidence/forcing-public-call-66k/candidate-command-before.json": "fb0b66e50d89297714af243dc42f08f5adbc52e725b5d69edd8f40e2a5639eb5",
+    "evidence/forcing-public-call-66k/candidate-command-completed.json": "f8135a4c29e184685991cb19c1f5f133d7c81b1de9600dc9be7b49ef96e2a234",
+    "evidence/forcing-public-call-66k/candidate-native-stderr.log": "485a458d70259f6e27dc912b049c51a6c8df7c7e61ad2a00cda14f973fc01d27",
+    "evidence/forcing-public-call-66k/candidate-native.log": "a638a883349012b19e113db52410cb0e5bf06cf241654c9b5b5306b95a67d2ff",
+    "evidence/forcing-public-call-66k/memory-authorization.json": "6746b78770dce8128ab5b89451ffea237a4d1c715dbf8d547471e6af7099ce65",
+    "evidence/forcing-public-call-66k/outcome.json": "276a4e222e1a8e754af792a6a5c28ab680f88480407b47462aefecc54ca1146a",
+    "evidence/forcing-public-call-66k/receipt.json": "32f5471040fd70e4bde56f17f00901b023e04b82cbe2443444e3cd49f8173f39",
+    "evidence/forcing-public-call-66k/render.py": "55e3cb00c8b6abf1558f7d753e5de1ef6fc7152586dd282b5e980c384c2bb125",
+    "evidence/forcing-public-call-66k/replay.svg": "f03d893e74fc12452ddbb3ee7d70de13da79f5955e234057c169fa1c9db03a2e",
+    "evidence/forcing-public-call-66k/root-verification-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-public-call-66k/root-verification-normal.log": "7df64208dd3100143cd18fc97d15f720465eea2e6a117efae6588ceb7e904aab",
+    "evidence/forcing-public-call-66k/root-verification-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-public-call-66k/root-verification-optimized.log": "7df64208dd3100143cd18fc97d15f720465eea2e6a117efae6588ceb7e904aab",
+    "evidence/forcing-public-call-66k/verify.py": "4fdb2f34afcca724fdf4c7464b96dd0b217335348c03070334c5da1d5ea328a3"
+  },
+  "continued_trajectory": false,
+  "evidence": "34ba87d95ffc46fbd1c7029d332e999fbfed1c79",
+  "evidence_tree": "43f60e58cf4384a733099a117ca345e33a535192",
+  "isolated_main_publications": 1,
+  "memory_margin": 2032,
+  "new_memory_cap": 67584,
+  "new_protocol_E1": "SUCCESS",
+  "observed_memory_bound": 65552,
+  "old_memory_cap": 65536,
+  "old_memory_gate": "BLOCKED_ADDITIONAL_MEMORY_CAP",
+  "old_protocol_E1": "UNEXECUTED",
+  "original_owner_unchanged": true,
+  "parameter_search": false,
+  "preserved_prior_files": 7166,
+  "production_adoption": false,
+  "production_changes": 0,
+  "protocol_sha256": "73d79faa2e9c67044f41e42672278cfe454fbb1f5ce37b8b92638077f2932569",
+  "reached_cancellation_retry_controls": 11,
+  "receipt_sha256": "32f5471040fd70e4bde56f17f00901b023e04b82cbe2443444e3cd49f8173f39",
+  "recorder_sha256": "66f712f7c463b9062e548843570cfeba3d7e0aa64df369f50b20a1973e790e06",
+  "source": "94818f15e7d9148a079a4797392a8b5e356fd59b",
+  "source_tree": "23a9ae79b0880d3f3c900f548aff828a65898883",
+  "status": "PASS_COMMITTED_FIXED_PUBLIC_CALL_66K_BINDING",
+  "unused_stage": "NOT_REACHED_BY_FIXED_CALL"
+}
