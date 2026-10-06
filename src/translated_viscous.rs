@@ -261,9 +261,29 @@ impl TranslatedViscousFlow {
     pub fn new(
         geometry: FittedHeightGeometry<'_>,
         initial_velocity: &[[f64; 3]],
+        fitted: FittedHeightSettings,
+        settings: TranslatedViscousSettings,
+        id: u64,
+    ) -> Result<Self, TranslatedViscousError> {
+        Self::initialize(geometry, initial_velocity, fitted, settings, id, false)
+    }
+    /// Coupled xy owner initialization; translating public contracts stay intact.
+    pub(crate) fn new_coupled_xy(
+        geometry: FittedHeightGeometry<'_>,
+        initial_velocity: &[[f64; 3]],
+        fitted: FittedHeightSettings,
+        settings: TranslatedViscousSettings,
+        id: u64,
+    ) -> Result<Self, TranslatedViscousError> {
+        Self::initialize(geometry, initial_velocity, fitted, settings, id, true)
+    }
+    fn initialize(
+        geometry: FittedHeightGeometry<'_>,
+        initial_velocity: &[[f64; 3]],
         mut fitted: FittedHeightSettings,
         settings: TranslatedViscousSettings,
         id: u64,
+        coupled_xy: bool,
     ) -> Result<Self, TranslatedViscousError> {
         let c = geometry
             .cap
@@ -299,7 +319,9 @@ impl TranslatedViscousFlow {
             for &x in v {
                 check(x)?;
             }
-            if v[0].to_bits() != speed.to_bits() || v[1] != 0.0 {
+            if (coupled_xy && v[2] != 0.0)
+                || (!coupled_xy && (v[0].to_bits() != speed.to_bits() || v[1] != 0.0))
+            {
                 return Err(TranslatedViscousError::UnsupportedVelocity);
             }
         }

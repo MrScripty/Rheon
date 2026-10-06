@@ -119,3 +119,9 @@ pub use fixed_bottom_ale::{
     FixedBottomAleError, FixedBottomAleFlow, FixedBottomAleReport, FixedBottomAleStage,
     FixedBottomAleState, FixedBottomAleTransfer,
 };
+
+mod coupled_discrete;
+pub use coupled_discrete::{
+    CoupledDiscreteError, CoupledDiscreteFlow, CoupledDiscreteReport, CoupledDiscreteStage,
+    CoupledDiscreteState,
+};
