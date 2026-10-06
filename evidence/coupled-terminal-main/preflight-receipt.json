@@ -1,0 +1,38 @@
+{
+  "base": "773bd2725e35590cfe9cbca5625f5239b98f03c2",
+  "base_tree": "24222bab14a8ca2118578544b9982ca50e5beacf",
+  "baseline_native_changed": false,
+  "baseline_command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--release",
+    "--test",
+    "main_terminal_boundary_probe",
+    "--",
+    "--nocapture"
+  ],
+  "baseline_target": "/workspace/.rheon-tools/terminal-main-release-target",
+  "baseline_exit": 0,
+  "probe_sha256": "8c47def3bd74d2c12f3035f046fb25a9e3ea01884e54f6de956fe8e768c3356b",
+  "base_native_sha256": "32ee93d12ffa0418cda460cffe8f5a72eb664f7d8838f163062a2c4e16c3dbf5",
+  "focused_release_exit": 0,
+  "focused_release_tests": 8,
+  "shell_REST_lookup_exit": 1,
+  "shell_REST_lookup_error": "Forbidden",
+  "file_sha256": {
+    "evidence/coupled-terminal-main/README.md": "c8e83775be65a6a498c4e1fccba27cf1a7baee145de20c59f75cb0d5a13b1fa0",
+    "evidence/coupled-terminal-main/baseline-probe-source.rs": "8c47def3bd74d2c12f3035f046fb25a9e3ea01884e54f6de956fe8e768c3356b",
+    "evidence/coupled-terminal-main/baseline-probe-stderr.log": "815991ee55cdfcd4f32e874ba29fae65af6ce535ecb0421dd6b655a6615222d4",
+    "evidence/coupled-terminal-main/baseline-probe.log": "80c746f2abfd08ed56bfc78f43f366a6185f36b54c36ce2c5d32e05c16318465",
+    "evidence/coupled-terminal-main/focused-release-stderr.log": "eddb8bad8712b89b7341109d5abad706bf98c22f1e0a234dd6c24eff5f2d2cc0",
+    "evidence/coupled-terminal-main/focused-release.log": "8048d6565c42bb5dd81ca3fe13a50722ba593550f8495f5ea5971e8df480e96f",
+    "evidence/coupled-terminal-main/host-workflow-read-stderr.log": "e32ddedceb7b12cf54daf7f9313565b2861be962d9dcb0e4752e9ffa859ea107",
+    "evidence/coupled-terminal-main/host-workflow-read.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/coupled-terminal-main/verify_workflow.py": "a4a38f4441fb7e8ea7773617b93472918d0cc6735ffe4f31ea8e8fa72a427479",
+    "evidence/coupled-terminal-main/workflow-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/coupled-terminal-main/workflow-normal.log": "97c61041aa5be027bbcba5980dd9ceb0c80b947c52651c247032881312a16269",
+    "evidence/coupled-terminal-main/workflow-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/coupled-terminal-main/workflow-optimized.log": "97c61041aa5be027bbcba5980dd9ceb0c80b947c52651c247032881312a16269"
+  }
+}

@@ -181,3 +181,88 @@ fn memory_and_unsupported_field_fail_before_owner_creation() {
             .is_err()
     );
 }
+
+#[test]
+fn final_authorized_correction_matches_larger_budget_without_another_correction() {
+    let mut reference = owner(Default::default());
+    let expected = reference.step(0.05, |_| false).unwrap();
+    let mut bounded = owner(TranslatedViscousSettings {
+        max_iterations: 2,
+        ..Default::default()
+    });
+    let report = bounded.step(0.05, |_| false).unwrap();
+    assert_eq!(snapshot(&bounded), snapshot(&reference));
+    assert_eq!(report.unknowns, expected.unknowns);
+    assert_eq!(report.iterations, 2);
+    assert_eq!(expected.iterations, 3);
+    assert_eq!(report.equation_evaluations, 15);
+    assert_eq!(report.equation_evaluations, expected.equation_evaluations);
+    assert!(report.finite_momentum_rate_norm <= 1e-13);
+    assert!(report.ledger_error.abs() <= report.work_allowance);
+    assert_eq!(
+        bounded.allocated_bytes(),
+        CoupledDiscreteFlow::nominal_bytes().unwrap()
+    );
+}
+
+#[test]
+fn terminal_validation_cancellation_preserves_state_and_resumes() {
+    let settings = TranslatedViscousSettings {
+        max_iterations: 2,
+        ..Default::default()
+    };
+    let mut reference = owner(settings);
+    reference.step(0.05, |_| false).unwrap();
+    let expected_first = snapshot(&reference);
+    let mut o = owner(settings);
+    let before = snapshot(&o);
+    let mut iterations = 0;
+    assert_eq!(
+        o.step(0.05, |stage| {
+            if stage == CoupledDiscreteStage::Iteration {
+                iterations += 1;
+            }
+            stage == CoupledDiscreteStage::Iteration && iterations == 3
+        })
+        .unwrap_err(),
+        CoupledDiscreteError::Cancelled {
+            stage: CoupledDiscreteStage::Iteration
+        }
+    );
+    assert_eq!(iterations, 3);
+    assert_eq!(snapshot(&o), before);
+    o.step(0.05, |_| false).unwrap();
+    assert_eq!(snapshot(&o), expected_first);
+    reference.step(0.025, |_| false).unwrap();
+    let before = snapshot(&o);
+    assert_eq!(
+        o.step(0.025, |stage| stage == CoupledDiscreteStage::BeforePublish)
+            .unwrap_err(),
+        CoupledDiscreteError::Cancelled {
+            stage: CoupledDiscreteStage::BeforePublish
+        }
+    );
+    assert_eq!(snapshot(&o), before);
+    o.step(0.025, |_| false).unwrap();
+    assert_eq!(snapshot(&o), snapshot(&reference));
+}
+
+#[test]
+fn converged_seed_retains_historical_one_pass_counter() {
+    let mut o = CoupledDiscreteFlow::new(
+        geometry(),
+        &[[0.; 3]; 16],
+        Default::default(),
+        TranslatedViscousSettings {
+            max_iterations: 1,
+            ..Default::default()
+        },
+        81,
+    )
+    .unwrap();
+    let r = o.step(0.025, |_| false).unwrap();
+    assert_eq!(r.iterations, 1);
+    assert_eq!(r.equation_evaluations, 1);
+    assert_eq!(o.state().time, 0.025);
+    assert_eq!(o.state().stamp.version, 1);
+}

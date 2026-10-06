@@ -1,0 +1,11 @@
+# Publishable generic terminal-validation slice
+
+Base: current main 773bd2725e35590cfe9cbca5625f5239b98f03c2. No forcing dependency: main's existing shared step_inner owns the same Newton loop and supports the regression through the original planar `step` API. `baseline-probe.log` is an actual fresh dedicated-release compilation/run on unchanged main; exact probe sources are archived. The temporary test target was removed before the candidate. This is test evidence, not production diagnostic instrumentation.
+
+At h=0.05 and h=0.025, old budgets one/two refuse and budget three accepts after two corrections (15 counted Newton calls). At h=0.0015625 old budget three refuses while budget four accepts after three corrections (22 calls). Every actual refusal asserts captured accepted-field preservation. Eight current-main planar contracts, including three new contracts, pass in release; the old five remain unmodified.
+
+Scope and counter definitions: see `docs/research-book/implementation/generic-terminal-validation.md`. The unchanged 1e-13 gate and seven-correction cap allow up to eight residual checks; no extra Newton correction solve is permitted. Equation evaluations still include chart solves; 15 reported Newton calls mean 17 work.equation calls including qualification, excluding seed assembly. Existing reports retain loop-pass semantics. No new physical equation, general convergence/floor theorem or fully validated simulator claim is made.
+
+The workflow verifier compares every command/pin/permission against current main, checks the preserved required aggregate status and rejects five corruptions in ordinary and optimized Python. An exact push trigger for repair/coupled-terminal-validation is intentionally added for authorized hosted qualification; PR/main triggers and their path filters are retained. Shell REST workflow lookup returned Forbidden; that response is retained. No credential, security or permission change is made. Standard Git push triggers the repository's authorized workflow, and hosted information is read through public GitHub run pages and the connected GitHub read tools.
+
+Original forcing f76841e and diagnostics dad53 remain frozen. Their source-bound failed convergence evidence is linked from the book rather than copied or relabeled here. Parent coordinates PRs, independent review and merges.
