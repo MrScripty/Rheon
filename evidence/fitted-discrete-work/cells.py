@@ -1,0 +1,22 @@
+"""Actual two initial states / three intervals plus tangent consistency."""
+import json
+import numpy as np
+import step
+from exact import instantaneous
+
+
+def study():
+ rows=[]
+ for kind in ['initial','pressure_state']:
+  exact=instantaneous(kind);true=np.r_[step.m.C_CAP@np.array(exact['acceleration'],float),np.array(exact['acceleration'],float)[step.m.SELECT],np.array(exact['pressure'],float)]
+  cells=[step.solve(h,kind)for h in [.05,.025,.0125]]
+  errors=[float(np.linalg.norm(np.array(c['unknowns'])-true))for c in cells]
+  ratios=[errors[i]/errors[i+1]for i in range(2)]
+  step.m.require(all(1.7<r<2.3 for r in ratios),'first-order approach to coupled tangent acceleration and pressure')
+  face_ratios=[cells[i]['endpoint_vs_actual_momentum_max']/cells[i+1]['endpoint_vs_actual_momentum_max']for i in range(2)]
+  expected=8 if kind=='initial' else 4
+  face_order_pass=all(.85*expected<r<1.15*expected for r in face_ratios)
+  rows.append(dict(kind=kind,cells=cells,tangent_coefficient_errors=errors,tangent_first_order_ratios=ratios,momentum_flux_difference_ratios=face_ratios,momentum_flux_difference_order_diagnostic_pass=face_order_pass,conditional_expected_leading_ratio=expected))
+ return dict(scope='same material/full-divergence path; explicit first-order endpoint momentum and fixed discrete-work gates',rows=rows,new_public_step_enabled=False)
+
+if __name__=='__main__':print(json.dumps(study(),indent=2))
