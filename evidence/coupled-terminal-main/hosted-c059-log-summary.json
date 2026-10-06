@@ -1,0 +1,52 @@
+{
+  "hosted-c059-core-only.log": {
+    "first_log": "2026-10-06T13:12:51.4571492Z",
+    "last_log": "2026-10-06T13:17:01.1252143Z",
+    "elapsed_log_seconds": 249.668065,
+    "passed_rust_tests_including_doc": 234,
+    "test_summaries": 31,
+    "source_mentioned": true,
+    "smoke_pass": false,
+    "lifecycle_37": false
+  },
+  "hosted-c059-default.log": {
+    "first_log": "2026-10-06T13:12:50.6983232Z",
+    "last_log": "2026-10-06T13:16:18.8977340Z",
+    "elapsed_log_seconds": 208.199411,
+    "passed_rust_tests_including_doc": 240,
+    "test_summaries": 32,
+    "source_mentioned": true,
+    "smoke_pass": false,
+    "lifecycle_37": false
+  },
+  "hosted-c059-desktop.log": {
+    "first_log": "2026-10-06T13:12:51.5192331Z",
+    "last_log": "2026-10-06T13:19:30.6243209Z",
+    "elapsed_log_seconds": 399.105087,
+    "passed_rust_tests_including_doc": 246,
+    "test_summaries": 33,
+    "source_mentioned": true,
+    "smoke_pass": false,
+    "lifecycle_37": false
+  },
+  "hosted-c059-executable-failed.log": {
+    "first_log": "2026-10-06T13:12:50.8188438Z",
+    "last_log": "2026-10-06T13:14:31.3684649Z",
+    "elapsed_log_seconds": 100.549621,
+    "passed_rust_tests_including_doc": 0,
+    "test_summaries": 0,
+    "source_mentioned": true,
+    "smoke_pass": true,
+    "lifecycle_37": true
+  },
+  "hosted-c059-gate.log": {
+    "first_log": "2026-10-06T13:19:37.9462318Z",
+    "last_log": "2026-10-06T13:19:38.2167472Z",
+    "elapsed_log_seconds": 0.270516,
+    "passed_rust_tests_including_doc": 0,
+    "test_summaries": 0,
+    "source_mentioned": false,
+    "smoke_pass": false,
+    "lifecycle_37": false
+  }
+}

@@ -1,0 +1,592 @@
+﻿2026-10-06T13:12:51.4550436Z Current runner version: '2.337.0'
+2026-10-06T13:12:51.4571492Z ##[group]Runner Image Provisioner
+2026-10-06T13:12:51.4572203Z Hosted Compute Agent
+2026-10-06T13:12:51.4572824Z Version: 20260901.588
+2026-10-06T13:12:51.4573387Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-06T13:12:51.4574048Z Build Date: 2026-09-01T19:56:44Z
+2026-10-06T13:12:51.4574611Z Worker ID: {52b28c98-cda9-49c4-9a95-4469755a5934}
+2026-10-06T13:12:51.4575171Z Azure Region: westus3
+2026-10-06T13:12:51.4575698Z ##[endgroup]
+2026-10-06T13:12:51.4577167Z ##[group]Operating System
+2026-10-06T13:12:51.4577742Z Ubuntu
+2026-10-06T13:12:51.4578242Z 24.04.5
+2026-10-06T13:12:51.4578666Z LTS
+2026-10-06T13:12:51.4579368Z ##[endgroup]
+2026-10-06T13:12:51.4579940Z ##[group]Runner Image
+2026-10-06T13:12:51.4580463Z Image: ubuntu-24.04
+2026-10-06T13:12:51.4580950Z Version: 20260927.320.1
+2026-10-06T13:12:51.4582386Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-06T13:12:51.4583641Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-06T13:12:51.4584463Z ##[endgroup]
+2026-10-06T13:12:51.4585340Z ##[group]GITHUB_TOKEN Permissions
+2026-10-06T13:12:51.4587027Z Contents: read
+2026-10-06T13:12:51.4587514Z Metadata: read
+2026-10-06T13:12:51.4587954Z ##[endgroup]
+2026-10-06T13:12:51.4589913Z Secret source: Actions
+2026-10-06T13:12:51.4590678Z Cache mode: write
+2026-10-06T13:12:51.4591365Z Prepare workflow directory
+2026-10-06T13:12:51.4967893Z Prepare all required actions
+2026-10-06T13:12:51.5006277Z Getting action download info
+2026-10-06T13:12:51.7939650Z Download action repository 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+2026-10-06T13:12:51.9786155Z Complete job name: Feature contracts (core-only)
+2026-10-06T13:12:52.0458240Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+2026-10-06T13:12:52.0459068Z with:
+2026-10-06T13:12:52.0459604Z   persist-credentials: false
+2026-10-06T13:12:52.0460035Z   repository: MrScripty/Rheon
+2026-10-06T13:12:52.0463141Z   token: ***
+2026-10-06T13:12:52.0463509Z   ssh-strict: true
+2026-10-06T13:12:52.0463867Z   ssh-user: git
+2026-10-06T13:12:52.0464210Z   clean: true
+2026-10-06T13:12:52.0464575Z   sparse-checkout-cone-mode: true
+2026-10-06T13:12:52.0464999Z   fetch-depth: 1
+2026-10-06T13:12:52.0465352Z   fetch-tags: false
+2026-10-06T13:12:52.0465712Z   show-progress: true
+2026-10-06T13:12:52.0466073Z   lfs: false
+2026-10-06T13:12:52.0466412Z   submodules: false
+2026-10-06T13:12:52.0466778Z   set-safe-directory: true
+2026-10-06T13:12:52.0467307Z env:
+2026-10-06T13:12:52.0467644Z   CARGO_BUILD_JOBS: 1
+2026-10-06T13:12:52.0468014Z ##[endgroup]
+2026-10-06T13:12:52.1287370Z Syncing repository: MrScripty/Rheon
+2026-10-06T13:12:52.1288967Z ##[group]Getting Git version info
+2026-10-06T13:12:52.1289719Z Working directory is '/home/runner/work/Rheon/Rheon'
+2026-10-06T13:12:52.1290561Z [command]/usr/bin/git version
+2026-10-06T13:12:52.2137183Z git version 2.55.0
+2026-10-06T13:12:52.2154511Z ##[endgroup]
+2026-10-06T13:12:52.2168061Z Temporarily overriding HOME='/home/runner/work/_temp/3f804b54-ca13-4449-b701-4b4a604ce8ca' before making global git config changes
+2026-10-06T13:12:52.2169977Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-06T13:12:52.2173236Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rheon/Rheon
+2026-10-06T13:12:52.2218082Z Deleting the contents of '/home/runner/work/Rheon/Rheon'
+2026-10-06T13:12:52.2221538Z ##[group]Initializing the repository
+2026-10-06T13:12:52.2225169Z [command]/usr/bin/git init /home/runner/work/Rheon/Rheon
+2026-10-06T13:12:52.2312220Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-06T13:12:52.2313476Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-06T13:12:52.2314641Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-06T13:12:52.2315710Z hint: call:
+2026-10-06T13:12:52.2316045Z hint:
+2026-10-06T13:12:52.2316488Z hint: 	git config --global init.defaultBranch <name>
+2026-10-06T13:12:52.2316997Z hint:
+2026-10-06T13:12:52.2317477Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-06T13:12:52.2318240Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-06T13:12:52.2318945Z hint:
+2026-10-06T13:12:52.2319591Z hint: 	git branch -m <name>
+2026-10-06T13:12:52.2320127Z hint:
+2026-10-06T13:12:52.2320624Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-06T13:12:52.2321357Z Initialized empty Git repository in /home/runner/work/Rheon/Rheon/.git/
+2026-10-06T13:12:52.2323137Z [command]/usr/bin/git remote add origin https://github.com/MrScripty/Rheon
+2026-10-06T13:12:52.2366692Z ##[endgroup]
+2026-10-06T13:12:52.2367338Z ##[group]Disabling automatic garbage collection
+2026-10-06T13:12:52.2367886Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-06T13:12:52.2395420Z ##[endgroup]
+2026-10-06T13:12:52.2396005Z ##[group]Setting up auth
+2026-10-06T13:12:52.2400429Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-06T13:12:52.2428849Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-06T13:12:52.2699219Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-06T13:12:52.2730295Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-06T13:12:52.2921175Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-06T13:12:52.3062276Z ##[endgroup]
+2026-10-06T13:12:52.3063345Z ##[group]Fetching the repository
+2026-10-06T13:12:52.3071816Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c0591ebc4c2619d5ad6e6decfe9d3957ace8db5b:refs/remotes/origin/repair/coupled-terminal-validation
+2026-10-06T13:12:54.5948480Z From https://github.com/MrScripty/Rheon
+2026-10-06T13:12:54.5950878Z  * [new ref]         c0591ebc4c2619d5ad6e6decfe9d3957ace8db5b -> origin/repair/coupled-terminal-validation
+2026-10-06T13:12:54.5954844Z ##[endgroup]
+2026-10-06T13:12:54.5956196Z ##[group]Determining the checkout info
+2026-10-06T13:12:54.5957686Z ##[endgroup]
+2026-10-06T13:12:54.5964241Z [command]/usr/bin/git sparse-checkout disable
+2026-10-06T13:12:54.6009822Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-06T13:12:54.6037814Z ##[group]Checking out the ref
+2026-10-06T13:12:54.6041508Z [command]/usr/bin/git checkout --progress --force -B repair/coupled-terminal-validation refs/remotes/origin/repair/coupled-terminal-validation
+2026-10-06T13:12:55.1149900Z Switched to a new branch 'repair/coupled-terminal-validation'
+2026-10-06T13:12:55.1151525Z branch 'repair/coupled-terminal-validation' set up to track 'origin/repair/coupled-terminal-validation'.
+2026-10-06T13:12:55.1174091Z ##[endgroup]
+2026-10-06T13:12:55.1215459Z [command]/usr/bin/git log -1 --format=%H
+2026-10-06T13:12:55.1240700Z c0591ebc4c2619d5ad6e6decfe9d3957ace8db5b
+2026-10-06T13:12:55.1248102Z ##[group]Removing auth
+2026-10-06T13:12:55.1250923Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-06T13:12:55.1278561Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-06T13:12:55.1474932Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-06T13:12:55.1500004Z http.https://github.com/.extraheader
+2026-10-06T13:12:55.1504930Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-06T13:12:55.1535066Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-06T13:12:55.1724891Z ##[endgroup]
+2026-10-06T13:12:55.1896397Z ##[group]Run rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
+2026-10-06T13:12:55.1897081Z [36;1mrustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy[0m
+2026-10-06T13:12:55.1897516Z [36;1mrustc --version --verbose[0m
+2026-10-06T13:12:55.1897771Z [36;1mcargo --version[0m
+2026-10-06T13:12:55.2103409Z shell: /usr/bin/bash -e {0}
+2026-10-06T13:12:55.2103711Z env:
+2026-10-06T13:12:55.2103944Z   CARGO_BUILD_JOBS: 1
+2026-10-06T13:12:55.2104205Z ##[endgroup]
+2026-10-06T13:12:55.2465622Z info: syncing channel updates for 1.92.0-x86_64-unknown-linux-gnu
+2026-10-06T13:12:55.4480686Z info: latest update on 2025-12-11 for version 1.92.0 (ded5c06cf 2025-12-08)
+2026-10-06T13:12:55.4481227Z info: downloading 5 components
+2026-10-06T13:13:02.9656608Z 
+2026-10-06T13:13:02.9727429Z   1.92.0-x86_64-unknown-linux-gnu installed - rustc 1.92.0 (ded5c06cf 2025-12-08)
+2026-10-06T13:13:02.9727914Z 
+2026-10-06T13:13:03.0068977Z rustc 1.92.0 (ded5c06cf 2025-12-08)
+2026-10-06T13:13:03.0069616Z binary: rustc
+2026-10-06T13:13:03.0069879Z commit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234
+2026-10-06T13:13:03.0070173Z commit-date: 2025-12-08
+2026-10-06T13:13:03.0070379Z host: x86_64-unknown-linux-gnu
+2026-10-06T13:13:03.0070587Z release: 1.92.0
+2026-10-06T13:13:03.0070764Z LLVM version: 21.1.3
+2026-10-06T13:13:03.0327853Z cargo 1.92.0 (344c4567c 2025-10-21)
+2026-10-06T13:13:03.0388777Z ##[group]Run cargo clippy --locked --no-default-features --all-targets -- -D warnings
+2026-10-06T13:13:03.0389522Z [36;1mcargo clippy --locked --no-default-features --all-targets -- -D warnings[0m
+2026-10-06T13:13:03.0448215Z shell: /usr/bin/bash -e {0}
+2026-10-06T13:13:03.0448454Z env:
+2026-10-06T13:13:03.0448643Z   CARGO_BUILD_JOBS: 1
+2026-10-06T13:13:03.0448864Z ##[endgroup]
+2026-10-06T13:13:03.1548223Z     Updating crates.io index
+2026-10-06T13:13:04.4197704Z     Checking rheon v0.1.0 (/home/runner/work/Rheon/Rheon)
+2026-10-06T13:13:10.9022677Z     Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.77s
+2026-10-06T13:13:10.9679150Z ##[group]Run cargo test --locked --no-default-features
+2026-10-06T13:13:10.9679790Z [36;1mcargo test --locked --no-default-features[0m
+2026-10-06T13:13:10.9735384Z shell: /usr/bin/bash -e {0}
+2026-10-06T13:13:10.9735597Z env:
+2026-10-06T13:13:10.9735781Z   CARGO_BUILD_JOBS: 1
+2026-10-06T13:13:10.9735962Z ##[endgroup]
+2026-10-06T13:13:11.0933045Z    Compiling rheon v0.1.0 (/home/runner/work/Rheon/Rheon)
+2026-10-06T13:13:47.8089085Z     Finished `test` profile [unoptimized + debuginfo] target(s) in 36.80s
+2026-10-06T13:13:47.8147733Z      Running unittests src/lib.rs (target/debug/deps/rheon-dab9426d0e6a92b5)
+2026-10-06T13:13:47.8158240Z 
+2026-10-06T13:13:47.8158387Z running 3 tests
+2026-10-06T13:13:47.8170295Z      Running tests/advection_contract.rs (target/debug/deps/advection_contract-7aab64da84caaff6)
+2026-10-06T13:13:47.8175247Z test forces::tests::finite_step_work_can_be_negative_and_uses_both_velocity_endpoints ... ok
+2026-10-06T13:13:47.8176285Z test forces::tests::work_accounts_for_actual_storage_rounding_and_closed_wall_faces ... ok
+2026-10-06T13:13:47.8177103Z test pressure::comparison_tests::sgs_matches_independently_assembled_triangular_system ... ok
+2026-10-06T13:13:47.8177593Z 
+2026-10-06T13:13:47.8177932Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:13:47.8178384Z 
+2026-10-06T13:13:47.8178401Z 
+2026-10-06T13:13:47.8178527Z running 3 tests
+2026-10-06T13:13:47.8178871Z test cancellation_and_output_shape_are_explicit ... ok
+2026-10-06T13:13:47.8179598Z test constant_translation_advects_an_interior_pulse_one_cell ... ok
+2026-10-06T13:13:47.8180479Z test rest_state_is_preserved_on_degenerate_grid ... ok
+2026-10-06T13:13:47.8180777Z 
+2026-10-06T13:13:47.8181094Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:13:47.8181515Z 
+2026-10-06T13:13:47.8186365Z 
+2026-10-06T13:13:47.8186560Z running 11 tests
+2026-10-06T13:13:47.8187843Z      Running tests/box_flux_contract.rs (target/debug/deps/box_flux_contract-d60df694a6555765)
+2026-10-06T13:13:47.8189670Z test affine_adjoint_requires_boundary_work_and_is_gauge_invariant_when_balanced ... ok
+2026-10-06T13:13:47.8196798Z test iteration_budget_failure_precedes_any_face_output_write ... ok
+2026-10-06T13:13:47.8202303Z test invalid_inputs_reject_before_output_mutation ... ok
+2026-10-06T13:13:47.8202929Z test known_net_flux_rejects_even_when_provisional_rhs_rounding_scale_is_enormous ... ok
+2026-10-06T13:13:47.8203631Z test physical_stored_divergence_gate_rejects_after_solver_acceptance ... ok
+2026-10-06T13:13:47.8204059Z test nonzero_boundary_flux_cannot_underflow_out_of_the_compatibility_gate ... ok
+2026-10-06T13:13:47.8204446Z test singleton_flow_and_exact_capacity_limits_are_supported ... ok
+2026-10-06T13:13:47.8204967Z test unequal_side_areas_match_independent_dense_projection_and_all_cell_divergence ... ok
+2026-10-06T13:13:47.8205529Z test signed_through_flow_on_each_axis_matches_hand_pressure_energy_and_boundary_values ... ok
+2026-10-06T13:13:47.8206342Z test cancellation_has_explicit_partial_output_semantics_and_retry_preserves_inputs ... ok
+2026-10-06T13:13:47.8207268Z      Running tests/box_flux_step_contract.rs (target/debug/deps/box_flux_step_contract-3f9e3b7017f9e59a)
+2026-10-06T13:13:47.8207728Z test zero_flux_matches_preserved_operator_solver_and_stored_face_bits ... ok
+2026-10-06T13:13:47.8208012Z 
+2026-10-06T13:13:47.8208501Z test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:13:47.8208775Z 
+2026-10-06T13:13:47.8215776Z 
+2026-10-06T13:13:47.8215912Z running 13 tests
+2026-10-06T13:13:47.8224539Z test box_flux_divergence_conversion_preserves_shared_error_payload ... ok
+2026-10-06T13:13:47.8225455Z test clamped_appearance_transport_and_saturated_source_have_separate_integrals ... ok
+2026-10-06T13:13:47.8230021Z test balanced_volume_flux_does_not_certify_tracer_mass_conservation ... ok
+2026-10-06T13:13:47.8260295Z test current_boundary_speed_controls_initial_dt_and_accepted_courant ... ok
+2026-10-06T13:13:47.8260989Z test copied_changing_boundary_versions_are_published_only_on_success ... ok
+2026-10-06T13:13:47.8261645Z test external_and_smoke_force_terms_join_the_projection_work_ledger ... ok
+2026-10-06T13:13:47.8262365Z test independently_capped_workspace_retains_legacy_capacity_and_supports_reset_pause ... ok
+2026-10-06T13:13:47.8263150Z test incompatible_flux_solver_exhaustion_and_late_source_overflow_never_publish ... ok
+2026-10-06T13:13:47.8263891Z test stored_divergence_rejection_after_projection_preserves_all_accepted_bits ... ok
+2026-10-06T13:13:47.8264588Z test workspace_matches_geometry_density_and_solver_before_any_callback ... ok
+2026-10-06T13:13:47.8290034Z test signed_end_boundary_commits_hand_flow_and_full_step_work_in_all_axes ... ok
+2026-10-06T13:13:47.8336625Z test zero_boundary_agrees_with_legacy_fields_and_default_callbacks_stay_legacy ... ok
+2026-10-06T13:13:47.8662694Z test cancellation_through_partial_stages_preserves_state_and_retry_matches_fresh ... ok
+2026-10-06T13:13:47.8663159Z 
+2026-10-06T13:13:47.8663436Z test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+2026-10-06T13:13:47.8663720Z 
+2026-10-06T13:13:47.8665543Z      Running tests/cli_contract.rs (target/debug/deps/cli_contract-efe37fa02ad070bd)
+2026-10-06T13:13:47.8675212Z 
+2026-10-06T13:13:47.8675337Z running 0 tests
+2026-10-06T13:13:47.8676703Z 
+2026-10-06T13:13:47.8677041Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:13:47.8677756Z 
+2026-10-06T13:13:47.8678139Z      Running tests/collision_contract.rs (target/debug/deps/collision_contract-973c820460ce8e8b)
+2026-10-06T13:13:47.8685966Z 
+2026-10-06T13:13:47.8690352Z running 13 tests
+2026-10-06T13:13:47.8690702Z test an_ambiguous_facet_prevents_publishing_another_facets_definite_hit ... ok
+2026-10-06T13:13:47.8693673Z test cancellation_after_a_found_hit_returns_no_partial_result_or_mesh_mutation ... ok
+2026-10-06T13:13:47.8694302Z test clipping_returns_first_contact_and_preserves_end_on_a_definite_miss ... ok
+2026-10-06T13:13:47.8695046Z test book_cube_outside_crossing_miss_and_inside_exit_match_hand_arithmetic ... ok
+2026-10-06T13:13:47.8695730Z test conditioning_is_relative_across_small_large_scales_and_translated_geometry ... ok
+2026-10-06T13:13:47.8696571Z test coplanar_near_parallel_and_near_boundary_candidates_are_not_silent_misses ... ok
+2026-10-06T13:13:47.8697245Z test earliest_contact_is_independent_of_order_and_exact_ties_use_lowest_index ... ok
+2026-10-06T13:13:47.8697853Z test invalid_admission_and_queries_report_the_actual_unsupported_input ... ok
+2026-10-06T13:13:47.8698516Z test oblique_facet_reconstructs_barycentric_point_and_unit_geometric_normal ... ok
+2026-10-06T13:13:47.8699189Z test reversed_winding_changes_normal_and_facing_but_preserves_contact ... ok
+2026-10-06T13:13:47.8699982Z test memory_limit_accounts_for_owned_capacities_not_only_lengths ... ok
+2026-10-06T13:13:47.8700618Z test transverse_interior_edges_vertices_and_segment_endpoints_are_explicit_hits ... ok
+2026-10-06T13:13:47.8701227Z      Running tests/column_mac_contract.rs (target/debug/deps/column_mac_contract-fe7d7733d7242edb)
+2026-10-06T13:13:47.8701699Z test unresolved_large_segment_interpolation_rejects_off_facet_hits ... ok
+2026-10-06T13:13:47.8702061Z 
+2026-10-06T13:13:47.8702372Z test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:13:47.8702777Z 
+2026-10-06T13:13:47.8710738Z 
+2026-10-06T13:13:47.8710909Z running 8 tests
+2026-10-06T13:13:47.8724812Z test hand_transfer_and_lossy_roundtrip_wall_ledgers_all_axes ... ok
+2026-10-06T13:13:47.8738732Z test independently_assembled_partial_mass_flux_pressure_matrix_and_adjoint ... ok
+2026-10-06T13:13:47.8739815Z test owner_export_revision_omission_and_dynamic_refusal ... ok
+2026-10-06T13:13:47.8800205Z test owner_nonflat_paused_version_shape_and_late_projection_failures ... ok
+2026-10-06T13:13:47.8801150Z test single_wet_node_decimal_geometry_phase_mass_and_legacy_transition_guard ... ok
+2026-10-06T13:13:47.8908864Z test transfer_cancellation_all_occurrences_shape_and_scale_failures ... ok
+2026-10-06T13:13:47.9007637Z test both_solvers_publish_velocity_pressure_and_geometry_revisions_all_axes ... ok
+2026-10-06T13:13:48.1127556Z test every_owner_callback_preserves_nonzero_accepted_state_and_retry ... ok
+2026-10-06T13:13:48.1127847Z 
+2026-10-06T13:13:48.1128051Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s
+2026-10-06T13:13:48.1128329Z 
+2026-10-06T13:13:48.1130827Z      Running tests/column_momentum_contract.rs (target/debug/deps/column_momentum_contract-839ea599d1c16e24)
+2026-10-06T13:13:48.1141753Z 
+2026-10-06T13:13:48.1141859Z running 8 tests
+2026-10-06T13:13:48.1148564Z test hand_derived_closed_exchange_all_axes ... ok
+2026-10-06T13:13:48.1160355Z test large_support_change_uses_explicit_parcels ... ok
+2026-10-06T13:13:48.1160868Z test every_callback_rolls_back_and_retry_is_identical ... ok
+2026-10-06T13:13:48.1161486Z test identity_and_constants_cover_cut_classification_and_single_node ... ok
+2026-10-06T13:13:48.1161955Z test ordinary_decimal_scale_constant_parcels_are_preserved ... ok
+2026-10-06T13:13:48.1162629Z      Running tests/column_shear_contract.rs (target/debug/deps/column_shear_contract-46f0206964efc4b7)
+2026-10-06T13:13:48.1163195Z test ordinary_unit_geometry_nonbinary_constant_parcels_are_preserved ... ok
+2026-10-06T13:13:48.1163796Z test refused_inputs_and_late_scale_failure_preserve_outputs ... ok
+2026-10-06T13:13:48.1164225Z test affine_parcel_means_refine_without_claiming_linear_exactness ... ok
+2026-10-06T13:13:48.1164847Z 
+2026-10-06T13:13:48.1165039Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:13:48.1165298Z 
+2026-10-06T13:13:48.1171959Z 
+2026-10-06T13:13:48.1172072Z running 6 tests
+2026-10-06T13:13:48.1180657Z test explicit_admission_scale_and_stability_failures_preserve_output ... ok
+2026-10-06T13:13:48.1181431Z test cut_heights_cover_both_center_classifications_and_single_node ... ok
+2026-10-06T13:13:48.1210156Z test independent_partial_dual_mass_matrix_force_and_energy_all_axes ... ok
+2026-10-06T13:13:48.1213926Z test local_affine_shear_force_and_translation_null_mode ... ok
+2026-10-06T13:13:48.1214467Z test every_callback_occurrence_cancels_output_and_retry_is_equal ... ok
+2026-10-06T13:13:48.1386909Z test analytic_traction_free_shear_refines_with_liquid_only_weights ... ok
+2026-10-06T13:13:48.1387177Z 
+2026-10-06T13:13:48.1387379Z test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+2026-10-06T13:13:48.1387683Z 
+2026-10-06T13:13:48.1389464Z      Running tests/column_surface_contract.rs (target/debug/deps/column_surface_contract-0238fa8ec98ab5c9)
+2026-10-06T13:13:48.1398511Z 
+2026-10-06T13:13:48.1398621Z running 10 tests
+2026-10-06T13:13:48.1430023Z test admission_and_memory_are_bounded_and_explicit ... ok
+2026-10-06T13:13:48.1449799Z test independent_variable_distance_matrix_and_air_storage ... ok
+2026-10-06T13:13:48.1450465Z test geometric_vertical_translation_crosses_layers_with_exact_volume_ledger ... ok
+2026-10-06T13:13:48.1470422Z test late_unsupported_reconstruction_keeps_accepted_pressure_phase_and_both_geometries ... ok
+2026-10-06T13:13:48.1480618Z test a_moving_column_activates_a_new_pressure_center_on_the_next_interval ... ok
+2026-10-06T13:13:48.1481534Z test rectangular_manufactured_variable_ghost_distances_match_independent_assembly ... ok
+2026-10-06T13:13:48.1482515Z test unrepresentable_ghost_distance_coefficient_rejects_without_clamping ... ok
+2026-10-06T13:13:48.1494841Z test unequal_spacing_column_hydrostatics_work_on_all_three_axes ... ok
+2026-10-06T13:13:48.1532559Z test mixed_hydrostatic_columns_repeat_and_track_both_geometry_versions ... ok
+2026-10-06T13:13:48.1750528Z test consecutive_coupled_pulses_advance_mixed_fractions_and_preserve_geometry_on_cancel ... ok
+2026-10-06T13:13:48.1751034Z 
+2026-10-06T13:13:48.1751675Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+2026-10-06T13:13:48.1752076Z 
+2026-10-06T13:13:48.1753064Z      Running tests/coupled_discrete_contract.rs (target/debug/deps/coupled_discrete_contract-620062d9819a5b49)
+2026-10-06T13:13:48.1762989Z 
+2026-10-06T13:13:48.1763109Z running 8 tests
+2026-10-06T13:13:48.4358364Z test converged_seed_retains_historical_one_pass_counter ... ok
+2026-10-06T13:13:55.0849435Z test bounded_iteration_failure_preserves_initial_frame_pressure_clock ... ok
+2026-10-06T13:14:02.4945580Z test genuine_coupled_pressure_strain_mass_and_work_publish_together ... ok
+2026-10-06T13:14:02.5170008Z test memory_and_unsupported_field_fail_before_owner_creation ... ok
+2026-10-06T13:14:10.3717985Z test invalid_scale_intervals_preserve_nonzero_accepted_state ... ok
+2026-10-06T13:14:13.9049851Z test final_authorized_correction_matches_larger_budget_without_another_correction ... ok
+2026-10-06T13:14:32.9433994Z test terminal_validation_cancellation_preserves_state_and_resumes ... ok
+2026-10-06T13:14:48.1766378Z test every_barrier_preserves_all_accepted_bits_after_nonzero_state_and_resumes has been running for over 60 seconds
+2026-10-06T13:15:03.9977288Z test every_barrier_preserves_all_accepted_bits_after_nonzero_state_and_resumes ... ok
+2026-10-06T13:15:03.9978567Z 
+2026-10-06T13:15:03.9980948Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 75.82s
+2026-10-06T13:15:03.9981329Z 
+2026-10-06T13:15:03.9983740Z      Running tests/export_contract.rs (target/debug/deps/export_contract-02a3b79d51d912d3)
+2026-10-06T13:15:03.9992325Z 
+2026-10-06T13:15:03.9992507Z running 0 tests
+2026-10-06T13:15:03.9993489Z 
+2026-10-06T13:15:03.9993780Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:15:03.9994056Z 
+2026-10-06T13:15:03.9994628Z      Running tests/extruded_third_contract.rs (target/debug/deps/extruded_third_contract-57548c38b7ba1780)
+2026-10-06T13:15:04.0003688Z 
+2026-10-06T13:15:04.0003796Z running 8 tests
+2026-10-06T13:15:04.0050217Z test additional_scratch_budget_and_initial_trace_are_enforced ... ok
+2026-10-06T13:15:10.5150342Z test bounded_solve_failure_preserves_all_initial_components ... ok
+2026-10-06T13:15:18.0378229Z test actual_published_full_velocity_has_both_shears_and_total_work ... ok
+2026-10-06T13:15:18.1567694Z test actual_third_linear_failure_preserves_the_published_constructor_state ... ok
+2026-10-06T13:15:22.0388451Z test constant_nonzero_third_velocity_survives_actual_moving_mass_publications ... ok
+2026-10-06T13:15:33.2311339Z test invalid_arithmetic_and_wrong_api_preserve_nonzero_accepted_state ... ok
+2026-10-06T13:15:42.5141527Z test zero_third_opt_in_matches_legacy_actual_state_bit_for_bit ... ok
+2026-10-06T13:16:10.5142656Z test every_old_and_third_barrier_preserves_nonzero_published_state_and_retry_bits has been running for over 60 seconds
+2026-10-06T13:16:50.8176483Z test every_old_and_third_barrier_preserves_nonzero_published_state_and_retry_bits ... ok
+2026-10-06T13:16:50.8176905Z 
+2026-10-06T13:16:50.8177193Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 106.82s
+2026-10-06T13:16:50.8177602Z 
+2026-10-06T13:16:50.8180611Z      Running tests/fitted_height_contract.rs (target/debug/deps/fitted_height_contract-3f55f09f640588fc)
+2026-10-06T13:16:50.8191495Z 
+2026-10-06T13:16:50.8191724Z running 15 tests
+2026-10-06T13:16:50.8238595Z test actual_graph_translation_has_shared_gcl_and_full_vector_work ... ok
+2026-10-06T13:16:50.8270053Z test constant_velocity_carries_every_component_with_changing_masses ... ok
+2026-10-06T13:16:50.8299979Z test arithmetic_kinematic_shape_failures_preserve_output ... ok
+2026-10-06T13:16:50.8319895Z test declared_capacity_and_real_payload_are_bounded ... ok
+2026-10-06T13:16:50.8320704Z test divergence_defect_is_reported_and_nonzero_pressure_work_is_adjoint ... ok
+2026-10-06T13:16:50.8339995Z test actual_rebuilt_geometry_matches_mass_derivative ... ok
+2026-10-06T13:16:50.8359854Z test invalid_geometry_and_uncertain_pressure_rank_are_rejections ... ok
+2026-10-06T13:16:50.8379909Z test density_width_viscosity_scaling_and_zero_viscosity_are_explicit ... ok
+2026-10-06T13:16:50.8423811Z test full_vector_affine_strain_and_prescribed_traction_patch ... ok
+2026-10-06T13:16:50.8430171Z test marginal_correct_wrong_flux_circulation_is_rejected ... ok
+2026-10-06T13:16:50.8489937Z test periodic_seam_is_neighbor_center_intersection_with_true_derivative ... ok
+2026-10-06T13:16:50.8490618Z test rigid_rotation_and_full_vector_translation_are_strain_null_modes ... ok
+2026-10-06T13:16:50.8512527Z test shared_geometry_mass_and_affine_gradient_partition ... ok
+2026-10-06T13:16:50.8632356Z test every_cancellation_preserves_output_and_retry_matches ... ok
+2026-10-06T13:16:51.0434342Z test numerical_pressure_image_rank_constant_mode_and_transpose ... ok
+2026-10-06T13:16:51.0434720Z 
+2026-10-06T13:16:51.0434925Z test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s
+2026-10-06T13:16:51.0435198Z 
+2026-10-06T13:16:51.0437796Z      Running tests/fixed_bottom_ale_contract.rs (target/debug/deps/fixed_bottom_ale_contract-75a061b03659c3d4)
+2026-10-06T13:16:51.0448550Z 
+2026-10-06T13:16:51.0448667Z running 7 tests
+2026-10-06T13:16:51.5110332Z test arithmetic_iteration_and_path_failures_preserve_state ... ok
+2026-10-06T13:16:51.5169806Z test memory_budget_and_unsupported_carrier_reject_before_owner_creation ... ok
+2026-10-06T13:16:51.8989965Z test constants_remain_constant_and_zero_viscosity_still_transports ... ok
+2026-10-06T13:16:52.0953326Z test strict_acceptance_failure_preserves_the_accepted_pair ... ok
+2026-10-06T13:16:54.0402906Z test constrained_velocity_convex_bound_failure_is_retained_as_a_limit ... ok
+2026-10-06T13:16:54.4300920Z test nonzero_relative_transport_and_viscosity_publish_one_geometry ... ok
+2026-10-06T13:16:54.6749820Z test cancellation_preserves_nonzero_accepted_geometry_and_recovers_cleanly ... ok
+2026-10-06T13:16:54.6750121Z 
+2026-10-06T13:16:54.6750357Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.63s
+2026-10-06T13:16:54.6750623Z 
+2026-10-06T13:16:54.6753076Z      Running tests/forces_contract.rs (target/debug/deps/forces_contract-e5f832b849b34e31)
+2026-10-06T13:16:54.6765291Z 
+2026-10-06T13:16:54.6765600Z running 9 tests
+2026-10-06T13:16:54.6790120Z test empty_forces_keep_legacy_stages_fields_reports_and_array_memory ... ok
+2026-10-06T13:16:54.6809883Z test invalid_or_unrepresentable_forces_reject_without_accepted_mutation ... ok
+2026-10-06T13:16:54.6810597Z test legacy_smoke_force_precedes_external_stage_and_its_work_is_separate ... ok
+2026-10-06T13:16:54.6811324Z test localized_force_projects_to_the_independently_derived_four_edge_cycle ... ok
+2026-10-06T13:16:54.6812013Z test overlapping_vectors_add_and_forcing_budget_covers_each_axis_and_units ... ok
+2026-10-06T13:16:54.6812712Z test support_is_sampled_on_own_face_lattices_and_excludes_upper_planes_and_walls ... ok
+2026-10-06T13:16:54.6820096Z test force_density_divides_by_constant_density_and_matches_acceleration_bits ... ok
+2026-10-06T13:16:54.6827578Z test force_cancellation_and_pressure_exhaustion_preserve_state_and_retry ... ok
+2026-10-06T13:16:54.6855591Z test signed_uniform_forces_on_each_axis_have_hand_computed_work_and_hydrostatic_rest ... ok
+2026-10-06T13:16:54.6855865Z 
+2026-10-06T13:16:54.6856067Z test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+2026-10-06T13:16:54.6856325Z 
+2026-10-06T13:16:54.6858398Z      Running tests/free_surface_contract.rs (target/debug/deps/free_surface_contract-0e08ac9f6bb8d50c)
+2026-10-06T13:16:54.6867701Z 
+2026-10-06T13:16:54.6867930Z running 7 tests
+2026-10-06T13:16:54.6880254Z test free_surface_admission_is_explicit_and_uses_existing_array_inventory ... ok
+2026-10-06T13:16:54.6881012Z test coupled_surface_redistribution_conserves_volume_and_rejects_unresolved_next_geometry ... ok
+2026-10-06T13:16:54.6881704Z test hydrostatic_columns_match_pressure_at_cell_centers_and_zero_air_pressure ... ok
+2026-10-06T13:16:54.6890610Z test independent_anchored_matrix_has_half_distance_surface_and_no_wet_gauge ... ok
+2026-10-06T13:16:54.6891307Z test late_volume_rejection_retains_previous_free_surface_pressure_and_liquid ... ok
+2026-10-06T13:16:54.6891961Z test rectangular_manufactured_pressure_matches_independent_wet_air_assembly ... ok
+2026-10-06T13:16:54.6944024Z test resolved_hydrostatic_interval_replays_and_cancelled_pair_preserves_pressure_and_phase ... ok
+2026-10-06T13:16:54.6944518Z 
+2026-10-06T13:16:54.6944846Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+2026-10-06T13:16:54.6945146Z 
+2026-10-06T13:16:54.6946053Z      Running tests/geometry_contract.rs (target/debug/deps/geometry_contract-6c28068886ea2c64)
+2026-10-06T13:16:54.6954283Z 
+2026-10-06T13:16:54.6954383Z running 7 tests
+2026-10-06T13:16:54.6957393Z test face_offsets_are_distinct_from_cell_offsets ... ok
+2026-10-06T13:16:54.6958042Z test half_cell_resolution_regression_requires_no_allocation ... ok
+2026-10-06T13:16:54.6958551Z test invalid_source_values_fail_before_allocation ... ok
+2026-10-06T13:16:54.6959092Z test conservative_axis_margin_covers_large_origins_and_adjacent_samples ... ok
+2026-10-06T13:16:54.6959811Z test planned_payload_is_exact_and_cap_is_explicit ... ok
+2026-10-06T13:16:54.6960252Z test rectangular_shapes_and_maximum_indices ... ok
+2026-10-06T13:16:54.6960686Z test single_cell_and_one_cell_wide_domains_are_valid ... ok
+2026-10-06T13:16:54.6960980Z 
+2026-10-06T13:16:54.6961266Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:16:54.6961909Z 
+2026-10-06T13:16:54.6962324Z      Running tests/implementation_contract.rs (target/debug/deps/implementation_contract-28b0732e4faee653)
+2026-10-06T13:16:54.6969694Z 
+2026-10-06T13:16:54.6969967Z running 5 tests
+2026-10-06T13:16:54.7024425Z test all_methods_recover_anisotropic_manufactured_pressure_and_failure_contracts ... ok
+2026-10-06T13:16:54.7025321Z test registry_has_stable_unique_ids_and_explicit_unknown_rejection ... ok
+2026-10-06T13:16:54.9968468Z test approaches_agree_with_equal_inputs_and_retained_budget ... ok
+2026-10-06T13:16:55.3978253Z test every_implementation_preserves_transactional_cancellation_and_replay ... ok
+2026-10-06T13:16:55.7500232Z test cancellation_after_accepted_work_preserves_both_implementations ... ok
+2026-10-06T13:16:55.7500625Z 
+2026-10-06T13:16:55.7504106Z      Running tests/liquid_scale_division_contract.rs (target/debug/deps/liquid_scale_division_contract-8b881e17f84179b6)
+2026-10-06T13:16:55.7510416Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.05s
+2026-10-06T13:16:55.7510934Z 
+2026-10-06T13:16:55.7516724Z 
+2026-10-06T13:16:55.7517023Z running 1 test
+2026-10-06T13:16:55.7519069Z test unsupported_candidate_courant_and_divergence_quotients_preserve_accepted_state ... ok
+2026-10-06T13:16:55.7519751Z 
+2026-10-06T13:16:55.7520064Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:16:55.7520515Z 
+2026-10-06T13:16:55.7522664Z      Running tests/liquid_step_contract.rs (target/debug/deps/liquid_step_contract-7a0a3fbaca4d1e83)
+2026-10-06T13:16:55.7530835Z 
+2026-10-06T13:16:55.7530989Z running 7 tests
+2026-10-06T13:16:55.7560610Z test carrier_failure_and_pause_preserve_volume_pressure_and_clocks ... ok
+2026-10-06T13:16:55.7561671Z test combined_capacity_cap_counts_transferred_capacity_and_pressure ... ok
+2026-10-06T13:16:55.7562595Z test accepted_actual_dt_controls_volume_interval_and_closed_step_is_coherent ... ok
+2026-10-06T13:16:55.7563372Z test liquid_failure_after_new_pressure_prepare_preserves_all_accepted_bits_and_retry ... ok
+2026-10-06T13:16:55.7564113Z test volume_input_failure_and_version_overflow_precede_carrier_callbacks ... ok
+2026-10-06T13:16:55.7571808Z test signed_axis_transport_publishes_hand_pressure_and_synchronized_states ... ok
+2026-10-06T13:16:55.8257126Z test every_exercised_carrier_volume_and_final_checkpoint_rolls_back_and_replays ... ok
+2026-10-06T13:16:55.8257454Z 
+2026-10-06T13:16:55.8258044Z test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+2026-10-06T13:16:55.8258316Z 
+2026-10-06T13:16:55.8259837Z      Running tests/liquid_volume_contract.rs (target/debug/deps/liquid_volume_contract-345e50282e2b5615)
+2026-10-06T13:16:55.8271609Z 
+2026-10-06T13:16:55.8271802Z running 18 tests
+2026-10-06T13:16:55.8276804Z test actual_owned_capacity_invalid_inputs_and_resolved_clock_are_checked ... ok
+2026-10-06T13:16:55.8277744Z test both_accepted_pressure_methods_supply_read_only_carrier_not_free_surface_feedback ... ok
+2026-10-06T13:16:55.8278823Z test closed_anisotropic_circulation_reuses_shared_faces_and_preserves_volume ... ok
+2026-10-06T13:16:55.8279946Z test courant_divergence_and_raw_source_bounds_fail_without_changing_accepted_state ... ok
+2026-10-06T13:16:55.8280815Z test geometry_interval_source_identity_and_version_limits_reject_before_callbacks ... ok
+2026-10-06T13:16:55.8281432Z test normal_initial_amount_is_supported_but_subnormal_initial_amount_is_rejected ... ok
+2026-10-06T13:16:55.8282007Z test oblique_constant_fraction_preserves_constant_and_balanced_boundary_transfer ... ok
+2026-10-06T13:16:55.8283033Z test signed_all_axis_upwind_inlet_outlet_matches_hand_volume_and_occupancy ... ok
+2026-10-06T13:16:55.8283719Z test signed_zero_is_valid_empty_liquid_with_zero_volume_transfer ... ok
+2026-10-06T13:16:55.8284492Z test signed_sources_are_volume_per_second_and_density_scales_mass_only ... ok
+2026-10-06T13:16:55.8285374Z test partial_flux_and_cell_cancellation_preserve_bits_and_retry_matches_fresh ... ok
+2026-10-06T13:16:55.8286487Z test subnormal_face_area_rejects_instead_of_distorting_representable_inflow ... ok
+2026-10-06T13:16:55.8287373Z test thin_positive_fractions_and_merging_supports_are_not_erased_by_clamping ... ok
+2026-10-06T13:16:55.8288268Z test unrepresentable_initial_amount_or_nonzero_face_transfer_cannot_disappear ... ok
+2026-10-06T13:16:55.8289162Z test underflowed_courant_intermediate_rejects_and_supported_retry_matches_fresh ... ok
+2026-10-06T13:16:55.8290194Z test underflowed_face_area_rejects_instead_of_losing_representable_inflow ... ok
+2026-10-06T13:16:55.8291069Z test unsplit_three_dimensional_transfer_is_bounded_but_diffuses_geometric_cube ... ok
+2026-10-06T13:16:55.8322583Z test translated_slab_has_exact_binomial_oracle_and_independent_spatial_refinement ... ok
+2026-10-06T13:16:55.8323057Z 
+2026-10-06T13:16:55.8323389Z test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+2026-10-06T13:16:55.8323816Z 
+2026-10-06T13:16:55.8324799Z      Running tests/operator_contract.rs (target/debug/deps/operator_contract-fed22eb8d5e2d862)
+2026-10-06T13:16:55.8333259Z 
+2026-10-06T13:16:55.8333374Z running 5 tests
+2026-10-06T13:16:55.8335995Z test all_six_faces_of_single_cell_are_walls ... ok
+2026-10-06T13:16:55.8336439Z test independent_rectangular_dense_operator ... ok
+2026-10-06T13:16:55.8337092Z test integrated_rhs_matches_independent_physical_divergence ... ok
+2026-10-06T13:16:55.8337698Z test nonfinite_fields_density_and_lengths_are_rejected ... ok
+2026-10-06T13:16:55.8338176Z test three_cell_hand_calculation_and_residual_identity ... ok
+2026-10-06T13:16:55.8338406Z 
+2026-10-06T13:16:55.8338686Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:16:55.8338994Z 
+2026-10-06T13:16:55.8339216Z      Running tests/pressure_contract.rs (target/debug/deps/pressure_contract-b7dd11666eb3297b)
+2026-10-06T13:16:55.8347828Z 
+2026-10-06T13:16:55.8347944Z running 10 tests
+2026-10-06T13:16:55.8350917Z test a_rectangular_cycle_retains_circulation ... ok
+2026-10-06T13:16:55.8360009Z test eliminated_gauge_row_participates_in_physical_stopping ... ok
+2026-10-06T13:16:55.8380172Z test cancellation_and_iteration_exhaustion_are_explicit ... ok
+2026-10-06T13:16:55.8380642Z test incompatible_rhs_is_not_mean_shifted ... ok
+2026-10-06T13:16:55.8381158Z test manufactured_three_dimensional_pressure_recovers_modulo_gauge ... ok
+2026-10-06T13:16:55.8390271Z test single_cell_zero_rhs_returns_without_iteration ... ok
+2026-10-06T13:16:55.8390965Z test solves_hand_chain_and_reports_full_residual ... ok
+2026-10-06T13:16:55.8391570Z test workspace_budget_and_invalid_tolerance_fail ... ok
+2026-10-06T13:16:55.8405867Z test tighter_divergence_gate_keeps_conjugate_gradient_progress ... ok
+2026-10-06T13:16:55.8574417Z test random_three_dimensional_projection_checks_actual_f32_divergence ... ok
+2026-10-06T13:16:55.8574829Z 
+2026-10-06T13:16:55.8575120Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+2026-10-06T13:16:55.8575424Z 
+2026-10-06T13:16:55.8576842Z      Running tests/sampling_contract.rs (target/debug/deps/sampling_contract-b613718938c485fc)
+2026-10-06T13:16:55.8585283Z 
+2026-10-06T13:16:55.8585412Z running 5 tests
+2026-10-06T13:16:55.8588112Z test invalid_input_is_rejected_at_sampler_construction ... ok
+2026-10-06T13:16:55.8588581Z test convex_bounds_and_singleton_axes_hold ... ok
+2026-10-06T13:16:55.8592974Z test component_offsets_reproduce_affine_fields ... ok
+2026-10-06T13:16:55.8593540Z test midpoint_backtrace_matches_constant_translation ... ok
+2026-10-06T13:16:55.8594095Z test midpoint_rotation_matches_independent_polynomial ... ok
+2026-10-06T13:16:55.8594397Z 
+2026-10-06T13:16:55.8594856Z      Running tests/simulation_contract.rs (target/debug/deps/simulation_contract-e5beb3084f8f5c87)
+2026-10-06T13:16:55.8595554Z test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:16:55.8595936Z 
+2026-10-06T13:16:55.8603433Z 
+2026-10-06T13:16:55.8603815Z running 9 tests
+2026-10-06T13:16:55.8639831Z test all_owned_capacities_are_accounted_and_cap_checked ... ok
+2026-10-06T13:16:55.8669901Z test in_place_candidate_matches_separate_output_and_scratch_diagnostic ... ok
+2026-10-06T13:16:55.9430156Z test actual_float_divergence_rejection_preserves_accepted_state ... ok
+2026-10-06T13:16:55.9459679Z test single_cell_rest_and_saturating_source_are_supported ... ok
+2026-10-06T13:16:55.9613463Z test solver_exhaustion_and_invalid_source_are_transactional ... ok
+2026-10-06T13:16:56.0240080Z test time_step_policy_reports_reduced_dt_for_large_forcing ... ok
+2026-10-06T13:16:56.2382981Z test localized_smoke_is_nontrivial_finite_and_independently_divergence_checked ... ok
+2026-10-06T13:16:56.2916406Z test exact_replay_pause_reset_and_source_toggle ... ok
+2026-10-06T13:16:57.2480474Z test cancellation_at_every_stage_preserves_all_accepted_bits_and_metadata ... ok
+2026-10-06T13:16:57.2480896Z 
+2026-10-06T13:16:57.2481104Z test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.39s
+2026-10-06T13:16:57.2481399Z 
+2026-10-06T13:16:57.2483864Z      Running tests/tracer_barrier_contract.rs (target/debug/deps/tracer_barrier_contract-ddeb90e4aed08b34)
+2026-10-06T13:16:57.2495363Z 
+2026-10-06T13:16:57.2498139Z running 12 tests
+2026-10-06T13:16:57.2498488Z test admission_failures_precede_any_output_write ... ok
+2026-10-06T13:16:57.2504553Z test blocked_midpoint_and_departure_legs_revert_without_wall_pushout ... ok
+2026-10-06T13:16:57.2505355Z test clear_trace_still_filters_a_stencil_that_crosses_the_barrier ... ok
+2026-10-06T13:16:57.2506247Z test contacts_no_visible_donor_and_ambiguous_visibility_fail_explicitly ... ok
+2026-10-06T13:16:57.2513261Z test low_level_cancellation_can_leave_scratch_partial_but_inputs_retry_unchanged ... ok
+2026-10-06T13:16:57.2519855Z test accepted_simulation_filters_tracer_while_preserving_force_pressure_and_memory ... ok
+2026-10-06T13:16:57.2520645Z test visible_donors_renormalize_on_both_sides_and_remove_thin_sheet_leakage ... ok
+2026-10-06T13:16:57.2521356Z test barrier_error_and_late_cancellation_preserve_owner_and_allow_clean_retry ... ok
+2026-10-06T13:16:57.2522114Z test no_obstruction_preserves_legacy_midpoint_and_sample_bits ... ok
+2026-10-06T13:16:57.2522687Z test zero_weight_extremes_cannot_relax_the_positive_donor_range ... ok
+2026-10-06T13:16:57.2523337Z test visible_interpolation_preserves_constants_and_visible_range_with_3d_weights ... ok
+2026-10-06T13:16:57.2524567Z      Running tests/translated_viscous_contract.rs (target/debug/deps/translated_viscous_contract-0674e1b00eddb5f1)
+2026-10-06T13:16:57.2525368Z test none_barrier_preserves_every_accepted_bit_report_and_callback_sequence ... ok
+2026-10-06T13:16:57.2525767Z 
+2026-10-06T13:16:57.2525992Z test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:16:57.2526251Z 
+2026-10-06T13:16:57.2531170Z 
+2026-10-06T13:16:57.2531277Z running 8 tests
+2026-10-06T13:16:57.3850532Z test arithmetic_and_iteration_failures_preserve_accepted_state ... ok
+2026-10-06T13:16:57.3851620Z test lost_physical_geometry_and_clock_resolution_preserve_state ... ok
+2026-10-06T13:16:57.4800264Z test strict_acceptance_failure_preserves_both_states ... ok
+2026-10-06T13:16:57.5230457Z test inviscid_and_constant_fields_are_preserved_without_solver_drift ... ok
+2026-10-06T13:16:57.5327071Z test unsupported_xy_and_trace_and_insufficient_memory_are_rejected ... ok
+2026-10-06T13:16:57.5408184Z test unrepresentable_initial_energy_is_rejected ... ok
+2026-10-06T13:16:57.9224246Z test repeated_translation_and_viscous_decay_publish_one_state ... ok
+2026-10-06T13:16:58.0904350Z test each_cancellation_preserves_velocity_geometry_pressure_clock_and_identity ... ok
+2026-10-06T13:16:58.0904795Z 
+2026-10-06T13:16:58.0905119Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.84s
+2026-10-06T13:16:58.0905531Z 
+2026-10-06T13:16:58.0907380Z      Running tests/translation_contract.rs (target/debug/deps/translation_contract-e1f583770ae293b8)
+2026-10-06T13:16:58.0918913Z 
+2026-10-06T13:16:58.0919058Z running 10 tests
+2026-10-06T13:16:58.0922721Z test cancellation_after_contact_exposes_no_result_and_preserves_retry ... ok
+2026-10-06T13:16:58.0924193Z test common_linear_frame_shift_preserves_contact_parameter_normal_and_weights ... ok
+2026-10-06T13:16:58.0925738Z test endpoint_contacts_and_clipping_keep_space_time_coordinates ... ok
+2026-10-06T13:16:58.0926636Z test final_pose_query_misses_an_actual_space_time_crossing ... ok
+2026-10-06T13:16:58.0927278Z test invalid_intervals_trajectories_and_zero_relative_motion_are_explicit ... ok
+2026-10-06T13:16:58.0927918Z test moving_wall_crosses_stationary_world_point_at_physical_time ... ok
+2026-10-06T13:16:58.0928498Z test reversed_winding_changes_facing_but_not_translated_contact ... ok
+2026-10-06T13:16:58.0929054Z test unrepresentable_endpoint_pose_rejects_before_query ... ok
+2026-10-06T13:16:58.0929735Z test zero_translation_preserves_every_static_hit_field_and_miss ... ok
+2026-10-06T13:16:58.0939858Z test axis_permuted_hand_oracles_cover_signed_and_tangential_translation ... ok
+2026-10-06T13:16:58.0940266Z 
+2026-10-06T13:16:58.0940583Z test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:16:58.0940999Z 
+2026-10-06T13:16:58.0941821Z      Running tests/viscosity_contract.rs (target/debug/deps/viscosity_contract-f689dd98c112a53e)
+2026-10-06T13:16:58.0950814Z 
+2026-10-06T13:16:58.0950933Z running 8 tests
+2026-10-06T13:16:58.0990143Z test cancellation_all_stage_occurrences_and_failures_preserve_output ... ok
+2026-10-06T13:16:58.1005424Z test anisotropic_three_dimensional_shear_matches_all_component_pairs ... ok
+2026-10-06T13:16:58.1200066Z test coupled_viscosity_preserves_both_owners_on_every_callback_and_retries ... ok
+2026-10-06T13:16:58.1210041Z test symmetric_strain_cross_derivative_and_independent_dense_energy ... ok
+2026-10-06T13:16:58.1211847Z test viscosity_rejects_surface_partial_fill_density_mismatch_and_nonzero_walls ... ok
+2026-10-06T13:16:58.3233263Z test fixed_grid_time_refinement_and_zero_coefficient ... ok
+2026-10-06T13:16:58.6042496Z test divergence_free_mode_matches_discrete_decay_and_refines ... ok
+2026-10-06T13:17:00.7398443Z test large_mesh_compensated_energy_gate_preserves_fixed_budget ... ok
+2026-10-06T13:17:00.7398866Z 
+2026-10-06T13:17:00.7399151Z test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.64s
+2026-10-06T13:17:00.7400197Z 
+2026-10-06T13:17:00.7401410Z    Doc-tests rheon
+2026-10-06T13:17:00.8380748Z 
+2026-10-06T13:17:00.8381247Z running 0 tests
+2026-10-06T13:17:00.8381461Z 
+2026-10-06T13:17:00.8381783Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+2026-10-06T13:17:00.8382170Z 
+2026-10-06T13:17:00.8455227Z ##[group]Run cargo tree --locked --no-default-features
+2026-10-06T13:17:00.8455564Z [36;1mcargo tree --locked --no-default-features[0m
+2026-10-06T13:17:00.8511409Z shell: /usr/bin/bash -e {0}
+2026-10-06T13:17:00.8511622Z env:
+2026-10-06T13:17:00.8511776Z   CARGO_BUILD_JOBS: 1
+2026-10-06T13:17:00.8511949Z ##[endgroup]
+2026-10-06T13:17:00.9421726Z rheon v0.1.0 (/home/runner/work/Rheon/Rheon)
+2026-10-06T13:17:00.9558671Z Post job cleanup.
+2026-10-06T13:17:01.0229953Z [command]/usr/bin/git version
+2026-10-06T13:17:01.0259023Z git version 2.55.0
+2026-10-06T13:17:01.0287646Z Temporarily overriding HOME='/home/runner/work/_temp/252b40e5-c840-47aa-8da6-10c64c079713' before making global git config changes
+2026-10-06T13:17:01.0288691Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-06T13:17:01.0311455Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Rheon/Rheon
+2026-10-06T13:17:01.0324431Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-06T13:17:01.0353173Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-06T13:17:01.0592274Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-06T13:17:01.0621630Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-06T13:17:01.0982276Z Cleaning up orphan processes
+2026-10-06T13:17:01.1252143Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

@@ -1,0 +1,13 @@
+{
+  "active_source": "c0591ebc4c2619d5ad6e6decfe9d3957ace8db5b",
+  "proposed_workflow_sha256": "217c6de5a0905cb9ef6d4bbc1f53aa822c79e9dc9b45e3618ad23162bca43fe9",
+  "budget_test_sha256": "1643b5cdf2f13a0a76456968f4e553183ab24d56052602365f375ecaa3cfbdbc",
+  "immutable_baseline_sha256": "06e8c59ba1dd5fdd2df1a99ae5dc559a260fc248a75c451c09b42fcdcf1c4955",
+  "release_binary_sha256": "39b3a5bc1b1550be97e123ac707da7a059f6519eb5bd49cde89f7a6dec390517",
+  "build_stdout": "lifecycle-release-build.log",
+  "build_stderr": "lifecycle-release-build-stderr.log",
+  "lifecycle_log": "lifecycle-candidate-all.log",
+  "scope": "Workflow read substituted by documented runner; actual tracked inventory, all 38 lifecycle methods, immutable baseline and release binary remain real. Active Rust matrix/source workflow unchanged.",
+  "actual_method_count": 38,
+  "success": true
+}

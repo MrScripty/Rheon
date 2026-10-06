@@ -1,0 +1,9 @@
+test_rust_ci_triggers_for_each_example_and_column_verifier (test_column_interface_verifier.ColumnVerifierTest.test_rust_ci_triggers_for_each_example_and_column_verifier) ... ok
+test_ci_budget_preserves_every_existing_job_check (test_column_interface_verifier.ColumnVerifierTest.test_ci_budget_preserves_every_existing_job_check) ... ok
+test_split_ci_budget_rejects_removed_checks_and_early_success (test_column_interface_verifier.ColumnVerifierTest.test_split_ci_budget_rejects_removed_checks_and_early_success) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.026s
+
+OK
+PASS actual tracked path ledger and original command/pin inventory; ten corruptions rejected

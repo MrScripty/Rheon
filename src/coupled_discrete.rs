@@ -183,7 +183,11 @@ pub struct CoupledDiscreteReport {
     pub gcl_max: f64,
     pub quadrature_error: f64,
     pub full_constraints: f64,
+    /// Original loop passes, including a converged seed check. Terminal
+    /// validation adds a residual check but no pass or Newton correction.
     pub iterations: usize,
+    /// Newton equation evaluations; excludes the two acceptance evaluations
+    /// and seed assembly. Each evaluation includes the existing chart solves.
     pub equation_evaluations: usize,
     pub sign_roots: usize,
     pub mass_before: f64,
@@ -537,6 +541,27 @@ impl CoupledDiscreteFlow {
             if calls > 200 {
                 return Err(CoupledDiscreteError::IterationLimit);
             }
+        }
+        // Validate the last authorized correction without building another
+        // Jacobian or solving another Newton correction system. The equation
+        // evaluation still performs its existing chart solves.
+        if !converged {
+            if calls >= 200 {
+                return Err(CoupledDiscreteError::IterationLimit);
+            }
+            barrier(&mut cancel, CoupledDiscreteStage::Iteration)?;
+            let terminal = self.work.equation(
+                q,
+                eta,
+                &unknown,
+                h,
+                16,
+                old_velocity,
+                &old_mass,
+                &mut cancel,
+            )?;
+            calls += 1;
+            converged = norm(&terminal.rate)? <= NEWTON;
         }
         if !converged {
             return Err(CoupledDiscreteError::IterationLimit);
