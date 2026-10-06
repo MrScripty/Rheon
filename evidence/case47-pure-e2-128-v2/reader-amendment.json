@@ -1,0 +1,23 @@
+{
+  "initial_archive_row": {
+    "field": "nonconstant",
+    "kind": "pressure_state",
+    "load": "reversed",
+    "stamp": {
+      "id": 131,
+      "version": 0
+    },
+    "step": 0
+  },
+  "initial_archive_sha256": "90b1d2b25ba15b1497549d13cad3511b5cf510bc6c849eed4ac2c4261abada81",
+  "initial_bits_sha256": "edc844a5213e8a7ce10aa3809b45fc16451321cde53deccfe10a103895e97ede",
+  "native_solver_changed": false,
+  "new_reader_sha256": {
+    "audit_observation.py": "6e41458aa6f7ecdf977ac14e56ae98b3bbef6043cd0de857b7dcdab63ec98479",
+    "qualify_preflight.py": "f81d3291ccfdc36a294ccde6dfe5678b0ae8eb15fa3f546818db8d0d4b90baa9",
+    "run_once.py": "b6b6beb8e7055fac6e976b85de46894c0efaafee323fe7413dca08d3362a82b3"
+  },
+  "reason": "Preserved v1 tuple-parser correction; v2 also binds correct archived original case47 constructor bits. No numerical source/gate change.",
+  "v1_public_attempts": 0,
+  "v1_result": "64c1cb87eaa9c69d872355595c2dc793e78459af"
+}
