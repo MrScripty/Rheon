@@ -1,0 +1,12 @@
+{
+  "corrected_reader_sha256": "72b4891433ef09434872e1b64f1ba9800da9d286546d61a4ed7bc21e19a0c4c0",
+  "new_reference_integrations": 0,
+  "new_trajectory_steps": 0,
+  "original_analyzer_sha256": "212665c505d70a3cd3c61671ba9c5e8085efd0afc23a7b5a2b2baa9a356ae228",
+  "original_failed_stderr_sha256": "81ab47825d3b7a7d53022a442f6f37ec13bb7268cc5a319db2a43655d2d92d6f",
+  "original_failed_stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "original_protocol_sha256": "8f0679cb04e600e0ca0659a561c0c63b9ae8ad9cdfd8b41d7081d0507551e028",
+  "original_source": "00d7de13b82396836e8f1efad6e3049034f5c2e7",
+  "reason": "Serialize NumPy boolean metadata as Python boolean; original numerical analyzer remains unchanged",
+  "threshold_changes": false
+}
