@@ -1,0 +1,29 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "evidence/forcing-e1-fixed-candidates-v1/verify.py"
+    ],
+    "exit": 0,
+    "native_reexecution": false,
+    "seconds": 8.523030443000607,
+    "stderr": "root-verification-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "root-verification-normal.json",
+    "stdout_sha256": "d02793488b84367afaa7ca0a1d6ff464b9c4920a82fa59666445c25b93b2dbac"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-O",
+      "evidence/forcing-e1-fixed-candidates-v1/verify.py"
+    ],
+    "exit": 0,
+    "native_reexecution": false,
+    "seconds": 10.475331737994566,
+    "stderr": "root-verification-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "root-verification-optimized.json",
+    "stdout_sha256": "d02793488b84367afaa7ca0a1d6ff464b9c4920a82fa59666445c25b93b2dbac"
+  }
+]

@@ -1,0 +1,76 @@
+[
+  {
+    "accepted_owner_advances": 0,
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "evidence/forcing-e1-fixed-candidates-v1/analyze.py",
+      "80"
+    ],
+    "capture_sha256": "aa2117e385d77f5d208f41afb872e051828093e9ac91df82ecb461ee1cba812b",
+    "exit": 0,
+    "optimized": false,
+    "precision_digits": 80,
+    "reader_sha256": "9e6761dfd0bebb785b41096eb3b8f0918074ddd0f9205c67f6640f406653bb70",
+    "seconds": 1.2506986600055825,
+    "stderr": "analysis-80-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-80-normal.json",
+    "stdout_sha256": "6af01557d2a4ee9265e1273ffeb7a873163a37a1003d24b28fd057bf1020f9a3"
+  },
+  {
+    "accepted_owner_advances": 0,
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-O",
+      "evidence/forcing-e1-fixed-candidates-v1/analyze.py",
+      "80"
+    ],
+    "capture_sha256": "aa2117e385d77f5d208f41afb872e051828093e9ac91df82ecb461ee1cba812b",
+    "exit": 0,
+    "optimized": true,
+    "precision_digits": 80,
+    "reader_sha256": "9e6761dfd0bebb785b41096eb3b8f0918074ddd0f9205c67f6640f406653bb70",
+    "seconds": 1.488161733999732,
+    "stderr": "analysis-80-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-80-optimized.json",
+    "stdout_sha256": "6af01557d2a4ee9265e1273ffeb7a873163a37a1003d24b28fd057bf1020f9a3"
+  },
+  {
+    "accepted_owner_advances": 0,
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "evidence/forcing-e1-fixed-candidates-v1/analyze.py",
+      "120"
+    ],
+    "capture_sha256": "aa2117e385d77f5d208f41afb872e051828093e9ac91df82ecb461ee1cba812b",
+    "exit": 0,
+    "optimized": false,
+    "precision_digits": 120,
+    "reader_sha256": "9e6761dfd0bebb785b41096eb3b8f0918074ddd0f9205c67f6640f406653bb70",
+    "seconds": 1.1454588839987991,
+    "stderr": "analysis-120-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-120-normal.json",
+    "stdout_sha256": "3dbbf35ec0a9b643d7c708138d1b0dd52591cedca8b82b30a73397ff174acc0b"
+  },
+  {
+    "accepted_owner_advances": 0,
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-O",
+      "evidence/forcing-e1-fixed-candidates-v1/analyze.py",
+      "120"
+    ],
+    "capture_sha256": "aa2117e385d77f5d208f41afb872e051828093e9ac91df82ecb461ee1cba812b",
+    "exit": 0,
+    "optimized": true,
+    "precision_digits": 120,
+    "reader_sha256": "9e6761dfd0bebb785b41096eb3b8f0918074ddd0f9205c67f6640f406653bb70",
+    "seconds": 1.6452326040016487,
+    "stderr": "analysis-120-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-120-optimized.json",
+    "stdout_sha256": "3dbbf35ec0a9b643d7c708138d1b0dd52591cedca8b82b30a73397ff174acc0b"
+  }
+]
