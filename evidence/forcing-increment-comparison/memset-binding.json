@@ -1,0 +1,5 @@
+{
+  "library": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+  "resolved_file_address": 1557312,
+  "scope": "default libc memset IFUNC selected on this CPU; no selector override"
+}

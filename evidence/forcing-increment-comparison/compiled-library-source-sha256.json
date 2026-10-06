@@ -1,0 +1,6 @@
+{
+  "prototype": "5270e91c1ee1e14b936d66d750ce8a631c078cfb",
+  "compiled_lib_sha256": "bf0d56c2583179f03991d0b45ec3f8f29d8aad5eef2f2587bf4d585b243ae270",
+  "overlay_sha256": "89cf432b2be1aa910c8e37c519e62d6fd3d49d03e83e717abf14992d276e7518",
+  "scope": "test overlay only; production library restored after capture"
+}

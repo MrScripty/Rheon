@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-increment-comparison/evidence/forcing-increment-comparison/check_memory.py", line 98, in <module>
+    try:print(json.dumps(run(),indent=2,sort_keys=True))
+                         ^^^^^
+  File "/workspace/Rheon-increment-comparison/evidence/forcing-increment-comparison/check_memory.py", line 74, in run
+    address=int(m[1],16);require(0x17c280<=address<0x17c4db,'memset branch span closed')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-increment-comparison/evidence/forcing-increment-comparison/check_memory.py", line 15, in require
+    if not ok:raise ValueError(message)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: memset branch span closed

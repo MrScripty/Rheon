@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "/workspace/.rheon-tools/increment-comparison-staged-target/release/deps/rheon-6fcb0e06fe041f73",
+    "--exact",
+    "research_increment_comparison::research_pinned_comparison",
+    "--nocapture"
+  ],
+  "phase": "B0",
+  "exit": 0,
+  "seconds": 0.023129491004510783,
+  "binary_sha256": "6ce8f08803c74654433093559e8ca0ce2c02586aff1999ffaf7bf40a59b744d0",
+  "preflight_sha256": "1240351fc9ac087224a489d63f84b7e6c50c165f1f40cdb07a3b8dfab766da91",
+  "owner_advances": 0,
+  "E1_executed": false
+}

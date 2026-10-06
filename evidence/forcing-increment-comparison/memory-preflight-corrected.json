@@ -1,0 +1,113 @@
+{
+  "baseline_forced_nominal_bytes": 474768,
+  "binary": "/workspace/.rheon-tools/increment-comparison-target/release/deps/rheon-6fcb0e06fe041f73",
+  "binary_sha256": "bd8bb65e3562f78039024dc67343ed9ba70a95cc0d8bb391f89688e2278cb5e9",
+  "borrow_descriptor_bytes": 8,
+  "combined_reservation_bytes": 538920,
+  "compiled_additional_live_bound": 64024,
+  "compiled_kernel_stack_bound": 1920,
+  "e1_already_executed": false,
+  "e1_permitted": true,
+  "kernel_functions": {
+    "rheon::research_increment_comparison::scalar::ChartWorkspace::factor": {
+      "address": "00000000000c0890",
+      "callees": [
+        "rheon::research_increment_comparison::scalar::Scalar::add",
+        "rheon::research_increment_comparison::scalar::Scalar::div",
+        "rheon::research_increment_comparison::scalar::Scalar::mul"
+      ],
+      "fixed_stack_decrement_bytes": 616,
+      "frame_bound": 800,
+      "push_bytes": 48,
+      "red_zone_allowance_bytes": 128,
+      "return_address_bytes": 8
+    },
+    "rheon::research_increment_comparison::scalar::ChartWorkspace::solve": {
+      "address": "00000000000bf310",
+      "callees": [
+        "memset",
+        "rheon::research_increment_comparison::scalar::ChartWorkspace::factor",
+        "rheon::research_increment_comparison::scalar::Scalar::add",
+        "rheon::research_increment_comparison::scalar::Scalar::mul",
+        "rheon::research_increment_comparison::scalar::Scalar::to_f64"
+      ],
+      "fixed_stack_decrement_bytes": 680,
+      "frame_bound": 864,
+      "push_bytes": 48,
+      "red_zone_allowance_bytes": 128,
+      "return_address_bytes": 8
+    },
+    "rheon::research_increment_comparison::scalar::Scalar::add": {
+      "address": "00000000000c1690",
+      "callees": [],
+      "fixed_stack_decrement_bytes": 0,
+      "frame_bound": 176,
+      "push_bytes": 40,
+      "red_zone_allowance_bytes": 128,
+      "return_address_bytes": 8
+    },
+    "rheon::research_increment_comparison::scalar::Scalar::div": {
+      "address": "00000000000c19e0",
+      "callees": [],
+      "fixed_stack_decrement_bytes": 0,
+      "frame_bound": 184,
+      "push_bytes": 48,
+      "red_zone_allowance_bytes": 128,
+      "return_address_bytes": 8
+    },
+    "rheon::research_increment_comparison::scalar::Scalar::from_f64": {
+      "address": "00000000000c2180",
+      "callees": [],
+      "fixed_stack_decrement_bytes": 0,
+      "frame_bound": 136,
+      "push_bytes": 0,
+      "red_zone_allowance_bytes": 128,
+      "return_address_bytes": 8
+    },
+    "rheon::research_increment_comparison::scalar::Scalar::mul": {
+      "address": "00000000000c1c50",
+      "callees": [],
+      "fixed_stack_decrement_bytes": 72,
+      "frame_bound": 256,
+      "push_bytes": 48,
+      "red_zone_allowance_bytes": 128,
+      "return_address_bytes": 8
+    },
+    "rheon::research_increment_comparison::scalar::Scalar::to_f64": {
+      "address": "00000000000c20c0",
+      "callees": [],
+      "fixed_stack_decrement_bytes": 0,
+      "frame_bound": 136,
+      "push_bytes": 0,
+      "red_zone_allowance_bytes": 128,
+      "return_address_bytes": 8
+    }
+  },
+  "libc_sha256": "fa430b8f298f817a266046af84a77533185ad6fc4406c7d3787b5a0a0c207826",
+  "memset_branch_targets": [
+    1557248,
+    1557351,
+    1557376,
+    1557440,
+    1557480,
+    1557509,
+    1557533,
+    1557568,
+    1557569,
+    1557584,
+    1557600,
+    1557609,
+    1557616,
+    1557632,
+    1557653
+  ],
+  "memset_reachable_instructions": 99,
+  "owner_advances": 0,
+  "policy_id": "E1-106-nearest-even-native-geometry-zero-refinement-v1",
+  "proof_scope": "this compiled x86_64 binary and default libc CPU variant; fixed successful arithmetic/defined Result failure paths. Panic on impossible private invariants is not a bounded return. Logging/oracle are host evidence, outside numerical workspace.",
+  "prototype": "5270e91c1ee1e14b936d66d750ce8a631c078cfb",
+  "prototype_policy_sha256": "46c5169923050b9aa150fed05e787356f49577f379c3c8bd238f61dd80052840",
+  "reserved_additional_bytes": 64152,
+  "status": "PASS_SCALAR_AND_SIMULTANEOUS_WORKSPACE_PREFLIGHT",
+  "workspace_bytes": 62096
+}

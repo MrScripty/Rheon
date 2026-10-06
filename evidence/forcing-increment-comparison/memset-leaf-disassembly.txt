@@ -1,0 +1,150 @@
+
+/usr/lib/x86_64-linux-gnu/libc.so.6:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+000000000017c280 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a170>:
+  17c280:	48 39 d1             	cmp    %rdx,%rcx
+  17c283:	0f 82 47 f1 f9 ff    	jb     11b3d0 <__chk_fail@@GLIBC_2.3.4>
+  17c289:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  17c290:	48 c1 e2 02          	shl    $0x2,%rdx
+  17c294:	62 e2 7d 48 7c c6    	vpbroadcastd %esi,%zmm16
+  17c29a:	48 89 f8             	mov    %rdi,%rax
+  17c29d:	48 83 fa 40          	cmp    $0x40,%rdx
+  17c2a1:	72 5d                	jb     17c300 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a1f0>
+  17c2a3:	eb 2a                	jmp    17c2cf <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a1bf>
+  17c2a5:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  17c2ac:	00 00 00 00 
+  17c2b0:	48 39 d1             	cmp    %rdx,%rcx
+  17c2b3:	0f 82 17 f1 f9 ff    	jb     11b3d0 <__chk_fail@@GLIBC_2.3.4>
+  17c2b9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  17c2c0:	62 e2 7d 48 7a c6    	vpbroadcastb %esi,%zmm16
+  17c2c6:	48 89 f8             	mov    %rdi,%rax
+  17c2c9:	48 83 fa 40          	cmp    $0x40,%rdx
+  17c2cd:	72 31                	jb     17c300 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a1f0>
+  17c2cf:	48 81 fa 80 00 00 00 	cmp    $0x80,%rdx
+  17c2d6:	0f 87 ad 00 00 00    	ja     17c389 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a279>
+  17c2dc:	62 e1 fe 48 7f 44 17 	vmovdqu64 %zmm16,-0x40(%rdi,%rdx,1)
+  17c2e3:	ff 
+  17c2e4:	62 e1 fe 48 7f 07    	vmovdqu64 %zmm16,(%rdi)
+  17c2ea:	c3                   	ret
+  17c2eb:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  17c2f2:	00 00 00 00 
+  17c2f6:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+  17c2fd:	00 00 00 
+  17c300:	81 e7 ff 0f 00 00    	and    $0xfff,%edi
+  17c306:	81 ff c0 0f 00 00    	cmp    $0xfc0,%edi
+  17c30c:	0f 87 0b 01 00 00    	ja     17c41d <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a30d>
+  17c312:	48 c7 c1 ff ff ff ff 	mov    $0xffffffffffffffff,%rcx
+  17c319:	c4 e2 e8 f5 c9       	bzhi   %rdx,%rcx,%rcx
+  17c31e:	c4 e1 fb 92 c9       	kmovq  %rcx,%k1
+  17c323:	62 e1 7f 49 7f 00    	vmovdqu8 %zmm16,(%rax){%k1}
+  17c329:	c3                   	ret
+  17c32a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+  17c330:	48 39 d1             	cmp    %rdx,%rcx
+  17c333:	0f 82 97 f0 f9 ff    	jb     11b3d0 <__chk_fail@@GLIBC_2.3.4>
+  17c339:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  17c340:	62 e2 7d 48 7a c6    	vpbroadcastb %esi,%zmm16
+  17c346:	48 89 f8             	mov    %rdi,%rax
+  17c349:	48 83 fa 40          	cmp    $0x40,%rdx
+  17c34d:	72 b1                	jb     17c300 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a1f0>
+  17c34f:	48 81 fa 80 00 00 00 	cmp    $0x80,%rdx
+  17c356:	77 28                	ja     17c380 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a270>
+  17c358:	62 e1 fe 48 7f 07    	vmovdqu64 %zmm16,(%rdi)
+  17c35e:	62 e1 fe 48 7f 44 17 	vmovdqu64 %zmm16,-0x40(%rdi,%rdx,1)
+  17c365:	ff 
+  17c366:	c3                   	ret
+  17c367:	62 e1 fe 48 7f 44 17 	vmovdqu64 %zmm16,-0x80(%rdi,%rdx,1)
+  17c36e:	fe 
+  17c36f:	62 e1 fe 48 7f 44 17 	vmovdqu64 %zmm16,-0x40(%rdi,%rdx,1)
+  17c376:	ff 
+  17c377:	c3                   	ret
+  17c378:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  17c37f:	00 
+  17c380:	48 3b 15 89 8e 06 00 	cmp    0x68e89(%rip),%rdx        # 1e5210 <obstack_exit_failure@@GLIBC_2.2.5+0x8>
+  17c387:	77 7c                	ja     17c405 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a2f5>
+  17c389:	62 e1 fe 48 7f 07    	vmovdqu64 %zmm16,(%rdi)
+  17c38f:	62 e1 fe 48 7f 47 01 	vmovdqu64 %zmm16,0x40(%rdi)
+  17c396:	48 81 fa 00 01 00 00 	cmp    $0x100,%rdx
+  17c39d:	76 c8                	jbe    17c367 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a257>
+  17c39f:	48 8d 8c 17 00 fe ff 	lea    -0x200(%rdi,%rdx,1),%rcx
+  17c3a6:	ff 
+  17c3a7:	62 e1 fe 48 7f 40 02 	vmovdqu64 %zmm16,0x80(%rax)
+  17c3ae:	62 e1 fe 48 7f 40 03 	vmovdqu64 %zmm16,0xc0(%rax)
+  17c3b5:	48 39 f9             	cmp    %rdi,%rcx
+  17c3b8:	76 2e                	jbe    17c3e8 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a2d8>
+  17c3ba:	48 83 e7 c0          	and    $0xffffffffffffffc0,%rdi
+  17c3be:	66 90                	xchg   %ax,%ax
+  17c3c0:	62 e1 fd 48 7f 47 04 	vmovdqa64 %zmm16,0x100(%rdi)
+  17c3c7:	62 e1 fd 48 7f 47 05 	vmovdqa64 %zmm16,0x140(%rdi)
+  17c3ce:	62 e1 fd 48 7f 47 06 	vmovdqa64 %zmm16,0x180(%rdi)
+  17c3d5:	62 e1 fd 48 7f 47 07 	vmovdqa64 %zmm16,0x1c0(%rdi)
+  17c3dc:	48 81 ef 00 ff ff ff 	sub    $0xffffffffffffff00,%rdi
+  17c3e3:	48 39 cf             	cmp    %rcx,%rdi
+  17c3e6:	72 d8                	jb     17c3c0 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a2b0>
+  17c3e8:	62 e1 fe 48 7f 41 04 	vmovdqu64 %zmm16,0x100(%rcx)
+  17c3ef:	62 e1 fe 48 7f 41 05 	vmovdqu64 %zmm16,0x140(%rcx)
+  17c3f6:	62 e1 fe 48 7f 41 06 	vmovdqu64 %zmm16,0x180(%rcx)
+  17c3fd:	62 e1 fe 48 7f 41 07 	vmovdqu64 %zmm16,0x1c0(%rcx)
+  17c404:	c3                   	ret
+  17c405:	48 3b 15 c4 fe 06 00 	cmp    0x6fec4(%rip),%rdx        # 1ec2d0 <_obstack@GLIBC_2.2.5+0x80>
+  17c40c:	73 72                	jae    17c480 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a370>
+  17c40e:	40 0f b6 c6          	movzbl %sil,%eax
+  17c412:	48 89 d1             	mov    %rdx,%rcx
+  17c415:	48 89 fa             	mov    %rdi,%rdx
+  17c418:	f3 aa                	rep stos %al,%es:(%rdi)
+  17c41a:	48 92                	xchg   %rax,%rdx
+  17c41c:	c3                   	ret
+  17c41d:	83 fa 20             	cmp    $0x20,%edx
+  17c420:	7d 1f                	jge    17c441 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a331>
+  17c422:	83 fa 10             	cmp    $0x10,%edx
+  17c425:	7d 29                	jge    17c450 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a340>
+  17c427:	62 e1 fd 08 7e c1    	vmovq  %xmm16,%rcx
+  17c42d:	83 fa 08             	cmp    $0x8,%edx
+  17c430:	7d 2e                	jge    17c460 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a350>
+  17c432:	83 fa 04             	cmp    $0x4,%edx
+  17c435:	7d 32                	jge    17c469 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a359>
+  17c437:	83 fa 01             	cmp    $0x1,%edx
+  17c43a:	7f 34                	jg     17c470 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a360>
+  17c43c:	7c 02                	jl     17c440 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a330>
+  17c43e:	88 08                	mov    %cl,(%rax)
+  17c440:	c3                   	ret
+  17c441:	62 e1 fe 28 7f 00    	vmovdqu64 %ymm16,(%rax)
+  17c447:	62 e1 fe 28 7f 44 10 	vmovdqu64 %ymm16,-0x20(%rax,%rdx,1)
+  17c44e:	ff 
+  17c44f:	c3                   	ret
+  17c450:	62 e1 fe 08 7f 00    	vmovdqu64 %xmm16,(%rax)
+  17c456:	62 e1 fe 08 7f 44 10 	vmovdqu64 %xmm16,-0x10(%rax,%rdx,1)
+  17c45d:	ff 
+  17c45e:	c3                   	ret
+  17c45f:	90                   	nop
+  17c460:	48 89 08             	mov    %rcx,(%rax)
+  17c463:	48 89 4c 10 f8       	mov    %rcx,-0x8(%rax,%rdx,1)
+  17c468:	c3                   	ret
+  17c469:	89 08                	mov    %ecx,(%rax)
+  17c46b:	89 4c 10 fc          	mov    %ecx,-0x4(%rax,%rdx,1)
+  17c46f:	c3                   	ret
+  17c470:	66 89 08             	mov    %cx,(%rax)
+  17c473:	88 4c 10 ff          	mov    %cl,-0x1(%rax,%rdx,1)
+  17c477:	c3                   	ret
+  17c478:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  17c47f:	00 
+  17c480:	62 e1 fe 48 7f 07    	vmovdqu64 %zmm16,(%rdi)
+  17c486:	48 8d 94 17 00 ff ff 	lea    -0x100(%rdi,%rdx,1),%rdx
+  17c48d:	ff 
+  17c48e:	48 83 cf 3f          	or     $0x3f,%rdi
+  17c492:	48 ff c7             	inc    %rdi
+  17c495:	62 e1 7d 48 e7 07    	vmovntdq %zmm16,(%rdi)
+  17c49b:	62 e1 7d 48 e7 47 01 	vmovntdq %zmm16,0x40(%rdi)
+  17c4a2:	62 e1 7d 48 e7 47 02 	vmovntdq %zmm16,0x80(%rdi)
+  17c4a9:	62 e1 7d 48 e7 47 03 	vmovntdq %zmm16,0xc0(%rdi)
+  17c4b0:	48 81 ef 00 ff ff ff 	sub    $0xffffffffffffff00,%rdi
+  17c4b7:	48 39 d7             	cmp    %rdx,%rdi
+  17c4ba:	72 d9                	jb     17c495 <_dl_mcount_wrapper@GLIBC_2.2.5+0x1a385>
+  17c4bc:	0f ae f8             	sfence
+  17c4bf:	62 e1 fe 48 7f 02    	vmovdqu64 %zmm16,(%rdx)
+  17c4c5:	62 e1 fe 48 7f 42 01 	vmovdqu64 %zmm16,0x40(%rdx)
+  17c4cc:	62 e1 fe 48 7f 42 02 	vmovdqu64 %zmm16,0x80(%rdx)
+  17c4d3:	62 e1 fe 48 7f 42 03 	vmovdqu64 %zmm16,0xc0(%rdx)
+  17c4da:	c3                   	ret
