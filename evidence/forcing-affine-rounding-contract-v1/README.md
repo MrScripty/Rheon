@@ -1,0 +1,11 @@
+# Minimal affine-known rounding contract
+
+This packet prepares E2 while the fixed-candidate diagnosis is under independent review. It contains no Rust change, candidate implementation, native runner or execution authorization. The [contract](../../docs/research-book/implementation/forcing-affine-rounding-contract.md) fixes the mathematical boundary, ownership/storage limits and future measurements before implementation.
+
+E2 defers only working affine-known rounding inside the existing checked 106-bit chart solve. Every known/dependent coefficient is then rounded to the actual stored candidate; native stored-difference inertia and every downstream term/original gate are rebuilt from that candidate. Ephemeral unrounded increments cannot qualify an endpoint or survive publication. This construction may change candidate bits even at the same unknowns. The existing below-target continuous-known diagnostics remain counterfactuals and do not predict a repaired stored candidate.
+
+`policy.json` pins the two actual failed states, final authorized unknowns and inherited gates/rosters by hash. The independent diagnostic disposition is explicitly unavailable. Four fixed candidate equations are a future conditional roster, not executed or authorized here. No new trajectory, reference integration, implementation or production adoption occurs. Existing two refusals/eight geometry band failures remain unchanged.
+
+`check.py` performs read-only source/policy checks and three small exact analytical examples; none calls a Rheon chart, point, candidate or integrator. The examples distinguish exact algebra, changed intermediate rounding and latent/stored reconciliation. Normal/optimized outputs and corruption controls are recorded after the contract source freeze. No new native numerical result, memory qualification, Lean theorem or simulator claim follows.
+
+The next source must obtain the coordinator's diagnostic review disposition, resolve objections, match this policy, and receive actual compiler/scalar/memory qualification plus a frozen execution receipt before any candidate runs. Latent-endpoint qualification, retained state, initial projection, changed geometry arithmetic or expanded allowance are real semantic decisions for the owner and excluded from this contract.

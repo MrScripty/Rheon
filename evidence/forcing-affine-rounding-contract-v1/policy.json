@@ -1,0 +1,236 @@
+{
+  "base": "b46d26c8fe06f9c331c5cee4e06af6e34fa9190c",
+  "base_tree": "96045fb873ad9f1e00134a46e6e3d6efcda69567",
+  "base_tree_files": 7803,
+  "baseline_sha256": {
+    "docs/research-book/expansion/PLAN.md": "4b7d4b0d6b606c8eeb33e9cfc8a1cf5f7a60ede7956590c7d4147c7d4c8e12c6",
+    "docs/research-book/implementation/forcing-increment-state-contract-supplement.md": "a196a838b7d19c42f5c3f7562aa574414c3cb6f6015b25a50eda9384bfb5a99f",
+    "docs/research-book/implementation/forcing-increment-state-contract.md": "62329edbdf0064a69f387f010de463970e6c4115dd5ec56b5c2713508d2e07ef",
+    "evidence/forcing-e1-fixed-candidates-v1/analysis-80-normal.json": "6af01557d2a4ee9265e1273ffeb7a873163a37a1003d24b28fd057bf1020f9a3",
+    "evidence/forcing-e1-fixed-candidates-v1/capture-native.log": "aa2117e385d77f5d208f41afb872e051828093e9ac91df82ecb461ee1cba812b",
+    "evidence/forcing-e1-fixed-candidates-v1/inputs.json": "0c0c75411d93c0663c6281ae9163c7c73cbc376e5085c6b80484d5ff34411607",
+    "evidence/forcing-e1-fixed-candidates-v1/post-git-verification.json": "7f9158c0db90bdd782134e8f6bbd22956be79d14da8170dc894312d46ab455f0",
+    "evidence/forcing-e1-fixed-candidates-v1/protocol.json": "b0ca65fc5b0eac9e2f637be1ffd648f3068e538b85a356dc6b98f45624a753a9",
+    "evidence/forcing-e1-fixed-candidates-v1/receipt.json": "f8de833140df092488a4ef529550820bf31bab8b134070c7562acc9bea78fe98",
+    "evidence/forcing-e1-signed-geometry-v1/outcome-v3-normal.json": "0fe84eb92cb85f5038b3044dff4d413f7fbaa24fed1864f344cf8d7381a254bc",
+    "evidence/forcing-e1-signed-geometry-v1/receipt.json": "bcdf9aa6745fea821a27fd68f6758d56fedebf46a78bbd08a3a9a826af0097a1",
+    "evidence/forcing-e1-trajectories-v2/candidate.rs": "25ee50a48fff4be55b6d30cd5d41ab6eb5b72672a7933dbd19d2441fe572b248",
+    "evidence/forcing-e1-trajectories-v2/cases.json": "7e840298fb9cbfb9e01cf47e8cf4ab3c75ebb573753838256d0baf761f221e3a",
+    "evidence/forcing-e1-trajectories-v2/protocol.json": "256ff8e7aa27d2fa968a42284a8de86c11bcd0ed3e820f64866c333582554d95",
+    "evidence/forcing-e1-trajectories-v2/roster.json": "432e2afc3b0dbf915849a07d565b7af98f80ea3423c0f4371c8e9880fc5058b1",
+    "evidence/forcing-e1-trajectories-v2/scalar.rs": "7ef1ed888434287b373ca9632f727be897d10f70681f42aef1823ee9d5199bf2",
+    "src/coupled_discrete.rs": "2062542bd181d60078c9141c95f022ebdce8fd0e536500a52839fbdbb5ebba0e",
+    "src/fitted_height.rs": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+    "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163"
+  },
+  "conditional_fixed_comparison": {
+    "accepted_owners_advanced": 0,
+    "accepted_owners_constructed": 0,
+    "cases": [
+      {
+        "accepted_version": 1,
+        "expected_original_native_norm": 1.0724458777318338e-13,
+        "h": 0.00078125,
+        "index": 41,
+        "kind": "initial",
+        "load": "forward",
+        "unknown_sha256": "aac8196544f1ef7c9e1142e8764c095827eee4eb7616770bbd3e784607f172ad"
+      },
+      {
+        "accepted_version": 25,
+        "expected_original_native_norm": 1.3144896847477506e-13,
+        "h": 0.00078125,
+        "index": 47,
+        "kind": "pressure_state",
+        "load": "reversed",
+        "unknown_sha256": "9b652c9f83d2c1ac33fdbd2561383b73e0b7fa6de3bb15e30af60b1914350ac8"
+      }
+    ],
+    "comparison_roster": [
+      "C0_frozen_E1",
+      "C1_exact_same_stored_fields",
+      "C2_E2_changed_stored_fields"
+    ],
+    "controller_corrections": 0,
+    "new_fixed_equations": 4,
+    "orders": [
+      16,
+      32
+    ],
+    "publication": false,
+    "scope": "conditional specification only; no implementation or native evaluation in this packet",
+    "third_solve": false
+  },
+  "construction": {
+    "accepted_constraint_defect_retained": true,
+    "downstream_graph": "complete native embedding/inspection/mesh/Ddot/forces/partition/positive-negative flux/work/third/publication on one stored candidate",
+    "exact_oracle_can_replace_gate": false,
+    "factorization": "same selected 15 rows and dependent columns; largest absolute pivot, last row ties; no refinement",
+    "full_higher_precision_force_or_momentum_evaluator": false,
+    "geometry_graph": "unchanged native quadratic q/cap/material/geometry graph at each actual s",
+    "known_sign_and_mapping": "unchanged KNOWN/COORD/sign arrays from E1",
+    "native_accumulation_and_norm": "unchanged existing E1 graph",
+    "native_inertia_graph": "unchanged stored binary64 difference and matvec; unrounded working increment excluded",
+    "only_change": "working affine known targets before existing chart factorization",
+    "rounding": "nearest ties even after each scalar operation; checked RN64 for every stored known/dependent coefficient",
+    "scalar_range": "every nonzero intermediate within existing binary64-normal magnitude envelope; checked division/range failures preserved",
+    "scalar_significand_bits": 106,
+    "scalar_slot_bytes": 32,
+    "working_affine_graph": "H_add(H_from(eta0), H_mul(H_from(s), H_from(alpha)))"
+  },
+  "diagnostic_review": {
+    "authority": "coordinator records independent review disposition and any policy changes",
+    "disposition": null,
+    "execution_enabled": false,
+    "reviewed_receipt_sha256": "f8de833140df092488a4ef529550820bf31bab8b134070c7562acc9bea78fe98",
+    "reviewed_source": "b46d26c8fe06f9c331c5cee4e06af6e34fa9190c",
+    "reviewed_tree": "96045fb873ad9f1e00134a46e6e3d6efcda69567"
+  },
+  "executed_in_this_packet": {
+    "implementation": false,
+    "native_candidate_equations": 0,
+    "native_owner_constructions": 0,
+    "new_reference_integrations": 0,
+    "new_trajectories": 0,
+    "owner_advances": 0,
+    "production_adoption": false
+  },
+  "execution_preconditions": [
+    "coordinator-recorded independent diagnostic review disposition with exact evidence identity",
+    "resolve review objections and freeze any revised contract",
+    "frozen matching research implementation and source/tree/policy identities",
+    "passed Rust formatting/compiler/Clippy and native scalar conformance",
+    "fresh actual ELF layout and simultaneous-live-memory receipt within 67584 bytes",
+    "specific frozen native execution authorization, separate from this design packet"
+  ],
+  "gates": {
+    "correction_limit": 7,
+    "counted_equation_limit": 200,
+    "final_acceptance_equations_not_counted": 2,
+    "full_velocity_ratio_band": [
+      1.8,
+      2.2
+    ],
+    "geometry_ratio_band": [
+      1.7,
+      2.3
+    ],
+    "newton_target": 1e-13,
+    "nonconstant_third_ratio_band": [
+      1.8,
+      2.2
+    ],
+    "parameter_search": false,
+    "physical_momentum_and_full_constraints": 1e-11,
+    "preserve_original_native_budget_graph": true,
+    "quadrature_limit": 1e-15,
+    "third_solver_unchanged": true,
+    "threshold_changes": false,
+    "work_gcl_epsilon_factor": 128
+  },
+  "measurements": {
+    "endpoint": [
+      "accepted_bits",
+      "stored_q_eta_z_U_m_pressure",
+      "working_H_parts",
+      "rho",
+      "projected_rho_over_h",
+      "embedding_defects",
+      "all_24_constraint_rows"
+    ],
+    "full_planar_components": 22,
+    "gates": [
+      "native_sequential_norm",
+      "direct_native_norm",
+      "exact_binary_squared_norms",
+      "original_target_signed_margins",
+      "16_32_refinement",
+      "all_physical_work_GCL_third_publication_outcomes"
+    ],
+    "groups": [
+      "stored_chart_inertia",
+      "direct_nodal_inertia",
+      "mass_change",
+      "strain_force",
+      "pressure_force",
+      "body_force",
+      "endpoint_donor_transport",
+      "physical_path_convection"
+    ],
+    "independent_chart_targets": [
+      "exact_continuous_affine_knowns",
+      "actual_captured_H_knowns",
+      "rounded_stored_knowns"
+    ],
+    "independent_equation": "complete exact binary-input stored-field equation; never substitute latent or captured-other-candidate terms",
+    "independent_scalar_conformance": "exact rational rounding oracle with actual native parts and all range/division/tie failures",
+    "path": [
+      "actual_sign_partition",
+      "actual_s_and_weights",
+      "complete_native_geometry_force_provenance",
+      "positive_negative_transfers",
+      "mesh_motion_and_Ddot",
+      "sample_counts_and_failures"
+    ],
+    "precision_digits": [
+      80,
+      120
+    ],
+    "python_modes": [
+      "normal",
+      "optimized"
+    ]
+  },
+  "owner_decisions_if_requested": [
+    "qualify latent rather than reconciled stored endpoint",
+    "treat stored endpoint as display only or retain hidden tail",
+    "project initial state or change geometry/physical path",
+    "change original geometry metric/tolerances/budget or increase allowance"
+  ],
+  "protocol_id": "E2-deferred-working-affine-known-stored-endpoint-contract-v1",
+  "qualification_boundary": {
+    "geometry_metric": "unchanged original maximum error at actual common-final-time endpoint",
+    "later_roster": "unchanged frozen E1 original 48 ordinary + 8 lifecycle cases and 16 existing references",
+    "missing_endpoints_not_fabricated": true,
+    "native_refusals_retained": 2,
+    "no_arithmetic_floor_claim": true,
+    "no_checkpoint_API_claim": true,
+    "no_success_prediction": true,
+    "original_geometry_band_failures_retained": 8,
+    "public_prefix_change_is_different_trajectory": true,
+    "signed_geometry_components_supplement_only": true
+  },
+  "resources": {
+    "additional_live_cap_bytes": 67584,
+    "existing_descriptor_bytes": 8,
+    "existing_workspace_bytes": 62096,
+    "fresh_actual_elf_live_memory_audit_required": true,
+    "high_precision_endpoint_copy_live_during_quadrature": false,
+    "initialize_before_each_read": true,
+    "native_streaming_only": true,
+    "new_accepted_snapshot": false,
+    "new_high_precision_array": false,
+    "old_memory_bound_is_not_E2_qualification": true,
+    "proposed_affine_slot_range_inclusive": [
+      1917,
+      1922
+    ],
+    "reuse_existing_workspace_loan": true,
+    "scalar_slots": 1934,
+    "scalar_storage_bytes": 61888
+  },
+  "semantic_boundary": {
+    "accepted_initial_projection": false,
+    "latent_increment_in_qualified_inertia": false,
+    "new_clock": false,
+    "new_state_owner": false,
+    "persistent_authority": "existing stored accepted geometry/all velocities/pressure/mass/clock/stamp",
+    "reconciliation": "derive native stored endpoint differences, never use an unrounded solve increment for qualified inertia",
+    "retained_tails": false,
+    "same_fields": "exact algebra on identical stored binary fields; native rounding outcomes can differ",
+    "same_parameters": "may change stored candidate fields under deferred working-known rounding",
+    "stored_known_eta_consistent": true,
+    "unrounded_endpoint_qualifies": false
+  },
+  "status": "DESIGN_ONLY_BLOCKED_PENDING_DIAGNOSTIC_REVIEW"
+}
