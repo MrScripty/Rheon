@@ -1,0 +1,26 @@
+{
+  "acceptance_promotions": 0,
+  "artifacts": {
+    "docs/research-book/implementation/forcing-increment-state-contract.md": "62329edbdf0064a69f387f010de463970e6c4115dd5ec56b5c2713508d2e07ef",
+    "evidence/forcing-increment-contract/README.md": "7bbda5403de1442ef5b9e31f8238c138676715b59f772d20bef7262b08be2562",
+    "evidence/forcing-increment-contract/examples-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract/examples-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract/examples.py": "29773303d16cedb081005227c1dbfad46997dae9ef8c0b3eddd471098e685df5",
+    "evidence/forcing-increment-contract/results-normal.json": "5b64e99de41b375a49c57ef45e3586cc0a71386c67c0a91700a1913fdbad7ee0",
+    "evidence/forcing-increment-contract/results-optimized.json": "5b64e99de41b375a49c57ef45e3586cc0a71386c67c0a91700a1913fdbad7ee0",
+    "evidence/forcing-increment-contract/verify.py": "af97e98d0fd78573293e3404b118623f56c383996104cbe2400cf4c8562d81ca"
+  },
+  "base": "f0b81b4a5f76cb706e645fad4f38faf028c5727e",
+  "base_tree": "59927a7fb02d949859b78f7e78865d1717f19870",
+  "behavior_neutral": false,
+  "compensation_lifetime": "ephemeral workspace proposal only",
+  "frozen_inventory": {
+    "files": 6940,
+    "path_content_sha256": "59f304074b8d4226d5823a63b7969c0aeb607b5a73278bc5975c84b95bab78c5"
+  },
+  "native_compensation_implemented": false,
+  "original_native_refusals": 5,
+  "original_temporal_band": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "owner_advances": 0,
+  "production_changes": 0
+}

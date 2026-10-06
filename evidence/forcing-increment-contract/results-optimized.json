@@ -1,0 +1,130 @@
+{
+  "acceptance_promotions": 0,
+  "base": "f0b81b4a5f76cb706e645fad4f38faf028c5727e",
+  "cases": {
+    "directional_donor": {
+      "be": "7/1",
+      "delta_energy": "1/1",
+      "gcl": [
+        "0/1",
+        "0/1"
+      ],
+      "minus": "1/1",
+      "mixing": "6/1",
+      "plus": "2/1",
+      "residual": [
+        "4/1",
+        "2/1"
+      ],
+      "residual_work": "14/1",
+      "wrong_net_only_mixing": "2/1"
+    },
+    "embedding": {
+      "direct": "-1/4503599627370496",
+      "e0": "-1/4503599627370496",
+      "e1": "0/1",
+      "ledger_defect": "-1/4503599627370496",
+      "nodal_work": "-1/4503599627370496",
+      "reduced_work": "0/1",
+      "stable": "0/1"
+    },
+    "lost_increment": {
+      "discarded_energy": "-36028797018963969/649037107316853453566312041152512",
+      "discarded_momentum": "-1/18014398509481984",
+      "endpoint_rate": "-1/1",
+      "h": "1/18014398509481984",
+      "hybrid_ledger": "-1/18014398509481984",
+      "latent": "18014398509481985/18014398509481984",
+      "latent_rate": "0/1",
+      "stored_hex": "0x1.0000000000000p+0",
+      "stored_ledger": "0/1",
+      "u0": "1/1"
+    },
+    "moving_constraint": {
+      "absolute_unknown": "-9/16",
+      "chart_start_unknown_delta": "-1/64",
+      "d0": [
+        "1/1",
+        "1/1"
+      ],
+      "d1": [
+        "1/1",
+        "2/1"
+      ],
+      "delta_known": "1/8",
+      "delta_unknown": "27/64",
+      "wrong_constraint": "1/64",
+      "z0": [
+        "1/1",
+        "-63/64"
+      ]
+    },
+    "operator_recomputation": {
+      "pressure_work": "-3/4503599627370496",
+      "stale_latent_pressure_work": "0/1",
+      "stale_strain_work": "0/1",
+      "stored_divergence": "1/4503599627370496",
+      "strain_work": "1/20282409603651670423947251286016"
+    },
+    "retained_restart": {
+      "ephemeral_public_hex": [
+        "0x1.0000000000000p+0",
+        "0x1.0000000000000p+0",
+        "0x1.0000000000000p+0"
+      ],
+      "is_rheon_restart": false,
+      "resumed_high_only_hex": "0x1.0000000000000p+0",
+      "resumed_with_low_hex": "0x1.0000000000001p+0",
+      "retained_public_hex": [
+        "0x1.0000000000000p+0",
+        "0x1.0000000000000p+0",
+        "0x1.0000000000001p+0"
+      ],
+      "saved_high_hex": "0x1.0000000000000p+0",
+      "saved_low": "1/9007199254740992"
+    },
+    "rounded_geometry": {
+      "latent_mass": "18014398509481985/18014398509481984",
+      "mixed_operator_gap": "1/18014398509481984",
+      "model": "illustrative m(q)=q and K(q)=q, U=1",
+      "qbinary": "1/1",
+      "qlatent": "18014398509481985/18014398509481984",
+      "stored_mass": "1/1"
+    },
+    "same_inputs_acceptance": {
+      "alternate": 1.0000000000000002e-13,
+      "alternate_pass": false,
+      "exact": "7922816251426435/79228162514264337593543950336",
+      "inputs_hex": [
+        "0x1.0000000000000p+0",
+        "0x1.c25c268497683p-44",
+        "-0x1.0000000000000p+0"
+      ],
+      "is_rheon_counterexample": false,
+      "sequential": 9.992007221626409e-14,
+      "sequential_pass": true,
+      "threshold_hex": "0x1.c25c268497682p-44"
+    }
+  },
+  "current_baseline": "stored endpoint with original native operation graph",
+  "limitations": "No native compensated evaluator, complete Rheon equation, restart API, public-call repair or numerical floor.",
+  "original_native_refusals": 5,
+  "original_temporal_band": "FAIL_ORIGINAL_TEMPORAL_BAND",
+  "owner_advances": 0,
+  "production_changes": 0,
+  "proposal": "ephemeral workspace, stored endpoints remain authoritative; arithmetic policy needs review",
+  "rejected_corruptions": [
+    "latent residual passed as stored endpoint",
+    "latent residual paired with stored energy",
+    "ephemeral precision declared behavior neutral",
+    "omitted accepted constraint defect",
+    "off-chart accepted state called continuous chart start",
+    "stable/direct declared exact for rounded embedding",
+    "net transfer substituted for directional mixing",
+    "latent divergence claimed for stored endpoint",
+    "stale strain claimed for changed endpoint",
+    "latent mass and rounded geometry conflated",
+    "omitted persistent tail called restart parity"
+  ],
+  "status": "PASS_SMALL_EXAMPLES_ONLY"
+}

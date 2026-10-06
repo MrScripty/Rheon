@@ -1,0 +1,11 @@
+{
+  "analytical_examples": 8,
+  "artifacts": 8,
+  "behavior_neutral": false,
+  "frozen_files": 6940,
+  "native_compensation_implemented": false,
+  "owner_advances": 0,
+  "production_changes": 0,
+  "rejected_analytical_corruptions": 11,
+  "status": "PASS_RESEARCH_CONTRACT_ONLY"
+}
