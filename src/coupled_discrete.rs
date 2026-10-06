@@ -597,6 +597,28 @@ impl CoupledDiscreteFlow {
             )?;
             calls += 1;
             iterations = iteration + 1;
+            // BEGIN RHEON REFUSAL DIAGNOSTIC
+            #[cfg(rheon_newton_trace)]
+            eprintln!(
+                "{{\"event\":\"newton_check\",\"iteration\":{},\"calls\":{},\"h\":{:?},\"accepted_version\":{},\"accepted_time\":{:?},\"q\":{:?},\"eta\":{:?},\"unknown\":{:?},\"rate_norm\":{:?},\"rate\":{:?},\"direct_rate\":{:?},\"candidate_q\":{:?},\"candidate_planar_velocity\":{:?},\"candidate_mass\":{:?},\"newton_threshold\":{:?},\"iteration_limit\":{}}}",
+                iterations,
+                calls,
+                h,
+                before.version,
+                accepted.time,
+                q,
+                eta,
+                unknown,
+                norm(&e.rate)?,
+                e.rate,
+                e.direct_rate,
+                e.end.q,
+                e.end.u,
+                e.end.mass,
+                NEWTON,
+                self.flow.settings().max_iterations.min(7),
+            );
+            // END RHEON REFUSAL DIAGNOSTIC
             if norm(&e.rate)? <= NEWTON {
                 converged = true;
                 break;
@@ -632,11 +654,74 @@ impl CoupledDiscreteFlow {
             for i in 0..V {
                 unknown[i] = add(unknown[i], correction[i])?;
             }
+            // BEGIN RHEON REFUSAL DIAGNOSTIC
+            #[cfg(rheon_newton_trace)]
+            eprintln!(
+                "{{\"event\":\"correction\",\"iteration\":{},\"calls\":{},\"correction\":{:?},\"unknown_after\":{:?}}}",
+                iterations, calls, correction, unknown,
+            );
+            // END RHEON REFUSAL DIAGNOSTIC
             if calls > 200 {
+                // BEGIN RHEON REFUSAL DIAGNOSTIC
+                #[cfg(rheon_newton_trace)]
+                eprintln!(
+                    "{{\"event\":\"refusal\",\"reason\":\"equation_call_budget\",\"checks\":{},\"calls\":{}}}",
+                    iterations, calls,
+                );
+                // END RHEON REFUSAL DIAGNOSTIC
                 return Err(CoupledDiscreteError::IterationLimit);
             }
         }
         if !converged {
+            // BEGIN RHEON REFUSAL DIAGNOSTIC
+            #[cfg(rheon_newton_trace)]
+            {
+                eprintln!(
+                    "{{\"event\":\"refusal\",\"reason\":\"seven_check_newton_window_exhausted\",\"checks\":{},\"calls\":{},\"accepted_version\":{},\"h\":{:?},\"newton_threshold\":{:?}}}",
+                    iterations, calls, before.version, h, NEWTON,
+                );
+                // Observe the unused seventh correction at both quadrature
+                // orders. These two evaluations never enter the solver's
+                // acceptance decision, counters or published state.
+                for order in [16, 32] {
+                    match self.work.equation(
+                        q,
+                        eta,
+                        &unknown,
+                        h,
+                        order,
+                        old_velocity,
+                        &old_mass,
+                        acceleration,
+                        &mut cancel,
+                    ) {
+                        Ok(observed) => match norm(&observed.rate) {
+                            Ok(rate_norm) => eprintln!(
+                                "{{\"event\":\"post_window_observation\",\"order\":{},\"rate_norm\":{:?},\"rate\":{:?},\"direct_rate\":{:?},\"unknown\":{:?},\"candidate_q\":{:?},\"candidate_planar_velocity\":{:?},\"candidate_mass\":{:?},\"did_not_participate_in_acceptance\":true}}",
+                                order,
+                                rate_norm,
+                                observed.rate,
+                                observed.direct_rate,
+                                unknown,
+                                observed.end.q,
+                                observed.end.u,
+                                observed.end.mass,
+                            ),
+                            Err(error) => eprintln!(
+                                "{{\"event\":\"post_window_observation\",\"order\":{},\"error\":{:?},\"did_not_participate_in_acceptance\":true}}",
+                                order,
+                                format!("{error:?}"),
+                            ),
+                        },
+                        Err(error) => eprintln!(
+                            "{{\"event\":\"post_window_observation\",\"order\":{},\"error\":{:?},\"did_not_participate_in_acceptance\":true}}",
+                            order,
+                            format!("{error:?}"),
+                        ),
+                    }
+                }
+            }
+            // END RHEON REFUSAL DIAGNOSTIC
             return Err(CoupledDiscreteError::IterationLimit);
         }
         barrier(&mut cancel, CoupledDiscreteStage::BeforeAcceptance)?;

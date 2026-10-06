@@ -141,6 +141,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     region: None,
                 };
                 for h in [0.0015625, 0.00078125] {
+                    // BEGIN RHEON REFUSAL DIAGNOSTIC
+                    #[cfg(rheon_newton_trace)]
+                    eprintln!(
+                        "{{\"event\":\"case\",\"kind\":\"{kind}\",\"load\":\"{load}\",\"h\":{h:?}}}"
+                    );
+                    // END RHEON REFUSAL DIAGNOSTIC
                     let mut o = CoupledDiscreteFlow::new_forced_extruded(
                         geometry,
                         &velocity,
@@ -162,6 +168,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                             }
                             Err(error) => {
                                 assert!(snapshot(&o) == before, "refusal changed accepted state");
+                                // BEGIN RHEON REFUSAL DIAGNOSTIC
+                                #[cfg(rheon_newton_trace)]
+                                {
+                                    eprintln!("{{\"event\":\"retry_begin\"}}");
+                                    let retry = o.step_extruded_with_forces(h, &[force], |_| false);
+                                    assert!(matches!(
+                                        retry,
+                                        Err(CoupledDiscreteError::IterationLimit)
+                                    ));
+                                    assert!(snapshot(&o) == before, "retry changed accepted state");
+                                    eprintln!(
+                                        "{{\"event\":\"retry_end\",\"error\":\"IterationLimit\",\"state_preserved\":true}}"
+                                    );
+                                }
+                                // END RHEON REFUSAL DIAGNOSTIC
                                 println!(
                                     "{{\"probe_status\":\"REFUSED\",\"kind\":\"{kind}\",\"field\":\"{field}\",\"load\":\"{load}\",\"h\":{h:?},\"accepted_steps\":{accepted},\"expected_steps\":{expected},\"attempted_step\":{attempted},\"state_preserved\":true,\"error\":{:?}}}",
                                     format!("{error:?}")

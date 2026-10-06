@@ -12,6 +12,9 @@ path = "src/lib.rs"
 
 [lints.rust]
 unsafe_code = "forbid"
+# BEGIN RHEON REFUSAL DIAGNOSTIC
+unexpected_cfgs = { level = "warn", check-cfg = ["cfg(rheon_newton_trace)"] }
+# END RHEON REFUSAL DIAGNOSTIC
 
 [dependencies]
 png = { version = "=0.18.1", optional = true }
