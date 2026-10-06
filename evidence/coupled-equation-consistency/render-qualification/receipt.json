@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "mode": "normal",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "evidence/coupled-equation-consistency/render.py",
+        "evidence/coupled-equation-consistency/render-qualification/normal"
+      ],
+      "exit": 0
+    },
+    {
+      "mode": "optimized",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "evidence/coupled-equation-consistency/render.py",
+        "evidence/coupled-equation-consistency/render-qualification/optimized"
+      ],
+      "exit": 0
+    }
+  ],
+  "actual_render_mode_byte_equal": true,
+  "renderer_sha256": "b3f1011cd91308d4c5c13e28612d0bcebc099481c5d183ee014290ea7316202b",
+  "output_files": [
+    "equation-consistency.csv",
+    "equation-consistency.pdf",
+    "equation-consistency.png",
+    "receipt.json"
+  ]
+}

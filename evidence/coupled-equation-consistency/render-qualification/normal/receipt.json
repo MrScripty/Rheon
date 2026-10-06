@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "actual_observed_rows": 10,
+  "input_sha256": {
+    "evidence/coupled-equation-consistency/consistency-qualification/normal-study.json": "e69ea70230e9a4f13dc98f7303f8812d2df616abc998e1c81ec1dbfa0c47ce49",
+    "evidence/coupled-equation-consistency/consistency-qualification/normal-taylor.json": "a85aa940bf03a92445fc677a1e4fef00adbd55768e50baa0e23cc29d3eec4290"
+  },
+  "renderer_sha256": "b3f1011cd91308d4c5c13e28612d0bcebc099481c5d183ee014290ea7316202b",
+  "output_sha256": {
+    "equation-consistency.csv": "f1e0882df6f6efac7ee483dc28053230dcbbaa3463350c4880de47bcfe71f724",
+    "equation-consistency.pdf": "50df4ae8cf598137754a9133955cbb60bd85e473472d3cc436550c10d2a54cb5",
+    "equation-consistency.png": "cfbb3fd85343625cd17badbb9044fecc96c39000db634f9ae19912b547f9078a"
+  },
+  "scope": "Actual qualified numerical observations with independent exact limiting coefficients; wrong-equation bars are exact counterexamples, not observed native failures."
+}

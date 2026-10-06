@@ -1,0 +1,130 @@
+{
+  "status": "PASS_WITH_RETAINED_ARITHMETIC_AND_INTERPRETATION_COUNTEREXAMPLES",
+  "commands": [
+    {
+      "name": "unchanged-rust-format",
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-taylor",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/taylor.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-test_reference",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/test_reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-study",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/study.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-finer",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/finer.py",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/consistency-qualification/normal-finer.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-frozen-base",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "/workspace/Rheon/evidence/native-coupled-discrete/verify.py",
+        "--evidence-commit",
+        "a9428641b46de41b21a736849ab90c053d704b39",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-taylor",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/taylor.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-test_reference",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/test_reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-study",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/study.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-finer",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/finer.py",
+        "/workspace/Rheon/evidence/coupled-equation-consistency/consistency-qualification/optimized-finer.json"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-frozen-base",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "/workspace/Rheon/evidence/native-coupled-discrete/verify.py",
+        "--evidence-commit",
+        "a9428641b46de41b21a736849ab90c053d704b39",
+        "--negative-self-test"
+      ],
+      "exit": 0
+    }
+  ],
+  "source_sha256": {
+    "docs/research-book/implementation/coupled-equation-consistency.md": "cd9c85c27f33ea2608f76411d53f27fb1ba071383a0f02a039c8971a1fbe68bc",
+    "evidence/coupled-equation-consistency/README.md": "9e02815ed4641154100ce5cc47dac47dcbf46e3b298b1e77ee5c89f13faa6655",
+    "evidence/coupled-equation-consistency/finer.py": "39567ea569e91fe06c99dfdb1f19cbd6f07fc53c25e2c45331202841df88e520",
+    "evidence/coupled-equation-consistency/qualify.py": "b30b63d0c4d58ec9ab8198c9bf20775b26204f79026e70941ffd1ca901366276",
+    "evidence/coupled-equation-consistency/study.py": "6f3c0134c1e469945269ff19e4c6324d6544481849f3851071eb33c6975b5791",
+    "evidence/coupled-equation-consistency/taylor.py": "175daeb3159191400a8501bc03cc4bc60a2d3263e57b22c6cf39982fd19a188c",
+    "evidence/coupled-equation-consistency/test_reference.py": "53f7dc095378b2ad39615a1f3421288ba9c00cc2db1e9ac0c692b36fcc9bd454",
+    "evidence/coupled-equation-consistency/verify.py": "42029f9067203f3071e1e6a3420b7adca2820ec73c65d2802d649513ec520613"
+  },
+  "tests_per_mode": 7,
+  "independent_exact_tangent_and_derivative_fields": 2,
+  "actual_observed_saved_cells_per_mode": 10,
+  "actual_finer_attempts_per_mode": 4,
+  "actual_accepted_finer_cells_per_mode": 3,
+  "actual_refused_finer_cells_per_mode": 1,
+  "actual_mode_byte_equal": true,
+  "physical_or_numerical_allowances_relaxed": 0,
+  "new_Rust_changes": 0,
+  "new_Lean_claims": 0,
+  "pressure_first_difference_derivative_diagnostic_pass": false,
+  "original_coarse_pressure_flux_diagnostic_pass": false,
+  "next_bounded_physics_only_proposed": true
+}

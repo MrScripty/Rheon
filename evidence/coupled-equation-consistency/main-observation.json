@@ -1,0 +1,20 @@
+{
+  "remote_main_observed_by_actual_ls_remote": "56bd1147811a816b2485aaf1f74729f26a9b7d7c",
+  "remote_main_tree": "eedba607888670219cc3ce7152c9a9e699295b78",
+  "expected_sources": [
+    {
+      "commit": "4be8f9dffa179a22c7ef127ca2948f18d0c245a3",
+      "tree": "fdaee0494a05b985c8a71f80eb901caf580da1da",
+      "ancestor_of_remote_main": true,
+      "ancestor_of_frozen_audit_source": true
+    },
+    {
+      "commit": "7985ca568d4c921fab782d22db9c05729329112e",
+      "tree": "b7d4bbda61fc9c4df79c949e9d12e389518a3869",
+      "ancestor_of_remote_main": true,
+      "ancestor_of_frozen_audit_source": true
+    }
+  ],
+  "observation_only": true,
+  "no_main_mutation": true
+}
