@@ -1,0 +1,99 @@
+[
+  {
+    "argv": [
+      "rustfmt",
+      "--edition",
+      "2024",
+      "--check",
+      "--config",
+      "skip_children=true",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/fd_probe.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/candidate.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/candidate_helpers.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/candidate_probe.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/fixed_inputs.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/harness.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/inputs.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/reference.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/reference_helpers.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/reference_probe.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/scalar.rs",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/trajectory_inputs.rs"
+    ],
+    "exit": 0,
+    "native_test_invocation": false,
+    "seconds": 0.20350203999259975,
+    "stderr": "format-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "format.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "argv": [
+      "python",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/prepare.py",
+      "install"
+    ],
+    "exit": 0,
+    "native_test_invocation": false,
+    "seconds": 0.0655971270025475,
+    "stderr": "install-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "install.log",
+    "stdout_sha256": "656e869c0ebcc9a3876eacf56a40ae0afcc94a571be09b69bc7bf77f68575f54"
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--no-default-features",
+      "--lib",
+      "--locked",
+      "--no-run",
+      "--message-format=json"
+    ],
+    "exit": 0,
+    "native_test_invocation": false,
+    "seconds": 30.983665542997187,
+    "stderr": "build-stderr.log",
+    "stderr_sha256": "450eb0015da383055db0a71c8ee317de673352ef9b61041bd17c799a4dba8f55",
+    "stdout": "build.log",
+    "stdout_sha256": "e31f42cb48ad79e8b1ce417a91dabbf5f6241c4dcf29501e94a598c0cae98c3c"
+  },
+  {
+    "argv": [
+      "cargo",
+      "clippy",
+      "--release",
+      "--no-default-features",
+      "--lib",
+      "--tests",
+      "--locked",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "native_test_invocation": false,
+    "seconds": 11.64482758998929,
+    "stderr": "clippy-stderr.log",
+    "stderr_sha256": "69e330064c541ac5597dc2c664a787e8a2b900fa7cc03413b6e2ece55429092d",
+    "stdout": "clippy.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "argv": [
+      "python",
+      "/workspace/Rheon-case41-next-plan/evidence/case41-scaled-fd-preparation-v1/native/prepare.py",
+      "restore"
+    ],
+    "exit": 0,
+    "native_test_invocation": false,
+    "seconds": 0.07770184200489894,
+    "stderr": "restore-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "restore.log",
+    "stdout_sha256": "e4b04955ae181c8e8da8615993cec1ed1bedadc9254bbcefc5bdf1fe8d55c265"
+  }
+]

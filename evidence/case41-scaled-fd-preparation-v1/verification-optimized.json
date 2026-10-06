@@ -1,0 +1,37 @@
+{
+  "FD_memory_preflight_pending": true,
+  "arithmetic_floor_claimed": false,
+  "binary_sha256": "48f58e62577eef569e942d3e8e7139701613091076a736c015bee5256691ba72",
+  "capture_authorized": false,
+  "capture_equations_future_max": 7,
+  "compiled_source": "c238111d8c8d159c157e489294a25998aaf36516",
+  "compiled_source_tree": "c87e9c658cad27df708a34aa63bccf9868095598",
+  "local_links_checked": 29,
+  "metric_orders": [
+    16,
+    32
+  ],
+  "metric_precision": [
+    80,
+    120
+  ],
+  "native_equations_executed": 0,
+  "native_test_ELF_invocations": 0,
+  "negative_controls": [
+    "indefinite mass rejected",
+    "singular mass rejected"
+  ],
+  "new_corrections": 0,
+  "normal_optimized_parity": true,
+  "original_geometry_band_failures_retained": 8,
+  "original_runtime_failures_retained": 2,
+  "owner_advances": 0,
+  "physical_root_error_bound_established": false,
+  "preserved_base": {
+    "files": 8058,
+    "path_content_sha256": "30d294560f1557a83d3d89855caf80d515c51b054c2c981aa4396679d00b3354"
+  },
+  "pure_E2_execution_authorized": false,
+  "runtime_scalar_preflight_pending": true,
+  "status": "PASS_COMPILED_PREPARATION_AND_EXISTING_DATA_METRICS_ONLY"
+}

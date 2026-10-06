@@ -1,0 +1,72 @@
+[
+  {
+    "argv": [
+      "python",
+      "evidence/case41-scaled-fd-preparation-v1/analyze_metric_v2.py",
+      "80"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "stderr": "metric-v2-80-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "metric-v2-80-normal.json",
+    "stdout_sha256": "e9cc46b7aabe7f0a1c703c9bc41d23ca0e81990b0d7ed42335817ed90e560bee"
+  },
+  {
+    "argv": [
+      "python",
+      "-O",
+      "evidence/case41-scaled-fd-preparation-v1/analyze_metric_v2.py",
+      "80"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "stderr": "metric-v2-80-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "metric-v2-80-optimized.json",
+    "stdout_sha256": "e9cc46b7aabe7f0a1c703c9bc41d23ca0e81990b0d7ed42335817ed90e560bee"
+  },
+  {
+    "argv": [
+      "python",
+      "evidence/case41-scaled-fd-preparation-v1/analyze_metric_v2.py",
+      "120"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "stderr": "metric-v2-120-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "metric-v2-120-normal.json",
+    "stdout_sha256": "a67eee98be84f9f3e176529674cff5de73379aa66ddeb99661c1eb67323f202a"
+  },
+  {
+    "argv": [
+      "python",
+      "-O",
+      "evidence/case41-scaled-fd-preparation-v1/analyze_metric_v2.py",
+      "120"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "stderr": "metric-v2-120-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "metric-v2-120-optimized.json",
+    "stdout_sha256": "a67eee98be84f9f3e176529674cff5de73379aa66ddeb99661c1eb67323f202a"
+  }
+]

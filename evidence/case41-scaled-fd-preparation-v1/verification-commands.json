@@ -1,0 +1,27 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "evidence/case41-scaled-fd-preparation-v1/verify.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "verification-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "verification-normal.json",
+    "stdout_sha256": "42a39c75b9b01d84c8a5773dd78726bc022f3b0d4b56533c5841a5c73550c2e7"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "evidence/case41-scaled-fd-preparation-v1/verify.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "verification-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "verification-optimized.json",
+    "stdout_sha256": "42a39c75b9b01d84c8a5773dd78726bc022f3b0d4b56533c5841a5c73550c2e7"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "FD_execution_authorization_pending": true,
+  "FD_memory_preflight_pending": true,
+  "binary": "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "48f58e62577eef569e942d3e8e7139701613091076a736c015bee5256691ba72",
+  "native_equations": 0,
+  "native_test_invocations": 0,
+  "owner_advances": 0,
+  "protocol_sha256": "71fdd1d58fd2148fc869fc136996afa00232846480e323e766f6ac91672845f8",
+  "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
+  "scalar_runtime_preflight_pending": true,
+  "source": "c238111d8c8d159c157e489294a25998aaf36516",
+  "source_tree": "c87e9c658cad27df708a34aa63bccf9868095598",
+  "status": "PASS_FORMAT_RELEASE_COMPILE_CLIPPY_ONLY",
+  "target": "/workspace/.rheon-tools/case41-scaled-fd-prep-v1-target"
+}
