@@ -1,4 +1,6 @@
 import csv
+import fnmatch
+import re
 import json
 from pathlib import Path
 import shutil
@@ -12,6 +14,49 @@ class ColumnVerifierTest(unittest.TestCase):
         result=verify(ROOT/'evidence/column-interface/demo')
         self.assertEqual(len(result['results']),13)
         self.assertEqual(sum(row.get('coupled_intervals',0) for row in result['results']),64)
+    def test_every_coupled_final_artifact_matches_last_accepted_frame(self):
+        cases=[method+'-'+kind for method in ('jacobi-pcg-v1','sgs-pcg-v1') for kind in ('pulse','activation','mixed-rest')]
+        changes=('nan_velocity','finite_velocity','noninteger_face','nan_geometry','finite_geometry','pixel','corrupt_png','missing_faces','missing_geometry','missing_png')
+        for name in cases:
+            for change in changes:
+                with self.subTest(case=name,change=change),tempfile.TemporaryDirectory() as temporary:
+                    demo=Path(temporary)/'demo';shutil.copytree(ROOT/'evidence/column-interface/demo',demo)
+                    case=demo/name
+                    if change.startswith('missing_'):
+                        filename={'missing_faces':'final-faces.csv','missing_geometry':'final-geometry.csv','missing_png':'final.png'}[change]
+                        (case/filename).unlink()
+                    elif change=='corrupt_png':
+                        (case/'final.png').write_bytes(b'not a PNG')
+                    elif change=='pixel':
+                        path=case/'final.png'
+                        with Image.open(path) as original:image=original.copy()
+                        image.putpixel((0,0),image.getpixel((0,0))^1);image.save(path)
+                    else:
+                        filename='final-geometry.csv' if change.endswith('geometry') else 'final-faces.csv'
+                        field='top_fraction' if change.endswith('geometry') else 'axis' if change=='noninteger_face' else 'velocity'
+                        path=case/filename
+                        with path.open() as stream:
+                            reader=csv.DictReader(stream);fields,rows=reader.fieldnames,list(reader)
+                        rows[0][field]='nan' if change.startswith('nan_') else str(float(rows[0][field])+0.01)
+                        with path.open('w',newline='') as stream:
+                            writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerows(rows)
+                    with self.assertRaises((ValueError,OSError)):verify(demo)
+    def test_rust_ci_triggers_for_each_example_and_column_verifier(self):
+        # The workflow uses six-space quoted path list entries. No YAML package
+        # is needed by CI's existing standard-library/Pillow test environment.
+        text=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
+        required=[str(p.relative_to(ROOT)) for p in sorted((ROOT/'examples').glob('*.rs'))]
+        required+=['tools/verify_column_interface.py','tools/test_column_interface_verifier.py','evidence/column-interface/demo/jacobi-pcg-v1-activation/final.png']
+        for event in ('pull_request','push'):
+            # Split at the next event, not deeper-indented fields.
+            section=re.split(r'\n  [a-z_]+:',text.split('  '+event+':\n',1)[1],maxsplit=1)[0]
+            paths=re.findall(r"^      - '([^']+)'$",section,re.MULTILINE)
+            for path in required:
+                with self.subTest(event=event,path=path):self.assertTrue(any(fnmatch.fnmatchcase(path,pattern)for pattern in paths))
+    def test_ci_budget_preserves_every_existing_job_check(self):
+        frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
+        current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
+        self.assertEqual(current.split('jobs:\n',1)[1].replace('timeout-minutes: 30','timeout-minutes: 15'),frozen.split('jobs:\n',1)[1])
     def test_adversarial_finite_fields_ledgers_geometry_and_pixels(self):
         changes=('nan_pressure','inf_velocity','nan_fraction','nan_geometry','before','inward','outward','balance','budget','carry','nan_ledger','reconstruction_change','end_geometry','held_geometry','pressure_version','air_pressure','pixel','missing_frame','advection_fraction','advection_shape_mass_preserved')
         for change in changes:
