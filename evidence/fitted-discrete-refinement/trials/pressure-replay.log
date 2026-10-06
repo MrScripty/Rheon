@@ -1,0 +1,6 @@
+actual replayed steps 62
+REJECTED stale_geometry
+REJECTED stale_pressure
+REJECTED fake_clock
+REJECTED zero_mixing
+PASS complete recorded finite work/pressure/geometry/clock replay

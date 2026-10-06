@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon/evidence/fitted-discrete-refinement/certificate.py", line 23, in <module>
+    if __name__=='__main__':print(json.dumps(certify(json.load(open(sys.argv[1]))),indent=2))
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/fitted-discrete-refinement/certificate.py", line 9, in certify
+    q=list(map(Q,cell['initial_q']));eta=list(map(Q,cell['initial_eta']));alpha=list(map(Q,cell['unknowns'][:6]));h=Q(cell['interval']);pending=[(Q(0),h)];boxes=[];rejections=[]
+                                                                                           ~~~~^^^^^^^^^^^^
+KeyError: 'unknowns'
