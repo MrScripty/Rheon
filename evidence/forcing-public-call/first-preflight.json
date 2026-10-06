@@ -1,0 +1,18 @@
+{
+  "binary": "/workspace/.rheon-tools/public-call-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "5f9b1f9f93dc88096a917017da7e3e21e19c0ca321e5e4c6086d1cd53039728b",
+  "block": "test clone copies original allocated_bytes=474768 while new Self adds 8 bytes, so original entry budget guard rejects before candidate arithmetic",
+  "candidate_E1_executed": false,
+  "candidate_native_clone_conformance_pass": false,
+  "native_fixed_public_call_corrections": 7,
+  "native_fixed_public_call_equation_evaluations": 50,
+  "native_fixed_public_call_norm": 1.1895444217920825e-13,
+  "native_prefix_bitwise_pass": true,
+  "new_owner_bytes": 8856,
+  "original_owner_bytes": 8848,
+  "production_sources_restored": true,
+  "prototype": "21c2d01828a5ca9f03cbc79ef3dec2e38eeba9ea",
+  "scalar_groups": 23,
+  "scalar_probes": 36,
+  "tree": "ff805e9cf32bef02f7d61e87f10321c24c677eb6"
+}
