@@ -1,0 +1,27 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "evidence/case47-pure-e2-128-v2/audit_observation.py"
+    ],
+    "exit": 0,
+    "owner_advances": 0,
+    "stderr": "memory-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "memory-normal.json",
+    "stdout_sha256": "d1d2aa706d3e86179964f814c4fb4ecd303485111febbcda5ec4b607977100b4"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "evidence/case47-pure-e2-128-v2/audit_observation.py"
+    ],
+    "exit": 0,
+    "owner_advances": 0,
+    "stderr": "memory-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "memory-optimized.json",
+    "stdout_sha256": "d1d2aa706d3e86179964f814c4fb4ecd303485111febbcda5ec4b607977100b4"
+  }
+]
