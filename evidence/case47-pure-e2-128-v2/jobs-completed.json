@@ -1,0 +1,170 @@
+[
+  {
+    "label": "main",
+    "public_attempts": 128,
+    "publications": 129,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 128,
+      "actual_time": 0.09999999999999977,
+      "event": "pure_e2_terminal",
+      "expected_steps": 128,
+      "retries": 0,
+      "status": "COMPLETE"
+    }
+  },
+  {
+    "label": "cancel-0",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: BeforeForceInputs }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-1",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: ForceInput }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-2",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: BeforeGeometry }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-3",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: Quadrature }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-4",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: BeforeSolve }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-5",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: Iteration }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-6",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: BeforeAcceptance }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-7",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: BeforeThirdSolve }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-8",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: ThirdAssembly }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-9",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: AfterThirdSolve }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  },
+  {
+    "label": "cancel-10",
+    "public_attempts": 26,
+    "publications": 26,
+    "retries": 0,
+    "terminal": {
+      "accepted_steps": 25,
+      "attempted_step": 26,
+      "error": "Cancelled { stage: BeforePublish }",
+      "event": "pure_e2_terminal",
+      "retries": 0,
+      "status": "CANCELLED"
+    }
+  }
+]

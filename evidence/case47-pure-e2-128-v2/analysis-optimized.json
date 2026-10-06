@@ -1,0 +1,957 @@
+{
+  "actual_main_accepted_steps": 128,
+  "binary_sha256": "6e6ea0505c81cbf8624b177c6c782ff8cb29cc0830c0524e79088e8307a10989",
+  "cancellation_retry_behavior_qualified": false,
+  "cancellation_stages_passed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "main_public_attempts": 128,
+  "main_solver_details": [
+    {
+      "Newton_norm": 5.446371697891556e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 3.914776920194671e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.496082027698243e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 5.685619259995345e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 4.665055051150976e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.434834272164873e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 3.6336197230105415e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.167689660623976e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 5.78560640287191e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.72823486020192e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 9.024256144314002e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 8.75058230851363e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.244164504682322e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 7.72727240493529e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 8.300619536842575e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 9.784993983435355e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 9.109217312511326e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.783605621728958e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.614374294231418e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.7740182081173875e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.49792259042968e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.83617406495263e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 4.4727800411616255e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 8.997097895998268e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.1169059530858144e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 6.490500686918955e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.212481681224854e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 9.089955295292054e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.990606601234937e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 2.561454596090574e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 3.186844948530326e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 6.17991306186803e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 6.692540647414601e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 8.818461356843977e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.345674695070806e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.95188926402728e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.147868992120498e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 2.914730306844775e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.0427795743988576e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 5.805907001545075e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 2.867390412878728e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 3.197437052024743e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.582561643669816e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 3.814133644118714e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 6.963194717938684e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.61411343612273e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 9.438868284705598e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 3.357935142070606e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.858743092241828e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 9.53170151903775e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.397380698099844e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.467064302466297e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 8.75381737452865e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 7.687305963202464e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.492027595333157e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.4262478924697435e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 9.72722653814834e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.22748043336837e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.78527936557967e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 8.611228190539853e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.863639623736347e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 8.3240543781271e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.075113317414662e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 4.58866595058107e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 8.56497173191476e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.855763120567817e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 8.314786396036071e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 4.1007451427416764e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 6.818044484188735e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 6.584760951709673e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 3.7730669083978554e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.2353586466403504e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 4.07684111281852e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 3.734011654169854e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.942565871438601e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.13841200294625e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.951115454430198e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.278821576437836e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 5.429096918491234e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.893351728077996e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 8.648599075589021e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 8.414321836662885e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 8.481647686870536e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.595160172693065e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 8.267751321061615e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.5436235317928965e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.807925604520517e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 2.911149505122089e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.6030284208899955e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 3.437357444976469e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 3.785857302417479e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.788145114098726e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 6.998002712106306e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.5610353607961456e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 5.0599415516978207e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.870759496778069e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 3.463322977244934e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 7.895462184362883e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 3.547598773790587e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 2.7852510426052288e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 9.024127827801089e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 4.3839569042365505e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.158363379412885e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 2.943071897517662e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.445219839482147e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 7.874232985762696e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 3.638338099472745e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.899776141688504e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 9.300284002558022e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.050007207271723e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 7.043780165296969e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 3.802342847281813e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 9.337118623343208e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.281577974285327e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.5921015116189755e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.234324507378022e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.131834014249094e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 2.493101004171659e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 4.8610275549132483e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 4.963040636968577e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 6.031106930497994e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 4.7349137793445234e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 5.900849811681747e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 3.647362205807358e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 6.575987208466684e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 3.560124407829669e-14,
+      "checks": 4,
+      "corrections": 3,
+      "counted_equations": 22
+    },
+    {
+      "Newton_norm": 5.0676600430251066e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    },
+    {
+      "Newton_norm": 5.891256938787905e-14,
+      "checks": 3,
+      "corrections": 2,
+      "counted_equations": 15
+    }
+  ],
+  "main_terminal": {
+    "accepted_steps": 128,
+    "actual_time": 0.09999999999999977,
+    "event": "pure_e2_terminal",
+    "expected_steps": 128,
+    "retries": 0,
+    "status": "COMPLETE"
+  },
+  "max_simultaneous_owners": 1,
+  "maximum_Newton_norm": 9.784993983435355e-14,
+  "maximum_corrections": 3,
+  "maximum_counted_equations": 22,
+  "memory_bound": 67088,
+  "memory_cap": 67584,
+  "native_source": "e37b0bb34ace62f16dc931488146d6a396b27be0",
+  "native_source_tree": "5e3fef4bdb87087acbeb7bdf56303fa9669b2b2a",
+  "negative_controls": [
+    "wrong version",
+    "wrong pressure",
+    "omitted third shear",
+    "false work",
+    "relaxed planar gate",
+    "wrong third publication",
+    "wrong force"
+  ],
+  "original_geometry_band_failures_preserved": 8,
+  "original_runtime_failures_preserved": 2,
+  "owners_in_this_v2": 12,
+  "physical_replay": {
+    "actual_cells_replayed": 128,
+    "final_endpoint": {
+      "actual_clock": 0.09999999999999977,
+      "actual_stamp": {
+        "id": 131,
+        "version": 128
+      },
+      "field": "nonconstant",
+      "final_q": [
+        0.09916428379543038,
+        0.6240111578541151,
+        0.9998624902169613
+      ],
+      "final_velocity": [
+        [
+          0.003020157104403441,
+          0.0,
+          0.2570822445591628
+        ],
+        [
+          0.002996200270156382,
+          0.0,
+          0.4891963748681341
+        ],
+        [
+          0.9856231539756348,
+          -0.002591580596989703,
+          -0.11950693448380748
+        ],
+        [
+          1.2337541181791947,
+          0.002591580596989703,
+          0.36148582480010943
+        ],
+        [
+          0.41272578755596173,
+          1.9966224738602123e-05,
+          0.595833927175451
+        ],
+        [
+          0.7413290797136952,
+          0.00044430848433431997,
+          -0.16547241557311218
+        ],
+        [
+          0.3307930408618588,
+          -1.5969026631986173e-05,
+          0.17920383339447718
+        ],
+        [
+          0.7401006568009287,
+          0.00015626467627760695,
+          0.40506464049776836
+        ],
+        [
+          0.0030081786872799116,
+          0.0,
+          0.37313930971364845
+        ],
+        [
+          0.5359681386766934,
+          -0.0006707695809278193,
+          -0.05125147746137
+        ],
+        [
+          0.5956680534369526,
+          0.000994731647383432,
+          0.45996567995202203
+        ],
+        [
+          0.0030081786872799116,
+          0.0,
+          0.37313930971364845
+        ],
+        [
+          0.576449886322397,
+          0.0004245723763423226,
+          0.34587851027237865
+        ],
+        [
+          0.5123014560929255,
+          -0.0005821135674227119,
+          0.1512307519560699
+        ],
+        [
+          1.1096886360774147,
+          0.0,
+          0.12098944515815098
+        ],
+        [
+          1.1096886360774147,
+          0.0,
+          0.12098944515815098
+        ]
+      ],
+      "final_xi": [
+        0.2570822445591628,
+        0.4891963748681341,
+        -0.11950693448380748,
+        0.36148582480010943,
+        0.595833927175451,
+        -0.16547241557311218,
+        0.17920383339447718,
+        0.40506464049776836,
+        -0.05125147746137,
+        0.45996567995202203,
+        0.34587851027237865,
+        0.1512307519560699
+      ],
+      "interval": 0.00078125,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "steps": 128
+    },
+    "maxima": {
+      "GCL_ratio": 0.02151817420309057,
+      "constant_deviation": 0.0,
+      "direct_full_momentum": 1.6536503514252646e-13,
+      "full_momentum": 1.551983166407171e-13,
+      "quadrature": 1.5500702934753696e-19,
+      "third_momentum_change": 3.5526594686918767e-16,
+      "third_work_ratio": 0.007215179385309108,
+      "total_work_ratio": 0.0028171296549309565
+    },
+    "reference_integrations": 0,
+    "scope": "Unchanged 34 momentum equations, full path constraints, donor/GCL, separate and combined forced work, pressure and both third shears; replay only, no reference integration.",
+    "status": "PASS_UNCHANGED_PHYSICAL_REPLAY",
+    "tolerance_relaxation": false
+  },
+  "preflight_commit": "529707429fb092beb4df9a278d978bf72e8612cf",
+  "production_adoption": false,
+  "published_time": 0.09999999999999977,
+  "pure_E2_before_first_advance": true,
+  "reference_integrations": 0,
+  "scope": "Only original case47 pure-E2 128-step main and scheduled first-visit cancellation preservation. No retry behavior, broader refinement roster, endpoint reference error/temporal order, geometry-band repair, smooth-root/IEEE/Lean proof or production adoption.",
+  "status": "PASS_ONE_ORIGINAL_PURE_E2_TRAJECTORY_AND_DECLARED_CANCELLATIONS",
+  "step_retries": 0,
+  "total_accepted_advances": 403,
+  "total_public_attempts": 414
+}

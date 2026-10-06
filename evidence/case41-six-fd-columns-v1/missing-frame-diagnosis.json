@@ -1,0 +1,1061 @@
+{
+  "candidate_and_reference": {
+    "candidate": {
+      "calls": [
+        {
+          "instruction": "call   1566a0 <rheon::research_public_call::candidate::Work::point>",
+          "target_name": "rheon::research_public_call::candidate::Work::point"
+        },
+        {
+          "instruction": "call   *0x19f027(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1277c0 <rheon::research_public_call::candidate::coefficients>",
+          "target_name": "rheon::research_public_call::candidate::coefficients"
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19eacc(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1566a0 <rheon::research_public_call::candidate::Work::point>",
+          "target_name": "rheon::research_public_call::candidate::Work::point"
+        },
+        {
+          "instruction": "call   *0x19e782(%rip)        # 2df2c8 <_DYNAMIC+0x310>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19e6ad(%rip)        # 2df2b0 <_DYNAMIC+0x2f8>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19e61d(%rip)        # 2df240 <_DYNAMIC+0x288>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19e4e7(%rip)        # 2df250 <memset@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   166c30 <rheon::research_public_call::candidate::Work::partition>",
+          "target_name": "rheon::research_public_call::candidate::Work::partition"
+        },
+        {
+          "instruction": "call   *0x19e3d4(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1c1870 <rheon::translated_viscous::dot>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   11dab0 <rheon::translated_viscous::div>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   11dab0 <rheon::translated_viscous::div>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19c977(%rip)        # 2df2b0 <_DYNAMIC+0x2f8>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1566a0 <rheon::research_public_call::candidate::Work::point>",
+          "target_name": "rheon::research_public_call::candidate::Work::point"
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19c3be(%rip)        # 2df2a8 <bcmp@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b66d(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b3a8(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b366(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b316(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b2ff(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b1c0(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b196(%rip)        # 2df2b0 <_DYNAMIC+0x2f8>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b127(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b18a(%rip)        # 2df2f0 <_DYNAMIC+0x338>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b0cb(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b0b6(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x19b08b(%rip)        # 2df240 <_DYNAMIC+0x288>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   2c40b0 <_Unwind_Resume@plt>",
+          "target_name": null
+        }
+      ],
+      "direct_equation_calls": [],
+      "direct_point_calls": [
+        {
+          "instruction": "call   1566a0 <rheon::research_public_call::candidate::Work::point>",
+          "target_name": "rheon::research_public_call::candidate::Work::point"
+        },
+        {
+          "instruction": "call   1566a0 <rheon::research_public_call::candidate::Work::point>",
+          "target_name": "rheon::research_public_call::candidate::Work::point"
+        },
+        {
+          "instruction": "call   1566a0 <rheon::research_public_call::candidate::Work::point>",
+          "target_name": "rheon::research_public_call::candidate::Work::point"
+        }
+      ],
+      "frame": {
+        "below_rsp_bytes": 0,
+        "fixed_decrement_bytes": 183416,
+        "fixed_probe_loop_bytes": 176128,
+        "frame_bound": 183472,
+        "push_bytes": 48,
+        "return_address_bytes": 8
+      },
+      "name": "rheon::research_public_call::candidate::Work::case41_fd_equation"
+    },
+    "reference": {
+      "calls": [
+        {
+          "instruction": "call   197ef0 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   178b70 <rheon::research_public_call::reference::coefficients>",
+          "target_name": "rheon::research_public_call::reference::coefficients"
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1611bc(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   197ef0 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x160ebc(%rip)        # 2df250 <memset@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1aa4d0 <rheon::research_public_call::reference::Work::partition>",
+          "target_name": "rheon::research_public_call::reference::Work::partition"
+        },
+        {
+          "instruction": "call   1a3430 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   178b70 <rheon::research_public_call::reference::coefficients>",
+          "target_name": "rheon::research_public_call::reference::coefficients"
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1608dc(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1a3430 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1605e1(%rip)        # 2df250 <memset@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1aada0 <rheon::research_public_call::reference::Work::partition>",
+          "target_name": "rheon::research_public_call::reference::Work::partition"
+        },
+        {
+          "instruction": "call   *0x1602db(%rip)        # 2df2c8 <_DYNAMIC+0x310>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x160171(%rip)        # 2df240 <_DYNAMIC+0x288>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   7a6f0 <rheon::fitted_height::FittedHeightWorkspace::reassemble>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15e0d0(%rip)        # 2df250 <memset@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1ac3c0 <rheon::research_public_call::reference::linear>",
+          "target_name": "rheon::research_public_call::reference::linear"
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   7d2c0 <rheon::fitted_height::FittedHeightWorkspace::embed_velocity>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   b9500 <rheon::fitted_height::FittedHeightWorkspace::inspect>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15d4f2(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15d4d2(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1ac3c0 <rheon::research_public_call::reference::linear>",
+          "target_name": "rheon::research_public_call::reference::linear"
+        },
+        {
+          "instruction": "call   *0x15c0a5(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   17cdc0 <rheon::research_public_call::reference::Work::capture_point>",
+          "target_name": "rheon::research_public_call::reference::Work::capture_point"
+        },
+        {
+          "instruction": "call   *0x15bfc0(%rip)        # 2df250 <memset@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   19bb90 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   *0x15bf34(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   19bb90 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r8",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15bd4b(%rip)        # 2df2a8 <bcmp@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   19bb90 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   *%r12",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r12",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15b913(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15b867(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   7a6f0 <rheon::fitted_height::FittedHeightWorkspace::reassemble>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x159980(%rip)        # 2df250 <memset@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1ac3c0 <rheon::research_public_call::reference::linear>",
+          "target_name": "rheon::research_public_call::reference::linear"
+        },
+        {
+          "instruction": "call   *%r13",
+          "target_name": null
+        },
+        {
+          "instruction": "call   7d2c0 <rheon::fitted_height::FittedHeightWorkspace::embed_velocity>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   98760 <rheon::fitted_height::FittedHeightWorkspace::inspect>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x158da2(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x158d82(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1ac3c0 <rheon::research_public_call::reference::linear>",
+          "target_name": "rheon::research_public_call::reference::linear"
+        },
+        {
+          "instruction": "call   *0x157923(%rip)        # 2df260 <memcpy@GLIBC_2.14>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   17cdc0 <rheon::research_public_call::reference::Work::capture_point>",
+          "target_name": "rheon::research_public_call::reference::Work::capture_point"
+        },
+        {
+          "instruction": "call   1bdff0 <core::slice::sort::shared::smallsort::insertion_sort_shift_left>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1d6bf0 <core::slice::sort::stable::driftsort_main>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157704(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15769d(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1575e4(%rip)        # 2df2c8 <_DYNAMIC+0x310>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15750b(%rip)        # 2df2b0 <_DYNAMIC+0x2f8>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15747b(%rip)        # 2df240 <_DYNAMIC+0x288>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15738a(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157375(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15735b(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157315(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157300(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1572f0(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1572d7(%rip)        # 2df268 <_DYNAMIC+0x2b0>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1572e4(%rip)        # 2df2f0 <_DYNAMIC+0x338>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1571a8(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157193(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157179(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157149(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157139(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157124(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157125(%rip)        # 2df268 <_DYNAMIC+0x2b0>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15717b(%rip)        # 2df2f0 <_DYNAMIC+0x338>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1570a5(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x157044(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156ef7(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156eb3(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156f0d(%rip)        # 2df2d8 <_DYNAMIC+0x320>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156e6b(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156e0b(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156dfb(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156dfe(%rip)        # 2df258 <_DYNAMIC+0x2a0>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156df1(%rip)        # 2df258 <_DYNAMIC+0x2a0>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156dd1(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156dd4(%rip)        # 2df258 <_DYNAMIC+0x2a0>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156d1f(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156d12(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156c2f(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156a79(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156a4a(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1569ea(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1569ed(%rip)        # 2df258 <_DYNAMIC+0x2a0>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1569e0(%rip)        # 2df258 <_DYNAMIC+0x2a0>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1569c0(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1569c3(%rip)        # 2df258 <_DYNAMIC+0x2a0>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1569a3(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156907(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1568fa(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15687c(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156607(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1565c5(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156583(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x156541(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1c1870 <rheon::translated_viscous::dot>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   16eff0 <rheon::translated_viscous::div>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   16eff0 <rheon::translated_viscous::div>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1c1870 <rheon::translated_viscous::dot>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   16eff0 <rheon::translated_viscous::div>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   16eff0 <rheon::translated_viscous::div>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbp",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbp",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbp",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbp",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbp",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbp",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbp",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1ae940 <rheon::research_public_call::reference::qualify>",
+          "target_name": "rheon::research_public_call::reference::qualify"
+        },
+        {
+          "instruction": "call   *0x1537af(%rip)        # 2df2c8 <_DYNAMIC+0x310>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1536fe(%rip)        # 2df2b0 <_DYNAMIC+0x2f8>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15366a(%rip)        # 2df240 <_DYNAMIC+0x288>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15369b(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x153650(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1535e2(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1535a0(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   197ef0 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%r14",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15312f(%rip)        # 2df2a8 <bcmp@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   1a3430 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *%rbx",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x152299(%rip)        # 2df2a8 <bcmp@GLIBC_2.2.5>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1517a5(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15176c(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1516a8(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150a9f(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150a62(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150961(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15091f(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1508dd(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150898(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150853(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150818(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150803(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150785(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150770(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150740(%rip)        # 2df2b8 <_DYNAMIC+0x300>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1506b9(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1506a2(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x15068b(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150674(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x150637(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1505fa(%rip)        # 2df248 <_DYNAMIC+0x290>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   *0x1505cb(%rip)        # 2df240 <_DYNAMIC+0x288>",
+          "target_name": null
+        },
+        {
+          "instruction": "call   2c40b0 <_Unwind_Resume@plt>",
+          "target_name": null
+        }
+      ],
+      "direct_equation_calls": [],
+      "direct_point_calls": [
+        {
+          "instruction": "call   197ef0 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   197ef0 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   1a3430 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   1a3430 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   19bb90 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   19bb90 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   19bb90 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   197ef0 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        },
+        {
+          "instruction": "call   1a3430 <rheon::research_public_call::reference::Work::point>",
+          "target_name": "rheon::research_public_call::reference::Work::point"
+        }
+      ],
+      "frame": {
+        "below_rsp_bytes": 0,
+        "fixed_decrement_bytes": 183968,
+        "fixed_probe_loop_bytes": 176128,
+        "frame_bound": 184064,
+        "push_bytes": 88,
+        "return_address_bytes": 8
+      },
+      "name": "rheon::research_public_call::reference::Work::capture_equations"
+    }
+  },
+  "cap_established": false,
+  "capture_still_withheld": true,
+  "native_equations": 0,
+  "owners": 0,
+  "status": "READONLY_ROUTE_DIAGNOSIS_ONLY_NOT_PREFLIGHT_REPAIR"
+}

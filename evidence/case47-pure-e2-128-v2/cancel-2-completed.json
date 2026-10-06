@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/workspace/.rheon-tools/case47-pure-e2-128-v2-target/release/deps/rheon-beaa99042d1278c3",
+    "--exact",
+    "research_public_call::case47_pure_e2_original_128_or_cancel",
+    "--nocapture"
+  ],
+  "binary_sha256": "6e6ea0505c81cbf8624b177c6c782ff8cb29cc0830c0524e79088e8307a10989",
+  "environment": {
+    "RHEON_CASE47_CANCEL_STAGE": "2",
+    "RHEON_CASE47_PURE_E2_ALLOW": "case47-pure-E2-original128-first-visit-cancel-v1"
+  },
+  "exit": 0,
+  "preflight_receipt_sha256": "9f68dbc9a074312eee38bd5964547143c717a45ea5cc4ef8f8ea7a209204d065",
+  "retries": 0,
+  "seconds": 4.0855149410053855,
+  "source": "529707429fb092beb4df9a278d978bf72e8612cf",
+  "source_tree": "5badc6cb9d3a792d37a5d2a391e0d66126f0c49a",
+  "stderr_cap": 4194304,
+  "stderr_sha256": "7b790f577578152836635f7bab7398ff50ad546de1785d8ed4bfdb7070a68391",
+  "stdout_cap": 8388608,
+  "stdout_sha256": "492b86f18c741aca0167b15a902235c46780c9a8be89f964524c897a67bd325c"
+}

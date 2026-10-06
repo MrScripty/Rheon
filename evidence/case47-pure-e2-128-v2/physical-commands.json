@@ -1,0 +1,25 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/Rheon-fd-pure-e2/evidence/case47-pure-e2-128-v2/replay_physics.py"
+    ],
+    "exit": 0,
+    "stderr": "physical-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "physical-normal.json",
+    "stdout_sha256": "108ba9d20cede0a6db00e8947ecdbc078c22530fd3e4ec037d725ac654a8aa18"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "/workspace/Rheon-fd-pure-e2/evidence/case47-pure-e2-128-v2/replay_physics.py"
+    ],
+    "exit": 0,
+    "stderr": "physical-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "physical-optimized.json",
+    "stdout_sha256": "108ba9d20cede0a6db00e8947ecdbc078c22530fd3e4ec037d725ac654a8aa18"
+  }
+]

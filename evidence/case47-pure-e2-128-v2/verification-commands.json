@@ -1,0 +1,26 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "evidence/case47-pure-e2-128-v2/render.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "render-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "render.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "evidence/case47-pure-e2-128-v2/verify.py"
+    ],
+    "exit": 1,
+    "native_execution": false,
+    "stderr": "verification-normal-stderr.log",
+    "stderr_sha256": "e5ac72791675233495f0736d4c0988bc166f747b37e5f5146d0094e836b3cb28",
+    "stdout": "verification-normal.json",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

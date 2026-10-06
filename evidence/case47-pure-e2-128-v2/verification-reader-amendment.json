@@ -1,0 +1,8 @@
+{
+  "corrected_reader_sha256": "5df33d25f303e902e90210b19c448c3f96857840dbb6a2f356c88d0a6e25cb92",
+  "native_reruns": 0,
+  "original_reader_sha256": "8ec6a7d35da0c7d3f4fb1485fb885ba3f4ec33e2c0b9638234859c9c46b4a7bf",
+  "original_verification_commands_sha256": "ef07c5ab1b60227be5d9cdcf8c83d656909bc92098edb4857bfde2d3623ae5e0",
+  "reason": "Fresh Python memory graph uses integer address keys, while archived JSON has string keys. Compare canonical JSON representations without changing any bound or graph. Original failed verification retained; no native rerun.",
+  "threshold_changes": false
+}

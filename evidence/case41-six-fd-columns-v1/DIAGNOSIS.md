@@ -1,0 +1,5 @@
+# Read-only diagnosis of the stopped memory reader
+
+The [linked-call diagnosis](missing-frame-diagnosis.json) shows zero direct `Work::equation` calls in both the FD equation observer and reference equation observer, while each calls `Work::point` directly. The source calls `equation`; this linked pattern is consistent with compiler inlining into both observers. The audit nevertheless requires every declared operation category to have a standalone reached frame, even when that category is absent in both graphs. The existing fixed-capture audit skips such jointly absent categories.
+
+This identifies a reader assumption, rather than a detected cap overrun or native scalar/equation failure. A future correction must preserve the folded observation frames, independently verify their actual linked routes and count all explicit baseline/perturbation/column buffers. It must establish the bound before any capture; this diagnosis supplies no bound or execution permission. The original failed source, logs and blocked receipt remain unchanged. Per the stop-on-preflight-failure instruction, no corrected preflight or native FD capture is attempted here.

@@ -1,0 +1,27 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "evidence/case47-pure-e2-128-v2/verify_v2.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "verification-v2-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "verification-v2-normal.json",
+    "stdout_sha256": "dda88b9216e83a761f84a28f5ea3f4ab5ff5fa0dac8ccac7f03975294678e4d5"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "evidence/case47-pure-e2-128-v2/verify_v2.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "verification-v2-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "verification-v2-optimized.json",
+    "stdout_sha256": "dda88b9216e83a761f84a28f5ea3f4ab5ff5fa0dac8ccac7f03975294678e4d5"
+  }
+]

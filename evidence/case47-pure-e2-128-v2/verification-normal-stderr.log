@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-fd-pure-e2/evidence/case47-pure-e2-128-v2/verify.py", line 41, in <module>
+    if __name__=='__main__':print(json.dumps(run(),indent=2,sort_keys=True))
+                                             ^^^^^
+  File "/workspace/Rheon-fd-pure-e2/evidence/case47-pure-e2-128-v2/verify.py", line 36, in run
+    m=load('actual_memory',P/'audit_observation.py').run();require(m==json.loads((P/'memory-normal.json').read_text()),'fresh complete memory accounting')
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-fd-pure-e2/evidence/case47-pure-e2-128-v2/verify.py", line 6, in require
+    if not ok:raise ValueError(msg)
+              ^^^^^^^^^^^^^^^^^^^^^
+ValueError: fresh complete memory accounting

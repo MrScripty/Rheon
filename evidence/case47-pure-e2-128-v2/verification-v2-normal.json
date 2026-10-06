@@ -1,0 +1,47 @@
+{
+  "actual_controls": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "actual_main_steps": 128,
+  "all_original_failures_retained": true,
+  "analysis_status": "PASS_ONE_ORIGINAL_PURE_E2_TRAJECTORY_AND_DECLARED_CANCELLATIONS",
+  "base": "8fc718ff603e7a7123037e592b4f40f59762e011",
+  "base_tree": "d9b51b3e2c1b186ea2d4b139d53bfe38a4ff678f",
+  "binary_sha256": "6e6ea0505c81cbf8624b177c6c782ff8cb29cc0830c0524e79088e8307a10989",
+  "case41_candidate_equations": 0,
+  "case41_memory_preflight_still_blocked": true,
+  "memory_bound": 67088,
+  "native_source": "e37b0bb34ace62f16dc931488146d6a396b27be0",
+  "native_source_tree": "5e3fef4bdb87087acbeb7bdf56303fa9669b2b2a",
+  "negative_controls": [
+    "wrong version",
+    "wrong pressure",
+    "omitted third shear",
+    "false work",
+    "relaxed planar gate",
+    "wrong third publication",
+    "wrong force",
+    "one-bit cancelled-state corruption"
+  ],
+  "new_native_executions_by_reader": 0,
+  "preserved_base": {
+    "files": 8134,
+    "path_content_sha256": "de71b7e8d12d42ddec85cb1e75401a99f13644a6bb3119d40aa932629d07a7ba"
+  },
+  "production_adoption": false,
+  "reference_integrations": 0,
+  "status": "PASS_FROZEN_PURE_E2_RESULT_AND_PRESERVATION",
+  "step_retries": 0,
+  "total_accepted_advances": 403,
+  "total_public_attempts": 414
+}

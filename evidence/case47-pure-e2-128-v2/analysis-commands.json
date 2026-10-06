@@ -1,0 +1,27 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "evidence/case47-pure-e2-128-v2/analyze.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "analysis-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-normal.json",
+    "stdout_sha256": "d85d17fc15339def4ba3de3a9323f5c89007de82fff25d6c3528765ae65cc540"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "evidence/case47-pure-e2-128-v2/analyze.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "analysis-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-optimized.json",
+    "stdout_sha256": "d85d17fc15339def4ba3de3a9323f5c89007de82fff25d6c3528765ae65cc540"
+  }
+]
