@@ -1,0 +1,46 @@
+{
+  "status": "FROZEN_TESTED_TERMINAL_VALIDATION_CANDIDATE",
+  "source": "922466bd9efdf4612462288fbe2df5a679ef4ccb",
+  "tree": "914d1313534e05f7fb9a15cbd15fce7124dd6d48",
+  "Rust_tests_passed": {
+    "core-only": 245,
+    "default": 251,
+    "desktop": 257
+  },
+  "preserved_baseline_paths": 6753,
+  "new_actual_steps": 194,
+  "remaining_refusals": 5,
+  "original_temporal_band_pass": false,
+  "hosted_CI_qualified": false,
+  "packet_files": 112,
+  "actual_binding_corruption_rejections": [
+    {
+      "control": "source",
+      "status": "REJECTED"
+    },
+    {
+      "control": "source_sha256",
+      "status": "REJECTED"
+    },
+    {
+      "control": "file_sha256",
+      "status": "REJECTED"
+    },
+    {
+      "control": "newton_threshold",
+      "status": "REJECTED"
+    },
+    {
+      "control": "actual_Rust_tests_passed",
+      "status": "REJECTED"
+    },
+    {
+      "control": "original_temporal_band_pass",
+      "status": "REJECTED"
+    },
+    {
+      "control": "hosted_CI_qualified",
+      "status": "REJECTED"
+    }
+  ]
+}

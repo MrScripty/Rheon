@@ -1,0 +1,25 @@
+{
+  "status": "FROZEN_CANDIDATE_VERIFIED_WITH_RETAINED_FAILURES",
+  "source": "922466bd9efdf4612462288fbe2df5a679ef4ccb",
+  "source_tree": "914d1313534e05f7fb9a15cbd15fce7124dd6d48",
+  "evidence_commit": "bbf4dbfdb331f8e6536666d42ecc5673dd36e79e",
+  "evidence_tree": "d904a111095e459b881b5cb1d64973d43bca8df1",
+  "root_receipt_sha256": "16c6d232b5374a0c761b4b21f81afd1598c65b723644717f5e7c190c513fd81a",
+  "actual_verification_runs": 4,
+  "binding_corruption_controls_per_run": 7,
+  "normal_optimized_outputs_identical": true,
+  "original_temporal_band_pass": false,
+  "remaining_finer_refusals": 5,
+  "hosted_CI_qualified": false,
+  "frozen_forcing_integration": "f76841e9217e781d91c5bfeabadb6b4c6f42b20b",
+  "file_sha256": {
+    "evidence/solver-terminal-validation-verification/frozen-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/solver-terminal-validation-verification/frozen-normal.json": "7f7d7495f4129044d09e580bac0c9fa203cb39ca4dff94b0d549b97e54c998a9",
+    "evidence/solver-terminal-validation-verification/frozen-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/solver-terminal-validation-verification/frozen-optimized.json": "7f7d7495f4129044d09e580bac0c9fa203cb39ca4dff94b0d549b97e54c998a9",
+    "evidence/solver-terminal-validation-verification/precommit-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/solver-terminal-validation-verification/precommit-normal.json": "7f7d7495f4129044d09e580bac0c9fa203cb39ca4dff94b0d549b97e54c998a9",
+    "evidence/solver-terminal-validation-verification/precommit-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/solver-terminal-validation-verification/precommit-optimized.json": "7f7d7495f4129044d09e580bac0c9fa203cb39ca4dff94b0d549b97e54c998a9"
+  }
+}
