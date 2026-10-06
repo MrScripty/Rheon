@@ -1,0 +1,58 @@
+{
+  "base": "46a3d2986bc013ee1787f6af1d82b2d8c6ae50da",
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "evidence/forcing-increment-contract-supplement/verify.py"
+      ],
+      "exit": 0,
+      "seconds": 1.5086448549991474,
+      "stderr": "post-git-normal-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "post-git-normal.log",
+      "stdout_sha256": "5feb544763750f5ec4dd8eadaebfb5fd335edcecda2c03f6df8174fb38d26833"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-O",
+        "evidence/forcing-increment-contract-supplement/verify.py"
+      ],
+      "exit": 0,
+      "seconds": 0.9910000829986529,
+      "stderr": "post-git-optimized-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "post-git-optimized.log",
+      "stdout_sha256": "5feb544763750f5ec4dd8eadaebfb5fd335edcecda2c03f6df8174fb38d26833"
+    }
+  ],
+  "committed_supplement_blobs": {
+    "docs/research-book/implementation/forcing-increment-state-contract-supplement.md": "a196a838b7d19c42f5c3f7562aa574414c3cb6f6015b25a50eda9384bfb5a99f",
+    "evidence/forcing-increment-contract-supplement/README.md": "fa1b3d7ce9098c6f73d0d00bbef3ffaa39066ee272edb6cd7abc40ca0444c40e",
+    "evidence/forcing-increment-contract-supplement/capture-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract-supplement/capture.py": "20f5a7fdd92c49f9d3ea692472d8551eb8bdc4b94e50ae6b241932af0fb78b62",
+    "evidence/forcing-increment-contract-supplement/comparison-policy.json": "d38866144fe5f23194e44ccbcf23470afdfaba300a7b9779179f55d1227031c7",
+    "evidence/forcing-increment-contract-supplement/examples-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract-supplement/examples-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract-supplement/examples.py": "45492ea431ac6605e68a5198341ee4fdf2c00e6723d669e6f6ea481f057085d8",
+    "evidence/forcing-increment-contract-supplement/receipt.json": "e118b84484e1cef3c1f45c035abf770c152dba1afb2cf5ba38f7eda2e3497b6e",
+    "evidence/forcing-increment-contract-supplement/results-normal.json": "9abe7eae2863f3dd8e3b47e7391b188df293264b1e668c9c005178f384c20d85",
+    "evidence/forcing-increment-contract-supplement/results-optimized.json": "9abe7eae2863f3dd8e3b47e7391b188df293264b1e668c9c005178f384c20d85",
+    "evidence/forcing-increment-contract-supplement/selected-capture.json": "b24aa4975dabdd03a7c11d2596a89436dc9b12b78d5d81ff5d852defe49bc29a",
+    "evidence/forcing-increment-contract-supplement/verification-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract-supplement/verification-normal.log": "5feb544763750f5ec4dd8eadaebfb5fd335edcecda2c03f6df8174fb38d26833",
+    "evidence/forcing-increment-contract-supplement/verification-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/forcing-increment-contract-supplement/verification-optimized.log": "5feb544763750f5ec4dd8eadaebfb5fd335edcecda2c03f6df8174fb38d26833",
+    "evidence/forcing-increment-contract-supplement/verify.py": "ea9e3fe149afe6cf256d52e5c56b9f3aeaed97f4ee8716073d08e4da02759acf"
+  },
+  "evidence": "528885e7bc2070b398558b2ee4fbf27e77e10978",
+  "evidence_tree": "03537e0b310a5da2bf2274d6209b61c667f655f7",
+  "new_evaluator_executed": false,
+  "owner_advances": 0,
+  "preserved_prior_files": 6959,
+  "production_changes": 0,
+  "receipt_sha256": "e118b84484e1cef3c1f45c035abf770c152dba1afb2cf5ba38f7eda2e3497b6e",
+  "recorder_sha256": "d3487a73878cd822d9fdfe9d96f7017bb5e1de114720efaccaf28c325f59281b",
+  "status": "PASS_ADDITIVE_RESEARCH_SPECIFICATION_ONLY"
+}

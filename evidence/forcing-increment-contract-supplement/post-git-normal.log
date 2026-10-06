@@ -1,0 +1,30 @@
+{
+  "analytical_corruptions": 8,
+  "analytical_examples": 2,
+  "bound_artifacts": 12,
+  "capture_corruptions": 8,
+  "new_evaluator_executed": false,
+  "owner_advances": 0,
+  "policy_corruptions": 6,
+  "preserved_files": 6959,
+  "production_changes": 0,
+  "rejected_capture_corruptions": [
+    "wrong accepted version",
+    "wrong load",
+    "wrong interval",
+    "wrong accepted time",
+    "candidate pressure substituted for accepted pressure",
+    "nonconstant third input erased",
+    "false candidate publication",
+    "zero chart gap misreported as zero nodal defect"
+  ],
+  "rejected_policy_corruptions": [
+    "alternate geometry silently substituted",
+    "unfrozen scalar precision",
+    "extra refinement budget",
+    "unaccounted simultaneous workspace",
+    "unimplemented comparison claimed executed",
+    "failed trajectory promoted"
+  ],
+  "status": "PASS_ADDITIVE_RESEARCH_SPECIFICATION_ONLY"
+}
