@@ -1,0 +1,93 @@
+{
+  "additional_cap_bytes": 67584,
+  "base": "676c6feaf906a965920f37792e07e2d4d623b3d2",
+  "base_tree": "129ae953bcf59750cd6ba9054ff4b9d03ed81184",
+  "constant_third_deviation_factor": 128,
+  "correction_limit": 7,
+  "counted_equation_limit": 200,
+  "final_acceptance_equations_not_counted": 2,
+  "final_time": 0.1,
+  "full_velocity_ratio_band": [
+    1.8,
+    2.2
+  ],
+  "geometry_ratio_band": [
+    1.7,
+    2.3
+  ],
+  "lifecycle_trajectories": 8,
+  "maximum_lifecycle_advances": 128,
+  "maximum_ordinary_advances": 1264,
+  "maximum_scheduled_cancellations": 64,
+  "native_owner_reservation": 474768,
+  "newton_target": 1e-13,
+  "nonconstant_third_ratio_band": [
+    1.8,
+    2.2
+  ],
+  "ordinary_trajectories": 48,
+  "original_coarse_trajectories": 40,
+  "original_finer_h": [
+    0.0015625,
+    0.00078125
+  ],
+  "original_finer_trajectories": 8,
+  "original_h": [
+    0.05,
+    0.025,
+    0.0125,
+    0.00625,
+    0.003125
+  ],
+  "parameter_search": false,
+  "physical_momentum_limit": 1e-11,
+  "production_adoption": false,
+  "production_limits_changed": false,
+  "protocol_id": "E1-original-complete-trajectory-66KiB-v1",
+  "quadrature_limit": 1e-15,
+  "reference_integrations": [
+    {
+      "atol": 1e-12,
+      "max_step": 0.00625,
+      "rtol": 1e-10
+    },
+    {
+      "atol": 2e-14,
+      "max_step": 0.003125,
+      "rtol": 2e-12
+    }
+  ],
+  "reference_resolution_fraction": 0.001,
+  "reference_rhs_cap": 5000,
+  "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
+  "same_owner_refusal_repeats": 1,
+  "scalar_policy": "E1-106-nearest-even-native-geometry-zero-refinement-v1",
+  "scalar_sha256": "7ef1ed888434287b373ca9632f727be897d10f70681f42aef1823ee9d5199bf2",
+  "single_e1_owner_reservation": 542352,
+  "source_sha256": {
+    "evidence/forcing-e1-trajectories/FittedHeightWorkspace-overlay.rs": "9ed89ab8bd0a88e1cebc55b5c512721a98bd939ea6e50876412e5f51dec86ef0",
+    "evidence/forcing-e1-trajectories/README.md": "0a7f0989ade03146501303228f8a9b078efe6198cfa3417e612c12c8d30e086a",
+    "evidence/forcing-e1-trajectories/TranslatedViscousFlow-overlay.rs": "1734eaeed3c0f497a5380ee339253d87b246d667423f86cfe5dd565d68916765",
+    "evidence/forcing-e1-trajectories/audit_memory.py": "0241b42ba143ac161a7129812bcba1b517d2dec5d4b55fc750b1ad90c604e0db",
+    "evidence/forcing-e1-trajectories/build_preflight.py": "55321db712f6323fce9ddcf10aa3e0ce4357494450f79ec35ee118dd14621c13",
+    "evidence/forcing-e1-trajectories/candidate.rs": "25ee50a48fff4be55b6d30cd5d41ab6eb5b72672a7933dbd19d2441fe572b248",
+    "evidence/forcing-e1-trajectories/candidate_helpers.rs": "88d577eb553251192a5a054a9bc8229bfc4ea99ad7138a330a210285ff518b45",
+    "evidence/forcing-e1-trajectories/cases.json": "7e840298fb9cbfb9e01cf47e8cf4ab3c75ebb573753838256d0baf761f221e3a",
+    "evidence/forcing-e1-trajectories/check_scalar.py": "432585a9c61212a1ed52bb71cfa8c1ff8dc44add2c4b3e257afe6620acfd0290",
+    "evidence/forcing-e1-trajectories/harness.rs": "9ee72cf14c9bd855562e08e7185bb31fd85e0ca9347079aed1e90d61d3a79bd4",
+    "evidence/forcing-e1-trajectories/inputs.rs": "d4aefe43a4125f70f2109072711228a787dc354ac51ece68027334f21a8117c1",
+    "evidence/forcing-e1-trajectories/library-overlay.rs": "1d2c8ad939961b8da2f1da4ab074e52216170dc5032fb7816d1f544b17e968ba",
+    "evidence/forcing-e1-trajectories/prepare.py": "a1bfc188b7e74f4c92b924e48f0b4dccd7d6d58e250fb8d6b60576a4ba5bddb9",
+    "evidence/forcing-e1-trajectories/reference.rs": "065eea4725e8b87927543895040709d082ac6cbdb61e3b90d6836bcee6b8afd3",
+    "evidence/forcing-e1-trajectories/reference_helpers.rs": "8f2b8d1f7ce6476dd52a1fa8edba8ac4e3eede17b15018f82bf7a8dd9b76a655",
+    "evidence/forcing-e1-trajectories/roster.json": "432e2afc3b0dbf915849a07d565b7af98f80ea3423c0f4371c8e9880fc5058b1",
+    "evidence/forcing-e1-trajectories/scalar.rs": "7ef1ed888434287b373ca9632f727be897d10f70681f42aef1823ee9d5199bf2",
+    "evidence/forcing-e1-trajectories/trajectory_inputs.rs": "fb1fd26c0833a54ecc5d52dc0f37f0d13a0d7f750f75fa5416dd8749ce862658"
+  },
+  "source_status": "FROZEN_BEFORE_NEW_BINARY_COMPILATION_AND_TRAJECTORY_EXECUTION",
+  "target": "/workspace/.rheon-tools/e1-trajectories-target",
+  "tolerance_changes": false,
+  "trajectory_initialization": "original constructor then same E1 owner for every prescribed step; no native prefix",
+  "work_gcl_epsilon_factor": 128,
+  "zero_refinement": true
+}
