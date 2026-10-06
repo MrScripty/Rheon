@@ -1,0 +1,153 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/verify.py"
+      ],
+      "exit": 0,
+      "native_reexecution": false,
+      "seconds": 8.009112379004364,
+      "stderr": "post-git-normal-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "post-git-normal.json",
+      "stdout_sha256": "d02793488b84367afaa7ca0a1d6ff464b9c4920a82fa59666445c25b93b2dbac"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-O",
+        "/workspace/Rheon-e1-diagnostics/evidence/forcing-e1-fixed-candidates-v1/verify.py"
+      ],
+      "exit": 0,
+      "native_reexecution": false,
+      "seconds": 10.271841276000487,
+      "stderr": "post-git-optimized-stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "post-git-optimized.json",
+      "stdout_sha256": "d02793488b84367afaa7ca0a1d6ff464b9c4920a82fa59666445c25b93b2dbac"
+    }
+  ],
+  "diagnostic_only": true,
+  "geometry_corrected_reader_source": "4c747b8002179ba2b39a9c5a978be5fc8fcad947",
+  "geometry_corrected_reader_tree": "088f03fc64acaaad6c74e8243bc19a2347bc6d60",
+  "native_binary": "/workspace/.rheon-tools/e1-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+  "native_binary_sha256": "b07f3c9abeb0bb2cde6fa8c7d0b4fe816795f51fe6492457e2d0ca6a81cd1b8c",
+  "native_elf_metadata": {
+    "headers": {
+      "argv": [
+        "readelf",
+        "-hW",
+        "/workspace/.rheon-tools/e1-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3"
+      ],
+      "sha256": "cdebe86302c48dd6a3afe606fd6978e53971ca2782874c9d20c41337c72eed13"
+    },
+    "relocations": {
+      "argv": [
+        "readelf",
+        "-rW",
+        "/workspace/.rheon-tools/e1-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3"
+      ],
+      "sha256": "e99a78235ae4588076a1c67f097bbb99a9947e08104c70c9aff1248e6c614b59"
+    },
+    "symbols": {
+      "argv": [
+        "nm",
+        "-S",
+        "-nC",
+        "/workspace/.rheon-tools/e1-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3"
+      ],
+      "sha256": "c689040d6f6236d5bb829db5eb23db2b4615a4b43e2de4767c73f996a6ac92f5"
+    }
+  },
+  "native_source": "00d7de13b82396836e8f1efad6e3049034f5c2e7",
+  "native_source_tree": "e6487beb81407818a0280513fd2a1bbbc986d883",
+  "no_new_native_execution_in_post_git_check": true,
+  "no_new_reference_or_trajectory_execution": true,
+  "original_geometry_band_failures_retained": 8,
+  "original_native_refusals_retained": 2,
+  "parent_controls_reviews_PRs_and_merges": true,
+  "precommit_verification_commands_sha256": "ddb63d2d79c62e839f4504b44737e156e59a2da593d364e5f1343207858627f1",
+  "preflight_receipt_sha256": "206a25665436f04904c9ce11bb882824256095057ef3e52de858f018bfccd9de",
+  "recording_script_sha256": "2f839fc1782d9e0d8a22026755b950e154b3d6510108c1ec3b797c7f73a432e7",
+  "result_source": "247c46b0a65fed0d8578a7df13eff2060af12752",
+  "result_tree": "d4fa5b85d0c97d67a785d45f6b8983a7433e6e03",
+  "result_tree_files": 7797,
+  "result_tree_inventory_sha256": "9337881fc3adf9f4c16c3b75fc28bb664edc80f6707585712ec782a4a5fdc0c4",
+  "results_receipt_sha256": "f8de833140df092488a4ef529550820bf31bab8b134070c7562acc9bea78fe98",
+  "separate_geometry_receipt_sha256": "bcdf9aa6745fea821a27fd68f6758d56fedebf46a78bbd08a3a9a826af0097a1",
+  "source_changes": [
+    {
+      "additions": 29,
+      "all_previous_source_and_evidence_unchanged": true,
+      "base": "4ee70e4587cb4ce5f5f164bcfea59427905e1565"
+    },
+    {
+      "additions": 109,
+      "all_previous_source_and_evidence_unchanged": true,
+      "base": "008fdd02ca41e88821bfa8999283347bab3455eb"
+    }
+  ],
+  "status": "PASS_POST_GIT_SEPARATE_DIAGNOSTIC_BINDING_WITH_FAILURES_RETAINED",
+  "tested_preflight_source": "4ee70e4587cb4ce5f5f164bcfea59427905e1565",
+  "tested_preflight_tree": "c1254024e893049c7290341916350b56ca262d8c",
+  "validated_remedy_established": false,
+  "verification": {
+    "accepted_owners_advanced": 0,
+    "accepted_owners_constructed": 0,
+    "additional_memory_bound": 65616,
+    "additional_memory_cap": 67584,
+    "arithmetic_floor_assumed": false,
+    "arithmetic_precision_and_mode_parity": true,
+    "complete_fixed_equations": 4,
+    "deterministic_renders": true,
+    "geometry_band_failures_retained": 8,
+    "geometry_failures_with_switch": 4,
+    "geometry_failures_without_switch": 4,
+    "geometry_mode_parity": true,
+    "memory_cap_expanded": false,
+    "native_binary_sha256": "b07f3c9abeb0bb2cde6fa8c7d0b4fe816795f51fe6492457e2d0ca6a81cd1b8c",
+    "native_reexecution_in_this_verifier": false,
+    "native_source": "00d7de13b82396836e8f1efad6e3049034f5c2e7",
+    "negative_controls_rejected": [
+      "owner advanced",
+      "extra iteration",
+      "relaxed Newton threshold",
+      "floor asserted",
+      "production adoption",
+      "memory expansion",
+      "diagnosis promoted to remedy",
+      "invented third solve",
+      "missing force term",
+      "missing equation component",
+      "sensitivity promoted to native acceptance",
+      "wrong final unknown",
+      "changed accepted state bit",
+      "new reference integration",
+      "new trajectory step",
+      "hidden geometry failure",
+      "swapped physical labels",
+      "invented missing endpoint",
+      "altered geometry threshold",
+      "geometry diagnosis promoted to remedy",
+      "relaxed geometry band",
+      "omitted original reader failure",
+      "changed native capture",
+      "changed known rounding error"
+    ],
+    "new_controller_iterations": 0,
+    "new_reference_integrations": 0,
+    "new_trajectory_steps": 0,
+    "predecessor": "4ee70e4587cb4ce5f5f164bcfea59427905e1565",
+    "predecessor_tree": "c1254024e893049c7290341916350b56ca262d8c",
+    "preserved_predecessor_files": 7768,
+    "production_adoption": false,
+    "receipt_sha256": "f8de833140df092488a4ef529550820bf31bab8b134070c7562acc9bea78fe98",
+    "remaining_memory": 1968,
+    "same_coordinate_failures_restored": 0,
+    "status": "PASS_SEPARATE_FIXED_CANDIDATE_AND_EXISTING_GEOMETRY_DIAGNOSES",
+    "terminal_native_failures_retained": 2,
+    "third_solve_executed": false,
+    "trajectory_remedy_established": false
+  }
+}
