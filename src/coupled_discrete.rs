@@ -22,6 +22,8 @@ const W: usize = 12;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CoupledDiscreteStage {
+    BeforeForceInputs,
+    ForceInput,
     BeforeGeometry,
     Quadrature,
     BeforeSolve,
@@ -36,6 +38,9 @@ pub enum CoupledDiscreteStage {
 pub enum CoupledDiscreteError {
     Flow(TranslatedViscousError),
     UnsupportedSlice,
+    InvalidForce,
+    UnsupportedForceRegion,
+    ForceLimit { provided: usize, maximum: usize },
     GeometryPathLimit,
     ConstraintFailure,
     LinearFailure,
@@ -227,6 +232,23 @@ pub struct CoupledExtrudedReport {
     pub ledger_error: f64,
     pub work_allowance: f64,
 }
+/// Signed external work for the accepted-mass, endpoint-velocity force rule.
+/// This is part of the complete coupled work budget, not an explicit kick.
+#[derive(Debug, Clone, Copy, Default)]
+pub struct CoupledForceReport {
+    pub acceleration: [f64; 3],
+    pub force_count: usize,
+    pub planar_work: f64,
+    pub third_work: f64,
+    pub total_work: f64,
+    pub horizontal_impulse: f64,
+    pub third_impulse: f64,
+}
+#[derive(Debug, Clone, Copy)]
+pub struct CoupledForcedExtrudedReport {
+    pub step: CoupledExtrudedReport,
+    pub forces: CoupledForceReport,
+}
 /// Small qualified topology only. Reuses the existing accepted-state owner and
 /// one candidate frame. Arrays and stack scratch are fixed and budgeted; steps
 /// allocate no heap storage and retain no accepted-state history.
@@ -254,6 +276,10 @@ const THIRD_STACK_BYTES: usize = 8 * std::mem::size_of::<[[f64; W]; W]>()
     + 4 * std::mem::size_of::<[[f64; W]; N]>()
     + 4 * std::mem::size_of::<[[f64; 3]; N]>()
     + 4 * std::mem::size_of::<CoupledExtrudedReport>();
+const FORCE_STACK_BYTES: usize = 8 * std::mem::size_of::<[f64; 3]>()
+    + 4 * std::mem::size_of::<CoupledForceReport>()
+    + 4 * std::mem::size_of::<CoupledForcedExtrudedReport>();
+const MAX_FORCES: usize = 16;
 impl CoupledDiscreteFlow {
     pub fn nominal_bytes() -> Result<usize, CoupledDiscreteError> {
         TranslatedViscousFlow::nominal_bytes(2)?
@@ -269,7 +295,7 @@ impl CoupledDiscreteFlow {
         settings: TranslatedViscousSettings,
         id: u64,
     ) -> Result<Self, CoupledDiscreteError> {
-        Self::initialize(geometry, velocity, fitted, settings, id, false)
+        Self::initialize(geometry, velocity, fitted, settings, id, false, false)
     }
     /// Same two-column graph with x/z periods one and every field independent
     /// of z. Bottom is impermeable/free-slip; cap traction is weakly natural.
@@ -281,13 +307,30 @@ impl CoupledDiscreteFlow {
         settings: TranslatedViscousSettings,
         id: u64,
     ) -> Result<Self, CoupledDiscreteError> {
-        Self::initialize(geometry, velocity, fitted, settings, id, true)
+        Self::initialize(geometry, velocity, fitted, settings, id, true, false)
     }
     pub fn nominal_extruded_bytes() -> Result<usize, CoupledDiscreteError> {
         Self::nominal_bytes()?
             .checked_add(THIRD_STACK_BYTES)
             .ok_or(TranslatedViscousError::AllocationFailed.into())
     }
+    /// Existing accepted owner, with a fixed reservation for interval forcing.
+    /// Forces are borrowed per call; geometry/material restrictions are unchanged.
+    pub fn new_forced_extruded(
+        geometry: FittedHeightGeometry<'_>,
+        velocity: &[[f64; 3]],
+        fitted: FittedHeightSettings,
+        settings: TranslatedViscousSettings,
+        id: u64,
+    ) -> Result<Self, CoupledDiscreteError> {
+        Self::initialize(geometry, velocity, fitted, settings, id, true, true)
+    }
+    pub fn nominal_forced_extruded_bytes() -> Result<usize, CoupledDiscreteError> {
+        Self::nominal_extruded_bytes()?
+            .checked_add(FORCE_STACK_BYTES)
+            .ok_or(TranslatedViscousError::AllocationFailed.into())
+    }
+    #[allow(clippy::too_many_arguments)]
     fn initialize(
         geometry: FittedHeightGeometry<'_>,
         velocity: &[[f64; 3]],
@@ -295,6 +338,7 @@ impl CoupledDiscreteFlow {
         settings: TranslatedViscousSettings,
         id: u64,
         extruded: bool,
+        forced: bool,
     ) -> Result<Self, CoupledDiscreteError> {
         if geometry.cap.len() != 3
             || geometry.bottom_x != BOTTOM
@@ -315,7 +359,8 @@ impl CoupledDiscreteFlow {
         {
             return Err(CoupledDiscreteError::UnsupportedSlice);
         }
-        let extra = if extruded { THIRD_STACK_BYTES } else { 0 };
+        let extra = (if extruded { THIRD_STACK_BYTES } else { 0 })
+            + if forced { FORCE_STACK_BYTES } else { 0 };
         let required = Self::nominal_bytes()?
             .checked_add(extra)
             .ok_or(TranslatedViscousError::AllocationFailed)?;
@@ -392,7 +437,7 @@ impl CoupledDiscreteFlow {
                 return Err(CoupledDiscreteError::ConstraintFailure);
             }
         }
-        let initial_unknown = work.seed(q, eta, &mut |_| false)?;
+        let initial_unknown = work.seed(q, eta, [0.; 3], &mut |_| false)?;
         let pressure: [f64; P] = initial_unknown[6..]
             .try_into()
             .map_err(|_| CoupledDiscreteError::UnsupportedSlice)?;
@@ -435,7 +480,8 @@ impl CoupledDiscreteFlow {
         if self.flow.state().velocity.iter().any(|u| u[2] != 0.) {
             return Err(CoupledDiscreteError::UnsupportedSlice);
         }
-        self.advance(h, false, cancel).map(|r| r.planar)
+        self.advance(h, false, [0.; 3], None, cancel)
+            .map(|r| r.planar)
     }
     /// Advance the explicitly periodic z-invariant three-component model.
     /// All arithmetic, third/total work and candidate inspection precede the
@@ -448,12 +494,62 @@ impl CoupledDiscreteFlow {
         if self.allocated_bytes < Self::nominal_extruded_bytes()? {
             return Err(CoupledDiscreteError::UnsupportedSlice);
         }
-        self.advance(h, true, cancel)
+        self.advance(h, true, [0.; 3], None, cancel)
+    }
+    /// At most sixteen whole-domain, constant vectors for this interval.
+    /// Acceleration is m/s²; force density is N/m³ divided by rho=3. Regions
+    /// are refused. Sources use accepted masses; work tests endpoint velocity.
+    pub fn step_extruded_with_forces(
+        &mut self,
+        h: f64,
+        forces: &[BodyForce],
+        mut cancel: impl FnMut(CoupledDiscreteStage) -> bool,
+    ) -> Result<CoupledForcedExtrudedReport, CoupledDiscreteError> {
+        if self.allocated_bytes < Self::nominal_forced_extruded_bytes()? {
+            return Err(CoupledDiscreteError::UnsupportedSlice);
+        }
+        if forces.len() > MAX_FORCES {
+            return Err(CoupledDiscreteError::ForceLimit {
+                provided: forces.len(),
+                maximum: MAX_FORCES,
+            });
+        }
+        barrier(&mut cancel, CoupledDiscreteStage::BeforeForceInputs)?;
+        let mut acceleration = [0.; 3];
+        for force in forces {
+            barrier(&mut cancel, CoupledDiscreteStage::ForceInput)?;
+            if force.region.is_some() {
+                return Err(CoupledDiscreteError::UnsupportedForceRegion);
+            }
+            for d in 0..3 {
+                if force.value[d] != 0. && !force.value[d].is_normal() {
+                    return Err(CoupledDiscreteError::InvalidForce);
+                }
+                let a = match force.units {
+                    ForceUnits::Acceleration => force.value[d],
+                    ForceUnits::ForceDensity => div(force.value[d], 3.)?,
+                };
+                acceleration[d] = add(acceleration[d], a)?;
+            }
+        }
+        let mut report = CoupledForceReport {
+            acceleration,
+            force_count: forces.len(),
+            ..Default::default()
+        };
+        let step = self.advance(h, true, acceleration, Some(&mut report), cancel)?;
+        // All calculations and checks were completed before publication.
+        Ok(CoupledForcedExtrudedReport {
+            step,
+            forces: report,
+        })
     }
     fn advance(
         &mut self,
         h: f64,
         extruded: bool,
+        acceleration: [f64; 3],
+        forcing: Option<&mut CoupledForceReport>,
         mut cancel: impl FnMut(CoupledDiscreteStage) -> bool,
     ) -> Result<CoupledExtrudedReport, CoupledDiscreteError> {
         if !h.is_normal() || h <= 0. || h > 0.05 {
@@ -482,7 +578,7 @@ impl CoupledDiscreteFlow {
         // Borrow accepted velocity throughout the candidate solve. No rollback copy.
         let old_velocity = accepted.velocity;
         barrier(&mut cancel, CoupledDiscreteStage::BeforeSolve)?;
-        let mut unknown = self.work.seed(q, eta, &mut cancel)?;
+        let mut unknown = self.work.seed(q, eta, acceleration, &mut cancel)?;
         let mut iterations = 0;
         let mut calls = 0;
         let mut converged = false;
@@ -496,6 +592,7 @@ impl CoupledDiscreteFlow {
                 16,
                 old_velocity,
                 &old_mass,
+                acceleration,
                 &mut cancel,
             )?;
             calls += 1;
@@ -517,6 +614,7 @@ impl CoupledDiscreteFlow {
                     16,
                     old_velocity,
                     &old_mass,
+                    acceleration,
                     &mut cancel,
                 )?;
                 calls += 1;
@@ -550,6 +648,7 @@ impl CoupledDiscreteFlow {
             16,
             old_velocity,
             &old_mass,
+            acceleration,
             &mut cancel,
         )?;
         let fine = self.work.equation(
@@ -560,17 +659,27 @@ impl CoupledDiscreteFlow {
             32,
             old_velocity,
             &old_mass,
+            acceleration,
             &mut cancel,
         )?;
         let report = qualify(
-            &fine, &coarse, h, unknown, before, after, time_after, iterations, calls,
+            &fine,
+            &coarse,
+            h,
+            unknown,
+            before,
+            after,
+            time_after,
+            iterations,
+            calls,
+            acceleration,
         )?;
         // Reassemble/inspect endpoint last, so published geometry and diagnostics
         // belong to the accepted velocity/pressure rather than a quadrature point.
         let endpoint = self.work.point(q, eta, &unknown, h, &mut cancel)?;
         let scratch = self.flow.ale_scratch();
         scratch.candidate.copy_from_slice(&endpoint.u);
-        let third = if extruded {
+        let (third, third_force_work) = if extruded {
             third_step(
                 &mut self.work.geometry,
                 &mut self.work.diagnostic,
@@ -578,12 +687,22 @@ impl CoupledDiscreteFlow {
                 scratch,
                 &fine,
                 h,
+                acceleration[2],
                 &mut cancel,
             )?
         } else {
-            CoupledThirdReport::default()
+            (CoupledThirdReport::default(), 0.)
         };
-        let complete = combined_report(report, third)?;
+        let planar_force_work = force_work(&old_mass, &endpoint.u, h, acceleration)?;
+        let total_force_work = add(planar_force_work, third_force_work)?;
+        let complete = combined_report(report, third, total_force_work)?;
+        if let Some(forcing) = forcing {
+            forcing.planar_work = planar_force_work;
+            forcing.third_work = third_force_work;
+            forcing.total_work = total_force_work;
+            forcing.horizontal_impulse = mul(mul(h, report.mass_before)?, acceleration[0])?;
+            forcing.third_impulse = mul(mul(h, report.mass_before)?, acceleration[2])?;
+        }
         let candidate_pressure: [f64; P] = unknown[6..]
             .try_into()
             .map_err(|_| CoupledDiscreteError::UnsupportedSlice)?;
@@ -602,8 +721,9 @@ fn third_step(
     scratch: crate::translated_viscous::TranslatedViscousScratch<'_>,
     e: &Equation,
     h: f64,
+    acceleration: f64,
     cancel: &mut impl FnMut(CoupledDiscreteStage) -> bool,
-) -> Result<CoupledThirdReport, CoupledDiscreteError> {
+) -> Result<(CoupledThirdReport, f64), CoupledDiscreteError> {
     barrier(cancel, CoupledDiscreteStage::BeforeThirdSolve)?;
     let mut r = [[0.; W]; N];
     for i in 0..N {
@@ -658,6 +778,12 @@ fn third_step(
                 scratch.rhs[j],
                 mul(r[i][j], mul(e.start.mass[i], scratch.accepted[i][2])?)?,
             )?;
+            if acceleration != 0. {
+                scratch.rhs[j] = add(
+                    scratch.rhs[j],
+                    mul(r[i][j], mul(mul(h, e.start.mass[i])?, acceleration)?)?,
+                )?;
+            }
             for k in 0..W {
                 matrix[j][k] = add(matrix[j][k], mul(e.end.mass[i], mul(r[i][j], r[i][k])?)?)?;
             }
@@ -754,7 +880,10 @@ fn third_step(
     for i in 0..N {
         let w0 = scratch.accepted[i][2];
         let w1 = scratch.candidate[i][2];
-        let force = add(scratch.force[i], mul(h, diagnostic[i].strain_force[2])?)?;
+        let mut force = add(scratch.force[i], mul(h, diagnostic[i].strain_force[2])?)?;
+        if acceleration != 0. {
+            force = add(force, -mul(mul(h, e.start.mass[i])?, acceleration)?)?;
+        }
         let stable = add(
             mul(e.end.mass[i], dot(&r[i], &increment)?)?,
             mul(add(e.end.mass[i], -e.start.mass[i])?, w0)?,
@@ -817,7 +946,11 @@ fn third_step(
         )?,
         -out.residual_work,
     )?;
-    let scale = add(
+    let force_work = force_work(&e.start.mass, scratch.candidate, h, [0., 0., acceleration])?;
+    if force_work != 0. {
+        out.ledger_error = add(out.ledger_error, -force_work)?;
+    }
+    let mut scale = add(
         add(
             add(
                 add(
@@ -833,10 +966,22 @@ fn third_step(
         )?,
         out.residual_work.abs(),
     )?;
+    if force_work != 0. {
+        scale = add(scale, force_work.abs())?;
+    }
     out.work_allowance = mul(128. * f64::EPSILON, scale)?;
+    let mut momentum_error = add(out.momentum_after, -out.momentum_before)?;
+    if acceleration != 0. {
+        let total_mass = e
+            .start
+            .mass
+            .iter()
+            .try_fold(0., |sum, &mass| add(sum, mass))?;
+        momentum_error = add(momentum_error, -mul(mul(h, total_mass)?, acceleration)?)?;
+    }
     if out.finite_momentum_rate_norm > LIMIT
         || out.direct_momentum_rate_norm > LIMIT
-        || add(out.momentum_after, -out.momentum_before)?.abs() > LIMIT
+        || momentum_error.abs() > LIMIT
     {
         return Err(CoupledDiscreteError::ThirdConservationFailure);
     }
@@ -863,11 +1008,12 @@ fn third_step(
         return Err(CoupledDiscreteError::ThirdWorkFailure);
     }
     barrier(cancel, CoupledDiscreteStage::AfterThirdSolve)?;
-    Ok(out)
+    Ok((out, force_work))
 }
 fn combined_report(
     planar: CoupledDiscreteReport,
     third: CoupledThirdReport,
+    force_work: f64,
 ) -> Result<CoupledExtrudedReport, CoupledDiscreteError> {
     let mut r = CoupledExtrudedReport {
         planar,
@@ -901,7 +1047,10 @@ fn combined_report(
         )?,
         -r.residual_work,
     )?;
-    let scale = add(
+    if force_work != 0. {
+        r.ledger_error = add(r.ledger_error, -force_work)?;
+    }
+    let mut scale = add(
         add(
             add(
                 add(
@@ -917,6 +1066,9 @@ fn combined_report(
         )?,
         r.residual_work.abs(),
     )?;
+    if force_work != 0. {
+        scale = add(scale, force_work.abs())?;
+    }
     r.work_allowance = mul(128. * f64::EPSILON, scale)?;
     if r.residual_work.abs() > r.work_allowance || r.ledger_error.abs() > r.work_allowance {
         return Err(CoupledDiscreteError::ThirdWorkFailure);
@@ -1022,6 +1174,7 @@ impl Work {
         &mut self,
         q: [f64; 3],
         eta: [f64; 6],
+        acceleration: [f64; 3],
         cancel: &mut impl FnMut(CoupledDiscreteStage) -> bool,
     ) -> Result<[f64; V], CoupledDiscreteError> {
         let p = self.point(q, eta, &[0.; V], 0., cancel)?;
@@ -1031,6 +1184,12 @@ impl Work {
             for n in 0..N {
                 for d in 0..2 {
                     rhs[i] = add(rhs[i], -mul(self.r[n][d][i], p.instantaneous_force[n][d])?)?;
+                    if acceleration[d] != 0. {
+                        rhs[i] = add(
+                            rhs[i],
+                            mul(self.r[n][d][i], mul(p.mass[n], acceleration[d])?)?,
+                        )?;
+                    }
                     for j in 0..V {
                         matrix[i][j] = add(
                             matrix[i][j],
@@ -1351,6 +1510,7 @@ impl Work {
         order: usize,
         old: &[[f64; 3]],
         m0: &[f64; N],
+        acceleration: [f64; 3],
         cancel: &mut impl FnMut(CoupledDiscreteStage) -> bool,
     ) -> Result<Equation, CoupledDiscreteError> {
         let mut start = self.point(q, eta, unknown, 0., cancel)?;
@@ -1424,7 +1584,10 @@ impl Work {
                 )?;
                 let direct = add(mul(end.mass[i], end.u[i][d])?, -mul(m0[i], old[i][d])?)?;
                 for v in 0..V {
-                    let force = mul(h, end.force[i][d])?;
+                    let mut force = mul(h, end.force[i][d])?;
+                    if acceleration[d] != 0. {
+                        force = add(force, -mul(mul(h, m0[i])?, acceleration[d])?)?;
+                    }
                     rate[v] = add(rate[v], mul(self.r[i][d][v], add(stable, force)?)?)?;
                     direct_rate[v] =
                         add(direct_rate[v], mul(self.r[i][d][v], add(direct, force)?)?)?;
@@ -1468,6 +1631,25 @@ fn energy(p: &Point) -> Result<f64, CoupledDiscreteError> {
     }
     Ok(e)
 }
+fn force_work(
+    mass: &[f64; N],
+    velocity: &[[f64; 3]],
+    h: f64,
+    acceleration: [f64; 3],
+) -> Result<f64, CoupledDiscreteError> {
+    let mut work = 0.;
+    for i in 0..N {
+        for d in 0..3 {
+            if acceleration[d] != 0. {
+                work = add(
+                    work,
+                    mul(mul(mul(h, mass[i])?, velocity[i][d])?, acceleration[d])?,
+                )?;
+            }
+        }
+    }
+    Ok(work)
+}
 #[allow(clippy::too_many_arguments)]
 fn qualify(
     e: &Equation,
@@ -1479,6 +1661,7 @@ fn qualify(
     time_after: f64,
     iterations: usize,
     calls: usize,
+    acceleration: [f64; 3],
 ) -> Result<CoupledDiscreteReport, CoupledDiscreteError> {
     let mut gcl = [0.; N];
     let mut dbe = 0.;
@@ -1548,11 +1731,15 @@ fn qualify(
     let dmu = mul(h, e.end.strain_power)?;
     let wp = mul(h, e.end.pressure_work)?;
     let wr = mul(h, dot(&e.end.z, &e.rate)?)?;
-    let ledger = add(
+    let mut ledger = add(
         add(add(add(add(add(e1, -e0)?, dbe)?, dmix)?, dmu)?, wp)?,
         add(wg, -wr)?,
     )?;
-    let scale = add(
+    let external_work = force_work(&e.start.mass, &e.end.u, h, acceleration)?;
+    if external_work != 0. {
+        ledger = add(ledger, -external_work)?;
+    }
+    let mut scale = add(
         add(
             add(
                 add(add(add(add(e0, e1)?, dbe)?, dmix)?, dmu.abs())?,
@@ -1562,6 +1749,9 @@ fn qualify(
         )?,
         wr.abs(),
     )?;
+    if external_work != 0. {
+        scale = add(scale, external_work.abs())?;
+    }
     let allowance = mul(128. * f64::EPSILON, scale)?;
     if dbe < 0.
         || dmix < 0.
@@ -1577,7 +1767,7 @@ fn qualify(
     }
     if norm(&e.rate)? > LIMIT
         || norm(&e.direct_rate)? > LIMIT
-        || px.abs() > LIMIT
+        || add(px, -mul(mul(h, mass_before)?, acceleration[0])?)?.abs() > LIMIT
         || add(mass_after, -mass_before)?.abs() > LIMIT
     {
         return Err(CoupledDiscreteError::ConservationFailure);
