@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "/workspace/.rheon-tools/e1-trajectories-v2-target/release/deps/rheon-beaa99042d1278c3",
+    "--exact",
+    "research_public_call::research_repeated_trajectory_one",
+    "--nocapture"
+  ],
+  "authorization_sha256": "0d8715783af908773e6b367dcb5baadebab40e5c7107a8c2f1f54e65849a6169",
+  "binary_sha256": "681b88152796730270154f3c372c6bd4a547c2e722330a39df622e6cc1442798",
+  "env": {
+    "RHEON_PUBLIC_CALL_ALLOW": "E1-original-complete-trajectory-66KiB-v2",
+    "RHEON_TRAJECTORY_INDEX": "14"
+  },
+  "exit": 0,
+  "mode": "trajectory",
+  "parameter_search": false,
+  "production_adoption": false,
+  "seconds": 6.521986473002471,
+  "stderr_sha256": "ab5e5e14c086a4db0da27bef59238bab01e9021050378136caf3d25aef997669",
+  "stdout_sha256": "a9c609a857cd7d843356965ed9f673707d4082c6fa42d2d3decb095e85b391f7",
+  "trajectory": {
+    "field": "constant",
+    "final_time": 0.1,
+    "h": 0.003125,
+    "index": 14,
+    "input_index": 1,
+    "kind": "initial",
+    "load": "forward",
+    "protocol": "original-five-intervals",
+    "steps": 32
+  }
+}

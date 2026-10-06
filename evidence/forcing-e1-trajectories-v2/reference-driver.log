@@ -1,0 +1,16 @@
+{"event": "reference_finished", "kind": "initial", "field": "nonconstant", "load": "forward", "rtol": 1e-10, "status": "COMPLETE", "seconds": 0.5728958349936875}
+{"event": "reference_finished", "kind": "initial", "field": "nonconstant", "load": "forward", "rtol": 2e-12, "status": "COMPLETE", "seconds": 0.7998330450063804}
+{"event": "reference_finished", "kind": "initial", "field": "nonconstant", "load": "reversed", "rtol": 1e-10, "status": "COMPLETE", "seconds": 0.5221397549903486}
+{"event": "reference_finished", "kind": "initial", "field": "nonconstant", "load": "reversed", "rtol": 2e-12, "status": "COMPLETE", "seconds": 1.218356766999932}
+{"event": "reference_finished", "kind": "initial", "field": "constant", "load": "forward", "rtol": 1e-10, "status": "COMPLETE", "seconds": 0.46851719499682076}
+{"event": "reference_finished", "kind": "initial", "field": "constant", "load": "forward", "rtol": 2e-12, "status": "COMPLETE", "seconds": 0.8790910060051829}
+{"event": "reference_finished", "kind": "initial", "field": "constant", "load": "reversed", "rtol": 1e-10, "status": "COMPLETE", "seconds": 0.5293184439942706}
+{"event": "reference_finished", "kind": "initial", "field": "constant", "load": "reversed", "rtol": 2e-12, "status": "COMPLETE", "seconds": 1.1788426380080637}
+{"event": "reference_finished", "kind": "pressure_state", "field": "nonconstant", "load": "forward", "rtol": 1e-10, "status": "COMPLETE", "seconds": 0.7686159589939052}
+{"event": "reference_finished", "kind": "pressure_state", "field": "nonconstant", "load": "forward", "rtol": 2e-12, "status": "COMPLETE", "seconds": 1.0525992850016337}
+{"event": "reference_finished", "kind": "pressure_state", "field": "nonconstant", "load": "reversed", "rtol": 1e-10, "status": "COMPLETE", "seconds": 0.8631889329990372}
+{"event": "reference_finished", "kind": "pressure_state", "field": "nonconstant", "load": "reversed", "rtol": 2e-12, "status": "COMPLETE", "seconds": 1.5605482459941413}
+{"event": "reference_finished", "kind": "pressure_state", "field": "constant", "load": "forward", "rtol": 1e-10, "status": "COMPLETE", "seconds": 0.6041251980059315}
+{"event": "reference_finished", "kind": "pressure_state", "field": "constant", "load": "forward", "rtol": 2e-12, "status": "COMPLETE", "seconds": 1.0811033690115437}
+{"event": "reference_finished", "kind": "pressure_state", "field": "constant", "load": "reversed", "rtol": 1e-10, "status": "COMPLETE", "seconds": 1.1053810200100997}
+{"event": "reference_finished", "kind": "pressure_state", "field": "constant", "load": "reversed", "rtol": 2e-12, "status": "COMPLETE", "seconds": 1.5634209290001309}

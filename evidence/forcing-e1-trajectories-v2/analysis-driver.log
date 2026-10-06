@@ -1,0 +1,7 @@
+{"event": "analysis_finished", "label": "native", "optimized": false, "exit": 0}
+{"event": "analysis_finished", "label": "native", "optimized": true, "exit": 0}
+{"event": "analysis_finished", "label": "convergence", "optimized": false, "exit": 0}
+{"event": "analysis_finished", "label": "convergence", "optimized": true, "exit": 0}
+{"event": "analysis_finished", "label": "physical", "optimized": false, "exit": 0}
+{"event": "analysis_finished", "label": "physical", "optimized": true, "exit": 0}
+{"status": "ALL_SIX_ANALYSIS_COMMANDS_PASSED", "native_execution": false}

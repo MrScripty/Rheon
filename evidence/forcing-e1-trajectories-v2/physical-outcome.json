@@ -1,0 +1,973 @@
+{
+  "failed_trajectories": 0,
+  "other_physical_momentum_gate": 1e-11,
+  "passed_trajectories": 48,
+  "physical_source_unchanged": true,
+  "reported_planar_finite_gate": 1e-13,
+  "research_owner_reservation": 542352,
+  "rows": [
+    {
+      "actual_accepted_steps": 2,
+      "actual_steps_replayed": 2,
+      "field": "nonconstant",
+      "h": 0.05,
+      "index": 0,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.014842725952137996,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.454526764522977e-14,
+        "full_momentum": 1.4275989923426382e-14,
+        "quadrature": 3.2526065174565133e-18,
+        "third_momentum_change": 8.847089727481716e-17,
+        "third_work_ratio": 0.0010904174890408445,
+        "total_work_ratio": 0.004098457673726615
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 4,
+      "actual_steps_replayed": 4,
+      "field": "nonconstant",
+      "h": 0.025,
+      "index": 1,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.010188156745561045,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.7679122884330724e-14,
+        "full_momentum": 1.761788753228302e-14,
+        "quadrature": 3.750661890442042e-18,
+        "third_momentum_change": 1.7780915628762273e-16,
+        "third_work_ratio": 0.004805946524757721,
+        "total_work_ratio": 0.000991235287749726
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 8,
+      "actual_steps_replayed": 8,
+      "field": "nonconstant",
+      "h": 0.0125,
+      "index": 2,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.017959654428748008,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 3.333615991754908e-14,
+        "full_momentum": 3.366875170325481e-14,
+        "quadrature": 2.205673794650198e-18,
+        "third_momentum_change": 2.441623292437356e-16,
+        "third_work_ratio": 0.005153421255157393,
+        "total_work_ratio": 0.004481915888416891
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 16,
+      "actual_steps_replayed": 16,
+      "field": "nonconstant",
+      "h": 0.00625,
+      "index": 3,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.014050623370764017,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 7.499593345726285e-14,
+        "full_momentum": 7.710015030386587e-14,
+        "quadrature": 1.6872896309305663e-18,
+        "third_momentum_change": 1.7759231585312563e-16,
+        "third_work_ratio": 0.006039153509910086,
+        "total_work_ratio": 0.00913537782730213
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 32,
+      "actual_steps_replayed": 32,
+      "field": "nonconstant",
+      "h": 0.003125,
+      "index": 4,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.015787241348899642,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 9.976400112864431e-14,
+        "full_momentum": 1.0513025524061756e-13,
+        "quadrature": 6.945670167485263e-19,
+        "third_momentum_change": 3.108407628515941e-16,
+        "third_work_ratio": 0.006879365390935206,
+        "total_work_ratio": 0.006998018116172936
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 2,
+      "actual_steps_replayed": 2,
+      "field": "nonconstant",
+      "h": 0.05,
+      "index": 5,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.008460192377605737,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.655324828805959e-14,
+        "full_momentum": 1.6219024365328842e-14,
+        "quadrature": 5.854691731421724e-18,
+        "third_momentum_change": 2.445960101127298e-16,
+        "third_work_ratio": 0.002749779694534546,
+        "total_work_ratio": 0.0060096537430715455
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 4,
+      "actual_steps_replayed": 4,
+      "field": "nonconstant",
+      "h": 0.025,
+      "index": 6,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.00909985245988893,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 8.672765176993579e-14,
+        "full_momentum": 8.656062128447042e-14,
+        "quadrature": 2.679165212165352e-18,
+        "third_momentum_change": 1.7780915628762273e-16,
+        "third_work_ratio": 0.005159234034782673,
+        "total_work_ratio": 0.011116614805645039
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 8,
+      "actual_steps_replayed": 8,
+      "field": "nonconstant",
+      "h": 0.0125,
+      "index": 7,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.013809081085797396,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 4.3429098433615044e-14,
+        "full_momentum": 4.444571806914503e-14,
+        "quadrature": 1.2785962338803664e-18,
+        "third_momentum_change": 1.9992688060632702e-16,
+        "third_work_ratio": 0.005661528145898459,
+        "total_work_ratio": 0.010656166250491806
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 16,
+      "actual_steps_replayed": 16,
+      "field": "nonconstant",
+      "h": 0.00625,
+      "index": 8,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.013702453938324661,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 6.773528987000563e-14,
+        "full_momentum": 6.761738873360527e-14,
+        "quadrature": 1.1383064019913729e-18,
+        "third_momentum_change": 2.66496893996937e-16,
+        "third_work_ratio": 0.00357926443191051,
+        "total_work_ratio": 0.008952440653826263
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 32,
+      "actual_steps_replayed": 32,
+      "field": "nonconstant",
+      "h": 0.003125,
+      "index": 9,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.024088704555610328,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.0253647126033938e-13,
+        "full_momentum": 1.0094315702019267e-13,
+        "quadrature": 5.634886681609233e-19,
+        "third_momentum_change": 3.108407628515941e-16,
+        "third_work_ratio": 0.005737601651781454,
+        "total_work_ratio": 0.00614127010951867
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 2,
+      "actual_steps_replayed": 2,
+      "field": "constant",
+      "h": 0.05,
+      "index": 10,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.014842725952137996,
+        "constant_deviation": 1.6653345369377348e-16,
+        "direct_full_momentum": 1.456900836646959e-14,
+        "full_momentum": 1.4301934562749668e-14,
+        "quadrature": 3.2526065174565133e-18,
+        "third_momentum_change": 2.2551405187698492e-17,
+        "third_work_ratio": 0.0006094910935416254,
+        "total_work_ratio": 0.004339679183218779
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 4,
+      "actual_steps_replayed": 4,
+      "field": "constant",
+      "h": 0.025,
+      "index": 11,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.010188156745561045,
+        "constant_deviation": 1.6653345369377348e-16,
+        "direct_full_momentum": 1.7305694587942264e-14,
+        "full_momentum": 1.7227578941329306e-14,
+        "quadrature": 3.750661890442042e-18,
+        "third_momentum_change": 6.678685382510707e-17,
+        "third_work_ratio": 0.0016007970793602425,
+        "total_work_ratio": 0.0016857863439269489
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 8,
+      "actual_steps_replayed": 8,
+      "field": "constant",
+      "h": 0.0125,
+      "index": 12,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.017959654428748008,
+        "constant_deviation": 3.3306690738754696e-16,
+        "direct_full_momentum": 3.322476217826191e-14,
+        "full_momentum": 3.359451889488683e-14,
+        "quadrature": 2.205673794650198e-18,
+        "third_momentum_change": 1.3314002678121994e-16,
+        "third_work_ratio": 0.003483576369293166,
+        "total_work_ratio": 0.0054090461631587285
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 16,
+      "actual_steps_replayed": 16,
+      "field": "constant",
+      "h": 0.00625,
+      "index": 13,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.014050623370764017,
+        "constant_deviation": 3.885780586188048e-16,
+        "direct_full_momentum": 7.46673046051816e-14,
+        "full_momentum": 7.673938503078677e-14,
+        "quadrature": 1.6872896309305663e-18,
+        "third_momentum_change": 6.657001339060997e-17,
+        "third_work_ratio": 0.003928630009103266,
+        "total_work_ratio": 0.009910579486796455
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 32,
+      "actual_steps_replayed": 32,
+      "field": "constant",
+      "h": 0.003125,
+      "index": 14,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.015787241348899642,
+        "constant_deviation": 7.216449660063518e-16,
+        "direct_full_momentum": 9.636980629606932e-14,
+        "full_momentum": 1.0216280704506983e-13,
+        "quadrature": 6.945670167485263e-19,
+        "third_momentum_change": 2.4427074946098415e-16,
+        "third_work_ratio": 0.005545768974238574,
+        "total_work_ratio": 0.00728114578229694
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 2,
+      "actual_steps_replayed": 2,
+      "field": "constant",
+      "h": 0.05,
+      "index": 15,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.008460192377605737,
+        "constant_deviation": 1.3877787807814457e-16,
+        "direct_full_momentum": 1.6527043310197197e-14,
+        "full_momentum": 1.6193081320062843e-14,
+        "quadrature": 5.854691731421724e-18,
+        "third_momentum_change": 2.2551405187698492e-17,
+        "third_work_ratio": 0.0024458306230561093,
+        "total_work_ratio": 0.0073635338665617965
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 4,
+      "actual_steps_replayed": 4,
+      "field": "constant",
+      "h": 0.025,
+      "index": 16,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.00909985245988893,
+        "constant_deviation": 3.0531133177191805e-16,
+        "direct_full_momentum": 8.672590634742135e-14,
+        "full_momentum": 8.656345835389537e-14,
+        "quadrature": 2.679165212165352e-18,
+        "third_momentum_change": 1.7780915628762273e-16,
+        "third_work_ratio": 0.0030505975534722437,
+        "total_work_ratio": 0.01245974100206217
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 8,
+      "actual_steps_replayed": 8,
+      "field": "constant",
+      "h": 0.0125,
+      "index": 17,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.013809081085797396,
+        "constant_deviation": 2.7755575615628914e-16,
+        "direct_full_momentum": 4.3334637018792845e-14,
+        "full_momentum": 4.4371128994596855e-14,
+        "quadrature": 1.2785962338803664e-18,
+        "third_momentum_change": 1.3314002678121994e-16,
+        "third_work_ratio": 0.0028952068489914466,
+        "total_work_ratio": 0.013209614437454949
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 16,
+      "actual_steps_replayed": 16,
+      "field": "constant",
+      "h": 0.00625,
+      "index": 18,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.013702453938324661,
+        "constant_deviation": 4.718447854656915e-16,
+        "direct_full_momentum": 6.811503487401906e-14,
+        "full_momentum": 6.782807373830118e-14,
+        "quadrature": 1.1383064019913729e-18,
+        "third_momentum_change": 1.7759231585312563e-16,
+        "third_work_ratio": 0.004073347599820204,
+        "total_work_ratio": 0.01003061254056913
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 32,
+      "actual_steps_replayed": 32,
+      "field": "constant",
+      "h": 0.003125,
+      "index": 19,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.024088704555610328,
+        "constant_deviation": 6.106226635438361e-16,
+        "direct_full_momentum": 1.006252490615237e-13,
+        "full_momentum": 9.667101812677086e-14,
+        "quadrature": 5.634886681609233e-19,
+        "third_momentum_change": 1.9981846038907847e-16,
+        "third_work_ratio": 0.005736825097450503,
+        "total_work_ratio": 0.006233707765632635
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 2,
+      "actual_steps_replayed": 2,
+      "field": "nonconstant",
+      "h": 0.05,
+      "index": 20,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.009320324166665533,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.1589547480192322e-14,
+        "full_momentum": 1.1380519943675824e-14,
+        "quadrature": 5.800481622797449e-18,
+        "third_momentum_change": 8.847089727481716e-17,
+        "third_work_ratio": 0.0008006211484680331,
+        "total_work_ratio": 0.008172702307963716
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 4,
+      "actual_steps_replayed": 4,
+      "field": "nonconstant",
+      "h": 0.025,
+      "index": 21,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.012437106638787259,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.2518865714995827e-14,
+        "full_momentum": 1.2147242147033621e-14,
+        "quadrature": 2.1412992906588713e-18,
+        "third_momentum_change": 2.662800535624399e-16,
+        "third_work_ratio": 0.0021928566107282392,
+        "total_work_ratio": 0.005430288570670412
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 8,
+      "actual_steps_replayed": 8,
+      "field": "nonconstant",
+      "h": 0.0125,
+      "index": 22,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.012967636869729862,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 3.320350403151963e-14,
+        "full_momentum": 3.299345952377089e-14,
+        "quadrature": 1.7211709488207383e-18,
+        "third_momentum_change": 2.441623292437356e-16,
+        "third_work_ratio": 0.004171114354594243,
+        "total_work_ratio": 0.004630764188443241
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 16,
+      "actual_steps_replayed": 16,
+      "field": "nonconstant",
+      "h": 0.00625,
+      "index": 23,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.017783921818272173,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 6.337480414220342e-14,
+        "full_momentum": 6.345044609860955e-14,
+        "quadrature": 7.928228386300251e-19,
+        "third_momentum_change": 2.886146183156413e-16,
+        "third_work_ratio": 0.006546133554267179,
+        "total_work_ratio": 0.004199019643065781
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 32,
+      "actual_steps_replayed": 32,
+      "field": "nonconstant",
+      "h": 0.003125,
+      "index": 24,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.01779739016236288,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 9.970862378060696e-14,
+        "full_momentum": 9.95823401576125e-14,
+        "quadrature": 5.344777897174635e-19,
+        "third_momentum_change": 3.108407628515941e-16,
+        "third_work_ratio": 0.006369759859093808,
+        "total_work_ratio": 0.007033871430129746
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 2,
+      "actual_steps_replayed": 2,
+      "field": "nonconstant",
+      "h": 0.05,
+      "index": 25,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.008366894136323237,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.564246565174558e-14,
+        "full_momentum": 1.5730760322281693e-14,
+        "quadrature": 3.2390539903004445e-18,
+        "third_momentum_change": 1.3357370765021415e-16,
+        "third_work_ratio": 0.0005868611221628246,
+        "total_work_ratio": 0.005133474388547341
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 4,
+      "actual_steps_replayed": 4,
+      "field": "nonconstant",
+      "h": 0.025,
+      "index": 26,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.010555214039858204,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 4.3291277459827843e-14,
+        "full_momentum": 4.295480362605294e-14,
+        "quadrature": 2.9375102610779136e-18,
+        "third_momentum_change": 6.678685382510707e-17,
+        "third_work_ratio": 0.004095646665250492,
+        "total_work_ratio": 0.005455136921593851
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 8,
+      "actual_steps_replayed": 8,
+      "field": "nonconstant",
+      "h": 0.0125,
+      "index": 27,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.014411455565154987,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 2.7083317198131822e-14,
+        "full_momentum": 2.619337636003302e-14,
+        "quadrature": 1.378969638130001e-18,
+        "third_momentum_change": 1.9992688060632702e-16,
+        "third_work_ratio": 0.005219043782644056,
+        "total_work_ratio": 0.006298778830395501
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 16,
+      "actual_steps_replayed": 16,
+      "field": "nonconstant",
+      "h": 0.00625,
+      "index": 28,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.01939072548726652,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 6.894513693408563e-14,
+        "full_momentum": 6.967165919735918e-14,
+        "quadrature": 1.1824579943670033e-18,
+        "third_momentum_change": 3.9963692077815693e-16,
+        "third_work_ratio": 0.005736384115019164,
+        "total_work_ratio": 0.00892790960350207
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 32,
+      "actual_steps_replayed": 32,
+      "field": "nonconstant",
+      "h": 0.003125,
+      "index": 29,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.017838592347394502,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 9.955798779305076e-14,
+        "full_momentum": 1.0018946741303096e-13,
+        "quadrature": 5.446421850845151e-19,
+        "third_momentum_change": 3.108407628515941e-16,
+        "third_work_ratio": 0.006408373779461629,
+        "total_work_ratio": 0.005992389517022195
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 2,
+      "actual_steps_replayed": 2,
+      "field": "constant",
+      "h": 0.05,
+      "index": 30,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.009320324166665533,
+        "constant_deviation": 1.6653345369377348e-16,
+        "direct_full_momentum": 1.1566384091487384e-14,
+        "full_momentum": 1.1357749960934183e-14,
+        "quadrature": 5.800481622797449e-18,
+        "third_momentum_change": 8.847089727481716e-17,
+        "third_work_ratio": 0.0034091315012383327,
+        "total_work_ratio": 0.009748212551092546
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 4,
+      "actual_steps_replayed": 4,
+      "field": "constant",
+      "h": 0.025,
+      "index": 31,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.012437106638787259,
+        "constant_deviation": 2.220446049250313e-16,
+        "direct_full_momentum": 1.2647776205963777e-14,
+        "full_momentum": 1.2318539701120294e-14,
+        "quadrature": 2.1412992906588713e-18,
+        "third_momentum_change": 1.7780915628762273e-16,
+        "third_work_ratio": 0.0021969926155787707,
+        "total_work_ratio": 0.005703505876205814
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 8,
+      "actual_steps_replayed": 8,
+      "field": "constant",
+      "h": 0.0125,
+      "index": 32,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.012967636869729862,
+        "constant_deviation": 3.3306690738754696e-16,
+        "direct_full_momentum": 3.3327524013272067e-14,
+        "full_momentum": 3.3088145037883695e-14,
+        "quadrature": 1.7211709488207383e-18,
+        "third_momentum_change": 1.9992688060632702e-16,
+        "third_work_ratio": 0.004725090698631687,
+        "total_work_ratio": 0.005139678523391029
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 16,
+      "actual_steps_replayed": 16,
+      "field": "constant",
+      "h": 0.00625,
+      "index": 33,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.017783921818272173,
+        "constant_deviation": 5.551115123125783e-16,
+        "direct_full_momentum": 6.209240786421285e-14,
+        "full_momentum": 6.252588415392722e-14,
+        "quadrature": 7.928228386300251e-19,
+        "third_momentum_change": 1.7759231585312563e-16,
+        "third_work_ratio": 0.006865962597425481,
+        "total_work_ratio": 0.005547253387931886
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 32,
+      "actual_steps_replayed": 32,
+      "field": "constant",
+      "h": 0.003125,
+      "index": 34,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.01779739016236288,
+        "constant_deviation": 7.771561172376096e-16,
+        "direct_full_momentum": 1.0041156417226542e-13,
+        "full_momentum": 9.98767945545044e-14,
+        "quadrature": 5.344777897174635e-19,
+        "third_momentum_change": 2.4427074946098415e-16,
+        "third_work_ratio": 0.004631704547554733,
+        "total_work_ratio": 0.007415964630697169
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 2,
+      "actual_steps_replayed": 2,
+      "field": "constant",
+      "h": 0.05,
+      "index": 35,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.008366894136323237,
+        "constant_deviation": 1.3877787807814457e-16,
+        "direct_full_momentum": 1.562416683148693e-14,
+        "full_momentum": 1.5718891697314433e-14,
+        "quadrature": 3.2390539903004445e-18,
+        "third_momentum_change": 1.3357370765021415e-16,
+        "third_work_ratio": 0.0022288253182378213,
+        "total_work_ratio": 0.005646461253110579
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 4,
+      "actual_steps_replayed": 4,
+      "field": "constant",
+      "h": 0.025,
+      "index": 36,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.010555214039858204,
+        "constant_deviation": 1.6653345369377348e-16,
+        "direct_full_momentum": 4.3163145626688645e-14,
+        "full_momentum": 4.285460665382649e-14,
+        "quadrature": 2.9375102610779136e-18,
+        "third_momentum_change": 1.7780915628762273e-16,
+        "third_work_ratio": 0.0015081632760246854,
+        "total_work_ratio": 0.005901409250778477
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 8,
+      "actual_steps_replayed": 8,
+      "field": "constant",
+      "h": 0.0125,
+      "index": 37,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.014411455565154987,
+        "constant_deviation": 4.163336342344337e-16,
+        "direct_full_momentum": 2.6860803768305363e-14,
+        "full_momentum": 2.6032467186109114e-14,
+        "quadrature": 1.378969638130001e-18,
+        "third_momentum_change": 1.3314002678121994e-16,
+        "third_work_ratio": 0.002841035525004071,
+        "total_work_ratio": 0.007569593235936246
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 16,
+      "actual_steps_replayed": 16,
+      "field": "constant",
+      "h": 0.00625,
+      "index": 38,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.01939072548726652,
+        "constant_deviation": 4.440892098500626e-16,
+        "direct_full_momentum": 6.870631446568846e-14,
+        "full_momentum": 6.956927502704852e-14,
+        "quadrature": 1.1824579943670033e-18,
+        "third_momentum_change": 2.66496893996937e-16,
+        "third_work_ratio": 0.003375863942867149,
+        "total_work_ratio": 0.010880852731264644
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 32,
+      "actual_steps_replayed": 32,
+      "field": "constant",
+      "h": 0.003125,
+      "index": 39,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.017838592347394502,
+        "constant_deviation": 8.326672684688674e-16,
+        "direct_full_momentum": 9.742177334871049e-14,
+        "full_momentum": 9.800512743632581e-14,
+        "quadrature": 5.446421850845151e-19,
+        "third_momentum_change": 2.4427074946098415e-16,
+        "third_work_ratio": 0.006221092287551077,
+        "total_work_ratio": 0.006278298833817633
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 64,
+      "actual_steps_replayed": 64,
+      "field": "nonconstant",
+      "h": 0.0015625,
+      "index": 40,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.021595065660339134,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.1511124639366264e-13,
+        "full_momentum": 1.092990513489607e-13,
+        "quadrature": 3.7777669447541795e-19,
+        "third_momentum_change": 1.776465259617499e-16,
+        "third_work_ratio": 0.005486285699059046,
+        "total_work_ratio": 0.0031970597544412477
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 1,
+      "actual_steps_replayed": 1,
+      "field": "nonconstant",
+      "h": 0.00078125,
+      "index": 41,
+      "kind": "initial",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.00830765908169405,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.1274990124827305e-13,
+        "full_momentum": 1.1273554298984834e-13,
+        "quadrature": 6.05430033939812e-20,
+        "third_momentum_change": 1.3322134194415636e-16,
+        "third_work_ratio": 0.0002965371970087526,
+        "total_work_ratio": 0.00013255985834824082
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 64,
+      "actual_steps_replayed": 64,
+      "field": "nonconstant",
+      "h": 0.0015625,
+      "index": 42,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.02086098113341143,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.2034111528852223e-13,
+        "full_momentum": 1.0842735807263935e-13,
+        "quadrature": 3.6438298599695933e-19,
+        "third_momentum_change": 2.664426838883127e-16,
+        "third_work_ratio": 0.007180234728689481,
+        "total_work_ratio": 0.0041286861048409175
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 128,
+      "actual_steps_replayed": 128,
+      "field": "nonconstant",
+      "h": 0.00078125,
+      "index": 43,
+      "kind": "initial",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.022537791516000733,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.8039093586916933e-13,
+        "full_momentum": 1.6790892139660965e-13,
+        "quadrature": 2.1308172579365993e-19,
+        "third_momentum_change": 3.1086786790590626e-16,
+        "third_work_ratio": 0.006472059569595116,
+        "total_work_ratio": 0.0031103278168833383
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 64,
+      "actual_steps_replayed": 64,
+      "field": "nonconstant",
+      "h": 0.0015625,
+      "index": 44,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.026086724327622476,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.2437145116803568e-13,
+        "full_momentum": 1.1587508341339264e-13,
+        "quadrature": 4.37069000783219e-19,
+        "third_momentum_change": 2.664426838883127e-16,
+        "third_work_ratio": 0.0050987984248681605,
+        "total_work_ratio": 0.003302066427968448
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 128,
+      "actual_steps_replayed": 128,
+      "field": "nonconstant",
+      "h": 0.00078125,
+      "index": 45,
+      "kind": "pressure_state",
+      "load": "forward",
+      "maxima": {
+        "GCL_ratio": 0.02404077255824876,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.9247982974401163e-13,
+        "full_momentum": 1.83837103743761e-13,
+        "quadrature": 2.1514636860259229e-19,
+        "third_momentum_change": 3.1086786790590626e-16,
+        "third_work_ratio": 0.007436007283525975,
+        "total_work_ratio": 0.003630409883144944
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 64,
+      "actual_steps_replayed": 64,
+      "field": "nonconstant",
+      "h": 0.0015625,
+      "index": 46,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.017728480805008925,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.3094497482062345e-13,
+        "full_momentum": 1.1657661222147465e-13,
+        "quadrature": 3.2271955290388843e-19,
+        "third_momentum_change": 2.8866882842426556e-16,
+        "third_work_ratio": 0.00817050267315026,
+        "total_work_ratio": 0.003619199222671085
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    },
+    {
+      "actual_accepted_steps": 25,
+      "actual_steps_replayed": 25,
+      "field": "nonconstant",
+      "h": 0.00078125,
+      "index": 47,
+      "kind": "pressure_state",
+      "load": "reversed",
+      "maxima": {
+        "GCL_ratio": 0.013072598384279228,
+        "constant_deviation": 0.0,
+        "direct_full_momentum": 1.8542862890675736e-13,
+        "full_momentum": 1.7515218285848879e-13,
+        "quadrature": 1.0503208545953324e-19,
+        "third_momentum_change": 2.44243644406672e-16,
+        "third_work_ratio": 0.007214055750169443,
+        "total_work_ratio": 0.0028484166699795153
+      },
+      "status": "PASS_ALL_FROZEN_PHYSICAL_GATES"
+    }
+  ],
+  "schema_adapter_only": true,
+  "status": "PASS_ALL_FROZEN_PHYSICAL_GATES",
+  "tolerance_relaxation": false
+}

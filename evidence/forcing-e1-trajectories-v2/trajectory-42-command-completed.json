@@ -1,0 +1,32 @@
+{
+  "argv": [
+    "/workspace/.rheon-tools/e1-trajectories-v2-target/release/deps/rheon-beaa99042d1278c3",
+    "--exact",
+    "research_public_call::research_repeated_trajectory_one",
+    "--nocapture"
+  ],
+  "authorization_sha256": "0d8715783af908773e6b367dcb5baadebab40e5c7107a8c2f1f54e65849a6169",
+  "binary_sha256": "681b88152796730270154f3c372c6bd4a547c2e722330a39df622e6cc1442798",
+  "env": {
+    "RHEON_PUBLIC_CALL_ALLOW": "E1-original-complete-trajectory-66KiB-v2",
+    "RHEON_TRAJECTORY_INDEX": "42"
+  },
+  "exit": 0,
+  "mode": "trajectory",
+  "parameter_search": false,
+  "production_adoption": false,
+  "seconds": 11.07356581199565,
+  "stderr_sha256": "0abe53ff0f75a55e77569666413e6cd85bfd0a89149a1ad613a755a0faf97668",
+  "stdout_sha256": "61c6dcea97d4697ed795e2ab8d56b7a72c59d195a309a9c248f7498195bfd9c4",
+  "trajectory": {
+    "field": "nonconstant",
+    "final_time": 0.1,
+    "h": 0.0015625,
+    "index": 42,
+    "input_index": 0,
+    "kind": "initial",
+    "load": "reversed",
+    "protocol": "original-finer-probes",
+    "steps": 64
+  }
+}

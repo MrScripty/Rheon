@@ -1,0 +1,119 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/analyze_native.py"
+    ],
+    "cwd": "/workspace/Rheon-e1-trajectories",
+    "exit": 0,
+    "native_execution": false,
+    "reader_sha256": "8cacbe2fb186bf6324e45a5762dffcc98ca13a168fad30357dc0b9dc154bb1f2",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "seconds": 1.8206646859907778,
+    "stderr": "native-outcome-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "native-outcome.json",
+    "stdout_sha256": "cea1acbb795de3fdf41651f830c88b613cf01808924f37fd49c70530cfe087c9"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-O",
+      "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/analyze_native.py"
+    ],
+    "cwd": "/workspace/Rheon-e1-trajectories",
+    "exit": 0,
+    "native_execution": false,
+    "reader_sha256": "8cacbe2fb186bf6324e45a5762dffcc98ca13a168fad30357dc0b9dc154bb1f2",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "seconds": 1.9137893250008347,
+    "stderr": "native-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "native-optimized.json",
+    "stdout_sha256": "cea1acbb795de3fdf41651f830c88b613cf01808924f37fd49c70530cfe087c9"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/convergence.py"
+    ],
+    "cwd": "/workspace/Rheon-e1-trajectories",
+    "exit": 0,
+    "native_execution": false,
+    "reader_sha256": "9cb732adae7aa9a4ab573ee9829eee25e81ee8f34ae6431431328f9bf9d1d0cb",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "seconds": 1.991147007996915,
+    "stderr": "convergence-outcome-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "convergence-outcome.json",
+    "stdout_sha256": "85289294a8bad85746f5443eadbe75702d2ab402a6bd3ceab6a3be6c844354ad"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-O",
+      "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/convergence.py"
+    ],
+    "cwd": "/workspace/Rheon-e1-trajectories",
+    "exit": 0,
+    "native_execution": false,
+    "reader_sha256": "9cb732adae7aa9a4ab573ee9829eee25e81ee8f34ae6431431328f9bf9d1d0cb",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "seconds": 5.281156283002929,
+    "stderr": "convergence-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "convergence-optimized.json",
+    "stdout_sha256": "85289294a8bad85746f5443eadbe75702d2ab402a6bd3ceab6a3be6c844354ad"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/replay_physics.py"
+    ],
+    "cwd": "/workspace/Rheon-e1-trajectories",
+    "exit": 0,
+    "native_execution": false,
+    "reader_sha256": "586ec50880d6366bd4fa702e72e9f2f34728687c8dd8564be57082b7d7f693f4",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "seconds": 86.57169046500348,
+    "stderr": "physical-outcome-stderr.log",
+    "stderr_sha256": "219b75c7efc38ecba14869001a9f31fcc9a3e6360a3e00571635886804941c9b",
+    "stdout": "physical-outcome.json",
+    "stdout_sha256": "7eb6242f1f1e0a41842dd2e94cad463afe62155d9020b4a17e551b5101d9ce50"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-O",
+      "/workspace/Rheon-e1-trajectories/evidence/forcing-e1-trajectories-v2/replay_physics.py"
+    ],
+    "cwd": "/workspace/Rheon-e1-trajectories",
+    "exit": 0,
+    "native_execution": false,
+    "reader_sha256": "586ec50880d6366bd4fa702e72e9f2f34728687c8dd8564be57082b7d7f693f4",
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "seconds": 85.45182156399824,
+    "stderr": "physical-optimized-stderr.log",
+    "stderr_sha256": "219b75c7efc38ecba14869001a9f31fcc9a3e6360a3e00571635886804941c9b",
+    "stdout": "physical-optimized.json",
+    "stdout_sha256": "7eb6242f1f1e0a41842dd2e94cad463afe62155d9020b4a17e551b5101d9ce50"
+  }
+]

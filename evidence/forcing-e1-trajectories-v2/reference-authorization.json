@@ -1,0 +1,30 @@
+{
+  "driver_sha256": "f0200ac9c82c7b5d7b041a8c6f2790a17946732057b3b30f80b52b2256f27b53",
+  "original_sources_sha256": {
+    "evidence/forced-extruded-liquid/native-trials/first-native.jsonl": "536bd8ac2753bdc8b677cb94f0b65f746e4355db2c1abf8d18b376668fcbb0d8",
+    "evidence/forced-extruded-liquid/reference.py": "2b203abfe1a8229614c389e0288c768f9b79a15f8130acc92660fb4d9e4005b0",
+    "evidence/forced-extruded-liquid/replay.py": "5135a8b17a58a813e2dc78a3f15c2ac43e55093fe7349f638f5c38058323c989",
+    "evidence/forcing-temporal-diagnosis/replay_probe.py": "42d2cec6568cf678fa4941a26eba327f72b2bcb05dec8bcf119b74f401a5f89a",
+    "examples/forced_extruded.rs": "120ee9f3da4f99acf61d6a1cc07c2bed5d8d46bcde9f3ddbd140698ff29091d3",
+    "examples/forcing_temporal_probe.rs": "e21f1dcca605517713118c6871b853bf3282f0a3a41afe5ac1c05ac66f0a0330"
+  },
+  "parameter_search": false,
+  "parameters": [
+    {
+      "atol": 1e-12,
+      "max_step": 0.00625,
+      "rtol": 1e-10
+    },
+    {
+      "atol": 2e-14,
+      "max_step": 0.003125,
+      "rtol": 2e-12
+    }
+  ],
+  "protocol_sha256": "256ff8e7aa27d2fa968a42284a8de86c11bcd0ed3e820f64866c333582554d95",
+  "resource_env": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "rhs_cap": 5000
+}
