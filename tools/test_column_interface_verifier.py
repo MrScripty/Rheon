@@ -5,9 +5,23 @@ import json
 from pathlib import Path
 import shutil
 import tempfile
+import subprocess
 import unittest
 from PIL import Image
 from verify_column_interface import ROOT,verify
+
+def ci_path_ledger():
+    # Use this checkout's tracked inventory, excluding another lane's examples
+    # and any untracked probes. The same returned rows drive the actual test.
+    examples=subprocess.check_output(['git','ls-files','--','examples/*.rs'],cwd=ROOT,text=True).splitlines()
+    required=examples+['tools/verify_column_interface.py','tools/test_column_interface_verifier.py','evidence/column-interface/demo/jacobi-pcg-v1-activation/final.png']
+    text=(ROOT/'.github/workflows/rust-rheon.yml').read_text();controls=[]
+    for event in ('pull_request','push'):
+        section=re.split(r'\n  [a-z_]+:',text.split('  '+event+':\n',1)[1],maxsplit=1)[0]
+        paths=re.findall(r"^      - '([^']+)'$",section,re.MULTILINE)
+        for path in required:
+            controls.append(dict(event=event,path=path,matched_patterns=[pattern for pattern in paths if fnmatch.fnmatchcase(path,pattern)]))
+    return dict(tracked_examples=examples,additional_paths=required[len(examples):],controls=controls)
 
 class ColumnVerifierTest(unittest.TestCase):
     def test_actual_consecutive_reconstruction_and_convergence(self):
@@ -42,17 +56,10 @@ class ColumnVerifierTest(unittest.TestCase):
                             writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerows(rows)
                     with self.assertRaises((ValueError,OSError)):verify(demo)
     def test_rust_ci_triggers_for_each_example_and_column_verifier(self):
-        # The workflow uses six-space quoted path list entries. No YAML package
-        # is needed by CI's existing standard-library/Pillow test environment.
-        text=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
-        required=[str(p.relative_to(ROOT)) for p in sorted((ROOT/'examples').glob('*.rs'))]
-        required+=['tools/verify_column_interface.py','tools/test_column_interface_verifier.py','evidence/column-interface/demo/jacobi-pcg-v1-activation/final.png']
-        for event in ('pull_request','push'):
-            # Split at the next event, not deeper-indented fields.
-            section=re.split(r'\n  [a-z_]+:',text.split('  '+event+':\n',1)[1],maxsplit=1)[0]
-            paths=re.findall(r"^      - '([^']+)'$",section,re.MULTILINE)
-            for path in required:
-                with self.subTest(event=event,path=path):self.assertTrue(any(fnmatch.fnmatchcase(path,pattern)for pattern in paths))
+        self.path_ledger=ci_path_ledger()
+        for row in self.path_ledger['controls']:
+            with self.subTest(event=row['event'],path=row['path']):
+                self.assertTrue(row['matched_patterns'])
     def test_ci_budget_preserves_every_existing_job_check(self):
         frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
         current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
