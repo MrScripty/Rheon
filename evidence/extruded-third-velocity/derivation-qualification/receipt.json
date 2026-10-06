@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "name": "normal-exact",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "evidence/extruded-third-velocity/third_exact.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "normal-tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "evidence/extruded-third-velocity/test_reference.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-exact",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "evidence/extruded-third-velocity/third_exact.py"
+      ],
+      "exit": 0
+    },
+    {
+      "name": "optimized-tests",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-O",
+        "evidence/extruded-third-velocity/test_reference.py"
+      ],
+      "exit": 0
+    }
+  ],
+  "tests_per_mode": 3,
+  "actual_exact_mode_byte_equal": true,
+  "source_sha256": {
+    "evidence/extruded-third-velocity/third_exact.py": "bad2e491b34338a635659a7f1e594336629368f022f275bb99da0c11884283f3",
+    "evidence/extruded-third-velocity/reference.py": "d44896d9548867d37234d2734dba6ac28861ffdfcaf2108bbb8ba9fb8878c14d",
+    "evidence/extruded-third-velocity/test_reference.py": "c3b94853cf5c31c867a4d4ee102294b299ce3235833fc9dd3c5acb41cf20afa6",
+    "evidence/extruded-third-velocity/README.md": "3b95e509913a448e15a67dd2968c791906390c9354695e3b27e9663107ba7fd9",
+    "docs/research-book/implementation/extruded-third-velocity.md": "61bc7a428c4a0607e29ed5e0b5b49901a995f010dbd1d728136bf10a0cb3ca70"
+  }
+}
