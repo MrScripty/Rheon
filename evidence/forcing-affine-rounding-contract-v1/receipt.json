@@ -1,0 +1,23 @@
+{
+  "analytical_examples": 3,
+  "artifacts": {
+    "README.md": "e310550d5b1a646e61773c51227e368b3b590e28cec4cc6c0d59988d0a573842",
+    "check-commands.json": "95951e59edd65445f6658d1c452f9b97f383835830299de0f1489393f7780ead",
+    "check.py": "075697a3363372df3e29f49b2085c5045afc0d8862e3001212d0a170c57e510c",
+    "outcome-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outcome-normal.json": "890dc38ba368025164951dcf22de28ff1e6ef2f7171f247bae83102a7a2ccbb6",
+    "outcome-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outcome-optimized.json": "890dc38ba368025164951dcf22de28ff1e6ef2f7171f247bae83102a7a2ccbb6",
+    "policy.json": "e59732a32b7b97b0d3193a4b572d1e8e5de358dd71ec98407934b4c87dd393d1"
+  },
+  "contract_source": "f690e63ab58ed9138d3265ea696e7fd6f8b01435",
+  "contract_tree": "b34c3ded675eb2358840e3fec5b93e59a8270d94",
+  "historical_review_status": "unavailable when contract source and its checks were frozen",
+  "native_candidate_equations_executed": 0,
+  "negative_policy_controls": 24,
+  "new_reference_integrations": 0,
+  "new_trajectories": 0,
+  "normal_optimized_parity": true,
+  "owner_advances": 0,
+  "status": "PASS_FROZEN_PREPARATION_CONTRACT_ANALYTICAL_CHECKS"
+}

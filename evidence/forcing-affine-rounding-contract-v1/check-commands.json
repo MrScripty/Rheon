@@ -1,0 +1,29 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "evidence/forcing-affine-rounding-contract-v1/check.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "seconds": 1.9614304520073347,
+    "stderr": "outcome-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "outcome-normal.json",
+    "stdout_sha256": "890dc38ba368025164951dcf22de28ff1e6ef2f7171f247bae83102a7a2ccbb6"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-O",
+      "evidence/forcing-affine-rounding-contract-v1/check.py"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "seconds": 0.9267685430095298,
+    "stderr": "outcome-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "outcome-optimized.json",
+    "stdout_sha256": "890dc38ba368025164951dcf22de28ff1e6ef2f7171f247bae83102a7a2ccbb6"
+  }
+]

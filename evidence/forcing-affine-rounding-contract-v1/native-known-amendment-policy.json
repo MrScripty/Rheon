@@ -1,0 +1,56 @@
+{
+  "E2_after_fresh_preflight": {
+    "additional_memory_cap": 67584,
+    "case_indices": [
+      41,
+      47
+    ],
+    "controller_iterations": 0,
+    "native_equations": 4,
+    "orders": [
+      16,
+      32
+    ],
+    "owner_advances": 0,
+    "owner_constructions": 0,
+    "publication": false,
+    "third_solve": false
+  },
+  "amendment_document_sha256": "b24dbe57b2123bd15627972c8479aeb364cffdc61d14ffa73bf7f5b159ca88ea",
+  "baseline_before_candidate": {
+    "actual_binary": "/workspace/.rheon-tools/e1-fixed-candidates-v1-target/release/deps/rheon-beaa99042d1278c3",
+    "binary_sha256": "b07f3c9abeb0bb2cde6fa8c7d0b4fe816795f51fe6492457e2d0ca6a81cd1b8c",
+    "case_indices": [
+      41,
+      47
+    ],
+    "controller_iterations": 0,
+    "expected_order16_norms": [
+      1.0724458777318338e-13,
+      1.3144896847477506e-13
+    ],
+    "native_equations": 4,
+    "orders": [
+      16,
+      32
+    ],
+    "owner_advances": 0
+  },
+  "downstream": "fresh complete native path/sign partition/positive-negative flux/forces/residuals/planar gates; no captured flux reuse",
+  "final_stored_dependents": "RN64 of working chart solution, original conversion guards",
+  "final_stored_knowns": "original native public knowns, never RN64 of working knowns",
+  "new_reference_integrations": false,
+  "original_geometry_band_failures_unresolved": 8,
+  "original_native_refusals_unresolved": 2,
+  "prepared_contract_source": "f690e63ab58ed9138d3265ea696e7fd6f8b01435",
+  "prepared_policy_sha256": "e59732a32b7b97b0d3193a4b572d1e8e5de358dd71ec98407934b4c87dd393d1",
+  "production_adoption": false,
+  "protocol_id": "E2-working-affine-native-public-known-stored-inertia-v1",
+  "public_known_coordinate_graph": "unchanged native eta0 + rounded(s*alpha), same original checked binary64 operation order",
+  "qualified_increment": "unchanged native actual stored zB-z0; deltaL is never used for qualified inertia",
+  "review_authorization_sha256": "04e66ff7695ea5d11956e1efce23d087fd1146fea0ca8257a84896661ab541a3",
+  "rho": "exact deltaB-deltaL, including public-known and dependent endpoint reconciliation, reported independently",
+  "threshold_changes": false,
+  "trajectory_reruns": false,
+  "working_known_coordinate_graph": "106-bit checked eta0+s*alpha inside chart solve only"
+}

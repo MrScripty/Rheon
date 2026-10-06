@@ -1,0 +1,10 @@
+{
+  "authorization": "Reproduce the same two E1 refusals first; defer affine-known rounding only inside the working chart solve; preserve native geometry and public-known-coordinate policy; form the final binary64 candidate and reconcile its increment to actual stored endpoint; recompute complete native path, transfers, forces, residuals and planar gates. Fresh scalar/memory preflight within 66KiB required. Stop after two fixed candidates at orders 16/32, pass or refuse. No trajectory reruns, extra iterations, tolerance changes, hidden latent-state acceptance or production adoption. Preserve both original runtime refusals and all eight geometry-band failures as unresolved. Publish source/preflight/results normally.",
+  "diagnostic_result_receipt_sha256": "f8de833140df092488a4ef529550820bf31bab8b134070c7562acc9bea78fe98",
+  "diagnostic_source": "b46d26c8fe06f9c331c5cee4e06af6e34fa9190c",
+  "diagnostic_tree": "96045fb873ad9f1e00134a46e6e3d6efcda69567",
+  "disposition": "ACK_DIAGNOSTICS_ONLY",
+  "provenance": "Coordinator delegation in the active task; independent review report not ingested here",
+  "recorded_utc": "2026-10-06T21:37:44.748797+00:00",
+  "status": "COORDINATOR_ACK_DIAGNOSTICS_ONLY_AND_FIXED_EXPERIMENT_AUTHORIZATION"
+}
