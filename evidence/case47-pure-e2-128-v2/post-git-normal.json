@@ -1,0 +1,120 @@
+{
+  "all_original_failures_retained": true,
+  "base": "8fc718ff603e7a7123037e592b4f40f59762e011",
+  "base_tree": "d9b51b3e2c1b186ea2d4b139d53bfe38a4ff678f",
+  "binary_sha256": "6e6ea0505c81cbf8624b177c6c782ff8cb29cc0830c0524e79088e8307a10989",
+  "case41_new_candidate_equations": 0,
+  "case47_actual_main_steps": 128,
+  "case47_cancelled_controls": 11,
+  "frozen_worktrees": {
+    "Rheon": {
+      "head": "f76841e9217e781d91c5bfeabadb6b4c6f42b20b",
+      "status": ""
+    },
+    "Rheon-affine-rounding-contract": {
+      "head": "c210d9ff630504748fad129337aaa84e013522a6",
+      "status": ""
+    },
+    "Rheon-case41-next-plan": {
+      "head": "8fc718ff603e7a7123037e592b4f40f59762e011",
+      "status": ""
+    },
+    "Rheon-column-final-repair": {
+      "head": "be99b8962ba9c20d9e0a99218a1d2f62f120da45",
+      "status": ""
+    },
+    "Rheon-e1-diagnostics": {
+      "head": "b46d26c8fe06f9c331c5cee4e06af6e34fa9190c",
+      "status": ""
+    },
+    "Rheon-e1-trajectories": {
+      "head": "008fdd02ca41e88821bfa8999283347bab3455eb",
+      "status": ""
+    },
+    "Rheon-e2-fixed-candidates": {
+      "head": "2f23503d9bf74842e39f9fe0760edf4bfeb41b4c",
+      "status": ""
+    },
+    "Rheon-e2-followup": {
+      "head": "998de18438a339d44896d24ecf9634ad469cdcdf",
+      "status": ""
+    },
+    "Rheon-finer-refusals": {
+      "head": "dad53b4054034fe0c2ff6240464df7441ab4e6a9",
+      "status": ""
+    },
+    "Rheon-forcing-arithmetic": {
+      "head": "f0b81b4a5f76cb706e645fad4f38faf028c5727e",
+      "status": ""
+    },
+    "Rheon-increment-comparison": {
+      "head": "1e90ed562f200327925c3f0b0255067aa413e0f1",
+      "status": ""
+    },
+    "Rheon-increment-contract": {
+      "head": "704842c368953e47df279728935e20cfda89f0c5",
+      "status": ""
+    },
+    "Rheon-oracle-repair": {
+      "head": "ec26e48df958f0ebc60af414253ff98c0007dc13",
+      "status": ""
+    },
+    "Rheon-public-call": {
+      "head": "4d60e9637431a8d9792944bcd9ff00979ead237e",
+      "status": ""
+    },
+    "Rheon-public-call-66k": {
+      "head": "e3b6858d2d29fc8837dbf2acd84db0c01784a352",
+      "status": ""
+    },
+    "Rheon-public-generalization": {
+      "head": "676c6feaf906a965920f37792e07e2d4d623b3d2",
+      "status": ""
+    },
+    "Rheon-terminal-main": {
+      "head": "49c47b9a344ec277e2eaa0a5315b27a51ed2f17c",
+      "status": ""
+    }
+  },
+  "identities": {
+    "529707429fb092beb4df9a278d978bf72e8612cf": [
+      "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "MrScripty <TheEnvironmentGuy@protonmail.com>"
+    ],
+    "c20aa84e2de27a6537d4685c102c640d8f87dba4": [
+      "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "MrScripty <TheEnvironmentGuy@protonmail.com>"
+    ],
+    "e0b5343c865c9389d4b59ed7bfd60c272d53a4c2": [
+      "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "MrScripty <TheEnvironmentGuy@protonmail.com>"
+    ],
+    "e37b0bb34ace62f16dc931488146d6a396b27be0": [
+      "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "MrScripty <TheEnvironmentGuy@protonmail.com>"
+    ],
+    "f2d2183346fcab7f6a825b831e3f15c194ed4c96": [
+      "MrScripty <TheEnvironmentGuy@protonmail.com>",
+      "MrScripty <TheEnvironmentGuy@protonmail.com>"
+    ]
+  },
+  "new_native_executions_by_this_reader": 0,
+  "preserved_base": {
+    "files": 8134,
+    "path_content_sha256": "de71b7e8d12d42ddec85cb1e75401a99f13644a6bb3119d40aa932629d07a7ba"
+  },
+  "production_adoption": false,
+  "receipt_sha256": {
+    "case41-six-fd-columns-v1": "9c086b1a1564880991a84984129ac5a42c21ad5d7763e388ac420f7203eee59a",
+    "case47-pure-e2-128-v1": "b737f2c11d545b3bbf3c4c4c153098d2febba9e7c5ecdbd4708b2924a1f9d201",
+    "case47-pure-e2-128-v2": "18341d6835f9af2dd8bedad04b15a8fd2848401744617453473618d80dfdec6a"
+  },
+  "result_commit": "c20aa84e2de27a6537d4685c102c640d8f87dba4",
+  "result_inventory": {
+    "files": 8386,
+    "path_content_sha256": "638f60fe630e0c7804445f4962d70252f51e6a58569ecd0738e7bfebd3091f28"
+  },
+  "result_tree": "a45d25d85d634fd18a14f95f14e3fe2ff9f798af",
+  "status": "PASS_PUBLISHED_SEPARATE_CASE41_STOP_AND_CASE47_PURE_E2_RESULT",
+  "step_retries": 0
+}

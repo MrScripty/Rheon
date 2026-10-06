@@ -1,0 +1,29 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "evidence/case47-pure-e2-128-v2/record_post_git.py",
+      "c20aa84e2de27a6537d4685c102c640d8f87dba4"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "post-git-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "post-git-normal.json",
+    "stdout_sha256": "73d4995a5d62cb72d8d67cd382d29baf6b9bff0dc4fcf5583b1b5067aa19a4ab"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "evidence/case47-pure-e2-128-v2/record_post_git.py",
+      "c20aa84e2de27a6537d4685c102c640d8f87dba4"
+    ],
+    "exit": 0,
+    "native_execution": false,
+    "stderr": "post-git-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "post-git-optimized.json",
+    "stdout_sha256": "73d4995a5d62cb72d8d67cd382d29baf6b9bff0dc4fcf5583b1b5067aa19a4ab"
+  }
+]
