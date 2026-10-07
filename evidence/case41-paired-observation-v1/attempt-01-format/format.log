@@ -1,0 +1,8 @@
+Diff in /workspace/Rheon-case41-paired-build-v1/evidence/case41-paired-observation-v1/native/candidate.rs:1975:
+ 
+ include!("candidate_probe.rs");
+ 
+-
+ include!("candidate_paired_adapter.rs");
+ include!("../paired_probe.rs");
+ 
