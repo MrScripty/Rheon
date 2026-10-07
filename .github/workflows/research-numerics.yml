@@ -40,7 +40,7 @@ jobs:
           "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/historical_baselines.py
       - name: Verify comparator rejection tests against immutable historical evidence
         run: |
-          "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/test_verify_results.py
+          "$RUNNER_TEMP/rheon-reference/bin/python" -m unittest discover -s docs/research-book/companion -p 'test_*.py' -v
       - name: Execute restricted numerical fixtures
         run: |
           "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/experiments.py
