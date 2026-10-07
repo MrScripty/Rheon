@@ -1,7 +1,0 @@
-PASS 16-standard 8 complete runs; all-step gates; archived PNG/CSV bytes and stable manifests
-PASS 16-tight 8 complete runs; all-step gates; archived PNG/CSV bytes and stable manifests
-PASS 32-standard 8 complete runs; all-step gates; archived PNG/CSV bytes and stable manifests
-PASS 32-tight 8 complete runs; all-step gates; archived PNG/CSV bytes and stable manifests
-PASS 64-standard 8 complete runs; all-step gates; archived PNG/CSV bytes and stable manifests
-PASS 64-tight 8 complete runs; all-step gates; archived PNG/CSV bytes and stable manifests
-PASS unchanged protected source/evidence, compiler binary, 48 deterministic run pairs

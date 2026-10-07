@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 import csv
 import json
 from pathlib import Path
@@ -8,8 +9,11 @@ from PIL import Image
 from verify_column_shear import ROOT,verify
 
 class ColumnShearVerifierTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.fixture = fixture("column_shear")
     def test_native_liquid_masses_forces_energy_and_convergence(self):
-        result=verify(ROOT/'evidence/column-shear/demo')
+        result=verify(self.fixture)
         self.assertEqual(len(result['results']),24)
         self.assertEqual(sum(r['intervals'] for r in result['results']),1298)
         self.assertTrue(result['prerequisite_only'])
@@ -18,7 +22,7 @@ class ColumnShearVerifierTest(unittest.TestCase):
         variants=('nan_field','inf_mass','nan_force','mass_full_box','dual_length','force_balanced_pair','update','carry','position','stability','energy','energy_budget','dissipation','momentum','momentum_budget','force_budget','volume','volume_budget','geometry_version','workspace','density','viscosity','boundary','traction','coupled_claim','pixel','missing_profile','missing_case')
         for variant in variants:
             with self.subTest(variant=variant),tempfile.TemporaryDirectory() as temporary:
-                demo=Path(temporary)/'demo';shutil.copytree(ROOT/'evidence/column-shear/demo',demo)
+                demo=Path(temporary)/'demo';shutil.copytree(self.fixture,demo)
                 case=demo/'decay-a1-n8-f0.75'
                 if variant=='missing_case':shutil.rmtree(case)
                 elif variant=='missing_profile':(case/'profiles.csv').unlink()

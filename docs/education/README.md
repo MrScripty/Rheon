@@ -12,6 +12,9 @@ Requires Python 3.12, Pandoc 3.1.11.1, Node 24, and the committed npm lock. Thre
 cd docs/education
 npm ci --ignore-scripts --no-audit --no-fund
 python3 build.py
+python3 verify_browser.py --render-pdf
+python3 build.py
+python3 verify_site.py
 python3 -m http.server 8765 --bind 127.0.0.1 --directory _site
 ```
 
@@ -19,9 +22,9 @@ Install `docs/education/requirements.txt` and a Chromium browser (`python3 -m pl
 
 For an intentional new reading PDF, run `python3 docs/education/verify_browser.py --render-pdf`, visually inspect it, then rebuild once to include the PDF download. Only this explicit mode can render and write refreshed PDF/browser receipts. `_site` and `node_modules` are disposable generated directories; the PDF in `downloads/` is the new edition artifact.
 
-The Pages workflow builds and validates on pull requests; deploy runs only from main. The coordinator owns integration, repository Pages source configuration (`GitHub Actions`) and any deployment protections. A prepared site is not a claim of a live public URL.
+PDF downloads, pdf-inputs.json and browser-qualification.json are ignored build artifacts. The first clean build has no PDF; explicitly render and qualify it, then rebuild to include it. The Pages workflow follows this sequence and builds and validates on pull requests; deploy runs only from main. The coordinator owns integration, repository Pages source configuration (`GitHub Actions`) and any deployment protections. A prepared site is not a claim of a live public URL.
 
-Publication also checks `pdf-inputs.json`: the retained PDF's exact hash must match, and its manuscript, figure, renderer, stylesheet and asset-lock inputs must be unchanged. Editing those inputs requires rebuilding HTML, running the browser/PDF renderer, inspecting the new PDF, and retaining its refreshed receipt before publication. `verify_browser.py` writes the receipt only after successful rendering and browser checks. Existing proof qualification remains a separate gate.
+Publication also checks `pdf-inputs.json`: the retained PDF's exact hash must match, and its manuscript, figure, renderer, stylesheet and asset-lock inputs must be unchanged. Editing those inputs requires rebuilding HTML, running the browser/PDF renderer, inspecting the new PDF, and generating its refreshed receipt before publication. `verify_browser.py` writes the receipt only after successful rendering and browser checks. Existing proof qualification remains a separate gate.
 
 The illustrated Markdown download is `Rheon-expanded-markdown.zip`. Extract it with its `figures/` directory beside `Rheon-expanded-book.md`; all relative image paths resolve there. A separately offered Markdown text file requires those companion figures for offline illustrations. The publication check opens the actual ZIP and compares every referenced image with the built site asset.
 

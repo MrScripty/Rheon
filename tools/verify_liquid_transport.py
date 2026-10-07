@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 """Successor fresh-output gate; frozen liquid-step verifier/packets are unchanged.
 
 X-directed slab translation on a 3D grid, not multidirectional/free-surface
@@ -59,5 +60,5 @@ def verify(directory):
 
 
 if __name__ == "__main__":
-    path = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "evidence/liquid-step/demo"
+    path = Path(sys.argv[1]) if len(sys.argv) > 1 else fixture("liquid_step")
     print(json.dumps(verify(path), indent=2))

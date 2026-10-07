@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 import csv
 import json
 from pathlib import Path
@@ -9,14 +10,17 @@ from verify_free_surface import ROOT, verify
 
 
 class FreeSurfaceVerifierTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.fixture = fixture("free_surface")
     def test_actual_slab_evidence(self):
-        self.assertEqual(len(verify(ROOT / "evidence/free-surface/demo")["results"]), 2)
+        self.assertEqual(len(verify(self.fixture)["results"]), 2)
 
     def test_adversarial_fields_ledgers_render_and_rejection(self):
         for change in ("nan_pressure", "infinite_velocity", "fraction", "air_pressure", "before", "outward", "balance", "budget", "carry", "pixel", "preserved", "probe_failure"):
             with self.subTest(change=change), tempfile.TemporaryDirectory() as temporary:
                 demo = Path(temporary) / "demo"
-                shutil.copytree(ROOT / "evidence/free-surface/demo", demo)
+                shutil.copytree(self.fixture, demo)
                 case = demo / "jacobi-pcg-v1"
                 if change == "pixel":
                     path = case / "pulse-final.png"

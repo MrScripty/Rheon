@@ -1,6 +1,0 @@
-{
-  "accepted_block": "                    if fraction == 0.0 && amount != 0.0 {\n                        return Err(LiquidVolumeError::ArithmeticFailure);\n                    }\n                    product(volume, fraction)?;",
-  "pre_fix_block": "                    if (fraction == 0.0 && amount != 0.0)\n                        || product(volume, fraction)?.is_sign_negative()\n                    {\n                        return Err(LiquidVolumeError::ArithmeticFailure);\n                    }",
-  "reconstructed_pre_fix_source_sha256": "0ae722cd6524556acead5f39dde65aec930eeb8a8e2ce52c1a5fc434ad8af0b8",
-  "accepted_source_commit": "ad35d710299474160a09b58660e26137e0827c24"
-}

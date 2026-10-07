@@ -1,6 +1,0 @@
-AUDITED Rheon.ExplicitForces.storedWork: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.ExplicitForces.force_density_increment: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.ExplicitForces.hydrostatic_acceleration_balance: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.ExplicitForces.kineticEnergy: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.ExplicitForces.kineticEnergy._proof_1: []
-/workspace/Rheon-explicit-forces/evidence/explicit-forces/AuditForceWork.lean:5:0: error: Disallowed axiom Rheon.ExplicitForces.unreviewedAssumption in Rheon.ExplicitForces.unreviewedAssumption

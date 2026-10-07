@@ -4,3 +4,7 @@ render*/
 __pycache__/
 companion/__pycache__/
 figures/*.png
+expansion/figures/*.png
+expansion/contact/figures/
+expansion/contact/sanity_results.json
+artwork/*.png

@@ -1,3 +1,0 @@
-   Compiling rheon v0.1.0 (/workspace/Rheon-column-final-repair)
-    Finished `release` profile [optimized] target(s) in 12.33s
-     Running `/workspace/.rheon-tools/target/release/rheon --size 16 --steps 12 --source-off-at 8 --output /tmp/rheon-pr18-ci-_pk4n7sy/rheon-smoke`

@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 """Independent interval-overlap oracle for prescribed geometry remap evidence.
 No assertion-dependent gates; evaluate every native stored-f32 field and ledger.
 """

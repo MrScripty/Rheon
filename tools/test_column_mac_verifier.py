@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 import copy
 import json
 from pathlib import Path
@@ -6,9 +7,13 @@ import tempfile
 import unittest
 import verify_column_mac as gate
 
-FIXTURE = Path(__file__).resolve().parents[1]/'evidence/column-mac/demo'
+FIXTURE = None
 NAME = 'pulse-y-0.25-jacobi'
 class ColumnMacVerifier(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        global FIXTURE
+        FIXTURE = fixture("column_mac")
     def test_real_native_owner_records(self):
         result=gate.verify(FIXTURE)
         self.assertEqual((result['cases'],result['publications']),(22,76))

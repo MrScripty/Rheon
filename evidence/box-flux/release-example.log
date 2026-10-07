@@ -1,4 +1,0 @@
-   Compiling rheon v0.1.0 (/workspace/Rheon-box-flux)
-    Finished `release` profile [optimized] target(s) in 2.25s
-     Running `/workspace/.rheon-tools/target-box-flux/release/examples/box_flux`
-Fixed rectangular control volume; prescribed normal speeds; standalone projection scratch.

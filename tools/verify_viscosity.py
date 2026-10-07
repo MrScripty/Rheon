@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 """Independent finite-field, shear-mode, energy and coupled liquid evidence gate.
 
 Explicit checks remain enabled under python -O. This qualifies the bounded
@@ -155,4 +156,4 @@ def verify(root):
     for m in ('jacobi-pcg-v1','sgs-pcg-v1'):
         require(lookup[m+'-coupled-mu0.125']['final_energy']<lookup[m+'-coupled-mu0']['final_energy'],'coupled viscosity comparison')
     return {'results':results,'free_surface_viscosity_validated':False,'physical_material_calibration_claimed':False}
-if __name__=='__main__': print(json.dumps(verify(Path(sys.argv[1]) if len(sys.argv)>1 else ROOT/'evidence/viscosity/demo'),indent=2))
+if __name__=='__main__': print(json.dumps(verify(Path(sys.argv[1]) if len(sys.argv)>1 else fixture("viscosity")),indent=2))

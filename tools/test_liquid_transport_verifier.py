@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 import csv
 import json
 from pathlib import Path
@@ -8,8 +9,11 @@ from verify_liquid_transport import ROOT, verify
 
 
 class LiquidVerifierTest(unittest.TestCase):
-    def test_frozen_committed_data_passes_stronger_gate(self):
-        result = verify(ROOT / "evidence/liquid-step/demo")
+    @classmethod
+    def setUpClass(cls):
+        cls.fixture = fixture("liquid_step")
+    def test_fresh_real_output_passes_stronger_gate(self):
+        result = verify(self.fixture)
         self.assertEqual(sum(row["steps"] for row in result["ledgers"]), 240)
 
     def test_adversarial_pressure_and_ledger_changes_are_rejected(self):
@@ -18,7 +22,7 @@ class LiquidVerifierTest(unittest.TestCase):
         for change in changes:
             with self.subTest(change=change), tempfile.TemporaryDirectory() as temporary:
                 demo = Path(temporary) / "demo"
-                shutil.copytree(ROOT / "evidence/liquid-step/demo", demo)
+                shutil.copytree(self.fixture, demo)
                 case = demo / "jacobi-pcg-v1-n16-c025"
                 if change == "nan_first_pressure":
                     filename, field, index, value = "first-pressure.csv", "pressure", 0, "nan"

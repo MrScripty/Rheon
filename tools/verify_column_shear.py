@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 """Independent liquid-only mass, edge force, traction and energy evidence gate.
 
 Only the fixed-flat-surface periodic shear prerequisite is qualified. All
@@ -164,4 +165,4 @@ def verify(root):
         require(lookup[f'time-a1-n12-f0.75-s{hi}']['time_error']<.55*lookup[f'time-a1-n12-f0.75-s{lo}']['time_error'],'double fixed-grid time convergence')
         require(lookup[f'time-a1-n12-f0.75-s{hi}']['native_time_error']<.55*lookup[f'time-a1-n12-f0.75-s{lo}']['native_time_error'],'native fixed-grid time convergence')
     return {'results':results,'prerequisite_only':True,'coupled_carrier_free_surface_viscosity_claimed':False,'varying_height_tensor_operator_implemented':False}
-if __name__=='__main__':print(json.dumps(verify(Path(sys.argv[1]) if len(sys.argv)>1 else ROOT/'evidence/column-shear/demo'),indent=2))
+if __name__=='__main__':print(json.dumps(verify(Path(sys.argv[1]) if len(sys.argv)>1 else fixture("column_shear")),indent=2))

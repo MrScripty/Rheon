@@ -1,1 +1,0 @@
-Initial new CLI fixture command failed with exit 1: output parent evidence/free-surface/legacy-replay did not exist. No numerical fixture ran or published. Created the output parent and reran every fixture below.

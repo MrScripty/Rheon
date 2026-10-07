@@ -46,6 +46,8 @@ jobs:
           python3 -m unittest discover -s docs/education -p test_publication_gates.py
           python3 -O -m unittest discover -s docs/education -p test_publication_gates.py
           python3 docs/education/build.py
+          python3 docs/education/verify_browser.py --render-pdf
+          python3 docs/education/build.py
           python3 docs/education/verify_site.py
       - name: Verify retained browser bindings and current Chromium laboratories
         run: |

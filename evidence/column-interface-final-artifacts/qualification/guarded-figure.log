@@ -1,1 +1,0 @@
-{"native_inputs": ["demo/jacobi-pcg-v1-activation/initial.png", "demo/jacobi-pcg-v1-activation/final.png", "demo/jacobi-pcg-v1-activation/initial-geometry.csv", "demo/jacobi-pcg-v1-activation/final-geometry.csv"], "numeric_inputs": ["numerical-summary.json", "demo/advection-n128-c025/final-cells.csv"], "output": "continuation-and-convergence.png"}

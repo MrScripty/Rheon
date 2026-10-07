@@ -1,7 +1,0 @@
-AUDITED Rheon.FittedHeight.full_strain_factors: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.FittedHeight.kinetic_derivative: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.FittedHeight.donor_pair_nonnegative: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.FittedHeight.changing_mass_BE: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.FittedHeight.residual_energy_work: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.FittedHeight.shared_momentum_cancel: [propext, Quot.sound, Classical.choice]
-AuditFittedHeight.lean:5:0: error: Disallowed axiom sorryAx in Rheon.FittedHeight.triangle_mass_partition

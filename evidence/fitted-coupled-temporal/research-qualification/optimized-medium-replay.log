@@ -1,9 +1,0 @@
-REJECTED false_acceptance
-REJECTED zero_pressure
-REJECTED omit_normal_acceleration
-REJECTED zero_work_defect
-REJECTED hide_pointwise_momentum
-REJECTED endpoint_momentum_flux
-REJECTED face_circulation
-REJECTED stale_endpoint_mass
-PASS {"accepted_advancing_steps": 0, "fixed_work_allowance": 4.565335306867818e-14, "integrated_momentum_residual": 3.228754069661832e-16, "interval": 0.025, "local_GCL_defect": 6.964474298914308e-17, "residual_work": -3.5461475923036418e-09, "work_gate_pass": false}

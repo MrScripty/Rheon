@@ -1,3 +1,6 @@
 node_modules/
 _site/
 __pycache__/
+downloads/
+pdf-inputs.json
+browser-qualification.json

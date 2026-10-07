@@ -1,8 +1,0 @@
-BEFORE repair: assertion-based historical verifier against combined source
-command: python3  /workspace/Rheon-integration/evidence/cloud-qualification/verify.py
-exit_code=1
-Traceback (most recent call last):
-  File "/workspace/Rheon-integration/evidence/cloud-qualification/verify.py", line 11, in <module>
-    assert hashlib.sha256(Path(entry['path']).read_bytes()).hexdigest() == entry['sha256']
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

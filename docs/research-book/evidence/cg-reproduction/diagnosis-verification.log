@@ -1,4 +1,0 @@
-PASS SkylakeX: exact input identity, thread-repeat bytes, original non-history tolerances, direct-solve and residual diagnostics
-PASS Haswell: exact input identity, thread-repeat bytes, original non-history tolerances, direct-solve and residual diagnostics
-PASS Nehalem: exact input identity, thread-repeat bytes, original non-history tolerances, direct-solve and residual diagnostics
-PASS historical fixture/source hashes, original SkylakeX replay and explicit Haswell profile

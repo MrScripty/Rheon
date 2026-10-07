@@ -1,2 +1,0 @@
-Accepted 20 steps; time 0.400000; managed arrays 333824 bytes; step wall time 0.248s. Wrote ../checkpoints/original-final-replay
-PASS original PNG and every CSV diagnostic byte-identical to 6ba41c7 baseline

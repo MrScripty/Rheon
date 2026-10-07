@@ -1,4 +1,0 @@
-   Compiling rheon v0.1.0 (/workspace/Rheon-explicit-forces)
-    Finished `release` profile [optimized] target(s) in 1.70s
-     Running `/workspace/.rheon-tools/target/release/examples/forced_smoke`
-jacobi-pcg-v1; managed simulation arrays 333824 bytes; stationary fully filled box, passive smoke tracer

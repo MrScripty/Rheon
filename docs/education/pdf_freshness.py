@@ -1,4 +1,4 @@
-"""Bind the retained reading PDF to the inputs used by the book renderer."""
+"""Bind the generated reading PDF to the inputs used by the book renderer."""
 from pathlib import Path
 import hashlib
 import json
@@ -11,7 +11,7 @@ def input_hashes(repo):
     paths.update((book / 'appendices').glob('*.md'))
     paths.update((book / 'figures').glob('*.svg'))
     paths.update((book / 'expansion/figures').glob('*.svg'))
-    paths.update((book / 'expansion/figures').glob('*.png'))
+    paths.update((book / 'expansion/figures').glob('*.jpg'))
     paths.update(repo / 'docs/education' / name
                  for name in ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json'])
     return {str(p.relative_to(repo)): hashlib.sha256(p.read_bytes()).hexdigest()

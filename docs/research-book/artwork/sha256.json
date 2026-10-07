@@ -1,4 +1,11 @@
 {
-  "front-cover.png": "5e0e9ffecffcb7b7d10c30358ead9da6fd0e785fa02bf897b21d22800d06ce9e",
-  "back-cover.png": "5b07ce2707f41d3d1b3c3acf3e0095f60776b2e93ef48a110dff9c39657cb627"
+  "original_png_sha256": {
+    "front-cover.png": "5e0e9ffecffcb7b7d10c30358ead9da6fd0e785fa02bf897b21d22800d06ce9e",
+    "back-cover.png": "5b07ce2707f41d3d1b3c3acf3e0095f60776b2e93ef48a110dff9c39657cb627"
+  },
+  "jpeg_quality": 85,
+  "display_sha256": {
+    "back-cover.jpg": "383aa784f0e4bda53f150b16138c7c9f50885cfa1ba781c4af10f83965fc9fff",
+    "front-cover.jpg": "b8e2670d4a2891223914c9ad91586debef6fb46ef500dac77fc4cce46415efe0"
+  }
 }

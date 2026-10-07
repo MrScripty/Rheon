@@ -1,3 +1,0 @@
-/workspace/Rheon-box-flux-step/evidence/box-flux-step/StepBudget.lean:81:10: error: unknown constant 'Fin.sum_univ_two'
-/workspace/Rheon-box-flux-step/evidence/box-flux-step/StepBudget.lean:83:24: error: unknown constant 'Fin.sum_univ_two'
-/workspace/Rheon-box-flux-step/evidence/box-flux-step/StepBudget.lean:84:14: error: unknown constant 'Fin.sum_univ_two'

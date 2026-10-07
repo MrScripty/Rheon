@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/workspace/Rheon/evidence/fitted-discrete-refinement/render.py", line 36, in <module>
-    v=temporal.point(np.array(c['initial_q']),np.array(c['initial_eta']),np.array(c['unknowns'][:6]),c['interval'])
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/workspace/Rheon/evidence/fitted-discrete-refinement/temporal.py", line 48, in point
-    residual=s['M']@acceleration+g+s['B'].T@pressure
-                                   ~~~~~~~~^~~~~~~~~
-ValueError: matmul: Input operand 1 has a mismatch in its core dimension 0, with gufunc signature (n?,k),(k,m?)->(n?,m?) (size 0 is different from 16)
