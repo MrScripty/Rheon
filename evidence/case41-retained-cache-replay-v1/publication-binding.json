@@ -1,0 +1,12 @@
+{
+  "archive_source": "0eb1281fafd2f784e10e5d3ed1255bbd6cd61989",
+  "branch": "research/case41-retained-cache-replay",
+  "historical_memory_qualified": false,
+  "inventory_sha256": "8b953765380ab7a3c49e8b084ed82924850a746f57324752f052e89ae67e21af",
+  "negative_hash_controls": 4,
+  "new_native_equations": 0,
+  "original_packet_changed": false,
+  "replay_source": "d4b143791cf4434a2ccadbff16111ec20715b3eb",
+  "result_source": "c7003d35b403a83ae329035ef37eeb3df7ed7a78",
+  "result_tree": "b11988e6654234b1ffc5e94c950fe8e96a23484a"
+}
