@@ -1,0 +1,17 @@
+{
+  "id": "case41-captured-original-FD-model-readonly-diagnostics-v1",
+  "native_equations_allowed": 0,
+  "new_Newton_corrections_allowed": 0,
+  "precisions": [
+    80,
+    120
+  ],
+  "source_sha256": {
+    "evidence/case41-exploratory-seven-v1/analysis-v2-normal.json": "a2daf22927c882dc3881fee54ecda5a43b287a7289edf029429cd2e8d36301d0",
+    "evidence/case41-exploratory-seven-v1/analysis-v2-optimized.json": "a2daf22927c882dc3881fee54ecda5a43b287a7289edf029429cd2e8d36301d0",
+    "evidence/case41-exploratory-seven-v1/analyze_model.py": "ffdbfe3cd8b7383bfb8984db227db1525a6883f7bbc7d1070162b5d9136b072d",
+    "evidence/case41-exploratory-seven-v1/native.log": "8a7ec54e86e0f6ec4686bc5eeca93856e54a1b8a7972eafc82cc295061371287",
+    "evidence/case41-scaled-fd-preparation-v1/analyze_metric_v2.py": "357c3b77eb8409ec9966056af375574e4d610040bba1b62aaa1e288aa92f1433",
+    "evidence/forcing-case41-scale-diagnosis-v1/analyze.py": "421c0dd105a09ef5a435b9b29adffc91543ae3eb20cb6ca9339395840a3dcc34"
+  }
+}
