@@ -16,6 +16,8 @@ import import_dense3d_sequence as contract
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE_COMMIT = "9cd4587a54befa61bdfddc8e35014bd3c34f02fb"
+BUILD_COMMAND = ["cargo", "build", "--locked", "--no-default-features", "--example",
+                 "dense3d_sequence", "--message-format=json-render-diagnostics"]
 
 
 def digest(path):
@@ -69,6 +71,40 @@ def publish_manifest(directory, manifest):
             pending.unlink(missing_ok=True)
 
 
+def build_executable():
+    """Select only this build's reported example, including configured targets.
+
+    The controlled build command selects dev, while Cargo profile.test excludes
+    harnesses without rejecting valid dev-profile compiler-setting overrides.
+    """
+    metadata = contract.parse(run(["cargo", "metadata", "--locked", "--no-deps", "--format-version", "1"]))
+    manifest_path = str(ROOT / "Cargo.toml")
+    packages = [package for package in metadata["packages"]
+                if package.get("manifest_path") == manifest_path and package.get("name") == "rheon"]
+    contract.require(len(packages) == 1, "exact local Rheon package required")
+    package = packages[0]
+    identity = {"name": "dense3d_sequence", "kind": ["example"], "crate_types": ["bin"],
+                "src_path": str(ROOT / "examples" / "dense3d_sequence.rs")}
+    def matches(target):
+        return type(target) is dict and all(target.get(key) == value for key, value in identity.items())
+    contract.require(sum(matches(target) for target in package["targets"]) == 1,
+                     "exact dense3D example target required")
+    messages = [contract.parse(line) for line in run(BUILD_COMMAND).splitlines()]
+    contract.require(messages and messages[-1].get("reason") == "build-finished"
+                     and messages[-1].get("success") is True, "successful Cargo build required")
+    artifacts = [message for message in messages if message.get("reason") == "compiler-artifact"
+                 and message.get("package_id") == package["id"]
+                 and message.get("manifest_path") == manifest_path and matches(message.get("target"))]
+    contract.require(len(artifacts) == 1, "one unambiguous dense3D compiler artifact required")
+    artifact = artifacts[0]
+    contract.require(type(artifact.get("profile")) is dict and artifact["profile"].get("test") is False
+                     and artifact.get("features") == [], "core-only non-test compiler artifact required")
+    executable = artifact.get("executable")
+    contract.require(type(executable) is str and executable and Path(executable).is_absolute(),
+                     "absolute Cargo executable path required")
+    return Path(executable)
+
+
 def export(directory):
     directory = Path(directory).absolute()
     if directory.exists():
@@ -77,10 +113,7 @@ def export(directory):
     source_dirty = bool(run(["git", "status", "--porcelain", "--untracked-files=all"]))
     source_hashes = sources()
     toolchain = {"rustc": run(["rustc", "--version"]), "cargo": run(["cargo", "--version"])}
-    build = ["cargo", "build", "--locked", "--no-default-features", "--example", "dense3d_sequence"]
-    run(build)
-    metadata = json.loads(run(["cargo", "metadata", "--locked", "--no-deps", "--format-version", "1"]))
-    executable = Path(metadata["target_directory"]) / "debug" / "examples" / "dense3d_sequence"
+    executable = build_executable()
     executable_hash = digest(executable)
     command = [str(executable), str(directory)]
     # Exactly one actual pilot. Any subprocess failure leaves frames partial.
@@ -100,7 +133,7 @@ def export(directory):
         "provenance": {"base_commit": BASE_COMMIT, "source_commit": source_commit,
             "source_dirty": source_dirty, "source_sha256": source_hashes,
             "executable_sha256": executable_hash, "toolchain": toolchain, "command": command,
-            "build_command": build},
+            "build_command": BUILD_COMMAND},
     }
     summary = contract.verify(directory, manifest=manifest)
     if (report.get("frame_count") != 9 or report.get("time_s") != 0.5

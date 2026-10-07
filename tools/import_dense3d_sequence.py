@@ -175,8 +175,9 @@ def validate_manifest(manifest):
     toolchain = provenance["toolchain"]
     require(type(toolchain) is dict and toolchain.keys() == {"rustc", "cargo"}, "toolchain keys")
     require(all(type(v) is str and v.strip() for v in toolchain.values()), "toolchain strings")
-    exact(provenance["build_command"], ["cargo", "build", "--locked", "--no-default-features",
-                                         "--example", "dense3d_sequence"], "core-only build command")
+    build = ["cargo", "build", "--locked", "--no-default-features", "--example", "dense3d_sequence"]
+    require(provenance["build_command"] in (build, build + ["--message-format=json-render-diagnostics"]),
+            "core-only build command")
     command = provenance["command"]
     require(type(command) is list and 1 <= len(command) <= 128 and all(type(v) is str and v for v in command), "command strings")
 

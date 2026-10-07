@@ -89,3 +89,40 @@ Implementation review approved after re-reading both fixes and the importer sche
 update. No pressure/controller/scientific-law changes are needed. The planned capped
 pilot and focused checks provide execution evidence separately; this review alone
 does not certify their results.
+
+## Independent build-artifact selection review (PR20 follow-up)
+
+Pre-edit design reviewed and approved at candidate `fee7b4a`. The defect was the
+runner deriving `target_directory/debug/examples/dense3d_sequence`, which can
+select an older executable when Cargo uses a configured target subdirectory.
+No simulation, sequence schema, or numerical changes are required for the repair.
+
+Final implementation reviewed in `tools/export_dense3d_sequence.py`,
+`tools/import_dense3d_sequence.py`, and both Python contract test files. Approved:
+the runner obtains the exact local Rheon package and example identity from Cargo
+metadata, then accepts exactly one compiler-artifact message matching package ID,
+manifest path, example name/kind, binary crate type, and example source path. It
+requires an explicitly false profile test flag, no features, a successful final
+build-finished message, and an absolute reported executable path. It hashes and
+executes that path, with no derived-path fallback. Missing/ambiguous artifacts,
+foreign identities, harnesses, and invalid executable reports fail before export.
+
+The controlled command selects the dev build; optimization/debug defaults are
+deliberately not hardcoded because legitimate dev configuration overrides can
+change them. Cargo artifact JSON reports compiler settings and a test flag,
+without a profile name, as documented in the
+[Cargo artifact-message contract](https://doc.rust-lang.org/cargo/reference/external-tools.html#artifact-messages).
+
+The importer permits exactly the original provenance build command and that same
+command with the appended JSON message-format flag. All existing manifest keys,
+version, field contracts, and validation gates remain unchanged. Tests inspect
+wrong/missing/ambiguous artifact, package/target/source, profile, feature, and path
+controls, plus both provenance command variants. Three dependency-free Cargo
+example tests exercise default output, `CARGO_BUILD_TARGET`, and external
+`CARGO_HOME` target configuration; the latter two plant executable stale decoys
+and check that only Cargo's current artifact runs. These fixtures run no Rheon
+simulation or dataset export.
+
+No remaining implementation-review blockers. Execution results are recorded by
+the task owner separately; this independent review verifies the implementation
+and test coverage without rerunning simulation or creating a second pilot.
