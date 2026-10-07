@@ -1,0 +1,12 @@
+{
+  "analysis_source": "fb31d368b1cd35178b299bfd7bd685828b2b8ee5",
+  "analysis_tree": "0c165ff919a88f55828edccb9221ac7b7e34205b",
+  "applied_corrections": 0,
+  "historical_memory_qualified": false,
+  "inventory_sha256": "0f96506d23d32aff0a9d8e0488b0f4b167247e74d89c3f1263d2e5a498126a72",
+  "new_native_equations": 0,
+  "normal_optimized_equal": true,
+  "owner_advances": 0,
+  "precision_80_120_display_equal": true,
+  "status": "PASS_CAPTURED_LINEAR_PREDICTION_INTEGRITY"
+}

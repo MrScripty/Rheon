@@ -1,0 +1,28 @@
+{
+  "commands": [
+    [
+      "python3",
+      "evidence/case41-captured-linear-predictions-v1/analyze.py",
+      "80"
+    ],
+    [
+      "python3",
+      "-O",
+      "evidence/case41-captured-linear-predictions-v1/analyze.py",
+      "80"
+    ],
+    [
+      "python3",
+      "evidence/case41-captured-linear-predictions-v1/analyze.py",
+      "120"
+    ],
+    [
+      "python3",
+      "-O",
+      "evidence/case41-captured-linear-predictions-v1/analyze.py",
+      "120"
+    ]
+  ],
+  "scope": "read-only external rational algebra and display; native numerical executions zero",
+  "source": "fb31d368b1cd35178b299bfd7bd685828b2b8ee5"
+}
