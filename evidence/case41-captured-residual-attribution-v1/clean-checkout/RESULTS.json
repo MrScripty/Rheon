@@ -1,0 +1,51 @@
+{
+  "bytecode_writes_disabled": true,
+  "caches_present_after": 0,
+  "caches_present_before": 0,
+  "checkout_path": "/workspace/case41-archived-final-clean-83bhndut/original",
+  "checkout_source": "15283790e7cc2fad8a09ca439f45f3a4ef3bf28a",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "/workspace/case41-archived-final-clean-83bhndut/original/evidence/case41-captured-residual-attribution-v1/analyze.py",
+        "80"
+      ],
+      "exit": 0,
+      "output_sha256": "87100f51202e2c514004e6ab382bea77931f836f9edb0b64ca8fc5ebd0b40709",
+      "packet": "case41-captured-residual-attribution-v1",
+      "published_result_bytes_equal": true,
+      "script": "analyze.py"
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "/workspace/case41-archived-final-clean-83bhndut/original/evidence/case41-captured-residual-attribution-v1/verify.py"
+      ],
+      "exit": 0,
+      "output_sha256": "b48be31cafe1be076d237a222722f514500b08764559961989c40e232696bb66",
+      "packet": "case41-captured-residual-attribution-v1",
+      "published_result_bytes_equal": true,
+      "script": "verify.py"
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "/workspace/case41-archived-final-clean-83bhndut/original/evidence/case41-captured-linear-predictions-v1/analyze.py",
+        "80"
+      ],
+      "exit": 0,
+      "output_sha256": "bb41299c691698ae4d59bdcbdd77ff712dbb0b8517cb159043dc0b5a67ee6b3c",
+      "packet": "case41-captured-linear-predictions-v1",
+      "published_result_bytes_equal": true,
+      "script": "analyze.py"
+    }
+  ],
+  "controller_corrections": 0,
+  "historical_memory_qualified": false,
+  "new_native_equations": 0,
+  "status": "PASS_CLEAN_SOURCE_BOUND_ARCHIVED_ANALYSES"
+}

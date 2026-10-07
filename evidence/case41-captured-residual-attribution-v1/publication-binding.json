@@ -1,0 +1,24 @@
+{
+  "analysis_source": "14e132f797fb24b0342f9edfa43ce9848fdb42ff",
+  "analysis_tree": "11326e89bb6b6055029b47d5f78f881c6d8baf71",
+  "branch": "research/case41-captured-residual-attribution",
+  "clean_checkout_sha256": {
+    "evidence/case41-captured-residual-attribution-v1/clean-checkout/RESULTS.json": "50e62a002de0e7b3f6a8ead38c7984546a95eaf5a44f01317d5dcd903fd239cc",
+    "evidence/case41-captured-residual-attribution-v1/clean-checkout/case41-captured-linear-predictions-v1-analyze.py-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/case41-captured-residual-attribution-v1/clean-checkout/case41-captured-linear-predictions-v1-analyze.py-stdout.log": "bb41299c691698ae4d59bdcbdd77ff712dbb0b8517cb159043dc0b5a67ee6b3c",
+    "evidence/case41-captured-residual-attribution-v1/clean-checkout/case41-captured-residual-attribution-v1-analyze.py-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/case41-captured-residual-attribution-v1/clean-checkout/case41-captured-residual-attribution-v1-analyze.py-stdout.log": "87100f51202e2c514004e6ab382bea77931f836f9edb0b64ca8fc5ebd0b40709",
+    "evidence/case41-captured-residual-attribution-v1/clean-checkout/case41-captured-residual-attribution-v1-verify.py-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/case41-captured-residual-attribution-v1/clean-checkout/case41-captured-residual-attribution-v1-verify.py-stdout.log": "b48be31cafe1be076d237a222722f514500b08764559961989c40e232696bb66"
+  },
+  "controller_corrections": 0,
+  "historical_memory_qualified": false,
+  "new_native_equations": 0,
+  "next_scope": "archived primitive attribution only; supersedes prior prospective one-native-observation proposal",
+  "owner_advances": 0,
+  "projection_result": "def4ec2238405155c728c98cb1a76929723b9a01",
+  "result_inventory_sha256": "1b688bf37c27dbb96888dc06fad493d7e3072cc8aa19d72960114c6813e33397",
+  "result_source": "15283790e7cc2fad8a09ca439f45f3a4ef3bf28a",
+  "result_tree": "ced3514f70a2c0546177269fa3ec70130f9cfc80",
+  "separate_cache_repair_result": "c7003d35b403a83ae329035ef37eeb3df7ed7a78"
+}
