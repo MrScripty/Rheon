@@ -1,0 +1,24 @@
+{
+  "controller_corrections_allowed": 0,
+  "historical_memory_qualified": false,
+  "id": "case41-retained-E2-primitive-attribution-v1",
+  "new_native_equations_allowed": 0,
+  "owner_advances_allowed": 0,
+  "precisions": [
+    80,
+    120
+  ],
+  "prior_result": "455af0e35c25037d2ff904bb92fd71b5d6b1f5c9",
+  "sha256": {
+    "evidence/case41-exploratory-seven-v1/fixture.json": "baa6b431003a2bfd2866a94882b8f371a35f51b0354899af39dc5e50802a91d9",
+    "evidence/case41-exploratory-seven-v1/native.log": "8a7ec54e86e0f6ec4686bc5eeca93856e54a1b8a7972eafc82cc295061371287",
+    "evidence/case41-stored-primitive-attribution-v1/analyze.py": "d018a0c70d3a6fe7073b6d85d89c6cf41de654ae3effc5d6a602a4b215b43c2b",
+    "evidence/forcing-case41-scale-diagnosis-v1/analyze.py": "421c0dd105a09ef5a435b9b29adffc91543ae3eb20cb6ca9339395840a3dcc34",
+    "evidence/forcing-e1-fixed-candidates-v1/analyze.py": "9e6761dfd0bebb785b41096eb3b8f0918074ddd0f9205c67f6640f406653bb70",
+    "evidence/forcing-e2-fixed-candidates-v1/RESULTS.md": "aaa5feeb6096e4e280953fd11bbbcf6605c5d08f0e7e818564be7cd8245116db",
+    "evidence/forcing-e2-fixed-candidates-v1/candidate-fixed.log": "6b4d8a9fc1a0adf1503f191e7b9b6b60f53e3904b2066d9e481bf4c06aa06894",
+    "evidence/forcing-e2-fixed-candidates-v1/candidate.rs": "3771a59f76df0d011bf71723caef72e030940e4cbae7c3b41c4db6e2a9846e97",
+    "evidence/forcing-e2-fixed-candidates-v1/inputs.json": "0c0c75411d93c0663c6281ae9163c7c73cbc376e5085c6b80484d5ff34411607",
+    "evidence/forcing-public-call-66k/analyze.py": "ef5cec7ba7ff3aa23f4b73ce415d14ca194d852b0470ed0d988bb8ee3f2ae180"
+  }
+}
