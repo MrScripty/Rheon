@@ -1,0 +1,27 @@
+{
+  "analysis_source_precheck": "83cfe02a5857cf7465cc043a4a5cc11268bc2dd8",
+  "analysis_tree": "6cdf48928bc86ec7c7a6adcc3548d2b40e7fdf92",
+  "archived_E2_native_source": "cbeaa72b403cb1f3af4f95727cc29ec660c99ca3",
+  "archived_E2_preflight": "c2ee6acc8a783161a844e3dee0566af71732628d",
+  "archived_E2_stdout_sha256": "6b4d8a9fc1a0adf1503f191e7b9b6b60f53e3904b2066d9e481bf4c06aa06894",
+  "branch": "research/case41-stored-primitive-attribution",
+  "clean_external_replay_sha256": {
+    "evidence/case41-stored-primitive-attribution-v1/clean-external-replay/RESULTS.json": "f9cd0cba901c6b861e71dd1674a95d240e4252fab084b7e88d75aadbe9c9ab74",
+    "evidence/case41-stored-primitive-attribution-v1/clean-external-replay/verification.json": "1ba44ef9d986faaa54ff2ad921a69c34c8cb871f8f2fa874a2420be3d5821bc9"
+  },
+  "controller_corrections": 0,
+  "historical_memory_qualified": false,
+  "inventory_sha256": "3feacf0c7c6903dda4268b7fff46835651243d55d24acd69cee116ffac895029",
+  "main": "9cd4587a54befa61bdfddc8e35014bd3c34f02fb",
+  "new_native_equations": 0,
+  "numerical_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "original_execution": "c2c583180f23316c6ac2ac89da434bf313121980",
+  "original_preflight": "fb710371326d552fe91bafff2995340758d14ed0",
+  "original_result": "455af0e35c25037d2ff904bb92fd71b5d6b1f5c9",
+  "original_stdout_sha256": "8a7ec54e86e0f6ec4686bc5eeca93856e54a1b8a7972eafc82cc295061371287",
+  "owner_advances": 0,
+  "result_source": "99d89bde22ef6692394973bdd99d56eaab8a9786",
+  "result_tree": "5473a5cb79ce9017251aead7ede95883aee60f06",
+  "separate_replay_fix_result": "d1f2309d1e74775dd26237edb0655e3fb20df50f",
+  "separate_replay_fix_source": "934e079f7503ac83a129de2c0eb8e348ebba9ff8"
+}

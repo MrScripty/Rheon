@@ -1,0 +1,66 @@
+{
+  "ELF_required": false,
+  "caches_after": 0,
+  "caches_before": 0,
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "/tmp/case41-primitive-clean-6441djda/source/evidence/case41-stored-primitive-attribution-v1/analyze.py",
+        "80"
+      ],
+      "exit": 0,
+      "external_output": "/tmp/case41-primitive-clean-6441djda/external-output/80-normal.json",
+      "published_result_bytes_equal": true,
+      "sha256": "57a2344a9166c4fd4cefd77a854e83c16c69da735000d21853a7b93e74d5f10f"
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "/tmp/case41-primitive-clean-6441djda/source/evidence/case41-stored-primitive-attribution-v1/analyze.py",
+        "80"
+      ],
+      "exit": 0,
+      "external_output": "/tmp/case41-primitive-clean-6441djda/external-output/80-optimized.json",
+      "published_result_bytes_equal": true,
+      "sha256": "57a2344a9166c4fd4cefd77a854e83c16c69da735000d21853a7b93e74d5f10f"
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "/tmp/case41-primitive-clean-6441djda/source/evidence/case41-stored-primitive-attribution-v1/analyze.py",
+        "120"
+      ],
+      "exit": 0,
+      "external_output": "/tmp/case41-primitive-clean-6441djda/external-output/120-normal.json",
+      "published_result_bytes_equal": true,
+      "sha256": "e0b5100cf66959cec26a845c03eb123558b8da2c2c0d1284c9f8d81d31acc1fb"
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "/tmp/case41-primitive-clean-6441djda/source/evidence/case41-stored-primitive-attribution-v1/analyze.py",
+        "120"
+      ],
+      "exit": 0,
+      "external_output": "/tmp/case41-primitive-clean-6441djda/external-output/120-optimized.json",
+      "published_result_bytes_equal": true,
+      "sha256": "e0b5100cf66959cec26a845c03eb123558b8da2c2c0d1284c9f8d81d31acc1fb"
+    }
+  ],
+  "external_output": "/tmp/case41-primitive-clean-6441djda/external-output",
+  "fresh_checkout": "/tmp/case41-primitive-clean-6441djda/source",
+  "historical_memory_qualified": false,
+  "new_native_equations": 0,
+  "source": "99d89bde22ef6692394973bdd99d56eaab8a9786",
+  "source_tree": "5473a5cb79ce9017251aead7ede95883aee60f06",
+  "status": "PASS_CLEAN_EXTERNAL_PRIMITIVE_REPLAY",
+  "tracked_evidence_preserved": true,
+  "verification_published_bytes_equal": true
+}
