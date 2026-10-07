@@ -5,7 +5,7 @@ reference data, compact audit manifests and curated documentation illustrations.
 Simulation frames, CSV fields, qualification logs, replay copies, renders, archives
 and PDFs are build/test artifacts. They do not belong in commits.
 
-Use `.generated/` for local test exports, `rheon-output/` for the CLI default, and
+Use `.generated/` for local test exports, `rheon-demo/` for the CLI default, and
 `rheon-comparisons/` for comparisons. Pass a fresh output directory to Rust examples.
 CI uses its runner temporary directory. Legacy evidence generators retain their
 interfaces; output extensions in evidence trees are ignored. Small source-bound

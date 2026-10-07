@@ -23,6 +23,7 @@ class RepositoryHygiene(unittest.TestCase):
 
     def test_precise_output_ignores_do_not_hide_sources(self):
         outputs = ['.generated/probe/frames.jsonl', 'rheon-output/steps.csv',
+                   'rheon-demo/steps.csv',
                    'evidence/probe/cells.csv', 'evidence/probe/render.png',
                    'docs/education/downloads/new.pdf', 'docs/education/pdf-inputs.json',
                    'docs/education/browser-qualification.json']

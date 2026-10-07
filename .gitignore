@@ -28,6 +28,7 @@ rheon-comparisons/
 /.generated/
 /simulation-output/
 /rheon-output/
+/rheon-demo/
 /evidence/**/*.csv
 /evidence/**/*.jsonl
 /evidence/**/*.log
