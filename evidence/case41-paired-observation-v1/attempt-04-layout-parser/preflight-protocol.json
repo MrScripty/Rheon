@@ -42,7 +42,7 @@
     "evidence/case41-paired-observation-v1/native-relocations.txt": "2ac0952e42ecde91f738863cc556f29f62be3b784abe49909592a3a004500883",
     "evidence/case41-paired-observation-v1/native-symbols.txt": "98d19ee1b843e36f02c2d30ae03ecb5251b2eb6ebc8cfd34ead3aa1188d962c8",
     "evidence/case41-paired-observation-v1/paired_probe.rs": "ede25545387d9a22b4e521316327b9876a7f8b145bfa19a20ecf60a579dea611",
-    "evidence/case41-paired-observation-v1/preflight.py": "8ac0cdce54c63c8544992a74462cf8c05806c282c5c07eac81e47d250f86e8fd",
+    "evidence/case41-paired-observation-v1/preflight.py": "9365657b7a327796135e98c282182b849247bc43d5b76c34f14586e04426442c",
     "evidence/case41-paired-observation-v1/protocol.json": "67f604be13a5ecef9de9f9fd6ed9f12e0a7916571394cda1fedf9f39281b02ea",
     "evidence/case41-paired-observation-v1/restore.json": "af9bf49724bb4777f8ebd26784b8a8e52db47ecf237db5cf5aa21d77d81bfbc6",
     "evidence/case41-paired-observation-v1/rust-1.92-source/alloc/src/alloc.rs": "cd8a5946b4c44338c451d1bb4c47e3109ea08ae7e3c58397e0879e4fe099572b",
@@ -59,18 +59,6 @@
     "evidence/forcing-increment-comparison/memory-preflight-staged.json": "1240351fc9ac087224a489d63f84b7e6c50c165f1f40cdb07a3b8dfab766da91",
     "evidence/forcing-increment-comparison/memset-binding.json": "dddd6cfc98fe8cceae6da4c9c0cba2fc49c54d115481dadddff09479f22dac1b",
     "evidence/forcing-increment-comparison/memset-leaf-disassembly.txt": "87eaeb704ad8b35c93cff8e259305e8e2ab441952ab7724d488d1ef81fe596b6",
-    "evidence/forcing-increment-memory-audit/audit.py": "53a3028c14574fd32c04a2c108755ea168caf9163c0f2dfe4a23d4ad56160c92",
-    "evidence/case41-paired-observation-v1/affine-native-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "evidence/case41-paired-observation-v1/affine-native.log": "4194362ab23f3ff8049e1b783b320fee7c8bb898fcc0113e5ca476c638ee6940",
-    "evidence/case41-paired-observation-v1/scalar-native-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "evidence/case41-paired-observation-v1/scalar-native.log": "e06771fddb7f7b6b6327d177c447e0e849e4aed2ea584608621a8588ad358d6a",
-    "evidence/case41-paired-observation-v1/paired-layout.log": "09946c1604ee8e751931e89204a4b3a89753ec7544da7f5225b992a8e83e8f7f",
-    "evidence/case41-paired-observation-v1/paired-layout-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "evidence/case41-paired-observation-v1/preflight-commands.json": "37cce35a6c473b519cb4475794a5099f4bafae4655e156fae21a128a653d343b",
-    "evidence/case41-paired-observation-v1/attempt-04-layout-parser/failure.json": "2f2fa0b047436aa1d975fc6da785d55dce418cf29e1155eb713119bbf79f3881",
-    "evidence/case41-paired-observation-v1/attempt-04-layout-parser/preflight-commands.json": "37cce35a6c473b519cb4475794a5099f4bafae4655e156fae21a128a653d343b",
-    "evidence/case41-paired-observation-v1/attempt-04-layout-parser/preflight.py": "9365657b7a327796135e98c282182b849247bc43d5b76c34f14586e04426442c",
-    "evidence/case41-paired-observation-v1/attempt-04-layout-parser/preflight-protocol.json": "bbe24f7d1a6857f52469344a13430b6124d6ceb6d721ad910f947913776d05c4"
-  },
-  "native_guard_source": "92e825acfdbb7c40c3a05af917c4a754b0f2f10a"
+    "evidence/forcing-increment-memory-audit/audit.py": "53a3028c14574fd32c04a2c108755ea168caf9163c0f2dfe4a23d4ad56160c92"
+  }
 }

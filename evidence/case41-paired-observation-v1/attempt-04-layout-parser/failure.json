@@ -1,0 +1,7 @@
+{
+  "source": "92e825acfdbb7c40c3a05af917c4a754b0f2f10a",
+  "status": "LAYOUT_TUPLE_PARSER_FAILURE_AFTER_FOUR_PASSING_GUARDS",
+  "native_test_invocations": 4,
+  "native_equations": 0,
+  "failure": "JSONDecodeError at geometry tuple syntax; actual native output retained unchanged"
+}

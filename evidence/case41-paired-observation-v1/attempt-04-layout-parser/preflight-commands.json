@@ -1,0 +1,58 @@
+[
+  {
+    "argv": [
+      "/workspace/.rheon-tools/case41-paired-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_scalar_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.002141632000075333,
+    "stdout": "scalar-native.log",
+    "stdout_sha256": "e06771fddb7f7b6b6327d177c447e0e849e4aed2ea584608621a8588ad358d6a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "numerical_allow_variables_present": false
+  },
+  {
+    "argv": [
+      "/workspace/.rheon-tools/case41-paired-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_type_layout",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.0014299680000249282,
+    "stdout": "type-layout.log",
+    "stdout_sha256": "b17904520c719851267bfa305aab40d6789bc481f441cde4fd5229be20a0627f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "numerical_allow_variables_present": false
+  },
+  {
+    "argv": [
+      "/workspace/.rheon-tools/case41-paired-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::scalar_affine_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.0015542359999471955,
+    "stdout": "affine-native.log",
+    "stdout_sha256": "4194362ab23f3ff8049e1b783b320fee7c8bb898fcc0113e5ca476c638ee6940",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "numerical_allow_variables_present": false
+  },
+  {
+    "argv": [
+      "/workspace/.rheon-tools/case41-paired-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::case41_paired_layout_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "seconds": 0.0012254389999952764,
+    "stdout": "paired-layout.log",
+    "stdout_sha256": "09946c1604ee8e751931e89204a4b3a89753ec7544da7f5225b992a8e83e8f7f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "numerical_allow_variables_present": false
+  }
+]

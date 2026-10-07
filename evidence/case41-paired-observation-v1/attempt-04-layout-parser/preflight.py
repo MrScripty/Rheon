@@ -5,7 +5,6 @@ import hashlib
 import importlib.util
 import json
 import os
-import re
 import subprocess
 import sys
 import time
@@ -43,16 +42,7 @@ def main():
     for key in list(env):
         if key.startswith('RHEON_'):
             env.pop(key)
-    resume = sys.argv[1:] == ['--resume-layout-parser']
-    require(resume or not (P / 'preflight-commands.json').exists(), 'no automatic guard rerun')
-    commands = json.loads((P / 'preflight-commands.json').read_text()) if resume else []
-    if resume:
-        require(len(commands) == 4, 'resume only four existing completed scalar/layout guards')
-        for command in commands:
-            require(command['exit'] == 0 and not command['numerical_allow_variables_present'], 'existing guard success')
-            require(sha((P / command['stdout']).read_bytes()) == command['stdout_sha256'], 'existing guard stdout')
-            stderr = P / command['stdout'].replace('.log', '-stderr.log')
-            require(sha(stderr.read_bytes()) == command['stderr_sha256'], 'existing guard stderr')
+    commands = []
 
     def run(label, argv, compress=False):
         start = time.monotonic()
@@ -71,14 +61,10 @@ def main():
                         ('type-layout', 'research_public_type_layout'),
                         ('affine-native', 'scalar_affine_preflight'),
                         ('paired-layout', 'case41_paired_layout_preflight')]:
-        argv = [compiled['binary'], '--exact', 'research_public_call::' + test, '--nocapture']
-        if resume:
-            require(any(c['argv'] == argv for c in commands), 'exact closed guard roster')
-        else:
-            run(label, argv)
+        run(label, [compiled['binary'], '--exact', 'research_public_call::' + test, '--nocapture'])
     scalar = load('paired_scalar_oracle', P / 'check_scalar.py').run(P / 'scalar-native.log')
     affine = load('paired_affine_oracle', P / 'check_affine.py').run()
-    layouts = [json.loads(re.sub(r'\((\d+), (\d+)\)', r'[\1, \2]', x)) for x in (P / 'paired-layout.log').read_text().splitlines()
+    layouts = [json.loads(x) for x in (P / 'paired-layout.log').read_text().splitlines()
                if x.startswith('{')]
     require(len(layouts) == 1 and layouts[0]['event'] == 'paired_layout', 'one pure layout record')
     layout = layouts[0]
@@ -98,8 +84,7 @@ def main():
                                 requested_payload_bytes=count * size,
                                 lifetime='one shared geometry, constructor through final observation/drop'))
     result = dict(status='PASS_SCALAR_LAYOUT_AFFINE__COMPLETE_MEMORY_BLOCKED',
-                  source=source, source_tree=tree, native_guard_source=policy.get('native_guard_source', source),
-                  resumed_without_native_rerun=resume, compiled_source=compiled['source'],
+                  source=source, source_tree=tree, compiled_source=compiled['source'],
                   compiled_source_tree=compiled['source_tree'], binary_sha256=compiled['binary_sha256'],
                   protocol_sha256=sha((P / 'preflight-protocol.json').read_bytes()),
                   scalar=scalar, affine=affine, paired_layout=layout, geometry_allocations=allocations,
