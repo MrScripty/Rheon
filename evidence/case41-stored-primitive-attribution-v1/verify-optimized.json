@@ -1,0 +1,31 @@
+{
+  "binding_negative_controls": [
+    {
+      "name": "archive-equation",
+      "reason": "21 archived equation fields bit-identical",
+      "rejected": true
+    },
+    {
+      "name": "endpoint-force",
+      "reason": "end point identity",
+      "rejected": true
+    },
+    {
+      "name": "sample-count",
+      "reason": "sixteen retained donor samples",
+      "rejected": true
+    },
+    {
+      "name": "donor-topology",
+      "reason": "same forty-face donor topology",
+      "rejected": true
+    }
+  ],
+  "historical_memory_qualified": false,
+  "new_native_equations": 0,
+  "normal_optimized_equal": true,
+  "precision_80_120_equal": true,
+  "source": "83cfe02a5857cf7465cc043a4a5cc11268bc2dd8",
+  "source_tree": "6cdf48928bc86ec7c7a6adcc3548d2b40e7fdf92",
+  "status": "PASS_FROZEN_STORED_PRIMITIVE_ATTRIBUTION"
+}
