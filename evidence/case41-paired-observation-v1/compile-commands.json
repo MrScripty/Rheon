@@ -1,0 +1,68 @@
+[
+  {
+    "argv": [
+      "rustfmt",
+      "--edition",
+      "2024",
+      "--check",
+      "--config",
+      "skip_children=true",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/paired_probe.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/candidate.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/candidate_helpers.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/candidate_paired_adapter.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/candidate_probe.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/expected_baseline.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/fixed_inputs.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/harness.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/inputs.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/reference.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/reference_helpers.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/reference_paired_adapter.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/reference_probe.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/scalar.rs",
+      "/workspace/Rheon-case41-paired-build-v4/evidence/case41-paired-observation-v1/native/trajectory_inputs.rs"
+    ],
+    "exit": 0,
+    "seconds": 0.10450974599996243,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native_test_invocation": false
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--no-default-features",
+      "--lib",
+      "--locked",
+      "--no-run",
+      "--message-format=json"
+    ],
+    "exit": 0,
+    "seconds": 21.34370867399997,
+    "stdout_sha256": "bd22d30f595365cdb1b28b772f1f18837053d3f9b79bf5f1f270e9c05e9084b3",
+    "stderr_sha256": "63dd46f5ec033e73a1439dec50b486cb9b6b154f457a4322a03c17697d1f589c",
+    "native_test_invocation": false
+  },
+  {
+    "argv": [
+      "cargo",
+      "clippy",
+      "--release",
+      "--no-default-features",
+      "--lib",
+      "--tests",
+      "--locked",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "seconds": 7.556635737000022,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "2b420ffc71e699aa03a8a8d28d185394f982394d37e8a6bde696fafc295ada99",
+    "native_test_invocation": false
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "status": "PASS_COMPILE_ONLY",
+  "source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "source_tree": "b8af864c8f5b4e944d2a086a36f8a791d8b7bfa8",
+  "binary": "/workspace/.rheon-tools/case41-paired-v1-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "c483c840f34d60c58eeb01fbaeec7e745edf817e84ab02655e44b7e2900a3a07",
+  "protocol_sha256": "67f604be13a5ecef9de9f9fd6ed9f12e0a7916571394cda1fedf9f39281b02ea",
+  "native_test_invocations": 0,
+  "native_equations": 0,
+  "owner_advances": 0,
+  "FD_execution_allowed": false
+}

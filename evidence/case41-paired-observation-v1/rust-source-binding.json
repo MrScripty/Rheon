@@ -1,0 +1,51 @@
+{
+  "official_dependency": "rust-src component, toolchain 1.92.0",
+  "files": [
+    {
+      "rust_library_path": "core/src/slice/sort/stable/mod.rs",
+      "archive": "evidence/case41-paired-observation-v1/rust-1.92-source/core/src/slice/sort/stable/mod.rs",
+      "sha256": "3f2b2d8543a1cb91c9352e041bed49949a31cbd4b1030ec1a82cca1304cb22d3"
+    },
+    {
+      "rust_library_path": "core/src/slice/sort/stable/drift.rs",
+      "archive": "evidence/case41-paired-observation-v1/rust-1.92-source/core/src/slice/sort/stable/drift.rs",
+      "sha256": "5992b53abed257aa1c2dc2bb811d6a525294471e7a98d434f161d376100bf9c9"
+    },
+    {
+      "rust_library_path": "core/src/slice/sort/stable/quicksort.rs",
+      "archive": "evidence/case41-paired-observation-v1/rust-1.92-source/core/src/slice/sort/stable/quicksort.rs",
+      "sha256": "e7b5df9c7022ade2b932d83c4d0757ba1a211286e03c350695dd383b951e0264"
+    },
+    {
+      "rust_library_path": "core/src/slice/sort/shared/smallsort.rs",
+      "archive": "evidence/case41-paired-observation-v1/rust-1.92-source/core/src/slice/sort/shared/smallsort.rs",
+      "sha256": "32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959"
+    },
+    {
+      "rust_library_path": "core/src/slice/sort/unstable/mod.rs",
+      "archive": "evidence/case41-paired-observation-v1/rust-1.92-source/core/src/slice/sort/unstable/mod.rs",
+      "sha256": "367fc5b0a8dd2ca26643cdcef821ac9ec0fc4c67e7246293b8675609450e2ac7"
+    },
+    {
+      "rust_library_path": "core/src/array/drain.rs",
+      "archive": "evidence/case41-paired-observation-v1/rust-1.92-source/core/src/array/drain.rs",
+      "sha256": "46c1269de5d5e11a8905f2b9215dedb7e218796d900687e3af9e3ede1ba00981"
+    },
+    {
+      "rust_library_path": "core/src/array/mod.rs",
+      "archive": "evidence/case41-paired-observation-v1/rust-1.92-source/core/src/array/mod.rs",
+      "sha256": "42a625efa8458363722195fd874c49e7ff760c91316186e927a0456f77d376e1"
+    },
+    {
+      "rust_library_path": "alloc/src/raw_vec/mod.rs",
+      "archive": "evidence/case41-paired-observation-v1/rust-1.92-source/alloc/src/raw_vec/mod.rs",
+      "sha256": "7f94665b803a970d83f99d3a451a92af6b210baaa8c9685b1f50d265c836f38b"
+    },
+    {
+      "rust_library_path": "alloc/src/alloc.rs",
+      "archive": "evidence/case41-paired-observation-v1/rust-1.92-source/alloc/src/alloc.rs",
+      "sha256": "cd8a5946b4c44338c451d1bb4c47e3109ea08ae7e3c58397e0879e4fe099572b"
+    }
+  ],
+  "native_equations": 0
+}
