@@ -1,0 +1,12 @@
+{
+  "actual_libc": "/lib/x86_64-linux-gnu/libc.so.6",
+  "actual_memset_file_offset": 1557312,
+  "binary_sha256": "c483c840f34d60c58eeb01fbaeec7e745edf817e84ab02655e44b7e2900a3a07",
+  "compiled_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "native_equations": 0,
+  "native_test_reruns": 0,
+  "old_evidence_unchanged": true,
+  "preflight_source": "ec984ded052a2792ffc666e0bc67b007a69c706a",
+  "production_unchanged": true,
+  "status": "PASS_READ_ONLY_INTEGRITY__NUMERICAL_STILL_BLOCKED"
+}

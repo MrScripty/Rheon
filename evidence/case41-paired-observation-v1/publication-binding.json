@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN_RESULT_VERIFIED_READ_ONLY",
+  "result_source": "a24598a09c698ea53561e50bedbec4393cd4fcba",
+  "result_tree": "75b245f31df6008d36664a6b4f782dbb84ee300e",
+  "compiled_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "preflight_source": "ec984ded052a2792ffc666e0bc67b007a69c706a",
+  "verification_source": "a24598a09c698ea53561e50bedbec4393cd4fcba",
+  "verification_normal_sha256": "d5adeb4dd6048a503a2c3b10462735b064f504a80dfb0527ab774f0116fe76b1",
+  "verification_optimized_sha256": "d5adeb4dd6048a503a2c3b10462735b064f504a80dfb0527ab774f0116fe76b1",
+  "native_equations": 0,
+  "native_test_reruns": 0,
+  "complete_memory_bound": null,
+  "FD_execution_allowed": false,
+  "branch": "research/case41-paired-observation-preflight",
+  "main": "9cd4587a54befa61bdfddc8e35014bd3c34f02fb"
+}
