@@ -58,9 +58,7 @@ def run(dps):
     fgap=lambda x,y:nodal([[Q(xx)-Q(yy) for xx,yy in zip(row,col)] for row,col in zip(x,y)])
     force_gaps=dict(strain_assembly=fgap(visc_native,visc_exact),pressure_assembly=fgap(pres_native,pres_exact),combined_force_addition=fgap(e['end_force'],[[Q(x)+Q(y) for x,y in zip(v,p)] for v,p in zip(visc_native,pres_native)]))
     def donor_term(plus,minus):
-        _,g=o.exact(c,e,plus=list(map(Q,plus)),minus=list(map(Q,minus)))
-        require(all(isinstance(x,Q) for x in g['endpoint_donor_transport']),'exact donor projection rational')
-        return g['endpoint_donor_transport']
+        _,g=o.exact(c,e,plus=plus,minus=minus);return g['endpoint_donor_transport']
     plus_products=[sum(Q(float(Q(p['factor'])*Q(max(p['flux'][j],0.)))) for p in quad) for j in range(len(e['pairs']))]
     minus_products=[sum(Q(float(Q(p['factor'])*Q(max(-p['flux'][j],0.)))) for p in quad) for j in range(len(e['pairs']))]
     donor_native=donor_term(e['plus'],e['minus']);donor_products=donor_term(plus_products,minus_products);donor_exact=donor_term(plus_exact,minus_exact)

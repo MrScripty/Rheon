@@ -1,0 +1,7 @@
+{
+  "forward_fix": "Convert provided plus/minus arrays to Fraction and require rational projected output.",
+  "native_equations": 0,
+  "numerical_refusal": false,
+  "source": "5b28464066b6f0855242ddc793df1062ed9fc656",
+  "stage": "Exact reconstruction again rejected mixed Fraction/float helper inputs, now isolated to supplied archived donor totals."
+}
