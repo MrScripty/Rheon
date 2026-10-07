@@ -1,0 +1,34 @@
+{
+  "archives": [
+    {
+      "archive_path": "evidence/case41-retained-cache-replay-v1/retained/check_affine.cpython-312.pyc",
+      "bytes": 3095,
+      "historical_path": "evidence/case41-paired-observation-v1/__pycache__/check_affine.cpython-312.pyc",
+      "observed_original_path": "/workspace/Rheon/evidence/case41-paired-observation-v1/__pycache__/check_affine.cpython-312.pyc",
+      "observed_original_stat_mtime_ns": 1791332917572723369,
+      "provenance": "Existing local cache retained from original preflight; read and exact hash matched before copying. No bytecode regenerated, recompiled or substituted.",
+      "pyc_header_hex": "cb0d0d0a000000009290c56ae2040000",
+      "sha256": "cf5dfa5c929ac170b410b3e709f18cb4f9bd14d1c4a6febc7915451e1b38f193"
+    },
+    {
+      "archive_path": "evidence/case41-retained-cache-replay-v1/retained/check_scalar.cpython-312.pyc",
+      "bytes": 6245,
+      "historical_path": "evidence/case41-paired-observation-v1/__pycache__/check_scalar.cpython-312.pyc",
+      "observed_original_path": "/workspace/Rheon/evidence/case41-paired-observation-v1/__pycache__/check_scalar.cpython-312.pyc",
+      "observed_original_stat_mtime_ns": 1791332917569633537,
+      "provenance": "Existing local cache retained from original preflight; read and exact hash matched before copying. No bytecode regenerated, recompiled or substituted.",
+      "pyc_header_hex": "cb0d0d0a000000009290c56a680c0000",
+      "sha256": "02a463126368fb22811dcf8e916dec08669b99af6081f0fbcdec2e47bcdd5cb0"
+    }
+  ],
+  "historical_committed_paths_absent": 2,
+  "historical_manifest_entries": 113,
+  "historical_memory_qualified": false,
+  "id": "case41-exact-retained-cache-archive-v1",
+  "native_equations_allowed": 0,
+  "original_manifest_complete_in_committed_tree": false,
+  "original_packet_modified": false,
+  "original_protocol_sha256": "b56fec975fa616a4dad686c2ae4d043547b211ceed801163dd074a843a266670",
+  "original_publication": "7f7f9b62d16ff3c13a0112aac46a29ad4ddeec15",
+  "original_result": "455af0e35c25037d2ff904bb92fd71b5d6b1f5c9"
+}
