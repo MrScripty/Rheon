@@ -1,0 +1,49 @@
+{
+  "id": "case41-paired-observation-preflight-v1",
+  "parent": "12bb2391b7f118d5731ef9b4f73e19d408ca0483",
+  "parent_tree": "caac00c38b8bc0281294d8c885ef6000f0a34425",
+  "production_basis": "998de18438a339d44896d24ecf9634ad469cdcdf",
+  "build_worktree": "/workspace/Rheon-case41-paired-build-v1",
+  "target": "/workspace/.rheon-tools/case41-paired-v1-target",
+  "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
+  "cap": 67584,
+  "orders": [
+    16
+  ],
+  "roster": [
+    "baseline",
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "native_equations": 0,
+  "FD_execution_allowed": false,
+  "independent_complete_memory_acceptance_required": true,
+  "source_sha256": {
+    "evidence/case41-paired-observation-v1/baseline-binding.json": "2ad202bbed8f5948bc7ec5c5a961f02e45ad5feae6aaa3c103b38a5e38573f67",
+    "evidence/case41-paired-observation-v1/build_only.py": "2d4ed2366c488511752dabf0d20a966f916335a42e1682b677e4ef20f5673882",
+    "evidence/case41-paired-observation-v1/check_affine.py": "7d9f5bce9e20880126bcb2eef3a74a2aef16d906f5883b3af7a1a5fc35d4d014",
+    "evidence/case41-paired-observation-v1/check_scalar.py": "432585a9c61212a1ed52bb71cfa8c1ff8dc44add2c4b3e257afe6620acfd0290",
+    "evidence/case41-paired-observation-v1/native/FittedHeightWorkspace-overlay.rs": "adaab017b6d63c8c087f12167302611000a188eeae2242fc5382c9500cac9666",
+    "evidence/case41-paired-observation-v1/native/TranslatedViscousFlow-overlay.rs": "1734eaeed3c0f497a5380ee339253d87b246d667423f86cfe5dd565d68916765",
+    "evidence/case41-paired-observation-v1/native/candidate.rs": "794e2f401f7fde511577bf4fc06a2e0fb6fd82dc7ed87b07ef83a205792202e5",
+    "evidence/case41-paired-observation-v1/native/candidate_helpers.rs": "88d577eb553251192a5a054a9bc8229bfc4ea99ad7138a330a210285ff518b45",
+    "evidence/case41-paired-observation-v1/native/candidate_paired_adapter.rs": "33bb3f1e78a14b4373f032434d9b3d8d4ab60868ad2ff5c503ef126645731e49",
+    "evidence/case41-paired-observation-v1/native/candidate_probe.rs": "060afc18a7a58524d31dc8edc5f595a479a1fa2a35627642598dafd131febc98",
+    "evidence/case41-paired-observation-v1/native/expected_baseline.rs": "c305a797a791be1a54e1767aca34f570786287d8f89210adfafd43dc37b0f80d",
+    "evidence/case41-paired-observation-v1/native/fixed_inputs.rs": "88f250046d8f08836f0418bd7fc81523d1de9a6141d4295a678c096c5a0d873e",
+    "evidence/case41-paired-observation-v1/native/harness.rs": "0266323f00f8dfdf27e30a3f6ae06df23774450aaf3a85aa191c1d548e053022",
+    "evidence/case41-paired-observation-v1/native/inputs.rs": "d4aefe43a4125f70f2109072711228a787dc354ac51ece68027334f21a8117c1",
+    "evidence/case41-paired-observation-v1/native/library-overlay.rs": "6853e2cf3abf9403e0a95ec30f20d9d3568ed4db4b54a0a9cf708059436cfcde",
+    "evidence/case41-paired-observation-v1/native/reference.rs": "4ca78d2a1c34dacb2bcf9f5e272cf4bffca05b73f24f0f88e9432bb33d9aa56a",
+    "evidence/case41-paired-observation-v1/native/reference_helpers.rs": "8f2b8d1f7ce6476dd52a1fa8edba8ac4e3eede17b15018f82bf7a8dd9b76a655",
+    "evidence/case41-paired-observation-v1/native/reference_paired_adapter.rs": "a2e1862dde7a03d517fa03171748be84ee573d159371b4840a3bd1e41f03f1cd",
+    "evidence/case41-paired-observation-v1/native/reference_probe.rs": "33db71afbc3277f8d6d4e4c393212bda48d5b3e5828106b48d4f6c4e9ec7a434",
+    "evidence/case41-paired-observation-v1/native/scalar.rs": "28f466a1f88d64faecfbae68060122b9dec1866a047084478a0bb153ff963e14",
+    "evidence/case41-paired-observation-v1/native/trajectory_inputs.rs": "fb1fd26c0833a54ecc5d52dc0f37f0d13a0d7f750f75fa5416dd8749ce862658",
+    "evidence/case41-paired-observation-v1/paired_probe.rs": "ede25545387d9a22b4e521316327b9876a7f8b145bfa19a20ecf60a579dea611"
+  }
+}
