@@ -1,0 +1,13 @@
+HEAD is now at f93827a research(case41): freeze baseline and single-forecast preparation source, inputs and protocol
+{
+  "status": "PASS_COMPILE_ONLY",
+  "source": "f93827af7616207c6c97f083e714ee87b3e37b1d",
+  "source_tree": "ad0dc3b076baae4184583eca712045d3b247f0de",
+  "binary": "/workspace/.rheon-tools/case41-two-observation-v1-target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "0b1b2dcb75b6ee62ed00f5bc78c3ddd0cd9276eca730b15eb09690a983c63f18",
+  "protocol_sha256": "17d2b7d05d0e11023e10dc6ffe1313a8697e28ca2b5c4ae10848c34dc3dea650",
+  "native_test_invocations": 0,
+  "native_equations": 0,
+  "owner_advances": 0,
+  "observations_execution_allowed": false
+}

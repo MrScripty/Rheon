@@ -1,0 +1,6 @@
+{
+  "stage": "read-only draft assumed distinct Work::equation symbol; compiler folded its body into the retained non-inline boundary",
+  "native_equations": 0,
+  "native_guard_invocations": 0,
+  "resolution": "retain actual boundary frame and explicitly record absent standalone frame; no shrink credit or zero external costs"
+}

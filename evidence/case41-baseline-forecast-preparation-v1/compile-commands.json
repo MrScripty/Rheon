@@ -1,0 +1,70 @@
+[
+  {
+    "argv": [
+      "rustfmt",
+      "--edition",
+      "2024",
+      "--check",
+      "--config",
+      "skip_children=true",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/paired_probe.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/forecast_probe.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/candidate.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/candidate_helpers.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/candidate_paired_adapter.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/candidate_probe.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/expected_baseline.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/fixed_inputs.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/forecast_bits.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/harness.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/inputs.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/reference.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/reference_helpers.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/reference_paired_adapter.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/reference_probe.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/scalar.rs",
+      "/workspace/Rheon-case41-two-observation-build-v1/evidence/case41-baseline-forecast-preparation-v1/native/trajectory_inputs.rs"
+    ],
+    "exit": 0,
+    "seconds": 0.10181472499971278,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native_test_invocation": false
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--no-default-features",
+      "--lib",
+      "--locked",
+      "--no-run",
+      "--message-format=json"
+    ],
+    "exit": 0,
+    "seconds": 4.714818025999193,
+    "stdout_sha256": "38a6f49ba35567b69765ea6c95818f84dc753a80bc5e8ed086932175654f6c3f",
+    "stderr_sha256": "9e71f8a04e57c5e57a089539ba5a5c8d82eba4f90b5268d905b0b52f579e264a",
+    "native_test_invocation": false
+  },
+  {
+    "argv": [
+      "cargo",
+      "clippy",
+      "--release",
+      "--no-default-features",
+      "--lib",
+      "--tests",
+      "--locked",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit": 0,
+    "seconds": 7.516873057000339,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "f6d818e9e478f833a8a728c60dfe814f307a1dd5f7d4dc73d51d30b92bda0ba7",
+    "native_test_invocation": false
+  }
+]
