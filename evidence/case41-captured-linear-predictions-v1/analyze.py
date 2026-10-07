@@ -104,6 +104,14 @@ def run(dps):
     theta_sq = invfrobsq * frobsq(scaled_gap)
     require(theta_sq < 1, 'Neumann bound for TWO CAPTURED matrices only')
     theta = root(theta_sq)
+    def root_upper(q):
+        # Exact rational upper enclosure of sqrt(q), grid spacing 2^-80.
+        scale = 1 << 80
+        lo = math.isqrt(q.numerator * scale * scale // q.denominator)
+        return Q(lo if Q(lo*lo, scale*scale) == q else lo+1, scale)
+    theta_upper = root_upper(theta_sq)
+    inverse_upper = root_upper(invfrobsq)
+    require(theta_upper < 1, 'exact rational captured-matrix bound')
     Jfields = [x+y for x, y in zip(exact_A, B)]
     sfields = a.mv(a.inverse(Jfields), [-x for x in r])
     # Predicted residual under the alternative captured-field matrix, not F(x+s).
@@ -164,11 +172,21 @@ def run(dps):
                 rounding_limits=dict(native_FD_vs_exact_native_rates_scaled_Frobenius=root(frobsq(scaled_round_gap)),
                     native_FD_vs_exact_stored_fields_scaled_Frobenius=root(frobsq(scaled_gap)),
                     captured_matrix_Neumann_theta=theta,
+                    captured_matrix_Neumann_theta_squared_exact=str(theta_sq),
+                    captured_matrix_Neumann_theta_upper_exact=str(theta_upper),
+                    alternative_captured_inverse_upper_exact=str(inverse_upper/(1-theta_upper)),
+                    alternative_captured_displacement_gap_upper_exact=str(theta_upper/(1-theta_upper)*root_upper(sum(x*x for x in shat))),
                     alternative_captured_matrix_inverse_bound=root(invfrobsq)/(1-theta),
                     actual_alternative_captured_matrix_displacement_gap=norm([x/C[i]-s[i]/C[i] for i, x in enumerate(sfields)]),
                     conservative_alternative_displacement_gap_bound=theta/(1-theta)*norm(shat),
                     alternative_captured_matrix_residual_at_projection=vec(alt_residual),
                     native_vs_exact_stored_force_gap=norm(evaluation_gap),
+                    direct_native_vs_exact_stored_force_gap=norm([x-y for x,y in zip(direct, rdex)]),
+                    exact_constraint_inertia_cross_term=str(2*a.dot(adjusted, constraint_force)),
+                    exact_stored_squared_residual=str(a.dot(rex, rex)),
+                    exact_constraint_adjusted_squared_residual=str(a.dot(adjusted, adjusted)),
+                    exact_stored_above_original_gate=a.dot(rex, rex)>Q(1e-13)**2,
+                    exact_constraint_adjusted_above_original_gate=a.dot(adjusted, adjusted)>Q(1e-13)**2,
                     Newton_gate_excess=norm(r)-1e-13,
                     scope='All bounds refer to captured binary data and exact algebra. No FD truncation, force assembly, real-map evaluation or nonlinear remainder bound.'),
                 new_native_equations=0, applied_corrections=0, owner_advances=0,
