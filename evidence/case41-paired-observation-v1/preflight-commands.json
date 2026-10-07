@@ -54,5 +54,30 @@
     "stdout_sha256": "09946c1604ee8e751931e89204a4b3a89753ec7544da7f5225b992a8e83e8f7f",
     "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "numerical_allow_variables_present": false
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/Rheon/evidence/case41-paired-observation-v1/audit_memory.py"
+    ],
+    "exit": 0,
+    "seconds": 2.718179913999961,
+    "stdout": "memory-normal.json.gz",
+    "stdout_sha256": "e704019bc7d6ddac53baa4aa8adb906d8d9718e19e4aba390a6c493d67a1b104",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "numerical_allow_variables_present": false
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "/workspace/Rheon/evidence/case41-paired-observation-v1/audit_memory.py"
+    ],
+    "exit": 0,
+    "seconds": 2.7999307149999595,
+    "stdout": "memory-optimized.json.gz",
+    "stdout_sha256": "e704019bc7d6ddac53baa4aa8adb906d8d9718e19e4aba390a6c493d67a1b104",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "numerical_allow_variables_present": false
   }
 ]

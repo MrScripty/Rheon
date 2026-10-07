@@ -1,0 +1,605 @@
+{
+  "status": "PASS_SCALAR_LAYOUT_AFFINE__COMPLETE_MEMORY_BLOCKED",
+  "source": "ec984ded052a2792ffc666e0bc67b007a69c706a",
+  "source_tree": "30da5e6b26743e7a837ea0cc656c268e813fa42a",
+  "native_guard_source": "92e825acfdbb7c40c3a05af917c4a754b0f2f10a",
+  "resumed_without_native_rerun": true,
+  "compiled_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "compiled_source_tree": "b8af864c8f5b4e944d2a086a36f8a791d8b7bfa8",
+  "binary_sha256": "c483c840f34d60c58eeb01fbaeec7e745edf817e84ab02655e44b7e2900a3a07",
+  "protocol_sha256": "c9e364ec41275c1d1c92c8e409bf2843e11ef2989a63a38f547dcabda9f40d3b",
+  "scalar": {
+    "status": "PASS_SCALAR_ORACLE_AND_LAYOUT_ONLY",
+    "native_assertion_groups": 23,
+    "exact_scalar_probes": 36,
+    "layout": {
+      "event": "preflight_layout",
+      "scalar_bytes": 32,
+      "workspace_bytes": 62096,
+      "borrow_descriptor_bytes": 8,
+      "kernel_stack_ceiling": 2048,
+      "additional_bytes_with_ceiling": 64152,
+      "baseline_forced_nominal_bytes": 474768,
+      "baseline_step_stack_bytes": 392416,
+      "baseline_third_stack_bytes": 20672,
+      "baseline_force_stack_bytes": 3776,
+      "conformance_groups": 23,
+      "policy_id": "E2-working-affine-native-public-known-stored-inertia-v1",
+      "e1_not_executed": true
+    },
+    "combined_baseline_and_additional_reservation_bytes": 538920,
+    "compiled_stack_proof_still_required": true,
+    "owner_advances": 0,
+    "e1_executed": false,
+    "rows": [
+      {
+        "case": 0,
+        "op": "add",
+        "expected": [
+          "40564819207303340847894502572032",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 0,
+        "op": "mul",
+        "expected": [
+          "40564819207303340847894502572032",
+          -106,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 0,
+        "op": "div",
+        "expected": [
+          "40564819207303340847894502572032",
+          106,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 1,
+        "op": "add",
+        "expected": [
+          "40564819207303340847894502572033",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 1,
+        "op": "mul",
+        "expected": [
+          "40564819207303340847894502572032",
+          -105,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 1,
+        "op": "div",
+        "expected": [
+          "40564819207303340847894502572032",
+          105,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 2,
+        "op": "add",
+        "expected": [
+          "50706024009129176059868128215040",
+          2,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 2,
+        "op": "mul",
+        "expected": [
+          "53241325209585634862861534625792",
+          2,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 2,
+        "op": "div",
+        "expected": [
+          "69539690069662870024962004409198",
+          -2,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 3,
+        "op": "add",
+        "expected": [
+          "40564819207303345351494129942528",
+          -1021,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 3,
+        "op": "mul",
+        "expected": null,
+        "refused": true
+      },
+      {
+        "case": 3,
+        "op": "div",
+        "expected": [
+          "81129638414606663681390495662084",
+          -1,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 4,
+        "op": "add",
+        "expected": [
+          "81129638414606672688589750403072",
+          1023,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 4,
+        "op": "mul",
+        "expected": null,
+        "refused": true
+      },
+      {
+        "case": 4,
+        "op": "div",
+        "expected": [
+          "81129638414606672688589750403072",
+          1022,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 5,
+        "op": "add",
+        "expected": [
+          "40564819207303340847894502572032",
+          -1,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 5,
+        "op": "mul",
+        "expected": null,
+        "refused": true
+      },
+      {
+        "case": 5,
+        "op": "div",
+        "expected": [
+          "40564819207303340847894502572032",
+          -1021,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 6,
+        "op": "add",
+        "expected": [
+          "0",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 6,
+        "op": "mul",
+        "expected": [
+          "40564819207303340847894502572032",
+          0,
+          true
+        ],
+        "refused": false
+      },
+      {
+        "case": 6,
+        "op": "div",
+        "expected": [
+          "40564819207303340847894502572032",
+          0,
+          true
+        ],
+        "refused": false
+      },
+      {
+        "case": 7,
+        "op": "add",
+        "expected": [
+          "0",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 7,
+        "op": "mul",
+        "expected": [
+          "0",
+          0,
+          true
+        ],
+        "refused": false
+      },
+      {
+        "case": 7,
+        "op": "div",
+        "expected": null,
+        "refused": true
+      },
+      {
+        "case": 8,
+        "op": "add",
+        "expected": [
+          "0",
+          0,
+          true
+        ],
+        "refused": false
+      },
+      {
+        "case": 8,
+        "op": "mul",
+        "expected": [
+          "0",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 8,
+        "op": "div",
+        "expected": null,
+        "refused": true
+      },
+      {
+        "case": 9,
+        "op": "add",
+        "expected": [
+          "70988433612780846483815379501056",
+          2,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 9,
+        "op": "mul",
+        "expected": [
+          "60847228810955011271841753858048",
+          3,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 9,
+        "op": "div",
+        "expected": [
+          "54086425609737787797192670096043",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 10,
+        "op": "add",
+        "expected": [
+          "40564819207303340847894502572032",
+          -599,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 10,
+        "op": "mul",
+        "expected": null,
+        "refused": true
+      },
+      {
+        "case": 10,
+        "op": "div",
+        "expected": [
+          "40564819207303340847894502572032",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 11,
+        "op": "add",
+        "expected": [
+          "40564819207303340847894502572032",
+          800,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 11,
+        "op": "mul",
+        "expected": [
+          "40564819207303340847894502572032",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 11,
+        "op": "div",
+        "expected": null,
+        "refused": true
+      }
+    ]
+  },
+  "affine": {
+    "status": "PASS_SIX_SCALAR_AFFINE_PROBES",
+    "native_candidate_equations": 0,
+    "rows": [
+      {
+        "case": 0,
+        "expected_parts": [
+          "40564819207303340847894502572032",
+          -104,
+          true
+        ],
+        "refused": false
+      },
+      {
+        "case": 1,
+        "expected_parts": [
+          "40564819207303343099694316257280",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 2,
+        "expected_parts": null,
+        "refused": true
+      },
+      {
+        "case": 3,
+        "expected_parts": null,
+        "refused": true
+      },
+      {
+        "case": 4,
+        "expected_parts": [
+          "40564819207303340847894502572032",
+          0,
+          false
+        ],
+        "refused": false
+      },
+      {
+        "case": 5,
+        "expected_parts": null,
+        "refused": true
+      }
+    ]
+  },
+  "paired_layout": {
+    "event": "paired_layout",
+    "candidate": [
+      7808,
+      30976,
+      30984,
+      14552,
+      176
+    ],
+    "reference": [
+      7800,
+      30976,
+      30984,
+      14552,
+      176
+    ],
+    "geometry": [
+      [
+        19,
+        24
+      ],
+      [
+        4,
+        24
+      ],
+      [
+        9,
+        40
+      ],
+      [
+        24,
+        80
+      ],
+      [
+        16,
+        64
+      ],
+      [
+        72,
+        56
+      ],
+      [
+        72,
+        24
+      ],
+      [
+        288,
+        24
+      ],
+      [
+        22,
+        8
+      ],
+      [
+        528,
+        8
+      ],
+      [
+        16,
+        8
+      ],
+      [
+        19,
+        32
+      ],
+      [
+        16,
+        96
+      ],
+      [
+        24,
+        16
+      ]
+    ]
+  },
+  "geometry_allocations": [
+    {
+      "name": "nodes",
+      "requested_capacity": 19,
+      "element_bytes": 24,
+      "requested_payload_bytes": 456,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "macro_triangles",
+      "requested_capacity": 4,
+      "element_bytes": 24,
+      "requested_payload_bytes": 96,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "edges",
+      "requested_capacity": 9,
+      "element_bytes": 40,
+      "requested_payload_bytes": 360,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "triangles",
+      "requested_capacity": 24,
+      "element_bytes": 80,
+      "requested_payload_bytes": 1920,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "embedding",
+      "requested_capacity": 16,
+      "element_bytes": 64,
+      "requested_payload_bytes": 1024,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "pieces",
+      "requested_capacity": 72,
+      "element_bytes": 56,
+      "requested_payload_bytes": 4032,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "faces",
+      "requested_capacity": 72,
+      "element_bytes": 24,
+      "requested_payload_bytes": 1728,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "pressure_terms",
+      "requested_capacity": 288,
+      "element_bytes": 24,
+      "requested_payload_bytes": 6912,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "pressure_columns",
+      "requested_capacity": 22,
+      "element_bytes": 8,
+      "requested_payload_bytes": 176,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "rank_scratch",
+      "requested_capacity": 528,
+      "element_bytes": 8,
+      "requested_payload_bytes": 4224,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "mass",
+      "requested_capacity": 16,
+      "element_bytes": 8,
+      "requested_payload_bytes": 128,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "motion",
+      "requested_capacity": 19,
+      "element_bytes": 32,
+      "requested_payload_bytes": 608,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "diagnostics",
+      "requested_capacity": 16,
+      "element_bytes": 96,
+      "requested_payload_bytes": 1536,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    },
+    {
+      "name": "triangle_scratch",
+      "requested_capacity": 24,
+      "element_bytes": 16,
+      "requested_payload_bytes": 384,
+      "lifetime": "one shared geometry, constructor through final observation/drop"
+    }
+  ],
+  "common_geometry_requested_payload_bytes": 23584,
+  "geometry_allocator_internal_cost": null,
+  "known_crate_and_storage_subtotal": 66368,
+  "complete_memory_bound": null,
+  "cap": 67584,
+  "native_equations": 0,
+  "owner_advances": 0,
+  "new_corrections": 0,
+  "native_test_invocations": 4,
+  "FD_test_invocations": 0,
+  "FD_execution_allowed": false,
+  "independent_memory_acceptance": false,
+  "memory_ledger_sha256": "e704019bc7d6ddac53baa4aa8adb906d8d9718e19e4aba390a6c493d67a1b104"
+}
