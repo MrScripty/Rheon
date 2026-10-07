@@ -1,0 +1,37 @@
+{
+  "baseline_observations": 0,
+  "caches_after": 0,
+  "caches_before": 0,
+  "checkout_path": "/tmp/case41-two-preparation-clean-6z8mk24o/source",
+  "checkout_source": "ddb0f661c266e0909243bf0215c9942825316733",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "/tmp/case41-two-preparation-clean-6z8mk24o/source/evidence/case41-baseline-forecast-preparation-v1/verify.py"
+      ],
+      "exit": 0,
+      "published_output_equal": true,
+      "stdout_sha256": "43ed2221ae5ef4910ef4e5b8ba35363be22d8f21f9969cfad8cbba4347e865f9"
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "-O",
+        "/tmp/case41-two-preparation-clean-6z8mk24o/source/evidence/case41-baseline-forecast-preparation-v1/verify.py"
+      ],
+      "exit": 0,
+      "published_output_equal": true,
+      "stdout_sha256": "43ed2221ae5ef4910ef4e5b8ba35363be22d8f21f9969cfad8cbba4347e865f9"
+    }
+  ],
+  "execution_allowed": false,
+  "forecast_observations": 0,
+  "historical_memory_qualified": false,
+  "native_equations": 0,
+  "native_guard_reruns": 0,
+  "status": "PASS_CLEAN_PREPARATION_VERIFICATION_ONLY",
+  "tracked_evidence_preserved": true
+}
