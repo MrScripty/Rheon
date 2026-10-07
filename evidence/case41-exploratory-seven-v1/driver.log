@@ -1,0 +1,61 @@
+{
+  "argv": [
+    "/workspace/.rheon-tools/case41-paired-v1-target/release/deps/rheon-beaa99042d1278c3",
+    "--exact",
+    "research_public_call::case41_paired_candidate_roster",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "binary_sha256": "c483c840f34d60c58eeb01fbaeec7e745edf817e84ab02655e44b7e2900a3a07",
+  "compiled_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "corrections": 0,
+  "cpu_system_seconds": 0.0,
+  "cpu_user_seconds": 0.047626999999999996,
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "RHEON_CASE41_PAIRED_ALLOW": "case41-paired-observation-independent-preflight-required-v1",
+    "RUST_BACKTRACE": "0",
+    "RUST_MIN_STACK": "8388608",
+    "TZ": "UTC"
+  },
+  "equations_max": 7,
+  "exit": 0,
+  "faults": [],
+  "historical_additional_memory_bound_proved": false,
+  "historical_known_subtotal": 66368,
+  "historical_memory_qualified": false,
+  "limits": {
+    "address_space_bytes": 268435456,
+    "cpu_seconds": 60,
+    "stack_bytes": 8388608,
+    "stderr_bytes": 1048576,
+    "stdout_bytes": 8388608,
+    "wall_seconds": 120
+  },
+  "measured_peak_rss_bytes": 10878976,
+  "native_process_launches": 1,
+  "numerical_method_changed": false,
+  "owners": 0,
+  "peak_rss_measurement": "Linux wait4 ru_maxrss in KiB, native child only",
+  "preflight_receipt_sha256": "3d01d3d93e458d44aacd06047d4cc40dc1fab026538014e402fe2478aa6587f1",
+  "proc_status_samples": 75,
+  "protocol_sha256": "b56fec975fa616a4dad686c2ae4d043547b211ceed801163dd074a843a266670",
+  "resource_prerequisite_changed": true,
+  "retries": 0,
+  "retries_allowed": 0,
+  "sampled_proc_peaks_bytes": {
+    "VmHWM": 3362816,
+    "VmPeak": 148516864,
+    "VmRSS": 3362816,
+    "VmSize": 81420288
+  },
+  "seconds": 0.05040825500009305,
+  "source": "c2c583180f23316c6ac2ac89da434bf313121980",
+  "source_tree": "23516af79cffd4fd8fe99f7c85de281c335cb4a2",
+  "status": "PROCESS_COMPLETED_READER_PENDING",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_bytes": 286936,
+  "stdout_sha256": "8a7ec54e86e0f6ec4686bc5eeca93856e54a1b8a7972eafc82cc295061371287"
+}

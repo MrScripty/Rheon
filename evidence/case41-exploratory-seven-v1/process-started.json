@@ -1,0 +1,13 @@
+{
+  "pid": 3323,
+  "source": "c2c583180f23316c6ac2ac89da434bf313121980",
+  "limits": {
+    "address_space_bytes": 268435456,
+    "cpu_seconds": 60,
+    "stack_bytes": 8388608,
+    "stderr_bytes": 1048576,
+    "stdout_bytes": 8388608,
+    "wall_seconds": 120
+  },
+  "native_process_launches": 1
+}

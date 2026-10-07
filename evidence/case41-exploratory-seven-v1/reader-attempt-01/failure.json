@@ -1,0 +1,8 @@
+{
+  "source": "c2c583180f23316c6ac2ac89da434bf313121980",
+  "status": "NATIVE_CLEAN__READER_SKIPPED_INLINE_PREFIXED_BASELINE",
+  "native_rerun_allowed": false,
+  "native_baseline_assertion_passed": true,
+  "raw_stdout_sha256": "8a7ec54e86e0f6ec4686bc5eeca93856e54a1b8a7972eafc82cc295061371287",
+  "reason": "--test-threads=1 libtest emits its test label on the same line as the first baseline JSON. Original startswith parser omitted that intact record."
+}

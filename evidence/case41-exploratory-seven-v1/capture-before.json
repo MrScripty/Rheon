@@ -1,0 +1,39 @@
+{
+  "argv": [
+    "/workspace/.rheon-tools/case41-paired-v1-target/release/deps/rheon-beaa99042d1278c3",
+    "--exact",
+    "research_public_call::case41_paired_candidate_roster",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "binary_sha256": "c483c840f34d60c58eeb01fbaeec7e745edf817e84ab02655e44b7e2900a3a07",
+  "compiled_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "corrections": 0,
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "RHEON_CASE41_PAIRED_ALLOW": "case41-paired-observation-independent-preflight-required-v1",
+    "RUST_BACKTRACE": "0",
+    "RUST_MIN_STACK": "8388608",
+    "TZ": "UTC"
+  },
+  "equations_max": 7,
+  "historical_known_subtotal": 66368,
+  "historical_memory_qualified": false,
+  "limits": {
+    "address_space_bytes": 268435456,
+    "cpu_seconds": 60,
+    "stack_bytes": 8388608,
+    "stderr_bytes": 1048576,
+    "stdout_bytes": 8388608,
+    "wall_seconds": 120
+  },
+  "numerical_method_changed": false,
+  "owners": 0,
+  "preflight_receipt_sha256": "3d01d3d93e458d44aacd06047d4cc40dc1fab026538014e402fe2478aa6587f1",
+  "protocol_sha256": "b56fec975fa616a4dad686c2ae4d043547b211ceed801163dd074a843a266670",
+  "resource_prerequisite_changed": true,
+  "retries_allowed": 0,
+  "source": "c2c583180f23316c6ac2ac89da434bf313121980",
+  "source_tree": "23516af79cffd4fd8fe99f7c85de281c335cb4a2"
+}

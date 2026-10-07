@@ -1,0 +1,10 @@
+{
+  "id": "case41-exploratory-inline-libtest-reader-amendment-v2",
+  "native_equations_already_executed": 7,
+  "native_reruns_allowed": 0,
+  "numerical_method_changed": false,
+  "original_reader_sha256": "2800058079474994aa27969a41ae6bed9b9a732d66dd23cf5406ff7f2f013777",
+  "raw_stdout_sha256": "8a7ec54e86e0f6ec4686bc5eeca93856e54a1b8a7972eafc82cc295061371287",
+  "reader_sha256": "a2217563fa9b731d1601686494a0c044f1f5f9b9fe692f39bf7649b1a4765b56",
+  "scope": "Lossless strip of one exact native libtest label before first JSON baseline; no input/output/numerical alteration."
+}
