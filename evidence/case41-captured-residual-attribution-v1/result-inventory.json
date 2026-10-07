@@ -1,0 +1,18 @@
+{
+  "analysis_source": "14e132f797fb24b0342f9edfa43ce9848fdb42ff",
+  "analysis_tree": "11326e89bb6b6055029b47d5f78f881c6d8baf71",
+  "sha256": {
+    "evidence/case41-captured-residual-attribution-v1/RESULTS.md": "e329fd70a3c859e09db555e2a4b2bc150d682b366f1fd13a2c76099bdf6fab6c",
+    "evidence/case41-captured-residual-attribution-v1/analysis-120-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/case41-captured-residual-attribution-v1/analysis-120-normal.json": "58b4ee5811f7d1f6704ecea7f119d01f035ae6cfb5a53117d95a29d0d7576199",
+    "evidence/case41-captured-residual-attribution-v1/analysis-120-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/case41-captured-residual-attribution-v1/analysis-120-optimized.json": "58b4ee5811f7d1f6704ecea7f119d01f035ae6cfb5a53117d95a29d0d7576199",
+    "evidence/case41-captured-residual-attribution-v1/analysis-80-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/case41-captured-residual-attribution-v1/analysis-80-normal.json": "87100f51202e2c514004e6ab382bea77931f836f9edb0b64ca8fc5ebd0b40709",
+    "evidence/case41-captured-residual-attribution-v1/analysis-80-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/case41-captured-residual-attribution-v1/analysis-80-optimized.json": "87100f51202e2c514004e6ab382bea77931f836f9edb0b64ca8fc5ebd0b40709",
+    "evidence/case41-captured-residual-attribution-v1/analyze.py": "056bf5849af0963398edb0669bb953bed5beb5755d27a1972c6725ea3ab5814a",
+    "evidence/case41-captured-residual-attribution-v1/protocol.json": "0cb83f5de909a0b43e1ff76a293cbb2ad8e86df2e28c129286008aa997997332",
+    "evidence/case41-captured-residual-attribution-v1/verify.py": "2c773292f4e7e57ba457d4597fb64773cad1b7c2b0ed5cf5d2270fc5aef6b6d0"
+  }
+}
