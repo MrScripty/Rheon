@@ -6,7 +6,6 @@ this module never removes unrelated files or silently resumes a failed example.
 """
 import hashlib
 import json
-import os
 from pathlib import Path
 import subprocess
 
@@ -36,7 +35,9 @@ def fixture(example):
     sources = fingerprint()
     parent = ROOT / '.generated/verifier-fixtures'
     directory = parent / (example + '-' + sources[:16])
-    marker = directory / '.fixture.json'
+    # Keep cache metadata outside the native output root: verifiers deliberately
+    # reject extra files/cases there, and that inventory contract stays intact.
+    marker = parent / (directory.name + '.json')
     if directory.exists():
         if not marker.exists():
             raise ValueError('partial fixture retained; move it aside before explicit regeneration: ' + str(directory))
