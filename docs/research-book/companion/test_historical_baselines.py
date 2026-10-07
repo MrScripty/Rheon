@@ -2,7 +2,6 @@
 import io
 import json
 from pathlib import Path
-import subprocess
 import tempfile
 import unittest
 from unittest import mock
@@ -10,11 +9,14 @@ import historical_baselines as archive
 
 
 class BaselineRetrieval(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.history = archive.historical_baselines()
+
     def setUp(self):
         self.config = json.loads((archive.HERE/'baseline-sources.json').read_text())
-        self.payloads = {name: subprocess.check_output(
-            ['git', 'show', self.config['commit']+':'+self.config['path']+'/'+name],
-            cwd=archive.ROOT) for name in self.config['files']}
+        self.payloads = {name: (self.history/name).read_bytes()
+                         for name in self.config['files']}
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)

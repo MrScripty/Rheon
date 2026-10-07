@@ -122,18 +122,21 @@ def data():
 
 def figures(d):
     out=ROOT/'figures'; out.mkdir(exist_ok=True)
+    def save(fig, name):
+        fig.savefig(out/(name+'.png'),dpi=180)
+        fig.savefig(out/(name+'.jpg'),dpi=180,pil_kwargs={'quality':85})
     plt.rcParams.update({'font.size':10,'axes.spines.top':False,'axes.spines.right':False,'savefig.facecolor':'white'})
-    fig,axes=plt.subplots(1,2,figsize=(9,3.5)); p=d['projection']; axes[0].bar(['before','after'],[p['energy_before'],p['energy_after']],color=['#a04c30','#067d91']); axes[0].set_ylabel('Discrete kinetic energy'); axes[1].plot(p['divergence_before'],label='before'); axes[1].plot(p['divergence_after'],label='after'); axes[1].set_ylabel('Incidence per cell'); axes[1].set_xlabel('Cell index'); axes[1].legend(); fig.tight_layout(); fig.savefig(out/'projection.png',dpi=180); plt.close(fig)
+    fig,axes=plt.subplots(1,2,figsize=(9,3.5)); p=d['projection']; axes[0].bar(['before','after'],[p['energy_before'],p['energy_after']],color=['#a04c30','#067d91']); axes[0].set_ylabel('Discrete kinetic energy'); axes[1].plot(p['divergence_before'],label='before'); axes[1].plot(p['divergence_after'],label='after'); axes[1].set_ylabel('Incidence per cell'); axes[1].set_xlabel('Cell index'); axes[1].legend(); fig.tight_layout(); save(fig,'projection'); plt.close(fig)
     fig,axes=plt.subplots(1,2,figsize=(9,3.5)); h=d['hydrostatic']['sets'][0]; axes[0].plot(h['pressure'],h['y']); axes[0].axhline(.5,color='#a04c30',ls=':'); axes[0].set(xlabel='Gauge pressure / Pa',ylabel='Height / m');
     for s in d['viscous']['sets']: axes[1].plot([q['time'] for q in s['states']],[q['energy'] for q in s['states']],label=f"nu={s['nu']}")
-    axes[1].set(xlabel='Time / s',ylabel='Kinetic energy'); axes[1].legend(); fig.tight_layout(); fig.savefig(out/'density-viscosity.png',dpi=180); plt.close(fig)
+    axes[1].set(xlabel='Time / s',ylabel='Kinetic energy'); axes[1].legend(); fig.tight_layout(); save(fig,'density-viscosity'); plt.close(fig)
     fig,axes=plt.subplots(1,2,figsize=(9,3.5));
     for s in d['slip']['sets']: axes[0].plot(s['velocity'],d['slip']['y'],label=f"slip={s['length']} m")
     axes[0].set(xlabel='Speed / m s^-1',ylabel='Height / m'); axes[0].legend()
     for q in d['cap']['sets'][::12]:
       profile=np.array(q['profile']); axes[1].plot(profile[:,0]*1000,profile[:,1]*1000,label=f"{q['theta']} degrees"); axes[1].plot(-profile[:,0]*1000,profile[:,1]*1000,color=axes[1].lines[-1].get_color())
-    axes[1].set(xlabel='Radius / mm',ylabel='Height / mm'); axes[1].set_aspect('equal'); axes[1].legend(); fig.tight_layout(); fig.savefig(out/'slip-wetting.png',dpi=180); plt.close(fig)
-    fig,ax=plt.subplots(figsize=(7,3)); ax.add_patch(plt.Rectangle((-.3,-.3),.6,.6,fc='#067d91',alpha=.25)); ax.plot([-.8,.8],[.1,.1],color='#a04c30',lw=2); ax.scatter([-.3],[.1],s=65,color='#a04c30'); ax.annotate('Earliest triangle hit: t=0.3125',(-.3,.1),(-.7,.42),arrowprops={'arrowstyle':'->'}); ax.set(xlim=(-.9,.9),ylim=(-.5,.6),xlabel='World x / m',ylabel='World y / m'); ax.set_aspect('equal'); fig.tight_layout(); fig.savefig(out/'mesh-hit.png',dpi=180); plt.close(fig)
+    axes[1].set(xlabel='Radius / mm',ylabel='Height / mm'); axes[1].set_aspect('equal'); axes[1].legend(); fig.tight_layout(); save(fig,'slip-wetting'); plt.close(fig)
+    fig,ax=plt.subplots(figsize=(7,3)); ax.add_patch(plt.Rectangle((-.3,-.3),.6,.6,fc='#067d91',alpha=.25)); ax.plot([-.8,.8],[.1,.1],color='#a04c30',lw=2); ax.scatter([-.3],[.1],s=65,color='#a04c30'); ax.annotate('Earliest triangle hit: t=0.3125',(-.3,.1),(-.7,.42),arrowprops={'arrowstyle':'->'}); ax.set(xlim=(-.9,.9),ylim=(-.5,.6),xlabel='World x / m',ylabel='World y / m'); ax.set_aspect('equal'); fig.tight_layout(); save(fig,'mesh-hit'); plt.close(fig)
 
 if __name__=='__main__':
     d=data(); raw=(json.dumps(d,indent=2,allow_nan=False)+'\n').encode(); (ROOT/'reference-data.json').write_bytes(raw); figures(d)

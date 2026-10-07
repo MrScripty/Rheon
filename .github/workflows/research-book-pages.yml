@@ -28,13 +28,14 @@ jobs:
           sudo apt-get install -y pandoc
           npm ci --prefix docs/education --ignore-scripts --no-audit --no-fund
           python3 -m pip install -r docs/research-book/expansion/requirements.txt
+          python3 -m pip install -r docs/research-book/companion/requirements.txt
           python3 -m pip install -r docs/education/requirements.txt
           python3 -m playwright install --with-deps chromium
       - name: Check local reference mechanisms
         run: |
           python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
           python3 -O -m unittest discover -s docs/research-book/expansion -p test_reference.py
-          python3 docs/research-book/expansion/reference.py
+          python3 docs/education/generate_references.py
           python3 docs/research-book/expansion/contact/sanity_checks.py
           python3 -O docs/research-book/expansion/contact/sanity_checks.py
           python3 -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py

@@ -1,7 +1,7 @@
 # Source and generated output policy
 
 Rheon tracks source, mathematical proofs, authored configuration/locks, licenses,
-compact audit manifests and curated documentation illustrations.
+compact audit manifests and authored cover artwork.
 Simulation frames, CSV fields, qualification logs, replay copies, renders, archives
 and PDFs are build/test artifacts. They do not belong in commits.
 
@@ -37,8 +37,10 @@ Git history is unchanged. This inventory is not a numerical acceptance baseline.
 No saved simulation fields, numerical experiment results or CG histories remain
 tracked. Educational scenarios and independent analytic/dense/rational checks live
 in `expansion/reference.py` and `expansion/test_reference.py`. Run the reference
-generator before building Pages; its lab JSON, numerical receipt and PNGs are
-ignored artifacts, copied into the generated site for deployment.
+generator pipeline `docs/education/generate_references.py` before building Pages;
+lab JSON, numerical receipts and all numerical SVG/JPEG/PNG plots are ignored
+artifacts copied into the generated site for deployment. Original analytic,
+matrix, geometric and rational scenario inputs remain in their generator source.
 
 The companion experiments write ignored `results.json` and `depth-results.json`.
 Their strict historical regression gate retrieves three immutable, hash-locked
@@ -58,9 +60,9 @@ not be committed. Full Pages verification needs Pandoc, locked npm assets and
 Chromium. Lean proof sources/pins and their small qualification manifests remain;
 rerunning kernel qualification requires the pinned mathematical-library cache.
 
-Committed raster illustrations use JPEG quality 85; lossless simulation PNGs remain
+Committed authored covers use JPEG quality 85; lossless simulation PNGs remain
 valid generated test outputs because their pixel contracts are independently tested.
-Curated SVG diagrams stay vector. Original cover PNG hashes are retained with the
+Generated SVG diagrams stay vector. Original cover PNG hashes are retained with the
 JPEG display hashes in `docs/research-book/artwork/sha256.json`.
 
 This cleanup reduces a fresh checkout, not historical Git object storage. There is

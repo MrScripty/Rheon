@@ -7,7 +7,7 @@ status, log, receipt, and hashes, is unchanged.
 ## Historical record and limitation
 
 The `pdf-gate` entry in
-[`https://github.com/MrScripty/Rheon/blob/9cd4587a54befa61bdfddc8e35014bd3c34f02fb/evidence/liquid-composition/supporting-commands.json`](../liquid-composition/supporting-commands.json)
+[historical supporting-commands.json](https://github.com/MrScripty/Rheon/blob/9cd4587a54befa61bdfddc8e35014bd3c34f02fb/evidence/liquid-composition/supporting-commands.json)
 records:
 
 ```text
@@ -49,7 +49,7 @@ the PDF and does not replace either the PDF or its receipt.
 
 ## Newly observed verification
 
-[`https://github.com/MrScripty/Rheon/blob/9cd4587a54befa61bdfddc8e35014bd3c34f02fb/evidence/liquid-composition-erratum/verification.json`](verification.json) records fresh runs on 2026-10-05 using
+[historical verification.json](https://github.com/MrScripty/Rheon/blob/9cd4587a54befa61bdfddc8e35014bd3c34f02fb/evidence/liquid-composition-erratum/verification.json) records fresh runs on 2026-10-05 using
 Python 3.12.14. Each run executed the exact command above through `/bin/sh -c`
 from the root of a local materialization of its identified Git tree:
 

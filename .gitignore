@@ -57,9 +57,4 @@ rheon-comparisons/
 !/evidence/**/source-inventory.json
 !/evidence/**/config.json
 
-# Curated documentation displays; other evidence JPEG renders are outputs.
 /evidence/**/*.jpg
-!/evidence/column-interface/continuation-and-convergence.jpg
-!/evidence/column-mac/static-transfer-and-projection.jpg
-!/evidence/free-surface/guidance-and-pressure.jpg
-!/evidence/liquid-step/guidance-comparison.jpg

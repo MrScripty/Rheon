@@ -13,7 +13,10 @@ class RepositoryHygiene(unittest.TestCase):
         for name in paths:
             path = Path(name)
             if path.suffix == '.pdf' or (name.startswith('evidence/') and path.suffix in
-                    {'.csv','.jsonl','.log','.png','.gif','.html','.zip','.gz'}):
+                    {'.csv','.jsonl','.log','.png','.jpg','.jpeg','.gif','.html','.zip','.gz'}):
+                forbidden.append(name)
+            if name.startswith(('docs/research-book/figures/',
+                                'docs/research-book/expansion/figures/')):
                 forbidden.append(name)
         self.assertEqual(forbidden, [])
         for name in ['proofs/Rheon/Physics.lean', 'proofs/lake-manifest.json', 'LICENSE',
@@ -39,7 +42,10 @@ class RepositoryHygiene(unittest.TestCase):
                     'docs/research-book/expansion/reference-qualification.json',
                     'docs/research-book/companion/results.json',
                     'docs/research-book/companion/depth-results.json',
-                    'docs/research-book/companion/reproduction/haswell-openblas-0.3.30.json']
+                    'docs/research-book/companion/reproduction/haswell-openblas-0.3.30.json',
+                    'evidence/probe/plot.jpg',
+                    'docs/research-book/figures/pressure-residual.svg',
+                    'docs/research-book/expansion/figures/projection.jpg']
         result = subprocess.run(['git', 'check-ignore', '--stdin'], cwd=ROOT,
                                 input='\n'.join(outputs)+'\n', capture_output=True, text=True)
         self.assertEqual(set(result.stdout.splitlines()), set(outputs))
