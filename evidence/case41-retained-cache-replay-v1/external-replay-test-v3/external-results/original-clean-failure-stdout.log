@@ -1,0 +1,6 @@
+{
+  "error": "FileNotFoundError: [Errno 2] No such file or directory: '/tmp/case41-v3-test-5788w_j4/case41-clean-cache-replay-4tkzgo9o/original/evidence/case41-paired-observation-v1/__pycache__/check_affine.cpython-312.pyc'",
+  "historical_memory_qualified": false,
+  "retry_allowed": false,
+  "status": "INCOMPLETE_TERMINAL_NO_RETRY"
+}

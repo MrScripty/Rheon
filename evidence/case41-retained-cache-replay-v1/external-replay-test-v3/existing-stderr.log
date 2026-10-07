@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/tmp/case41-v3-test-5788w_j4/source/evidence/case41-retained-cache-replay-v1/replay_external.py", line 93, in <module>
+    print(json.dumps(run(args.output),indent=2,sort_keys=True))
+                     ^^^^^^^^^^^^^^^^
+  File "/tmp/case41-v3-test-5788w_j4/source/evidence/case41-retained-cache-replay-v1/replay_external.py", line 28, in run
+    require(not out.exists(),'exclusive external output; do not overwrite')
+  File "/tmp/case41-v3-test-5788w_j4/source/evidence/case41-retained-cache-replay-v1/replay_external.py", line 15, in require
+    raise ValueError(msg)
+ValueError: exclusive external output; do not overwrite

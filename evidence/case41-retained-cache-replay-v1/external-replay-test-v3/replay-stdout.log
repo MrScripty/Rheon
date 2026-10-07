@@ -1,0 +1,123 @@
+{
+  "ELF_scope": "Original verifier reads retained same-host absolute ELF hash only; it never executes it. Cross-host users need that exact ELF for original verifier/preflight.",
+  "bytecode_writes_disabled": true,
+  "checks": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/tmp/case41-v3-test-5788w_j4/case41-clean-cache-replay-4tkzgo9o/original/evidence/case41-exploratory-seven-v1/analyze_capture_v2.py"
+      ],
+      "exit": 0,
+      "name": "capture-normal",
+      "stdout_sha256": "a2daf22927c882dc3881fee54ecda5a43b287a7289edf029429cd2e8d36301d0"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-O",
+        "/tmp/case41-v3-test-5788w_j4/case41-clean-cache-replay-4tkzgo9o/original/evidence/case41-exploratory-seven-v1/analyze_capture_v2.py"
+      ],
+      "exit": 0,
+      "name": "capture-optimized",
+      "stdout_sha256": "a2daf22927c882dc3881fee54ecda5a43b287a7289edf029429cd2e8d36301d0"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-c",
+        "import importlib.util,json; from pathlib import Path; p=Path('evidence/case41-exploratory-seven-v1/preflight.py'); s=importlib.util.spec_from_file_location('original_preflight_readonly',p); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); print(json.dumps(m.run(),indent=2,sort_keys=True))"
+      ],
+      "exit": 0,
+      "name": "preflight-readonly",
+      "stdout_sha256": "cae51aaf4feb6e4c0f05f982a25582406d3237a927ee945f341f0ae2c22ec454"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/tmp/case41-v3-test-5788w_j4/case41-clean-cache-replay-4tkzgo9o/original/evidence/case41-exploratory-seven-v1/verify.py"
+      ],
+      "exit": 0,
+      "name": "verify-normal",
+      "stdout_sha256": "ec37f70f0a66e828347557d9181e47fdf478bbe06006ffdd79c43341a9cb24a1"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-O",
+        "/tmp/case41-v3-test-5788w_j4/case41-clean-cache-replay-4tkzgo9o/original/evidence/case41-exploratory-seven-v1/verify.py"
+      ],
+      "exit": 0,
+      "name": "verify-optimized",
+      "stdout_sha256": "ec37f70f0a66e828347557d9181e47fdf478bbe06006ffdd79c43341a9cb24a1"
+    }
+  ],
+  "clean_worktree": "/tmp/case41-v3-test-5788w_j4/case41-clean-cache-replay-4tkzgo9o/original",
+  "corrections": 0,
+  "exact_archives": [
+    {
+      "archive_path": "evidence/case41-retained-cache-replay-v1/retained/check_affine.cpython-312.pyc",
+      "bytes": 3095,
+      "historical_path": "evidence/case41-paired-observation-v1/__pycache__/check_affine.cpython-312.pyc",
+      "observed_original_path": "/workspace/Rheon/evidence/case41-paired-observation-v1/__pycache__/check_affine.cpython-312.pyc",
+      "observed_original_stat_mtime_ns": 1791332917572723369,
+      "provenance": "Existing local cache retained from original preflight; read and exact hash matched before copying. No bytecode regenerated, recompiled or substituted.",
+      "pyc_header_hex": "cb0d0d0a000000009290c56ae2040000",
+      "sha256": "cf5dfa5c929ac170b410b3e709f18cb4f9bd14d1c4a6febc7915451e1b38f193"
+    },
+    {
+      "archive_path": "evidence/case41-retained-cache-replay-v1/retained/check_scalar.cpython-312.pyc",
+      "bytes": 6245,
+      "historical_path": "evidence/case41-paired-observation-v1/__pycache__/check_scalar.cpython-312.pyc",
+      "observed_original_path": "/workspace/Rheon/evidence/case41-paired-observation-v1/__pycache__/check_scalar.cpython-312.pyc",
+      "observed_original_stat_mtime_ns": 1791332917569633537,
+      "provenance": "Existing local cache retained from original preflight; read and exact hash matched before copying. No bytecode regenerated, recompiled or substituted.",
+      "pyc_header_hex": "cb0d0d0a000000009290c56a680c0000",
+      "sha256": "02a463126368fb22811dcf8e916dec08669b99af6081f0fbcdec2e47bcdd5cb0"
+    }
+  ],
+  "historical_memory_qualified": false,
+  "native_equations": 0,
+  "native_reruns": 0,
+  "negative_hash_controls": [
+    {
+      "exit": 1,
+      "original_sha256": "cf5dfa5c929ac170b410b3e709f18cb4f9bd14d1c4a6febc7915451e1b38f193",
+      "path": "evidence/case41-paired-observation-v1/__pycache__/check_affine.cpython-312.pyc",
+      "rejected": true
+    },
+    {
+      "exit": 1,
+      "original_sha256": "02a463126368fb22811dcf8e916dec08669b99af6081f0fbcdec2e47bcdd5cb0",
+      "path": "evidence/case41-paired-observation-v1/__pycache__/check_scalar.cpython-312.pyc",
+      "rejected": true
+    },
+    {
+      "exit": 1,
+      "original_sha256": "432585a9c61212a1ed52bb71cfa8c1ff8dc44add2c4b3e257afe6620acfd0290",
+      "path": "evidence/case41-paired-observation-v1/check_scalar.py",
+      "rejected": true
+    },
+    {
+      "exit": 1,
+      "original_sha256": "8a7ec54e86e0f6ec4686bc5eeca93856e54a1b8a7972eafc82cc295061371287",
+      "path": "evidence/case41-exploratory-seven-v1/native.log",
+      "rejected": true
+    }
+  ],
+  "omitted_paths": [
+    "evidence/case41-paired-observation-v1/__pycache__/check_affine.cpython-312.pyc",
+    "evidence/case41-paired-observation-v1/__pycache__/check_scalar.cpython-312.pyc"
+  ],
+  "original_manifest_committed_complete": false,
+  "original_packet_modified": false,
+  "original_publication": "7f7f9b62d16ff3c13a0112aac46a29ad4ddeec15",
+  "original_verifier_published_output_identical": true,
+  "owner_advances": 0,
+  "reader_published_output_identical": true,
+  "status": "PASS_CLEAN_ORIGINAL_REPLAY_WITH_EXACT_ARCHIVED_CACHES"
+}

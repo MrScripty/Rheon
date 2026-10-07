@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/tmp/case41-v3-test-5788w_j4/source/evidence/case41-retained-cache-replay-v1/replay_external.py", line 93, in <module>
+    print(json.dumps(run(args.output),indent=2,sort_keys=True))
+                     ^^^^^^^^^^^^^^^^
+  File "/tmp/case41-v3-test-5788w_j4/source/evidence/case41-retained-cache-replay-v1/replay_external.py", line 27, in run
+    require(not out.is_relative_to(ROOT.resolve()), 'output must be outside this repository')
+  File "/tmp/case41-v3-test-5788w_j4/source/evidence/case41-retained-cache-replay-v1/replay_external.py", line 15, in require
+    raise ValueError(msg)
+ValueError: output must be outside this repository

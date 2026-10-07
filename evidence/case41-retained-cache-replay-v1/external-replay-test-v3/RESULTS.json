@@ -1,0 +1,57 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    "/tmp/case41-v3-test-5788w_j4/source/evidence/case41-retained-cache-replay-v1/replay_external.py",
+    "--output",
+    "/tmp/case41-v3-test-5788w_j4/external-results"
+  ],
+  "fresh_source_checkout": "/tmp/case41-v3-test-5788w_j4/source",
+  "historical_memory_qualified": false,
+  "native_equations": 0,
+  "negative_output_controls": [
+    {
+      "exit": 1,
+      "name": "existing",
+      "path": "/tmp/case41-v3-test-5788w_j4/external-results",
+      "rejected": true
+    },
+    {
+      "exit": 1,
+      "name": "tracked-evidence",
+      "path": "/tmp/case41-v3-test-5788w_j4/source/evidence/case41-retained-cache-replay-v1/replay-v2-results",
+      "rejected": true
+    }
+  ],
+  "original_negative_hash_controls": [
+    {
+      "exit": 1,
+      "original_sha256": "cf5dfa5c929ac170b410b3e709f18cb4f9bd14d1c4a6febc7915451e1b38f193",
+      "path": "evidence/case41-paired-observation-v1/__pycache__/check_affine.cpython-312.pyc",
+      "rejected": true
+    },
+    {
+      "exit": 1,
+      "original_sha256": "02a463126368fb22811dcf8e916dec08669b99af6081f0fbcdec2e47bcdd5cb0",
+      "path": "evidence/case41-paired-observation-v1/__pycache__/check_scalar.cpython-312.pyc",
+      "rejected": true
+    },
+    {
+      "exit": 1,
+      "original_sha256": "432585a9c61212a1ed52bb71cfa8c1ff8dc44add2c4b3e257afe6620acfd0290",
+      "path": "evidence/case41-paired-observation-v1/check_scalar.py",
+      "rejected": true
+    },
+    {
+      "exit": 1,
+      "original_sha256": "8a7ec54e86e0f6ec4686bc5eeca93856e54a1b8a7972eafc82cc295061371287",
+      "path": "evidence/case41-exploratory-seven-v1/native.log",
+      "rejected": true
+    }
+  ],
+  "output": "/tmp/case41-v3-test-5788w_j4/external-results",
+  "source": "934e079f7503ac83a129de2c0eb8e348ebba9ff8",
+  "source_tree": "308f2bac25318b35d00c7ddb1ee8224bd72fa881",
+  "status": "PASS_FRESH_CHECKOUT_EXTERNAL_REPLAY_V3",
+  "tracked_results_preserved": true
+}
