@@ -1,0 +1,23 @@
+{
+  "status": "BRANCH_PUSHED__DRAFT_API_FORBIDDEN",
+  "branch": "research/case41-paired-observation-preflight",
+  "verified_remote_head_before_this_supplement": "573cfd7b2008d0bcd53589a5334cfe9c4567023c",
+  "base": "research/case41-memory-reader-repair",
+  "draft_created": false,
+  "prepared_body": "DRAFT-PR.md",
+  "failures": [
+    {
+      "command": "gh pr create --draft --body-file /tmp/rheon-case41-paired-pr.md",
+      "result": "Post https://api.github.com/graphql: Forbidden"
+    },
+    {
+      "command": "gh api --method POST repos/MrScripty/Rheon/pulls --input /tmp/rheon-case41-paired-pr.json",
+      "result": "Post https://api.github.com/repos/MrScripty/Rheon/pulls: Forbidden"
+    }
+  ],
+  "credential_changes": false,
+  "network_or_allowlist_changes": false,
+  "native_equations": 0,
+  "completed_checks_rerun_after_disconnect": false,
+  "executor_status": "usable"
+}
