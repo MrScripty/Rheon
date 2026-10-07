@@ -1,0 +1,14 @@
+{
+  "analysis_source": "fb31d368b1cd35178b299bfd7bd685828b2b8ee5",
+  "analysis_tree": "0c165ff919a88f55828edccb9221ac7b7e34205b",
+  "applied_corrections": 0,
+  "branch": "research/case41-captured-linear-predictions",
+  "historical_memory_qualified": false,
+  "new_native_equations": 0,
+  "owner_advances": 0,
+  "prior_result": "455af0e35c25037d2ff904bb92fd71b5d6b1f5c9",
+  "result_source": "def4ec2238405155c728c98cb1a76929723b9a01",
+  "result_tree": "48e272543f9a93c363e7501eb88ff38b6c66ff1b",
+  "status": "PASS_CAPTURED_LINEAR_PREDICTION_INTEGRITY",
+  "verification_sha256": "b34c5722b1233b96568525f0668552904d17c890b285cab494b87aeb55e4468d"
+}
