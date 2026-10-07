@@ -3,7 +3,7 @@
   "parent": "12bb2391b7f118d5731ef9b4f73e19d408ca0483",
   "parent_tree": "caac00c38b8bc0281294d8c885ef6000f0a34425",
   "production_basis": "998de18438a339d44896d24ecf9634ad469cdcdf",
-  "build_worktree": "/workspace/Rheon-case41-paired-build-v2",
+  "build_worktree": "/workspace/Rheon-case41-paired-build-v3",
   "target": "/workspace/.rheon-tools/case41-paired-v1-target",
   "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
   "cap": 67584,
@@ -24,7 +24,7 @@
   "independent_complete_memory_acceptance_required": true,
   "source_sha256": {
     "evidence/case41-paired-observation-v1/baseline-binding.json": "2ad202bbed8f5948bc7ec5c5a961f02e45ad5feae6aaa3c103b38a5e38573f67",
-    "evidence/case41-paired-observation-v1/build_only.py": "2d4ed2366c488511752dabf0d20a966f916335a42e1682b677e4ef20f5673882",
+    "evidence/case41-paired-observation-v1/build_only.py": "55feee8e0c41b8e0586de9fcb65c150ac4b4d6bfcd4fc4ff0da55bd2eababd5a",
     "evidence/case41-paired-observation-v1/check_affine.py": "7d9f5bce9e20880126bcb2eef3a74a2aef16d906f5883b3af7a1a5fc35d4d014",
     "evidence/case41-paired-observation-v1/check_scalar.py": "432585a9c61212a1ed52bb71cfa8c1ff8dc44add2c4b3e257afe6620acfd0290",
     "evidence/case41-paired-observation-v1/native/FittedHeightWorkspace-overlay.rs": "adaab017b6d63c8c087f12167302611000a188eeae2242fc5382c9500cac9666",

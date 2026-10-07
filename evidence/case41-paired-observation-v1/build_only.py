@@ -66,7 +66,7 @@ def main():
         (scratch / path).write_bytes(original + overlay if path == 'src/lib.rs' else overlay)
     try:
         data = run('build', ['cargo', 'test', '--release', '--no-default-features', '--lib',
-                             '--locked', '--offline', '--no-run', '--message-format=json'])
+                             '--locked', '--no-run', '--message-format=json'])
         rows = [json.loads(x) for x in data.splitlines() if x.startswith(b'{')]
         binaries = [r['executable'] for r in rows if r.get('reason') == 'compiler-artifact'
                     and r.get('executable') and r.get('profile', {}).get('test')
@@ -74,7 +74,7 @@ def main():
         require(len(binaries) == 1, 'exact dedicated test ELF')
         binary = binaries[0]
         run('clippy', ['cargo', 'clippy', '--release', '--no-default-features', '--lib', '--tests',
-                        '--locked', '--offline', '--', '-D', 'warnings'])
+                        '--locked', '--', '-D', 'warnings'])
         raw = subprocess.check_output(['objdump', '-d', '-C', binary])
         (P / 'native-disassembly.txt.gz').write_bytes(gzip.compress(raw, mtime=0))
         (P / 'native-disassembly.txt.sha256').write_text(sha(raw) + '\n')
