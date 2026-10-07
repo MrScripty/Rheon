@@ -1,0 +1,27 @@
+{
+  "applied_corrections_allowed": 0,
+  "binary_sha256": "c483c840f34d60c58eeb01fbaeec7e745edf817e84ab02655e44b7e2900a3a07",
+  "execution_source": "c2c583180f23316c6ac2ac89da434bf313121980",
+  "historical_memory_qualified": false,
+  "id": "case41-captured-linear-predictions-only-v1",
+  "input_sha256": {
+    "evidence/case41-captured-linear-predictions-v1/analyze.py": "82a14f567ee1288b851415f500ccca6e34409bcdc6be68bc7149a166cd5c9097",
+    "evidence/case41-exploratory-seven-v1/publication-binding.json": "9046febc05fe3573e11a14edc9e44bdcf5ed824137bac3842640cef38120ca51",
+    "evidence/case41-exploratory-seven-v1/result-inventory.json": "35409d47457b564b5f3c9d1a1f9328c2cd15bd81ca8e9466f4eb43ae340db135",
+    "evidence/forcing-case41-scale-diagnosis-v1/analyze.py": "421c0dd105a09ef5a435b9b29adffc91543ae3eb20cb6ca9339395840a3dcc34",
+    "evidence/forcing-e1-fixed-candidates-v1/analyze.py": "9e6761dfd0bebb785b41096eb3b8f0918074ddd0f9205c67f6640f406653bb70",
+    "evidence/forcing-public-call-66k/analyze.py": "ef5cec7ba7ff3aa23f4b73ce415d14ca194d852b0470ed0d988bb8ee3f2ae180"
+  },
+  "native_equations_allowed": 0,
+  "numerical_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "owner_advances_allowed": 0,
+  "precisions": [
+    80,
+    120
+  ],
+  "prior_model_source": "95f620f5a47b7c9c9afd6eab4d5e9940049f09cf",
+  "prior_publication": "7f7f9b62d16ff3c13a0112aac46a29ad4ddeec15",
+  "prior_result": "455af0e35c25037d2ff904bb92fd71b5d6b1f5c9",
+  "protocol_preflight_source": "fb710371326d552fe91bafff2995340758d14ed0",
+  "raw_stdout_sha256": "8a7ec54e86e0f6ec4686bc5eeca93856e54a1b8a7972eafc82cc295061371287"
+}
