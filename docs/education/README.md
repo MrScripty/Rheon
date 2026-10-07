@@ -11,6 +11,8 @@ Requires Python 3.12, Pandoc 3.1.11.1, Node 24, and the committed npm lock. Thre
 ```
 cd docs/education
 npm ci --ignore-scripts --no-audit --no-fund
+python3 -m pip install -r ../research-book/expansion/requirements.txt
+python3 ../research-book/expansion/reference.py
 python3 build.py
 python3 verify_browser.py --render-pdf
 python3 build.py

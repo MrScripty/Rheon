@@ -9,10 +9,12 @@ ROOT = Path(__file__).resolve().parent
 COMPANION = ROOT.parents[1] / 'companion'
 sys.path.insert(0, str(COMPANION))
 from verify_results import compare, profile_baselines, CG_PROFILE
+from historical_baselines import historical_baselines
 
-profile = json.loads((COMPANION / 'reproduction' / f'{CG_PROFILE}.json').read_text(encoding='utf-8'))
-qualified = profile_baselines(COMPANION, profile)
-baseline = {name: json.loads((COMPANION / name).read_text(encoding='utf-8'))
+ARCHIVE = historical_baselines()
+profile = json.loads((ARCHIVE / 'reproduction' / f'{CG_PROFILE}.json').read_text(encoding='utf-8'))
+qualified = profile_baselines(ARCHIVE, profile)
+baseline = {name: json.loads((ARCHIVE / name).read_text(encoding='utf-8'))
             for name in ('results.json', 'depth-results.json')}
 reference = json.loads((ROOT / 'runs/Haswell-1/oracle.json').read_text(encoding='utf-8'))
 for kernel in ('SkylakeX', 'Haswell', 'Nehalem'):

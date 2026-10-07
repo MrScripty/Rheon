@@ -16,6 +16,8 @@ import subprocess
 import sys
 
 SOURCE = Path(__file__).resolve().parents[2] / 'companion'
+sys.path.insert(0, str(SOURCE))
+from historical_baselines import historical_baselines
 ORACLE = '''
 import hashlib, json, sys
 sys.path.insert(0, sys.argv[1])
@@ -45,7 +47,7 @@ print(json.dumps(dict(
 def main():
     output = Path(sys.argv[1]).resolve()
     output.mkdir(exist_ok=False)
-    baseline = json.loads((SOURCE / 'results.json').read_text(encoding='utf-8'))
+    baseline = json.loads((historical_baselines() / 'results.json').read_text(encoding='utf-8'))
     summary = []
     for core in ('SkylakeX', 'Haswell', 'Nehalem'):
         for threads in (1, 4):

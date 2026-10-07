@@ -1,0 +1,20 @@
+{
+  "schema": "rheon-historical-baseline-sources-v1",
+  "repository": "MrScripty/Rheon",
+  "commit": "9cd4587a54befa61bdfddc8e35014bd3c34f02fb",
+  "path": "docs/research-book/companion",
+  "files": {
+    "results.json": {
+      "sha256": "a47452e1b5a2f8e431e910e4c8257bf94b2aab3d271d172523283eea69f27677",
+      "bytes": 18070
+    },
+    "depth-results.json": {
+      "sha256": "d4271ad1a4ddb359d05413eb845f70e6a3953065533f40f226614c42cebeea4c",
+      "bytes": 3766
+    },
+    "reproduction/haswell-openblas-0.3.30.json": {
+      "sha256": "7b905e4572696a27fff6291137d72d5fa2b621230c752e2a3033f4b579d37a15",
+      "bytes": 2641
+    }
+  }
+}

@@ -1,13 +1,13 @@
 # Source and generated output policy
 
-Rheon tracks source, mathematical proofs, configuration/locks, licenses, teaching
-reference data, compact audit manifests and curated documentation illustrations.
+Rheon tracks source, mathematical proofs, authored configuration/locks, licenses,
+compact audit manifests and curated documentation illustrations.
 Simulation frames, CSV fields, qualification logs, replay copies, renders, archives
 and PDFs are build/test artifacts. They do not belong in commits.
 
 Use `.generated/` for local test exports, `rheon-demo/` for the CLI default, and
 `rheon-comparisons/` for comparisons. Pass a fresh output directory to Rust examples.
-CI uses its runner temporary directory. Legacy evidence generators retain their
+CI uses disposable runner storage. Legacy evidence generators retain their
 interfaces; output extensions in evidence trees are ignored. Small source-bound
 manifests remain tracked inputs. New authored inputs/configs should live outside
 output trees, rather than requiring `git add -f` for generated data.
@@ -34,8 +34,20 @@ original command in ignored storage. A historical receipt is not a new test resu
 `docs/generated-output-audit.json` records the removal base, original paths, byte
 counts and SHA256 identities, grouped by equal content to avoid copying outputs.
 Git history is unchanged. This inventory is not a numerical acceptance baseline.
-Small companion/reference datasets used by pinned comparators and teaching labs
-remain committed because they are required inputs, rather than redundant exports.
+No saved simulation fields, numerical experiment results or CG histories remain
+tracked. Educational scenarios and independent analytic/dense/rational checks live
+in `expansion/reference.py` and `expansion/test_reference.py`. Run the reference
+generator before building Pages; its lab JSON, numerical receipt and PNGs are
+ignored artifacts, copied into the generated site for deployment.
+
+The companion experiments write ignored `results.json` and `depth-results.json`.
+Their strict historical regression gate retrieves three immutable, hash-locked
+files into `.generated/research-baselines/` using `companion/historical_baselines.py`.
+It prefers existing Git objects; shallow checkouts download only those small files
+from the exact archived public commit. `companion/baseline-sources.json` contains
+only repository/commit/path identities, byte counts and hashes. Expected results
+never come from the current experiment. Source/runtime gates, numerical tolerances
+and adversarial comparisons are unchanged; unavailable/corrupt evidence fails.
 
 Pages builds its reading PDF and source/PDF/browser freshness receipts afresh in
 ignored `docs/education/downloads/` and receipt paths: build HTML, explicitly render

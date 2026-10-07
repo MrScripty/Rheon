@@ -33,6 +33,8 @@ jobs:
       - name: Check local reference mechanisms
         run: |
           python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
+          python3 -O -m unittest discover -s docs/research-book/expansion -p test_reference.py
+          python3 docs/research-book/expansion/reference.py
           python3 docs/research-book/expansion/contact/sanity_checks.py
           python3 -O docs/research-book/expansion/contact/sanity_checks.py
           python3 -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py

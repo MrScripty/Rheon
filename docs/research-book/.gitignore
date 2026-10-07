@@ -8,3 +8,8 @@ expansion/figures/*.png
 expansion/contact/figures/
 expansion/contact/sanity_results.json
 artwork/*.png
+companion/results.json
+companion/depth-results.json
+companion/reproduction/haswell-openblas-0.3.30.json
+expansion/reference-data.json
+expansion/reference-qualification.json

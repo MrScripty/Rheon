@@ -1,6 +1,6 @@
 # Numerical research companion
 
-Run experiments.py and depth_experiments.py with the pinned requirements. Then run make_figures.py. Results are small reference fixtures, not production fluid solvers or performance benchmarks.
+Run experiments.py and depth_experiments.py with the pinned requirements. Then run make_figures.py. Generated results are ignored artifacts, not source inputs or performance benchmarks.
 
 experiments.py covers a gauge-fixed 8-cubed pressure graph, residual identity, periodic scalar transport, scalar implicit diffusion, exact rational flux cancellation and explicit layout arithmetic.
 
@@ -8,11 +8,16 @@ depth_experiments.py covers twelve mechanisms: orthogonal pressure gradients, in
 
 The binary32 comparison rounds binary64 pressure and replays algebra; it does not rerun the solver in binary32. PLIC, APIC, SPH and multigrid fixtures validate only the stated local constructions. Their complete three-dimensional fluid implementations remain future work.
 
-## Committed-evidence check
+## Immutable historical-evidence check
 
-CI preserves both committed JSON files and runs `test_verify_results.py` against
-them before executing the fixtures. It then runs `verify_results.py --baseline-dir PATH`. The latter
-compares the regenerated files against those preserved baselines. Container
+CI retrieves the two historical JSON results and the explicitly qualified CG profile
+into ignored `.generated/research-baselines/` with `historical_baselines.py`, then runs
+`test_verify_results.py` against them before executing the experiments. Exact commit,
+paths, sizes and SHA256 identities are authored in `baseline-sources.json`. Retrieval
+uses local Git objects when present, otherwise three bounded downloads from that
+immutable public commit; missing/corrupt bytes fail without generating a substitute.
+It then runs `verify_results.py --baseline-dir PATH`, comparing genuine regenerated
+ignored results against those immutable historical baselines. Container
 shape, keys, booleans, integers and strings must match exactly. Finite floats
 permit relative error 1e-8 or absolute error 1e-12; this allows small platform
 rounding differences, not changes to a fixture's independently enforced physical
@@ -24,7 +29,7 @@ published evidence; it does not establish correctness of the experiments.
 
 ### Explicit CG reproduction profile
 
-The original JSON files remain historical observations and must not be rewritten
+The original JSON files stay in Git history and ignored comparison storage; they must not be rewritten
 to match a different CPU backend. The strict default comparison is unchanged.
 OpenBLAS CPU dispatch changes reduction rounding inside SciPy CG; on this fixture
 that changes the intermediate residual trajectory enough to fail a pointwise
@@ -40,7 +45,7 @@ single-threaded Haswell dispatch. Hardware must support that kernel. The pinned
 threadpoolctl 3.6.0 dependency verifies the loaded libraries rather than trusting
 the environment variable alone. Different or missing runtime identities fail.
 
-`reproduction/haswell-openblas-0.3.30.json` contains a separately recorded CG
+The archived `reproduction/haswell-openblas-0.3.30.json` contains a separately recorded CG
 history, not a replacement for `results.json`. Before using it, the comparator
 requires exact SHA256 matches for both preserved historical files and both
 experiment sources. Only `projection.histories.cg` selects the qualified replay

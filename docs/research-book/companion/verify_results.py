@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare regenerated numerical evidence with the committed JSON baselines.
+"""Compare regenerated numerical evidence with immutable historical baselines.
 
 Only top-level environment metadata is excluded. Integers, strings, booleans,
 container shape and keys must match exactly. Finite floats permit relative
@@ -15,6 +15,7 @@ import json
 import math
 import sys
 from pathlib import Path
+from historical_baselines import historical_baselines
 
 RELATIVE_TOLERANCE = 1e-8
 ABSOLUTE_TOLERANCE = 1e-12
@@ -96,7 +97,7 @@ def main() -> None:
     args = parser.parse_args()
     baselines = None
     if args.cg_profile:
-        profile = json.loads((COMPANION / "reproduction" / f"{args.cg_profile}.json").read_text(encoding="utf-8"))
+        profile = json.loads((historical_baselines() / "reproduction" / f"{args.cg_profile}.json").read_text(encoding="utf-8"))
         check_profile_runtime(profile["runtime"])
         baselines = profile_baselines(args.baseline_dir, profile)
     for name in RESULT_FILES:
@@ -104,7 +105,7 @@ def main() -> None:
             (args.baseline_dir / name).read_text(encoding="utf-8"))
         actual = json.loads((args.actual_dir / name).read_text(encoding="utf-8"))
         compare(expected, actual)
-        print(f"PASS committed evidence comparison: {name}")
+        print(f"PASS immutable historical evidence comparison: {name}")
 
 
 if __name__ == "__main__":
