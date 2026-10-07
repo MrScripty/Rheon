@@ -1,0 +1,7 @@
+{
+  "forward_fix": "Convert captured velocity components to exact Fraction and check exact-force output types before attribution. All archived bindings unchanged.",
+  "native_equations": 0,
+  "numerical_refusal": false,
+  "source": "0f47d68f0f38f91501b315db844e93b78f0f4897",
+  "stage": "External exact primitive reconstruction identity rejected a reader type-conversion error. Existing exact-force helper requires rational velocity inputs; the first reader passed floats."
+}

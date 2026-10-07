@@ -47,8 +47,7 @@ def run(dps):
     require(bits(f_native)==bits(e['end_force']),'native force assembly bit replay')
     plus_native,minus_native=o.transfers(quad,len(e['pairs']),False)
     require(bits(plus_native)==bits(e['plus']) and bits(minus_native)==bits(e['minus']),'native donor quadrature bit replay')
-    f_exact,visc_exact,pres_exact=o.forces(c,end,[[Q(x) for x in row] for row in end['velocity']],True)
-    require(all(isinstance(x,Q) for field in [f_exact,visc_exact,pres_exact] for row in field for x in row),'exact force primitive inputs and products rational')
+    f_exact,visc_exact,pres_exact=o.forces(c,end,end['velocity'],True)
     plus_exact,minus_exact=o.transfers(quad,len(e['pairs']),True)
     stored,groups=o.exact(c,e);primitive,primitive_groups=o.exact(c,e,force=f_exact,plus=plus_exact,minus=minus_exact)
     zeros=lambda:[[Q(0)]*3 for _ in range(16)]

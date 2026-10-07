@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon/evidence/case41-stored-primitive-attribution-v1/analyze.py", line 105, in <module>
+    if __name__=='__main__':print(json.dumps(run(int(sys.argv[1]) if len(sys.argv)>1 else 80),indent=2,sort_keys=True))
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon/evidence/case41-stored-primitive-attribution-v1/analyze.py", line 67, in run
+    require(sumv([primitive,force_gap,donor_gap])==stored,'exact primitive-to-stored reconstruction')
+  File "/workspace/Rheon/evidence/case41-stored-primitive-attribution-v1/analyze.py", line 8, in require
+    if not ok:raise ValueError(msg)
+              ^^^^^^^^^^^^^^^^^^^^^
+ValueError: exact primitive-to-stored reconstruction
