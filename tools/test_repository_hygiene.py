@@ -45,7 +45,8 @@ class RepositoryHygiene(unittest.TestCase):
                     'docs/research-book/companion/reproduction/haswell-openblas-0.3.30.json',
                     'evidence/probe/plot.jpg',
                     'docs/research-book/figures/pressure-residual.svg',
-                    'docs/research-book/expansion/figures/projection.jpg']
+                    'docs/research-book/expansion/figures/projection.jpg',
+                    'docs/research-book/expansion/contact/_plot_cache/fontlist.json']
         result = subprocess.run(['git', 'check-ignore', '--stdin'], cwd=ROOT,
                                 input='\n'.join(outputs)+'\n', capture_output=True, text=True)
         self.assertEqual(set(result.stdout.splitlines()), set(outputs))

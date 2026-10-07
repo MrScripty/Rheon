@@ -10,7 +10,10 @@ BOOK = Path(__file__).resolve().parents[1] / 'research-book'
 
 def generate():
     # Bound reference linear algebra; this changes no scenario or solver setting.
-    env = os.environ | {'OPENBLAS_NUM_THREADS': '1'}
+    cache = BOOK.parents[1] / '.generated'
+    env = os.environ | {'OPENBLAS_NUM_THREADS': '1',
+                        'MPLCONFIGDIR': str(cache/'matplotlib'),
+                        'XDG_CACHE_HOME': str(cache/'system-cache')}
     for script in ['companion/experiments.py', 'companion/depth_experiments.py',
                    'companion/make_figures.py', 'expansion/reference.py',
                    'expansion/contact/make_figures.py']:

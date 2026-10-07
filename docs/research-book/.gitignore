@@ -9,6 +9,7 @@ expansion/figures/
 expansion/figures/*.png
 expansion/contact/figures/
 expansion/contact/sanity_results.json
+expansion/contact/_plot_cache/
 artwork/*.png
 companion/results.json
 companion/depth-results.json
