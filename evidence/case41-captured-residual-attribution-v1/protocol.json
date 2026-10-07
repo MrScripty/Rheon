@@ -1,0 +1,16 @@
+{
+  "controller_corrections_allowed": 0,
+  "id": "case41-retained-baseline-complement-attribution-v1",
+  "new_native_equations_allowed": 0,
+  "owner_advances_allowed": 0,
+  "prior_result": "455af0e35c25037d2ff904bb92fd71b5d6b1f5c9",
+  "projection_result": "def4ec2238405155c728c98cb1a76929723b9a01",
+  "separate_cache_repair_result": "c7003d35b403a83ae329035ef37eeb3df7ed7a78",
+  "sha256": {
+    "evidence/case41-captured-residual-attribution-v1/analyze.py": "056bf5849af0963398edb0669bb953bed5beb5755d27a1972c6725ea3ab5814a",
+    "evidence/case41-exploratory-seven-v1/result-inventory.json": "35409d47457b564b5f3c9d1a1f9328c2cd15bd81ca8e9466f4eb43ae340db135",
+    "evidence/forcing-case41-scale-diagnosis-v1/analyze.py": "421c0dd105a09ef5a435b9b29adffc91543ae3eb20cb6ca9339395840a3dcc34",
+    "evidence/forcing-e1-fixed-candidates-v1/analyze.py": "9e6761dfd0bebb785b41096eb3b8f0918074ddd0f9205c67f6640f406653bb70",
+    "evidence/forcing-public-call-66k/analyze.py": "ef5cec7ba7ff3aa23f4b73ce415d14ca194d852b0470ed0d988bb8ee3f2ae180"
+  }
+}
