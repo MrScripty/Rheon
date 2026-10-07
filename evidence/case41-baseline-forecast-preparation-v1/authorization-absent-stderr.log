@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon/evidence/case41-baseline-forecast-preparation-v1/run_after_review_v2.py", line 169, in <module>
+    main()
+  File "/workspace/Rheon/evidence/case41-baseline-forecast-preparation-v1/run_after_review_v2.py", line 26, in main
+    require((P / 'execution-authorization.json').is_file(), 'independent review and later execution authorization missing; native launch forbidden')
+  File "/workspace/Rheon/evidence/case41-baseline-forecast-preparation-v1/run_after_review_v2.py", line 18, in require
+    raise ValueError(message)
+ValueError: independent review and later execution authorization missing; native launch forbidden

@@ -1,0 +1,7 @@
+
+running 1 test
+{"event":"paired_layout","candidate":[7808, 30976, 30984, 14552, 176],"reference":[7800, 30976, 30984, 14552, 176],"geometry":[(19, 24), (4, 24), (9, 40), (24, 80), (16, 64), (72, 56), (72, 24), (288, 24), (22, 8), (528, 8), (16, 8), (19, 32), (16, 96), (24, 16)]}
+test research_public_call::case41_paired_layout_preflight ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+

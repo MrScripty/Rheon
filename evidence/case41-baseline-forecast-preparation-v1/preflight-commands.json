@@ -1,0 +1,72 @@
+[
+  {
+    "argv": [
+      "/workspace/.rheon-tools/case41-two-observation-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_scalar_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "numerical_allow_variables_present": false,
+    "numerical_observations": 0,
+    "seconds": 0.0017983809993893374,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "08d393d378ac677d21d7abf34d0f631633881aa3b9cf9516e55d3eab6c24fa25"
+  },
+  {
+    "argv": [
+      "/workspace/.rheon-tools/case41-two-observation-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_type_layout",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "numerical_allow_variables_present": false,
+    "numerical_observations": 0,
+    "seconds": 0.0013556829999288311,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "ebc2c288d44fbac5a0bc1cbabbbd220a3b9625f1715d2ecff46334c8533f9000"
+  },
+  {
+    "argv": [
+      "/workspace/.rheon-tools/case41-two-observation-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::scalar_affine_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "numerical_allow_variables_present": false,
+    "numerical_observations": 0,
+    "seconds": 0.001345638000202598,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "a5bff7ca8dcf515288f10f1792b2a6a34d1796fd3bb890ea2b79f71a91f72bee"
+  },
+  {
+    "argv": [
+      "/workspace/.rheon-tools/case41-two-observation-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::case41_paired_layout_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "numerical_allow_variables_present": false,
+    "numerical_observations": 0,
+    "seconds": 0.0012317660002736375,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "cbbb3995c6af814f7a9a5048d18f9913f16154e9f15364772ef963e74f608fc2"
+  },
+  {
+    "argv": [
+      "/workspace/.rheon-tools/case41-two-observation-v1-target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::case41_forecast_input_layout_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "numerical_allow_variables_present": false,
+    "numerical_observations": 0,
+    "seconds": 0.0012850669991166797,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "1970a90b37d6d32786fe33d8618040d8cd5993973483ec58c2bd08e1e53f4707"
+  }
+]

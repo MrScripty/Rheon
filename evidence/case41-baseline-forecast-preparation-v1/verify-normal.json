@@ -1,0 +1,11 @@
+{
+  "binary_sha256": "0b1b2dcb75b6ee62ed00f5bc78c3ddd0cd9276eca730b15eb09690a983c63f18",
+  "execution_allowed": false,
+  "historical_memory_qualified": false,
+  "native_equations": 0,
+  "native_guard_invocations": 5,
+  "native_source": "f93827af7616207c6c97f083e714ee87b3e37b1d",
+  "old_evidence_and_production_unchanged": true,
+  "preflight_source": "db66be596a8d415611c2d46824bea7908fd813fa",
+  "status": "PASS_FROZEN_TWO_OBSERVATION_PREPARATION"
+}

@@ -1,0 +1,1673 @@
+{
+  "allocator_library_IO_bound": null,
+  "binary_sha256": "0b1b2dcb75b6ee62ed00f5bc78c3ddd0cd9276eca730b15eb09690a983c63f18",
+  "complete_memory_bound": null,
+  "external_or_unresolved_count": 213,
+  "external_or_unresolved_transfers": [
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x11ca87(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x11ca5f(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x11c607(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x11c2e7(%rip)        # 19cdd0 <memset@GLIBC_2.2.5>",
+      "known_crate": false,
+      "resolved_names": [
+        "memset@GLIBC_2.2.5"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%rax",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x11a442(%rip)        # 19ce00 <bcmp@GLIBC_2.2.5>",
+      "known_crate": false,
+      "resolved_names": [
+        "bcmp@GLIBC_2.2.5"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x1193a0(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x1192e2(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x119296(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x11926d(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x119258(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x1191d0(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x1191b9(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "instruction": "call   *0x119175(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *%r14",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *%r14",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x117024(%rip)        # 19cdd0 <memset@GLIBC_2.2.5>",
+      "known_crate": false,
+      "resolved_names": [
+        "memset@GLIBC_2.2.5"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x116cf7(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x116aee(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x11637a(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x116368(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x116356(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x116364(%rip)        # 19cde8 <_DYNAMIC+0x288>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::slice::<impl [T]>::copy_from_slice::len_mismatch_fail"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x1162f6(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x115fb6(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x115f99(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   8a2c0 <core::array::drain::drain_array_with>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   89ff0 <core::array::drain::drain_array_with>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *%r12",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *%r12",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x115198(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x114d5f(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x114d4f(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x114d3d(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x114c93(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x114c79(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x114c67(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x114c55(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::point",
+      "instruction": "call   *0x114ba2(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::linear",
+      "instruction": "call   *0x1140e9(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::linear",
+      "instruction": "call   *0x11371b(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   8a430 <core::array::drain::drain_array_with>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   8a1c0 <core::array::drain::drain_array_with>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   8a590 <core::array::drain::drain_array_with>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x1214bd(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x12149c(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x121489(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x121476(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x121463(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x1212c2(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x1212af(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x12129a(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x121279(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x1211ee(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x1211db(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x1211c8(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x1211b5(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x1211a2(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x12118f(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x12117c(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x121169(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x121156(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x1210a5(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x12108d(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120eab(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120d43(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120c27(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120c11(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120bfb(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120be5(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120bd2(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120bc2(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120bb2(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120b5e(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120b4b(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120b3b(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120b26(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120b16(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120b01(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120aef(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120ae2(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120ad0(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::inspect",
+      "instruction": "call   *0x120ad6(%rip)        # 19cde8 <_DYNAMIC+0x288>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::slice::<impl [T]>::copy_from_slice::len_mismatch_fail"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::split_position",
+      "instruction": "call   *0x12bdad(%rip)        # 19cdd8 <_DYNAMIC+0x278>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::option::unwrap_failed"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::split_position",
+      "instruction": "call   *0x12bd8a(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::split_position",
+      "instruction": "call   *0x12bd77(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::split_position",
+      "instruction": "call   *0x12bd64(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::split_position",
+      "instruction": "call   *0x12bd51(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::split_position",
+      "instruction": "call   *0x12bd3e(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::embedded",
+      "instruction": "call   *0x12093a(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::solve",
+      "instruction": "call   *0x110ad6(%rip)        # 19cdd0 <memset@GLIBC_2.2.5>",
+      "known_crate": false,
+      "resolved_names": [
+        "memset@GLIBC_2.2.5"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::solve",
+      "instruction": "call   *0x10f18a(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::solve",
+      "instruction": "call   *0x10f178(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::solve",
+      "instruction": "call   *0x10f163(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::solve",
+      "instruction": "call   *0x10f10f(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::solve",
+      "instruction": "call   *0x10f0f8(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::solve",
+      "instruction": "call   *0x10f0e0(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::solve",
+      "instruction": "call   *0x10f0c8(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::solve",
+      "instruction": "call   *0x10f0b3(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::factor",
+      "instruction": "call   *0x10e2eb(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::factor",
+      "instruction": "call   *0x10e2d3(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::factor",
+      "instruction": "call   *0x10e2c1(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::ChartWorkspace::factor",
+      "instruction": "call   *0x10e2aa(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::scalar::Scalar::mul",
+      "instruction": "call   *0x10d878(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::reassemble",
+      "instruction": "call   *0x12f858(%rip)        # 19cdd0 <memset@GLIBC_2.2.5>",
+      "known_crate": false,
+      "resolved_names": [
+        "memset@GLIBC_2.2.5"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::reassemble",
+      "instruction": "call   *0x12f833(%rip)        # 19cdd0 <memset@GLIBC_2.2.5>",
+      "known_crate": false,
+      "resolved_names": [
+        "memset@GLIBC_2.2.5"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::reassemble",
+      "instruction": "call   *0x12f4f8(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::reassemble",
+      "instruction": "call   *0x12f4e5(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e5d0 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e5d0 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e5d0 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e5d0 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e5d0 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e640 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e640 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e640 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x128151(%rip)        # 19cdd8 <_DYNAMIC+0x278>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::option::unwrap_failed"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1280fb(%rip)        # 19cdd8 <_DYNAMIC+0x278>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::option::unwrap_failed"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e5d0 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127975(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   902f0 <core::slice::sort::shared::smallsort::insertion_sort_shift_left>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127570(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127563(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   9e9a0 <alloc::raw_vec::RawVecInner<A>::reserve::do_reserve_and_handle>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127530(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127523(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127513(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127503(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1274f6(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1274e6(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1274e9(%rip)        # 19cdd8 <_DYNAMIC+0x278>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::option::unwrap_failed"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1274dc(%rip)        # 19cdd8 <_DYNAMIC+0x278>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::option::unwrap_failed"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1274cf(%rip)        # 19cdd8 <_DYNAMIC+0x278>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::option::unwrap_failed"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1274b2(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1274a5(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127498(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127488(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127478(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127468(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127458(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127448(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127438(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127425(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127415(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x127405(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1273f5(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   90c30 <core::slice::sort::unstable::ipnsort>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build",
+      "instruction": "call   *0x1273d3(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_faces",
+      "instruction": "call   9e5d0 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_faces",
+      "instruction": "call   9e560 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_faces",
+      "instruction": "call   *0x12ec00(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_faces",
+      "instruction": "call   *0x12ebf0(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_faces",
+      "instruction": "call   *0x12ebe3(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_faces",
+      "instruction": "call   *0x12ebd3(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_faces",
+      "instruction": "call   *0x12ebc3(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_faces",
+      "instruction": "call   *0x12ebb6(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   9e6b0 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12d13a(%rip)        # 19cdd8 <_DYNAMIC+0x278>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::option::unwrap_failed"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   9e5d0 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cfa3(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cf93(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cf83(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cf76(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cf66(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cf59(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cf4c(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cf3f(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cf2f(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::build_pressure",
+      "instruction": "call   *0x12cf22(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::fill_divergence_matrix",
+      "instruction": "call   *0x12bc5f(%rip)        # 19cdd0 <memset@GLIBC_2.2.5>",
+      "known_crate": false,
+      "resolved_names": [
+        "memset@GLIBC_2.2.5"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::fill_divergence_matrix",
+      "instruction": "call   *0x12b7aa(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::fill_divergence_matrix",
+      "instruction": "call   *0x12b795(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::fill_divergence_matrix",
+      "instruction": "call   *0x12b782(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::fill_divergence_matrix",
+      "instruction": "call   *0x12b76f(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::fill_divergence_matrix",
+      "instruction": "call   *0x12b75c(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::push_triangle",
+      "instruction": "call   *0x12e2dc(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::push_triangle",
+      "instruction": "call   *0x12e2c9(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::push_triangle",
+      "instruction": "call   *0x12e2b6(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::push_triangle",
+      "instruction": "call   9e720 <alloc::raw_vec::RawVec<T,A>::grow_one>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::fitted_height::FittedHeightWorkspace::push_triangle",
+      "instruction": "call   *0x12dac6(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *0x114b27(%rip)        # 19cdd0 <memset@GLIBC_2.2.5>",
+      "known_crate": false,
+      "resolved_names": [
+        "memset@GLIBC_2.2.5"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *%r12",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *%r12",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *%rbx",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *%rbx",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *%rbx",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *0x1148ee(%rip)        # 19ce00 <bcmp@GLIBC_2.2.5>",
+      "known_crate": false,
+      "resolved_names": [
+        "bcmp@GLIBC_2.2.5"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *%r15",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *0x11449d(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *0x11441f(%rip)        # 19cde0 <memcpy@GLIBC_2.14>",
+      "known_crate": false,
+      "resolved_names": [
+        "memcpy@GLIBC_2.14"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *0x114340(%rip)        # 19ce20 <_DYNAMIC+0x2c0>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::slice::index::slice_index_fail"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   90250 <core::slice::sort::shared::smallsort::insertion_sort_shift_left>",
+      "known_crate": false,
+      "resolved_names": []
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *0x114264(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *0x11424f(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   *0x11423a(%rip)        # 19cdc8 <_DYNAMIC+0x268>",
+      "known_crate": false,
+      "resolved_names": [
+        "core::panicking::panic_bounds_check"
+      ]
+    },
+    {
+      "caller": "rheon::research_public_call::candidate::Work::partition",
+      "instruction": "call   9e3f0 <core::slice::sort::stable::driftsort_main>",
+      "known_crate": false,
+      "resolved_names": []
+    }
+  ],
+  "fixed_frames": {
+    "candidate::Work::case41_paired_equation": {
+      "address": 522912,
+      "below_rsp_bytes": 0,
+      "fixed_decrement_bytes": 121064,
+      "fixed_probe_loop_bytes": 114688,
+      "frame_bound": 121120,
+      "name": "rheon::research_public_call::candidate::Work::case41_paired_equation",
+      "push_bytes": 48,
+      "return_address_bytes": 8
+    },
+    "candidate::Work::equation": {
+      "folded_numerical_body_in": "candidate::Work::case41_paired_equation",
+      "shrink_credit": false,
+      "standalone_symbol": false
+    },
+    "candidate::Work::forecast_serialize": {
+      "address": 521888,
+      "below_rsp_bytes": 0,
+      "fixed_decrement_bytes": 632,
+      "fixed_probe_loop_bytes": 0,
+      "frame_bound": 656,
+      "name": "rheon::research_public_call::candidate::Work::forecast_serialize",
+      "push_bytes": 16,
+      "return_address_bytes": 8
+    },
+    "candidate::Work::point": {
+      "address": 539744,
+      "below_rsp_bytes": 0,
+      "fixed_decrement_bytes": 27880,
+      "fixed_probe_loop_bytes": 0,
+      "frame_bound": 27936,
+      "name": "rheon::research_public_call::candidate::Work::point",
+      "push_bytes": 48,
+      "return_address_bytes": 8
+    },
+    "candidate::case41_forecast_capture": {
+      "address": 514592,
+      "below_rsp_bytes": 0,
+      "fixed_decrement_bytes": 40296,
+      "fixed_probe_loop_bytes": 32768,
+      "frame_bound": 40352,
+      "name": "rheon::research_public_call::candidate::case41_forecast_capture",
+      "push_bytes": 48,
+      "return_address_bytes": 8
+    },
+    "case41_baseline_and_frozen_forecast": {
+      "address": 633824,
+      "below_rsp_bytes": 0,
+      "fixed_decrement_bytes": 62168,
+      "fixed_probe_loop_bytes": 57344,
+      "frame_bound": 62192,
+      "name": "rheon::research_public_call::case41_baseline_and_frozen_forecast",
+      "push_bytes": 16,
+      "return_address_bytes": 8
+    }
+  },
+  "historical_memory_qualified": false,
+  "known_reached_crate_functions": 29,
+  "known_serializer_outside_boundary": true,
+  "known_stdout_outside_boundary": true,
+  "native_equations": 0,
+  "scope": "Only fixed frames and resolved crate/GOT transfers. Register-indirect callbacks, libraries, recursive/sort routes and allocation internal costs remain unqualified; operational child limits are a separate protocol.",
+  "status": "INCOMPLETE_STATIC_RESOURCE_OBSERVATIONS",
+  "unknown_costs_zeroed": false
+}

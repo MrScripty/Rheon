@@ -1,0 +1,43 @@
+
+running 1 test
+{"event":"preflight_layout","scalar_bytes":32,"workspace_bytes":62096,"borrow_descriptor_bytes":8,"kernel_stack_ceiling":2048,"additional_bytes_with_ceiling":64152,"baseline_forced_nominal_bytes":474768,"baseline_step_stack_bytes":392416,"baseline_third_stack_bytes":20672,"baseline_force_stack_bytes":3776,"conformance_groups":23,"policy_id":"E2-working-affine-native-public-known-stored-inertia-v1","e1_not_executed":true}
+{"event":"scalar_probe","case":0,"op":"add","a":["40564819207303340847894502572032",0,false],"b":["40564819207303340847894502572032",-106,false],"out":["40564819207303340847894502572032",0,false],"refused":false}
+{"event":"scalar_probe","case":0,"op":"mul","a":["40564819207303340847894502572032",0,false],"b":["40564819207303340847894502572032",-106,false],"out":["40564819207303340847894502572032",-106,false],"refused":false}
+{"event":"scalar_probe","case":0,"op":"div","a":["40564819207303340847894502572032",0,false],"b":["40564819207303340847894502572032",-106,false],"out":["40564819207303340847894502572032",106,false],"refused":false}
+{"event":"scalar_probe","case":1,"op":"add","a":["40564819207303340847894502572032",0,false],"b":["40564819207303340847894502572032",-105,false],"out":["40564819207303340847894502572033",0,false],"refused":false}
+{"event":"scalar_probe","case":1,"op":"mul","a":["40564819207303340847894502572032",0,false],"b":["40564819207303340847894502572032",-105,false],"out":["40564819207303340847894502572032",-105,false],"refused":false}
+{"event":"scalar_probe","case":1,"op":"div","a":["40564819207303340847894502572032",0,false],"b":["40564819207303340847894502572032",-105,false],"out":["40564819207303340847894502572032",105,false],"refused":false}
+{"event":"scalar_probe","case":2,"op":"add","a":["60847228810955011271841753858048",0,false],"b":["70988433612780846483815379501056",1,false],"out":["50706024009129176059868128215040",2,false],"refused":false}
+{"event":"scalar_probe","case":2,"op":"mul","a":["60847228810955011271841753858048",0,false],"b":["70988433612780846483815379501056",1,false],"out":["53241325209585634862861534625792",2,false],"refused":false}
+{"event":"scalar_probe","case":2,"op":"div","a":["60847228810955011271841753858048",0,false],"b":["70988433612780846483815379501056",1,false],"out":["69539690069662870024962004409198",-2,false],"refused":false}
+{"event":"scalar_probe","case":3,"op":"add","a":["40564819207303340847894502572032",-1022,false],"b":["40564819207303349855093757313024",-1022,false],"out":["40564819207303345351494129942528",-1021,false],"refused":false}
+{"event":"scalar_probe","case":3,"op":"mul","a":["40564819207303340847894502572032",-1022,false],"b":["40564819207303349855093757313024",-1022,false],"refused":true}
+{"event":"scalar_probe","case":3,"op":"div","a":["40564819207303340847894502572032",-1022,false],"b":["40564819207303349855093757313024",-1022,false],"out":["81129638414606663681390495662084",-1,false],"refused":false}
+{"event":"scalar_probe","case":4,"op":"add","a":["81129638414606672688589750403072",1023,false],"b":["40564819207303340847894502572032",1,false],"out":["81129638414606672688589750403072",1023,false],"refused":false}
+{"event":"scalar_probe","case":4,"op":"mul","a":["81129638414606672688589750403072",1023,false],"b":["40564819207303340847894502572032",1,false],"refused":true}
+{"event":"scalar_probe","case":4,"op":"div","a":["81129638414606672688589750403072",1023,false],"b":["40564819207303340847894502572032",1,false],"out":["81129638414606672688589750403072",1022,false],"refused":false}
+{"event":"scalar_probe","case":5,"op":"add","a":["40564819207303340847894502572032",-1022,false],"b":["40564819207303340847894502572032",-1,false],"out":["40564819207303340847894502572032",-1,false],"refused":false}
+{"event":"scalar_probe","case":5,"op":"mul","a":["40564819207303340847894502572032",-1022,false],"b":["40564819207303340847894502572032",-1,false],"refused":true}
+{"event":"scalar_probe","case":5,"op":"div","a":["40564819207303340847894502572032",-1022,false],"b":["40564819207303340847894502572032",-1,false],"out":["40564819207303340847894502572032",-1021,false],"refused":false}
+{"event":"scalar_probe","case":6,"op":"add","a":["40564819207303340847894502572032",0,false],"b":["40564819207303340847894502572032",0,true],"out":["0",0,false],"refused":false}
+{"event":"scalar_probe","case":6,"op":"mul","a":["40564819207303340847894502572032",0,false],"b":["40564819207303340847894502572032",0,true],"out":["40564819207303340847894502572032",0,true],"refused":false}
+{"event":"scalar_probe","case":6,"op":"div","a":["40564819207303340847894502572032",0,false],"b":["40564819207303340847894502572032",0,true],"out":["40564819207303340847894502572032",0,true],"refused":false}
+{"event":"scalar_probe","case":7,"op":"add","a":["0",0,false],"b":["0",0,true],"out":["0",0,false],"refused":false}
+{"event":"scalar_probe","case":7,"op":"mul","a":["0",0,false],"b":["0",0,true],"out":["0",0,true],"refused":false}
+{"event":"scalar_probe","case":7,"op":"div","a":["0",0,false],"b":["0",0,true],"refused":true}
+{"event":"scalar_probe","case":8,"op":"add","a":["0",0,true],"b":["0",0,true],"out":["0",0,true],"refused":false}
+{"event":"scalar_probe","case":8,"op":"mul","a":["0",0,true],"b":["0",0,true],"out":["0",0,false],"refused":false}
+{"event":"scalar_probe","case":8,"op":"div","a":["0",0,true],"b":["0",0,true],"refused":true}
+{"event":"scalar_probe","case":9,"op":"add","a":["40564819207303340847894502572032",2,false],"b":["60847228810955011271841753858048",1,false],"out":["70988433612780846483815379501056",2,false],"refused":false}
+{"event":"scalar_probe","case":9,"op":"mul","a":["40564819207303340847894502572032",2,false],"b":["60847228810955011271841753858048",1,false],"out":["60847228810955011271841753858048",3,false],"refused":false}
+{"event":"scalar_probe","case":9,"op":"div","a":["40564819207303340847894502572032",2,false],"b":["60847228810955011271841753858048",1,false],"out":["54086425609737787797192670096043",0,false],"refused":false}
+{"event":"scalar_probe","case":10,"op":"add","a":["40564819207303340847894502572032",-600,false],"b":["40564819207303340847894502572032",-600,false],"out":["40564819207303340847894502572032",-599,false],"refused":false}
+{"event":"scalar_probe","case":10,"op":"mul","a":["40564819207303340847894502572032",-600,false],"b":["40564819207303340847894502572032",-600,false],"refused":true}
+{"event":"scalar_probe","case":10,"op":"div","a":["40564819207303340847894502572032",-600,false],"b":["40564819207303340847894502572032",-600,false],"out":["40564819207303340847894502572032",0,false],"refused":false}
+{"event":"scalar_probe","case":11,"op":"add","a":["40564819207303340847894502572032",800,false],"b":["40564819207303340847894502572032",-800,false],"out":["40564819207303340847894502572032",800,false],"refused":false}
+{"event":"scalar_probe","case":11,"op":"mul","a":["40564819207303340847894502572032",800,false],"b":["40564819207303340847894502572032",-800,false],"out":["40564819207303340847894502572032",0,false],"refused":false}
+{"event":"scalar_probe","case":11,"op":"div","a":["40564819207303340847894502572032",800,false],"b":["40564819207303340847894502572032",-800,false],"refused":true}
+test research_public_call::research_public_scalar_preflight ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
