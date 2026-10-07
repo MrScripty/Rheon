@@ -1,0 +1,15 @@
+{
+  "binary_sha256": "c483c840f34d60c58eeb01fbaeec7e745edf817e84ab02655e44b7e2900a3a07",
+  "compiled_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "corrections": 0,
+  "exact_equations": 7,
+  "execution_source": "c2c583180f23316c6ac2ac89da434bf313121980",
+  "historical_memory_qualified": false,
+  "measured_peak_rss_bytes": 10878976,
+  "native_reruns": 0,
+  "old_evidence_unchanged": true,
+  "owners": 0,
+  "production_unchanged": true,
+  "protocol_source": "fb710371326d552fe91bafff2995340758d14ed0",
+  "status": "PASS_FROZEN_EXPLORATORY_RESULT_INTEGRITY"
+}

@@ -1,0 +1,6 @@
+{
+  "error": "ValueError: raw journal hashes",
+  "historical_memory_qualified": false,
+  "retry_allowed": false,
+  "status": "INCOMPLETE_TERMINAL_NO_RETRY"
+}
