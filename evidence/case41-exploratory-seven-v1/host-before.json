@@ -1,0 +1,13 @@
+{
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "memory": {
+    "MemTotal": 18882699264,
+    "MemAvailable": 18054705152,
+    "SwapTotal": 0
+  },
+  "cgroup_memory_max": "17179869184",
+  "cgroup_memory_current": 2943275008,
+  "ELF_size_bytes": 3596680,
+  "archived_four_equation_plus_observation_seconds": 0.22020828200038522,
+  "sampling_interval_seconds": 0.02
+}
