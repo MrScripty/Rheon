@@ -93,11 +93,15 @@ def run(dps):
     primitive_terms={k:v for k,v in primitive_groups.items() if k not in ['direct_inertia','captured_combined_force']}
     primitive_terms.update(strain_force=nodal(visc_exact),pressure_force=nodal(pres_exact))
     require(sumv(primitive_terms.values())==primitive,'consistent primitive residual terms exact')
+    pressure_operator_gap=sub(nodal(pres_exact),a.mv(B,list(map(Q,e['unknown'][6:]))))
+    require(complement(pressure_operator_gap)==complement(nodal(pres_exact)),'primitive pressure complement is frozen operator reconciliation')
     binding_records=[dict(source='current_baseline',line=baseline[0],raw_line_sha256=hashlib.sha256(baseline[1].encode()).hexdigest())]+[dict(source='archived_E2',line=i,event=row['event'],label=row.get('label'),raw_line_sha256=hashlib.sha256(line.encode()).hexdigest()) for i,line,row in selected]
     return dict(status='PASS_ARCHIVED_STORED_PRIMITIVE_ATTRIBUTION',precision_digits=dps,bindings=bound,binding_records=binding_records,
         native_baseline=summary(list(map(Q,e['rate']))),exact_stored_baseline=summary(stored),actual_stored_primitive_decomposition={k:summary(v) for k,v in actual_decomp.items()},
         force_assembly_subterms={k:summary(v) for k,v in force_gaps.items()},donor_rounding_subterms={k:summary(v) for k,v in donor_gaps.items()},
         consistent_primitive_residual_terms={k:summary(v) for k,v in primitive_terms.items()},exact_stored_complement_cross_terms=cross,
+        primitive_pressure_vs_frozen_BPi=summary(pressure_operator_gap),
+        primitive_pressure_reconciliation_scope='Exact pressure force built from retained primitive geometry/pressure terms versus captured rounded B times the same Pi. Its complementary part equals primitive pressure complement; neither operator is changed or certified as a real-map oracle.',
         endpoint_counterfactual=dict(known_eta_H_vs_public_inertia=summary(endpoint_known),dependent_H_to_stored_conversion_inertia=summary(endpoint_dependent),primitive_with_latent_inertia_only=summary(latent_primitive),
             scope='Observed H/stored endpoint differences; replacing only inertia is counterfactual. Stored donor velocities/geometry/forces/flux samples remain fixed; no consistent nonlinear state or acceptance.'),
         primitive_exact_above_Newton_gate=a.dot(primitive,primitive)>Q(1e-13)**2,
