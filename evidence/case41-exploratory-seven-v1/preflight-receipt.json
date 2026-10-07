@@ -1,0 +1,78 @@
+{
+  "affine_probes": 6,
+  "binary_sha256": "c483c840f34d60c58eeb01fbaeec7e745edf817e84ab02655e44b7e2900a3a07",
+  "compiled_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "corrections": 0,
+  "exact_scalar_probes": 36,
+  "historical_complete_bound": null,
+  "historical_known_subtotal": 66368,
+  "historical_memory_qualified": false,
+  "limits": {
+    "address_space_bytes": 268435456,
+    "cpu_seconds": 60,
+    "stack_bytes": 8388608,
+    "stderr_bytes": 1048576,
+    "stdout_bytes": 8388608,
+    "wall_seconds": 120
+  },
+  "native_equations_executed": 0,
+  "native_tests_executed": 0,
+  "numerical_method_changed": false,
+  "original_scalar_groups": 23,
+  "owners": 0,
+  "protocol_sha256": "b56fec975fa616a4dad686c2ae4d043547b211ceed801163dd074a843a266670",
+  "resource_prerequisite_changed": true,
+  "roster": [
+    {
+      "actual_offset_exact": "1989331083/72057594037927936",
+      "alpha_bits": "3f9207b44e55d544",
+      "column": 0,
+      "delta_bits": "3e5da4b222c108c6",
+      "nominal_denominator": 2.7607514649588e-08,
+      "perturbed_bits": "3f9207b628a0f770"
+    },
+    {
+      "actual_offset_exact": "5714386409/288230376151711744",
+      "alpha_bits": "bf841f87405d596b",
+      "column": 1,
+      "delta_bits": "3e5549a9de913935",
+      "nominal_denominator": 1.9825760509255506e-08,
+      "perturbed_bits": "bf841f8497281d99"
+    },
+    {
+      "actual_offset_exact": "1090676325/36028797018963968",
+      "alpha_bits": "3f94c2465377870f",
+      "column": 2,
+      "delta_bits": "3e604099993c9305",
+      "nominal_denominator": 3.027234920922809e-08,
+      "perturbed_bits": "3f94c2485b8aba37"
+    },
+    {
+      "actual_offset_exact": "9701913403/72057594037927936",
+      "alpha_bits": "3fbfe87a950fe1a6",
+      "column": 3,
+      "delta_bits": "3e82123b99d7472b",
+      "nominal_denominator": 1.346410955353726e-07,
+      "perturbed_bits": "3fbfe87cd75754e1"
+    },
+    {
+      "actual_offset_exact": "4747336083/36028797018963968",
+      "alpha_bits": "3fbf2bfe78c30795",
+      "column": 4,
+      "delta_bits": "3e81af6999312809",
+      "nominal_denominator": 1.317650456265161e-07,
+      "perturbed_bits": "3fbf2c00aeb03abb"
+    },
+    {
+      "actual_offset_exact": "6166874249/72057594037927936",
+      "alpha_bits": "3fb359612405148d",
+      "column": 5,
+      "delta_bits": "3e76f930888e4eca",
+      "nominal_denominator": 8.558257226362936e-08,
+      "perturbed_bits": "3fb3596293981d16"
+    }
+  ],
+  "source": "fb710371326d552fe91bafff2995340758d14ed0",
+  "source_tree": "dad64806e2952c7e4ee0c5336cc643b5b2236cb8",
+  "status": "PASS_DISTINCT_EXPLORATORY_PROTOCOL_ONLY"
+}

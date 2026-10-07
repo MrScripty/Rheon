@@ -1,0 +1,51 @@
+{
+  "both_actual_boundaries": {
+    "candidate": {
+      "reached_crate_functions": 30,
+      "root": 1356048,
+      "serialization_outside_numerical_boundary": true,
+      "stdout_outside_numerical_boundary": true
+    },
+    "reference": {
+      "reached_crate_functions": 24,
+      "root": 1682656,
+      "serialization_outside_numerical_boundary": true,
+      "stdout_outside_numerical_boundary": true
+    }
+  },
+  "complete_external_memory_accounting": false,
+  "historical_known_subtotal": 66368,
+  "historical_memory_qualified": false,
+  "native_equations": 0,
+  "negative_controls": [
+    {
+      "fault": "serialization",
+      "reason": "candidate: serialization outside numerical boundary",
+      "rejected": true,
+      "side": "candidate"
+    },
+    {
+      "fault": "stdout",
+      "reason": "candidate: no stdout transfer inside numerical call",
+      "rejected": true,
+      "side": "candidate"
+    },
+    {
+      "fault": "serialization",
+      "reason": "reference: serialization outside numerical boundary",
+      "rejected": true,
+      "side": "reference"
+    },
+    {
+      "fault": "stdout",
+      "reason": "reference: no stdout transfer inside numerical call",
+      "rejected": true,
+      "side": "reference"
+    }
+  ],
+  "new_ledger_sha256": "b4d659b04a0aa01af2ea25e90e9022f5f8f348791accfbe5fe6aaad711062098",
+  "original_ledger_equal_except_completed_two_side_checks": true,
+  "source": "fb710371326d552fe91bafff2995340758d14ed0",
+  "source_tree": "dad64806e2952c7e4ee0c5336cc643b5b2236cb8",
+  "status": "PASS_FORWARD_READER_REPAIR_ONLY"
+}
