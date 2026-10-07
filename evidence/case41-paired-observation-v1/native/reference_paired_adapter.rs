@@ -11,12 +11,12 @@ impl Work {
     fn paired_coordinates(
         &self,
         old: &[[f64; 3]; N],
-        chart: Option<&mut scalar::ChartWorkspace>,
+        chart: Option<&mut super::scalar::ChartWorkspace>,
     ) -> Result<([f64; 3], [f64; 6]), CoupledDiscreteError> {
         assert!(chart.is_none());
         coordinates(&self.geometry, old, &self.r)
     }
-    fn paired_attach_chart(&mut self, chart: Option<&mut scalar::ChartWorkspace>) {
+    fn paired_attach_chart(&mut self, chart: Option<&mut super::scalar::ChartWorkspace>) {
         assert!(chart.is_none());
     }
 }

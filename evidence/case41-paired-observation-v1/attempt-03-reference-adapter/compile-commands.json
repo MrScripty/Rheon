@@ -1,0 +1,49 @@
+[
+  {
+    "argv": [
+      "rustfmt",
+      "--edition",
+      "2024",
+      "--check",
+      "--config",
+      "skip_children=true",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/paired_probe.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/candidate.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/candidate_helpers.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/candidate_paired_adapter.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/candidate_probe.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/expected_baseline.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/fixed_inputs.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/harness.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/inputs.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/reference.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/reference_helpers.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/reference_paired_adapter.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/reference_probe.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/scalar.rs",
+      "/workspace/Rheon-case41-paired-build-v3/evidence/case41-paired-observation-v1/native/trajectory_inputs.rs"
+    ],
+    "exit": 0,
+    "seconds": 0.10898171799999545,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native_test_invocation": false
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--no-default-features",
+      "--lib",
+      "--locked",
+      "--no-run",
+      "--message-format=json"
+    ],
+    "exit": 101,
+    "seconds": 3.9964848320000215,
+    "stdout_sha256": "328a360dd0e9b4d67c3d5edc4283c042b29840bcd54af07f3731fb2e1c4cb16a",
+    "stderr_sha256": "195caeae267887ec5db39cb86242f48198c850f7d0699e9d5a5057ef8964549b",
+    "native_test_invocation": false
+  }
+]
