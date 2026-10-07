@@ -1,0 +1,20 @@
+{
+  "branch": "research/case41-exploratory-seven-equations",
+  "capture_reader_source": "235ba4069d3f6250abf50dae3aa48f7b3304cdbf",
+  "corrections": 0,
+  "execution_source": "c2c583180f23316c6ac2ac89da434bf313121980",
+  "historical_known_subtotal": 66368,
+  "historical_memory_qualified": false,
+  "main": "9cd4587a54befa61bdfddc8e35014bd3c34f02fb",
+  "model_source": "95f620f5a47b7c9c9afd6eab4d5e9940049f09cf",
+  "native_equations": 7,
+  "native_invocations": 1,
+  "numerical_retries": 0,
+  "numerical_source": "8cc37c4473c723c3436e6be5d859af90695c2c37",
+  "owners": 0,
+  "protocol_preflight_source": "fb710371326d552fe91bafff2995340758d14ed0",
+  "result_source": "455af0e35c25037d2ff904bb92fd71b5d6b1f5c9",
+  "result_tree": "1646fc2bdfa8aeb8083afa7553ff2b2ce366e562",
+  "status": "FROZEN_EXPLORATORY_RESULT_VERIFIED",
+  "verification_sha256": "ec37f70f0a66e828347557d9181e47fdf478bbe06006ffdd79c43341a9cb24a1"
+}
