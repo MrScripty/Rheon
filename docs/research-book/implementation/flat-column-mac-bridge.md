@@ -159,7 +159,7 @@ are compared bit for bit on cancellation/failure.
 ## Measured behavior and proof scope
 
 The [native packet](../../../evidence/column-mac/README.md) has 22 cases and
-76 static publications. Its [measured figure](../../../evidence/column-mac/static-transfer-and-projection.png)
+76 static publications. Its [measured figure](../../../evidence/column-mac/static-transfer-and-projection.jpg)
 shows prescription/transfer/pressure energy and both refinement measures. Eighteen pulse cases
 cover X/Y/Z normals, cap fractions 0.25/0.5/0.75 and Jacobi/SGS. Each subsequent
 prescription is exactly the preceding accepted export. JSON holds every source,

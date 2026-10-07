@@ -80,8 +80,8 @@ Both methods agree in these errors to rounding. Independently reduced volume
 is 0.125 m³ and represented mass is 100 kg; final centroid is 0.5 m to rounding.
 Maximum binomial fraction disagreement is below 3e-13, first pressure error below
 1e-8 Pa, and final direct divergence below 2e-12 /s. See the full
-[numerical summary](numerical-summary.json), per-cell source data under demo/
-and [visually inspected figure](guidance-comparison.png).
+[numerical summary](https://github.com/MrScripty/Rheon/blob/9cd4587a54befa61bdfddc8e35014bd3c34f02fb/evidence/liquid-step/numerical-summary.json), per-cell source data under demo/
+and [visually inspected figure](guidance-comparison.jpg).
 Spatial refinement improves the shape; halving dt at fixed h increases
 first-order donor diffusion. No pouring, droplet, film or material calibration
 is established. The fraction-0.5 initial support intentionally avoids full-cell
