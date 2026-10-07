@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon/evidence/case41-retained-cache-replay-v1/replay.py", line 88, in <module>
+    print(json.dumps(run(),indent=2,sort_keys=True))
+                     ^^^^^
+  File "/workspace/Rheon/evidence/case41-retained-cache-replay-v1/replay.py", line 44, in run
+    require(code!=0 and b'FileNotFoundError' in stderr,'original clean checkout reproduces blocker')
+  File "/workspace/Rheon/evidence/case41-retained-cache-replay-v1/replay.py", line 14, in require
+    raise ValueError(msg)
+ValueError: original clean checkout reproduces blocker

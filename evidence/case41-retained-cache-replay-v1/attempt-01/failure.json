@@ -1,0 +1,6 @@
+{
+  "source": "0eb1281",
+  "stage": "read-only supervisor expected reader errors on stderr; unchanged reader catches errors and returns JSON on stdout",
+  "native_equations": 0,
+  "remedy": "separate forward supervisor amendment checks reader JSON stdout; no original reader, source, input or raw result changes"
+}
