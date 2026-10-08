@@ -13,7 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = "717dd9c7d93a2c425e0e5e6160a12521367a2ea5"
 
 
-LIB_INSERTION = b"mod sphere_event_loop;\nmod sphere_friction_interval;\npub use sphere_friction_interval::*;\n"
+LIB_MODULES = b"mod sphere_event_loop;\nmod sphere_friction_interval;\n"
+LIB_EXPORT = b"pub use sphere_friction_interval::*;\n"
 # Exact independently reviewable adapters at this new reconstruction checkpoint.
 # No historical operator/pressure/shear formula is mutable through this gate.
 ADAPTER_HASHES = {
@@ -45,7 +46,7 @@ def qualify(output, lean_bin, dependencies):
         if hashlib.sha256(old).hexdigest() != sources.get(p):
             raise ValueError("protected preserved717 file changed: " + p)
     lib_old = subprocess.check_output(["git", "show", f"{BASE}:src/lib.rs"], cwd=ROOT)
-    if (ROOT / "src/lib.rs").read_bytes() != lib_old.replace(b"mod sphere_interval;\n", b"mod sphere_interval;\n" + LIB_INSERTION):
+    if (ROOT / "src/lib.rs").read_bytes() != lib_old.replace(b"mod sphere_interval;\n", LIB_MODULES + b"mod sphere_interval;\n").replace(b"pub use sphere_interval::*;\n", LIB_EXPORT + b"pub use sphere_interval::*;\n"):
         raise ValueError("unexpected export adaptation")
     for name, digest in ADAPTER_HASHES.items():
         if sources[name] != digest:

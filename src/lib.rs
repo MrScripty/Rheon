@@ -29,11 +29,11 @@ mod sphere_contact;
 mod sphere_friction;
 pub use sphere_friction::*;
 mod sphere_departure;
-mod sphere_interval;
 mod sphere_event_loop;
 mod sphere_friction_interval;
-pub use sphere_friction_interval::*;
+mod sphere_interval;
 pub use sphere_departure::{SphereDepartureKind, SphereDepartureReport};
+pub use sphere_friction_interval::*;
 pub use sphere_interval::*;
 mod static_obstacle;
 pub use sphere_contact::{
