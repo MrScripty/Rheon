@@ -35,7 +35,7 @@ function face(c,d){
   group.add(new THREE.Mesh(geometry,new THREE.MeshBasicMaterial({color:0x00a6b8,side:THREE.DoubleSide,transparent:true,opacity:.45,depthWrite:false})));
   for(let i=0;i<4;i++)line(corners[i],corners[(i+1)%4],0x007b8d);
 }
-function reset(){camera.position.copy(center).add(new THREE.Vector3(1.5,1.1,1.6).multiplyScalar(extent));camera.near=extent/1000;camera.far=extent*100;camera.updateProjectionMatrix();controls.target.copy(center);controls.update();}
+function reset(){camera.position.copy(center).add(new THREE.Vector3(1.5,1.1,1.6).multiplyScalar(extent/Math.min(1,camera.aspect)));camera.near=extent/1000;camera.far=extent*100;camera.updateProjectionMatrix();controls.target.copy(center);controls.update();}
 function draw(){
   for(const child of [...group.children]){group.remove(child);child.geometry?.dispose();child.material?.dispose();}
   const c=current,d=+axis.value,index=+cell.value,p=coordinates(c,index),lo=position(c,p),hi=position(c,p.map(x=>x+1));
@@ -64,5 +64,5 @@ function choose(){
   center=new THREE.Vector3(...lo.map((x,d)=>(x+hi[d])/2));extent=Math.max(...hi.map((x,d)=>x-lo[d]));draw();reset();
 }
 select.addEventListener('change',choose);cell.addEventListener('change',draw);axis.addEventListener('change',draw);document.querySelector('#obstacle-reset').onclick=reset;
-new ResizeObserver(()=>{const w=host.clientWidth,h=host.clientHeight;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}).observe(host);
+new ResizeObserver(()=>{const w=host.clientWidth,h=host.clientHeight;renderer.setSize(w,h);camera.aspect=w/h;reset();}).observe(host);
 choose();renderer.setAnimationLoop(()=>{controls.update();renderer.render(scene,camera);});
