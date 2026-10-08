@@ -112,6 +112,10 @@ Generated data, plots, logs, ZIPs and compiled artifacts stay outside Git.
 
 ## Exclusions
 
+The separate [uniform tangential forcing operation](column-poiseuille.md)
+uses these compatible constraints and includes body force in their reaction,
+with explicit force units and a Poiseuille startup lab.
+
 This is neither wetting nor adhesion. It does not qualify contact-line physics,
 arbitrary collision-mesh fluid topology, moving normal walls, time-varying
 prescribed speeds, variable-density inertia, general 3D stress or evolving

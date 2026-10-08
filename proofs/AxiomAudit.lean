@@ -67,7 +67,15 @@ run_cmd do
     `Rheon.NoSlip.compatible_reaction_preserves_trace,
     `Rheon.NoSlip.relative_reaction_work_zero,
     `Rheon.NoSlip.momentum_balance,
-    `Rheon.NoSlip.constrained_work_identity]
+    `Rheon.NoSlip.constrained_work_identity,
+    `Rheon.ColumnForcing.units_agree,
+    `Rheon.ColumnForcing.reaction_includes_body_force,
+    `Rheon.ColumnForcing.forced_momentum,
+    `Rheon.ColumnForcing.forced_work,
+    `Rheon.ColumnForcing.parabola,
+    `Rheon.ColumnForcing.parabola_endpoints,
+    `Rheon.ColumnForcing.quadratic_stencil_balance,
+    `Rheon.ColumnForcing.recurrence_about_equilibrium]
   for name in expected do
     let _ ← getConstInfo name
     pure ()
