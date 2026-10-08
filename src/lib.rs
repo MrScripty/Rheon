@@ -26,6 +26,8 @@ pub use rigid_motion::{
     RigidMotionStage, RigidPoseSnapshot, SphericalRigidMotion,
 };
 mod sphere_contact;
+mod sphere_friction;
+pub use sphere_friction::*;
 mod sphere_departure;
 mod sphere_interval;
 pub use sphere_departure::{SphereDepartureKind, SphereDepartureReport};

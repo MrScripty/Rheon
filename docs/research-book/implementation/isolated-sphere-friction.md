@@ -26,7 +26,7 @@ unused time and stops. Initial touch, ambiguity, near-simultaneous facets, motio
 limits, arithmetic failure, stamps and cancellation remain explicit refusals.
 
 [Mirtich's original thesis](https://people.eecs.berkeley.edu/~jfc/mirtich/thesis/mirtichThesis.pdf),
-Collision Response chapter, printed pp.45–53 (PDF pp.66–74), describes contact
+Collision Response chapter, printed pp.45–53 (one-based PDF pp.67–75), describes contact
 velocity, Coulomb friction, momentum/torque impulse equations and the collision
 matrix. It also warns that general frictional collisions can change sliding
 direction and that Newton restitution can produce energy increases with coupled
@@ -67,14 +67,25 @@ Define relative point velocity and normal/tangent split against the fixed suppor
     V_plus = V + J/m,
     omega_plus = omega + (r cross J)/I.
 
-The implementation may stage the existing normal response and then tangential
-response; their rounded residuals remain explicit. No normal-only intermediate
+The implementation stages the existing normal velocity response and then the
+tangential velocity response, but updates spin with the **total** actual-point
+torque r cross J, including any rounded normal radial residual. Their rounded
+residuals remain explicit. No normal-only intermediate
 state is published. Numerically zero slip produces no tangential impulse; it
 is not an assertion of exact sticking or a resting-contact solution. Reported
 regimes describe the computed candidate (uncapped slip cancellation versus
 Coulomb-capped impulse), not an IEEE-certified material classification. Near
-threshold decisions and all arithmetic restrictions must be stated in the final
-API. Negative/nonfinite mu and nonrepresentable calculations refuse atomically.
+threshold decisions use the nearest-rounded candidates directly: zero computed
+slip or zero mu selects NoTangentialImpulse; otherwise q_stop<=q_cap (including
+an exact float tie) selects SlipCancellation; the remaining branch is CoulombCapped.
+There is no added threshold band or artificial slip floor. Every calculation,
+including diagnostics, must remain representable. Overflow and detected nonzero
+product/division underflow refuse atomically. Thus a huge mu can refuse even when
+the exact disk law would select cancellation; ordinary finite additions and libm
+remain nearest-rounded. Negative/nonfinite mu refuses before querying.
+If the rounded point normal velocity is nonapproaching despite an approaching
+COM normal velocity, UnresolvedPointApproach refuses before publication. The
+point-normal coupling and r cross n defects remain separately reported.
 
 ## Derivation and energy boundary
 

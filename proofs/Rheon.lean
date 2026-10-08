@@ -17,3 +17,4 @@ import Rheon.RigidImpulse
 import Rheon.RigidMotion
 import Rheon.SphereContact
 import Rheon.SphereInterval
+import Rheon.SphereFriction
