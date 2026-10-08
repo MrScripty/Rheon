@@ -19,6 +19,12 @@ pub struct ViscousBoundaryLift {
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ViscousBoundaryWrenchReport {
+    /// Actual borrowed geometry stamp and material/reference identity. This
+    /// diagnostic is not a capability ticket and cannot authorize an update.
+    pub surface_stamp: crate::SurfaceStamp,
+    pub reference: [f64; 3],
+    pub density: f64,
+    pub viscosity: f64,
     /// Force xyz (N), then torque xyz (N m), about the retained reference.
     pub solid_wrench: [f64; 6],
     pub outer_wrench: [f64; 6],
@@ -306,6 +312,10 @@ impl<'a, 'g> AlignedViscousBoundaryWrench<'a, 'g> {
             balance_defect[k] = total.finish()?;
         }
         Ok(ViscousBoundaryWrenchReport {
+            surface_stamp: self.operator.geometry().stamp(),
+            reference: self.reference,
+            density: self.operator.density(),
+            viscosity: self.operator.viscosity(),
             solid_wrench,
             outer_wrench,
             fluid_wrench,

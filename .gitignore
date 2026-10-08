@@ -30,3 +30,5 @@ rheon-comparisons/
 /evidence/bounded-sphere-interval/
 # Accidental local bounded Coulomb interval receipts; generators require external paths.
 /evidence/bounded-coulomb-sphere-interval/
+# Accidental local stationary viscous wrench receipts; generators require external paths.
+/evidence/aligned-viscous-boundary-wrench/

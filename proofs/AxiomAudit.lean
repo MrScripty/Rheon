@@ -6,6 +6,32 @@ run_cmd do
   let env ← getEnv
   let allowed : Array Name := #[`propext, `Classical.choice, `Quot.sound]
   let expected : Array Name := #[
+    `Rheon.ViscousBoundaryWrench.Twist,
+    `Rheon.ViscousBoundaryWrench.strain,
+    `Rheon.ViscousBoundaryWrench.transposeForce,
+    `Rheon.ViscousBoundaryWrench.dissipation,
+    `Rheon.ViscousBoundaryWrench.transpose_force_work,
+    `Rheon.ViscousBoundaryWrench.transpose_force_pullback,
+    `Rheon.ViscousBoundaryWrench.joint_work,
+    `Rheon.ViscousBoundaryWrench.dissipation_nonnegative,
+    `Rheon.ViscousBoundaryWrench.joint_work_nonpositive,
+    `Rheon.ViscousBoundaryWrench.stationary_strain,
+    `Rheon.ViscousBoundaryWrench.stationary_fluid_force,
+    `Rheon.ViscousBoundaryWrench.stationary_dissipation,
+    `Rheon.ViscousBoundaryWrench.zero_fluid_row_retains_lift,
+    `Rheon.ViscousBoundaryWrench.zero_fluid_row_nonzero_lift,
+    `Rheon.ViscousBoundaryWrench.concrete_zero_fluid_row_lift,
+    `Rheon.ViscousBoundaryWrench.gather_composition,
+    `Rheon.ViscousBoundaryWrench.common_rigid_reproduction,
+    `Rheon.ViscousBoundaryWrench.rigid_resultant_closure,
+    `Rheon.ViscousBoundaryWrench.zero_strain_closure,
+    `Rheon.ViscousBoundaryWrench.reference_lift_covariance,
+    `Rheon.ViscousBoundaryWrench.reference_wrench_covariance,
+    `Rheon.ViscousBoundaryWrench.flat_rotation_restoration,
+    `Rheon.ViscousBoundaryWrench.flat_normal_trace_derivative,
+    `Rheon.ViscousBoundaryWrench.flat_two_trace_rotation_restoration,
+    `Rheon.ViscousBoundaryWrench.reflected_corner_residual_shear,
+    `Rheon.ViscousBoundaryWrench.reflected_corner_common_rotation,
     `Rheon.SphereFrictionInterval.prefixSum,
     `Rheon.SphereFrictionInterval.conditional_coulomb_prefix,
     `Rheon.SphereFrictionInterval.prefix_telescopes,
@@ -278,7 +304,21 @@ run_cmd do
       | .thmInfo _ => true
       | .axiomInfo _ => true
       | _ => false
-    if name.toString.startsWith "Rheon." && (isProofOrAxiom || expected.contains name) then
+    let userName := Lean.privateToUserName name
+    let isNewWrench := userName.toString.startsWith "Rheon.ViscousBoundaryWrench."
+    let isWrenchLogical ← if isNewWrench then
+      match info with
+      | .thmInfo _ => pure true
+      | .axiomInfo _ => pure true
+      | .opaqueInfo _ => pure true
+      | .defnInfo value =>
+          if value.safety == .safe then pure true
+          else if value.type.getUsedConstants.all (env.contains ·) then
+            liftTermElabM (Lean.Meta.isProp value.type)
+          else pure false
+      | _ => pure false
+    else pure false
+    if (name.toString.startsWith "Rheon." && (isProofOrAxiom || expected.contains name)) || isWrenchLogical then
       let axioms ← Lean.collectAxioms name
       for axiomName in axioms do
         unless allowed.contains axiomName do
