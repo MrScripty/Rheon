@@ -33,10 +33,14 @@ fn stationary_force_is_exactly_the_existing_action_and_virtual_work_matches() {
         assert_eq!(report.reference, w.reference());
         assert_eq!(report.density, op.density());
         assert_eq!(report.viscosity, op.viscosity());
-        assert_eq!(actual, expected, "{name}");
-        assert_eq!(report.dissipation, old.dissipation);
-        assert_eq!(report.force_work, old.force_work);
-        assert_eq!(report.work_defect, old.identity_error);
+        assert_eq!(
+            actual.iter().map(|x| x.to_bits()).collect::<Vec<_>>(),
+            expected.iter().map(|x| x.to_bits()).collect::<Vec<_>>(),
+            "{name}"
+        );
+        assert_eq!(report.dissipation.to_bits(), old.dissipation.to_bits());
+        assert_eq!(report.force_work.to_bits(), old.force_work.to_bits());
+        assert_eq!(report.work_defect.to_bits(), old.identity_error.to_bits());
         for d in report.balance_defect {
             close(d, 0.0);
         }
@@ -45,6 +49,47 @@ fn stationary_force_is_exactly_the_existing_action_and_virtual_work_matches() {
             .unwrap();
         close(v.wrench_work, v.row_work);
         close(v.defect, 0.0);
+    }
+}
+#[test]
+fn stationary_force_and_wrench_are_density_independent_and_scale_with_viscosity() {
+    let owner = geometry([3; 3], [1.0; 3], [0.0; 3], [1; 3], [2; 3]).unwrap();
+    let op = AlignedStrain::new(&owner, 1.0, 1.0, CAP, |_, _| false).unwrap();
+    let dense = AlignedStrain::new(&owner, 7.25, 1.0, CAP, |_, _| false).unwrap();
+    let double = AlignedStrain::new(&owner, 7.25, 2.0, CAP, |_, _| false).unwrap();
+    let reference = [1.5; 3];
+    let w = AlignedViscousBoundaryWrench::new(&op, reference, CAP, |_, _| false).unwrap();
+    let wd = AlignedViscousBoundaryWrench::new(&dense, reference, CAP, |_, _| false).unwrap();
+    let wm = AlignedViscousBoundaryWrench::new(&double, reference, CAP, |_, _| false).unwrap();
+    for (_, u) in fields(&op, reference) {
+        let mut force = vec![0.0; u.len()];
+        let mut dense_force = force.clone();
+        let mut double_force = force.clone();
+        let r = w.diagnose(&u, &mut force, |_, _| false).unwrap();
+        let rd = wd.diagnose(&u, &mut dense_force, |_, _| false).unwrap();
+        let rm = wm.diagnose(&u, &mut double_force, |_, _| false).unwrap();
+        for ((f, fd), fm) in force.iter().zip(&dense_force).zip(&double_force) {
+            assert_eq!(f.to_bits(), fd.to_bits());
+            assert_eq!((2.0 * f).to_bits(), fm.to_bits());
+        }
+        for (a, b, c) in [
+            (r.solid_wrench, rd.solid_wrench, rm.solid_wrench),
+            (r.outer_wrench, rd.outer_wrench, rm.outer_wrench),
+            (r.fluid_wrench, rd.fluid_wrench, rm.fluid_wrench),
+        ] {
+            for k in 0..6 {
+                assert_eq!(a[k].to_bits(), b[k].to_bits());
+                assert_eq!((2.0 * a[k]).to_bits(), c[k].to_bits());
+            }
+        }
+        for (a, b, c) in [
+            (r.dissipation, rd.dissipation, rm.dissipation),
+            (r.force_work, rd.force_work, rm.force_work),
+            (r.work_defect, rd.work_defect, rm.work_defect),
+        ] {
+            assert_eq!(a.to_bits(), b.to_bits());
+            assert_eq!((2.0 * a).to_bits(), c.to_bits());
+        }
     }
 }
 #[test]
@@ -213,6 +258,12 @@ fn combined_capacity_and_each_used_cancellation_stage_refuse() {
     let op = AlignedStrain::new(&owner, 1.0, 1.0, CAP, |_, _| false).unwrap();
     let w = AlignedViscousBoundaryWrench::new(&op, [1.5; 3], CAP, |_, _| false).unwrap();
     let cap = w.combined_operator_bytes();
+    assert_eq!(std::mem::size_of::<rheon::ViscousBoundaryLift>(), 96);
+    assert_eq!(w.row_capacity(), op.rows().len());
+    assert_eq!(
+        w.allocated_bytes(),
+        w.row_capacity() * std::mem::size_of::<rheon::ViscousBoundaryLift>()
+    );
     assert_eq!(cap, op.allocated_bytes() + w.allocated_bytes());
     assert!(AlignedViscousBoundaryWrench::new(&op, [1.5; 3], cap, |_, _| false).is_ok());
     assert!(matches!(

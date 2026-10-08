@@ -142,6 +142,10 @@ RSS are excluded. Actions allocate no heap payload. Cancellation/arithmetic
 failure leaves immutable owners unchanged; caller force output may be partial
 as in the existing action API. No nearest-rounded force/work/closure diagnostic
 or existing unenclosed stability estimate authorizes stepping.
+The fixture oracle pins the observed 64-bit Rust 1.92 layout (face 104 bytes,
+row 112 bytes, lift 96 bytes, usize 8 bytes) and checks exact reported capacity
+and combined base-plus-lift accounting. Portable constructors use actual
+`size_of` and Vec capacities; this fixture receipt does not qualify another ABI.
 
 Fresh qualification must compare actual Rust coefficients/actions with an
 independently rebuilt geometry/Fraction oracle, including reflections,

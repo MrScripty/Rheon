@@ -462,7 +462,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     values(&mut out, &wrench.common_rigid_residual_max())?;
     writeln!(
         out,
-        ",\"allocated_bytes\":{},\"combined_operator_bytes\":{}}}}}",
+        ",\"base_operator_bytes\":{},\"lift_capacity\":{},\"lift_element_bytes\":{},\"allocated_bytes\":{},\"combined_operator_bytes\":{}}}}}",
+        op.allocated_bytes(),
+        wrench.row_capacity(),
+        std::mem::size_of::<rheon::ViscousBoundaryLift>(),
         wrench.allocated_bytes(),
         wrench.combined_operator_bytes()
     )?;

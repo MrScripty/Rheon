@@ -239,6 +239,10 @@ impl<'a, 'g> AlignedViscousBoundaryWrench<'a, 'g> {
     pub fn allocated_bytes(&self) -> usize {
         self.lift_bytes
     }
+    /// Actual retained Vec capacity, separate from the row count.
+    pub fn row_capacity(&self) -> usize {
+        self.lifts.capacity()
+    }
     pub fn combined_operator_bytes(&self) -> usize {
         self.operator.allocated_bytes() + self.lift_bytes
     }

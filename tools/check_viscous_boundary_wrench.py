@@ -323,6 +323,10 @@ def verify_record(packet,case=None):
     if case is None:
         case=next((name for name in FIXTURES if fixture(name)==(g,ref)),None)
     require(case is not None and fixture(case)==(g,ref),'declared fixed fixture geometry/material/reference')
+    expected_g,expected_ref=fixture(case)
+    expected_meta={'counts':list(expected_g.counts),'spacing':list(map(bits,expected_g.spacing)),'origin':list(map(bits,expected_g.origin)),
+                   'lo':list(expected_g.lower),'hi':list(expected_g.upper),'rho':bits(expected_g.density),'mu':bits(expected_g.viscosity)}
+    require(meta==expected_meta and packet['reference']==list(map(bits,expected_ref)),'exact declared fixture metadata bits')
     faces,rows,lifts=lift_rows(g,ref,stored=True)
     prescribed_fields=expected_fields(g,faces,rows,ref)
     require(type(packet['active'])is list and len(packet['active'])==len(faces),'active count')
@@ -352,9 +356,18 @@ def verify_record(packet,case=None):
         for key,value in (('solid',lift.solid),('outer',lift.outer)):
             native_vector(actual[key],6,'row '+key)
             require(actual[key]==[bits(x) for x in value],'stored lift '+key)
-    roster(packet['report'],('common_rigid_residual_max','allocated_bytes','combined_operator_bytes'),'report')
+    allocation_keys=('base_operator_bytes','lift_capacity','lift_element_bytes','allocated_bytes','combined_operator_bytes')
+    roster(packet['report'],('common_rigid_residual_max',*allocation_keys),'report')
+    require(all(type(packet['report'][key])is int for key in allocation_keys),'allocation strict integer metadata')
+    # Qualified fixture ABI: 64-bit Rust1.92, Face104 + face estimate8,
+    # Row112, usize8, Lift12*f64=96. Capacity is the actual retained Vec cap.
+    require(struct.calcsize('P')==8,'qualified64-bit oracle runtime')
+    face_total=sum((g.counts[d]+1)*math.prod(g.counts[a] for a in range(3) if a!=d) for d in range(3))
+    base=len(faces)*112+len(rows)*112+face_total*8
+    require(packet['report']['base_operator_bytes']==base,'base operator allocation ABI')
+    require(packet['report']['lift_capacity']==len(rows) and packet['report']['lift_element_bytes']==96,'actual fixed fixture lift capacity/element bytes')
     allocated=packet['report']['allocated_bytes'];combined=packet['report']['combined_operator_bytes']
-    require(type(allocated)is int and type(combined)is int and len(rows)*96<=allocated<=combined<=16000000,'retained allocation accounting')
+    require(allocated==len(rows)*96 and combined==base+allocated and combined<=16000000,'retained allocation equality/cap')
     residual,scale=common_residual(faces,rows,lifts,ref)
     for k,value in enumerate(native_vector(packet['report']['common_rigid_residual_max'],6,'common rigid residual')):
         require(value>=0,'negative rigid residual');diagnostic(value,residual[k],scale[k],'rigid residual '+str(k))
@@ -440,6 +453,7 @@ def hostile_records(packet):
     add('twist-control-forged',lambda p:p['fields'][0]['virtual_work']['solid_twist'].__setitem__(0,bits(1)))
     add('unknown-field',lambda p:p['fields'][translation].__setitem__('name','unsupported'))
     add('duplicate-field',lambda p:p['fields'].append(copy.deepcopy(p['fields'][0])))
+    add('meta-negative-zero-origin',lambda p:p['meta']['origin'].__setitem__(0,bits(-0.0)))
     add('meta-density-forged',lambda p:p['meta'].__setitem__('rho',bits(2)))
     add('reference-forged',lambda p:p['reference'].__setitem__(0,bits(0)))
     add('identity-stamp-version',lambda p:p['fields'][0]['identity']['surface_stamp'].__setitem__('version','2'))
@@ -447,6 +461,13 @@ def hostile_records(packet):
     add('identity-reference',lambda p:p['fields'][0]['identity']['reference'].__setitem__(0,bits(0)))
     add('identity-density',lambda p:p['fields'][0]['identity'].__setitem__('density',bits(2)))
     add('identity-viscosity',lambda p:p['fields'][0]['identity'].__setitem__('viscosity',bits(2)))
+    add('allocation-drops-borrowed-base',lambda p:p['report'].__setitem__('combined_operator_bytes',p['report']['allocated_bytes']))
+    add('allocation-combined-minus-one',lambda p:p['report'].__setitem__('combined_operator_bytes',p['report']['combined_operator_bytes']-1))
+    add('allocation-lift-extra-element',lambda p:p['report'].__setitem__('allocated_bytes',p['report']['allocated_bytes']+96))
+    add('allocation-base-minus-one',lambda p:p['report'].__setitem__('base_operator_bytes',p['report']['base_operator_bytes']-1))
+    add('allocation-capacity-extra-element',lambda p:p['report'].__setitem__('lift_capacity',p['report']['lift_capacity']+1))
+    add('allocation-element-bytes-forged',lambda p:p['report'].__setitem__('lift_element_bytes',104))
+    add('allocation-boolean',lambda p:p['report'].__setitem__('allocated_bytes',True))
     add('nonfinite-binary64',lambda p:p['fields'][0]['force'].__setitem__(0,bits(float('inf'))))
     return cases
 
