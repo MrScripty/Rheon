@@ -4,7 +4,7 @@ Generated _site is disposable. Historical manuscript/artifacts are untouched.
 from pathlib import Path
 import argparse, hashlib, html, json, os, re, shutil, subprocess, zipfile
 from urllib.parse import urlsplit
-from native_sequence import GUIDES, metadata, validate_labs, publish
+from native_sequence import GUIDES, metadata, validate_labs, publish, validate_proof_qualification
 from static_obstacle import validate_packet, publish as publish_obstacle
 from obstacle_flow import validate_packet as validate_flow_packet, publish as publish_flow
 from aligned_strain_packet import validate_packet as validate_strain_packet, publish as publish_strain
@@ -14,7 +14,7 @@ from markdown_bundle import write_bundle
 from sphere_contact_lab import validate_packet as validate_contact_packet, publish as publish_contact
 ROOT=Path(__file__).resolve().parents[2]; HERE=Path(__file__).resolve().parent
 BOOK=ROOT/'docs/research-book'; OUT=HERE/'_site'
-ASSETS=HERE/'node_modules'; NATIVE_LABS=None; OBSTACLE_RECORDS=None; FLOW_RECORDS=None; STRAIN_RECORDS=None; CONTACT_RECORDS=None
+ASSETS=HERE/'node_modules'; NATIVE_LABS=None; OBSTACLE_RECORDS=None; FLOW_RECORDS=None; STRAIN_RECORDS=None; CONTACT_RECORDS=None; CURRENT_PROOF=None
 FIGURES={'03':'staggered-grid.svg','04':'pressure-residual.svg','05':'multigrid-mechanism.svg','06':'interpolation-mass.svg','07':'transport-refinement.svg','09':'curvature-refinement.svg','10':'box-diffusion.svg','13':'memory-scaling.svg','15':'rounding-gap.svg','18':'cycle-circulation.svg','19':'expansion/projection.png','20':'expansion/mesh-hit.png','21':'expansion/density-viscosity.png','22':'expansion/density-viscosity.png','23':'expansion/slip-wetting.png','24':'expansion/slip-wetting.png'}
 
 def command(args,**kwargs):
@@ -35,13 +35,15 @@ def validate_output(output,repo):
 def build():
     verify_reference(BOOK/'expansion')
     sequence=metadata(ROOT)
+    validate_proof_qualification(sequence,ROOT,CURRENT_PROOF)
     validate_labs(sequence,NATIVE_LABS)
     validate_packet(ROOT,OBSTACLE_RECORDS)
     validate_flow_packet(ROOT,FLOW_RECORDS)
     validate_strain_packet(ROOT,STRAIN_RECORDS)
     validate_contact_packet(ROOT,CONTACT_RECORDS)
     pdf_inputs=input_hashes(ROOT)
-    source_base=command(['git','rev-parse','HEAD'],cwd=ROOT).strip()
+    edition_commit=command(['git','rev-parse','HEAD'],cwd=ROOT).strip()
+    source_base=sequence['current_reconstruction_proof']['source_head']
     if OUT.exists():raise ValueError('Output directory must be fresh; choose a new edition path.')
     OUT.mkdir(parents=True); (OUT/'chapters').mkdir(); (OUT/'downloads').mkdir(); (OUT/'proofs').mkdir(); (OUT/'implementation').mkdir()
     for name in ['style.css','labs.js']:shutil.copy2(HERE/name,OUT/name)
@@ -60,6 +62,8 @@ def build():
     qualification=BOOK/'expansion/bounded-proof-qualification.json'
     if not qualification.exists():qualification=BOOK/'expansion/proof-qualification.json'
     shutil.copy2(qualification,OUT/'proof-qualification.json')
+    if CURRENT_PROOF is not None:
+        shutil.copytree(CURRENT_PROOF,OUT/'current-proof-qualification')
     for name in ['reference-data.json','reference.py','reference-qualification.json','sources.json']:
         shutil.copy2(BOOK/'expansion'/name,OUT/name)
     chapter_files=sorted((BOOK/'chapters').glob('*.md'))+sorted((BOOK/'appendices').glob('*.md'))
@@ -94,7 +98,7 @@ def build():
                 destination=OUT/'obstacle-lab.html'
             elif source.suffix=='.lean' and source.parent==ROOT/'proofs/Rheon':
                 destination=OUT/'proofs'/source.name
-            elif source.is_relative_to(ROOT) and source.is_file() and source.relative_to(ROOT).parts[0] in ('docs','evidence','proofs','src','examples','tests'):
+            elif source.is_relative_to(ROOT) and source.is_file() and source.relative_to(ROOT).parts[0] in ('docs','evidence','proofs','src','examples','tests','experiments','tools'):
                 relative=source.relative_to(ROOT)
                 destination=OUT/'source-files'/relative
                 destination.parent.mkdir(parents=True,exist_ok=True)
@@ -138,7 +142,9 @@ def build():
     (OUT/'labs.html').write_text(shell('3D laboratories',labs,extra=extra))
     receipt=json.loads(qualification.read_text()) if qualification.exists() else {'status':'pending','reason':'Pinned project build and axiom audit must complete.'}
     proofs='<p class="eyebrow">CHECK THE HYPOTHESES</p><h1>Proofs & evidence</h1><p>Finite exact algebra, local numerical references and production implementation are distinct evidence levels. The proof inventory does not verify mesh assembly, a liquid solver or floating-point behavior.</p><h2>Historical expansion qualification receipt</h2><pre>'+html.escape(json.dumps(receipt,indent=2))+'</pre><p><a href="chapters/F-expansion-contracts-and-sources.html">Full contract map and primary sources →</a></p>'
-    proofs+=f'<h2>Reconstructed source and historical kernel qualification</h2><p>The pinned reconstruction has {sequence["public_theorems"]} public theorems, {sequence["explicit_expected_declarations"]} explicitly expected declarations and {sequence["audited_declarations"]} actually audited declarations. Its fresh normal lake source build, allowed-axiom audit and rejection/source-policy probes passed. Current proof bytes match the reviewed inventory. The earlier PR24 57/77 qualification and recorded native lab identities remain historical. This book build checks source bindings; it does not rerun Lean or prove Rust assembly, IEEE arithmetic, approximate pressure solves or global convergence.</p><p><a href="{sequence["lean_ci"]}">Associated reconstruction Lean CI</a> · <a href="native-sequence.json">Immutable source, local receipt and historical bindings</a></p>'
+    proofs+=f'<h2>Current pinned source and separate historical qualification</h2><p>The pinned reconstruction has {sequence["public_theorems"]} public theorems, {sequence["explicit_expected_declarations"]} explicitly expected declarations and {sequence["audited_declarations"]} actually audited declarations. Its fresh local pinned normal lake source build, allowed-axiom audit and rejection/source-policy probes passed. Current proof bytes match the reviewed inventory. The earlier PR24 57/77 qualification and recorded native lab identities remain historical. This book build checks source bindings; it does not rerun Lean or prove Rust assembly, IEEE arithmetic, approximate pressure solves or global convergence.</p><p><a href="{sequence["lean_ci"]}">Historical reconstruction Lean CI (not PR36)</a> · <a href="native-sequence.json">Pinned source, local receipt and historical bindings</a></p>'
+    if CURRENT_PROOF is not None:
+        proofs+='<p><a href="current-proof-qualification/qualification.json">Fresh PR36 local proof receipt</a> · <a href="current-proof-qualification/lean-audit.log">Actual transitive axiom audit</a>. No hosted PR36 CI was requested.</p>'
     proofs+=f'<p><strong>Historical expansion: {receipt.get("public_theorems", "Pending")} public theorems · {receipt.get("audited_declarations", "Pending")} audited declarations.</strong> Definitions and generated proof helpers are counted separately from public theorems.</p>'
     proofs+='''<div class="cards"><article><h2>Planar first contact</h2><p>Five theorems derive a strict crossing, first hit and permitted clipped segment for an infinite stationary plane. Finite-facet containment and earliest mesh queries remain outside the proof.</p><a href="chapters/20-collision-mesh-pipeline.html">Read the collision contract</a></article><article><h2>Derived viscous work</h2><p>Four theorems derive dissipation and energy nonincrease from fixed finite strain and exact backward-Euler equations. Stencil assembly, forcing and approximate solves remain outside the proof.</p><a href="chapters/22-viscosity-and-stress.html">Read the viscosity bridge</a></article></div>'''
     for path in sorted((ROOT/'proofs/Rheon').glob('*.lean')):
@@ -178,7 +184,7 @@ def build():
     contents=cover+'<section class="toc">'+toc+'</section>'+''.join(f'<section class="book-chapter" id="{p["slug"]}">{print_body(p)}</section>' for p in reading)
     (OUT/'print.html').write_text(f'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Rheon — Expanded research edition</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="vendor/katex/katex.min.css"></head><body class="print-book">{contents}</body></html>')
     if OUT==HERE/'_site' and (HERE/'downloads/Rheon-expanded-book.pdf').exists():shutil.copy2(HERE/'downloads/Rheon-expanded-book.pdf',OUT/'downloads/Rheon-expanded-book.pdf')
-    build_receipt={'schema':'rheon-education-build-v1','chapters':len(chapter_files),'implementation_guides':len(files)-len(chapter_files),'native_bundles_included':NATIVE_LABS is not None,'obstacle_records_included':OBSTACLE_RECORDS is not None,'obstacle_flow_records_included':FLOW_RECORDS is not None,'sphere_contact_packet_included':CONTACT_RECORDS is not None,'sphere_contact_packet_sha256':hashlib.sha256((CONTACT_RECORDS/'packet-provenance.json').read_bytes()).hexdigest() if CONTACT_RECORDS is not None else None,'reading_order':[p['slug'] for p in reading],'aligned_strain_packet_included':STRAIN_RECORDS is not None,'proof_inventory_sha256':sequence['proof_inventory_sha256'],'rendered_math_expressions':rendered['count'],'sources':manifest,'linked_source_files':linked_sources,'reference_data_sha256':hashlib.sha256((OUT/'reference-data.json').read_bytes()).hexdigest(),'pandoc':command(['pandoc','--version']).splitlines()[0],'source_base':source_base,'historical_proof_status':receipt.get('status'),'current_proof_status':'reviewed-current-source-inventory-matched'}
+    build_receipt={'schema':'rheon-education-build-v1','chapters':len(chapter_files),'implementation_guides':len(files)-len(chapter_files),'native_bundles_included':NATIVE_LABS is not None,'obstacle_records_included':OBSTACLE_RECORDS is not None,'obstacle_flow_records_included':FLOW_RECORDS is not None,'sphere_contact_packet_included':CONTACT_RECORDS is not None,'sphere_contact_packet_sha256':hashlib.sha256((CONTACT_RECORDS/'packet-provenance.json').read_bytes()).hexdigest() if CONTACT_RECORDS is not None else None,'reading_order':[p['slug'] for p in reading],'aligned_strain_packet_included':STRAIN_RECORDS is not None,'proof_inventory_sha256':sequence['proof_inventory_sha256'],'rendered_math_expressions':rendered['count'],'sources':manifest,'linked_source_files':linked_sources,'reference_data_sha256':hashlib.sha256((OUT/'reference-data.json').read_bytes()).hexdigest(),'pandoc':command(['pandoc','--version']).splitlines()[0],'source_base':source_base,'edition_commit':edition_commit,'historical_proof_status':receipt.get('status'),'current_proof_status':'reviewed-current-source-inventory-matched'}
     if input_hashes(ROOT)!=pdf_inputs:raise RuntimeError('PDF inputs changed during HTML build; rebuild.')
     build_receipt['pdf_inputs']=pdf_inputs
     (OUT/'build-receipt.json').write_text(json.dumps(build_receipt,indent=2)+'\n');print(json.dumps({k:v for k,v in build_receipt.items() if k not in ['sources','pdf_inputs']},indent=2))
@@ -198,6 +204,7 @@ if __name__=='__main__':
     parser.add_argument('--obstacle-flow-records-dir',type=Path)
     parser.add_argument('--aligned-strain-records-dir',type=Path)
     parser.add_argument('--sphere-contact-records-dir',type=Path)
-    args=parser.parse_args(); OUT=args.output_dir.resolve(); ASSETS=args.asset_dir.resolve(); NATIVE_LABS=args.native_labs_dir; OBSTACLE_RECORDS=args.obstacle_records_dir; FLOW_RECORDS=args.obstacle_flow_records_dir; STRAIN_RECORDS=args.aligned_strain_records_dir; CONTACT_RECORDS=args.sphere_contact_records_dir
+    parser.add_argument('--current-proof-qualification-dir',type=Path)
+    args=parser.parse_args(); OUT=args.output_dir.resolve(); ASSETS=args.asset_dir.resolve(); NATIVE_LABS=args.native_labs_dir; OBSTACLE_RECORDS=args.obstacle_records_dir; FLOW_RECORDS=args.obstacle_flow_records_dir; STRAIN_RECORDS=args.aligned_strain_records_dir; CONTACT_RECORDS=args.sphere_contact_records_dir; CURRENT_PROOF=args.current_proof_qualification_dir
     validate_output(OUT,ROOT)
     build()

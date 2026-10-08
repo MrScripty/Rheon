@@ -24,6 +24,31 @@ def metadata(repo):
             raise ValueError('Historical PR24 source inventory changed')
     return data
 
+def validate_proof_qualification(data, repo, directory):
+    """New release bindings require the actual external kernel receipt and logs."""
+    if not data.get('release_qualification_required'):
+        return
+    if directory is None:
+        raise ValueError('PR36 requires the fresh current proof qualification bundle')
+    directory=Path(directory)
+    receipt=directory/'qualification.json'
+    if hashlib.sha256(receipt.read_bytes()).hexdigest()!=data['local_kernel_receipt_sha256']:
+        raise ValueError('Current proof qualification receipt differs from reviewed binding')
+    actual=json.loads(receipt.read_text())
+    if actual.get('status')!='passed' or actual.get('source_head')!=data['current_reconstruction_proof']['source_head']:
+        raise ValueError('Current proof qualification source/status differs')
+    if actual.get('proof_inventory_sha256')!=data['proof_inventory_sha256']:
+        raise ValueError('Current proof qualification inventory differs')
+    for name,digest in actual['proof_source_sha256'].items():
+        if hashlib.sha256((Path(repo)/'proofs'/name).read_bytes()).hexdigest()!=digest:
+            raise ValueError('Qualified proof source changed: '+name)
+    for command in actual['commands']:
+        if command['returncode']!=0 or hashlib.sha256((directory/command['log']).read_bytes()).hexdigest()!=command['log_sha256']:
+            raise ValueError('Current proof qualification command/log differs')
+    for key in ['public_theorems','explicit_expected_declarations','audited_declarations']:
+        if actual[key]!=data[key]:
+            raise ValueError('Current proof qualification count differs: '+key)
+
 def validate_labs(data, directory):
     if directory is None:
         return

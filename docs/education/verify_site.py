@@ -70,6 +70,8 @@ proof=json.loads((ROOT/"proof-qualification.json").read_text())
 repo=Path(__file__).resolve().parents[2]
 pins=json.loads((repo/"proofs/source-inventory.json").read_text())
 sequence=json.loads((ROOT/"native-sequence.json").read_text())
+from native_sequence import validate_proof_qualification
+validate_proof_qualification(sequence,repo,ROOT/'current-proof-qualification')
 assert hashlib.sha256((repo/"proofs/source-inventory.json").read_bytes()).hexdigest()==sequence["proof_inventory_sha256"]
 for name,digest in pins.items():
     assert hashlib.sha256((repo/"proofs"/name).read_bytes()).hexdigest()==digest,name

@@ -1,10 +1,10 @@
 {
   "schema": "rheon-native-sequence-source-v1",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Fresh reconstructed aligned-strain source f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b qualified locally with normal pinned Lean 4.19.0 lake build, kernel audit and normal/optimized rejection and source/pin gates; exact finite-real contracts, without IEEE refinement or approximate-solver guarantees",
-  "proof_inventory_sha256": "be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa",
-  "public_theorems": 106,
-  "audited_declarations": 161,
+  "qualified_lean_source": "Fresh local full PR36 proof source d31cf735645579357f9f58dcc55958e23f77af59 qualified with pinned Lean 4.19.0 normal lake build, kernel audit and normal/optimized rejection and source/pin gates; exact finite-real contracts only",
+  "proof_inventory_sha256": "1921828e1986a1439c7a08e789f7533e4aa54fceff273f6fbdc311a81525d399",
+  "public_theorems": 141,
+  "audited_declarations": 237,
   "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",
   "labs": [
     {
@@ -78,9 +78,9 @@
     "audited_declarations": 77,
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
-  "local_kernel_receipt_sha256": "dda663582724a7ca4ef4fff9088682d85fca576e23a0a74b1515bbc65784f808",
-  "lean_ci_scope": "Successful hosted Lean workflow associated with f75cd66; exact PR merge checkout identity is not asserted here. The local digest-bound receipt qualifies the immutable f75 source.",
-  "explicit_expected_declarations": 144,
+  "local_kernel_receipt_sha256": "aec161bbbe848603519e4ced55744a1391f2e64d53a7bd8889d014fb6c51aca4",
+  "lean_ci_scope": "Historical f75 reconstruction run only. Fresh local PR36 source and log-bound receipt supplies current qualification; no hosted CI requested.",
+  "explicit_expected_declarations": 198,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
     "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
@@ -92,6 +92,46 @@
     "explicit_expected_declarations": 118
   },
   "current_reconstruction_proof": {
+    "source_head": "d31cf735645579357f9f58dcc55958e23f77af59",
+    "source_tree": "68bfbefca7f83ead7468ce870b57353e2753e27d",
+    "proof_inventory_sha256": "1921828e1986a1439c7a08e789f7533e4aa54fceff273f6fbdc311a81525d399",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "public_theorems": 141,
+    "audited_declarations": 237,
+    "explicit_expected_declarations": 198,
+    "local_qualification": {
+      "schema": "rheon-pr36-release-lean-qualification-v1",
+      "qualified_at_utc": "2026-10-08",
+      "status": "passed",
+      "clean": true,
+      "lean_checked": true,
+      "receipt_sha256": "aec161bbbe848603519e4ced55744a1391f2e64d53a7bd8889d014fb6c51aca4",
+      "receipt_reference": "External pr36-proof-qualification/qualification.json; original logs kept outside Git and copied into the review edition",
+      "qualification_runner": "Pinned normal lake build, kernel audit, and normal/optimized source and negative probes in an unchanged PR36 proof-source copy",
+      "recorded_inputs_scope": "Existing native accepted packets and historical inventories unchanged"
+    },
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",
+    "lean_ci_associated_source_head": "f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b",
+    "lean_ci_checkout_identity": "Historical f75 run only; no PR36 hosted CI requested",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "reproduction": [
+      "cd proofs",
+      "python3 scripts/check_sources.py",
+      "lake build",
+      "lake env lean AxiomAudit.lean",
+      "python3 scripts/test_audit.py",
+      "python3 -O scripts/test_audit.py",
+      "python3 scripts/test_check_sources.py",
+      "python3 -O scripts/test_check_sources.py"
+    ],
+    "scope": "Finite exact-real strain, pressure, P1 mesh-load algebra, rigid impulses, spherical-inertia motion and conditional frictionless sphere response. No Rust/IEEE refinement, feature completeness, general inertia, repeated/resting contact or fluid coupling."
+  },
+  "historical_reconstruction_proof": {
     "source_head": "f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b",
     "source_tree": "bda8ebca0a226e10f03f975ffcf9701df4326095",
     "proof_inventory_sha256": "be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa",
@@ -130,5 +170,6 @@
       "python3 -O scripts/test_check_sources.py"
     ],
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
-  }
+  },
+  "release_qualification_required": true
 }
