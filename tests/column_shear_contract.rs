@@ -354,3 +354,218 @@ fn analytic_traction_free_shear_refines_with_liquid_only_weights() {
         }
     }
 }
+
+#[test]
+fn wall_friction_has_physical_mass_scaling_and_moving_wall_work() {
+    for axis in [Axis::X, Axis::Y, Axis::Z] {
+        let (g, s) = fixture(axis, 1, 0.0);
+        let normal = match axis {
+            Axis::X => 0,
+            Axis::Y => 1,
+            Axis::Z => 2,
+        };
+        let tangent = if normal == 0 { 1 } else { 0 };
+        let mut walls = [ColumnShearWall {
+            velocity: [0.0; 3],
+            friction: 1.0,
+        }; 2];
+        let u = profiles(&g, axis, &[1.0]);
+        let mut out = fields(&g);
+        let mut w = ColumnShearWorkspace::new(g.clone(), axis, 1 << 20).unwrap();
+        let r = w
+            .update_with_walls(
+                ColumnShearInputs {
+                    dynamic_viscosity: 1.0,
+                    dt: 0.125,
+                    ..input(s.state(), &u)
+                },
+                walls,
+                muts(&mut out),
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(
+            out[tangent][g
+                .face_index([Axis::X, Axis::Y, Axis::Z][tangent], [0; 3])
+                .unwrap()],
+            0.75
+        );
+        assert!(r.shear.kinetic_after < r.shear.kinetic_before);
+        assert_eq!(r.actuator_work, 0.0);
+        assert_eq!(r.wall_dissipation_before, 4.0 * r.shear.geometry.area);
+        assert!(r.shear.identity_error.abs() <= r.shear.energy_budget);
+        assert!(r.shear.momentum_error[tangent].abs() <= r.shear.momentum_budget[tangent]);
+        let heavy = w
+            .update_with_walls(
+                ColumnShearInputs {
+                    density: 2.0,
+                    dynamic_viscosity: 1.0,
+                    dt: 0.125,
+                    ..input(s.state(), &u)
+                },
+                walls,
+                muts(&mut out),
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(
+            out[tangent][g
+                .face_index([Axis::X, Axis::Y, Axis::Z][tangent], [0; 3])
+                .unwrap()],
+            0.875
+        );
+        assert_eq!(heavy.shear.density, 2.0);
+        walls[0].velocity[tangent] = 2.0;
+        walls[1].velocity[tangent] = 2.0;
+        let rest = profiles(&g, axis, &[0.0]);
+        let driven = w
+            .update_with_walls(
+                ColumnShearInputs {
+                    dynamic_viscosity: 1.0,
+                    dt: 0.125,
+                    ..input(s.state(), &rest)
+                },
+                walls,
+                muts(&mut out),
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(
+            out[tangent][g
+                .face_index([Axis::X, Axis::Y, Axis::Z][tangent], [0; 3])
+                .unwrap()],
+            0.5
+        );
+        assert!(driven.shear.kinetic_after > 0.0 && driven.actuator_work > 0.0);
+        // Common tangential translation has no relative wall drag or strain.
+        for wall in &mut walls {
+            wall.velocity = [0.0; 3];
+            for d in 0..3 {
+                if d != normal {
+                    wall.velocity[d] = 1.0;
+                }
+            }
+        }
+        let common = w
+            .update_with_walls(input(s.state(), &u), walls, muts(&mut out), |_| false)
+            .unwrap();
+        assert_eq!(out, u);
+        assert_eq!(common.wall_dissipation_before, 0.0);
+        assert_eq!(common.actuator_work, 0.0);
+    }
+}
+
+#[test]
+fn zero_wall_coefficient_preserves_original_update_and_wall_cancellation_preserves_output() {
+    let (g, s) = fixture(Axis::Y, 2, 0.25);
+    let u = profiles(&g, Axis::Y, &[1.0, -1.0]);
+    let mut a = fields(&g);
+    let mut b = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g.clone(), Axis::Y, 1 << 20).unwrap();
+    let walls = [ColumnShearWall {
+        velocity: [0.0; 3],
+        friction: 0.0,
+    }; 2];
+    let old = w
+        .update(input(s.state(), &u), muts(&mut a), |_| false)
+        .unwrap();
+    let new = w
+        .update_with_walls(input(s.state(), &u), walls, muts(&mut b), |_| false)
+        .unwrap();
+    assert_eq!(a, b);
+    assert_eq!(old, new.shear);
+    let walls = [ColumnShearWall {
+        velocity: [0.0; 3],
+        friction: 0.5,
+    }; 2];
+    for occurrence in 1..=4 {
+        let before = b.clone();
+        let mut n = 0;
+        assert!(matches!(
+            w.update_with_walls(input(s.state(), &u), walls, muts(&mut b), |stage| {
+                if stage == ColumnShearStage::WallTraction {
+                    n += 1;
+                }
+                stage == ColumnShearStage::WallTraction && n == occurrence
+            }),
+            Err(ColumnShearError::Cancelled {
+                stage: ColumnShearStage::WallTraction
+            })
+        ));
+        assert_eq!(b, before);
+    }
+    let before = b.clone();
+    assert!(matches!(
+        w.update_with_walls(
+            ColumnShearInputs {
+                dt: 2.0,
+                ..input(s.state(), &u)
+            },
+            walls,
+            muts(&mut b),
+            |_| false
+        ),
+        Err(ColumnShearError::StabilityLimit { .. })
+    ));
+    assert_eq!(b, before);
+}
+
+#[test]
+fn signed_wall_motion_and_unsupported_wall_laws_are_explicit() {
+    let (g, s) = fixture(Axis::Y, 1, 0.0);
+    let u = profiles(&g, Axis::Y, &[0.0]);
+    let mut out = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g.clone(), Axis::Y, 1 << 20).unwrap();
+    for speed in [-2.0, 2.0] {
+        let walls = [ColumnShearWall {
+            velocity: [speed, 0.0, 0.0],
+            friction: 1.0,
+        }; 2];
+        let r = w
+            .update_with_walls(input(s.state(), &u), walls, muts(&mut out), |_| false)
+            .unwrap();
+        assert_eq!(
+            out[0][g.face_index(Axis::X, [0; 3]).unwrap()],
+            (speed * 0.25) as f32
+        );
+        assert!(r.actuator_work > 0.0);
+        assert_eq!(r.wall_force[0][0].signum(), speed.signum());
+    }
+    let before = out.clone();
+    for wall in [
+        ColumnShearWall {
+            velocity: [0.0; 3],
+            friction: -1.0,
+        },
+        ColumnShearWall {
+            velocity: [0.0; 3],
+            friction: f64::NAN,
+        },
+        ColumnShearWall {
+            velocity: [0.0, 1.0, 0.0],
+            friction: 1.0,
+        },
+    ] {
+        assert!(
+            w.update_with_walls(input(s.state(), &u), [wall; 2], muts(&mut out), |_| false)
+                .is_err()
+        );
+        assert_eq!(out, before);
+    }
+    assert!(matches!(
+        w.update_with_walls(
+            ColumnShearInputs {
+                dynamic_viscosity: 0.0,
+                ..input(s.state(), &u)
+            },
+            [ColumnShearWall {
+                velocity: [0.0; 3],
+                friction: 1.0
+            }; 2],
+            muts(&mut out),
+            |_| false
+        ),
+        Err(ColumnShearError::InvalidCoefficient)
+    ));
+    assert_eq!(out, before);
+}

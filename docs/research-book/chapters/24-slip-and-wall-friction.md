@@ -40,6 +40,13 @@ Tests include both signs of U, rotated wall frames, uniform wall/fluid translati
 
 ## Both walls slipping: a distinct oracle
 
+The native [flat-slab wall-friction update](../implementation/column-wall-friction.md)
+now advances actual Rust velocities with finite nonnegative wall coefficients,
+positive density and viscosity, separate relative dissipation and actuator work.
+Its reproducible `column_wall_shear` laboratory compares the existing finite
+endpoint basis with the symmetric two-wall oracle below. This bounded model
+does not add wetting, contact lines or arbitrary collision-mesh fluid boundaries.
+
 The browser lab uses lower-wall slip only. With equal finite slip lengths ℓ at both stationary-lower/moving-upper walls, the separate exact profile is
 
 \[

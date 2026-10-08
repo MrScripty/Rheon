@@ -59,7 +59,11 @@ run_cmd do
     `Rheon.BoundedPhysics.viscous_work,
     `Rheon.BoundedPhysics.dissipation_nonnegative,
     `Rheon.BoundedPhysics.backward_euler_work,
-    `Rheon.BoundedPhysics.backward_euler_energy_nonincrease]
+    `Rheon.BoundedPhysics.backward_euler_energy_nonincrease,
+    `Rheon.WallFriction.wall_force_work,
+    `Rheon.WallFriction.common_translation,
+    `Rheon.WallFriction.relative_dissipation_nonnegative,
+    `Rheon.WallFriction.explicit_work_identity]
   for name in expected do
     let _ ← getConstInfo name
     pure ()
