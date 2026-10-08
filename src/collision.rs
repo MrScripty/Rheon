@@ -146,6 +146,11 @@ impl TriangleSurface {
     pub fn allocated_bytes(&self) -> usize {
         self.allocated_bytes
     }
+    /// Exact conditioning threshold retained at admission; pose regeneration
+    /// must reuse this value rather than silently restoring a default.
+    pub fn relative_tolerance(&self) -> f64 {
+        self.tolerance
+    }
 
     /// Scan all facets, without heap allocation. Exact parameter ties retain
     /// the lowest triangle index. An ambiguous candidate rejects the query,

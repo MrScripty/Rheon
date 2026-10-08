@@ -239,15 +239,15 @@ fn physical_inertia(mut moments: [f64; 3]) -> bool {
     }
     a - b <= c
 }
-fn add(a: f64, b: f64) -> Option<f64> {
+pub(crate) fn add(a: f64, b: f64) -> Option<f64> {
     let c = a + b;
     c.is_finite().then_some(c)
 }
-fn mul(a: f64, b: f64) -> Option<f64> {
+pub(crate) fn mul(a: f64, b: f64) -> Option<f64> {
     let c = a * b;
     (c.is_finite() && (c != 0.0 || a == 0.0 || b == 0.0)).then_some(c)
 }
-fn div(a: f64, b: f64) -> Option<f64> {
+pub(crate) fn div(a: f64, b: f64) -> Option<f64> {
     let c = a / b;
     (c.is_finite() && (c != 0.0 || a == 0.0)).then_some(c)
 }

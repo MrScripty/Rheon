@@ -20,6 +20,11 @@ pub use rigid_impulse::{
     FrozenRigidBody, RigidImpulseError, RigidImpulseReport, RigidImpulseStage, RigidSnapshot,
     RigidStamp,
 };
+mod rigid_motion;
+pub use rigid_motion::{
+    MAX_RIGID_ROTATION_RAD, RigidMotionError, RigidMotionReport, RigidMotionSettings,
+    RigidMotionStage, RigidPoseSnapshot, SphericalRigidMotion,
+};
 mod static_obstacle;
 pub use static_obstacle::{
     NO_FLUID_COMPONENT, ObstacleAllocation, ObstacleError, ObstacleFace, ObstacleStage,
