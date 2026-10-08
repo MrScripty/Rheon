@@ -16,6 +16,7 @@ from native_sequence import metadata
 from obstacle_browser import qualify as qualify_obstacle
 from obstacle_flow_browser import qualify as qualify_obstacle_flow
 from aligned_strain_browser import qualify as qualify_aligned_strain
+from sphere_contact_lab import validate_packet as validate_contact_packet
 
 HERE = Path(__file__).resolve().parent
 
@@ -70,7 +71,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         page = browser.new_page(viewport={'width': 1440, 'height': 1050}, device_scale_factor=1)
         track(page)
         load(page, 'index.html')
-        page.screenshot(path='/tmp/rheon-education-home.png', full_page=True)
+        page.screenshot(path='/tmp/rheon-education-home.jpg', type="jpeg", quality=85, full_page=True)
         load(page, 'labs.html')
         page.wait_for_selector('#metrics dd')
         page.wait_for_timeout(500)
@@ -90,12 +91,12 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
             after = page.locator('#metrics').inner_text()
             require(before != after, f'Controls did not change metrics: {lab}')
             check_errors()
-            page.screenshot(path=f'/tmp/rheon-education-{lab}.png', full_page=True)
+            page.screenshot(path=f'/tmp/rheon-education-{lab}.jpg', type="jpeg", quality=85, full_page=True)
             checks.append({'lab': lab, 'control_changes_metrics': True, 'readout': after})
         page.select_option('#lab', 'cap')
         page.locator('input[type=range]').fill('12')
         page.locator('input[type=range]').dispatch_event('input')
-        page.screenshot(path='/tmp/rheon-education-cap90.png', full_page=True)
+        page.screenshot(path='/tmp/rheon-education-cap90.jpg', type="jpeg", quality=85, full_page=True)
         page.mouse.move(500, 500)
         page.mouse.down()
         page.mouse.move(610, 540, steps=5)
@@ -104,10 +105,10 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         load(page, 'chapters/23-wetting-and-adhesion.html')
         require(page.locator('.katex-error').count() == 0, 'KaTeX rendering errors')
         require(page.locator('.katex').count() > 5, 'Missing rendered chapter mathematics')
-        page.screenshot(path='/tmp/rheon-education-chapter.png', full_page=True)
+        page.screenshot(path='/tmp/rheon-education-chapter.jpg', type="jpeg", quality=85, full_page=True)
         load(page, 'chapters/20-collision-mesh-pipeline.html')
         check_planar_statement(page)
-        page.screenshot(path='/tmp/rheon-education-planar-statement.png', full_page=True)
+        page.screenshot(path='/tmp/rheon-education-planar-statement.jpg', type="jpeg", quality=85, full_page=True)
         mobile = browser.new_page(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True)
         track(mobile)
         load(mobile, 'index.html')
@@ -115,7 +116,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         require(mobile.locator('#navigation').is_visible(), 'Mobile navigation did not open')
         mobile.locator('#search').fill('wetting')
         require(mobile.locator('.chapter-link:visible').count() == 1, 'Mobile chapter search failed')
-        mobile.screenshot(path='/tmp/rheon-education-mobile.png', full_page=True)
+        mobile.screenshot(path='/tmp/rheon-education-mobile.jpg', type="jpeg", quality=85, full_page=True)
         load(mobile, 'labs.html#cap')
         mobile.wait_for_selector('#metrics dd')
         require(mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'),
@@ -125,9 +126,50 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         obstacle_flow = qualify_obstacle_flow(page, mobile, load, check_errors)
         packet_dir = Path(artifact_dir)/'aligned-strain-packet' if artifact_dir is not None else HERE/'_site/aligned-strain-packet'
         strain = qualify_aligned_strain(page, mobile, load, check_errors, packet_dir if packet_dir.exists() else None, artifact_dir=Path(artifact_dir)/'strain-browser-evidence' if render_pdf and artifact_dir is not None else None)
+        contact_cases = 0
+        contact_packet = Path(artifact_dir)/'sphere-contact-packet' if artifact_dir is not None else HERE/'_site/sphere-contact-packet'
+        load(page, 'sphere-contact-lab.html')
+        if contact_packet.exists():
+            cases = validate_contact_packet(HERE.parents[1], contact_packet)
+            for i, (name, raw) in enumerate(cases):
+                page.select_option('#contact-case', str(i))
+                shown = page.locator('.contact-case:visible')
+                require(shown.count() == 1 and shown.locator('h2').inner_text() == name,
+                        'Contact case selection differs from native packet')
+                cells = shown.locator('td').all_text_contents()
+                require(cells[1:7] == [json.dumps(v) for v in
+                        [raw['before']['time_s'],raw['after']['time_s'],raw['before']['center'],
+                         raw['after']['center'],raw['before']['velocity'],raw['after']['velocity']]],
+                        'Contact readout differs from actual native snapshot')
+                require(shown.locator('svg circle[data-role=collider]').count() == 2,
+                        'Declared collider projections missing')
+                contact_cases += 1
+            load(mobile, 'sphere-contact-lab.html')
+            require(mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'),
+                    'Mobile contact playback has horizontal overflow')
+        else:
+            require('packet is absent' in page.locator('main').inner_text(),
+                    'Source-only contact page must state packet absence')
+        nojs = browser.new_context(java_script_enabled=False, viewport={'width':390,'height':844})
+        readable = nojs.new_page()
+        track(readable)
+        load(readable, 'implementation/static-sphere-contact.html')
+        require(readable.locator('#navigation').is_visible() and readable.locator('main h1').is_visible(),
+                'No-JavaScript mobile reading/navigation failed')
+        require(readable.locator('.katex-error').count() == 0,
+                'No-JavaScript mathematics failed')
+        load(readable, 'sphere-contact-lab.html')
+        if contact_packet.exists():
+            require(readable.locator('.contact-case:visible').count() == contact_cases,
+                    'No-JavaScript contact snapshots unavailable')
+        nojs.close()
         load(page, 'print.html')
         page.evaluate('document.fonts.ready')
         check_planar_statement(page)
+        reading_order = json.loads((Path(artifact_dir)/'build-receipt.json').read_text())['reading_order'] if artifact_dir is not None else None
+        if reading_order is not None:
+            require(page.locator('.book-chapter').evaluate_all('(ss)=>ss.map(s=>s.id)') == reading_order,
+                    'Print reading order differs from release manifest')
         check_errors()
         if render_pdf:
             destination = Path(artifact_dir) if artifact_dir is not None else HERE
@@ -145,6 +187,10 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         receipt['static_obstacle'] = obstacle
         receipt['obstacle_flow'] = obstacle_flow
         receipt['aligned_strain'] = strain
+        receipt['sphere_contact'] = {'included':contact_packet.exists(),'native_cases_checked':contact_cases,
+                                    'browser_physics_calls':0,'pose_interpolations':0}
+        receipt['no_javascript_reading'] = True
+        receipt['print_reading_order'] = reading_order
         browser.close()
         return receipt
 

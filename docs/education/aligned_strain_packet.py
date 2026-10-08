@@ -19,8 +19,10 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / 'tools'))
 from aligned_strain_oracle import parse_dump, reference, verify, matrix, require
 
-PRIMARY_SOURCE = 'f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b'
-PRIMARY_TREE = 'bda8ebca0a226e10f03f975ffcf9701df4326095'
+# Requalified native source: fresh full native/rational driver, unchanged strain
+# and geometry modules; PR36 adds body/contact exports. Historical PR30 stays pinned.
+PRIMARY_SOURCE = 'd31cf735645579357f9f58dcc55958e23f77af59'
+PRIMARY_TREE = '68bfbefca7f83ead7468ce870b57353e2753e27d'
 SCHEMA = 'rheon-aligned-strain-education-packet-v1'
 RECEIPT_SCHEMA = 'rheon-aligned-strain-education-qualification-v1'
 FILES = {'native.tsv', 'data.json', 'qualification.json', 'primary-qualification.json'}

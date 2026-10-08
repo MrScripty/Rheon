@@ -2,8 +2,12 @@
 from pathlib import Path
 import hashlib, html, json, re, shutil
 
-GUIDES = ['native-wall-force-sequence', 'column-wall-friction', 'column-no-slip',
-          'column-poiseuille', 'static-obstacle-geometry', 'static-obstacle-flow', 'requirements-roadmap']
+GUIDES = ['release-learning-path', 'native-wall-force-sequence', 'column-wall-friction',
+          'column-no-slip', 'column-poiseuille', 'static-obstacle-geometry',
+          'static-obstacle-flow', 'reconstructed-aligned-strain',
+          'aligned-strain-laboratory', 'experimental-aligned-stokes',
+          'triangle-mesh-traction', 'rigid-mesh-impulse', 'spherical-rigid-motion',
+          'static-sphere-contact', 'requirements-roadmap']
 
 def metadata(repo):
     repo = Path(repo)

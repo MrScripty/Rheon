@@ -23,7 +23,7 @@ class PdfFreshness(unittest.TestCase):
                               *[(self.here/name, name) for name in
                                 ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json',
                                  'aligned_strain_packet.py','aligned_strain_html.py',
-                                 'aligned_strain.js','aligned_strain.css','aligned_strain_browser.py']]]:
+                                 'aligned_strain.js','aligned_strain.css','aligned_strain_browser.py','sphere_contact_lab.py']]]:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(content)
         self.pdf = self.here / 'downloads/Rheon-expanded-book.pdf'
@@ -63,7 +63,7 @@ class PdfFreshness(unittest.TestCase):
 
     def test_changed_aligned_lab_sources_reject_retained_pdf(self):
         for name in ['aligned_strain_packet.py','aligned_strain_html.py',
-                     'aligned_strain.js','aligned_strain.css','aligned_strain_browser.py']:
+                     'aligned_strain.js','aligned_strain.css','aligned_strain_browser.py','sphere_contact_lab.py']:
             with self.subTest(source=name):
                 path=self.here/name;original=path.read_bytes()
                 path.write_bytes(original+b' changed')

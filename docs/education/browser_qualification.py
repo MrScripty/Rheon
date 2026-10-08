@@ -6,7 +6,7 @@ import json
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
                     'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt',
-                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py', 'aligned_strain_packet.py', 'aligned_strain_html.py', 'aligned_strain.js', 'aligned_strain.css', 'aligned_strain_browser.py']
+                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py', 'aligned_strain_packet.py', 'aligned_strain_html.py', 'aligned_strain.js', 'aligned_strain.css', 'aligned_strain_browser.py','sphere_contact_lab.py']
 LABS = ['projection', 'collision', 'hydrostatic', 'viscous', 'slip', 'cap']
 
 
@@ -91,6 +91,19 @@ def verify_browser_qualification(repo, artifact_dir=None):
         from aligned_strain_packet import verify_published as verify_strain_published
         strain=verify_strain_published(repo,artifact)
         validate_strain_browser_receipt(receipt.get('aligned_strain',{}),strain)
+        from sphere_contact_lab import validate_packet as validate_contact_packet
+        packet=artifact/'sphere-contact-packet'
+        cases=validate_contact_packet(repo,packet) if packet.exists() else None
+        build=json.loads((artifact/'build-receipt.json').read_text())
+        if cases is not None and hashlib.sha256((packet/'packet-provenance.json').read_bytes()).hexdigest()!=build['sphere_contact_packet_sha256']:
+            raise ValueError('Contact packet differs from built release')
+        expected={'included':cases is not None,'native_cases_checked':len(cases) if cases else 0,
+                  'browser_physics_calls':0,'pose_interpolations':0}
+        if receipt.get('sphere_contact')!=expected or receipt.get('no_javascript_reading') is not True:
+            raise ValueError('Incomplete contact playback/no-JavaScript qualification')
+        order=json.loads((artifact/'build-receipt.json').read_text())['reading_order']
+        if receipt.get('print_reading_order')!=order:
+            raise ValueError('Print reading order differs from retained release')
 
 
 if __name__ == '__main__':

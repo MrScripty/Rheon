@@ -11,7 +11,7 @@ def input_hashes(repo):
     paths.update((book / 'appendices').glob('*.md'))
     paths.update((book / 'implementation').glob('*.md'))
     paths.update(p for p in [repo/'docs/education/native_sequence.py',repo/'docs/education/native_browser.py',repo/'docs/education/native-sequence.json',repo/'docs/education/markdown_bundle.py',repo/'docs/education/requirements.txt',repo/'docs/education/static_obstacle.py',repo/'docs/education/obstacle.js',repo/'docs/education/obstacle_browser.py',repo/'docs/education/obstacle_flow.py',repo/'docs/education/obstacle_flow.js',repo/'docs/education/obstacle_flow_browser.py'] if p.exists())
-    paths.update(repo/'docs/education'/name for name in ['aligned_strain_packet.py','aligned_strain_html.py','aligned_strain.js','aligned_strain.css','aligned_strain_browser.py'])
+    paths.update(repo/'docs/education'/name for name in ['aligned_strain_packet.py','aligned_strain_html.py','aligned_strain.js','aligned_strain.css','aligned_strain_browser.py','sphere_contact_lab.py'])
     paths.update((book / 'figures').glob('*.svg'))
     paths.update((book / 'expansion/figures').glob('*.svg'))
     paths.update((book / 'expansion/figures').glob('*.png'))
