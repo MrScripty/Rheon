@@ -38,6 +38,9 @@ pub use sphere_friction_interval::*;
 pub use sphere_interval::*;
 pub use sphere_support::*;
 mod static_obstacle;
+mod viscous_boundary_wrench;
+pub use viscous_boundary_wrench::{AlignedViscousBoundaryWrench, ViscousBoundaryLift,
+    ViscousBoundaryVirtualWork, ViscousBoundaryWrenchReport};
 pub use sphere_contact::{
     MAX_CONTACT_BODY_TRIANGLES, SphereContactError, SphereContactHit, SphereContactReport,
     SphereContactSettings, SphereContactStage, SphereFeature, SphereImpactReport,
