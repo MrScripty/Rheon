@@ -164,12 +164,13 @@ divergence; there is no pressure solve in the specimen.
 With positions in metres and velocity in m/s, `alpha` has units m^-10 s^-1,
 `beta` m^-1 and `psi` m^2/s; the quoted SI force/torque values use those units.
 
-The native fixture samples the uncut polynomial. Every solid-reacting row
-dependency in the second specimen lies inside `[1/2,5/2]^3`; a cutoff equal to
-one there leaves the solid wrench comparison unchanged while changing remote
-fluid samples. Only the solid-local result is compared with the continuum
-integral. The uncut native outer reaction is not compared with an analytic
-sealed/free-slip outer stress or presented as a globally compatible field.
+The native fixture samples the uncut polynomial. A smooth cutoff plateau
+`[1/4,11/4]^3` in the second specimen preserves every finite active sample,
+including all solid-reacting dependencies in `[1/2,5/2]^3`, while vanishing in
+a neighborhood of outer walls. Thus a compatible smooth continuum extension
+can preserve the native input values exactly. The fixed continuum comparison
+here is nevertheless restricted to the solid wrench; it does not qualify the
+discrete outer reaction or the point-sampled divergence.
 
 For unit box, unit viscosity, `alpha=225,beta=1`, the physical solid force is
 `(0,-1/2,0)` and torque about box center is `(0,0,-1)`. On the center cube in a

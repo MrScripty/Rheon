@@ -92,8 +92,9 @@ def qualify(output, lean, dependencies):
                 run([sys.executable,*(['-O'] if optimize else []),'tools/check_viscous_boundary_wrench.py',
                      '--executable',frozen,'--output',output/('oracle-'+suffix)],'oracle-'+suffix+'.log')
         for optimize in [False,True]:
+            native_env=dict(os.environ,RHEON_VISCOUS_WRENCH_EXECUTABLE=receipt['binaries']['debug']['path'])
             run([sys.executable,*(['-O'] if optimize else []),'-m','unittest','discover','-s','tools',
-                 '-p','test_viscous_boundary_wrench_oracle.py'],'oracle-tests'+('-optimized' if optimize else '')+'.log')
+                 '-p','test_viscous_boundary_wrench_oracle.py'],'oracle-tests'+('-optimized' if optimize else '')+'.log',env=native_env)
         run(['cargo','clippy','--offline','--locked','--no-default-features','--lib','--example',
              'viscous_boundary_wrench','--test','viscous_boundary_wrench_contract','--','-D','warnings'],'clippy.log')
         run(['rustfmt','--edition','2024','--check','src/viscous_boundary_wrench.rs','src/lib.rs',
@@ -123,6 +124,9 @@ def qualify(output, lean, dependencies):
             path=proof_output/('negative-'+label+'.lean')
             path.write_text(audit.replace('open Lean Elab Command','namespace Rheon.ViscousBoundaryWrench\n'+declaration+'\nend Rheon.ViscousBoundaryWrench\nopen Lean Elab Command'))
             run([lean,path],'negative-'+label+'.log',ROOT/'proofs',env,expected_error=error)
+        render_env=dict(os.environ,MPLCONFIGDIR=str(output/'mpl-cache'),XDG_CACHE_HOME=str(output/'cache'))
+        run([sys.executable,'tools/render_viscous_boundary_wrench.py',output/'oracle-debug/polynomial-coarse.json',
+             output/'oracle-debug/polynomial-bounded.json',output/'rendered'],'render.log',env=render_env)
         if sources != {p:sha(ROOT/p) for p in tracked} or receipt['source_head'] != git('rev-parse','HEAD'):
             raise ValueError('source changed during qualification')
         if git('status','--porcelain','--untracked-files=all'): raise ValueError('source became dirty')
