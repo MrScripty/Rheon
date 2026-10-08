@@ -39,11 +39,13 @@ def qualify(page, mobile, load, check_errors):
     page.locator('#obstacle-reset').click()
     if page.locator('#obstacle-refusals li').count()!=3:
         raise RuntimeError('Missing static topology refusal records')
+    page.evaluate('window.scrollTo(0,0)')
     page.screenshot(path='/tmp/rheon-static-obstacle-lab.png',full_page=True)
     load(mobile,'obstacle-lab.html');mobile.wait_for_selector('#obstacle-metrics dd')
     mobile.select_option('#obstacle-case','separator-x');mobile.select_option('#obstacle-axis','2')
     if not mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'):
         raise RuntimeError('Static geometry mobile overflow')
+    mobile.evaluate('window.scrollTo(0,0)')
     mobile.screenshot(path='/tmp/rheon-static-obstacle-mobile.png',full_page=True)
     check_errors()
     return {'included':True,'cases':len(records['cases']),'cells':cells,'flux_pairs':pairs,'mobile_no_overflow':True,'fluid_advances':0}

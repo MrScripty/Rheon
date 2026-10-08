@@ -59,8 +59,8 @@ function choose(){
   current=data.cases.find(c=>c.id===select.value);cell.replaceChildren();
   for(let i=0;i<current.volumes.length;i++)cell.add(new Option(coordinates(current,i).join(', '),i));
   cell.value=String(Math.floor(current.volumes.length/2));
-  const lo=current.origin.map((x,d)=>Math.min(x,current.lower[d],current.probes[d].start[d]));
-  const hi=position(current,current.counts).map((x,d)=>Math.max(x,current.upper[d],current.probes[d].end[d]));
+  const lo=current.origin.map((x,d)=>Math.min(x,current.lower[d]));
+  const hi=position(current,current.counts).map((x,d)=>Math.max(x,current.upper[d]));
   center=new THREE.Vector3(...lo.map((x,d)=>(x+hi[d])/2));extent=Math.max(...hi.map((x,d)=>x-lo[d]));draw();reset();
 }
 select.addEventListener('change',choose);cell.addEventListener('change',draw);axis.addEventListener('change',draw);document.querySelector('#obstacle-reset').onclick=reset;
