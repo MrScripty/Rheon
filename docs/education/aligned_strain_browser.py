@@ -128,6 +128,8 @@ def qualify(page,mobile,load,check_errors,packet_dir=None,artifact_dir=None,repo
     def picture(name,target=page):
         if artifact_dir is not None:
             path=evidence_path(artifact_dir,name,repo)
+            target.evaluate('scrollTo(0,0)')
+            target.evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))')
             target.screenshot(path=str(path),full_page=True,type='jpeg',quality=85)
             screenshots.append(str(path))
     check();picture('aligned-strain-desktop-corner.jpg')
