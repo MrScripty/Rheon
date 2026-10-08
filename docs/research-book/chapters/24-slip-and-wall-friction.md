@@ -92,6 +92,7 @@ endpoint deviation under the bounded refinement is not temporal order.
 Four new Lean statements prove compatible trace preservation, zero relative
 reaction work, momentum balance and the constrained finite work identity under
 explicit step/assembled-power assumptions. They do not certify stencil assembly,
-Rust floating point or general wall geometry. The native operation also refuses
-incompatible or time-varying prescribed speeds and two no-slip walls sharing one
-wet node, where the separate reactions would be nonunique.
+Rust floating point or general wall geometry. The native operation refuses
+prescribed speeds incompatible with the incoming trace and two no-slip walls
+sharing one wet node, where separate reactions would be nonunique. It retains
+no boundary-speed history and supplies no time-varying wall-speed evolution model.
