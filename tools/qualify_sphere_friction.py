@@ -73,8 +73,11 @@ def qualify(output, lean_bin, dependencies):
         if expected_error is None:
             if r.returncode:
                 raise RuntimeError("command failed; inspect " + name)
-        elif r.returncode == 0 or expected_error not in log:
-            raise RuntimeError("negative probe did not refuse: " + name)
+        else:
+            errors = [line.split(": error: ", 1)[1] for line in log.splitlines()
+                      if ": error: " in line]
+            if r.returncode == 0 or errors != [expected_error]:
+                raise RuntimeError("negative probe must produce only its exact intended axiom error: " + name)
         return r.stdout
 
     try:
@@ -141,9 +144,11 @@ def qualify(output, lean_bin, dependencies):
                                    ("sorry", "theorem injected : False := by sorry")]:
             probe = proof_output / ("negative-" + label + ".lean")
             probe.write_text(audit.replace("open Lean Elab Command", "namespace Rheon.SphereFriction\n" +
-                             declaration + "\nend Rheon.SphereInterval\nopen Lean Elab Command"))
+                             declaration + "\nend Rheon.SphereFriction\nopen Lean Elab Command"))
             run([lean_bin, probe], "negative-" + label + ".log", ROOT / "proofs", env,
-                expected_error="Disallowed axiom")
+                expected_error="Disallowed axiom " +
+                ("Rheon.SphereFriction.injected" if label == "axiom" else "sorryAx") +
+                " in Rheon.SphereFriction.injected")
         if sources != {p: sha(ROOT / p) for p in files} or git("rev-parse", "HEAD") != receipt["source_head"]:
             raise ValueError("source changed during qualification")
         if git("status", "--porcelain", "--untracked-files=all"):

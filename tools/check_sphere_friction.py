@@ -155,6 +155,12 @@ def evaluate(raw,c,event,expected):
         mode="NoTangentialImpulse" if impact["slip_before_m_s"]==0 or c["mu"]==0 else ("SlipCancellation" if stop<=stored_cap else "CoulombCapped")
         require(impact["candidate"]==mode,"computed branch tie policy")
         qt=num(impact["tangent_magnitude_n_s"]);jt=vector(impact["tangent_impulse_n_s"]);j=vector(impact["impulse_n_s"]);angular=cross(r,j)
+        require(impact["represented_contact_distance_m"]>0 and impact["inverse_tangent_mass_kg_inv"]>0 and impact["normal_impulse_n_s"]>0,"positive response quantities")
+        require(stop>=0 and stored_cap>=0 and impact["slip_before_m_s"]>=0 and impact["slip_after_m_s"]>=0,"nonnegative disk candidates")
+        if mode=="NoTangentialImpulse":
+            require(qt==0 and all(x==0 for x in jt),"explicit zero impulse branch")
+        else:
+            require(qt>0 and qt==min(stop,stored_cap),"exact stored candidate selection, including tiny positive impulses")
         values={"contact_lever_m":r,"lever_normal_cross_m":cross(r,n),"point_velocity_before_m_s":g,
                 "point_velocity_after_m_s":ga,"tangent_velocity_before_m_s":vt,"tangent_velocity_after_m_s":vta,
                 "momentum_defect_n_s":m*(va-v)-j,"spin_momentum_defect_n_m_s":i*(wa-w)-angular,
