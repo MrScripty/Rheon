@@ -78,7 +78,8 @@ def build():
         if path in chapter_files and fig:text+=f'\n\n![Original reference illustration for {title}](figures/{fig})\n'
         if CONTACT_RECORDS is not None and slug in ('static-sphere-contact','spherical-rigid-motion','triangle-mesh-traction'):
             image={'static-sphere-contact':'finite-static-sphere-contact.jpg','spherical-rigid-motion':'spherical-rigid-motion-example.jpg','triangle-mesh-traction':'mesh-traction-example.jpg'}[slug]
-            text+=f'\n\n![Actual native stored geometry and states; see the guide for model limits](figures/native/{image})\n'
+            caption={'static-sphere-contact':'Actual native face, edge, vertex and oblique-edge events. Blue: stored start; gold: stored post-impact end; red: contact normal. Wire sphere: declared collider; solid mesh: retained render/traction geometry. One frictionless impact with e=0.5, then stop.', 'spherical-rigid-motion':'Actual retained native mesh at 0, 0.25, 0.5 and 1 second under sampled surface traction, with declared spherical inertia. The orange material facets receive the load; red marks the COM path and velocity. No contact or fluid coupling.', 'triangle-mesh-traction':'Actual native consistent corner forces on the unit-area triangle: 0.25, 0.5 and 0.25 N in +z. Resultant force is (0,0,1) N and torque about the origin is (0.25,-1,0) N m. Static load reduction; no body or fluid step.'}[slug]
+            text+=f'\n\n![{caption}](figures/native/{image})\n'
         markdown.append(text)
         body=command(['pandoc','-f','markdown+tex_math_single_backslash','-t','html5','--katex'],input=text)
         folder='implementation' if path.parent.name=='implementation' else 'chapters'

@@ -4,3 +4,5 @@ nav h2{font:600 13px system-ui;margin:20px 8px 6px}nav details{padding:5px;font-
 @media print{header,aside,footer,.pager,.skip,#menu{display:none}main{margin:0;padding:0;max-width:none}body{background:white;color:#182e34;font:14px/1.55 Georgia,serif}h1,h2,h3{break-after:avoid}pre{white-space:pre-wrap;overflow:visible}figure{break-inside:avoid}}
 
 .contact-case svg{display:block;width:100%;max-width:760px}.contact-case td{overflow-wrap:anywhere}@media print{.contact-case[hidden]{display:block!important}#contact-case{display:none}}
+
+.print-book img[src^="figures/native/"]{max-height:160mm}
