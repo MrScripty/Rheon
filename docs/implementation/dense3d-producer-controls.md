@@ -117,6 +117,9 @@ evidence or relabeled stored v1 data.
 No new full pilot, held case41/geometry-band simulation, broad refinement,
 training or model-quality campaign is part of this work. Existing frame tests
 remain available; scoped qualification avoids launching the full pilot.
+The existing repository Rust CI may run its ordinary public native regression
+fixtures and bounded smoke regression. Those existing checks are retained;
+they do not invoke the dataset exporter or constitute a held simulation campaign.
 
 The proposal specifies no producer source-family wire member. It cannot be
 extended silently without changing the exact consumer contract. The existing

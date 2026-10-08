@@ -114,6 +114,71 @@ class ControlsPublication(unittest.TestCase):
                     exporter.write_controls(directory, copy.deepcopy(self.manifest), author, note)
                 self.assertFalse((directory / "run.json").exists())
 
+    def test_complete_orchestration_uses_one_explicit_child_and_actual_capture_file(self):
+        self.run_authored_orchestration()
+
+    def test_orchestration_wrong_count_association_and_late_source_change_cannot_complete(self):
+        for failure in ("capture_count", "association", "late_source_change"):
+            with self.subTest(failure=failure):
+                self.run_authored_orchestration(failure)
+
+    def run_authored_orchestration(self, failure=None):
+        """Mock every child; these completed test files are not native evidence."""
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary)
+            directory = target / "authored-run"
+            executable = target / "debug" / "examples" / "dense3d_sequence"
+            executable.parent.mkdir(parents=True)
+            executable.write_bytes(b"Authored test placeholder; never executed.\n")
+            source_hashes = exporter.sources(True)
+            changed_hashes = dict(source_hashes)
+            changed_hashes["src/lib.rs"] = "0" * 64
+            invocations = []
+
+            def fake_run(command):
+                invocations.append(command)
+                if command[:3] == ["git", "rev-parse", "HEAD"]:
+                    return "a" * 40
+                if command[:2] == ["git", "status"]:
+                    return ""
+                if command[0] in ("rustc", "cargo") and command[1] == "--version":
+                    return command[0] + " authored test placeholder"
+                if command[:2] == ["cargo", "build"]:
+                    return ""
+                if command[:2] == ["cargo", "metadata"]:
+                    return json.dumps({"target_directory": str(target)})
+                self.assertEqual(command, [str(executable), str(directory), "--producer-controls-v2"])
+                directory.mkdir()
+                (directory / "frames.jsonl").write_bytes((self.directory / "frames.jsonl").read_bytes())
+                records = copy.deepcopy(self.intervals)
+                if failure == "association":
+                    records[2]["carrier_before"]["version"] = "7"
+                (directory / "intervals.json").write_text(json.dumps(records))
+                return json.dumps({"frame_count": 9, "time_s": 0.5, "carrier_version": "8",
+                    "liquid_version": "8", "frames_bytes": (directory / "frames.jsonl").stat().st_size,
+                    "controls_interval_count": 7 if failure == "capture_count" else 8})
+
+            values = [source_hashes, source_hashes,
+                      changed_hashes if failure == "late_source_change" else source_hashes]
+            with mock.patch.object(exporter, "run", side_effect=fake_run), \
+                 mock.patch.object(exporter, "sources", side_effect=values):
+                if failure:
+                    with self.assertRaises(ValueError):
+                        exporter.export(directory, producer_controls=True)
+                    self.assertFalse((directory / "run.json").exists())
+                else:
+                    result = exporter.export(directory, producer_controls=True)
+                    self.assertEqual(result["control_intervals"], 8)
+                    self.assertEqual({p.name for p in directory.iterdir()},
+                                     {"run.json", "frames.jsonl", "controls.json"})
+            self.assertEqual(len([c for c in invocations if c[0] == str(executable)]), 1)
+
+    def test_opt_in_type_checked_before_any_child(self):
+        with mock.patch.object(exporter, "run") as child:
+            with self.assertRaisesRegex(ValueError, "boolean"):
+                exporter.export(self.directory / "unused", producer_controls=1)
+            child.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

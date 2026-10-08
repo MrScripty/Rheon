@@ -354,8 +354,15 @@ fn write_controls_interval<W: Write>(
     out: &mut W,
     r: &AcceptedControls,
 ) -> Result<(), Dense3dError> {
-    write!(out, "{{\"start_frame\":{},\"end_frame\":{},\"start_time_s\":{:.17e},\"end_time_s\":{:.17e},\"dt_s\":{:.17e}",
-        r.start_frame, r.start_frame + 1, r.start_time, r.end_time, r.dt)?;
+    write!(
+        out,
+        "{{\"start_frame\":{},\"end_frame\":{},\"start_time_s\":{:.17e},\"end_time_s\":{:.17e},\"dt_s\":{:.17e}",
+        r.start_frame,
+        r.start_frame + 1,
+        r.start_time,
+        r.end_time,
+        r.dt
+    )?;
     for (name, stamp) in [
         ("carrier_before", r.carrier_before),
         ("carrier_after", r.carrier_after),
@@ -370,7 +377,11 @@ fn write_controls_interval<W: Write>(
     }
     let b = r.boundary.stamp();
     let i = r.inlet.stamp();
-    write!(out, ",\"boundary_stamp\":{{\"id\":\"{}\",\"version\":\"{}\"}},\"inlet_stamp\":{{\"id\":\"{}\",\"version\":\"{}\"}}", b.id,b.version,i.id,i.version)?;
+    write!(
+        out,
+        ",\"boundary_stamp\":{{\"id\":\"{}\",\"version\":\"{}\"}},\"inlet_stamp\":{{\"id\":\"{}\",\"version\":\"{}\"}}",
+        b.id, b.version, i.id, i.version
+    )?;
     write!(out, ",\"outward_speed_m_s\":[")?;
     for (d, pair) in r.boundary.outward_speeds().iter().enumerate() {
         if d != 0 {

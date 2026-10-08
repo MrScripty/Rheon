@@ -198,7 +198,9 @@ fn capture_is_explicit_and_keeps_v1_frame_bytes_identical() {
     assert!(
         json.contains("\"start_frame\":1,\"end_frame\":2,\"start_time_s\":6.25000000000000000e-2")
     );
-    assert!(json.contains("\"carrier_before\":{\"id\":\"18446744073709551614\",\"version\":\"0\"}"));
+    assert!(
+        json.contains("\"carrier_before\":{\"id\":\"18446744073709551614\",\"version\":\"0\"}")
+    );
     assert!(json.contains("\"liquid_after\":{\"id\":\"18446744073709551615\",\"version\":\"2\"}"));
     assert!(json.contains(
         "\"source_mode\":\"none\",\"source_rate_m3_s\":0,\"body_acceleration_m_s2\":[0,0,0]"
@@ -209,9 +211,11 @@ fn capture_is_explicit_and_keeps_v1_frame_bytes_identical() {
         2
     );
     let before = snapshot(capture.state());
-    assert!(capture
-        .step_with_box_flux(inputs(), &mut w, b, |_| false)
-        .is_err());
+    assert!(
+        capture
+            .step_with_box_flux(inputs(), &mut w, b, |_| false)
+            .is_err()
+    );
     assert_eq!(before, snapshot(capture.state()));
 }
 #[test]
@@ -436,6 +440,8 @@ fn eight_tiny_accepted_intervals_bind_actual_frames() {
             file.write_all(bytes).unwrap();
             file.sync_all().unwrap();
         }
-        println!("limited tiny native ownership evidence: geometry [3,1,1], 9 frames, 8 captures; not a full pilot or completed v2 dataset");
+        println!(
+            "limited tiny native ownership evidence: geometry [3,1,1], 9 frames, 8 captures; not a full pilot or completed v2 dataset"
+        );
     }
 }

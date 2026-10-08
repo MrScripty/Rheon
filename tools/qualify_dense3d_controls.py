@@ -44,6 +44,12 @@ def rational_json(raw):
                       parse_constant=lambda value: (_ for _ in ()).throw(ValueError(value)))
 
 
+def numeric_tree(value):
+    if type(value) is list:
+        return all(numeric_tree(item) for item in value)
+    return type(value) in (int, Fraction)
+
+
 def compare_tiny(directory):
     """Check actual tiny accepted captures without fabricating a v2 run binding."""
     raw_frames = (directory / "frames.jsonl").read_bytes()
@@ -52,6 +58,8 @@ def compare_tiny(directory):
     frames = [rational_json(line) for line in raw_frames.splitlines()]
     intervals = rational_json(raw_controls)
     require(len(frames) == 9 and len(intervals) == 8, "tiny accepted roster")
+    for index, frame in enumerate(frames):
+        require(type(frame["frame"]) is int and frame["frame"] == index, "tiny frame order")
     keys = {"start_frame", "end_frame", "start_time_s", "end_time_s", "dt_s",
             "carrier_before", "carrier_after", "liquid_before", "liquid_after",
             "boundary_stamp", "inlet_stamp", "outward_speed_m_s", "inlet_fraction",
@@ -81,6 +89,8 @@ def compare_tiny(directory):
                 require(stamp["version"] == str(version), "tiny accepted version")
         require(record["boundary_stamp"] == {"id": "47", "version": "0"}, "tiny boundary")
         require(record["inlet_stamp"] == {"id": "53", "version": "0"}, "tiny inlet")
+        for key in ("outward_speed_m_s", "inlet_fraction", "source_rate_m3_s", "body_acceleration_m_s2"):
+            require(numeric_tree(record[key]), "tiny numeric control " + key)
         require(record["outward_speed_m_s"] == [[Fraction(-1, 4), Fraction(1, 4)], [0, 0], [0, 0]],
                 "tiny native outward speeds")
         require(record["inlet_fraction"] == [[0, 0], [0, 0], [0, 0]], "tiny native inlet")
