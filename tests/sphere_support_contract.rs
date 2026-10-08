@@ -1,5 +1,14 @@
 use rheon::*;
 fn body(c: [f64; 3], v: [f64; 3], w: [f64; 3], time: f64) -> SphericalRigidMotion {
+    body_with_moment(c, v, w, time, 0.05)
+}
+fn body_with_moment(
+    c: [f64; 3],
+    v: [f64; 3],
+    w: [f64; 3],
+    time: f64,
+    moment: f64,
+) -> SphericalRigidMotion {
     let stamp = SurfaceStamp { id: 17, version: 4 };
     let vertices = [[0., 0., 0.], [0.125, 0., 0.], [0., 0.125, 0.]]
         .map(|p| [c[0] + p[0], c[1] + p[1], c[2] + p[2]])
@@ -14,7 +23,7 @@ fn body(c: [f64; 3], v: [f64; 3], w: [f64; 3], time: f64) -> SphericalRigidMotio
         surface: stamp,
         center_of_mass: c,
         mass_kg: 2.,
-        inertia_kg_m2: [0.05; 3],
+        inertia_kg_m2: [moment; 3],
         velocity_m_s: v,
         angular_velocity_rad_s: w,
     })
@@ -78,6 +87,10 @@ fn gravity_support_is_immutable_then_exactly_stationary_over_repeated_holds() {
         assert_eq!(r.forces.external_work_j, 0.);
         assert_eq!(r.forces.support_work_j, 0.);
         assert_eq!(r.zero_load_motion.clock_defect_s, 0.);
+        assert_eq!(r.zero_load_motion.impulse.kinetic_before_j, 0.);
+        assert_eq!(r.zero_load_motion.impulse.kinetic_after_j, 0.);
+        assert_eq!(r.zero_load_motion.impulse.impulse_work_j, 0.);
+        assert_eq!(r.zero_load_motion.impulse.energy_defect_j, 0.);
         assert_eq!(
             b.snapshot().body.center_of_mass,
             initial.body.center_of_mass
@@ -277,4 +290,41 @@ fn clock_and_impulse_underflow_are_explicit_prepublication_refusals() {
         .is_err()
     );
     assert_eq!(b.snapshot(), before);
+}
+
+#[test]
+fn actual_nonidentity_rest_pose_allows_proposal_but_refuses_held_regeneration() {
+    let s = floor();
+    let mut b = body_with_moment([0., 0., 0.5], [-0.125, 0., -2.], [0., 1., 0.], 0., 0.0625);
+    let a = b.snapshot().body;
+    let impact = SphereFrictionRequest {
+        expected_body: a.stamp,
+        expected_moving: a.surface,
+        expected_static: s.stamp(),
+        radius_m: 0.25,
+        restitution: 0.,
+        coulomb_coefficient: 0.125,
+        interval_s: 0.125,
+        settings: SphereContactSettings::default(),
+    };
+    let contact = b
+        .coast_static_sphere_friction(impact, &s, |_, _| false)
+        .unwrap();
+    assert_eq!(contact.after.body.velocity_m_s, [0.; 3]);
+    assert_eq!(contact.after.body.angular_velocity_rad_s, [0.; 3]);
+    assert_ne!(contact.after.orientation, [1., 0., 0., 0.]);
+    let mut q = request(&b, &s);
+    q.contact_point_m = contact.hit.unwrap().point;
+    let before = b.snapshot();
+    let mesh = b.world_surface().vertices().to_vec();
+    b.stationary_single_face_support(q, &s, SurfaceLoading::Traction(&ZERO), |_, _| false)
+        .unwrap();
+    assert_eq!(
+        b.advance_stationary_single_face_support(q, &s, SurfaceLoading::Traction(&ZERO), |_, _| {
+            false
+        }),
+        Err(SphereSupportError::UnsupportedHeldOrientation)
+    );
+    assert_eq!(b.snapshot(), before);
+    assert_eq!(b.world_surface().vertices(), mesh);
 }

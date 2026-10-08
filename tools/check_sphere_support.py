@@ -169,6 +169,9 @@ def check(a, result):
         for key in ['external_power','support_power','external_work','support_work']:require(scalar(r[key])==0,key)
         for key in ['normal_defect','magnitude','requested_h','actual_elapsed','clock_defect']:scalar(r[key])
         for key in ['probe_point','probe_defect','impulse_defect']:vector(r[key])
+        close_vector(r['probe_point'],p,'geometric probe')
+        require(r['probe_defect']==[r['probe_point'][i]-a['point'][i] for i in range(3)],'actual probe defect')
+        require(abs(float(r['magnitude'])-math.hypot(*map(float,support)))<1e-12*max(1.,float(r['magnitude'])),'support magnitude')
         # Native proposal impulse closure is independently recomputed from its
         # retained component products, rather than silently set to zero.
         defect=[float(float(r['mesh_impulse'][i]+r['gravity_impulse'][i])+r['support_impulse'][i]) for i in range(3)]
