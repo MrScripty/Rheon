@@ -10,3 +10,5 @@ import Rheon.ColumnForcing
 
 import Rheon.StaticObstacle
 import Rheon.ObstacleOperators
+
+import Rheon.AlignedStrain

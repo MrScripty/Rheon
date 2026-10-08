@@ -1,13 +1,13 @@
 # Rheon exact discrete contracts
 
-This project owns exact finite-dimensional reference definitions and 88 checked public theorem statements in ten modules. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
+This project owns exact finite-dimensional reference definitions and 106 checked public theorem statements in eleven modules. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
 
 ## Reproduce
 
 Use the exact lean-toolchain and lake-manifest.json. From this directory run:
 
     python3 scripts/check_sources.py
-    lake exe cache get
+    lake exe cache get  # optional cache; normal source build works without it
     lake build
     lake env lean AxiomAudit.lean
     python3 scripts/test_audit.py
@@ -96,3 +96,49 @@ These are exact finite reference statements. Geometry admission, owner-volume
 and face-area assembly, centroid distances, Rust/IEEE refinement, linear-solver
 correctness, continuum convergence, moving walls, free-surface traction and
 general embedded Newtonian tensor viscosity remain outside the proofs.
+
+
+## Reconstructed aligned strain (fresh local qualification)
+
+`AlignedStrain.lean` adds eight finite definitions and eighteen public
+exact-real theorems. The new gather and its transpose prove work, symmetry and
+nonnegative loss. Weighted finite Cauchy and sum exchange derive
+`forceNorm <= B*strainLoss` directly from the per-face coefficient bounds,
+including zero rows. `rowBound` is the finite maximum with a zero default;
+its bound premises are proved. The defined unforced coordinate Euler step
+then decreases energy for nonnegative time and viscosity with
+`dt*mu*rowBound <= 2`. The pressure composition uses precisely
+`faceMass rho area distance`, positive density/areas/distances and an exact
+solve of the defined full pressure residual. There is no assumed abstract
+operator-norm theorem, approximate-solve guarantee or IEEE refinement.
+
+Fresh 2026-10-08 qualification rebuilt the pinned sources with Lean 4.19.0 and
+mathlib `c44e0c8ee63ca166450922a373c7409c5d26b00b` through normal `lake build`.
+All eleven Rheon modules and the root compile; the unchanged axiom allowlist
+passes 161 actual declarations, with 144 explicitly expected declarations.
+The three real audit rejection probes and four source/pin-gate tests pass in
+both normal and optimized Python. These numbers were obtained from this
+source and run, without reusing historical qualification counts.
+
+The generated external `lean-qualification.json` binds current source and log
+digests. Generated receipts and logs are retained outside Git in the durable
+qualification bundle. The official mathlib cache endpoint
+returned HTTP 403. No cache artifacts were obtained; dependency artifacts
+were compiled normally from the pinned Git sources. This is a local compiler
+and kernel receipt, not hosted CI. The only build warning is the pre-existing
+unused `hz0` premise in `StaticObstacle.lean`.
+
+The restricted assembly and newly chosen reflected anisotropic corner
+reconstruction are specified in
+[reconstructed-aligned-strain.md](../docs/research-book/implementation/reconstructed-aligned-strain.md).
+Formal geometry admission, stencil assembly/refinement, machine arithmetic,
+force work, moving boundaries and global solver convergence remain external.
+
+For combined fresh native, rational, source-policy and Lean qualification,
+place the pinned Rust/Lean tools on PATH, set `CARGO_TARGET_DIR` outside Git,
+and run from the repository root:
+
+    python3 tools/qualify_aligned_strain.py /tmp/rheon-aligned-fresh --lean
+
+The destination must be new and outside every Git worktree. The receipt binds
+the clean committed source, executable, actual native records and all logs.

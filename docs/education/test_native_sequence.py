@@ -1,6 +1,6 @@
 """Recorded-data admission and source-only publication without replacement runs."""
 from pathlib import Path
-import hashlib,json,tempfile,unittest
+import hashlib,json,re,tempfile,unittest
 from native_sequence import metadata,publish,validate_labs
 
 class NativeSequence(unittest.TestCase):
@@ -36,5 +36,39 @@ class NativeSequence(unittest.TestCase):
         here=repo/'docs/education';here.mkdir(parents=True);(here/'native-sequence.json').write_text(json.dumps({'proof_inventory_sha256':hashlib.sha256(pins.read_bytes()).hexdigest()}))
         metadata(repo);src.write_text('unreviewed source')
         with self.assertRaisesRegex(ValueError,'Lean source'):metadata(repo)
+    def test_changed_inventory_bytes_require_requalification(self):
+        repo=self.root/'repo';proof=repo/'proofs';proof.mkdir(parents=True)
+        src=proof/'A.lean';src.write_text('checked source')
+        inventory={'A.lean':hashlib.sha256(src.read_bytes()).hexdigest()}
+        pins=proof/'source-inventory.json';pins.write_text(json.dumps(inventory))
+        here=repo/'docs/education';here.mkdir(parents=True)
+        (here/'native-sequence.json').write_text(json.dumps({
+            'proof_inventory_sha256':hashlib.sha256(pins.read_bytes()).hexdigest()}))
+        metadata(repo)
+        # Identical entries with different inventory bytes still need review.
+        pins.write_text(json.dumps(inventory,indent=2)+'\n')
+        with self.assertRaisesRegex(ValueError,'Current Lean inventory differs'):
+            metadata(repo)
+    def test_repository_metadata_admits_current_reviewed_proofs(self):
+        repo=Path(__file__).resolve().parents[2]
+        data=metadata(repo)
+        current=data['current_reconstruction_proof']
+        for key in ('proof_inventory_sha256','public_theorems',
+                    'audited_declarations','explicit_expected_declarations','lean_ci'):
+            self.assertEqual(data[key],current[key])
+        pins=json.loads((repo/'proofs/source-inventory.json').read_text())
+        self.assertIn('Rheon/AlignedStrain.lean',pins)
+        theorem_count=sum(len(re.findall(r'^theorem ',
+            (repo/'proofs'/name).read_text(),re.M))
+            for name in pins if name.startswith('Rheon/'))
+        self.assertEqual(data['public_theorems'],theorem_count)
+        audit=(repo/'proofs/AxiomAudit.lean').read_text()
+        expected=re.search(r'let expected : Array Name := #\[(.*?)\]',audit,re.S).group(1)
+        self.assertEqual(data['explicit_expected_declarations'],len(re.findall(r'`Rheon\.',expected)))
+        self.assertEqual(data['local_kernel_receipt_sha256'],
+                         current['local_qualification']['receipt_sha256'])
+        self.assertTrue(current['local_qualification']['lean_checked'])
+        self.assertEqual(current['local_qualification']['status'],'passed')
+
 
 if __name__=='__main__':unittest.main()
