@@ -170,7 +170,20 @@ run_cmd do
     `Rheon.RigidImpulse.six_component_impulse_work,
     `Rheon.RigidImpulse.six_component_residual_work,
     `Rheon.RigidImpulse.component_kinetic_nonnegative,
-    `Rheon.RigidImpulse.inertia_triangle_inequalities]
+    `Rheon.RigidImpulse.inertia_triangle_inequalities,
+    `Rheon.RigidMotion.product,
+    `Rheon.RigidMotion.conjugate,
+    `Rheon.RigidMotion.normSquared,
+    `Rheon.RigidMotion.drift,
+    `Rheon.RigidMotion.product_norm,
+    `Rheon.RigidMotion.conjugate_norm,
+    `Rheon.RigidMotion.conditional_unit_drift,
+    `Rheon.RigidMotion.conditional_rotation_norm,
+    `Rheon.RigidMotion.rotation_pure,
+    `Rheon.RigidMotion.rotation_sign_equivalence,
+    `Rheon.RigidMotion.drift_displacement,
+    `Rheon.RigidMotion.positive_clock,
+    `Rheon.RigidMotion.kick_drift_constant_force_error]
   for name in expected do
     let _ ← getConstInfo name
     pure ()
