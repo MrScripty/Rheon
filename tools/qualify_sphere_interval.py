@@ -135,7 +135,7 @@ def qualify(output, lean_bin, dependencies):
                                    ("sorry", "theorem injected : False := by sorry")]:
             probe = proof_output / ("negative-" + label + ".lean")
             probe.write_text(audit.replace("open Lean Elab Command", "namespace Rheon.SphereInterval\n" +
-                             declaration + "\nend Rheon.SphereContact\nopen Lean Elab Command"))
+                             declaration + "\nend Rheon.SphereInterval\nopen Lean Elab Command"))
             run([lean_bin, probe], "negative-" + label + ".log", ROOT / "proofs", env,
                 expected_error="Disallowed axiom")
         if sources != {p: sha(ROOT / p) for p in files} or git("rev-parse", "HEAD") != receipt["source_head"]:

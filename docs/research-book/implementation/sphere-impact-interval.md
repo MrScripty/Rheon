@@ -132,7 +132,7 @@ contracts, new sequence labs plus the original PR36/PR35 actual-native oracles.
 The 27 sequence fixtures compare Fraction corridor ledgers, independently found
 finite edge/face roots and Rodrigues mesh poses, including 64 accepted impacts,
 63-impact budget exhaustion, e=0 tangent coast, a two-impact edge/face conservative
-stop and the floor/wall resting-manifold boundary. Twelve deliberate schema,
+stop and the floor/wall resting-manifold boundary. Eighteen deliberate schema,
 geometry, pose, accounting and completion forgeries must reject under normal and
 optimized Python. The fixed 1e-12 algebra test tolerance is separate from measured
 physical fixture errors and the API's gap/time policies. Native raw inputs,

@@ -39,15 +39,15 @@ def cases():
     shift=[.125,.25,-.5]
     add('translated_nonmidpoint',c=shift,vertices=[[x[i]+shift[i] for i in range(3)]for x in base['vertices']],walls=[-.875,1.125])
     add('scaled_corridor',radius=.5,inertia=.2,v=[8.,0.,0.],vertices=[[2*x for x in p]for p in base['vertices']],walls=[-2.,2.])
-    for label,v in [('inward',[1.,0.,0.]),('tangent',[0.,1.,0.]),('separating',[-1.,0.,0.])]:add('initial_touch_'+label,c=[.75,0.,0.],v=v,stop='InitialContact',prefix=0)
-    add('duplicate_simultaneous',triangles=[[0,1,2],[3,4,5],[3,4,5]],stop='Simultaneous',prefix=0)
-    add('later_spin_cap',w=[0.,0.,1.],stop='RotationLimit',prefix=1)
+    for label,v in [('inward',[1.,0.,0.]),('tangent',[0.,1.,0.]),('separating',[-1.,0.,0.])]:add('initial_touch_'+label,c=[.75,0.,0.],v=v,stop='InitialContact',status='Stopped(InitialContact { triangle: 1 })',prefix=0)
+    add('duplicate_simultaneous',triangles=[[0,1,2],[3,4,5],[3,4,5]],stop='Simultaneous',status='Stopped(Simultaneous { first: 1, second: 2 })',prefix=0)
+    add('later_spin_cap',w=[0.,0.,1.],stop='RotationLimit',status='Stopped(Motion(RotationLimit))',prefix=1)
     add('invalid_budget',budget=65,admission='InvalidRequest')
     add('invalid_restitution',e=1.5,admission='InvalidRequest')
     add('zero_duration',h=0.,admission='InvalidRequest')
-    add('radius_inertia',inertia=1.,admission='RadiusInertiaMismatch')
-    add('edge_then_face_prefix',radius=.3125,c=[.5,-.1875,1.],v=[0.,0.,-2.],vertices=[[0.,0.,0.],[4.,0.,0.],[0.,4.,0.],[-4.,-1.,-4.],[4.,-1.,-4.],[0.,-1.,4.]],axis=None,stop='InvalidDeparture',prefix=2,budget=4)
-    add('tangent_floor_then_wall_boundary',radius=.25,c=[0.,0.,1.],v=[1.,0.,-2.],e=0.,vertices=[[-4.,-4.,0.],[4.,-4.,0.],[0.,4.,0.],[1.,-4.,-4.],[1.,4.,-4.],[1.,0.,4.]],axis=None,stop='InitialContact',prefix=2,budget=4)
+    add('radius_inertia',inertia=1.,admission='Contact(RadiusInertiaMismatch)')
+    add('edge_then_face_prefix',radius=.3125,c=[.5,-.1875,1.],v=[0.,0.,-2.],vertices=[[0.,0.,0.],[4.,0.,0.],[0.,4.,0.],[-4.,-1.,-4.],[4.,-1.,-4.],[0.,-1.,4.]],axis=None,stop='InvalidDeparture',status='Stopped(InvalidDeparture)',prefix=2,budget=4)
+    add('tangent_floor_then_wall_boundary',radius=.25,c=[0.,0.,1.],v=[1.,0.,-2.],e=0.,vertices=[[-4.,-4.,0.],[4.,-4.,0.],[0.,4.,0.],[1.,-4.,-4.],[1.,4.,-4.],[1.,0.,4.]],axis=None,stop='InitialContact',status='Stopped(InitialContact { triangle: 0 })',prefix=2,budget=4)
     return out
 
 def input_text(c):
@@ -124,6 +124,9 @@ def evaluate(raw,c,reference):
     for k,ck in [('radius_m','radius'),('restitution','e'),('requested_interval_s','h'),('mass_kg','mass'),('inertia_kg_m2','inertia')]:require(num(raw[k])==num(c[ck]),'physical input')
     require(type(raw['impact_budget'])is int and raw['impact_budget']==c['budget'],'budget input')
     require(raw['static_vertices']==c['vertices'] and raw['static_triangles']==c['triangles'] and raw['moving_triangles']==MOVING,'geometry input')
+    for p in raw['static_vertices']:vector(p)
+    for triangle in raw['static_triangles']+raw['moving_triangles']:
+        require(type(triangle)is list and len(triangle)==3 and all(type(i)is int for i in triangle),'exact triangle index types')
     for key,value in [('relative_tolerance',1e-12),('max_gap_residual_m',1e-10),('simultaneous_window_s',1e-10)]:require(num(raw[key])==num(value),'numerical policy')
     require(type(raw['static_triangle_limit'])is int and raw['static_triangle_limit']==64,'triangle cap')
     require(type(raw['sequence'])is list,'sequence type');frame_schema(raw['before']);frame_schema(raw['after'])
@@ -147,12 +150,12 @@ def evaluate(raw,c,reference):
     pose(raw['before'],c['c'],c['v'],0,0);require(raw['before']['q']==[1.,0.,0.,0.],'initial orientation')
     events,status,remaining=reference
     if c.get('admission'):
-        require(type(raw['admission_error'])is str and c['admission']in raw['admission_error']and raw['result']is None,'explicit admission refusal');require(raw['sequence']==[]and raw['after']==raw['before'],'admission atomic')
+        require(type(raw['admission_error'])is str and c['admission']==raw['admission_error']and raw['result']is None,'explicit admission refusal');require(raw['sequence']==[]and raw['after']==raw['before'],'admission atomic')
         return dict(maximum_algebra_error=maximum,physical_errors=physical,status='admission',segments=0)
     require(raw['admission_error']is None,'unexpected admission');result=raw['result'];keys(result,RESULT)
     require(type(result['status'])is str,'status type')
-    expected_status='Complete'if status=='complete'else 'ImpactBudgetExhausted'if status=='budget'else c['stop']
-    require(result['status']==expected_status if status!='stop' else expected_status in result['status'],'honest interval status')
+    expected_status='Complete'if status=='complete'else 'ImpactBudgetExhausted'if status=='budget'else c['status']
+    require(result['status']==expected_status,'honest interval status')
     require(len(raw['sequence'])==len(events),'all accepted records')
     for k,value in [('accepted_segments',len(events)),('accepted_impacts',sum(e['triangle']is not None for e in events))]:require(type(result[k])is int and result[k]==value,'count integer')
     compare(result['remaining_interval_s'],remaining,'time_s');compare(result['consumed_interval_s'],num(c['h'])-real(remaining))
@@ -167,7 +170,7 @@ def evaluate(raw,c,reference):
         compare(s['rotation_increment_rad'],length(vector(c['w']))*dt);compare(s['quaternion_norm_defect'],mp.sqrt(sum(num(q)**2 for q in s['frame']['q']))-1)
         if last_hit is None:require(s['departure']is None,'initial no exclusion')
         else:
-            d=s['departure'];keys(d,DEPARTURE);require(type(d['triangle'])is int and d['triangle']==last_hit['triangle']and d['point']==last_hit['point'],'bound exclusion')
+            d=s['departure'];keys(d,DEPARTURE);vector(d['point']);require(type(d['triangle'])is int and d['triangle']==last_hit['triangle']and d['point']==last_hit['point'],'bound exclusion')
             for k,value in [('from_generation',last['generation']),('from_surface_version',last['surface_version'])]:require(type(d[k])is int and d[k]==value,'departure stamp')
             gap,support,speed=certificate(last,d['point'],d['triangle'],c);require(gap>=0 and max(support)<=0 and speed>=0,'exact departure premises')
             require(d['kind']==('Tangent'if speed==0 else 'Separating'),'exact departure kind')
@@ -226,6 +229,10 @@ def main():
         'nan_energy':lambda x:x['result']['accounting'].__setitem__('energy_defect_j',float('nan')),
         'lost_impulse':lambda x:x['result']['accounting']['summed_impulse_n_s'].__setitem__(0,0.),
         'invented_policy':lambda x:x.__setitem__('max_gap_residual_m',1.),
+        'boolean_static_coordinate':lambda x:x['static_vertices'][3].__setitem__(0,True),
+        'boolean_static_index':lambda x:x['static_triangles'][0].__setitem__(0,False),
+        'boolean_moving_index':lambda x:x['moving_triangles'][0].__setitem__(0,False),
+        'boolean_departure_point':lambda x:x['sequence'][1]['departure']['point'].__setitem__(1,False),
         'extra_field':lambda x:x['sequence'][0].__setitem__('unreviewed',0),
     }
     for name,mutate in mutations.items():
@@ -233,6 +240,13 @@ def main():
         try:evaluate(bad,c,reference)
         except (ValueError,KeyError,TypeError,IndexError):probes.append(name)
         else:raise ValueError('negative probe accepted '+name)
+    for label,name,field,text in [('mislabel_stop','edge_then_face_prefix','status','Complete but InvalidDeparture'),('mislabel_admission','invalid_budget','admission_error','not an error InvalidRequest')]:
+        pc,original,pref=next(item for item in saved if item[0]['name']==name);bad=copy.deepcopy(original)
+        if field=='status':bad['result'][field]=text
+        else:bad[field]=text
+        try:evaluate(bad,pc,pref)
+        except ValueError:probes.append(label)
+        else:raise ValueError('negative label probe accepted '+label)
     report=dict(cases=results,negative_probes=probes,binary_sha256=hashlib.sha256(args.executable.read_bytes()).hexdigest(),algebra_tolerance=str(TOL),reference='Fraction corridor; independent80digit convex-distance finite edges; Rodrigues stored-mesh comparison',claims='finite fixture evidence; no IEEE/CCD/global contact proof')
     report['evidence_sha256']={p.name:hashlib.sha256(p.read_bytes()).hexdigest()for p in output.iterdir()if p.is_file()}
     (output/'comparison.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(dict(cases=len(results),negative_probes=len(probes),maximum_algebra_error=max(r['maximum_algebra_error']for r in results)),indent=2))
