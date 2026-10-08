@@ -179,7 +179,33 @@ def run():
  outer_residual=outer_frame['frame_bound']-workspace
  arrays=3*22*8 # duplicate charge: baseline, perturbation, streamed column
  subtotal=(workspace+outer_residual+added+arrays+15)//16*16
+ # Retain complete outer transfers as well as all phase-specific ledgers.
+ outer_records={}
+ phase_records={}
+ for kind in ('candidate','reference'):
+  of=next(f for f in fs.values() if f['name'].endswith('::case41_borrowed_'+kind+'_outer'))
+  outer_records[kind]={'frame':h.fixed_frame(of),'transfers':edges(of),'name':of['name']}
+  phase_records[kind]={}
+  for phase,suffix in [('numerical','Work::case41_numerical'),('serialization','Work::case41_serialize')]:
+   root=next(a for a,r in frames[kind].items() if r['name'].endswith('::'+suffix))
+   pending=[root];seen=set()
+   while pending:
+    address=pending.pop()
+    if address in seen:continue
+    seen.add(address);pending.extend(graphs[kind][address])
+   phase_records[kind][phase]={'root':root,'crate_addresses':sorted(seen),'external_transfers':[e for address in sorted(seen) for e in frames[kind][address]['transfers'] if e['classification']!='linked_crate']}
+ # A partial absolute crate frame route can be bounded with source-qualified
+ # seam recursion depth two. It does NOT include non-crate children or heap.
+ def partial_absolute(a,path=()):
+  if a in path:
+   require(fs[a]['name'].endswith('FittedHeightWorkspace::split_position'),'only fixed topology seam recursion')
+   if path.count(a)>=2:return 0
+  children=[partial_absolute(c,path+(a,)) for c in graphs['candidate'][a]]
+  return frames['candidate'][a]['frame_bound']+max(children or [0])
+ absolute=partial_absolute(roots['candidate'])
+ # ALL external callees, including outer calls, remain retained. Shared symbol
+ # names alone do not qualify common memory, and unknown costs are never zero.
  # External callees have NOT been silently assigned zero. A numerical memory
  # certificate needs their simultaneous additional cost closed or proven common.
- return {'status':'BLOCKED_LINKED_PATH_ACCOUNTING','known_crate_and_storage_subtotal':subtotal,'cap':67584,'unallocated_headroom':67584-subtotal,'workspace_bytes':workspace,'outer_frame':outer_frame,'outer_residual_bytes':outer_residual,'explicit_arrays_bytes':arrays,'added_crate_frame_peak':added,'added_route':route,'absolute_crate_route_stack':absolute,'absolute_route':absroute,'shared_recursions':sorted({tuple(v) for v in recursion}),'absolute_stack_bound_not_established':True,'deltas':deltas,'absorbed_operations':absorbed,'graphs':graphs,'frames':frames,'kernel_peak':kernel_peak,'kernel_records':{str(a):r for a,r in records.items()},'libc_leaf':leaf,'external_transfer_ledger':unresolved,'unmatched_crate_callees':missing,'binary_sha256':b['binary_sha256'],'native_equations':0,'owner_advances':0,'no_shrink_credit':True,'no_baseline_slack_credit':True,'scope':'Paired outer/capture/numerical/borrowed serialization. Common geometry frame differences are zero only under separately recorded fixed arguments/lifetimes; absolute memory is nonzero. ALL linked/dynamic/unknown costs remain blockers. Subtotal cannot authorize FD.', 'complete_memory_bound':None, 'independent_acceptance':False, 'FD_execution_allowed':False}
+ return {'status':'BLOCKED_LINKED_PATH_ACCOUNTING','known_crate_and_storage_subtotal':subtotal,'cap':67584,'unallocated_headroom':67584-subtotal,'workspace_bytes':workspace,'outer_frame':outer_frame,'outer_residual_bytes':outer_residual,'explicit_arrays_bytes':arrays,'added_crate_frame_peak':added,'added_route':route,'absolute_crate_route_stack':None,'absolute_route':absroute,'shared_recursions':sorted({tuple(v) for v in recursion}),'absolute_stack_bound_not_established':True,'partial_absolute_crate_frame_peak':absolute,'fixed_topology_recursion_active_frames':2,'common_split_frame_bytes_each':next(r['frame_bound'] for r in frames['candidate'].values() if r['name'].endswith('FittedHeightWorkspace::split_position')),'outer_records':outer_records,'phase_records':phase_records,'deltas':deltas,'absorbed_operations':absorbed,'graphs':graphs,'frames':frames,'kernel_peak':kernel_peak,'kernel_records':{str(a):r for a,r in records.items()},'libc_leaf':leaf,'external_transfer_ledger':unresolved,'unmatched_crate_callees':missing,'binary_sha256':b['binary_sha256'],'native_equations':0,'owner_advances':0,'no_shrink_credit':True,'no_baseline_slack_credit':True,'scope':'Paired outer/capture/numerical/borrowed serialization. Common geometry frame differences are zero only under separately recorded fixed arguments/lifetimes; absolute memory is nonzero. ALL linked/dynamic/unknown costs remain blockers. Subtotal cannot authorize FD.', 'complete_memory_bound':None, 'independent_acceptance':False, 'FD_execution_allowed':False}
 if __name__=='__main__':print(json.dumps(run(),indent=2,sort_keys=True))

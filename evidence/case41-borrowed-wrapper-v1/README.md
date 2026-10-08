@@ -19,9 +19,9 @@ it is not additional authorized numerical execution. The only later authorized
 numerical roster is the original seven candidate evaluations. Its first baseline
 must reproduce the archived E2 rate vector exactly before any column proceeds.
 
-One `Result<Equation,...>` variable is reused across evaluations. Serialization
+One `Result<Equation,...>` lifetime per loop iteration reuses one ABI return slot. Serialization
 borrows that slot after the non-inlined numerical boundary returns. All original
-stored-equation fields remain in the record. The baseline rate, perturbed
+required FD observation fields remain in the record. The baseline rate, perturbed
 unknown and native column are three explicit fixed 176-byte arrays. No full
 observation copy, Jacobian, owner, new correction, extra point evaluation,
 changed tolerance, changed cap or production edit is introduced. Compiler ABI
@@ -45,3 +45,12 @@ Unknown linked/dynamic, allocator, error, callback, sort or outer costs remain
 explicit blockers. An incomplete subtotal must never authorize FD execution.
 Independent acceptance of a complete preflight is required. The unchanged
 67,584-byte cap is additional-memory scope, not whole-process memory.
+
+The first source freeze0c3208f/ELFd3bb6d used reassignment and introduced a
+second full30,984-byte ABI return slot. It failed the storage-reuse goal and is
+preserved in Git and outside-Git v1 evidence. The next freeze5411d007/ELF6bb6c9
+uses one loop/call site; independent assembly inspection confirms one return
+slot and no full-result copy. The forward final freeze additionally embeds the
+original E2 baseline's22 rate bits and checks them before any column call.
+Baseline mismatch stops after one equation with zero columns. This is a future
+execution gate; no baseline is evaluated by current preflight.

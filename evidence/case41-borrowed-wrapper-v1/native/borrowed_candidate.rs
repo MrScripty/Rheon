@@ -70,7 +70,15 @@ pub(super) fn case41_fd_capture(c: &super::FixedCase, chart: &mut super::scalar:
         let result = work.case41_numerical(c, &old, &mass, &perturbed);
         work.case41_serialize(c, &perturbed, column, delta, &result);
         match (&result, column) {
-            (Ok(e), None) => baseline.copy_from_slice(&e.rate),
+            (Ok(e), None) => {
+                if !case41_baseline_accepts(&e.rate) {
+                    println!(
+                        "{{\"event\":\"fd_baseline_mismatch\",\"case\":41,\"equations_attempted\":1,\"columns_attempted\":0,\"owners\":0,\"corrections\":0,\"published\":false}}"
+                    );
+                    return;
+                }
+                baseline.copy_from_slice(&e.rate);
+            }
             (Err(error), None) => {
                 println!(
                     "{{\"event\":\"fd_complete\",\"case\":41,\"baseline_failed\":true,\"error\":{:?},\"equations_attempted\":1,\"corrections\":0,\"owners\":0,\"published\":false}}",
@@ -179,4 +187,37 @@ pub(super) fn borrowed_layout() -> [usize; 5] {
         std::mem::size_of::<Point>(),
         std::mem::size_of::<Integrals>(),
     ]
+}
+
+fn case41_baseline_accepts(rate: &[f64; V]) -> bool {
+    const EXPECTED: [u64; V] = [
+        4368189479010172928,
+        13577326335600099328,
+        4406223575053238272,
+        4411115716212686848,
+        13619593439187304448,
+        13617195522438725632,
+        13625478343246741504,
+        4397127720962621440,
+        4391585732460806144,
+        4392889872436690944,
+        13625596605171236864,
+        4390600897533575168,
+        4371250180818468864,
+        13595773367190290432,
+        4380251494765756416,
+        13623180257032798208,
+        13593465251851845632,
+        4400035646377639936,
+        13625857607459385344,
+        4400270040516263936,
+        13623895434570153984,
+        4402427668950900736,
+    ];
+    for i in 0..V {
+        if rate[i].to_bits() != EXPECTED[i] {
+            return false;
+        }
+    }
+    true
 }

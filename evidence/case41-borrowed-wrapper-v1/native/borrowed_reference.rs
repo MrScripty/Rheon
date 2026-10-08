@@ -69,7 +69,15 @@ pub(super) fn case41_fd_capture(c: &super::FixedCase, chart: &mut super::scalar:
         let result = work.case41_numerical(c, &old, &mass, &perturbed);
         work.case41_serialize(c, &perturbed, column, delta, &result);
         match (&result, column) {
-            (Ok(e), None) => baseline.copy_from_slice(&e.rate),
+            (Ok(e), None) => {
+                if !case41_baseline_accepts(&e.rate) {
+                    println!(
+                        "{{\"event\":\"fd_baseline_mismatch\",\"case\":41,\"equations_attempted\":1,\"columns_attempted\":0,\"owners\":0,\"corrections\":0,\"published\":false}}"
+                    );
+                    return;
+                }
+                baseline.copy_from_slice(&e.rate);
+            }
             (Err(error), None) => {
                 println!(
                     "{{\"event\":\"fd_complete\",\"case\":41,\"baseline_failed\":true,\"error\":{:?},\"equations_attempted\":1,\"corrections\":0,\"owners\":0,\"published\":false}}",
@@ -178,4 +186,8 @@ pub(super) fn borrowed_layout() -> [usize; 5] {
         std::mem::size_of::<Point>(),
         std::mem::size_of::<Integrals>(),
     ]
+}
+
+fn case41_baseline_accepts(_rate: &[f64; V]) -> bool {
+    true
 }
