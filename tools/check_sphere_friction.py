@@ -119,7 +119,7 @@ def evaluate(raw,c,event,expected):
         keys(impact,VECTORS|SCALARS|{"candidate"})
         for key in VECTORS:vector(impact[key])
         for key in SCALARS:num(impact[key])
-        require(impact["candidate"] in {"NoTangentialImpulse","SlipCancellation","CoulombCapped"},"computed candidate")
+        require(type(impact["candidate"]) is str and impact["candidate"] in {"NoTangentialImpulse","SlipCancellation","CoulombCapped"},"computed candidate")
         # Existing geometry/pose/normal-proposal checker sees an unpublished
         # normal intermediate constructed only for its scope. The actual final
         # native velocity/spin are checked separately below, never overwritten.
@@ -154,6 +154,15 @@ def evaluate(raw,c,event,expected):
         stop=num(impact["cancellation_impulse_n_s"]);stored_cap=num(impact["coulomb_cap_n_s"])
         mode="NoTangentialImpulse" if impact["slip_before_m_s"]==0 or c["mu"]==0 else ("SlipCancellation" if stop<=stored_cap else "CoulombCapped")
         require(impact["candidate"]==mode,"computed branch tie policy")
+        # Independently pinned axis boundaries supplement the absolute physical
+        # comparison. A perturbation below that tolerance must not forge modes.
+        if c["name"] in {"tie","tie_below","tie_above"}:
+            pinned="CoulombCapped" if c["name"]=="tie_below" else "SlipCancellation"
+            require(mode==pinned and stop==4 and stored_cap==num(c["mu"])*8,"exact axis boundary and adjacent modes")
+        if c["name"]=="tiny_nonzero_slip":
+            require(mode=="SlipCancellation" and impact["slip_before_m_s"]>0,"tiny positive slip remains positive branch")
+        if c["name"]=="exact_zero_slip":
+            require(mode=="NoTangentialImpulse" and impact["slip_before_m_s"]==0,"exact axis zero slip")
         qt=num(impact["tangent_magnitude_n_s"]);jt=vector(impact["tangent_impulse_n_s"]);j=vector(impact["impulse_n_s"]);angular=cross(r,j)
         require(impact["represented_contact_distance_m"]>0 and impact["inverse_tangent_mass_kg_inv"]>0 and impact["normal_impulse_n_s"]>0,"positive response quantities")
         require(stop>=0 and stored_cap>=0 and impact["slip_before_m_s"]>=0 and impact["slip_after_m_s"]>=0,"nonnegative disk candidates")
@@ -201,7 +210,7 @@ def fraction_axes():
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument("--executable",type=Path,required=True);p.add_argument("--output",type=Path,required=True);a=p.parse_args()
     require(not a.output.exists() and not a.output.resolve().is_relative_to(Path(__file__).resolve().parents[1]),"fresh external output required");a.output.mkdir(parents=True)
-    summaries=[];frozen=None;refusal_frozen=None
+    summaries=[];frozen=None;refusal_frozen=None;boundary_frozen=None;tiny_frozen=None
     for c in fixtures():
         text=native_input(c);run=subprocess.run([a.executable],input=text,text=True,capture_output=True,timeout=20)
         require(run.returncode==0,"native bridge failed: "+run.stderr)
@@ -211,6 +220,8 @@ def main():
         (a.output/(c["name"]+".oracle.json")).write_text(json.dumps({k:[str(x) for x in v] if isinstance(v,mp.matrix) else str(v) for k,v in (expected or {}).items()},indent=2)+"\n")
         if c["name"]=="edge":frozen=(raw,c,event,expected)
         if c["name"]=="invalid_mu":refusal_frozen=(raw,c,event,expected)
+        if c["name"]=="tie":boundary_frozen=(raw,c,event,expected)
+        if c["name"]=="tiny_nonzero_slip":tiny_frozen=(raw,c,event,expected)
     raw,c,event,expected=frozen
     probes=[lambda x:x["result"]["impact"].update(candidate="CertifiedSticking"),
             lambda x:x["result"]["impact"].update(coulomb_cap_n_s=True),
@@ -232,10 +243,23 @@ def main():
         try:evaluate(bad,c,event,expected)
         except ValueError:pass
         else:raise ValueError("refusal forgery accepted")
+    raw,c,event,expected=boundary_frozen
+    for changes in [dict(coulomb_cap_n_s=4.-1e-13,tangent_magnitude_n_s=4.-1e-13,candidate="CoulombCapped"),
+                    dict(cancellation_impulse_n_s=4.+1e-13,candidate="CoulombCapped"),
+                    dict(coulomb_cap_n_s=4.+1e-13)]:
+        bad=copy.deepcopy(raw);bad["result"]["impact"].update(changes)
+        try:evaluate(bad,c,event,expected)
+        except ValueError:pass
+        else:raise ValueError("axis boundary forgery accepted")
+    raw,c,event,expected=tiny_frozen
+    bad=copy.deepcopy(raw);bad["result"]["impact"].update(slip_before_m_s=0.,tangent_magnitude_n_s=0.,tangent_impulse_n_s=[0.,0.,0.],candidate="NoTangentialImpulse")
+    try:evaluate(bad,c,event,expected)
+    except ValueError:pass
+    else:raise ValueError("tiny slip zero-impulse forgery accepted")
     fractions=fraction_axes();(a.output/"exact-rational-axis.json").write_text(json.dumps(fractions,indent=2)+"\n")
     receipt={"scope":"isolated fixed-contact isotropic sphere Coulomb impulse; no persistent force/global IEEE enclosure",
              "cases":summaries,"accepted":sum(not c["refused"] for c in summaries),"refused":sum(c["refused"] for c in summaries),
-             "fraction_axis_specimens":len(fractions),"negative_probes":len(probes)+3,"algebra_tolerance":str(TOLERANCE),
+             "fraction_axis_specimens":len(fractions),"negative_probes":len(probes)+7,"algebra_tolerance":str(TOLERANCE),
              "maximum_algebra_error":max(c["maximum_algebra_error"] for c in summaries),
              "physical_errors":{k:max(c["physical_errors"].get(k,0.) for c in summaries) for k in ["time_s","point_m","normal","velocity_m_s","omega_rad_s"]},
              "executable_sha256":hashlib.sha256(a.executable.read_bytes()).hexdigest(),
