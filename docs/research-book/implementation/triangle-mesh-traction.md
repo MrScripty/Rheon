@@ -102,3 +102,29 @@ bytes, calls the native owner, and emits the actual consistent loads. The
 rendered example shows those native loads on one facet. Lean contracts separate
 the exact barycentric-moment premise from the finite algebra/virtual-work proof;
 they do not certify the rounded geometry or Rust implementation.
+
+To regenerate the complete bounded local qualification, use the pinned Rust
+toolchain and Lean4.19.0 with the manifest-pinned dependency directory:
+
+```sh
+python3 tools/qualify_mesh_traction.py \
+  --output /tmp/rheon-mesh-traction-qualified \
+  --lean-bin /path/to/lean-4.19.0/bin/lean \
+  --lean-dependencies /path/to/pinned/proofs/.lake/packages
+```
+
+The output must be fresh and outside the repository. The driver checks protected
+production sources, runs debug/release load tests and the unchanged collision/
+translation regressions, strict lints/formatting, the independent cubature in
+normal/optimized Python and both native profiles, and the rendered native
+example. It compiles every Rheon proof module from the frozen current sources
+into external output, audits allowed axioms, and confirms custom-axiom and
+`sorry` negative probes are rejected. Third-party compiled caches are reused
+only with the pinned dependency source revisions. New local logs, actual load
+vectors, binaries, source hashes and image receipts are preserved outside Git.
+
+The bounded native bridge's whitespace input is: mode (`pressure` or `traction`),
+vertex count and triangle count, each vertex XYZ, each triangle's three zero-based
+indices, moment reference XYZ, translation velocity XYZ, angular velocity XYZ,
+then each triangle's three corner pressures or three corner traction XYZ vectors.
+It rejects extra/missing input and emits JSON physical loads; it runs no timestep.
