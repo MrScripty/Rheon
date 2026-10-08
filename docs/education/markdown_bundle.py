@@ -42,6 +42,9 @@ def write_bundle(repo, output, front, reading, files, command):
                         if local == repo/'docs/education/native-labs.html':
                             dest = 'README.md'
                             fragment = 'native-playback'
+                        elif local == repo/'docs/education/aligned-strain-lab.html':
+                            dest = 'README.md'
+                            fragment = 'interactive-aligned-strain'
                         elif local == repo/'docs/education/obstacle-flow-lab.html':
                             dest = 'README.md'
                             fragment = 'obstacle-flow'
@@ -98,6 +101,14 @@ The [bounded pressure and reduced-shear guide](implementation/static-obstacle-fl
 explains the separately scoped field responses and exact rational controls.
 The HTML edition supplies obstacle-flow-lab.html when qualified native records
 are supplied. This archive does not execute either operator.
+
+## Interactive aligned strain
+
+The [finite strain guide](implementation/aligned-strain-laboratory.md) explains
+the retained native specimen, row work and exact-real theorem premises. Open
+aligned-strain-lab.html in the separately built HTML edition for interactive
+finite algebra when a qualified packet is included. This Markdown companion
+contains documentation and source, not an executing browser lab.
 '''
     (output/'downloads/Rheon-expanded-book.md').write_bytes(entries['Rheon-expanded-book.md'])
     with zipfile.ZipFile(output/'downloads/Rheon-expanded-markdown.zip', 'w', zipfile.ZIP_DEFLATED) as bundle:

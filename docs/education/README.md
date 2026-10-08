@@ -68,3 +68,42 @@ the book. `obstacle-flow-lab.html` exposes actual saved field responses and
 clearly distinguishes sealed pressure from fully developed periodic shear.
 Browser checks cover 24 pressure slice/state views and 54 saved shear profiles,
 including mobile layout. Without a packet the page explicitly states absence.
+
+
+## Interactive aligned strain laboratory
+
+The new `aligned-strain-lab.html` page recomputes finite strain, transpose action,
+viscous force and dissipation for velocity samples on one native unit 3×3×3 grid
+with a padded stationary center cube. It includes all 210 rows, including six
+zero rows, and retains the 48-face pressure space and stored face masses.
+Normal strain, cross-component engineering shear, the twelve reflected corner
+edges and one local shear-cancelling rotation patch have separate controls.
+The sliders change face samples and viscosity; there is no timestep or fluid
+solve. The displayed nearest-rounded coefficient estimate cannot authorize a
+step. Exact Lean links and original research are beside the controls and in
+[the laboratory guide](../research-book/implementation/aligned-strain-laboratory.md).
+
+Capture a fresh native packet after committing a clean source tree. All output
+directories below must be new and outside every Git checkout:
+
+```sh
+python3 tools/qualify_aligned_strain.py /absolute/external/native-qualification
+python3 docs/education/aligned_strain_packet.py --output /absolute/external/strain-packet \
+  --executable "$CARGO_TARGET_DIR/debug/examples/aligned_strain" \
+  --primary-qualification /absolute/external/native-qualification/qualification.json
+RHEON_ALIGNED_PACKET=/absolute/external/strain-packet python3 -m unittest discover -s docs/education -p test_aligned_strain_packet.py
+python3 docs/education/build.py --output-dir /absolute/external/edition \
+  --asset-dir /absolute/external/assets/node_modules \
+  --aligned-strain-records-dir /absolute/external/strain-packet
+python3 docs/education/verify_browser.py --render-pdf --output-dir /absolute/external/edition
+python3 docs/education/verify_site.py --output-dir /absolute/external/edition
+python3 docs/education/verify_browser.py --check --output-dir /absolute/external/edition
+```
+
+The packet binds immutable qualified native source bytes, fresh executable and
+TSV hashes, and an independent rational re-export. Chromium verification
+compares live browser arrays and diagnostics with independently rederived
+rational controls. It saves JPEG evidence at quality 85 outside Git. Read-only
+publication checks retain the PDF and receipts. The research-book workflow
+rebuilds and qualifies its own native executable and packet; it does not reuse
+a machine-specific historical binary or infer current checks from old counts.

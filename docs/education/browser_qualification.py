@@ -6,7 +6,7 @@ import json
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
                     'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt',
-                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py']
+                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py', 'aligned_strain_packet.py', 'aligned_strain_html.py', 'aligned_strain.js', 'aligned_strain.css', 'aligned_strain_browser.py']
 LABS = ['projection', 'collision', 'hydrostatic', 'viscous', 'slip', 'cap']
 
 
@@ -21,6 +21,23 @@ def book_sources(repo):
     return [{'slug': p.stem, 'title': p.read_text().splitlines()[0].removeprefix('# '),
              'source': str(p.relative_to(repo)),
              'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in paths]
+
+
+def validate_strain_browser_receipt(observed, strain):
+    if strain is None:
+        expected={'included':False,'dynamic_states':0,'independent_rational_comparisons':0,
+                  'fluid_solves':0,'fluid_advances':0,'mobile_no_overflow':True,'screenshots':[]}
+        if observed != expected:
+            raise ValueError('Incomplete source-only aligned-strain browser qualification')
+        return
+    expected={'included':True,'dynamic_states':46,'active_faces':len(strain['active']),
+              'rows':len(strain['rows']),'independent_rational_comparisons':46,
+              'retained_zero_rows':sum(not r['terms'] for r in strain['rows']),
+              'reflected_corners':len(strain['cornerEdges']),
+              'fluid_solves':0,'fluid_advances':0,'mobile_no_overflow':True}
+    if any(type(observed.get(key)) is not type(value) or observed.get(key)!=value
+           for key,value in expected.items()):
+        raise ValueError('Incomplete actual aligned-strain control comparisons')
 
 
 def verify_browser_qualification(repo, artifact_dir=None):
@@ -70,6 +87,10 @@ def verify_browser_qualification(repo, artifact_dir=None):
         expected={'included':included,'pressure_views':24 if included else 0,'shear_frames':54 if included else 0,'mobile_no_overflow':True,'browser_fluid_solves':0}
         if receipt.get('obstacle_flow')!=expected:
             raise ValueError('Incomplete obstacle-flow browser qualification')
+
+        from aligned_strain_packet import verify_published as verify_strain_published
+        strain=verify_strain_published(repo,artifact)
+        validate_strain_browser_receipt(receipt.get('aligned_strain',{}),strain)
 
 
 if __name__ == '__main__':

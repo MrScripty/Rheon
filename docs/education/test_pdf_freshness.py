@@ -21,7 +21,9 @@ class PdfFreshness(unittest.TestCase):
         for path, content in [(self.chapter, '# Original manuscript'),
                               (self.figure, '<svg/>'),
                               *[(self.here/name, name) for name in
-                                ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json']]]:
+                                ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json',
+                                 'aligned_strain_packet.py','aligned_strain_html.py',
+                                 'aligned_strain.js','aligned_strain.css','aligned_strain_browser.py']]]:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(content)
         self.pdf = self.here / 'downloads/Rheon-expanded-book.pdf'
@@ -58,6 +60,16 @@ class PdfFreshness(unittest.TestCase):
         (self.here/'verify_browser.py').write_text('changed print options')
         with self.assertRaisesRegex(ValueError, 'Stale PDF inputs.*verify_browser.py'):
             verify_pdf(self.repo)
+
+    def test_changed_aligned_lab_sources_reject_retained_pdf(self):
+        for name in ['aligned_strain_packet.py','aligned_strain_html.py',
+                     'aligned_strain.js','aligned_strain.css','aligned_strain_browser.py']:
+            with self.subTest(source=name):
+                path=self.here/name;original=path.read_bytes()
+                path.write_bytes(original+b' changed')
+                with self.assertRaisesRegex(ValueError,'Stale PDF inputs.*'+name):
+                    verify_pdf(self.repo)
+                path.write_bytes(original)
 
     def test_stale_html_cannot_issue_fresh_receipt(self):
         site=self.here/'_site';site.mkdir()
