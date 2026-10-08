@@ -55,7 +55,7 @@ and update. A nearest-rounded row-bound diagnostic does not authorize it.
 Independently enclose the bound from the actual stored rows and masses:
 
     L_r = sum_g abs(E_rg),
-    B   = max_f (sum_r w_r abs(E_rf) L_r) / m_f.
+    B   = max_f [ (sum_r w_r abs(E_rf) L_r) / m_f ].
 
 Require a finite nonnegative enclosing upper endpoint `B_upper` and an outward
 upper bound on `dt*mu*B_upper` at most `2`, for a finite positive requested `dt`.
