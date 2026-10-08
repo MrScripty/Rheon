@@ -153,7 +153,7 @@ def evaluate(raw,c):
         vector(seg['translation_defect_m']);t=num(seg['duration_s']);require(t>0 and float(num(remaining)-t)==seg['remaining_s'],'stored duration subtraction/progress');require(seg['remaining_s']<remaining,'strict remaining progress')
         if index==0:require(seg['departure']is None,'no initial departure')
         else:
-            d=seg['departure'];keys(d,interval.DEPARTURE);require(type(d['triangle'])is int and d['triangle']==previous,'only last facet')
+            d=seg['departure'];keys(d,interval.DEPARTURE);vector(d['point']);require(type(d['triangle'])is int and d['triangle']==previous,'only last facet')
             require(d['point']==raw['sequence'][index-1]['hit']['point'],'actual departure point')
             require(type(d['from_generation'])is int and type(d['from_surface_version'])is int and d['from_generation']==before['generation']and d['from_surface_version']==before['surface_version'],'actual departure stamps')
             gap,support,speed=interval.certificate(before,d['point'],d['triangle'],c)
@@ -226,6 +226,7 @@ def main():
     raw,c=frozen['repeated_dyadic_capped'];probes=[
         lambda x:x['result'].update(status='Complete forged'),lambda x:x['result'].update(accepted_segments=True),
         lambda x:x['sequence'][1]['departure'].update(from_generation=2),lambda x:x['sequence'][1]['departure'].update(triangle=0),
+        lambda x:x['sequence'][1]['departure']['point'].__setitem__(2,False),
         lambda x:x['sequence'][1]['frame']['omega'].__setitem__(2,42.),lambda x:x['sequence'][1]['frame']['q'].__setitem__(0,True),
         lambda x:x['sequence'][0]['impact'].update(tangent_impulse_n_s=[0.,0.,0.]),
         lambda x:x['result']['accounting'].update(world_angular_defect_n_m_s=[1.,0.,0.]),
