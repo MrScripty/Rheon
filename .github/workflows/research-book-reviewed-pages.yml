@@ -1,0 +1,88 @@
+name: Publish reviewed Rheon PR36 edition
+on:
+  workflow_dispatch:
+    inputs:
+      site_archive_url:
+        description: HTTPS URL serving the exact reviewed PR36 site archive
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: rheon-reviewed-pages
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out the immutable educational candidate
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: 6c0d90a4ff07098d39e0db2741c9a24849069f50
+      - name: Download and verify the exact reviewed site
+        env:
+          RHEON_ARCHIVE_URL: ${{ inputs.site_archive_url }}
+        run: |
+          test "$(git rev-parse HEAD)" = 6c0d90a4ff07098d39e0db2741c9a24849069f50
+          test "$(git rev-parse HEAD^{tree})" = 6cc8e16d042ef976e8490fc21f98b4538ada7701
+          test "$(git rev-parse --is-shallow-repository)" = false
+          git merge-base --is-ancestor d31cf735645579357f9f58dcc55958e23f77af59 HEAD
+          git merge-base --is-ancestor 51c0a6c70790e53f1b7e1e003a388c420015e333 HEAD
+          curl --fail --location --proto '=https' --proto-redir '=https' --output "$RUNNER_TEMP/reviewed-site.tar.gz" -- "$RHEON_ARCHIVE_URL"
+          python3 - <<'PY'
+          import hashlib, os, pathlib, tarfile
+          archive = pathlib.Path(os.environ['RUNNER_TEMP']) / 'reviewed-site.tar.gz'
+          expected = 'e179d9f7da8e23ef1633a73c20c55ca9c11b88ffcf3eaef9d7ed777ee179e73a'
+          if hashlib.sha256(archive.read_bytes()).hexdigest() != expected:
+              raise SystemExit('Archive differs from the locally reviewed release')
+          root = archive.parent / 'reviewed-site'
+          root.mkdir()
+          with tarfile.open(archive) as bundle:
+              names = set()
+              for member in bundle.getmembers():
+                  path = pathlib.PurePosixPath(member.name)
+                  if path.is_absolute() or '..' in path.parts or path.parts[0] != 'pr36-reviewed-edition':
+                      raise SystemExit('Unexpected archive destination')
+                  if member.name in names or not (member.isfile() or member.isdir()):
+                      raise SystemExit('Unexpected duplicate, link, or special archive entry')
+                  names.add(member.name)
+              bundle.extractall(root, filter='data')
+          PY
+      - name: Check retained proof, PDF, source, browser and link receipts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+          python3 -m pip install pypdf==6.10.0
+          python3 docs/education/verify_site.py --output-dir "$RUNNER_TEMP/reviewed-site/pr36-reviewed-edition"
+          python3 - <<'PY'
+          import os, pathlib, sys
+          repo = pathlib.Path.cwd()
+          sys.path.insert(0, str(repo / 'docs/education'))
+          from browser_qualification import verify_browser_qualification
+          edition = pathlib.Path(os.environ['RUNNER_TEMP']) / 'reviewed-site/pr36-reviewed-edition'
+          verify_browser_qualification(repo, artifact_dir=edition)
+          print('PASS immutable retained browser/source/book/PDF and native-packet receipts')
+          PY
+      - name: Upload the unchanged reviewed site to Pages
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          path: ${{ runner.temp }}/reviewed-site/pr36-reviewed-edition
+  deploy:
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the reviewed Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
