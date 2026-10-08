@@ -19,7 +19,7 @@ CONTROLS_SCHEMA = "rheon.dense3d.interval-controls"
 VERSION = 2
 CONTROLS_LIMIT = 65536
 MANIFEST_LIMIT = v1.MANIFEST_LIMIT
-SOURCE_RATE_KEY = "source_rate_m3_s"  # Isolated pending confirmation of contract punctuation.
+SOURCE_RATE_KEY = "source_rate_m3_s"  # Confirmed by Tuldok's source-pinned authored fixture.
 CONTROLS_MANIFEST_KEYS = {"controls_file", "controls_bytes", "controls_sha256"}
 BINDING_KEYS = {"schema", "version", "geometry", "field_types", "units",
                 "pressure_semantics", "config", "limitations", "provenance"}

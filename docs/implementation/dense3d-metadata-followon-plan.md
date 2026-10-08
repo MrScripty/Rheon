@@ -69,7 +69,9 @@ decimal spellings that round-trip their native types.
 binds source commit/dirty flag, source hashes, binary hash, toolchain and exact
 commands, independently validates output, and publishes completion last with
 no overwrite. It currently runs one explicitly bounded pilot. The new work
-must test the metadata without launching another pilot or held campaign.
+tests metadata with small/static fixtures. One final acceptance execution may
+use only this existing bounded reference case after its call path is verified;
+no held campaign or enlarged case is authorized.
 
 `tools/import_dense3d_sequence.py` requires the exact v1 schema and key sets,
 bounded files/lines, finite native values, hash/byte binding, stamp/time continuity
@@ -86,7 +88,7 @@ it is not something the solver can infer from numerical fields.
 
 ## Disjoint patch sequence once the exact contract arrives
 
-1. Preserve the provided contract bytes and immutable reference; compare its
+1. Preserve the provided contract reference and primary-source clarifications; compare its
    exact version, fields, types, units, continuity and unsupported-input rules
    against this source map. Record any unresolved conflicts before coding.
 2. Implement the smallest explicit versioned export route around the existing
@@ -107,6 +109,6 @@ it is not something the solver can infer from numerical fields.
    bundle. Parent schedules CodeRabbit; no merge, deployment or quality claim.
 
 The initial plan chose no consumer wire fields before the required contract
-was readable. Subsequent qualification uses existing small native fixture tests
-and explicitly authored static publication fixtures. No full sequence pilot
-or held simulation campaign is run for this follow-on.
+was readable. Subsequent qualification uses existing small native fixture tests,
+explicitly authored static publication fixtures and one verified existing fixed
+reference acceptance run. No held simulation campaign is run for this follow-on.

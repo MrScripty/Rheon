@@ -110,13 +110,17 @@ cancelled/rejected calls and post-commit output failures. Actual tiny-frame
 and capture comparisons establish interval serialization at that small
 geometry. They do not masquerade as the fixed 16x8x4 completed v2 dataset.
 Static authored fixtures exercise strict full-file validation and publication
-failure paths without executing the sequence example or exporter pilot.
+failure paths. A separate acceptance execution uses only the existing fixed
+16x8x4, eight-interval reference case in the explicit proposed-v2 mode, with
+unchanged inputs, solver tolerances and memory limits. This checks the actual
+native capture through durable files and final manifest publication.
 Authored fixtures are identified as tests; they are not producer execution
 evidence or relabeled stored v1 data.
 
-No new full pilot, held case41/geometry-band simulation, broad refinement,
-training or model-quality campaign is part of this work. Existing frame tests
-remain available; scoped qualification avoids launching the full pilot.
+No held case41/geometry-band simulation, broad refinement, training or
+model-quality campaign is part of this work. The reference acceptance run
+adds no case selection, input enlargement, threshold changes or comparison
+roster. The scoped unit-test qualifier remains separate from that one run.
 The existing repository Rust CI may run its ordinary public native regression
 fixtures and bounded smoke regression. Those existing checks are retained;
 they do not invoke the dataset exporter or constitute a held simulation campaign.
@@ -129,6 +133,13 @@ unselected/deleted bridges remain consumer responsibilities. Exporting explicit
 producer group identifiers requires a separately coordinated contract extension;
 implementation provenance alone does not establish independent families.
 
-The relayed phrase `source_rate_m3_s0` lacks a separator. The source currently
-isolates `source_rate_m3_s` as the candidate key with numeric zero; exact fixture
-or key confirmation is required before ordinary draft publication.
+The relayed phrase `source_rate_m3_s0` lacks punctuation. Primary source
+`tests/fixtures/rheon_authored_controls.py` at the Tuldok pin explicitly names
+`source_rate_m3_s` with value 0, together with `source_mode="none"` and the zero
+acceleration vector. Its SHA256 is
+`e493efb1a22c7e6c6f73cd4cf25863fc0f29d6f388f4aa3713f08b9c265170bb`.
+`sequence_inspection.py` repeats that key and value; its SHA256 is
+`b05990f0fd5ec26319c0e1488a09295ff6f397f1233cb30882f0de813e700c5f`.
+The parent verified and relayed these source facts. Finite numeric 0 or 0.0 is
+accepted; booleans, strings and nonzero values refuse. Numeric zero never
+substitutes for the explicit absence mode.
