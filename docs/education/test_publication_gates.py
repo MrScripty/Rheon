@@ -3,12 +3,30 @@ from pathlib import Path
 import hashlib
 import json
 import tempfile
+import subprocess
 import unittest
 from unittest.mock import patch
 import build
 from browser_qualification import LABS, REVIEWED_SOURCES, book_sources, source_hashes, verify_browser_qualification
 from pdf_freshness import input_hashes
 import verify_browser
+
+
+class OutputAdmission(unittest.TestCase):
+    def test_existing_output_and_checkout_ancestors_are_preserved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);repo=root/'repo';repo.mkdir();output=root/'edition';output.mkdir()
+            marker=output/'retained';marker.write_text('unchanged')
+            for target in (root,repo,repo/'output',output):
+                with self.subTest(target=target),self.assertRaises(ValueError):build.validate_output(target,repo)
+            self.assertEqual(marker.read_text(),'unchanged')
+
+    def test_other_git_checkout_is_refused_and_fresh_external_path_is_admitted(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);repo=root/'repo';repo.mkdir();other=root/'other';other.mkdir()
+            subprocess.run(['git','init','--quiet',str(other)],check=True)
+            with self.assertRaisesRegex(ValueError,'every Git checkout'):build.validate_output(other/'edition',repo)
+            build.validate_output(root/'fresh'/'edition',repo)
 
 
 class ReferenceQualification(unittest.TestCase):

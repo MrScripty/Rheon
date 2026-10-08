@@ -1,10 +1,10 @@
 name: Rheon research book and Pages
 on:
   pull_request:
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   push:
     branches: [main]
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,6 +15,10 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    env:
+      RHEON_EDITION: ${{ runner.temp }}/rheon-edition
+      RHEON_ASSETS: ${{ runner.temp }}/rheon-assets
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -26,7 +30,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc
-          npm ci --prefix docs/education --ignore-scripts --no-audit --no-fund
+          mkdir -p "$RHEON_ASSETS"
+          cp docs/education/package.json docs/education/package-lock.json "$RHEON_ASSETS/"
+          npm ci --prefix "$RHEON_ASSETS" --ignore-scripts --no-audit --no-fund
           python3 -m pip install -r docs/research-book/expansion/requirements.txt
           python3 -m pip install -r docs/education/requirements.txt
           python3 -m playwright install --with-deps chromium
@@ -45,18 +51,20 @@ jobs:
           python3 -O -m unittest discover -s docs/education -p test_pdf_freshness.py
           python3 -m unittest discover -s docs/education -p test_publication_gates.py
           python3 -O -m unittest discover -s docs/education -p test_publication_gates.py
-          python3 docs/education/build.py
-          python3 docs/education/verify_site.py
+          python3 -m unittest discover -s docs/education -p test_native_sequence.py
+          python3 -O -m unittest discover -s docs/education -p test_native_sequence.py
+          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules"
+          python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
+          python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
       - name: Verify retained browser bindings and current Chromium laboratories
         run: |
-          python3 docs/education/browser_qualification.py
-          python3 docs/education/verify_browser.py --check
+          python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"
           python3 -O -m unittest discover -s docs/education -p test_browser_runtime.py
       - name: Retain reviewable site
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: rheon-teaching-site-${{ github.sha }}
-          path: docs/education/_site/
+          path: ${{ runner.temp }}/rheon-edition/
       - name: Configure Pages
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
@@ -64,7 +72,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
         with:
-          path: docs/education/_site
+          path: ${{ runner.temp }}/rheon-edition
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build

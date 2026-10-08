@@ -4,7 +4,8 @@ import hashlib
 import json
 
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
-                    'verify_browser.py', 'browser_qualification.py']
+                    'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
+                    'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt']
 LABS = ['projection', 'collision', 'hydrostatic', 'viscous', 'slip', 'cap']
 
 
@@ -15,24 +16,25 @@ def source_hashes(here):
 
 def book_sources(repo):
     book = repo/'docs/research-book'
-    paths = sorted((book/'chapters').glob('*.md')) + sorted((book/'appendices').glob('*.md'))
+    paths = sorted((book/'chapters').glob('*.md')) + sorted((book/'appendices').glob('*.md')) + sorted((book/'implementation').glob('*.md'))
     return [{'slug': p.stem, 'title': p.read_text().splitlines()[0].removeprefix('# '),
              'source': str(p.relative_to(repo)),
              'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in paths]
 
 
-def verify_browser_qualification(repo):
+def verify_browser_qualification(repo, artifact_dir=None):
     repo = Path(repo)
     here = repo/'docs/education'
-    receipt = json.loads((here/'browser-qualification.json').read_text())
+    artifact = Path(artifact_dir) if artifact_dir is not None else here
+    receipt = json.loads((artifact/'browser-qualification.json').read_text())
     if receipt.get('schema') != 'rheon-education-browser-v1':
         raise ValueError('Missing or unsupported browser qualification.')
     if receipt.get('reviewed_sources') != source_hashes(here):
         raise ValueError('Stale browser source bindings; requalify before publication.')
     if receipt.get('book_sources') != book_sources(repo):
         raise ValueError('Stale browser book bindings; requalify before publication.')
-    for pdf in [here/'downloads/Rheon-expanded-book.pdf',
-                here/'_site/downloads/Rheon-expanded-book.pdf']:
+    pdfs = [artifact/'downloads/Rheon-expanded-book.pdf'] if artifact_dir is not None else [here/'downloads/Rheon-expanded-book.pdf',here/'_site/downloads/Rheon-expanded-book.pdf']
+    for pdf in pdfs:
         if hashlib.sha256(pdf.read_bytes()).hexdigest() != receipt.get('pdf_sha256'):
             raise ValueError('Stale browser PDF binding: ' + str(pdf))
     labs = receipt.get('labs', [])
@@ -45,6 +47,15 @@ def verify_browser_qualification(repo):
             raise ValueError('Missing browser qualification check: ' + flag)
     if receipt.get('page_errors') != [] or receipt.get('http_failures') != []:
         raise ValueError('Retained browser qualification contains page/network failures.')
+    if artifact_dir is not None:
+        native=receipt.get('native_labs',{})
+        presentation=json.loads((artifact/'native-presentation.json').read_text())
+        expected={'recorded_bundles_included':presentation['recorded_bundles_included'],
+                  'hub_models':3,'mobile_no_overflow':True,'native_numerical_calls':0,
+                  'native_snapshot_checks':50 if presentation['recorded_bundles_included'] else 0,
+                  'wall_final_profile_checks':6 if presentation['recorded_bundles_included'] else 0}
+        if native!=expected:
+            raise ValueError('Incomplete native playback/source-only browser qualification.')
 
 
 if __name__ == '__main__':

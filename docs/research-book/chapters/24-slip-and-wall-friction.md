@@ -67,6 +67,13 @@ Handle ℓ=0 as a no-slip constraint instead of dividing by zero. This formula i
 
 ## Exact no-slip in the retained flat-slab basis
 
+The [connected native progression](../implementation/native-wall-force-sequence.md)
+starts with both walls at finite Navier friction, adds compatible exact no-slip,
+then adds stationary-wall body-force-driven Poiseuille startup. These are three
+distinct reference problems. The original one-wall 3D analytic lab remains an
+equilibrium record, while native case/time controls select saved Rust profiles;
+none is a live general fluid solver.
+
 The [compatible endpoint no-slip operation](../implementation/column-no-slip.md)
 now distinguishes an exact prescribed tangential constraint from finite Navier
 friction. It requires the incoming trace to match the fixed wall speed. Rather
