@@ -90,6 +90,12 @@ class QualificationGates(unittest.TestCase):
         self.assertFalse(q.unchanged(head, status, paths, hashes))
         marker.write_text('changed\n')
         self.assertFalse(q.unchanged(head, status, paths, hashes))
+        dirty_status = q.git('status', '--porcelain')
+        dirty_hashes = {p: q.digest(self.source / p) for p in paths}
+        self.assertTrue(q.unchanged(head, dirty_status, paths, dirty_hashes))
+        marker.write_text('changed again\n')
+        self.assertEqual(q.git('status', '--porcelain'), dirty_status)
+        self.assertFalse(q.unchanged(head, dirty_status, paths, dirty_hashes))
 
 
 if __name__ == '__main__':

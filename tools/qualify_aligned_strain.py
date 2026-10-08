@@ -93,6 +93,11 @@ def qualify(args):
     if args.lean:
         commands.extend([
             ('lean-source-policy', [sys.executable, 'scripts/check_sources.py']),
+            ('lean-source-policy-tests', [sys.executable, '-m', 'unittest', 'discover',
+                                           '-s', 'scripts', '-p', 'test_check_sources.py', '-v']),
+            ('lean-source-policy-tests-optimized', [sys.executable, '-O', '-m', 'unittest',
+                                                     'discover', '-s', 'scripts', '-p',
+                                                     'test_check_sources.py', '-v']),
             ('lean-build', ['lake', 'build']),
             ('lean-axiom-audit', ['lake', 'env', 'lean', 'AxiomAudit.lean']),
             ('lean-rejection-tests', [sys.executable, 'scripts/test_audit.py']),

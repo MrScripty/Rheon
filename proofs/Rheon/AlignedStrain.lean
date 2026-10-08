@@ -35,12 +35,13 @@ def rowBound {n r : ℕ} (E : Fin r → Fin n → ℝ) (w : Fin r → ℝ)
 
 theorem row_bound_nonnegative {n r : ℕ} (E : Fin r → Fin n → ℝ)
     (w : Fin r → ℝ) (mass : Fin n → ℝ) : 0 ≤ rowBound E w mass := by
-  exact Finset.le_fold_max.mpr (Or.inl le_rfl)
+  exact (Finset.le_fold_max 0).mpr (Or.inl le_rfl)
 
 theorem face_le_row_bound {n r : ℕ} (E : Fin r → Fin n → ℝ)
     (w : Fin r → ℝ) (mass : Fin n → ℝ) (f : Fin n) :
     faceBound E w mass f ≤ rowBound E w mass := by
-  exact Finset.le_fold_max.mpr (Or.inr ⟨f, Finset.mem_univ f, le_rfl⟩)
+  exact (Finset.le_fold_max (faceBound E w mass f)).mpr
+    (Or.inr ⟨f, Finset.mem_univ f, le_rfl⟩)
 
 def forceNorm {n r : ℕ} (E : Fin r → Fin n → ℝ) (w : Fin r → ℝ)
     (mass u : Fin n → ℝ) : ℝ :=
@@ -89,7 +90,7 @@ theorem operator_symmetric {n r : ℕ} (E : Fin r → Fin n → ℝ)
   ring
 
 theorem row_abs_nonnegative {n r : ℕ} (E : Fin r → Fin n → ℝ) (q : Fin r) :
-    0 ≤ rowAbs E q := Finset.sum_nonneg (fun f _ => abs_nonneg _)
+    0 ≤ rowAbs E q := Finset.sum_nonneg (fun _f _ => abs_nonneg _)
 
 theorem coefficient_le_row_abs {n r : ℕ} (E : Fin r → Fin n → ℝ)
     (q : Fin r) (f : Fin n) : |E q f| ≤ rowAbs E q := by
@@ -128,12 +129,13 @@ theorem face_cauchy {n r : ℕ} (E : Fin r → Fin n → ℝ)
     · field_simp [h]
       ring_nf
       simp only [sq_abs]
+      ring
 
 /-- The per-face coefficient bound proves K M^-1 K <= B K as quadratic forms. -/
 theorem coefficient_force_bound {n r : ℕ} (E : Fin r → Fin n → ℝ)
     (w : Fin r → ℝ) (mass u : Fin n → ℝ) (B : ℝ)
     (hw : ∀ q, 0 ≤ w q) (hm : ∀ f, 0 < mass f)
-    (hB : 0 ≤ B) (bound : ∀ f, faceBound E w mass f ≤ B) :
+    (_hB : 0 ≤ B) (bound : ∀ f, faceBound E w mass f ≤ B) :
     forceNorm E w mass u ≤ B * strainLoss E w u := by
   have hf : ∀ f, (strainOperator E w u f)^2 / mass f ≤
       B * ∑ q, w q * |E q f| * (gather E u q)^2 / rowAbs E q := by
@@ -259,7 +261,8 @@ theorem unit_corner_block (U V : ℝ) :
 theorem flat_conductance (volume area delta : ℝ) (hd : delta ≠ 0)
     (product : volume = area * delta) : volume / delta^2 = area / delta := by
   rw [product]
-  field_simp [hd] <;> ring
+  field_simp [hd]
+  ring
 
 end
 end Rheon.AlignedStrain

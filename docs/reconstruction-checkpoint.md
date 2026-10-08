@@ -55,10 +55,29 @@ focused Rust contracts and actual-native comparisons pass provisionally.
 The rational central unit cube independently yields 48 active faces, 210
 rows, 6 zero rows and B=17; actual native unit and anisotropic/nonmidpoint
 fixtures agree with the oracle, with deliberate-corruption rejection checks.
-Final clean-source receipts and independent review are still pending.
+The frozen native checkpoint at tree
+`d5b700e586cd9e03ef771e058bf38a5c9de5904b` passed the clean-source native
+qualification runner. It checked five actual native configurations, all
+declared corruption probes, Rust contracts/Clippy/formatting, and normal and
+optimized Python oracle/gate tests. Its receipt explicitly says
+`lean_checked=false`; it does not qualify later proof edits.
+
+Independent review found that an absolute tolerance floor accepted sign
+corruption at extreme scales. The oracle now enforces positivity/signs and
+relative primitive comparisons; cancellation scales use independent sums of
+absolute contributions in the corresponding physical units. The exact reported
+counterexamples and additional scale corruptions reject. Source binding now
+includes untracked intermediate sources and rechecks path set, Git status,
+HEAD and bytes. Fresh final clean-source receipts and exact-source independent
+review remain pending.
 
 Lean 4.19.0 and exact manifest dependencies are installed. The official mathlib
 cache returned HTTP 403; no cache was obtained. The pinned dependencies are
-compiling from source. The new coefficient-bound, Euler and matched-projection
-proofs are candidate sources until kernel compilation and axiom audit pass.
-No draft, main merge or deployment has occurred.
+compiled from source. The new module kernel-compiles; the allowed-axiom audit
+and both normal/optimized rejection probes pass. The finite maximum supplies
+the coefficient bound, including zero rows. Euler decrease requires positive
+masses, nonnegative fixed weights, time and viscosity and `dt*mu*B <= 2`.
+Composition additionally requires exact mass matching and an exact full
+pressure solve. Assembly, IEEE refinement and global/continuum convergence
+remain outside these statements. Final proof inventory/source qualification
+is being frozen. No draft, main merge or deployment has occurred.

@@ -141,7 +141,8 @@ For mass `m_f>0`, put `L_r=sum_g |E_rg|` and use any `B>=0` satisfying
     (1/m_f) sum_r w_r |E_rf| L_r <= B       for every f.
 
 The implementation uses the maximum of these face bounds, with maximum zero
-for an empty active space. Two weighted Cauchy inequalities establish
+for an empty active space. Lean defines this finite maximum as `rowBound` and
+proves both its nonnegativity and every face-bound inequality. Two weighted Cauchy inequalities establish
 
     sum_f (Ku)_f^2/m_f <= B D(u).
 
