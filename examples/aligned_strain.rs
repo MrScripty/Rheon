@@ -10,6 +10,23 @@ use std::{
     io::{BufWriter, Write},
     path::Path,
 };
+fn require_external_destination(path: &Path) -> Result<(), Box<dyn Error>> {
+    let parent = path.parent().unwrap_or(Path::new("."));
+    let parent = parent.canonicalize()?;
+    // A missing Git executable refuses the operation instead of bypassing the
+    // outside-Git requirement. This is a read-only invocation without a shell.
+    if std::process::Command::new("git")
+        .arg("-C")
+        .arg(parent)
+        .args(["rev-parse", "--is-inside-work-tree"])
+        .output()?
+        .status
+        .success()
+    {
+        return Err("dump destination must be outside Git".into());
+    }
+    Ok(())
+}
 fn main() -> Result<(), Box<dyn Error>> {
     let mut args: Vec<String> = std::env::args().skip(1).collect();
     if args.len() != 1 && args.len() != 18 {
@@ -17,12 +34,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     let output = args.pop().unwrap();
     let path = Path::new(&output);
-    let parent = path.parent().unwrap_or(Path::new("."));
-    let parent = parent.canonicalize()?;
-    let repo = Path::new(env!("CARGO_MANIFEST_DIR")).canonicalize()?;
-    if parent.starts_with(repo) {
-        return Err("dump destination must be outside the Git checkout".into());
-    }
+    require_external_destination(path)?;
     let counts: [u64; 3] = if args.is_empty() {
         [4, 5, 3]
     } else {
@@ -193,4 +205,50 @@ fn main() -> Result<(), Box<dyn Error>> {
     )?;
     dump.flush()?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::require_external_destination;
+    use std::{
+        path::Path,
+        process::Command,
+        time::{SystemTime, UNIX_EPOCH},
+    };
+
+    #[test]
+    fn destination_refuses_this_worktree() {
+        let destination = Path::new(env!("CARGO_MANIFEST_DIR")).join("refused-strain-dump.tsv");
+        assert!(require_external_destination(&destination).is_err());
+        assert!(!destination.exists());
+    }
+
+    #[test]
+    fn destination_refuses_unrelated_worktree_and_allows_external_directory() {
+        let serial = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let directory = std::env::temp_dir().join(format!(
+            "rheon-strain-destination-{}-{serial}",
+            std::process::id()
+        ));
+        std::fs::create_dir(&directory).unwrap();
+        let destination = directory.join("new-dump.tsv");
+        assert!(require_external_destination(&destination).is_ok());
+        assert!(
+            Command::new("git")
+                .arg("init")
+                .arg("--quiet")
+                .arg(&directory)
+                .status()
+                .unwrap()
+                .success()
+        );
+        let refused = require_external_destination(&destination).is_err();
+        let uncreated = !destination.exists();
+        std::fs::remove_dir_all(&directory).unwrap();
+        assert!(refused);
+        assert!(uncreated);
+    }
 }

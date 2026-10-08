@@ -172,10 +172,12 @@ def apply(rows, field):
     return result, dissipation
 
 
-def close(actual, expected, label, tolerance=F(1, 10**11)):
-    # Absolute floor accommodates a computed exact zero, relative term scales
-    # only with the independently reconstructed expected quantity.
-    require(abs(actual - expected) <= tolerance * max(F(1), abs(expected)),
+def close(actual, expected, label, tolerance=F(1, 10**11), scale=None):
+    # Primitive nonzero quantities use a purely relative nearest-rounded check.
+    # Cancellation quantities receive an independently derived sum of absolute
+    # contributions in the same physical units. This is not an IEEE enclosure.
+    magnitude = abs(expected) if scale is None else max(abs(expected), scale)
+    require(abs(actual - expected) <= tolerance * magnitude,
             f'{label}: expected {expected}, observed {actual}')
 
 
@@ -331,6 +333,7 @@ def verify(path):
         require((actual.axis, actual.flat, actual.p) == (expected.axis, expected.flat, expected.p),
                 f'ACTIVE {i} geometry identity')
         for label in ('area', 'distance', 'mass'):
+            require(getattr(actual, label) > 0, f'ACTIVE {i} nonpositive {label}')
             close(getattr(actual, label), getattr(expected, label), f'ACTIVE {i} {label}')
         require(actual.position == expected.position, f'ACTIVE {i} represented position')
     expected_rows = {r.key: r for r in rows}
@@ -340,21 +343,39 @@ def verify(path):
     for key, expected in expected_rows.items():
         actual = actual_rows[key]
         require(actual.closure == expected.closure, f'ROW {key} closure disagreement')
+        require(actual.weight > 0, f'ROW {key} nonpositive weight')
         close(actual.weight, expected.weight, f'ROW {key} weight')
         require(tuple(i for i, _ in actual.terms) == tuple(i for i, _ in expected.terms),
                 f'ROW {key} support disagreement')
         for (_, a), (_, b) in zip(actual.terms, expected.terms):
+            require(a * b > 0, f'ROW {key} coefficient sign')
             close(a, b, f'ROW {key} coefficient')
     require(dump.matrix.keys() == stiffness.keys(), 'MATRIX support disagreement')
+    matrix_scales = {}
+    for row in rows:
+        for i, a in row.terms:
+            for j, b in row.terms:
+                key = (i, j)
+                matrix_scales[key] = matrix_scales.get(key, F(0)) + row.weight * abs(a * b)
     for key, expected in stiffness.items():
-        close(dump.matrix[key], expected, f'MATRIX {key}')
+        close(dump.matrix[key], expected, f'MATRIX {key}', scale=matrix_scales[key])
     action, dissipation = apply(rows, dump.field)
+    action_scales = [F(0)] * len(faces)
+    for row in rows:
+        strain_scale = sum(abs(a * dump.field[i]) for i, a in row.terms)
+        for i, a in row.terms:
+            action_scales[i] += row.weight * abs(a) * strain_scale
     for i, (actual, expected) in enumerate(zip(dump.action, action)):
-        close(actual, expected, f'ACTION {i}')
+        close(actual, expected, f'ACTION {i}', scale=action_scales[i])
     work = sum(v * f for v, f in zip(dump.field, action))
+    require(dump.ledger[0] >= 0, 'LEDGER negative dissipation')
+    require(dump.ledger[1] <= 0, 'LEDGER positive stationary force work')
+    require(dump.ledger[3] > 0, 'LEDGER nonpositive B')
     for label, actual, expected in zip(('dissipation', 'work', 'identity', 'B'), dump.ledger,
                                       (dump.geometry.viscosity * dissipation, -dump.geometry.viscosity * work, F(0), coefficient_bound)):
-        close(actual, expected, f'LEDGER {label}')
+        scale = None if label == 'B' else dump.geometry.viscosity * sum(
+            abs(v) * s for v, s in zip(dump.field, action_scales))
+        close(actual, expected, f'LEDGER {label}', scale=scale)
     return {'active_faces': len(faces), 'rows': len(rows), 'zero_rows': sum(not r.terms for r in rows),
             'matrix_nonzero': len(stiffness), 'B_exact': str(coefficient_bound),
             'dissipation_exact': str(dissipation), 'dump': str(Path(path).resolve())}
@@ -370,12 +391,16 @@ def mutation_suite(path):
     variants = ('coefficient', 'row', 'zero_row', 'mass', 'B', 'matrix', 'action',
                 'nan', 'unknown', 'duplicate', 'missing_meta')
     rejected = []
+    def corrupt(token):
+        value = bits_value(token)
+        return struct.pack('>d', -float(value) if value else 1.0).hex()
     with TemporaryDirectory(prefix='rheon-aligned-negative-') as temp:
         target = Path(temp) / 'mutated.tsv'
         for variant in variants:
             changed = deepcopy(records)
             if variant == 'coefficient':
-                next(r for r in changed if r[0] == 'ROW' and int(r[10]) > 0)[12] = struct.pack('>d', 123.0).hex()
+                r = next(r for r in changed if r[0] == 'ROW' and int(r[10]) > 0)
+                r[12] = corrupt(r[12])
             elif variant in ('row', 'zero_row'):
                 index = next((i for i, r in enumerate(changed) if r[0] == 'ROW' and
                               (variant == 'row' and int(r[10]) > 0 or variant == 'zero_row' and r[10] == '0')), None)
@@ -384,11 +409,14 @@ def mutation_suite(path):
                 for i, r in enumerate(r for r in changed if r[0] == 'ROW'):
                     r[1] = str(i)
             elif variant == 'mass':
-                next(r for r in changed if r[0] == 'ACTIVE')[-1] = struct.pack('>d', 123.0).hex()
+                r = next(r for r in changed if r[0] == 'ACTIVE')
+                r[-1] = corrupt(r[-1])
             elif variant == 'B':
-                next(r for r in changed if r[0] == 'LEDGER')[-1] = struct.pack('>d', 123.0).hex()
+                r = next(r for r in changed if r[0] == 'LEDGER')
+                r[-1] = corrupt(r[-1])
             elif variant in ('matrix', 'action'):
-                next(r for r in changed if r[0] == variant.upper())[-1] = struct.pack('>d', 999.0).hex()
+                r = next(r for r in changed if r[0] == variant.upper())
+                r[-1] = corrupt(r[-1])
             elif variant == 'nan':
                 next(r for r in changed if r[0] == 'ACTIVE')[-1] = '7ff8000000000000'
             elif variant == 'unknown':

@@ -129,6 +129,9 @@ run_cmd do
     `Rheon.AlignedStrain.strainLoss,
     `Rheon.AlignedStrain.rowAbs,
     `Rheon.AlignedStrain.faceBound,
+    `Rheon.AlignedStrain.rowBound,
+    `Rheon.AlignedStrain.row_bound_nonnegative,
+    `Rheon.AlignedStrain.face_le_row_bound,
     `Rheon.AlignedStrain.forceNorm,
     `Rheon.AlignedStrain.euler,
     `Rheon.AlignedStrain.transpose_work,
@@ -143,6 +146,7 @@ run_cmd do
     `Rheon.AlignedStrain.coefficient_force_bound,
     `Rheon.AlignedStrain.euler_energy_identity,
     `Rheon.AlignedStrain.euler_energy_nonincrease,
+    `Rheon.AlignedStrain.euler_row_bound_nonincrease,
     `Rheon.AlignedStrain.euler_exact_projection_nonincrease,
     `Rheon.AlignedStrain.unit_corner_block,
     `Rheon.AlignedStrain.flat_conductance]

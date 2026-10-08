@@ -25,6 +25,13 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def unchanged(head, source_status, source_paths, sources):
+    return (git('rev-parse', 'HEAD') == head and
+            git('status', '--porcelain') == source_status and
+            git('ls-files', '--cached', '--others', '--exclude-standard').splitlines() == source_paths and
+            all((ROOT / p).is_file() and digest(ROOT / p) == h for p, h in sources.items()))
+
+
 def run(command, output, name, cwd=ROOT, env=None):
     with (output / (name + '.log')).open('xb') as log:
         result = subprocess.run(command, cwd=cwd, stdout=log, env=env,
@@ -50,7 +57,7 @@ def qualify(args):
     subprocess.run(['git', 'merge-base', '--is-ancestor', BASE, 'HEAD'],
                    cwd=ROOT, check=True)
     for path in ['tests/aligned_strain_contract.rs', 'tools/test_aligned_strain_oracle.py',
-                 'examples/aligned_strain.rs']:
+                 'tools/test_qualify_aligned_strain.py', 'examples/aligned_strain.rs']:
         if not (ROOT / path).is_file():
             raise ValueError('missing required qualification source: ' + path)
     output.mkdir(parents=True, exist_ok=False)
@@ -70,9 +77,18 @@ def qualify(args):
         ('format', ['cargo', 'fmt', '--check']),
         ('rust-contracts', ['cargo', 'test', '--locked', '--no-default-features',
                            '--test', 'aligned_strain_contract', '--test',
-                           'obstacle_flow_contract', '--test', 'static_obstacle_contract']),
+                           'obstacle_flow_contract', '--test', 'static_obstacle_contract',
+                           '--example', 'aligned_strain']),
         ('rust-build', ['cargo', 'build', '--locked', '--no-default-features',
                         '--example', 'aligned_strain']),
+        ('rust-clippy', ['cargo', 'clippy', '--locked', '--no-default-features',
+                         '--lib', '--example', 'aligned_strain', '--test',
+                         'aligned_strain_contract', '--', '-D', 'warnings']),
+        ('qualification-gate-tests', [sys.executable, '-m', 'unittest', 'discover', '-s',
+                                      'tools', '-p', 'test_qualify_aligned_strain.py', '-v']),
+        ('qualification-gate-tests-optimized', [sys.executable, '-O', '-m', 'unittest',
+                                                'discover', '-s', 'tools', '-p',
+                                                'test_qualify_aligned_strain.py', '-v']),
     ]
     if args.lean:
         commands.extend([
@@ -120,10 +136,7 @@ def qualify(args):
                        'tools', '-p', 'test_aligned_strain_oracle.py', '-v']
             run(command, output, name, env=native_env)
             manifest['commands'].append({'name': name, 'argv': command, 'exit': 0})
-        if (git('rev-parse', 'HEAD') != head or
-                git('status', '--porcelain') != source_status or
-                git('ls-files', '--cached', '--others', '--exclude-standard').splitlines() != source_paths or
-                any(not (ROOT / p).is_file() or digest(ROOT / p) != h for p, h in sources.items())):
+        if not unchanged(head, source_status, source_paths, sources):
             raise RuntimeError('source changed during qualification')
         manifest.update(status='passed', lean_checked=args.lean,
                         executable_sha256=digest(executable),

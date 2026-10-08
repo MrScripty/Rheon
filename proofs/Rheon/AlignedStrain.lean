@@ -1,6 +1,7 @@
 import Rheon.BoundedPhysics
 import Rheon.ObstacleOperators
 import Mathlib.Algebra.Order.BigOperators.Ring.Finset
+import Mathlib.Data.Finset.Fold
 
 /-! Exact finite-row contracts for the reconstructed aligned strain operator.
 The coefficient bound is derived, including zero rows, from the per-face
@@ -27,6 +28,19 @@ def rowAbs {n r : ℕ} (E : Fin r → Fin n → ℝ) (q : Fin r) : ℝ :=
 def faceBound {n r : ℕ} (E : Fin r → Fin n → ℝ) (w : Fin r → ℝ)
     (mass : Fin n → ℝ) (f : Fin n) : ℝ :=
   (∑ q, w q * |E q f| * rowAbs E q) / mass f
+
+/-- Maximum of face bounds, with zero for the empty active space. -/
+def rowBound {n r : ℕ} (E : Fin r → Fin n → ℝ) (w : Fin r → ℝ)
+    (mass : Fin n → ℝ) : ℝ := Finset.univ.fold max 0 (faceBound E w mass)
+
+theorem row_bound_nonnegative {n r : ℕ} (E : Fin r → Fin n → ℝ)
+    (w : Fin r → ℝ) (mass : Fin n → ℝ) : 0 ≤ rowBound E w mass := by
+  exact Finset.le_fold_max.mpr (Or.inl le_rfl)
+
+theorem face_le_row_bound {n r : ℕ} (E : Fin r → Fin n → ℝ)
+    (w : Fin r → ℝ) (mass : Fin n → ℝ) (f : Fin n) :
+    faceBound E w mass f ≤ rowBound E w mass := by
+  exact Finset.le_fold_max.mpr (Or.inr ⟨f, Finset.mem_univ f, le_rfl⟩)
 
 def forceNorm {n r : ℕ} (E : Fin r → Fin n → ℝ) (w : Fin r → ℝ)
     (mass u : Fin n → ℝ) : ℝ :=
@@ -205,6 +219,15 @@ theorem euler_energy_nonincrease {n r : ℕ} (E : Fin r → Fin n → ℝ)
   have hc' := mul_le_mul_of_nonneg_left hc t0
   nlinarith
 
+/-- The computed finite maximum supplies the bound premises automatically. -/
+theorem euler_row_bound_nonincrease {n r : ℕ} (E : Fin r → Fin n → ℝ)
+    (w : Fin r → ℝ) (mass u : Fin n → ℝ) (dt mu : ℝ)
+    (hw : ∀ q, 0 ≤ w q) (hm : ∀ f, 0 < mass f)
+    (ht : 0 ≤ dt) (hmu : 0 ≤ mu) (step : dt * mu * rowBound E w mass ≤ 2) :
+    kineticEnergy mass (euler E w mass u dt mu) ≤ kineticEnergy mass u := by
+  exact euler_energy_nonincrease E w mass u dt mu (rowBound E w mass)
+    hw hm ht hmu (row_bound_nonnegative E w mass) (face_le_row_bound E w mass) step
+
 /-- Composition uses exactly the pressure masses and exact full residual. -/
 theorem euler_exact_projection_nonincrease {n r c : ℕ}
     (E : Fin r → Fin n → ℝ) (w : Fin r → ℝ)
@@ -236,7 +259,7 @@ theorem unit_corner_block (U V : ℝ) :
 theorem flat_conductance (volume area delta : ℝ) (hd : delta ≠ 0)
     (product : volume = area * delta) : volume / delta^2 = area / delta := by
   rw [product]
-  field_simp [hd]
+  field_simp [hd] <;> ring
 
 end
 end Rheon.AlignedStrain

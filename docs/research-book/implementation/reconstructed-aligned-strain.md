@@ -172,7 +172,9 @@ derives the quadratic operator bound directly from those coefficients using
 weighted finite Cauchy and sum exchange, including zero rows. No abstract
 operator-norm premise is assumed in the energy or composition theorem.
 
-For pressure incidence `P`, the matching correction is
+For pressure incidence `P`, the exact-real matching premise identifies the
+reference mass with `rho*A_f*d_f`. This does not assert that a rounded stored
+product equals the exact product of its factors. The matching correction is
 `z_f=v_f-dt*(P^T p)_f/(rho*d_f)`, with the same face space and
 `m_f=rho*A_f*d_f`. Let outward integrated flux be `Q=-P(A*v)` and require an
 exact solve of the defined full pressure residual, positive `rho,A_f,d_f`, and

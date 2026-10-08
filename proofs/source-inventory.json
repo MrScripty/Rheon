@@ -1,7 +1,7 @@
 {
-  "AxiomAudit.lean": "257c52293d72140fdf331bce81999530b2674eefd69f9f2043fb9f44e3a0a5b2",
+  "AxiomAudit.lean": "e87a9ddf7d5196d9bc4dd81be62a8170442bb48288b785d662edf263d93d5dfa",
   "Rheon.lean": "5492a033bd55bdbb31945f5ed9bf102a094c1bda224f31e6db160d7352e5effe",
-  "Rheon/AlignedStrain.lean": "d430bc85f8543478d80facb9ac9f116afeabad227c1c7c98abb084554b2278fb",
+  "Rheon/AlignedStrain.lean": "5d58d885ad84d5be38ef87bb1fb125205aa0276112bf74d94cbe377cac1c7b4f",
   "Rheon/BoundedPhysics.lean": "20dd53b1b137a01f8b04de47ffbe8474561696940e17ab1ed4d3bfde388b03af",
   "Rheon/ColumnForcing.lean": "9199bd6d06f254e1cf31d8c7cd5e8cee951d53a5325db8bc78ef5cb449226211",
   "Rheon/Discrete.lean": "70a2ca5d2c5cbefacbbb8742954375fdfe8cc25c3c5b8afd05738941cfc5ee0a",

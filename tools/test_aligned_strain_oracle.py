@@ -180,6 +180,30 @@ class FailClosedDumpTest(unittest.TestCase):
                     with self.assertRaises((Refusal, ValueError)):
                         verify(path)
 
+    def test_scaled_sign_and_relative_corruptions_normal_and_optimized(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'scaled.tsv'
+            for spacing in (1e-6, 1e12):
+                records = synthetic_dump(geometry(spacing=(spacing,) * 3))
+                write_records(path, records)
+                verify(path)
+                for tag, column in (('ACTIVE', 10), ('ACTIVE', 11), ('ACTIVE', 12),
+                                    ('ROW', 8), ('ROW', 12)):
+                    for factor in (-1, 2):
+                        with self.subTest(spacing=spacing, tag=tag, column=column, factor=factor):
+                            changed = deepcopy(records)
+                            row = next(r for r in changed if r[0] == tag and
+                                       (tag != 'ROW' or column != 12 or int(r[10]) > 0))
+                            old = struct.unpack('>d', bytes.fromhex(row[column]))[0]
+                            row[column] = bits(old * factor)
+                            write_records(path, changed)
+                            with self.assertRaises(Refusal):
+                                verify(path)
+                            result = subprocess.run([sys.executable, '-O', str(
+                                Path(__file__).with_name('aligned_strain_oracle.py')), str(path)],
+                                capture_output=True, text=True)
+                            self.assertNotEqual(result.returncode, 0)
+
     def test_optimized_python_keeps_zero_row_gate(self):
         records = synthetic_dump(geometry())
         records = [r for r in records if not (r[0] == 'ROW' and r[10] == '0')]

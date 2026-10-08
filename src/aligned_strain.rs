@@ -217,6 +217,8 @@ pub struct AlignedStrainLedger {
     /// u dot (-mu E^T W E u), W.
     pub force_work: f64,
     pub identity_error: f64,
+    /// Heuristic diagnostic tolerance, not an IEEE error enclosure or an
+    /// acceptance gate. It does not authorize integration or pressure coupling.
     pub rounding_budget: f64,
     /// Nearest-rounded coefficient estimate, explicitly UNENCLOSED. No step
     /// size or integration may be authorized from this diagnostic quantity.
