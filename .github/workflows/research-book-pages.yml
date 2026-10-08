@@ -16,18 +16,20 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
-      RHEON_EDITION: ${{ runner.temp }}/rheon-edition
-      RHEON_ASSETS: ${{ runner.temp }}/rheon-assets
-      RHEON_OBSTACLE: ${{ runner.temp }}/rheon-obstacle-records
-      CARGO_TARGET_DIR: ${{ runner.temp }}/rheon-geometry-target
-      CARGO_HOME: ${{ runner.temp }}/rheon-cargo
-      RUSTUP_HOME: ${{ runner.temp }}/rheon-rustup
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Set external artifact and tool directories
+        run: |
+          echo "RHEON_EDITION=$RUNNER_TEMP/rheon-edition" >> "$GITHUB_ENV"
+          echo "RHEON_ASSETS=$RUNNER_TEMP/rheon-assets" >> "$GITHUB_ENV"
+          echo "RHEON_OBSTACLE=$RUNNER_TEMP/rheon-obstacle-records" >> "$GITHUB_ENV"
+          echo "CARGO_TARGET_DIR=$RUNNER_TEMP/rheon-geometry-target" >> "$GITHUB_ENV"
+          echo "CARGO_HOME=$RUNNER_TEMP/rheon-cargo" >> "$GITHUB_ENV"
+          echo "RUSTUP_HOME=$RUNNER_TEMP/rheon-rustup" >> "$GITHUB_ENV"
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24'
