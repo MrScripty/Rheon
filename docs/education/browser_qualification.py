@@ -6,7 +6,7 @@ import json
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
                     'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt',
-                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py']
+                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py']
 LABS = ['projection', 'collision', 'hydrostatic', 'viscous', 'slip', 'cap']
 
 
@@ -64,6 +64,12 @@ def verify_browser_qualification(repo, artifact_dir=None):
                   'flux_pairs':27 if included else 0,'mobile_no_overflow':True,'fluid_advances':0}
         if receipt.get('static_obstacle')!=expected:
             raise ValueError('Incomplete static geometry browser qualification')
+        from obstacle_flow import verify_published as verify_flow_published
+        flow=verify_flow_published(repo,artifact)
+        included=flow is not None
+        expected={'included':included,'pressure_views':24 if included else 0,'shear_frames':54 if included else 0,'mobile_no_overflow':True,'browser_fluid_solves':0}
+        if receipt.get('obstacle_flow')!=expected:
+            raise ValueError('Incomplete obstacle-flow browser qualification')
 
 
 if __name__ == '__main__':

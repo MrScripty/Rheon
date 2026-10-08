@@ -14,7 +14,7 @@ derive from the same admitted vertices. Borrowed accessors do not reconstruct a
 second mesh. This closes a bounded part of the collision-mesh requirement:
 geometry and flux can agree about the stationary solid. Existing pressure,
 transport and viscosity workspaces still require their original filled-box or
-column domains; they do not accept this owner.
+column domains. A [separate bounded follow-on](static-obstacle-flow.md) now borrows this owner for sealed pressure and reduced extruded shear; it does not retrofit the old carrier.
 
 ## Measures at represented endpoints
 
@@ -136,9 +136,9 @@ qualified packet states that the records are absent.
 theorems for nonnegative, symmetric and bounded overlap; bounded volume
 complement; shared flux cancellation; component-constant weighted jumps; and
 residual/divergence scaling. Labels, active edges, nonnegative dimensions and the
-integrated residual equation are stated assumptions. The clean local pinned
-Lean build audits 64 public theorems and 87 declarations across the complete
-current project with the existing axiom allowlist. Rust admission, triangulation,
+integrated residual equation are stated assumptions. The geometry-stage local pinned
+Lean build audited 64 public theorems and 87 declarations across that stage's
+project with the existing axiom allowlist. Rust admission, triangulation,
 binary64 predicates, BFS correctness and solver refinement are unproved. The
 earlier PR24 source and 57/77 kernel qualification remain historical and separate.
 
@@ -156,9 +156,6 @@ topology. This source supports the need for consistent geometry and topology,
 not an implementation-equivalence claim.
 [Original embedded-boundary source](https://basilisk.fr/src/embed.h).
 
-The next gate is stationary obstacle pressure assembly and correction consuming
-this same owner, with component compatibility, rest and boundary-flux controls.
-Viscous embedded-wall traction needs additional interaction geometry and a work
-ledger. Arbitrary closed meshes, multiple fluid pieces within a cell, moving or
+The [bounded operator follow-on](static-obstacle-flow.md) adds stationary sealed pressure assembly/correction with component compatibility, gauges, rest and field controls, plus a separate reduced shear traction/work ledger. General viscous embedded-wall traction still needs additional interaction geometry. Arbitrary closed meshes, multiple fluid pieces within a cell, moving or
 two-way solids, variable material coefficients and contact-angle evolution
 remain unresolved. See the [requirements map](requirements-roadmap.md).
