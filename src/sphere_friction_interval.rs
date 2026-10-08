@@ -163,10 +163,10 @@ impl SphericalRigidMotion {
 }
 fn cross(a: [f64; 3], b: [f64; 3]) -> Option<[f64; 3]> {
     let mut out = [0.; 3];
-    for i in 0..3 {
+    for (i, value) in out.iter_mut().enumerate() {
         let j = (i + 1) % 3;
         let k = (i + 2) % 3;
-        out[i] = finite(finite(a[j] * b[k])? - finite(a[k] * b[j])?)?;
+        *value = finite(finite(a[j] * b[k])? - finite(a[k] * b[j])?)?;
     }
     Some(out)
 }
@@ -255,4 +255,40 @@ fn accounting(
         clock_defect_s: finite(elapsed - duration)?,
         duration_defect_s: finite(consumed - duration)?,
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    fn pose() -> RigidPoseSnapshot {
+        RigidPoseSnapshot {
+            body: RigidSnapshot {
+                stamp: RigidStamp {
+                    id: 7,
+                    generation: 2,
+                },
+                surface: SurfaceStamp { id: 17, version: 4 },
+                center_of_mass: [0.; 3],
+                mass_kg: 2.,
+                inertia_kg_m2: [0.05; 3],
+                velocity_m_s: [0., 1., 0.],
+                angular_velocity_rad_s: [0.; 3],
+            },
+            time_s: 0.,
+            orientation: [1., 0., 0., 0.],
+        }
+    }
+    #[test]
+    fn aggregate_exposes_unmatched_coast_orbital_change_and_overflow() {
+        let before = pose();
+        let mut after = before;
+        // Deliberately unmatched endpoint: a conditional coast theorem must
+        // not erase this world-angular change when no event torque exists.
+        after.body.center_of_mass = [1., 0., 0.];
+        let a = accounting(before, after, 0., &[]).unwrap();
+        assert_eq!(a.summed_world_impulse_n_m_s, [0.; 3]);
+        assert_eq!(a.world_angular_defect_n_m_s, [0., 0., 2.]);
+        after.body.velocity_m_s = [f64::MAX, 1., 0.];
+        assert!(accounting(before, after, 0., &[]).is_none());
+    }
 }

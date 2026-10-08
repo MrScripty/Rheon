@@ -94,3 +94,30 @@ pressure/shear/data sources. Compile all Lean source freshly and require clean
 axiom/sorry negative probes. Independent review and immutable private Library
 source/evidence checkpoints precede handoff. No public push, paid CI, main merge,
 deployment, held PR25 campaign, resting-contact or fluid coupling is included.
+
+## Implemented local candidate
+
+`advance_static_sphere_friction_interval` shares the privately extracted event
+control with the preserved frictionless wrapper. The selected-hit friction adapter
+never requeries. The old scalar response and accounting formulas remain intact;
+only visibility/control adapters changed. Records include actual postfriction
+states, departure tickets and full isolated diagnostics. The aggregate uses
+interval endpoint world angular momentum, including rounded coast residuals.
+
+The fresh lab independently audits each accepted segment from its actual stored
+start state. Whole-trajectory Fraction checks additionally cover declared dyadic
+capped corridors; this distinction avoids claiming that rounded prefixes equal
+one unrounded global trajectory. Orientation and retained vertices are compared
+with a product of independent Rodrigues rotations using each segment's old spin.
+A strong cap or cancellation can exceed the next rotation bound. Even a radial
+real response can leave a rounded point with a tangential support discrepancy;
+the exact departure ticket then refuses with positive remaining time.
+
+`SphereFrictionInterval.lean` proves finite matched scalar-component/energy/work
+telescoping, conditional Coulomb prefix nonincrease, norm-preserving offset
+membership and actual-velocity departure. Physical correspondence, norm
+preservation and each segment's exact split identity are explicit premises.
+Pointwise sphere membership does not claim set equality without a bijection.
+All proof sources, audit and independent labs are included in Git; outputs live
+outside Git. New measured receipts, rather than old pass counts, determine
+qualification. Public publication remains a parent-coordinated hold.

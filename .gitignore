@@ -28,3 +28,5 @@ rheon-comparisons/
 /evidence/reconstructed-aligned-strain/
 # Accidental local bounded sphere interval receipts; generators require external paths.
 /evidence/bounded-sphere-interval/
+# Accidental local bounded Coulomb interval receipts; generators require external paths.
+/evidence/bounded-coulomb-sphere-interval/
