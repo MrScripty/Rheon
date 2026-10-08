@@ -92,8 +92,11 @@ For M=L-1, b_k=(2/M) sum_{j=1}^{M-1} u*_j sin(k pi j/M),
 
 `column_poiseuille` evaluates these finite sums at saved times; it never
 integrates a second reference trajectory. This exact-real discrete startup
-reference isolates stored-f32 deviation from the same explicit recurrence,
-not error relative to a continuum transient or time-order evidence. The
+reference compares native storage/arithmetic against a binary64 evaluation of
+the closed-form exact-real discrete recurrence. Observed deviation includes
+f32 storage, native assembly rounding and reference sin/power/sum rounding;
+no certified reference-evaluation bound is supplied. It does not measure
+error relative to a continuum transient or establish time order. The
 runtime row condition bounds the homogeneous amplification; no new formal
 spectral convergence or IEEE theorem is claimed.
 
@@ -128,6 +131,15 @@ within 2e-7 m/s; fixed-G density, fixed-a doubling and doubled-mu controls agree
 within 3e-5 m/s with their respective steady predictions. At step683, fixed-G
 density doubling has lower peak speed and fixed-a doubling has higher peak
 speed than the baseline. These new engineering gates leave earlier gates intact.
+
+The frozen original run passed all gates. Baseline continuum deviations at
+8/16 layers were 0.05859480798 / 0.03027459979 m/s, and their separate discrete
+equilibrium deviations were 1.057982445e-6 / 1.162290573e-6 m/s. Across all seven
+cases the largest saved discrete-startup deviation was 4.738568319e-6 m/s.
+At step683 (8.00390625 s), the 16-layer baseline peak was 0.2162252367 m/s;
+fixed-G density doubling gave 0.1947998554 m/s, whereas fixed-a density doubling
+gave 0.3895997107 m/s. The two baseline unit formulations produced identical
+stored profiles. Generated receipts and full data remain outside Git.
 
 ## Proof assumptions and scope
 
