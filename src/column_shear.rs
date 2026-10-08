@@ -1,6 +1,7 @@
 //! Fixed flat-column shear quadrature with periodic lateral boundaries.
 //! update uses zero endpoint traction; update_with_walls adds finite physical
-//! wall friction. Neither composes with the sealed carrier pressure pipeline.
+//! wall friction; update_with_boundaries also supports exact endpoint no-slip.
+//! None composes with the sealed carrier pressure pipeline.
 use crate::{Axis, ColumnSurfaceView, GridGeometry, VolumeStamp};
 use std::fmt;
 
@@ -14,6 +15,7 @@ pub enum ColumnShearStage {
     UpdateNode,
     BeforeAcceptance,
     WallTraction,
+    WallConstraint,
 }
 #[derive(Debug, Clone, PartialEq)]
 pub enum ColumnShearError {
@@ -23,6 +25,8 @@ pub enum ColumnShearError {
     InvalidDensity,
     InvalidCoefficient,
     InvalidTimeStep,
+    IncompatibleNoSlip,
+    OverlappingNoSlip,
     ArithmeticFailure,
     StabilityLimit { actual: f64, limit: f64 },
     AcceptanceFailure,
@@ -59,6 +63,34 @@ pub struct ColumnShearInputs<'a> {
 pub struct ColumnShearWall {
     pub velocity: [f64; 3],
     pub friction: f64,
+}
+
+/// Independent tangential laws at the lower and upper fixed slab walls.
+/// NoSlip constrains the retained endpoint trace, not an interpolated physical
+/// wall node. Its f32 velocity must match the incoming endpoint value exactly;
+/// changing prescribed velocities or projecting an incompatible state is out
+/// of scope. Positive viscosity and zero normal wall motion are required.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum ColumnShearBoundary {
+    Navier(ColumnShearWall),
+    NoSlip { velocity: [f32; 3] },
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ColumnBoundaryShearReport {
+    /// Includes external wall forces and their work in the balance checks.
+    pub shear: ColumnShearReport,
+    pub boundaries: [ColumnShearBoundary; 2],
+    /// Force on liquid (N); at NoSlip this is the constraint reaction.
+    pub wall_force: [[f64; 3]; 2],
+    /// dt times each total wall force (N s), including finite Navier traction.
+    pub wall_impulse: [[f64; 3]; 2],
+    /// NoSlip reaction only (N s); zero at Navier walls.
+    pub reaction_impulse: [[f64; 3]; 2],
+    pub bulk_dissipation_before: f64,
+    pub wall_dissipation_before: f64,
+    /// Sum of prescribed wall velocity dot wall impulse (J), with either sign.
+    pub actuator_work: f64,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -306,7 +338,7 @@ impl ColumnShearWorkspace {
     /// Fixed flat slab with prescribed tangential lower/upper wall motion.
     /// Endpoint traces use the existing constant-end-extension basis. The cap
     /// is confined in this operation; it is not an evolving free surface.
-    /// Finite beta is supported; exact no-slip requires another constraint.
+    /// Finite beta is supported. Use update_with_boundaries for exact no-slip.
     pub fn update_with_walls(
         &mut self,
         inputs: ColumnShearInputs<'_>,
@@ -314,15 +346,41 @@ impl ColumnShearWorkspace {
         output: [&mut [f32]; 3],
         cancel: impl FnMut(ColumnShearStage) -> bool,
     ) -> Result<ColumnWallShearReport, ColumnShearError> {
-        self.update_impl(inputs, output, Some(walls), cancel)
+        let r = self.update_impl(
+            inputs,
+            output,
+            Some(walls.map(ColumnShearBoundary::Navier)),
+            cancel,
+        )?;
+        Ok(ColumnWallShearReport {
+            shear: r.shear,
+            walls,
+            wall_force: r.wall_force,
+            bulk_dissipation_before: r.bulk_dissipation_before,
+            wall_dissipation_before: r.wall_dissipation_before,
+            actuator_work: r.actuator_work,
+        })
+    }
+    /// Exact compatible endpoint constraints, optionally mixed with Navier slip.
+    /// Reaction cancels the unconstrained endpoint force, so its increment is
+    /// zero. Two NoSlip walls on one wet node are refused because their separate
+    /// reaction impulses would be nonunique, even for equal prescribed speeds.
+    pub fn update_with_boundaries(
+        &mut self,
+        inputs: ColumnShearInputs<'_>,
+        boundaries: [ColumnShearBoundary; 2],
+        output: [&mut [f32]; 3],
+        cancel: impl FnMut(ColumnShearStage) -> bool,
+    ) -> Result<ColumnBoundaryShearReport, ColumnShearError> {
+        self.update_impl(inputs, output, Some(boundaries), cancel)
     }
     fn update_impl(
         &mut self,
         inputs: ColumnShearInputs<'_>,
         output: [&mut [f32]; 3],
-        walls: Option<[ColumnShearWall; 2]>,
+        boundaries: Option<[ColumnShearBoundary; 2]>,
         mut cancel: impl FnMut(ColumnShearStage) -> bool,
-    ) -> Result<ColumnWallShearReport, ColumnShearError> {
+    ) -> Result<ColumnBoundaryShearReport, ColumnShearError> {
         let ColumnShearInputs {
             surface,
             velocity,
@@ -341,6 +399,33 @@ impl ColumnShearWorkspace {
         }
         let geom = self.geometry(surface)?;
         let normal = self.axis.index();
+        let no_slip = boundaries.map_or([false; 2], |b| {
+            b.map(|wall| matches!(wall, ColumnShearBoundary::NoSlip { .. }))
+        });
+        if no_slip == [true; 2] && geom.wet_nodes == 1 {
+            return Err(ColumnShearError::OverlappingNoSlip);
+        }
+        if no_slip.contains(&true) && mu == 0.0 {
+            return Err(ColumnShearError::InvalidCoefficient);
+        }
+        let walls = boundaries.map(|b| {
+            b.map(|wall| match wall {
+                ColumnShearBoundary::Navier(wall) => wall,
+                ColumnShearBoundary::NoSlip { velocity } => ColumnShearWall {
+                    velocity: velocity.map(f64::from),
+                    friction: 0.0,
+                },
+            })
+        });
+        if let Some(boundaries) = boundaries {
+            for boundary in boundaries {
+                if let ColumnShearBoundary::NoSlip { velocity } = boundary
+                    && velocity.iter().any(|v| !(*v == 0.0 || v.is_normal()))
+                {
+                    return Err(ColumnShearError::UnsupportedVelocity);
+                }
+            }
+        }
         if let Some(walls) = walls {
             for wall in walls {
                 if wall.friction < 0.0
@@ -386,6 +471,17 @@ impl ColumnShearWorkspace {
                 }
             }
         }
+        if let Some(walls) = walls {
+            for (side, layer) in [0, geom.wet_nodes - 1].into_iter().enumerate() {
+                if no_slip[side]
+                    && tangents
+                        .iter()
+                        .any(|&d| self.profile(velocity, d, layer) != walls[side].velocity[d])
+                {
+                    return Err(ColumnShearError::IncompatibleNoSlip);
+                }
+            }
+        }
         checkpoint(&mut cancel, ColumnShearStage::BeforeGeometry)?;
         self.mass.fill(0.0);
         for f in &mut self.force {
@@ -411,7 +507,11 @@ impl ColumnShearWorkspace {
                     }
                 }
             }
-            stability = stability.max(div(mul(dt, row_weight)?, self.mass[layer])?);
+            let constrained =
+                (layer == 0 && no_slip[0]) || (layer + 1 == geom.wet_nodes && no_slip[1]);
+            if !constrained {
+                stability = stability.max(div(mul(dt, row_weight)?, self.mass[layer])?);
+            }
         }
         if stability > 1.0 {
             return Err(ColumnShearError::StabilityLimit {
@@ -453,6 +553,30 @@ impl ColumnShearWorkspace {
                     wall_dissipation.add(mul(weight, mul(relative, relative)?)?)?;
                     wall_power.add(mul(wall.velocity[d], force)?)?;
                 }
+            }
+        }
+        let mut reaction_impulse = [[0.0; 3]; 2];
+        if let Some(walls) = walls {
+            for (side, layer) in [0, geom.wet_nodes - 1].into_iter().enumerate() {
+                if no_slip[side] {
+                    for (t, &d) in tangents.iter().enumerate() {
+                        checkpoint(&mut cancel, ColumnShearStage::WallConstraint)?;
+                        // The incoming constrained trace equals its fixed wall
+                        // speed. Eliminating this row requires zero increment.
+                        // Include any Navier force on a shared one-node endpoint.
+                        let reaction = -self.force[t][layer];
+                        wall_force[side][d] = reaction;
+                        reaction_impulse[side][d] = mul(dt, reaction)?;
+                        wall_power.add(mul(walls[side].velocity[d], reaction)?)?;
+                        self.force[t][layer] = 0.0;
+                    }
+                }
+            }
+        }
+        let mut wall_impulse = [[0.0; 3]; 2];
+        for side in 0..2 {
+            for d in 0..3 {
+                wall_impulse[side][d] = mul(dt, wall_force[side][d])?;
             }
         }
         let wall_dissipation_before = wall_dissipation.finish()?;
@@ -512,7 +636,13 @@ impl ColumnShearWorkspace {
                 let old = self.profile(velocity, d, layer);
                 let mass = self.mass[layer];
                 let delta = div(mul(dt, self.force[t][layer])?, mass)?;
-                let proposed = checked(old + delta)?;
+                let proposed = if layer == 0 && no_slip[0] {
+                    walls.unwrap()[0].velocity[d]
+                } else if layer + 1 == geom.wet_nodes && no_slip[1] {
+                    walls.unwrap()[1].velocity[d]
+                } else {
+                    checked(old + delta)?
+                };
                 let stored = proposed as f32;
                 if !(stored == 0.0 || stored.is_normal()) || (stored == 0.0 && proposed != 0.0) {
                     return Err(ColumnShearError::ArithmeticFailure);
@@ -603,7 +733,7 @@ impl ColumnShearWorkspace {
                 }
             }
         }
-        Ok(ColumnWallShearReport {
+        Ok(ColumnBoundaryShearReport {
             shear: ColumnShearReport {
                 geometry: geom,
                 density,
@@ -628,13 +758,15 @@ impl ColumnShearWorkspace {
                 mass_volume_budget,
                 workspace_bytes: self.allocated_bytes,
             },
-            walls: walls.unwrap_or(
-                [ColumnShearWall {
+            boundaries: boundaries.unwrap_or(
+                [ColumnShearBoundary::Navier(ColumnShearWall {
                     velocity: [0.0; 3],
                     friction: 0.0,
-                }; 2],
+                }); 2],
             ),
             wall_force,
+            wall_impulse,
+            reaction_impulse,
             bulk_dissipation_before,
             wall_dissipation_before,
             actuator_work,

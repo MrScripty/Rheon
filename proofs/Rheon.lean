@@ -5,3 +5,4 @@ import Rheon.Indexing
 import Rheon.Physics
 import Rheon.BoundedPhysics
 import Rheon.WallFriction
+import Rheon.NoSlip

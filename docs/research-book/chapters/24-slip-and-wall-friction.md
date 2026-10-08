@@ -36,7 +36,7 @@ Cox's primary contact-line analysis explains why a microscopic mobility mechanis
 
 `TangentialLaw` distinguishes no-slip, free-slip and finite Navier coefficient. `WettingLaw` owns angle/energies separately. Boundary elimination must include known moving-wall terms; diagnostics retain relative dissipation and external wall power independently.
 
-Tests include both signs of U, rotated wall frames, uniform wall/fluid translation, curved-wall interpolation and zero/coefficient limits. A stationary relative state must dissipate zero. Refinement should approach the analytic Couette profile and traction. The finite proof does not establish those geometric limits, and this edition supplies only the affine oracle rather than a production moving-wall implementation.
+The broader test plan includes both signs of U, rotated wall frames, uniform wall/fluid translation, curved-wall interpolation and zero/coefficient limits. A stationary relative state must dissipate zero. Refinement should approach the analytic Couette profile and traction. The finite proof does not establish those geometric limits; the native operations below qualify only the fixed flat-slab slice.
 
 ## Both walls slipping: a distinct oracle
 
@@ -64,3 +64,34 @@ The two relative wall speeds have magnitude Uℓ/(H+2ℓ), and actuator power pa
 Handle ℓ=0 as a no-slip constraint instead of dividing by zero. This formula is an independent analytical fixture; it must not replace the one-wall denominator in the existing browser data. The original comparison figure below uses symmetric two-wall slip and displays bulk/wall power separately.
 
 ![Exact fully developed Couette profiles with symmetric Navier slip; wall input partitions into bulk and wall dissipation.](figures/expansion/couette-slip-and-power.svg)
+
+## Exact no-slip in the retained flat-slab basis
+
+The [compatible endpoint no-slip operation](../implementation/column-no-slip.md)
+now distinguishes an exact prescribed tangential constraint from finite Navier
+friction. It requires the incoming trace to match the fixed wall speed. Rather
+than introducing a large beta, it eliminates the endpoint increment and reports
+the reaction impulse J=-dt F_unconstrained. Delivered wall work is w dot J and
+can have either sign. Relative reaction work J dot (u-w) vanishes, while bulk
+viscosity continues to dissipate energy. Wetting and adhesion remain separate.
+
+The native `column_no_slip` lab provides case selection and five actual stored
+snapshots for two-wall no-slip at 8/16 layers and lower-Navier/upper-no-slip at
+16 layers. Its mixed continuum reference is the original one-wall oracle above.
+It includes compatible initial energy, reaction impulses, signed actuator work,
+bulk and finite-slip dissipation, and explicit/f32 rounding corrections.
+
+The existing basis extends wet-center endpoint values constantly to each wall.
+Thus the wall trace is constrained exactly, but comparison at wet centers still
+has spatial endpoint error. The discrete equilibrium for two no-slip walls is
+u_j=U j/(L-1); for lower slip it is
+u_j=U(jh+ell)/((L-1)h+ell). Distance to these equilibria also includes remaining
+physical relaxation and numerical transient/rounding effects. A decreasing
+endpoint deviation under the bounded refinement is not temporal order.
+
+Four new Lean statements prove compatible trace preservation, zero relative
+reaction work, momentum balance and the constrained finite work identity under
+explicit step/assembled-power assumptions. They do not certify stencil assembly,
+Rust floating point or general wall geometry. The native operation also refuses
+incompatible or time-varying prescribed speeds and two no-slip walls sharing one
+wet node, where the separate reactions would be nonunique.

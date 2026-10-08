@@ -82,8 +82,9 @@ pub use viscosity::{ViscosityError, ViscosityReport, ViscosityStage, ViscosityWo
 
 mod column_shear;
 pub use column_shear::{
-    ColumnShearError, ColumnShearGeometry, ColumnShearInputs, ColumnShearReport, ColumnShearStage,
-    ColumnShearWall, ColumnShearWorkspace, ColumnWallShearReport,
+    ColumnBoundaryShearReport, ColumnShearBoundary, ColumnShearError, ColumnShearGeometry,
+    ColumnShearInputs, ColumnShearReport, ColumnShearStage, ColumnShearWall, ColumnShearWorkspace,
+    ColumnWallShearReport,
 };
 
 mod column_momentum;

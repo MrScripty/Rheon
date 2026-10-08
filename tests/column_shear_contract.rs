@@ -82,6 +82,304 @@ fn profiles(g: &GridGeometry, axis: Axis, profile: &[f32]) -> [Vec<f32>; 3] {
     }
     u
 }
+
+#[test]
+fn exact_no_slip_reactions_mass_work_and_momentum_all_axes() {
+    for axis in [Axis::X, Axis::Y, Axis::Z] {
+        let normal = [Axis::X, Axis::Y, Axis::Z]
+            .iter()
+            .position(|&a| a == axis)
+            .unwrap();
+        let (g, s) = fixture(axis, 3, 0.25);
+        let u = profiles(&g, axis, &[1.0, 2.0, -1.0]);
+        let mut out = fields(&g);
+        let mut w = ColumnShearWorkspace::new(g.clone(), axis, 1 << 20).unwrap();
+        let walls = [1.0_f32, -1.0].map(|speed| ColumnShearBoundary::NoSlip {
+            velocity: std::array::from_fn(|d| if d == normal { 0.0 } else { speed }),
+        });
+        for (rho, mu) in [(1.0, 1.0), (4.0, 2.0)] {
+            let r = w
+                .update_with_boundaries(
+                    ColumnShearInputs {
+                        density: rho,
+                        dynamic_viscosity: mu,
+                        ..input(s.state(), &u)
+                    },
+                    walls,
+                    muts(&mut out),
+                    |_| false,
+                )
+                .unwrap();
+            let a = r.shear.geometry.area;
+            let delta = -0.5 * mu / rho;
+            assert_eq!(out, profiles(&g, axis, &[1.0, (2.0 + delta) as f32, -1.0]));
+            assert_eq!(w.mass_scratch()[..3], [rho * a, rho * a, 1.25 * rho * a]);
+            assert_eq!(r.shear.stability_number, 0.25 * mu / rho);
+            assert_eq!(r.bulk_dissipation_before, 20.0 * mu * a);
+            assert_eq!(r.wall_dissipation_before, 0.0);
+            assert_eq!(r.actuator_work, 0.5 * mu * a);
+            assert_eq!(r.shear.workspace_bytes, w.allocated_bytes());
+            assert_eq!(r.shear.update_energy, rho * a * delta * delta);
+            for d in 0..3 {
+                let tangent = f64::from(d != normal);
+                assert_eq!(r.wall_force[0][d], -tangent * mu * a);
+                assert_eq!(r.wall_force[1][d], -3.0 * tangent * mu * a);
+                assert_eq!(r.reaction_impulse[0][d], -0.125 * tangent * mu * a);
+                assert_eq!(r.reaction_impulse[1][d], -0.375 * tangent * mu * a);
+                assert_eq!(r.wall_impulse[0][d], r.reaction_impulse[0][d]);
+                assert_eq!(r.wall_impulse[1][d], r.reaction_impulse[1][d]);
+                assert_eq!(r.shear.force_sum[d], -4.0 * tangent * mu * a);
+                assert!(r.shear.momentum_error[d].abs() <= r.shear.momentum_budget[d]);
+            }
+            assert!(r.shear.identity_error.abs() <= r.shear.energy_budget);
+        }
+    }
+}
+
+#[test]
+fn no_slip_common_translation_preserves_reaction_and_can_extract_net_work() {
+    let (g, s) = fixture(Axis::Y, 3, 0.25);
+    let mut workspace = ColumnShearWorkspace::new(g.clone(), Axis::Y, 1 << 20).unwrap();
+    let mut out = fields(&g);
+    let u = profiles(&g, Axis::Y, &[1.0, 2.0, -1.0]);
+    let walls = [1.0_f32, -1.0].map(|speed| ColumnShearBoundary::NoSlip {
+        velocity: [speed, 0.0, speed],
+    });
+    let original = workspace
+        .update_with_boundaries(input(s.state(), &u), walls, muts(&mut out), |_| false)
+        .unwrap();
+    let shifted_u = profiles(&g, Axis::Y, &[3.0, 4.0, 1.0]);
+    let shifted_walls = [3.0_f32, 1.0].map(|speed| ColumnShearBoundary::NoSlip {
+        velocity: [speed, 0.0, speed],
+    });
+    let shifted = workspace
+        .update_with_boundaries(
+            input(s.state(), &shifted_u),
+            shifted_walls,
+            muts(&mut out),
+            |_| false,
+        )
+        .unwrap();
+    let a = original.shear.geometry.area;
+    assert_eq!(out, profiles(&g, Axis::Y, &[3.0, 3.5, 1.0]));
+    assert_eq!(original.wall_force, shifted.wall_force);
+    assert_eq!(original.reaction_impulse, shifted.reaction_impulse);
+    assert_eq!(
+        original.bulk_dissipation_before,
+        shifted.bulk_dissipation_before
+    );
+    assert_eq!(shifted.actuator_work, -1.5 * a);
+    assert_eq!(
+        shifted.shear.kinetic_after - shifted.shear.kinetic_before,
+        -3.75 * a
+    );
+    assert_eq!(shifted.shear.identity_error, 0.0);
+}
+
+#[test]
+fn fully_constrained_slab_has_reaction_work_without_an_explicit_free_row() {
+    let (g, s) = fixture(Axis::Y, 2, 0.0);
+    let mut u = profiles(&g, Axis::Y, &[0.0, 1.0]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    let boundaries = [0.0_f32, 1.0].map(|speed| ColumnShearBoundary::NoSlip {
+        velocity: [speed, 0.0, 0.0],
+    });
+    let r = w
+        .update_with_boundaries(
+            ColumnShearInputs {
+                dt: 2.0,
+                ..input(s.state(), &u)
+            },
+            boundaries,
+            muts(&mut out),
+            |_| false,
+        )
+        .unwrap();
+    assert_eq!(out, u);
+    let a = r.shear.geometry.area;
+    assert_eq!(r.shear.stability_number, 0.0);
+    assert_eq!(
+        r.reaction_impulse,
+        [[-2.0 * a, 0.0, 0.0], [2.0 * a, 0.0, 0.0]]
+    );
+    assert_eq!(r.actuator_work, 2.0 * a);
+    assert_eq!(r.shear.kinetic_before, r.shear.kinetic_after);
+    assert_eq!(r.shear.update_energy, 0.0);
+    assert_eq!(r.shear.rounding_work, 0.0);
+    assert_eq!(r.shear.identity_error, 0.0);
+}
+
+#[test]
+fn one_node_mixed_laws_have_unique_opposing_impulses_and_signed_work() {
+    let (g, s) = fixture(Axis::Y, 1, 0.0);
+    let mut w = ColumnShearWorkspace::new(g.clone(), Axis::Y, 1 << 20).unwrap();
+    let mut out = fields(&g);
+    for (fluid, slipping_wall) in [(1.0_f32, 0.0_f64), (1.0, 2.0), (-1.0, 0.0)] {
+        let mut u = profiles(&g, Axis::Y, &[fluid]);
+        u[2].fill(0.0);
+        let boundaries = [
+            ColumnShearBoundary::NoSlip {
+                velocity: [fluid, 0.0, 0.0],
+            },
+            ColumnShearBoundary::Navier(ColumnShearWall {
+                velocity: [slipping_wall, 0.0, 0.0],
+                friction: 2.0,
+            }),
+        ];
+        let r = w
+            .update_with_boundaries(input(s.state(), &u), boundaries, muts(&mut out), |_| false)
+            .unwrap();
+        let a = r.shear.geometry.area;
+        let navier_impulse = -0.25 * a * (f64::from(fluid) - slipping_wall);
+        assert_eq!(out, u);
+        assert_eq!(r.reaction_impulse, [[-navier_impulse, 0.0, 0.0], [0.0; 3]]);
+        assert_eq!(
+            r.wall_impulse,
+            [[-navier_impulse, 0.0, 0.0], [navier_impulse, 0.0, 0.0]]
+        );
+        assert_eq!(r.actuator_work, 0.25 * a);
+        assert_eq!(r.shear.force_sum, [0.0; 3]);
+        assert_eq!(r.shear.identity_error, 0.0);
+    }
+}
+
+#[test]
+fn no_slip_rejections_and_all_constraint_callbacks_preserve_output() {
+    let (g, s) = fixture(Axis::Y, 3, 0.0);
+    let mut u = profiles(&g, Axis::Y, &[0.0, 0.5, 1.0]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    let before = out.clone();
+    let mut w = ColumnShearWorkspace::new(g.clone(), Axis::Y, 1 << 20).unwrap();
+    let walls = [0.0_f32, 1.0].map(|speed| ColumnShearBoundary::NoSlip {
+        velocity: [speed, 0.0, 0.0],
+    });
+    for occurrence in 1..=4 {
+        let mut count = 0;
+        assert!(matches!(
+            w.update_with_boundaries(input(s.state(), &u), walls, muts(&mut out), |stage| {
+                if stage == ColumnShearStage::WallConstraint {
+                    count += 1;
+                }
+                stage == ColumnShearStage::WallConstraint && count == occurrence
+            }),
+            Err(ColumnShearError::Cancelled {
+                stage: ColumnShearStage::WallConstraint
+            })
+        ));
+        assert_eq!(out, before);
+    }
+    assert!(matches!(
+        w.update_with_boundaries(input(s.state(), &u), walls, muts(&mut out), |stage| stage
+            == ColumnShearStage::BeforeAcceptance),
+        Err(ColumnShearError::Cancelled { .. })
+    ));
+    assert_eq!(out, before);
+    assert!(matches!(
+        w.update_with_boundaries(
+            ColumnShearInputs {
+                dt: 2.0,
+                ..input(s.state(), &u)
+            },
+            walls,
+            muts(&mut out),
+            |_| false
+        ),
+        Err(ColumnShearError::StabilityLimit { .. })
+    ));
+    assert_eq!(out, before);
+    let incompatible = [
+        ColumnShearBoundary::NoSlip {
+            velocity: [0.25, 0.0, 0.0],
+        },
+        walls[1],
+    ];
+    assert_eq!(
+        w.update_with_boundaries(input(s.state(), &u), incompatible, muts(&mut out), |_| {
+            false
+        }),
+        Err(ColumnShearError::IncompatibleNoSlip)
+    );
+    assert_eq!(out, before);
+    for invalid in [
+        [f32::NAN, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [f32::from_bits(1), 0.0, 0.0],
+    ] {
+        assert!(
+            w.update_with_boundaries(
+                input(s.state(), &u),
+                [ColumnShearBoundary::NoSlip { velocity: invalid }, walls[1]],
+                muts(&mut out),
+                |_| false
+            )
+            .is_err()
+        );
+        assert_eq!(out, before);
+    }
+    assert_eq!(
+        w.update_with_boundaries(
+            ColumnShearInputs {
+                dynamic_viscosity: 0.0,
+                ..input(s.state(), &u)
+            },
+            walls,
+            muts(&mut out),
+            |_| false
+        ),
+        Err(ColumnShearError::InvalidCoefficient)
+    );
+    assert_eq!(out, before);
+    let (single_g, single_s) = fixture(Axis::Y, 1, 0.0);
+    let single_u = fields(&single_g);
+    let mut single_out = fields(&single_g);
+    let mut single_w = ColumnShearWorkspace::new(single_g, Axis::Y, 1 << 20).unwrap();
+    let stationary = ColumnShearBoundary::NoSlip { velocity: [0.0; 3] };
+    assert_eq!(
+        single_w.update_with_boundaries(
+            input(single_s.state(), &single_u),
+            [stationary; 2],
+            muts(&mut single_out),
+            |_| false
+        ),
+        Err(ColumnShearError::OverlappingNoSlip)
+    );
+    assert_eq!(single_out, single_u);
+}
+
+#[test]
+fn boundary_api_retains_original_finite_navier_report_and_fields() {
+    let (g, s) = fixture(Axis::Y, 3, 0.25);
+    let u = profiles(&g, Axis::Y, &[0.0, 0.5, 1.0]);
+    let mut a = fields(&g);
+    let mut b = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    let walls = [ColumnShearWall {
+        velocity: [0.0; 3],
+        friction: 0.5,
+    }; 2];
+    let old = w
+        .update_with_walls(input(s.state(), &u), walls, muts(&mut a), |_| false)
+        .unwrap();
+    let new = w
+        .update_with_boundaries(
+            input(s.state(), &u),
+            walls.map(ColumnShearBoundary::Navier),
+            muts(&mut b),
+            |_| false,
+        )
+        .unwrap();
+    assert_eq!(a, b);
+    assert_eq!(old.shear, new.shear);
+    assert_eq!(old.wall_force, new.wall_force);
+    assert_eq!(old.actuator_work, new.actuator_work);
+    assert_eq!(old.bulk_dissipation_before, new.bulk_dissipation_before);
+    assert_eq!(old.wall_dissipation_before, new.wall_dissipation_before);
+    assert_eq!(new.reaction_impulse, [[0.0; 3]; 2]);
+}
+
 #[test]
 fn independent_partial_dual_mass_matrix_force_and_energy_all_axes() {
     for axis in [Axis::X, Axis::Y, Axis::Z] {

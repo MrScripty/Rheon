@@ -63,7 +63,11 @@ run_cmd do
     `Rheon.WallFriction.wall_force_work,
     `Rheon.WallFriction.common_translation,
     `Rheon.WallFriction.relative_dissipation_nonnegative,
-    `Rheon.WallFriction.explicit_work_identity]
+    `Rheon.WallFriction.explicit_work_identity,
+    `Rheon.NoSlip.compatible_reaction_preserves_trace,
+    `Rheon.NoSlip.relative_reaction_work_zero,
+    `Rheon.NoSlip.momentum_balance,
+    `Rheon.NoSlip.constrained_work_identity]
   for name in expected do
     let _ ← getConstInfo name
     pure ()
