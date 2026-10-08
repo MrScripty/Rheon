@@ -1,0 +1,292 @@
+[
+  {
+    "address": "0x7e8d0",
+    "name": "rheon::fitted_height::FittedHeightWorkspace::split_position",
+    "push_bytes": 16,
+    "fixed_decrement_bytes": 296,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 320
+  },
+  {
+    "address": "0x134d80",
+    "name": "rheon::research_public_call::candidate::case41_fd_capture",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 71720,
+    "fixed_probe_loop_bytes": 65536,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 71776
+  },
+  {
+    "address": "0x1397d0",
+    "name": "rheon::research_public_call::candidate::Work::case41_numerical",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 121080,
+    "fixed_probe_loop_bytes": 114688,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 121136
+  },
+  {
+    "address": "0x13c960",
+    "name": "rheon::research_public_call::candidate::Work::case41_serialize",
+    "push_bytes": 16,
+    "fixed_decrement_bytes": 472,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 496
+  },
+  {
+    "address": "0x153f70",
+    "name": "rheon::research_public_call::candidate::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 27880,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 27936
+  },
+  {
+    "address": "0x158560",
+    "name": "rheon::research_public_call::candidate::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 27848,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 27904
+  },
+  {
+    "address": "0x15c6b0",
+    "name": "rheon::research_public_call::candidate::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 27880,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 27936
+  },
+  {
+    "address": "0x160ca0",
+    "name": "rheon::research_public_call::candidate::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 27880,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 27936
+  },
+  {
+    "address": "0x165290",
+    "name": "rheon::research_public_call::candidate::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 27880,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 27936
+  },
+  {
+    "address": "0x169880",
+    "name": "rheon::research_public_call::candidate::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 27864,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 27920
+  },
+  {
+    "address": "0x171230",
+    "name": "rheon::research_public_call::candidate::Work::partition",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 74088,
+    "fixed_probe_loop_bytes": 69632,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 74144
+  },
+  {
+    "address": "0x171bc0",
+    "name": "rheon::research_public_call::candidate::Work::partition",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 74072,
+    "fixed_probe_loop_bytes": 69632,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 74128
+  },
+  {
+    "address": "0x172520",
+    "name": "rheon::research_public_call::candidate::Work::partition",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 74072,
+    "fixed_probe_loop_bytes": 69632,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 74128
+  },
+  {
+    "address": "0x172e80",
+    "name": "rheon::research_public_call::candidate::Work::partition",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 74072,
+    "fixed_probe_loop_bytes": 69632,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 74128
+  },
+  {
+    "address": "0x185850",
+    "name": "rheon::research_public_call::reference::case41_fd_capture",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 71528,
+    "fixed_probe_loop_bytes": 65536,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 71584
+  },
+  {
+    "address": "0x18a0a0",
+    "name": "rheon::research_public_call::reference::Work::case41_numerical",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 121064,
+    "fixed_probe_loop_bytes": 114688,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 121120
+  },
+  {
+    "address": "0x18d140",
+    "name": "rheon::research_public_call::reference::Work::case41_serialize",
+    "push_bytes": 16,
+    "fixed_decrement_bytes": 472,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 496
+  },
+  {
+    "address": "0x1a3bf0",
+    "name": "rheon::research_public_call::reference::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 25976,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 26032
+  },
+  {
+    "address": "0x1a79b0",
+    "name": "rheon::research_public_call::reference::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 25992,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 26048
+  },
+  {
+    "address": "0x1ab650",
+    "name": "rheon::research_public_call::reference::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 25992,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 26048
+  },
+  {
+    "address": "0x1af2f0",
+    "name": "rheon::research_public_call::reference::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 25992,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 26048
+  },
+  {
+    "address": "0x1b2ef0",
+    "name": "rheon::research_public_call::reference::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 25992,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 26048
+  },
+  {
+    "address": "0x1b6b90",
+    "name": "rheon::research_public_call::reference::Work::point",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 25992,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 26048
+  },
+  {
+    "address": "0x1bdc30",
+    "name": "rheon::research_public_call::reference::Work::partition",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 74024,
+    "fixed_probe_loop_bytes": 69632,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 74080
+  },
+  {
+    "address": "0x1be500",
+    "name": "rheon::research_public_call::reference::Work::partition",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 74024,
+    "fixed_probe_loop_bytes": 69632,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 74080
+  },
+  {
+    "address": "0x1bedd0",
+    "name": "rheon::research_public_call::reference::Work::partition",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 74040,
+    "fixed_probe_loop_bytes": 69632,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 74096
+  },
+  {
+    "address": "0x1bf6e0",
+    "name": "rheon::research_public_call::reference::Work::partition",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 74024,
+    "fixed_probe_loop_bytes": 69632,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 74080
+  },
+  {
+    "address": "0x1caef0",
+    "name": "rheon::research_public_call::case41_borrowed_candidate_outer",
+    "push_bytes": 8,
+    "fixed_decrement_bytes": 62096,
+    "fixed_probe_loop_bytes": 57344,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 62112
+  },
+  {
+    "address": "0x1caf50",
+    "name": "rheon::research_public_call::case41_borrowed_reference_outer",
+    "push_bytes": 8,
+    "fixed_decrement_bytes": 62096,
+    "fixed_probe_loop_bytes": 57344,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 62112
+  }
+]

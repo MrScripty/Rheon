@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "cargo",
+    "clippy",
+    "--release",
+    "--no-default-features",
+    "--lib",
+    "--tests",
+    "--locked",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "exit": 0,
+  "native_invocations": 0,
+  "source": "429a8aae900b9b3a9710b99cd531a86096475d5f",
+  "stderr_sha256": "48e3c7b0193c389f8e50c8cdd7cb480ba254ddef98a2e53bf336ba40f95b0a0a",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

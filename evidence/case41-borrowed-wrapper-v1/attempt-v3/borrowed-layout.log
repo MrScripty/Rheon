@@ -1,0 +1,8 @@
+
+running 1 test
+candidate=[7808, 30976, 30984, 14552, 1336] reference=[7800, 30976, 30984, 14552, 1336] plan=FittedHeightPlan { columns: 2, geometric_nodes: 19, periodic_nodes: 16, triangles: 24, reduced_velocity_unknowns: 34, pressure_modes: 16, pressure_term_capacity: 288, rank_scratch_entries: 528, nominal_bytes: 23584 }
+geometry_sizes=[24, 24, 40, 80, 64, 56, 24, 24, 8, 8, 8, 32, 96, 16] geometry_counts=[19, 4, 9, 24, 16, 72, 72, 288, 22, 528, 16, 19, 16, 24] requested_payload=23584
+test research_public_call::borrowed_wrapper_layout ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+

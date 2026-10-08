@@ -1,0 +1,43 @@
+--- 
++++ 
+@@ -529,12 +529,34 @@
+ }
+ 
+ #[test]
+-fn case41_six_columns_only() {
+-    assert_eq!(
+-        std::env::var("RHEON_CASE41_FD_ALLOW").unwrap(),
+-        "case41-fixed-seventh-candidate-six-original-columns-v1"
+-    );
++fn case41_borrowed_candidate_roster() {
++    panic!("FD candidate runner is not authorized in this source freeze");
++}
++#[test]
++fn case41_borrowed_reference_roster() {
++    panic!("reference equation runner is not authorized in this source freeze");
++}
++#[inline(never)]
++fn case41_borrowed_candidate_outer() {
+     let mut chart = scalar::ChartWorkspace::new();
+-    assert_eq!(std::mem::size_of_val(&chart), 62096);
+     candidate::case41_fd_capture(&FIXED_CASES[0], &mut chart);
+ }
++#[inline(never)]
++fn case41_borrowed_reference_outer() {
++    let mut chart = scalar::ChartWorkspace::new();
++    reference::case41_fd_capture(&FIXED_CASES[0], &mut chart);
++}
++#[used]
++static CANDIDATE_OBSERVER: fn() = case41_borrowed_candidate_outer;
++#[used]
++static REFERENCE_OBSERVER: fn() = case41_borrowed_reference_outer;
++#[test]
++fn borrowed_wrapper_layout() {
++    println!(
++        "candidate={:?} reference={:?} plan={:?}",
++        candidate::borrowed_layout(),
++        reference::borrowed_layout(),
++        FittedHeightPlan::new(2).unwrap()
++    );
++    crate::fitted_height::borrowed_geometry_layout();
++}

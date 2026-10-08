@@ -1,0 +1,15 @@
+{
+  "failed_endpoint_metrics_computed": 0,
+  "failed_equation_evaluations": 0,
+  "failed_source": "d5b2d7863410879c34ab7f791360ad6ed8a18964",
+  "failed_source_tree": "0e26e2eecd372d39f4c00dd2e1d7ecfd6088db67",
+  "failure": "whole helper-byte equality rejected the sole accepted seven-line E2 selector method addition; no physical helper or model change",
+  "preserved_attempt_sha256": {
+    "attempt-01-normal-stderr.log": "bb35b62ff9eba63bb7cecd676280c6f9aa0475570704dec8dfec8554a9ed0075",
+    "attempt-01-normal.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "attempt-01-optimized-stderr.log": "bb35b62ff9eba63bb7cecd676280c6f9aa0475570704dec8dfec8554a9ed0075",
+    "attempt-01-optimized.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "repair": "require precisely that selector addition and byte-identical remaining helper source",
+  "status": "READONLY_SOURCE_GUARD_REPAIR"
+}

@@ -1,0 +1,31 @@
+--- 
++++ 
+@@ -1302,3 +1302,28 @@
+         })
+     }
+ }
++
++#[cfg(test)]
++pub(crate) fn borrowed_geometry_layout() {
++    let sizes = [
++        std::mem::size_of::<FittedHeightNode>(),
++        std::mem::size_of::<[usize; 3]>(),
++        std::mem::size_of::<MacroEdge>(),
++        std::mem::size_of::<FittedHeightTriangle>(),
++        std::mem::size_of::<Embedding>(),
++        std::mem::size_of::<FacePiece>(),
++        std::mem::size_of::<FittedHeightDualFace>(),
++        std::mem::size_of::<FittedHeightPressureTerm>(),
++        std::mem::size_of::<usize>(),
++        std::mem::size_of::<f64>(),
++        std::mem::size_of::<f64>(),
++        std::mem::size_of::<[Dual; 2]>(),
++        std::mem::size_of::<FittedHeightNodeDiagnostic>(),
++        std::mem::size_of::<[f64; 2]>(),
++    ];
++    let counts = [19usize, 4, 9, 24, 16, 72, 72, 288, 22, 528, 16, 19, 16, 24];
++    println!(
++        "geometry_sizes={sizes:?} geometry_counts={counts:?} requested_payload={}",
++        sizes.iter().zip(counts).map(|(s, c)| s * c).sum::<usize>()
++    );
++}

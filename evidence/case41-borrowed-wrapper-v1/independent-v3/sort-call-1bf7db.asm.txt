@@ -1,0 +1,554 @@
+00000000001beee0 <rheon::research_public_call::reference::Work::partition>:
+  1beee0:	55                   	push   %rbp
+  1beee1:	41 57                	push   %r15
+  1beee3:	41 56                	push   %r14
+  1beee5:	41 55                	push   %r13
+  1beee7:	41 54                	push   %r12
+  1beee9:	53                   	push   %rbx
+  1beeea:	49 89 e3             	mov    %rsp,%r11
+  1beeed:	49 81 eb 00 20 01 00 	sub    $0x12000,%r11
+  1beef4:	48 81 ec 00 10 00 00 	sub    $0x1000,%rsp
+  1beefb:	48 c7 04 24 00 00 00 	movq   $0x0,(%rsp)
+  1bef02:	00 
+  1bef03:	4c 39 dc             	cmp    %r11,%rsp
+  1bef06:	75 ec                	jne    1beef4 <rheon::research_public_call::reference::Work::partition+0x14>
+  1bef08:	48 81 ec 38 01 00 00 	sub    $0x138,%rsp
+  1bef0f:	4c 89 cb             	mov    %r9,%rbx
+  1bef12:	f2 0f 11 44 24 30    	movsd  %xmm0,0x30(%rsp)
+  1bef18:	4d 89 c7             	mov    %r8,%r15
+  1bef1b:	49 89 cc             	mov    %rcx,%r12
+  1bef1e:	49 89 d5             	mov    %rdx,%r13
+  1bef21:	48 89 f5             	mov    %rsi,%rbp
+  1bef24:	49 89 fe             	mov    %rdi,%r14
+  1bef27:	48 8d bc 24 a0 00 00 	lea    0xa0(%rsp),%rdi
+  1bef2e:	00 
+  1bef2f:	ba 10 02 00 00       	mov    $0x210,%edx
+  1bef34:	31 f6                	xor    %esi,%esi
+  1bef36:	ff 15 1c 49 13 00    	call   *0x13491c(%rip)        # 2f3858 <memset@GLIBC_2.2.5>
+  1bef3c:	f2 0f 10 44 24 30    	movsd  0x30(%rsp),%xmm0
+  1bef42:	f2 0f 11 84 24 a8 00 	movsd  %xmm0,0xa8(%rsp)
+  1bef49:	00 00 
+  1bef4b:	48 89 9c 24 80 00 00 	mov    %rbx,0x80(%rsp)
+  1bef52:	00 
+  1bef53:	4c 8b 0b             	mov    (%rbx),%r9
+  1bef56:	48 8d bc 24 f0 04 00 	lea    0x4f0(%rsp),%rdi
+  1bef5d:	00 
+  1bef5e:	66 0f 57 c0          	xorpd  %xmm0,%xmm0
+  1bef62:	48 89 6c 24 60       	mov    %rbp,0x60(%rsp)
+  1bef67:	48 89 ee             	mov    %rbp,%rsi
+  1bef6a:	4c 89 6c 24 68       	mov    %r13,0x68(%rsp)
+  1bef6f:	4c 89 ea             	mov    %r13,%rdx
+  1bef72:	4c 89 64 24 70       	mov    %r12,0x70(%rsp)
+  1bef77:	4c 89 e1             	mov    %r12,%rcx
+  1bef7a:	4c 89 7c 24 78       	mov    %r15,0x78(%rsp)
+  1bef7f:	4d 89 f8             	mov    %r15,%r8
+  1bef82:	e8 79 04 ff ff       	call   1af400 <rheon::research_public_call::reference::Work::point>
+  1bef87:	48 8d 9c 24 f8 04 00 	lea    0x4f8(%rsp),%rbx
+  1bef8e:	00 
+  1bef8f:	83 bc 24 f0 04 00 00 	cmpl   $0x1,0x4f0(%rsp)
+  1bef96:	01 
+  1bef97:	75 2f                	jne    1befc8 <rheon::research_public_call::reference::Work::partition+0xe8>
+  1bef99:	48 8b 43 10          	mov    0x10(%rbx),%rax
+  1bef9d:	48 89 84 24 e0 3d 00 	mov    %rax,0x3de0(%rsp)
+  1befa4:	00 
+  1befa5:	66 0f 10 03          	movupd (%rbx),%xmm0
+  1befa9:	66 0f 29 84 24 d0 3d 	movapd %xmm0,0x3dd0(%rsp)
+  1befb0:	00 00 
+  1befb2:	49 89 46 18          	mov    %rax,0x18(%r14)
+  1befb6:	66 41 0f 11 46 08    	movupd %xmm0,0x8(%r14)
+  1befbc:	49 c7 06 01 00 00 00 	movq   $0x1,(%r14)
+  1befc3:	e9 12 07 00 00       	jmp    1bf6da <rheon::research_public_call::reference::Work::partition+0x7fa>
+  1befc8:	4c 8d bc 24 d0 3d 00 	lea    0x3dd0(%rsp),%r15
+  1befcf:	00 
+  1befd0:	4c 8b 25 91 48 13 00 	mov    0x134891(%rip),%r12        # 2f3868 <memcpy@GLIBC_2.14>
+  1befd7:	ba d8 38 00 00       	mov    $0x38d8,%edx
+  1befdc:	4c 89 ff             	mov    %r15,%rdi
+  1befdf:	48 89 de             	mov    %rbx,%rsi
+  1befe2:	41 ff d4             	call   *%r12
+  1befe5:	48 8d bc 24 b0 76 00 	lea    0x76b0(%rsp),%rdi
+  1befec:	00 
+  1befed:	ba d8 38 00 00       	mov    $0x38d8,%edx
+  1beff2:	4c 89 fe             	mov    %r15,%rsi
+  1beff5:	41 ff d4             	call   *%r12
+  1beff8:	4c 8d ac 24 b0 a7 00 	lea    0xa7b0(%rsp),%r13
+  1befff:	00 
+  1bf000:	41 bc 01 00 00 00    	mov    $0x1,%r12d
+  1bf006:	41 bf 02 00 00 00    	mov    $0x2,%r15d
+  1bf00c:	48 c7 44 24 08 00 00 	movq   $0x0,0x8(%rsp)
+  1bf013:	00 00 
+  1bf015:	f2 0f 10 15 3b 37 e6 	movsd  -0x19c8c5(%rip),%xmm2        # 22758 <anon.28fe961153895b8254611a095a916f85.73.llvm.12328580827075778519+0x1b8>
+  1bf01c:	ff 
+  1bf01d:	66 0f 57 c0          	xorpd  %xmm0,%xmm0
+  1bf021:	f2 0f 11 44 24 48    	movsd  %xmm0,0x48(%rsp)
+  1bf027:	4c 89 74 24 10       	mov    %r14,0x10(%rsp)
+  1bf02c:	41 8d 74 24 01       	lea    0x1(%r12),%esi
+  1bf031:	41 83 fc 10          	cmp    $0x10,%r12d
+  1bf035:	41 0f 44 f4          	cmove  %r12d,%esi
+  1bf039:	0f 57 c9             	xorps  %xmm1,%xmm1
+  1bf03c:	f2 41 0f 2a cc       	cvtsi2sd %r12d,%xmm1
+  1bf041:	f2 0f 59 ca          	mulsd  %xmm2,%xmm1
+  1bf045:	f2 0f 10 54 24 30    	movsd  0x30(%rsp),%xmm2
+  1bf04b:	66 0f 28 c2          	movapd %xmm2,%xmm0
+  1bf04f:	f2 0f 59 c1          	mulsd  %xmm1,%xmm0
+  1bf053:	66 0f 57 db          	xorpd  %xmm3,%xmm3
+  1bf057:	66 0f 2e c3          	ucomisd %xmm3,%xmm0
+  1bf05b:	75 23                	jne    1bf080 <rheon::research_public_call::reference::Work::partition+0x1a0>
+  1bf05d:	7a 21                	jp     1bf080 <rheon::research_public_call::reference::Work::partition+0x1a0>
+  1bf05f:	66 0f 2e d3          	ucomisd %xmm3,%xmm2
+  1bf063:	75 02                	jne    1bf067 <rheon::research_public_call::reference::Work::partition+0x187>
+  1bf065:	7b 53                	jnp    1bf0ba <rheon::research_public_call::reference::Work::partition+0x1da>
+  1bf067:	66 0f 2e cb          	ucomisd %xmm3,%xmm1
+  1bf06b:	0f 85 3f 06 00 00    	jne    1bf6b0 <rheon::research_public_call::reference::Work::partition+0x7d0>
+  1bf071:	7b 47                	jnp    1bf0ba <rheon::research_public_call::reference::Work::partition+0x1da>
+  1bf073:	e9 38 06 00 00       	jmp    1bf6b0 <rheon::research_public_call::reference::Work::partition+0x7d0>
+  1bf078:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+  1bf07f:	00 
+  1bf080:	66 48 0f 7e c0       	movq   %xmm0,%rax
+  1bf085:	48 89 c1             	mov    %rax,%rcx
+  1bf088:	48 ba ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdx
+  1bf08f:	ff ff 7f 
+  1bf092:	48 21 d1             	and    %rdx,%rcx
+  1bf095:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  1bf09c:	00 f0 7f 
+  1bf09f:	48 39 d1             	cmp    %rdx,%rcx
+  1bf0a2:	0f 84 08 06 00 00    	je     1bf6b0 <rheon::research_public_call::reference::Work::partition+0x7d0>
+  1bf0a8:	48 21 d0             	and    %rdx,%rax
+  1bf0ab:	0f 84 ff 05 00 00    	je     1bf6b0 <rheon::research_public_call::reference::Work::partition+0x7d0>
+  1bf0b1:	48 39 d0             	cmp    %rdx,%rax
+  1bf0b4:	0f 84 f6 05 00 00    	je     1bf6b0 <rheon::research_public_call::reference::Work::partition+0x7d0>
+  1bf0ba:	89 74 24 3c          	mov    %esi,0x3c(%rsp)
+  1bf0be:	48 8b 84 24 80 00 00 	mov    0x80(%rsp),%rax
+  1bf0c5:	00 
+  1bf0c6:	4c 8b 08             	mov    (%rax),%r9
+  1bf0c9:	48 8d bc 24 f0 04 00 	lea    0x4f0(%rsp),%rdi
+  1bf0d0:	00 
+  1bf0d1:	48 8b 74 24 60       	mov    0x60(%rsp),%rsi
+  1bf0d6:	48 8b 54 24 68       	mov    0x68(%rsp),%rdx
+  1bf0db:	48 8b 4c 24 70       	mov    0x70(%rsp),%rcx
+  1bf0e0:	4c 8b 44 24 78       	mov    0x78(%rsp),%r8
+  1bf0e5:	f2 0f 11 44 24 20    	movsd  %xmm0,0x20(%rsp)
+  1bf0eb:	e8 10 03 ff ff       	call   1af400 <rheon::research_public_call::reference::Work::point>
+  1bf0f0:	83 bc 24 f0 04 00 00 	cmpl   $0x1,0x4f0(%rsp)
+  1bf0f7:	01 
+  1bf0f8:	0f 84 9b fe ff ff    	je     1bef99 <rheon::research_public_call::reference::Work::partition+0xb9>
+  1bf0fe:	4c 89 a4 24 90 00 00 	mov    %r12,0x90(%rsp)
+  1bf105:	00 
+  1bf106:	ba d8 38 00 00       	mov    $0x38d8,%edx
+  1bf10b:	4c 8d a4 24 d0 3d 00 	lea    0x3dd0(%rsp),%r12
+  1bf112:	00 
+  1bf113:	4c 89 e7             	mov    %r12,%rdi
+  1bf116:	48 89 de             	mov    %rbx,%rsi
+  1bf119:	48 8b 1d 48 47 13 00 	mov    0x134748(%rip),%rbx        # 2f3868 <memcpy@GLIBC_2.14>
+  1bf120:	ff d3                	call   *%rbx
+  1bf122:	ba d8 38 00 00       	mov    $0x38d8,%edx
+  1bf127:	48 8d bc 24 88 af 00 	lea    0xaf88(%rsp),%rdi
+  1bf12e:	00 
+  1bf12f:	4c 89 e6             	mov    %r12,%rsi
+  1bf132:	ff d3                	call   *%rbx
+  1bf134:	ba d8 38 00 00       	mov    $0x38d8,%edx
+  1bf139:	48 8d bc 24 60 e8 00 	lea    0xe860(%rsp),%rdi
+  1bf140:	00 
+  1bf141:	4c 89 e6             	mov    %r12,%rsi
+  1bf144:	ff d3                	call   *%rbx
+  1bf146:	ba 80 04 00 00       	mov    $0x480,%edx
+  1bf14b:	4c 89 ef             	mov    %r13,%rdi
+  1bf14e:	48 8d b4 24 60 19 01 	lea    0x11960(%rsp),%rsi
+  1bf155:	00 
+  1bf156:	ff 15 5c 47 13 00    	call   *0x13475c(%rip)        # 2f38b8 <bcmp@GLIBC_2.2.5>
+  1bf15c:	85 c0                	test   %eax,%eax
+  1bf15e:	0f 85 3e 05 00 00    	jne    1bf6a2 <rheon::research_public_call::reference::Work::partition+0x7c2>
+  1bf164:	48 8b bc 24 68 af 00 	mov    0xaf68(%rsp),%rdi
+  1bf16b:	00 
+  1bf16c:	48 3b bc 24 40 e8 00 	cmp    0xe840(%rsp),%rdi
+  1bf173:	00 
+  1bf174:	0f 85 28 05 00 00    	jne    1bf6a2 <rheon::research_public_call::reference::Work::partition+0x7c2>
+  1bf17a:	48 85 ff             	test   %rdi,%rdi
+  1bf17d:	0f 84 cd 03 00 00    	je     1bf550 <rheon::research_public_call::reference::Work::partition+0x670>
+  1bf183:	b8 01 00 00 00       	mov    $0x1,%eax
+  1bf188:	45 31 ed             	xor    %r13d,%r13d
+  1bf18b:	f2 0f 10 74 24 28    	movsd  0x28(%rsp),%xmm6
+  1bf191:	f2 0f 10 6c 24 18    	movsd  0x18(%rsp),%xmm5
+  1bf197:	66 0f 57 db          	xorpd  %xmm3,%xmm3
+  1bf19b:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  1bf1a2:	00 f0 7f 
+  1bf1a5:	f2 0f 10 64 24 20    	movsd  0x20(%rsp),%xmm4
+  1bf1ab:	48 89 7c 24 50       	mov    %rdi,0x50(%rsp)
+  1bf1b0:	eb 31                	jmp    1bf1e3 <rheon::research_public_call::reference::Work::partition+0x303>
+  1bf1b2:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  1bf1b9:	1f 84 00 00 00 00 00 
+  1bf1c0:	66 0f 28 c5          	movapd %xmm5,%xmm0
+  1bf1c4:	66 0f 28 d6          	movapd %xmm6,%xmm2
+  1bf1c8:	49 39 fd             	cmp    %rdi,%r13
+  1bf1cb:	4c 89 e8             	mov    %r13,%rax
+  1bf1ce:	48 83 d0 00          	adc    $0x0,%rax
+  1bf1d2:	66 0f 28 f2          	movapd %xmm2,%xmm6
+  1bf1d6:	66 0f 28 e8          	movapd %xmm0,%xmm5
+  1bf1da:	49 39 fd             	cmp    %rdi,%r13
+  1bf1dd:	0f 83 79 03 00 00    	jae    1bf55c <rheon::research_public_call::reference::Work::partition+0x67c>
+  1bf1e3:	4c 89 eb             	mov    %r13,%rbx
+  1bf1e6:	49 83 fd 48          	cmp    $0x48,%r13
+  1bf1ea:	0f 83 b6 05 00 00    	jae    1bf7a6 <rheon::research_public_call::reference::Work::partition+0x8c6>
+  1bf1f0:	49 89 c5             	mov    %rax,%r13
+  1bf1f3:	f2 0f 10 8c dc 30 ac 	movsd  0xac30(%rsp,%rbx,8),%xmm1
+  1bf1fa:	00 00 
+  1bf1fc:	66 0f 2e cb          	ucomisd %xmm3,%xmm1
+  1bf200:	75 02                	jne    1bf204 <rheon::research_public_call::reference::Work::partition+0x324>
+  1bf202:	7b bc                	jnp    1bf1c0 <rheon::research_public_call::reference::Work::partition+0x2e0>
+  1bf204:	f2 0f 10 94 dc 08 e5 	movsd  0xe508(%rsp,%rbx,8),%xmm2
+  1bf20b:	00 00 
+  1bf20d:	66 0f 2e d3          	ucomisd %xmm3,%xmm2
+  1bf211:	75 02                	jne    1bf215 <rheon::research_public_call::reference::Work::partition+0x335>
+  1bf213:	7b ab                	jnp    1bf1c0 <rheon::research_public_call::reference::Work::partition+0x2e0>
+  1bf215:	66 48 0f 7e cd       	movq   %xmm1,%rbp
+  1bf21a:	66 48 0f 7e d0       	movq   %xmm2,%rax
+  1bf21f:	48 31 e8             	xor    %rbp,%rax
+  1bf222:	78 0f                	js     1bf233 <rheon::research_public_call::reference::Work::partition+0x353>
+  1bf224:	66 0f 28 c5          	movapd %xmm5,%xmm0
+  1bf228:	66 0f 28 d6          	movapd %xmm6,%xmm2
+  1bf22c:	48 8b 7c 24 50       	mov    0x50(%rsp),%rdi
+  1bf231:	eb 95                	jmp    1bf1c8 <rheon::research_public_call::reference::Work::partition+0x2e8>
+  1bf233:	4c 89 7c 24 40       	mov    %r15,0x40(%rsp)
+  1bf238:	4c 8b 7c 24 08       	mov    0x8(%rsp),%r15
+  1bf23d:	49 8d 47 14          	lea    0x14(%r15),%rax
+  1bf241:	48 89 84 24 88 00 00 	mov    %rax,0x88(%rsp)
+  1bf248:	00 
+  1bf249:	41 be 14 00 00 00    	mov    $0x14,%r14d
+  1bf24f:	f2 0f 10 54 24 48    	movsd  0x48(%rsp),%xmm2
+  1bf255:	66 0f 28 fc          	movapd %xmm4,%xmm7
+  1bf259:	f2 0f 11 74 24 58    	movsd  %xmm6,0x58(%rsp)
+  1bf25f:	eb 23                	jmp    1bf284 <rheon::research_public_call::reference::Work::partition+0x3a4>
+  1bf261:	66 66 66 66 66 66 2e 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+  1bf268:	0f 1f 84 00 00 00 00 
+  1bf26f:	00 
+  1bf270:	49 89 c7             	mov    %rax,%r15
+  1bf273:	66 0f 28 d1          	movapd %xmm1,%xmm2
+  1bf277:	66 0f 28 e8          	movapd %xmm0,%xmm5
+  1bf27b:	41 ff ce             	dec    %r14d
+  1bf27e:	0f 84 da 01 00 00    	je     1bf45e <rheon::research_public_call::reference::Work::partition+0x57e>
+  1bf284:	66 0f 28 ca          	movapd %xmm2,%xmm1
+  1bf288:	f2 0f 58 cf          	addsd  %xmm7,%xmm1
+  1bf28c:	66 0f 2e cb          	ucomisd %xmm3,%xmm1
+  1bf290:	75 02                	jne    1bf294 <rheon::research_public_call::reference::Work::partition+0x3b4>
+  1bf292:	7b 30                	jnp    1bf2c4 <rheon::research_public_call::reference::Work::partition+0x3e4>
+  1bf294:	66 48 0f 7e c8       	movq   %xmm1,%rax
+  1bf299:	48 89 c1             	mov    %rax,%rcx
+  1bf29c:	48 be ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rsi
+  1bf2a3:	ff ff 7f 
+  1bf2a6:	48 21 f1             	and    %rsi,%rcx
+  1bf2a9:	48 39 d1             	cmp    %rdx,%rcx
+  1bf2ac:	0f 84 62 03 00 00    	je     1bf614 <rheon::research_public_call::reference::Work::partition+0x734>
+  1bf2b2:	48 21 d0             	and    %rdx,%rax
+  1bf2b5:	0f 84 59 03 00 00    	je     1bf614 <rheon::research_public_call::reference::Work::partition+0x734>
+  1bf2bb:	48 39 d0             	cmp    %rdx,%rax
+  1bf2be:	0f 84 50 03 00 00    	je     1bf614 <rheon::research_public_call::reference::Work::partition+0x734>
+  1bf2c4:	66 0f 28 c1          	movapd %xmm1,%xmm0
+  1bf2c8:	f2 0f 59 05 78 32 e6 	mulsd  -0x19cd88(%rip),%xmm0        # 22548 <anon.28fe961153895b8254611a095a916f85.72.llvm.12328580827075778519+0xc8>
+  1bf2cf:	ff 
+  1bf2d0:	66 0f 2e c3          	ucomisd %xmm3,%xmm0
+  1bf2d4:	75 1a                	jne    1bf2f0 <rheon::research_public_call::reference::Work::partition+0x410>
+  1bf2d6:	7a 18                	jp     1bf2f0 <rheon::research_public_call::reference::Work::partition+0x410>
+  1bf2d8:	66 0f 2e cb          	ucomisd %xmm3,%xmm1
+  1bf2dc:	0f 85 36 03 00 00    	jne    1bf618 <rheon::research_public_call::reference::Work::partition+0x738>
+  1bf2e2:	7b 3c                	jnp    1bf320 <rheon::research_public_call::reference::Work::partition+0x440>
+  1bf2e4:	e9 2f 03 00 00       	jmp    1bf618 <rheon::research_public_call::reference::Work::partition+0x738>
+  1bf2e9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  1bf2f0:	66 48 0f 7e c0       	movq   %xmm0,%rax
+  1bf2f5:	48 89 c1             	mov    %rax,%rcx
+  1bf2f8:	48 be ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rsi
+  1bf2ff:	ff ff 7f 
+  1bf302:	48 21 f1             	and    %rsi,%rcx
+  1bf305:	48 39 d1             	cmp    %rdx,%rcx
+  1bf308:	0f 84 0a 03 00 00    	je     1bf618 <rheon::research_public_call::reference::Work::partition+0x738>
+  1bf30e:	48 21 d0             	and    %rdx,%rax
+  1bf311:	0f 84 01 03 00 00    	je     1bf618 <rheon::research_public_call::reference::Work::partition+0x738>
+  1bf317:	48 39 d0             	cmp    %rdx,%rax
+  1bf31a:	0f 84 f8 02 00 00    	je     1bf618 <rheon::research_public_call::reference::Work::partition+0x738>
+  1bf320:	66 0f 2e c2          	ucomisd %xmm2,%xmm0
+  1bf324:	75 06                	jne    1bf32c <rheon::research_public_call::reference::Work::partition+0x44c>
+  1bf326:	0f 8b fd 00 00 00    	jnp    1bf429 <rheon::research_public_call::reference::Work::partition+0x549>
+  1bf32c:	66 0f 2e c7          	ucomisd %xmm7,%xmm0
+  1bf330:	75 06                	jne    1bf338 <rheon::research_public_call::reference::Work::partition+0x458>
+  1bf332:	0f 8b f1 00 00 00    	jnp    1bf429 <rheon::research_public_call::reference::Work::partition+0x549>
+  1bf338:	f2 0f 11 94 24 98 00 	movsd  %xmm2,0x98(%rsp)
+  1bf33f:	00 00 
+  1bf341:	f2 0f 11 7c 24 28    	movsd  %xmm7,0x28(%rsp)
+  1bf347:	48 8b 84 24 80 00 00 	mov    0x80(%rsp),%rax
+  1bf34e:	00 
+  1bf34f:	4c 8b 08             	mov    (%rax),%r9
+  1bf352:	48 8d bc 24 f0 04 00 	lea    0x4f0(%rsp),%rdi
+  1bf359:	00 
+  1bf35a:	48 8b 74 24 60       	mov    0x60(%rsp),%rsi
+  1bf35f:	48 8b 54 24 68       	mov    0x68(%rsp),%rdx
+  1bf364:	48 8b 4c 24 70       	mov    0x70(%rsp),%rcx
+  1bf369:	4c 8b 44 24 78       	mov    0x78(%rsp),%r8
+  1bf36e:	f2 0f 11 44 24 18    	movsd  %xmm0,0x18(%rsp)
+  1bf374:	e8 87 00 ff ff       	call   1af400 <rheon::research_public_call::reference::Work::point>
+  1bf379:	83 bc 24 f0 04 00 00 	cmpl   $0x1,0x4f0(%rsp)
+  1bf380:	01 
+  1bf381:	0f 84 ab 02 00 00    	je     1bf632 <rheon::research_public_call::reference::Work::partition+0x752>
+  1bf387:	ba b8 38 00 00       	mov    $0x38b8,%edx
+  1bf38c:	48 8d bc 24 d0 3d 00 	lea    0x3dd0(%rsp),%rdi
+  1bf393:	00 
+  1bf394:	48 8d b4 24 f8 04 00 	lea    0x4f8(%rsp),%rsi
+  1bf39b:	00 
+  1bf39c:	4c 8b 25 c5 44 13 00 	mov    0x1344c5(%rip),%r12        # 2f3868 <memcpy@GLIBC_2.14>
+  1bf3a3:	41 ff d4             	call   *%r12
+  1bf3a6:	ba 40 02 00 00       	mov    $0x240,%edx
+  1bf3ab:	48 8d bc 24 b0 02 00 	lea    0x2b0(%rsp),%rdi
+  1bf3b2:	00 
+  1bf3b3:	48 8d b4 24 50 73 00 	lea    0x7350(%rsp),%rsi
+  1bf3ba:	00 
+  1bf3bb:	41 ff d4             	call   *%r12
+  1bf3be:	49 8d 47 01          	lea    0x1(%r15),%rax
+  1bf3c2:	48 3d 00 10 00 00    	cmp    $0x1000,%rax
+  1bf3c8:	0f 87 99 02 00 00    	ja     1bf667 <rheon::research_public_call::reference::Work::partition+0x787>
+  1bf3ce:	f2 0f 10 84 dc b0 02 	movsd  0x2b0(%rsp,%rbx,8),%xmm0
+  1bf3d5:	00 00 
+  1bf3d7:	66 0f 57 db          	xorpd  %xmm3,%xmm3
+  1bf3db:	66 0f 2e c3          	ucomisd %xmm3,%xmm0
+  1bf3df:	75 02                	jne    1bf3e3 <rheon::research_public_call::reference::Work::partition+0x503>
+  1bf3e1:	7b 4d                	jnp    1bf430 <rheon::research_public_call::reference::Work::partition+0x550>
+  1bf3e3:	66 48 0f 7e c1       	movq   %xmm0,%rcx
+  1bf3e8:	48 31 e9             	xor    %rbp,%rcx
+  1bf3eb:	f2 0f 10 44 24 18    	movsd  0x18(%rsp),%xmm0
+  1bf3f1:	66 0f 28 c8          	movapd %xmm0,%xmm1
+  1bf3f5:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  1bf3fc:	00 f0 7f 
+  1bf3ff:	f2 0f 10 64 24 20    	movsd  0x20(%rsp),%xmm4
+  1bf405:	f2 0f 10 74 24 58    	movsd  0x58(%rsp),%xmm6
+  1bf40b:	f2 0f 10 7c 24 28    	movsd  0x28(%rsp),%xmm7
+  1bf411:	0f 89 59 fe ff ff    	jns    1bf270 <rheon::research_public_call::reference::Work::partition+0x390>
+  1bf417:	66 0f 28 f8          	movapd %xmm0,%xmm7
+  1bf41b:	f2 0f 10 8c 24 98 00 	movsd  0x98(%rsp),%xmm1
+  1bf422:	00 00 
+  1bf424:	e9 47 fe ff ff       	jmp    1bf270 <rheon::research_public_call::reference::Work::partition+0x390>
+  1bf429:	4c 89 7c 24 08       	mov    %r15,0x8(%rsp)
+  1bf42e:	eb 3f                	jmp    1bf46f <rheon::research_public_call::reference::Work::partition+0x58f>
+  1bf430:	49 ff c7             	inc    %r15
+  1bf433:	f2 0f 10 44 24 18    	movsd  0x18(%rsp),%xmm0
+  1bf439:	66 0f 28 f8          	movapd %xmm0,%xmm7
+  1bf43d:	66 0f 28 d0          	movapd %xmm0,%xmm2
+  1bf441:	4c 89 7c 24 08       	mov    %r15,0x8(%rsp)
+  1bf446:	48 ba 00 00 00 00 00 	movabs $0x7ff0000000000000,%rdx
+  1bf44d:	00 f0 7f 
+  1bf450:	f2 0f 10 64 24 20    	movsd  0x20(%rsp),%xmm4
+  1bf456:	f2 0f 10 74 24 58    	movsd  0x58(%rsp),%xmm6
+  1bf45c:	eb 11                	jmp    1bf46f <rheon::research_public_call::reference::Work::partition+0x58f>
+  1bf45e:	66 0f 28 d1          	movapd %xmm1,%xmm2
+  1bf462:	48 8b 84 24 88 00 00 	mov    0x88(%rsp),%rax
+  1bf469:	00 
+  1bf46a:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+  1bf46f:	f2 0f 58 fa          	addsd  %xmm2,%xmm7
+  1bf473:	66 0f 2e fb          	ucomisd %xmm3,%xmm7
+  1bf477:	4c 8b 74 24 10       	mov    0x10(%rsp),%r14
+  1bf47c:	4c 8b 7c 24 40       	mov    0x40(%rsp),%r15
+  1bf481:	f2 0f 10 4c 24 30    	movsd  0x30(%rsp),%xmm1
+  1bf487:	48 8b 7c 24 50       	mov    0x50(%rsp),%rdi
+  1bf48c:	75 02                	jne    1bf490 <rheon::research_public_call::reference::Work::partition+0x5b0>
+  1bf48e:	7b 30                	jnp    1bf4c0 <rheon::research_public_call::reference::Work::partition+0x5e0>
+  1bf490:	66 48 0f 7e f8       	movq   %xmm7,%rax
+  1bf495:	48 89 c1             	mov    %rax,%rcx
+  1bf498:	48 be ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rsi
+  1bf49f:	ff ff 7f 
+  1bf4a2:	48 21 f1             	and    %rsi,%rcx
+  1bf4a5:	48 39 d1             	cmp    %rdx,%rcx
+  1bf4a8:	0f 84 16 02 00 00    	je     1bf6c4 <rheon::research_public_call::reference::Work::partition+0x7e4>
+  1bf4ae:	48 21 d0             	and    %rdx,%rax
+  1bf4b1:	0f 84 0d 02 00 00    	je     1bf6c4 <rheon::research_public_call::reference::Work::partition+0x7e4>
+  1bf4b7:	48 39 d0             	cmp    %rdx,%rax
+  1bf4ba:	0f 84 04 02 00 00    	je     1bf6c4 <rheon::research_public_call::reference::Work::partition+0x7e4>
+  1bf4c0:	66 0f 28 d7          	movapd %xmm7,%xmm2
+  1bf4c4:	f2 0f 59 15 7c 30 e6 	mulsd  -0x19cf84(%rip),%xmm2        # 22548 <anon.28fe961153895b8254611a095a916f85.72.llvm.12328580827075778519+0xc8>
+  1bf4cb:	ff 
+  1bf4cc:	66 0f 2e d3          	ucomisd %xmm3,%xmm2
+  1bf4d0:	75 13                	jne    1bf4e5 <rheon::research_public_call::reference::Work::partition+0x605>
+  1bf4d2:	7a 11                	jp     1bf4e5 <rheon::research_public_call::reference::Work::partition+0x605>
+  1bf4d4:	66 0f 2e fb          	ucomisd %xmm3,%xmm7
+  1bf4d8:	0f 85 ea 01 00 00    	jne    1bf6c8 <rheon::research_public_call::reference::Work::partition+0x7e8>
+  1bf4de:	7b 35                	jnp    1bf515 <rheon::research_public_call::reference::Work::partition+0x635>
+  1bf4e0:	e9 e3 01 00 00       	jmp    1bf6c8 <rheon::research_public_call::reference::Work::partition+0x7e8>
+  1bf4e5:	66 48 0f 7e d0       	movq   %xmm2,%rax
+  1bf4ea:	48 89 c1             	mov    %rax,%rcx
+  1bf4ed:	48 be ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rsi
+  1bf4f4:	ff ff 7f 
+  1bf4f7:	48 21 f1             	and    %rsi,%rcx
+  1bf4fa:	48 39 d1             	cmp    %rdx,%rcx
+  1bf4fd:	0f 84 c5 01 00 00    	je     1bf6c8 <rheon::research_public_call::reference::Work::partition+0x7e8>
+  1bf503:	48 21 d0             	and    %rdx,%rax
+  1bf506:	0f 84 bc 01 00 00    	je     1bf6c8 <rheon::research_public_call::reference::Work::partition+0x7e8>
+  1bf50c:	48 39 d0             	cmp    %rdx,%rax
+  1bf50f:	0f 84 b3 01 00 00    	je     1bf6c8 <rheon::research_public_call::reference::Work::partition+0x7e8>
+  1bf515:	66 0f 2e d3          	ucomisd %xmm3,%xmm2
+  1bf519:	0f 86 a9 fc ff ff    	jbe    1bf1c8 <rheon::research_public_call::reference::Work::partition+0x2e8>
+  1bf51f:	66 0f 2e ca          	ucomisd %xmm2,%xmm1
+  1bf523:	0f 86 9f fc ff ff    	jbe    1bf1c8 <rheon::research_public_call::reference::Work::partition+0x2e8>
+  1bf529:	49 83 ff 42          	cmp    $0x42,%r15
+  1bf52d:	0f 84 b9 01 00 00    	je     1bf6ec <rheon::research_public_call::reference::Work::partition+0x80c>
+  1bf533:	0f 83 82 02 00 00    	jae    1bf7bb <rheon::research_public_call::reference::Work::partition+0x8db>
+  1bf539:	f2 42 0f 11 94 fc a0 	movsd  %xmm2,0xa0(%rsp,%r15,8)
+  1bf540:	00 00 00 
+  1bf543:	49 ff c7             	inc    %r15
+  1bf546:	e9 7d fc ff ff       	jmp    1bf1c8 <rheon::research_public_call::reference::Work::partition+0x2e8>
+  1bf54b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  1bf550:	f2 0f 10 44 24 18    	movsd  0x18(%rsp),%xmm0
+  1bf556:	f2 0f 10 54 24 28    	movsd  0x28(%rsp),%xmm2
+  1bf55c:	f2 0f 11 54 24 28    	movsd  %xmm2,0x28(%rsp)
+  1bf562:	f2 0f 11 44 24 18    	movsd  %xmm0,0x18(%rsp)
+  1bf568:	ba d8 38 00 00       	mov    $0x38d8,%edx
+  1bf56d:	48 8d bc 24 b0 76 00 	lea    0x76b0(%rsp),%rdi
+  1bf574:	00 
+  1bf575:	48 8d b4 24 88 af 00 	lea    0xaf88(%rsp),%rsi
+  1bf57c:	00 
+  1bf57d:	ff 15 e5 42 13 00    	call   *0x1342e5(%rip)        # 2f3868 <memcpy@GLIBC_2.14>
+  1bf583:	83 bc 24 90 00 00 00 	cmpl   $0x10,0x90(%rsp)
+  1bf58a:	10 
+  1bf58b:	48 8d 9c 24 f8 04 00 	lea    0x4f8(%rsp),%rbx
+  1bf592:	00 
+  1bf593:	4c 8d ac 24 b0 a7 00 	lea    0xa7b0(%rsp),%r13
+  1bf59a:	00 
+  1bf59b:	f2 0f 10 15 b5 31 e6 	movsd  -0x19ce4b(%rip),%xmm2        # 22758 <anon.28fe961153895b8254611a095a916f85.73.llvm.12328580827075778519+0x1b8>
+  1bf5a2:	ff 
+  1bf5a3:	74 1c                	je     1bf5c1 <rheon::research_public_call::reference::Work::partition+0x6e1>
+  1bf5a5:	f2 0f 10 64 24 20    	movsd  0x20(%rsp),%xmm4
+  1bf5ab:	f2 0f 11 64 24 48    	movsd  %xmm4,0x48(%rsp)
+  1bf5b1:	8b 44 24 3c          	mov    0x3c(%rsp),%eax
+  1bf5b5:	41 89 c4             	mov    %eax,%r12d
+  1bf5b8:	83 f8 10             	cmp    $0x10,%eax
+  1bf5bb:	0f 8e 6b fa ff ff    	jle    1bf02c <rheon::research_public_call::reference::Work::partition+0x14c>
+  1bf5c1:	49 83 ff 43          	cmp    $0x43,%r15
+  1bf5c5:	0f 83 40 01 00 00    	jae    1bf70b <rheon::research_public_call::reference::Work::partition+0x82b>
+  1bf5cb:	48 8d 84 24 d0 3d 00 	lea    0x3dd0(%rsp),%rax
+  1bf5d2:	00 
+  1bf5d3:	48 89 84 24 f0 04 00 	mov    %rax,0x4f0(%rsp)
+  1bf5da:	00 
+  1bf5db:	49 83 ff 02          	cmp    $0x2,%r15
+  1bf5df:	0f 83 3d 01 00 00    	jae    1bf722 <rheon::research_public_call::reference::Work::partition+0x842>
+  1bf5e5:	bb 01 00 00 00       	mov    $0x1,%ebx
+  1bf5ea:	49 8d 7e 08          	lea    0x8(%r14),%rdi
+  1bf5ee:	48 8d b4 24 a0 00 00 	lea    0xa0(%rsp),%rsi
+  1bf5f5:	00 
+  1bf5f6:	ba 10 02 00 00       	mov    $0x210,%edx
+  1bf5fb:	ff 15 67 42 13 00    	call   *0x134267(%rip)        # 2f3868 <memcpy@GLIBC_2.14>
+  1bf601:	49 89 9e 18 02 00 00 	mov    %rbx,0x218(%r14)
+  1bf608:	49 c7 06 00 00 00 00 	movq   $0x0,(%r14)
+  1bf60f:	e9 c6 00 00 00       	jmp    1bf6da <rheon::research_public_call::reference::Work::partition+0x7fa>
+  1bf614:	66 0f 28 e9          	movapd %xmm1,%xmm5
+  1bf618:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+  1bf61d:	c6 40 08 11          	movb   $0x11,0x8(%rax)
+  1bf621:	f2 0f 11 68 10       	movsd  %xmm5,0x10(%rax)
+  1bf626:	48 c7 00 01 00 00 00 	movq   $0x1,(%rax)
+  1bf62d:	e9 a8 00 00 00       	jmp    1bf6da <rheon::research_public_call::reference::Work::partition+0x7fa>
+  1bf632:	48 8d 8c 24 f8 04 00 	lea    0x4f8(%rsp),%rcx
+  1bf639:	00 
+  1bf63a:	48 8b 41 10          	mov    0x10(%rcx),%rax
+  1bf63e:	48 89 84 24 e0 3d 00 	mov    %rax,0x3de0(%rsp)
+  1bf645:	00 
+  1bf646:	0f 10 01             	movups (%rcx),%xmm0
+  1bf649:	0f 29 84 24 d0 3d 00 	movaps %xmm0,0x3dd0(%rsp)
+  1bf650:	00 
+  1bf651:	48 8b 4c 24 10       	mov    0x10(%rsp),%rcx
+  1bf656:	48 89 41 18          	mov    %rax,0x18(%rcx)
+  1bf65a:	0f 11 41 08          	movups %xmm0,0x8(%rcx)
+  1bf65e:	48 c7 01 01 00 00 00 	movq   $0x1,(%rcx)
+  1bf665:	eb 73                	jmp    1bf6da <rheon::research_public_call::reference::Work::partition+0x7fa>
+  1bf667:	48 8b 4c 24 08       	mov    0x8(%rsp),%rcx
+  1bf66c:	48 ff c1             	inc    %rcx
+  1bf66f:	48 81 f9 02 10 00 00 	cmp    $0x1002,%rcx
+  1bf676:	b8 01 10 00 00       	mov    $0x1001,%eax
+  1bf67b:	48 0f 43 c1          	cmovae %rcx,%rax
+  1bf67f:	48 8b 54 24 40       	mov    0x40(%rsp),%rdx
+  1bf684:	48 83 c2 fe          	add    $0xfffffffffffffffe,%rdx
+  1bf688:	48 8b 4c 24 10       	mov    0x10(%rsp),%rcx
+  1bf68d:	c6 41 08 23          	movb   $0x23,0x8(%rcx)
+  1bf691:	48 89 51 10          	mov    %rdx,0x10(%rcx)
+  1bf695:	48 89 41 18          	mov    %rax,0x18(%rcx)
+  1bf699:	48 c7 01 01 00 00 00 	movq   $0x1,(%rcx)
+  1bf6a0:	eb 38                	jmp    1bf6da <rheon::research_public_call::reference::Work::partition+0x7fa>
+  1bf6a2:	41 c6 46 08 1a       	movb   $0x1a,0x8(%r14)
+  1bf6a7:	49 c7 06 01 00 00 00 	movq   $0x1,(%r14)
+  1bf6ae:	eb 2a                	jmp    1bf6da <rheon::research_public_call::reference::Work::partition+0x7fa>
+  1bf6b0:	41 c6 46 08 11       	movb   $0x11,0x8(%r14)
+  1bf6b5:	f2 41 0f 11 66 10    	movsd  %xmm4,0x10(%r14)
+  1bf6bb:	49 c7 06 01 00 00 00 	movq   $0x1,(%r14)
+  1bf6c2:	eb 16                	jmp    1bf6da <rheon::research_public_call::reference::Work::partition+0x7fa>
+  1bf6c4:	66 0f 28 f7          	movapd %xmm7,%xmm6
+  1bf6c8:	41 c6 46 08 11       	movb   $0x11,0x8(%r14)
+  1bf6cd:	f2 41 0f 11 76 10    	movsd  %xmm6,0x10(%r14)
+  1bf6d3:	49 c7 06 01 00 00 00 	movq   $0x1,(%r14)
+  1bf6da:	48 81 c4 38 21 01 00 	add    $0x12138,%rsp
+  1bf6e1:	5b                   	pop    %rbx
+  1bf6e2:	41 5c                	pop    %r12
+  1bf6e4:	41 5d                	pop    %r13
+  1bf6e6:	41 5e                	pop    %r14
+  1bf6e8:	41 5f                	pop    %r15
+  1bf6ea:	5d                   	pop    %rbp
+  1bf6eb:	c3                   	ret
+  1bf6ec:	41 c6 46 08 23       	movb   $0x23,0x8(%r14)
+  1bf6f1:	49 c7 46 10 40 00 00 	movq   $0x40,0x10(%r14)
+  1bf6f8:	00 
+  1bf6f9:	48 8b 44 24 08       	mov    0x8(%rsp),%rax
+  1bf6fe:	49 89 46 18          	mov    %rax,0x18(%r14)
+  1bf702:	49 c7 06 01 00 00 00 	movq   $0x1,(%r14)
+  1bf709:	eb cf                	jmp    1bf6da <rheon::research_public_call::reference::Work::partition+0x7fa>
+  1bf70b:	48 8d 0d 0e d1 11 00 	lea    0x11d10e(%rip),%rcx        # 2dc820 <anon.392e2ff17addc09cef8842235d7eeffb.131.llvm.18261267909542593457+0x2468>
+  1bf712:	ba 42 00 00 00       	mov    $0x42,%edx
+  1bf717:	31 ff                	xor    %edi,%edi
+  1bf719:	4c 89 fe             	mov    %r15,%rsi
+  1bf71c:	ff 15 d6 41 13 00    	call   *0x1341d6(%rip)        # 2f38f8 <_DYNAMIC+0x338>
+  1bf722:	4d 89 fc             	mov    %r15,%r12
+  1bf725:	48 8d bc 24 a0 00 00 	lea    0xa0(%rsp),%rdi
+  1bf72c:	00 
+  1bf72d:	49 83 ff 15          	cmp    $0x15,%r15
+  1bf731:	0f 83 99 00 00 00    	jae    1bf7d0 <rheon::research_public_call::reference::Work::partition+0x8f0>
+  1bf737:	48 8d 8c 24 f0 04 00 	lea    0x4f0(%rsp),%rcx
+  1bf73e:	00 
+  1bf73f:	ba 01 00 00 00       	mov    $0x1,%edx
+  1bf744:	4c 89 e6             	mov    %r12,%rsi
+  1bf747:	e8 e4 2d 01 00       	call   1d2530 <core::slice::sort::shared::smallsort::insertion_sort_shift_left>
+  1bf74c:	b8 01 00 00 00       	mov    $0x1,%eax
+  1bf751:	bb 01 00 00 00       	mov    $0x1,%ebx
+  1bf756:	4c 8b 74 24 10       	mov    0x10(%rsp),%r14
+  1bf75b:	eb 18                	jmp    1bf775 <rheon::research_public_call::reference::Work::partition+0x895>
+  1bf75d:	f2 0f 11 84 dc a0 00 	movsd  %xmm0,0xa0(%rsp,%rbx,8)
+  1bf764:	00 00 
+  1bf766:	48 ff c3             	inc    %rbx
+  1bf769:	48 ff c0             	inc    %rax
+  1bf76c:	49 39 c4             	cmp    %rax,%r12
+  1bf76f:	0f 84 75 fe ff ff    	je     1bf5ea <rheon::research_public_call::reference::Work::partition+0x70a>
+  1bf775:	f2 0f 10 84 c4 a0 00 	movsd  0xa0(%rsp,%rax,8),%xmm0
+  1bf77c:	00 00 
+  1bf77e:	66 0f 2e 84 dc 98 00 	ucomisd 0x98(%rsp,%rbx,8),%xmm0
+  1bf785:	00 00 
+  1bf787:	75 02                	jne    1bf78b <rheon::research_public_call::reference::Work::partition+0x8ab>
+  1bf789:	7b de                	jnp    1bf769 <rheon::research_public_call::reference::Work::partition+0x889>
+  1bf78b:	48 83 fb 41          	cmp    $0x41,%rbx
+  1bf78f:	76 cc                	jbe    1bf75d <rheon::research_public_call::reference::Work::partition+0x87d>
+  1bf791:	48 8d 15 70 d0 11 00 	lea    0x11d070(%rip),%rdx        # 2dc808 <anon.392e2ff17addc09cef8842235d7eeffb.131.llvm.18261267909542593457+0x2450>
+  1bf798:	be 42 00 00 00       	mov    $0x42,%esi
+  1bf79d:	48 89 df             	mov    %rbx,%rdi
+  1bf7a0:	ff 15 aa 40 13 00    	call   *0x1340aa(%rip)        # 2f3850 <_DYNAMIC+0x290>
+  1bf7a6:	48 8d 15 8b d0 11 00 	lea    0x11d08b(%rip),%rdx        # 2dc838 <anon.392e2ff17addc09cef8842235d7eeffb.131.llvm.18261267909542593457+0x2480>
+  1bf7ad:	be 48 00 00 00       	mov    $0x48,%esi
+  1bf7b2:	48 89 df             	mov    %rbx,%rdi
+  1bf7b5:	ff 15 95 40 13 00    	call   *0x134095(%rip)        # 2f3850 <_DYNAMIC+0x290>
+  1bf7bb:	48 8d 15 8e d0 11 00 	lea    0x11d08e(%rip),%rdx        # 2dc850 <anon.392e2ff17addc09cef8842235d7eeffb.131.llvm.18261267909542593457+0x2498>
+  1bf7c2:	be 42 00 00 00       	mov    $0x42,%esi
+  1bf7c7:	4c 89 ff             	mov    %r15,%rdi
+  1bf7ca:	ff 15 80 40 13 00    	call   *0x134080(%rip)        # 2f3850 <_DYNAMIC+0x290>
+  1bf7d0:	48 8d 94 24 f0 04 00 	lea    0x4f0(%rsp),%rdx
+  1bf7d7:	00 
+  1bf7d8:	4c 89 e6             	mov    %r12,%rsi
+  1bf7db:	e8 30 70 02 00       	call   1e6810 <core::slice::sort::stable::driftsort_main>
+  1bf7e0:	e9 67 ff ff ff       	jmp    1bf74c <rheon::research_public_call::reference::Work::partition+0x86c>
+  1bf7e5:	cc                   	int3
+  1bf7e6:	cc                   	int3
+  1bf7e7:	cc                   	int3
+  1bf7e8:	cc                   	int3
+  1bf7e9:	cc                   	int3
+  1bf7ea:	cc                   	int3
+  1bf7eb:	cc                   	int3
+  1bf7ec:	cc                   	int3
+  1bf7ed:	cc                   	int3
+  1bf7ee:	cc                   	int3
+  1bf7ef:	cc                   	int3
+
