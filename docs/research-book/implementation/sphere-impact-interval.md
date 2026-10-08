@@ -119,3 +119,29 @@ with explicit radius, squared-clearance, vertex-support and outward premises.
 Finite ledgers telescope only under correspondence of their increments to actual
 physics or time. The completion statement requires every requested duration to
 be consumed. No theorem identifies rounded diagnostic sums with exact ledgers.
+
+## Reproducible local qualification
+
+Run `tools/qualify_sphere_interval.py --output /absolute/fresh/external/path
+--lean-bin /absolute/lean --lean-dependencies /absolute/pinned/packages` in a clean
+committed checkout with Rust 1.92.0, Lean 4.19.0, Python with mpmath and matplotlib.
+This opt-in local script never requests hosted CI. It freshly builds every Rheon
+proof from current source, checks all nine pinned third-party revisions, audits
+axioms (including injected axiom/sorry rejection), and runs native debug/release
+contracts, new sequence labs plus the original PR36/PR35 actual-native oracles.
+The 27 sequence fixtures compare Fraction corridor ledgers, independently found
+finite edge/face roots and Rodrigues mesh poses, including 64 accepted impacts,
+63-impact budget exhaustion, e=0 tangent coast, a two-impact edge/face conservative
+stop and the floor/wall resting-manifold boundary. Twelve deliberate schema,
+geometry, pose, accounting and completion forgeries must reject under normal and
+optimized Python. The fixed 1e-12 algebra test tolerance is separate from measured
+physical fixture errors and the API's gap/time policies. Native raw inputs,
+JSON, independent reference ledgers, fresh proof logs, binary hashes and actual
+stored sequence JPEG stay outside Git. All prior PR36 tracked files are protected
+except the declared exports/private adapter, root proof imports/audit/inventory
+and one narrow ignore; the adapter has an explicit frozen-source hash gate.
+
+Independent review additionally compiles the actual exact-product Rust module
+into an external harness and compares it to Fraction across normal/subnormal,
+carry, cancellation and extreme bit patterns. Its final receipt is bound to the
+final source HEAD; development evidence is not inherited as qualification.

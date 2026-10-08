@@ -192,6 +192,13 @@ fn cancellation_and_later_motion_refusal_retain_the_accepted_prefix() {
     for stage in [
         SphereIntervalStage::BetweenSegments,
         SphereIntervalStage::Contact(SphereContactStage::Query),
+        SphereIntervalStage::Contact(SphereContactStage::Coast(RigidMotionStage::Admission)),
+        SphereIntervalStage::Contact(SphereContactStage::Coast(RigidMotionStage::LoadAdmission)),
+        SphereIntervalStage::Contact(SphereContactStage::Coast(RigidMotionStage::LoadReduction)),
+        SphereIntervalStage::Contact(SphereContactStage::Coast(RigidMotionStage::Kick)),
+        SphereIntervalStage::Contact(SphereContactStage::Coast(RigidMotionStage::Drift)),
+        SphereIntervalStage::Contact(SphereContactStage::Coast(RigidMotionStage::Geometry)),
+        SphereIntervalStage::Contact(SphereContactStage::Impact),
         SphereIntervalStage::Contact(SphereContactStage::Publication),
     ] {
         let mut b = body([0.; 3], [4., 0., 0.], [0.; 3]);
