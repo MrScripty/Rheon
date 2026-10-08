@@ -84,6 +84,152 @@ fn profiles(g: &GridGeometry, axis: Axis, profile: &[f32]) -> [Vec<f32>; 3] {
 }
 
 #[test]
+fn no_slip_exact_stability_edge_and_one_ulp_incompatibility() {
+    let (g, s) = fixture(Axis::Y, 3, 0.0);
+    let mut u = profiles(&g, Axis::Y, &[0.0, 0.0, 1.0]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    let mut workspace = ColumnShearWorkspace::new(g.clone(), Axis::Y, 1 << 20).unwrap();
+    let walls = [0.0_f32, 1.0].map(|speed| ColumnShearBoundary::NoSlip {
+        velocity: [speed, 0.0, 0.0],
+    });
+    let r = workspace
+        .update_with_boundaries(
+            ColumnShearInputs {
+                dt: 0.5,
+                ..input(s.state(), &u)
+            },
+            walls,
+            muts(&mut out),
+            |_| false,
+        )
+        .unwrap();
+    assert_eq!(r.shear.stability_number, 1.0);
+    let mut expected = profiles(&g, Axis::Y, &[0.0, 0.5, 1.0]);
+    expected[2].fill(0.0);
+    assert_eq!(out, expected);
+    let before = out.clone();
+    assert!(
+        matches!(workspace.update_with_boundaries(ColumnShearInputs {
+        dt: 0.5_f64.next_up(), ..input(s.state(), &u)
+    }, walls, muts(&mut out), |_| false), Err(ColumnShearError::StabilityLimit { actual, limit: 1.0 }) if actual > 1.0)
+    );
+    assert_eq!(out, before);
+    let incompatible = [
+        walls[0],
+        ColumnShearBoundary::NoSlip {
+            velocity: [1.0_f32.next_up(), 0.0, 0.0],
+        },
+    ];
+    assert_eq!(
+        workspace.update_with_boundaries(
+            input(s.state(), &u),
+            incompatible,
+            muts(&mut out),
+            |_| false
+        ),
+        Err(ColumnShearError::IncompatibleNoSlip)
+    );
+    assert_eq!(out, before);
+}
+
+#[test]
+fn no_slip_stored_subnormal_and_reaction_impulse_overflow_are_transactional() {
+    let (g, s) = fixture(Axis::Y, 3, 0.0);
+    let mut u = profiles(&g, Axis::Y, &[0.0, 0.0, f32::MIN_POSITIVE]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    out[0].fill(7.0);
+    let before = out.clone();
+    let mut workspace = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    let walls = [0.0_f32, f32::MIN_POSITIVE].map(|speed| ColumnShearBoundary::NoSlip {
+        velocity: [speed, 0.0, 0.0],
+    });
+    // Stable exact-real interior speed is MIN_POSITIVE/8, which the declared
+    // stored-f32 policy refuses instead of flushing or publishing a subnormal.
+    assert_eq!(
+        workspace.update_with_boundaries(input(s.state(), &u), walls, muts(&mut out), |_| false),
+        Err(ColumnShearError::ArithmeticFailure)
+    );
+    assert_eq!(out, before);
+    let (g, s) = fixture(Axis::Y, 2, 0.0);
+    let mut u = profiles(&g, Axis::Y, &[0.0, 1.0]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    out[0].fill(7.0);
+    let before = out.clone();
+    let mut workspace = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    let walls = [0.0_f32, 1.0].map(|speed| ColumnShearBoundary::NoSlip {
+        velocity: [speed, 0.0, 0.0],
+    });
+    // No free row imposes a diffusion step restriction, but an unrepresentable
+    // dt * reaction force still refuses before publication.
+    assert_eq!(
+        workspace.update_with_boundaries(
+            ColumnShearInputs {
+                dt: f64::MAX / 2.0,
+                ..input(s.state(), &u)
+            },
+            walls,
+            muts(&mut out),
+            |_| false
+        ),
+        Err(ColumnShearError::ArithmeticFailure)
+    );
+    assert_eq!(out, before);
+}
+
+#[test]
+fn no_slip_invalid_scalars_and_output_shape_do_not_publish() {
+    let (g, s) = fixture(Axis::Y, 3, 0.0);
+    let mut u = profiles(&g, Axis::Y, &[0.0, 0.5, 1.0]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    out[0].fill(7.0);
+    let before = out.clone();
+    let mut workspace = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    let walls = [0.0_f32, 1.0].map(|speed| ColumnShearBoundary::NoSlip {
+        velocity: [speed, 0.0, 0.0],
+    });
+    for (rho, mu, dt, error) in [
+        (0.0, 1.0, 0.125, ColumnShearError::InvalidDensity),
+        (f64::NAN, 1.0, 0.125, ColumnShearError::InvalidDensity),
+        (1.0, -1.0, 0.125, ColumnShearError::InvalidCoefficient),
+        (
+            1.0,
+            f64::INFINITY,
+            0.125,
+            ColumnShearError::InvalidCoefficient,
+        ),
+        (1.0, 1.0, 0.0, ColumnShearError::InvalidTimeStep),
+        (1.0, 1.0, f64::INFINITY, ColumnShearError::InvalidTimeStep),
+    ] {
+        assert_eq!(
+            workspace.update_with_boundaries(
+                ColumnShearInputs {
+                    density: rho,
+                    dynamic_viscosity: mu,
+                    dt,
+                    ..input(s.state(), &u)
+                },
+                walls,
+                muts(&mut out),
+                |_| false
+            ),
+            Err(error)
+        );
+        assert_eq!(out, before);
+    }
+    let [x, y, z] = &mut out;
+    assert_eq!(
+        workspace
+            .update_with_boundaries(input(s.state(), &u), walls, [&mut x[..1], y, z], |_| false),
+        Err(ColumnShearError::GeometryMismatch)
+    );
+    assert_eq!(out, before);
+}
+
+#[test]
 fn exact_no_slip_reactions_mass_work_and_momentum_all_axes() {
     for axis in [Axis::X, Axis::Y, Axis::Z] {
         let normal = [Axis::X, Axis::Y, Axis::Z]

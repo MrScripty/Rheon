@@ -80,7 +80,9 @@ target/release/examples/column_no_slip /tmp/rheon-no-slip-lab
 Open `index.html` beside `results.json` and the three CSV files. The case selector
 chooses 8/16-layer two-wall no-slip or 16-layer lower-Navier/upper-no-slip. The
 time control selects five actual native snapshots, including the compatible
-initial field. It neither interpolates nor recomputes a trajectory in JavaScript.
+initial field. A prominent snapshot-playback note beside the controls states
+that the three recorded cases are fixed and provide no live recomputation or
+general liquid solver. It neither interpolates nor recomputes a trajectory in JavaScript.
 The ledger displays cumulative reaction and total impulses, signed work,
 bulk/relative-wall losses, initial energy, explicit and rounding corrections.
 

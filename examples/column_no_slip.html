@@ -6,8 +6,8 @@
 </style>
 <h1>Exact no-slip, visible reaction</h1>
 <p>A moving wall fixes the liquid's tangential endpoint speed. The reaction impulse maintains that constraint and transfers momentum and work to the liquid. Explore three saved native Rust cases in a fixed 1 m × 1 m² slab.</p>
-<section><label for="case">Boundary case</label><select id="case"></select>
-<label for="snapshot">Native snapshot: <strong id="time"></strong></label><input id="snapshot" type="range" min="0" max="4" step="1" value="4">
+<section><p role="note"><strong>Snapshot playback.</strong> These controls select recorded profiles from three fixed native runs. They do not run a live simulation, recompute changed parameters, or provide a general liquid solver.</p><label for="case">Saved native case</label><select id="case"></select>
+<label for="snapshot">Saved native snapshot: <strong id="time"></strong></label><input id="snapshot" type="range" min="0" max="4" step="1" value="4">
 <button id="previous" type="button">Earlier snapshot</button> <button id="next" type="button">Later snapshot</button>
 <p id="parameters"></p><p class="legend"><span class="native">● Native profile</span><span class="continuum">— Continuum steady reference</span><span class="discrete">⋯ Fixed-basis discrete equilibrium</span></p>
 <div class="layout"><svg id="chart" viewBox="0 0 530 440" role="img" aria-label="Tangential speed in metres per second against slab height in metres"></svg><div><table><thead><tr><th>Ledger through selected time</th><th>Value</th></tr></thead><tbody id="ledger"></tbody></table><p><a id="csv">Download all five native profiles as CSV</a></p></div></div></section>
