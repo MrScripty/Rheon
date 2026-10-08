@@ -6,6 +6,7 @@ import sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import numpy as np
 
@@ -42,12 +43,14 @@ def render(source, output):
                 ax.quiver(*point,*(.03*impulse),color="#166534",arrow_length_ratio=.2)
             ax.set_xlim(lo[0],hi[0]);ax.set_ylim(lo[1],hi[1]);ax.set_zlim(lo[2],hi[2]);ax.set_box_aspect(hi-lo)
             ax.view_init(22,-65);ax.set_xlabel("x / m");ax.set_ylabel("y / m");ax.set_zlabel("z / m")
-            ax.set_title(f"{name}: actual {phase}, t={frame['time_s']:.6g} s",fontsize=11)
+            ax.set_title(f"{name.replace('_',' ')}: actual {phase}, t={frame['time_s']:.6g} s",fontsize=11)
+            for axis in [ax.xaxis,ax.yaxis,ax.zaxis]:axis.set_major_locator(MaxNLocator(3))
             text=f"V={np.array2string(velocity,precision=4)} m/s\nω={np.array2string(omega,precision=4)} rad/s"
             if phase=="after":
                 impact=raw["result"]["impact"]
                 text+=f"\n{impact['candidate']}; unused={raw['result']['unused_interval_s']:.6g} s\nΔT={impact['kinetic_after_j']-impact['kinetic_before_j']:.6g} J"
-            ax.text2D(.02,.02,text,transform=ax.transAxes,fontsize=9)
+            ax.text2D(.02,.97,text,transform=ax.transAxes,fontsize=9,va="top",
+                      bbox=dict(facecolor="white",edgecolor="none",alpha=.9,pad=3))
     fig.suptitle("Isolated Coulomb sphere impact — actual native states",fontsize=17)
     fig.text(.5,.02,"Blue: retained mesh + declared sphere; red: V × 0.08 s; purple: ω × 0.04 m·s; green: J × 0.03 m/(N·s).\nStatic finite facets use actual vertices; view clips distant geometry. No post-impact trajectory is integrated.",ha="center",fontsize=10)
     fig.subplots_adjust(top=.94,bottom=.09,hspace=.32,wspace=.12)
