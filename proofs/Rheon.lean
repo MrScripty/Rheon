@@ -13,3 +13,4 @@ import Rheon.ObstacleOperators
 
 import Rheon.AlignedStrain
 import Rheon.MeshTraction
+import Rheon.RigidImpulse

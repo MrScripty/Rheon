@@ -159,7 +159,18 @@ run_cmd do
     `Rheon.MeshTraction.resultant_closed_form,
     `Rheon.MeshTraction.point_virtual_work,
     `Rheon.MeshTraction.triangle_virtual_work,
-    `Rheon.MeshTraction.reference_shift]
+    `Rheon.MeshTraction.reference_shift,
+    `Rheon.RigidImpulse.kick,
+    `Rheon.RigidImpulse.kinetic,
+    `Rheon.RigidImpulse.midpoint,
+    `Rheon.RigidImpulse.residual,
+    `Rheon.RigidImpulse.component_momentum,
+    `Rheon.RigidImpulse.component_residual_work,
+    `Rheon.RigidImpulse.component_impulse_work,
+    `Rheon.RigidImpulse.six_component_impulse_work,
+    `Rheon.RigidImpulse.six_component_residual_work,
+    `Rheon.RigidImpulse.component_kinetic_nonnegative,
+    `Rheon.RigidImpulse.inertia_triangle_inequalities]
   for name in expected do
     let _ ← getConstInfo name
     pure ()
