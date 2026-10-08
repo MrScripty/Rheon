@@ -25,9 +25,9 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def run(command, output, name, cwd=ROOT):
+def run(command, output, name, cwd=ROOT, env=None):
     with (output / (name + '.log')).open('xb') as log:
-        result = subprocess.run(command, cwd=cwd, stdout=log,
+        result = subprocess.run(command, cwd=cwd, stdout=log, env=env,
                                 stderr=subprocess.STDOUT, timeout=1800)
     if result.returncode:
         raise RuntimeError(f'{name} failed ({result.returncode}); see external log')
@@ -43,14 +43,20 @@ def qualify(args):
                             '--is-inside-work-tree'], capture_output=True)
     if probe.returncode == 0:
         raise ValueError('generated evidence must be outside Git')
-    dirty = bool(git('status', '--porcelain'))
+    source_status = git('status', '--porcelain')
+    dirty = bool(source_status)
     if dirty and not args.allow_dirty:
         raise ValueError('qualification requires a clean committed source tree')
     subprocess.run(['git', 'merge-base', '--is-ancestor', BASE, 'HEAD'],
                    cwd=ROOT, check=True)
+    for path in ['tests/aligned_strain_contract.rs', 'tools/test_aligned_strain_oracle.py',
+                 'examples/aligned_strain.rs']:
+        if not (ROOT / path).is_file():
+            raise ValueError('missing required qualification source: ' + path)
     output.mkdir(parents=True, exist_ok=False)
     head, tree = git('rev-parse', 'HEAD'), git('rev-parse', 'HEAD^{tree}')
-    sources = {p: digest(ROOT / p) for p in git('ls-files').splitlines()
+    source_paths = git('ls-files', '--cached', '--others', '--exclude-standard').splitlines()
+    sources = {p: digest(ROOT / p) for p in source_paths
                if (ROOT / p).is_file()}
     manifest = {'schema': 'rheon-reconstructed-aligned-strain-qualification-v1',
                 'base': BASE, 'source_head': head, 'source_tree': tree,
@@ -67,11 +73,6 @@ def qualify(args):
                            'obstacle_flow_contract', '--test', 'static_obstacle_contract']),
         ('rust-build', ['cargo', 'build', '--locked', '--no-default-features',
                         '--example', 'aligned_strain']),
-        ('oracle-tests', [sys.executable, '-m', 'unittest', 'discover', '-s',
-                          'tools', '-p', 'test_aligned_strain_oracle.py', '-v']),
-        ('oracle-tests-optimized', [sys.executable, '-O', '-m', 'unittest',
-                                    'discover', '-s', 'tools', '-p',
-                                    'test_aligned_strain_oracle.py', '-v']),
     ]
     if args.lean:
         commands.extend([
@@ -91,10 +92,38 @@ def qualify(args):
             target = ROOT / target
         executable = target / 'debug/examples/aligned_strain'
         records = output / 'native.tsv'
-        run([str(executable), str(records)], output, 'native-run')
-        run([sys.executable, 'tools/aligned_strain_oracle.py', str(records),
-             '--output', str(output / 'oracle-summary.json')], output, 'native-oracle-comparison')
-        if git('rev-parse', 'HEAD') != head or any(digest(ROOT / p) != h for p, h in sources.items()):
+        native_cases = [
+            ('native', []),
+            ('unit-center-cube', ['3','3','3','1','1','1','0','0','0',
+                                  '1','1','1','2','2','2','1','1']),
+            ('represented-nonmidpoint', ['4','5','3','0.1','0.3','0.7','0.1','0.2','0.3',
+                                         '1','2','1','3','3','2','2','0.375']),
+            ('reflected-anisotropic', ['5','4','3','2','3','5','-7','2','-1',
+                                       '2','1','1','4','3','2','3','0.25']),
+            ('large-origin-nonmidpoint', ['3','3','3','0.3','0.7','1.1',
+                                         '100000000','-100000000','0.1',
+                                         '1','1','1','2','2','2','2','0.375']),
+        ]
+        for name, parameters in native_cases:
+            case_records = output / (name + '.tsv')
+            command = [str(executable), *parameters, str(case_records)]
+            run(command, output, name + '-run')
+            manifest['commands'].append({'name': name + '-run', 'argv': command, 'exit': 0})
+            command = [sys.executable, 'tools/aligned_strain_oracle.py', str(case_records),
+                       '--negative-tests', '--output', str(output / (name + '-oracle-summary.json'))]
+            run(command, output, name + '-oracle-comparison')
+            manifest['commands'].append({'name': name + '-oracle-comparison',
+                                         'argv': command, 'exit': 0})
+        native_env = dict(os.environ, RHEON_ALIGNED_NATIVE_DUMP=str(records))
+        for name, flags in [('oracle-tests', []), ('oracle-tests-optimized', ['-O'])]:
+            command = [sys.executable, *flags, '-m', 'unittest', 'discover', '-s',
+                       'tools', '-p', 'test_aligned_strain_oracle.py', '-v']
+            run(command, output, name, env=native_env)
+            manifest['commands'].append({'name': name, 'argv': command, 'exit': 0})
+        if (git('rev-parse', 'HEAD') != head or
+                git('status', '--porcelain') != source_status or
+                git('ls-files', '--cached', '--others', '--exclude-standard').splitlines() != source_paths or
+                any(not (ROOT / p).is_file() or digest(ROOT / p) != h for p, h in sources.items())):
             raise RuntimeError('source changed during qualification')
         manifest.update(status='passed', lean_checked=args.lean,
                         executable_sha256=digest(executable),

@@ -141,3 +141,9 @@ mod obstacle_shear;
 pub use obstacle_shear::{
     ObstacleShearForce, ObstacleShearReport, ObstacleShearWall, StaticObstacleShear,
 };
+
+mod aligned_strain;
+pub use aligned_strain::{
+    AlignedStrain, AlignedStrainBoundary, AlignedStrainError, AlignedStrainFace,
+    AlignedStrainLedger, AlignedStrainRow, AlignedStrainTerm,
+};

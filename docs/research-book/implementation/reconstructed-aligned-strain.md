@@ -166,11 +166,11 @@ For `H(u)=sum_f m_f u_f^2/2`, direct expansion and the work identity give
              <= -t (1-t B/2) D(u) <= 0       if t B<=2.
 
 The Lean statement exposes positive masses, nonnegative fixed weights,
-nonnegative time and viscosity, the exact coordinate step, the quadratic
-operator bound, and `dt*mu*B<=2`. The algebraic proof of energy decrease is
-conditional on that operator-bound premise; the row-sum argument above
-explains how the assembled finite matrix supplies it. No assumption is hidden
-inside the timestep test.
+nonnegative time and viscosity, the exact coordinate step, the per-face
+coefficient bound, and `dt*mu*B<=2`. Its `coefficient_force_bound` theorem
+derives the quadratic operator bound directly from those coefficients using
+weighted finite Cauchy and sum exchange, including zero rows. No abstract
+operator-norm premise is assumed in the energy or composition theorem.
 
 For pressure incidence `P`, the matching correction is
 `z_f=v_f-dt*(P^T p)_f/(rho*d_f)`, with the same face space and

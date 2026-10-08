@@ -4,9 +4,18 @@ on:
     paths:
       - 'src/aligned_strain.rs'
       - 'src/lib.rs'
+      - 'src/geometry.rs'
+      - 'src/collision.rs'
+      - 'src/static_obstacle.rs'
+      - 'src/obstacle_pressure.rs'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
       - 'tests/aligned_strain_contract.rs'
       - 'examples/aligned_strain.rs'
       - 'tools/*aligned_strain*.py'
+      - 'docs/research-book/implementation/reconstructed-aligned-strain.md'
+      - 'proofs/Rheon/AlignedStrain.lean'
       - '.github/workflows/aligned-strain.yml'
   workflow_dispatch:
 permissions:

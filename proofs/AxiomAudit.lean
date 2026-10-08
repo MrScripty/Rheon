@@ -123,7 +123,29 @@ run_cmd do
     `Rheon.ObstacleOperators.two_wall_shear_momentum,
     `Rheon.ObstacleOperators.unforced_shear_energy_nonincrease,
     `Rheon.ObstacleOperators.reducedShearGradient,
-    `Rheon.ObstacleOperators.reduced_symmetric_strain_dissipation]
+    `Rheon.ObstacleOperators.reduced_symmetric_strain_dissipation,
+    `Rheon.AlignedStrain.gather,
+    `Rheon.AlignedStrain.strainOperator,
+    `Rheon.AlignedStrain.strainLoss,
+    `Rheon.AlignedStrain.rowAbs,
+    `Rheon.AlignedStrain.faceBound,
+    `Rheon.AlignedStrain.forceNorm,
+    `Rheon.AlignedStrain.euler,
+    `Rheon.AlignedStrain.transpose_work,
+    `Rheon.AlignedStrain.loss_nonnegative,
+    `Rheon.AlignedStrain.transpose_pairing,
+    `Rheon.AlignedStrain.operator_symmetric,
+    `Rheon.AlignedStrain.row_abs_nonnegative,
+    `Rheon.AlignedStrain.coefficient_le_row_abs,
+    `Rheon.AlignedStrain.zero_row_coefficient,
+    `Rheon.AlignedStrain.zero_row_gather,
+    `Rheon.AlignedStrain.face_cauchy,
+    `Rheon.AlignedStrain.coefficient_force_bound,
+    `Rheon.AlignedStrain.euler_energy_identity,
+    `Rheon.AlignedStrain.euler_energy_nonincrease,
+    `Rheon.AlignedStrain.euler_exact_projection_nonincrease,
+    `Rheon.AlignedStrain.unit_corner_block,
+    `Rheon.AlignedStrain.flat_conductance]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

@@ -36,4 +36,29 @@ remain historical evidence for PR28 alone.
   oracle instances active. Implementation waits for the derived stencil.
 - GitHub connector authenticated as `MrScripty`. Shell `gh` token is invalid;
   connector Git object writes are the available authorized publication path.
-- Fresh baseline and all reconstruction qualification are pending.
+- Fresh unchanged-PR28 scoped baseline passed 16 obstacle-flow and 10
+  static-geometry contracts. These are new baseline results, not qualification
+  of the reconstruction.
+
+## Reconstructed source checkpoint
+
+The original viscosity and variational-pressure papers were inspected; the
+derivation records primary citations and labels the aligned sector/corner
+stencil as a new choice. Represented center/edge distances determine actual
+fluid-quadrant weights. Outer engineering-shear samples vanish analytically
+under the sealed free-slip trace model; every included internal fluid-sector
+row, including an empty coefficient row, is retained.
+
+Immutable Rust actions and force/work diagnostics, an independent Fraction
+oracle, and conditional Lean proof sources have been newly written. The first
+focused Rust contracts and actual-native comparisons pass provisionally.
+The rational central unit cube independently yields 48 active faces, 210
+rows, 6 zero rows and B=17; actual native unit and anisotropic/nonmidpoint
+fixtures agree with the oracle, with deliberate-corruption rejection checks.
+Final clean-source receipts and independent review are still pending.
+
+Lean 4.19.0 and exact manifest dependencies are installed. The official mathlib
+cache returned HTTP 403; no cache was obtained. The pinned dependencies are
+compiling from source. The new coefficient-bound, Euler and matched-projection
+proofs are candidate sources until kernel compilation and axiom audit pass.
+No draft, main merge or deployment has occurred.
