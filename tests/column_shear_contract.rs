@@ -511,6 +511,33 @@ fn zero_wall_coefficient_preserves_original_update_and_wall_cancellation_preserv
 }
 
 #[test]
+fn moving_wall_extracts_energy_when_fluid_outruns_it() {
+    let (g, s) = fixture(Axis::Y, 1, 0.0);
+    let mut u = profiles(&g, Axis::Y, &[2.0]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g.clone(), Axis::Y, 1 << 20).unwrap();
+    let walls = [ColumnShearWall {
+        velocity: [1.0, 0.0, 0.0],
+        friction: 1.0,
+    }; 2];
+    let r = w
+        .update_with_walls(input(s.state(), &u), walls, muts(&mut out), |_| false)
+        .unwrap();
+    let area = r.shear.geometry.area;
+    assert_eq!(out[0][g.face_index(Axis::X, [0; 3]).unwrap()], 1.75);
+    assert_eq!(r.wall_force, [[-area, 0.0, 0.0]; 2]);
+    assert_eq!(r.actuator_work, -0.25 * area);
+    assert_eq!(r.wall_dissipation_before, 2.0 * area);
+    assert_eq!(r.shear.kinetic_before, 2.0 * area);
+    assert_eq!(r.shear.kinetic_after, 1.53125 * area);
+    assert!(r.shear.identity_error.abs() <= r.shear.energy_budget);
+    for d in 0..3 {
+        assert!(r.shear.momentum_error[d].abs() <= r.shear.momentum_budget[d]);
+    }
+}
+
+#[test]
 fn signed_wall_motion_and_unsupported_wall_laws_are_explicit() {
     let (g, s) = fixture(Axis::Y, 1, 0.0);
     let u = profiles(&g, Axis::Y, &[0.0]);

@@ -81,8 +81,11 @@ it does not pretend the browser runs a liquid solver.
 
 For symmetric slip length ell=mu/beta the continuum steady reference is
 u(y)=(y+ell)/(H+2ell). The discrete fixed-basis equilibrium at node j is
-u_j=(j h+ell)/((L-1)h+2ell). The latter independently checks integration error;
-their difference exposes the endpoint spatial error. The fixed engineering
+u_j=(j h+ell)/((L-1)h+2ell). Distance from the latter checks closeness to the
+known discrete equilibrium and combines unfinished physical relaxation,
+explicit-step transient error and stored-f32 rounding; it does not isolate
+integration error or establish temporal order. The difference between the two
+steady references exposes the endpoint spatial error. The fixed engineering
 acceptance criteria require decreasing continuum max error at 8→16 layers,
 finest error <0.01 m/s, and both discrete-equilibrium errors <5e-4 m/s. The
 other parameter cases are reported as finite transients, not automatically
@@ -94,3 +97,22 @@ outside Git. Existing failed numerical assertions, E2 evidence and pressure
 selection refusal remain preserved in their separate frozen branches. This
 milestone does not qualify variable density, general 3D strain, collision-mesh
 fluid topology, interface evolution, contact-angle physics or material fits.
+
+## Primary-source scope
+
+Qian, Wang and Sheng, *Physical Review E* 68, 016306 (2003),
+[original author-hosted paper](https://sheng.people.ust.hk/wp-content/uploads/2017/08/Molecular-Scale-Contact-Line-Hydrodynamics-of-Immiscible-Flows.pdf),
+describes ordinary Navier slip away from a contact line and gives slip length
+as viscosity divided by the wall coefficient. Its generalized contact-line
+condition additionally includes uncompensated Young stress. This operation
+implements only the single-phase linear wall-traction law, not that generalized
+condition or the paper's diffuse-interface model.
+
+The original [Huh–Scriven publisher abstract](https://www.sciencedirect.com/science/article/abs/pii/0021979771901883)
+(1971, DOI 10.1016/0021-9797(71)90188-3) reports the moving-contact-line stress
+and dissipation singularity under adherence. The original
+[Cox publisher abstract](https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/abs/dynamics-of-the-spreading-of-liquids-on-a-solid-surface-part-1-viscous-flow/97CAB1BF3439F4B1AA429FFA37C80C42)
+(1986, DOI 10.1017/S0022112086000332) treats small-capillary-number spreading
+with microscopic slip or another local mechanism. Those two abstract-level
+checks motivate the contact-line exclusions; no full-text formula from either
+is claimed to be implemented here.
