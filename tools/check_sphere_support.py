@@ -147,42 +147,73 @@ def close_vector(actual, expected, label):
         require(abs(x-y)<=Q(1,10**12)*max(Q(1),abs(y)),label)
 
 
+FRAME_KEYS = {'time_s','center','q','velocity','omega','generation','surface_version','vertices'}
+RECORD_KEYS = {'mesh_force','mesh_torque','gravity_force','external_force','support_force','support_torque','lever','net_force','net_torque','normal','normal_defect','magnitude','probe_point','probe_defect','mesh_impulse','gravity_impulse','support_impulse','impulse_defect','angular_impulse_defect','external_power','support_power','external_work','support_work','requested_h','actual_elapsed','clock_defect','proxy_force','after'}
+
+
+def check_frame(state, a):
+    require(type(state) is dict and set(state)==FRAME_KEYS,'frame schema')
+    for key in ['center','velocity','omega']:vector(state[key])
+    require(type(state['q']) is list and len(state['q'])==4,'quaternion')
+    for x in state['q']:scalar(x)
+    scalar(state['time_s'])
+    for key in ['generation','surface_version']:require(type(state[key]) is int,key)
+    require(type(state['vertices']) is list and len(state['vertices'])==len(a['moving']),'vertex schema')
+    for p in state['vertices']:vector(p)
+
+
+def exact_vector(actual, expected, label):
+    require(vector(actual)==expected,label)
+
+
 def check(a, result):
-    require(type(result) is dict and type(result.get('records')) is list and type(result.get('status')) is str,'schema')
+    require(type(result) is dict and set(result)=={'initial','records','status','final'} and type(result['records']) is list and type(result['status']) is str,'schema')
     predicted=prediction(a);require(result['status']==predicted,a['name']+' status '+result['status']+' != '+predicted)
     initial=result['initial'];final=result['final']
-    for state in [initial,final]+[r['after'] for r in result['records']]:
-        require(type(state) is dict,'frame')
-        for key in ['center','velocity','omega']:vector(state[key])
-        require(type(state['q']) is list and len(state['q'])==4,'quaternion')
-        for x in state['q']:scalar(x)
-        scalar(state['time_s'])
-        for key in ['generation','surface_version']:require(type(state[key]) is int,key)
-        for p in state['vertices']:vector(p)
+    check_frame(initial,a);check_frame(final,a)
+    expected_initial={key:a[key] for key in ['center','velocity','omega']}
+    expected_initial.update(q=[1.,0.,0.,0.],time_s=a['time'],generation=2,surface_version=4,vertices=a['moving'])
+    require(initial==expected_initial,'initial actual frame differs from input fixture')
+    for r in result['records']:
+        require(type(r) is dict and set(r)==RECORD_KEYS,'record schema')
+        check_frame(r['after'],a)
     if predicted!='Complete':
         require(not result['records'] and initial==final,'refusal changed owner');return
     require(len(result['records'])==max(1,a['steps']),'record count')
     mesh,tau,g,f=loads(a);support=scale(Q(-1),f);p=vector(a['point']);c=vector(a['center']);h=scalar(a['h'])
     previous=initial
     for r in result['records']:
-        for key,expected in [('mesh_force',mesh),('mesh_torque',tau),('gravity_force',g),('external_force',f),('support_force',support),('support_torque',cross(sub(p,c),support)),('lever',sub(p,c)),('net_force',[Q(0)]*3),('net_torque',[Q(0)]*3),('normal',scale(1/scalar(a['radius']),sub(c,p))),('mesh_impulse',scale(h,mesh)),('gravity_impulse',scale(h,g)),('support_impulse',scale(h,support)),('angular_impulse_defect',[Q(0)]*3),('proxy_force',[Q(0)]*3)]:close_vector(r[key],expected,key)
+        # These fixtures have exactly representable P1 resultants and gravity;
+        # a general nearest-rounded reduction does not inherit this assertion.
+        for key,expected in [('mesh_force',mesh),('mesh_torque',tau),('gravity_force',g),('external_force',f),('support_force',support),('support_torque',cross(sub(p,c),support)),('lever',sub(p,c)),('net_force',[Q(0)]*3),('net_torque',[Q(0)]*3),('angular_impulse_defect',[Q(0)]*3),('proxy_force',[Q(0)]*3)]:exact_vector(r[key],expected,key)
+        for key,expected in [('mesh_impulse',mesh),('gravity_impulse',g),('support_impulse',support)]:
+            exact_vector(r[key],[Q(float(h*x)) for x in expected],key+' requested-h product')
+        expected_normal=[float(float(1/scalar(a['radius']))*float(x)) for x in sub(c,p)]
+        exact_vector(r['normal'],list(map(Q,expected_normal)),'represented normal estimate')
+        close_vector(r['normal'],scale(1/scalar(a['radius']),sub(c,p)),'physical unit normal')
+        normal_norm=math.hypot(math.hypot(r['normal'][0],r['normal'][1]),r['normal'][2])
+        require(scalar(r['normal_defect'])==Q(normal_norm-1),'actual normal norm defect')
+        magnitude=math.hypot(math.hypot(float(support[0]),float(support[1])),float(support[2]))
+        require(scalar(r['magnitude'])==Q(magnitude),'support magnitude')
+        require(scalar(r['requested_h'])==h,'requested equivalent duration')
         for key in ['external_power','support_power','external_work','support_work']:require(scalar(r[key])==0,key)
-        for key in ['normal_defect','magnitude','requested_h','actual_elapsed','clock_defect']:scalar(r[key])
+        for key in ['actual_elapsed','clock_defect']:scalar(r[key])
         for key in ['probe_point','probe_defect','impulse_defect']:vector(r[key])
         close_vector(r['probe_point'],p,'geometric probe')
         require(r['probe_defect']==[r['probe_point'][i]-a['point'][i] for i in range(3)],'actual probe defect')
-        require(abs(float(r['magnitude'])-math.hypot(*map(float,support)))<1e-12*max(1.,float(r['magnitude'])),'support magnitude')
-        # Native proposal impulse closure is independently recomputed from its
-        # retained component products, rather than silently set to zero.
+        # Component impulse closure uses independently evaluated stored products.
         defect=[float(float(r['mesh_impulse'][i]+r['gravity_impulse'][i])+r['support_impulse'][i]) for i in range(3)]
-        require(r['impulse_defect']==defect,'represented component impulse ledger')
+        exact_vector(r['impulse_defect'],list(map(Q,defect)),'represented component impulse ledger')
         after=r['after']
         for key in ['center','q','velocity','omega','vertices']:require(after[key]==initial[key],'stationary '+key)
         if a['steps']:
+            require(scalar(after['time_s'])==Q(float(previous['time_s']+a['h'])),'matched stored clock addition')
             elapsed=scalar(after['time_s'])-scalar(previous['time_s'])
             require(scalar(r['actual_elapsed'])==elapsed and scalar(r['clock_defect'])==elapsed-h,'clock ledger')
             for key in ['generation','surface_version']:require(after[key]==previous[key]+1,'stamp')
-        else:require(after==initial,'proposal mutated owner')
+        else:
+            require(after==initial,'proposal mutated owner')
+            require(scalar(r['actual_elapsed'])==0 and scalar(r['clock_defect'])==0,'proposal has no elapsed clock')
         previous=after
     require(final==previous,'final')
 
@@ -195,17 +226,36 @@ def qualify(executable, output):
         (output/(a['name']+'.input')).write_text(encode(a));(output/(a['name']+'.json')).write_text(raw.stdout)
         result=json.loads(raw.stdout);check(a,result)
         summaries.append(dict(name=a['name'],status=result['status'],records=len(result['records'])))
-    # Hostile schema is rejected even when bool compares equal to zero/one.
+    # Exhaustive numeric leaf Boolean/finite perturbation probes on a small
+    # immutable proposal. These tests exercise schemas and evidence identities.
     import copy
-    a=fixtures()[0];result=json.loads((output/(a['name']+'.json')).read_text())
-    probes=[('support_force',0),('external_power',None),('normal',0),('clock_defect',None)]
-    for field,index in probes:
-        forged=copy.deepcopy(result)
-        if index is None:forged['records'][0][field]=False
-        else:forged['records'][0][field][index]=False
+    a=next(a for a in fixtures() if a['name']=='proposal_only')
+    result=json.loads((output/(a['name']+'.json')).read_text())
+    def leaves(value, path=()):
+        if type(value) is dict:
+            for k,v in value.items():yield from leaves(v,path+(k,))
+        elif type(value) is list:
+            for i,v in enumerate(value):yield from leaves(v,path+(i,))
+        elif type(value) in (int,float):yield path,value
+    def forged_at(path, replacement):
+        forged=copy.deepcopy(result);node=forged
+        for k in path[:-1]:node=node[k]
+        node[path[-1]]=replacement
+        return forged
+    failures=[]
+    for path,value in leaves(result):
+        for replacement in [False,True,value+1]:
+            try:check(a,forged_at(path,replacement))
+            except ValueError:negative+=1
+            else:failures.append(str(path))
+    for path in [(),('initial',),('records',0),('records',0,'after')]:
+        forged=copy.deepcopy(result);node=forged
+        for k in path:node=node[k]
+        node['unexpected']=0
         try:check(a,forged)
         except ValueError:negative+=1
-        else:raise ValueError('Boolean forgery accepted '+field)
+        else:failures.append('extra key '+str(path))
+    require(not failures,'hostile probes accepted '+str(failures))
     receipt=dict(qualified=True,scenarios=summaries,negative_schema_probes=negative,
                  executable_sha256=hashlib.sha256(Path(executable).read_bytes()).hexdigest(),
                  scope='single-face stationary equilibrium; rational fixture correspondence; no generic IEEE refinement')
