@@ -311,7 +311,13 @@ impl<'a> StaticObstaclePressure<'a> {
         let mut diagonal = allocate(n, 0.0, &mut used, limit)?;
         for (i, &label) in geometry.component_labels().iter().enumerate() {
             checkpoint(&mut cancel, ObstacleFlowStage::Assembly, i)?;
-            if label != NO_FLUID_COMPONENT && gauges[label] == usize::MAX {
+            // Put the unavoidable roundoff-level component compatibility defect
+            // on the least volume-sensitive row. Strict comparison keeps the
+            // lowest index when represented volumes tie; the RHS is unchanged.
+            if label != NO_FLUID_COMPONENT
+                && (gauges[label] == usize::MAX
+                    || geometry.fluid_volumes()[i] > geometry.fluid_volumes()[gauges[label]])
+            {
                 gauges[label] = i;
             }
         }
@@ -357,6 +363,8 @@ impl<'a> StaticObstaclePressure<'a> {
     pub fn allocated_bytes(&self) -> usize {
         self.allocated_bytes
     }
+    /// Largest-volume wet cell per component; lowest index wins exact ties.
+    /// Full residuals still include these rows and incompatible RHS is not shifted.
     pub fn gauge_cells(&self) -> &[usize] {
         &self.gauges
     }
@@ -487,8 +495,12 @@ impl<'a> StaticObstaclePressure<'a> {
                 &mut self.product,
             )?;
             let denominator = dot(&self.direction, &self.product)?;
-            positive(denominator)?;
-            positive(rz)?;
+            // A zero/exhausted or indefinite reduced system is a solver
+            // arithmetic failure, not an invalid caller parameter. In
+            // particular, a retained gauge-row defect cannot be iterated away.
+            if denominator <= 0.0 || rz <= 0.0 {
+                return Err(ObstacleFlowError::ArithmeticFailure);
+            }
             let alpha = div(rz, denominator)?;
             for i in 0..self.pressure.len() {
                 if self.active(i) {

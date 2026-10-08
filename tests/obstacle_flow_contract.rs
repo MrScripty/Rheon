@@ -102,8 +102,9 @@ fn partial_three_dimensional_gradient_is_removed_with_same_owner() {
     assert!(u.iter().flatten().all(|v| v.abs() < 1e-11));
     assert!(r.predicted_divergence_max < 1e-10);
     assert!(r.corrected.unwrap().actual_divergence_max < 1e-10);
+    assert_eq!(p.gauge_cells(), [2]); // First full-volume cell; later ties keep it.
     for (i, &v) in p.pressure().unwrap().iter().enumerate() {
-        let expected = (i % 3) as f64 + 2.0 * ((i / 3) % 3) as f64 + 3.0 * (i / 9) as f64;
+        let expected = (i % 3) as f64 + 2.0 * ((i / 3) % 3) as f64 + 3.0 * (i / 9) as f64 - 2.0;
         close(v, expected, 1e-10);
     }
 }
@@ -144,7 +145,8 @@ fn small_positive_volume_cannot_hide_behind_integrated_residual() {
     );
     p.solve_rhs(&[-1.0, 1.0], 1.0, settings(), |_, _| false)
         .unwrap();
-    assert_eq!(p.pressure().unwrap(), [0.0, 1.0]);
+    assert_eq!(p.gauge_cells(), [1]);
+    assert_eq!(p.pressure().unwrap(), [-1.0, 0.0]);
 }
 #[test]
 fn rest_outside_dry_and_singleton_components_are_admitted() {
@@ -433,4 +435,73 @@ fn invalid_coefficients_and_fields_refuse_without_publishing() {
         .is_err()
     );
     assert_eq!(u, [1.0]);
+}
+
+#[test]
+fn roundoff_compatible_rhs_uses_largest_volume_gauge_without_shifting() {
+    let volume = 2.0f64.powi(-30);
+    let o = owner([2, 1, 1], [1.0; 3], [0.0; 3], [1.0 - volume, 1.0, 1.0]);
+    let mut p = StaticObstaclePressure::new(&o, 1.0, 1_000_000, |_, _| false).unwrap();
+    let rhs = [-1.0, 1.0 + f64::EPSILON];
+    assert_eq!(rhs[0] + rhs[1], f64::EPSILON);
+    assert!(f64::EPSILON <= 64.0 * f64::EPSILON * (rhs[0].abs() + rhs[1].abs()));
+    let r = p.solve_rhs(&rhs, 1.0, settings(), |_, _| false);
+    assert!(
+        r.is_ok(),
+        "roundoff-compatible tiny-cell solve failed: {r:?}"
+    );
+    assert_eq!(p.gauge_cells(), [1]);
+    assert_eq!(p.pressure().unwrap(), [-1.0, 0.0]);
+    let mut product = [0.0; 2];
+    p.apply(p.pressure().unwrap(), &mut product).unwrap();
+    assert_eq!(
+        [rhs[0] - product[0], rhs[1] - product[1]],
+        [0.0, f64::EPSILON]
+    );
+    assert_eq!(r.unwrap().predicted_divergence_max, f64::EPSILON);
+    assert_eq!(rhs, [-1.0, 1.0 + f64::EPSILON]);
+}
+
+#[test]
+fn naturally_rounded_flux_rhs_projects_with_a_tiny_first_cell() {
+    let volume = 2.0f64.powi(-30);
+    let o = owner([3, 1, 1], [1.0; 3], [0.0; 3], [1.0 - volume, 1.0, 1.0]);
+    let mut u = zeros(&o);
+    u[0][1] = 0.1;
+    u[0][2] = 1.0;
+    let rhs: [f64; 3] = std::array::from_fn(|i| {
+        -o.outward_flux([i, 0, 0], u.each_ref().map(|v| v.as_slice()))
+            .unwrap()
+    });
+    // Ordinary left-to-right sum rounds this defect away. Grouping the two
+    // full-cell rows first exposes its exact represented 2^-55 defect.
+    assert_eq!(rhs[0] + (rhs[1] + rhs[2]), -2.0f64.powi(-55));
+    let mut p = StaticObstaclePressure::new(&o, 1.0, 1_000_000, |_, _| false).unwrap();
+    let [x, y, z] = &mut u;
+    let r = p.project([x, y, z], 1.0, settings(), |_, _| false);
+    assert!(
+        r.is_ok(),
+        "naturally rounded tiny-cell projection failed: {r:?}"
+    );
+    assert_eq!(p.gauge_cells(), [1]); // cells1 and2 tie; lowest index is stable.
+    assert!(u.iter().flatten().all(|v| *v == 0.0));
+    assert_eq!(r.unwrap().corrected.unwrap().actual_divergence_max, 0.0);
+}
+
+#[test]
+fn exhausted_reduced_system_is_arithmetic_failure_not_invalid_input() {
+    let o = owner([2, 1, 1], [1.0; 3], [3.0; 3], [4.0; 3]);
+    let mut p = StaticObstaclePressure::new(&o, 1.0, 1_000_000, |_, _| false).unwrap();
+    let exact = PressureSettings {
+        relative_residual: 0.0,
+        absolute_residual: 0.0,
+        divergence_limit: 0.0,
+        max_iterations: 4,
+    };
+    let r = p.solve_rhs(&[-1.0, 1.0 + f64::EPSILON], 1.0, exact, |_, _| false);
+    assert!(
+        matches!(r, Err(ObstacleFlowError::ArithmeticFailure)),
+        "wrong solver failure classification: {r:?}"
+    );
+    assert!(p.pressure().is_none());
 }

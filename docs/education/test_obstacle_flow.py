@@ -8,6 +8,12 @@ class FlowRecords(unittest.TestCase):
     def setUpClass(cls):cls.records=json.loads((Path(os.environ['RHEON_FLOW'])/'records.json').read_text())
     def test_all_native_fields_and_ledgers(self):
         c=controls(self.records);self.assertEqual(c['pressure_projections'],4);self.assertEqual(c['rational_linear_solves'],48)
+    def test_first_cell_gauge_cannot_qualify_as_largest_volume(self):
+        r=copy.deepcopy(self.records)
+        self.assertEqual(r['pressure_cases'][0]['gauges'],[2])
+        r['pressure_cases'][0]['gauges']=[0]
+        with self.assertRaisesRegex(ValueError,'pressure parameters/gauges'):
+            controls(r)
     def test_pressure_corruptions_refuse(self):
         for change in [lambda c:c['pressure'].__setitem__(1,999),lambda c:c['volumes'].__setitem__(0,0),lambda c:c['areas'][0].__setitem__(1,0),lambda c:c['labels'].__setitem__(0,None),lambda c:c['after'][0].__setitem__(1,.01),lambda c:c['residual'].__setitem__(2,.01),lambda c:c['ledger'].__setitem__(1,999),lambda c:c['gauges'].__setitem__(0,1),lambda c:c['vertices'][0].__setitem__(0,999)]:
             with self.subTest(change=change):

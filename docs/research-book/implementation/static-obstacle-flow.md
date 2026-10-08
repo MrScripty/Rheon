@@ -54,13 +54,30 @@ actual stored binary64 field, rather than merely reporting a residual.
 
 The retained geometry labels active cells by positive-opening connectivity.
 Each sealed component has its own constant-pressure mode and compatibility
-condition \(\sum_{i\in C}b_i=0\). The workspace pins the first cell of each
-component to zero, including isolated singleton components. Dry cells are not
+condition \(\sum_{i\in C}b_i=0\). The workspace pins a largest-volume wet cell of each
+component to zero, with the lowest index winning exact volume ties, including
+isolated singleton components. Dry cells are not
 unknowns and must have zero right-hand side. An all-dry owner is a valid zero
 operation. Compatibility is checked independently for every component with a
 compensated sum and a declared \(64\epsilon\sum |b_i|\) allowance. Incompatible
 data are refused; no global mean subtraction quietly transfers volume between
 isolated regions.
+
+The component sum may be nonzero within that arithmetic allowance. In exact residual accounting, if the non-gauge
+rows are solved, the pinned row retains that component sum. Using a largest-volume cell minimizes its local divergence amplification
+\(\Delta t\,|\sum_C b|/V_{\rm gauge}\) among the component's cells. It does not
+remove incompatibility, alter the RHS, relax a tolerance or guarantee convergence.
+The full residual and actual-field gates still apply. An exhausted/nonpositive
+internal PCG product is classified as `ArithmeticFailure`, not caller
+`InvalidParameter`.
+
+Deterministic regressions use a first-cell volume \(2^{-30}\), an explicitly
+roundoff-compatible RHS \([-1,1+\epsilon]\), and a three-cell flux field with
+speeds 0.1 and 1 m/s whose represented RHS has a \(-2^{-55}\) component defect.
+They distinguish unavoidable compatibility roundoff from amplification caused
+by choosing a tiny gauge cell. Equal-volume and disconnected-component controls
+retain the stable tie break. Earlier first-cell-gauge records remain historical;
+new packets must qualify against the current gauge oracle and source.
 
 Jacobi-preconditioned conjugate gradients operate on the gauge-eliminated
 system. Every candidate acceptance recomputes the **full** integrated residual,

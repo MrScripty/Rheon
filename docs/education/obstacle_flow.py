@@ -63,7 +63,11 @@ def geometry(c, dims, lo, hi, stamp):
         else:
             r=root(i)
             if r not in roots:roots[r]=len(roots);gauges.append(i)
-            labels.append(roots[r])
+            component=roots[r]
+            # Independent exact-volume maximum; iteration order supplies the
+            # stable lowest-index tie break, without copying the native gauge.
+            if v>volumes[gauges[component]]:gauges[component]=i
+            labels.append(component)
     exact(c['labels'],labels,'owner connectivity');exact(c['components'],len(roots),'component count')
     return volumes,areas,edges,labels,gauges
 
@@ -234,6 +238,7 @@ def controls(records):
             'scope':'sealed stationary pressure graph; separate fully developed reduced shear',
             'field_allowance':'4096 * binary64 epsilon * max(1, abs(exact control))',
             'pressure_divergence_limit':1e-10,
+            'pressure_gauge':'largest represented positive volume per component; lowest-index exact ties',
             'actual_field_equation_allowance':'4096 * epsilon * max(abs(inertia)+abs(stress)+abs(load))',
             'actual_field_energy_allowance':'1024 epsilon pressure; 2048 epsilon shear, times actual-field ledger term scale',
             'actual_field_momentum_allowance':'2048 * epsilon * (abs(Pold)+abs(Pnew)+abs(body impulse)+abs(wall impulse))',
