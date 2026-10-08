@@ -59,6 +59,15 @@ response, or continuation through the unused portion of the requested interval
 is supplied. A hit stops immediately after one impact; a definite miss coasts
 the whole interval. A second call starting in contact is refused.
 
+The borrowed query retains no additional heap payload and scans at most the
+caller-declared static triangle limit. The moving mesh is capped at 64 facets;
+the zero-load bridge has 64×3×3 f64 stack slots (4608 bytes). PR35's original
+reference/current/proposed Vec-capacity accounting still bounds mesh payload,
+excluding these fixed stack records, allocator metadata and the caller's static
+surface. TriangleSurface admission does not imply contact-query admission:
+Gram determinants, thin/far facets, overflow or detected product underflow can
+conservatively refuse a query that the older segment primitive admits.
+
 Caller-supplied mass/inertia are not inferred from either mesh. The caller
 declares an isotropic physical mass distribution contained within R. A
 conservative arithmetic admission check enforces its necessary condition

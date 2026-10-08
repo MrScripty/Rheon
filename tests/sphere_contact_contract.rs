@@ -291,3 +291,61 @@ fn stamps_radius_properties_settings_and_duration_refuse() {
         .is_err()
     );
 }
+
+#[test]
+fn distinct_normal_simultaneous_contacts_refuse_the_single_impact_model() {
+    let s = TriangleSurface::new(
+        SurfaceStamp { id: 80, version: 9 },
+        vec![[0., 0., 0.], [4., 0., 0.], [0., 4., 0.], [0., 0., 4.]],
+        vec![[0, 1, 2], [0, 2, 3]],
+        SurfaceSettings::default(),
+    )
+    .unwrap();
+    let mut b = body([2., 1., 2.], [-2., 0., -2.], [0.; 3]);
+    let before = b.snapshot();
+    let p = b.world_surface().vertices().to_vec();
+    let peak = b.peak_payload_bytes();
+    assert!(matches!(
+        event(&mut b, &s, 0.5, 1., |_, _| false),
+        Err(SphereContactError::Simultaneous { .. })
+    ));
+    unchanged(&b, before, &p, peak);
+}
+
+#[test]
+fn event_clock_versions_and_late_rotation_refusals_preserve_owner() {
+    let s = static_mesh(false);
+    for mode in 0..4 {
+        let initial = body(
+            [1., 1., 2.],
+            [0., 0., -2.],
+            [0., 0., if mode == 3 { 0.5 } else { 0. }],
+        );
+        let mut state = initial.snapshot().body;
+        if mode == 0 {
+            state.stamp.generation = u64::MAX;
+        }
+        if mode == 1 {
+            state.surface.version = u64::MAX;
+        }
+        let mesh = TriangleSurface::new(
+            state.surface,
+            initial.world_surface().vertices().to_vec(),
+            initial.world_surface().triangles().to_vec(),
+            SurfaceSettings::default(),
+        )
+        .unwrap();
+        let mut b = SphericalRigidMotion::new(
+            FrozenRigidBody::new(state).unwrap(),
+            mesh,
+            if mode == 2 { 1e16 } else { 0. },
+            RigidMotionSettings::default(),
+        )
+        .unwrap();
+        let before = b.snapshot();
+        let p = b.world_surface().vertices().to_vec();
+        let peak = b.peak_payload_bytes();
+        assert!(event(&mut b, &s, 0.5, 1., |_, _| false).is_err());
+        unchanged(&b, before, &p, peak);
+    }
+}
