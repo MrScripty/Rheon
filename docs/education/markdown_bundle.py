@@ -42,6 +42,9 @@ def write_bundle(repo, output, front, reading, files, command):
                         if local == repo/'docs/education/native-labs.html':
                             dest = 'README.md'
                             fragment = 'native-playback'
+                        elif local == repo/'docs/education/obstacle-flow-lab.html':
+                            dest = 'README.md'
+                            fragment = 'obstacle-flow'
                         elif local == repo/'docs/education/obstacle-lab.html':
                             dest = 'README.md'
                             fragment = 'static-geometry'
@@ -88,6 +91,13 @@ The [static obstacle guide](implementation/static-obstacle-geometry.md) describe
 the bounded owner and native controls. The separately built HTML edition provides
 obstacle-lab.html when qualified records are supplied; its source-only build
 states absence. This Markdown archive contains no native computation or lab.
+
+## Obstacle flow
+
+The [bounded pressure and reduced-shear guide](implementation/static-obstacle-flow.md)
+explains the separately scoped field responses and exact rational controls.
+The HTML edition supplies obstacle-flow-lab.html when qualified native records
+are supplied. This archive does not execute either operator.
 '''
     (output/'downloads/Rheon-expanded-book.md').write_bytes(entries['Rheon-expanded-book.md'])
     with zipfile.ZipFile(output/'downloads/Rheon-expanded-markdown.zip', 'w', zipfile.ZIP_DEFLATED) as bundle:

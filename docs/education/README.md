@@ -36,7 +36,7 @@ The illustrated `Rheon-expanded-markdown.zip` includes companion figures, implem
 
 ## Proof and implementation boundaries
 
-`proofs/source-inventory-pr24.json` preserves the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations. The current `source-inventory.json` includes StaticObstacle and its local pinned qualification (64/87). The book builder checks current bytes and identifies the older Lean CI as historical; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or solver convergence.
+`proofs/source-inventory-pr24.json` preserves the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations. The current `source-inventory.json` includes StaticObstacle and ObstacleOperators: local pinned direct-compiler qualification checked 88 public theorems, 118 explicitly expected declarations and 135 audited declarations. The earlier static-geometry 64/87 qualification remains tied to its original source; the current local check is not a new hosted-CI or `lake build` receipt. The book builder checks current bytes and identifies the older Lean CI as historical; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or solver convergence.
 
 The expansion's older 42-public/60-audit receipt remains explicitly historical. Its exact-real finite-strain and planar-contact contracts retain their assumptions. The original Python reference source/data receipts are checked before building. Source-only/data-only changes, stale PDF/browser inputs, missing assets, broken controls and page errors reject publication.
 
@@ -53,3 +53,18 @@ it checks the frozen clean source, exact record bytes and independent rational
 controls before publishing `obstacle-lab.html`. Without a packet the page states
 absence. The CI review artifact constructs this bounded geometry packet only;
 it does not run any fluid integration or the denied research campaigns.
+
+## Recorded obstacle pressure and reduced shear
+
+`examples/obstacle_flow.rs` writes four native pressure projections and 48
+reduced-shear updates to a fresh JSON path outside Git. Qualify them using
+`obstacle_flow.py --records PATH --executable ELF --receipt PATH`. The independent
+oracle uses analytic affine pressures and exact rational dense solves for the
+shear fixtures, with force/work/impulse checks. This is not a historical numerical
+campaign or arbitrary embedded tensor-viscosity qualification.
+
+Pass the two-file packet with `--obstacle-flow-records-dir PACKET` when building
+the book. `obstacle-flow-lab.html` exposes actual saved field responses and
+clearly distinguishes sealed pressure from fully developed periodic shear.
+Browser checks cover 24 pressure slice/state views and 54 saved shear profiles,
+including mobile layout. Without a packet the page explicitly states absence.

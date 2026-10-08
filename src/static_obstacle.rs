@@ -1,5 +1,6 @@
 //! One immutable geometry source for an admitted closed axis-aligned box mesh.
-//! Geometry/flux only: existing pressure and viscosity owners do not consume it.
+//! Geometry/flux owner, borrowed by the separate bounded obstacle pressure and
+//! reduced-shear operators. The older filled-box carrier remains separate.
 use crate::{Axis, GridGeometry, SurfaceStamp, TriangleSurface};
 use std::{fmt, mem::size_of};
 

@@ -14,6 +14,7 @@ from browser_qualification import LABS, book_sources, source_hashes, verify_brow
 from native_browser import qualify as qualify_native
 from native_sequence import metadata
 from obstacle_browser import qualify as qualify_obstacle
+from obstacle_flow_browser import qualify as qualify_obstacle_flow
 
 HERE = Path(__file__).resolve().parent
 
@@ -120,6 +121,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
                 'Mobile laboratory has horizontal overflow')
         native = qualify_native(page, mobile, load, check_errors, metadata(HERE.parents[1]), base_url)
         obstacle = qualify_obstacle(page, mobile, load, check_errors)
+        obstacle_flow = qualify_obstacle_flow(page, mobile, load, check_errors)
         load(page, 'print.html')
         page.evaluate('document.fonts.ready')
         check_planar_statement(page)
@@ -138,6 +140,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
                    'planar_statement_hit_time_rendering': True}
         receipt['native_labs'] = native
         receipt['static_obstacle'] = obstacle
+        receipt['obstacle_flow'] = obstacle_flow
         browser.close()
         return receipt
 

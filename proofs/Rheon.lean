@@ -9,3 +9,4 @@ import Rheon.NoSlip
 import Rheon.ColumnForcing
 
 import Rheon.StaticObstacle
+import Rheon.ObstacleOperators
