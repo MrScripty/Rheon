@@ -38,7 +38,7 @@ def qualify(output, lean_bin, dependencies):
         if hashlib.sha256(old).hexdigest() != sources.get(p):
             raise ValueError("protected preserved446 file changed: " + p)
     lib_old = subprocess.check_output(["git", "show", f"{BASE}:src/lib.rs"], cwd=ROOT)
-    if (ROOT / "src/lib.rs").read_bytes() != lib_old.replace(b"mod sphere_interval;\n", b"mod sphere_interval;\nmod sphere_support;\npub use sphere_support::*;\n"):
+    if (ROOT / "src/lib.rs").read_bytes() != lib_old.replace(b"mod sphere_interval;\n", b"mod sphere_interval;\nmod sphere_support;\n").replace(b"pub use sphere_interval::*;\n", b"pub use sphere_interval::*;\npub use sphere_support::*;\n"):
         raise ValueError("unexpected support export adaptation")
     manifest = json.loads((ROOT / "proofs/lake-manifest.json").read_text())
     dependency_pins = {}
