@@ -99,6 +99,8 @@ jobs:
         run: |
           python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"
           python3 -O -m unittest discover -s docs/education -p test_browser_runtime.py
+          python3 -m unittest discover -s docs/education -p test_aligned_strain_browser.py
+          python3 -O -m unittest discover -s docs/education -p test_aligned_strain_browser.py
       - name: Retain reviewable site
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
