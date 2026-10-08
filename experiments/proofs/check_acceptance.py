@@ -41,6 +41,77 @@ def kernel_check(text):
                               text=True, capture_output=True)
 
 
+def strip_comments_and_strings(source):
+    """Preserve line positions while removing nested Lean comments and strings."""
+    result = list(source)
+    index, depth, quoted = 0, 0, False
+    while index < len(source):
+        if depth:
+            if source.startswith("/-", index):
+                depth += 1
+                result[index:index + 2] = "  "
+                index += 2
+            elif source.startswith("-/", index):
+                depth -= 1
+                result[index:index + 2] = "  "
+                index += 2
+            else:
+                if source[index] != "\n":
+                    result[index] = " "
+                index += 1
+        elif quoted:
+            if source[index] == "\\":
+                result[index:index + 2] = "  "
+                index += 2
+            else:
+                if source[index] == '"':
+                    quoted = False
+                if source[index] != "\n":
+                    result[index] = " "
+                index += 1
+        elif source.startswith("/-", index):
+            depth = 1
+            result[index:index + 2] = "  "
+            index += 2
+        elif source.startswith("--", index):
+            end = source.find("\n", index)
+            end = len(source) if end < 0 else end
+            result[index:end] = " " * (end - index)
+            index = end
+        elif source[index] == '"':
+            quoted = True
+            result[index] = " "
+            index += 1
+        else:
+            index += 1
+    require(depth == 0 and not quoted, "unterminated Lean comment or string")
+    return "".join(result)
+
+
+def source_declarations(source):
+    # This module's explicit public declaration policy permits the ordinary
+    # logical forms, including opaque and axiomatic declarations. Opaque bodies
+    # and unreferenced safe definitions must also pass the separate kernel audit.
+    pattern = re.compile(
+        r"^\s*(?:@\[[^\]]*\]\s*)*"
+        r"(?P<modifiers>(?:(?:noncomputable|unsafe|partial|private|protected)\s+)*)"
+        r"(?:def|theorem|opaque|axiom|lemma|abbrev)\s+"
+        r"(?P<name>«[^»]*»|[^\s(:{]+)",
+        flags=re.MULTILINE)
+    declarations = set()
+    for match in pattern.finditer(strip_comments_and_strings(source)):
+        modifiers = set(match.group("modifiers").split())
+        require(not modifiers & {"unsafe", "partial", "private"},
+                "experimental source policy rejects unsafe, partial, or private declarations")
+        name = match.group("name")
+        require(re.fullmatch(r"[A-Za-z_]\w*", name) is not None,
+                "experimental source policy rejects unsupported public name syntax")
+        require(NAMESPACE + name not in declarations,
+                "experimental source policy rejects duplicate declared names")
+        declarations.add(NAMESPACE + name)
+    return declarations
+
+
 def main():
     print(command(["python3", str(PROOFS / "scripts/check_sources.py")]).strip())
     version = command(["lake", "env", "lean", "--version"]).strip()
@@ -55,10 +126,32 @@ def main():
     source = SOURCE.read_text()
     audit = AUDIT.read_text()
     # The explicit membership list must include every declared source contract.
-    declared = {NAMESPACE + name for name in
-                re.findall(r"^(?:def|theorem)\s+(\w+)", source, flags=re.MULTILINE)}
+    declared = source_declarations(source)
     expected = set(re.findall(r"`(" + re.escape(NAMESPACE) + r"\w+)", audit))
     require(declared == expected, "experimental audit declaration membership differs")
+    for kind in ["def", "theorem", "opaque", "axiom", "lemma", "abbrev"]:
+        probe = source + "\n" + kind + " injected : False\n"
+        require(source_declarations(probe) != expected,
+                "source membership missed declaration kind: " + kind)
+    print("PASS source membership recognizes def/theorem/opaque/axiom/lemma/abbrev")
+    for modifier in ["private", "unsafe", "partial"]:
+        for separator in [" ", " /- nested /- comment -/ split -/\n"]:
+            probe = source + "\n" + modifier + separator + "def injected : False\n"
+            rejected = False
+            try:
+                source_declarations(probe)
+            except RuntimeError as error:
+                rejected = "source policy rejects" in str(error)
+            require(rejected, "source policy missed modifier: " + modifier)
+    print("PASS source policy rejects plain/comment-split private/unsafe/partial declarations")
+    for name in ["«injected»", "Outside.injected"]:
+        rejected = False
+        try:
+            source_declarations(source + "\ndef " + name + " : Nat := 0\n")
+        except RuntimeError as error:
+            rejected = "unsupported public name syntax" in str(error)
+        require(rejected, "source policy missed unsupported declared name: " + name)
+    print("PASS source policy rejects unsupported escaped/dotted public declaration names")
     combined = "import Lean.Util.CollectAxioms\n" + source + "\n" + audit
     positive = kernel_check(combined)
     require(positive.returncode == 0, positive.stdout + positive.stderr)
@@ -78,6 +171,29 @@ def main():
          "theorem injected : False := by sorry\n"
          "end RheonExperiment.AlignedStepAcceptance\n" + audit,
          "Disallowed axiom", "admitted proof"),
+        (source + "\nnamespace RheonExperiment.AlignedStepAcceptance\n"
+         "opaque injected : False := by sorry\n"
+         "end RheonExperiment.AlignedStepAcceptance\n" + audit,
+         "Disallowed axiom", "opaque admitted proof"),
+        (source + "\nnamespace OutsideExperimentalAudit\n"
+         "axiom injected : False\nend OutsideExperimentalAudit\n"
+         "namespace RheonExperiment.AlignedStepAcceptance\n"
+         "def injected : False := OutsideExperimentalAudit.injected\n"
+         "end RheonExperiment.AlignedStepAcceptance\n" + audit,
+         "Disallowed axiom", "unused definition depending on outside axiom"),
+        (source + "\nnamespace OutsideExperimentalAudit\n"
+         "axiom injected : False\nend OutsideExperimentalAudit\n"
+         "namespace RheonExperiment.AlignedStepAcceptance\n"
+         "private /- modifier separated by comment -/\n"
+         "def injected : False := OutsideExperimentalAudit.injected\n"
+         "end RheonExperiment.AlignedStepAcceptance\n" + audit,
+         "Disallowed axiom", "private unused definition depending on outside axiom"),
+        (source + "\nnamespace OutsideExperimentalAudit\n"
+         "axiom injected : False\nend OutsideExperimentalAudit\n"
+         "namespace RheonExperiment.AlignedStepAcceptance\n"
+         "unsafe def injected : False := OutsideExperimentalAudit.injected\n"
+         "end RheonExperiment.AlignedStepAcceptance\n" + audit,
+         "Disallowed axiom", "unsafe logical definition depending on outside axiom"),
         (source + "\n" + audit.replace("let expected : Array Name := #[",
          "let expected : Array Name := #[`Nat.add_zero,"),
          "Expected declaration not audited: Nat.add_zero", "skipped membership"),

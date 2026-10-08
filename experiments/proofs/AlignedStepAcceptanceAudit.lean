@@ -27,18 +27,33 @@ run_cmd do
     pure ()
   let mut audited : Array Name := #[]
   for (name, info) in env.constants.toList do
-    let isProofOrAxiom := match info with
-      | .thmInfo _ => true
-      | .axiomInfo _ => true
-      | _ => false
-    if name.toString.startsWith "RheonExperiment.AlignedStepAcceptance." &&
-        (isProofOrAxiom || expected.contains name) then
-      let axioms ← Lean.collectAxioms name
-      for axiomName in axioms do
-        unless allowed.contains axiomName do
-          throwError "Disallowed axiom {axiomName} in {name}"
-      logInfo m!"AUDITED {name}: {axioms}"
-      audited := audited.push name
+    let userName := Lean.privateToUserName name
+    if userName.toString.startsWith "RheonExperiment.AlignedStepAcceptance." then
+      -- Audit logical opaque bodies and unused safe definitions too. Compiler
+      -- code-generation specializations are unsafe definitions, not proof terms.
+      -- Use kernel safety metadata rather than special-name exclusions.
+      let isLogical ← match info with
+        | .thmInfo _ => pure true
+        | .axiomInfo _ => pure true
+        | .opaqueInfo _ => pure true
+        | .defnInfo value =>
+            if value.safety == .safe then pure true
+            else if value.type.getUsedConstants.all (env.contains ·) then
+              liftTermElabM (Lean.Meta.isProp value.type)
+            else do
+              -- Erased runtime types of unsafe compiler stages contain constants
+              -- absent from the logical environment. They are not kernel types.
+              -- The source policy separately forbids user unsafe/partial forms.
+              logInfo m!"EXCLUDED unsafe runtime artifact {name}"
+              pure false
+        | _ => pure false
+      if isLogical || expected.contains name then
+        let axioms ← Lean.collectAxioms name
+        for axiomName in axioms do
+          unless allowed.contains axiomName do
+            throwError "Disallowed axiom {axiomName} in {name}"
+        logInfo m!"AUDITED {name}: {axioms}"
+        audited := audited.push name
   for name in expected do
     unless audited.contains name do
       throwError "Expected declaration not audited: {name}"

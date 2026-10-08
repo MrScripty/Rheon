@@ -83,7 +83,9 @@ The caller supplies a finite dimensionless relative defect limit
 `0 <= tau_visc <= 1e-8`. Require
 `upper(abs(e_visc_f)) <= lower(tau_visc*s_visc_f)` for every active face.
 The shared `relative_update_limit` sets both defect limits; its default is
-`4096*f64::EPSILON`. There is no absolute floor. A provably zero defect and zero scale passes as an
+`4096*f64::EPSILON`. The accepted binary64 maximum is `1e-8_f64.next_down()`,
+the largest representable value below the exact decimal cap; the nearest
+`1e-8` literal lies slightly above it. There is no absolute floor. A provably zero defect and zero scale passes as an
 identity; an unresolved zero-scale enclosure refuses. This is a quantified
 approximate discrete equation, not a claim that the rounded proposal is the
 exact Euler solution. Summing absolute scatter contributions in the scale
@@ -175,7 +177,9 @@ reported payload, pressure payload, full MAC proposal arrays and all interval
 scratch in the declared combined cap; state explicitly that borrowed geometry,
 caller arrays, stack, allocator metadata and process RSS are outside this cap.
 Preallocate scratch before stepping. Iteration caps and cancellation bound work;
-no step allocates, changes geometry or mutates the borrowed operator. On any
+the workspace and its operator/pressure call paths allocate no heap memory
+during a step, change no geometry and preserve the borrowed operator. Caller
+cancellation callbacks remain caller code and are outside that allocation claim. On any
 refusal, caller velocity and any caller-visible accepted pressure, counter or
 report remain unchanged. Publication occurs only after every acceptance gate
 and a final cancellation checkpoint. Scratch need not roll back. The wrapper

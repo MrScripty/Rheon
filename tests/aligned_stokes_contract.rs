@@ -94,12 +94,13 @@ fn nonzero_curl_executes_real_pressure_correction() {
     assert!(r.viscous_energy_delta.hi < 0.0);
     assert!(r.pressure_energy_delta.hi < 0.0);
     assert!(r.final_divergence.bound.hi <= Config::default().divergence_limit);
-    assert!(w
-        .viscous_active()
-        .unwrap()
-        .iter()
-        .zip(w.final_active().unwrap())
-        .any(|(v, z)| v.to_bits() != z.to_bits()));
+    assert!(
+        w.viscous_active()
+            .unwrap()
+            .iter()
+            .zip(w.final_active().unwrap())
+            .any(|(v, z)| v.to_bits() != z.to_bits())
+    );
     let energy = |field: &[f64]| {
         field
             .iter()
@@ -333,16 +334,17 @@ fn anisotropic_nonmidpoint_step_checks_stored_mass_mismatch() {
     let mut u = curl(&o);
     let r = step(&mut w, &mut u, 1.0 / 256.0).unwrap();
     assert!(r.viscous_energy_delta.hi < 0.0 && r.pressure_energy_delta.hi < 0.0);
-    assert!(w.momentum_certificates().unwrap().iter().all(|c| c
-        .defect
-        .lo
-        .abs()
-        .max(c.defect.hi.abs())
-        <= c.allowance.lo));
-    assert!(op
-        .active_faces()
-        .iter()
-        .any(|f| f.mass / (op.density() * f.distance) != f.area));
+    assert!(
+        w.momentum_certificates()
+            .unwrap()
+            .iter()
+            .all(|c| c.defect.lo.abs().max(c.defect.hi.abs()) <= c.allowance.lo)
+    );
+    assert!(
+        op.active_faces()
+            .iter()
+            .any(|f| f.mass / (op.density() * f.distance) != f.area)
+    );
 }
 #[test]
 fn managed_cap_counts_operator_pressure_attempt_and_accepted_caches() {
@@ -369,16 +371,18 @@ fn managed_cap_counts_operator_pressure_attempt_and_accepted_caches() {
         ),
         Err(Error::InvalidParameter)
     ));
-    assert!(Workspace::new(
-        &op,
-        Config {
-            relative_update_limit: 1e-8_f64.next_down(),
-            ..Config::default()
-        },
-        cap,
-        |_, _| false,
-    )
-    .is_ok());
+    assert!(
+        Workspace::new(
+            &op,
+            Config {
+                relative_update_limit: 1e-8_f64.next_down(),
+                ..Config::default()
+            },
+            cap,
+            |_, _| false,
+        )
+        .is_ok()
+    );
     assert!(matches!(
         Workspace::new(&op, Config::default(), cap, |_, _| true),
         Err(Error::Cancelled {

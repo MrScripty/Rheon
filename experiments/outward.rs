@@ -251,12 +251,14 @@ mod tests {
             Interval::point(f64::MIN_POSITIVE / 2.0),
             Err(Error::Subnormal)
         );
-        assert!(Interval {
-            lo: f64::NAN,
-            hi: 1.0
-        }
-        .add(p(0.0))
-        .is_err());
+        assert!(
+            Interval {
+                lo: f64::NAN,
+                hi: 1.0
+            }
+            .add(p(0.0))
+            .is_err()
+        );
         assert!(p(f64::MIN_POSITIVE).mul(p(0.5)).is_err());
         assert!(Interval::new(2.0, 1.0).is_err());
     }
