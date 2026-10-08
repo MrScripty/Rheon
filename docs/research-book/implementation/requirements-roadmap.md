@@ -63,5 +63,11 @@ conditional Lean statements qualify this bounded transaction, not general
 liquid transport or PDE convergence. Unsupported arithmetic or unresolved
 inequalities refuse the complete caller update.
 
+The separate [triangle-mesh traction reducer](triangle-mesh-traction.md) now
+integrates caller-supplied P1 surface pressure/traction into physical force,
+torque and consistent corner loads, with rigid virtual-work diagnostics.
+It uses the retained triangle geometry, including oblique facets; it supplies
+neither a fluid pressure interpolation nor a matched fluid reaction or body step.
+
 General embedded geometry, moving/free interfaces, forcing, variable material,
 capillarity and two-way solid coupling still require their own contracts.

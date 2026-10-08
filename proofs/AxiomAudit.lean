@@ -149,7 +149,17 @@ run_cmd do
     `Rheon.AlignedStrain.euler_row_bound_nonincrease,
     `Rheon.AlignedStrain.euler_exact_projection_nonincrease,
     `Rheon.AlignedStrain.unit_corner_block,
-    `Rheon.AlignedStrain.flat_conductance]
+    `Rheon.AlignedStrain.flat_conductance,
+    `Rheon.MeshTraction.dot,
+    `Rheon.MeshTraction.cross,
+    `Rheon.MeshTraction.add,
+    `Rheon.MeshTraction.sub,
+    `Rheon.MeshTraction.nodal,
+    `Rheon.MeshTraction.conditional_moment_reduction,
+    `Rheon.MeshTraction.resultant_closed_form,
+    `Rheon.MeshTraction.point_virtual_work,
+    `Rheon.MeshTraction.triangle_virtual_work,
+    `Rheon.MeshTraction.reference_shift]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

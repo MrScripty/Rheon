@@ -11,6 +11,10 @@ pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
     TriangleSurface,
 };
+mod mesh_traction;
+pub use mesh_traction::{
+    MeshLoadError, MeshLoadReport, MeshLoadStage, SurfaceLoading, TriangleLoad, TriangleMeshLoad,
+};
 mod static_obstacle;
 pub use static_obstacle::{
     NO_FLUID_COMPONENT, ObstacleAllocation, ObstacleError, ObstacleFace, ObstacleStage,
