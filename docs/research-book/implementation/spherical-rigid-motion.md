@@ -57,6 +57,14 @@ Lean proves finite exact-real displacement/time and quaternion algebra under
 explicit premises. It does not prove the trigonometric library, compiler/IEEE
 execution, swept geometry, full ODE solution or numerical order.
 
+PR34 angular diagnostics describe spin about COM. For a fixed world origin,
+total angular momentum is I*omega+c cross (mV). Under exact matched kick
+increments its change is h*(tau_COM+c_old cross F); free drift contributes zero
+because (hV_new) cross (mV_new)=0. New narrow Lean algebra states the endpoint
+identity and its matched-impulse premises. The numerical lab separately checks
+total world-origin angular increments on actual stored moving endpoints at the
+unchanged absolute 1e-12 allowance; this is not an IEEE conservation proof.
+
 Body and current-surface stamps must match before a scan. Every accepted step
 increments body generation and surface version, including zero motion, so old
 stamped inputs are refused. A late cancellation, geometry collapse or numerical

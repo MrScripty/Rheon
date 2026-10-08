@@ -183,7 +183,12 @@ run_cmd do
     `Rheon.RigidMotion.rotation_sign_equivalence,
     `Rheon.RigidMotion.drift_displacement,
     `Rheon.RigidMotion.positive_clock,
-    `Rheon.RigidMotion.kick_drift_constant_force_error]
+    `Rheon.RigidMotion.kick_drift_constant_force_error,
+    `Rheon.RigidMotion.scale,
+    `Rheon.RigidMotion.totalAngular,
+    `Rheon.RigidMotion.orbital_free_drift,
+    `Rheon.RigidMotion.endpoint_angular_increment,
+    `Rheon.RigidMotion.conditional_total_angular_impulse]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

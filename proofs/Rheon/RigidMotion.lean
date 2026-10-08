@@ -1,3 +1,4 @@
+import Rheon.MeshTraction
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic.Ring
 import Mathlib.Tactic.Linarith
@@ -66,5 +67,33 @@ theorem kick_drift_constant_force_error (c v a h : ℝ) :
     drift c h (v+h*a)-(c+h*v+a*h^2/2)=a*h^2/2 := by
   unfold drift
   ring
+open Rheon.MeshTraction
+def scale (s : ℝ) (a : Vec) : Vec := ⟨s*a.x,s*a.y,s*a.z⟩
+def totalAngular (c V omega : Vec) (m I : ℝ) : Vec :=
+  add (scale I omega) (cross c (scale m V))
+
+/-- Free COM drift adds no orbital angular momentum about the world origin. -/
+theorem orbital_free_drift (c V : Vec) (h m : ℝ) :
+    cross (add c (scale h V)) (scale m V)=cross c (scale m V) := by
+  simp only [cross,add,scale]
+  congr 1 <;> ring
+
+theorem endpoint_angular_increment (c V V' omega omega' : Vec) (h m I : ℝ) :
+    sub (totalAngular (add c (scale h V')) V' omega' m I)
+      (totalAngular c V omega m I) =
+    add (scale I (sub omega' omega)) (cross c (scale m (sub V' V))) := by
+  simp only [totalAngular,cross,add,sub,scale]
+  congr 1 <;> ring
+
+/-- Exact matched momentum increments yield total angular impulse including
+orbital momentum. Premises do not assert exact floating endpoint identities. -/
+theorem conditional_total_angular_impulse (c V V' omega omega' F tau : Vec)
+    (h m I : ℝ) (hP : scale m (sub V' V)=scale h F)
+    (hL : scale I (sub omega' omega)=scale h tau) :
+    sub (totalAngular (add c (scale h V')) V' omega' m I)
+      (totalAngular c V omega m I) = scale h (add tau (cross c F)) := by
+  rw [endpoint_angular_increment,hP,hL]
+  simp only [cross,add,scale]
+  congr 1 <;> ring
 end
 end Rheon.RigidMotion

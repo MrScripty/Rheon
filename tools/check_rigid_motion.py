@@ -124,10 +124,17 @@ def evaluate(raw,case):
         actual_elapsed=number(stored['time_s'])-number(previous['time_s'])
         actual_displacement=vec(stored['center_of_mass'])-vec(previous['center_of_mass'])-h*vec(stored['velocity_m_s'])
         maximum=max(maximum,compare(step['represented_elapsed_s'],actual_elapsed,'actual elapsed'),compare(step['clock_defect_s'],actual_elapsed-h,'actual clock defect'),compare(step['rotation_increment_rad'],h*norm(vec(stored['angular_velocity_rad_s'])),'actual rotation'),compare(step['translation_defect_m'],actual_displacement,'actual translation defect'))
+        # COM spin diagnostic is distinct from world-origin total angular momentum.
+        oldc=vec(previous['center_of_mass']);oldv=vec(previous['velocity_m_s']);oldw=vec(previous['angular_velocity_rad_s'])
+        newc=vec(stored['center_of_mass']);newv=vec(stored['velocity_m_s']);neww=vec(stored['angular_velocity_rad_s'])
+        total_defect=(neww+cross(newc,2*newv))-(oldw+cross(oldc,2*oldv))-h*(tau+cross(oldc,F))
+        total_error=max(abs(x) for x in total_defect)
+        if total_error>mp.mpf(str(TOLERANCE)):raise AssertionError('world-origin total angular impulse defect')
+        maximum=max(maximum,float(total_error))
         qr=quaternion_matrix(stored['orientation']);maximum=max(maximum,float(max(abs(qr[i,j]-R[i,j]) for i in range(3) for j in range(3))))
         if maximum>TOLERANCE:raise AssertionError('native orientation differs from independent matrix')
         maximum=max(maximum,compare(step['momentum_defect'],mp.zeros(3,1),'momentum residual'),compare(step['angular_momentum_defect'],mp.zeros(3,1),'angular residual'),compare(step['energy_defect_j'],mp.mpf(0),'energy residual'),compare(step['quaternion_norm_defect'],mp.mpf(0),'unit residual'))
-        records.append(dict(step=k,reference_com=[str(x) for x in com],reference_matrix=[[str(R[i,j]) for j in range(3)] for i in range(3)],reference_time_s=str(time),maximum_absolute_error=maximum))
+        records.append(dict(step=k,reference_com=[str(x) for x in com],reference_matrix=[[str(R[i,j]) for j in range(3)] for i in range(3)],reference_time_s=str(time),world_origin_angular_impulse_defect=[str(x) for x in total_defect],maximum_absolute_error=maximum))
     if mode=='uniform' and v0==[0,0,0] and w0==[0,0,0]:
         a=mp.matrix(list(map(number,[.2,-.1,.05])))*3
         analytic=a*time*time/2;explicit=a*time*h/2
