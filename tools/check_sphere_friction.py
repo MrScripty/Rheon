@@ -170,6 +170,15 @@ def evaluate(raw,c,event,expected):
             require(qt==0 and all(x==0 for x in jt),"explicit zero impulse branch")
         else:
             require(qt>0 and qt==min(stop,stored_cap),"exact stored candidate selection, including tiny positive impulses")
+            stored_vt=vector(impact["tangent_velocity_before_m_s"])
+            require(any(x!=0 for x in jt),"positive selected impulse cannot have an all-zero vector")
+            for component in range(3):
+                if stored_vt[component]==0:
+                    require(jt[component]==0,"zero slip component has zero impulse component")
+                else:
+                    require((stored_vt[component]>0 and jt[component]<0) or
+                            (stored_vt[component]<0 and jt[component]>0),
+                            "checked positive-qt components remain nonzero and oppose slip")
         values={"contact_lever_m":r,"lever_normal_cross_m":cross(r,n),"point_velocity_before_m_s":g,
                 "point_velocity_after_m_s":ga,"tangent_velocity_before_m_s":vt,"tangent_velocity_after_m_s":vta,
                 "momentum_defect_n_s":m*(va-v)-j,"spin_momentum_defect_n_m_s":i*(wa-w)-angular,
@@ -256,10 +265,15 @@ def main():
     try:evaluate(bad,c,event,expected)
     except ValueError:pass
     else:raise ValueError("tiny slip zero-impulse forgery accepted")
+    for forged in [[0.,0.,0.],[-x for x in raw["result"]["impact"]["tangent_impulse_n_s"]]]:
+        bad=copy.deepcopy(raw);bad["result"]["impact"]["tangent_impulse_n_s"]=forged
+        try:evaluate(bad,c,event,expected)
+        except ValueError:pass
+        else:raise ValueError("tiny impulse vector support/sign forgery accepted")
     fractions=fraction_axes();(a.output/"exact-rational-axis.json").write_text(json.dumps(fractions,indent=2)+"\n")
     receipt={"scope":"isolated fixed-contact isotropic sphere Coulomb impulse; no persistent force/global IEEE enclosure",
              "cases":summaries,"accepted":sum(not c["refused"] for c in summaries),"refused":sum(c["refused"] for c in summaries),
-             "fraction_axis_specimens":len(fractions),"negative_probes":len(probes)+7,"algebra_tolerance":str(TOLERANCE),
+             "fraction_axis_specimens":len(fractions),"negative_probes":len(probes)+9,"algebra_tolerance":str(TOLERANCE),
              "maximum_algebra_error":max(c["maximum_algebra_error"] for c in summaries),
              "physical_errors":{k:max(c["physical_errors"].get(k,0.) for c in summaries) for k in ["time_s","point_m","normal","velocity_m_s","omega_rad_s"]},
              "executable_sha256":hashlib.sha256(a.executable.read_bytes()).hexdigest(),
