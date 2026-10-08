@@ -76,7 +76,7 @@ def qualify(output, lean_bin, dependencies):
         run(["cargo", "test", "--locked", "--no-default-features", "--test", "rigid_motion_contract", "--test", "rigid_impulse_contract", "--test", "mesh_traction_contract",
              "--test", "collision_contract", "--test", "translation_contract"], "native-debug.log")
         run(["cargo", "test", "--release", "--locked", "--no-default-features", "--test",
-             "rigid_impulse_contract", "--test", "mesh_traction_contract"], "native-release.log")
+             "rigid_motion_contract", "--test", "rigid_impulse_contract", "--test", "mesh_traction_contract"], "native-release.log")
         run(["cargo", "clippy", "--locked", "--no-default-features", "--example", "rigid_motion",
              "--test", "rigid_motion_contract", "--", "-D", "warnings"], "clippy.log")
         run(["rustfmt", "--edition", "2024", "--check", "src/lib.rs", "src/rigid_motion.rs",

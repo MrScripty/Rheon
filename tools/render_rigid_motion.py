@@ -27,7 +27,7 @@ def render(evidence,output):
         ax.set(xlim=limits[0],ylim=limits[1],zlim=limits[2],xlabel='x (m)',ylabel='y (m)',zlabel='z (m)');ax.view_init(elev=23,azim=-60)
         ax.set_title(f"Actual stored mesh at t = {state['time_s']:g} s\nCOM = ({c[0]:.4f}, {c[1]:.4f}, {c[2]:.4f}) m",fontsize=10)
     final=frames[-1];fmt=lambda v:'('+', '.join(f'{x:.5g}' for x in v)+')'
-    fig.suptitle('Force-driven spherical body: actual translation and rotation',fontsize=17,y=.975)
+    fig.suptitle('Force-driven mesh with spherical inertia: actual motion',fontsize=17,y=.975)
     fig.text(.035,.115,'Orange material facets receive world traction (1.2, 0.3, 0.6) N/m²; mass 2 kg, declared spherical moments (1, 1, 1) kg m².\n'
              'Post-kick quaternion exponential drift; 16 accepted steps of 0.0625 s. All panels share world axes and show native stored vertices.',fontsize=10)
     fig.text(.035,.065,f"Final native V = {fmt(final['velocity_m_s'])} m/s; omega = {fmt(final['angular_velocity_rad_s'])} rad/s.\nFinal stored q [real,x,y,z] = {fmt(final['orientation'])}; COM path and 0.2 m per (m/s) velocity glyphs shown in red.",fontsize=10)
