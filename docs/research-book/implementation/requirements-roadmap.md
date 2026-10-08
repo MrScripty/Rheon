@@ -1,5 +1,11 @@
 # Requirements map and the next solid-fluid geometry contract
 
+For the source-frozen 2026-10-08 capability reconciliation and independently
+reviewed next-feature choice, see [the current physics roadmap](next-physics-roadmap-20261008.md).
+The PR24 map below is historical: its mesh-traction and rigid-load gaps have
+since acquired bounded implementations. It must not be used as the current
+capability checklist.
+
 This map describes accepted main, the unmerged PR22–24 stack and the bounded static-obstacle geometry feature. The new
 native wall/force sequence is qualified within its fixed-column model; the
 broader liquid capability is incomplete. Source links below freeze the inspected
