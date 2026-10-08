@@ -1,10 +1,10 @@
 name: Rheon research book and Pages
 on:
   pull_request:
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   push:
     branches: [main]
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read

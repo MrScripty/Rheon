@@ -164,7 +164,7 @@ def qualify(page,mobile,load,check_errors,packet_dir=None,artifact_dir=None,repo
             page.select_option('#strain-row',str(row['id']));check()
     page.select_option('#strain-preset','shear')
     page.locator('#strain-show-force').check();check()
-    require(page.locator('#strain-view').inner_text(),'browser force scene missing')
+    require(page.locator('#strain-view').text_content(),'browser force scene missing')
     picture('aligned-strain-desktop-force.jpg')
     for layer in range(3):
         page.select_option('#strain-slice',str(layer));check()

@@ -23,6 +23,23 @@ def book_sources(repo):
              'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in paths]
 
 
+def validate_strain_browser_receipt(observed, strain):
+    if strain is None:
+        expected={'included':False,'dynamic_states':0,'independent_rational_comparisons':0,
+                  'fluid_solves':0,'fluid_advances':0,'mobile_no_overflow':True,'screenshots':[]}
+        if observed != expected:
+            raise ValueError('Incomplete source-only aligned-strain browser qualification')
+        return
+    expected={'included':True,'dynamic_states':46,'active_faces':len(strain['active']),
+              'rows':len(strain['rows']),'independent_rational_comparisons':46,
+              'retained_zero_rows':sum(not r['terms'] for r in strain['rows']),
+              'reflected_corners':len(strain['cornerEdges']),
+              'fluid_solves':0,'fluid_advances':0,'mobile_no_overflow':True}
+    if any(type(observed.get(key)) is not type(value) or observed.get(key)!=value
+           for key,value in expected.items()):
+        raise ValueError('Incomplete actual aligned-strain control comparisons')
+
+
 def verify_browser_qualification(repo, artifact_dir=None):
     repo = Path(repo)
     here = repo/'docs/education'
@@ -73,12 +90,7 @@ def verify_browser_qualification(repo, artifact_dir=None):
 
         from aligned_strain_packet import verify_published as verify_strain_published
         strain=verify_strain_published(repo,artifact)
-        included=strain is not None
-        observed=receipt.get('aligned_strain',{})
-        if observed.get('included') is not included or observed.get('fluid_advances') != 0 or observed.get('mobile_no_overflow') is not True:
-            raise ValueError('Incomplete aligned-strain browser qualification')
-        if included and (observed.get('independent_rational_comparisons',0) < 8 or observed.get('active_faces') != len(strain['active']) or observed.get('rows') != len(strain['rows'])):
-            raise ValueError('Missing actual aligned-strain control comparisons')
+        validate_strain_browser_receipt(receipt.get('aligned_strain',{}),strain)
 
 
 if __name__ == '__main__':
