@@ -8,7 +8,7 @@ use crate::{
 use std::{cell::RefCell, fmt};
 
 pub const MAX_CONTACT_BODY_TRIANGLES: usize = 64;
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct SphereContactSettings {
     pub static_triangle_limit: usize,
     /// Metres: allowed measured contact gap residual, not a true error bound.
@@ -113,6 +113,7 @@ pub struct SphereContactReport {
     pub static_surface: SurfaceStamp,
     pub radius_m: f64,
     pub restitution: f64,
+    pub settings: SphereContactSettings,
     pub requested_interval_s: f64,
     /// Unused requested interval on a hit. There is no continuation solver.
     pub unused_interval_s: f64,
@@ -352,6 +353,7 @@ impl SphericalRigidMotion {
             static_surface: surface.stamp(),
             radius_m,
             restitution,
+            settings,
             requested_interval_s: h,
             unused_interval_s: unused,
             hit,

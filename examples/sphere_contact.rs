@@ -131,6 +131,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     );
     frame(&owner);
     let before = owner.snapshot();
+    let settings = SphereContactSettings::default();
+    print!(
+        ",\"collision_shape\":\"declared_sphere\",\"moving_mesh_role\":\"render_and_traction\",\"relative_tolerance\":{},\"max_gap_residual_m\":{},\"simultaneous_window_s\":{},\"static_triangle_limit\":{}",
+        static_surface.relative_tolerance(),
+        settings.max_gap_residual_m,
+        settings.simultaneous_window_s,
+        settings.static_triangle_limit
+    );
     let result = owner.coast_static_sphere(
         before.body.stamp,
         before.body.surface,
@@ -139,7 +147,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         radius,
         restitution,
         h,
-        SphereContactSettings::default(),
+        settings,
         |_, _| false,
     );
     match result {

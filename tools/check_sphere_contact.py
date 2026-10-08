@@ -20,7 +20,8 @@ ALGEBRA_TOLERANCE = mp.mpf("1e-12")
 MOVING = [[0,2,4],[2,1,4],[1,3,4],[3,0,4],[2,0,5],[1,2,5],[3,1,5],[0,3,5]]
 REFERENCE = [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]
 TOP = {"radius_m","restitution","requested_interval_s","mass_kg","inertia_kg_m2",
-       "static_vertices","static_triangles","moving_triangles","before","after","error","result"}
+       "static_vertices","static_triangles","moving_triangles","before","after","error","result",
+       "collision_shape","moving_mesh_role","relative_tolerance","max_gap_residual_m","simultaneous_window_s","static_triangle_limit"}
 FRAME = {"time_s","center","q","velocity","omega","generation","surface_version","vertices","peak_payload_bytes"}
 RESULT = {"unused_interval_s","requested_event_dt_s","represented_elapsed_s","clock_defect_s",
           "rotation_increment_rad","quaternion_norm_defect","translation_defect_m","hit","impact"}
@@ -66,6 +67,18 @@ def closest(p, tri):
         e=y-x;q=max(mp.mpf(0),min(mp.mpf(1),dot(p-x,e)/dot(e,e)))
         candidates.append(x+q*e)
     return min(candidates,key=lambda q:dot(p-q,p-q))
+def classify(point,tri):
+    a,b,c=tri;u=b-a;v=c-a;w=point-a
+    uu,uv,vv=dot(u,u),dot(u,v),dot(v,v);det=uu*vv-uv*uv
+    s=(vv*dot(w,u)-uv*dot(w,v))/det;t=(uu*dot(w,v)-uv*dot(w,u))/det
+    bary=[1-s-t,s,t]
+    active=[i for i,x in enumerate(bary) if x>mp.mpf("1e-40")]
+    if len(active)==3:feature="Face"
+    elif len(active)==1:feature="Vertex("+str(active[0])+")"
+    else:
+        zero=next(i for i in range(3) if i not in active)
+        feature="Edge("+str((zero+1)%3)+")"
+    return feature,mp.matrix(bary)
 def oracle(case):
     if case.get("error"):return None
     c,v=vector(case["c"]),vector(case["v"]);h=num(case["h"]);r=num(case["radius"])
@@ -94,13 +107,14 @@ def oracle(case):
             if residual(mid)>0:lo=mid
             else:hi=mid
         time=(lo+hi)/2;p=c+time*v;q=closest(p,tri);n=(p-q)/length(p-q)
-        hits.append((time,ordinal,p,q,n))
+        feature,bary=classify(q,tri)
+        hits.append((time,ordinal,p,q,n,feature,bary))
     if not hits:return {"time":h,"hit":None}
-    time,ordinal,c,q,n=min(hits,key=lambda x:x[0])
+    time,ordinal,c,q,n,feature,bary=min(hits,key=lambda x:x[0])
     vn=dot(v,n);e=num(case["e"]);m=num(case["mass"])
     J=-(1+e)*m*vn*n;after=v+J/m
     return {"time":time,"hit":ordinal,"center":c,"point":q,"normal":n,"velocity":after,
-            "impulse":J,"energy_change":-m/2*(1-e*e)*vn*vn}
+            "impulse":J,"energy_change":-m/2*(1-e*e)*vn*vn,"feature":feature,"barycentric":bary}
 def cases():
     def scene(name,c,v,e=.5,**changes):
         out=dict(name=name,c=c,v=v,e=e,h=1.,radius=.5,mass=2.,inertia=.2,w=[0.,0.,0.],
@@ -149,6 +163,10 @@ def input_text(c):
     return " ".join(map(str,values))+"\n"
 def evaluate(raw,c,expected):
     keys(raw,TOP);frame_schema(raw["before"]);frame_schema(raw["after"])
+    require(raw["collision_shape"]=="declared_sphere" and raw["moving_mesh_role"]=="render_and_traction","explicit separate collider")
+    for k,value in [("relative_tolerance",1e-12),("max_gap_residual_m",1e-10),("simultaneous_window_s",1e-10)]:
+        require(num(raw[k])==num(value),"pinned numerical policy")
+    require(type(raw["static_triangle_limit"]) is int and raw["static_triangle_limit"]==64,"triangle query cap")
     for k,ck in [("radius_m","radius"),("restitution","e"),("requested_interval_s","h"),("mass_kg","mass"),("inertia_kg_m2","inertia")]:
         require(num(raw[k])==num(c[ck]),"pinned physical input")
     require(raw["static_vertices"]==c["vertices"] and raw["static_triangles"]==c["triangles"] and raw["moving_triangles"]==MOVING,"pinned geometry")
@@ -180,6 +198,10 @@ def evaluate(raw,c,expected):
     compare(result["requested_event_dt_s"],t,"time_s");compare(result["represented_elapsed_s"],num(after["time_s"])-num(before["time_s"]))
     compare(result["clock_defect_s"],num(result["represented_elapsed_s"])-num(result["requested_event_dt_s"]))
     compare(result["unused_interval_s"],num(c["h"])-t)
+    actual_dt=num(result["requested_event_dt_s"])
+    compare_vec(result["translation_defect_m"],
+        vector(after["center"])-vector(before["center"])-actual_dt*vector(before["velocity"]))
+    compare(result["quaternion_norm_defect"],mp.sqrt(sum(num(x)**2 for x in after["q"]))-1)
     require(after["generation"]==3 and after["surface_version"]==5 and after["peak_payload_bytes"]==816,"published metadata")
     compare_vec(after["omega"],vector(c["w"]))
     rotation=exponential(vector(c["w"]),t)
@@ -196,6 +218,7 @@ def evaluate(raw,c,expected):
         hit,impact=result["hit"],result["impact"];keys(hit,HIT);keys(impact,IMPACT)
         require(type(hit["triangle"]) is int and hit["triangle"]==expected["hit"],"earliest actual facet")
         require(hit["feature"] in ["Face","Edge(0)","Edge(1)","Edge(2)","Vertex(0)","Vertex(1)","Vertex(2)"],"declared finite feature")
+        require(hit["feature"]==expected["feature"],"independent closest-feature label")
         scalar_fields(hit,["parameter","gap_residual_m"])
         for k in ["center","point","normal","barycentric"]:vector(hit[k])
         scalar_fields(impact,IMPACT-{"normal","impulse_n_s","momentum_defect"})
@@ -219,6 +242,7 @@ def evaluate(raw,c,expected):
         compare(impact["energy_defect_j"],ka-kb-num(impact["predicted_energy_change_j"]))
         compare_vec(impact["momentum_defect"],m*(v1-v0)-vector(impact["impulse_n_s"]))
         bary=vector(hit["barycentric"]);require(all(x>=0 for x in bary),"nonnegative barycentrics")
+        compare_vec(hit["barycentric"],expected["barycentric"])
         compare(float(sum(bary)),mp.mpf(1))
         tri=[vector(c["vertices"][i]) for i in c["triangles"][hit["triangle"]]]
         compare_vec(hit["point"],sum((bary[i]*tri[i] for i in range(3)),mp.zeros(3,1)))
@@ -247,7 +271,10 @@ def main():
     mutations=[lambda x:x["after"]["vertices"].pop(),lambda x:x["after"].update(generation=True),
         lambda x:x["result"]["hit"].update(feature="InfinitePlane"),lambda x:x["static_triangles"].append([0,1,2]),
         lambda x:x["after"]["velocity"].pop(),lambda x:x["before"]["vertices"][0].__setitem__(0,42.),
-        lambda x:x.update(error="forged"),lambda x:x["result"]["impact"].update(kinetic_after_j=float("nan"))]
+        lambda x:x.update(error="forged"),lambda x:x["result"]["impact"].update(kinetic_after_j=float("nan")),
+        lambda x:x["result"]["hit"].update(feature="Face"),
+        lambda x:x["result"].update(quaternion_norm_defect=42.),
+        lambda x:x["result"].update(translation_defect_m=[42.,0.,0.])]
     for mutate in mutations:
         bad=copy.deepcopy(raw);mutate(bad)
         try:evaluate(bad,case,expected)
