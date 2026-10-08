@@ -1,6 +1,6 @@
 # Accepted-control metadata follow-on: source map and pending contract
 
-This is a preliminary implementation plan, not a proposed wire schema or a
+This records the prerequisite source map and implementation plan, not a
 qualification of training data. It is based on exact public producer commit
 `fee7b4a139574f87b259796b1ba8698a41d31ac1`. The separate aligned-strain lab
 and aligned Stokes experiment branches remain unchanged.
@@ -10,8 +10,10 @@ The required consumer input is Tuldok's
 `Tuldok-native-sequence-inspector-29240e4-source-and-evidence.zip`. The current
 supported Library materialization route resolved the archive but its byte
 transfer failed (`library file transfer failed: download failed`). No readable
-contract bytes arrived. Field names, version selection and admissible control
-representations therefore remain pending; no replacement schema is inferred.
+contract bytes arrived through that attempt. The parent subsequently relayed
+the exact source-pinned proposal; the [bounded implementation contract](dense3d-producer-controls.md)
+records that reference and the explicit proposed-v2 scope. The failed transfer
+was not substituted with a guessed path or URL.
 
 ## Existing producer ownership
 
@@ -104,5 +106,7 @@ it is not something the solver can infer from numerical fields.
    draft publication. Save durable checkpoints and a final source/evidence
    bundle. Parent schedules CodeRabbit; no merge, deployment or quality claim.
 
-This plan intentionally chooses no consumer wire fields before the required
-contract is readable. No simulation has been run for this follow-on.
+The initial plan chose no consumer wire fields before the required contract
+was readable. Subsequent qualification uses existing small native fixture tests
+and explicitly authored static publication fixtures. No full sequence pilot
+or held simulation campaign is run for this follow-on.
