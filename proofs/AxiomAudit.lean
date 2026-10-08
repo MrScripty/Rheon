@@ -252,7 +252,22 @@ run_cmd do
     `Rheon.SphereInterval.ledger,
     `Rheon.SphereInterval.ledger_sum,
     `Rheon.SphereInterval.conditional_ledger_nonincrease,
-    `Rheon.SphereInterval.completion_requires_all_time]
+    `Rheon.SphereInterval.completion_requires_all_time,
+    `Rheon.SphereSupport.reaction,
+    `Rheon.SphereSupport.reaction_nonnegative,
+    `Rheon.SphereSupport.net_normal_nonnegative,
+    `Rheon.SphereSupport.normal_complementarity,
+    `Rheon.SphereSupport.reaction_unique,
+    `Rheon.SphereSupport.normal_acceleration_nonnegative,
+    `Rheon.SphereSupport.inward_equilibrium,
+    `Rheon.SphereSupport.outward_requires_zero_support,
+    `Rheon.SphereSupport.radial_support_torque,
+    `Rheon.SphereSupport.matched_force_balance,
+    `Rheon.SphereSupport.zero_twist_support_power,
+    `Rheon.SphereSupport.balanced_kick_drift,
+    `Rheon.SphereSupport.stationary_energy_and_potential,
+    `Rheon.SphereSupport.tangent_plane_distance,
+    `Rheon.SphereSupport.stationary_facet_clearance]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

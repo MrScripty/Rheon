@@ -1,5 +1,5 @@
 {
-  "AxiomAudit.lean": "5912030d5d175cdf3e9c64e6b242dbeace7b7ddcde9764c151c145a127d3f1b9",
+  "AxiomAudit.lean": "9e79aa658a2ab349a8403aa219b027e24114dd79204ec42607913e48454d62f4",
   "Rheon/AlignedStrain.lean": "4a76bacb1a49b2c395c1718ce45e2ed134217b78697766c099e666d09001ae32",
   "Rheon/BoundedPhysics.lean": "20dd53b1b137a01f8b04de47ffbe8474561696940e17ab1ed4d3bfde388b03af",
   "Rheon/ColumnForcing.lean": "9199bd6d06f254e1cf31d8c7cd5e8cee951d53a5325db8bc78ef5cb449226211",
@@ -15,8 +15,9 @@
   "Rheon/SphereFriction.lean": "3912c77e702b01c24f584bb2fe40ded2f81322ca8aebbed382a7b836f4aaa74b",
   "Rheon/SphereFrictionInterval.lean": "ffb43d4fb6301f6a6d8e6964b8b28f362cbd6c1883b9ab2f135a9453352f690e",
   "Rheon/SphereInterval.lean": "be5cb01895287f85a46c3337869f73f1673b33d75832b3f6d46d98f5dee2bebe",
+  "Rheon/SphereSupport.lean": "7f96fc765535cb7e8b4750cc98097170d6f07de7236a66dd7f31d538de2e4ab8",
   "Rheon/StaticObstacle.lean": "b93a60d832775dd2177980806d149cbe0a42fef03bc3993f10ed44aa8451c4bb",
   "Rheon/Transport.lean": "f967e593db1df0ec945ea6830e67b991e56da168e9f6e3f2d42c4c5866c5cf06",
   "Rheon/WallFriction.lean": "3aa15f9e4b5881181cdf438c88774a5eec29feb1a849b0329f0f95c34fa551e7",
-  "Rheon.lean": "ba9d3b7f5b06907ac6a5964750839493f6d27f15565c6491a9e8f0abf3db1eff"
+  "Rheon.lean": "249a8ff8f6a2a9278493d6eabc7161d79a6f90e61507fb5bdb947c223832a13f"
 }

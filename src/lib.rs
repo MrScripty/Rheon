@@ -32,9 +32,11 @@ mod sphere_departure;
 mod sphere_event_loop;
 mod sphere_friction_interval;
 mod sphere_interval;
+mod sphere_support;
 pub use sphere_departure::{SphereDepartureKind, SphereDepartureReport};
 pub use sphere_friction_interval::*;
 pub use sphere_interval::*;
+pub use sphere_support::*;
 mod static_obstacle;
 pub use sphere_contact::{
     MAX_CONTACT_BODY_TRIANGLES, SphereContactError, SphereContactHit, SphereContactReport,

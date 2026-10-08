@@ -14,7 +14,11 @@ facets, moving supports and approximate gap/velocity bands remain unsupported.
 
 Reuse StaticSphereSweep admission for stamps, collider radius/moment and bounded
 geometry, without invoking its impact-only initial-contact query. Reuse the
-existing TriangleSurface segment query from COM c to p as a geometry probe.
+existing TriangleSurface segment query from COM c to the checked mirror endpoint 2*p-c as a geometry probe.
+This is a query, never a pose update; the exact-real tangent plane crosses at
+parameter 1/2, avoiding an endpoint-only probe. Rounded mirror arithmetic can
+shift the actual probe parameter/point, retained as diagnostics. No failed probe
+is retried; mirror arithmetic failure and query ambiguity remain refusals.
 Then independently check the proposed witness: exact represented |c-p|^2=R^2,
 (c-p) dot (vertex-p)=0 at all three vertices, and strict projected interior
 orientation signs. Use the existing bounded ProductSign kernel for these signs;
@@ -50,6 +54,14 @@ primitive. The first held implementation requires stored identity orientation:
 this is a representation restriction so the inherited quaternion regeneration
 cannot renormalize a nonidentity resting pose. The immutable force proposal
 does not need this restriction. General stored-pose preservation is deferred.
+The old owner constructor checks the exact reference-vertex translation
+round-trip, and every publication regenerates world vertices from that reference
+and the current pose. Identity quaternion and unchanged COM therefore preserve
+numerical vertices/pose/twist; signed-zero bit identity is not claimed. Only time
+and stamps advance, and requested h is distinct from actual clock elapsed/defect.
+The held API recomputes the proposal from current inputs; public report fields
+are never accepted as an authorization ticket. Its old-motion load report is
+a zero-load proxy, kept distinct from the retained actual mesh/gravity/support.
 
 The held interval inherits the owner's max_dt, positive representable clock,
 stamps/generation, geometry and payload bounds. All failure/cancellation paths
