@@ -6,7 +6,7 @@ import json
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
                     'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt',
-                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py']
+                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py', 'aligned_strain_packet.py', 'aligned_strain_html.py', 'aligned_strain.js', 'aligned_strain.css', 'aligned_strain_browser.py']
 LABS = ['projection', 'collision', 'hydrostatic', 'viscous', 'slip', 'cap']
 
 
@@ -70,6 +70,15 @@ def verify_browser_qualification(repo, artifact_dir=None):
         expected={'included':included,'pressure_views':24 if included else 0,'shear_frames':54 if included else 0,'mobile_no_overflow':True,'browser_fluid_solves':0}
         if receipt.get('obstacle_flow')!=expected:
             raise ValueError('Incomplete obstacle-flow browser qualification')
+
+        from aligned_strain_packet import verify_published as verify_strain_published
+        strain=verify_strain_published(repo,artifact)
+        included=strain is not None
+        observed=receipt.get('aligned_strain',{})
+        if observed.get('included') is not included or observed.get('fluid_advances') != 0 or observed.get('mobile_no_overflow') is not True:
+            raise ValueError('Incomplete aligned-strain browser qualification')
+        if included and (observed.get('independent_rational_comparisons',0) < 8 or observed.get('active_faces') != len(strain['active']) or observed.get('rows') != len(strain['rows'])):
+            raise ValueError('Missing actual aligned-strain control comparisons')
 
 
 if __name__ == '__main__':

@@ -11,7 +11,7 @@ import unittest
 
 from aligned_strain_packet import (ROOT, SCHEMA, basis_and_corners, browser_expectation,
                                   encoded, external_new_directory, packet_data,
-                                  sha, source_core, validate_packet)
+                                  sha, source_core, validate_packet, publish, verify_published)
 from aligned_strain_oracle import Dump, Geometry, Refusal, reference
 
 
@@ -76,6 +76,12 @@ class ControlBasisTest(unittest.TestCase):
         with self.assertRaisesRegex(Refusal,'outside'):
             external_new_directory(ROOT,ROOT/'packet-test')
 
+    def test_source_only_publication_states_absence(self):
+        with tempfile.TemporaryDirectory() as temp:
+            self.assertIsNone(publish(ROOT,Path(temp)))
+            self.assertIsNone(verify_published(ROOT,Path(temp)))
+            self.assertFalse((Path(temp)/'aligned-strain-packet').exists())
+
     def test_native_core_pinned_to_immutable_primary(self):
         self.assertIn('src/aligned_strain.rs',source_core(ROOT))
 
@@ -100,6 +106,16 @@ class NativePacketRejectionTest(unittest.TestCase):
                           receipt['oracle_summary']['zero_rows'],receipt['oracle_summary']['B_exact']), (48,210,6,'17'))
         data=json.loads((self.packet/'data.json').read_text())
         self.assertEqual(browser_expectation(data)['D'],18)
+
+    def test_published_packet_and_renderer_bindings(self):
+        output=Path(self.temp.name)/'published';output.mkdir()
+        data=publish(ROOT,output,self.packet)
+        for name in ('aligned_strain.js','aligned_strain.css'):
+            shutil.copyfile(ROOT/'docs/education'/name,output/name)
+        self.assertEqual(verify_published(ROOT,output),data)
+        with (output/'aligned_strain.js').open('a') as renderer:renderer.write('\nchanged')
+        with self.assertRaisesRegex(Refusal,'renderer binding'):
+            verify_published(ROOT,output)
 
     def test_rehashed_crafted_payloads_refuse(self):
         original=json.loads((self.packet/'data.json').read_text())

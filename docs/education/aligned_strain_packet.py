@@ -120,7 +120,7 @@ def basis_and_corners(faces, rows):
         'shear': ('Cross-component sample shear', '∂y uₓ sample rate', '∂x uᵧ sample rate', 's⁻¹', shear_a, shear_b,
                   'Both velocity components contribute to engineering shear.', interior_focus),
         'rotation': ('Local rotation patch', 'ω · rotation rate', 'unused', 's⁻¹', rotation_a, [F(0)]*n,
-                     'The selected full-fluid patch has zero strain. Surrounding stationary traces prevent a global rigid-rotation null mode.', interior_focus),
+                     'The selected full-fluid shear rows have zero engineering shear. Surrounding normal rows and stationary traces can produce positive global loss.', interior_focus),
     }
     presets = {key: {'label': label, 'primaryLabel': primary, 'secondaryLabel': secondary,
                     'units': units, 'basis': [[float(x) for x in a], [float(x) for x in b]],
@@ -272,6 +272,46 @@ def validate_packet(repo, directory):
     require(data == packet_data(parse_dump(directory/'native.tsv'), source),
             'packet data differs from actual native rows and independent controls')
     return receipt
+
+
+def publish(repo, output, directory=None):
+    """Copy only validated packet inputs; the caller renders the returned data."""
+    output, repo = Path(output), Path(repo)
+    receipt = validate_packet(repo,directory)
+    presentation = {'schema':'rheon-aligned-strain-presentation-v1','included':receipt is not None,
+                    'qualification':receipt,'renderer_sha256':None}
+    if receipt is not None:
+        destination = output/'aligned-strain-packet'
+        require(not destination.exists(),'published packet destination must be fresh')
+        shutil.copytree(directory,destination)
+        shutil.copyfile(Path(directory)/'data.json',output/'aligned-strain-packet.json')
+        presentation['renderer_sha256'] = {name:sha(repo/'docs/education'/name) for name in
+                                          ('aligned_strain.js','aligned_strain.css','aligned_strain_html.py')}
+    with (output/'aligned-strain-presentation.json').open('x') as out:
+        out.write(encoded(presentation))
+    return json.loads((Path(directory)/'data.json').read_text()) if receipt is not None else None
+
+
+def verify_published(repo,output):
+    repo,output = Path(repo),Path(output)
+    presentation = json.loads((output/'aligned-strain-presentation.json').read_text())
+    require(set(presentation)=={'schema','included','qualification','renderer_sha256'} and
+            presentation.get('schema')=='rheon-aligned-strain-presentation-v1' and
+            type(presentation.get('included')) is bool,'aligned strain presentation schema')
+    if not presentation['included']:
+        require(presentation['qualification'] is None and presentation['renderer_sha256'] is None and
+                not (output/'aligned-strain-packet').exists() and not (output/'aligned-strain-packet.json').exists(),
+                'absent aligned strain packet')
+        return None
+    receipt = validate_packet(repo,output/'aligned-strain-packet')
+    require(presentation['qualification']==receipt,'published aligned strain receipt binding')
+    require((output/'aligned-strain-packet.json').read_bytes()==(output/'aligned-strain-packet/data.json').read_bytes(),
+            'published aligned strain linked packet binding')
+    expected = {name:sha(repo/'docs/education'/name) for name in
+                ('aligned_strain.js','aligned_strain.css','aligned_strain_html.py')}
+    require(presentation['renderer_sha256']==expected and all(sha(output/name)==expected[name] for name in
+            ('aligned_strain.js','aligned_strain.css')),'published aligned strain renderer binding')
+    return json.loads((output/'aligned-strain-packet/data.json').read_text())
 
 
 def browser_expectation(packet, preset='corner', amplitude=1, secondary=1, mu=1, corner_selection=None):

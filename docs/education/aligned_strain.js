@@ -35,7 +35,7 @@ function bounded(value, limits, name) {
   return value;
 }
 function validate(packet) {
-  require(packet && packet.meta && packet.source, 'Missing source-bound native packet');
+  require(packet && packet.schema === 'rheon-aligned-strain-education-packet-v1' && packet.meta && packet.source, 'Missing or unsupported source-bound native packet');
   require(same(packet.meta.counts, [3, 3, 3]), 'This view requires the qualified 3³ specimen');
   require(packet.active.length > 0 && packet.active.length <= 100 && packet.rows.length <= 400, 'Packet exceeds the bounded specimen');
   packet.active.forEach((face, id) => {
@@ -91,12 +91,12 @@ function start() {
     return {field: u, strains, action, forces, normalD, shearD, D, work, identity: D + work, B, energy, losses};
   }
   function preferredRow(preset) {
-    const focus = packet.presets[preset].focusRowIds;
-    if (focus && focus.length) return focus[0];
     if (preset === 'corner') {
       const edge = selectedCorner();
       return edge ? edge.rowIds.find(id => rows[id].terms.length === 2) : 0;
     }
+    const focus = packet.presets[preset].focusRowIds;
+    if (focus && focus.length) return focus[0];
     if (preset === 'normal') return rows.find(row => same(row.axes, [0, 0]) && row.terms.length === 2)?.id ?? 0;
     return rows.find(row => same(row.axes, [0, 1]) && same(row.coordinates, [1, 1, 0]))?.id ?? 0;
   }
@@ -240,7 +240,7 @@ function start() {
     }
     if (!row.terms.length) { const tr = document.createElement('tr'), td = document.createElement('td'); td.colSpan = 4; td.textContent = 'Zero coefficients. This fluid quadrature row remains retained.'; tr.append(td); table.append(tr); }
     const boundaryName = typeof boundary === 'string' ? boundary.toLowerCase() : ({0: 'interior', 1: 'obstacleflat', 2: 'obstaclecorner', 3: 'outerfreeslip', 4: 'normal'})[boundary];
-    const explanations = {interior: 'Both centered differences use their represented adjacent-center distances. All four fluid quadrants carry this same engineering-shear row.', obstacleflat: 'Stationary no-slip traces are eliminated. The surviving tangential sample reaches zero over its represented center-to-wall distance.', obstaclecorner: 'The two hinge derivatives contribute only on their actual fluid quadrants. The shared sector couples x and y components.', normal: 'The cell-normal difference uses the represented cell width. Stationary obstacle and outer-wall normal traces are eliminated zeros.'};
+    const explanations = {interior: 'Both centered differences use their represented adjacent-center distances. All four fluid quadrants carry this same engineering-shear row.', obstacleflat: 'Stationary no-slip traces are eliminated. The surviving tangential sample reaches zero over its represented center-to-wall distance.', obstaclecorner: 'The two hinge derivatives contribute only on their actual fluid quadrants. The shared sector couples the two represented velocity components.', normal: 'The cell-normal difference uses the represented cell width. Stationary obstacle and outer-wall normal traces are eliminated zeros.'};
     $('strain-row-boundary').textContent = `${explanations[boundaryName] ?? 'This row is copied from the native operator, including its eliminated stationary traces.'} Scatter each support coefficient as −μ Eᵣf wᵣ sᵣ.`;
     const edge = inspectedEdge ?? selectedCorner();
     document.querySelector('.strain-corner-panel').dataset.cornerId = edge.id;
