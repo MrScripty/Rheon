@@ -1,7 +1,7 @@
 #[allow(dead_code)]
 #[path = "../examples/viscous_boundary_wrench.rs"]
 mod fixture;
-use fixture::{axis, fields, geometry, rigid_component, CAP, OUTER_TWIST, SOLID_TWIST};
+use fixture::{CAP, OUTER_TWIST, SOLID_TWIST, axis, fields, geometry, rigid_component};
 use rheon::{
     AlignedStrain, AlignedStrainBoundary, AlignedStrainError, AlignedViscousBoundaryWrench,
     ObstacleFlowError, ObstacleFlowStage,

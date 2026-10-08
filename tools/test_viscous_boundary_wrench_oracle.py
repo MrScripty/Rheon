@@ -155,6 +155,24 @@ class RationalWrenchControls(unittest.TestCase):
         metrics=c.exact_metrics(g,faces,rows,lifts,ref,u)
         self.assertTrue(any(s>abs(v) for s,v in zip(metrics['scales']['force'],metrics['force'])))
 
+    def test_native_normal_or_zero_guard_precedes_contribution_budget(self):
+        for token in ('0000000000000000','8000000000000000'):
+            self.assertEqual(c.scalar(token),0)
+            c.diagnostic(c.scalar(token),F(0),F(0),'signed zero')
+        for token in ('0010000000000000','8010000000000000'):
+            self.assertEqual(abs(c.scalar(token)),c.MIN_NORMAL)
+        for token in ('0000000000000001','8000000000000001',
+                      '000fffffffffffff','800fffffffffffff'):
+            with self.subTest(token=token):
+                with self.assertRaisesRegex(Refusal,'normal-or-zero'):c.scalar(token)
+                actual=c.bits_value(token)
+                # This zero defect would pass the contribution budget alone.
+                self.assertLessEqual(abs(actual),c.DIAGNOSTIC_TOLERANCE)
+                with self.assertRaisesRegex(Refusal,'normal-or-zero'):
+                    c.diagnostic(actual,F(0),F(1),'supported native output')
+        # Exact references are unrestricted rationals, even below binary64.
+        c.diagnostic(F(0),F(1,2**1075),F(1),'exact subnormal-sized reference')
+
 
 class NativeWrenchObservations(unittest.TestCase):
     @unittest.skipUnless(os.environ.get('RHEON_VISCOUS_WRENCH_EXECUTABLE'),'actual native binary not configured')
@@ -169,6 +187,11 @@ class NativeWrenchObservations(unittest.TestCase):
                 if case=='unit-center':
                     packet=c.read_json(path)
                     self.assertGreaterEqual(len(c.mutation_suite(packet)),20)
+                    subnormals=[(name,bad) for name,bad in c.hostile_records(packet) if name.startswith('subnormal-')]
+                    self.assertEqual(len(subnormals),24)
+                    for name,bad in subnormals:
+                        with self.subTest(hostile=name):
+                            with self.assertRaisesRegex(Refusal,'normal-or-zero'):c.verify_record(bad)
                     duplicate=Path(d)/'duplicate.json'
                     duplicate.write_bytes(path.read_bytes().replace(b'"schema":',b'"schema":"extra","schema":',1))
                     with self.assertRaisesRegex(Refusal,'duplicate'):c.verify(duplicate)

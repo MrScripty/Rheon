@@ -384,10 +384,17 @@ fn main() -> Result<(), Box<dyn Error>> {
             AlignedStrainBoundary::ObstacleFlat => "flat",
             AlignedStrainBoundary::ObstacleCorner => "corner",
             AlignedStrainBoundary::OuterFreeSlip => {
-                return Err("unexpected enumerated outer shear row".into())
+                return Err("unexpected enumerated outer shear row".into());
             }
         };
-        write!(out,"{{\"id\":{i},\"axes\":[{},{}],\"coordinates\":{:?},\"quadrant\":{},\"boundary\":\"{boundary}\",\"weight\":",axis(r.axes[0]),axis(r.axes[1]),r.coordinates,r.quadrant)?;
+        write!(
+            out,
+            "{{\"id\":{i},\"axes\":[{},{}],\"coordinates\":{:?},\"quadrant\":{},\"boundary\":\"{boundary}\",\"weight\":",
+            axis(r.axes[0]),
+            axis(r.axes[1]),
+            r.coordinates,
+            r.quadrant
+        )?;
         bits(&mut out, r.weight)?;
         write!(out, ",\"terms\":[")?;
         for (j, t) in r.terms().iter().enumerate() {

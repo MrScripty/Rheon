@@ -5,7 +5,9 @@ The ideal lift is derived without native rows. A separate nearest-binary64
 assembly model rounds each documented primitive (no FMA) and requires exact
 stored E/W/mass/Cs/Co values. Only native action/work diagnostics receive an
 explicit same-unit sum-of-absolute-contributions tolerance; it is not enclosure
-or permission to advance physics. This is a variational generalized wrench,
+or permission to advance physics. Native scalars must first satisfy the
+kernel's finite normal-or-zero contract; tolerance cannot authorize subnormals.
+This is a variational generalized wrench,
 not a point traction/facet load or a pressure wrench.
 """
 from __future__ import annotations
@@ -27,15 +29,23 @@ from aligned_strain_oracle import (Geometry, Face, Row, Refusal, require, refere
 SCHEMA = 'rheon-viscous-boundary-wrench-v1'
 EPS = F.from_float(sys.float_info.epsilon)
 DIAGNOSTIC_TOLERANCE = 128*EPS
+MIN_NORMAL = F.from_float(sys.float_info.min)
 
 
 def bits(x):
     return struct.pack('>d',float(x)).hex()
 
 
+def normal_or_zero(value,label):
+    # Check observed values, never the exact rational reference/intermediates.
+    # Both signs of native zero are valid; fixed metadata keeps its bit checks.
+    require(value==0 or abs(value)>=MIN_NORMAL,'native normal-or-zero '+label)
+    return value
+
+
 def scalar(token):
     require(type(token)is str,'binary64 token type')
-    return bits_value(token)
+    return normal_or_zero(bits_value(token),'binary64 scalar')
 
 
 def rounded(value):
@@ -303,6 +313,7 @@ def native_vector(value,count,label):
 
 
 def diagnostic(actual,expected,scale,label):
+    normal_or_zero(actual,label)
     close(actual,expected,label,tolerance=DIAGNOSTIC_TOLERANCE,scale=scale)
 
 
@@ -469,6 +480,14 @@ def hostile_records(packet):
     add('allocation-element-bytes-forged',lambda p:p['report'].__setitem__('lift_element_bytes',104))
     add('allocation-boolean',lambda p:p['report'].__setitem__('allocated_bytes',True))
     add('nonfinite-binary64',lambda p:p['fields'][0]['force'].__setitem__(0,bits(float('inf'))))
+    for sign,token in (('positive','0000000000000001'),('negative','8000000000000001')):
+        for key in ('dissipation','force_work','work_defect'):
+            add('subnormal-'+sign+'-'+key,lambda p,k=key,t=token:p['fields'][translation].__setitem__(k,t))
+        for key,index in (('force',1),('solid_wrench',3),('outer_wrench',3),('fluid_wrench',3),('balance_defect',1)):
+            add('subnormal-'+sign+'-'+key,lambda p,k=key,j=index,t=token:p['fields'][translation][k].__setitem__(j,t))
+        for key in ('wrench_work','row_work','defect'):
+            add('subnormal-'+sign+'-virtual-'+key,lambda p,k=key,t=token:p['fields'][translation]['virtual_work'].__setitem__(k,t))
+        add('subnormal-'+sign+'-rigid-residual',lambda p,t=token:p['report']['common_rigid_residual_max'].__setitem__(5,t))
     return cases
 
 
