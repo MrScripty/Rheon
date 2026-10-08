@@ -51,30 +51,33 @@ pub(super) fn case41_fd_capture(c: &super::FixedCase, chart: &mut super::scalar:
     assert_eq!(q.map(f64::to_bits), c.q.map(f64::to_bits));
     assert_eq!(eta.map(f64::to_bits), c.eta.map(f64::to_bits));
     let _ = chart;
-    let mut result = work.case41_numerical(c, &old, &mass, &c.unknown);
     let mut baseline = [0.; V];
     let mut perturbed = c.unknown;
     let mut values = [0.; V];
-    match &result {
-        Ok(e) => baseline.copy_from_slice(&e.rate),
-        Err(error) => {
-            work.case41_serialize(c, &c.unknown, None, 0., &result);
-            println!(
-                "{{\"event\":\"fd_complete\",\"case\":41,\"baseline_failed\":true,\"error\":{:?},\"equations_attempted\":1,\"corrections\":0,\"owners\":0,\"published\":false}}",
-                format!("{error:?}")
-            );
-            return;
-        }
-    }
-    work.case41_serialize(c, &c.unknown, None, 0., &result);
-    for j in 0..6 {
-        let delta = mul(1e-6, add(c.unknown[j].abs(), 0.01).unwrap()).unwrap();
+    for probe in 0..7 {
+        let column = if probe == 0 { None } else { Some(probe - 1) };
+        let delta = match column {
+            None => 0.,
+            Some(j) => mul(1e-6, add(c.unknown[j].abs(), 0.01).unwrap()).unwrap(),
+        };
         perturbed.copy_from_slice(&c.unknown);
-        perturbed[j] = add(perturbed[j], delta).unwrap();
-        result = work.case41_numerical(c, &old, &mass, &perturbed);
-        work.case41_serialize(c, &perturbed, Some(j), delta, &result);
-        match &result {
-            Ok(e) => {
+        if let Some(j) = column {
+            perturbed[j] = add(perturbed[j], delta).unwrap();
+        }
+        // One return slot with a fresh lifetime each iteration. No assignment
+        // of a full Result into a still-live predecessor Result.
+        let result = work.case41_numerical(c, &old, &mass, &perturbed);
+        work.case41_serialize(c, &perturbed, column, delta, &result);
+        match (&result, column) {
+            (Ok(e), None) => baseline.copy_from_slice(&e.rate),
+            (Err(error), None) => {
+                println!(
+                    "{{\"event\":\"fd_complete\",\"case\":41,\"baseline_failed\":true,\"error\":{:?},\"equations_attempted\":1,\"corrections\":0,\"owners\":0,\"published\":false}}",
+                    format!("{error:?}")
+                );
+                return;
+            }
+            (Ok(e), Some(j)) => {
                 let column = (|| -> Result<(), CoupledDiscreteError> {
                     for i in 0..V {
                         values[i] = div(add(e.rate[i], -baseline[i])?, delta)?;
@@ -91,7 +94,7 @@ pub(super) fn case41_fd_capture(c: &super::FixedCase, chart: &mut super::scalar:
                     ),
                 }
             }
-            Err(error) => println!(
+            (Err(error), Some(j)) => println!(
                 "{{\"event\":\"fd_column_unavailable\",\"case\":41,\"column\":{j},\"error\":{:?},\"owners\":0,\"corrections\":0}}",
                 format!("{error:?}")
             ),
@@ -101,6 +104,7 @@ pub(super) fn case41_fd_capture(c: &super::FixedCase, chart: &mut super::scalar:
         "{{\"event\":\"fd_complete\",\"case\":41,\"baseline_failed\":false,\"equations_attempted\":7,\"corrections\":0,\"owners\":0,\"published\":false}}"
     );
 }
+
 impl Work {
     #[inline(never)]
     fn case41_numerical(
