@@ -44,7 +44,8 @@ from actual `r(x)=V+omega cross (x-c)` samples: after changing reference by `a`,
 Work alone does not prove total force/torque conservation. A sufficient extra
 premise is full common-rigid reproduction, `E R_f+C_s+C_o=0`, where `R_f` samples
 the same rigid field at every active face. Under this premise,
-`R_f^T f+g_s+g_o=0`. Derive the lifts from boundary geometry before checking this
+`R_f^T f+g_s+g_o=0`. Both lifts use the same reference `c` and twist basis.
+Derive the lifts from boundary geometry before checking this
 identity; defining `C_s=-E R_f` merely to force cancellation supplies no physical
 trace derivation. Fixed sealed outer walls forbid a global rotating fluid as an
 actual admissible stationary test. Local compatible rotation and virtual
@@ -75,7 +76,8 @@ old rows with no active coefficients: they can have nonzero lift coefficients.
   This is a proposed new derived lift, not a formula attributed to Batty.
 * Outer free-slip shear remains analytically zero under the admitted sealed
   traces. Restore and account for outer normal traces separately where needed;
-  do not silently replace free-slip by no-slip.
+  a virtual moving-outer interpretation must enforce relative free-slip shear,
+  not reinstate no-slip tangential traces.
 
 Use represented center-to-wall distances without snapping. Flat conductance is
 `sum(v_sector)/delta^2`; rewriting it as geometric area divided by distance
