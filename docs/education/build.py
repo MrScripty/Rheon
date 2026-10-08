@@ -57,13 +57,13 @@ def build():
     shutil.copytree(BOOK/'expansion/figures',OUT/'figures/expansion')
     if CONTACT_RECORDS is not None:
         (OUT/'figures/native').mkdir()
-        for image in ['finite-static-sphere-contact.jpg','spherical-rigid-motion-example.jpg']:
+        for image in ['finite-static-sphere-contact.jpg','spherical-rigid-motion-example.jpg','mesh-traction-example.jpg']:
             shutil.copy2(CONTACT_RECORDS/image,OUT/'figures/native'/image)
     qualification=BOOK/'expansion/bounded-proof-qualification.json'
     if not qualification.exists():qualification=BOOK/'expansion/proof-qualification.json'
     shutil.copy2(qualification,OUT/'proof-qualification.json')
     if CURRENT_PROOF is not None:
-        shutil.copytree(CURRENT_PROOF,OUT/'current-proof-qualification')
+        shutil.copytree(CURRENT_PROOF,OUT/'current-proof-qualification',ignore=shutil.ignore_patterns('proof-work','cache'))
     for name in ['reference-data.json','reference.py','reference-qualification.json','sources.json']:
         shutil.copy2(BOOK/'expansion'/name,OUT/name)
     chapter_files=sorted((BOOK/'chapters').glob('*.md'))+sorted((BOOK/'appendices').glob('*.md'))
@@ -76,8 +76,8 @@ def build():
         text=path.read_text(); title=text.splitlines()[0].removeprefix('# '); slug=path.stem
         fig=FIGURES.get(slug[:2])
         if path in chapter_files and fig:text+=f'\n\n![Original reference illustration for {title}](figures/{fig})\n'
-        if CONTACT_RECORDS is not None and slug in ('static-sphere-contact','spherical-rigid-motion'):
-            image='finite-static-sphere-contact.jpg' if slug=='static-sphere-contact' else 'spherical-rigid-motion-example.jpg'
+        if CONTACT_RECORDS is not None and slug in ('static-sphere-contact','spherical-rigid-motion','triangle-mesh-traction'):
+            image={'static-sphere-contact':'finite-static-sphere-contact.jpg','spherical-rigid-motion':'spherical-rigid-motion-example.jpg','triangle-mesh-traction':'mesh-traction-example.jpg'}[slug]
             text+=f'\n\n![Actual native stored geometry and states; see the guide for model limits](figures/native/{image})\n'
         markdown.append(text)
         body=command(['pandoc','-f','markdown+tex_math_single_backslash','-t','html5','--katex'],input=text)
@@ -115,7 +115,7 @@ def build():
     rendered=json.loads(command(['node','-e',node],input=payload,cwd=ASSETS.parent)); pages=rendered['pages']
     def nav(prefix):return '<nav aria-label="Book chapters"><a href="'+prefix+'index.html">Overview</a><a href="'+prefix+'labs.html">3D laboratories</a><a href="'+prefix+'proofs.html">Proofs & evidence</a><a href="'+prefix+'native-labs.html">Native wall/force progression</a><a href="'+prefix+'obstacle-lab.html">Static obstacle geometry</a><a href="'+prefix+'obstacle-flow-lab.html">Obstacle pressure & shear</a><a href="'+prefix+'aligned-strain-lab.html">Interactive finite strain</a><a href="'+prefix+'sphere-contact-lab.html">Recorded sphere contact</a><input id="search" type="search" aria-label="Filter chapters" placeholder="Find a chapter…">'+''.join(f'<a class="chapter-link" href="{prefix}chapters/{p["slug"]}.html">{html.escape(p["title"])}</a>' for p in pages if p['folder']=='chapters')+'<h2>Learning path</h2>'+''.join(f'<a class="chapter-link" href="{prefix}implementation/{p["slug"]}.html">{html.escape(p["title"])}</a>' for p in pages if p['folder']=='implementation' and p['slug'] in GUIDES)+'<details><summary>Further implementation guides</summary>'+''.join(f'<a class="chapter-link" href="{prefix}implementation/{p["slug"]}.html">{html.escape(p["title"])}</a>' for p in pages if p['folder']=='implementation' and p['slug'] not in GUIDES)+'</details></nav>'
     def shell(title,body,prefix='',extra=''):
-        return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)} · Rheon</title><noscript><style>#menu,#search{{display:none}}@media(max-width:760px){{aside{{display:block;position:static;width:100%;max-height:320px}}}}</style></noscript><link rel="stylesheet" href="{prefix}style.css"><link rel="stylesheet" href="{prefix}vendor/katex/katex.min.css">{extra}</head><body><a class="skip" href="#main">Skip to content</a><header><a class="brand" href="{prefix}index.html">Rheon<span>Discrete Fluid Simulation</span></a><button id="menu" aria-expanded="false" aria-controls="navigation">Chapters</button><div class="header-links"><a href="{prefix}labs.html">Explore in 3D</a><a href="{prefix}downloads/Rheon-expanded-book.pdf">PDF</a><a href="{prefix}print.html">Print</a></div></header><aside id="navigation">{nav(prefix)}</aside><main id="main">{body}</main><footer>Puma · Research & teaching edition · Exact contracts and local references; see the evidence map.</footer><script>const b=document.querySelector('#menu');b.onclick=()=>{{const v=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',v);document.querySelector('aside').classList.toggle('open',v)}};document.querySelector('#search').oninput=e=>document.querySelectorAll('.chapter-link').forEach(a=>a.hidden=!a.textContent.toLowerCase().includes(e.target.value.toLowerCase()));</script></body></html>'''
+        return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)} · Rheon</title><noscript><style>#menu,#search{{display:none!important}}@media(max-width:760px){{aside{{display:block!important;position:static!important;width:100%;max-height:320px}}}}</style></noscript><link rel="stylesheet" href="{prefix}style.css"><link rel="stylesheet" href="{prefix}vendor/katex/katex.min.css">{extra}</head><body><a class="skip" href="#main">Skip to content</a><header><a class="brand" href="{prefix}index.html">Rheon<span>Discrete Fluid Simulation</span></a><button id="menu" aria-expanded="false" aria-controls="navigation">Chapters</button><div class="header-links"><a href="{prefix}labs.html">Explore in 3D</a><a href="{prefix}downloads/Rheon-expanded-book.pdf">PDF</a><a href="{prefix}print.html">Print</a></div></header><aside id="navigation">{nav(prefix)}</aside><main id="main">{body}</main><footer>Puma · Research & teaching edition · Exact contracts and local references; see the evidence map.</footer><script>const b=document.querySelector('#menu');b.onclick=()=>{{const v=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',v);document.querySelector('aside').classList.toggle('open',v)}};document.querySelector('#search').oninput=e=>document.querySelectorAll('.chapter-link').forEach(a=>a.hidden=!a.textContent.toLowerCase().includes(e.target.value.toLowerCase()));</script></body></html>'''
     for i,p in enumerate(pages):
         body=p['html'].replace('src="figures/','src="../figures/')
         body+='<div class="pager">'+(f'<a href="../{pages[i-1]['folder']}/{pages[i-1]['slug']}.html">← {html.escape(pages[i-1]["title"])}</a>' if i else '')+(f'<a href="../{pages[i+1]['folder']}/{pages[i+1]['slug']}.html">{html.escape(pages[i+1]["title"])} →</a>' if i+1<len(pages) else '')+'</div>'

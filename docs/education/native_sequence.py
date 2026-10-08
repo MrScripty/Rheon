@@ -39,6 +39,21 @@ def validate_proof_qualification(data, repo, directory):
         raise ValueError('Current proof qualification source/status differs')
     if actual.get('proof_inventory_sha256')!=data['proof_inventory_sha256']:
         raise ValueError('Current proof qualification inventory differs')
+    inventory=json.loads((Path(repo)/'proofs/source-inventory.json').read_text())
+    if actual.get('proof_source_sha256')!=inventory or actual.get('lean_checked') is not True:
+        raise ValueError('Current proof qualification omits reviewed proof sources')
+    if actual.get('allowed_axioms')!=['propext','Classical.choice','Quot.sound'] or 'version 4.19.0,' not in actual.get('lean_version',''):
+        raise ValueError('Current proof qualification compiler/axiom policy differs')
+    pins={p['name']:p['rev'] for p in json.loads((Path(repo)/'proofs/lake-manifest.json').read_text())['packages']}
+    if actual.get('dependency_pins')!=pins:
+        raise ValueError('Current proof qualification dependency pins differ')
+    required={('lake','build'),('lake','env','lean','AxiomAudit.lean'),
+              ('python3','scripts/check_sources.py'),('python3','scripts/test_audit.py'),
+              ('python3','-O','scripts/test_audit.py'),('python3','scripts/test_check_sources.py'),
+              ('python3','-O','scripts/test_check_sources.py')}
+    observed={tuple(c['command']) if isinstance(c['command'],list) else tuple(c['command'].split()) for c in actual['commands']}
+    if observed!=required or len(actual['commands'])!=len(required):
+        raise ValueError('Current proof qualification omits required commands')
     for name,digest in actual['proof_source_sha256'].items():
         if hashlib.sha256((Path(repo)/'proofs'/name).read_bytes()).hexdigest()!=digest:
             raise ValueError('Qualified proof source changed: '+name)

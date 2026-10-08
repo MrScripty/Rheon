@@ -1,6 +1,6 @@
 # Requirements map and the next solid-fluid geometry contract
 
-This map describes accepted main, the unmerged PR22–24 stack and the bounded static-obstacle geometry feature. The new
+This map reads the immutable PR36 snapshot `d31cf735645579357f9f58dcc55958e23f77af59`, including the earlier wall/force and bounded obstacle components. The original API links in the table retain their historical PR24 identities. The new
 native wall/force sequence is qualified within its fixed-column model; the
 broader liquid capability is incomplete. Source links below freeze the inspected
 PR24 source, so a future implementation cannot silently change these claims.
@@ -71,3 +71,22 @@ neither a fluid pressure interpolation nor a matched fluid reaction or body step
 
 General embedded geometry, moving/free interfaces, forcing, variable material,
 capillarity and two-way solid coupling still require their own contracts.
+
+
+## Bounded body progression at PR36
+
+The [mesh load](triangle-mesh-traction.md) now feeds a separate
+[linear/angular impulse transaction](rigid-mesh-impulse.md). The next
+[spherical-inertia motion owner](spherical-rigid-motion.md) advances an actual
+COM clock and quaternion pose, regenerating the retained render/traction mesh
+from immutable reference vertices. Mass and spherical inertia remain declared
+inputs, not inferred from the mesh. These APIs have no fluid reaction.
+
+The [contact successor](static-sphere-contact.md) uses a separately declared
+COM-centered sphere collider against retained finite static triangles. Its
+unique earliest transversal event applies one frictionless normal restitution
+impulse and stops; misses coast the interval. Initial contact/overlap, ambiguous
+features, grazing and near-simultaneous facets refuse atomically. Repeated or
+resting contact, friction, gravity, arbitrary moving-mesh collision and fluid
+coupling remain absent. These bounded body steps do not discharge the moving
+fluid-volume, work and two-way reaction obligations in the table above.

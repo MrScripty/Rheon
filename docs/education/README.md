@@ -15,7 +15,8 @@ export PYTHONDONTWRITEBYTECODE=1
 mkdir -p "$RHEON_ASSETS"
 cp docs/education/package.json docs/education/package-lock.json "$RHEON_ASSETS/"
 npm ci --prefix "$RHEON_ASSETS" --ignore-scripts --no-audit --no-fund
-python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules"
+python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" \
+  --current-proof-qualification-dir /path/to/pr36-proof-qualification
 python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
 python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
 python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"
@@ -32,11 +33,11 @@ Install Chromium with `python3 -m playwright install --with-deps chromium`, or u
 
 A source-only CI build without these packets states that the recorded bundles are absent and links their model/proof guides. It does not claim browser qualification of omitted playback. A separately qualified local preview can include all three original bundles. Workflow outputs live under `RUNNER_TEMP`; the review artifact is retained by Actions. Pages deployment runs only from main, so an unmerged source draft is not a live deployment claim.
 
-The illustrated `Rheon-expanded-markdown.zip` includes companion figures, implementation guides and Lean sources. Extract it with those relative paths intact. The reading PDF/Markdown includes all 31 original sections and five selected guides explaining the native progression and requirements roadmap; the site renders the full implementation-guide collection. Site verification checks actual local HTML and packaged Markdown links, copied source hashes and PDF portability. PDF links use internal reading destinations or immutable source URLs; they cannot point to the temporary preview server.
+The illustrated `Rheon-expanded-markdown.zip` includes companion figures, implementation guides and Lean sources. Extract it with those relative paths intact. The reading PDF/Markdown includes all 31 original sections and fifteen selected guides connecting the wall progression, strain, experimental viscosity/pressure step, mesh traction, impulses, spherical motion, one sphere impact and requirements roadmap; the site renders the full implementation-guide collection. Site verification checks actual local HTML and packaged Markdown links, copied source hashes and PDF portability. PDF links use internal reading destinations or immutable source URLs; they cannot point to the temporary preview server.
 
 ## Proof and implementation boundaries
 
-`proofs/source-inventory-pr24.json` preserves the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations. The reconstructed `source-inventory.json` includes AlignedStrain. Its fresh pinned normal `lake build`, allowed-axiom audit and rejection/source-policy probes checked 106 public theorem statements, 144 explicitly expected declarations and 161 audited declarations. `native-sequence.json` binds the immutable reconstruction source and local qualification receipt, and links the associated hosted Lean run without asserting its checkout identity. Earlier source qualifications and recorded native packet identities remain historical. The book builder checks current bytes; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or global solver convergence.
+`proofs/source-inventory-pr24.json` preserves the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations. The PR36 `source-inventory.json` adds MeshTraction, RigidImpulse, RigidMotion and SphereContact. Fresh local pinned normal `lake build`, allowed-axiom audit and normal/optimized rejection/source-policy probes checked 141 public theorem statements, 198 explicitly expected declarations and 237 audited declarations. `native-sequence.json` binds immutable PR36 source `d31cf735645579357f9f58dcc55958e23f77af59` and the actual external qualification receipt. The earlier 106/144/161 reconstruction and its hosted run remain historical. No PR36 hosted CI was requested. Earlier source qualifications and recorded native packet identities remain historical. The book builder checks current bytes; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or global solver convergence.
 
 The expansion's older 42-public/60-audit receipt remains explicitly historical. Its exact-real finite-strain and planar-contact contracts retain their assumptions. The original Python reference source/data receipts are checked before building. Source-only/data-only changes, stale PDF/browser inputs, missing assets, broken controls and page errors reject publication.
 
@@ -107,3 +108,42 @@ rational controls. It saves JPEG evidence at quality 85 outside Git. Read-only
 publication checks retain the PDF and receipts. The research-book workflow
 rebuilds and qualifies its own native executable and packet; it does not reuse
 a machine-specific historical binary or infer current checks from old counts.
+
+## Pinned PR36 local release qualification
+
+```sh
+python3 docs/education/qualify_release_proofs.py \
+  --output /fresh/external/proof-bundle \
+  --lean-bin /path/to/lean-4.19.0/bin \
+  --lean-dependencies /path/to/pinned/packages
+```
+
+It admits only the immutable PR36 proof inventory and dependency pins,
+copies proof inputs outside Git, runs normal `lake build`, checks transitive
+axioms and negative/source probes in both Python modes, and records actual
+command exit codes and log hashes. Review this receipt before updating the
+binding. The builder requires its exact external bundle using
+`--current-proof-qualification-dir`; a hash-only edit cannot supply it.
+The existing Pages workflow needs an explicitly reviewed source/receipt handoff
+before public use; this local release performs no hosted CI or deployment.
+
+`--sphere-contact-records-dir /path/to/pr36-contact-packet` includes the 28
+independently checked native cases, including 19 accepted outcomes and nine
+refusals. Source/file/executable bindings are checked before copying. The page
+selects saved before/after states and projects their actual native triangles;
+it performs no simulation or pose interpolation. All cases remain available
+without JavaScript and when printing. Three independently rendered native figures
+also enter the PDF/Markdown reading copy. One frictionless sphere impact then
+stop; no repeated/resting contact or fluid coupling.
+
+The primary identity for a freshly requalified strain packet is now PR36.
+The strain/geometry implementation, bridge and rational oracle are unchanged
+from the checked PR30 source; additive body/contact exports were reviewed and
+the complete native strain driver reran on clean PR36 source before rebinding.
+The old qualified PR30 edition remains a separate smaller fallback.
+
+The HTML pager, navigation learning path, PDF contents and combined Markdown
+share the selected reading order. Mobile reading/navigation and math remain
+available without JavaScript; the interactive labs explain their script
+requirement. New screenshots and ordinary native figures are JPEG quality 85,
+kept outside Git. Original reference illustrations retain their accepted bytes.

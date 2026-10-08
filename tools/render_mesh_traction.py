@@ -47,11 +47,11 @@ def render(evidence, output):
     fig.text(.04, .025, "Arrows show nodal force vectors on the retained triangle. Static load example; no body or fluid advancement.", fontsize=9)
     fig.subplots_adjust(bottom=.24, top=.89, left=.05, right=.98)
     output.mkdir(parents=True)
-    for suffix in ["png", "svg"]:
-        fig.savefig(output / ("mesh-traction-example." + suffix), dpi=170)
+    fig.savefig(output / "mesh-traction-example.jpg", dpi=170, pil_kwargs={"quality":85})
     plt.close(fig)
     manifest = {"source_head": receipt["source_head"], "source_dirty": receipt["source_dirty"],
                 "native_output_sha256": hashlib.sha256(raw).hexdigest(), "physics_steps": 0,
+                "jpeg_quality":85,
                 "files_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
                                  for p in output.iterdir()}}
     (output / "render-receipt.json").write_text(json.dumps(manifest, indent=2) + "\n")

@@ -78,7 +78,7 @@
     "audited_declarations": 77,
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
-  "local_kernel_receipt_sha256": "aec161bbbe848603519e4ced55744a1391f2e64d53a7bd8889d014fb6c51aca4",
+  "local_kernel_receipt_sha256": "d10604b5ee9414b9dc82132553551d6ba534010cc768f7ae624cf23e37e902ec",
   "lean_ci_scope": "Historical f75 reconstruction run only. Fresh local PR36 source and log-bound receipt supplies current qualification; no hosted CI requested.",
   "explicit_expected_declarations": 198,
   "historical_prior_current_proof": {
@@ -106,9 +106,9 @@
       "status": "passed",
       "clean": true,
       "lean_checked": true,
-      "receipt_sha256": "aec161bbbe848603519e4ced55744a1391f2e64d53a7bd8889d014fb6c51aca4",
-      "receipt_reference": "External pr36-proof-qualification/qualification.json; original logs kept outside Git and copied into the review edition",
-      "qualification_runner": "Pinned normal lake build, kernel audit, and normal/optimized source and negative probes in an unchanged PR36 proof-source copy",
+      "receipt_sha256": "d10604b5ee9414b9dc82132553551d6ba534010cc768f7ae624cf23e37e902ec",
+      "receipt_reference": "External pr36-proof-reproduction/qualification.json; command/log receipt copied into the review edition",
+      "qualification_runner": "python3 docs/education/qualify_release_proofs.py --output EXTERNAL --lean-bin PINNED_BIN --lean-dependencies PINNED_PACKAGES",
       "recorded_inputs_scope": "Existing native accepted packets and historical inventories unchanged"
     },
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",

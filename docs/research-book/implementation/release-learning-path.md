@@ -71,6 +71,11 @@ reaction on a fluid. See [MeshTraction.lean](../../../proofs/Rheon/MeshTraction.
 The [rigid impulse guide](rigid-mesh-impulse.md) connects force/torque to
 velocity and angular momentum while holding geometry fixed. Compare loads,
 impulses and velocities with their units: N, N·m, N·s, kg·m²/s and m/s.
+For the same native varying-traction fixture, the equivalent duration is 0.5 s,
+so the recorded linear impulse is (0,0,0.5) N·s and angular impulse is
+(0.125,-0.5,0) N·m·s. With mass 2 kg, the recorded velocity changes from
+(1,2,3) to (1,2,3.25) m/s. These are velocity updates at fixed geometry,
+not a clock or pose advance.
 Its [Lean source](../../../proofs/Rheon/RigidImpulse.lean) is finite exact algebra,
 not a proof of rounded inertia inversion or an advancing pose.
 
