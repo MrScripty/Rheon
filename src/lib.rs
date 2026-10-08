@@ -15,6 +15,11 @@ mod mesh_traction;
 pub use mesh_traction::{
     MeshLoadError, MeshLoadReport, MeshLoadStage, SurfaceLoading, TriangleLoad, TriangleMeshLoad,
 };
+mod rigid_impulse;
+pub use rigid_impulse::{
+    FrozenRigidBody, RigidImpulseError, RigidImpulseReport, RigidImpulseStage, RigidSnapshot,
+    RigidStamp,
+};
 mod static_obstacle;
 pub use static_obstacle::{
     NO_FLUID_COMPONENT, ObstacleAllocation, ObstacleError, ObstacleFace, ObstacleStage,
