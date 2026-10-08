@@ -1,0 +1,85 @@
+name: Experimental outward-qualified aligned Stokes
+on:
+  pull_request:
+    paths:
+      - 'experiments/**'
+      - 'examples/aligned_stokes.rs'
+      - 'examples/outward_probe.rs'
+      - 'tests/aligned_stokes_contract.rs'
+      - 'tools/*aligned_stokes*.py'
+      - 'src/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'proofs/**'
+      - 'docs/research-book/implementation/experimental-aligned-stokes.md'
+      - '.github/workflows/aligned-stokes.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-rational:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Install pinned Rust
+        run: rustup toolchain install 1.92.0 --profile minimal --no-self-update
+      - name: Fresh native and rational qualification
+        env:
+          CARGO_TARGET_DIR: ${{ runner.temp }}/aligned-stokes-target
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python3 tools/qualify_aligned_stokes.py "$RUNNER_TEMP/aligned-stokes-evidence"
+      - name: Retain fresh source-bound evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: experimental-aligned-stokes-native-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/aligned-stokes-evidence
+          if-no-files-found: error
+  conditional-kernel-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Install official pinned elan and Lean
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 \
+            https://github.com/leanprover/elan/releases/download/v4.1.2/elan-x86_64-unknown-linux-gnu.tar.gz \
+            -o "$RUNNER_TEMP/elan.tar.gz"
+          printf '%s  %s\n' f81c2e48c1588d4612cd2c8851947898a45ac8d72748a07dff3a5694f1cf589b "$RUNNER_TEMP/elan.tar.gz" | sha256sum --check --strict
+          tar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP"
+          "$RUNNER_TEMP/elan-init" -y --no-modify-path --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Fetch pinned mathematical library cache
+        working-directory: proofs
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake exe cache get
+          git diff --exit-code -- lake-manifest.json lean-toolchain lakefile.toml
+          test "$(git -C .lake/packages/mathlib rev-parse HEAD)" = c44e0c8ee63ca166450922a373c7409c5d26b00b
+      - name: Kernel-check actual conditional statements and reject invalid axioms
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/aligned-step-kernel"
+          python3 experiments/proofs/check_acceptance.py 2>&1 | tee "$RUNNER_TEMP/aligned-step-kernel/normal.log"
+          python3 -O experiments/proofs/check_acceptance.py 2>&1 | tee "$RUNNER_TEMP/aligned-step-kernel/optimized.log"
+      - name: Retain exact-source kernel audit evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: experimental-aligned-stokes-kernel-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/aligned-step-kernel
+          if-no-files-found: error

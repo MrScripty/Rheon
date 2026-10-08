@@ -94,13 +94,12 @@ fn nonzero_curl_executes_real_pressure_correction() {
     assert!(r.viscous_energy_delta.hi < 0.0);
     assert!(r.pressure_energy_delta.hi < 0.0);
     assert!(r.final_divergence.bound.hi <= Config::default().divergence_limit);
-    assert!(
-        w.viscous_active()
-            .unwrap()
-            .iter()
-            .zip(w.final_active().unwrap())
-            .any(|(v, z)| v.to_bits() != z.to_bits())
-    );
+    assert!(w
+        .viscous_active()
+        .unwrap()
+        .iter()
+        .zip(w.final_active().unwrap())
+        .any(|(v, z)| v.to_bits() != z.to_bits()));
     let energy = |field: &[f64]| {
         field
             .iter()
@@ -199,7 +198,9 @@ fn bound_uncertainty_and_large_step_refuse_without_rounding_authority() {
     let op = AlignedStrain::new(&o, 1.0, 1.0, 4_000_000, |_, _| false).unwrap();
     let mut w = Workspace::new(&op, Config::default(), 4_000_000, |_, _| false).unwrap();
     assert!(w.bound().lo <= 17.0 && w.bound().hi > 17.0);
-    for dt in [2.0 / 17.0, 1.0] {
+    let rounded_boundary = (2.0_f64 / 17.0).next_up();
+    assert_eq!(rounded_boundary * 17.0, 2.0);
+    for dt in [2.0 / 17.0, rounded_boundary, 1.0] {
         let mut u = curl(&o);
         let old = u.clone();
         assert!(matches!(
@@ -209,6 +210,64 @@ fn bound_uncertainty_and_large_step_refuse_without_rounding_authority() {
         assert_eq!(u, old);
         assert!(w.pressure().is_none() && w.last_report().is_none());
     }
+}
+#[test]
+fn tiny_nonzero_update_refuses_equation_before_energy_plateau() {
+    let o = owner([1.0; 3], [0.0; 3]);
+    let op = AlignedStrain::new(&o, 1.0, 1.0, 4_000_000, |_, _| false).unwrap();
+    let mut w = Workspace::new(&op, Config::default(), 4_000_000, |_, _| false).unwrap();
+    let mut u = curl(&o);
+    let before = u.clone();
+    let dt = f64::from_bits((1023 - 200) << 52);
+    assert!(matches!(
+        step(&mut w, &mut u, dt),
+        Err(Error::Equation {
+            stage: Stage::ViscousEquation,
+            ..
+        })
+    ));
+    assert_eq!(u, before);
+    assert!(w.last_report().is_none());
+}
+#[test]
+fn equal_density_and_viscosity_scaling_preserves_velocity_and_scales_inertia() {
+    let o = owner([1.0; 3], [0.0; 3]);
+    let op1 = AlignedStrain::new(&o, 1.0, 1.0, 4_000_000, |_, _| false).unwrap();
+    let op2 = AlignedStrain::new(&o, 2.0, 2.0, 4_000_000, |_, _| false).unwrap();
+    let op_slow = AlignedStrain::new(&o, 2.0, 1.0, 4_000_000, |_, _| false).unwrap();
+    let mut w1 = Workspace::new(&op1, Config::default(), 4_000_000, |_, _| false).unwrap();
+    let mut w2 = Workspace::new(&op2, Config::default(), 4_000_000, |_, _| false).unwrap();
+    let mut slow = Workspace::new(&op_slow, Config::default(), 4_000_000, |_, _| false).unwrap();
+    let mut u1 = curl(&o);
+    let mut u2 = u1.clone();
+    let mut us = u1.clone();
+    let r1 = step(&mut w1, &mut u1, 1.0 / 32.0).unwrap();
+    let r2 = step(&mut w2, &mut u2, 1.0 / 32.0).unwrap();
+    step(&mut slow, &mut us, 1.0 / 32.0).unwrap();
+    assert_eq!(u1, u2);
+    assert_eq!(w1.viscous_active(), w2.viscous_active());
+    for (&p1, &p2) in w1.pressure().unwrap().iter().zip(w2.pressure().unwrap()) {
+        assert_eq!(p2, 2.0 * p1);
+    }
+    let energy = |op: &AlignedStrain<'_>, field: &[f64]| {
+        field
+            .iter()
+            .zip(op.active_faces())
+            .map(|(u, f)| 0.5 * f.mass * u * u)
+            .sum::<f64>()
+    };
+    let dv1 =
+        energy(&op1, w1.viscous_active().unwrap()) - energy(&op1, w1.initial_active().unwrap());
+    let dv2 =
+        energy(&op2, w2.viscous_active().unwrap()) - energy(&op2, w2.initial_active().unwrap());
+    let dp1 = energy(&op1, w1.final_active().unwrap()) - energy(&op1, w1.viscous_active().unwrap());
+    let dp2 = energy(&op2, w2.final_active().unwrap()) - energy(&op2, w2.viscous_active().unwrap());
+    assert_eq!(dv2, 2.0 * dv1);
+    assert_eq!(dp2, 2.0 * dp1);
+    assert!(r1.viscous_energy_delta.hi < 0.0 && r2.viscous_energy_delta.hi < 0.0);
+    assert!(r1.pressure_energy_delta.hi < 0.0 && r2.pressure_energy_delta.hi < 0.0);
+    let kinetic = |field: &[f64]| field.iter().map(|u| 0.5 * u * u).sum::<f64>();
+    assert!(kinetic(slow.viscous_active().unwrap()) > kinetic(w1.viscous_active().unwrap()));
 }
 #[test]
 fn independent_initial_and_final_flux_gates_include_gauge_cell() {
@@ -274,17 +333,16 @@ fn anisotropic_nonmidpoint_step_checks_stored_mass_mismatch() {
     let mut u = curl(&o);
     let r = step(&mut w, &mut u, 1.0 / 256.0).unwrap();
     assert!(r.viscous_energy_delta.hi < 0.0 && r.pressure_energy_delta.hi < 0.0);
-    assert!(
-        w.momentum_certificates()
-            .unwrap()
-            .iter()
-            .all(|c| c.defect.lo.abs().max(c.defect.hi.abs()) <= c.allowance.lo)
-    );
-    assert!(
-        op.active_faces()
-            .iter()
-            .any(|f| f.mass / (op.density() * f.distance) != f.area)
-    );
+    assert!(w.momentum_certificates().unwrap().iter().all(|c| c
+        .defect
+        .lo
+        .abs()
+        .max(c.defect.hi.abs())
+        <= c.allowance.lo));
+    assert!(op
+        .active_faces()
+        .iter()
+        .any(|f| f.mass / (op.density() * f.distance) != f.area));
 }
 #[test]
 fn managed_cap_counts_operator_pressure_attempt_and_accepted_caches() {
@@ -303,7 +361,7 @@ fn managed_cap_counts_operator_pressure_attempt_and_accepted_caches() {
         Workspace::new(
             &op,
             Config {
-                relative_update_limit: 1.1e-8,
+                relative_update_limit: 1e-8,
                 ..Config::default()
             },
             cap,
@@ -311,6 +369,16 @@ fn managed_cap_counts_operator_pressure_attempt_and_accepted_caches() {
         ),
         Err(Error::InvalidParameter)
     ));
+    assert!(Workspace::new(
+        &op,
+        Config {
+            relative_update_limit: 1e-8_f64.next_down(),
+            ..Config::default()
+        },
+        cap,
+        |_, _| false,
+    )
+    .is_ok());
     assert!(matches!(
         Workspace::new(&op, Config::default(), cap, |_, _| true),
         Err(Error::Cancelled {

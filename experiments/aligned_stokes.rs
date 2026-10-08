@@ -1,6 +1,9 @@
 //! Explicitly opted-in, unforced aligned viscous update and pressure proposal.
 //! Included only by the experimental example/tests, never by the production lib.
 //! The caller's velocities and all accepted witnesses survive every refusal.
+//! The workspace and reused operator/pressure paths allocate no heap storage
+//! during a step. Cancellation callbacks are caller code and are outside this
+//! storage audit, as are caller buffers and whole-process resident memory.
 #[path = "outward.rs"]
 mod outward;
 pub use outward::{Error as EnclosureError, Interval};
@@ -256,7 +259,8 @@ impl<'op, 'g> Workspace<'op, 'g> {
             || config.divergence_limit.is_subnormal()
             || !config.relative_update_limit.is_finite()
             || config.relative_update_limit < 0.0
-            || config.relative_update_limit > 1e-8
+            // The nearest 1e-8 literal lies above the exact decimal contract cap.
+            || config.relative_update_limit > 1e-8_f64.next_down()
             || config.relative_update_limit.is_subnormal()
             || [
                 config.pressure.relative_residual,
@@ -673,6 +677,9 @@ impl<'op, 'g> Workspace<'op, 'g> {
     }
     pub fn operator(&self) -> &'op AlignedStrain<'g> {
         self.op
+    }
+    pub fn gauge_cells(&self) -> &[usize] {
+        self.pressure.gauge_cells()
     }
     pub fn config(&self) -> Config {
         self.config
