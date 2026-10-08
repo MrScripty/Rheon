@@ -4,6 +4,7 @@
 use crate::sphere_contact::{
     checked, cross, difference, dot, kinetic, norm, product, quotient, respond, scale, sum,
 };
+use crate::sphere_departure::QualifiedDeparture;
 use crate::{
     MAX_CONTACT_BODY_TRIANGLES, RigidMotionError, RigidMotionReport, RigidMotionStage,
     RigidPoseSnapshot, RigidSnapshot, RigidStamp, SphereContactError, SphereContactHit,
@@ -152,7 +153,29 @@ impl SphericalRigidMotion {
                 index,
             )
         })?;
+        self.coast_static_sphere_friction_selected(
+            request,
+            surface,
+            hit,
+            None,
+            callback.into_inner(),
+        )
+    }
+
+    pub(crate) fn coast_static_sphere_friction_selected(
+        &mut self,
+        request: SphereFrictionRequest,
+        surface: &TriangleSurface,
+        hit: Option<SphereContactHit>,
+        departure: Option<&QualifiedDeparture>,
+        cancelled: impl FnMut(SphereFrictionStage, usize) -> bool,
+    ) -> Result<SphereFrictionReport, SphereFrictionError> {
+        use SphereFrictionError as E;
+        let callback = RefCell::new(cancelled);
         let before = self.snapshot();
+        if departure.is_some_and(|d| !d.matches(self, surface, request.radius_m)) {
+            return Err(SphereContactError::InvalidDeparture.into());
+        }
         let dt = hit.map_or(request.interval_s, |contact| contact.requested_event_dt_s);
         let unused_interval_s = checked(request.interval_s - dt)?;
         let zeros = [[[0.; 3]; 3]; MAX_CONTACT_BODY_TRIANGLES];
@@ -169,6 +192,12 @@ impl SphericalRigidMotion {
                 (callback.borrow_mut())(SphereFrictionStage::Contact(contact_stage(stage)), index)
             },
             |state| {
+                if let Some(d) = departure
+                    && let Err(error) = d.endpoint(state.center_of_mass)
+                {
+                    finalizer_error = Some(E::from(error));
+                    return Err(RigidMotionError::ArithmeticFailure);
+                }
                 let Some(contact) = hit else {
                     return Ok(state);
                 };

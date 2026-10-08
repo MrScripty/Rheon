@@ -6,6 +6,16 @@ run_cmd do
   let env ← getEnv
   let allowed : Array Name := #[`propext, `Classical.choice, `Quot.sound]
   let expected : Array Name := #[
+    `Rheon.SphereFrictionInterval.prefixSum,
+    `Rheon.SphereFrictionInterval.conditional_coulomb_prefix,
+    `Rheon.SphereFrictionInterval.prefix_telescopes,
+    `Rheon.SphereFrictionInterval.matched_prefix_balance,
+    `Rheon.SphereFrictionInterval.matched_midpoint_work_prefix,
+    `Rheon.SphereFrictionInterval.prefix_nonincrease,
+    `Rheon.SphereFrictionInterval.every_accepted_prefix_nonincrease,
+    `Rheon.SphereFrictionInterval.sphere_offset_membership,
+    `Rheon.SphereFrictionInterval.actual_velocity_departure,
+
     `Rheon.SphereFriction.pointVelocity,
     `Rheon.SphereFriction.kick,
     `Rheon.SphereFriction.spinKick,
