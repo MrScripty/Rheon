@@ -25,7 +25,13 @@ pub use rigid_motion::{
     MAX_RIGID_ROTATION_RAD, RigidMotionError, RigidMotionReport, RigidMotionSettings,
     RigidMotionStage, RigidPoseSnapshot, SphericalRigidMotion,
 };
+mod sphere_contact;
 mod static_obstacle;
+pub use sphere_contact::{
+    MAX_CONTACT_BODY_TRIANGLES, SphereContactError, SphereContactHit, SphereContactReport,
+    SphereContactSettings, SphereContactStage, SphereFeature, SphereImpactReport,
+    StaticSphereSweep,
+};
 pub use static_obstacle::{
     NO_FLUID_COMPONENT, ObstacleAllocation, ObstacleError, ObstacleFace, ObstacleStage,
     StaticObstacleGeometry,

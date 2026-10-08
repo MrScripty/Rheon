@@ -6,6 +6,22 @@ run_cmd do
   let env ← getEnv
   let allowed : Array Name := #[`propext, `Classical.choice, `Quot.sound]
   let expected : Array Name := #[
+    `Rheon.SphereContact.squared,
+    `Rheon.SphereContact.normalSpeed,
+    `Rheon.SphereContact.response,
+    `Rheon.SphereContact.kinetic,
+    `Rheon.SphereContact.squared_trajectory,
+    `Rheon.SphereContact.perpendicular_trajectory,
+    `Rheon.SphereContact.conditional_quadratic_root,
+    `Rheon.SphereContact.quadratic_factorization,
+    `Rheon.SphereContact.quadratic_positive_before,
+    `Rheon.SphereContact.face_linear_root,
+    `Rheon.SphereContact.radial_impulse_zero_torque,
+    `Rheon.SphereContact.unit_normal_restitution,
+    `Rheon.SphereContact.response_momentum,
+    `Rheon.SphereContact.unit_normal_energy_change,
+    `Rheon.SphereContact.conditional_energy_nonincrease,
+
     `Rheon.Discrete.gradient,
     `Rheon.Discrete.incidence,
     `Rheon.Discrete.laplace,
