@@ -204,7 +204,17 @@ run_cmd do
     `Rheon.RigidMotion.totalAngular,
     `Rheon.RigidMotion.orbital_free_drift,
     `Rheon.RigidMotion.endpoint_angular_increment,
-    `Rheon.RigidMotion.conditional_total_angular_impulse]
+    `Rheon.RigidMotion.conditional_total_angular_impulse,
+    `Rheon.SphereInterval.squared_nonnegative,
+    `Rheon.SphereInterval.squared_cauchy,
+    `Rheon.SphereInterval.convex_support,
+    `Rheon.SphereInterval.departure_endpoint,
+    `Rheon.SphereInterval.supported_distance,
+    `Rheon.SphereInterval.departure_free_flight,
+    `Rheon.SphereInterval.ledger,
+    `Rheon.SphereInterval.ledger_sum,
+    `Rheon.SphereInterval.conditional_ledger_nonincrease,
+    `Rheon.SphereInterval.completion_requires_all_time]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

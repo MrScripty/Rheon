@@ -26,6 +26,10 @@ pub use rigid_motion::{
     RigidMotionStage, RigidPoseSnapshot, SphericalRigidMotion,
 };
 mod sphere_contact;
+mod sphere_departure;
+mod sphere_interval;
+pub use sphere_departure::{SphereDepartureKind, SphereDepartureReport};
+pub use sphere_interval::*;
 mod static_obstacle;
 pub use sphere_contact::{
     MAX_CONTACT_BODY_TRIANGLES, SphereContactError, SphereContactHit, SphereContactReport,

@@ -35,7 +35,7 @@ The implementation compares these predicates on the EXACT dyadic values of
 represented input coordinates. Binary64 significands are multiplied as u128,
 then accumulated in separate positive/negative 66-word fixed integer arrays.
 At most 16 products are allowed; no heap or rounded subtraction is used. Expanded
-differences use 13 products for clearance, 12 for each support test, and six for
+differences use 13 products for clearance, 12 for each support test, and 12 (six nonzero terms) for
 velocity. This finite integer kernel is independently checked against Fraction;
 the Lean proof does not verify Rust bit decoding or IEEE execution.
 
@@ -43,7 +43,7 @@ The private certificate binds actual body/moving/static identities, complete
 snapshot, radius and last accepted point. It is invalidated after every accepted
 event. All OTHER facets keep PR36's strict initial-clearance admission. Negative
 clearance, nonsupport or actual inward post-impact velocity returns an explicit
-UnqualifiedDeparture stop with the accepted prefix. There is no spatial pushout,
+Stopped(InvalidDeparture) stop with the accepted prefix. There is no spatial pushout,
 clamp, repeated zero-time impulse or tolerance-based time consumption. Initial
 touching without a preceding private accepted witness also stops explicitly.
 For e=0, exact stationary/tangent free coast can proceed without a resting-force
@@ -90,3 +90,32 @@ Finite feature conditioning, thin/far facet refusal and all PR36 gap/time policy
 limitations remain. Physical units, measured fixture accuracy and fixed algebra
 test tolerance are reported separately. The renderer records actual owner
 vertices after each accepted segment, without another pose integrator.
+
+
+## Reviewable API and numerical boundaries
+
+`SphereIntervalRequest` pins caller body/moving/static stamps, radius, restitution,
+interval, PR36 settings and an impact budget in 0..=64. The caller supplies at
+least budget+1 `Option<SphereIntervalSegment>` slots. The driver adds no heap
+allocation; records, retained PR35 mesh capacities and observers' storage are
+caller-visible separate payloads. The fixed exact-sign workspace has two arrays
+of 66 u64 limbs (1056 bytes) plus fixed headers; it is stack storage, not RSS.
+
+`advance_static_sphere_interval` returns admission errors without mutation.
+During execution, `Complete`, `ImpactBudgetExhausted`, `TimeProgressStalled`,
+`Cancelled` between segments, and `Stopped(SphereContactError)` distinguish every
+termination. Within-segment cancellation preserves its original stage/index in
+`Stopped(Cancelled { .. })`. Observer/cancellation callback panics are outside the
+returned-result contract. An immutable observer sees the published owner after
+record insertion. Only the accepted prefix of record slots is written.
+
+The certificate is internal to one call; separately restarting at a contact
+still refuses. It binds the borrowed static mesh as well as its stamp through
+the call's exclusive owner/immutable mesh borrows, and pins the complete actual
+pose snapshot. A zero-time contact never receives another impulse.
+
+Lean's support/Cauchy/convex-triangle theorems establish the exact-real exclusion
+with explicit radius, squared-clearance, vertex-support and outward premises.
+Finite ledgers telescope only under correspondence of their increments to actual
+physics or time. The completion statement requires every requested duration to
+be consumed. No theorem identifies rounded diagnostic sums with exact ledgers.

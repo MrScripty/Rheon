@@ -1,6 +1,7 @@
 //! Explicit spherical collider versus a static two-sided finite triangle union.
 //! One isolated frictionless event; no arbitrary moving-mesh CCD or resting law.
 use crate::rigid_impulse::{add, div, mul};
+use crate::sphere_departure::QualifiedDeparture;
 use crate::{
     RigidMotionError, RigidMotionReport, RigidMotionStage, RigidPoseSnapshot, RigidSnapshot,
     RigidStamp, SphericalRigidMotion, SurfaceLoading, SurfaceStamp, TriangleSurface,
@@ -42,6 +43,8 @@ pub enum SphereContactStage {
 #[derive(Debug, Clone, PartialEq)]
 pub enum SphereContactError {
     InvalidSettings,
+    InvalidDeparture,
+    DepartureEndpoint,
     InvalidRadius,
     RadiusInertiaMismatch,
     StaleBody,
@@ -191,7 +194,19 @@ impl<'a> StaticSphereSweep<'a> {
         h: f64,
         mut cancelled: impl FnMut(usize) -> bool,
     ) -> Result<Option<SphereContactHit>, SphereContactError> {
+        self.first_contact_with_departure(h, None, &mut cancelled)
+    }
+
+    pub(crate) fn first_contact_with_departure(
+        &self,
+        h: f64,
+        departure: Option<&QualifiedDeparture>,
+        mut cancelled: impl FnMut(usize) -> bool,
+    ) -> Result<Option<SphereContactHit>, SphereContactError> {
         use SphereContactError as E;
+        if departure.is_some_and(|d| !d.matches(self.moving, self.surface, self.radius)) {
+            return Err(E::InvalidDeparture);
+        }
         if !positive(h) {
             return Err(E::InvalidDuration);
         }
@@ -204,6 +219,9 @@ impl<'a> StaticSphereSweep<'a> {
                     stage: SphereContactStage::Query,
                     index: triangle,
                 });
+            }
+            if departure.is_some_and(|d| d.report.triangle == triangle) {
+                continue;
             }
             let vertices = indices.map(|i| self.surface.vertices()[i]);
             let tol = self.surface.relative_tolerance();
@@ -276,7 +294,6 @@ impl SphericalRigidMotion {
             return Err(E::InvalidSettings);
         }
         let callback = RefCell::new(cancelled);
-        let before = self.snapshot();
         let hit = StaticSphereSweep::new(
             self,
             expected,
@@ -287,6 +304,40 @@ impl SphericalRigidMotion {
             settings,
         )?
         .first_contact(h, |i| (callback.borrow_mut())(SphereContactStage::Query, i))?;
+        self.coast_static_sphere_selected(
+            expected,
+            expected_moving,
+            surface,
+            radius_m,
+            restitution,
+            h,
+            settings,
+            hit,
+            None,
+            callback.into_inner(),
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn coast_static_sphere_selected(
+        &mut self,
+        expected: RigidStamp,
+        expected_moving: SurfaceStamp,
+        surface: &TriangleSurface,
+        radius_m: f64,
+        restitution: f64,
+        h: f64,
+        settings: SphereContactSettings,
+        hit: Option<SphereContactHit>,
+        departure: Option<&QualifiedDeparture>,
+        cancelled: impl FnMut(SphereContactStage, usize) -> bool,
+    ) -> Result<SphereContactReport, SphereContactError> {
+        use SphereContactError as E;
+        let callback = RefCell::new(cancelled);
+        let before = self.snapshot();
+        if departure.is_some_and(|d| !d.matches(self, surface, radius_m)) {
+            return Err(E::InvalidDeparture);
+        }
         let dt = hit.map_or(h, |x| x.requested_event_dt_s);
         let unused = checked(h - dt)?;
         let zeros = [[[0.; 3]; 3]; MAX_CONTACT_BODY_TRIANGLES];
@@ -309,6 +360,12 @@ impl SphericalRigidMotion {
                 )
             },
             |state| {
+                if let Some(d) = departure
+                    && let Err(error) = d.endpoint(state.center_of_mass)
+                {
+                    finalizer_error = Some(error);
+                    return Err(RigidMotionError::ArithmeticFailure);
+                }
                 if let Some(contact) = hit {
                     let result = (|| {
                         if (callback.borrow_mut())(SphereContactStage::Impact, 0) {
