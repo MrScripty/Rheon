@@ -85,7 +85,7 @@ def qualify(output, lean_bin, dependencies):
              "--test", "collision_contract", "--test", "translation_contract"], "native-debug.log")
         run(["cargo", "test", "--locked", "--no-default-features", "--lib", "sphere_departure"], "native-exact-sign.log")
         run(["cargo", "test", "--release", "--locked", "--no-default-features", "--test",
-             "sphere_interval_contract", "--test", "sphere_contact_contract", "--test", "rigid_motion_contract", "--test", "rigid_impulse_contract", "--test", "mesh_traction_contract"], "native-release.log")
+             "sphere_friction_contract", "--test", "sphere_interval_contract", "--test", "sphere_contact_contract", "--test", "rigid_motion_contract", "--test", "rigid_impulse_contract", "--test", "mesh_traction_contract"], "native-release.log")
         run(["cargo", "clippy", "--locked", "--no-default-features", "--example", "sphere_friction", "--example", "sphere_contact", "--example", "rigid_motion", "--example", "sphere_interval",
              "--test", "sphere_friction_contract", "--test", "sphere_interval_contract", "--test", "sphere_contact_contract", "--test", "rigid_motion_contract", "--", "-D", "warnings"], "clippy.log")
         run(["rustfmt", "--edition", "2024", "--check", "src/lib.rs", "src/rigid_motion.rs",
