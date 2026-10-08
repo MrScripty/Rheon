@@ -13,6 +13,7 @@ from pdf_freshness import input_hashes, verify_pdf, write_receipt
 from browser_qualification import LABS, book_sources, source_hashes, verify_browser_qualification
 from native_browser import qualify as qualify_native
 from native_sequence import metadata
+from obstacle_browser import qualify as qualify_obstacle
 
 HERE = Path(__file__).resolve().parent
 
@@ -118,6 +119,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         require(mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'),
                 'Mobile laboratory has horizontal overflow')
         native = qualify_native(page, mobile, load, check_errors, metadata(HERE.parents[1]), base_url)
+        obstacle = qualify_obstacle(page, mobile, load, check_errors)
         load(page, 'print.html')
         page.evaluate('document.fonts.ready')
         check_planar_statement(page)
@@ -135,6 +137,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
                    'page_errors': errors, 'http_failures': failed,
                    'planar_statement_hit_time_rendering': True}
         receipt['native_labs'] = native
+        receipt['static_obstacle'] = obstacle
         browser.close()
         return receipt
 

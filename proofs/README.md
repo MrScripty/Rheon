@@ -35,3 +35,17 @@ Physics.lean adds thirteen finite statements for force work, positive coefficien
 BoundedPhysics.lean adds nine theorems and six definitions. Its strict-crossing assumptions describe an infinite stationary planar wall; it derives the first-contact range, surface hit, permitted prefix and clipped segment. Its fixed finite strain/weight definitions derive dissipative work from exact coordinate backward-Euler equations, then nonincrease under nonnegative masses, time and weights. Zero masses/weights are permitted: existence and uniqueness are not proved. Arbitrary mesh queries, assembled symmetric-gradient/free-surface traction, forcing, approximate solves and IEEE code are outside these statements.
 
 The integrated root import, fifteen-name audit registration and reviewed source inventory are qualified together in `docs/research-book/expansion/bounded-proof-qualification.json`: 42 public theorems and 60 logical/expected declarations, with the original allowlist. The earlier receipts remain tied to their original source bytes. The additive source/evidence commits and exact rational witnesses are retained in `evidence/bounded-physics-contracts/`.
+
+
+## Static obstacle geometry algebra
+
+`StaticObstacle.lean` adds seven public exact-real statements and two definitions
+for overlap, volume complement, shared incidence, component-constant jumps and
+residual/divergence scaling. The complete current source locally compiles with
+pinned Lean 4.19.0: 64 public theorems, 87 audited declarations and the unchanged
+allowlist. Three actual negative audit probes reject custom axioms, sorry and a
+missing expected declaration. `source-inventory.json` records current reviewed
+bytes; `source-inventory-pr24.json` preserves the earlier accepted 57/77 source.
+The PR24 CI receipt does not qualify this new module. Rust mesh admission,
+binary64 arithmetic, component construction and obstacle solver refinement
+remain outside these statements.

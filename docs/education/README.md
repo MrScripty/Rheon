@@ -36,8 +36,20 @@ The illustrated `Rheon-expanded-markdown.zip` includes companion figures, implem
 
 ## Proof and implementation boundaries
 
-`proofs/source-inventory.json` pins the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations, including the wall-friction, no-slip and forcing modules. The book builder checks those bytes and links the accepted Lean CI; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or solver convergence.
+`proofs/source-inventory-pr24.json` preserves the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations. The current `source-inventory.json` includes StaticObstacle and its local pinned qualification (64/87). The book builder checks current bytes and identifies the older Lean CI as historical; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or solver convergence.
 
 The expansion's older 42-public/60-audit receipt remains explicitly historical. Its exact-real finite-strain and planar-contact contracts retain their assumptions. The original Python reference source/data receipts are checked before building. Source-only/data-only changes, stale PDF/browser inputs, missing assets, broken controls and page errors reject publication.
 
-The [native progression](../research-book/implementation/native-wall-force-sequence.md) connects equations, units, conditional Lean claims and demos. The [requirements map](../research-book/implementation/requirements-roadmap.md) distinguishes existing box/liquid APIs from missing general mesh/interface composition. Its next feature is an admitted static closed obstacle geometry owner supplying shared fluid volumes, open areas and connectivity, before pressure and wall stress consume that same geometry.
+The [native progression](../research-book/implementation/native-wall-force-sequence.md) connects equations, units, conditional Lean claims and demos. The [requirements map](../research-book/implementation/requirements-roadmap.md) distinguishes existing box/liquid APIs from missing general mesh/interface composition. The bounded static closed box owner now supplies shared fluid volumes, open areas, connectivity and conservative flux. Obstacle pressure and wall stress must still consume that same owner before a fluid solve can be claimed.
+
+
+## Recorded static geometry laboratory
+
+Generate only the geometry controls in `examples/static_obstacle.rs`, with a fresh
+JSON path outside Git, then qualify using `static_obstacle.py --records PATH
+--executable ELF --receipt PATH`. A packet consists exactly of `records.json`
+and `qualification.json`. Pass `--obstacle-records-dir PACKET` to the book builder;
+it checks the frozen clean source, exact record bytes and independent rational
+controls before publishing `obstacle-lab.html`. Without a packet the page states
+absence. The CI review artifact constructs this bounded geometry packet only;
+it does not run any fluid integration or the denied research campaigns.

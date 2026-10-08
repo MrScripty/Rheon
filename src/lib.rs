@@ -11,6 +11,11 @@ pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
     TriangleSurface,
 };
+mod static_obstacle;
+pub use static_obstacle::{
+    NO_FLUID_COMPONENT, ObstacleAllocation, ObstacleError, ObstacleFace, ObstacleStage,
+    StaticObstacleGeometry,
+};
 mod motion;
 pub use motion::{TranslatedHit, TranslatedSegment, TranslationError, TranslationInterval};
 mod operator;

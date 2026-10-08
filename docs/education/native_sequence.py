@@ -3,17 +3,21 @@ from pathlib import Path
 import hashlib, html, json, re, shutil
 
 GUIDES = ['native-wall-force-sequence', 'column-wall-friction', 'column-no-slip',
-          'column-poiseuille', 'requirements-roadmap']
+          'column-poiseuille', 'static-obstacle-geometry', 'requirements-roadmap']
 
 def metadata(repo):
     repo = Path(repo)
     data = json.loads((repo/'docs/education/native-sequence.json').read_text())
     pins = repo/'proofs/source-inventory.json'
     if hashlib.sha256(pins.read_bytes()).hexdigest() != data['proof_inventory_sha256']:
-        raise ValueError('Current Lean inventory differs from accepted sequence; requalify.')
+        raise ValueError('Current Lean inventory differs from reviewed current source; requalify.')
     for name, digest in json.loads(pins.read_text()).items():
         if hashlib.sha256((repo/'proofs'/name).read_bytes()).hexdigest() != digest:
             raise ValueError('Current Lean source differs from its inventory: '+name)
+    if 'historical_native_proof' in data:
+        historical=repo/'proofs/source-inventory-pr24.json'
+        if hashlib.sha256(historical.read_bytes()).hexdigest()!=data['historical_native_proof']['proof_inventory_sha256']:
+            raise ValueError('Historical PR24 source inventory changed')
     return data
 
 def validate_labs(data, directory):

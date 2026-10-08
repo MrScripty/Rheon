@@ -88,3 +88,16 @@ Precomputed rigid-boundary maps may be transformed with a rigid body; arbitrary 
 [R18]: https://graphics.stanford.edu/papers/thin_shells_fluid_coupling-sig05/
 
 [R19]: https://basilisk.fr/src/embed.h
+
+
+## Implemented bounded static owner
+
+The [static-obstacle geometry feature](../implementation/static-obstacle-geometry.md)
+now retains one admitted closed axis-aligned triangle box for collision, cell
+volumes, uniquely shared face openings, connectivity and conservative flux.
+Its exact-real overlap and complement formulas are checked in
+[StaticObstacle.lean](../../../proofs/Rheon/StaticObstacle.lean); Rust evaluates
+represented world endpoints with explicit arithmetic refusal. A subcell box
+spanning two full axes can split one cell into two fluid pieces, so that topology
+is refused. Existing pressure and viscosity owners do not consume this geometry.
+The matching lab inspects recorded native controls; it advances no fluid.

@@ -42,6 +42,9 @@ def write_bundle(repo, output, front, reading, files, command):
                         if local == repo/'docs/education/native-labs.html':
                             dest = 'README.md'
                             fragment = 'native-playback'
+                        elif local == repo/'docs/education/obstacle-lab.html':
+                            dest = 'README.md'
+                            fragment = 'static-geometry'
                         elif url.path.startswith('figures/') and (output/url.path).is_file():
                             dest = url.path
                             entries[dest] = (output/dest).read_bytes()
@@ -78,6 +81,13 @@ This Markdown companion contains documentation, not a browser laboratory.
 Open native-labs.html in the separately built static HTML edition for the hub.
 A source-only HTML build explicitly states that playback bundles are absent.
 No example, integration or reference computation was run to make this archive.
+
+## Static geometry
+
+The [static obstacle guide](implementation/static-obstacle-geometry.md) describes
+the bounded owner and native controls. The separately built HTML edition provides
+obstacle-lab.html when qualified records are supplied; its source-only build
+states absence. This Markdown archive contains no native computation or lab.
 '''
     (output/'downloads/Rheon-expanded-book.md').write_bytes(entries['Rheon-expanded-book.md'])
     with zipfile.ZipFile(output/'downloads/Rheon-expanded-markdown.zip', 'w', zipfile.ZIP_DEFLATED) as bundle:

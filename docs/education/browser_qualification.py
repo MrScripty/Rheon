@@ -5,7 +5,8 @@ import json
 
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
-                    'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt']
+                    'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt',
+                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py']
 LABS = ['projection', 'collision', 'hydrostatic', 'viscous', 'slip', 'cap']
 
 
@@ -56,6 +57,13 @@ def verify_browser_qualification(repo, artifact_dir=None):
                   'wall_final_profile_checks':6 if presentation['recorded_bundles_included'] else 0}
         if native!=expected:
             raise ValueError('Incomplete native playback/source-only browser qualification.')
+        from static_obstacle import verify_published
+        obstacle=verify_published(repo,artifact)
+        included=obstacle is not None
+        expected={'included':included,'cases':9 if included else 0,'cells':240 if included else 0,
+                  'flux_pairs':27 if included else 0,'mobile_no_overflow':True,'fluid_advances':0}
+        if receipt.get('static_obstacle')!=expected:
+            raise ValueError('Incomplete static geometry browser qualification')
 
 
 if __name__ == '__main__':

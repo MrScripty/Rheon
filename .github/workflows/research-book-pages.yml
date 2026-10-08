@@ -1,10 +1,10 @@
 name: Rheon research book and Pages
 on:
   pull_request:
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/static_obstacle.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   push:
     branches: [main]
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/static_obstacle.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -18,6 +18,10 @@ jobs:
     env:
       RHEON_EDITION: ${{ runner.temp }}/rheon-edition
       RHEON_ASSETS: ${{ runner.temp }}/rheon-assets
+      RHEON_OBSTACLE: ${{ runner.temp }}/rheon-obstacle-records
+      CARGO_TARGET_DIR: ${{ runner.temp }}/rheon-geometry-target
+      CARGO_HOME: ${{ runner.temp }}/rheon-cargo
+      RUSTUP_HOME: ${{ runner.temp }}/rheon-rustup
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -46,6 +50,13 @@ jobs:
           python3 -O -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py
           python3 evidence/bounded-physics-contracts/witness.py
           python3 -O evidence/bounded-physics-contracts/witness.py
+      - name: Construct and qualify only static geometry controls
+        run: |
+          rustup toolchain install 1.92.0 --profile minimal --no-self-update
+          mkdir -p "$RHEON_OBSTACLE"
+          cargo +1.92.0 build --locked --no-default-features --example static_obstacle
+          "$CARGO_TARGET_DIR/debug/examples/static_obstacle" "$RHEON_OBSTACLE/records.json"
+          python3 docs/education/static_obstacle.py --records "$RHEON_OBSTACLE/records.json" --executable "$CARGO_TARGET_DIR/debug/examples/static_obstacle" --receipt "$RHEON_OBSTACLE/qualification.json"
       - name: Build complete static edition and verify local links
         run: |
           python3 -m unittest discover -s docs/education -p test_pdf_freshness.py
@@ -54,7 +65,9 @@ jobs:
           python3 -O -m unittest discover -s docs/education -p test_publication_gates.py
           python3 -m unittest discover -s docs/education -p test_native_sequence.py
           python3 -O -m unittest discover -s docs/education -p test_native_sequence.py
-          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules"
+          python3 -m unittest discover -s docs/education -p test_static_obstacle.py
+          python3 -O -m unittest discover -s docs/education -p test_static_obstacle.py
+          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --obstacle-records-dir "$RHEON_OBSTACLE"
           python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
           python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
       - name: Verify retained browser bindings and current Chromium laboratories

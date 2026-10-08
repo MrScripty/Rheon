@@ -75,7 +75,16 @@ run_cmd do
     `Rheon.ColumnForcing.parabola,
     `Rheon.ColumnForcing.parabola_endpoints,
     `Rheon.ColumnForcing.quadratic_stencil_balance,
-    `Rheon.ColumnForcing.recurrence_about_equilibrium]
+    `Rheon.ColumnForcing.recurrence_about_equilibrium,
+    `Rheon.StaticObstacle.overlap,
+    `Rheon.StaticObstacle.overlap_nonnegative,
+    `Rheon.StaticObstacle.overlap_symmetric,
+    `Rheon.StaticObstacle.overlap_bounded,
+    `Rheon.StaticObstacle.fluidVolume,
+    `Rheon.StaticObstacle.fluid_volume_bounds,
+    `Rheon.StaticObstacle.shared_flux_cancels,
+    `Rheon.StaticObstacle.component_constant_jump_zero,
+    `Rheon.StaticObstacle.residual_divergence_scale]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

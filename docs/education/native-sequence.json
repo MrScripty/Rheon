@@ -1,10 +1,10 @@
 {
   "schema": "rheon-native-sequence-source-v1",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "50d5e527b46745a9ee9a11cdecca41a32f32b9f3",
-  "proof_inventory_sha256": "b18c9562718881eecaeae54d24f5a9427675b7977dd764a0f23d0d784b1dc2d4",
-  "public_theorems": 57,
-  "audited_declarations": 77,
+  "qualified_lean_source": "current source inventory; locally compiled with pinned Lean 4.19.0; remote CI not yet qualified",
+  "proof_inventory_sha256": "f71bb9dad82e2dbe976c1b5215d7711449a2af80bfa63e02b1a761907748c988",
+  "public_theorems": 64,
+  "audited_declarations": 87,
   "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571",
   "labs": [
     {
@@ -70,5 +70,14 @@
         "results.json": "f37ac7a0fecb2db2db68e26d526537df54e8520a39b182d3b31a385f074c1310"
       }
     }
-  ]
+  ],
+  "historical_native_proof": {
+    "qualified_lean_source": "50d5e527b46745a9ee9a11cdecca41a32f32b9f3",
+    "proof_inventory_sha256": "b18c9562718881eecaeae54d24f5a9427675b7977dd764a0f23d0d784b1dc2d4",
+    "public_theorems": 57,
+    "audited_declarations": 77,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
+  },
+  "local_kernel_receipt_sha256": "f9a026c3a1960a34a43e01d97f8fd911b695a9dfebc75dc80eba89b40ab0c085",
+  "lean_ci_scope": "historical PR24 57/77 only"
 }

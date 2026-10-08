@@ -5,11 +5,12 @@ from pathlib import Path
 import argparse, hashlib, html, json, os, re, shutil, subprocess, zipfile
 from urllib.parse import urlsplit
 from native_sequence import GUIDES, metadata, validate_labs, publish
+from static_obstacle import validate_packet, publish as publish_obstacle
 from pdf_freshness import input_hashes
 from markdown_bundle import write_bundle
 ROOT=Path(__file__).resolve().parents[2]; HERE=Path(__file__).resolve().parent
 BOOK=ROOT/'docs/research-book'; OUT=HERE/'_site'
-ASSETS=HERE/'node_modules'; NATIVE_LABS=None
+ASSETS=HERE/'node_modules'; NATIVE_LABS=None; OBSTACLE_RECORDS=None
 FIGURES={'03':'staggered-grid.svg','04':'pressure-residual.svg','05':'multigrid-mechanism.svg','06':'interpolation-mass.svg','07':'transport-refinement.svg','09':'curvature-refinement.svg','10':'box-diffusion.svg','13':'memory-scaling.svg','15':'rounding-gap.svg','18':'cycle-circulation.svg','19':'expansion/projection.png','20':'expansion/mesh-hit.png','21':'expansion/density-viscosity.png','22':'expansion/density-viscosity.png','23':'expansion/slip-wetting.png','24':'expansion/slip-wetting.png'}
 
 def command(args,**kwargs):
@@ -31,6 +32,7 @@ def build():
     verify_reference(BOOK/'expansion')
     sequence=metadata(ROOT)
     validate_labs(sequence,NATIVE_LABS)
+    validate_packet(ROOT,OBSTACLE_RECORDS)
     pdf_inputs=input_hashes(ROOT)
     source_base=command(['git','rev-parse','HEAD'],cwd=ROOT).strip()
     if OUT.exists():raise ValueError('Output directory must be fresh; choose a new edition path.')
@@ -69,6 +71,8 @@ def build():
                 destination=OUT/page_paths[source]
             elif source==HERE/'native-labs.html':
                 destination=OUT/'native-labs.html'
+            elif source==HERE/'obstacle-lab.html':
+                destination=OUT/'obstacle-lab.html'
             elif source.suffix=='.lean' and source.parent==ROOT/'proofs/Rheon':
                 destination=OUT/'proofs'/source.name
             elif source.is_relative_to(ROOT) and source.is_file() and source.relative_to(ROOT).parts[0] in ('docs','evidence','proofs','src','examples','tests'):
@@ -86,7 +90,7 @@ def build():
     payload=json.dumps(pages)
     node=r'''const katex=require('katex');let raw='';process.stdin.on('data',x=>raw+=x);process.stdin.on('end',()=>{const pages=JSON.parse(raw);let count=0;for(const p of pages)p.html=p.html.replace(/<span\s+class="math (inline|display)">([\s\S]*?)<\/span>/g,(_,kind,tex)=>{count++;tex=tex.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(+n));return katex.renderToString(tex,{displayMode:kind==='display',throwOnError:true,strict:'error',output:'htmlAndMathml'});});process.stdout.write(JSON.stringify({pages,count}));});'''
     rendered=json.loads(command(['node','-e',node],input=payload,cwd=ASSETS.parent)); pages=rendered['pages']
-    def nav(prefix):return '<nav aria-label="Book chapters"><a href="'+prefix+'index.html">Overview</a><a href="'+prefix+'labs.html">3D laboratories</a><a href="'+prefix+'proofs.html">Proofs & evidence</a><a href="'+prefix+'native-labs.html">Native wall/force progression</a><input id="search" type="search" aria-label="Filter chapters" placeholder="Find a chapter…">'+''.join(f'<a class="chapter-link" href="{prefix}chapters/{p["slug"]}.html">{html.escape(p["title"])}</a>' for p in pages if p['folder']=='chapters')+'</nav>'
+    def nav(prefix):return '<nav aria-label="Book chapters"><a href="'+prefix+'index.html">Overview</a><a href="'+prefix+'labs.html">3D laboratories</a><a href="'+prefix+'proofs.html">Proofs & evidence</a><a href="'+prefix+'native-labs.html">Native wall/force progression</a><a href="'+prefix+'obstacle-lab.html">Static obstacle geometry</a><input id="search" type="search" aria-label="Filter chapters" placeholder="Find a chapter…">'+''.join(f'<a class="chapter-link" href="{prefix}chapters/{p["slug"]}.html">{html.escape(p["title"])}</a>' for p in pages if p['folder']=='chapters')+'</nav>'
     def shell(title,body,prefix='',extra=''):
         return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)} · Rheon</title><link rel="stylesheet" href="{prefix}style.css"><link rel="stylesheet" href="{prefix}vendor/katex/katex.min.css">{extra}</head><body><a class="skip" href="#main">Skip to content</a><header><a class="brand" href="{prefix}index.html">Rheon<span>Discrete Fluid Simulation</span></a><button id="menu" aria-expanded="false" aria-controls="navigation">Chapters</button><div class="header-links"><a href="{prefix}labs.html">Explore in 3D</a><a href="{prefix}downloads/Rheon-expanded-book.pdf">PDF</a></div></header><aside id="navigation">{nav(prefix)}</aside><main id="main">{body}</main><footer>Puma · Research & teaching edition · Exact contracts and local references; see the evidence map.</footer><script>const b=document.querySelector('#menu');b.onclick=()=>{{const v=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',v);document.querySelector('aside').classList.toggle('open',v)}};document.querySelector('#search').oninput=e=>document.querySelectorAll('.chapter-link').forEach(a=>a.hidden=!a.textContent.toLowerCase().includes(e.target.value.toLowerCase()));</script></body></html>'''
     for i,p in enumerate(pages):
@@ -95,14 +99,18 @@ def build():
         (OUT/p['folder']/f'{p["slug"]}.html').write_text(shell(p['title'],body,'../'))
     home='''<p class="eyebrow">Puma / RESEARCH + TEACHING EDITION</p><h1 class="hero-title">From discrete flow<br>to liquid contact.</h1><p class="lede">A fluid research book with exact mathematical contracts, six stored-reference 3D laboratories and a connected native wall/force progression.</p><div class="hero-actions"><a class="button" href="chapters/01-purpose-and-model.html">Read the book</a><a class="button secondary" href="labs.html">Explore the laboratories</a></div><figure class="hero-figure"><img src="figures/expansion/slip-wetting.png" alt="Original constant-volume cap profiles and Navier-slip Couette curves"><figcaption>Same liquid volume, different contact angles. Wall slip controls a different mechanism.</figcaption></figure><div class="cards"><article><span>01—18 / FOUNDATIONS</span><h2>Understand the structure</h2><p>MAC geometry, projection, transport, interface representation, precision and implementation contracts.</p><a href="chapters/03-staggered-grids.html">Start with the grid →</a></article><article><span>19—25 / EXPANSION</span><h2>Separate the physics</h2><p>Moving meshes, force work, liquid density, tensor viscosity, wetting energy, slip and capillarity.</p><a href="chapters/19-forces-and-moving-boundaries.html">Read the new chapters →</a></article><article><span>APPENDIX F / EVIDENCE</span><h2>Inspect each claim</h2><p>Inspect historical and current source-bound theorems, including planar clipping and derived finite-strain work, beside numerical references and remaining research gaps.</p><a href="proofs.html">Open proofs and evidence →</a></article></div><h2>Keep a reading copy</h2><p><a href="downloads/Rheon-expanded-book.pdf">Illustrated PDF</a> · <a href="downloads/Rheon-expanded-markdown.zip">Markdown + figures (ZIP)</a> · <a href="downloads/Rheon-expanded-book.md">Markdown text</a> · <a href="reference-data.json">Shared reference data</a></p>'''
     home+='<h2>From finite wall friction to forced no-slip</h2><p><a href="native-labs.html">Follow the three recorded native labs</a> · <a href="implementation/requirements-roadmap.html">Inspect remaining requirements and the next geometry contract</a></p>'
+    home+='<h2>One static obstacle geometry</h2><p><a href="obstacle-lab.html">Inspect native geometry controls</a> · <a href="implementation/static-obstacle-geometry.html">Shared volumes, openings, connectivity and collision source</a></p>'
     (OUT/'index.html').write_text(shell('Overview',home))
     (OUT/'native-labs.html').write_text(shell('Native wall and force progression',publish(sequence,OUT,NATIVE_LABS)))
+    obstacle_body=publish_obstacle(ROOT,OUT,OBSTACLE_RECORDS)
+    obstacle_extra='<script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/controls/OrbitControls.js":"./vendor/OrbitControls.js"}}</script><script type="module" src="obstacle.js"></script>' if OBSTACLE_RECORDS is not None else ''
+    (OUT/'obstacle-lab.html').write_text(shell('Shared static obstacle geometry',obstacle_body,extra=obstacle_extra))
     labs='''<p class="eyebrow">SIX PROGRESSIVE LABORATORIES</p><h1>Explore the mechanism.</h1><p class="lede">Rotate the scene, choose a reference state, and inspect the numbers behind it. Each lab uses the same deterministic data as the book figures.</p><p role="note"><strong>Stored-reference exploration.</strong> These controls select recorded analytical or dense-solve reference states. The projection slider recomputes a displayed algebraic blend of two stored fields. No control advances a live fluid or contact-line simulation.</p><p><a href="native-labs.html">Continue to the three native wall/force labs →</a></p><label for="lab">Laboratory</label><select id="lab"><option value="projection">1 · MAC pressure projection</option><option value="collision">2 · Triangle mesh and earliest collision</option><option value="hydrostatic">3 · Layered density and hydrostatic pressure</option><option value="viscous">4 · Implicit viscous shear decay</option><option value="slip">5 · Navier slip and wall traction</option><option value="cap">6 · Constant-volume wetting and capillarity</option></select><section class="laboratory"><div id="scene" tabindex="0" aria-label="Interactive three-dimensional reference scene. Drag to rotate; scroll to zoom."></div><div class="lab-panel"><h2 id="lab-title"></h2><p id="lab-description"></p><div id="controls"></div><dl id="metrics" aria-live="polite"></dl><p id="lab-limit"></p><button id="reset-view">Reset camera</button><a id="chapter-target" href="chapters/04-pressure-projection.html">Read the chapter →</a></div></section><p id="render-status" role="status">Loading local 3D assets…</p><p>Reference implementation: <a href="reference.py">original Python source</a> · <a href="reference-data.json">complete data</a> · <a href="reference-qualification.json">numerical receipt</a>. Analytic caps and shear modes are not a general liquid simulation.</p>'''
     extra='<script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/controls/OrbitControls.js":"./vendor/OrbitControls.js"}}</script><script type="module" src="labs.js"></script>'
     (OUT/'labs.html').write_text(shell('3D laboratories',labs,extra=extra))
     receipt=json.loads(qualification.read_text()) if qualification.exists() else {'status':'pending','reason':'Pinned project build and axiom audit must complete.'}
     proofs='<p class="eyebrow">CHECK THE HYPOTHESES</p><h1>Proofs & evidence</h1><p>Finite exact algebra, local numerical references and production implementation are distinct evidence levels. The proof inventory does not verify mesh assembly, a liquid solver or floating-point behavior.</p><h2>Historical expansion qualification receipt</h2><pre>'+html.escape(json.dumps(receipt,indent=2))+'</pre><p><a href="chapters/F-expansion-contracts-and-sources.html">Full contract map and primary sources →</a></p>'
-    proofs+='<h2>Native sequence source qualification</h2><p>57 public theorems / 77 audited declarations at the accepted kernel source. Proof bytes are checked against that source inventory; this book build does not rerun Lean or turn conditional algebra into a solver proof.</p><p><a href="'+sequence['lean_ci']+'">Accepted kernel Lean CI</a> · <a href="native-sequence.json">Exact accepted source and lab bindings</a></p>'
+    proofs+='<h2>Current source and historical kernel qualification</h2><p>64 public theorems / 87 audited declarations in the locally compiled current source, including seven static-geometry statements. Current proof bytes match their reviewed inventory. The earlier PR24 57/77 kernel qualification remains historical. This book build does not rerun Lean or prove Rust assembly, IEEE arithmetic or solver refinement.</p><p><a href="'+sequence['lean_ci']+'">Historical PR24 kernel Lean CI</a> · <a href="native-sequence.json">Current inventory and historical bindings</a></p>'
     proofs+=f'<p><strong>Historical expansion: {receipt.get("public_theorems", "Pending")} public theorems · {receipt.get("audited_declarations", "Pending")} audited declarations.</strong> Definitions and generated proof helpers are counted separately from public theorems.</p>'
     proofs+='''<div class="cards"><article><h2>Planar first contact</h2><p>Five theorems derive a strict crossing, first hit and permitted clipped segment for an infinite stationary plane. Finite-facet containment and earliest mesh queries remain outside the proof.</p><a href="chapters/20-collision-mesh-pipeline.html">Read the collision contract</a></article><article><h2>Derived viscous work</h2><p>Four theorems derive dissipation and energy nonincrease from fixed finite strain and exact backward-Euler equations. Stencil assembly, forcing and approximate solves remain outside the proof.</p><a href="chapters/22-viscosity-and-stress.html">Read the viscosity bridge</a></article></div>'''
     for path in sorted((ROOT/'proofs/Rheon').glob('*.lean')):
@@ -132,6 +140,7 @@ def build():
                 elif absolute.startswith('proofs/'):relative='proofs/Rheon/'+Path(absolute).name
                 elif absolute.startswith('source-files/'):relative=absolute.removeprefix('source-files/')
                 elif absolute=='native-labs.html':relative='docs/education/README.md'
+                elif absolute=='obstacle-lab.html':relative='docs/education/README.md'
                 else:raise ValueError('Unmapped portable PDF link: '+absolute)
                 absolute='https://github.com/MrScripty/Rheon/blob/'+source_base+'/'+relative+('#'+url.fragment if url.fragment else '')
             return match[1]+'="'+absolute+'"'
@@ -139,7 +148,7 @@ def build():
     contents=cover+'<section class="toc">'+toc+'</section>'+''.join(f'<section class="book-chapter" id="{p["slug"]}">{print_body(p)}</section>' for p in reading)
     (OUT/'print.html').write_text(f'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Rheon — Expanded research edition</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="vendor/katex/katex.min.css"></head><body class="print-book">{contents}</body></html>')
     if OUT==HERE/'_site' and (HERE/'downloads/Rheon-expanded-book.pdf').exists():shutil.copy2(HERE/'downloads/Rheon-expanded-book.pdf',OUT/'downloads/Rheon-expanded-book.pdf')
-    build_receipt={'schema':'rheon-education-build-v1','chapters':len(chapter_files),'implementation_guides':len(files)-len(chapter_files),'native_bundles_included':NATIVE_LABS is not None,'proof_inventory_sha256':sequence['proof_inventory_sha256'],'rendered_math_expressions':rendered['count'],'sources':manifest,'linked_source_files':linked_sources,'reference_data_sha256':hashlib.sha256((OUT/'reference-data.json').read_bytes()).hexdigest(),'pandoc':command(['pandoc','--version']).splitlines()[0],'source_base':source_base,'historical_proof_status':receipt.get('status'),'current_proof_status':'accepted-source-inventory-matched'}
+    build_receipt={'schema':'rheon-education-build-v1','chapters':len(chapter_files),'implementation_guides':len(files)-len(chapter_files),'native_bundles_included':NATIVE_LABS is not None,'obstacle_records_included':OBSTACLE_RECORDS is not None,'proof_inventory_sha256':sequence['proof_inventory_sha256'],'rendered_math_expressions':rendered['count'],'sources':manifest,'linked_source_files':linked_sources,'reference_data_sha256':hashlib.sha256((OUT/'reference-data.json').read_bytes()).hexdigest(),'pandoc':command(['pandoc','--version']).splitlines()[0],'source_base':source_base,'historical_proof_status':receipt.get('status'),'current_proof_status':'reviewed-current-source-inventory-matched'}
     if input_hashes(ROOT)!=pdf_inputs:raise RuntimeError('PDF inputs changed during HTML build; rebuild.')
     build_receipt['pdf_inputs']=pdf_inputs
     (OUT/'build-receipt.json').write_text(json.dumps(build_receipt,indent=2)+'\n');print(json.dumps({k:v for k,v in build_receipt.items() if k not in ['sources','pdf_inputs']},indent=2))
@@ -155,6 +164,7 @@ if __name__=='__main__':
     parser.add_argument('--output-dir',required=True,type=Path)
     parser.add_argument('--asset-dir',type=Path,default=ASSETS)
     parser.add_argument('--native-labs-dir',type=Path)
-    args=parser.parse_args(); OUT=args.output_dir.resolve(); ASSETS=args.asset_dir.resolve(); NATIVE_LABS=args.native_labs_dir
+    parser.add_argument('--obstacle-records-dir',type=Path)
+    args=parser.parse_args(); OUT=args.output_dir.resolve(); ASSETS=args.asset_dir.resolve(); NATIVE_LABS=args.native_labs_dir; OBSTACLE_RECORDS=args.obstacle_records_dir
     validate_output(OUT,ROOT)
     build()

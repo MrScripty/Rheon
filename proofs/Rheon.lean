@@ -7,3 +7,5 @@ import Rheon.BoundedPhysics
 import Rheon.WallFriction
 import Rheon.NoSlip
 import Rheon.ColumnForcing
+
+import Rheon.StaticObstacle

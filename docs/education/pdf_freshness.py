@@ -10,7 +10,7 @@ def input_hashes(repo):
     paths = set((book / 'chapters').glob('*.md'))
     paths.update((book / 'appendices').glob('*.md'))
     paths.update((book / 'implementation').glob('*.md'))
-    paths.update(p for p in [repo/'docs/education/native_sequence.py',repo/'docs/education/native_browser.py',repo/'docs/education/native-sequence.json',repo/'docs/education/markdown_bundle.py',repo/'docs/education/requirements.txt'] if p.exists())
+    paths.update(p for p in [repo/'docs/education/native_sequence.py',repo/'docs/education/native_browser.py',repo/'docs/education/native-sequence.json',repo/'docs/education/markdown_bundle.py',repo/'docs/education/requirements.txt',repo/'docs/education/static_obstacle.py',repo/'docs/education/obstacle.js',repo/'docs/education/obstacle_browser.py'] if p.exists())
     paths.update((book / 'figures').glob('*.svg'))
     paths.update((book / 'expansion/figures').glob('*.svg'))
     paths.update((book / 'expansion/figures').glob('*.png'))
