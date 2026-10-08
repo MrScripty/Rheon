@@ -24,8 +24,12 @@ pub struct Interval {
 }
 
 fn valid_scalar(x: f64) -> Result<(), Error> {
-    if !x.is_finite() { return Err(Error::NonFinite); }
-    if x != 0.0 && !x.is_normal() { return Err(Error::Subnormal); }
+    if !x.is_finite() {
+        return Err(Error::NonFinite);
+    }
+    if x != 0.0 && !x.is_normal() {
+        return Err(Error::Subnormal);
+    }
     Ok(())
 }
 
@@ -39,8 +43,11 @@ pub fn ensure_supported() -> Result<(), Error> {
     let adjacent = std::hint::black_box(one.next_up());
     let minimum = std::hint::black_box(f64::MIN_POSITIVE);
     let two = std::hint::black_box(2.0_f64);
-    if one + half_ulp != one || adjacent + half_ulp != adjacent.next_up()
-        || minimum / two != f64::from_bits(1_u64 << 51)
+    let subnormal = std::hint::black_box(f64::from_bits(1_u64 << 51));
+    if one + half_ulp != one
+        || adjacent + half_ulp != adjacent.next_up()
+        || (minimum / two).to_bits() != 1_u64 << 51
+        || (subnormal * two).to_bits() != f64::MIN_POSITIVE.to_bits()
     {
         return Err(Error::ArithmeticProbe);
     }
@@ -48,34 +55,64 @@ pub fn ensure_supported() -> Result<(), Error> {
 }
 
 fn widen(x: f64) -> Result<Interval, Error> {
-    if !x.is_finite() || x == 0.0 { return Err(Error::OverflowOrUnderflow); }
+    if !x.is_finite() || x == 0.0 {
+        return Err(Error::OverflowOrUnderflow);
+    }
     valid_scalar(x)?;
     Interval::new(x.next_down(), x.next_up())
 }
 
 fn sum_endpoint(a: f64, b: f64) -> Result<Interval, Error> {
-    if a == 0.0 { return Interval::point(b); }
-    if b == 0.0 { return Interval::point(a); }
-    if a == -b { return Interval::point(0.0); }
+    if a == 0.0 {
+        return Interval::point(b);
+    }
+    if b == 0.0 {
+        return Interval::point(a);
+    }
+    if a == -b {
+        return Interval::point(0.0);
+    }
     widen(a + b)
 }
 
 fn product_endpoint(a: f64, b: f64) -> Result<Interval, Error> {
-    if a == 0.0 || b == 0.0 { return Interval::point(0.0); }
-    if a == 1.0 { return Interval::point(b); }
-    if b == 1.0 { return Interval::point(a); }
-    if a == -1.0 { return Interval::point(-b); }
-    if b == -1.0 { return Interval::point(-a); }
+    if a == 0.0 || b == 0.0 {
+        return Interval::point(0.0);
+    }
+    if a == 1.0 {
+        return Interval::point(b);
+    }
+    if b == 1.0 {
+        return Interval::point(a);
+    }
+    if a == -1.0 {
+        return Interval::point(-b);
+    }
+    if b == -1.0 {
+        return Interval::point(-a);
+    }
     widen(a * b)
 }
 
 fn quotient_endpoint(a: f64, b: f64) -> Result<Interval, Error> {
-    if b == 0.0 { return Err(Error::ZeroDenominator); }
-    if a == 0.0 { return Interval::point(0.0); }
-    if b == 1.0 { return Interval::point(a); }
-    if b == -1.0 { return Interval::point(-a); }
-    if a == b { return Interval::point(1.0); }
-    if a == -b { return Interval::point(-1.0); }
+    if b == 0.0 {
+        return Err(Error::ZeroDenominator);
+    }
+    if a == 0.0 {
+        return Interval::point(0.0);
+    }
+    if b == 1.0 {
+        return Interval::point(a);
+    }
+    if b == -1.0 {
+        return Interval::point(-a);
+    }
+    if a == b {
+        return Interval::point(1.0);
+    }
+    if a == -b {
+        return Interval::point(-1.0);
+    }
     widen(a / b)
 }
 
@@ -83,11 +120,17 @@ impl Interval {
     pub fn new(lo: f64, hi: f64) -> Result<Self, Error> {
         valid_scalar(lo)?;
         valid_scalar(hi)?;
-        if lo > hi { return Err(Error::InvalidInterval); }
+        if lo > hi {
+            return Err(Error::InvalidInterval);
+        }
         Ok(Self { lo, hi })
     }
-    pub fn point(x: f64) -> Result<Self, Error> { Self::new(x, x) }
-    fn validate(self) -> Result<(), Error> { Self::new(self.lo, self.hi).map(|_| ()) }
+    pub fn point(x: f64) -> Result<Self, Error> {
+        Self::new(x, x)
+    }
+    fn validate(self) -> Result<(), Error> {
+        Self::new(self.lo, self.hi).map(|_| ())
+    }
     pub fn add(self, other: Self) -> Result<Self, Error> {
         self.validate()?;
         other.validate()?;
@@ -101,7 +144,12 @@ impl Interval {
         self.add(other.neg())
     }
     // Negation flips bits exactly, even for zero. Consumers validate operands.
-    pub fn neg(self) -> Self { Self { lo: -self.hi, hi: -self.lo } }
+    pub fn neg(self) -> Self {
+        Self {
+            lo: -self.hi,
+            hi: -self.lo,
+        }
+    }
     pub fn mul(self, other: Self) -> Result<Self, Error> {
         self.validate()?;
         other.validate()?;
@@ -112,13 +160,18 @@ impl Interval {
             product_endpoint(self.hi, other.hi)?,
         ];
         let lo = products.iter().map(|x| x.lo).fold(f64::INFINITY, f64::min);
-        let hi = products.iter().map(|x| x.hi).fold(f64::NEG_INFINITY, f64::max);
+        let hi = products
+            .iter()
+            .map(|x| x.hi)
+            .fold(f64::NEG_INFINITY, f64::max);
         Self::new(lo, hi)
     }
     pub fn div(self, other: Self) -> Result<Self, Error> {
         self.validate()?;
         other.validate()?;
-        if other.lo <= 0.0 && other.hi >= 0.0 { return Err(Error::ZeroDenominator); }
+        if other.lo <= 0.0 && other.hi >= 0.0 {
+            return Err(Error::ZeroDenominator);
+        }
         let quotients = [
             quotient_endpoint(self.lo, other.lo)?,
             quotient_endpoint(self.lo, other.hi)?,
@@ -126,16 +179,25 @@ impl Interval {
             quotient_endpoint(self.hi, other.hi)?,
         ];
         let lo = quotients.iter().map(|x| x.lo).fold(f64::INFINITY, f64::min);
-        let hi = quotients.iter().map(|x| x.hi).fold(f64::NEG_INFINITY, f64::max);
+        let hi = quotients
+            .iter()
+            .map(|x| x.hi)
+            .fold(f64::NEG_INFINITY, f64::max);
         Self::new(lo, hi)
     }
     pub fn abs(self) -> Result<Self, Error> {
         self.validate()?;
-        if self.lo >= 0.0 { return Ok(self); }
-        if self.hi <= 0.0 { return Ok(self.neg()); }
+        if self.lo >= 0.0 {
+            return Ok(self);
+        }
+        if self.hi <= 0.0 {
+            return Ok(self.neg());
+        }
         Self::new(0.0, (-self.lo).max(self.hi))
     }
-    pub fn abs_upper(self) -> Result<f64, Error> { self.abs().map(|x| x.hi) }
+    pub fn abs_upper(self) -> Result<f64, Error> {
+        self.abs().map(|x| x.hi)
+    }
     pub fn square(self) -> Result<Self, Error> {
         let a = self.abs()?;
         let lo = product_endpoint(a.lo, a.lo)?.lo;
@@ -147,7 +209,9 @@ impl Interval {
 #[cfg(test)]
 mod tests {
     use super::*;
-    fn p(x: f64) -> Interval { Interval::point(x).unwrap() }
+    fn p(x: f64) -> Interval {
+        Interval::point(x).unwrap()
+    }
     #[test]
     fn exact_identities_and_rest_remain_points() {
         ensure_supported().unwrap();
@@ -177,12 +241,25 @@ mod tests {
     }
     #[test]
     fn bad_arithmetic_is_explicitly_refused() {
-        assert_eq!(p(1.0).div(Interval::new(-1.0,1.0).unwrap()), Err(Error::ZeroDenominator));
+        assert_eq!(
+            p(1.0).div(Interval::new(-1.0, 1.0).unwrap()),
+            Err(Error::ZeroDenominator)
+        );
         assert!(p(f64::MAX).mul(p(2.0)).is_err());
         assert!(p(2.0_f64.powi(-600)).mul(p(2.0_f64.powi(-600))).is_err());
-        assert_eq!(Interval::point(f64::MIN_POSITIVE/2.0), Err(Error::Subnormal));
-        assert!(Interval {lo:f64::NAN,hi:1.0}.add(p(0.0)).is_err());
+        assert_eq!(
+            Interval::point(f64::MIN_POSITIVE / 2.0),
+            Err(Error::Subnormal)
+        );
+        assert!(
+            Interval {
+                lo: f64::NAN,
+                hi: 1.0
+            }
+            .add(p(0.0))
+            .is_err()
+        );
         assert!(p(f64::MIN_POSITIVE).mul(p(0.5)).is_err());
-        assert!(Interval::new(2.0,1.0).is_err());
+        assert!(Interval::new(2.0, 1.0).is_err());
     }
 }

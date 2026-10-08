@@ -2,6 +2,7 @@
 //! Input: one line `id op lo_bits hi_bits [other_lo_bits other_hi_bits]`.
 //! Bits are 16 hex digits. Output is one JSON object per input, echoing the
 //! inputs and either result bits or an explicit refusal. No stepping occurs.
+#[allow(dead_code)] // Probe intentionally exercises a subset of the public API.
 #[path = "../experiments/outward.rs"]
 mod outward;
 use std::io::{self, BufRead};
