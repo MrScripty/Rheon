@@ -19,6 +19,11 @@ The producer builds only `dense3d_sequence` with `--locked --no-default-features
 runs exactly one 16x8x4 case with eight requested 0.0625 s steps, and independently
 validates it before publishing `run.json`. Python uses only the standard library;
 Cargo dependencies are unchanged. No comparison campaign, uploads or training occur.
+The build requests Cargo compiler-artifact JSON and selects the executable reported
+for the exact local Rheon example/package and non-test dev build, including configured
+targets. It never derives an executable from a target-directory layout. The recorded
+build command includes `--message-format=json-render-diagnostics`; version 1 import
+validation also accepts the original command, preserving existing pilot manifests.
 A direct Rust example invocation writes frames but does not complete a dataset.
 Output requires a new directory with an existing parent. Existing directories fail
 before build/run. There is no overwrite, resume, automatic rerun or rollback.

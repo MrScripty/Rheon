@@ -91,6 +91,14 @@ class ImportContract(unittest.TestCase):
         self.assertEqual(consumer.verify(self.directory, manifest=self.manifest), result)
         self.assertFalse((self.directory / "run.json").exists())
 
+    def test_json_artifact_build_command_is_backward_compatible(self):
+        self.manifest["provenance"]["build_command"].append("--message-format=json-render-diagnostics")
+        self.save_manifest()
+        self.assertEqual(consumer.verify(self.directory)["frames"], 9)
+        self.manifest["provenance"]["build_command"].append("--release")
+        self.save_manifest()
+        self.reject("core-only build command")
+
     def test_frame_semantic_corruptions_rehash_before_validation(self):
         mutations = {
             "shape": lambda f: f[2]["fields"]["velocity_x"].pop(),

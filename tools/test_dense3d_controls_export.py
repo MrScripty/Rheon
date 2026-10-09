@@ -127,7 +127,7 @@ class ControlsPublication(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             target = Path(temporary)
             directory = target / "authored-run"
-            executable = target / "debug" / "examples" / "dense3d_sequence"
+            executable = target / "configured-target" / "debug" / "examples" / "dense3d_sequence"
             executable.parent.mkdir(parents=True)
             executable.write_bytes(b"Authored test placeholder; never executed.\n")
             source_hashes = exporter.sources(True)
@@ -143,10 +143,19 @@ class ControlsPublication(unittest.TestCase):
                     return ""
                 if command[0] in ("rustc", "cargo") and command[1] == "--version":
                     return command[0] + " authored test placeholder"
+                example = {"name": "dense3d_sequence", "kind": ["example"], "crate_types": ["bin"],
+                           "src_path": str(exporter.ROOT / "examples" / "dense3d_sequence.rs")}
+                manifest_path = str(exporter.ROOT / "Cargo.toml")
                 if command[:2] == ["cargo", "build"]:
-                    return ""
+                    self.assertEqual(command, exporter.BUILD_COMMAND)
+                    artifact = {"reason": "compiler-artifact", "package_id": "local-rheon",
+                                "manifest_path": manifest_path, "target": example,
+                                "profile": {"test": False}, "features": [], "executable": str(executable)}
+                    return "\n".join(json.dumps(x) for x in [artifact,
+                        {"reason": "build-finished", "success": True}])
                 if command[:2] == ["cargo", "metadata"]:
-                    return json.dumps({"target_directory": str(target)})
+                    return json.dumps({"target_directory": str(target), "packages": [{"name": "rheon",
+                        "id": "local-rheon", "manifest_path": manifest_path, "targets": [example]}]})
                 self.assertEqual(command, [str(executable), str(directory), "--producer-controls-v2"])
                 directory.mkdir()
                 (directory / "frames.jsonl").write_bytes((self.directory / "frames.jsonl").read_bytes())
