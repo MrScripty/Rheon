@@ -103,6 +103,13 @@ tangential P1 retained, N6 gives `Tz=-Fx/2`, the wrong sign for negative force.
 Both laws are regression tests, not acceptance targets or promised repairs.
 N9 actual geometry uses actual distances/areas, not those ideal identities.
 
+The later optional `TwoCellAverageP2` tangential observable reconstructs from
+the first two flux-face averages and actual grid-plane intervals. The original
+API retains tangential P1. Its reference-specific error split, conditional
+smooth-profile remainder and retained-data comparisons are derived in
+[the physical error model](flat-wall-physical-error-model-20261009.md).
+It changes no energy rows or solver and grants no physical qualification.
+
 ## Allocation, verification and execution boundary
 
 No physical N6/N9/N12 solve is authorized in this implementation turn. Unit
