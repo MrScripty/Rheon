@@ -103,6 +103,42 @@ def normal_comparator(raw):
             for k,w in enumerate(f+cross([a-Q(3,2) for a in p],f)):result[k]+=w
     return {'wrench':result,'known_outer_traces':outer,'zero_normal_stress_not_inferred_from_MAC':True}
 
+BOUND_CACHE={}
+def polynomial_bound(poly,radii):
+    key=(str(poly),tuple(radii))
+    if key not in BOUND_CACHE:
+        z=S.symbols('z0:3');shifted=S.Poly(S.expand(poly.subs({x[k]:z[k]+S.Rational(3,2) for k in range(3)})),*z)
+        BOUND_CACHE[key]=sum(Q(abs(int(S.numer(c))),int(S.denom(c)))*math.prod(radii[k]**powers[k] for k in range(3)) for powers,c in shifted.terms())
+    return BOUND_CACHE[key]
+
+def analytic_bounds(rows,mode,s,second):
+    # Oracle-only derivative bounds; never numerical estimator inputs.
+    h=Q(1,s);ray=[Q(0)]*6;quad=[Q(0)]*6;noise=[Q(0)]*6
+    for n,side in product(range(3),(-1,1)):
+        wall=1 if side<0 else 2
+        for i in range(3):
+            if i==n:continue
+            j=3-n-i;group=[r for r in rows if (r['normal'],r['component'],r['side'])==(n,i,side)]
+            radii=[Q(1,2)]*3;radii[n]+=3*h/2 if second else h/2
+            M=polynomial_bound(S.diff(u[i],x[n],3 if second else 2),radii)
+            traction=side*stress[i][n].subs(x[n],wall)
+            Mi=polynomial_bound(S.diff(traction,x[i]),[Q(1,2)]*3);Mj=polynomial_bound(S.diff(traction,x[j]),[Q(1,2)]*3)
+            Mii=polynomial_bound(S.diff(traction,x[i],2),[Q(1,2)]*3);Mjj=polynomial_bound(S.diff(traction,x[j],2),[Q(1,2)]*3)
+            Ci=Q(1,12) if mode=='native' else Q(1,24);Cj=Q(1,24)
+            quad[i]+=h*h*(Ci*Mii+Cj*Mjj)
+            for k in range(3):
+                if k==i:continue
+                ell=3-k-i
+                quad[k+3]+=h*h*(Ci*(Mii/2+2*Mi*(ell==i))+Cj*(Mjj/2+2*Mj*(ell==j)))
+            for r in group:
+                e=r['a']*r['b']*M/6 if second else r['a']*M/2
+                gain=r['b']/(r['a']*(r['b']-r['a']))+r['a']/(r['b']*(r['b']-r['a'])) if second else 1/r['a']
+                ray[i]+=r['area']*e;noise[i]+=r['area']*gain
+                for k in range(3):
+                    if k!=i:
+                        lever=abs(r['p'][3-k-i]-Q(3,2));ray[k+3]+=r['area']*lever*e;noise[k+3]+=r['area']*lever*gain
+    return {'ray_error_bound':ray,'surface_quadrature_bound':quad,'unit_sample_error_load_gain':noise,'uniform_C3_closed_face_premise':True,'bounds_are_oracle_diagnostics_not_operator_inputs':True}
+
 def controls():
     for a,b in ((Q(1,4),Q(3,4)),(Q(2,7),Q(9,11))):
         for side in (-1,1):
@@ -163,6 +199,7 @@ def verify(raw,target):
         assert direct==sum(a*b for a,b in zip(twist,result['wrench']))
         error=[a-b for a,b in zip(result['wrench'],target)];idealerror=[a-b for a,b in zip(ideal['wrench'],target)]
         out['methods'][method]={'supported':True,'wrench':result['wrench'],'exact_input_wrench':ideal['wrench'],'error':error,'exact_input_error':idealerror,'relative_Fy_error':abs(error[1])/Q(1,2),'relative_Tz_error':abs(error[5]),'sample_load_error':[a-b for a,b in zip(result['wrench'],ideal['wrench'])],'rust_arithmetic_error':[a-b for a,b in zip(rust,result['wrench'])],'rust_arithmetic_bound':arithmetic,'faces':result['faces'],'reference_covariance':True,'surface_rigid_work':True,'physical_solver_qualified':False}
+        bounds=analytic_bounds(rows,mode,s,second);totalbound=[a+b+abs(c-d) for a,b,c,d in zip(bounds['ray_error_bound'],bounds['surface_quadrature_bound'],result['wrench'],ideal['wrench'])];assert all(abs(e)<=b for e,b in zip(error,totalbound));out['methods'][method].update(bounds);out['methods'][method]['analytic_conditional_bound']=totalbound
         if native:out['methods'][method]['surface_minus_old_generalized']=[a-b for a,b in zip(result['wrench'],out['old_generalized_wrench'])]
     return out
 

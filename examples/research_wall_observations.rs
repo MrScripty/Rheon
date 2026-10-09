@@ -256,7 +256,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     if let Some((_, points, nr, bytes, geometry, w)) = native_data {
         write!(
             out,
-            "{{\"active_count\":{},\"row_count\":{nr},\"combined_bytes\":{bytes},\"geometry_bytes\":{geometry},\"old_generalized_wrench\":",
+            "{{\"sample_metadata_bytes\":{},\"active_count\":{},\"row_count\":{nr},\"combined_bytes\":{bytes},\"geometry_bytes\":{geometry},\"old_generalized_wrench\":",
+            points.capacity() * size_of::<(usize, [f64; 3], f64)>(),
             points.len()
         )?;
         values(&mut out, &w)?;
