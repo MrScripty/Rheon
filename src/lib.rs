@@ -37,14 +37,14 @@ pub use sphere_departure::{SphereDepartureKind, SphereDepartureReport};
 pub use sphere_friction_interval::*;
 pub use sphere_interval::*;
 pub use sphere_support::*;
-mod static_obstacle;
 mod obstacle_state;
+mod static_obstacle;
 pub use obstacle_state::{
-    MAX_OBSTACLE_STATE_BYTES, ObstacleFlowState, ObstacleStateError,
-    ObstacleEvidenceRef, ObstacleStateUnits, ObstacleStateModel, ObstacleStateBoundary,
-    ObstacleStateMaterial, ObstacleInitialData, ObstacleForcingKind, ObstacleForcingHistory,
-    ObstaclePhysicalInputs, ObstacleStateOrigin, ObstacleVelocityError,
-    ObstacleVelocityErrors, ObstacleStateFrame, ObstacleStateQualification,
+    MAX_OBSTACLE_STATE_BYTES, ObstacleEvidenceRef, ObstacleFlowState, ObstacleForcingHistory,
+    ObstacleForcingKind, ObstacleInitialData, ObstaclePhysicalInputs, ObstacleStateBoundary,
+    ObstacleStateError, ObstacleStateFrame, ObstacleStateMaterial, ObstacleStateModel,
+    ObstacleStateOrigin, ObstacleStateQualification, ObstacleStateUnits, ObstacleVelocityError,
+    ObstacleVelocityErrors,
 };
 mod viscous_boundary_wrench;
 pub use sphere_contact::{
