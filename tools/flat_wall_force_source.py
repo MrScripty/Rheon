@@ -34,12 +34,14 @@ def coefficients():
     assert len(result)<=1024
     for c in result.values(): assert F.from_float(float(c))==c
     return result
-def write(path):
+def write(path,output_byte_cap=65536):
     terms=coefficients()
     text='# body-force density ONLY, SI; s=x-1,y=y,t=z-1; support[1,2]x[0,1]x[1,2]\n'
     text+=''.join(f'{a},{float(c):.17g},{i},{j},{k}\n' for (a,i,j,k),c in sorted(terms.items()))
+    encoded=text.encode()
+    if len(encoded)>output_byte_cap:raise ValueError('forcing output write quota')
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
-    with path.open('x') as f:f.write(text)
+    with path.open('xb') as f:f.write(encoded)
     return {'terms':len(terms),'sha256':hashlib.sha256(text.encode()).hexdigest(),'physical_solve_executed':False}
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('output');args=parser.parse_args()

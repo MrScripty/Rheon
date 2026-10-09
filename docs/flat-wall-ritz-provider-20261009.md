@@ -123,12 +123,14 @@ bounded working allowance and two8KiB I/O buffers, subtracting that allowance
 from the provider limit before construction. Stack, allocator metadata and
 process RSS are explicitly excluded; this is managed payload accounting.
 
-One native level has a hard externally enforced180s timeout and a shared1MiB
-total file cap across acquisition journal, records and owned checkpoint; no
-overwrite/retry/fitted input is permitted. Three sequential physical levels
-would total at most540s/3MiB plus1MiB summary. Independent comparison gets its
-own180s/level,16MB managed-object and4MiB evidence bounds. Source-bound exact
-bit/workspace gates must refuse if the comparison cannot fit.
+The separately approved campaign launcher adds an aggregate1080s deadline,
+bounded pre-write producer slots totaling4MiB and a256MiB RSS threshold sampled
+at50ms. The latter is not a continuous hard memory bound. Native and comparison
+levels retain180s deadlines, and Git checks get10s deadlines, all inside the
+aggregate budget. Native artifact sets retain their shared1MiB writer cap;
+comparison retains16MB managed-object gates. Full enforcement, cleanup caveats
+and exact output reservations are documented in
+[the execution-guard derivation](flat-wall-campaign-guards-20261009.md).
 
 Physical success requires signed force/torque approaching the fixed continuum
 reference on three actual solved fields, decreasing dimensional vector errors
