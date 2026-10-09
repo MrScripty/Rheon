@@ -85,6 +85,11 @@ class GuardTests(unittest.TestCase):
         child,r,_,_=self.run_case('constructor_fault')
         self.assertNotEqual(child.returncode,0);self.assertIn('MemoryError',r['reason'])
         self.assertTrue(r['owned_controller_reaped']);self.assert_stopped(r['controller_pid'])
+    def test_partial_constructor_close_fault_restores_alarm_mask(self):
+        child,r,_,_=self.run_case('partial_constructor_fault')
+        self.assertNotEqual(child.returncode,0);self.assertIn('partial constructor failure',r['reason'])
+        self.assertTrue(r['owned_controller_reaped']);self.assert_stopped(r['controller_pid'])
+        self.assertTrue(r['guard_signals_unblocked_during_receipt']);self.assertTrue(r['cleanup_signalling_errors'])
     def test_raw_fork_child_is_cleaned_when_pidfd_allocation_fails(self):
         child,r,_,_=self.run_case('pidfd_fault')
         self.assertNotEqual(child.returncode,0);self.assertIn('pidfd allocation failure',r['reason'])

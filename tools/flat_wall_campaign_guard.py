@@ -216,9 +216,15 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
             try:process.pidfd=os.pidfd_open(pid)
             except ProcessLookupError:pass # already exited, poll() will reap
         finally:
-            if reader is not None:os.close(reader)
-            os.close(writer)
-            signal.pthread_sigmask(signal.SIG_SETMASK,old_mask)
+            try:
+                for fd in (reader,writer):
+                    if fd is None:continue
+                    try:os.close(fd)
+                    except OSError as error:cleanup_errors.append(str(error))
+            finally:
+                # Partial fdopen/constructor failure may already have closed
+                # the reader. A close error must never leave alarms masked.
+                signal.pthread_sigmask(signal.SIG_SETMASK,old_mask)
         selector=selectors.DefaultSelector();selector.register(process.stdout,selectors.EVENT_READ)
         next_sample=time.monotonic()
         protocol=ChildDeadlineProtocol(work_end)
@@ -308,6 +314,7 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
                  'continuous_rss_bound':False,'sampled_live_group_members_peak':members_peak,
                  'surviving_live_members':survivors,'unreaped_zombie_members':unreaped,
                  'cleanup_signalling_errors':cleanup_errors,
+                 'guard_signals_unblocked_during_receipt':not bool(signal.pthread_sigmask(signal.SIG_BLOCK,set()) & {signal.SIGALRM,signal.SIGTERM,signal.SIGINT}),
                  'sampled_distinct_descendants_including_controller':len(known),'samples':samples,
                  'output_cap_bytes':OUTPUT_CAP,'output_reserved_quotas':QUOTAS,
                  'elapsed_seconds_before_receipt':time.monotonic()-started,
