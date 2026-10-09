@@ -125,3 +125,6 @@ pub use coupled_discrete::{
     CoupledDiscreteError, CoupledDiscreteFlow, CoupledDiscreteReport, CoupledDiscreteStage,
     CoupledDiscreteState, CoupledExtrudedReport, CoupledThirdReport,
 };
+
+mod dense3d_sequence;
+pub use dense3d_sequence::{Dense3dError, Dense3dLimits, Dense3dSequence, write_dense3d_frame};
