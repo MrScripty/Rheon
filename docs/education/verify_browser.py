@@ -11,6 +11,11 @@ import shutil
 from playwright.sync_api import sync_playwright
 from pdf_freshness import input_hashes, verify_pdf, write_receipt
 from browser_qualification import LABS, book_sources, source_hashes, verify_browser_qualification
+from native_browser import qualify as qualify_native
+from native_sequence import metadata
+from obstacle_browser import qualify as qualify_obstacle
+from obstacle_flow_browser import qualify as qualify_obstacle_flow
+from aligned_strain_browser import qualify as qualify_aligned_strain
 
 HERE = Path(__file__).resolve().parent
 
@@ -45,7 +50,7 @@ def check_planar_statement(page):
             f'Rendered planar statement changed: {actual!r}')
 
 
-def exercise_browser(base_url, render_pdf=False):
+def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
     errors, failed = [], []
     def track(page):
         page.on('pageerror', lambda e: errors.append(str(e)))
@@ -115,13 +120,19 @@ def exercise_browser(base_url, render_pdf=False):
         mobile.wait_for_selector('#metrics dd')
         require(mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'),
                 'Mobile laboratory has horizontal overflow')
+        native = qualify_native(page, mobile, load, check_errors, metadata(HERE.parents[1]), base_url)
+        obstacle = qualify_obstacle(page, mobile, load, check_errors)
+        obstacle_flow = qualify_obstacle_flow(page, mobile, load, check_errors)
+        packet_dir = Path(artifact_dir)/'aligned-strain-packet' if artifact_dir is not None else HERE/'_site/aligned-strain-packet'
+        strain = qualify_aligned_strain(page, mobile, load, check_errors, packet_dir if packet_dir.exists() else None, artifact_dir=Path(artifact_dir)/'strain-browser-evidence' if render_pdf and artifact_dir is not None else None)
         load(page, 'print.html')
         page.evaluate('document.fonts.ready')
         check_planar_statement(page)
         check_errors()
         if render_pdf:
-            (HERE/'downloads').mkdir(exist_ok=True)
-            page.pdf(path=str(HERE/'downloads/Rheon-expanded-book.pdf'), print_background=True,
+            destination = Path(artifact_dir) if artifact_dir is not None else HERE
+            (destination/'downloads').mkdir(exist_ok=True)
+            page.pdf(path=str(destination/'downloads/Rheon-expanded-book.pdf'), print_background=True,
                      prefer_css_page_size=True, display_header_footer=True, header_template='<div></div>',
                      footer_template='<div style="font-size:9px;width:100%;text-align:center;color:#52676d">Rheon · Puma · <span class="pageNumber"></span> / <span class="totalPages"></span></div>')
         check_errors()
@@ -130,29 +141,35 @@ def exercise_browser(base_url, render_pdf=False):
                    'mobile_no_horizontal_overflow': True, 'katex_no_errors': True,
                    'page_errors': errors, 'http_failures': failed,
                    'planar_statement_hit_time_rendering': True}
+        receipt['native_labs'] = native
+        receipt['static_obstacle'] = obstacle
+        receipt['obstacle_flow'] = obstacle_flow
+        receipt['aligned_strain'] = strain
         browser.close()
         return receipt
 
 
-def verify(render_pdf=False, base_url=None):
+def verify(render_pdf=False, base_url=None, artifact_dir=None):
     repo = HERE.parents[1]
     inputs = input_hashes(repo)
     sources, books = source_hashes(HERE), book_sources(repo)
-    retained = [HERE/'downloads/Rheon-expanded-book.pdf', HERE/'pdf-inputs.json',
-                HERE/'browser-qualification.json']
+    artifact = Path(artifact_dir) if artifact_dir is not None else HERE
+    site = Path(artifact_dir) if artifact_dir is not None else HERE/'_site'
+    retained = [artifact/'downloads/Rheon-expanded-book.pdf', artifact/'pdf-inputs.json',
+                artifact/'browser-qualification.json']
     if not render_pdf:
-        verify_pdf(repo)
-        verify_browser_qualification(repo)
+        verify_pdf(repo, artifact_dir=artifact_dir)
+        verify_browser_qualification(repo, artifact_dir=artifact_dir)
         before = [p.read_bytes() for p in retained]
     if base_url is None:
-        with serve_site(HERE/'_site') as url:
-            receipt = exercise_browser(url, render_pdf)
+        with serve_site(site) as url:
+            receipt = exercise_browser(url, render_pdf, artifact_dir) if artifact_dir is not None else exercise_browser(url, render_pdf)
     else:
-        receipt = exercise_browser(base_url, render_pdf)
+        receipt = exercise_browser(base_url, render_pdf, artifact_dir) if artifact_dir is not None else exercise_browser(base_url, render_pdf)
     require(source_hashes(HERE) == sources and book_sources(repo) == books,
             'Browser source/book inputs changed during qualification')
     if render_pdf:
-        write_receipt(repo, inputs)
+        write_receipt(repo, inputs, artifact_dir=artifact_dir) if artifact_dir is not None else write_receipt(repo, inputs)
         receipt['reviewed_sources'] = sources
         receipt['book_sources'] = books
         receipt['pdf_sha256'] = hashlib.sha256(retained[0].read_bytes()).hexdigest()
@@ -160,8 +177,8 @@ def verify(render_pdf=False, base_url=None):
     else:
         require([p.read_bytes() for p in retained] == before,
                 'Publication verification changed the retained PDF or qualification receipts')
-        verify_pdf(repo)
-        verify_browser_qualification(repo)
+        verify_pdf(repo, artifact_dir=artifact_dir)
+        verify_browser_qualification(repo, artifact_dir=artifact_dir)
     print(json.dumps({'mode': 'render-pdf' if render_pdf else 'check',
                       'browser': receipt['browser'], 'labs': [x['lab'] for x in receipt['labs']],
                       'page_errors': receipt['page_errors'], 'http_failures': receipt['http_failures']}, indent=2))
@@ -173,5 +190,6 @@ if __name__ == '__main__':
     mode.add_argument('--check', action='store_true', help='Read-only publication verification (default)')
     mode.add_argument('--render-pdf', action='store_true', help='Render and requalify; inspect the new PDF before publication')
     parser.add_argument('--url', help='Existing preview URL; otherwise serve the built site on a private local port')
+    parser.add_argument('--output-dir', type=Path, help='Edition and receipts outside Git')
     args = parser.parse_args()
-    verify(render_pdf=args.render_pdf, base_url=args.url)
+    verify(render_pdf=args.render_pdf, base_url=args.url, artifact_dir=args.output_dir)
