@@ -23,3 +23,6 @@ target
 # Research harness bytecode and disposable local runs
 __pycache__/
 rheon-comparisons/
+
+# Accidental local aligned-strain receipts; generators require external paths.
+/evidence/reconstructed-aligned-strain/

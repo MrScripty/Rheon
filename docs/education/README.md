@@ -36,8 +36,74 @@ The illustrated `Rheon-expanded-markdown.zip` includes companion figures, implem
 
 ## Proof and implementation boundaries
 
-`proofs/source-inventory.json` pins the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations, including the wall-friction, no-slip and forcing modules. The book builder checks those bytes and links the accepted Lean CI; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or solver convergence.
+`proofs/source-inventory-pr24.json` preserves the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations. The reconstructed `source-inventory.json` includes AlignedStrain. Its fresh pinned normal `lake build`, allowed-axiom audit and rejection/source-policy probes checked 106 public theorem statements, 144 explicitly expected declarations and 161 audited declarations. `native-sequence.json` binds the immutable reconstruction source and local qualification receipt, and links the associated hosted Lean run without asserting its checkout identity. Earlier source qualifications and recorded native packet identities remain historical. The book builder checks current bytes; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or global solver convergence.
 
 The expansion's older 42-public/60-audit receipt remains explicitly historical. Its exact-real finite-strain and planar-contact contracts retain their assumptions. The original Python reference source/data receipts are checked before building. Source-only/data-only changes, stale PDF/browser inputs, missing assets, broken controls and page errors reject publication.
 
-The [native progression](../research-book/implementation/native-wall-force-sequence.md) connects equations, units, conditional Lean claims and demos. The [requirements map](../research-book/implementation/requirements-roadmap.md) distinguishes existing box/liquid APIs from missing general mesh/interface composition. Its next feature is an admitted static closed obstacle geometry owner supplying shared fluid volumes, open areas and connectivity, before pressure and wall stress consume that same geometry.
+The [native progression](../research-book/implementation/native-wall-force-sequence.md) connects equations, units, conditional Lean claims and demos. The [requirements map](../research-book/implementation/requirements-roadmap.md) distinguishes existing box/liquid APIs from missing general mesh/interface composition. The bounded static closed box owner now supplies shared fluid volumes, open areas, connectivity and conservative flux. Obstacle pressure and wall stress must still consume that same owner before a fluid solve can be claimed.
+
+
+## Recorded static geometry laboratory
+
+Generate only the geometry controls in `examples/static_obstacle.rs`, with a fresh
+JSON path outside Git, then qualify using `static_obstacle.py --records PATH
+--executable ELF --receipt PATH`. A packet consists exactly of `records.json`
+and `qualification.json`. Pass `--obstacle-records-dir PACKET` to the book builder;
+it checks the frozen clean source, exact record bytes and independent rational
+controls before publishing `obstacle-lab.html`. Without a packet the page states
+absence. The CI review artifact constructs this bounded geometry packet only;
+it does not run any fluid integration or the denied research campaigns.
+
+## Recorded obstacle pressure and reduced shear
+
+`examples/obstacle_flow.rs` writes four native pressure projections and 48
+reduced-shear updates to a fresh JSON path outside Git. Qualify them using
+`obstacle_flow.py --records PATH --executable ELF --receipt PATH`. The independent
+oracle uses analytic affine pressures and exact rational dense solves for the
+shear fixtures, with force/work/impulse checks. This is not a historical numerical
+campaign or arbitrary embedded tensor-viscosity qualification.
+
+Pass the two-file packet with `--obstacle-flow-records-dir PACKET` when building
+the book. `obstacle-flow-lab.html` exposes actual saved field responses and
+clearly distinguishes sealed pressure from fully developed periodic shear.
+Browser checks cover 24 pressure slice/state views and 54 saved shear profiles,
+including mobile layout. Without a packet the page explicitly states absence.
+
+
+## Interactive aligned strain laboratory
+
+The new `aligned-strain-lab.html` page recomputes finite strain, transpose action,
+viscous force and dissipation for velocity samples on one native unit 3×3×3 grid
+with a padded stationary center cube. It includes all 210 rows, including six
+zero rows, and retains the 48-face pressure space and stored face masses.
+Normal strain, cross-component engineering shear, the twelve reflected corner
+edges and one local shear-cancelling rotation patch have separate controls.
+The sliders change face samples and viscosity; there is no timestep or fluid
+solve. The displayed nearest-rounded coefficient estimate cannot authorize a
+step. Exact Lean links and original research are beside the controls and in
+[the laboratory guide](../research-book/implementation/aligned-strain-laboratory.md).
+
+Capture a fresh native packet after committing a clean source tree. All output
+directories below must be new and outside every Git checkout:
+
+```sh
+python3 tools/qualify_aligned_strain.py /absolute/external/native-qualification
+python3 docs/education/aligned_strain_packet.py --output /absolute/external/strain-packet \
+  --executable "$CARGO_TARGET_DIR/debug/examples/aligned_strain" \
+  --primary-qualification /absolute/external/native-qualification/qualification.json
+RHEON_ALIGNED_PACKET=/absolute/external/strain-packet python3 -m unittest discover -s docs/education -p test_aligned_strain_packet.py
+python3 docs/education/build.py --output-dir /absolute/external/edition \
+  --asset-dir /absolute/external/assets/node_modules \
+  --aligned-strain-records-dir /absolute/external/strain-packet
+python3 docs/education/verify_browser.py --render-pdf --output-dir /absolute/external/edition
+python3 docs/education/verify_site.py --output-dir /absolute/external/edition
+python3 docs/education/verify_browser.py --check --output-dir /absolute/external/edition
+```
+
+The packet binds immutable qualified native source bytes, fresh executable and
+TSV hashes, and an independent rational re-export. Chromium verification
+compares live browser arrays and diagnostics with independently rederived
+rational controls. It saves JPEG evidence at quality 85 outside Git. Read-only
+publication checks retain the PDF and receipts. The research-book workflow
+rebuilds and qualifies its own native executable and packet; it does not reuse
+a machine-specific historical binary or infer current checks from old counts.

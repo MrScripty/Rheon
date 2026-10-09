@@ -11,6 +11,11 @@ pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
     TriangleSurface,
 };
+mod static_obstacle;
+pub use static_obstacle::{
+    NO_FLUID_COMPONENT, ObstacleAllocation, ObstacleError, ObstacleFace, ObstacleStage,
+    StaticObstacleGeometry,
+};
 mod motion;
 pub use motion::{TranslatedHit, TranslatedSegment, TranslationError, TranslationInterval};
 mod operator;
@@ -125,4 +130,20 @@ mod coupled_discrete;
 pub use coupled_discrete::{
     CoupledDiscreteError, CoupledDiscreteFlow, CoupledDiscreteReport, CoupledDiscreteStage,
     CoupledDiscreteState, CoupledExtrudedReport, CoupledThirdReport,
+};
+
+mod obstacle_pressure;
+pub use obstacle_pressure::{
+    ObstacleFlowError, ObstacleFlowStage, ObstaclePressureReport, ObstacleProjectionLedger,
+    StaticObstaclePressure,
+};
+mod obstacle_shear;
+pub use obstacle_shear::{
+    ObstacleShearForce, ObstacleShearReport, ObstacleShearWall, StaticObstacleShear,
+};
+
+mod aligned_strain;
+pub use aligned_strain::{
+    AlignedStrain, AlignedStrainBoundary, AlignedStrainError, AlignedStrainFace,
+    AlignedStrainLedger, AlignedStrainRow, AlignedStrainTerm,
 };

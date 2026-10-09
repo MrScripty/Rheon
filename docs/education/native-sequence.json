@@ -1,11 +1,11 @@
 {
   "schema": "rheon-native-sequence-source-v1",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "50d5e527b46745a9ee9a11cdecca41a32f32b9f3",
-  "proof_inventory_sha256": "b18c9562718881eecaeae54d24f5a9427675b7977dd764a0f23d0d784b1dc2d4",
-  "public_theorems": 57,
-  "audited_declarations": 77,
-  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571",
+  "qualified_lean_source": "Fresh reconstructed aligned-strain source f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b qualified locally with normal pinned Lean 4.19.0 lake build, kernel audit and normal/optimized rejection and source/pin gates; exact finite-real contracts, without IEEE refinement or approximate-solver guarantees",
+  "proof_inventory_sha256": "be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa",
+  "public_theorems": 106,
+  "audited_declarations": 161,
+  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",
   "labs": [
     {
       "id": "wall-friction",
@@ -70,5 +70,65 @@
         "results.json": "f37ac7a0fecb2db2db68e26d526537df54e8520a39b182d3b31a385f074c1310"
       }
     }
-  ]
+  ],
+  "historical_native_proof": {
+    "qualified_lean_source": "50d5e527b46745a9ee9a11cdecca41a32f32b9f3",
+    "proof_inventory_sha256": "b18c9562718881eecaeae54d24f5a9427675b7977dd764a0f23d0d784b1dc2d4",
+    "public_theorems": 57,
+    "audited_declarations": 77,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
+  },
+  "local_kernel_receipt_sha256": "dda663582724a7ca4ef4fff9088682d85fca576e23a0a74b1515bbc65784f808",
+  "lean_ci_scope": "Successful hosted Lean workflow associated with f75cd66; exact PR merge checkout identity is not asserted here. The local digest-bound receipt qualifies the immutable f75 source.",
+  "explicit_expected_declarations": 144,
+  "historical_prior_current_proof": {
+    "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
+    "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
+    "public_theorems": 88,
+    "audited_declarations": 135,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571",
+    "local_kernel_receipt_sha256": "f9a026c3a1960a34a43e01d97f8fd911b695a9dfebc75dc80eba89b40ab0c085",
+    "lean_ci_scope": "historical PR24 57/77 only",
+    "explicit_expected_declarations": 118
+  },
+  "current_reconstruction_proof": {
+    "source_head": "f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b",
+    "source_tree": "bda8ebca0a226e10f03f975ffcf9701df4326095",
+    "proof_inventory_sha256": "be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "public_theorems": 106,
+    "audited_declarations": 161,
+    "explicit_expected_declarations": 144,
+    "local_qualification": {
+      "schema": "rheon-reconstructed-aligned-strain-qualification-v1",
+      "qualified_at_utc": "2026-10-08",
+      "status": "passed",
+      "clean": true,
+      "lean_checked": true,
+      "receipt_sha256": "dda663582724a7ca4ef4fff9088682d85fca576e23a0a74b1515bbc65784f808",
+      "receipt_reference": "External final-qualified/qualification.json in the reconstruction evidence packet; raw outputs are excluded from Git",
+      "qualification_runner": "tools/qualify_aligned_strain.py --lean",
+      "recorded_inputs_scope": "The original native accepted heads, file digests and historical native proof inventory remain unchanged"
+    },
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",
+    "lean_ci_associated_source_head": "f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b",
+    "lean_ci_checkout_identity": "Not asserted; associated hosted workflow may use a PR merge checkout",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "reproduction": [
+      "cd proofs",
+      "python3 scripts/check_sources.py",
+      "lake build",
+      "lake env lean AxiomAudit.lean",
+      "python3 scripts/test_audit.py",
+      "python3 -O scripts/test_audit.py",
+      "python3 scripts/test_check_sources.py",
+      "python3 -O scripts/test_check_sources.py"
+    ],
+    "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
+  }
 }

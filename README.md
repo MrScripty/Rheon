@@ -109,3 +109,12 @@ for interface-error evidence and the remaining free-surface pressure coupling.
 ```sh
 cargo run --locked --release --no-default-features --example liquid_volume
 ```
+
+## Bounded static-obstacle field operators
+
+`StaticObstaclePressure` projects sealed stationary face fields using the same
+retained obstacle volumes, openings and components as collision geometry.
+`StaticObstacleShear` uses that owner for a separately admitted fully developed
+extruded channel, including no-slip/Navier friction, density/force response and
+work/impulse ledgers. These different boundary models are not yet a composed 3D
+fluid solver. See the [equations, controls and recorded lab](docs/research-book/implementation/static-obstacle-flow.md).
