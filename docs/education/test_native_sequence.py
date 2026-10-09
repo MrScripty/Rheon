@@ -52,9 +52,9 @@ class NativeSequence(unittest.TestCase):
     def test_repository_metadata_admits_current_reviewed_proofs(self):
         repo=Path(__file__).resolve().parents[2]
         data=metadata(repo)
-        current=data['current_reconstruction_proof']
+        current=data['current_proof_qualification']
         for key in ('proof_inventory_sha256','public_theorems',
-                    'audited_declarations','explicit_expected_declarations','lean_ci'):
+                    'audited_declarations','explicit_expected_declarations'):
             self.assertEqual(data[key],current[key])
         pins=json.loads((repo/'proofs/source-inventory.json').read_text())
         self.assertIn('Rheon/AlignedStrain.lean',pins)
@@ -69,6 +69,40 @@ class NativeSequence(unittest.TestCase):
                          current['local_qualification']['receipt_sha256'])
         self.assertTrue(current['local_qualification']['lean_checked'])
         self.assertEqual(current['local_qualification']['status'],'passed')
+        self.assertEqual(data['historical_reconstruction_proof']['source_head'],
+                         'f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b')
+        self.assertEqual(data['historical_reconstruction_proof']['proof_inventory_sha256'],
+                         'be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa')
+
+    def test_retained_association_rejects_changed_dependency_or_count(self):
+        source=Path(__file__).resolve().parents[2];repo=self.root/'association'
+        data=json.loads((source/'docs/education/native-sequence.json').read_text())
+        for name in data['current_proof_qualification']['source_sha256']:
+            path=repo/name;path.parent.mkdir(parents=True,exist_ok=True)
+            path.write_bytes((source/name).read_bytes())
+        path=repo/'docs/education/native-sequence.json';path.parent.mkdir(parents=True)
+        path.write_text(json.dumps(data));metadata(repo)
+        pin=repo/'proofs/lean-toolchain';original=pin.read_bytes()
+        pin.write_bytes(original+b'changed')
+        with self.assertRaisesRegex(ValueError,'association source differs'):metadata(repo)
+        pin.write_bytes(original)
+        data['current_proof_qualification']['audited_declarations']+=1
+        path.write_text(json.dumps(data))
+        with self.assertRaisesRegex(ValueError,'association differs from presentation'):metadata(repo)
+
+    def test_retained_association_rejects_missing_source_or_receipt_binding(self):
+        source=Path(__file__).resolve().parents[2];repo=self.root/'association'
+        data=json.loads((source/'docs/education/native-sequence.json').read_text())
+        for name in data['current_proof_qualification']['source_sha256']:
+            path=repo/name;path.parent.mkdir(parents=True,exist_ok=True)
+            path.write_bytes((source/name).read_bytes())
+        path=repo/'docs/education/native-sequence.json';path.parent.mkdir(parents=True)
+        removed=data['current_proof_qualification']['source_sha256'].pop('proofs/lake-manifest.json')
+        path.write_text(json.dumps(data))
+        with self.assertRaisesRegex(ValueError,'omits source or dependency'):metadata(repo)
+        data['current_proof_qualification']['source_sha256']['proofs/lake-manifest.json']=removed
+        data['local_kernel_receipt_sha256']='0'*64;path.write_text(json.dumps(data))
+        with self.assertRaisesRegex(ValueError,'receipt association differs'):metadata(repo)
 
 
 if __name__=='__main__':unittest.main()

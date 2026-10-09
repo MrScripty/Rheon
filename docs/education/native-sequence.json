@@ -1,10 +1,10 @@
 {
   "schema": "rheon-native-sequence-source-v1",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Fresh reconstructed aligned-strain source f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b qualified locally with normal pinned Lean 4.19.0 lake build, kernel audit and normal/optimized rejection and source/pin gates; exact finite-real contracts, without IEEE refinement or approximate-solver guarantees",
-  "proof_inventory_sha256": "be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa",
-  "public_theorems": 106,
-  "audited_declarations": 161,
+  "qualified_lean_source": "Current proof bytes are unchanged from retained clean 7d3c8df2d9149e5cd643a2af1f29f2ccf94bfb7e, locally checked with pinned Lean 4.19.0 using direct compiler invocations and an allowed-axiom audit, independently repeated. This metadata reconciliation runs no Lean or numerical campaign.",
+  "proof_inventory_sha256": "fdc589f6134cffa4be67ecaa936dfa78decf17d5b1facdd6f3c7a2ac5622df78",
+  "public_theorems": 216,
+  "audited_declarations": 342,
   "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",
   "labs": [
     {
@@ -78,9 +78,9 @@
     "audited_declarations": 77,
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
-  "local_kernel_receipt_sha256": "dda663582724a7ca4ef4fff9088682d85fca576e23a0a74b1515bbc65784f808",
-  "lean_ci_scope": "Successful hosted Lean workflow associated with f75cd66; exact PR merge checkout identity is not asserted here. The local digest-bound receipt qualifies the immutable f75 source.",
-  "explicit_expected_declarations": 144,
+  "local_kernel_receipt_sha256": "87cca1a531a9bb77566708e54322ac02052aeeeb9dc1f91bd186dc5422c62ee2",
+  "lean_ci_scope": "Historical associated hosted workflow for f75cd66 only; current 7d3c8df qualification is local direct-compiler evidence and no current hosted checkout identity is asserted.",
+  "explicit_expected_declarations": 286,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
     "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
@@ -91,7 +91,7 @@
     "lean_ci_scope": "historical PR24 57/77 only",
     "explicit_expected_declarations": 118
   },
-  "current_reconstruction_proof": {
+  "historical_reconstruction_proof": {
     "source_head": "f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b",
     "source_tree": "bda8ebca0a226e10f03f975ffcf9701df4326095",
     "proof_inventory_sha256": "be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa",
@@ -130,5 +130,77 @@
       "python3 -O scripts/test_check_sources.py"
     ],
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
+  },
+  "current_proof_qualification": {
+    "schema": "rheon-retained-current-proof-association-v1",
+    "source_head": "7d3c8df2d9149e5cd643a2af1f29f2ccf94bfb7e",
+    "source_tree": "e72049f259a6bcc3577b2729b38afa3f5c6386c6",
+    "proof_inventory_sha256": "fdc589f6134cffa4be67ecaa936dfa78decf17d5b1facdd6f3c7a2ac5622df78",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "public_theorems": 216,
+    "audited_declarations": 342,
+    "explicit_expected_declarations": 286,
+    "source_sha256": {
+      "proofs/.gitignore": "54b47581e44d6c752738f08d8842338d0a43302e12d4cbc7a69c549cccc9df11",
+      "proofs/AxiomAudit.lean": "39cd9d49b650090ade1fa518c3a4de50e79af792e5e9d84cac6c7cc1d43160a1",
+      "proofs/README.md": "92642c54599cf148210eba9e878872a02d273f044c88db7640f6e97dd1b88043",
+      "proofs/Rheon.lean": "c09ba4e7f83565a3c48cf48c03dd555ea975a6832aba53c200b61899236b17d4",
+      "proofs/Rheon/AlignedStrain.lean": "4a76bacb1a49b2c395c1718ce45e2ed134217b78697766c099e666d09001ae32",
+      "proofs/Rheon/BoundedPhysics.lean": "20dd53b1b137a01f8b04de47ffbe8474561696940e17ab1ed4d3bfde388b03af",
+      "proofs/Rheon/ColumnForcing.lean": "9199bd6d06f254e1cf31d8c7cd5e8cee951d53a5325db8bc78ef5cb449226211",
+      "proofs/Rheon/Discrete.lean": "70a2ca5d2c5cbefacbbb8742954375fdfe8cc25c3c5b8afd05738941cfc5ee0a",
+      "proofs/Rheon/Indexing.lean": "862c33164e75daccd43603c9b5a61473fd825885d9106b766a35204e578f60bf",
+      "proofs/Rheon/MeshTraction.lean": "5b4368b9bf9356e6c24f930e8f1ae1a83dfac62e0e701ebecaba12a43ab402fa",
+      "proofs/Rheon/NoSlip.lean": "615283345c18331b5c19fba94cf738a55f089978df68d2ff67f109ae219b4e3c",
+      "proofs/Rheon/ObstacleOperators.lean": "514cb760f16dd55d6bbad78b30953fcf3b90f3247b2185c1719b8463b6531680",
+      "proofs/Rheon/Physics.lean": "26cbb4f75076c7e70a90da126f96622b75044befce26a4c17a50066c76e96050",
+      "proofs/Rheon/RigidImpulse.lean": "30332a035a52817ce07125d9d724035d525baa19aae1cc83fcf9cc11e4529ec6",
+      "proofs/Rheon/RigidMotion.lean": "0344c38bd060749ad49d95b43fc03a2d4d2a55fc7fce2469ebd6d0ad0c220c00",
+      "proofs/Rheon/SphereContact.lean": "a9e05a2923483ef42a91f35e2deff8b9cf76ce8b8284c5a25aa7a1d716f70b28",
+      "proofs/Rheon/SphereFriction.lean": "3912c77e702b01c24f584bb2fe40ded2f81322ca8aebbed382a7b836f4aaa74b",
+      "proofs/Rheon/SphereFrictionInterval.lean": "ffb43d4fb6301f6a6d8e6964b8b28f362cbd6c1883b9ab2f135a9453352f690e",
+      "proofs/Rheon/SphereInterval.lean": "be5cb01895287f85a46c3337869f73f1673b33d75832b3f6d46d98f5dee2bebe",
+      "proofs/Rheon/SphereSupport.lean": "7f96fc765535cb7e8b4750cc98097170d6f07de7236a66dd7f31d538de2e4ab8",
+      "proofs/Rheon/StaticObstacle.lean": "b93a60d832775dd2177980806d149cbe0a42fef03bc3993f10ed44aa8451c4bb",
+      "proofs/Rheon/Transport.lean": "f967e593db1df0ec945ea6830e67b991e56da168e9f6e3f2d42c4c5866c5cf06",
+      "proofs/Rheon/ViscousBoundaryWrench.lean": "c3a6bfdbb1333c2589f0273ad9c33bfa150a149f8580decab29b409bab241724",
+      "proofs/Rheon/WallFriction.lean": "3aa15f9e4b5881181cdf438c88774a5eec29feb1a849b0329f0f95c34fa551e7",
+      "proofs/lake-manifest.json": "6fca0fbcd73e55375c73b69fcff247d94bf70753439a2791a1af392d3277d730",
+      "proofs/lakefile.toml": "a1d5685a03cbe77cd5a9b5c58e0229282fd3173797e62f3d307bfa3597a2d10a",
+      "proofs/lean-toolchain": "55e97be96000b5e9e290c9e74482e5e317861499a5540353ce845471bded8cea",
+      "proofs/scripts/check_sources.py": "a230cec2ed8882904524f12b11eb644d9120da46b9b71c95d45fbb313466402e",
+      "proofs/scripts/test_audit.py": "7c2116a269c0dd04ce44123a737c3de7d4fb40980436a83fff6da77b17656b5d",
+      "proofs/scripts/test_bootstrap.py": "08d2ead62ec79e0bdf5349223de6277610b42119db510aec808d1ec27924f041",
+      "proofs/scripts/test_check_sources.py": "e53304e8bcb0b11a61e434d2e8be39e0b42e37a11d82af689423e97777ba4899",
+      "proofs/source-inventory-pr24.json": "b18c9562718881eecaeae54d24f5a9427675b7977dd764a0f23d0d784b1dc2d4",
+      "proofs/source-inventory.json": "fdc589f6134cffa4be67ecaa936dfa78decf17d5b1facdd6f3c7a2ac5622df78"
+    },
+    "local_qualification": {
+      "status": "passed",
+      "source_clean": true,
+      "lean_checked": true,
+      "mode": "Pinned Lean compiler invoked directly with private fresh output and pinned dependency artifact paths; not a lake build or hosted CI receipt",
+      "compiled_modules": 20,
+      "root_compiled": true,
+      "audit_passed": true,
+      "allowed_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "audit_log_sha256": "7c778f2dc185ba1b54fae7274219dcf9c809d69a26d6cedf7a44b38fa5cddc9c",
+      "receipt_sha256": "87cca1a531a9bb77566708e54322ac02052aeeeb9dc1f91bd186dc5422c62ee2",
+      "receipt_reference": "Retained viscous-wrench root-qualified-current/qualification.json; original raw evidence remains external",
+      "independent_receipt_sha256": "988a3d9bf1b2b30f991d5974ad102383b5aef983689a784568a9175c6a12fb5c",
+      "independent_receipt_reference": "Retained viscous-wrench independent-qualified-7d3c8df/qualification.json; same immutable source and audit",
+      "qualification_runner": "tools/qualify_viscous_boundary_wrench.py",
+      "rejection_probes": [
+        "custom axiom",
+        "admitted proof"
+      ],
+      "reconciliation_runs_Lean": false
+    },
+    "scope": "Existing exact finite-real contracts on the unchanged proof source. No new Lean or numerical run, IEEE refinement, solver convergence, general PDE or deployment qualification."
   }
 }

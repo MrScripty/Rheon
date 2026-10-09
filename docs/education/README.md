@@ -4,6 +4,30 @@ The 25-chapter book, six appendices, implementation guides, locally rendered equ
 
 The three native labs are recorded playback with distinct models: two finite Navier walls, compatible no-slip/mixed boundaries, and uniform tangential forcing with stationary no-slip walls. Their controls select saved cases/times; they do not recompute parameters or advance a live liquid simulator. The original six 3D labs remain separate analytical/stored mechanisms. The projection control displays an algebraic blend of two saved fields; camera motion only changes the view.
 
+## Current and historical proof associations
+
+The earlier aligned-strain reconstruction at `f75cd66` qualified inventory
+`be5a1ebd…` with a normal lake build. That record is preserved under
+`historical_reconstruction_proof` in `native-sequence.json`. Later additions
+changed the inventory to `fdc589f6…`; the old presentation association had
+remained at the reconstruction inventory and correctly refused a current build.
+
+`current_proof_qualification` now binds the unchanged proof tree from clean
+`7d3c8df2d9149e5cd643a2af1f29f2ccf94bfb7e` to its already retained owner and
+independent viscous-wrench qualification receipts. Both runs compiled all twenty
+modules and the root with pinned Lean 4.19.0 directly, then audited 342 actual
+declarations, including 286 explicitly expected names. The source contains 216
+public theorem statements. Their receipt digests, audit-log digest and all 33
+proof-source/dependency-file digests are recorded in the association. This is
+local direct-compiler evidence; the historically linked hosted workflow belongs
+to the earlier reconstruction. Reconciliation executes no Lean or physics run.
+
+The builder retains the exact inventory/source gate and additionally checks the
+receipt association, dependency files and presentation counts. Original native
+lab identities, historical receipts, PDFs and published GUI artifacts are
+preserved. A successful local source build does not authorize merging or Pages
+deployment; those remain separate approval steps.
+
 ## Build and preview outside Git
 
 Requires Python 3.12, Pandoc 3.1.11.1, Node 24, the npm lock and `requirements.txt`. Three.js 0.180.0 and KaTeX 0.16.22 are pinned and copied with licenses; runtime assets are local. From the repository root, choose a fresh output path and asset directories outside every checkout. The builder refuses existing output directories and checkout ancestors:

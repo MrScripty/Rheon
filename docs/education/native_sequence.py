@@ -14,6 +14,28 @@ def metadata(repo):
     for name, digest in json.loads(pins.read_text()).items():
         if hashlib.sha256((repo/'proofs'/name).read_bytes()).hexdigest() != digest:
             raise ValueError('Current Lean source differs from its inventory: '+name)
+    if 'current_proof_qualification' in data:
+        current=data['current_proof_qualification']
+        for key in ('proof_inventory_sha256','public_theorems',
+                    'audited_declarations','explicit_expected_declarations'):
+            if current[key]!=data[key]:
+                raise ValueError('Current proof association differs from presentation: '+key)
+        bindings=current['source_sha256']
+        required={'proofs/'+name for name in json.loads(pins.read_text())}
+        required.update('proofs/'+name for name in
+                        ('source-inventory.json','lean-toolchain','lake-manifest.json','lakefile.toml'))
+        if not required<=bindings.keys() or bindings['proofs/source-inventory.json']!=data['proof_inventory_sha256']:
+            raise ValueError('Current proof association omits source or dependency bindings')
+        for name,digest in bindings.items():
+            path=Path(name)
+            if path.is_absolute() or '..' in path.parts or path.parts[0]!='proofs':
+                raise ValueError('Invalid current proof source binding')
+            if hashlib.sha256((repo/path).read_bytes()).hexdigest()!=digest:
+                raise ValueError('Current proof association source differs: '+name)
+        qualification=current['local_qualification']
+        if qualification['status']!='passed' or qualification['lean_checked'] is not True or \
+                qualification['receipt_sha256']!=data['local_kernel_receipt_sha256']:
+            raise ValueError('Current proof receipt association differs')
     if 'historical_native_proof' in data:
         historical=repo/'proofs/source-inventory-pr24.json'
         if hashlib.sha256(historical.read_bytes()).hexdigest()!=data['historical_native_proof']['proof_inventory_sha256']:
