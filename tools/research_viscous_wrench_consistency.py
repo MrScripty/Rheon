@@ -14,6 +14,10 @@ import struct
 import subprocess
 import check_viscous_boundary_wrench as qualified_checker
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'research'))
+from check_proof_audit import require_external_output
+
 BASE = '7d3c8df2d9149e5cd643a2af1f29f2ccf94bfb7e'
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -185,11 +189,15 @@ def serialize(value):
     return value
 
 
+def summary(result, output):
+    return {'output': str(output/'research.json'), 'sha256': sha(output/'research.json'),
+            'native_torque': str(result['cases']['polynomial-bounded']['finite_model']['total'][5]),
+            'physical_torque': str(result['unchanged_continuum_wrench'][5]),
+            'quadratic_candidate_rejected': result['quadratic_candidate_rejected']}
+
+
 def run(executable, output):
-    if output.exists():
-        raise ValueError('new external output required')
-    if subprocess.run(['git', '-C', str(output.parent), 'rev-parse', '--is-inside-work-tree'], capture_output=True).returncode == 0:
-        raise ValueError('output must remain outside Git')
+    output=require_external_output(output, ROOT, 'output must remain outside Git')
     before = sha(executable)
     accepted_binaries = {'9f1f77115fac7c8907ee592cd534e030fc07d907b66ab0ce0d2064e661b6d504',
                          'cfd7d8590914f63253f3450fe1ce4240b5b3f4e9ab8e60b6fd2df58a6b39155e'}
@@ -237,9 +245,7 @@ def run(executable, output):
               'ablations_preserve_joint_work_or_closure': False,
               'pressure_coupling': False, 'stepping': False, 'physical_load_qualification': False}
     (output/'research.json').write_text(json.dumps(serialize(result), indent=2)+'\n')
-    print(json.dumps({'output': str(output/'research.json'), 'sha256': sha(output/'research.json'),
-                      'native_torque': str(cases['polynomial-bounded']['finite_model']['total'][5]),
-                      'physical_torque': str(continuum[5]), 'quadratic_candidate_rejected': True}))
+    print(json.dumps(summary(result, output)))
 
 
 if __name__ == '__main__':

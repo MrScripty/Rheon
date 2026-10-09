@@ -15,6 +15,10 @@ import subprocess
 import sympy as S
 import check_viscous_boundary_wrench as frozen_checker
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'research'))
+from check_proof_audit import require_external_output
+
 ROOT = Path(__file__).resolve().parents[1]
 BASE = '02142c537363659ac48ac01193084360f5260664'
 BINARIES = {
@@ -247,9 +251,7 @@ def controls():
         'actual_other_tangent_exact_torque_z':'-1/3'}
 
 def run(executable,output):
-    if output.exists():raise ValueError('previously absent external output required')
-    if subprocess.run(['git','-C',str(output.parent),'rev-parse','--is-inside-work-tree'],capture_output=True).returncode==0:
-        raise ValueError('outputs must remain outside Git')
+    output=require_external_output(output, ROOT, 'outputs must remain outside Git')
     binary_sha=sha(executable)
     if binary_sha not in BINARIES:raise ValueError('qualified frozen native binary required')
     subprocess.run(['git','diff','--exit-code',BASE,'--','src','proofs','tests','examples','Cargo.toml','Cargo.lock',

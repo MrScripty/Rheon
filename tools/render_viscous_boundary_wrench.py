@@ -6,16 +6,16 @@ import json
 from pathlib import Path
 import subprocess
 from check_viscous_boundary_wrench import read_json, scalar, verify
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'research'))
+from check_proof_audit import require_external_output
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def render(coarse,bounded,output):
-    output=output.resolve()
-    if output.exists(): raise ValueError('new output directory required')
+    output=require_external_output(output)
     output.parent.mkdir(parents=True,exist_ok=True)
-    result=subprocess.run(['git','-C',str(output.parent),'rev-parse','--is-inside-work-tree'],capture_output=True)
-    if result.returncode==0: raise ValueError('generated output must be outside Git')
     controls=[]
     name='polynomial-tilted-curl'
     for path,case in [(coarse,'polynomial-coarse'),(bounded,'polynomial-bounded')]:

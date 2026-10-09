@@ -12,6 +12,10 @@ import hashlib,json,struct,subprocess
 from pathlib import Path
 import check_viscous_boundary_wrench as native_checker
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'research'))
+from check_proof_audit import require_external_output
+
 ROOT=Path(__file__).resolve().parents[1]
 BASE='7fd70976e88d244c6e07a167b5f9d39f06cad425'
 BINS={'9f1f77115fac7c8907ee592cd534e030fc07d907b66ab0ce0d2064e661b6d504':'debug',
@@ -317,8 +321,7 @@ def local_obstruction():
          'applies_to':'isolated scalar wall-ray row and restored symmetric trace row, not arbitrary richer volume reconstructions'}
 
 def run(executable,output):
- if output.exists():raise ValueError('new external output required')
- if subprocess.run(['git','-C',str(output.parent),'rev-parse','--is-inside-work-tree'],capture_output=True).returncode==0:raise ValueError('external output required')
+ output=require_external_output(output, ROOT, 'external output required')
  fingerprint=sha(executable)
  if fingerprint not in BINS:raise ValueError('source-identified frozen binary required')
  subprocess.run(['git','diff','--exit-code',BASE,'--','src','proofs','tests','examples','Cargo.toml','Cargo.lock','tools/check_viscous_boundary_wrench.py'],cwd=ROOT,check=True,capture_output=True)

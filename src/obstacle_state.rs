@@ -240,10 +240,10 @@ fn validate_metadata(
         return Err(ObstacleStateError::InvalidChronology);
     }
     for error in frame.errors.values() {
-        if let ObstacleVelocityError::CallerDeclaredUpperBound { value, .. } = error {
-            if !nonnegative(value) {
-                return Err(ObstacleStateError::InvalidErrorDeclaration);
-            }
+        if let ObstacleVelocityError::CallerDeclaredUpperBound { value, .. } = error
+            && !nonnegative(value)
+        {
+            return Err(ObstacleStateError::InvalidErrorDeclaration);
         }
     }
     Ok(())

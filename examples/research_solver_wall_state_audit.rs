@@ -5,6 +5,17 @@ use rheon::{
 };
 use std::{error::Error, fs::OpenOptions, io::Write, mem::size_of, path::Path};
 const CAP: usize = 16_000_000;
+fn require_external_output(path: &Path, manifest: &Path) -> Result<(), Box<dyn Error>> {
+    if path
+        .parent()
+        .ok_or("parent")?
+        .canonicalize()?
+        .starts_with(manifest.canonicalize()?)
+    {
+        return Err("external output required".into());
+    }
+    Ok(())
+}
 #[allow(dead_code)]
 struct ProposedLeafCell {
     key: u64,
@@ -51,14 +62,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         return Err("NEW_EXTERNAL_JSON".into());
     }
     let path = Path::new(&args[0]);
-    if path
-        .parent()
-        .ok_or("parent")?
-        .canonicalize()?
-        .starts_with(env!("CARGO_MANIFEST_DIR"))
-    {
-        return Err("external output required".into());
-    }
+    require_external_output(path, Path::new(env!("CARGO_MANIFEST_DIR")))?;
     let mut out = OpenOptions::new().write(true).create_new(true).open(path)?;
     write!(
         out,
@@ -143,6 +147,33 @@ fn main() -> Result<(), Box<dyn Error>> {
             state.x.len() + state.y.len() + state.z.len()
         )?;
     }
-    write!(out, "]}}\n")?;
+    writeln!(out, "]}}")?;
     Ok(())
+}
+
+#[cfg(all(test, unix))]
+mod output_guard_tests {
+    use super::*;
+    #[test]
+    fn canonical_manifest_alias_refuses_before_output_creation() {
+        let nonce = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!("rheon-guard-{}-{nonce}", std::process::id()));
+        let repository = root.join("repository");
+        let outside = root.join("repository-sibling");
+        std::fs::create_dir_all(repository.join("nested")).unwrap();
+        std::fs::create_dir_all(&outside).unwrap();
+        let alias = root.join("manifest-alias");
+        std::os::unix::fs::symlink(&repository, &alias).unwrap();
+        let inside = repository.join("nested/output.json");
+        assert!(require_external_output(&inside, &alias).is_err());
+        assert!(!inside.exists());
+        assert!(require_external_output(&alias.join("nested/output.json"), &repository).is_err());
+        assert!(require_external_output(&outside.join("output.json"), &alias).is_ok());
+        assert!(require_external_output(&repository.join("missing/output.json"), &alias).is_err());
+        assert!(!repository.join("missing").exists());
+        std::fs::remove_dir_all(root).unwrap();
+    }
 }
