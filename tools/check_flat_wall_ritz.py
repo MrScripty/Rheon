@@ -166,10 +166,11 @@ def traction(model,velocity,scheme):
 def compare(path,source_path,head,binary,physical=False):
     begin=time.monotonic();require(path.stat().st_size<=FILE_CAP,'record file cap')
     records=[]
-    retained_records=0
+    retained_records=0;read_bytes=0
     allowed_kinds={'header','source_term','column','row','matrix','source_integral','velocity','traction','divergence','solve','runner_bound'}
     with path.open('rb') as f:
         while line:=f.readline(8193):
+            read_bytes+=len(line);require(read_bytes<=FILE_CAP,'total record byte cap')
             require(len(line)<=8192 and line.endswith(b'\n'),'record line cap')
             require(sum(line.count(c) for c in (b'[',b']',b'{',b'}',b',',b':'))<=128,'record structural-node cap')
             require(retained_records+sys.getsizeof(records)+WORKING_RESERVE<=MAX_BYTES,'preparse managed record cap')
@@ -184,12 +185,18 @@ def compare(path,source_path,head,binary,physical=False):
     by={}
     for r in records:by.setdefault(r['kind'],[]).append(r)
     require((len(by.get('solve',[]))==1) if physical else ('solve' not in by),'solve record/mode mismatch')
-    require(len(by.get('header',[]))==1,'missing/duplicate header');header=by['header'][0];n=header['n'];model=Model(n)
-    require(n in (6,9,12) and header['h']==model.h,'geometry header')
+    require(len(by.get('header',[]))==1,'missing/duplicate header');header=by['header'][0];n=header['n']
+    require(type(n) is int and n in (6,9,12),'unsupported geometry header before allocation');model=Model(n)
+    require(header['h']==model.h,'geometry header')
     require(header['head']==head and header['mode']==('numerical_reduced_ritz_solve' if physical else 'supplied_synthetic_q_algebra_no_solve'),'source/mode mismatch')
     require(header['pressure_available'] is False and header['physical_qualified'] is False,'qualification claim')
     require(header['source_sha256']==file_digest(source_path),'source hash mismatch')
-    journal=(path.parent/'acquisition.txt').read_text();require(('solver_report=Some(' in journal) if physical else ('solver_report=None' in journal),'solver provenance mismatch')
+    journal_path=path.parent/'acquisition.txt';journal_size=journal_path.stat().st_size
+    require(journal_size<=FILE_CAP and retained_records+2*(journal_size+1)+WORKING_RESERVE<=MAX_BYTES,'journal preallocation cap')
+    with journal_path.open('rb') as stream:raw_journal=stream.read(journal_size+1)
+    require(len(raw_journal)==journal_size,'journal changed while reading')
+    journal=raw_journal.decode('ascii');del raw_journal
+    require(('solver_report=Some(' in journal) if physical else ('solver_report=None' in journal),'solver provenance mismatch')
     require('binary_sha256='+file_digest(binary) in journal,'binary journal mismatch')
     columns=model.columns();require(len(by['column'])==len(columns),'column count')
     for i,(actual,expected) in enumerate(zip(by['column'],columns)):
