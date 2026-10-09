@@ -58,8 +58,10 @@ their existing paths. No pressure or timestep coupling is added.
 For a C3 averaged profile with zero wall trace, the derived exact-real remainder
 is bounded by `H1 H2/12 * sup|v'''|`. Sample errors additionally contribute
 `|w1| epsilon1+|w2| epsilon2`: on uniform cells, equal input bounds become
-`4 epsilon/h`, compared with P1's `2 epsilon/h`. Quadratic exactness therefore
-reduces observation bias while doubling this input-error amplification.
+`4 epsilon/h`, compared with P1's `2 epsilon/h`. Quadratic exactness removes
+the quadratic-profile bias. For this manufactured reference the measured
+observation bias decreases, while equal uniform-grid sample-error bounds have
+twice the P1 amplification.
 Arithmetic intervals cover the implemented arithmetic on supplied samples,
 not sampling, field, trace or PDE error. No new Lean theorem certifies this
 physical interpretation; existing finite-work proofs have their own premises.
