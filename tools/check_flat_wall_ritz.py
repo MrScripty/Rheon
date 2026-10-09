@@ -64,6 +64,61 @@ def nearest(actual,exact,scale,operations):
 def contained(pair,exact):
     require(len(pair)==2 and rational(pair[0])<=exact<=rational(pair[1]),'outward arithmetic interval misses exact value')
 
+def binary64_roundoff_radius(value):
+    """Exact half-neighbor-gap enclosure, including zero and subnormals.
+
+    Premise: finite binary64 round-to-nearest operations, separately rounded
+    multiplication/addition. Refuse overflow and a missing finite neighbor.
+    The larger half-gap is conservative at a binade boundary; no fitted floor.
+    """
+    require(sys.float_info.radix==2 and sys.float_info.mant_dig==53 and
+            sys.float_info.rounds==1,'binary64 nearest environment required')
+    require(math.isfinite(value),'nonfinite scatter result')
+    lower=math.nextafter(value,-math.inf);upper=math.nextafter(value,math.inf)
+    require(math.isfinite(lower) and math.isfinite(upper),'scatter neighbor overflow')
+    v=rational(value)
+    return max(v-rational(lower),rational(upper)-v)/2
+
+def scatter_with_roundoff(columns,q):
+    """Reproduce ordered native Cq and bound its error against exact Cq.
+
+    For p=RN(c*q), s'=RN(s+p), |s'-s*-c*q| is bounded by the
+    previous face radius plus radius(p)+radius(s'). Every local rounding is
+    also checked against its exact rational operands. Native stored values
+    must still match this reproduced scatter exactly in compare().
+    """
+    require(len(columns)==len(q),'scatter shape')
+    rounded={};exact={};radii={}
+    for col,value in zip(columns,q):
+        require(math.isfinite(value),'nonfinite scatter input')
+        for a,face,c in col['terms']:
+            key=(a,face);old=rounded.get(key,0.)
+            p=c*value;new=old+p
+            rp=binary64_roundoff_radius(p);rs=binary64_roundoff_radius(new)
+            cq=rational(c)*rational(value)
+            require(abs(rational(p)-cq)<=rp,'product outside binary64 rounding cell')
+            require(abs(rational(new)-rational(old)-rational(p))<=rs,
+                    'addition outside binary64 rounding cell')
+            rounded[key]=new;exact[key]=exact.get(key,F(0))+cq
+            radii[key]=radii.get(key,F(0))+rp+rs
+            require(abs(rational(new)-exact[key])<=radii[key],
+                    'scatter error exceeds propagated radius')
+    return rounded,exact,radii
+
+def linear_roundoff_certificate(exact,observed,radii,coefficients):
+    """Triangle-inequality propagation through an EXACT linear functional.
+
+    Coefficients come from independent exact stored-coordinate surface
+    integration. This bounds L(observed)-L(exact), not physical error.
+    """
+    defect=F(0);bound=F(0)
+    for key,c in coefficients.items():
+        require(key in radii and radii[key]>=0,'missing/negative scatter radius')
+        defect+=c*(rational(observed.get(key,0))-exact.get(key,F(0)))
+        bound+=abs(c)*radii[key]
+    require(abs(defect)<=bound,'rounded coarse moment exceeds scatter roundoff bound')
+    return defect,bound
+
 class Model:
     def __init__(self,n):
         self.n=n;self.m=n//3;self.h=3./n
@@ -174,6 +229,27 @@ def traction(model,velocity,scheme):
         add(1,-2*derivative,(p[x+1]-p[x])*(p[z+1]-p[z]),[(p[x]+p[x+1])/2,wall,(p[z]+p[z+1])/2])
     return force,torque
 
+def coarse_moment_audit(model,columns,exact,observed,radii,scheme,factor):
+    """Separate the exact basis/Cq identity from the rounded owned-field law."""
+    observed={key:rational(value) for key,value in observed.items()}
+    for col in columns:
+        basis={(a,face):rational(c) for a,face,c in col['terms']}
+        force,torque=traction(model,basis,scheme)
+        require(torque[2]==factor*force[0],'exact basis coarse identity mismatch')
+    force,torque=traction(model,exact,scheme)
+    require(torque[2]==factor*force[0],'exact Cq coarse identity mismatch')
+    coefficients={}
+    for key in radii:
+        f,t=traction(model,{key:F(1)},scheme)
+        coefficients[key]=t[2]-factor*f[0]
+    defect,bound=linear_roundoff_certificate(exact,observed,radii,coefficients)
+    f,t=traction(model,observed,scheme)
+    require(defect==t[2]-factor*f[0],'linear surface-moment reconstruction mismatch')
+    return {'scheme':scheme,'factor':str(factor),'exact_basis_columns_checked':len(columns),
+            'exact_Cq_identity_defect':'0','rounded_stored_field_identity_defect':str(defect),
+            'propagated_scatter_roundoff_bound':str(bound),
+            'bound_is_arithmetic_only':True,'physical_qualified':False}
+
 def compare(path,source_path,head,binary,physical=False):
     begin=time.monotonic();require(path.stat().st_size<=FILE_CAP,'record file cap')
     records=[]
@@ -265,19 +341,21 @@ def compare(path,source_path,head,binary,physical=False):
         require(rhslo<=rational(r['rhs'])<=rhshi and rhslo<=expected_rhs<=rhshi,'projected source enclosure')
     q=header['q'];require(len(q)==nq and all(math.isfinite(v) for v in q),'q shape/finite')
     if not physical:require(q==[(i+1)/64 for i in range(nq)],'unit q control')
-    velocity={}
-    for col,value in zip(columns,q):
-        for a,face,c in col['terms']:velocity[(a,face)]=velocity.get((a,face),0.)+c*value
+    velocity,exact_velocity,scatter_radii=scatter_with_roundoff(columns,q)
     native_velocity={(r['component'],r['face']):r['value'] for r in by['velocity']}
     require(native_velocity=={k:v for k,v in velocity.items() if v},'actual owned curl values')
     velocity={k:rational(v) for k,v in velocity.items()}
     require(len(by['traction'])==2,'traction schemes')
+    coarse_audits=[]
     for r in by['traction']:
         require(r['scheme'] in ('p1','normal_p2'),'unknown traction scheme');ef,et=traction(model,velocity,r['scheme'])
         for i in range(3):contained(r['force_interval'][i],ef[i]);contained(r['torque_interval'][i],et[i]);contained(r['force_interval'][i],rational(r['force'][i]));contained(r['torque_interval'][i],rational(r['torque'][i]))
-        if n in (6,12) and r['scheme']=='p1':require(et[2]==(F(1,2)-F(3,n))*ef[0],'lost P1 coarse failure')
+        if n in (6,12) and r['scheme']=='p1':
+            coarse_audits.append(coarse_moment_audit(model,columns,exact_velocity,velocity,
+                                                   scatter_radii,r['scheme'],F(1,2)-F(3,n)))
         if n==6 and r['scheme']=='normal_p2':
-            require(et[2]==-ef[0]/2,'lost P2 coarse law')
+            coarse_audits.append(coarse_moment_audit(model,columns,exact_velocity,velocity,
+                                                   scatter_radii,r['scheme'],-F(1,2)))
             if not physical:require(ef[0]<0 and et[2]>0,'lost P2 coarse wrong sign')
     dmax=F(0)
     for p in product(range(n),repeat=3):
@@ -298,7 +376,10 @@ def compare(path,source_path,head,binary,physical=False):
             'max_source_nearest_error':str(max_error),'max_source_interval_width':str(max_width),'max_matrix_exact_stored_coefficient_error':str(max_matrix_error),
             'exact_rounded_field_integrated_divergence_max':str(dmax),'comparison_managed_bytes':memory,
             'native_managed_peak':by['runner_bound'][0]['managed_peak'],'native_record_sha256':file_digest(path),
-            'semantic_sha256':semantic.hexdigest(),'physical_solve_executed':physical}
+            'semantic_sha256':semantic.hexdigest(),'physical_solve_executed':physical,
+            'record_source_head':head,'checker_source_sha256':file_digest(Path(__file__).resolve()),
+            'comparison_only_no_native_launch':True,'coarse_moment_audits':coarse_audits,
+            'physical_qualified':False,'convergence_claim':False}
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--binary',type=Path,required=True);ap.add_argument('--head',required=True);ap.add_argument('--output',type=Path,required=True);args=ap.parse_args()
