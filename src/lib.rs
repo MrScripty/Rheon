@@ -15,10 +15,61 @@ mod mesh_traction;
 pub use mesh_traction::{
     MeshLoadError, MeshLoadReport, MeshLoadStage, SurfaceLoading, TriangleLoad, TriangleMeshLoad,
 };
+mod rigid_impulse;
+pub use rigid_impulse::{
+    FrozenRigidBody, RigidImpulseError, RigidImpulseReport, RigidImpulseStage, RigidSnapshot,
+    RigidStamp,
+};
+mod rigid_motion;
+pub use rigid_motion::{
+    MAX_RIGID_ROTATION_RAD, RigidMotionError, RigidMotionReport, RigidMotionSettings,
+    RigidMotionStage, RigidPoseSnapshot, SphericalRigidMotion,
+};
+mod sphere_contact;
+mod sphere_friction;
+pub use sphere_friction::*;
+mod sphere_departure;
+mod sphere_event_loop;
+mod sphere_friction_interval;
+mod sphere_interval;
+mod sphere_support;
+pub use sphere_departure::{SphereDepartureKind, SphereDepartureReport};
+pub use sphere_friction_interval::*;
+pub use sphere_interval::*;
+pub use sphere_support::*;
+mod flat_wall_ritz;
+mod obstacle_viscous;
+pub use flat_wall_ritz::*;
+pub use obstacle_viscous::{
+    ObstacleViscousBlock, ObstacleViscousError, ObstacleViscousStress, ObstacleViscousWork,
+};
+mod obstacle_gradient;
+pub use obstacle_gradient::{
+    ObstacleGradientBoundary, ObstacleGradientEndpoint, ObstacleGradientError, ObstacleGradientRow,
+    ObstacleGradientSite, ObstacleGradientSource, ObstacleGradientWork, ObstacleVelocityGradient,
+};
+mod obstacle_state;
 mod static_obstacle;
+pub use obstacle_state::{
+    MAX_OBSTACLE_STATE_BYTES, ObstacleEvidenceRef, ObstacleFlowState, ObstacleForcingHistory,
+    ObstacleForcingKind, ObstacleInitialData, ObstaclePhysicalInputs, ObstacleStateBoundary,
+    ObstacleStateError, ObstacleStateFrame, ObstacleStateMaterial, ObstacleStateModel,
+    ObstacleStateOrigin, ObstacleStateQualification, ObstacleStateUnits, ObstacleVelocityError,
+    ObstacleVelocityErrors,
+};
+mod viscous_boundary_wrench;
+pub use sphere_contact::{
+    MAX_CONTACT_BODY_TRIANGLES, SphereContactError, SphereContactHit, SphereContactReport,
+    SphereContactSettings, SphereContactStage, SphereFeature, SphereImpactReport,
+    StaticSphereSweep,
+};
 pub use static_obstacle::{
     NO_FLUID_COMPONENT, ObstacleAllocation, ObstacleError, ObstacleFace, ObstacleStage,
     StaticObstacleGeometry,
+};
+pub use viscous_boundary_wrench::{
+    AlignedViscousBoundaryWrench, ViscousBoundaryLift, ViscousBoundaryVirtualWork,
+    ViscousBoundaryWrenchReport,
 };
 mod motion;
 pub use motion::{TranslatedHit, TranslatedSegment, TranslationError, TranslationInterval};
