@@ -13,7 +13,7 @@ from pathlib import Path
 from flat_wall_force_source import coefficients, write as write_force
 
 MAX_BYTES=16_000_000; MAX_BITS=4096; FILE_CAP=1<<20
-WORKING_RESERVE=65536
+WORKING_RESERVE=131072
 def require(test,message):
     if not test:raise ValueError(message)
 def rational(v):
@@ -33,6 +33,7 @@ def managed(*objects):
         if isinstance(o,F):return total+size(o.numerator)+size(o.denominator)
         if isinstance(o,dict):return total+sum(size(k)+size(v) for k,v in o.items())
         if isinstance(o,(tuple,list,set)):return total+sum(size(v) for v in o)
+        if isinstance(o,Model):return total+size(vars(o))
         return total
     data=sum(size(o) for o in objects)
     # The visitor's identity set is itself a live allocation. IDs are retained
@@ -165,9 +166,21 @@ def traction(model,velocity,scheme):
 def compare(path,source_path,head,binary,physical=False):
     begin=time.monotonic();require(path.stat().st_size<=FILE_CAP,'record file cap')
     records=[]
-    with path.open() as f:
-        for line in f:
-            require(len(line)<=8192,'record line cap');records.append(json.loads(line))
+    retained_records=0
+    allowed_kinds={'header','source_term','column','row','matrix','source_integral','velocity','traction','divergence','solve','runner_bound'}
+    with path.open('rb') as f:
+        while line:=f.readline(8193):
+            require(len(line)<=8192 and line.endswith(b'\n'),'record line cap')
+            require(sum(line.count(c) for c in (b'[',b']',b'{',b'}',b',',b':'))<=128,'record structural-node cap')
+            require(retained_records+sys.getsizeof(records)+WORKING_RESERVE<=MAX_BYTES,'preparse managed record cap')
+            record=json.loads(line.decode('ascii'))
+            require(isinstance(record,dict) and len(record)<=16 and record.get('kind') in allowed_kinds,'unsupported record schema')
+            # Per-record tracking is bounded by the lexical node/line gate; its
+            # workspace is already in the128KiB parser reserve. Sum record bodies
+            # conservatively without cross-record deduplication before retention.
+            record_bound=managed(record)-WORKING_RESERVE
+            require(retained_records+record_bound+sys.getsizeof(records)+WORKING_RESERVE<=MAX_BYTES,'parsed record admission cap')
+            retained_records+=record_bound;records.append(record)
     by={}
     for r in records:by.setdefault(r['kind'],[]).append(r)
     require((len(by.get('solve',[]))==1) if physical else ('solve' not in by),'solve record/mode mismatch')
@@ -184,6 +197,7 @@ def compare(path,source_path,head,binary,physical=False):
     source_terms=coefficients()
     observed_terms={(r['component'],*r['powers']):rational(r['coefficient']) for r in by['source_term']}
     require(observed_terms==source_terms and len(by['source_term'])==len(source_terms),'forcing polynomial mismatch')
+    del observed_terms
     expected_rows=[model.row(s) for s in model.sites()];require(len(by['row'])==len(expected_rows),'row count')
     for i,(actual,expected) in enumerate(zip(by['row'],expected_rows)):
         require(actual['index']==i,'row order')
@@ -203,13 +217,13 @@ def compare(path,source_path,head,binary,physical=False):
             require(len(group)==2,'missing reverse shear');g=[a+b for a,b in zip(g,row_values(group[1]))]
         for i,j in product(range(nq),repeat=2):
             v=w*g[i]*g[j];matrix[i][j]+=v;scales[i][j]+=abs(v)
-    memory=managed(records,by,journal,model.p,model.c,columns,cd,expected_rows,matrix,scales,groups,source_terms,g,w)
+    memory=managed(locals())
     force={};max_error=F(0);max_width=F(0);integrals={}
     for a in range(3):
         for face in range(math.prod(model.face_shape(a))):
             result=model.integral(a,face,source_terms)
             if result is not None:force[(a,face)]=result[0];integrals[(a,face)]=result
-    memory=max(memory,managed(records,by,journal,model.p,model.c,columns,cd,expected_rows,matrix,scales,groups,source_terms,force,integrals,g,w))
+    memory=max(memory,managed(locals()))
     require(len(by['source_integral'])==len(integrals),'source dual roster')
     for r in by['source_integral']:
         key=(r['component'],r['face']);exact,geometric,stored=integrals.pop(key)
@@ -218,6 +232,8 @@ def compare(path,source_path,head,binary,physical=False):
         max_error=max(max_error,abs(rational(r['force'])-exact));max_width=max(max_width,rational(r['interval'][1])-rational(r['interval'][0]))
     require(not integrals,'missing integral')
     require(len(by['matrix'])==nq,'matrix row count')
+    native_intervals={(r['component'],r['face']):tuple(map(rational,r['interval'])) for r in by['source_integral']}
+    memory=max(memory,managed(locals()))
     max_matrix_error=F(0)
     for i,r in enumerate(by['matrix']):
         require(r['index']==i and len(r['values'])==nq,'matrix shape')
@@ -226,7 +242,6 @@ def compare(path,source_path,head,binary,physical=False):
         # Source arithmetic is independently enclosed, so use the native source
         # intervals for a projection enclosure ONLY after their exact verification.
         rhslo=F(0);rhshi=F(0)
-        native_intervals={(r['component'],r['face']):tuple(map(rational,r['interval'])) for r in by['source_integral']}
         for key,c in cd[i].items():
             lo,hi=native_intervals.get(key,(F(0),F(0)));rhslo+=min(c*lo,c*hi);rhshi+=max(c*lo,c*hi)
         require(rhslo<=rational(r['rhs'])<=rhshi and rhslo<=expected_rhs<=rhshi,'projected source enclosure')
@@ -256,7 +271,7 @@ def compare(path,source_path,head,binary,physical=False):
                 face=model.index(a,point);d+=sign*rational(model.area(a,point))*velocity.get((a,face),F(0))
         dmax=max(dmax,abs(d))
     require(len(by['divergence'])==1 and rational(by['divergence'][0]['arithmetic_bound'])>=dmax,'divergence enclosure')
-    memory=max(memory,managed(records,by,journal,model.p,model.c,columns,cd,expected_rows,matrix,scales,groups,source_terms,force,velocity,native_intervals,native_velocity,q,g,w,ef,et))
+    memory=max(memory,managed(locals()))
     require(time.monotonic()-begin<=180,'comparison timeout')
     semantic=hashlib.sha256()
     for r in records:

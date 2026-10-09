@@ -304,6 +304,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     let n: usize = args[2].parse()?;
     let out = Path::new(&args[4]);
+    let repo = Path::new(env!("CARGO_MANIFEST_DIR")).canonicalize()?;
+    let parent = out
+        .parent()
+        .ok_or("output needs a parent")?
+        .canonicalize()?;
+    if out.file_name().is_none() || parent.starts_with(repo) {
+        return Err("generated output must stay outside the repository".into());
+    }
     fs::create_dir(out)?;
     let source = source(Path::new(&args[3]))?;
     let inputs = inputs(source.evidence())?;
