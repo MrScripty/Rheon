@@ -7,6 +7,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
 import shutil
+import sqlite3
 import subprocess
 import sys
 from threading import Thread
@@ -136,10 +137,75 @@ def main():
             host.locator('#records').click(); host.locator('#pose').click()
             require(editor.evaluate('window.simpleGraphEditor.model.state') == posed, 'Mode switch reloaded the pose')
             checks.append('Pose survives tab switching without computation coupling')
+            # Exercise the unchanged owner's source-file UI inside Rheon's iframe.
+            child.locator('#add').click(); child.locator('#add').click()
+            editor.evaluate('''async()=>{
+              const e=window.simpleGraphEditor;
+              for(const [i,c] of e.model.state.characters.entries()){
+                e.model.dispatch({type:'color',id:c.id,color:['#cb7766','#698edb','#69bc91'][i]});
+                e.model.dispatch({type:'placement',id:c.id,position:[i*1.4,.05*i,.15*i],yaw:.3*i});
+                e.model.dispatch({type:'head',id:c.id,yaw:.2*(i+1),pitch:-.1*i});
+              }
+              e.update();await e.renderer.whenIdle();
+            }''')
+            authored = editor.evaluate('window.simpleGraphEditor.model.state')
+            scene_path = output / 'authored.human.sqlite'
+            with page.expect_download() as event: child.locator('#saveScene').click()
+            event.value.save_as(str(scene_path))
+            require(scene_path.read_bytes().startswith(b'SQLite format 3\0'), 'Scene save is not SQLite')
+            with sqlite3.connect(f'file:{scene_path}?mode=ro', uri=True) as db:
+                require(db.execute('SELECT version FROM skin_scene_schema').fetchall() == [(1,)], 'Unsupported scene container')
+                source = json.loads(db.execute('SELECT source_json FROM skin_scenes WHERE id=1').fetchone()[0])
+                require(set(source['characters'][0]) == {'id','name','color','position','yaw','head','rig','pose'}, 'Scene contains non-source fields')
+                require(len(source['characters']) == 3, 'Scene save omitted authored characters')
+            page.reload(); host.locator('#pose').click(); child.locator('canvas').wait_for(timeout=60000)
+            editor = next(f for f in page.frames if f.url.endswith('/kenoma/index.html'))
+            editor.wait_for_function('window.simpleGraphEditor?.ready', timeout=60000)
+            require(len(editor.evaluate('window.simpleGraphEditor.model.state.characters')) == 1, 'Unexpected automatic scene persistence')
+            def open_scene(path):
+                with page.expect_file_chooser() as chooser: child.locator('#openScene').click()
+                chooser.value.set_files(str(path))
+            open_scene(scene_path)
+            editor.wait_for_function('expected=>JSON.stringify(window.simpleGraphEditor.model.state)===JSON.stringify(expected)', arg=authored)
+            editor.evaluate('window.simpleGraphEditor.renderer.whenIdle()')
+            checks.append('Embedded Save downloads source SQLite; Open after reload restores exact IDs poses transforms colors and selection')
+            # Import is a single edit, including exact restoration of prior state.
+            editor.evaluate("()=>{const e=window.simpleGraphEditor;e.model.dispatch({type:'color',id:e.model.state.selectedId,color:'#123456'});e.update();}")
+            altered = editor.evaluate('window.simpleGraphEditor.model.state')
+            open_scene(scene_path)
+            editor.wait_for_function('expected=>JSON.stringify(window.simpleGraphEditor.model.state)===JSON.stringify(expected)', arg=authored)
+            child.locator('#undo').click()
+            require(editor.evaluate('window.simpleGraphEditor.model.state') == altered, 'Scene import is not one undoable edit')
+            child.locator('#redo').click()
+            require(editor.evaluate('window.simpleGraphEditor.model.state') == authored, 'Redo changed authored scene')
+            checks.append('Embedded scene import Undo/Redo restores exact prior and imported source states')
+            future = output / 'future.human.sqlite'; shutil.copyfile(scene_path, future)
+            with sqlite3.connect(future) as db: db.execute('UPDATE skin_scene_schema SET version=2')
+            revision = editor.evaluate('window.simpleGraphEditor.model.revision')
+            open_scene(future); child.locator('#error').wait_for(state='visible')
+            require(editor.evaluate('window.simpleGraphEditor.model.state') == authored and editor.evaluate('window.simpleGraphEditor.model.revision') == revision, 'Future scene version mutated source')
+            stale = editor.evaluate('''async raw=>{
+              const e=window.simpleGraphEditor;let finish;
+              const pending=e.files.loadFile({size:raw.length,arrayBuffer:()=>new Promise(resolve=>finish=resolve)});
+              e.model.dispatch({type:'color',id:e.model.state.selectedId,color:'#abcdef'});e.update();
+              const before=JSON.stringify(e.model.state);finish(new Uint8Array(raw).buffer);
+              const result=await pending;return {status:result.status,same:JSON.stringify(e.model.state)===before};
+            }''', list(scene_path.read_bytes()))
+            require(stale == {'status':'error','same':True}, 'Delayed scene import overwrote newer authored state')
+            checks.append('Embedded future-version and stale scene imports refuse without replacing authored state')
+            open_scene(scene_path); child.locator('#error').wait_for(state='hidden')
+            editor.evaluate('window.simpleGraphEditor.renderer.whenIdle()')
+            page.screenshot(path=str(output / 'scene-desktop.png'))
             page.set_viewport_size({'width': 390, 'height': 844})
             require(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'), 'Outer phone overflow')
             require(host.locator('rheon-viewer').evaluate('(e)=>e.getBoundingClientRect().width<=innerWidth+1'), 'Viewer phone overflow')
             require(editor.evaluate('document.documentElement.scrollWidth<=innerWidth+1'), 'Kenoma phone overflow')
+            require(child.locator('#saveScene').is_visible() and child.locator('#openScene').is_visible(), 'Scene-file controls absent on phone')
+            with page.expect_download() as event: child.locator('#saveScene').click()
+            phone_scene = output / 'phone.human.sqlite'; event.value.save_as(str(phone_scene))
+            with sqlite3.connect(f'file:{phone_scene}?mode=ro', uri=True) as db:
+                require(json.loads(db.execute('SELECT source_json FROM skin_scenes WHERE id=1').fetchone()[0]) == source, 'Phone save changed source payload')
+            checks.append('Phone scene-file controls fit and save the same exact source payload')
             page.screenshot(path=str(output / 'pose-phone.png'))
             checks.append('Iframe/project-subpath and phone layout')
             # Reusable element lifetime: detached viewer stops its display loop.

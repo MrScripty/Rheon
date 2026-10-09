@@ -63,7 +63,7 @@ export class RheonViewer extends HTMLElement {
     this.$('scope').textContent = pose ? 'Kinematic pose editor · Arrange characters and IK targets. No biomechanical dynamics, forces or simulation run here.' : 'Recorded playback · Select saved native frames. The viewer does not advance a simulation or regenerate results.';
     if (pose) {
       this.$('title').textContent = 'Simple-human component'; this.$('metrics').replaceChildren(); this.$('profile-panel').hidden = true;
-      this.$('provenance').textContent = `Kenoma ${KENOMA_COMMIT} · rig version 1. Worker-backed posing preserves bound vertex IDs and triangle indices. Contact may interpenetrate; extreme bends can crease. The latest mesh may briefly lag the handles. No collision physics, anatomical or muscle model. Scene stays in memory while switching tabs.`;
+      this.$('provenance').textContent = `Kenoma ${KENOMA_COMMIT} · rig version 1. Worker-backed posing preserves bound vertex IDs and triangle indices. Contact may interpenetrate; extreme bends can crease. The latest mesh may briefly lag the handles. No collision physics, anatomical or muscle model. Save/Open local .human.sqlite files to keep source scenes across reloads. Imports replace the scene in one undoable edit; there is no autosave.`;
       if (!this.unmountPose) {
         this.status('Loading the pinned Kenoma component…');
         const request = this.poseRequest = (this.poseRequest || 0) + 1;

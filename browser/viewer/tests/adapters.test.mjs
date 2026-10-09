@@ -41,5 +41,5 @@ test('versioned shear time is a display product of stored step and dt',()=>{
   const raw={schema:'rheon-obstacle-flow-records-v1',shear_cases:[{id:'saved',dt:.125,centers:[1.75],density:2,viscosity:1,frames:[{step:0,velocity:[0]},{step:1,velocity:[.0625],energy:[0,1,2,3,4,5,6,7]}]}]};
   const out=adaptRecording(raw,{});assert.equal(out.cases[0].frames[1].time,.125);assert.deepEqual(out.cases[0].frames[1].profile,[[1.75,.0625]]);
   raw.shear_cases[0].frames[1].velocity=[];assert.throws(()=>adaptRecording(raw,{}));
-  assert.equal(KENOMA_COMMIT,'136f4947c7ef9bd2d4fe5cff09086489b0cb501d');
+  assert.equal(KENOMA_COMMIT,'3e7ff0887d01a1f4c440d3808770ea3eac7ec8d4');
 });

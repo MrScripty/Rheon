@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import tomllib
 
-PIN = '136f4947c7ef9bd2d4fe5cff09086489b0cb501d'
+PIN = '3e7ff0887d01a1f4c440d3808770ea3eac7ec8d4'
 ROOT = Path(__file__).resolve().parent
 
 def require(ok, text):

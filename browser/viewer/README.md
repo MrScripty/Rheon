@@ -7,7 +7,7 @@ Existing computational systems remain separate. No solver or research harness
 is imported or executed by the shell, adapters or packaging script.
 
 The Kenoma editor is consumed unchanged at
-`136f4947c7ef9bd2d4fe5cff09086489b0cb501d`, protocol 1 and additive rig version 1, from
+`3e7ff0887d01a1f4c440d3808770ea3eac7ec8d4`, protocol 1 and additive rig version 1, from
 `MrScripty/Kenoma` branch `feat/simple-skin-graph`. Its source and build remain
 Kenoma-owned. This packaging boundary copies that exact clean checkout into a
 generated external folder, builds only its independent human WASM generator,
@@ -19,9 +19,17 @@ undo/removal; the latest displayed mesh may temporarily lag the handles. The
 underlying request API remains synchronous inside the worker. Contact can
 interpenetrate and extreme bends can crease; there is no collision physics,
 anatomical accuracy or muscle model. See the pinned Kenoma
-[rig API](https://github.com/MrScripty/Kenoma/blob/136f4947c7ef9bd2d4fe5cff09086489b0cb501d/browser/simple-graph/RIG_API.md).
-The scene stays alive across workspace-tab switches; page reload loses
-it. No parent messaging or pose/force exchange is invented.
+[rig API](https://github.com/MrScripty/Kenoma/blob/3e7ff0887d01a1f4c440d3808770ea3eac7ec8d4/browser/simple-graph/RIG_API.md).
+The scene stays alive across workspace-tab switches. The unchanged embedded
+editor supplies Save/Open for versioned local `.human.sqlite` files: IDs, poses,
+transforms, colors and selection survive an explicit save and reopen after
+reload. Opening replaces the scene atomically in one undoable edit. There is
+no autosave; generated geometry, undo history and camera/gizmo selection are
+omitted. Limits are 64 characters, a 4 MiB file and 1 MiB source text. The
+session ID counter remains monotonic. The package includes local sql.js 1.14.2
+WASM and its MIT license, with no CDN or storage service. See the pinned
+[scene contract](https://github.com/MrScripty/Kenoma/blob/3e7ff0887d01a1f4c440d3808770ea3eac7ec8d4/browser/simple-graph/SCENE_FILES.md).
+No parent messaging or pose/force exchange is invented.
 
 ## Build outside Git
 
@@ -34,7 +42,7 @@ mkdir -p /external/rheon-assets
 cp docs/education/package.json docs/education/package-lock.json /external/rheon-assets/
 npm ci --prefix /external/rheon-assets --ignore-scripts --no-audit --no-fund
 git clone https://github.com/MrScripty/Kenoma.git /external/kenoma
-git -C /external/kenoma checkout --detach 136f4947c7ef9bd2d4fe5cff09086489b0cb501d
+git -C /external/kenoma checkout --detach 3e7ff0887d01a1f4c440d3808770ea3eac7ec8d4
 python3 browser/viewer/build.py --output /external/rheon-viewer \
   --kenoma-source /external/kenoma --asset-dir /external/rheon-assets/node_modules \
   --target-dir /external/kenoma-wasm-target --wasm-bindgen /path/to/wasm-bindgen
@@ -105,7 +113,9 @@ recorded vertices/metrics, navigation, play/pause, invalid imports, real Kenoma
 WASM posing/undo, retained scene across tabs, iframe/subpath embedding and phone
 layout, with screenshots and hash-bound receipts outside Git. Rig checks await
 `renderer.whenIdle()` before inspecting or capturing worker-produced meshes,
-then compare bound topology across pose/undo and rapid queued input.
+then compare bound topology across pose/undo and rapid queued input. Scene-file
+checks download real SQLite, reopen after reload, compare exact source state,
+undo imports and reject future versions and stale reads atomically.
 
 ## Next integration gap in the existing plan
 
@@ -125,5 +135,5 @@ recorded times, geometry and exact files, with reader-side limits and visible
 unsupported states. It can index already-produced data without running physics,
 changing acquisition digests, or requiring a fresh site build for each run.
 The current physics roadmap's moving/interface/general-coupling gaps remain
-separate computational prerequisites. Kenoma scene persistence is a future
-owner milestone and is not consumed from an uncommitted branch here.
+separate computational prerequisites. The pinned Kenoma scene-file milestone closes explicit save/reopen for human
+authoring; it adds no automatic scene storage or human/simulation exchange.
