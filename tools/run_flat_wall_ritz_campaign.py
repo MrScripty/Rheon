@@ -8,7 +8,7 @@ qualification flag: propagated source/goal and spatial error remain separate.
 """
 import argparse,hashlib,json,math,subprocess,sys,time
 from pathlib import Path
-from check_flat_wall_ritz import compare,require,MAX_BYTES,FILE_CAP
+from check_flat_wall_ritz import file_digest,require,MAX_BYTES,FILE_CAP
 from flat_wall_force_source import write as write_source
 
 def main():
@@ -18,7 +18,7 @@ def main():
     require(a.approve_one_shot_physical,'explicit one-shot physical campaign approval required')
     repo=Path(__file__).resolve().parents[1];head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
     require(head==a.head and not subprocess.check_output(['git','status','--porcelain=v1'],cwd=repo,text=True),'source must be frozen clean exact head')
-    require(hashlib.sha256(a.binary.read_bytes()).hexdigest()==a.binary_sha256,'frozen binary hash mismatch')
+    require(file_digest(a.binary)==a.binary_sha256,'frozen binary hash mismatch')
     out=a.output.resolve();require(not out.is_relative_to(repo),'generated output outside Git required');out.mkdir(parents=True,exist_ok=False)
     source=out/'body-force.csv';source_receipt=write_source(source);runs=[];begin=time.monotonic()
     for n in (6,9,12):
@@ -45,7 +45,7 @@ def main():
                     r['torque_error_norm_Nm']=math.sqrt(sum(x*x for x in r['torque_error_Nm']))
                     measurements.append(r)
         runs.append({'n':n,'comparison':comparison,'measurements':measurements})
-        require(hashlib.sha256(a.binary.read_bytes()).hexdigest()==a.binary_sha256,'binary changed during campaign')
+        require(file_digest(a.binary)==a.binary_sha256,'binary changed during campaign')
         require(subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==head and not subprocess.check_output(['git','status','--porcelain=v1'],cwd=repo,text=True),'source changed during campaign')
     trends={}
     for scheme in ('p1','normal_p2'):

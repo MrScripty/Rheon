@@ -13,12 +13,18 @@ from pathlib import Path
 from flat_wall_force_source import coefficients, write as write_force
 
 MAX_BYTES=16_000_000; MAX_BITS=4096; FILE_CAP=1<<20
+WORKING_RESERVE=65536
 def require(test,message):
     if not test:raise ValueError(message)
 def rational(v):
     r=F(v)
     require(max(r.numerator.bit_length(),r.denominator.bit_length())<=MAX_BITS,'rational bit cap')
     return r
+def file_digest(path):
+    digest=hashlib.sha256()
+    with path.open('rb') as stream:
+        while chunk:=stream.read(8192):digest.update(chunk)
+    return digest.hexdigest()
 def managed(*objects):
     seen=set()
     def size(o):
@@ -28,7 +34,11 @@ def managed(*objects):
         if isinstance(o,dict):return total+sum(size(k)+size(v) for k,v in o.items())
         if isinstance(o,(tuple,list,set)):return total+sum(size(v) for v in o)
         return total
-    value=sum(size(o) for o in objects)
+    data=sum(size(o) for o in objects)
+    # The visitor's identity set is itself a live allocation. IDs are retained
+    # Python integers; account their bodies plus the actual set table, along
+    # with bounded parser/hash/formatting work. Stack/interpreter/RSS excluded.
+    value=data+sys.getsizeof(seen)+sum(sys.getsizeof(i) for i in seen)+WORKING_RESERVE
     require(value<=MAX_BYTES,'comparison managed-object cap')
     return value
 def nearest(actual,exact,scale,operations):
@@ -165,9 +175,9 @@ def compare(path,source_path,head,binary,physical=False):
     require(n in (6,9,12) and header['h']==model.h,'geometry header')
     require(header['head']==head and header['mode']==('numerical_reduced_ritz_solve' if physical else 'supplied_synthetic_q_algebra_no_solve'),'source/mode mismatch')
     require(header['pressure_available'] is False and header['physical_qualified'] is False,'qualification claim')
-    require(header['source_sha256']==hashlib.sha256(source_path.read_bytes()).hexdigest(),'source hash mismatch')
+    require(header['source_sha256']==file_digest(source_path),'source hash mismatch')
     journal=(path.parent/'acquisition.txt').read_text();require(('solver_report=Some(' in journal) if physical else ('solver_report=None' in journal),'solver provenance mismatch')
-    require('binary_sha256='+hashlib.sha256(binary.read_bytes()).hexdigest() in journal,'binary journal mismatch')
+    require('binary_sha256='+file_digest(binary) in journal,'binary journal mismatch')
     columns=model.columns();require(len(by['column'])==len(columns),'column count')
     for i,(actual,expected) in enumerate(zip(by['column'],columns)):
         require(actual['index']==i and actual['node']==expected['node'] and actual['terms']==expected['terms'],'independent C mismatch')
@@ -182,22 +192,24 @@ def compare(path,source_path,head,binary,physical=False):
     matrix=[[F(0) for _ in cd] for _ in cd];scales=[[F(0) for _ in cd] for _ in cd];groups={}
     for row in expected_rows:
         a=row['component'];d=row['derivative'];p=tuple(row['cell']);q=row['quadrant']
-        values=[sum((rational(e['coefficient'])*col.get((a,e['face']),F(0)) for e in row['endpoints'] if e['face']>=0),F(0)) for col in cd]
         key=(a,a,p,q) if a==d else (*sorted((a,d)),p,q)
-        groups.setdefault(key,[]).append((row,values))
+        groups.setdefault(key,[]).append(row)
+    def row_values(row):
+        a=row['component']
+        return [sum((rational(e['coefficient'])*col.get((a,e['face']),F(0)) for e in row['endpoints'] if e['face']>=0),F(0)) for col in cd]
     for group in groups.values():
-        row,g=group[0];w=rational(row['weight'])*(2 if row['component']==row['derivative'] else 1)
+        row=group[0];g=row_values(row);w=rational(row['weight'])*(2 if row['component']==row['derivative'] else 1)
         if row['component']!=row['derivative']:
-            require(len(group)==2,'missing reverse shear');g=[a+b for a,b in zip(g,group[1][1])]
+            require(len(group)==2,'missing reverse shear');g=[a+b for a,b in zip(g,row_values(group[1]))]
         for i,j in product(range(nq),repeat=2):
             v=w*g[i]*g[j];matrix[i][j]+=v;scales[i][j]+=abs(v)
-    memory=managed(records,by,model.p,model.c,columns,cd,expected_rows,matrix,scales,groups,source_terms)
+    memory=managed(records,by,journal,model.p,model.c,columns,cd,expected_rows,matrix,scales,groups,source_terms,g,w)
     force={};max_error=F(0);max_width=F(0);integrals={}
     for a in range(3):
         for face in range(math.prod(model.face_shape(a))):
             result=model.integral(a,face,source_terms)
             if result is not None:force[(a,face)]=result[0];integrals[(a,face)]=result
-    memory=max(memory,managed(records,by,columns,cd,expected_rows,matrix,scales,groups,source_terms,force,integrals))
+    memory=max(memory,managed(records,by,journal,model.p,model.c,columns,cd,expected_rows,matrix,scales,groups,source_terms,force,integrals,g,w))
     require(len(by['source_integral'])==len(integrals),'source dual roster')
     for r in by['source_integral']:
         key=(r['component'],r['face']);exact,geometric,stored=integrals.pop(key)
@@ -244,14 +256,16 @@ def compare(path,source_path,head,binary,physical=False):
                 face=model.index(a,point);d+=sign*rational(model.area(a,point))*velocity.get((a,face),F(0))
         dmax=max(dmax,abs(d))
     require(len(by['divergence'])==1 and rational(by['divergence'][0]['arithmetic_bound'])>=dmax,'divergence enclosure')
-    memory=max(memory,managed(records,by,model.p,model.c,columns,cd,expected_rows,matrix,scales,groups,source_terms,force,velocity))
+    memory=max(memory,managed(records,by,journal,model.p,model.c,columns,cd,expected_rows,matrix,scales,groups,source_terms,force,velocity,native_intervals,native_velocity,q,g,w,ef,et))
     require(time.monotonic()-begin<=180,'comparison timeout')
-    semantic=[r for r in records if r['kind']!='runner_bound']
+    semantic=hashlib.sha256()
+    for r in records:
+        if r['kind']!='runner_bound':semantic.update((json.dumps(r,sort_keys=True)+'\n').encode())
     return {'n':n,'q':nq,'rows':len(expected_rows),'blocks':len(groups),'exact_source_duals':len(by['source_integral']),
             'max_source_nearest_error':str(max_error),'max_source_interval_width':str(max_width),'max_matrix_exact_stored_coefficient_error':str(max_matrix_error),
             'exact_rounded_field_integrated_divergence_max':str(dmax),'comparison_managed_bytes':memory,
-            'native_managed_peak':by['runner_bound'][0]['managed_peak'],'native_record_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
-            'semantic_sha256':hashlib.sha256(json.dumps(semantic,sort_keys=True).encode()).hexdigest(),'physical_solve_executed':physical}
+            'native_managed_peak':by['runner_bound'][0]['managed_peak'],'native_record_sha256':file_digest(path),
+            'semantic_sha256':semantic.hexdigest(),'physical_solve_executed':physical}
 
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--binary',type=Path,required=True);ap.add_argument('--head',required=True);ap.add_argument('--output',type=Path,required=True);args=ap.parse_args()
@@ -270,7 +284,7 @@ def main():
             child=subprocess.run([sys.executable,str(worker),'--records',str(out/'records.jsonl'),'--source',str(source),'--head',head,'--binary',str(args.binary.resolve()),'--output',str(comparison)],stdout=log,stderr=log,timeout=180)
         require(child.returncode==0,f'exact comparison N{n} failed');reports.append(json.loads(comparison.read_text()))
     require(subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()==head and not subprocess.check_output(['git','status','--porcelain=v1'],cwd=repo,text=True),'source changed during qualification')
-    report={'source_head':head,'source_forcing':source_receipt,'native_binary_sha256':hashlib.sha256(args.binary.read_bytes()).hexdigest(),
+    report={'source_head':head,'source_forcing':source_receipt,'native_binary_sha256':file_digest(args.binary),
             'mode':'bounded actual native supplied-q algebra; no physical solve','physical_solve_executed':False,'runs':reports}
     (root/'qualification.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
 if __name__=='__main__':main()
