@@ -12,7 +12,7 @@ import sys
 from threading import Thread
 from playwright.sync_api import sync_playwright
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from build import external
+from build import external, PIN
 
 def require(ok, message):
     if not ok: raise AssertionError(message)
@@ -27,6 +27,8 @@ def main():
     before = {str(p.resolve()): digest(p) for p in [args.rigid, args.shear]}
     rigid = json.loads(args.rigid.read_text()); shear = json.loads(args.shear.read_text())
     package = json.loads((site / 'package-receipt.json').read_text())
+    require(package['kenoma_commit'] == PIN, 'Packaged Kenoma pin mismatch')
+    require(json.loads((site / 'component.json').read_text())['rig_version'] == 1, 'Packaged rig version mismatch')
     for name, sha in package['files_sha256'].items(): require(digest(site / name) == sha, 'Packaged bytes changed: ' + name)
     prefix = '/' + site.name + '/'
     class Handler(SimpleHTTPRequestHandler):
@@ -96,15 +98,39 @@ def main():
             child.locator('canvas').wait_for(timeout=60000)
             editor = next(f for f in page.frames if f.url.endswith('/kenoma/index.html'))
             editor.wait_for_function('window.simpleGraphEditor?.ready', timeout=60000)
+            editor.evaluate('window.simpleGraphEditor.renderer.whenIdle()')
             require(child.locator('#error').is_hidden(), 'Kenoma editor initialization error')
             state = editor.evaluate('window.simpleGraphEditor.model.state')
+            snapshot = '''async()=>{
+              const e=window.simpleGraphEditor;await e.renderer.whenIdle();
+              const item=e.renderer.characters.get(e.model.state.selectedId);
+              const hash=async data=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',data))).map(x=>x.toString(16).padStart(2,'0')).join('');
+              return {vertices:item.mesh.positions.length,indices:item.mesh.indices.length,
+                topology:await hash(new Uint32Array(item.mesh.indices).buffer),
+                positions:await hash(new Float64Array(item.mesh.positions.flat()).buffer),
+                current:item.meshKey===item.graphKey,pending:e.renderer.pending};
+            }'''
+            bound = editor.evaluate(snapshot)
+            require(bound['current'] and not bound['pending'], 'Initial worker mesh is stale')
             child.locator('#add').click(); require(child.locator('#character option').count() == 2, 'Independent character addition failed')
             child.locator('#undo').click(); require(child.locator('#character option').count() == 1, 'Kenoma undo failed')
+            editor.evaluate('window.simpleGraphEditor.renderer.whenIdle()')
             # A real owner-supported keyboard gizmo action, not injected model state.
             child.locator('#handle').select_option('rightArm:target')
             child.locator('canvas').focus(); page.keyboard.press('ArrowUp')
             posed = editor.evaluate('window.simpleGraphEditor.model.state')
             require(posed != state, 'Actual Kenoma keyboard posing failed')
+            pose_mesh = editor.evaluate(snapshot)
+            require(pose_mesh['topology'] == bound['topology'] and pose_mesh['indices'] == bound['indices'] and pose_mesh['vertices'] == bound['vertices'], 'Posing changed bound topology')
+            require(pose_mesh['positions'] != bound['positions'] and pose_mesh['current'], 'Worker did not apply the current pose')
+            child.locator('#undo').click(); restored = editor.evaluate(snapshot)
+            require(restored['positions'] == bound['positions'] and restored['topology'] == bound['topology'], 'Worker undo did not restore bound geometry')
+            child.locator('canvas').focus()
+            for _ in range(30): page.keyboard.press('ArrowLeft')
+            latest = editor.evaluate(snapshot)
+            require(latest['current'] and not latest['pending'] and latest['topology'] == bound['topology'], 'Rapid input left stale mesh or changed contact topology')
+            posed = editor.evaluate('window.simpleGraphEditor.model.state')
+            checks.append('Worker rig applies pose/undo/latest queued input with unchanged bound topology')
             checks.append('Pinned Kenoma WASM editor: add, undo and real keyboard posing')
             page.screenshot(path=str(output / 'pose-desktop.png'))
             host.locator('#records').click(); host.locator('#pose').click()

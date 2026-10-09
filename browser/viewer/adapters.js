@@ -82,9 +82,9 @@ export async function readRecording(file) {
   const raw = JSON.parse(new TextDecoder('utf-8', {fatal: true}).decode(bytes));
   return adaptRecording(raw, {name: file.name, sha256: digest, source: 'Local file'});
 }
-export const KENOMA_COMMIT = '2eb92a5d0924b5f2cbf310597dbd7b399fab8692';
+export const KENOMA_COMMIT = '136f4947c7ef9bd2d4fe5cff09086489b0cb501d';
 export function mountKenoma(host, config) {
-  check(config?.commit === KENOMA_COMMIT && config.protocol === 1, 'Unsupported Kenoma component identity');
+  check(config?.commit === KENOMA_COMMIT && config.protocol === 1 && config.rig_version === 1, 'Unsupported Kenoma component identity');
   const url = new URL('./kenoma/index.html', import.meta.url);
   const frame = document.createElement('iframe'); frame.title = 'Kenoma simple-human pose editor';
   frame.src = url.href; host.append(frame);

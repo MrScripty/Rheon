@@ -7,16 +7,20 @@ Existing computational systems remain separate. No solver or research harness
 is imported or executed by the shell, adapters or packaging script.
 
 The Kenoma editor is consumed unchanged at
-`2eb92a5d0924b5f2cbf310597dbd7b399fab8692`, protocol 1, from
+`136f4947c7ef9bd2d4fe5cff09086489b0cb501d`, protocol 1 and additive rig version 1, from
 `MrScripty/Kenoma` branch `feat/simple-skin-graph`. Its source and build remain
 Kenoma-owned. This packaging boundary copies that exact clean checkout into a
 generated external folder, builds only its independent human WASM generator,
 and keeps matched glue/WASM together. Upgrading requires changing the reviewed
 pin in both adapters.js and build.py. The component uses gizmo-only controls
-and a connected mannequin surface. Generation is synchronous (its desktop
-qualification measured about 193 ms); topology depends on pose and self-contact
-can fuse surfaces. There is no anatomical accuracy or stable skin topology
-claim. The scene stays alive across workspace-tab switches; page reload loses
+and a bound rest mesh whose vertex IDs and triangle indices stay fixed during
+deformation. Its worker coalesces pose requests and rejects stale results after
+undo/removal; the latest displayed mesh may temporarily lag the handles. The
+underlying request API remains synchronous inside the worker. Contact can
+interpenetrate and extreme bends can crease; there is no collision physics,
+anatomical accuracy or muscle model. See the pinned Kenoma
+[rig API](https://github.com/MrScripty/Kenoma/blob/136f4947c7ef9bd2d4fe5cff09086489b0cb501d/browser/simple-graph/RIG_API.md).
+The scene stays alive across workspace-tab switches; page reload loses
 it. No parent messaging or pose/force exchange is invented.
 
 ## Build outside Git
@@ -30,7 +34,7 @@ mkdir -p /external/rheon-assets
 cp docs/education/package.json docs/education/package-lock.json /external/rheon-assets/
 npm ci --prefix /external/rheon-assets --ignore-scripts --no-audit --no-fund
 git clone https://github.com/MrScripty/Kenoma.git /external/kenoma
-git -C /external/kenoma checkout --detach 2eb92a5d0924b5f2cbf310597dbd7b399fab8692
+git -C /external/kenoma checkout --detach 136f4947c7ef9bd2d4fe5cff09086489b0cb501d
 python3 browser/viewer/build.py --output /external/rheon-viewer \
   --kenoma-source /external/kenoma --asset-dir /external/rheon-assets/node_modules \
   --target-dir /external/kenoma-wasm-target --wasm-bindgen /path/to/wasm-bindgen
@@ -99,4 +103,27 @@ The browser check uses actual installed Chromium/Playwright and existing records
 it never launches an example, oracle campaign or numerical provider. It checks
 recorded vertices/metrics, navigation, play/pause, invalid imports, real Kenoma
 WASM posing/undo, retained scene across tabs, iframe/subpath embedding and phone
-layout, with screenshots and hash-bound receipts outside Git.
+layout, with screenshots and hash-bound receipts outside Git. Rig checks await
+`renderer.whenIdle()` before inspecting or capturing worker-produced meshes,
+then compare bound topology across pose/undo and rapid queued input.
+
+## Next integration gap in the existing plan
+
+Rheon's root README calls for a standalone demonstration GUI plus a modular
+framework usable by other apps. This shell supplies the presentation boundary;
+it does not add a browser solver. Current supported native JSON outputs can be
+opened directly with the file picker, unchanged and without repackaging: the
+rigid-motion, reduced-shear and fixed-slab adapters consume their documented
+formats. Static packaging is needed once for the GUI and pinned component.
+
+The next real GUI gap is automatic discovery and admission of existing outputs.
+There is no run catalog, output-folder importer or export-to-viewer link, so
+users still locate each file manually. Aligned-strain TSV, full MAC fields,
+pressure slices and the retained wrench JSONL also lack viewer adapters. A
+small versioned output catalog should identify format, source/state, units,
+recorded times, geometry and exact files, with reader-side limits and visible
+unsupported states. It can index already-produced data without running physics,
+changing acquisition digests, or requiring a fresh site build for each run.
+The current physics roadmap's moving/interface/general-coupling gaps remain
+separate computational prerequisites. Kenoma scene persistence is a future
+owner milestone and is not consumed from an uncommitted branch here.

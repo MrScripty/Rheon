@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import tomllib
 
-PIN = '2eb92a5d0924b5f2cbf310597dbd7b399fab8692'
+PIN = '136f4947c7ef9bd2d4fe5cff09086489b0cb501d'
 ROOT = Path(__file__).resolve().parent
 
 def require(ok, text):
@@ -63,7 +63,7 @@ def main():
         dest = component / path; dest.parent.mkdir(parents=True, exist_ok=True); shutil.copyfile(source / rel, dest)
     shutil.copyfile(source / 'LICENSE', component / 'KENOMA-LICENSE')
     subprocess.run([str(args.wasm_bindgen.resolve()), '--target', 'web', '--out-dir', str(component / 'pkg'), str(target / 'wasm32-unknown-unknown/release/human_wasm.wasm')], check=True, timeout=120)
-    (output / 'component.json').write_text(json.dumps({'commit': PIN, 'protocol': 1, 'repository': 'MrScripty/Kenoma', 'mode': 'kinematic editor'}, indent=2) + '\n')
+    (output / 'component.json').write_text(json.dumps({'commit': PIN, 'protocol': 1, 'rig_version': 1, 'repository': 'MrScripty/Kenoma', 'mode': 'kinematic editor'}, indent=2) + '\n')
     hashes = {str(p.relative_to(output)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(output.rglob('*')) if p.is_file()}
     receipt = {'schema': 'rheon-viewer-package-v1', 'rheon_head': run(['git', 'rev-parse', 'HEAD'], ROOT), 'rheon_dirty': bool(run(['git', 'status', '--porcelain'], ROOT)), 'kenoma_commit': PIN, 'kenoma_tree': run(['git', 'rev-parse', 'HEAD^{tree}'], source), 'wasm_bindgen': version, 'files_sha256': hashes, 'physics_runs': 0, 'numerical_qualification_claim': False}
     (output / 'package-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
