@@ -151,7 +151,7 @@ fn coefficients(row: &mut ObstacleGradientRow) -> Result<(), ObstacleGradientErr
     row.endpoints[1].coefficient = inverse;
     Ok(())
 }
-fn make_row(
+pub(crate) fn make_row(
     state: &ObstacleFlowState<'_>,
     site: ObstacleGradientSite,
 ) -> Result<ObstacleGradientRow, ObstacleGradientError> {

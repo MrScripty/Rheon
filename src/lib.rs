@@ -37,7 +37,9 @@ pub use sphere_departure::{SphereDepartureKind, SphereDepartureReport};
 pub use sphere_friction_interval::*;
 pub use sphere_interval::*;
 pub use sphere_support::*;
+mod flat_wall_ritz;
 mod obstacle_viscous;
+pub use flat_wall_ritz::*;
 pub use obstacle_viscous::{
     ObstacleViscousBlock, ObstacleViscousError, ObstacleViscousStress, ObstacleViscousWork,
 };
