@@ -51,7 +51,10 @@ export class RheonViewer extends HTMLElement {
     };
     this.$('runs').onchange = e => {
       const entry=this.catalog?.entries[Number(e.target.value)];
-      if (entry?.status==='ready') this.load(entry.data);
+      if (entry?.status==='ready') {
+        this.loadRequest=(this.loadRequest || 0)+1;
+        this.load(entry.data);
+      }
     };
     this.$('cases').onchange = e => { this.pause(); this.caseIndex = Number(e.target.value); this.index = 0; this.draw(true); };
     this.$('timeline').oninput = e => { this.pause(); this.index = Number(e.target.value); this.draw(); };

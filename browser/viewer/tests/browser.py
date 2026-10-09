@@ -132,6 +132,18 @@ def main():
             require(host.locator('rheon-viewer').evaluate('(e)=>e.catalog===null'), 'Single-file import retained unrelated catalog')
             checks.append('Unsupported folders retain prior data; delayed folder admission cannot overwrite newer selection')
             host.locator('#folder').set_input_files(str(folder)); host.locator('#catalog-summary').filter(has_text='2 recordings / 5 files').wait_for()
+            host.locator('rheon-viewer').evaluate('''e=>{
+              const bytes=new TextEncoder().encode(JSON.stringify({cases:[{name:'delayed',snapshots:[{time:0,profiles:[[.25,1]],energy:0,bulk:0}]}]}));
+              let finish;const input=e.$('folder');
+              Object.defineProperty(input,'files',{configurable:true,value:[{name:'late.json',webkitRelativePath:'late/late.json',size:bytes.length,arrayBuffer:()=>new Promise(resolve=>finish=resolve)}]});
+              window.lateCatalog=e.$('folder').onchange({target:input});
+              window.finishLateCatalog=()=>{finish(bytes.buffer);delete input.files;};
+            }''')
+            host.locator('#runs').select_option(label='input-folder/rigid.json')
+            chosen = host.locator('rheon-viewer').evaluate('(e)=>e.data.provenance.sha256')
+            host.locator('rheon-viewer').evaluate('async()=>{window.finishLateCatalog();await window.lateCatalog;}')
+            require(host.locator('rheon-viewer').evaluate('(e)=>e.data.provenance.sha256') == chosen and host.locator('#title').inner_text().startswith('Rigid'), 'Delayed folder replaced newer catalog selection')
+            checks.append('Choosing an admitted catalog recording cancels older pending folder import')
             host.locator('#catalog-panel').evaluate('(e)=>e.open=true')
             page.screenshot(path=str(output / 'folder-desktop.png'))
             host.locator('#pose').click()
