@@ -1,7 +1,0 @@
-PASS 16-standard: all 8 runs, explicit settings, residual/divergence/Courant gates, equal horizons/budgets, deterministic per-method PNG/CSV
-PASS 16-tight: all 8 runs, explicit settings, residual/divergence/Courant gates, equal horizons/budgets, deterministic per-method PNG/CSV
-PASS 32-standard: all 8 runs, explicit settings, residual/divergence/Courant gates, equal horizons/budgets, deterministic per-method PNG/CSV
-PASS 32-tight: all 8 runs, explicit settings, residual/divergence/Courant gates, equal horizons/budgets, deterministic per-method PNG/CSV
-PASS 64-standard: all 8 runs, explicit settings, residual/divergence/Courant gates, equal horizons/budgets, deterministic per-method PNG/CSV
-PASS 64-tight: all 8 runs, explicit settings, residual/divergence/Courant gates, equal horizons/budgets, deterministic per-method PNG/CSV
-PASS original fixture bytes and qualified source hashes

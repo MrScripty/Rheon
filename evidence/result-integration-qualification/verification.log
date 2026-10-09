@@ -1,2 +1,0 @@
-PASS accepted ancestry/source hashes, 49/44/55 Rust tests, strict feature lints, 20 harness tests
-PASS 3 byte-identical original demo PNG/CSV pairs and 48 retained packets; distinct rebuilt binary identity

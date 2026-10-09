@@ -1,1 +1,0 @@
-{"kind":"translation","normal_axis":0,"full_layers":3,"top_fraction":0.75,"counts":[5, 2, 3],"spacing":[0.26666666666666666, 0.5, 0.25],"density":3,"dynamic_viscosity":0.15,"duration":0.1,"steps":1,"workspace_bytes":200,"geometry_stamp":[1,0],"lateral_boundary":"periodic","endpoint_shear_traction":"zero","coupled_carrier_step":false}

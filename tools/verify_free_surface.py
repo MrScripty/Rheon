@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 """Independent gate for the resolved slab laboratory, including its failures.
 
 Only the stored two-column/one-Z-cell pulse and one-cell hydrostatic replay are
@@ -135,4 +136,4 @@ def verify(directory):
 
 
 if __name__ == "__main__":
-    print(json.dumps(verify(Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "evidence/free-surface/demo"), indent=2))
+    print(json.dumps(verify(Path(sys.argv[1]) if len(sys.argv) > 1 else fixture("free_surface")), indent=2))

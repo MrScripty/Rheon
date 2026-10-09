@@ -121,7 +121,7 @@ def figure(name,caption):
  shape=p.add_run().add_picture(str(R/'figures'/(name+'.png')),width=Inches(4.85 if name=='multigrid-mechanism' else 5.45))
  shape._inline.docPr.set('descr',caption)
  doc.add_paragraph(f'Figure {count}. {caption}',style='Caption')
-geometry(doc.sections[0]);background(R/'artwork/front-cover.png');footer(doc.sections[0],False)
+geometry(doc.sections[0]);background(R/'artwork/front-cover.jpg');footer(doc.sections[0],False)
 s=doc.add_section(WD_SECTION.NEW_PAGE);geometry(s);footer(s)
 doc.add_paragraph('Rheon Discrete Fluid Simulation',style='Title')
 doc.add_paragraph('Mathematics algorithms and checked discrete contracts',style='Subtitle')
@@ -173,7 +173,7 @@ for index,f in enumerate(files):
    elif paragraph.style.name=='Heading 2':
     paragraph.paragraph_format.space_before=Pt(9)
     paragraph.paragraph_format.space_after=Pt(5)
-s=doc.add_section(WD_SECTION.NEW_PAGE);geometry(s);footer(s,False);background(R/'artwork/back-cover.png')
+s=doc.add_section(WD_SECTION.NEW_PAGE);geometry(s);footer(s,False);background(R/'artwork/back-cover.jpg')
 for text,size,bold,space in [
  ('A fluid solver built from explicit contracts',20,True,18),
  ('From staggered geometry and pressure projection to bounded transport, free surfaces, viscous stress and particle transfers, Rheon develops the mathematics behind a compact simulation framework.',12,False,15),

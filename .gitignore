@@ -24,5 +24,39 @@ target
 __pycache__/
 rheon-comparisons/
 
+# Runtime simulation exports and test/build caches; never repository inputs.
+/.generated/
+/simulation-output/
+/rheon-output/
+/rheon-demo/
+/evidence/**/*.csv
+/evidence/**/*.jsonl
+/evidence/**/*.log
+/evidence/**/*.png
+/evidence/**/*.gif
+/evidence/**/*.html
+/evidence/**/*.pdf
+/evidence/**/*.zip
+/evidence/**/*.gz
+/evidence/**/demo/
+# Legacy generators emit JSON observations here; existing source/audit manifests
+# stay tracked. New authored configurations belong outside these output trees.
+/evidence/**/*.json
+/docs/research-book/**/evidence/**/*.json
+/docs/research-book/**/evidence/**/*.log
+/docs/research-book/**/evidence/**/*.txt
+/docs/research-book/**/evidence/**/*.png
+/docs/research-book/**/evidence/**/*.pdf
+# PDFs are separately rendered downloads/artifacts, never committed binaries.
+*.pdf
+
+/evidence/**/*.txt
+!/evidence/**/requirements.txt
+!/evidence/**/source-manifest.json
+!/evidence/**/qualified-source-manifest.json
+!/evidence/**/source-inventory.json
+!/evidence/**/config.json
+
+/evidence/**/*.jpg
 # Accidental local aligned-strain receipts; generators require external paths.
 /evidence/reconstructed-aligned-strain/

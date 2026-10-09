@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "/workspace/Rheon/evidence/fitted-discrete-work/cells.py", line 21, in <module>
-    if __name__=='__main__':print(json.dumps(study(),indent=2))
-                                             ^^^^^^^
-  File "/workspace/Rheon/evidence/fitted-discrete-work/cells.py", line 17, in study
-    step.m.require(all(3.5<r<4.5 for r in face_ratios),'quadratic endpoint vs physical momentum difference')
-  File "/workspace/Rheon/evidence/fitted-height-periodic-repair/reference.py", line 17, in require
-    raise ValueError(message)
-ValueError: quadratic endpoint vs physical momentum difference

@@ -1,3 +1,0 @@
-AUDITED Rheon.FittedHeight.full_strain_factors: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.FittedHeight.kinetic_derivative: [propext, Quot.sound, Classical.choice]
-AuditFittedHeight.lean:5:0: error: Disallowed axiom Rheon.FittedHeight.forbidden_review_assumption in Rheon.FittedHeight.forbidden_review_assumption

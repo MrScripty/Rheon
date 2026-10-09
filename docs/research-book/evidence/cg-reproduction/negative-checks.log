@@ -1,8 +1,0 @@
-PASS rejection: strict historical comparator still rejects Haswell
-ValueError: $.projection.histories.cg[53]: numerical evidence differs: 0.028793851420700668 != 0.02879384969967465
-PASS rejection: profile rejects historical SkylakeX trace
-ValueError: $.projection.histories.cg[53]: numerical evidence differs: 0.02879384969967465 != 0.028793851420700668
-PASS rejection: profile rejects wrong CPU kernel
-ValueError: CG profile requires both qualified single-threaded Haswell BLAS libraries
-PASS rejection: profile rejects unqualified thread count
-ValueError: CG profile requires both qualified single-threaded Haswell BLAS libraries

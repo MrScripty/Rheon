@@ -1,8 +1,0 @@
-jacobi-pcg-v1-n16-c025: 8 accepted steps, t=0.5, 69120 owned array bytes
-jacobi-pcg-v1-n32-c025: 16 accepted steps, t=0.5, 137728 owned array bytes
-jacobi-pcg-v1-n64-c025: 32 accepted steps, t=0.5, 274944 owned array bytes
-jacobi-pcg-v1-n64-c0125: 64 accepted steps, t=0.5, 274944 owned array bytes
-sgs-pcg-v1-n16-c025: 8 accepted steps, t=0.5, 69120 owned array bytes
-sgs-pcg-v1-n32-c025: 16 accepted steps, t=0.5, 137728 owned array bytes
-sgs-pcg-v1-n64-c025: 32 accepted steps, t=0.5, 274944 owned array bytes
-sgs-pcg-v1-n64-c0125: 64 accepted steps, t=0.5, 274944 owned array bytes

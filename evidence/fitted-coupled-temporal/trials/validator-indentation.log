@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "/workspace/Rheon/evidence/fitted-coupled-temporal/test_reference.py", line 11, in <module>
-    from verify_cell import endpoint_convection
-  File "/workspace/Rheon/evidence/fitted-coupled-temporal/verify_cell.py", line 83
-    after=np.zeros(16)
-IndentationError: unexpected indent

@@ -1,1 +1,0 @@
-{"kind":"decay","normal_axis":1,"full_layers":12,"top_fraction":0.75,"counts":[2, 14, 3],"spacing":[0.5, 0.0784313725490196, 0.25],"density":3,"dynamic_viscosity":0.15,"duration":0.1,"steps":256,"workspace_bytes":560,"geometry_stamp":[1,0],"lateral_boundary":"periodic","endpoint_shear_traction":"zero","coupled_carrier_step":false}

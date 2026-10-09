@@ -1,4 +1,0 @@
-Accepted 20 steps; time 0.400000; managed arrays 333824 bytes; step wall time 0.425s. Wrote /workspace/rheon-pr5-fresh-replay/demo-16
-Accepted 100 steps; time 2.000000; managed arrays 333824 bytes; step wall time 1.816s. Wrote /workspace/rheon-pr5-fresh-replay/demo-plume
-Accepted 3 steps; time 0.060000; managed arrays 21069824 bytes; step wall time 10.501s. Wrote /workspace/rheon-pr5-fresh-replay/demo-64
-PASS fresh producing-binary identity, 3 original manifests and PNG/CSV pairs

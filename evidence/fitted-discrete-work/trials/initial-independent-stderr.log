@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/workspace/Rheon/evidence/fitted-discrete-work/independent_work.py", line 56, in <module>
-    if __name__=='__main__':print(json.dumps(verify(json.load(open(sys.argv[1])),int(sys.argv[2])if len(sys.argv)>2 else 16),indent=2))
-                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/workspace/Rheon/evidence/fitted-discrete-work/independent_work.py", line 43, in verify
-    reduced_instant=b.mv(b.transpose(old.Rn),[v for row in instantaneous for v in row]);reduced_discrete=[sum(old.mpq(old.Rn[3*i+d][c])*discrete[i][d]for i in range(16)for d in range(3))for c in range(22)]
-                         ^^^^^^^^^^^
-AttributeError: module 'pressure_ps_base' has no attribute 'transpose'

@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 """Independent finite fields, native ledger, geometry and manufactured oracles.
 
 Coupled two-column dynamics demonstrate consecutive atomic publication and
@@ -219,4 +220,4 @@ def verify(directory):
     coarse=next(r for r in convergence if r['x_cells']==64)
     require(fine['height_l1_error']>coarse['height_l1_error'],'recorded fixed-grid donor diffusion limitation')
     return {'finite_fields_geometry_pixels_ledgers_carry_forward':'passed','results':results,'scope':'Bounded column geometry closure. Pressure activation/atomic publication is demonstrated; convergence applies only to prescribed transverse advection.'}
-if __name__=='__main__': print(json.dumps(verify(Path(sys.argv[1]) if len(sys.argv)>1 else ROOT/'evidence/column-interface/demo'),indent=2))
+if __name__=='__main__': print(json.dumps(verify(Path(sys.argv[1]) if len(sys.argv)>1 else fixture("column_interface")),indent=2))

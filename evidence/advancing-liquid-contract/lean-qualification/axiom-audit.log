@@ -1,8 +1,0 @@
-AUDITED Rheon.MovingLiquid.unequal_rates_leave_flat: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.MovingLiquid.normal_top_mass_basis_difference: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.MovingLiquid.sealed_flat_rate_zero: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.MovingLiquid.sealed_flat_height_fixed: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.MovingLiquid.omitted_nonzero_normal_energy: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.MovingLiquid.balanced_exchange_volume: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.MovingLiquid.atmospheric_normal_traction_requires_zero_strain: [propext, Quot.sound, Classical.choice]
-AuditMovingLiquid.lean:5:0: error: Disallowed axiom Rheon.MovingLiquid.forbidden_review_assumption in Rheon.MovingLiquid.forbidden_review_assumption

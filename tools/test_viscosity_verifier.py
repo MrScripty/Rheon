@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 import csv
 import json
 from pathlib import Path
@@ -8,8 +9,11 @@ from PIL import Image
 from verify_viscosity import ROOT,verify
 
 class ViscosityVerifierTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.fixture = fixture("viscosity")
     def test_native_shear_decay_refinement_and_coupled_box(self):
-        result=verify(ROOT/'evidence/viscosity/demo')
+        result=verify(self.fixture)
         self.assertEqual(len(result['results']),13)
         self.assertEqual(sum(r['intervals'] for r in result['results'] if r['kind']=='coupled'),36)
         self.assertFalse(result['free_surface_viscosity_validated'])
@@ -17,7 +21,7 @@ class ViscosityVerifierTest(unittest.TestCase):
         variants=('nan_velocity','inf_energy','nan_budget','negative_dissipation','stability','identity','inflated_budget','amplitude','mode_shape','wall_velocity','density','viscosity','boundary','phase_fraction','pressure','generation','time','carry','ledger_budget','workspace','pixel','missing_frame','missing_case')
         for variant in variants:
             with self.subTest(variant=variant),tempfile.TemporaryDirectory() as temporary:
-                demo=Path(temporary)/'demo';shutil.copytree(ROOT/'evidence/viscosity/demo',demo)
+                demo=Path(temporary)/'demo';shutil.copytree(self.fixture,demo)
                 case=demo/'space-n16';coupled=demo/'jacobi-pcg-v1-coupled-mu0.125'
                 if variant=='missing_case':shutil.rmtree(case)
                 elif variant=='missing_frame':(coupled/'frame-01-cells.csv').unlink()

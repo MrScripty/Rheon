@@ -45,7 +45,7 @@ The debug target retained cached external dependencies after
 The initially fresh release target, rebuilt after the area guard, was
 `target-liquid-volume-release` under the cloud tool
 directory. Rust/Cargo 1.92.0, LLVM 21.1.3; Cargo default debug/test and release
-profiles. [Environment](environment.json) records Xeon Platinum 8370C, five
+profiles. [Environment](https://github.com/MrScripty/Rheon/blob/9cd4587a54befa61bdfddc8e35014bd3c34f02fb/evidence/liquid-volume/environment.json) records Xeon Platinum 8370C, five
 exposed affinity CPUs, a four-CPU cgroup quota and 16 GiB cgroup memory limit.
 Rust checks, release compilation/replay and Lean overlapped. These are correctness
 and spatial checks, with no isolated speed, peak-RSS or native-window claim.
@@ -54,8 +54,8 @@ The initial fixture compile failed on a borrowed grid moved into its state
 constructor (`E0505`); the fixture now clones that immutable geometry. Logs retain
 the failed build. The new module also initially rejected valid signed zero by a
 redundant sign-bit guard. The targeted Rust test actually returned exit 101
-([red log](red-signed-zero.log)); removing the redundant guard made it pass.
-[Reconstruction](red-signed-zero-reconstruction.json) specifies exact accepted
+([red log](https://github.com/MrScripty/Rheon/blob/9cd4587a54befa61bdfddc8e35014bd3c34f02fb/evidence/liquid-volume/red-signed-zero.log)); removing the redundant guard made it pass.
+[Reconstruction](https://github.com/MrScripty/Rheon/blob/9cd4587a54befa61bdfddc8e35014bd3c34f02fb/evidence/liquid-volume/red-signed-zero-reconstruction.json) specifies exact accepted
 and pre-fix blocks at the recorded accepted source commit. Replacing only that
 block in a disposable checkout at that commit recreates
 the recorded pre-fix module SHA. The historical fixture SHA predates the later
@@ -67,7 +67,7 @@ multiplication can underflow to zero on an extreme anisotropic but valid grid,
 even when cell volume and dt times true area are representable. A regression
 actually failed at runtime with exit 101 and reported zero inflow instead of
 rejecting the unsupported scale. Face areas now use the same checked product
-helper as volume transfers. [Its reconstruction](red-face-area-reconstruction.json)
+helper as volume transfers. [Its reconstruction](https://github.com/MrScripty/Rheon/blob/9cd4587a54befa61bdfddc8e35014bd3c34f02fb/evidence/liquid-volume/red-face-area-reconstruction.json)
 recreates the exact earlier module SHA from the final source. An initial
 `assert_eq!` fixture compile failure is retained separately and is not the runtime
 red evidence. Feature suites, Clippy and release outputs were rerun after this

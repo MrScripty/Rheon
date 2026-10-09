@@ -1,6 +1,0 @@
-{
-  "actual_frozen_host_accepted_malformed_cells": 10,
-  "actual_frozen_native_accepted_omitted_field_cells": 124,
-  "actual_stored_trajectories_remain_valid": true,
-  "not_a_governing_equation_counterexample": true
-}

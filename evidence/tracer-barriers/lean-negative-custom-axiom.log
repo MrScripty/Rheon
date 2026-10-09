@@ -1,8 +1,0 @@
-AUDITED Rheon.TracerBarrier.visible_bounds: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.TracerBarrier.normalized_nonnegative: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.TracerBarrier.normalized_constant: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.TracerBarrier.normalized_blocked: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.TracerBarrier.masked_blocked: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.TracerBarrier.total: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.TracerBarrier.normalized_partition: [propext, Quot.sound, Classical.choice]
-/tmp/rheon-tracer-custom-axiom-b50d7sso/AuditVisibleWeights.lean:5:0: error: Disallowed axiom Rheon.TracerBarrier.unreviewedAssumption in Rheon.TracerBarrier.unreviewedAssumption

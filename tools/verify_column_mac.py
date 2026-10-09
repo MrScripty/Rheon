@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 """Independent mass/flux/pressure and existing-owner publication oracle.
 Checks every native stored-f32 field, accepted epoch, ledger and grayscale pixel.
 """

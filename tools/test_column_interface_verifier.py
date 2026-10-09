@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 import csv
 import fnmatch
 import re
@@ -15,7 +16,7 @@ def ci_path_ledger():
     # Use this checkout's tracked inventory, excluding another lane's examples
     # and any untracked probes. The same returned rows drive the actual test.
     examples=subprocess.check_output(['git','ls-files','--','examples/*.rs'],cwd=ROOT,text=True).splitlines()
-    required=examples+['tools/verify_column_interface.py','tools/test_column_interface_verifier.py','evidence/column-interface/demo/jacobi-pcg-v1-activation/final.png']
+    required=examples+['tools/verify_column_interface.py','tools/test_column_interface_verifier.py','tools/generated_fixtures.py']
     text=(ROOT/'.github/workflows/rust-rheon.yml').read_text();controls=[]
     for event in ('pull_request','push'):
         section=re.split(r'\n  [a-z_]+:',text.split('  '+event+':\n',1)[1],maxsplit=1)[0]
@@ -104,8 +105,11 @@ def verify_split_ci_budget(frozen,current):
         'cargo tree --locked --no-default-features'],'original test/dependency inventory')
 
 class ColumnVerifierTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.fixture = fixture("column_interface")
     def test_actual_consecutive_reconstruction_and_convergence(self):
-        result=verify(ROOT/'evidence/column-interface/demo')
+        result=verify(self.fixture)
         self.assertEqual(len(result['results']),13)
         self.assertEqual(sum(row.get('coupled_intervals',0) for row in result['results']),64)
     def test_every_coupled_final_artifact_matches_last_accepted_frame(self):
@@ -114,7 +118,7 @@ class ColumnVerifierTest(unittest.TestCase):
         for name in cases:
             for change in changes:
                 with self.subTest(case=name,change=change),tempfile.TemporaryDirectory() as temporary:
-                    demo=Path(temporary)/'demo';shutil.copytree(ROOT/'evidence/column-interface/demo',demo)
+                    demo=Path(temporary)/'demo';shutil.copytree(self.fixture,demo)
                     case=demo/name
                     if change.startswith('missing_'):
                         filename={'missing_faces':'final-faces.csv','missing_geometry':'final-geometry.csv','missing_png':'final.png'}[change]
@@ -168,7 +172,7 @@ class ColumnVerifierTest(unittest.TestCase):
         changes=('nan_pressure','inf_velocity','nan_fraction','nan_geometry','before','inward','outward','balance','budget','carry','nan_ledger','reconstruction_change','end_geometry','held_geometry','pressure_version','air_pressure','pixel','missing_frame','advection_fraction','advection_shape_mass_preserved')
         for change in changes:
             with self.subTest(change=change),tempfile.TemporaryDirectory() as temporary:
-                demo=Path(temporary)/'demo';shutil.copytree(ROOT/'evidence/column-interface/demo',demo)
+                demo=Path(temporary)/'demo';shutil.copytree(self.fixture,demo)
                 case=demo/'jacobi-pcg-v1-activation'
                 if change=='pixel':
                     path=case/'frame-01.png'

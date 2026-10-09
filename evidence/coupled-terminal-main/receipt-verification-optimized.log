@@ -1,1 +1,0 @@
-PASS source/local equivalence, all hosted jobs, preserved original failure and seven binding controls: ['source tree', 'original source', 'evidence hash', 'run identity', 'checkout source hash', 'incomplete logs', 'physics promotion']

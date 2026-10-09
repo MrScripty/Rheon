@@ -1,3 +1,4 @@
+from generated_fixtures import fixture
 import copy
 import json
 from pathlib import Path
@@ -6,8 +7,12 @@ import tempfile
 import unittest
 import verify_column_momentum as gate
 
-FIXTURE = Path(__file__).resolve().parents[1]/'evidence/column-momentum/demo'
+FIXTURE = None
 class ColumnMomentumVerifier(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        global FIXTURE
+        FIXTURE = fixture("column_momentum")
     def test_real_native_records(self):
         result=gate.verify(FIXTURE)
         self.assertEqual((result['cases'],result['intervals']),(13,127))

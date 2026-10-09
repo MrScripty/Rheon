@@ -6,16 +6,15 @@ Source includes chapter Markdown, appendices, document and figure builders, expe
 
 Executed fixtures use Python 3.12.14, NumPy 2.3.5 and SciPy 1.17.0 on Linux x86_64. Figures use Matplotlib 3.10.8. Requirements pin these packages. The deterministic seed is 20261003. The script writes results.json including full residual histories.
 
-From this book directory, preserve the committed observations before generating
-new outputs. The qualified Linux x86_64 replay uses Haswell dispatch on hardware
+From this book directory, retrieve immutable historical observations into ignored
+storage before generating new ignored outputs. The qualified Linux x86_64 replay uses Haswell dispatch on hardware
 that supports that kernel, with both wheel BLAS libraries at OpenBLAS 0.3.30.
 These process-local settings reproduce the separately recorded CG profile, not
 the historical CG trajectory byte-for-byte; historical JSON stays unchanged.
 
 ~~~sh
 python3 -m pip install -r companion/requirements.txt
-baseline=$(mktemp -d)
-cp companion/results.json companion/depth-results.json "$baseline/"
+baseline=$(python3 companion/historical_baselines.py)
 OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=1 python3 companion/experiments.py
 OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=1 python3 companion/depth_experiments.py
 OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=1 python3 companion/verify_results.py \
@@ -23,8 +22,8 @@ OPENBLAS_CORETYPE=Haswell OPENBLAS_NUM_THREADS=1 python3 companion/verify_result
 python3 companion/make_figures.py
 ~~~
 
-Run these commands in a disposable copy if the committed working-tree evidence
-must remain intact. Verification checks historical/source hashes and the loaded
+No result files or recorded CG histories are tracked in the source checkout.
+Verification checks historical/source hashes and the loaded
 runtime, substitutes only the explicitly qualified CG history, and retains the
 original comparison tolerances for all fields. See the companion README for
 profile limits. Assertions cover graph projection, rational conservation,

@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "/workspace/Rheon/evidence/fitted-finite-transport/numerical.py", line 86, in <module>
-    result={'scope':'research actual finite ALE integration and constrained transport/viscosity; no native stepping','limitations':limitations(),'rows':[study(ref.Q(1,20)),study(ref.Q(1,40)),study(ref.Q(1,80))]};errors=[r['temporal_L2_error']for r in result['rows']];ratios=[errors[i]/errors[i+1]for i in range(2)];require(all(1.8<r<2.2 for r in ratios),'actual first-order nonautonomous temporal convergence');result['temporal_ratios']=ratios;result['ODE_function_evaluations']=ode_reference()[1:];print(json.dumps(result,indent=2))
-                                                                                                                                   ^^^^^^^^^^^^^
-  File "/workspace/Rheon/evidence/fitted-finite-transport/numerical.py", line 82, in limitations
-    require(np.max(np.abs(bad_g))>1e-4,'preserved failure: endpoint-only flux')
-  File "/workspace/Rheon/evidence/fitted-height-periodic-repair/reference.py", line 17, in require
-    raise ValueError(message)
-ValueError: preserved failure: endpoint-only flux

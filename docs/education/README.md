@@ -15,6 +15,8 @@ export PYTHONDONTWRITEBYTECODE=1
 mkdir -p "$RHEON_ASSETS"
 cp docs/education/package.json docs/education/package-lock.json "$RHEON_ASSETS/"
 npm ci --prefix "$RHEON_ASSETS" --ignore-scripts --no-audit --no-fund
+python3 -m pip install -r docs/research-book/expansion/requirements.txt -r docs/research-book/companion/requirements.txt -r docs/education/requirements.txt
+python3 docs/education/generate_references.py
 python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules"
 python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
 python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
@@ -24,7 +26,7 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory "$RHEON_EDITION"
 
 Install Chromium with `python3 -m playwright install --with-deps chromium`, or use installed Chromium. The browser verifier uses a private local server and checks the six reference labs, the native hub, navigation/search, math, page/network errors and mobile layout. When native bundles are supplied, it checks every saved native profile, plot, ledger and CSV link. `--check` is read-only: it cannot regenerate a PDF or bless stale receipts. `--url` selects an existing preview server.
 
-`--render-pdf` intentionally renders the new reading PDF and writes its source/book/PDF-bound receipts in the output directory. Inspect that PDF before publication. HTML, PDF, Markdown ZIP, copied evidence, browser receipts, assets and build artifacts stay outside Git. Historical tracked PDFs and receipts are preserved with their original source identities.
+`--render-pdf` intentionally renders the new reading PDF and writes its source/book/PDF-bound receipts in the output directory. Inspect that PDF before publication. HTML, PDF, Markdown ZIP, copied evidence, browser receipts, assets and build artifacts stay outside Git. Historical PDFs and receipts remain available in Git history with their original source identities. Generated references use the existing checked generators and ignored output locations; PDFs and browser receipts are rendered directly into the external edition before verification.
 
 ## Optional original native bundles
 

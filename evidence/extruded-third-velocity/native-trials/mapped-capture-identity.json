@@ -1,8 +1,0 @@
-{
-  "status": "PASS",
-  "actual_rows": 268,
-  "actual_new_periodic_indices_verified": true,
-  "actual_all_other_publication_fields_identical": true,
-  "mapped_capture_sha256": "92780344d3d22f8ca4011a707988d4ca6e397c97429729fd5c267c347e353a85",
-  "first_capture_sha256": "b3db17956d90ab5327d39021de18a8ec172239bd3c99b7a91c64101f13dafc2e"
-}

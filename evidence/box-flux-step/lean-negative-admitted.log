@@ -1,4 +1,0 @@
-AUDITED Rheon.BoxFluxStep.transport: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.BoxFluxStep.stageWork: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.BoxFluxStep.transport_sum: [propext, Quot.sound, Classical.choice]
-/workspace/Rheon-box-flux-step/evidence/box-flux-step/AuditStepBudget.lean:5:0: error: Disallowed axiom sorryAx in Rheon.BoxFluxStep.full_step_budget

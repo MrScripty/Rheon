@@ -1,1 +1,0 @@
-../evidence/bounded-physics-contracts/AuditBoundedPhysics.lean:5:0: error: Disallowed axiom npowRec._at.Real.commRing._spec_2 in Rheon.BoundedPhysics.dissipation._lambda_1._cstage2

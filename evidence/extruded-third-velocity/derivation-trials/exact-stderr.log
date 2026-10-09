@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/workspace/Rheon/evidence/extruded-third-velocity/third_exact.py", line 37, in <module>
-    if __name__=='__main__':print(json.dumps(taylor.serial(dict(scope='exact semidiscrete third block of reviewed periodic z-invariant model; conditional algebra, no advancing IEEE or continuum theorem',rows=[derive(k)for k in ['initial','pressure_state']])),indent=2))
-                                                                                                                                                                                                                 ^^^^^^^^^
-  File "/workspace/Rheon/evidence/extruded-third-velocity/third_exact.py", line 30, in derive
-    force=[x+y for x,y in zip(b.mv(b.transpose(r),[a*ww+cc for a,ww,cc in zip(mdot,w,c)]),b.mv(K,xi))];dxi=b.solve(M,[-x for x in force]);dw=b.mv(r,dxi)
-                                   ^^^^^^^^^^^
-AttributeError: module 'pressure_ps_base' has no attribute 'transpose'

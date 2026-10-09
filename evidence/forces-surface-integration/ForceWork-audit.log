@@ -1,8 +1,0 @@
-AUDITED Rheon.ExplicitForces.storedWork: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.ExplicitForces.force_density_increment: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.ExplicitForces.hydrostatic_acceleration_balance: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.ExplicitForces.kineticEnergy: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.ExplicitForces.kineticEnergy._proof_1: []
-AUDITED Rheon.ExplicitForces.acceleration_work: [propext, Quot.sound, Classical.choice]
-AUDITED Rheon.ExplicitForces.stored_work_energy_change: [propext, Quot.sound, Classical.choice]
-Explicit-force axiom audit passed for 7 declarations

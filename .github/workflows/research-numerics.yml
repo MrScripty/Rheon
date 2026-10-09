@@ -35,17 +35,17 @@ jobs:
           from threadpoolctl import threadpool_info
           print(json.dumps(threadpool_info(), indent=2))
           PY
-      - name: Preserve committed numerical evidence
+      - name: Retrieve hash-locked historical evidence into ignored storage
         run: |
-          mkdir -p "$RUNNER_TEMP/rheon-evidence-baseline"
-          cp docs/research-book/companion/results.json docs/research-book/companion/depth-results.json "$RUNNER_TEMP/rheon-evidence-baseline/"
-      - name: Verify comparator rejection tests against committed fixtures
+          "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/historical_baselines.py
+      - name: Verify comparator rejection tests against immutable historical evidence
         run: |
-          "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/test_verify_results.py
+          "$RUNNER_TEMP/rheon-reference/bin/python" -m unittest discover -s docs/research-book/companion -p 'test_*.py' -v
       - name: Execute restricted numerical fixtures
         run: |
           "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/experiments.py
           "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/depth_experiments.py
-      - name: Verify committed numerical evidence
+      - name: Verify regenerated numerical evidence
         run: |
-          "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/verify_results.py --baseline-dir "$RUNNER_TEMP/rheon-evidence-baseline" --cg-profile haswell-openblas-0.3.30
+          baseline=$("$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/historical_baselines.py)
+          "$RUNNER_TEMP/rheon-reference/bin/python" docs/research-book/companion/verify_results.py --baseline-dir "$baseline" --cg-profile haswell-openblas-0.3.30
