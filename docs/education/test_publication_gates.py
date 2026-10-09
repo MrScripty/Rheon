@@ -3,12 +3,30 @@ from pathlib import Path
 import hashlib
 import json
 import tempfile
+import subprocess
 import unittest
 from unittest.mock import patch
 import build
-from browser_qualification import LABS, REVIEWED_SOURCES, book_sources, source_hashes, verify_browser_qualification
+from browser_qualification import validate_strain_browser_receipt, LABS, REVIEWED_SOURCES, book_sources, source_hashes, verify_browser_qualification
 from pdf_freshness import input_hashes
 import verify_browser
+
+
+class OutputAdmission(unittest.TestCase):
+    def test_existing_output_and_checkout_ancestors_are_preserved(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);repo=root/'repo';repo.mkdir();output=root/'edition';output.mkdir()
+            marker=output/'retained';marker.write_text('unchanged')
+            for target in (root,repo,repo/'output',output):
+                with self.subTest(target=target),self.assertRaises(ValueError):build.validate_output(target,repo)
+            self.assertEqual(marker.read_text(),'unchanged')
+
+    def test_other_git_checkout_is_refused_and_fresh_external_path_is_admitted(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);repo=root/'repo';repo.mkdir();other=root/'other';other.mkdir()
+            subprocess.run(['git','init','--quiet',str(other)],check=True)
+            with self.assertRaisesRegex(ValueError,'every Git checkout'):build.validate_output(other/'edition',repo)
+            build.validate_output(root/'fresh'/'edition',repo)
 
 
 class ReferenceQualification(unittest.TestCase):
@@ -42,6 +60,32 @@ class ReferenceQualification(unittest.TestCase):
                 self.assertEqual(marker.read_text(), 'unchanged')
                 self.assertFalse((output/name).exists())
                 (self.reference/name).write_bytes(original)
+
+
+class AlignedStrainReceiptRejection(unittest.TestCase):
+    def test_source_only_receipt_cannot_claim_computation(self):
+        empty={'included':False,'dynamic_states':0,'independent_rational_comparisons':0,
+               'fluid_solves':0,'fluid_advances':0,'mobile_no_overflow':True,'screenshots':[]}
+        validate_strain_browser_receipt(empty,None)
+        for key,value in [('fluid_solves',1),('included',True),('screenshots',['invented'])]:
+            with self.subTest(key=key),self.assertRaises(ValueError):
+                validate_strain_browser_receipt({**empty,key:value},None)
+
+    def test_actual_receipt_retains_corner_zero_and_solver_guarantees(self):
+        strain={'active':list(range(48)),'rows':[{'terms':[]}]*6+[{'terms':[1]}]*204,
+                'cornerEdges':list(range(12))}
+        observed={'included':True,'dynamic_states':46,'active_faces':48,'rows':210,
+                  'independent_rational_comparisons':46,'retained_zero_rows':6,
+                  'reflected_corners':12,'fluid_solves':0,'fluid_advances':0,'mobile_no_overflow':True}
+        validate_strain_browser_receipt(observed,strain)
+        for key in observed:
+            changed=dict(observed);changed.pop(key)
+            with self.subTest(missing=key),self.assertRaises(ValueError):
+                validate_strain_browser_receipt(changed,strain)
+        for key,value in [('fluid_solves',1),('fluid_advances',1),('retained_zero_rows',0),
+                          ('reflected_corners',0),('dynamic_states',8),('included',1)]:
+            with self.subTest(changed=key),self.assertRaises(ValueError):
+                validate_strain_browser_receipt({**observed,key:value},strain)
 
 
 class BrowserBindings(unittest.TestCase):

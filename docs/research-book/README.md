@@ -2,7 +2,7 @@
 
 A research book credited Puma: mathematics, algorithm specifications, worked examples, reproducible numerical fixtures and checked Lean contracts for a low-memory 3D fluid framework.
 
-The production Rust solver is not implemented by this research package. Liquid, coupled-stress, particle and GPU sections remain scoped research specifications. Exact proofs do not establish floating-point accuracy, geometry assembly, solver convergence, physical calibration or performance.
+The repository contains bounded Rust box/liquid components and separate research prototypes. General moving mesh/interface composition, coupled physical boundaries, particles and GPU sections remain incomplete or scoped research specifications. Exact proofs do not establish floating-point accuracy, geometry assembly, solver convergence, physical calibration or performance.
 
 ## Read and reproduce
 
@@ -29,4 +29,6 @@ All generated cover artwork is original to this edition, with prompts and hashes
 
 ## Expanded solids and liquids teaching edition
 
-Chapters 19–25 and Appendix F add forces, moving collision geometry, density/volume, tensor viscosity, separate wetting/adhesion/slip, capillarity and a future fixture matrix. The original smoke milestone and production sources are unchanged. The expanded edition has 42 checked public Lean theorems, including bounded planar clipping and a finite-strain backward-Euler work bridge, six interactive 3D local-reference labs and original figures. Build/download instructions are in `../education/README.md`; the expanded Markdown/PDF preserve the original 18 chapters. New evidence lives in expansion, separate from historical receipts.
+Chapters 19–25 and Appendix F add forces, moving collision geometry, density/volume, tensor viscosity, separate wetting/adhesion/slip, capillarity and a future fixture matrix. The historical expansion has 42 source-bound public Lean theorems, including bounded planar clipping and a finite-strain backward-Euler work bridge, six interactive 3D local-reference labs and original figures. The connected unmerged PR22–24 progression adds finite Navier traction, compatible no-slip and uniform body forcing, with their actual distinct fixed-slab models and original recorded playback. Its accepted kernel proof inventory has 57 public theorems / 77 audited declarations; the older 42/60 receipts remain historical. This documentation integration changes no production source. Build/download instructions are in `../education/README.md`; the expanded Markdown/PDF preserve the original 18 chapters. New evidence lives in expansion, separate from historical receipts.
+
+The [native wall/force progression](implementation/native-wall-force-sequence.md) connects the equations, units, proof assumptions and recorded demos. The [requirements roadmap](implementation/requirements-roadmap.md) maps actual collision, force, viscosity, adhesion and density coverage and recommends shared static solid-fluid geometry as the next concrete feature. Generated site, PDF, assets and qualification receipts stay outside Git. The source-only CI hub explicitly identifies unavailable recorded bundles.
