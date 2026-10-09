@@ -70,6 +70,17 @@ class GuardTests(unittest.TestCase):
         child,r,out,elapsed=self.run_case('spawn_hang')
         self.assertNotEqual(child.returncode,0);self.assertIn('supervised child deadline including spawn',r['reason'])
         self.assertLess(elapsed,1.);self.assert_stopped(json.loads((out/'campaign-report.json').read_text())['controller_pid'])
+    def test_controller_exec_delay_is_supervised_with_known_pid(self):
+        child,r,_,elapsed=self.run_case('startup_delay',seconds=.7)
+        self.assertNotEqual(child.returncode,0);self.assertIn('aggregate work deadline',r['reason'])
+        self.assertLess(elapsed,1.5);self.assert_stopped(r['controller_pid'])
+    def test_delayed_private_session_setup_is_admitted_without_root_group_signal(self):
+        child,r,_,_=self.run_case('session_delay')
+        self.assertEqual(child.returncode,0);self.assertEqual(r['status'],'completed')
+    def test_cancellation_pending_during_fork_identity_assignment(self):
+        child,r,_,_=self.run_case('startup_cancel')
+        self.assertNotEqual(child.returncode,0);self.assertIn('supervisor cancellation signal',r['reason'])
+        self.assert_stopped(r['controller_pid'])
     def cancellation(self,signum):
         out=self.root/'cancellation'
         child=subprocess.Popen([sys.executable,'-B',str(FIXTURE),'supervisor','hang',str(out),'3',str(256*1024*1024),'2'],

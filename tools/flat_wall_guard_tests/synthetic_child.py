@@ -54,7 +54,20 @@ if __name__=='__main__':
     elif role=='supervisor':
         mode=sys.argv[2];out=Path(sys.argv[3]);seconds=float(sys.argv[4]);rss=int(sys.argv[5]);members=int(sys.argv[6])
         if mode=='alarm':guard.snapshot=lambda *_:time.sleep(20)
-        receipt=guard.supervise([sys.executable,'-B',__file__,'controller',mode,str(out)],out,
+        if mode=='startup_delay':guard.os.execvpe=lambda *_:time.sleep(20)
+        if mode=='session_delay':
+            setsid=guard.os.setsid
+            def delayed_setsid():time.sleep(.1);return setsid()
+            guard.os.setsid=delayed_setsid
+        if mode=='startup_cancel':
+            fork=guard.os.fork
+            def fork_with_pending_cancel():
+                pid=fork()
+                if pid:os.kill(os.getpid(),guard.signal.SIGTERM)
+                return pid
+            guard.os.fork=fork_with_pending_cancel
+        selected='success' if mode=='session_delay' else mode
+        receipt=guard.supervise([sys.executable,'-B',__file__,'controller',selected,str(out)],out,
             limits=guard.Limits(seconds=seconds,cleanup=.2,sample=.02,rss=rss,members=members))
         sys.exit(0 if receipt['status']=='completed' else 1)
     else:raise ValueError(role)

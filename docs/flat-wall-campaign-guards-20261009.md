@@ -26,6 +26,11 @@ the supervisor. The supervisor times that phase independently, including a
 blocked spawn/exec wait; completion messages must arrive with a timestamp inside
 the phase deadline. SIGTERM and SIGINT also trigger owned cleanup and refusal,
 with the outer alarm retained throughout bounded cleanup.
+The initial controller uses fork/exec without waiting for exec readiness. Its
+PID and pidfd are recorded while cancellation signals are briefly masked, then
+signals are restored before any readiness wait. The pidfd covers cancellation
+even before the child has created its private session. A delayed controller
+exec therefore remains a known cleanup target.
 
 Linux signal delivery and scheduling are not real-time guarantees. SIGKILL may
 remain pending for a task in uninterruptible kernel wait. Normal receipts report

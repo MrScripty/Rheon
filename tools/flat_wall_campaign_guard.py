@@ -116,6 +116,23 @@ class Limits:
         if type(self.rss) is not int or self.rss<1 or type(self.members) is not int or self.members<1:
             raise GuardViolation('invalid guard memory/member limits')
 
+class ControllerProcess:
+    """Known PID before any exec-readiness wait; no Popen startup error pipe."""
+    def __init__(self,pid,reader):
+        self.pid=pid;self.stdout=os.fdopen(reader,'rb',buffering=0)
+        self.pidfd=None;self.returncode=None
+    def poll(self):
+        if self.returncode is None:
+            pid,status=os.waitpid(self.pid,os.WNOHANG)
+            if pid:self.returncode=os.waitstatus_to_exitcode(status)
+        return self.returncode
+    def wait(self,timeout):
+        until=time.monotonic()+timeout
+        while self.poll() is None:
+            if time.monotonic()>=until:raise subprocess.TimeoutExpired('controller',timeout)
+            time.sleep(min(.005,max(0.,until-time.monotonic())))
+        return self.returncode
+
 def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
     """Return receipt; command must be a fixed trusted controller, not a shell."""
     limits.validate();started=time.monotonic() if started is None else started
@@ -132,6 +149,10 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
             try:os.killpg(process.pid,signal.SIGKILL)
             except ProcessLookupError:pass
             except OSError as error:cleanup_errors.append(str(error))
+            if process.pidfd is not None:
+                try:signal.pidfd_send_signal(process.pidfd,signal.SIGKILL)
+                except ProcessLookupError:pass
+                except OSError as error:cleanup_errors.append(str(error))
         for fd in owned_fds.values():
             try:signal.pidfd_send_signal(fd,signal.SIGKILL)
             except ProcessLookupError:pass
@@ -145,7 +166,7 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
     for signum in previous_cancellation:signal.signal(signum,cancelled)
     signal.signal(signal.SIGALRM,emergency)
     signal.setitimer(signal.ITIMER_REAL,max(.000001,end-time.monotonic()))
-    log=None;selector=None;created_out=False
+    log=None;selector=None;created_out=False;session_established=False
     try:
         if prepare is not None:command,out=prepare()
         out=Path(out)
@@ -156,8 +177,29 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
         child_env=os.environ.copy();child_env.update(env or {})
         child_env.update(RHEON_CAMPAIGN_WORK_DEADLINE=repr(work_end),
                          RHEON_CAMPAIGN_GUARDED='1',PYTHONDONTWRITEBYTECODE='1')
-        process=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
-                                 start_new_session=True,env=child_env,bufsize=0)
+        # Mask cancellation only over fork and PID/pidfd publication. There is
+        # no wait for exec readiness while signals are masked. The pidfd also
+        # covers the child before it has established its private session.
+        reader,writer=os.pipe()
+        old_mask=signal.pthread_sigmask(signal.SIG_BLOCK,{signal.SIGTERM,signal.SIGINT,signal.SIGALRM})
+        try:
+            pid=os.fork()
+            if pid==0:
+                try:
+                    for signum in (signal.SIGTERM,signal.SIGINT,signal.SIGALRM):signal.signal(signum,signal.SIG_DFL)
+                    os.close(reader);os.setsid();os.dup2(writer,1);os.dup2(writer,2)
+                    os.close(writer)
+                    signal.pthread_sigmask(signal.SIG_SETMASK,old_mask)
+                    os.execvpe(command[0],command,child_env)
+                except BaseException:
+                    os.write(2,b'controller exec failed\n');os._exit(127)
+            process=ControllerProcess(pid,reader);reader=None
+            try:process.pidfd=os.pidfd_open(pid)
+            except ProcessLookupError:pass # already exited, poll() will reap
+        finally:
+            if reader is not None:os.close(reader)
+            os.close(writer)
+            signal.pthread_sigmask(signal.SIG_SETMASK,old_mask)
         selector=selectors.DefaultSelector();selector.register(process.stdout,selectors.EVENT_READ)
         next_sample=time.monotonic()
         protocol=ChildDeadlineProtocol(work_end)
@@ -181,8 +223,11 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
                         owned_fds[identity]=fd
                 rss=sum(info['rss'] for info in group.values())+proc_info(os.getpid())['rss']
                 live=[i for i in group.values() if i['state']!= 'Z']
+                if any(i['pid']==process.pid and i['pgrp']==process.pid and i['session']==process.pid for i in live):
+                    session_established=True
                 samples+=1;peak=max(peak,rss);members_peak=max(members_peak,len(live))
-                if any(i['pgrp']!=process.pid or i['session']!=process.pid for i in live):
+                if any((i['pgrp']!=process.pid or i['session']!=process.pid)
+                       and (i['pid']!=process.pid or session_established) for i in live):
                     raise GuardViolation('descendant escaped controller session/group')
                 if len(live)>limits.members:raise GuardViolation('process-group member threshold')
                 if rss>limits.rss:raise GuardViolation('sampled whole-group RSS threshold')
@@ -220,9 +265,12 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
             if survivors:violation=violation or 'live descendants after bounded cleanup'
         for fd in owned_fds.values():os.close(fd)
         owned_fds.clear()
+        if process is not None and process.pidfd is not None:
+            os.close(process.pidfd);process.pidfd=None
         if cleanup_errors:violation=violation or 'group cleanup signalling failed'
         receipt={'status':'refused' if violation else 'completed','reason':violation,
                  'controller_returncode':returncode,'aggregate_deadline_seconds':limits.seconds,
+                 'controller_pid':None if process is None else process.pid,
                  'work_deadline_seconds':limits.seconds-limits.cleanup,'cleanup_reserve_seconds':limits.cleanup,
                  'rss_sample_threshold_bytes':limits.rss,'rss_sample_interval_seconds':limits.sample,
                  'rss_sampled_peak_bytes':peak,'rss_scope':'sum of supervisor and controller-group RSS; shared pages may count multiple times',
