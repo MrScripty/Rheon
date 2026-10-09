@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from aligned_strain_packet import (ROOT, SCHEMA, basis_and_corners, browser_expectation,
                                   encoded, external_new_directory, packet_data,
@@ -84,6 +85,17 @@ class ControlBasisTest(unittest.TestCase):
 
     def test_native_core_pinned_to_immutable_primary(self):
         self.assertIn('src/aligned_strain.rs',source_core(ROOT))
+
+    def test_dense3d_extension_binds_both_files_and_rejects_changed_sources(self):
+        sources = source_core(ROOT)
+        for name in ('src/lib.rs', 'src/dense3d_sequence.rs'):
+            self.assertEqual(sources[name], sha(ROOT/name))
+        for changed in ('src/lib.rs', 'src/dense3d_sequence.rs', 'src/aligned_strain.rs'):
+            def tampered(path):
+                return '0'*64 if Path(path) == ROOT/changed else sha(path)
+            with self.subTest(changed=changed), patch('aligned_strain_packet.sha', side_effect=tampered):
+                with self.assertRaisesRegex(Refusal, 'changed qualified native source'):
+                    source_core(ROOT)
 
 
 @unittest.skipUnless(os.environ.get('RHEON_ALIGNED_PACKET'),'qualification supplies a real native packet')

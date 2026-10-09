@@ -21,6 +21,13 @@ from aligned_strain_oracle import parse_dump, reference, verify, matrix, require
 
 PRIMARY_SOURCE = 'f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b'
 PRIMARY_TREE = 'bda8ebca0a226e10f03f975ffcf9701df4326095'
+# Main's independently accepted dense3D exporter adds only these two declarations
+# to the historical crate root. Admit that exact extension and pin its module;
+# all original numerical sources remain frozen. Fresh qualification receipts
+# must bind the actual extended source, never the historical root's digest.
+DENSE3D_EXPORTS = (b'mod dense3d_sequence;\n'
+                   b'pub use dense3d_sequence::{Dense3dError, Dense3dLimits, Dense3dSequence, write_dense3d_frame};\n')
+DENSE3D_SHA256 = '90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431'
 SCHEMA = 'rheon-aligned-strain-education-packet-v1'
 RECEIPT_SCHEMA = 'rheon-aligned-strain-education-qualification-v1'
 FILES = {'native.tsv', 'data.json', 'qualification.json', 'primary-qualification.json'}
@@ -50,10 +57,23 @@ def source_core(repo):
                     or p in ('Cargo.toml','Cargo.lock','examples/aligned_strain.rs',
                              'tools/aligned_strain_oracle.py')]
     native_sources = {}
+    dense3d_extension = False
     for name in native_paths:
         blob = subprocess.check_output(['git','show',PRIMARY_SOURCE+':'+name],cwd=repo)
         native_sources[name] = hashlib.sha256(blob).hexdigest()
-        require(sha(Path(repo)/name) == native_sources[name], 'changed qualified native source '+name)
+        actual = sha(Path(repo)/name)
+        if name == 'src/lib.rs' and actual != native_sources[name]:
+            require(actual == hashlib.sha256(blob + DENSE3D_EXPORTS).hexdigest(),
+                    'changed qualified native source '+name)
+            native_sources[name] = actual
+            dense3d_extension = True
+        else:
+            require(actual == native_sources[name], 'changed qualified native source '+name)
+    if dense3d_extension:
+        name = 'src/dense3d_sequence.rs'
+        require(sha(Path(repo)/name) == DENSE3D_SHA256,
+                'changed qualified native source '+name)
+        native_sources[name] = DENSE3D_SHA256
     require(len(native_sources)>5, 'primary native source inventory')
     return native_sources
 
