@@ -144,5 +144,8 @@ application force/torque tolerances still prevent physical qualification.
 
 Exact diagnostic reports use lossless rational interning to fit four fixed
 64 KiB output slots, with 1 MiB inputs and 180 s arithmetic-worker deadlines.
-The earlier monolithic report hit its output quota before writing payload; that
-refusal is preserved, and output format rather than quotas was changed.
+The original single 64 KiB monolithic report refused before payload write;
+that refusal is preserved. The offline analytical report now uses four
+explicitly declared 64 KiB slots (256 KiB aggregate), with the per-slot limit
+preserved and lossless interning. This is a separate analytical artifact budget
+and does not change the physical campaign's 4 MiB output cap.
