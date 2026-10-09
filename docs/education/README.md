@@ -30,3 +30,38 @@ The illustrated Markdown download is `Rheon-expanded-markdown.zip`. Extract it w
 The original theorem statements are retained. Their broad `Mathlib` imports are replaced by specific imports, so the pinned project can be rebuilt from source when the official cache is unavailable. This is a source change with new inventory and qualification; historical receipts are preserved. Thirteen exact-real theorems live in `proofs/Rheon/Physics.lean`, and nine bounded planar/finite-strain theorems plus six definitions live in `proofs/Rheon/BoundedPhysics.lean`. Together the five modules have 42 public theorems; the integrated audit covers 60 declarations. The current proof receipt is `expansion/bounded-proof-qualification.json`, while the earlier receipts remain source-bound historical evidence. The source/data-bound qualification and explicit remaining gaps are in Appendix F and `expansion/`.
 
 The production Rust, comparison harness, dependency files, historical measurements, PR2 retarget and review-only PRs are outside this lane. Rebase/merge decisions remain with the coordinator; the branch preserves the published comparison integration ancestry.
+
+## Focused motion workspace candidate
+
+The separate [browser viewer](../../browser/viewer/README.md) plays existing
+recordings and embeds pinned Kenoma human authoring. Build its package from a
+clean candidate checkout, then compose it with the **unchanged reviewed Pages
+edition**:
+
+```sh
+python3 docs/education/compose_viewer.py \
+  --book-dir /external/pr36-reviewed-edition \
+  --viewer-dir /external/rheon-viewer \
+  --output-dir /external/rheon-gui-edition
+python3 -m http.server 8000 --directory /external/rheon-gui-edition
+# Open http://localhost:8000/workspace.html
+```
+
+The composer admits exactly the historical 345-file content digest already
+pinned in `research-book-reviewed-pages.yml`. It preserves every original path
+and byte, including the root book page, proof inventory, PDF, recordings and
+qualification receipts. It adds `workspace.html`, `viewer/`, and separate GUI
+composition receipts. The workspace links back to the research book and embeds
+the viewer using relative URLs. The existing book renderer and workflows are
+unchanged. No proof, physics, PDF rendering or deployment runs during composition.
+
+The new viewer package must bind the candidate's clean source head; each
+recording retains its **original producer source and receipts**. These distinct
+identities are not interchangeable. The metadata correction on the larger
+research branch is not needed or imported into this main-based candidate.
+
+This is a reviewable integration artifact, not a deployed site. The current
+manual publisher intentionally accepts only its historical exact file set, so
+it rejects the composed GUI edition. A future publication needs separate
+approval for the reviewed new artifact identity and publisher contract; no
+research merge is needed to prepare or run this GUI.
