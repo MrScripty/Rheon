@@ -14,7 +14,9 @@ motion is rejected. Friction beta is finite and nonnegative in Pa s/m. Zero beta
 is free slip. Positive beta requires positive dynamic viscosity mu in Pa s;
 positive density rho in kg/m³ weights inertia. For mu,beta > 0 the continuum
 slip length is mu/beta. Exact no-slip is not represented by a large artificial
-coefficient; it remains unsupported by this operation. Wetting and adhesion
+coefficient; it remains unsupported by this finite-coefficient operation. The
+separate [compatible endpoint no-slip operation](column-no-slip.md) supplies
+an explicit constraint with reaction impulse/work accounting. Wetting and adhesion
 are separate, unimplemented mechanisms, not synonyms for this wall friction.
 
 The supplied column geometry stays fixed. Its cap becomes a confining wall for
