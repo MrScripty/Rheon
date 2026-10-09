@@ -234,9 +234,17 @@ def controls():
         else:raise ValueError('unsupported support accepted')
     assert hat(0,Q(1))==(Q(1,2),Q(1,3));assert hat(Q(1),0)==(Q(1,2),Q(-1,3))
     assert Q(1,2)*Q(2,3)==Q(1,3)
-    return {'ray_controls':records,'rigid_cross_component_controls':rigid_pairs,'invalid_support_rejected':True,'consistent_hat_affine_moment':'1/3',
-        'lumped_endpoint_affine_moment':'1/2','other_tangent_midpoint_affine_moment':'1/4',
-        'other_tangent_exact_affine_moment':'1/3'}
+    vector_moments=[]
+    for i in range(3):
+        point=[Q(2,7),Q(-3,11),Q(5,13)]
+        centroid=point.copy();centroid[i]+=hat(Q(2,7),Q(4,9))[1]
+        force=[Q(0)]*3;force[i]=Q(7,3)
+        assert cross(point,force)==cross(centroid,force)
+        assert cross(omega,point)[i]==cross(omega,centroid)[i]
+        vector_moments.append({'traction_axis':i,'centroid_lumped_wrench_and_work_equal':True})
+    return {'ray_controls':records,'rigid_cross_component_controls':rigid_pairs,'vector_hat_moment_controls':vector_moments,'invalid_support_rejected':True,'abstract_scalar_hat_first_moment':'1/3',
+        'abstract_scalar_lumped_first_moment':'1/2','actual_other_tangent_midpoint_torque_z':'-1/4',
+        'actual_other_tangent_exact_torque_z':'-1/3'}
 
 def run(executable,output):
     if output.exists():raise ValueError('previously absent external output required')
