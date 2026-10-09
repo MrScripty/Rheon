@@ -338,4 +338,163 @@ class ResearchHarnessGuards(unittest.TestCase):
                 (root/'src/sphere_contact.rs').write_text(expected+'changed formula')
                 with self.assertRaisesRegex(ValueError,'unexpected contact change'):module.validate_baseline(sources)
 
+class OptimizedResearchValidation(unittest.TestCase):
+    """Small synthetic records and refusal paths only; no native lab or solve."""
+    load=staticmethod(ResearchHarnessGuards.load)
+
+    @staticmethod
+    def fixture():
+        counts=[3]*3
+        cells=[[i%3,(i//3)%3,i//9] for i in range(27)]
+        solid=[cell==[1]*3 for cell in cells]
+        areas=[]
+        for axis in range(3):
+            face_counts=counts.copy();face_counts[axis]+=1
+            values=[]
+            for index in range(36):
+                p=[index%face_counts[0],(index//face_counts[0])%face_counts[1],index//(face_counts[0]*face_counts[1])]
+                blocked=1<=p[axis]<=2 and all(p[d]==1 for d in range(3) if d!=axis)
+                values.append(0. if blocked else 1.)
+            areas.append(values)
+        g=dict(counts=counts,origin=[0.]*3,spacing=[1.]*3,lower=[1.]*3,upper=[2.]*3,
+               stamp=[73,1],tolerance=1e-9,components=1,
+               vertices=[[2. if corner&(1<<d) else 1. for d in range(3)] for corner in range(8)],
+               triangles=[[0,2,3],[0,3,1],[4,5,7],[4,7,6],[0,1,5],[0,5,4],[2,6,7],[2,7,3],[0,4,6],[0,6,2],[1,3,7],[1,7,5]],
+               volumes=[0. if s else 1. for s in solid],areas=areas,
+               labels=[2**64-1 if s else 0 for s in solid])
+        return g,[[0.]*36 for _ in range(3)]
+
+    def test_small_valid_records_and_forged_observations(self):
+        g,v=self.fixture();sites=[('N',0,0,0,0)]
+        for name in ('check_obstacle_gradient.py','check_obstacle_viscous.py'):
+            m=self.load('tools/'+name)
+            row=m.expected_row(g,sites[0]);row['active_term_count']=1
+            native=dict(qualification='Unqualified',pressure_available=False,physical_load_qualified=False,
+                        cap_bytes=m.CAP,retained_action_payload_bytes=1,parse_phase_payload_bytes=1,
+                        constructor_peak_payload_bytes=1,combined_payload_bytes=1,
+                        velocity=v,rows=[row],gradient=[0.],work=dict(unenclosed_defect=0.))
+            if name=='check_obstacle_gradient.py':
+                native.update(row_test=[0.],transpose=copy.deepcopy(v))
+                native['work'].update(row_pairing=0.,face_pairing=0.)
+                validate=lambda record:m.validate_record(g,sites,v,[0.],record)
+                action='transpose';work='row_pairing'
+            else:
+                native.update(dynamic_viscosity=1.,stress=[0.],force=copy.deepcopy(v))
+                native['work'].update(dissipation=0.,rayleigh_potential=0.,force_work=0.)
+                validate=lambda record:m.validate(g,sites,v,1.,record)
+                action='force';work='dissipation'
+            with self.subTest(script=name):
+                validate(native)
+                mutations=[]
+                for key,value in [('qualification','Certified'),('pressure_available',True),('physical_load_qualified',True),('cap_bytes',m.CAP+1),('retained_action_payload_bytes',m.CAP+1),('rows',[])]:
+                    bad=copy.deepcopy(native);bad[key]=value;mutations.append((key,bad))
+                for key in ('weight','active_term_count'):
+                    bad=copy.deepcopy(native);bad['rows'][0][key]+=1;mutations.append((key,bad))
+                bad=copy.deepcopy(native);bad['rows'][0]['endpoints'][1]['coefficient']+=1;mutations.append(('coefficient',bad))
+                bad=copy.deepcopy(native);bad['gradient'][0]=1.;mutations.append(('gather',bad))
+                bad=copy.deepcopy(native);bad[action][0][0]=1.;mutations.append((action,bad))
+                bad=copy.deepcopy(native);bad['work'][work]=1.;mutations.append((work,bad))
+                bad=copy.deepcopy(native);bad['velocity'][0][0]=1.;mutations.append(('velocity',bad))
+                if name=='check_obstacle_viscous.py':
+                    bad=copy.deepcopy(native);bad['stress'][0]=1.;mutations.append(('stress',bad))
+                    with self.assertRaises(ValueError):m.pair_blocks(sites+sites)
+                for label,bad in mutations:
+                    with self.subTest(mutation=label),self.assertRaises(ValueError):validate(bad)
+                invalid=copy.deepcopy(g);invalid['volumes']=[0.]*27
+                with self.assertRaises(ValueError):m.expected_row(invalid,('C',0,1,1,1,1,0))
+                invalid=copy.deepcopy(g);invalid['spacing']=[0.]*3
+                with self.assertRaises(ValueError):m.expected_row(invalid,sites[0])
+
+    def test_wire_decode_keeps_represented_data_checks(self):
+        import struct
+        m=self.load('tools/check_owned_obstacle_state_checkpoint.py')
+        g,v=self.fixture();refs=[str(i)*64 for i in range(1,5)]
+        # Independently encode the published rest-wire contract, including all
+        # represented geometry arrays and stationary field bytes.
+        raw=bytearray(b'RHEONOS1'+struct.pack('<I',1))
+        def integer(x):raw.extend(struct.pack('<Q',x))
+        def scalar(x):raw.extend(struct.pack('<d',x))
+        for x in g['counts']:integer(x)
+        for key in ('origin','spacing','lower','upper'):
+            for x in g[key]:scalar(x)
+        for x in g['stamp']:integer(x)
+        scalar(g['tolerance'])
+        for rows,write in ((g['vertices'],scalar),(g['triangles'],integer)):
+            integer(len(rows))
+            for row in rows:
+                for x in row:write(x)
+        integer(1)
+        for values,write in [(g['volumes'],scalar),*[(a,scalar) for a in g['areas']],(g['labels'],integer)]:
+            integer(len(values))
+            for x in values:write(x)
+        metadata=len(raw);raw.extend(bytes([1,2,1,0,0]))
+        for x in (1000.,.001,0.,0.):scalar(x)
+        integer(0)
+        for i,ref in enumerate(refs):
+            if i==2:raw.append(1)
+            if i==3:raw.append(1)
+            integer(i+1);integer(0);raw.extend(bytes.fromhex(ref))
+        scalar(0.);scalar(0.);raw.extend(bytes([1,9]+[0]*9))
+        for values in v:integer(len(values))
+        for values in v:
+            for x in values:scalar(x)
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td)/'state.rheon-os1';path.write_bytes(raw)
+            result=m.decode(path,3,refs)
+            self.assertEqual(result['bytes'],len(raw))
+            variants={'magic':b'BADMAGIC'+raw[8:],'truncated':raw[:-1],'trailing':raw+b'\0'}
+            for label,offset in [('metadata',metadata+3),('field',result['values_start'])]:
+                bad=bytearray(raw);bad[offset]=1;variants[label]=bad
+            for label,bad in variants.items():
+                with self.subTest(mutation=label):
+                    path.write_bytes(bad)
+                    with self.assertRaises(ValueError):m.decode(path,3,refs)
+        with self.assertRaises(ValueError):m.Wire(b'').take(1)
+        with self.assertRaises(ValueError):m.Wire(struct.pack('<Q',2)).array(1,lambda:0)
+
+    def test_git_timeouts_refuse_before_audit_output(self):
+        from unittest.mock import patch
+        m=self.load('research/check_proof_audit.py')
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);out=root/'new/output'
+            def stalled_probe(*args,**kwargs):
+                self.assertEqual(kwargs['timeout'],30)
+                raise subprocess.TimeoutExpired(args[0],kwargs['timeout'])
+            with patch.object(m.subprocess,'run',side_effect=stalled_probe):
+                with self.assertRaises(subprocess.TimeoutExpired):m.require_external_output(out)
+            (root/'proofs').mkdir();(root/'proofs/lake-manifest.json').write_text(json.dumps({'packages':[{'name':'fixture','rev':'never-read'}]}))
+            with patch.object(m,'require_external_output',return_value=out),patch.object(m.subprocess,'check_output',side_effect=stalled_probe):
+                with self.assertRaises(subprocess.TimeoutExpired):m.audit(root,root/'never-read-source','Fixture.','scope',Path(__file__),root/'never-execute-lean',root/'deps',out)
+            self.assertFalse(out.parent.exists())
+
+    def test_checker_native_exit_checks_survive_optimization(self):
+        from unittest.mock import patch
+        for script in ('check_obstacle_gradient.py','check_obstacle_viscous.py','check_owned_obstacle_state_checkpoint.py'):
+            m=self.load('tools/'+script)
+            for returncode,expected_success in ((1,True),(0,False)):
+                with self.subTest(script=script,returncode=returncode),patch.object(m.subprocess,'run',return_value=subprocess.CompletedProcess([],returncode,'','fixture')):
+                    with self.assertRaises(ValueError):m.run(['/never-execute-native'],expected_success)
+
+    def test_optimized_cli_guards_reject_other_git_trees_before_inputs(self):
+        import sys
+        root=Path(__file__).resolve().parents[1]
+        scripts=['check_obstacle_gradient.py','check_obstacle_viscous.py','check_owned_obstacle_state_checkpoint.py','research_independent_wall_observations.py','research_solver_wall_state_plan.py']
+        with tempfile.TemporaryDirectory(prefix='rheon-optimized-guard-') as td:
+            fixture=Path(td)/'other-repository';fixture.mkdir()
+            subprocess.run(['git','init','-q',str(fixture)],check=True,timeout=10)
+            subdir=fixture/'existing';subdir.mkdir();alias=Path(td)/'alias';alias.symlink_to(fixture,target_is_directory=True)
+            for script in scripts:
+                for optimized in (False,True):
+                    for base in (subdir,alias/'existing'):
+                        output=base/'absent/deep/output'
+                        argv=[sys.executable,*(['-O'] if optimized else []),str(root/'tools'/script),'--binary','/never-execute-native']
+                        argv+=['--repo',str(root),'--out',str(output)] if script.startswith('check_') else ['--output',str(output)]
+                        env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',GIT_CEILING_DIRECTORIES=str(fixture))
+                        result=subprocess.run(argv,capture_output=True,text=True,timeout=30,env=env)
+                        with self.subTest(script=script,optimized=optimized,alias=base):
+                            self.assertNotEqual(result.returncode,0)
+                            self.assertIn('outside Git',result.stderr)
+                            self.assertNotIn('all_checks_passed',result.stdout)
+                            self.assertFalse((subdir/'absent').exists())
+
 if __name__=='__main__':unittest.main()

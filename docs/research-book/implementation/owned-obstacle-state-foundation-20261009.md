@@ -1,6 +1,6 @@
 # Owned obstacle-state foundation: contract before implementation
 
-Parent3d749a873efae8aaa88ad1e5c59f671ebe40c69c and all existing simulator/research behavior and failures remain preserved. Authorized slice: opt-in owned f64 state and explicit physical-input/error metadata, bounded construction/validation/checkpoint codec. No physical solve, refinement, pressure/step/coupling activation, oracle input or public push.
+Parent 3d749a873efae8aaa88ad1e5c59f671ebe40c69c and all existing simulator/research behavior and failures remain preserved. Authorized slice: opt-in owned f64 state and explicit physical-input/error metadata, bounded construction/validation/checkpoint codec. No physical solve, refinement, pressure/step/coupling activation, oracle input or public push.
 
 ## Frozen contract
 
@@ -14,7 +14,7 @@ Snapshot origin is either specified initial data or an imported external snapsho
 
 Error metadata explicitly contains three componentwise face-velocity L-infinity uncertainties plus spatial, temporal, input, boundary/transfer, algebraic and roundoff contributions (all velocity-error units m/s). Each is `Unknown` or `CallerDeclaredUpperBound{nonnegative finite normal-or-zero value,evidence}`. A caller-declared 0 is not a certified 0. Unknown errors are admissible uncertainty; missing physical input evidence is not. The owner neither aggregates these into a physical certificate nor certifies divergence, pressure, C3 regularity, force accuracy or operator work. Pressure is explicitly unavailable.
 
-Public construction copies caller supplied arrays into new owned storage. There is no rest/oracle fallback. Existing objects/caller arrays are unchanged on failure. The budget is 1..16,000,000 bytes and cannot be raised by this API. It conservatively charges geometry retained Vec payload once, fixed owner/metadata size and actual owned velocity capacities. It excludes caller input arrays, allocator overhead, fixed codec scratch and process RSS; tests separately bound all simultaneously live fixtures. Planned sizes are checked before any allocation, actual Vec capacities before publication; allocator rounding can occur before the latter check, so no hard RSS or allocator peak guarantee is claimed.
+Public construction copies caller-supplied arrays into new owned storage. There is no rest/oracle fallback. Existing objects/caller arrays are unchanged on failure. The budget is 1..16,000,000 bytes and cannot be raised by this API. It conservatively charges geometry retained Vec payload once, fixed owner/metadata size and actual owned velocity capacities. It excludes caller input arrays, allocator overhead, fixed codec scratch and process RSS; tests separately bound all simultaneously live fixtures. Planned sizes are checked before any allocation, actual Vec capacities before publication; allocator rounding can occur before the latter check, so no hard RSS or allocator peak guarantee is claimed.
 
 ## Checkpoint contract
 

@@ -10,6 +10,10 @@ from pathlib import Path
 import argparse, hashlib, json, math, struct, subprocess
 import sympy as S
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'research'))
+from check_proof_audit import require_external_output
+
 ROOT=Path(__file__).resolve().parents[1]
 PARENT='10fcda307ca42fad9b93b83679cd97b52c64ee03'
 NATIVE=(1,2,4); WALL=(1,2,4,8,16,32)
@@ -204,7 +208,7 @@ def verify(raw,target):
     return out
 
 def main():
-    a=argparse.ArgumentParser();a.add_argument('--binary',type=Path,required=True);a.add_argument('--output',type=Path,required=True);args=a.parse_args();output=args.output.resolve();assert not output.is_relative_to(ROOT);output.mkdir(parents=True,exist_ok=False)
+    a=argparse.ArgumentParser();a.add_argument('--binary',type=Path,required=True);a.add_argument('--output',type=Path,required=True);args=a.parse_args();output=args.output.resolve();output=require_external_output(output,ROOT);output.mkdir(parents=True,exist_ok=False)
     binary=args.binary.resolve();target=continuum();assert target==[0,Q(-1,2),0,0,0,-1]
     records=[]
     for mode,scales in (('native',NATIVE),('wall',WALL)):

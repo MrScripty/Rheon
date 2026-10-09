@@ -8,6 +8,10 @@ from fractions import Fraction as Q
 from itertools import product
 from pathlib import Path
 import argparse, hashlib, json, subprocess
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'research'))
+from check_proof_audit import require_external_output
+
 ROOT=Path(__file__).resolve().parents[1]
 CAP=16_000_000
 BASE='4a268efd32d6429000ef73d1dd9ccd606ecebe1c'
@@ -71,7 +75,7 @@ def affine_obstruction():
     return {'normal_distance':str(distance),'tangential_offset':str(offset),'face_area':str(area),'declared_mass':str(mass),'naive_affine_normal_gradient_magnitude':str(false),'reconstructed_gradient_remote_coefficient_magnitude':str(remote),'mass_adjoint_remote_work_coefficient_magnitude':str(gap),'corrected_transpose_is_geometric_incidence':False,'diagnostic_only_no_pressure_solve':True}
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--binary',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();out=a.output.resolve();assert not out.is_relative_to(ROOT);out.mkdir(parents=True,exist_ok=False)
+    p=argparse.ArgumentParser();p.add_argument('--binary',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();out=a.output.resolve();out=require_external_output(out,ROOT);out.mkdir(parents=True,exist_ok=False)
     binary=a.binary.resolve();record=out/'state-audit.json';subprocess.run([str(binary),str(record)],check=True);raw=json.loads(record.read_text());assert raw['cap']==CAP
     assert raw['proposed_layout']==dict(cell=24,face=64,ghost_transfer=96,quadratic_transfer=328,tile_row=1040)
     for s in raw['states']:
