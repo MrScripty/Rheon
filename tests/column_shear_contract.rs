@@ -1040,3 +1040,362 @@ fn signed_wall_motion_and_unsupported_wall_laws_are_explicit() {
     ));
     assert_eq!(out, before);
 }
+
+fn stationary_no_slip() -> [ColumnShearBoundary; 2] {
+    [ColumnShearBoundary::NoSlip { velocity: [0.0; 3] }; 2]
+}
+fn uniform_force(value: [f64; 3], units: ForceUnits) -> UniformColumnForce {
+    UniformColumnForce { value, units }
+}
+#[test]
+fn uniform_forcing_uses_actual_dual_volume_mass_and_both_tangents_all_axes() {
+    for (normal, axis) in [Axis::X, Axis::Y, Axis::Z].into_iter().enumerate() {
+        let (g, s) = fixture(axis, 3, 0.25);
+        let u = profiles(&g, axis, &[1.0, 1.0, 1.0]);
+        let mut out = fields(&g);
+        let mut w = ColumnShearWorkspace::new(g.clone(), axis, 1 << 20).unwrap();
+        let value = std::array::from_fn(|d| if d == normal { 0.0 } else { 2.0 });
+        let free = [ColumnShearBoundary::Navier(ColumnShearWall {
+            velocity: [0.0; 3],
+            friction: 0.0,
+        }); 2];
+        let r = w
+            .update_with_forcing(
+                ColumnShearInputs {
+                    density: 4.0,
+                    ..input(s.state(), &u)
+                },
+                free,
+                uniform_force(value, ForceUnits::Acceleration),
+                muts(&mut out),
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(out, profiles(&g, axis, &[1.25, 1.25, 1.25]));
+        let volume = r.boundary.shear.geometry.liquid_volume;
+        assert_eq!(
+            w.mass_scratch()[..3],
+            [
+                4.0 * r.boundary.shear.geometry.area,
+                4.0 * r.boundary.shear.geometry.area,
+                5.0 * r.boundary.shear.geometry.area
+            ]
+        );
+        for (d, &v) in value.iter().enumerate() {
+            assert_eq!(r.external_force[d], 4.0 * volume * v);
+            assert_eq!(r.external_impulse[d], 0.5 * volume * v);
+            assert!(
+                r.boundary.shear.momentum_error[d].abs() <= r.boundary.shear.momentum_budget[d]
+            );
+        }
+        assert_eq!(r.external_work_before, 2.0 * volume);
+        assert_eq!(r.boundary.shear.update_energy, 0.25 * volume);
+        let acceleration_out = out.clone();
+        let q = value.map(|v| 4.0 * v);
+        let density_report = w
+            .update_with_forcing(
+                ColumnShearInputs {
+                    density: 4.0,
+                    ..input(s.state(), &u)
+                },
+                free,
+                uniform_force(q, ForceUnits::ForceDensity),
+                muts(&mut out),
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(out, acceleration_out);
+        assert_eq!(r.boundary, density_report.boundary);
+        assert_eq!(r.external_force, density_report.external_force);
+        // Negative old-speed work is retained and can decelerate a uniform field.
+        let negative = w
+            .update_with_forcing(
+                ColumnShearInputs {
+                    density: 4.0,
+                    ..input(s.state(), &u)
+                },
+                free,
+                uniform_force(value.map(|v| -v), ForceUnits::Acceleration),
+                muts(&mut out),
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(negative.external_work_before, -2.0 * volume);
+        assert_eq!(out, profiles(&g, axis, &[0.75, 0.75, 0.75]));
+        assert_eq!(negative.boundary.shear.identity_error, 0.0);
+    }
+}
+#[test]
+fn poiseuille_discrete_equilibrium_and_stationary_wall_reactions_are_exact() {
+    let (g, s) = fixture(Axis::Y, 5, 0.0);
+    let mut u = profiles(&g, Axis::Y, &[0.0, 3.0, 4.0, 3.0, 0.0]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    for rho in [1.0, 4.0] {
+        let r = w
+            .update_with_forcing(
+                ColumnShearInputs {
+                    density: rho,
+                    ..input(s.state(), &u)
+                },
+                stationary_no_slip(),
+                uniform_force([2.0, 0.0, 0.0], ForceUnits::ForceDensity),
+                muts(&mut out),
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(out, u);
+        let a = r.boundary.shear.geometry.area;
+        assert_eq!(r.external_force, [10.0 * a, 0.0, 0.0]);
+        assert_eq!(r.boundary.wall_force, [[-5.0 * a, 0.0, 0.0]; 2]);
+        assert_eq!(r.boundary.shear.force_sum, [0.0; 3]);
+        assert_eq!(r.external_work_before, 2.5 * a);
+        assert_eq!(r.boundary.bulk_dissipation_before, 20.0 * a);
+        assert_eq!(r.boundary.actuator_work, 0.0);
+        assert_eq!(r.boundary.shear.update_energy, 0.0);
+        assert_eq!(r.boundary.shear.identity_error, 0.0);
+    }
+}
+#[test]
+fn forcing_from_rest_has_explicit_increment_energy_and_density_dependent_transient() {
+    let (g, s) = fixture(Axis::Y, 5, 0.0);
+    let u = fields(&g);
+    let mut out = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g.clone(), Axis::Y, 1 << 20).unwrap();
+    for (rho, units, magnitude, expected) in [
+        (1.0, ForceUnits::ForceDensity, 2.0, 0.25),
+        (4.0, ForceUnits::ForceDensity, 2.0, 0.0625),
+        (4.0, ForceUnits::Acceleration, 2.0, 0.25),
+    ] {
+        let r = w
+            .update_with_forcing(
+                ColumnShearInputs {
+                    density: rho,
+                    ..input(s.state(), &u)
+                },
+                stationary_no_slip(),
+                uniform_force([magnitude, 0.0, 0.0], units),
+                muts(&mut out),
+                |_| false,
+            )
+            .unwrap();
+        let mut expected_fields = profiles(&g, Axis::Y, &[0.0, expected, expected, expected, 0.0]);
+        expected_fields[2].fill(0.0);
+        assert_eq!(out, expected_fields);
+        assert_eq!(r.external_work_before, 0.0);
+        assert!(r.boundary.shear.kinetic_after > 0.0);
+        assert_eq!(
+            r.boundary.shear.kinetic_after,
+            r.boundary.shear.update_energy
+        );
+        assert_eq!(r.boundary.shear.identity_error, 0.0);
+    }
+}
+#[test]
+fn fully_constrained_body_force_is_reported_and_exactly_reacted() {
+    let (g, s) = fixture(Axis::Y, 2, 0.0);
+    let u = fields(&g);
+    let mut out = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    let r = w
+        .update_with_forcing(
+            ColumnShearInputs {
+                dt: 8.0,
+                ..input(s.state(), &u)
+            },
+            stationary_no_slip(),
+            uniform_force([2.0, 0.0, 0.0], ForceUnits::ForceDensity),
+            muts(&mut out),
+            |_| false,
+        )
+        .unwrap();
+    let area = r.boundary.shear.geometry.area;
+    assert_eq!(out, u);
+    assert_eq!(r.external_force, [4.0 * area, 0.0, 0.0]);
+    assert_eq!(r.external_impulse, [32.0 * area, 0.0, 0.0]);
+    assert_eq!(r.boundary.reaction_impulse, [[-16.0 * area, 0.0, 0.0]; 2]);
+    assert_eq!(r.boundary.shear.force_sum, [0.0; 3]);
+    assert_eq!(r.boundary.shear.stability_number, 0.0);
+    assert_eq!(r.boundary.shear.identity_error, 0.0);
+    assert_eq!(r.boundary.shear.momentum_error, [0.0; 3]);
+}
+#[test]
+fn body_force_reaction_includes_shared_navier_and_moving_wall_work() {
+    let (g, s) = fixture(Axis::Y, 1, 0.25);
+    let mut u = profiles(&g, Axis::Y, &[1.0]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    let b = [
+        ColumnShearBoundary::NoSlip {
+            velocity: [1.0, 0.0, 0.0],
+        },
+        ColumnShearBoundary::Navier(ColumnShearWall {
+            velocity: [0.0; 3],
+            friction: 2.0,
+        }),
+    ];
+    let r = w
+        .update_with_forcing(
+            input(s.state(), &u),
+            b,
+            uniform_force([4.0, 0.0, 0.0], ForceUnits::ForceDensity),
+            muts(&mut out),
+            |_| false,
+        )
+        .unwrap();
+    assert_eq!(out, u);
+    let a = r.boundary.shear.geometry.area;
+    assert_eq!(r.external_force[0], 5.0 * a);
+    assert_eq!(r.boundary.wall_force[0][0], -3.0 * a);
+    assert_eq!(r.boundary.wall_force[1][0], -2.0 * a);
+    assert_eq!(r.boundary.actuator_work, -0.375 * a);
+    assert_eq!(r.external_work_before, 0.625 * a);
+    assert_eq!(r.boundary.shear.identity_error, 0.0);
+}
+#[test]
+fn zero_forcing_retains_original_navier_and_no_slip_reports_and_fields() {
+    let (g, s) = fixture(Axis::Y, 3, 0.25);
+    let mut u = profiles(&g, Axis::Y, &[0.0, 0.5, 1.0]);
+    u[2].fill(0.0);
+    let mut out = fields(&g);
+    let mut w = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    let b = [
+        ColumnShearBoundary::Navier(ColumnShearWall {
+            velocity: [0.0; 3],
+            friction: 0.5,
+        }),
+        ColumnShearBoundary::NoSlip {
+            velocity: [1.0, 0.0, 0.0],
+        },
+    ];
+    let old = w
+        .update_with_boundaries(input(s.state(), &u), b, muts(&mut out), |_| false)
+        .unwrap();
+    let old_out = out.clone();
+    for units in [ForceUnits::Acceleration, ForceUnits::ForceDensity] {
+        let new = w
+            .update_with_forcing(
+                input(s.state(), &u),
+                b,
+                uniform_force([0.0; 3], units),
+                muts(&mut out),
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(new.boundary, old);
+        assert_eq!(out, old_out);
+        assert_eq!(new.external_impulse, [0.0; 3]);
+        assert_eq!(new.external_work_before, 0.0);
+    }
+}
+#[test]
+fn forcing_rejection_stability_and_every_force_callback_preserve_output() {
+    let (g, s) = fixture(Axis::Y, 3, 0.0);
+    let u = fields(&g);
+    let mut out = fields(&g);
+    out[0].fill(7.0);
+    let before = out.clone();
+    let mut w = ColumnShearWorkspace::new(g, Axis::Y, 1 << 20).unwrap();
+    for value in [
+        [f64::NAN, 0.0, 0.0],
+        [f64::INFINITY, 0.0, 0.0],
+        [f64::from_bits(1), 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+    ] {
+        assert_eq!(
+            w.update_with_forcing(
+                input(s.state(), &u),
+                stationary_no_slip(),
+                uniform_force(value, ForceUnits::Acceleration),
+                muts(&mut out),
+                |_| false
+            ),
+            Err(ColumnShearError::UnsupportedForce)
+        );
+        assert_eq!(out, before);
+    }
+    let force = uniform_force([1.0, 0.0, 0.0], ForceUnits::Acceleration);
+    for occurrence in 1..=6 {
+        let mut count = 0;
+        assert!(matches!(
+            w.update_with_forcing(
+                input(s.state(), &u),
+                stationary_no_slip(),
+                force,
+                muts(&mut out),
+                |stage| {
+                    if stage == ColumnShearStage::BodyForceNode {
+                        count += 1;
+                    }
+                    stage == ColumnShearStage::BodyForceNode && count == occurrence
+                }
+            ),
+            Err(ColumnShearError::Cancelled {
+                stage: ColumnShearStage::BodyForceNode
+            })
+        ));
+        assert_eq!(out, before);
+    }
+    for stage in [
+        ColumnShearStage::WallConstraint,
+        ColumnShearStage::BeforeAcceptance,
+    ] {
+        assert!(matches!(
+            w.update_with_forcing(
+                input(s.state(), &u),
+                stationary_no_slip(),
+                force,
+                muts(&mut out),
+                |s| s == stage
+            ),
+            Err(ColumnShearError::Cancelled { .. })
+        ));
+        assert_eq!(out, before);
+    }
+    assert!(matches!(
+        w.update_with_forcing(
+            ColumnShearInputs {
+                dt: 0.5_f64.next_up(),
+                ..input(s.state(), &u)
+            },
+            stationary_no_slip(),
+            force,
+            muts(&mut out),
+            |_| false
+        ),
+        Err(ColumnShearError::StabilityLimit { .. })
+    ));
+    assert_eq!(out, before);
+    // Stable explicit first step would store a subnormal; do not flush/publish.
+    assert_eq!(
+        w.update_with_forcing(
+            input(s.state(), &u),
+            stationary_no_slip(),
+            uniform_force(
+                [f64::from(f32::MIN_POSITIVE), 0.0, 0.0],
+                ForceUnits::Acceleration
+            ),
+            muts(&mut out),
+            |_| false
+        ),
+        Err(ColumnShearError::ArithmeticFailure)
+    );
+    assert_eq!(out, before);
+    // Normal input whose node force product overflows, not a silently ignored cost.
+    assert_eq!(
+        w.update_with_forcing(
+            ColumnShearInputs {
+                density: 4.0,
+                ..input(s.state(), &u)
+            },
+            stationary_no_slip(),
+            uniform_force([f64::MAX, 0.0, 0.0], ForceUnits::Acceleration),
+            muts(&mut out),
+            |_| false
+        ),
+        Err(ColumnShearError::ArithmeticFailure)
+    );
+    assert_eq!(out, before);
+}

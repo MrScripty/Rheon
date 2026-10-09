@@ -1,6 +1,6 @@
 # 19 Forces and moving-boundary work
 
-The accepted smoke demonstration supplies one localized acceleration in a fixed box. The expansion studies externally forced liquids and prescribed moving solids; it does not add those capabilities to the Rust core. The first decision is whether motion is prescribed or dynamically coupled. A scripted paddle can supply arbitrarily large work without losing momentum. A dynamic paddle requires a body mass, inertia, reaction force and compatible time integration.
+The accepted smoke demonstration supplies one localized acceleration in a fixed box. The separate [explicit body-force API](../implementation/explicit-forces.md) now distinguishes acceleration and force density in the fixed-box carrier. The [native wall/force progression](../implementation/native-wall-force-sequence.md) adds finite wall traction, compatible no-slip and uniform forcing in a separate fixed slab. This chapter's prescribed moving-solid and two-way coupling requirements remain research specifications. The first decision is whether motion is prescribed or dynamically coupled. A scripted paddle can supply arbitrarily large work without losing momentum. A dynamic paddle requires a body mass, inertia, reaction force and compatible time integration.
 
 ## Units before parameters
 

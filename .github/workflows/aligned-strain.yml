@@ -1,0 +1,46 @@
+name: Reconstructed isolated aligned strain
+on:
+  pull_request:
+    paths:
+      - 'src/aligned_strain.rs'
+      - 'src/lib.rs'
+      - 'src/geometry.rs'
+      - 'src/collision.rs'
+      - 'src/static_obstacle.rs'
+      - 'src/obstacle_pressure.rs'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - 'tests/aligned_strain_contract.rs'
+      - 'examples/aligned_strain.rs'
+      - 'tools/*aligned_strain*.py'
+      - 'docs/research-book/implementation/reconstructed-aligned-strain.md'
+      - 'proofs/Rheon/AlignedStrain.lean'
+      - '.github/workflows/aligned-strain.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-native-rational:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Install pinned Rust
+        run: rustup toolchain install 1.92.0 --profile minimal --no-self-update
+      - name: Qualify fresh external records
+        env:
+          CARGO_TARGET_DIR: ${{ runner.temp }}/aligned-strain-target
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python3 tools/qualify_aligned_strain.py "$RUNNER_TEMP/aligned-strain-evidence"
+      - name: Retain fresh source-bound evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: reconstructed-aligned-strain-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/aligned-strain-evidence
+          if-no-files-found: error

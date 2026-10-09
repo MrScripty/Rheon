@@ -57,6 +57,14 @@ An independently assembled dense solve verifies the modal formula at each step. 
 
 ## Boundary and material tests
 
+The [filled-box Newtonian implementation](../implementation/newtonian-box-viscosity.md)
+uses symmetric strain under stationary free-slip box boundaries. The separate
+[native wall/force progression](../implementation/native-wall-force-sequence.md)
+qualifies fixed layer-uniform Navier/no-slip walls and external force, with an
+explicit simultaneous step. Its explicit squared-increment work correction
+differs in sign and interpretation from the backward-Euler decay identity above.
+Neither implementation supplies arbitrary embedded/free-surface stress coupling.
+
 Use affine shear to check the stress law and rigid rotation to check the strain nullspace. Add periodic decay, no-slip channel flow, prescribed-wall Couette flow and free-surface traction. The first two are local operator tests; a complete free surface additionally needs pressure and stress coupling. Explicitly record whether a split assumes zero normal viscous stress.
 
 Generalized Newtonian and viscoelastic materials remain later research. A shear-dependent viscosity needs an admissible range and nonlinear residual; viscoelasticity needs history and its own stress evolution. The existing finite-budget nonlinear specification in Chapter 10 remains valid. This expansion does not quietly turn it into an implemented material law.
