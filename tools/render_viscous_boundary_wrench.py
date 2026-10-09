@@ -14,7 +14,7 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 def render(coarse,bounded,output):
-    output=require_external_output(output)
+    output=require_external_output(output,Path(__file__).resolve().parents[1])
     output.parent.mkdir(parents=True,exist_ok=True)
     controls=[]
     name='polynomial-tilted-curl'

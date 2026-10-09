@@ -22,8 +22,14 @@ def require_external_output(output, root=None, message='output must remain outsi
     ancestor = output.parent
     while not ancestor.exists():
         ancestor = ancestor.parent
+    # Discover from the canonical output ancestor, independently of an inherited
+    # Git invocation's repository, ceiling, or command/config overrides.
+    probe_env = {key: value for key, value in os.environ.items()
+                 if not key.startswith('GIT_')}
+    probe_env['LC_ALL'] = 'C'
+    probe_env['GIT_DISCOVERY_ACROSS_FILESYSTEM'] = '1'
     probe = subprocess.run(['git', '-C', str(ancestor), 'rev-parse', '--is-inside-work-tree'],
-                           capture_output=True, text=True, env=dict(os.environ, LC_ALL='C'))
+                           capture_output=True, text=True, env=probe_env)
     if probe.returncode == 0:
         raise ValueError(message)
     if probe.returncode != 128 or not probe.stderr.startswith('fatal: not a git repository'):

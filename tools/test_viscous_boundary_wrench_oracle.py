@@ -229,6 +229,36 @@ class ResearchHarnessGuards(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,'outside Git'):
                 driver.require_external_output(external,root)
 
+    def test_inherited_git_discovery_cannot_hide_repository(self):
+        import os
+        from unittest.mock import patch
+        driver=self.load('research/check_proof_audit.py')
+        renderer=self.load('tools/render_viscous_boundary_wrench.py')
+        with tempfile.TemporaryDirectory(prefix='rheon-guard-env-') as td:
+            root=Path(td);repo=root/'repository';repo.mkdir()
+            subprocess.run(['git','init','-q',str(repo)],check=True)
+            subdir=repo/'existing';subdir.mkdir()
+            target=subdir/'absent/output'
+            external=root/'external/absent/output'
+            overrides={'GIT_CEILING_DIRECTORIES':str(repo),'GIT_DISCOVERY_ACROSS_FILESYSTEM':'0',
+                       'GIT_DIR':str(root/'missing-git'),'GIT_WORK_TREE':str(root/'missing-work'),
+                       'GIT_COMMON_DIR':str(root/'missing-common'),'GIT_CONFIG_COUNT':'1',
+                       'GIT_CONFIG_KEY_0':'safe.directory','GIT_CONFIG_VALUE_0':'/never'}
+            # The ceiling alone reproduces ordinary "not a git repository";
+            # also exercise all overrides together without changing caller env.
+            for inherited in ({'GIT_CEILING_DIRECTORIES':str(repo)},overrides):
+                with self.subTest(inherited=inherited),patch.dict(os.environ,inherited):
+                    before=dict(os.environ)
+                    for source_root in (None,Path(__file__).resolve().parents[1]):
+                        with self.assertRaisesRegex(ValueError,'outside Git'):
+                            driver.require_external_output(target,source_root)
+                    with self.assertRaisesRegex(ValueError,'outside Git'):
+                        renderer.render(Path('/never-read-coarse'),Path('/never-read-bounded'),target)
+                    self.assertEqual(driver.require_external_output(external),external.resolve())
+                    self.assertEqual(dict(os.environ),before)
+                    self.assertFalse((subdir/'absent').exists())
+                    self.assertFalse((root/'external').exists())
+
     def test_unknown_git_failure_refuses(self):
         from unittest.mock import patch
         driver=self.load('research/check_proof_audit.py')
