@@ -38,6 +38,14 @@ pub use sphere_friction_interval::*;
 pub use sphere_interval::*;
 pub use sphere_support::*;
 mod static_obstacle;
+mod obstacle_state;
+pub use obstacle_state::{
+    MAX_OBSTACLE_STATE_BYTES, ObstacleFlowState, ObstacleStateError,
+    ObstacleEvidenceRef, ObstacleStateUnits, ObstacleStateModel, ObstacleStateBoundary,
+    ObstacleStateMaterial, ObstacleInitialData, ObstacleForcingKind, ObstacleForcingHistory,
+    ObstaclePhysicalInputs, ObstacleStateOrigin, ObstacleVelocityError,
+    ObstacleVelocityErrors, ObstacleStateFrame, ObstacleStateQualification,
+};
 mod viscous_boundary_wrench;
 pub use sphere_contact::{
     MAX_CONTACT_BODY_TRIANGLES, SphereContactError, SphereContactHit, SphereContactReport,
