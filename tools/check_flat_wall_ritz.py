@@ -26,10 +26,21 @@ def file_digest(path):
         while chunk:=stream.read(8192):digest.update(chunk)
     return digest.hexdigest()
 def managed(*objects):
-    seen=set()
+    seen=set();empty_set_bytes=sys.getsizeof(seen)
+    retained_id_bytes=0;tracker_peak=empty_set_bytes
     def size(o):
-        if id(o) in seen:return 0
-        seen.add(id(o));total=sys.getsizeof(o)
+        nonlocal retained_id_bytes,tracker_peak
+        identity=id(o)
+        if identity in seen:return 0
+        old_table=sys.getsizeof(seen)
+        seen.add(identity);retained_id_bytes+=sys.getsizeof(identity)
+        new_table=sys.getsizeof(seen)
+        # A resize temporarily owns old external storage and the new set table.
+        # Use the final object payload below with the largest tracker workspace:
+        # this conservatively includes objects visited after the resize too.
+        coexist=max(0,old_table-empty_set_bytes) if new_table!=old_table else 0
+        tracker_peak=max(tracker_peak,new_table+coexist+retained_id_bytes)
+        total=sys.getsizeof(o)
         if isinstance(o,F):return total+size(o.numerator)+size(o.denominator)
         if isinstance(o,dict):return total+sum(size(k)+size(v) for k,v in o.items())
         if isinstance(o,(tuple,list,set)):return total+sum(size(v) for v in o)
@@ -39,7 +50,7 @@ def managed(*objects):
     # The visitor's identity set is itself a live allocation. IDs are retained
     # Python integers; account their bodies plus the actual set table, along
     # with bounded parser/hash/formatting work. Stack/interpreter/RSS excluded.
-    value=data+sys.getsizeof(seen)+sum(sys.getsizeof(i) for i in seen)+WORKING_RESERVE
+    value=data+tracker_peak+WORKING_RESERVE
     require(value<=MAX_BYTES,'comparison managed-object cap')
     return value
 def nearest(actual,exact,scale,operations):
