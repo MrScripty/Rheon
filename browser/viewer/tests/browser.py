@@ -94,6 +94,46 @@ def main():
             }''')
             require(isolated, 'Multiple viewer instances share UI state or view resources')
             checks.append('Reusable custom element instances have separate state and WebGL resources')
+            # A real browser directory selection, with original recordings unchanged.
+            folder = output / 'input-folder'; (folder / 'nested').mkdir(parents=True)
+            shutil.copyfile(args.rigid, folder / 'rigid.json')
+            shutil.copyfile(args.shear, folder / 'nested/shear.json')
+            (folder / 'invalid.json').write_text('{"schema":"future"}')
+            (folder / 'strain.tsv').write_text('unsupported recorded rows\n')
+            (folder / 'wrench.jsonl').write_text('{"unsupported":"record"}\n')
+            host.locator('#folder').set_input_files(str(folder))
+            host.locator('#catalog-summary').filter(has_text='2 recordings / 5 files').wait_for()
+            require(host.locator('#runs option').count() == 2, 'Folder omitted admitted recordings')
+            host.locator('#runs').select_option(label='input-folder/rigid.json')
+            require(host.locator('rheon-viewer').evaluate('(e)=>e.frames()[1].vertices') == rigid['steps'][0]['stored']['vertices'], 'Folder rigid adapter changed stored values')
+            host.locator('#runs').select_option(label='input-folder/nested/shear.json')
+            require(host.locator('rheon-viewer').evaluate('(e)=>e.frames()[0].profile') == [[y,v] for y,v in zip(shear['shear_cases'][0]['centers'],shear['shear_cases'][0]['frames'][0]['velocity'])], 'Folder shear adapter changed stored values')
+            catalog = host.locator('#catalog-items').text_content()
+            require('strain.tsv · Unsupported' in catalog and 'wrench.jsonl · Unsupported' in catalog and 'invalid.json · Refused' in catalog, 'Unsupported folder files are unexplained')
+            require(host.locator('rheon-viewer').evaluate('(e)=>Object.isFrozen(e.catalog.entries)&&e.catalog.entries.filter(x=>x.status==="ready").every(x=>Object.isFrozen(x.data))'), 'Folder data is mutable')
+            checks.append('Actual output-folder picker discovers unchanged recordings and visibly lists refused and unsupported formats')
+            refused = output / 'unsupported-folder'; refused.mkdir(); (refused / 'records.tsv').write_text('unadapted\n')
+            previous = host.locator('rheon-viewer').evaluate('(e)=>e.data.provenance.sha256')
+            host.locator('#folder').set_input_files(str(refused)); host.locator('#status.error').filter(has_text='No supported recordings').wait_for()
+            require(host.locator('rheon-viewer').evaluate('(e)=>e.data.provenance.sha256') == previous, 'Unsupported folder replaced prior recording')
+            # Late reads may not overwrite a newer individual-file selection.
+            pending = host.locator('rheon-viewer').evaluate('''e=>{
+              let finish;const folder=e.$('folder');
+              const file={name:'late.json',webkitRelativePath:'late/late.json',size:2,arrayBuffer:()=>new Promise(resolve=>finish=resolve)};
+              Object.defineProperty(folder,'files',{configurable:true,value:[file]});
+              window.lateFolder=e.$('folder').onchange({target:folder});
+              window.finishLateFolder=()=>{finish(new TextEncoder().encode('{}').buffer);delete folder.files;};
+              return typeof finish==='function';
+            }''')
+            require(pending, 'Delayed folder fixture did not start reading')
+            host.locator('#file').set_input_files(str(args.rigid.resolve())); host.locator('#title').filter(has_text='Rigid mesh').wait_for()
+            host.locator('rheon-viewer').evaluate('async()=>{window.finishLateFolder();await window.lateFolder;}')
+            require(host.locator('#title').inner_text().startswith('Rigid'), 'Delayed folder replaced newer individual recording')
+            require(host.locator('rheon-viewer').evaluate('(e)=>e.catalog===null'), 'Single-file import retained unrelated catalog')
+            checks.append('Unsupported folders retain prior data; delayed folder admission cannot overwrite newer selection')
+            host.locator('#folder').set_input_files(str(folder)); host.locator('#catalog-summary').filter(has_text='2 recordings / 5 files').wait_for()
+            host.locator('#catalog-panel').evaluate('(e)=>e.open=true')
+            page.screenshot(path=str(output / 'folder-desktop.png'))
             host.locator('#pose').click()
             child = host.frame_locator('iframe[title="Kenoma simple-human pose editor"]')
             child.locator('canvas').wait_for(timeout=60000)
@@ -208,6 +248,13 @@ def main():
             checks.append('Phone scene-file controls fit and save the same exact source payload')
             page.screenshot(path=str(output / 'pose-phone.png'))
             checks.append('Iframe/project-subpath and phone layout')
+            host.locator('#records').click()
+            host.locator('#folder').set_input_files(str(folder))
+            host.locator('#catalog-summary').filter(has_text='2 recordings / 5 files').wait_for()
+            host.locator('#catalog-panel').evaluate('(e)=>e.open=true')
+            require(host.locator('#folder-label').is_visible() and host.locator('#runs-label').is_visible(), 'Phone folder controls absent')
+            require(host.locator('rheon-viewer').evaluate('(e)=>e.shadowRoot.querySelector(".workspace").scrollWidth<=e.clientWidth+1'), 'Folder catalog overflows phone')
+            page.screenshot(path=str(output / 'folder-phone.png'))
             # Reusable element lifetime: detached viewer stops its display loop.
             host.locator('#records').click()
             stopped = host.locator('rheon-viewer').evaluate('(e)=>{e.play();e.remove();return {timer:e.timer,view:e.view,active:e.active}}')

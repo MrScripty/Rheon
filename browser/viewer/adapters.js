@@ -76,8 +76,8 @@ export function adaptRecording(raw, provenance) {
   return freeze({...data, provenance: {...provenance, qualification: 'Imported visualization; not independently qualified by this viewer'}});
 }
 export async function readRecording(file) {
-  check(file.size > 0 && file.size <= LIMIT, 'Record file must be at most 8 MiB');
-  const bytes = await file.arrayBuffer(); check(bytes.byteLength <= LIMIT, 'Record file exceeds 8 MiB');
+  check(Number.isSafeInteger(file.size) && file.size > 0 && file.size <= LIMIT, 'Record file must be at most 8 MiB');
+  const bytes = await file.arrayBuffer(); check(bytes.byteLength === file.size && bytes.byteLength <= LIMIT, 'Record file size changed or exceeds 8 MiB');
   const digest = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(x => x.toString(16).padStart(2, '0')).join('');
   const raw = JSON.parse(new TextDecoder('utf-8', {fatal: true}).decode(bytes));
   return adaptRecording(raw, {name: file.name, sha256: digest, source: 'Local file'});

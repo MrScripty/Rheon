@@ -65,6 +65,22 @@ digests. The viewer does not reproduce original oracle/proof checks or accept
 those hashes as physical evidence. Unsupported versions/formats refuse with
 visible feedback and preserve the previously loaded recording.
 
+Alternatively, **Open output folder** admits an explicitly selected local folder
+and its descendants into an in-memory recording list. Choose a recording from
+the selector; expand **Folder files** to inspect every admitted, refused or
+unsupported file. The selection is limited to 128 files and 32 MiB total;
+individual recording JSON remains limited to 8 MiB. The entire roster, paths
+and aggregate sizes are checked before any read. Reads run sequentially and
+stop when a newer selection, mode change or detach supersedes them. Unsupported
+extensions are listed without reading them; invalid JSON or unsupported native
+formats are refused. A folder with no supported records retains the current
+recording. Individual-file imports clear the folder list after successful load.
+Relative paths distinguish files with identical basenames; SHA256 remains only
+byte identity. This catalog is local display state, not a saved project or
+qualification packet, and disappears on reload. Browsers without directory
+selection can use the individual-file picker. No files are fetched by path,
+modified, repackaged or uploaded.
+
 - `examples/rigid_motion.rs` JSON: the documented eight-vertex, twelve-triangle
   fixture, initial state and at most 64 stored updates. Exact stored vertices
   drive the mesh. Loads belong to the preceding update; its force arrow is
@@ -102,6 +118,7 @@ security sandbox. Neither host nor child reinterprets the other's computation.
 
 ```sh
 node --test browser/viewer/tests/adapters.test.mjs
+node --test browser/viewer/tests/catalog.test.mjs
 python3 browser/viewer/tests/browser.py --site /external/rheon-viewer \
   --rigid /existing/moving-force-torque.stdout.json \
   --shear /existing/obstacle-flow/records.json --output /external/viewer-check
@@ -126,14 +143,13 @@ opened directly with the file picker, unchanged and without repackaging: the
 rigid-motion, reduced-shear and fixed-slab adapters consume their documented
 formats. Static packaging is needed once for the GUI and pinned component.
 
-The next real GUI gap is automatic discovery and admission of existing outputs.
-There is no run catalog, output-folder importer or export-to-viewer link, so
-users still locate each file manually. Aligned-strain TSV, full MAC fields,
-pressure slices and the retained wrench JSONL also lack viewer adapters. A
-small versioned output catalog should identify format, source/state, units,
-recorded times, geometry and exact files, with reader-side limits and visible
-unsupported states. It can index already-produced data without running physics,
-changing acquisition digests, or requiring a fresh site build for each run.
+The bounded output-folder importer now discovers supported unchanged files in
+one selection and lists unsupported files visibly. Its versioned in-memory
+catalog preserves each file's native display data, units, recorded times and
+byte identity through the existing adapters, without a site rebuild per run.
+The remaining gap is a durable run/output catalog or export-to-viewer link with
+producer-owned format/source/state metadata. Aligned-strain TSV, full MAC
+fields, pressure slices and the retained wrench JSONL still lack adapters.
 The current physics roadmap's moving/interface/general-coupling gaps remain
 separate computational prerequisites. The pinned Kenoma scene-file milestone closes explicit save/reopen for human
 authoring; it adds no automatic scene storage or human/simulation exchange.

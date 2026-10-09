@@ -51,7 +51,7 @@ def main():
     env = dict(os.environ, CARGO_TARGET_DIR=str(target))
     subprocess.run(['cargo', 'build', '--locked', '-p', 'human_wasm', '--release', '--target', 'wasm32-unknown-unknown'], cwd=source, env=env, check=True, timeout=600)
     output.mkdir(parents=True)
-    for name in ['index.html', 'viewer.css', 'shell.css', 'shell.js', 'view.js', 'adapters.js', 'app.js']:
+    for name in ['index.html', 'viewer.css', 'shell.css', 'shell.js', 'view.js', 'adapters.js', 'catalog.js', 'app.js']:
         shutil.copyfile(ROOT / name, output / name)
     vendor = output / 'vendor'; vendor.mkdir()
     for rel in ['build/three.module.js', 'build/three.core.js', 'examples/jsm/controls/OrbitControls.js', 'LICENSE']:
