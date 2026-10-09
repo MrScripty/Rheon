@@ -15,8 +15,8 @@ This trial space, source and wall reconstruction are newly derived choices.
 
 Only counts N6/N9/N12, spacing stored `3/N`, origin0, domain `[0,3]^3`, retained
 solid `[1,2]^3`, SI rho=mu=1 are admitted. Put m=N/3. A z-oriented potential q,
-units m³/s, lives at x planes m+1..2m-1, y planes1..m-1, z layers m..2m-1;
-all other potential values are pinned0. Each basis has four oriented face flux
+units m³/s, lives at x planes m+1..2m-1, y planes 1..m-1, z layers m..2m-1;
+all other potential values are pinned 0. Each basis has four oriented face flux
 incidences. Its velocity coefficient is the incidence divided by that face's
 **stored open area**. The continuous consistency target for q is the z-layer
 integral of the streamfunction, not the streamfunction itself.
@@ -39,7 +39,7 @@ Outer engineering shear is eliminated by sealed normal traces and even free-slip
 continuation; outer tangential values need not be zero. This explicit model does
 not extend the parent gradient's outer-edge API.
 
-Stationary wall traces are exactly0; flat rays retain actual center-to-wall
+Stationary wall traces are exactly 0; flat rays retain actual center-to-wall
 distance and sector volume. Normal flux pinning is not a continuum tangential
 no-slip density/coercivity proof. Complete positive normal-Y energy rows give
 finite-model uniqueness: zero energy forces Uy constant along each vertical
@@ -78,7 +78,7 @@ After an explicitly requested solve the provider owns actual q/Cq values. A
 source/head/binary/problem/boundary/geometry/C/matrix/RHS/factor/field journal is
 hashed before `acquire_initial_state`. That method copies these numerical values
 into immutable `ObstacleFlowState` as supplied initial data acquired from this
-reduced steady solve, time/generation0, Unknown errors and no pressure. The
+reduced steady solve, time/generation 0, Unknown errors and no pressure. The
 TransientStokes tag is a storage envelope, not a claim of evolution from rest
 or a full Stokes pressure solution. References are caller declarations, not
 authentication. A supplied synthetic q unit control is distinctly labeled and
@@ -91,13 +91,13 @@ footprint, and integrates lower-Y fluid-on-solid traction with normal `-e_y`.
 Tangential x P1 uses stationary0 and the actual wall distance; x hats use actual
 mass and first moment, including their nonuniform centroid. Normal stress uses
 every x/z cell area and geometric first moment. Normal traction is never erased
-using reference pressure0. Uz and endpoint/other-face zeros require structural
+using reference pressure 0. Uz and endpoint/other-face zeros require structural
 support checks; unsupported nonzero samples refuse rather than snap/fall back.
 It reports all six components, arithmetic-only intervals, full wall area, active
 P1 basis area and sector-derived effective area separately.
 
 The unchanged first-normal-row P1 baseline gives `Tz=(1/2-h)Fx` on ideal/dyadic
-levels. N6 torque is identically0. Optional normal-only P2 uses the wall0 plus
+levels. N6 torque is identically 0. Optional normal-only P2 uses the wall 0 plus
 actual values at first two normal planes and actual Lagrange weights. With
 tangential P1 retained, N6 gives `Tz=-Fx/2`, the wrong sign for negative force.
 Both laws are regression tests, not acceptance targets or promised repairs.
@@ -119,23 +119,23 @@ and rest construction. Generated outputs stay outside Git. The native
 one opt-in steady solve at its specified admitted level and therefore requires
 separate explicit campaign approval. There is no default solve mode.
 
-The envelope remains10,000,000B, inside unchanged16,000,000B. Constructors gate
+The envelope remains 10,000,000 B, inside unchanged 16,000,000 B. Constructors gate
 planned and actual Vec capacities. Provider accounting includes geometry once,
 source terms, requests, C columns, three complete face packs, row scratch, dense
 matrix/factor, RHS/q, fixed metadata, copied rest/acquired owner, gradient rows,
 stress blocks and temporary sorting indices. Coefficient owners end before
 candidate owners begin. LDL, curl, source integration and traction allocate no
-dynamic work buffers. Runner adds actual argument/q/control capacities, a64KiB
-bounded working allowance and two8KiB I/O buffers, subtracting that allowance
+dynamic work buffers. Runner adds actual argument/q/control capacities, a 64 KiB
+bounded working allowance and two 8 KiB I/O buffers, subtracting that allowance
 from the provider limit before construction. Stack, allocator metadata and
 process RSS are explicitly excluded; this is managed payload accounting.
 
-The separately approved campaign launcher adds an aggregate1080s deadline,
-bounded pre-write producer slots totaling4MiB and a256MiB RSS threshold sampled
-at50ms. The latter is not a continuous hard memory bound. Native and comparison
-levels retain180s deadlines, and Git checks get10s deadlines, all inside the
-aggregate budget. Native artifact sets retain their shared1MiB writer cap;
-comparison retains16MB managed-object gates. Full enforcement, cleanup caveats
+The separately approved campaign launcher adds an aggregate 1080 s deadline,
+bounded pre-write producer slots totaling 4 MiB and a 256 MiB RSS threshold sampled
+at 50 ms. The latter is not a continuous hard memory bound. Native and comparison
+levels retain 180 s deadlines, and Git checks get 10 s deadlines, all inside the
+aggregate budget. Native artifact sets retain their shared 1 MiB writer cap;
+comparison retains 16 MB managed-object gates. Full enforcement, cleanup caveats
 and exact output reservations are documented in
 [the execution-guard derivation](flat-wall-campaign-guards-20261009.md).
 
@@ -151,6 +151,6 @@ are unspecified. No physical capability/qualification flag changes here.
 
 The original supplied-field force/torque failures remain failures. PR25's
 baseline/six-FD/E2/memory-reader integrations, geometry-band/refinement/retry
-campaigns and N24/43,321,344B refusal remain held; this source cannot close or
+campaigns and N24/43,321,344 B refusal remain held; this source cannot close or
 repackage them. No pressure, timestep, main merge, deployment or publication is
 part of this implementation checkpoint.

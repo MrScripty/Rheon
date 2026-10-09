@@ -10,6 +10,13 @@ use std::{
     mem::size_of,
     path::Path,
 };
+fn require_external_output(path: &Path, manifest: &Path) -> Result<(), Box<dyn Error>> {
+    let canonical_parent = path.parent().ok_or("missing parent")?.canonicalize()?;
+    if canonical_parent.starts_with(manifest.canonicalize()?) {
+        return Err("output must be outside Git worktree".into());
+    }
+    Ok(())
+}
 #[derive(Clone, Copy)]
 struct Observation {
     normal: usize,
@@ -170,10 +177,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         return Err("unreviewed roster: refused before allocation".into());
     }
     let path = Path::new(&args[2]);
-    let canonical_parent = path.parent().ok_or("missing parent")?.canonicalize()?;
-    if canonical_parent.starts_with(Path::new(env!("CARGO_MANIFEST_DIR"))) {
-        return Err("output must be outside Git worktree".into());
-    }
+    require_external_output(path, Path::new(env!("CARGO_MANIFEST_DIR")))?;
     let h = 1. / s as f64;
     let mut native_data = None;
     if mode == "native" {
@@ -203,12 +207,11 @@ fn main() -> Result<(), Box<dyn Error>> {
             result.solid_wrench,
         ));
     }
-    let wall_rows;
-    if native_data.is_none() {
-        wall_rows = observations(s, None, &[])?;
+    let wall_rows = if native_data.is_none() {
+        observations(s, None, &[])?
     } else {
-        wall_rows = Vec::new();
-    }
+        Vec::new()
+    };
     let rows = if let Some((r, ..)) = &native_data {
         r
     } else {
@@ -276,7 +279,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     } else {
         write!(out, "null")?;
     }
-    write!(out, "}}\n")?;
+    writeln!(out, "}}")?;
     out.flush()?;
     if path.metadata()?.len()
         > if mode == "native" {
@@ -288,4 +291,31 @@ fn main() -> Result<(), Box<dyn Error>> {
         return Err("external record exceeds frozen size cap".into());
     }
     Ok(())
+}
+
+#[cfg(all(test, unix))]
+mod output_guard_tests {
+    use super::*;
+    #[test]
+    fn canonical_manifest_alias_refuses_before_output_creation() {
+        let nonce = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!("rheon-guard-{}-{nonce}", std::process::id()));
+        let repository = root.join("repository");
+        let outside = root.join("repository-sibling");
+        std::fs::create_dir_all(repository.join("nested")).unwrap();
+        std::fs::create_dir_all(&outside).unwrap();
+        let alias = root.join("manifest-alias");
+        std::os::unix::fs::symlink(&repository, &alias).unwrap();
+        let inside = repository.join("nested/output.json");
+        assert!(require_external_output(&inside, &alias).is_err());
+        assert!(!inside.exists());
+        assert!(require_external_output(&alias.join("nested/output.json"), &repository).is_err());
+        assert!(require_external_output(&outside.join("output.json"), &alias).is_ok());
+        assert!(require_external_output(&repository.join("missing/output.json"), &alias).is_err());
+        assert!(!repository.join("missing").exists());
+        std::fs::remove_dir_all(root).unwrap();
+    }
 }

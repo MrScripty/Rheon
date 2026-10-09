@@ -14,12 +14,12 @@ The public launcher starts a supervisor outside a fresh controller session and
 process group. Its monotonic aggregate budget is **1080 seconds**, measured from
 launcher entry, including argument preparation, controller creation, Git checks,
 hashing, source generation, child runs, postprocessing, cleanup and receipt
-writing. Work stops at1077seconds, leaving3seconds for cleanup. An outer
-`ITIMER_REAL` alarm at1080seconds sends SIGKILL to the known controller group
-and pidfds of observed descendants, then exits124 without blocking waits or
+writing. Work stops at 1077 seconds, leaving 3 seconds for cleanup. An outer
+`ITIMER_REAL` alarm at 1080 seconds sends SIGKILL to the known controller group
+and pidfds of observed descendants, then exits 124 without blocking waits or
 receipt writes. A controller hang cannot disable that supervisor alarm. No
 unbounded `communicate`/pipe drain/wait is used. Native and comparison children
-have180second deadlines; each Git check has10seconds. Each child deadline is
+have 180 second deadlines; each Git check has 10 seconds. Each child deadline is
 also truncated by the remaining aggregate work deadline. There are no retries.
 Before each spawn the controller publishes a bounded launch-deadline message to
 the supervisor. The supervisor times that phase independently, including a
@@ -50,7 +50,7 @@ never a cleanup target. An unobserved short-lived or escaped descendant is not
 claimed to be covered by sampling. This is supervision of fixed reviewed
 commands, not a security sandbox for hostile executables.
 
-The successful prescribed roster is16 launched processes: one supervisor, one
+The successful prescribed roster is 16 launched processes: one supervisor, one
 controller, three native children, three comparison workers and eight Git
 checks, with one controller child active at a time. This is a launch ledger,
 not a universal OS process-creation bound. Receipts separately report sampled
@@ -60,9 +60,9 @@ refuse. No global Git, security or cgroup setting changes.
 
 ## Whole-process memory and managed payload
 
-The supervisor samples `/proc` RSS at nominal **50ms** intervals. It sums its
+The supervisor samples `/proc` RSS at nominal **50 ms** intervals. It sums its
 own RSS and every observed controller-group/descendant RSS. The threshold is
-**268435456 bytes (256MiB)**. A sample above the threshold refuses and triggers
+**268435456 bytes (256 MiB)**. A sample above the threshold refuses and triggers
 cleanup. Shared pages can be counted more than once, making the sum conservative
 relative to deduplicated physical pages. Python interpreter, native code, stack
 and allocator resident pages participate in RSS; kernel memory and nonresident
@@ -72,19 +72,22 @@ This is a **sampled enforcement threshold, not a continuous hard RSS bound**.
 Fast peaks or growth between samples may be missed; OS delays may lengthen the
 sampling interval. No per-process RSS/address-space limit or campaign-specific
 cgroup limit is installed. The environment's shared cgroup is not a campaign
-allowance. The independent managed-payload gates remain native10,000,000B and
-comparison16,000,000B, with unchanged accounting exclusions. The planned native
-physical payload732,112B remains unexecuted; RSS supervision does not turn it
+allowance. The independent managed-payload gates remain native 10,000,000 B and
+comparison 16,000,000 B, with unchanged accounting exclusions. The planned native
+physical payload bound is 732,112 B, as recorded in the pre-launch source
+qualification. The retained failed-run N12 record reports 719,501 B, below
+that bound; this observation does not qualify physical accuracy. RSS supervision
+does not turn it
 into total-process-memory evidence.
 
 ## Output before writes
 
-The producer reservations sum exactly **4194304 bytes (4MiB)**:
+The producer reservations sum exactly **4194304 bytes (4 MiB)**:
 
 | Producer | Reserved bytes |
 | --- | ---: |
 | Forcing file | 65536 |
-| Three native artifact sets | 3 ×1048576 |
+| Three native artifact sets | 3 × 1048576 |
 | Three comparison JSON reports | 3 ×65536 |
 | Six native/comparison logs | 6 ×65536 |
 | Campaign summary | 262144 |
@@ -94,12 +97,12 @@ The producer reservations sum exactly **4194304 bytes (4MiB)**:
 There is no unreserved temporary copy or refusal log. Forcing/comparison/summary
 serialization checks its slot before opening or writing. `BoundedWriter` refuses
 an entire chunk that would exceed its remaining slot. stdout and stderr share
-bounded pipes; Git output is captured in at most8192bytes per check rather than
+bounded pipes; Git output is captured in at most 8192 bytes per check rather than
 written to an extra file. Native artifact totals retain the reviewed Rust
-shared `LimitedWriter`1MiB cap. Comparison report cap is narrowed via the
-campaign's explicit64KiB argument; ordinary standalone comparison retains its
-existing1MiB maximum. Python bytecode writes are disabled. A controller-local
-inherited `RLIMIT_FSIZE=1MiB` backs up regular-file writes, without changing
+shared `LimitedWriter` 1 MiB cap. Comparison report cap is narrowed via the
+campaign's explicit 64 KiB argument; ordinary standalone comparison retains its
+existing 1 MiB maximum. Python bytecode writes are disabled. A controller-local
+inherited `RLIMIT_FSIZE=1 MiB` backs up regular-file writes, without changing
 supervisor/global limits. This per-file backstop is not the aggregate guard.
 
 The final directory-size check is accounting verification, not the mechanism

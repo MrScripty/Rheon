@@ -75,17 +75,17 @@ fn encode(s: &ObstacleFlowState<'_>) -> Vec<u8> {
 
 fn interior_sites() -> Vec<ObstacleGradientSite> {
     let mut sites = Vec::new();
-    for a in 0..3 {
+    for (a, &axis) in AXES.iter().enumerate() {
         sites.push(ObstacleGradientSite::Normal {
-            axis: AXES[a],
+            axis,
             cell: [1; 3],
         });
-        for b in 0..3 {
+        for (b, &derivative) in AXES.iter().enumerate() {
             if a != b {
                 for quadrant in 0..4 {
                     sites.push(ObstacleGradientSite::Cross {
-                        component: AXES[a],
-                        derivative: AXES[b],
+                        component: axis,
+                        derivative,
                         edge: [1; 3],
                         quadrant,
                     });

@@ -199,4 +199,143 @@ class NativeWrenchObservations(unittest.TestCase):
                     with self.assertRaises(Refusal):c.verify_record(bad)
 
 
+
+class ResearchHarnessGuards(unittest.TestCase):
+    """No native/research solves: exercise refusal before dependencies or input."""
+    @staticmethod
+    def load(relative):
+        import importlib.util, sys
+        path=Path(__file__).resolve().parents[1]/relative
+        name='guard_test_'+relative.replace('/','_').replace('-','_').replace('.','_')
+        spec=importlib.util.spec_from_file_location(name,path)
+        module=importlib.util.module_from_spec(spec);sys.modules[name]=module
+        spec.loader.exec_module(module)
+        return module
+
+    def test_nearest_existing_ancestor_and_symlink_refuse_without_mutation(self):
+        driver=self.load('research/check_proof_audit.py')
+        with tempfile.TemporaryDirectory(prefix='rheon-guard-') as td:
+            root=Path(td);repo=root/'repository';repo.mkdir()
+            subprocess.run(['git','init','-q',str(repo)],check=True)
+            alias=root/'alias';alias.symlink_to(repo,target_is_directory=True)
+            for base in (repo,alias):
+                target=base/'absent/deeper/output'
+                with self.assertRaisesRegex(ValueError,'outside Git'):
+                    driver.require_external_output(target)
+                self.assertFalse((repo/'absent').exists())
+            external=root/'outside/absent/output'
+            self.assertEqual(driver.require_external_output(external),external.resolve())
+            self.assertFalse((root/'outside').exists())
+            with self.assertRaisesRegex(ValueError,'outside Git'):
+                driver.require_external_output(external,root)
+
+    def test_inherited_git_discovery_cannot_hide_repository(self):
+        import os
+        from unittest.mock import patch
+        driver=self.load('research/check_proof_audit.py')
+        renderer=self.load('tools/render_viscous_boundary_wrench.py')
+        with tempfile.TemporaryDirectory(prefix='rheon-guard-env-') as td:
+            root=Path(td);repo=root/'repository';repo.mkdir()
+            subprocess.run(['git','init','-q',str(repo)],check=True)
+            subdir=repo/'existing';subdir.mkdir()
+            target=subdir/'absent/output'
+            external=root/'external/absent/output'
+            overrides={'GIT_CEILING_DIRECTORIES':str(repo),'GIT_DISCOVERY_ACROSS_FILESYSTEM':'0',
+                       'GIT_DIR':str(root/'missing-git'),'GIT_WORK_TREE':str(root/'missing-work'),
+                       'GIT_COMMON_DIR':str(root/'missing-common'),'GIT_CONFIG_COUNT':'1',
+                       'GIT_CONFIG_KEY_0':'safe.directory','GIT_CONFIG_VALUE_0':'/never'}
+            # The ceiling alone reproduces ordinary "not a git repository";
+            # also exercise all overrides together without changing caller env.
+            for inherited in ({'GIT_CEILING_DIRECTORIES':str(repo)},overrides):
+                with self.subTest(inherited=inherited),patch.dict(os.environ,inherited):
+                    before=dict(os.environ)
+                    for source_root in (None,Path(__file__).resolve().parents[1]):
+                        with self.assertRaisesRegex(ValueError,'outside Git'):
+                            driver.require_external_output(target,source_root)
+                    with self.assertRaisesRegex(ValueError,'outside Git'):
+                        renderer.render(Path('/never-read-coarse'),Path('/never-read-bounded'),target)
+                    self.assertEqual(driver.require_external_output(external),external.resolve())
+                    self.assertEqual(dict(os.environ),before)
+                    self.assertFalse((subdir/'absent').exists())
+                    self.assertFalse((root/'external').exists())
+
+    def test_unknown_git_failure_refuses(self):
+        from unittest.mock import patch
+        driver=self.load('research/check_proof_audit.py')
+        with tempfile.TemporaryDirectory() as td:
+            with patch.object(driver.subprocess,'run',return_value=subprocess.CompletedProcess([],128,'','fatal: permission denied')):
+                with self.assertRaisesRegex(ValueError,'cannot establish'):
+                    driver.require_external_output(Path(td)/'not-created/output')
+            self.assertFalse((Path(td)/'not-created').exists())
+
+    def test_all_five_proof_wrappers_refuse_before_lean_or_pin_reads(self):
+        for family in ('common-green-q1','viscous-wrench-consistency','sample-supported-wall-trace','obstacle-gradient','obstacle-viscous'):
+            module=self.load('research/'+family+'/check_proofs.py')
+            with self.subTest(family=family), tempfile.TemporaryDirectory() as td:
+                root=Path(td)/'git-fixture';root.mkdir()
+                subprocess.run(['git','init','-q',str(root)],check=True)
+                target=root/'new/deep/output'
+                with self.assertRaisesRegex(ValueError,'outside Git'):
+                    module.main(Path('/never-execute-lean'),Path('/never-read-pins'),target)
+                self.assertFalse((root/'new').exists())
+
+    def test_research_and_renderer_refuse_before_input_or_directory_creation(self):
+        for script in ('research_common_green_q1.py','research_sample_supported_wall_trace.py','research_viscous_wrench_consistency.py','render_viscous_boundary_wrench.py'):
+            module=self.load('tools/'+script)
+            with self.subTest(script=script),tempfile.TemporaryDirectory() as td:
+                root=Path(td)/'git-fixture';root.mkdir()
+                subprocess.run(['git','init','-q',str(root)],check=True)
+                target=root/'new/deep/output'
+                with self.assertRaisesRegex(ValueError,'outside Git|external output'):
+                    if script.startswith('render_'):module.render(Path('/never-read-coarse'),Path('/never-read-bounded'),target)
+                    else:module.run(Path('/never-execute-native'),target)
+                self.assertFalse((root/'new').exists())
+
+    def test_compiler_locations_filter_noise_and_preserve_extra_errors(self):
+        driver=self.load('research/check_proof_audit.py')
+        text='noise error: injected\n/tmp/probe.lean:2:3: error: expected\nother error: expected\n/tmp/probe.lean:4:5: error: unexpected\n'
+        self.assertEqual(driver.compiler_errors(text),['expected','unexpected'])
+        self.assertEqual(driver.compiler_errors('noise error: expected'),[])
+
+    def test_summary_uses_computed_true_and_false(self):
+        module=self.load('tools/research_viscous_wrench_consistency.py')
+        with tempfile.TemporaryDirectory() as td:
+            output=Path(td);(output/'research.json').write_text('{}\n')
+            for rejected in (False,True):
+                result={'quadratic_candidate_rejected':rejected,
+                        'cases':{'polynomial-bounded':{'finite_model':{'total':[0,0,0,0,0,F(-1,3)]}}},
+                        'unchanged_continuum_wrench':[0,0,0,0,0,-1]}
+                reported=module.summary(result,output)
+                self.assertIs(reported['quadratic_candidate_rejected'],rejected)
+                self.assertEqual(reported['native_torque'],'-1/3')
+                self.assertEqual(reported['physical_torque'],'-1')
+
+    def test_reviewed_baseline_is_exact_and_still_protects_contact(self):
+        from unittest.mock import patch
+        import hashlib
+        module=self.load('tools/qualify_sphere_friction.py')
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);(root/'src').mkdir()
+            old_contact=b'\nfn respond(\n'
+            expected=old_contact.decode().replace('\nfn respond(','\npub(crate) fn respond(')
+            (root/'src/sphere_contact.rs').write_text(expected)
+            baseline=['Cargo.toml','src/sphere_contact.rs']+sorted(module.STACK_ADAPTATIONS)
+            old={p:('reviewed '+p).encode() for p in module.STACK_ADAPTATIONS}
+            sources={p:hashlib.sha256(value).hexdigest() for p,value in old.items()}
+            sources['Cargo.toml']=hashlib.sha256(b'protected').hexdigest()
+            def show(command,**kwargs):
+                spec=command[-1]
+                if spec==module.BASE+':src/sphere_contact.rs':return old_contact
+                if spec==module.BASE+':Cargo.toml':return b'protected'
+                return old[spec.split(':',1)[1]]
+            with patch.object(module,'ROOT',root),patch.object(module,'git',return_value='\n'.join(baseline)),patch.object(module.subprocess,'check_output',side_effect=show):
+                protected,adapted=module.validate_baseline(sources)
+                self.assertEqual(protected,['Cargo.toml'])
+                self.assertEqual(set(adapted),module.STACK_ADAPTATIONS)
+                for name in module.STACK_ADAPTATIONS|{'Cargo.toml'}:
+                    forged=dict(sources);forged[name]='0'*64
+                    with self.subTest(name=name),self.assertRaises(ValueError):module.validate_baseline(forged)
+                (root/'src/sphere_contact.rs').write_text(expected+'changed formula')
+                with self.assertRaisesRegex(ValueError,'unexpected contact change'):module.validate_baseline(sources)
+
 if __name__=='__main__':unittest.main()

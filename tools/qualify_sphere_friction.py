@@ -11,10 +11,14 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "c2286e7b8ee73997ca3df2243730b6ac8d376f49"
+STACK_CHECKPOINT = "77a906da918d275ae36e86d7ab8b5cd365f54c3b"
+STACK_ADAPTATIONS = {
+    "docs/research-book/implementation/requirements-roadmap.md",
+    "src/aligned_strain.rs", "src/sphere_interval.rs", "src/lib.rs",
+}
 
 
 ACCESSORS = {"respond", "checked", "product", "quotient", "sum", "difference", "scale", "dot", "norm", "cross", "kinetic"}
-LIB_INSERTION = b"mod sphere_friction;\npub use sphere_friction::*;\n"
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -22,6 +26,32 @@ def sha(path):
 
 def git(*args):
     return subprocess.check_output(["git", *args], cwd=ROOT, text=True).strip()
+
+
+def validate_baseline(sources):
+    """Protect PR37 and admit only exact reviewed adaptations from the stack."""
+    baseline_files = git("ls-tree", "-r", "--name-only", BASE).splitlines()
+    permitted = {"src/lib.rs", "src/sphere_contact.rs", "proofs/Rheon.lean", "proofs/AxiomAudit.lean", "proofs/source-inventory.json", ".gitignore"}
+    permitted |= STACK_ADAPTATIONS
+    protected = [p for p in baseline_files if p not in permitted]
+    for p in protected:
+        old = subprocess.check_output(["git", "show", f"{BASE}:{p}"], cwd=ROOT)
+        if hashlib.sha256(old).hexdigest() != sources.get(p):
+            raise ValueError("protected PR37 file changed: " + p)
+    adaptations = {}
+    for p in sorted(STACK_ADAPTATIONS):
+        expected = subprocess.check_output(["git", "show", f"{STACK_CHECKPOINT}:{p}"], cwd=ROOT)
+        digest = hashlib.sha256(expected).hexdigest()
+        if digest != sources.get(p):
+            raise ValueError("unexpected reviewed stack adaptation: " + p)
+        adaptations[p] = digest
+    old_contact = subprocess.check_output(["git", "show", f"{BASE}:src/sphere_contact.rs"], cwd=ROOT)
+    expected_contact = old_contact.decode()
+    for name in sorted(ACCESSORS):
+        expected_contact = expected_contact.replace("\nfn " + name + "(", "\npub(crate) fn " + name + "(")
+    if (ROOT / "src/sphere_contact.rs").read_text() != expected_contact:
+        raise ValueError("unexpected contact change; only exact crate visibility additions allowed")
+    return protected, adaptations
 
 
 def qualify(output, lean_bin, dependencies):
@@ -32,22 +62,7 @@ def qualify(output, lean_bin, dependencies):
         raise ValueError("clean committed source required")
     files = git("ls-files").splitlines()
     sources = {p: sha(ROOT / p) for p in files}
-    baseline_files = git("ls-tree", "-r", "--name-only", BASE).splitlines()
-    permitted = {"src/lib.rs", "src/sphere_contact.rs", "proofs/Rheon.lean", "proofs/AxiomAudit.lean", "proofs/source-inventory.json", ".gitignore"}
-    protected = [p for p in baseline_files if p not in permitted]
-    for p in protected:
-        old = subprocess.check_output(["git", "show", f"{BASE}:{p}"], cwd=ROOT)
-        if hashlib.sha256(old).hexdigest() != sources.get(p):
-            raise ValueError("protected PR37 file changed: " + p)
-    lib_old = subprocess.check_output(["git", "show", f"{BASE}:src/lib.rs"], cwd=ROOT)
-    if (ROOT / "src/lib.rs").read_bytes() != lib_old.replace(b"mod sphere_contact;\n", b"mod sphere_contact;\n" + LIB_INSERTION):
-        raise ValueError("unexpected export adaptation")
-    old_contact = subprocess.check_output(["git", "show", f"{BASE}:src/sphere_contact.rs"], cwd=ROOT)
-    expected_contact = old_contact.decode()
-    for name in sorted(ACCESSORS):
-        expected_contact = expected_contact.replace("\nfn " + name + "(", "\npub(crate) fn " + name + "(")
-    if (ROOT / "src/sphere_contact.rs").read_text() != expected_contact:
-        raise ValueError("unexpected contact change; only exact crate visibility additions allowed")
+    protected, adaptations = validate_baseline(sources)
     manifest = json.loads((ROOT / "proofs/lake-manifest.json").read_text())
     dependency_pins = {}
     for package in manifest["packages"]:
@@ -58,7 +73,7 @@ def qualify(output, lean_bin, dependencies):
         dependency_pins[package["name"]] = actual
     output.mkdir(parents=True)
     receipt = {"source_head": git("rev-parse", "HEAD"), "source_tree": git("rev-parse", "HEAD^{tree}"),
-               "source_clean": True, "source_sha256": sources, "protected_sources": protected, "narrow_adaptations": {"src/sphere_contact.rs": "exact pub(crate) visibility additions only; all old formulas and behavior unchanged", "src/lib.rs": "exact two-line module/export insertion"},
+               "source_clean": True, "source_sha256": sources, "protected_sources": protected, "narrow_adaptations": {"src/sphere_contact.rs": "exact pub(crate) visibility additions only; all old formulas and behavior unchanged", "reviewed_stack_checkpoint": STACK_CHECKPOINT, "exact_stack_adaptation_sha256": adaptations},
                "lean_dependency_pins": dependency_pins, "commands": [], "qualified": False,
                "scope": "isolated fixed-contact Coulomb sphere impulse; exact-real isotropic/radial premises; no frictional continuation/persistent force or fluid coupling", "hosted_ci_requested": False, "held_campaigns": 0}
 
