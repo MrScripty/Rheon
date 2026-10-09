@@ -114,7 +114,7 @@ fn plane(g: &crate::GridGeometry, d: usize, i: usize) -> f64 {
 fn center(g: &crate::GridGeometry, d: usize, i: usize) -> f64 {
     g.origin()[d] + (i as f64 + 0.5) * g.spacing()[d]
 }
-fn admission(
+pub(crate) fn admission(
     geometry: &StaticObstacleGeometry,
 ) -> Result<([usize; 3], [usize; 3]), AlignedStrainError> {
     let g = geometry.grid();
