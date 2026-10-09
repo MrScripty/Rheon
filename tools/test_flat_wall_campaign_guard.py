@@ -1,7 +1,7 @@
 """Resource guards tested with synthetic Python processes; NEVER any solver."""
 import sys
 sys.dont_write_bytecode=True
-import hashlib,json,os,re,resource,subprocess,tempfile,time,unittest
+import hashlib,json,os,re,resource,signal,subprocess,tempfile,time,unittest
 from pathlib import Path
 import flat_wall_campaign_guard as guard
 from flat_wall_force_source import write as write_source
@@ -64,7 +64,27 @@ class GuardTests(unittest.TestCase):
         self.assertNotEqual(child.returncode,0);self.assertIn('aggregate work deadline',r['reason']);self.assertLess(elapsed,1.5)
     def test_child_deadline_covers_git_like_hanging_command(self):
         child,r,out,_=self.run_case('child_timeout')
-        self.assertNotEqual(child.returncode,0);self.assertIn('child/controller deadline',(out/'controller.log').read_text())
+        self.assertNotEqual(child.returncode,0)
+        self.assertTrue('supervised child deadline' in r['reason'] or 'child/controller deadline' in (out/'controller.log').read_text())
+    def test_child_deadline_covers_blocked_spawn(self):
+        child,r,out,elapsed=self.run_case('spawn_hang')
+        self.assertNotEqual(child.returncode,0);self.assertIn('supervised child deadline including spawn',r['reason'])
+        self.assertLess(elapsed,1.);self.assert_stopped(json.loads((out/'campaign-report.json').read_text())['controller_pid'])
+    def cancellation(self,signum):
+        out=self.root/'cancellation'
+        child=subprocess.Popen([sys.executable,'-B',str(FIXTURE),'supervisor','hang',str(out),'3',str(256*1024*1024),'2'],
+                               stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        until=time.monotonic()+1.5
+        while not (out/'campaign-report.json').exists():
+            if time.monotonic()>=until:child.kill();self.fail('synthetic controller did not start')
+            time.sleep(.01)
+        pid=json.loads((out/'campaign-report.json').read_text())['controller_pid']
+        child.send_signal(signum);child.communicate(timeout=2)
+        r=json.loads((out/'guard-receipt.json').read_text())
+        self.assertNotEqual(child.returncode,0);self.assertIn('supervisor cancellation signal',r['reason'])
+        self.assertFalse(r['surviving_live_members']);self.assert_stopped(pid)
+    def test_sigterm_cleans_owned_group_and_refuses(self):self.cancellation(signal.SIGTERM)
+    def test_sigint_cleans_owned_group_and_refuses(self):self.cancellation(signal.SIGINT)
     def test_child_stdout_stderr_log_is_bounded_during_writes(self):
         child,r,out,_=self.run_case('log_flood')
         self.assertNotEqual(child.returncode,0);self.assertIn('output write quota',(out/'controller.log').read_text())

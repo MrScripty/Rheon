@@ -21,6 +21,11 @@ receipt writes. A controller hang cannot disable that supervisor alarm. No
 unbounded `communicate`/pipe drain/wait is used. Native and comparison children
 have180second deadlines; each Git check has10seconds. Each child deadline is
 also truncated by the remaining aggregate work deadline. There are no retries.
+Before each spawn the controller publishes a bounded launch-deadline message to
+the supervisor. The supervisor times that phase independently, including a
+blocked spawn/exec wait; completion messages must arrive with a timestamp inside
+the phase deadline. SIGTERM and SIGINT also trigger owned cleanup and refusal,
+with the outer alarm retained throughout bounded cleanup.
 
 Linux signal delivery and scheduling are not real-time guarantees. SIGKILL may
 remain pending for a task in uninterruptible kernel wait. Normal receipts report

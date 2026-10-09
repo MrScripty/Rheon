@@ -20,6 +20,41 @@ assert sum(QUOTAS.values())==OUTPUT_CAP
 
 class GuardViolation(RuntimeError): pass
 
+EVENT_PREFIX=b'RHEON_GUARD_EVENT '
+class ChildDeadlineProtocol:
+    """Bounded launch/done messages let the supervisor cover blocked spawn."""
+    def __init__(self,work_end):
+        self.pending=bytearray();self.truncated=False;self.deadline=None;self.work_end=work_end
+    def feed(self,chunk):
+        for piece in chunk.splitlines(keepends=True):
+            if not self.truncated:
+                self.pending.extend(piece[:513-len(self.pending)])
+                if len(self.pending)>512:self.truncated=True
+            if not piece.endswith(b'\n'):continue
+            line=bytes(self.pending);self.pending.clear()
+            truncated=self.truncated;self.truncated=False
+            if not line.startswith(EVENT_PREFIX):continue
+            if truncated:raise GuardViolation('controller deadline protocol cap')
+            event=json.loads(line[len(EVENT_PREFIX):])
+            if set(event)!= {'kind','time'} or not math.isfinite(event['time']):
+                raise GuardViolation('invalid controller deadline protocol')
+            if event['kind']=='launch':
+                if self.deadline is not None or not event['time']<=self.work_end:
+                    raise GuardViolation('overlapping/unbounded child deadline')
+                self.deadline=event['time']
+            elif event['kind']=='done':
+                if self.deadline is None or event['time']>self.deadline:
+                    raise GuardViolation('child deadline exceeded before completion')
+                self.deadline=None
+            else:raise GuardViolation('unknown controller deadline event')
+
+def publish_child_event(kind,when):
+    if os.environ.get('RHEON_CAMPAIGN_GUARDED')!='1':
+        raise GuardViolation('bounded child requires campaign supervisor')
+    data=EVENT_PREFIX+json.dumps({'kind':kind,'time':when}).encode()+b'\n'
+    if len(data)>512 or os.write(1,data)!=len(data):
+        raise GuardViolation('controller deadline publication failed')
+
 class BoundedWriter:
     """Reject an entire chunk before a write could exceed this reserved slot."""
     def __init__(self,path,cap):
@@ -88,6 +123,8 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
     process=None;owned_fds={};known=set();peak=0;members_peak=0;samples=0
     violation=None;returncode=None;survivors=[];unreaped=[];cleanup_errors=[]
     previous_handler=signal.getsignal(signal.SIGALRM)
+    previous_cancellation={s:signal.getsignal(s) for s in (signal.SIGTERM,signal.SIGINT)}
+    in_cleanup=False
     previous_timer=signal.getitimer(signal.ITIMER_REAL)
     if previous_timer[0] or previous_timer[1]:raise GuardViolation('existing alarm cannot be replaced')
     def kill_owned():
@@ -102,6 +139,10 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
     def emergency(_signum,_frame):
         # No waits, file I/O or controller cooperation at the final deadline.
         kill_owned();os._exit(124)
+    def cancelled(signum,_frame):
+        kill_owned()
+        if not in_cleanup:raise GuardViolation(f'supervisor cancellation signal {signum}')
+    for signum in previous_cancellation:signal.signal(signum,cancelled)
     signal.signal(signal.SIGALRM,emergency)
     signal.setitimer(signal.ITIMER_REAL,max(.000001,end-time.monotonic()))
     log=None;selector=None;created_out=False
@@ -119,10 +160,13 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
                                  start_new_session=True,env=child_env,bufsize=0)
         selector=selectors.DefaultSelector();selector.register(process.stdout,selectors.EVENT_READ)
         next_sample=time.monotonic()
+        protocol=ChildDeadlineProtocol(work_end)
         eof=False
         while True:
             now=time.monotonic()
             if now>=work_end:raise GuardViolation('aggregate work deadline')
+            if protocol.deadline is not None and now>=protocol.deadline:
+                raise GuardViolation('supervised child deadline including spawn')
             if now>=next_sample:
                 group=snapshot(process.pid,known)
                 for pid,info in group.items():
@@ -145,10 +189,10 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
                 next_sample=now+limits.sample
             rc=process.poll()
             if rc is not None and eof: returncode=rc;break
-            timeout=max(0.,min(next_sample,work_end)-time.monotonic())
+            timeout=max(0.,min(next_sample,work_end,protocol.deadline or work_end)-time.monotonic())
             for key,_ in selector.select(timeout):
                 chunk=os.read(key.fileobj.fileno(),8192)
-                if chunk:log.write(chunk)
+                if chunk:log.write(chunk);protocol.feed(chunk)
                 else:selector.unregister(key.fileobj);eof=True
             # A descendant holding stdout open cannot turn controller exit into
             # an unlimited pipe drain. Refuse and clean the whole known group.
@@ -157,9 +201,11 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
                 if any(i['pid']!=process.pid and i['state']!='Z' for i in group.values()):
                     raise GuardViolation('controller exited with live descendants')
         if returncode!=0:raise GuardViolation(f'controller exit {returncode}')
-    except Exception as error:
+        if protocol.deadline is not None:raise GuardViolation('controller exited with unfinished child deadline')
+    except BaseException as error:
         violation=f'{type(error).__name__}: {error}'
     finally:
+        in_cleanup=True
         kill_owned()
         if process is not None:
             try:process.wait(timeout=max(.000001,min(1.,end-time.monotonic())))
@@ -192,6 +238,7 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
         finally:
             signal.setitimer(signal.ITIMER_REAL,0)
             signal.signal(signal.SIGALRM,previous_handler)
+            for signum,handler in previous_cancellation.items():signal.signal(signum,handler)
         if time.monotonic()>=end:raise GuardViolation('aggregate deadline reached during cleanup/receipt')
     return receipt
 
@@ -199,8 +246,9 @@ def run_bounded(command,*,deadline,seconds,log_path=None,capture_cap=8192,cwd=No
     """Single inherited-group child; every stdout/stderr chunk is bounded."""
     if time.monotonic()>=deadline:raise GuardViolation('aggregate controller deadline')
     finish=min(deadline,time.monotonic()+seconds)
+    publish_child_event('launch',finish)
     sink=BoundedWriter(log_path,LOG_CAP) if log_path is not None else None
-    captured=bytearray();process=None;selector=None
+    captured=bytearray();process=None;selector=None;completed=False
     try:
         process=subprocess.Popen(command,cwd=cwd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,bufsize=0)
         selector=selectors.DefaultSelector();selector.register(process.stdout,selectors.EVENT_READ)
@@ -216,6 +264,7 @@ def run_bounded(command,*,deadline,seconds,log_path=None,capture_cap=8192,cwd=No
                     if len(chunk)>capture_cap-len(captured):raise GuardViolation('captured child output quota')
                     captured.extend(chunk)
         if process.returncode!=0:raise GuardViolation(f'child exit {process.returncode}')
+        completed=True
         return bytes(captured)
     finally:
         if process is not None:
@@ -225,6 +274,7 @@ def run_bounded(command,*,deadline,seconds,log_path=None,capture_cap=8192,cwd=No
             process.stdout.close()
         if selector is not None:selector.close()
         if sink is not None:sink.close()
+        if completed:publish_child_event('done',time.monotonic())
 
 def controller_deadline():
     if os.environ.get('RHEON_CAMPAIGN_GUARDED')!='1' or os.getsid(0)!=os.getpid() or os.getpgrp()!=os.getpid():

@@ -39,11 +39,12 @@ def controller(mode,out):
     if mode=='capture_flood':
         guard.run_bounded([sys.executable,'-B',__file__,'worker','flood'],deadline=deadline,seconds=1)
         return
-    selected={'success':'okay','child_timeout':'sleep','log_flood':'flood','memory':'memory',
+    if mode=='spawn_hang':guard.subprocess.Popen=lambda *_args,**_kwargs:time.sleep(20)
+    selected={'success':'okay','child_timeout':'sleep','spawn_hang':'sleep','log_flood':'flood','memory':'memory',
               'descendant':'descendant','escape':'escape','file':'file'}[mode]
     command=[sys.executable,'-B',__file__,'worker',selected]
     if mode=='file':command.append(str(out/'n6/acquisition.txt'))
-    guard.run_bounded(command,deadline=deadline,seconds=.15 if mode=='child_timeout' else 3,
+    guard.run_bounded(command,deadline=deadline,seconds=.15 if mode in ('child_timeout','spawn_hang') else 3,
                       log_path=out/'n6.log')
 
 if __name__=='__main__':
