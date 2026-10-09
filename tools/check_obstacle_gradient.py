@@ -12,13 +12,20 @@ import math
 from pathlib import Path
 import struct
 import subprocess
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'research'))
+from check_proof_audit import require_external_output
 
 CAP=16_000_000
+
+def require(condition, message="oracle validation failed"):
+    if not condition:
+        raise ValueError(message)
 
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def run(cmd,ok=True):
     r=subprocess.run(list(map(str,cmd)),capture_output=True,text=True)
-    assert (r.returncode==0)==ok,(cmd,r.stdout,r.stderr)
+    require((r.returncode==0)==ok, (cmd,r.stdout,r.stderr))
     return r
 
 def encode_state(g,v,refs):
@@ -97,7 +104,7 @@ def expected_row(g,site):
             cell=p.copy()
             for d,bit in zip(axes,[1,2]):cell[d]-=not bool(sector&bit)
             if g['volumes'][index(cell,g['counts'])]>0:cells[sector]=cell
-        assert q in cells and len(cells) in [2,4]
+        require(q in cells and len(cells) in [2,4])
         remaining=3-a-b;cell=cells[q]
         widths=[abs(center(g,d,cell[d])-plane(g,d,p[d])) for d in axes]
         weight=(widths[0]*widths[1])*(plane(g,remaining,p[remaining]+1)-plane(g,remaining,p[remaining]))
@@ -115,20 +122,20 @@ def expected_row(g,site):
                 pairs=[(face_position(g,a,pc),'StationarySolid',None) for pc in [lower,p]]
     positions=[pair[0] for pair in pairs]
     separation=positions[1][b]-positions[0][b]
-    assert separation>0
+    require(separation>0)
     inverse=1./separation
     return dict(component=a,derivative=b,boundary=boundary,weight=weight,endpoints=[dict(position=position,source=source,face=f,coefficient=coefficient) for (position,source,f),coefficient in zip(pairs,[-inverse,inverse])])
 
 def validate_record(g,sites,v,q,native,expected_slopes=None):
-    assert native['qualification']=='Unqualified' and not native['pressure_available'] and not native['physical_load_qualified']
-    assert native['cap_bytes']==CAP and max(native['retained_action_payload_bytes'],native['parse_phase_payload_bytes'])<=CAP
-    assert native['velocity']==v and native['row_test']==q
-    assert len(native['rows'])==len(sites)
+    require(native['qualification']=='Unqualified' and not native['pressure_available'] and not native['physical_load_qualified'])
+    require(native['cap_bytes']==CAP and max(native['retained_action_payload_bytes'],native['parse_phase_payload_bytes'])<=CAP)
+    require(native['velocity']==v and native['row_test']==q)
+    require(len(native['rows'])==len(sites))
     gather=[];transpose=[[F(0)]*len(values) for values in v];row_pairing=F(0);ideal_errors=[]
     for i,(site,row,test) in enumerate(zip(sites,native['rows'],q)):
         expected=expected_row(g,site)
-        for key in ['component','derivative','boundary','weight','endpoints']:assert row[key]==expected[key],(site,key,row[key],expected[key])
-        assert row['active_term_count']==sum(e['source']=='VelocityFace' for e in expected['endpoints'])
+        for key in ['component','derivative','boundary','weight','endpoints']:require(row[key]==expected[key], (site,key,row[key],expected[key]))
+        require(row['active_term_count']==sum(e['source']=='VelocityFace' for e in expected['endpoints']))
         a=row['component'];value=F(0)
         for e in row['endpoints']:
             if e['source']=='VelocityFace':
@@ -138,26 +145,26 @@ def validate_record(g,sites,v,q,native,expected_slopes=None):
         if expected_slopes is not None:
             lo,hi=row['endpoints'];uminus=F(v[a][lo['face']]) if lo['face'] is not None else F(0);uplus=F(v[a][hi['face']]) if hi['face'] is not None else F(0)
             ideal=(uplus-uminus)/(F(hi['position'][row['derivative']])-F(lo['position'][row['derivative']]))
-            assert ideal==expected_slopes[i],(site,ideal,expected_slopes[i])
+            require(ideal==expected_slopes[i], (site,ideal,expected_slopes[i]))
             ideal_errors.append(float(abs(value-expected_slopes[i])))
     face_pairing=sum((F(value)*adj for values,adjs in zip(v,transpose) for value,adj in zip(values,adjs)),F(0))
-    assert row_pairing==face_pairing
+    require(row_pairing==face_pairing)
     def error(a,b):return abs(float(F(a)-b))
     grad_error=max([error(a,b) for a,b in zip(native['gradient'],gather)]+[0.])
     trans_error=max([error(a,b) for values,expected in zip(native['transpose'],transpose) for a,b in zip(values,expected)]+[0.])
     work_error=max(error(native['work']['row_pairing'],row_pairing),error(native['work']['face_pairing'],face_pairing))
     scale=1.+max([abs(float(x)) for x in gather]+[abs(float(row_pairing))]+[abs(float(x)) for values in transpose for x in values])
-    assert max(grad_error,trans_error,work_error)<2e-12*scale
+    require(max(grad_error,trans_error,work_error)<2e-12*scale)
     for a,values in enumerate(native['transpose']):
-        assert all(values[f]==0 for f in range(len(values)) if not active(g,a,f))
+        require(all(values[f]==0 for f in range(len(values)) if not active(g,a,f)))
     return dict(rows=len(sites),zero_rows=sum(r['active_term_count']==0 for r in native['rows']),nonzero_gather=sum(x!=0 for x in native['gradient']),nonzero_transpose=sum(x!=0 for arr in native['transpose'] for x in arr),exact_rational_transpose_identity=True,exact_real_affine_quotients_checked=expected_slopes is not None,stored_affine_coefficient_defect_max=max(ideal_errors+[0.]),native_gather_error=grad_error,native_transpose_error=trans_error,native_work_error=work_error,unenclosed_work_defect=native['work']['unenclosed_defect'],combined_payload_bytes=native['combined_payload_bytes'],retained_action_payload_bytes=native['retained_action_payload_bytes'],parse_phase_payload_bytes=native['parse_phase_payload_bytes'])
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--repo',required=True,type=Path);p.add_argument('--binary',required=True,type=Path);p.add_argument('--out',required=True,type=Path);a=p.parse_args()
-    repo,binary,out=a.repo.resolve(),a.binary.resolve(),a.out.resolve();assert not out.is_relative_to(repo);out.mkdir(parents=True,exist_ok=False)
+    repo,binary,out=a.repo.resolve(),a.binary.resolve(),a.out.resolve();out=require_external_output(out,repo);out.mkdir(parents=True,exist_ok=False)
     geometries={}
     for kind in ['3','6','12','nonmidpoint']:
-        path=out/('geometry-'+kind+'.json');run([binary,'describe_geometry',kind,path]);g=json.loads(path.read_text());assert g['counts']==[int(kind) if kind.isdigit() else 6]*3
+        path=out/('geometry-'+kind+'.json');run([binary,'describe_geometry',kind,path]);g=json.loads(path.read_text());require(g['counts']==[int(kind) if kind.isdigit() else 6]*3)
         geometries[kind]=g
     matrix=[[F(1,2),F(-1),F(1,4)],[F(3,4),F(3,2),F(-1,2)],[F(-1,4),F(1,2),F(-1)]]
     rotation=[[F(0),F(-1,2),F(1,4)],[F(1,2),F(0),F(-3,4)],[F(-1,4),F(3,4),F(0)]]
@@ -184,7 +191,7 @@ def main():
                     if endpoint['face'] is not None:
                         trace=next(e for e in row['endpoints'] if e['face'] is None)
                         value=float(slope*(F(endpoint['position'][row['derivative']])-F(trace['position'][row['derivative']])))
-                        key=row['component'],endpoint['face'];assert key not in assigned or assigned[key]==value;assigned[key]=value;v[key[0]][key[1]]=value
+                        key=row['component'],endpoint['face'];require(key not in assigned or assigned[key]==value);assigned[key]=value;v[key[0]][key[1]]=value
         else:
             for component,values in enumerate(v):
                 for face in range(len(values)):
@@ -203,7 +210,7 @@ def main():
     # Reuse the newly authored explicit N6 input, never edit a prior fixture.
     folder=out/'6-general';negatives=[]
     for name,query in [('coarse-fine','CF\n'),('corner','C 0 1 2 2 2 0\n'),('outer-cross','C 0 1 0 1 0 0\n'),('same-axis','C 0 0 1 1 1 0\n')]:
-        f=out/(name+'-request.txt');f.write_text(query);test=out/(name+'-test.txt');test.write_text('1\n');r=run([binary,'6',folder/'supplied-state.rheon-os1',f,test,out/(name+'-unexpected-output')],False);assert not (out/(name+'-unexpected-output')).exists();negatives.append(dict(case=name,native_error=r.stderr.strip(),native_exit=r.returncode))
+        f=out/(name+'-request.txt');f.write_text(query);test=out/(name+'-test.txt');test.write_text('1\n');r=run([binary,'6',folder/'supplied-state.rheon-os1',f,test,out/(name+'-unexpected-output')],False);require(not (out/(name+'-unexpected-output')).exists());negatives.append(dict(case=name,native_error=r.stderr.strip(),native_exit=r.returncode))
     files=['src/obstacle_gradient.rs','src/lib.rs','examples/obstacle_gradient.rs','tests/obstacle_gradient_contract.rs','research/obstacle-gradient/GradientInterface.lean','research/obstacle-gradient/check_proofs.py','tools/check_obstacle_gradient.py','docs/research-book/implementation/discrete-obstacle-gradient-foundation-20261009.md']
     report=dict(source_head=run(['git','-C',repo,'rev-parse','HEAD']).stdout.strip(),sources={f:sha(repo/f) for f in files},binary_sha256=sha(binary),cases=results,input_sources=input_sources,actual_native_unsupported_refusals=negatives,qualification='Unqualified',all_checks_passed=True,hard_cap_bytes=CAP,physical_load_accepted=False,accepted_dynamics_authorized=False,exact_real_scope='finite rows and compatible local affine/trace quotients only; stored reciprocal defects reported; native tolerances unenclosed')
     path=out/'gradient-oracle-report.json';path.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n');print(json.dumps(dict(report=str(path),sha256=sha(path),cases=len(results),all_checks_passed=True)))

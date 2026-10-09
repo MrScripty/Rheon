@@ -105,7 +105,7 @@ fn inputs(source: ObstacleEvidenceRef) -> Result<ObstaclePhysicalInputs, Box<dyn
 }
 fn source(path: &Path) -> Result<FlatWallPolynomialForce, Box<dyn Error>> {
     if fs::metadata(path)?.len() > 65536 {
-        return Err("force source exceeds64KiB".into());
+        return Err("force source exceeds 64 KiB".into());
     }
     let digest = sha256::digest(File::open(path)?)?;
     let mut text = String::new();
@@ -319,7 +319,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let argc_bytes = args.capacity() * std::mem::size_of::<String>()
         + args.iter().map(|s| s.capacity()).sum::<usize>();
     if argc_bytes > 8192 {
-        return Err("argument payload exceeds8KiB".into());
+        return Err("argument payload exceeds 8 KiB".into());
     }
     let face_count = [Axis::X, Axis::Y, Axis::Z]
         .into_iter()
@@ -339,7 +339,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut p = FlatWallRitzProvider::new(&g, source, inputs, provider_limit, |_, _| {
         begin.elapsed().as_secs() >= 180
     })?;
-    // Runner budget includes copied owner, input/output journals and two8KiB
+    // Runner budget includes copied owner, input/output journals and two 8 KiB
     // buffers; source text is already dropped. Never stores all row records.
     let mut q = Vec::new();
     q.try_reserve_exact(p.plan().columns().len())?;

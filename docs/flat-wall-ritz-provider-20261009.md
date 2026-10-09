@@ -13,7 +13,7 @@ This trial space, source and wall reconstruction are newly derived choices.
 
 ## Exact finite model and represented implementation
 
-Only counts N6/N9/N12, spacing stored `3/N`, origin0, domain `[0,3]^3`, retained
+Only counts N6/N9/N12, spacing stored `3/N`, origin 0, domain `[0,3]^3`, retained
 solid `[1,2]^3`, SI rho=mu=1 are admitted. Put m=N/3. A z-oriented potential q,
 units m³/s, lives at x planes m+1..2m-1, y planes 1..m-1, z layers m..2m-1;
 all other potential values are pinned 0. Each basis has four oriented face flux
@@ -29,8 +29,8 @@ stored velocity. It is neither an exact-native identity nor spatial convergence.
 
 The full selected roster consists of all three normals in the patch and both
 directed gradients of every included XY/XZ/YZ fluid quadrant, including flat
-stationary trace and reverse Uz rows. It has q/row/block counts2/176/100,
-12/681/381,36/1680/936. Coverage inspection visits every global supported normal
+stationary trace and reverse Uz rows. It has q/row/block counts 2/176/100,
+12/681/381, 36/1680/936. Coverage inspection visits every global supported normal
 and internal cross sector for **every trial coefficient**. Any nonzero omitted
 row refuses. At any unsupported three-fluid-quadrant corner, all four surrounding
 component-face samples must be structurally absent from every C column. This
@@ -43,8 +43,8 @@ Stationary wall traces are exactly 0; flat rays retain actual center-to-wall
 distance and sector volume. Normal flux pinning is not a continuum tangential
 no-slip density/coercivity proof. Complete positive normal-Y energy rows give
 finite-model uniqueness: zero energy forces Uy constant along each vertical
-chain, zero endpoint Uy implies Uy0, then x incidence and pinned x endpoints
-force q0. Physical consistency and boundary derivative convergence remain open.
+chain, zero endpoint Uy implies Uy = 0, then x incidence and pinned x endpoints
+force q = 0. Physical consistency and boundary derivative convergence remain open.
 
 The matrix is assembled from immutable parent row coefficients and matched
 blocks: `Aq=CᵀKC`; normal contribution `2µV g_i g_j`, shear contribution
@@ -68,7 +68,7 @@ integrals; it is not a kernel proof of IEEE correctness or a PDE-error bound.
 
 `tools/flat_wall_force_source.py` independently emits the benchmark **forcing
 coefficients only**. With X=s⁶(1-s)⁶, Z=X(t)(t+1/2), Y=y⁴(1-y)², A=12012²/2,
-its source is fx=-A(X''ZY'+XZ''Y'+XZY'''), fy=A(X'''ZY+X'Z''Y+X'ZY''), fz0.
+its source is fx=-A(X''ZY'+XZ''Y'+XZY'''), fy=A(X'''ZY+X'Z''Y+X'ZY''), fz = 0.
 No generated data is tracked. The standalone native example only parses these
 coefficients. Exact independent reference comparison happens after its process
 exits. The continuum viscous reference about `(1.5)^3` is F=(-1,0,0)N and
@@ -88,7 +88,7 @@ never reported as a numerical physical solution.
 
 `flat_wall_owned_traction` reads the actual owner, validates its entire trial
 footprint, and integrates lower-Y fluid-on-solid traction with normal `-e_y`.
-Tangential x P1 uses stationary0 and the actual wall distance; x hats use actual
+Tangential x P1 uses stationary 0 and the actual wall distance; x hats use actual
 mass and first moment, including their nonuniform centroid. Normal stress uses
 every x/z cell area and geometric first moment. Normal traction is never erased
 using reference pressure 0. Uz and endpoint/other-face zeros require structural

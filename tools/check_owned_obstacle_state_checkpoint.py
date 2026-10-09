@@ -10,14 +10,21 @@ import math
 from pathlib import Path
 import struct
 import subprocess
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'research'))
+from check_proof_audit import require_external_output
 
 CAP = 16_000_000
+
+def require(condition, message="oracle validation failed"):
+    if not condition:
+        raise ValueError(message)
 
 class Wire:
     def __init__(self, data):
         self.data, self.pos = data, 0
     def take(self, n):
-        assert self.pos + n <= len(self.data), "truncated wire"
+        require(self.pos + n <= len(self.data), "truncated wire")
         value = self.data[self.pos:self.pos+n]
         self.pos += n
         return value
@@ -32,7 +39,7 @@ class Wire:
     def reference(self):
         return self.u64(), self.u64(), self.take(32).hex()
     def array(self, count, read):
-        assert self.u64() == count, "incorrect represented array length"
+        require(self.u64() == count, "incorrect represented array length")
         return [read() for _ in range(count)]
 
 def sha(path):
@@ -41,32 +48,32 @@ def sha(path):
 def run(command, success=True):
     result = subprocess.run([str(v) for v in command], capture_output=True, text=True)
     if success:
-        assert result.returncode == 0, result.stderr
+        require(result.returncode == 0, result.stderr)
     else:
-        assert result.returncode != 0, f"unexpected acceptance: {command}"
+        require(result.returncode != 0, f"unexpected acceptance: {command}")
     return result
 
 def decode(path, n, refs):
     raw = path.read_bytes()
     r = Wire(raw)
-    assert r.take(8) == b'RHEONOS1' and r.u32() == 1
-    assert [r.u64() for _ in range(3)] == [n]*3
+    require(r.take(8) == b'RHEONOS1' and r.u32() == 1)
+    require([r.u64() for _ in range(3)] == [n]*3)
     h = 3 / n
     for expected in ([0.]*3, [h]*3, [1.]*3, [2.]*3):
-        assert [r.f64() for _ in range(3)] == expected
-    assert (r.u64(), r.u64()) == (73, 1)
+        require([r.f64() for _ in range(3)] == expected)
+    require((r.u64(), r.u64()) == (73, 1))
     tolerance = r.f64()
-    assert math.isfinite(tolerance) and tolerance > 0
+    require(math.isfinite(tolerance) and tolerance > 0)
     vertices = r.array(8, lambda: [r.f64() for _ in range(3)])
-    assert vertices == [[2. if corner & (1 << d) else 1. for d in range(3)] for corner in range(8)]
+    require(vertices == [[2. if corner & (1 << d) else 1. for d in range(3)] for corner in range(8)])
     triangles = r.array(12, lambda: [r.u64() for _ in range(3)])
-    assert triangles == [[0,2,3],[0,3,1],[4,5,7],[4,7,6],[0,1,5],[0,5,4],[2,6,7],[2,7,3],[0,4,6],[0,6,2],[1,3,7],[1,7,5]]
-    assert r.u64() == 1
+    require(triangles == [[0,2,3],[0,3,1],[4,5,7],[4,7,6],[0,1,5],[0,5,4],[2,6,7],[2,7,3],[0,4,6],[0,6,2],[1,3,7],[1,7,5]])
+    require(r.u64() == 1)
     def coord(index, counts):
         return index % counts[0], (index // counts[0]) % counts[1], index // (counts[0]*counts[1])
     lo, hi = n//3, 2*n//3
     solid = [all(lo <= c < hi for c in coord(index, [n]*3)) for index in range(n**3)]
-    assert r.array(n**3, r.f64) == [0. if s else h**3 for s in solid]
+    require(r.array(n**3, r.f64) == [0. if s else h**3 for s in solid])
     lengths = []
     for axis in range(3):
         counts = [n]*3
@@ -78,24 +85,24 @@ def decode(path, n, refs):
             c = coord(index, counts)
             blocked = lo <= c[axis] <= hi and all(lo <= c[d] < hi for d in range(3) if d != axis)
             expected.append(0. if blocked else h*h)
-        assert r.array(length, r.f64) == expected
-    assert r.array(n**3, r.u64) == [(2**64-1) if s else 0 for s in solid]
+        require(r.array(length, r.f64) == expected)
+    require(r.array(n**3, r.u64) == [(2**64-1) if s else 0 for s in solid])
     metadata_start = r.pos
-    assert [r.u8() for _ in range(5)] == [1,2,1,0,0]
-    assert [r.f64() for _ in range(4)] == [1000.,0.001,0.,0.]
-    assert r.u64() == 0
-    assert r.reference() == (1,0,refs[0])
-    assert r.reference() == (2,0,refs[1])
-    assert r.u8() == 1 and r.reference() == (3,0,refs[2])
-    assert r.u8() == 1 and r.reference() == (4,0,refs[3])
-    assert (r.f64(), r.f64()) == (0.,0.)
-    assert r.u8() == 1 and r.u8() == 9
-    assert [r.u8() for _ in range(9)] == [0]*9
+    require([r.u8() for _ in range(5)] == [1,2,1,0,0])
+    require([r.f64() for _ in range(4)] == [1000.,0.001,0.,0.])
+    require(r.u64() == 0)
+    require(r.reference() == (1,0,refs[0]))
+    require(r.reference() == (2,0,refs[1]))
+    require(r.u8() == 1 and r.reference() == (3,0,refs[2]))
+    require(r.u8() == 1 and r.reference() == (4,0,refs[3]))
+    require((r.f64(), r.f64()) == (0.,0.))
+    require(r.u8() == 1 and r.u8() == 9)
+    require([r.u8() for _ in range(9)] == [0]*9)
     field_header = r.pos
-    assert [r.u64() for _ in range(3)] == lengths
+    require([r.u64() for _ in range(3)] == lengths)
     values_start = r.pos
-    assert r.take(sum(lengths)*8) == b'\0'*(sum(lengths)*8), "caller-declared rest payload mismatch"
-    assert r.pos == len(raw), "trailing bytes"
+    require(r.take(sum(lengths)*8) == b'\0'*(sum(lengths)*8), "caller-declared rest payload mismatch")
+    require(r.pos == len(raw), "trailing bytes")
     return dict(n=n, bytes=len(raw), sha256=sha(path), metadata_start=metadata_start,
                 field_header=field_header, values_start=values_start, face_lengths=lengths,
                 independent_geometry_arrays_match=True, all_inputs_file_bound=True,
@@ -108,7 +115,7 @@ def main():
     p.add_argument('--out', required=True, type=Path)
     args = p.parse_args()
     repo, binary, out = args.repo.resolve(), args.binary.resolve(), args.out.resolve()
-    assert not out.is_relative_to(repo), "output must be outside Git"
+    out = require_external_output(out,repo)
     out.mkdir(parents=True, exist_ok=False)
     declarations = [
         'Explicit example problem: transient incompressible Stokes; SI; domain [0,3]^3; retained solid [1,2]^3; density 1000 kg/m^3; dynamic viscosity 0.001 Pa s; initial time 0 s. No physical solution is certified.\n',
@@ -128,11 +135,11 @@ def main():
         result = run([binary,folder,n,*refs])
         native = json.loads(result.stdout)
         (out/f'n{n}-native.json').write_text(json.dumps(native,indent=2)+'\n')
-        assert native['cap_bytes'] == CAP
-        assert native['coexisting_example_payload_bound_bytes'] <= CAP
+        require(native['cap_bytes'] == CAP)
+        require(native['coexisting_example_payload_bound_bytes'] <= CAP)
         case = decode(folder/'state.rheon-os1',n,refs)
-        assert (folder/'state.rheon-os1').read_bytes() == (folder/'roundtrip.rheon-os1').read_bytes()
-        assert json.loads(run([binary,'check',n,folder/'state.rheon-os1']).stdout)['structurally_valid']
+        require((folder/'state.rheon-os1').read_bytes() == (folder/'roundtrip.rheon-os1').read_bytes())
+        require(json.loads(run([binary,'check',n,folder/'state.rheon-os1']).stdout)['structurally_valid'])
         cases.append(dict(independent=case,native=native,bitwise_roundtrip=True))
     original = (out/'n3/state.rheon-os1').read_bytes()
     locations = cases[0]['independent']
@@ -162,7 +169,7 @@ def main():
     challenge('trailing_byte',original+b'\0')
     # Missing CLI physical references must fail before output creation.
     missing = run([binary,out/'missing-inputs',3],False)
-    assert not (out/'missing-inputs').exists()
+    require(not (out/'missing-inputs').exists())
     sources = ['src/obstacle_state.rs','src/lib.rs','src/aligned_strain.rs',
                'examples/owned_obstacle_state_checkpoint.rs','tests/owned_obstacle_state_contract.rs',
                'tools/check_owned_obstacle_state_checkpoint.py',

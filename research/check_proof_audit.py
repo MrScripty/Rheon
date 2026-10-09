@@ -29,7 +29,7 @@ def require_external_output(output, root=None, message='output must remain outsi
     probe_env['LC_ALL'] = 'C'
     probe_env['GIT_DISCOVERY_ACROSS_FILESYSTEM'] = '1'
     probe = subprocess.run(['git', '-C', str(ancestor), 'rev-parse', '--is-inside-work-tree'],
-                           capture_output=True, text=True, env=probe_env)
+                           capture_output=True, text=True, env=probe_env, timeout=30)
     if probe.returncode == 0:
         raise ValueError(message)
     if probe.returncode != 128 or not probe.stderr.startswith('fatal: not a git repository'):
@@ -61,7 +61,7 @@ def audit(root, source_path, prefix, scope, checker, lean, dependencies, output)
     pins = json.loads((ROOT/'proofs/lake-manifest.json').read_text())['packages']
     checked = {}
     for package in pins:
-        actual = subprocess.check_output(['git', '-C', str(dependencies/package['name']), 'rev-parse', 'HEAD'], text=True).strip()
+        actual = subprocess.check_output(['git', '-C', str(dependencies/package['name']), 'rev-parse', 'HEAD'], text=True, timeout=30).strip()
         if actual != package['rev']:
             raise ValueError('dependency pin differs: '+package['name'])
         checked[package['name']] = actual
