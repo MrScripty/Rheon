@@ -1,6 +1,8 @@
 import {readRecording, mountKenoma, KENOMA_COMMIT} from './adapters.js';
 import {RecordedView} from './view.js';
 import {readRecordingFolder} from './catalog.js';
+import {readPublishedCatalog, readPublishedRecording} from './published.js';
+const outputURL = new URL('./outputs/catalog.json', import.meta.url);
 const fmt = value => Array.isArray(value) ? value.map(fmt).join(', ') : Number(value).toPrecision(6);
 const node = (tag, text) => { const el = document.createElement(tag); el.textContent = text; return el; };
 
@@ -13,8 +15,9 @@ export class RheonViewer extends HTMLElement {
       <label id="import-label" class="file-button">Open native JSON<input id="file" type="file" accept=".json,application/json"></label>
       <label id="folder-label" class="file-button">Open output folder<input id="folder" type="file" webkitdirectory multiple aria-label="Open output folder"></label>
       <label id="runs-label" hidden>Recording <select id="runs" aria-label="Folder recording"></select></label>
+      <button id="refresh-outputs">Refresh producer outputs</button><label id="outputs-label" hidden>Completed output <select id="outputs" aria-label="Completed producer output"></select></label>
       <label id="cases-label" hidden>Case <select id="cases" aria-label="Recorded case"></select></label><button id="fit">Frame view</button></div>
-      <p id="scope" class="scope"></p><details id="catalog-panel" hidden><summary id="catalog-summary">Folder files</summary><ul id="catalog-items"></ul></details><div class="layout"><div><div id="record-host" class="viewport"><div id="empty" class="empty"><strong>Your data, in view.</strong><span>Open a saved Rheon JSON output or output folder.<br>Or switch to Human pose to arrange simple characters.</span></div></div>
+      <p id="scope" class="scope"></p><details id="outputs-panel" hidden><summary id="outputs-summary">Producer outputs</summary><ul id="output-items"></ul></details><details id="catalog-panel" hidden><summary id="catalog-summary">Folder files</summary><ul id="catalog-items"></ul></details><div class="layout"><div><div id="record-host" class="viewport"><div id="empty" class="empty"><strong>Your data, in view.</strong><span>Choose a completed producer output, open native JSON or an output folder.<br>Or switch to Human pose to arrange simple characters.</span></div></div>
       <div id="pose-host" class="viewport" hidden></div></div><aside class="sidebar"><div><h2 id="title">Recorded mechanics</h2><dl id="metrics"></dl></div><div id="profile-panel" hidden><svg id="profile" viewBox="0 0 230 210" role="img" aria-label="Recorded tangential speed in metres per second against height in metres"></svg></div><p id="provenance"></p></aside></div>
       <div id="transport" class="transport"><button id="previous" aria-label="Previous recorded frame" disabled>←</button><button id="play" disabled>Play records</button><button id="next" aria-label="Next recorded frame" disabled>→</button>
       <input id="timeline" type="range" min="0" max="0" value="0" aria-label="Recorded frame" disabled><output id="time">No recording loaded</output></div>
@@ -56,14 +59,52 @@ export class RheonViewer extends HTMLElement {
         this.load(entry.data);
       }
     };
+    this.$('refresh-outputs').onclick=()=>this.refreshOutputs();
+    this.$('outputs').onchange=async e=>{
+      const request=this.loadRequest=(this.loadRequest || 0)+1;this.pause();
+      const entry=this.outputCatalog?.entries.find(entry=>entry.id===e.target.value);
+      if (!entry?.record || entry.state!=='completed') return;
+      const isCurrent=()=>this.active&&request===this.loadRequest;
+      this.status('Opening completed output '+entry.label);
+      try {
+        const data=await readPublishedRecording(outputURL,entry,{isCurrent});
+        if(isCurrent()){this.setCatalog(null);this.load(data);}
+      }catch(error){if(isCurrent())this.status(error.message,true);}
+    };
     this.$('cases').onchange = e => { this.pause(); this.caseIndex = Number(e.target.value); this.index = 0; this.draw(true); };
     this.$('timeline').oninput = e => { this.pause(); this.index = Number(e.target.value); this.draw(); };
     this.$('previous').onclick = () => this.seek(this.index - 1); this.$('next').onclick = () => this.seek(this.index + 1);
     this.$('play').onclick = () => this.timer ? this.pause() : this.play(); this.$('fit').onclick = () => this.view?.fit();
     this.selectMode('records');
+    this.refreshOutputs();
   }
   disconnectedCallback() { this.active = false; this.pause(); this.loadRequest = (this.loadRequest || 0) + 1; this.poseRequest = (this.poseRequest || 0) + 1; this.view?.dispose(); this.view = null; this.unmountPose?.(); this.unmountPose = null; }
   status(message, error = false) { this.$('status').textContent = message; this.$('status').classList.toggle('error', error); }
+  async refreshOutputs() {
+    const request=this.loadRequest=(this.loadRequest || 0)+1;
+    const isCurrent=()=>this.active&&request===this.loadRequest;
+    this.pause();this.status('Reading producer completion catalog…');
+    try {
+      const catalog=await readPublishedCatalog(outputURL,{isCurrent});
+      if(!isCurrent())return;
+      this.outputCatalog=catalog;
+      const choices=catalog.entries.filter(entry=>entry.state==='completed'&&entry.record);
+      const placeholder=node('option','Choose a completed output…');placeholder.value='';
+      this.$('outputs').replaceChildren(placeholder);
+      this.$('output-items').replaceChildren();
+      for(const entry of catalog.entries){
+        const item=node('li',`${entry.label} · ${entry.state} · ${entry.message}`);
+        if(entry.provenance?.source_head)item.append(node('span',` · Source ${entry.provenance.source_head}`));
+        if(entry.provenance?.receipt){const link=node('a',' Original producer receipt');link.href=new URL('./blobs/'+entry.provenance.receipt.sha256+'.json',outputURL).href;link.target='_blank';link.rel='noopener noreferrer';item.append(link);}
+        this.$('output-items').append(item);
+        if(entry.state==='completed'&&entry.record){const option=node('option',entry.label);option.value=entry.id;this.$('outputs').append(option);}
+      }
+      this.$('outputs-summary').textContent=`Producer outputs · ${choices.length} completed recordings / ${catalog.entries.length} entries`;
+      this.$('outputs-panel').hidden=this.mode==='pose';
+      this.$('outputs-label').hidden=this.mode==='pose'||!choices.length;
+      this.status(choices.length?'Choose a completed producer output. Existing view retained.':'No completed producer recordings linked. Local JSON and folder import remain available.');
+    }catch(error){if(isCurrent())this.status('Producer catalog unavailable: '+error.message+'. Existing view retained.',true);}
+  }
   setCatalog(catalog) {
     this.catalog=catalog;
     this.$('runs').replaceChildren(); this.$('catalog-items').replaceChildren();
@@ -81,8 +122,9 @@ export class RheonViewer extends HTMLElement {
   }
   load(data) {
     this.pause(); this.data = data; this.index = 0; this.caseIndex = 0;
+    if(data.provenance.source!=='Producer recorded output')this.$('outputs').value='';
     this.$('cases').replaceChildren(...data.cases.map((c, i) => { const option = node('option', c.label); option.value = i; return option; }));
-    this.status(`${data.provenance.name} · SHA256 ${data.provenance.sha256} · Imported for visualization, not solver qualification.`);
+    this.status(`${data.provenance.name} · SHA256 ${data.provenance.sha256}${data.provenance.source_head?' · Producer source '+data.provenance.source_head:''} · Imported for visualization, not solver qualification.`);
     this.selectMode('records'); this.draw(true);
   }
   frames() { return this.data?.cases[this.caseIndex].frames; }
@@ -100,7 +142,9 @@ export class RheonViewer extends HTMLElement {
     if (pose) this.loadRequest=(this.loadRequest || 0)+1;
     this.$('pose').setAttribute('aria-pressed', String(pose)); this.$('records').setAttribute('aria-pressed', String(!pose));
     this.$('record-host').hidden = pose; this.$('pose-host').hidden = !pose;
-    for (const id of ['import-label', 'folder-label', 'transport', 'fit']) this.$(id).hidden = pose;
+    for (const id of ['import-label', 'folder-label', 'refresh-outputs', 'transport', 'fit']) this.$(id).hidden = pose;
+    this.$('outputs-label').hidden=pose||!this.outputCatalog?.entries.some(entry=>entry.state==='completed'&&entry.record);
+    this.$('outputs-panel').hidden=pose||!this.outputCatalog;
     this.$('runs-label').hidden=pose || !this.catalog?.entries.some(entry=>entry.status==='ready');
     this.$('catalog-panel').hidden=pose || !this.catalog;
     this.$('cases-label').hidden = pose || !this.data;

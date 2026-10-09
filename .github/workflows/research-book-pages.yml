@@ -1,10 +1,10 @@
 name: Rheon research book and Pages
 on:
   pull_request:
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['browser/viewer/**', 'docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   push:
     branches: [main]
-    paths: ['docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['browser/viewer/**', 'docs/education/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -14,7 +14,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 30
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
@@ -30,6 +30,9 @@ jobs:
           echo "RHEON_OBSTACLE=$RUNNER_TEMP/rheon-obstacle-records" >> "$GITHUB_ENV"
           echo "RHEON_FLOW=$RUNNER_TEMP/rheon-obstacle-flow-records" >> "$GITHUB_ENV"
           echo "RHEON_STRAIN=$RUNNER_TEMP/rheon-aligned-strain-records" >> "$GITHUB_ENV"
+          echo "RHEON_VIEWER=$RUNNER_TEMP/rheon-viewer" >> "$GITHUB_ENV"
+          echo "RHEON_KENOMA=$RUNNER_TEMP/rheon-kenoma" >> "$GITHUB_ENV"
+          echo "RHEON_WASM_TOOLS=$RUNNER_TEMP/rheon-wasm-tools" >> "$GITHUB_ENV"
           echo "RHEON_STRAIN_QUALIFICATION=$RUNNER_TEMP/rheon-aligned-strain-qualification" >> "$GITHUB_ENV"
           echo "CARGO_TARGET_DIR=$RUNNER_TEMP/rheon-geometry-target" >> "$GITHUB_ENV"
           echo "CARGO_HOME=$RUNNER_TEMP/rheon-cargo" >> "$GITHUB_ENV"
@@ -82,6 +85,19 @@ jobs:
           python3 docs/education/aligned_strain_packet.py --output "$RHEON_STRAIN" --executable "$CARGO_TARGET_DIR/debug/examples/aligned_strain" --primary-qualification "$RHEON_STRAIN_QUALIFICATION/qualification.json"
           RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -m unittest discover -s docs/education -p test_aligned_strain_packet.py
           RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -O -m unittest discover -s docs/education -p test_aligned_strain_packet.py
+      - name: Package pinned authoring and discover existing completed flow output
+        run: |
+          git clone --no-checkout https://github.com/MrScripty/Kenoma.git "$RHEON_KENOMA"
+          git -C "$RHEON_KENOMA" checkout --detach 3e7ff0887d01a1f4c440d3808770ea3eac7ec8d4
+          rustup toolchain install 1.92.0 --profile minimal --no-self-update
+          rustup +1.92.0 target add wasm32-unknown-unknown
+          cargo +1.92.0 install --locked wasm-bindgen-cli --version 0.2.129 --root "$RHEON_WASM_TOOLS"
+          node --test browser/viewer/tests/*.test.mjs
+          python3 browser/viewer/tests/test_build.py
+          python3 browser/viewer/tests/test_output_catalog.py
+          python3 docs/education/test_viewer_integration.py
+          python3 browser/viewer/build.py --output "$RHEON_VIEWER" --kenoma-source "$RHEON_KENOMA" --asset-dir "$RHEON_ASSETS/node_modules" --target-dir "$RUNNER_TEMP/rheon-human-wasm-target" --wasm-bindgen "$RHEON_WASM_TOOLS/bin/wasm-bindgen" --producer-root "obstacle-flow=$RHEON_FLOW"
+          python3 browser/viewer/tests/producer_browser.py --site "$RHEON_VIEWER" --flow "$RHEON_FLOW/records.json" --output "$RUNNER_TEMP/rheon-producer-browser-check"
       - name: Build complete static edition and verify local links
         run: |
           python3 -m unittest discover -s docs/education -p test_pdf_freshness.py
@@ -92,7 +108,7 @@ jobs:
           python3 -O -m unittest discover -s docs/education -p test_native_sequence.py
           python3 -m unittest discover -s docs/education -p test_static_obstacle.py
           python3 -O -m unittest discover -s docs/education -p test_static_obstacle.py
-          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --obstacle-records-dir "$RHEON_OBSTACLE" --obstacle-flow-records-dir "$RHEON_FLOW" --aligned-strain-records-dir "$RHEON_STRAIN"
+          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --obstacle-records-dir "$RHEON_OBSTACLE" --obstacle-flow-records-dir "$RHEON_FLOW" --aligned-strain-records-dir "$RHEON_STRAIN" --viewer-dir "$RHEON_VIEWER"
           python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
           python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
       - name: Verify retained browser bindings and current Chromium laboratories

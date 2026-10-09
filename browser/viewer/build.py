@@ -34,6 +34,7 @@ def main():
     parser.add_argument('--asset-dir', type=Path, required=True, help='Rheon education node_modules, locked three@0.180.0')
     parser.add_argument('--target-dir', type=Path, required=True)
     parser.add_argument('--wasm-bindgen', type=Path, required=True)
+    parser.add_argument('--producer-root', action='append', default=[], metavar='NAME=PATH', help='Existing producer outputs only; never runs a solver')
     args = parser.parse_args()
     output = external(args.output); target = external(args.target_dir)
     require(not output.exists(), 'Choose a fresh output directory')
@@ -51,7 +52,7 @@ def main():
     env = dict(os.environ, CARGO_TARGET_DIR=str(target))
     subprocess.run(['cargo', 'build', '--locked', '-p', 'human_wasm', '--release', '--target', 'wasm32-unknown-unknown'], cwd=source, env=env, check=True, timeout=600)
     output.mkdir(parents=True)
-    for name in ['index.html', 'viewer.css', 'shell.css', 'shell.js', 'view.js', 'adapters.js', 'catalog.js', 'app.js']:
+    for name in ['index.html', 'viewer.css', 'shell.css', 'shell.js', 'view.js', 'adapters.js', 'catalog.js', 'published.js', 'app.js']:
         shutil.copyfile(ROOT / name, output / name)
     vendor = output / 'vendor'; vendor.mkdir()
     for rel in ['build/three.module.js', 'build/three.core.js', 'examples/jsm/controls/OrbitControls.js', 'LICENSE']:
@@ -64,8 +65,16 @@ def main():
     shutil.copyfile(source / 'LICENSE', component / 'KENOMA-LICENSE')
     subprocess.run([str(args.wasm_bindgen.resolve()), '--target', 'web', '--out-dir', str(component / 'pkg'), str(target / 'wasm32-unknown-unknown/release/human_wasm.wasm')], check=True, timeout=120)
     (output / 'component.json').write_text(json.dumps({'commit': PIN, 'protocol': 1, 'rig_version': 1, 'repository': 'MrScripty/Kenoma', 'mode': 'kinematic editor'}, indent=2) + '\n')
-    hashes = {str(p.relative_to(output)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(output.rglob('*')) if p.is_file()}
-    receipt = {'schema': 'rheon-viewer-package-v1', 'rheon_head': run(['git', 'rev-parse', 'HEAD'], ROOT), 'rheon_dirty': bool(run(['git', 'status', '--porcelain'], ROOT)), 'kenoma_commit': PIN, 'kenoma_tree': run(['git', 'rev-parse', 'HEAD^{tree}'], source), 'wasm_bindgen': version, 'files_sha256': hashes, 'physics_runs': 0, 'numerical_qualification_claim': False}
+    from output_catalog import publish
+    roots=[]
+    for spec in args.producer_root:
+        require('=' in spec, 'Producer root must be NAME=PATH')
+        name, path = spec.split('=', 1); roots.append((name, Path(path)))
+    catalog = publish(roots, output / 'outputs')
+    # Producer snapshots have their own immutable blob identities and atomic
+    # catalog. Runtime hashes stay valid when the output catalog is refreshed.
+    hashes = {str(p.relative_to(output)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(output.rglob('*')) if p.is_file() and not p.is_relative_to(output / 'outputs')}
+    receipt = {'schema': 'rheon-viewer-package-v1', 'rheon_head': run(['git', 'rev-parse', 'HEAD'], ROOT), 'rheon_dirty': bool(run(['git', 'status', '--porcelain'], ROOT)), 'kenoma_commit': PIN, 'kenoma_tree': run(['git', 'rev-parse', 'HEAD^{tree}'], source), 'wasm_bindgen': version, 'files_sha256': hashes, 'initial_output_catalog': catalog, 'physics_runs': 0, 'numerical_qualification_claim': False}
     (output / 'package-receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     require(not run(['git', 'status', '--porcelain', '--untracked-files=all'], source), 'Kenoma source changed during packaging')
     print(json.dumps({'output': str(output), 'files': len(hashes), 'kenoma_commit': PIN, 'physics_runs': 0}))

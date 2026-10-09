@@ -97,6 +97,52 @@ time. Scrub/previous/next/case/mode changes pause playback. Force and velocity
 arrow lengths are normalized presentation scales; plotted speeds and metric
 values retain their units. Camera movement changes only presentation.
 
+## Producer-owned recorded-output catalog
+
+The default GUI reads `outputs/catalog.json` on connection. **Refresh producer
+outputs** reads its latest completed snapshot; the selector offers recordings
+only after their existing producer receipts record completion. Expand **Producer
+outputs** for completed, incomplete, failed and unsupported states, original
+source commits and exact original receipt links. Choosing a recording checks its
+original receipt, recorded source identity and immutable record hash before
+using the existing display adapter. An invalid refresh or changed blob preserves
+the current display. This is recorded-output discovery, not a running simulation.
+
+Link existing producer directories during static packaging with repeated
+`--producer-root NAME=/external/producer-output`. Supported receipt boundaries
+are `tools/check_rigid_motion.py` oracle packets, the enclosing
+`tools/qualify_rigid_motion.py` pipeline, and `docs/education/obstacle_flow.py`
+packets. These producer sources and their original files are unchanged. The
+obstacle-flow file retains all its pressure data; this viewer displays its shear
+cases. No new column, field or TSV receipt format is guessed.
+
+To publish an updated catalog after an existing producer finishes, without
+rebuilding the GUI or assembling a folder:
+
+```sh
+python3 browser/viewer/output_catalog.py \
+  --producer-root motion=/external/rigid-motion-output \
+  --producer-root shear=/external/obstacle-flow-packet \
+  --output-dir /external/rheon-viewer/outputs
+```
+
+This inspects at most eight explicit roots and one child level, 64 directories,
+512 directory entries and 128 catalog entries. Receipt reads are limited to
+2 MiB each and 32 MiB total; recordings to 8 MiB each and 32 MiB total. The
+catalog is capped at 256 KiB. Missing receipts/files remain incomplete; failed
+producers, changed bytes and invalid inputs are unavailable. A failed enclosing
+rigid-motion pipeline blocks its completed child oracle packets. This does not
+rerun or certify the original physics checks. Browser reads enforce their own
+limits and preserve the source and byte identities in displayed provenance.
+
+Publication takes an exclusive local writer lock, writes immutable blobs first,
+then replaces the entire catalog atomically. Existing blobs remain available to
+readers of older snapshots. A discovery or publication error preserves the prior
+catalog. Quotas apply per refresh/request; in-flight reads can finish before
+being discarded, and retained blob history has no global storage bound. The
+runtime package hash inventory excludes this mutable catalog namespace; each
+catalog references its own immutable content-addressed records and receipts.
+
 ## Embedding and adapter boundary
 
 ```html
@@ -147,8 +193,9 @@ The bounded output-folder importer now discovers supported unchanged files in
 one selection and lists unsupported files visibly. Its versioned in-memory
 catalog preserves each file's native display data, units, recorded times and
 byte identity through the existing adapters, without a site rebuild per run.
-The remaining gap is a durable run/output catalog or export-to-viewer link with
-producer-owned format/source/state metadata. Aligned-strain TSV, full MAC
+The producer catalog now discovers completed receipt-bound rigid and flow
+outputs automatically from explicit output roots. The remaining gap is adapters
+for further producer receipts and an export-to-viewer link in their own UIs. Aligned-strain TSV, full MAC
 fields, pressure slices and the retained wrench JSONL still lack adapters.
 The current physics roadmap's moving/interface/general-coupling gaps remain
 separate computational prerequisites. The pinned Kenoma scene-file milestone closes explicit save/reopen for human

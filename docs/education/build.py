@@ -11,9 +11,10 @@ from aligned_strain_packet import validate_packet as validate_strain_packet, pub
 from aligned_strain_html import render_lab
 from pdf_freshness import input_hashes
 from markdown_bundle import write_bundle
+from viewer_integration import inventory as viewer_inventory, publish as publish_viewer
 ROOT=Path(__file__).resolve().parents[2]; HERE=Path(__file__).resolve().parent
 BOOK=ROOT/'docs/research-book'; OUT=HERE/'_site'
-ASSETS=HERE/'node_modules'; NATIVE_LABS=None; OBSTACLE_RECORDS=None; FLOW_RECORDS=None; STRAIN_RECORDS=None
+ASSETS=HERE/'node_modules'; NATIVE_LABS=None; OBSTACLE_RECORDS=None; FLOW_RECORDS=None; STRAIN_RECORDS=None; VIEWER=None
 FIGURES={'03':'staggered-grid.svg','04':'pressure-residual.svg','05':'multigrid-mechanism.svg','06':'interpolation-mass.svg','07':'transport-refinement.svg','09':'curvature-refinement.svg','10':'box-diffusion.svg','13':'memory-scaling.svg','15':'rounding-gap.svg','18':'cycle-circulation.svg','19':'expansion/projection.png','20':'expansion/mesh-hit.png','21':'expansion/density-viscosity.png','22':'expansion/density-viscosity.png','23':'expansion/slip-wetting.png','24':'expansion/slip-wetting.png'}
 
 def command(args,**kwargs):
@@ -38,10 +39,12 @@ def build():
     validate_packet(ROOT,OBSTACLE_RECORDS)
     validate_flow_packet(ROOT,FLOW_RECORDS)
     validate_strain_packet(ROOT,STRAIN_RECORDS)
+    if VIEWER is not None:viewer_inventory(ROOT,VIEWER)
     pdf_inputs=input_hashes(ROOT)
     source_base=command(['git','rev-parse','HEAD'],cwd=ROOT).strip()
     if OUT.exists():raise ValueError('Output directory must be fresh; choose a new edition path.')
     OUT.mkdir(parents=True); (OUT/'chapters').mkdir(); (OUT/'downloads').mkdir(); (OUT/'proofs').mkdir(); (OUT/'implementation').mkdir()
+    viewer=publish_viewer(ROOT,OUT,VIEWER)
     for name in ['style.css','labs.js']:shutil.copy2(HERE/name,OUT/name)
     vendor=OUT/'vendor'; vendor.mkdir()
     for name in ['three.module.js','three.core.js']:shutil.copy2(ASSETS/'three/build'/name,vendor/name)
@@ -99,7 +102,10 @@ def build():
     payload=json.dumps(pages)
     node=r'''const katex=require('katex');let raw='';process.stdin.on('data',x=>raw+=x);process.stdin.on('end',()=>{const pages=JSON.parse(raw);let count=0;for(const p of pages)p.html=p.html.replace(/<span\s+class="math (inline|display)">([\s\S]*?)<\/span>/g,(_,kind,tex)=>{count++;tex=tex.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(+n));return katex.renderToString(tex,{displayMode:kind==='display',throwOnError:true,strict:'error',output:'htmlAndMathml'});});process.stdout.write(JSON.stringify({pages,count}));});'''
     rendered=json.loads(command(['node','-e',node],input=payload,cwd=ASSETS.parent)); pages=rendered['pages']
-    def nav(prefix):return '<nav aria-label="Book chapters"><a href="'+prefix+'index.html">Overview</a><a href="'+prefix+'labs.html">3D laboratories</a><a href="'+prefix+'proofs.html">Proofs & evidence</a><a href="'+prefix+'native-labs.html">Native wall/force progression</a><a href="'+prefix+'obstacle-lab.html">Static obstacle geometry</a><a href="'+prefix+'obstacle-flow-lab.html">Obstacle pressure & shear</a><a href="'+prefix+'aligned-strain-lab.html">Interactive finite strain</a><input id="search" type="search" aria-label="Filter chapters" placeholder="Find a chapter…">'+''.join(f'<a class="chapter-link" href="{prefix}chapters/{p["slug"]}.html">{html.escape(p["title"])}</a>' for p in pages if p['folder']=='chapters')+'</nav>'
+    def base_nav(prefix):return '<nav aria-label="Book chapters"><a href="'+prefix+'index.html">Overview</a><a href="'+prefix+'labs.html">3D laboratories</a><a href="'+prefix+'proofs.html">Proofs & evidence</a><a href="'+prefix+'native-labs.html">Native wall/force progression</a><a href="'+prefix+'obstacle-lab.html">Static obstacle geometry</a><a href="'+prefix+'obstacle-flow-lab.html">Obstacle pressure & shear</a><a href="'+prefix+'aligned-strain-lab.html">Interactive finite strain</a><input id="search" type="search" aria-label="Filter chapters" placeholder="Find a chapter…">'+''.join(f'<a class="chapter-link" href="{prefix}chapters/{p["slug"]}.html">{html.escape(p["title"])}</a>' for p in pages if p['folder']=='chapters')+'</nav>'
+    def nav(prefix):
+        link='<a href="'+prefix+'viewer/index.html">Motion workspace</a>' if viewer else ''
+        return base_nav(prefix).replace('<input id="search"',link+'<input id="search"')
     def shell(title,body,prefix='',extra=''):
         return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)} · Rheon</title><link rel="stylesheet" href="{prefix}style.css"><link rel="stylesheet" href="{prefix}vendor/katex/katex.min.css">{extra}</head><body><a class="skip" href="#main">Skip to content</a><header><a class="brand" href="{prefix}index.html">Rheon<span>Discrete Fluid Simulation</span></a><button id="menu" aria-expanded="false" aria-controls="navigation">Chapters</button><div class="header-links"><a href="{prefix}labs.html">Explore in 3D</a><a href="{prefix}downloads/Rheon-expanded-book.pdf">PDF</a></div></header><aside id="navigation">{nav(prefix)}</aside><main id="main">{body}</main><footer>Puma · Research & teaching edition · Exact contracts and local references; see the evidence map.</footer><script>const b=document.querySelector('#menu');b.onclick=()=>{{const v=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',v);document.querySelector('aside').classList.toggle('open',v)}};document.querySelector('#search').oninput=e=>document.querySelectorAll('.chapter-link').forEach(a=>a.hidden=!a.textContent.toLowerCase().includes(e.target.value.toLowerCase()));</script></body></html>'''
     for i,p in enumerate(pages):
@@ -111,6 +117,7 @@ def build():
     home+='<h2>Pressure and reduced wall shear</h2><p><a href="obstacle-flow-lab.html">Inspect native field responses</a> · <a href="implementation/static-obstacle-flow.html">Bounded operator contract</a></p>'
     home+='<h2>One static obstacle geometry</h2><p><a href="obstacle-lab.html">Inspect native geometry controls</a> · <a href="implementation/static-obstacle-geometry.html">Shared volumes, openings, connectivity and collision source</a></p>'
     home+='<h2>From strain rows to resisting force</h2><p><a href="aligned-strain-lab.html">Compute strain and dissipation interactively</a> · <a href="implementation/aligned-strain-laboratory.html">Read the specimen and exact algebra</a>. This bounded laboratory recomputes finite rows for selected face velocities; it advances no fluid.</p>'
+    home+=('<h2>Recorded motion and human authoring</h2><p><a href="viewer/index.html">Open the motion workspace →</a>. Choose completed producer outputs or save and reopen independent human source scenes. Playback does not execute a solver.</p>' if viewer else '<p>The motion workspace is absent from this source-only edition; supply a reviewed prebuilt viewer to include it.</p>')
     (OUT/'index.html').write_text(shell('Overview',home))
     (OUT/'native-labs.html').write_text(shell('Native wall and force progression',publish(sequence,OUT,NATIVE_LABS)))
     obstacle_body=publish_obstacle(ROOT,OUT,OBSTACLE_RECORDS)
@@ -185,6 +192,7 @@ if __name__=='__main__':
     parser.add_argument('--obstacle-records-dir',type=Path)
     parser.add_argument('--obstacle-flow-records-dir',type=Path)
     parser.add_argument('--aligned-strain-records-dir',type=Path)
-    args=parser.parse_args(); OUT=args.output_dir.resolve(); ASSETS=args.asset_dir.resolve(); NATIVE_LABS=args.native_labs_dir; OBSTACLE_RECORDS=args.obstacle_records_dir; FLOW_RECORDS=args.obstacle_flow_records_dir; STRAIN_RECORDS=args.aligned_strain_records_dir
+    parser.add_argument('--viewer-dir',type=Path,help='Exact clean-head prebuilt GUI; no solver or component build runs here')
+    args=parser.parse_args(); OUT=args.output_dir.resolve(); ASSETS=args.asset_dir.resolve(); NATIVE_LABS=args.native_labs_dir; OBSTACLE_RECORDS=args.obstacle_records_dir; FLOW_RECORDS=args.obstacle_flow_records_dir; STRAIN_RECORDS=args.aligned_strain_records_dir; VIEWER=args.viewer_dir
     validate_output(OUT,ROOT)
     build()

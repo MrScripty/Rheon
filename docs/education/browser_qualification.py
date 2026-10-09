@@ -3,7 +3,7 @@ from pathlib import Path
 import hashlib
 import json
 
-REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
+REVIEWED_SOURCES = ['build.py', 'viewer_integration.py', 'labs.js', 'style.css', 'package-lock.json',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
                     'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt',
                     'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py', 'aligned_strain_packet.py', 'aligned_strain_html.py', 'aligned_strain.js', 'aligned_strain.css', 'aligned_strain_browser.py']

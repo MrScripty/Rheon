@@ -107,3 +107,33 @@ rational controls. It saves JPEG evidence at quality 85 outside Git. Read-only
 publication checks retain the PDF and receipts. The research-book workflow
 rebuilds and qualifies its own native executable and packet; it does not reuse
 a machine-specific historical binary or infer current checks from old counts.
+
+
+## Shared motion workspace in Pages
+
+The edition builder accepts `--viewer-dir /external/rheon-viewer`. This must be
+a clean, exact-current-head package from `browser/viewer/build.py`, with its
+reviewed Kenoma pin and all required runtime files. Admission checks current
+Rheon runtime bytes, every package hash and every referenced producer blob
+before copying it to `viewer/`. Navigation and the overview link
+`viewer/index.html` only when it is included; source-only builds state absence.
+The edition does not compile the component, run an output producer or rewrite
+recorded data. The independent component and recorded playback remain separate.
+
+The existing `research-book-pages.yml` source integration now packages exact
+Kenoma `3e7ff0887d01a1f4c440d3808770ea3eac7ec8d4`, installs matching
+wasm-bindgen 0.2.129, adds the WASM target, indexes the flow packet already
+produced by the existing workflow, verifies the HTTP catalog UI, and passes
+`--viewer-dir` into the existing edition build. Generated tools, component
+checkout, WASM, catalog and preview remain under `RUNNER_TEMP`. This adds no
+numerical producer or campaign; the existing geometry/pressure/shear/strain
+qualification steps remain unchanged. The build timeout accommodates the new
+pinned human component/tool compilation.
+
+To expose the reviewed GUI on the repository website, approve merging this
+source into main, then let the existing main-only Pages workflow build and deploy
+its complete edition. The workflow's Configure/Upload/Deploy conditions and
+Pages permissions are unchanged. No merge, workflow dispatch or deployment is
+performed by preparing this integration. A development branch preview is not
+a live website publication. Historical browser/PDF receipts remain historical;
+a new edition must pass its current rendering and publication checks.
