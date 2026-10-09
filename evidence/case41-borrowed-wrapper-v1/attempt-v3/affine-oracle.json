@@ -1,0 +1,48 @@
+{
+  "native_candidate_equations": 0,
+  "rows": [
+    {
+      "case": 0,
+      "expected_parts": [
+        "40564819207303340847894502572032",
+        -104,
+        true
+      ],
+      "refused": false
+    },
+    {
+      "case": 1,
+      "expected_parts": [
+        "40564819207303343099694316257280",
+        0,
+        false
+      ],
+      "refused": false
+    },
+    {
+      "case": 2,
+      "expected_parts": null,
+      "refused": true
+    },
+    {
+      "case": 3,
+      "expected_parts": null,
+      "refused": true
+    },
+    {
+      "case": 4,
+      "expected_parts": [
+        "40564819207303340847894502572032",
+        0,
+        false
+      ],
+      "refused": false
+    },
+    {
+      "case": 5,
+      "expected_parts": null,
+      "refused": true
+    }
+  ],
+  "status": "PASS_SIX_SCALAR_AFFINE_PROBES"
+}

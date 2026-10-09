@@ -1,0 +1,27 @@
+00000000001caf50 <rheon::research_public_call::case41_borrowed_reference_outer>:
+  1caf50:	53                   	push   %rbx
+  1caf51:	49 89 e3             	mov    %rsp,%r11
+  1caf54:	49 81 eb 00 f0 00 00 	sub    $0xf000,%r11
+  1caf5b:	48 81 ec 00 10 00 00 	sub    $0x1000,%rsp
+  1caf62:	48 c7 04 24 00 00 00 	movq   $0x0,(%rsp)
+  1caf69:	00 
+  1caf6a:	4c 39 dc             	cmp    %r11,%rsp
+  1caf6d:	75 ec                	jne    1caf5b <rheon::research_public_call::case41_borrowed_reference_outer+0xb>
+  1caf6f:	48 81 ec 90 02 00 00 	sub    $0x290,%rsp
+  1caf76:	48 c7 84 24 80 f2 00 	movq   $0x0,0xf280(%rsp)
+  1caf7d:	00 00 00 00 00 
+  1caf82:	48 89 e3             	mov    %rsp,%rbx
+  1caf85:	ba 7f f2 00 00       	mov    $0xf27f,%edx
+  1caf8a:	48 89 df             	mov    %rbx,%rdi
+  1caf8d:	31 f6                	xor    %esi,%esi
+  1caf8f:	ff 15 a3 97 12 00    	call   *0x1297a3(%rip)        # 2f4738 <memset@GLIBC_2.2.5>
+  1caf95:	48 8d 3d ec cf e5 ff 	lea    -0x1a3014(%rip),%rdi        # 27f88 <rheon::research_public_call::FIXED_CASES>
+  1caf9c:	48 89 de             	mov    %rbx,%rsi
+  1caf9f:	e8 ac a8 fb ff       	call   185850 <rheon::research_public_call::reference::case41_fd_capture>
+  1cafa4:	48 81 c4 90 f2 00 00 	add    $0xf290,%rsp
+  1cafab:	5b                   	pop    %rbx
+  1cafac:	c3                   	ret
+  1cafad:	cc                   	int3
+  1cafae:	cc                   	int3
+  1cafaf:	cc                   	int3
+

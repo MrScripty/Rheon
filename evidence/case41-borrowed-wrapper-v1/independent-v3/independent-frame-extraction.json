@@ -1,0 +1,56 @@
+[
+  {
+    "name": "rheon::research_public_call::candidate::case41_fd_capture",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 40824,
+    "fixed_probe_loop_bytes": 32768,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 40880
+  },
+  {
+    "name": "rheon::research_public_call::candidate::Work::case41_numerical",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 121080,
+    "fixed_probe_loop_bytes": 114688,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 121136
+  },
+  {
+    "name": "rheon::research_public_call::candidate::Work::case41_serialize",
+    "push_bytes": 16,
+    "fixed_decrement_bytes": 472,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 496
+  },
+  {
+    "name": "rheon::research_public_call::reference::case41_fd_capture",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 40632,
+    "fixed_probe_loop_bytes": 32768,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 40688
+  },
+  {
+    "name": "rheon::research_public_call::reference::Work::case41_numerical",
+    "push_bytes": 48,
+    "fixed_decrement_bytes": 121064,
+    "fixed_probe_loop_bytes": 114688,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 121120
+  },
+  {
+    "name": "rheon::research_public_call::reference::Work::case41_serialize",
+    "push_bytes": 16,
+    "fixed_decrement_bytes": 472,
+    "fixed_probe_loop_bytes": 0,
+    "below_rsp_bytes": 0,
+    "return_address_bytes": 8,
+    "frame_bound": 496
+  }
+]

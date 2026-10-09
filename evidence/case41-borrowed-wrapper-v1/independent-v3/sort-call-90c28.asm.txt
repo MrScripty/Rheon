@@ -1,0 +1,1323 @@
+000000000008f730 <rheon::fitted_height::FittedHeightWorkspace::build>:
+   8f730:	55                   	push   %rbp
+   8f731:	41 57                	push   %r15
+   8f733:	41 56                	push   %r14
+   8f735:	41 55                	push   %r13
+   8f737:	41 54                	push   %r12
+   8f739:	53                   	push   %rbx
+   8f73a:	48 81 ec b8 00 00 00 	sub    $0xb8,%rsp
+   8f741:	4d 89 cc             	mov    %r9,%r12
+   8f744:	48 89 4c 24 08       	mov    %rcx,0x8(%rsp)
+   8f749:	48 89 54 24 18       	mov    %rdx,0x18(%rsp)
+   8f74e:	49 89 f5             	mov    %rsi,%r13
+   8f751:	48 89 7c 24 10       	mov    %rdi,0x10(%rsp)
+   8f756:	4c 8b 7e 10          	mov    0x10(%rsi),%r15
+   8f75a:	48 8b 86 50 01 00 00 	mov    0x150(%rsi),%rax
+   8f761:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+   8f766:	49 c1 e4 03          	shl    $0x3,%r12
+   8f76a:	4b 8d 04 7f          	lea    (%r15,%r15,2),%rax
+   8f76e:	48 8d 1c c5 10 00 00 	lea    0x10(,%rax,8),%rbx
+   8f775:	00 
+   8f776:	31 ed                	xor    %ebp,%ebp
+   8f778:	4c 89 44 24 28       	mov    %r8,0x28(%rsp)
+   8f77d:	eb 2b                	jmp    8f7aa <rheon::fitted_height::FittedHeightWorkspace::build+0x7a>
+   8f77f:	90                   	nop
+   8f780:	49 8b 45 08          	mov    0x8(%r13),%rax
+   8f784:	f3 0f 7e c0          	movq   %xmm0,%xmm0
+   8f788:	f3 0f 7f 44 18 f0    	movdqu %xmm0,-0x10(%rax,%rbx,1)
+   8f78e:	4c 89 34 18          	mov    %r14,(%rax,%rbx,1)
+   8f792:	49 8d 04 2f          	lea    (%r15,%rbp,1),%rax
+   8f796:	48 ff c0             	inc    %rax
+   8f799:	49 89 45 10          	mov    %rax,0x10(%r13)
+   8f79d:	48 83 c3 18          	add    $0x18,%rbx
+   8f7a1:	48 ff c5             	inc    %rbp
+   8f7a4:	49 83 c4 f8          	add    $0xfffffffffffffff8,%r12
+   8f7a8:	74 2b                	je     8f7d5 <rheon::fitted_height::FittedHeightWorkspace::build+0xa5>
+   8f7aa:	4d 8d 34 2f          	lea    (%r15,%rbp,1),%r14
+   8f7ae:	f3 41 0f 7e 04 e8    	movq   (%r8,%rbp,8),%xmm0
+   8f7b4:	4d 3b 75 00          	cmp    0x0(%r13),%r14
+   8f7b8:	75 c6                	jne    8f780 <rheon::fitted_height::FittedHeightWorkspace::build+0x50>
+   8f7ba:	4c 89 ef             	mov    %r13,%rdi
+   8f7bd:	66 0f 7f 44 24 70    	movdqa %xmm0,0x70(%rsp)
+   8f7c3:	e8 48 79 15 00       	call   1e7110 <alloc::raw_vec::RawVec<T,A>::grow_one>
+   8f7c8:	66 0f 6f 44 24 70    	movdqa 0x70(%rsp),%xmm0
+   8f7ce:	4c 8b 44 24 28       	mov    0x28(%rsp),%r8
+   8f7d3:	eb ab                	jmp    8f780 <rheon::fitted_height::FittedHeightWorkspace::build+0x50>
+   8f7d5:	4c 8b 74 24 08       	mov    0x8(%rsp),%r14
+   8f7da:	49 c1 e6 04          	shl    $0x4,%r14
+   8f7de:	49 01 ef             	add    %rbp,%r15
+   8f7e1:	45 31 e4             	xor    %r12d,%r12d
+   8f7e4:	48 8b 6c 24 20       	mov    0x20(%rsp),%rbp
+   8f7e9:	eb 33                	jmp    8f81e <rheon::fitted_height::FittedHeightWorkspace::build+0xee>
+   8f7eb:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   8f7f0:	48 8b 44 24 18       	mov    0x18(%rsp),%rax
+   8f7f5:	4c 01 e0             	add    %r12,%rax
+   8f7f8:	49 8b 4d 08          	mov    0x8(%r13),%rcx
+   8f7fc:	f3 0f 6f 00          	movdqu (%rax),%xmm0
+   8f800:	f3 0f 7f 44 19 f0    	movdqu %xmm0,-0x10(%rcx,%rbx,1)
+   8f806:	4c 89 3c 19          	mov    %r15,(%rcx,%rbx,1)
+   8f80a:	49 ff c7             	inc    %r15
+   8f80d:	4d 89 7d 10          	mov    %r15,0x10(%r13)
+   8f811:	48 83 c3 18          	add    $0x18,%rbx
+   8f815:	49 83 c4 10          	add    $0x10,%r12
+   8f819:	4d 39 e6             	cmp    %r12,%r14
+   8f81c:	74 10                	je     8f82e <rheon::fitted_height::FittedHeightWorkspace::build+0xfe>
+   8f81e:	4d 3b 7d 00          	cmp    0x0(%r13),%r15
+   8f822:	75 cc                	jne    8f7f0 <rheon::fitted_height::FittedHeightWorkspace::build+0xc0>
+   8f824:	4c 89 ef             	mov    %r13,%rdi
+   8f827:	e8 e4 78 15 00       	call   1e7110 <alloc::raw_vec::RawVec<T,A>::grow_one>
+   8f82c:	eb c2                	jmp    8f7f0 <rheon::fitted_height::FittedHeightWorkspace::build+0xc0>
+   8f82e:	48 85 ed             	test   %rbp,%rbp
+   8f831:	4c 89 6c 24 18       	mov    %r13,0x18(%rsp)
+   8f836:	0f 84 d1 00 00 00    	je     8f90d <rheon::fitted_height::FittedHeightWorkspace::build+0x1dd>
+   8f83c:	49 8d 5d 18          	lea    0x18(%r13),%rbx
+   8f840:	49 8b 6d 28          	mov    0x28(%r13),%rbp
+   8f844:	48 8d 04 ed 00 00 00 	lea    0x0(,%rbp,8),%rax
+   8f84b:	00 
+   8f84c:	4c 8d 3c 40          	lea    (%rax,%rax,2),%r15
+   8f850:	45 31 ed             	xor    %r13d,%r13d
+   8f853:	eb 42                	jmp    8f897 <rheon::fitted_height::FittedHeightWorkspace::build+0x167>
+   8f855:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+   8f85c:	00 00 00 00 
+   8f860:	48 8b 74 24 20       	mov    0x20(%rsp),%rsi
+   8f865:	4a 8d 04 2e          	lea    (%rsi,%r13,1),%rax
+   8f869:	48 ff c0             	inc    %rax
+   8f86c:	48 8b 54 24 18       	mov    0x18(%rsp),%rdx
+   8f871:	48 8b 4a 20          	mov    0x20(%rdx),%rcx
+   8f875:	4e 89 6c 39 18       	mov    %r13,0x18(%rcx,%r15,1)
+   8f87a:	4e 89 74 39 20       	mov    %r14,0x20(%rcx,%r15,1)
+   8f87f:	4a 89 44 39 28       	mov    %rax,0x28(%rcx,%r15,1)
+   8f884:	48 ff c5             	inc    %rbp
+   8f887:	48 89 6a 28          	mov    %rbp,0x28(%rdx)
+   8f88b:	49 83 c7 30          	add    $0x30,%r15
+   8f88f:	4d 89 e5             	mov    %r12,%r13
+   8f892:	4c 39 e6             	cmp    %r12,%rsi
+   8f895:	74 54                	je     8f8eb <rheon::fitted_height::FittedHeightWorkspace::build+0x1bb>
+   8f897:	48 3b 2b             	cmp    (%rbx),%rbp
+   8f89a:	75 08                	jne    8f8a4 <rheon::fitted_height::FittedHeightWorkspace::build+0x174>
+   8f89c:	48 89 df             	mov    %rbx,%rdi
+   8f89f:	e8 6c 78 15 00       	call   1e7110 <alloc::raw_vec::RawVec<T,A>::grow_one>
+   8f8a4:	4d 8d 65 01          	lea    0x1(%r13),%r12
+   8f8a8:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+   8f8ad:	4e 8d 34 28          	lea    (%rax,%r13,1),%r14
+   8f8b1:	49 83 c6 02          	add    $0x2,%r14
+   8f8b5:	48 8b 4c 24 18       	mov    0x18(%rsp),%rcx
+   8f8ba:	48 8b 41 20          	mov    0x20(%rcx),%rax
+   8f8be:	4e 89 2c 38          	mov    %r13,(%rax,%r15,1)
+   8f8c2:	4e 89 64 38 08       	mov    %r12,0x8(%rax,%r15,1)
+   8f8c7:	4e 89 74 38 10       	mov    %r14,0x10(%rax,%r15,1)
+   8f8cc:	48 89 6c 24 70       	mov    %rbp,0x70(%rsp)
+   8f8d1:	48 ff c5             	inc    %rbp
+   8f8d4:	48 89 69 28          	mov    %rbp,0x28(%rcx)
+   8f8d8:	48 3b 69 18          	cmp    0x18(%rcx),%rbp
+   8f8dc:	75 82                	jne    8f860 <rheon::fitted_height::FittedHeightWorkspace::build+0x130>
+   8f8de:	48 89 df             	mov    %rbx,%rdi
+   8f8e1:	e8 2a 78 15 00       	call   1e7110 <alloc::raw_vec::RawVec<T,A>::grow_one>
+   8f8e6:	e9 75 ff ff ff       	jmp    8f860 <rheon::fitted_height::FittedHeightWorkspace::build+0x130>
+   8f8eb:	48 8b 44 24 70       	mov    0x70(%rsp),%rax
+   8f8f0:	48 83 c0 02          	add    $0x2,%rax
+   8f8f4:	4c 8b 6c 24 18       	mov    0x18(%rsp),%r13
+   8f8f9:	48 8b 6c 24 20       	mov    0x20(%rsp),%rbp
+   8f8fe:	48 89 44 24 70       	mov    %rax,0x70(%rsp)
+   8f903:	48 85 c0             	test   %rax,%rax
+   8f906:	75 17                	jne    8f91f <rheon::fitted_height::FittedHeightWorkspace::build+0x1ef>
+   8f908:	e9 61 05 00 00       	jmp    8fe6e <rheon::fitted_height::FittedHeightWorkspace::build+0x73e>
+   8f90d:	49 8b 45 28          	mov    0x28(%r13),%rax
+   8f911:	48 89 44 24 70       	mov    %rax,0x70(%rsp)
+   8f916:	48 85 c0             	test   %rax,%rax
+   8f919:	0f 84 4f 05 00 00    	je     8fe6e <rheon::fitted_height::FittedHeightWorkspace::build+0x73e>
+   8f91f:	49 b8 00 00 00 00 00 	movabs $0x7ff0000000000000,%r8
+   8f926:	00 f0 7f 
+   8f929:	49 8d 45 30          	lea    0x30(%r13),%rax
+   8f92d:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+   8f932:	b8 01 00 00 00       	mov    $0x1,%eax
+   8f937:	45 31 db             	xor    %r11d,%r11d
+   8f93a:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+   8f93e:	f2 0f 10 15 c2 2c f9 	movsd  -0x6d33e(%rip),%xmm2        # 22608 <anon.28fe961153895b8254611a095a916f85.73.llvm.12328580827075778519+0x68>
+   8f945:	ff 
+   8f946:	eb 58                	jmp    8f9a0 <rheon::fitted_height::FittedHeightWorkspace::build+0x270>
+   8f948:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+   8f94f:	00 
+   8f950:	4b 8d 0c b6          	lea    (%r14,%r14,4),%rcx
+   8f954:	48 89 1c c8          	mov    %rbx,(%rax,%rcx,8)
+   8f958:	4c 89 54 c8 08       	mov    %r10,0x8(%rax,%rcx,8)
+   8f95d:	4c 89 5c c8 10       	mov    %r11,0x10(%rax,%rcx,8)
+   8f962:	49 ff c6             	inc    %r14
+   8f965:	66 0f 76 c0          	pcmpeqd %xmm0,%xmm0
+   8f969:	f3 0f 7f 44 c8 18    	movdqu %xmm0,0x18(%rax,%rcx,8)
+   8f96f:	4d 89 75 40          	mov    %r14,0x40(%r13)
+   8f973:	48 8b 4c 24 70       	mov    0x70(%rsp),%rcx
+   8f978:	48 8b 94 24 a8 00 00 	mov    0xa8(%rsp),%rdx
+   8f97f:	00 
+   8f980:	48 39 ca             	cmp    %rcx,%rdx
+   8f983:	48 89 d0             	mov    %rdx,%rax
+   8f986:	48 83 d0 00          	adc    $0x0,%rax
+   8f98a:	49 89 d3             	mov    %rdx,%r11
+   8f98d:	48 39 ca             	cmp    %rcx,%rdx
+   8f990:	49 b8 00 00 00 00 00 	movabs $0x7ff0000000000000,%r8
+   8f997:	00 f0 7f 
+   8f99a:	0f 83 ce 04 00 00    	jae    8fe6e <rheon::fitted_height::FittedHeightWorkspace::build+0x73e>
+   8f9a0:	49 8b 75 28          	mov    0x28(%r13),%rsi
+   8f9a4:	49 39 f3             	cmp    %rsi,%r11
+   8f9a7:	0f 83 13 12 00 00    	jae    90bc0 <rheon::fitted_height::FittedHeightWorkspace::build+0x1490>
+   8f9ad:	49 89 c6             	mov    %rax,%r14
+   8f9b0:	49 8b 45 20          	mov    0x20(%r13),%rax
+   8f9b4:	4b 8d 0c 5b          	lea    (%r11,%r11,2),%rcx
+   8f9b8:	48 8b 3c c8          	mov    (%rax,%rcx,8),%rdi
+   8f9bc:	4d 8b 7d 10          	mov    0x10(%r13),%r15
+   8f9c0:	4c 39 ff             	cmp    %r15,%rdi
+   8f9c3:	0f 83 07 12 00 00    	jae    90bd0 <rheon::fitted_height::FittedHeightWorkspace::build+0x14a0>
+   8f9c9:	48 8b 5c c8 08       	mov    0x8(%rax,%rcx,8),%rbx
+   8f9ce:	4c 39 fb             	cmp    %r15,%rbx
+   8f9d1:	0f 83 09 12 00 00    	jae    90be0 <rheon::fitted_height::FittedHeightWorkspace::build+0x14b0>
+   8f9d7:	4c 8b 54 c8 10       	mov    0x10(%rax,%rcx,8),%r10
+   8f9dc:	49 8b 45 08          	mov    0x8(%r13),%rax
+   8f9e0:	48 8d 0c 7f          	lea    (%rdi,%rdi,2),%rcx
+   8f9e4:	48 8d 0c c8          	lea    (%rax,%rcx,8),%rcx
+   8f9e8:	48 8d 14 5b          	lea    (%rbx,%rbx,2),%rdx
+   8f9ec:	48 8d 14 d0          	lea    (%rax,%rdx,8),%rdx
+   8f9f0:	f2 0f 10 01          	movsd  (%rcx),%xmm0
+   8f9f4:	f2 0f 58 02          	addsd  (%rdx),%xmm0
+   8f9f8:	4d 39 fa             	cmp    %r15,%r10
+   8f9fb:	0f 83 b8 0c 00 00    	jae    906b9 <rheon::fitted_height::FittedHeightWorkspace::build+0xf89>
+   8fa01:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+   8fa05:	75 02                	jne    8fa09 <rheon::fitted_height::FittedHeightWorkspace::build+0x2d9>
+   8fa07:	7b 44                	jnp    8fa4d <rheon::fitted_height::FittedHeightWorkspace::build+0x31d>
+   8fa09:	66 48 0f 7e c6       	movq   %xmm0,%rsi
+   8fa0e:	49 89 f0             	mov    %rsi,%r8
+   8fa11:	49 b9 ff ff ff ff ff 	movabs $0x7fffffffffffffff,%r9
+   8fa18:	ff ff 7f 
+   8fa1b:	4d 21 c8             	and    %r9,%r8
+   8fa1e:	49 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%r9
+   8fa25:	00 f0 7f 
+   8fa28:	4d 39 c8             	cmp    %r9,%r8
+   8fa2b:	49 b8 00 00 00 00 00 	movabs $0x7ff0000000000000,%r8
+   8fa32:	00 f0 7f 
+   8fa35:	0f 84 b3 0c 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fa3b:	4c 21 c6             	and    %r8,%rsi
+   8fa3e:	0f 84 aa 0c 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fa44:	4c 39 c6             	cmp    %r8,%rsi
+   8fa47:	0f 84 a1 0c 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fa4d:	48 89 7c 24 28       	mov    %rdi,0x28(%rsp)
+   8fa52:	4b 8d 34 52          	lea    (%r10,%r10,2),%rsi
+   8fa56:	48 8d 34 f0          	lea    (%rax,%rsi,8),%rsi
+   8fa5a:	f2 0f 58 06          	addsd  (%rsi),%xmm0
+   8fa5e:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+   8fa62:	4d 89 d4             	mov    %r10,%r12
+   8fa65:	75 02                	jne    8fa69 <rheon::fitted_height::FittedHeightWorkspace::build+0x339>
+   8fa67:	7b 47                	jnp    8fab0 <rheon::fitted_height::FittedHeightWorkspace::build+0x380>
+   8fa69:	66 49 0f 7e c2       	movq   %xmm0,%r10
+   8fa6e:	4d 89 d0             	mov    %r10,%r8
+   8fa71:	48 bf ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdi
+   8fa78:	ff ff 7f 
+   8fa7b:	49 21 f8             	and    %rdi,%r8
+   8fa7e:	49 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%r9
+   8fa85:	00 f0 7f 
+   8fa88:	4d 39 c8             	cmp    %r9,%r8
+   8fa8b:	49 b8 00 00 00 00 00 	movabs $0x7ff0000000000000,%r8
+   8fa92:	00 f0 7f 
+   8fa95:	0f 84 53 0c 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fa9b:	4d 21 c2             	and    %r8,%r10
+   8fa9e:	0f 84 4a 0c 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8faa4:	4d 39 c2             	cmp    %r8,%r10
+   8faa7:	4d 89 e2             	mov    %r12,%r10
+   8faaa:	0f 84 3e 0c 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fab0:	66 0f 28 e0          	movapd %xmm0,%xmm4
+   8fab4:	f2 0f 5e e2          	divsd  %xmm2,%xmm4
+   8fab8:	66 0f 2e e1          	ucomisd %xmm1,%xmm4
+   8fabc:	75 22                	jne    8fae0 <rheon::fitted_height::FittedHeightWorkspace::build+0x3b0>
+   8fabe:	7a 20                	jp     8fae0 <rheon::fitted_height::FittedHeightWorkspace::build+0x3b0>
+   8fac0:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+   8fac4:	0f 85 dd 0b 00 00    	jne    906a7 <rheon::fitted_height::FittedHeightWorkspace::build+0xf77>
+   8faca:	7b 5b                	jnp    8fb27 <rheon::fitted_height::FittedHeightWorkspace::build+0x3f7>
+   8facc:	e9 d6 0b 00 00       	jmp    906a7 <rheon::fitted_height::FittedHeightWorkspace::build+0xf77>
+   8fad1:	66 66 66 66 66 66 2e 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+   8fad8:	0f 1f 84 00 00 00 00 
+   8fadf:	00 
+   8fae0:	66 49 0f 7e e2       	movq   %xmm4,%r10
+   8fae5:	4d 89 d0             	mov    %r10,%r8
+   8fae8:	48 bf ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdi
+   8faef:	ff ff 7f 
+   8faf2:	49 21 f8             	and    %rdi,%r8
+   8faf5:	49 b9 00 00 00 00 00 	movabs $0x7ff0000000000000,%r9
+   8fafc:	00 f0 7f 
+   8faff:	4d 39 c8             	cmp    %r9,%r8
+   8fb02:	49 b8 00 00 00 00 00 	movabs $0x7ff0000000000000,%r8
+   8fb09:	00 f0 7f 
+   8fb0c:	0f 84 95 0b 00 00    	je     906a7 <rheon::fitted_height::FittedHeightWorkspace::build+0xf77>
+   8fb12:	4d 21 c2             	and    %r8,%r10
+   8fb15:	0f 84 8c 0b 00 00    	je     906a7 <rheon::fitted_height::FittedHeightWorkspace::build+0xf77>
+   8fb1b:	4d 39 c2             	cmp    %r8,%r10
+   8fb1e:	4d 89 e2             	mov    %r12,%r10
+   8fb21:	0f 84 80 0b 00 00    	je     906a7 <rheon::fitted_height::FittedHeightWorkspace::build+0xf77>
+   8fb27:	f2 0f 10 41 08       	movsd  0x8(%rcx),%xmm0
+   8fb2c:	f2 0f 58 42 08       	addsd  0x8(%rdx),%xmm0
+   8fb31:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+   8fb35:	75 02                	jne    8fb39 <rheon::fitted_height::FittedHeightWorkspace::build+0x409>
+   8fb37:	7b 30                	jnp    8fb69 <rheon::fitted_height::FittedHeightWorkspace::build+0x439>
+   8fb39:	66 48 0f 7e c1       	movq   %xmm0,%rcx
+   8fb3e:	48 89 ca             	mov    %rcx,%rdx
+   8fb41:	48 bf ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rdi
+   8fb48:	ff ff 7f 
+   8fb4b:	48 21 fa             	and    %rdi,%rdx
+   8fb4e:	4c 39 c2             	cmp    %r8,%rdx
+   8fb51:	0f 84 97 0b 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fb57:	4c 21 c1             	and    %r8,%rcx
+   8fb5a:	0f 84 8e 0b 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fb60:	4c 39 c1             	cmp    %r8,%rcx
+   8fb63:	0f 84 85 0b 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fb69:	f2 0f 58 46 08       	addsd  0x8(%rsi),%xmm0
+   8fb6e:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+   8fb72:	75 02                	jne    8fb76 <rheon::fitted_height::FittedHeightWorkspace::build+0x446>
+   8fb74:	7b 30                	jnp    8fba6 <rheon::fitted_height::FittedHeightWorkspace::build+0x476>
+   8fb76:	66 48 0f 7e c1       	movq   %xmm0,%rcx
+   8fb7b:	48 89 ca             	mov    %rcx,%rdx
+   8fb7e:	48 be ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rsi
+   8fb85:	ff ff 7f 
+   8fb88:	48 21 f2             	and    %rsi,%rdx
+   8fb8b:	4c 39 c2             	cmp    %r8,%rdx
+   8fb8e:	0f 84 5a 0b 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fb94:	4c 21 c1             	and    %r8,%rcx
+   8fb97:	0f 84 51 0b 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fb9d:	4c 39 c1             	cmp    %r8,%rcx
+   8fba0:	0f 84 48 0b 00 00    	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   8fba6:	66 0f 28 d8          	movapd %xmm0,%xmm3
+   8fbaa:	f2 0f 5e da          	divsd  %xmm2,%xmm3
+   8fbae:	66 0f 2e d9          	ucomisd %xmm1,%xmm3
+   8fbb2:	75 1c                	jne    8fbd0 <rheon::fitted_height::FittedHeightWorkspace::build+0x4a0>
+   8fbb4:	7a 1a                	jp     8fbd0 <rheon::fitted_height::FittedHeightWorkspace::build+0x4a0>
+   8fbb6:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+   8fbba:	0f 85 e3 0a 00 00    	jne    906a3 <rheon::fitted_height::FittedHeightWorkspace::build+0xf73>
+   8fbc0:	7b 3e                	jnp    8fc00 <rheon::fitted_height::FittedHeightWorkspace::build+0x4d0>
+   8fbc2:	e9 dc 0a 00 00       	jmp    906a3 <rheon::fitted_height::FittedHeightWorkspace::build+0xf73>
+   8fbc7:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+   8fbce:	00 00 
+   8fbd0:	66 48 0f 7e d9       	movq   %xmm3,%rcx
+   8fbd5:	48 89 ca             	mov    %rcx,%rdx
+   8fbd8:	48 be ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rsi
+   8fbdf:	ff ff 7f 
+   8fbe2:	48 21 f2             	and    %rsi,%rdx
+   8fbe5:	4c 39 c2             	cmp    %r8,%rdx
+   8fbe8:	0f 84 b5 0a 00 00    	je     906a3 <rheon::fitted_height::FittedHeightWorkspace::build+0xf73>
+   8fbee:	4c 21 c1             	and    %r8,%rcx
+   8fbf1:	0f 84 ac 0a 00 00    	je     906a3 <rheon::fitted_height::FittedHeightWorkspace::build+0xf73>
+   8fbf7:	4c 39 c1             	cmp    %r8,%rcx
+   8fbfa:	0f 84 a3 0a 00 00    	je     906a3 <rheon::fitted_height::FittedHeightWorkspace::build+0xf73>
+   8fc00:	4c 89 b4 24 a8 00 00 	mov    %r14,0xa8(%rsp)
+   8fc07:	00 
+   8fc08:	4d 3b 7d 00          	cmp    0x0(%r13),%r15
+   8fc0c:	4c 89 5c 24 30       	mov    %r11,0x30(%rsp)
+   8fc11:	f2 0f 11 5c 24 38    	movsd  %xmm3,0x38(%rsp)
+   8fc17:	75 38                	jne    8fc51 <rheon::fitted_height::FittedHeightWorkspace::build+0x521>
+   8fc19:	4c 89 ef             	mov    %r13,%rdi
+   8fc1c:	f2 0f 11 a4 24 b0 00 	movsd  %xmm4,0xb0(%rsp)
+   8fc23:	00 00 
+   8fc25:	e8 e6 74 15 00       	call   1e7110 <alloc::raw_vec::RawVec<T,A>::grow_one>
+   8fc2a:	f2 0f 10 a4 24 b0 00 	movsd  0xb0(%rsp),%xmm4
+   8fc31:	00 00 
+   8fc33:	f2 0f 10 5c 24 38    	movsd  0x38(%rsp),%xmm3
+   8fc39:	4d 89 e2             	mov    %r12,%r10
+   8fc3c:	4c 8b 5c 24 30       	mov    0x30(%rsp),%r11
+   8fc41:	f2 0f 10 15 bf 29 f9 	movsd  -0x6d641(%rip),%xmm2        # 22608 <anon.28fe961153895b8254611a095a916f85.73.llvm.12328580827075778519+0x68>
+   8fc48:	ff 
+   8fc49:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+   8fc4d:	49 8b 45 08          	mov    0x8(%r13),%rax
+   8fc51:	4b 8d 0c 7f          	lea    (%r15,%r15,2),%rcx
+   8fc55:	f2 0f 11 24 c8       	movsd  %xmm4,(%rax,%rcx,8)
+   8fc5a:	f2 0f 11 5c c8 08    	movsd  %xmm3,0x8(%rax,%rcx,8)
+   8fc60:	4c 89 7c c8 10       	mov    %r15,0x10(%rax,%rcx,8)
+   8fc65:	49 ff c7             	inc    %r15
+   8fc68:	4d 89 7d 10          	mov    %r15,0x10(%r13)
+   8fc6c:	48 8b 44 24 28       	mov    0x28(%rsp),%rax
+   8fc71:	48 39 c3             	cmp    %rax,%rbx
+   8fc74:	49 89 c7             	mov    %rax,%r15
+   8fc77:	4c 0f 42 fb          	cmovb  %rbx,%r15
+   8fc7b:	4c 89 e9             	mov    %r13,%rcx
+   8fc7e:	49 89 c5             	mov    %rax,%r13
+   8fc81:	4c 0f 47 eb          	cmova  %rbx,%r13
+   8fc85:	48 8b 41 38          	mov    0x38(%rcx),%rax
+   8fc89:	4c 8b 71 40          	mov    0x40(%rcx),%r14
+   8fc8d:	4a 8d 0c f5 00 00 00 	lea    0x0(,%r14,8),%rcx
+   8fc94:	00 
+   8fc95:	48 8d 0c 89          	lea    (%rcx,%rcx,4),%rcx
+   8fc99:	31 d2                	xor    %edx,%edx
+   8fc9b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   8fca0:	48 39 d1             	cmp    %rdx,%rcx
+   8fca3:	74 2b                	je     8fcd0 <rheon::fitted_height::FittedHeightWorkspace::build+0x5a0>
+   8fca5:	48 8b 34 10          	mov    (%rax,%rdx,1),%rsi
+   8fca9:	4c 31 fe             	xor    %r15,%rsi
+   8fcac:	4c 8b 44 10 08       	mov    0x8(%rax,%rdx,1),%r8
+   8fcb1:	4d 31 e8             	xor    %r13,%r8
+   8fcb4:	48 83 c2 28          	add    $0x28,%rdx
+   8fcb8:	49 09 f0             	or     %rsi,%r8
+   8fcbb:	75 e3                	jne    8fca0 <rheon::fitted_height::FittedHeightWorkspace::build+0x570>
+   8fcbd:	4c 89 5c 10 f0       	mov    %r11,-0x10(%rax,%rdx,1)
+   8fcc2:	4c 8b 6c 24 18       	mov    0x18(%rsp),%r13
+   8fcc7:	4d 8b 75 40          	mov    0x40(%r13),%r14
+   8fccb:	eb 62                	jmp    8fd2f <rheon::fitted_height::FittedHeightWorkspace::build+0x5ff>
+   8fccd:	0f 1f 00             	nopl   (%rax)
+   8fcd0:	48 8b 4c 24 08       	mov    0x8(%rsp),%rcx
+   8fcd5:	4c 3b 31             	cmp    (%rcx),%r14
+   8fcd8:	75 2d                	jne    8fd07 <rheon::fitted_height::FittedHeightWorkspace::build+0x5d7>
+   8fcda:	48 8b 7c 24 08       	mov    0x8(%rsp),%rdi
+   8fcdf:	e8 9c 74 15 00       	call   1e7180 <alloc::raw_vec::RawVec<T,A>::grow_one>
+   8fce4:	f2 0f 10 5c 24 38    	movsd  0x38(%rsp),%xmm3
+   8fcea:	4d 89 e2             	mov    %r12,%r10
+   8fced:	4c 8b 5c 24 30       	mov    0x30(%rsp),%r11
+   8fcf2:	f2 0f 10 15 0e 29 f9 	movsd  -0x6d6f2(%rip),%xmm2        # 22608 <anon.28fe961153895b8254611a095a916f85.73.llvm.12328580827075778519+0x68>
+   8fcf9:	ff 
+   8fcfa:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+   8fcfe:	48 8b 44 24 18       	mov    0x18(%rsp),%rax
+   8fd03:	48 8b 40 38          	mov    0x38(%rax),%rax
+   8fd07:	4b 8d 0c b6          	lea    (%r14,%r14,4),%rcx
+   8fd0b:	4c 89 3c c8          	mov    %r15,(%rax,%rcx,8)
+   8fd0f:	4c 89 6c c8 08       	mov    %r13,0x8(%rax,%rcx,8)
+   8fd14:	4c 89 5c c8 10       	mov    %r11,0x10(%rax,%rcx,8)
+   8fd19:	49 ff c6             	inc    %r14
+   8fd1c:	66 0f 76 c0          	pcmpeqd %xmm0,%xmm0
+   8fd20:	f3 0f 7f 44 c8 18    	movdqu %xmm0,0x18(%rax,%rcx,8)
+   8fd26:	4c 8b 6c 24 18       	mov    0x18(%rsp),%r13
+   8fd2b:	4d 89 75 40          	mov    %r14,0x40(%r13)
+   8fd2f:	49 39 da             	cmp    %rbx,%r10
+   8fd32:	49 89 df             	mov    %rbx,%r15
+   8fd35:	4d 0f 42 fa          	cmovb  %r10,%r15
+   8fd39:	49 0f 47 da          	cmova  %r10,%rbx
+   8fd3d:	49 8b 45 38          	mov    0x38(%r13),%rax
+   8fd41:	4a 8d 0c f5 00 00 00 	lea    0x0(,%r14,8),%rcx
+   8fd48:	00 
+   8fd49:	48 8d 0c 89          	lea    (%rcx,%rcx,4),%rcx
+   8fd4d:	31 d2                	xor    %edx,%edx
+   8fd4f:	90                   	nop
+   8fd50:	48 39 d1             	cmp    %rdx,%rcx
+   8fd53:	74 2b                	je     8fd80 <rheon::fitted_height::FittedHeightWorkspace::build+0x650>
+   8fd55:	48 8b 34 10          	mov    (%rax,%rdx,1),%rsi
+   8fd59:	4c 31 fe             	xor    %r15,%rsi
+   8fd5c:	4c 8b 44 10 08       	mov    0x8(%rax,%rdx,1),%r8
+   8fd61:	49 31 d8             	xor    %rbx,%r8
+   8fd64:	48 83 c2 28          	add    $0x28,%rdx
+   8fd68:	49 09 f0             	or     %rsi,%r8
+   8fd6b:	75 e3                	jne    8fd50 <rheon::fitted_height::FittedHeightWorkspace::build+0x620>
+   8fd6d:	4c 89 5c 10 f0       	mov    %r11,-0x10(%rax,%rdx,1)
+   8fd72:	4d 8b 75 40          	mov    0x40(%r13),%r14
+   8fd76:	eb 5d                	jmp    8fdd5 <rheon::fitted_height::FittedHeightWorkspace::build+0x6a5>
+   8fd78:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+   8fd7f:	00 
+   8fd80:	48 8b 4c 24 08       	mov    0x8(%rsp),%rcx
+   8fd85:	4c 3b 31             	cmp    (%rcx),%r14
+   8fd88:	75 28                	jne    8fdb2 <rheon::fitted_height::FittedHeightWorkspace::build+0x682>
+   8fd8a:	48 8b 7c 24 08       	mov    0x8(%rsp),%rdi
+   8fd8f:	e8 ec 73 15 00       	call   1e7180 <alloc::raw_vec::RawVec<T,A>::grow_one>
+   8fd94:	f2 0f 10 5c 24 38    	movsd  0x38(%rsp),%xmm3
+   8fd9a:	4d 89 e2             	mov    %r12,%r10
+   8fd9d:	4c 8b 5c 24 30       	mov    0x30(%rsp),%r11
+   8fda2:	f2 0f 10 15 5e 28 f9 	movsd  -0x6d7a2(%rip),%xmm2        # 22608 <anon.28fe961153895b8254611a095a916f85.73.llvm.12328580827075778519+0x68>
+   8fda9:	ff 
+   8fdaa:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+   8fdae:	49 8b 45 38          	mov    0x38(%r13),%rax
+   8fdb2:	4b 8d 0c b6          	lea    (%r14,%r14,4),%rcx
+   8fdb6:	4c 89 3c c8          	mov    %r15,(%rax,%rcx,8)
+   8fdba:	48 89 5c c8 08       	mov    %rbx,0x8(%rax,%rcx,8)
+   8fdbf:	4c 89 5c c8 10       	mov    %r11,0x10(%rax,%rcx,8)
+   8fdc4:	49 ff c6             	inc    %r14
+   8fdc7:	66 0f 76 c0          	pcmpeqd %xmm0,%xmm0
+   8fdcb:	f3 0f 7f 44 c8 18    	movdqu %xmm0,0x18(%rax,%rcx,8)
+   8fdd1:	4d 89 75 40          	mov    %r14,0x40(%r13)
+   8fdd5:	48 8b 44 24 28       	mov    0x28(%rsp),%rax
+   8fdda:	4c 39 d0             	cmp    %r10,%rax
+   8fddd:	4c 89 d3             	mov    %r10,%rbx
+   8fde0:	48 0f 42 d8          	cmovb  %rax,%rbx
+   8fde4:	4c 0f 47 d0          	cmova  %rax,%r10
+   8fde8:	49 8b 45 38          	mov    0x38(%r13),%rax
+   8fdec:	4a 8d 0c f5 00 00 00 	lea    0x0(,%r14,8),%rcx
+   8fdf3:	00 
+   8fdf4:	48 8d 0c 89          	lea    (%rcx,%rcx,4),%rcx
+   8fdf8:	31 d2                	xor    %edx,%edx
+   8fdfa:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+   8fe00:	48 39 d1             	cmp    %rdx,%rcx
+   8fe03:	74 2b                	je     8fe30 <rheon::fitted_height::FittedHeightWorkspace::build+0x700>
+   8fe05:	48 8b 34 10          	mov    (%rax,%rdx,1),%rsi
+   8fe09:	48 31 de             	xor    %rbx,%rsi
+   8fe0c:	4c 8b 44 10 08       	mov    0x8(%rax,%rdx,1),%r8
+   8fe11:	4d 31 d0             	xor    %r10,%r8
+   8fe14:	48 83 c2 28          	add    $0x28,%rdx
+   8fe18:	49 09 f0             	or     %rsi,%r8
+   8fe1b:	75 e3                	jne    8fe00 <rheon::fitted_height::FittedHeightWorkspace::build+0x6d0>
+   8fe1d:	4c 89 5c 10 f0       	mov    %r11,-0x10(%rax,%rdx,1)
+   8fe22:	e9 4c fb ff ff       	jmp    8f973 <rheon::fitted_height::FittedHeightWorkspace::build+0x243>
+   8fe27:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+   8fe2e:	00 00 
+   8fe30:	48 8b 4c 24 08       	mov    0x8(%rsp),%rcx
+   8fe35:	4c 3b 31             	cmp    (%rcx),%r14
+   8fe38:	0f 85 12 fb ff ff    	jne    8f950 <rheon::fitted_height::FittedHeightWorkspace::build+0x220>
+   8fe3e:	48 8b 7c 24 08       	mov    0x8(%rsp),%rdi
+   8fe43:	4d 89 d7             	mov    %r10,%r15
+   8fe46:	e8 35 73 15 00       	call   1e7180 <alloc::raw_vec::RawVec<T,A>::grow_one>
+   8fe4b:	f2 0f 10 5c 24 38    	movsd  0x38(%rsp),%xmm3
+   8fe51:	4d 89 fa             	mov    %r15,%r10
+   8fe54:	4c 8b 5c 24 30       	mov    0x30(%rsp),%r11
+   8fe59:	f2 0f 10 15 a7 27 f9 	movsd  -0x6d859(%rip),%xmm2        # 22608 <anon.28fe961153895b8254611a095a916f85.73.llvm.12328580827075778519+0x68>
+   8fe60:	ff 
+   8fe61:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+   8fe65:	49 8b 45 38          	mov    0x38(%r13),%rax
+   8fe69:	e9 e2 fa ff ff       	jmp    8f950 <rheon::fitted_height::FittedHeightWorkspace::build+0x220>
+   8fe6e:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+   8fe72:	49 8b 75 40          	mov    0x40(%r13),%rsi
+   8fe76:	48 8d 84 24 80 00 00 	lea    0x80(%rsp),%rax
+   8fe7d:	00 
+   8fe7e:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+   8fe83:	48 83 fe 02          	cmp    $0x2,%rsi
+   8fe87:	0f 83 dc 0b 00 00    	jae    90a69 <rheon::fitted_height::FittedHeightWorkspace::build+0x1339>
+   8fe8d:	48 85 f6             	test   %rsi,%rsi
+   8fe90:	74 38                	je     8feca <rheon::fitted_height::FittedHeightWorkspace::build+0x79a>
+   8fe92:	48 8d 5d 01          	lea    0x1(%rbp),%rbx
+   8fe96:	48 c1 e6 03          	shl    $0x3,%rsi
+   8fe9a:	48 8d 34 b6          	lea    (%rsi,%rsi,4),%rsi
+   8fe9e:	31 d2                	xor    %edx,%edx
+   8fea0:	31 c0                	xor    %eax,%eax
+   8fea2:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+   8fea9:	1f 84 00 00 00 00 00 
+   8feb0:	48 8b 4c 17 08       	mov    0x8(%rdi,%rdx,1),%rcx
+   8feb5:	48 31 d9             	xor    %rbx,%rcx
+   8feb8:	48 0b 0c 17          	or     (%rdi,%rdx,1),%rcx
+   8febc:	74 19                	je     8fed7 <rheon::fitted_height::FittedHeightWorkspace::build+0x7a7>
+   8febe:	48 ff c0             	inc    %rax
+   8fec1:	48 83 c2 28          	add    $0x28,%rdx
+   8fec5:	48 39 d6             	cmp    %rdx,%rsi
+   8fec8:	75 e6                	jne    8feb0 <rheon::fitted_height::FittedHeightWorkspace::build+0x780>
+   8feca:	48 8d 3d 97 93 24 00 	lea    0x249397(%rip),%rdi        # 2d9268 <__frame_dummy_init_array_entry+0x230>
+   8fed1:	ff 15 89 39 26 00    	call   *0x263989(%rip)        # 2f3860 <_DYNAMIC+0x2a0>
+   8fed7:	48 8d 0c 6d 00 00 00 	lea    0x0(,%rbp,2),%rcx
+   8fede:	00 
+   8fedf:	48 89 4c 24 30       	mov    %rcx,0x30(%rsp)
+   8fee4:	4c 8d 34 6d 01 00 00 	lea    0x1(,%rbp,2),%r14
+   8feeb:	00 
+   8feec:	45 31 c0             	xor    %r8d,%r8d
+   8feef:	31 c9                	xor    %ecx,%ecx
+   8fef1:	66 66 66 66 66 66 2e 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+   8fef8:	0f 1f 84 00 00 00 00 
+   8feff:	00 
+   8ff00:	4e 8b 0c 07          	mov    (%rdi,%r8,1),%r9
+   8ff04:	49 31 e9             	xor    %rbp,%r9
+   8ff07:	4e 8b 54 07 08       	mov    0x8(%rdi,%r8,1),%r10
+   8ff0c:	4d 31 f2             	xor    %r14,%r10
+   8ff0f:	4d 09 ca             	or     %r9,%r10
+   8ff12:	74 19                	je     8ff2d <rheon::fitted_height::FittedHeightWorkspace::build+0x7fd>
+   8ff14:	48 ff c1             	inc    %rcx
+   8ff17:	49 83 c0 28          	add    $0x28,%r8
+   8ff1b:	4c 39 c6             	cmp    %r8,%rsi
+   8ff1e:	75 e0                	jne    8ff00 <rheon::fitted_height::FittedHeightWorkspace::build+0x7d0>
+   8ff20:	48 8d 3d 59 93 24 00 	lea    0x249359(%rip),%rdi        # 2d9280 <__frame_dummy_init_array_entry+0x248>
+   8ff27:	ff 15 33 39 26 00    	call   *0x263933(%rip)        # 2f3860 <_DYNAMIC+0x2a0>
+   8ff2d:	4a 8b 74 07 10       	mov    0x10(%rdi,%r8,1),%rsi
+   8ff32:	48 89 74 17 18       	mov    %rsi,0x18(%rdi,%rdx,1)
+   8ff37:	49 8b 75 40          	mov    0x40(%r13),%rsi
+   8ff3b:	48 39 f0             	cmp    %rsi,%rax
+   8ff3e:	0f 83 af 0c 00 00    	jae    90bf3 <rheon::fitted_height::FittedHeightWorkspace::build+0x14c3>
+   8ff44:	48 39 f1             	cmp    %rsi,%rcx
+   8ff47:	0f 83 b6 0c 00 00    	jae    90c03 <rheon::fitted_height::FittedHeightWorkspace::build+0x14d3>
+   8ff4d:	49 8b 45 38          	mov    0x38(%r13),%rax
+   8ff51:	48 8b 4c 10 10       	mov    0x10(%rax,%rdx,1),%rcx
+   8ff56:	4a 89 4c 00 18       	mov    %rcx,0x18(%rax,%r8,1)
+   8ff5b:	49 8b 45 10          	mov    0x10(%r13),%rax
+   8ff5f:	48 85 c0             	test   %rax,%rax
+   8ff62:	74 6e                	je     8ffd2 <rheon::fitted_height::FittedHeightWorkspace::build+0x8a2>
+   8ff64:	b9 18 00 00 00       	mov    $0x18,%ecx
+   8ff69:	ba 08 00 00 00       	mov    $0x8,%edx
+   8ff6e:	31 ff                	xor    %edi,%edi
+   8ff70:	49 8b 75 10          	mov    0x10(%r13),%rsi
+   8ff74:	48 39 f7             	cmp    %rsi,%rdi
+   8ff77:	0f 83 e9 0b 00 00    	jae    90b66 <rheon::fitted_height::FittedHeightWorkspace::build+0x1436>
+   8ff7d:	49 8b b5 18 01 00 00 	mov    0x118(%r13),%rsi
+   8ff84:	48 39 f7             	cmp    %rsi,%rdi
+   8ff87:	0f 83 cc 0b 00 00    	jae    90b59 <rheon::fitted_height::FittedHeightWorkspace::build+0x1429>
+   8ff8d:	49 8b 75 08          	mov    0x8(%r13),%rsi
+   8ff91:	4d 8b 85 10 01 00 00 	mov    0x110(%r13),%r8
+   8ff98:	f3 0f 7e 44 16 f8    	movq   -0x8(%rsi,%rdx,1),%xmm0
+   8ff9e:	f2 0f 10 0c 16       	movsd  (%rsi,%rdx,1),%xmm1
+   8ffa3:	66 41 0f d6 44 08 e8 	movq   %xmm0,-0x18(%r8,%rcx,1)
+   8ffaa:	49 c7 44 08 f0 00 00 	movq   $0x0,-0x10(%r8,%rcx,1)
+   8ffb1:	00 00 
+   8ffb3:	f2 41 0f 11 4c 08 f8 	movsd  %xmm1,-0x8(%r8,%rcx,1)
+   8ffba:	49 c7 04 08 00 00 00 	movq   $0x0,(%r8,%rcx,1)
+   8ffc1:	00 
+   8ffc2:	48 ff c7             	inc    %rdi
+   8ffc5:	48 83 c1 20          	add    $0x20,%rcx
+   8ffc9:	48 83 c2 18          	add    $0x18,%rdx
+   8ffcd:	48 39 f8             	cmp    %rdi,%rax
+   8ffd0:	75 9e                	jne    8ff70 <rheon::fitted_height::FittedHeightWorkspace::build+0x840>
+   8ffd2:	49 8b 45 40          	mov    0x40(%r13),%rax
+   8ffd6:	48 89 44 24 70       	mov    %rax,0x70(%rsp)
+   8ffdb:	48 85 c0             	test   %rax,%rax
+   8ffde:	0f 84 5a 01 00 00    	je     9013e <rheon::fitted_height::FittedHeightWorkspace::build+0xa0e>
+   8ffe4:	48 89 9c 24 a8 00 00 	mov    %rbx,0xa8(%rsp)
+   8ffeb:	00 
+   8ffec:	45 31 e4             	xor    %r12d,%r12d
+   8ffef:	31 db                	xor    %ebx,%ebx
+   8fff1:	4c 89 74 24 28       	mov    %r14,0x28(%rsp)
+   8fff6:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+   8fffd:	00 00 00 
+   90000:	49 8b 75 40          	mov    0x40(%r13),%rsi
+   90004:	48 39 f3             	cmp    %rsi,%rbx
+   90007:	0f 83 73 0b 00 00    	jae    90b80 <rheon::fitted_height::FittedHeightWorkspace::build+0x1450>
+   9000d:	49 8b 45 38          	mov    0x38(%r13),%rax
+   90011:	4a 8b 4c 20 20       	mov    0x20(%rax,%r12,1),%rcx
+   90016:	48 89 4c 24 60       	mov    %rcx,0x60(%rsp)
+   9001b:	42 0f 10 04 20       	movups (%rax,%r12,1),%xmm0
+   90020:	42 0f 10 4c 20 10    	movups 0x10(%rax,%r12,1),%xmm1
+   90026:	0f 29 4c 24 50       	movaps %xmm1,0x50(%rsp)
+   9002b:	0f 29 44 24 40       	movaps %xmm0,0x40(%rsp)
+   90030:	48 8d bc 24 80 00 00 	lea    0x80(%rsp),%rdi
+   90037:	00 
+   90038:	4c 89 ee             	mov    %r13,%rsi
+   9003b:	48 8d 54 24 40       	lea    0x40(%rsp),%rdx
+   90040:	e8 eb e8 fe ff       	call   7e930 <rheon::fitted_height::FittedHeightWorkspace::split_position>
+   90045:	f2 0f 10 8c 24 88 00 	movsd  0x88(%rsp),%xmm1
+   9004c:	00 00 
+   9004e:	48 8b ac 24 90 00 00 	mov    0x90(%rsp),%rbp
+   90055:	00 
+   90056:	f3 0f 7e 84 24 98 00 	movq   0x98(%rsp),%xmm0
+   9005d:	00 00 
+   9005f:	80 bc 24 80 00 00 00 	cmpb   $0x0,0x80(%rsp)
+   90066:	00 
+   90067:	0f 85 de 01 00 00    	jne    9024b <rheon::fitted_height::FittedHeightWorkspace::build+0xb1b>
+   9006d:	4c 8b bc 24 a0 00 00 	mov    0xa0(%rsp),%r15
+   90074:	00 
+   90075:	4d 89 ee             	mov    %r13,%r14
+   90078:	4d 8b 6d 10          	mov    0x10(%r13),%r13
+   9007c:	4d 3b 2e             	cmp    (%r14),%r13
+   9007f:	75 20                	jne    900a1 <rheon::fitted_height::FittedHeightWorkspace::build+0x971>
+   90081:	4c 89 f7             	mov    %r14,%rdi
+   90084:	66 0f d6 44 24 08    	movq   %xmm0,0x8(%rsp)
+   9008a:	f2 0f 11 4c 24 38    	movsd  %xmm1,0x38(%rsp)
+   90090:	e8 7b 70 15 00       	call   1e7110 <alloc::raw_vec::RawVec<T,A>::grow_one>
+   90095:	f2 0f 10 4c 24 38    	movsd  0x38(%rsp),%xmm1
+   9009b:	f3 0f 7e 44 24 08    	movq   0x8(%rsp),%xmm0
+   900a1:	49 8b 46 08          	mov    0x8(%r14),%rax
+   900a5:	4a 8d 0c 6d 00 00 00 	lea    0x0(,%r13,2),%rcx
+   900ac:	00 
+   900ad:	4c 01 e9             	add    %r13,%rcx
+   900b0:	f2 0f 11 0c c8       	movsd  %xmm1,(%rax,%rcx,8)
+   900b5:	66 0f d6 44 c8 08    	movq   %xmm0,0x8(%rax,%rcx,8)
+   900bb:	4c 89 6c c8 10       	mov    %r13,0x10(%rax,%rcx,8)
+   900c0:	49 8d 45 01          	lea    0x1(%r13),%rax
+   900c4:	49 89 46 10          	mov    %rax,0x10(%r14)
+   900c8:	49 8b b6 18 01 00 00 	mov    0x118(%r14),%rsi
+   900cf:	49 39 f5             	cmp    %rsi,%r13
+   900d2:	0f 83 b8 0a 00 00    	jae    90b90 <rheon::fitted_height::FittedHeightWorkspace::build+0x1460>
+   900d8:	49 8b 86 10 01 00 00 	mov    0x110(%r14),%rax
+   900df:	4c 89 e9             	mov    %r13,%rcx
+   900e2:	48 c1 e1 05          	shl    $0x5,%rcx
+   900e6:	f2 0f 11 0c 08       	movsd  %xmm1,(%rax,%rcx,1)
+   900eb:	48 89 6c 08 08       	mov    %rbp,0x8(%rax,%rcx,1)
+   900f0:	66 0f d6 44 08 10    	movq   %xmm0,0x10(%rax,%rcx,1)
+   900f6:	4c 89 7c 08 18       	mov    %r15,0x18(%rax,%rcx,1)
+   900fb:	49 8b 76 40          	mov    0x40(%r14),%rsi
+   900ff:	48 39 f3             	cmp    %rsi,%rbx
+   90102:	0f 83 98 0a 00 00    	jae    90ba0 <rheon::fitted_height::FittedHeightWorkspace::build+0x1470>
+   90108:	49 8b 46 38          	mov    0x38(%r14),%rax
+   9010c:	4e 89 6c 20 20       	mov    %r13,0x20(%rax,%r12,1)
+   90111:	48 ff c3             	inc    %rbx
+   90114:	49 83 c4 28          	add    $0x28,%r12
+   90118:	48 39 5c 24 70       	cmp    %rbx,0x70(%rsp)
+   9011d:	4d 89 f5             	mov    %r14,%r13
+   90120:	48 8b 6c 24 20       	mov    0x20(%rsp),%rbp
+   90125:	4c 8b 74 24 28       	mov    0x28(%rsp),%r14
+   9012a:	0f 85 d0 fe ff ff    	jne    90000 <rheon::fitted_height::FittedHeightWorkspace::build+0x8d0>
+   90130:	49 8b 4d 40          	mov    0x40(%r13),%rcx
+   90134:	48 8b 9c 24 a8 00 00 	mov    0xa8(%rsp),%rbx
+   9013b:	00 
+   9013c:	eb 02                	jmp    90140 <rheon::fitted_height::FittedHeightWorkspace::build+0xa10>
+   9013e:	31 c9                	xor    %ecx,%ecx
+   90140:	49 8b 45 38          	mov    0x38(%r13),%rax
+   90144:	48 c1 e1 03          	shl    $0x3,%rcx
+   90148:	48 8d 14 89          	lea    (%rcx,%rcx,4),%rdx
+   9014c:	31 c9                	xor    %ecx,%ecx
+   9014e:	66 90                	xchg   %ax,%ax
+   90150:	48 39 ca             	cmp    %rcx,%rdx
+   90153:	0f 84 e6 09 00 00    	je     90b3f <rheon::fitted_height::FittedHeightWorkspace::build+0x140f>
+   90159:	48 8b 7c 08 08       	mov    0x8(%rax,%rcx,1),%rdi
+   9015e:	48 31 df             	xor    %rbx,%rdi
+   90161:	48 8d 71 28          	lea    0x28(%rcx),%rsi
+   90165:	48 0b 3c 08          	or     (%rax,%rcx,1),%rdi
+   90169:	48 89 f1             	mov    %rsi,%rcx
+   9016c:	75 e2                	jne    90150 <rheon::fitted_height::FittedHeightWorkspace::build+0xa20>
+   9016e:	48 8b 4c 30 f8       	mov    -0x8(%rax,%rsi,1),%rcx
+   90173:	31 f6                	xor    %esi,%esi
+   90175:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+   9017c:	00 00 00 00 
+   90180:	48 39 f2             	cmp    %rsi,%rdx
+   90183:	0f 84 c3 09 00 00    	je     90b4c <rheon::fitted_height::FittedHeightWorkspace::build+0x141c>
+   90189:	48 8b 3c 30          	mov    (%rax,%rsi,1),%rdi
+   9018d:	48 31 ef             	xor    %rbp,%rdi
+   90190:	4c 8b 44 30 08       	mov    0x8(%rax,%rsi,1),%r8
+   90195:	4d 31 f0             	xor    %r14,%r8
+   90198:	48 83 c6 28          	add    $0x28,%rsi
+   9019c:	49 09 f8             	or     %rdi,%r8
+   9019f:	75 df                	jne    90180 <rheon::fitted_height::FittedHeightWorkspace::build+0xa50>
+   901a1:	49 8b 55 10          	mov    0x10(%r13),%rdx
+   901a5:	48 85 d2             	test   %rdx,%rdx
+   901a8:	0f 84 b4 00 00 00    	je     90262 <rheon::fitted_height::FittedHeightWorkspace::build+0xb32>
+   901ae:	4c 8b 44 30 f8       	mov    -0x8(%rax,%rsi,1),%r8
+   901b3:	41 b9 10 00 00 00    	mov    $0x10,%r9d
+   901b9:	31 ff                	xor    %edi,%edi
+   901bb:	45 31 d2             	xor    %r10d,%r10d
+   901be:	66 90                	xchg   %ax,%ax
+   901c0:	48 39 fd             	cmp    %rdi,%rbp
+   901c3:	75 0b                	jne    901d0 <rheon::fitted_height::FittedHeightWorkspace::build+0xaa0>
+   901c5:	31 c0                	xor    %eax,%eax
+   901c7:	eb 19                	jmp    901e2 <rheon::fitted_height::FittedHeightWorkspace::build+0xab2>
+   901c9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+   901d0:	48 89 d8             	mov    %rbx,%rax
+   901d3:	49 39 fe             	cmp    %rdi,%r14
+   901d6:	74 0a                	je     901e2 <rheon::fitted_height::FittedHeightWorkspace::build+0xab2>
+   901d8:	49 39 f8             	cmp    %rdi,%r8
+   901db:	48 89 f8             	mov    %rdi,%rax
+   901de:	48 0f 44 c1          	cmove  %rcx,%rax
+   901e2:	48 39 c7             	cmp    %rax,%rdi
+   901e5:	75 19                	jne    90200 <rheon::fitted_height::FittedHeightWorkspace::build+0xad0>
+   901e7:	4d 8d 62 01          	lea    0x1(%r10),%r12
+   901eb:	49 8b 75 10          	mov    0x10(%r13),%rsi
+   901ef:	eb 2c                	jmp    9021d <rheon::fitted_height::FittedHeightWorkspace::build+0xaed>
+   901f1:	66 66 66 66 66 66 2e 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+   901f8:	0f 1f 84 00 00 00 00 
+   901ff:	00 
+   90200:	49 8b 75 10          	mov    0x10(%r13),%rsi
+   90204:	48 39 f0             	cmp    %rsi,%rax
+   90207:	0f 83 a3 09 00 00    	jae    90bb0 <rheon::fitted_height::FittedHeightWorkspace::build+0x1480>
+   9020d:	4d 8b 5d 08          	mov    0x8(%r13),%r11
+   90211:	48 8d 04 40          	lea    (%rax,%rax,2),%rax
+   90215:	4d 89 d4             	mov    %r10,%r12
+   90218:	4d 8b 54 c3 10       	mov    0x10(%r11,%rax,8),%r10
+   9021d:	48 39 f7             	cmp    %rsi,%rdi
+   90220:	0f 83 4d 09 00 00    	jae    90b73 <rheon::fitted_height::FittedHeightWorkspace::build+0x1443>
+   90226:	49 8b 45 08          	mov    0x8(%r13),%rax
+   9022a:	4e 89 14 08          	mov    %r10,(%rax,%r9,1)
+   9022e:	48 ff c7             	inc    %rdi
+   90231:	49 83 c1 18          	add    $0x18,%r9
+   90235:	4d 89 e2             	mov    %r12,%r10
+   90238:	48 39 fa             	cmp    %rdi,%rdx
+   9023b:	75 83                	jne    901c0 <rheon::fitted_height::FittedHeightWorkspace::build+0xa90>
+   9023d:	4d 3b a5 60 01 00 00 	cmp    0x160(%r13),%r12
+   90244:	74 2c                	je     90272 <rheon::fitted_height::FittedHeightWorkspace::build+0xb42>
+   90246:	e9 cc 07 00 00       	jmp    90a17 <rheon::fitted_height::FittedHeightWorkspace::build+0x12e7>
+   9024b:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+   90250:	f2 0f 11 08          	movsd  %xmm1,(%rax)
+   90254:	48 89 68 08          	mov    %rbp,0x8(%rax)
+   90258:	66 0f d6 40 10       	movq   %xmm0,0x10(%rax)
+   9025d:	e9 bd 07 00 00       	jmp    90a1f <rheon::fitted_height::FittedHeightWorkspace::build+0x12ef>
+   90262:	45 31 e4             	xor    %r12d,%r12d
+   90265:	4d 3b a5 60 01 00 00 	cmp    0x160(%r13),%r12
+   9026c:	0f 85 a5 07 00 00    	jne    90a17 <rheon::fitted_height::FittedHeightWorkspace::build+0x12e7>
+   90272:	49 8b 45 10          	mov    0x10(%r13),%rax
+   90276:	49 3b 85 58 01 00 00 	cmp    0x158(%r13),%rax
+   9027d:	0f 85 94 07 00 00    	jne    90a17 <rheon::fitted_height::FittedHeightWorkspace::build+0x12e7>
+   90283:	4d 8b 7d 70          	mov    0x70(%r13),%r15
+   90287:	4c 89 e3             	mov    %r12,%rbx
+   9028a:	4c 89 e0             	mov    %r12,%rax
+   9028d:	4c 29 fb             	sub    %r15,%rbx
+   90290:	0f 86 ae 01 00 00    	jbe    90444 <rheon::fitted_height::FittedHeightWorkspace::build+0xd14>
+   90296:	49 8b 4d 60          	mov    0x60(%r13),%rcx
+   9029a:	4c 29 f9             	sub    %r15,%rcx
+   9029d:	4c 89 f8             	mov    %r15,%rax
+   902a0:	48 39 cb             	cmp    %rcx,%rbx
+   902a3:	0f 87 0c 08 00 00    	ja     90ab5 <rheon::fitted_height::FittedHeightWorkspace::build+0x1385>
+   902a9:	48 89 c1             	mov    %rax,%rcx
+   902ac:	48 c1 e1 06          	shl    $0x6,%rcx
+   902b0:	49 03 4d 68          	add    0x68(%r13),%rcx
+   902b4:	48 83 fb 02          	cmp    $0x2,%rbx
+   902b8:	0f 82 64 01 00 00    	jb     90422 <rheon::fitted_height::FittedHeightWorkspace::build+0xcf2>
+   902be:	49 f7 d7             	not    %r15
+   902c1:	4d 01 e7             	add    %r12,%r15
+   902c4:	48 8d 73 fe          	lea    -0x2(%rbx),%rsi
+   902c8:	44 89 fa             	mov    %r15d,%edx
+   902cb:	83 e2 07             	and    $0x7,%edx
+   902ce:	48 83 fe 07          	cmp    $0x7,%rsi
+   902d2:	0f 82 10 01 00 00    	jb     903e8 <rheon::fitted_height::FittedHeightWorkspace::build+0xcb8>
+   902d8:	49 83 e7 f8          	and    $0xfffffffffffffff8,%r15
+   902dc:	66 0f 76 c0          	pcmpeqd %xmm0,%xmm0
+   902e0:	f2 0f 10 0d d8 21 f9 	movsd  -0x6de28(%rip),%xmm1        # 224c0 <anon.28fe961153895b8254611a095a916f85.72.llvm.12328580827075778519+0x40>
+   902e7:	ff 
+   902e8:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+   902ef:	00 
+   902f0:	f3 0f 7f 41 20       	movdqu %xmm0,0x20(%rcx)
+   902f5:	f3 0f 7f 41 10       	movdqu %xmm0,0x10(%rcx)
+   902fa:	f3 0f 7f 01          	movdqu %xmm0,(%rcx)
+   902fe:	66 0f 11 49 30       	movupd %xmm1,0x30(%rcx)
+   90303:	f3 0f 7f 41 40       	movdqu %xmm0,0x40(%rcx)
+   90308:	f3 0f 7f 41 50       	movdqu %xmm0,0x50(%rcx)
+   9030d:	f3 0f 7f 41 60       	movdqu %xmm0,0x60(%rcx)
+   90312:	66 0f 11 49 70       	movupd %xmm1,0x70(%rcx)
+   90317:	f3 0f 7f 81 80 00 00 	movdqu %xmm0,0x80(%rcx)
+   9031e:	00 
+   9031f:	f3 0f 7f 81 90 00 00 	movdqu %xmm0,0x90(%rcx)
+   90326:	00 
+   90327:	f3 0f 7f 81 a0 00 00 	movdqu %xmm0,0xa0(%rcx)
+   9032e:	00 
+   9032f:	66 0f 11 89 b0 00 00 	movupd %xmm1,0xb0(%rcx)
+   90336:	00 
+   90337:	f3 0f 7f 81 c0 00 00 	movdqu %xmm0,0xc0(%rcx)
+   9033e:	00 
+   9033f:	f3 0f 7f 81 d0 00 00 	movdqu %xmm0,0xd0(%rcx)
+   90346:	00 
+   90347:	f3 0f 7f 81 e0 00 00 	movdqu %xmm0,0xe0(%rcx)
+   9034e:	00 
+   9034f:	66 0f 11 89 f0 00 00 	movupd %xmm1,0xf0(%rcx)
+   90356:	00 
+   90357:	f3 0f 7f 81 00 01 00 	movdqu %xmm0,0x100(%rcx)
+   9035e:	00 
+   9035f:	f3 0f 7f 81 10 01 00 	movdqu %xmm0,0x110(%rcx)
+   90366:	00 
+   90367:	f3 0f 7f 81 20 01 00 	movdqu %xmm0,0x120(%rcx)
+   9036e:	00 
+   9036f:	66 0f 11 89 30 01 00 	movupd %xmm1,0x130(%rcx)
+   90376:	00 
+   90377:	f3 0f 7f 81 40 01 00 	movdqu %xmm0,0x140(%rcx)
+   9037e:	00 
+   9037f:	f3 0f 7f 81 50 01 00 	movdqu %xmm0,0x150(%rcx)
+   90386:	00 
+   90387:	f3 0f 7f 81 60 01 00 	movdqu %xmm0,0x160(%rcx)
+   9038e:	00 
+   9038f:	66 0f 11 89 70 01 00 	movupd %xmm1,0x170(%rcx)
+   90396:	00 
+   90397:	f3 0f 7f 81 80 01 00 	movdqu %xmm0,0x180(%rcx)
+   9039e:	00 
+   9039f:	f3 0f 7f 81 90 01 00 	movdqu %xmm0,0x190(%rcx)
+   903a6:	00 
+   903a7:	f3 0f 7f 81 a0 01 00 	movdqu %xmm0,0x1a0(%rcx)
+   903ae:	00 
+   903af:	66 0f 11 89 b0 01 00 	movupd %xmm1,0x1b0(%rcx)
+   903b6:	00 
+   903b7:	f3 0f 7f 81 c0 01 00 	movdqu %xmm0,0x1c0(%rcx)
+   903be:	00 
+   903bf:	f3 0f 7f 81 d0 01 00 	movdqu %xmm0,0x1d0(%rcx)
+   903c6:	00 
+   903c7:	f3 0f 7f 81 e0 01 00 	movdqu %xmm0,0x1e0(%rcx)
+   903ce:	00 
+   903cf:	66 0f 11 89 f0 01 00 	movupd %xmm1,0x1f0(%rcx)
+   903d6:	00 
+   903d7:	48 81 c1 00 02 00 00 	add    $0x200,%rcx
+   903de:	49 83 c7 f8          	add    $0xfffffffffffffff8,%r15
+   903e2:	0f 85 08 ff ff ff    	jne    902f0 <rheon::fitted_height::FittedHeightWorkspace::build+0xbc0>
+   903e8:	48 85 d2             	test   %rdx,%rdx
+   903eb:	74 2f                	je     9041c <rheon::fitted_height::FittedHeightWorkspace::build+0xcec>
+   903ed:	66 0f 76 c0          	pcmpeqd %xmm0,%xmm0
+   903f1:	f2 0f 10 0d c7 20 f9 	movsd  -0x6df39(%rip),%xmm1        # 224c0 <anon.28fe961153895b8254611a095a916f85.72.llvm.12328580827075778519+0x40>
+   903f8:	ff 
+   903f9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+   90400:	f3 0f 7f 41 20       	movdqu %xmm0,0x20(%rcx)
+   90405:	f3 0f 7f 41 10       	movdqu %xmm0,0x10(%rcx)
+   9040a:	f3 0f 7f 01          	movdqu %xmm0,(%rcx)
+   9040e:	66 0f 11 49 30       	movupd %xmm1,0x30(%rcx)
+   90413:	48 83 c1 40          	add    $0x40,%rcx
+   90417:	48 ff ca             	dec    %rdx
+   9041a:	75 e4                	jne    90400 <rheon::fitted_height::FittedHeightWorkspace::build+0xcd0>
+   9041c:	48 01 d8             	add    %rbx,%rax
+   9041f:	48 ff c8             	dec    %rax
+   90422:	66 0f 76 c0          	pcmpeqd %xmm0,%xmm0
+   90426:	f3 0f 7f 41 20       	movdqu %xmm0,0x20(%rcx)
+   9042b:	f3 0f 7f 41 10       	movdqu %xmm0,0x10(%rcx)
+   90430:	f3 0f 7f 01          	movdqu %xmm0,(%rcx)
+   90434:	f3 0f 7e 05 84 20 f9 	movq   -0x6df7c(%rip),%xmm0        # 224c0 <anon.28fe961153895b8254611a095a916f85.72.llvm.12328580827075778519+0x40>
+   9043b:	ff 
+   9043c:	f3 0f 7f 41 30       	movdqu %xmm0,0x30(%rcx)
+   90441:	48 ff c0             	inc    %rax
+   90444:	49 89 45 70          	mov    %rax,0x70(%r13)
+   90448:	b8 01 00 00 00       	mov    $0x1,%eax
+   9044d:	31 d2                	xor    %edx,%edx
+   9044f:	66 0f 6f 05 69 28 f9 	movdqa -0x6d797(%rip),%xmm0        # 22cc0 <anon.28fe961153895b8254611a095a916f85.73.llvm.12328580827075778519+0x720>
+   90456:	ff 
+   90457:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+   9045b:	45 31 c9             	xor    %r9d,%r9d
+   9045e:	eb 15                	jmp    90475 <rheon::fitted_height::FittedHeightWorkspace::build+0xd45>
+   90460:	48 83 fa 03          	cmp    $0x3,%rdx
+   90464:	48 89 d0             	mov    %rdx,%rax
+   90467:	48 83 d0 00          	adc    $0x0,%rax
+   9046b:	48 83 fa 02          	cmp    $0x2,%rdx
+   9046f:	0f 87 8b 02 00 00    	ja     90700 <rheon::fitted_height::FittedHeightWorkspace::build+0xfd0>
+   90475:	49 89 d2             	mov    %rdx,%r10
+   90478:	48 89 c2             	mov    %rax,%rdx
+   9047b:	4d 85 e4             	test   %r12,%r12
+   9047e:	0f 84 1c 01 00 00    	je     905a0 <rheon::fitted_height::FittedHeightWorkspace::build+0xe70>
+   90484:	b8 01 00 00 00       	mov    $0x1,%eax
+   90489:	31 ff                	xor    %edi,%edi
+   9048b:	eb 2f                	jmp    904bc <rheon::fitted_height::FittedHeightWorkspace::build+0xd8c>
+   9048d:	0f 1f 00             	nopl   (%rax)
+   90490:	48 c1 e7 06          	shl    $0x6,%rdi
+   90494:	49 03 7d 68          	add    0x68(%r13),%rdi
+   90498:	4c 89 d0             	mov    %r10,%rax
+   9049b:	48 c1 e0 04          	shl    $0x4,%rax
+   9049f:	4c 89 0c 38          	mov    %r9,(%rax,%rdi,1)
+   904a3:	49 ff c1             	inc    %r9
+   904a6:	4c 39 e1             	cmp    %r12,%rcx
+   904a9:	48 89 c8             	mov    %rcx,%rax
+   904ac:	48 83 d0 00          	adc    $0x0,%rax
+   904b0:	48 89 cf             	mov    %rcx,%rdi
+   904b3:	4c 39 e1             	cmp    %r12,%rcx
+   904b6:	0f 83 e4 00 00 00    	jae    905a0 <rheon::fitted_height::FittedHeightWorkspace::build+0xe70>
+   904bc:	48 89 c1             	mov    %rax,%rcx
+   904bf:	49 8b 45 40          	mov    0x40(%r13),%rax
+   904c3:	4d 8b 45 08          	mov    0x8(%r13),%r8
+   904c7:	49 8b 75 10          	mov    0x10(%r13),%rsi
+   904cb:	48 85 c0             	test   %rax,%rax
+   904ce:	74 60                	je     90530 <rheon::fitted_height::FittedHeightWorkspace::build+0xe00>
+   904d0:	4d 8b 5d 38          	mov    0x38(%r13),%r11
+   904d4:	48 c1 e0 03          	shl    $0x3,%rax
+   904d8:	48 8d 1c 80          	lea    (%rax,%rax,4),%rbx
+   904dc:	45 31 ff             	xor    %r15d,%r15d
+   904df:	eb 18                	jmp    904f9 <rheon::fitted_height::FittedHeightWorkspace::build+0xdc9>
+   904e1:	66 66 66 66 66 66 2e 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+   904e8:	0f 1f 84 00 00 00 00 
+   904ef:	00 
+   904f0:	49 83 c7 28          	add    $0x28,%r15
+   904f4:	4c 39 fb             	cmp    %r15,%rbx
+   904f7:	74 37                	je     90530 <rheon::fitted_height::FittedHeightWorkspace::build+0xe00>
+   904f9:	4b 83 7c 3b 18 ff    	cmpq   $0xffffffffffffffff,0x18(%r11,%r15,1)
+   904ff:	75 ef                	jne    904f0 <rheon::fitted_height::FittedHeightWorkspace::build+0xdc0>
+   90501:	4b 39 6c 3b 08       	cmp    %rbp,0x8(%r11,%r15,1)
+   90506:	76 06                	jbe    9050e <rheon::fitted_height::FittedHeightWorkspace::build+0xdde>
+   90508:	4b 39 2c 3b          	cmp    %rbp,(%r11,%r15,1)
+   9050c:	76 e2                	jbe    904f0 <rheon::fitted_height::FittedHeightWorkspace::build+0xdc0>
+   9050e:	4b 8b 44 3b 20       	mov    0x20(%r11,%r15,1),%rax
+   90513:	48 39 f0             	cmp    %rsi,%rax
+   90516:	0f 83 7c 05 00 00    	jae    90a98 <rheon::fitted_height::FittedHeightWorkspace::build+0x1368>
+   9051c:	48 8d 04 40          	lea    (%rax,%rax,2),%rax
+   90520:	49 39 7c c0 10       	cmp    %rdi,0x10(%r8,%rax,8)
+   90525:	75 c9                	jne    904f0 <rheon::fitted_height::FittedHeightWorkspace::build+0xdc0>
+   90527:	b0 01                	mov    $0x1,%al
+   90529:	eb 07                	jmp    90532 <rheon::fitted_height::FittedHeightWorkspace::build+0xe02>
+   9052b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   90530:	31 c0                	xor    %eax,%eax
+   90532:	48 c1 e6 03          	shl    $0x3,%rsi
+   90536:	4c 8d 1c 76          	lea    (%rsi,%rsi,2),%r11
+   9053a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+   90540:	4c 89 de             	mov    %r11,%rsi
+   90543:	4d 85 db             	test   %r11,%r11
+   90546:	74 1e                	je     90566 <rheon::fitted_height::FittedHeightWorkspace::build+0xe36>
+   90548:	4c 89 c3             	mov    %r8,%rbx
+   9054b:	49 83 c0 18          	add    $0x18,%r8
+   9054f:	4c 8d 5e e8          	lea    -0x18(%rsi),%r11
+   90553:	48 39 7b 10          	cmp    %rdi,0x10(%rbx)
+   90557:	75 e7                	jne    90540 <rheon::fitted_height::FittedHeightWorkspace::build+0xe10>
+   90559:	f2 0f 10 53 08       	movsd  0x8(%rbx),%xmm2
+   9055e:	66 0f 2e d1          	ucomisd %xmm1,%xmm2
+   90562:	75 dc                	jne    90540 <rheon::fitted_height::FittedHeightWorkspace::build+0xe10>
+   90564:	7a da                	jp     90540 <rheon::fitted_height::FittedHeightWorkspace::build+0xe10>
+   90566:	48 85 f6             	test   %rsi,%rsi
+   90569:	40 0f 95 c6          	setne  %sil
+   9056d:	49 83 fa 01          	cmp    $0x1,%r10
+   90571:	41 0f 94 c0          	sete   %r8b
+   90575:	41 20 f0             	and    %sil,%r8b
+   90578:	44 08 c0             	or     %r8b,%al
+   9057b:	0f 85 25 ff ff ff    	jne    904a6 <rheon::fitted_height::FittedHeightWorkspace::build+0xd76>
+   90581:	49 8b 75 70          	mov    0x70(%r13),%rsi
+   90585:	48 39 f7             	cmp    %rsi,%rdi
+   90588:	0f 82 02 ff ff ff    	jb     90490 <rheon::fitted_height::FittedHeightWorkspace::build+0xd60>
+   9058e:	e9 15 05 00 00       	jmp    90aa8 <rheon::fitted_height::FittedHeightWorkspace::build+0x1378>
+   90593:	66 66 66 66 2e 0f 1f 	data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+   9059a:	84 00 00 00 00 00 
+   905a0:	49 8b 45 40          	mov    0x40(%r13),%rax
+   905a4:	48 85 c0             	test   %rax,%rax
+   905a7:	0f 84 b3 fe ff ff    	je     90460 <rheon::fitted_height::FittedHeightWorkspace::build+0xd30>
+   905ad:	4d 8b 5d 38          	mov    0x38(%r13),%r11
+   905b1:	48 c1 e0 03          	shl    $0x3,%rax
+   905b5:	48 8d 1c 80          	lea    (%rax,%rax,4),%rbx
+   905b9:	45 31 ff             	xor    %r15d,%r15d
+   905bc:	eb 19                	jmp    905d7 <rheon::fitted_height::FittedHeightWorkspace::build+0xea7>
+   905be:	66 90                	xchg   %ax,%ax
+   905c0:	49 8b 4d 68          	mov    0x68(%r13),%rcx
+   905c4:	f3 0f 7f 44 01 30    	movdqu %xmm0,0x30(%rcx,%rax,1)
+   905ca:	49 83 c7 28          	add    $0x28,%r15
+   905ce:	4c 39 fb             	cmp    %r15,%rbx
+   905d1:	0f 84 89 fe ff ff    	je     90460 <rheon::fitted_height::FittedHeightWorkspace::build+0xd30>
+   905d7:	4b 83 7c 3b 18 ff    	cmpq   $0xffffffffffffffff,0x18(%r11,%r15,1)
+   905dd:	75 eb                	jne    905ca <rheon::fitted_height::FittedHeightWorkspace::build+0xe9a>
+   905df:	4b 8b 7c 3b 08       	mov    0x8(%r11,%r15,1),%rdi
+   905e4:	48 39 ef             	cmp    %rbp,%rdi
+   905e7:	76 06                	jbe    905ef <rheon::fitted_height::FittedHeightWorkspace::build+0xebf>
+   905e9:	4b 39 2c 3b          	cmp    %rbp,(%r11,%r15,1)
+   905ed:	76 db                	jbe    905ca <rheon::fitted_height::FittedHeightWorkspace::build+0xe9a>
+   905ef:	4b 8b 44 3b 20       	mov    0x20(%r11,%r15,1),%rax
+   905f4:	49 8b 75 10          	mov    0x10(%r13),%rsi
+   905f8:	48 39 f0             	cmp    %rsi,%rax
+   905fb:	0f 83 f4 04 00 00    	jae    90af5 <rheon::fitted_height::FittedHeightWorkspace::build+0x13c5>
+   90601:	4b 8b 0c 3b          	mov    (%r11,%r15,1),%rcx
+   90605:	48 39 f1             	cmp    %rsi,%rcx
+   90608:	0f 83 f7 04 00 00    	jae    90b05 <rheon::fitted_height::FittedHeightWorkspace::build+0x13d5>
+   9060e:	48 39 f7             	cmp    %rsi,%rdi
+   90611:	0f 83 fe 04 00 00    	jae    90b15 <rheon::fitted_height::FittedHeightWorkspace::build+0x13e5>
+   90617:	4d 8b 75 08          	mov    0x8(%r13),%r14
+   9061b:	48 8d 0c 49          	lea    (%rcx,%rcx,2),%rcx
+   9061f:	49 8b 4c ce 10       	mov    0x10(%r14,%rcx,8),%rcx
+   90624:	49 8b 75 70          	mov    0x70(%r13),%rsi
+   90628:	48 39 f1             	cmp    %rsi,%rcx
+   9062b:	0f 83 f1 04 00 00    	jae    90b22 <rheon::fitted_height::FittedHeightWorkspace::build+0x13f2>
+   90631:	48 8d 3c 7f          	lea    (%rdi,%rdi,2),%rdi
+   90635:	4d 8b 44 fe 10       	mov    0x10(%r14,%rdi,8),%r8
+   9063a:	49 39 f0             	cmp    %rsi,%r8
+   9063d:	0f 83 95 04 00 00    	jae    90ad8 <rheon::fitted_height::FittedHeightWorkspace::build+0x13a8>
+   90643:	48 8d 04 40          	lea    (%rax,%rax,2),%rax
+   90647:	49 8b 7c c6 10       	mov    0x10(%r14,%rax,8),%rdi
+   9064c:	48 39 f7             	cmp    %rsi,%rdi
+   9064f:	0f 83 93 04 00 00    	jae    90ae8 <rheon::fitted_height::FittedHeightWorkspace::build+0x13b8>
+   90655:	49 8b 75 68          	mov    0x68(%r13),%rsi
+   90659:	48 c1 e1 06          	shl    $0x6,%rcx
+   9065d:	48 01 f1             	add    %rsi,%rcx
+   90660:	4d 89 d6             	mov    %r10,%r14
+   90663:	49 c1 e6 04          	shl    $0x4,%r14
+   90667:	49 8b 0c 0e          	mov    (%r14,%rcx,1),%rcx
+   9066b:	49 c1 e0 06          	shl    $0x6,%r8
+   9066f:	49 01 f0             	add    %rsi,%r8
+   90672:	4f 8b 04 06          	mov    (%r14,%r8,1),%r8
+   90676:	48 89 f8             	mov    %rdi,%rax
+   90679:	48 c1 e0 06          	shl    $0x6,%rax
+   9067d:	48 01 c6             	add    %rax,%rsi
+   90680:	49 89 0c 36          	mov    %rcx,(%r14,%rsi,1)
+   90684:	4d 89 44 36 08       	mov    %r8,0x8(%r14,%rsi,1)
+   90689:	49 8b 75 70          	mov    0x70(%r13),%rsi
+   9068d:	48 39 f7             	cmp    %rsi,%rdi
+   90690:	0f 82 2a ff ff ff    	jb     905c0 <rheon::fitted_height::FittedHeightWorkspace::build+0xe90>
+   90696:	48 8d 15 1b 8d 24 00 	lea    0x248d1b(%rip),%rdx        # 2d93b8 <__frame_dummy_init_array_entry+0x380>
+   9069d:	ff 15 ad 31 26 00    	call   *0x2631ad(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   906a3:	66 0f 28 dc          	movapd %xmm4,%xmm3
+   906a7:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+   906ac:	c6 00 03             	movb   $0x3,(%rax)
+   906af:	f2 0f 11 58 08       	movsd  %xmm3,0x8(%rax)
+   906b4:	e9 66 03 00 00       	jmp    90a1f <rheon::fitted_height::FittedHeightWorkspace::build+0x12ef>
+   906b9:	66 0f 57 c9          	xorpd  %xmm1,%xmm1
+   906bd:	66 0f 2e c1          	ucomisd %xmm1,%xmm0
+   906c1:	75 06                	jne    906c9 <rheon::fitted_height::FittedHeightWorkspace::build+0xf99>
+   906c3:	0f 8b 69 05 00 00    	jnp    90c32 <rheon::fitted_height::FittedHeightWorkspace::build+0x1502>
+   906c9:	66 48 0f 7e c0       	movq   %xmm0,%rax
+   906ce:	48 b9 ff ff ff ff ff 	movabs $0x7fffffffffffffff,%rcx
+   906d5:	ff ff 7f 
+   906d8:	48 21 c1             	and    %rax,%rcx
+   906db:	4c 39 c1             	cmp    %r8,%rcx
+   906de:	74 0e                	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   906e0:	4c 21 c0             	and    %r8,%rax
+   906e3:	74 09                	je     906ee <rheon::fitted_height::FittedHeightWorkspace::build+0xfbe>
+   906e5:	4c 39 c0             	cmp    %r8,%rax
+   906e8:	0f 85 44 05 00 00    	jne    90c32 <rheon::fitted_height::FittedHeightWorkspace::build+0x1502>
+   906ee:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+   906f3:	c6 00 03             	movb   $0x3,(%rax)
+   906f6:	f2 0f 11 40 08       	movsd  %xmm0,0x8(%rax)
+   906fb:	e9 1f 03 00 00       	jmp    90a1f <rheon::fitted_height::FittedHeightWorkspace::build+0x12ef>
+   90700:	4d 3b 8d 70 01 00 00 	cmp    0x170(%r13),%r9
+   90707:	0f 85 0a 03 00 00    	jne    90a17 <rheon::fitted_height::FittedHeightWorkspace::build+0x12e7>
+   9070d:	49 8b 45 28          	mov    0x28(%r13),%rax
+   90711:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+   90716:	48 85 c0             	test   %rax,%rax
+   90719:	0f 84 c2 02 00 00    	je     909e1 <rheon::fitted_height::FittedHeightWorkspace::build+0x12b1>
+   9071f:	48 83 44 24 30 02    	addq   $0x2,0x30(%rsp)
+   90725:	b8 01 00 00 00       	mov    $0x1,%eax
+   9072a:	45 31 e4             	xor    %r12d,%r12d
+   9072d:	48 8d bc 24 80 00 00 	lea    0x80(%rsp),%rdi
+   90734:	00 
+   90735:	48 8b 6c 24 18       	mov    0x18(%rsp),%rbp
+   9073a:	48 89 44 24 28       	mov    %rax,0x28(%rsp)
+   9073f:	49 8b 75 28          	mov    0x28(%r13),%rsi
+   90743:	49 39 f4             	cmp    %rsi,%r12
+   90746:	0f 83 c7 04 00 00    	jae    90c13 <rheon::fitted_height::FittedHeightWorkspace::build+0x14e3>
+   9074c:	4b 8d 0c 64          	lea    (%r12,%r12,2),%rcx
+   90750:	49 8b 55 20          	mov    0x20(%r13),%rdx
+   90754:	49 8b 45 38          	mov    0x38(%r13),%rax
+   90758:	4c 8b 1c ca          	mov    (%rdx,%rcx,8),%r11
+   9075c:	4c 8b 7c ca 08       	mov    0x8(%rdx,%rcx,8),%r15
+   90761:	48 8b 5c ca 10       	mov    0x10(%rdx,%rcx,8),%rbx
+   90766:	4c 03 64 24 30       	add    0x30(%rsp),%r12
+   9076b:	4d 39 df             	cmp    %r11,%r15
+   9076e:	4c 89 d9             	mov    %r11,%rcx
+   90771:	49 0f 42 cf          	cmovb  %r15,%rcx
+   90775:	4c 89 5c 24 20       	mov    %r11,0x20(%rsp)
+   9077a:	4d 0f 47 df          	cmova  %r15,%r11
+   9077e:	49 8b 75 40          	mov    0x40(%r13),%rsi
+   90782:	48 c1 e6 03          	shl    $0x3,%rsi
+   90786:	48 8d 34 b6          	lea    (%rsi,%rsi,4),%rsi
+   9078a:	45 31 d2             	xor    %r10d,%r10d
+   9078d:	48 8d 54 24 40       	lea    0x40(%rsp),%rdx
+   90792:	66 66 66 66 66 2e 0f 	data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+   90799:	1f 84 00 00 00 00 00 
+   907a0:	4c 39 d6             	cmp    %r10,%rsi
+   907a3:	0f 84 89 03 00 00    	je     90b32 <rheon::fitted_height::FittedHeightWorkspace::build+0x1402>
+   907a9:	4e 8b 04 10          	mov    (%rax,%r10,1),%r8
+   907ad:	49 31 c8             	xor    %rcx,%r8
+   907b0:	4e 8b 4c 10 08       	mov    0x8(%rax,%r10,1),%r9
+   907b5:	4d 31 d9             	xor    %r11,%r9
+   907b8:	49 83 c2 28          	add    $0x28,%r10
+   907bc:	4d 09 c1             	or     %r8,%r9
+   907bf:	75 df                	jne    907a0 <rheon::fitted_height::FittedHeightWorkspace::build+0x1070>
+   907c1:	48 89 5c 24 70       	mov    %rbx,0x70(%rsp)
+   907c6:	4e 8b 74 10 f8       	mov    -0x8(%rax,%r10,1),%r14
+   907cb:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+   907d0:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+   907d5:	4c 89 74 24 48       	mov    %r14,0x48(%rsp)
+   907da:	4c 89 64 24 50       	mov    %r12,0x50(%rsp)
+   907df:	48 89 ee             	mov    %rbp,%rsi
+   907e2:	48 89 d3             	mov    %rdx,%rbx
+   907e5:	49 89 fd             	mov    %rdi,%r13
+   907e8:	e8 63 c2 fe ff       	call   7ca50 <rheon::fitted_height::FittedHeightWorkspace::push_triangle>
+   907ed:	0f b6 84 24 80 00 00 	movzbl 0x80(%rsp),%eax
+   907f4:	00 
+   907f5:	3c 0e                	cmp    $0xe,%al
+   907f7:	0f 85 34 02 00 00    	jne    90a31 <rheon::fitted_height::FittedHeightWorkspace::build+0x1301>
+   907fd:	4c 89 74 24 40       	mov    %r14,0x40(%rsp)
+   90802:	4c 89 7c 24 48       	mov    %r15,0x48(%rsp)
+   90807:	4c 89 64 24 50       	mov    %r12,0x50(%rsp)
+   9080c:	4c 89 ef             	mov    %r13,%rdi
+   9080f:	48 89 ee             	mov    %rbp,%rsi
+   90812:	48 89 da             	mov    %rbx,%rdx
+   90815:	e8 36 c2 fe ff       	call   7ca50 <rheon::fitted_height::FittedHeightWorkspace::push_triangle>
+   9081a:	0f b6 84 24 80 00 00 	movzbl 0x80(%rsp),%eax
+   90821:	00 
+   90822:	3c 0e                	cmp    $0xe,%al
+   90824:	48 8b 74 24 70       	mov    0x70(%rsp),%rsi
+   90829:	0f 85 02 02 00 00    	jne    90a31 <rheon::fitted_height::FittedHeightWorkspace::build+0x1301>
+   9082f:	48 8b 45 38          	mov    0x38(%rbp),%rax
+   90833:	4c 39 fe             	cmp    %r15,%rsi
+   90836:	4c 89 f9             	mov    %r15,%rcx
+   90839:	48 0f 42 ce          	cmovb  %rsi,%rcx
+   9083d:	4d 89 fb             	mov    %r15,%r11
+   90840:	4c 0f 47 de          	cmova  %rsi,%r11
+   90844:	48 8b 75 40          	mov    0x40(%rbp),%rsi
+   90848:	48 c1 e6 03          	shl    $0x3,%rsi
+   9084c:	48 8d 34 b6          	lea    (%rsi,%rsi,4),%rsi
+   90850:	45 31 d2             	xor    %r10d,%r10d
+   90853:	48 8d bc 24 80 00 00 	lea    0x80(%rsp),%rdi
+   9085a:	00 
+   9085b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   90860:	4c 39 d6             	cmp    %r10,%rsi
+   90863:	0f 84 c9 02 00 00    	je     90b32 <rheon::fitted_height::FittedHeightWorkspace::build+0x1402>
+   90869:	4e 8b 04 10          	mov    (%rax,%r10,1),%r8
+   9086d:	49 31 c8             	xor    %rcx,%r8
+   90870:	4e 8b 4c 10 08       	mov    0x8(%rax,%r10,1),%r9
+   90875:	4d 31 d9             	xor    %r11,%r9
+   90878:	49 83 c2 28          	add    $0x28,%r10
+   9087c:	4d 09 c1             	or     %r8,%r9
+   9087f:	75 df                	jne    90860 <rheon::fitted_height::FittedHeightWorkspace::build+0x1130>
+   90881:	4e 8b 74 10 f8       	mov    -0x8(%rax,%r10,1),%r14
+   90886:	4c 89 7c 24 40       	mov    %r15,0x40(%rsp)
+   9088b:	4c 89 74 24 48       	mov    %r14,0x48(%rsp)
+   90890:	4c 89 64 24 50       	mov    %r12,0x50(%rsp)
+   90895:	4c 8b 7c 24 18       	mov    0x18(%rsp),%r15
+   9089a:	4c 89 fe             	mov    %r15,%rsi
+   9089d:	48 89 da             	mov    %rbx,%rdx
+   908a0:	49 89 fd             	mov    %rdi,%r13
+   908a3:	e8 a8 c1 fe ff       	call   7ca50 <rheon::fitted_height::FittedHeightWorkspace::push_triangle>
+   908a8:	0f b6 84 24 80 00 00 	movzbl 0x80(%rsp),%eax
+   908af:	00 
+   908b0:	3c 0e                	cmp    $0xe,%al
+   908b2:	0f 85 79 01 00 00    	jne    90a31 <rheon::fitted_height::FittedHeightWorkspace::build+0x1301>
+   908b8:	4c 89 74 24 40       	mov    %r14,0x40(%rsp)
+   908bd:	4c 8b 74 24 70       	mov    0x70(%rsp),%r14
+   908c2:	4c 89 74 24 48       	mov    %r14,0x48(%rsp)
+   908c7:	4c 89 64 24 50       	mov    %r12,0x50(%rsp)
+   908cc:	4c 89 ef             	mov    %r13,%rdi
+   908cf:	4c 89 fe             	mov    %r15,%rsi
+   908d2:	48 89 da             	mov    %rbx,%rdx
+   908d5:	e8 76 c1 fe ff       	call   7ca50 <rheon::fitted_height::FittedHeightWorkspace::push_triangle>
+   908da:	0f b6 84 24 80 00 00 	movzbl 0x80(%rsp),%eax
+   908e1:	00 
+   908e2:	3c 0e                	cmp    $0xe,%al
+   908e4:	0f 85 47 01 00 00    	jne    90a31 <rheon::fitted_height::FittedHeightWorkspace::build+0x1301>
+   908ea:	49 89 dd             	mov    %rbx,%r13
+   908ed:	49 8b 47 38          	mov    0x38(%r15),%rax
+   908f1:	48 8b 74 24 20       	mov    0x20(%rsp),%rsi
+   908f6:	4c 39 f6             	cmp    %r14,%rsi
+   908f9:	4c 89 f1             	mov    %r14,%rcx
+   908fc:	48 0f 42 ce          	cmovb  %rsi,%rcx
+   90900:	4c 89 f2             	mov    %r14,%rdx
+   90903:	48 0f 47 d6          	cmova  %rsi,%rdx
+   90907:	49 8b 77 40          	mov    0x40(%r15),%rsi
+   9090b:	48 c1 e6 03          	shl    $0x3,%rsi
+   9090f:	48 8d 34 b6          	lea    (%rsi,%rsi,4),%rsi
+   90913:	45 31 d2             	xor    %r10d,%r10d
+   90916:	48 8d bc 24 80 00 00 	lea    0x80(%rsp),%rdi
+   9091d:	00 
+   9091e:	4d 89 f3             	mov    %r14,%r11
+   90921:	66 66 66 66 66 66 2e 	data16 data16 data16 data16 data16 cs nopw 0x0(%rax,%rax,1)
+   90928:	0f 1f 84 00 00 00 00 
+   9092f:	00 
+   90930:	4c 39 d6             	cmp    %r10,%rsi
+   90933:	0f 84 f9 01 00 00    	je     90b32 <rheon::fitted_height::FittedHeightWorkspace::build+0x1402>
+   90939:	4e 8b 04 10          	mov    (%rax,%r10,1),%r8
+   9093d:	49 31 c8             	xor    %rcx,%r8
+   90940:	4e 8b 4c 10 08       	mov    0x8(%rax,%r10,1),%r9
+   90945:	49 31 d1             	xor    %rdx,%r9
+   90948:	49 83 c2 28          	add    $0x28,%r10
+   9094c:	4d 09 c1             	or     %r8,%r9
+   9094f:	75 df                	jne    90930 <rheon::fitted_height::FittedHeightWorkspace::build+0x1200>
+   90951:	4e 8b 74 10 f8       	mov    -0x8(%rax,%r10,1),%r14
+   90956:	4c 89 5c 24 40       	mov    %r11,0x40(%rsp)
+   9095b:	4c 89 74 24 48       	mov    %r14,0x48(%rsp)
+   90960:	4c 89 64 24 50       	mov    %r12,0x50(%rsp)
+   90965:	48 8b 5c 24 18       	mov    0x18(%rsp),%rbx
+   9096a:	48 89 de             	mov    %rbx,%rsi
+   9096d:	4c 89 ea             	mov    %r13,%rdx
+   90970:	49 89 ff             	mov    %rdi,%r15
+   90973:	e8 d8 c0 fe ff       	call   7ca50 <rheon::fitted_height::FittedHeightWorkspace::push_triangle>
+   90978:	0f b6 84 24 80 00 00 	movzbl 0x80(%rsp),%eax
+   9097f:	00 
+   90980:	3c 0e                	cmp    $0xe,%al
+   90982:	0f 85 a9 00 00 00    	jne    90a31 <rheon::fitted_height::FittedHeightWorkspace::build+0x1301>
+   90988:	4c 89 74 24 40       	mov    %r14,0x40(%rsp)
+   9098d:	48 8b 44 24 20       	mov    0x20(%rsp),%rax
+   90992:	48 89 44 24 48       	mov    %rax,0x48(%rsp)
+   90997:	4c 89 64 24 50       	mov    %r12,0x50(%rsp)
+   9099c:	4c 89 ff             	mov    %r15,%rdi
+   9099f:	48 89 de             	mov    %rbx,%rsi
+   909a2:	4c 89 ea             	mov    %r13,%rdx
+   909a5:	e8 a6 c0 fe ff       	call   7ca50 <rheon::fitted_height::FittedHeightWorkspace::push_triangle>
+   909aa:	0f b6 84 24 80 00 00 	movzbl 0x80(%rsp),%eax
+   909b1:	00 
+   909b2:	3c 0e                	cmp    $0xe,%al
+   909b4:	75 7b                	jne    90a31 <rheon::fitted_height::FittedHeightWorkspace::build+0x1301>
+   909b6:	48 8b 4c 24 08       	mov    0x8(%rsp),%rcx
+   909bb:	48 8b 54 24 28       	mov    0x28(%rsp),%rdx
+   909c0:	48 39 ca             	cmp    %rcx,%rdx
+   909c3:	48 89 d0             	mov    %rdx,%rax
+   909c6:	48 83 d0 00          	adc    $0x0,%rax
+   909ca:	49 89 d4             	mov    %rdx,%r12
+   909cd:	48 39 ca             	cmp    %rcx,%rdx
+   909d0:	49 89 dd             	mov    %rbx,%r13
+   909d3:	48 8d bc 24 80 00 00 	lea    0x80(%rsp),%rdi
+   909da:	00 
+   909db:	0f 82 59 fd ff ff    	jb     9073a <rheon::fitted_height::FittedHeightWorkspace::build+0x100a>
+   909e1:	48 8d 7c 24 40       	lea    0x40(%rsp),%rdi
+   909e6:	4c 89 ee             	mov    %r13,%rsi
+   909e9:	e8 52 d1 fe ff       	call   7db40 <rheon::fitted_height::FittedHeightWorkspace::build_pressure>
+   909ee:	0f b6 44 24 40       	movzbl 0x40(%rsp),%eax
+   909f3:	3c 0e                	cmp    $0xe,%al
+   909f5:	75 55                	jne    90a4c <rheon::fitted_height::FittedHeightWorkspace::build+0x131c>
+   909f7:	48 8d 7c 24 40       	lea    0x40(%rsp),%rdi
+   909fc:	4c 89 ee             	mov    %r13,%rsi
+   909ff:	e8 1c b7 fe ff       	call   7c120 <rheon::fitted_height::FittedHeightWorkspace::build_faces>
+   90a04:	0f b6 44 24 40       	movzbl 0x40(%rsp),%eax
+   90a09:	3c 0e                	cmp    $0xe,%al
+   90a0b:	75 3f                	jne    90a4c <rheon::fitted_height::FittedHeightWorkspace::build+0x131c>
+   90a0d:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+   90a12:	c6 00 0e             	movb   $0xe,(%rax)
+   90a15:	eb 08                	jmp    90a1f <rheon::fitted_height::FittedHeightWorkspace::build+0x12ef>
+   90a17:	48 8b 44 24 10       	mov    0x10(%rsp),%rax
+   90a1c:	c6 00 00             	movb   $0x0,(%rax)
+   90a1f:	48 81 c4 b8 00 00 00 	add    $0xb8,%rsp
+   90a26:	5b                   	pop    %rbx
+   90a27:	41 5c                	pop    %r12
+   90a29:	41 5d                	pop    %r13
+   90a2b:	41 5e                	pop    %r14
+   90a2d:	41 5f                	pop    %r15
+   90a2f:	5d                   	pop    %rbp
+   90a30:	c3                   	ret
+   90a31:	48 8b 8c 24 90 00 00 	mov    0x90(%rsp),%rcx
+   90a38:	00 
+   90a39:	48 8b 54 24 10       	mov    0x10(%rsp),%rdx
+   90a3e:	48 89 4a 10          	mov    %rcx,0x10(%rdx)
+   90a42:	0f 10 84 24 81 00 00 	movups 0x81(%rsp),%xmm0
+   90a49:	00 
+   90a4a:	eb 14                	jmp    90a60 <rheon::fitted_height::FittedHeightWorkspace::build+0x1330>
+   90a4c:	48 8b 4c 24 50       	mov    0x50(%rsp),%rcx
+   90a51:	48 8b 54 24 10       	mov    0x10(%rsp),%rdx
+   90a56:	48 89 4a 10          	mov    %rcx,0x10(%rdx)
+   90a5a:	f3 0f 6f 44 24 41    	movdqu 0x41(%rsp),%xmm0
+   90a60:	f3 0f 7f 42 01       	movdqu %xmm0,0x1(%rdx)
+   90a65:	88 02                	mov    %al,(%rdx)
+   90a67:	eb b6                	jmp    90a1f <rheon::fitted_height::FittedHeightWorkspace::build+0x12ef>
+   90a69:	48 83 fe 15          	cmp    $0x15,%rsi
+   90a6d:	0f 83 b0 01 00 00    	jae    90c23 <rheon::fitted_height::FittedHeightWorkspace::build+0x14f3>
+   90a73:	48 8d 4c 24 40       	lea    0x40(%rsp),%rcx
+   90a78:	ba 01 00 00 00       	mov    $0x1,%edx
+   90a7d:	e8 9e 19 14 00       	call   1d2420 <core::slice::sort::shared::smallsort::insertion_sort_shift_left>
+   90a82:	49 8b 7d 38          	mov    0x38(%r13),%rdi
+   90a86:	49 8b 75 40          	mov    0x40(%r13),%rsi
+   90a8a:	48 85 f6             	test   %rsi,%rsi
+   90a8d:	0f 85 ff f3 ff ff    	jne    8fe92 <rheon::fitted_height::FittedHeightWorkspace::build+0x762>
+   90a93:	e9 32 f4 ff ff       	jmp    8feca <rheon::fitted_height::FittedHeightWorkspace::build+0x79a>
+   90a98:	48 8d 15 51 8a 24 00 	lea    0x248a51(%rip),%rdx        # 2d94f0 <__frame_dummy_init_array_entry+0x4b8>
+   90a9f:	48 89 c7             	mov    %rax,%rdi
+   90aa2:	ff 15 a8 2d 26 00    	call   *0x262da8(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90aa8:	48 8d 15 21 89 24 00 	lea    0x248921(%rip),%rdx        # 2d93d0 <__frame_dummy_init_array_entry+0x398>
+   90aaf:	ff 15 9b 2d 26 00    	call   *0x262d9b(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90ab5:	49 8d 7d 60          	lea    0x60(%r13),%rdi
+   90ab9:	b9 08 00 00 00       	mov    $0x8,%ecx
+   90abe:	41 b8 40 00 00 00    	mov    $0x40,%r8d
+   90ac4:	4c 89 fe             	mov    %r15,%rsi
+   90ac7:	48 89 da             	mov    %rbx,%rdx
+   90aca:	e8 11 6a 15 00       	call   1e74e0 <alloc::raw_vec::RawVecInner<A>::reserve::do_reserve_and_handle>
+   90acf:	49 8b 45 70          	mov    0x70(%r13),%rax
+   90ad3:	e9 d1 f7 ff ff       	jmp    902a9 <rheon::fitted_height::FittedHeightWorkspace::build+0xb79>
+   90ad8:	48 8d 15 a9 88 24 00 	lea    0x2488a9(%rip),%rdx        # 2d9388 <__frame_dummy_init_array_entry+0x350>
+   90adf:	4c 89 c7             	mov    %r8,%rdi
+   90ae2:	ff 15 68 2d 26 00    	call   *0x262d68(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90ae8:	48 8d 15 b1 88 24 00 	lea    0x2488b1(%rip),%rdx        # 2d93a0 <__frame_dummy_init_array_entry+0x368>
+   90aef:	ff 15 5b 2d 26 00    	call   *0x262d5b(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90af5:	48 8d 15 2c 88 24 00 	lea    0x24882c(%rip),%rdx        # 2d9328 <__frame_dummy_init_array_entry+0x2f0>
+   90afc:	48 89 c7             	mov    %rax,%rdi
+   90aff:	ff 15 4b 2d 26 00    	call   *0x262d4b(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90b05:	48 8d 15 34 88 24 00 	lea    0x248834(%rip),%rdx        # 2d9340 <__frame_dummy_init_array_entry+0x308>
+   90b0c:	48 89 cf             	mov    %rcx,%rdi
+   90b0f:	ff 15 3b 2d 26 00    	call   *0x262d3b(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90b15:	48 8d 15 3c 88 24 00 	lea    0x24883c(%rip),%rdx        # 2d9358 <__frame_dummy_init_array_entry+0x320>
+   90b1c:	ff 15 2e 2d 26 00    	call   *0x262d2e(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90b22:	48 8d 15 47 88 24 00 	lea    0x248847(%rip),%rdx        # 2d9370 <__frame_dummy_init_array_entry+0x338>
+   90b29:	48 89 cf             	mov    %rcx,%rdi
+   90b2c:	ff 15 1e 2d 26 00    	call   *0x262d1e(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90b32:	48 8d 3d d7 87 24 00 	lea    0x2487d7(%rip),%rdi        # 2d9310 <__frame_dummy_init_array_entry+0x2d8>
+   90b39:	ff 15 21 2d 26 00    	call   *0x262d21(%rip)        # 2f3860 <_DYNAMIC+0x2a0>
+   90b3f:	48 8d 3d 82 87 24 00 	lea    0x248782(%rip),%rdi        # 2d92c8 <__frame_dummy_init_array_entry+0x290>
+   90b46:	ff 15 14 2d 26 00    	call   *0x262d14(%rip)        # 2f3860 <_DYNAMIC+0x2a0>
+   90b4c:	48 8d 3d 8d 87 24 00 	lea    0x24878d(%rip),%rdi        # 2d92e0 <__frame_dummy_init_array_entry+0x2a8>
+   90b53:	ff 15 07 2d 26 00    	call   *0x262d07(%rip)        # 2f3860 <_DYNAMIC+0x2a0>
+   90b59:	48 8d 15 18 89 24 00 	lea    0x248918(%rip),%rdx        # 2d9478 <__frame_dummy_init_array_entry+0x440>
+   90b60:	ff 15 ea 2c 26 00    	call   *0x262cea(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90b66:	48 8d 15 f3 88 24 00 	lea    0x2488f3(%rip),%rdx        # 2d9460 <__frame_dummy_init_array_entry+0x428>
+   90b6d:	ff 15 dd 2c 26 00    	call   *0x262cdd(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90b73:	48 8d 15 86 88 24 00 	lea    0x248886(%rip),%rdx        # 2d9400 <__frame_dummy_init_array_entry+0x3c8>
+   90b7a:	ff 15 d0 2c 26 00    	call   *0x262cd0(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90b80:	48 8d 15 91 88 24 00 	lea    0x248891(%rip),%rdx        # 2d9418 <__frame_dummy_init_array_entry+0x3e0>
+   90b87:	48 89 df             	mov    %rbx,%rdi
+   90b8a:	ff 15 c0 2c 26 00    	call   *0x262cc0(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90b90:	48 8d 15 99 88 24 00 	lea    0x248899(%rip),%rdx        # 2d9430 <__frame_dummy_init_array_entry+0x3f8>
+   90b97:	4c 89 ef             	mov    %r13,%rdi
+   90b9a:	ff 15 b0 2c 26 00    	call   *0x262cb0(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90ba0:	48 8d 15 a1 88 24 00 	lea    0x2488a1(%rip),%rdx        # 2d9448 <__frame_dummy_init_array_entry+0x410>
+   90ba7:	48 89 df             	mov    %rbx,%rdi
+   90baa:	ff 15 a0 2c 26 00    	call   *0x262ca0(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90bb0:	48 8d 15 31 88 24 00 	lea    0x248831(%rip),%rdx        # 2d93e8 <__frame_dummy_init_array_entry+0x3b0>
+   90bb7:	48 89 c7             	mov    %rax,%rdi
+   90bba:	ff 15 90 2c 26 00    	call   *0x262c90(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90bc0:	48 8d 15 c9 88 24 00 	lea    0x2488c9(%rip),%rdx        # 2d9490 <__frame_dummy_init_array_entry+0x458>
+   90bc7:	4c 89 df             	mov    %r11,%rdi
+   90bca:	ff 15 80 2c 26 00    	call   *0x262c80(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90bd0:	48 8d 15 d1 88 24 00 	lea    0x2488d1(%rip),%rdx        # 2d94a8 <__frame_dummy_init_array_entry+0x470>
+   90bd7:	4c 89 fe             	mov    %r15,%rsi
+   90bda:	ff 15 70 2c 26 00    	call   *0x262c70(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90be0:	48 8d 15 d9 88 24 00 	lea    0x2488d9(%rip),%rdx        # 2d94c0 <__frame_dummy_init_array_entry+0x488>
+   90be7:	48 89 df             	mov    %rbx,%rdi
+   90bea:	4c 89 fe             	mov    %r15,%rsi
+   90bed:	ff 15 5d 2c 26 00    	call   *0x262c5d(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90bf3:	48 8d 15 9e 86 24 00 	lea    0x24869e(%rip),%rdx        # 2d9298 <__frame_dummy_init_array_entry+0x260>
+   90bfa:	48 89 c7             	mov    %rax,%rdi
+   90bfd:	ff 15 4d 2c 26 00    	call   *0x262c4d(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90c03:	48 8d 15 a6 86 24 00 	lea    0x2486a6(%rip),%rdx        # 2d92b0 <__frame_dummy_init_array_entry+0x278>
+   90c0a:	48 89 cf             	mov    %rcx,%rdi
+   90c0d:	ff 15 3d 2c 26 00    	call   *0x262c3d(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90c13:	48 8d 15 de 86 24 00 	lea    0x2486de(%rip),%rdx        # 2d92f8 <__frame_dummy_init_array_entry+0x2c0>
+   90c1a:	4c 89 e7             	mov    %r12,%rdi
+   90c1d:	ff 15 2d 2c 26 00    	call   *0x262c2d(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90c23:	48 8d 54 24 40       	lea    0x40(%rsp),%rdx
+   90c28:	e8 73 46 15 00       	call   1e52a0 <core::slice::sort::unstable::ipnsort>
+   90c2d:	e9 50 fe ff ff       	jmp    90a82 <rheon::fitted_height::FittedHeightWorkspace::build+0x1352>
+   90c32:	48 8d 15 9f 88 24 00 	lea    0x24889f(%rip),%rdx        # 2d94d8 <__frame_dummy_init_array_entry+0x4a0>
+   90c39:	4c 89 d7             	mov    %r10,%rdi
+   90c3c:	4c 89 fe             	mov    %r15,%rsi
+   90c3f:	ff 15 0b 2c 26 00    	call   *0x262c0b(%rip)        # 2f3850 <_DYNAMIC+0x290>
+   90c45:	cc                   	int3
+   90c46:	cc                   	int3
+   90c47:	cc                   	int3
+   90c48:	cc                   	int3
+   90c49:	cc                   	int3
+   90c4a:	cc                   	int3
+   90c4b:	cc                   	int3
+   90c4c:	cc                   	int3
+   90c4d:	cc                   	int3
+   90c4e:	cc                   	int3
+   90c4f:	cc                   	int3
+

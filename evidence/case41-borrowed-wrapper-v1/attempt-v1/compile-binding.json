@@ -1,0 +1,29 @@
+{
+  "binary": "/workspace/rheon-test-outputs/case41-borrowed-wrapper-v1/target/release/deps/rheon-beaa99042d1278c3",
+  "binary_sha256": "d3bb6db6651105f9101e1d838b077ab33857011bb61df191789aca3e0147666e",
+  "native_equations": 0,
+  "rustflags": "--cfg rheon_newton_trace -C llvm-args=-stack-size-section -C link-arg=-Wl,--no-gc-sections",
+  "source": "0c3208f9707236d12467dd6a9b5f4be3b2720e5e",
+  "source_inventory": {
+    "evidence/case41-borrowed-wrapper-v1/README.md": "7874f8664b2bf49a300990a2ad03f044bf0972aabdff9bfdbd4ddeaf5c6f54aa",
+    "evidence/case41-borrowed-wrapper-v1/build_preflight.py": "d12bfefa4d742998c1523ccb6cf4dbfc74b79dfa308c9f5cc21f6092edaef030",
+    "evidence/case41-borrowed-wrapper-v1/native/FittedHeightWorkspace-overlay.rs": "42419c87f9a1fcb924e4528dff66de8a2f54f1442bd04fec8fd25387a120ecfa",
+    "evidence/case41-borrowed-wrapper-v1/native/TranslatedViscousFlow-overlay.rs": "1734eaeed3c0f497a5380ee339253d87b246d667423f86cfe5dd565d68916765",
+    "evidence/case41-borrowed-wrapper-v1/native/borrowed_candidate.rs": "1a6bc53134bd0242fa964fb6acfddb9b7bcc6359e70a3aa24e9956310278839a",
+    "evidence/case41-borrowed-wrapper-v1/native/borrowed_reference.rs": "0b5681d61ef2534ccdc2bb22f69c1fbde7851fa4e3bf39e0c91105f8027f6616",
+    "evidence/case41-borrowed-wrapper-v1/native/candidate.rs": "aeb5be3c8f8187e9df8f8bd4846456e79a228ecbfa507d06c55c0886e480175d",
+    "evidence/case41-borrowed-wrapper-v1/native/candidate_helpers.rs": "88d577eb553251192a5a054a9bc8229bfc4ea99ad7138a330a210285ff518b45",
+    "evidence/case41-borrowed-wrapper-v1/native/candidate_probe.rs": "060afc18a7a58524d31dc8edc5f595a479a1fa2a35627642598dafd131febc98",
+    "evidence/case41-borrowed-wrapper-v1/native/fixed_inputs.rs": "88f250046d8f08836f0418bd7fc81523d1de9a6141d4295a678c096c5a0d873e",
+    "evidence/case41-borrowed-wrapper-v1/native/harness.rs": "189fb3b7ba84b2b8149d316d1b4b85061d35ac329b259806eb7e5ff29cbb14c4",
+    "evidence/case41-borrowed-wrapper-v1/native/inputs.rs": "d4aefe43a4125f70f2109072711228a787dc354ac51ece68027334f21a8117c1",
+    "evidence/case41-borrowed-wrapper-v1/native/library-overlay.rs": "d3a15d1da3170dac9dbad1d6a814e8a642172bee9713fe51efd9f9bd7b398b30",
+    "evidence/case41-borrowed-wrapper-v1/native/reference.rs": "a97943c5963e9575012f87c8a34c6db20dbe79670433854c2fdfb33a3547d092",
+    "evidence/case41-borrowed-wrapper-v1/native/reference_helpers.rs": "8f2b8d1f7ce6476dd52a1fa8edba8ac4e3eede17b15018f82bf7a8dd9b76a655",
+    "evidence/case41-borrowed-wrapper-v1/native/reference_probe.rs": "33db71afbc3277f8d6d4e4c393212bda48d5b3e5828106b48d4f6c4e9ec7a434",
+    "evidence/case41-borrowed-wrapper-v1/native/scalar.rs": "28f466a1f88d64faecfbae68060122b9dec1866a047084478a0bb153ff963e14",
+    "evidence/case41-borrowed-wrapper-v1/native/trajectory_inputs.rs": "fb1fd26c0833a54ecc5d52dc0f37f0d13a0d7f750f75fa5416dd8749ce862658",
+    "evidence/case41-borrowed-wrapper-v1/prepare.py": "8a5d673dc7b2cb04a435c472b8c85f28ed960f6360f1ce2726636e4ca707f163"
+  },
+  "source_tree": "ee70dc295951b13d444fad8bc170a8b9bfdd6068"
+}

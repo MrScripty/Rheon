@@ -1,0 +1,18 @@
+{
+  "artifact_sha256": {
+    "RESULTS.md": "b0266bda2021d110677538cdcc61528e50872fba428ddc167ccf65680e69c7f9",
+    "input-verification.json": "87e76f9691e1be91071a3c8099636afb24a24dc9aaffda800203f7ae16f65d91",
+    "publication-verification.json": "67764f2a121c742f2362ecc3552ab81794d4062cc84bd12cebe481bdffb5d137",
+    "review-normal-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "review-normal.json": "d827217a6a2755ba102efae139cead1e6b7efea69ee2706f6280c7bdc29326da",
+    "review-optimized-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "review-optimized.json": "d827217a6a2755ba102efae139cead1e6b7efea69ee2706f6280c7bdc29326da",
+    "review.py": "d085b956192636984f4c8b0c5e904419c7b6313e9ca6313a82c7258e366c9e1a"
+  },
+  "fresh_elf_disassembly_blocked": "exact frozen ELF absent from refreshed workspace",
+  "new_integrations": 0,
+  "new_native_invocations": 0,
+  "new_trajectories": 0,
+  "normal_optimized_identical": true,
+  "status": "PASS_INDEPENDENT_ARCHIVED_CASE47_ENDPOINT_REVIEW"
+}

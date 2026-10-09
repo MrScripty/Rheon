@@ -1,0 +1,102 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/Rheon-case41-borrowed-wrapper-v1/evidence/case41-borrowed-wrapper-v1/prepare.py",
+      "install"
+    ],
+    "exit": 0,
+    "label": "install",
+    "numerical_enabling_variables_present": false,
+    "seconds": 0.03470057300000917,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--no-default-features",
+      "--lib",
+      "--locked",
+      "--no-run",
+      "--message-format=json"
+    ],
+    "exit": 0,
+    "label": "build",
+    "numerical_enabling_variables_present": false,
+    "seconds": 21.354488498007413,
+    "stderr_sha256": "177921dbe89825fcdfe9a74dcf9e9e75a0a3eb7845bc0502044c6807322a1aa6",
+    "stdout_sha256": "4a08f8083c2bc0673248f9e2a3331658724dcdb8466972216728a976ecf053b1"
+  },
+  {
+    "argv": [
+      "/workspace/rheon-test-outputs/case41-borrowed-wrapper-v2/target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_scalar_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "label": "scalar",
+    "numerical_enabling_variables_present": false,
+    "seconds": 0.0020876849885098636,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "e06771fddb7f7b6b6327d177c447e0e849e4aed2ea584608621a8588ad358d6a"
+  },
+  {
+    "argv": [
+      "/workspace/rheon-test-outputs/case41-borrowed-wrapper-v2/target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::research_public_type_layout",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "label": "layout",
+    "numerical_enabling_variables_present": false,
+    "seconds": 0.0015265199908753857,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "b17904520c719851267bfa305aab40d6789bc481f441cde4fd5229be20a0627f"
+  },
+  {
+    "argv": [
+      "/workspace/rheon-test-outputs/case41-borrowed-wrapper-v2/target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::scalar_affine_preflight",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "label": "affine",
+    "numerical_enabling_variables_present": false,
+    "seconds": 0.0018245289975311607,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "4194362ab23f3ff8049e1b783b320fee7c8bb898fcc0113e5ca476c638ee6940"
+  },
+  {
+    "argv": [
+      "/workspace/rheon-test-outputs/case41-borrowed-wrapper-v2/target/release/deps/rheon-beaa99042d1278c3",
+      "--exact",
+      "research_public_call::borrowed_wrapper_layout",
+      "--nocapture"
+    ],
+    "exit": 0,
+    "label": "borrowed-layout",
+    "numerical_enabling_variables_present": false,
+    "seconds": 0.002127725994796492,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "7ff29bf2ee6d52b624c380ef35608b928e570f84cde52aa21d5951da865d11fc"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "/workspace/Rheon-case41-borrowed-wrapper-v1/evidence/case41-borrowed-wrapper-v1/prepare.py",
+      "restore"
+    ],
+    "exit": 0,
+    "label": "restore",
+    "numerical_enabling_variables_present": false,
+    "seconds": 0.03902281599584967,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

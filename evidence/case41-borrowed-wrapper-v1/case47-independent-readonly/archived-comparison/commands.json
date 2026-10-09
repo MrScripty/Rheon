@@ -1,0 +1,84 @@
+[
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/Rheon-case41-memory-reader/evidence/case47-archived-endpoint-comparison-v1/analyze.py"
+    ],
+    "elapsed_time_not_recorded": true,
+    "exit": 0,
+    "new_native_invocation": false,
+    "reader_sha256": "9abfa7e82397126c4486f7b772cfbf1c74a1af1694ed638242de5a18f8b761d1",
+    "reference_integration": false,
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1"
+    },
+    "stderr": "analysis-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-normal.json",
+    "stdout_sha256": "82963e0a5e81f1b7df19e6a3c6562d1db2f28cd9248e39f5cda9916c6184bab4"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "/workspace/Rheon-case41-memory-reader/evidence/case47-archived-endpoint-comparison-v1/analyze.py"
+    ],
+    "elapsed_time_not_recorded": true,
+    "exit": 0,
+    "new_native_invocation": false,
+    "reader_sha256": "9abfa7e82397126c4486f7b772cfbf1c74a1af1694ed638242de5a18f8b761d1",
+    "reference_integration": false,
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1"
+    },
+    "stderr": "analysis-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "analysis-optimized.json",
+    "stdout_sha256": "82963e0a5e81f1b7df19e6a3c6562d1db2f28cd9248e39f5cda9916c6184bab4"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "/workspace/Rheon-case41-memory-reader/evidence/case47-archived-endpoint-comparison-v1/verify.py"
+    ],
+    "elapsed_time_not_recorded": true,
+    "exit": 0,
+    "new_native_invocation": false,
+    "reader_sha256": "9cb4fb99182cd761d89d0b27e0df473f54e5c4af33513d7358d16123ef421e4c",
+    "reference_integration": false,
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1"
+    },
+    "stderr": "verification-normal-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "verification-normal.json",
+    "stdout_sha256": "e286375b86fe1fdf0d1e4e2ed65459dda507322c7ac62671a2042b2ff72c991b"
+  },
+  {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-O",
+      "/workspace/Rheon-case41-memory-reader/evidence/case47-archived-endpoint-comparison-v1/verify.py"
+    ],
+    "elapsed_time_not_recorded": true,
+    "exit": 0,
+    "new_native_invocation": false,
+    "reader_sha256": "9cb4fb99182cd761d89d0b27e0df473f54e5c4af33513d7358d16123ef421e4c",
+    "reference_integration": false,
+    "resource_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "PYTHONDONTWRITEBYTECODE": "1"
+    },
+    "stderr": "verification-optimized-stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "verification-optimized.json",
+    "stdout_sha256": "e286375b86fe1fdf0d1e4e2ed65459dda507322c7ac62671a2042b2ff72c991b"
+  }
+]

@@ -1,0 +1,102 @@
+00000000001e52a0 <core::slice::sort::unstable::ipnsort>:
+  1e52a0:	48 83 fe 02          	cmp    $0x2,%rsi
+  1e52a4:	0f 82 ef 00 00 00    	jb     1e5399 <core::slice::sort::unstable::ipnsort+0xf9>
+  1e52aa:	49 89 d0             	mov    %rdx,%r8
+  1e52ad:	48 8b 07             	mov    (%rdi),%rax
+  1e52b0:	48 8b 4f 28          	mov    0x28(%rdi),%rcx
+  1e52b4:	48 39 c1             	cmp    %rax,%rcx
+  1e52b7:	75 0d                	jne    1e52c6 <core::slice::sort::unstable::ipnsort+0x26>
+  1e52b9:	48 8b 47 08          	mov    0x8(%rdi),%rax
+  1e52bd:	48 8b 4f 30          	mov    0x30(%rdi),%rcx
+  1e52c1:	48 39 c1             	cmp    %rax,%rcx
+  1e52c4:	74 46                	je     1e530c <core::slice::sort::unstable::ipnsort+0x6c>
+  1e52c6:	48 39 c1             	cmp    %rax,%rcx
+  1e52c9:	73 41                	jae    1e530c <core::slice::sort::unstable::ipnsort+0x6c>
+  1e52cb:	b8 02 00 00 00       	mov    $0x2,%eax
+  1e52d0:	b1 01                	mov    $0x1,%cl
+  1e52d2:	48 83 fe 02          	cmp    $0x2,%rsi
+  1e52d6:	74 45                	je     1e531d <core::slice::sort::unstable::ipnsort+0x7d>
+  1e52d8:	48 8d 57 58          	lea    0x58(%rdi),%rdx
+  1e52dc:	0f 1f 40 00          	nopl   0x0(%rax)
+  1e52e0:	4c 8b 4a d0          	mov    -0x30(%rdx),%r9
+  1e52e4:	4c 8b 52 f8          	mov    -0x8(%rdx),%r10
+  1e52e8:	4d 39 ca             	cmp    %r9,%r10
+  1e52eb:	75 0c                	jne    1e52f9 <core::slice::sort::unstable::ipnsort+0x59>
+  1e52ed:	4c 8b 4a d8          	mov    -0x28(%rdx),%r9
+  1e52f1:	4c 8b 12             	mov    (%rdx),%r10
+  1e52f4:	4d 39 ca             	cmp    %r9,%r10
+  1e52f7:	74 24                	je     1e531d <core::slice::sort::unstable::ipnsort+0x7d>
+  1e52f9:	4d 39 ca             	cmp    %r9,%r10
+  1e52fc:	73 1f                	jae    1e531d <core::slice::sort::unstable::ipnsort+0x7d>
+  1e52fe:	48 ff c0             	inc    %rax
+  1e5301:	48 83 c2 28          	add    $0x28,%rdx
+  1e5305:	48 39 c6             	cmp    %rax,%rsi
+  1e5308:	75 d6                	jne    1e52e0 <core::slice::sort::unstable::ipnsort+0x40>
+  1e530a:	eb 1a                	jmp    1e5326 <core::slice::sort::unstable::ipnsort+0x86>
+  1e530c:	48 83 fe 02          	cmp    $0x2,%rsi
+  1e5310:	0f 85 9e 00 00 00    	jne    1e53b4 <core::slice::sort::unstable::ipnsort+0x114>
+  1e5316:	b8 02 00 00 00       	mov    $0x2,%eax
+  1e531b:	31 c9                	xor    %ecx,%ecx
+  1e531d:	48 39 f0             	cmp    %rsi,%rax
+  1e5320:	75 78                	jne    1e539a <core::slice::sort::unstable::ipnsort+0xfa>
+  1e5322:	84 c9                	test   %cl,%cl
+  1e5324:	74 73                	je     1e5399 <core::slice::sort::unstable::ipnsort+0xf9>
+  1e5326:	48 8d 04 b6          	lea    (%rsi,%rsi,4),%rax
+  1e532a:	48 d1 ee             	shr    $1,%rsi
+  1e532d:	48 8d 04 c7          	lea    (%rdi,%rax,8),%rax
+  1e5331:	48 83 c0 f8          	add    $0xfffffffffffffff8,%rax
+  1e5335:	48 83 c7 20          	add    $0x20,%rdi
+  1e5339:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  1e5340:	48 8b 4f e0          	mov    -0x20(%rdi),%rcx
+  1e5344:	48 8b 50 e0          	mov    -0x20(%rax),%rdx
+  1e5348:	48 89 57 e0          	mov    %rdx,-0x20(%rdi)
+  1e534c:	48 89 48 e0          	mov    %rcx,-0x20(%rax)
+  1e5350:	48 8b 4f e8          	mov    -0x18(%rdi),%rcx
+  1e5354:	48 8b 50 e8          	mov    -0x18(%rax),%rdx
+  1e5358:	48 89 57 e8          	mov    %rdx,-0x18(%rdi)
+  1e535c:	48 89 48 e8          	mov    %rcx,-0x18(%rax)
+  1e5360:	48 8b 4f f0          	mov    -0x10(%rdi),%rcx
+  1e5364:	48 8b 50 f0          	mov    -0x10(%rax),%rdx
+  1e5368:	48 89 57 f0          	mov    %rdx,-0x10(%rdi)
+  1e536c:	48 89 48 f0          	mov    %rcx,-0x10(%rax)
+  1e5370:	48 8b 4f f8          	mov    -0x8(%rdi),%rcx
+  1e5374:	48 8b 50 f8          	mov    -0x8(%rax),%rdx
+  1e5378:	48 89 57 f8          	mov    %rdx,-0x8(%rdi)
+  1e537c:	48 89 48 f8          	mov    %rcx,-0x8(%rax)
+  1e5380:	48 8b 0f             	mov    (%rdi),%rcx
+  1e5383:	48 8b 10             	mov    (%rax),%rdx
+  1e5386:	48 89 17             	mov    %rdx,(%rdi)
+  1e5389:	48 89 08             	mov    %rcx,(%rax)
+  1e538c:	48 83 c7 28          	add    $0x28,%rdi
+  1e5390:	48 83 c0 d8          	add    $0xffffffffffffffd8,%rax
+  1e5394:	48 ff ce             	dec    %rsi
+  1e5397:	75 a7                	jne    1e5340 <core::slice::sort::unstable::ipnsort+0xa0>
+  1e5399:	c3                   	ret
+  1e539a:	48 89 f0             	mov    %rsi,%rax
+  1e539d:	48 83 c8 01          	or     $0x1,%rax
+  1e53a1:	48 0f bd c8          	bsr    %rax,%rcx
+  1e53a5:	83 f1 3f             	xor    $0x3f,%ecx
+  1e53a8:	01 c9                	add    %ecx,%ecx
+  1e53aa:	83 f1 7e             	xor    $0x7e,%ecx
+  1e53ad:	31 d2                	xor    %edx,%edx
+  1e53af:	e9 2c 08 ff ff       	jmp    1d5be0 <core::slice::sort::unstable::quicksort::quicksort>
+  1e53b4:	48 8d 4f 58          	lea    0x58(%rdi),%rcx
+  1e53b8:	b8 02 00 00 00       	mov    $0x2,%eax
+  1e53bd:	eb 16                	jmp    1e53d5 <core::slice::sort::unstable::ipnsort+0x135>
+  1e53bf:	90                   	nop
+  1e53c0:	49 39 d1             	cmp    %rdx,%r9
+  1e53c3:	0f 82 52 ff ff ff    	jb     1e531b <core::slice::sort::unstable::ipnsort+0x7b>
+  1e53c9:	48 ff c0             	inc    %rax
+  1e53cc:	48 83 c1 28          	add    $0x28,%rcx
+  1e53d0:	48 39 c6             	cmp    %rax,%rsi
+  1e53d3:	74 c4                	je     1e5399 <core::slice::sort::unstable::ipnsort+0xf9>
+  1e53d5:	48 8b 51 d0          	mov    -0x30(%rcx),%rdx
+  1e53d9:	4c 8b 49 f8          	mov    -0x8(%rcx),%r9
+  1e53dd:	49 39 d1             	cmp    %rdx,%r9
+  1e53e0:	75 de                	jne    1e53c0 <core::slice::sort::unstable::ipnsort+0x120>
+  1e53e2:	48 8b 51 d8          	mov    -0x28(%rcx),%rdx
+  1e53e6:	4c 8b 09             	mov    (%rcx),%r9
+  1e53e9:	49 39 d1             	cmp    %rdx,%r9
+  1e53ec:	75 d2                	jne    1e53c0 <core::slice::sort::unstable::ipnsort+0x120>
+  1e53ee:	eb d9                	jmp    1e53c9 <core::slice::sort::unstable::ipnsort+0x129>
+

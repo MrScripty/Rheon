@@ -1,0 +1,18 @@
+00000000001caff0 <rheon::research_public_call::case41_borrowed_reference_roster>:
+  1caff0:	48 83 ec 38          	sub    $0x38,%rsp
+  1caff4:	48 8d 05 05 43 11 00 	lea    0x114305(%rip),%rax        # 2df300 <anon.28fe961153895b8254611a095a916f85.95.llvm.12328580827075778519>
+  1caffb:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+  1cb000:	48 c7 44 24 10 01 00 	movq   $0x1,0x10(%rsp)
+  1cb007:	00 00 
+  1cb009:	48 c7 44 24 18 08 00 	movq   $0x8,0x18(%rsp)
+  1cb010:	00 00 
+  1cb012:	0f 57 c0             	xorps  %xmm0,%xmm0
+  1cb015:	0f 11 44 24 20       	movups %xmm0,0x20(%rsp)
+  1cb01a:	48 8d 35 ef 42 11 00 	lea    0x1142ef(%rip),%rsi        # 2df310 <anon.28fe961153895b8254611a095a916f85.96.llvm.12328580827075778519>
+  1cb021:	48 8d 7c 24 08       	lea    0x8(%rsp),%rdi
+  1cb026:	ff 15 e4 97 12 00    	call   *0x1297e4(%rip)        # 2f4810 <_DYNAMIC+0x370>
+  1cb02c:	cc                   	int3
+  1cb02d:	cc                   	int3
+  1cb02e:	cc                   	int3
+  1cb02f:	cc                   	int3
+

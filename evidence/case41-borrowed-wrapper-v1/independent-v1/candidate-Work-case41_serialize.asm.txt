@@ -1,0 +1,253 @@
+000000000013c960 <rheon::research_public_call::candidate::Work::case41_serialize>:
+  13c960:	41 56                	push   %r14
+  13c962:	53                   	push   %rbx
+  13c963:	48 81 ec d8 01 00 00 	sub    $0x1d8,%rsp
+  13c96a:	48 89 74 24 10       	mov    %rsi,0x10(%rsp)
+  13c96f:	f2 0f 11 44 24 18    	movsd  %xmm0,0x18(%rsp)
+  13c975:	41 83 38 01          	cmpl   $0x1,(%r8)
+  13c979:	0f 85 4f 01 00 00    	jne    13cace <rheon::research_public_call::candidate::Work::case41_serialize+0x16e>
+  13c97f:	49 83 c0 08          	add    $0x8,%r8
+  13c983:	4c 89 44 24 78       	mov    %r8,0x78(%rsp)
+  13c988:	80 e2 01             	and    $0x1,%dl
+  13c98b:	31 c0                	xor    %eax,%eax
+  13c98d:	80 fa 01             	cmp    $0x1,%dl
+  13c990:	19 c0                	sbb    %eax,%eax
+  13c992:	09 c8                	or     %ecx,%eax
+  13c994:	89 44 24 68          	mov    %eax,0x68(%rsp)
+  13c998:	48 8d 44 24 78       	lea    0x78(%rsp),%rax
+  13c99d:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+  13c9a2:	48 8d 05 87 b8 fe ff 	lea    -0x14779(%rip),%rax        # 128230 <<&T as core::fmt::Debug>::fmt>
+  13c9a9:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
+  13c9ae:	48 8d 05 bb 66 ee ff 	lea    -0x119945(%rip),%rax        # 23070 <anon.28fe961153895b8254611a095a916f85.73.llvm.12328580827075778519+0xaf0>
+  13c9b5:	48 89 84 24 88 00 00 	mov    %rax,0x88(%rsp)
+  13c9bc:	00 
+  13c9bd:	48 c7 84 24 90 00 00 	movq   $0x1,0x90(%rsp)
+  13c9c4:	00 01 00 00 00 
+  13c9c9:	48 8d 44 24 38       	lea    0x38(%rsp),%rax
+  13c9ce:	48 89 84 24 98 00 00 	mov    %rax,0x98(%rsp)
+  13c9d5:	00 
+  13c9d6:	48 c7 84 24 a0 00 00 	movq   $0x1,0xa0(%rsp)
+  13c9dd:	00 01 00 00 00 
+  13c9e2:	48 c7 84 24 a8 00 00 	movq   $0x0,0xa8(%rsp)
+  13c9e9:	00 00 00 00 00 
+  13c9ee:	48 8d 5c 24 20       	lea    0x20(%rsp),%rbx
+  13c9f3:	4c 8d b4 24 88 00 00 	lea    0x88(%rsp),%r14
+  13c9fa:	00 
+  13c9fb:	48 89 df             	mov    %rbx,%rdi
+  13c9fe:	4c 89 f6             	mov    %r14,%rsi
+  13ca01:	ff 15 a9 7d 1b 00    	call   *0x1b7da9(%rip)        # 2f47b0 <_DYNAMIC+0x310>
+  13ca07:	48 8d 44 24 68       	lea    0x68(%rsp),%rax
+  13ca0c:	48 89 84 24 88 00 00 	mov    %rax,0x88(%rsp)
+  13ca13:	00 
+  13ca14:	48 8b 05 b5 7d 1b 00 	mov    0x1b7db5(%rip),%rax        # 2f47d0 <_DYNAMIC+0x330>
+  13ca1b:	48 89 84 24 90 00 00 	mov    %rax,0x90(%rsp)
+  13ca22:	00 
+  13ca23:	48 8d 44 24 18       	lea    0x18(%rsp),%rax
+  13ca28:	48 89 84 24 98 00 00 	mov    %rax,0x98(%rsp)
+  13ca2f:	00 
+  13ca30:	48 8b 05 29 7d 1b 00 	mov    0x1b7d29(%rip),%rax        # 2f4760 <_DYNAMIC+0x2c0>
+  13ca37:	48 89 84 24 a0 00 00 	mov    %rax,0xa0(%rsp)
+  13ca3e:	00 
+  13ca3f:	48 8d 44 24 10       	lea    0x10(%rsp),%rax
+  13ca44:	48 89 84 24 a8 00 00 	mov    %rax,0xa8(%rsp)
+  13ca4b:	00 
+  13ca4c:	48 8d 05 fd 2c 0a 00 	lea    0xa2cfd(%rip),%rax        # 1df750 <<&T as core::fmt::Debug>::fmt>
+  13ca53:	48 89 84 24 b0 00 00 	mov    %rax,0xb0(%rsp)
+  13ca5a:	00 
+  13ca5b:	48 89 9c 24 b8 00 00 	mov    %rbx,0xb8(%rsp)
+  13ca62:	00 
+  13ca63:	48 8d 05 c6 bc fe ff 	lea    -0x1433a(%rip),%rax        # 128730 <<alloc::string::String as core::fmt::Debug>::fmt>
+  13ca6a:	48 89 84 24 c0 00 00 	mov    %rax,0xc0(%rsp)
+  13ca71:	00 
+  13ca72:	48 8d 05 d7 eb 19 00 	lea    0x19ebd7(%rip),%rax        # 2db650 <anon.392e2ff17addc09cef8842235d7eeffb.129.llvm.924093014669730605+0x3b8>
+  13ca79:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+  13ca7e:	48 c7 44 24 40 05 00 	movq   $0x5,0x40(%rsp)
+  13ca85:	00 00 
+  13ca87:	48 c7 44 24 58 00 00 	movq   $0x0,0x58(%rsp)
+  13ca8e:	00 00 
+  13ca90:	4c 89 74 24 48       	mov    %r14,0x48(%rsp)
+  13ca95:	48 c7 44 24 50 04 00 	movq   $0x4,0x50(%rsp)
+  13ca9c:	00 00 
+  13ca9e:	48 8d 7c 24 38       	lea    0x38(%rsp),%rdi
+  13caa3:	ff 15 af 7c 1b 00    	call   *0x1b7caf(%rip)        # 2f4758 <_DYNAMIC+0x2b8>
+  13caa9:	48 8b 74 24 20       	mov    0x20(%rsp),%rsi
+  13caae:	48 85 f6             	test   %rsi,%rsi
+  13cab1:	74 10                	je     13cac3 <rheon::research_public_call::candidate::Work::case41_serialize+0x163>
+  13cab3:	48 8b 7c 24 28       	mov    0x28(%rsp),%rdi
+  13cab8:	ba 01 00 00 00       	mov    $0x1,%edx
+  13cabd:	ff 15 65 7c 1b 00    	call   *0x1b7c65(%rip)        # 2f4728 <_DYNAMIC+0x288>
+  13cac3:	48 81 c4 d8 01 00 00 	add    $0x1d8,%rsp
+  13caca:	5b                   	pop    %rbx
+  13cacb:	41 5e                	pop    %r14
+  13cacd:	c3                   	ret
+  13cace:	80 e2 01             	and    $0x1,%dl
+  13cad1:	31 c0                	xor    %eax,%eax
+  13cad3:	80 fa 01             	cmp    $0x1,%dl
+  13cad6:	19 c0                	sbb    %eax,%eax
+  13cad8:	09 c8                	or     %ecx,%eax
+  13cada:	89 44 24 0c          	mov    %eax,0xc(%rsp)
+  13cade:	49 8b b0 a8 73 00 00 	mov    0x73a8(%r8),%rsi
+  13cae5:	48 83 fe 49          	cmp    $0x49,%rsi
+  13cae9:	0f 83 b6 02 00 00    	jae    13cda5 <rheon::research_public_call::candidate::Work::case41_serialize+0x445>
+  13caef:	49 8d 80 f0 6b 00 00 	lea    0x6bf0(%r8),%rax
+  13caf6:	49 8d 88 e0 72 00 00 	lea    0x72e0(%r8),%rcx
+  13cafd:	48 89 44 24 68       	mov    %rax,0x68(%rsp)
+  13cb02:	48 89 74 24 70       	mov    %rsi,0x70(%rsp)
+  13cb07:	49 8d 80 c8 73 00 00 	lea    0x73c8(%r8),%rax
+  13cb0e:	48 89 44 24 78       	mov    %rax,0x78(%rsp)
+  13cb13:	48 89 b4 24 80 00 00 	mov    %rsi,0x80(%rsp)
+  13cb1a:	00 
+  13cb1b:	49 8d 80 08 76 00 00 	lea    0x7608(%r8),%rax
+  13cb22:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
+  13cb27:	48 89 74 24 28       	mov    %rsi,0x28(%rsp)
+  13cb2c:	48 8d 44 24 0c       	lea    0xc(%rsp),%rax
+  13cb31:	48 89 84 24 88 00 00 	mov    %rax,0x88(%rsp)
+  13cb38:	00 
+  13cb39:	48 8b 05 90 7c 1b 00 	mov    0x1b7c90(%rip),%rax        # 2f47d0 <_DYNAMIC+0x330>
+  13cb40:	48 89 84 24 90 00 00 	mov    %rax,0x90(%rsp)
+  13cb47:	00 
+  13cb48:	48 8d 44 24 18       	lea    0x18(%rsp),%rax
+  13cb4d:	48 89 84 24 98 00 00 	mov    %rax,0x98(%rsp)
+  13cb54:	00 
+  13cb55:	48 8b 05 04 7c 1b 00 	mov    0x1b7c04(%rip),%rax        # 2f4760 <_DYNAMIC+0x2c0>
+  13cb5c:	48 89 84 24 a0 00 00 	mov    %rax,0xa0(%rsp)
+  13cb63:	00 
+  13cb64:	48 8d 54 24 10       	lea    0x10(%rsp),%rdx
+  13cb69:	48 89 94 24 a8 00 00 	mov    %rdx,0xa8(%rsp)
+  13cb70:	00 
+  13cb71:	48 8d 15 d8 2b 0a 00 	lea    0xa2bd8(%rip),%rdx        # 1df750 <<&T as core::fmt::Debug>::fmt>
+  13cb78:	48 89 94 24 b0 00 00 	mov    %rdx,0xb0(%rsp)
+  13cb7f:	00 
+  13cb80:	49 8d 50 08          	lea    0x8(%r8),%rdx
+  13cb84:	48 81 c7 00 02 00 00 	add    $0x200,%rdi
+  13cb8b:	48 89 bc 24 b8 00 00 	mov    %rdi,0xb8(%rsp)
+  13cb92:	00 
+  13cb93:	48 8d 35 d6 c6 0a 00 	lea    0xac6d6(%rip),%rsi        # 1e9270 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  13cb9a:	48 89 b4 24 c0 00 00 	mov    %rsi,0xc0(%rsp)
+  13cba1:	00 
+  13cba2:	49 8d b0 b8 00 00 00 	lea    0xb8(%r8),%rsi
+  13cba9:	48 89 94 24 c8 00 00 	mov    %rdx,0xc8(%rsp)
+  13cbb0:	00 
+  13cbb1:	48 8d 15 28 d2 0a 00 	lea    0xad228(%rip),%rdx        # 1e9de0 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  13cbb8:	48 89 94 24 d0 00 00 	mov    %rdx,0xd0(%rsp)
+  13cbbf:	00 
+  13cbc0:	48 89 b4 24 d8 00 00 	mov    %rsi,0xd8(%rsp)
+  13cbc7:	00 
+  13cbc8:	49 8d b0 08 3a 00 00 	lea    0x3a08(%r8),%rsi
+  13cbcf:	48 89 94 24 e0 00 00 	mov    %rdx,0xe0(%rsp)
+  13cbd6:	00 
+  13cbd7:	48 89 b4 24 e8 00 00 	mov    %rsi,0xe8(%rsp)
+  13cbde:	00 
+  13cbdf:	49 8d b0 98 0e 00 00 	lea    0xe98(%r8),%rsi
+  13cbe6:	48 89 94 24 f0 00 00 	mov    %rdx,0xf0(%rsp)
+  13cbed:	00 
+  13cbee:	48 89 b4 24 f8 00 00 	mov    %rsi,0xf8(%rsp)
+  13cbf5:	00 
+  13cbf6:	48 8d 35 43 bc 0a 00 	lea    0xabc43(%rip),%rsi        # 1e8840 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  13cbfd:	48 89 b4 24 00 01 00 	mov    %rsi,0x100(%rsp)
+  13cc04:	00 
+  13cc05:	48 89 8c 24 08 01 00 	mov    %rcx,0x108(%rsp)
+  13cc0c:	00 
+  13cc0d:	49 8d 88 70 47 00 00 	lea    0x4770(%r8),%rcx
+  13cc14:	48 89 94 24 10 01 00 	mov    %rdx,0x110(%rsp)
+  13cc1b:	00 
+  13cc1c:	49 8d 90 f0 45 00 00 	lea    0x45f0(%r8),%rdx
+  13cc23:	48 89 94 24 18 01 00 	mov    %rdx,0x118(%rsp)
+  13cc2a:	00 
+  13cc2b:	48 8d 15 0e cf 0a 00 	lea    0xacf0e(%rip),%rdx        # 1e9b40 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  13cc32:	48 89 94 24 20 01 00 	mov    %rdx,0x120(%rsp)
+  13cc39:	00 
+  13cc3a:	48 89 8c 24 28 01 00 	mov    %rcx,0x128(%rsp)
+  13cc41:	00 
+  13cc42:	48 89 b4 24 30 01 00 	mov    %rsi,0x130(%rsp)
+  13cc49:	00 
+  13cc4a:	49 8d 88 70 6a 00 00 	lea    0x6a70(%r8),%rcx
+  13cc51:	48 89 8c 24 38 01 00 	mov    %rcx,0x138(%rsp)
+  13cc58:	00 
+  13cc59:	49 8d 88 f0 3a 00 00 	lea    0x3af0(%r8),%rcx
+  13cc60:	48 89 94 24 40 01 00 	mov    %rdx,0x140(%rsp)
+  13cc67:	00 
+  13cc68:	49 8d 90 90 73 00 00 	lea    0x7390(%r8),%rdx
+  13cc6f:	48 89 94 24 48 01 00 	mov    %rdx,0x148(%rsp)
+  13cc76:	00 
+  13cc77:	48 8d 15 12 d9 0a 00 	lea    0xad912(%rip),%rdx        # 1ea590 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  13cc7e:	48 89 94 24 50 01 00 	mov    %rdx,0x150(%rsp)
+  13cc85:	00 
+  13cc86:	49 8d 90 b0 72 00 00 	lea    0x72b0(%r8),%rdx
+  13cc8d:	48 89 94 24 58 01 00 	mov    %rdx,0x158(%rsp)
+  13cc94:	00 
+  13cc95:	48 8d 15 74 c9 0a 00 	lea    0xac974(%rip),%rdx        # 1e9610 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  13cc9c:	48 89 94 24 60 01 00 	mov    %rdx,0x160(%rsp)
+  13cca3:	00 
+  13cca4:	49 8d 90 f0 47 00 00 	lea    0x47f0(%r8),%rdx
+  13ccab:	48 89 94 24 68 01 00 	mov    %rdx,0x168(%rsp)
+  13ccb2:	00 
+  13ccb3:	48 8d 15 56 cb 0a 00 	lea    0xacb56(%rip),%rdx        # 1e9810 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  13ccba:	48 89 94 24 70 01 00 	mov    %rdx,0x170(%rsp)
+  13ccc1:	00 
+  13ccc2:	48 89 8c 24 78 01 00 	mov    %rcx,0x178(%rsp)
+  13ccc9:	00 
+  13ccca:	48 8d 0d 6f c7 0a 00 	lea    0xac76f(%rip),%rcx        # 1e9440 <core::array::<impl core::fmt::Debug for [T; N]>::fmt>
+  13ccd1:	48 89 8c 24 80 01 00 	mov    %rcx,0x180(%rsp)
+  13ccd8:	00 
+  13ccd9:	48 8d 4c 24 68       	lea    0x68(%rsp),%rcx
+  13ccde:	48 89 8c 24 88 01 00 	mov    %rcx,0x188(%rsp)
+  13cce5:	00 
+  13cce6:	48 8d 0d a3 36 0a 00 	lea    0xa36a3(%rip),%rcx        # 1e0390 <<&T as core::fmt::Debug>::fmt>
+  13cced:	48 89 8c 24 90 01 00 	mov    %rcx,0x190(%rsp)
+  13ccf4:	00 
+  13ccf5:	48 8d 4c 24 78       	lea    0x78(%rsp),%rcx
+  13ccfa:	48 89 8c 24 98 01 00 	mov    %rcx,0x198(%rsp)
+  13cd01:	00 
+  13cd02:	48 8d 0d 47 31 0a 00 	lea    0xa3147(%rip),%rcx        # 1dfe50 <<&T as core::fmt::Debug>::fmt>
+  13cd09:	48 89 8c 24 a0 01 00 	mov    %rcx,0x1a0(%rsp)
+  13cd10:	00 
+  13cd11:	48 8d 54 24 20       	lea    0x20(%rsp),%rdx
+  13cd16:	48 89 94 24 a8 01 00 	mov    %rdx,0x1a8(%rsp)
+  13cd1d:	00 
+  13cd1e:	48 89 8c 24 b0 01 00 	mov    %rcx,0x1b0(%rsp)
+  13cd25:	00 
+  13cd26:	49 8d 88 f8 78 00 00 	lea    0x78f8(%r8),%rcx
+  13cd2d:	48 89 8c 24 b8 01 00 	mov    %rcx,0x1b8(%rsp)
+  13cd34:	00 
+  13cd35:	48 89 84 24 c0 01 00 	mov    %rax,0x1c0(%rsp)
+  13cd3c:	00 
+  13cd3d:	49 81 c0 00 79 00 00 	add    $0x7900,%r8
+  13cd44:	4c 89 84 24 c8 01 00 	mov    %r8,0x1c8(%rsp)
+  13cd4b:	00 
+  13cd4c:	48 8b 05 bd 79 1b 00 	mov    0x1b79bd(%rip),%rax        # 2f4710 <_DYNAMIC+0x270>
+  13cd53:	48 89 84 24 d0 01 00 	mov    %rax,0x1d0(%rsp)
+  13cd5a:	00 
+  13cd5b:	48 8d 05 76 e7 19 00 	lea    0x19e776(%rip),%rax        # 2db4d8 <anon.392e2ff17addc09cef8842235d7eeffb.129.llvm.924093014669730605+0x240>
+  13cd62:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+  13cd67:	48 c7 44 24 40 16 00 	movq   $0x16,0x40(%rsp)
+  13cd6e:	00 00 
+  13cd70:	48 c7 44 24 58 00 00 	movq   $0x0,0x58(%rsp)
+  13cd77:	00 00 
+  13cd79:	48 8d 84 24 88 00 00 	lea    0x88(%rsp),%rax
+  13cd80:	00 
+  13cd81:	48 89 44 24 48       	mov    %rax,0x48(%rsp)
+  13cd86:	48 c7 44 24 50 15 00 	movq   $0x15,0x50(%rsp)
+  13cd8d:	00 00 
+  13cd8f:	48 8d 7c 24 38       	lea    0x38(%rsp),%rdi
+  13cd94:	ff 15 be 79 1b 00    	call   *0x1b79be(%rip)        # 2f4758 <_DYNAMIC+0x2b8>
+  13cd9a:	48 81 c4 d8 01 00 00 	add    $0x1d8,%rsp
+  13cda1:	5b                   	pop    %rbx
+  13cda2:	41 5e                	pop    %r14
+  13cda4:	c3                   	ret
+  13cda5:	48 8d 0d 8c e8 19 00 	lea    0x19e88c(%rip),%rcx        # 2db638 <anon.392e2ff17addc09cef8842235d7eeffb.129.llvm.924093014669730605+0x3a0>
+  13cdac:	ba 48 00 00 00       	mov    $0x48,%edx
+  13cdb1:	31 ff                	xor    %edi,%edi
+  13cdb3:	ff 15 1f 7a 1b 00    	call   *0x1b7a1f(%rip)        # 2f47d8 <_DYNAMIC+0x338>
+  13cdb9:	48 89 c3             	mov    %rax,%rbx
+  13cdbc:	48 8b 74 24 20       	mov    0x20(%rsp),%rsi
+  13cdc1:	48 85 f6             	test   %rsi,%rsi
+  13cdc4:	74 10                	je     13cdd6 <rheon::research_public_call::candidate::Work::case41_serialize+0x476>
+  13cdc6:	48 8b 7c 24 28       	mov    0x28(%rsp),%rdi
+  13cdcb:	ba 01 00 00 00       	mov    $0x1,%edx
+  13cdd0:	ff 15 52 79 1b 00    	call   *0x1b7952(%rip)        # 2f4728 <_DYNAMIC+0x288>
+  13cdd6:	48 89 df             	mov    %rbx,%rdi
+  13cdd9:	e8 02 c1 19 00       	call   2d8ee0 <_Unwind_Resume@plt>
+  13cdde:	cc                   	int3
+  13cddf:	cc                   	int3
+

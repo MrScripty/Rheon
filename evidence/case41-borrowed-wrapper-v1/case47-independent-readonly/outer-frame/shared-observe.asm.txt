@@ -1,0 +1,22 @@
+00000000001ac960 <rheon::research_public_call::observe>:
+  1ac960:	48 83 fe 0b          	cmp    $0xb,%rsi
+  1ac964:	77 22                	ja     1ac988 <rheon::research_public_call::observe+0x28>
+  1ac966:	48 8b 4c f7 18       	mov    0x18(%rdi,%rsi,8),%rcx
+  1ac96b:	48 ff c1             	inc    %rcx
+  1ac96e:	48 89 4c f7 18       	mov    %rcx,0x18(%rdi,%rsi,8)
+  1ac973:	31 c0                	xor    %eax,%eax
+  1ac975:	83 3f 01             	cmpl   $0x1,(%rdi)
+  1ac978:	75 0d                	jne    1ac987 <rheon::research_public_call::observe+0x27>
+  1ac97a:	48 39 77 08          	cmp    %rsi,0x8(%rdi)
+  1ac97e:	75 07                	jne    1ac987 <rheon::research_public_call::observe+0x27>
+  1ac980:	48 39 4f 10          	cmp    %rcx,0x10(%rdi)
+  1ac984:	0f 94 c0             	sete   %al
+  1ac987:	c3                   	ret
+  1ac988:	50                   	push   %rax
+  1ac989:	48 8d 15 48 33 11 00 	lea    0x113348(%rip),%rdx        # 2bfcd8 <rheon::research_public_call::CASES+0x4ad8>
+  1ac990:	48 89 f7             	mov    %rsi,%rdi
+  1ac993:	be 0c 00 00 00       	mov    $0xc,%esi
+  1ac998:	ff 15 da 2e 12 00    	call   *0x122eda(%rip)        # 2cf878 <_DYNAMIC+0x290>
+  1ac99e:	cc                   	int3
+  1ac99f:	cc                   	int3
+

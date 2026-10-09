@@ -1,0 +1,30 @@
+{
+  "candidate_fd_observation_println_exact_equal": true,
+  "candidate_original_equation_and_helpers_exact_equal_except_wrapper_include": true,
+  "reference_original_equation_and_helpers_equal_except_wrapper_include_and_blank_line": true,
+  "geometry_overlay_original_prefix_exact_equal": true,
+  "geometry_overlay_only_addition": "cfg(test) borrowed_geometry_layout (type sizes and requested counts; no owner construction)",
+  "original_record_sha256": "7ba6d934e19f07bf223c5dbc11190a8d1f1497e5bf3903a4b46fb88cb0c969c7",
+  "result_bytes": 30984,
+  "candidate_abi_slots": {
+    "baseline_destination_rsp_offset": "0x9f20",
+    "perturbed_return_temporary_rsp_offset": "0x2610",
+    "copy_instruction_address": "0x136472",
+    "copy_bytes": 30984
+  },
+  "complete_frame_bytes": {
+    "candidate_outer": 62112,
+    "reference_outer": 62112,
+    "candidate_capture": 71776,
+    "reference_capture": 71584,
+    "candidate_numerical": 121136,
+    "reference_numerical": 121120,
+    "candidate_serialize": 496,
+    "reference_serialize": 496,
+    "shared_split_position": 320
+  },
+  "two_active_split_position_frames_minimum_charge_bytes": 640,
+  "geometry_requested_payload_bytes": 23584,
+  "cap_accepted": false,
+  "native_equations_executed_by_review": 0
+}

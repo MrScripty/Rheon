@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/workspace/Rheon-case41-memory-reader/evidence/case47-archived-endpoint-comparison-v1/analyze.py", line 94, in <module>
+    if __name__=='__main__':print(json.dumps(main(),indent=2,sort_keys=True))
+                                             ^^^^^^
+  File "/workspace/Rheon-case41-memory-reader/evidence/case47-archived-endpoint-comparison-v1/analyze.py", line 29, in main
+    require((N/path).read_bytes()==(O/path).read_bytes(),'same fixture/geometry/public physical boundary '+path)
+  File "/workspace/Rheon-case41-memory-reader/evidence/case47-archived-endpoint-comparison-v1/analyze.py", line 9, in require
+    if not ok:raise ValueError(msg)
+              ^^^^^^^^^^^^^^^^^^^^^
+ValueError: same fixture/geometry/public physical boundary candidate_helpers.rs

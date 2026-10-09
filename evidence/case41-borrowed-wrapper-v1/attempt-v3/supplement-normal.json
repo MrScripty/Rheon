@@ -1,0 +1,120 @@
+{
+  "FD_execution_allowed": false,
+  "baseline_target": {
+    "archived_log": "evidence/forcing-e2-fixed-candidates-v1/candidate-fixed.log",
+    "archived_log_sha256": "6b4d8a9fc1a0adf1503f191e7b9b6b60f53e3904b2066d9e481bf4c06aa06894",
+    "event": "fixed_equation",
+    "index": 41,
+    "order": 16,
+    "policy": "candidate only; compare all22bits immediately after baseline before any column; reference is memory specimen only",
+    "rate_bits": [
+      4368189479010172928,
+      13577326335600099328,
+      4406223575053238272,
+      4411115716212686848,
+      13619593439187304448,
+      13617195522438725632,
+      13625478343246741504,
+      4397127720962621440,
+      4391585732460806144,
+      4392889872436690944,
+      13625596605171236864,
+      4390600897533575168,
+      4371250180818468864,
+      13595773367190290432,
+      4380251494765756416,
+      13623180257032798208,
+      13593465251851845632,
+      4400035646377639936,
+      13625857607459385344,
+      4400270040516263936,
+      13623895434570153984,
+      4402427668950900736
+    ]
+  },
+  "binary_sha256": "9245edbd6a195b0ae21a7e202db010aa12ac804a9dcd1c4c746a13859aea47b5",
+  "callback_success_heap": 0,
+  "candidate_specific_array_success_frames": [
+    64,
+    16
+  ],
+  "complete_memory_bound": null,
+  "files": {
+    "candidate-specific-0x1c74d0.asm.txt": {
+      "caller_qualification": "see COMMON-COSTS; all unclosed paths retained",
+      "complete_cost": null,
+      "sha256": "a230b4158fac69e8780c08cfe7bca8755a5a04911be2f9dd5d202c6390917a74",
+      "symbol": "core::array::drain::drain_array_with"
+    },
+    "candidate-specific-0x1c7820.asm.txt": {
+      "caller_qualification": "see COMMON-COSTS; all unclosed paths retained",
+      "complete_cost": null,
+      "sha256": "db4c4a8d283073a463d3212ecdeb4a58397a0f5009eb09f2285b99eaa23f1a49",
+      "symbol": "core::array::drain::drain_array_with"
+    },
+    "candidate-specific-0x1e52a0.asm.txt": {
+      "caller_qualification": "see COMMON-COSTS; all unclosed paths retained",
+      "complete_cost": null,
+      "sha256": "8fcdf153425c2b8b2787625e677722687530f5cb0ddd3a3f19c82244b6ddc4a2",
+      "symbol": "core::slice::sort::unstable::ipnsort"
+    },
+    "rust-1.92-source/alloc/src/alloc.rs": {
+      "installed_source": "/workspace/.rheon-tools/rustup/toolchains/1.92.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/alloc/src/alloc.rs",
+      "sha256": "cd8a5946b4c44338c451d1bb4c47e3109ea08ae7e3c58397e0879e4fe099572b"
+    },
+    "rust-1.92-source/alloc/src/raw_vec/mod.rs": {
+      "installed_source": "/workspace/.rheon-tools/rustup/toolchains/1.92.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/alloc/src/raw_vec/mod.rs",
+      "sha256": "7f94665b803a970d83f99d3a451a92af6b210baaa8c9685b1f50d265c836f38b"
+    },
+    "rust-1.92-source/core/src/array/drain.rs": {
+      "installed_source": "/workspace/.rheon-tools/rustup/toolchains/1.92.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/array/drain.rs",
+      "sha256": "46c1269de5d5e11a8905f2b9215dedb7e218796d900687e3af9e3ede1ba00981"
+    },
+    "rust-1.92-source/core/src/slice/sort/shared/smallsort.rs": {
+      "installed_source": "/workspace/.rheon-tools/rustup/toolchains/1.92.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/sort/shared/smallsort.rs",
+      "sha256": "32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959"
+    },
+    "rust-1.92-source/core/src/slice/sort/stable/drift.rs": {
+      "installed_source": "/workspace/.rheon-tools/rustup/toolchains/1.92.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/sort/stable/drift.rs",
+      "sha256": "5992b53abed257aa1c2dc2bb811d6a525294471e7a98d434f161d376100bf9c9"
+    },
+    "rust-1.92-source/core/src/slice/sort/stable/mod.rs": {
+      "installed_source": "/workspace/.rheon-tools/rustup/toolchains/1.92.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/sort/stable/mod.rs",
+      "sha256": "3f2b2d8543a1cb91c9352e041bed49949a31cbd4b1030ec1a82cca1304cb22d3"
+    },
+    "rust-1.92-source/core/src/slice/sort/stable/quicksort.rs": {
+      "installed_source": "/workspace/.rheon-tools/rustup/toolchains/1.92.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/sort/stable/quicksort.rs",
+      "sha256": "e7b5df9c7022ade2b932d83c4d0757ba1a211286e03c350695dd383b951e0264"
+    },
+    "rust-1.92-source/core/src/slice/sort/unstable/mod.rs": {
+      "installed_source": "/workspace/.rheon-tools/rustup/toolchains/1.92.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/sort/unstable/mod.rs",
+      "sha256": "367fc5b0a8dd2ca26643cdcef821ac9ec0fc4c67e7246293b8675609450e2ac7"
+    }
+  },
+  "geometry_allocator_cost": null,
+  "geometry_recursion_active_frames": 2,
+  "geometry_recursion_fixed_bytes": 640,
+  "geometry_requested_payload": 23584,
+  "geometry_runtime_capacity_limit": 67108864,
+  "native_equations": 0,
+  "native_invocations": 0,
+  "partition_max_elements": 66,
+  "source": "429a8aae900b9b3a9710b99cd531a86096475d5f",
+  "source_tree": "8065aa6c0a573dcaccdf6f6b45b8dd0e434331a0",
+  "stable_sort_heap_scratch_success_path": 0,
+  "stable_sort_stack_scratch": 4096,
+  "status": "PASS_FROZEN_SOURCE_AND_TARGETED_EVIDENCE__COMPLETE_PREFLIGHT_BLOCKED",
+  "unchanged_sources": {
+    "TranslatedViscousFlow-overlay.rs": "1734eaeed3c0f497a5380ee339253d87b246d667423f86cfe5dd565d68916765",
+    "candidate.rs": "e1899102aa5b638b62153fb72b7baf4dd6035dd81b876951e9f022eab64eb479",
+    "candidate_helpers.rs": "88d577eb553251192a5a054a9bc8229bfc4ea99ad7138a330a210285ff518b45",
+    "candidate_probe.rs": "060afc18a7a58524d31dc8edc5f595a479a1fa2a35627642598dafd131febc98",
+    "fixed_inputs.rs": "88f250046d8f08836f0418bd7fc81523d1de9a6141d4295a678c096c5a0d873e",
+    "inputs.rs": "d4aefe43a4125f70f2109072711228a787dc354ac51ece68027334f21a8117c1",
+    "reference.rs": "8970e808e35733cfe8536080000e36b6d2f9e9622f3fd9b76e78ebf83c0e8574",
+    "reference_helpers.rs": "8f2b8d1f7ce6476dd52a1fa8edba8ac4e3eede17b15018f82bf7a8dd9b76a655",
+    "reference_probe.rs": "33db71afbc3277f8d6d4e4c393212bda48d5b3e5828106b48d4f6c4e9ec7a434",
+    "scalar.rs": "28f466a1f88d64faecfbae68060122b9dec1866a047084478a0bb153ff963e14",
+    "trajectory_inputs.rs": "fb1fd26c0833a54ecc5d52dc0f37f0d13a0d7f750f75fa5416dd8749ce862658"
+  }
+}

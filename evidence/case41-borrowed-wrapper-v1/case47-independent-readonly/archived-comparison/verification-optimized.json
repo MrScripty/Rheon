@@ -1,0 +1,32 @@
+{
+  "broader_geometry_qualified": false,
+  "controls": [
+    {
+      "case": "wrong-reference-fixture",
+      "reason": "identical completed reference family",
+      "status": "REJECTED_BEFORE_COMPARISON"
+    },
+    {
+      "case": "wrong-physical-load",
+      "reason": "same reference model/load/endpoint and original RHS cap",
+      "status": "REJECTED_BEFORE_COMPARISON"
+    },
+    {
+      "case": "wrong-endpoint",
+      "reason": "same reference model/load/endpoint and original RHS cap",
+      "status": "REJECTED_BEFORE_COMPARISON"
+    },
+    {
+      "case": "wrong-native-initial-bit",
+      "reason": "pure E2 starts from identical original native accepted state bits",
+      "status": "REJECTED_BEFORE_COMPARISON"
+    }
+  ],
+  "new_FD_equations": 0,
+  "new_instantaneous_equations": 0,
+  "new_native_invocations": 0,
+  "new_reference_integrations": 0,
+  "new_trajectories": 0,
+  "status": "PASS_ARCHIVED_ENDPOINT_READER_AND_FOUR_MISMATCH_CONTROLS",
+  "temporal_order_qualified": false
+}

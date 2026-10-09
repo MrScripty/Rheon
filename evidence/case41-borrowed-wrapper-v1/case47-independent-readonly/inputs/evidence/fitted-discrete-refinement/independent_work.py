@@ -1,0 +1,59 @@
+"""Independent exact rational operators plus 80-digit discrete work sums."""
+from fractions import Fraction as Q
+import json
+import sys
+import temporal as step
+import independent as old
+from certificate import rational_geometry
+import mpmath as mp
+import numpy as np
+m=step.m;b=m.base;mp.mp.dps=80
+
+
+def node_velocity(q,eta,alpha,time):
+ D,_,_,_,_=rational_geometry(q,eta,alpha,time)
+ L=[D[i]for i in m.ROWS]+old.C+old.selectors
+ z=b.solve(L,[Q(0)]*16+[eta[i]+time*alpha[i]for i in range(6)])
+ raw=b.mv(m.INITIAL['R'],z);u=[[Q(0)]*3 for _ in range(16)]
+ for i,node in enumerate(m.INITIAL['ids']):u[node]=raw[3*i:3*i+3]
+ return z,u
+
+
+def verify(cell,order=16):
+ q=list(map(Q,cell['initial_q']));eta=list(map(Q,cell['initial_eta']));a=list(map(Q,cell['unknowns'][:6]));p=list(map(Q,cell['unknowns'][6:]));h=Q(cell['interval'])
+ zero=old.point(q,eta,a,p,Q(0));end=old.point(q,eta,a,p,h)
+ z0,u0=node_velocity(q,eta,a,Q(0));z1,u1=node_velocity(q,eta,a,h)
+ plus={ij:mp.mpf(0)for ij in m.PAIR};minus=plus.copy()
+ nodes,weights=np.polynomial.legendre.leggauss(order)
+ boundaries=list(map(Q,cell.get('face_sign_partition',[0.,float(h)])))
+ for left,right in zip(boundaries,boundaries[1:]):
+  for node,weight in zip(nodes,weights):
+   v=old.point(q,eta,a,p,left+(right-left)*(1+Q(node))/2);w=old.mpq(right-left)*old.mpq(Q(weight))/2
+   for ij,f in v['flux'].items():plus[ij]+=w*old.mpq(max(f,Q(0)));minus[ij]+=w*old.mpq(max(-f,Q(0)))
+
+ # old rational point's force contains actual instantaneous donor convection;
+ # subtract independently routed endpoint instantaneous convection to isolate
+ # its exact rational full strain and pressure force.
+ instantaneous=[[Q(0)]*3 for _ in range(16)];discrete=[[mp.mpf(0)]*3 for _ in range(16)];gcl=[old.mpq(end['mass'][i]-zero['mass'][i])for i in range(16)];mix=mp.mpf(0)
+ for ij,f in end['flux'].items():
+  i,j=ij;donor=u1[i]if f>=0 else u1[j]
+  for d in range(3):instantaneous[i][d]+=f*donor[d];instantaneous[j][d]-=f*donor[d]
+ for (i,j),fp in plus.items():
+  fm=minus[i,j];gcl[i]+=fp-fm;gcl[j]-=fp-fm
+  for d in range(3):
+   routed=fp*old.mpq(u1[i][d])-fm*old.mpq(u1[j][d]);discrete[i][d]+=routed;discrete[j][d]-=routed
+   mix+=(fp+fm)*old.mpq((u1[i][d]-u1[j][d])**2)/2
+ reduced_instant=b.mv(m.old.transpose(old.Rn),[v for row in instantaneous for v in row]);reduced_discrete=[sum(old.mpq(old.Rn[3*i+d][c])*discrete[i][d]for i in range(16)for d in range(3))for c in range(22)]
+ residual=[old.mpq(end['momentum'][i]-zero['momentum'][i])+reduced_discrete[i]+old.mpq(h*(end['force'][i]-reduced_instant[i]))for i in range(22)]
+ dbe=old.mpq(sum(zero['mass'][i]*sum((u1[i][d]-u0[i][d])**2 for d in range(3))/2 for i in range(16)))
+ mu=old.mpq(h*end['strain']);wg=sum(gcl[i]*old.mpq(b.dot(u1[i],u1[i]))/2 for i in range(16));wr=sum(old.mpq(z1[i])*residual[i]for i in range(22))
+ # Pressure work is exactly zero because the independent endpoint chart has
+ # full D z1=0 and uses the same pressure transpose. No rounded NumPy forces.
+ energy=old.mpq(end['energy']-zero['energy']);ledger=energy+dbe+mix+mu+wg-wr
+ allowance=old.mpq(Q(cell['fixed_work_allowance']))
+ b.require(abs(wr)<=allowance and abs(ledger)<=allowance,'independent unchanged work gate')
+ b.require(max(map(abs,residual))/old.mpq(h)<=mp.mpf('1e-11'),'independent full momentum rate gate')
+ for i,g in enumerate(gcl):b.require(abs(g)<=old.mpq(Q(cell['local_GCL_allowance'][i])),'independent actual local GCL')
+ return dict(precision_digits=80,quadrature_order=order,actual_binary_interval=str(h),independent_energy_change=mp.nstr(energy,40),backward_Euler_loss=mp.nstr(dbe,40),mixing_loss=mp.nstr(mix,40),viscous_loss=mp.nstr(mu,40),pressure_work_exact_zero=True,GCL_work=mp.nstr(wg,40),discrete_residual_work=mp.nstr(wr,40),energy_ledger_error=mp.nstr(ledger,40),full_momentum_rate_norm_max=mp.nstr(max(map(abs,residual))/old.mpq(h),40),finite_local_GCL_max=mp.nstr(max(map(abs,gcl)),40),discrete_work_gate_pass=True,public_step_enabled=False)
+
+if __name__=='__main__':print(json.dumps(verify(json.load(open(sys.argv[1])),int(sys.argv[2])if len(sys.argv)>2 else 16),indent=2))

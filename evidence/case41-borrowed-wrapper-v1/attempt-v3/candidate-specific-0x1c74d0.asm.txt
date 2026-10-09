@@ -1,0 +1,42 @@
+00000000001c74d0 <core::array::drain::drain_array_with>:
+  1c74d0:	50                   	push   %rax
+  1c74d1:	48 8b 06             	mov    (%rsi),%rax
+  1c74d4:	4c 8b 82 18 01 00 00 	mov    0x118(%rdx),%r8
+  1c74db:	4c 39 c0             	cmp    %r8,%rax
+  1c74de:	73 6b                	jae    1c754b <core::array::drain::drain_array_with+0x7b>
+  1c74e0:	48 8b 4e 08          	mov    0x8(%rsi),%rcx
+  1c74e4:	4c 39 c1             	cmp    %r8,%rcx
+  1c74e7:	73 62                	jae    1c754b <core::array::drain::drain_array_with+0x7b>
+  1c74e9:	48 8b 76 10          	mov    0x10(%rsi),%rsi
+  1c74ed:	4c 39 c6             	cmp    %r8,%rsi
+  1c74f0:	73 59                	jae    1c754b <core::array::drain::drain_array_with+0x7b>
+  1c74f2:	48 8b 92 10 01 00 00 	mov    0x110(%rdx),%rdx
+  1c74f9:	48 c1 e0 05          	shl    $0x5,%rax
+  1c74fd:	f2 0f 10 44 02 08    	movsd  0x8(%rdx,%rax,1),%xmm0
+  1c7503:	f2 0f 10 4c 02 18    	movsd  0x18(%rdx,%rax,1),%xmm1
+  1c7509:	48 c1 e1 05          	shl    $0x5,%rcx
+  1c750d:	f2 0f 10 54 0a 08    	movsd  0x8(%rdx,%rcx,1),%xmm2
+  1c7513:	f2 0f 10 5c 0a 18    	movsd  0x18(%rdx,%rcx,1),%xmm3
+  1c7519:	48 c1 e6 05          	shl    $0x5,%rsi
+  1c751d:	f2 0f 10 64 32 08    	movsd  0x8(%rdx,%rsi,1),%xmm4
+  1c7523:	f2 0f 10 6c 32 18    	movsd  0x18(%rdx,%rsi,1),%xmm5
+  1c7529:	f2 0f 11 07          	movsd  %xmm0,(%rdi)
+  1c752d:	f2 0f 11 4f 08       	movsd  %xmm1,0x8(%rdi)
+  1c7532:	f2 0f 11 57 10       	movsd  %xmm2,0x10(%rdi)
+  1c7537:	f2 0f 11 5f 18       	movsd  %xmm3,0x18(%rdi)
+  1c753c:	f2 0f 11 67 20       	movsd  %xmm4,0x20(%rdi)
+  1c7541:	f2 0f 11 6f 28       	movsd  %xmm5,0x28(%rdi)
+  1c7546:	48 89 f8             	mov    %rdi,%rax
+  1c7549:	59                   	pop    %rcx
+  1c754a:	c3                   	ret
+  1c754b:	48 8d 3d 6e d0 11 00 	lea    0x11d06e(%rip),%rdi        # 2e45c0 <anon.3957a70280f94dcf84482fc6a6c32a46.14.llvm.14680883900266804710>
+  1c7552:	ff 15 08 c3 12 00    	call   *0x12c308(%rip)        # 2f3860 <_DYNAMIC+0x2a0>
+  1c7558:	cc                   	int3
+  1c7559:	cc                   	int3
+  1c755a:	cc                   	int3
+  1c755b:	cc                   	int3
+  1c755c:	cc                   	int3
+  1c755d:	cc                   	int3
+  1c755e:	cc                   	int3
+  1c755f:	cc                   	int3
+

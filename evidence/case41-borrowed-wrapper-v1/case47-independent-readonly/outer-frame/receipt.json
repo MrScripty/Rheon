@@ -1,0 +1,21 @@
+{
+  "artifact_sha256": {
+    "README.md": "bd60fdd61981ebebfd6820ad8cc1a071cda8851e9ea5a4b9d389bfa3419506ca",
+    "candidate-public-call.asm.txt": "71fe06a69e34df284363cdbf7fd09d8d62122c0ee0897b231f1309d7815518b6",
+    "extract.py": "0312a0f02988b13b3cfd9873584b041e5eac7098e4998763697872d890b3bfca",
+    "extraction-stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "extraction.log": "bf7f493f3b1fa0417dff18c989b8c98be92a44c8ec2a01f6edf34e97349c2957",
+    "native-prefix.asm.txt": "5c25fc6cd285a6de7cda0f386725386d689ee727a7f50526f62e7dddd93e4a9b",
+    "outer-frame.json": "7f13e415f9f6dc9ae81edb87b863babb338b617bfe9df3ab03bb2cf1afe00446",
+    "outer.asm.txt": "a37772e1f1a9fb89a5b17f41af4890ba8cc9d832b54583fc3697007fd6b926fd",
+    "shared-observe.asm.txt": "dbc24e1af7930333a260f018ff589b86ee02fc6513b1db8f41da3e4f529f3648"
+  },
+  "cap": 67584,
+  "existing_binary_sha256": "6e6ea0505c81cbf8624b177c6c782ff8cb29cc0830c0524e79088e8307a10989",
+  "numerical_test_invocations": 0,
+  "original_bound": 67088,
+  "original_certificate_unchanged": true,
+  "rebuilds": 0,
+  "status": "READONLY_SUPPLEMENT_FOR_REVIEW",
+  "supplemented_bound_for_review": 67424
+}

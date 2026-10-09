@@ -1,0 +1,28 @@
+{
+  "source": "429a8aae900b9b3a9710b99cd531a86096475d5f",
+  "tree": "8065aa6c0a573dcaccdf6f6b45b8dd0e434331a0",
+  "elf_sha256": "9245edbd6a195b0ae21a7e202db010aa12ac804a9dcd1c4c746a13859aea47b5",
+  "memory_receipt_sha256": "805df6869f05841d7622a7aefd44fdfc161514c48b3a0624db61440abfd87dbe",
+  "supplement_receipt_sha256": "1adbffa24dcc24778dda6722d5c3f51ade5370726d3fb3fc528ca57fb8e1a7da",
+  "independent_normal_optimized_readers_equal_parent": true,
+  "supplement_file_inventory_matches_actual_installed_sources": true,
+  "original_observation_record_exact_equal": true,
+  "single_result_return_slot_confirmed": true,
+  "22_expected_bits_match_original_archived_E2_rate": true,
+  "compiled_gate_comparison_count": 22,
+  "compiled_each_mismatch_jumps_to_return_without_another_equation": true,
+  "known_subtotal": 66480,
+  "complete_memory_bound": null,
+  "cap_accepted": false,
+  "equations_executed_by_review": 0,
+  "external_counts": {
+    "candidate": {
+      "numerical": 216,
+      "serialization": 7
+    },
+    "reference": {
+      "numerical": 201,
+      "serialization": 7
+    }
+  }
+}
