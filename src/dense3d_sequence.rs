@@ -45,6 +45,28 @@ pub struct Dense3dSequence<W: Write> {
     limits: Dense3dLimits,
     frames: usize,
     aborted: bool,
+    controls: Option<ControlCapture>,
+}
+const CONTROL_INTERVALS: usize = 8;
+const CONTROL_INTERVAL_BYTES: usize = 2048;
+#[derive(Clone, Copy)]
+struct AcceptedControls {
+    start_frame: usize,
+    start_time: f64,
+    end_time: f64,
+    dt: f64,
+    carrier_before: crate::VolumeStamp,
+    carrier_after: crate::VolumeStamp,
+    liquid_before: crate::VolumeStamp,
+    liquid_after: crate::VolumeStamp,
+    boundary: crate::PrescribedBoxFlux,
+    inlet: crate::LiquidInlet,
+}
+struct ControlCapture {
+    intervals: [Option<AcceptedControls>; CONTROL_INTERVALS],
+    len: usize,
+    max_bytes: usize,
+    emitted: bool,
 }
 struct Counted<W> {
     inner: W,
@@ -90,6 +112,7 @@ impl<W: Write> Dense3dSequence<W> {
             limits,
             frames: 0,
             aborted: false,
+            controls: None,
         };
         write_dense3d_frame(
             &mut sequence.output,
@@ -100,6 +123,83 @@ impl<W: Write> Dense3dSequence<W> {
         )?;
         sequence.frames = 1;
         Ok(sequence)
+    }
+    /// Explicit producer-owned capture for the fixed supported controls. The
+    /// constructor has no interval. Frame JSON and the default v1 route are
+    /// unchanged; these bounded records are a separate intermediate artifact.
+    pub fn new_with_producer_controls(
+        simulation: LiquidTransportSimulation,
+        output: W,
+        limits: Dense3dLimits,
+        controls_max_bytes: usize,
+    ) -> Result<Self, Dense3dError> {
+        if !(CONTROL_INTERVAL_BYTES + 2..=65536).contains(&controls_max_bytes) {
+            return Err(Dense3dError::Limit);
+        }
+        let mut sequence = Self::new(simulation, output, limits)?;
+        sequence.controls = Some(ControlCapture {
+            intervals: [None; CONTROL_INTERVALS],
+            len: 0,
+            max_bytes: controls_max_bytes,
+            emitted: false,
+        });
+        Ok(sequence)
+    }
+    /// Retained inline capture storage in this owner, including the optional
+    /// tag and unused slots even when capture is disabled. This object payload
+    /// is separate from the unchanged simulation Vec metric allocated_bytes().
+    pub fn producer_controls_payload_bytes(&self) -> usize {
+        std::mem::size_of::<Option<ControlCapture>>()
+    }
+    pub fn producer_controls_interval_count(&self) -> usize {
+        self.controls.as_ref().map_or(0, |c| c.len)
+    }
+    /// Emit only previously accepted captures, in order. Any control-output
+    /// failure poisons export while leaving committed physics inspectable.
+    /// The caller must sync this separate artifact before manifest publication.
+    /// Incomplete or poisoned output must never publish a completion manifest.
+    pub fn write_producer_controls_intervals<T: Write>(
+        &mut self,
+        output: T,
+    ) -> Result<usize, Dense3dError> {
+        if self.aborted {
+            return Err(Dense3dError::Aborted);
+        }
+        let Some(capture) = self.controls.as_mut() else {
+            self.aborted = true;
+            return Err(Dense3dError::InvalidState("producer capture disabled"));
+        };
+        if capture.emitted {
+            self.aborted = true;
+            return Err(Dense3dError::InvalidState("controls already emitted"));
+        }
+        let mut output = Counted {
+            inner: output,
+            bytes: 0,
+            limit: capture.max_bytes,
+        };
+        let result = (|| {
+            write!(output, "[")?;
+            for (i, record) in capture.intervals[..capture.len].iter().enumerate() {
+                if i != 0 {
+                    write!(output, ",")?;
+                }
+                write_controls_interval(&mut output, record.as_ref().expect("accepted capture"))?;
+            }
+            writeln!(output, "]")?;
+            output.flush()?;
+            Ok::<_, Dense3dError>(output.bytes)
+        })();
+        match result {
+            Ok(bytes) => {
+                capture.emitted = true;
+                Ok(bytes)
+            }
+            Err(error) => {
+                self.aborted = true;
+                Err(error)
+            }
+        }
     }
     pub fn state(&self) -> LiquidTransportView<'_> {
         self.simulation.state()
@@ -131,6 +231,17 @@ impl<W: Write> Dense3dSequence<W> {
         if self.aborted {
             return Err(Dense3dError::Aborted);
         }
+        if let Some(capture) = &self.controls {
+            if capture.emitted || !supported_controls(inputs, boundary) {
+                self.aborted = true;
+                return Err(Dense3dError::InvalidState("unsupported producer controls"));
+            }
+            let reserved = (capture.len + 1) * CONTROL_INTERVAL_BYTES + 2;
+            if capture.len == CONTROL_INTERVALS || reserved > capture.max_bytes {
+                self.aborted = true;
+                return Err(Dense3dError::Limit);
+            }
+        }
         if self.frames >= self.limits.max_frames {
             self.aborted = true;
             return Err(Dense3dError::Limit);
@@ -150,6 +261,10 @@ impl<W: Write> Dense3dSequence<W> {
             self.aborted = true;
             return Err(Dense3dError::Limit);
         }
+        let before = self.simulation.state();
+        let start_time = before.carrier.time;
+        let carrier_before = before.carrier_stamp;
+        let liquid_before = before.liquid.stamp;
         let report = match self
             .simulation
             .step_with_box_flux(inputs, workspace, boundary, cancel)
@@ -160,6 +275,45 @@ impl<W: Write> Dense3dSequence<W> {
                 return Err(Dense3dError::Step(e));
             }
         };
+        if self.controls.is_some() {
+            let after = self.simulation.state();
+            let dt = report.carrier.step.dt;
+            // Physics has committed. Retain its actual interval before any
+            // late fixed-case metadata refusal, including a clipped dt. Such
+            // refusal poisons output but must not erase accepted ownership.
+            let capture = self.controls.as_mut().expect("enabled capture");
+            capture.intervals[capture.len] = Some(AcceptedControls {
+                start_frame: self.frames - 1,
+                start_time,
+                end_time: after.carrier.time,
+                dt,
+                carrier_before,
+                carrier_after: after.carrier_stamp,
+                liquid_before,
+                liquid_after: after.liquid.stamp,
+                boundary: boundary.flux,
+                inlet: inputs.inlet,
+            });
+            capture.len += 1;
+            if dt != 0.0625
+                || report.liquid.dt != dt
+                || after.carrier.time != start_time + dt
+                || after.liquid.time != after.carrier.time
+                || report.carrier.step.time != after.carrier.time
+                || report.liquid.time != after.liquid.time
+                || report.liquid.flow != after.carrier_stamp
+                || report.liquid.stamp != after.liquid.stamp
+                || report.liquid.inlet != inputs.inlet.stamp()
+                || report.liquid.source.is_some()
+                || report.carrier.step.generation != after.carrier.generation
+                || report
+                    .boundary
+                    .is_none_or(|b| b.projection.boundary != boundary.flux.stamp())
+            {
+                self.aborted = true;
+                return Err(Dense3dError::InvalidState("accepted controls continuity"));
+            }
+        }
         if let Err(e) = write_dense3d_frame(
             &mut self.output,
             self.simulation.grid(),
@@ -185,6 +339,68 @@ impl<W: Write> Dense3dSequence<W> {
         }
         Ok(())
     }
+}
+fn supported_controls(inputs: LiquidStepInputs<'_>, boundary: BoxFluxStepBoundary) -> bool {
+    inputs.requested_dt == 0.0625
+        && inputs.smoke_source.is_none()
+        && inputs.forces.is_empty()
+        && inputs.source.is_none()
+        && boundary.flux.stamp() == (crate::BoxFluxStamp { id: 47, version: 0 })
+        && boundary.flux.outward_speeds() == [[-0.25, 0.25], [0.0; 2], [0.0; 2]]
+        && inputs.inlet.stamp() == (crate::VolumeStamp { id: 53, version: 0 })
+        && inputs.inlet.fractions() == [[0.0; 2]; 3]
+}
+fn write_controls_interval<W: Write>(
+    out: &mut W,
+    r: &AcceptedControls,
+) -> Result<(), Dense3dError> {
+    write!(
+        out,
+        "{{\"start_frame\":{},\"end_frame\":{},\"start_time_s\":{:.17e},\"end_time_s\":{:.17e},\"dt_s\":{:.17e}",
+        r.start_frame,
+        r.start_frame + 1,
+        r.start_time,
+        r.end_time,
+        r.dt
+    )?;
+    for (name, stamp) in [
+        ("carrier_before", r.carrier_before),
+        ("carrier_after", r.carrier_after),
+        ("liquid_before", r.liquid_before),
+        ("liquid_after", r.liquid_after),
+    ] {
+        write!(
+            out,
+            ",\"{name}\":{{\"id\":\"{}\",\"version\":\"{}\"}}",
+            stamp.id, stamp.version
+        )?;
+    }
+    let b = r.boundary.stamp();
+    let i = r.inlet.stamp();
+    write!(
+        out,
+        ",\"boundary_stamp\":{{\"id\":\"{}\",\"version\":\"{}\"}},\"inlet_stamp\":{{\"id\":\"{}\",\"version\":\"{}\"}}",
+        b.id, b.version, i.id, i.version
+    )?;
+    write!(out, ",\"outward_speed_m_s\":[")?;
+    for (d, pair) in r.boundary.outward_speeds().iter().enumerate() {
+        if d != 0 {
+            write!(out, ",")?;
+        }
+        write!(out, "[{:.9e},{:.9e}]", pair[0], pair[1])?;
+    }
+    write!(out, "],\"inlet_fraction\":[")?;
+    for (d, pair) in r.inlet.fractions().iter().enumerate() {
+        if d != 0 {
+            write!(out, ",")?;
+        }
+        write!(out, "[{:.17e},{:.17e}]", pair[0], pair[1])?;
+    }
+    write!(
+        out,
+        "],\"source_mode\":\"none\",\"source_rate_m3_s\":0,\"body_acceleration_m_s2\":[0,0,0]}}"
+    )?;
+    Ok(())
 }
 fn invalid(condition: bool, message: &'static str) -> Result<(), Dense3dError> {
     if condition {

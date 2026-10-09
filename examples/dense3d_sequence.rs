@@ -11,8 +11,12 @@ use std::{
 };
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<_> = std::env::args_os().skip(1).collect();
-    if args.len() != 1 {
-        return Err("usage: dense3d_sequence FRESH_OUTPUT_DIRECTORY".into());
+    let producer_controls = args.len() == 2
+        && (args[0] == "--producer-controls-v2" || args[1] == "--producer-controls-v2");
+    if args.len() != 1 && !producer_controls {
+        return Err(
+            "usage: dense3d_sequence [--producer-controls-v2] FRESH_OUTPUT_DIRECTORY".into(),
+        );
     }
     let grid = GridGeometry::new([16, 8, 4], [0.0625, 0.125, 0.25], [0.0; 3])?;
     let mut fraction = vec![0.0; grid.cell_len()];
@@ -51,22 +55,24 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         tracer: BoxFluxTracerPolicy::ClampedAppearance,
     };
     let inlet = LiquidInlet::new(VolumeStamp { id: 53, version: 0 }, [[0.0; 2]; 3])?;
-    let directory = Path::new(&args[0]);
+    let directory_index = usize::from(producer_controls && args[0] == "--producer-controls-v2");
+    let directory = Path::new(&args[directory_index]);
     fs::create_dir(directory)?;
     let file = OpenOptions::new()
         .write(true)
         .create_new(true)
         .open(directory.join("frames.jsonl"))?;
     // Unbuffered file: dropping the sequence after an error cannot retry output.
-    let mut sequence = Dense3dSequence::new(
-        simulation,
-        &file,
-        Dense3dLimits {
-            max_cells: 512,
-            max_frames: 9,
-            max_bytes: 2 * 1024 * 1024,
-        },
-    )?;
+    let limits = Dense3dLimits {
+        max_cells: 512,
+        max_frames: 9,
+        max_bytes: 2 * 1024 * 1024,
+    };
+    let mut sequence = if producer_controls {
+        Dense3dSequence::new_with_producer_controls(simulation, &file, limits, 65536)?
+    } else {
+        Dense3dSequence::new(simulation, &file, limits)?
+    };
     for _ in 0..8 {
         sequence.step_with_box_flux(
             LiquidStepInputs {
@@ -87,11 +93,19 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     sequence.flush()?;
     file.sync_all()?;
+    if producer_controls {
+        let controls = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(directory.join("intervals.json"))?;
+        sequence.write_producer_controls_intervals(&controls)?;
+        controls.sync_all()?;
+    }
     let state = sequence.state();
     // Successful metadata is emitted only after all frames have been synced.
     // The Python runner validates/hashes and publishes run.json last.
-    println!(
-        "{{\"frame_count\":{},\"time_s\":{:.17e},\"carrier_version\":\"{}\",\"liquid_version\":\"{}\",\"owned_array_bytes\":{},\"boundary_array_bytes\":{},\"frames_bytes\":{}}}",
+    print!(
+        "{{\"frame_count\":{},\"time_s\":{:.17e},\"carrier_version\":\"{}\",\"liquid_version\":\"{}\",\"owned_array_bytes\":{},\"boundary_array_bytes\":{},\"frames_bytes\":{}",
         sequence.frame_count(),
         state.carrier.time,
         state.carrier_stamp.version,
@@ -100,5 +114,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         workspace.allocated_bytes(),
         sequence.bytes_written()
     );
+    if producer_controls {
+        print!(
+            ",\"controls_interval_count\":{}",
+            sequence.producer_controls_interval_count()
+        );
+    }
+    println!("}}");
     Ok(())
 }
