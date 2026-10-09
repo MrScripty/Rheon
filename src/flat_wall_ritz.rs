@@ -1234,6 +1234,42 @@ pub enum FlatWallNormalTraction {
     FirstRowP1,
     TwoPlaneP2,
 }
+/// Tangential wall observation only; never changes the retained energy or solve.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FlatWallTangentialTraction {
+    FirstCenterP1,
+    /// Stationary wall plus the first two MAC face averages. Quadratic-exact
+    /// in wall distance; requires the flux-average interpretation of Cq.
+    TwoCellAverageP2,
+}
+
+fn two_cell_average_wall_derivative(
+    v1: f64,
+    v2: f64,
+    wall: f64,
+    first_plane: f64,
+    second_plane: f64,
+) -> Result<(f64, FlatWallInterval)> {
+    let h1 = positive(wall - first_plane)?;
+    let h2 = positive(wall - second_plane)?;
+    positive(h2 - h1)?;
+    let h22 = mul(h2, h2)?;
+    let numerator = checked(checked(mul(h1, h1)? + mul(h1, h2)?)? + h22)?;
+    let c1 = div(mul(2., numerator)?, mul(h1, h22)?)?;
+    let c2 = div(mul(-2., h1)?, h22)?;
+    let derivative = checked(mul(c1, v1)? + mul(c2, v2)?)?;
+    let h1i = FlatWallInterval::point(wall)?.minus(FlatWallInterval::point(first_plane)?)?;
+    let h2i = FlatWallInterval::point(wall)?.minus(FlatWallInterval::point(second_plane)?)?;
+    let h22i = h2i.times(h2i)?;
+    let c1i = FlatWallInterval::point(2.)?
+        .times(h1i.times(h1i)?.plus(h1i.times(h2i)?)?.plus(h22i)?)?
+        .quotient(h1i.times(h22i)?)?;
+    let c2i = FlatWallInterval::point(-2.)?.times(h1i)?.quotient(h22i)?;
+    let interval = c1i
+        .times(FlatWallInterval::point(v1)?)?
+        .plus(c2i.times(FlatWallInterval::point(v2)?)?)?;
+    Ok((derivative, interval))
+}
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct FlatWallOwnedWrench {
     pub force: [f64; 3],
@@ -1273,6 +1309,23 @@ fn validate_trial_support(state: &ObstacleFlowState<'_>, m: usize) -> Result<()>
 /// This is not the generalized transpose wrench and does not change energy rows.
 pub fn flat_wall_owned_traction(
     state: &ObstacleFlowState<'_>,
+    normal: FlatWallNormalTraction,
+    cancel: impl FnMut(ObstacleFlowStage, usize) -> bool,
+) -> Result<FlatWallOwnedWrench> {
+    flat_wall_owned_traction_reconstructed(
+        state,
+        FlatWallTangentialTraction::FirstCenterP1,
+        normal,
+        cancel,
+    )
+}
+
+/// Opt-in wall observation from immutable owned samples. TwoCellAverageP2
+/// uses actual grid-plane intervals, not point-sample Lagrange weights.
+/// Arithmetic intervals do not enclose sampling, field or PDE approximation.
+pub fn flat_wall_owned_traction_reconstructed(
+    state: &ObstacleFlowState<'_>,
+    tangential: FlatWallTangentialTraction,
     normal: FlatWallNormalTraction,
     mut cancel: impl FnMut(ObstacleFlowStage, usize) -> bool,
 ) -> Result<FlatWallOwnedWrench> {
@@ -1331,16 +1384,28 @@ pub fn flat_wall_owned_traction(
             let face = g.grid().face_index(Axis::X, [x, m - 1, z]).unwrap();
             let value = state.velocity()[0][face];
             let delta = positive(wall - center(g, 1, m - 1))?;
-            let tau = div(mul(mu, value)?, delta)?;
-            let taui = FlatWallInterval::point(mu)?
-                .times(FlatWallInterval::point(value)?)?
-                .quotient(
-                    FlatWallInterval::point(wall)?.minus(FlatWallInterval::point(center(
-                        g,
-                        1,
-                        m - 1,
-                    ))?)?,
-                )?;
+            let (tau, taui) = match tangential {
+                FlatWallTangentialTraction::FirstCenterP1 => (
+                    div(mul(mu, value)?, delta)?,
+                    FlatWallInterval::point(mu)?
+                        .times(FlatWallInterval::point(value)?)?
+                        .quotient(
+                            FlatWallInterval::point(wall)?
+                                .minus(FlatWallInterval::point(center(g, 1, m - 1))?)?,
+                        )?,
+                ),
+                FlatWallTangentialTraction::TwoCellAverageP2 => {
+                    let second = g.grid().face_index(Axis::X, [x, m - 2, z]).unwrap();
+                    let (d, di) = two_cell_average_wall_derivative(
+                        value,
+                        state.velocity()[0][second],
+                        wall,
+                        plane(g, 1, m - 1),
+                        plane(g, 1, m - 2),
+                    )?;
+                    (mul(mu, d)?, FlatWallInterval::point(mu)?.times(di)?)
+                }
+            };
             let hl = positive(plane(g, 0, x) - plane(g, 0, x - 1))?;
             let hr = positive(plane(g, 0, x + 1) - plane(g, 0, x))?;
             let hli = FlatWallInterval::point(plane(g, 0, x))?
@@ -1479,6 +1544,33 @@ pub fn flat_wall_owned_traction(
 #[cfg(test)]
 mod algebra_tests {
     use super::*;
+    #[test]
+    fn wall_derivative_from_unequal_cell_averages_is_quadratic_exact() {
+        for (h1, h2) in [(0.25, 0.5), (0.25, 0.75), (0.5, 0.75)] {
+            // u(s)=a*s+b*s^2. Multiples of three keep these dyadic averages exact.
+            for (a, b) in [(3., 0.), (0., 3.), (-6., 9.)] {
+                let v1 = a * h1 / 2. + (b / 3.) * h1 * h1;
+                let v2 = a * (h1 + h2) / 2. + (b / 3.) * (h1 * h1 + h1 * h2 + h2 * h2);
+                let (d, interval) =
+                    two_cell_average_wall_derivative(v1, v2, 1.25, 1.25 - h1, 1.25 - h2).unwrap();
+                assert!((d - a).abs() <= 4e-14 * a.abs().max(1.));
+                assert!(interval.contains(a));
+            }
+        }
+    }
+    #[test]
+    fn cubic_average_remainder_and_invalid_plane_order_are_visible() {
+        // u(s)=s^3, exact wall derivative0; H1=1/4,H2=1/2.
+        // The reconstruction error is -H1*H2/2=-1/16, not silently zero.
+        let (d, interval) =
+            two_cell_average_wall_derivative(1. / 256., 15. / 256., 1., 0.75, 0.5).unwrap();
+        assert_eq!(d, -1. / 16.);
+        assert!(interval.contains(-1. / 16.));
+        assert!(!interval.contains(0.));
+        for (wall, p1, p2) in [(1., 1., 0.5), (1., 0.5, 0.75), (1., 0.5, 0.5)] {
+            assert!(two_cell_average_wall_derivative(0., 0., wall, p1, p2).is_err());
+        }
+    }
     #[test]
     fn unrelated_synthetic_spd_ldlt_and_refusals() {
         let mut factor = [0.; 4];

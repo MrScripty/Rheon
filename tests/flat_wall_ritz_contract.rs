@@ -231,6 +231,146 @@ fn predicted_coarse_p1_and_normal_only_p2_torque_failures_are_preserved() {
     }
 }
 #[test]
+fn cell_average_tangential_option_is_owned_bounded_and_preserves_default() {
+    for n in [6, 9, 12] {
+        let g = geometry(n);
+        let plan = FlatWallRitzPlan::new(&g, FLAT_WALL_RITZ_ENVELOPE).unwrap();
+        let q: Vec<f64> = (0..plan.columns().len())
+            .map(|i| (i as f64 + 1.) / 64.)
+            .collect();
+        let mut v = buffers(&g);
+        let [x, y, z] = &mut v;
+        plan.apply_flux_curl(&q, [x, y, z]).unwrap();
+        let s = supplied(&g, &v);
+        for normal in [
+            FlatWallNormalTraction::FirstRowP1,
+            FlatWallNormalTraction::TwoPlaneP2,
+        ] {
+            let old = flat_wall_owned_traction(&s, normal, |_, _| false).unwrap();
+            let same = flat_wall_owned_traction_reconstructed(
+                &s,
+                FlatWallTangentialTraction::FirstCenterP1,
+                normal,
+                |_, _| false,
+            )
+            .unwrap();
+            assert_eq!(old, same);
+            let avg = flat_wall_owned_traction_reconstructed(
+                &s,
+                FlatWallTangentialTraction::TwoCellAverageP2,
+                normal,
+                |_, _| false,
+            )
+            .unwrap();
+            assert_eq!(&old.force[1..], &avg.force[1..]);
+            assert_eq!(old.torque[0], avg.torque[0]);
+            assert_eq!(old.geometric_wall_area, avg.geometric_wall_area);
+            assert_eq!(old.tangential_basis_area, avg.tangential_basis_area);
+            assert_eq!(
+                old.energy_sector_effective_area,
+                avg.energy_sector_effective_area
+            );
+            for a in 0..3 {
+                assert!(avg.arithmetic_force[a].contains(avg.force[a]));
+                assert!(avg.arithmetic_torque[a].contains(avg.torque[a]));
+            }
+            assert!(
+                flat_wall_owned_traction_reconstructed(
+                    &s,
+                    FlatWallTangentialTraction::TwoCellAverageP2,
+                    normal,
+                    |_, _| true
+                )
+                .is_err()
+            );
+        }
+        assert_eq!(s.qualification(), ObstacleStateQualification::Unqualified);
+        assert!(!s.pressure_available());
+        assert_eq!(s.velocity(), [&v[0][..], &v[1][..], &v[2][..]]);
+    }
+}
+#[test]
+fn optional_retained_field_observation_reads_velocities_without_solving() {
+    // The ordinary test suite needs no archived campaign. Qualification sets
+    // both paths explicitly and hashes every retained input before/afterward.
+    let Ok(directory) = std::env::var("RHEON_RETAINED_FLAT_WALL") else {
+        return;
+    };
+    let output = std::env::var("RHEON_FLAT_WALL_OBSERVATION_OUTPUT")
+        .expect("retained test requires a fresh external CSV output");
+    use std::io::{Read, Write};
+    let path = std::path::Path::new(&output);
+    assert!(!path.starts_with(env!("CARGO_MANIFEST_DIR")));
+    let mut csv = std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(path)
+        .unwrap();
+    fn number(line: &str, key: &str) -> f64 {
+        line.split(&format!("\"{key}\":"))
+            .nth(1)
+            .unwrap()
+            .split([',', '}'])
+            .next()
+            .unwrap()
+            .parse()
+            .unwrap()
+    }
+    for n in [6, 9, 12] {
+        let g = geometry(n);
+        let mut v = buffers(&g);
+        let file = std::fs::File::open(
+            std::path::Path::new(&directory).join(format!("n{n}/records.jsonl")),
+        )
+        .unwrap();
+        assert!(file.metadata().unwrap().len() <= 1 << 20);
+        let mut text = String::new();
+        file.take((1 << 20) + 1).read_to_string(&mut text).unwrap();
+        assert!(text.len() <= 1 << 20);
+        let header = text.lines().next().unwrap();
+        assert!(header.contains("\"mode\":\"numerical_reduced_ritz_solve\""));
+        assert!(header.contains("\"head\":\"3f7d1ce7b39d1f63cba8385e2b0ebb46953d00da\""));
+        assert_eq!(number(header, "n"), n as f64);
+        let mut observed = std::collections::BTreeSet::new();
+        for line in text
+            .lines()
+            .filter(|line| line.starts_with("{\"kind\":\"velocity\""))
+        {
+            assert!(line.len() <= 8192);
+            let a = number(line, "component") as usize;
+            let face = number(line, "face") as usize;
+            assert!(a < 3 && face < v[a].len() && observed.insert((a, face)));
+            let value = number(line, "value");
+            assert!(value.is_finite());
+            v[a][face] = value;
+        }
+        assert!(!observed.is_empty());
+        let s = supplied(&g, &v);
+        for normal in [
+            FlatWallNormalTraction::FirstRowP1,
+            FlatWallNormalTraction::TwoPlaneP2,
+        ] {
+            let w = flat_wall_owned_traction_reconstructed(
+                &s,
+                FlatWallTangentialTraction::TwoCellAverageP2,
+                normal,
+                |_, _| false,
+            )
+            .unwrap();
+            write!(csv, "{n},{normal:?}").unwrap();
+            for value in w.force.into_iter().chain(w.torque) {
+                write!(csv, ",{value:?}").unwrap();
+            }
+            for interval in w.arithmetic_force.into_iter().chain(w.arithmetic_torque) {
+                write!(csv, ",{:?},{:?}", interval.lower, interval.upper).unwrap();
+            }
+            writeln!(csv).unwrap();
+        }
+        assert_eq!(s.qualification(), ObstacleStateQualification::Unqualified);
+    }
+    assert!(csv.metadata().unwrap().len() <= 65536);
+}
+#[test]
 fn analytic_polynomial_dual_integration_and_stored_volume_are_distinct() {
     let g = geometry(6);
     let force = FlatWallPolynomialForce::new(
