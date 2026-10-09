@@ -1,5 +1,11 @@
 # Requirements map and the next solid-fluid geometry contract
 
+For the source-frozen 2026-10-08 capability reconciliation and independently
+reviewed next-feature choice, see [the current physics roadmap](next-physics-roadmap-20261008.md).
+The PR24 map below is historical: its mesh-traction and rigid-load gaps have
+since acquired bounded implementations. It must not be used as the current
+capability checklist.
+
 This map describes accepted main, the unmerged PR22–24 stack and the bounded static-obstacle geometry feature. The new
 native wall/force sequence is qualified within its fixed-column model; the
 broader liquid capability is incomplete. Source links below freeze the inspected
@@ -42,3 +48,32 @@ come after their coefficient/interface contracts exist. Moving/two-way solids
 add swept geometry and reaction/torque obligations. This sequence connects the
 remaining mesh, force, viscosity, density and adhesion requirements without
 claiming capstone completeness.
+
+## Isolated aligned-box integration experiment
+
+The [newly reconstructed aligned strain](reconstructed-aligned-strain.md) supplies
+three normal and three engineering-shear row families on a retained, padded,
+exactly grid-aligned internal box. Its [live laboratory](aligned-strain-laboratory.md)
+shows finite actions and force work without advancing time. The next smallest
+integration is the [experimental aligned Stokes substep](experimental-aligned-stokes.md):
+an explicit unforced viscosity proposal followed by pressure on that same
+constant-density, sealed/free-slip outer and stationary/no-slip obstacle domain.
+It lives outside the production library and requires explicit opt-in.
+
+An outward bound, both actual energy changes, per-face momentum defects and
+all wet-cell fluxes govern acceptance. The rounded pressure coefficient is
+qualified against the stored-mass reference; no rounded product identity is
+assumed. Sound interval arithmetic and the documented default floating-point
+environment are explicit premises. Independent rational comparisons and
+conditional Lean statements qualify this bounded transaction, not general
+liquid transport or PDE convergence. Unsupported arithmetic or unresolved
+inequalities refuse the complete caller update.
+
+The separate [triangle-mesh traction reducer](triangle-mesh-traction.md) now
+integrates caller-supplied P1 surface pressure/traction into physical force,
+torque and consistent corner loads, with rigid virtual-work diagnostics.
+It uses the retained triangle geometry, including oblique facets; it supplies
+neither a fluid pressure interpolation nor a matched fluid reaction or body step.
+
+General embedded geometry, moving/free interfaces, forcing, variable material,
+capillarity and two-way solid coupling still require their own contracts.

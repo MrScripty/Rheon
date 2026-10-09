@@ -35,6 +35,11 @@ Use `default-features = false` for a standard-library-only library consumer.
 
 ## Explicit body forces
 
+For caller-supplied loads on retained collision meshes, the separate
+[`TriangleMeshLoad` operator](docs/research-book/implementation/triangle-mesh-traction.md)
+integrates varying corner pressure or traction into physical force, torque and
+consistent corner forces. It does not advance a body or couple to fluid pressure.
+
 The library's `step_with_forces` adds acceleration or force density in all three
 axes, with optional box support and force-stage work diagnostics. See the
 [book implementation addendum](docs/research-book/implementation/explicit-forces.md)

@@ -26,3 +26,9 @@ rheon-comparisons/
 
 # Accidental local aligned-strain receipts; generators require external paths.
 /evidence/reconstructed-aligned-strain/
+# Accidental local bounded sphere interval receipts; generators require external paths.
+/evidence/bounded-sphere-interval/
+# Accidental local bounded Coulomb interval receipts; generators require external paths.
+/evidence/bounded-coulomb-sphere-interval/
+# Accidental local stationary viscous wrench receipts; generators require external paths.
+/evidence/aligned-viscous-boundary-wrench/
