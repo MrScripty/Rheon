@@ -147,3 +147,5 @@ pub use aligned_strain::{
     AlignedStrain, AlignedStrainBoundary, AlignedStrainError, AlignedStrainFace,
     AlignedStrainLedger, AlignedStrainRow, AlignedStrainTerm,
 };
+mod dense3d_sequence;
+pub use dense3d_sequence::{Dense3dError, Dense3dLimits, Dense3dSequence, write_dense3d_frame};
