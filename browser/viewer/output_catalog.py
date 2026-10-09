@@ -37,9 +37,25 @@ def decode(raw):
     return json.loads(raw.decode('utf-8'),object_pairs_hook=unique,
         parse_constant=lambda value: (_ for _ in ()).throw(ValueError('Nonfinite JSON')))
 
+def open_directory(path):
+    """Walk from the filesystem root with no-follow directory descriptors.
+    Leaf O_NOFOLLOW alone would still follow a swapped ancestor directory.
+    """
+    path=Path(os.path.abspath(path))
+    fd=os.open(path.anchor,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+    try:
+        for part in path.parts[1:]:
+            next_fd=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=fd)
+            os.close(fd);fd=next_fd
+        return fd
+    except BaseException:
+        os.close(fd);raise
+
 def read(path, limit):
     # Never follow a producer-controlled link; read only bounded regular files.
-    fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+    path=Path(path);parent=open_directory(path.parent)
+    try:fd=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent)
+    finally:os.close(parent)
     try:
         before=os.fstat(fd); require(stat.S_ISREG(before.st_mode), 'Not a regular output file')
         require(0<before.st_size<=limit, 'Output file exceeds its byte limit or is empty')
@@ -55,23 +71,29 @@ def discover(roots):
     for alias,root in roots:
         require(NAME.fullmatch(alias) and alias not in aliases, 'Invalid or duplicate producer name');aliases.add(alias)
         root=Path(root); require(not root.is_symlink() and root.is_dir(), 'Producer root must be a regular directory')
-        root=root.resolve(); pending=[(root,alias)];root_names=[]
+        root=Path(os.path.abspath(root)); pending=[(root,alias)];root_names=[]
         # The existing producers put packets at the root or one child level.
-        with os.scandir(root) as scan:
-            for item in scan:
-                count+=1;require(count<=LIMITS['files'], 'Discovery exceeds 512 directory entries')
-                root_names.append(item.name)
-                if item.is_dir(follow_symlinks=False) and not item.name.startswith('.'):
-                    pending.append((Path(item.path),alias+'/'+item.name))
+        root_fd=open_directory(root)
+        try:
+            with os.scandir(root_fd) as scan:
+                for item in scan:
+                    count+=1;require(count<=LIMITS['files'], 'Discovery exceeds 512 directory entries')
+                    root_names.append(item.name)
+                    if item.is_dir(follow_symlinks=False) and not item.name.startswith('.'):
+                        pending.append((root/item.name,alias+'/'+item.name))
+        finally:os.close(root_fd)
         for directory,label in sorted(pending,key=lambda pair:pair[1]):
             require(len(label)<=240, 'Producer-relative label too long')
             names=root_names
             if directory!=root:
                 names=[]
-                with os.scandir(directory) as scan:
-                    for item in scan:
-                        count+=1;require(count<=LIMITS['files'], 'Discovery exceeds 512 directory entries')
-                        names.append(item.name)
+                directory_fd=open_directory(directory)
+                try:
+                    with os.scandir(directory_fd) as scan:
+                        for item in scan:
+                            count+=1;require(count<=LIMITS['files'], 'Discovery exceeds 512 directory entries')
+                            names.append(item.name)
+                finally:os.close(directory_fd)
             directories.append((directory,label,root,frozenset(names)))
             require(len(directories)<=LIMITS['directories'], 'Discovery exceeds 64 directories')
     return directories
@@ -109,6 +131,10 @@ def build_catalog(roots):
         aggregate=receipts.get(root)
         if directory!=root and aggregate and aggregate[0] is None:
             add(label,'failed','Parent producer receipt is unavailable');continue
+        if directory!=root and aggregate and aggregate[0]:
+            parent=aggregate[0]
+            if parent.get('failure') or parent.get('qualified') is False or parent.get('source_clean') is False:
+                add(label,'failed' if parent.get('failure') or parent.get('source_clean') is False else 'incomplete','Producer pipeline did not complete',provenance=provenance);continue
         if directory!=root and aggregate and aggregate[0] and 'binaries' in aggregate[0]:
             parent,parent_raw,parent_ref=aggregate
             provenance['pipeline_receipt']=parent_ref

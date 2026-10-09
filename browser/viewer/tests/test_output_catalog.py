@@ -33,6 +33,20 @@ class Catalog(unittest.TestCase):
         child=self.producer/'oracle-debug';self.flow(child)
         (self.producer/'qualification.json').write_text(json.dumps({'qualified':False,'source_clean':True,'binaries':{},'failure':'pipeline failed','source_head':HEAD}))
         self.publish();self.assertTrue(all(e['state']=='failed' for e in self.entries()))
+    def test_all_parent_failure_markers_block_completed_children(self):
+        child=self.producer/'packet';self.flow(child)
+        for parent in [{'qualified':False,'failure':'failed without binaries'},
+                       {'qualified':True,'source_clean':True,'binaries':{},'failure':'contradictory producer failure'}]:
+            (self.producer/'qualification.json').write_text(json.dumps(parent))
+            self.publish();self.assertTrue(all(e['state']=='failed' and 'record' not in e for e in self.entries()))
+    def test_directory_swap_after_discovery_never_reads_outside_root(self):
+        child=self.producer/'packet';self.flow(child);outside=self.root/'outside';self.flow(outside)
+        real=catalog.discover
+        def swap(roots):
+            result=real(roots);child.rename(self.producer/'old-packet');child.symlink_to(outside,target_is_directory=True);return result
+        with patch('output_catalog.discover',side_effect=swap):self.publish()
+        self.assertTrue(all(e['state']=='failed' and 'record' not in e for e in self.entries()))
+        self.assertEqual(list((self.output/'blobs').iterdir()),[])
     def test_receipt_rewrite_during_discovery_preserves_previous_catalog(self):
         self.flow();self.publish();old=(self.output/'catalog.json').read_bytes();real=catalog.read
         def rewrite(path,limit):
