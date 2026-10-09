@@ -33,6 +33,17 @@ class Catalog(unittest.TestCase):
         child=self.producer/'oracle-debug';self.flow(child)
         (self.producer/'qualification.json').write_text(json.dumps({'qualified':False,'source_clean':True,'binaries':{},'failure':'pipeline failed','source_head':HEAD}))
         self.publish();self.assertTrue(all(e['state']=='failed' for e in self.entries()))
+    def test_receipt_rewrite_during_discovery_preserves_previous_catalog(self):
+        self.flow();self.publish();old=(self.output/'catalog.json').read_bytes();real=catalog.read
+        def rewrite(path,limit):
+            raw=real(path,limit)
+            if Path(path).name=='records.json':
+                changed=json.loads((self.producer/'qualification.json').read_text());changed['failure']='producer changed during read'
+                (self.producer/'qualification.json').write_text(json.dumps(changed))
+            return raw
+        with patch('output_catalog.read',side_effect=rewrite):
+            with self.assertRaisesRegex(ValueError,'changed during discovery'):self.publish()
+        self.assertEqual((self.output/'catalog.json').read_bytes(),old)
     def test_rigid_receipt_fixture_identity_and_duplicate_roster_refuse(self):
         raw=b'{"initial":{},"steps":[]}';digest=hashlib.sha256(raw).hexdigest();(self.producer/'saved.stdout.json').write_bytes(raw)
         receipt={'source_head':HEAD,'qualified':True,'fixtures':[{'name':'saved','stdout_sha256':digest}],'evidence_sha256':{'saved.stdout.json':digest}}

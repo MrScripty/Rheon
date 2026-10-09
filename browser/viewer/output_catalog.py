@@ -55,20 +55,24 @@ def discover(roots):
     for alias,root in roots:
         require(NAME.fullmatch(alias) and alias not in aliases, 'Invalid or duplicate producer name');aliases.add(alias)
         root=Path(root); require(not root.is_symlink() and root.is_dir(), 'Producer root must be a regular directory')
-        root=root.resolve(); pending=[(root,alias)]
+        root=root.resolve(); pending=[(root,alias)];root_names=[]
         # The existing producers put packets at the root or one child level.
         with os.scandir(root) as scan:
             for item in scan:
                 count+=1;require(count<=LIMITS['files'], 'Discovery exceeds 512 directory entries')
+                root_names.append(item.name)
                 if item.is_dir(follow_symlinks=False) and not item.name.startswith('.'):
                     pending.append((Path(item.path),alias+'/'+item.name))
         for directory,label in sorted(pending,key=lambda pair:pair[1]):
             require(len(label)<=240, 'Producer-relative label too long')
+            names=root_names
             if directory!=root:
+                names=[]
                 with os.scandir(directory) as scan:
-                    for _ in scan:
+                    for item in scan:
                         count+=1;require(count<=LIMITS['files'], 'Discovery exceeds 512 directory entries')
-            directories.append((directory,label,root))
+                        names.append(item.name)
+            directories.append((directory,label,root,frozenset(names)))
             require(len(directories)<=LIMITS['directories'], 'Discovery exceeds 64 directories')
     return directories
 
@@ -81,8 +85,9 @@ def build_catalog(roots):
     def store(raw):
         digest=sha(raw);blobs[digest]=raw;return {'sha256':digest,'bytes':len(raw)}
     # Read root receipts before children so a failed aggregate cannot look complete.
-    for directory,label,root in directories:
+    for directory,label,root,names in directories:
         path=directory/'qualification.json'
+        if 'qualification.json' not in names:continue
         if not path.exists() and not path.is_symlink(): continue
         try:
             raw=read(path,min(LIMITS['receipt_bytes'],LIMITS['receipt_total']-receipt_total));receipt_total+=len(raw)
@@ -90,11 +95,10 @@ def build_catalog(roots):
             receipts[directory]=(receipt,raw,store(raw))
         except (OSError,ValueError,UnicodeError) as error:
             receipts[directory]=(None,None,None);add(label,'failed','Unreadable producer receipt: '+str(error)[:200])
-    for directory,label,root in directories:
+    for directory,label,root,names in directories:
         item=receipts.get(directory)
         if item is None:
-            with os.scandir(directory) as scan:
-                candidate=any(p.name in ('records.json','results.json') or p.name.endswith('.stdout.json') for p in scan)
+            candidate=any(name in ('records.json','results.json') or name.endswith('.stdout.json') for name in names)
             if candidate:add(label,'incomplete','Recorded files exist without a producer completion receipt')
             continue
         receipt,raw,ref=item
@@ -154,8 +158,10 @@ def build_catalog(roots):
                 add(display,'completed','Recorded output; visualization does not requalify physics',format=format_name,record=store(content),provenance=provenance)
             except (OSError,ValueError,UnicodeError) as error:
                 add(display,'failed',str(error)[:240],provenance=provenance)
-        # Detect a producer rewriting its completion marker during discovery.
-        require(read(directory/'qualification.json',LIMITS['receipt_bytes'])==raw, 'Producer receipt changed during discovery')
+    # Includes aggregate and unsupported receipts, even when their branch above
+    # did not read a recording. Publication refuses a mixed completion snapshot.
+    for directory,(receipt,raw,ref) in receipts.items():
+        if raw is not None:require(read(directory/'qualification.json',LIMITS['receipt_bytes'])==raw, 'Producer receipt changed during discovery')
     entries.sort(key=lambda entry:entry['label'])
     catalog={'schema':SCHEMA,'entries':entries,'limits':LIMITS,'scope':'Recorded output discovery only; no running simulation or numerical qualification'}
     encoded=(json.dumps(catalog,indent=2,allow_nan=False)+'\n').encode()
