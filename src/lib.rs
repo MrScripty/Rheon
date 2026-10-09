@@ -37,6 +37,10 @@ pub use sphere_departure::{SphereDepartureKind, SphereDepartureReport};
 pub use sphere_friction_interval::*;
 pub use sphere_interval::*;
 pub use sphere_support::*;
+mod obstacle_viscous;
+pub use obstacle_viscous::{
+    ObstacleViscousBlock, ObstacleViscousError, ObstacleViscousStress, ObstacleViscousWork,
+};
 mod obstacle_gradient;
 pub use obstacle_gradient::{
     ObstacleGradientBoundary, ObstacleGradientEndpoint, ObstacleGradientError, ObstacleGradientRow,
