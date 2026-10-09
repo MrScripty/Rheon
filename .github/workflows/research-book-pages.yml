@@ -86,6 +86,8 @@ jobs:
           RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -m unittest discover -s docs/education -p test_aligned_strain_packet.py
           RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -O -m unittest discover -s docs/education -p test_aligned_strain_packet.py
       - name: Package pinned authoring and discover existing completed flow output
+        env:
+          RUSTUP_TOOLCHAIN: 1.92.0
         run: |
           git clone --no-checkout https://github.com/MrScripty/Kenoma.git "$RHEON_KENOMA"
           git -C "$RHEON_KENOMA" checkout --detach 3e7ff0887d01a1f4c440d3808770ea3eac7ec8d4
