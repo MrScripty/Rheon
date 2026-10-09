@@ -127,8 +127,9 @@ python3 browser/viewer/output_catalog.py \
 ```
 
 This inspects at most eight explicit roots and one child level, 64 directories,
-512 directory entries and 128 catalog entries. Receipt reads are limited to
-2 MiB each and 32 MiB total; recordings to 8 MiB each and 32 MiB total. The
+512 directory entries and 128 catalog entries. Admitted receipts are limited to
+2 MiB each and 32 MiB total; recordings to 8 MiB each and 32 MiB total.
+Completion receipts are reread once before publication to reject mixed snapshots. The
 catalog is capped at 256 KiB. Missing receipts/files remain incomplete; failed
 producers, changed bytes and invalid inputs are unavailable. A failed enclosing
 rigid-motion pipeline blocks its completed child oracle packets. This does not
