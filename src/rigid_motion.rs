@@ -213,7 +213,23 @@ impl SphericalRigidMotion {
         expected_surface: crate::SurfaceStamp,
         loading: SurfaceLoading<'_>,
         h: f64,
+        cancelled: impl FnMut(RigidMotionStage, usize) -> bool,
+    ) -> Result<RigidMotionReport, RigidMotionError> {
+        self.advance_finalized(expected, expected_surface, loading, h, cancelled, Ok)
+    }
+
+    // A bounded contact successor may validate and replace the local coast
+    // velocity before the same single publication. Public advance uses identity.
+    // The returned report records free coast; a contact caller reports its own
+    // actual post-impact snapshot separately. No partial coast is published.
+    pub(crate) fn advance_finalized(
+        &mut self,
+        expected: RigidStamp,
+        expected_surface: crate::SurfaceStamp,
+        loading: SurfaceLoading<'_>,
+        h: f64,
         mut cancelled: impl FnMut(RigidMotionStage, usize) -> bool,
+        finalize: impl FnOnce(RigidSnapshot) -> Result<RigidSnapshot, RigidMotionError>,
     ) -> Result<RigidMotionReport, RigidMotionError> {
         use RigidMotionError as E;
         let before = self.snapshot();
@@ -396,6 +412,7 @@ impl SphericalRigidMotion {
             translation_defect_m,
             peak_payload_bytes: peak,
         };
+        let body = FrozenRigidBody::new(finalize(state)?).map_err(E::Impulse)?;
         check(RigidMotionStage::Publication, 0)?;
         self.body = body;
         self.world = world;
