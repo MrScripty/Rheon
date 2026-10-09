@@ -1,6 +1,6 @@
 //! Bounded continuation of isolated frictionless sphere/static-facet impacts.
 //! Each segment publishes atomically; a later stop preserves the accepted prefix.
-use crate::sphere_departure::QualifiedDeparture;
+use crate::sphere_event_loop::{IntervalOutcomeStatus, admit_interval, interval_loop};
 use crate::*;
 use std::cell::RefCell;
 
@@ -85,132 +85,74 @@ impl SphericalRigidMotion {
         cancelled: impl FnMut(SphereIntervalStage, usize, usize) -> bool,
         mut accepted: impl FnMut(usize, &SphericalRigidMotion, &SphereIntervalSegment),
     ) -> Result<SphereIntervalReport, SphereIntervalAdmissionError> {
-        if !request.interval_s.is_finite()
-            || request.interval_s <= 0.
-            || !request.restitution.is_finite()
-            || !(0. ..=1.).contains(&request.restitution)
-            || request.max_impacts > MAX_SPHERE_INTERVAL_IMPACTS
-        {
-            return Err(SphereIntervalAdmissionError::InvalidRequest);
-        }
-        if records.len() < request.max_impacts + 1 {
-            return Err(SphereIntervalAdmissionError::RecordCapacity);
-        }
-        StaticSphereSweep::new(
-            self,
-            request.expected_body,
-            request.expected_moving,
-            surface,
-            request.expected_static,
-            request.radius_m,
-            request.settings,
-        )
-        .map_err(SphereIntervalAdmissionError::Contact)?;
-        let before = self.snapshot();
+        admit_interval(self, request, surface, records.len())?;
         let callback = RefCell::new(cancelled);
-        let mut remaining = request.interval_s;
-        let mut segments = 0;
-        let mut impacts = 0;
-        let mut previous_hit = None;
-        let status = loop {
-            if remaining == 0. {
-                break SphereIntervalStatus::Complete;
+        let outcome = interval_loop(
+            self,
+            request,
+            surface,
+            records.len(),
+            |index| (callback.borrow_mut())(SphereIntervalStage::BetweenSegments, index, 0),
+            |index, i| {
+                (callback.borrow_mut())(
+                    SphereIntervalStage::Contact(SphereContactStage::Query),
+                    index,
+                    i,
+                )
+            },
+            |owner, current, hit, departure, remaining, index| {
+                owner.coast_static_sphere_selected(
+                    current.body.stamp,
+                    current.body.surface,
+                    surface,
+                    request.radius_m,
+                    request.restitution,
+                    remaining,
+                    request.settings,
+                    hit,
+                    departure,
+                    |stage, i| {
+                        (callback.borrow_mut())(SphereIntervalStage::Contact(stage), index, i)
+                    },
+                )
+            },
+            |index, owner, contact, departure| {
+                let record = SphereIntervalSegment { contact, departure };
+                records[index] = Some(record);
+                accepted(index, owner, &record);
+            },
+        );
+        let status = match outcome.status {
+            IntervalOutcomeStatus::Complete => SphereIntervalStatus::Complete,
+            IntervalOutcomeStatus::ImpactBudgetExhausted => {
+                SphereIntervalStatus::ImpactBudgetExhausted
             }
-            if (callback.borrow_mut())(SphereIntervalStage::BetweenSegments, segments, 0) {
-                break SphereIntervalStatus::Cancelled;
-            }
-            let departure = if let Some(hit) = previous_hit {
-                match QualifiedDeparture::new(self, surface, request.radius_m, hit) {
-                    Ok(d) => Some(d),
-                    Err(e) => break SphereIntervalStatus::Stopped(e),
-                }
-            } else {
-                None
-            };
-            let current = self.snapshot();
-            let query = StaticSphereSweep::new(
-                self,
-                current.body.stamp,
-                current.body.surface,
-                surface,
-                request.expected_static,
-                request.radius_m,
-                request.settings,
-            );
-            let hit = match query.and_then(|q| {
-                q.first_contact_with_departure(remaining, departure.as_ref(), |i| {
-                    (callback.borrow_mut())(
-                        SphereIntervalStage::Contact(SphereContactStage::Query),
-                        segments,
-                        i,
-                    )
-                })
-            }) {
-                Ok(hit) => hit,
-                Err(e) => break SphereIntervalStatus::Stopped(e),
-            };
-            if hit.is_some() && impacts == request.max_impacts {
-                break SphereIntervalStatus::ImpactBudgetExhausted;
-            }
-            let duration = hit.map_or(remaining, |h| h.requested_event_dt_s);
-            let next_remaining = remaining - duration;
-            if !duration.is_finite()
-                || duration <= 0.
-                || !next_remaining.is_finite()
-                || next_remaining < 0.
-                || next_remaining >= remaining
-            {
-                break SphereIntervalStatus::TimeProgressStalled;
-            }
-            // Record capacity and control arithmetic are settled before publication.
-            let record_slot = &mut records[segments];
-            let contact = match self.coast_static_sphere_selected(
-                current.body.stamp,
-                current.body.surface,
-                surface,
-                request.radius_m,
-                request.restitution,
-                remaining,
-                request.settings,
-                hit,
-                departure.as_ref(),
-                |stage, i| {
-                    (callback.borrow_mut())(SphereIntervalStage::Contact(stage), segments, i)
-                },
-            ) {
-                Ok(r) => r,
-                Err(e) => break SphereIntervalStatus::Stopped(e),
-            };
-            let record = SphereIntervalSegment {
-                contact,
-                departure: departure.map(|d| d.report),
-            };
-            *record_slot = Some(record);
-            remaining = next_remaining;
-            impacts += usize::from(hit.is_some());
-            previous_hit = hit;
-            segments += 1;
-            accepted(segments - 1, self, &record);
+            IntervalOutcomeStatus::TimeProgressStalled => SphereIntervalStatus::TimeProgressStalled,
+            IntervalOutcomeStatus::Cancelled => SphereIntervalStatus::Cancelled,
+            IntervalOutcomeStatus::Stopped(e) => SphereIntervalStatus::Stopped(e),
         };
-        let after = self.snapshot();
-        let consumed = request.interval_s - remaining;
         Ok(SphereIntervalReport {
-            before,
-            after,
+            before: outcome.before,
+            after: outcome.after,
             requested_interval_s: request.interval_s,
-            remaining_interval_s: remaining,
-            consumed_interval_s: consumed,
-            accepted_segments: segments,
-            accepted_impacts: impacts,
+            remaining_interval_s: outcome.remaining,
+            consumed_interval_s: outcome.consumed,
+            accepted_segments: outcome.segments,
+            accepted_impacts: outcome.impacts,
             status,
-            accounting: accounting(before, after, consumed, &records[..segments]),
+            accounting: accounting(
+                outcome.before,
+                outcome.after,
+                outcome.consumed,
+                &records[..outcome.segments],
+            ),
         })
     }
 }
-fn finite(value: f64) -> Option<f64> {
+pub(crate) fn finite(value: f64) -> Option<f64> {
     value.is_finite().then_some(value)
 }
-fn kinetic(state: RigidSnapshot) -> Option<f64> {
+pub(crate) fn kinetic(state: RigidSnapshot) -> Option<f64> {
     let mut result = 0.;
     for i in 0..3 {
         result = finite(

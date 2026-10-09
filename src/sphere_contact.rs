@@ -420,7 +420,7 @@ impl SphericalRigidMotion {
     }
 }
 
-fn respond(
+pub(crate) fn respond(
     state: RigidSnapshot,
     hit: SphereContactHit,
     radius: f64,
@@ -706,48 +706,48 @@ impl Local {
 fn positive(x: f64) -> bool {
     x.is_finite() && x > 0.
 }
-fn checked(x: f64) -> Result<f64, SphereContactError> {
+pub(crate) fn checked(x: f64) -> Result<f64, SphereContactError> {
     x.is_finite()
         .then_some(x)
         .ok_or(SphereContactError::ArithmeticFailure)
 }
-fn product(a: f64, b: f64) -> Result<f64, SphereContactError> {
+pub(crate) fn product(a: f64, b: f64) -> Result<f64, SphereContactError> {
     mul(a, b).ok_or(SphereContactError::ArithmeticFailure)
 }
-fn quotient(a: f64, b: f64) -> Result<f64, SphereContactError> {
+pub(crate) fn quotient(a: f64, b: f64) -> Result<f64, SphereContactError> {
     div(a, b).ok_or(SphereContactError::ArithmeticFailure)
 }
-fn sum(a: [f64; 3], b: [f64; 3]) -> Result<[f64; 3], SphereContactError> {
+pub(crate) fn sum(a: [f64; 3], b: [f64; 3]) -> Result<[f64; 3], SphereContactError> {
     let mut c = [0.; 3];
     for i in 0..3 {
         c[i] = add(a[i], b[i]).ok_or(SphereContactError::ArithmeticFailure)?;
     }
     Ok(c)
 }
-fn difference(a: [f64; 3], b: [f64; 3]) -> Result<[f64; 3], SphereContactError> {
+pub(crate) fn difference(a: [f64; 3], b: [f64; 3]) -> Result<[f64; 3], SphereContactError> {
     sum(a, b.map(|x| -x))
 }
-fn scale(s: f64, a: [f64; 3]) -> Result<[f64; 3], SphereContactError> {
+pub(crate) fn scale(s: f64, a: [f64; 3]) -> Result<[f64; 3], SphereContactError> {
     let mut c = [0.; 3];
     for i in 0..3 {
         c[i] = product(s, a[i])?;
     }
     Ok(c)
 }
-fn dot(a: [f64; 3], b: [f64; 3]) -> Result<f64, SphereContactError> {
+pub(crate) fn dot(a: [f64; 3], b: [f64; 3]) -> Result<f64, SphereContactError> {
     checked(checked(product(a[0], b[0])? + product(a[1], b[1])?)? + product(a[2], b[2])?)
 }
-fn norm(a: [f64; 3]) -> Result<f64, SphereContactError> {
+pub(crate) fn norm(a: [f64; 3]) -> Result<f64, SphereContactError> {
     checked(a[0].hypot(a[1]).hypot(a[2]))
 }
-fn cross(a: [f64; 3], b: [f64; 3]) -> Result<[f64; 3], SphereContactError> {
+pub(crate) fn cross(a: [f64; 3], b: [f64; 3]) -> Result<[f64; 3], SphereContactError> {
     Ok([
         checked(product(a[1], b[2])? - product(a[2], b[1])?)?,
         checked(product(a[2], b[0])? - product(a[0], b[2])?)?,
         checked(product(a[0], b[1])? - product(a[1], b[0])?)?,
     ])
 }
-fn kinetic(state: RigidSnapshot) -> Result<f64, SphereContactError> {
+pub(crate) fn kinetic(state: RigidSnapshot) -> Result<f64, SphereContactError> {
     let mut energy = 0.;
     for i in 0..3 {
         energy = checked(

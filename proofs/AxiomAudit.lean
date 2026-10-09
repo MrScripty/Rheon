@@ -6,6 +6,70 @@ run_cmd do
   let env ← getEnv
   let allowed : Array Name := #[`propext, `Classical.choice, `Quot.sound]
   let expected : Array Name := #[
+    `Rheon.ViscousBoundaryWrench.Twist,
+    `Rheon.ViscousBoundaryWrench.strain,
+    `Rheon.ViscousBoundaryWrench.transposeForce,
+    `Rheon.ViscousBoundaryWrench.dissipation,
+    `Rheon.ViscousBoundaryWrench.transpose_force_work,
+    `Rheon.ViscousBoundaryWrench.transpose_force_pullback,
+    `Rheon.ViscousBoundaryWrench.joint_work,
+    `Rheon.ViscousBoundaryWrench.dissipation_nonnegative,
+    `Rheon.ViscousBoundaryWrench.joint_work_nonpositive,
+    `Rheon.ViscousBoundaryWrench.stationary_strain,
+    `Rheon.ViscousBoundaryWrench.stationary_fluid_force,
+    `Rheon.ViscousBoundaryWrench.stationary_dissipation,
+    `Rheon.ViscousBoundaryWrench.zero_fluid_row_retains_lift,
+    `Rheon.ViscousBoundaryWrench.zero_fluid_row_nonzero_lift,
+    `Rheon.ViscousBoundaryWrench.concrete_zero_fluid_row_lift,
+    `Rheon.ViscousBoundaryWrench.gather_composition,
+    `Rheon.ViscousBoundaryWrench.common_rigid_reproduction,
+    `Rheon.ViscousBoundaryWrench.rigid_resultant_closure,
+    `Rheon.ViscousBoundaryWrench.zero_strain_closure,
+    `Rheon.ViscousBoundaryWrench.reference_lift_covariance,
+    `Rheon.ViscousBoundaryWrench.reference_wrench_covariance,
+    `Rheon.ViscousBoundaryWrench.flat_rotation_restoration,
+    `Rheon.ViscousBoundaryWrench.flat_normal_trace_derivative,
+    `Rheon.ViscousBoundaryWrench.flat_two_trace_rotation_restoration,
+    `Rheon.ViscousBoundaryWrench.reflected_corner_residual_shear,
+    `Rheon.ViscousBoundaryWrench.reflected_corner_common_rotation,
+    `Rheon.SphereFrictionInterval.prefixSum,
+    `Rheon.SphereFrictionInterval.conditional_coulomb_prefix,
+    `Rheon.SphereFrictionInterval.prefix_telescopes,
+    `Rheon.SphereFrictionInterval.matched_prefix_balance,
+    `Rheon.SphereFrictionInterval.matched_midpoint_work_prefix,
+    `Rheon.SphereFrictionInterval.prefix_nonincrease,
+    `Rheon.SphereFrictionInterval.every_accepted_prefix_nonincrease,
+    `Rheon.SphereFrictionInterval.sphere_offset_membership,
+    `Rheon.SphereFrictionInterval.actual_velocity_departure,
+
+    `Rheon.SphereFriction.pointVelocity,
+    `Rheon.SphereFriction.kick,
+    `Rheon.SphereFriction.spinKick,
+    `Rheon.SphereFriction.totalEnergy,
+    `Rheon.SphereFriction.contactAction,
+    `Rheon.SphereFriction.tangentObjective,
+    `Rheon.SphereFriction.positive_tangent_inverse_mass,
+    `Rheon.SphereFriction.unit_tangent_projection,
+    `Rheon.SphereFriction.point_velocity_increment,
+    `Rheon.SphereFriction.matched_linear_impulse,
+    `Rheon.SphereFriction.matched_spin_impulse,
+    `Rheon.SphereFriction.matched_world_angular_impulse,
+    `Rheon.SphereFriction.matched_kinetic_increment,
+    `Rheon.SphereFriction.matched_midpoint_work,
+    `Rheon.SphereFriction.radial_contact_action,
+    `Rheon.SphereFriction.unit_radial_tangent_action,
+    `Rheon.SphereFriction.radial_normal_point_speed,
+    `Rheon.SphereFriction.disk_magnitude_bounds,
+    `Rheon.SphereFriction.disk_magnitude_optimal,
+    `Rheon.SphereFriction.vector_disk_objective_gap,
+    `Rheon.SphereFriction.conditional_vector_disk_optimal,
+    `Rheon.SphereFriction.disk_cauchy_lower,
+    `Rheon.SphereFriction.vector_disk_optimal,
+    `Rheon.SphereFriction.conditional_tangent_multiplier,
+    `Rheon.SphereFriction.conditional_tangent_nonincrease,
+    `Rheon.SphereFriction.normal_energy_identity,
+    `Rheon.SphereFriction.conditional_split_balance,
+    `Rheon.SphereFriction.conditional_total_nonincrease,
     `Rheon.SphereContact.squared,
     `Rheon.SphereContact.normalSpeed,
     `Rheon.SphereContact.response,
@@ -214,7 +278,22 @@ run_cmd do
     `Rheon.SphereInterval.ledger,
     `Rheon.SphereInterval.ledger_sum,
     `Rheon.SphereInterval.conditional_ledger_nonincrease,
-    `Rheon.SphereInterval.completion_requires_all_time]
+    `Rheon.SphereInterval.completion_requires_all_time,
+    `Rheon.SphereSupport.reaction,
+    `Rheon.SphereSupport.reaction_nonnegative,
+    `Rheon.SphereSupport.net_normal_nonnegative,
+    `Rheon.SphereSupport.normal_complementarity,
+    `Rheon.SphereSupport.reaction_unique,
+    `Rheon.SphereSupport.normal_acceleration_nonnegative,
+    `Rheon.SphereSupport.inward_equilibrium,
+    `Rheon.SphereSupport.outward_requires_zero_support,
+    `Rheon.SphereSupport.radial_support_torque,
+    `Rheon.SphereSupport.matched_force_balance,
+    `Rheon.SphereSupport.zero_twist_support_power,
+    `Rheon.SphereSupport.balanced_kick_drift,
+    `Rheon.SphereSupport.stationary_energy_and_potential,
+    `Rheon.SphereSupport.tangent_plane_distance,
+    `Rheon.SphereSupport.stationary_facet_clearance]
   for name in expected do
     let _ ← getConstInfo name
     pure ()
@@ -225,7 +304,21 @@ run_cmd do
       | .thmInfo _ => true
       | .axiomInfo _ => true
       | _ => false
-    if name.toString.startsWith "Rheon." && (isProofOrAxiom || expected.contains name) then
+    let userName := Lean.privateToUserName name
+    let isNewWrench := userName.toString.startsWith "Rheon.ViscousBoundaryWrench."
+    let isWrenchLogical ← if isNewWrench then
+      match info with
+      | .thmInfo _ => pure true
+      | .axiomInfo _ => pure true
+      | .opaqueInfo _ => pure true
+      | .defnInfo value =>
+          if value.safety == .safe then pure true
+          else if value.type.getUsedConstants.all (env.contains ·) then
+            liftTermElabM (Lean.Meta.isProp value.type)
+          else pure false
+      | _ => pure false
+    else pure false
+    if (name.toString.startsWith "Rheon." && (isProofOrAxiom || expected.contains name)) || isWrenchLogical then
       let axioms ← Lean.collectAxioms name
       for axiomName in axioms do
         unless allowed.contains axiomName do
