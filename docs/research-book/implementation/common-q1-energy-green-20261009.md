@@ -16,7 +16,7 @@ a*mu*S * [R_i(p) + delta*(omega cross n)_i] = a*mu*S*R_i(q).
 
 The boundary reaction therefore has the sample lever q, not the wall lever p: its extra moment is `delta*n cross t`. Replacing that reaction with wall-only P1 work deletes a required derivative. This is a precise isolated-row incompatibility; it is not a proof against all richer reconstructions using the same samples.
 
-A local shared-field example makes the missing term explicit. On `0<=x<=d`, `-h/2<=y<=h/2`, use actual tangential offsets U=u_y(d,0) and normal offset N=u_x(H,0), with wall twist `(Vx,Vy,omega)`:
+A local shared-field example makes the missing term explicit. On `0<=x<=d`, `-h/2<=y<=h/2`, use actual staggered tangential endpoint samples `U_-=u_y(d,-h/2)`, `U_+=u_y(d,h/2)` and the normal center sample `N=u_x(H,0)`. Restrict this local illustration to `U_-=U_+=U`, with wall twist `(Vx,Vy,omega)` about the patch center. No off-lattice midpoint tangential sample is supplied:
 
 ```
 u_x = Vx-omega*y + (x/H)^2*(N-Vx)
@@ -25,7 +25,7 @@ gamma = (U-Vy)/d-omega
 Phi = mu*h*[4*d^3/(3*H^4)*(N-Vx)^2 + d/2*gamma^2].
 ```
 
-It has an exact common-rigid kernel and wall traction `(0,mu*gamma)`. Its weak solid reaction is `(8*mu*h*d^3/(3*H^4)*(N-Vx), mu*h*gamma, mu*h*d*gamma)`; the wall moment about the patch center is zero. In the rotational test, bulk divergence work vanishes, but lateral patch flux supplies the extra moment. The independent local symbolic lab verifies the complete volume and patch-face identity. A local gap cannot all be called a bulk-volume residual: interfaces matter.
+It has an exact common-rigid kernel and wall traction `(0,mu*gamma)`. Its weak solid reaction is `(8*mu*h*d^3/(3*H^4)*(N-Vx), mu*h*gamma, mu*h*d*gamma)`; the wall moment about the patch center is zero. In the rotational test, bulk divergence work vanishes, but lateral patch flux supplies the extra moment. The independent local symbolic lab verifies the complete identity for the general staggered endpoint case; a coordinate/reference shift and the equal-endpoint restriction yield the formulas displayed here. This local illustration is not claimed to represent the manufactured fixture or an assembled global field. A local gap cannot all be called a bulk-volume residual: interfaces matter.
 
 ## Concrete global reconstruction using existing data
 
