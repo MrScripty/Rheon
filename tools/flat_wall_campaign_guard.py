@@ -123,8 +123,11 @@ class ControllerProcess:
         self.pidfd=None;self.returncode=None
     def poll(self):
         if self.returncode is None:
-            pid,status=os.waitpid(self.pid,os.WNOHANG)
-            if pid:self.returncode=os.waitstatus_to_exitcode(status)
+            old_mask=signal.pthread_sigmask(signal.SIG_BLOCK,{signal.SIGTERM,signal.SIGINT,signal.SIGALRM})
+            try:
+                pid,status=os.waitpid(self.pid,os.WNOHANG)
+                if pid:self.returncode=os.waitstatus_to_exitcode(status)
+            finally:signal.pthread_sigmask(signal.SIG_SETMASK,old_mask)
         return self.returncode
     def wait(self,timeout):
         until=time.monotonic()+timeout
@@ -137,18 +140,29 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
     """Return receipt; command must be a fixed trusted controller, not a shell."""
     limits.validate();started=time.monotonic() if started is None else started
     end=started+limits.seconds;work_end=end-limits.cleanup
-    process=None;owned_fds={};known=set();peak=0;members_peak=0;samples=0
+    process=None;owned_fork_pid=None;owned_fork_reaped=False
+    owned_fds={};known=set();peak=0;members_peak=0;samples=0
     violation=None;returncode=None;survivors=[];unreaped=[];cleanup_errors=[]
     previous_handler=signal.getsignal(signal.SIGALRM)
     previous_cancellation={s:signal.getsignal(s) for s in (signal.SIGTERM,signal.SIGINT)}
     in_cleanup=False
     previous_timer=signal.getitimer(signal.ITIMER_REAL)
     if previous_timer[0] or previous_timer[1]:raise GuardViolation('existing alarm cannot be replaced')
+    if signal.getsignal(signal.SIGCHLD)!=signal.SIG_DFL:raise GuardViolation('SIGCHLD must use default child ownership')
+    if signal.pthread_sigmask(signal.SIG_BLOCK,set()) & {signal.SIGALRM,signal.SIGTERM,signal.SIGINT}:
+        raise GuardViolation('guard signals must be unblocked at entry')
     def kill_owned():
-        if process is not None:
-            try:os.killpg(process.pid,signal.SIGKILL)
+        if owned_fork_pid is not None:
+            try:os.killpg(owned_fork_pid,signal.SIGKILL)
             except ProcessLookupError:pass
             except OSError as error:cleanup_errors.append(str(error))
+            # No wait/reap can occur before this fallback identity is recorded.
+            # Default SIGCHLD prevents an unrelated handler from reaping it.
+            if not owned_fork_reaped and (process is None or (process.pidfd is None and process.returncode is None)):
+                try:os.kill(owned_fork_pid,signal.SIGKILL)
+                except ProcessLookupError:pass
+                except OSError as error:cleanup_errors.append(str(error))
+        if process is not None:
             if process.pidfd is not None:
                 try:signal.pidfd_send_signal(process.pidfd,signal.SIGKILL)
                 except ProcessLookupError:pass
@@ -185,14 +199,19 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
         try:
             pid=os.fork()
             if pid==0:
+                error_fd=writer
                 try:
                     for signum in (signal.SIGTERM,signal.SIGINT,signal.SIGALRM):signal.signal(signum,signal.SIG_DFL)
-                    os.close(reader);os.setsid();os.dup2(writer,1);os.dup2(writer,2)
+                    os.close(reader);os.dup2(writer,1);os.dup2(writer,2);error_fd=2
                     os.close(writer)
+                    os.setsid()
                     signal.pthread_sigmask(signal.SIG_SETMASK,old_mask)
                     os.execvpe(command[0],command,child_env)
                 except BaseException:
-                    os.write(2,b'controller exec failed\n');os._exit(127)
+                    try:os.write(error_fd,b'controller exec failed\n')
+                    except OSError:pass
+                    os._exit(127)
+            owned_fork_pid=pid
             process=ControllerProcess(pid,reader);reader=None
             try:process.pidfd=os.pidfd_open(pid)
             except ProcessLookupError:pass # already exited, poll() will reap
@@ -256,10 +275,22 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
             try:process.wait(timeout=max(.000001,min(1.,end-time.monotonic())))
             except subprocess.TimeoutExpired:violation=violation or 'controller cleanup timeout'
             if process.stdout is not None:process.stdout.close()
+            owned_fork_reaped=process.returncode is not None
+        elif owned_fork_pid is not None:
+            until=min(end,time.monotonic()+1.)
+            while True:
+                old_mask=signal.pthread_sigmask(signal.SIG_BLOCK,{signal.SIGTERM,signal.SIGINT,signal.SIGALRM})
+                try:
+                    pid,status=os.waitpid(owned_fork_pid,os.WNOHANG)
+                    if pid:owned_fork_reaped=True;returncode=os.waitstatus_to_exitcode(status)
+                finally:signal.pthread_sigmask(signal.SIG_SETMASK,old_mask)
+                if pid:break
+                if time.monotonic()>=until:violation=violation or 'raw controller cleanup timeout';break
+                time.sleep(min(.005,max(0.,until-time.monotonic())))
         if selector is not None:selector.close()
         if log is not None:log.close()
-        if process is not None:
-            group=snapshot(process.pid,known)
+        if owned_fork_pid is not None:
+            group=snapshot(owned_fork_pid,known)
             survivors=[i['pid'] for i in group.values() if i['state']!='Z']
             unreaped=[i['pid'] for i in group.values() if i['state']=='Z']
             if survivors:violation=violation or 'live descendants after bounded cleanup'
@@ -270,7 +301,7 @@ def supervise(command,out,*,limits=Limits(),started=None,env=None,prepare=None):
         if cleanup_errors:violation=violation or 'group cleanup signalling failed'
         receipt={'status':'refused' if violation else 'completed','reason':violation,
                  'controller_returncode':returncode,'aggregate_deadline_seconds':limits.seconds,
-                 'controller_pid':None if process is None else process.pid,
+                 'controller_pid':owned_fork_pid,'owned_controller_reaped':owned_fork_reaped,
                  'work_deadline_seconds':limits.seconds-limits.cleanup,'cleanup_reserve_seconds':limits.cleanup,
                  'rss_sample_threshold_bytes':limits.rss,'rss_sample_interval_seconds':limits.sample,
                  'rss_sampled_peak_bytes':peak,'rss_scope':'sum of supervisor and controller-group RSS; shared pages may count multiple times',

@@ -81,6 +81,30 @@ class GuardTests(unittest.TestCase):
         child,r,_,_=self.run_case('startup_cancel')
         self.assertNotEqual(child.returncode,0);self.assertIn('supervisor cancellation signal',r['reason'])
         self.assert_stopped(r['controller_pid'])
+    def test_raw_fork_child_is_cleaned_when_controller_constructor_fails(self):
+        child,r,_,_=self.run_case('constructor_fault')
+        self.assertNotEqual(child.returncode,0);self.assertIn('MemoryError',r['reason'])
+        self.assertTrue(r['owned_controller_reaped']);self.assert_stopped(r['controller_pid'])
+    def test_raw_fork_child_is_cleaned_when_pidfd_allocation_fails(self):
+        child,r,_,_=self.run_case('pidfd_fault')
+        self.assertNotEqual(child.returncode,0);self.assertIn('pidfd allocation failure',r['reason'])
+        self.assertTrue(r['owned_controller_reaped']);self.assert_stopped(r['controller_pid'])
+    def test_private_session_failure_text_stays_in_reserved_log(self):
+        child,r,out,_=self.run_case('setsid_fault')
+        self.assertNotEqual(child.returncode,0);self.assertEqual(child.stderr,b'')
+        self.assertIn('controller exec failed',(out/'controller.log').read_text())
+    def test_blocked_alarm_and_nondefault_child_handler_refuse_before_spawn(self):
+        old_mask=signal.pthread_sigmask(signal.SIG_BLOCK,{signal.SIGALRM})
+        try:
+            with self.assertRaisesRegex(guard.GuardViolation,'unblocked'):
+                guard.supervise(['never-run'],self.root/'blocked')
+        finally:signal.pthread_sigmask(signal.SIG_SETMASK,old_mask)
+        old_handler=signal.signal(signal.SIGCHLD,signal.SIG_IGN)
+        try:
+            with self.assertRaisesRegex(guard.GuardViolation,'SIGCHLD'):
+                guard.supervise(['never-run'],self.root/'reaped')
+        finally:signal.signal(signal.SIGCHLD,old_handler)
+        self.assertFalse((self.root/'blocked').exists());self.assertFalse((self.root/'reaped').exists())
     def cancellation(self,signum):
         out=self.root/'cancellation'
         child=subprocess.Popen([sys.executable,'-B',str(FIXTURE),'supervisor','hang',str(out),'3',str(256*1024*1024),'2'],

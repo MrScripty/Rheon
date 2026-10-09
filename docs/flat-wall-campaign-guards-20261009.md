@@ -31,6 +31,11 @@ PID and pidfd are recorded while cancellation signals are briefly masked, then
 signals are restored before any readiness wait. The pidfd covers cancellation
 even before the child has created its private session. A delayed controller
 exec therefore remains a known cleanup target.
+The raw unreaped fork PID is retained before constructing any process handle or
+allocating a pidfd, so allocation/setup failures also have an owned kill/reap
+fallback. Startup errors use the reserved controller log pipe. Entry refuses
+preexisting alarms, blocked guard signals and nondefault SIGCHLD handling; it
+does not change those conditions or silently run without its safeguards.
 
 Linux signal delivery and scheduling are not real-time guarantees. SIGKILL may
 remain pending for a task in uninterruptible kernel wait. Normal receipts report

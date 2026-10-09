@@ -55,6 +55,15 @@ if __name__=='__main__':
         mode=sys.argv[2];out=Path(sys.argv[3]);seconds=float(sys.argv[4]);rss=int(sys.argv[5]);members=int(sys.argv[6])
         if mode=='alarm':guard.snapshot=lambda *_:time.sleep(20)
         if mode=='startup_delay':guard.os.execvpe=lambda *_:time.sleep(20)
+        if mode=='constructor_fault':
+            def broken_constructor(*_):raise MemoryError('synthetic controller constructor failure')
+            guard.ControllerProcess=broken_constructor
+        if mode=='pidfd_fault':
+            def broken_pidfd(*_):raise OSError(24,'synthetic pidfd allocation failure')
+            guard.os.pidfd_open=broken_pidfd
+        if mode=='setsid_fault':
+            def broken_setsid():raise OSError('synthetic setsid failure')
+            guard.os.setsid=broken_setsid
         if mode=='session_delay':
             setsid=guard.os.setsid
             def delayed_setsid():time.sleep(.1);return setsid()
@@ -66,7 +75,7 @@ if __name__=='__main__':
                 if pid:os.kill(os.getpid(),guard.signal.SIGTERM)
                 return pid
             guard.os.fork=fork_with_pending_cancel
-        selected='success' if mode=='session_delay' else mode
+        selected='success' if mode in ('session_delay','constructor_fault','pidfd_fault','setsid_fault') else mode
         receipt=guard.supervise([sys.executable,'-B',__file__,'controller',selected,str(out)],out,
             limits=guard.Limits(seconds=seconds,cleanup=.2,sample=.02,rss=rss,members=members))
         sys.exit(0 if receipt['status']=='completed' else 1)
