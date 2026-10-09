@@ -5,7 +5,7 @@ The reference is an independent polynomial/beta-integral construction. It is
 never passed to a native provider. All goal splits are benchmark observations,
 not bounds for unknown physical solutions.
 """
-import argparse, json, math, time
+import argparse, hashlib, io, json, math, time
 from fractions import Fraction as F
 from pathlib import Path
 from check_flat_wall_ritz import Model, rational, require, traction, file_digest, managed, FILE_CAP
@@ -14,6 +14,40 @@ from flat_wall_campaign_guard import write_reserved
 B={6:F(1),7:F(-6),8:F(15),9:F(-20),10:F(15),11:F(-6),12:F(1)}
 Z={6:F(1,2),7:F(-2),8:F(3,2),9:F(5),10:F(-25,2),11:F(12),12:F(-11,2),13:F(1)}
 AMPLITUDE=F(12012**2,2)
+
+# Reviewed-source trust anchors for the exact failed historical acquisition.
+# Custody and archive identity are documented in the physical-error-model note;
+# candidate headers, acquisition files and caller digests cannot replace these.
+RETAINED_RECORD_SHA256={
+    6:'4b15fd627f461945f0f3090a5a4cb24da81d9017505f3e83514d60c3fe83f7c1',
+    9:'e66a04f2703f90b553db220d57f9fd9013565441195965d3145db7e964c3aa80',
+    12:'f0f5fb2d447e6c102c67a57da187e0306877b3a4237acb7d5d06c35c0cbfb598',
+}
+
+def authenticated_retained_bytes(path,n):
+    require(type(n) is int and n in RETAINED_RECORD_SHA256,'unsupported retained acquisition')
+    require(path.stat().st_size<=FILE_CAP,'retained input cap')
+    with path.open('rb') as f:raw=f.read(FILE_CAP+1)
+    require(len(raw)<=FILE_CAP,'retained input cap')
+    digest=hashlib.sha256(raw).hexdigest()
+    require(digest==RETAINED_RECORD_SHA256[n],'retained archive identity mismatch')
+    return raw,digest
+
+def retained_velocity(path,n):
+    # Hash and parse the same bounded bytes, so a path replacement cannot change
+    # the records between identity checking and reconstruction.
+    raw,digest=authenticated_retained_bytes(path,n)
+    header=None;velocity={};read=0
+    with io.BytesIO(raw) as f:
+        while line:=f.readline(8193):
+            read+=len(line);require(read<=FILE_CAP and len(line)<=8192 and line.endswith(b'\n'),'retained bounded record')
+            r=json.loads(line)
+            if r['kind']=='header':require(header is None,'duplicate header');header=r
+            if r['kind']=='velocity':
+                key=(r['component'],r['face']);require(key not in velocity,'duplicate velocity');velocity[key]=rational(r['value'])
+    require(header is not None and header['n']==n and header['mode']=='numerical_reduced_ritz_solve','retained provenance')
+    require(header['physical_qualified'] is False and header['pressure_available'] is False,'retained qualifications')
+    return header,velocity,digest
 
 def polynomial(p,x):return rational(sum((v*x**k for k,v in p.items()),F(0)))
 def integral(p,low,high):
@@ -83,17 +117,7 @@ def pack_exact_vectors(report):
     return result
 
 def inspect_level(job,n):
-    path=job/f'n{n}'/'records.jsonl';require(path.stat().st_size<=FILE_CAP,'retained input cap')
-    header=None;velocity={};read=0
-    with path.open('rb') as f:
-        while line:=f.readline(8193):
-            read+=len(line);require(read<=FILE_CAP and len(line)<=8192 and line.endswith(b'\n'),'retained bounded record')
-            r=json.loads(line)
-            if r['kind']=='header':require(header is None,'duplicate header');header=r
-            if r['kind']=='velocity':
-                key=(r['component'],r['face']);require(key not in velocity,'duplicate velocity');velocity[key]=rational(r['value'])
-    require(header is not None and header['n']==n and header['mode']=='numerical_reduced_ritz_solve','retained provenance')
-    require(header['physical_qualified'] is False and header['pressure_available'] is False,'retained qualifications')
+    header,velocity,digest=retained_velocity(job/f'n{n}'/'records.jsonl',n)
     model=Model(n);stored=reference_flux_field(model,True);geometric=reference_flux_field(model,False)
     rf,rt=continuum_reference();reference=rf+rt;goals=[]
     for normal in ('p1','normal_p2'):
@@ -113,7 +137,7 @@ def inspect_level(job,n):
                 'general_error_guarantee':False,'physical_qualified':False})
     p=list(map(rational,model.p));m=model.m
     spatial=2*AMPLITUDE*sum(((p[x+1]-p[x-1])/2*polynomial(B,p[x]-1) for x in range(m+1,2*m)),F(0))*integral(Z,p[m]-1,p[2*m]-1)
-    return {'n':n,'record_head':header['head'],'records_sha256':file_digest(path),'goals':goals,
+    return {'n':n,'record_head':header['head'],'records_sha256':digest,'goals':goals,
             'Fx_exact_wall_derivative_with_existing_x_hats':str(-spatial),
             'managed_bytes_checkpoint':managed(locals())}
 

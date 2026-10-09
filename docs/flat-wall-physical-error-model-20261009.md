@@ -6,6 +6,32 @@ performed. The original campaign, its receipts and failures remain unchanged.
 New Rust evaluations read those velocity values into explicitly supplied,
 unqualified immutable owners. They are observations of existing data.
 
+Retained evaluation now accepts only the exact historical acquisition below.
+The reviewed-source SHA256 pins come from the previously saved Library version
+22 source/evidence archive, whose SHA256 was recorded before this repair as
+`db497f747c9fbcb31d947f2d1e024d7aea3584e310817a7b8a43dd3c6f4d8491`.
+Its original failed-campaign members match the earlier independent acquisition
+reconciliation and retained-input correction receipts. Independent custody
+review rechecked archive, disk and those previously recorded receipt hashes.
+
+| Level | Exact records.jsonl SHA256 |
+| --- | --- |
+| N6 | `4b15fd627f461945f0f3090a5a4cb24da81d9017505f3e83514d60c3fe83f7c1` |
+| N9 | `e66a04f2703f90b553db220d57f9fd9013565441195965d3145db7e964c3aa80` |
+| N12 | `f0f5fb2d447e6c102c67a57da187e0306877b3a4237acb7d5d06c35c0cbfb598` |
+
+Both consumers compare their bounded captured input bytes with these fixed pins
+before parsing velocities, allocating reconstructed state or evaluating goals.
+They parse those same bytes; no path is reopened between authentication and
+consumption. Headers, acquisition files and caller/environment digests cannot
+replace the pins. Changed, missing, duplicate, reordered or added records refuse.
+The original sparse producer emits only nonzero velocities: its authenticated
+N6/N9/N12 records contain 8/36/96 entries, and omitted faces still mean zero.
+Those counts are observations of the authenticated files, not completeness
+criteria. The pins establish identity with this known fixture; they do not
+authenticate producer truth, physical provenance or accuracy. A different
+acquisition needs a separately reviewed custody anchor and source change.
+
 The symmetric-stress energy context is Batty and Bridson,
 [Accurate Viscous Free Surfaces](https://www.cs.ubc.ca/~rbridson/docs/batty-sca08-viscosity.pdf),
 sections 5 and 5.1. The reconstruction below is newly derived from this Ritz
