@@ -19,3 +19,51 @@ One independent scalar uy(1/2,3/2,3/2)=-2025/4096 minimally distinguishes this s
 ## Sources
 
 Batty and Bridson, [2008 viscosity](https://www.cs.ubc.ca/~rbridson/docs/batty-sca08-viscosity.pdf) and [2011 variational Stokes revision](https://arxiv.org/pdf/1010.2832) motivate symmetric stress and variational work. Their reported velocity accuracy does not certify these sampled wall loads. The observation/noise/ray/cubature analysis here is a new derivation. Existing sampling.rs interpolates stored staggered f32 values; it has no independently observed cell-center velocity state.
+
+## Requalified diagnostic outcome
+
+The independent reviewer approved the frozen design at6931d2b before any comparisons. Sources checkpoint9e71013 and bound-report checkpoint5a6bb10 preserve development. Actual Rust debug and release acquisitions run only the reviewed finite roster. The rational checker independently verifies every native point, its initialized value, every observation row/distance/positive area/normal/side, all six load components, finite-action arithmetic, reference covariance and surface rigid work. The reviewer separately regenerates exact loads without importing this checker. No production source changed.
+
+Original input ambiguity is unchanged:48 coarse component values and their integrated normal face fluxes vanish, as does the stationary boundary trace. A single independent uy(1/2,3/2,3/2)=-2025/4096 distinguishes rest from the specified control. Interpolation of the old samples gives0. That one observation does not recover a generic boundary load. More quadrature of existing face-normal state and the same wall trace cannot help.
+
+For any finite interior sample set, choose a flat wall patch disjoint from sample locations and an inward-normal cutoff below the closest observed layer. A streamfunction psi=r^2 chi(r) a(t)b(z), extended by zero, gives a smooth no-slip divergence-free velocity with all observed values unchanged and wall tangential derivative -2a(t)b(z). Nonzero integrals give nonzero force; asymmetric patches also change torque. This construction can avoid the present finite grid-face flux planes. Thus no finite universal observation count suffices for arbitrary smooth fields. For a finite prescribed class V, exact identification requires ker(S|V) contained in ker(L|V); exploiting a preknown control shape/load is excluded here.
+
+A shrinking, independently resolved normal-ray and wall-coverage hierarchy is sufficient for convergence on a uniformly C3 collar with exact no-slip/divergence-free premises and observation error epsilon_h=o(h). P1 uses one outward velocity layer per tangential component; P2 needs two. P1 retaining order1 requires epsilon_h=O(h^2), P2 retaining order2 requires O(h^3). Known stationary wall velocity alone supplies neither derivative. Every operator result below is obtained from values only; analytic differentiation/integration appears only in the independent acquisition/oracle.
+
+Target Fy=-0.5,Tz=-1; all other ideal load components are0. Percentages are observed relative errors, never acceptance tolerances. P2 at h=1 is unsupported because the second point is outside the physical domain.
+
+|Input family|h|P1 Fy error %|P1 Tz error %|P2 Fy error %|P2 Tz error %|
+|:--|--:|--:|--:|--:|--:|
+|native MAC|1|100|100|unsupported|unsupported|
+|native MAC|1/2|203.841|33.8959|260.675|35.9558|
+|native MAC|1/4|89.3125|22.5491|56.9901|3.91682|
+|new independent wall observations|1|2800.39|954.688|unsupported|unsupported|
+|new independent wall observations|1/2|241.821|50.6329|280.759|52.9503|
+|new independent wall observations|1/4|90.7045|23.4502|56.6739|4.68092|
+|new independent wall observations|1/8|41.3207|12.2555|13.0463|0.436025|
+|new independent wall observations|1/16|19.7128|6.21755|3.10417|0.0453306|
+|new independent wall observations|1/32|9.6173|3.12086|0.754776|0.00511271|
+
+At the finest admitted native MAC grid, P2 gives Fy=-0.21504946053028107 and Tz=-1.0391682386398315. This is insufficient to qualify the load target. Native scale8 is actually refused before geometry/operator allocation: unchanged cap16,000,000 bytes versus required43,321,344. No raised cap or enlarged native state was used.
+
+At the finest separate wall-only level, P2 gives Fy approximately-0.4962261187384401 and Tz approximately-1.0000511271120047: absolute errors0.003773881261559902 and0.00005112711200468966. The last adjacent observed force/torque orders are2.040/3.148; P1 gives1.035/0.994. Torque cancellation is specific to this control, not a generic third-order theorem. The independently integrated analytic target, finite hierarchy and explicit derivative/cubature bounds support estimator convergence for this control, not a PDE or IEEE solver convergence claim. Bounds are conservative: at h=1/32, P2 force bound is about0.696 and torque bound about0.463, much larger than observed errors. They are not an accuracy qualification.
+
+The h=1/32 P2 observation set has12,288 tangential point/component rows,24,576 independently acquired scalar values, and1,179,648 bytes of actual96-byte Rust observation storage. Each row retains normal/side explicitly; edge endpoint rows are not inferred, snapped or dropped. Output is streamed, with observed file sizes under frozen limits; the buffer is8KiB. Native h=1/4 uses5,053,056 operator/lift bytes,73,056 borrowed geometry bytes,23,040 observation bytes,180,480 duplicated active sample metadata bytes, and at most72,192 bytes of u/force arrays (metadata can briefly coexist with arrays during collection). The native geometry constructor queue is separately bounded by its existing cap and freed before assembly. These are managed payload counts, not process RSS certificates.
+
+For bounded sample error epsilon, the P2 h=1/32 worst-case Fy perturbation gain is1280/3, or about426.667 epsilon; torque gains are recorded separately. The measured f64 initialization load error is below1.1e-17 in the selected components. This does not establish the intended solver's epsilon_h. Fixed state error can be amplified as1/h and destroy the observed refinement improvement.
+
+The normal-stress comparator is reported separately: native h=1/4 gives normal-secant Fy=14641875/268435456 and Tz=30054375/33554432, although the analytic control has zero normal wall stress. At scale1 its missing outer normal values are explicit sealed zero traces. Incidence incompressibility or a finite energy identity cannot certify zero continuum normal stress. No normal comparator was silently added to the conditional tangential load. The old generalized reaction and its surface-load gap remain in each native record. Neither a residual nor a shared-energy coupling is claimed for the new estimator.
+
+## Intended-solver availability and precise remaining block
+
+The admitted native MAC refinements introduce genuinely new face unknowns (48,504,4512), not interpolation of the coarse field. Those locations are realistically expressible by the solver's existing grid representation, but these runs initialize them exactly; they do not solve for them or certify their error. The full fine polynomial initialization is explicitly synthetic outside the compatible cutoff collar.
+
+The finer wall-only double-midpoint observations are unavailable to the current face-only state. src/sampling.rs interpolates existing f32 staggered arrays and adds no independent cell-center information. Supplying these values from the manufactured analytic formula is useful research acquisition, not a production solution. Obtaining comparable independent state would require genuinely resolved local/AMR or additional staggered/collocated velocity unknowns, or an independently validated physical acquisition/reconstruction model with epsilon_h control. These changes and their solver evidence have not been authorized or implemented.
+
+Concrete result: the original inputs remain insufficient; one new scalar distinguishes the particular pair; the separately acquired shrinking two-layer family shows force/torque improvement without analytic answers entering the load action; the intended solver cannot presently supply the successful finest-family observations or their required error bound under the held cap. There is no requalified production/coupling candidate. The next blocking input is a physically justified source of independent near-wall velocity state plus an accuracy contract (or authorization to design such state/local refinement); known stationary boundary velocities and more algebra do not supply it. No original acceptance target was weakened.
+
+## Evidence and reproduction
+
+Run source-built research_wall_observations with MODE SCALE NEW_EXTERNAL_JSON, or run tools/research_independent_wall_observations.py --binary PATH --output NEW_EXTERNAL_DIRECTORY. The checker launches only native1/2/4 and wall1/2/4/8/16/32, refuses native8, and emits create-new external JSON. Rust1.92 and Python3.12/SymPy were used. Source and binary SHA256 values are captured in reports. Generated results, binary copies, independent review and durable bundle are outside Git. Existing Lean/proof/derivation files are preserved unchanged; no new theorem count or algebra-only pass substitutes for these comparisons.
+
+The original unit-center and polynomial-bounded raw SHA256 hashes remain3fe03be769037d1c6e7606527090d7927ec9be2be18c6597f399a7927f93053a and31ac5ce403aa50f79f9a6255c866cac0826ba9387c72eab154d72fa4a2a9dfd3. Their current point/value/generalized-reaction bit patterns match the new native scales1/2. Preserved10fcda3 worktree remains clean. PR25 case41/geometry-band work remains held. No stepping, pressure, coupling, publication, push, merge or deployment occurred.
