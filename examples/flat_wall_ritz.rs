@@ -113,6 +113,9 @@ fn source(path: &Path) -> Result<FlatWallPolynomialForce, Box<dyn Error>> {
     if text.len() > 65536 {
         return Err("force source grew beyond cap".into());
     }
+    if sha256::digest(text.as_bytes())? != digest {
+        return Err("force source changed while reading".into());
+    }
     let count = text
         .lines()
         .filter(|l| !l.is_empty() && !l.starts_with('#'))
