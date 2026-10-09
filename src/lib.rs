@@ -11,6 +11,11 @@ pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
     TriangleSurface,
 };
+mod static_obstacle;
+pub use static_obstacle::{
+    NO_FLUID_COMPONENT, ObstacleAllocation, ObstacleError, ObstacleFace, ObstacleStage,
+    StaticObstacleGeometry,
+};
 mod motion;
 pub use motion::{TranslatedHit, TranslatedSegment, TranslationError, TranslationInterval};
 mod operator;
@@ -82,8 +87,9 @@ pub use viscosity::{ViscosityError, ViscosityReport, ViscosityStage, ViscosityWo
 
 mod column_shear;
 pub use column_shear::{
-    ColumnShearError, ColumnShearGeometry, ColumnShearInputs, ColumnShearReport, ColumnShearStage,
-    ColumnShearWorkspace,
+    ColumnBoundaryShearReport, ColumnForcedShearReport, ColumnShearBoundary, ColumnShearError,
+    ColumnShearGeometry, ColumnShearInputs, ColumnShearReport, ColumnShearStage, ColumnShearWall,
+    ColumnShearWorkspace, ColumnWallShearReport, UniformColumnForce,
 };
 
 mod column_momentum;
@@ -125,3 +131,21 @@ pub use coupled_discrete::{
     CoupledDiscreteError, CoupledDiscreteFlow, CoupledDiscreteReport, CoupledDiscreteStage,
     CoupledDiscreteState, CoupledExtrudedReport, CoupledThirdReport,
 };
+
+mod obstacle_pressure;
+pub use obstacle_pressure::{
+    ObstacleFlowError, ObstacleFlowStage, ObstaclePressureReport, ObstacleProjectionLedger,
+    StaticObstaclePressure,
+};
+mod obstacle_shear;
+pub use obstacle_shear::{
+    ObstacleShearForce, ObstacleShearReport, ObstacleShearWall, StaticObstacleShear,
+};
+
+mod aligned_strain;
+pub use aligned_strain::{
+    AlignedStrain, AlignedStrainBoundary, AlignedStrainError, AlignedStrainFace,
+    AlignedStrainLedger, AlignedStrainRow, AlignedStrainTerm,
+};
+mod dense3d_sequence;
+pub use dense3d_sequence::{Dense3dError, Dense3dLimits, Dense3dSequence, write_dense3d_frame};

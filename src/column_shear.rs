@@ -1,7 +1,8 @@
-//! Prerequisite-only flat-column shear quadrature, with periodic lateral
-//! boundaries and zero shear traction at both normal endpoints. This does not
-//! change or compose with the sealed carrier/free-surface pressure pipeline.
-use crate::{Axis, ColumnSurfaceView, GridGeometry, VolumeStamp};
+//! Fixed flat-column shear quadrature with periodic lateral boundaries.
+//! update uses zero endpoint traction; update_with_walls adds finite physical
+//! wall friction; update_with_boundaries also supports exact endpoint no-slip.
+//! None composes with the sealed carrier pressure pipeline.
+use crate::{Axis, ColumnSurfaceView, ForceUnits, GridGeometry, VolumeStamp};
 use std::fmt;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -13,6 +14,9 @@ pub enum ColumnShearStage {
     BeforeUpdate,
     UpdateNode,
     BeforeAcceptance,
+    WallTraction,
+    WallConstraint,
+    BodyForceNode,
 }
 #[derive(Debug, Clone, PartialEq)]
 pub enum ColumnShearError {
@@ -22,6 +26,9 @@ pub enum ColumnShearError {
     InvalidDensity,
     InvalidCoefficient,
     InvalidTimeStep,
+    IncompatibleNoSlip,
+    OverlappingNoSlip,
+    UnsupportedForce,
     ArithmeticFailure,
     StabilityLimit { actual: f64, limit: f64 },
     AcceptanceFailure,
@@ -49,6 +56,79 @@ pub struct ColumnShearInputs<'a> {
     pub density: f64,
     pub dynamic_viscosity: f64,
     pub dt: f64,
+}
+
+/// Prescribed tangential velocity (m/s) and finite Navier coefficient
+/// (Pa s/m) of a flat stationary-normal wall. Zero friction is free slip.
+/// This is mechanical wall traction, not adhesion or a wetting law.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ColumnShearWall {
+    pub velocity: [f64; 3],
+    pub friction: f64,
+}
+
+/// Independent tangential laws at the lower and upper fixed slab walls.
+/// NoSlip constrains the retained endpoint trace, not an interpolated physical
+/// wall node. Its f32 velocity must match the incoming endpoint value exactly;
+/// changing prescribed velocities or projecting an incompatible state is out
+/// of scope. Positive viscosity and zero normal wall motion are required.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum ColumnShearBoundary {
+    Navier(ColumnShearWall),
+    NoSlip { velocity: [f32; 3] },
+}
+
+/// One uniform tangential vector, borrowed by value for this call only.
+/// Acceleration is m/s² and gives node force mass * value; force density is
+/// N/m³ and gives liquid dual volume * value. No regions or normal forcing.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct UniformColumnForce {
+    pub value: [f64; 3],
+    pub units: ForceUnits,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ColumnForcedShearReport {
+    /// Its shear force_sum and balance checks include body force and walls.
+    pub boundary: ColumnBoundaryShearReport,
+    pub forcing: UniformColumnForce,
+    /// Total body force on every liquid dual node, including constrained nodes (N).
+    pub external_force: [f64; 3],
+    pub external_impulse: [f64; 3],
+    /// dt * sum(node body force dot incoming velocity), signed J. This is
+    /// old-speed work, not midpoint force-stage work. The shear report retains
+    /// the separate explicit-step correction and stored-f32 rounding work.
+    pub external_work_before: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ColumnBoundaryShearReport {
+    /// Includes external wall forces and their work in the balance checks.
+    pub shear: ColumnShearReport,
+    pub boundaries: [ColumnShearBoundary; 2],
+    /// Force on liquid (N); at NoSlip this is the constraint reaction.
+    pub wall_force: [[f64; 3]; 2],
+    /// dt times each total wall force (N s), including finite Navier traction.
+    pub wall_impulse: [[f64; 3]; 2],
+    /// NoSlip reaction only (N s); zero at Navier walls.
+    pub reaction_impulse: [[f64; 3]; 2],
+    pub bulk_dissipation_before: f64,
+    pub wall_dissipation_before: f64,
+    /// Sum of prescribed wall velocity dot wall impulse (J), with either sign.
+    pub actuator_work: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ColumnWallShearReport {
+    /// dissipation_before includes both bulk and relative wall dissipation.
+    /// force_sum includes the external wall force; momentum_error subtracts it.
+    pub shear: ColumnShearReport,
+    pub walls: [ColumnShearWall; 2],
+    pub wall_force: [[f64; 3]; 2],
+    pub bulk_dissipation_before: f64,
+    pub wall_dissipation_before: f64,
+    /// dt * sum(wall_velocity dot force_on_fluid), with either sign.
+    pub actuator_work: f64,
 }
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ColumnShearGeometry {
@@ -135,6 +215,23 @@ fn div(a: f64, b: f64) -> Result<f64, ColumnShearError> {
         Err(ColumnShearError::ArithmeticFailure)
     } else {
         Ok(x)
+    }
+}
+fn body_force(
+    forcing: Option<UniformColumnForce>,
+    mass: f64,
+    volume: f64,
+    component: usize,
+) -> Result<f64, ColumnShearError> {
+    match forcing {
+        None => Ok(0.0),
+        Some(f) => mul(
+            match f.units {
+                ForceUnits::Acceleration => mass,
+                ForceUnits::ForceDensity => volume,
+            },
+            f.value[component],
+        ),
     }
 }
 #[derive(Default)]
@@ -276,8 +373,78 @@ impl ColumnShearWorkspace {
         &mut self,
         inputs: ColumnShearInputs<'_>,
         output: [&mut [f32]; 3],
-        mut cancel: impl FnMut(ColumnShearStage) -> bool,
+        cancel: impl FnMut(ColumnShearStage) -> bool,
     ) -> Result<ColumnShearReport, ColumnShearError> {
+        Ok(self
+            .update_impl(inputs, output, None, None, cancel)?
+            .boundary
+            .shear)
+    }
+    /// Fixed flat slab with prescribed tangential lower/upper wall motion.
+    /// Endpoint traces use the existing constant-end-extension basis. The cap
+    /// is confined in this operation; it is not an evolving free surface.
+    /// Finite beta is supported. Use update_with_boundaries for exact no-slip.
+    pub fn update_with_walls(
+        &mut self,
+        inputs: ColumnShearInputs<'_>,
+        walls: [ColumnShearWall; 2],
+        output: [&mut [f32]; 3],
+        cancel: impl FnMut(ColumnShearStage) -> bool,
+    ) -> Result<ColumnWallShearReport, ColumnShearError> {
+        let r = self
+            .update_impl(
+                inputs,
+                output,
+                Some(walls.map(ColumnShearBoundary::Navier)),
+                None,
+                cancel,
+            )?
+            .boundary;
+        Ok(ColumnWallShearReport {
+            shear: r.shear,
+            walls,
+            wall_force: r.wall_force,
+            bulk_dissipation_before: r.bulk_dissipation_before,
+            wall_dissipation_before: r.wall_dissipation_before,
+            actuator_work: r.actuator_work,
+        })
+    }
+    /// Exact compatible endpoint constraints, optionally mixed with Navier slip.
+    /// Reaction cancels the unconstrained endpoint force, so its increment is
+    /// zero. Two NoSlip walls on one wet node are refused because their separate
+    /// reaction impulses would be nonunique, even for equal prescribed speeds.
+    pub fn update_with_boundaries(
+        &mut self,
+        inputs: ColumnShearInputs<'_>,
+        boundaries: [ColumnShearBoundary; 2],
+        output: [&mut [f32]; 3],
+        cancel: impl FnMut(ColumnShearStage) -> bool,
+    ) -> Result<ColumnBoundaryShearReport, ColumnShearError> {
+        Ok(self
+            .update_impl(inputs, output, Some(boundaries), None, cancel)?
+            .boundary)
+    }
+    /// Simultaneous explicit viscous/force step with compatible wall constraints.
+    /// Force is applied to all liquid dual nodes before the reaction is computed.
+    /// The incoming fixed wall trace, geometry and no-slip prerequisites remain.
+    pub fn update_with_forcing(
+        &mut self,
+        inputs: ColumnShearInputs<'_>,
+        boundaries: [ColumnShearBoundary; 2],
+        forcing: UniformColumnForce,
+        output: [&mut [f32]; 3],
+        cancel: impl FnMut(ColumnShearStage) -> bool,
+    ) -> Result<ColumnForcedShearReport, ColumnShearError> {
+        self.update_impl(inputs, output, Some(boundaries), Some(forcing), cancel)
+    }
+    fn update_impl(
+        &mut self,
+        inputs: ColumnShearInputs<'_>,
+        output: [&mut [f32]; 3],
+        boundaries: Option<[ColumnShearBoundary; 2]>,
+        forcing: Option<UniformColumnForce>,
+        mut cancel: impl FnMut(ColumnShearStage) -> bool,
+    ) -> Result<ColumnForcedShearReport, ColumnShearError> {
         let ColumnShearInputs {
             surface,
             velocity,
@@ -296,6 +463,53 @@ impl ColumnShearWorkspace {
         }
         let geom = self.geometry(surface)?;
         let normal = self.axis.index();
+        if let Some(f) = forcing
+            && (f.value[normal] != 0.0 || f.value.iter().any(|x| !(*x == 0.0 || x.is_normal())))
+        {
+            return Err(ColumnShearError::UnsupportedForce);
+        }
+        let no_slip = boundaries.map_or([false; 2], |b| {
+            b.map(|wall| matches!(wall, ColumnShearBoundary::NoSlip { .. }))
+        });
+        if no_slip == [true; 2] && geom.wet_nodes == 1 {
+            return Err(ColumnShearError::OverlappingNoSlip);
+        }
+        if no_slip.contains(&true) && mu == 0.0 {
+            return Err(ColumnShearError::InvalidCoefficient);
+        }
+        let walls = boundaries.map(|b| {
+            b.map(|wall| match wall {
+                ColumnShearBoundary::Navier(wall) => wall,
+                ColumnShearBoundary::NoSlip { velocity } => ColumnShearWall {
+                    velocity: velocity.map(f64::from),
+                    friction: 0.0,
+                },
+            })
+        });
+        if let Some(boundaries) = boundaries {
+            for boundary in boundaries {
+                if let ColumnShearBoundary::NoSlip { velocity } = boundary
+                    && velocity.iter().any(|v| !(*v == 0.0 || v.is_normal()))
+                {
+                    return Err(ColumnShearError::UnsupportedVelocity);
+                }
+            }
+        }
+        if let Some(walls) = walls {
+            for wall in walls {
+                if wall.friction < 0.0
+                    || !(wall.friction == 0.0 || wall.friction.is_normal())
+                    || (wall.friction > 0.0 && mu == 0.0)
+                {
+                    return Err(ColumnShearError::InvalidCoefficient);
+                }
+                if wall.velocity[normal] != 0.0
+                    || wall.velocity.iter().any(|v| !(*v == 0.0 || v.is_normal()))
+                {
+                    return Err(ColumnShearError::UnsupportedVelocity);
+                }
+            }
+        }
         let tangents = match normal {
             0 => [1, 2],
             1 => [0, 2],
@@ -326,6 +540,17 @@ impl ColumnShearWorkspace {
                 }
             }
         }
+        if let Some(walls) = walls {
+            for (side, layer) in [0, geom.wet_nodes - 1].into_iter().enumerate() {
+                if no_slip[side]
+                    && tangents
+                        .iter()
+                        .any(|&d| self.profile(velocity, d, layer) != walls[side].velocity[d])
+                {
+                    return Err(ColumnShearError::IncompatibleNoSlip);
+                }
+            }
+        }
         checkpoint(&mut cancel, ColumnShearStage::BeforeGeometry)?;
         self.mass.fill(0.0);
         for f in &mut self.force {
@@ -343,10 +568,19 @@ impl ColumnShearWorkspace {
             volume.add(mul(geom.area, length)?)?;
             self.mass[layer] = mul(density, mul(geom.area, length)?)?;
             let degree = usize::from(layer > 0) + usize::from(layer + 1 < geom.wet_nodes);
-            stability = stability.max(div(
-                mul(dt, mul(coefficient, degree as f64)?)?,
-                self.mass[layer],
-            )?);
+            let mut row_weight = mul(coefficient, degree as f64)?;
+            if let Some(walls) = walls {
+                for (wall, end) in walls.iter().zip([0, geom.wet_nodes - 1]) {
+                    if layer == end {
+                        row_weight = checked(row_weight + mul(wall.friction, geom.area)?)?;
+                    }
+                }
+            }
+            let constrained =
+                (layer == 0 && no_slip[0]) || (layer + 1 == geom.wet_nodes && no_slip[1]);
+            if !constrained {
+                stability = stability.max(div(mul(dt, row_weight)?, self.mass[layer])?);
+            }
         }
         if stability > 1.0 {
             return Err(ColumnShearError::StabilityLimit {
@@ -372,6 +606,80 @@ impl ColumnShearWorkspace {
                 dissipation.add(mul(coefficient, mul(difference, difference)?)?)?;
             }
         }
+        let bulk_dissipation_before = dissipation.finish()?;
+        let mut wall_dissipation = Sum::default();
+        let mut wall_power = Sum::default();
+        let mut wall_force = [[0.0; 3]; 2];
+        if let Some(walls) = walls {
+            for (side, (wall, layer)) in walls.iter().zip([0, geom.wet_nodes - 1]).enumerate() {
+                let weight = mul(wall.friction, geom.area)?;
+                for (t, &d) in tangents.iter().enumerate() {
+                    checkpoint(&mut cancel, ColumnShearStage::WallTraction)?;
+                    let relative = checked(self.profile(velocity, d, layer) - wall.velocity[d])?;
+                    let force = -mul(weight, relative)?;
+                    wall_force[side][d] = force;
+                    self.force[t][layer] = checked(self.force[t][layer] + force)?;
+                    wall_dissipation.add(mul(weight, mul(relative, relative)?)?)?;
+                    wall_power.add(mul(wall.velocity[d], force)?)?;
+                }
+            }
+        }
+        let mut external_force = [0.0; 3];
+        let mut external_absolute = [0.0; 3];
+        let mut external_power = Sum::default();
+        let mut absolute_external_power = Sum::default();
+        if forcing.is_some() {
+            for (t, &d) in tangents.iter().enumerate() {
+                let mut total = Sum::default();
+                let mut absolute = Sum::default();
+                for layer in 0..geom.wet_nodes {
+                    checkpoint(&mut cancel, ColumnShearStage::BodyForceNode)?;
+                    let volume = mul(geom.area, geom.dual_length(layer).unwrap())?;
+                    let force = body_force(forcing, self.mass[layer], volume, d)?;
+                    self.force[t][layer] = checked(self.force[t][layer] + force)?;
+                    total.add(force)?;
+                    absolute.add(force.abs())?;
+                    let power = mul(force, self.profile(velocity, d, layer))?;
+                    external_power.add(power)?;
+                    absolute_external_power.add(power.abs())?;
+                }
+                external_force[d] = total.finish()?;
+                external_absolute[d] = absolute.finish()?;
+            }
+        }
+        let external_work_before = mul(dt, external_power.finish()?)?;
+        let absolute_external_work = mul(dt, absolute_external_power.finish()?)?;
+        let mut external_impulse = [0.0; 3];
+        for d in 0..3 {
+            external_impulse[d] = mul(dt, external_force[d])?;
+        }
+        let mut reaction_impulse = [[0.0; 3]; 2];
+        if let Some(walls) = walls {
+            for (side, layer) in [0, geom.wet_nodes - 1].into_iter().enumerate() {
+                if no_slip[side] {
+                    for (t, &d) in tangents.iter().enumerate() {
+                        checkpoint(&mut cancel, ColumnShearStage::WallConstraint)?;
+                        // The incoming constrained trace equals its fixed wall
+                        // speed. Eliminating this row requires zero increment.
+                        // Include body force and any Navier force on a shared node.
+                        let reaction = -self.force[t][layer];
+                        wall_force[side][d] = reaction;
+                        reaction_impulse[side][d] = mul(dt, reaction)?;
+                        wall_power.add(mul(walls[side].velocity[d], reaction)?)?;
+                        self.force[t][layer] = 0.0;
+                    }
+                }
+            }
+        }
+        let mut wall_impulse = [[0.0; 3]; 2];
+        for side in 0..2 {
+            for d in 0..3 {
+                wall_impulse[side][d] = mul(dt, wall_force[side][d])?;
+            }
+        }
+        let wall_dissipation_before = wall_dissipation.finish()?;
+        let actuator_work = mul(dt, wall_power.finish()?)?;
+        let wall_net = std::array::from_fn::<_, 3, _>(|d| wall_force[0][d] + wall_force[1][d]);
         let mut force_sum = [0.0; 3];
         let mut force_budget = [0.0; 3];
         for (t, &d) in tangents.iter().enumerate() {
@@ -382,8 +690,16 @@ impl ColumnShearWorkspace {
                 absolute.add(force.abs())?;
             }
             force_sum[d] = sum.finish()?;
-            force_budget[d] = mul(64.0 * f64::EPSILON, absolute.finish()?)?;
-            if force_sum[d].abs() > force_budget[d] {
+            force_budget[d] = mul(
+                64.0 * f64::EPSILON,
+                checked(
+                    absolute.finish()?
+                        + wall_force[0][d].abs()
+                        + wall_force[1][d].abs()
+                        + external_absolute[d],
+                )?,
+            )?;
+            if checked(force_sum[d] - wall_net[d] - external_force[d])?.abs() > force_budget[d] {
                 return Err(ColumnShearError::AcceptanceFailure);
             }
         }
@@ -410,19 +726,55 @@ impl ColumnShearWorkspace {
                 lower = lower.min(u);
                 upper = upper.max(u);
             }
+            if let Some(walls) = walls {
+                for wall in walls {
+                    if wall.friction > 0.0 {
+                        lower = lower.min(wall.velocity[d]);
+                        upper = upper.max(wall.velocity[d]);
+                    }
+                }
+            }
             for layer in 0..geom.wet_nodes {
                 checkpoint(&mut cancel, ColumnShearStage::UpdateNode)?;
                 let old = self.profile(velocity, d, layer);
                 let mass = self.mass[layer];
                 let delta = div(mul(dt, self.force[t][layer])?, mass)?;
-                let proposed = checked(old + delta)?;
+                let proposed = if layer == 0 && no_slip[0] {
+                    walls.unwrap()[0].velocity[d]
+                } else if layer + 1 == geom.wet_nodes && no_slip[1] {
+                    walls.unwrap()[1].velocity[d]
+                } else {
+                    checked(old + delta)?
+                };
                 let stored = proposed as f32;
                 if !(stored == 0.0 || stored.is_normal()) || (stored == 0.0 && proposed != 0.0) {
                     return Err(ColumnShearError::ArithmeticFailure);
                 }
                 let new = f64::from(stored);
                 let rounding = checked(new - proposed)?;
-                if proposed < lower || proposed > upper || new < lower || new > upper {
+                // The unforced part remains a convex row under the original
+                // stability bound. The uniform source translates a free row by
+                // dt*f_ext/m. Constrained rows stay in the original interval.
+                let (row_lower, row_upper) = if forcing.is_some() {
+                    let volume = mul(geom.area, geom.dual_length(layer).unwrap())?;
+                    let source = div(mul(dt, body_force(forcing, mass, volume, d)?)?, mass)?;
+                    (
+                        checked(lower + source.min(0.0))?,
+                        checked(upper + source.max(0.0))?,
+                    )
+                } else {
+                    (lower, upper)
+                };
+                let (stored_lower, stored_upper) = if forcing.is_some() {
+                    (f64::from(row_lower as f32), f64::from(row_upper as f32))
+                } else {
+                    (row_lower, row_upper)
+                };
+                if proposed < row_lower
+                    || proposed > row_upper
+                    || new < stored_lower
+                    || new > stored_upper
+                {
                     return Err(ColumnShearError::AcceptanceFailure);
                 }
                 self.candidate[t][layer] = new;
@@ -446,9 +798,19 @@ impl ColumnShearWorkspace {
             momentum_before[d] = old_p.finish()?;
             momentum_after[d] = new_p.finish()?;
             rounding_momentum[d] = round_p.finish()?;
-            momentum_error[d] =
-                checked(momentum_after[d] - momentum_before[d] - rounding_momentum[d])?;
-            momentum_budget[d] = mul(64.0 * f64::EPSILON, absolute_p.finish()?)?;
+            momentum_error[d] = checked(
+                momentum_after[d]
+                    - momentum_before[d]
+                    - rounding_momentum[d]
+                    - mul(dt, wall_net[d])?
+                    - external_impulse[d],
+            )?;
+            momentum_budget[d] = mul(
+                64.0 * f64::EPSILON,
+                checked(
+                    absolute_p.finish()? + mul(dt, wall_net[d])?.abs() + external_impulse[d].abs(),
+                )?,
+            )?;
             if momentum_error[d].abs() > momentum_budget[d] {
                 return Err(ColumnShearError::AcceptanceFailure);
             }
@@ -458,17 +820,36 @@ impl ColumnShearWorkspace {
         let update_energy = update.finish()?;
         let rounding_work = work.finish()?;
         let absolute_work = absolute_work.finish()?;
-        let dissipation_before = dissipation.finish()?;
+        let dissipation_before = checked(bulk_dissipation_before + wall_dissipation_before)?;
         let loss = mul(dt, dissipation_before)?;
-        let identity_error =
-            checked(kinetic_after - kinetic_before + loss - update_energy - rounding_work)?;
+        let identity_error = checked(
+            kinetic_after - kinetic_before + loss
+                - actuator_work
+                - external_work_before
+                - update_energy
+                - rounding_work,
+        )?;
         let floating_budget = mul(
             64.0 * f64::EPSILON,
-            checked(kinetic_before + kinetic_after + loss + update_energy + absolute_work)?,
+            checked(
+                kinetic_before
+                    + kinetic_after
+                    + loss
+                    + update_energy
+                    + absolute_work
+                    + actuator_work.abs()
+                    + absolute_external_work,
+            )?,
         )?;
         let energy_budget = checked(absolute_work + floating_budget)?;
-        if identity_error.abs() > floating_budget || kinetic_after - kinetic_before > energy_budget
-        {
+        // Body force can increase energy even from rest, where old-speed work
+        // is zero. Its explicit increment energy must remain in this bound.
+        let growth = if forcing.is_some() {
+            checked(actuator_work + external_work_before + update_energy + energy_budget)?
+        } else {
+            checked(actuator_work + energy_budget)?
+        };
+        if identity_error.abs() > floating_budget || kinetic_after - kinetic_before > growth {
             return Err(ColumnShearError::AcceptanceFailure);
         }
         checkpoint(&mut cancel, ColumnShearStage::BeforeAcceptance)?;
@@ -490,29 +871,52 @@ impl ColumnShearWorkspace {
                 }
             }
         }
-        Ok(ColumnShearReport {
-            geometry: geom,
-            density,
-            dynamic_viscosity: mu,
-            dt,
-            stability_number: stability,
-            kinetic_before,
-            kinetic_after,
-            dissipation_before,
-            update_energy,
-            rounding_work,
-            identity_error,
-            energy_budget,
-            force_sum,
-            force_budget,
-            momentum_before,
-            momentum_after,
-            rounding_momentum,
-            momentum_error,
-            momentum_budget,
-            mass_volume_error,
-            mass_volume_budget,
-            workspace_bytes: self.allocated_bytes,
+        Ok(ColumnForcedShearReport {
+            forcing: forcing.unwrap_or(UniformColumnForce {
+                value: [0.0; 3],
+                units: ForceUnits::Acceleration,
+            }),
+            external_force,
+            external_impulse,
+            external_work_before,
+            boundary: ColumnBoundaryShearReport {
+                shear: ColumnShearReport {
+                    geometry: geom,
+                    density,
+                    dynamic_viscosity: mu,
+                    dt,
+                    stability_number: stability,
+                    kinetic_before,
+                    kinetic_after,
+                    dissipation_before,
+                    update_energy,
+                    rounding_work,
+                    identity_error,
+                    energy_budget,
+                    force_sum,
+                    force_budget,
+                    momentum_before,
+                    momentum_after,
+                    rounding_momentum,
+                    momentum_error,
+                    momentum_budget,
+                    mass_volume_error,
+                    mass_volume_budget,
+                    workspace_bytes: self.allocated_bytes,
+                },
+                boundaries: boundaries.unwrap_or(
+                    [ColumnShearBoundary::Navier(ColumnShearWall {
+                        velocity: [0.0; 3],
+                        friction: 0.0,
+                    }); 2],
+                ),
+                wall_force,
+                wall_impulse,
+                reaction_impulse,
+                bulk_dissipation_before,
+                wall_dissipation_before,
+                actuator_work,
+            },
         })
     }
 }

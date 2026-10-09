@@ -1,10 +1,10 @@
 name: Rheon research book and Pages
 on:
   pull_request:
-    paths: ['docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   push:
     branches: [main]
-    paths: ['docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,10 +15,25 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Set external artifact and tool directories
+        run: |
+          echo "RHEON_EDITION=$RUNNER_TEMP/rheon-edition" >> "$GITHUB_ENV"
+          echo "RHEON_ASSETS=$RUNNER_TEMP/rheon-assets" >> "$GITHUB_ENV"
+          echo "RHEON_OBSTACLE=$RUNNER_TEMP/rheon-obstacle-records" >> "$GITHUB_ENV"
+          echo "RHEON_FLOW=$RUNNER_TEMP/rheon-obstacle-flow-records" >> "$GITHUB_ENV"
+          echo "RHEON_STRAIN=$RUNNER_TEMP/rheon-aligned-strain-records" >> "$GITHUB_ENV"
+          echo "RHEON_STRAIN_QUALIFICATION=$RUNNER_TEMP/rheon-aligned-strain-qualification" >> "$GITHUB_ENV"
+          echo "CARGO_TARGET_DIR=$RUNNER_TEMP/rheon-geometry-target" >> "$GITHUB_ENV"
+          echo "CARGO_HOME=$RUNNER_TEMP/rheon-cargo" >> "$GITHUB_ENV"
+          echo "RUSTUP_HOME=$RUNNER_TEMP/rheon-rustup" >> "$GITHUB_ENV"
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24'
@@ -26,7 +41,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc
-          npm ci --prefix docs/education --ignore-scripts --no-audit --no-fund
+          mkdir -p "$RHEON_ASSETS"
+          cp docs/education/package.json docs/education/package-lock.json "$RHEON_ASSETS/"
+          npm ci --prefix "$RHEON_ASSETS" --ignore-scripts --no-audit --no-fund
           python3 -m pip install -r docs/research-book/expansion/requirements.txt
           python3 -m pip install -r docs/research-book/companion/requirements.txt
           python3 -m pip install -r docs/education/requirements.txt
@@ -36,32 +53,62 @@ jobs:
           python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
           python3 -O -m unittest discover -s docs/research-book/expansion -p test_reference.py
           python3 docs/education/generate_references.py
-          python3 docs/research-book/expansion/contact/sanity_checks.py
-          python3 -O docs/research-book/expansion/contact/sanity_checks.py
+          mkdir -p "$RUNNER_TEMP/rheon-contact-checks/normal" "$RUNNER_TEMP/rheon-contact-checks/optimized"
+          cp docs/research-book/expansion/contact/sanity_checks.py docs/research-book/expansion/contact/force_balance.py "$RUNNER_TEMP/rheon-contact-checks/normal/"
+          cp docs/research-book/expansion/contact/sanity_checks.py docs/research-book/expansion/contact/force_balance.py "$RUNNER_TEMP/rheon-contact-checks/optimized/"
+          python3 "$RUNNER_TEMP/rheon-contact-checks/normal/sanity_checks.py"
+          python3 -O "$RUNNER_TEMP/rheon-contact-checks/optimized/sanity_checks.py"
           python3 -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py
           python3 -O -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py
           python3 evidence/bounded-physics-contracts/witness.py
           python3 -O evidence/bounded-physics-contracts/witness.py
+      - name: Construct and qualify only static geometry controls
+        run: |
+          rustup toolchain install 1.92.0 --profile minimal --no-self-update
+          mkdir -p "$RHEON_OBSTACLE"
+          cargo +1.92.0 build --locked --no-default-features --example static_obstacle
+          "$CARGO_TARGET_DIR/debug/examples/static_obstacle" "$RHEON_OBSTACLE/records.json"
+          python3 docs/education/static_obstacle.py --records "$RHEON_OBSTACLE/records.json" --executable "$CARGO_TARGET_DIR/debug/examples/static_obstacle" --receipt "$RHEON_OBSTACLE/qualification.json"
+      - name: Qualify bounded obstacle pressure and reduced shear controls
+        run: |
+          mkdir -p "$RHEON_FLOW"
+          cargo +1.92.0 test --locked --no-default-features --test obstacle_flow_contract
+          cargo +1.92.0 build --locked --no-default-features --example obstacle_flow
+          "$CARGO_TARGET_DIR/debug/examples/obstacle_flow" "$RHEON_FLOW/records.json"
+          python3 docs/education/obstacle_flow.py --records "$RHEON_FLOW/records.json" --executable "$CARGO_TARGET_DIR/debug/examples/obstacle_flow" --receipt "$RHEON_FLOW/qualification.json"
+          python3 -m unittest discover -s docs/education -p test_obstacle_flow.py
+          python3 -O -m unittest discover -s docs/education -p test_obstacle_flow.py
+          node docs/education/test_obstacle_flow_runtime.mjs "$RHEON_FLOW/records.json"
+      - name: Capture and independently qualify finite aligned strain
+        run: |
+          python3 tools/qualify_aligned_strain.py "$RHEON_STRAIN_QUALIFICATION"
+          python3 docs/education/aligned_strain_packet.py --output "$RHEON_STRAIN" --executable "$CARGO_TARGET_DIR/debug/examples/aligned_strain" --primary-qualification "$RHEON_STRAIN_QUALIFICATION/qualification.json"
+          RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -m unittest discover -s docs/education -p test_aligned_strain_packet.py
+          RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -O -m unittest discover -s docs/education -p test_aligned_strain_packet.py
       - name: Build complete static edition and verify local links
         run: |
           python3 -m unittest discover -s docs/education -p test_pdf_freshness.py
           python3 -O -m unittest discover -s docs/education -p test_pdf_freshness.py
           python3 -m unittest discover -s docs/education -p test_publication_gates.py
           python3 -O -m unittest discover -s docs/education -p test_publication_gates.py
-          python3 docs/education/build.py
-          python3 docs/education/verify_browser.py --render-pdf
-          python3 docs/education/build.py
-          python3 docs/education/verify_site.py
+          python3 -m unittest discover -s docs/education -p test_native_sequence.py
+          python3 -O -m unittest discover -s docs/education -p test_native_sequence.py
+          python3 -m unittest discover -s docs/education -p test_static_obstacle.py
+          python3 -O -m unittest discover -s docs/education -p test_static_obstacle.py
+          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --obstacle-records-dir "$RHEON_OBSTACLE" --obstacle-flow-records-dir "$RHEON_FLOW" --aligned-strain-records-dir "$RHEON_STRAIN"
+          python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
+          python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
       - name: Verify retained browser bindings and current Chromium laboratories
         run: |
-          python3 docs/education/browser_qualification.py
-          python3 docs/education/verify_browser.py --check
+          python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"
           python3 -O -m unittest discover -s docs/education -p test_browser_runtime.py
+          python3 -m unittest discover -s docs/education -p test_aligned_strain_browser.py
+          python3 -O -m unittest discover -s docs/education -p test_aligned_strain_browser.py
       - name: Retain reviewable site
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: rheon-teaching-site-${{ github.sha }}
-          path: docs/education/_site/
+          path: ${{ runner.temp }}/rheon-edition/
       - name: Configure Pages
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
@@ -69,7 +116,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
         with:
-          path: docs/education/_site
+          path: ${{ runner.temp }}/rheon-edition
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build

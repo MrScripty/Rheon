@@ -58,3 +58,5 @@ rheon-comparisons/
 !/evidence/**/config.json
 
 /evidence/**/*.jpg
+# Accidental local aligned-strain receipts; generators require external paths.
+/evidence/reconstructed-aligned-strain/
