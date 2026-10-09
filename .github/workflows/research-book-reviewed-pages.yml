@@ -1,0 +1,156 @@
+name: Publish reviewed Rheon PR36 edition
+on:
+  workflow_dispatch:
+    inputs:
+      site_archive_url:
+        description: Optional HTTPS copy of the exact reviewed archive, excluding Release assets
+        required: false
+        type: string
+      source_run_id:
+        description: Run retaining the reviewed Pages artifact (alternative to archive URL)
+        required: false
+        type: string
+      site_artifact_id:
+        description: Immutable ID of that run's reviewed Pages artifact
+        required: false
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: rheon-reviewed-pages
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out the immutable educational candidate
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: 6c0d90a4ff07098d39e0db2741c9a24849069f50
+      - name: Check pinned source and artifact identifiers
+        env:
+          RHEON_ARCHIVE_URL: ${{ inputs.site_archive_url }}
+          RHEON_SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+          RHEON_SITE_ARTIFACT_ID: ${{ inputs.site_artifact_id }}
+        run: |
+          test "$(git rev-parse HEAD)" = 6c0d90a4ff07098d39e0db2741c9a24849069f50
+          test "$(git rev-parse HEAD^{tree})" = 6cc8e16d042ef976e8490fc21f98b4538ada7701
+          test "$(git rev-parse --is-shallow-repository)" = false
+          git merge-base --is-ancestor d31cf735645579357f9f58dcc55958e23f77af59 HEAD
+          git merge-base --is-ancestor 51c0a6c70790e53f1b7e1e003a388c420015e333 HEAD
+          python3 - <<'PY'
+          import os, re
+          from urllib.parse import urlsplit
+          url, run, artifact = (os.environ[k] for k in ('RHEON_ARCHIVE_URL', 'RHEON_SOURCE_RUN_ID', 'RHEON_SITE_ARTIFACT_ID'))
+          if url:
+              target = urlsplit(url)
+              if run or artifact or target.scheme != 'https' or not target.hostname or target.username or target.password:
+                  raise SystemExit('Choose an HTTPS archive URL or both Actions identifiers')
+              if target.hostname in ('github.com', 'api.github.com', 'uploads.github.com') and 'releases' in target.path.split('/'):
+                  raise SystemExit('Use a Pages-only archive host, not a GitHub Release asset')
+          else:
+              for value in (run, artifact):
+                  if not re.fullmatch(r'[1-9][0-9]*', value) or int(value) > 2**53 - 1:
+                      raise SystemExit('Expected both exact numeric Actions identifiers')
+          PY
+      - name: Download the unchanged archive from its Pages-only host
+        if: inputs.site_archive_url != ''
+        env:
+          RHEON_ARCHIVE_URL: ${{ inputs.site_archive_url }}
+        run: |
+          curl --fail --location --proto '=https' --proto-redir '=https' --output "$RUNNER_TEMP/reviewed-site.tar.gz" -- "$RHEON_ARCHIVE_URL"
+      - name: Download the reviewed Actions artifact from this repository
+        if: inputs.site_archive_url == ''
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          artifact-ids: ${{ inputs.site_artifact_id }}
+          run-id: ${{ inputs.source_run_id }}
+          repository: ${{ github.repository }}
+          github-token: ${{ github.token }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/reviewed-pages-artifact
+      - name: Verify and unpack the exact reviewed site files
+        env:
+          RHEON_ARCHIVE_URL: ${{ inputs.site_archive_url }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, tarfile
+          temporary = pathlib.Path(os.environ['RUNNER_TEMP'])
+          from_url = bool(os.environ['RHEON_ARCHIVE_URL'])
+          root = temporary / 'reviewed-site'
+          if from_url:
+              archive = temporary / 'reviewed-site.tar.gz'
+              if hashlib.sha256(archive.read_bytes()).hexdigest() != 'e179d9f7da8e23ef1633a73c20c55ca9c11b88ffcf3eaef9d7ed777ee179e73a':
+                  raise SystemExit('Archive differs from the locally reviewed edition')
+              destination = root
+          else:
+              downloaded = temporary / 'reviewed-pages-artifact'
+              archive = downloaded / 'artifact.tar'
+              if set(downloaded.iterdir()) != {archive} or not archive.is_file() or archive.is_symlink():
+                  raise SystemExit('Expected one Pages artifact.tar')
+              destination = root / 'pr36-reviewed-edition'
+          destination.mkdir(parents=True)
+          with tarfile.open(archive) as bundle:
+              names = set()
+              for member in bundle.getmembers():
+                  path = pathlib.PurePosixPath(member.name)
+                  if path.is_absolute() or '..' in path.parts:
+                      raise SystemExit('Unexpected archive destination')
+                  if from_url and (not path.parts or path.parts[0] != 'pr36-reviewed-edition'):
+                      raise SystemExit('Unexpected reviewed archive prefix')
+                  if path in names or not (member.isfile() or member.isdir()):
+                      raise SystemExit('Unexpected duplicate, link, or special archive entry')
+                  names.add(path)
+              bundle.extractall(destination, filter='data')
+          edition = root / 'pr36-reviewed-edition'
+          # All 345 paths and file bytes in the SHA256-bound e179d9f7 archive.
+          # Pages repacks tar metadata; verify the complete content instead.
+          files = {p.relative_to(edition).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+                   for p in edition.rglob('*') if p.is_file()}
+          digest = hashlib.sha256(json.dumps(files, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+          if digest != 'e42ced0f51edf5695a4760cce55ea8889ee155b41c2cf5429413d1e613b83424':
+              raise SystemExit('Site paths or bytes differ from the locally reviewed edition')
+          print('PASS all', len(files), 'reviewed site paths and SHA256 file hashes')
+          PY
+      - name: Check retained proof, PDF, source, browser and link receipts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+          python3 -m pip install pypdf==6.10.0
+          python3 docs/education/verify_site.py --output-dir "$RUNNER_TEMP/reviewed-site/pr36-reviewed-edition"
+          python3 - <<'PY'
+          import os, pathlib, sys
+          repo = pathlib.Path.cwd()
+          sys.path.insert(0, str(repo / 'docs/education'))
+          from browser_qualification import verify_browser_qualification
+          edition = pathlib.Path(os.environ['RUNNER_TEMP']) / 'reviewed-site/pr36-reviewed-edition'
+          verify_browser_qualification(repo, artifact_dir=edition)
+          print('PASS immutable retained browser/source/book/PDF and native-packet receipts')
+          PY
+      - name: Upload the unchanged reviewed site to Pages
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          path: ${{ runner.temp }}/reviewed-site/pr36-reviewed-edition
+          retention-days: 30
+  deploy:
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy the reviewed Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
