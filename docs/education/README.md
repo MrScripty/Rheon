@@ -1,5 +1,40 @@
 # Rheon GitHub Pages teaching edition
 
+## Reading with examples
+
+The desktop book places the chapter list at left, bounded-width text in the
+middle and a sticky 3D reference at right. The six-part laboratory page is a
+reading sequence: pressure correction, first mesh crossing, layered hydrostatics,
+viscous decay, wall slip, then equilibrium capillarity. Each lesson states a
+prediction, comparison and measurable limitation. The authored chapter text,
+citations, figures, Lean source and numerical generators remain unchanged.
+
+Scroll-linked examples cover chapters **3, 4, 5, 10, 19–25**. Heading-to-case
+bindings live in `teaching.py` and fail the build if an expected heading moves.
+The remaining chapters/appendices retain their text and source links without
+implying that an unrelated example implements their subject. The native,
+obstacle and aligned-strain pages retain their existing qualified-packet gates.
+No absent packet is replaced with synthetic data or claimed as a live solver.
+
+Scrolling selects an explicit saved case; projection alone recomputes the
+labelled blend. Changing a control pauses following. **Follow reading** resumes
+at the current section. Camera drag/arrow keys, zoom buttons and reset are
+independent of section changes. The wheel scrolls the page rather than zooming.
+On phones, **Text**, **Split** and **Example** select a readable text view,
+compact sticky example above the text, or the complete controls. In Split, the
+example panel scrolls internally to its controls and readouts.
+
+Checked proof bridges are compact disclosures. Opening their direct section
+links reveals the complete original statement. The print/PDF and Markdown
+editions keep the full source text. GUI renderer/orbit/lifecycle and scoped
+control theme reuse the pinned real browser viewer documented in
+[`browser/viewer/README.md`](../../browser/viewer/README.md).
+
+`teaching_browser.py` adds numerical and interaction comparisons to the existing
+browser qualification. New source files and shared viewer sources are bound by
+the browser receipt; changing them rejects stale qualification. Screenshots,
+PDF and receipts stay outside Git. No publishing action is part of the build.
+
 The 25-chapter book, six appendices, implementation guides, locally rendered equations, displayed Lean source, six interactive 3D reference laboratories and the connected PR22–24 native wall/force sequence. Owner: Puma. The destination is repository GitHub Pages.
 
 The three native labs are recorded playback with distinct models: two finite Navier walls, compatible no-slip/mixed boundaries, and uniform tangential forcing with stationary no-slip walls. Their controls select saved cases/times; they do not recompute parameters or advance a live liquid simulator. The original six 3D labs remain separate analytical/stored mechanisms. The projection control displays an algebraic blend of two saved fields; camera motion only changes the view.

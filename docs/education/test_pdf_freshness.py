@@ -21,7 +21,7 @@ class PdfFreshness(unittest.TestCase):
         for path, content in [(self.chapter, '# Original manuscript'),
                               (self.figure, '<svg/>'),
                               *[(self.here/name, name) for name in
-                                ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json',
+                                ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json', 'teaching.py', 'reader.css',
                                  'aligned_strain_packet.py','aligned_strain_html.py',
                                  'aligned_strain.js','aligned_strain.css','aligned_strain_browser.py']]]:
             path.parent.mkdir(parents=True, exist_ok=True)

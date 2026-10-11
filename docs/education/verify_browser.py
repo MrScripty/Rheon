@@ -16,6 +16,7 @@ from native_sequence import metadata
 from obstacle_browser import qualify as qualify_obstacle
 from obstacle_flow_browser import qualify as qualify_obstacle_flow
 from aligned_strain_browser import qualify as qualify_aligned_strain
+from teaching_browser import qualify as qualify_teaching
 
 HERE = Path(__file__).resolve().parent
 
@@ -117,9 +118,12 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         require(mobile.locator('.chapter-link:visible').count() == 1, 'Mobile chapter search failed')
         mobile.screenshot(path='/tmp/rheon-education-mobile.png', full_page=True)
         load(mobile, 'labs.html#cap')
+        mobile.locator('[data-reading-mode="example"]').click()
         mobile.wait_for_selector('#metrics dd')
         require(mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'),
                 'Mobile laboratory has horizontal overflow')
+        teaching = qualify_teaching(page, mobile, load, check_errors,
+                                   artifact_dir=Path(artifact_dir)/'teaching-evidence' if render_pdf and artifact_dir is not None else None)
         native = qualify_native(page, mobile, load, check_errors, metadata(HERE.parents[1]), base_url)
         obstacle = qualify_obstacle(page, mobile, load, check_errors)
         obstacle_flow = qualify_obstacle_flow(page, mobile, load, check_errors)
@@ -145,6 +149,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         receipt['static_obstacle'] = obstacle
         receipt['obstacle_flow'] = obstacle_flow
         receipt['aligned_strain'] = strain
+        receipt['teaching'] = teaching
         browser.close()
         return receipt
 

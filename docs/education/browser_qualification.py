@@ -4,10 +4,48 @@ import hashlib
 import json
 
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
+                    'teaching.py', 'reader.js', 'reader.css', 'navigation.js', 'teaching_browser.py',
+                    '../../browser/viewer/view.js', '../../browser/viewer/shell.css',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
                     'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt',
                     'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py', 'aligned_strain_packet.py', 'aligned_strain_html.py', 'aligned_strain.js', 'aligned_strain.css', 'aligned_strain_browser.py']
 LABS = ['projection', 'collision', 'hydrostatic', 'viscous', 'slip', 'cap']
+
+
+def validate_teaching_receipt(observed, reference_sha256=None):
+    """Retained checks must include measured teaching behavior, not just assets."""
+    required = ['desktop_columns', 'desktop_sticky_example',
+                'manual_comparison_pauses_follow', 'follow_resumes_current_section',
+                'camera_drag_and_keyboard', 'camera_preserved_during_scroll_and_controls',
+                'camera_reset_and_zoom', 'wheel_does_not_zoom',
+                'compact_proof_disclosure_and_deep_link', 'chapter_source_links']
+    if not isinstance(observed, dict) or observed.get('schema') != 'rheon-teaching-browser-v1':
+        raise ValueError('Missing teaching browser qualification')
+    for flag in required:
+        if observed.get(flag) is not True:
+            raise ValueError('Incomplete teaching browser check: '+flag)
+    for key, value in [('scroll_stops', 12), ('fluid_solves', 0), ('fluid_advances', 0)]:
+        if type(observed.get(key)) is not int or observed[key] != value:
+            raise ValueError('Incomplete teaching browser count: '+key)
+    expected = {'states': dict(zip(LABS, [3, 9, 3, 9, 3, 9])), 'total_states': 36,
+                'arrow_states': 27, 'cap_render_invariance_comparisons': 6,
+                'independent_equations': ['graph incidence and kinetic norm', 'segment interpolation',
+                    'two-layer hydrostatic pressure', 'implicit periodic eigenmode and continuum decay',
+                    'one-slip-wall Couette speed, traction and dissipation',
+                    'spherical cap volume, Young–Laplace pressure and adhesion work']}
+    if observed.get('numerical') != expected:
+        raise ValueError('Incomplete teaching numerical comparisons')
+    mobile = observed.get('mobile', [])
+    if len(mobile) != 2 or [entry.get('width') for entry in mobile] != [390, 320]:
+        raise ValueError('Incomplete teaching phone widths')
+    for entry in mobile:
+        if entry.get('modes') != ['text', 'split', 'example'] or any(entry.get(key) is not True for key in
+                ['chapter_search_and_navigation', 'no_horizontal_overflow', 'readable_text',
+                 'example_control_comparison', 'mode_preserves_lesson_and_scroll',
+                 'split_scroll_selects_preset', 'follow_in_example_restores_reading_preset']):
+            raise ValueError('Incomplete teaching phone interaction checks')
+    if reference_sha256 is not None and observed.get('reference_sha256') != reference_sha256:
+        raise ValueError('Stale teaching reference data binding')
 
 
 def source_hashes(here):
@@ -65,6 +103,9 @@ def verify_browser_qualification(repo, artifact_dir=None):
             raise ValueError('Missing browser qualification check: ' + flag)
     if receipt.get('page_errors') != [] or receipt.get('http_failures') != []:
         raise ValueError('Retained browser qualification contains page/network failures.')
+    reference = artifact/'reference-data.json'
+    validate_teaching_receipt(receipt.get('teaching'),
+                             hashlib.sha256(reference.read_bytes()).hexdigest() if artifact_dir is not None else None)
     if artifact_dir is not None:
         native=receipt.get('native_labs',{})
         presentation=json.loads((artifact/'native-presentation.json').read_text())
