@@ -7,10 +7,19 @@ No appendix has a scroll-linked example. These counts describe placement,
 not complete coverage of each chapter's topics or qualification of a solver.
 [Heading bindings](teaching.py) fail the build when an expected section moves.
 
-The [layout screenshots](screenshots/README.md) show the earlier six-reference
-checkpoint at `540bdef8fcbc0d0a55567325eba570589666bf80`; they do not demonstrate
-the subsequent sampling/transport computations. Their provenance and the
-separate, unchanged PR42 native-app captures must not be conflated.
+The [current sampling/transport screenshots](screenshots/README.md#current-sampling-and-transport-lessons)
+show the two recomputed lessons from clean local capture commit
+`ae06472f96d568d2f7077561e7b0080763510366`, source tree
+`4f96d068eb780fa22b6eca2481504596d8db75c0`. Their
+[provenance](screenshots/research-book-transport/provenance.json) records the
+capture source separately from the
+[published implementation](https://github.com/MrScripty/Rheon/commit/1c14e5787420b4db305abed96863e15535ca8e21),
+whose source tree is identical and commit metadata differs.
+The [historical six-reference screenshots](screenshots/README.md#historical-six-reference-checkpoint)
+retain source `540bdef8fcbc0d0a55567325eba570589666bf80` and do not demonstrate
+the subsequent computations. PR42's native-app captures remain separate and
+unchanged. Screenshots document the UI; numerical comparisons supply the
+computation evidence.
 
 ## What executes
 

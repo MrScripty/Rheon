@@ -38,12 +38,19 @@ control theme reuse the pinned real browser viewer documented in
 browser qualification. New source files and shared viewer sources are bound by
 the browser receipt; changing them rejects stale qualification. Generated test
 screenshots, PDF and receipts stay outside Git. The explicitly requested
-[repository screenshot set](screenshots/README.md) is a documented exception:
-desktop and phone layout captures from source
-`540bdef8fcbc0d0a55567325eba570589666bf80`, before the sampling/transport follow-on.
-They are browser emulation and retain pixel hashes and provenance. PR42's
-native-app screenshots remain separate and unchanged. No publishing action is
-part of the build.
+[current sampling/transport captures](screenshots/README.md#current-sampling-and-transport-lessons)
+and [historical six-reference captures](screenshots/README.md#historical-six-reference-checkpoint)
+are documented exceptions. The current set came from clean local commit
+`ae06472f96d568d2f7077561e7b0080763510366`, source tree
+`4f96d068eb780fa22b6eca2481504596d8db75c0`; its
+[provenance](screenshots/research-book-transport/provenance.json) distinguishes
+the capture commit from the
+[published equivalent](https://github.com/MrScripty/Rheon/commit/1c14e5787420b4db305abed96863e15535ca8e21),
+which has the identical source tree and different commit metadata.
+The historical set remains bound to `540bdef8fcbc0d0a55567325eba570589666bf80`.
+Phone captures use browser emulation. Both sets retain unaltered pixels and
+hashes. PR42's native-app screenshots remain separate and unchanged. No
+publishing action is part of the build.
 
 The 25-chapter book, six appendices, implementation guides, locally rendered equations, displayed Lean source, six interactive 3D reference laboratories and the connected PR22–24 native wall/force sequence. Owner: Puma. The destination is repository GitHub Pages.
 
