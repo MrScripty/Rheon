@@ -6,7 +6,7 @@ import json
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
                     'teaching.py', 'reader.js', 'reader.css', 'navigation.js', 'teaching_browser.py',
                     'transport_reference.js', 'transport_labs.js', 'transport_browser.py', 'test_transport_reference.py',
-                    'flow_labs.js', 'flow_worker.js', 'flow_volume.js', 'flow_browser.py', 'test_flow_browser.py',
+                    'flow_labs.js', 'flow_worker.js', 'flow_field.js', 'flow_volume.js', 'flow_browser.py', 'flow_field_oracles.py', 'test_flow_browser.py', 'test_flow_field.py',
                     'timestep_labs.js', 'timestep_worker.js', 'timestep_browser.py', 'test_timestep_browser.py', 'build_solver.py', 'test_build_solver.py', 'BROWSER_TIMESTEP.md',
                     '../research-book/companion/experiments.py', '../research-book/companion/depth_experiments.py',
                     '../../browser/viewer/view.js', '../../browser/viewer/shell.css',

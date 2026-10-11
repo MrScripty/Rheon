@@ -136,6 +136,13 @@ accepted steps. The renderer samples all 24³ cell values with trilinear display
 interpolation and integrates a fixed Beer–Lambert opacity law along perspective
 rays. Smooth pixels do not increase numerical resolution.
 
+The optional overhead lighting uses a vertical concentration integral to shade
+colour while preserving opacity. Its optical-depth prefix is exact at cell
+centres and interpolated elsewhere; this is a depth cue, not a scattering solve.
+Six fixed seeds trace the current staggered velocity field with a fixed 0–1 m/s
+colour scale. These instantaneous streamlines show directions and speeds at one
+accepted state; they are not material trajectories or additional fluid detail.
+
 The source region is an injection marker, not a collision object. The surrounding
 sealed box is the actual domain. Static obstacle pressure remains a separate
 operator; impermeable obstacle-aware advection and tracer composition are not

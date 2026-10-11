@@ -22,6 +22,7 @@ footer{margin-left:224px;padding:20px 32px}
 .example-workspace #scene{height:clamp(190px,27vh,340px);background:#eff5f6;position:relative;touch-action:pan-y}
 .example-workspace canvas{touch-action:pan-y!important}
 #plot-legend{position:absolute;left:8px;bottom:5px;right:8px;display:flex;gap:10px;flex-wrap:wrap;font:10px/1.3 system-ui;pointer-events:none}#plot-legend[hidden]{display:none}#plot-legend span{border-top:2px solid;padding-top:2px}
+#flow-velocity-legend{border-image:linear-gradient(90deg in srgb-linear,#a96629,#f5ce80) 1}
 .camera-toolbar{display:flex;gap:4px;align-items:center;padding:6px 10px;border-bottom:1px solid var(--line)}
 .camera-toolbar button{font-size:11px;padding:4px 8px}.camera-toolbar #render-status{font-size:10px;color:var(--muted);margin-left:auto}
 .example-workspace .lab-panel{padding:12px 14px;font-size:12px}.example-workspace .lab-panel h2{font:600 17px/1.3 system-ui;margin:0 0 8px}
@@ -34,12 +35,22 @@ footer{margin-left:224px;padding:20px 32px}
 .timestep-actions{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 8px}.timestep-actions button{font-size:11px;padding:7px 9px}.timestep-actions button:disabled{opacity:.5;cursor:default}#timestep-status{font-size:11px;min-height:3em}
 #timestep-faces table{display:table;table-layout:fixed;width:100%}#timestep-faces th,#timestep-faces td{min-width:0;overflow-wrap:anywhere}
 .example-workspace[data-lab=flow] #scene{height:clamp(310px,43vh,510px)}
+.example-workspace[data-lab=flow] #plot-legend{position:static;padding:5px 8px;gap:4px 10px;border-bottom:1px solid var(--line);background:white}
 .example-workspace[data-lab=flow] #reading-context,.example-workspace[data-lab=flow] .example-kind{display:none}
 .example-workspace[data-lab=flow] .lab-panel{padding:10px 14px}
-.example-workspace[data-lab=flow] #lab-title{font-size:16px;margin-bottom:4px}
-.example-workspace[data-lab=flow] #lab-description{font-size:11px;margin-bottom:6px}
-.flow-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.flow-actions button{padding:7px 12px;font-size:12px}
-.flow-status{font-size:11px;font-variant-numeric:tabular-nums}
+.example-workspace[data-lab=flow] #lab-title{font-size:13px;margin-bottom:8px}
+.example-workspace[data-lab=flow] #lab-description{font-size:11px;margin:10px 0 6px}
+.example-workspace[data-lab=flow] #metrics:empty{display:none}
+.flow-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.flow-actions button{padding:6px 10px;font-size:12px}
+.flow-summary{display:flex;flex-direction:column;gap:1px;margin-left:auto;text-align:right;font-variant-numeric:tabular-nums;line-height:1.35}
+.flow-summary strong{font-size:13px}.flow-summary span{font-size:10px;color:var(--muted)}
+.flow-status{font-size:11px;font-variant-numeric:tabular-nums;margin:6px 0}
+.example-workspace #flow-diagnostics{margin-top:6px;padding:6px 0 0}
+.example-workspace #flow-diagnostics .flow-inspector-content{border:0;margin:10px 0;padding:0}
+.flow-inspector-content>summary{display:none}
+.flow-inspector-content p{margin:8px 0}
+.flow-display-controls{display:flex;gap:8px 14px;flex-wrap:wrap}.example-workspace #controls .flow-display-controls label{display:flex;align-items:center;gap:5px;margin:6px 0}
+.flow-display-controls input{margin:0;width:auto}.flow-display-limit{font-size:11px;color:var(--muted)}
 .flow-focus header,.flow-focus #navigation,.flow-focus footer,.flow-focus .reading-text,.flow-focus .example-toolbar{display:none}
 .flow-focus.reader-page main{display:block;margin:0 auto;padding:12px;max-width:1000px;min-height:0}
 .flow-focus .example-workspace{display:block!important;position:relative;top:0;max-height:none;overflow:visible}

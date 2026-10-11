@@ -126,7 +126,7 @@ build. **Run** advances accepted states asynchronously; **Pause** stops scheduli
 new steps (one already running step may finish). **Reset** clears native state.
 The source injects tracer for 30 steps and the experiment ends at 80 accepted
 steps. Actual time, grid size and progress remain visible; the numerical ledger
-is collapsed by default. The camera survives accepted updates and reading-mode
+and source links share one collapsed inspector. The camera survives accepted updates and reading-mode
 changes. No step starts on page load or section scroll.
 
 The volume uses the full accepted three-dimensional concentration tensor,
@@ -134,6 +134,16 @@ trilinear display interpolation and a fixed opacity law. It contains no procedur
 noise, synthetic particle trajectory or inferred water surface. Inspect it from
 two angles at the same accepted time. The renderer reuses the real GUI camera,
 WebGL renderer and lifecycle without its normalized one-dimensional profile adapter.
+
+An optional overhead depth cue attenuates colour using the same concentration
+tensor; it leaves the fixed opacity integral unchanged. The optical-depth prefix
+is exact at cell centres for the vertically interpolated tracer and is interpolated
+between those centres for display. It is an appearance model, not calibrated
+light scattering. Six fixed seeds trace the instantaneous staggered velocity
+field, with a fixed 0–1 m/s colour scale. These frozen-field streamline overlays are not
+particle histories or physically scattered light. Both display layers can be switched off in the inspector
+without advancing or resetting native state. The responsive scene remains 24³;
+interpolation, lighting and canvas pixel density add no numerical resolution.
 
 The amber outline is the injection region. Fixed sealed domain walls are the
 only impermeable geometry in this timestep. Static-obstacle pressure is available

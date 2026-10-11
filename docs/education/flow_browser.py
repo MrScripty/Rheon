@@ -15,10 +15,13 @@ import sys
 import time
 from urllib.parse import urljoin
 
+from flow_field_oracles import (JS_PROBE, check_native_curves,
+                               check_results as check_field_results, fixture_cases)
 from teaching_browser import (evidence_path, metrics, no_overflow, same_camera,
                               scroll_to, settle, settled_camera, snapshot)
 
 ROOT = Path(__file__).resolve().parents[2]
+SCHEMA = 'rheon-flow-browser-v2'
 FIXTURE = 'force-plume-24-v1'
 METHODS = ('jacobi-pcg-v1', 'sgs-pcg-v1')
 FIELDS = ('x', 'y', 'z', 'tracer')
@@ -35,6 +38,7 @@ PARAMETERS = {'density':1.2,'source_lower':[.30,.08,.38],'source_upper':[.50,.28
               'actual_divergence_limit':1e-5,'max_courant':1.}
 SOURCE_PATHS = {'flow_labs.js': 'docs/education/flow_labs.js',
                 'flow_worker.js': 'docs/education/flow_worker.js',
+                'flow_field.js': 'docs/education/flow_field.js',
                 'flow_volume.js': 'docs/education/flow_volume.js',
                 'flow-source.rs': 'browser/solver/src/flow.rs'}
 PACKET_FILES = ('rheon_solver.js', 'rheon_solver_bg.wasm',
@@ -422,6 +426,15 @@ def check_renderer(observed):
     close(rendered.get('tracerLength'),24**3,'rendered tensor length')
     require(rendered.get('tracerRange') == [min(state['tracer']),max(state['tracer'])], 'rendered absolute concentration range')
     require(rendered.get('source') == {key:state['source'][key] for key in ('lower','upper')}, 'actual source geometry marker')
+    require(rendered.get('sourceTime')==state['time'] and rendered.get('sourceGeneration')==state['generation'],
+            'derived display identifies its accepted state')
+    require(rendered.get('lighting') in ('lit','unlit') and rendered.get('lightExtinction')==12 and
+            rendered.get('lightAmbient')==.28 and rendered.get('lightInterpolation')=='cell-center-prefix-trilinear',
+            'fixed disclosed approximate depth-light appearance')
+    require(rendered.get('streamlineGeometry')=='frozen-instantaneous-arclength-rk4' and
+            rendered.get('streamlinePositionUnits')=='m' and rendered.get('streamlineSpeedUnits')=='m/s' and
+            rendered.get('streamlineSpeedMax')==1 and rendered.get('streamlineOverlay') is True,
+            'instantaneous spatial overlays retain physical speed units')
 
 
 
@@ -480,29 +493,43 @@ def render_oracles(page):
       const scene=new THREE.Scene(),group=new THREE.Group();scene.add(group);
       const camera=new THREE.PerspectiveCamera(20,1,.01,100);
       const target=new THREE.WebGLRenderTarget(65,65,{format:THREE.RGBAFormat,type:THREE.UnsignedByteType});
-      const pixels=[],modes=[];
+      const pixels=[],modes=[],lightingPixels=[];
       try {
         for(const forceManualInterpolation of [false,true]){
-          const volume=new FlowVolume({group,renderer},{forceManualInterpolation,boxVisible:false,sourceVisible:false});
+          const volume=new FlowVolume({group,renderer},{forceManualInterpolation,boxVisible:false,sourceVisible:false,
+            lighting:'unlit',streamlines:false});
           try {
+            function capture(kind,concentration,original=true){
+              const captures=[];
+              for(const lighting of ['unlit','lit']){
+                volume.setDisplay({lighting,streamlines:false});
+                renderer.setRenderTarget(target);renderer.clear();renderer.render(scene,camera);
+                const rgba=new Uint8Array(65*65*4);renderer.readRenderTargetPixels(target,0,0,65,65,rgba);
+                captures.push(rgba);
+              }
+              const center=4*(32+65*32), unlit=[...captures[0].slice(center,center+4)],lit=[...captures[1].slice(center,center+4)];
+              let maxAlphaDifference=0;
+              for(let i=3;i<captures[0].length;i+=4)maxAlphaDifference=Math.max(maxAlphaDifference,Math.abs(captures[0][i]-captures[1][i]));
+              const metadata={mode:volume.snapshot().interpolation,kind,concentration,path:2};
+              if(original)pixels.push({...metadata,rgba:unlit});
+              lightingPixels.push({...metadata,unlit,lit,maxAlphaDifference});
+            }
             for(const concentration of [.01,.05]){
               volume.update({...state,tracer:Array(60).fill(concentration)});
               camera.position.set(0,0,5);camera.lookAt(0,0,0);camera.updateMatrixWorld();
-              renderer.setRenderTarget(target);renderer.clear();renderer.render(scene,camera);
-              const rgba=new Uint8Array(4);renderer.readRenderTargetPixels(target,32,32,1,1,rgba);
-              pixels.push({mode:volume.snapshot().interpolation,kind:'constant',concentration,path:2,rgba:[...rgba]});
+              capture('constant',concentration);
             }
             volume.update(state);
             // Off-centre axis-aligned ray through first x/y cell centres.
             camera.position.set(-.2,-.45,5);camera.lookAt(-.2,-.45,0);camera.updateMatrixWorld();
-            renderer.clear();renderer.render(scene,camera);
-            const rgba=new Uint8Array(4);renderer.readRenderTargetPixels(target,32,32,1,1,rgba);
-            pixels.push({mode:volume.snapshot().interpolation,kind:'affine',concentration:.015,path:2,rgba:[...rgba]});
+            capture('affine-low',.015);
+            camera.position.set(-.2,.45,5);camera.lookAt(-.2,.45,0);camera.updateMatrixWorld();
+            capture('affine-high',.021,false);
             modes.push(volume.snapshot().interpolation);
           } finally {volume.dispose();}
         }
       } finally {target.dispose();renderer.dispose();renderer.forceContextLoss();}
-      return {probes,samples,extremes,opacities,pixels,modes};
+      return {probes,samples,extremes,opacities,pixels,modes,lightingPixels};
     }''')
     for actual,expected in zip(result['samples'],(.007,.019,.031,.007,.031)):
         close(actual,expected,'independent x-fastest affine interpolation',absolute=2e-8)
@@ -513,8 +540,97 @@ def render_oracles(page):
     for item in result['pixels']:
         expected=-math.expm1(-32*item['concentration']*item['path'])
         close(item['rgba'][3]/255,expected,'actual GPU physical-path opacity',absolute=2/255)
+    require(len(result['lightingPixels'])==8,'all actual lit/unlit GPU pairs')
+    tint=[value/12.92 if value<=.04045 else ((value+.055)/1.055)**2.4 for value in (22/255,127/255,136/255)]
+    for item in result['lightingPixels']:
+        require(item['maxAlphaDifference']==0,'lighting preserves every rendered pixel alpha exactly')
+        accumulated=radiance=0.
+        ray=[]
+        for sample in range(20):
+            if item['kind']=='constant':
+                concentration=item['concentration'];light_depth=12*concentration*.6
+            else:
+                z_index=max(0.,min(4.,((sample+.5)*.1)/.4-.5))
+                concentration=(.003 if item['kind']=='affine-low' else .009)+.004*(z_index+1)
+                light_depth=12*.3*(3.5*concentration+.012 if item['kind']=='affine-low' else .5*concentration)
+            # The camera sees +Z first. Reverse-order accumulation below uses
+            # the same physical column integral but different front weights.
+            # Collect samples before integrating in camera-to-domain order.
+            ray.append((concentration,light_depth))
+        for concentration,light_depth in reversed(ray):
+            weight=math.exp(-32*accumulated)*(-math.expm1(-32*concentration*.1))
+            radiance+=weight*(.28+.72*math.exp(-light_depth));accumulated+=concentration*.1
+        alpha=-math.expm1(-32*accumulated)
+        close(item['lit'][3]/255,alpha,'lit actual GPU opacity',absolute=2/255)
+        for observed,channel in zip(item['lit'][:3],tint):
+            close(observed/255,channel*radiance,'actual GPU fixed +Y depth-light RGB',absolute=2/255)
+        require(sum(item['lit'][:3])<sum(item['unlit'][:3]),'disclosed lighting visibly changes RGB')
     return {'affine_indexing_probes':5,'beer_lambert_probes':3,'gpu_alpha_probes':6,
-            'gpu_paths':result['modes'],'actual_shader_alpha':True,'extreme_coordinate_probes':2}
+            'gpu_paths':result['modes'],'actual_shader_alpha':True,'extreme_coordinate_probes':2,
+            'gpu_lighting_alpha_pairs':8,'gpu_lighting_gradient_probes':2,
+            'lit_unlit_alpha_unchanged':True,'rgb_matches_disclosed_depth_law':True}
+
+
+def field_oracles(page):
+    cases=fixture_cases()
+    url=page.evaluate("new URL('flow_field.js',[...document.scripts].find(s=>/\\/reader\\.js$/.test(s.src)).src).href")
+    result=page.evaluate(JS_PROBE,{'url':url,'cases':cases})
+    return {**check_field_results(cases,result),'pure_module_exercised_in_browser':True}
+
+
+def derived_snapshot(page):
+    return page.evaluate(r'''async()=>{
+      const reader=[...document.scripts].find(s=>/\/reader\.js$/.test(s.src));
+      return (await import(new URL('labs.js',reader.src))).snapshot({flowDerived:true});
+    }''')
+
+
+def display_controls(page):
+    before=settled_camera(page)
+    before_requests=requests(page)
+    before_pixels=canvas_pixels(page)
+    page.locator('#flow-diagnostics').evaluate('node=>node.open=true')
+    legend=page.locator('#flow-velocity-legend')
+    require(legend.is_visible() and 'm/s' in legend.inner_text(),'fixed physical speed legend is visible')
+    require(legend.evaluate("node=>CSS.supports('border-image','linear-gradient(90deg in srgb-linear,#a96629,#f5ce80) 1') && getComputedStyle(node).borderImageSource!=='none'"),
+            'browser renders the fixed linear-colour speed gradient')
+    page.locator('#flow-streamlines').uncheck();settle(page)
+    hidden=snapshot(page)
+    require(hidden['reference']['renderer']['streamlinesVisible'] is False and not legend.is_visible(),
+            'velocity control hides actual overlay and its legend')
+    bare_lit=canvas_pixels(page)
+    require(pixel_difference(before_pixels,bare_lit)>.05,'actual instantaneous overlays change canvas pixels')
+    page.locator('#flow-lighting').uncheck();settle(page)
+    unlit=snapshot(page)
+    require(unlit['reference']['renderer']['lighting']=='unlit','lighting control changes actual renderer mode')
+    require(pixel_difference(bare_lit,canvas_pixels(page))>.05,'actual accepted field changes colour with depth lighting')
+    page.locator('#lab').dispatch_event('change')
+    remounted=wait_ready(page)
+    require(remounted['reference']['renderer']['lighting']=='unlit' and
+            remounted['reference']['renderer']['streamlinesVisible'] is False and
+            not page.locator('#flow-lighting').is_checked() and not page.locator('#flow-streamlines').is_checked(),
+            'display choices survive an accepted-state remount')
+    page.locator('#flow-diagnostics').evaluate('node=>node.open=true')
+    page.locator('#flow-lighting').check();page.locator('#flow-streamlines').check();settle(page)
+    after=settled_camera(page)
+    state_equal(after['reference']['state'],before['reference']['state'],'display toggles preserve accepted full fields')
+    same_camera(before,after,'display toggles/remount preserve manual camera')
+    require(requests(page)==before_requests,'display toggles/remount never submit native requests')
+    require(pixel_difference(before_pixels,canvas_pixels(page))<.01,'restoring display choices restores actual pixels')
+    page.locator('#flow-diagnostics').evaluate('node=>node.open=false')
+    page.locator('.example-workspace').evaluate('node=>node.scrollTop=0')
+    return {'lighting_changes_rgb':True,'streamlines_change_pixels':True,'toggle_state_survives_remount':True,
+            'fields_and_camera_unchanged':True,'no_native_requests':True,'restored_image_matches':True,
+            'physical_speed_gradient_supported':True}
+
+
+def legend_below_canvas(page):
+    canvas=page.locator('#scene canvas').bounding_box()
+    legend=page.locator('#plot-legend').bounding_box()
+    require(canvas is not None and legend is not None and legend['y']>=canvas['y']+canvas['height']-.5,
+            'flow legend remains outside the computed volume canvas')
+    require(legend['x']>=0 and legend['x']+legend['width']<=page.viewport_size['width']+.5,
+            'physical speed legend fits the reading viewport')
 
 
 def canvas_pixels(page):
@@ -551,6 +667,68 @@ def readout(page,state):
     close(float(values['Change since source stopped'].removesuffix('%')),100*(report['tracer_integral']/cutoff-1),
           'visible measured source-off integral loss',tolerance=5.1e-5)
     return values
+
+
+def inspector_lifecycle(page):
+    """Moving shared evidence into the inspector must preserve DOM ownership."""
+    before=wait_ready(page)
+    before_requests=requests(page)
+    for notes_open,sources_open in ((False,True),(True,False)):
+        page.locator('#lab').select_option('cap');settle(page)
+        page.evaluate('''([notesOpen,sourcesOpen])=>{
+          document.querySelector('.example-notes').open=notesOpen;
+          document.querySelector('.example-sources').open=sourcesOpen;
+          window.__flowBorrowedEvidence=['#lab-description','.example-notes','.example-sources','#chapter-target'].map(selector=>{
+            const node=document.querySelector(selector);
+            return {selector,node,parent:node.parentNode,next:node.nextSibling,
+                    open:node instanceof HTMLDetailsElement?node.open:null};
+          });
+          const legend=document.querySelector('#plot-legend');
+          window.__flowLegendHome={node:legend,parent:legend.parentNode,next:legend.nextSibling};
+        }''',[notes_open,sources_open])
+        page.locator('#lab').select_option('flow')
+        active=wait_ready(page)
+        state_equal(active['reference']['state'],before['reference']['state'],'inspector remount preserves native fields')
+        require(page.evaluate('''()=>{
+          const details=document.querySelector('#flow-diagnostics');
+          return !details.open && window.__flowBorrowedEvidence.every(({selector,node})=>
+            document.querySelectorAll(selector).length===1 && document.querySelector(selector)===node &&
+            details.contains(node) && (!(node instanceof HTMLDetailsElement)||node.open)) &&
+            document.querySelector('#flow-time').closest('.flow-actions') &&
+            document.querySelector('#flow-progress').closest('.flow-actions') &&
+            document.querySelectorAll('.flow-actions button').length===2 &&
+            document.querySelector('#metrics').children.length===0 &&
+            document.querySelector('#plot-legend')===window.__flowLegendHome.node &&
+            document.querySelector('#scene').nextElementSibling===window.__flowLegendHome.node &&
+            document.querySelector('#flow-sources').hidden===false &&
+            ['reference','transport','timestep'].every(kind=>document.querySelector('#'+kind+'-sources').hidden);
+        }'''),'compact inspector retains unique shared evidence and primary controls')
+        legend_below_canvas(page)
+        page.locator('#flow-diagnostics > summary').click()
+        for selector in ('#lab-description','#lab-expected','#lab-limit','#chapter-target','#flow-sources'):
+            require(page.locator(selector).is_visible(),'inspector exposes '+selector)
+        require('14-guidance-rendering' in page.locator('#chapter-target').get_attribute('href'),'flow mechanism citation destination')
+        page.locator('#lab').select_option('cap');settle(page)
+        require(page.evaluate('''()=>window.__flowBorrowedEvidence.every(({selector,node,parent,next,open})=>
+          document.querySelectorAll(selector).length===1 && document.querySelector(selector)===node &&
+          node.parentNode===parent && node.nextSibling===next &&
+          !node.classList.contains('flow-inspector-content') &&
+          (!(node instanceof HTMLDetailsElement)||node.open===open)) &&
+          document.querySelectorAll('#flow-diagnostics,.flow-inspector-content').length===0 &&
+          document.querySelector('#plot-legend')===window.__flowLegendHome.node &&
+          window.__flowLegendHome.node.parentNode===window.__flowLegendHome.parent &&
+          window.__flowLegendHome.node.nextSibling===window.__flowLegendHome.next &&
+          document.querySelector('#reference-sources').hidden===false &&
+          document.querySelector('#flow-sources').hidden===true'''),'other lesson restores evidence nodes, positions and disclosure states')
+        require('23-wetting-and-adhesion' in page.locator('#chapter-target').get_attribute('href'),'restored cap mechanism destination')
+    page.locator('#lab').select_option('flow')
+    after=wait_ready(page)
+    state_equal(after['reference']['state'],before['reference']['state'],'inspector round trips preserve accepted owner')
+    require(requests(page)==before_requests,'inspector and cross-lesson navigation never submit native commands')
+    page.evaluate('delete window.__flowBorrowedEvidence; delete window.__flowLegendHome')
+    return {'round_trips':2,'node_identity_and_positions':True,'disclosure_states_restored':True,
+            'citations_and_limits_visible':True,'primary_controls_compact':True,'no_native_requests':True,
+            'legend_identity_and_parent_restored':True}
 
 
 def qualify(page,mobile,load,check_errors,artifact_dir=None):
@@ -594,7 +772,7 @@ def qualify(page,mobile,load,check_errors,artifact_dir=None):
                     'source-only build must not fabricate native fields')
             require('no compiled flow solver' in page.locator('#flow-status').inner_text().lower(),'missing packet explained')
             check_errors()
-            return {'schema':'rheon-flow-browser-v1','included':False,'source_sha256':served,'packet_hashes':{},
+            return {'schema':SCHEMA,'included':False,'source_sha256':served,'packet_hashes':{},
                     'fluid_advances':0,'numerical_states':0,'unavailable_controls_disabled':True,
                     'no_synthetic_state':True,'screenshots':[]}
         packet={name:fetch('solver/'+name) for name in PACKET_FILES}
@@ -606,10 +784,12 @@ def qualify(page,mobile,load,check_errors,artifact_dir=None):
         host=check_native_reference(json.loads(packet['native-flow-reference.json']),blob)
         require(responses and all(response['status'] == 200 for response in responses),'actual WASM asset loaded in worker')
         rendering=render_oracles(page)
+        fields=field_oracles(page)
         numerical_states=0
         fluid_advances=0
         durations=[]
         method_results=[]
+        derived_curves=[]
         def consume(target,method,*,initialise=False):
             nonlocal numerical_states,fluid_advances
             accepted=[]
@@ -687,12 +867,15 @@ def qualify(page,mobile,load,check_errors,artifact_dir=None):
             require(pixel_difference(rest_pixels,canvas_pixels(page)) > .15,'actual computed tracer changes visible canvas pixels')
             require(page.locator('#flow-run').is_disabled(),'completed 80-step run cannot secretly continue')
             readout(page,final['reference']['state'])
+            actual_display=derived_snapshot(page)['reference']
+            derived_curves.append({'method':method,**check_native_curves(actual_display['state'],actual_display['renderer'])})
             method_results.append({'method':method,'accepted_states':MAX_STEPS,'final_time':final['reference']['state']['time'],
                  'final_divergence_max':derived['actual_divergence_max'],'final_component_energy':derived['component_energy'],
                  'final_tracer_axis_rms':derived['tracer_axis_rms'],
                  'source_off_integral_change':final['reference']['state']['metrics']['tracer_integral_change_since_cutoff']})
         stable=wait_ready(page)
         stable_requests=requests(page)
+        display=display_controls(page)
         page.locator('#flow-diagnostics').evaluate('node=>node.open=false')
         page.locator('.example-workspace').evaluate('node=>node.scrollTop=0')
         picture('flow-desktop-accepted-front.jpg')
@@ -731,6 +914,7 @@ def qualify(page,mobile,load,check_errors,artifact_dir=None):
             visible=wait_ready(page)
             state_equal(visible['reference']['state'],stable['reference']['state'],'responsive nonzero example')
             check_renderer(visible)
+            legend_below_canvas(page)
             no_overflow(page,'responsive accepted volume example')
             canvas=page.locator('#scene canvas').bounding_box()
             require(canvas['width']>=width-56 and canvas['height']>=190,'responsive computed-volume canvas')
@@ -750,7 +934,7 @@ def qualify(page,mobile,load,check_errors,artifact_dir=None):
             require(requests(page)==stable_requests,'responsive camera and modes submit no native requests')
             accepted_mobile.append({'width':width,'accepted_steps':80,'method':METHODS[-1],
                 'full_fields_unchanged':True,'camera_works':True,'example_and_split':True,'no_new_requests':True,
-                'desktop_context_viewport_emulation':True})
+                'desktop_context_viewport_emulation':True,'legend_separate_from_canvas':True})
         page.set_viewport_size({'width':1440,'height':1050})
         page.locator('button[data-reading-mode=text]').evaluate('node=>node.click()');settle(page)
         # A same-option change remounts the actual lesson volume while preserving
@@ -772,6 +956,7 @@ def qualify(page,mobile,load,check_errors,artifact_dir=None):
         remounted=wait_ready(page)
         state_equal(remounted['reference']['state'],chapter_state['reference']['state'],'cross-lesson remount preserves owner')
         require(page.evaluate('window.__flowEvidence.workers')==1,'cross-lesson selection keeps one native owner')
+        inspector=inspector_lifecycle(page)
         page.locator('#follow-reading').click()
         for anchor in ('surface-and-volume-outputs','metrics-and-integration'):
             scroll_to(page,'#'+anchor)
@@ -828,11 +1013,13 @@ def qualify(page,mobile,load,check_errors,artifact_dir=None):
             require(rest['reference']['state']['accepted_steps']==0 and all(r['action']=='configure' for r in requests(target)),
                     'compact URL never starts native simulation')
             no_overflow(target,'compact real 3D flow')
-            compact.append({'width':width,'large_canvas':True,'controls_accessible':True,'no_implicit_advance':True})
+            legend_below_canvas(target)
+            compact.append({'width':width,'large_canvas':True,'controls_accessible':True,'no_implicit_advance':True,
+                            'legend_separate_from_canvas':True})
         require(source_hashes()==initial_sources,'flow sources changed during qualification')
         check_errors()
         require(fluid_advances == 160,'exactly both bounded actual UI trajectories')
-        return {'schema':'rheon-flow-browser-v1','included':True,'fixture':FIXTURE,
+        return {'schema':SCHEMA,'included':True,'fixture':FIXTURE,
             'source_sha256':served,'packet_hashes':hashes,'methods':list(METHODS),
             'native_reference_states':172,'numerical_states':numerical_states,'fluid_advances':fluid_advances,
             'accepted_states_per_method':80,'method_results':method_results,
@@ -840,7 +1027,8 @@ def qualify(page,mobile,load,check_errors,artifact_dir=None):
             'genuine_three_axis_variation':True,'fresh_host_native_comparison':True,'actual_wasm_worker':True,
             'every_accepted_worker_state':True,'pause_and_reset':True,'persistent_single_worker':True,
             'camera_scroll_and_modes_do_not_advance':True,'actual_canvas_changes_with_computation_and_camera':True,
-            'render_oracles':rendering,'default_framing':default_framing,'accepted_mobile':accepted_mobile,'capture_states':capture_states,'desktop_scroll_stops':3,'chapter_scroll_stops':2,'desktop_direct_links':5,'mobile':mobile_results,'compact':compact,
+            'render_oracles':rendering,'field_oracles':fields,'derived_curves':derived_curves,'display_controls':display,
+            'inspector_lifecycle':inspector,'default_framing':default_framing,'accepted_mobile':accepted_mobile,'capture_states':capture_states,'desktop_scroll_stops':3,'chapter_scroll_stops':2,'desktop_direct_links':5,'mobile':mobile_results,'compact':compact,
             'worker_roundtrip_ms':{'minimum':min(durations),'maximum':max(durations),'mean':sum(durations)/len(durations),
                                   'includes_transfer_and_ui_scheduling':True,'real_time_claimed':False},
             'screenshots':screenshots}
@@ -856,7 +1044,7 @@ def validate_receipt(observed,included):
 
 
 def _validate_receipt(observed,included):
-    require(isinstance(observed,dict) and observed.get('schema')=='rheon-flow-browser-v1', 'missing 3D flow qualification receipt')
+    require(isinstance(observed,dict) and observed.get('schema')==SCHEMA, 'missing current 3D flow qualification receipt')
     require(observed.get('included') is included, 'flow receipt inclusion identity')
     require(observed.get('source_sha256')==source_hashes(), 'stale flow module/native-source bindings')
     require(isinstance(observed.get('screenshots'),list), 'flow screenshot list')
@@ -892,10 +1080,42 @@ def _validate_receipt(observed,included):
             require(isinstance(values,list) and len(values)==3 and all(type(v) in (float,int) and math.isfinite(v) and v>lower for v in values),
                     'genuine three-axis measured result '+key)
     rendering=observed.get('render_oracles',{})
-    for key,expected in [('affine_indexing_probes',5),('beer_lambert_probes',3),('gpu_alpha_probes',6),('extreme_coordinate_probes',2)]:
+    for key,expected in [('affine_indexing_probes',5),('beer_lambert_probes',3),('gpu_alpha_probes',6),('extreme_coordinate_probes',2),
+                         ('gpu_lighting_alpha_pairs',8),('gpu_lighting_gradient_probes',2)]:
         require(type(rendering.get(key)) is int and rendering[key]==expected, 'actual renderer analytic coverage '+key)
     require(rendering.get('actual_shader_alpha') is True and len(rendering.get('gpu_paths',[]))==2 and
             'manual-trilinear' in rendering['gpu_paths'], 'actual GPU physical-opacity checks and fallback')
+    for key in ('lit_unlit_alpha_unchanged','rgb_matches_disclosed_depth_law'):
+        require(rendering.get(key) is True,'actual GPU lighting coverage '+key)
+    fields=observed.get('field_oracles',{})
+    for key,expected in [('mac_queries',14),('sampler_paths',2),('optical_depth_values',96),('streamline_branches',20),('invalid_inputs_rejected',4)]:
+        require(type(fields.get(key)) is int and fields[key]==expected,'independent display-field coverage '+key)
+    for key in ('physical_speed_scale','input_fields_unchanged','pure_module_exercised_in_browser'):
+        require(fields.get(key) is True,'independent display-field check '+key)
+    errors=fields.get('rotation_endpoint_errors');ratios=fields.get('rotation_refinement_ratios')
+    require(isinstance(errors,list) and len(errors)==3 and all(type(v) in (int,float) and math.isfinite(v) for v in errors) and
+            0<errors[2]<errors[1]<errors[0] and errors[2]<1e-6,'measured analytical rotation endpoint convergence')
+    require(isinstance(ratios,list) and len(ratios)==2,'both fourth-order refinement ratios')
+    for i,ratio in enumerate(ratios):
+        close(ratio,errors[i]/errors[i+1],'measured RK4 refinement ratio')
+        require(10<ratio<24,'fourth-order RK4 convergence at matched arclength')
+    derived=observed.get('derived_curves')
+    require(isinstance(derived,list) and [row.get('method') for row in derived]==list(METHODS),'actual derived curves for both native methods')
+    for row in derived:
+        require(row.get('curves')==6 and row.get('branches')==12,'six bidirectional native-field curves')
+        require(type(row.get('rk4_segments')) is int and 0<row['rk4_segments']<=1200 and
+                row.get('speed_values')==row['rk4_segments']+12,'all actual native curve vertices/speeds checked')
+        for key in ('accepted_state_identity','physical_units','independent_mac_reintegration'):
+            require(row.get(key) is True,'actual native curve coverage '+key)
+    display=observed.get('display_controls',{})
+    for key in ('lighting_changes_rgb','streamlines_change_pixels','toggle_state_survives_remount',
+                'fields_and_camera_unchanged','no_native_requests','restored_image_matches','physical_speed_gradient_supported'):
+        require(display.get(key) is True,'actual display-control coverage '+key)
+    inspector=observed.get('inspector_lifecycle',{})
+    require(type(inspector.get('round_trips')) is int and inspector['round_trips']==2,'both inspector disclosure-state round trips')
+    for key in ('node_identity_and_positions','disclosure_states_restored','citations_and_limits_visible',
+                'primary_controls_compact','no_native_requests','legend_identity_and_parent_restored'):
+        require(inspector.get(key) is True,'inspector lifecycle coverage '+key)
     mobile=observed.get('mobile')
     require(isinstance(mobile,list) and [r.get('width') for r in mobile]==[390,320], 'both phone widths')
     for row in mobile:
@@ -911,12 +1131,12 @@ def _validate_receipt(observed,included):
     require(isinstance(nonzero,list) and [r.get('width') for r in nonzero]==[390,320], 'both nonzero responsive viewports')
     for row in nonzero:
         require(row.get('accepted_steps')==80 and row.get('method')==METHODS[-1], 'actual accepted responsive volume')
-        for key in ('full_fields_unchanged','camera_works','example_and_split','no_new_requests','desktop_context_viewport_emulation'):
+        for key in ('full_fields_unchanged','camera_works','example_and_split','no_new_requests','desktop_context_viewport_emulation','legend_separate_from_canvas'):
             require(row.get(key) is True, 'accepted responsive volume coverage '+key)
     compact=observed.get('compact')
     require(isinstance(compact,list) and [r.get('width') for r in compact]==[1440,390], 'desktop and phone compact entry')
     for row in compact:
-        for key in ('large_canvas','controls_accessible','no_implicit_advance'):
+        for key in ('large_canvas','controls_accessible','no_implicit_advance','legend_separate_from_canvas'):
             require(row.get(key) is True, 'compact flow coverage '+key)
     duration=observed.get('worker_roundtrip_ms',{})
     for key in ('minimum','maximum','mean'):

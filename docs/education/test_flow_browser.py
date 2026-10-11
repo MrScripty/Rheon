@@ -11,7 +11,7 @@ from pathlib import Path
 import struct
 import unittest
 
-from flow_browser import (FIXTURE, FIELDS, GRID, METHODS, PARAMETERS, PACKET_FILES,
+from flow_browser import (SCHEMA, FIXTURE, FIELDS, GRID, METHODS, PARAMETERS, PACKET_FILES,
                           check_metrics, check_native_reference, check_report,
                           check_state, decode_frame, field_counts, field_diagnostics,
                           f32_bits, index, project_domain_corners, source_hashes, validate_receipt)
@@ -35,7 +35,7 @@ def rest_fixture():
 
 
 def receipt_fixture(included=True):
-    receipt={'schema':'rheon-flow-browser-v1','included':included,'source_sha256':source_hashes(),
+    receipt={'schema':SCHEMA,'included':included,'source_sha256':source_hashes(),
              'packet_hashes':{},'fluid_advances':0,'numerical_states':0,'screenshots':[]}
     if not included:
         return {**receipt,'unavailable_controls_disabled':True,'no_synthetic_state':True}
@@ -47,15 +47,29 @@ def receipt_fixture(included=True):
                            'final_component_energy':[.001]*3,'final_tracer_axis_rms':[.01]*3,
                            'source_off_integral_change':-.0001} for method in METHODS],
         'render_oracles':{'affine_indexing_probes':5,'beer_lambert_probes':3,'gpu_alpha_probes':6,
-                         'actual_shader_alpha':True,'extreme_coordinate_probes':2,'gpu_paths':['hardware-linear','manual-trilinear']},
+                         'actual_shader_alpha':True,'extreme_coordinate_probes':2,'gpu_paths':['hardware-linear','manual-trilinear'],
+                         'gpu_lighting_alpha_pairs':8,'gpu_lighting_gradient_probes':2,
+                         'lit_unlit_alpha_unchanged':True,'rgb_matches_disclosed_depth_law':True},
+        'field_oracles':{'mac_queries':14,'sampler_paths':2,'optical_depth_values':96,'streamline_branches':20,
+                        'rotation_endpoint_errors':[.0001,.00000625,.000000390625],
+                        'rotation_refinement_ratios':[16.,16.],'physical_speed_scale':True,'input_fields_unchanged':True,
+                        'invalid_inputs_rejected':4,'pure_module_exercised_in_browser':True},
+        'derived_curves':[{'method':method,'curves':6,'branches':12,'speed_values':1200,'rk4_segments':1188,
+                          'accepted_state_identity':True,'physical_units':True,'independent_mac_reintegration':True} for method in METHODS],
+        'display_controls':{key:True for key in ('lighting_changes_rgb','streamlines_change_pixels','toggle_state_survives_remount',
+                                                'fields_and_camera_unchanged','no_native_requests','restored_image_matches',
+                                                'physical_speed_gradient_supported')},
+        'inspector_lifecycle':{'round_trips':2,'node_identity_and_positions':True,'disclosure_states_restored':True,
+                               'citations_and_limits_visible':True,'primary_controls_compact':True,'no_native_requests':True,
+                               'legend_identity_and_parent_restored':True},
         'mobile':[{'width':width,'modes':['text','split','example'],'readable_text':True,
                    'no_horizontal_overflow':True,'mode_preserves_state_and_scroll':True,'compact_controls':True}
                   for width in (390,320)],
         'default_framing':[{'width':w,'max_abs_ndc':.92,'all_eight_corners_visible':True} for w in (1440,390,320)],
         'accepted_mobile':[{'width':width,'accepted_steps':80,'method':METHODS[-1],
             'full_fields_unchanged':True,'camera_works':True,'example_and_split':True,'no_new_requests':True,
-            'desktop_context_viewport_emulation':True} for width in (390,320)],
-        'compact':[{'width':width,'large_canvas':True,'controls_accessible':True,'no_implicit_advance':True}
+            'desktop_context_viewport_emulation':True,'legend_separate_from_canvas':True} for width in (390,320)],
+        'compact':[{'width':width,'large_canvas':True,'controls_accessible':True,'no_implicit_advance':True,'legend_separate_from_canvas':True}
                    for width in (1440,390)],
         'worker_roundtrip_ms':{'minimum':20.,'maximum':40.,'mean':30.,
                                'includes_transfer_and_ui_scheduling':True,'real_time_claimed':False}})
@@ -183,7 +197,8 @@ class ReceiptGateTests(unittest.TestCase):
         original=receipt_fixture();validate_receipt(original,True)
         for key in ('packet_hashes','source_sha256','native_reference_states','numerical_states','fluid_advances',
                     'full_field_and_bit_comparison','genuine_three_axis_variation','actual_wasm_worker',
-                    'every_accepted_worker_state','render_oracles','mobile','compact','method_results'):
+                    'every_accepted_worker_state','render_oracles','field_oracles','derived_curves','display_controls',
+                    'inspector_lifecycle','mobile','compact','method_results'):
             with self.subTest(key=key):
                 altered=deepcopy(original);del altered[key]
                 with self.assertRaises(ValueError): validate_receipt(altered,True)
@@ -194,6 +209,19 @@ class ReceiptGateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'three-axis'): validate_receipt(altered,True)
         altered=deepcopy(original);altered['mobile'][1]['compact_controls']=False
         with self.assertRaisesRegex(ValueError,'phone coverage'): validate_receipt(altered,True)
+        for key in ('node_identity_and_positions','disclosure_states_restored','citations_and_limits_visible',
+                    'primary_controls_compact','no_native_requests','legend_identity_and_parent_restored'):
+            altered=deepcopy(original);altered['inspector_lifecycle'][key]=False
+            with self.assertRaisesRegex(ValueError,'inspector lifecycle'): validate_receipt(altered,True)
+        altered=deepcopy(original);altered['schema']='rheon-flow-browser-v1'
+        with self.assertRaisesRegex(ValueError,'current 3D'): validate_receipt(altered,True)
+        for section,key in [('render_oracles','lit_unlit_alpha_unchanged'),('render_oracles','rgb_matches_disclosed_depth_law'),
+                            ('field_oracles','physical_speed_scale'),('field_oracles','input_fields_unchanged'),
+                            ('display_controls','fields_and_camera_unchanged'),('display_controls','no_native_requests')]:
+            altered=deepcopy(original);altered[section][key]=False
+            with self.assertRaises(ValueError):validate_receipt(altered,True)
+        altered=deepcopy(original);altered['derived_curves'][0]['rk4_segments']=0
+        with self.assertRaisesRegex(ValueError,'vertices/speeds'):validate_receipt(altered,True)
 
 
 @unittest.skipUnless(os.environ.get('RHEON_FLOW_NATIVE'), 'requires a fresh native binary exporter directory')
