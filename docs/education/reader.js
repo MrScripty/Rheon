@@ -3,7 +3,7 @@ import {setLesson} from './labs.js';
 const follow=document.querySelector('#follow-reading'), context=document.querySelector('#reading-context');
 const selector=document.querySelector('#lab'), modes=document.querySelectorAll('[data-reading-mode]');
 const stops=[...document.querySelectorAll('[data-lesson]')];
-const isTour=/\/(?:transport-)?labs\.html$/.test(location.pathname);
+const isTour=/\/(?:(?:transport-)?labs|timestep-lab)\.html$/.test(location.pathname);
 let following=true, active=null, scheduled=false;
 let readingScroll=0, readingStop=null;
 const article=document.querySelector('.reading-text');

@@ -2,7 +2,8 @@
 
 This ledger covers all 25 chapters and six appendices. The sampling/transport
 follow-on expands the [540bdef teaching checkpoint](https://github.com/MrScripty/Rheon/commit/540bdef8fcbc0d0a55567325eba570589666bf80)
-from 11 to **13 chapters with scroll-linked examples**: 3–7, 10 and 19–25.
+from 11 to 13 chapters, then the bounded browser timestep adds chapter 17.
+There are now **14 chapters with partial scroll-linked examples**: 3–7, 10, 17 and 19–25.
 No appendix has a scroll-linked example. These counts describe placement,
 not complete coverage of each chapter's topics or qualification of a solver.
 [Heading bindings](teaching.py) fail the build when an expected section moves.
@@ -27,16 +28,19 @@ computation evidence.
 | --- | --- |
 | Stored reference | The original six lessons select analytical or dense-solve records from [reference.py](../research-book/expansion/reference.py). [labs.js](labs.js) recomputes the labelled projection blend and readouts; it does not rerun the pressure solve. |
 | Browser mechanism | [transport_reference.js](transport_reference.js) recomputes bounded affine sampling and periodic 1D scalar transport. Its references are the existing [sampling fixture](../research-book/companion/depth_experiments.py) and [transport formulas](../research-book/companion/experiments.py). It is an independent teaching implementation. |
+| Browser native timestep | A separately compiled [Rust adapter](../../browser/solver/src/lib.rs) calls the existing `Simulation::step_with_forces` in a Web Worker. The single accepted interval is the fixed four-edge force/projection fixture. A current compiled packet is required; absent packets disable the controls. |
 | Browser operator | [aligned_strain.js](aligned_strain.js) applies immutable native strain rows and their transpose to chosen face samples. It recomputes force and loss, without a timestep or pressure solve. A qualified packet is required. |
 | Native recording | Wall/force, static geometry, obstacle pressure and reduced-shear pages display admitted native packets. Browser controls choose saved cases, slices or times. Missing packets remain unavailable. |
 | Text/fixture | Derivation, source links, proof disclosures or offline numerical fixtures; no corresponding browser computation is supplied. |
 
 The [shared viewer](../../browser/viewer/README.md) supplies rendering, camera
-controls and theme. Neither this branch nor the pinned GUI supplies a browser
-fluid timestep engine. Native [Simulation::step](../../src/simulation.rs) and
-[LiquidTransportSimulation::step](../../src/liquid_step.rs) do exist; the book
-has no WASM or service binding to them. Browser scalar transport and finite-row
-evaluation must not be described as invoking these native APIs.
+controls and theme. The [timestep adapter audit](BROWSER_TIMESTEP.md) separates
+build plumbing from missing physics. Native [Simulation::step](../../src/simulation.rs)
+and [LiquidTransportSimulation::step](../../src/liquid_step.rs) already existed.
+The new WASM binding executes one fixed `Simulation::step_with_forces` fixture;
+it does not expose general grid configuration, repeated evolution or liquid stepping.
+Browser scalar transport and finite-row evaluation remain separate teaching
+mechanisms and do not invoke those native APIs.
 
 ## Chapter and appendix matrix
 
@@ -61,7 +65,7 @@ Every native recording/operator entry is conditional on packet admission.
 | 14 Guidance rendering | Text/fixture; native opacity exporter exists | Browser camera calibration, depth/normals, silhouettes and export-error comparison |
 | 15 Finite arithmetic | Text/fixture; offline binary32/binary64 comparison | Interactive cancellation, precision replay, exceptional values and threshold behavior |
 | 16 Lean contracts | Text/disclosures and exact source links | Interactive hypothesis/counterexample inspection; no browser proof execution |
-| 17 Rust implementation | Text/fixture and current native source links | Browser accepted-state control, cancellation, resource failures and solver integration |
+| 17 Rust implementation | Browser native force/projection timestep: one fixed interval, exact cycle comparison, native precommit rejection/retry and reset | General stepping lifecycle, asynchronous cancellation, resource-failure UI, liquid integration and other host runtimes |
 | 18 Validation | Text/fixture; individual lesson diagnostics | Unified error/refinement explorer, production performance and downstream guidance evaluation |
 | 19 Force and wall work | Stored projection as context; separate native forcing records | Live force-work ledger, swept geometry and two-way coupled motion |
 | 20 Collision meshes | Stored triangle crossings; separate native geometry records | General cut-cell meshes, robust predicates, swept motion and deforming geometry |
@@ -116,6 +120,14 @@ temporal-order claim. It has no corrected-transport fallback API. The browser's
 periodic corrected lesson therefore demonstrates the book's companion method,
 without extending native solver capability.
 
+## Next theory visualizations
+
+The [concept/control/prediction/limit roster](BROWSER_TIMESTEP.md#bounded-visualizations-for-the-remaining-theory)
+identifies bounded interactive work for all 12 previously uncovered chapters
+and the appendices. Chapter 17 now has the fixed timestep lesson; its broader
+resource and ownership topics remain partial. Proposed visualizations are
+backlog items, not implemented coverage or new physics.
+
 ## Proof boundaries and remaining blockers
 
 [Transport.lean](../../proofs/Rheon/Transport.lean) proves convex bounds with
@@ -136,9 +148,11 @@ stated matched masses and exact full-residual solve.
 
 The remaining blockers have different owners:
 
-- **Browser integration:** native state, stepping and failure APIs exist, but
-  no browser execution/binding lifecycle exposes them. Live stepping needs its
-  own accepted-state, cancellation, resource and cross-runtime qualification.
+- **Browser integration:** the missing adapter/build path is now implemented
+  for one fixed force/projection timestep. General grid/parameter admission,
+  repeated evolution, asynchronous cancellation, resource-failure presentation
+  and other browser engines still need separate qualification. The existing
+  liquid APIs remain outside this first adapter.
 - **Packet availability:** native playback and strain computation require the
   original admitted packets or a newly qualified packet under their documented
   rules. Missing recordings are not permission to invent substitute results.

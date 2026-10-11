@@ -10,6 +10,8 @@ import build
 from browser_qualification import validate_transport_receipt, transport_source_hashes, validate_teaching_receipt, validate_strain_browser_receipt, LABS, REVIEWED_SOURCES, book_sources, source_hashes, verify_browser_qualification
 from pdf_freshness import input_hashes
 import verify_browser
+from browser_qualification import validate_timestep_publication
+from timestep_browser import source_hashes as timestep_source_hashes
 
 
 class OutputAdmission(unittest.TestCase):
@@ -27,6 +29,21 @@ class OutputAdmission(unittest.TestCase):
             subprocess.run(['git','init','--quiet',str(other)],check=True)
             with self.assertRaisesRegex(ValueError,'every Git checkout'):build.validate_output(other/'edition',repo)
             build.validate_output(root/'fresh'/'edition',repo)
+
+
+class TimestepOmissionGate(unittest.TestCase):
+    def test_omitted_solver_requires_disabled_controls_and_no_invented_execution(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            edition=Path(tmp)
+            (edition/'solver-presentation.json').write_text('{"schema":1,"included":false}')
+            observed={'schema':'rheon-timestep-browser-v1','included':False,'fluid_advances':0,
+                      'rejected_candidates':0,'numerical_states':0,'unavailable_controls_disabled':True,
+                      'no_synthetic_state':True,'source_sha256':timestep_source_hashes(),
+                      'packet_hashes':{},'screenshots':[]}
+            validate_timestep_publication(build.ROOT,edition,observed)
+            for key,value in [('included',True),('fluid_advances',1),('unavailable_controls_disabled',False)]:
+                with self.subTest(key=key),self.assertRaises(ValueError):
+                    validate_timestep_publication(build.ROOT,edition,{**observed,key:value})
 
 
 class ReferenceQualification(unittest.TestCase):

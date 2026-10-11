@@ -1,4 +1,4 @@
-"""Authored teaching stops over bounded references; no native solver calls."""
+"""Authored teaching stops; live steps require an explicit control action."""
 import html
 import re
 
@@ -21,6 +21,8 @@ CHAPTER_STOPS = {
            ('velocity-and-conservation', 'transport', 'asymmetric')],
     '10': [('hydrostatic-balance', 'hydrostatic', 'light'),
            ('diffusion', 'viscous', 'late')],
+    '17': [('core-ownership', 'timestep', 'ready'),
+           ('storage-and-invariants', 'timestep', 'reject')],
     '19': [('units-before-parameters', 'projection', 'before'),
            ('pressure-and-external-work', 'projection', 'after')],
     '20': [('admission-and-representation', 'collision', 'crossing'),
@@ -74,6 +76,11 @@ TRANSPORT_LESSONS = [
 ]
 
 
+TIMESTEP_LESSONS = [
+    ('timestep', 'Publish one complete timestep', 'ready', 'reject', '', '', '', '17-rust-implementation'),
+]
+
+
 def compact_proofs(body):
     """Keep exact source/proof text and anchors, collapse only checked bridges."""
     pattern = r'(<h2\b[^>]*>Checked[^<]*</h2>)(.*?)(?=<h2\b|\Z)'
@@ -100,7 +107,7 @@ def chapter(body, slug):
 
 
 def workspace(prefix='', lessons=None):
-    options = ''.join(f'<option value="{key}">{i+1} · {html.escape(title)}</option>' for i, (key, title, *_) in enumerate(lessons or LESSONS + TRANSPORT_LESSONS))
+    options = ''.join(f'<option value="{key}">{i+1} · {html.escape(title)}</option>' for i, (key, title, *_) in enumerate(lessons or LESSONS + TRANSPORT_LESSONS + TIMESTEP_LESSONS))
     return f'''<section class="example-workspace" aria-label="Interactive example">
 <div class="example-toolbar"><label for="lab">Example</label><select id="lab">{options}</select>
 <button id="follow-reading" aria-pressed="true">Follow reading</button></div>
@@ -111,7 +118,7 @@ def workspace(prefix='', lessons=None):
 <div id="controls"></div><dl id="metrics" aria-live="polite"></dl>
 <details class="example-notes"><summary>Expected result & limits</summary><p id="lab-expected"></p><p id="lab-limit"></p></details>
 <a id="chapter-target" href="{prefix}chapters/04-pressure-projection.html">Read the mechanism →</a>
-<details class="example-sources"><summary>Source & evidence</summary><span id="reference-sources"><a href="{prefix}reference.py">Reference code</a> · <a href="{prefix}reference-data.json">Stored fields</a> · <a href="{prefix}reference-qualification.json">Numerical receipt</a> · </span><span id="transport-sources" hidden><a href="{prefix}transport_reference.js">Browser equations</a> · <a href="{prefix}transport-companion.py">Transport companion</a> · <a href="{prefix}sampling-companion.py">Sampling companion</a> · </span><a href="{prefix}chapters/F-expansion-contracts-and-sources.html">Primary sources & checked claims</a></details></div></section>'''
+<details class="example-sources"><summary>Source & evidence</summary><span id="reference-sources"><a href="{prefix}reference.py">Reference code</a> · <a href="{prefix}reference-data.json">Stored fields</a> · <a href="{prefix}reference-qualification.json">Numerical receipt</a> · </span><span id="transport-sources" hidden><a href="{prefix}transport_reference.js">Browser equations</a> · <a href="{prefix}transport-companion.py">Transport companion</a> · <a href="{prefix}sampling-companion.py">Sampling companion</a> · </span><span id="timestep-sources" hidden><a href="{prefix}solver-source.rs">Rust adapter</a> · <a href="{prefix}timestep-contract.rs">Existing native fixture</a> · <a href="{prefix}solver-presentation.json">Build identity</a> · <a href="{prefix}BROWSER_TIMESTEP.md">Capability audit</a> · </span><a href="{prefix}chapters/F-expansion-contracts-and-sources.html">Primary sources & checked claims</a></details></div></section>'''
 
 
 def tour():
@@ -129,6 +136,14 @@ def transport_tour():
         body += f'''<section class="teaching-lesson" id="{key}" data-lesson="{key}" data-preset="{start}"><p class="eyebrow">{i+1:02d} / 02</p><h2>{title}</h2><p>{teaches}</p>
 <h3 id="{key}-compare" data-lesson="{key}" data-preset="{end}">Predict, then compare</h3><p>{expected}</p><p><strong>Scope.</strong> {limit}</p><p><a href="chapters/{target}.html">Read the derivation →</a></p></section>'''
     return body + '<p><a href="labs.html">Return to the six physical reference mechanisms →</a></p></article>' + workspace(lessons=TRANSPORT_LESSONS)
+
+
+def timestep_tour():
+    body = '''<article class="reading-text"><p class="eyebrow">RUST → WEBASSEMBLY → ACCEPTED STATE</p><h1>Compute a step. Publish it whole.</h1>
+<section class="teaching-lesson" id="timestep" data-lesson="timestep" data-preset="ready"><h2>Begin with a prediction</h2><p>Four unit cells form a 2 × 2 × 1 sealed box, initially at rest, with density 1 kg/m³. A prescribed acceleration of 2 m/s² acts in the x direction on the lower row for 0.25 s. Only its interior x face receives an impulse. Without pressure correction, that face would reach 0.5 m/s and the cell fluxes would not balance.</p><p>Predict the circulation that can remain after pressure correction. The orange region marks the force support. Teal arrows show accepted velocity at a fixed scale; there is no interpolated animation.</p></section>
+<section class="teaching-lesson" id="timestep-accept" data-lesson="timestep" data-preset="accept"><h2>Run one actual timestep</h2><p>Press <strong>Run one step</strong>. The existing Rust <code>Simulation::step_with_forces</code> executes in a browser worker through WebAssembly: velocity advection, force application, pressure solve, corrected-field acceptance and tracer update precede publication. Advection starts from rest and tracer stays zero in this fixture.</p><p>The forced interior vector is q = (½, 0, 0, 0). The divergence-free cycle is c = (1, −1, −1, 1). Its projection is c(q·c)/(c·c) = c/8. Compare all four speeds with (+⅛, −⅛, −⅛, +⅛) m/s. Force-stage work is ⅛ J; accepted kinetic energy is 1/32 J. The pressure report and stored-field divergence measure different stages.</p><p>Both listed pressure methods use the existing settings and acceptance gates. Changing the method starts a new run. Only one step may be accepted per reset: repeating the force would activate nontrivial advection and invalidate this first-step oracle.</p></section>
+<section class="teaching-lesson" id="timestep-transaction" data-lesson="timestep" data-preset="reject"><h2>A rejected candidate is not a new state</h2><p>Press <strong>Reject before commit</strong>, before or after acceptance. The real native callback rejects at <code>BeforeCommit</code>. The candidate is discarded; every accepted field bit, time and generation must stay unchanged. This is a scheduled rejection probe, not a promise that JavaScript can interrupt a synchronous WASM call.</p><p>After rejection from rest, a retry should match an uninterrupted first step. <strong>Reset state</strong> uses the native reset operation: it clears the fields and time while incrementing generation. Scrolling, switching phone layouts and moving the camera preserve the simulation state.</p><p><strong>Scope.</strong> This is one fixed-box force/projection integration fixture. It demonstrates no evolving liquid surface, viscosity, buoyancy, variable density, moving geometry or contact physics. The root solver and pressure API are unchanged. Native and browser agreement for this fixture does not qualify arbitrary grids or all WebAssembly engines.</p><p><a href="chapters/17-rust-implementation.html#storage-and-invariants">Read state ownership and publication →</a> · <a href="BROWSER_TIMESTEP.md">Inspect the capability audit and theory visualization backlog</a></p></section></article>'''
+    return body + workspace(lessons=TIMESTEP_LESSONS)
 
 
 def scripts(prefix=''):

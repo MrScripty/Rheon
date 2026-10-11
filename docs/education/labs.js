@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {RecordedView} from './shared-viewer/view.js';
 import {createTransportLabs} from './transport_labs.js';
+import {createTimestepLab} from './timestep_labs.js';
 const data=await (await fetch(new URL('./reference-data.json', import.meta.url))).json();
 const host=document.querySelector('#scene'), selector=document.querySelector('#lab');
 const panel=document.querySelector('#controls'), metrics=document.querySelector('#metrics');
@@ -49,24 +50,27 @@ const expectations={
  slip:'Larger lower slip length increases fluid slip speed and reduces shear. The stationary lower wall itself remains at 0 m/s.',
  cap:'At fixed angle, changing tension changes pressure but not radius or volume. Changing angle changes shape; inspect the volume integral error.',
  sampler:'Matching offsets reproduce the affine value to roundoff. For x-face data at the fixture point, using the cell-centre offset gives a −0.07 bias despite nonnegative weights that sum to one.',
- transport:'The symmetric six-sample case at Courant 0.5 overshoots to −0.125 and 1.125 before two fallbacks. The asymmetric case at 0.25 restores bounds but changes the sum from 1.6 to 1.61875.'
+ transport:'The symmetric six-sample case at Courant 0.5 overshoots to −0.125 and 1.125 before two fallbacks. The asymmetric case at 0.25 restores bounds but changes the sum from 1.6 to 1.61875.',
+ timestep:'From rest, one accepted step gives interior speeds (+0.125, −0.125, −0.125, +0.125) m/s and kinetic energy 0.03125 J. Rejection before commit preserves every accepted field bit, time and generation. Scroll and camera controls never advance or reset the state.'
 };
 const labs={projection,collision,hydrostatic,viscous,slip,cap,...createTransportLabs({clear,line,dot,arrow,range,choice,meta,setMetrics,panel,setReference:q=>{reference=q;}})};
+labs.timestep=createTimestepLab({clear,line,dot,arrow,box,meta,setMetrics,panel,setReference:q=>{reference=q;},isActive:()=>selector.value==='timestep',manualChange});
 let applying=false;
 function manualChange(){if(!applying)host.dispatchEvent(new CustomEvent('rheon-manual-change',{bubbles:true}));}
 export function selectLab(lab=selector.value){
   if(!labs[lab]||![...selector.options].some(o=>o.value===lab))return;selector.value=lab;panel.replaceChildren();reference=null;labs[lab]();
-  const recomputed=lab==='sampler'||lab==='transport';
+  const recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep';
   const legend=document.querySelector('#plot-legend');
   if(legend){
-    legend.hidden=!recomputed;legend.replaceChildren();
-    for(const [label,color] of lab==='transport'?[['Linear','#067d91'],['Raw','#aa5735'],['Limited','#4e98bb'],['Exact','#18363d']]:[['Query','#aa5735'],['Weighted point / weights','#067d91']]){
+    legend.hidden=!recomputed&&!native;legend.replaceChildren();
+    for(const [label,color] of native?[['Accepted velocity · fixed scale','#067d91'],['Forced region','#aa5735']]:lab==='transport'?[['Linear','#067d91'],['Raw','#aa5735'],['Limited','#4e98bb'],['Exact','#18363d']]:[['Query','#aa5735'],['Weighted point / weights','#067d91']]){
       const item=document.createElement('span');item.textContent=label;item.style.borderColor=color;legend.append(item);
     }
   }
-  document.querySelector('.example-kind').textContent=recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
-  document.querySelector('#reference-sources').hidden=recomputed;
+  document.querySelector('.example-kind').textContent=native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
+  document.querySelector('#reference-sources').hidden=recomputed||native;
   document.querySelector('#transport-sources').hidden=!recomputed;
+  document.querySelector('#timestep-sources').hidden=!native;
 }
 const presets={
  projection:{before:[0],half:[50],after:[100]},

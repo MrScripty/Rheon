@@ -9,7 +9,7 @@ viscous decay, wall slip, then equilibrium capillarity. Each lesson states a
 prediction, comparison and measurable limitation. The authored chapter text,
 citations, figures, Lean source and numerical generators remain unchanged.
 
-Scroll-linked examples cover chapters **3–7, 10, 19–25**: 13 of 25 chapters,
+Scroll-linked examples cover chapters **3–7, 10, 17, 19–25**: 14 of 25 chapters,
 with no scroll-linked appendix. This is partial topic coverage. The
 [coverage ledger](COVERAGE.md) lists every chapter and appendix, each source
 kind, and the remaining science and UI gaps. Heading-to-case bindings live in
@@ -89,9 +89,34 @@ copies; the publication gate rejects missing checks or stale sources.
 These are browser-recomputed educational mechanisms. The native
 [tracer transport](../../src/advection.rs) uses midpoint sampling with a
 [fixed-box extension](../../src/sampling.rs); it has no corrected-advection
-fallback API. Native smoke/liquid stepping exists, but no browser binding runs
-it here. The existing aligned-strain page also recomputes an operator without
+fallback API. Native smoke/liquid stepping exists. The separate fixed force/projection
+lesson below now binds one existing native timestep; it does not turn these
+scalar teaching mechanisms into native advection. The existing aligned-strain page also recomputes an operator without
 advancing a fluid. See [precise proof boundaries and blockers](COVERAGE.md#proof-boundaries-and-remaining-blockers).
+
+## One real browser timestep
+
+`timestep-lab.html` and chapter 17 now share one fixed-box Rust integration
+fixture. A separate [adapter crate](../../browser/solver/README.md) compiles the
+unchanged core to WebAssembly and runs it in a Web Worker. **Run one step** calls
+`Simulation::step_with_forces`; scrolling, camera motion and reading modes never
+advance or reset native state. The fixed 2 × 2 × 1 force cycle starts from rest
+and admits one interval per reset. It compares four interior speeds against
+(⅛, −⅛, −⅛, ⅛) m/s, force-stage work ⅛ J and accepted energy 1/32 J.
+
+**Reject before commit** invokes the real native cancellation callback at a
+predetermined stage. It preserves all accepted field/time/generation bits,
+including after a nonzero accepted state. It is not an asynchronous interrupt.
+The UI displays actual residual/divergence reports, retains accepted values on
+rejection, and uses native reset semantics. No pressure samples are fabricated.
+
+The [capability audit and theory visualization roster](BROWSER_TIMESTEP.md)
+distinguish the now-supplied build/binding path from unavailable general physics.
+First-step advection acts on rest and tracer stays zero. No viscosity, interface,
+contact-line dynamics, parameterized grid or repeated trajectory is advertised.
+A source-only build states that the compiled packet is absent and disables its
+step controls. The browser gate compares actual WASM state with the independently
+derived cycle and a fresh host execution of the existing fixture for both methods.
 
 ## Build and preview outside Git
 
@@ -100,13 +125,17 @@ Requires Python 3.12, Pandoc 3.1.11.1, Node 24, the npm lock and `requirements.t
 ```bash
 export RHEON_EDITION=/tmp/rheon-edition
 export RHEON_ASSETS=/tmp/rheon-assets
+export RHEON_SOLVER=/tmp/rheon-solver
 export PYTHONDONTWRITEBYTECODE=1
 mkdir -p "$RHEON_ASSETS"
 cp docs/education/package.json docs/education/package-lock.json "$RHEON_ASSETS/"
 npm ci --prefix "$RHEON_ASSETS" --ignore-scripts --no-audit --no-fund
 python3 -m pip install -r docs/research-book/expansion/requirements.txt -r docs/research-book/companion/requirements.txt -r docs/education/requirements.txt
 python3 docs/education/generate_references.py
-python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules"
+rustup target add --toolchain 1.92.0 wasm32-unknown-unknown
+cargo +1.92.0 install wasm-bindgen-cli --version 0.2.105 --locked
+python3 docs/education/build_solver.py --output-dir "$RHEON_SOLVER"
+python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --solver-dir "$RHEON_SOLVER"
 python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
 python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
 python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"

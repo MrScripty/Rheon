@@ -6,6 +6,7 @@ import json
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
                     'teaching.py', 'reader.js', 'reader.css', 'navigation.js', 'teaching_browser.py',
                     'transport_reference.js', 'transport_labs.js', 'transport_browser.py', 'test_transport_reference.py',
+                    'timestep_labs.js', 'timestep_worker.js', 'timestep_browser.py', 'test_timestep_browser.py', 'build_solver.py', 'test_build_solver.py', 'BROWSER_TIMESTEP.md',
                     '../research-book/companion/experiments.py', '../research-book/companion/depth_experiments.py',
                     '../../browser/viewer/view.js', '../../browser/viewer/shell.css',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
@@ -96,6 +97,17 @@ def source_hashes(here):
             for name in REVIEWED_SOURCES}
 
 
+def validate_timestep_publication(repo, artifact, observed):
+    from build_solver import verify_published as verify_solver_published
+    from timestep_browser import validate_receipt as validate_timestep_receipt
+    solver=verify_solver_published(repo,artifact)
+    validate_timestep_receipt(observed,solver['included'])
+    expected={name:hashlib.sha256((artifact/'solver'/name).read_bytes()).hexdigest()
+              for name in ['rheon_solver.js','rheon_solver_bg.wasm','native-reference.json','build-receipt.json']} if solver['included'] else {}
+    if observed.get('packet_hashes')!=expected:
+        raise ValueError('Served timestep packet differs from the retained edition')
+
+
 def book_sources(repo):
     book = repo/'docs/research-book'
     paths = sorted((book/'chapters').glob('*.md')) + sorted((book/'appendices').glob('*.md')) + sorted((book/'implementation').glob('*.md'))
@@ -151,6 +163,7 @@ def verify_browser_qualification(repo, artifact_dir=None):
                              hashlib.sha256(reference.read_bytes()).hexdigest() if artifact_dir is not None else None)
     validate_transport_receipt(receipt.get('transport'), transport_source_hashes(here))
     if artifact_dir is not None:
+        validate_timestep_publication(repo,artifact,receipt.get('timestep'))
         native=receipt.get('native_labs',{})
         presentation=json.loads((artifact/'native-presentation.json').read_text())
         expected={'recorded_bundles_included':presentation['recorded_bundles_included'],
