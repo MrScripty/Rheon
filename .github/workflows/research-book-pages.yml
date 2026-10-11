@@ -91,6 +91,8 @@ jobs:
           python3 -O -m unittest discover -s docs/education -p test_pdf_freshness.py
           python3 -m unittest discover -s docs/education -p test_publication_gates.py
           python3 -O -m unittest discover -s docs/education -p test_publication_gates.py
+          python3 -m unittest discover -s docs/education -p test_transport_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_transport_reference.py
           python3 -m unittest discover -s docs/education -p test_native_sequence.py
           python3 -O -m unittest discover -s docs/education -p test_native_sequence.py
           python3 -m unittest discover -s docs/education -p test_static_obstacle.py

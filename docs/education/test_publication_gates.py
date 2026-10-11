@@ -7,7 +7,7 @@ import subprocess
 import unittest
 from unittest.mock import patch
 import build
-from browser_qualification import validate_teaching_receipt, validate_strain_browser_receipt, LABS, REVIEWED_SOURCES, book_sources, source_hashes, verify_browser_qualification
+from browser_qualification import validate_transport_receipt, transport_source_hashes, validate_teaching_receipt, validate_strain_browser_receipt, LABS, REVIEWED_SOURCES, book_sources, source_hashes, verify_browser_qualification
 from pdf_freshness import input_hashes
 import verify_browser
 
@@ -109,6 +109,41 @@ def teaching_receipt():
                 'follow_in_example_restores_reading_preset':True} for width in [390,320]]}
 
 
+def transport_receipt(sources=None):
+    return {'schema':'rheon-transport-browser-v1',
+            'source_sha256':sources or dict.fromkeys(['transport_reference.js','transport_labs.js','transport-companion.py','sampling-companion.py'],'a'*64),
+            'numerical':{'sampler_states':12,'transport_states':10,'sampler_donors_checked':96,
+                'transport_curves_checked':30,'sine_refinements':[32,64,128,256],
+                'affine_wrong_offset_bias':-.07,'fixed_plot_scale':True,
+                'symmetric':{'raw_min':-.125,'raw_max':1.125,'fallback':2,'limited_sum':2},
+                'asymmetric':{'fallback':1,'initial_sum':1.6,'limited_sum':1.61875,'sum_change':.01875}},
+            'desktop_scroll_presets':4,'chapter_scroll_presets':7,'direct_links':11,'fluid_solves':0,'fluid_advances':0,
+            **dict.fromkeys(['camera_preserved_during_scroll_and_controls','manual_comparison_pauses_follow',
+                            'follow_resumes_current_section','one_period_button'],True),
+            'mobile':[{'width':width,'modes':['text','split','example'],
+                **dict.fromkeys(['readable_text','no_horizontal_overflow','split_scroll_presets',
+                                'control_comparison','mode_preserves_lesson_and_scroll','direct_link_selects_preset'],True)} for width in [390,320]]}
+
+
+class TransportReceiptRejection(unittest.TestCase):
+    def test_complete_and_missing_fields(self):
+        good=transport_receipt()
+        validate_transport_receipt(good,good['source_sha256'])
+        for key in good:
+            changed=dict(good);changed.pop(key)
+            with self.subTest(missing=key),self.assertRaises(ValueError):validate_transport_receipt(changed)
+        with self.assertRaisesRegex(ValueError,'Stale'):
+            validate_transport_receipt(good,{**good['source_sha256'],'transport-companion.py':'b'*64})
+
+    def test_false_conservation_and_incomplete_mobile_checks_reject(self):
+        changed=transport_receipt();changed['numerical']['asymmetric']['limited_sum']=1.6
+        with self.assertRaises(ValueError):validate_transport_receipt(changed)
+        changed=transport_receipt();changed['mobile'][1]['split_scroll_presets']=False
+        with self.assertRaises(ValueError):validate_transport_receipt(changed)
+        changed=transport_receipt();changed['fluid_advances']=1
+        with self.assertRaises(ValueError):validate_transport_receipt(changed)
+
+
 class TeachingReceiptRejection(unittest.TestCase):
     def test_complete_evidence_and_reference_binding(self):
         validate_teaching_receipt(teaching_receipt(),'reference')
@@ -154,7 +189,7 @@ class BrowserBindings(unittest.TestCase):
                         'labs': [{'lab': lab, 'control_changes_metrics': True} for lab in LABS],
                         'webgl': True, 'mobile_navigation_search': True, 'mobile_no_horizontal_overflow': True,
                         'katex_no_errors': True, 'planar_statement_hit_time_rendering': True,
-                        'page_errors': [], 'http_failures': [], 'teaching':teaching_receipt()}
+                        'page_errors': [], 'http_failures': [], 'teaching':teaching_receipt(), 'transport':transport_receipt(transport_source_hashes(self.here))}
         self.receipt_path = self.here/'browser-qualification.json'
         self.receipt_path.write_text(json.dumps(self.receipt))
         (self.here/'pdf-inputs.json').write_text(json.dumps({'schema': 'rheon-pdf-inputs-v1',
@@ -164,7 +199,7 @@ class BrowserBindings(unittest.TestCase):
         verify_browser_qualification(self.repo)
 
     def test_lab_and_renderer_source_only_changes_reject(self):
-        for name in ['labs.js', 'verify_browser.py', 'reader.js', 'navigation.js', 'reader.css', 'teaching.py', '../../browser/viewer/view.js', '../../browser/viewer/shell.css']:
+        for name in ['labs.js', 'verify_browser.py', 'reader.js', 'navigation.js', 'reader.css', 'teaching.py', 'transport_reference.js', 'transport_labs.js', '../research-book/companion/experiments.py', '../research-book/companion/depth_experiments.py', '../../browser/viewer/view.js', '../../browser/viewer/shell.css']:
             with self.subTest(name=name):
                 original = (self.here/name).read_bytes()
                 (self.here/name).write_bytes(original+b' changed')
@@ -190,7 +225,7 @@ class BrowserBindings(unittest.TestCase):
             verify_browser_qualification(self.repo)
 
     def test_incomplete_or_failed_retained_checks_reject(self):
-        for key, value in [('labs', []), ('webgl', False), ('page_errors', ['error']), ('http_failures', ['404']), ('teaching', {})]:
+        for key, value in [('labs', []), ('webgl', False), ('page_errors', ['error']), ('http_failures', ['404']), ('teaching', {}), ('transport', {})]:
             receipt = self.receipt.copy()
             receipt[key] = value
             self.receipt_path.write_text(json.dumps(receipt))

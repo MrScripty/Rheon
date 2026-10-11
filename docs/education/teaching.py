@@ -1,4 +1,4 @@
-"""Authored teaching stops over the existing reference data; no solver calls."""
+"""Authored teaching stops over bounded references; no native solver calls."""
 import html
 import re
 
@@ -6,12 +6,19 @@ import re
 # stored cases (projection alone computes an explicitly labelled field blend).
 CHAPTER_STOPS = {
     '03': [('divergence-from-flux-balance', 'projection', 'before'),
-           ('the-adjoint-identity', 'projection', 'after')],
+           ('the-adjoint-identity', 'projection', 'after'),
+           ('layout-and-indexing', 'sampler', 'correct')],
     '04': [('the-pressure-quadratic-form', 'projection', 'before'),
            ('residual-as-a-diagnostic', 'projection', 'half'),
            ('acceptance-in-physical-space', 'projection', 'after')],
     '05': [('jacobi-as-a-reference', 'projection', 'before'),
            ('residual-and-warm-starts', 'projection', 'after')],
+    '06': [('numerical-diffusion', 'transport', 'smooth'),
+           ('component-aware-trilinear-sampling', 'sampler', 'correct'),
+           ('failure-fixtures', 'sampler', 'wrong')],
+    '07': [('overshoot-and-limiting', 'transport', 'symmetric'),
+           ('executed-refinement', 'transport', 'smooth'),
+           ('velocity-and-conservation', 'transport', 'asymmetric')],
     '10': [('hydrostatic-balance', 'hydrostatic', 'light'),
            ('diffusion', 'viscous', 'late')],
     '19': [('units-before-parameters', 'projection', 'before'),
@@ -55,6 +62,16 @@ LESSONS = [
      'Tension changes pressure jump and adhesion work, while radius and volume stay fixed. The volume integral error measures quadrature agreement.',
      'A spherical cap is a zero-gravity equilibrium oracle. It does not demonstrate relaxation, hysteresis, contact-line dynamics or stable liquid stepping.', '23-wetting-and-adhesion'),
 ]
+TRANSPORT_LESSONS = [
+    ('sampler', 'Put the sample on its own lattice', 'correct', 'wrong',
+     'Inspect eight donors of q(x,y,z) = 1.2 + 0.7x − 1.1y + 0.4z. Select cell, x-, y- or z-face storage, then move the sample. The physical grid spacing stays (0.2, 0.3, 0.4).',
+     'Matching lattice offsets reproduce the direct affine value to roundoff. Now keep x-face storage and use a cell-centre sampling offset: the signed error becomes −0.07. Positive weights summing to one do not detect this geometry mistake. Orange marks the requested point; the teal point is the weighted donor position. They coincide only with the matching offset.',
+     'This browser recomputes the existing companion affine fixture with a complete regular stencil. It does not test obstacle extensions, native sampling execution or IEEE proof obligations. The donor table exposes all eight weights and values.', '06-transport'),
+    ('transport', 'Bound the result, then check its total', 'symmetric', 'asymmetric',
+     'Compare the linear departure sample, an unlimited forward/backward correction, and replacement by the linear value whenever the correction leaves its two-donor bounds. With the six-sample symmetric edge and Courant 0.5, predict the overshoot before inspecting the curves.',
+     'The raw result reaches −0.125 and 1.125; two cells fall back. Now use the asymmetric edge at Courant 0.25: one fallback restores bounds, but the sum changes from 1.6 to 1.61875. Range preservation is not conservation. Try smooth sine, 64 samples, Courant 0.5 and 128 steps for one period; linear RMS error is about 0.101090 and limited error about 0.009022.',
+     'Periodic 1D scalar reference with prescribed constant velocity, independently recomputed from the companion equations. The 3D depth axis only separates curves; it is not a third fluid dimension. Every method has the same fixed value scale. RMS uses analytic sine translation, or translation of the initial piecewise-linear interpolant for edge fixtures. Sum is unweighted; divide its change by sample count for a unit-period integral. No native midpoint/clamped transport or corrected native API is claimed.', '07-corrected-advection'),
+]
 
 
 def compact_proofs(body):
@@ -82,19 +99,19 @@ def chapter(body, slug):
     return f'<article class="reading-text">{body}</article>{workspace("../")}', True
 
 
-def workspace(prefix=''):
-    options = ''.join(f'<option value="{key}">{i+1} · {html.escape(title)}</option>' for i, (key, title, *_) in enumerate(LESSONS))
+def workspace(prefix='', lessons=None):
+    options = ''.join(f'<option value="{key}">{i+1} · {html.escape(title)}</option>' for i, (key, title, *_) in enumerate(lessons or LESSONS + TRANSPORT_LESSONS))
     return f'''<section class="example-workspace" aria-label="Interactive example">
 <div class="example-toolbar"><label for="lab">Example</label><select id="lab">{options}</select>
 <button id="follow-reading" aria-pressed="true">Follow reading</button></div>
 <p id="reading-context" role="status">Chapter introduction</p>
-<div id="scene" tabindex="0" aria-label="3D example. Drag or use arrow keys to rotate. Use zoom buttons to zoom."></div>
+<div id="scene" tabindex="0" aria-label="3D example. Drag or use arrow keys to rotate. Use zoom buttons to zoom."><div id="plot-legend" hidden></div></div>
 <div class="camera-toolbar"><button id="zoom-in" aria-label="Zoom in">+</button><button id="zoom-out" aria-label="Zoom out">−</button><button id="reset-view">Reset camera</button><span id="render-status" role="status">Loading 3D…</span></div>
 <div class="lab-panel"><p class="example-kind">Reference model · no fluid timesteps</p><h2 id="lab-title"></h2><p id="lab-description"></p>
 <div id="controls"></div><dl id="metrics" aria-live="polite"></dl>
 <details class="example-notes"><summary>Expected result & limits</summary><p id="lab-expected"></p><p id="lab-limit"></p></details>
 <a id="chapter-target" href="{prefix}chapters/04-pressure-projection.html">Read the mechanism →</a>
-<details class="example-sources"><summary>Source & evidence</summary><a href="{prefix}reference.py">Reference code</a> · <a href="{prefix}reference-data.json">Stored fields</a> · <a href="{prefix}reference-qualification.json">Numerical receipt</a> · <a href="{prefix}chapters/F-expansion-contracts-and-sources.html">Primary sources & checked claims</a></details></div></section>'''
+<details class="example-sources"><summary>Source & evidence</summary><span id="reference-sources"><a href="{prefix}reference.py">Reference code</a> · <a href="{prefix}reference-data.json">Stored fields</a> · <a href="{prefix}reference-qualification.json">Numerical receipt</a> · </span><span id="transport-sources" hidden><a href="{prefix}transport_reference.js">Browser equations</a> · <a href="{prefix}transport-companion.py">Transport companion</a> · <a href="{prefix}sampling-companion.py">Sampling companion</a> · </span><a href="{prefix}chapters/F-expansion-contracts-and-sources.html">Primary sources & checked claims</a></details></div></section>'''
 
 
 def tour():
@@ -102,8 +119,16 @@ def tour():
     for i, (key, title, start, end, teaches, expected, limit, target) in enumerate(LESSONS):
         body += f'''<section class="teaching-lesson" id="{key}" data-lesson="{key}" data-preset="{start}"><p class="eyebrow">{i+1:02d} / 06</p><h2>{title}</h2><p>{teaches}</p>
 <h3 id="{key}-compare" data-lesson="{key}" data-preset="{end}">Predict, then compare</h3><p>{expected}</p><p><strong>Scope.</strong> {limit}</p><p><a href="chapters/{target}.html">Read the derivation →</a></p></section>'''
-    body += '<h2>Continue with qualified native records</h2><p><a href="native-labs.html">Wall and force sequence</a> · <a href="obstacle-flow-lab.html">Obstacle pressure and reduced shear</a> · <a href="aligned-strain-lab.html">Finite strain</a>. Each page states whether its required qualified packet is included.</p></article>'
-    return body + workspace()
+    body += '<h2>Continue with recomputed mechanisms</h2><p><a href="transport-labs.html">Sampling and transport</a>: inspect lattice offsets, overshoot and the limits of fallback.</p><h2>Continue with qualified native records</h2><p><a href="native-labs.html">Wall and force sequence</a> · <a href="obstacle-flow-lab.html">Obstacle pressure and reduced shear</a> · <a href="aligned-strain-lab.html">Finite strain</a>. Each page states whether its required qualified packet is included.</p></article>'
+    return body + workspace(lessons=LESSONS)
+
+
+def transport_tour():
+    body = '<article class="reading-text"><p class="eyebrow">SAMPLING → TRANSPORT</p><h1>Check the weights. Check the total.</h1><p>Two browser-recomputed references connect chapters 3, 6 and 7. Each control evaluates the displayed equations immediately; no animation advances a hidden fluid solver.</p>'
+    for i, (key, title, start, end, teaches, expected, limit, target) in enumerate(TRANSPORT_LESSONS):
+        body += f'''<section class="teaching-lesson" id="{key}" data-lesson="{key}" data-preset="{start}"><p class="eyebrow">{i+1:02d} / 02</p><h2>{title}</h2><p>{teaches}</p>
+<h3 id="{key}-compare" data-lesson="{key}" data-preset="{end}">Predict, then compare</h3><p>{expected}</p><p><strong>Scope.</strong> {limit}</p><p><a href="chapters/{target}.html">Read the derivation →</a></p></section>'''
+    return body + '<p><a href="labs.html">Return to the six physical reference mechanisms →</a></p></article>' + workspace(lessons=TRANSPORT_LESSONS)
 
 
 def scripts(prefix=''):

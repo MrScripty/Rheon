@@ -1,8 +1,9 @@
-import {setLesson,selectLab} from './labs.js';
+import {setLesson} from './labs.js';
 
 const follow=document.querySelector('#follow-reading'), context=document.querySelector('#reading-context');
 const selector=document.querySelector('#lab'), modes=document.querySelectorAll('[data-reading-mode]');
 const stops=[...document.querySelectorAll('[data-lesson]')];
+const isTour=/\/(?:transport-)?labs\.html$/.test(location.pathname);
 let following=true, active=null, scheduled=false;
 let readingScroll=0, readingStop=null;
 const article=document.querySelector('.reading-text');
@@ -14,7 +15,9 @@ function readingOffset(){
 }
 function findStop(){
   let next=stops[0];
-  for(const stop of stops)if(stop.getBoundingClientRect().top<=readingOffset())next=stop;
+  // Native anchor scrolling rounds fractional CSS positions to device pixels.
+  // Accept that rounding so a direct heading link selects its own preset.
+  for(const stop of stops)if(stop.getBoundingClientRect().top<=readingOffset()+1)next=stop;
   return next;
 }
 function ensureLastStop(){
@@ -58,8 +61,8 @@ follow.addEventListener('click',()=>{
   }
 });
 selector.addEventListener('change',()=>{
-  // A deliberate lab selection has a shareable destination in the six-part tour.
-  if(location.pathname.endsWith('/labs.html'))history.replaceState(null,'','#'+selector.value);
+  // A deliberate lab selection has a shareable destination in its reading tour.
+  if(isTour)history.replaceState(null,'','#'+selector.value);
 });
 function readingMode(mode){
   const previous=document.body.dataset.readingMode;
@@ -74,12 +77,20 @@ function readingMode(mode){
   schedule();
 }
 for(const button of modes)button.addEventListener('click',()=>readingMode(button.dataset.readingMode));
-readingMode('text');setFollowing(true);
-document.fonts.ready.then(()=>{ensureLastStop();schedule();});
-// Hash/back navigation is evaluated only after the new scroll position settles.
-addEventListener('hashchange',()=>{setFollowing(true);active=null;requestAnimationFrame(update);});
-if(location.pathname.endsWith('/labs.html')&&location.hash){
-  const lab=location.hash.slice(1),stop=stops.find(s=>s.id===lab);
-  if(stop){stop.scrollIntoView();selectLab(lab);}
+function alignTeachingAnchor(){
+  let id;try{id=decodeURIComponent(location.hash.slice(1));}catch{return false;}
+  const stop=stops.find(s=>s.id===id);if(!stop)return false;
+  ensureLastStop();
+  if(article.getClientRects().length){
+    // The active text/split header determines the anchor's useful position;
+    // one fixed CSS scroll margin cannot fit every phone reading mode.
+    scrollTo(0,scrollY+stop.getBoundingClientRect().top-readingOffset()+1);
+  }
+  readingStop=stop;applyStop(stop);return true;
 }
+readingMode('text');setFollowing(true);
+document.fonts.ready.then(()=>{ensureLastStop();if(!following||!alignTeachingAnchor())schedule();});
+// Navigation opens disclosures first; then align teaching anchors after the
+// browser's native hash scroll. This also handles back/forward navigation.
+addEventListener('hashchange',()=>{setFollowing(true);active=null;requestAnimationFrame(()=>{if(!alignTeachingAnchor())update();});});
 update();

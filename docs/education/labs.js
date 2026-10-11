@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 import {RecordedView} from './shared-viewer/view.js';
+import {createTransportLabs} from './transport_labs.js';
 const data=await (await fetch(new URL('./reference-data.json', import.meta.url))).json();
 const host=document.querySelector('#scene'), selector=document.querySelector('#lab');
 const panel=document.querySelector('#controls'), metrics=document.querySelector('#metrics');
-let view, renderer, orbit;
+let view, renderer, orbit, reference=null;
 let scene=new THREE.Scene(), camera=new THREE.PerspectiveCamera(42,1,.01,100), world=new THREE.Group();
 try {
   view=new RecordedView(host); ({scene,camera,renderer}=view); orbit=view.controls; world=view.group;
@@ -24,7 +25,7 @@ for (const [id,scale] of [['zoom-in',.85],['zoom-out',1.18]]) document.querySele
 });
 const colors={teal:0x067d91,warm:0xaa5735,blue:0x4e98bb,ink:0x18363d};
 function clear(){for(const c of [...world.children]){world.remove(c);c.traverse(o=>{o.geometry?.dispose();if(o.material){for(const m of(Array.isArray(o.material)?o.material:[o.material]))m.dispose();}});}}
-function line(points,color=colors.ink){const geometry=new THREE.BufferGeometry().setFromPoints(points.map(p=>new THREE.Vector3(...p)));world.add(new THREE.Line(geometry,new THREE.LineBasicMaterial({color})));}
+function line(points,color=colors.ink){const geometry=new THREE.BufferGeometry().setFromPoints(points.map(p=>new THREE.Vector3(...p)));const object=new THREE.Line(geometry,new THREE.LineBasicMaterial({color}));world.add(object);return object;}
 function dot(p,color,r=.025){const mesh=new THREE.Mesh(new THREE.SphereGeometry(r,12,8),new THREE.MeshStandardMaterial({color}));mesh.position.set(...p);world.add(mesh);}
 function arrow(p,v,color=colors.teal){const length=Math.hypot(...v);if(length<1e-8)return;world.add(new THREE.ArrowHelper(new THREE.Vector3(...v).normalize(),new THREE.Vector3(...p),length,color,Math.min(.07,length*.35),Math.min(.04,length*.2)));}
 function box(size,p,color,opacity=.22){const geometry=new THREE.BoxGeometry(...size);const mesh=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color,transparent:true,opacity,depthWrite:false}));mesh.position.set(...p);world.add(mesh);const edge=new THREE.LineSegments(new THREE.EdgesGeometry(geometry),new THREE.LineBasicMaterial({color}));edge.position.set(...p);world.add(edge);}
@@ -46,13 +47,26 @@ const expectations={
  hydrostatic:'Increasing either layer density increases bottom pressure. All arrow lengths use one fixed scale; compare the formula and face-balance error.',
  viscous:'Increasing saved time damps the arrows and energy. The amplitude gap measures the difference from continuum decay at this fixed resolution.',
  slip:'Larger lower slip length increases fluid slip speed and reduces shear. The stationary lower wall itself remains at 0 m/s.',
- cap:'At fixed angle, changing tension changes pressure but not radius or volume. Changing angle changes shape; inspect the volume integral error.'
+ cap:'At fixed angle, changing tension changes pressure but not radius or volume. Changing angle changes shape; inspect the volume integral error.',
+ sampler:'Matching offsets reproduce the affine value to roundoff. For x-face data at the fixture point, using the cell-centre offset gives a −0.07 bias despite nonnegative weights that sum to one.',
+ transport:'The symmetric six-sample case at Courant 0.5 overshoots to −0.125 and 1.125 before two fallbacks. The asymmetric case at 0.25 restores bounds but changes the sum from 1.6 to 1.61875.'
 };
-const labs={projection,collision,hydrostatic,viscous,slip,cap};
+const labs={projection,collision,hydrostatic,viscous,slip,cap,...createTransportLabs({clear,line,dot,arrow,range,choice,meta,setMetrics,panel,setReference:q=>{reference=q;}})};
 let applying=false;
 function manualChange(){if(!applying)host.dispatchEvent(new CustomEvent('rheon-manual-change',{bubbles:true}));}
 export function selectLab(lab=selector.value){
-  if(!labs[lab])return;selector.value=lab;panel.replaceChildren();labs[lab]();
+  if(!labs[lab]||![...selector.options].some(o=>o.value===lab))return;selector.value=lab;panel.replaceChildren();reference=null;labs[lab]();
+  const recomputed=lab==='sampler'||lab==='transport';
+  const legend=document.querySelector('#plot-legend');
+  if(legend){
+    legend.hidden=!recomputed;legend.replaceChildren();
+    for(const [label,color] of lab==='transport'?[['Linear','#067d91'],['Raw','#aa5735'],['Limited','#4e98bb'],['Exact','#18363d']]:[['Query','#aa5735'],['Weighted point / weights','#067d91']]){
+      const item=document.createElement('span');item.textContent=label;item.style.borderColor=color;legend.append(item);
+    }
+  }
+  document.querySelector('.example-kind').textContent=recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
+  document.querySelector('#reference-sources').hidden=recomputed;
+  document.querySelector('#transport-sources').hidden=!recomputed;
 }
 const presets={
  projection:{before:[0],half:[50],after:[100]},
@@ -60,7 +74,9 @@ const presets={
  hydrostatic:{light:[0],heavy:[1]},
  viscous:{initial:[2,0],late:[2,100]},
  slip:{'no-slip':[0],slip:[2]},
- cap:{neutral:[12,1],spread:[0,1],tension:[12,2]}
+ cap:{neutral:[12,1],spread:[0,1],tension:[12,2]},
+ sampler:{correct:[1,0,50],wrong:[1,1,50]},
+ transport:{symmetric:[2,1,50,1],asymmetric:[3,1,25,1],smooth:[0,1,50,128]}
 };
 export function setLesson(lab,preset){
  applying=true;
@@ -69,6 +85,6 @@ export function setLesson(lab,preset){
  }finally{applying=false;}
 }
 // Read-only inspection for the independent browser comparisons.
-export function snapshot(){return {lab:selector.value,camera:camera.position.toArray(),target:orbit?.target.toArray(),webgl:!!renderer,arrows:world.children.filter(o=>o.type==='ArrowHelper').map(o=>({origin:o.position.toArray(),length:o.line.scale.y+o.cone.scale.y,direction:new THREE.Vector3(0,1,0).applyQuaternion(o.quaternion).toArray()}))};}
+export function snapshot(){return {lab:selector.value,camera:camera.position.toArray(),target:orbit?.target.toArray(),webgl:!!renderer,reference,referenceLines:world.children.filter(o=>o.userData.series).map(o=>({series:o.userData.series,points:Array.from({length:o.geometry.attributes.position.count},(_,i)=>Array.from(o.geometry.attributes.position.array.slice(i*3,i*3+3)))})),arrows:world.children.filter(o=>o.type==='ArrowHelper').map(o=>({origin:o.position.toArray(),length:o.line.scale.y+o.cone.scale.y,direction:new THREE.Vector3(0,1,0).applyQuaternion(o.quaternion).toArray()}))};}
 selector.addEventListener('change',()=>{selectLab();manualChange();});
-selectLab(labs[location.hash.slice(1)]?location.hash.slice(1):'projection');
+selectLab([...selector.options].some(o=>o.value===location.hash.slice(1))?location.hash.slice(1):selector.options[0].value);

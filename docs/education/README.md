@@ -9,17 +9,21 @@ viscous decay, wall slip, then equilibrium capillarity. Each lesson states a
 prediction, comparison and measurable limitation. The authored chapter text,
 citations, figures, Lean source and numerical generators remain unchanged.
 
-Scroll-linked examples cover chapters **3, 4, 5, 10, 19–25**. Heading-to-case
-bindings live in `teaching.py` and fail the build if an expected heading moves.
-The remaining chapters/appendices retain their text and source links without
-implying that an unrelated example implements their subject. The native,
-obstacle and aligned-strain pages retain their existing qualified-packet gates.
-No absent packet is replaced with synthetic data or claimed as a live solver.
+Scroll-linked examples cover chapters **3–7, 10, 19–25**: 13 of 25 chapters,
+with no scroll-linked appendix. This is partial topic coverage. The
+[coverage ledger](COVERAGE.md) lists every chapter and appendix, each source
+kind, and the remaining science and UI gaps. Heading-to-case bindings live in
+`teaching.py` and fail the build if an expected heading moves. The remaining
+chapters/appendices retain their text and source links. The native, obstacle and
+aligned-strain pages retain their existing qualified-packet gates. No absent
+packet is replaced with synthetic data or claimed as a live solver.
 
-Scrolling selects an explicit saved case; projection alone recomputes the
-labelled blend. Changing a control pauses following. **Follow reading** resumes
-at the current section. Camera drag/arrow keys, zoom buttons and reset are
-independent of section changes. The wheel scrolls the page rather than zooming.
+In the original six lessons, scrolling selects an explicit saved case;
+projection recomputes the labelled blend. The sampling/transport sequence below
+recomputes its bounded teaching mechanisms. Changing a control pauses following.
+**Follow reading** resumes at the current section. Camera drag/arrow keys, zoom
+buttons and reset are independent of section changes. The wheel scrolls the
+page rather than zooming.
 On phones, **Text**, **Split** and **Example** select a readable text view,
 compact sticky example above the text, or the complete controls. In Split, the
 example panel scrolls internally to its controls and readouts.
@@ -32,12 +36,55 @@ control theme reuse the pinned real browser viewer documented in
 
 `teaching_browser.py` adds numerical and interaction comparisons to the existing
 browser qualification. New source files and shared viewer sources are bound by
-the browser receipt; changing them rejects stale qualification. Screenshots,
-PDF and receipts stay outside Git. No publishing action is part of the build.
+the browser receipt; changing them rejects stale qualification. Generated test
+screenshots, PDF and receipts stay outside Git. The explicitly requested
+[repository screenshot set](screenshots/README.md) is a documented exception:
+desktop and phone layout captures from source
+`540bdef8fcbc0d0a55567325eba570589666bf80`, before the sampling/transport follow-on.
+They are browser emulation and retain pixel hashes and provenance. PR42's
+native-app screenshots remain separate and unchanged. No publishing action is
+part of the build.
 
 The 25-chapter book, six appendices, implementation guides, locally rendered equations, displayed Lean source, six interactive 3D reference laboratories and the connected PR22–24 native wall/force sequence. Owner: Puma. The destination is repository GitHub Pages.
 
 The three native labs are recorded playback with distinct models: two finite Navier walls, compatible no-slip/mixed boundaries, and uniform tangential forcing with stationary no-slip walls. Their controls select saved cases/times; they do not recompute parameters or advance a live liquid simulator. The original six 3D labs remain separate analytical/stored mechanisms. The projection control displays an algebraic blend of two saved fields; camera motion only changes the view.
+
+## Recomputed sampling and transport lessons
+
+The generated `transport-labs.html` page adds a two-lesson sequence; `labs.html`
+retains the original six reference mechanisms. The browser kernel is
+[`transport_reference.js`](transport_reference.js), based on the existing
+[component-aware sampling fixture](../research-book/companion/depth_experiments.py)
+and [periodic transport formulas](../research-book/companion/experiments.py).
+
+First select cell/x/y/z sample locations, inspect eight donor weights and
+compare affine interpolation with direct evaluation. Deliberately using the
+cell offset for the original x-face fixture exposes its −0.07 bias. Then
+compare periodic linear transport, raw forward/backward correction and
+donor-bound fallback. Inspect profile error, extrema, sample-sum change and
+fallback activity; bounds alone do not establish conservation or convergence.
+Chapter 3 expands its layout discussion, while chapters 6 and 7 gain linked
+sampling, numerical-diffusion, limiting and refinement examples.
+
+**Sine · one period at Courant 0.5** sets the step count to twice the selected
+sample count, keeping the travelled period fixed for refinement comparisons.
+The six-sample witnesses display their fixed size explicitly. A compact plot
+legend remains visible in phone Split mode.
+
+`test_transport_reference.py` compares the actual JavaScript kernel with an
+independent Python/Fraction oracle, including reversion versus clamping and the
+four historical sine refinements. `transport_browser.py` compares 12 sampling
+states (96 donors), 10 transport states (30 fixed-scale curves), four tour stops,
+seven chapter stops, 11 desktop deep links and 390/320-pixel phone modes. Its
+receipt binds both published JavaScript modules and both companion source
+copies; the publication gate rejects missing checks or stale sources.
+
+These are browser-recomputed educational mechanisms. The native
+[tracer transport](../../src/advection.rs) uses midpoint sampling with a
+[fixed-box extension](../../src/sampling.rs); it has no corrected-advection
+fallback API. Native smoke/liquid stepping exists, but no browser binding runs
+it here. The existing aligned-strain page also recomputes an operator without
+advancing a fluid. See [precise proof boundaries and blockers](COVERAGE.md#proof-boundaries-and-remaining-blockers).
 
 ## Build and preview outside Git
 
@@ -77,7 +124,7 @@ The illustrated `Rheon-expanded-markdown.zip` includes companion figures, implem
 
 The expansion's older 42-public/60-audit receipt remains explicitly historical. Its exact-real finite-strain and planar-contact contracts retain their assumptions. The original Python reference source/data receipts are checked before building. Source-only/data-only changes, stale PDF/browser inputs, missing assets, broken controls and page errors reject publication.
 
-The [native progression](../research-book/implementation/native-wall-force-sequence.md) connects equations, units, conditional Lean claims and demos. The [requirements map](../research-book/implementation/requirements-roadmap.md) distinguishes existing box/liquid APIs from missing general mesh/interface composition. The bounded static closed box owner now supplies shared fluid volumes, open areas, connectivity and conservative flux. Obstacle pressure and wall stress must still consume that same owner before a fluid solve can be claimed.
+The [native progression](../research-book/implementation/native-wall-force-sequence.md) connects equations, units, conditional Lean claims and demos. The [requirements map](../research-book/implementation/requirements-roadmap.md) distinguishes existing box/liquid APIs from missing general mesh/interface composition. The bounded static closed box owner supplies shared fluid volumes, open areas, connectivity and conservative flux. [Sealed obstacle pressure and reduced periodic shear](../research-book/implementation/static-obstacle-flow.md) consume that owner with distinct boundary models; they do not compose a general moving-interface tensor-stress solver.
 
 
 ## Recorded static geometry laboratory

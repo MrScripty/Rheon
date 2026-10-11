@@ -5,11 +5,54 @@ import json
 
 REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
                     'teaching.py', 'reader.js', 'reader.css', 'navigation.js', 'teaching_browser.py',
+                    'transport_reference.js', 'transport_labs.js', 'transport_browser.py', 'test_transport_reference.py',
+                    '../research-book/companion/experiments.py', '../research-book/companion/depth_experiments.py',
                     '../../browser/viewer/view.js', '../../browser/viewer/shell.css',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
                     'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt',
                     'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py', 'aligned_strain_packet.py', 'aligned_strain_html.py', 'aligned_strain.js', 'aligned_strain.css', 'aligned_strain_browser.py']
 LABS = ['projection', 'collision', 'hydrostatic', 'viscous', 'slip', 'cap']
+
+
+def transport_source_hashes(here):
+    sources = {'transport_reference.js': 'transport_reference.js',
+               'transport_labs.js': 'transport_labs.js',
+               'transport-companion.py': '../research-book/companion/experiments.py',
+               'sampling-companion.py': '../research-book/companion/depth_experiments.py'}
+    return {published: hashlib.sha256((here/source).read_bytes()).hexdigest()
+            for published, source in sources.items()}
+
+
+def validate_transport_receipt(observed, expected_sources=None):
+    if not isinstance(observed, dict) or observed.get('schema') != 'rheon-transport-browser-v1':
+        raise ValueError('Missing sampling/transport browser qualification')
+    expected = {'sampler_states':12, 'transport_states':10, 'sampler_donors_checked':96,
+                'transport_curves_checked':30, 'sine_refinements':[32,64,128,256],
+                'affine_wrong_offset_bias':-.07, 'fixed_plot_scale':True,
+                'symmetric':{'raw_min':-.125,'raw_max':1.125,'fallback':2,'limited_sum':2},
+                'asymmetric':{'fallback':1,'initial_sum':1.6,'limited_sum':1.61875,'sum_change':.01875}}
+    if observed.get('numerical') != expected:
+        raise ValueError('Incomplete sampling/transport numerical comparisons')
+    for key, value in [('desktop_scroll_presets',4),('chapter_scroll_presets',7),('direct_links',11),('fluid_solves',0),('fluid_advances',0)]:
+        if type(observed.get(key)) is not int or observed[key] != value:
+            raise ValueError('Incomplete sampling/transport count: '+key)
+    for flag in ['camera_preserved_during_scroll_and_controls','manual_comparison_pauses_follow',
+                 'follow_resumes_current_section','one_period_button']:
+        if observed.get(flag) is not True:
+            raise ValueError('Incomplete sampling/transport check: '+flag)
+    mobile=observed.get('mobile',[])
+    if len(mobile)!=2 or [entry.get('width') for entry in mobile]!=[390,320]:
+        raise ValueError('Incomplete sampling/transport phone widths')
+    for entry in mobile:
+        if entry.get('modes')!=['text','split','example'] or any(entry.get(flag) is not True for flag in
+                ['readable_text','no_horizontal_overflow','split_scroll_presets','control_comparison','mode_preserves_lesson_and_scroll','direct_link_selects_preset']):
+            raise ValueError('Incomplete sampling/transport phone checks')
+    sources=observed.get('source_sha256',{})
+    if set(sources)!={'transport_reference.js','transport_labs.js','transport-companion.py','sampling-companion.py'} or any(
+            not isinstance(value,str) or len(value)!=64 or any(c not in '0123456789abcdef' for c in value) for value in sources.values()):
+        raise ValueError('Missing sampling/transport source bindings')
+    if expected_sources is not None and sources!=expected_sources:
+        raise ValueError('Stale sampling/transport source bindings')
 
 
 def validate_teaching_receipt(observed, reference_sha256=None):
@@ -106,6 +149,7 @@ def verify_browser_qualification(repo, artifact_dir=None):
     reference = artifact/'reference-data.json'
     validate_teaching_receipt(receipt.get('teaching'),
                              hashlib.sha256(reference.read_bytes()).hexdigest() if artifact_dir is not None else None)
+    validate_transport_receipt(receipt.get('transport'), transport_source_hashes(here))
     if artifact_dir is not None:
         native=receipt.get('native_labs',{})
         presentation=json.loads((artifact/'native-presentation.json').read_text())
