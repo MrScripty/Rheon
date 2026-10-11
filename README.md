@@ -33,6 +33,21 @@ The UI displays solver results and opacity projections. It is an initial
 comparison laboratory, not a complete interactive 3D editor or real-time claim.
 Use `default-features = false` for a standard-library-only library consumer.
 
+![Native Rheon window comparing Jacobi and SGS PCG on a 32³ smoke fixture, with solver diagnostics, two opacity projections and an unequal accepted-time warning.](docs/images/rheon-native-comparison-32-cubed-100-steps.png)
+
+Jacobi and SGS PCG, each started from rest for 100 steps at 32³ cells. The app
+flags unequal accepted physical horizons even though the rounded times match.
+Single-run timings are exploratory, not a qualified speed comparison.
+
+![Native Rheon window showing a completed 32³, 200-step SGS PCG smoke run and its grayscale +Z opacity guidance projection.](docs/images/rheon-native-sgs-projection-32-cubed-200-steps.png)
+
+SGS PCG after 200 steps: +Z tracer-opacity guidance with +Y upward. This fixed-box
+smoke demo is not a free-surface liquid render or physical validation.
+
+Both are unaltered native-window captures from commit
+[`34235d33`](https://github.com/MrScripty/Rheon/commit/34235d33c886aa05b5bdf95d920b863d1fb2ad6f),
+using the locked release build on Linux with software rendering.
+
 ## Explicit body forces
 
 The library's `step_with_forces` adds acceleration or force density in all three
