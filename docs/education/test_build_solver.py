@@ -50,6 +50,72 @@ def exact_reference():
     return {"schema": 1, "fixture": solver.FIXTURE, "dt": .25, "runs": runs}
 
 
+def flow_transcript_fixture():
+    """Zero-field plumbing fixture, never scientific/native execution evidence.
+
+    The independent flow browser oracle checks computed field equations; these
+    tests exercise packet shape, byte ownership, rollback and fresh-host gates.
+    """
+    offset = 0
+
+    def frame(kind, state, report=None, code=None):
+        nonlocal offset
+        status = "accepted" if report is not None else "rejected" if code else "snapshot"
+        value = {"kind": kind, "state": copy.deepcopy(state), "report": report,
+                 "status": status, "code": code or status,
+                 "detail": "plumbing rejection probe" if code else None,
+                 "byte_offset": offset, "byte_length": solver.FLOW_ENCODING["bytes_per_state"]}
+        offset += value["byte_length"]
+        return value
+
+    def snapshot(method, steps, generation, time):
+        return {"schema": 1, "fixture": solver.FLOW_FIXTURE, "method": method,
+                "grid": {"counts": [24]*3, "spacing": [1/24]*3, "origin": [0.]*3},
+                "parameters": copy.deepcopy(solver.FLOW_PARAMETERS),
+                "source": {"lower": [.30, .08, .38], "upper": [.50, .28, .58],
+                           "tracer_rate": 2., "vertical_acceleration": 0.},
+                "time": time, "time_bits": f'{struct.unpack("<Q", struct.pack("<d", time))[0]:016x}',
+                "generation": generation, "generation_u64": str(generation),
+                "accepted_steps": steps, "max_steps": 80, "source_steps": 30,
+                "next_source_active": steps < 30, "requested_dt": .02,
+                "last_accepted_dt": .02 if steps else None,
+                "tracer_integral_at_source_cutoff": 0. if steps >= 30 else None,
+                "managed_bytes": 2_000_000,
+                "metrics": {"max_u_v_w": [0.]*3, "component_kinetic_energy": [0.]*3,
+                            "actual_divergence_max": 0., "courant": 0., "tracer_min": 0., "tracer_max": 0.,
+                            "tracer_integral": 0., "tracer_centroid": None, "tracer_axis_stddev": None,
+                            "tracer_outside_source_fraction": None,
+                            "tracer_integral_change_since_cutoff": 0. if steps >= 30 else None,
+                            "tracer_adjacent_slice_rms": [0.]*3}}
+
+    def report(generation, time):
+        return {"dt": .02, "time": time, "generation": generation,
+                "pressure": {"iterations": 1, "true_residual_l2": 0., "true_residual_max": 0., "predicted_divergence_max": 0.},
+                "actual_divergence_max": 0., "courant": 0., "tracer_integral": 0., "kinetic_energy": 0.,
+                "forces": {"kinetic_energy_before": 0., "kinetic_energy_after": 0., "applied_work": 0.}}
+
+    runs = []
+    for method in ("jacobi-pcg-v1", "sgs-pcg-v1"):
+        baseline = snapshot(method, 0, 0, 0.)
+        frames = [frame("baseline", baseline)]
+        cancelled_rest = frame("cancelled_rest", baseline, code="cancelled_before_commit")
+        time = 0.
+        for step in range(1, 81):
+            time += .02
+            state = snapshot(method, step, step, time)
+            frames.append(frame("accepted", state, report(step, time)))
+            if step == 30:
+                cancelled_nonzero = frame("cancelled_nonzero", state, code="cancelled_before_commit")
+        limit_rejection = frame("limit_rejection", state, code="step_limit")
+        reset = frame("reset", snapshot(method, 0, 81, 0.))
+        after_reset = frame("after_reset", snapshot(method, 1, 82, .02), report(82, .02))
+        runs.append({"method": method, "frames": frames, "cancelled_rest": cancelled_rest,
+                     "cancelled_nonzero": cancelled_nonzero, "limit_rejection": limit_rejection,
+                     "reset": reset, "after_reset": after_reset})
+    return {"schema": 1, "fixture": solver.FLOW_FIXTURE, "encoding": copy.deepcopy(solver.FLOW_ENCODING),
+            "binary_bytes": offset, "runs": runs}, bytes(offset)
+
+
 class SolverPacket(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -63,21 +129,33 @@ class SolverPacket(unittest.TestCase):
         source = self.repo/"src/example.rs"
         source.parent.mkdir(exist_ok=True); source.write_text("pub fn example() {}")
         self.reference = exact_reference()
+        self.flow_reference, self.flow_fields = flow_transcript_fixture()
         for name in solver.PUBLIC_ARTIFACTS:
             (self.packet/name).write_bytes(b"\0asm\x01\0\0\0" if name.endswith(".wasm") else name.encode())
         (self.packet/"native-reference.json").write_text(json.dumps(self.reference))
+        (self.packet/"native-flow-reference.json").write_text(json.dumps(self.flow_reference))
+        (self.packet/"native-flow-fields.bin").write_bytes(self.flow_fields)
         native = self.packet/solver.NATIVE_EXPORTER
         native.parent.mkdir()
         # Admission plumbing test: a transparent executable stub, not claimed
         # evidence that the scientific solver or WASM ran.
         native.write_text("#!/usr/bin/env python3\nprint(" + repr(json.dumps(self.reference)) + ")\n")
         native.chmod(0o755)
+        flow_native = self.packet/solver.NATIVE_FLOW_EXPORTER
+        flow_native.write_text("#!/usr/bin/env python3\nfrom pathlib import Path\nimport shutil, sys\n"
+                               "output = Path(sys.argv[1]); output.mkdir()\n"
+                               "packet = Path(__file__).resolve().parent.parent\n"
+                               "for name in ('native-flow-reference.json', 'native-flow-fields.bin'):\n"
+                               "    shutil.copyfile(packet/name, output/name)\n")
+        flow_native.chmod(0o755)
         self.receipt = {"schema": 1, "fixture": solver.FIXTURE, "wasm_bindgen_version": solver.WASM_BINDGEN,
+                        "flow_fixture": solver.FLOW_FIXTURE, "contract_tests": 1,
                         "rustc": "rustc 1.92.0 (fixture)", "target": "wasm32-unknown-unknown", "profile": "release",
                         "source_git_sha": "f"*40, "source_git_dirty": False,
                         "source_sha256": solver.source_hashes(self.repo),
                         "artifact_sha256": {n: solver.digest(self.packet/n) for n in solver.PUBLIC_ARTIFACTS},
-                        "native_exporter": {"path": solver.NATIVE_EXPORTER, "sha256": solver.digest(native)}}
+                        "native_exporter": {"path": solver.NATIVE_EXPORTER, "sha256": solver.digest(native)},
+                        "native_flow_exporter": {"path": solver.NATIVE_FLOW_EXPORTER, "sha256": solver.digest(flow_native)}}
         self.write_receipt()
 
     def write_receipt(self):
@@ -115,7 +193,7 @@ class SolverPacket(unittest.TestCase):
             solver.validate_packet(self.repo, self.packet)
 
     def test_public_binary_and_native_exporter_tampering_reject(self):
-        for name in ("rheon_solver.js", "rheon_solver_bg.wasm", "native-reference.json", solver.NATIVE_EXPORTER):
+        for name in ("rheon_solver.js", "rheon_solver_bg.wasm", "native-reference.json", "native-flow-reference.json", "native-flow-fields.bin", solver.NATIVE_EXPORTER, solver.NATIVE_FLOW_EXPORTER):
             with self.subTest(name=name):
                 path = self.packet/name; original = path.read_bytes()
                 path.write_bytes(original+b"changed")
@@ -167,6 +245,56 @@ class SolverPacket(unittest.TestCase):
             solver.external_directory(self.repo, other/"output")
         with self.assertRaisesRegex(ValueError, "absent or empty"):
             solver.build(self.repo, self.packet)
+
+    def test_flow_schema_ordering_and_transaction_mutations_reject(self):
+        mutations = [
+            lambda r: r["encoding"].__setitem__("field_order", ["tracer", "x", "y", "z"]),
+            lambda r: r.__setitem__("binary_bytes", 0),
+            lambda r: r["runs"].reverse(),
+            lambda r: r["runs"][0]["frames"].pop(),
+            lambda r: r["runs"][0]["frames"][1].__setitem__("byte_offset", 0),
+            lambda r: r["runs"][0]["frames"][1]["state"].__setitem__("generation", 2),
+            lambda r: r["runs"][0]["frames"][30]["state"].__setitem__("next_source_active", True),
+            lambda r: r["runs"][0]["cancelled_nonzero"].__setitem__("state", r["runs"][0]["frames"][0]["state"]),
+            lambda r: r["runs"][0]["reset"]["state"].__setitem__("generation", 0),
+            lambda r: r["runs"][0]["after_reset"]["state"].__setitem__("time_bits", "0000000000000000"),
+            lambda r: r["runs"][0]["frames"][1]["report"]["pressure"].__setitem__("iterations", 2001),
+        ]
+        for index, mutate in enumerate(mutations):
+            with self.subTest(mutation=index):
+                reference = copy.deepcopy(self.flow_reference); mutate(reference)
+                with self.assertRaises(ValueError):
+                    solver.validate_flow_reference(reference, self.flow_fields)
+
+    def test_flow_binary_length_nonfinite_and_rollback_bytes_reject(self):
+        with self.assertRaisesRegex(ValueError, "binary length"):
+            solver.validate_flow_reference(self.flow_reference, self.flow_fields[:-4])
+        for name, offset, value, error in (
+            ("nonfinite", self.flow_reference["runs"][0]["frames"][1]["byte_offset"], float("nan"), "nonfinite"),
+            ("rest", 0, 1., "bitwise zero"),
+            ("rollback", self.flow_reference["runs"][0]["cancelled_nonzero"]["byte_offset"], .125, "preserve"),
+            ("retry", self.flow_reference["runs"][0]["after_reset"]["byte_offset"], .125, "retry"),
+        ):
+            with self.subTest(mutation=name):
+                fields = bytearray(self.flow_fields)
+                struct.pack_into("<f", fields, offset, value)
+                with self.assertRaisesRegex(ValueError, error):
+                    solver.validate_flow_reference(self.flow_reference, fields)
+
+    def test_rehashed_flow_host_output_change_rejects(self):
+        native = self.packet/solver.NATIVE_FLOW_EXPORTER
+        native.write_text(native.read_text() + "(output/'native-flow-fields.bin').write_bytes(b'changed')\n")
+        self.receipt["native_flow_exporter"]["sha256"] = solver.digest(native); self.write_receipt()
+        with self.assertRaisesRegex(ValueError, "fresh native flow exporter"):
+            solver.validate_packet(self.repo, self.packet)
+
+    def test_completed_contract_count_comes_from_all_cargo_test_binaries(self):
+        result = "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.0s\n"
+        result += "test result: ok. 3 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.0s\n"
+        self.assertEqual(solver.passed_contract_tests(result), 9)
+        for bad in ("", "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;", result.replace("0 failed", "1 failed")):
+            with self.assertRaises(ValueError):
+                solver.passed_contract_tests(bad)
 
 
 if __name__ == "__main__":

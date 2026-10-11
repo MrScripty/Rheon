@@ -6,9 +6,9 @@ import shutil
 import unittest
 
 from timestep_browser import (FIXTURE, FIELDS, GRID, METHODS, check_native_reference,
-                              check_outcome, check_report, check_state, cycle_oracle,
+                              check_face_table_layout, check_outcome, check_report, check_state, cycle_oracle,
                               field_diagnostics, float_bits, PACKET_FILES, qualify,
-                              source_hashes, time_bits, validate_receipt)
+                              source_hashes, time_bits, validate_receipt, wait_ready)
 
 
 def state_fixture(method=METHODS[0], accepted=True, generation=1):
@@ -54,6 +54,28 @@ def packet_fixture():
 
 
 class CycleOracleTests(unittest.TestCase):
+    def test_phone_table_checks_inner_scroll_and_every_reference_column(self):
+        layout = {'headers': ['Face', 'Accepted', 'Reference'], 'scrollWidth': 250, 'clientWidth': 250,
+                  'scrollLeft': 0, 'left': 35, 'right': 285, 'top': 200, 'bottom': 330,
+                  'headerBottom': 58, 'viewportWidth': 320, 'viewportHeight': 844,
+                  'cells': [{'left': 35+i*250/3, 'right': 35+(i+1)*250/3,
+                             'scrollWidth': 82, 'clientWidth': 82, 'visible': True}
+                            for _ in range(5) for i in range(3)]}
+        check_face_table_layout(layout)
+        for change in ('wide_table', 'clipped_reference', 'hidden_column', 'clipped_value'):
+            with self.subTest(change=change):
+                damaged = deepcopy(layout)
+                if change == 'wide_table':
+                    damaged['scrollWidth'] = 390
+                elif change == 'clipped_reference':
+                    damaged['cells'][2]['right'] = 425
+                elif change == 'hidden_column':
+                    damaged['cells'][2]['visible'] = False
+                else:
+                    damaged['cells'][5]['scrollWidth'] = 150
+                with self.assertRaisesRegex(RuntimeError, 'native face table'):
+                    check_face_table_layout(damaged)
+
     def test_exact_circulation_force_work_and_post_projection_energy(self):
         expected = cycle_oracle()
         self.assertEqual(expected['x'], [0, .125, 0, 0, -.125, 0])
@@ -185,7 +207,8 @@ class CycleOracleTests(unittest.TestCase):
                     'mobile': [{'width': width, 'modes': ['text', 'split', 'example'], 'readable_text': True,
                                 'no_horizontal_overflow': True, 'mode_preserves_lesson_and_scroll': True,
                                 'layout_and_scroll_do_not_advance': True, 'rejection_then_acceptance': True,
-                                'chapter_direct_link': True} for width in (390, 320)], 'screenshots': []}
+                                'chapter_direct_link': True, 'all_face_table_columns_visible': True}
+                               for width in (390, 320)], 'screenshots': []}
         validate_receipt(original, True)
         for key in ('source_sha256', 'packet_hashes', 'methods', 'actual_wasm_worker', 'rejection_preserves_accepted_bits', 'numerical_states',
                     'fresh_host_native_comparison', 'camera_and_reading_do_not_advance', 'mobile'):
@@ -202,6 +225,10 @@ class CycleOracleTests(unittest.TestCase):
                     validate_receipt(altered, True)
         altered = deepcopy(original)
         altered['mobile'][1]['rejection_then_acceptance'] = False
+        with self.assertRaisesRegex(ValueError, 'native phone qualification check'):
+            validate_receipt(altered, True)
+        altered = deepcopy(original)
+        del altered['mobile'][1]['all_face_table_columns_visible']
         with self.assertRaisesRegex(ValueError, 'native phone qualification check'):
             validate_receipt(altered, True)
 
@@ -227,6 +254,13 @@ class ActualBrowserRejectionTests(unittest.TestCase):
                 page.add_init_script('''document.addEventListener('click', event => {
                     if(event.target.id === 'timestep-step') event.stopImmediatePropagation();
                 }, true);''')
+            if alteration == 'delayed_native_response':
+                page.add_init_script('''const NativeWorker = window.Worker;
+                    window.Worker = class extends NativeWorker {
+                      set onmessage(handler) {
+                        super.onmessage = event => setTimeout(() => handler.call(this, event), 750);
+                      }
+                    };''')
             def load(target, path):
                 # The missing-WASM probe deliberately prevents normal network
                 # completion. Wait for the actual UI/native error or readiness
@@ -236,6 +270,15 @@ class ActualBrowserRejectionTests(unittest.TestCase):
                 if errors:
                     raise RuntimeError('Timestep Chromium errors '+str(errors))
             try:
+                if alteration == 'delayed_native_response':
+                    load(page, 'timestep-lab.html')
+                    observed = wait_ready(page)
+                    self.assertEqual(observed['reference']['runtime'], 'wasm-worker')
+                    self.assertEqual(observed['reference']['state']['generation'], 0)
+                    self.assertEqual(observed['reference']['requestCount'], 1)
+                    self.assertFalse(observed['reference']['busy'])
+                    check_errors()
+                    return
                 qualify(page, mobile, load, check_errors)
             finally:
                 browser.close()
@@ -247,6 +290,9 @@ class ActualBrowserRejectionTests(unittest.TestCase):
     def test_unresponsive_native_step_button_refuses(self):
         with self.assertRaisesRegex(RuntimeError, 'one worker request per explicit command'):
             self.run_altered('unresponsive_step')
+
+    def test_delayed_native_response_waits_for_real_state(self):
+        self.run_altered('delayed_native_response')
 
 
 if __name__ == '__main__':

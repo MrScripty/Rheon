@@ -9,7 +9,7 @@ viscous decay, wall slip, then equilibrium capillarity. Each lesson states a
 prediction, comparison and measurable limitation. The authored chapter text,
 citations, figures, Lean source and numerical generators remain unchanged.
 
-Scroll-linked examples cover chapters **3–7, 10, 17, 19–25**: 14 of 25 chapters,
+Scroll-linked examples cover chapters **3–7, 10, 14, 17, 19–25**: 15 of 25 chapters,
 with no scroll-linked appendix. This is partial topic coverage. The
 [coverage ledger](COVERAGE.md) lists every chapter and appendix, each source
 kind, and the remaining science and UI gaps. Heading-to-case bindings live in
@@ -117,6 +117,34 @@ contact-line dynamics, parameterized grid or repeated trajectory is advertised.
 A source-only build states that the compiled packet is absent and disables its
 step controls. The browser gate compares actual WASM state with the independently
 derived cycle and a fresh host execution of the existing fixture for both methods.
+
+## Computed 3D source pulse
+
+`flow-lab.html` (or `flow-lab.html?view=example` for a compact embeddable view)
+and chapter 14 add a bounded 24³ native flow in the same worker
+build. **Run** advances accepted states asynchronously; **Pause** stops scheduling
+new steps (one already running step may finish). **Reset** clears native state.
+The source injects tracer for 30 steps and the experiment ends at 80 accepted
+steps. Actual time, grid size and progress remain visible; the numerical ledger
+is collapsed by default. The camera survives accepted updates and reading-mode
+changes. No step starts on page load or section scroll.
+
+The volume uses the full accepted three-dimensional concentration tensor,
+trilinear display interpolation and a fixed opacity law. It contains no procedural
+noise, synthetic particle trajectory or inferred water surface. Inspect it from
+two angles at the same accepted time. The renderer reuses the real GUI camera,
+WebGL renderer and lifecycle without its normalized one-dimensional profile adapter.
+
+The amber outline is the injection region. Fixed sealed domain walls are the
+only impermeable geometry in this timestep. Static-obstacle pressure is available
+separately but requires further composition before an advancing obstacle-flow
+demo is scientifically valid. Appearance tracer can lose total amount after the
+source turns off; inspect the measured change in the disclosure. No viscosity,
+physical buoyancy, free-surface or obstacle-coupled evolution is claimed.
+
+The host exporter retains full tensor references for both pressure methods.
+These external numerical artifacts are downloaded by qualification only; the
+interactive view computes its own states and does not load recorded fields.
 
 ## Build and preview outside Git
 

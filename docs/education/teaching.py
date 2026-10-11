@@ -21,6 +21,8 @@ CHAPTER_STOPS = {
            ('velocity-and-conservation', 'transport', 'asymmetric')],
     '10': [('hydrostatic-balance', 'hydrostatic', 'light'),
            ('diffusion', 'viscous', 'late')],
+    '14': [('surface-and-volume-outputs', 'flow', 'volume'),
+           ('metrics-and-integration', 'flow', 'metrics')],
     '17': [('core-ownership', 'timestep', 'ready'),
            ('storage-and-invariants', 'timestep', 'reject')],
     '19': [('units-before-parameters', 'projection', 'before'),
@@ -81,6 +83,10 @@ TIMESTEP_LESSONS = [
 ]
 
 
+FLOW_LESSONS = [
+    ('flow', 'Follow a 3D source pulse', 'volume', 'metrics', '', '', '', '14-guidance-rendering'),
+]
+
 def compact_proofs(body):
     """Keep exact source/proof text and anchors, collapse only checked bridges."""
     pattern = r'(<h2\b[^>]*>Checked[^<]*</h2>)(.*?)(?=<h2\b|\Z)'
@@ -107,7 +113,7 @@ def chapter(body, slug):
 
 
 def workspace(prefix='', lessons=None):
-    options = ''.join(f'<option value="{key}">{i+1} · {html.escape(title)}</option>' for i, (key, title, *_) in enumerate(lessons or LESSONS + TRANSPORT_LESSONS + TIMESTEP_LESSONS))
+    options = ''.join(f'<option value="{key}">{i+1} · {html.escape(title)}</option>' for i, (key, title, *_) in enumerate(lessons or LESSONS + TRANSPORT_LESSONS + TIMESTEP_LESSONS + FLOW_LESSONS))
     return f'''<section class="example-workspace" aria-label="Interactive example">
 <div class="example-toolbar"><label for="lab">Example</label><select id="lab">{options}</select>
 <button id="follow-reading" aria-pressed="true">Follow reading</button></div>
@@ -118,7 +124,7 @@ def workspace(prefix='', lessons=None):
 <div id="controls"></div><dl id="metrics" aria-live="polite"></dl>
 <details class="example-notes"><summary>Expected result & limits</summary><p id="lab-expected"></p><p id="lab-limit"></p></details>
 <a id="chapter-target" href="{prefix}chapters/04-pressure-projection.html">Read the mechanism →</a>
-<details class="example-sources"><summary>Source & evidence</summary><span id="reference-sources"><a href="{prefix}reference.py">Reference code</a> · <a href="{prefix}reference-data.json">Stored fields</a> · <a href="{prefix}reference-qualification.json">Numerical receipt</a> · </span><span id="transport-sources" hidden><a href="{prefix}transport_reference.js">Browser equations</a> · <a href="{prefix}transport-companion.py">Transport companion</a> · <a href="{prefix}sampling-companion.py">Sampling companion</a> · </span><span id="timestep-sources" hidden><a href="{prefix}solver-source.rs">Rust adapter</a> · <a href="{prefix}timestep-contract.rs">Existing native fixture</a> · <a href="{prefix}solver-presentation.json">Build identity</a> · <a href="{prefix}BROWSER_TIMESTEP.md">Capability audit</a> · </span><a href="{prefix}chapters/F-expansion-contracts-and-sources.html">Primary sources & checked claims</a></details></div></section>'''
+<details class="example-sources"><summary>Source & evidence</summary><span id="reference-sources"><a href="{prefix}reference.py">Reference code</a> · <a href="{prefix}reference-data.json">Stored fields</a> · <a href="{prefix}reference-qualification.json">Numerical receipt</a> · </span><span id="transport-sources" hidden><a href="{prefix}transport_reference.js">Browser equations</a> · <a href="{prefix}transport-companion.py">Transport companion</a> · <a href="{prefix}sampling-companion.py">Sampling companion</a> · </span><span id="timestep-sources" hidden><a href="{prefix}solver-source.rs">Rust adapter</a> · <a href="{prefix}timestep-contract.rs">Existing native fixture</a> · <a href="{prefix}solver-presentation.json">Build identity</a> · <a href="{prefix}BROWSER_TIMESTEP.md">Capability audit</a> · </span><span id="flow-sources" hidden><a href="{prefix}flow-source.rs">Rust 3D fixture</a> · <a href="{prefix}flow_volume.js">Volume equations</a> · <a href="{prefix}solver-presentation.json">Build identity</a> · </span><a href="{prefix}chapters/F-expansion-contracts-and-sources.html">Primary sources & checked claims</a></details></div></section>'''
 
 
 def tour():
@@ -144,6 +150,14 @@ def timestep_tour():
 <section class="teaching-lesson" id="timestep-accept" data-lesson="timestep" data-preset="accept"><h2>Run one actual timestep</h2><p>Press <strong>Run one step</strong>. The existing Rust <code>Simulation::step_with_forces</code> executes in a browser worker through WebAssembly: velocity advection, force application, pressure solve, corrected-field acceptance and tracer update precede publication. Advection starts from rest and tracer stays zero in this fixture.</p><p>The forced interior vector is q = (½, 0, 0, 0). The divergence-free cycle is c = (1, −1, −1, 1). Its projection is c(q·c)/(c·c) = c/8. Compare all four speeds with (+⅛, −⅛, −⅛, +⅛) m/s. Force-stage work is ⅛ J; accepted kinetic energy is 1/32 J. The pressure report and stored-field divergence measure different stages.</p><p>Both listed pressure methods use the existing settings and acceptance gates. Changing the method starts a new run. Only one step may be accepted per reset: repeating the force would activate nontrivial advection and invalidate this first-step oracle.</p></section>
 <section class="teaching-lesson" id="timestep-transaction" data-lesson="timestep" data-preset="reject"><h2>A rejected candidate is not a new state</h2><p>Press <strong>Reject before commit</strong>, before or after acceptance. The real native callback rejects at <code>BeforeCommit</code>. The candidate is discarded; every accepted field bit, time and generation must stay unchanged. This is a scheduled rejection probe, not a promise that JavaScript can interrupt a synchronous WASM call.</p><p>After rejection from rest, a retry should match an uninterrupted first step. <strong>Reset state</strong> uses the native reset operation: it clears the fields and time while incrementing generation. Scrolling, switching phone layouts and moving the camera preserve the simulation state.</p><p><strong>Scope.</strong> This is one fixed-box force/projection integration fixture. It demonstrates no evolving liquid surface, viscosity, buoyancy, variable density, moving geometry or contact physics. The root solver and pressure API are unchanged. Native and browser agreement for this fixture does not qualify arbitrary grids or all WebAssembly engines.</p><p><a href="chapters/17-rust-implementation.html#storage-and-invariants">Read state ownership and publication →</a> · <a href="BROWSER_TIMESTEP.md">Inspect the capability audit and theory visualization backlog</a></p></section></article>'''
     return body + workspace(lessons=TIMESTEP_LESSONS)
+
+
+def flow_tour():
+    body = '''<article class="reading-text"><p class="eyebrow">COMPUTED IN THREE DIMENSIONS</p><h1>Follow the pulse.</h1><p><a href="flow-lab.html?view=example">Open compact example →</a></p>
+<section class="teaching-lesson" id="flow" data-lesson="flow" data-preset="volume"><h2>A force, a source, a sealed box.</h2><p>A compact source injects tracer for the first 30 accepted steps. A localized oblique force drives flow through a unit box. Press <strong>Run</strong> to advance the existing Rust solver in a Web Worker. Each visible state contains a complete 24 × 24 × 24 concentration field and three staggered velocity components.</p><p>Predict where the pulse travels after injection stops. The amber outline marks the injection region. It is a source, not a solid obstacle. The box walls block normal flow. Accepted simulation time advances only when a native step passes its pressure, divergence and Courant checks; wall-clock playback speed depends on the device.</p></section>
+<section class="teaching-lesson" id="flow-depth" data-lesson="flow" data-preset="volume"><h2>Rotate the data, not a flat image.</h2><p>Orbit the volume to inspect different depths of the same accepted field. Perspective rays sample the actual three-dimensional tensor. Trilinear interpolation smooths its display; it does not add numerical resolution. The fixed opacity law integrates concentration along each ray. Camera motion and display rendering never advance the simulation.</p><p>The velocity varies along all three spatial axes. This is a computed 3D passive-tracer flow. Its shape comes from transported values, without procedural smoke, synthetic particles or an inferred liquid surface.</p></section>
+<section class="teaching-lesson" id="flow-limits" data-lesson="flow" data-preset="metrics"><h2>Measure what the picture cannot tell you.</h2><p>Open the numerical details to inspect accepted time, divergence, Courant number, force work and tracer amount. After the source switches off, the tracer amount can decline: bounded appearance transport is not a conservative liquid-volume update. The run ends after 80 accepted steps; reset starts a new experiment.</p><p><strong>Scope.</strong> Density is constant. The force is prescribed, with no viscosity, physical buoyancy, free surface or moving geometry. The fixed-obstacle pressure operator exists separately, but is not composed into this timestep. An impermeable internal obstacle therefore requires further solver integration and qualification. No coupled obstacle collision is depicted.</p><p><a href="chapters/14-guidance-rendering.html#surface-and-volume-outputs">Read rendering and output →</a> · <a href="timestep-lab.html">Inspect the exact first-step contract →</a></p></section></article>'''
+    return body + workspace(lessons=FLOW_LESSONS)
 
 
 def scripts(prefix=''):

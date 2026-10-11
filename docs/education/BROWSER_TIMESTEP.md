@@ -167,10 +167,10 @@ be called an implemented lesson.
 
 These are recommendations, not implemented coverage or new numerical results.
 The preceding sampling/transport edition had 12 chapters without a linked
-example: 1, 2, 8, 9 and 11–18. Placing the fixed Rust lesson in chapter 17 leaves
-11 of those chapters without a linked example; none of these counts implies
-complete topic coverage. The first column below lists all 12 so that chapter
-17's restricted addition remains explicit.
+example: 1, 2, 8, 9 and 11–18. The fixed Rust lesson adds chapter 17 and the
+subsequent bounded 3D volume adds chapter 14, leaving 10 chapters without a linked
+example. None of these counts implies complete topic coverage. The first column
+below preserves all 12 proposals; chapters 14 and 17 now have partial additions.
 
 | Chapter and concept | Control and visual | Prediction or measurable check | Limit and source |
 | --- | --- | --- | --- |

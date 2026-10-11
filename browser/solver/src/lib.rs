@@ -11,6 +11,9 @@ use rheon::{
 use serde::Serialize;
 use wasm_bindgen::prelude::*;
 
+pub mod flow;
+pub use flow::FlowSimulation;
+
 pub const FIXTURE: &str = "force-cycle-2x2x1-v1";
 pub const DT: f64 = 0.25;
 

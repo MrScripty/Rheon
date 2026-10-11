@@ -86,7 +86,7 @@ jobs:
           python3 docs/education/aligned_strain_packet.py --output "$RHEON_STRAIN" --executable "$CARGO_TARGET_DIR/debug/examples/aligned_strain" --primary-qualification "$RHEON_STRAIN_QUALIFICATION/qualification.json"
           RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -m unittest discover -s docs/education -p test_aligned_strain_packet.py
           RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -O -m unittest discover -s docs/education -p test_aligned_strain_packet.py
-      - name: Build the bounded native browser timestep
+      - name: Build the bounded native browser fixtures
         run: |
           rustup target add --toolchain 1.92.0 wasm32-unknown-unknown
           cargo +1.92.0 install wasm-bindgen-cli --version 0.2.105 --locked
@@ -96,6 +96,8 @@ jobs:
           python3 -O -m unittest discover -s docs/education -p test_build_solver.py
           python3 -m unittest discover -s docs/education -p test_timestep_browser.py
           python3 -O -m unittest discover -s docs/education -p test_timestep_browser.py
+          RHEON_FLOW_NATIVE="$RHEON_SOLVER" python3 -m unittest discover -s docs/education -p test_flow_browser.py
+          RHEON_FLOW_NATIVE="$RHEON_SOLVER" python3 -O -m unittest discover -s docs/education -p test_flow_browser.py
       - name: Build complete static edition and verify local links
         run: |
           python3 -m unittest discover -s docs/education -p test_pdf_freshness.py

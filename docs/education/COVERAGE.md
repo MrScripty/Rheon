@@ -2,8 +2,8 @@
 
 This ledger covers all 25 chapters and six appendices. The sampling/transport
 follow-on expands the [540bdef teaching checkpoint](https://github.com/MrScripty/Rheon/commit/540bdef8fcbc0d0a55567325eba570589666bf80)
-from 11 to 13 chapters, then the bounded browser timestep adds chapter 17.
-There are now **14 chapters with partial scroll-linked examples**: 3–7, 10, 17 and 19–25.
+from 11 to 13 chapters, then the bounded browser timestep adds chapter 17 and the computed volume adds chapter 14.
+There are now **15 chapters with partial scroll-linked examples**: 3–7, 10, 14, 17 and 19–25.
 No appendix has a scroll-linked example. These counts describe placement,
 not complete coverage of each chapter's topics or qualification of a solver.
 [Heading bindings](teaching.py) fail the build when an expected section moves.
@@ -29,6 +29,7 @@ computation evidence.
 | Stored reference | The original six lessons select analytical or dense-solve records from [reference.py](../research-book/expansion/reference.py). [labs.js](labs.js) recomputes the labelled projection blend and readouts; it does not rerun the pressure solve. |
 | Browser mechanism | [transport_reference.js](transport_reference.js) recomputes bounded affine sampling and periodic 1D scalar transport. Its references are the existing [sampling fixture](../research-book/companion/depth_experiments.py) and [transport formulas](../research-book/companion/experiments.py). It is an independent teaching implementation. |
 | Browser native timestep | A separately compiled [Rust adapter](../../browser/solver/src/lib.rs) calls the existing `Simulation::step_with_forces` in a Web Worker. The single accepted interval is the fixed four-edge force/projection fixture. A current compiled packet is required; absent packets disable the controls. |
+| Browser 3D flow | [flow.rs](../../browser/solver/src/flow.rs) advances a bounded 24³ constant-density appearance-tracer fixture using the existing native timestep. [flow_volume.js](flow_volume.js) renders the complete accepted tensor with perspective ray integration and fixed opacity. Source pulse: 30 steps; run limit: 80. |
 | Browser operator | [aligned_strain.js](aligned_strain.js) applies immutable native strain rows and their transpose to chosen face samples. It recomputes force and loss, without a timestep or pressure solve. A qualified packet is required. |
 | Native recording | Wall/force, static geometry, obstacle pressure and reduced-shear pages display admitted native packets. Browser controls choose saved cases, slices or times. Missing packets remain unavailable. |
 | Text/fixture | Derivation, source links, proof disclosures or offline numerical fixtures; no corresponding browser computation is supplied. |
@@ -37,8 +38,7 @@ The [shared viewer](../../browser/viewer/README.md) supplies rendering, camera
 controls and theme. The [timestep adapter audit](BROWSER_TIMESTEP.md) separates
 build plumbing from missing physics. Native [Simulation::step](../../src/simulation.rs)
 and [LiquidTransportSimulation::step](../../src/liquid_step.rs) already existed.
-The new WASM binding executes one fixed `Simulation::step_with_forces` fixture;
-it does not expose general grid configuration, repeated evolution or liquid stepping.
+The WASM binding executes the fixed force cycle and a separate bounded 3D source-pulse sequence through `Simulation::step_with_forces`. It does not expose general grid configuration or liquid stepping.
 Browser scalar transport and finite-row evaluation remain separate teaching
 mechanisms and do not invoke those native APIs.
 
@@ -62,7 +62,7 @@ Every native recording/operator entry is conditional on packet admission.
 | 11 Particle methods | Text/fixture; offline transfer and SPH-gradient checks | Browser PIC/FLIP/APIC transfer, support degeneracy, SPH/PBF dynamics and full memory costs |
 | 12 Time/error | Text/fixture; transport lesson available separately | Step admission, temporal versus spatial error, incomplete intervals and long-horizon budgets |
 | 13 Memory/parallelism | Text/fixture; explicit layout arithmetic | Interactive allocation estimates, measured peak memory, reduction order and sparse/GPU execution |
-| 14 Guidance rendering | Text/fixture; native opacity exporter exists | Browser camera calibration, depth/normals, silhouettes and export-error comparison |
+| 14 Guidance rendering | Browser native 24³ flow with orbitable accepted concentration volume; fixed opacity and complete 3D tensor | Camera calibration, physical scattering, depth/normals export, silhouettes and export-error comparison |
 | 15 Finite arithmetic | Text/fixture; offline binary32/binary64 comparison | Interactive cancellation, precision replay, exceptional values and threshold behavior |
 | 16 Lean contracts | Text/disclosures and exact source links | Interactive hypothesis/counterexample inspection; no browser proof execution |
 | 17 Rust implementation | Browser native force/projection timestep: one fixed interval, exact cycle comparison, native precommit rejection/retry and reset | General stepping lifecycle, asynchronous cancellation, resource-failure UI, liquid integration and other host runtimes |
@@ -120,11 +120,27 @@ temporal-order claim. It has no corrected-transport fallback API. The browser's
 periodic corrected lesson therefore demonstrates the book's companion method,
 without extending native solver capability.
 
+## Genuine 3D flow and display limits
+
+`flow-lab.html` runs the unchanged native solver through WebAssembly in a worker.
+A compact source injects appearance tracer for 30 accepted steps; a localized
+oblique force drives nonzero x/y/z velocities. The fixed fixture ends at 80
+accepted steps. The renderer samples all 24³ cell values with trilinear display
+interpolation and integrates a fixed Beer–Lambert opacity law along perspective
+rays. Smooth pixels do not increase numerical resolution.
+
+The source region is an injection marker, not a collision object. The surrounding
+sealed box is the actual domain. Static obstacle pressure remains a separate
+operator; impermeable obstacle-aware advection and tracer composition are not
+implemented by this lesson. Tracer amount may decline after injection ends;
+its bounded transport is not conservative liquid volume. The run has no physical
+buoyancy, viscosity, free surface, moving geometry or procedural smoke.
+
 ## Next theory visualizations
 
 The [concept/control/prediction/limit roster](BROWSER_TIMESTEP.md#bounded-visualizations-for-the-remaining-theory)
 identifies bounded interactive work for all 12 previously uncovered chapters
-and the appendices. Chapter 17 now has the fixed timestep lesson; its broader
+and the appendices. Chapters 14 and 17 now have the bounded flow volume and fixed timestep lessons; its broader
 resource and ownership topics remain partial. Proposed visualizations are
 backlog items, not implemented coverage or new physics.
 
@@ -149,8 +165,8 @@ stated matched masses and exact full-residual solve.
 The remaining blockers have different owners:
 
 - **Browser integration:** the missing adapter/build path is now implemented
-  for one fixed force/projection timestep. General grid/parameter admission,
-  repeated evolution, asynchronous cancellation, resource-failure presentation
+  for the fixed force/projection timestep and a bounded 24³ source-pulse sequence. General grid/parameter admission,
+  longer trajectories, asynchronous cancellation, resource-failure presentation
   and other browser engines still need separate qualification. The existing
   liquid APIs remain outside this first adapter.
 - **Packet availability:** native playback and strain computation require the

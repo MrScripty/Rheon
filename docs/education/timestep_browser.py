@@ -191,14 +191,20 @@ def check_native_reference(packet):
 
 
 def wait_ready(page):
-    page.wait_for_function(r'''async () => {
+    # Import once through evaluate (which awaits the module), then poll a
+    # synchronous predicate. An async predicate can itself be truthy before
+    # its Promise has resolved in the supported browser automation runtime.
+    page.evaluate(r'''async () => {
       const reader = [...document.scripts].find(s => /\/reader\.js$/.test(s.src));
-      if (!reader) return false;
-      const reference = (await import(new URL('labs.js', reader.src).href)).snapshot().reference;
-      return reference && !reference.busy && (reference.state || reference.error || reference.included === false);
+      window.__timestepQualification = await import(new URL('labs.js', reader.src).href);
     }''')
+    result = page.wait_for_function('''() => {
+      const observed = window.__timestepQualification.snapshot();
+      const reference = observed.reference;
+      return reference && !reference.busy &&
+        (reference.state || reference.error || reference.included === false) ? observed : false;
+    }''').json_value()
     settle(page)
-    result = snapshot(page)
     require(result['lab'] == 'timestep', 'native timestep lesson selection')
     require(result.get('webgl'), 'native timestep shared WebGL view')
     reference = result.get('reference')
@@ -252,6 +258,60 @@ def check_scene(observed):
         vector[0 if i < 2 else 1] = speed*1.6
         expected.append((origin, vector))
     arrows(observed['arrows'], expected, 'native accepted velocities at fixed scale')
+
+
+def check_face_table_layout(layout):
+    """Require visible face/reference columns, not merely no page overflow."""
+    require(isinstance(layout, dict) and layout.get('headers') == ['Face', 'Accepted', 'Reference'],
+            'native face table has all three comparison columns')
+    require(layout['scrollWidth'] <= layout['clientWidth']+1 and abs(layout['scrollLeft']) <= 1,
+            'native face table must fit without horizontal scrolling')
+    left = max(0, layout['left'])
+    right = min(layout['viewportWidth'], layout['right'])
+    require(right > left and len(layout.get('cells', [])) == 15,
+            'native face table has a header and four complete rows')
+    require(layout['top'] >= layout['headerBottom']-1 and layout['bottom'] <= layout['viewportHeight']+1,
+            'native face table is vertically visible below phone controls')
+    for cell in layout['cells']:
+        require(cell['visible'] and cell['right'] > cell['left'] and
+                left-1 <= cell['left'] and cell['right'] <= right+1,
+                'native face table comparison column is clipped')
+        require(cell['scrollWidth'] <= cell['clientWidth']+1, 'native face table value is clipped inside its cell')
+
+
+def visible_face_table(page):
+    """Inspect actual phone pixels' layout, then restore the reader's position."""
+    before = snapshot(page)
+    position = page.evaluate('''() => ({x:scrollX,y:scrollY,
+      panel:document.querySelector('.example-workspace').scrollTop})''')
+    try:
+        table = page.locator('#timestep-faces table')
+        table.scroll_into_view_if_needed()
+        settle(page)
+        layout = table.evaluate('''node => {
+          const box=node.getBoundingClientRect();
+          return {headers:[...node.querySelectorAll('th')].map(cell=>cell.textContent),
+            left:box.left,right:box.right,top:box.top,bottom:box.bottom,
+            viewportWidth:innerWidth,viewportHeight:innerHeight,
+            headerBottom:document.querySelector('header').getBoundingClientRect().bottom,
+            scrollWidth:node.scrollWidth,clientWidth:node.clientWidth,scrollLeft:node.scrollLeft,
+            cells:[...node.querySelectorAll('th,td')].map(cell=>{
+              const b=cell.getBoundingClientRect(),s=getComputedStyle(cell);
+              return {left:b.left,right:b.right,scrollWidth:cell.scrollWidth,clientWidth:cell.clientWidth,
+                visible:b.height>0&&s.display!=='none'&&s.visibility==='visible'};
+            })};
+        }''')
+        check_face_table_layout(layout)
+        return layout
+    finally:
+        page.evaluate('''p=>{
+          document.querySelector('.example-workspace').scrollTop=p.panel;
+          scrollTo({left:p.x,top:p.y,behavior:'instant'});
+        }''', position)
+        settle(page)
+        after = snapshot(page)
+        require(after['reference'] == before['reference'], 'inspecting phone face table changed native state')
+        same_camera(before, after, 'phone face table inspection preserves camera')
 
 
 def inspect(page, method=None, accepted=None, generation=None):
@@ -471,6 +531,7 @@ def qualify(page, mobile, load, check_errors, artifact_dir=None):
             perform(mobile, 'timestep-reject', host[METHODS[0]]['cancelled_rest'], METHODS[0])
             perform(mobile, 'timestep-step', host[METHODS[0]]['accepted'], METHODS[0])
             accepted = checked(mobile)
+            visible_face_table(mobile)
             picture(f'timestep-phone-{width}-example.jpg', mobile)
             mobile.locator('[data-reading-mode=split]').click()
             scroll_to(mobile, '#timestep-accept')
@@ -487,7 +548,7 @@ def qualify(page, mobile, load, check_errors, artifact_dir=None):
             mobile_results.append({'width': width, 'modes': ['text', 'split', 'example'], 'readable_text': True,
                                    'no_horizontal_overflow': True, 'mode_preserves_lesson_and_scroll': True,
                                    'layout_and_scroll_do_not_advance': True, 'rejection_then_acceptance': True,
-                                   'chapter_direct_link': True})
+                                   'chapter_direct_link': True, 'all_face_table_columns_visible': True})
         mobile.set_viewport_size({'width': 390, 'height': 844})
         check_errors()
         require(source_hashes() == initial_sources, 'reviewed timestep modules/contracts changed during qualification')
@@ -553,5 +614,6 @@ def _validate_receipt(observed, included):
     for entry in mobile:
         require(entry.get('modes') == ['text', 'split', 'example'], 'native phone mode coverage')
         for name in ('readable_text', 'no_horizontal_overflow', 'mode_preserves_lesson_and_scroll',
-                     'layout_and_scroll_do_not_advance', 'rejection_then_acceptance', 'chapter_direct_link'):
+                     'layout_and_scroll_do_not_advance', 'rejection_then_acceptance', 'chapter_direct_link',
+                     'all_face_table_columns_visible'):
             require(entry.get(name) is True, 'native phone qualification check '+name)

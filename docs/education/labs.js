@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {RecordedView} from './shared-viewer/view.js';
 import {createTransportLabs} from './transport_labs.js';
 import {createTimestepLab} from './timestep_labs.js';
+import {createFlowLab} from './flow_labs.js';
 const data=await (await fetch(new URL('./reference-data.json', import.meta.url))).json();
 const host=document.querySelector('#scene'), selector=document.querySelector('#lab');
 const panel=document.querySelector('#controls'), metrics=document.querySelector('#metrics');
@@ -16,7 +17,7 @@ try {
   document.querySelector('#render-status').textContent='3D unavailable; reference values remain usable.';
   host.textContent='WebGL unavailable. Use the chapter figures and numerical comparisons.';
 }
-function reset(){camera.position.set(1.65,1.25,2.1);camera.lookAt(0,0,0);if(orbit){orbit.target.set(0,0,0);orbit.update();}}
+function reset(){camera.position.set(...(selector.value==='flow'?[1.5,1.1,1.85]:[1.65,1.25,2.1]));camera.lookAt(0,0,0);if(orbit){orbit.target.set(0,0,0);orbit.update();}}
 reset();document.querySelector('#reset-view').onclick=reset;
 host.addEventListener('keydown',e=>{if(!orbit||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();const a=(e.key==='ArrowLeft'||e.key==='ArrowUp'?.08:-.08);const axis=e.key.includes('Left')||e.key.includes('Right')?new THREE.Vector3(0,1,0):new THREE.Vector3(1,0,0);camera.position.applyAxisAngle(axis,a);orbit.update();});
 for (const [id,scale] of [['zoom-in',.85],['zoom-out',1.18]]) document.querySelector('#'+id)?.addEventListener('click',()=>{
@@ -51,26 +52,30 @@ const expectations={
  cap:'At fixed angle, changing tension changes pressure but not radius or volume. Changing angle changes shape; inspect the volume integral error.',
  sampler:'Matching offsets reproduce the affine value to roundoff. For x-face data at the fixture point, using the cell-centre offset gives a −0.07 bias despite nonnegative weights that sum to one.',
  transport:'The symmetric six-sample case at Courant 0.5 overshoots to −0.125 and 1.125 before two fallbacks. The asymmetric case at 0.25 restores bounds but changes the sum from 1.6 to 1.61875.',
+ flow:'A localized source pulse moves through a genuinely three-dimensional velocity field. Rotate the accepted volume: depth variation is computed on a 24³ grid. Concentration is appearance tracer; its total is not conserved.',
  timestep:'From rest, one accepted step gives interior speeds (+0.125, −0.125, −0.125, +0.125) m/s and kinetic energy 0.03125 J. Rejection before commit preserves every accepted field bit, time and generation. Scroll and camera controls never advance or reset the state.'
 };
 const labs={projection,collision,hydrostatic,viscous,slip,cap,...createTransportLabs({clear,line,dot,arrow,range,choice,meta,setMetrics,panel,setReference:q=>{reference=q;}})};
 labs.timestep=createTimestepLab({clear,line,dot,arrow,box,meta,setMetrics,panel,setReference:q=>{reference=q;},isActive:()=>selector.value==='timestep',manualChange});
+const flow=createFlowLab({clear,meta,setMetrics,panel,setReference:q=>{reference=q;},isActive:()=>selector.value==='flow',manualChange,view});
+labs.flow=flow;
 let applying=false;
 function manualChange(){if(!applying)host.dispatchEvent(new CustomEvent('rheon-manual-change',{bubbles:true}));}
 export function selectLab(lab=selector.value){
-  if(!labs[lab]||![...selector.options].some(o=>o.value===lab))return;selector.value=lab;panel.replaceChildren();reference=null;labs[lab]();
-  const recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep';
+  if(!labs[lab]||![...selector.options].some(o=>o.value===lab))return;flow.unmount();selector.value=lab;document.querySelector('.example-workspace').dataset.lab=lab;panel.replaceChildren();reference=null;labs[lab]();
+  const recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
   const legend=document.querySelector('#plot-legend');
   if(legend){
-    legend.hidden=!recomputed&&!native;legend.replaceChildren();
-    for(const [label,color] of native?[['Accepted velocity · fixed scale','#067d91'],['Forced region','#aa5735']]:lab==='transport'?[['Linear','#067d91'],['Raw','#aa5735'],['Limited','#4e98bb'],['Exact','#18363d']]:[['Query','#aa5735'],['Weighted point / weights','#067d91']]){
+    legend.hidden=!recomputed&&!native&&!volume;legend.replaceChildren();
+    for(const [label,color] of volume?[['Tracer · fixed opacity','#167f88'],['Source region','#c18442']]:native?[['Accepted velocity · fixed scale','#067d91'],['Forced region','#aa5735']]:lab==='transport'?[['Linear','#067d91'],['Raw','#aa5735'],['Limited','#4e98bb'],['Exact','#18363d']]:[['Query','#aa5735'],['Weighted point / weights','#067d91']]){
       const item=document.createElement('span');item.textContent=label;item.style.borderColor=color;legend.append(item);
     }
   }
-  document.querySelector('.example-kind').textContent=native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
-  document.querySelector('#reference-sources').hidden=recomputed||native;
+  document.querySelector('.example-kind').textContent=volume?'Rust / WebAssembly · computed 3D tracer':native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
+  document.querySelector('#reference-sources').hidden=recomputed||native||volume;
   document.querySelector('#transport-sources').hidden=!recomputed;
   document.querySelector('#timestep-sources').hidden=!native;
+  document.querySelector('#flow-sources').hidden=!volume;
 }
 const presets={
  projection:{before:[0],half:[50],after:[100]},
