@@ -8,6 +8,13 @@ No appendix has a scroll-linked example. These counts describe placement,
 not complete coverage of each chapter's topics or qualification of a solver.
 [Heading bindings](teaching.py) fail the build when an expected section moves.
 
+The [native timestep/computed-flow screenshots](screenshots/README.md#native-timestep-and-computed-flow)
+use clean commit `db9781a1a26e43bd73fb08995fdc855d42978c12`. Their
+[provenance](screenshots/research-book-native-flow/provenance.json) identifies
+the actual computed state and complete native/WASM comparison. The compact
+desktop angles show the same fields and time. Screenshots document the UI;
+they do not replace numerical qualification.
+
 The [current sampling/transport screenshots](screenshots/README.md#current-sampling-and-transport-lessons)
 show the two recomputed lessons from clean local capture commit
 `ae06472f96d568d2f7077561e7b0080763510366`, source tree
