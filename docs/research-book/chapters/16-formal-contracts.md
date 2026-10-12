@@ -35,3 +35,57 @@ These boundaries make the proofs useful: exact algebra removes sign and structur
 From proofs, fetch the pinned mathlib cache, run lake build, then lake env lean AxiomAudit.lean and the negative audit script. The workflow checks unchanged dependency files. Historical success applies to its exact source revision. Changed proof sources require new qualification.
 
 The expansion qualification and all new assumptions are recorded separately in Appendix F and `expansion/proof-qualification.json`. The integrated pinned project compiles all 42 public theorem statements and audits 60 declarations. The current source binding is `expansion/bounded-proof-qualification.json`; the earlier 33-theorem/45-declaration receipt is retained as historical evidence. BoundedPhysics derives planar first contact/clipping and dissipative work from finite-strain backward-Euler equations. Arbitrary-mesh queries, symmetric-gradient assembly and a coupled liquid implementation remain separate research work.
+
+## Reading the newer implementation bridges
+
+The counts and revision identities above describe retained historical
+qualifications. They do not automatically include modules added for the
+current material preview or adaptive CPU scheduler. Each extension needs its
+own reviewed source inventory, normal pinned Lean build and allowed-axiom
+audit. A linked theorem statement, a native regression test and a fresh
+qualification receipt answer different questions.
+
+For a first example, two particles exchange equal and opposite forces. In
+exact arithmetic that cancels their internal contribution to total momentum.
+It does not cancel gravity or a wall impulse, and it does not show that a
+parallel neighbor loop evaluated each intended pair. Read the assumptions,
+then locate the code and the independent test that connect the statement to
+the implementation.
+
+## Material-preview proof bridge
+
+[`Rheon.MaterialPreview`](../../../proofs/Rheon/MaterialPreview.lean) isolates
+several small contracts: nonnegative liquid pressure; reference ideal-gas
+pressure; symmetric pressure-pair coefficients; pair action/reaction; viscous
+work, momentum and a conditional finite-step energy bound; nozzle-profile
+bounds; the prescribed pressure-head identity; and a reservoir mass ledger.
+The [material guide](../implementation/material-preview-contracts.md#proof-and-execution-boundaries)
+maps these statements to the actual formulas.
+
+For an isolated viscous pair, nonpositive power is weaker than energy decrease
+after an explicit step. The latter also needs a bound on timestep, drag and
+inverse masses. The theorem expresses that missing condition; it does not
+certify the complete adaptive controller. No statement here proves the
+compression-energy derivative through the native density floor, multiphase
+interface accuracy, surface curvature, gas choking, phase change or physical
+calibration. Nor does a mass-ledger identity prove that source credits survive
+cancellation in Rust: that is a state-publication test.
+
+## CPU-scheduling proof bridge
+
+[`Rheon.CpuScheduling`](../../../proofs/Rheon/CpuScheduling.lean) describes
+bounded integer work and dependency relationships. It provides a mathematical
+bridge for the [scheduling implementation](../implementation/cpu-scheduling-contracts.md),
+whose actual scoped pool, thread-local ownership and callbacks remain Rust
+execution concerns. Coverage of a finite set is not a proof of race freedom
+for arbitrary callbacks, and ready-wave ordering is not a throughput bound.
+`chunk_covers` and `chunk_unique` concern half-open intervals;
+`same_wave_has_no_dependency` concerns the declared nearest-axis predecessor
+relation. `successful_trace_explores` assumes a stable workload, serial
+successful invocations and exactly one counter record per invocation. It is
+not a fairness claim for overlapping or failed work.
+
+The practical reading rule is the same as for pressure: keep the proven
+algebra, native execution evidence and measured performance distinct. A change
+to a source module invalidates an older source-bound qualification; it must
+not be hidden by reusing a theorem count or a successful historical screenshot.

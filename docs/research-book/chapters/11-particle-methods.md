@@ -190,3 +190,78 @@ For P particles and K stored directed neighbor entries, a possible PBF layout us
 At P=100,000 and mean directed neighbor count 60, these named arrays occupy about 30.8 MB in decimal units. A dense cluster can increase K sharply unless a cap changes the method; dropping neighbors silently changes density and forces. A checked capacity failure is preferable to an unreported truncated neighborhood.
 
 For APIC, the earlier 64P-byte state estimate excludes old/new grid velocity, grid mass, sorting, particle output buffers and interface reconstruction. Count peak concurrent state for the actual update schedule. Particle methods save empty space only when these complete costs beat the selected grid alternative for the target scene.
+
+## The material preview now implemented in Rheon
+
+The alternatives above describe a broader design space. The current Rust
+[`ParticleFluidSimulation`](../../../src/particle_fluid.rs) implements a bounded
+SPH material preview. It does not implement the PBF, PIC, FLIP or APIC transfer
+sequences described in this chapter. Its particles carry physical position,
+velocity, mass, material identity and temperature. A particle represents a
+parcel of material, rather than a point drawn merely to make an image move.
+
+This distinction matters when choosing a scene. The original fixed-box carrier
+solver has fluid throughout its pressure domain, even where its appearance
+tracer is zero. The material preview can instead begin with no parcels in a
+vacuum domain and add mass through a prescribed source. The existing browser
+24³ source-pulse lesson still runs the carrier model; its volume and velocity
+curves are not a browser implementation of the material preview.
+
+For unlike materials, counting a heavy neighbor's entire mass as the local
+material would distort the density estimate. Rheon weights each neighbor by
+its reference volume. Writing \(\rho_{0,i}\) for material i's entered reference
+density, its implemented estimate is
+
+\[
+f_i=\sum_j\frac{m_j}{\rho_{0,j}}W_h(x_i-x_j),\qquad
+\rho_i=\rho_{0,i}\max(f_i,0.05).
+\]
+
+The dimensionless sum \(f_i\) measures local reference-volume coverage; 0.05 is
+a numerical regularization floor. For example, two neighbors with the same
+reference volume contribute the same amount to \(f_i\) when their kernel
+weights match, even if one has ten times the mass. This does not prove that
+a material interface has the correct continuum pressure or surface shape.
+
+The liquid pressure law is \(p_i=\max(c^2(\rho_i-\rho_{0,i}),0)\), with a
+deliberately reduced acoustic stiffness. Gas pressure uses
+\(p_i=\rho_i R_iT_i\). Neither formula turns this preview into an exact
+incompressible liquid or a qualified shock/vacuum-gas solver. Pressure uses
+the poly6 density kernel's own gradient, while symmetric viscous pair forces
+damp relative motion. The [material implementation guide](../implementation/material-preview-contracts.md)
+spells out these coefficients and the limitations of cohesion and wall contact.
+
+## A two-parcel prediction before a full scene
+
+Consider an isolated one-dimensional viscous pair with masses 1 kg and
+velocities +1 and −1 m/s. Let the pair drag coefficient be 1 kg/s, so the
+forces are −2 and +2 N. With an explicit interval of 1/4 s, the new velocities
+are +1/2 and −1/2 m/s. Total momentum stays zero, and kinetic energy falls
+from 1 J to 1/4 J. This is an exact arithmetic teaching fixture, not a claim
+that a complete source-driven scene must lose energy every step.
+
+Now use 5/4 s in the same frozen-pair calculation. The velocities become
+−3/2 and +3/2 m/s and energy grows to 9/4 J. The continuous pair power was
+nonpositive, yet the explicit update was too large. Rheon's timestep checks
+and bounded retries are therefore separate from the force-sign argument.
+Native pair and full-step tests must exercise the implemented update as well.
+
+For a visual experiment, keep the physical scene and particle sampling fixed
+and increase only the desktop preview resolution. The expected change is a
+finer voxel display, with the same numerical parcel spacing. Then start a new
+run with more physical samples: the numerical problem and its cost change.
+Record the actual stored preview size, accepted time, parcel count, total mass
+and source mass before comparing images. Compare at a common physical time;
+an equal number of adaptive steps need not reach the same time.
+
+## Material-preview proof bridge
+
+[`MaterialPreview.lean`](../../../proofs/Rheon/MaterialPreview.lean) states
+pressure-pair action/reaction, viscous-pair momentum balance and a conditional
+finite-step energy bound. The latter requires positive masses and
+\(\Delta t\,b(1/m_i+1/m_j)\leq2\), where \(b\geq0\) is the frozen pair drag
+coefficient. It covers the isolated pair above, not all forces in an evolving
+neighbor graph. The density floor, finite precision, neighbor enumeration and
+continuum accuracy require separate evidence. Qualification status and the
+implementation-to-statement mapping belong to the
+[material contract guide](../implementation/material-preview-contracts.md#proof-and-execution-boundaries).

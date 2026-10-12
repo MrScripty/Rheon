@@ -49,6 +49,19 @@ The WASM binding executes the fixed force cycle and a separate bounded 3D source
 Browser scalar transport and finite-row evaluation remain separate teaching
 mechanisms and do not invoke those native APIs.
 
+## Current native material and scheduler teaching
+
+Chapters 11, 13, 16 and 17 now include source-linked material-pair/nozzle,
+accepted-state, preview/history and CPU scheduling exercises. These additions
+use the actual native APIs, independent numerical tests and bounded Lean
+statements. They do not add a browser SPH runtime or additional scroll-linked
+chapters: coverage remains 15/25 partial chapters and 0/6 appendices.
+[Material contracts](../research-book/implementation/material-preview-contracts.md)
+and [CPU scheduling contracts](../research-book/implementation/cpu-scheduling-contracts.md)
+separate exact arithmetic from implementation, full-step stability, continuum,
+wall-clock fairness and performance claims. Exact current kernel qualification
+status is retained separately from historical receipts in `native-sequence.json`.
+
 ## Chapter and appendix matrix
 
 “Separate” means a linked laboratory outside the chapter's sticky workspace.

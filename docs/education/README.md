@@ -56,6 +56,29 @@ The 25-chapter book, six appendices, implementation guides, locally rendered equ
 
 The three native labs are recorded playback with distinct models: two finite Navier walls, compatible no-slip/mixed boundaries, and uniform tangential forcing with stationary no-slip walls. Their controls select saved cases/times; they do not recompute parameters or advance a live liquid simulator. The original six 3D labs remain separate analytical/stored mechanisms. The projection control displays an algebraic blend of two saved fields; camera motion only changes the view.
 
+## Current native material and CPU contracts
+
+The current native desktop has a separate bounded SPH material preview. Chapters
+11, 13, 16 and 17 connect its equations, accepted-state lifecycle, preview/history
+sampling and CPU dependency order to the actual implementation. The
+[material guide](../research-book/implementation/material-preview-contracts.md)
+and [CPU scheduling guide](../research-book/implementation/cpu-scheduling-contracts.md)
+state the predictions, independent checks and limits. No browser material solver,
+CAD wall load, GPU performance or global stability claim is added.
+
+The reviewed Lean inventory now contains 138 public theorem statements and 193
+explicit audit entries. The new material and scheduler statements require fresh
+pinned kernel qualification; `native-sequence.json` records its current status
+separately from the unchanged historical 106/161 reconstruction receipt.
+The page builder never turns inventory matching into a kernel pass.
+
+The aligned-strain admission path also has an explicit reviewed current-source
+inventory, `aligned-strain-native-sources.json`. It covers crate/build inputs and
+the independent qualification path, rejects changed/added/missing files, and
+requires a fresh clean native/rational receipt whose committed sources and
+inventory match. Historical native admission remains exact; changing a manifest
+is not numerical qualification or authority to reuse a previous packet.
+
 ## Recomputed sampling and transport lessons
 
 The generated `transport-labs.html` page adds a two-lesson sequence; `labs.html`
@@ -180,7 +203,7 @@ python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"
 python3 -m http.server 8765 --bind 127.0.0.1 --directory "$RHEON_EDITION"
 ```
 
-Install Chromium with `python3 -m playwright install --with-deps chromium`, or use installed Chromium. The browser verifier uses a private local server and checks the six reference labs, the native hub, navigation/search, math, page/network errors and mobile layout. When native bundles are supplied, it checks every saved native profile, plot, ledger and CSV link. `--check` is read-only: it cannot regenerate a PDF or bless stale receipts. `--url` selects an existing preview server.
+Install Chromium with `python3 -m playwright install --with-deps chromium`, or use installed Chromium. All qualification launchers explicitly enable the Chromium sandbox; a host without a working sandbox fails before qualification. No automatic unsandboxed fallback is provided. The browser verifier uses a private local server and checks the six reference labs, the native hub, navigation/search, math, page/network errors and mobile layout. When native bundles are supplied, it checks every saved native profile, plot, ledger and CSV link. `--check` is read-only: it cannot regenerate a PDF or bless stale receipts. `--url` selects an existing preview server.
 
 `--render-pdf` intentionally renders the new reading PDF and writes its source/book/PDF-bound receipts in the output directory. Inspect that PDF before publication. HTML, PDF, Markdown ZIP, copied evidence, browser receipts, assets and build artifacts stay outside Git. Historical PDFs and receipts remain available in Git history with their original source identities. Generated references use the existing checked generators and ignored output locations; PDFs and browser receipts are rendered directly into the external edition before verification.
 
@@ -190,11 +213,11 @@ Install Chromium with `python3 -m playwright install --with-deps chromium`, or u
 
 A source-only CI build without these packets states that the recorded bundles are absent and links their model/proof guides. It does not claim browser qualification of omitted playback. A separately qualified local preview can include all three original bundles. Workflow outputs live under `RUNNER_TEMP`; the review artifact is retained by Actions. Pages deployment runs only from main, so an unmerged source draft is not a live deployment claim.
 
-The illustrated `Rheon-expanded-markdown.zip` includes companion figures, implementation guides and Lean sources. Extract it with those relative paths intact. The reading PDF/Markdown includes all 31 original sections and five selected guides explaining the native progression and requirements roadmap; the site renders the full implementation-guide collection. Site verification checks actual local HTML and packaged Markdown links, copied source hashes and PDF portability. PDF links use internal reading destinations or immutable source URLs; they cannot point to the temporary preview server.
+The illustrated `Rheon-expanded-markdown.zip` includes companion figures, implementation guides and Lean sources. Extract it with those relative paths intact. The reading PDF/Markdown includes all 31 original sections and selected implementation guides explaining the native progression and requirements roadmap; the site renders the full implementation-guide collection. Site verification checks actual local HTML and packaged Markdown links, copied source hashes and PDF portability. PDF links use internal reading destinations or immutable source URLs; they cannot point to the temporary preview server.
 
 ## Proof and implementation boundaries
 
-`proofs/source-inventory-pr24.json` preserves the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations. The reconstructed `source-inventory.json` includes AlignedStrain. Its fresh pinned normal `lake build`, allowed-axiom audit and rejection/source-policy probes checked 106 public theorem statements, 144 explicitly expected declarations and 161 audited declarations. `native-sequence.json` binds the immutable reconstruction source and local qualification receipt, and links the associated hosted Lean run without asserting its checkout identity. Earlier source qualifications and recorded native packet identities remain historical. The book builder checks current bytes; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or global solver convergence.
+`proofs/source-inventory-pr24.json` preserves the accepted PR24 kernel proof bytes: 57 public theorems and 77 audited declarations. The historical reconstruction at `f75cd66` included AlignedStrain. Its fresh pinned normal `lake build`, allowed-axiom audit and rejection/source-policy probes checked 106 public theorem statements, 144 explicitly expected declarations and 161 audited declarations. `native-sequence.json` binds the immutable reconstruction source and local qualification receipt, and links the associated hosted Lean run without asserting its checkout identity. Earlier source qualifications and recorded native packet identities remain historical. The book builder checks current bytes; it does not rerun Lean or prove assembly, IEEE arithmetic, transient reference evaluation or global solver convergence.
 
 The expansion's older 42-public/60-audit receipt remains explicitly historical. Its exact-real finite-strain and planar-contact contracts retain their assumptions. The original Python reference source/data receipts are checked before building. Source-only/data-only changes, stale PDF/browser inputs, missing assets, broken controls and page errors reject publication.
 
