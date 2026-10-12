@@ -6,7 +6,7 @@
   "Rheon/CpuScheduling.lean": "76e427ae8d5ba32ba3ee5c67a8e25ba09246dd5fa3445968f72fe7e34bff1375",
   "Rheon/Discrete.lean": "70a2ca5d2c5cbefacbbb8742954375fdfe8cc25c3c5b8afd05738941cfc5ee0a",
   "Rheon/Indexing.lean": "862c33164e75daccd43603c9b5a61473fd825885d9106b766a35204e578f60bf",
-  "Rheon/MaterialPreview.lean": "f526bd52ae9d3c7ff58d9d6dc0a532e7fa85bdefcf83963178eed63c8e21b78e",
+  "Rheon/MaterialPreview.lean": "a7e7668b6a364b2388e2362d44366fbe8e7104656eebde0964fd11f454a0e95e",
   "Rheon/NoSlip.lean": "615283345c18331b5c19fba94cf738a55f089978df68d2ff67f109ae219b4e3c",
   "Rheon/ObstacleOperators.lean": "514cb760f16dd55d6bbad78b30953fcf3b90f3247b2185c1719b8463b6531680",
   "Rheon/Physics.lean": "26cbb4f75076c7e70a90da126f96622b75044befce26a4c17a50066c76e96050",

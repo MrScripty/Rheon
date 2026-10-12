@@ -96,7 +96,7 @@ that denominator. A busier display need not mean a faster accepted step.
 The [scheduling evidence](../../../evidence/scheduling/README.md) retains exact
 workloads, build identities and the limits of its historical measurements.
 
-## Scheduling proof bridge
+## Checked scheduling proof bridge
 
 Finite-index and dependency statements can establish that a declared partition
 covers its entries and that a predecessor lies in an earlier wave. They do not

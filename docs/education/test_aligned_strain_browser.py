@@ -62,7 +62,7 @@ class ChromiumRejectionTest(unittest.TestCase):
         from verify_browser import serve_site
         edition=Path(os.environ['RHEON_EDITION'])
         with serve_site(edition) as url,sync_playwright() as p:
-            browser=p.chromium.launch(executable_path=shutil.which('chromium'),headless=True,chromium_sandbox=True)
+            browser=p.chromium.launch(executable_path=os.environ.get('RHEON_CHROMIUM_EXECUTABLE') or shutil.which('chromium'),headless=True,chromium_sandbox=True)
             page=browser.new_page(viewport={'width':1440,'height':1050})
             mobile=browser.new_page(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
             errors=[]

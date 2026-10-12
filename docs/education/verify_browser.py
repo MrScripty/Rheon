@@ -7,6 +7,7 @@ from threading import Thread
 import argparse
 import hashlib
 import json
+import os
 import shutil
 from playwright.sync_api import sync_playwright
 from pdf_freshness import input_hashes, verify_pdf, write_receipt
@@ -69,7 +70,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         check_errors()
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(executable_path=shutil.which('chromium'), headless=True,
+        browser = p.chromium.launch(executable_path=os.environ.get('RHEON_CHROMIUM_EXECUTABLE') or shutil.which('chromium'), headless=True,
                                     chromium_sandbox=True, args=['--enable-unsafe-swiftshader'])
         page = browser.new_page(viewport={'width': 1440, 'height': 1050}, device_scale_factor=1)
         track(page)

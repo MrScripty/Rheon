@@ -1,10 +1,10 @@
 {
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Current expanded source inventory reviewed; consult current_reviewed_proof for fresh qualification status. Prior complete qualifications retain their exact identities below.",
-  "proof_inventory_sha256": "5c0c420b12798da7787db5491f9fd37c16c54983e51f311bb7ed38ec4e6a64b0",
+  "qualified_lean_source": "Expanded exact proof inventory qualified locally with normal pinned Lean4.19.0 lake build, full allowed-axiom audit and normal/optimized rejection/source-policy gates; proof-byte binding is explicit in current_reviewed_proof.",
+  "proof_inventory_sha256": "089ace84d29dfc874fad4c8a57f1fe57d7cc801e120e4f5a10f648c9449e75a2",
   "public_theorems": 138,
-  "audited_declarations": null,
+  "audited_declarations": 242,
   "lean_ci": null,
   "labs": [
     {
@@ -78,8 +78,8 @@
     "audited_declarations": 77,
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
-  "local_kernel_receipt_sha256": null,
-  "lean_ci_scope": "Current expanded source qualification pending; historical reconstruction CI remains in current_reconstruction_proof.",
+  "local_kernel_receipt_sha256": "3a7219c86df1e1f192f29792528bbb9ffd2fed29ef76bf7ed4e8f5bf157b6db8",
+  "lean_ci_scope": "Current exact proof bytes are locally qualified. Prior hosted candidate and historical reconstruction retain their own checkout/inventory identities.",
   "explicit_expected_declarations": 193,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
@@ -132,11 +132,11 @@
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
   },
   "current_reviewed_proof": {
-    "status": "reviewed-pending-kernel-qualification",
-    "proof_inventory_sha256": "5c0c420b12798da7787db5491f9fd37c16c54983e51f311bb7ed38ec4e6a64b0",
+    "status": "passed",
+    "proof_inventory_sha256": "089ace84d29dfc874fad4c8a57f1fe57d7cc801e120e4f5a10f648c9449e75a2",
     "public_theorems": 138,
     "explicit_expected_declarations": 193,
-    "audited_declarations": null,
+    "audited_declarations": 242,
     "lean_ci": null,
     "lean_toolchain": "leanprover/lean4:v4.19.0",
     "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
@@ -145,6 +145,33 @@
       "Classical.choice",
       "Quot.sound"
     ],
-    "scope": "Finite exact-real material pair/nozzle identities and natural-number batch/dependency/conditional exploration properties. Not a proof of Rust/Rayon execution, IEEE behavior, full-step stability, continuum convergence, wall-clock fairness or performance."
+    "scope": "Finite exact-real material pair/nozzle identities and natural-number batch/dependency/conditional exploration properties. Not a proof of Rust/Rayon execution, IEEE behavior, full-step stability, continuum convergence, wall-clock fairness or performance.",
+    "local_qualification": {
+      "schema": "rheon-expanded-proof-qualification-v1",
+      "receipt_sha256": "3a7219c86df1e1f192f29792528bbb9ffd2fed29ef76bf7ed4e8f5bf157b6db8",
+      "receipt_reference": "External rheon-new-book-review/lean-current-qualification.json; normal pinned source build and logs are generated outputs outside Git.",
+      "binding_scope": "Exact proof-source inventory and pinned dependency files below; the proof-comment change was not yet committed. This is not a clean whole-repository numerical qualification.",
+      "proof_inventory_sha256": "089ace84d29dfc874fad4c8a57f1fe57d7cc801e120e4f5a10f648c9449e75a2",
+      "commands_passed": [
+        "python3 scripts/check_sources.py",
+        "lake build",
+        "lake env lean AxiomAudit.lean",
+        "python3 scripts/test_audit.py",
+        "python3 -O scripts/test_audit.py",
+        "python3 -m unittest discover -s scripts -p test_check_sources.py",
+        "python3 -O -m unittest discover -s scripts -p test_check_sources.py"
+      ],
+      "lean_checked": true,
+      "status": "passed"
+    },
+    "prior_hosted_candidate": {
+      "source_head": "a552d0afda3cf73ff1cc789746898a3ba0f332d3",
+      "checkout_head": "242bd3c441f2ed1d298ddac23b24d72b51a2f25b",
+      "tree": "0b6d6aeef04aede631dc333fc64caa60f53db84d",
+      "proof_inventory_sha256": "5c0c420b12798da7787db5491f9fd37c16c54983e51f311bb7ed38ec4e6a64b0",
+      "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38279556611",
+      "audited_declarations": 242,
+      "scope": "Qualified candidate before the later support-boundary header comment; not an exact-byte qualification of the current inventory."
+    }
   }
 }

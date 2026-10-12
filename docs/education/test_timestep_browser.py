@@ -240,7 +240,7 @@ class ActualBrowserRejectionTests(unittest.TestCase):
         from verify_browser import serve_site
         edition = Path(os.environ['RHEON_TIMESTEP_EDITION'])
         with serve_site(edition) as url, sync_playwright() as playwright:
-            browser = playwright.chromium.launch(executable_path=shutil.which('chromium'), headless=True,
+            browser = playwright.chromium.launch(executable_path=os.environ.get('RHEON_CHROMIUM_EXECUTABLE') or shutil.which('chromium'), headless=True,
                                                   chromium_sandbox=True, args=['--use-gl=angle', '--use-angle=swiftshader',
                                                         '--enable-unsafe-swiftshader'])
             page = browser.new_page(viewport={'width': 1440, 'height': 1050})

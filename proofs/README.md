@@ -1,6 +1,6 @@
 # Rheon exact discrete contracts
 
-This project owns exact finite-dimensional reference definitions and 138 reviewed public theorem statements in thirteen modules. The historical reconstruction qualified 106 statements; qualification of the expanded inventory is recorded separately in the book metadata. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
+This project owns exact finite-dimensional reference definitions and 138 checked public theorem statements in thirteen modules. The historical reconstruction qualified 106 statements; the expanded inventory passed a fresh normal pinned build, 242-declaration axiom audit and normal/optimized rejection gates, recorded separately in the book metadata. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
 
 ## Reproduce
 

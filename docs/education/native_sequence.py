@@ -3,7 +3,7 @@ from pathlib import Path
 import hashlib, html, json, re, shutil
 
 GUIDES = ['native-wall-force-sequence', 'column-wall-friction', 'column-no-slip',
-          'column-poiseuille', 'static-obstacle-geometry', 'static-obstacle-flow', 'requirements-roadmap', 'material-preview-contracts', 'cpu-scheduling-contracts']
+          'column-poiseuille', 'static-obstacle-geometry', 'static-obstacle-flow', 'requirements-roadmap', 'material-preview-contracts', 'cpu-scheduling-contracts', 'cad-visualization-contracts']
 
 def metadata(repo):
     repo = Path(repo)

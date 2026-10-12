@@ -52,7 +52,7 @@ parallel neighbor loop evaluated each intended pair. Read the assumptions,
 then locate the code and the independent test that connect the statement to
 the implementation.
 
-## Material-preview proof bridge
+## Checked material-preview proof bridge
 
 [`Rheon.MaterialPreview`](../../../proofs/Rheon/MaterialPreview.lean) isolates
 several small contracts: nonnegative liquid pressure; reference ideal-gas
@@ -71,7 +71,7 @@ interface accuracy, surface curvature, gas choking, phase change or physical
 calibration. Nor does a mass-ledger identity prove that source credits survive
 cancellation in Rust: that is a state-publication test.
 
-## CPU-scheduling proof bridge
+## Checked CPU-scheduling proof bridge
 
 [`Rheon.CpuScheduling`](../../../proofs/Rheon/CpuScheduling.lean) describes
 bounded integer work and dependency relationships. It provides a mathematical

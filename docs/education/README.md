@@ -67,8 +67,8 @@ state the predictions, independent checks and limits. No browser material solver
 CAD wall load, GPU performance or global stability claim is added.
 
 The reviewed Lean inventory now contains 138 public theorem statements and 193
-explicit audit entries. The new material and scheduler statements require fresh
-pinned kernel qualification; `native-sequence.json` records its current status
+explicit audit entries. The expanded inventory passed a fresh pinned normal build, a 242-declaration
+axiom audit and normal/optimized rejection/source-policy gates; `native-sequence.json` records its current status
 separately from the unchanged historical 106/161 reconstruction receipt.
 The page builder never turns inventory matching into a kernel pass.
 
@@ -203,7 +203,7 @@ python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"
 python3 -m http.server 8765 --bind 127.0.0.1 --directory "$RHEON_EDITION"
 ```
 
-Install Chromium with `python3 -m playwright install --with-deps chromium`, or use installed Chromium. All qualification launchers explicitly enable the Chromium sandbox; a host without a working sandbox fails before qualification. No automatic unsandboxed fallback is provided. The browser verifier uses a private local server and checks the six reference labs, the native hub, navigation/search, math, page/network errors and mobile layout. When native bundles are supplied, it checks every saved native profile, plot, ledger and CSV link. `--check` is read-only: it cannot regenerate a PDF or bless stale receipts. `--url` selects an existing preview server.
+Install Chromium with `python3 -m playwright install --with-deps chromium`, or use installed Chromium. `RHEON_CHROMIUM_EXECUTABLE` selects an explicit installed executable; CI uses `/opt/google/chrome/chrome`, which has Ubuntu’s packaged AppArmor sandbox profile. All qualification launchers explicitly enable the Chromium sandbox; a host without a working sandbox fails before qualification. No automatic unsandboxed fallback is provided. The browser verifier uses a private local server and checks the six reference labs, the native hub, navigation/search, math, page/network errors and mobile layout. When native bundles are supplied, it checks every saved native profile, plot, ledger and CSV link. `--check` is read-only: it cannot regenerate a PDF or bless stale receipts. `--url` selects an existing preview server.
 
 `--render-pdf` intentionally renders the new reading PDF and writes its source/book/PDF-bound receipts in the output directory. Inspect that PDF before publication. HTML, PDF, Markdown ZIP, copied evidence, browser receipts, assets and build artifacts stay outside Git. Historical PDFs and receipts remain available in Git history with their original source identities. Generated references use the existing checked generators and ignored output locations; PDFs and browser receipts are rendered directly into the external edition before verification.
 

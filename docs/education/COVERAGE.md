@@ -101,6 +101,18 @@ Every native recording/operator entry is conditional on packet admission.
 | E Matrix laboratory | Text/fixture; exact chain, cycle, residual and flux arithmetic | Future recomputed small-matrix comparison; existing 27-cell blend is a different fixture |
 | F Contracts/sources | Text/disclosures; links to the six reference mechanisms | Full requirement coverage remains incomplete; historical theorem counts retain their source identities |
 
+## CAD measurement research and proposed lessons
+
+Chapter 14 and the [CAD visualization guide](../research-book/implementation/cad-visualization-contracts.md)
+add a beginner progression, 44 primary-source records, a source-anchored native
+field inventory and seven proposed analytic lessons. The companion checks
+prescribed tensors, planar flow, synthetic refinement, poly6 support, trajectory
+curves and pressure-load arithmetic. It calls no Rheon solver and adds no live
+browser controls, so the 15/25 chapter placement count is unchanged. The existing
+sticky example remains the bounded carrier-flow lesson. Material inspection,
+stage-aligned pressure, quantitative history and CAD wall loads remain separate
+implementation and scientific prerequisites.
+
 ## New lesson sequence and measurable limits
 
 The generated `transport-labs.html` sequence adds **sampler** and **transport**

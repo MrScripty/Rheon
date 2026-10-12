@@ -14,6 +14,9 @@ The pair coefficients below are the coordinate formulas in
 `di,dj`, particle masses `mi,mj`, and the shared radial kernel factor. Their
 symmetry is derived from those formulas, not assumed. The pressure statements
 do not assert a compression-energy derivative across the 0.05 density floor.
+Rust evaluates radial forces only for `1e-10*h ≤ distance < h`; the polynomial
+below specifies that active-pair factor, not an extension of the force outside
+its admitted support. Neighbor/support assembly is not proved here.
 The viscosity energy bound is for one isolated pair without pressure, source,
 gravity, cohesion, wall contact or changing coefficients. The actual controller
 has additional conditions; these statements do not prove its global stability.

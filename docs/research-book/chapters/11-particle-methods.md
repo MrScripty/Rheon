@@ -254,7 +254,7 @@ Record the actual stored preview size, accepted time, parcel count, total mass
 and source mass before comparing images. Compare at a common physical time;
 an equal number of adaptive steps need not reach the same time.
 
-## Material-preview proof bridge
+## Checked material-preview proof bridge
 
 [`MaterialPreview.lean`](../../../proofs/Rheon/MaterialPreview.lean) states
 pressure-pair action/reaction, viscous-pair momentum balance and a conditional
