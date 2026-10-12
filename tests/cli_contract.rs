@@ -69,9 +69,36 @@ fn bad_cli_values_and_cap_fail_before_output_creation() {
         ["--memory-mib", "0"],
         ["--steps", "-1"],
         ["--source-off-at", "4"],
+        ["--threads", "0"],
+        ["--threads", "-1"],
+        ["--threads", "999999"],
     ] {
         let dir = directory("invalid");
         assert!(!run(&dir, &extra).status.success(), "{extra:?}");
+        assert!(!dir.exists());
+    }
+}
+
+#[test]
+fn thread_selection_reports_the_count_or_rejects_an_unavailable_feature() {
+    let dir = directory("threads");
+    let threads = std::thread::available_parallelism()
+        .map_or(1, usize::from)
+        .min(2);
+    let count = threads.to_string();
+    let out = run(&dir, &["--threads", &count]);
+    if cfg!(feature = "parallel") || threads == 1 {
+        assert!(
+            out.status.success(),
+            "{}",
+            String::from_utf8_lossy(&out.stderr)
+        );
+        let metadata = std::fs::read_to_string(dir.join("run.json")).unwrap();
+        assert!(metadata.contains(&format!("\"cpu_threads\": {threads}")));
+        std::fs::remove_dir_all(dir).unwrap();
+    } else {
+        assert!(!out.status.success());
+        assert!(String::from_utf8_lossy(&out.stderr).contains("--features parallel"));
         assert!(!dir.exists());
     }
 }

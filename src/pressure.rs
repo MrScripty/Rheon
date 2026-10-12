@@ -140,10 +140,100 @@ fn compensated_sum(values: impl Iterator<Item = f64>) -> f64 {
 }
 
 fn dot(a: &[f64], b: &[f64]) -> f64 {
-    compensated_sum(a.iter().zip(b).map(|(x, y)| x * y))
+    #[cfg(feature = "parallel")]
+    let _timer = crate::scheduling::SerialTimer::new(
+        crate::observation::CalculationStage::Reduction,
+        a.len(),
+    );
+    let probe = crate::observation::WorkProbe::new(crate::observation::CalculationStage::Reduction);
+    compensated_sum(a.iter().zip(b).enumerate().map(|(i, (x, y))| {
+        probe.visit_index(i);
+        x * y
+    }))
 }
 
-/// Six reusable f64 cell arrays. Solve calls allocate no heap buffers.
+// SGS shares previously completed tiles through atomic f64 bit storage. It
+// replaces the existing preconditioned array, retaining the same 8-byte payload
+// per cell; Jacobi and core-only builds retain ordinary f64 storage.
+enum Preconditioned {
+    Serial(Vec<f64>),
+    #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+    Wavefront(Vec<std::sync::atomic::AtomicU64>),
+}
+impl Preconditioned {
+    fn new(n: usize, method: PressureImplementation) -> Result<Self, PressureError> {
+        #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+        if method == PressureImplementation::SymmetricGaussSeidelPcgV1
+            && n >= crate::sgs::MIN_VALUES
+        {
+            let mut values = Vec::new();
+            values
+                .try_reserve_exact(n)
+                .map_err(|_| PressureError::AllocationFailed)?;
+            values.resize_with(n, || std::sync::atomic::AtomicU64::new(0));
+            return Ok(Self::Wavefront(values));
+        }
+        let _ = method;
+        Ok(Self::Serial(allocate(n)?))
+    }
+    fn capacity(&self) -> usize {
+        match self {
+            Self::Serial(v) => v.capacity(),
+            #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+            Self::Wavefront(v) => v.capacity(),
+        }
+    }
+    fn get(&self, i: usize) -> f64 {
+        match self {
+            Self::Serial(v) => v[i],
+            #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+            Self::Wavefront(v) => f64::from_bits(v[i].load(std::sync::atomic::Ordering::Relaxed)),
+        }
+    }
+    fn set(&mut self, i: usize, value: f64) {
+        match self {
+            Self::Serial(v) => v[i] = value,
+            #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+            Self::Wavefront(v) => v[i].store(value.to_bits(), std::sync::atomic::Ordering::Relaxed),
+        }
+    }
+    fn serial_mut(&mut self) -> &mut [f64] {
+        match self {
+            Self::Serial(v) => v,
+            #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+            Self::Wavefront(_) => unreachable!("Jacobi retains ordinary f64 storage"),
+        }
+    }
+    fn dot(&self, values: &[f64]) -> f64 {
+        match self {
+            Self::Serial(v) => dot(values, v),
+            #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+            Self::Wavefront(_) => {
+                let _timer = crate::scheduling::SerialTimer::new(
+                    crate::observation::CalculationStage::Reduction,
+                    values.len(),
+                );
+                let probe = crate::observation::WorkProbe::new(
+                    crate::observation::CalculationStage::Reduction,
+                );
+                compensated_sum(values.iter().enumerate().map(|(i, v)| {
+                    probe.visit_index(i);
+                    v * self.get(i)
+                }))
+            }
+        }
+    }
+    fn copy_to(&self, output: &mut [f64]) {
+        match self {
+            Self::Serial(v) => output.copy_from_slice(v),
+            #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+            Self::Wavefront(_) => crate::parallel::for_each_mut(output, 0, |i, v| *v = self.get(i)),
+        }
+    }
+}
+
+/// Six reusable binary64 cell arrays. Solve calls allocate no field buffers; optional
+/// parallel scratch writes use the caller's Rayon pool and scheduler.
 /// The allocation limit covers Vec-capacity payload, not allocator metadata,
 /// stack diagnostics, velocity/tracer fields, output images or process RSS.
 pub struct PressureWorkspace {
@@ -153,7 +243,9 @@ pub struct PressureWorkspace {
     residual: Vec<f64>,
     direction: Vec<f64>,
     product: Vec<f64>,
-    preconditioned: Vec<f64>,
+    preconditioned: Preconditioned,
+    #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+    sgs_plan: crate::sgs::SweepPlan,
     allocated_bytes: usize,
 }
 
@@ -177,7 +269,7 @@ impl PressureWorkspace {
         let residual = allocate(n)?;
         let direction = allocate(n)?;
         let product = allocate(n)?;
-        let preconditioned = allocate(n)?;
+        let preconditioned = Preconditioned::new(n, implementation)?;
         let allocated_bytes = [
             pressure.capacity(),
             rhs.capacity(),
@@ -207,6 +299,8 @@ impl PressureWorkspace {
             direction,
             product,
             preconditioned,
+            #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+            sgs_plan: crate::sgs::SweepPlan::default(),
             allocated_bytes,
         })
     }
@@ -283,9 +377,9 @@ impl PressureWorkspace {
         iterations: usize,
     ) -> Result<PressureReport, PressureError> {
         operator.apply_full(&self.pressure, &mut self.product)?;
-        for i in 0..self.rhs.len() {
-            self.product[i] = self.rhs[i] - self.product[i];
-        }
+        crate::parallel::for_each_mut(&mut self.product, 0, |i, product| {
+            *product = self.rhs[i] - *product;
+        });
         let squared = dot(&self.product, &self.product);
         let maximum = self.product.iter().fold(0.0_f64, |a, b| a.max(b.abs()));
         let divergence = operator.scaled_residual_divergence(&self.product, dt);
@@ -312,49 +406,70 @@ impl PressureWorkspace {
     /// M = (D+L) D^-1 (D+L)^T on the gauge-eliminated SPD system.
     /// Forward and reverse triangular solves share one buffer; no new arrays.
     fn precondition_sgs(&mut self, operator: &PressureOperator<'_>) -> Result<f64, PressureError> {
-        let [nx, ny, nz] = operator.geometry().counts();
-        let strides = [1, nx, nx * ny];
         if operator.has_gauge() {
             self.residual[0] = 0.0;
-            self.preconditioned[0] = 0.0;
+            self.preconditioned.set(0, 0.0);
         }
+        #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+        if let Preconditioned::Wavefront(values) = &self.preconditioned {
+            crate::sgs::apply(operator, &self.residual, values, &mut self.sgs_plan)?;
+            return Ok(self.preconditioned.dot(&self.residual));
+        }
+        let [nx, ny, nz] = operator.geometry().counts();
+        let strides = [1, nx, nx * ny];
         let first = usize::from(operator.has_gauge());
-        for row in first..self.residual.len() {
-            let p = [row % nx, (row / nx) % ny, row / (nx * ny)];
-            let diagonal = operator.diagonal(p);
-            let mut value = self.residual[row];
-            for d in 0..3 {
-                if p[d] > 0 && operator.is_wet(row) && operator.is_wet(row - strides[d]) {
-                    value += operator.neighbor_weight(crate::Axis::ALL[d], p)
-                        * self.preconditioned[row - strides[d]];
+        {
+            let probe = crate::observation::WorkProbe::new(
+                crate::observation::CalculationStage::SgsForward,
+            );
+            for row in first..self.residual.len() {
+                probe.visit_index(row);
+                let p = [row % nx, (row / nx) % ny, row / (nx * ny)];
+                let diagonal = operator.diagonal(p);
+                let mut value = self.residual[row];
+                for d in 0..3 {
+                    if p[d] > 0 && operator.is_wet(row) && operator.is_wet(row - strides[d]) {
+                        value += operator.neighbor_weight(crate::Axis::ALL[d], p)
+                            * self.preconditioned.get(row - strides[d]);
+                    }
                 }
-            }
-            self.preconditioned[row] = value / diagonal;
-            if !self.preconditioned[row].is_finite() || diagonal <= 0.0 || !diagonal.is_finite() {
-                return Err(PressureError::Breakdown { iteration: 0 });
-            }
-        }
-        for row in (first..self.residual.len()).rev() {
-            let p = [row % nx, (row / nx) % ny, row / (nx * ny)];
-            let diagonal = operator.diagonal(p);
-            let mut correction = 0.0;
-            for d in 0..3 {
-                if p[d] + 1 < [nx, ny, nz][d]
-                    && operator.is_wet(row)
-                    && operator.is_wet(row + strides[d])
+                self.preconditioned.set(row, value / diagonal);
+                if !self.preconditioned.get(row).is_finite()
+                    || diagonal <= 0.0
+                    || !diagonal.is_finite()
                 {
-                    let mut upper = p;
-                    upper[d] += 1;
-                    correction += operator.neighbor_weight(crate::Axis::ALL[d], upper)
-                        * self.preconditioned[row + strides[d]];
+                    return Err(PressureError::Breakdown { iteration: 0 });
                 }
             }
-            self.preconditioned[row] += correction / diagonal;
-            if !self.preconditioned[row].is_finite() {
-                return Err(PressureError::Breakdown { iteration: 0 });
+        }
+        {
+            let probe = crate::observation::WorkProbe::new(
+                crate::observation::CalculationStage::SgsReverse,
+            );
+            for row in (first..self.residual.len()).rev() {
+                probe.visit_index(row);
+                let p = [row % nx, (row / nx) % ny, row / (nx * ny)];
+                let diagonal = operator.diagonal(p);
+                let mut correction = 0.0;
+                for d in 0..3 {
+                    if p[d] + 1 < [nx, ny, nz][d]
+                        && operator.is_wet(row)
+                        && operator.is_wet(row + strides[d])
+                    {
+                        let mut upper = p;
+                        upper[d] += 1;
+                        correction += operator.neighbor_weight(crate::Axis::ALL[d], upper)
+                            * self.preconditioned.get(row + strides[d]);
+                    }
+                }
+                self.preconditioned
+                    .set(row, self.preconditioned.get(row) + correction / diagonal);
+                if !self.preconditioned.get(row).is_finite() {
+                    return Err(PressureError::Breakdown { iteration: 0 });
+                }
             }
         }
-        Ok(dot(&self.residual, &self.preconditioned))
+        Ok(self.preconditioned.dot(&self.residual))
     }
 
     fn precondition_jacobi(
@@ -362,28 +477,42 @@ impl PressureWorkspace {
         operator: &PressureOperator<'_>,
     ) -> Result<f64, PressureError> {
         let grid = operator.geometry();
-        let [nx, ny, nz] = grid.counts();
         if operator.has_gauge() {
             self.residual[0] = 0.0;
-            self.preconditioned[0] = 0.0;
+            self.preconditioned.set(0, 0.0);
         }
-        for k in 0..nz {
-            for j in 0..ny {
-                for i in 0..nx {
-                    let p = [i, j, k];
-                    let row = i + nx * (j + ny * k);
-                    if row == 0 && operator.has_gauge() {
-                        continue;
-                    }
-                    let diagonal = operator.diagonal(p);
-                    if !diagonal.is_finite() || diagonal <= 0.0 {
-                        return Err(PressureError::Breakdown { iteration: 0 });
-                    }
-                    self.preconditioned[row] = self.residual[row] / diagonal;
-                }
-            }
-        }
-        Ok(dot(&self.residual, &self.preconditioned))
+        crate::parallel::try_for_each_chunk_mut(
+            self.preconditioned.serial_mut(),
+            crate::observation::CalculationStage::Jacobi,
+            2048,
+            |start, out| {
+                let probe = crate::observation::WorkProbe::new(
+                    crate::observation::CalculationStage::Jacobi,
+                );
+                crate::parallel::for_each_row_mut(
+                    out,
+                    start,
+                    grid.counts(),
+                    |row_start, origin, out| {
+                        for (local, value) in out.iter_mut().enumerate() {
+                            let row = row_start + local;
+                            let p = [origin[0] + local, origin[1], origin[2]];
+                            probe.visit(p);
+                            if row == 0 && operator.has_gauge() {
+                                continue;
+                            }
+                            let diagonal = operator.diagonal(p);
+                            if !diagonal.is_finite() || diagonal <= 0.0 {
+                                return Err(PressureError::Breakdown { iteration: 0 });
+                            }
+                            *value = self.residual[row] / diagonal;
+                        }
+                        Ok(())
+                    },
+                )
+            },
+        )?;
+        Ok(self.preconditioned.dot(&self.residual))
     }
 
     fn solve_loaded(
@@ -447,7 +576,7 @@ impl PressureWorkspace {
         }
         self.residual.copy_from_slice(&self.product);
         let mut rz = self.precondition(operator)?;
-        self.direction.copy_from_slice(&self.preconditioned);
+        self.preconditioned.copy_to(&mut self.direction);
         for iteration in 1..=settings.max_iterations {
             if cancelled() {
                 return Err(PressureError::Cancelled {
@@ -466,10 +595,17 @@ impl PressureWorkspace {
             if !alpha.is_finite() {
                 return Err(PressureError::Breakdown { iteration });
             }
-            for i in usize::from(operator.has_gauge())..self.rhs.len() {
-                self.pressure[i] += alpha * self.direction[i];
-                self.residual[i] -= alpha * self.product[i];
-            }
+            let first = usize::from(operator.has_gauge());
+            crate::parallel::for_each_pair_mut(
+                &mut self.pressure[first..],
+                &mut self.residual[first..],
+                first,
+                |i, pressure, residual| {
+                    let i = i + first;
+                    *pressure += alpha * self.direction[i];
+                    *residual -= alpha * self.product[i];
+                },
+            );
             let recursive_l2 = dot(&self.residual, &self.residual).sqrt();
             let candidate = recursive_l2 <= threshold;
             // Checking true residuals must not discard conjugate directions
@@ -497,12 +633,17 @@ impl PressureWorkspace {
                 return Err(PressureError::Breakdown { iteration });
             }
             if replaced {
-                self.direction.copy_from_slice(&self.preconditioned);
+                self.preconditioned.copy_to(&mut self.direction);
             } else {
                 let beta = next_rz / rz;
-                for i in usize::from(operator.has_gauge())..self.rhs.len() {
-                    self.direction[i] = self.preconditioned[i] + beta * self.direction[i];
-                }
+                let first = usize::from(operator.has_gauge());
+                crate::parallel::for_each_mut(
+                    &mut self.direction[first..],
+                    first,
+                    |i, direction| {
+                        *direction = self.preconditioned.get(i + first) + beta * *direction;
+                    },
+                );
             }
             rz = next_rz;
         }
@@ -518,6 +659,83 @@ impl PressureWorkspace {
 mod comparison_tests {
     use super::*;
 
+    #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+    #[test]
+    fn tiled_sgs_matches_serial_bits_across_boundaries_gauge_and_free_surfaces() {
+        let pool = rayon::ThreadPoolBuilder::new()
+            .num_threads(4)
+            .build()
+            .unwrap();
+        let check = |operator: &PressureOperator<'_>| {
+            let grid = operator.geometry();
+            let n = grid.cell_len();
+            let mut serial = PressureWorkspace::with_implementation(
+                grid,
+                n * 48,
+                PressureImplementation::SymmetricGaussSeidelPcgV1,
+            )
+            .unwrap();
+            let mut parallel = PressureWorkspace::with_implementation(
+                grid,
+                n * 48,
+                PressureImplementation::SymmetricGaussSeidelPcgV1,
+            )
+            .unwrap();
+            serial.preconditioned = Preconditioned::Serial(allocate(n).unwrap());
+            assert!(matches!(
+                parallel.preconditioned,
+                Preconditioned::Wavefront(_)
+            ));
+            for repeat in 0..2 {
+                for i in 0..n {
+                    let r = if operator.is_wet(i) {
+                        ((i * 17 + repeat * 29) % 113) as f64 / 113.0 - 0.5
+                    } else {
+                        0.0
+                    };
+                    serial.residual[i] = r;
+                    parallel.residual[i] = r;
+                }
+                // Exercise the original lexicographic sweep directly; avoid
+                // invoking the wavefront path from this reference call.
+                let reference_pool = rayon::ThreadPoolBuilder::new()
+                    .num_threads(1)
+                    .build()
+                    .unwrap();
+                let expected = reference_pool
+                    .install(|| serial.precondition_sgs(operator))
+                    .unwrap();
+                let actual = pool
+                    .install(|| parallel.precondition_sgs(operator))
+                    .unwrap();
+                assert_eq!(actual.to_bits(), expected.to_bits());
+                for i in 0..n {
+                    assert_eq!(
+                        parallel.preconditioned.get(i).to_bits(),
+                        serial.preconditioned.get(i).to_bits(),
+                        "cell {i}, repetition {repeat}"
+                    );
+                }
+            }
+        };
+        let grid = GridGeometry::new([35, 32, 31], [0.04, 0.07, 0.13], [0.0; 3]).unwrap();
+        check(&PressureOperator::new(&grid, 1.3).unwrap());
+        for axis in crate::Axis::ALL {
+            let surface = crate::SlabFreeSurface::new(
+                grid.clone(),
+                axis,
+                17,
+                crate::VolumeStamp { id: 0, version: 0 },
+            )
+            .unwrap();
+            check(&PressureOperator::with_free_surface(&grid, 1.3, &surface).unwrap());
+        }
+        let grid = GridGeometry::new([1, 129, 257], [0.05; 3], [0.0; 3]).unwrap();
+        check(&PressureOperator::new(&grid, 1.0).unwrap());
+        let grid = GridGeometry::new([1, 1, 32769], [0.05; 3], [0.0; 3]).unwrap();
+        check(&PressureOperator::new(&grid, 1.0).unwrap());
+    }
+
     #[test]
     fn sgs_matches_independently_assembled_triangular_system() {
         // 2x2x1 uniform grid, eliminate cell0: A=[[2,0,-1],[0,2,-1],[-1,-1,2]].
@@ -532,7 +750,9 @@ mod comparison_tests {
         .unwrap();
         ws.residual.copy_from_slice(&[-12.0, 2.0, 4.0, 6.0]);
         let rz = ws.precondition(&op).unwrap();
-        assert_eq!(ws.preconditioned, [0.0, 3.25, 4.25, 4.5]);
+        let mut values = [0.0; 4];
+        ws.preconditioned.copy_to(&mut values);
+        assert_eq!(values, [0.0, 3.25, 4.25, 4.5]);
         assert_eq!(rz, 50.5);
     }
 }

@@ -5,6 +5,18 @@
 //! The Lean indexing theorem uses unbounded natural numbers. This implementation
 //! separately checks target-integer arithmetic and physical-coordinate ranges.
 mod geometry;
+mod observation;
+mod parallel;
+#[cfg(feature = "parallel")]
+pub use observation::CalculationStage;
+#[cfg(feature = "work-observation")]
+pub use observation::{CalculationObserver, ObservationError, WorkerVoxel};
+#[cfg(feature = "parallel")]
+mod scheduling;
+#[cfg(feature = "parallel")]
+pub use scheduling::{BatchStatistics, CpuScheduler};
+#[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+mod sgs;
 pub use geometry::{Axis, BufferPlan, GeometryError, GridGeometry};
 mod collision;
 pub use collision::{

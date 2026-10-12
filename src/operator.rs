@@ -47,6 +47,7 @@ pub struct PressureOperator<'a> {
     grid: &'a GridGeometry,
     face_area: [f64; 3],
     weight: [f64; 3],
+    box_diagonals: [f64; 64],
     acceleration_factor: [f64; 3],
     surface: Option<crate::column_surface::PressureSurface<'a>>,
     flat_columns: Option<crate::FlatColumnMacGeometry<'a>>,
@@ -76,6 +77,17 @@ impl<'a> PressureOperator<'a> {
             grid,
             face_area,
             weight,
+            box_diagonals: std::array::from_fn(|mask| {
+                let mut value = 0.0;
+                // Same lower/upper X/Y/Z addition order as diagonal(). The
+                // mask encodes neighbors, so singleton axes need no special case.
+                for side in 0..6 {
+                    if mask & (1 << side) != 0 {
+                        value += weight[side / 2];
+                    }
+                }
+                value
+            }),
             acceleration_factor,
             surface: None,
             flat_columns: None,
@@ -180,6 +192,12 @@ impl<'a> PressureOperator<'a> {
     pub(crate) fn neighbor_weight(&self, axis: Axis, p: [usize; 3]) -> f64 {
         self.flat_columns
             .map_or(self.weight[axis.index()], |g| g.weight(axis, p))
+    }
+    // Only the sealed full box has constant weights and all cells wet. Keep
+    // coefficient authority here while allowing SGS to skip surface queries.
+    #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
+    pub(crate) fn fixed_box_weights(&self) -> Option<[f64; 3]> {
+        self.surface.is_none().then_some(self.weight)
     }
     fn face_weight(&self, axis: Axis, p: [usize; 3]) -> f64 {
         if let Some(geometry) = self.flat_columns {
@@ -303,49 +321,79 @@ impl<'a> PressureOperator<'a> {
         if out.len() != self.grid.cell_len() {
             return Err(OperatorError::LengthMismatch);
         }
-        let [nx, ny, nz] = self.grid.counts();
-        for k in 0..nz {
-            for j in 0..ny {
-                for i in 0..nx {
-                    let coordinate = [i, j, k];
-                    let row = self.grid.cell_unchecked(coordinate);
-                    if !self.is_wet(row) {
-                        out[row] = pressure[row];
-                        continue;
-                    }
-                    let mut value = 0.0;
-                    for d in 0..3 {
-                        if coordinate[d] > 0 {
-                            let mut neighbor = coordinate;
-                            neighbor[d] -= 1;
-                            let other = self.grid.cell_unchecked(neighbor);
-                            value += if self.is_wet(other) {
-                                self.neighbor_weight(Axis::ALL[d], coordinate)
-                                    * (pressure[row] - pressure[other])
-                            } else {
-                                self.face_weight(Axis::ALL[d], coordinate) * pressure[row]
-                            };
+        let [nx, ny, _] = self.grid.counts();
+        let counts = self.grid.counts();
+        let strides = [1, nx, nx * ny];
+        let box_weights = self.surface.is_none().then_some(self.weight);
+        crate::parallel::try_for_each_chunk_mut(
+            out,
+            crate::observation::CalculationStage::PressureOperator,
+            2048,
+            |start, out| {
+                let probe = crate::observation::WorkProbe::new(
+                    crate::observation::CalculationStage::PressureOperator,
+                );
+                crate::parallel::for_each_row_mut(out, start, counts, |row_start, origin, out| {
+                    for (local, output) in out.iter_mut().enumerate() {
+                        let row = row_start + local;
+                        let coordinate = [origin[0] + local, origin[1], origin[2]];
+                        probe.visit(coordinate);
+                        if let Some(weights) = box_weights {
+                            let mut value = 0.0;
+                            for d in 0..3 {
+                                if coordinate[d] > 0 {
+                                    value +=
+                                        weights[d] * (pressure[row] - pressure[row - strides[d]]);
+                                }
+                                if coordinate[d] + 1 < counts[d] {
+                                    value +=
+                                        weights[d] * (pressure[row] - pressure[row + strides[d]]);
+                                }
+                            }
+                            if !value.is_finite() {
+                                return Err(OperatorError::ArithmeticFailure);
+                            }
+                            *output = value;
+                            continue;
                         }
-                        if coordinate[d] + 1 < self.grid.counts()[d] {
-                            let mut neighbor = coordinate;
-                            neighbor[d] += 1;
-                            let other = self.grid.cell_unchecked(neighbor);
-                            value += if self.is_wet(other) {
-                                self.neighbor_weight(Axis::ALL[d], neighbor)
-                                    * (pressure[row] - pressure[other])
-                            } else {
-                                self.face_weight(Axis::ALL[d], neighbor) * pressure[row]
-                            };
+                        if !self.is_wet(row) {
+                            *output = pressure[row];
+                            continue;
                         }
+                        let mut value = 0.0;
+                        for d in 0..3 {
+                            if coordinate[d] > 0 {
+                                let mut neighbor = coordinate;
+                                neighbor[d] -= 1;
+                                let other = self.grid.cell_unchecked(neighbor);
+                                value += if self.is_wet(other) {
+                                    self.neighbor_weight(Axis::ALL[d], coordinate)
+                                        * (pressure[row] - pressure[other])
+                                } else {
+                                    self.face_weight(Axis::ALL[d], coordinate) * pressure[row]
+                                };
+                            }
+                            if coordinate[d] + 1 < self.grid.counts()[d] {
+                                let mut neighbor = coordinate;
+                                neighbor[d] += 1;
+                                let other = self.grid.cell_unchecked(neighbor);
+                                value += if self.is_wet(other) {
+                                    self.neighbor_weight(Axis::ALL[d], neighbor)
+                                        * (pressure[row] - pressure[other])
+                                } else {
+                                    self.face_weight(Axis::ALL[d], neighbor) * pressure[row]
+                                };
+                            }
+                        }
+                        if !value.is_finite() {
+                            return Err(OperatorError::ArithmeticFailure);
+                        }
+                        *output = value;
                     }
-                    if !value.is_finite() {
-                        return Err(OperatorError::ArithmeticFailure);
-                    }
-                    out[row] = value;
-                }
-            }
-        }
-        Ok(())
+                    Ok(())
+                })
+            },
+        )
     }
 
     /// Build the full (ungauged) RHS from signed integrated face flux.
@@ -561,6 +609,15 @@ impl<'a> PressureOperator<'a> {
     }
 
     pub(crate) fn diagonal(&self, coordinate: [usize; 3]) -> f64 {
+        if self.surface.is_none() {
+            let counts = self.grid.counts();
+            let mut mask = 0;
+            for d in 0..3 {
+                mask |= usize::from(coordinate[d] > 0) << (2 * d);
+                mask |= usize::from(coordinate[d] + 1 < counts[d]) << (2 * d + 1);
+            }
+            return self.box_diagonals[mask];
+        }
         if !self.is_wet(self.grid.cell_unchecked(coordinate)) {
             return 1.0;
         }
@@ -613,5 +670,37 @@ impl<'a> PressureOperator<'a> {
             }
         }
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod fixed_box_tests {
+    use super::*;
+    #[test]
+    fn cached_boundary_diagonals_match_original_order_for_every_row() {
+        for counts in [[5, 4, 3], [1, 7, 2], [3, 1, 1], [1, 1, 1]] {
+            let grid = GridGeometry::new(counts, [0.13, 0.27, 0.41], [-1.0, 2.0, 0.3]).unwrap();
+            let operator = PressureOperator::new(&grid, 1.37).unwrap();
+            let counts = grid.counts();
+            for z in 0..counts[2] {
+                for y in 0..counts[1] {
+                    for x in 0..counts[0] {
+                        let p = [x, y, z];
+                        let mut original = 0.0_f64;
+                        for d in 0..3 {
+                            if p[d] > 0 {
+                                original += operator.face_weight(Axis::ALL[d], p);
+                            }
+                            if p[d] + 1 < counts[d] {
+                                let mut hi = p;
+                                hi[d] += 1;
+                                original += operator.face_weight(Axis::ALL[d], hi);
+                            }
+                        }
+                        assert_eq!(operator.diagonal(p).to_bits(), original.to_bits());
+                    }
+                }
+            }
+        }
     }
 }

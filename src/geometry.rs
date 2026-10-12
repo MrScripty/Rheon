@@ -250,8 +250,9 @@ pub struct BufferPlan {
 }
 
 impl BufferPlan {
-    /// Two f32 MAC velocity buffers, two f32 cell tracer buffers, and six f64
-    /// pressure vectors (p, rhs, r, direction, A-direction, preconditioned r).
+    /// Two f32 MAC velocity buffers, two f32 cell tracer buffers, and six
+    /// eight-byte pressure vectors (p, rhs, r, direction, A-direction,
+    /// preconditioned r). Parallel SGS stores the latter's f64 bits atomically.
     pub fn for_grid(grid: &GridGeometry, limit: usize) -> Result<Self, GeometryError> {
         let faces = grid.face_lens.iter().try_fold(0_usize, |sum, &n| {
             sum.checked_add(n).ok_or(GeometryError::ArithmeticOverflow)

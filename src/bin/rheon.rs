@@ -11,6 +11,7 @@ use std::{
     time::Instant,
 };
 struct Options {
+    threads: usize,
     implementation: PressureImplementation,
     pressure: PressureSettings,
     actual_divergence_limit: f64,
@@ -23,6 +24,7 @@ struct Options {
 }
 fn parse() -> Result<Option<Options>, Box<dyn Error>> {
     let mut o = Options {
+        threads: 1,
         implementation: PressureImplementation::default(),
         pressure: PressureSettings {
             relative_residual: 1e-9,
@@ -63,12 +65,13 @@ fn parse() -> Result<Option<Options>, Box<dyn Error>> {
         }
         if arg == "--help" || arg == "-h" {
             println!(
-                "Rheon headless fixed-box smoke demo\n--implementation ID (jacobi-pcg-v1) --list-implementations --build-info\n--size N (64) --steps N (30) --dt SECONDS (0.02)\n--relative-residual N (1e-9) --pressure-divergence-limit N (1e-7)\n--actual-divergence-limit N (1e-5) --max-iterations N (2000)\n--memory-mib N (64 retained simulation array payload)\n--source-off-at STEP (source on for all steps by default)\n--output NEW_DIRECTORY (rheon-demo)\nWrites opacity.png, steps.csv and run.json. Existing directories are never overwritten.\n64 cubed and 64 MiB are configurable defaults, not real-time performance promises."
+                "Rheon headless fixed-box smoke demo\n--implementation ID (jacobi-pcg-v1) --list-implementations --build-info\n--size N (64) --steps N (30) --dt SECONDS (0.02)\n--relative-residual N (1e-9) --pressure-divergence-limit N (1e-7)\n--actual-divergence-limit N (1e-5) --max-iterations N (2000)\n--memory-mib N (64 retained simulation array payload)\n--threads N (1; multiple threads require --features parallel)\n--source-off-at STEP (source on for all steps by default)\n--output NEW_DIRECTORY (rheon-demo)\nWrites opacity.png, steps.csv and run.json. Existing directories are never overwritten.\n64 cubed and 64 MiB are configurable defaults, not real-time performance promises."
             );
             return Ok(None);
         }
         let value = args.next().ok_or("missing option value")?;
         match arg.as_str() {
+            "--threads" => o.threads = value.parse()?,
             "--implementation" => {
                 o.implementation =
                     PressureImplementation::from_id(&value).ok_or("unknown implementation ID")?
@@ -98,9 +101,31 @@ fn parse() -> Result<Option<Options>, Box<dyn Error>> {
     if o.source_off_at > o.steps {
         return Err("source-off-at must not exceed steps".into());
     }
+    if o.threads == 0 || o.threads > std::thread::available_parallelism().map_or(1, usize::from) {
+        return Err("threads must be between 1 and the available CPU count".into());
+    }
+    if o.threads > 1 && !cfg!(feature = "parallel") {
+        return Err("multiple CPU threads require building with --features parallel".into());
+    }
     Ok(Some(o))
 }
 fn run(o: Options) -> Result<(), Box<dyn Error>> {
+    #[cfg(feature = "parallel")]
+    {
+        let scheduler = rheon::CpuScheduler::new();
+        rayon::ThreadPoolBuilder::new()
+            .num_threads(o.threads)
+            .thread_name(|i| format!("rheon-cpu-{i}"))
+            .build_scoped(
+                |thread| scheduler.scope(|| thread.run()),
+                |pool| pool.install(|| run_simulation(o).map_err(|e| e.to_string())),
+            )?
+            .map_err(Into::into)
+    }
+    #[cfg(not(feature = "parallel"))]
+    run_simulation(o)
+}
+fn run_simulation(o: Options) -> Result<(), Box<dyn Error>> {
     let h = 1.0 / o.size as f64;
     let grid = GridGeometry::new([o.size; 3], [h; 3], [0.0; 3])?;
     let budget = o
@@ -165,8 +190,9 @@ fn run(o: Options) -> Result<(), Box<dyn Error>> {
     let mut metadata = BufWriter::new(create("run.json")?);
     writeln!(
         metadata,
-        "{{\n  \"schema_version\": 2,\n  \"implementation\": \"{}\",\n  \"pressure_relative_residual\": {:.17e},\n  \"pressure_absolute_residual\": 1e-12,\n  \"pressure_divergence_limit\": {:.17e},\n  \"actual_divergence_limit\": {:.17e},\n  \"pressure_iteration_limit\": {},\n  \"model\": \"fixed-box smoke tracer, prescribed localized Y acceleration\",\n  \"size\": {},\n  \"steps\": {},\n  \"source_off_at\": {},\n  \"requested_dt\": {:.17e},\n  \"accepted_time\": {:.17e},\n  \"managed_simulation_bytes\": {},\n  \"managed_budget_bytes\": {},\n  \"raw_export_pixel_bytes\": {},\n  \"measured_step_seconds\": {:.9},\n  \"last_divergence_max\": {:.17e},\n  \"whole_process_memory_cap_claimed\": false,\n  \"real_time_performance_claimed\": false\n}}",
+        "{{\n  \"schema_version\": 2,\n  \"implementation\": \"{}\",\n  \"cpu_threads\": {},\n  \"pressure_relative_residual\": {:.17e},\n  \"pressure_absolute_residual\": 1e-12,\n  \"pressure_divergence_limit\": {:.17e},\n  \"actual_divergence_limit\": {:.17e},\n  \"pressure_iteration_limit\": {},\n  \"model\": \"fixed-box smoke tracer, prescribed localized Y acceleration\",\n  \"size\": {},\n  \"steps\": {},\n  \"source_off_at\": {},\n  \"requested_dt\": {:.17e},\n  \"accepted_time\": {:.17e},\n  \"managed_simulation_bytes\": {},\n  \"managed_budget_bytes\": {},\n  \"raw_export_pixel_bytes\": {},\n  \"measured_step_seconds\": {:.9},\n  \"last_divergence_max\": {:.17e},\n  \"whole_process_memory_cap_claimed\": false,\n  \"real_time_performance_claimed\": false\n}}",
         o.implementation.id(),
+        o.threads,
         o.pressure.relative_residual,
         o.pressure.divergence_limit,
         o.actual_divergence_limit,
