@@ -103,15 +103,20 @@ There are exactly fourteen owned numerical Vec buffers:
 - Accepted x/y/z face components and cell tracer: four f32 arrays.
 - Candidate x/y/z face components and cell tracer: four f32 arrays.
 - Pressure, RHS, residual, direction, operator product, preconditioned residual:
-  six f64 cell arrays.
+  six binary64 cell arrays. Large parallel SGS stores the preconditioned values
+  as AtomicU64 bits in place of its f64 array, with the same eight bytes per cell.
 
-The product array is reused for post-projection divergence. No stored diagonal,
-extra pressure RHS, hidden diagnostic cell array, or third velocity buffer is
-allocated. Constructors use fallible allocation, inspect actual capacities and
+The product array is reused for post-projection divergence. No cell-sized
+diagonal, extra pressure RHS, hidden diagnostic cell array, or third velocity
+buffer is allocated. The fixed-box operator caches 64 boundary combinations
+in a 512-byte descriptor, preserving the original addition order. Constructors
+use fallible allocation, inspect actual capacities and
 check the remaining payload budget before retaining each field/workspace.
-Stepping, interpolation, transport and diagnostics allocate no heap buffers in
-this implementation; user-supplied cancellation callbacks are outside that
-claim. Descriptors, iterator state, settings and scalar reports are stack/struct
+Sequential stepping, interpolation, transport and diagnostics allocate no heap
+buffers; user-supplied cancellation callbacks are outside that claim. The
+optional `parallel` feature uses Rayon scheduler resources and pool stacks
+outside the retained numerical-array budget. Descriptors, iterator state,
+settings and scalar reports are stack/struct
 values. The retained array payload is 8F + 56N, where F counts all component
 faces and N is the number of cells.
 
@@ -121,6 +126,12 @@ allocation behavior, executable/runtime memory, stacks or process RSS. Export
 has a separately checked raw-pixel limit of 16 MiB; PNG compression workspace,
 CLI strings, CSV/JSON/file buffering and output encoding are outside the
 simulation limit. No whole-process hard memory cap is claimed.
+
+The rotating pressure-head emitter also reuses these fourteen numerical buffers.
+The live desktop's immutable concentration previews have a separate 96 MiB
+planned payload budget with adaptive resolution. Optional per-worker observation,
+timeline metadata, renderer meshes and GUI resources are outside the retained
+numerical-array budget; see [the live viewer contract](../src/bin/desktop/README.md).
 
 ## Executed acceptance and measured demonstration
 

@@ -29,9 +29,48 @@ cargo run --locked --release --features desktop --bin rheon-desktop
 cargo run --locked --release --bin rheon -- --list-implementations
 ```
 
-The UI displays solver results and opacity projections. It is an initial
-comparison laboratory, not a complete interactive 3D editor or real-time claim.
+The desktop displays accepted simulation steps live in a navigable 3D voxel
+view. Scrub or play the timeline while calculation continues; each recorded step
+shows its calculation time. Orange wire boxes sample the actual voxel positions
+of CPU workers, with idle workers dimmed. Left or middle drag orbits,
+Shift+drag pans, and Ctrl+drag zooms, without requiring Alt. Wheel and touchpad
+scroll/pinch controls are also supported.
+
+The horizontal cylinder sweeps two nonuniform pressure-head jets around
+the vertical axis at one revolution per simulated second. Each end's pressure
+and spin speed are adjustable. Material mode emits liquid or gas parcels; the
+original carrier comparison prescribes momentum and appearance concentration.
+The visible cylinder illustrates the source and has no solid collision boundary.
+See the
+[viewer, timeline and emitter contracts](src/bin/desktop/README.md).
 Use `default-features = false` for a standard-library-only library consumer.
+
+The desktop's **CPU threads** control detects the available logical CPU threads.
+**Automatic** selects the detected count and refreshes the limit before each
+run; turn it off to choose a smaller count. Both Jacobi and SGS parallelize grid
+work, including dependency-preserving SGS tile sweeps. Small grids stay
+sequential to avoid scheduling overhead. For a threaded headless run:
+
+```sh
+cargo run --locked --release --features parallel --bin rheon -- --threads 8 --output rheon-threaded
+```
+
+See [CPU execution and verification](docs/COMPARISON.md#cpu-execution) for solver
+limits, repeatability and thread ownership.
+
+Worker batches now tune from measured kernel time, and large-grid advection
+splits work within planes. Exact zero-tracer regions skip interpolation; carrier
+pressure still includes clear fluid. SGS compares tile sizes at runtime. See
+[scheduling measurements and limits](evidence/scheduling/README.md).
+The fixed-box pressure kernels reuse boundary coefficients; the desktop's batch
+panel also reports cumulative kernel timings to identify the remaining costs.
+
+The desktop also supports material scenes in physical metres: liquid or gas
+presets, density, viscosity, surface cohesion, wall drag, gravity, temperature,
+and initial vacuum or filled domains. Its particle preview preserves free
+liquid surfaces and gas expansion; the original carrier comparison is still
+available. Settings sections collapse independently. See
+[material controls, units and model limits](docs/material-fluids.md).
 
 ## Explicit body forces
 

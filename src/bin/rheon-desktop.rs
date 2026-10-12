@@ -1,8 +1,16 @@
-//! Native comparison shell. The solver remains independent of the UI runtime.
+//! Native live 3D laboratory. Numerical state stays owned by the worker; the
+//! viewer consumes bounded immutable accepted previews and optional diagnostics.
+#[path = "desktop/history.rs"]
+mod history;
+#[path = "desktop/settings.rs"]
+mod settings;
+#[path = "desktop/viewport.rs"]
+mod viewport;
 use eframe::egui;
+use history::{LiveHistory, PreviewFrame};
 use rheon::{
-    GridGeometry, PressureImplementation, PressureSettings, Simulation, SimulationConfig,
-    SmokeSource, guidance_pixels,
+    CalculationObserver, GridGeometry, PressureImplementation, PressureSettings,
+    RotatingCylinderEmitter, Simulation, SimulationConfig, SmokeSource, guidance_pixels,
 };
 use std::sync::{
     Arc,
@@ -16,7 +24,15 @@ struct Request {
     size: u64,
     steps: usize,
     tight: bool,
+    threads: usize,
     methods: Vec<PressureImplementation>,
+    emitter: Option<RotatingCylinderEmitter>,
+    observe: bool,
+    history_budget_mib: usize,
+    domain_side: f64,
+    requested_dt: f64,
+    material: Option<rheon::ParticleFluidConfig>,
+    material_color: [u8; 3],
     #[cfg(test)]
     progress_gate: Option<Arc<ProgressGate>>,
 }
@@ -33,51 +49,159 @@ struct ResultRow {
     bytes: usize,
     time: f64,
     pixels: Vec<u8>,
+    particle_report: Option<rheon::ParticleStepReport>,
 }
 struct Worker {
     cancel: Arc<AtomicBool>,
     progress: Arc<AtomicUsize>,
     total: usize,
+    scheduler: Arc<rheon::CpuScheduler>,
+    history: Arc<LiveHistory>,
+    observer: Option<Arc<CalculationObserver>>,
     handle: JoinHandle<Result<Vec<ResultRow>, String>>,
 }
 impl Worker {
     fn start(request: Request) -> std::io::Result<Self> {
+        validate_request(&request).map_err(std::io::Error::other)?;
         let cancel = Arc::new(AtomicBool::new(false));
         let progress = Arc::new(AtomicUsize::new(0));
+        let history = LiveHistory::with_budget(
+            request.size as usize,
+            request.steps,
+            request.methods.len(),
+            request.history_budget_mib * 1024 * 1024,
+        )
+        .map_err(std::io::Error::other)?;
+        let h = request.domain_side / request.size as f64;
+        let grid = GridGeometry::new([request.size; 3], [h; 3], [0.0; 3])
+            .map_err(std::io::Error::other)?;
+        let observer = if request.observe {
+            Some(CalculationObserver::new(&grid, request.threads).map_err(std::io::Error::other)?)
+        } else {
+            None
+        };
         let c = Arc::clone(&cancel);
         let p = Arc::clone(&progress);
+        let frames = Arc::clone(&history);
+        let scheduler = rheon::CpuScheduler::new();
+        let scheduling = Arc::clone(&scheduler);
+        let observe = observer.clone();
         let total = request.methods.len() * request.steps;
         let handle = std::thread::Builder::new()
-            .name("rheon-comparison".into())
-            .spawn(move || run(request, &c, &p))?;
+            .name("rheon-live-simulation".into())
+            .spawn(move || run_owned(request, &c, &p, &frames, observe, scheduling))?;
         Ok(Self {
             cancel,
             progress,
             total,
+            scheduler,
+            history,
+            observer,
             handle,
         })
     }
 }
+fn available_threads() -> usize {
+    std::thread::available_parallelism().map_or(1, usize::from)
+}
+fn validate_request(request: &Request) -> Result<(), String> {
+    let maximum = if request.material.is_some() {
+        history::MAX_PREVIEW_EDGE as u64
+    } else {
+        128
+    };
+    if !(1..=maximum).contains(&request.size)
+        || !(1..=10000).contains(&request.steps)
+        || request.methods.is_empty()
+    {
+        return Err("Invalid simulation settings".into());
+    }
+    if !(16..=4096).contains(&request.history_budget_mib)
+        || request
+            .history_budget_mib
+            .checked_mul(1024 * 1024)
+            .is_none()
+    {
+        return Err("Invalid timeline memory budget".into());
+    }
+    if !request.domain_side.is_finite()
+        || !(0.001..=100.0).contains(&request.domain_side)
+        || !request.requested_dt.is_finite()
+        || request.requested_dt <= 0.0
+    {
+        return Err("Invalid physical domain size or step duration".into());
+    }
+    if request.threads == 0 || request.threads > available_threads() {
+        return Err("CPU threads must be between 1 and the available CPU count".into());
+    }
+    Ok(())
+}
+#[cfg(test)]
 fn run(
     request: Request,
     cancel: &AtomicBool,
     progress: &AtomicUsize,
 ) -> Result<Vec<ResultRow>, String> {
-    if !(1..=128).contains(&request.size)
-        || !(1..=10000).contains(&request.steps)
-        || request.methods.is_empty()
-    {
-        return Err("Invalid comparison settings".into());
+    validate_request(&request)?;
+    let history = LiveHistory::with_budget(
+        request.size as usize,
+        request.steps,
+        request.methods.len(),
+        request.history_budget_mib * 1024 * 1024,
+    )?;
+    run_owned(
+        request,
+        cancel,
+        progress,
+        &history,
+        None,
+        rheon::CpuScheduler::new(),
+    )
+}
+fn run_owned(
+    request: Request,
+    cancel: &AtomicBool,
+    progress: &AtomicUsize,
+    history: &LiveHistory,
+    observer: Option<Arc<CalculationObserver>>,
+    scheduler: Arc<rheon::CpuScheduler>,
+) -> Result<Vec<ResultRow>, String> {
+    validate_request(&request)?;
+    rayon::ThreadPoolBuilder::new()
+        .num_threads(request.threads)
+        .thread_name(|i| format!("rheon-cpu-{i}"))
+        .build_scoped(
+            |thread| {
+                scheduler.scope(|| {
+                    if let Some(observer) = &observer {
+                        observer.observe(|| thread.run());
+                    } else {
+                        thread.run();
+                    }
+                })
+            },
+            |pool| pool.install(|| run_simulations(request, cancel, progress, history)),
+        )
+        .map_err(|e| format!("Cannot start CPU pool: {e}"))?
+}
+fn run_simulations(
+    request: Request,
+    cancel: &AtomicBool,
+    progress: &AtomicUsize,
+    history: &LiveHistory,
+) -> Result<Vec<ResultRow>, String> {
+    if let Some(config) = request.material {
+        return run_material(request, config, cancel, progress, history);
     }
     let mut rows = Vec::new();
-    for method in request.methods {
+    for (track, method) in request.methods.into_iter().enumerate() {
         if cancel.load(Ordering::Relaxed) {
-            return Err("Cancelled; no completed comparison published".into());
+            return Err("Cancelled; accepted preview frames retained".into());
         }
-        let h = 1.0 / request.size as f64;
+        let h = request.domain_side / request.size as f64;
         let grid =
             GridGeometry::new([request.size; 3], [h; 3], [0.0; 3]).map_err(|e| e.to_string())?;
-        let settings = SimulationConfig {
+        let config = SimulationConfig {
             density: 1.0,
             memory_limit: 192 * 1024 * 1024,
             pressure: PressureSettings {
@@ -90,24 +214,44 @@ fn run(
             max_courant: 1.0,
         };
         let mut sim =
-            Simulation::with_implementation(grid, settings, method).map_err(|e| e.to_string())?;
+            Simulation::with_implementation(grid, config, method).map_err(|e| e.to_string())?;
+        history.publish(
+            track,
+            PreviewFrame::capture(&sim, history.preview_edge, 0, 0.0, None)?,
+        )?;
         let source = SmokeSource {
-            lower: [0.35, 0.08, 0.35],
-            upper: [0.65, 0.30, 0.65],
+            lower: [0.35, 0.08, 0.35].map(|v| v * request.domain_side),
+            upper: [0.65, 0.30, 0.65].map(|v| v * request.domain_side),
             tracer_rate: 2.0,
             vertical_acceleration: 1.0,
         };
         let mut iterations = 0;
         let mut divergence = 0.0_f64;
-        let start = Instant::now();
+        let mut seconds = 0.0;
         for step in 0..request.steps {
-            let r = sim
-                .step(0.02, (step < request.steps / 2).then_some(source), |_| {
+            history.begin_step(track, step + 1)?;
+            let start = Instant::now();
+            let result = if let Some(emitter) = request.emitter {
+                sim.step_with_emitter(request.requested_dt, emitter, |_| {
                     cancel.load(Ordering::Relaxed)
                 })
-                .map_err(|e| e.to_string())?;
+            } else {
+                sim.step(
+                    request.requested_dt,
+                    (step < request.steps / 2).then_some(source),
+                    |_| cancel.load(Ordering::Relaxed),
+                )
+            };
+            let step_seconds = start.elapsed().as_secs_f64();
+            history.end_step()?;
+            let r = result.map_err(|e| e.to_string())?;
             iterations += r.pressure.iterations;
             divergence = divergence.max(r.actual_divergence_max);
+            seconds += step_seconds;
+            history.publish(
+                track,
+                PreviewFrame::capture(&sim, history.preview_edge, step + 1, step_seconds, Some(r))?,
+            )?;
             progress.fetch_add(1, Ordering::Relaxed);
             #[cfg(test)]
             if progress.load(Ordering::Relaxed) == 1
@@ -121,7 +265,6 @@ fn run(
                     .map_err(|e| e.to_string())?;
             }
         }
-        let seconds = start.elapsed().as_secs_f64();
         let pixels = guidance_pixels(&sim, 128 * 128).map_err(|e| e.to_string())?;
         rows.push(ResultRow {
             method,
@@ -131,65 +274,218 @@ fn run(
             bytes: sim.allocated_bytes(),
             time: sim.state().time,
             pixels,
+            particle_report: None,
         });
     }
     if cancel.load(Ordering::Relaxed) {
-        return Err("Cancelled; no completed comparison published".into());
+        return Err("Cancelled; accepted preview frames retained".into());
     }
     Ok(rows)
 }
+fn run_material(
+    request: Request,
+    config: rheon::ParticleFluidConfig,
+    cancel: &AtomicBool,
+    progress: &AtomicUsize,
+    history: &LiveHistory,
+) -> Result<Vec<ResultRow>, String> {
+    if request.methods.len() != 1 {
+        return Err("Compare pressure solvers in the original carrier mode".into());
+    }
+    let method = request.methods[0];
+    let h = request.domain_side / request.size as f64;
+    let grid = GridGeometry::new([request.size; 3], [h; 3], [0.0; 3]).map_err(|e| e.to_string())?;
+    let mut sim = rheon::ParticleFluidSimulation::new(grid, config).map_err(|e| e.to_string())?;
+    history.publish(
+        0,
+        PreviewFrame::capture_particles(
+            &sim,
+            method,
+            history.preview_edge,
+            0,
+            0.0,
+            None,
+            request.material_color,
+        )?,
+    )?;
+    let mut seconds = 0.0;
+    let mut last_report = None;
+    for step in 0..request.steps {
+        history.begin_step(0, step + 1)?;
+        let start = Instant::now();
+        let result = sim.step(request.requested_dt, request.emitter, || {
+            cancel.load(Ordering::Relaxed)
+        });
+        let elapsed = start.elapsed().as_secs_f64();
+        history.end_step()?;
+        let report = result.map_err(|e| e.to_string())?;
+        seconds += elapsed;
+        last_report = Some(report);
+        history.publish(
+            0,
+            PreviewFrame::capture_particles(
+                &sim,
+                method,
+                history.preview_edge,
+                step + 1,
+                elapsed,
+                Some(report),
+                request.material_color,
+            )?,
+        )?;
+        progress.fetch_add(1, Ordering::Relaxed);
+        #[cfg(test)]
+        if progress.load(Ordering::Relaxed) == 1
+            && let Some(gate) = &request.progress_gate
+        {
+            gate.reached.send(()).map_err(|e| e.to_string())?;
+            gate.release
+                .lock()
+                .map_err(|e| e.to_string())?
+                .recv_timeout(Duration::from_secs(10))
+                .map_err(|e| e.to_string())?;
+        }
+    }
+    if cancel.load(Ordering::Relaxed) {
+        return Err("Cancelled; accepted preview frames retained".into());
+    }
+    let n = request.size as usize;
+    let mut pixels = vec![0_u8; n * n];
+    for p in sim.particles().iter().filter(|p| p.material == 0) {
+        let x = ((p.position[0] / request.domain_side * n as f64).floor() as usize).min(n - 1);
+        let z = ((p.position[2] / request.domain_side * n as f64).floor() as usize).min(n - 1);
+        pixels[x + n * z] = pixels[x + n * z].saturating_add(32);
+    }
+    Ok(vec![ResultRow {
+        method,
+        seconds,
+        iterations: 0,
+        divergence: 0.0,
+        bytes: sim.allocated_bytes(),
+        time: sim.time(),
+        pixels,
+        particle_report: last_report,
+    }])
+}
 struct App {
     selected: PressureImplementation,
+    domain_side: f64,
+    requested_dt: f64,
+    material_mode: bool,
+    history_budget_mib: usize,
+    materials: settings::MaterialControls,
     size: u64,
     steps: usize,
     tight: bool,
+    threads: usize,
+    thread_limit: usize,
+    automatic_threads: bool,
+    emitter: RotatingCylinderEmitter,
+    cylinder: bool,
+    show_workers: bool,
     worker: Option<Worker>,
+    scheduler: Option<Arc<rheon::CpuScheduler>>,
     rows: Vec<ResultRow>,
     textures: Vec<egui::TextureHandle>,
     status: String,
     running_request: Option<Request>,
     closing: bool,
+    history: Option<Arc<LiveHistory>>,
+    viewport: viewport::Viewport,
+    timeline_step: usize,
+    track: usize,
+    follow_live: bool,
+    playing: bool,
+    play_time: f64,
+    playback_speed: f64,
 }
 impl Default for App {
     fn default() -> Self {
+        let thread_limit = available_threads();
         Self {
             selected: PressureImplementation::default(),
-            size: 16,
-            steps: 30,
+            domain_side: 1.0,
+            requested_dt: 0.02,
+            material_mode: true,
+            history_budget_mib: history::HISTORY_BUDGET / (1024 * 1024),
+            materials: settings::MaterialControls::default(),
+            size: 32,
+            steps: 1024,
             tight: false,
+            threads: thread_limit,
+            thread_limit,
+            automatic_threads: true,
+            emitter: RotatingCylinderEmitter {
+                pressure_heads: [1000.0, 800.0],
+                ..RotatingCylinderEmitter::default()
+            },
+            cylinder: true,
+            show_workers: true,
             worker: None,
+            scheduler: None,
             rows: Vec::new(),
             textures: Vec::new(),
-            status: "Ready. Each run starts from rest; source turns off halfway.".into(),
+            status: "Ready — rotating two-ended pressure emitter.".into(),
             running_request: None,
             closing: false,
+            history: None,
+            viewport: viewport::Viewport::default(),
+            timeline_step: 0,
+            track: 0,
+            follow_live: true,
+            playing: false,
+            play_time: 0.0,
+            playback_speed: 1.0,
         }
     }
 }
 impl App {
+    fn refresh_threads(&mut self, available: usize) {
+        self.thread_limit = available.max(1);
+        self.threads = if self.automatic_threads {
+            self.thread_limit
+        } else {
+            self.threads.clamp(1, self.thread_limit)
+        };
+    }
     fn start(&mut self, all: bool) {
         if self.worker.is_some() {
             return;
         }
+        self.refresh_threads(available_threads());
         let request = Request {
             size: self.size,
             steps: self.steps,
             tight: self.tight,
+            threads: self.threads,
             methods: if all {
                 PressureImplementation::ALL.to_vec()
             } else {
                 vec![self.selected]
             },
+            emitter: self.cylinder.then_some(self.emitter),
+            observe: self.show_workers,
+            history_budget_mib: self.history_budget_mib,
+            domain_side: self.domain_side,
+            requested_dt: self.requested_dt,
+            material: self.material_mode.then_some(self.materials.config),
+            material_color: self.materials.color(),
             #[cfg(test)]
             progress_gate: None,
         };
         match Worker::start(request.clone()) {
             Ok(worker) => {
+                self.scheduler = Some(Arc::clone(&worker.scheduler));
+                self.history = Some(Arc::clone(&worker.history));
                 self.worker = Some(worker);
                 self.running_request = Some(request);
                 self.rows.clear();
                 self.textures.clear();
-                self.status = "Running isolated simulations…".into();
+                self.timeline_step = 0;
+                self.track = 0;
+                self.follow_live = true;
+                self.playing = false;
+                self.status = "Simulating — accepted steps appear live.".into();
             }
             Err(e) => self.status = format!("Cannot start worker: {e}"),
         }
@@ -205,7 +501,7 @@ impl App {
             let cancelled = worker.cancel.load(Ordering::Relaxed);
             match worker.handle.join() {
                 Ok(Ok(_)) if cancelled => {
-                    self.status = "Cancelled; no completed comparison published".into();
+                    self.status = "Cancelled; accepted preview frames retained".into()
                 }
                 Ok(Ok(rows)) => {
                     let size = self.running_request.as_ref().expect("worker request").size as usize;
@@ -220,19 +516,230 @@ impl App {
                         })
                         .collect();
                     self.rows = rows;
-                    self.status="Complete. Single-run timing is exploratory; use the benchmark harness for repeated measurements.".into();
+                    self.status = "Complete — scrub or play the recorded simulation.".into();
                     if self.rows.windows(2).any(|w| w[0].time != w[1].time) {
-                        self.status.push_str(
-                            " Accepted times differ; these are not equal physical horizons.",
-                        );
+                        self.status
+                            .push_str(" Solver tracks reached different simulated times.");
                     }
                 }
-                Ok(Err(e)) => self.status = format!("No completed comparison: {e}"),
-                Err(_) => {
+                Ok(Err(e)) => {
                     self.status =
-                        "Worker failed unexpectedly; no completed comparison published".into()
+                        format!("Simulation stopped: {e}. Accepted preview frames retained.")
                 }
+                Err(_) => self.status = "Worker failed; accepted preview frames retained.".into(),
             }
+        }
+    }
+    fn selected_frame(&mut self) -> (usize, Option<Arc<PreviewFrame>>) {
+        let Some(history) = &self.history else {
+            return (0, None);
+        };
+        if self.follow_live {
+            self.track = history.active_track.load(Ordering::Relaxed);
+        }
+        if self.playing {
+            loop {
+                let Ok((count, Some(next))) =
+                    history.view(self.track, self.timeline_step + 1, false)
+                else {
+                    break;
+                };
+                if self.timeline_step + 1 >= count || next.time > self.play_time {
+                    break;
+                }
+                self.timeline_step += 1;
+            }
+        }
+        match history.view(self.track, self.timeline_step, self.follow_live) {
+            Ok((count, frame)) => {
+                if let Some(frame) = &frame {
+                    self.timeline_step = frame.step;
+                }
+                if self.playing && self.timeline_step + 1 >= count && self.worker.is_none() {
+                    self.playing = false;
+                }
+                (count, frame)
+            }
+            Err(e) => {
+                self.status = e;
+                (0, None)
+            }
+        }
+    }
+    fn controls(&mut self, ui: &mut egui::Ui) {
+        ui.heading("Rheon");
+        ui.label(
+            egui::RichText::new("LIVE FLUID LABORATORY")
+                .small()
+                .color(egui::Color32::from_rgb(90, 165, 200)),
+        );
+        ui.add_space(10.0);
+        ui.add_enabled_ui(self.worker.is_none() && !self.closing, |ui| {
+            egui::CollapsingHeader::new("Domain & environment").default_open(false).show(ui, |ui| {
+                let previous_side=self.domain_side;
+                if self.material_mode {self.materials.domain(ui, &mut self.domain_side);} else {
+                    settings::quantity(ui,"Domain side",&mut self.domain_side,"m",0.01,0.001..=100.0);
+                    ui.small("Original demo: filled carrier fluid throughout the box.");
+                }
+                if self.domain_side!=previous_side {
+                    let scale=self.domain_side/previous_side;
+                    self.emitter.center=self.emitter.center.map(|v|v*scale);
+                    self.emitter.half_length*=scale;self.emitter.radius*=scale;self.emitter.nozzle_depth*=scale;
+                }
+            });
+            egui::CollapsingHeader::new("Fluid material").default_open(true).show(ui, |ui| {
+                ui.add_enabled_ui(self.material_mode,|ui|self.materials.fluid(ui));
+            });
+            egui::CollapsingHeader::new("Emitter").default_open(false).show(ui, |ui| {
+                ui.checkbox(&mut self.cylinder,"Rotating cylinder / two end jets");
+                if self.cylinder {
+                    for d in 0..3 {settings::quantity(ui,["Center X","Center Y","Center Z"][d],&mut self.emitter.center[d],"m",0.001,0.0..=self.domain_side);}
+                    let mut length=2.0*self.emitter.half_length;
+                    if settings::quantity(ui,"Cylinder length",&mut length,"m",0.001,0.0001..=self.domain_side).changed() {self.emitter.half_length=length*0.5;}
+                    settings::quantity(ui,"Radius",&mut self.emitter.radius,"m",0.001,0.0001..=self.domain_side*0.4);
+                    settings::quantity(ui,"Nozzle depth",&mut self.emitter.nozzle_depth,"m",0.001,0.0001..=self.domain_side*0.4);
+                    settings::quantity(ui,"Spin",&mut self.emitter.rotations_per_second,"rev/s",0.05,0.0..=10.0);
+                    for end in 0..2 {settings::quantity(ui,if end==0 {"End A head"}else{"End B head"},&mut self.emitter.pressure_heads[end],"Pa",10.0,0.0..=1000000.0);}
+                    ui.small("Nonuniform disk profiles · rotation around Y");
+                } else if self.material_mode {ui.small("Emission off; only the initial domain contents evolve.");}
+                else {ui.small("Original smoke source; turns off halfway.");}
+            });
+            egui::CollapsingHeader::new("Simulation").default_open(false).show(ui, |ui| {
+                if ui.checkbox(&mut self.material_mode,"Liquid / gas material simulation").changed() {
+                    self.emitter.pressure_heads=if self.material_mode {[1000.0,800.0]} else {[0.12,0.08]};
+                    if !self.material_mode {self.size=self.size.min(128);}
+                }
+                ui.horizontal(|ui| {ui.label("Preview grid");ui.add(egui::DragValue::new(&mut self.size).range(4..=if self.material_mode {512}else{128}).suffix("³"));});
+                ui.horizontal(|ui| {ui.label("Steps");ui.add(egui::DragValue::new(&mut self.steps).range(1..=10000));});
+                ui.horizontal(|ui| {ui.label("Timeline budget");ui.add(egui::DragValue::new(&mut self.history_budget_mib).range(16..=4096).suffix(" MiB"));});
+                if let Ok(plan)=LiveHistory::plan(self.size as usize,self.steps,1,self.history_budget_mib.saturating_mul(1024*1024)) {ui.small(format!("Stored preview {}³ · {:.1} MiB for every step",plan.edge,plan.bytes as f64/1048576.0));}
+                ui.small("Particle samples control physical detail; preview voxels control the image.");
+                settings::quantity(ui,"Maximum step",&mut self.requested_dt,"s",0.001,0.000001..=0.1);
+                ui.small("Accepted time steps adapt to physical stability limits.");
+                if self.material_mode {
+                    ui.horizontal(|ui| {ui.label("Particle samples / side");ui.add(egui::DragValue::new(&mut self.materials.config.samples_per_axis).range(4..=64));});
+                    ui.small(format!("Particle spacing {:.4} m",self.domain_side/self.materials.config.samples_per_axis as f64));
+                    ui.horizontal(|ui| {ui.label("Particle limit");ui.add(egui::DragValue::new(&mut self.materials.config.max_particles).range(32768..=262144));});
+                    settings::quantity(ui,"Liquid preview stiffness",&mut self.materials.config.liquid_sound_speed,"m/s",1.0,1.0..=100.0).on_hover_text("Reduced acoustic speed for a weakly compressible preview; higher stiffness needs shorter steps. Gas pressure uses the ideal-gas equation.");
+                } else {
+                    egui::ComboBox::from_id_salt("implementation").selected_text(self.selected.label()).width(240.0).show_ui(ui,|ui| {
+                        for method in PressureImplementation::ALL {ui.selectable_value(&mut self.selected,method,method.label());}
+                    });
+                    ui.checkbox(&mut self.tight,"Tight pressure tolerance");
+                }
+            });
+            egui::CollapsingHeader::new("CPU workers").default_open(false).show(ui, |ui| {
+                if ui.checkbox(&mut self.automatic_threads,"Automatic hardware detection").changed() {self.refresh_threads(available_threads());}
+                ui.horizontal(|ui| {ui.add_enabled(!self.automatic_threads,egui::DragValue::new(&mut self.threads).range(1..=self.thread_limit));ui.label(format!("/ {} available",self.thread_limit));});
+                ui.checkbox(&mut self.show_workers,"Orange worker voxel boxes").on_hover_text("Sampled actual worker positions; diagnostics add calculation overhead.");
+            });
+            ui.add_space(8.0);
+            if ui.add_sized([ui.available_width(),32.0],egui::Button::new("▶ Simulate")).clicked() {self.start(false);}
+            if !self.material_mode && ui.button("Compare both pressure solvers").clicked() {self.start(true);}
+        });
+        if let Some(w) = &self.worker {
+            ui.add_space(8.0);
+            let n = w.progress.load(Ordering::Relaxed);
+            ui.add(
+                egui::ProgressBar::new(n as f32 / w.total as f32)
+                    .text(format!("{n}/{} steps", w.total)),
+            );
+            if ui.button("■ Cancel simulation").clicked() {
+                self.cancel();
+            }
+            if let Some((_, step, elapsed)) = w.history.timing() {
+                ui.label(format!("Calculating step {step} · {elapsed:.3} s"));
+            }
+        }
+        ui.label(&self.status);
+        egui::CollapsingHeader::new("Viewport & navigation").default_open(false).show(ui, |ui| {
+            ui.checkbox(&mut self.viewport.touchpad_mode,"Touchpad scroll / two-finger orbit").on_hover_text("Enable when your touchpad reports wheel events. Shift pans; Ctrl zooms. Native pinch is supported.");
+            ui.checkbox(&mut self.viewport.camera.orthographic,"Orthographic");
+            if ui.button("Frame scene [Home]").clicked() {self.viewport.camera=viewport::OrbitCamera::default();}
+            ui.horizontal(|ui| {ui.label("Surface threshold");ui.add(egui::Slider::new(&mut self.viewport.threshold,1..=80).show_value(false));});
+            ui.label("Mouse: middle drag orbit, Shift+middle pan, wheel zoom.");
+            ui.label("Touchpad: left drag orbit, Shift+left pan, Ctrl+left zoom. Two-finger orbit, Shift-scroll pan, pinch/Ctrl-scroll zoom.");
+            ui.label("1 front · 3 right · 7 top · 5 perspective/ortho · Home frame");
+        });
+        egui::CollapsingHeader::new("Calculation diagnostics")
+            .default_open(false)
+            .show(ui, |ui| {
+                if let Some(scheduler) = &self.scheduler {
+                    let samples = scheduler.snapshot();
+                    let timed_ns = samples
+                        .iter()
+                        .map(|s| s.total_wall_nanoseconds as f64)
+                        .sum::<f64>();
+                    for batch in samples {
+                        ui.label(format!(
+                            "{:?}: {} cells/job · {} jobs",
+                            batch.stage, batch.batch_cells, batch.tasks
+                        ));
+                        if timed_ns > 0.0 {
+                            ui.small(format!(
+                                "{:.1}% of timed kernels · {:.3} s",
+                                100.0 * batch.total_wall_nanoseconds as f64 / timed_ns,
+                                batch.total_wall_nanoseconds as f64 * 1e-9
+                            ));
+                        }
+                    }
+                    ui.small("Whole-pass batch tuning; timing shares exclude unrecorded work.");
+                }
+                if let Some(history) = &self.history {
+                    if let Ok((_, Some(frame))) =
+                        history.view(self.track, self.timeline_step, self.follow_live)
+                    {
+                        if frame.material_color.is_some() {
+                            ui.small(format!(
+                                "Occupied preview cells: {}",
+                                frame.nonzero_tracer_cells
+                            ));
+                        } else {
+                            let edge = self.running_request.as_ref().map_or(self.size, |r| r.size)
+                                as usize;
+                            ui.small(format!(
+                                "Nonzero tracer: {} / {} cells",
+                                frame.nonzero_tracer_cells,
+                                edge.pow(3)
+                            ));
+                            ui.small("Pressure includes clear carrier fluid throughout the box.");
+                        }
+                    }
+                    ui.small(format!(
+                        "Preview {}³ · history ≤ {:.1} MiB",
+                        history.preview_edge,
+                        history.planned_bytes as f64 / 1048576.0
+                    ));
+                }
+            });
+        if !self.rows.is_empty() {
+            egui::CollapsingHeader::new("Simulation results")
+                .default_open(false)
+                .show(ui, |ui| {
+                    for row in &self.rows {
+                        ui.label(format!(
+                            "Compute {:.3} s · simulated {:.4} s",
+                            row.seconds, row.time
+                        ));
+                        if let Some(r) = row.particle_report {
+                            ui.label(format!(
+                                "{} particles · mass {:.6} kg",
+                                r.particles, r.total_mass
+                            ));
+                            ui.label(format!(
+                                "Max speed {:.3} m/s · pressure {:.1} Pa",
+                                r.max_speed, r.max_pressure
+                            ));
+                        } else {
+                            ui.label(row.method.label());
+                            ui.label(format!(
+                                "{} iterations · divergence {:.2e}",
+                                row.iterations, row.divergence
+                            ));
+                        }
+                        ui.small(format!("Arrays {:.2} MiB", row.bytes as f64 / 1048576.0));
+                    }
+                });
         }
     }
 }
@@ -247,57 +754,165 @@ impl eframe::App for App {
         if self.closing && self.worker.is_none() {
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
         }
-        egui::CentralPanel::default().show(ctx,|ui|{
-            ui.heading("Rheon / Fluid solver laboratory");
-            ui.label("Preserved implementations · shared physical contracts · Rust CPU simulations");ui.add_space(16.0);
-            ui.add_enabled_ui(self.worker.is_none()&&!self.closing,|ui|{
-                ui.horizontal_wrapped(|ui|{
-                    ui.label("Implementation");
-                    egui::ComboBox::from_id_salt("implementation").selected_text(self.selected.label()).width(280.0).show_ui(ui,|ui|{
-                        for method in PressureImplementation::ALL {ui.selectable_value(&mut self.selected,method,method.label());}
-                    });
-                    ui.label("Grid edge");ui.add(egui::DragValue::new(&mut self.size).range(1..=128));
-                    ui.label("Steps");ui.add(egui::DragValue::new(&mut self.steps).range(1..=10000));
-                    ui.checkbox(&mut self.tight,"Tight pressure tolerance");
-                });
-                ui.add_space(8.0);
-                ui.horizontal(|ui|{
-                    if ui.button("Run selected").clicked(){self.start(false);}
-                    if ui.button("Compare all approaches").clicked(){self.start(true);}
-                });
+        if self.playing {
+            self.play_time += self.playback_speed * ctx.input(|i| i.stable_dt.min(0.1)) as f64;
+        }
+        let (count, frame) = self.selected_frame();
+        egui::SidePanel::left("settings")
+            .exact_width(270.0)
+            .resizable(false)
+            .show(ctx, |ui| {
+                egui::ScrollArea::vertical().show(ui, |ui| self.controls(ui));
             });
-            if let Some(w)=&self.worker {
-                let n=w.progress.load(Ordering::Relaxed);
-                ui.add(egui::ProgressBar::new(n as f32/w.total as f32).text(format!("{n}/{} accepted steps",w.total)));
-                if ui.button("Cancel").clicked(){self.cancel();}
-            }
-            ui.add_space(8.0);ui.label(&self.status);ui.separator();
-            if let Some(r)=&self.running_request {
-                ui.label(format!("Results: {}³ cells, {} steps, dt ≤ 0.02 s, {} pressure accuracy",r.size,r.steps,if r.tight {"tight"}else{"standard"}));
-            }
-            egui::ScrollArea::vertical().show(ui,|ui|{
-                egui::Grid::new("results").striped(true).show(ui,|ui|{
-                    for h in ["Implementation","Step seconds","Iterations","Arrays MiB","Max divergence","Accepted time"]{ui.strong(h);}ui.end_row();
-                    for r in &self.rows {
-                        ui.label(r.method.id());ui.label(format!("{:.4}",r.seconds));ui.label(r.iterations.to_string());ui.label(format!("{:.3}",r.bytes as f64/1048576.0));ui.label(format!("{:.2e}",r.divergence));ui.label(format!("{:.6}",r.time));ui.end_row();
+        egui::TopBottomPanel::bottom("timeline")
+            .min_height(106.0)
+            .show(ctx, |ui| {
+                ui.horizontal(|ui| {
+                    if ui
+                        .button(if self.playing {
+                            "❚❚ Pause"
+                        } else {
+                            "▶ Play"
+                        })
+                        .clicked()
+                    {
+                        self.follow_live = false;
+                        self.playing = !self.playing;
+                        if self.timeline_step + 1 >= count {
+                            self.timeline_step = 0;
+                            self.play_time = 0.0;
+                        } else {
+                            self.play_time = frame.as_ref().map_or(0.0, |f| f.time);
+                        }
+                    }
+                    if ui.button("◀ Step").clicked() {
+                        self.follow_live = false;
+                        self.playing = false;
+                        self.timeline_step = self.timeline_step.saturating_sub(1);
+                    }
+                    if ui.button("Step ▶").clicked() {
+                        self.follow_live = false;
+                        self.playing = false;
+                        self.timeline_step = (self.timeline_step + 1).min(count.saturating_sub(1));
+                    }
+                    ui.checkbox(&mut self.follow_live, "Follow live");
+                    if self.follow_live {
+                        self.playing = false;
+                    }
+                    ui.add(
+                        egui::DragValue::new(&mut self.playback_speed)
+                            .speed(0.1)
+                            .range(0.1..=4.0)
+                            .suffix("× playback"),
+                    );
+                    if let Some(request) = &self.running_request
+                        && request.material.is_none()
+                    {
+                        egui::ComboBox::from_id_salt("timeline-track")
+                            .selected_text(request.methods[self.track].id())
+                            .show_ui(ui, |ui| {
+                                for (track, method) in request.methods.iter().enumerate() {
+                                    if ui
+                                        .selectable_value(&mut self.track, track, method.id())
+                                        .clicked()
+                                    {
+                                        self.follow_live = false;
+                                        self.playing = false;
+                                        self.timeline_step = 0;
+                                    }
+                                }
+                            });
                     }
                 });
-                ui.add_space(16.0);
-                ui.horizontal_wrapped(|ui|{
-                    for (r,texture) in self.rows.iter().zip(&self.textures){ui.vertical(|ui|{ui.label(r.method.label());ui.add(egui::Image::new(texture).fit_to_exact_size(egui::vec2(240.0,240.0)));});}
-                });
+                ui.style_mut().spacing.slider_width = (ui.available_width() - 155.0).max(150.0);
+                if ui
+                    .add_enabled(
+                        count > 0,
+                        egui::Slider::new(&mut self.timeline_step, 0..=count.saturating_sub(1))
+                            .text("Step"),
+                    )
+                    .changed()
+                {
+                    self.follow_live = false;
+                    self.playing = false;
+                }
+                if let Some(frame) = &frame {
+                    ui.horizontal(|ui| {
+                        ui.label(format!(
+                            "{} · Step {} / {}",
+                            if frame.material_color.is_some() {
+                                "Material fluid"
+                            } else {
+                                frame.method.id()
+                            },
+                            frame.step,
+                            count.saturating_sub(1)
+                        ));
+                        ui.separator();
+                        ui.label(format!("Simulated {}", settings::duration(frame.time)));
+                        ui.separator();
+                        ui.label(if frame.step == 0 {
+                            "Initial state".into()
+                        } else {
+                            format!("Step calculation {}", settings::duration(frame.seconds))
+                        });
+                        if let Some(r) = frame.particle_report {
+                            ui.separator();
+                            ui.label(format!(
+                                "{} particles · {:.6} kg · {:.1} °C",
+                                r.particles,
+                                r.total_mass,
+                                r.mean_temperature_kelvin - 273.15
+                            ));
+                        }
+                        if let Some(report) = frame.report {
+                            ui.separator();
+                            ui.label(format!(
+                                "{} pressure iterations · divergence {:.2e}",
+                                report.pressure.iterations, report.actual_divergence_max
+                            ));
+                        }
+                    });
+                }
             });
-            ui.separator();ui.label("+Z opacity guidance, +Y upward. Pressure accuracy is not physical ground truth. Memory excludes process/renderer overhead. No real-time or full 3D-viewer claim.");
-        });
-        if self.worker.is_some() {
-            ctx.request_repaint_after(Duration::from_millis(50));
+        let workers = if self.follow_live && self.show_workers {
+            self.worker
+                .as_ref()
+                .and_then(|w| w.observer.as_ref())
+                .map_or_else(Vec::new, |o| o.snapshot())
+        } else {
+            Vec::new()
+        };
+        let domain_side = self
+            .running_request
+            .as_ref()
+            .map_or(self.domain_side, |r| r.domain_side);
+        self.viewport.domain_side = domain_side;
+        let emitter = self
+            .running_request
+            .as_ref()
+            .map_or(self.cylinder.then_some(self.emitter), |r| r.emitter)
+            .map(|mut e| {
+                e.center = e.center.map(|v| v / domain_side);
+                e.half_length /= domain_side;
+                e.radius /= domain_side;
+                e.nozzle_depth /= domain_side;
+                e
+            });
+        let grid = self.running_request.as_ref().map_or(self.size, |r| r.size) as usize;
+        let (_, frame) = self.selected_frame();
+        egui::CentralPanel::default()
+            .frame(egui::Frame::NONE)
+            .show(ctx, |ui| {
+                self.viewport.show(ui, frame, emitter, &workers, grid)
+            });
+        if self.worker.is_some() || self.playing {
+            ctx.request_repaint_after(Duration::from_millis(16));
         }
     }
 }
 impl Drop for App {
     fn drop(&mut self) {
-        // Normal window close waits asynchronously above; this is the final
-        // ownership backstop if the framework shuts down without another frame.
         if let Some(worker) = self.worker.take() {
             worker.cancel.store(true, Ordering::Relaxed);
             let _ = worker.handle.join();
@@ -306,19 +921,246 @@ impl Drop for App {
 }
 fn main() -> eframe::Result {
     eframe::run_native(
-        "Rheon comparison",
+        "Rheon / Live 3D",
         eframe::NativeOptions {
             viewport: egui::ViewportBuilder::default()
-                .with_inner_size([1100.0, 700.0])
-                .with_min_inner_size([800.0, 550.0]),
+                .with_inner_size([1250.0, 820.0])
+                .with_min_inner_size([900.0, 650.0]),
             ..Default::default()
         },
-        Box::new(|_| Ok(Box::new(App::default()))),
+        Box::new(|cc| {
+            let mut style = (*cc.egui_ctx.style()).clone();
+            style.visuals = egui::Visuals::dark();
+            style.visuals.selection.bg_fill = egui::Color32::from_rgb(22, 98, 138);
+            style.spacing.item_spacing = egui::vec2(8.0, 7.0);
+            cc.egui_ctx.set_style(style);
+            Ok(Box::new(App::default()))
+        }),
     )
 }
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn material_worker_accepts_and_captures_a_genuine_256_cube_preview() {
+        let request = Request {
+            size: 256,
+            steps: 1,
+            tight: false,
+            threads: available_threads().min(2),
+            methods: vec![PressureImplementation::default()],
+            emitter: Some(RotatingCylinderEmitter {
+                radius: 0.2,
+                pressure_heads: [100000.0; 2],
+                ..RotatingCylinderEmitter::default()
+            }),
+            observe: true,
+            history_budget_mib: 96,
+            domain_side: 1.0,
+            requested_dt: 0.02,
+            material: Some(rheon::ParticleFluidConfig::default()),
+            material_color: [85, 190, 245],
+            progress_gate: None,
+        };
+        let worker = Worker::start(request).unwrap();
+        wait_until(|| worker.handle.is_finished());
+        let history = Arc::clone(&worker.history);
+        assert_eq!(worker.handle.join().unwrap().unwrap().len(), 1);
+        let (count, frame) = history.view(0, 0, true).unwrap();
+        let frame = frame.unwrap();
+        assert_eq!(count, 2);
+        assert_eq!(frame.edge, 256);
+        assert_eq!(frame.density.len(), 256_usize.pow(3));
+        assert!(frame.density.iter().any(|v| *v > 0));
+    }
+    #[test]
+    fn sidebar_sections_collapse_and_preserve_their_state_through_real_egui_input() {
+        let ctx = egui::Context::default();
+        ctx.style_mut(|s| s.animation_time = 0.0);
+        let mut app = App::default();
+        let render = |app: &mut App, events| {
+            ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(
+                        egui::Pos2::ZERO,
+                        egui::vec2(900.0, 1500.0),
+                    )),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    egui::CentralPanel::default().show(ctx, |ui| app.controls(ui));
+                },
+            )
+        };
+        let text = |output: &egui::FullOutput| {
+            output
+                .shapes
+                .iter()
+                .filter_map(|s| match &s.shape {
+                    egui::Shape::Text(t) => {
+                        Some((t.galley.job.text.clone(), t.pos + t.galley.size() * 0.5))
+                    }
+                    _ => None,
+                })
+                .collect::<Vec<_>>()
+        };
+        render(&mut app, vec![]);
+        let visible = text(&render(&mut app, vec![]));
+        assert!(visible.iter().any(|(t, _)| t == "Viscosity"));
+        assert!(!visible.iter().any(|(t, _)| t == "Domain side"));
+        for (section, child, open) in [
+            ("Fluid material", "Viscosity", false),
+            ("Domain & environment", "Domain side", true),
+        ] {
+            let pos = text(&render(&mut app, vec![]))
+                .into_iter()
+                .find(|(t, _)| t == section)
+                .unwrap()
+                .1;
+            for pressed in [true, false] {
+                render(
+                    &mut app,
+                    vec![
+                        egui::Event::PointerMoved(pos),
+                        egui::Event::PointerButton {
+                            pos,
+                            button: egui::PointerButton::Primary,
+                            pressed,
+                            modifiers: egui::Modifiers::default(),
+                        },
+                    ],
+                );
+            }
+            for _ in 0..2 {
+                assert_eq!(
+                    text(&render(&mut app, vec![]))
+                        .iter()
+                        .any(|(t, _)| t == child),
+                    open
+                );
+            }
+        }
+    }
+    #[test]
+    fn material_worker_publishes_live_frames_and_retains_immutable_physical_scale() {
+        let (reached, first_step) = std::sync::mpsc::sync_channel(1);
+        let (release, resume) = std::sync::mpsc::sync_channel(1);
+        let request = Request {
+            size: 32,
+            steps: 64,
+            tight: false,
+            threads: available_threads().min(4),
+            methods: vec![PressureImplementation::default()],
+            emitter: Some(RotatingCylinderEmitter {
+                radius: 0.2,
+                pressure_heads: [100000.0; 2],
+                ..RotatingCylinderEmitter::default()
+            }),
+            observe: true,
+            history_budget_mib: 96,
+            domain_side: 1.0,
+            requested_dt: 0.02,
+            material: Some(rheon::ParticleFluidConfig::default()),
+            material_color: [85, 190, 245],
+            progress_gate: Some(Arc::new(ProgressGate {
+                reached,
+                release: std::sync::Mutex::new(resume),
+            })),
+        };
+        let worker = Worker::start(request.clone()).unwrap();
+        let mut app = App::default();
+        app.running_request = Some(request);
+        app.history = Some(Arc::clone(&worker.history));
+        app.worker = Some(worker);
+        first_step.recv_timeout(Duration::from_secs(10)).unwrap();
+        let (_, frame) = app.selected_frame();
+        let frame = frame.unwrap();
+        assert!(frame.particle_report.is_some());
+        assert!(frame.report.is_none());
+        assert!(!app.worker.as_ref().unwrap().handle.is_finished());
+        app.follow_live = false;
+        app.timeline_step = 0;
+        release.send(()).unwrap();
+        wait_until(|| app.worker.as_ref().unwrap().handle.is_finished());
+        app.poll(&egui::Context::default());
+        let (count, frame) = app.selected_frame();
+        assert_eq!(count, 65);
+        assert_eq!(frame.unwrap().time, 0.0);
+        assert_eq!(app.rows.len(), 1);
+        assert!(app.rows[0].particle_report.unwrap().total_mass > 0.0);
+        let (_, latest) = app.history.as_ref().unwrap().view(0, 0, true).unwrap();
+        assert!(latest.unwrap().density.iter().any(|value| *value > 0));
+        app.domain_side = 0.1;
+        assert_eq!(app.running_request.as_ref().unwrap().domain_side, 1.0);
+    }
+    #[test]
+    fn live_emitter_frames_arrive_before_join_and_scrubbing_survives_background_work() {
+        let (reached, first_step) = std::sync::mpsc::sync_channel(1);
+        let (release, resume) = std::sync::mpsc::sync_channel(1);
+        let request = Request {
+            size: 32,
+            steps: 3,
+            tight: false,
+            threads: available_threads().min(2),
+            methods: vec![PressureImplementation::SymmetricGaussSeidelPcgV1],
+            emitter: Some(RotatingCylinderEmitter::default()),
+            observe: true,
+            history_budget_mib: 96,
+            domain_side: 1.0,
+            requested_dt: 0.02,
+            material: None,
+            material_color: [85, 190, 245],
+            progress_gate: Some(Arc::new(ProgressGate {
+                reached,
+                release: std::sync::Mutex::new(resume),
+            })),
+        };
+        let worker = Worker::start(request.clone()).unwrap();
+        let mut app = App::default();
+        app.history = Some(Arc::clone(&worker.history));
+        app.worker = Some(worker);
+        app.running_request = Some(request);
+        first_step.recv_timeout(Duration::from_secs(10)).unwrap();
+        assert!(!app.worker.as_ref().unwrap().handle.is_finished());
+        let (count, frame) = app.selected_frame();
+        assert_eq!(count, 2);
+        let frame = frame.unwrap();
+        assert_eq!(frame.step, 1);
+        assert!(frame.seconds > 0.0);
+        assert!(frame.density.iter().any(|v| *v > 0));
+        assert!(frame.report.is_some());
+        app.follow_live = false;
+        app.timeline_step = 0;
+        release.send(()).unwrap();
+        wait_until(|| app.worker.as_ref().unwrap().handle.is_finished());
+        app.poll(&egui::Context::default());
+        let (count, held) = app.selected_frame();
+        assert_eq!(count, 4);
+        assert_eq!(held.unwrap().step, 0);
+        app.follow_live = true;
+        assert_eq!(app.selected_frame().1.unwrap().step, 3);
+        assert_eq!(app.rows.len(), 1);
+    }
+    #[test]
+    fn automatic_threads_follow_hardware_and_manual_counts_stay_within_the_limit() {
+        let mut app = App::default();
+        assert!(app.automatic_threads);
+        assert_eq!(app.threads, available_threads());
+        app.refresh_threads(24);
+        assert_eq!((app.threads, app.thread_limit), (24, 24));
+        app.automatic_threads = false;
+        app.threads = 12;
+        app.refresh_threads(32);
+        assert_eq!((app.threads, app.thread_limit), (12, 32));
+        app.refresh_threads(4);
+        assert_eq!((app.threads, app.thread_limit), (4, 4));
+        app.automatic_threads = true;
+        app.refresh_threads(16);
+        assert_eq!((app.threads, app.thread_limit), (16, 16));
+        app.refresh_threads(0);
+        assert_eq!((app.threads, app.thread_limit), (1, 1));
+    }
     fn wait_until(mut condition: impl FnMut() -> bool) {
         let deadline = Instant::now() + Duration::from_secs(10);
         while !condition() {
@@ -331,13 +1173,22 @@ mod tests {
         let mut app = App::default();
         app.size = 8;
         app.steps = 4;
+        app.cylinder = false;
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
             size: app.size,
             steps: app.steps,
             tight: app.tight,
+            threads: app.threads,
             methods: PressureImplementation::ALL.to_vec(),
+            emitter: None,
+            observe: false,
+            history_budget_mib: 96,
+            domain_side: 1.0,
+            requested_dt: 0.02,
+            material: None,
+            material_color: [85, 190, 245],
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
@@ -364,6 +1215,7 @@ mod tests {
         assert!(app.status.contains("Cancelled { stage:"));
         app.size = 4;
         app.steps = 2;
+        app.cylinder = false;
         app.selected = PressureImplementation::SymmetricGaussSeidelPcgV1;
         app.start(false);
         wait_until(|| app.worker.as_ref().unwrap().handle.is_finished());
@@ -387,9 +1239,12 @@ mod tests {
         });
         let mut app = App::default();
         app.worker = Some(Worker {
+            scheduler: rheon::CpuScheduler::new(),
             cancel: Arc::clone(&cancel),
             progress: Arc::new(AtomicUsize::new(0)),
             total: 1,
+            history: LiveHistory::new(4, 1, 1).unwrap(),
+            observer: None,
             handle,
         });
         drop(app);
@@ -402,7 +1257,15 @@ mod tests {
             size: 8,
             steps: 4,
             tight: false,
+            threads: available_threads().min(4),
             methods: PressureImplementation::ALL.to_vec(),
+            emitter: None,
+            observe: false,
+            history_budget_mib: 96,
+            domain_side: 1.0,
+            requested_dt: 0.02,
+            material: None,
+            material_color: [85, 190, 245],
             progress_gate: None,
         };
         let progress = AtomicUsize::new(0);
@@ -422,7 +1285,15 @@ mod tests {
                     size: 8,
                     steps: 4,
                     tight: false,
+                    threads: available_threads().min(4),
                     methods: PressureImplementation::ALL.to_vec(),
+                    emitter: None,
+                    observe: false,
+                    history_budget_mib: 96,
+                    domain_side: 1.0,
+                    requested_dt: 0.02,
+                    material: None,
+                    material_color: [85, 190, 245],
                     progress_gate: None
                 },
                 &AtomicBool::new(true),
@@ -436,6 +1307,7 @@ mod tests {
         let mut app = App::default();
         app.size = 8;
         app.steps = 4;
+        app.cylinder = false;
         app.start(false);
         let token = Arc::clone(&app.worker.as_ref().unwrap().cancel);
         app.start(true);
@@ -447,6 +1319,7 @@ mod tests {
         let mut app = App::default();
         app.size = 4;
         app.steps = 2;
+        app.cylinder = false;
         app.start(false);
         let deadline = Instant::now() + Duration::from_secs(10);
         while !app.worker.as_ref().unwrap().handle.is_finished() {
