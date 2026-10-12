@@ -37,6 +37,10 @@ path = "src/bin/rheon-desktop.rs"
 required-features = ["desktop"]
 
 [[example]]
+name = "scheduling_lab"
+required-features = ["work-observation"]
+
+[[example]]
 name = "liquid_step"
 required-features = ["png-export"]
 

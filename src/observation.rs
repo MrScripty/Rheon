@@ -10,6 +10,7 @@ pub enum CalculationStage {
     Jacobi,
     SgsForward,
     SgsReverse,
+    Emitter,
     Reduction,
 }
 
@@ -103,7 +104,8 @@ mod enabled {
                         5 => CalculationStage::Jacobi,
                         6 => CalculationStage::SgsForward,
                         7 => CalculationStage::SgsReverse,
-                        8 => CalculationStage::Reduction,
+                        8 => CalculationStage::Emitter,
+                        9 => CalculationStage::Reduction,
                         _ => return None,
                     };
                     let [nx, ny, _] = self.counts;

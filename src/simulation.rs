@@ -62,6 +62,7 @@ pub enum SimulationError {
     BoundaryWorkspaceMismatch,
     InvalidConfig,
     InvalidSource,
+    InvalidEmitter,
     InvalidForce,
     Viscosity(crate::ViscosityError),
     InvalidTimeStep,
@@ -138,6 +139,7 @@ struct BoundaryStepInput<'a> {
     boundary: crate::BoxFluxStepBoundary,
 }
 struct StepDomains<'a> {
+    emitter: Option<crate::RotatingCylinderEmitter>,
     barrier: Option<&'a crate::TriangleSurface>,
     boundary: Option<BoundaryStepInput<'a>>,
     surface: Option<crate::column_surface::PressureSurface<'a>>,
@@ -332,6 +334,32 @@ impl Simulation {
         self.step_impl(requested_dt, source, forces, None, None, cancel)
             .map(|report| report.legacy.step)
     }
+    /// Prescribed rotating, pressure-head-driven two-ended nozzle. Pressure
+    /// projection and appearance transport retain the fixed-box model; the
+    /// visible cylinder is not a moving collision boundary. Failure preserves
+    /// accepted velocity, tracer, clock and generation together.
+    pub fn step_with_emitter(
+        &mut self,
+        requested_dt: f64,
+        emitter: crate::RotatingCylinderEmitter,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<StepReport, SimulationError> {
+        let outcome = self.prepare_impl(
+            requested_dt,
+            None,
+            &[],
+            StepDomains {
+                emitter: Some(emitter),
+                barrier: None,
+                boundary: None,
+                surface: None,
+                viscosity: None,
+            },
+            cancel,
+        )?;
+        self.commit_prepared(&outcome);
+        Ok(outcome.legacy.step.step)
+    }
     /// Opt-in static passive-tracer barrier; velocity/pressure remain the fixed
     /// box model. None preserves the legacy kernel and exact callback sequence.
     /// Surface geometry is borrowed for this call and its stamp is reported only
@@ -389,6 +417,7 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                emitter: None,
                 barrier,
                 boundary,
                 surface: None,
@@ -415,6 +444,7 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                emitter: None,
                 barrier: None,
                 surface,
                 viscosity,
@@ -524,6 +554,7 @@ impl Simulation {
         mut cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         let StepDomains {
+            emitter,
             barrier,
             mut boundary,
             surface,
@@ -539,6 +570,12 @@ impl Simulation {
             validate_source(&self.grid, s)?;
         }
         let external_rate = crate::forces::validate(&self.grid, self.config.density, forces)?;
+        let emitter_rate = if let Some(emitter) = emitter {
+            emitter.axis_at(self.time)?;
+            emitter.validate(&self.grid, self.config.density)?
+        } else {
+            0.0
+        };
         if let Some(input) = &boundary
             && !input
                 .workspace
@@ -599,14 +636,20 @@ impl Simulation {
         } else {
             velocity_rate(self.accepted.velocity(), h)?
         };
-        let acceleration =
-            source.map_or(0.0, |s| s.vertical_acceleration.abs() / h[1]) + external_rate;
+        let acceleration = source.map_or(0.0, |s| s.vertical_acceleration.abs() / h[1])
+            + external_rate
+            + emitter_rate;
         if !acceleration.is_finite() {
             return Err(SimulationError::ArithmeticFailure);
         }
         // Split the displacement budget equally between old speed and forcing.
         // A smaller dt is a declared policy, not a proof of solver stability.
         let mut dt = requested_dt;
+        if let Some(emitter) = emitter
+            && emitter.rotations_per_second != 0.0
+        {
+            dt = dt.min(0.125 / emitter.rotations_per_second.abs());
+        }
         if rate > 0.0 {
             dt = dt.min(0.5 * self.config.max_courant / rate);
         }
@@ -646,6 +689,17 @@ impl Simulation {
         }
         if let Some(s) = source {
             apply_force(&self.grid, &mut self.candidate.y, s, dt)?;
+        }
+        if let Some(emitter) = emitter {
+            checkpoint(&mut cancel, StepStage::BeforeForces)?;
+            emitter.apply_velocity(
+                &self.grid,
+                self.config.density,
+                self.time + dt * 0.5,
+                dt,
+                self.candidate.velocity_mut(),
+                &mut cancel,
+            )?;
         }
         if let Some(work) = &mut boundary_work {
             work.kinetic_after_smoke_force = crate::box_flux_step::interior_energy(
@@ -821,6 +875,15 @@ impl Simulation {
         };
         if let Some(s) = source {
             apply_source(&self.grid, &mut self.candidate.tracer, s, dt)?;
+        }
+        if let Some(emitter) = emitter {
+            emitter.apply_tracer(
+                &self.grid,
+                self.time + dt * 0.5,
+                dt,
+                &mut self.candidate.tracer,
+                &mut cancel,
+            )?;
         }
         let tracer_sum = self
             .candidate

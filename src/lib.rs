@@ -53,6 +53,8 @@ pub use simulation::{
 };
 mod forces;
 pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepReport};
+mod emitter;
+pub use emitter::RotatingCylinderEmitter;
 #[cfg(feature = "png-export")]
 mod export;
 #[cfg(feature = "png-export")]

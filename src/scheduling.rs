@@ -7,7 +7,7 @@ use std::{
     time::Instant,
 };
 
-const STAGES: usize = 8;
+const STAGES: usize = 9;
 const MIN_BATCH: usize = 64;
 const MAX_BATCH: usize = 16 * 1024;
 const RETUNE_CALLS: usize = 128;
