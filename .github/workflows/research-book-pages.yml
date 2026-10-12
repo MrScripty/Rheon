@@ -14,7 +14,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 60
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       # Ubuntu's packaged AppArmor profile permits Chrome's sandbox at this path.
