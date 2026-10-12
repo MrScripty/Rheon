@@ -1,0 +1,336 @@
+{
+  "schema": "rheon-teaching-screenshots-v2",
+  "capture_source_commit": "db9781a1a26e43bd73fb08995fdc855d42978c12",
+  "capture_source_clean": true,
+  "source_tree": "9e4d034fcb29163fd92ceb5119d97747bf57c04d",
+  "browser": "Chromium 151.0.7922.173",
+  "renderer": "headless Chromium with SwiftShader WebGL2",
+  "permission": "The user explicitly requested repository-hosted screenshots. These unaltered documentation images are a narrow exception to the external-only generated-output policy.",
+  "scope": "Actual fixed native fixtures via WebAssembly, not recorded playback. All numerical fields remain external. Images alone do not qualify a solver.",
+  "capture_scripts": [
+    "docs/education/flow_browser.py",
+    "docs/education/timestep_browser.py"
+  ],
+  "compact_capture_method": "Actual Run button through capped step80; normal pointer orbit, camera reset and viewport resize; direct unaltered browser JPEG85 screenshots. No source, response, tensor, renderer or worker overrides.",
+  "files": {
+    "desktop-flow-reading.jpg": {
+      "capture_filename": "flow-desktop-accepted-front.jpg",
+      "sha256": "25fa099fd42d68b81526af768eda107a1155c00707badfcf1d625e55e6ad3116",
+      "bytes": 164276,
+      "pixels": [
+        1440,
+        1050
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "Desktop chapter list, text, and sticky computed volume at the final SGS state.",
+      "computed_state": {
+        "method": "sgs-pcg-v1",
+        "accepted_steps": 80,
+        "time": 1.4453621427417152,
+        "generation": 80,
+        "field_sha256": "35129fd1e739910489f6ca4b178f889fb117412fd34b84dcc0b24efb1e51ae30",
+        "camera": [
+          1.5,
+          1.0999999999999999,
+          1.8500000000000003
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1050
+        }
+      },
+      "phone_context": "desktop context; viewport emulation"
+    },
+    "desktop-flow-compact.jpg": {
+      "capture_filename": "flow-compact-1440-default.jpg",
+      "sha256": "f34ac89416e539f7e489c5e4418a02d63022fe4bc3856e537b7d25466a4f63b2",
+      "bytes": 50062,
+      "pixels": [
+        1440,
+        1050
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "Compact entry point with actual Jacobi step 80 and default camera.",
+      "computed_state": {
+        "method": "jacobi-pcg-v1",
+        "accepted_steps": 80,
+        "time": 1.4453621354903827,
+        "generation": 80,
+        "field_sha256": "bcfe55e6c461fd5cd6963effd12ce03c4db623428cf3d1c57fbe09cd0a592817",
+        "camera": [
+          1.5,
+          1.0999999999999999,
+          1.8500000000000003
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1050
+        }
+      },
+      "phone_context": "desktop context; viewport emulation"
+    },
+    "desktop-flow-orbit.jpg": {
+      "capture_filename": "flow-compact-1440-alternate.jpg",
+      "sha256": "b0c62fb11412aa98f134a0934583a2b47a6c190fb3698a667414895a822b451f",
+      "bytes": 48396,
+      "pixels": [
+        1440,
+        1050
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "The same Jacobi fields and time after manual camera orbit.",
+      "computed_state": {
+        "method": "jacobi-pcg-v1",
+        "accepted_steps": 80,
+        "time": 1.4453621354903827,
+        "generation": 80,
+        "field_sha256": "bcfe55e6c461fd5cd6963effd12ce03c4db623428cf3d1c57fbe09cd0a592817",
+        "camera": [
+          -1.3509950249272613,
+          0.5886946105230754,
+          2.1704264784053104
+        ],
+        "viewport": {
+          "width": 1440,
+          "height": 1050
+        }
+      },
+      "phone_context": "desktop context; viewport emulation"
+    },
+    "phone-flow-example.jpg": {
+      "capture_filename": "flow-phone-390-accepted-example.jpg",
+      "sha256": "0485ac8309678e44d5a5b92ddb87fa1019310e6b27d81222fcc219eed6482cdb",
+      "bytes": 38453,
+      "pixels": [
+        390,
+        844
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "390px Example view of the actual final SGS state.",
+      "computed_state": {
+        "method": "sgs-pcg-v1",
+        "accepted_steps": 80,
+        "time": 1.4453621427417152,
+        "generation": 80,
+        "field_sha256": "35129fd1e739910489f6ca4b178f889fb117412fd34b84dcc0b24efb1e51ae30",
+        "camera": [
+          1.5,
+          1.0999999999999999,
+          1.8500000000000003
+        ],
+        "viewport": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      "phone_context": "desktop context resized; viewport emulation"
+    },
+    "phone-flow-split.jpg": {
+      "capture_filename": "flow-phone-320-accepted-split.jpg",
+      "sha256": "1df15a47406a24ea110fda151aae9e36d055e49799e6c2b00c8a036681c762a7",
+      "bytes": 44765,
+      "pixels": [
+        320,
+        844
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "320px Split view with readable explanation and the same final SGS state.",
+      "computed_state": {
+        "method": "sgs-pcg-v1",
+        "accepted_steps": 80,
+        "time": 1.4453621427417152,
+        "generation": 80,
+        "field_sha256": "35129fd1e739910489f6ca4b178f889fb117412fd34b84dcc0b24efb1e51ae30",
+        "camera": [
+          1.3473603756109598,
+          1.0999999999999999,
+          1.9639551976136052
+        ],
+        "viewport": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "phone_context": "desktop context resized; viewport emulation"
+    },
+    "phone-flow-compact.jpg": {
+      "capture_filename": "flow-compact-320-default.jpg",
+      "sha256": "8f3a169c068a486b56b68493d00c2eaf3f93ba1a5b38011bb052c57a3c61b782",
+      "bytes": 29868,
+      "pixels": [
+        320,
+        844
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "Compact 320px view of the same Jacobi step 80; full domain framing retained.",
+      "computed_state": {
+        "method": "jacobi-pcg-v1",
+        "accepted_steps": 80,
+        "time": 1.4453621354903827,
+        "generation": 80,
+        "field_sha256": "bcfe55e6c461fd5cd6963effd12ce03c4db623428cf3d1c57fbe09cd0a592817",
+        "camera": [
+          1.4999999999844285,
+          1.0999999999964394,
+          1.8500000000147467
+        ],
+        "viewport": {
+          "width": 320,
+          "height": 844
+        }
+      },
+      "phone_context": "desktop context; viewport emulation"
+    },
+    "desktop-timestep.jpg": {
+      "capture_filename": "timestep-desktop-accepted.jpg",
+      "sha256": "547a40b7fccf9c9583851686fde2c8f5eedba59f56637b1720bf6cbb1455b9ec",
+      "bytes": 201817,
+      "pixels": [
+        1440,
+        1050
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "Native one-timestep lesson with accepted state, after native reset/retry under SGS.",
+      "computed_state": {
+        "method": "sgs-pcg-v1",
+        "accepted_steps": 1,
+        "time": 0.25,
+        "native_reference_case": "after_reset",
+        "complete_native_outcome_exact": true,
+        "generation": 3,
+        "time_bits": "3fd0000000000000",
+        "field_sha256": "ec3b58ac1b97fa4c102c8341fce929862e73521d89e68e16d9df3468eb17a071"
+      }
+    },
+    "phone-timestep-metrics.jpg": {
+      "capture_filename": "timestep-phone-320-table-metrics.jpg",
+      "sha256": "8714e55714ee84a7f1033651d81e2eed232fc4f9159cdd1cc39e94d827927096",
+      "bytes": 43663,
+      "pixels": [
+        320,
+        844
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "320px native Jacobi timestep comparison with all three face-table columns and measured ledger.",
+      "computed_state": {
+        "method": "jacobi-pcg-v1",
+        "accepted_steps": 1,
+        "time": 0.25,
+        "generation": 1,
+        "complete_native_outcome_exact": true,
+        "time_bits": "3fd0000000000000",
+        "field_sha256": "ec3b58ac1b97fa4c102c8341fce929862e73521d89e68e16d9df3468eb17a071",
+        "native_reference_case": "accepted"
+      },
+      "phone_context": "Chromium mobile/touch emulation; not a physical device"
+    }
+  },
+  "flow_source_sha256": {
+    "flow_labs.js": "7db6ce68eb3fbd62ea60dea2d07ba3d37326c8b9474fdf7f2f071133dc20e256",
+    "flow_worker.js": "bf6acd31eecd19e9c411154527912bda28635f2ca62b8a6583da19807e448911",
+    "flow_volume.js": "bc44123212fb31e7dece88261221288549000ea00bac19840a627b902432656e",
+    "flow-source.rs": "dce9c79650a69a423ad5bec33cc679274c03471c25639f6be9a353dc5804cdb7"
+  },
+  "flow_packet_hashes": {
+    "rheon_solver.js": "34cc1193aedd4006ed67cf253fea25e56f7476b05ad86fa5e96e4d46e7fa8012",
+    "rheon_solver_bg.wasm": "919451d9190d1ee070d57710618024deee22a547ebefc54cf705624f9a895200",
+    "native-flow-reference.json": "75018ce044323e2aa6656ef47cf36e5aa4ec1c85a4885665ae71eea6de034d16",
+    "native-flow-fields.bin": "834a8d7600d29a5f7f2b1575d3b6b6e37d9b8d68d347ae2101a158c49ddd2641",
+    "build-receipt.json": "a251ce41f3ab92d9a6614f4f6ef600274ce15eef49db6851623ca93615cfde92"
+  },
+  "qualification": {
+    "whole_book_receipt_sha256": "791b2fdb213fb68b2f9bbc7e54b71817f7ca1b0ca3282ddc04d236598bd6c546",
+    "reading_pdf_sha256": "a75f6b68ee37bccec02bb1cb09d5e5cd01758c565735c09a3f15ebcb74975b79",
+    "native_reference_states": 172,
+    "browser_flow_states": 162,
+    "flow_steps_per_full_pass": 160,
+    "browser_timestep_states": 72,
+    "timestep_steps_per_full_pass": 7,
+    "full_fields_bits_and_reports_match_native": true,
+    "independent_tensor_diagnostics": true,
+    "render_oracles": {
+      "affine_indexing_probes": 5,
+      "beer_lambert_probes": 3,
+      "gpu_alpha_probes": 6,
+      "gpu_paths": [
+        "hardware-linear",
+        "manual-trilinear"
+      ],
+      "actual_shader_alpha": true,
+      "extreme_coordinate_probes": 2
+    },
+    "mobile_widths": [
+      390,
+      320
+    ],
+    "page_errors": [],
+    "http_failures": [],
+    "compact_receipt_sha256": "57f2e235682f1bc90a4ff21af04f725073cdeece9423667d52246247ebea440a",
+    "compact_additional_advances": {
+      "flow_successful_capture_run": 80,
+      "flow_prior_capture_attempt": 80,
+      "flow_total": 160,
+      "timestep": 1,
+      "main_flow_qualification_counted_separately": 160
+    },
+    "attempt_note": "An initial whole-book run timed out in the existing sampler during concurrent software-WebGL capture. All 12 sampler states passed in isolated reproduction; the unchanged serialized full run passed. A compact capture attempt also stopped on an unnecessarily strict camera comparison; measured damping drift 2.6051e-9 passed the established camera tolerance and the complete capture rerun passed.",
+    "pdf_visual_inspection": {
+      "pages": [
+        1,
+        48,
+        50
+      ],
+      "page_count": 124,
+      "result": "legible cover, original Lean scope and Rust chapter; no clipping in inspected pages"
+    },
+    "independent_audit_sha256": "ef19fac03eef1dfb33a0a113dc10b6c67a38810352197868fe38f53683348c5c",
+    "independent_audit_scope": "48 compiled sources, 47 reviewed browser sources, 73 book sources, full native reference, served packet/source bindings and all main capture field/image hashes.",
+    "rust_contracts": {
+      "browser_adapter_release": 9,
+      "ignored": 0,
+      "core_force": 9,
+      "core_simulation": 9,
+      "adapter_clippy_all_targets": "pass"
+    },
+    "python_tests_normal_and_optimized": {
+      "packet": 12,
+      "flow_including_native": 13,
+      "timestep_including_browser_probes": 14,
+      "publication_gates": 18,
+      "pdf_freshness": 8
+    },
+    "timestep_native_reference_sha256": "6b42899524012284d7e4b81e5e3d02953c714c8febb014ff690215620b424712",
+    "read_only_publication_check": {
+      "passed": true,
+      "full_browser_reexecution": true,
+      "retained_pdf_and_receipts_unchanged": true,
+      "page_errors": [],
+      "http_failures": []
+    }
+  },
+  "science_limits": [
+    "Fixed 24-cubed constant-density appearance tracer; 80 accepted steps and 30-step source pulse.",
+    "Source outline denotes injection, not a solid obstacle. Only the stationary outer box is impermeable.",
+    "The tracer integral decreases about 16.35% after source cutoff; this is not conservative liquid volume.",
+    "No physical buoyancy, viscosity, free surface, coupled internal obstacle, resolved turbulence, or general browser performance claim.",
+    "Numerical/browser checks do not extend Lean claims; source inventories and original proof boundaries are preserved."
+  ],
+  "previous_captures_unchanged": true,
+  "pr42_branch_sha": "a2ebb8f11bcb65df0c70c45bfb8234d08b293a0a"
+}

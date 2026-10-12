@@ -1,8 +1,160 @@
 # Rheon GitHub Pages teaching edition
 
+## Reading with examples
+
+The desktop book places the chapter list at left, bounded-width text in the
+middle and a sticky 3D reference at right. The six-part laboratory page is a
+reading sequence: pressure correction, first mesh crossing, layered hydrostatics,
+viscous decay, wall slip, then equilibrium capillarity. Each lesson states a
+prediction, comparison and measurable limitation. The authored chapter text,
+citations, figures, Lean source and numerical generators remain unchanged.
+
+Scroll-linked examples cover chapters **3–7, 10, 14, 17, 19–25**: 15 of 25 chapters,
+with no scroll-linked appendix. This is partial topic coverage. The
+[coverage ledger](COVERAGE.md) lists every chapter and appendix, each source
+kind, and the remaining science and UI gaps. Heading-to-case bindings live in
+`teaching.py` and fail the build if an expected heading moves. The remaining
+chapters/appendices retain their text and source links. The native, obstacle and
+aligned-strain pages retain their existing qualified-packet gates. No absent
+packet is replaced with synthetic data or claimed as a live solver.
+
+In the original six lessons, scrolling selects an explicit saved case;
+projection recomputes the labelled blend. The sampling/transport sequence below
+recomputes its bounded teaching mechanisms. Changing a control pauses following.
+**Follow reading** resumes at the current section. Camera drag/arrow keys, zoom
+buttons and reset are independent of section changes. The wheel scrolls the
+page rather than zooming.
+On phones, **Text**, **Split** and **Example** select a readable text view,
+compact sticky example above the text, or the complete controls. In Split, the
+example panel scrolls internally to its controls and readouts.
+
+Checked proof bridges are compact disclosures. Opening their direct section
+links reveals the complete original statement. The print/PDF and Markdown
+editions keep the full source text. GUI renderer/orbit/lifecycle and scoped
+control theme reuse the pinned real browser viewer documented in
+[`browser/viewer/README.md`](../../browser/viewer/README.md).
+
+`teaching_browser.py` adds numerical and interaction comparisons to the existing
+browser qualification. New source files and shared viewer sources are bound by
+the browser receipt; changing them rejects stale qualification. Generated test
+screenshots, PDF and receipts stay outside Git. The explicitly requested
+[native timestep/computed-flow captures](screenshots/README.md#native-timestep-and-computed-flow)
+are a documented exception. They use clean implementation commit
+`db9781a1a26e43bd73fb08995fdc855d42978c12`, tree
+`9e4d034fcb29163fd92ceb5119d97747bf57c04d`; their
+[provenance](screenshots/research-book-native-flow/provenance.json) records
+actual state, source, packet, browser and image hashes. The compact desktop
+angles share identical computed fields and accepted time.
+The [earlier sampling/transport captures](screenshots/README.md#current-sampling-and-transport-lessons)
+and [historical six-reference captures](screenshots/README.md#historical-six-reference-checkpoint)
+remain unchanged with their original provenance. Phone captures are browser
+emulation, not physical devices. All images retain unaltered JPEG 85 bytes.
+PR42's native-app screenshots remain separate and unchanged. No publishing
+action is part of the build.
+
 The 25-chapter book, six appendices, implementation guides, locally rendered equations, displayed Lean source, six interactive 3D reference laboratories and the connected PR22–24 native wall/force sequence. Owner: Puma. The destination is repository GitHub Pages.
 
 The three native labs are recorded playback with distinct models: two finite Navier walls, compatible no-slip/mixed boundaries, and uniform tangential forcing with stationary no-slip walls. Their controls select saved cases/times; they do not recompute parameters or advance a live liquid simulator. The original six 3D labs remain separate analytical/stored mechanisms. The projection control displays an algebraic blend of two saved fields; camera motion only changes the view.
+
+## Recomputed sampling and transport lessons
+
+The generated `transport-labs.html` page adds a two-lesson sequence; `labs.html`
+retains the original six reference mechanisms. The browser kernel is
+[`transport_reference.js`](transport_reference.js), based on the existing
+[component-aware sampling fixture](../research-book/companion/depth_experiments.py)
+and [periodic transport formulas](../research-book/companion/experiments.py).
+
+First select cell/x/y/z sample locations, inspect eight donor weights and
+compare affine interpolation with direct evaluation. Deliberately using the
+cell offset for the original x-face fixture exposes its −0.07 bias. Then
+compare periodic linear transport, raw forward/backward correction and
+donor-bound fallback. Inspect profile error, extrema, sample-sum change and
+fallback activity; bounds alone do not establish conservation or convergence.
+Chapter 3 expands its layout discussion, while chapters 6 and 7 gain linked
+sampling, numerical-diffusion, limiting and refinement examples.
+
+**Sine · one period at Courant 0.5** sets the step count to twice the selected
+sample count, keeping the travelled period fixed for refinement comparisons.
+The six-sample witnesses display their fixed size explicitly. A compact plot
+legend remains visible in phone Split mode.
+
+`test_transport_reference.py` compares the actual JavaScript kernel with an
+independent Python/Fraction oracle, including reversion versus clamping and the
+four historical sine refinements. `transport_browser.py` compares 12 sampling
+states (96 donors), 10 transport states (30 fixed-scale curves), four tour stops,
+seven chapter stops, 11 desktop deep links and 390/320-pixel phone modes. Its
+receipt binds both published JavaScript modules and both companion source
+copies; the publication gate rejects missing checks or stale sources.
+
+These are browser-recomputed educational mechanisms. The native
+[tracer transport](../../src/advection.rs) uses midpoint sampling with a
+[fixed-box extension](../../src/sampling.rs); it has no corrected-advection
+fallback API. Native smoke/liquid stepping exists. The separate fixed force/projection
+lesson below now binds one existing native timestep; it does not turn these
+scalar teaching mechanisms into native advection. The existing aligned-strain page also recomputes an operator without
+advancing a fluid. See [precise proof boundaries and blockers](COVERAGE.md#proof-boundaries-and-remaining-blockers).
+
+## One real browser timestep
+
+`timestep-lab.html` and chapter 17 now share one fixed-box Rust integration
+fixture. A separate [adapter crate](../../browser/solver/README.md) compiles the
+unchanged core to WebAssembly and runs it in a Web Worker. **Run one step** calls
+`Simulation::step_with_forces`; scrolling, camera motion and reading modes never
+advance or reset native state. The fixed 2 × 2 × 1 force cycle starts from rest
+and admits one interval per reset. It compares four interior speeds against
+(⅛, −⅛, −⅛, ⅛) m/s, force-stage work ⅛ J and accepted energy 1/32 J.
+
+**Reject before commit** invokes the real native cancellation callback at a
+predetermined stage. It preserves all accepted field/time/generation bits,
+including after a nonzero accepted state. It is not an asynchronous interrupt.
+The UI displays actual residual/divergence reports, retains accepted values on
+rejection, and uses native reset semantics. No pressure samples are fabricated.
+
+The [capability audit and theory visualization roster](BROWSER_TIMESTEP.md)
+distinguish the now-supplied build/binding path from unavailable general physics.
+First-step advection acts on rest and tracer stays zero. No viscosity, interface,
+contact-line dynamics, parameterized grid or repeated trajectory is advertised.
+A source-only build states that the compiled packet is absent and disables its
+step controls. The browser gate compares actual WASM state with the independently
+derived cycle and a fresh host execution of the existing fixture for both methods.
+
+## Computed 3D source pulse
+
+`flow-lab.html` (or `flow-lab.html?view=example` for a compact embeddable view)
+and chapter 14 add a bounded 24³ native flow in the same worker
+build. **Run** advances accepted states asynchronously; **Pause** stops scheduling
+new steps (one already running step may finish). **Reset** clears native state.
+The source injects tracer for 30 steps and the experiment ends at 80 accepted
+steps. Actual time, grid size and progress remain visible; the numerical ledger
+and source links share one collapsed inspector. The camera survives accepted updates and reading-mode
+changes. No step starts on page load or section scroll.
+
+The volume uses the full accepted three-dimensional concentration tensor,
+trilinear display interpolation and a fixed opacity law. It contains no procedural
+noise, synthetic particle trajectory or inferred water surface. Inspect it from
+two angles at the same accepted time. The renderer reuses the real GUI camera,
+WebGL renderer and lifecycle without its normalized one-dimensional profile adapter.
+
+An optional overhead depth cue attenuates colour using the same concentration
+tensor; it leaves the fixed opacity integral unchanged. The optical-depth prefix
+is exact at cell centres for the vertically interpolated tracer and is interpolated
+between those centres for display. It is an appearance model, not calibrated
+light scattering. Six fixed seeds trace the instantaneous staggered velocity
+field, with a fixed 0–1 m/s colour scale. These frozen-field streamline overlays are not
+particle histories or physically scattered light. Both display layers can be switched off in the inspector
+without advancing or resetting native state. The responsive scene remains 24³;
+interpolation, lighting and canvas pixel density add no numerical resolution.
+
+The amber outline is the injection region. Fixed sealed domain walls are the
+only impermeable geometry in this timestep. Static-obstacle pressure is available
+separately but requires further composition before an advancing obstacle-flow
+demo is scientifically valid. Appearance tracer can lose total amount after the
+source turns off; inspect the measured change in the disclosure. No viscosity,
+physical buoyancy, free-surface or obstacle-coupled evolution is claimed.
+
+The host exporter retains full tensor references for both pressure methods.
+These external numerical artifacts are downloaded by qualification only; the
+interactive view computes its own states and does not load recorded fields.
 
 ## Build and preview outside Git
 
@@ -11,13 +163,17 @@ Requires Python 3.12, Pandoc 3.1.11.1, Node 24, the npm lock and `requirements.t
 ```bash
 export RHEON_EDITION=/tmp/rheon-edition
 export RHEON_ASSETS=/tmp/rheon-assets
+export RHEON_SOLVER=/tmp/rheon-solver
 export PYTHONDONTWRITEBYTECODE=1
 mkdir -p "$RHEON_ASSETS"
 cp docs/education/package.json docs/education/package-lock.json "$RHEON_ASSETS/"
 npm ci --prefix "$RHEON_ASSETS" --ignore-scripts --no-audit --no-fund
 python3 -m pip install -r docs/research-book/expansion/requirements.txt -r docs/research-book/companion/requirements.txt -r docs/education/requirements.txt
 python3 docs/education/generate_references.py
-python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules"
+rustup target add --toolchain 1.92.0 wasm32-unknown-unknown
+cargo +1.92.0 install wasm-bindgen-cli --version 0.2.105 --locked
+python3 docs/education/build_solver.py --output-dir "$RHEON_SOLVER"
+python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --solver-dir "$RHEON_SOLVER"
 python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
 python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
 python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"
@@ -42,7 +198,7 @@ The illustrated `Rheon-expanded-markdown.zip` includes companion figures, implem
 
 The expansion's older 42-public/60-audit receipt remains explicitly historical. Its exact-real finite-strain and planar-contact contracts retain their assumptions. The original Python reference source/data receipts are checked before building. Source-only/data-only changes, stale PDF/browser inputs, missing assets, broken controls and page errors reject publication.
 
-The [native progression](../research-book/implementation/native-wall-force-sequence.md) connects equations, units, conditional Lean claims and demos. The [requirements map](../research-book/implementation/requirements-roadmap.md) distinguishes existing box/liquid APIs from missing general mesh/interface composition. The bounded static closed box owner now supplies shared fluid volumes, open areas, connectivity and conservative flux. Obstacle pressure and wall stress must still consume that same owner before a fluid solve can be claimed.
+The [native progression](../research-book/implementation/native-wall-force-sequence.md) connects equations, units, conditional Lean claims and demos. The [requirements map](../research-book/implementation/requirements-roadmap.md) distinguishes existing box/liquid APIs from missing general mesh/interface composition. The bounded static closed box owner supplies shared fluid volumes, open areas, connectivity and conservative flux. [Sealed obstacle pressure and reduced periodic shear](../research-book/implementation/static-obstacle-flow.md) consume that owner with distinct boundary models; they do not compose a general moving-interface tensor-stress solver.
 
 
 ## Recorded static geometry laboratory

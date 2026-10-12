@@ -16,7 +16,7 @@ def input_hashes(repo):
     paths.update((book / 'expansion/figures').glob('*.svg'))
     paths.update((book / 'expansion/figures').glob('*.jpg'))
     paths.update(repo / 'docs/education' / name
-                 for name in ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json'])
+                 for name in ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json', 'teaching.py', 'reader.css'])
     return {str(p.relative_to(repo)): hashlib.sha256(p.read_bytes()).hexdigest()
             for p in sorted(paths)}
 
