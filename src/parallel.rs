@@ -38,7 +38,7 @@ pub(crate) fn try_for_each_chunk_mut<T: Send, E: Send>(
     operation: impl Fn(usize, &mut [T]) -> Result<(), E> + Send + Sync,
 ) -> Result<(), E> {
     #[cfg(feature = "parallel")]
-    if values.len() >= MIN_PARALLEL_VALUES && rayon::current_num_threads() > 1 {
+    if values.len() >= minimum_parallel_values(stage) && rayon::current_num_threads() > 1 {
         let run = crate::scheduling::BatchRun::new(stage, values.len(), preferred);
         let result = values
             .par_chunks_mut(run.batch)
@@ -52,6 +52,16 @@ pub(crate) fn try_for_each_chunk_mut<T: Send, E: Send>(
     // Retain the serial loop shape: no scheduling or chunk boundaries.
     let _ = (stage, preferred);
     operation(0, values)
+}
+
+#[cfg(feature = "parallel")]
+fn minimum_parallel_values(stage: CalculationStage) -> usize {
+    // Neighbor searches do substantially more work per item than grid vector
+    // passes, so sparse material scenes merit parallel work at a smaller size.
+    match stage {
+        CalculationStage::ParticleDensity | CalculationStage::ParticleForces => 512,
+        _ => MIN_PARALLEL_VALUES,
+    }
 }
 
 pub(crate) fn for_each_mut<T: Send>(

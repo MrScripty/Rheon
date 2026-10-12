@@ -12,6 +12,8 @@ pub enum CalculationStage {
     SgsReverse,
     Emitter,
     Reduction,
+    ParticleDensity,
+    ParticleForces,
 }
 
 #[cfg(feature = "work-observation")]
@@ -106,6 +108,8 @@ mod enabled {
                         7 => CalculationStage::SgsReverse,
                         8 => CalculationStage::Emitter,
                         9 => CalculationStage::Reduction,
+                        10 => CalculationStage::ParticleDensity,
+                        11 => CalculationStage::ParticleForces,
                         _ => return None,
                     };
                     let [nx, ny, _] = self.counts;

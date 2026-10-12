@@ -7,7 +7,7 @@ use std::{
     time::Instant,
 };
 
-const STAGES: usize = 9;
+const STAGES: usize = 11;
 const MIN_BATCH: usize = 64;
 const MAX_BATCH: usize = 16 * 1024;
 const RETUNE_CALLS: usize = 128;
@@ -17,6 +17,7 @@ thread_local! { static CURRENT: RefCell<Option<Arc<CpuScheduler>>> = const { Ref
 
 /// Last completed batch plan and smoothed wall cost for one numerical kernel.
 /// Tasks count the complete pass; SGS tasks become ready in dependent waves.
+/// Particle stages count material particles rather than domain voxels.
 #[derive(Clone, Copy, Debug)]
 pub struct BatchStatistics {
     pub stage: CalculationStage,

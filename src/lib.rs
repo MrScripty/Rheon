@@ -55,6 +55,12 @@ mod forces;
 pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepReport};
 mod emitter;
 pub use emitter::RotatingCylinderEmitter;
+mod material;
+pub use material::{DomainFill, FluidMaterial, FluidPhase, FluidPreset, ParticleFluidConfig};
+mod particle_fluid;
+pub use particle_fluid::{
+    FluidParticle, ParticleFluidError, ParticleFluidSimulation, ParticleStepReport,
+};
 #[cfg(feature = "png-export")]
 mod export;
 #[cfg(feature = "png-export")]
