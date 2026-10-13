@@ -6,8 +6,7 @@ The desktop book places the chapter list at left, bounded-width text in the
 middle and a sticky 3D reference at right. The six-part laboratory page is a
 reading sequence: pressure correction, first mesh crossing, layered hydrostatics,
 viscous decay, wall slip, then equilibrium capillarity. Each lesson states a
-prediction, comparison and measurable limitation. The authored chapter text,
-citations, figures, Lean source and numerical generators remain unchanged.
+prediction, comparison and measurable limitation. Chapters retain their citations, figures and exact Lean source links.
 
 Scroll-linked examples cover chapters **3–7, 9, 10, 14, 17, 19–25**: 16 of 25 chapters,
 with no scroll-linked appendix. This is partial topic coverage. The
@@ -67,8 +66,9 @@ state the predictions, independent checks and limits. No browser material solver
 CAD wall load, GPU performance or global stability claim is added.
 
 The continuation inventory contains 144 public theorem statements and 201
-explicit audit entries. Its fresh kernel status is recorded in
-`native-sequence.json`; PR43's prior 138-theorem/242-declaration receipt is
+explicit audit entries. Its pinned hosted build and 252-declaration axiom audit
+passed; `native-sequence.json` records the exact source binding. PR43's prior
+138-theorem/242-declaration receipt is
 preserved as historical evidence. Inventory matching alone is not a kernel pass.
 Chapter 9 adds an independently recomputed swept-volume geometry lesson; see
 the [coverage ledger](COVERAGE.md#pr43-continuation-one-face-liquid-volume).
