@@ -198,7 +198,15 @@ run_cmd do
     `Rheon.CpuScheduling.candidate_revisited_within_period,
     `Rheon.CpuScheduling.SuccessfulSerialTrace,
     `Rheon.CpuScheduling.successful_trace_count,
-    `Rheon.CpuScheduling.successful_trace_explores]
+    `Rheon.CpuScheduling.successful_trace_explores,
+    `Rheon.VolumeFlux.leftFlux,
+    `Rheon.VolumeFlux.rightFlux,
+    `Rheon.VolumeFlux.left_flux_bounds,
+    `Rheon.VolumeFlux.right_flux_bounds,
+    `Rheon.VolumeFlux.shared_transfer_conserves,
+    `Rheon.VolumeFlux.shared_transfer_bounds,
+    `Rheon.VolumeFlux.same_fraction_different_flux,
+    `Rheon.VolumeFlux.clamping_creates_volume]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

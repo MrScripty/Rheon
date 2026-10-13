@@ -12,6 +12,40 @@ concurrency:
   group: rheon-pages-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  volume-lesson:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      RHEON_CHROMIUM_EXECUTABLE: /opt/google/chrome/chrome
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Prepare source-only teaching edition
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+          python3 -m pip install -r docs/education/requirements.txt -r docs/research-book/expansion/requirements.txt
+          mkdir -p "$RUNNER_TEMP/volume-assets"
+          cp docs/education/package*.json "$RUNNER_TEMP/volume-assets/"
+          npm ci --prefix "$RUNNER_TEMP/volume-assets" --ignore-scripts --no-audit --no-fund
+          python3 -m unittest discover -s docs/education -p test_volume_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_volume_reference.py
+          python3 docs/education/generate_references.py
+          python3 docs/education/build.py --output-dir "$RUNNER_TEMP/volume-edition" --asset-dir "$RUNNER_TEMP/volume-assets/node_modules"
+      - name: Check volume controls and desktop/mobile rendering
+        run: python3 docs/education/volume_browser.py --output-dir "$RUNNER_TEMP/volume-edition"
+      - name: Retain volume lesson evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: volume-lesson-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/volume-evidence/
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
@@ -59,6 +93,8 @@ jobs:
         run: |
           python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
           python3 -O -m unittest discover -s docs/research-book/expansion -p test_reference.py
+          python3 -m unittest discover -s docs/education -p test_volume_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_volume_reference.py
           python3 docs/education/generate_references.py
           python3 docs/research-book/companion/cad_visualization_fixtures.py --output "$RUNNER_TEMP/rheon-cad-fixtures-normal.json"
           python3 -O docs/research-book/companion/cad_visualization_fixtures.py --output "$RUNNER_TEMP/rheon-cad-fixtures-optimized.json"
@@ -122,6 +158,7 @@ jobs:
           python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --obstacle-records-dir "$RHEON_OBSTACLE" --obstacle-flow-records-dir "$RHEON_FLOW" --aligned-strain-records-dir "$RHEON_STRAIN" --solver-dir "$RHEON_SOLVER"
           python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
           python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/volume_browser.py --output-dir "$RHEON_EDITION"
           RHEON_TIMESTEP_EDITION="$RHEON_EDITION" python3 -O -m unittest discover -s docs/education -p test_timestep_browser.py
       - name: Verify retained browser bindings and current Chromium laboratories
         run: |

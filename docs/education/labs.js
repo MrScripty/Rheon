@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {RecordedView} from './shared-viewer/view.js';
 import {createTransportLabs} from './transport_labs.js';
 import {createTimestepLab} from './timestep_labs.js';
+import {createVolumeLab} from './volume_labs.js';
 import {createFlowLab} from './flow_labs.js';
 const data=await (await fetch(new URL('./reference-data.json', import.meta.url))).json();
 const host=document.querySelector('#scene'), selector=document.querySelector('#lab');
@@ -44,6 +45,7 @@ function viscous(){const d=data.viscous;let selected=0,step=0;meta('4 · Viscosi
 function slip(){const d=data.slip;meta('5 · Slip changes traction','The upper wall moves at 1 m/s; the lower wall stays stationary. Change the lower Navier slip length.','Analytic steady Couette oracle with one slipping and one no-slip wall. Illustrative lengths are not material calibration.','24-slip-and-wall-friction');function draw(i){clear();floor();const q=d.sets[i];box([1.4,.03,.8],[0,-.5,0],colors.ink,.6);box([1.4,.03,.8],[0,.5,0],colors.ink,.6);for(let z of [-.3,0,.3])d.y.forEach((y,j)=>{if(j%2===0)arrow([-.3,y-.5,z],[q.velocity[j]*.5,0,0],colors.teal);});setMetrics([['Slip length',`${q.length} m`],['Fluid slip speed',`${fmt(q.velocity[0])} m/s`],['Lower-wall speed','0 m/s'],['Wall shear',`${fmt(q.shear)} Pa`],['Wall dissipation',`${fmt(q.relative_wall_dissipation)} W/m²`],['Wetting angle','independent']]);}choice('Lower-wall slip length',d.sets.map(q=>`${q.length} m${q.length===0?' · no-slip':''}`),0,draw);draw(0);}
 function cap(){const d=data.cap;let angle=12,tension=1;meta('6 · Wetting shape and capillary pressure','Change contact angle at fixed volume, then change tension. The tension changes pressure and adhesion work, while the zero-gravity cap geometry stays fixed.','Analytic equilibrium spherical cap, negligible gravity. No dynamic contact line, hysteresis, relaxation or liquid simulation is claimed.','23-wetting-and-adhesion');function draw(){clear();floor();const q=d.sets[angle],s=q.tensions[tension],scale=50;const geometry=new THREE.LatheGeometry(q.profile.map(p=>new THREE.Vector2(p[0]*scale,p[1]*scale)),64);const mesh=new THREE.Mesh(geometry,new THREE.MeshPhysicalMaterial({color:0x239bb5,roughness:.22,metalness:0,transparent:true,opacity:.72,side:THREE.DoubleSide}));mesh.position.y=-.5;world.add(mesh);const circle=new THREE.Mesh(new THREE.CircleGeometry(q.contact_radius*scale,64),new THREE.MeshStandardMaterial({color:colors.teal,transparent:true,opacity:.6,side:THREE.DoubleSide}));circle.rotation.x=-Math.PI/2;circle.position.y=-.499;world.add(circle);box([2,.02,2],[0,-.52,0],colors.ink,.25);setMetrics([['Contact angle',`${q.theta}°`],['Liquid volume',`${fmt(q.volume*1e6)} mL`],['Contact radius',`${fmt(q.contact_radius*1000)} mm`],['Surface tension',`${s.sigma} N/m`],['Pressure jump',`${fmt(s.pressure_jump)} Pa`],['Adhesion work',`${fmt(s.adhesion_work)} J/m²`],['Volume integral error',`${fmt(Math.abs(q.integrated_volume-q.volume))} m³`]]);}range('Equilibrium contact angle (30–150 degrees)',24,12,v=>{angle=v;draw();});choice('Surface tension',d.sets[0].tensions.map(q=>`${q.sigma} N/m`),1,v=>{tension=v;draw();});draw();}
 const expectations={
+ volume:'At f = 0.3 and c = 0.5, left-filled liquid transfers 0; right-filled liquid transfers 0.3 m³. The mixture estimate gives 0.15 in both cases. Removing the whole slab then clamping creates 0.2 m³.',
  projection:'Compare 0%, 50% and 100%: incidence falls linearly with the correction; the graph kinetic norm falls. The blend is not a solver iteration.',
  collision:'A path may have both endpoints outside and still hit. Compare crossing with near miss; a miss has no hit marker.',
  hydrostatic:'Increasing either layer density increases bottom pressure. All arrow lengths use one fixed scale; compare the formula and face-balance error.',
@@ -56,6 +58,7 @@ const expectations={
  timestep:'From rest, one accepted step gives interior speeds (+0.125, −0.125, −0.125, +0.125) m/s and kinetic energy 0.03125 J. Rejection before commit preserves every accepted field bit, time and generation. Scroll and camera controls never advance or reset the state.'
 };
 const labs={projection,collision,hydrostatic,viscous,slip,cap,...createTransportLabs({clear,line,dot,arrow,range,choice,meta,setMetrics,panel,setReference:q=>{reference=q;}})};
+labs.volume=createVolumeLab({clear,box,arrow,range,choice,meta,setMetrics,setReference:q=>{reference=q;}});
 labs.timestep=createTimestepLab({clear,line,dot,arrow,box,meta,setMetrics,panel,setReference:q=>{reference=q;},isActive:()=>selector.value==='timestep',manualChange});
 const flow=createFlowLab({clear,meta,setMetrics,panel,setReference:q=>{reference=q;},isActive:()=>selector.value==='flow',manualChange,view});
 labs.flow=flow;
@@ -63,21 +66,23 @@ let applying=false;
 function manualChange(){if(!applying)host.dispatchEvent(new CustomEvent('rheon-manual-change',{bubbles:true}));}
 export function selectLab(lab=selector.value){
   if(!labs[lab]||![...selector.options].some(o=>o.value===lab))return;flow.unmount();selector.value=lab;document.querySelector('.example-workspace').dataset.lab=lab;panel.replaceChildren();reference=null;labs[lab]();
-  const recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
+  const geometric=lab==='volume', recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
   const legend=document.querySelector('#plot-legend');
   if(legend){
-    legend.hidden=!recomputed&&!native&&!volume;legend.replaceChildren();
-    for(const [label,color] of volume?[['Tracer · fixed opacity','#167f88'],['Source region','#c18442'],['Instantaneous velocity · 0–1 m/s','#aa5735']]:native?[['Accepted velocity · fixed scale','#067d91'],['Forced region','#aa5735']]:lab==='transport'?[['Linear','#067d91'],['Raw','#aa5735'],['Limited','#4e98bb'],['Exact','#18363d']]:[['Query','#aa5735'],['Weighted point / weights','#067d91']]){
+    legend.hidden=!recomputed&&!native&&!volume&&!geometric;legend.replaceChildren();
+    for(const [label,color] of geometric?[['Liquid','#067d91'],['Swept slab','#c18442'],['Intersection','#18363d']]:volume?[['Tracer · fixed opacity','#167f88'],['Source region','#c18442'],['Instantaneous velocity · 0–1 m/s','#aa5735']]:native?[['Accepted velocity · fixed scale','#067d91'],['Forced region','#aa5735']]:lab==='transport'?[['Linear','#067d91'],['Raw','#aa5735'],['Limited','#4e98bb'],['Exact','#18363d']]:[['Query','#aa5735'],['Weighted point / weights','#067d91']]){
       const item=document.createElement('span');item.textContent=label;item.style.borderColor=color;if(volume&&label.startsWith('Instantaneous')){item.id='flow-velocity-legend';item.hidden=!document.querySelector('#flow-streamlines')?.checked;}legend.append(item);
     }
   }
-  document.querySelector('.example-kind').textContent=volume?'Rust / WebAssembly · computed 3D tracer':native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
-  document.querySelector('#reference-sources').hidden=recomputed||native||volume;
+  document.querySelector('.example-kind').textContent=geometric?'Browser geometry · one shared face':volume?'Rust / WebAssembly · computed 3D tracer':native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
+  document.querySelector('#reference-sources').hidden=recomputed||native||volume||geometric;
   document.querySelector('#transport-sources').hidden=!recomputed;
+  document.querySelector('#volume-sources').hidden=!geometric;
   document.querySelector('#timestep-sources').hidden=!native;
   document.querySelector('#flow-sources').hidden=!volume;
 }
 const presets={
+ volume:{left:[0,30,50],right:[1,30,50]},
  projection:{before:[0],half:[50],after:[100]},
  collision:{crossing:[3],miss:[4]},
  hydrostatic:{light:[0],heavy:[1]},

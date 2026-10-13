@@ -1,10 +1,10 @@
 {
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Expanded exact proof inventory qualified locally with normal pinned Lean4.19.0 lake build, full allowed-axiom audit and normal/optimized rejection/source-policy gates; proof-byte binding is explicit in current_reviewed_proof.",
-  "proof_inventory_sha256": "089ace84d29dfc874fad4c8a57f1fe57d7cc801e120e4f5a10f648c9449e75a2",
-  "public_theorems": 138,
-  "audited_declarations": 242,
+  "qualified_lean_source": "Reviewed continuation inventory; pinned kernel qualification pending. PR43 receipt retained separately.",
+  "proof_inventory_sha256": "cd3575b072b05f5b90b5efabe848f03c36c95dfea461a3acdbb923474665b3f5",
+  "public_theorems": 144,
+  "audited_declarations": null,
   "lean_ci": null,
   "labs": [
     {
@@ -78,9 +78,9 @@
     "audited_declarations": 77,
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
-  "local_kernel_receipt_sha256": "3a7219c86df1e1f192f29792528bbb9ffd2fed29ef76bf7ed4e8f5bf157b6db8",
-  "lean_ci_scope": "Current exact proof bytes are locally qualified. Prior hosted candidate and historical reconstruction retain their own checkout/inventory identities.",
-  "explicit_expected_declarations": 193,
+  "local_kernel_receipt_sha256": null,
+  "lean_ci_scope": "Current continuation requires a fresh hosted Lean build; local pinned toolchain download was denied with HTTP 403.",
+  "explicit_expected_declarations": 201,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
     "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
@@ -132,6 +132,16 @@
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
   },
   "current_reviewed_proof": {
+    "proof_inventory_sha256": "cd3575b072b05f5b90b5efabe848f03c36c95dfea461a3acdbb923474665b3f5",
+    "public_theorems": 144,
+    "explicit_expected_declarations": 201,
+    "audited_declarations": null,
+    "lean_ci": null,
+    "status": "reviewed-pending-kernel-qualification",
+    "local_qualification": null,
+    "scope": "Adds exact-real single-face slab bounds, shared ledger cancellation and clamping witness; not an implementation or multidimensional VOF proof."
+  },
+  "historical_pr43_reviewed_proof": {
     "status": "passed",
     "proof_inventory_sha256": "089ace84d29dfc874fad4c8a57f1fe57d7cc801e120e4f5a10f648c9449e75a2",
     "public_theorems": 138,

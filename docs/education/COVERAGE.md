@@ -3,7 +3,7 @@
 This ledger covers all 25 chapters and six appendices. The sampling/transport
 follow-on expands the [540bdef teaching checkpoint](https://github.com/MrScripty/Rheon/commit/540bdef8fcbc0d0a55567325eba570589666bf80)
 from 11 to 13 chapters, then the bounded browser timestep adds chapter 17 and the computed volume adds chapter 14.
-There are now **15 chapters with partial scroll-linked examples**: 3–7, 10, 14, 17 and 19–25.
+There are now **16 chapters with partial scroll-linked examples**: 3–7, 9, 10, 14, 17 and 19–25.
 No appendix has a scroll-linked example. These counts describe placement,
 not complete coverage of each chapter's topics or qualification of a solver.
 [Heading bindings](teaching.py) fail the build when an expected section moves.
@@ -77,7 +77,7 @@ Every native recording/operator entry is conditional on packet admission.
 | 06 Transport | Browser sampler and periodic scalar transport | Variable velocity, collision-aware traces, open/closed sampling policies and conservative liquid flux |
 | 07 Corrected transport | Browser baseline/raw/limited comparison and resolution controls | Native corrected advection, invalid-trace fallback, self-advected velocity and general conservation |
 | 08 Boundaries | Text/fixture; separate native static geometry/pressure records | General mesh boundaries, weighted affine-adjoint demonstration and moving geometry |
-| 09 Liquid interfaces | Text/fixture; offline axis-aligned flux and curvature examples | Browser fraction transport, reconstruction, reinitialization and surface-error comparisons |
+| 09 Liquid interfaces | Browser recomputed one-face axis-aligned swept-volume geometry; offline curvature fixtures | General fraction transport, arbitrary-normal reconstruction, reinitialization and surface-error comparisons |
 | 10 Forces/viscosity | Stored hydrostatics and scalar shear; separate native wall/force records | Variable/nonlinear tensor stress and dynamic solid coupling |
 | 11 Particle methods | Text/fixture; offline transfer and SPH-gradient checks | Browser PIC/FLIP/APIC transfer, support degeneracy, SPH/PBF dynamics and full memory costs |
 | 12 Time/error | Text/fixture; transport lesson available separately | Step admission, temporal versus spatial error, incomplete intervals and long-horizon budgets |
@@ -225,3 +225,23 @@ The remaining blockers have different owners:
 
 This teaching work adds no pressure API, surrogate training, solver refactor,
 main merge or Pages deployment.
+
+## PR43 continuation: one-face liquid volume
+
+Branch `research/book-pr43-continuation` starts at PR43 `66cc567`, preserving
+its pending work. The new chapter 9 example raises placement to 16/25 partial
+chapters; appendices remain 0/6. Earlier 15/25 counts above describe earlier
+milestones. Solver/scheduler/CAD/AI implementation claims remain scoped to
+inspected source; no contracts from concurrent workers have been assumed.
+
+| Item | Implemented / researched / proven / validated |
+| --- | --- |
+| Geometric lesson | `volume_reference.js`, `volume_labs.js`: one axis-aligned face, empty receiver, independent browser calculation, controls and 3D geometry |
+| Primary research | Official Basilisk `vof.h`, reconstruction/swept flux and multidimensional compression qualifications; source and limits in chapter 9 |
+| Mathematical scope | Six new exact-real statements in `VolumeFlux.lean`; current kernel status comes from `native-sequence.json`, never from source inventory matching |
+| Arithmetic validation | `test_volume_reference.py`: all 20,402 discrete slider states versus independent Fraction integration, plus invalid-input rejection |
+| UI validation | `volume_browser.py`: generated chapter, desktop and 390/320px phone controls, snapshots, scroll bindings, WebGL and overflow; run receipt outside Git |
+| Remaining | General PLIC, multiple-face capacity coordination, native/WASM liquid integration, convergence, floating-point proof, physical and performance validation |
+
+The PR43 artifact-download 403 remains unresolved; this continuation does not
+reuse or claim a visual review of that artifact.

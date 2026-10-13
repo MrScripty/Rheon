@@ -9,7 +9,7 @@ viscous decay, wall slip, then equilibrium capillarity. Each lesson states a
 prediction, comparison and measurable limitation. The authored chapter text,
 citations, figures, Lean source and numerical generators remain unchanged.
 
-Scroll-linked examples cover chapters **3–7, 10, 14, 17, 19–25**: 15 of 25 chapters,
+Scroll-linked examples cover chapters **3–7, 9, 10, 14, 17, 19–25**: 16 of 25 chapters,
 with no scroll-linked appendix. This is partial topic coverage. The
 [coverage ledger](COVERAGE.md) lists every chapter and appendix, each source
 kind, and the remaining science and UI gaps. Heading-to-case bindings live in
@@ -66,11 +66,12 @@ and [CPU scheduling guide](../research-book/implementation/cpu-scheduling-contra
 state the predictions, independent checks and limits. No browser material solver,
 CAD wall load, GPU performance or global stability claim is added.
 
-The reviewed Lean inventory now contains 138 public theorem statements and 193
-explicit audit entries. The expanded inventory passed a fresh pinned normal build, a 242-declaration
-axiom audit and normal/optimized rejection/source-policy gates; `native-sequence.json` records its current status
-separately from the unchanged historical 106/161 reconstruction receipt.
-The page builder never turns inventory matching into a kernel pass.
+The continuation inventory contains 144 public theorem statements and 201
+explicit audit entries. Its fresh kernel status is recorded in
+`native-sequence.json`; PR43's prior 138-theorem/242-declaration receipt is
+preserved as historical evidence. Inventory matching alone is not a kernel pass.
+Chapter 9 adds an independently recomputed swept-volume geometry lesson; see
+the [coverage ledger](COVERAGE.md#pr43-continuation-one-face-liquid-volume).
 
 The aligned-strain admission path also has an explicit reviewed current-source
 inventory, `aligned-strain-native-sources.json`. It covers crate/build inputs and

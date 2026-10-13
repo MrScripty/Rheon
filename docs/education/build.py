@@ -45,7 +45,7 @@ def build():
     source_base=command(['git','rev-parse','HEAD'],cwd=ROOT).strip()
     if OUT.exists():raise ValueError('Output directory must be fresh; choose a new edition path.')
     OUT.mkdir(parents=True); (OUT/'chapters').mkdir(); (OUT/'downloads').mkdir(); (OUT/'proofs').mkdir(); (OUT/'implementation').mkdir()
-    for name in ['style.css','labs.js','reader.js','reader.css','navigation.js','transport_reference.js','transport_labs.js','timestep_labs.js','timestep_worker.js','flow_labs.js','flow_worker.js','flow_field.js','flow_volume.js']:shutil.copy2(HERE/name,OUT/name)
+    for name in ['style.css','labs.js','reader.js','reader.css','navigation.js','transport_reference.js','transport_labs.js','timestep_labs.js','timestep_worker.js','flow_labs.js','flow_worker.js','flow_field.js','flow_volume.js','volume_reference.js','volume_labs.js']:shutil.copy2(HERE/name,OUT/name)
     # The downloadable audit keeps its source links usable outside the checkout.
     def audit_link(match):
         target=match[1]
