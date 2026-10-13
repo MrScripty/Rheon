@@ -25,7 +25,7 @@ def check(page):
  for actual,(o,r) in zip(s['spheres'],expected_spheres):
   close(actual['radius'],r)
   for x,y in zip(actual['origin'],o):close(x,y)
- require(page.locator('#lab-expected').inner_text() not in ['', 'undefined'],'Expected behavior absent')
+ require(page.locator('#lab-expected').text_content().strip() not in ['', 'undefined'],'Expected behavior absent')
  require(page.locator('#metrics dd').count()>=4,'Readouts absent')
  for value in page.locator('#metrics dd').all_text_contents():require(not any(token in value for token in ['NaN','Infinity']),'Nonfinite displayed metric')
  require(s['webgl'],'WebGL missing');require(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),'Horizontal overflow');return q
@@ -42,6 +42,7 @@ def qualify(site):
     settle(page);q=check(page);require(q['args']==args,'Heading preset')
     proof=page.locator('details').filter(has=page.locator('summary',has_text='Practical study proof scope'));require(proof.count()==1 and proof.get_attribute('open') is None,'Proof must start collapsed')
     page.screenshot(path=str(out/f'{anchor}-{width}.png'))
+    notes=page.locator('details.example-notes');require(notes.get_attribute('open') is None,'Expected-result notes start collapsed');notes.locator('summary').click();settle(page);require(page.locator('#lab-expected').is_visible() and page.locator('#lab-expected').inner_text().strip() not in ['', 'undefined'],'Expanded expected result unavailable');require(check(page)==q,'Disclosure changes data');notes.locator('summary').click();settle(page)
     for control in page.locator('#controls select').all():
      control.select_option('0');settle(page);check(page);control.select_option(str(control.locator('option').count()-1));settle(page);check(page)
     before=snapshot(page);pixels=page.locator('#scene canvas').screenshot();page.locator('#scene').press('ArrowRight');settle(page);require(snapshot(page)['camera']!=before['camera'],'Camera fixed');require(check(page)==before['reference'],'Camera changes data');require(page.locator('#scene canvas').screenshot()!=pixels,'Camera must change actual rendered canvas')
