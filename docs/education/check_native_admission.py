@@ -1,6 +1,6 @@
 """Fail early on stale admission inputs; never create or refresh source pins."""
 import sys
-from aligned_strain_packet import ROOT, REVIEWED_INVENTORY, source_core, git
+from aligned_strain_packet import ROOT, REVIEWED_INVENTORY, source_core, git, admission_inventory
 from aligned_strain_oracle import Refusal
 
 def main():
@@ -14,7 +14,7 @@ def main():
               'Do not copy old receipts, refresh hashes automatically, or skip this gate.', file=sys.stderr)
         return 1
     print(f'Native admission inputs match {len(sources)} paths at {git(ROOT, "rev-parse", "HEAD")}')
-    print(f'Admission record: {REVIEWED_INVENTORY if (ROOT/REVIEWED_INVENTORY).exists() else "historical pinned core"}')
+    print(f'Admission record: {admission_inventory(ROOT)[0] if admission_inventory(ROOT) else "historical pinned core"}')
     print('This is not qualification. Fresh native/rational and publication checks remain required.')
     return 0
 

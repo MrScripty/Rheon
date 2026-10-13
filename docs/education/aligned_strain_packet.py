@@ -30,6 +30,9 @@ DENSE3D_EXPORTS = (b'mod dense3d_sequence;\n'
 DENSE3D_SHA256 = '90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431'
 REVIEWED_INVENTORY = 'docs/education/aligned-strain-native-sources.json'
 REVIEWED_BASE = '2209012bc5f902693d0f695ec1c2d854126af317'
+RUNTIME_INVENTORY = 'docs/education/aligned-strain-native-sources-runtime-20261013.json'
+RUNTIME_BASE = 'a3a66b18b34bef2a32ce1b658fce952115b1f7f4'
+HISTORICAL_REVIEWED_SHA256 = '84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a'
 QUALIFICATION_INPUTS = ('Cargo.toml', 'Cargo.lock', 'build.rs',
                         'examples/aligned_strain.rs', 'tools/aligned_strain_oracle.py',
                         'tools/qualify_aligned_strain.py', 'tools/test_aligned_strain_oracle.py',
@@ -68,12 +71,28 @@ def committed_native_paths(repo, head):
             if p.startswith(('src/', '.cargo/', 'rust-toolchain')) or p in QUALIFICATION_INPUTS}
 
 
-def reviewed_source_core(repo, inventory):
+def admission_inventory(repo):
+    """Explicit reviewed epochs, newest present record wins without fallback."""
+    for name, base in ((RUNTIME_INVENTORY, RUNTIME_BASE), (REVIEWED_INVENTORY, REVIEWED_BASE)):
+        path = Path(repo)/name
+        if path.exists() or path.is_symlink():
+            if name == RUNTIME_INVENTORY:
+                historical = Path(repo)/REVIEWED_INVENTORY
+                require(historical.is_file() and not historical.is_symlink() and
+                        sha(historical) == HISTORICAL_REVIEWED_SHA256,
+                        'historical reviewed inventory changed or missing')
+            return name, base
+    return None
+
+
+def reviewed_source_core(repo, inventory, reviewed_base=REVIEWED_BASE):
     require(inventory.is_file() and not inventory.is_symlink(), 'reviewed inventory regular file')
     data = json.loads(inventory.read_text())
-    require(data.get('schema') == 'rheon-reviewed-aligned-strain-native-sources-v1' and
-            data.get('reviewed_base') == REVIEWED_BASE, 'reviewed native inventory identity')
-    require(subprocess.run(['git', 'merge-base', '--is-ancestor', REVIEWED_BASE, 'HEAD'],
+    schema = ('rheon-reviewed-aligned-strain-native-sources-v2' if reviewed_base == RUNTIME_BASE
+              else 'rheon-reviewed-aligned-strain-native-sources-v1')
+    require(data.get('schema') == schema and
+            data.get('reviewed_base') == reviewed_base, 'reviewed native inventory identity')
+    require(subprocess.run(['git', 'merge-base', '--is-ancestor', reviewed_base, 'HEAD'],
                            cwd=repo, capture_output=True).returncode == 0,
             'education source must descend from reviewed native base')
     sources = data.get('source_sha256', {})
@@ -94,13 +113,14 @@ def source_core(repo):
     require(subprocess.run(['git', 'merge-base', '--is-ancestor', PRIMARY_SOURCE, 'HEAD'],
                            cwd=repo, capture_output=True).returncode == 0,
             'education source must descend from qualified primary')
-    inventory = Path(repo)/REVIEWED_INVENTORY
+    selected = admission_inventory(repo)
     # A reviewed extension is an admission input, never evidence by itself.
     # trusted_primary still requires a fresh clean native/rational receipt and
     # checks every source against that receipt's committed Git blobs. A present
     # but stale inventory must fail; it cannot fall back to historical pins.
-    if inventory.exists() or inventory.is_symlink():
-        return reviewed_source_core(repo, inventory)
+    if selected is not None:
+        name, base = selected
+        return reviewed_source_core(repo, Path(repo)/name, base)
     paths = git(repo,'ls-tree','-r','--name-only',PRIMARY_SOURCE).splitlines()
     native_paths = [p for p in paths if p.startswith('src/') or p.startswith('rust-toolchain')
                     or p in ('Cargo.toml','Cargo.lock','examples/aligned_strain.rs',
@@ -143,17 +163,21 @@ def trusted_primary(repo, path):
             ['git','merge-base','--is-ancestor',PRIMARY_SOURCE,head],cwd=repo,
             capture_output=True).returncode == 0, 'native qualification primary ancestry')
     sources = source_core(repo)
-    if (Path(repo)/REVIEWED_INVENTORY).exists():
-        require(subprocess.run(['git', 'merge-base', '--is-ancestor', REVIEWED_BASE, head],
+    selected = admission_inventory(repo)
+    if selected is not None:
+        name, base = selected
+        require(subprocess.run(['git', 'merge-base', '--is-ancestor', base, head],
                                cwd=repo, capture_output=True).returncode == 0,
                 'native receipt must descend from reviewed base')
         require(committed_native_paths(repo, head) == set(sources),
                 'native receipt commit inventory added or missing path')
-        manifest_digest = sha(Path(repo)/REVIEWED_INVENTORY)
-        require(receipt.get('source_sha256', {}).get(REVIEWED_INVENTORY) == manifest_digest and
-                hashlib.sha256(subprocess.check_output(
-                    ['git', 'show', head+':'+REVIEWED_INVENTORY], cwd=repo)).hexdigest() == manifest_digest,
-                'native receipt reviewed inventory binding')
+        manifests = [name] if name == REVIEWED_INVENTORY else [name, REVIEWED_INVENTORY]
+        for manifest in manifests:
+            manifest_digest = sha(Path(repo)/manifest)
+            require(receipt.get('source_sha256', {}).get(manifest) == manifest_digest and
+                    hashlib.sha256(subprocess.check_output(
+                        ['git', 'show', head+':'+manifest], cwd=repo)).hexdigest() == manifest_digest,
+                    'native receipt reviewed inventory binding')
     require(all(receipt.get('source_sha256',{}).get(p)==digest for p,digest in sources.items()),
             'native qualification core source manifest')
     for name,digest in sources.items():

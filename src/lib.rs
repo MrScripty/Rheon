@@ -21,6 +21,8 @@ pub use geometry::{Axis, BufferPlan, GeometryError, GridGeometry};
 mod collision;
 pub mod mesh_collision;
 pub use mesh_collision::{CollisionMesh, MeshCollisionError, MeshPolicy};
+// Native filesystem import is unavailable in the wasm32 browser host.
+#[cfg(not(target_arch = "wasm32"))]
 pub mod mesh_import;
 pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
