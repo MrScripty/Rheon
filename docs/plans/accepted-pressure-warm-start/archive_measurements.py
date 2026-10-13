@@ -11,6 +11,10 @@ import sys
 operation, source, destination = sys.argv[1:]
 if operation == 'pack':
     root = Path(source)
+    if Path(destination).resolve().is_relative_to(root.resolve()):
+        raise SystemExit('archive destination must be outside source directory')
+    if any(not path.is_file() for path in root.iterdir()):
+        raise SystemExit('archive input contains unexpected nested/non-file content')
     with Path(destination).open('x') as output:
         for path in sorted(root.iterdir()):
             if path.is_file() and path.name != 'summary.json':

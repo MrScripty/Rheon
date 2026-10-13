@@ -1,6 +1,7 @@
 # Accepted-state CPU pressure warm starts
 
-Status: Owner contract agreed; numerical implementation in progress.
+Status: Corrected implementation independently admitted for the scoped opt-in path.
+Local qualification is complete; exact-head CI remains the publication gate.
 Base: frozen PR55 head3525c979e16629b295a6865e3abbb2a36803cc93.
 Branch: perf/accepted-pressure-warm-start; separate PR stacked on
 feat/full-step-provider-api. Do not modify PR55's branch or merge main.

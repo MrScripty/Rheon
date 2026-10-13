@@ -18,3 +18,12 @@
 - Abrupt force removal can make an accepted previous pressure a poor guess; pilot
   switch was slower. No hidden cold retry or source-based invalidation was added.
   Judge complete recorded horizons and disclose adverse individual frames.
+
+- Original warm candidate lost the 64³ localized horizon through repeated gauge-only
+  PCG restarts. Rejected evidence is retained; corrected opt-in reduced-system
+  replacement preserves full acceptance and passes a fresh complete matrix.
+- Final bounded confirmations do not establish equivalence. The 1000-particle
+  control remains mildly adverse in both cohorts, with mixed confirmation signs;
+  unresolved modest runtime-regression risk is disclosed in the admission decision.
+- Exact-head CI remains required on the published draft. Any independent book
+  source-binding failure belongs to its existing owner and must not be bypassed.

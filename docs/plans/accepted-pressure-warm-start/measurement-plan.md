@@ -3,8 +3,12 @@
 Frozen baseline3525c979 (PR55), candidate milestone to be committed before trials.
 Same Rust1.92 locked release build, work-observation feature, CPU scheduler scoped
 on each 1/2/4-worker pool without voxel observer. Source/target roots are isolated.
-Baseline harness differs only by replacing unavailable warm API dispatch with old
-cold step; baseline is invoked cold only. Record source and executable hashes.
+Baseline is invoked cold only. Its frozen harness predates the optional tighter
+reference and terminal field-dump support, as well as using the legacy cold
+dispatch. Normal tolerances and the measured loop match. The extra argument parsing,
+configuration selection and optional dump are outside timed steps; performance runs
+use eight arguments and never dump. Retain the exact baseline harness and diff,
+plus source and executable hashes.
 
 Pilot (not acceptance): candidate32³,1worker,4steps,steady/localized/switch/rest/
 saturated,cold/warm,one run each; establish runtime and find invalid fixtures.
@@ -85,3 +89,41 @@ for each frozen candidate separately (12pairs each); no optional extension.
 Diagnostic timings are excluded from performance claims. The hand-computed chain
 is acceptance coverage, not a reproducer (old and corrected pass); retained actual
 64³ localized logs reproduce old failure and corrected complete horizon.
+
+## One final bounded short-horizon cold confirmation
+
+Independent review of corrected small-grid screening requests a single separate
+confirmation cohort after all remaining screening groups finish. Already included:
+16³/w1/localized,16³/w2/steady,48x24x12/w4/localized (Jacobi). Preserve the original
+16-step horizon and settings: a longer horizon alone cannot resolve short-run harm.
+Freeze the complete list, including any additional independently reviewed adverse
+64/control cases, before running exactly12cold pairs per case,6AB/6BA shuffled.
+Use frozen baseline/corrected binaries, retain all trials, exact outputs, phase
+costs and accepted horizons; no pooling with screening or postconfirmation sample
+extension. Coherent repeated harm blocks admission.16³/w4/steady has mixed short
+and long evidence and will not receive another cohort merely for uncertainty.
+
+
+## Rest partition decided before confirmation
+
+After the complete grid screening and before any confirmation execution, independent
+review selected six cold-only cases: 16³/w1/localized Jacobi, 16³/w2/steady Jacobi,
+48×24×12/w4/localized Jacobi, 64³/w2/steady Jacobi, 16³/w1/switch Jacobi, and
+16³/w1/steady SGS. Each receives exactly twelve balanced cold pairs.
+
+The 32³/w1/rest screening has mixed adverse comparisons against baseline for both
+candidate policies, but only three of six warm/cold comparisons are adverse. Add
+one separate twelve-triplet rest partition, each baseline/cold/warm permutation
+twice, at the same 16-step horizon. This tests both concerns without attributing
+shared timing variation to warm initialization. `confirm_rest.py` records all
+orders, commands, costs and exact outputs. The complete cohort, including any
+particle concerns, is frozen once particle screening finishes; no postconfirmation
+extension or pooling is permitted. Smaller mixed screening cells remain reported.
+
+
+The complete cohort is now frozen in `confirmation-plan.json` before execution.
+Particle screening found adverse patterns in both one-worker cases; include exactly
+12 balanced pairs each for 1000 and 4096 particles, at unchanged 64-step horizons.
+The full cohort contains 228 runs. Independent review confirms this final scope.
+There will be no additional samples after its outcomes. The exact original particle
+screening driver remains in `particle-screening-driver.py.txt`.

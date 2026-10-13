@@ -53,3 +53,34 @@
   frozen binaries remain immutable, isolate diagnostic target before comparing
   regression tests and rebuild production into its own fresh target to prevent
   same-package artifact reuse from contaminating qualification.
+- Reviewer audited evidence helpers during corrected64screening. Hardened record,
+  receipt/horizon/finite-value checks, explicit errors under Python-O, final full
+  matrix coverage, case-level suppression on incomplete repetitions, raw overwrite
+  refusal and archive nested-content rejection. No binaries, timings, case order,
+  horizons or numerical thresholds changed. Initial small/64groups ran original
+  runner; later groups use hardened runner, whose hash is retained per manifest.
+  Existing records are revalidated by the stricter analyzer; no discarded trials.
+  Tighter reference is explicitly diagnostic, not an independent accuracy oracle
+  or automatic numerical pass without justified bounds. Physical acceptance uses
+  unchanged solver gates plus independent hand/continuum/flux/hydrostatic tests.
+
+- Environment-disconnection notice did not interrupt session 89767. Checkout,
+  frozen binaries and raw measurement records remain intact; qualification continues.
+- Reproducibility audit corrected an overstatement about harness equivalence. The
+  frozen baseline also predates optional tight-reference/terminal-dump support.
+  Retained exact baseline source and diff; normal timed loops and tolerances match.
+  No binary, workload or timing result changed.
+
+- Completed corrected screening: 40 cases, 240 balanced triplets, 720 runs, zero
+  analyzer violations. All nonsaturated horizons complete; all saturated attempts
+  retain identical rejection. Tighter-reference and particle screening complete.
+- Independently selected and froze one final 228-run confirmation cohort before
+  execution. All runs complete with exact outputs/horizons; no postcohort extension.
+  Main warm gains persist. Mixed cold controls and positive 1000-particle medians
+  remain disclosed; no equivalence or universal no-regression claim is made.
+- Final independent review recommends scoped opt-in admission with unresolved modest
+  particle runtime-regression risk. All local lints, actual-model contracts, fresh
+  CLI/Python regression, helper negative checks and formatting pass. Lossless archive
+  round-trip analysis reproduces corrected evidence exactly under Python -O.
+- PR 55 base rechecked unchanged at 3525c979 before publication. No owner branch,
+  collision mesh, book binding, main merge or deployment was modified.

@@ -48,3 +48,33 @@ Before draft publication: independent source/results review, full scoped numeric
 surface/provider/API/rollback suites, default/core/work-observation regression,
 format and strict feature lints, then exact-head CI. Existing book gate untouched;
 known independent failures are reported, never suppressed.
+
+## Corrected milestone3569d3b local results
+
+Rust1.92 locked release, fresh target `/workspace/scratch/warm-corrected-target`:
+`cargo test --release --locked`373passed/0failed/3ignored;
+`--no-default-features`366passed/0failed/3ignored;
+`--features work-observation`383passed/0failed/3ignored.
+`cargo clippy --locked --all-targets --features work-observation -- -D warnings`
+and `cargo fmt --all -- --check` passed. No production changes after this freeze.
+The three ignored tests require the pinned actual model; earlier milestone ran
+those explicitly, and corrected-head model checks remain in the final gates.
+
+
+## Final local gates and retained evidence
+
+The corrected production source remains exactly at `3569d3b`; later changes are
+evidence helpers and documentation. Strict default, core-only and desktop all-target
+Clippy checks pass, in addition to the earlier work-observation check. All 18 actual
+pinned-model contract tests pass (pressure-session 4, provider-step 8, solver-provider
+6). The fresh corrected CLI passes the Python executable suite: 119 tests, 21 existing
+conditional skips, zero failures. Four evidence-helper negative tests pass in both
+normal Python and `-O` mode. Formatting and diff whitespace checks pass.
+
+All corrected matrix archives unpack with matching hashes. Reanalysis under Python
+`-O` exactly reproduces the qualified 40-case/240-triplet summary. Rejected evidence
+still returns nonzero with 15 violation checks across five lost-horizon triplets.
+The fixed 228-run confirmation cohort completes with exact fields and horizons.
+Independent review recommends scoped admission with the particle timing uncertainty
+recorded in results.md. Exact-head CI links are recorded on the draft PR; no book
+qualification gate is weakened or deployment invoked.
