@@ -227,7 +227,7 @@ From x = 0, each control-selected iteration performs
 x ← x + α(b−Kx)/2 using the complete old vector. This is simultaneous weighted
 Jacobi, rather than a saved-field blend. For b = (1, 0), the exact solution is
 (2/3, 1/3). At α = 1 after four iterations, x = (5/8, 5/16), the true residual
-is (1/16, 0), and error energy eᵀKe is 1/384. The readout recomputes b−Kx.
+is (1/16, 0), and error energy eᵀKe is 1/384. The readout recomputes b−Kx. At α = 1/2 with alternating b after eight iterations, each residual magnitude is 1/65536. Its fixed-scale arrow is nearly invisible; the numerical readout remains available. A minimum visible shaft would exaggerate that residual and violate the scale.
 
 ## A positive matrix with an unstable iteration
 
