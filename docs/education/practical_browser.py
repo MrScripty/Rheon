@@ -14,7 +14,7 @@ def check(page):
  expected_boxes,expected_arrows,expected_spheres=scene(q)
  require(len(s['arrows'])==len(expected_arrows),'Arrow count')
  for actual,(o,v,label) in zip(s['arrows'],expected_arrows):
-  length=math.hypot(*v);require(actual['method']==label,'Arrow quantity');close(actual['length'],length)
+  length=math.hypot(*v);require(actual['method']==label,'Arrow quantity');close(actual['length'],length);close(actual['tipLength'],length);close(actual['shaftLength']+actual['headLength'],length)
   for x,y in zip(actual['origin'],o):close(x,y)
   for x,y in zip(actual['direction'],v):close(x,y/length)
  require(len(s['boxes'])==len(expected_boxes),'Box count')
