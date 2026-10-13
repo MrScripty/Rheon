@@ -170,10 +170,23 @@ captured binary stores full ungauged RHS and pressure (little-endian f64), then
 x/y/z MAC velocity and tracer (little-endian f32); x is fastest. The independent
 NumPy verifier reassembles the full pressure operator, actual divergence,
 Courant, wall/gauge/range checks and integral ledgers on every captured frame.
+A separate NumPy transition oracle starts from rest and reconstructs RK2 velocity
+advection, prescribed seed/time forcing, RHS assembly, pressure correction and
+tracer emission/advection from each previous accepted capture. Per-element bounds
+allow f32 storage and f64 arithmetic roundoff for this frozen scene; these are
+engineering allowances, not a formal cross-platform error proof. Physical
+acceptance gates are unchanged. Coherently duplicating an earlier frame and all its diagnostic receipts
+therefore fails even when every individual field remains physically plausible.
 It compares learned and injected-fallback velocity, tracer and centered-pressure
 relative L2 errors to both numerical rollouts at every frame (limit 1e-5).
 It also rejects missing/duplicate frames, misreported selections, corrupted
 fields, false diagnostic receipts, and underreported whole-rollout timing.
+Active stages and process/model measurements must be positive; the main timer
+must contain model loading plus every rollout. Every reported residual L2 must
+satisfy the norm bound implied by predicted divergence. Timed repetitions have
+receipts only: their fields are not independently captured or reconstructed, and
+receipt consistency cannot authenticate a wall-clock measurement. Full transition
+checks apply to the separate capture replay.
 
 Reported resident rollout wall time includes state/workspace construction and
 all 24 complete steps (forcing, advection, inference, pressure qualification,

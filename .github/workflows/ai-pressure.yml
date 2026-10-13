@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 15
     env:
       CARGO_BUILD_JOBS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
@@ -55,3 +57,5 @@ jobs:
           .generated/ai-provider/trajectory
         RHEON_AI_TRAJECTORY="$PWD/.generated/ai-provider/trajectory" \
           "$RUNNER_TEMP/ai-python/bin/python" -m unittest discover -s tools -p test_ai_pressure_trajectory.py -v
+        RHEON_AI_TRAJECTORY="$PWD/.generated/ai-provider/trajectory" \
+          "$RUNNER_TEMP/ai-python/bin/python" -O -m unittest discover -s tools -p test_ai_pressure_trajectory.py -v

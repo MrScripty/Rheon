@@ -11,6 +11,7 @@ import statistics
 import sys
 
 import numpy as np
+from ai_pressure_trajectory_oracle import transition
 
 N = 32
 CELLS = N**3
@@ -103,7 +104,7 @@ def verify(directory):
     require(complete.get('frames') == FRAMES and complete.get('seeds') == list(SEEDS) and
             complete.get('timing_repetitions') == 3 and complete.get('fault_frame') == 9, 'frozen rollout scope')
     for key in ('model_load_ms','process_ms'):
-        require(type(complete.get(key)) in (float,int) and np.isfinite(complete[key]) and complete[key] >= 0, 'process timing')
+        require(type(complete.get(key)) in (float,int) and np.isfinite(complete[key]) and complete[key] > 0, 'process timing')
     rows = read_csv(directory/'frames.csv')
     runs = read_csv(directory/'runs.csv')
     run_keys = {(('capture' if rep == 3 else 'timed'),str(rep),str(seed),mode)
@@ -120,6 +121,15 @@ def verify(directory):
                    'residual_l2','predicted_divergence','actual_divergence','courant','tracer_integral')}
         require(all(np.isfinite(v) and v >= 0 for v in numbers.values()), 'nonfinite/negative frame receipt')
         require(np.isclose(numbers['time'],frame/60,rtol=4*np.finfo(float).eps,atol=0), 'simulation time')
+        require(numbers['step_ms'] > 0 and numbers['provider_ms'] > 0, 'positive active frame timing')
+        if row['mode'] in ('learned','injected-fallback'):
+            require(numbers['inference_ms'] > 0 and numbers['qualification_ms'] > 0, 'positive AI stage timing')
+        if row['selected'] != 'lab-modal-pressure-v1':
+            require(numbers['fallback_ms'] > 0, 'positive numerical stage timing')
+        # ||r||_2 <= sqrt(cells)*||r||_inf; predicted divergence is
+        # dt*||r||_inf / cell_volume. This applies to every timed receipt.
+        residual_bound = np.sqrt(CELLS)*numbers['predicted_divergence']*60/CELLS
+        require(numbers['residual_l2'] <= residual_bound*(1+64*np.finfo(float).eps), 'residual norm/divergence consistency')
         require(numbers['provider_ms'] >= sum(numbers[k] for k in ('inference_ms','qualification_ms','fallback_ms')) and
                 numbers['step_ms'] >= numbers['provider_ms'], 'frame timing scope')
         require(numbers['predicted_divergence'] <= 1e-7 and numbers['actual_divergence'] <= 1e-5 and numbers['courant'] <= 1,
@@ -127,12 +137,15 @@ def verify(directory):
     for run in runs:
         require(int(run['frames']) == FRAMES, 'run length')
         initial, steps, wall = (float(run[k]) for k in ('initialization_ms','steps_ms','rollout_wall_ms'))
-        require(all(np.isfinite(v) and v >= 0 for v in (initial,steps,wall)), 'nonfinite/negative run timing')
+        require(all(np.isfinite(v) and v > 0 for v in (initial,steps,wall)), 'nonfinite/negative run timing')
         require(wall >= initial+steps and np.isclose(steps,sum(float(frames[(*key(run),str(i))]['step_ms']) for i in range(1,FRAMES+1)),rtol=1e-12), 'run timing scope')
+    require(complete['process_ms'] >= complete['model_load_ms'] + sum(float(r['rollout_wall_ms']) for r in runs), 'process timing scope')
     maximum = {'relative_residual':0.0,'actual_divergence':0.0,'predicted_divergence':0.0}
     errors = {mode:{'velocity_relative_l2':0.0,'tracer_relative_l2':0.0,'centered_pressure_relative_l2':0.0}
               for mode in ('learned','injected-fallback','sgs')}
+    transition_errors = {'rhs_relative_l2':0.0,'corrected_velocity_relative_l2':0.0,'tracer_relative_l2':0.0}
     for seed in SEEDS:
+        previous = {mode:None for mode in MODES}
         for frame in range(1,FRAMES+1):
             loaded = {}
             for mode in MODES:
@@ -140,6 +153,9 @@ def verify(directory):
                 receipt = frames[('capture','3',str(seed),mode,str(frame))]
                 for metric,value in qualify_fields(loaded[mode],receipt).items():
                     maximum[metric] = max(maximum[metric],value)
+                for metric,value in transition(previous[mode],loaded[mode],seed,frame,mode in ('shifted-jacobi','unsupported-fallback')).items():
+                    transition_errors[metric] = max(transition_errors[metric],value)
+                previous[mode] = loaded[mode]
             # Unsupported-domain inference is never called; complete fallback
             # evolution must match its own equally shifted reference bit for bit.
             require(all(np.array_equal(a,b) for a,b in zip(loaded['unsupported-fallback'],loaded['shifted-jacobi'])), 'unsupported fallback differs from reference')
@@ -156,7 +172,7 @@ def verify(directory):
     timing = {mode:statistics.median(float(r['rollout_wall_ms']) for r in runs if r['phase']=='timed' and r['mode']==mode) for mode in MODES}
     return {'schema':'rheon-ai-trajectory-qualification-v1','timed_frames':864,'captured_frames':288,
             'frames_per_trajectory':FRAMES,'simulated_seconds':FRAMES/60,'public_lab_seeds':list(SEEDS),
-            'maxima':maximum,'errors_against_numerical_references':errors,'median_complete_rollout_ms':timing,
+            'maxima':maximum,'independent_transition_errors':transition_errors,'errors_against_numerical_references':errors,'median_complete_rollout_ms':timing,
             'model_load_ms':complete['model_load_ms'],'main_body_including_capture_ms':complete['process_ms'],
             'scope':'native single-thread CPU; fixed sealed lab scene; independent 24-frame trajectories; known public seeds; no generalization or analytic-inverse superiority claim'}
 

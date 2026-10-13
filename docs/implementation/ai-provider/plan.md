@@ -68,3 +68,10 @@ New write set: examples/ai_pressure_trajectory.rs, tools/*ai_pressure_trajectory
 this provider documentation, and the dedicated ai-pressure CI workflow. No shared
 simulation/wire changes; reports expose frame selections/rejections/timings and
 full generated fields for API-owner integration qualification.
+
+Transition acceptance additionally reconstructs the complete declared step from
+rest or the previous accepted capture in an independent NumPy implementation.
+Require RHS, corrected velocity and transported tracer agreement within explicit
+storage/arithmetic rounding bounds. Regression coverage must reject coordinated
+duplication of prior fields and diagnostic receipts across all six modes; valid
+per-frame pressure/divergence alone cannot establish temporal evolution.
