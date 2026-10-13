@@ -1,0 +1,3110 @@
+[
+  {
+    "version": "baseline",
+    "grid": "16",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.187301693 capture_seconds=0.000207673 frame_seconds=0.187511901 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.021339049 sustained_step_seconds=0.165962644 samples=[0.021339049, 0.021475726, 0.023306442, 0.02543738, 0.024697122, 0.02348459, 0.023879376, 0.023682008]\nphase=Reduction calls=3525 seconds=0.027386780\n",
+    "resources": "peak_rss_kib=9984",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.187301693",
+      "capture_seconds": "0.000207673",
+      "frame_seconds": "0.187511901",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.021339049",
+      "sustained_step_seconds": "0.165962644"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.189210721 capture_seconds=0.000240292 frame_seconds=0.189453639 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.021743661 sustained_step_seconds=0.167467060 samples=[0.021743661, 0.0210578, 0.024115163, 0.022320412, 0.02363722, 0.02605344, 0.02476215, 0.025520875]\nphase=Reduction calls=3525 seconds=0.032886374\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.189210721",
+      "capture_seconds": "0.000240292",
+      "frame_seconds": "0.189453639",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.021743661",
+      "sustained_step_seconds": "0.167467060"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.175977890 capture_seconds=0.000243839 frame_seconds=0.176223772 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.020112207 sustained_step_seconds=0.155865683 samples=[0.020112207, 0.020767096, 0.020163744, 0.021130134, 0.025320373, 0.021914729, 0.023138598, 0.023431009]\nphase=Reduction calls=3525 seconds=0.028628390\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.175977890",
+      "capture_seconds": "0.000243839",
+      "frame_seconds": "0.176223772",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.020112207",
+      "sustained_step_seconds": "0.155865683"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.188907832 capture_seconds=0.000227291 frame_seconds=0.189136986 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.020594556 sustained_step_seconds=0.168313276 samples=[0.020594556, 0.020991325, 0.026713447, 0.023733817, 0.02408019, 0.024468236, 0.024103796, 0.024222465]\nphase=Reduction calls=3525 seconds=0.028258583\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.188907832",
+      "capture_seconds": "0.000227291",
+      "frame_seconds": "0.189136986",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.020594556",
+      "sustained_step_seconds": "0.168313276"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.177914327 capture_seconds=0.000208385 frame_seconds=0.178125765 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.021428315 sustained_step_seconds=0.156486012 samples=[0.021428315, 0.021611391, 0.021621657, 0.022088372, 0.022068202, 0.022813777, 0.022132358, 0.024150255]\nphase=Reduction calls=3525 seconds=0.026764905\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.177914327",
+      "capture_seconds": "0.000208385",
+      "frame_seconds": "0.178125765",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.021428315",
+      "sustained_step_seconds": "0.156486012"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.188213901 capture_seconds=0.000333375 frame_seconds=0.188549638 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.021291568 sustained_step_seconds=0.166922333 samples=[0.021291568, 0.020878875, 0.023184968, 0.022108351, 0.029014292, 0.025773728, 0.023520474, 0.022441645]\nphase=Reduction calls=3525 seconds=0.032003054\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.188213901",
+      "capture_seconds": "0.000333375",
+      "frame_seconds": "0.188549638",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.021291568",
+      "sustained_step_seconds": "0.166922333"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.185331307 capture_seconds=0.000202888 frame_seconds=0.185536488 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.021857643 sustained_step_seconds=0.163473664 samples=[0.021857643, 0.024276687, 0.022547004, 0.023783922, 0.022301383, 0.024565643, 0.022538521, 0.023460504]\nphase=Reduction calls=3525 seconds=0.027527282\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.185331307",
+      "capture_seconds": "0.000202888",
+      "frame_seconds": "0.185536488",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.021857643",
+      "sustained_step_seconds": "0.163473664"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.193003245 capture_seconds=0.000210678 frame_seconds=0.193216727 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.024365370 sustained_step_seconds=0.168637875 samples=[0.02436537, 0.023680246, 0.023119969, 0.024656831, 0.023472141, 0.022485061, 0.025772266, 0.025451361]\nphase=Reduction calls=3525 seconds=0.030610619\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.193003245",
+      "capture_seconds": "0.000210678",
+      "frame_seconds": "0.193216727",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.024365370",
+      "sustained_step_seconds": "0.168637875"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.192242454 capture_seconds=0.000204347 frame_seconds=0.192448485 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.022394614 sustained_step_seconds=0.169847840 samples=[0.022394614, 0.022097085, 0.022721678, 0.024043855, 0.023779375, 0.02484183, 0.026240722, 0.026123295]\nphase=Reduction calls=3525 seconds=0.028597043\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.192242454",
+      "capture_seconds": "0.000204347",
+      "frame_seconds": "0.192448485",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.022394614",
+      "sustained_step_seconds": "0.169847840"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.190973984 capture_seconds=0.000218490 frame_seconds=0.191195729 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.028862222 sustained_step_seconds=0.162111762 samples=[0.028862222, 0.021349635, 0.027290478, 0.023304538, 0.021794647, 0.021791912, 0.023477609, 0.023102943]\nphase=Reduction calls=3525 seconds=0.027855617\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.190973984",
+      "capture_seconds": "0.000218490",
+      "frame_seconds": "0.191195729",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.028862222",
+      "sustained_step_seconds": "0.162111762"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.200898671 capture_seconds=0.000303271 frame_seconds=0.201204134 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.022812454 sustained_step_seconds=0.178086217 samples=[0.022812454, 0.023219569, 0.024749389, 0.026120961, 0.025725463, 0.023659784, 0.023498841, 0.03111221]\nphase=Reduction calls=3525 seconds=0.031807520\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.200898671",
+      "capture_seconds": "0.000303271",
+      "frame_seconds": "0.201204134",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.022812454",
+      "sustained_step_seconds": "0.178086217"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.185192058 capture_seconds=0.000235896 frame_seconds=0.185430911 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.023883481 sustained_step_seconds=0.161308577 samples=[0.023883481, 0.020749478, 0.023695437, 0.02241213, 0.022620695, 0.022693885, 0.024814318, 0.024322634]\nphase=Reduction calls=3525 seconds=0.029233673\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.185192058",
+      "capture_seconds": "0.000235896",
+      "frame_seconds": "0.185430911",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.023883481",
+      "sustained_step_seconds": "0.161308577"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.186048152 capture_seconds=0.000319943 frame_seconds=0.186370259 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.021018345 sustained_step_seconds=0.165029807 samples=[0.021018345, 0.021688025, 0.024291439, 0.024037915, 0.023821238, 0.024512561, 0.023536958, 0.023141671]\nphase=Reduction calls=3525 seconds=0.028830182\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.186048152",
+      "capture_seconds": "0.000319943",
+      "frame_seconds": "0.186370259",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.021018345",
+      "sustained_step_seconds": "0.165029807"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.180009924 capture_seconds=0.000203437 frame_seconds=0.180215384 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.021417518 sustained_step_seconds=0.158592406 samples=[0.021417518, 0.021148631, 0.022630188, 0.022380022, 0.023287752, 0.022613524, 0.023156704, 0.023375585]\nphase=Reduction calls=3525 seconds=0.027309324\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.180009924",
+      "capture_seconds": "0.000203437",
+      "frame_seconds": "0.180215384",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.021417518",
+      "sustained_step_seconds": "0.158592406"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.187925558 capture_seconds=0.000301598 frame_seconds=0.188228806 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.023448144 sustained_step_seconds=0.164477414 samples=[0.023448144, 0.020822559, 0.02470986, 0.023368083, 0.024952977, 0.023422735, 0.024204007, 0.022997193]\nphase=Reduction calls=3525 seconds=0.027863322\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.187925558",
+      "capture_seconds": "0.000301598",
+      "frame_seconds": "0.188228806",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.023448144",
+      "sustained_step_seconds": "0.164477414"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.181317819 capture_seconds=0.000264387 frame_seconds=0.181584252 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.021311638 sustained_step_seconds=0.160006181 samples=[0.021311638, 0.020894937, 0.025731994, 0.022165858, 0.022477749, 0.023805835, 0.022404267, 0.022525541]\nphase=Reduction calls=3525 seconds=0.025607197\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.181317819",
+      "capture_seconds": "0.000264387",
+      "frame_seconds": "0.181584252",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.021311638",
+      "sustained_step_seconds": "0.160006181"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.188441907 capture_seconds=0.000224040 frame_seconds=0.188668201 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.023537739 sustained_step_seconds=0.164904168 samples=[0.023537739, 0.022029382, 0.023135522, 0.025114902, 0.024016473, 0.024278658, 0.023103113, 0.023226118]\nphase=Reduction calls=3525 seconds=0.027043180\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.188441907",
+      "capture_seconds": "0.000224040",
+      "frame_seconds": "0.188668201",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.023537739",
+      "sustained_step_seconds": "0.164904168"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=3.35276126861572266e-8 step_seconds=0.208113547 capture_seconds=0.000210307 frame_seconds=0.208325910 managed_bytes=333824 capture_bytes=68608 fingerprint=5eb94e82346d1cdc\niterations=1167 residual=6.31472042314438813e-12 report_fingerprint=358325a9803228f0 cold_step_seconds=0.023559673 sustained_step_seconds=0.184553874 samples=[0.023559673, 0.022913696, 0.023267261, 0.026415987, 0.031420645, 0.0261666, 0.025075983, 0.029293702]\nphase=Reduction calls=3525 seconds=0.031182493\n",
+    "resources": "peak_rss_kib=10368",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "3.35276126861572266e-8",
+      "step_seconds": "0.208113547",
+      "capture_seconds": "0.000210307",
+      "frame_seconds": "0.208325910",
+      "managed_bytes": "333824",
+      "capture_bytes": "68608",
+      "fingerprint": "5eb94e82346d1cdc",
+      "iterations": "1167",
+      "residual": "6.31472042314438813e-12",
+      "report_fingerprint": "358325a9803228f0",
+      "cold_step_seconds": "0.023559673",
+      "sustained_step_seconds": "0.184553874"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.719475165 capture_seconds=0.001586026 frame_seconds=2.721066368 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.361170971 sustained_step_seconds=2.358304194 samples=[0.361170971, 0.351965183, 0.33251784, 0.342901288, 0.351678609, 0.333413974, 0.337592044, 0.308235256]\nphase=Reduction calls=7329 seconds=0.476628800\n",
+    "resources": "peak_rss_kib=10368",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.719475165",
+      "capture_seconds": "0.001586026",
+      "frame_seconds": "2.721066368",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.361170971",
+      "sustained_step_seconds": "2.358304194"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.648295118 capture_seconds=0.001678747 frame_seconds=2.649980985 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.298358738 sustained_step_seconds=2.349936380 samples=[0.298358738, 0.352426148, 0.358452905, 0.334047604, 0.336271804, 0.338723766, 0.312157338, 0.317856815]\nphase=Reduction calls=7329 seconds=0.540888356\n",
+    "resources": "peak_rss_kib=10368",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.648295118",
+      "capture_seconds": "0.001678747",
+      "frame_seconds": "2.649980985",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.298358738",
+      "sustained_step_seconds": "2.349936380"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.688050045 capture_seconds=0.001652707 frame_seconds=2.689707850 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.333149989 sustained_step_seconds=2.354900056 samples=[0.333149989, 0.330121494, 0.335055673, 0.341232095, 0.347246969, 0.336992312, 0.335736544, 0.328514969]\nphase=Reduction calls=7329 seconds=0.545929291\n",
+    "resources": "peak_rss_kib=10368",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.688050045",
+      "capture_seconds": "0.001652707",
+      "frame_seconds": "2.689707850",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.333149989",
+      "sustained_step_seconds": "2.354900056"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.726846702 capture_seconds=0.001743665 frame_seconds=2.728595332 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.324847440 sustained_step_seconds=2.401999262 samples=[0.32484744, 0.359792422, 0.348496928, 0.361904471, 0.352575902, 0.332162327, 0.31972256, 0.327344652]\nphase=Reduction calls=7329 seconds=0.471100032\n",
+    "resources": "peak_rss_kib=10368",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.726846702",
+      "capture_seconds": "0.001743665",
+      "frame_seconds": "2.728595332",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.324847440",
+      "sustained_step_seconds": "2.401999262"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.542376055 capture_seconds=0.001687478 frame_seconds=2.544069282 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.311028655 sustained_step_seconds=2.231347400 samples=[0.311028655, 0.325344841, 0.310124394, 0.311343773, 0.315320088, 0.329025787, 0.320495684, 0.319692833]\nphase=Reduction calls=7329 seconds=0.443890911\n",
+    "resources": "peak_rss_kib=10368",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.542376055",
+      "capture_seconds": "0.001687478",
+      "frame_seconds": "2.544069282",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.311028655",
+      "sustained_step_seconds": "2.231347400"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.502789954 capture_seconds=0.001705936 frame_seconds=2.504502819 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.281875244 sustained_step_seconds=2.220914710 samples=[0.281875244, 0.307505995, 0.30198041, 0.340345762, 0.3002765, 0.31453395, 0.330368624, 0.325903469]\nphase=Reduction calls=7329 seconds=0.521159262\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.502789954",
+      "capture_seconds": "0.001705936",
+      "frame_seconds": "2.504502819",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.281875244",
+      "sustained_step_seconds": "2.220914710"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.228901117 capture_seconds=0.001618586 frame_seconds=2.230522537 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.206332936 sustained_step_seconds=2.022568181 samples=[0.206332936, 0.235505339, 0.298418775, 0.308879224, 0.323508758, 0.31980863, 0.224984915, 0.31146254]\nphase=FieldUpdate calls=4878 seconds=0.445613127\nphase=VelocityAdvection calls=48 seconds=0.148535659\nphase=TracerAdvection calls=14 seconds=0.014561170\nphase=PressureOperator calls=2451 seconds=0.514482250\nphase=Jacobi calls=2435 seconds=0.509782336\nphase=Emitter calls=48 seconds=0.011441292\nphase=Reduction calls=7329 seconds=0.519939997\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.228901117",
+      "capture_seconds": "0.001618586",
+      "frame_seconds": "2.230522537",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.206332936",
+      "sustained_step_seconds": "2.022568181"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.255037330 capture_seconds=0.001590773 frame_seconds=2.256630188 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.260705083 sustained_step_seconds=1.994332247 samples=[0.260705083, 0.302640522, 0.336509747, 0.337495977, 0.26387103, 0.294685457, 0.238926371, 0.220203143]\nphase=FieldUpdate calls=4878 seconds=0.445563071\nphase=VelocityAdvection calls=48 seconds=0.152721650\nphase=TracerAdvection calls=14 seconds=0.013334639\nphase=PressureOperator calls=2451 seconds=0.523312751\nphase=Jacobi calls=2435 seconds=0.491054732\nphase=Emitter calls=48 seconds=0.014534618\nphase=Reduction calls=7329 seconds=0.523552037\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.255037330",
+      "capture_seconds": "0.001590773",
+      "frame_seconds": "2.256630188",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.260705083",
+      "sustained_step_seconds": "1.994332247"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.158169189 capture_seconds=0.001795813 frame_seconds=2.159967014 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.296033663 sustained_step_seconds=1.862135526 samples=[0.296033663, 0.23586651, 0.284218498, 0.242233262, 0.276839484, 0.244887334, 0.24605934, 0.332031098]\nphase=FieldUpdate calls=4878 seconds=0.463536914\nphase=VelocityAdvection calls=48 seconds=0.126825265\nphase=TracerAdvection calls=14 seconds=0.013359576\nphase=PressureOperator calls=2451 seconds=0.487508611\nphase=Jacobi calls=2435 seconds=0.487287336\nphase=Emitter calls=48 seconds=0.011753885\nphase=Reduction calls=7329 seconds=0.481579616\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.158169189",
+      "capture_seconds": "0.001795813",
+      "frame_seconds": "2.159967014",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.296033663",
+      "sustained_step_seconds": "1.862135526"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.558248153 capture_seconds=0.001639646 frame_seconds=2.559890184 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.290515360 sustained_step_seconds=2.267732793 samples=[0.29051536, 0.308657039, 0.294067179, 0.32179676, 0.365951097, 0.339664907, 0.337562481, 0.30003333]\nphase=FieldUpdate calls=4878 seconds=0.541140975\nphase=VelocityAdvection calls=48 seconds=0.153499233\nphase=TracerAdvection calls=14 seconds=0.015989030\nphase=PressureOperator calls=2451 seconds=0.611786393\nphase=Jacobi calls=2435 seconds=0.589312028\nphase=Emitter calls=48 seconds=0.012184166\nphase=Reduction calls=7329 seconds=0.565513219\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.558248153",
+      "capture_seconds": "0.001639646",
+      "frame_seconds": "2.559890184",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.290515360",
+      "sustained_step_seconds": "2.267732793"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.850847169 capture_seconds=0.001636772 frame_seconds=1.852486013 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.217098776 sustained_step_seconds=1.633748393 samples=[0.217098776, 0.23166062, 0.269843718, 0.212747299, 0.200834006, 0.254744338, 0.219101301, 0.244817111]\nphase=FieldUpdate calls=4878 seconds=0.367603660\nphase=VelocityAdvection calls=48 seconds=0.134054975\nphase=TracerAdvection calls=14 seconds=0.012284012\nphase=PressureOperator calls=2451 seconds=0.422291356\nphase=Jacobi calls=2435 seconds=0.423523150\nphase=Emitter calls=48 seconds=0.011303651\nphase=Reduction calls=7329 seconds=0.423002684\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.850847169",
+      "capture_seconds": "0.001636772",
+      "frame_seconds": "1.852486013",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.217098776",
+      "sustained_step_seconds": "1.633748393"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.218333891 capture_seconds=0.001592877 frame_seconds=2.219928819 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.214130597 sustained_step_seconds=2.004203294 samples=[0.214130597, 0.237892412, 0.283596831, 0.219605422, 0.297225465, 0.346745571, 0.284368731, 0.334768862]\nphase=FieldUpdate calls=4878 seconds=0.463126095\nphase=VelocityAdvection calls=48 seconds=0.144425084\nphase=TracerAdvection calls=14 seconds=0.015638712\nphase=PressureOperator calls=2451 seconds=0.505799376\nphase=Jacobi calls=2435 seconds=0.494427976\nphase=Emitter calls=48 seconds=0.011676046\nphase=Reduction calls=7329 seconds=0.495881927\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.218333891",
+      "capture_seconds": "0.001592877",
+      "frame_seconds": "2.219928819",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.214130597",
+      "sustained_step_seconds": "2.004203294"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=2.259457499 capture_seconds=0.001661360 frame_seconds=2.261121232 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.254149440 sustained_step_seconds=2.005308059 samples=[0.25414944, 0.216964809, 0.236304709, 0.328534326, 0.312332201, 0.343328862, 0.300798926, 0.267044226]\nphase=FieldUpdate calls=4878 seconds=0.658794709\nphase=VelocityAdvection calls=48 seconds=0.078208641\nphase=TracerAdvection calls=14 seconds=0.008539416\nphase=PressureOperator calls=2451 seconds=0.455844781\nphase=Jacobi calls=2435 seconds=0.457951876\nphase=Emitter calls=48 seconds=0.012281166\nphase=Reduction calls=7329 seconds=0.516486574\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "2.259457499",
+      "capture_seconds": "0.001661360",
+      "frame_seconds": "2.261121232",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.254149440",
+      "sustained_step_seconds": "2.005308059"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.984358220 capture_seconds=0.001577251 frame_seconds=1.985937514 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.239853149 sustained_step_seconds=1.744505071 samples=[0.239853149, 0.247140104, 0.258218447, 0.220991901, 0.233382861, 0.264426627, 0.266834665, 0.253510466]\nphase=FieldUpdate calls=4878 seconds=0.386472318\nphase=VelocityAdvection calls=48 seconds=0.089923171\nphase=TracerAdvection calls=14 seconds=0.009108024\nphase=PressureOperator calls=2451 seconds=0.391330418\nphase=Jacobi calls=2435 seconds=0.390735839\nphase=Emitter calls=48 seconds=0.008450400\nphase=Reduction calls=7329 seconds=0.605519260\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.984358220",
+      "capture_seconds": "0.001577251",
+      "frame_seconds": "1.985937514",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.239853149",
+      "sustained_step_seconds": "1.744505071"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.961626101 capture_seconds=0.001648519 frame_seconds=1.963276794 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.240040322 sustained_step_seconds=1.721585779 samples=[0.240040322, 0.241276417, 0.236255985, 0.25498671, 0.255116948, 0.246607268, 0.254111463, 0.233230988]\nphase=FieldUpdate calls=4878 seconds=0.377204563\nphase=VelocityAdvection calls=48 seconds=0.091560074\nphase=TracerAdvection calls=14 seconds=0.008611826\nphase=PressureOperator calls=2451 seconds=0.389019203\nphase=Jacobi calls=2435 seconds=0.378036730\nphase=Emitter calls=48 seconds=0.007510499\nphase=Reduction calls=7329 seconds=0.606973431\n",
+    "resources": "peak_rss_kib=10496",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.961626101",
+      "capture_seconds": "0.001648519",
+      "frame_seconds": "1.963276794",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.240040322",
+      "sustained_step_seconds": "1.721585779"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.885923508 capture_seconds=0.001655871 frame_seconds=1.887581995 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.231879135 sustained_step_seconds=1.654044373 samples=[0.231879135, 0.20788808, 0.26197487, 0.240923184, 0.204150635, 0.24572125, 0.245212183, 0.248174171]\nphase=FieldUpdate calls=4878 seconds=0.382833595\nphase=VelocityAdvection calls=48 seconds=0.087576864\nphase=TracerAdvection calls=14 seconds=0.008646939\nphase=PressureOperator calls=2451 seconds=0.385485884\nphase=Jacobi calls=2435 seconds=0.368523697\nphase=Emitter calls=48 seconds=0.007758682\nphase=Reduction calls=7329 seconds=0.579961844\n",
+    "resources": "peak_rss_kib=10624",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.885923508",
+      "capture_seconds": "0.001655871",
+      "frame_seconds": "1.887581995",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.231879135",
+      "sustained_step_seconds": "1.654044373"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.783642503 capture_seconds=0.001699117 frame_seconds=1.785343652 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.198009926 sustained_step_seconds=1.585632577 samples=[0.198009926, 0.248492362, 0.241663362, 0.231580815, 0.213103458, 0.21278616, 0.224365318, 0.213641102]\nphase=FieldUpdate calls=4878 seconds=0.404535093\nphase=VelocityAdvection calls=48 seconds=0.080588957\nphase=TracerAdvection calls=14 seconds=0.009989287\nphase=PressureOperator calls=2451 seconds=0.361322019\nphase=Jacobi calls=2435 seconds=0.361604598\nphase=Emitter calls=48 seconds=0.007494264\nphase=Reduction calls=7329 seconds=0.496130146\n",
+    "resources": "peak_rss_kib=10752",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.783642503",
+      "capture_seconds": "0.001699117",
+      "frame_seconds": "1.785343652",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.198009926",
+      "sustained_step_seconds": "1.585632577"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.863375900 capture_seconds=0.001645133 frame_seconds=1.865023236 managed_bytes=2646016 capture_bytes=536576 fingerprint=0b847a6fe504beec\niterations=2435 residual=3.93096495731695624e-12 report_fingerprint=881188cfe38c2ec3 cold_step_seconds=0.229146779 sustained_step_seconds=1.634229121 samples=[0.229146779, 0.253355924, 0.257355925, 0.246221489, 0.218443374, 0.219188365, 0.211922431, 0.227741613]\nphase=FieldUpdate calls=4878 seconds=0.396285406\nphase=VelocityAdvection calls=48 seconds=0.080808734\nphase=TracerAdvection calls=14 seconds=0.007804747\nphase=PressureOperator calls=2451 seconds=0.373140509\nphase=Jacobi calls=2435 seconds=0.369258620\nphase=Emitter calls=48 seconds=0.007909316\nphase=Reduction calls=7329 seconds=0.535251283\n",
+    "resources": "peak_rss_kib=10752",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.863375900",
+      "capture_seconds": "0.001645133",
+      "frame_seconds": "1.865023236",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "0b847a6fe504beec",
+      "iterations": "2435",
+      "residual": "3.93096495731695624e-12",
+      "report_fingerprint": "881188cfe38c2ec3",
+      "cold_step_seconds": "0.229146779",
+      "sustained_step_seconds": "1.634229121"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "64",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "64",
+      "1",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=14.397370878 capture_seconds=0.005365103 frame_seconds=14.402738344 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=4.719190645 sustained_step_seconds=9.678180233 samples=[4.719190645, 4.852963314, 4.825216919]\nphase=Reduction calls=5601 seconds=2.720830458\n",
+    "resources": "peak_rss_kib=26088",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "14.397370878",
+      "capture_seconds": "0.005365103",
+      "frame_seconds": "14.402738344",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "4.719190645",
+      "sustained_step_seconds": "9.678180233"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "64",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "64",
+      "1",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=14.216814351 capture_seconds=0.005398013 frame_seconds=14.222215478 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=4.706843891 sustained_step_seconds=9.509970460 samples=[4.706843891, 4.833480695, 4.676489765]\nphase=Reduction calls=5601 seconds=3.126195703\n",
+    "resources": "peak_rss_kib=26028",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "14.216814351",
+      "capture_seconds": "0.005398013",
+      "frame_seconds": "14.222215478",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "4.706843891",
+      "sustained_step_seconds": "9.509970460"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "64",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "64",
+      "1",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=14.046145615 capture_seconds=0.005930126 frame_seconds=14.052078735 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=4.778238158 sustained_step_seconds=9.267907457 samples=[4.778238158, 4.591547362, 4.676360095]\nphase=Reduction calls=5601 seconds=3.081284472\n",
+    "resources": "peak_rss_kib=26028",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "14.046145615",
+      "capture_seconds": "0.005930126",
+      "frame_seconds": "14.052078735",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "4.778238158",
+      "sustained_step_seconds": "9.267907457"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "64",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "64",
+      "1",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=14.705302727 capture_seconds=0.005581200 frame_seconds=14.710885739 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=4.632750760 sustained_step_seconds=10.072551967 samples=[4.63275076, 4.907332751, 5.165219216]\nphase=Reduction calls=5601 seconds=2.766849005\n",
+    "resources": "peak_rss_kib=26148",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "14.705302727",
+      "capture_seconds": "0.005581200",
+      "frame_seconds": "14.710885739",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "4.632750760",
+      "sustained_step_seconds": "10.072551967"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "64",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "64",
+      "1",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=14.944174630 capture_seconds=0.006373807 frame_seconds=14.950550971 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=4.852873829 sustained_step_seconds=10.091300801 samples=[4.852873829, 5.125146034, 4.966154767]\nphase=Reduction calls=5601 seconds=2.759865312\n",
+    "resources": "peak_rss_kib=26260",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "14.944174630",
+      "capture_seconds": "0.006373807",
+      "frame_seconds": "14.950550971",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "4.852873829",
+      "sustained_step_seconds": "10.091300801"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "64",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "64",
+      "1",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=13.781014220 capture_seconds=0.005295658 frame_seconds=13.786312401 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=4.416872679 sustained_step_seconds=9.364141541 samples=[4.416872679, 4.564760054, 4.799381487]\nphase=Reduction calls=5601 seconds=3.033543652\n",
+    "resources": "peak_rss_kib=26028",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "13.781014220",
+      "capture_seconds": "0.005295658",
+      "frame_seconds": "13.786312401",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "4.416872679",
+      "sustained_step_seconds": "9.364141541"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "64",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "64",
+      "2",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=11.016584652 capture_seconds=0.005289630 frame_seconds=11.021875984 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=3.403365293 sustained_step_seconds=7.613219359 samples=[3.4033652930000002, 3.660059063, 3.953160296]\nphase=FieldUpdate calls=3731 seconds=2.193581509\nphase=VelocityAdvection calls=144 seconds=0.393249779\nphase=TracerAdvection calls=12 seconds=0.006011860\nphase=PressureOperator calls=1870 seconds=2.928054955\nphase=Jacobi calls=1864 seconds=2.840847320\nphase=Emitter calls=144 seconds=0.036930372\nphase=Reduction calls=5601 seconds=2.359690069\n",
+    "resources": "peak_rss_kib=26144",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "11.016584652",
+      "capture_seconds": "0.005289630",
+      "frame_seconds": "11.021875984",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "3.403365293",
+      "sustained_step_seconds": "7.613219359"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "64",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "64",
+      "2",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=11.620511275 capture_seconds=0.005901102 frame_seconds=11.626413649 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=4.179231355 sustained_step_seconds=7.441279920 samples=[4.179231355, 3.870238757, 3.571041163]\nphase=FieldUpdate calls=3731 seconds=2.276921575\nphase=VelocityAdvection calls=144 seconds=0.459079506\nphase=TracerAdvection calls=12 seconds=0.005872139\nphase=PressureOperator calls=1870 seconds=3.012247619\nphase=Jacobi calls=1864 seconds=2.887866800\nphase=Emitter calls=144 seconds=0.033836579\nphase=Reduction calls=5601 seconds=2.562498209\n",
+    "resources": "peak_rss_kib=26028",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "11.620511275",
+      "capture_seconds": "0.005901102",
+      "frame_seconds": "11.626413649",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "4.179231355",
+      "sustained_step_seconds": "7.441279920"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "64",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "64",
+      "2",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=10.888076726 capture_seconds=0.005413585 frame_seconds=10.893491593 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=3.421166646 sustained_step_seconds=7.466910080 samples=[3.421166646, 3.743232448, 3.7236776320000002]\nphase=FieldUpdate calls=3731 seconds=2.100054129\nphase=VelocityAdvection calls=144 seconds=0.377005242\nphase=TracerAdvection calls=12 seconds=0.006736913\nphase=PressureOperator calls=1870 seconds=2.801271663\nphase=Jacobi calls=1864 seconds=2.678314236\nphase=Emitter calls=144 seconds=0.034685964\nphase=Reduction calls=5601 seconds=2.508452897\n",
+    "resources": "peak_rss_kib=26156",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "10.888076726",
+      "capture_seconds": "0.005413585",
+      "frame_seconds": "10.893491593",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "3.421166646",
+      "sustained_step_seconds": "7.466910080"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "64",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "64",
+      "2",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=10.151136942 capture_seconds=0.005105331 frame_seconds=10.156243553 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=3.468465653 sustained_step_seconds=6.682671289 samples=[3.468465653, 3.300177422, 3.382493867]\nphase=FieldUpdate calls=3731 seconds=1.962906600\nphase=VelocityAdvection calls=144 seconds=0.410852040\nphase=TracerAdvection calls=12 seconds=0.005945090\nphase=PressureOperator calls=1870 seconds=2.582878546\nphase=Jacobi calls=1864 seconds=2.511154527\nphase=Emitter calls=144 seconds=0.032849545\nphase=Reduction calls=5601 seconds=2.393016139\n",
+    "resources": "peak_rss_kib=26264",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "10.151136942",
+      "capture_seconds": "0.005105331",
+      "frame_seconds": "10.156243553",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "3.468465653",
+      "sustained_step_seconds": "6.682671289"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "64",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "64",
+      "2",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=10.442860415 capture_seconds=0.005841453 frame_seconds=10.448703491 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=3.508651163 sustained_step_seconds=6.934209252 samples=[3.508651163, 3.32691866, 3.607290592]\nphase=FieldUpdate calls=3731 seconds=2.167259251\nphase=VelocityAdvection calls=144 seconds=0.427274220\nphase=TracerAdvection calls=12 seconds=0.005823104\nphase=PressureOperator calls=1870 seconds=2.618944361\nphase=Jacobi calls=1864 seconds=2.576643936\nphase=Emitter calls=144 seconds=0.035212363\nphase=Reduction calls=5601 seconds=2.361053520\n",
+    "resources": "peak_rss_kib=26088",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "10.442860415",
+      "capture_seconds": "0.005841453",
+      "frame_seconds": "10.448703491",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "3.508651163",
+      "sustained_step_seconds": "6.934209252"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "64",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "64",
+      "2",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=11.277856323 capture_seconds=0.005448039 frame_seconds=11.283306274 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=3.673697213 sustained_step_seconds=7.604159110 samples=[3.673697213, 3.616300145, 3.987858965]\nphase=FieldUpdate calls=3731 seconds=2.209207676\nphase=VelocityAdvection calls=144 seconds=0.444630715\nphase=TracerAdvection calls=12 seconds=0.009044018\nphase=PressureOperator calls=1870 seconds=2.903957345\nphase=Jacobi calls=1864 seconds=2.786973800\nphase=Emitter calls=144 seconds=0.033375198\nphase=Reduction calls=5601 seconds=2.511722634\n",
+    "resources": "peak_rss_kib=26028",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "11.277856323",
+      "capture_seconds": "0.005448039",
+      "frame_seconds": "11.283306274",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "3.673697213",
+      "sustained_step_seconds": "7.604159110"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "64",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "64",
+      "4",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=7.985123463 capture_seconds=0.005100063 frame_seconds=7.990224798 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=2.604800706 sustained_step_seconds=5.380322757 samples=[2.604800706, 2.837265834, 2.543056923]\nphase=FieldUpdate calls=3731 seconds=1.533720491\nphase=VelocityAdvection calls=144 seconds=0.259190192\nphase=TracerAdvection calls=12 seconds=0.003555288\nphase=PressureOperator calls=1870 seconds=1.783397755\nphase=Jacobi calls=1864 seconds=1.743959352\nphase=Emitter calls=144 seconds=0.022170012\nphase=Reduction calls=5601 seconds=2.381234833\n",
+    "resources": "peak_rss_kib=26140",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "7.985123463",
+      "capture_seconds": "0.005100063",
+      "frame_seconds": "7.990224798",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "2.604800706",
+      "sustained_step_seconds": "5.380322757"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "64",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "64",
+      "4",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=8.043243938 capture_seconds=0.005274015 frame_seconds=8.048519176 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=2.515648897 sustained_step_seconds=5.527595041 samples=[2.515648897, 2.679486937, 2.848108104]\nphase=FieldUpdate calls=3731 seconds=1.526019282\nphase=VelocityAdvection calls=144 seconds=0.253823460\nphase=TracerAdvection calls=12 seconds=0.003368426\nphase=PressureOperator calls=1870 seconds=1.714907162\nphase=Jacobi calls=1864 seconds=1.688686915\nphase=Emitter calls=144 seconds=0.021786593\nphase=Reduction calls=5601 seconds=2.447950090\n",
+    "resources": "peak_rss_kib=26152",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "8.043243938",
+      "capture_seconds": "0.005274015",
+      "frame_seconds": "8.048519176",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "2.515648897",
+      "sustained_step_seconds": "5.527595041"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "64",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "64",
+      "4",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=7.900563161 capture_seconds=0.005889526 frame_seconds=7.906453728 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=2.602191487 sustained_step_seconds=5.298371674 samples=[2.602191487, 2.699228742, 2.599142932]\nphase=FieldUpdate calls=3731 seconds=1.423670953\nphase=VelocityAdvection calls=144 seconds=0.234987939\nphase=TracerAdvection calls=12 seconds=0.004729553\nphase=PressureOperator calls=1870 seconds=1.718943425\nphase=Jacobi calls=1864 seconds=1.686686084\nphase=Emitter calls=144 seconds=0.021344154\nphase=Reduction calls=5601 seconds=2.435404203\n",
+    "resources": "peak_rss_kib=26156",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "7.900563161",
+      "capture_seconds": "0.005889526",
+      "frame_seconds": "7.906453728",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "2.602191487",
+      "sustained_step_seconds": "5.298371674"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "64",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "64",
+      "4",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=8.055423713 capture_seconds=0.005380537 frame_seconds=8.060805604 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=2.569330342 sustained_step_seconds=5.486093371 samples=[2.5693303419999998, 2.733214395, 2.752878976]\nphase=FieldUpdate calls=3731 seconds=1.484617843\nphase=VelocityAdvection calls=144 seconds=0.254259412\nphase=TracerAdvection calls=12 seconds=0.003751367\nphase=PressureOperator calls=1870 seconds=1.852394350\nphase=Jacobi calls=1864 seconds=1.789859150\nphase=Emitter calls=144 seconds=0.020658123\nphase=Reduction calls=5601 seconds=2.395316299\n",
+    "resources": "peak_rss_kib=26140",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "8.055423713",
+      "capture_seconds": "0.005380537",
+      "frame_seconds": "8.060805604",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "2.569330342",
+      "sustained_step_seconds": "5.486093371"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "64",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "64",
+      "4",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=7.990010001 capture_seconds=0.005468090 frame_seconds=7.995479743 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=2.732030718 sustained_step_seconds=5.257979283 samples=[2.732030718, 2.605195622, 2.652783661]\nphase=FieldUpdate calls=3731 seconds=1.469951033\nphase=VelocityAdvection calls=144 seconds=0.235061682\nphase=TracerAdvection calls=12 seconds=0.003978647\nphase=PressureOperator calls=1870 seconds=1.816222318\nphase=Jacobi calls=1864 seconds=1.773380483\nphase=Emitter calls=144 seconds=0.021238051\nphase=Reduction calls=5601 seconds=2.406071062\n",
+    "resources": "peak_rss_kib=26088",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "7.990010001",
+      "capture_seconds": "0.005468090",
+      "frame_seconds": "7.995479743",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "2.732030718",
+      "sustained_step_seconds": "5.257979283"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "64",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "64",
+      "4",
+      "3",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=3 accepted_time=0.06000000000000000 divergence=2.17813067138195038e-7 step_seconds=7.682250912 capture_seconds=0.005128166 frame_seconds=7.687380279 managed_bytes=21069824 capture_bytes=4243456 fingerprint=9034852a955ab84c\niterations=1864 residual=1.76754623800537032e-12 report_fingerprint=cbb6cb4c3f7a3123 cold_step_seconds=2.656625834 sustained_step_seconds=5.025625078 samples=[2.6566258339999997, 2.453492091, 2.572132987]\nphase=FieldUpdate calls=3731 seconds=1.423662403\nphase=VelocityAdvection calls=144 seconds=0.207939318\nphase=TracerAdvection calls=12 seconds=0.004108788\nphase=PressureOperator calls=1870 seconds=1.638785024\nphase=Jacobi calls=1864 seconds=1.576082740\nphase=Emitter calls=144 seconds=0.023067507\nphase=Reduction calls=5601 seconds=2.430871958\n",
+    "resources": "peak_rss_kib=26156",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "3",
+      "accepted_time": "0.06000000000000000",
+      "divergence": "2.17813067138195038e-7",
+      "step_seconds": "7.682250912",
+      "capture_seconds": "0.005128166",
+      "frame_seconds": "7.687380279",
+      "managed_bytes": "21069824",
+      "capture_bytes": "4243456",
+      "fingerprint": "9034852a955ab84c",
+      "iterations": "1864",
+      "residual": "1.76754623800537032e-12",
+      "report_fingerprint": "cbb6cb4c3f7a3123",
+      "cold_step_seconds": "2.656625834",
+      "sustained_step_seconds": "5.025625078"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16x32x8",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16x32x8",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.231613842 capture_seconds=0.000204840 frame_seconds=0.231821345 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.027485587 sustained_step_seconds=0.204128255 samples=[0.027485587, 0.027863979, 0.028701153, 0.028961076, 0.029517937, 0.028962658, 0.029320698, 0.030800754]\nphase=Reduction calls=5502 seconds=0.036405084\n",
+    "resources": "peak_rss_kib=11008",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.231613842",
+      "capture_seconds": "0.000204840",
+      "frame_seconds": "0.231821345",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.027485587",
+      "sustained_step_seconds": "0.204128255"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16x32x8",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16x32x8",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.248641684 capture_seconds=0.000219449 frame_seconds=0.248863007 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.026487349 sustained_step_seconds=0.222154335 samples=[0.026487349, 0.02890426, 0.028006985, 0.028001857, 0.028574362, 0.028831009, 0.043998119, 0.035837743]\nphase=Reduction calls=5502 seconds=0.046220062\n",
+    "resources": "peak_rss_kib=11008",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.248641684",
+      "capture_seconds": "0.000219449",
+      "frame_seconds": "0.248863007",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.026487349",
+      "sustained_step_seconds": "0.222154335"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16x32x8",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16x32x8",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.227819130 capture_seconds=0.000213932 frame_seconds=0.228035216 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.026883257 sustained_step_seconds=0.200935873 samples=[0.026883257, 0.027610605, 0.028569755, 0.029245405, 0.028880514, 0.029184843, 0.028700192, 0.028744559]\nphase=Reduction calls=5502 seconds=0.043288163\n",
+    "resources": "peak_rss_kib=11008",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.227819130",
+      "capture_seconds": "0.000213932",
+      "frame_seconds": "0.228035216",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.026883257",
+      "sustained_step_seconds": "0.200935873"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16x32x8",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16x32x8",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.276853962 capture_seconds=0.000216538 frame_seconds=0.277073453 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.033622837 sustained_step_seconds=0.243231125 samples=[0.033622837, 0.033380296, 0.036603089, 0.032515294, 0.032248481, 0.039358682, 0.037571642, 0.031553641]\nphase=Reduction calls=5502 seconds=0.042420405\n",
+    "resources": "peak_rss_kib=11008",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.276853962",
+      "capture_seconds": "0.000216538",
+      "frame_seconds": "0.277073453",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.033622837",
+      "sustained_step_seconds": "0.243231125"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16x32x8",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16x32x8",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.269371475 capture_seconds=0.000261253 frame_seconds=0.269634762 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.032509696 sustained_step_seconds=0.236861779 samples=[0.032509696, 0.031895769, 0.034193068, 0.035013298, 0.032788406, 0.03582284, 0.033563267, 0.033585131]\nphase=Reduction calls=5502 seconds=0.044289222\n",
+    "resources": "peak_rss_kib=11008",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.269371475",
+      "capture_seconds": "0.000261253",
+      "frame_seconds": "0.269634762",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.032509696",
+      "sustained_step_seconds": "0.236861779"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16x32x8",
+    "workers": 1,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16x32x8",
+      "1",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.259847127 capture_seconds=0.000208535 frame_seconds=0.260058707 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.039860028 sustained_step_seconds=0.219987099 samples=[0.039860028, 0.039930736, 0.036374343, 0.028261158, 0.029277093, 0.029092033, 0.028681824, 0.028369912]\nphase=Reduction calls=5502 seconds=0.049297362\n",
+    "resources": "peak_rss_kib=11008",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.259847127",
+      "capture_seconds": "0.000208535",
+      "frame_seconds": "0.260058707",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.039860028",
+      "sustained_step_seconds": "0.219987099"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16x32x8",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16x32x8",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.249375873 capture_seconds=0.000211119 frame_seconds=0.249589595 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.033704131 sustained_step_seconds=0.215671742 samples=[0.033704131, 0.02955341, 0.0292088, 0.030150452, 0.031903881, 0.029846523, 0.030587733, 0.034420943]\nphase=Reduction calls=5502 seconds=0.039911871\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.249375873",
+      "capture_seconds": "0.000211119",
+      "frame_seconds": "0.249589595",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.033704131",
+      "sustained_step_seconds": "0.215671742"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16x32x8",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16x32x8",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.245238901 capture_seconds=0.000231249 frame_seconds=0.245473366 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.028925822 sustained_step_seconds=0.216313079 samples=[0.028925822, 0.032332197, 0.03115562, 0.029564056, 0.030762216, 0.03121408, 0.030461792, 0.030823118]\nphase=Reduction calls=5502 seconds=0.042346728\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.245238901",
+      "capture_seconds": "0.000231249",
+      "frame_seconds": "0.245473366",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.028925822",
+      "sustained_step_seconds": "0.216313079"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16x32x8",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16x32x8",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.257229548 capture_seconds=0.000218713 frame_seconds=0.257450873 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.028149500 sustained_step_seconds=0.229080048 samples=[0.0281495, 0.029833082, 0.034603298, 0.032043116, 0.032996211, 0.032889018, 0.0333732, 0.033342123]\nphase=Reduction calls=5502 seconds=0.041069192\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.257229548",
+      "capture_seconds": "0.000218713",
+      "frame_seconds": "0.257450873",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.028149500",
+      "sustained_step_seconds": "0.229080048"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16x32x8",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16x32x8",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.237741208 capture_seconds=0.000210317 frame_seconds=0.237953688 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.028122850 sustained_step_seconds=0.209618358 samples=[0.02812285, 0.028238864, 0.031781976, 0.027880725, 0.029730688, 0.030721665, 0.030229522, 0.031034918]\nphase=Reduction calls=5502 seconds=0.037051726\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.237741208",
+      "capture_seconds": "0.000210317",
+      "frame_seconds": "0.237953688",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.028122850",
+      "sustained_step_seconds": "0.209618358"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16x32x8",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16x32x8",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.241998349 capture_seconds=0.000217828 frame_seconds=0.242218981 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.028181458 sustained_step_seconds=0.213816891 samples=[0.028181458, 0.028812952, 0.029505047, 0.030035058, 0.030582695, 0.031514503, 0.031389935, 0.031976701]\nphase=Reduction calls=5502 seconds=0.039306020\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.241998349",
+      "capture_seconds": "0.000217828",
+      "frame_seconds": "0.242218981",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.028181458",
+      "sustained_step_seconds": "0.213816891"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16x32x8",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16x32x8",
+      "2",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.246236208 capture_seconds=0.000228506 frame_seconds=0.246467798 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.029519138 sustained_step_seconds=0.216717070 samples=[0.029519138, 0.030604729, 0.030406388, 0.031621564, 0.031908928, 0.030936099, 0.03042065, 0.030818712]\nphase=Reduction calls=5502 seconds=0.041792077\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.246236208",
+      "capture_seconds": "0.000228506",
+      "frame_seconds": "0.246467798",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.029519138",
+      "sustained_step_seconds": "0.216717070"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16x32x8",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16x32x8",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.263896235 capture_seconds=0.000216367 frame_seconds=0.264114795 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.028776978 sustained_step_seconds=0.235119257 samples=[0.028776978, 0.030665761, 0.029930169, 0.043636823, 0.03069176, 0.030309352, 0.033347572, 0.03653782]\nphase=Reduction calls=5502 seconds=0.043475898\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.263896235",
+      "capture_seconds": "0.000216367",
+      "frame_seconds": "0.264114795",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.028776978",
+      "sustained_step_seconds": "0.235119257"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16x32x8",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16x32x8",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.248007544 capture_seconds=0.000224118 frame_seconds=0.248234317 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.029600031 sustained_step_seconds=0.218407513 samples=[0.029600031, 0.037907889, 0.030976941, 0.02871915, 0.028905251, 0.02919511, 0.030824299, 0.031878873]\nphase=Reduction calls=5502 seconds=0.041272899\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.248007544",
+      "capture_seconds": "0.000224118",
+      "frame_seconds": "0.248234317",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.029600031",
+      "sustained_step_seconds": "0.218407513"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16x32x8",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16x32x8",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.235026795 capture_seconds=0.000207263 frame_seconds=0.235236784 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.027935296 sustained_step_seconds=0.207091499 samples=[0.027935296, 0.027877459, 0.029596996, 0.029783628, 0.028475332, 0.028895426, 0.029600811, 0.032861847]\nphase=Reduction calls=5502 seconds=0.038504319\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.235026795",
+      "capture_seconds": "0.000207263",
+      "frame_seconds": "0.235236784",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.027935296",
+      "sustained_step_seconds": "0.207091499"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16x32x8",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16x32x8",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.243422438 capture_seconds=0.000222055 frame_seconds=0.243648440 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.027575763 sustained_step_seconds=0.215846675 samples=[0.027575763, 0.029887845, 0.028662465, 0.030383234, 0.031140938, 0.031763369, 0.033634835, 0.030373989]\nphase=Reduction calls=5502 seconds=0.038588059\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.243422438",
+      "capture_seconds": "0.000222055",
+      "frame_seconds": "0.243648440",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.027575763",
+      "sustained_step_seconds": "0.215846675"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "16x32x8",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "16x32x8",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.271778130 capture_seconds=0.000210879 frame_seconds=0.271991502 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.033814577 sustained_step_seconds=0.237963553 samples=[0.033814577, 0.03692812, 0.032890632, 0.032226317, 0.032885303, 0.033378428, 0.035184646, 0.034470107]\nphase=Reduction calls=5502 seconds=0.045128101\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.271778130",
+      "capture_seconds": "0.000210879",
+      "frame_seconds": "0.271991502",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.033814577",
+      "sustained_step_seconds": "0.237963553"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "16x32x8",
+    "workers": 4,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "16x32x8",
+      "4",
+      "8",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=2.60770320892333984e-8 step_seconds=0.268848777 capture_seconds=0.000273232 frame_seconds=0.269124973 managed_bytes=334848 capture_bytes=69120 fingerprint=cb2aae649ffef8da\niterations=1826 residual=9.53037033219608813e-12 report_fingerprint=ee6989e18f2a1262 cold_step_seconds=0.031781055 sustained_step_seconds=0.237067722 samples=[0.031781055, 0.034402154, 0.032755177, 0.034267912, 0.033702077, 0.033089682, 0.033151286, 0.035699434]\nphase=Reduction calls=5502 seconds=0.046591768\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "2.60770320892333984e-8",
+      "step_seconds": "0.268848777",
+      "capture_seconds": "0.000273232",
+      "frame_seconds": "0.269124973",
+      "managed_bytes": "334848",
+      "capture_bytes": "69120",
+      "fingerprint": "cb2aae649ffef8da",
+      "iterations": "1826",
+      "residual": "9.53037033219608813e-12",
+      "report_fingerprint": "ee6989e18f2a1262",
+      "cold_step_seconds": "0.031781055",
+      "sustained_step_seconds": "0.237067722"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 1,
+    "solver": "sgs-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.818379441 capture_seconds=0.001659375 frame_seconds=1.820045249 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.221138178 sustained_step_seconds=1.597241263 samples=[0.221138178, 0.225411383, 0.222023044, 0.230592609, 0.219177046, 0.234449374, 0.233793143, 0.231794664]\nphase=Reduction calls=2631 seconds=0.153891616\n",
+    "resources": "peak_rss_kib=11136",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.818379441",
+      "capture_seconds": "0.001659375",
+      "frame_seconds": "1.820045249",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.221138178",
+      "sustained_step_seconds": "1.597241263"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 1,
+    "solver": "sgs-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.815085337 capture_seconds=0.001570983 frame_seconds=1.816662808 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.220279622 sustained_step_seconds=1.594805715 samples=[0.220279622, 0.211214468, 0.228509864, 0.22647511, 0.220287735, 0.229687246, 0.237966378, 0.240664914]\nphase=Reduction calls=2631 seconds=0.177506370\n",
+    "resources": "peak_rss_kib=11264",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.815085337",
+      "capture_seconds": "0.001570983",
+      "frame_seconds": "1.816662808",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.220279622",
+      "sustained_step_seconds": "1.594805715"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 1,
+    "solver": "sgs-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.842557899 capture_seconds=0.001738286 frame_seconds=1.844302897 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.233599681 sustained_step_seconds=1.608958218 samples=[0.233599681, 0.225876656, 0.236459917, 0.229629854, 0.236302173, 0.223375358, 0.230430003, 0.226884257]\nphase=Reduction calls=2631 seconds=0.177431528\n",
+    "resources": "peak_rss_kib=11264",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.842557899",
+      "capture_seconds": "0.001738286",
+      "frame_seconds": "1.844302897",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.233599681",
+      "sustained_step_seconds": "1.608958218"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 1,
+    "solver": "sgs-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.877513131 capture_seconds=0.001676010 frame_seconds=1.879194111 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.217201968 sustained_step_seconds=1.660311163 samples=[0.217201968, 0.234458929, 0.233653994, 0.233226217, 0.247743416, 0.250671468, 0.233401712, 0.227155427]\nphase=Reduction calls=2631 seconds=0.159964792\n",
+    "resources": "peak_rss_kib=11264",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.877513131",
+      "capture_seconds": "0.001676010",
+      "frame_seconds": "1.879194111",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.217201968",
+      "sustained_step_seconds": "1.660311163"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 1,
+    "solver": "sgs-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.906183354 capture_seconds=0.001601519 frame_seconds=1.907790441 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.230973054 sustained_step_seconds=1.675210300 samples=[0.230973054, 0.228546489, 0.232562835, 0.246050318, 0.254671101, 0.236866165, 0.236949301, 0.239564091]\nphase=Reduction calls=2631 seconds=0.164966420\n",
+    "resources": "peak_rss_kib=11264",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.906183354",
+      "capture_seconds": "0.001601519",
+      "frame_seconds": "1.907790441",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.230973054",
+      "sustained_step_seconds": "1.675210300"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 1,
+    "solver": "sgs-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "1",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.952339381 capture_seconds=0.001620578 frame_seconds=1.953966459 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.222368156 sustained_step_seconds=1.729971225 samples=[0.222368156, 0.229249731, 0.233154456, 0.237945514, 0.251906131, 0.292060737, 0.240711702, 0.244942954]\nphase=Reduction calls=2631 seconds=0.198922930\n",
+    "resources": "peak_rss_kib=11264",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.952339381",
+      "capture_seconds": "0.001620578",
+      "frame_seconds": "1.953966459",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.222368156",
+      "sustained_step_seconds": "1.729971225"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 4,
+    "solver": "sgs-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.060553585 capture_seconds=0.001610993 frame_seconds=1.062166812 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.136720091 sustained_step_seconds=0.923833494 samples=[0.136720091, 0.130405191, 0.132593586, 0.140600691, 0.138140916, 0.133870315, 0.131483892, 0.116738903]\nphase=FieldUpdate calls=1754 seconds=0.142517408\nphase=VelocityAdvection calls=48 seconds=0.077474314\nphase=TracerAdvection calls=14 seconds=0.008566060\nphase=PressureOperator calls=885 seconds=0.140336915\nphase=SgsForward calls=873 seconds=0.213479067\nphase=SgsReverse calls=873 seconds=0.213004820\nphase=Emitter calls=48 seconds=0.007502712\nphase=Reduction calls=2631 seconds=0.218910520\n",
+    "resources": "peak_rss_kib=11264",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.060553585",
+      "capture_seconds": "0.001610993",
+      "frame_seconds": "1.062166812",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.136720091",
+      "sustained_step_seconds": "0.923833494"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 4,
+    "solver": "sgs-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.047548339 capture_seconds=0.001645565 frame_seconds=1.049195918 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.128161832 sustained_step_seconds=0.919386507 samples=[0.128161832, 0.136667917, 0.141243172, 0.138066784, 0.125533423, 0.132243407, 0.127741226, 0.117890578]\nphase=FieldUpdate calls=1754 seconds=0.137474446\nphase=VelocityAdvection calls=48 seconds=0.081283380\nphase=TracerAdvection calls=14 seconds=0.007592567\nphase=PressureOperator calls=885 seconds=0.139782844\nphase=SgsForward calls=873 seconds=0.214721613\nphase=SgsReverse calls=873 seconds=0.213550434\nphase=Emitter calls=48 seconds=0.008242438\nphase=Reduction calls=2631 seconds=0.195028392\n",
+    "resources": "peak_rss_kib=11264",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.047548339",
+      "capture_seconds": "0.001645565",
+      "frame_seconds": "1.049195918",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.128161832",
+      "sustained_step_seconds": "0.919386507"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 4,
+    "solver": "sgs-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.023802184 capture_seconds=0.001786328 frame_seconds=1.025590535 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.125560357 sustained_step_seconds=0.898241827 samples=[0.125560357, 0.124964132, 0.13409442, 0.13910339, 0.119447409, 0.133300484, 0.114578103, 0.132753889]\nphase=FieldUpdate calls=1754 seconds=0.134952065\nphase=VelocityAdvection calls=48 seconds=0.081410663\nphase=TracerAdvection calls=14 seconds=0.007504554\nphase=PressureOperator calls=885 seconds=0.125015626\nphase=SgsForward calls=873 seconds=0.211416427\nphase=SgsReverse calls=873 seconds=0.211649175\nphase=Emitter calls=48 seconds=0.009719198\nphase=Reduction calls=2631 seconds=0.192295457\n",
+    "resources": "peak_rss_kib=11360",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.023802184",
+      "capture_seconds": "0.001786328",
+      "frame_seconds": "1.025590535",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.125560357",
+      "sustained_step_seconds": "0.898241827"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 4,
+    "solver": "sgs-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=0.994329160 capture_seconds=0.001598115 frame_seconds=0.995929136 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.110576339 sustained_step_seconds=0.883752821 samples=[0.110576339, 0.113782202, 0.135921582, 0.124727395, 0.112244318, 0.116211922, 0.132315337, 0.148550065]\nphase=FieldUpdate calls=1754 seconds=0.135383391\nphase=VelocityAdvection calls=48 seconds=0.079930782\nphase=TracerAdvection calls=14 seconds=0.008692660\nphase=PressureOperator calls=885 seconds=0.130190792\nphase=SgsForward calls=873 seconds=0.216509687\nphase=SgsReverse calls=873 seconds=0.211741623\nphase=Emitter calls=48 seconds=0.007632249\nphase=Reduction calls=2631 seconds=0.167752783\n",
+    "resources": "peak_rss_kib=11360",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "0.994329160",
+      "capture_seconds": "0.001598115",
+      "frame_seconds": "0.995929136",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.110576339",
+      "sustained_step_seconds": "0.883752821"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 4,
+    "solver": "sgs-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.097297593 capture_seconds=0.001568119 frame_seconds=1.098867654 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.194426683 sustained_step_seconds=0.902870910 samples=[0.194426683, 0.126915014, 0.133037958, 0.128602032, 0.137551912, 0.123215831, 0.126446692, 0.127101471]\nphase=FieldUpdate calls=1754 seconds=0.143460467\nphase=VelocityAdvection calls=48 seconds=0.088437070\nphase=TracerAdvection calls=14 seconds=0.008921557\nphase=PressureOperator calls=885 seconds=0.152041819\nphase=SgsForward calls=873 seconds=0.242331212\nphase=SgsReverse calls=873 seconds=0.227810082\nphase=Emitter calls=48 seconds=0.008119911\nphase=Reduction calls=2631 seconds=0.186712014\n",
+    "resources": "peak_rss_kib=11360",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.097297593",
+      "capture_seconds": "0.001568119",
+      "frame_seconds": "1.098867654",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.194426683",
+      "sustained_step_seconds": "0.902870910"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 4,
+    "solver": "sgs-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "4",
+      "8",
+      "adaptive",
+      "sgs-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=8 accepted_time=0.16000000000000000 divergence=1.00582838058471680e-7 step_seconds=1.079352492 capture_seconds=0.001838126 frame_seconds=1.081192683 managed_bytes=2646016 capture_bytes=536576 fingerprint=29f61aeef2c21fd3\niterations=869 residual=3.14255766621022105e-12 report_fingerprint=49237bbb9d4de00a cold_step_seconds=0.136567008 sustained_step_seconds=0.942785484 samples=[0.136567008, 0.128280892, 0.13647868, 0.126777577, 0.140399477, 0.138670095, 0.138401539, 0.133777224]\nphase=FieldUpdate calls=1754 seconds=0.144495512\nphase=VelocityAdvection calls=48 seconds=0.079786419\nphase=TracerAdvection calls=14 seconds=0.007898900\nphase=PressureOperator calls=885 seconds=0.137714151\nphase=SgsForward calls=873 seconds=0.216722670\nphase=SgsReverse calls=873 seconds=0.218231604\nphase=Emitter calls=48 seconds=0.007973455\nphase=Reduction calls=2631 seconds=0.213995154\n",
+    "resources": "peak_rss_kib=11360",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "8",
+      "accepted_time": "0.16000000000000000",
+      "divergence": "1.00582838058471680e-7",
+      "step_seconds": "1.079352492",
+      "capture_seconds": "0.001838126",
+      "frame_seconds": "1.081192683",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "29f61aeef2c21fd3",
+      "iterations": "869",
+      "residual": "3.14255766621022105e-12",
+      "report_fingerprint": "49237bbb9d4de00a",
+      "cold_step_seconds": "0.136567008",
+      "sustained_step_seconds": "0.942785484"
+    }
+  }
+]

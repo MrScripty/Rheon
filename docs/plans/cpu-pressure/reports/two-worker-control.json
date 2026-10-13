@@ -1,0 +1,446 @@
+[
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=8.206399457 capture_seconds=0.006605808 frame_seconds=8.213013995 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.241480943 sustained_step_seconds=7.964918514 samples=[0.241480943, 0.226820813, 0.218073813, 0.262972715, 0.28823501, 0.237364729, 0.241420279, 0.220595156, 0.24959424, 0.263547048, 0.235103083, 0.234613884, 0.268245394, 0.252573509, 0.264018556, 0.285970138, 0.318099485, 0.332410299, 0.235772004, 0.272260087, 0.286062579, 0.224691929, 0.245106882, 0.264225698, 0.253071751, 0.325299805, 0.236197907, 0.23300877, 0.205030043, 0.203351778, 0.250219714, 0.330961416]\nphase=FieldUpdate calls=19438 seconds=1.739381543\nphase=VelocityAdvection calls=192 seconds=0.557554895\nphase=TracerAdvection calls=62 seconds=0.149006398\nphase=PressureOperator calls=9770 seconds=1.830680490\nphase=Jacobi calls=9703 seconds=1.875057907\nphase=Emitter calls=192 seconds=0.046035875\nphase=Reduction calls=29208 seconds=1.771980236\n",
+    "resources": "peak_rss_kib=9984",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "8.206399457",
+      "capture_seconds": "0.006605808",
+      "frame_seconds": "8.213013995",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.241480943",
+      "sustained_step_seconds": "7.964918514"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=8.650836765 capture_seconds=0.006436948 frame_seconds=8.657282880 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.302280531 sustained_step_seconds=8.348556234 samples=[0.302280531, 0.240782188, 0.296135258, 0.25834964, 0.274406852, 0.295813007, 0.249251233, 0.25966017, 0.260553168, 0.325333242, 0.27102906, 0.239117459, 0.256677304, 0.266048678, 0.26304079, 0.298485748, 0.275435, 0.309051326, 0.285027923, 0.302080027, 0.275043579, 0.300808812, 0.267061849, 0.257673439, 0.260398865, 0.21973202, 0.271494483, 0.264021351, 0.216012829, 0.254806084, 0.267010304, 0.268214546]\nphase=FieldUpdate calls=19438 seconds=1.808618435\nphase=VelocityAdvection calls=192 seconds=0.568433257\nphase=TracerAdvection calls=62 seconds=0.157134767\nphase=PressureOperator calls=9770 seconds=2.006862067\nphase=Jacobi calls=9703 seconds=1.934827381\nphase=Emitter calls=192 seconds=0.046107138\nphase=Reduction calls=29208 seconds=1.879007740\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "8.650836765",
+      "capture_seconds": "0.006436948",
+      "frame_seconds": "8.657282880",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.302280531",
+      "sustained_step_seconds": "8.348556234"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=7.942267594 capture_seconds=0.006071881 frame_seconds=7.948348300 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.253514915 sustained_step_seconds=7.688752679 samples=[0.253514915, 0.294481893, 0.30739122, 0.314509231, 0.262522259, 0.275753312, 0.286358139, 0.33942799, 0.325668129, 0.215718141, 0.277371526, 0.212832772, 0.273029849, 0.329258131, 0.246504878, 0.203262639, 0.20484594, 0.204318864, 0.201524724, 0.206493558, 0.206754172, 0.205184501, 0.204032873, 0.212835227, 0.259561227, 0.214774746, 0.243973715, 0.208756236, 0.238979903, 0.233165862, 0.208447842, 0.27101318]\nphase=FieldUpdate calls=19438 seconds=1.574421644\nphase=VelocityAdvection calls=192 seconds=0.550957875\nphase=TracerAdvection calls=62 seconds=0.136518663\nphase=PressureOperator calls=9770 seconds=1.807846399\nphase=Jacobi calls=9703 seconds=1.782283149\nphase=Emitter calls=192 seconds=0.046792203\nphase=Reduction calls=29208 seconds=1.797278996\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "7.942267594",
+      "capture_seconds": "0.006071881",
+      "frame_seconds": "7.948348300",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.253514915",
+      "sustained_step_seconds": "7.688752679"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=7.749998193 capture_seconds=0.006237182 frame_seconds=7.756244628 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.243583699 sustained_step_seconds=7.506414494 samples=[0.243583699, 0.21615984, 0.212621726, 0.213607896, 0.206537608, 0.235093476, 0.208283846, 0.201303722, 0.203373779, 0.205727885, 0.221140798, 0.210351969, 0.209199833, 0.25224827, 0.348123037, 0.325010139, 0.356286131, 0.281116366, 0.204360549, 0.209574529, 0.286592922, 0.240064829, 0.204458988, 0.2067047, 0.222405778, 0.252741455, 0.230164602, 0.329044757, 0.224802824, 0.26357967, 0.236112656, 0.289619914]\nphase=FieldUpdate calls=19438 seconds=1.711262908\nphase=VelocityAdvection calls=192 seconds=0.520912066\nphase=TracerAdvection calls=62 seconds=0.138442852\nphase=PressureOperator calls=9770 seconds=1.720272109\nphase=Jacobi calls=9703 seconds=1.737136133\nphase=Emitter calls=192 seconds=0.047056988\nphase=Reduction calls=29208 seconds=1.645549191\n",
+    "resources": "peak_rss_kib=10112",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "7.749998193",
+      "capture_seconds": "0.006237182",
+      "frame_seconds": "7.756244628",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.243583699",
+      "sustained_step_seconds": "7.506414494"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=8.529882876 capture_seconds=0.006822024 frame_seconds=8.536714314 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.217239122 sustained_step_seconds=8.312643754 samples=[0.217239122, 0.249054709, 0.310512175, 0.35498193, 0.212769201, 0.213198084, 0.251471434, 0.220999151, 0.258983165, 0.28108814, 0.222290591, 0.245337265, 0.263407427, 0.216710053, 0.219298202, 0.280670145, 0.23451157, 0.338847084, 0.246672576, 0.289475213, 0.341900652, 0.33952874, 0.304515718, 0.348565458, 0.301267549, 0.235530377, 0.272502318, 0.246764776, 0.291746668, 0.212933004, 0.259456916, 0.247653463]\nphase=FieldUpdate calls=19438 seconds=1.754237290\nphase=VelocityAdvection calls=192 seconds=0.580166223\nphase=TracerAdvection calls=62 seconds=0.153182402\nphase=PressureOperator calls=9770 seconds=1.902795486\nphase=Jacobi calls=9703 seconds=1.929131779\nphase=Emitter calls=192 seconds=0.048654290\nphase=Reduction calls=29208 seconds=1.910545320\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "8.529882876",
+      "capture_seconds": "0.006822024",
+      "frame_seconds": "8.536714314",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.217239122",
+      "sustained_step_seconds": "8.312643754"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=8.186224760 capture_seconds=0.006613892 frame_seconds=8.192847402 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.214169227 sustained_step_seconds=7.972055533 samples=[0.214169227, 0.234629618, 0.333956405, 0.275222868, 0.218082166, 0.247431384, 0.276769183, 0.329883569, 0.236762505, 0.307288438, 0.243041062, 0.262785273, 0.335494101, 0.278824112, 0.256372834, 0.266946338, 0.280840767, 0.277931519, 0.256405918, 0.250088456, 0.211017356, 0.234815534, 0.224422136, 0.210381892, 0.208506805, 0.234766, 0.225134778, 0.239495267, 0.279585241, 0.251378283, 0.25719852, 0.226597205]\nphase=FieldUpdate calls=19438 seconds=1.638116018\nphase=VelocityAdvection calls=192 seconds=0.543117764\nphase=TracerAdvection calls=62 seconds=0.140126256\nphase=PressureOperator calls=9770 seconds=1.877795600\nphase=Jacobi calls=9703 seconds=1.850321885\nphase=Emitter calls=192 seconds=0.049516638\nphase=Reduction calls=29208 seconds=1.845908064\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "8.186224760",
+      "capture_seconds": "0.006613892",
+      "frame_seconds": "8.192847402",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.214169227",
+      "sustained_step_seconds": "7.972055533"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 3,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=7.504325659 capture_seconds=0.006517495 frame_seconds=7.510851817 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.236688207 sustained_step_seconds=7.267637452 samples=[0.236688207, 0.273855802, 0.280386941, 0.214825262, 0.253512061, 0.301284132, 0.281372325, 0.208514876, 0.236486812, 0.250589757, 0.284466127, 0.217675677, 0.206985776, 0.2177506, 0.210052739, 0.207645762, 0.204613954, 0.199015088, 0.195422192, 0.195768254, 0.207640245, 0.199087578, 0.235045972, 0.225249344, 0.212711895, 0.216865042, 0.237274201, 0.208799977, 0.267747307, 0.225972132, 0.272376517, 0.318643105]\nphase=FieldUpdate calls=19438 seconds=1.566782784\nphase=VelocityAdvection calls=192 seconds=0.517672974\nphase=TracerAdvection calls=62 seconds=0.135329638\nphase=PressureOperator calls=9770 seconds=1.668796540\nphase=Jacobi calls=9703 seconds=1.666866467\nphase=Emitter calls=192 seconds=0.045367873\nphase=Reduction calls=29208 seconds=1.667291429\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "7.504325659",
+      "capture_seconds": "0.006517495",
+      "frame_seconds": "7.510851817",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.236688207",
+      "sustained_step_seconds": "7.267637452"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 3,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=7.837224157 capture_seconds=0.006365380 frame_seconds=7.843597456 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.232051088 sustained_step_seconds=7.605173069 samples=[0.232051088, 0.22246093, 0.221284458, 0.235603984, 0.250515234, 0.209083541, 0.210050842, 0.232930637, 0.264390219, 0.29266722, 0.331039492, 0.300913504, 0.226615139, 0.236722444, 0.261708939, 0.205882397, 0.215041825, 0.260320709, 0.229295647, 0.250986887, 0.218717901, 0.287071684, 0.23756087, 0.234127774, 0.282885052, 0.237985792, 0.262333358, 0.252658361, 0.207754596, 0.243120661, 0.240906711, 0.242536261]\nphase=FieldUpdate calls=19438 seconds=1.593855458\nphase=VelocityAdvection calls=192 seconds=0.515965988\nphase=TracerAdvection calls=62 seconds=0.143438125\nphase=PressureOperator calls=9770 seconds=1.759215805\nphase=Jacobi calls=9703 seconds=1.777924493\nphase=Emitter calls=192 seconds=0.046424149\nphase=Reduction calls=29208 seconds=1.762268728\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "7.837224157",
+      "capture_seconds": "0.006365380",
+      "frame_seconds": "7.843597456",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.232051088",
+      "sustained_step_seconds": "7.605173069"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 4,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=8.544514617 capture_seconds=0.007415137 frame_seconds=8.551938667 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.309201590 sustained_step_seconds=8.235313027 samples=[0.30920159, 0.331955788, 0.281723658, 0.232220345, 0.29302507, 0.218697078, 0.277465069, 0.231161931, 0.252058209, 0.281250875, 0.342438199, 0.280770421, 0.289443053, 0.318075657, 0.269858688, 0.314313915, 0.22538131, 0.229809286, 0.287128407, 0.241634471, 0.27018755, 0.218256983, 0.246565739, 0.265239607, 0.284151806, 0.268268187, 0.28120802, 0.242337813, 0.238758597, 0.250490796, 0.212658531, 0.258777968]\nphase=FieldUpdate calls=19438 seconds=1.785218057\nphase=VelocityAdvection calls=192 seconds=0.569858728\nphase=TracerAdvection calls=62 seconds=0.143866248\nphase=PressureOperator calls=9770 seconds=1.925225919\nphase=Jacobi calls=9703 seconds=1.930991203\nphase=Emitter calls=192 seconds=0.052752844\nphase=Reduction calls=29208 seconds=1.887576555\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "8.544514617",
+      "capture_seconds": "0.007415137",
+      "frame_seconds": "8.551938667",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.309201590",
+      "sustained_step_seconds": "8.235313027"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 4,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=8.389910040 capture_seconds=0.006480746 frame_seconds=8.396400071 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.205012160 sustained_step_seconds=8.184897880 samples=[0.20501216, 0.211605687, 0.214314917, 0.228639437, 0.263150382, 0.287455649, 0.265182496, 0.261317363, 0.296218437, 0.271087652, 0.25670238, 0.223575351, 0.215045721, 0.234713771, 0.229604107, 0.246960401, 0.27252041, 0.342169752, 0.282198813, 0.231128035, 0.281983306, 0.306105138, 0.282476376, 0.288310072, 0.34598551, 0.246673958, 0.225954081, 0.214293289, 0.298246023, 0.338367163, 0.246767523, 0.27614468]\nphase=FieldUpdate calls=19438 seconds=1.646460335\nphase=VelocityAdvection calls=192 seconds=0.579113008\nphase=TracerAdvection calls=62 seconds=0.150077989\nphase=PressureOperator calls=9770 seconds=1.914604995\nphase=Jacobi calls=9703 seconds=1.902972538\nphase=Emitter calls=192 seconds=0.048103850\nphase=Reduction calls=29208 seconds=1.902417365\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "8.389910040",
+      "capture_seconds": "0.006480746",
+      "frame_seconds": "8.396400071",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.205012160",
+      "sustained_step_seconds": "8.184897880"
+    }
+  },
+  {
+    "version": "candidate",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 5,
+    "command": [
+      "/tmp/cpu-observed-candidate",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=8.471268608 capture_seconds=0.006257754 frame_seconds=8.477535575 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.324914135 sustained_step_seconds=8.146354473 samples=[0.324914135, 0.319522512, 0.396326591, 0.323342948, 0.310249802, 0.292226163, 0.273888027, 0.321273171, 0.218475725, 0.224818053, 0.257380876, 0.26829854, 0.276232403, 0.36546997, 0.219608991, 0.207449653, 0.288761986, 0.240069187, 0.214443991, 0.255944077, 0.211940465, 0.205629363, 0.269222591, 0.223940674, 0.215577042, 0.215549306, 0.22565848, 0.25237907, 0.2165434, 0.219555819, 0.331174404, 0.285401193]\nphase=FieldUpdate calls=19438 seconds=1.778209585\nphase=VelocityAdvection calls=192 seconds=0.534977180\nphase=TracerAdvection calls=62 seconds=0.141408836\nphase=PressureOperator calls=9770 seconds=1.969531553\nphase=Jacobi calls=9703 seconds=1.918827698\nphase=Emitter calls=192 seconds=0.046691646\nphase=Reduction calls=29208 seconds=1.843346525\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "8.471268608",
+      "capture_seconds": "0.006257754",
+      "frame_seconds": "8.477535575",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.324914135",
+      "sustained_step_seconds": "8.146354473"
+    }
+  },
+  {
+    "version": "baseline",
+    "grid": "32",
+    "workers": 2,
+    "solver": "jacobi-pcg-v1",
+    "trial": 5,
+    "command": [
+      "/tmp/cpu-observed-baseline",
+      "32",
+      "2",
+      "32",
+      "adaptive",
+      "jacobi-pcg-v1",
+      "observed"
+    ],
+    "stdout": "steps=32 accepted_time=0.64000000000000024 divergence=1.57393515110015869e-7 step_seconds=8.534775712 capture_seconds=0.006247955 frame_seconds=8.541032574 managed_bytes=2646016 capture_bytes=536576 fingerprint=39c8e33817f980a8\niterations=9703 residual=3.97297056600392708e-12 report_fingerprint=bc78e81e6576af45 cold_step_seconds=0.224281355 sustained_step_seconds=8.310494357 samples=[0.224281355, 0.213799775, 0.236319026, 0.322959541, 0.249735483, 0.2324755, 0.209198797, 0.202103031, 0.260620694, 0.210510078, 0.263548989, 0.27585477, 0.231785729, 0.258281895, 0.349713818, 0.343181567, 0.334500943, 0.347400258, 0.343128101, 0.330122709, 0.319235262, 0.321237415, 0.320214775, 0.235265411, 0.33832631, 0.207689947, 0.227362415, 0.256178702, 0.213347092, 0.218903307, 0.211929415, 0.225563602]\nphase=FieldUpdate calls=19438 seconds=2.115059019\nphase=VelocityAdvection calls=192 seconds=0.513170217\nphase=TracerAdvection calls=62 seconds=0.138181348\nphase=PressureOperator calls=9770 seconds=1.911484355\nphase=Jacobi calls=9703 seconds=1.916156514\nphase=Emitter calls=192 seconds=0.046415646\nphase=Reduction calls=29208 seconds=1.656354207\n",
+    "resources": "peak_rss_kib=10240",
+    "mode": [
+      "observed"
+    ],
+    "fields": {
+      "steps": "32",
+      "accepted_time": "0.64000000000000024",
+      "divergence": "1.57393515110015869e-7",
+      "step_seconds": "8.534775712",
+      "capture_seconds": "0.006247955",
+      "frame_seconds": "8.541032574",
+      "managed_bytes": "2646016",
+      "capture_bytes": "536576",
+      "fingerprint": "39c8e33817f980a8",
+      "iterations": "9703",
+      "residual": "3.97297056600392708e-12",
+      "report_fingerprint": "bc78e81e6576af45",
+      "cold_step_seconds": "0.224281355",
+      "sustained_step_seconds": "8.310494357"
+    }
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "version": "baseline",
+    "trial": 0,
+    "stdout": "mode=step-jacobi-no-boxes size=32 threads=1 repetitions=12 seconds=3.153898425 fingerprint=2b864a8c7add5409\nprofile=Reduction calls=11008 seconds=0.558222756 batch=32768\n"
+  },
+  {
+    "version": "candidate",
+    "trial": 0,
+    "stdout": "mode=step-jacobi-no-boxes size=32 threads=1 repetitions=12 seconds=3.086412120 fingerprint=2b864a8c7add5409\nprofile=Reduction calls=11008 seconds=0.563602441 batch=32768\n"
+  },
+  {
+    "version": "candidate",
+    "trial": 1,
+    "stdout": "mode=step-jacobi-no-boxes size=32 threads=1 repetitions=12 seconds=3.357193496 fingerprint=2b864a8c7add5409\nprofile=Reduction calls=11008 seconds=0.602708264 batch=32768\n"
+  },
+  {
+    "version": "baseline",
+    "trial": 1,
+    "stdout": "mode=step-jacobi-no-boxes size=32 threads=1 repetitions=12 seconds=3.383599613 fingerprint=2b864a8c7add5409\nprofile=Reduction calls=11008 seconds=0.603628599 batch=32768\n"
+  },
+  {
+    "version": "baseline",
+    "trial": 2,
+    "stdout": "mode=step-jacobi-no-boxes size=32 threads=1 repetitions=12 seconds=3.385537429 fingerprint=2b864a8c7add5409\nprofile=Reduction calls=11008 seconds=0.594803867 batch=32768\n"
+  },
+  {
+    "version": "candidate",
+    "trial": 2,
+    "stdout": "mode=step-jacobi-no-boxes size=32 threads=1 repetitions=12 seconds=3.435501562 fingerprint=2b864a8c7add5409\nprofile=Reduction calls=11008 seconds=0.612494563 batch=32768\n"
+  }
+]
