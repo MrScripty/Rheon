@@ -115,10 +115,20 @@ struct CachedScene {
     time: f64,
     mesh: Arc<egui::Mesh>,
 }
+#[derive(Clone, Copy, PartialEq, Eq, Default)]
+enum ViewMode {
+    #[default]
+    Appearance,
+    Particles,
+    Obstacle,
+    Transport,
+}
 pub struct Viewport {
     pub camera: OrbitCamera,
     engineering: Option<super::engineering::EngineeringView>,
-    engineering_active: bool,
+    mode: ViewMode,
+    particles: super::particle_view::ParticleView,
+    transport: Option<Result<super::transport_view::TransportView, String>>,
     engineering_camera: OrbitCamera,
     pub touchpad_mode: bool,
     pub threshold: u8,
@@ -133,9 +143,11 @@ impl Default for Viewport {
         Self {
             camera: OrbitCamera::default(),
             engineering: None,
-            engineering_active: false,
+            mode: ViewMode::Appearance,
+            particles: Default::default(),
+            transport: None,
             engineering_camera: OrbitCamera {
-                distance: 1.4,
+                distance: 1.8,
                 ..Default::default()
             },
             touchpad_mode: false,
@@ -156,43 +168,73 @@ impl Viewport {
         emitter: Option<RotatingCylinderEmitter>,
         workers: &[WorkerVoxel],
         grid_edge: usize,
+        inspector: Option<&super::inspector::Inspector>,
     ) {
         ui.horizontal_wrapped(|ui| {
-            ui.selectable_value(&mut self.engineering_active, false, "Live preview");
-            ui.selectable_value(
-                &mut self.engineering_active,
-                true,
-                "Obstacle projection lab",
-            );
-            if self.engineering_active {
-                ui.checkbox(
-                    &mut self.engineering_camera.orthographic,
-                    "Orthographic lab",
-                );
-                if ui.button("Frame lab").clicked() {
+            for (mode, label) in [
+                (ViewMode::Appearance, "Appearance"),
+                (ViewMode::Particles, "Particles"),
+                (ViewMode::Obstacle, "Obstacle lab"),
+                (ViewMode::Transport, "Transport session"),
+            ] {
+                ui.selectable_value(&mut self.mode, mode, label);
+            }
+            if self.mode != ViewMode::Appearance {
+                ui.checkbox(&mut self.engineering_camera.orthographic, "Orthographic");
+                if ui.button("Frame view").clicked() {
                     self.engineering_camera = OrbitCamera {
-                        distance: 1.4,
+                        distance: 1.8,
                         ..Default::default()
                     };
                 }
             }
         });
-        if self.engineering_active {
-            self.engineering
+        match self.mode {
+            ViewMode::Obstacle => self
+                .engineering
                 .get_or_insert_with(Default::default)
-                .controls(ui);
+                .controls(ui),
+            ViewMode::Particles => self.particles.controls(ui, inspector),
+            ViewMode::Transport => match self
+                .transport
+                .get_or_insert_with(super::transport_view::TransportView::new)
+            {
+                Ok(view) => view.controls(ui),
+                Err(error) => {
+                    ui.colored_label(Color32::LIGHT_RED, error);
+                }
+            },
+            ViewMode::Appearance => {}
         }
         let (rect, response) = ui.allocate_exact_size(
-            ui.available_size().max(egui::vec2(150.0, 150.0)),
+            ui.available_size().max(egui::vec2(1.0, 1.0)),
             egui::Sense::click_and_drag(),
         );
         let painter = ui.painter_at(rect);
         painter.rect_filled(rect, 0.0, Color32::from_rgb(14, 20, 29));
-        if self.engineering_active {
+        if self.mode != ViewMode::Appearance {
             std::mem::swap(&mut self.camera, &mut self.engineering_camera);
-            self.input(ui, &response, rect, 1.4);
-            if let Some(lab) = &mut self.engineering {
-                lab.paint(ui, rect, &response, &self.camera);
+            self.input(ui, &response, rect, 1.8);
+            match self.mode {
+                ViewMode::Obstacle => {
+                    if let Some(lab) = &mut self.engineering {
+                        lab.paint(ui, rect, &response, &self.camera);
+                    }
+                }
+                ViewMode::Particles => self.particles.paint(
+                    ui,
+                    rect,
+                    &response,
+                    &self.camera,
+                    self.domain_side,
+                    inspector,
+                ),
+                ViewMode::Transport => {
+                    if let Some(Ok(view)) = &mut self.transport {
+                        view.view.paint(ui, rect, &response, &self.camera);
+                    }
+                }
+                ViewMode::Appearance => {}
             }
             std::mem::swap(&mut self.camera, &mut self.engineering_camera);
             return;
@@ -346,8 +388,13 @@ impl Viewport {
             egui::FontId::monospace(12.0),
             Color32::from_rgb(115, 144, 171),
         );
-        painter.text(rect.left_bottom()+egui::vec2(14.0,-12.0),egui::Align2::LEFT_BOTTOM,
-            "Drag orbit · Shift+drag pan · Ctrl+drag zoom · wheel/pinch zoom · 1/3/7 views · Home frame",egui::FontId::proportional(11.0),Color32::from_rgb(142,158,176));
+        painter.text(
+            rect.left_bottom() + egui::vec2(14.0, -12.0),
+            egui::Align2::LEFT_BOTTOM,
+            "Drag orbit · Shift pan · Ctrl zoom · Home frame",
+            egui::FontId::proportional(11.0),
+            Color32::from_rgb(142, 158, 176),
+        );
     }
     fn input(&mut self, ui: &egui::Ui, response: &egui::Response, rect: Rect, frame_distance: f32) {
         if !(response.hovered() || response.dragged()) {
@@ -598,7 +645,7 @@ mod tests {
     fn lab_navigation_preserves_the_live_camera_and_uses_its_own_framing() {
         let ctx = egui::Context::default();
         let mut viewport = Viewport {
-            engineering_active: true,
+            mode: ViewMode::Obstacle,
             ..Default::default()
         };
         viewport.camera.yaw = 1.2;
@@ -613,7 +660,7 @@ mod tests {
             },
             |ctx| {
                 egui::CentralPanel::default()
-                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32));
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32, None));
             },
         );
         let _ = ctx.run(
@@ -633,11 +680,11 @@ mod tests {
             },
             |ctx| {
                 egui::CentralPanel::default()
-                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32));
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32, None));
             },
         );
         assert_eq!(viewport.camera, live);
-        assert_eq!(viewport.engineering_camera.distance, 1.4);
+        assert_eq!(viewport.engineering_camera.distance, 1.8);
     }
     #[test]
     fn voxel_surface_culls_internal_faces() {
@@ -668,7 +715,7 @@ mod tests {
             };
             let _ = ctx.run(input, |ctx| {
                 egui::CentralPanel::default()
-                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32));
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32, None));
             });
         };
         for (modifiers, mode) in [
@@ -746,7 +793,7 @@ mod tests {
             };
             let _ = ctx.run(input, |ctx| {
                 egui::CentralPanel::default()
-                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32));
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32, None));
             });
         };
         draw(
