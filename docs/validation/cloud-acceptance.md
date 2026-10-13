@@ -71,3 +71,5 @@ contract tests provide separate field/report assertions.
 does not rebuild Lean or rerun the kernel axiom audit. Existing exact finite-real theorems do not certify
 Rust/IEEE refinement, geometry assembly, solver convergence, continuum correctness or performance.
 See `proofs/README.md` for the actual theorem hypotheses and historical source-bound qualification.
+
+[Measured results and independent worker-branch checks](cloud-evidence-20261013.md) record the completed local and hosted qualification.
