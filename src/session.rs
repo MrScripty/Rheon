@@ -13,6 +13,14 @@ pub struct SessionIdentity {
     pub source_revision: String,
 }
 
+impl SessionIdentity {
+    pub(crate) fn is_valid(&self) -> bool {
+        !self.source_revision.is_empty()
+            && self.source_revision.len() <= 1000
+            && !self.source_revision.chars().any(char::is_control)
+    }
+}
+
 /// Versioned API capabilities; dense3D wire versions remain independently versioned.
 #[derive(Debug, Clone, Copy)]
 pub struct SessionCapabilities {
@@ -125,10 +133,7 @@ impl SimulationSession {
         workspace_limit: usize,
         max_steps: usize,
     ) -> Result<Self, SessionError> {
-        if identity.source_revision.is_empty()
-            || identity.source_revision.len() > 1000
-            || identity.source_revision.chars().any(char::is_control)
-        {
+        if !identity.is_valid() {
             return Err(SessionError::InvalidIdentity);
         }
         let workspace = BoxFluxStepWorkspace::new(

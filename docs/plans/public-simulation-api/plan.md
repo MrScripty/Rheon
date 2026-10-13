@@ -1,85 +1,80 @@
 # Public simulation API
 
-Status: Blocked. Blocker: peer integration. Current phase: M3 contract coordination.
-Objective acceptance: partial. Operation: continue this plan under the user's
-explicit implementation/push/draft-PR instruction. Goal: embedded numerical data
-and generation controls for Rust hosts, dataset consumers and game engines,
-with separately evidenced physics backends rather than an invented universal solver.
+Status: Accepted (M1–M3 scope). Current phase: composed API draft handoff.
+Objective acceptance: satisfied for M1–M3; M4/M5 deferred. Operation: verify under the user's explicit
+implementation/push/draft-PR instruction. Goal: embedded numerical data and
+generation controls for Rust hosts, dataset consumers and game engines, with
+separately evidenced backend capabilities rather than a universal solver claim.
 
 ## Authority and constraints
 
-API worker owns `src/session.rs`, the additive `src/lib.rs` exports,
-`tests/session_contract.rs`, `examples/{headless_session,game_loop_session}.rs`,
-`examples/session_support/mod.rs`, `docs/api/simulation-session.md`, and this plan
-folder. Physics, renderer, provider and quantitative algorithms remain with their
-workers. Parent is the serial integration owner. Source base: `2209012`.
-Feature branch `feat/public-simulation-api`, worktree `/workspace/rheon-api`, is
-retained for draft review; preserve original `/workspace/Rheon` and owner changes.
-No merge/deploy, history rewrite or resource cleanup is authorized by this slice.
-After parent integration/rejection, disposition this worktree with verified refs.
+API owner writes session modules (`src/{session,material_session,pressure_session}.rs`),
+additive `src/lib.rs` exports, matching session contract tests/examples, shared example
+fixture, `docs/api/` contracts and this plan folder. Physics, diagnostic algorithms,
+providers and CAD rendering/VTK remain with their respective workers. API owner is
+responsible for integration design; parent owns eventual main integration.
 
-Standards: public MrScripty/Coding-Standards at
-`188beda1fa477d21d576c233dd8c7f4c4c267d23`. No local AGENTS or skills existed.
-[Standards and design record](reports/design.md) documents applicability and probe.
-Existing typed inputs, publication, dense3D wire bytes and fixed-case v2 capture
-remain authoritative. The session owns lifecycle, never numerical acceptance.
+Source base `2209012`. PR #48 at `f06a127` remains unchanged. The current branch
+`feat/material-simulation-api` in `/workspace/rheon-api` stacks on it and merges the
+complete published PR #47 (`1923d5b`) and PR #49 (`b8ca87c`) dependencies, preserving
+history. Their only conflicting source region was additive `src/lib.rs` declarations;
+both were retained. No main merge/deploy or history rewrite. Original `/workspace/Rheon`
+remains preserved. Retain this worktree protected by the feature ref for draft review;
+parent owns integration/rejection and then its disposition with verified reachability.
 
-## Milestones and claims
+Standards: MrScripty/Coding-Standards at `188beda1fa477d21d576c233dd8c7f4c4c267d23`.
+No local AGENTS/skills existed. [Design record](reports/design.md) contains applicability
+and current composed-design probes. Existing numerical acceptance and dense3D/v2
+contracts remain authoritative; the API owns lifecycle/publication, not algorithms.
 
-| Milestone | State | Claim and gate |
+## Milestones and acceptance
+
+| Milestone | State | Claim and deciding evidence |
 | --- | --- | --- |
-| M1 transport contract and owner | Accepted | A1 public API accepts existing controls and preserves accepted publication on cancellation/rejection/deadline; A2 byte-compatible dense3D frame output; focused public contract tests and affected Rust regressions |
-| M2 useful consumers | Accepted | A3 headless Rust consumer emits nine valid JSON frames; A4 engine-neutral host uses accepted dt, bounded catch-up and deadline; both examples executed |
-| M3 shared backend integration | Blocked | A5 material/SPH, inspection and provider APIs expose supported capabilities and consistent state identity; needs peer contracts and combined source revision from parent |
-| M4 actual Godot consumer | Deferred | A6 engine runtime proves conversion, thread/lifetime ownership and failure behavior; needs selected binding stack, project and supported Godot target |
+| M1 transport API | Accepted | A1 controls/lifecycle and rollback; A2 existing dense3D bytes; public contracts and native regressions |
+| M2 embedded consumers | Accepted | A3 nine valid headless frames; A4 bounded game-loop consumption of actual dt; executable examples |
+| M3 material and provider composition | Accepted | A5 native-equivalent material fields, canonical diagnostics and retained controls; A6 qualified pressure selection/report, explicit fallback and prior-publication retention; native and frozen-artifact contract tests |
+| M4 actual Godot binding | Deferred | A7 actual engine conversion/thread/lifetime/error behavior; needs a selected binding stack, Godot project and runtime acceptance |
+| M5 tangential moving-plate session | Deferred | A8 layered speeds, interval reports and atomic clock/control publication; separately gated experimental-library exposure, native equivalence and dense-rational evidence |
 
-A1/A2 are automated contract/integration evidence in Linux Rust 1.92.0, with no
-special hardware requirement. A3/A4 are automated consumer integration evidence
-in the same cloud CPU environment. A5 requires the real composed peer interfaces;
-A6 requires a real Godot runtime/binding consumer. Rust examples do not satisfy A6.
-A1/A2/A3/A4 satisfied in the execution ledger.
-Exactly one next slice: obtain the parent's accepted combined peer-contract revision
-to admit M3 implementation; M1/M2 are published in draft PR #48.
+A1–A6 are automated contract/integration evidence on Linux CPU with Rust 1.92.0.
+A6 requires the real SHA256-pinned frozen export and observes actual provider calls,
+not test-double evidence. A7 requires a real Godot consumer; Rust examples do not
+satisfy it. M1/M2 evidence and exact command/configuration counts live in the ledger.
+Next slice: none for the accepted M1–M3 scope. Parent reviews the stacked draft;
+M4 needs a separately selected binding/runtime acceptance path. M5 has a concrete
+[separate integration contract](reports/moving-plate-integration.md), reviewed against
+PR #52 `fd281eb`; it is not advertised by the current session capabilities.
 
-## Integration proposal for M3 (not implemented capability)
+## Binding integration decisions
 
-- Material/SPH: add a separately named material-session adapter around existing
-  `ParticleFluidSimulation`, `ParticleFluidConfig`, `FluidParticle`, and
-  `ParticleStepReport`. Reuse session run/source identity and publication stages;
-  provide particle SI fields and actual dt, not a fake MAC grid projection. Physics
-  owner must supply accepted control update/cancellation semantics before claiming
-  transactional equivalence. API owner adds exports only after that gate.
-- Quantitative inspection: inspected draft PR #47 at
-  `1923d5bd3442a5369878a1a317b52f4a89026d5b`. Reuse its existing
-  `ParticleDiagnostic` and `particle_diagnostics() -> Option<(f64, &[ParticleDiagnostic])>`;
-  do not add a competing capture type. The slice aligns with `particles()` by
-  append-only, run-local index; pair identity with `SessionIdentity.run_id`.
-  Initial diagnostics are absent. Their committed evaluation stage is post-emission,
-  pre-integration (and before wall response), distinct from accepted position/time.
-  Preserve optional evaluation time, binary64 density kg/m^3, pressure Pa and
-  acceleration m/s^2. Derived mass-times-acceleration excludes later wall impulses.
-  Snapshot publication stage remains Constructor/Accepted; evaluation stage must
-  be separately described rather than flattened into SnapshotStage. The PR adds
-  ParticleDiagnostic near the existing particle exports; this branch appends session
-  exports, so the proposed edits have separate regions. Parent integrates, no merge
-  was performed. Inspection worker owns calculations and descriptor meaning. Consume immutable session state/grid/report plus run ID, carrier/liquid
-  stamps, generation, accepted time, field units and stage. Inspection results must
-  name their input publication and distinct pressure-interval semantics. Do not
-  infer stress, force or end-surface pressure from transport snapshots.
-- AI providers: provider owner supplies selection/capability/error types, model
-  identity and inference budget/cancellation behavior. API accepts explicit selection
-  only when the underlying backend can enforce it; retain native numerical acceptance
-  and publish provider/model/version identity with accepted results. No hidden model
-  fallback or claim that transport API already supports AI execution.
-- CAD/UI consumes snapshots or copied display buffers; it does not mutate session
-  state. Parent coordinates changes to shared exports and consumer contracts.
-- Tuldok retains existing v1/v2 dataset owners. A generic controls sidecar is a new
-  contract requiring consumer coordination, not an extension silently added here.
+- `MaterialSession` owns existing SPH configuration, per-call emitter controls and
+  borrowed snapshots. Configuration is fixed for a session; successful reports use
+  actual accepted dt. Rejected requests cannot relabel accepted controls.
+- PR #47 owns `ParticleDiagnostic` and `particle_diagnostics()`. API reuses that exact
+  capture. Evaluation is post-emission/pre-integration, before wall response; accepted
+  positions/time are later. IDs pair caller run ID with append-only particle index.
+- `PressureSession` uses PR #49 `PressureProvider`, metadata/provenance and qualification/
+  fallback reports. Its output is explicitly **qualified pressure-stage** data. The
+  actual velocity correction/divergence/commit path is not bypassed or claimed.
+- CAD PR #50 (`3f49a15`) owns VTK, export UI and live-field rendering. Raw API views are
+  its input. No competing VTK/renderer or diagnostic capture is introduced.
+- Tuldok dataset completion remains with Dense3dSequence and existing v1/v2 exporters.
+  Example particle CSV and standalone pressure data are not relabelled as v2 datasets.
 
-M3 write set must be revised once peer public types are known. Replan on changed
-ownership, accepted-state semantics, wire evolution, backend capability, memory
-contract, Godot stack, or real consumer evidence. No speculative backend registry,
-common solver trait or cross-language ABI is included in M1.
+The material and pressure APIs deliberately have separate result types because
+accepted particles, diagnostic evaluation and qualified projection pressure have
+different physical semantics. No backend registry, universal solver trait, network
+service or ABI is introduced. Future full-step AI injection requires a physics-owned
+candidate/correction/actual-divergence/commit hook and independent rollback evidence.
+Replan for changed ownership, stage meaning, wire contracts, backend domain, memory
+promises or selected Godot binding. Ordinary verification repairs remain in M3.
 
-Links: [ledger](execution-ledger.md), [issues](issues.md),
-[contract](../../api/simulation-session.md), [design](reports/design.md).
+Links: [ledger](execution-ledger.md), [issues](issues.md), [design](reports/design.md),
+[transport](../../api/simulation-session.md), [material](../../api/material-session.md),
+[pressure](../../api/pressure-session.md).
+
+M5 was selected as a separate milestone because PR #52 is a path-import experiment
+with no clock owner and a layered tangential state incompatible with current session
+models. API owns its integration design; physics owns interval/numerical admission.
+No PR #52 source was merged or unsupported general-geometry capability added here.

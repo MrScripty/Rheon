@@ -176,5 +176,18 @@ pub use session::{
     SESSION_CAPABILITIES, SessionCapabilities, SessionError, SessionIdentity, SessionSnapshot,
     SimulationSession, SnapshotStage,
 };
+
+mod material_session;
+pub use material_session::{
+    MATERIAL_SESSION_CAPABILITIES, MaterialEmitterControl, MaterialSession,
+    MaterialSessionCapabilities, MaterialSessionError, MaterialSnapshot, MaterialStepControls,
+    ParticleEvaluationStage,
+};
 /// Optional learned pressure components with reference fallback.
 pub mod solver_provider;
+
+mod pressure_session;
+pub use pressure_session::{
+    PRESSURE_SESSION_CAPABILITIES, PressureSession, PressureSessionCapabilities,
+    PressureSessionError, PressureSolveControls, QualifiedPressureSnapshot,
+};
