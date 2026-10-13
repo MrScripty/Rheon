@@ -44,7 +44,7 @@ def qualify(site):
     page.screenshot(path=str(out/f'{anchor}-{width}.png'))
     for control in page.locator('#controls select').all():
      control.select_option('0');settle(page);check(page);control.select_option(str(control.locator('option').count()-1));settle(page);check(page)
-    before=snapshot(page);page.locator('#scene').press('ArrowRight');settle(page);require(snapshot(page)['camera']!=before['camera'],'Camera fixed');require(check(page)==before['reference'],'Camera changes data')
+    before=snapshot(page);pixels=page.locator('#scene canvas').screenshot();page.locator('#scene').press('ArrowRight');settle(page);require(snapshot(page)['camera']!=before['camera'],'Camera fixed');require(check(page)==before['reference'],'Camera changes data');require(page.locator('#scene canvas').screenshot()!=pixels,'Camera must change actual rendered canvas')
     if width<760:
      for mode in ['text','split']:page.locator(f'[data-reading-mode="{mode}"]').click();settle(page);require(check(page)==before['reference'],'Layout changes data')
     records.append({'viewport':[width,height],'anchor':anchor,'initial':q})
