@@ -39,8 +39,12 @@ def qualify(site):
             q=snapshot(page)['reference']
             require(abs(q['q']-.3)<1e-14 and abs(q['clampDrift']-.2)<1e-14,'Right preset/ledger mismatch')
             require(page.locator('#follow-reading').get_attribute('aria-pressed')=='false','Manual control did not pause follow')
-            page.get_by_label('Initial liquid fraction (%)',exact=True).fill('80')
-            page.get_by_label('Swept width (% of cell)',exact=True).fill('20')
+            fraction=page.get_by_label('Initial liquid fraction (%)',exact=True)
+            fraction.press('End')
+            for _ in range(20):fraction.press('ArrowLeft')
+            sweep=page.get_by_label('Swept width (% of cell)',exact=True)
+            sweep.press('Home')
+            for _ in range(20):sweep.press('ArrowRight')
             settle(page)
             q=snapshot(page)['reference']
             require(abs(q['donor']-.6)<1e-14 and abs(q['receiver']-.2)<1e-14,'Sliders did not recompute')
