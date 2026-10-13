@@ -344,6 +344,8 @@ remain 18/25 partial chapters and 0/6 appendices.
 | Implemented | Two recomputed, selectable 3D mechanisms, four heading presets, fixed quantity scales |
 | Researched | CFD Direct primary developer notes on gradient discretisation and steady coupling; inaccessible original papers explicitly identified |
 | Finite reference | 48 reconstruction + 15 iteration states, independently evaluated with rational arithmetic; invalid controls rejected |
-| Lean | Ten exact real-arithmetic statements in `CouplingStudy.lean`; kernel qualification pending for this new source |
-| Browser | Hosted desktop/390px/320px control, geometry, camera, collapsed-proof and scroll checks added; qualification pending |
+| Lean | Ten exact real-arithmetic statements in `CouplingStudy.lean`; kernel checked at source `b8a26a6`, identical proof tree to merge `bef9887`; [307-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38475239514) passed |
+| Browser | Hosted desktop/390px/320px control, geometry, camera, collapsed-proof and scroll checks [passed on hosted Chromium](https://github.com/MrScripty/Rheon/actions/runs/38475239500/job/115564193094); full publication job pending |
 | Not established | Arbitrary mesh consistency, production SIMPLE/PISO, IEEE error, continuum validation, runtime performance |
+
+The [constitutive and validation research record](../research-book/engineering/constitutive-validation-research.md) pins SST-2003 variant choices and the exact DFG Re20 outlet/force conventions. It records primary reading and remaining work; it does not add implemented lessons or completed validation.

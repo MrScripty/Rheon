@@ -29,3 +29,13 @@ The highest-value integrated study links coarse simulation error to spatial cond
 Numerical priorities are component-aware pressure, obstacle sampling and bounded liquid volume. Formal priority is connecting array assembly to the abstract model. Non-Newtonian stress, APIC and sparsity follow needed capability rather than the project's name.
 
 Every result should retain its level of certainty: derived identity, checked theorem, executed fixture, measured implementation or proposed design. That distinction makes a small reusable solver dependable.
+
+## Match the benchmark boundary operator
+
+The [research record](../engineering/constitutive-validation-research.md#a-benchmark-is-a-complete-boundary-value-problem)
+works through the official steady DFG Re20 specification. Its outlet uses a
+velocity-gradient traction; substituting full symmetric traction changes the
+problem. Before comparing a drag number, reproduce the declared geometry,
+normal convention, inlet, boundary operator and pressure samples. Reference
+values are not Rheon measurements. The linked record separates remaining
+spatial, iteration and model-validation requirements.

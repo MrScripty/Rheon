@@ -165,3 +165,12 @@ values. The boundary theorem checks the stated finite contraction. Geometric
 quadrature, PDE evolution and code/IEEE refinement remain separate claims.
 
 </details>
+
+## From viscosity to a specified turbulence closure
+
+A turbulence-model name alone is not a reproducible constitutive law. The
+[constitutive research record](../engineering/constitutive-validation-research.md)
+pins the SST-2003 limiter and pressure convention, distinguishes its primary
+1992 motivation from later formulas, and identifies the transport and wall
+requirements still absent from a supplied-field constitutive probe. No SST
+transport or validation result is supplied by this chapter.
