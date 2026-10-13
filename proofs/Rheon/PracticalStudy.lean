@@ -91,6 +91,10 @@ theorem candidate_divergence_bound (e t : ℝ) (h : |e| ≤ t) :
  |-e| ≤ t ∧ |e| ≤ t := by simpa only [abs_neg] using And.intro h h
 
 theorem positive_tolerance_is_not_zero :
- |(1/16:ℝ)| ≤ 1/8 ∧ (1/16:ℝ) ≠ 0 := by norm_num
+ |(1/16:ℝ)| ≤ 1/8 ∧ (1/16:ℝ) ≠ 0 := by
+ constructor
+ · rw [abs_of_nonneg (by norm_num : (0:ℝ) ≤ 1/16)]
+   norm_num
+ · norm_num
 end
 end Rheon.PracticalStudy

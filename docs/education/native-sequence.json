@@ -2,7 +2,7 @@
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
   "qualified_lean_source": "Practical study pending its fresh pinned kernel build.",
-  "proof_inventory_sha256": "901585dbd9b232432eda102e5a423fcfb72429be337e2fd0c23623e017f9a114",
+  "proof_inventory_sha256": "42ca9c2849cfed6894bb67e0b74d1018327eac35c6c6eb459f2caace08545bb2",
   "public_theorems": 214,
   "audited_declarations": null,
   "lean_ci": null,
@@ -131,7 +131,7 @@
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
   },
   "current_reviewed_proof": {
-    "proof_inventory_sha256": "901585dbd9b232432eda102e5a423fcfb72429be337e2fd0c23623e017f9a114",
+    "proof_inventory_sha256": "42ca9c2849cfed6894bb67e0b74d1018327eac35c6c6eb459f2caace08545bb2",
     "public_theorems": 214,
     "explicit_expected_declarations": 275,
     "audited_declarations": null,
