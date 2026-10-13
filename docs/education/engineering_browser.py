@@ -11,6 +11,13 @@ def require(x,message):
 
 def check(page):
     state=snapshot(page);q=state['reference'];lab=state['lab'];verify(q,lab)
+    controls={'faceflux':[('area',[.25,.5,1]),('velocity',[-1,0,1]),('boundaryFlux',[-.5,0,.5]),('pair',[0,1,2])],
+              'checker':[('pattern',['constant','alternating']),('amplitude',[0,.5,1]),('response',[.25,.5,1])],
+              'stressprobe':[('kind',['rotation','shear','extension']),('rate',[-1,0,1]),('mu',[0,.5,1])]}[lab]
+    selects=page.locator('#controls select')
+    require(selects.count()==len(controls),'Control count')
+    for i,(key,values) in enumerate(controls):
+        require(q[key]==values[int(selects.nth(i).input_value())],'Control ignored: '+key)
     expected=[]
     for origin,vector,label in glyphs(q,lab):
         length=math.sqrt(sum(v*v for v in vector))
@@ -55,7 +62,9 @@ def qualify(site):
                 if anchor=='a-collocated-checkerboard':close(q['divergence'][0],4)
                 if anchor=='constant-pressure-control':require(q['pattern']=='constant','Constant preset')
                 if lab=='stressprobe':require(q['kind']=={'affine-rotation-and-shear':'rotation','boundary-work-supplies-shear':'shear','extension-control':'extension'}[anchor],'Stress preset')
-                require(page.locator('.proof-disclosure[open]').count()==0,'Proof must start collapsed')
+                summary={'faceflux':'Exact finite proof and limits','checker':'Checkerboard proof scope','stressprobe':'Planar stress proof scope'}[lab]
+                disclosure=page.locator('details').filter(has=page.locator('summary',has_text=summary))
+                require(disclosure.count()==1 and disclosure.get_attribute('open') is None,'Lesson proof must start collapsed')
                 page.screenshot(path=str(out/f'{anchor}-{width}.png'))
                 # Every control is operated; the scene must remain bound to its readout.
                 for control in page.locator('#controls select').all():
@@ -68,6 +77,16 @@ def qualify(site):
                     for mode in ['text','split']:
                         page.locator(f'[data-reading-mode="{mode}"]').click();settle(page);require(check(page)==before['reference'],'Reading mode changed state')
                 records.append({'viewport':[width,height],'chapter':chapter,'anchor':anchor,'initial':q})
+            # Exercise the scroll listener itself, with no hash navigation or controls.
+            page.goto(base+'/chapters/22-viscosity-and-stress.html#affine-rotation-and-shear',wait_until='networkidle')
+            page.wait_for_function('document.querySelector("#lab").value==="stressprobe"')
+            settle(page);require(check(page)['kind']=='rotation','Scroll start')
+            page.evaluate("""() => {const target=document.getElementById('boundary-work-supplies-shear');
+                scrollTo(0,scrollY+target.getBoundingClientRect().top-document.querySelector('header').getBoundingClientRect().bottom-31);} """)
+            page.wait_for_function('document.querySelector(".current-lesson").id==="boundary-work-supplies-shear"')
+            settle(page);require(check(page)['kind']=='shear','Scroll failed to select shear')
+            require(page.evaluate('location.hash')=='#affine-rotation-and-shear','Scroll unexpectedly navigated')
+            records.append({'viewport':[width,height],'scroll':'rotation-to-shear','state':check(page)})
             page.close()
         version=browser.version;browser.close()
     require(not errors,'Browser/network errors '+str(errors))
