@@ -38,6 +38,11 @@ mod pressure;
 pub use pressure::{
     PressureError, PressureImplementation, PressureReport, PressureSettings, PressureWorkspace,
 };
+mod pressure_initialization;
+pub use pressure_initialization::{
+    PressureColdReason, PressureInitializationPolicy, PressureInitializationReport,
+    PressureSeedStage, PressureSeedStamp,
+};
 mod sampling;
 pub use sampling::{SamplingError, ScalarSampler, VelocitySampler};
 mod advection;

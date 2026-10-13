@@ -29,16 +29,19 @@ pub struct SessionCapabilities {
     pub transport_only: bool,
     /// Opt-in full-step provider selection only for the sealed full-box carrier.
     pub sealed_box_pressure_provider: bool,
+    /// AcceptedPreviousV1 on the native sealed liquid route; no portable history.
+    pub accepted_previous_pressure_v1: bool,
     pub cooperative_cancellation: bool,
     pub hard_realtime: bool,
     pub units: &'static [(&'static str, &'static str)],
 }
 
 pub const SESSION_CAPABILITIES: SessionCapabilities = SessionCapabilities {
-    api_version: 2,
+    api_version: 3,
     crate_version: env!("CARGO_PKG_VERSION"),
     transport_only: true,
     sealed_box_pressure_provider: true,
+    accepted_previous_pressure_v1: true,
     cooperative_cancellation: true,
     hard_realtime: false,
     units: &[
@@ -99,7 +102,8 @@ impl<'a> SessionSnapshot<'a> {
         }
     }
     /// Existing frame encoding only. This does not produce a completed dataset
-    /// manifest or v2 controls. Writer failures do not modify simulation state.
+    /// manifest or v2 controls, and does not encode warm-start history/provenance.
+    /// Writer failures do not modify simulation state.
     pub fn write_dense3d<W: Write>(&self, out: &mut W) -> Result<(), Dense3dError> {
         write_dense3d_frame(out, self.grid, self.state, self.frame, self.report)
     }
@@ -203,6 +207,62 @@ impl SimulationSession {
         cancel: F,
     ) -> Result<LiquidStepReport, SessionError> {
         self.step_with_clock(inputs, boundary, deadline, cancel, Instant::now)
+    }
+
+    /// Native sealed-box interval with explicit numerical initialization.
+    /// AcceptedPreviousV1 borrows only the preceding accepted liquid pressure.
+    /// Provider and prescribed-boundary entry points remain cold. Existing dense3D
+    /// snapshots do not serialize the history needed to resume this policy.
+    pub fn step_with_initialization<F: FnMut(LiquidStepStage) -> bool>(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        policy: crate::PressureInitializationPolicy,
+        deadline: Option<Instant>,
+        cancel: F,
+    ) -> Result<LiquidStepReport, SessionError> {
+        self.initialized_step_with_clock(inputs, policy, deadline, cancel, Instant::now)
+    }
+
+    fn initialized_step_with_clock<F: FnMut(LiquidStepStage) -> bool, N: FnMut() -> Instant>(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        policy: crate::PressureInitializationPolicy,
+        deadline: Option<Instant>,
+        mut cancel: F,
+        mut now: N,
+    ) -> Result<LiquidStepReport, SessionError> {
+        if self.stopped {
+            return Err(SessionError::Stopped);
+        }
+        if self.steps >= self.max_steps {
+            return Err(SessionError::StepLimit);
+        }
+        if deadline.is_some_and(|d| now() >= d) {
+            return Err(SessionError::Deadline);
+        }
+        let mut expired = false;
+        let result = self
+            .simulation
+            .step_with_initialization(inputs, policy, |stage| {
+                expired = deadline.is_some_and(|d| now() >= d);
+                if expired {
+                    return true;
+                }
+                let cancelled = cancel(stage);
+                expired = deadline.is_some_and(|d| now() >= d);
+                expired || cancelled
+            });
+        let report = result.map_err(|e| {
+            if expired {
+                SessionError::Deadline
+            } else {
+                SessionError::Step(e)
+            }
+        })?;
+        self.steps += 1;
+        self.report = Some(report);
+        self.provider = None;
+        Ok(report)
     }
 
     /// Full sealed-box interval with explicit preferred-provider/reference
@@ -431,5 +491,45 @@ mod tests {
             .step_with_pressure_provider(inputs, &mut workspace, None, None, |_| false)
             .unwrap();
         assert_eq!(session.snapshot().frame(), 4);
+
+        let policy = PressureInitializationPolicy::AcceptedPreviousV1;
+        session
+            .step_with_initialization(inputs, policy, None, |_| false)
+            .unwrap();
+        let seed = session.simulation.pressure_seed();
+        let initialization = session.snapshot().report().unwrap().pressure_initialization;
+        before.clear();
+        session.snapshot().write_dense3d(&mut before).unwrap();
+        clock.set(start);
+        reached.set(false);
+        let result = session.initialized_step_with_clock(
+            inputs,
+            policy,
+            Some(deadline),
+            |stage| {
+                if stage == LiquidStepStage::BeforeCommit {
+                    reached.set(true);
+                    clock.set(deadline);
+                }
+                false
+            },
+            || clock.get(),
+        );
+        assert!(reached.get());
+        assert!(matches!(result, Err(SessionError::Deadline)));
+        after.clear();
+        session.snapshot().write_dense3d(&mut after).unwrap();
+        assert_eq!(before, after);
+        assert_eq!(session.simulation.pressure_seed(), seed);
+        assert_eq!(
+            session.snapshot().report().unwrap().pressure_initialization,
+            initialization
+        );
+        assert!(session.snapshot().provider_report().is_none());
+        let report = session
+            .step_with_initialization(inputs, policy, None, |_| false)
+            .unwrap();
+        assert_eq!(report.pressure_initialization.seed, seed);
+        assert_eq!(session.snapshot().frame(), 6);
     }
 }
