@@ -183,3 +183,5 @@ pub use material_session::{
     MaterialSessionCapabilities, MaterialSessionError, MaterialSnapshot, MaterialStepControls,
     ParticleEvaluationStage,
 };
+/// Optional learned pressure components with reference fallback.
+pub mod solver_provider;
