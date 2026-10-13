@@ -157,3 +157,35 @@ and [CPU-scheduling contracts](../implementation/cpu-scheduling-contracts.md)
 give the bounded formulas, source links and proof boundaries. They do not
 upgrade a native desktop preview into a new browser solver or establish
 equivalence to the paper designs earlier in this chapter.
+
+## Draft checkpoint: borrow one accepted transport snapshot
+
+Unmerged [PR48](https://github.com/MrScripty/Rheon/pull/48), reviewed at
+`f06a1270935b2ac285c68c0e594ab0742220913e`, adds an engine-neutral
+[`SimulationSession`](https://github.com/MrScripty/Rheon/blob/f06a1270935b2ac285c68c0e594ab0742220913e/src/session.rs)
+for the existing full-box transport path. It owns the boundary workspace and
+borrows unchanged native step inputs for each synchronous call. A snapshot
+binds grid, publication number, immutable state, identity and the last accepted
+report. Stages distinguish constructor state from an accepted interval. Pressure
+is the last interval's projection pressure with its existing gauge; it is not
+a reconstructed end-surface pressure.
+
+Try the draft's [headless and game-loop examples](https://github.com/MrScripty/Rheon/blob/f06a1270935b2ac285c68c0e594ab0742220913e/docs/api/simulation-session.md).
+Predict which clock should advance after a CFL-shortened request: the host must
+use accepted report dt, not requested dt. Next cancel an attempt and compare
+the published frame before retry. The draft's
+[contract tests](https://github.com/MrScripty/Rheon/blob/f06a1270935b2ac285c68c0e594ab0742220913e/tests/session_contract.rs)
+check publication preservation, retry, quotas and equivalence to existing
+encoding. Deadlines are checked cooperatively at native stage checkpoints and
+around callbacks; a long kernel or callback can overrun them. They provide no
+preemption, maximum wall time or frame-rate guarantee.
+
+The snapshot borrows its owner. Retention requires an explicit consumer copy or
+encoding; there is no hidden frame archive. Stop is terminal but leaves inspection
+available. Caller-supplied run/revision strings are declarations, not verified
+provenance. Encoded frames alone do not satisfy the separately validated dense3D
+dataset-publication contract. The API is transport-only: it does not yet wrap
+PR47 particle diagnostics, PR45 experimental Stokes, CAD measurement or AI
+providers, and the Rust game-loop sample is not a Godot binding. These are
+separate unmerged drafts; the current embedded browser lesson continues to use
+its existing adapter.

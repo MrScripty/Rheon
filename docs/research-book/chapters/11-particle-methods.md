@@ -265,3 +265,33 @@ neighbor graph. The density floor, finite precision, neighbor enumeration and
 continuum accuracy require separate evidence. Qualification status and the
 implementation-to-statement mapping belong to the
 [material contract guide](../implementation/material-preview-contracts.md#proof-and-execution-boundaries).
+
+## Draft checkpoint: inspect the stage that produced a value
+
+The unmerged [PR47 inspection checkpoint](https://github.com/MrScripty/Rheon/pull/47),
+reviewed at `1923d5bd3442a5369878a1a317b52f4a89026d5b`, adds
+[`particle_diagnostics()`](https://github.com/MrScripty/Rheon/blob/1923d5bd3442a5369878a1a317b52f4a89026d5b/src/particle_fluid.rs).
+Its committed density, pressure and acceleration describe the **post-emission,
+pre-integration** force evaluation. The returned evaluation time is distinct
+from the accepted positions' and velocities' time. Before the first accepted
+step the accessor returns no evaluated diagnostics; a rejected attempt does not
+publish overwritten force scratch. This draft is not part of the current book
+checkout's material API.
+
+A practical exercise is to compare reported force with mass times the recorded
+acceleration, then inspect a wall-contact step. Gravity and implemented pair
+forces enter the evaluation; subsequent wall clipping/drag does not. Therefore
+mass times the total accepted velocity change divided by dt need not equal the
+reported evaluation force. The draft's wall-stage and rollback tests exercise
+this distinction. A pressure number without its stage can suggest a consistency
+failure that is actually a comparison of different operations.
+
+The [draft inspector](https://github.com/MrScripty/Rheon/blob/1923d5bd3442a5369878a1a317b52f4a89026d5b/src/bin/desktop/inspector.rs)
+retains one latest numerical copy and at most 256 selected-particle samples.
+Selecting another particle starts its trace from the current sample; it cannot
+recover that particle's unrecorded past from eight-bit visual history. IDs are
+append-only indices scoped to one simulation instance, not global identities.
+CSV uses binary64 round-trip values and leaves unavailable initial fields blank.
+Its raw mass, momentum and energy totals are not closed-system residuals without
+emission, gravity, dissipation and wall exchanges. The native window, clipboard
+and user-device performance remain outside the draft's headless validation.

@@ -30,8 +30,8 @@ The draft PR is stacked on PR43 so its diff contains this milestone only.
   policy, pinned lake build and transitive axiom audit. Fresh results determine
   qualification; prior PR43 receipts are historical only.
 - The earlier PR43 artifact binary 403 is not treated as current visual evidence.
-- Solver, scheduler, CAD and AI contracts from concurrent workers require their
-  exact implementation handoffs before new claims can be reconciled.
+- Further solver, scheduler, CAD and AI changes require exact implementation
+  handoffs. PR45/47/48 coordination below preserves their unmerged scope.
 
 ## Qualified milestone
 
@@ -51,3 +51,12 @@ rendered math expressions. Its 4,956 local link/asset references resolve except
 for the unrendered PDF. Local actual-browser rejection probes could not run
 without a qualified PDF/browser edition; hosted full-book checks remain required.
 No screenshot establishes physical correctness or numerical convergence.
+
+## Implementation coordination update
+
+PR47 `1923d5b`, PR48 `f06a127` and PR45 `bbc6089` were read at exact heads,
+including implementation and contract tests. Chapters 11/17/22 and COVERAGE.md
+now distinguish stage-labelled diagnostics, transport-only sessions and the
+stationary Stokes experiment. Ten PR45 exact controls passed locally in both
+Python modes. No draft implementation was merged and no theorem inventory or
+Cargo.lock binding changed. The three drafts are not described as a combined API.

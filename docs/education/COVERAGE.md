@@ -245,3 +245,24 @@ inspected source; no contracts from concurrent workers have been assumed.
 
 The PR43 artifact-download 403 remains unresolved; this continuation does not
 reuse or claim a visual review of that artifact.
+
+## Unmerged implementation coordination, 2026-10-13
+
+Descriptions were checked against each pinned draft's implementation and tests;
+these are not newly activated capabilities in this book checkout. Chapters 11,
+17 and 22 add prediction/comparison exercises without increasing the 16/25
+scroll-linked chapter count or claiming new browser runtimes.
+
+| Draft and exact inspected head | Implemented in that draft | Evidence and remaining integration |
+| --- | --- | --- |
+| [PR47](https://github.com/MrScripty/Rheon/pull/47), `1923d5bd3442a5369878a1a317b52f4a89026d5b` | Committed post-emission/pre-integration particle diagnostics; latest owned inspector state; 256-sample selected trace and CSV | Source and tests inspected; evaluation versus accepted time and later wall response distinguished. No native-window/clipboard qualification claimed here; not integrated with PR48. |
+| [PR48](https://github.com/MrScripty/Rheon/pull/48), `f06a1270935b2ac285c68c0e594ab0742220913e` | Full-box transport session, borrowed constructor/accepted snapshots, terminal stop and cooperative deadline/cancellation | Source and contracts inspected. No hard deadline, Godot binding, automatic dataset qualification, particle/CAD/AI or experimental Stokes capability. |
+| [PR45](https://github.com/MrScripty/Rheon/pull/45), `bbc6089888e257962b968e70ed84ec61b7668d5b` | Opt-in stationary aligned-box Stokes transaction and native/rational qualification driver | Ten exact mathematical controls independently passed in normal/optimized Python; 13 native one-step cases and two three-step sequences are the driver's roster, not a fresh native rerun here. Experimental Lean enclosures remain assumptions and are not imported into root proof counts. |
+
+The book branch retains PR43's exact Cargo.lock binding: the admitted lockfile
+SHA256 is `b6da773967a1aea1db3fe0a26e3e7e990a68f701777a9f261fdb4cf883ca6d7a`.
+No physics-branch stale binding was copied, no admission rule was relaxed, and no
+proof source or source-inventory byte changed in this coordination update.
+Any later integration changing native inputs requires fresh source-bound native
+qualification. Passing book proofs or describing a draft does not qualify a
+merged solver. Moving-body/general-physics and unified API claims remain open.

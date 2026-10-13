@@ -80,3 +80,46 @@ For comparison with particle methods, the original Weiler et al. viscosity work 
 [R12]: https://animation.rwth-aachen.de/publication/0558/
 
 [R15]: https://mmacklin.com/pbf_sig_preprint.pdf
+
+## Draft checkpoint: stationary-box Stokes acceptance
+
+Unmerged [PR45](https://github.com/MrScripty/Rheon/pull/45), reviewed at
+`bbc6089888e257962b968e70ed84ec61b7668d5b`, implements an opt-in
+[aligned Stokes experiment](https://github.com/MrScripty/Rheon/blob/bbc6089888e257962b968e70ed84ec61b7668d5b/experiments/aligned_stokes.rs).
+It combines bounded explicit symmetric-strain decay with a pressure proposal
+on a fixed aligned-box domain. The obstacle is stationary and no-slip; outer
+walls are sealed and free-slip. It is not the production liquid timestep or a
+moving-body solver, and this book branch does not import that implementation.
+
+The [independent rational controls](https://github.com/MrScripty/Rheon/blob/bbc6089888e257962b968e70ed84ec61b7668d5b/tools/test_aligned_stokes_oracle.py)
+construct a cell cycle around all four sides of the central obstacle in a 3³
+grid with 26 wet cells. With unit density and viscosity, initial energy 1 J and
+dt = 1/32 s, the ideal discrete step ends at **731/1024 J** with exactly zero
+cell flux. Pressure is zero by symmetry in this case. Predict the energy loss
+(293/1024 J), then compare with the separate asymmetric curl: it develops
+nonzero intermediate flux and needs a nonzero pressure correction. The ring
+alone does not demonstrate the ability to solve a nontrivial pressure field.
+
+The qualification driver enumerates 13 one-step cases (eight accepted specimens
+and five refusal specimens) plus two three-step sequences. These are a finite
+acceptance roster, not 15 successful runs or a convergence study. During book
+coordination, ten exact mathematical controls were independently rerun in normal
+and optimized Python; native execution and the draft owner's source-bound native
+receipts remain separate evidence. Exact oracle flux is not a claim that every
+accepted binary64 field has identically zero divergence.
+
+The [experimental Lean statements](https://github.com/MrScripty/Rheon/blob/bbc6089888e257962b968e70ed84ec61b7668d5b/experiments/proofs/AlignedStepAcceptance.lean)
+assume sound enclosures of energy changes, flux and momentum defects. They derive
+conditional acceptance implications; they do not establish Rust/IEEE enclosure
+soundness, compiler correspondence or continuum convergence. They are outside
+this branch's root Lean inventory and theorem counts. The native interval path
+has explicit Linux x86_64/default floating-environment premises and can refuse
+unsupported or unresolved arithmetic. An unenclosed scalar stability estimate
+cannot authorize an actual step.
+
+The experiment has no advection, source forcing, inflow/outflow, free surface,
+variable material, capillarity or moving geometry. It exposes no production
+clock/generation owner and is not integrated into PR48's transport facade.
+Calibrated wall loads, arbitrary meshes and two-way body/contact dynamics still
+need their own geometry, work, impulse and rollback contracts. A stationary
+viscous acceptance case does not complete those broader physics topics.
