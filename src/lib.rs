@@ -19,6 +19,9 @@ pub use scheduling::{BatchStatistics, CpuScheduler};
 mod sgs;
 pub use geometry::{Axis, BufferPlan, GeometryError, GridGeometry};
 mod collision;
+pub mod mesh_collision;
+pub use mesh_collision::{CollisionMesh, MeshCollisionError, MeshPolicy};
+pub mod mesh_import;
 pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
     TriangleSurface,
