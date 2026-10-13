@@ -6,7 +6,7 @@ on:
       - 'Cargo.*'
       - 'rust-toolchain.toml'
       - 'tests/solver_provider_contract.rs'
-      - 'examples/ai_pressure.rs'
+      - 'examples/ai_pressure*.rs'
       - 'tools/*ai_pressure*'
       - '.github/workflows/ai-pressure.yml'
   workflow_dispatch:
@@ -46,3 +46,12 @@ jobs:
         RHEON_AI_CHECKPOINT="$PWD/.generated/ai-provider/model.pt" \
         RHEON_AI_RUN="$PWD/.generated/ai-provider/run" \
           "$RUNNER_TEMP/ai-python/bin/python" -m unittest discover -s tools -p test_ai_pressure_tools.py -v
+    - name: Independently evolved bounded trajectories and fallback
+      run: |
+        cargo clippy --locked --no-default-features --example ai_pressure_trajectory -- -D warnings
+        cargo run --locked --release --no-default-features --example ai_pressure_trajectory -- \
+          .generated/ai-provider/modal.bin .generated/ai-provider/trajectory
+        "$RUNNER_TEMP/ai-python/bin/python" tools/verify_ai_pressure_trajectory.py \
+          .generated/ai-provider/trajectory
+        RHEON_AI_TRAJECTORY="$PWD/.generated/ai-provider/trajectory" \
+          "$RUNNER_TEMP/ai-python/bin/python" -m unittest discover -s tools -p test_ai_pressure_trajectory.py -v

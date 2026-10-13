@@ -122,7 +122,71 @@ It found no blocking numerical defect. Its real-artifact coverage findings were
 addressed, including partial-transform cancellation and corrupt valid exports.
 
 GPU, other inference runtimes, ARM, WebAssembly, application wire protocols,
-desktop selection and end-to-end trajectories using this new native backend are
-not qualified by this milestone. No speedup over an analytic spectral inverse
+desktop selection, longer trajectories, and scenes beyond the bounded kernel
+rollout below are not qualified by this milestone. No speedup over an analytic spectral inverse
 is established. Qualification is agreement with this discretized reference and
 these input fields, not a general physical accuracy guarantee.
+
+
+## Bounded independently evolved trajectories
+
+`examples/ai_pressure_trajectory.rs` runs the actual Rheon velocity advection,
+lab forcing, pressure provider, f32 velocity correction and passive-tracer
+advection in an explicit component loop. Each backend owns and evolves its own
+accepted state; no numerical-reference state enters a learned rollout. Candidate
+velocity and tracer publish only after pressure, actual divergence, Courant and
+finite/range gates pass. This qualifies the component loop. The existing
+`Simulation` and desktop still need an API-owner provider-selection hook.
+
+The scenario is adapted with attribution from the pinned lab probe: 32³ sealed
+unit box, density 1.25 kg/m³, dt 1/60 s, prescribed three-component localized and
+broadband forcing, and a passive concentration. Concentration is bounded but its
+semi-Lagrangian transport is not a conservative liquid-mass method. The freeze
+in `plan.md` preceded execution: 24 frames (0.4 simulated seconds), two already
+public lab seeds (900/901), three rotated timing repetitions, then a separate
+capture replay. This is not an untouched test set or a broad generalization test.
+
+Six modes run separately: Jacobi, SGS, learned, learned with an explicitly
+injected output error on frame 9, shifted-origin Jacobi, and unsupported-origin
+fallback. The error fixture first executes the real model, then perturbs one
+pressure value to exercise the quality gate. The trace must show Jacobi fallback
+on frame 9 and real learned inference again afterward. It is labeled fault
+injection, never counted as an accurate AI prediction. The shifted-origin case
+uses the same local forcing coordinates at origin [1,1,1]; every request must be
+declined before inference and match its corresponding shifted numerical
+reference bit for bit.
+
+```sh
+cargo run --locked --release --no-default-features --example ai_pressure_trajectory -- \
+  .generated/ai-provider/modal.bin .generated/ai-provider/trajectory
+python3 tools/verify_ai_pressure_trajectory.py .generated/ai-provider/trajectory
+RHEON_AI_TRAJECTORY="$PWD/.generated/ai-provider/trajectory" \
+  python3 -m unittest discover -s tools -p test_ai_pressure_trajectory.py -v
+```
+
+The complete manifest is written last. A failed/incomplete rollout cannot pass
+the verifier. There are 864 timed frames and 288 captured replay frames. Each
+captured binary stores full ungauged RHS and pressure (little-endian f64), then
+x/y/z MAC velocity and tracer (little-endian f32); x is fastest. The independent
+NumPy verifier reassembles the full pressure operator, actual divergence,
+Courant, wall/gauge/range checks and integral ledgers on every captured frame.
+It compares learned and injected-fallback velocity, tracer and centered-pressure
+relative L2 errors to both numerical rollouts at every frame (limit 1e-5).
+It also rejects missing/duplicate frames, misreported selections, corrupted
+fields, false diagnostic receipts, and underreported whole-rollout timing.
+
+Reported resident rollout wall time includes state/workspace construction and
+all 24 complete steps (forcing, advection, inference, pressure qualification,
+fallback if needed, correction, tracer transport and all acceptance gates).
+Frame CSV serialization follows the measured loop. Model file reading/loading
+is separately measured once. Captured replay runs include field-output overhead
+and are excluded from timing medians. `main_body_including_capture_ms` includes
+all runs and replay output within Rust main; OS process startup/teardown and the
+independent Python verifier are outside that timer. OS caches are uncontrolled.
+No speedup threshold gates qualification. CI runs this exact bounded experiment
+plus adversarial verifier tests against the immutable real checkpoint.
+
+This does not qualify GPU execution, other model versions/operators, free liquid
+surfaces, viscosity, obstacles, moving boundaries, application wire protocols or
+long-term stability. Numerical agreement is with this discretized reference, not
+a general physical accuracy guarantee or superiority over an analytic inverse.
