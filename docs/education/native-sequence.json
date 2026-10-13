@@ -1,11 +1,11 @@
 {
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "e42ea00773a9cdd1704d3946bfa7f6e92173e2c7",
-  "proof_inventory_sha256": "ab4ff31031760ae4de577575b4bcdef57d81cea9f55122867ada562c5274a252",
-  "public_theorems": 152,
-  "audited_declarations": 266,
-  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38383689282",
+  "qualified_lean_source": "Engineering finite contracts reviewed; pending pinned kernel qualification.",
+  "proof_inventory_sha256": "77c03372a93b9dee89fa8dd27c26472fe18827edd0b12b2bfbb68e432f0f6014",
+  "public_theorems": 166,
+  "audited_declarations": null,
+  "lean_ci": null,
   "labs": [
     {
       "id": "wall-friction",
@@ -79,8 +79,8 @@
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
   "local_kernel_receipt_sha256": null,
-  "lean_ci_scope": "Pinned hosted kernel build, 266-declaration audit and rejection tests passed. The workflow checked merge commit 7324caa806b64c71300b03d9afd6f06e0b6c1d1b; its complete proofs tree matches the stated PR head exactly.",
-  "explicit_expected_declarations": 212,
+  "lean_ci_scope": "No prior receipt certifies the added engineering contracts.",
+  "explicit_expected_declarations": 227,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
     "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
@@ -132,22 +132,14 @@
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
   },
   "current_reviewed_proof": {
-    "proof_inventory_sha256": "ab4ff31031760ae4de577575b4bcdef57d81cea9f55122867ada562c5274a252",
-    "public_theorems": 152,
-    "explicit_expected_declarations": 212,
-    "audited_declarations": 266,
-    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38383689282",
-    "status": "passed",
+    "proof_inventory_sha256": "77c03372a93b9dee89fa8dd27c26472fe18827edd0b12b2bfbb68e432f0f6014",
+    "public_theorems": 166,
+    "explicit_expected_declarations": 227,
+    "audited_declarations": null,
+    "lean_ci": null,
+    "status": "reviewed-pending-kernel-qualification",
     "local_qualification": null,
-    "scope": "Adds exact scalar amplification identities and conditional stability/sign statements; no PDE/JS/Rust/IEEE or performance proof.",
-    "checkout_head": "7324caa806b64c71300b03d9afd6f06e0b6c1d1b",
-    "lean_toolchain": "leanprover/lean4:v4.19.0",
-    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
-    "allowed_axioms": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ]
+    "scope": "Finite face algebra and planar constitutive power only; no geometry/solver/PDE/IEEE proof."
   },
   "historical_pr43_reviewed_proof": {
     "status": "passed",
@@ -201,6 +193,24 @@
     "status": "passed",
     "local_qualification": null,
     "scope": "Adds exact-real single-face slab bounds, shared ledger cancellation and clamping witness; not an implementation or multidimensional VOF proof.",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "historical_modal_decay_proof": {
+    "proof_inventory_sha256": "ab4ff31031760ae4de577575b4bcdef57d81cea9f55122867ada562c5274a252",
+    "public_theorems": 152,
+    "explicit_expected_declarations": 212,
+    "audited_declarations": 266,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38383689282",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Adds exact scalar amplification identities and conditional stability/sign statements; no PDE/JS/Rust/IEEE or performance proof.",
+    "checkout_head": "7324caa806b64c71300b03d9afd6f06e0b6c1d1b",
     "lean_toolchain": "leanprover/lean4:v4.19.0",
     "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
     "allowed_axioms": [

@@ -54,7 +54,9 @@ transitive/data/checkpoint licence reviews.
 
 ## Status
 
-Environment and pushed PR51/main identities checked; clean continuation branch
-created. Research, implementation and qualification remain pending at this plan
-checkpoint. Final results must identify tested commits, not advance historical
-receipts by rewriting a hash.
+Environment and pushed PR51/main identities checked. The dossier, three bounded
+references, chapter controls, independent rational checks and 14 Lean statements
+are implemented. All 126 reference states pass locally in normal/optimized
+Python. Kernel and hosted browser qualification remain pending; generated
+screenshots are not yet visually reviewed. Final results must identify tested
+commits, not advance historical receipts by rewriting a hash.

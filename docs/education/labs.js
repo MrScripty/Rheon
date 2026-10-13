@@ -1,3 +1,4 @@
+import {createEngineeringLabs} from './engineering_labs.js';
 import * as THREE from 'three';
 import {RecordedView} from './shared-viewer/view.js';
 import {createTransportLabs} from './transport_labs.js';
@@ -46,6 +47,9 @@ function viscous(){const d=data.viscous;let selected=0,step=0;meta('4 · Viscosi
 function slip(){const d=data.slip;meta('5 · Slip changes traction','The upper wall moves at 1 m/s; the lower wall stays stationary. Change the lower Navier slip length.','Analytic steady Couette oracle with one slipping and one no-slip wall. Illustrative lengths are not material calibration.','24-slip-and-wall-friction');function draw(i){clear();floor();const q=d.sets[i];box([1.4,.03,.8],[0,-.5,0],colors.ink,.6);box([1.4,.03,.8],[0,.5,0],colors.ink,.6);for(let z of [-.3,0,.3])d.y.forEach((y,j)=>{if(j%2===0)arrow([-.3,y-.5,z],[q.velocity[j]*.5,0,0],colors.teal);});setMetrics([['Slip length',`${q.length} m`],['Fluid slip speed',`${fmt(q.velocity[0])} m/s`],['Lower-wall speed','0 m/s'],['Wall shear',`${fmt(q.shear)} Pa`],['Wall dissipation',`${fmt(q.relative_wall_dissipation)} W/m²`],['Wetting angle','independent']]);}choice('Lower-wall slip length',d.sets.map(q=>`${q.length} m${q.length===0?' · no-slip':''}`),0,draw);draw(0);}
 function cap(){const d=data.cap;let angle=12,tension=1;meta('6 · Wetting shape and capillary pressure','Change contact angle at fixed volume, then change tension. The tension changes pressure and adhesion work, while the zero-gravity cap geometry stays fixed.','Analytic equilibrium spherical cap, negligible gravity. No dynamic contact line, hysteresis, relaxation or liquid simulation is claimed.','23-wetting-and-adhesion');function draw(){clear();floor();const q=d.sets[angle],s=q.tensions[tension],scale=50;const geometry=new THREE.LatheGeometry(q.profile.map(p=>new THREE.Vector2(p[0]*scale,p[1]*scale)),64);const mesh=new THREE.Mesh(geometry,new THREE.MeshPhysicalMaterial({color:0x239bb5,roughness:.22,metalness:0,transparent:true,opacity:.72,side:THREE.DoubleSide}));mesh.position.y=-.5;world.add(mesh);const circle=new THREE.Mesh(new THREE.CircleGeometry(q.contact_radius*scale,64),new THREE.MeshStandardMaterial({color:colors.teal,transparent:true,opacity:.6,side:THREE.DoubleSide}));circle.rotation.x=-Math.PI/2;circle.position.y=-.499;world.add(circle);box([2,.02,2],[0,-.52,0],colors.ink,.25);setMetrics([['Contact angle',`${q.theta}°`],['Liquid volume',`${fmt(q.volume*1e6)} mL`],['Contact radius',`${fmt(q.contact_radius*1000)} mm`],['Surface tension',`${s.sigma} N/m`],['Pressure jump',`${fmt(s.pressure_jump)} Pa`],['Adhesion work',`${fmt(s.adhesion_work)} J/m²`],['Volume integral error',`${fmt(Math.abs(q.integrated_volume-q.volume))} m³`]]);}range('Equilibrium contact angle (30–150 degrees)',24,12,v=>{angle=v;draw();});choice('Surface tension',d.sets[0].tensions.map(q=>`${q.sigma} N/m`),1,v=>{tension=v;draw();});draw();}
 const expectations={
+ faceflux:'At area 0.5, velocity 1, left boundary flux 0.5 and pressures 1/3, the pressure pairing is −2 W: −1 W interior plus −1 W boundary. Omitting boundary work fails.',
+ checker:'Alternating pressures ±1 have zero central cell gradients but compact face responses ±2 and divergences ±4 at response 1. Constant pressure produces zero response.',
+ stressprobe:'At unit rate and viscosity, rotation has zero symmetric strain; shear has 1 W and extension 4 W of dissipation, exactly supplied by the six-face work.',
  decay:'At T=2 s with one explicit step, A becomes −1 m/s and energy stays 0.25 J, while exact A is exp(−2). Refine the number of steps at the same T and compare amplitude errors. Implicit energy decay alone does not certify accuracy.',
  volume:'At f = 0.3 and c = 0.5, left-filled liquid transfers 0; right-filled liquid transfers 0.3 m³. The mixture estimate gives 0.15 in both cases. Removing the whole slab then clamping creates 0.2 m³.',
  projection:'Compare 0%, 50% and 100%: incidence falls linearly with the correction; the graph kinetic norm falls. The blend is not a solver iteration.',
@@ -60,6 +64,7 @@ const expectations={
  timestep:'From rest, one accepted step gives interior speeds (+0.125, −0.125, −0.125, +0.125) m/s and kinetic energy 0.03125 J. Rejection before commit preserves every accepted field bit, time and generation. Scroll and camera controls never advance or reset the state.'
 };
 const labs={projection,collision,hydrostatic,viscous,slip,cap,...createTransportLabs({clear,line,dot,arrow,range,choice,meta,setMetrics,panel,setReference:q=>{reference=q;}})};
+Object.assign(labs,createEngineeringLabs({clear,box,arrow,choice,meta,setMetrics,setReference:q=>{reference=q;}}));
 labs.decay=createDecayLab({clear,box,arrow,range,choice,meta,setMetrics,setReference:q=>{reference=q;}});
 labs.volume=createVolumeLab({clear,box,arrow,range,choice,meta,setMetrics,setReference:q=>{reference=q;}});
 labs.timestep=createTimestepLab({clear,line,dot,arrow,box,meta,setMetrics,panel,setReference:q=>{reference=q;},isActive:()=>selector.value==='timestep',manualChange});
@@ -69,7 +74,7 @@ let applying=false;
 function manualChange(){if(!applying)host.dispatchEvent(new CustomEvent('rheon-manual-change',{bubbles:true}));}
 export function selectLab(lab=selector.value){
   if(!labs[lab]||![...selector.options].some(o=>o.value===lab))return;flow.unmount();selector.value=lab;document.querySelector('.example-workspace').dataset.lab=lab;panel.replaceChildren();reference=null;labs[lab]();
-  const decay=lab==='decay', geometric=lab==='volume', recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
+  const engineering=['faceflux','checker','stressprobe'].includes(lab), decay=lab==='decay', geometric=lab==='volume', recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
   const legend=document.querySelector('#plot-legend');
   if(legend){
     legend.hidden=!recomputed&&!native&&!volume&&!geometric&&!decay;legend.replaceChildren();
@@ -77,8 +82,9 @@ export function selectLab(lab=selector.value){
       const item=document.createElement('span');item.textContent=label;item.style.borderColor=color;if(volume&&label.startsWith('Instantaneous')){item.id='flow-velocity-legend';item.hidden=!document.querySelector('#flow-streamlines')?.checked;}legend.append(item);
     }
   }
-  document.querySelector('.example-kind').textContent=decay?'Browser time integration · one viscous mode':geometric?'Browser geometry · one shared face':volume?'Rust / WebAssembly · computed 3D tracer':native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
-  document.querySelector('#reference-sources').hidden=recomputed||native||volume||geometric||decay;
+  document.querySelector('.example-kind').textContent=engineering?'Browser algebra · prescribed finite examples':decay?'Browser time integration · one viscous mode':geometric?'Browser geometry · one shared face':volume?'Rust / WebAssembly · computed 3D tracer':native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
+  document.querySelector('#reference-sources').hidden=recomputed||native||volume||geometric||decay||engineering;
+  document.querySelector('#engineering-sources').hidden=!engineering;
   document.querySelector('#transport-sources').hidden=!recomputed;
   document.querySelector('#volume-sources').hidden=!geometric;
   document.querySelector('#decay-sources').hidden=!decay;
@@ -86,6 +92,9 @@ export function selectLab(lab=selector.value){
   document.querySelector('#flow-sources').hidden=!volume;
 }
 const presets={
+ faceflux:{work:[1,2,2,0],closed:[1,2,1,0],balanced:[1,2,0,0]},
+ checker:{alternating:[1,2,2],constant:[0,2,2]},
+ stressprobe:{rotation:[0,2,2],shear:[1,2,2],extension:[2,2,2]},
  decay:{threshold:[0,1,0,1],refined:[0,1,3,8],implicit:[1,1,0,1],unstable:[0,2,0,1]},
  volume:{left:[0,30,50],right:[1,30,50]},
  projection:{before:[0],half:[50],after:[100]},
@@ -104,6 +113,6 @@ export function setLesson(lab,preset){
  }finally{applying=false;}
 }
 // Read-only inspection for the independent browser comparisons.
-export function snapshot({flowDerived=false}={}){return {lab:selector.value,camera:camera.position.toArray(),target:orbit?.target.toArray(),webgl:!!renderer,reference:flowDerived&&selector.value==='flow'?flow.inspect({derived:true}):reference,referenceLines:world.children.filter(o=>o.userData.series).map(o=>({series:o.userData.series,points:Array.from({length:o.geometry.attributes.position.count},(_,i)=>Array.from(o.geometry.attributes.position.array.slice(i*3,i*3+3)))})),arrows:world.children.filter(o=>o.type==='ArrowHelper').map(o=>({method:o.userData.decayMethod??null,origin:o.position.toArray(),length:o.line.scale.y+o.cone.scale.y,direction:new THREE.Vector3(0,1,0).applyQuaternion(o.quaternion).toArray()}))};}
+export function snapshot({flowDerived=false}={}){return {lab:selector.value,camera:camera.position.toArray(),target:orbit?.target.toArray(),webgl:!!renderer,boxes:world.children.filter(o=>o.isMesh&&o.geometry.type==='BoxGeometry').map(o=>({origin:o.position.toArray(),size:[o.geometry.parameters.width,o.geometry.parameters.height,o.geometry.parameters.depth],color:o.material.color.getHex()})),reference:flowDerived&&selector.value==='flow'?flow.inspect({derived:true}):reference,referenceLines:world.children.filter(o=>o.userData.series).map(o=>({series:o.userData.series,points:Array.from({length:o.geometry.attributes.position.count},(_,i)=>Array.from(o.geometry.attributes.position.array.slice(i*3,i*3+3)))})),arrows:world.children.filter(o=>o.type==='ArrowHelper').map(o=>({method:o.userData.decayMethod??null,origin:o.position.toArray(),length:o.line.scale.y+o.cone.scale.y,direction:new THREE.Vector3(0,1,0).applyQuaternion(o.quaternion).toArray()}))};}
 selector.addEventListener('change',()=>{selectLab();manualChange();});
 selectLab([...selector.options].some(o=>o.value===location.hash.slice(1))?location.hash.slice(1):selector.options[0].value);

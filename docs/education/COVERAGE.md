@@ -3,7 +3,7 @@
 This ledger covers all 25 chapters and six appendices. The sampling/transport
 follow-on expands the [540bdef teaching checkpoint](https://github.com/MrScripty/Rheon/commit/540bdef8fcbc0d0a55567325eba570589666bf80)
 from 11 to 13 chapters, then the bounded browser timestep adds chapter 17 and the computed volume adds chapter 14.
-There are now **17 chapters with partial scroll-linked examples**: 3–7, 9, 10, 12, 14, 17 and 19–25.
+There are now **18 chapters with partial scroll-linked examples**: 3–10, 12, 14, 17 and 19–25.
 No appendix has a scroll-linked example. These counts describe placement,
 not complete coverage of each chapter's topics or qualification of a solver.
 [Heading bindings](teaching.py) fail the build when an expected section moves.
@@ -293,3 +293,21 @@ residual/fallback gates and caller-owned corrected-velocity acceptance. PR50
 projection inspector; chapter 14 distinguishes its retained operator result
 from live history, arbitrary CAD and wall-load measurement. Source and docs were
 inspected; this book milestone does not rerun or claim their native qualification.
+
+
+## Engineering finite controls: continuation of PR51
+
+Chapter 8 now has a recomputed two-cell shared-flux and boundary-work lesson.
+Chapters 4 and 22 add collocated checkerboard and affine stress probes. All are
+prescribed finite references, not a new native CFD backend. The 126 bounded
+states have independent rational checks; browser geometry/control qualification
+and fresh Lean status are separate. See [plan](ENGINEERING_PLAN.md) and
+[dossier](../research-book/engineering/mesh-faces-to-collocated-flux.md).
+
+| Item | Implemented/researched | Proof/validation boundary |
+| --- | --- | --- |
+| Oriented shared flux | 81 two-cell controls, unit volumes, balanced external flux; boundary-work counterexample | Exact shared cancellation and affine pressure work; no mesh parser, positivity or native transport claim |
+| Collocated probe | 18 constant/alternating periodic-strip controls; developer-authored coupling source read | Exact central blindness, compact response and periodic energy; no full Rhie–Chow/SIMPLE or general stability claim |
+| Affine stress | 27 rotation/shear/extension controls; Batty–Bridson v2 section 3 read | Exact planar power; prescribed samples and face tractions, no evolving PDE or no-slip cube |
+| GUI | Three 3D views, seven heading bindings, independent glyph verifier and mobile controls | Hosted qualification required; no screenshot visual review implied by automated checks |
+| Dependencies | Existing locks unchanged; no new dependency, external mesh/data or copied implementation | Zero-change audit, not approval of a future parser/AMG/model dependency |

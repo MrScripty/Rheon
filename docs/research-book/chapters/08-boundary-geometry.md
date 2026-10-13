@@ -41,3 +41,37 @@ Boundary interpolation must define its extension. Constant extrapolation, mirror
 Test a sealed box with uniform translation, then stationary fluid under gravity with hydrostatic pressure, then moving obstacles with displaced-volume and wall-work accounting. A wall thinner than one cell must be resolved or explicitly unsupported rather than silently leak.
 
 Report flux by boundary category and closed component. Long-term leaks often originate in one inconsistent face update. More pressure iterations help only if pressure residual is responsible; topology, geometry and buffer timing remain separate suspects.
+
+## Two cells and boundary work
+
+Predict the power before changing the controls. The embedded example uses two
+unit cells, a shared opening of area A, prescribed face speed u and balanced
+external outward fluxes (q,-q). The shared flux is phi=A u. With unit volumes,
+the divergences are (phi+q,-phi-q). They sum to zero, even if neither is zero.
+The pressure test values are prescribed probes, not a solved pressure field.
+
+At A=1/2 m², u=1 m/s, q=1/2 m³/s and p=(1,3) Pa, the pressure-divergence
+pairing is -2 W. The interior term -(pR-pL) phi is only -1 W. The remaining
+-1 W is (pL-pR) q, the prescribed boundary work. Set q=0 to recover the
+homogeneous identity; do not drop the term for general data.
+
+## Balanced flow is not zero boundary work
+
+Now q=-1/2 m³/s cancels each cell's divergence. Interior work is -1 W and
+boundary work +1 W. The vanishing total does not imply vanishing contributions.
+The same shared transfer must be used with opposite signs in both cell ledgers.
+Area changes flux; it does not change the velocity arrow's fixed scale.
+
+The [research dossier](../engineering/mesh-faces-to-collocated-flux.md) derives
+units, signs, source applicability and the 81-state domain. This is instantaneous
+finite algebra, not arbitrary mesh assembly, a moving wall or an accepted CFD step.
+
+<details><summary>Exact finite proof and limits</summary>
+
+[EngineeringFlux.lean](../../../proofs/Rheon/EngineeringFlux.lean) proves shared
+face cancellation, the two-cell update, boundary-work identity and the concrete
+omission counterexample. It assumes the declared ledger; it does not prove
+geometry assembly, positivity, numerical execution or physical accuracy.
+Fresh kernel status is recorded separately from these statements.
+
+</details>

@@ -123,3 +123,45 @@ clock/generation owner and is not integrated into PR48's transport facade.
 Calibrated wall loads, arbitrary meshes and two-way body/contact dynamics still
 need their own geometry, work, impulse and rollback contracts. A stationary
 viscous acceptance case does not complete those broader physics topics.
+
+## Affine rotation and shear
+
+Use a centred unit cube as a measurement region, not a no-slip container.
+Prescribe U=(-s y,s x,0), constant viscosity mu, and pressure zero. This is rigid
+rotation: the velocity gradient is nonzero but D=(grad U+grad U^T)/2 vanishes.
+Consequently tau=2 mu D, traction and constitutive dissipation vanish.
+Teal arrows show actual sampled velocity at a fixed scale; the field is planar
+and independent of z. Camera motion does not advance the field.
+
+## Boundary work supplies shear
+
+Select U=(s y,0,0). Its two off-diagonal strain entries are s/2. The unit-cube
+dissipation is mu s² W, which is 1 W at unit rate and viscosity. Orange arrows
+show tau n at the six face centres, using a separate labelled traction scale.
+The integral of traction dot velocity over those faces is also 1 W.
+
+Constant stress has zero divergence here. Dissipation is supplied by boundary
+work, not an evolving bulk-force calculation. All affine component Laplacians
+are zero. Comparing mu grad U:grad U with 2 mu D:D while omitting the different
+boundary terms would be misleading. These imposed fields do not satisfy
+stationary no-slip conditions on the cube faces.
+
+## Extension control
+
+For U=(s x,-s y,0), dissipation and supplied boundary power are 4 mu s² W.
+Changing the sign of s reverses the velocity and traction but leaves power
+unchanged. Setting viscosity to zero removes traction and dissipation while
+leaving the prescribed velocity intact. Read the complete matrices and
+six-face quadrature in the [research dossier](../engineering/mesh-faces-to-collocated-flux.md).
+Batty and Bridson's [section 3, equations (3.1)–(3.5)](https://arxiv.org/pdf/1010.2832v2)
+provides the constitutive/traction context; this lesson does not implement their
+embedded-boundary solver or inherit its convergence results.
+
+<details><summary>Planar stress proof scope</summary>
+
+[EngineeringFlux.lean](../../../proofs/Rheon/EngineeringFlux.lean) proves the
+planar power formula, nonnegativity when mu>=0, and rotation/shear/extension
+values. The boundary theorem checks the stated finite contraction. Geometric
+quadrature, PDE evolution and code/IEEE refinement remain separate claims.
+
+</details>

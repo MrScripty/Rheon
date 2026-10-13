@@ -217,7 +217,22 @@ run_cmd do
     `Rheon.ModalDecay.backward_satisfies_update,
     `Rheon.ModalDecay.backward_energy_identity,
     `Rheon.ModalDecay.backward_energy_nonincrease,
-    `Rheon.ModalDecay.stability_does_not_preserve_sign]
+    `Rheon.ModalDecay.stability_does_not_preserve_sign,
+    `Rheon.EngineeringFlux.shared_face_cancellation,
+    `Rheon.EngineeringFlux.two_cell_update_conserves,
+    `Rheon.EngineeringFlux.boundary_work,
+    `Rheon.EngineeringFlux.balanced_flow,
+    `Rheon.EngineeringFlux.omitted_boundary_counterexample,
+    `Rheon.EngineeringFlux.checkerboard_central_blind,
+    `Rheon.EngineeringFlux.checkerboard_face_response,
+    `Rheon.EngineeringFlux.checkerboard_divergence,
+    `Rheon.EngineeringFlux.periodic_pressure_energy,
+    `Rheon.EngineeringFlux.planarPower,
+    `Rheon.EngineeringFlux.planar_power_nonnegative,
+    `Rheon.EngineeringFlux.planar_boundary_power,
+    `Rheon.EngineeringFlux.rigid_rotation_power,
+    `Rheon.EngineeringFlux.simple_shear_power,
+    `Rheon.EngineeringFlux.planar_extension_power]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

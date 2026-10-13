@@ -290,3 +290,11 @@ rational controls. It saves JPEG evidence at quality 85 outside Git. Read-only
 publication checks retain the PDF and receipts. The research-book workflow
 rebuilds and qualifies its own native executable and packet; it does not reuse
 a machine-specific historical binary or infer current checks from old counts.
+
+
+Engineering continuation: [finite research plan](ENGINEERING_PLAN.md),
+[derived controls](../research-book/engineering/mesh-faces-to-collocated-flux.md)
+and current [proof source status](native-sequence.json). PR51's 152-theorem,
+266-declaration result remains historical; the 14 additional engineering
+statements require their own kernel qualification. Native admission hashes and
+dependency locks are unchanged.
