@@ -304,5 +304,7 @@ Pressure-gauge continuation: [plan](PRESSURE_GAUGE_PLAN.md) and
 [component/gauge derivation](../research-book/engineering/pressure-compatibility-and-gauges.md).
 The 288-state reference keeps source compatibility, representative choice,
 full residual and boundary work separate. Fifteen added exact-real statements
-await their own kernel run; PR60's 282-declaration evidence is historical.
+passed their [kernel and 297-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38463683974)
+on `98abec6`; the synthetic merge proof tree was verified identical. PR60's
+282-declaration evidence is historical.
 Native source admission and all dependency locks remain unchanged.

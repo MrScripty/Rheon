@@ -50,5 +50,9 @@ remains inaccessible (publisher abstract/metadata only). The complete derivation
 288-state independent rational oracle, seven heading presets and 15 scoped Lean
 statements are implemented. Normal/optimized reference tests, source-policy,
 metadata and publication-gate checks pass locally; a fresh HTML edition builds.
-Fresh kernel and hosted browser/PDF/full-workflow qualification remain pending.
+The pinned kernel/audit passed on `98abec6` (297 audited declarations,
+run 38463683974; identical merge proof tree). Hosted seven-heading controls,
+rendered glyphs and scroll checks passed at all three widths (job 115525042139).
+Final full-workflow/PDF qualification remains pending; no human screenshot
+review is claimed.
 PR60 stays unchanged and its CI is monitored independently.

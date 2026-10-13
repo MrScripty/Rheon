@@ -325,7 +325,7 @@ an existing chapter rather than claiming a new covered chapter.
 | Gauges | Fixed-cell, arithmetic mean, volume mean and independent offsets | Exact jump invariance and mean identities; physical Dirichlet/traction conditions excluded |
 | Residual and boundary work | Full vs retained-row residual, volume-scaled divergence, explicit source projection, local pressure perturbation | Original incompatible source stays rejected; gauge work retains component boundary terms |
 | Research | Gebhardt–Romero v1 sections 1–2 read; Bochev–Lehoucq publisher abstract/metadata only | No imported regularization/convergence claim or inaccessible-full-text reading claim |
-| Qualification | Rational oracle and false-acceptance mutations; actual cell/bar/arrow browser verifier | Fresh 15-theorem kernel and hosted UI/full-book checks pending; screenshot review separate |
+| Qualification | Rational oracle and false-acceptance mutations; actual cell/bar/arrow browser verifier | The 15 added statements passed kernel/audit run 38463683974; three-viewport UI job 115525042139 passed on 98abec6. Final full-book checks pending; human screenshot review remains separate |
 
 See [plan](PRESSURE_GAUGE_PLAN.md) and
 [complete derivation](../research-book/engineering/pressure-compatibility-and-gauges.md).
