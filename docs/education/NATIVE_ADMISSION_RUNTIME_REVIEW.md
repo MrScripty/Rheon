@@ -73,3 +73,16 @@ Lean kernel/axiom audit, actual desktop/mobile teaching checks, PDF/local links
 and full publication probes. Main merge order must be coordinated with the
 runtime owner. Merge/Pages authorization does not convert any pending item into
 a pass. Human screenshot review remains blocked if supported transfer returns403.
+
+## Completed local qualification checkpoint
+
+Clean committed source `d35967ec69018af707bc5353ee0bffa0b4934f38` passed the
+18-command native/rational runner, including five geometric specimen/oracle
+comparisons and mutation/rejection checks. The exported real native packet then
+passed all 22 source/receipt/adversarial tests normally and under Python -O,
+with zero skips. The compact authored [evidence record](INTEGRATION_EVIDENCE.json)
+binds the external receipt digest; generated receipts and logs are not Git payloads.
+The aligned native qualifier did not run Lean. Separately, corrected PR66 Lean
+run38478346517 passed 330 declarations and its rejection probes; proof bytes are
+identical in this integration. Final hosted publication/runtime checks remain
+required on the final source after this metadata-only update.

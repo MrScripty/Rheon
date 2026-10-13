@@ -19,8 +19,7 @@ In the wall example μ has units Pa s, U has m/s, and G has N/m³. The gap is on
 <details><summary>Practical study proof scope</summary>
 
 [PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
-exact real-arithmetic premises. Kernel qualification for these new statements
-is pending. The independent finite oracle checks the browser formulas; it does
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
 not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
 
 </details>

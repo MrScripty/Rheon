@@ -1,11 +1,11 @@
 {
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Practical study pending its fresh pinned kernel build.",
+  "qualified_lean_source": "ae4fff0a1a12edb312fb1d1af9a5a4c70f585cc1; proof tree identical to checked merge 46a199a2484975c021286a506be81e327783737f and integrated d35967e",
   "proof_inventory_sha256": "42ca9c2849cfed6894bb67e0b74d1018327eac35c6c6eb459f2caace08545bb2",
   "public_theorems": 214,
-  "audited_declarations": null,
-  "lean_ci": null,
+  "audited_declarations": 330,
+  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38478346517",
   "labs": [
     {
       "id": "wall-friction",
@@ -134,11 +134,20 @@
     "proof_inventory_sha256": "42ca9c2849cfed6894bb67e0b74d1018327eac35c6c6eb459f2caace08545bb2",
     "public_theorems": 214,
     "explicit_expected_declarations": 275,
-    "audited_declarations": null,
-    "lean_ci": null,
-    "status": "reviewed-pending-kernel-qualification",
+    "audited_declarations": 330,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38478346517",
+    "status": "passed",
     "local_qualification": null,
-    "scope": "Steady wall budgets, fixed two-cell Jacobi modes, one-sample transfer, supplied-field constitutive bounds and conditional extrapolation/residual algebra. No runtime/PDE/IEEE/performance/physical-validation proof."
+    "scope": "Steady wall budgets, fixed two-cell Jacobi modes, one-sample transfer, supplied-field constitutive bounds and conditional extrapolation/residual algebra. No runtime/PDE/IEEE/performance/physical-validation proof.",
+    "source_head": "ae4fff0a1a12edb312fb1d1af9a5a4c70f585cc1",
+    "checkout_head": "46a199a2484975c021286a506be81e327783737f",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
   },
   "historical_pr43_reviewed_proof": {
     "status": "passed",

@@ -368,8 +368,7 @@ this is placement coverage, not completion of every scientific topic.
 | Candidate gate | 54 | Synthetic pressure proposal, finite/unit/full-residual gate and fallback |
 
 All 248 states and eight deliberately corrupted answers pass/refuse respectively
-under normal and optimized Python. Twenty-three new exact-real theorem statements
-are awaiting their pinned kernel build. The hosted browser probe checks each
+under normal and optimized Python. Twenty-three new exact-real statements passed the pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517); the integrated proof tree is identical. The hosted browser probe checks each
 new chapter and all appendix placements, controls, actual geometry, layout,
 camera, collapsed proofs and scroll linkage at three sizes. Its status remains
 pending until a successful exact-source hosted result is recorded.

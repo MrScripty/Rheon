@@ -103,8 +103,7 @@ Passing this educational gate establishes neither learned accuracy nor speed.
 Implemented: eight recomputed 3D mechanisms with fixed declared scales and real
 controls. Configured: relevant scroll-linked examples in all 25 chapters and six
 appendices. Checked locally: 248 finite states, invalid-control refusals and eight
-oracle mutations under normal/optimized Python. Proposed Lean: 23 statements
-with explicit assumptions; kernel qualification pending. Hosted browser and
+oracle mutations under normal/optimized Python. Lean: 23 statements with explicit assumptions; the [pinned kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed on the identical proof tree. Hosted browser and
 full publication qualification pending. Human screenshot review remains unavailable
 where supported artifact downloads return HTTP403; no denial is bypassed.
 
