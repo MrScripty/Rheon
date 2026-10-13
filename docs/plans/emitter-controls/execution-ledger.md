@@ -65,3 +65,12 @@ No realtime claim, validated turbulence model or persistent dataset archive clai
 Source motion remains a prescribed inlet, not a moving solid collider. Inherited
 research-book qualification/source-pin CI issue is owned by the book task; do not
 weaken that checker in this emitter branch.
+
+## Delivery
+
+Feature implementation commit `f5e0dbc7017db8cf6b7911096cb24c9780465ac6`
+pushed to `feat/emitter-vector-turbulence`; opened [draft PR57](https://github.com/MrScripty/Rheon/pull/57)
+against fixed PR55 branch. Owner work and previous PR heads remain intact. No main
+merge or deployment. Follow-up documentation commit records delivery. GitHub checks
+are pending at delivery and are reported in the PR separately; local verification
+is not represented as remote all-green status.

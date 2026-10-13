@@ -1,7 +1,8 @@
 # Rich emitter controls
 
-Status: In progress. Objective acceptance: implementation/verification satisfied; delivery pending. Phase: delivery.
-Next slice: commit/push and open draft PR; no merge or deployment.
+Status: Complete. Objective acceptance: satisfied for this bounded emitter milestone. Phase: delivered.
+Delivered: [draft PR57](https://github.com/MrScripty/Rheon/pull/57), stacked on fixed PR55.
+No merge or deployment. Remote CI is reported separately from local acceptance.
 User authorizes implementation, tests, independent review, push and draft PR; no merge.
 Base: PR55 qualified head `3525c979e16629b295a6865e3abbb2a36803cc93`; keep its branch fixed.
 Branch: `feat/emitter-vector-turbulence`. No AGENTS.md or .agents skills found locally.
@@ -51,7 +52,7 @@ controls and desktop frozen Request retain all fields. No dense3D wire-format ch
 | E1 shared API and emission | Complete | defaults unchanged; units/bounds; coherent rotated geometry; both carrier and material paths |
 | E2 native controls/recording | Complete | compact controls, vector/speed consistency, direction overlay, retained accepted controls |
 | E3 validation/review | Complete | deterministic replay, zero perturbation, seeds/scales/time, rotation/motion, liquid/gas, dt and rollback; independent review |
-| E4 delivery | In progress | strict checks, dedicated pushed branch/draft PR, exact hardware limitations and coordination handoff |
+| E4 delivery | Complete | strict checks, dedicated pushed branch/draft PR, exact hardware limitations and coordination handoff |
 
 Scope excludes arbitrary imported geometry collision, SPH interaction algorithm
 changes, CPU optimizations, validated turbulence spectra, cross-platform bitwise
