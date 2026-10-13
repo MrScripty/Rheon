@@ -47,14 +47,14 @@ jobs:
           trap 'kill "$app_pid" 2>/dev/null || true; wait "$app_pid" 2>/dev/null || true' EXIT
           window=''
           for attempt in $(seq 1 30); do
-            kill -0 "$app_pid"
+            if ! kill -0 "$app_pid" 2>/dev/null; then cat "$RUNNER_TEMP/collision-evidence/native.log"; exit 1; fi
             window=$(xdotool search --onlyvisible --name 'Rheon / Live 3D' | head -n 1 || true)
             if test -n "$window"; then break; fi
             sleep 1
           done
           test -n "$window"
           sleep 5
-          kill -0 "$app_pid"
+          if ! kill -0 "$app_pid" 2>/dev/null; then cat "$RUNNER_TEMP/collision-evidence/native.log"; exit 1; fi
           import -window "$window" "$RUNNER_TEMP/collision-evidence/native-import.png"
           SH
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
