@@ -57,6 +57,10 @@ transitive/data/checkpoint licence reviews.
 Environment and pushed PR51/main identities checked. The dossier, three bounded
 references, chapter controls, independent rational checks and 14 Lean statements
 are implemented. All 126 reference states pass locally in normal/optimized
-Python. Kernel and hosted browser qualification remain pending; generated
-screenshots are not yet visually reviewed. Final results must identify tested
-commits, not advance historical receipts by rewriting a hash.
+Python. The pinned kernel and 282-declaration axiom audit passed on `dd0d81c`
+(workflow 38449564095; merge proof tree verified identical). Initial hosted
+three-viewport glyph/control checks also passed. Strengthened control, proof
+and true-scroll checks plus final full-book CI are pending on the continuation.
+The supported screenshot download returned HTTP 403; human visual review remains
+blocked. Final results must identify tested commits, not advance historical
+receipts by rewriting a hash.

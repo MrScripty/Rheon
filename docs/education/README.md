@@ -296,5 +296,5 @@ Engineering continuation: [finite research plan](ENGINEERING_PLAN.md),
 [derived controls](../research-book/engineering/mesh-faces-to-collocated-flux.md)
 and current [proof source status](native-sequence.json). PR51's 152-theorem,
 266-declaration result remains historical; the 14 additional engineering
-statements require their own kernel qualification. Native admission hashes and
+statements passed their own [kernel build and 282-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38449564095). The checked merge proof tree equals `dd0d81c`; exact source binding is recorded in the metadata. Native admission hashes and
 dependency locks are unchanged.

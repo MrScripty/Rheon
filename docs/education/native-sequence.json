@@ -1,11 +1,11 @@
 {
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Engineering finite contracts reviewed; pending pinned kernel qualification.",
+  "qualified_lean_source": "Engineering finite contracts: pinned kernel and transitive axiom audit passed for the identical proof inventory; no implementation/PDE qualification.",
   "proof_inventory_sha256": "77c03372a93b9dee89fa8dd27c26472fe18827edd0b12b2bfbb68e432f0f6014",
   "public_theorems": 166,
-  "audited_declarations": null,
-  "lean_ci": null,
+  "audited_declarations": 282,
+  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38449564095",
   "labs": [
     {
       "id": "wall-friction",
@@ -135,11 +135,20 @@
     "proof_inventory_sha256": "77c03372a93b9dee89fa8dd27c26472fe18827edd0b12b2bfbb68e432f0f6014",
     "public_theorems": 166,
     "explicit_expected_declarations": 227,
-    "audited_declarations": null,
-    "lean_ci": null,
-    "status": "reviewed-pending-kernel-qualification",
+    "audited_declarations": 282,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38449564095",
+    "status": "passed",
     "local_qualification": null,
-    "scope": "Finite face algebra and planar constitutive power only; no geometry/solver/PDE/IEEE proof."
+    "scope": "Finite face algebra and planar constitutive power only; no geometry/solver/PDE/IEEE proof.",
+    "source_head": "dd0d81c5d893801313b7187530176cc00bf10faf",
+    "checkout_head": "829c0da761e82f0adb5e7590cdc777276748c82d",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
   },
   "historical_pr43_reviewed_proof": {
     "status": "passed",
