@@ -3,6 +3,10 @@ Real-time lowish resolution 3D fluid physics for creating refrence images to dri
 
 This repo will include a standalone demonstration GUI and a modular simulation framework that can be implemented into other apps. Idealy you would integrate Rheon into your own AI design tool as part of your seamless production pipeline.
 
+![Rheon native 3D interface showing a pressure-colored voxel view around a cylinder, material controls and timeline playback.](docs/images/rheon-native-3d-ui.jpg)
+
+Rheon's native 3D interface, captured by the project owner on October 12, 2026.
+
 # About the name
 Derived from rheology (study of flowing/deforming matter, especially non-Newtonian liquids) + Greek rhein (to flow)
 
@@ -29,24 +33,15 @@ cargo run --locked --release --features desktop --bin rheon-desktop
 cargo run --locked --release --bin rheon -- --list-implementations
 ```
 
-The UI displays solver results and opacity projections. It is an initial
-comparison laboratory, not a complete interactive 3D editor or real-time claim.
 Use `default-features = false` for a standard-library-only library consumer.
 
-![Native Rheon window comparing Jacobi and SGS PCG on a 32³ smoke fixture, with solver diagnostics, two opacity projections and an unequal accepted-time warning.](docs/images/rheon-native-comparison-32-cubed-100-steps.png)
+### Related pressure experiment
 
-Jacobi and SGS PCG, each started from rest for 100 steps at 32³ cells. The app
-flags unequal accepted physical horizons even though the rounded times match.
-Single-run timings are exploratory, not a qualified speed comparison.
+![Separate Rheon Surrogate Lab interface comparing orange Rheon CPU and blue-green learned-pressure trajectories in a 32³ sealed box.](docs/images/rheon-surrogate-lab-comparison.jpg)
 
-![Native Rheon window showing a completed 32³, 200-step SGS PCG smoke run and its grayscale +Z opacity guidance projection.](docs/images/rheon-native-sgs-projection-32-cubed-200-steps.png)
-
-SGS PCG after 200 steps: +Z tracer-opacity guidance with +Y upward. This fixed-box
-smoke demo is not a free-surface liquid render or physical validation.
-
-Both are unaltered native-window captures from commit
-[`34235d33`](https://github.com/MrScripty/Rheon/commit/34235d33c886aa05b5bdf95d920b863d1fb2ad6f),
-using the locked release build on Linux with software rendering.
+[Rheon Surrogate Lab](https://github.com/MrScripty/rheon-surrogate-lab) is a separate
+project comparing Rheon's CPU solver with learned pressure. Timings shown are
+specific to the captured sealed-box experiment.
 
 ## Explicit body forces
 
