@@ -122,6 +122,8 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Check reviewed native admission before expensive qualification
+        run: python3 docs/education/check_native_admission.py
       - name: Set external artifact and tool directories
         run: |
           echo "RHEON_SOLVER=$RUNNER_TEMP/rheon-solver" >> "$GITHUB_ENV"
