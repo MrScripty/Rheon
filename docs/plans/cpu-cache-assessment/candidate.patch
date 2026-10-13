@@ -1,0 +1,96 @@
+diff --git a/src/pressure.rs b/src/pressure.rs
+index 1a0dfae..a0fe453 100644
+--- a/src/pressure.rs
++++ b/src/pressure.rs
+@@ -564,7 +564,26 @@ impl PressureWorkspace {
+             report.true_residual_l2 <= threshold
+                 && report.predicted_divergence_max <= settings.divergence_limit
+         };
+-        let mut report = self.true_report(operator, dt, 0)?;
++        let mut report = if operator.has_gauge() {
++            // The sealed-box coefficients are finite and pressure was cleared
++            // to +0 above, so A*0 is +0 and rhs - A*0 preserves every RHS bit.
++            // Reuse its already-qualified ordered norm; retain full true
++            // residual evaluation for every subsequent iterate and surface.
++            self.product.copy_from_slice(&self.rhs);
++            let maximum = self.product.iter().fold(0.0_f64, |a, b| a.max(b.abs()));
++            let divergence = operator.scaled_residual_divergence(&self.product, dt);
++            if !divergence.is_finite() {
++                return Err(PressureError::Breakdown { iteration: 0 });
++            }
++            PressureReport {
++                iterations: 0,
++                true_residual_l2: rhs_l2,
++                true_residual_max: maximum,
++                predicted_divergence_max: divergence,
++            }
++        } else {
++            self.true_report(operator, dt, 0)?
++        };
+         if accepted(report) {
+             return Ok(report);
+         }
+diff --git a/tests/pressure_contract.rs b/tests/pressure_contract.rs
+index d32c15c..8a3c880 100644
+--- a/tests/pressure_contract.rs
++++ b/tests/pressure_contract.rs
+@@ -260,3 +260,59 @@ fn a_rectangular_cycle_retains_circulation() {
+     assert_eq!(oy, y);
+     assert_eq!(oz, z);
+ }
++
++#[test]
++fn zero_initial_report_preserves_qualification_and_retry_after_scratch_use() {
++    let grid = GridGeometry::new([3, 1, 1], [1.0; 3], [0.0; 3]).unwrap();
++    let op = PressureOperator::new(&grid, 1.0).unwrap();
++    let mut ws = PressureWorkspace::new(&grid, 144).unwrap();
++    ws.solve_rhs(&op, &[-4.0, 6.0, -2.0], 0.5, settings(), || false)
++        .unwrap();
++    let previous = ws.pressure().to_vec();
++    assert_eq!(
++        ws.solve_rhs(&op, &[-3.0, 1.0, 2.0], 0.5, settings(), || true)
++            .unwrap_err(),
++        PressureError::Cancelled { iterations: 0 }
++    );
++    assert_eq!(ws.pressure(), previous);
++    let initial_only = PressureSettings {
++        relative_residual: 0.0,
++        absolute_residual: 4.0,
++        divergence_limit: 2.0,
++        max_iterations: 0,
++    };
++    let report = ws
++        .solve_rhs(&op, &[-3.0, 1.0, 2.0], 0.5, initial_only, || false)
++        .unwrap();
++    assert_eq!(report.iterations, 0);
++    assert_eq!(report.true_residual_l2.to_bits(), 14.0_f64.sqrt().to_bits());
++    assert_eq!(report.true_residual_max, 3.0);
++    assert_eq!(report.predicted_divergence_max, 1.5);
++    assert!(ws.pressure().iter().all(|p| p.to_bits() == 0));
++    let report = ws
++        .solve_rhs(&op, &[-0.0, 0.0, -0.0], 0.5, settings(), || false)
++        .unwrap();
++    assert_eq!(report.iterations, 0);
++    assert_eq!(report.true_residual_l2.to_bits(), 0);
++    ws.solve_rhs(&op, &[-4.0, 6.0, -2.0], 0.5, settings(), || false)
++        .unwrap();
++    assert_eq!(ws.pressure(), previous);
++}
++
++#[test]
++fn finite_initial_norm_does_not_hide_scaled_divergence_overflow() {
++    let grid = GridGeometry::new([2, 1, 1], [1e-100; 3], [0.0; 3]).unwrap();
++    let op = PressureOperator::new(&grid, 1.0).unwrap();
++    let mut ws = PressureWorkspace::new(&grid, 96).unwrap();
++    assert_eq!(
++        ws.solve_rhs(&op, &[1.0, -1.0], 1e100, settings(), || false)
++            .unwrap_err(),
++        PressureError::Breakdown { iteration: 0 }
++    );
++    assert_eq!(
++        ws.solve_rhs(&op, &[-0.0, 0.0], 1.0, settings(), || false)
++            .unwrap()
++            .iterations,
++        0
++    );
++}

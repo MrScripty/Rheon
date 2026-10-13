@@ -1,0 +1,13 @@
+# Frozen rejected candidate (apply candidate.patch), baseline binaries and harness inputs.
+# Source paths name experiment locations, not current reverted production files.
+e8a430e5c716035c7a0fe5d0dbee97fdb0f7d09341294c9567622672bbbd7f9d  src/pressure.rs
+0bbc1783ca3a1e9d32b4b186c3069e6499edb0fa38e29f164d4102426f846b2d  tests/pressure_contract.rs
+aab5c07794545db6bfd854a556ad8e3b4940f5dd628cc509963608d1fc799674  examples/cpu_initial_residual_lab.rs
+fa3250c66d7b95d47e14d265347a503a77eda5a5308a2a59fe2c1b2ad8e2e5b5  /tmp/rheon-cpu-baseline-target/release/examples/cpu_initial_residual_lab
+e5edd118cfdb91da34471e9af12516b975f6db783b359901021da4df5a1683f9  /tmp/rheon-cpu-candidate-target/release/examples/cpu_initial_residual_lab
+2d74548a736cd6b93021f21e9a300eadf6a2bdbb438d39846a727aa8b83ed268  /tmp/cpu-particle-baseline
+947e731202544c64194df39fcfd071dc4215f933371a8e8160afd7e38001e45e  /tmp/rheon-cpu-candidate-target/release/examples/cpu_particle_lab
+86246848bc53ed3a7523be3a04ad5a28aae639e18cd9443948fd7ab2dd127ce9  docs/plans/cpu-cache-assessment/candidate.patch
+aab5c07794545db6bfd854a556ad8e3b4940f5dd628cc509963608d1fc799674  docs/plans/cpu-cache-assessment/cpu_initial_residual_lab.rs
+3e6f4eb91403c285805115733fd423e2ed071b6f3024a49daee35db527539e1c  docs/plans/cpu-cache-assessment/cpu_particle_lab.rs
+4caa0c810461321d358bdb5be9f138a4e0da4050b3b2847b3084a98997ac53cf  /tmp/cpu-observed-baseline
