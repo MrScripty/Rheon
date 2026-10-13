@@ -69,7 +69,7 @@ def scene(q):
  elif name=='particletransfer':
   for i in range(2):
    x=(i-.5)*.7;sphere([x,0,0],.05*q['masses'][i]**(1/3));arrow([x,.22,.1],[q['input'][i]*.18,0,0],'input');arrow([x,-.22,.1],[q['output'][i]*.18,0,0],'output')
- elif name=='sstprobe':bar(-.3,q['viscosity'],.12);bar(0,q['raw'],.012);bar(.3,q['limited'],.12)
+ elif name=='sstprobe':bar(-.3,q['viscosity'],.12);bar(0,q['raw'],.04);bar(.3,q['limited'],.04)
  elif name=='refinement':
   for s in q['samples']:
    h=s['value']*.65;box([.9*(s['y']-.5),h/2-.4,0],[.9/a[0],h,.15]);sphere([.9*(s['y']-.5),.65*s['y']**2-.4,.14],.015)

@@ -34,8 +34,8 @@ export function createPracticalLabs({clear,box,arrow,dot,line,choice,meta,setMet
    for(let i=0;i<2;i++){const x=(i-.5)*.7;dot([x,0,0],0x18363d,.05*Math.cbrt(q.masses[i]));glyph([x,.22,.1],[q.input[i]*.18,0,0],'input',0xaa5735);glyph([x,-.22,.1],[q.output[i]*.18,0,0],'output');}
    setMetrics([['Input / output velocities',pair(q.input)+' → '+pair(q.output)],['Old / updated grid speed',pair([q.mean,q.grid])],['Expected / actual momentum (kg m/s)',pair([q.expectedMomentum,q.momentumAfter])],['Unresolved energy before / after (J)',pair([q.varianceBefore,q.varianceAfter])],['Scale','Schematic positions; velocity arrows 0.18 units/(m/s), particle volume proportional to mass']]);
   }else if(name==='sstprobe'){
-   bar(-.3,q.viscosity,.12,'viscosity',0x18363d);bar(0,q.raw,.012,'raw',0xaa5735);bar(.3,q.limited,.12,'limited');
-   setMetrics([['Positive denominator (1/s)',f(q.denominator)],['Eddy viscosity (Pa s)',f(q.viscosity)],['Raw / cap / limited production (W/m³)',pair([q.raw,q.cap,q.limited])],['Zero-k laminar case',q.laminar?'yes':'no'],['Scale','Viscosity 0.12 units/(Pa s); raw production 0.012 and limited 0.12 units/(W/m³); compare numbers across scales']]);
+   bar(-.3,q.viscosity,.12,'viscosity',0x18363d);bar(0,q.raw,.04,'raw',0xaa5735);bar(.3,q.limited,.04,'limited');
+   setMetrics([['Positive denominator (1/s)',f(q.denominator)],['Eddy viscosity (Pa s)',f(q.viscosity)],['Raw / cap / limited production (W/m³)',pair([q.raw,q.cap,q.limited])],['Zero-k laminar case',q.laminar?'yes':'no'],['Scale','Viscosity 0.12 units/(Pa s); both production bars 0.04 units/(W/m³); compare production heights on their common scale']]);
   }else if(name==='refinement'){
    for(const s of q.samples){const h=s.value*.65;box([.9/a[0],h,.15],[.9*(s.y-.5),h/2-.4,0],0x067d91,.4);dot([.9*(s.y-.5),.65*s.y*s.y-.4,.14],0xaa5735,.015);}
    line(Array.from({length:33},(_,i)=>[.9*(i/32-.5),.65*(i/32)**2-.4,.14]),0xaa5735);

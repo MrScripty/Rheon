@@ -180,7 +180,8 @@ transport or validation result is supplied by this chapter.
 The supplied-field probe uses density 1, a₁ = 0.31 and the SST-2003 denominator
 max(a₁ω, SF₂). Select k = ω = 1, S = 4 and F₂ = 1: eddy viscosity is 0.0775 Pa s,
 raw production is 1.24 W/m³, and the production cap gives 0.9 W/m³.
-The three scalar bars have explicitly different fixed unit scales; compare
+The raw and limited production bars share one fixed scale, so their heights
+show clipping directly. The viscosity bar uses its own unit scale; compare
 the numerical values when comparing production and viscosity. They do not
 depict velocity or resolved eddies. The [variant and primary-reading record](../engineering/constitutive-validation-research.md)
 pins coefficients, stress/pressure convention, source correction and wall data.
