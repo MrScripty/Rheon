@@ -295,3 +295,35 @@ CSV uses binary64 round-trip values and leaves unavailable initial fields blank.
 Its raw mass, momentum and energy totals are not closed-system residuals without
 emission, gravity, dissipation and wall exchanges. The native window, clipboard
 and user-device performance remain outside the draft's headless validation.
+
+## One grid sample, two particles
+
+Give two fixed particles masses (1, m), velocities (v+d, v−d), and one grid
+sample with transfer weights one. Its mass-weighted velocity is
+u = [(v+d)+m(v−d)]/(1+m). After a prescribed grid increment Δu, PIC returns
+u+Δu to both particles. With equal masses, v = 0 and d = 1, PIC removes the
+(+1, −1) counterflow although the total momentum was already zero. The lost
+quantity is unresolved kinetic variation, not momentum.
+
+## Preserving an unresolved transfer mode
+
+FLIP instead returns each old velocity plus Δu. The displayed blend uses a
+FLIP fraction a in [0,1]: v′ᵢ = u+Δu+a(vᵢ−u). It preserves the expected
+momentum and scales kinetic energy about the mass-weighted mean by a².
+Select a = 1 to retain the counterflow, or a = 1/2 to retain one-quarter of its
+variation energy. Unequal masses change the mean and must enter every momentum
+and variance calculation. Positions stay fixed; this lesson does not advect
+particles or advance SPH/PBF. [The APIC authors' publication summary](https://disneyanimation.com/publications/the-affine-particle-in-cell-method/)
+identifies information loss during transfer and motivates retaining affine
+velocity information. This one-sample experiment is PIC/FLIP only; it does not
+establish APIC angular momentum or infer that retaining unresolved modes makes
+a complete simulation stable.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

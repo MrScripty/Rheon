@@ -219,3 +219,34 @@ See the [research dossier](../engineering/pressure-compatibility-and-gauges.md)
 for complete units, cases, primary-source reading and qualification boundaries.
 
 </details>
+
+## Two unknowns and a real iteration
+
+Use K = [[2, −1], [−1, 2]], corresponding to a two-cell Dirichlet stencil.
+From x = 0, each control-selected iteration performs
+x ← x + α(b−Kx)/2 using the complete old vector. This is simultaneous weighted
+Jacobi, rather than a saved-field blend. For b = (1, 0), the exact solution is
+(2/3, 1/3). At α = 1 after four iterations, x = (5/8, 5/16), the true residual
+is (1/16, 0), and error energy eᵀKe is 1/384. The readout recomputes b−Kx.
+
+## A positive matrix with an unstable iteration
+
+The matrix energy is (x−y)² + x² + y² and is positive away from zero.
+Smooth and alternating error modes nevertheless have iteration factors
+1−α/2 and 1−3α/2. Both contract only when 0 < α < 4/3. Select α = 3/2
+and alternating b: the alternating error factor is −5/4 and its energy grows
+by 25/16 each iteration. Matrix positivity alone does not choose a stable
+Jacobi relaxation. [Shewchuk, sections 5.2–5.3](https://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf)
+explains the splitting and spectral-radius criterion; this matrix and its
+closed-form error modes are independently derived here. Production Krylov
+methods additionally need suitable operator/preconditioner properties and
+fresh full residuals; no general CG or multigrid result is inferred.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

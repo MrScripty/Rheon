@@ -257,7 +257,30 @@ run_cmd do
     `Rheon.CouplingStudy.pressure_error_recurrence,
     `Rheon.CouplingStudy.bounded_velocity_factor,
     `Rheon.CouplingStudy.exact_network_solution,
-    `Rheon.CouplingStudy.overrelaxed_velocity_factor]
+    `Rheon.CouplingStudy.overrelaxed_velocity_factor,
+    `Rheon.PracticalStudy.wall_force_balance,
+    `Rheon.PracticalStudy.wall_power_balance,
+    `Rheon.PracticalStudy.wall_dissipation_nonnegative,
+    `Rheon.PracticalStudy.matrix_energy_identity,
+    `Rheon.PracticalStudy.matrix_energy_positive,
+    `Rheon.PracticalStudy.jacobi_smooth_error,
+    `Rheon.PracticalStudy.jacobi_alternating_error,
+    `Rheon.PracticalStudy.jacobi_factors_strict,
+    `Rheon.PracticalStudy.jacobi_unstable_mode,
+    `Rheon.PracticalStudy.exact_reduction_order,
+    `Rheon.PracticalStudy.transfer_momentum,
+    `Rheon.PracticalStudy.transfer_variance_scale,
+    `Rheon.PracticalStudy.transfer_variance_nonincrease,
+    `Rheon.PracticalStudy.sst_denominator_positive,
+    `Rheon.PracticalStudy.sst_viscosity_nonnegative,
+    `Rheon.PracticalStudy.sst_production_bounds,
+    `Rheon.PracticalStudy.sst_laminar_viscosity,
+    `Rheon.PracticalStudy.quadratic_extrapolation,
+    `Rheon.PracticalStudy.constant_bias_survives_refinement,
+    `Rheon.PracticalStudy.candidate_full_residual,
+    `Rheon.PracticalStudy.candidate_gauge_flux,
+    `Rheon.PracticalStudy.candidate_divergence_bound,
+    `Rheon.PracticalStudy.positive_tolerance_is_not_zero]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

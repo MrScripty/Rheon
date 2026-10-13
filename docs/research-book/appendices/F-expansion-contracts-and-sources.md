@@ -136,3 +136,16 @@ The nine focused targets are stationary implicit strain/wall dissipation; moving
 In particular, a nonnegative stiffness is insufficient for a rigid-rotation null mode. A conservative redistribution matrix needs column sums one, but positivity and barrier connectivity need additional conditions. Balanced rest assumes M is symmetric positive definite, an exact solve, and a capillary force actually in the chosen gradient range. Surface-energy conservation requires a discrete gradient satisfying its exact work identity; triangle area is not globally convex in arbitrary vertex coordinates. A scalar contact-coordinate dissipation proof cannot establish a 3D contact-line PDE.
 
 The contributed `expansion/contact/sanity_checks.py` executes 28 algebra/formula checks, including 100 synthetic SPD systems for each of the stationary, moving-wall and affine-projection identities. These remain numerical sanity checks, separate from Lean compilation and from a Rheon liquid run. No third-party research code or paper figure is bundled.
+
+## Proof assumptions and runtime admission
+
+The nonfinite proposal preset is refused and the exact fallback is displayed. The Lean statements describe finite exact-real residuals, gauge invariance and a conditional tolerance bound; they do not admit NaN as a real number. A numerical candidate must satisfy finite/unit/source checks before those mathematical properties apply. Production native packets additionally require their reviewed source inventory and fresh qualification receipt. Historical results cannot be transferred to changed source bytes.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

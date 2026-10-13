@@ -34,6 +34,8 @@ jobs:
           mkdir -p "$RUNNER_TEMP/volume-assets"
           cp docs/education/package*.json "$RUNNER_TEMP/volume-assets/"
           npm ci --prefix "$RUNNER_TEMP/volume-assets" --ignore-scripts --no-audit --no-fund
+          python3 -m unittest discover -s docs/education -p test_practical_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_practical_reference.py
           python3 -m unittest discover -s docs/education -p test_completion_reference.py
           python3 -O -m unittest discover -s docs/education -p test_completion_reference.py
           python3 -m unittest discover -s docs/education -p test_gauge_reference.py
@@ -76,6 +78,14 @@ jobs:
           cat "$RUNNER_TEMP/gauge-browser.log"
       - name: Check reconstruction and coupling controls
         run: python3 docs/education/completion_browser.py --output-dir "$RUNNER_TEMP/volume-edition"
+      - name: Check practical mechanisms and every chapter/appendix placement
+        run: python3 docs/education/practical_browser.py --output-dir "$RUNNER_TEMP/volume-edition"
+      - name: Retain practical mechanism evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: practical-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/practical-evidence/
       - name: Retain reconstruction and coupling evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -157,6 +167,8 @@ jobs:
         run: |
           python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
           python3 -O -m unittest discover -s docs/research-book/expansion -p test_reference.py
+          python3 -m unittest discover -s docs/education -p test_practical_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_practical_reference.py
           python3 -m unittest discover -s docs/education -p test_completion_reference.py
           python3 -O -m unittest discover -s docs/education -p test_completion_reference.py
           python3 -m unittest discover -s docs/education -p test_gauge_reference.py
@@ -235,6 +247,7 @@ jobs:
           python3 docs/education/engineering_browser.py --output-dir "$RHEON_EDITION"
           python3 docs/education/gauge_browser.py --output-dir "$RHEON_EDITION"
           python3 docs/education/completion_browser.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/practical_browser.py --output-dir "$RHEON_EDITION"
           RHEON_TIMESTEP_EDITION="$RHEON_EDITION" python3 -O -m unittest discover -s docs/education -p test_timestep_browser.py
       - name: Verify retained browser bindings and current Chromium laboratories
         run: |

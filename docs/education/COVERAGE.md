@@ -3,8 +3,8 @@
 This ledger covers all 25 chapters and six appendices. The sampling/transport
 follow-on expands the [540bdef teaching checkpoint](https://github.com/MrScripty/Rheon/commit/540bdef8fcbc0d0a55567325eba570589666bf80)
 from 11 to 13 chapters, then the bounded browser timestep adds chapter 17 and the computed volume adds chapter 14.
-There are now **18 chapters with partial scroll-linked examples**: 3–10, 12, 14, 17 and 19–25.
-No appendix has a scroll-linked example. These counts describe placement,
+There are now **25 chapters and six appendices with partial scroll-linked examples**.
+The practical continuation adds the seven previously missing chapters and all six appendices; its hosted qualification is pending. These counts describe placement,
 not complete coverage of each chapter's topics or qualification of a solver.
 [Heading bindings](teaching.py) fail the build when an expected section moves.
 
@@ -55,7 +55,7 @@ Chapters 11, 13, 16 and 17 now include source-linked material-pair/nozzle,
 accepted-state, preview/history and CPU scheduling exercises. These additions
 use the actual native APIs, independent numerical tests and bounded Lean
 statements. They do not add a browser SPH runtime or additional scroll-linked
-chapters: coverage remains 18/25 partial chapters and 0/6 appendices.
+chapters: the earlier checkpoint remained 18/25 partial chapters and 0/6 appendices.
 [Material contracts](../research-book/implementation/material-preview-contracts.md)
 and [CPU scheduling contracts](../research-book/implementation/cpu-scheduling-contracts.md)
 separate exact arithmetic from implementation, full-step stability, continuum,
@@ -69,8 +69,8 @@ Every native recording/operator entry is conditional on packet admission.
 
 | Chapter | Source kind and scoped support | Remaining topics |
 | --- | --- | --- |
-| 01 Numerical contract | Text/fixture; evidence and scope distinctions | Accepted-state lifecycle, end-to-end guidance error and performance |
-| 02 Continuum model | Text/fixture; equations and units | Interactive nondimensionalization, splitting and boundary-work comparison |
+| 01 Numerical contract | Browser full-residual/unit/finite candidate gate and explicit fallback | Accepted-state lifecycle, end-to-end guidance error and performance |
+| 02 Continuum model | Browser steady wall force/power ledger, analytical unit-gap profile | Interactive nondimensionalization, splitting and boundary-work comparison |
 | 03 Staggered geometry | Stored projection; browser affine sampler at the layout discussion | Weighted metrics, machine indexing and general geometry assembly |
 | 04 Pressure correction | Stored fields and recomputed blend | Boundary assembly, component gauges, compatibility and a live pressure solve |
 | 05 Linear solvers | Stored projection as context only | Jacobi/CG iteration histories, preconditioning and multigrid; correction fraction is not an iteration count |
@@ -79,14 +79,14 @@ Every native recording/operator entry is conditional on packet admission.
 | 08 Boundaries | Text/fixture; separate native static geometry/pressure records | General mesh boundaries, weighted affine-adjoint demonstration and moving geometry |
 | 09 Liquid interfaces | Browser recomputed one-face axis-aligned swept-volume geometry; offline curvature fixtures | General fraction transport, arbitrary-normal reconstruction, reinitialization and surface-error comparisons |
 | 10 Forces/viscosity | Stored hydrostatics and scalar shear; separate native wall/force records | Variable/nonlinear tensor stress and dynamic solid coupling |
-| 11 Particle methods | Text/fixture; offline transfer and SPH-gradient checks | Browser PIC/FLIP/APIC transfer, support degeneracy, SPH/PBF dynamics and full memory costs |
+| 11 Particle methods | Browser mass-weighted one-sample PIC/FLIP blend and unresolved kinetic variation | Browser PIC/FLIP/APIC transfer, support degeneracy, SPH/PBF dynamics and full memory costs |
 | 12 Time/error | Browser recomputed periodic viscous mode; explicit/implicit/exact comparison at fixed final time | General step admission, coupled spatial/temporal error, incomplete intervals and long-horizon budgets |
-| 13 Memory/parallelism | Text/fixture; explicit layout arithmetic | Interactive allocation estimates, measured peak memory, reduction order and sparse/GPU execution |
+| 13 Memory/parallelism | Browser field/face/CSR/workspace counts with actual allocation shape | Interactive allocation estimates, measured peak memory, reduction order and sparse/GPU execution |
 | 14 Guidance rendering | Browser native 24³ flow with orbitable accepted concentration volume; fixed opacity and complete 3D tensor | Camera calibration, physical scattering, depth/normals export, silhouettes and export-error comparison |
-| 15 Finite arithmetic | Text/fixture; offline binary32/binary64 comparison | Interactive cancellation, precision replay, exceptional values and threshold behavior |
-| 16 Lean contracts | Text/disclosures and exact source links | Interactive hypothesis/counterexample inspection; no browser proof execution |
+| 15 Finite arithmetic | Browser executed binary32/binary64 additions and order-sensitive trace | Interactive cancellation, precision replay, exceptional values and threshold behavior |
+| 16 Lean contracts | Browser two-cell hypothesis/counterexample and tolerance inspection | Interactive hypothesis/counterexample inspection; no browser proof execution |
 | 17 Rust implementation | Browser native force/projection timestep: one fixed interval, exact cycle comparison, native precommit rejection/retry and reset | General stepping lifecycle, asynchronous cancellation, resource-failure UI, liquid integration and other host runtimes |
-| 18 Validation | Text/fixture; individual lesson diagnostics | Unified error/refinement explorer, production performance and downstream guidance evaluation |
+| 18 Validation | Browser actual midpoint quadrature, three-grid order/GCI and model-bias counterexample | Unified error/refinement explorer, production performance and downstream guidance evaluation |
 | 19 Force and wall work | Stored projection as context; separate native forcing records | Live force-work ledger, swept geometry and two-way coupled motion |
 | 20 Collision meshes | Stored triangle crossings; separate native geometry records | General cut-cell meshes, robust predicates, swept motion and deforming geometry |
 | 21 Density/volume | Stored analytic hydrostatics; separate forced-column records | Browser conservative amounts, evolving interfaces and variable-density momentum |
@@ -336,8 +336,7 @@ See [plan](PRESSURE_GAUGE_PLAN.md) and
 separates an affine three-sample reconstruction from a general mesh operator,
 and an exactly specified two-path momentum iteration from a collocated backend.
 Chapter 8 adds skew/normal-gradient and corrected-face samples; chapter 4 adds
-continuity-versus-momentum and an overrelaxation counterexample. Placement totals
-remain 18/25 partial chapters and 0/6 appendices.
+continuity-versus-momentum and an overrelaxation counterexample. Those earlier placement totals were 18/25 partial chapters and 0/6 appendices.
 
 | Evidence | Scope/status |
 | --- | --- |
@@ -349,3 +348,28 @@ remain 18/25 partial chapters and 0/6 appendices.
 | Not established | Arbitrary mesh consistency, production SIMPLE/PISO, IEEE error, continuum validation, runtime performance |
 
 The [constitutive and validation research record](../research-book/engineering/constitutive-validation-research.md) pins SST-2003 variant choices and the exact DFG Re20 outlet/force conventions. It records primary reading and remaining work; it does not add implemented lessons or completed validation.
+
+## Practical engineering completion
+
+The [worked-method dossier](../research-book/engineering/practical-methods.md)
+connects the eight executed mechanisms with primary reading and deliberately
+limited claims. Every chapter and appendix now has a configured relevant example;
+this is placement coverage, not completion of every scientific topic.
+
+| Mechanism | Admitted states | Scope |
+| --- | ---: | --- |
+| Wall load/work | 27 | Steady unit-gap Newtonian solution and signed force/power |
+| Weighted Jacobi | 45 | Actual two-unknown recurrence, true residual and mode errors |
+| Memory | 18 | Explicit fields, faces, CSR and five work vectors |
+| Reduction order | 12 | Executed Math.fround/Number additions, independent struct oracle |
+| PIC/FLIP transfer | 48 | One fixed grid sample, mass-weighted momentum and variance |
+| SST-2003 probe | 36 | Supplied-field eddy viscosity/production; no transport advance |
+| Refinement | 8 | Actual smooth midpoint quadrature and persistent bias |
+| Candidate gate | 54 | Synthetic pressure proposal, finite/unit/full-residual gate and fallback |
+
+All 248 states and eight deliberately corrupted answers pass/refuse respectively
+under normal and optimized Python. Twenty-three new exact-real theorem statements
+are awaiting their pinned kernel build. The hosted browser probe checks each
+new chapter and all appendix placements, controls, actual geometry, layout,
+camera, collapsed proofs and scroll linkage at three sizes. Its status remains
+pending until a successful exact-source hosted result is recorded.

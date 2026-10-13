@@ -29,3 +29,32 @@ The first acceptance suite should establish finite state, controlled divergence,
 ## Reading the evidence
 
 Each chapter derives discrete contracts before discussing implementation. Worked examples use small systems so sign, scale and conservation failures can be inspected by hand. The experiments extend these checks to a three-dimensional graph and periodic transport. Chapter 16 maps every formal theorem to its assumptions. Chapter 17 defines a Rust implementation sequence; later language ports should inherit verified behavior rather than independently reinterpret the equations.
+
+## Gating a pressure proposal
+
+Start with two cells, unit volumes and conductance, and source b = (1, −1).
+The candidate p = (s, s−1+e) produces shared flux 1−e and full residual
+(e, −e). Set e = 1/4 and tolerance 1/8: the proposal is rejected and the exact
+fallback p = (0, −1) supplies flux 1. The displayed used field is the fallback,
+so its residual is zero. This is a synthetic acceptance example; no AI model
+runs in the browser. A real provider must additionally bind model/schema,
+physical units, source identity, component compatibility and resource limits.
+
+## A gauge shift is not an error
+
+Set e = 0 and vary s. Flux and residual remain unchanged because only the
+pressure jump enters this two-cell operator. Set tolerance 1/8 and e = 1/16:
+acceptance now permits a nonzero residual. A passed tolerance therefore means
+an explicitly bounded error, rather than an exact solve. Inspect the used
+residual and the candidate contract together. A nonfinite or wrong-unit
+proposal fails before numerical acceptance. Camera and reading controls leave
+the candidate and used state unchanged.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

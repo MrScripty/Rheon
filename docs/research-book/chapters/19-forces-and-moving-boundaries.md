@@ -54,3 +54,25 @@ E(v)-E(u)+\tfrac12\|v-u\|_M^2
 The minus sign in actuator work follows from wall force −Λr on the fluid. Laboratory-frame energy can increase while relative friction dissipates. The residual must be taken from this unscaled equation, with its norm and normalization declared. This richer matrix statement is a next proof target, numerically checked in small synthetic systems; it is not one of Physics.lean's thirteen compiled contracts. Prescribed normal-wall pressure work requires its own affine constraint term.
 
 An affine projection M(v-u)+Aᵀλ=0, Av=b gives E(v)-E(u)+½‖v-u‖²M=−λᵀb. Here λ is impulse-scaled. A homogeneous stationary constraint has zero right side; a moving constraint supplies work. Feasibility is separate from pressure gauge uniqueness. For two-way solids, combine fluid and body masses and use one adjoint constraint J. Common translation conserves the corresponding generalized momentum only if J annihilates that mode; angular momentum additionally needs rotation modes and consistent interaction points. These are frozen-geometry specifications, not completed moving-solid proofs.
+
+## Signed work at a moving wall
+
+Use the steady wall-load example with μ = U = 1 and G = −2. Tractions on the
+fluid are bottom 0 Pa and top 2 Pa; mean velocity is 1/3 m/s. The moving wall
+supplies 2 W while the opposing body force removes 2/3 W, leaving dissipation
+4/3 W. Work is signed: body forcing need not inject energy. This one-metre,
+unit-area solution is a teachable traction and power oracle, not a moving
+mesh or two-way coupled body. At general boundaries use total Cauchy traction,
+including pressure, and distinguish the normal pointing out of the fluid from
+the normal pointing out of a solid. Prescribed outlet traction also needs a
+compatible inflow/backflow policy and pressure reference; importing a benchmark
+with a different boundary operator changes the problem.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

@@ -1,3 +1,4 @@
+import {createPracticalLabs} from './practical_labs.js';
 import {createCompletionLabs} from './completion_labs.js';
 import {createGaugeLab} from './gauge_lab.js';
 import {createEngineeringLabs} from './engineering_labs.js';
@@ -69,6 +70,7 @@ const expectations={
  timestep:'From rest, one accepted step gives interior speeds (+0.125, −0.125, −0.125, +0.125) m/s and kinetic energy 0.03125 J. Rejection before commit preserves every accepted field bit, time and generation. Scroll and camera controls never advance or reset the state.'
 };
 const labs={projection,collision,hydrostatic,viscous,slip,cap,...createTransportLabs({clear,line,dot,arrow,range,choice,meta,setMetrics,panel,setReference:q=>{reference=q;}})};
+Object.assign(labs,createPracticalLabs({clear,box,arrow,dot,line,choice,meta,setMetrics,setReference:q=>{reference=q;}}));
 Object.assign(labs,createCompletionLabs({clear,box,arrow,dot,line,choice,meta,setMetrics,setReference:q=>{reference=q;}}));
 labs.gauges=createGaugeLab({clear,box,arrow,choice,meta,setMetrics,setReference:q=>{reference=q;}});
 Object.assign(labs,createEngineeringLabs({clear,box,arrow,choice,meta,setMetrics,setReference:q=>{reference=q;}}));
@@ -81,6 +83,7 @@ let applying=false;
 function manualChange(){if(!applying)host.dispatchEvent(new CustomEvent('rheon-manual-change',{bubbles:true}));}
 export function selectLab(lab=selector.value){
   if(!labs[lab]||![...selector.options].some(o=>o.value===lab))return;flow.unmount();selector.value=lab;document.querySelector('.example-workspace').dataset.lab=lab;panel.replaceChildren();reference=null;labs[lab]();
+  const practical=['wallload','jacobi','memory','roundoff','particletransfer','sstprobe','refinement','proposal'].includes(lab);
   const engineering=['faceflux','checker','stressprobe','gauges','reconstruction','coupling'].includes(lab), decay=lab==='decay', geometric=lab==='volume', recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
   const legend=document.querySelector('#plot-legend');
   if(legend){
@@ -89,9 +92,10 @@ export function selectLab(lab=selector.value){
       const item=document.createElement('span');item.textContent=label;item.style.borderColor=color;if(volume&&label.startsWith('Instantaneous')){item.id='flow-velocity-legend';item.hidden=!document.querySelector('#flow-streamlines')?.checked;}legend.append(item);
     }
   }
-  document.querySelector('.example-kind').textContent=engineering?'Browser algebra · prescribed finite examples':decay?'Browser time integration · one viscous mode':geometric?'Browser geometry · one shared face':volume?'Rust / WebAssembly · computed 3D tracer':native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
-  document.querySelector('#reference-sources').hidden=recomputed||native||volume||geometric||decay||engineering;
+  document.querySelector('.example-kind').textContent=practical?'Browser computation · declared worked model':engineering?'Browser algebra · prescribed finite examples':decay?'Browser time integration · one viscous mode':geometric?'Browser geometry · one shared face':volume?'Rust / WebAssembly · computed 3D tracer':native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
+  document.querySelector('#reference-sources').hidden=recomputed||native||volume||geometric||decay||engineering||practical;
   document.querySelector('#engineering-sources').hidden=!engineering||['gauges','reconstruction','coupling'].includes(lab);
+  document.querySelector('#practical-sources').hidden=!practical;
   document.querySelector('#completion-sources').hidden=!['reconstruction','coupling'].includes(lab);
   document.querySelector('#gauge-sources').hidden=lab!=='gauges';
   document.querySelector('#transport-sources').hidden=!recomputed;
@@ -101,6 +105,14 @@ export function selectLab(lab=selector.value){
   document.querySelector('#flow-sources').hidden=!volume;
 }
 const presets={
+ wallload:{work:[1,1,2],reverse:[1,1,0]},
+ jacobi:{convergent:[1,3,2],unstable:[2,4,1]},
+ memory:{small:[0,1,0],large:[2,1,1]},
+ roundoff:{lost:[1,0,0],cancel:[1,1,0]},
+ particletransfer:{pic:[0,0,1,0,0],flip:[0,0,1,0,2]},
+ sstprobe:{limited:[1,0,2,1],laminar:[0,0,2,1]},
+ refinement:{clean:[1,0],biased:[1,1]},
+ proposal:{reject:[2,1,1,0],gauge:[0,2,1,0],nonfinite:[0,1,1,1]},
  reconstruction:{skew:[2,1,1,1,0],corrected:[2,1,1,1,1]},
  coupling:{iterate:[1,3],unstable:[2,4]},
  faceflux:{work:[1,2,2,0],closed:[1,2,1,0],balanced:[1,2,0,0]},

@@ -89,3 +89,26 @@ The practical reading rule is the same as for pressure: keep the proven
 algebra, native execution evidence and measured performance distinct. A change
 to a source module invalidates an older source-bound qualification; it must
 not be hidden by reusing a theorem count or a successful historical screenshot.
+
+## Inspect the premise before the result
+
+The pressure-proposal example derives residual (e, −e) from a specific two-cell
+operator. A checked condition |e| ≤ t bounds both physical divergence components
+because both volumes are one. It does not establish zero divergence when t > 0.
+At e = 1/16 and t = 1/8 the condition passes with nonzero error; the Lean witness
+states this explicitly. A gauge shift leaves this particular pressure jump
+unchanged, while an error in that jump changes the corrected flux.
+
+The browser is neither a proof assistant nor a general pressure backend.
+Read the theorem's operator, volumes and tolerance premises before using it
+for another mesh. Native source/receipt admission, floating-point refinement,
+model validation and runtime performance require their own evidence.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

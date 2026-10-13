@@ -23,3 +23,5 @@ import Rheon.EngineeringFlux
 import Rheon.PressureGauge
 
 import Rheon.CouplingStudy
+
+import Rheon.PracticalStudy

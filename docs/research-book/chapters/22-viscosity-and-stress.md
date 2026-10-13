@@ -174,3 +174,33 @@ pins the SST-2003 limiter and pressure convention, distinguishes its primary
 1992 motivation from later formulas, and identifies the transport and wall
 requirements still absent from a supplied-field constitutive probe. No SST
 transport or validation result is supplied by this chapter.
+
+## A specified SST-2003 limiter
+
+The supplied-field probe uses density 1, a₁ = 0.31 and the SST-2003 denominator
+max(a₁ω, SF₂). Select k = ω = 1, S = 4 and F₂ = 1: eddy viscosity is 0.0775 Pa s,
+raw production is 1.24 W/m³, and the production cap gives 0.9 W/m³.
+The three scalar bars have explicitly different fixed unit scales; compare
+the numerical values when comparing production and viscosity. They do not
+depict velocity or resolved eddies. The [variant and primary-reading record](../engineering/constitutive-validation-research.md)
+pins coefficients, stress/pressure convention, source correction and wall data.
+
+## The zero-k constitutive limit
+
+Set k = 0 with positive omega. Eddy viscosity and both production readouts are
+zero, and the denominator stays positive. This verifies the constitutive limit;
+the browser does not evaluate an undefined zero-viscosity omega source.
+A full transport implementation must define that limit, solve k/omega diffusion
+and cross-diffusion, compute wall distance/blending, enforce boundary and
+positivity policies, and report nonlinear residuals. The limiter inequalities
+prove nonnegative bounded algebraic production under stated premises; they
+cannot validate separation, turbulence spectra or a drag prediction.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

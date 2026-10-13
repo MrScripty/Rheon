@@ -106,3 +106,33 @@ floating reductions may be reordered safely. The current
 [implementation mapping](../implementation/cpu-scheduling-contracts.md) must be
 read alongside actual cross-thread replay and scope-cleanup tests. A source
 listing alone is not a fresh kernel qualification.
+
+## Counting faces and sparse arrays
+
+For n³ cells and c cell-centred scalar fields, all three face families contain
+3n²(n+1) scalars. With w bytes per scalar, fields require
+w[cn³+3n²(n+1)] bytes. The displayed cube and face grids expose the indexing
+shape; they are an allocation diagram, not physical cell dimensions.
+A seven-point Dirichlet stencil has n³+6n²(n−1) nonzeros, including the diagonal.
+CSR uses one scalar and one 32-bit column index per nonzero, plus n³+1
+32-bit row offsets. Five scalar solver vectors are counted separately.
+
+## Doubling resolution and scalar width
+
+Choose n = 16, c = 4 and w = 4. Fields use 117,760 bytes, CSR 233,476 bytes
+and the five vectors 81,920 bytes: included total 433,156 bytes. Doubling n
+and moving to eight-byte scalars changes both the field count and the
+value/index mix; an eightfold or sixteenfold estimate is only a leading-order
+intuition. The actual readout evaluates every term. No allocator padding,
+ghosts, particles, rendering buffers or GPU copies are included. Measured
+peak memory and CPU time require executing the specified runtime; this byte
+model cannot establish a performance claim.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>
