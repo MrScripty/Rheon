@@ -1,6 +1,6 @@
 # Public simulation API
 
-Status: Blocked. Blocker: peer integration. Current phase: M3 contract coordination.
+Status: Active. Current phase: M3 material and provider session implementation.
 Objective acceptance: partial. Operation: continue this plan under the user's
 explicit implementation/push/draft-PR instruction. Goal: embedded numerical data
 and generation controls for Rust hosts, dataset consumers and game engines,
@@ -30,7 +30,7 @@ remain authoritative. The session owns lifecycle, never numerical acceptance.
 | --- | --- | --- |
 | M1 transport contract and owner | Accepted | A1 public API accepts existing controls and preserves accepted publication on cancellation/rejection/deadline; A2 byte-compatible dense3D frame output; focused public contract tests and affected Rust regressions |
 | M2 useful consumers | Accepted | A3 headless Rust consumer emits nine valid JSON frames; A4 engine-neutral host uses accepted dt, bounded catch-up and deadline; both examples executed |
-| M3 shared backend integration | Blocked | A5 material/SPH, inspection and provider APIs expose supported capabilities and consistent state identity; needs peer contracts and combined source revision from parent |
+| M3 shared backend integration | Active | A5 material/SPH, inspection and provider APIs expose supported capabilities and consistent state identity; needs peer contracts and combined source revision from parent |
 | M4 actual Godot consumer | Deferred | A6 engine runtime proves conversion, thread/lifetime ownership and failure behavior; needs selected binding stack, project and supported Godot target |
 
 A1/A2 are automated contract/integration evidence in Linux Rust 1.92.0, with no
@@ -38,8 +38,11 @@ special hardware requirement. A3/A4 are automated consumer integration evidence
 in the same cloud CPU environment. A5 requires the real composed peer interfaces;
 A6 requires a real Godot runtime/binding consumer. Rust examples do not satisfy A6.
 A1/A2/A3/A4 satisfied in the execution ledger.
-Exactly one next slice: obtain the parent's accepted combined peer-contract revision
-to admit M3 implementation; M1/M2 are published in draft PR #48.
+Exactly one next slice: implement and verify material/SPH and qualified pressure-stage
+session adapters on `feat/material-simulation-api`, stacked on PR #48 with the full
+PR #47 diagnostics dependency. User explicitly delegated integration design to API
+owner; waiting for parent-designed contracts is superseded. PR #49 provider source
+`b8ca87cab7f74f64c1686714a33e843fbb178c3d` is now published and inspected.
 
 ## Integration proposal for M3 (not implemented capability)
 
@@ -83,3 +86,23 @@ common solver trait or cross-language ABI is included in M1.
 
 Links: [ledger](execution-ledger.md), [issues](issues.md),
 [contract](../../api/simulation-session.md), [design](reports/design.md).
+
+## M3 admitted write set and design update
+
+Own `src/material_session.rs`, `src/pressure_session.rs`, shared private identity
+validation in `src/session.rs`, additive `src/lib.rs` exports, matching session
+contract tests/examples, and API/plan documentation. Dependency branches retain
+physics, diagnostics and provider ownership. Feature-stack merges preserve their
+history; main and PR #48 remain unchanged.
+
+Material session contains exclusive ownership, accepted controls and diagnostic
+views; deleting it pushes publication/control association and resource lifecycle
+back into each consumer. Reuse existing capture types, rather than a common solver
+trait. Provider session will own **qualified pressure-stage** publication and selected
+provider metadata, not full simulation acceptance; existing provider workspace
+requires a later corrected-velocity gate owned by the actual simulation. These
+independent physics meanings need separate types and no shared pressure-state fiction.
+New acceptance: native material oracle equivalence, every-checkpoint rollback,
+control retention, bounds and deterministic deadlines; actual provider selection,
+qualified snapshot retention on rejection, explicit fallback and real-model example
+where weights are available. No general learned solver is invented.

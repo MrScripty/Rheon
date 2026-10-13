@@ -176,3 +176,10 @@ pub use session::{
     SESSION_CAPABILITIES, SessionCapabilities, SessionError, SessionIdentity, SessionSnapshot,
     SimulationSession, SnapshotStage,
 };
+
+mod material_session;
+pub use material_session::{
+    MATERIAL_SESSION_CAPABILITIES, MaterialEmitterControl, MaterialSession,
+    MaterialSessionCapabilities, MaterialSessionError, MaterialSnapshot, MaterialStepControls,
+    ParticleEvaluationStage,
+};
