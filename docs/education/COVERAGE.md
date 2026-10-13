@@ -3,7 +3,7 @@
 This ledger covers all 25 chapters and six appendices. The sampling/transport
 follow-on expands the [540bdef teaching checkpoint](https://github.com/MrScripty/Rheon/commit/540bdef8fcbc0d0a55567325eba570589666bf80)
 from 11 to 13 chapters, then the bounded browser timestep adds chapter 17 and the computed volume adds chapter 14.
-There are now **16 chapters with partial scroll-linked examples**: 3–7, 9, 10, 14, 17 and 19–25.
+There are now **17 chapters with partial scroll-linked examples**: 3–7, 9, 10, 12, 14, 17 and 19–25.
 No appendix has a scroll-linked example. These counts describe placement,
 not complete coverage of each chapter's topics or qualification of a solver.
 [Heading bindings](teaching.py) fail the build when an expected section moves.
@@ -80,7 +80,7 @@ Every native recording/operator entry is conditional on packet admission.
 | 09 Liquid interfaces | Browser recomputed one-face axis-aligned swept-volume geometry; offline curvature fixtures | General fraction transport, arbitrary-normal reconstruction, reinitialization and surface-error comparisons |
 | 10 Forces/viscosity | Stored hydrostatics and scalar shear; separate native wall/force records | Variable/nonlinear tensor stress and dynamic solid coupling |
 | 11 Particle methods | Text/fixture; offline transfer and SPH-gradient checks | Browser PIC/FLIP/APIC transfer, support degeneracy, SPH/PBF dynamics and full memory costs |
-| 12 Time/error | Text/fixture; transport lesson available separately | Step admission, temporal versus spatial error, incomplete intervals and long-horizon budgets |
+| 12 Time/error | Browser recomputed periodic viscous mode; explicit/implicit/exact comparison at fixed final time | General step admission, coupled spatial/temporal error, incomplete intervals and long-horizon budgets |
 | 13 Memory/parallelism | Text/fixture; explicit layout arithmetic | Interactive allocation estimates, measured peak memory, reduction order and sparse/GPU execution |
 | 14 Guidance rendering | Browser native 24³ flow with orbitable accepted concentration volume; fixed opacity and complete 3D tensor | Camera calibration, physical scattering, depth/normals export, silhouettes and export-error comparison |
 | 15 Finite arithmetic | Text/fixture; offline binary32/binary64 comparison | Interactive cancellation, precision replay, exceptional values and threshold behavior |
@@ -266,3 +266,30 @@ proof source or source-inventory byte changed in this coordination update.
 Any later integration changing native inputs requires fresh source-bound native
 qualification. Passing book proofs or describing a draft does not qualify a
 merged solver. Moving-body/general-physics and unified API claims remain open.
+
+## Modal time integration milestone
+
+Branch `research/book-time-mode-continuation` starts at PR44 `793b4d6`.
+Chapter 12 adds a recomputed viscous shear mode in a periodic unit cube, with
+independent controls for integrator, fixed final time, step count and displayed
+step. Fixed-scale velocity glyphs distinguish energy stability, sign preservation
+and temporal accuracy. It advances a scalar amplitude, not a native fluid solver.
+Coverage becomes 17/25 partial chapters; appendices remain 0/6. Earlier counts
+above are historical milestone counts.
+
+| Item | Implemented / researched / proven / validated |
+| --- | --- |
+| Research | Stam (1999), Stable Fluids, sections 2.2–2.3 and introduction; original author-hosted paper read, specific relation/limits in chapter 12 |
+| Browser computation | `decay_reference.js` repeats explicit/implicit scalar updates; exact exponential and analytic energy; `decay_labs.js` draws physical sample velocities at a fixed scale |
+| Mathematical statements | Eight amplification/energy/sign statements in `ModalDecay.lean`; PDE, sine integral, convergence order and IEEE implementation are excluded. Fresh kernel status is in `native-sequence.json`; PR44 receipts do not certify this extension |
+| Independent arithmetic | All 402 allowed control states compare to exact Fraction powers and 60-digit Decimal exponentials; sampled field/energy and invalid-input probes pass in normal/optimized Python |
+| Actual GUI | `decay_browser.py` checks real ArrowHelper origins, lengths/directions, controls, state-preserving camera, desktop/390px/320px layouts and three chapter deep links; qualification requires a fresh hosted run |
+| Remaining | General diffusion-grid spectrum, spatial refinement, nonlinear/forced/moving-boundary physics, native integration, physical and performance validation |
+
+PR49 `b8ca87cab7f74f64c1686714a33e843fbb178c3d` is a separate unmerged
+pressure-provider draft; chapter 5 distinguishes its fixed model domain, full
+residual/fallback gates and caller-owned corrected-velocity acceptance. PR50
+`3f49a158a0f1bec93f47edf6cc42ad86242e4aa5` is a separate unmerged desktop
+projection inspector; chapter 14 distinguishes its retained operator result
+from live history, arbitrary CAD and wall-load measurement. Source and docs were
+inspected; this book milestone does not rerun or claim their native qualification.

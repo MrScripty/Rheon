@@ -38,7 +38,8 @@ The draft PR is stacked on PR43 so its diff contains this milestone only.
 At head `29522d4`, [Lean CI](https://github.com/MrScripty/Rheon/actions/runs/38380599816)
 passed pinned build, the 252-declaration audit and rejection tests. The
 [proof receipt](../research-book/evidence/volume-flux-proof-qualification.json)
-binds exact proof bytes; no proof source changed afterward.
+binds the PR44 proof bytes. The later modal-decay extension has a separate
+current inventory and requires its own fresh kernel qualification.
 
 The focused `volume-lesson` job in [book CI](https://github.com/MrScripty/Rheon/actions/runs/38380599905)
 passed sandboxed desktop/390px/320px interactions. New screenshots and their

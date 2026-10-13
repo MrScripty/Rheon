@@ -107,3 +107,30 @@ The expanded companion constructs a small Dirichlet one-dimensional hierarchy wi
 A regular three-dimensional geometric hierarchy has cell counts \(N,N/8,N/64,\ldots\); their sum approaches \(8N/7\). This favorable count excludes per-level masks, transfer metadata, coefficients and temporary vectors. An irregular hierarchy can have much more overhead. Count actual simultaneous buffers, especially when used inside PCG.
 
 For low-resolution Rheon scenes, a simpler diagonal-PCG solve may outperform a complex hierarchy once setup and changing geometry are included. Measure complete solve time to a physical tolerance. Multigrid is a promising mechanism, not a required optimization before evidence.
+
+## Draft checkpoint: qualify a model's pressure before using it
+
+Unmerged [PR49](https://github.com/MrScripty/Rheon/pull/49), inspected at
+`b8ca87cab7f74f64c1686714a33e843fbb178c3d`, introduces an opt-in
+[pressure-provider workspace](https://github.com/MrScripty/Rheon/blob/b8ca87cab7f74f64c1686714a33e843fbb178c3d/src/solver_provider.rs).
+The native modal model evaluates a frozen learned transform/gain checkpoint in
+one fixed 32³ sealed unit box, with density 1.25 kg/m³ and dt = 1/60 s.
+The [draft's model provenance and qualification contract](https://github.com/MrScripty/Rheon/blob/b8ca87cab7f74f64c1686714a33e843fbb178c3d/docs/implementation/ai-provider/README.md)
+links the exact upstream source/checkpoint and separates its historical rollout
+measurements from this native pressure-stage experiment.
+
+Predict the response when density or grid shape changes: the model declines and
+the matching numerical reference is used. For an admitted request, every output
+must be finite and gauge-consistent, and the workspace recomputes the full
+ungauged residual, including the gauge cell. A declined or rejected candidate
+uses a fresh zero-start numerical reference; cancellation aborts without fallback.
+The caller must still check divergence of its actual corrected f32 velocity
+before publication. Pressure acceptance alone is not a complete step contract.
+
+The SHA256-verified export and trusted checkpoint supply artifact provenance;
+the loader's FNV corruption check is not cryptographic authentication. Timing
+columns separate inference, qualification and fallback, while excluding model
+construction and caller velocity correction. Neither an accepted prediction
+nor a historical speed ratio establishes faster full trajectories, general
+physical accuracy, GPU support or arbitrary-geometry learning. Defaults and
+PR48's transport facade are not automatically switched to this draft provider.

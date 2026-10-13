@@ -1,11 +1,11 @@
 {
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "29522d49039345bf2afb0db6122c74acbc4bdf17",
-  "proof_inventory_sha256": "cd3575b072b05f5b90b5efabe848f03c36c95dfea461a3acdbb923474665b3f5",
-  "public_theorems": 144,
-  "audited_declarations": 252,
-  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38380599816",
+  "qualified_lean_source": "Reviewed modal-decay inventory, pending a new pinned kernel check.",
+  "proof_inventory_sha256": "ab4ff31031760ae4de577575b4bcdef57d81cea9f55122867ada562c5274a252",
+  "public_theorems": 152,
+  "audited_declarations": null,
+  "lean_ci": null,
   "labs": [
     {
       "id": "wall-friction",
@@ -79,8 +79,8 @@
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
   "local_kernel_receipt_sha256": null,
-  "lean_ci_scope": "Pinned hosted build, 252-declaration axiom audit and normal/optimized rejection tests passed for this exact proof inventory; subsequent documentation-only changes preserve the proof bytes.",
-  "explicit_expected_declarations": 201,
+  "lean_ci_scope": "PR44 proof receipt is historical; modal-decay extension requires a new exact-source build.",
+  "explicit_expected_declarations": 212,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
     "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
@@ -132,21 +132,14 @@
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
   },
   "current_reviewed_proof": {
-    "proof_inventory_sha256": "cd3575b072b05f5b90b5efabe848f03c36c95dfea461a3acdbb923474665b3f5",
-    "public_theorems": 144,
-    "explicit_expected_declarations": 201,
-    "audited_declarations": 252,
-    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38380599816",
-    "status": "passed",
+    "proof_inventory_sha256": "ab4ff31031760ae4de577575b4bcdef57d81cea9f55122867ada562c5274a252",
+    "public_theorems": 152,
+    "explicit_expected_declarations": 212,
+    "audited_declarations": null,
+    "lean_ci": null,
+    "status": "reviewed-pending-kernel-qualification",
     "local_qualification": null,
-    "scope": "Adds exact-real single-face slab bounds, shared ledger cancellation and clamping witness; not an implementation or multidimensional VOF proof.",
-    "lean_toolchain": "leanprover/lean4:v4.19.0",
-    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
-    "allowed_axioms": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ]
+    "scope": "Adds exact scalar amplification identities and conditional stability/sign statements; no PDE/JS/Rust/IEEE or performance proof."
   },
   "historical_pr43_reviewed_proof": {
     "status": "passed",
@@ -190,5 +183,22 @@
       "audited_declarations": 242,
       "scope": "Qualified candidate before the later support-boundary header comment; not an exact-byte qualification of the current inventory."
     }
+  },
+  "historical_pr44_reviewed_proof": {
+    "proof_inventory_sha256": "cd3575b072b05f5b90b5efabe848f03c36c95dfea461a3acdbb923474665b3f5",
+    "public_theorems": 144,
+    "explicit_expected_declarations": 201,
+    "audited_declarations": 252,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38380599816",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Adds exact-real single-face slab bounds, shared ledger cancellation and clamping witness; not an implementation or multidimensional VOF proof.",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
   }
 }

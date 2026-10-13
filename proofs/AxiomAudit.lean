@@ -206,7 +206,18 @@ run_cmd do
     `Rheon.VolumeFlux.shared_transfer_conserves,
     `Rheon.VolumeFlux.shared_transfer_bounds,
     `Rheon.VolumeFlux.same_fraction_different_flux,
-    `Rheon.VolumeFlux.clamping_creates_volume]
+    `Rheon.VolumeFlux.clamping_creates_volume,
+    `Rheon.ModalDecay.energy,
+    `Rheon.ModalDecay.forward,
+    `Rheon.ModalDecay.backward,
+    `Rheon.ModalDecay.forward_energy_identity,
+    `Rheon.ModalDecay.forward_energy_nonincrease,
+    `Rheon.ModalDecay.forward_sign_preserved,
+    `Rheon.ModalDecay.forward_reverses,
+    `Rheon.ModalDecay.backward_satisfies_update,
+    `Rheon.ModalDecay.backward_energy_identity,
+    `Rheon.ModalDecay.backward_energy_nonincrease,
+    `Rheon.ModalDecay.stability_does_not_preserve_sign]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

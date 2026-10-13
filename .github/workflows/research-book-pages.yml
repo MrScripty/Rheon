@@ -12,7 +12,7 @@ concurrency:
   group: rheon-pages-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  volume-lesson:
+  bounded-lessons:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
@@ -34,6 +34,8 @@ jobs:
           mkdir -p "$RUNNER_TEMP/volume-assets"
           cp docs/education/package*.json "$RUNNER_TEMP/volume-assets/"
           npm ci --prefix "$RUNNER_TEMP/volume-assets" --ignore-scripts --no-audit --no-fund
+          python3 -m unittest discover -s docs/education -p test_decay_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_decay_reference.py
           python3 -m unittest discover -s docs/education -p test_volume_reference.py
           python3 -O -m unittest discover -s docs/education -p test_volume_reference.py
           python3 docs/education/generate_references.py
@@ -45,6 +47,19 @@ jobs:
             exit 1
           }
           cat "$RUNNER_TEMP/volume-browser.log"
+      - name: Check modal decay controls and real glyphs
+        run: |
+          python3 docs/education/decay_browser.py --output-dir "$RUNNER_TEMP/volume-edition" > "$RUNNER_TEMP/decay-browser.log" 2>&1 || {
+            tail -30 "$RUNNER_TEMP/decay-browser.log" | sed 's/^/::error::/'
+            exit 1
+          }
+          cat "$RUNNER_TEMP/decay-browser.log"
+      - name: Retain modal decay evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: modal-decay-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/decay-evidence/
       - name: Retain volume lesson evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -98,6 +113,8 @@ jobs:
         run: |
           python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
           python3 -O -m unittest discover -s docs/research-book/expansion -p test_reference.py
+          python3 -m unittest discover -s docs/education -p test_decay_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_decay_reference.py
           python3 -m unittest discover -s docs/education -p test_volume_reference.py
           python3 -O -m unittest discover -s docs/education -p test_volume_reference.py
           python3 docs/education/generate_references.py
@@ -164,6 +181,7 @@ jobs:
           python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
           python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
           python3 docs/education/volume_browser.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/decay_browser.py --output-dir "$RHEON_EDITION"
           RHEON_TIMESTEP_EDITION="$RHEON_EDITION" python3 -O -m unittest discover -s docs/education -p test_timestep_browser.py
       - name: Verify retained browser bindings and current Chromium laboratories
         run: |

@@ -140,3 +140,32 @@ error; matched experiments address physical validation. The
 [source bibliography](../sources/cad-visualization-bibliography.md) and
 [implementation order](../sources/cad-visualization-implementation-plan.md)
 preserve the evidence and prerequisites behind that sequence.
+
+## Draft checkpoint: inspect a retained obstacle projection
+
+Unmerged [PR50](https://github.com/MrScripty/Rheon/pull/50), inspected at
+`3f49a158a0f1bec93f47edf6cc42ad86242e4aa5`, adds a native
+[obstacle projection inspector](https://github.com/MrScripty/Rheon/blob/3f49a158a0f1bec93f47edf6cc42ad86242e4aa5/src/bin/desktop/engineering.rs).
+Its 12×8×6 grid has 0.125 m spacing and a fixed aligned obstacle. One accepted
+pressure projection over 0.05 s supplies a retained result; this is not an
+advancing wake or a viscous wall-load computation. Its
+[scope and validation record](https://github.com/MrScripty/Rheon/blob/3f49a158a0f1bec93f47edf6cc42ad86242e4aa5/docs/implementation/cad-obstacle-lab.md)
+records the fixture, gauge, rendering choices and remaining integration work.
+
+A practical inspection sequence is to probe a fluid cell, rotate the camera,
+and revisit the same cell: presentation changes must not change its value.
+Then move the slice. Scalar colors retain a full-state valid-cell range, so a
+slice change cannot silently rescale a small feature into a large one. Pressure
+means gauge-fixed correction in Pa; speed is reconstructed from adjacent face
+velocities, not a native face flux. Solid cells report unavailable, not zero.
+Velocity arrows encode velocity times 0.1 s, with physical aspect ratio and
+camera foreshortening; they are neither normalized directions nor trajectories.
+
+The lab's snapshot and camera are separate from live appearance history.
+Scrubbing an SPH appearance frame cannot retime the retained projection or
+recover quantitative particle fields. The draft uses CPU-drawn slices and wire
+overlays, and requires full-fluid or solid cells; it supplies no arbitrary CAD
+import, cut-cell reconstruction, calibrated pressure/viscous load, VTK exchange
+or GPU-performance result. Its reported local PR47 combination remains a tested
+draft integration, not a merge or shared accepted API. The existing browser
+chapter still presents its separate bounded carrier-flow lesson.

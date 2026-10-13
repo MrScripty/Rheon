@@ -1,5 +1,5 @@
 {
-  "AxiomAudit.lean": "5763d43f67b94ac704e482c0820b8989100e4cbf0ae1ef998c6be377a8462df9",
+  "AxiomAudit.lean": "7e1591cacfd3bed35ec49f1e01978ea4ea4e7b347c656828f60797dc7453e5d5",
   "Rheon/AlignedStrain.lean": "4a76bacb1a49b2c395c1718ce45e2ed134217b78697766c099e666d09001ae32",
   "Rheon/BoundedPhysics.lean": "20dd53b1b137a01f8b04de47ffbe8474561696940e17ab1ed4d3bfde388b03af",
   "Rheon/ColumnForcing.lean": "9199bd6d06f254e1cf31d8c7cd5e8cee951d53a5325db8bc78ef5cb449226211",
@@ -13,6 +13,7 @@
   "Rheon/StaticObstacle.lean": "b93a60d832775dd2177980806d149cbe0a42fef03bc3993f10ed44aa8451c4bb",
   "Rheon/Transport.lean": "f967e593db1df0ec945ea6830e67b991e56da168e9f6e3f2d42c4c5866c5cf06",
   "Rheon/WallFriction.lean": "3aa15f9e4b5881181cdf438c88774a5eec29feb1a849b0329f0f95c34fa551e7",
-  "Rheon.lean": "2a2669007a24402c091e86e5c11f18bc3ee81c2547123049f2ad3315fd45d390",
-  "Rheon/VolumeFlux.lean": "1125200cd92c396c0d07dab7a159c08a8a76c822f2f88e2cdc841ea9e36d7364"
+  "Rheon.lean": "6f0b8043ba3551be019d6c95b257cea3a25056da87465df725f9ad363c800128",
+  "Rheon/VolumeFlux.lean": "1125200cd92c396c0d07dab7a159c08a8a76c822f2f88e2cdc841ea9e36d7364",
+  "Rheon/ModalDecay.lean": "69c643dfd3a523b8146eedbe918e68f848310d29349bc98ba21a7e71c1a83f2b"
 }

@@ -23,6 +23,9 @@ CHAPTER_STOPS = {
            ('piecewise-linear-interface-reconstruction', 'volume', 'right')],
     '10': [('hydrostatic-balance', 'hydrostatic', 'light'),
            ('diffusion', 'viscous', 'late')],
+    '12': [('restrictions', 'decay', 'threshold'),
+           ('error-accounting', 'decay', 'refined'),
+           ('long-horizons-and-outcomes', 'decay', 'unstable')],
     '14': [('surface-and-volume-outputs', 'flow', 'volume'),
            ('metrics-and-integration', 'flow', 'metrics')],
     '17': [('core-ownership', 'timestep', 'ready'),
@@ -85,6 +88,8 @@ TIMESTEP_LESSONS = [
 ]
 
 
+DECAY_LESSONS = [('decay', 'Separate stability from decay accuracy', 'threshold', 'refined', '', '', '', '12-time-and-error')]
+
 VOLUME_LESSONS = [('volume', 'Intersect liquid with a swept face slab', 'left', 'right', '', '', '', '09-liquid-surfaces')]
 
 FLOW_LESSONS = [
@@ -117,7 +122,7 @@ def chapter(body, slug):
 
 
 def workspace(prefix='', lessons=None):
-    options = ''.join(f'<option value="{key}">{i+1} · {html.escape(title)}</option>' for i, (key, title, *_) in enumerate(lessons or LESSONS + TRANSPORT_LESSONS + TIMESTEP_LESSONS + FLOW_LESSONS + VOLUME_LESSONS))
+    options = ''.join(f'<option value="{key}">{i+1} · {html.escape(title)}</option>' for i, (key, title, *_) in enumerate(lessons or LESSONS + TRANSPORT_LESSONS + TIMESTEP_LESSONS + FLOW_LESSONS + VOLUME_LESSONS + DECAY_LESSONS))
     return f'''<section class="example-workspace" aria-label="Interactive example">
 <div class="example-toolbar"><label for="lab">Example</label><select id="lab">{options}</select>
 <button id="follow-reading" aria-pressed="true">Follow reading</button></div>
@@ -128,7 +133,7 @@ def workspace(prefix='', lessons=None):
 <div id="controls"></div><dl id="metrics" aria-live="polite"></dl>
 <details class="example-notes"><summary>Expected result & limits</summary><p id="lab-expected"></p><p id="lab-limit"></p></details>
 <a id="chapter-target" href="{prefix}chapters/04-pressure-projection.html">Read the mechanism →</a>
-<details class="example-sources"><summary>Source & evidence</summary><span id="reference-sources"><a href="{prefix}reference.py">Reference code</a> · <a href="{prefix}reference-data.json">Stored fields</a> · <a href="{prefix}reference-qualification.json">Numerical receipt</a> · </span><span id="volume-sources" hidden><a href="{prefix}volume_reference.js">Volume equations</a> · <a href="{prefix}chapters/09-liquid-surfaces.html#checked-volume-flux-proof-bridge">Proof scope and research</a> · </span><span id="transport-sources" hidden><a href="{prefix}transport_reference.js">Browser equations</a> · <a href="{prefix}transport-companion.py">Transport companion</a> · <a href="{prefix}sampling-companion.py">Sampling companion</a> · </span><span id="timestep-sources" hidden><a href="{prefix}solver-source.rs">Rust adapter</a> · <a href="{prefix}timestep-contract.rs">Existing native fixture</a> · <a href="{prefix}solver-presentation.json">Build identity</a> · <a href="{prefix}BROWSER_TIMESTEP.md">Capability audit</a> · </span><span id="flow-sources" hidden><a href="{prefix}flow-source.rs">Rust 3D fixture</a> · <a href="{prefix}flow_volume.js">Volume equations</a> · <a href="{prefix}flow_field.js">Velocity & lighting equations</a> · <a href="{prefix}solver-presentation.json">Build identity</a> · </span><a href="{prefix}chapters/F-expansion-contracts-and-sources.html">Primary sources & checked claims</a></details></div></section>'''
+<details class="example-sources"><summary>Source & evidence</summary><span id="reference-sources"><a href="{prefix}reference.py">Reference code</a> · <a href="{prefix}reference-data.json">Stored fields</a> · <a href="{prefix}reference-qualification.json">Numerical receipt</a> · </span><span id="decay-sources" hidden><a href="{prefix}decay_reference.js">Modal equations</a> · <a href="{prefix}chapters/12-time-and-error.html#checked-modal-amplification-proof-bridge">Research and proof scope</a> · </span><span id="volume-sources" hidden><a href="{prefix}volume_reference.js">Volume equations</a> · <a href="{prefix}chapters/09-liquid-surfaces.html#checked-volume-flux-proof-bridge">Proof scope and research</a> · </span><span id="transport-sources" hidden><a href="{prefix}transport_reference.js">Browser equations</a> · <a href="{prefix}transport-companion.py">Transport companion</a> · <a href="{prefix}sampling-companion.py">Sampling companion</a> · </span><span id="timestep-sources" hidden><a href="{prefix}solver-source.rs">Rust adapter</a> · <a href="{prefix}timestep-contract.rs">Existing native fixture</a> · <a href="{prefix}solver-presentation.json">Build identity</a> · <a href="{prefix}BROWSER_TIMESTEP.md">Capability audit</a> · </span><span id="flow-sources" hidden><a href="{prefix}flow-source.rs">Rust 3D fixture</a> · <a href="{prefix}flow_volume.js">Volume equations</a> · <a href="{prefix}flow_field.js">Velocity & lighting equations</a> · <a href="{prefix}solver-presentation.json">Build identity</a> · </span><a href="{prefix}chapters/F-expansion-contracts-and-sources.html">Primary sources & checked claims</a></details></div></section>'''
 
 
 def tour():

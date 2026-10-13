@@ -17,3 +17,4 @@ import Rheon.MaterialPreview
 import Rheon.CpuScheduling
 
 import Rheon.VolumeFlux
+import Rheon.ModalDecay

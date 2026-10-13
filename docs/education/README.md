@@ -8,7 +8,7 @@ reading sequence: pressure correction, first mesh crossing, layered hydrostatics
 viscous decay, wall slip, then equilibrium capillarity. Each lesson states a
 prediction, comparison and measurable limitation. Chapters retain their citations, figures and exact Lean source links.
 
-Scroll-linked examples cover chapters **3–7, 9, 10, 14, 17, 19–25**: 16 of 25 chapters,
+Scroll-linked examples cover chapters **3–7, 9, 10, 12, 14, 17, 19–25**: 17 of 25 chapters,
 with no scroll-linked appendix. This is partial topic coverage. The
 [coverage ledger](COVERAGE.md) lists every chapter and appendix, each source
 kind, and the remaining science and UI gaps. Heading-to-case bindings live in
@@ -65,13 +65,13 @@ and [CPU scheduling guide](../research-book/implementation/cpu-scheduling-contra
 state the predictions, independent checks and limits. No browser material solver,
 CAD wall load, GPU performance or global stability claim is added.
 
-The continuation inventory contains 144 public theorem statements and 201
-explicit audit entries. Its pinned hosted build and 252-declaration axiom audit
-passed; `native-sequence.json` records the exact source binding. PR43's prior
-138-theorem/242-declaration receipt is
-preserved as historical evidence. Inventory matching alone is not a kernel pass.
-Chapter 9 adds an independently recomputed swept-volume geometry lesson; see
-the [coverage ledger](COVERAGE.md#pr43-continuation-one-face-liquid-volume).
+The modal-decay continuation inventory contains 152 public theorem statements
+and 212 explicit audit entries; fresh kernel status is recorded in
+`native-sequence.json`. PR44's 144-theorem/252-declaration qualification and
+PR43's earlier receipts remain historical evidence for their own exact sources.
+Chapter 9 adds swept-volume geometry and chapter 12 adds recomputed periodic
+shear decay to distinguish stability from temporal accuracy. See the
+[coverage ledger](COVERAGE.md#modal-time-integration-milestone).
 
 The aligned-strain admission path also has an explicit reviewed current-source
 inventory, `aligned-strain-native-sources.json`. It covers crate/build inputs and
