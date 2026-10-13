@@ -41,12 +41,27 @@ Passed:
 - `cargo run --locked --no-default-features --example game_loop_session`:
   frame 2, accepted time 0.125 s, retained lag zero.
 
-Broad `cargo test --locked --no-default-features` and `cargo test --locked` remain
-Verifying at draft creation: existing long material-scene tests are still running.
-They are not reported as passes until complete. They began before the final private
-clock-test refactor; final focused tests and strict lint cover the changed code.
+Broad regressions completed successfully: `cargo test --locked --no-default-features`
+passed 329 tests across 41 test targets; `cargo test --locked` passed 337 tests across
+42 test targets, zero failed/ignored. These runs began before the private clock-test
+refactor; final focused verification and strict lint cover the changed clock path.
+Parallel session/dense3D tests passed 20 tests before the refactor.
+
+Published commit `3dffefd` on `feat/public-simulation-api`, draft
+https://github.com/MrScripty/Rheon/pull/48 . M1/M2 accepted; broader objective remains
+blocked on parent coordination of the peer backend contracts.
+Inspected quantitative PR #47 at `1923d5bd3442a5369878a1a317b52f4a89026d5b`
+read-only. Its ParticleDiagnostic and accessor are the selected future source;
+recorded evaluation/publication stage distinction and run-local particle identity
+in the plan. No branch merged, no capture type duplicated.
 
 Independent review drove added checkpoint rollback, accepted-dt and deadline
 coverage. The sleep-based deadline test was replaced after standards/review feedback.
 No hardware performance measurements, Godot runtime, desktop rendering, GPU,
 AI provider execution or downstream Tuldok consumer adoption are claimed.
+
+Final clock-refactor matrix also passed:
+`cargo test --locked --lib --test session_contract` (14 + 5), and
+`cargo test --locked --no-default-features --features parallel --lib
+--test session_contract --test dense3d_controls_contract --test dense3d_sequence_contract`
+(19 + 5 + 6 + 8 = 38). Both default/core strict Clippy passed on final source.

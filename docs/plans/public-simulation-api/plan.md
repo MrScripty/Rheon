@@ -1,6 +1,6 @@
 # Public simulation API
 
-Status: Active. Current phase: verify and publish transport milestone.
+Status: Blocked. Blocker: peer integration. Current phase: M3 contract coordination.
 Objective acceptance: partial. Operation: continue this plan under the user's
 explicit implementation/push/draft-PR instruction. Goal: embedded numerical data
 and generation controls for Rust hosts, dataset consumers and game engines,
@@ -28,7 +28,7 @@ remain authoritative. The session owns lifecycle, never numerical acceptance.
 
 | Milestone | State | Claim and gate |
 | --- | --- | --- |
-| M1 transport contract and owner | Verifying | A1 public API accepts existing controls and preserves accepted publication on cancellation/rejection/deadline; A2 byte-compatible dense3D frame output; focused public contract tests and affected Rust regressions |
+| M1 transport contract and owner | Accepted | A1 public API accepts existing controls and preserves accepted publication on cancellation/rejection/deadline; A2 byte-compatible dense3D frame output; focused public contract tests and affected Rust regressions |
 | M2 useful consumers | Accepted | A3 headless Rust consumer emits nine valid JSON frames; A4 engine-neutral host uses accepted dt, bounded catch-up and deadline; both examples executed |
 | M3 shared backend integration | Blocked | A5 material/SPH, inspection and provider APIs expose supported capabilities and consistent state identity; needs peer contracts and combined source revision from parent |
 | M4 actual Godot consumer | Deferred | A6 engine runtime proves conversion, thread/lifetime ownership and failure behavior; needs selected binding stack, project and supported Godot target |
@@ -37,9 +37,9 @@ A1/A2 are automated contract/integration evidence in Linux Rust 1.92.0, with no
 special hardware requirement. A3/A4 are automated consumer integration evidence
 in the same cloud CPU environment. A5 requires the real composed peer interfaces;
 A6 requires a real Godot runtime/binding consumer. Rust examples do not satisfy A6.
-A1/A2 pending regression completion; A3/A4 satisfied in the execution ledger.
-Exactly one next slice: publish M1/M2 for draft review, then request the parent's
-accepted peer-contract revision to admit M3.
+A1/A2/A3/A4 satisfied in the execution ledger.
+Exactly one next slice: obtain the parent's accepted combined peer-contract revision
+to admit M3 implementation; M1/M2 are published in draft PR #48.
 
 ## Integration proposal for M3 (not implemented capability)
 
@@ -49,8 +49,20 @@ accepted peer-contract revision to admit M3.
   provide particle SI fields and actual dt, not a fake MAC grid projection. Physics
   owner must supply accepted control update/cancellation semantics before claiming
   transactional equivalence. API owner adds exports only after that gate.
-- Quantitative inspection: inspection worker owns calculations and descriptor
-  meaning. Consume immutable session state/grid/report plus run ID, carrier/liquid
+- Quantitative inspection: inspected draft PR #47 at
+  `1923d5bd3442a5369878a1a317b52f4a89026d5b`. Reuse its existing
+  `ParticleDiagnostic` and `particle_diagnostics() -> Option<(f64, &[ParticleDiagnostic])>`;
+  do not add a competing capture type. The slice aligns with `particles()` by
+  append-only, run-local index; pair identity with `SessionIdentity.run_id`.
+  Initial diagnostics are absent. Their committed evaluation stage is post-emission,
+  pre-integration (and before wall response), distinct from accepted position/time.
+  Preserve optional evaluation time, binary64 density kg/m^3, pressure Pa and
+  acceleration m/s^2. Derived mass-times-acceleration excludes later wall impulses.
+  Snapshot publication stage remains Constructor/Accepted; evaluation stage must
+  be separately described rather than flattened into SnapshotStage. The PR adds
+  ParticleDiagnostic near the existing particle exports; this branch appends session
+  exports, so the proposed edits have separate regions. Parent integrates, no merge
+  was performed. Inspection worker owns calculations and descriptor meaning. Consume immutable session state/grid/report plus run ID, carrier/liquid
   stamps, generation, accepted time, field units and stage. Inspection results must
   name their input publication and distinct pressure-interval semantics. Do not
   infer stress, force or end-surface pressure from transport snapshots.
