@@ -145,3 +145,12 @@ and diff checks passed, and both release binaries built.
 Native Linux interaction verified primary-drag orbit, Shift-pan and Ctrl-zoom
 without moving the window, plus live accepted geometry, worker markers and
 per-step timing in the default 180-step demo.
+
+## Quantitative obstacle projection lab
+
+Select **Obstacle projection lab** above the viewport for a separate accepted
+stationary obstacle projection: native pressure slices in Pa, reconstructed
+speed and scaled velocity arrows, masked solid cells, and click probes. This
+small bounded operator experiment uses actual solver output; it is independent
+of the particle scene and live timeline. The lab has its own camera and framing.
+See [model, acceptance criteria and remaining CAD milestones](../../../docs/implementation/cad-obstacle-lab.md).

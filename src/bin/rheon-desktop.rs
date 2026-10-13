@@ -1,5 +1,7 @@
 //! Native live 3D laboratory. Numerical state stays owned by the worker; the
 //! viewer consumes bounded immutable accepted previews and optional diagnostics.
+#[path = "desktop/engineering.rs"]
+mod engineering;
 #[path = "desktop/history.rs"]
 mod history;
 #[path = "desktop/inspector.rs"]
