@@ -25,6 +25,7 @@ def check(page):
  for actual,(o,r) in zip(s['spheres'],expected_spheres):
   close(actual['radius'],r)
   for x,y in zip(actual['origin'],o):close(x,y)
+ require(page.locator('#lab-expected').inner_text() not in ['', 'undefined'],'Expected behavior absent')
  require(page.locator('#metrics dd').count()>=4,'Readouts absent')
  for value in page.locator('#metrics dd').all_text_contents():require(not any(token in value for token in ['NaN','Infinity']),'Nonfinite displayed metric')
  require(s['webgl'],'WebGL missing');require(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),'Horizontal overflow');return q
