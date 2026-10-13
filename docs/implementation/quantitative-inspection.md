@@ -93,7 +93,9 @@ Executed checks:
   and completed-run selection/export passed.
 - `cargo clippy --locked --features desktop --all-targets -- -D warnings` and
   `cargo fmt --all --check`: passed.
-- Full desktop debug suite: 20 passed, one existing wall-clock lifecycle test
+- `cargo test --locked --features desktop --bin rheon-desktop -- --test-threads=1`:
+  all 21 passed in 14.75 s after competing jobs finished.
+- Earlier full desktop debug runs: 20 passed, one existing wall-clock lifecycle test
   timed out under concurrent CPU load. The same test also timed out on untouched
   `2209012` in a detached worktree. An isolated feature-branch run passed.
   This host does not qualify that test's ten-second wall-clock assumption.
