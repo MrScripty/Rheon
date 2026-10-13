@@ -1,6 +1,6 @@
 # CPU pressure optimization
 
-Status: Verifying. Phase: draft publication and exact-head CI.
+Status: Verifying. Phase: rejected candidate, revert qualification and draft update.
 Operation: verify, following implementation authorized by the delegated CPU optimization task.
 Owner: CPU optimization agent; integration owner: parent thread.
 Base: main 2209012. Branch: perf/cpu-pressure-passes; target: main.
@@ -37,7 +37,7 @@ review before publication. No merge or deployment.
 
 ## Milestones
 
-1. Baseline and ordered reduction experiment — Implemented; write set above; gate:
+1. Baseline and ordered reduction experiment — Rejected and reverted; write set above; gate:
    fresh paired performance and reference correctness.
 2. Other approved opportunities — Deferred after bounded investigation; investigate accepted-state warm start,
    stronger preconditioning, particle locality, worker/grain and preview overhead;
@@ -46,24 +46,18 @@ review before publication. No merge or deployment.
 3. Review/publication — Verifying; clean scoped diff, regression/lint/format,
    commit/push, draft PR, exact-head CI. Preserve existing book gate.
 
-Acceptance: narrow pressure timing gain supported; overall regression acceptance pending.
-Next slice: commit, publish draft and inspect exact-head CI.
-Narrowed decision: fuse pressure/residual update with ordered norm only when
-work observation is active and the Rayon pool has one worker. Broad fusion was
-rejected after parallel-only measurements. No tolerance, sum ordering, field
-bits, public setting, allocation or physical horizon changes. Reduction timing
-now includes the fused vector update; compare whole frames, not that phase alone.
-Work markers describe the combined pass as Reduction. Other execution modes
-keep the existing separate passes. Final short matrix observed single-worker medians improved 32³ by 8.4% and
-64³ by 3.1%; sustained 32³/64-step median improves 4.6%. Local regression
-and lint gates passed; CI remains pending.
-The earlier extracted fallback wrapper was rejected for a two-worker regression;
-the original fallback loop is retained at its original call site.
-Blockers: unresolved adverse 4096-particle/one-worker timing control prevents
-merge readiness; disclose in draft, without attributing it to noise. Replan for accuracy/output changes, uncertain
-wins, shared-file requirements or changed base. Composed-design review:
-not-applicable to private arithmetic/pass simplification; no new state, boundary,
-public contract or retained compatibility mechanism.
+Acceptance: rejected. The observed pressure gain did not satisfy representative
+control gates. After 184 additional balanced pairs, the original 4096/1 slowdown
+was not stable, but 4096/4 remained adverse (+7.75%, 7/8 pairs). The reviewer
+recommended a production revert. Restore all src/tests changes to main2209012;
+retain harnesses and all evidence. No accepted production optimization remains.
+Next slice: final regression/lint/format, independently verify the revert, push
+and monitor exact-head CI. Keep PR58 draft. Do not change the separately owned
+book binding gate. No source-level causal claim for particle timing is established.
+
+This completes an investigation/tooling milestone only. The broader CPU speedup
+goal remains unmet; the 4.6% pressure benefit is forfeited to reject control risk.
+No link-layout tuning, tolerance relaxation or selective trial exclusion is used.
 
 Standards: public MrScripty/coding-standards Core and Router, implementation,
 verification (including oracle boundaries), proportionality, planning/discovery,

@@ -515,34 +515,6 @@ impl PressureWorkspace {
         Ok(self.preconditioned.dot(&self.residual))
     }
 
-    #[cfg(feature = "work-observation")]
-    fn fused_update_residual(&mut self, alpha: f64, has_gauge: bool) -> f64 {
-        let _timer = crate::scheduling::SerialTimer::new(
-            crate::observation::CalculationStage::Reduction,
-            self.residual.len(),
-        );
-        let probe =
-            crate::observation::WorkProbe::new(crate::observation::CalculationStage::Reduction);
-        // Observed single-worker updates and their ordered norm share one
-        // traversal and one diagnostic store per cell. Reduction timing
-        // includes the update here. Unobserved/parallel loops stay separate.
-        // Include the pinned zero in the norm, exactly as the separate dot.
-        compensated_sum(
-            self.pressure
-                .iter_mut()
-                .zip(&mut self.residual)
-                .enumerate()
-                .map(|(i, (pressure, residual))| {
-                    probe.visit_index(i);
-                    if i != 0 || !has_gauge {
-                        *pressure += alpha * self.direction[i];
-                        *residual -= alpha * self.product[i];
-                    }
-                    *residual * *residual
-                }),
-        )
-    }
-
     fn solve_loaded(
         &mut self,
         operator: &PressureOperator<'_>,
@@ -623,31 +595,18 @@ impl PressureWorkspace {
             if !alpha.is_finite() {
                 return Err(PressureError::Breakdown { iteration });
             }
-            #[cfg(feature = "work-observation")]
-            let fused_squared =
-                if rayon::current_num_threads() == 1 && crate::observation::is_active() {
-                    Some(self.fused_update_residual(alpha, operator.has_gauge()))
-                } else {
-                    None
-                };
-            #[cfg(not(feature = "work-observation"))]
-            let fused_squared: Option<f64> = None;
-            let recursive_l2 = if let Some(squared) = fused_squared {
-                squared.sqrt()
-            } else {
-                let first = usize::from(operator.has_gauge());
-                crate::parallel::for_each_pair_mut(
-                    &mut self.pressure[first..],
-                    &mut self.residual[first..],
-                    first,
-                    |i, pressure, residual| {
-                        let i = i + first;
-                        *pressure += alpha * self.direction[i];
-                        *residual -= alpha * self.product[i];
-                    },
-                );
-                dot(&self.residual, &self.residual).sqrt()
-            };
+            let first = usize::from(operator.has_gauge());
+            crate::parallel::for_each_pair_mut(
+                &mut self.pressure[first..],
+                &mut self.residual[first..],
+                first,
+                |i, pressure, residual| {
+                    let i = i + first;
+                    *pressure += alpha * self.direction[i];
+                    *residual -= alpha * self.product[i];
+                },
+            );
+            let recursive_l2 = dot(&self.residual, &self.residual).sqrt();
             let candidate = recursive_l2 <= threshold;
             // Checking true residuals must not discard conjugate directions
             // solely because the physical divergence needs more iterations.
@@ -699,59 +658,6 @@ impl PressureWorkspace {
 #[cfg(test)]
 mod comparison_tests {
     use super::*;
-
-    #[cfg(feature = "work-observation")]
-    #[test]
-    fn fused_update_matches_separate_ordered_reference() {
-        let check = || {
-            for gauge in [false, true] {
-                for length in [1, 257, 32768] {
-                    let grid = GridGeometry::new([length, 1, 1], [1.0; 3], [0.0; 3]).unwrap();
-                    let n = grid.cell_len();
-                    let mut workspace = PressureWorkspace::new(&grid, n * 48).unwrap();
-                    for i in 0..n {
-                        workspace.pressure[i] = (i as f64 - 128.0) * 0.03125;
-                        workspace.residual[i] = ((i * 17) % 113) as f64 - 56.0;
-                        workspace.direction[i] = ((i * 31) % 97) as f64 * 1e-9;
-                        workspace.product[i] = ((i * 13) % 79) as f64 * 1e8;
-                    }
-                    if gauge {
-                        workspace.pressure[0] = 0.0;
-                        workspace.residual[0] = 0.0;
-                    }
-                    let mut pressure = workspace.pressure.clone();
-                    let mut residual = workspace.residual.clone();
-                    for alpha in [-0.0, 0.125, -1e-9, 1e9, f64::MIN_POSITIVE, f64::MAX] {
-                        for i in usize::from(gauge)..n {
-                            pressure[i] += alpha * workspace.direction[i];
-                            residual[i] -= alpha * workspace.product[i];
-                        }
-                        let expected = dot(&residual, &residual);
-                        let actual = {
-                            let observer = crate::CalculationObserver::new(&grid, 4).unwrap();
-                            observer.observe(|| workspace.fused_update_residual(alpha, gauge))
-                        };
-                        assert_eq!(actual.to_bits(), expected.to_bits());
-                        for (actual, expected) in workspace
-                            .pressure
-                            .iter()
-                            .zip(&pressure)
-                            .chain(workspace.residual.iter().zip(&residual))
-                        {
-                            assert_eq!(actual.to_bits(), expected.to_bits());
-                        }
-                    }
-                }
-            }
-        };
-        for workers in [1, 2, 4] {
-            rayon::ThreadPoolBuilder::new()
-                .num_threads(workers)
-                .build()
-                .unwrap()
-                .install(check);
-        }
-    }
 
     #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
     #[test]

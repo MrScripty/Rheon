@@ -1,3 +1,4 @@
+# Historical frozen candidate d03ac6e and baseline binaries; not current reverted sources.
 38b4531a2a26a8ccb33c476393c6c135442e30bd8e25c594418d391d9ff08997  src/pressure.rs
 1fdf9babb2f6e3ec8aef2e8aee5bede3ca9d1641602ea7e56bcb89c1c28d855b  src/observation.rs
 60e0782c88c3e61fbe2723c81b9f9d4863f7c35db02739732570d076af318c18  examples/cpu_pressure_lab.rs

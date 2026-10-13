@@ -27,5 +27,18 @@ also runs real solves with 1/2/4 workers, in addition to full-solver measurement
 
 Final review approved the expanded observation contract and found no source
 correctness blocker. It required explicit disclosure of the 4096-particle
-single-worker slowdown as unresolved, rather than noise. This is now a draft
-qualification blocker; the narrow pressure timing claim remains supported.
+single-worker slowdown as unresolved, rather than noise. This was a draft
+qualification blocker. The follow-up below supersedes acceptance: the candidate
+is now rejected and reverted, forfeiting the narrow pressure gain.
+
+Follow-up independent review recommends rejection and production revert. It
+confirmed absence of pressure symbols/live pressure execution in the particle
+harness, normalized instruction identity and changed addresses. It did not
+attribute timing differences conclusively. The new four-worker adverse control
+is sufficient risk against the agreed gate; no linker/alignment tuning advised.
+Final review and regression qualification follow the revert.
+
+Final independent review confirmed the complete source/test revert, all 184
+numerical pairs, medians and same-binary controls. Requested reproduction and
+historical-status corrections were applied. No source or numerical blocker found.
+Local final checks passed; the PR records subsequent exact-head CI.

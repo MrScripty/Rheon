@@ -1,4 +1,15 @@
-# CPU pressure pass measurements
+# CPU pressure pass measurements — rejected candidate
+
+## Final disposition
+
+The production optimization and its bespoke tests were reverted after expanded
+controls exposed another adverse particle workload. The final `src/` and `tests/`
+trees equal baseline 2209012. **No production speedup is accepted.** This PR now
+retains the benchmark tools, standards plan and complete rejected-experiment
+evidence. See [follow-up](particle-follow-up.md). All candidate timings below
+refer to the frozen, rejected d03ac6e binaries, not the final reverted tree.
+The historical verification status below also refers to d03ac6e; final checks
+are recorded separately in revert-checks.json and the PR exact-head CI.
 
 ## Scope and provenance
 
@@ -59,11 +70,12 @@ between same-name package checkouts produced stale baseline linkage during an
 experiment; that set was detected by symbol inspection and discarded.
 
 ```sh
-mkdir -p /tmp/rheon-cpu-baseline
+mkdir -p /tmp/rheon-cpu-baseline /tmp/rheon-cpu-rejected
 git archive 2209012bc5f902693d0f695ec1c2d854126af317 | tar -x -C /tmp/rheon-cpu-baseline
-cp examples/cpu_pressure_lab.rs examples/cpu_particle_lab.rs /tmp/rheon-cpu-baseline/examples/
+git archive d03ac6e30de5a52839878b1da53905e9009966b8 | tar -x -C /tmp/rheon-cpu-rejected
+cp /tmp/rheon-cpu-rejected/examples/cpu_pressure_lab.rs /tmp/rheon-cpu-rejected/examples/cpu_particle_lab.rs /tmp/rheon-cpu-baseline/examples/
 CARGO_TARGET_DIR=/tmp/rheon-cpu-baseline-target cargo build --manifest-path /tmp/rheon-cpu-baseline/Cargo.toml --locked --release --features work-observation --example cpu_pressure_lab --example cpu_particle_lab
-CARGO_TARGET_DIR=/tmp/rheon-cpu-candidate-target cargo build --locked --release --features work-observation --example cpu_pressure_lab --example cpu_particle_lab
+CARGO_TARGET_DIR=/tmp/rheon-cpu-candidate-target cargo build --manifest-path /tmp/rheon-cpu-rejected/Cargo.toml --locked --release --features work-observation --example cpu_pressure_lab --example cpu_particle_lab
 python3 docs/plans/cpu-pressure/reports/measure.py /tmp/rheon-cpu-baseline-target/release/examples/cpu_pressure_lab /tmp/rheon-cpu-candidate-target/release/examples/cpu_pressure_lab /tmp/observed.json observed
 python3 docs/plans/cpu-pressure/reports/measure.py /tmp/rheon-cpu-baseline-target/release/examples/cpu_pressure_lab /tmp/rheon-cpu-candidate-target/release/examples/cpu_pressure_lab /tmp/unobserved.json --controls
 python3 docs/plans/cpu-pressure/reports/measure.py /tmp/rheon-cpu-baseline-target/release/examples/cpu_pressure_lab /tmp/rheon-cpu-candidate-target/release/examples/cpu_pressure_lab /tmp/sustained.json observed --sustained
@@ -172,9 +184,9 @@ It does not support a multiworker speedup claim. This follow-up was selected bec
 the short matrix's two-worker median was adverse. All observations are retained
 in [two-worker-control.json](two-worker-control.json).
 
-## Accepted performance claim
+## Historical pressure gain — candidate subsequently rejected
 
-Retain fusion for observed single-worker execution. In the three 32³ / 64-step
+The rejected d03ac6e candidate fused observed single-worker execution. In the three 32³ / 64-step
 pairs, complete CPU-frame medians fell **20.3907 -> 19.4496 seconds (4.6%)**;
 every pair improved and the ranges did not overlap. The 64³ short matrix fell
 14.7632 -> 14.3127 seconds (3.1%), again with all pairs improved. The one 16³ /
@@ -190,7 +202,7 @@ an **unresolved adverse control**: all three candidate runs were slower,
 with a 9.7% median slowdown and nonoverlapping ranges. Unchanged particle source
 does not establish unchanged binary performance. Attribution is unresolved;
 this prevents a regression-free or general performance acceptance claim and
-must be resolved before promoting this draft for merge. Other overlapping
+was a draft blocker subsequently resolved by rejecting/reverting the candidate. Other overlapping
 control distributions do not establish improvements or equivalence in timing.
 
 Managed simulation / capture bytes by grid:

@@ -53,3 +53,32 @@
 - Release work-observation/default/core suites and all three strict Clippy
   configurations passed. Release CLI build and Python oracle/executable suite
   passed (98 tests, one existing skip). Exact-head CI follows publication.
+- Reopened after parent explicitly required resolution of the adverse particle
+  control before completion. PR58 remains draft at d03ac6e. Admission: reproduce
+  frozen-binary 4096-particle/one-worker timing with 20 balanced randomly ordered
+  pairs at both 5 and 50 identical steps, pinned to CPU0. Retain every trial and
+  exact state/horizon/memory checks. No concurrent compile/test workload.
+  Compare generated particle code and live linkage independently; source
+  similarity alone does not dismiss a regression. If the harm persists, narrow
+  or revert the pressure change, then repeat representative controls and pressure
+  measurements before final review, regression checks and exact-head CI.
+
+- Follow-up completed 184 balanced pairs, all matching numerical fingerprints,
+  horizons/counts/memory. Original 4096/1 adverse effect not stable; new 4096/4
+  20-step control +7.75%, 7/8 slower. Same-binary baseline control +2.04% median.
+  Neither environmental noise nor binary-layout causality is established.
+- Independent reviewer found no live pressure code in the particle executable,
+  identical normalized hot-path instructions but different layout, and advised
+  reverting under the agreed reject-regressions gate. Restored src/pressure.rs,
+  src/observation.rs and tests/observation_contract.rs to baseline2209012. No
+  production optimization remains; retain rejected findings and harnesses.
+- Re-running release work-observation/default/core suites, strict lints, CLI and
+  Python tests after revert. Final evidence is revert-checks.json; exact-head CI
+  will follow push. Historical d03ac6e Rust CI passed; book failed identically
+  to baseline with changed qualified native source Cargo.lock. Gate untouched.
+- Final local qualification passed: release work-observation/default/core
+  341/331/324 tests, strict all-target Clippy in all three configurations,
+  format, retained example smokes, Python script compile and 98 Python tests
+  (one existing skip). Independent review confirmed all 184 pairs and statistics;
+  fixed reproduction to build frozen d03ac6e explicitly, not the reverted tree.
+  Publishing revert and evidence with PR58 remaining draft; CI results in PR.

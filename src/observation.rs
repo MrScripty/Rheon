@@ -123,10 +123,6 @@ mod enabled {
                 .collect()
         }
     }
-    pub(crate) fn is_active() -> bool {
-        CURRENT.with(|current| current.borrow().is_some())
-    }
-
     pub(crate) struct Probe {
         observer: Option<Arc<CalculationObserver>>,
         worker: usize,
@@ -171,9 +167,9 @@ mod enabled {
     }
 }
 #[cfg(feature = "work-observation")]
-pub use enabled::{CalculationObserver, ObservationError, WorkerVoxel};
+pub(crate) use enabled::Probe as WorkProbe;
 #[cfg(feature = "work-observation")]
-pub(crate) use enabled::{Probe as WorkProbe, is_active};
+pub use enabled::{CalculationObserver, ObservationError, WorkerVoxel};
 #[cfg(not(feature = "work-observation"))]
 pub(crate) struct WorkProbe;
 #[cfg(not(feature = "work-observation"))]

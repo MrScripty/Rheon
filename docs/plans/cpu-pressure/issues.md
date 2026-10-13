@@ -19,8 +19,14 @@
   represent GPU rendering or PNG export. Neither accuracy nor preview quality
   will be reduced to manufacture a faster solver result.
 
-- Unresolved adverse control: 4096 particles / one worker slows in all three
+- Historical rejected-candidate adverse control: 4096 particles / one worker slows in all three
   pairs, median 9.7%, nonoverlapping ranges. Cause is not established. No source
   edits in particle code does not prove timing equivalence. Draft publication
   is permitted, but regression-free acceptance and merge readiness are blocked
   pending attribution/resolution. Preserve raw data; do not dismiss as noise.
+
+- Follow-up disposition: original 4096/1 signal was not stable across 20-pair
+  controls. Fresh 4096/4 was adverse in 7/8 pairs. No runtime pressure path exists
+  in particle binaries; layouts differ but cause is not proven. Production
+  changes reverted. Shipping this candidate is rejected, not declared harmless.
+  Detailed report: reports/particle-follow-up.md. Book ownership remains intact.
