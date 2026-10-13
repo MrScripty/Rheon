@@ -170,3 +170,9 @@ pub use aligned_strain::{
 };
 mod dense3d_sequence;
 pub use dense3d_sequence::{Dense3dError, Dense3dLimits, Dense3dSequence, write_dense3d_frame};
+
+mod session;
+pub use session::{
+    SESSION_CAPABILITIES, SessionCapabilities, SessionError, SessionIdentity, SessionSnapshot,
+    SimulationSession, SnapshotStage,
+};
