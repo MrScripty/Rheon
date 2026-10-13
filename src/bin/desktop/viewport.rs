@@ -124,6 +124,7 @@ enum ViewMode {
     Transport,
 }
 pub struct Viewport {
+    pub collision_mesh: Option<Arc<rheon::CollisionMesh>>,
     pub camera: OrbitCamera,
     engineering: Option<super::engineering::EngineeringView>,
     mode: ViewMode,
@@ -153,6 +154,7 @@ impl Default for Viewport {
             touchpad_mode: false,
             threshold: 7,
             domain_side: 1.0,
+            collision_mesh: None,
             frame: None,
             faces: Vec::new(),
             cached_threshold: 0,
@@ -353,6 +355,35 @@ impl Viewport {
                     }
                 }
             }
+        }
+        if let Some(mesh) = &self.collision_mesh {
+            const DISPLAY_TRIANGLES: usize = 12_000;
+            let stride = mesh.triangles().len().div_ceil(DISPLAY_TRIANGLES).max(1);
+            for triangle in mesh.triangles().iter().step_by(stride) {
+                for edge in 0..3 {
+                    let a = mesh.vertices()[triangle[edge]].map(|v| (v / self.domain_side) as f32);
+                    let b = mesh.vertices()[triangle[(edge + 1) % 3]]
+                        .map(|v| (v / self.domain_side) as f32);
+                    self.line(
+                        &painter,
+                        rect,
+                        a,
+                        b,
+                        Stroke::new(1.0, Color32::from_rgb(245, 180, 65)),
+                    );
+                }
+            }
+            painter.text(
+                rect.left_top() + egui::vec2(14.0, 38.0),
+                egui::Align2::LEFT_TOP,
+                format!(
+                    "Amber: collision wireframe (x-ray), {:?}; showing 1 / {} triangles",
+                    mesh.policy(),
+                    stride
+                ),
+                egui::FontId::proportional(12.0),
+                Color32::from_rgb(245, 180, 65),
+            );
         }
         self.wire_box(
             &painter,

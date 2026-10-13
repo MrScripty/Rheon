@@ -121,8 +121,9 @@ simulation time, and the timestep is capped to resolve at least eight intervals
 per revolution, in addition to the existing CFL limit. Cancellation or rejection
 publishes neither candidate fields nor emitter time. The current cylinder is a
 source visualization, not a solid collision boundary. Appearance concentration
-is not a conservative liquid-volume field; solid interaction and free-surface
-coupling require separate solver work.
+is not a conservative liquid-volume field; arbitrary solid interaction in this carrier path and free-surface
+coupling require separate solver work. The separate particle material path supports
+the static mesh collision milestone described below.
 
 ## Verification
 
@@ -178,3 +179,35 @@ path; existing files are never overwritten. Files default to `.generated/` and
 are not repository source. Exports are synchronous and report success only after
 flush; particle capture may pause while its coherent latest state is written.
 See [VTK contract](../../../docs/api/vtk-interchange.md) for fields and stages.
+
+## Imported static collision mesh
+
+The **Collision mesh (OBJ / glTF / GLB)** section accepts a local path, metres per
+source unit, and XYZ translation in metres. Select **Validated convex watertight
+solid** or explicitly select **Two-sided surface barrier** for an open surface.
+Import/apply validates geometry and domain bounds before replacing the accepted
+mesh. Failed imports retain the previous mesh. The native viewer accepts at most
+12,000 triangles (the library's bounded import limit is larger); simplify a larger
+model before importing. External URLs are never downloaded.
+
+Amber wireframe shows accepted collision vertices through fluid (x-ray), not a
+pressure visualization. The unit-box outline represents the physical domain,
+whose side length is shown by the domain controls. Input placement and path edits
+remain drafts until Import/apply. Applying/removing geometry clears the timeline.
+During and after a run, the viewport uses the immutable mesh and domain from that
+run; draft edits cannot relabel recorded results. Reset timeline keeps the accepted
+mesh; Simulate starts a fresh run. Geometry edits are disabled while a worker runs.
+
+Collision is supported only by the liquid/gas particle material simulation. The
+original grid carrier rejects mesh requests. Convex solids exclude initial interior
+particles. Preview voxels can straddle the boundary even when particle centers do not cross.
+Collision response acts on particle centers: it does not model finite
+particle radius, calibrated pressure/shear, resolved no-slip walls or two-way
+moving-body forces. Importing an arbitrary visual asset does not establish physical
+validity. See [format and physics restrictions](../../../docs/collision-meshes.md).
+
+For reproducible native viewing, pass `--collision-mesh /absolute/path/model.obj`
+and optionally `--collision-policy surface` (default `solid`). `--collision-run`
+starts the real default material solver for 180 steps. Import errors fail startup
+instead of silently rendering an uncollidable visual model. These options do not
+replace the interactive controls or imply performance on a GPU.
