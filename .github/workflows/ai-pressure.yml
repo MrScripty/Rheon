@@ -1,0 +1,48 @@
+name: Real AI pressure checkpoint qualification
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'Cargo.*'
+      - 'rust-toolchain.toml'
+      - 'tests/solver_provider_contract.rs'
+      - 'examples/ai_pressure.rs'
+      - 'tools/*ai_pressure*'
+      - '.github/workflows/ai-pressure.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-cpu:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CARGO_BUILD_JOBS: '1'
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+    - name: Prepare pinned runtime and real checkpoint
+      run: |
+        rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
+        python3 -m venv "$RUNNER_TEMP/ai-python"
+        "$RUNNER_TEMP/ai-python/bin/pip" install --only-binary=:all: numpy==2.3.5
+        mkdir -p .generated/ai-provider
+        curl --fail --location --proto '=https' --tlsv1.2 \
+          https://raw.githubusercontent.com/MrScripty/rheon-surrogate-lab/e8a90bfef6b2955c502008ccc62443e29dd9f2ec/experiments/trajectory-v2/model.pt \
+          -o .generated/ai-provider/model.pt
+        python3 tools/export_ai_pressure.py .generated/ai-provider/model.pt .generated/ai-provider/modal.bin
+    - name: Real checkpoint and failure contracts
+      run: |
+        cargo clippy --locked --no-default-features --example ai_pressure --test solver_provider_contract -- -D warnings
+        RHEON_AI_EXPORT="$PWD/.generated/ai-provider/modal.bin" \
+          cargo test --locked --no-default-features --test solver_provider_contract -- --include-ignored
+    - name: Native qualification and independent checkpoint replay
+      run: |
+        cargo run --locked --release --no-default-features --example ai_pressure -- \
+          .generated/ai-provider/modal.bin .generated/ai-provider/run
+        "$RUNNER_TEMP/ai-python/bin/python" tools/verify_ai_pressure.py \
+          .generated/ai-provider/model.pt .generated/ai-provider/run
+        RHEON_AI_CHECKPOINT="$PWD/.generated/ai-provider/model.pt" \
+        RHEON_AI_RUN="$PWD/.generated/ai-provider/run" \
+          "$RUNNER_TEMP/ai-python/bin/python" -m unittest discover -s tools -p test_ai_pressure_tools.py -v
