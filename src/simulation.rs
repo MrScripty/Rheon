@@ -141,6 +141,7 @@ struct BoundaryStepInput<'a> {
     boundary: crate::BoxFluxStepBoundary,
 }
 struct StepDomains<'a, 'p> {
+    initial_pressure: Option<&'a [f64]>,
     emitter: Option<crate::RotatingCylinderEmitter>,
     barrier: Option<&'a crate::TriangleSurface>,
     boundary: Option<BoundaryStepInput<'a>>,
@@ -353,6 +354,7 @@ impl Simulation {
             None,
             &[],
             StepDomains {
+                initial_pressure: None,
                 emitter: Some(emitter),
                 barrier: None,
                 boundary: None,
@@ -425,6 +427,7 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                initial_pressure: None,
                 emitter: None,
                 barrier: None,
                 boundary: None,
@@ -461,6 +464,7 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                initial_pressure: None,
                 emitter: None,
                 barrier,
                 boundary,
@@ -483,6 +487,7 @@ impl Simulation {
         surface: Option<crate::column_surface::PressureSurface<'_>>,
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         provider: Option<crate::provider_step::ProviderStepInput<'_, '_>>,
+        initial_pressure: Option<&[f64]>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.prepare_impl(
@@ -490,6 +495,7 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                initial_pressure,
                 emitter: None,
                 barrier: None,
                 surface,
@@ -601,6 +607,7 @@ impl Simulation {
         mut cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         let StepDomains {
+            initial_pressure,
             emitter,
             barrier,
             mut boundary,
@@ -870,13 +877,24 @@ impl Simulation {
                 provider_report = Some(report);
                 pressure
             } else {
-                let pressure = self.workspace.solve_velocity(
-                    &operator,
-                    self.candidate.velocity(),
-                    dt,
-                    self.config.pressure,
-                    || cancel(StepStage::PressureIteration),
-                )?;
+                let pressure = if let Some(initial) = initial_pressure {
+                    self.workspace.solve_velocity_with_initial_pressure(
+                        &operator,
+                        self.candidate.velocity(),
+                        initial,
+                        dt,
+                        self.config.pressure,
+                        || cancel(StepStage::PressureIteration),
+                    )?
+                } else {
+                    self.workspace.solve_velocity(
+                        &operator,
+                        self.candidate.velocity(),
+                        dt,
+                        self.config.pressure,
+                        || cancel(StepStage::PressureIteration),
+                    )?
+                };
                 operator.correct_candidate_in_place(
                     self.workspace.pressure(),
                     dt,

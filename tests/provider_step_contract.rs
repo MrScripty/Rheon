@@ -429,3 +429,83 @@ fn liquid_failure_after_qualified_pressure_preserves_pair_and_metadata() {
     s.step_with_pressure_provider(inputs(&f), &mut w, None, None, |_| false)
         .unwrap();
 }
+
+#[test]
+fn preferred_and_fallback_remain_cold_after_accepted_native_history() {
+    for reject in [false, true] {
+        let mut a = session(4, config());
+        let mut b = session(4, config());
+        let mut aw = workspace(4);
+        let mut bw = workspace(4);
+        let policy = PressureInitializationPolicy::AcceptedPreviousV1;
+        for _ in 0..2 {
+            a.step_with_initialization(inputs(&[]), policy, None, |_| false)
+                .unwrap();
+            b.step_with_initialization(
+                inputs(&[]),
+                PressureInitializationPolicy::Cold,
+                None,
+                |_| false,
+            )
+            .unwrap();
+        }
+        assert_eq!(bytes(&a), bytes(&b));
+        assert_eq!(
+            a.snapshot()
+                .report()
+                .unwrap()
+                .pressure_initialization
+                .actual,
+            policy
+        );
+        let (ar, ap) = a
+            .step_with_pressure_provider(
+                inputs(&[]),
+                &mut aw,
+                Some(&mut Probe { reject }),
+                None,
+                |_| false,
+            )
+            .unwrap();
+        let (br, bp) = b
+            .step_with_pressure_provider(
+                inputs(&[]),
+                &mut bw,
+                Some(&mut Probe { reject }),
+                None,
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(
+            ar.pressure_initialization.actual,
+            PressureInitializationPolicy::Cold
+        );
+        assert_eq!(
+            br.pressure_initialization.actual,
+            PressureInitializationPolicy::Cold
+        );
+        assert_eq!(ap.selected, bp.selected);
+        assert_eq!(bytes(&a), bytes(&b));
+        let accepted = bytes(&a);
+        let initialization = a.snapshot().report().unwrap().pressure_initialization;
+        let selected = a.snapshot().provider_report().unwrap().selected;
+        assert!(
+            a.step_with_initialization(inputs(&[]), policy, None, |stage| stage
+                == LiquidStepStage::BeforeCommit)
+                .is_err()
+        );
+        assert_eq!(bytes(&a), accepted);
+        assert_eq!(
+            a.snapshot().report().unwrap().pressure_initialization,
+            initialization
+        );
+        assert_eq!(a.snapshot().provider_report().unwrap().selected, selected);
+        let next = a
+            .step_with_initialization(inputs(&[]), policy, None, |_| false)
+            .unwrap();
+        assert_eq!(
+            next.pressure_initialization.cold_reason,
+            Some(PressureColdReason::Invalidated)
+        );
+    }
+}

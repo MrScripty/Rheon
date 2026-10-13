@@ -1,0 +1,62 @@
+{
+  "archives": [
+    {
+      "archive": "corrected-long-confirmation.jsonl",
+      "sha256": "93124f4802bdfe181fe413994e29a027ca48cbf2283e374d6cc51a77a98f0894",
+      "members": 49
+    },
+    {
+      "archive": "corrected-measurements.jsonl",
+      "sha256": "a6132d86c806a4bff98a1e7db892c649330f9c0eacc13462d2f43327cab312a1",
+      "members": 2404
+    },
+    {
+      "archive": "final-cold-confirmation.jsonl",
+      "sha256": "dab06b705c6e7faa329654afb472ed849f2ad2d2391ffb82a6264fe0dda7926c",
+      "members": 361
+    },
+    {
+      "archive": "final-rest-confirmation.jsonl",
+      "sha256": "eae89898a478964874ae2ee046fc45e9c83df6c5d8687379bcaacf6d945ee2be",
+      "members": 85
+    },
+    {
+      "archive": "original-long-confirmation.jsonl",
+      "sha256": "8856e42ab2283ad679bb631e1f3f35f29fa3f32a088025d9d73bb7309847352a",
+      "members": 49
+    },
+    {
+      "archive": "particle-confirmation.jsonl",
+      "sha256": "8aa3a6be7db88cf31abc4c7a67986b2464a448fbaa0f3976df6f560b8d3023d0",
+      "members": 98
+    },
+    {
+      "archive": "particle-screening.jsonl",
+      "sha256": "446af424af97aa942bb4bfe9a9286854105a9da30ecaada3f9003d52ebe1a1c7",
+      "members": 98
+    },
+    {
+      "archive": "reference-diagnostic.jsonl",
+      "sha256": "bd26bd3e625eef42b48c10f7bf6abe31af860106babd66fd2794347b4a04e7a9",
+      "members": 25
+    },
+    {
+      "archive": "rejected-ec535bc.jsonl",
+      "sha256": "8b5ca6580efebb4bba01bebd66c095b460e568f9f73d5b7d52e42337a7632e1b",
+      "members": 1193
+    },
+    {
+      "archive": "gauge-regression.jsonl",
+      "sha256": "1a79c58c59b962559678f8bd6c44ac49f7aa81bee95009186bb3fe89285781fa",
+      "members": 5
+    },
+    {
+      "archive": "local-checks.jsonl",
+      "sha256": "af405933177c401f69dd3d4a85ba38fa14e2616d453b4879c7a3d6e1191eee38",
+      "members": 15
+    }
+  ],
+  "corrected_roundtrip_summary_exact": true,
+  "corrected_analysis_optimized_python": true,
+  "rejected_analysis_nonzero": true
+}

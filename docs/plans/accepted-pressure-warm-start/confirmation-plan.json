@@ -1,0 +1,111 @@
+{
+  "status": "frozen before confirmation execution",
+  "seed": 20261013,
+  "grid_cold": {
+    "cases": [
+      {
+        "counts": [
+          16,
+          16,
+          16
+        ],
+        "workers": 1,
+        "mode": "localized",
+        "method": "jacobi"
+      },
+      {
+        "counts": [
+          16,
+          16,
+          16
+        ],
+        "workers": 2,
+        "mode": "steady",
+        "method": "jacobi"
+      },
+      {
+        "counts": [
+          48,
+          24,
+          12
+        ],
+        "workers": 4,
+        "mode": "localized",
+        "method": "jacobi"
+      },
+      {
+        "counts": [
+          64,
+          64,
+          64
+        ],
+        "workers": 2,
+        "mode": "steady",
+        "method": "jacobi"
+      },
+      {
+        "counts": [
+          16,
+          16,
+          16
+        ],
+        "workers": 1,
+        "mode": "switch",
+        "method": "jacobi"
+      },
+      {
+        "counts": [
+          16,
+          16,
+          16
+        ],
+        "workers": 1,
+        "mode": "steady",
+        "method": "sgs"
+      }
+    ],
+    "pairs_per_case": 12,
+    "steps": 16,
+    "orders": "six AB and six BA shuffled"
+  },
+  "rest": {
+    "counts": [
+      32,
+      32,
+      32
+    ],
+    "workers": 1,
+    "mode": "rest",
+    "method": "jacobi",
+    "steps": 16,
+    "triplets": 12,
+    "orders": "each of six permutations twice, shuffled"
+  },
+  "particles": {
+    "counts": [
+      1000,
+      4096
+    ],
+    "workers": [
+      1
+    ],
+    "pairs_per_case": 12,
+    "steps": 64,
+    "dt": 0.001,
+    "orders": "six AB and six BA shuffled"
+  },
+  "total_runs": 228,
+  "extension": "prohibited after outcomes",
+  "binary_sha256": {
+    "base-3525c97": "49af4cf058f6fd9ba3c5fc3578f69891155cd78bf79098fc1b66dd6cbd9add49",
+    "candidate-3569d3b": "c8bc96bc3d2ba73ebb4c635fd56d859308eaaed03ec2960bbdc4b94de5f37b00",
+    "particle-base": "d5a1ea683df2a4a7e655b42ff041ddd059f44a523323df3748deb46bb6f08291",
+    "particle-3569d3b": "3cabdc5fd893039e4b533efa14ccb49d1590301c3c640e2492ebf3659220a216"
+  },
+  "driver_sha256": {
+    "confirm_controls.py": "8195b67db02774796c3482b722487f4a47dcb242fdda241f5c2cd908f2fe5888",
+    "confirm_rest.py": "b3260695bec315b71dab70731343e45f3297fe7d22a6f9b8119a727449fe49da",
+    "particle_controls.py": "7b90ef578f96624e5b0cef4d0583ed0f304dc1f0d0e0a90f7214abbfccafeb1f",
+    "measurement_checks.py": "0875f697d4b7e643836935d7f092a02d60958626059c8fd65e39bf2e628f52c5"
+  }
+}

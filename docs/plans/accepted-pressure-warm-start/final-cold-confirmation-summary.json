@@ -1,0 +1,3710 @@
+[
+  {
+    "case": {
+      "counts": [
+        16,
+        16,
+        16
+      ],
+      "workers": 1,
+      "mode": "localized",
+      "method": "jacobi"
+    },
+    "median_delta_pct": 0.6036965565920704,
+    "min_delta_pct": -18.169783254496863,
+    "max_delta_pct": 10.48345398219599,
+    "adverse_pairs": 7,
+    "trials": [
+      {
+        "repeat": 0,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.287199062,
+            "pressure": 0.214714012,
+            "capture": 0.000492223,
+            "startup": 0.000174724,
+            "step0": 0.018925452
+          },
+          "base": {
+            "full": 0.277907265,
+            "pressure": 0.210490771,
+            "capture": 0.0004943149999999999,
+            "startup": 0.000174834,
+            "step0": 0.016345592000000003
+          }
+        },
+        "delta_pct": 3.343488339536571
+      },
+      {
+        "repeat": 1,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.271211149,
+            "pressure": 0.202556391,
+            "capture": 0.000504593,
+            "startup": 0.000185059,
+            "step0": 0.016341567
+          },
+          "candidate": {
+            "full": 0.299643445,
+            "pressure": 0.219993626,
+            "capture": 0.000564964,
+            "startup": 0.000189547,
+            "step0": 0.018041696
+          }
+        },
+        "delta_pct": 10.48345398219599
+      },
+      {
+        "repeat": 2,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.276935381,
+            "pressure": 0.206819812,
+            "capture": 0.000574169,
+            "startup": 0.000325412,
+            "step0": 0.01603092
+          },
+          "candidate": {
+            "full": 0.279283533,
+            "pressure": 0.20797057800000002,
+            "capture": 0.000541647,
+            "startup": 0.000181224,
+            "step0": 0.016012782
+          }
+        },
+        "delta_pct": 0.8479061041319236
+      },
+      {
+        "repeat": 3,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.281961378,
+            "pressure": 0.21227084499999999,
+            "capture": 0.000505093,
+            "startup": 0.000188525,
+            "step0": 0.016391474000000003
+          },
+          "candidate": {
+            "full": 0.284421932,
+            "pressure": 0.212790323,
+            "capture": 0.000493314,
+            "startup": 0.000170087,
+            "step0": 0.020617557
+          }
+        },
+        "delta_pct": 0.8726563962246026
+      },
+      {
+        "repeat": 4,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.275944078,
+            "pressure": 0.206379756,
+            "capture": 0.000502126,
+            "startup": 0.000232151,
+            "step0": 0.016745618
+          },
+          "candidate": {
+            "full": 0.273215107,
+            "pressure": 0.203061908,
+            "capture": 0.000510529,
+            "startup": 0.000169416,
+            "step0": 0.016263461
+          }
+        },
+        "delta_pct": -0.98895798734987
+      },
+      {
+        "repeat": 5,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.298750602,
+            "pressure": 0.221678609,
+            "capture": 0.00050949,
+            "startup": 0.000181083,
+            "step0": 0.016128686
+          },
+          "base": {
+            "full": 0.273805072,
+            "pressure": 0.203444602,
+            "capture": 0.000519105,
+            "startup": 0.00018577,
+            "step0": 0.01589851
+          }
+        },
+        "delta_pct": 9.110689520024673
+      },
+      {
+        "repeat": 6,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.308658647,
+            "pressure": 0.23288076,
+            "capture": 0.0005835220000000001,
+            "startup": 0.00017892,
+            "step0": 0.018876307
+          },
+          "candidate": {
+            "full": 0.281044021,
+            "pressure": 0.209703757,
+            "capture": 0.000515155,
+            "startup": 0.000184359,
+            "step0": 0.016754501999999998
+          }
+        },
+        "delta_pct": -8.946655558948269
+      },
+      {
+        "repeat": 7,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.31629181900000003,
+            "pressure": 0.235536367,
+            "capture": 0.00050398,
+            "startup": 0.000184458,
+            "step0": 0.020274498
+          },
+          "candidate": {
+            "full": 0.317428847,
+            "pressure": 0.236481751,
+            "capture": 0.000629522,
+            "startup": 0.000180182,
+            "step0": 0.018504956
+          }
+        },
+        "delta_pct": 0.3594870090522173
+      },
+      {
+        "repeat": 8,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.277508873,
+            "pressure": 0.20571990099999998,
+            "capture": 0.000527645,
+            "startup": 0.000188054,
+            "step0": 0.020354288
+          },
+          "base": {
+            "full": 0.267842906,
+            "pressure": 0.201454972,
+            "capture": 0.000495397,
+            "startup": 0.000186211,
+            "step0": 0.015665948
+          }
+        },
+        "delta_pct": 3.608819492124238
+      },
+      {
+        "repeat": 9,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.286111628,
+            "pressure": 0.215809402,
+            "capture": 0.000501217,
+            "startup": 0.00025834,
+            "step0": 0.022546148
+          },
+          "base": {
+            "full": 0.297726224,
+            "pressure": 0.223446409,
+            "capture": 0.000496578,
+            "startup": 0.000579345,
+            "step0": 0.019100756
+          }
+        },
+        "delta_pct": -3.9010994207886673
+      },
+      {
+        "repeat": 10,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.283130868,
+            "pressure": 0.212487586,
+            "capture": 0.000674059,
+            "startup": 0.000295036,
+            "step0": 0.016214966
+          },
+          "base": {
+            "full": 0.29628454,
+            "pressure": 0.21869560799999999,
+            "capture": 0.000556312,
+            "startup": 0.00017196,
+            "step0": 0.016423358
+          }
+        },
+        "delta_pct": -4.439540449866197
+      },
+      {
+        "repeat": 11,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.279194258,
+            "pressure": 0.204293683,
+            "capture": 0.000995044,
+            "startup": 0.000187183,
+            "step0": 0.025831688
+          },
+          "base": {
+            "full": 0.34118724,
+            "pressure": 0.243831156,
+            "capture": 0.000591923,
+            "startup": 0.000190037,
+            "step0": 0.015929263000000003
+          }
+        },
+        "delta_pct": -18.169783254496863
+      }
+    ]
+  },
+  {
+    "case": {
+      "counts": [
+        16,
+        16,
+        16
+      ],
+      "workers": 2,
+      "mode": "steady",
+      "method": "jacobi"
+    },
+    "median_delta_pct": -1.5406956312647158,
+    "min_delta_pct": -9.077322864121184,
+    "max_delta_pct": 8.373917428732147,
+    "adverse_pairs": 4,
+    "trials": [
+      {
+        "repeat": 0,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.26203934,
+            "pressure": 0.187783991,
+            "capture": 0.000831736,
+            "startup": 0.000207624,
+            "step0": 0.015561988
+          },
+          "base": {
+            "full": 0.267526765,
+            "pressure": 0.190985289,
+            "capture": 0.0008446759999999999,
+            "startup": 0.000182375,
+            "step0": 0.015875531999999998
+          }
+        },
+        "delta_pct": -2.051168599896913
+      },
+      {
+        "repeat": 1,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.279798199,
+            "pressure": 0.20309552,
+            "capture": 0.000901181,
+            "startup": 0.000161374,
+            "step0": 0.01783355
+          },
+          "candidate": {
+            "full": 0.262061961,
+            "pressure": 0.185248532,
+            "capture": 0.000902104,
+            "startup": 0.000188315,
+            "step0": 0.016156166
+          }
+        },
+        "delta_pct": -6.338939301035317
+      },
+      {
+        "repeat": 2,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.256200989,
+            "pressure": 0.184416907,
+            "capture": 0.000835555,
+            "startup": 0.000177669,
+            "step0": 0.016491112
+          },
+          "candidate": {
+            "full": 0.272121268,
+            "pressure": 0.192942236,
+            "capture": 0.001003466,
+            "startup": 0.000188274,
+            "step0": 0.016703473
+          }
+        },
+        "delta_pct": 6.2139803059074294
+      },
+      {
+        "repeat": 3,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.277121746,
+            "pressure": 0.197111529,
+            "capture": 0.001023057,
+            "startup": 0.00030426,
+            "step0": 0.017638627
+          },
+          "candidate": {
+            "full": 0.25538695,
+            "pressure": 0.181076689,
+            "capture": 0.000854039,
+            "startup": 0.000160562,
+            "step0": 0.015245771
+          }
+        },
+        "delta_pct": -7.843049603187769
+      },
+      {
+        "repeat": 4,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.25441009400000003,
+            "pressure": 0.182280519,
+            "capture": 0.0008955,
+            "startup": 0.000195456,
+            "step0": 0.015935924
+          },
+          "candidate": {
+            "full": 0.253187949,
+            "pressure": 0.181748424,
+            "capture": 0.000879518,
+            "startup": 0.000180582,
+            "step0": 0.015887962
+          }
+        },
+        "delta_pct": -0.4803838482918099
+      },
+      {
+        "repeat": 5,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.25958463800000003,
+            "pressure": 0.185354295,
+            "capture": 0.0008450139999999999,
+            "startup": 0.000177989,
+            "step0": 0.016487048
+          },
+          "base": {
+            "full": 0.272958933,
+            "pressure": 0.194509774,
+            "capture": 0.000817352,
+            "startup": 0.000181855,
+            "step0": 0.015429559
+          }
+        },
+        "delta_pct": -4.89974621933329
+      },
+      {
+        "repeat": 6,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.26131572999999997,
+            "pressure": 0.186561205,
+            "capture": 0.000855051,
+            "startup": 0.000191429,
+            "step0": 0.015519204
+          },
+          "candidate": {
+            "full": 0.275717329,
+            "pressure": 0.197756265,
+            "capture": 0.001123947,
+            "startup": 0.000166241,
+            "step0": 0.016391131
+          }
+        },
+        "delta_pct": 5.511187175758625
+      },
+      {
+        "repeat": 7,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.254980413,
+            "pressure": 0.18182199,
+            "capture": 0.000913178,
+            "startup": 0.00020567,
+            "step0": 0.017212754
+          },
+          "candidate": {
+            "full": 0.252353547,
+            "pressure": 0.179509362,
+            "capture": 0.000878957,
+            "startup": 0.000195065,
+            "step0": 0.015799027
+          }
+        },
+        "delta_pct": -1.0302226626325184
+      },
+      {
+        "repeat": 8,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.267481707,
+            "pressure": 0.18700361399999998,
+            "capture": 0.000921371,
+            "startup": 0.00016546,
+            "step0": 0.015953910999999998
+          },
+          "base": {
+            "full": 0.262708042,
+            "pressure": 0.188259722,
+            "capture": 0.000815121,
+            "startup": 0.000184869,
+            "step0": 0.017155417
+          }
+        },
+        "delta_pct": 1.8170989223086131
+      },
+      {
+        "repeat": 9,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.262118431,
+            "pressure": 0.187363939,
+            "capture": 0.000815454,
+            "startup": 0.000174424,
+            "step0": 0.017985309999999997
+          },
+          "base": {
+            "full": 0.27499836,
+            "pressure": 0.197223114,
+            "capture": 0.000841229,
+            "startup": 0.000191859,
+            "step0": 0.019925115
+          }
+        },
+        "delta_pct": -4.683638476971286
+      },
+      {
+        "repeat": 10,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.243855312,
+            "pressure": 0.174605036,
+            "capture": 0.000826119,
+            "startup": 0.000178891,
+            "step0": 0.014931386999999999
+          },
+          "base": {
+            "full": 0.268200761,
+            "pressure": 0.191386216,
+            "capture": 0.000880329,
+            "startup": 0.000206261,
+            "step0": 0.015707649
+          }
+        },
+        "delta_pct": -9.077322864121184
+      },
+      {
+        "repeat": 11,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.283388022,
+            "pressure": 0.205843453,
+            "capture": 0.000840883,
+            "startup": 0.000175445,
+            "step0": 0.015345092
+          },
+          "base": {
+            "full": 0.261490983,
+            "pressure": 0.186977167,
+            "capture": 0.000864569,
+            "startup": 0.000200663,
+            "step0": 0.016768891999999997
+          }
+        },
+        "delta_pct": 8.373917428732147
+      }
+    ]
+  },
+  {
+    "case": {
+      "counts": [
+        48,
+        24,
+        12
+      ],
+      "workers": 4,
+      "mode": "localized",
+      "method": "jacobi"
+    },
+    "median_delta_pct": 0.2194542048548409,
+    "min_delta_pct": -4.738833672929543,
+    "max_delta_pct": 9.246854420443352,
+    "adverse_pairs": 6,
+    "trials": [
+      {
+        "repeat": 0,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 1.912129998,
+            "pressure": 1.657415106,
+            "capture": 0.002022886,
+            "startup": 0.000603491,
+            "step0": 0.13277375
+          },
+          "base": {
+            "full": 1.8687059289999999,
+            "pressure": 1.619750941,
+            "capture": 0.00165441,
+            "startup": 0.000674329,
+            "step0": 0.121022973
+          }
+        },
+        "delta_pct": 2.3237508013493446
+      },
+      {
+        "repeat": 1,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 1.921045392,
+            "pressure": 1.672900162,
+            "capture": 0.001688532,
+            "startup": 0.000611224,
+            "step0": 0.118360898
+          },
+          "candidate": {
+            "full": 1.865298401,
+            "pressure": 1.613968539,
+            "capture": 0.001865365,
+            "startup": 0.00057583,
+            "step0": 0.11676663799999999
+          }
+        },
+        "delta_pct": -2.9019090976273976
+      },
+      {
+        "repeat": 2,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 1.930423461,
+            "pressure": 1.670687243,
+            "capture": 0.001713378,
+            "startup": 0.000636001,
+            "step0": 0.11936408300000001
+          },
+          "candidate": {
+            "full": 1.838943904,
+            "pressure": 1.5924599130000001,
+            "capture": 0.002041945,
+            "startup": 0.000597883,
+            "step0": 0.116451863
+          }
+        },
+        "delta_pct": -4.738833672929543
+      },
+      {
+        "repeat": 3,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 1.952518385,
+            "pressure": 1.694630505,
+            "capture": 0.001733415,
+            "startup": 0.000559997,
+            "step0": 0.133314082
+          },
+          "candidate": {
+            "full": 1.90740562,
+            "pressure": 1.658143392,
+            "capture": 0.001704924,
+            "startup": 0.000565716,
+            "step0": 0.10880082599999999
+          }
+        },
+        "delta_pct": -2.310491176245699
+      },
+      {
+        "repeat": 4,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 1.887590472,
+            "pressure": 1.631935355,
+            "capture": 0.001909004,
+            "startup": 0.000587808,
+            "step0": 0.113226464
+          },
+          "candidate": {
+            "full": 2.062133215,
+            "pressure": 1.765989141,
+            "capture": 0.00185325,
+            "startup": 0.000679637,
+            "step0": 0.125024321
+          }
+        },
+        "delta_pct": 9.246854420443352
+      },
+      {
+        "repeat": 5,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 1.989732808,
+            "pressure": 1.729845224,
+            "capture": 0.0043184519999999995,
+            "startup": 0.000559486,
+            "step0": 0.120694499
+          },
+          "base": {
+            "full": 1.862802857,
+            "pressure": 1.618020922,
+            "capture": 0.001700598,
+            "startup": 0.00092666,
+            "step0": 0.115621111
+          }
+        },
+        "delta_pct": 6.81392292925822
+      },
+      {
+        "repeat": 6,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 1.831989212,
+            "pressure": 1.592120663,
+            "capture": 0.001795031,
+            "startup": 0.000634829,
+            "step0": 0.114947633
+          },
+          "candidate": {
+            "full": 1.859031906,
+            "pressure": 1.611493844,
+            "capture": 0.001717697,
+            "startup": 0.000747931,
+            "step0": 0.124619727
+          }
+        },
+        "delta_pct": 1.4761382776090182
+      },
+      {
+        "repeat": 7,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 1.877106441,
+            "pressure": 1.632609722,
+            "capture": 0.001729864,
+            "startup": 0.000591283,
+            "step0": 0.115732503
+          },
+          "candidate": {
+            "full": 1.867446636,
+            "pressure": 1.621338035,
+            "capture": 0.00177836,
+            "startup": 0.000823924,
+            "step0": 0.115752465
+          }
+        },
+        "delta_pct": -0.5146114673632463
+      },
+      {
+        "repeat": 8,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 1.87406203,
+            "pressure": 1.627820012,
+            "capture": 0.001905128,
+            "startup": 0.000698545,
+            "step0": 0.113861849
+          },
+          "base": {
+            "full": 1.855000897,
+            "pressure": 1.614726833,
+            "capture": 0.00171561,
+            "startup": 0.000727849,
+            "step0": 0.113322134
+          }
+        },
+        "delta_pct": 1.0275538427408026
+      },
+      {
+        "repeat": 9,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 1.87081829,
+            "pressure": 1.6250649640000001,
+            "capture": 0.0017089,
+            "startup": 0.000718105,
+            "step0": 0.112320952
+          },
+          "base": {
+            "full": 1.8531481539999999,
+            "pressure": 1.608751035,
+            "capture": 0.001741638,
+            "startup": 0.000633996,
+            "step0": 0.127816971
+          }
+        },
+        "delta_pct": 0.9535198770729281
+      },
+      {
+        "repeat": 10,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 1.847310208,
+            "pressure": 1.591677808,
+            "capture": 0.001953522,
+            "startup": 0.000692424,
+            "step0": 0.114353838
+          },
+          "base": {
+            "full": 1.8661357189999999,
+            "pressure": 1.62115945,
+            "capture": 0.001826931,
+            "startup": 0.000775502,
+            "step0": 0.113675127
+          }
+        },
+        "delta_pct": -1.008796456138139
+      },
+      {
+        "repeat": 11,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "48",
+            "24",
+            "12",
+            "4",
+            "16",
+            "cold",
+            "localized",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 1.964721862,
+            "pressure": 1.707754668,
+            "capture": 0.0017007,
+            "startup": 0.000603412,
+            "step0": 0.11357244100000001
+          },
+          "base": {
+            "full": 1.987734871,
+            "pressure": 1.731400326,
+            "capture": 0.001761122,
+            "startup": 0.000638715,
+            "step0": 0.125366116
+          }
+        },
+        "delta_pct": -1.1577504291818586
+      }
+    ]
+  },
+  {
+    "case": {
+      "counts": [
+        64,
+        64,
+        64
+      ],
+      "workers": 2,
+      "mode": "steady",
+      "method": "jacobi"
+    },
+    "median_delta_pct": 0.7348479015942155,
+    "min_delta_pct": -4.257933738437036,
+    "max_delta_pct": 8.507864284471678,
+    "adverse_pairs": 7,
+    "trials": [
+      {
+        "repeat": 0,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 41.944350245,
+            "pressure": 38.699329153,
+            "capture": 0.0547976,
+            "startup": 0.014051999,
+            "step0": 2.5887681679999996
+          },
+          "base": {
+            "full": 41.535650648,
+            "pressure": 38.2232512,
+            "capture": 0.0555729,
+            "startup": 0.011607836,
+            "step0": 2.42300622
+          }
+        },
+        "delta_pct": 0.9839730222684695
+      },
+      {
+        "repeat": 1,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 40.57216209,
+            "pressure": 37.315920026,
+            "capture": 0.054476984,
+            "startup": 0.012551448,
+            "step0": 2.3934638539999997
+          },
+          "candidate": {
+            "full": 42.236116987,
+            "pressure": 38.916212694,
+            "capture": 0.062175185,
+            "startup": 0.012015535,
+            "step0": 2.587526647
+          }
+        },
+        "delta_pct": 4.101223132523479
+      },
+      {
+        "repeat": 2,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 44.031770271,
+            "pressure": 40.730605241,
+            "capture": 0.055252695,
+            "startup": 0.011449385,
+            "step0": 2.605149839
+          },
+          "candidate": {
+            "full": 42.156926669,
+            "pressure": 38.846780791,
+            "capture": 0.055578626,
+            "startup": 0.011571529,
+            "step0": 2.665384884
+          }
+        },
+        "delta_pct": -4.257933738437036
+      },
+      {
+        "repeat": 3,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 42.978708499999996,
+            "pressure": 39.617684861,
+            "capture": 0.0538102,
+            "startup": 0.013113169,
+            "step0": 2.7980920129999998
+          },
+          "candidate": {
+            "full": 42.734641071,
+            "pressure": 39.404067395,
+            "capture": 0.057606992,
+            "startup": 0.012983801,
+            "step0": 2.610014127
+          }
+        },
+        "delta_pct": -0.5678798584652589
+      },
+      {
+        "repeat": 4,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 42.214607886,
+            "pressure": 38.967139235,
+            "capture": 0.056501532,
+            "startup": 0.011820735,
+            "step0": 3.080825933
+          },
+          "candidate": {
+            "full": 40.558933456,
+            "pressure": 37.275020182,
+            "capture": 0.057356913,
+            "startup": 0.014529115,
+            "step0": 2.165625922
+          }
+        },
+        "delta_pct": -3.9220414754796096
+      },
+      {
+        "repeat": 5,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 41.599328424,
+            "pressure": 38.249684615,
+            "capture": 0.054212526,
+            "startup": 0.013282523,
+            "step0": 2.936566945
+          },
+          "base": {
+            "full": 41.398247704,
+            "pressure": 38.057937324,
+            "capture": 0.054575543,
+            "startup": 0.010784618,
+            "step0": 2.636073502
+          }
+        },
+        "delta_pct": 0.48572278091996157
+      },
+      {
+        "repeat": 6,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 41.337375725,
+            "pressure": 38.224422382,
+            "capture": 0.057486988,
+            "startup": 0.012668915,
+            "step0": 2.851803941
+          },
+          "candidate": {
+            "full": 42.645839402,
+            "pressure": 39.379364199,
+            "capture": 0.054673205,
+            "startup": 0.01095597,
+            "step0": 2.4706418169999997
+          }
+        },
+        "delta_pct": 3.1653283597503856
+      },
+      {
+        "repeat": 7,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 39.691380852,
+            "pressure": 36.458605803,
+            "capture": 0.056914914999999996,
+            "startup": 0.014599663,
+            "step0": 2.649230207
+          },
+          "candidate": {
+            "full": 41.122787556,
+            "pressure": 37.879389122,
+            "capture": 0.056279246,
+            "startup": 0.01110851,
+            "step0": 2.4844406369999996
+          }
+        },
+        "delta_pct": 3.606341410336378
+      },
+      {
+        "repeat": 8,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 44.647463085,
+            "pressure": 41.168302861,
+            "capture": 0.055328229,
+            "startup": 0.014758812,
+            "step0": 3.111823089
+          },
+          "base": {
+            "full": 41.146753168000004,
+            "pressure": 37.860426806,
+            "capture": 0.054057393,
+            "startup": 0.011202591,
+            "step0": 2.38016715
+          }
+        },
+        "delta_pct": 8.507864284471678
+      },
+      {
+        "repeat": 9,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 41.723742322999996,
+            "pressure": 38.495557856,
+            "capture": 0.061055416,
+            "startup": 0.013377846,
+            "step0": 2.729043894
+          },
+          "base": {
+            "full": 39.456254328,
+            "pressure": 36.205162024,
+            "capture": 0.056816715,
+            "startup": 0.01178286,
+            "step0": 2.7513565919999996
+          }
+        },
+        "delta_pct": 5.746840478445714
+      },
+      {
+        "repeat": 10,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 40.363972442,
+            "pressure": 37.147691750999996,
+            "capture": 0.057686382,
+            "startup": 0.011251136,
+            "step0": 2.523325355
+          },
+          "base": {
+            "full": 41.05634944,
+            "pressure": 37.824950161000004,
+            "capture": 0.054444332,
+            "startup": 0.010743896,
+            "step0": 2.574227582
+          }
+        },
+        "delta_pct": -1.6864066275835032
+      },
+      {
+        "repeat": 11,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "64",
+            "64",
+            "64",
+            "2",
+            "16",
+            "cold",
+            "steady",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 41.429504795999996,
+            "pressure": 38.143100453,
+            "capture": 0.054696692,
+            "startup": 0.013086845,
+            "step0": 2.5225647689999997
+          },
+          "base": {
+            "full": 41.881841410999996,
+            "pressure": 38.559166876,
+            "capture": 0.055068924,
+            "startup": 0.011767782,
+            "step0": 2.363890291
+          }
+        },
+        "delta_pct": -1.0800303896886354
+      }
+    ]
+  },
+  {
+    "case": {
+      "counts": [
+        16,
+        16,
+        16
+      ],
+      "workers": 1,
+      "mode": "switch",
+      "method": "jacobi"
+    },
+    "median_delta_pct": 1.2411228824132425,
+    "min_delta_pct": -6.7386986289119655,
+    "max_delta_pct": 14.48975562319097,
+    "adverse_pairs": 6,
+    "trials": [
+      {
+        "repeat": 0,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.210921547,
+            "pressure": 0.13882903,
+            "capture": 0.00084093,
+            "startup": 0.000172571,
+            "step0": 0.015411111
+          },
+          "base": {
+            "full": 0.22616191700000002,
+            "pressure": 0.147073993,
+            "capture": 0.000938019,
+            "startup": 0.000327274,
+            "step0": 0.015965359000000002
+          }
+        },
+        "delta_pct": -6.7386986289119655
+      },
+      {
+        "repeat": 1,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.227919168,
+            "pressure": 0.148954436,
+            "capture": 0.000867069,
+            "startup": 0.000202365,
+            "step0": 0.015589291
+          },
+          "candidate": {
+            "full": 0.22705339,
+            "pressure": 0.14961968,
+            "capture": 0.000893079,
+            "startup": 0.000420485,
+            "step0": 0.016195397
+          }
+        },
+        "delta_pct": -0.37986186400962296
+      },
+      {
+        "repeat": 2,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.208959926,
+            "pressure": 0.138933716,
+            "capture": 0.000981382,
+            "startup": 0.000227243,
+            "step0": 0.015525543999999999
+          },
+          "candidate": {
+            "full": 0.216331195,
+            "pressure": 0.142148702,
+            "capture": 0.001446508,
+            "startup": 0.000279883,
+            "step0": 0.020843128000000002
+          }
+        },
+        "delta_pct": 3.527599354146016
+      },
+      {
+        "repeat": 3,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.207460553,
+            "pressure": 0.136404699,
+            "capture": 0.000826241,
+            "startup": 0.000208354,
+            "step0": 0.015164659
+          },
+          "candidate": {
+            "full": 0.206798262,
+            "pressure": 0.13513653,
+            "capture": 0.00081344,
+            "startup": 0.00029116,
+            "step0": 0.014909454999999999
+          }
+        },
+        "delta_pct": -0.31923707443312077
+      },
+      {
+        "repeat": 4,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.216746805,
+            "pressure": 0.140956287,
+            "capture": 0.000830922,
+            "startup": 0.000227183,
+            "step0": 0.015290094
+          },
+          "candidate": {
+            "full": 0.215708829,
+            "pressure": 0.140208838,
+            "capture": 0.000868843,
+            "startup": 0.000182486,
+            "step0": 0.016298241999999998
+          }
+        },
+        "delta_pct": -0.47888871995137583
+      },
+      {
+        "repeat": 5,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.227089126,
+            "pressure": 0.148862218,
+            "capture": 0.000838687,
+            "startup": 0.000245802,
+            "step0": 0.016795024
+          },
+          "base": {
+            "full": 0.21535474,
+            "pressure": 0.140614339,
+            "capture": 0.000977436,
+            "startup": 0.000188004,
+            "step0": 0.016543903999999998
+          }
+        },
+        "delta_pct": 5.4488635820135745
+      },
+      {
+        "repeat": 6,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.206651064,
+            "pressure": 0.135948347,
+            "capture": 0.000824916,
+            "startup": 0.000180353,
+            "step0": 0.015179952
+          },
+          "candidate": {
+            "full": 0.218259855,
+            "pressure": 0.142012562,
+            "capture": 0.000935388,
+            "startup": 0.000203768,
+            "step0": 0.01607777
+          }
+        },
+        "delta_pct": 5.617581044731512
+      },
+      {
+        "repeat": 7,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.23220366,
+            "pressure": 0.153662742,
+            "capture": 0.000841051,
+            "startup": 0.000189226,
+            "step0": 0.015684214000000002
+          },
+          "candidate": {
+            "full": 0.217479805,
+            "pressure": 0.143183664,
+            "capture": 0.000827251,
+            "startup": 0.000182246,
+            "step0": 0.016005581
+          }
+        },
+        "delta_pct": -6.340922877787547
+      },
+      {
+        "repeat": 8,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.232648395,
+            "pressure": 0.153547225,
+            "capture": 0.000872698,
+            "startup": 0.000176437,
+            "step0": 0.01791753
+          },
+          "base": {
+            "full": 0.203204552,
+            "pressure": 0.134107523,
+            "capture": 0.000904526,
+            "startup": 0.000193663,
+            "step0": 0.015396535
+          }
+        },
+        "delta_pct": 14.48975562319097
+      },
+      {
+        "repeat": 9,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.225061379,
+            "pressure": 0.148563945,
+            "capture": 0.000880519,
+            "startup": 0.000184719,
+            "step0": 0.016892149999999998
+          },
+          "base": {
+            "full": 0.201550155,
+            "pressure": 0.132895204,
+            "capture": 0.000944038,
+            "startup": 0.000181194,
+            "step0": 0.015137298
+          }
+        },
+        "delta_pct": 11.665197677471383
+      },
+      {
+        "repeat": 10,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.203131557,
+            "pressure": 0.134348558,
+            "capture": 0.000852508,
+            "startup": 0.000186322,
+            "step0": 0.015089646
+          },
+          "base": {
+            "full": 0.214711727,
+            "pressure": 0.140232513,
+            "capture": 0.0009100029999999999,
+            "startup": 0.000200703,
+            "step0": 0.015275047
+          }
+        },
+        "delta_pct": -5.3933570195725755
+      },
+      {
+        "repeat": 11,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "switch",
+            "jacobi"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.22080048,
+            "pressure": 0.145484972,
+            "capture": 0.000861562,
+            "startup": 0.000209266,
+            "step0": 0.01675932
+          },
+          "base": {
+            "full": 0.214783361,
+            "pressure": 0.141169091,
+            "capture": 0.000862737,
+            "startup": 0.00017821,
+            "step0": 0.015651766
+          }
+        },
+        "delta_pct": 2.801482839259606
+      }
+    ]
+  },
+  {
+    "case": {
+      "counts": [
+        16,
+        16,
+        16
+      ],
+      "workers": 1,
+      "mode": "steady",
+      "method": "sgs"
+    },
+    "median_delta_pct": -2.541490915224304,
+    "min_delta_pct": -11.470281440700237,
+    "max_delta_pct": 1.6064165598458358,
+    "adverse_pairs": 1,
+    "trials": [
+      {
+        "repeat": 0,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.234894924,
+            "pressure": 0.164197792,
+            "capture": 0.000824486,
+            "startup": 0.000184939,
+            "step0": 0.014036613
+          },
+          "base": {
+            "full": 0.265328895,
+            "pressure": 0.187334664,
+            "capture": 0.000937809,
+            "startup": 0.000190749,
+            "step0": 0.016019362000000002
+          }
+        },
+        "delta_pct": -11.470281440700237
+      },
+      {
+        "repeat": 1,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.268700738,
+            "pressure": 0.188925985,
+            "capture": 0.000830535,
+            "startup": 0.000188966,
+            "step0": 0.017210723
+          },
+          "candidate": {
+            "full": 0.240547337,
+            "pressure": 0.17027134500000002,
+            "capture": 0.000812038,
+            "startup": 0.000180643,
+            "step0": 0.014588269000000001
+          }
+        },
+        "delta_pct": -10.477604642827586
+      },
+      {
+        "repeat": 2,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.24309472599999998,
+            "pressure": 0.170376681,
+            "capture": 0.0008260780000000001,
+            "startup": 0.000185791,
+            "step0": 0.014614358
+          },
+          "candidate": {
+            "full": 0.235350145,
+            "pressure": 0.164625629,
+            "capture": 0.001033754,
+            "startup": 0.0001853,
+            "step0": 0.014296588
+          }
+        },
+        "delta_pct": -3.1858284741232867
+      },
+      {
+        "repeat": 3,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.270896061,
+            "pressure": 0.189347735,
+            "capture": 0.000926118,
+            "startup": 0.000241986,
+            "step0": 0.015997374
+          },
+          "candidate": {
+            "full": 0.24401166800000001,
+            "pressure": 0.170145899,
+            "capture": 0.000850206,
+            "startup": 0.000328817,
+            "step0": 0.015023873
+          }
+        },
+        "delta_pct": -9.924246554474635
+      },
+      {
+        "repeat": 4,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.256474953,
+            "pressure": 0.175434869,
+            "capture": 0.000858398,
+            "startup": 0.000180883,
+            "step0": 0.016509037
+          },
+          "candidate": {
+            "full": 0.236236683,
+            "pressure": 0.166742308,
+            "capture": 0.00081301,
+            "startup": 0.000184939,
+            "step0": 0.0141886
+          }
+        },
+        "delta_pct": -7.890934285501161
+      },
+      {
+        "repeat": 5,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.234296264,
+            "pressure": 0.16295759399999998,
+            "capture": 0.0010467599999999999,
+            "startup": 0.000224629,
+            "step0": 0.014252397
+          },
+          "base": {
+            "full": 0.248554975,
+            "pressure": 0.175204311,
+            "capture": 0.000908473,
+            "startup": 0.000219241,
+            "step0": 0.014256083000000001
+          }
+        },
+        "delta_pct": -5.736642768868339
+      },
+      {
+        "repeat": 6,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.239189403,
+            "pressure": 0.166368179,
+            "capture": 0.000822492,
+            "startup": 0.00019195,
+            "step0": 0.014734415
+          },
+          "candidate": {
+            "full": 0.237385764,
+            "pressure": 0.166680354,
+            "capture": 0.0009340080000000001,
+            "startup": 0.000187944,
+            "step0": 0.014137914
+          }
+        },
+        "delta_pct": -0.7540630886561428
+      },
+      {
+        "repeat": 7,
+        "order": [
+          "base",
+          "candidate"
+        ],
+        "commands": {
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "base": {
+            "full": 0.248894481,
+            "pressure": 0.172586502,
+            "capture": 0.000867141,
+            "startup": 0.000186591,
+            "step0": 0.014680835
+          },
+          "candidate": {
+            "full": 0.244172571,
+            "pressure": 0.170613074,
+            "capture": 0.000812769,
+            "startup": 0.000194844,
+            "step0": 0.014966675
+          }
+        },
+        "delta_pct": -1.8971533563253207
+      },
+      {
+        "repeat": 8,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.242050776,
+            "pressure": 0.16927397,
+            "capture": 0.000830294,
+            "startup": 0.000249427,
+            "step0": 0.014320911
+          },
+          "base": {
+            "full": 0.242326976,
+            "pressure": 0.170049322,
+            "capture": 0.000906005,
+            "startup": 0.000190968,
+            "step0": 0.015884031
+          }
+        },
+        "delta_pct": -0.11397823080168124
+      },
+      {
+        "repeat": 9,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.242359032,
+            "pressure": 0.171134362,
+            "capture": 0.000826381,
+            "startup": 0.000311421,
+            "step0": 0.015251757
+          },
+          "base": {
+            "full": 0.24261575000000002,
+            "pressure": 0.169950702,
+            "capture": 0.000838278,
+            "startup": 0.000203338,
+            "step0": 0.014513972
+          }
+        },
+        "delta_pct": -0.1058125863634185
+      },
+      {
+        "repeat": 10,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.248504317,
+            "pressure": 0.173696545,
+            "capture": 0.000814924,
+            "startup": 0.000190899,
+            "step0": 0.014763399
+          },
+          "base": {
+            "full": 0.244575417,
+            "pressure": 0.170470891,
+            "capture": 0.000856313,
+            "startup": 0.000210268,
+            "step0": 0.015658601
+          }
+        },
+        "delta_pct": 1.6064165598458358
+      },
+      {
+        "repeat": 11,
+        "order": [
+          "candidate",
+          "base"
+        ],
+        "commands": {
+          "candidate": [
+            "/workspace/scratch/warm-bench/bin/candidate-3569d3b",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ],
+          "base": [
+            "/workspace/scratch/warm-bench/bin/base-3525c97",
+            "16",
+            "16",
+            "16",
+            "1",
+            "16",
+            "cold",
+            "steady",
+            "sgs"
+          ]
+        },
+        "complete": true,
+        "exact": true,
+        "seconds": {
+          "candidate": {
+            "full": 0.242629373,
+            "pressure": 0.16900277,
+            "capture": 0.000931546,
+            "startup": 0.000179892,
+            "step0": 0.015570919
+          },
+          "base": {
+            "full": 0.242930584,
+            "pressure": 0.170485202,
+            "capture": 0.000926199,
+            "startup": 0.000312482,
+            "step0": 0.014926485
+          }
+        },
+        "delta_pct": -0.12399056349363669
+      }
+    ]
+  }
+]

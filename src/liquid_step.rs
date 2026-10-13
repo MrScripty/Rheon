@@ -1,5 +1,6 @@
 //! Transactional fixed-box carrier and represented-volume transport. Fractions
 //! classify pressure only on opt-in surface modes; inertia remains one constant.
+use crate::pressure_initialization::{AcceptedPressureHistory, SealedOperatorKey};
 use crate::{
     Axis, BodyForce, BoxFluxStepBoundary, BoxFluxStepReport, BoxFluxStepWorkspace, BufferPlan,
     ForcedStepReport, GridGeometry, LiquidFlowInterval, LiquidInlet, LiquidVolumeError,
@@ -7,6 +8,7 @@ use crate::{
     LiquidVolumeView, PressureImplementation, Simulation, SimulationConfig, SimulationError,
     SmokeSource, StateView, StepStage, VolumeStage, VolumeStamp,
 };
+use crate::{PressureInitializationPolicy, PressureInitializationReport, PressureSeedStamp};
 use std::fmt;
 
 #[derive(Debug, Clone, Copy)]
@@ -48,6 +50,8 @@ pub enum LiquidStepError {
     Volume(LiquidVolumeError),
     Cancelled,
     AllocationFailed,
+    PressureIdentityExhausted,
+    PressureRevisionExhausted,
     FreeSurface(crate::FreeSurfaceError),
     ColumnMac(crate::ColumnMacError),
     BufferLimit { required: usize, limit: usize },
@@ -91,6 +95,7 @@ pub struct LiquidTransportView<'a> {
 
 #[derive(Debug, Clone, Copy)]
 pub struct LiquidStepReport {
+    pub pressure_initialization: PressureInitializationReport,
     pub carrier: ForcedStepReport,
     pub boundary: Option<BoxFluxStepReport>,
     pub liquid: LiquidVolumeReport,
@@ -118,6 +123,7 @@ pub struct LiquidTransportSimulation {
     surface: Option<crate::SlabFreeSurface>,
     columns: Option<crate::ColumnSurfaceWorkspace>,
     flat_column_mac: bool,
+    pressure_history: AcceptedPressureHistory,
 }
 impl LiquidTransportSimulation {
     pub fn new(
@@ -173,8 +179,16 @@ impl LiquidTransportSimulation {
             surface: None,
             columns: None,
             flat_column_mac: false,
+            pressure_history: AcceptedPressureHistory::new()
+                .ok_or(LiquidStepError::PressureIdentityExhausted)?,
         })
     }
+    /// Provenance of the reusable accepted native pressure, if eligible. This
+    /// process-local stamp is not serialized by existing dense3D frame encoding.
+    pub fn pressure_seed(&self) -> Option<PressureSeedStamp> {
+        self.pressure_history.seed()
+    }
+
     /// One-liquid resolved slab pressure mode. Mixed interface geometry is not
     /// reconstructed; subsequent steps reject when binary admission is lost.
     pub fn with_free_surface(
@@ -431,6 +445,10 @@ impl LiquidTransportSimulation {
             crate::column_mac::check(value).map_err(failure)?;
         }
         crate::column_mac::check(prescribed_energy_change).map_err(failure)?;
+        let pressure_history = self
+            .pressure_history
+            .publication(None, generation)
+            .ok_or(LiquidStepError::PressureRevisionExhausted)?;
         if cancel(crate::ColumnMacStage::BeforePublish) {
             return Err(failure(crate::ColumnMacError::Cancelled {
                 stage: crate::ColumnMacStage::BeforePublish,
@@ -445,6 +463,7 @@ impl LiquidTransportSimulation {
             .unwrap()
             .commit_column_mac_revision(volume);
         self.flat_column_mac = true;
+        self.pressure_history = pressure_history;
         Ok(crate::ColumnMacPublicationReport {
             before,
             after: crate::ColumnMacStateStamp {
@@ -477,9 +496,29 @@ impl LiquidTransportSimulation {
         inputs: LiquidStepInputs<'_>,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
-        self.step_impl(inputs, None, None, None, None, cancel)
+        self.step_impl(
+            inputs,
+            None,
+            None,
+            None,
+            PressureInitializationPolicy::Cold,
+            cancel,
+        )
+        .map(|(report, _)| report)
+    }
+    /// Opt-in reuse of the previous accepted native sealed pressure in Pa.
+    /// Existing step methods stay cold. Unsupported paths run cold and invalidate
+    /// native history only if their complete interval publishes successfully.
+    pub fn step_with_initialization(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        policy: PressureInitializationPolicy,
+        cancel: impl FnMut(LiquidStepStage) -> bool,
+    ) -> Result<LiquidStepReport, LiquidStepError> {
+        self.step_impl(inputs, None, None, None, policy, cancel)
             .map(|(report, _)| report)
     }
+
     /// End-of-step prescribed carrier box flux and explicit liquid inflow
     /// donors. Appearance tracer follows the existing selected boundary policy.
     pub fn step_with_box_flux(
@@ -494,7 +533,7 @@ impl LiquidTransportSimulation {
             Some((workspace, boundary)),
             None,
             None,
-            None,
+            PressureInitializationPolicy::Cold,
             cancel,
         )
         .map(|(report, _)| report)
@@ -525,7 +564,7 @@ impl LiquidTransportSimulation {
             None,
             Some((workspace, dynamic_viscosity)),
             None,
-            None,
+            PressureInitializationPolicy::Cold,
             cancel,
         )
         .map(|(report, _)| report)
@@ -540,8 +579,17 @@ impl LiquidTransportSimulation {
         preferred: Option<&mut dyn crate::solver_provider::PressureProvider>,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<(LiquidStepReport, crate::solver_provider::ProviderReport), LiquidStepError> {
-        let (report, provider) =
-            self.step_impl(inputs, None, None, Some(workspace), preferred, cancel)?;
+        let (report, provider) = self.step_impl(
+            inputs,
+            None,
+            None,
+            Some(crate::provider_step::ProviderStepInput {
+                workspace,
+                preferred,
+            }),
+            PressureInitializationPolicy::Cold,
+            cancel,
+        )?;
         Ok((
             report,
             provider.expect("provider path qualified before commit"),
@@ -552,8 +600,8 @@ impl LiquidTransportSimulation {
         inputs: LiquidStepInputs<'_>,
         mut boundary: Option<(&mut BoxFluxStepWorkspace, BoxFluxStepBoundary)>,
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
-        mut provider_workspace: Option<&mut crate::ProviderStepWorkspace>,
-        preferred: Option<&mut dyn crate::solver_provider::PressureProvider>,
+        provider: Option<crate::provider_step::ProviderStepInput<'_, '_>>,
+        policy: PressureInitializationPolicy,
         mut cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<
         (
@@ -562,6 +610,9 @@ impl LiquidTransportSimulation {
         ),
         LiquidStepError,
     > {
+        let (mut provider_workspace, preferred) = provider.map_or((None, None), |input| {
+            (Some(input.workspace), input.preferred)
+        });
         if provider_workspace.is_some()
             && (self.surface.is_some() || self.columns.is_some() || self.flat_column_mac)
         {
@@ -617,6 +668,25 @@ impl LiquidTransportSimulation {
             .and_then(|n| n.checked_add(viscosity_bytes))
             .and_then(|n| n.checked_add(provider_bytes))
             .ok_or(LiquidStepError::AllocationFailed)?;
+        let native_sealed = self.surface.is_none()
+            && self.columns.is_none()
+            && !self.flat_column_mac
+            && boundary.is_none()
+            && viscosity.is_none()
+            && provider_workspace.is_none();
+        let operator_key = native_sealed.then(|| {
+            SealedOperatorKey::new(
+                self.carrier.grid(),
+                self.carrier.density(),
+                self.carrier.implementation(),
+            )
+        });
+        let initialization = self.pressure_history.initialization(
+            policy,
+            operator_key,
+            self.carrier.state().generation,
+        );
+        let initial_pressure = initialization.seed.map(|_| self.pressure.as_slice());
         let candidate = self.carrier.prepare_liquid_carrier(
             inputs.requested_dt,
             inputs.smoke_source,
@@ -637,6 +707,7 @@ impl LiquidTransportSimulation {
                     preferred,
                 }
             }),
+            initial_pressure,
             |stage| cancel(LiquidStepStage::Carrier(stage)),
         )?;
         let step = candidate.legacy.step.step;
@@ -683,6 +754,10 @@ impl LiquidTransportSimulation {
         } else {
             None
         };
+        let pressure_history = self
+            .pressure_history
+            .publication(operator_key, step.generation)
+            .ok_or(LiquidStepError::PressureRevisionExhausted)?;
         if cancel(LiquidStepStage::BeforeCommit) {
             return Err(LiquidStepError::Cancelled);
         }
@@ -700,8 +775,10 @@ impl LiquidTransportSimulation {
             surface.commit(report);
         }
         self.liquid.commit_prepared(&liquid);
+        self.pressure_history = pressure_history;
         Ok((
             LiquidStepReport {
+                pressure_initialization: initialization,
                 carrier: candidate.legacy.step,
                 boundary: candidate.boundary,
                 liquid,

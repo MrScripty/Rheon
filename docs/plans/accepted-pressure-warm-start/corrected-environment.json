@@ -1,0 +1,27 @@
+{
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "python": "3.12.14",
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "cpu_quota": "400000 100000",
+  "memory_limit": "17179869184",
+  "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+  "rust": "rustc 1.92.0 (ded5c06cf 2025-12-08)\nbinary: rustc\ncommit-hash: ded5c06cf21d2b93bffd5d884aa6e96934ee4234\ncommit-date: 2025-12-08\nhost: x86_64-unknown-linux-gnu\nrelease: 1.92.0\nLLVM version: 21.1.3\n",
+  "base": "3525c979e16629b295a6865e3abbb2a36803cc93",
+  "production_candidate": "3569d3b08419340c6fbb0762a4a8c660301f3977",
+  "features": "work-observation",
+  "build": "cargo build --locked --release --features work-observation --example accepted_pressure_lab",
+  "baseline_source": "isolated git archive plus exact retained baseline-harness.rs.txt; invoked cold only; see baseline-harness.diff for optional candidate reference/dump support",
+  "baseline_harness_sha256": "71b3fcad0e9dc4a4face80d3b806980d13b26227958573ad52e1544a0e14e3e4",
+  "baseline_binary_sha256": "49af4cf058f6fd9ba3c5fc3578f69891155cd78bf79098fc1b66dd6cbd9add49",
+  "candidate_binary_sha256": "c8bc96bc3d2ba73ebb4c635fd56d859308eaaed03ec2960bbdc4b94de5f37b00",
+  "candidate_harness_sha256": "67f8f0ba89310b728f4d261d50c7b0cddfe25c17b4a3a7d3ee3bf9601e849b5a",
+  "baseline_particle_binary_sha256": "d5a1ea683df2a4a7e655b42ff041ddd059f44a523323df3748deb46bb6f08291",
+  "candidate_particle_binary_sha256": "3cabdc5fd893039e4b533efa14ccb49d1590301c3c640e2492ebf3659220a216",
+  "timing_interpretation": "native CPU coupled step plus borrowed-field inspection; no rendering/export, device or GPU claim"
+}
