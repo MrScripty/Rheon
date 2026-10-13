@@ -1,0 +1,7 @@
+{
+  "reason": "Operator-requested SIGTERM to check an uncovered post-acceptance saturated-state boundary before continuing expensive timing. Not a solver failure; no partial trial enters performance ratios.",
+  "time": "2026-10-13T14:57:27.226163+00:00",
+  "completed_triplets_preserved": 4,
+  "case": "64-64-64-w1-steady-jacobi",
+  "interrupted_repeat": 4
+}

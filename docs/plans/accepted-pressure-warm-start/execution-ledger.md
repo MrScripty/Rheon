@@ -19,3 +19,37 @@
   Saturated fraction1 failed identically on first step for both policies, under
   unchanged fraction-bounds gate. No successful shortened horizon is claimed.
 - Full pre-recorded matrix is still required. No performance admission yet.
+- Full release regressions passed: default371/core364/work-observation381, zero
+  failures (three external-checkpoint tests initially ignored). Strict default,
+  core and desktop clippy and formatting passed. Python executable suite119tests,
+  21skips. All three real-checkpoint contract targets then passed with the verified
+  export (provider8, solver-provider6, pressure-session4); checkpoint export hash
+  902ad8d77b16ae42f22f90bf71c22c19ae2e3cbe0cc0f4cc3d770930d4049aea.
+- Completed corrected primary-small matrix:18cases ×6permutations ×3variants,
+  no numerical/memory/replay/horizon analyzer violations. First64³ complete
+  triplets retained; no final acceptance while controls/reference remain pending.
+- Paused64³ matrix by explicit SIGTERM to close an uncovered saturated-state
+  boundary. Completed triplets remain, interruptedr4 is archived with reason and
+  excluded from ratios. Added16-step postaccepted saturation check: Jacobi both
+  policies16/16; SGS bothsame first FractionBounds0/16, rollback/retry exact.
+  New independent Neumanncosine refinement test passed both preconditioners and
+  initializations across8/16/32/64 cells. No gate/tolerance or production edit.
+- Resumed the interrupted triplet from scratch, preserving its partial predecessor.
+- Qualification stopped after reproducible64³/w4/localized lost horizon: five
+  completed warm trials fail step1 at3000iterations/maxresidual2.323e-9, whereas
+  cold/base complete16. Candidateec535bc is rejected for admission. Remaining
+  matrix/reference/particle stages were not executed. Preserve partial next
+  trial, exclude from ratios. Independent review found no seed ownership defect;
+  investigate gauge-only true-residual rejection causing repeated PCG restarts
+  in isolated diagnostics before considering a fresh candidate. No fallback or
+  loosened tolerance authorized. Default-cold confirmation remains pending.
+- Isolated diagnostic atiteration400: reduced true7.885e-12 agrees with recursive
+  norm below3.141e-11 threshold, while gauge/full residual2.3299e-9 rejects.
+  Repeated restarts persist to3000. Opt-in reduced-system replacement criterion
+  preserves conjugacy without altering full acceptance; instrumented correction
+  completes16/16 actual64³ localized steps. Reviewer independently supports
+  mathematical distinction. This is a new candidate requiring fresh matrix.
+- Diagnostic copies initially shared the production target directory. Although
+  frozen binaries remain immutable, isolate diagnostic target before comparing
+  regression tests and rebuild production into its own fresh target to prevent
+  same-package artifact reuse from contaminating qualification.

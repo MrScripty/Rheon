@@ -170,3 +170,87 @@ fn invalid_guess_and_cancelled_dirty_scratch_do_not_poison_retry() {
     assert_eq!(cold.iterations, reference.iterations);
     assert_eq!(ws.pressure(), clean.pressure());
 }
+
+#[test]
+fn independent_neumann_cosine_refines_at_second_order_for_both_initializations() {
+    // Continuum -p''=pi²*cos(pi*x), zero normal gradient, unit density/domain.
+    // RHS samples the continuum Laplacian at centers times cell volume,
+    // never through apply_full.
+    // The finite-volume discrete eigenvalue is known independently as below.
+    for method in PressureImplementation::ALL {
+        for seeded in [false, true] {
+            let mut previous_error = None;
+            for n in [8_u64, 16, 32, 64] {
+                let h = 1.0 / n as f64;
+                let grid = GridGeometry::new([n, 1, 1], [h, 1.0, 1.0], [0.0; 3]).unwrap();
+                let op = PressureOperator::new(&grid, 1.0).unwrap();
+                let pi = std::f64::consts::PI;
+                let cosine: Vec<_> = (0..n).map(|i| (pi * (i as f64 + 0.5) * h).cos()).collect();
+                let rhs: Vec<_> = cosine.iter().map(|c| h * pi * pi * c).collect();
+                let seed: Vec<_> = cosine.iter().map(|c| 0.75 * (c - cosine[0])).collect();
+                let mut ws =
+                    PressureWorkspace::with_implementation(&grid, usize::MAX, method).unwrap();
+                if seeded {
+                    ws.solve_rhs_with_initial_pressure(&op, &rhs, &seed, 0.125, settings(), || {
+                        false
+                    })
+                    .unwrap();
+                } else {
+                    ws.solve_rhs(&op, &rhs, 0.125, settings(), || false)
+                        .unwrap();
+                }
+                let eigenvalue = 4.0 * (pi * h / 2.0).sin().powi(2) / (h * h);
+                let mut error = 0.0_f64;
+                for (p, c) in ws.pressure().iter().zip(&cosine) {
+                    let continuum = c - cosine[0];
+                    let discrete = pi * pi / eigenvalue * continuum;
+                    assert!((p - discrete).abs() < 1e-8);
+                    error = error.max((p - continuum).abs());
+                }
+                if let Some(previous) = previous_error {
+                    assert!((3.8..4.2).contains(&(previous / error)));
+                }
+                previous_error = Some(error);
+            }
+        }
+    }
+}
+
+#[test]
+fn seeded_chain_retains_full_gauge_acceptance() {
+    // Independently assembled unit-conductance chain. The seed error has small
+    // equal residuals on unpinned rows and their large negative sum at the gauge.
+    let n = 64_usize;
+    let grid = GridGeometry::new([n as u64, 1, 1], [1.0; 3], [0.0; 3]).unwrap();
+    let op = PressureOperator::new(&grid, 1.0).unwrap();
+    let rhs = vec![0.0; n];
+    let seed: Vec<_> = (0..n)
+        .map(|i| (i as f64 * (2 * n - 1 - i) as f64) * 0.1e-5)
+        .collect();
+    let settings = PressureSettings {
+        relative_residual: 0.0,
+        absolute_residual: 1e-4,
+        divergence_limit: 1e-4,
+        max_iterations: 100,
+    };
+    for method in PressureImplementation::ALL {
+        let mut ws = PressureWorkspace::with_implementation(&grid, usize::MAX, method).unwrap();
+        let report = ws
+            .solve_rhs_with_initial_pressure(&op, &rhs, &seed, 1.0, settings, || false)
+            .unwrap();
+        assert!(report.iterations > 0);
+        assert!(report.true_residual_l2 <= settings.absolute_residual);
+        // Independent full-chain residual includes the gauge row.
+        let p = ws.pressure();
+        let mut squared = p[1] * p[1];
+        for i in 1..n {
+            let residual = if i == n - 1 {
+                p[i] - p[i - 1]
+            } else {
+                2.0 * p[i] - p[i - 1] - p[i + 1]
+            };
+            squared += residual * residual;
+        }
+        assert!(squared.sqrt() <= settings.absolute_residual);
+    }
+}

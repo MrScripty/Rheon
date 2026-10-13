@@ -305,37 +305,52 @@ fn memory_limit_remains_exact_and_invalid_requests_preserve_history() {
 #[test]
 fn saturated_transport_rejection_preserves_seed_without_relaxing_fraction_bounds() {
     let g = grid();
-    for policy in [PressureInitializationPolicy::Cold, WARM] {
-        let mut s = LiquidTransportSimulation::new(
-            g.clone(),
-            config(),
-            PressureImplementation::JacobiPcgV1,
-            vec![1.0; g.cell_len()],
-        )
-        .unwrap();
-        s.step_with_initialization(inputs(), policy, |_| false)
+    for method in PressureImplementation::ALL {
+        let mut counts = Vec::new();
+        for policy in [PressureInitializationPolicy::Cold, WARM] {
+            let mut s = LiquidTransportSimulation::new(
+                g.clone(),
+                config(),
+                method,
+                vec![1.0; g.cell_len()],
+            )
             .unwrap();
-        let before = fields(s.state());
-        let seed = s.pressure_seed();
-        let mut request = inputs();
-        request.requested_dt *= 0.5;
-        let result = s.step_with_initialization(request, policy, |_| false);
-        // The current strict transport contract can reject tiny overshoots from
-        // pressure-corrected f32 velocities. This experiment must not clamp them.
-        if let Err(error) = result {
-            assert!(matches!(
-                error,
-                LiquidStepError::Volume(LiquidVolumeError::FractionBounds { .. })
-            ));
-            assert_eq!(fields(s.state()), before);
-            assert_eq!(s.pressure_seed(), seed);
-            let retry = s
-                .step_with_initialization(request, policy, |_| false)
-                .unwrap_err();
-            assert_eq!(error, retry);
-            assert_eq!(fields(s.state()), before);
-            assert_eq!(s.pressure_seed(), seed);
+            let mut accepted = 0;
+            for step in 0..16 {
+                let before = fields(s.state());
+                let seed = s.pressure_seed();
+                let mut request = inputs();
+                if step % 2 == 1 {
+                    request.requested_dt *= 0.5;
+                }
+                let result = s.step_with_initialization(request, policy, |_| false);
+                if let Err(error) = result {
+                    eprintln!(
+                        "saturated method={method:?} policy={policy:?} accepted={accepted}: {error:?}"
+                    );
+                    assert!(matches!(
+                        error,
+                        LiquidStepError::Volume(LiquidVolumeError::FractionBounds { .. })
+                    ));
+                    assert_eq!(fields(s.state()), before);
+                    assert_eq!(s.pressure_seed(), seed);
+                    let retry = s
+                        .step_with_initialization(request, policy, |_| false)
+                        .unwrap_err();
+                    assert_eq!(error, retry);
+                    assert_eq!(fields(s.state()), before);
+                    assert_eq!(s.pressure_seed(), seed);
+                    break;
+                }
+                accepted += 1;
+            }
+            eprintln!("saturated method={method:?} policy={policy:?} accepted={accepted}/16");
+            counts.push(accepted);
         }
+        assert_eq!(
+            counts[0], counts[1],
+            "cold/warm accepted horizons changed for {method:?}"
+        );
     }
 }
 
@@ -376,6 +391,65 @@ fn unsupported_surface_and_column_requests_stay_cold() {
                 Some(PressureColdReason::UnsupportedPath)
             );
             assert_eq!(s.pressure_seed(), None);
+        }
+    }
+}
+
+#[test]
+fn localized_trajectory_matches_cold_accuracy_and_independent_flux_balance() {
+    let g = grid();
+    let mut cold = make(PressureImplementation::JacobiPcgV1);
+    let mut warm = make(PressureImplementation::JacobiPcgV1);
+    let force = [BodyForce {
+        region: Some(ForceRegion {
+            lower: g.origin(),
+            upper: [1.5, -1.25, 3.75],
+        }),
+        ..FORCE[0]
+    }];
+    let mut request = inputs();
+    request.forces = &force;
+    let initial_volume = 0.5 * g.cell_len() as f64 * g.cell_volume();
+    for _ in 0..8 {
+        cold.step(request, |_| false).unwrap();
+        warm.step_with_initialization(request, WARM, |_| false)
+            .unwrap();
+        let a = cold.state();
+        let b = warm.state();
+        for (x, y) in a
+            .carrier
+            .x
+            .iter()
+            .chain(a.carrier.y)
+            .chain(a.carrier.z)
+            .zip(b.carrier.x.iter().chain(b.carrier.y).chain(b.carrier.z))
+        {
+            assert!((f64::from(*x) - f64::from(*y)).abs() < 1e-7);
+        }
+        for (x, y) in a.pressure.iter().zip(b.pressure) {
+            assert!((x - y).abs() < 1e-6);
+        }
+        for state in [a, b] {
+            let volume = state.liquid.fraction.iter().sum::<f64>() * g.cell_volume();
+            assert!((volume - initial_volume).abs() <= 64.0 * f64::EPSILON * initial_volume);
+            let velocity = [state.carrier.x, state.carrier.y, state.carrier.z];
+            for k in 0..2 {
+                for j in 0..3 {
+                    for i in 0..4 {
+                        let cell = [i, j, k];
+                        let mut divergence = 0.0;
+                        for (d, axis) in [Axis::X, Axis::Y, Axis::Z].into_iter().enumerate() {
+                            let mut upper = cell;
+                            upper[d] += 1;
+                            divergence +=
+                                (f64::from(velocity[d][g.face_index(axis, upper).unwrap()])
+                                    - f64::from(velocity[d][g.face_index(axis, cell).unwrap()]))
+                                    / g.spacing()[d];
+                        }
+                        assert!(divergence.abs() <= config().carrier.actual_divergence_limit);
+                    }
+                }
+            }
         }
     }
 }

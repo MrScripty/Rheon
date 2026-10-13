@@ -1,5 +1,7 @@
 //! Whole coupled-step measurement. Args: nx ny nz workers steps cold|warm
-//! steady|localized|switch|rest|saturated jacobi|sgs. CSV includes all attempts.
+//! steady|localized|switch|rest|saturated jacobi|sgs [normal|tight field-dump].
+//! Tight mode is an explicit reference oracle, never a performance comparison.
+//! CSV includes all attempts; failed-row iterations are unavailable (0 sentinel).
 use rheon::*;
 use std::time::Instant;
 type Error = Box<dyn std::error::Error + Send + Sync>;
@@ -38,6 +40,11 @@ fn run(args: &[String]) -> Result<(), Error> {
         "sgs" => PressureImplementation::SymmetricGaussSeidelPcgV1,
         _ => return Err("invalid method".into()),
     };
+    let tight = match args.get(8).map(String::as_str) {
+        None | Some("normal") => false,
+        Some("tight") => true,
+        _ => return Err("invalid reference mode".into()),
+    };
     let grid = GridGeometry::new(counts, counts.map(|n| 1.0 / n as f64), [0.0; 3])?;
     let startup = Instant::now();
     let config = LiquidTransportConfig {
@@ -45,9 +52,9 @@ fn run(args: &[String]) -> Result<(), Error> {
             density: 1.25,
             memory_limit: 512 * 1024 * 1024,
             pressure: PressureSettings {
-                relative_residual: 1e-8,
-                absolute_residual: 1e-12,
-                divergence_limit: 1e-7,
+                relative_residual: if tight { 1e-12 } else { 1e-8 },
+                absolute_residual: if tight { 1e-14 } else { 1e-12 },
+                divergence_limit: if tight { 1e-10 } else { 1e-7 },
                 max_iterations: 3000,
             },
             actual_divergence_limit: 1e-5,
@@ -184,12 +191,43 @@ fn run(args: &[String]) -> Result<(), Error> {
             }
         }
     }
+    if let Some(path) = args.get(9) {
+        use std::io::Write;
+        let mut out = std::io::BufWriter::new(std::fs::File::create(path)?);
+        let state = sim.state();
+        for n in counts {
+            out.write_all(&n.to_le_bytes())?;
+        }
+        out.write_all(&state.carrier.time.to_le_bytes())?;
+        out.write_all(&state.carrier.generation.to_le_bytes())?;
+        for values in [
+            state.carrier.x,
+            state.carrier.y,
+            state.carrier.z,
+            state.carrier.tracer,
+        ] {
+            out.write_all(&(values.len() as u64).to_le_bytes())?;
+            for value in values {
+                out.write_all(&value.to_le_bytes())?;
+            }
+        }
+        for values in [state.pressure, state.liquid.fraction] {
+            out.write_all(&(values.len() as u64).to_le_bytes())?;
+            for value in values {
+                out.write_all(&value.to_le_bytes())?;
+            }
+        }
+        out.flush()?;
+    }
     Ok(())
 }
 fn main() -> Result<(), Error> {
     let args: Vec<_> = std::env::args().skip(1).collect();
-    if args.len() != 8 {
-        return Err("expected nx ny nz workers steps policy scenario method".into());
+    if args.len() != 8 && args.len() != 10 {
+        return Err(
+            "expected nx ny nz workers steps policy scenario method [normal|tight field-dump]"
+                .into(),
+        );
     }
     let workers: usize = args[3].parse()?;
     if workers == 0 {

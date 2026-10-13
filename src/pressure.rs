@@ -667,7 +667,18 @@ impl PressureWorkspace {
                 if accepted(report) {
                     return Ok(report);
                 }
-                if report.true_residual_l2 > threshold {
+                // Seeded PCG solves the gauge-eliminated SPD system. A full
+                // residual rejection caused only by the excluded gauge row is
+                // not recurrence drift: restarting here can discard every
+                // useful conjugate direction before the gauge row converges.
+                // Full residual/divergence acceptance above remains unchanged;
+                // preserve the reference cold recurrence exactly.
+                let replacement_l2 = if initial_pressure.is_some() && operator.has_gauge() {
+                    dot(&self.product[1..], &self.product[1..]).sqrt()
+                } else {
+                    report.true_residual_l2
+                };
+                if replacement_l2 > threshold {
                     self.residual.copy_from_slice(&self.product);
                     replaced = true;
                 }

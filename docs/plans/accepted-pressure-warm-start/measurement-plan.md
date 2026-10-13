@@ -38,3 +38,50 @@ bit equality not required. Candidate cold must match baseline output bits.
 Admission requires repeatable full-step improvement beyond run variability,
 unchanged gates and no repeatable adverse representative workload. Report all
 failures and regressions. Cloud CPU observations are not GPU/device guarantees.
+
+## Prospective protocol correction before acceptance
+
+Independent review found that the initial four permutation choices did not put
+candidate-cold last. Retain all four trials and add exactly the two missing
+permutations for every primary-small case. All remaining groups use all six
+permutations, each variant exactly twice in each position. This correction is
+uniform across outcomes, not selective extension for significance. Original
+manifest and four receipts remain; v2 manifests record six-repetition protocol.
+
+The CSV capture_s metric is borrowed-field hashing/scanning plus hydrostatic
+oracle evaluation, not field copying, export or rendering. startup_s times owner
+allocation inside an already-created pool; worker-pool/process startup is excluded.
+Error-row iterations=0 is a placeholder for unavailable attempt iterations, never
+a claim that a failed downstream step used zero PCG iterations. Exclude failed
+horizons from speed ratios; retain their costs and acceptance outcomes separately.
+Particle sampling is cubic: use1000(10³),4096(16³), not nonexistent1024 cubic fill.
+
+Particle controls use six alternating base/candidate pairs per case, each64steps
+at dt0.001s, with1000/4096particles and1/4workers. Exact trajectory fingerprints,
+accepted horizon and managed bytes must match. Capture here actually copies
+particles into a retained vector and hashes them; it is distinct from the grid
+lab's borrowed-field inspection and still excludes rendering/export.
+
+## Prospective bounded default-cold confirmation
+
+Before admission, independently examine the16³/w4/steady default-cold control:
+the original six short pairs were adverse in5/6, median+5.35%. Run exactly12
+balanced shuffled AB/BA pairs (seed20261013),128steps at unchanged dt1/64,
+frozen base/candidate binaries, cold policy, steady Jacobi. Each pair compares
+the same2s physical horizon. Retain every trial; separately report allocation,
+step0 and sustained timing, exact numerical fingerprints and accepted horizons.
+Do not pool with the original cohort or extend sampling until favorable. A
+repeatable slowdown blocks admission; mixed results support only limited
+non-reproduction. Run serially after the existing pipeline, without builds.
+
+## Corrected-candidate qualification after rejected horizon
+
+Candidateec535bc fails the64³ localized horizon and is not admissible. Retain its
+completed/partial attempts in the rejected archive. A separately frozen correction
+preserves seeded conjugacy on gauge-only rejection while retaining full acceptance.
+Run the same six-permutation matrix from scratch in a new directory, with original
+baseline; do not pool versions. Also run the predeclared128step cold confirmation
+for each frozen candidate separately (12pairs each); no optional extension.
+Diagnostic timings are excluded from performance claims. The hand-computed chain
+is acceptance coverage, not a reproducer (old and corrected pass); retained actual
+64³ localized logs reproduce old failure and corrected complete horizon.

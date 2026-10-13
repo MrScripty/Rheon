@@ -486,6 +486,20 @@ fn preferred_and_fallback_remain_cold_after_accepted_native_history() {
         );
         assert_eq!(ap.selected, bp.selected);
         assert_eq!(bytes(&a), bytes(&b));
+        let accepted = bytes(&a);
+        let initialization = a.snapshot().report().unwrap().pressure_initialization;
+        let selected = a.snapshot().provider_report().unwrap().selected;
+        assert!(
+            a.step_with_initialization(inputs(&[]), policy, None, |stage| stage
+                == LiquidStepStage::BeforeCommit)
+                .is_err()
+        );
+        assert_eq!(bytes(&a), accepted);
+        assert_eq!(
+            a.snapshot().report().unwrap().pressure_initialization,
+            initialization
+        );
+        assert_eq!(a.snapshot().provider_report().unwrap().selected, selected);
         let next = a
             .step_with_initialization(inputs(&[]), policy, None, |_| false)
             .unwrap();
