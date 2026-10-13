@@ -1,0 +1,43 @@
+name: Cloud correctness and CPU scheduling
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'Cargo.*'
+      - 'rust-toolchain.toml'
+      - 'examples/cloud_frame_lab.rs'
+      - 'tools/*cloud_acceptance*'
+      - 'proofs/**'
+      - '.github/workflows/cloud-acceptance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cloud-acceptance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CARGO_BUILD_JOBS: '2'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Isolate build output
+        run: echo "CARGO_TARGET_DIR=$RUNNER_TEMP/rheon-cloud-target" >> "$GITHUB_ENV"
+      - name: Select pinned compiler
+        run: rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
+      - name: Harness negative tests in normal and optimized Python
+        run: |
+          python3 -m unittest discover -s tools -p test_cloud_acceptance.py -v
+          python3 -O -m unittest discover -s tools -p test_cloud_acceptance.py -v
+      - name: Correctness gates and repeated paired CPU trials
+        run: python3 tools/cloud_acceptance.py "$RUNNER_TEMP/cloud-acceptance" --sizes 16 32 --threads 1 2 --steps 12 --repeats 3
+      - name: Retain raw qualification including failed runs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cloud-acceptance-${{ github.sha }}
+          path: ${{ runner.temp }}/cloud-acceptance/
+          if-no-files-found: error
+          retention-days: 14
