@@ -43,6 +43,8 @@ original carrier comparison prescribes momentum and appearance concentration.
 The visible cylinder illustrates the source and has no solid collision boundary.
 See the
 [viewer, timeline and emitter contracts](src/bin/desktop/README.md).
+See [emitter vector, motion and seeded perturbation controls](docs/emitter-controls.md)
+for shared SI controls and a headless material-generation example.
 Use `default-features = false` for a standard-library-only library consumer.
 
 The desktop's **CPU threads** control detects the available logical CPU threads.

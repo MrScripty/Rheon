@@ -713,6 +713,16 @@ impl Simulation {
         if acceleration > 0.0 {
             dt = dt.min((0.5 * self.config.max_courant / acceleration).sqrt());
         }
+        if let Some(e) = emitter {
+            if e.turbulence.strength > 0.0 {
+                dt = dt.min(0.25 * e.turbulence.time_scale);
+            }
+            let motion = crate::emitter::length(e.motion_velocity);
+            if motion > 0.0 {
+                dt = dt.min(0.25 * h.into_iter().fold(f64::INFINITY, f64::min) / motion);
+            }
+            e.validate_interval(&self.grid, self.time, dt)?;
+        }
         let next_time = self.time + dt;
         if dt <= 0.0 || !next_time.is_finite() || next_time <= self.time {
             return Err(SimulationError::TimeResolution);

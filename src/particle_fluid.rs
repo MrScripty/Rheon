@@ -364,11 +364,7 @@ impl ParticleFluidSimulation {
             .iter()
             .map(|p| norm(p.velocity))
             .fold(0.0_f64, f64::max);
-        let source_speed = emitter.map_or(0.0, |e| {
-            (2.0 * e.pressure_heads.into_iter().fold(0.0_f64, f64::max)
-                / self.config.material.density)
-                .sqrt()
-        });
+        let source_speed = emitter.map_or(0.0, |e| e.speed_bound(self.config.material.density));
         let mut sound = if emitter.is_some() {
             self.config.material.sound_speed(
                 self.config.material.temperature_kelvin,
@@ -408,6 +404,17 @@ impl ParticleFluidSimulation {
         {
             dt = dt.min(0.125 / e.rotations_per_second.abs());
         }
+        if let Some(e) = emitter {
+            if e.turbulence.strength > 0.0 {
+                dt = dt.min(0.25 * e.turbulence.time_scale);
+            }
+            let motion = crate::emitter::length(e.motion_velocity);
+            if motion > 0.0 {
+                dt = dt.min(0.25 * self.support / motion);
+            }
+            e.validate_interval(&self.grid, self.time, dt)
+                .map_err(|_| ParticleFluidError::InvalidEmitter)?;
+        }
         if !dt.is_normal() {
             return Err(ParticleFluidError::ArithmeticFailure);
         }
@@ -420,8 +427,15 @@ impl ParticleFluidSimulation {
             let axis = e
                 .axis_at(self.time + 0.5 * dt)
                 .map_err(|_| ParticleFluidError::InvalidEmitter)?;
+            let sample_time = self.time + 0.5 * dt;
+            let center = e
+                .center_at(sample_time)
+                .map_err(|_| ParticleFluidError::InvalidEmitter)?;
+            let frame = e
+                .basis_at(sample_time)
+                .map_err(|_| ParticleFluidError::InvalidEmitter)?;
             for (end, credit) in credit.iter_mut().enumerate() {
-                let speed = (2.0 * e.pressure_heads[end] / self.config.material.density).sqrt();
+                let speed = e.jet_speed(end, self.config.material.density);
                 // Mean sqrt(disk profile), approximately 0.43. The source is
                 // a reservoir; unused represented volume survives to next step.
                 *credit += std::f64::consts::PI * e.radius * e.radius * speed * 0.43 * dt;
@@ -446,12 +460,30 @@ impl ParticleFluidSimulation {
                     let sign = if end == 0 { 1.0 } else { -1.0 };
                     let axial = sign * (e.half_length + e.nozzle_depth * 0.5);
                     let profile = (1.0 - u).powi(2) * (0.75 + 0.25 * vertical / e.radius);
-                    let velocity = axis.map(|a| a * sign * speed * profile.sqrt());
-                    let position = [
-                        e.center[0] + axis[0] * axial - axis[2] * across,
-                        e.center[1] + vertical,
-                        e.center[2] + axis[2] * axial + axis[0] * across,
-                    ];
+                    let local = [axial, vertical, across];
+                    let noise = e
+                        .perturbation(local, sample_time)
+                        .map_err(|_| ParticleFluidError::InvalidEmitter)?;
+                    let mut velocity = axis.map(|a| a * sign * speed * profile.sqrt());
+                    if e.motion_velocity != [0.0; 3] || e.turbulence.strength != 0.0 {
+                        for d in 0..3 {
+                            velocity[d] += e.motion_velocity[d] + noise[d] * profile.sqrt();
+                        }
+                    }
+                    let position = if e.emitted_velocity.is_none() {
+                        [
+                            center[0] + axis[0] * axial - axis[2] * across,
+                            center[1] + vertical,
+                            center[2] + axis[2] * axial + axis[0] * across,
+                        ]
+                    } else {
+                        std::array::from_fn(|d| {
+                            center[d]
+                                + frame[0][d] * axial
+                                + frame[1][d] * vertical
+                                + frame[2][d] * across
+                        })
+                    };
                     let mass = self.config.material.density * self.volume;
                     self.candidate.push(FluidParticle {
                         position,

@@ -230,6 +230,45 @@ impl Viewport {
         if let Some(scene) = &self.scene {
             painter.add(egui::Shape::mesh(Arc::clone(&scene.mesh)));
         }
+        if let Some(e) = emitter
+            && let (Ok(center), Ok(axis)) = (e.center_at(time), e.axis_at(time))
+        {
+            let center = center.map(|v| v as f32);
+            for (direction, color, label) in [
+                (
+                    if emitter_strengths(e)[0] > 0.0 {
+                        axis
+                    } else {
+                        [0.0; 3]
+                    },
+                    Color32::from_rgb(80, 220, 230),
+                    "Jet +",
+                ),
+                (
+                    e.motion_velocity,
+                    Color32::from_rgb(245, 170, 80),
+                    "Emitter motion",
+                ),
+            ] {
+                let n = direction[0].hypot(direction[1]).hypot(direction[2]);
+                if n > 0.0 && n.is_finite() {
+                    let end = add(center, direction.map(|v| (0.18 * v / n) as f32));
+                    if let (Some((a, _)), Some((b, _))) = (
+                        self.camera.project(center, rect),
+                        self.camera.project(end, rect),
+                    ) {
+                        painter.arrow(a, b - a, Stroke::new(2.0, color));
+                        painter.text(
+                            b,
+                            egui::Align2::LEFT_BOTTOM,
+                            label,
+                            egui::FontId::proportional(11.0),
+                            color,
+                        );
+                    }
+                }
+            }
+        }
         self.wire_box(
             &painter,
             rect,
@@ -464,14 +503,20 @@ fn surface_faces(frame: &PreviewFrame, threshold: u8) -> Vec<Face> {
     }
     faces
 }
+fn emitter_strengths(emitter: RotatingCylinderEmitter) -> [f64; 2] {
+    emitter
+        .emitted_velocity
+        .map_or(emitter.pressure_heads, |v| {
+            [v[0].hypot(v[1]).hypot(v[2]); 2]
+        })
+}
+
 fn cylinder_faces(emitter: RotatingCylinderEmitter, time: f64) -> Vec<Face> {
-    let Ok(axis) = emitter.axis_at(time) else {
+    let (Ok(basis), Ok(center)) = (emitter.basis_at(time), emitter.center_at(time)) else {
         return Vec::new();
     };
-    let axis = axis.map(|v| v as f32);
-    let center = emitter.center.map(|v| v as f32);
-    let across = [-axis[2], 0.0, axis[0]];
-    let up = [0.0, 1.0, 0.0];
+    let [axis, up, across] = basis.map(|a| a.map(|v| v as f32));
+    let center = center.map(|v| v as f32);
     let ring = |end: f32, index: usize, radius: f32| {
         let angle = index as f32 / 24.0 * std::f32::consts::TAU;
         add(
@@ -493,18 +538,13 @@ fn cylinder_faces(emitter: RotatingCylinderEmitter, time: f64) -> Vec<Face> {
             ],
             color: Color32::from_rgb(105, 119, 144),
         });
-        for (end, head) in [
-            (1.0, emitter.pressure_heads[0]),
-            (-1.0, emitter.pressure_heads[1]),
-        ] {
+        let strengths = emitter_strengths(emitter);
+        for (end, head) in [(1.0, strengths[0]), (-1.0, strengths[1])] {
             let c = add(center, mul(axis, end * emitter.half_length as f32));
             for level in 0..3 {
                 let inner = level as f32 / 3.0 * emitter.radius as f32;
                 let outer = (level + 1) as f32 / 3.0 * emitter.radius as f32;
-                let strength = ((head
-                    / emitter.pressure_heads[0]
-                        .max(emitter.pressure_heads[1])
-                        .max(1e-12)) as f32)
+                let strength = ((head / strengths[0].max(strengths[1]).max(1e-12)) as f32)
                     * (1.0 - level as f32 * 0.22);
                 let color = Color32::from_rgb(
                     (105.0 + 120.0 * strength) as u8,
@@ -532,6 +572,18 @@ fn cylinder_faces(emitter: RotatingCylinderEmitter, time: f64) -> Vec<Face> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn emitter_visual_strengths_follow_selected_mode_and_zero_disables_jets() {
+        let mut e = RotatingCylinderEmitter::default();
+        assert_eq!(emitter_strengths(e), e.pressure_heads);
+        e.emitted_velocity = Some([3.0, 4.0, 0.0]);
+        assert_eq!(emitter_strengths(e), [5.0; 2]);
+        e.emitted_velocity = Some([0.0; 3]);
+        assert_eq!(emitter_strengths(e), [0.0; 2]);
+        e.emitted_velocity = None;
+        e.pressure_heads = [0.0; 2];
+        assert_eq!(emitter_strengths(e), [0.0; 2]);
+    }
     #[test]
     fn perspective_projection_and_camera_motion_are_finite_and_independent_of_history() {
         let mut c = OrbitCamera::default();

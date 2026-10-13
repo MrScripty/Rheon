@@ -194,3 +194,6 @@ pub use pressure_session::{
 
 mod provider_step;
 pub use provider_step::{ProviderStepReport, ProviderStepWorkspace};
+
+mod emitter_controls;
+pub use emitter_controls::{EMITTER_CONTROLS_VERSION, EmitterTurbulence};
