@@ -83,7 +83,9 @@ jobs:
           path: ${{ runner.temp }}/volume-edition/volume-evidence/
   build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    # Full Chromium publication probes exceeded 60m on run 38450395780.
+    # Keep every test; allow software-renderer variation and expose test names.
+    timeout-minutes: 90
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       # Ubuntu's packaged AppArmor profile permits Chrome's sandbox at this path.
@@ -204,9 +206,9 @@ jobs:
       - name: Verify retained browser bindings and current Chromium laboratories
         run: |
           python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"
-          python3 -O -m unittest discover -s docs/education -p test_browser_runtime.py
-          python3 -m unittest discover -s docs/education -p test_aligned_strain_browser.py
-          python3 -O -m unittest discover -s docs/education -p test_aligned_strain_browser.py
+          python3 -u -O -m unittest discover -v -s docs/education -p test_browser_runtime.py
+          python3 -u -m unittest discover -v -s docs/education -p test_aligned_strain_browser.py
+          python3 -u -O -m unittest discover -v -s docs/education -p test_aligned_strain_browser.py
       - name: Retain reviewable site
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
