@@ -1,0 +1,20 @@
+{
+  "schema": "rheon-volume-proof-qualification-v1",
+  "checked_head": "29522d49039345bf2afb0db6122c74acbc4bdf17",
+  "workflow_url": "https://github.com/MrScripty/Rheon/actions/runs/38380599816",
+  "job_id": 115239744120,
+  "proof_inventory_sha256": "cd3575b072b05f5b90b5efabe848f03c36c95dfea461a3acdbb923474665b3f5",
+  "lean_toolchain": "leanprover/lean4:v4.19.0",
+  "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+  "public_theorems": 144,
+  "explicit_expected_declarations": 201,
+  "audited_declarations": 252,
+  "decoded_job_log_sha256": "f52d28d5ab07876e81b23928ef69c29cb1be61d4873495ce1562d16d57b723fd",
+  "status": "passed",
+  "checks": [
+    "Pinned lake build",
+    "Transitive axiom audit",
+    "Normal and optimized disallowed-assumption rejection tests"
+  ],
+  "scope": "Exact mathematical source bytes; not native implementation, IEEE, physical or performance qualification."
+}
