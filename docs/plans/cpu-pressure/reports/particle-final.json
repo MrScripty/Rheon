@@ -1,0 +1,1190 @@
+[
+  {
+    "version": "baseline",
+    "samples_per_axis": 8,
+    "workers": 1,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "8",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.008420528",
+      "capture_seconds": "0.000039420",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.008420528 capture_seconds=0.000039420 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.001597724, 0.001528538, 0.00159555, 0.001950435, 0.00170803]\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 8,
+    "workers": 1,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "8",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.007904098",
+      "capture_seconds": "0.000038728",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.007904098 capture_seconds=0.000038728 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.001523261, 0.001819788, 0.00150986, 0.001487657, 0.001523961]\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 8,
+    "workers": 1,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "8",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.008071851",
+      "capture_seconds": "0.000039739",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.008071851 capture_seconds=0.000039739 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.001658855, 0.001564864, 0.001494737, 0.001716763, 0.001596321]\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 8,
+    "workers": 1,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "8",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.007765218",
+      "capture_seconds": "0.000038349",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.007765218 capture_seconds=0.000038349 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.001538694, 0.001618364, 0.001501658, 0.001477251, 0.001590302]\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 8,
+    "workers": 1,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "8",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.008152313",
+      "capture_seconds": "0.000169416",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.008152313 capture_seconds=0.000169416 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.001664174, 0.00159601, 0.001571033, 0.001678455, 0.001472303]\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 8,
+    "workers": 1,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "8",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.008326986",
+      "capture_seconds": "0.000038758",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.008326986 capture_seconds=0.000038758 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.001618885, 0.001724976, 0.001593246, 0.00147631, 0.0018742]\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 8,
+    "workers": 2,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "8",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.004678726",
+      "capture_seconds": "0.000038688",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.004678726 capture_seconds=0.000038688 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.000858346, 0.000911627, 0.000912228, 0.000843293, 0.001114053]\nphase=ParticleDensity calls=5 seconds=0.000680398\nphase=ParticleForces calls=5 seconds=0.003697846\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 8,
+    "workers": 2,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "8",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.004544674",
+      "capture_seconds": "0.000059570",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.004544674 capture_seconds=0.000059570 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.000882903, 0.000826619, 0.000962644, 0.000851456, 0.000960961]\nphase=ParticleDensity calls=5 seconds=0.000493625\nphase=ParticleForces calls=5 seconds=0.003727430\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 8,
+    "workers": 2,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "8",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.004475440",
+      "capture_seconds": "0.000038028",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.004475440 capture_seconds=0.000038028 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.001053622, 0.000841742, 0.000836083, 0.000911186, 0.000794299]\nphase=ParticleDensity calls=5 seconds=0.000499675\nphase=ParticleForces calls=5 seconds=0.003676423\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 8,
+    "workers": 2,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "8",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.004701210",
+      "capture_seconds": "0.000039669",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.004701210 capture_seconds=0.000039669 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.00092724, 0.000854551, 0.000862993, 0.001069425, 0.00094684]\nphase=ParticleDensity calls=5 seconds=0.000553756\nphase=ParticleForces calls=5 seconds=0.003795892\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 8,
+    "workers": 2,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "8",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.004593408",
+      "capture_seconds": "0.000041243",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.004593408 capture_seconds=0.000041243 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.000907441, 0.000997677, 0.000866218, 0.000873659, 0.00090671]\nphase=ParticleDensity calls=5 seconds=0.000611855\nphase=ParticleForces calls=5 seconds=0.003625195\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 8,
+    "workers": 2,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "8",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.004754886",
+      "capture_seconds": "0.000040501",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.004754886 capture_seconds=0.000040501 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.000825166, 0.001227734, 0.000995163, 0.00082805, 0.00083776]\nphase=ParticleDensity calls=5 seconds=0.000492894\nphase=ParticleForces calls=5 seconds=0.003959614\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 8,
+    "workers": 4,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "8",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.003356169",
+      "capture_seconds": "0.000037937",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.003356169 capture_seconds=0.000037937 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.000664334, 0.00062864, 0.000760198, 0.000599205, 0.000665365]\nphase=ParticleDensity calls=5 seconds=0.000575720\nphase=ParticleForces calls=5 seconds=0.002464934\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 8,
+    "workers": 4,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "8",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.003418153",
+      "capture_seconds": "0.000038930",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.003418153 capture_seconds=0.000038930 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.000657203, 0.000615059, 0.000740668, 0.000598664, 0.000767048]\nphase=ParticleDensity calls=5 seconds=0.000612665\nphase=ParticleForces calls=5 seconds=0.002485515\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 8,
+    "workers": 4,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "8",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.003878017",
+      "capture_seconds": "0.000038528",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.003878017 capture_seconds=0.000038528 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.00080779, 0.000845847, 0.000708129, 0.000740449, 0.000736593]\nphase=ParticleDensity calls=5 seconds=0.000465091\nphase=ParticleForces calls=5 seconds=0.003071348\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 8,
+    "workers": 4,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "8",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.003111409",
+      "capture_seconds": "0.000037857",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.003111409 capture_seconds=0.000037857 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.000618334, 0.000621519, 0.000593837, 0.000594518, 0.000644874]\nphase=ParticleDensity calls=5 seconds=0.000488037\nphase=ParticleForces calls=5 seconds=0.002306443\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 8,
+    "workers": 4,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "8",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.003639186",
+      "capture_seconds": "0.000040541",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.003639186 capture_seconds=0.000040541 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.00072161, 0.000777675, 0.000865547, 0.000588589, 0.000644634]\nphase=ParticleDensity calls=5 seconds=0.000547007\nphase=ParticleForces calls=5 seconds=0.002774121\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 8,
+    "workers": 4,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "8",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "512",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.003916916",
+      "capture_seconds": "0.000039229",
+      "managed_bytes": "102912",
+      "fingerprint": "5b11974f9fdf83fd"
+    },
+    "stdout": "particles=512 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.003916916 capture_seconds=0.000039229 managed_bytes=102912 fingerprint=5b11974f9fdf83fd samples=[0.000881862, 0.000845837, 0.000779077, 0.000626717, 0.000743653]\nphase=ParticleDensity calls=5 seconds=0.000496612\nphase=ParticleForces calls=5 seconds=0.003100002\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 16,
+    "workers": 1,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "16",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.081039186",
+      "capture_seconds": "0.000338412",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.081039186 capture_seconds=0.000338412 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.016264154, 0.01598969, 0.016054477, 0.016403345, 0.015987947]\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 16,
+    "workers": 1,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "16",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.097368498",
+      "capture_seconds": "0.000631453",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.097368498 capture_seconds=0.000631453 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.015488563, 0.016213809, 0.019368313, 0.016626862, 0.029038147]\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 16,
+    "workers": 1,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "16",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.090040179",
+      "capture_seconds": "0.000365011",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.090040179 capture_seconds=0.000365011 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.021588816, 0.018078264, 0.016706602, 0.017152566, 0.016146156]\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 16,
+    "workers": 1,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "16",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.087109213",
+      "capture_seconds": "0.000354467",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.087109213 capture_seconds=0.000354467 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.017078634, 0.016990982, 0.016717889, 0.019190053, 0.016775357]\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 16,
+    "workers": 1,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "16",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.083439511",
+      "capture_seconds": "0.000344330",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.083439511 capture_seconds=0.000344330 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.016680072, 0.017063311, 0.01680434, 0.016359989, 0.016185445]\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 16,
+    "workers": 1,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "16",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.091555148",
+      "capture_seconds": "0.000389177",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.091555148 capture_seconds=0.000389177 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.017150933, 0.01783748, 0.019080808, 0.018121399, 0.018973395]\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 16,
+    "workers": 2,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "16",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.047127748",
+      "capture_seconds": "0.000345991",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.047127748 capture_seconds=0.000345991 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.009225483, 0.009292004, 0.009576544, 0.009485556, 0.009200926]\nphase=ParticleDensity calls=5 seconds=0.007499835\nphase=ParticleForces calls=5 seconds=0.037379072\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 16,
+    "workers": 2,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "16",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.045859132",
+      "capture_seconds": "0.000338721",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.045859132 capture_seconds=0.000338721 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.009332104, 0.009033813, 0.008952291, 0.00902421, 0.009177181]\nphase=ParticleDensity calls=5 seconds=0.004582410\nphase=ParticleForces calls=5 seconds=0.038777175\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 16,
+    "workers": 2,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "16",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.047315216",
+      "capture_seconds": "0.000565023",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.047315216 capture_seconds=0.000565023 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.008998571, 0.008938205, 0.009501641, 0.009764318, 0.009546237]\nphase=ParticleDensity calls=5 seconds=0.004497422\nphase=ParticleForces calls=5 seconds=0.040201161\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 16,
+    "workers": 2,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "16",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.047386835",
+      "capture_seconds": "0.000325934",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.047386835 capture_seconds=0.000325934 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.008778258, 0.009958997, 0.009297562, 0.00972673, 0.009298484]\nphase=ParticleDensity calls=5 seconds=0.006173254\nphase=ParticleForces calls=5 seconds=0.039007520\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 16,
+    "workers": 2,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "16",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.053496517",
+      "capture_seconds": "0.000367414",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.053496517 capture_seconds=0.000367414 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.010061016, 0.008773681, 0.009826161, 0.014915717, 0.009551856]\nphase=ParticleDensity calls=5 seconds=0.005046781\nphase=ParticleForces calls=5 seconds=0.045933554\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 16,
+    "workers": 2,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "16",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.048793935",
+      "capture_seconds": "0.000335956",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.048793935 capture_seconds=0.000335956 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.010467589, 0.009992422, 0.009451225, 0.00932211, 0.00922356]\nphase=ParticleDensity calls=5 seconds=0.006467049\nphase=ParticleForces calls=5 seconds=0.039881033\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 16,
+    "workers": 4,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "16",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.026849262",
+      "capture_seconds": "0.000479102",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.026849262 capture_seconds=0.000479102 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.005299594, 0.005265883, 0.005386676, 0.005192802, 0.005224421]\nphase=ParticleDensity calls=5 seconds=0.002892540\nphase=ParticleForces calls=5 seconds=0.021182423\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 16,
+    "workers": 4,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "16",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.027163105",
+      "capture_seconds": "0.000343709",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.027163105 capture_seconds=0.000343709 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.005335428, 0.005512576, 0.005722693, 0.005091651, 0.005156318]\nphase=ParticleDensity calls=5 seconds=0.003653458\nphase=ParticleForces calls=5 seconds=0.020975730\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 16,
+    "workers": 4,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "16",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.026870983",
+      "capture_seconds": "0.000316198",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.026870983 capture_seconds=0.000316198 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.005234946, 0.005281617, 0.00534357, 0.005371983, 0.005321958]\nphase=ParticleDensity calls=5 seconds=0.003806550\nphase=ParticleForces calls=5 seconds=0.020656017\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 16,
+    "workers": 4,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "16",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.031918066",
+      "capture_seconds": "0.000414946",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.031918066 capture_seconds=0.000414946 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.007465606, 0.008542032, 0.005444343, 0.005050618, 0.004999841]\nphase=ParticleDensity calls=5 seconds=0.003393787\nphase=ParticleForces calls=5 seconds=0.026043174\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 16,
+    "workers": 4,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "16",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.032625396",
+      "capture_seconds": "0.000329578",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.032625396 capture_seconds=0.000329578 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.006922926, 0.008890078, 0.005444853, 0.005533648, 0.005503252]\nphase=ParticleDensity calls=5 seconds=0.003968255\nphase=ParticleForces calls=5 seconds=0.026134062\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 16,
+    "workers": 4,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "16",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "4096",
+      "steps": "5",
+      "accepted_time": "0.00500000000000000",
+      "frame_seconds": "0.028725105",
+      "capture_seconds": "0.000319824",
+      "managed_bytes": "823296",
+      "fingerprint": "bd76a17f9ae90def"
+    },
+    "stdout": "particles=4096 steps=5 accepted_time=0.00500000000000000 frame_seconds=0.028725105 capture_seconds=0.000319824 managed_bytes=823296 fingerprint=bd76a17f9ae90def samples=[0.006656523, 0.005706419, 0.005326645, 0.005465545, 0.005249198]\nphase=ParticleDensity calls=5 seconds=0.003684735\nphase=ParticleForces calls=5 seconds=0.022538390\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 32,
+    "workers": 1,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "32",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.779550753",
+      "capture_seconds": "0.002784806",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.779550753 capture_seconds=0.002784806 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.166901064, 0.152109465, 0.157087423, 0.150945847, 0.149718694]\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 32,
+    "workers": 1,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "32",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.794034525",
+      "capture_seconds": "0.003205000",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.794034525 capture_seconds=0.003205000 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.160207936, 0.160278762, 0.156912067, 0.157764875, 0.155662419]\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 32,
+    "workers": 1,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "32",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.787353304",
+      "capture_seconds": "0.003074553",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.787353304 capture_seconds=0.003074553 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.159801821, 0.164491755, 0.151083484, 0.15092777, 0.157971096]\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 32,
+    "workers": 1,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "32",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.738291946",
+      "capture_seconds": "0.002670403",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.738291946 capture_seconds=0.002670403 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.14924012, 0.146482776, 0.148060779, 0.147057293, 0.144777781]\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 32,
+    "workers": 1,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "32",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.775994820",
+      "capture_seconds": "0.002713478",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.775994820 capture_seconds=0.002713478 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.161525144, 0.154596861, 0.154694488, 0.153229916, 0.149231837]\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 32,
+    "workers": 1,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "32",
+      "1",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.717265919",
+      "capture_seconds": "0.002560926",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.717265919 capture_seconds=0.002560926 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.13986511, 0.144161569, 0.143851571, 0.145136953, 0.141687113]\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 32,
+    "workers": 2,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "32",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.410957852",
+      "capture_seconds": "0.002547036",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.410957852 capture_seconds=0.002547036 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.08515386, 0.085086602, 0.078504486, 0.07902306, 0.080641434]\nphase=FieldUpdate calls=10 seconds=0.002471253\nphase=ParticleDensity calls=10 seconds=0.049080775\nphase=ParticleForces calls=10 seconds=0.345090019\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 32,
+    "workers": 2,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "32",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.429733048",
+      "capture_seconds": "0.002951708",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.429733048 capture_seconds=0.002951708 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.08375687, 0.086303075, 0.081187774, 0.089493133, 0.086038786]\nphase=FieldUpdate calls=10 seconds=0.004248817\nphase=ParticleDensity calls=10 seconds=0.042657520\nphase=ParticleForces calls=10 seconds=0.367256657\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 32,
+    "workers": 2,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "32",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.421015101",
+      "capture_seconds": "0.002605826",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.421015101 capture_seconds=0.002605826 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.086576603, 0.081779443, 0.082329634, 0.083982781, 0.083739483]\nphase=FieldUpdate calls=10 seconds=0.002818979\nphase=ParticleDensity calls=10 seconds=0.043646010\nphase=ParticleForces calls=10 seconds=0.359338559\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 32,
+    "workers": 2,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "32",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.418277121",
+      "capture_seconds": "0.002617532",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.418277121 capture_seconds=0.002617532 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.081069571, 0.086089943, 0.080624479, 0.08315423, 0.084720114]\nphase=FieldUpdate calls=10 seconds=0.002789263\nphase=ParticleDensity calls=10 seconds=0.041665528\nphase=ParticleForces calls=10 seconds=0.358317133\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 32,
+    "workers": 2,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "32",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.430459150",
+      "capture_seconds": "0.003300986",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.430459150 capture_seconds=0.003300986 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.087933067, 0.086132598, 0.0833334, 0.084029702, 0.085727897]\nphase=FieldUpdate calls=10 seconds=0.002370561\nphase=ParticleDensity calls=10 seconds=0.043865474\nphase=ParticleForces calls=10 seconds=0.367707276\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 32,
+    "workers": 2,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "32",
+      "2",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.410601008",
+      "capture_seconds": "0.002749301",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.410601008 capture_seconds=0.002749301 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.076901225, 0.080959374, 0.092610802, 0.080566752, 0.076812061]\nphase=FieldUpdate calls=10 seconds=0.002564554\nphase=ParticleDensity calls=10 seconds=0.037948464\nphase=ParticleForces calls=10 seconds=0.355648851\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 32,
+    "workers": 4,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "32",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.229604956",
+      "capture_seconds": "0.003029908",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.229604956 capture_seconds=0.003029908 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.043131667, 0.046305902, 0.045449182, 0.046740293, 0.044945942]\nphase=FieldUpdate calls=10 seconds=0.002917276\nphase=ParticleDensity calls=10 seconds=0.029260290\nphase=ParticleForces calls=10 seconds=0.180410883\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 32,
+    "workers": 4,
+    "trial": 0,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "32",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.235918898",
+      "capture_seconds": "0.002743584",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.235918898 capture_seconds=0.002743584 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.047768996, 0.047746674, 0.044759571, 0.050195672, 0.042702229]\nphase=FieldUpdate calls=10 seconds=0.002013190\nphase=ParticleDensity calls=10 seconds=0.027307392\nphase=ParticleForces calls=10 seconds=0.191152087\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 32,
+    "workers": 4,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "32",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.228334247",
+      "capture_seconds": "0.002813709",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.228334247 capture_seconds=0.002813709 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.044140195, 0.04361265, 0.04634758, 0.048292943, 0.043125899]\nphase=FieldUpdate calls=10 seconds=0.001972599\nphase=ParticleDensity calls=10 seconds=0.024694975\nphase=ParticleForces calls=10 seconds=0.186791868\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 32,
+    "workers": 4,
+    "trial": 1,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "32",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.220885372",
+      "capture_seconds": "0.002586797",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.220885372 capture_seconds=0.002586797 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.043401571, 0.043780052, 0.044895717, 0.042942857, 0.043276967]\nphase=FieldUpdate calls=10 seconds=0.001999901\nphase=ParticleDensity calls=10 seconds=0.026120722\nphase=ParticleForces calls=10 seconds=0.178276469\n"
+  },
+  {
+    "version": "baseline",
+    "samples_per_axis": 32,
+    "workers": 4,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-baseline",
+      "32",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.230076408",
+      "capture_seconds": "0.002680838",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.230076408 capture_seconds=0.002680838 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.045697508, 0.044611978, 0.042976449, 0.048181108, 0.045926704]\nphase=FieldUpdate calls=10 seconds=0.002003899\nphase=ParticleDensity calls=10 seconds=0.029169265\nphase=ParticleForces calls=10 seconds=0.183440833\n"
+  },
+  {
+    "version": "candidate",
+    "samples_per_axis": 32,
+    "workers": 4,
+    "trial": 2,
+    "command": [
+      "/tmp/cpu-particle-candidate",
+      "32",
+      "4",
+      "5"
+    ],
+    "fields": {
+      "particles": "32768",
+      "steps": "5",
+      "accepted_time": "0.00311088813349330",
+      "frame_seconds": "0.250224348",
+      "capture_seconds": "0.002515759",
+      "managed_bytes": "6586368",
+      "fingerprint": "74f6f2a4adf2153a"
+    },
+    "stdout": "particles=32768 steps=5 accepted_time=0.00311088813349330 frame_seconds=0.250224348 capture_seconds=0.002515759 managed_bytes=6586368 fingerprint=74f6f2a4adf2153a samples=[0.048615915, 0.055413121, 0.046475433, 0.049763569, 0.047438677]\nphase=FieldUpdate calls=10 seconds=0.004718688\nphase=ParticleDensity calls=10 seconds=0.026920890\nphase=ParticleForces calls=10 seconds=0.202536715\n"
+  }
+]

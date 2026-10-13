@@ -1,0 +1,202 @@
+[
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.5433926050000082,
+    "passed": 0,
+    "tail": [],
+    "log": "/tmp/cpu-checks/0.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--features",
+      "work-observation"
+    ],
+    "exit_code": 0,
+    "seconds": 169.4529101029998,
+    "passed": 342,
+    "tail": [
+      "test large_mesh_compensated_energy_gate_preserves_fixed_budget ... ok",
+      "",
+      "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s",
+      "",
+      "   Doc-tests rheon",
+      "",
+      "running 0 tests",
+      "",
+      "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      ""
+    ],
+    "log": "/tmp/cpu-checks/1.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked"
+    ],
+    "exit_code": 0,
+    "seconds": 148.55617450599993,
+    "passed": 331,
+    "tail": [
+      "test large_mesh_compensated_energy_gate_preserves_fixed_budget ... ok",
+      "",
+      "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s",
+      "",
+      "   Doc-tests rheon",
+      "",
+      "running 0 tests",
+      "",
+      "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      ""
+    ],
+    "log": "/tmp/cpu-checks/2.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--no-default-features"
+    ],
+    "exit_code": 0,
+    "seconds": 133.2627610190002,
+    "passed": 324,
+    "tail": [
+      "test large_mesh_compensated_energy_gate_preserves_fixed_budget ... ok",
+      "",
+      "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.26s",
+      "",
+      "   Doc-tests rheon",
+      "",
+      "running 0 tests",
+      "",
+      "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      ""
+    ],
+    "log": "/tmp/cpu-checks/3.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--features",
+      "work-observation",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "seconds": 7.412397521999992,
+    "passed": 0,
+    "tail": [
+      "    Checking crossbeam-utils v0.8.23",
+      "    Checking either v1.19.0",
+      "    Checking crossbeam-epoch v0.9.21",
+      "    Checking crossbeam-deque v0.8.8",
+      "    Checking rayon-core v1.13.0",
+      "    Checking rayon v1.11.0",
+      "    Checking rheon v0.1.0 (/workspace/Rheon)",
+      "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.34s"
+    ],
+    "log": "/tmp/cpu-checks/4.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "seconds": 5.433204946999922,
+    "passed": 0,
+    "tail": [
+      "    Checking rheon v0.1.0 (/workspace/Rheon)",
+      "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.37s"
+    ],
+    "log": "/tmp/cpu-checks/5.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--no-default-features",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "seconds": 4.81536721700013,
+    "passed": 0,
+    "tail": [
+      "    Checking rheon v0.1.0 (/workspace/Rheon)",
+      "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.75s"
+    ],
+    "log": "/tmp/cpu-checks/6.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--release",
+      "--bin",
+      "rheon"
+    ],
+    "exit_code": 0,
+    "seconds": 0.1354795670004023,
+    "passed": 0,
+    "tail": [
+      "    Finished `release` profile [optimized] target(s) in 0.10s"
+    ],
+    "log": "/tmp/cpu-checks/7.log"
+  },
+  {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "seconds": 67.54293908299996,
+    "passed": 0,
+    "tail": [
+      "test_real_comparison_and_preserved_outputs (test_rheon_compare.ComparisonTest.test_real_comparison_and_preserved_outputs) ... ok",
+      "test_timeout_terminates_or_kills_then_reaps_without_more_jobs (test_rheon_compare.ComparisonTest.test_timeout_terminates_or_kills_then_reaps_without_more_jobs) ... ok",
+      "Regenerating real verifier fixture: viscosity -> /workspace/Rheon/.generated/verifier-fixtures/viscosity-19646b25388e6440",
+      "test_adversarial_fields_energy_units_ledger_and_pixels (test_viscosity_verifier.ViscosityVerifierTest.test_adversarial_fields_energy_units_ledger_and_pixels) ... ok",
+      "test_native_shear_decay_refinement_and_coupled_box (test_viscosity_verifier.ViscosityVerifierTest.test_native_shear_decay_refinement_and_coupled_box) ... ok",
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 98 tests in 67.270s",
+      "",
+      "OK (skipped=1)"
+    ],
+    "log": "/tmp/cpu-checks/8.log"
+  }
+]
