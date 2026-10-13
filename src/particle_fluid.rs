@@ -1040,6 +1040,38 @@ mod physics_tests {
         assert_eq!(s.particles().len(), 1);
     }
     #[test]
+    fn moving_vector_emitter_checks_collision_at_current_birth_position() {
+        let mut s = fixture(1.0, FluidPreset::Water.material());
+        s.set_collision_mesh(Some(collision_cube())).unwrap();
+        s.time = 1.0;
+        s.credit = [s.volume, 0.0];
+        let emitter = RotatingCylinderEmitter {
+            center: [0.1, 0.5, 0.5],
+            half_length: 0.02,
+            radius: 0.01,
+            nozzle_depth: 0.01,
+            rotations_per_second: 0.0,
+            emitted_velocity: Some([0.0, 0.1, 0.0]),
+            motion_velocity: [0.4, 0.0, 0.0],
+            ..RotatingCylinderEmitter::default()
+        };
+        let before_credit = s.credit;
+        assert_eq!(
+            s.step(1e-5, Some(emitter), || false).unwrap_err(),
+            ParticleFluidError::EmitterInsideCollisionSolid
+        );
+        assert_eq!(s.credit, before_credit);
+        assert_eq!(s.time(), 1.0);
+        assert_eq!(s.generation(), 0);
+        assert!(s.particles().is_empty());
+        assert!(s.particle_diagnostics().is_none());
+        s.set_collision_mesh(None).unwrap();
+        s.step(1e-5, Some(emitter), || false).unwrap();
+        assert_eq!(s.particles().len(), 1);
+        assert!(s.particles()[0].position[0] > 0.49);
+        assert_eq!(s.particle_diagnostics().unwrap().1.len(), 1);
+    }
+    #[test]
     fn diagnostics_commit_only_with_accepted_state_and_balance_pair_force() {
         let mut s = fixture(1.0, FluidPreset::Argon.material());
         s.accepted.extend([
