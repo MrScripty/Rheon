@@ -71,6 +71,15 @@ def verify(checkpoint, directory):
                 raise ValueError('nonfinite or negative receipt')
         if float(r['actual_divergence_max']) > 1e-5 or float(r['relative_pressure_l2']) > 1e-5:
             raise ValueError('comparison quality')
+        # The accepted divergence limit also bounds the full residual L2:
+        # sqrt(cells) * divergence_limit * cell_volume / dt.
+        if float(r['residual_l2']) > np.sqrt(32768)*1e-7/32768*60*(1+64*np.finfo(float).eps):
+            raise ValueError('residual gate bound')
+        if float(r['total_ms']) <= 0 or float(r['corrected_call_ms']) < float(r['total_ms']):
+            raise ValueError('corrected call timing scope')
+        active = ('inference_ms','qualification_ms') if r['method']=='learned' else ('fallback_ms',)
+        if any(float(r[k]) <= 0 for k in active):
+            raise ValueError('positive active stage timing')
         if float(r['total_ms']) < sum(float(r[k]) for k in ('inference_ms','qualification_ms','fallback_ms')):
             raise ValueError('timing scope')
     summary = {method: {'provider_median_ms': statistics.median(float(r['total_ms']) for r in rows if r['method']==method),

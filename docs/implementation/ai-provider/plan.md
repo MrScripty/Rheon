@@ -36,3 +36,42 @@ Shared contract proposal sent in task commentary for parent relay. The provider
 stage API works directly with a sealed RHS and leaves velocity correction and
 transactional simulation ownership to the caller; it cannot accept free-surface
 or obstacle operators accidentally.
+
+## Follow-on: bounded independent trajectories
+
+Extend qualification beyond isolated pressure inputs using the original lab's
+prescribed forcing/passive-tracer scenario and actual Rheon advection/projection
+kernels. Keep shared provider interfaces unchanged for the API owner.
+
+Freeze before executing: 32³ unit box; density 1.25; dt 1/60; seeds 900 and 901
+(already public lab seeds, not an untouched generalization set); 24 frames; three
+rotated timing repetitions. Independently evolve Jacobi, SGS, learned, and learned
+with a clearly labeled injected output error at frame 9. Also run an unsupported
+origin-shifted box and its matched Jacobi reference for 24 frames at both seeds;
+translation changes only model compatibility, not local scene coordinates.
+The fault is deliberately injected after real inference, never claimed as AI
+accuracy evidence. Require rejection and fallback on the fault frame and resume
+real inference afterward. Unsupported-origin runs must decline every frame.
+
+Acceptance: every accepted frame passes the shared pressure tolerance, actual
+f32 divergence <= 1e-5, Courant <= 1, finite velocities/pressure and tracer [0,1].
+Native step publication occurs only after all gates. Independently re-read full
+fields, recompute residual/divergence/gauge and tracer integrals, and compare all
+frames to both numerical reference rollouts (relative L2 velocity/tracer/centered
+pressure <= 1e-5). Require bitwise matching unsupported-origin fallback versus
+its matched reference. Compare the injected-fault rollout to references with the
+same error gates; verify expected selection/rejection on every frame. Publish no
+performance superiority threshold. Capture replay is separate from resident
+wall-time measurements; model construction and complete process time are explicit.
+
+New write set: examples/ai_pressure_trajectory.rs, tools/*ai_pressure_trajectory*,
+this provider documentation, and the dedicated ai-pressure CI workflow. No shared
+simulation/wire changes; reports expose frame selections/rejections/timings and
+full generated fields for API-owner integration qualification.
+
+Transition acceptance additionally reconstructs the complete declared step from
+rest or the previous accepted capture in an independent NumPy implementation.
+Require RHS, corrected velocity and transported tracer agreement within explicit
+storage/arithmetic rounding bounds. Regression coverage must reject coordinated
+duplication of prior fields and diagnostic receipts across all six modes; valid
+per-frame pressure/divergence alone cannot establish temporal evolution.

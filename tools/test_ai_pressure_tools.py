@@ -1,4 +1,5 @@
 """Artifact and receipt rejection tests; real replay requires explicit local inputs."""
+import csv
 import os
 from pathlib import Path
 import shutil
@@ -44,6 +45,28 @@ class ActualReplay(unittest.TestCase):
         path.write_text(path.read_text().replace('lab-modal-pressure-v1', 'jacobi-pcg-v1'))
         with self.assertRaisesRegex(ValueError, 'fallback'):
             self.verify(self.checkpoint, self.directory)
+
+    def mutate_receipts(self, key, value):
+        path=self.directory/'comparison.csv'
+        with path.open() as stream:
+            reader=csv.DictReader(stream)
+            fields,rows=reader.fieldnames,list(reader)
+        for row in rows:
+            row[key]=value
+        with path.open('w') as stream:
+            writer=csv.DictWriter(stream,fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(rows)
+
+    def test_zero_corrected_call_times_fail(self):
+        self.mutate_receipts('corrected_call_ms','0')
+        with self.assertRaisesRegex(ValueError,'corrected call timing scope'):
+            self.verify(self.checkpoint,self.directory)
+
+    def test_enormous_residuals_fail(self):
+        self.mutate_receipts('residual_l2','1e100')
+        with self.assertRaisesRegex(ValueError,'residual gate bound'):
+            self.verify(self.checkpoint,self.directory)
 
     def test_duplicate_case_fails(self):
         path = self.directory/'comparison.csv'
