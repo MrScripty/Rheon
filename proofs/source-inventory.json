@@ -14,7 +14,7 @@
   "Rheon/NoSlip.lean": "615283345c18331b5c19fba94cf738a55f089978df68d2ff67f109ae219b4e3c",
   "Rheon/ObstacleOperators.lean": "514cb760f16dd55d6bbad78b30953fcf3b90f3247b2185c1719b8463b6531680",
   "Rheon/Physics.lean": "26cbb4f75076c7e70a90da126f96622b75044befce26a4c17a50066c76e96050",
-  "Rheon/PracticalStudy.lean": "8a4577490e0792f07b85dc559ab788fc134d3998e16f1fd75e05c168920d7dbc",
+  "Rheon/PracticalStudy.lean": "20be05cb0916c5b2fa679ae20b060d5329050ce67507e628ccf4f1ac8897f49d",
   "Rheon/PressureGauge.lean": "c004131c86f4b49a9b24759297c70731acd6c8ae15da5672b54d33f562477fe0",
   "Rheon/StaticObstacle.lean": "b93a60d832775dd2177980806d149cbe0a42fef03bc3993f10ed44aa8451c4bb",
   "Rheon/Transport.lean": "f967e593db1df0ec945ea6830e67b991e56da168e9f6e3f2d42c4c5866c5cf06",
