@@ -4,6 +4,8 @@
 mod engineering;
 #[path = "desktop/export_ui.rs"]
 mod export_ui;
+#[path = "desktop/emitter_controls.rs"]
+mod emitter_controls;
 #[path = "desktop/history.rs"]
 mod history;
 #[path = "desktop/identity.rs"]
@@ -395,6 +397,7 @@ struct App {
     thread_limit: usize,
     automatic_threads: bool,
     emitter: RotatingCylinderEmitter,
+    emitter_controls: emitter_controls::EmitterControls,
     cylinder: bool,
     show_workers: bool,
     worker: Option<Worker>,
@@ -430,6 +433,7 @@ impl Default for App {
             threads: thread_limit,
             thread_limit,
             automatic_threads: true,
+            emitter_controls: emitter_controls::EmitterControls::default(),
             emitter: RotatingCylinderEmitter {
                 pressure_heads: [1000.0, 800.0],
                 ..RotatingCylinderEmitter::default()
@@ -637,14 +641,7 @@ impl App {
             egui::CollapsingHeader::new("Emitter").default_open(false).show(ui, |ui| {
                 ui.checkbox(&mut self.cylinder,"Rotating cylinder / two end jets");
                 if self.cylinder {
-                    for d in 0..3 {settings::quantity(ui,["Center X","Center Y","Center Z"][d],&mut self.emitter.center[d],"m",0.001,0.0..=self.domain_side);}
-                    let mut length=2.0*self.emitter.half_length;
-                    if settings::quantity(ui,"Cylinder length",&mut length,"m",0.001,0.0001..=self.domain_side).changed() {self.emitter.half_length=length*0.5;}
-                    settings::quantity(ui,"Radius",&mut self.emitter.radius,"m",0.001,0.0001..=self.domain_side*0.4);
-                    settings::quantity(ui,"Nozzle depth",&mut self.emitter.nozzle_depth,"m",0.001,0.0001..=self.domain_side*0.4);
-                    settings::quantity(ui,"Spin",&mut self.emitter.rotations_per_second,"rev/s",0.05,0.0..=10.0);
-                    for end in 0..2 {settings::quantity(ui,if end==0 {"End A head"}else{"End B head"},&mut self.emitter.pressure_heads[end],"Pa",10.0,0.0..=1000000.0);}
-                    ui.small("Nonuniform disk profiles · rotation around Y");
+                    self.emitter_controls.show(ui,&mut self.emitter,self.domain_side,if self.material_mode {self.materials.config.material.density}else{1.25});
                 } else if self.material_mode {ui.small("Emission off; only the initial domain contents evolve.");}
                 else {ui.small("Original smoke source; turns off halfway.");}
             });
@@ -936,6 +933,8 @@ impl eframe::App for App {
                 e.half_length /= domain_side;
                 e.radius /= domain_side;
                 e.nozzle_depth /= domain_side;
+                e.motion_velocity = e.motion_velocity.map(|v| v / domain_side);
+                e.emitted_velocity = e.emitted_velocity.map(|v| v.map(|x| x / domain_side));
                 e
             });
         let grid = self.running_request.as_ref().map_or(self.size, |r| r.size) as usize;
