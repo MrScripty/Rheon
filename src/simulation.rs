@@ -60,6 +60,8 @@ pub enum SimulationError {
     TracerBarrier(crate::TracerBarrierError),
     BoxFlux(crate::BoxFluxError),
     BoundaryWorkspaceMismatch,
+    UnsupportedProviderDomain,
+    ProviderWorkspaceMismatch,
     InvalidConfig,
     InvalidSource,
     InvalidEmitter,
@@ -138,17 +140,19 @@ struct BoundaryStepInput<'a> {
     workspace: &'a mut crate::BoxFluxStepWorkspace,
     boundary: crate::BoxFluxStepBoundary,
 }
-struct StepDomains<'a> {
+struct StepDomains<'a, 'p> {
     emitter: Option<crate::RotatingCylinderEmitter>,
     barrier: Option<&'a crate::TriangleSurface>,
     boundary: Option<BoundaryStepInput<'a>>,
     surface: Option<crate::column_surface::PressureSurface<'a>>,
     viscosity: Option<(&'a mut crate::ViscosityWorkspace, f64)>,
+    provider: Option<crate::provider_step::ProviderStepInput<'a, 'p>>,
 }
 pub(crate) struct StepOutcome {
     pub(crate) legacy: crate::BarrierStepReport,
     pub(crate) boundary: Option<crate::BoxFluxStepReport>,
     pub(crate) viscosity: Option<crate::ViscosityReport>,
+    pub(crate) provider: Option<crate::solver_provider::ProviderReport>,
 }
 
 struct Fields {
@@ -354,6 +358,7 @@ impl Simulation {
                 boundary: None,
                 surface: None,
                 viscosity: None,
+                provider: None,
             },
             cancel,
         )?;
@@ -403,6 +408,45 @@ impl Simulation {
             .boundary
             .expect("requested boundary has accepted diagnostics"))
     }
+    /// Opt-in provider selection for a sealed constant-density box. Pressure
+    /// qualification alone cannot publish: all normal stored-velocity, Courant,
+    /// tracer and final-commit gates still apply. Caller owns capped scratch/model.
+    pub fn step_with_pressure_provider(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        forces: &[BodyForce],
+        workspace: &mut crate::ProviderStepWorkspace,
+        preferred: Option<&mut dyn crate::solver_provider::PressureProvider>,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<crate::ProviderStepReport, SimulationError> {
+        let outcome = self.prepare_impl(
+            requested_dt,
+            source,
+            forces,
+            StepDomains {
+                emitter: None,
+                barrier: None,
+                boundary: None,
+                surface: None,
+                viscosity: None,
+                provider: Some(crate::provider_step::ProviderStepInput {
+                    workspace,
+                    preferred,
+                }),
+            },
+            cancel,
+        )?;
+        self.commit_prepared(&outcome);
+        Ok(crate::ProviderStepReport {
+            step: outcome.legacy.step,
+            provider: outcome
+                .provider
+                .expect("provider path qualified before commit"),
+            simulation_array_bytes: self.allocated_bytes,
+            provider_workspace_array_bytes: workspace.allocated_bytes(),
+        })
+    }
     fn step_impl(
         &mut self,
         requested_dt: f64,
@@ -422,6 +466,7 @@ impl Simulation {
                 boundary,
                 surface: None,
                 viscosity: None,
+                provider: None,
             },
             cancel,
         )?;
@@ -437,6 +482,7 @@ impl Simulation {
         boundary: Option<(&mut crate::BoxFluxStepWorkspace, crate::BoxFluxStepBoundary)>,
         surface: Option<crate::column_surface::PressureSurface<'_>>,
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
+        provider: Option<crate::provider_step::ProviderStepInput<'_, '_>>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.prepare_impl(
@@ -448,6 +494,7 @@ impl Simulation {
                 barrier: None,
                 surface,
                 viscosity,
+                provider,
                 boundary: boundary.map(|(workspace, boundary)| BoundaryStepInput {
                     workspace,
                     boundary,
@@ -550,7 +597,7 @@ impl Simulation {
         requested_dt: f64,
         source: Option<SmokeSource>,
         forces: &[BodyForce],
-        domains: StepDomains<'_>,
+        domains: StepDomains<'_, '_>,
         mut cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         let StepDomains {
@@ -559,7 +606,17 @@ impl Simulation {
             mut boundary,
             surface,
             viscosity,
+            mut provider,
         } = domains;
+        if provider.is_some() && (boundary.is_some() || surface.is_some() || viscosity.is_some()) {
+            return Err(SimulationError::UnsupportedProviderDomain);
+        }
+        if provider.as_ref().is_some_and(|p| {
+            !p.workspace
+                .matches(&self.grid, self.config.density, self.implementation)
+        }) {
+            return Err(SimulationError::ProviderWorkspaceMismatch);
+        }
         if self.paused {
             return Err(SimulationError::Paused);
         }
@@ -750,6 +807,7 @@ impl Simulation {
             None
         };
         checkpoint(&mut cancel, StepStage::BeforePressure)?;
+        let mut provider_report = None;
         let (pressure, actual_divergence_max, projection) = if let Some(input) = &mut boundary {
             for (scratch, velocity) in input
                 .workspace
@@ -793,18 +851,39 @@ impl Simulation {
             } else {
                 PressureOperator::new(&self.grid, self.config.density)?
             };
-            let pressure = self.workspace.solve_velocity(
-                &operator,
-                self.candidate.velocity(),
-                dt,
-                self.config.pressure,
-                || cancel(StepStage::PressureIteration),
-            )?;
-            operator.correct_candidate_in_place(
-                self.workspace.pressure(),
-                dt,
-                self.candidate.velocity_mut(),
-            )?;
+            let pressure = if let Some(input) = &mut provider {
+                let report = input.workspace.solve(
+                    &operator,
+                    self.candidate.velocity(),
+                    dt,
+                    self.config.pressure,
+                    input.preferred.take(),
+                    || cancel(StepStage::PressureIteration),
+                )?;
+                let pressure = report.accepted;
+                operator.correct_candidate_in_place(
+                    input.workspace.pressure(),
+                    dt,
+                    self.candidate.velocity_mut(),
+                )?;
+                checkpoint(&mut cancel, StepStage::BeforeProjectionAcceptance)?;
+                provider_report = Some(report);
+                pressure
+            } else {
+                let pressure = self.workspace.solve_velocity(
+                    &operator,
+                    self.candidate.velocity(),
+                    dt,
+                    self.config.pressure,
+                    || cancel(StepStage::PressureIteration),
+                )?;
+                operator.correct_candidate_in_place(
+                    self.workspace.pressure(),
+                    dt,
+                    self.candidate.velocity_mut(),
+                )?;
+                pressure
+            };
             operator.extend_column_band(self.candidate.velocity_mut());
             let actual_divergence_max = self
                 .workspace
@@ -959,6 +1038,7 @@ impl Simulation {
             legacy,
             boundary,
             viscosity,
+            provider: provider_report,
         })
     }
 }

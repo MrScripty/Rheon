@@ -155,3 +155,62 @@ pin mismatch, not an API numerical failure. Do not relax its qualification gate
 or replace historical evidence to make an unrelated API change pass. The current
 crate-root additions also exceed that packet's explicitly pinned dense3D-only
 extension. A separate education/source-qualification update is required.
+
+## 2026-10-13 — M6 production full-step pressure selection
+
+Parent authorized production Simulation/Session integration, retaining PR49's final
+provider/verifier contract at `89997c5`. Created `feat/full-step-provider-api` from
+PR53 `99bd039`, merged the complete AI branch as `e713854`, and kept PR48/PR53/main
+unchanged. Execution after the reported disconnect was verified: files/processes
+were intact and the published PR53 head matched before continuing. No approval or
+sandbox escalation was needed.
+
+Implemented sealed-box `step_with_pressure_provider` on Simulation, liquid transport
+and Session using the existing prepare/commit gates. Added caller-capped nine-array
+scratch, fixed grid/density/fallback identity, explicit pressure-stage fallback,
+accepted snapshot provider metadata, API capability version 2, a 24-update host
+example and the separate [contract](../../api/full-step-provider.md). Provider and
+physics algorithms and final AI verifier files are unchanged by the implementation.
+Original pressure scratch and Session's retained boundary scratch remain accounted
+for; LiquidStepReport adds a provider workspace byte component.
+
+Exact commands used Rust 1.92.0 on Linux CPU. All Rust test commands below set
+`RHEON_AI_EXPORT=/tmp/rheon-api-model/modal.bin`, the export from the already verified
+checkpoint SHA256 `25533a2fbaa5ab0f5fb574dc6307a2b8d6a686deb7db867d0d03338d4d70d5a9`
+and export SHA256 `902ad8d77b16ae42f22f90bf71c22c19ae2e3cbe0cc0f4cc3d770930d4049aea`.
+
+- `cargo test --release --locked --no-default-features -- --include-ignored`:
+  **354 passed, 0 failed, 0 ignored**, 46 targets including empty targets.
+- `cargo test --release --locked -- --include-ignored`:
+  **361 passed, 0 failed, 0 ignored**, 47 targets including empty targets.
+- `cargo test --release --locked --no-default-features --features parallel --lib --test provider_step_contract --test session_contract -- --include-ignored`:
+  **29 passed, 0 failed, 0 ignored**.
+- `cargo clippy --locked --no-default-features --all-targets -- -D warnings` and
+  `cargo clippy --locked --all-targets -- -D warnings`: passed.
+- `cargo fmt --all --check`, `git diff --check`: passed.
+- `cargo run --release --locked --no-default-features --example production_provider_session -- /tmp/rheon-api-model/modal.bin`:
+  24 accepted updates, actual model selected on all 24; final time approximately
+  0.4 s, reported stored-velocity divergence approximately 2.33e-9/s. Pressure-stage
+  durations printed by this sample are not whole-step timing or speedup evidence.
+
+These are overlapping configuration counts. The production real-model regression
+runs 24 accepted intervals with an unsupported half-dt request forcing numerical
+fallback at frame 9 and a cancelled final publication/retry at frame 12. Other tests
+prove numerical legacy field equality; every observed cancellation checkpoint;
+pressure-qualified output failing stored-f32 divergence; liquid numerical failure
+following carrier preparation; workspace/domain/cap refusal; metadata reset after
+legacy acceptance; and a controlled clock crossing during the final callback.
+
+Independent reviewer reran 17 unit + 7 integration tests with the verified export:
+**24 passed, none failed/ignored**. Earlier affected simulation/liquid/boundary/session
+regressions: **34 passed**. No runtime blockers. Addressed its byte-accounting and
+negative-test suggestions and corrected stale docs describing full-step support as
+future. Logs: `/tmp/rheon-full-provider-{core,default,parallel}.log`; strict lint logs
+`/tmp/rheon-full-provider-{clippy,default-clippy}.log`.
+
+Independent validation task `01a134aa-fa83-76e1-8e5d-87a010e33017` is the next parent-
+coordinated check against the pushed feature commit. No direct cross-thread messaging
+tool is exposed here; provide the commit/PR and commands in the handoff for relay.
+The pre-existing research-book historical source pin remains separate; no qualification
+policy was weakened. Godot/runtime, GPU, native graphics/clipboard, ARM/WASM, other
+physics domains and target-device real-time performance remain unqualified.

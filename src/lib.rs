@@ -193,3 +193,6 @@ pub use pressure_session::{
 };
 mod vtk_export;
 pub use vtk_export::{write_material_vtp, write_particles_vtp, write_session_vti};
+
+mod provider_step;
+pub use provider_step::{ProviderStepReport, ProviderStepWorkspace};
