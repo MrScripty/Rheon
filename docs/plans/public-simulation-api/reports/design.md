@@ -49,3 +49,30 @@ Acceptance oracles: native transactional state/report bytes before and after rej
 operations; actual accepted dt vs requested dt; direct existing encoder equality proves
 wrapper compatibility only, not independent validation of encoder correctness. Existing
 dense3D tests provide its numerical/wire checks. Review found no blocking issue.
+
+## M3 composed-design update
+
+The same pinned standards apply. Material and pressure adapters are separate
+because their results, callers and failure obligations differ. Current probes:
+
+1. Material owns SPH lifecycle/control publication; quantitative owner retains
+   diagnostic algorithms. Pressure owns qualified publication; provider owns
+   prediction/qualification/fallback; full simulations own later correction.
+2. Required coupling is each result with controls/report/generation. Material
+   evaluation time differs from position time. No common pressure type erases this.
+3. Callers know typed controls, borrows, fallback policy, budgets and accepted versus
+   qualified stages. They do not manage workspace invalidation or publication copies.
+4. Emitter changes stay in controls; diagnostic evolution stays with ParticleDiagnostic.
+   Providers vary behind their existing trait. Full-step hooks must touch physics and
+   its capability gate, not CAD encoders or the SPH equation of state.
+5. Existing domain types carry stable values. Private adapters contain commit ordering.
+   No frontend, network transport, engine or ABI leaks into numerical owners.
+6. Model failure can alter caller-owned model state but cannot replace prior pressure.
+   Material failure preserves particles/diagnostics. Independent contracts and tests
+   permit changes without fake shared semantics.
+7. Deleting adapters moves lifecycle, quotas, deadlines and publication association
+   into consumers. Pressure's retained array is needed because workspace candidates
+   are invalid after errors. No registry, new schema or duplicate capture is retained.
+8. Numerical complexity stays with physics/provider modules. New storage is explicit
+   and capped; external models/copies remain outside those caps. Metadata describes
+   the stated typed stage, not a general physical capability or performance promise.

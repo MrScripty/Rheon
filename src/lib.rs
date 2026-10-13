@@ -185,3 +185,9 @@ pub use material_session::{
 };
 /// Optional learned pressure components with reference fallback.
 pub mod solver_provider;
+
+mod pressure_session;
+pub use pressure_session::{
+    PRESSURE_SESSION_CAPABILITIES, PressureSession, PressureSessionCapabilities,
+    PressureSessionError, PressureSolveControls, QualifiedPressureSnapshot,
+};
