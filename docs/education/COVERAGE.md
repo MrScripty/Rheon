@@ -55,7 +55,7 @@ Chapters 11, 13, 16 and 17 now include source-linked material-pair/nozzle,
 accepted-state, preview/history and CPU scheduling exercises. These additions
 use the actual native APIs, independent numerical tests and bounded Lean
 statements. They do not add a browser SPH runtime or additional scroll-linked
-chapters: coverage remains 15/25 partial chapters and 0/6 appendices.
+chapters: coverage remains 18/25 partial chapters and 0/6 appendices.
 [Material contracts](../research-book/implementation/material-preview-contracts.md)
 and [CPU scheduling contracts](../research-book/implementation/cpu-scheduling-contracts.md)
 separate exact arithmetic from implementation, full-step stability, continuum,
@@ -329,3 +329,21 @@ an existing chapter rather than claiming a new covered chapter.
 
 See [plan](PRESSURE_GAUGE_PLAN.md) and
 [complete derivation](../research-book/engineering/pressure-compatibility-and-gauges.md).
+
+## Engineering completion: reconstruction and coupling
+
+[Research dossier](../research-book/engineering/coupling-and-reconstruction.md)
+separates an affine three-sample reconstruction from a general mesh operator,
+and an exactly specified two-path momentum iteration from a collocated backend.
+Chapter 8 adds skew/normal-gradient and corrected-face samples; chapter 4 adds
+continuity-versus-momentum and an overrelaxation counterexample. Placement totals
+remain 18/25 partial chapters and 0/6 appendices.
+
+| Evidence | Scope/status |
+| --- | --- |
+| Implemented | Two recomputed, selectable 3D mechanisms, four heading presets, fixed quantity scales |
+| Researched | CFD Direct primary developer notes on gradient discretisation and steady coupling; inaccessible original papers explicitly identified |
+| Finite reference | 48 reconstruction + 15 iteration states, independently evaluated with rational arithmetic; invalid controls rejected |
+| Lean | Ten exact real-arithmetic statements in `CouplingStudy.lean`; kernel qualification pending for this new source |
+| Browser | Hosted desktop/390px/320px control, geometry, camera, collapsed-proof and scroll checks added; qualification pending |
+| Not established | Arbitrary mesh consistency, production SIMPLE/PISO, IEEE error, continuum validation, runtime performance |

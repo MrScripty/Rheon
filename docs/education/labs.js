@@ -1,3 +1,4 @@
+import {createCompletionLabs} from './completion_labs.js';
 import {createGaugeLab} from './gauge_lab.js';
 import {createEngineeringLabs} from './engineering_labs.js';
 import * as THREE from 'three';
@@ -50,6 +51,8 @@ function cap(){const d=data.cap;let angle=12,tension=1;meta('6 · Wetting shape 
 const expectations={
  faceflux:'At area 0.5, velocity 1, left boundary flux 0.5 and pressures 1/3, the pressure pairing is −2 W: −1 W interior plus −1 W boundary. Omitting boundary work fails.',
  checker:'Alternating pressures ±1 have zero central cell gradients but compact face responses ±2 and divergences ±4 at response 1. Constant pressure produces zero response.',
+ reconstruction:'On skew affine samples, a two-point normal gradient can be wrong even when sample pressures are exact. The third independent sample enables the stated correction.',
+ coupling:'Continuity is zero after correction, but excessive relaxation grows the velocity error. Check momentum and continuity separately.',
  gauges:'For globally balanced but component-incompatible data, zero retained-row residual does not imply a valid pressure correction. Gauge shifts preserve jumps and flux; explicit RHS projection changes the problem.',
  stressprobe:'At unit rate and viscosity, rotation has zero symmetric strain; shear has 1 W and extension 4 W of dissipation, exactly supplied by the six-face work.',
  decay:'At T=2 s with one explicit step, A becomes −1 m/s and energy stays 0.25 J, while exact A is exp(−2). Refine the number of steps at the same T and compare amplitude errors. Implicit energy decay alone does not certify accuracy.',
@@ -66,6 +69,7 @@ const expectations={
  timestep:'From rest, one accepted step gives interior speeds (+0.125, −0.125, −0.125, +0.125) m/s and kinetic energy 0.03125 J. Rejection before commit preserves every accepted field bit, time and generation. Scroll and camera controls never advance or reset the state.'
 };
 const labs={projection,collision,hydrostatic,viscous,slip,cap,...createTransportLabs({clear,line,dot,arrow,range,choice,meta,setMetrics,panel,setReference:q=>{reference=q;}})};
+Object.assign(labs,createCompletionLabs({clear,box,arrow,dot,line,choice,meta,setMetrics,setReference:q=>{reference=q;}}));
 labs.gauges=createGaugeLab({clear,box,arrow,choice,meta,setMetrics,setReference:q=>{reference=q;}});
 Object.assign(labs,createEngineeringLabs({clear,box,arrow,choice,meta,setMetrics,setReference:q=>{reference=q;}}));
 labs.decay=createDecayLab({clear,box,arrow,range,choice,meta,setMetrics,setReference:q=>{reference=q;}});
@@ -77,7 +81,7 @@ let applying=false;
 function manualChange(){if(!applying)host.dispatchEvent(new CustomEvent('rheon-manual-change',{bubbles:true}));}
 export function selectLab(lab=selector.value){
   if(!labs[lab]||![...selector.options].some(o=>o.value===lab))return;flow.unmount();selector.value=lab;document.querySelector('.example-workspace').dataset.lab=lab;panel.replaceChildren();reference=null;labs[lab]();
-  const engineering=['faceflux','checker','stressprobe','gauges'].includes(lab), decay=lab==='decay', geometric=lab==='volume', recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
+  const engineering=['faceflux','checker','stressprobe','gauges','reconstruction','coupling'].includes(lab), decay=lab==='decay', geometric=lab==='volume', recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
   const legend=document.querySelector('#plot-legend');
   if(legend){
     legend.hidden=!recomputed&&!native&&!volume&&!geometric&&!decay;legend.replaceChildren();
@@ -87,7 +91,8 @@ export function selectLab(lab=selector.value){
   }
   document.querySelector('.example-kind').textContent=engineering?'Browser algebra · prescribed finite examples':decay?'Browser time integration · one viscous mode':geometric?'Browser geometry · one shared face':volume?'Rust / WebAssembly · computed 3D tracer':native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
   document.querySelector('#reference-sources').hidden=recomputed||native||volume||geometric||decay||engineering;
-  document.querySelector('#engineering-sources').hidden=!engineering||lab==='gauges';
+  document.querySelector('#engineering-sources').hidden=!engineering||['gauges','reconstruction','coupling'].includes(lab);
+  document.querySelector('#completion-sources').hidden=!['reconstruction','coupling'].includes(lab);
   document.querySelector('#gauge-sources').hidden=lab!=='gauges';
   document.querySelector('#transport-sources').hidden=!recomputed;
   document.querySelector('#volume-sources').hidden=!geometric;
@@ -96,6 +101,8 @@ export function selectLab(lab=selector.value){
   document.querySelector('#flow-sources').hidden=!volume;
 }
 const presets={
+ reconstruction:{skew:[2,1,1,1,0],corrected:[2,1,1,1,1]},
+ coupling:{iterate:[1,3],unstable:[2,4]},
  faceflux:{work:[1,2,2,0],closed:[1,2,1,0],balanced:[1,2,0,0]},
  checker:{alternating:[1,2,2],constant:[0,2,2]},
  gauges:{compatible:[0,1,0,1,1,0],incompatible:[1,1,0,1,1,0],mean:[0,1,1,1,1,0],volume:[0,1,2,1,1,0],projected:[1,1,3,1,1,0],shifted:[1,1,0,2,0,0],perturbed:[0,1,0,1,1,1]},
@@ -118,6 +125,6 @@ export function setLesson(lab,preset){
  }finally{applying=false;}
 }
 // Read-only inspection for the independent browser comparisons.
-export function snapshot({flowDerived=false}={}){return {lab:selector.value,camera:camera.position.toArray(),target:orbit?.target.toArray(),webgl:!!renderer,boxes:world.children.filter(o=>o.isMesh&&o.geometry.type==='BoxGeometry').map(o=>({origin:o.position.toArray(),size:[o.geometry.parameters.width,o.geometry.parameters.height,o.geometry.parameters.depth],color:o.material.color.getHex()})),reference:flowDerived&&selector.value==='flow'?flow.inspect({derived:true}):reference,referenceLines:world.children.filter(o=>o.userData.series).map(o=>({series:o.userData.series,points:Array.from({length:o.geometry.attributes.position.count},(_,i)=>Array.from(o.geometry.attributes.position.array.slice(i*3,i*3+3)))})),arrows:world.children.filter(o=>o.type==='ArrowHelper').map(o=>({method:o.userData.decayMethod??null,origin:o.position.toArray(),length:o.line.scale.y+o.cone.scale.y,direction:new THREE.Vector3(0,1,0).applyQuaternion(o.quaternion).toArray()}))};}
+export function snapshot({flowDerived=false}={}){return {lab:selector.value,camera:camera.position.toArray(),target:orbit?.target.toArray(),webgl:!!renderer,spheres:world.children.filter(o=>o.isMesh&&o.geometry.type==='SphereGeometry').map(o=>({origin:o.position.toArray(),radius:o.geometry.parameters.radius})),boxes:world.children.filter(o=>o.isMesh&&o.geometry.type==='BoxGeometry').map(o=>({origin:o.position.toArray(),size:[o.geometry.parameters.width,o.geometry.parameters.height,o.geometry.parameters.depth],color:o.material.color.getHex()})),reference:flowDerived&&selector.value==='flow'?flow.inspect({derived:true}):reference,referenceLines:world.children.filter(o=>o.userData.series).map(o=>({series:o.userData.series,points:Array.from({length:o.geometry.attributes.position.count},(_,i)=>Array.from(o.geometry.attributes.position.array.slice(i*3,i*3+3)))})),arrows:world.children.filter(o=>o.type==='ArrowHelper').map(o=>({method:o.userData.decayMethod??null,origin:o.position.toArray(),length:o.line.scale.y+o.cone.scale.y,direction:new THREE.Vector3(0,1,0).applyQuaternion(o.quaternion).toArray()}))};}
 selector.addEventListener('change',()=>{selectLab();manualChange();});
 selectLab([...selector.options].some(o=>o.value===location.hash.slice(1))?location.hash.slice(1):selector.options[0].value);

@@ -1,11 +1,11 @@
 {
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Pressure gauge finite contracts: pinned kernel and transitive axiom audit passed for the identical proof inventory; no implementation/PDE qualification.",
-  "proof_inventory_sha256": "50da921e91fb4fea86e04e35116c4c7ac7ed589dd2e2cb2599cdf51a365cd711",
-  "public_theorems": 181,
-  "audited_declarations": 297,
-  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38463683974",
+  "qualified_lean_source": "Coupling/reconstruction study pending its fresh kernel build.",
+  "proof_inventory_sha256": "89a4fe5ac51a4e9e29f50f186236fe1255c137936884a796cd573819b1500320",
+  "public_theorems": 191,
+  "audited_declarations": null,
+  "lean_ci": null,
   "labs": [
     {
       "id": "wall-friction",
@@ -80,7 +80,7 @@
   },
   "local_kernel_receipt_sha256": null,
   "lean_ci_scope": "No prior receipt certifies the added engineering contracts.",
-  "explicit_expected_declarations": 242,
+  "explicit_expected_declarations": 252,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
     "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
@@ -132,23 +132,14 @@
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
   },
   "current_reviewed_proof": {
-    "proof_inventory_sha256": "50da921e91fb4fea86e04e35116c4c7ac7ed589dd2e2cb2599cdf51a365cd711",
-    "public_theorems": 181,
-    "explicit_expected_declarations": 242,
-    "audited_declarations": 297,
-    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38463683974",
-    "status": "passed",
+    "proof_inventory_sha256": "89a4fe5ac51a4e9e29f50f186236fe1255c137936884a796cd573819b1500320",
+    "public_theorems": 191,
+    "explicit_expected_declarations": 252,
+    "audited_declarations": null,
+    "lean_ci": null,
+    "status": "reviewed-pending-kernel-qualification",
     "local_qualification": null,
-    "scope": "Exact two-cell Neumann component and gauge algebra; no arbitrary mesh, PDE, Rust/JS/IEEE or performance proof.",
-    "source_head": "98abec68b60b3c6859276ce10d53783852b8a923",
-    "checkout_head": "05c4ed73bda6d420244662180405fadda6156cea",
-    "lean_toolchain": "leanprover/lean4:v4.19.0",
-    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
-    "allowed_axioms": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ]
+    "scope": "Finite affine reconstruction and two-path recurrence; no general collocated convergence, PDE, IEEE or runtime theorem."
   },
   "historical_pr43_reviewed_proof": {
     "status": "passed",
@@ -239,6 +230,25 @@
     "scope": "Finite face algebra and planar constitutive power only; no geometry/solver/PDE/IEEE proof.",
     "source_head": "dd0d81c5d893801313b7187530176cc00bf10faf",
     "checkout_head": "829c0da761e82f0adb5e7590cdc777276748c82d",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "historical_pressure_gauge_proof": {
+    "proof_inventory_sha256": "50da921e91fb4fea86e04e35116c4c7ac7ed589dd2e2cb2599cdf51a365cd711",
+    "public_theorems": 181,
+    "explicit_expected_declarations": 242,
+    "audited_declarations": 297,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38463683974",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Exact two-cell Neumann component and gauge algebra; no arbitrary mesh, PDE, Rust/JS/IEEE or performance proof.",
+    "source_head": "98abec68b60b3c6859276ce10d53783852b8a923",
+    "checkout_head": "05c4ed73bda6d420244662180405fadda6156cea",
     "lean_toolchain": "leanprover/lean4:v4.19.0",
     "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
     "allowed_axioms": [

@@ -75,3 +75,29 @@ geometry assembly, positivity, numerical execution or physical accuracy.
 Fresh kernel status is recorded separately from these statements.
 
 </details>
+
+## Skew samples and normal gradients
+
+At samples L=(-1/2,0), R=(1/2,1/2), T=(-1/2,1) m, take p=x+y+2 Pa.
+The pressures are (3/2,3,5/2). The two-point contribution along the centre
+vector predicts a face-normal gradient of 6/5 Pa/m although the exact x gradient
+is 1. The rendered patch has normal x; its arrows encode pressure gradient,
+not velocity. Moving the skew control changes the actual sample geometry.
+
+## An affine correction with a third sample
+
+Use the third sample to reconstruct b=(p_T-p_L)/t and then a=p_R-p_L-s b.
+Adding the missing normal component corrects 6/5 by -1/5 to give 1 Pa/m.
+The linearly interpolated face value 9/4 Pa also needs a -1/4 Pa skew correction.
+Two samples alone do not determine both gradient components. This finite affine
+result is not a general nonlinear mesh reconstruction or a collision-mesh reader.
+
+<details><summary>Reconstruction and coupling proof scope</summary>
+
+[CouplingStudy.lean](../../../proofs/Rheon/CouplingStudy.lean) checks the stated
+sample, correction and recurrence identities with explicit nonzero denominators.
+See the [complete research derivation](../engineering/coupling-and-reconstruction.md)
+for primary sources, units, worked numbers and implementation exclusions.
+No general geometry conditioning or production pressure solver is certified.
+
+</details>

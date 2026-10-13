@@ -105,3 +105,28 @@ identity in exact real arithmetic. It does not prove general pressure–velocity
 stability, nonlinear convergence, native execution or floating-point accuracy.
 
 </details>
+
+## Continuity is not momentum convergence
+
+The embedded two-path network executes a segregated recurrence for
+H=[[2,-1],[-1,2]], H u+(1,1)p=(1,0), u1+u2=0. Its exact solution is
+u=(1/6,-1/6), p=1/2. After four iterations at relaxation 1, u=(5/32,-5/32)
+and p=1/2. Continuity is zero, yet momentum residuals are (1/32,-1/32).
+The arrows are nondimensional path velocities; this is a reduced linear study,
+not a collocated CFD backend or a general SIMPLE implementation.
+
+## An overrelaxed two-path counterexample
+
+Increase relaxation to 3/2. The velocity error multiplies by -5/4 each iteration,
+so its squared magnitude grows by 25/16; pressure error still shrinks by -1/2.
+A good pressure history or zero continuity residual alone cannot qualify the
+coupled state. Compare actual iteration counts at fixed relaxation.
+
+<details><summary>Reconstruction and coupling proof scope</summary>
+
+[CouplingStudy.lean](../../../proofs/Rheon/CouplingStudy.lean) proves the exact
+finite recurrence identities and counterexample, not general algorithmic
+convergence. The [complete derivation](../engineering/coupling-and-reconstruction.md)
+records the predictor/corrector order and primary developer-source context.
+
+</details>

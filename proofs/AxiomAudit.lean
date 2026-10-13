@@ -247,7 +247,17 @@ run_cmd do
     `Rheon.PressureGauge.volume_weighted_left_null,
     `Rheon.PressureGauge.boundary_work_shift,
     `Rheon.PressureGauge.balanced_boundary_work,
-    `Rheon.PressureGauge.pressure_pairing_with_boundary]
+    `Rheon.PressureGauge.pressure_pairing_with_boundary,
+    `Rheon.CouplingStudy.affine_transverse_sample,
+    `Rheon.CouplingStudy.affine_longitudinal_sample,
+    `Rheon.CouplingStudy.nonorthogonal_correction,
+    `Rheon.CouplingStudy.skew_face_correction,
+    `Rheon.CouplingStudy.conservative_corrector,
+    `Rheon.CouplingStudy.velocity_error_recurrence,
+    `Rheon.CouplingStudy.pressure_error_recurrence,
+    `Rheon.CouplingStudy.bounded_velocity_factor,
+    `Rheon.CouplingStudy.exact_network_solution,
+    `Rheon.CouplingStudy.overrelaxed_velocity_factor]
   for name in expected do
     let _ ← getConstInfo name
     pure ()
