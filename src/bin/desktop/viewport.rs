@@ -81,7 +81,7 @@ impl OrbitCamera {
     pub fn zoom(&mut self, log_delta: f32) {
         self.distance = (self.distance * (-log_delta.clamp(-2.0, 2.0)).exp()).clamp(0.35, 12.0);
     }
-    fn project(&self, p: V3, rect: Rect) -> Option<(Pos2, f32)> {
+    pub(super) fn project(&self, p: V3, rect: Rect) -> Option<(Pos2, f32)> {
         self.project_prepared(p, rect, self.basis())
     }
     fn project_prepared(&self, p: V3, rect: Rect, basis: (V3, V3, V3, V3)) -> Option<(Pos2, f32)> {
@@ -117,6 +117,9 @@ struct CachedScene {
 }
 pub struct Viewport {
     pub camera: OrbitCamera,
+    engineering: Option<super::engineering::EngineeringView>,
+    engineering_active: bool,
+    engineering_camera: OrbitCamera,
     pub touchpad_mode: bool,
     pub threshold: u8,
     pub domain_side: f64,
@@ -129,6 +132,12 @@ impl Default for Viewport {
     fn default() -> Self {
         Self {
             camera: OrbitCamera::default(),
+            engineering: None,
+            engineering_active: false,
+            engineering_camera: OrbitCamera {
+                distance: 1.4,
+                ..Default::default()
+            },
             touchpad_mode: false,
             threshold: 7,
             domain_side: 1.0,
@@ -148,13 +157,47 @@ impl Viewport {
         workers: &[WorkerVoxel],
         grid_edge: usize,
     ) {
+        ui.horizontal_wrapped(|ui| {
+            ui.selectable_value(&mut self.engineering_active, false, "Live preview");
+            ui.selectable_value(
+                &mut self.engineering_active,
+                true,
+                "Obstacle projection lab",
+            );
+            if self.engineering_active {
+                ui.checkbox(
+                    &mut self.engineering_camera.orthographic,
+                    "Orthographic lab",
+                );
+                if ui.button("Frame lab").clicked() {
+                    self.engineering_camera = OrbitCamera {
+                        distance: 1.4,
+                        ..Default::default()
+                    };
+                }
+            }
+        });
+        if self.engineering_active {
+            self.engineering
+                .get_or_insert_with(Default::default)
+                .controls(ui);
+        }
         let (rect, response) = ui.allocate_exact_size(
             ui.available_size().max(egui::vec2(150.0, 150.0)),
             egui::Sense::click_and_drag(),
         );
         let painter = ui.painter_at(rect);
         painter.rect_filled(rect, 0.0, Color32::from_rgb(14, 20, 29));
-        self.input(ui, &response, rect);
+        if self.engineering_active {
+            std::mem::swap(&mut self.camera, &mut self.engineering_camera);
+            self.input(ui, &response, rect, 1.4);
+            if let Some(lab) = &mut self.engineering {
+                lab.paint(ui, rect, &response, &self.camera);
+            }
+            std::mem::swap(&mut self.camera, &mut self.engineering_camera);
+            return;
+        }
+        self.input(ui, &response, rect, 2.35);
         let changed = match (&self.frame, &frame) {
             (Some(a), Some(b)) => !Arc::ptr_eq(a, b),
             (None, None) => false,
@@ -306,7 +349,7 @@ impl Viewport {
         painter.text(rect.left_bottom()+egui::vec2(14.0,-12.0),egui::Align2::LEFT_BOTTOM,
             "Drag orbit · Shift+drag pan · Ctrl+drag zoom · wheel/pinch zoom · 1/3/7 views · Home frame",egui::FontId::proportional(11.0),Color32::from_rgb(142,158,176));
     }
-    fn input(&mut self, ui: &egui::Ui, response: &egui::Response, rect: Rect) {
+    fn input(&mut self, ui: &egui::Ui, response: &egui::Response, rect: Rect, frame_distance: f32) {
         if !(response.hovered() || response.dragged()) {
             return;
         }
@@ -353,7 +396,10 @@ impl Viewport {
                 }
             }
             if input.key_pressed(egui::Key::Home) || input.key_pressed(egui::Key::F) {
-                self.camera = OrbitCamera::default();
+                self.camera = OrbitCamera {
+                    distance: frame_distance,
+                    ..Default::default()
+                };
             }
             if input.key_pressed(egui::Key::Num1) {
                 self.camera.yaw = 0.0;
@@ -547,6 +593,51 @@ mod tests {
             c.zoom(1.0);
         }
         assert_eq!(c.distance, 0.35);
+    }
+    #[test]
+    fn lab_navigation_preserves_the_live_camera_and_uses_its_own_framing() {
+        let ctx = egui::Context::default();
+        let mut viewport = Viewport {
+            engineering_active: true,
+            ..Default::default()
+        };
+        viewport.camera.yaw = 1.2;
+        viewport.engineering_camera.distance = 4.0;
+        let live = viewport.camera.clone();
+        // egui establishes hit regions on the first frame before accepting hover.
+        let _ = ctx.run(
+            egui::RawInput {
+                screen_rect: Some(Rect::from_min_size(Pos2::ZERO, egui::vec2(800.0, 600.0))),
+                events: vec![egui::Event::PointerMoved(egui::pos2(400.0, 400.0))],
+                ..Default::default()
+            },
+            |ctx| {
+                egui::CentralPanel::default()
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32));
+            },
+        );
+        let _ = ctx.run(
+            egui::RawInput {
+                screen_rect: Some(Rect::from_min_size(Pos2::ZERO, egui::vec2(800.0, 600.0))),
+                events: vec![
+                    egui::Event::PointerMoved(egui::pos2(400.0, 400.0)),
+                    egui::Event::Key {
+                        key: egui::Key::Home,
+                        physical_key: None,
+                        pressed: true,
+                        repeat: false,
+                        modifiers: Default::default(),
+                    },
+                ],
+                ..Default::default()
+            },
+            |ctx| {
+                egui::CentralPanel::default()
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32));
+            },
+        );
+        assert_eq!(viewport.camera, live);
+        assert_eq!(viewport.engineering_camera.distance, 1.4);
     }
     #[test]
     fn voxel_surface_culls_internal_faces() {
