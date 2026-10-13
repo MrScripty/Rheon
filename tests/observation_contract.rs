@@ -47,38 +47,40 @@ fn step() -> Vec<u32> {
 #[test]
 fn diagnostics_are_real_per_worker_isolated_and_do_not_change_results_or_leak_bindings() {
     let g = GridGeometry::new([8; 3], [0.125; 3], [0.0; 3]).unwrap();
-    let observer = CalculationObserver::new(&g, 2).unwrap();
-    let expected = step();
-    let results = rayon::ThreadPoolBuilder::new()
-        .num_threads(2)
-        .build_scoped(
-            |thread| observer.observe(|| thread.run()),
-            |pool| pool.broadcast(|_| step()),
-        )
-        .unwrap();
-    for result in results {
-        assert_eq!(result, expected);
-    }
-    let markers = observer.snapshot();
-    assert_eq!(markers.len(), 2);
-    for marker in markers {
-        assert!(!marker.active);
-        assert!(marker.coordinate.iter().all(|v| *v < 8));
-    }
-    assert_eq!(Arc::strong_count(&observer), 1);
-    let before = observer
-        .snapshot()
-        .iter()
-        .map(|m| m.coordinate)
-        .collect::<Vec<_>>();
-    step();
-    assert_eq!(
-        before,
-        observer
+    for workers in [1, 2, 4] {
+        let observer = CalculationObserver::new(&g, workers).unwrap();
+        let expected = step();
+        let results = rayon::ThreadPoolBuilder::new()
+            .num_threads(workers)
+            .build_scoped(
+                |thread| observer.observe(|| thread.run()),
+                |pool| pool.broadcast(|_| step()),
+            )
+            .unwrap();
+        for result in results {
+            assert_eq!(result, expected);
+        }
+        let markers = observer.snapshot();
+        assert_eq!(markers.len(), workers);
+        for marker in markers {
+            assert!(!marker.active);
+            assert!(marker.coordinate.iter().all(|v| *v < 8));
+        }
+        assert_eq!(Arc::strong_count(&observer), 1);
+        let before = observer
             .snapshot()
             .iter()
             .map(|m| m.coordinate)
-            .collect::<Vec<_>>()
-    );
+            .collect::<Vec<_>>();
+        step();
+        assert_eq!(
+            before,
+            observer
+                .snapshot()
+                .iter()
+                .map(|m| m.coordinate)
+                .collect::<Vec<_>>()
+        );
+    }
     assert!(CalculationObserver::new(&g, 0).is_err());
 }
