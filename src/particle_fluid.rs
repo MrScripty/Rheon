@@ -56,6 +56,17 @@ pub struct ParticleStepReport {
     pub max_pressure: f64,
     pub mean_temperature_kelvin: f64,
 }
+/// Evaluation used by the last committed update, after emission and before
+/// integration/wall response. Index identity is stable for this simulation's
+/// append-only lifetime; a new simulation starts a new identity namespace.
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct ParticleDiagnostic {
+    pub density: f64,
+    pub pressure: f64,
+    /// Includes gravity and pair forces, excludes subsequent wall response.
+    pub acceleration: [f64; 3],
+}
+
 #[derive(Clone, Copy, Default)]
 struct Thermodynamic {
     density: f64,
@@ -73,6 +84,8 @@ pub struct ParticleFluidSimulation {
     accepted: Vec<FluidParticle>,
     candidate: Vec<FluidParticle>,
     thermodynamic: Vec<Thermodynamic>,
+    committed_diagnostics: Vec<ParticleDiagnostic>,
+    evaluation_time: f64,
     force: Vec<Force>,
     heads: Vec<usize>,
     next: Vec<usize>,
@@ -177,6 +190,7 @@ impl ParticleFluidSimulation {
             .checked_mul(
                 2 * std::mem::size_of::<FluidParticle>()
                     + std::mem::size_of::<Thermodynamic>()
+                    + std::mem::size_of::<ParticleDiagnostic>()
                     + std::mem::size_of::<Force>()
                     + std::mem::size_of::<usize>(),
             )
@@ -204,6 +218,11 @@ impl ParticleFluidSimulation {
         let thermodynamic = allocate(
             config.max_particles,
             Thermodynamic::default(),
+            &mut remaining,
+        )?;
+        let committed_diagnostics = allocate(
+            config.max_particles,
+            ParticleDiagnostic::default(),
             &mut remaining,
         )?;
         let force = allocate(config.max_particles, Force::default(), &mut remaining)?;
@@ -257,6 +276,8 @@ impl ParticleFluidSimulation {
             accepted,
             candidate,
             thermodynamic,
+            committed_diagnostics,
+            evaluation_time: 0.0,
             force,
             heads,
             next,
@@ -279,6 +300,14 @@ impl ParticleFluidSimulation {
     }
     pub fn particles(&self) -> &[FluidParticle] {
         &self.accepted
+    }
+    /// None before the first accepted step. Rejected attempts never publish scratch.
+    /// Values correspond to post-emission, pre-integration state at the returned time.
+    pub fn particle_diagnostics(&self) -> Option<(f64, &[ParticleDiagnostic])> {
+        (self.generation > 0).then_some((
+            self.evaluation_time,
+            &self.committed_diagnostics[..self.accepted.len()],
+        ))
     }
     pub fn time(&self) -> f64 {
         self.time
@@ -695,6 +724,14 @@ impl ParticleFluidSimulation {
         if !total_mass.is_finite() || !mean_temperature.is_finite() || !max_speed.is_finite() {
             return Err(ParticleFluidError::ArithmeticFailure);
         }
+        for i in 0..count {
+            self.committed_diagnostics[i] = ParticleDiagnostic {
+                density: self.thermodynamic[i].density,
+                pressure: self.thermodynamic[i].pressure,
+                acceleration: self.force[i].acceleration,
+            };
+        }
+        self.evaluation_time = self.time;
         std::mem::swap(&mut self.accepted, &mut self.candidate);
         self.time = time;
         self.generation = generation;
@@ -777,6 +814,62 @@ mod physics_tests {
             temperature_kelvin: temperature,
             material: 0,
         }
+    }
+    #[test]
+    fn diagnostics_commit_only_with_accepted_state_and_balance_pair_force() {
+        let mut s = fixture(1.0, FluidPreset::Argon.material());
+        s.accepted.extend([
+            parcel([0.46, 0.5, 0.5], [0.0; 3], 0.001, 293.15),
+            parcel([0.54, 0.5, 0.5], [0.0; 3], 0.001, 293.15),
+        ]);
+        assert!(s.particle_diagnostics().is_none());
+        let report = s.step(1e-6, None, || false).unwrap();
+        let (time, values) = s.particle_diagnostics().unwrap();
+        assert_eq!(time, 0.0);
+        let saved = values.to_vec();
+        assert_eq!(values.len(), s.particles().len());
+        assert_eq!(
+            report.max_pressure,
+            values.iter().map(|d| d.pressure).fold(0.0, f64::max)
+        );
+        for axis in 0..3 {
+            let force: f64 = values
+                .iter()
+                .zip(s.particles())
+                .map(|(d, p)| d.acceleration[axis] * p.mass)
+                .sum();
+            assert!(force.abs() < 1e-14);
+            for (d, p) in values.iter().zip(s.particles()) {
+                assert!((p.velocity[axis] - report.dt * d.acceleration[axis]).abs() < 1e-14);
+            }
+        }
+        assert!(
+            values
+                .iter()
+                .all(|d| d.density.is_finite() && d.density > 0.0 && d.pressure.is_finite())
+        );
+        for checkpoint in 1..=8 {
+            let mut visits = 0;
+            let result = s.step(1e-6, None, || {
+                visits += 1;
+                visits == checkpoint
+            });
+            if result.is_ok() {
+                break;
+            }
+            assert_eq!(s.particle_diagnostics().unwrap(), (time, saved.as_slice()));
+        }
+        let before = s.particle_diagnostics().unwrap().1.to_vec();
+        for dt in [f64::NAN, f64::INFINITY, 0.0, -1.0] {
+            assert!(s.step(dt, None, || false).is_err());
+            assert_eq!(s.particle_diagnostics().unwrap().1, before);
+        }
+        // A rejected numerical attempt after force scratch has been overwritten.
+        s.config.gravity = [1.0; 3];
+        s.time = f64::MAX; // finite clock cannot advance: fail final admission.
+        assert!(s.step(1e-6, None, || false).is_err());
+        assert_ne!(s.force[0].acceleration, before[0].acceleration);
+        assert_eq!(s.particle_diagnostics().unwrap().1, before);
     }
     #[test]
     fn gravity_accelerates_in_metres_per_second_squared_at_both_scene_scales() {
@@ -971,6 +1064,11 @@ mod physics_tests {
         let dt = 0.001;
         s.step(dt, None, || false).unwrap();
         let p = s.particles()[0];
+        // Wall drag/heat exchange happened after the recorded force evaluation.
+        assert_eq!(
+            s.particle_diagnostics().unwrap().1[0].acceleration,
+            [0.0; 3]
+        );
         assert!((p.velocity[0] - (-10.0_f64 * dt).exp()).abs() < 1e-14);
         assert!((p.temperature_kelvin - (293.15 + 20.0 * (-2.0_f64 * dt).exp())).abs() < 1e-12);
         let mut bulk = fixture(1.0, material);
