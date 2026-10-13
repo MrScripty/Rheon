@@ -12,7 +12,12 @@ const SPACING: [f64; 3] = [0.125; 3];
 const LO: [f64; 3] = [0.5, 0.25, 0.25];
 const HI: [f64; 3] = [1.0, 0.75, 0.5];
 
-pub struct Snapshot {
+struct SliceData {
+    obstacle: Option<([f64; 3], [f64; 3])>,
+    pressure_available: bool,
+    fraction: Option<Vec<f64>>,
+    heading: String,
+    context: String,
     grid: GridGeometry,
     pressure: Vec<f64>,
     velocity: Vec<[f64; 3]>,
@@ -20,7 +25,7 @@ pub struct Snapshot {
     gauges: Vec<usize>,
     divergence: f64,
 }
-impl Snapshot {
+impl SliceData {
     fn solve() -> Result<Self, String> {
         let grid = GridGeometry::new(COUNTS, SPACING, [0.0; 3]).map_err(|e| e.to_string())?;
         let surface = TriangleSurface::new(
@@ -98,6 +103,9 @@ impl Snapshot {
             .map_err(|e| e.to_string())?;
         let velocity = reconstruct_velocity(&grid, &faces);
         Ok(Self {
+            obstacle: Some((LO,HI)), pressure_available: true, fraction: None,
+            heading: "Static obstacle / accepted projection • independent of live timeline".into(),
+            context: "Sealed stationary walls; density 1 kg/m³; projection interval 0.05 s. No advancing wake or viscous wall loads.".into(),
             grid,
             pressure: solver.pressure().ok_or("No accepted pressure")?.to_vec(),
             velocity,
@@ -109,6 +117,66 @@ impl Snapshot {
                 .actual_divergence_max,
         })
     }
+    fn from_session(snapshot: &rheon::SessionSnapshot<'_>) -> Self {
+        let grid = snapshot.grid().clone();
+        let state = snapshot.state();
+        let n = grid.counts();
+        let velocity = (0..grid.cell_len())
+            .map(|i| {
+                let c = [i % n[0], i / n[0] % n[1], i / (n[0] * n[1])];
+                std::array::from_fn(|d| {
+                    let axis = [Axis::X, Axis::Y, Axis::Z][d];
+                    let values = [state.carrier.x, state.carrier.y, state.carrier.z][d];
+                    let mut hi = c;
+                    hi[d] += 1;
+                    0.5 * (f64::from(values[grid.face_index(axis, c).unwrap()])
+                        + f64::from(values[grid.face_index(axis, hi).unwrap()]))
+                })
+            })
+            .collect();
+        let accepted = snapshot.stage() == rheon::SnapshotStage::Accepted;
+        let context=snapshot.report().map_or("Constructor state: pressure unavailable until an accepted step.".into(), |r| format!("Interval pressure [{:.6}, {:.6}] s; gauge cell 0. Full-box transport only; no free-surface pressure or obstacle boundary.",state.carrier.time-r.carrier.step.dt,state.carrier.time));
+        Self {
+            valid: vec![true; grid.cell_len()],
+            pressure: state.pressure.to_vec(),
+            velocity,
+            fraction: Some(state.liquid.fraction.to_vec()),
+            grid,
+            obstacle: None,
+            pressure_available: accepted,
+            gauges: vec![0],
+            divergence: snapshot
+                .report()
+                .map_or(0.0, |r| r.carrier.step.actual_divergence_max),
+            heading: format!(
+                "Transport run {} · {:?} frame {} · {:.6} s",
+                snapshot.identity().run_id,
+                snapshot.stage(),
+                snapshot.frame(),
+                state.carrier.time
+            ),
+            context,
+        }
+    }
+    fn field(&self, i: usize, pressure: bool, fraction: bool) -> Option<f64> {
+        if fraction {
+            self.fraction.as_ref().map(|v| v[i])
+        } else if pressure && !self.pressure_available {
+            None
+        } else {
+            self.value(i, pressure)
+        }
+    }
+    fn field_range(&self, pressure: bool, fraction: bool) -> [f64; 2] {
+        let mut r = [f64::INFINITY, f64::NEG_INFINITY];
+        for i in 0..self.valid.len() {
+            if let Some(v) = self.field(i, pressure, fraction) {
+                r[0] = r[0].min(v);
+                r[1] = r[1].max(v);
+            }
+        }
+        r
+    }
     fn value(&self, i: usize, pressure: bool) -> Option<f64> {
         self.valid[i].then(|| {
             if pressure {
@@ -118,6 +186,7 @@ impl Snapshot {
             }
         })
     }
+    #[cfg(test)]
     fn range(&self, pressure: bool) -> [f64; 2] {
         let mut range = [f64::INFINITY, f64::NEG_INFINITY];
         for i in 0..self.valid.len() {
@@ -134,8 +203,10 @@ impl Snapshot {
     }
     // One common scale preserves physical aspect ratios (1.5 x 1.0 x 0.75 m).
     fn display(&self, p: [f64; 3]) -> [f32; 3] {
+        let origin = self.grid.origin();
         let upper = self.grid.upper();
-        std::array::from_fn(|d| ((p[d] - upper[d] * 0.5) / 1.5 + 0.5) as f32)
+        let scale = (0..3).map(|d| upper[d] - origin[d]).fold(0.0_f64, f64::max);
+        std::array::from_fn(|d| ((p[d] - (upper[d] + origin[d]) * 0.5) / scale + 0.5) as f32)
     }
 }
 // Valid for the aligned full-fluid cells in this lab. Not a cut-cell sampler.
@@ -168,56 +239,116 @@ fn color(value: f64, range: [f64; 2]) -> Color32 {
     )
 }
 pub struct EngineeringView {
-    snapshot: Result<Snapshot, String>,
+    snapshot: Result<SliceData, String>,
     axis: usize,
     index: usize,
     pressure: bool,
+    fraction: bool,
     arrows: bool,
     selected: Option<usize>,
 }
 impl Default for EngineeringView {
     fn default() -> Self {
         Self {
-            snapshot: Snapshot::solve(),
+            snapshot: SliceData::solve(),
             axis: 2,
             index: 2,
             pressure: false,
+            fraction: false,
             arrows: true,
             selected: None,
         }
     }
 }
 impl EngineeringView {
+    pub fn from_session(snapshot: &rheon::SessionSnapshot<'_>) -> Self {
+        Self {
+            snapshot: Ok(SliceData::from_session(snapshot)),
+            axis: 2,
+            index: 0,
+            pressure: false,
+            fraction: true,
+            arrows: true,
+            selected: None,
+        }
+    }
+    pub fn update_session(&mut self, snapshot: &rheon::SessionSnapshot<'_>) {
+        self.snapshot = Ok(SliceData::from_session(snapshot));
+        if snapshot.stage() == rheon::SnapshotStage::Constructor {
+            self.pressure = false;
+        }
+    }
     pub fn controls(&mut self, ui: &mut egui::Ui) {
-        ui.label("Static obstacle / accepted projection • independent of live timeline");
+        let counts = self
+            .snapshot
+            .as_ref()
+            .map_or(COUNTS.map(|n| n as usize), |s| s.grid.counts());
+        if let Ok(s) = &self.snapshot {
+            ui.label(&s.heading);
+        }
+
         ui.horizontal_wrapped(|ui| {
-            ui.selectable_value(&mut self.pressure, false, "Speed");
-            ui.selectable_value(&mut self.pressure, true, "Pressure correction");
+            if ui
+                .selectable_label(!self.pressure && !self.fraction, "Speed")
+                .clicked()
+            {
+                self.pressure = false;
+                self.fraction = false;
+            }
+            let pressure_available = self.snapshot.as_ref().is_ok_and(|s| s.pressure_available);
+            if ui
+                .add_enabled(
+                    pressure_available,
+                    egui::Button::selectable(self.pressure, "Pressure correction"),
+                )
+                .clicked()
+            {
+                self.pressure = true;
+                self.fraction = false;
+            }
+            if self.snapshot.as_ref().is_ok_and(|s| s.fraction.is_some())
+                && ui
+                    .selectable_label(self.fraction, "Liquid fraction")
+                    .clicked()
+            {
+                self.fraction = true;
+                self.pressure = false;
+            }
+
             for (d, label) in ["YZ", "XZ", "XY"].into_iter().enumerate() {
                 if ui.selectable_value(&mut self.axis, d, label).changed() {
-                    self.index = self.index.min(COUNTS[d] as usize - 1);
+                    self.index = self.index.min(counts[d] - 1);
                 }
             }
             ui.add(
-                egui::Slider::new(&mut self.index, 0..=COUNTS[self.axis] as usize - 1)
-                    .text("cell slice"),
+                egui::Slider::new(&mut self.index, 0..=counts[self.axis] - 1).text("cell slice"),
             );
             ui.checkbox(&mut self.arrows, "Velocity arrows");
         });
-        ui.small("Sealed stationary walls; density 1 kg/m³; projection interval 0.05 s. No advancing wake or viscous wall loads.");
         if let Ok(s) = &self.snapshot {
-            let range = s.range(self.pressure);
+            ui.small(&s.context);
+        }
+        if let Ok(s) = &self.snapshot {
+            let range = s.field_range(self.pressure, self.fraction);
             ui.horizontal_wrapped(|ui| {
                 ui.label(format!(
                     "{}: {:.6} … {:.6} {}",
-                    if self.pressure {
+                    if self.fraction {
+                        "Liquid fraction"
+                    } else if self.pressure {
                         "Gauge correction"
                     } else {
                         "Cell-reconstructed speed"
                     },
                     range[0],
                     range[1],
-                    if self.pressure { "Pa" } else { "m/s" }
+                    if self.fraction {
+                        "dimensionless"
+                    } else if self.pressure {
+                        "Pa"
+                    } else {
+                        "m/s"
+                    }
                 ));
                 let (r, _) = ui.allocate_exact_size(egui::vec2(100.0, 12.0), egui::Sense::hover());
                 for i in 0..100 {
@@ -232,21 +363,32 @@ impl EngineeringView {
                     );
                 }
             });
-            ui.small(format!("Full-state range fixed across slices. p = 0 at cell {:?}; max flux divergence {:.2e} s⁻¹.",s.gauges,s.divergence));
+            if s.pressure_available {
+                ui.small(format!("Full-state range fixed across slices. p = 0 at cell {:?}; max flux divergence {:.2e} s⁻¹.",s.gauges,s.divergence));
+            }
             ui.small("Vector overlay: displacement = velocity × 0.1 s; adjacent-face averages. Gray = solid. Click a cell to probe.");
             ui.small(format!(
                 "Slice {} = {:.3} m (cell center)",
                 ["X", "Y", "Z"][self.axis],
-                (self.index as f64 + 0.5) * SPACING[self.axis]
+                s.grid.origin()[self.axis]
+                    + (self.index as f64 + 0.5) * s.grid.spacing()[self.axis]
             ));
             if let Some(i) = self.selected {
                 let c = s.coordinate(i);
                 let p = s.grid.cell_position(c).unwrap();
                 if s.valid[i] {
+                    let pressure = if s.pressure_available {
+                        format!("{:.6} Pa", s.pressure[i])
+                    } else {
+                        "unavailable".into()
+                    };
                     ui.label(format!(
-                        "Cell {c:?} at {p:.3?} m | u = {:.5?} m/s | p = {:.6} Pa",
-                        s.velocity[i], s.pressure[i]
+                        "Cell {c:?} at {p:.3?} m | u = {:.5?} m/s | p = {pressure}",
+                        s.velocity[i]
                     ));
+                    if let Some(f) = &s.fraction {
+                        ui.small(format!("Native cell liquid fraction: {:.8}", f[i]));
+                    }
                 } else {
                     ui.label(format!("Cell {c:?}: solid — field unavailable"));
                 }
@@ -268,7 +410,7 @@ impl EngineeringView {
             return;
         };
         let painter = ui.painter_at(rect);
-        let range = s.range(self.pressure);
+        let range = s.field_range(self.pressure, self.fraction);
         let mut cells = Vec::new();
         for i in 0..s.valid.len() {
             let c = s.coordinate(i);
@@ -281,14 +423,14 @@ impl EngineeringView {
             let corners: [[f64; 3]; 4] = std::array::from_fn(|j| {
                 let mut p = center;
                 p[a] += if j == 1 || j == 2 {
-                    SPACING[a] * 0.5
+                    s.grid.spacing()[a] * 0.5
                 } else {
-                    -SPACING[a] * 0.5
+                    -s.grid.spacing()[a] * 0.5
                 };
                 p[b] += if j >= 2 {
-                    SPACING[b] * 0.5
+                    s.grid.spacing()[b] * 0.5
                 } else {
-                    -SPACING[b] * 0.5
+                    -s.grid.spacing()[b] * 0.5
                 };
                 p
             });
@@ -306,7 +448,7 @@ impl EngineeringView {
         let mut arrows = Vec::new();
         for (i, center, points, _) in cells {
             let fill = s
-                .value(i, self.pressure)
+                .field(i, self.pressure, self.fraction)
                 .map_or(Color32::from_rgb(70, 76, 86), |v| color(v, range));
             if response.clicked()
                 && let Some(p) = response.interact_pointer_pos()
@@ -335,10 +477,15 @@ impl EngineeringView {
             painter.arrow(p, q - p, Stroke::new(1.3, Color32::WHITE));
         }
         // Geometric context is explicitly a wire overlay, not opaque CAD shading.
-        for (lo, hi, col) in [
-            ([0.0; 3], s.grid.upper(), Color32::from_rgb(100, 145, 185)),
-            (LO, HI, Color32::from_rgb(255, 160, 65)),
-        ] {
+        let mut boxes = vec![(
+            s.grid.origin(),
+            s.grid.upper(),
+            Color32::from_rgb(100, 145, 185),
+        )];
+        if let Some((lo, hi)) = s.obstacle {
+            boxes.push((lo, hi, Color32::from_rgb(255, 160, 65)));
+        }
+        for (lo, hi, col) in boxes {
             for i in 0..8 {
                 for d in 0..3 {
                     let j = i ^ (1 << d);
@@ -361,7 +508,7 @@ impl EngineeringView {
             (1, "Y", Color32::LIGHT_GREEN),
             (2, "Z", Color32::LIGHT_BLUE),
         ] {
-            let mut end = [0.0; 3];
+            let mut end = s.grid.origin();
             end[d] = s.grid.upper()[d];
             if let Some((p, _)) = camera.project(s.display(end), rect) {
                 painter.text(
@@ -376,7 +523,10 @@ impl EngineeringView {
         painter.text(
             rect.left_bottom() + egui::vec2(8.0, -8.0),
             egui::Align2::LEFT_BOTTOM,
-            "1.5 × 1.0 × 0.75 m • orange obstacle wire overlay • drag orbit / Shift pan / Ctrl zoom",
+            format!(
+                "Domain {:.3?} m",
+                std::array::from_fn::<_, 3, _>(|d| s.grid.upper()[d] - s.grid.origin()[d])
+            ),
             egui::FontId::proportional(11.0),
             Color32::LIGHT_GRAY,
         );
@@ -398,8 +548,141 @@ fn inside(points: &[egui::Pos2], p: egui::Pos2) -> bool {
 mod tests {
     use super::*;
     #[test]
+    fn session_slice_matches_native_fields_and_refreshes_accepted_publications() {
+        use rheon::*;
+        let grid = GridGeometry::new([3, 2, 4], [0.25, 0.5, 0.125], [-1.25, 2.5, -0.75]).unwrap();
+        let fraction = (0..24).map(|i| (i as f64 + 1.0) / 32.0).collect();
+        let config = LiquidTransportConfig {
+            carrier: SimulationConfig {
+                density: 1000.0,
+                memory_limit: 16 * 1024 * 1024,
+                pressure: PressureSettings {
+                    relative_residual: 1e-12,
+                    absolute_residual: 1e-12,
+                    divergence_limit: 1e-9,
+                    max_iterations: 10000,
+                },
+                actual_divergence_limit: 1e-5,
+                max_courant: 1.0,
+            },
+            represented_density: 800.0,
+            volume_stamp: VolumeStamp { id: 1, version: 0 },
+            carrier_id: 2,
+        };
+        let mut session = SimulationSession::new(
+            SessionIdentity {
+                run_id: 99,
+                source_revision: "slice-regression".into(),
+            },
+            grid,
+            config,
+            PressureImplementation::JacobiPcgV1,
+            fraction,
+            16 * 1024 * 1024,
+            4,
+        )
+        .unwrap();
+        let mut view = EngineeringView::from_session(&session.snapshot());
+        view.selected = Some(23);
+        let initial = view.snapshot.as_ref().unwrap();
+        assert!(!initial.pressure_available);
+        assert_eq!(initial.field(23, true, false), None);
+        assert_eq!(initial.field(23, false, true), Some(24.0 / 32.0));
+        assert_eq!(
+            initial.grid.cell_position(initial.coordinate(23)).unwrap(),
+            [-0.625, 3.25, -0.3125]
+        );
+        assert_eq!(initial.display([-0.875, 3.0, -0.5]), [0.5; 3]);
+        let ctx = egui::Context::default();
+        let output = ctx.run(egui::RawInput::default(), |ctx| {
+            egui::CentralPanel::default().show(ctx, |ui| view.controls(ui));
+        });
+        assert!(output.shapes.iter().any(|shape| matches!(&shape.shape,
+            egui::Shape::Text(t) if t.galley.job.text.contains("p = unavailable"))));
+        let mut prior_velocity = view.snapshot.as_ref().unwrap().velocity.clone();
+        let mut prior_fraction = view.snapshot.as_ref().unwrap().fraction.clone().unwrap();
+        for (step, flow) in [(1, 0.125), (2, 0.375)] {
+            let boundary = BoxFluxStepBoundary {
+                flux: PrescribedBoxFlux::new(
+                    BoxFluxStamp {
+                        id: 3,
+                        version: step,
+                    },
+                    [[-flow, flow], [0.0; 2], [0.0; 2]],
+                )
+                .unwrap(),
+                tracer: BoxFluxTracerPolicy::ClampedAppearance,
+            };
+            let inputs = LiquidStepInputs {
+                requested_dt: 0.03125,
+                smoke_source: None,
+                forces: &[],
+                source: None,
+                inlet: LiquidInlet::new(VolumeStamp { id: 4, version: 0 }, [[0.0; 2]; 3]).unwrap(),
+                volume: LiquidVolumeSettings {
+                    max_outward_courant: 1.0,
+                    actual_divergence_limit: 1e-5,
+                },
+            };
+            session.step(inputs, boundary, None, |_| false).unwrap();
+            let native = session.snapshot();
+            view.update_session(&native);
+            let data = view.snapshot.as_ref().unwrap();
+            let state = native.state();
+            assert!(data.pressure_available);
+            assert_eq!(view.selected, Some(23));
+            assert!(data.obstacle.is_none());
+            assert!(data.valid.iter().all(|v| *v));
+            assert_eq!(data.gauges, [0]);
+            assert_eq!(data.pressure, state.pressure);
+            assert_eq!(data.fraction.as_deref().unwrap(), state.liquid.fraction);
+            assert!(data.heading.contains(&format!("Accepted frame {step}")));
+            assert_eq!(
+                data.divergence,
+                native.report().unwrap().carrier.step.actual_divergence_max
+            );
+            // Independent staggered flat indexing on the asymmetric 3x2x4 grid.
+            for k in 0..4 {
+                for j in 0..2 {
+                    for i in 0..3 {
+                        let cell = i + 3 * (j + 2 * k);
+                        let x = i + 4 * (j + 2 * k);
+                        let y = i + 3 * (j + 3 * k);
+                        let z = i + 3 * (j + 2 * k);
+                        let expected = [
+                            (f64::from(state.carrier.x[x]) + f64::from(state.carrier.x[x + 1]))
+                                * 0.5,
+                            (f64::from(state.carrier.y[y]) + f64::from(state.carrier.y[y + 3]))
+                                * 0.5,
+                            (f64::from(state.carrier.z[z]) + f64::from(state.carrier.z[z + 6]))
+                                * 0.5,
+                        ];
+                        assert_eq!(data.velocity[cell], expected);
+                        assert_eq!(data.field(cell, true, false), Some(state.pressure[cell]));
+                        assert_eq!(
+                            data.field(cell, false, true),
+                            Some(state.liquid.fraction[cell])
+                        );
+                        assert_eq!(
+                            data.field(cell, false, false),
+                            Some(expected.iter().map(|v| v * v).sum::<f64>().sqrt())
+                        );
+                    }
+                }
+            }
+            assert_ne!(
+                data.velocity, prior_velocity,
+                "new accepted fields must replace prior display"
+            );
+            assert_ne!(data.fraction.as_ref().unwrap(), &prior_fraction);
+            prior_velocity.clone_from(&data.velocity);
+            prior_fraction.clone_from(data.fraction.as_ref().unwrap());
+        }
+    }
+
+    #[test]
     fn real_obstacle_projection_is_accepted_and_masked() {
-        let s = Snapshot::solve().unwrap();
+        let s = SliceData::solve().unwrap();
         assert!(s.divergence < 1e-7);
         assert_eq!(s.valid.iter().filter(|v| !**v).count(), 32);
         assert_eq!(s.gauges.len(), 1);

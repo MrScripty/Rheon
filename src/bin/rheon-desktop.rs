@@ -2,12 +2,20 @@
 //! viewer consumes bounded immutable accepted previews and optional diagnostics.
 #[path = "desktop/engineering.rs"]
 mod engineering;
+#[path = "desktop/export_ui.rs"]
+mod export_ui;
 #[path = "desktop/history.rs"]
 mod history;
+#[path = "desktop/identity.rs"]
+mod identity;
 #[path = "desktop/inspector.rs"]
 mod inspector;
+#[path = "desktop/particle_view.rs"]
+mod particle_view;
 #[path = "desktop/settings.rs"]
 mod settings;
+#[path = "desktop/transport_view.rs"]
+mod transport_view;
 #[path = "desktop/viewport.rs"]
 mod viewport;
 use eframe::egui;
@@ -398,6 +406,7 @@ struct App {
     closing: bool,
     history: Option<Arc<LiveHistory>>,
     viewport: viewport::Viewport,
+    inspector_open: bool,
     timeline_step: usize,
     track: usize,
     follow_live: bool,
@@ -436,6 +445,7 @@ impl Default for App {
             closing: false,
             history: None,
             viewport: viewport::Viewport::default(),
+            inspector_open: false,
             timeline_step: 0,
             track: 0,
             follow_live: true,
@@ -446,6 +456,34 @@ impl Default for App {
     }
 }
 impl App {
+    fn sidebar(&mut self, ctx: &egui::Context) -> egui::Rect {
+        egui::SidePanel::left("settings")
+            .exact_width(280.0)
+            .resizable(false)
+            .show(ctx, |ui| {
+                ui.horizontal(|ui| {
+                    ui.selectable_value(&mut self.inspector_open, false, "Settings");
+                    ui.selectable_value(&mut self.inspector_open, true, "Inspector");
+                });
+                ui.separator();
+                egui::ScrollArea::vertical()
+                    .id_salt("sidebar-content")
+                    .show(ui, |ui| {
+                        if self.inspector_open {
+                            ui.heading("Numerical inspector");
+                            if let Some(history) = &self.history {
+                                history.inspector.ui(ui);
+                            } else {
+                                ui.label("Start a material simulation to inspect particles");
+                            }
+                        } else {
+                            self.controls(ui);
+                        }
+                    });
+            })
+            .response
+            .rect
+    }
     fn refresh_threads(&mut self, available: usize) {
         self.thread_limit = available.max(1);
         self.threads = if self.automatic_threads {
@@ -764,25 +802,11 @@ impl eframe::App for App {
             self.play_time += self.playback_speed * ctx.input(|i| i.stable_dt.min(0.1)) as f64;
         }
         let (count, frame) = self.selected_frame();
-        egui::SidePanel::left("settings")
-            .exact_width(270.0)
-            .resizable(false)
-            .show(ctx, |ui| {
-                egui::ScrollArea::vertical().show(ui, |ui| self.controls(ui));
-            });
-        egui::Window::new("Numerical inspector")
-            .default_open(false)
-            .show(ctx, |ui| {
-                if let Some(history) = &self.history {
-                    history.inspector.ui(ui);
-                } else {
-                    ui.label("Start a material simulation to inspect particles");
-                }
-            });
+        self.sidebar(ctx);
         egui::TopBottomPanel::bottom("timeline")
             .min_height(106.0)
             .show(ctx, |ui| {
-                ui.horizontal(|ui| {
+                ui.horizontal_wrapped(|ui| {
                     if ui
                         .button(if self.playing {
                             "❚❚ Pause"
@@ -852,7 +876,7 @@ impl eframe::App for App {
                     self.playing = false;
                 }
                 if let Some(frame) = &frame {
-                    ui.horizontal(|ui| {
+                    ui.horizontal_wrapped(|ui| {
                         ui.label(format!(
                             "{} · Step {} / {}",
                             if frame.material_color.is_some() {
@@ -919,7 +943,14 @@ impl eframe::App for App {
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE)
             .show(ctx, |ui| {
-                self.viewport.show(ui, frame, emitter, &workers, grid)
+                self.viewport.show(
+                    ui,
+                    frame,
+                    emitter,
+                    &workers,
+                    grid,
+                    self.history.as_ref().map(|h| &h.inspector),
+                )
             });
         if self.worker.is_some() || self.playing {
             ctx.request_repaint_after(Duration::from_millis(16));
@@ -987,6 +1018,36 @@ mod tests {
         assert_eq!(frame.edge, 256);
         assert_eq!(frame.density.len(), 256_usize.pow(3));
         assert!(frame.density.iter().any(|v| *v > 0));
+    }
+    #[test]
+    fn docked_inspector_cannot_overlap_viewport_at_supported_window_sizes() {
+        for size in [egui::vec2(900.0, 650.0), egui::vec2(1250.0, 820.0)] {
+            let ctx = egui::Context::default();
+            let mut app = App::default();
+            app.inspector_open = true;
+            let mut dock = egui::Rect::NOTHING;
+            let mut center = egui::Rect::NOTHING;
+            let output = ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, size)),
+                    ..Default::default()
+                },
+                |ctx| {
+                    dock = app.sidebar(ctx);
+                    center = egui::CentralPanel::default()
+                        .show(ctx, |ui| {
+                            ui.label("CAD viewport");
+                        })
+                        .response
+                        .rect;
+                },
+            );
+            assert!(dock.right() <= center.left());
+            assert!(center.width() >= 600.0);
+            assert!(dock.bottom() <= size.y);
+            assert!(output.shapes.iter().any(|s| matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Numerical inspector")));
+            assert!(!output.shapes.iter().any(|s|s.clip_rect.left()<center.left() && s.clip_rect.right()>center.left()+1.0 && matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Numerical inspector")));
+        }
     }
     #[test]
     fn sidebar_sections_collapse_and_preserve_their_state_through_real_egui_input() {

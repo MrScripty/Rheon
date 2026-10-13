@@ -154,3 +154,27 @@ speed and scaled velocity arrows, masked solid cells, and click probes. This
 small bounded operator experiment uses actual solver output; it is independent
 of the particle scene and live timeline. The lab has its own camera and framing.
 See [model, acceptance criteria and remaining CAD milestones](../../../docs/implementation/cad-obstacle-lab.md).
+
+## Quantitative views and interchange
+
+The top tabs separate **Appearance** timeline playback, **Particles** latest raw
+material state, the fixed **Obstacle lab**, and a live **Transport session** using
+the public API. Settings and Inspector share a scrollable left dock. Particle
+speed colors use the full latest-state range; click a displayed point to select
+its run-local ID in Inspector. At most8192 points are drawn, with deterministic
+sampling; the inspector and export retain all points. Arrow length is velocity
+multiplied by the displayed time scale. No pre-integration particle pressure is
+colored onto later accepted positions.
+
+Transport Run/Pause/Advance controls step a bounded64-cell API session. Fraction,
+speed and accepted pressure slices/probes come from that publication. Constructor
+pressure is unavailable. The display uses physical origin/spacing and preserves
+aspect ratio; **Frame view** and **Orthographic** adjust only the camera. This is a
+separate full-box transport case, not an obstacle/free-surface or SPH coupling.
+
+**VTK grid export** saves the current transport snapshot as `.vti`; **VTK particle
+export** in Inspector saves latest accepted positions as `.vtp`. Enter a new file
+path; existing files are never overwritten. Files default to `.generated/` and
+are not repository source. Exports are synchronous and report success only after
+flush; particle capture may pause while its coherent latest state is written.
+See [VTK contract](../../../docs/api/vtk-interchange.md) for fields and stages.

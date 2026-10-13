@@ -1,5 +1,7 @@
 //! Latest numerical state and a bounded selected-particle trace, separate from voxels.
+use super::export_ui::ExportFile;
 use eframe::egui;
+use rheon::SessionIdentity;
 use rheon::{FluidParticle, ParticleDiagnostic, ParticleFluidSimulation};
 use std::collections::VecDeque;
 use std::sync::Mutex;
@@ -13,8 +15,9 @@ struct Sample {
     particle: FluidParticle,
     diagnostic: Option<ParticleDiagnostic>,
 }
-#[derive(Default)]
 struct State {
+    identity: SessionIdentity,
+    export: ExportFile,
     selected: usize,
     generation: u64,
     time: f64,
@@ -23,9 +26,42 @@ struct State {
     diagnostics: Vec<ParticleDiagnostic>,
     trace: VecDeque<Sample>,
 }
+impl Default for State {
+    fn default() -> Self {
+        Self {
+            identity: super::identity::new_identity("material"),
+            export: ExportFile::new(".generated/particles.vtp"),
+            selected: 0,
+            generation: 0,
+            time: 0.0,
+            evaluation_time: None,
+            particles: Vec::new(),
+            diagnostics: Vec::new(),
+            trace: VecDeque::new(),
+        }
+    }
+}
 #[derive(Default)]
 pub struct Inspector(Mutex<State>);
 impl Inspector {
+    pub fn with_particles<R>(
+        &self,
+        read: impl FnOnce(&SessionIdentity, u64, f64, &[FluidParticle], usize) -> R,
+    ) -> Option<R> {
+        self.0
+            .lock()
+            .ok()
+            .map(|s| read(&s.identity, s.generation, s.time, &s.particles, s.selected))
+    }
+    pub fn select(&self, id: usize) {
+        if let Ok(mut s) = self.0.lock()
+            && id < s.particles.len()
+            && id != s.selected
+        {
+            s.selected = id;
+            s.restart_trace();
+        }
+    }
     pub fn capture(&self, sim: &ParticleFluidSimulation) -> Result<(), String> {
         let mut s = self.0.lock().map_err(|_| "Inspector owner failed")?;
         // Reuse storage. This is one latest state, not a particle archive per frame.
@@ -62,6 +98,7 @@ impl Inspector {
             return;
         };
         ui.label("Latest numerical state (independent of visual scrubber)");
+        ui.small(format!("Run {} (process-local)", s.identity.run_id));
         ui.small(
             "Particle IDs are append-only indices scoped to this run. New run clears history.",
         );
@@ -113,6 +150,11 @@ impl Inspector {
         } else {
             ui.label("No particle at this ID");
         }
+        ui.collapsing("VTK particle export", |ui| {
+                ui.small("Accepted points; pre-integration diagnostics stored separately with their evaluation time.");
+                let State { identity,generation,time,particles,diagnostics,evaluation_time,export,.. } = &mut *s;
+                export.show(ui,"Save particle VTK (.vtp)",|out| rheon::write_particles_vtp(out,identity,*generation,*time,particles,evaluation_time.map(|t| (t,diagnostics.as_slice()))));
+            });
     }
 }
 impl State {
