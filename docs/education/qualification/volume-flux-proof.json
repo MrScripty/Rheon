@@ -9,12 +9,14 @@
   "public_theorems": 144,
   "explicit_expected_declarations": 201,
   "audited_declarations": 252,
-  "decoded_job_log_sha256": "f52d28d5ab07876e81b23928ef69c29cb1be61d4873495ce1562d16d57b723fd",
+  "decoded_job_log_sha256": "855362ea13938cc8c429fcebe41708c9ded14bb94e950dcb81d6913bdab0e992",
   "status": "passed",
   "checks": [
     "Pinned lake build",
     "Transitive axiom audit",
     "Normal and optimized disallowed-assumption rejection tests"
   ],
-  "scope": "Exact mathematical source bytes; not native implementation, IEEE, physical or performance qualification."
+  "scope": "Exact mathematical source inventory qualified in the recorded merge checkout; source-head and checkout identities are distinct. Not native implementation, IEEE, physical or performance qualification.",
+  "log_hash_scope": "Exact UTF-8 decoded content returned by the supported GitHub job-log reader.",
+  "checkout_head": "1af38bde56f3c9dfc4c1332fb8c17f77a8d77cbb"
 }

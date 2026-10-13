@@ -86,7 +86,7 @@ export function selectLab(lab=selector.value){
   document.querySelector('#flow-sources').hidden=!volume;
 }
 const presets={
- decay:{threshold:[0,1,0,1],refined:[0,1,3,8],unstable:[0,2,0,1]},
+ decay:{threshold:[0,1,0,1],refined:[0,1,3,8],implicit:[1,1,0,1],unstable:[0,2,0,1]},
  volume:{left:[0,30,50],right:[1,30,50]},
  projection:{before:[0],half:[50],after:[100]},
  collision:{crossing:[3],miss:[4]},

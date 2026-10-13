@@ -88,11 +88,16 @@ def qualify(site):
                     require(check_field(page)==refined,mode+' changed state')
                     require(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),mode+' overflow')
             else:require(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),'Desktop overflow')
-            for anchor,steps,amplitude in [('error-accounting',8,float(F(3,4)**8)),('long-horizons-and-outcomes',1,-2)]:
+            for anchor,duration,steps,method,amplitude in [
+                ('error-accounting',2,8,'explicit',float(F(3,4)**8)),
+                ('long-horizons-and-outcomes',3,1,'explicit',-2),
+                ('one-mode-three-time-updates',2,1,'explicit',-1),
+                ('implicit-decay-and-fixed-time-refinement',2,1,'implicit',float(F(1,3))),
+                ('an-energy-growing-step',3,1,'explicit',-2)]:
                 page.goto(path+'#'+anchor,wait_until='networkidle')
                 page.wait_for_function("document.querySelector('#lab').value==='decay' && document.querySelector('#controls input')")
                 settle(page);q=check_field(page);cases.append(q)
-                require(q['steps']==steps,'Deep-link step count');close(q['amplitudes']['explicit'],amplitude,'Deep-link amplitude')
+                require(q['steps']==steps and q['duration']==duration and q['method']==method,'Deep-link controls');close(q['amplitudes'][method],amplitude,'Deep-link amplitude')
             require(page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'),'Final overflow')
             states.append({'viewport':[width,height],'cases':cases});page.close()
         browser.close()

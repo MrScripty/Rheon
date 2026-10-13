@@ -4,8 +4,9 @@ Captured by `volume_browser.py` at checkout
 `29522d49039345bf2afb0db6122c74acbc4bdf17` in the passing `volume-lesson` job
 of [run 38380599905](https://github.com/MrScripty/Rheon/actions/runs/38380599905).
 Artifact ID: 11802758701. The artifact name uses GitHub's synthetic merge SHA;
-the checkout explicitly uses the PR head. `receipt.json` binds actual published
-chapter/JavaScript bytes, screenshot hashes and tested numeric states.
+the checkout explicitly uses the PR head. [Compact provenance](../../qualification/volume-flux-browser.json) binds published chapter/JavaScript bytes and screenshot hashes.
+Generated PNGs and the full test receipt are retained in the CI artifact and
+external review directory, following docs/REPOSITORY_OUTPUTS.md.
 
 The supported GitHub artifact connector returned the ZIP successfully; no prior
 403 was bypassed. Desktop and 320px images were visually inspected: desktop

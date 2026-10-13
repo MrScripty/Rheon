@@ -37,14 +37,15 @@ The draft PR is stacked on PR43 so its diff contains this milestone only.
 
 At head `29522d4`, [Lean CI](https://github.com/MrScripty/Rheon/actions/runs/38380599816)
 passed pinned build, the 252-declaration audit and rejection tests. The
-[proof receipt](../research-book/evidence/volume-flux-proof-qualification.json)
+[proof receipt](qualification/volume-flux-proof.json)
 binds the PR44 proof bytes. The later modal-decay extension has a separate
-current inventory and requires its own fresh kernel qualification.
+current inventory and [kernel qualification](qualification/modal-decay.json).
 
 The focused `volume-lesson` job in [book CI](https://github.com/MrScripty/Rheon/actions/runs/38380599905)
 passed sandboxed desktop/390px/320px interactions. New screenshots and their
 source-bound receipt were retrieved through the supported GitHub connector,
-then desktop and 320px captures were visually inspected. This does not resolve
+then desktop and 320px captures were visually inspected. Generated captures now
+remain in CI artifacts; their compact source manifest stays in Git. This does not resolve
 or claim a review of the older PR43 artifact.
 
 The local complete HTML build contains 31 chapter/appendix sections and 645

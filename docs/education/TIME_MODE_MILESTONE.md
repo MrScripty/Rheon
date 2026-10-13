@@ -35,3 +35,33 @@ The new source changes no Cargo.lock/native admission binding and uses no absent
 native packet as substitute data. Local Lean bootstrap and sandboxed Chromium
 restrictions from the first milestone remain; supported hosted verification is
 required rather than changing those security boundaries.
+
+## Qualified computation and remaining visual boundary
+
+At `e42ea00`, [Lean run 38383689282](https://github.com/MrScripty/Rheon/actions/runs/38383689282)
+passed kernel build, 266-declaration audit and rejection tests. Its merge checkout
+`7324caa` has exactly the same complete proofs tree as that PR head.
+The [compact manifest](qualification/modal-decay.json) records the distinct heads,
+source digests, counts and exact decoded-log hash.
+
+The focused `bounded-lessons` job in
+[book run 38383689207](https://github.com/MrScripty/Rheon/actions/runs/38383689207)
+passed actual geometry/control checks on desktop, 390px and 320px, along with the
+prior volume lesson. The new screenshot artifact was created, but transferring
+the connector-returned ZIP to this environment failed with a tunnel 403. No
+alternate host, route or security relaxation was attempted; visual inspection
+of those new screenshots is still outstanding. Automated glyph checks are
+reported separately from human visual review.
+
+The repository output policy, found during this review, requires generated
+renders/logs to remain artifacts. New proof/visual audit manifests live under
+`qualification/`; the three PNGs and generated full receipt introduced by PR44
+are replaced here with a compact source/hash manifest. PR43 and PR42 artifacts
+are untouched. Generated local builds and logs remain outside Git.
+
+Review found that the new worked derivation followed the chapter's original
+last teaching trigger. Three additional exact heading bindings now reset the
+threshold/implicit/unstable comparisons where the prose asks for them. The
+browser verifier checks all six heading states, including integrator, duration
+and step count. This UI binding change requires fresh browser qualification;
+it changes no proof bytes or numerical update equations.

@@ -26,7 +26,7 @@ export function createDecayLab({clear,box,arrow,range,choice,meta,setMetrics,set
         ['Explicit / implicit / exact energy (J)',[q.energy.explicit,q.energy.implicit,q.energy.exact].map(n).join(' / ')],
         ['Explicit / implicit amplitude error (m/s)',`${n(q.error.explicit)} / ${n(q.error.implicit)}`],
         ['Explicit energy / sign test',`${q.explicitEnergyStable?'nonincreasing':'unstable'} / ${q.explicitSignPreserving?'preserved':'reverses per step'}`],
-        ['Arrow scale','0.18 scene units per m/s; no normalization']]);
+        ['Arrow scale','Velocity × 0.18 s; no normalization']]);
     }
     choice('Displayed integrator',['Explicit Euler','Implicit Euler','Exact decay'],0,v=>{method=['explicit','implicit','exact'][v];draw();});
     choice('Fixed comparison duration',[1,2,3].map(t=>`${t} s`),1,v=>{duration=[1,2,3][v];draw();});

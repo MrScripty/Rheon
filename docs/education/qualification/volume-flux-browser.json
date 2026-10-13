@@ -1,0 +1,19 @@
+{
+  "schema": "rheon-volume-visual-artifact-manifest-v1",
+  "source_head": "29522d49039345bf2afb0db6122c74acbc4bdf17",
+  "workflow_url": "https://github.com/MrScripty/Rheon/actions/runs/38380599905",
+  "artifact_id": 11802758701,
+  "sources": {
+    "volume_reference.js": "5b91faf3ef962c501950cddb5be1e82505bf9809c0be9bcdccd6c9f36dfa1184",
+    "volume_labs.js": "1cdf5de09f5da3c0b7daf2336baed0d29c8af09609eea91db52905b433b11d80",
+    "labs.js": "3537480b16bb0ad0043d68ab14848b4113fa53ab70eccc7ee2e152cac0fc60d5",
+    "reader.js": "5501cbee985f3352ada11de0e4c3db6766b1247eed81039cd81b08360c785103",
+    "chapters/09-liquid-surfaces.html": "7043965acb0eade8ad03c449a07d8443a6482ed06b790d3d998807d17ef906c2"
+  },
+  "screenshots": {
+    "volume-320.png": "50dd251cfc2929b36913c1f86e43129a0ccccebcd22e77bb785afba910b52240",
+    "volume-390.png": "ed234155fae8891ff5ff9cefc728d483227a4fb0cdb1d76b19b39e28c956deb0",
+    "volume-1440.png": "a1e5f9f07819386d345801c20f7468bf6fd024aed3cb30f9395c775cf4d0d3f5"
+  },
+  "visual_review": "Desktop and 320px captures visually inspected during PR44; generated PNGs and full receipt remain CI artifacts, not source inputs."
+}

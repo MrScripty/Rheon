@@ -66,8 +66,9 @@ state the predictions, independent checks and limits. No browser material solver
 CAD wall load, GPU performance or global stability claim is added.
 
 The modal-decay continuation inventory contains 152 public theorem statements
-and 212 explicit audit entries; fresh kernel status is recorded in
-`native-sequence.json`. PR44's 144-theorem/252-declaration qualification and
+and 212 explicit audit entries. Its pinned build and 266-declaration audit passed;
+exact checkout/head bindings are recorded in `native-sequence.json` and the
+[modal milestone manifest](qualification/modal-decay.json). PR44's 144-theorem/252-declaration qualification and
 PR43's earlier receipts remain historical evidence for their own exact sources.
 Chapter 9 adds swept-volume geometry and chapter 12 adds recomputed periodic
 shear decay to distinguish stability from temporal accuracy. See the

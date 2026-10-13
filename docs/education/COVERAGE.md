@@ -283,7 +283,7 @@ above are historical milestone counts.
 | Browser computation | `decay_reference.js` repeats explicit/implicit scalar updates; exact exponential and analytic energy; `decay_labs.js` draws physical sample velocities at a fixed scale |
 | Mathematical statements | Eight amplification/energy/sign statements in `ModalDecay.lean`; PDE, sine integral, convergence order and IEEE implementation are excluded. Fresh kernel status is in `native-sequence.json`; PR44 receipts do not certify this extension |
 | Independent arithmetic | All 402 allowed control states compare to exact Fraction powers and 60-digit Decimal exponentials; sampled field/energy and invalid-input probes pass in normal/optimized Python |
-| Actual GUI | `decay_browser.py` checks real ArrowHelper origins, lengths/directions, controls, state-preserving camera, desktop/390px/320px layouts and three chapter deep links; qualification requires a fresh hosted run |
+| Actual GUI | `decay_browser.py` checks real ArrowHelper origins, lengths/directions, controls, state-preserving camera, desktop/390px/320px layouts and six chapter deep links; qualification requires a fresh hosted run |
 | Remaining | General diffusion-grid spectrum, spatial refinement, nonlinear/forced/moving-boundary physics, native integration, physical and performance validation |
 
 PR49 `b8ca87cab7f74f64c1686714a33e843fbb178c3d` is a separate unmerged

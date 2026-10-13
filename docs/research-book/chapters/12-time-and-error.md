@@ -67,6 +67,8 @@ The explicit factor is nonnegative for \(0\le a\le1\), reverses sign for
 \(a>1\), and has magnitude at most one only for \(0\le a\le2\).
 At a = 2 there is no decay at all, despite the energy bound.
 
+## Implicit decay and fixed-time refinement
+
 Now choose **Implicit Euler** without changing time or step count. It yields
 A = 1/3 m/s and K = 1/36 J, neither the explicit result nor the exact answer.
 Its energy decays for every nonnegative a, but a single large step still has
@@ -75,6 +77,8 @@ step count to 2, 4, 8 and 16. Compare both amplitude-error columns at the same
 physical time. Changing final time while refining would answer a different
 question. **Displayed step** inspects intermediate states; it does not animate
 or advance a native simulation.
+
+## An energy-growing step
 
 The 3 s, one-step explicit preset gives A = −2 m/s and K = 1 J: viscosity has
 numerically increased energy above its initial 0.25 J. That is a rejected method
