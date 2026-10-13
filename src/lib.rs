@@ -59,7 +59,8 @@ mod material;
 pub use material::{DomainFill, FluidMaterial, FluidPhase, FluidPreset, ParticleFluidConfig};
 mod particle_fluid;
 pub use particle_fluid::{
-    FluidParticle, ParticleFluidError, ParticleFluidSimulation, ParticleStepReport,
+    FluidParticle, ParticleDiagnostic, ParticleFluidError, ParticleFluidSimulation,
+    ParticleStepReport,
 };
 #[cfg(feature = "png-export")]
 mod export;

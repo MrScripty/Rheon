@@ -2,6 +2,8 @@
 //! viewer consumes bounded immutable accepted previews and optional diagnostics.
 #[path = "desktop/history.rs"]
 mod history;
+#[path = "desktop/inspector.rs"]
+mod inspector;
 #[path = "desktop/settings.rs"]
 mod settings;
 #[path = "desktop/viewport.rs"]
@@ -296,6 +298,7 @@ fn run_material(
     let h = request.domain_side / request.size as f64;
     let grid = GridGeometry::new([request.size; 3], [h; 3], [0.0; 3]).map_err(|e| e.to_string())?;
     let mut sim = rheon::ParticleFluidSimulation::new(grid, config).map_err(|e| e.to_string())?;
+    history.inspector.capture(&sim)?;
     history.publish(
         0,
         PreviewFrame::capture_particles(
@@ -321,6 +324,7 @@ fn run_material(
         let report = result.map_err(|e| e.to_string())?;
         seconds += elapsed;
         last_report = Some(report);
+        history.inspector.capture(&sim)?;
         history.publish(
             0,
             PreviewFrame::capture_particles(
@@ -763,6 +767,15 @@ impl eframe::App for App {
             .resizable(false)
             .show(ctx, |ui| {
                 egui::ScrollArea::vertical().show(ui, |ui| self.controls(ui));
+            });
+        egui::Window::new("Numerical inspector")
+            .default_open(false)
+            .show(ctx, |ui| {
+                if let Some(history) = &self.history {
+                    history.inspector.ui(ui);
+                } else {
+                    ui.label("Start a material simulation to inspect particles");
+                }
             });
         egui::TopBottomPanel::bottom("timeline")
             .min_height(106.0)
