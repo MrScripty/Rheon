@@ -1,10 +1,10 @@
 name: Rheon research book and Pages
 on:
   pull_request:
-    paths: ['docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   push:
     branches: [main]
-    paths: ['docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/implementation/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -12,19 +12,131 @@ concurrency:
   group: rheon-pages-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  build:
+  bounded-lessons:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
-      PYTHONDONTWRITEBYTECODE: '1'
+      RHEON_CHROMIUM_EXECUTABLE: /opt/google/chrome/chrome
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Prepare source-only teaching edition
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+          python3 -m pip install -r docs/education/requirements.txt -r docs/research-book/expansion/requirements.txt -r docs/research-book/companion/requirements.txt
+          mkdir -p "$RUNNER_TEMP/volume-assets"
+          cp docs/education/package*.json "$RUNNER_TEMP/volume-assets/"
+          npm ci --prefix "$RUNNER_TEMP/volume-assets" --ignore-scripts --no-audit --no-fund
+          python3 -m unittest discover -s docs/education -p test_practical_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_practical_reference.py
+          python3 -m unittest discover -s docs/education -p test_completion_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_completion_reference.py
+          python3 -m unittest discover -s docs/education -p test_gauge_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_gauge_reference.py
+          python3 -m unittest discover -s docs/education -p test_engineering_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_engineering_reference.py
+          python3 -m unittest discover -s docs/education -p test_decay_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_decay_reference.py
+          python3 -m unittest discover -s docs/education -p test_volume_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_volume_reference.py
+          python3 docs/education/generate_references.py
+          python3 docs/education/build.py --output-dir "$RUNNER_TEMP/volume-edition" --asset-dir "$RUNNER_TEMP/volume-assets/node_modules"
+      - name: Check volume controls and desktop/mobile rendering
+        run: |
+          python3 docs/education/volume_browser.py --output-dir "$RUNNER_TEMP/volume-edition" > "$RUNNER_TEMP/volume-browser.log" 2>&1 || {
+            tail -30 "$RUNNER_TEMP/volume-browser.log" | sed 's/^/::error::/'
+            exit 1
+          }
+          cat "$RUNNER_TEMP/volume-browser.log"
+      - name: Check modal decay controls and real glyphs
+        run: |
+          python3 docs/education/decay_browser.py --output-dir "$RUNNER_TEMP/volume-edition" > "$RUNNER_TEMP/decay-browser.log" 2>&1 || {
+            tail -30 "$RUNNER_TEMP/decay-browser.log" | sed 's/^/::error::/'
+            exit 1
+          }
+          cat "$RUNNER_TEMP/decay-browser.log"
+      - name: Check engineering controls and real glyphs
+        run: |
+          python3 docs/education/engineering_browser.py --output-dir "$RUNNER_TEMP/volume-edition" > "$RUNNER_TEMP/engineering-browser.log" 2>&1 || {
+            tail -30 "$RUNNER_TEMP/engineering-browser.log" | sed 's/^/::error::/'
+            exit 1
+          }
+          cat "$RUNNER_TEMP/engineering-browser.log"
+      - name: Check pressure gauges and component compatibility
+        run: |
+          python3 docs/education/gauge_browser.py --output-dir "$RUNNER_TEMP/volume-edition" > "$RUNNER_TEMP/gauge-browser.log" 2>&1 || {
+            tail -30 "$RUNNER_TEMP/gauge-browser.log" | sed 's/^/::error::/'
+            exit 1
+          }
+          cat "$RUNNER_TEMP/gauge-browser.log"
+      - name: Check reconstruction and coupling controls
+        run: python3 docs/education/completion_browser.py --output-dir "$RUNNER_TEMP/volume-edition"
+      - name: Check practical mechanisms and every chapter/appendix placement
+        run: python3 docs/education/practical_browser.py --output-dir "$RUNNER_TEMP/volume-edition"
+      - name: Retain practical mechanism evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: practical-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/practical-evidence/
+      - name: Retain reconstruction and coupling evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: completion-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/completion-evidence/
+      - name: Retain pressure gauge evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pressure-gauges-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/gauge-evidence/
+      - name: Retain engineering evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: engineering-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/engineering-evidence/
+      - name: Retain modal decay evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: modal-decay-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/decay-evidence/
+      - name: Retain volume lesson evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: volume-lesson-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/volume-evidence/
+  build:
+    runs-on: ubuntu-24.04
+    # Full Chromium publication probes exceeded 60m on run 38450395780.
+    # Keep every test; allow software-renderer variation and expose test names.
+    timeout-minutes: 90
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      # Ubuntu's packaged AppArmor profile permits Chrome's sandbox at this path.
+      # Keep Chromium sandboxing enabled; do not alter host security settings.
+      RHEON_CHROMIUM_EXECUTABLE: /opt/google/chrome/chrome
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Check reviewed native admission before expensive qualification
+        run: python3 docs/education/check_native_admission.py
       - name: Set external artifact and tool directories
         run: |
+          echo "RHEON_SOLVER=$RUNNER_TEMP/rheon-solver" >> "$GITHUB_ENV"
           echo "RHEON_EDITION=$RUNNER_TEMP/rheon-edition" >> "$GITHUB_ENV"
           echo "RHEON_ASSETS=$RUNNER_TEMP/rheon-assets" >> "$GITHUB_ENV"
           echo "RHEON_OBSTACLE=$RUNNER_TEMP/rheon-obstacle-records" >> "$GITHUB_ENV"
@@ -33,6 +145,7 @@ jobs:
           echo "RHEON_STRAIN_QUALIFICATION=$RUNNER_TEMP/rheon-aligned-strain-qualification" >> "$GITHUB_ENV"
           echo "CARGO_TARGET_DIR=$RUNNER_TEMP/rheon-geometry-target" >> "$GITHUB_ENV"
           echo "CARGO_HOME=$RUNNER_TEMP/rheon-cargo" >> "$GITHUB_ENV"
+          echo "$RUNNER_TEMP/rheon-cargo/bin" >> "$GITHUB_PATH"
           echo "RUSTUP_HOME=$RUNNER_TEMP/rheon-rustup" >> "$GITHUB_ENV"
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
@@ -48,11 +161,28 @@ jobs:
           python3 -m pip install -r docs/research-book/companion/requirements.txt
           python3 -m pip install -r docs/education/requirements.txt
           python3 -m playwright install --with-deps chromium
+          test -x "$RHEON_CHROMIUM_EXECUTABLE"
+          "$RHEON_CHROMIUM_EXECUTABLE" --version
       - name: Check local reference mechanisms
         run: |
           python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
           python3 -O -m unittest discover -s docs/research-book/expansion -p test_reference.py
+          python3 -m unittest discover -s docs/education -p test_practical_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_practical_reference.py
+          python3 -m unittest discover -s docs/education -p test_completion_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_completion_reference.py
+          python3 -m unittest discover -s docs/education -p test_gauge_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_gauge_reference.py
+          python3 -m unittest discover -s docs/education -p test_engineering_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_engineering_reference.py
+          python3 -m unittest discover -s docs/education -p test_decay_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_decay_reference.py
+          python3 -m unittest discover -s docs/education -p test_volume_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_volume_reference.py
           python3 docs/education/generate_references.py
+          python3 docs/research-book/companion/cad_visualization_fixtures.py --output "$RUNNER_TEMP/rheon-cad-fixtures-normal.json"
+          python3 -O docs/research-book/companion/cad_visualization_fixtures.py --output "$RUNNER_TEMP/rheon-cad-fixtures-optimized.json"
+          cmp "$RUNNER_TEMP/rheon-cad-fixtures-normal.json" "$RUNNER_TEMP/rheon-cad-fixtures-optimized.json"
           mkdir -p "$RUNNER_TEMP/rheon-contact-checks/normal" "$RUNNER_TEMP/rheon-contact-checks/optimized"
           cp docs/research-book/expansion/contact/sanity_checks.py docs/research-book/expansion/contact/force_balance.py "$RUNNER_TEMP/rheon-contact-checks/normal/"
           cp docs/research-book/expansion/contact/sanity_checks.py docs/research-book/expansion/contact/force_balance.py "$RUNNER_TEMP/rheon-contact-checks/optimized/"
@@ -85,25 +215,46 @@ jobs:
           python3 docs/education/aligned_strain_packet.py --output "$RHEON_STRAIN" --executable "$CARGO_TARGET_DIR/debug/examples/aligned_strain" --primary-qualification "$RHEON_STRAIN_QUALIFICATION/qualification.json"
           RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -m unittest discover -s docs/education -p test_aligned_strain_packet.py
           RHEON_ALIGNED_PACKET="$RHEON_STRAIN" python3 -O -m unittest discover -s docs/education -p test_aligned_strain_packet.py
+      - name: Build the bounded native browser fixtures
+        run: |
+          rustup target add --toolchain 1.92.0 wasm32-unknown-unknown
+          cargo +1.92.0 install wasm-bindgen-cli --version 0.2.105 --locked
+          cargo +1.92.0 test --locked --no-default-features --test forces_contract --test simulation_contract
+          python3 docs/education/build_solver.py --output-dir "$RHEON_SOLVER"
+          python3 -m unittest discover -s docs/education -p test_build_solver.py
+          python3 -O -m unittest discover -s docs/education -p test_build_solver.py
+          python3 -m unittest discover -s docs/education -p test_timestep_browser.py
+          python3 -O -m unittest discover -s docs/education -p test_timestep_browser.py
+          RHEON_FLOW_NATIVE="$RHEON_SOLVER" python3 -m unittest discover -s docs/education -p test_flow_browser.py
+          RHEON_FLOW_NATIVE="$RHEON_SOLVER" python3 -O -m unittest discover -s docs/education -p test_flow_browser.py
       - name: Build complete static edition and verify local links
         run: |
           python3 -m unittest discover -s docs/education -p test_pdf_freshness.py
           python3 -O -m unittest discover -s docs/education -p test_pdf_freshness.py
           python3 -m unittest discover -s docs/education -p test_publication_gates.py
           python3 -O -m unittest discover -s docs/education -p test_publication_gates.py
+          python3 -m unittest discover -s docs/education -p test_transport_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_transport_reference.py
           python3 -m unittest discover -s docs/education -p test_native_sequence.py
           python3 -O -m unittest discover -s docs/education -p test_native_sequence.py
           python3 -m unittest discover -s docs/education -p test_static_obstacle.py
           python3 -O -m unittest discover -s docs/education -p test_static_obstacle.py
-          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --obstacle-records-dir "$RHEON_OBSTACLE" --obstacle-flow-records-dir "$RHEON_FLOW" --aligned-strain-records-dir "$RHEON_STRAIN"
+          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --obstacle-records-dir "$RHEON_OBSTACLE" --obstacle-flow-records-dir "$RHEON_FLOW" --aligned-strain-records-dir "$RHEON_STRAIN" --solver-dir "$RHEON_SOLVER"
           python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
           python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/volume_browser.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/decay_browser.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/engineering_browser.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/gauge_browser.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/completion_browser.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/practical_browser.py --output-dir "$RHEON_EDITION"
+          RHEON_TIMESTEP_EDITION="$RHEON_EDITION" python3 -O -m unittest discover -s docs/education -p test_timestep_browser.py
       - name: Verify retained browser bindings and current Chromium laboratories
         run: |
           python3 docs/education/verify_browser.py --check --output-dir "$RHEON_EDITION"
-          python3 -O -m unittest discover -s docs/education -p test_browser_runtime.py
-          python3 -m unittest discover -s docs/education -p test_aligned_strain_browser.py
-          python3 -O -m unittest discover -s docs/education -p test_aligned_strain_browser.py
+          python3 -u -O -m unittest discover -v -s docs/education -p test_browser_runtime.py
+          python3 -u -m unittest discover -v -s docs/education -p test_aligned_strain_browser.py
+          python3 -u -O -m unittest discover -v -s docs/education -p test_aligned_strain_browser.py
       - name: Retain reviewable site
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

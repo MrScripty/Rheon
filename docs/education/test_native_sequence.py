@@ -2,6 +2,13 @@
 from pathlib import Path
 import hashlib,json,re,tempfile,unittest
 from native_sequence import metadata,publish,validate_labs
+from unittest.mock import patch
+
+def pending_metadata(digest):
+    current={'proof_inventory_sha256':digest,'public_theorems':0,
+             'explicit_expected_declarations':0,'audited_declarations':None,'lean_ci':None,
+             'status':'reviewed-pending-kernel-qualification'}
+    return dict(current,schema='rheon-native-sequence-source-v2',current_reviewed_proof=current)
 
 class NativeSequence(unittest.TestCase):
     def setUp(self):
@@ -33,7 +40,7 @@ class NativeSequence(unittest.TestCase):
     def test_stale_lean_bytes_cannot_reuse_accepted_inventory(self):
         repo=self.root/'repo';proof=repo/'proofs';proof.mkdir(parents=True);src=proof/'A.lean';src.write_text('checked source')
         pins=proof/'source-inventory.json';pins.write_text(json.dumps({'A.lean':hashlib.sha256(src.read_bytes()).hexdigest()}))
-        here=repo/'docs/education';here.mkdir(parents=True);(here/'native-sequence.json').write_text(json.dumps({'proof_inventory_sha256':hashlib.sha256(pins.read_bytes()).hexdigest()}))
+        here=repo/'docs/education';here.mkdir(parents=True);(here/'native-sequence.json').write_text(json.dumps(pending_metadata(hashlib.sha256(pins.read_bytes()).hexdigest())))
         metadata(repo);src.write_text('unreviewed source')
         with self.assertRaisesRegex(ValueError,'Lean source'):metadata(repo)
     def test_changed_inventory_bytes_require_requalification(self):
@@ -42,8 +49,7 @@ class NativeSequence(unittest.TestCase):
         inventory={'A.lean':hashlib.sha256(src.read_bytes()).hexdigest()}
         pins=proof/'source-inventory.json';pins.write_text(json.dumps(inventory))
         here=repo/'docs/education';here.mkdir(parents=True)
-        (here/'native-sequence.json').write_text(json.dumps({
-            'proof_inventory_sha256':hashlib.sha256(pins.read_bytes()).hexdigest()}))
+        (here/'native-sequence.json').write_text(json.dumps(pending_metadata(hashlib.sha256(pins.read_bytes()).hexdigest())))
         metadata(repo)
         # Identical entries with different inventory bytes still need review.
         pins.write_text(json.dumps(inventory,indent=2)+'\n')
@@ -52,7 +58,7 @@ class NativeSequence(unittest.TestCase):
     def test_repository_metadata_admits_current_reviewed_proofs(self):
         repo=Path(__file__).resolve().parents[2]
         data=metadata(repo)
-        current=data['current_reconstruction_proof']
+        current=data.get('current_reviewed_proof',data['current_reconstruction_proof'])
         for key in ('proof_inventory_sha256','public_theorems',
                     'audited_declarations','explicit_expected_declarations','lean_ci'):
             self.assertEqual(data[key],current[key])
@@ -65,10 +71,37 @@ class NativeSequence(unittest.TestCase):
         audit=(repo/'proofs/AxiomAudit.lean').read_text()
         expected=re.search(r'let expected : Array Name := #\[(.*?)\]',audit,re.S).group(1)
         self.assertEqual(data['explicit_expected_declarations'],len(re.findall(r'`Rheon\.',expected)))
-        self.assertEqual(data['local_kernel_receipt_sha256'],
-                         current['local_qualification']['receipt_sha256'])
-        self.assertTrue(current['local_qualification']['lean_checked'])
-        self.assertEqual(current['local_qualification']['status'],'passed')
+        # A source inventory cannot itself turn a pending kernel check into a pass.
+        self.assertIn(current['status'], ('reviewed-pending-kernel-qualification', 'passed'))
+        if current['status'] == 'passed':
+            self.assertIsInstance(current['audited_declarations'], int)
+            self.assertGreaterEqual(current['audited_declarations'], current['explicit_expected_declarations'])
+            self.assertTrue(current.get('lean_ci') or current.get('local_qualification'))
+        else:
+            self.assertIsNone(current['audited_declarations'])
+        historical=data['current_reconstruction_proof']
+        self.assertEqual(historical['public_theorems'],106)
+        self.assertEqual(historical['audited_declarations'],161)
+        self.assertTrue(historical['local_qualification']['lean_checked'])
+        self.assertEqual(historical['local_qualification']['status'],'passed')
+
+    def test_expanded_metadata_cannot_fall_back_or_claim_an_unqualified_pass(self):
+        repo=Path(__file__).resolve().parents[2]
+        path=repo/'docs/education/native-sequence.json'
+        original_read=Path.read_text
+        original=json.loads(path.read_text())
+        mutations=[lambda d:d.pop('current_reviewed_proof'),
+                   lambda d:d.update(schema='rheon-native-sequence-source-v1'),
+                   lambda d:d.pop('schema'),
+                   lambda d:d['current_reviewed_proof'].update(status='passed',audited_declarations=None),
+                   lambda d:d['current_reviewed_proof'].update(public_theorems=106),
+                   lambda d:d['current_reviewed_proof'].update(status='unrecognized')]
+        for mutate in mutations:
+            data=json.loads(json.dumps(original));mutate(data)
+            def read(p,*args,**kwargs):
+                return json.dumps(data) if p==path else original_read(p,*args,**kwargs)
+            with patch.object(Path,'read_text',read),self.assertRaises(ValueError):
+                metadata(repo)
 
 
 if __name__=='__main__':unittest.main()

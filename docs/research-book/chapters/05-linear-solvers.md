@@ -107,3 +107,146 @@ The expanded companion constructs a small Dirichlet one-dimensional hierarchy wi
 A regular three-dimensional geometric hierarchy has cell counts \(N,N/8,N/64,\ldots\); their sum approaches \(8N/7\). This favorable count excludes per-level masks, transfer metadata, coefficients and temporary vectors. An irregular hierarchy can have much more overhead. Count actual simultaneous buffers, especially when used inside PCG.
 
 For low-resolution Rheon scenes, a simpler diagonal-PCG solve may outperform a complex hierarchy once setup and changing geometry are included. Measure complete solve time to a physical tolerance. Multigrid is a promising mechanism, not a required optimization before evidence.
+
+## Draft checkpoint: qualify a model's pressure before using it
+
+Unmerged [PR49](https://github.com/MrScripty/Rheon/pull/49), inspected at
+`b8ca87cab7f74f64c1686714a33e843fbb178c3d`, introduces an opt-in
+[pressure-provider workspace](https://github.com/MrScripty/Rheon/blob/b8ca87cab7f74f64c1686714a33e843fbb178c3d/src/solver_provider.rs).
+The native modal model evaluates a frozen learned transform/gain checkpoint in
+one fixed 32³ sealed unit box, with density 1.25 kg/m³ and dt = 1/60 s.
+The [draft's model provenance and qualification contract](https://github.com/MrScripty/Rheon/blob/b8ca87cab7f74f64c1686714a33e843fbb178c3d/docs/implementation/ai-provider/README.md)
+links the exact upstream source/checkpoint and separates its historical rollout
+measurements from this native pressure-stage experiment.
+
+Predict the response when density or grid shape changes: the model declines and
+the matching numerical reference is used. For an admitted request, every output
+must be finite and gauge-consistent, and the workspace recomputes the full
+ungauged residual, including the gauge cell. A declined or rejected candidate
+uses a fresh zero-start numerical reference; cancellation aborts without fallback.
+The caller must still check divergence of its actual corrected f32 velocity
+before publication. Pressure acceptance alone is not a complete step contract.
+
+The SHA256-verified export and trusted checkpoint supply artifact provenance;
+the loader's FNV corruption check is not cryptographic authentication. Timing
+columns separate inference, qualification and fallback, while excluding model
+construction and caller velocity correction. Neither an accepted prediction
+nor a historical speed ratio establishes faster full trajectories, general
+physical accuracy, GPU support or arbitrary-geometry learning. Defaults and
+PR48's transport facade are not automatically switched to this draft provider.
+
+## Two disconnected pressure regions
+
+Start with two regions that cannot exchange fluid, each containing two cells.
+The embedded example recomputes an all-Neumann pressure correction with unit
+cross-section, density 1 kg/m³ and dt=1 s. Cell widths encode actual volumes.
+For volumes (1,3,2,2) m³, both centre distances are 2 m and both face weights
+are 1/2. Compatible integrated data b=(1,-1,2,-2) gives fixed-left pressures
+(0,-2,0,-4) Pa and internal velocity corrections (1,2) m/s.
+
+Predict what adding the same pressure to both cells of region A will change.
+The scalar pressure bars move, but that region's pressure difference and face
+correction do not. Bars use the display depth as a scalar axis; they are not
+force vectors. The separated boxes represent disconnected regions, not a fluid
+simulation with hidden exchange across the gap.
+
+## Global balance can hide component errors
+
+Now select b=(1,0,-1,0). Its global sum is zero, but its two component sums are
+1 and -1. The original equations cannot both be satisfied in either region.
+Fixing each left cell and solving only the right rows returns zero pressures.
+The retained-row residual is zero, yet the full residual is (1,0,-1,0) and
+actual divergence is (-1,0,1/2,0) /s. Read the rejected status before trusting a
+small reduced residual. A gauge cannot repair incompatible boundary data.
+
+## Fixed-cell and mean-zero gauges
+
+For compatible data, fixing one pressure per region or subtracting each region's
+arithmetic pressure mean changes only its representative. The pressures become
+(1,-1,2,-2) Pa with arithmetic means zero; the face corrections stay (1,2) m/s.
+Fixing one cell in the entire disconnected system is insufficient. These are
+algebraic gauges, not prescribed physical pressure boundaries.
+
+## Volume-weighted pressure gauges
+
+A volume mean uses V-weighted pressure. For unequal cells it gives
+(3/2,-1/2,2,-2) Pa, which differs from the arithmetic mean while preserving all
+within-region pressure jumps. Minimum-norm language needs its inner product:
+Euclidean and volume-weighted norms choose different representatives. The offset
+controls deliberately shift away from the selected zero constraint for comparison.
+Pressure differences across independent regions remain undetermined here.
+
+## Projecting a source changes the problem
+
+For incompatible b, the explicit projection comparison changes it to
+(1/2,-1/2,-1/2,1/2). That modified system has a solution. Its original-system
+residual is still (1/2,1/2,-1/2,-1/2), so the original boundary data remains
+rejected. The source-change readout is part of the result: projection is not a
+silent gauge choice or a physically justified repair.
+
+## Gauge shifts and boundary work
+
+The outward-flux pairing includes external work:
+
+\[
+p_L(q+Q_L)+p_R(-q+Q_R)=-(p_R-p_L)q+p_LQ_L+p_RQ_R.
+\]
+
+A common shift c changes boundary work by c(Q_L+Q_R), while the internal term
+is unchanged. It vanishes for each balanced region. With incompatible data,
+region offsets (2,-2) Pa produce -4 W of boundary pairing even though the global
+flux sum is zero. This exposes inconsistent data, not an absolute-pressure
+prediction for a valid closed flow.
+
+## A pressure error is not a gauge
+
+Perturb only the right pressure in region A by 1/4 Pa. Compatible unequal cells
+then have residual (1/8,-1/8,0,0), divergence (-1/8,1/24,0,0) /s and internal
+velocity correction 7/8 m/s in A. The physical pressure difference changed;
+zero total flux does not make this locally valid. This is an intentional finite
+perturbation, not a floating-point model.
+
+<details>
+<summary>Exact gauge contracts and their limits</summary>
+
+The new [PressureGauge proofs](../../../proofs/Rheon/PressureGauge.lean) state
+component cancellation, compatibility necessity and an explicit compatible
+fixed-cell solution; independent gauge jumps; arithmetic and volume means;
+source-projection residuals; and boundary-work shifts. Division assumptions are
+explicit. The 15 exact-real statements do not prove arbitrary-mesh connectivity,
+CG convergence, PDE accuracy, Rust/JS refinement, IEEE arithmetic or runtime.
+See the [research dossier](../engineering/pressure-compatibility-and-gauges.md)
+for complete units, cases, primary-source reading and qualification boundaries.
+
+</details>
+
+## Two unknowns and a real iteration
+
+Use K = [[2, −1], [−1, 2]], corresponding to a two-cell Dirichlet stencil.
+From x = 0, each control-selected iteration performs
+x ← x + α(b−Kx)/2 using the complete old vector. This is simultaneous weighted
+Jacobi, rather than a saved-field blend. For b = (1, 0), the exact solution is
+(2/3, 1/3). At α = 1 after four iterations, x = (5/8, 5/16), the true residual
+is (1/16, 0), and error energy eᵀKe is 1/384. The readout recomputes b−Kx.
+
+## A positive matrix with an unstable iteration
+
+The matrix energy is (x−y)² + x² + y² and is positive away from zero.
+Smooth and alternating error modes nevertheless have iteration factors
+1−α/2 and 1−3α/2. Both contract only when 0 < α < 4/3. Select α = 3/2
+and alternating b: the alternating error factor is −5/4 and its energy grows
+by 25/16 each iteration. Matrix positivity alone does not choose a stable
+Jacobi relaxation. [Shewchuk, sections 5.2–5.3](https://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf)
+explains the splitting and spectral-radius criterion; this matrix and its
+closed-form error modes are independently derived here. Production Krylov
+methods additionally need suitable operator/preconditioner properties and
+fresh full residuals; no general CG or multigrid result is inferred.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

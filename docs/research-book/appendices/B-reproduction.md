@@ -67,3 +67,16 @@ For a radius-0.5 sphere, curvature errors decrease from 0.0392195 at h=0.1 to 0.
 The 27-node quadratic particle support reproduces its affine matrix to \(3.85\times10^{-16}\) and represented angular momentum to \(1.16\times10^{-16}\). Removing one support node and renormalizing leaves a first-moment defect of 0.205778. The SPH analytical constraint gradient differs from finite differences by at most \(1.12\times10^{-10}\). These results validate the specified local algebra and derivatives, not a full APIC, SPH or PBF simulation.
 
 The boundary review fixtures distinguish linear from affine divergence: omitting pressure boundary work creates a 0.21 identity defect. A skew pressure connection gives normal gradient 3.2 instead of 2 despite positive geometry. An offset fraction step confirms opposite fraction-gradient and level-set-gradient signs. A compatible chain has retained residual maximum 0.001 but full maximum 0.003, so a 0.0015 threshold must reject it despite the reduced solve criterion.
+
+## Reproduce an arithmetic counterexample
+
+Select exponent 24, left order and binary32. Record terms, trace and output zero; switch to cancel order and record output one. Run test_practical_reference.py in normal and optimized Python to compare against struct-based conversion. The browser and Python implementations are separate executions; matching these twelve arithmetic cases does not certify compiler or solver behavior.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. Kernel qualification for these new statements
+is pending. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

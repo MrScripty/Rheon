@@ -244,4 +244,119 @@ mod scheduling_tests {
             assert!(seen.iter().all(|v| *v));
         }
     }
+
+    #[test]
+    fn joined_waves_complete_every_cross_tile_predecessor_in_both_directions() {
+        for nx in 1..=5 {
+            for ny in 1..=5 {
+                for nz in 1..=5 {
+                    let tiles = [nx, ny, nz];
+                    let waves = nx + ny + nz - 2;
+                    for reverse in [false, true] {
+                        let mut completed = vec![false; nx * ny * nz];
+                        let index = |p: [usize; 3]| p[0] + nx * (p[1] + ny * p[2]);
+                        for phase in 0..waves {
+                            let wave = if reverse { waves - 1 - phase } else { phase };
+                            let jobs = (0..wave_jobs(tiles, wave))
+                                .map(|job| wave_tile(tiles, wave, job))
+                                .collect::<Vec<_>>();
+                            for &p in &jobs {
+                                assert!(!completed[index(p)]);
+                                for d in 0..3 {
+                                    let mut predecessor = p;
+                                    if reverse && p[d] + 1 < tiles[d] {
+                                        predecessor[d] += 1;
+                                    } else if !reverse && p[d] > 0 {
+                                        predecessor[d] -= 1;
+                                    } else {
+                                        continue;
+                                    }
+                                    // None of this wave has been marked yet:
+                                    // same-wave execution cannot satisfy reads.
+                                    assert!(
+                                        completed[index(predecessor)],
+                                        "{tiles:?} {p:?} reverse={reverse}"
+                                    );
+                                }
+                            }
+                            for p in jobs {
+                                completed[index(p)] = true;
+                            }
+                        }
+                        assert!(completed.into_iter().all(|done| done));
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn tile_sizes_and_poisoned_scratch_preserve_bits_and_triangular_equations() {
+        let grid =
+            crate::GridGeometry::new([17, 10, 9], [0.5, 0.75, 1.25], [2.0, -1.0, 3.0]).unwrap();
+        let operator = PressureOperator::new(&grid, 1.3).unwrap();
+        let n = grid.cell_len();
+        let residual: Vec<_> = (0..n)
+            .map(|i| {
+                if i == 0 {
+                    0.0
+                } else {
+                    ((i * 17) % 113) as f64 / 113.0 - 0.5
+                }
+            })
+            .collect();
+        let mut expected = None;
+        for threads in [1, 4] {
+            let pool = rayon::ThreadPoolBuilder::new()
+                .num_threads(threads)
+                .build()
+                .unwrap();
+            for edge in [1, 4, 8, 16] {
+                let values: Vec<_> = (0..n).map(|_| AtomicU64::new(f64::NAN.to_bits())).collect();
+                pool.install(|| apply_tiled(&operator, &residual, &values, edge))
+                    .unwrap();
+                let bits: Vec<_> = values.iter().map(|v| v.load(Ordering::Relaxed)).collect();
+                if let Some(ref reference) = expected {
+                    assert_eq!(&bits, reference, "threads={threads}, edge={edge}");
+                } else {
+                    expected = Some(bits.clone());
+                }
+                let z: Vec<_> = bits.into_iter().map(f64::from_bits).collect();
+                assert_eq!(z[0].to_bits(), 0.0_f64.to_bits());
+                assert!(z.iter().all(|v| v.is_finite()));
+                // Independently check (D-L) D^-1 (D-U) z = r on the
+                // gauge-eliminated stencil. This is a residual check, not an
+                // exact IEEE identity or a pressure-convergence guarantee.
+                let counts = grid.counts();
+                let strides = [1, counts[0], counts[0] * counts[1]];
+                let weights = operator.fixed_box_weights().unwrap();
+                let mut y = vec![0.0; n];
+                for row in 1..n {
+                    let p = [
+                        row % counts[0],
+                        (row / counts[0]) % counts[1],
+                        row / strides[2],
+                    ];
+                    let upper: f64 = (0..3)
+                        .filter(|&d| p[d] + 1 < counts[d])
+                        .map(|d| weights[d] * z[row + strides[d]])
+                        .sum();
+                    y[row] = z[row] - upper / operator.diagonal(p);
+                }
+                for row in 1..n {
+                    let p = [
+                        row % counts[0],
+                        (row / counts[0]) % counts[1],
+                        row / strides[2],
+                    ];
+                    let lower: f64 = (0..3)
+                        .filter(|&d| p[d] > 0)
+                        .map(|d| weights[d] * y[row - strides[d]])
+                        .sum();
+                    let reconstructed = operator.diagonal(p) * y[row] - lower;
+                    assert!((reconstructed - residual[row]).abs() < 1e-12, "row={row}");
+                }
+            }
+        }
+    }
 }

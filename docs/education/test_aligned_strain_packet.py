@@ -12,7 +12,8 @@ from unittest.mock import patch
 
 from aligned_strain_packet import (ROOT, SCHEMA, basis_and_corners, browser_expectation,
                                   encoded, external_new_directory, packet_data,
-                                  sha, source_core, validate_packet, publish, verify_published)
+                                  sha, source_core, validate_packet, publish, verify_published,
+                                  REVIEWED_INVENTORY, reviewed_native_paths, trusted_primary, git)
 from aligned_strain_oracle import Dump, Geometry, Refusal, reference
 
 
@@ -96,6 +97,60 @@ class ControlBasisTest(unittest.TestCase):
             with self.subTest(changed=changed), patch('aligned_strain_packet.sha', side_effect=tampered):
                 with self.assertRaisesRegex(Refusal, 'changed qualified native source'):
                     source_core(ROOT)
+
+    def test_reviewed_extension_binds_added_modules_and_build_inputs(self):
+        sources = source_core(ROOT)
+        for changed in ('Cargo.lock', 'src/scheduling.rs', 'src/particle_fluid.rs',
+                        'src/sgs.rs', 'tools/aligned_strain_oracle.py'):
+            self.assertEqual(sources[changed], sha(ROOT/changed))
+            def tampered(path):
+                return '0'*64 if Path(path) == ROOT/changed else sha(path)
+            with self.subTest(changed=changed), patch('aligned_strain_packet.sha', side_effect=tampered):
+                with self.assertRaisesRegex(Refusal, 'changed qualified native source'):
+                    source_core(ROOT)
+
+    def test_reviewed_extension_rejects_added_or_missing_path(self):
+        paths = reviewed_native_paths(ROOT)
+        for altered in (paths | {'src/unreviewed.rs'}, paths - {'src/particle_fluid.rs'}):
+            with patch('aligned_strain_packet.reviewed_native_paths', return_value=altered):
+                with self.assertRaisesRegex(Refusal, 'added or missing path'):
+                    source_core(ROOT)
+
+    def test_bad_reviewed_inventory_has_no_historical_fallback(self):
+        data = json.loads((ROOT/REVIEWED_INVENTORY).read_text())
+        data['reviewed_base'] = '0'*40
+        with patch('aligned_strain_packet.json.loads', return_value=data):
+            with self.assertRaisesRegex(Refusal, 'inventory identity'):
+                source_core(ROOT)
+
+    def primary_receipt(self, directory):
+        sources = source_core(ROOT)
+        data = {'schema': 'rheon-reconstructed-aligned-strain-qualification-v1',
+                'clean': True, 'status': 'passed', 'source_head': git(ROOT, 'rev-parse', 'HEAD'),
+                'source_tree': git(ROOT, 'rev-parse', 'HEAD^{tree}'),
+                'source_sha256': dict(sources, **{REVIEWED_INVENTORY: sha(ROOT/REVIEWED_INVENTORY)}),
+                'executable_sha256': '1'*64}
+        path = Path(directory)/'primary.json'
+        path.write_text(encoded(data))
+        return path, data, sources
+
+    def test_receipt_commit_with_extra_build_input_refuses(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path, _, sources = self.primary_receipt(temp)
+            for extra in ('build.rs', '.cargo/config.toml'):
+                with self.subTest(extra=extra), patch('aligned_strain_packet.committed_native_paths',
+                                                     return_value=set(sources) | {extra}):
+                    with self.assertRaisesRegex(Refusal, 'receipt commit inventory'):
+                        trusted_primary(ROOT, path)
+
+    def test_receipt_must_bind_same_reviewed_inventory(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path, data, sources = self.primary_receipt(temp)
+            data['source_sha256'][REVIEWED_INVENTORY] = '0'*64
+            path.write_text(encoded(data))
+            with patch('aligned_strain_packet.committed_native_paths', return_value=set(sources)):
+                with self.assertRaisesRegex(Refusal, 'receipt reviewed inventory binding'):
+                    trusted_primary(ROOT, path)
 
 
 @unittest.skipUnless(os.environ.get('RHEON_ALIGNED_PACKET'),'qualification supplies a real native packet')

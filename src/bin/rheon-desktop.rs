@@ -795,10 +795,15 @@ impl App {
                                 "{} particles · mass {:.6} kg",
                                 r.particles, r.total_mass
                             ));
+                            ui.label(format!("Accepted max speed {:.3} m/s", r.max_speed));
                             ui.label(format!(
-                                "Max speed {:.3} m/s · pressure {:.1} Pa",
-                                r.max_speed, r.max_pressure
-                            ));
+                                "Max pressure used for forces {:.1} Pa",
+                                r.max_pressure
+                            ))
+                            .on_hover_text(
+                                "Evaluated before the position, velocity and wall-temperature update; \
+                                 not pressure recomputed on the displayed accepted particles.",
+                            );
                         } else {
                             ui.label(row.method.label());
                             ui.label(format!(
