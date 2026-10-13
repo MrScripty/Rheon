@@ -45,5 +45,5 @@ See reports/verification.md for completed acceptance evidence.
 
 Write sets: root owns desktop modules, app composition, src/lib.rs wiring and this
 plan. Export delegate owns src/vtk_export.rs, tests/vtk_export_contract.rs,
-examples/vtk_export_fixture.rs, tools/test_vtk_roundtrip.py and focused workflow.
+examples/vtk_export_fixture.rs, tools/verify_vtk_roundtrip.py and focused workflow.
 No source changes to src/session.rs or numerical solvers are planned.

@@ -1,4 +1,4 @@
-# Native VTK interchange, version1
+# Native VTK interchange, version 1
 
 `write_session_vti(out, &SessionSnapshot)` writes full-box `ImageData`.
 `write_material_vtp(out, &MaterialSnapshot)` writes canonical material snapshots;
@@ -12,7 +12,7 @@ VTI origin, spacing and extents preserve physical coordinates and x-fast order.
 CellData contains Float64 `fraction`, Float32 `tracer`, and Float64
 `velocity_cell_m_s` (adjacent native face average). `interval_pressure_pa` is
 absent at construction; after acceptance it is the projection interval pressure,
-with cell0 gauge and explicit interval metadata. It is not a free-surface or
+with cell 0 gauge and explicit interval metadata. It is not a free-surface or
 absolute-pressure measurement. Native Float32 `velocity_x/y/z` arrays remain in
 FieldData with dimensions and stagger offsets. Fraction is not a validity mask.
 
@@ -29,12 +29,12 @@ without a trailing NUL. Source identity is not authenticated provenance. Units a
 pressure semantics are encoded. No replay, restore or stable cross-run particle
 identity is promised.
 
-Independent verification uses VTK9.3.1, not a second custom XML parser:
+Independent verification uses VTK 9.3.1, not a second custom XML parser:
 
 ```sh
 cargo test --locked --no-default-features --test vtk_export_contract
 cargo run --locked --no-default-features --example vtk_export_fixture -- /tmp/rheon-vtk
-python3 tools/test_vtk_roundtrip.py /tmp/rheon-vtk
+python3 tools/verify_vtk_roundtrip.py /tmp/rheon-vtk
 ```
 
 The pinned CI reader checks seven authored/real-session files, asymmetric physical

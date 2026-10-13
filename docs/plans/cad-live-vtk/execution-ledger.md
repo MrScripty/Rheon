@@ -11,3 +11,10 @@ new MaterialSnapshot adapter exercises the combined API without migrating worker
 ownership. Implemented dock, raw particle view, live API transport and VTK exports.
 Independent code/screenshot review complete; 31 desktop tests,5 VTK contracts,
 seven actual VTK reader fixtures and all-target desktop Clippy pass.
+
+Hosted VTK round-trip, AI native CPU, aligned-strain native rational and dense3D
+checks passed on cfc2fc1. Found Python discovery collision: renamed standalone
+VTK fixture verifier from test_ to verify_ so the unrelated general unittest job
+does not import its optional VTK dependency. Re-ran seven-file verifier successfully.
+Hosted book failed at finite aligned-strain qualification; log downloads returned
+HTTP403, investigation remains explicit rather than reporting green CI.

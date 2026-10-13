@@ -6,7 +6,7 @@ on:
       - 'examples/vtk_export_fixture.rs'
       - 'examples/session_support/**'
       - 'tests/vtk_export_contract.rs'
-      - 'tools/test_vtk_roundtrip.py'
+      - 'tools/verify_vtk_roundtrip.py'
       - 'Cargo.*'
       - 'rust-toolchain.toml'
       - '.github/workflows/vtk-interchange.yml'
@@ -17,7 +17,7 @@ on:
       - 'examples/vtk_export_fixture.rs'
       - 'examples/session_support/**'
       - 'tests/vtk_export_contract.rs'
-      - 'tools/test_vtk_roundtrip.py'
+      - 'tools/verify_vtk_roundtrip.py'
       - 'Cargo.*'
       - 'rust-toolchain.toml'
       - '.github/workflows/vtk-interchange.yml'
@@ -44,4 +44,4 @@ jobs:
       - name: Real VTK reader validates native precision and associations
         run: |
           cargo run --locked --no-default-features --example vtk_export_fixture -- "$RUNNER_TEMP/rheon-vtk-fixtures"
-          "$RUNNER_TEMP/vtk-reader/bin/python" tools/test_vtk_roundtrip.py "$RUNNER_TEMP/rheon-vtk-fixtures"
+          "$RUNNER_TEMP/vtk-reader/bin/python" tools/verify_vtk_roundtrip.py "$RUNNER_TEMP/rheon-vtk-fixtures"

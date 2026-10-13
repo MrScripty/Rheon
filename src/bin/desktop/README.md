@@ -161,12 +161,12 @@ The top tabs separate **Appearance** timeline playback, **Particles** latest raw
 material state, the fixed **Obstacle lab**, and a live **Transport session** using
 the public API. Settings and Inspector share a scrollable left dock. Particle
 speed colors use the full latest-state range; click a displayed point to select
-its run-local ID in Inspector. At most8192 points are drawn, with deterministic
+its run-local ID in Inspector. At most 8192 points are drawn, with deterministic
 sampling; the inspector and export retain all points. Arrow length is velocity
 multiplied by the displayed time scale. No pre-integration particle pressure is
 colored onto later accepted positions.
 
-Transport Run/Pause/Advance controls step a bounded64-cell API session. Fraction,
+Transport Run/Pause/Advance controls step a bounded 64-cell API session. Fraction,
 speed and accepted pressure slices/probes come from that publication. Constructor
 pressure is unavailable. The display uses physical origin/spacing and preserves
 aspect ratio; **Frame view** and **Orthographic** adjust only the camera. This is a

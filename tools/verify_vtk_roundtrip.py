@@ -2,7 +2,7 @@
 """Read Rust fixture exports with actual VTK, not a local XML parser.
 
 Generate first: cargo run --locked --example vtk_export_fixture -- /tmp/rheon-vtk
-Then: python tools/test_vtk_roundtrip.py /tmp/rheon-vtk
+Then: python tools/verify_vtk_roundtrip.py /tmp/rheon-vtk
 Consumer qualification dependency: vtk==9.3.1 (includes NumPy dependency).
 Metadata *_utf8 fields are UInt8 bytes, without a trailing NUL.
 """
@@ -150,5 +150,5 @@ def verify(directory):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        raise SystemExit("usage: test_vtk_roundtrip.py EXTERNAL_FIXTURE_DIRECTORY")
+        raise SystemExit("usage: verify_vtk_roundtrip.py EXTERNAL_FIXTURE_DIRECTORY")
     verify(Path(sys.argv[1]))
