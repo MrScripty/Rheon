@@ -72,34 +72,34 @@ Every native recording/operator entry is conditional on packet admission.
 | 01 Numerical contract | Browser full-residual/unit/finite candidate gate and explicit fallback | Accepted-state lifecycle, end-to-end guidance error and performance |
 | 02 Continuum model | Browser steady wall force/power ledger, analytical unit-gap profile | Interactive nondimensionalization, splitting and boundary-work comparison |
 | 03 Staggered geometry | Stored projection; browser affine sampler at the layout discussion | Weighted metrics, machine indexing and general geometry assembly |
-| 04 Pressure correction | Stored fields and recomputed blend | Boundary assembly, component gauges, compatibility and a live pressure solve |
-| 05 Linear solvers | Stored projection as context only | Jacobi/CG iteration histories, preconditioning and multigrid; correction fraction is not an iteration count |
+| 04 Pressure correction | Stored projection/blend; computed checkerboard and two-path coupling | General collocated pressure assembly, full Rhie–Chow/SIMPLE/PISO and boundary composition |
+| 05 Linear solvers | Computed two-cell Jacobi and disconnected pressure gauges; stored projection context | General CG/preconditioning/multigrid iteration histories and arbitrary-mesh convergence |
 | 06 Transport | Browser sampler and periodic scalar transport | Variable velocity, collision-aware traces, open/closed sampling policies and conservative liquid flux |
 | 07 Corrected transport | Browser baseline/raw/limited comparison and resolution controls | Native corrected advection, invalid-trace fallback, self-advected velocity and general conservation |
-| 08 Boundaries | Text/fixture; separate native static geometry/pressure records | General mesh boundaries, weighted affine-adjoint demonstration and moving geometry |
+| 08 Boundaries | Computed face flux/work and affine skew reconstruction; native box records | General mesh assembly, weighted stress geometry and moving cuts |
 | 09 Liquid interfaces | Browser recomputed one-face axis-aligned swept-volume geometry; offline curvature fixtures | General fraction transport, arbitrary-normal reconstruction, reinitialization and surface-error comparisons |
 | 10 Forces/viscosity | Stored hydrostatics and scalar shear; separate native wall/force records | Variable/nonlinear tensor stress and dynamic solid coupling |
 | 11 Particle methods | Browser mass-weighted one-sample PIC/FLIP blend and unresolved kinetic variation | Browser PIC/FLIP/APIC transfer, support degeneracy, SPH/PBF dynamics and full memory costs |
 | 12 Time/error | Browser recomputed periodic viscous mode; explicit/implicit/exact comparison at fixed final time | General step admission, coupled spatial/temporal error, incomplete intervals and long-horizon budgets |
-| 13 Memory/parallelism | Browser field/face/CSR/workspace counts with actual allocation shape | Interactive allocation estimates, measured peak memory, reduction order and sparse/GPU execution |
+| 13 Memory/parallelism | Computed field/face/CSR/workspace counts and allocation shape | Ghosts/allocator/particle/render buffers, measured peak memory and sparse/GPU runtime |
 | 14 Guidance rendering | Browser native 24³ flow with orbitable accepted concentration volume; fixed opacity and complete 3D tensor | Camera calibration, physical scattering, depth/normals export, silhouettes and export-error comparison |
-| 15 Finite arithmetic | Browser executed binary32/binary64 additions and order-sensitive trace | Interactive cancellation, precision replay, exceptional values and threshold behavior |
-| 16 Lean contracts | Browser two-cell hypothesis/counterexample and tolerance inspection | Interactive hypothesis/counterexample inspection; no browser proof execution |
+| 15 Finite arithmetic | Executed binary32/binary64 additions and order-sensitive trace | General precision replay, exceptional values and complete-solver thresholds |
+| 16 Lean contracts | Computed two-cell hypothesis/counterexample and tolerance inspection | Arbitrary operator instantiation; no browser proof execution |
 | 17 Rust implementation | Browser native force/projection timestep: one fixed interval, exact cycle comparison, native precommit rejection/retry and reset | General stepping lifecycle, asynchronous cancellation, resource-failure UI, liquid integration and other host runtimes |
-| 18 Validation | Browser actual midpoint quadrature, three-grid order/GCI and model-bias counterexample | Unified error/refinement explorer, production performance and downstream guidance evaluation |
-| 19 Force and wall work | Stored projection as context; separate native forcing records | Live force-work ledger, swept geometry and two-way coupled motion |
+| 18 Validation | Actual midpoint quadrature, three-grid order/GCI and model-bias counterexample | Coupled spatial/temporal/iteration/model uncertainty, production performance and guidance validation |
+| 19 Force and wall work | Computed steady signed wall-work ledger; separate native force/plate records | General swept geometry, moving-boundary work and two-way 3D impulse/torque |
 | 20 Collision meshes | Stored triangle crossings; separate native geometry records | General cut-cell meshes, robust predicates, swept motion and deforming geometry |
 | 21 Density/volume | Stored analytic hydrostatics; separate forced-column records | Browser conservative amounts, evolving interfaces and variable-density momentum |
-| 22 Viscosity/stress | Stored scalar decay; separate browser finite-strain operator | General tensor/free-surface composition and accepted strain timesteps |
+| 22 Viscosity/stress | Computed affine stress and supplied-field SST-2003 limiter; modal decay/native strain | General tensor/free-surface composition, turbulent transport and physical-model validation |
 | 23 Wetting | Stored constant-volume equilibrium caps | Gravity, reconstructed angles, relaxation, hysteresis and moving contact lines |
 | 24 Wall slip | Stored one-wall Couette; separate native two-wall/no-slip/forced playback | General wall geometry and evolving-boundary traction |
 | 25 Integrated qualification | Stored cap pressure; links to restricted native mechanisms | Dynamic capillarity, parasitic currents, oscillation, penetration and full coupled qualification |
-| A Algorithm reference | Text/fixture; pseudocode and ownership contracts | Interactive lifecycle/diagnostics; pseudocode is not the current compiled API |
-| B Reproduction | Text/fixture; source identities and commands | No interactive solver claimed; inspect fresh receipts for each executed build |
-| C Bibliography | Text/source links | No interactive lesson needed; preserve primary-source attribution |
-| D Notation/provenance | Text/definitions | No interactive solver claimed; retain units and historical source scope |
-| E Matrix laboratory | Text/fixture; exact chain, cycle, residual and flux arithmetic | Future recomputed small-matrix comparison; existing 27-cell blend is a different fixture |
-| F Contracts/sources | Text/disclosures; links to the six reference mechanisms | Full requirement coverage remains incomplete; historical theorem counts retain their source identities |
+| A Algorithm reference | Computed two-cell Jacobi algorithm with true residual | General accepted-state lifecycle and arbitrary solver diagnostics |
+| B Reproduction | Executed reduction-order counterexample and source-bound reproduction commands | Complete solver replay/environment reproducibility |
+| C Bibliography | Computed specified constitutive probe with primary source/variant reading | Scientific/model validity is not inferred from a bibliography or limiter |
+| D Notation/provenance | Computed wall force/power with explicit units and source provenance | General units/reference/geometry contracts beyond the unit-gap fixture |
+| E Matrix laboratory | Actual Dirichlet iteration and error modes; exact matrix exercises | General matrix assembly and iterative/preconditioned solver comparison |
+| F Contracts/sources | Computed finite/unit/residual proposal gate and collapsed proof scopes | Full requirement coverage remains incomplete; historical counts retain source identities |
 
 ## CAD measurement research and proposed lessons
 
