@@ -34,6 +34,8 @@ jobs:
           mkdir -p "$RUNNER_TEMP/volume-assets"
           cp docs/education/package*.json "$RUNNER_TEMP/volume-assets/"
           npm ci --prefix "$RUNNER_TEMP/volume-assets" --ignore-scripts --no-audit --no-fund
+          python3 -m unittest discover -s docs/education -p test_gauge_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_gauge_reference.py
           python3 -m unittest discover -s docs/education -p test_engineering_reference.py
           python3 -O -m unittest discover -s docs/education -p test_engineering_reference.py
           python3 -m unittest discover -s docs/education -p test_decay_reference.py
@@ -63,6 +65,19 @@ jobs:
             exit 1
           }
           cat "$RUNNER_TEMP/engineering-browser.log"
+      - name: Check pressure gauges and component compatibility
+        run: |
+          python3 docs/education/gauge_browser.py --output-dir "$RUNNER_TEMP/volume-edition" > "$RUNNER_TEMP/gauge-browser.log" 2>&1 || {
+            tail -30 "$RUNNER_TEMP/gauge-browser.log" | sed 's/^/::error::/'
+            exit 1
+          }
+          cat "$RUNNER_TEMP/gauge-browser.log"
+      - name: Retain pressure gauge evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pressure-gauges-${{ github.sha }}
+          path: ${{ runner.temp }}/volume-edition/gauge-evidence/
       - name: Retain engineering evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -130,6 +145,8 @@ jobs:
         run: |
           python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py
           python3 -O -m unittest discover -s docs/research-book/expansion -p test_reference.py
+          python3 -m unittest discover -s docs/education -p test_gauge_reference.py
+          python3 -O -m unittest discover -s docs/education -p test_gauge_reference.py
           python3 -m unittest discover -s docs/education -p test_engineering_reference.py
           python3 -O -m unittest discover -s docs/education -p test_engineering_reference.py
           python3 -m unittest discover -s docs/education -p test_decay_reference.py
@@ -202,6 +219,7 @@ jobs:
           python3 docs/education/volume_browser.py --output-dir "$RHEON_EDITION"
           python3 docs/education/decay_browser.py --output-dir "$RHEON_EDITION"
           python3 docs/education/engineering_browser.py --output-dir "$RHEON_EDITION"
+          python3 docs/education/gauge_browser.py --output-dir "$RHEON_EDITION"
           RHEON_TIMESTEP_EDITION="$RHEON_EDITION" python3 -O -m unittest discover -s docs/education -p test_timestep_browser.py
       - name: Verify retained browser bindings and current Chromium laboratories
         run: |

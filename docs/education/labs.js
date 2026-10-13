@@ -1,3 +1,4 @@
+import {createGaugeLab} from './gauge_lab.js';
 import {createEngineeringLabs} from './engineering_labs.js';
 import * as THREE from 'three';
 import {RecordedView} from './shared-viewer/view.js';
@@ -49,6 +50,7 @@ function cap(){const d=data.cap;let angle=12,tension=1;meta('6 · Wetting shape 
 const expectations={
  faceflux:'At area 0.5, velocity 1, left boundary flux 0.5 and pressures 1/3, the pressure pairing is −2 W: −1 W interior plus −1 W boundary. Omitting boundary work fails.',
  checker:'Alternating pressures ±1 have zero central cell gradients but compact face responses ±2 and divergences ±4 at response 1. Constant pressure produces zero response.',
+ gauges:'For globally balanced but component-incompatible data, zero retained-row residual does not imply a valid pressure correction. Gauge shifts preserve jumps and flux; explicit RHS projection changes the problem.',
  stressprobe:'At unit rate and viscosity, rotation has zero symmetric strain; shear has 1 W and extension 4 W of dissipation, exactly supplied by the six-face work.',
  decay:'At T=2 s with one explicit step, A becomes −1 m/s and energy stays 0.25 J, while exact A is exp(−2). Refine the number of steps at the same T and compare amplitude errors. Implicit energy decay alone does not certify accuracy.',
  volume:'At f = 0.3 and c = 0.5, left-filled liquid transfers 0; right-filled liquid transfers 0.3 m³. The mixture estimate gives 0.15 in both cases. Removing the whole slab then clamping creates 0.2 m³.',
@@ -64,6 +66,7 @@ const expectations={
  timestep:'From rest, one accepted step gives interior speeds (+0.125, −0.125, −0.125, +0.125) m/s and kinetic energy 0.03125 J. Rejection before commit preserves every accepted field bit, time and generation. Scroll and camera controls never advance or reset the state.'
 };
 const labs={projection,collision,hydrostatic,viscous,slip,cap,...createTransportLabs({clear,line,dot,arrow,range,choice,meta,setMetrics,panel,setReference:q=>{reference=q;}})};
+labs.gauges=createGaugeLab({clear,box,arrow,choice,meta,setMetrics,setReference:q=>{reference=q;}});
 Object.assign(labs,createEngineeringLabs({clear,box,arrow,choice,meta,setMetrics,setReference:q=>{reference=q;}}));
 labs.decay=createDecayLab({clear,box,arrow,range,choice,meta,setMetrics,setReference:q=>{reference=q;}});
 labs.volume=createVolumeLab({clear,box,arrow,range,choice,meta,setMetrics,setReference:q=>{reference=q;}});
@@ -74,7 +77,7 @@ let applying=false;
 function manualChange(){if(!applying)host.dispatchEvent(new CustomEvent('rheon-manual-change',{bubbles:true}));}
 export function selectLab(lab=selector.value){
   if(!labs[lab]||![...selector.options].some(o=>o.value===lab))return;flow.unmount();selector.value=lab;document.querySelector('.example-workspace').dataset.lab=lab;panel.replaceChildren();reference=null;labs[lab]();
-  const engineering=['faceflux','checker','stressprobe'].includes(lab), decay=lab==='decay', geometric=lab==='volume', recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
+  const engineering=['faceflux','checker','stressprobe','gauges'].includes(lab), decay=lab==='decay', geometric=lab==='volume', recomputed=lab==='sampler'||lab==='transport', native=lab==='timestep', volume=lab==='flow';
   const legend=document.querySelector('#plot-legend');
   if(legend){
     legend.hidden=!recomputed&&!native&&!volume&&!geometric&&!decay;legend.replaceChildren();
@@ -84,7 +87,8 @@ export function selectLab(lab=selector.value){
   }
   document.querySelector('.example-kind').textContent=engineering?'Browser algebra · prescribed finite examples':decay?'Browser time integration · one viscous mode':geometric?'Browser geometry · one shared face':volume?'Rust / WebAssembly · computed 3D tracer':native?'Rust / WebAssembly · accepted-state timestep':recomputed?'Browser recomputation · educational reference':'Reference model · no fluid timesteps';
   document.querySelector('#reference-sources').hidden=recomputed||native||volume||geometric||decay||engineering;
-  document.querySelector('#engineering-sources').hidden=!engineering;
+  document.querySelector('#engineering-sources').hidden=!engineering||lab==='gauges';
+  document.querySelector('#gauge-sources').hidden=lab!=='gauges';
   document.querySelector('#transport-sources').hidden=!recomputed;
   document.querySelector('#volume-sources').hidden=!geometric;
   document.querySelector('#decay-sources').hidden=!decay;
@@ -94,6 +98,7 @@ export function selectLab(lab=selector.value){
 const presets={
  faceflux:{work:[1,2,2,0],closed:[1,2,1,0],balanced:[1,2,0,0]},
  checker:{alternating:[1,2,2],constant:[0,2,2]},
+ gauges:{compatible:[0,1,0,1,1,0],incompatible:[1,1,0,1,1,0],mean:[0,1,1,1,1,0],volume:[0,1,2,1,1,0],projected:[1,1,3,1,1,0],shifted:[1,1,0,2,0,0],perturbed:[0,1,0,1,1,1]},
  stressprobe:{rotation:[0,2,2],shear:[1,2,2],extension:[2,2,2]},
  decay:{threshold:[0,1,0,1],refined:[0,1,3,8],implicit:[1,1,0,1],unstable:[0,2,0,1]},
  volume:{left:[0,30,50],right:[1,30,50]},

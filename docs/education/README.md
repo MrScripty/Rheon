@@ -298,3 +298,11 @@ and current [proof source status](native-sequence.json). PR51's 152-theorem,
 266-declaration result remains historical; the 14 additional engineering
 statements passed their own [kernel build and 282-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38449564095). The checked merge proof tree equals `dd0d81c`; exact source binding is recorded in the metadata. Native admission hashes and
 dependency locks are unchanged.
+
+
+Pressure-gauge continuation: [plan](PRESSURE_GAUGE_PLAN.md) and
+[component/gauge derivation](../research-book/engineering/pressure-compatibility-and-gauges.md).
+The 288-state reference keeps source compatibility, representative choice,
+full residual and boundary work separate. Fifteen added exact-real statements
+await their own kernel run; PR60's 282-declaration evidence is historical.
+Native source admission and all dependency locks remain unchanged.

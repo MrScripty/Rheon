@@ -232,7 +232,22 @@ run_cmd do
     `Rheon.EngineeringFlux.planar_boundary_power,
     `Rheon.EngineeringFlux.rigid_rotation_power,
     `Rheon.EngineeringFlux.simple_shear_power,
-    `Rheon.EngineeringFlux.planar_extension_power]
+    `Rheon.EngineeringFlux.planar_extension_power,
+    `Rheon.PressureGauge.component_sum_zero,
+    `Rheon.PressureGauge.pair_energy,
+    `Rheon.PressureGauge.component_compatibility,
+    `Rheon.PressureGauge.independent_gauge_jumps,
+    `Rheon.PressureGauge.fixed_cell_residual,
+    `Rheon.PressureGauge.fixed_cell_solves_compatible,
+    `Rheon.PressureGauge.opposite_component_imbalances,
+    `Rheon.PressureGauge.arithmetic_mean_zero,
+    `Rheon.PressureGauge.volume_mean_zero,
+    `Rheon.PressureGauge.projected_component_sum,
+    `Rheon.PressureGauge.projected_original_residual,
+    `Rheon.PressureGauge.volume_weighted_left_null,
+    `Rheon.PressureGauge.boundary_work_shift,
+    `Rheon.PressureGauge.balanced_boundary_work,
+    `Rheon.PressureGauge.pressure_pairing_with_boundary]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

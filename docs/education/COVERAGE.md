@@ -311,3 +311,21 @@ and fresh Lean status are separate. See [plan](ENGINEERING_PLAN.md) and
 | Affine stress | 27 rotation/shear/extension controls; Batty–Bridson v2 section 3 read | Exact planar power; prescribed samples and face tractions, no evolving PDE or no-slip cube |
 | GUI | Three 3D views, seven heading bindings, independent glyph verifier and mobile controls | Hosted qualification required; no screenshot visual review implied by automated checks |
 | Dependencies | Existing locks unchanged; no new dependency, external mesh/data or copied implementation | Zero-change audit, not approval of a future parser/AMG/model dependency |
+
+
+## Pressure compatibility and gauges: continuation of PR60
+
+Chapter 5 adds seven recomputed reading states over two disconnected Neumann
+pairs. Chapter placement remains 18/25 partial and 0/6 appendices; this deepens
+an existing chapter rather than claiming a new covered chapter.
+
+| Item | Implemented/researched | Proof/validation boundary |
+| --- | --- | --- |
+| Component compatibility | 288 finite controls, compatible and globally balanced/incompatible data; PETSc primary nullspace notes read | Necessary component sums and explicit compatible pair solution; no arbitrary-mesh kernel theorem |
+| Gauges | Fixed-cell, arithmetic mean, volume mean and independent offsets | Exact jump invariance and mean identities; physical Dirichlet/traction conditions excluded |
+| Residual and boundary work | Full vs retained-row residual, volume-scaled divergence, explicit source projection, local pressure perturbation | Original incompatible source stays rejected; gauge work retains component boundary terms |
+| Research | Gebhardt–Romero v1 sections 1–2 read; Bochev–Lehoucq publisher abstract/metadata only | No imported regularization/convergence claim or inaccessible-full-text reading claim |
+| Qualification | Rational oracle and false-acceptance mutations; actual cell/bar/arrow browser verifier | Fresh 15-theorem kernel and hosted UI/full-book checks pending; screenshot review separate |
+
+See [plan](PRESSURE_GAUGE_PLAN.md) and
+[complete derivation](../research-book/engineering/pressure-compatibility-and-gauges.md).

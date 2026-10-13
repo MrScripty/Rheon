@@ -44,6 +44,11 @@ source, not a linked or bundled solver. Denied downloads are not bypassed.
 
 ## Status
 
-Plan recorded before implementation. PETSc's primary nullspace documentation
-has been read; independent derivation and research-paper access checks continue.
-No new theorem or browser qualification is claimed yet.
+Plan recorded before implementation. PETSc primary nullspace notes and
+Gebhardt–Romero v1 sections 1–2 have been read; the Bochev–Lehoucq full text
+remains inaccessible (publisher abstract/metadata only). The complete derivation,
+288-state independent rational oracle, seven heading presets and 15 scoped Lean
+statements are implemented. Normal/optimized reference tests, source-policy,
+metadata and publication-gate checks pass locally; a fresh HTML edition builds.
+Fresh kernel and hosted browser/PDF/full-workflow qualification remain pending.
+PR60 stays unchanged and its CI is monitored independently.
