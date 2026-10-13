@@ -33,7 +33,7 @@ def qualify(site):
             initial=snapshot(page)
             require(initial['webgl'],'WebGL unavailable')
             require(abs(initial['reference']['q'])<1e-14,'Left preset differs')
-            require(not page.locator('.proof-disclosure').get_attribute('open'),'Proof should start collapsed')
+            require(page.locator('.proof-disclosure').get_attribute('open') is None,'Proof should start collapsed')
             page.get_by_label('Liquid location',exact=True).select_option('1')
             settle(page)
             q=snapshot(page)['reference']

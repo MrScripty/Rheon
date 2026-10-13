@@ -30,7 +30,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc
-          python3 -m pip install -r docs/education/requirements.txt -r docs/research-book/expansion/requirements.txt
+          python3 -m pip install -r docs/education/requirements.txt -r docs/research-book/expansion/requirements.txt -r docs/research-book/companion/requirements.txt
           mkdir -p "$RUNNER_TEMP/volume-assets"
           cp docs/education/package*.json "$RUNNER_TEMP/volume-assets/"
           npm ci --prefix "$RUNNER_TEMP/volume-assets" --ignore-scripts --no-audit --no-fund
@@ -39,7 +39,12 @@ jobs:
           python3 docs/education/generate_references.py
           python3 docs/education/build.py --output-dir "$RUNNER_TEMP/volume-edition" --asset-dir "$RUNNER_TEMP/volume-assets/node_modules"
       - name: Check volume controls and desktop/mobile rendering
-        run: python3 docs/education/volume_browser.py --output-dir "$RUNNER_TEMP/volume-edition"
+        run: |
+          python3 docs/education/volume_browser.py --output-dir "$RUNNER_TEMP/volume-edition" > "$RUNNER_TEMP/volume-browser.log" 2>&1 || {
+            tail -30 "$RUNNER_TEMP/volume-browser.log" | sed 's/^/::error::/'
+            exit 1
+          }
+          cat "$RUNNER_TEMP/volume-browser.log"
       - name: Retain volume lesson evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
