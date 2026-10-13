@@ -176,3 +176,5 @@ pub use session::{
     SESSION_CAPABILITIES, SessionCapabilities, SessionError, SessionIdentity, SessionSnapshot,
     SimulationSession, SnapshotStage,
 };
+/// Optional learned pressure components with reference fallback.
+pub mod solver_provider;
