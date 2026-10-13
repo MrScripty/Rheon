@@ -17,3 +17,8 @@
 - FIFO/special-file import could block the UI before byte limits applied. Unix
   nonblocking opens plus preflight and held-handle regular-file checks now reject
   these inputs, including buffer resources. Regular-file I/O latency is not bounded.
+
+- Repository integration blocker: education source-binding gate rejects changed
+  Cargo.lock. Explicit repair owner is 01a134ab-c34f-7168-abaf-0410102c702a; no
+  edits to that owner were made. Native hosted smoke needed libxkbcommon-x11-0,
+  now an explicit verification-only package prerequisite.

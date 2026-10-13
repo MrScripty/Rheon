@@ -1,8 +1,8 @@
 # Static imported collision meshes
 
-**Plan status:** Active. **Current phase:** static particle collision milestone.
-**Next slice:** integrate importer, immutable collision owner and native controls.
-**Acceptance status:** pending.
+**Plan status:** Blocked. **Current phase:** hosted integration qualification.
+**Next slice:** coordinate the independently owned book source-binding repair, then requalify repository CI.
+**Acceptance status:** blocked (local capability acceptance passed).
 Operation: start, authorized by the explicit implement/push/draft-PR request.
 See [ledger](execution-ledger.md), [issues](issues.md), and [reports](reports/).
 
@@ -38,7 +38,7 @@ changing the next input must never relabel retained history.
 
 ## Milestone and write set
 
-M1 (Active): runnable static import/collision/native UI with reference evidence.
+M1 (Implemented, locally verified): runnable static import/collision/native UI with reference evidence.
 
 - Import delegate: `src/mesh_import.rs`, optional `src/mesh_import/`,
   `tests/mesh_import_contract.rs`, `tests/fixtures/collision/`, Cargo dependencies.
@@ -63,11 +63,11 @@ write sets; no stale shared-plan proposal protocol is necessary.
 
 | ID | Observable criterion | Kind / environment / mode | Status |
 | --- | --- | --- | --- |
-| A1 | OBJ/glTF/GLB fixtures have analytically expected world coordinates; malformed, unsafe, missing and unsupported inputs reject specifically | contract / Linux Rust 1.92 / automated | pending |
-| A2 | BVH sweeps and liquid/gas reference particles do not cross reference plane/box; solid admission refuses invalid solids; failures preserve publication | contract / CPU / automated | pending |
-| A3 | Native import, placement, removal, reset/repeat and retained geometry are usable; actual rendered screenshots if display available | GUI / Linux display / automated+manual | pending |
-| A4 | Release CPU build/query/step cost and retained storage measured without GPU or real-time claim | performance / named CPU / automated | pending |
-| A5 | Independent review, format, strict lint, tests, pushed commit and draft PR; hosted CI disposition recorded | integration / local+GitHub / automated+review | pending |
+| A1 | OBJ/glTF/GLB fixtures have analytically expected world coordinates; malformed, unsafe, missing and unsupported inputs reject specifically | contract / Linux Rust 1.92 / automated | satisfied |
+| A2 | BVH sweeps and liquid/gas reference particles do not cross reference plane/box; solid admission refuses invalid solids; failures preserve publication | contract / CPU / automated | satisfied |
+| A3 | Native import, placement, removal, reset/repeat and retained geometry are usable; actual rendered screenshots if display available | GUI / Linux display / automated+manual | satisfied |
+| A4 | Release CPU build/query/step cost and retained storage measured without GPU or real-time claim | performance / named CPU / automated | satisfied |
+| A5 | Independent review, format, strict lint, tests, pushed commit and draft PR; hosted CI disposition recorded | integration / local+GitHub / automated+review | blocked: book source-binding owner |
 
 Reference expectations come from analytical plane/box geometry and Khronos glTF
 transform/accessor semantics, not agreement between two local projections.
@@ -105,7 +105,10 @@ External parser dependencies must have compatible licenses and explicit limits.
 
 ## Blockers and re-plan triggers
 
-No implementation blocker. Re-plan for unsupported physical response being
+No implementation blocker. Education CI rejects changed Cargo.lock through its
+pre-existing source-binding gate; repair is owned by the excluded book thread.
+See the verification report for exact job/error and completed local gates.
+Re-plan for unsupported physical response being
 presented as real, unbounded import/query cost, inability to retain immutable
 history geometry, or changes requiring the other owners' facade/book/CAD writes.
 Any missing GUI/CI environment evidence is recorded, never replaced by a fake image.
@@ -113,5 +116,6 @@ Retain checkout/feature branch for parent review; no worktree cleanup requested.
 
 ## Final acceptance
 
-Pending named evidence; draft PR is a review boundary, not acceptance of arbitrary
-geometry, production physical accuracy, GPU performance or main integration.
+Local claims A1–A4 passed; A5 is blocked by independently owned education CI.
+Draft PR56 is a review boundary, not acceptance of arbitrary geometry, production
+physical accuracy, GPU performance or main integration. See reports/verification.md.

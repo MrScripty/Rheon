@@ -37,7 +37,7 @@ jobs:
       - name: Native software-rendered import smoke
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y xvfb xdotool imagemagick
+          sudo apt-get install -y xvfb xdotool imagemagick libxkbcommon-x11-0
           cargo build --locked --release --features desktop --bin rheon-desktop
           export LIBGL_ALWAYS_SOFTWARE=1
           xvfb-run -a -s '-screen 0 1250x820x24' bash <<'SH'
