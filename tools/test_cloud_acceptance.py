@@ -40,6 +40,18 @@ class AcceptanceTests(unittest.TestCase):
             self.assertGreater(metrics['peak_rss_kib'], 0)
             self.assertEqual(log.read_text().strip(), 'complete')
 
+    def test_timeout_stops_descendants(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            marker = Path(tmp) / 'survived'
+            grandchild = f'import time; from pathlib import Path; time.sleep(0.4); Path({str(marker)!r}).touch()'
+            parent = f'import subprocess,sys,time; subprocess.Popen([sys.executable,"-c",{grandchild!r}]); time.sleep(5)'
+            with self.assertRaises(TimeoutError):
+                measure([sys.executable, '-c', parent], Path(tmp) / 'run.log', timeout=0.15)
+            # A surviving descendant would create the marker after the timeout.
+            import time
+            time.sleep(0.5)
+            self.assertFalse(marker.exists())
+
 
 if __name__ == '__main__':
     unittest.main()

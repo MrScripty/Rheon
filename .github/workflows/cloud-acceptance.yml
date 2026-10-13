@@ -31,7 +31,7 @@ jobs:
           python3 -m unittest discover -s tools -p test_cloud_acceptance.py -v
           python3 -O -m unittest discover -s tools -p test_cloud_acceptance.py -v
       - name: Correctness gates and repeated paired CPU trials
-        run: python3 tools/cloud_acceptance.py "$RUNNER_TEMP/cloud-acceptance" --sizes 16 --threads 1 2 --steps 12 --repeats 3
+        run: python3 tools/cloud_acceptance.py "$RUNNER_TEMP/cloud-acceptance" --sizes 16 32 --threads 1 2 --steps 12 --repeats 3
       - name: Retain raw qualification including failed runs
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

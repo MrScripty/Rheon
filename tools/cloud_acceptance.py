@@ -7,6 +7,7 @@ import math
 import os
 from pathlib import Path
 import platform
+import signal
 import statistics
 import subprocess
 import time
@@ -55,18 +56,26 @@ def measure(command, log, timeout=900):
     """wait4 reports this child RSS (Linux KiB), never cumulative child high-water RSS."""
     start = time.monotonic()
     with log.open('w') as stream:
-        child = subprocess.Popen(command, cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT)
-        while True:
-            pid, status, usage = os.wait4(child.pid, os.WNOHANG)
-            if pid:
-                child.returncode = os.waitstatus_to_exitcode(status)
-                break
-            if time.monotonic() - start > timeout:
-                child.kill()
-                _, status, usage = os.wait4(child.pid, 0)
-                child.returncode = os.waitstatus_to_exitcode(status)
-                raise TimeoutError(f'timed out: {command}; log: {log}')
-            time.sleep(0.01)
+        child = subprocess.Popen(command, cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT,
+                                 start_new_session=True)
+        try:
+            while True:
+                pid, status, usage = os.wait4(child.pid, os.WNOHANG)
+                if pid:
+                    child.returncode = os.waitstatus_to_exitcode(status)
+                    break
+                if time.monotonic() - start > timeout:
+                    raise TimeoutError(f'timed out: {command}; log: {log}')
+                time.sleep(0.01)
+        except BaseException:
+            # Cargo may own rustc or a test executable: stop the entire job.
+            try:
+                os.killpg(child.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            _, status, _ = os.wait4(child.pid, 0)
+            child.returncode = os.waitstatus_to_exitcode(status)
+            raise
     require(child.returncode == 0, f'command failed ({child.returncode}): {command}; log: {log}')
     return {'process_seconds': time.monotonic() - start,
             'cpu_seconds': usage.ru_utime + usage.ru_stime, 'peak_rss_kib': usage.ru_maxrss}
@@ -109,7 +118,7 @@ def main():
     try:
         commands = [['rustc', '--version', '--verbose'], ['cargo', '--version'],
                     ['cargo', 'test', '--locked', '--release', '--features', 'parallel'] +
-                    [part for name in (*CONTRACTS, *args.extra_contract) for part in ('--test', name)],
+                    [part for name in (*CONTRACTS, *args.extra_contract) for part in ('--test', name)] + ['--', '--nocapture'],
                     ['python3', 'proofs/scripts/check_sources.py'],
                     ['cargo', 'build', '--locked', '--release', '--features', 'parallel', '--example', 'cloud_frame_lab']]
         for i, command in enumerate(commands):
