@@ -132,3 +132,26 @@ full trajectories using AI pressure, or target-device timing is claimed. The
 provider replay is correctness evidence, not a general speedup or accuracy claim.
 The task-created worktree remains retained-protected for draft review, reachable
 from the published feature branch; parent owns its later integration/disposition.
+
+## 2026-10-13 — moving-plate contract review and hosted verification
+
+Read PR #52 `fd281ebf51d63b5406f86a74cdc67873ea9a0174` contract and actual experiment
+source without merging it. Added M5 as a separately gated session-exposure milestone:
+layered fluid/wall speeds, existing interval reports, fixed plate modes/axes, atomic
+preflighted clock/generation and admitted Linux x86_64 arithmetic. Current API
+capabilities remain unchanged. Normal pressure, torque, rotation/contact and arbitrary
+geometry are not inferred from this tangential planar model.
+
+Monitoring hosted PR #53 checks to terminal. Initial source-head runs confirm native
+AI checkpoint qualification, executable contracts and dense3D scoped checks passed;
+feature matrix and remaining jobs were still running when this follow-up began.
+Terminal evidence will be reported with exact run IDs and final head status.
+
+Hosted research-book run `38383894838` failed after the fresh aligned-strain
+qualification passed: the educational packet refused `changed qualified native
+source Cargo.lock`. The packet pins historical `f75cd66`; this branch's Cargo.lock
+is identical to starting main `2209012`. This is a pre-existing publication-source
+pin mismatch, not an API numerical failure. Do not relax its qualification gate
+or replace historical evidence to make an unrelated API change pass. The current
+crate-root additions also exceed that packet's explicitly pinned dense3D-only
+extension. A separate education/source-qualification update is required.

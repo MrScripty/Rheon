@@ -22,3 +22,9 @@
   failed qualification and exhausted the 3000-iteration fallback budget. Kept the
   request and original thresholds in the artifact test, asserting typed failure and
   unchanged prior snapshot; do not claim universal fit from the smooth-mode success.
+
+- API-7 (separate integration milestone): inspected PR #52 `fd281eb` moving-plate
+  kernel and consumer contract. M5 records the exact API exposure, atomic clock/control
+  obligations, supported tangential geometry, platform assumptions and acceptance gates.
+  Existing sessions do not advertise this experimental capability; no normal-pressure,
+  rotation/contact or arbitrary-geometry output is invented.
