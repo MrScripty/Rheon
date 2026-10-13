@@ -16,8 +16,9 @@
 
 - API-5 (boundary, not a hidden fallback): grid provider pressure qualification
   does not satisfy full-step corrected-velocity acceptance. PressureSession exposes
-  the qualified stage explicitly. Full trajectory injection needs a physics-owned
-  candidate/correction/commit hook and independent divergence/rollback evidence.
+  the qualified stage explicitly. M6 separately integrates the physics-owned
+  candidate/correction/commit path with independent divergence/rollback evidence;
+  the pressure-only adapter still cannot advertise full-step acceptance.
 - API-6 (retained negative evidence): one authored high-frequency real-model request
   failed qualification and exhausted the 3000-iteration fallback budget. Kept the
   request and original thresholds in the artifact test, asserting typed failure and

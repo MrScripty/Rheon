@@ -1,4 +1,4 @@
-# Embedded simulation session v1
+# Embedded simulation session v2
 
 Base: remote main `2209012`. Goal: expose existing generation controls and accepted
 numerical data to Rust hosts, dataset producers and engine update loops. No new
@@ -82,18 +82,25 @@ ABI/lifetime boundary; it is deferred rather than presenting an untested binding
 An eventual extension should own the session on one worker, copy accepted fields
 into engine-owned buffers, and keep scene-tree access on the Godot main thread.
 GPU, Godot runtime, desktop rendering and target-device timing are untested by this
-API milestone. CAD, broader physics and AI capabilities must be added explicitly
-when their implementations are accepted; they are not advertised by this facade.
+API milestone. Only the explicitly documented sealed-box provider route is added;
+CAD and broader physics support are not inferred from it.
 
 ## Compatibility and extension boundary
 
-The Rust API is a source-level, public-versioned contract at API version 1;
+The Rust API is a source-level, public-versioned contract at API version 2;
 there is no stable C ABI or remote protocol. Consumers pin the repository revision.
 Breaking source or semantic changes require an explicit API-version decision and
 consumer update; no runtime version-negotiation or overlapping old API is promised.
 The existing dense3D wire formats have their separate compatibility policy.
 
-Future material/SPH, quantitative inspection and AI-provider integration are tracked
-in the plan. Do not interpret `transport_only` as a common denominator physics
-claim: this facade cannot expose particle fields, collision semantics, model
-accuracy or provider selection until those contracts have independent evidence.
+Material/SPH and quantitative inspection use their separate `MaterialSession`
+contract. Do not interpret `transport_only` as a universal physics claim: this facade
+exposes full-box transport and its explicitly selected pressure provider, not particle
+fields, general collision semantics or unrestricted model accuracy.
+
+## Opt-in production provider selection
+
+API version 2 adds sealed-box full-step provider selection and accepted snapshot
+provider metadata. See [the full-step contract](full-step-provider.md) for ownership,
+rollback, unsupported domains and exact memory/timing scope. Legacy `step` and dense3D
+wire versions remain unchanged.

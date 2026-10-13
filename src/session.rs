@@ -27,15 +27,18 @@ pub struct SessionCapabilities {
     pub api_version: u32,
     pub crate_version: &'static str,
     pub transport_only: bool,
+    /// Opt-in full-step provider selection only for the sealed full-box carrier.
+    pub sealed_box_pressure_provider: bool,
     pub cooperative_cancellation: bool,
     pub hard_realtime: bool,
     pub units: &'static [(&'static str, &'static str)],
 }
 
 pub const SESSION_CAPABILITIES: SessionCapabilities = SessionCapabilities {
-    api_version: 1,
+    api_version: 2,
     crate_version: env!("CARGO_PKG_VERSION"),
     transport_only: true,
+    sealed_box_pressure_provider: true,
     cooperative_cancellation: true,
     hard_realtime: false,
     units: &[
@@ -63,6 +66,7 @@ pub struct SessionSnapshot<'a> {
     grid: &'a GridGeometry,
     state: LiquidTransportView<'a>,
     report: Option<&'a LiquidStepReport>,
+    provider: Option<&'a crate::solver_provider::ProviderReport>,
     frame: usize,
 }
 impl<'a> SessionSnapshot<'a> {
@@ -77,6 +81,12 @@ impl<'a> SessionSnapshot<'a> {
     }
     pub fn report(&self) -> Option<&'a LiquidStepReport> {
         self.report
+    }
+    /// Pressure selection for this accepted full step only. None on constructor
+    /// or a successful legacy step. The contained provider stage is pressure;
+    /// this snapshot's Accepted stage covers the complete transport interval.
+    pub fn provider_report(&self) -> Option<&'a crate::solver_provider::ProviderReport> {
+        self.provider
     }
     pub fn frame(&self) -> usize {
         self.frame
@@ -119,6 +129,7 @@ pub struct SimulationSession {
     simulation: LiquidTransportSimulation,
     workspace: BoxFluxStepWorkspace,
     report: Option<LiquidStepReport>,
+    provider: Option<crate::solver_provider::ProviderReport>,
     steps: usize,
     max_steps: usize,
     stopped: bool,
@@ -150,6 +161,7 @@ impl SimulationSession {
             simulation,
             workspace,
             report: None,
+            provider: None,
             steps: 0,
             max_steps,
             stopped: false,
@@ -170,6 +182,7 @@ impl SimulationSession {
             grid: self.simulation.grid(),
             state: self.simulation.state(),
             report: self.report.as_ref(),
+            provider: self.provider.as_ref(),
             frame: self.steps,
         }
     }
@@ -190,6 +203,64 @@ impl SimulationSession {
         cancel: F,
     ) -> Result<LiquidStepReport, SessionError> {
         self.step_with_clock(inputs, boundary, deadline, cancel, Instant::now)
+    }
+
+    /// Full sealed-box interval with explicit preferred-provider/reference
+    /// selection. Caller owns separately capped scratch and model; deadlines are
+    /// cooperative through the same final publication checkpoint as legacy steps.
+    /// None selects the numerical reference, Some permits its explicit fallback.
+    pub fn step_with_pressure_provider<F: FnMut(LiquidStepStage) -> bool>(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        workspace: &mut crate::ProviderStepWorkspace,
+        preferred: Option<&mut dyn crate::solver_provider::PressureProvider>,
+        deadline: Option<Instant>,
+        cancel: F,
+    ) -> Result<(LiquidStepReport, crate::solver_provider::ProviderReport), SessionError> {
+        self.provider_step_with_clock(inputs, workspace, preferred, deadline, cancel, Instant::now)
+    }
+
+    fn provider_step_with_clock<F: FnMut(LiquidStepStage) -> bool, N: FnMut() -> Instant>(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        workspace: &mut crate::ProviderStepWorkspace,
+        preferred: Option<&mut dyn crate::solver_provider::PressureProvider>,
+        deadline: Option<Instant>,
+        mut cancel: F,
+        mut now: N,
+    ) -> Result<(LiquidStepReport, crate::solver_provider::ProviderReport), SessionError> {
+        if self.stopped {
+            return Err(SessionError::Stopped);
+        }
+        if self.steps >= self.max_steps {
+            return Err(SessionError::StepLimit);
+        }
+        if deadline.is_some_and(|d| now() >= d) {
+            return Err(SessionError::Deadline);
+        }
+        let mut expired = false;
+        let result =
+            self.simulation
+                .step_with_pressure_provider(inputs, workspace, preferred, |stage| {
+                    expired = deadline.is_some_and(|d| now() >= d);
+                    if expired {
+                        return true;
+                    }
+                    let cancelled = cancel(stage);
+                    expired = deadline.is_some_and(|d| now() >= d);
+                    expired || cancelled
+                });
+        let (report, provider) = result.map_err(|e| {
+            if expired {
+                SessionError::Deadline
+            } else {
+                SessionError::Step(e)
+            }
+        })?;
+        self.steps += 1;
+        self.report = Some(report);
+        self.provider = Some(provider.clone());
+        Ok((report, provider))
     }
 
     fn step_with_clock<F: FnMut(LiquidStepStage) -> bool, N: FnMut() -> Instant>(
@@ -230,6 +301,7 @@ impl SimulationSession {
         })?;
         self.steps += 1;
         self.report = Some(report);
+        self.provider = None;
         Ok(report)
     }
 }
@@ -316,5 +388,48 @@ mod tests {
         assert_eq!(before, after);
         session.step(inputs, boundary, None, |_| false).unwrap();
         assert_eq!(session.snapshot().frame(), 2);
+
+        let mut workspace = crate::ProviderStepWorkspace::new(
+            session.snapshot().grid(),
+            1000.0,
+            1024 * 1024,
+            PressureImplementation::JacobiPcgV1,
+        )
+        .unwrap();
+        session
+            .step_with_pressure_provider(inputs, &mut workspace, None, None, |_| false)
+            .unwrap();
+        let previous_provider = session.snapshot().provider_report().unwrap().total;
+        before.clear();
+        session.snapshot().write_dense3d(&mut before).unwrap();
+        clock.set(start);
+        reached.set(false);
+        let result = session.provider_step_with_clock(
+            inputs,
+            &mut workspace,
+            None,
+            Some(deadline),
+            |stage| {
+                if stage == LiquidStepStage::BeforeCommit {
+                    reached.set(true);
+                    clock.set(deadline);
+                }
+                false
+            },
+            || clock.get(),
+        );
+        assert!(reached.get());
+        assert!(matches!(result, Err(SessionError::Deadline)));
+        after.clear();
+        session.snapshot().write_dense3d(&mut after).unwrap();
+        assert_eq!(before, after);
+        assert_eq!(
+            session.snapshot().provider_report().unwrap().total,
+            previous_provider
+        );
+        session
+            .step_with_pressure_provider(inputs, &mut workspace, None, None, |_| false)
+            .unwrap();
+        assert_eq!(session.snapshot().frame(), 4);
     }
 }

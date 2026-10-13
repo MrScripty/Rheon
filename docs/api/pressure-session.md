@@ -2,9 +2,10 @@
 
 `PressureSession` composes the real `solver_provider::ProviderWorkspace` from PR #49
 (`b8ca87cab7f74f64c1686714a33e843fbb178c3d`) with publication, source identity,
-quota, stop and monotonic-deadline ownership. It does not install a provider into
-`SimulationSession` or `MaterialSession`: neither existing solver has that
-transactional extension point, and the SPH EOS is not a sealed-box grid projection.
+quota, stop and monotonic-deadline ownership. This pressure-only adapter does not
+advance a simulation. The separate [full-step API](full-step-provider.md) integrates
+providers into sealed-box `SimulationSession` transactions. `MaterialSession` remains
+unsupported because its SPH EOS is not a sealed-box grid projection.
 No numerical algorithm or acceptance tolerance is changed by this adapter.
 
 Construct with a grid, shared `SessionIdentity`, combined array-memory cap,
@@ -69,7 +70,7 @@ This evidence does not establish unrestricted model accuracy or full trajectorie
 
 The API's raw transport/particle views are the integration input for CAD's VTK and
 live-field work in PR #50 (`3f49a15`). CAD owns encoding and export UI; this module
-adds neither. A future full-step pressure-provider hook belongs in the simulation's
-real candidate/correction/commit path and requires an independent actual-divergence
-and rollback test before API capabilities may advertise it. Godot binding/runtime,
+adds neither. The [production provider route](full-step-provider.md) separately
+qualifies full-step actual divergence and rollback through the real candidate/commit
+path; this module retains its pressure-only capability. Godot binding/runtime,
 GPU, ARM/WebAssembly and target-device timing remain unqualified.

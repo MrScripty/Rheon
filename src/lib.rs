@@ -191,3 +191,6 @@ pub use pressure_session::{
     PRESSURE_SESSION_CAPABILITIES, PressureSession, PressureSessionCapabilities,
     PressureSessionError, PressureSolveControls, QualifiedPressureSnapshot,
 };
+
+mod provider_step;
+pub use provider_step::{ProviderStepReport, ProviderStepWorkspace};
