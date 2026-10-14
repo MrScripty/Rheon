@@ -1,4 +1,8 @@
-# Reviewed recording / periodic S1 integration candidate
+# Qualified recording / periodic S1 integration
+
+The source-review and local execution sections below preserve observations made
+before the terminal combined-source gates. The terminal section records the
+subsequent qualified PR76 merge and checkpoint continuation.
 
 The isolated branch composes reviewed main and pending recording69/carrier71,
 validation73 and native74 proposals without changing their refs. Original merge
@@ -44,8 +48,9 @@ Pinned Rust1.92.0, Python3.12.14, NumPy2.3.5, CPU/Linux workspace, locked depend
   accepted-state rollback remain covered by the component contract tests.
 - Desktop binary: **39 passed**, zero failures/skips, including actual headless
   egui pointer selection/export, cold opening, corruption-cache invalidation and
-  no same-frame live-state substitution. Supported native display is unavailable;
-  no native-window/screenshot result is claimed.
+  no same-frame live-state substitution. At that local-check stage no native
+  display was available; subsequent actual native-window qualification is
+  recorded in [native display](native-display.md).
 - Independent verifier policy/origin tests43 and standalone validation policy12:
   pass normally and under optimized Python. These are not actual-field receipts.
 - Core/desktop all-target strict Clippy, Rustfmt, diff whitespace checks, locked
@@ -86,7 +91,10 @@ before creating output; the full-OID run above is the successful deciding run.
 No forbidden GitHub log download was retried; exact hosted failed-step metadata
 is separate evidence from unavailable log text.
 
-## Remaining acceptance gates
+## Historical pending-gate snapshot before terminal qualification
+
+The following paragraph records the pre-terminal state, superseded by the
+terminal combined-source result and native-display report below.
 
 Final-head hosted feature/numerical/source/book/browser/runtime/publication CI is
 pending the draft integration PR. Component book failures remain truthful for
@@ -101,3 +109,36 @@ Recording retains supported material and native carrier fields only, with
 keep-all/stop-at-limit storage and explicit absent tails. No universal-field,
 process-RSS cap, power-loss proof, restartable checkpoint, replay, GPU, remote,
 new physics or general compressible/vehicle accuracy claim follows.
+
+## Terminal combined-source qualification and integration
+
+All 18 check runs on exact4bcdb7f49225cd645a0934953ba7d339ff5e168d completed
+success. Full book run38532464608/job115747322162 passed complete native/rational,
+static/PDF/site/teaching and retained Chromium current positive/rejection checks;
+PR-only deploy skipped as designed. CodeRabbit's earlier draft skip status is not
+independent review. Sol High source/metadata and native software-display reviews
+are the independently observed review evidence, separately bound to their subjects.
+[Native display report](native-display.md) records the actual carrier/material
+workflow, selected bits/exports and failed harness attempts. No hardware claim.
+
+Main changed through planning-only PR77 during qualification. Compared current
+2d72b5867f570c490cbbf3090d08cd7e100ae051 against initial06eb5da: ten independently
+owned planning files only, no native/build/book/canonical-S1 input change. Initial
+base admission was stale; source/write-set inspection and prospective merge tree
+review supplied fresh current-base admission under ongoing serial integration
+and ready-PR authority. Prospective treeaeb44971f0b05594d9ccc24d40ed7649eacde39a
+preserves all78 qualified native inputs exactly. No rebase/hash refresh.
+
+Standard SHA-checked GitHub merge integrated PR76 as
+58d647d7a60167e4b26848e8038da5e4a071d605. Server confirmed merged and readback
+matches; all component refs/ancestors preserved. Branch-protection detail lookup
+returned403 Resource not accessible by integration; no admin override was used.
+Main publication is a new pipeline and is not inferred to have passed.
+
+After these gates passed, the separate metadata follow-up records the canonical
+[S1 release baseline](../../cpu-compressible-solver/reports/release-baseline.md),
+normalizes the integration plan and preserves native evidence. Native/kernel/
+build/verifier/book/admission inputs are byte-identical to qualified source4bc;
+old receipts keep their exact subjects. Document/scoped checks and independent
+review apply to this follow-up. S2–S7 remain Deferred/unstarted; no broad-roadmap
+acceptance, integrator restart or compressible recording adapter claim.

@@ -113,3 +113,32 @@
   arithmetic and order ratios. Original failures remain failed; review observes
   no raw receipts or new numerical execution. Local plan-contract/link/whitespace
   and scope checks passed; exact staged diff is authored planning documents only.
+
+## 2026-10-14 — parent-authorized qualified S1 release checkpoint
+
+Parent continuation authorizes canonical S1 checkpoint recording only after
+combined-source gates pass. At exact PR76 head4bcdb7f all18 check runs succeeded;
+full book run38532464608/job115747322162 includes fresh native/rational,
+static/PDF/site/teaching and retained Chromium positive/rejection tests. PR deploy
+skipped. Independent Sol High source/native software-display reviews pass; no
+hardware performance or forced-window-loss resilience claim.
+
+Compare-before-integrate found main advanced through planning-only PR77 to
+2d72b5867f570c490cbbf3090d08cd7e100ae051. The initial base admission was stale;
+reviewed scope and prospective merge tree before fresh admission. All78 native
+inputs, book inputs and canonical S1 plan remained unchanged; retain all ten
+independently owned planning files. No automatic rebase. Standard SHA-checked
+GitHub merge integrated PR76 as58d647d7a60167e4b26848e8038da5e4a071d605,
+preserving component ancestors/refs. Branch-protection detail read was denied403;
+no admin override used. Server confirmed successful merge. Main publication is
+its own pipeline, not a result inferred from PR qualification.
+
+This isolated metadata follow-up records S1 Accepted, C1/C2 satisfied and R1
+separately pinned native5a049ed/verifier94a8317, fresh composed4de7f58 receipts and
+qualified combined4bc. Every receipt retains its actual subject; original coarse
+failures remain failed. No solver/control/threshold change. Overall roadmap stays
+Active/partial and S2–S7 Deferred/unstarted. Parent explicitly delegates this
+bounded canonical plan/ledger/issues/report write to the serial integration task;
+future numerical/design ownership is unchanged. Current canonical admission is
+fc2270a source-identical through PR76 merge. Document/scoped checks and independent
+metadata review must finish before follow-up disposition.

@@ -2,17 +2,19 @@
 
 **Plan status:** `Active`
 
-**Current phase:** S1 prospective acoustic resolution revision; numerical acceptance on hold
+**Current phase:** S1 accepted release baseline; checkpoint integration and handoff
 
-**Next slice:** S1 — fresh native 16³/24³/32³ acoustic study after parent coordinates the reviewed revision
+**Next slice:** final exact-head checkpoint-document review and ready-PR disposition; S2–S7 remain Deferred and unstarted
 
-**Acceptance status:** `blocked`
+**Acceptance status:** `partial`
 
 Parent accepted independent plan review and started S1 worker
 `01a13913-999b-7511-b9cd-f4677019e018` from reviewed head
 `67baa10576a2120f314ec8e56bd7b7129d18d9f0`. This status/acceptance pair
-governs the solver roadmap; plan delivery is tracked separately in
-[verification](reports/verification.md). No implementation acceptance is implied.
+originally governed S1 activation; ledger history is retained. Current bounded
+S1 acceptance is recorded in [release baseline](reports/release-baseline.md),
+separate from historical [plan delivery](reports/verification.md). Other roadmap
+claims remain unaccepted; no S2 implementation starts.
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
 
@@ -26,8 +28,10 @@ Eventually expose accepted numerical fields and generic generation/data controls
 in Rheon, with Rheon Surrogate Lab as the home for Tuldok training-project files.
 Tuldok remains a generic solver-model tool with an optional Rheon producer.
 
-This change delivers only the plan, independent review, branch and PR. It changes
-no solver, training project, published capability, proof, source admission or UI.
+Original planning delivery contained only documentation and independent review.
+The parent subsequently admitted S1 implementation and now its qualified release
+checkpoint. This checkpoint update changes no solver, training project, numerical
+method, proof, source admission or UI.
 The roadmap is not an executed cross-repository campaign. Later slices require
 their own current-state admission and evidence; the first handoff is
 [S1](reports/first-slice.md). [Design](reports/design.md) owns proposed numerical
@@ -35,13 +39,13 @@ and boundary details; shipped API documents remain the existing contract owners.
 
 ## Objective Acceptance
 
-All rows below are future evidence, not claims obtained by publishing research.
+C1/C2 are satisfied for bounded S1 at the [release checkpoint](reports/release-baseline.md). Remaining rows are future evidence, not claims obtained by publishing research.
 No numerical or aircraft/submarine acceptance follows from acceptance of this plan.
 
 | ID | Observable criterion | Kind | Environment | Mode | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| C1 | Validated five-component state, ideal-gas EOS, bounded allocation and failed-call rollback through native API | focused + contract | representative: pinned Rust CPU | automated | pending | S1 worker; [first slice](reports/first-slice.md) |
-| C2 | Shared-face periodic update preserves uniform state and volume-weighted budgets; evolved acoustic and planar shock records pass declared errors | integration | representative: CPU + pinned NumPy | automated | blocked | Original 8³/12³/20³ study failed; prospective 16³/24³/32³ study awaits parent revision coordination and fresh independently verified native capture; [revision](reports/acoustic-resolution-revision.md) |
+| C1 | Validated five-component state, ideal-gas EOS, bounded allocation and failed-call rollback through native API | focused + contract | representative: pinned Rust CPU | automated | satisfied | [S1 public API and release checkpoint](reports/release-baseline.md); independently reviewed native contracts |
+| C2 | Shared-face periodic update preserves uniform state and volume-weighted budgets; evolved acoustic and planar shock records pass declared errors | integration | representative: CPU + pinned NumPy | automated | satisfied | [Exact S1 release subjects](reports/release-baseline.md); prospective 16³/24³/32³ passes, original 8³/12³/20³ remains failed; [revision](reports/acoustic-resolution-revision.md) |
 | C3 | Reconstruction/time accuracy, rarefaction/near-vacuum handling and all three directions meet frozen method-specific gates | integration | representative: CPU | automated | pending | S2 numerical owner |
 | C4 | Characteristic/open and fitted slip boundaries satisfy information count, force/work and reflection/error budgets | integration | representative: CPU | automated | pending | S3 boundary owner |
 | C5 | Public session → accepted recording → separate-process selection/export → real desktop inspection preserves model, field, time and missing-data meaning | contract + system + user-workflow | representative: CPU; required-real: native display for UI smoke | either | pending | S4 API/recording/UI owner after PR69/71 |
@@ -66,8 +70,10 @@ explicitly inviscid capability; each accepted slice must advertise its own scope
   geometries. The passenger jet path is compressible external aerodynamics;
   forward-and-rising submerged submarine flow first requires validated
   incompressible viscous flow and moving-body volume/force/work contracts.
-- GPU compute, remote workers, deployment, main merge, training execution and
-  the complete cross-repository campaign are outside this task.
+- GPU compute, remote workers, training execution and the complete
+  cross-repository campaign remain outside this plan. Implementation workers
+  have no independent deployment/main-merge authority; the serial integration
+  task has the separately delegated ready-PR/checkpoint authority described below.
 - Preserve existing incompressible, particle, provider and dense3D contracts.
   Existing pressure providers operate on sealed constant-density MAC boxes;
   labels alone cannot extend them to compressible Euler steps.
@@ -91,8 +97,8 @@ Publication prerequisite observed: main
 `8baf459b91bb53ebd4a7230c4d9f3399dd5cb0bc`,
 [Pages run 38507276934](https://github.com/MrScripty/Rheon/actions/runs/38507276934)
 completed successfully for that SHA. Source review found no AGENTS.md in the
-workspace ancestors or either inspected Rheon tree. Current main lacks a Rust
-compressible module. Collision queries, reduced obstacle/shear and moving-plate
+workspace ancestors or either inspected Rheon tree. At that historical prerequisite main lacked a Rust
+compressible module; qualified PR76 now supplies bounded periodic S1. Collision queries, reduced obstacle/shear and moving-plate
 models remain bounded; none implements general vehicle flow.
 
 | Remaining assumption | Decision affected | Owner / smallest adequate real observation | Stopping condition |
@@ -157,7 +163,7 @@ implementation must recheck its actual composition at admission.
 
 ## Milestones
 
-S1 is the only next implementation slice. Later write sets are proposals for
+S1 is Accepted; no later implementation slice is admitted by this checkpoint. Later write sets are proposals for
 scope review, not permission to modify shared files concurrently. Before
 starting them, resolve names/consumers and refine the exact set in this plan. Tool/verifier
 and benchmark harness paths in these proposed sets belong to the independent
@@ -166,7 +172,7 @@ requirements go through parent before either owner edits.
 
 | Slice / state | One goal and coherent unit | Allowed write set | Preserved/replaced semantics; focused gate | Re-plan condition |
 | --- | --- | --- | --- | --- |
-| S1 / Active | Native periodic five-field ideal-gas Euler step and reproducible headless reference | Exact list in [first slice](reports/first-slice.md) | Preserve all existing solvers; C1/C2, uniform/asymmetric grids, periodic budgets, prospectively revised acoustic resolution, unchanged Sod and rollback; acceptance blocked until reviewed revision is coordinated and native evidence passes | Unsupported grid reuse, changed EOS, new dependency, altered CFL/error meaning, or revised study fails |
+| S1 / Accepted | Native periodic five-field ideal-gas Euler step and reproducible headless reference | Exact list in [first slice](reports/first-slice.md) | Preserve all existing solvers; C1/C2, uniform/asymmetric grids, periodic budgets, prospectively revised acoustic resolution, unchanged Sod and rollback; accepted at the exact [release subjects](reports/release-baseline.md), with original coarse failure retained | Unsupported grid reuse, changed EOS, new dependency, altered CFL/error meaning, or revised study fails |
 | S2 / Deferred | Accuracy/admissibility upgrade of that operator | `src/compressible.rs`, `tests/compressible_contract.rs`, `examples/compressible_reference.rs`, `tools/verify_compressible.py`, `tools/test_compressible_verifier.py`, `docs/api/compressible.md`, this plan directory | Conservative reconstruction, SSPRK2, method-specific positivity and HLLE fallback; smooth order, near vacuum, expansion/strong shock and Mach sweeps | New theorem assumptions, low-Mach remedy, dual energy or material domain |
 | S3 / Deferred | Elementary open/fitted boundary runs | S2 set plus `src/compressible/boundary.rs`, `tests/compressible_boundary_contract.rs` | C4: fixed-state endpoint Sod, characteristic counts, acoustic reflection, stationary wall pressure forces and oblique wedge | Arbitrary cuts, moving topology or mixed-regime BC requires new admission |
 | S4 / Deferred | Accepted compressible session, recording and desktop inspection | `src/compressible/session.rs`, `src/recording/compressible.rs`, `src/lib.rs`, `tests/compressible_session_contract.rs`, `tests/recording_compressible_contract.rs`, `examples/recorded_compressible.rs`, `src/bin/rheon-desktop.rs`, `src/bin/desktop/inspector.rs`, `src/bin/desktop/archive_view.rs`, `src/bin/desktop/settings.rs`, `docs/api/compressible.md`, `docs/api/recording.md`, this plan directory | C5: actual run/stop/failure, per-step recording, selected ordinal/export and cold native UI; reuse integrated PR69/71 | Pending recording changed, field cap/layout unsuitable, source admission owner unavailable |
@@ -181,27 +187,29 @@ No milestone schedule implies a delivery date or a performance guarantee.
 
 ## Repository isolation and concurrent work
 
-Original branch `plan/cpu-compressible-solver` merged as PR72 at `919a8fd`.
-Current documentation-only revision branch `plan/s1-acoustic-resolution-study`
-starts at that main commit and changes canonical plan documents/report only.
-Planning agent owns these documents; S1 worker retains its separate
-`reports/implementation.md`. Target is main; parent is serial integration owner.
-Current branch is shared for PR review, retained until parent disposition;
-no main merge, force push, checkout reset or branch/worktree deletion is authorized.
-Old `work` and `implementation/rust-smoke-milestone` refs remain intact.
+Original branch `plan/cpu-compressible-solver` merged as PR72 at `919a8fd`;
+prospective study branch `plan/s1-acoustic-resolution-study` was a separate
+historical documentation proposal. The current metadata-only branch
+`docs/qualified-recording-s1-checkpoint-20261014` starts at qualified PR76 main
+merge `58d647d7a60167e4b26848e8038da5e4a071d605`. Parent explicitly delegates this
+bounded post-gate canonical checkpoint update and ready-PR disposition to the
+serial integration task. It changes canonical/integration plan evidence only;
+no S2 or new source work is admitted. Target is main, with exact-head document
+checks and independent review required before the authorized standard merge.
+The S1 worker retains its separate `reports/implementation.md`. All original
+component and planning refs remain intact; no force push, checkout reset or
+branch/worktree deletion is authorized.
 
 Independent standards reviewer is read-only and reports to the planning owner.
 Parent admitted and started S1 worker `01a13913-999b-7511-b9cd-f4677019e018`
 at reviewed head `67baa10576a2120f314ec8e56bd7b7129d18d9f0`. It owns numerical
 source, focused Rust tests, native example, API doc, its implementation report,
 and solely the minimal additive compressible module/export block in `src/lib.rs`.
-No other worker or parent concurrently edits that S1 block. Recording and other
-exports remain untouched. This planning agent owns canonical plan/ledger/issues
-updates; parent routes authority changes and integrates serially. Independent
+The S1 worker block remains byte-identical; serial PR76 composition adds recording exports independently. No concurrent source edit is performed by this checkpoint. The original planning agent owns future planning proposals; parent explicitly delegates this bounded post-qualification canonical plan/ledger/issues update to the serial integration task. Parent routes subsequent authority changes. Independent
 validation owns numerical/origin harnesses; output contracts and gates are
 coordinated with `01a13906-b6ec-7398-820a-387f852c3015` through parent.
 The implementation worker owns no recording/desktop/schema/lockfile/publication
-edits. This plan-only branch contains no solver changes. PR69/71 and all source
+edits. Original planning branches contained no solver changes; this metadata-only checkpoint follow-up is based on qualified PR76 integration and adds no source changes. PR69/71 and all source
 inventories, receipts, workflow files and other shared exports remain serial owner writes. Concurrent
 Plan Integration profile is not applicable to a single serial plan proposal plus
 read-only review; if multiple outstanding proposals later share mutable plan
@@ -212,15 +220,17 @@ to `01a13906-b6ec-7398-820a-387f852c3015`, Tuldok execution to
 `01a13906-0d11-7681-87b7-439a7097c039`, and lab projects to
 `01a13906-4c49-7097-a9ea-1ba58cd0802f`. Parent routes requirements and integrates
 cross-repository changes. User authorization permits those parallel streams;
-this worker retains plan-only ownership. The only newly delegated shared write
-is the parent-authorized S1 compressible export block specified above.
+the original implementation worker had only the additive S1 export authority
+described above. This serial integration task now has explicit bounded checkpoint
+metadata authority after combined gates passed; future planning/source ownership
+remains unchanged.
 
 ### Pinned release checkpoints
 
 | Checkpoint | Immutable subject and interface | Deciding observation / integration owner |
 | --- | --- | --- |
 | R0 research | Rheon 8baf459; published chapters/proof inventory | Observed Pages success; plan/research scope only |
-| R1 native baseline | Clean committed S1 SHA/tree/binary and `docs/api/compressible.md`; validation harness revision independently pinned | Actual native fields pass C1/C2; parent freezes both subjects before downstream consumption |
+| R1 native baseline / Accepted | Native5a049ed/verifier94a8317, fresh composed4de7f58 receipts and qualified combined4bcdb7f separately pinned in [release baseline](reports/release-baseline.md) | C1/C2 and combined-source gates pass; parent-authorized integration freezes each actual source/binary/receipt subject before downstream consumption |
 | R2 recording/session | Owner-integrated PR69/71 + S4 exact source and field adapter version | Real accepted run/cold reader/UI checks; recording/API owner, parent qualifies changed source |
 | R3 producer/project | Exact Rheon producer/schema plus Tuldok consumer and lab project-schema commits, artifact hashes and split identity | One complete native trajectory consumed and saved/reopened through real Tuldok/lab path; producer/Tuldok/lab owners |
 | R4 model/runtime | Exact training/evaluator/runtime/checkpoint identities and R3 dataset split | Whole-rollout accuracy and complete timing/rejection/fallback at frozen workload; validation owner and parent release decision |
@@ -233,15 +243,16 @@ interface/artifact checkpoints, not a prescribed Git parentage or commit count.
 
 ## Blockers
 
-S1/C2 acceptance is blocked: the original acoustic study failed its frozen order
-gate. Parent approved a prospective resolution revision, but exact reviewed
-revision coordination, newly pinned exporter/verifier subjects, fresh native
-execution and independent verification remain required. The planning branch
-changes no solver or verifier behavior and does not authorize S2. Preserve both
-original failed origin-pinned receipts and the original coarse-grid limitation;
-see [revision evidence](reports/acoustic-resolution-revision.md).
-No blocker to delivering this reviewed plan revision. S4 waits for owner disposition/integration
-of PR69/71; S5 waits for an observed Tuldok consumer and agreed project contract.
+S1/C1/C2 are accepted only at the separately pinned release subjects after
+independent native/public API evidence and full combined-source book/runtime
+qualification passed. Original 8³/12³/20³ failures and coarse-grid limitation remain
+failed; see [revision](reports/acoustic-resolution-revision.md) and
+[release baseline](reports/release-baseline.md). This checkpoint does not start S2.
+Remaining roadmap claims require their own current-state admission and evidence.
+The material/carrier recording foundation from PR69/71 is integrated and
+qualified through PR76. S4 still requires its own current-state admission and
+compressible field/session adapter with real record/cold reload/native UI proof.
+S5 waits for an observed Tuldok consumer and agreed project contract.
 General vehicle readiness is blocked by missing geometry/physical validation,
 not by research publication. Source-admission changes need the existing book
 integration owner and fresh qualification; unchanged admission must fail on
@@ -257,10 +268,10 @@ composition above. Ordinary repairs remain within a valid admitted slice.
 
 ## Final Acceptance
 
-Implementation acceptance remains blocked on the S1 numerical evidence above. Close each bounded milestone only
+Bounded S1/C1/C2 are accepted at R1; overall roadmap acceptance remains partial. Close each later milestone only
 with its named evidence and advertise only that domain. Follow-ons remain owned
 in [issues](issues.md); [verification](reports/verification.md) records plan
 delivery, separate from all future numerical and user-workflow acceptance.
 
-- Acceptance status: `blocked`
+- Acceptance status: `partial`
 - Final status: `Active`

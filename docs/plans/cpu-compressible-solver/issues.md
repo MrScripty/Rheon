@@ -1,5 +1,9 @@
 # Findings and deferred work
 
+Initial findings below preserve their historical state. Current dispositions are
+recorded in the final checkpoint section; resolved integration blockers are not
+present requirements for already qualified S1.
+
 | ID / severity | Evidence and relation to objective | Owner / boundary | Disposition and verification / revisit trigger |
 | --- | --- | --- | --- |
 | CPU-COMP-1 / high | Main has no native Euler thermodynamic owner; research LLF/Lean identities do not provide it | S1 numerical owner | Fix in S1; native C1/C2 evidence. No solver capability claimed by plan |
@@ -17,3 +21,16 @@ No systemic defect is repaired by this documentation change. The future shared
 geometry/field/control invariant families are explicitly scoped in design; a
 discovered repeated authority/consumer defect requires the standards' systemic
 finding audit before local patches resume.
+
+## Qualified S1 checkpoint disposition
+
+CPU-COMP-1 is resolved for bounded periodic S1 through C1/C2 at the separately
+pinned [release baseline](reports/release-baseline.md). CPU-COMP-6 is resolved for
+the reviewed 78-path combined source and full qualified PR76 book/runtime subject;
+future source changes still require review and affected fresh qualification.
+CPU-COMP-4 recording integration and actual material/carrier software-display
+inspection are qualified by PR76, while the S4 compressible adapter remains absent
+and Deferred. CPU-COMP-10's original coarse study remains failed; the independently
+admitted prospective study passes unchanged gates and does not relabel that failure.
+Other physics, producer/consumer and vehicle follow-ons retain their owners/triggers.
+No S2 implementation or whole-roadmap acceptance is recorded.
