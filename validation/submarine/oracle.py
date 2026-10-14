@@ -12,7 +12,8 @@ import re
 import struct
 
 EPS = 2.0 ** -52
-SCHEMA = "rheon-submarine-i1-mac-v1"
+SCHEMA = "rheon-submarine-i1-mac-v2"
+PROFILE = "rheon-i1-sector-half-cell-v1"
 MAX_BYTES = 16 * 1024 * 1024
 MAX_DOFS = 4096
 EXACT_MAX_DOFS = 128
@@ -337,6 +338,25 @@ class Operator:
                 if not incident:
                     continue
                 point = tuple(g.origin[t]+(edge[t]+(0 if t in (a, b) else Q(1, 2)))*g.spacing[t] for t in range(3))
+                if len(incident) == 3:
+                    # Full corner Dirichlet columns remain even when their current value is zero.
+                    # Do not collapse distinct sector gradients into one centered edge row.
+                    self.body_traces[point] = (Q(0),)*3
+                    for sector_cell in incident:
+                        row = {}
+                        for component, direction in [(a, b), (b, a)]:
+                            sign = 1 if sector_cell[direction] == edge[direction] else -1
+                            sample = list(edge); sample[direction] = sector_cell[direction]
+                            require(g.mask(component, tuple(sample)) != 0, "strain-corner", "missing corner face sample", "unsupported")
+                            face = g.key(component, tuple(sample))
+                            trace = "corner:" + ":".join(map(str, (a, b)+edge+(component,)))
+                            self.prescribed[trace] = Q(0)
+                            self.boundary_owner[trace] = "body"
+                            self.boundary_locations[trace] = (component, point)
+                            coefficient = 2*sign/g.spacing[direction]
+                            row[face] = coefficient; row[trace] = -coefficient
+                        self.strains.append(Strain(row, an.mu*g.volume/4, "shear"))
+                    continue
                 row = {}
                 for component, direction in [(a, b), (b, a)]:
                     low = list(edge); low[direction] -= 1; low = tuple(low); high = edge
@@ -581,6 +601,7 @@ def validate_control(record):
 
 def _validate_record(record, fixture, fixtures_sha256):
     require(isinstance(record, dict) and record.get("schema") == SCHEMA, "profile", "unsupported native record schema", "unsupported")
+    require(record.get("operator_profile") == PROFILE, "operator-profile", "unadmitted corner operator profile", "unsupported")
     require(record.get("fixtures_sha256") == fixtures_sha256, "fixture-identity", "fixture bytes mismatch")
     require(record.get("accepted") is True and record.get("solve_id") == 1 and type(record["solve_id"]) is int,
             "accepted-solve", "fresh exporter must contain accepted solve 1")
@@ -680,6 +701,10 @@ def _validate_record(record, fixture, fixtures_sha256):
         max_div = max(max_div, abs(float(defect/g.volume)))
     normalized_div = max_div*float(Q(fixture["L_ref"])/Q(fixture["U_ref"]))
     require(normalized_div <= 1e-8, "V02-divergence", "normalized physical divergence exceeds 1e-8")
+    expected_sites = {key: {"component": component, "owner": op.boundary_owner[key], "point": list(map(bits, point))}
+                      for key, (component, point) in op.boundary_locations.items()}
+    require(json.dumps(record.get("reaction_sites"), sort_keys=True, separators=(",", ":")) == json.dumps(expected_sites, sort_keys=True, separators=(",", ":")),
+            "reaction-sites", "wrong/missing prescribed face, ghost or corner reaction site")
     reactions = record["algebraic_reactions"]
     require(isinstance(reactions, dict) and set(reactions) == set(op.prescribed), "V04-reactions", "incomplete algebraic boundary reaction inventory")
     for key in op.prescribed:
@@ -757,7 +782,7 @@ def _validate_record(record, fixture, fixtures_sha256):
     for name, expected in total.items():
         for component, (actual, desired) in enumerate(zip(vector(record["physical_loads"][name]), expected)):
             close(actual, desired, "N2-physical-"+name, budgets[name][component])
-    result = {"status": "validated-discrete-record", "max_momentum_defect_N": max_residual,
+    result = {"status": "validated-discrete-record", "schema": SCHEMA, "operator_profile": PROFILE, "max_momentum_defect_N": max_residual,
               "max_divergence_1_s": max_div, "mixed_dofs": len(op.active)+len(op.pressure_unknowns),
               "physical_loads": {name: list(map(float, v)) for name, v in total.items()},
               "algebraic_loads": {name: list(map(float, v)) for name, v in algebraic.items()},

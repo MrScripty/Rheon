@@ -64,6 +64,8 @@ def _verify_origin(origin, origin_sha256, source, record_path, fixtures_sha256, 
                    "origin-source", "wrong origin schema/source")
     oracle.require(obj.get("terminal") == "completed", "origin-terminal", "capture is not durably completed")
     oracle.require(obj.get("fixtures_sha256") == fixtures_sha256, "origin-fixture", "origin fixture mismatch")
+    oracle.require(obj.get("record_schema") == oracle.SCHEMA and obj.get("operator_profile") == oracle.PROFILE,
+                   "origin-profile", "origin record schema/operator profile mismatch")
     oracle.require(re.fullmatch(r"[0-9a-f]{40}", obj.get("source_tree", "")) and obj.get("dirty") is False,
                    "origin-source", "missing clean source tree identity")
     oracle.require(obj["source_tree"] == git(repo, "rev-parse", source+"^{tree}"), "origin-source", "origin tree differs from actual pinned source")
@@ -123,6 +125,7 @@ def execute(args, repo, fixture_data, fixture_sha):
     oracle.require(len(set(cases)) == len(cases), "fixture-id", "duplicate requested case")
     out = output_directory(args.output, repo)
     manifest = {"schema": "rheon-submarine-i1-origin-v1", "terminal": "active", "source_commit": source,
+                "record_schema": oracle.SCHEMA, "operator_profile": oracle.PROFILE,
                 "source_tree": git(repo, "rev-parse", source+"^{tree}"), "dirty": False,
                 "source_scope": "tracked-only-git-archive", "fixtures_sha256": fixture_sha,
                 "executor": {"os": platform.platform(), "machine": platform.machine(), "python": sys.version},

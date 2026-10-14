@@ -38,7 +38,7 @@ def synthetic_record(case):
                 "face_dual_volumes": [[o.bits(op.face_dual[g.key(a, i)]) for i in o.tuples(g.face_shape(a))] for a in range(3)],
                 "pressure_components": [op.labels.get(c, -1) for c in o.tuples(g.counts)],
                 "component_gauges": [{"component": op.labels[c], "cell": o.flat(c, g.counts), "pressure": o.bits(v)} for c, v in op.gauges.items()]}
-    r = {"schema": o.SCHEMA, "fixture_id": case, "fixtures_sha256": FIXTURE_SHA, "accepted": True, "solve_id": 1,
+    r = {"schema": o.SCHEMA, "operator_profile": o.PROFILE, "fixture_id": case, "fixtures_sha256": FIXTURE_SHA, "accepted": True, "solve_id": 1,
          "equations": "steady-incompressible-newtonian-stokes", "frame": "fixed-right-handed-SI",
          "units": {"velocity": "m/s", "pressure": "Pa", "gradient": "1/s", "force": "N", "moment": "N m", "volume_forcing": "N/m^3"},
          "layout": {"ordering": "x-fast", "velocity_offsets": [[o.bits(v) for v in off] for off in o.OFFSETS], "pressure_offset": [o.bits(Q(1, 2))]*3},
@@ -49,6 +49,7 @@ def synthetic_record(case):
                     "pressure": [o.bits(p.get(c, Q(0))) for c in o.tuples(g.counts)]},
          "outer_traces": [{"axis": a, "side": side, "point": list(map(o.bits, point)), "velocity": list(map(o.bits, velocity))} for (a, side, point), velocity in op.outer_traces.items()],
          "body_traces": [{"point": list(map(o.bits, point)), "velocity": [o.bits(0)]*3} for point in op.body_traces],
+         "reaction_sites": {key: {"component": a, "owner": op.boundary_owner[key], "point": list(map(o.bits, point))} for key, (a, point) in op.boundary_locations.items()},
          "wall_patches": [], "algebraic_reactions": {k: o.bits(0) for k in op.prescribed},
          "algebraic_loads": {name: [o.bits(0)]*3 for name in ("body_force", "outer_force", "body_moment", "outer_moment")},
          "physical_loads": {name: [o.bits(0)]*3 for name in ("pressure_force", "shear_force", "pressure_moment", "shear_moment")}, "dissipation": o.bits(0)}
@@ -148,6 +149,131 @@ class Validation(unittest.TestCase):
             values[key] = (1 if a == 0 else -1 if a == 1 else 0)*point[a]
         d = sum(s.weight*e*e for s, e in zip(op.strains, op.strains_at(values)))
         self.assertEqual(d, 4*op.analytic.mu*sum(g.volume for c in op.divergence))
+
+    def corner_rows(self, op, a=0, b=1, edge=(6, 3, 2)):
+        prefix = "corner:"+":".join(map(str, (a, b)+edge))+":"
+        return [row for row in op.strains if any(key.startswith(prefix) for key in row.coefficients)]
+
+    def corner_variation(self, op):
+        # Test-only divergence-free MAC curl with homogeneous prescribed normal data.
+        g = op.grid; q = Q(1, 100); amplitude = q*g.spacing[0]**2
+        psi = {(6, 4, 2): amplitude, (7, 3, 2): amplitude, (7, 4, 2): 2*amplitude,
+               (5, 4, 2): amplitude, (7, 2, 2): amplitude}
+        def stream(i, j, k):
+            return psi.get((i, j, k), Q(0))
+        values = dict(op.prescribed)
+        for component, index, key, mask in op.faces:
+            if not mask:
+                continue
+            i, j, k = index
+            value = ((stream(i, j+1, k)-stream(i, j, k))/g.spacing[1] if component == 0 else
+                     -(stream(i+1, j, k)-stream(i, j, k))/g.spacing[0] if component == 1 else Q(0))
+            if mask == 2:
+                self.assertEqual(value, 0)
+            values[key] = value
+        return values
+
+    def test_corner_sector_coefficients_preserve_full_boundary_columns(self):
+        op = o.Operator(FIXTURES["cases"]["tiny-rest"]); g = op.grid
+        rows = self.corner_rows(op); self.assertEqual(len(rows), 3)
+        A, B = g.key(0, (6, 2, 2)), g.key(0, (6, 3, 2))
+        C, D = g.key(1, (5, 3, 2)), g.key(1, (6, 3, 2))
+        Ga, Gb = "corner:0:1:6:3:2:0", "corner:0:1:6:3:2:1"
+        expected = [{B: Q(8), Ga: Q(-8), C: Q(-8), Gb: Q(8)},
+                    {A: Q(-8), Ga: Q(8), D: Q(8), Gb: Q(-8)},
+                    {B: Q(8), Ga: Q(-8), D: Q(8), Gb: Q(-8)}]
+        self.assertEqual([r.coefficients for r in rows], expected)
+        self.assertTrue(all(r.weight == Q(1, 256) for r in rows))
+        self.assertIn(A, op.prescribed); self.assertIn(C, op.prescribed)
+        point = (Q(1, 2), Q(1, 8), Q(0))
+        self.assertEqual(op.boundary_locations[Ga], (0, point))
+        self.assertEqual(op.boundary_locations[Gb], (1, point))
+        self.assertIn(point, op.body_traces)
+        self.assertEqual((len(op.strains), len(op.prescribed), len(op.body_traces)), (1464, 780, 54))
+
+    def test_corner_discriminator_retains_old_clipped_counterexample(self):
+        op = o.Operator(FIXTURES["cases"]["tiny-rest"]); g = op.grid
+        values = self.corner_variation(op)
+        self.assertTrue(all(sum(c*values[k] for k, c in row.items()) == 0 for row in op.divergence.values()))
+        rows = self.corner_rows(op)
+        strains = [sum(c*values[k] for k, c in row.coefficients.items()) for row in rows]
+        self.assertEqual(strains, [Q(1, 50), Q(-1, 50), Q(0)])
+        sector_phi = sum(row.weight*value**2 for row, value in zip(rows, strains))/2
+        self.assertEqual(sector_phi, Q(1, 640000))
+        X = values[g.key(0, (6, 3, 2))]/g.spacing[1]
+        Y = values[g.key(1, (6, 3, 2))]/g.spacing[0]
+        clipped_phi = 3*op.analytic.mu*g.volume*(X+Y)**2/8
+        self.assertEqual(clipped_phi, 0)
+        self.assertGreater(sector_phi, clipped_phi)
+
+    def affine_values(self, op, gradient, translation):
+        def value(component, point):
+            return translation[component]+sum(gradient[component][a]*point[a] for a in range(3))
+        values = {key: value(a, op.grid.face_point(a, index)) for a, index, key, mask in op.faces if mask}
+        values.update({key: value(a, point) for key, (a, point) in op.boundary_locations.items()})
+        return values
+
+    def test_every_corner_axis_and_orientation_has_affine_patch_consistency(self):
+        gradient = [[Q(1), Q(2), Q(3)], [Q(-4), Q(5), Q(6)], [Q(-7), Q(8), Q(-9)]]
+        for name in ["tiny-rest", "tiny-axis-1", "tiny-axis-2"]:
+            op = o.Operator(FIXTURES["cases"][name]); values = self.affine_values(op, gradient, (Q(2), Q(3), Q(5)))
+            corners = [row for row in op.strains if any(k.startswith("corner:") for k in row.coefficients)]
+            self.assertEqual(len(corners), 72)
+            for row in corners:
+                key = next(k for k in row.coefficients if k.startswith("corner:")); _, a, b, *_ = key.split(":")
+                a, b = int(a), int(b)
+                expected = gradient[a][b]+gradient[b][a]
+                self.assertEqual(sum(c*values[k] for k, c in row.coefficients.items()), expected)
+
+    def test_rigid_virtual_boundary_translation_rotation_and_work(self):
+        op = o.Operator(FIXTURES["cases"]["tiny-rest"])
+        state = self.corner_variation(op)
+        pressure = {c: op.grid.center(c)[0]+2*op.grid.center(c)[1] for c in op.divergence}
+        residual = op.residuals(state, pressure)
+        for gradient in [[[Q(0)]*3 for _ in range(3)],
+                         [[Q(0), Q(-3), Q(2)], [Q(3), Q(0), Q(-1)], [Q(-2), Q(1), Q(0)]]]:
+            virtual = self.affine_values(op, gradient, (Q(2), Q(3), Q(5)))
+            self.assertTrue(all(s == 0 for s in op.strains_at(virtual)))
+            self.assertEqual(sum(sum(terms)*virtual[key] for key, terms in residual.items()), 0)
+        # Central exact differentiation includes the newly retained corner and face columns.
+        def phi(values):
+            return sum(row.weight*s*s for row, s in zip(op.strains, op.strains_at(values)))/2
+        zero_pressure = {c: Q(0) for c in op.divergence}
+        derivative = op.residuals(state, zero_pressure); delta = Q(1, 32)
+        for key in ["corner:0:1:6:3:2:0", "corner:0:1:6:3:2:1", "face:0:6:2:2", "face:1:5:3:2"]:
+            plus, minus = state.copy(), state.copy(); plus[key] += delta; minus[key] -= delta
+            self.assertEqual((phi(plus)-phi(minus))/(2*delta), sum(derivative[key]))
+
+    def test_full_dirichlet_affine_constitutive_energy(self):
+        # All prescribed values move consistently for this constitutive diagnostic;
+        # this is not a stationary-body native solution or a free-slip boundary test.
+        gradient = [[Q(1), Q(2), Q(3)], [Q(4), Q(-1), Q(6)], [Q(7), Q(8), Q(0)]]
+        for name in ["exact-no-body", "tiny-rest"]:
+            op = o.Operator(FIXTURES["cases"][name])
+            values = self.affine_values(op, gradient, (Q(2), Q(3), Q(5)))
+            fluid_volume = op.grid.volume*len(op.divergence)
+            expected = op.analytic.mu*fluid_volume*(
+                2*sum(gradient[a][a]**2 for a in range(3))+
+                sum((gradient[a][b]+gradient[b][a])**2 for a in range(3) for b in range(a+1, 3)))
+            actual = sum(row.weight*s*s for row, s in zip(op.strains, op.strains_at(values)))
+            self.assertEqual(actual, expected)
+
+    def test_profile_epoch_and_corner_reaction_associations_are_explicit(self):
+        self.assertEqual(self.rest["schema"], "rheon-submarine-i1-mac-v2")
+        self.assertEqual(self.rest["operator_profile"], "rheon-i1-sector-half-cell-v1")
+        for claim, mutate in [
+            ("profile", lambda r: r.__setitem__("schema", "rheon-submarine-i1-mac-v1")),
+            ("operator-profile", lambda r: r.__setitem__("operator_profile", "clipped-edge-v1")),
+            ("fixture-identity", lambda r: r.__setitem__("fixtures_sha256", "6b6f0d55afaf3a92b6e88c116a0b858107e3e24e21a426f080d19345a78dab9b")),
+            ("reaction-sites", lambda r: r["reaction_sites"]["corner:0:1:6:3:2:0"].__setitem__("point", [o.bits(Q(1, 2)), o.bits(0), o.bits(0)])),
+            ("reaction-sites", lambda r: r["reaction_sites"]["corner:0:1:6:3:2:0"].__setitem__("component", False)),
+            ("V04-reactions", lambda r: r["algebraic_reactions"].pop("corner:0:1:6:3:2:0")),
+        ]:
+            record = copy.deepcopy(self.rest); mutate(record)
+            self.fails(claim, lambda: self.check_record(record))
+        record = copy.deepcopy(self.rest)
+        record["body_traces"] = [t for t in record["body_traces"] if t["point"] != [o.bits(Q(1, 2)), o.bits(Q(1, 8)), o.bits(0)]]
+        self.fails("full-body-trace", lambda: self.check_record(record))
 
     def test_mms_mixed_derivatives_commute_and_wall_vanishes(self):
         op = o.Operator(FIXTURES["cases"]["tiny-mms"]); an = op.analytic
@@ -373,6 +499,7 @@ class Validation(unittest.TestCase):
             archive.write_bytes(subprocess.check_output(["git", "-C", str(repo), "archive", "--format=tar", source]))
             stdout = root/"stdout"; stderr = root/"stderr"; stdout.write_bytes(b""); stderr.write_bytes(b"")
             manifest = {"schema": "rheon-submarine-i1-origin-v1", "terminal": "completed", "source_commit": source, "source_tree": tree, "dirty": False,
+                "record_schema": o.SCHEMA, "operator_profile": o.PROFILE,
                 "fixtures_sha256": FIXTURE_SHA, "source_archive_path": str(archive), "source_archive_sha256": o.digest(archive),
                 "executable": {"path": str(exe), "sha256": o.digest(exe)},
                 "validator": {"files": {p.name: o.digest(p) for p in [run.HERE/"run.py", run.HERE/"oracle.py", run.FIXTURES]}},
@@ -387,6 +514,8 @@ class Validation(unittest.TestCase):
             self.assertEqual(result["status"], "externally-pinned-origin-integrity-checked")
             # This test manifest is not evidence that its toy executable was built.
             for claim, mutate in [
+                ("origin-profile", lambda m: m.__setitem__("record_schema", "rheon-submarine-i1-mac-v1")),
+                ("origin-profile", lambda m: m.__setitem__("operator_profile", "clipped-edge-v1")),
                 ("origin-source", lambda m: m.__setitem__("source_commit", "1"*40)),
                 ("origin-source", lambda m: m.__setitem__("source_tree", "1"*40)),
                 ("origin-output", lambda m: m["outputs"]["exact-no-body"].__setitem__("sha256", "0"*64)),

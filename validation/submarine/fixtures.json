@@ -1,6 +1,6 @@
 {
-  "schema": "rheon-submarine-i1-fixtures-v1",
-  "contract_status": "proposal-awaiting-parent-native-agreement",
+  "schema": "rheon-submarine-i1-fixtures-v2",
+  "contract_status": "parent-admitted-sector-correction-native-qualification-pending",
   "source_scope": "steady-aligned-cuboid-creeping-stokes",
   "limits": {
     "max_record_bytes": 16777216,
@@ -1807,7 +1807,7 @@
   "discretization": {
     "normal_strain": "fluid-cell-centered-full-volume",
     "shear_pairs": "unordered-a<b",
-    "edge_volume": "V*incident-fluid-cell-count/4",
+    "edge_volume": "V/4-per-fluid-sector;aggregate-identical-interior-and-stationary-flat-rows",
     "derivative": "present-centered-or-signed-reflection-full-vector",
     "functional": "half-Newtonian-dissipation",
     "divergence": "V*MAC-divergence",
@@ -1820,6 +1820,11 @@
     "pivot_min": "0.000000000001",
     "exact_solve_max_dofs": 128,
     "full_boundary_traces": "normal-face-and-edge-ghost-full-vector",
-    "mms_forcing": "point-value-times-clipped-face-dual-volume"
-  }
+    "mms_forcing": "point-value-times-clipped-face-dual-volume",
+    "body_corner": "rheon-i1-sector-half-cell-v1/full-prescribed-face-and-edge-columns",
+    "corner_trace_site": "plane-A-plane-B-half-cell-third-axis",
+    "reaction_sites": "explicit-component-owner-SI-point-for-every-prescribed-face-ghost-corner"
+  },
+  "record_schema": "rheon-submarine-i1-mac-v2",
+  "operator_profile": "rheon-i1-sector-half-cell-v1"
 }

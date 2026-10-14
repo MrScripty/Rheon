@@ -1,7 +1,7 @@
 # Independent I1 validator implementation and contract proposal
 
-Status: validator source implemented; native numerical acceptance unavailable
-pending source/schema handoff. Canonical I1 remains Active; N1/N2, N3 continuum
+Status: parent-admitted sector correction implemented; native numerical
+acceptance unavailable pending revised source/schema handoff. Canonical I1 remains Active; N1/N2, N3 continuum
 convergence and N7 experimental validation remain pending. This report does not
 change the canonical plan/ledger/issues or native owner authority.
 
@@ -108,14 +108,15 @@ at main; normal push and draft PR only. Original refs remain intact, no force
 push/rebase/cleanup/merge is performed. Parent owns subsequent acceptance and
 branch disposition. The existing workspace is reused; no worktree is created.
 
-## Reviewed corner-profile decision — agreement required before correction
+## Historical corner-profile decision at 597c3ca — agreement required then
 
 The original PR79 subject `52322ca18dd4e9a32c83e834b5f05a558163216a` and
 fixture/profile SHA256 `6b6f0d55afaf3a92b6e88c116a0b858107e3e24e21a426f080d19345a78dab9b`
 remain the earlier clipped-edge proposal. Its 25 normal/25 optimized harness
 results prove their named properties for that proposal; they are not agreement
 with the native owner's subsequently supplied corner operator. No receipt or
-profile hash is relabeled. Oracle/runner/tests/fixtures/README bytes remain unchanged.
+profile hash is relabeled. At this report-only decision subject, oracle/runner/
+tests/fixtures/README bytes remained unchanged.
 
 **Recommendation:** parent should explicitly agree
 `rheon-i1-sector-half-cell-v1` for three-fluid-sector body corners, then authorize
@@ -192,3 +193,75 @@ and minimal correction boundary. Exact diagnostic artifacts remain external:
 Script SHA256 `c8c838adf882e863f9e52d0363a677032605fcb824a4c261d5f726a55c8b8927`;
 result SHA256 `781a874cff593da66e6af504419a6d9d5752f6aaa6ee9a7d351f536969a24f48`.
 These hashes bind analytical diagnostics only, not native execution provenance.
+
+## Parent-admitted sector correction and revised handoff
+
+Parent explicitly accepted the independently reviewed `rheon-i1-sector-half-cell-v1`
+operator and authorized the smallest correction described above. This section
+supersedes the historical pending-agreement status at `597c3ca`; it preserves the
+original proposal, mismatch decision and their receipt subjects. All six changes
+remain on `validation/submarine-i1-independent-20261014` for draft PR79 and
+parent serial integration. No native implementation or canonical ledger changes.
+
+Only three-fluid body corners change numerical rows: three distinct sector rows,
+each with `mu V/4` Hessian weight, retain prescribed face and full-vector edge
+trace columns. Interior centered and stationary flat-wall aggregate rows remain
+as before. Physical reaction sites explicitly bind every prescribed variable to
+component, body/outer owner and SI point; corner torque uses its edge point.
+Momentum, reactions and work derive from the same retained-column functional.
+No interior zero anchor or arbitrary stiffness penalty is introduced.
+
+The producer handoff is:
+
+- Fixture schema: `rheon-submarine-i1-fixtures-v2`.
+- Record schema: `rheon-submarine-i1-mac-v2`.
+- Operator profile: `rheon-i1-sector-half-cell-v1`.
+- Exact fixture SHA256:
+  `3762540394238820ad47ca7ce4f8fc5b140e11abc0d52458a2451a4fe588f160`.
+- Required `reaction_sites` map: every prescribed face/ghost/corner key has an
+  integer component, `body`/`outer` owner and three SI-point binary64 bit strings.
+- Corner trace key: `corner:A:B:I:J:K:COMPONENT`, `A<B`, at the MAC edge point
+  with half-cell offset on the remaining axis. Full-vector body traces include
+  these points and existing prescribed face/ghost points.
+- Tiny body: 669 unknowns, 1464 strain rows, 780 prescribed scalar columns/sites,
+  54 unique body trace points. Prescribed normal-face columns are not discarded.
+- Origin envelope remains `rheon-submarine-i1-origin-v1`, additionally requiring
+  the exact `record_schema` and `operator_profile`; old envelopes cannot acquire
+  new provenance by relabeling.
+- The existing external-fixture producer CLI and exact-source runner remain as
+  documented in the [README](../../../../validation/submarine/README.md).
+  Native source/binary/export implementation still belongs to
+  `01a139a7-da3b-71b3-b155-ddca2f780005` and requires actual handoff.
+
+All 18 case objects, 34 constitutive control objects, record/DOF/exact-solve limits,
+pivot minimum, physical residual roundoff factor, normalized divergence threshold
+and wall reconstruction coefficients are unchanged. This is a prospective named
+operator/schema correction, not retuned acceptance after native output.
+
+Observed corrected harness results: **31 passed normally and 31 under optimized
+Python, zero skips**. Focused controls retain the prior divergence-free corner
+variation (`Phi=1/640000 W` versus the old clipped `0 W`), verify exact corner
+coefficients/weights and full prescribed columns, cover all three axis pairs and
+corner orientations with consistent affine traces, and check zero rigid virtual
+translation/rotation, boundary virtual work and exact functional differentiation.
+Whole-functional affine Newtonian energy is exact for both the no-body and body
+geometries when every prescribed face/ghost/corner site receives consistent data.
+These moving affine traces are constitutive diagnostics, not stationary-body
+native runs. Negative mutations refuse old schema/profile/digest, missing corner
+trace/reaction, wrong reaction location/type and old origin profile members.
+
+Independent GPT-6.1 Sol High read-only review reproduced the exact corner, affine
+energy and whole-functional force/moment identities. Its oracle subject is SHA256
+`6708b48b8d6adebe24d4e43c6fd2a6ccfc9431bfe0d77dc5de1cf6d893d83500`;
+fixture subject is the revised digest above. Final source-set review/commit
+identity is supplied in the PR handoff separately from this report's own bytes.
+Pinned old `aligned_strain.rs` validates stationary coefficients only; full outer
+Dirichlet, nonuniform traces and retained reactions are I1 qualification scope.
+Oracle algebra tests and review do not establish that the native implementation
+uses these columns, sites, forcing or work definitions.
+
+Actual native execution has not occurred for this revised subject. Source/schema
+handoff, fresh captures, full case/control execution and independent numerical
+rechecks remain pending; N1/N2 are not accepted. N3 continuum mesh/domain and N7
+experimental rights/model/uncertainty evidence remain pending. No restart,
+signed execution attestation or later-slice claim is made.
