@@ -204,3 +204,7 @@ pub use provider_step::{ProviderStepReport, ProviderStepWorkspace};
 
 mod emitter_controls;
 pub use emitter_controls::{EMITTER_CONTROLS_VERSION, EmitterTurbulence};
+
+/// Native accepted-publication archive; inspection data, not restart checkpoints.
+#[cfg(not(target_arch = "wasm32"))]
+pub mod recording;

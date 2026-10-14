@@ -1,43 +1,41 @@
-//! Latest numerical state and a bounded selected-particle trace, separate from voxels.
+//! Exact selected disk publication. The worker owns recording; UI owns selection.
 use super::export_ui::ExportFile;
 use eframe::egui;
-use rheon::SessionIdentity;
-use rheon::{FluidParticle, ParticleDiagnostic, ParticleFluidSimulation};
-use std::collections::VecDeque;
-use std::sync::Mutex;
+use rheon::recording::{
+    RecordedMaterial, RecordingLimits, RecordingReader, StepRecorder, material_publication,
+    material_run,
+};
+use rheon::{
+    FluidParticle, MaterialStepControls, ParticleFluidSimulation, ParticleStepReport,
+    SessionIdentity,
+};
+use std::{
+    path::{Path, PathBuf},
+    sync::{Arc, Mutex},
+};
 
-#[derive(Clone, Copy)]
-struct Sample {
-    id: usize,
-    generation: u64,
-    time: f64,
-    evaluation_time: Option<f64>,
-    particle: FluidParticle,
-    diagnostic: Option<ParticleDiagnostic>,
-}
 struct State {
-    identity: SessionIdentity,
-    export: ExportFile,
+    reader: Option<RecordingReader>,
+    path: Option<PathBuf>,
+    limits: RecordingLimits,
+    selected_step: Option<usize>,
+    material: Option<Arc<RecordedMaterial>>,
     selected: usize,
-    generation: u64,
-    time: f64,
-    evaluation_time: Option<f64>,
-    particles: Vec<FluidParticle>,
-    diagnostics: Vec<ParticleDiagnostic>,
-    trace: VecDeque<Sample>,
+    feedback: String,
+    export: ExportFile,
 }
 impl Default for State {
     fn default() -> Self {
         Self {
-            identity: super::identity::new_identity("material"),
-            export: ExportFile::new(".generated/particles.vtp"),
+            reader: None,
+            path: None,
+            limits: RecordingLimits::default(),
+            selected_step: None,
+            material: None,
             selected: 0,
-            generation: 0,
-            time: 0.0,
-            evaluation_time: None,
-            particles: Vec::new(),
-            diagnostics: Vec::new(),
-            trace: VecDeque::new(),
+            feedback: "No numerical recording. Carrier previews do not retain numerical fields."
+                .into(),
+            export: ExportFile::new(".generated/selected-particles.vtp"),
         }
     }
 }
@@ -48,180 +46,283 @@ impl Inspector {
         &self,
         read: impl FnOnce(&SessionIdentity, u64, f64, &[FluidParticle], usize) -> R,
     ) -> Option<R> {
-        self.0
-            .lock()
-            .ok()
-            .map(|s| read(&s.identity, s.generation, s.time, &s.particles, s.selected))
+        let (identity, m, selected) = {
+            let s = self.0.lock().ok()?;
+            (
+                s.reader.as_ref()?.run().identity.clone(),
+                Arc::clone(s.material.as_ref()?),
+                s.selected,
+            )
+        };
+        // A callback may re-enter selection. Retain this immutable publication
+        // through the callback, without retaining the inspector's mutex.
+        Some(read(
+            &identity,
+            m.generation,
+            m.time,
+            &m.particles,
+            selected,
+        ))
     }
     pub fn select(&self, id: usize) {
         if let Ok(mut s) = self.0.lock()
-            && id < s.particles.len()
-            && id != s.selected
+            && s.material.as_ref().is_some_and(|m| id < m.particles.len())
         {
             s.selected = id;
-            s.restart_trace();
         }
     }
-    pub fn capture(&self, sim: &ParticleFluidSimulation) -> Result<(), String> {
+    pub fn begin(
+        &self,
+        sim: &ParticleFluidSimulation,
+        path: &Path,
+        limits: RecordingLimits,
+    ) -> Result<StepRecorder, String> {
+        let run=material_run(super::identity::new_identity("material"),sim,
+            "native desktop; caller-owned local path; source revision/build/toolchain not supplied; no restart guarantee")
+            .map_err(|e|e.to_string())?;
+        let mut recorder = StepRecorder::create(path, run, limits).map_err(|e| e.to_string())?;
+        recorder
+            .append(
+                &material_publication(sim, None, None, 0, limits.max_record_bytes)
+                    .map_err(|e| e.to_string())?,
+            )
+            .map_err(|e| e.to_string())?;
+        self.reload(path, limits)?;
+        self.select_timestep(0)?;
+        Ok(recorder)
+    }
+    /// Cold reload is also used by tests/API-host integrations. Keeps no live sim.
+    pub fn reload(&self, path: &Path, limits: RecordingLimits) -> Result<(), String> {
         let mut s = self.0.lock().map_err(|_| "Inspector owner failed")?;
-        // Reuse storage. This is one latest state, not a particle archive per frame.
-        let n = sim.particles().len();
-        let additional = n.saturating_sub(s.particles.len());
-        s.particles
-            .try_reserve(additional)
-            .map_err(|e| e.to_string())?;
-        let additional = n.saturating_sub(s.diagnostics.len());
-        s.diagnostics
-            .try_reserve(additional)
-            .map_err(|e| e.to_string())?;
-        s.trace.try_reserve(1).map_err(|e| e.to_string())?;
-        s.particles.clear();
-        s.particles.extend_from_slice(sim.particles());
-        s.diagnostics.clear();
-        s.evaluation_time = sim.particle_diagnostics().map(|(time, values)| {
-            s.diagnostics.extend_from_slice(values);
-            time
-        });
-        s.generation = sim.generation();
-        s.time = sim.time();
-        if let Some(sample) = s.sample() {
-            if s.trace.len() == 256 {
-                s.trace.pop_front();
+        // Invalidate selection before I/O, including failed reloads.
+        s.material = None;
+        s.selected_step = None;
+        s.reader = None;
+        match RecordingReader::open(path, limits) {
+            Ok(reader) => {
+                s.reader = Some(reader);
+                s.path = Some(path.to_owned());
+                s.limits = limits;
+                s.feedback.clear();
+                Ok(())
             }
-            s.trace.push_back(sample);
+            Err(e) => {
+                s.feedback = e.to_string();
+                Err(s.feedback.clone())
+            }
         }
-        Ok(())
+    }
+    pub fn record(
+        &self,
+        recorder: &mut StepRecorder,
+        sim: &ParticleFluidSimulation,
+        report: ParticleStepReport,
+        controls: MaterialStepControls,
+    ) -> Result<(), String> {
+        let actual = material_run(
+            recorder.run().identity.clone(),
+            sim,
+            &recorder.run().provenance,
+        )
+        .map_err(|e| e.to_string())?;
+        if &actual != recorder.run() {
+            return Err(
+                "Recording configuration/geometry changed; accepted step is unrecorded".into(),
+            );
+        }
+        let step = material_publication(
+            sim,
+            Some(report),
+            Some(controls),
+            recorder.recorded_count(),
+            recorder.limits().max_record_bytes,
+        )
+        .map_err(|e| e.to_string())?;
+        recorder.append(&step).map_err(|e| {
+            format!(
+                "Accepted generation {} is not confirmed recorded: {e}",
+                sim.generation()
+            )
+        })
+    }
+    /// Missing/corrupt selected steps clear values. Never substitute a latest step.
+    pub fn select_timestep(&self, step: usize) -> Result<(), String> {
+        let mut s = self.0.lock().map_err(|_| "Inspector owner failed")?;
+        if s.selected_step == Some(step) && s.material.is_some() {
+            return Ok(());
+        }
+        s.selected_step = Some(step);
+        s.material = None;
+        let result = s
+            .reader
+            .as_ref()
+            .ok_or_else(|| s.feedback.clone())
+            .and_then(|r| r.select(step).map_err(|e| e.to_string()))
+            .and_then(|record| RecordedMaterial::decode(&record).map_err(|e| e.to_string()));
+        match result {
+            Ok(m) => {
+                s.material = Some(Arc::new(m));
+                s.feedback.clear();
+                Ok(())
+            }
+            Err(e) => {
+                s.feedback = e.clone();
+                Err(e)
+            }
+        }
     }
     pub fn ui(&self, ui: &mut egui::Ui) {
         let Ok(mut s) = self.0.lock() else {
             ui.label("Inspector unavailable");
             return;
         };
-        ui.label("Latest numerical state (independent of visual scrubber)");
-        ui.small(format!("Run {} (process-local)", s.identity.run_id));
-        ui.small(
-            "Particle IDs are append-only indices scoped to this run. New run clears history.",
-        );
-        ui.collapsing("Conservation diagnostics (accepted state)", |ui| {
-            let mass: f64 = s.particles.iter().map(|p|p.mass).sum();
-            let momentum: [f64;3] = std::array::from_fn(|d|s.particles.iter().map(|p|p.mass*p.velocity[d]).sum());
-            let kinetic: f64 = s.particles.iter().map(|p|0.5*p.mass*p.velocity.iter().map(|v|v*v).sum::<f64>()).sum();
+        ui.label("Numerical state at selected recorded timestep");
+        if let Some(path) = &s.path {
+            ui.small(format!("Archive: {}", path.display()));
+        }
+        if let Some(reader) = &s.reader {
+            ui.small(format!(
+                "Run {} · source {}",
+                reader.run().identity.run_id,
+                reader.run().identity.source_revision
+            ));
+            match reader.count() {
+                Ok(n) => {
+                    ui.small(format!(
+                        "{n} recorded publications; keep all / stop at limits"
+                    ));
+                }
+                Err(e) => {
+                    ui.label(e.to_string());
+                }
+            }
+            match reader.status() {
+                Ok(status) => {
+                    ui.small(format!("{}: {}", status.outcome, status.detail));
+                    if status.outcome == "active" {
+                        ui.small("Incomplete until producer declares completion. A crash may leave an unrecorded accepted tail.");
+                    }
+                }
+                Err(e) => {
+                    ui.label(format!("Recording status unavailable: {e}"));
+                }
+            }
+        }
+        if !s.feedback.is_empty() {
+            ui.label(&s.feedback);
+        }
+        let State {
+            material,
+            selected,
+            export,
+            reader,
+            ..
+        } = &mut *s;
+        let (Some(m), Some(reader)) = (material, reader) else {
+            ui.label("Selected numerical fields unavailable");
+            return;
+        };
+        ui.small("Particle IDs are append-only indices scoped to this recorded run.");
+        ui.monospace(format!(
+            "generation {}\npublication {} s\naccepted dt {:?} s",
+            m.generation, m.time, m.dt
+        ));
+        ui.collapsing("Totals at selected publication",|ui| {
+            let mass:f64=m.particles.iter().map(|p|p.mass).sum();
+            let momentum:[f64;3]=std::array::from_fn(|d|m.particles.iter().map(|p|p.mass*p.velocity[d]).sum());
+            let kinetic:f64=m.particles.iter().map(|p|0.5*p.mass*p.velocity.iter().map(|v|v*v).sum::<f64>()).sum();
             ui.monospace(format!("mass {mass} kg\nmomentum {momentum:?} kg m/s\nkinetic energy {kinetic} J"));
-            ui.small("Raw totals, not conservation residuals: emission, gravity, viscosity and walls exchange mass, momentum or energy. No closed-system conservation claim.");
+            ui.small("Derived raw totals; emission, gravity, viscosity and walls exchange mass/momentum/energy. No conservation-residual claim.");
         });
-        let last = s.particles.len().saturating_sub(1);
         ui.horizontal(|ui| {
             ui.label("Particle ID");
-            if ui
-                .add(egui::DragValue::new(&mut s.selected).range(0..=last))
-                .changed()
-            {
-                s.restart_trace();
-            }
+            ui.add(
+                egui::DragValue::new(selected)
+                    .range(0..=m.particles.len().saturating_sub(1))
+                    .clamp_existing_to_range(false),
+            );
         });
-        if let Some(sample) = s.sample() {
+        if let Some(p) = m.particles.get(*selected) {
             ui.monospace(format!(
-                "generation {}\ntime {} s",
-                sample.generation, sample.time
+                "position {:?} m\nvelocity {:?} m/s\nmass {} kg\ntemperature {} K\nmaterial {}",
+                p.position, p.velocity, p.mass, p.temperature_kelvin, p.material
             ));
-            ui.collapsing("Position / velocity / material", |ui| {
-                ui.monospace(format!(
-                    "position {:?} m\nvelocity {:?} m/s\nmass {} kg\ntemperature {} K\nmaterial {}",
-                    sample.particle.position,
-                    sample.particle.velocity,
-                    sample.particle.mass,
-                    sample.particle.temperature_kelvin,
-                    sample.particle.material
-                ));
-            });
-            ui.collapsing("Density / pressure / force", |ui| {
-                if let Some(d) = sample.diagnostic {
-                    ui.label("Post-emission, pre-integration; excludes wall response");
-                    ui.monospace(format!("evaluated at {} s\ndensity {} kg/m³\npressure {} Pa\nacceleration {:?} m/s²\nforce {:?} N",sample.evaluation_time.unwrap(),d.density,d.pressure,d.acceleration,d.acceleration.map(|a| a*sample.particle.mass)));
-                } else { ui.label("Not evaluated (initial state)"); }
-            });
-            ui.label(format!(
-                "{} selected-particle samples (latest 256 accepted captures)",
-                s.trace.len()
-            ));
-            if ui.button("Copy numerical history CSV").clicked() {
-                ui.ctx().copy_text(s.csv());
+            if let Some((t, d)) = &m.diagnostics {
+                let d = d[*selected];
+                ui.small("Post-emission, pre-integration; excludes wall response. Evaluation positions are not retained.");
+                ui.monospace(format!("evaluated {t} s\ndensity {} kg/m³\npressure {} Pa\nacceleration {:?} m/s²\nderived force {:?} N",d.density,d.pressure,d.acceleration,d.acceleration.map(|a|a*p.mass)));
+            } else {
+                ui.label("Diagnostics not recorded for this publication; no substituted values");
+            }
+            if ui.button("Copy selected particle CSV").clicked() {
+                ui.ctx()
+                    .copy_text(csv(m, *selected, reader.run().identity.run_id));
             }
         } else {
-            ui.label("No particle at this ID");
+            ui.label("No particle at this ID in the selected step");
         }
-        ui.collapsing("VTK particle export", |ui| {
-                ui.small("Accepted points; pre-integration diagnostics stored separately with their evaluation time.");
-                let State { identity,generation,time,particles,diagnostics,evaluation_time,export,.. } = &mut *s;
-                export.show(ui,"Save particle VTK (.vtp)",|out| rheon::write_particles_vtp(out,identity,*generation,*time,particles,evaluation_time.map(|t| (t,diagnostics.as_slice()))));
+        ui.collapsing("Selected timestep VTK export", |ui| {
+            export.show(ui, "Save selected timestep particles (.vtp)", |out| {
+                m.write_vtp(out, &reader.run().identity)
             });
+        });
     }
 }
-impl State {
-    fn restart_trace(&mut self) {
-        self.trace.clear();
-        if let Some(sample) = self.sample() {
-            self.trace.push_back(sample);
-        }
-    }
-    fn sample(&self) -> Option<Sample> {
-        self.particles
-            .get(self.selected)
-            .copied()
-            .map(|particle| Sample {
-                id: self.selected,
-                generation: self.generation,
-                time: self.time,
-                evaluation_time: self.evaluation_time,
-                particle,
-                diagnostic: self.diagnostics.get(self.selected).copied(),
-            })
-    }
-    fn csv(&self) -> String {
-        use std::fmt::Write;
-        let mut text = String::from(
-            "particle_id,generation,time_s,evaluation_time_s,x_m,y_m,z_m,vx_m_s,vy_m_s,vz_m_s,mass_kg,temperature_K,material,density_kg_m3,pressure_Pa,ax_m_s2,ay_m_s2,az_m_s2\n",
-        );
-        for s in &self.trace {
-            let p = s.particle;
-            write!(
+fn csv(m: &RecordedMaterial, id: usize, run_id: u64) -> String {
+    use std::fmt::Write;
+    let mut text = String::from(
+        "run_id,particle_id,generation,publication_time_s,evaluation_time_s,x_m,y_m,z_m,vx_m_s,vy_m_s,vz_m_s,mass_kg,temperature_K,material,density_kg_m3,pressure_Pa,ax_m_s2,ay_m_s2,az_m_s2\n",
+    );
+    if let Some(p) = m.particles.get(id) {
+        let t = m
+            .diagnostics
+            .as_ref()
+            .map(|(t, _)| t.to_string())
+            .unwrap_or_default();
+        write!(
+            text,
+            "{run_id},{id},{},{},{t},{},{},{},{},{},{},{},{},{}",
+            m.generation,
+            m.time,
+            p.position[0],
+            p.position[1],
+            p.position[2],
+            p.velocity[0],
+            p.velocity[1],
+            p.velocity[2],
+            p.mass,
+            p.temperature_kelvin,
+            p.material
+        )
+        .unwrap();
+        if let Some((_, d)) = &m.diagnostics {
+            let d = d[id];
+            writeln!(
                 text,
-                "{},{},{},{},{},{},{},{},{},{},{},{},{}",
-                s.id,
-                s.generation,
-                s.time,
-                s.evaluation_time.map(|v| v.to_string()).unwrap_or_default(),
-                p.position[0],
-                p.position[1],
-                p.position[2],
-                p.velocity[0],
-                p.velocity[1],
-                p.velocity[2],
-                p.mass,
-                p.temperature_kelvin,
-                p.material
+                ",{},{},{},{},{}",
+                d.density, d.pressure, d.acceleration[0], d.acceleration[1], d.acceleration[2]
             )
             .unwrap();
-            if let Some(d) = s.diagnostic {
-                writeln!(
-                    text,
-                    ",{},{},{},{},{}",
-                    d.density, d.pressure, d.acceleration[0], d.acceleration[1], d.acceleration[2]
-                )
-                .unwrap();
-            } else {
-                text.push_str(",,,,,\n");
-            }
+        } else {
+            text.push_str(",,,,,\n");
         }
-        text
     }
+    text
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    pub fn test_path(label: &str) -> PathBuf {
+        static NEXT: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+        std::env::temp_dir().join(format!(
+            "rheon-inspector-{label}-{}-{}.sqlite",
+            std::process::id(),
+            NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+        ))
+    }
     #[test]
-    fn owned_trace_is_bounded_and_round_trips_binary64() {
+    fn historical_selection_survives_capture_reload_and_egui_export_uses_that_step() {
         let grid = rheon::GridGeometry::new([4; 3], [0.25; 3], [0.0; 3]).unwrap();
         let mut sim = ParticleFluidSimulation::new(
             grid,
@@ -229,38 +330,138 @@ mod tests {
                 fill: rheon::DomainFill::EmittedFluid,
                 samples_per_axis: 4,
                 max_particles: 64,
-                gravity: [0.0; 3],
                 ..Default::default()
             },
         )
         .unwrap();
         let inspector = Inspector::default();
-        inspector.capture(&sim).unwrap();
-        assert!(inspector.0.lock().unwrap().trace[0].diagnostic.is_none());
-        let initial_csv = inspector.0.lock().unwrap().csv();
-        let initial: Vec<_> = initial_csv.lines().nth(1).unwrap().split(',').collect();
-        assert_eq!(initial.len(), 18);
-        assert!(initial[13..].iter().all(|value| value.is_empty()));
-        for _ in 0..260 {
-            sim.step(1e-7, None, || false).unwrap();
-            inspector.capture(&sim).unwrap();
+        let path = test_path("history");
+        let limits = RecordingLimits::default();
+        let mut writer = inspector.begin(&sim, &path, limits).unwrap();
+        let initial = sim.particles().to_vec();
+        let controls = MaterialStepControls {
+            requested_dt: 1e-5,
+            emitter: None,
+        };
+        for _ in 0..3 {
+            let r = sim.step(controls.requested_dt, None, || false).unwrap();
+            inspector.record(&mut writer, &sim, r, controls).unwrap();
         }
-        let mut s = inspector.0.lock().unwrap();
-        assert_eq!(s.trace.len(), 256);
-        let csv = s.csv();
-        let row: Vec<_> = csv.lines().last().unwrap().split(',').collect();
-        assert_eq!(row.len(), 18);
         assert_eq!(
-            row[4].parse::<f64>().unwrap().to_bits(),
-            sim.particles()[0].position[0].to_bits()
+            inspector.with_particles(|_, g, _, p, _| {
+                assert_eq!(p, initial);
+                g
+            }),
+            Some(0)
         );
-        assert_eq!(s.trace.back().unwrap().generation, 260);
-        s.selected = 1;
-        s.restart_trace();
-        assert_eq!(s.trace.len(), 1);
-        assert_eq!(s.csv().lines().count(), 2);
-        assert_eq!(s.trace[0].id, 1);
+        inspector.select_timestep(1).unwrap();
+        let selected = inspector
+            .with_particles(|_, _, _, p, _| p.to_vec())
+            .unwrap();
+        assert_ne!(selected, sim.particles());
+        writer
+            .finish(
+                "completed",
+                "all accepted steps retained",
+                Some(sim.generation()),
+            )
+            .unwrap();
+        drop(writer);
         drop(sim);
-        assert_eq!(s.trace.back().unwrap().generation, 260);
+        inspector.reload(&path, limits).unwrap();
+        inspector.select_timestep(1).unwrap();
+        assert_eq!(
+            inspector.with_particles(|_, _, _, p, _| p.to_vec()),
+            Some(selected)
+        );
+        let s = inspector.0.lock().unwrap();
+        let m = s.material.as_ref().unwrap();
+        let mut vtk = Vec::new();
+        m.write_vtp(&mut vtk, &s.reader.as_ref().unwrap().run().identity)
+            .unwrap();
+        let expected_vtk = vtk.clone();
+        assert!(String::from_utf8(vtk).unwrap().contains(
+            "Name=\"generation\" NumberOfComponents=\"1\" NumberOfTuples=\"1\" format=\"ascii\">1 "
+        ));
+        let row = csv(m, 0, s.reader.as_ref().unwrap().run().identity.run_id);
+        let values: Vec<_> = row.lines().nth(1).unwrap().split(',').collect();
+        assert_eq!(values.len(), 19);
+        assert_eq!(values[2], "1");
+        drop(s);
+        let ctx = egui::Context::default();
+        let vtk_path = path.with_extension("vtp");
+        inspector.0.lock().unwrap().export = ExportFile::new(vtk_path.to_str().unwrap());
+        let render = |events| {
+            ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(
+                        egui::Pos2::ZERO,
+                        egui::vec2(1000.0, 1400.0),
+                    )),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    egui::CentralPanel::default().show(ctx, |ui| inspector.ui(ui));
+                },
+            )
+        };
+        let click = |label: &str| {
+            render(vec![]);
+            let output = render(vec![]);
+            let pos = output
+                .shapes
+                .iter()
+                .find_map(|s| match &s.shape {
+                    egui::Shape::Text(t) if t.galley.job.text == label => {
+                        Some(t.pos + t.galley.size() * 0.5)
+                    }
+                    _ => None,
+                })
+                .unwrap_or_else(|| panic!("missing UI control {label}"));
+            render(vec![
+                egui::Event::PointerMoved(pos),
+                egui::Event::PointerButton {
+                    pos,
+                    button: egui::PointerButton::Primary,
+                    pressed: true,
+                    modifiers: egui::Modifiers::default(),
+                },
+            ]);
+            render(vec![egui::Event::PointerButton {
+                pos,
+                button: egui::PointerButton::Primary,
+                pressed: false,
+                modifiers: egui::Modifiers::default(),
+            }])
+        };
+        let output = click("Copy selected particle CSV");
+        assert!(output.platform_output.commands.iter().any(|c|matches!(c,egui::OutputCommand::CopyText(text) if text.lines().nth(1).unwrap().split(',').nth(2)==Some("1"))));
+        click("Selected timestep VTK export");
+        click("Save selected timestep particles (.vtp)");
+        assert_eq!(std::fs::read(&vtk_path).unwrap(), expected_vtk);
+        std::fs::remove_file(vtk_path).unwrap();
+        inspector.0.lock().unwrap().selected = 100;
+        render(vec![]);
+        assert_eq!(inspector.0.lock().unwrap().selected, 100);
+        assert!(
+            inspector
+                .with_particles(|_, _, _, p, id| p.get(id).copied())
+                .unwrap()
+                .is_none()
+        );
+        inspector.select(0);
+        // Re-entrant particle selection cannot deadlock a retained publication.
+        assert_eq!(
+            inspector.with_particles(|_, g, _, _, _| {
+                inspector.select(1);
+                g
+            }),
+            Some(1)
+        );
+        assert!(inspector.select_timestep(4).is_err());
+        assert!(inspector.with_particles(|_, _, _, _, _| ()).is_none());
+        drop(inspector);
+        std::fs::remove_file(path).unwrap();
     }
 }
