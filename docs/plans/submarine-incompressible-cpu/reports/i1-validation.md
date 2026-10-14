@@ -107,3 +107,88 @@ Branch is a retained protected proposal for parent serial integration, targeted
 at main; normal push and draft PR only. Original refs remain intact, no force
 push/rebase/cleanup/merge is performed. Parent owns subsequent acceptance and
 branch disposition. The existing workspace is reused; no worktree is created.
+
+## Reviewed corner-profile decision — agreement required before correction
+
+The original PR79 subject `52322ca18dd4e9a32c83e834b5f05a558163216a` and
+fixture/profile SHA256 `6b6f0d55afaf3a92b6e88c116a0b858107e3e24e21a426f080d19345a78dab9b`
+remain the earlier clipped-edge proposal. Its 25 normal/25 optimized harness
+results prove their named properties for that proposal; they are not agreement
+with the native owner's subsequently supplied corner operator. No receipt or
+profile hash is relabeled. Oracle/runner/tests/fixtures/README bytes remain unchanged.
+
+**Recommendation:** parent should explicitly agree
+`rheon-i1-sector-half-cell-v1` for three-fluid-sector body corners, then authorize
+the minimal prospective validator correction. This decision is reviewed but not
+authoritative profile admission. Capture and N1/N2 agreement remain on hold.
+No numerical threshold, solver cap, MMS convention or wall-load stencil changes.
+
+Let the solid quadrant be `--`. Write `a=u_a(-h_b/2)`, `b=u_a(+h_b/2)`,
+`c=u_b(-h_a/2)`, `d=u_b(+h_a/2)`, with full edge traces `g_a,g_b`.
+The proposed fluid rows at `(-,+)`, `(+,-)`, `(+,+)` are respectively:
+
+```text
+2(b-g_a)/h_b - 2(c-g_b)/h_a
+-2(a-g_a)/h_b + 2(d-g_b)/h_a
+2(b-g_a)/h_b + 2(d-g_b)/h_a
+```
+
+Each has quadrature volume `V/4` and contributes `mu V S_q^2/8` to
+half-dissipation. For the stationary body `a=c=g_a=g_b=0`, set
+`X=b/h_b`, `Y=d/h_a`. The sector and original singleton energies are:
+
+```text
+Phi_sector = mu V (X^2 + Y^2 + X Y)
+Phi_clipped = 3 mu V (X+Y)^2 / 8
+difference = mu V (5 X^2 + 2 X Y + 5 Y^2) / 8
+```
+
+The difference is positive for every nonzero `(X,Y)`; this changes the local
+Hessian and affine/reaction operator, not merely row packaging or quadrature
+notation. At `h=mu=1`, `b=1`, `d=-1`, sector half-dissipation is **1 W** and
+singleton half-dissipation is **0 W**; actual dissipation is twice each value.
+This is a local corner shear comparison, not a claim of a full-system nullspace
+or a native accepted Stokes solution.
+
+An independently executed exact-rational diagnostic also locates the actual
+PR79 body corner `(6,3,2)` with `h=1/4 m`, `V=1/64 m^3`, `mu=1 Pa s`.
+A MAC curl variation supplies `X=1/100 s^-1`, `Y=-1/100 s^-1`, has zero
+prescribed normal velocity and exact zero divergence in every fluid cell. Local
+sector half-dissipation is `1/640000 W`; PR79's singleton contribution is zero.
+Other rows can retain positive energy. This variation is analytical operator
+analysis, never a fabricated native capture or a claimed stationary solution.
+
+Consistent affine diagnostics supply both face samples and the edge trace from
+`u=G x+u0`; every sector row is then `G_ab+G_ba`. Translation and rigid rotation
+therefore have zero shear. Supplying rotation-like active values while keeping
+the stationary body's prescribed faces/traces zero is inconsistent boundary data.
+It cannot disprove the sector rule's affine patch consistency.
+
+Pinned existing `src/aligned_strain.rs` at
+`9efef18798d48268d9c5f28ea49e968cde55a39f` (corner lines 437–470) confirms
+the stationary active corner coefficients and represented quadrant volumes.
+It uses centered interior rows, a common half-cell flat-wall prototype,
+inactive-column elimination and outer free-slip rows. It does **not** qualify
+full-vector outer I1 Dirichlet treatment or the proposed retained prescribed
+columns and virtual reactions. Those remain explicit I1 extensions to verify.
+
+The smallest correction after explicit agreement is to replace only the
+three-fluid-corner singleton with the distinct sector rows and their full affine
+columns. Retain the equivalent four-fluid centered and stationary two-fluid flat-wall
+rules; qualify their full prescribed-column/outer-Dirichlet extensions separately.
+Never add a zero anchor at a fully interior edge. Record actual corner edge
+traces, prescribed face columns, coefficients and physical reaction locations.
+Derive momentum, reaction, torque and work from that same functional, rather
+than adding an unexplained stiffness penalty or assigning its reaction to an old
+face site. Update the named semantic profile/fixture digest and discriminating
+corner/affine/virtual-work tests prospectively, preserving the original proposal.
+Then independently qualify the full Dirichlet extension and actual native fields.
+N3 continuum and N7 experiment gates remain pending.
+
+GPT-6.1 Sol High read-only review independently confirmed the supplied formulas,
+positive energy difference, affine consistency, original-source boundary scope
+and minimal correction boundary. Exact diagnostic artifacts remain external:
+`/tmp/rheon-i1-corner-decision-82q53qqr/compare.py` and `result.json`.
+Script SHA256 `c8c838adf882e863f9e52d0363a677032605fcb824a4c261d5f726a55c8b8927`;
+result SHA256 `781a874cff593da66e6af504419a6d9d5752f6aaa6ee9a7d351f536969a24f48`.
+These hashes bind analytical diagnostics only, not native execution provenance.
