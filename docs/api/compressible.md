@@ -4,8 +4,12 @@
 It uses a serial shared-face local Lax–Friedrichs (LLF/Rusanov) flux, piecewise
 constant reconstruction and unsplit forward Euler on fixed periodic Cartesian
 cells. It is independent of Rheon's incompressible pressure projection.
-Numerical acceptance is pending independent validator qualification; see the
-[implementation report](../plans/cpu-compressible-solver/reports/implementation.md).
+The focused public API checks and independently captured prospective S1 field
+gates pass at native commit `5a049ed604b99817a428d10bbc0140732d3421d6`; see the
+[implementation report](../plans/cpu-compressible-solver/reports/implementation.md)
+for exact subjects, measurements, original coarse-study failure and limitations.
+Parent owns checkpoint admission and integration; Pages source admission remains
+pending with its owner.
 
 This scope is inviscid single-material ideal gas. It supplies no open or solid
 boundary, viscosity, turbulence, moving geometry, recording/session adapter,
@@ -164,11 +168,12 @@ cargo run --locked --release --no-default-features --example compressible_refere
 Optional `--study-id` selects `s1-cell-average-acoustic-8-12-20-v1` or
 `s1-cell-average-acoustic-16-24-32-v2`. With no selector, the original study is
 unchanged and `study_id` is omitted, retaining its original format meaning.
-An explicit selector emits that exact `study_id`. Parent approved the prospective
-study's preparation and reviewed verifier contract at
-`764ca2c7cba1fed123a7f9097fad819098479efc`; final qualification still requires
-the independently reviewed canonical plan pin and coordinated capture selector.
-Preparation does not retroactively pass the original coarse gate.
+An explicit selector emits that exact `study_id`. Parent admitted the prospective
+methodological revision at canonical plan
+`fc2270a85e38080d9943048aaf689d99545d3715`. Fresh clean native capture and separate
+origin-pinned verification passed with independent verifier
+`94a831770cb96f0c030b15565e2b5f7cbeb6c916` forwarding the explicit selector.
+The prospective result does not retroactively pass the original coarse gate.
 Existing outputs are preserved. Each selected study contains eight cases:
 
 | Kind | Shape | Geometry | Initial data | Final time |
@@ -219,6 +224,11 @@ Let each `s=epsilon*w*sin(2*pi*k dot x+phi)` multiplied by
 This is linear conservative initial data: the finite-amplitude nonlinear Euler
 residual is O(epsilon²). It has no quadrature error and supplies no finite-amplitude
 exact-Euler claim. The validator independently measures its linearization defect.
+Prospective grids provide 8/12/16 cells per shortest coordinate wavelength;
+the admission does not assert eight cells along an oblique wave normal.
+The measured adjacent density orders are .79284710/.85699801, and finest
+first-mode phase-speed error is .19113%. These bound this fixture study;
+they establish no universal convergence/order or high-Mach accuracy guarantee.
 
 Sod `sod-cell-average-v1` has `(rho,u,p)=(1,0,1)` left of x=.5 and
 `(.125,0,.1)` right; the jump aligns to cell faces and a second jump is periodic.
