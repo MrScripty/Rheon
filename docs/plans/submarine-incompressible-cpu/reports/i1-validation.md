@@ -1,7 +1,8 @@
 # Independent I1 validator implementation and contract proposal
 
-Status: parent-admitted sector correction implemented; native numerical
-acceptance unavailable pending revised source/schema handoff. Canonical I1 remains Active; N1/N2, N3 continuum
+Status: independent exact-source native capture completed with unchanged gates;
+all 18 records and complete controls passed recheck. Final independent review
+and bounded N1/N2 disposition are recorded below. Canonical I1 remains Active; N1/N2, N3 continuum
 convergence and N7 experimental validation remain pending. This report does not
 change the canonical plan/ledger/issues or native owner authority.
 
@@ -194,7 +195,7 @@ Script SHA256 `c8c838adf882e863f9e52d0363a677032605fcb824a4c261d5f726a55c8b8927`
 result SHA256 `781a874cff593da66e6af504419a6d9d5752f6aaa6ee9a7d351f536969a24f48`.
 These hashes bind analytical diagnostics only, not native execution provenance.
 
-## Parent-admitted sector correction and revised handoff
+## Historical correction and handoff at dedf04f
 
 Parent explicitly accepted the independently reviewed `rheon-i1-sector-half-cell-v1`
 operator and authorized the smallest correction described above. This section
@@ -260,8 +261,201 @@ Dirichlet, nonuniform traces and retained reactions are I1 qualification scope.
 Oracle algebra tests and review do not establish that the native implementation
 uses these columns, sites, forcing or work definitions.
 
-Actual native execution has not occurred for this revised subject. Source/schema
+At correction subject `dedf04f`, native execution had not occurred. Source/schema
 handoff, fresh captures, full case/control execution and independent numerical
 rechecks remain pending; N1/N2 are not accepted. N3 continuum mesh/domain and N7
 experimental rights/model/uncertainty evidence remain pending. No restart,
 signed execution attestation or later-slice claim is made.
+
+## Fresh independent native execution at d7a3c01
+
+Parent supplied draft PR80 final head
+`f3d737cf62c8a359da2776424d6cab2a4f4f33ec` and explicitly authorized fresh
+independent capture of implementation
+`d7a3c01fbab2d78e5404afb84f15cf2cf17505fa`. Fetched that source without
+changing the native branch. Exact Git comparison confirms the final head differs
+only in `reports/i1-implementation.md`; the three native Rust files retain their
+reviewed hashes. The independent validator remained clean at
+`dedf04fb0d094064f5a163a4f7b78e7237e4438f` throughout capture, with its source,
+fixtures, schema/profile, caps and gates unchanged. Only this assigned validation
+report changes afterward. Canonical plan/ledger/issues and both PR dispositions
+remain parent-owned; no merge, deployment or later slice is performed.
+
+Read the exact PR80 implementation evidence and reproduction contract, the
+canonical N1/N2 definitions and tiny/fine-grid separation, and the pinned standards
+implementation/commit/build/oracle workflows before execution. This is an
+application of those standards, not a Standards Engine certificate. Earlier
+proposal523, report597, correctiondedf and native failed-run evidence retain their
+original subjects. The native report preserves failed `a486f7c` output-parent
+admission and `1c3dc0c` outer-ledger sign captures, plus the refused provisional
+MMS; this worker did not delete, resume or relabel them. No fresh-capture failure
+occurred in this independent run.
+
+### Observed execution and separately anchored provenance
+
+The unchanged runner created a new external directory
+`/tmp/rheon-i1-validator-independent-d7a3c01-20261014`, archived the exact native
+commit, selected actual Rust/Cargo 1.92.0, and built with
+`cargo build --verbose --locked --release --no-default-features --example submarine_stokes`
+in an isolated target with one build job and sanitized environment. It invoked
+the freshly built binary for every fixture and consumed actual accepted output.
+Every one of the 21 compiler/build/native commands returned zero. Driver exit
+was zero; the origin is terminal `completed` with all 18 output associations.
+No analytic field or previous owner's output substituted for fresh execution.
+
+Root separately decoded every raw record, checked exactly 34 unique frozen
+constitutive IDs per record (612 checked controls, explicitly not 612 native
+solves), reran the unchanged numerical oracle, and invoked unchanged
+`verify_origin` on each output with the root-observed pin. The audit also checked
+all 1,127 extracted tracked files against Git blob identities, exact source/tree/
+archive, actual executable, compiler streams/flags, immutable fixture bytes,
+validator identities, 21 argv/stream hashes and 18 record hashes. Recomputed
+case assessments match the captured assessment exactly. The actual source tree
+is `9ff16940c14ded69f261885ec31b6fbc617357c1`.
+
+The observed hashes bind this fresh execution. An observed integrity pin is not
+a signed remote attestation or proof of reproducible builds. This rebuilt binary
+has its own hash and size (1,138,688 bytes); the prior owner's executable hash
+is not relabeled or required to be identical across build contexts.
+
+| Fresh artifact | SHA256 |
+| --- | --- |
+| `origin.json` | `5e723946a4186435478cb1dcdb587b3a9afa4d82a816b95bec4f1bf117daf6aa` |
+| `source.tar` | `152e9a0ccfb2be29437a87b5b755c1a8edcbe8cb164007fca6996f0f7e872e58` |
+| native executable | `eff14352fd3a283b9d0dfcf5e2b0a8bb096a4f1a127290bd74ea80ea4ad1238c` |
+| fixture bytes | `3762540394238820ad47ca7ce4f8fc5b140e11abc0d52458a2451a4fe588f160` |
+| captured `assessment.json` | `4ff80c33a14bd56cc46772a32d3cd2e031821aaad606fa3899faf4c0e55ec420` |
+| separate raw-record/provenance audit | `5e756bd39e502e795eb2af61b34ecd76b2566325393d1319ef68ac3b6b47aa71` |
+| independent native-contract command evidence | `ac016e512f439cbc52b7c4d36b619f89a82a6c08984e6590aa701b81d10184f4` |
+| sampled actual-record negative evidence | `7fcab3bcafb1be82618333d5970fb0af3af50149a52b103beeeecec3b02c1105` |
+
+The separate audit/script remain at
+`/tmp/rheon-i1-validator-independent-audit.json` and `.py`; native-contract
+command evidence/stdout/stderr at
+`/tmp/rheon-i1-validator-independent-native-contracts.{json,stdout,stderr}`;
+negative evidence/script at `/tmp/rheon-i1-validator-independent-negatives.json`
+and `.py`. Raw archives, binaries, records, command streams and assessments
+remain external and unmodified. No numerical payload is committed.
+
+### Numerical observations and controls
+
+All 18 records pass the independent all-row physical residual, every-cell
+divergence/compatibility, no-slip/full-boundary trace, geometry, forcing, prescribed
+reaction/site, force/moment/work/dissipation, wall pressure/gradient and separate
+physical pressure/shear load checks. The 19-unknown no-body case additionally
+matches the separate rational solve. Body/no-body cases with 669/694 unknowns
+are all-row checked, not claimed rational-solved. All 34 native-exported
+constitutive controls per record pass independent geometry, pressure/shear,
+hydrostatic, gauge-offset, affine trace, rotation/translation, channel work and
+sign expectations. The controls remain analytical constitutive diagnostics,
+separate from actual solved fixed-body records.
+
+Maximum momentum defect is `2.2134156757881024e-16 N`; maximum physical divergence
+is `1.2464495005604731e-15 s^-1`. MMS momentum defect is
+`3.364080335042506e-17 N`, divergence `1.257314531080602e-22 s^-1`.
+Coarse MMS volume-weighted velocity and pressure L2 errors are
+`2.52605341465863e-08` and `2.3611373596309016e-07` respectively; these are
+single-grid dimensional observations, not fine-grid V07 orders or acceptance.
+
+Decoded native velocity/pressure differences from their expected linear
+relations are exactly zero for reversal, doubled speed, doubled viscosity,
+doubled density and shifted moment reference: reversal negates both fields;
+doubled speed doubles both; doubled viscosity preserves velocity and doubles
+pressure; density/reference preserve both. This is finite-case observation,
+not a new comparison threshold or arbitrary conditioning guarantee. All-axis
+and oblique actual solutions also passed the same independent row/load checks.
+
+The straight-case reconstructed physical stream force is
+`-0.0974765752821589 N`; algebraic body force is `-0.09124856245761553 N`.
+Their difference is **6.825327%** relative to the algebraic force. V05 fine-grid
+surface/control-volume agreement and N3 continuum force accuracy remain pending;
+algebraic conservation does not excuse or erase this coarse trace discrepancy.
+
+Separately ran actual native release contracts from the archived source with
+sanitized pinned build environment:
+`cargo test --locked --release --no-default-features --test submarine_stokes_contract`.
+**13 passed, zero failed/ignored**, including actual-body drag/reversal, all-axis
+uniform flow with nonzero pressure datum, tiny MMS with order-one pressure,
+corner discrimination, cap/geometry checks, complete cancellation/invalid-data
+publication preservation and partial reconstruction/refinement rollback.
+Contract assertions are native implementation tests; independent raw-record
+oracles remain the deciding numerical evidence. The previously reviewed
+31 normal/31 optimized validator harness tests bind unchanged validator source.
+
+Nine one-condition mutations of the actual accepted `tiny-straight` record hit
+their intended diagnostics: active velocity `V01-momentum`, body trace
+`V02-body-no-slip`, corner location `reaction-sites`, prior outer-force sign
+`V04-outer_force`, wall normal `wall-patch-geometry`, wall pressure
+`wall-pressure-stencil`, gradient `wall-gradient-stencil`, changed dissipation
+`V04-dissipation` and omitted Couette patch shear `V06-patch-shear_force`.
+Captured records remain intact; mutation evidence covers these sampled failures,
+not complete corruption detection. Acceptance gates were not weakened.
+
+### Complete fresh record integrity index
+
+Paths are relative to the fresh capture root above.
+
+| Native case (`cases/CASE/record.json`) | SHA256 |
+| --- | --- |
+| `exact-no-body` | `320c86f6ef92dccf5ffd975e383a26de1478acb7896fc37df04ba9b560766849` |
+| `no-body-0-+1` | `8e88da08abeb51f79a95725a4dedf4abd43396ffde3358c44668226a6e3fe82f` |
+| `no-body-0--1` | `a43fc8ee139398765fda75dc91bd5286fb2e48710d8bb397b788d2c0060f1ba2` |
+| `no-body-1-+1` | `8a7e5ec737bd44c8250dc89b7824bd3a8bfb0323831c0a640499036dc20dad22` |
+| `no-body-1--1` | `da58b2c9ac9517a3211a533923c895b3f626340d978075490d8fe9f5f8a96ec0` |
+| `no-body-2-+1` | `1a757ae57815fb0e6b6518320bc6a46c0edb97de6acbcee0b1eb7b6639047f14` |
+| `no-body-2--1` | `45e910f6b6b06f4f6efac0fd387b8ed80015a5dcaff1bc555905ca1ea6c43e41` |
+| `tiny-axis-1` | `888c1d9124560e72bb7eecfcfff00a2700e5da42503ac3830f2a71c4a8156c9e` |
+| `tiny-axis-2` | `d2b0e9e5bacceafad00d9f257dba92407025c02f6a98ac4dfbdaeedf42c9fbc9` |
+| `tiny-double-mu` | `6031e5024b38e98045ab5a076ba65e4749596fb4b0c20eb14bd0edcd7291d4ef` |
+| `tiny-double-rho` | `ef5984dcdade311605ccda748dae896a607d96759a32a8d36b9a3bc9cb3b9a95` |
+| `tiny-double-speed` | `e513072b6422ded0b8d9df04469b50d844442a1e5563454bccdf35a72538e75c` |
+| `tiny-mms` | `66b7c7ba7a67ce2a6681bc6fb84659c2d0102e93db3da350f07b579fc5fbebca` |
+| `tiny-oblique` | `3a9b691df0b8bb0e8c045267b3690ae9082724fc8bacdd01c9650a39242c9cf7` |
+| `tiny-rest` | `3ff97779b4aba90820197a883b72c4e93997c786622c74bbbf5b7e4c92681887` |
+| `tiny-reverse` | `df246a18f32d3f14065b256d4780db5d8023ea5861b29621f9b63c8bbee90582` |
+| `tiny-shifted-reference` | `fb530e80c0154e573914ffac0085ff79588dbb3577202ba80a2d4252468d0784` |
+| `tiny-straight` | `6e9bae2d99af34a235644714e76b01a42b0d73db2cd443a02ffefe90fab07274` |
+
+### Independent review and bounded N1/N2 decision
+
+Final independent GPT-6.1 Sol High numerical/provenance review of this fresh
+run returned **PASS**, with no blocker for the admitted tiny N1/N2 boundary.
+The reviewer separately checked all 18 raw records/612 controls, the observed
+origin pin, every tracked blob/mode, exact 21 command/stream bindings, every
+output/index hash and the recomputed assessment. Own axis/load checks and six
+additional actual-record mutations passed; it checked root's 13-contract command
+streams/hashes without claiming a duplicate Cargo run. Its external assessment
+is `/tmp/rheon-i1-agent-independent-recheck-d7a3c01-20261014/assessment.json`,
+SHA256 `e8148677753c8427cf77a30fbe0147c0e92b371255de0aea538064ed6f7bbdfc`;
+mutation evidence is `/tmp/rheon-i1-agent-negative-recheck-d7a3c01-20261014.json`,
+SHA256 `d4b825970b510f4820ff079bc0cbf134fc09c6defff4272152a5cba7be7b4bf9`.
+
+**Independent decision: N1 PASS and N2 PASS** for source `d7a3c01` under the
+unchanged validator `dedf04f`, admitted sector profile and fixture digest, for
+the tiny fixed aligned-body steady creeping-Stokes **discrete verification
+boundary only**. Complete accepted native fields, represented no-slip/full outer
+Dirichlet rows, reactions/sites/work and pressure/shear reconstructed loads have
+actual independently checked evidence; the analytic constitutive controls remain
+separately labeled. Parent retains canonical ledger and
+integration authority. This does not accept N3 mesh/domain/fine-MMS/load accuracy,
+N7 experimental rights/model/uncertainty, any later slice, full submarine physics,
+recording/Tuldok promotion or restart. The unmodified captured assessment keeps
+its template pending N1/N2 values; this report separately records the deciding
+complete controls and review, without rewriting evidence.
+
+Reproduce using the exact validator subject, source object and a new absent path:
+
+```sh
+source /workspace/rheon-setup/env.sh
+python3 validation/submarine/run.py --suite stokes \
+  --source d7a3c01fbab2d78e5404afb84f15cf2cf17505fa \
+  --native-contract-sha256 3762540394238820ad47ca7ce4f8fc5b140e11abc0d52458a2451a4fe588f160 \
+  --output /tmp/rheon-i1-new-independent-capture
+```
+
+For each fresh or retained actual record, use `--input`, the corresponding
+`--origin` and separately observed `--origin-sha256` with the same source;
+write each recheck to a new absent directory. A copied correct field cannot
+establish execution provenance. Any refusal preserves its terminal origin,
+actual output prefix and command streams; it must not be resumed or marked
+complete without a fresh authorized source/output subject.
