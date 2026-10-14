@@ -1,0 +1,1830 @@
+{
+  "schema": "rheon-submarine-i1-fixtures-v2",
+  "contract_status": "parent-admitted-sector-correction-native-qualification-pending",
+  "source_scope": "steady-aligned-cuboid-creeping-stokes",
+  "limits": {
+    "max_record_bytes": 16777216,
+    "max_dofs": 4096,
+    "exact_solve_max_dofs": 128,
+    "scaled_pivot_min": "0.000000000001"
+  },
+  "cases": {
+    "tiny-straight": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.5",
+        "-0.125",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.5",
+        "0.125",
+        "0.125"
+      ],
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "-0.01",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-oblique": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.5",
+        "-0.125",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.5",
+        "0.125",
+        "0.125"
+      ],
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "-0.01",
+        "0",
+        "-0.0025"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-reverse": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.5",
+        "-0.125",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.5",
+        "0.125",
+        "0.125"
+      ],
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "0.01",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-double-speed": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.5",
+        "-0.125",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.5",
+        "0.125",
+        "0.125"
+      ],
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "-0.02",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-double-mu": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.5",
+        "-0.125",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.5",
+        "0.125",
+        "0.125"
+      ],
+      "rho": "1",
+      "mu": "2",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "-0.01",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-double-rho": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.5",
+        "-0.125",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.5",
+        "0.125",
+        "0.125"
+      ],
+      "rho": "2",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "-0.01",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-rest": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.5",
+        "-0.125",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.5",
+        "0.125",
+        "0.125"
+      ],
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "0",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-shifted-reference": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.5",
+        "-0.125",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.5",
+        "0.125",
+        "0.125"
+      ],
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0.125",
+        "-0.25",
+        "0.375"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "-0.01",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-mms": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.5",
+        "-0.125",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.5",
+        "0.125",
+        "0.125"
+      ],
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "polynomial-mms-dirichlet",
+      "velocity": [
+        "-0.01",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "point-value-times-dual-volume",
+      "max_dofs": 4096,
+      "mms_amplitude": "0.0001",
+      "pressure_linear": [
+        "1",
+        "2",
+        "-3"
+      ],
+      "pressure_quadratic": [
+        "1",
+        "-1",
+        "0.5"
+      ]
+    },
+    "no-body-0--1": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": null,
+      "body_upper": null,
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "-0.01",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "no-body-0-+1": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": null,
+      "body_upper": null,
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "0.01",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "no-body-1--1": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": null,
+      "body_upper": null,
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "0",
+        "-0.01",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "no-body-1-+1": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": null,
+      "body_upper": null,
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "0",
+        "0.01",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "no-body-2--1": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": null,
+      "body_upper": null,
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "0",
+        "0",
+        "-0.01"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "no-body-2-+1": {
+      "counts": [
+        8,
+        5,
+        5
+      ],
+      "origin": [
+        "-1",
+        "-0.625",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": null,
+      "body_upper": null,
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "0",
+        "0",
+        "0.01"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-axis-1": {
+      "counts": [
+        5,
+        8,
+        5
+      ],
+      "origin": [
+        "-0.625",
+        "-1",
+        "-0.625"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.125",
+        "-0.5",
+        "-0.125"
+      ],
+      "body_upper": [
+        "0.125",
+        "0.5",
+        "0.125"
+      ],
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "0",
+        "-0.01",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "tiny-axis-2": {
+      "counts": [
+        5,
+        5,
+        8
+      ],
+      "origin": [
+        "-0.625",
+        "-0.625",
+        "-1"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": [
+        "-0.125",
+        "-0.125",
+        "-0.5"
+      ],
+      "body_upper": [
+        "0.125",
+        "0.125",
+        "0.5"
+      ],
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "0",
+        "0",
+        "-0.01"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    },
+    "exact-no-body": {
+      "counts": [
+        2,
+        2,
+        2
+      ],
+      "origin": [
+        "-0.25",
+        "-0.25",
+        "-0.25"
+      ],
+      "spacing": [
+        "0.25",
+        "0.25",
+        "0.25"
+      ],
+      "body_lower": null,
+      "body_upper": null,
+      "rho": "1",
+      "mu": "1",
+      "U_ref": "0.01",
+      "L_ref": "1",
+      "moment_reference": [
+        "0",
+        "0",
+        "0"
+      ],
+      "boundary": "uniform-dirichlet",
+      "velocity": [
+        "-0.01",
+        "0",
+        "0"
+      ],
+      "pressure_gauge": "0",
+      "forcing": "zero",
+      "max_dofs": 4096
+    }
+  },
+  "controls": {
+    "pressure_offsets": [
+      "0",
+      "1",
+      "-1",
+      "1000",
+      "-1000",
+      "1000000",
+      "-1000000"
+    ],
+    "affine_pressure_gradients": [
+      [
+        "1",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "1",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "1"
+      ]
+    ],
+    "hydrostatic_g": [
+      "0",
+      "0",
+      "-9.81"
+    ],
+    "gradients": {
+      "translation": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "rotation": [
+        [
+          "0",
+          "-1",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "shear": [
+        [
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "extension": [
+        [
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "-1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ]
+    }
+  },
+  "control_presets": {
+    "pressure-0-0": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "1",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-0-1": {
+      "pressure_offset": "1",
+      "pressure_gradient": [
+        "1",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-0--1": {
+      "pressure_offset": "-1",
+      "pressure_gradient": [
+        "1",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-0-1000": {
+      "pressure_offset": "1000",
+      "pressure_gradient": [
+        "1",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-0--1000": {
+      "pressure_offset": "-1000",
+      "pressure_gradient": [
+        "1",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-0-1000000": {
+      "pressure_offset": "1000000",
+      "pressure_gradient": [
+        "1",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-0--1000000": {
+      "pressure_offset": "-1000000",
+      "pressure_gradient": [
+        "1",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-1-0": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "0",
+        "1",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-1-1": {
+      "pressure_offset": "1",
+      "pressure_gradient": [
+        "0",
+        "1",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-1--1": {
+      "pressure_offset": "-1",
+      "pressure_gradient": [
+        "0",
+        "1",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-1-1000": {
+      "pressure_offset": "1000",
+      "pressure_gradient": [
+        "0",
+        "1",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-1--1000": {
+      "pressure_offset": "-1000",
+      "pressure_gradient": [
+        "0",
+        "1",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-1-1000000": {
+      "pressure_offset": "1000000",
+      "pressure_gradient": [
+        "0",
+        "1",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-1--1000000": {
+      "pressure_offset": "-1000000",
+      "pressure_gradient": [
+        "0",
+        "1",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-2-0": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "1"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-2-1": {
+      "pressure_offset": "1",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "1"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-2--1": {
+      "pressure_offset": "-1",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "1"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-2-1000": {
+      "pressure_offset": "1000",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "1"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-2--1000": {
+      "pressure_offset": "-1000",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "1"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-2-1000000": {
+      "pressure_offset": "1000000",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "1"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-2--1000000": {
+      "pressure_offset": "-1000000",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "1"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-3-0": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "-9.81"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-3-1": {
+      "pressure_offset": "1",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "-9.81"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-3--1": {
+      "pressure_offset": "-1",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "-9.81"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-3-1000": {
+      "pressure_offset": "1000",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "-9.81"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-3--1000": {
+      "pressure_offset": "-1000",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "-9.81"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-3-1000000": {
+      "pressure_offset": "1000000",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "-9.81"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "pressure-3--1000000": {
+      "pressure_offset": "-1000000",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "-9.81"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "translation": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "rotation": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "-1",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "shear": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "extension": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "-1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": true,
+      "patch_geometry": "six-cuboid-midpoints"
+    },
+    "couette": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "0",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": [
+        [
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "0"
+        ]
+      ],
+      "closed": false,
+      "patch_geometry": "two-unit-channel-wall-patches"
+    },
+    "poiseuille": {
+      "pressure_offset": "0",
+      "pressure_gradient": [
+        "-2",
+        "0",
+        "0"
+      ],
+      "analytic_gradient": null,
+      "closed": false,
+      "patch_geometry": "two-unit-channel-wall-patches"
+    }
+  },
+  "control_body_lower": [
+    "-0.5",
+    "-0.125",
+    "-0.125"
+  ],
+  "control_body_upper": [
+    "0.5",
+    "0.125",
+    "0.125"
+  ],
+  "control_references": [
+    [
+      "0",
+      "0",
+      "0"
+    ],
+    [
+      "0.125",
+      "-0.25",
+      "0.375"
+    ]
+  ],
+  "discretization": {
+    "normal_strain": "fluid-cell-centered-full-volume",
+    "shear_pairs": "unordered-a<b",
+    "edge_volume": "V/4-per-fluid-sector;aggregate-identical-interior-and-stationary-flat-rows",
+    "derivative": "present-centered-or-signed-reflection-full-vector",
+    "functional": "half-Newtonian-dissipation",
+    "divergence": "V*MAC-divergence",
+    "wall_pressure": "(3*p_near-p_next)/2",
+    "wall_normal_derivative": "(-3*g+4*u(h)-u(2*h))/(2*h)",
+    "wall_tangential_derivative": "(9*u(h/2)-u(3*h/2)-8*g)/(3*h)",
+    "wall_tangential_collocation": "average-two-MAC-faces-at-each-depth",
+    "gauge": "first-x-fast-fluid-cell-per-component-known-momentum-term-all-divergence-recheck",
+    "pivot_scaling": "columns-U_ref-and-mu-U_ref/L_ref-then-row-max",
+    "pivot_min": "0.000000000001",
+    "exact_solve_max_dofs": 128,
+    "full_boundary_traces": "normal-face-and-edge-ghost-full-vector",
+    "mms_forcing": "point-value-times-clipped-face-dual-volume",
+    "body_corner": "rheon-i1-sector-half-cell-v1/full-prescribed-face-and-edge-columns",
+    "corner_trace_site": "plane-A-plane-B-half-cell-third-axis",
+    "reaction_sites": "explicit-component-owner-SI-point-for-every-prescribed-face-ghost-corner"
+  },
+  "record_schema": "rheon-submarine-i1-mac-v2",
+  "operator_profile": "rheon-i1-sector-half-cell-v1"
+}
