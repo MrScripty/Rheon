@@ -46,6 +46,16 @@
   no generated outputs/secrets or changed numerical/proof/build/publication paths.
   Whitespace/scope checks passed. These checks close planning evidence only.
 
-Commit/PR results are appended once observed. The solver plan remains
-`Planned`/`pending`; no implementation worker, main merge or deployment is
-performed here. Branch retained for parent PR disposition, with no cleanup.
+## 2026-10-14 — plan delivery
+
+- Commit `6463ce7c0b36f350fbd6b420a7848a2677388983` contains the reviewed plan;
+  normal push to `origin/plan/cpu-compressible-solver` succeeded.
+- [Draft PR72](https://github.com/MrScripty/Rheon/pull/72) created against main;
+  readback confirmed OPEN/draft and exact published head. Existing dense3D
+  scoped checks began; no hosted pass claimed at this observation.
+- Evidence-only completion notes preserve the reviewed numerical/ownership
+  decisions. No history rewrite, code change, lost work or denied action.
+- Solver plan remains `Planned`/`pending`; no implementation worker, main merge
+  or deployment performed here. Branch retained for parent PR disposition,
+  with no cleanup; original `work` and `implementation/rust-smoke-milestone`
+  still resolve to `6ba41c7cd05d1bf1851bef02048e7634245468e6`.

@@ -10,7 +10,7 @@ acceptance in `plan.md` remains pending; S1 is not implemented.
 | P1 | Published prerequisite and current source/pending-PR ownership established without lost changes | contract | required-real: GitHub + saved checkout | automated | satisfied | Main 8baf459; run 38507276934 success; clean original 6ba41c7; preserved refs; ledger |
 | P2 | Plan covers numerical/contracts/validation boundaries with concrete bounded S1 and independent standards review | contract | not-applicable | manual | satisfied | Independent read-only review and re-review below |
 | P3 | Authored links/scope/whitespace and existing relevant research source checks pass | focused | representative: saved CPU environment | automated | satisfied | Plan-contract validator, local link scan, diff check and checks below |
-| P4 | Plan committed/pushed on separate branch and review PR exists | release-artifact | required-real: GitHub | automated | pending | Commit/PR pending |
+| P4 | Plan committed/pushed on separate branch and review PR exists | release-artifact | required-real: GitHub | automated | satisfied | Commit 6463ce7 and [draft PR72](https://github.com/MrScripty/Rheon/pull/72) |
 
 ## Supporting evidence and limitations
 
@@ -67,4 +67,18 @@ Evidence-only delivery updates do not alter that reviewed design. This is
 source-guided independent standards review, not an Engine certificate or solver
 implementation approval. S4/S5 and physical/vehicle evidence remain prerequisites.
 
-Commit and PR results replace the remaining pending delivery row when observed.
+## Delivery outcome
+
+All P1–P4 plan-delivery claims are satisfied. Reviewed material committed as
+`6463ce7c0b36f350fbd6b420a7848a2677388983`, pushed to
+`plan/cpu-compressible-solver`, and [draft PR72](https://github.com/MrScripty/Rheon/pull/72)
+opened against main. GitHub readback confirmed OPEN/draft, the exact head and
+target. Evidence-only completion notes are a subsequent normal commit; no amend,
+force push or source/semantic change. Both prior 6ba41c7 refs remain protected.
+
+At PR creation GitHub started the existing bounded dense3D metadata
+`scoped-contract` checks; their status was in progress. This report does not
+claim a hosted pass or solver validation. The final task report records any
+later observed hosted outcome. No local plan-delivery blocker or denied action.
+S4 recording integration, S5 consumer contract and vehicle physical-validation
+dependencies remain as stated in the implementation plan.
