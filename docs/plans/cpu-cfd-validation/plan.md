@@ -1,9 +1,9 @@
 # Independent CPU CFD validation
 
-**Plan status:** `Active`
-**Current phase:** S1 independent compressible oracle/interface admission
-**Next slice:** implement S1 cell-average acoustic/Sod and origin verifier after parent format coordination
-**Acceptance status:** `partial`
+**Plan status:** `Blocked`
+**Current phase:** independent verifier implemented; native S1 capture awaits parent-coordinated producer
+**Next slice:** capture and assess a clean pinned native S1 exporter after parent admits the format
+**Acceptance status:** `blocked`
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
 **Issues:** [issues.md](issues.md)
 
@@ -22,10 +22,12 @@ is a staged research destination, not this slice's advertised capability.
 
 | ID | Observable criterion | Kind | Environment | Mode | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| A1 | Real Rust pressure/viscosity APIs produce decreasing continuum mesh errors and independently measured conservation/boundary diagnostics | integration | local CPU Linux, Rust 1.92 | automated | pending | receipt |
-| A2 | Fixed-mesh time study approaches its independent semidiscrete reference; negative metrics fail acceptance | focused | local Python 3 and Rust 1.92 | automated | pending | tests and receipt |
-| A3 | Completion receipt binds source files, toolchain, inputs, command, rows and gates; a failed run cannot acquire an accepted receipt | contract | local fresh process | automated | pending | runner tests |
-| A4 | Staged aircraft/submarine gates, solver requirements, primary sources and access/licensing dispositions are reviewable without imported datasets | focused | repository and primary sites | manual | pending | reports/staged-validation.md |
+| A1 | Real Rust pressure/viscosity APIs produce decreasing continuum mesh errors and independently measured conservation/boundary diagnostics | integration | local CPU Linux, Rust 1.92 | automated | satisfied | reports/validation-results.md |
+| A2 | Fixed-mesh time study approaches its independent semidiscrete reference; negative metrics fail acceptance | focused | local Python 3 and Rust 1.92 | automated | satisfied | reports/validation-results.md |
+| A3 | Completion receipt binds source files, toolchain, inputs, command, rows and gates; a failed run cannot acquire an accepted receipt | contract | local fresh process | automated | satisfied | clean ef4f8e4 receipt; runner tests |
+| A4 | Staged aircraft/submarine gates, solver requirements, primary sources and access/licensing dispositions are reviewable without imported datasets | focused | repository and primary sites | manual | satisfied | reports/staged-validation.md |
+| A5 | Independent S1 cell-average oracles and intended numerical/origin negatives run normally and optimized | focused + contract | Python 3, NumPy 2.3.5 | automated | satisfied | 19 normal + 19 optimized tests; reports/s1-export-proposal.md |
+| A6 | Real clean pinned native fields pass unchanged S1-D/E/F/G checks with independent origin capture | integration + system | native CPU producer | automated | blocked | exporter format/native commit pending parent |
 
 ## Constraints and assumptions
 
@@ -109,7 +111,7 @@ No cryptographic signature or tamper-proof storage claim is made.
 flux/wall/energy diagnostics; test evaluator failures and run lifecycle; document
 forces/moments oracles and next physical cases; execute format, strict Clippy,
 Rust/Python tests and a release receipt; inspect staged/cumulative diff; push draft PR.
-**Gate:** A1–A4 evidence plus static checks. **Status:** `Implemented` (clean-commit receipt pending).
+**Gate:** A1–A4 evidence plus static checks. **Status:** `Accepted`; clean ef4f8e4 receipt observed.
 
 ## Milestone 2: S1 independent native validation
 
@@ -124,12 +126,18 @@ owns the parent-coordination request. Root/quadrature/linearization uncertainty
 and target-specific negatives must be observed. Run Python normal and -O tests
 and actual native fields after pinned solver commit/format agreement arrive.
 This gate remains pending if native fields are unavailable; do not substitute
-synthetic fixtures. **Status:** `Planned`.
+synthetic fixtures. **Status:** `Blocked`; tools and 19-test normal/-O checks
+implemented, native exporter/commit dependency pending.
 
 ## Blockers and replanning triggers
 
-No blocker for this slice. Full physical cases depend on solver capabilities and
-exact asset rights/access. Replan if public APIs cannot measure the elementary
+Native S1 capture is pending parent admission of exporter format and a clean
+pinned solver implementation commit. This is a pending dependency, not a denied
+or uncertain action; no native capture was attempted. Runtime distribution policy
+for the existing NumPy wheel's bundled GPL-with-exception/LGPL libraries also
+needs parent disposition before a GPL-free packaged environment is promised.
+Full physical cases depend on solver capabilities and exact asset rights/access.
+Replan if public APIs cannot measure the elementary
 fixtures, source changes overlap another worker, or a new consumer/schema claim
 or permanent mechanism becomes necessary. Repair a failed check inside scope.
 
@@ -146,6 +154,6 @@ and unrelated refs are outside cleanup authority.
 
 ## Final acceptance
 
-- Acceptance status: pending
+- Acceptance status: blocked (A1–A5 satisfied; A6 pending native producer)
 - Deferred follow-ups: experimental geometry/data rights, exterior/moving solver qualification
-- Final status: Planned
+- Final status: Blocked

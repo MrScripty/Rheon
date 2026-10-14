@@ -28,3 +28,24 @@ independent verifier tools. Read S1-A through S1-G and separate educational
 reference/oracles. Replanned the next slice to native S1 validation; no solver
 core, public exports, or canonical solver plan edits. Format and exact acoustic
 cell-average initialization proposed through parent; native evidence pending.
+
+Committed/pushed elementary slice as ef4f8e4a59d119533f0e41cf89fa11f3f94ab759;
+draft PR73 opened. Re-executed the real release suite from that clean commit at
+/tmp/rheon-cpu-cfd-ef4f8e4-clean: all 12 points passed, CSV hash recorded in the
+authored validation-results report. No generated logs/frames committed.
+
+Implemented the two delegated S1 tools in disjoint scope. Exact conservative
+Sod integration splits at waves and derives reference pressure after averaging U;
+linear conservative acoustic averages use analytic sinc factors. Observed Sod
+root bracket 5.55e-17, sampled acoustic nonlinear residual 3.97e-11 with doubling
+ratio 4.0000063. All 19 verifier tests passed normally and -O on NumPy 2.3.5.
+Synthetic reader/policy probes remain explicitly separate from real-native
+acceptance. Corrected one negative test's expected diagnostic to the actual
+intended unresolved-second-mode boundary; no gate was relaxed. Cargo executable
+selection follows reported compiler-artifact identity, not a guessed path.
+
+Native producer format/clean implementation commit has not been supplied/admitted;
+A6 remains blocked pending parent coordination. Installed required NumPy wheel
+license text identifies GPL-with-GCC-exception and LGPL bundled libraries;
+recorded parent policy disposition need without changing/installing runtimes or
+claiming a GPL-free environment. Original worktree/core sources remain untouched.
