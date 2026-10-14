@@ -1,7 +1,7 @@
 # Submerged forward/ascent incompressible CPU implementation plan
 
 **Plan status:** `Planned` for the user-selected staged direction; numerical implementation has not started. Detailed numerical choices are prospective contracts for independent review, not a production-capability declaration.
-**Current phase:** planning-only delivery and independent standards review.
+**Current phase:** planning delivery complete; awaiting parent admission of numerical I1.
 **Next slice:** I1, bounded fixed-body external Stokes lab, after parent admission of this canonical plan and its implementation/validation owners.
 **Acceptance status:** numerical objective `blocked` by N7 experiment rights/model evidence; N1–N6 remain `pending`. Planning delivery is tracked separately below.
 **Canonical identity:** `docs/plans/submarine-incompressible-cpu/plan.md`.
@@ -45,7 +45,7 @@ Paths below authorize no source edits in this PR. Parent assigns one owner per s
 
 | Slice / lifecycle | Coherent runnable result | Exact prospective write set | Deciding gate |
 | --- | --- | --- | --- |
-| P / Active | Reviewed plan, source/rights audit and independent acceptance handoff | This plan directory only | P1–P3 below |
+| P / Accepted | Reviewed plan, source/rights audit and independent acceptance handoff | This plan directory only | P1–P3 below |
 | I1 / Planned | Fixed padded aligned synthetic cuboid, steady creeping-flow external Stokes solution; straight and oblique full-vector farfield; pressure/shear loads and moments | `experiments/submarine_stokes.rs`, `examples/submarine_stokes.rs`, `tests/submarine_stokes_contract.rs`, `docs/plans/submarine-incompressible-cpu/reports/i1-implementation.md`; validator owns `validation/submarine/run.py`, `validation/submarine/oracle.py`, `validation/submarine/test_validation.py`, `validation/submarine/README.md`, `validation/submarine/fixtures.json`, `docs/plans/submarine-incompressible-cpu/reports/i1-validation.md` | [First slice](reports/first-slice.md), independently assembled affine equations, loads, MMS, domain/mesh and rollback; no experimental claim |
 | I2 / Planned | Fixed/body-frame finite laminar Re straight/oblique flow, curved synthetic hull, conservative convection and wake-compatible external boundaries | `experiments/submarine_flow.rs`, `experiments/submarine_geometry.rs`, `examples/submarine_flow.rs`, `tests/submarine_flow_contract.rs`, `tests/submarine_geometry_contract.rs`, `docs/plans/submarine-incompressible-cpu/reports/i2-implementation.md`; validator extends the five `validation/submarine/` files and adds `reports/i2-validation.md` within this plan | Boundary/wall/convection MMS; sphere benchmark; load/wake mesh/time/domain convergence; backflow/reflection controls |
 | I3 / Planned | Prescribed smooth forward/ascent in nonrotating B frame; accepted field+pose+velocity+clock transaction and actuator ledger | `experiments/submarine_trajectory.rs`, `experiments/submarine_flow.rs`, `examples/submarine_translation.rs`, `tests/submarine_translation_contract.rs`, `docs/plans/submarine-incompressible-cpu/reports/i3-implementation.md`; same validation files plus `reports/i3-validation.md` | Correct acceleration/hydrostatic transform, constant translation equivalence, smooth start/stop, reversal, fixed orientation, trajectory refinement |
@@ -71,7 +71,7 @@ Environment for numerical gates: native Linux x86_64 CPU, pinned Rust 1.92.0, sa
 | N7 | Admitted experimental dataset has explicit reuse authority, matched conditions and propagated experimental/numerical/input uncertainty; discrepancies and model limitations reported | experimental validation / automated analysis + manual rights review | blocked / validation owner; parent licensing disposition |
 | P1 | Current main/APIs/PR76/standards and primary references inspected, actual gaps and exact future writes established | artifact/manual | satisfied / linked reports and ledger |
 | P2 | Independent GPT-6.1 Sol High standards/design review resolves blocking findings | artifact/manual | satisfied / [separate review](reports/independent-review.md) |
-| P3 | Docs-only diff passes links/scope/history checks; committed pushed branch has draft PR and retained-worktree disposition | artifact/automated + GitHub observation | pending / planning lead |
+| P3 | Docs-only diff passes links/scope/history checks; committed pushed branch has draft PR and retained-worktree disposition | artifact/automated + GitHub observation | satisfied / [draft PR77](https://github.com/MrScripty/Rheon/pull/77), [delivery ledger](execution-ledger.md) |
 
 Planning delivery may complete with N1–N7 pending/blocked. Full numerical objective cannot become Accepted from P1–P3 or pre-existing reduced-model tests.
 
