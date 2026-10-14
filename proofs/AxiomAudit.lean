@@ -149,7 +149,27 @@ run_cmd do
     `Rheon.AlignedStrain.euler_row_bound_nonincrease,
     `Rheon.AlignedStrain.euler_exact_projection_nonincrease,
     `Rheon.AlignedStrain.unit_corner_block,
-    `Rheon.AlignedStrain.flat_conductance]
+    `Rheon.AlignedStrain.flat_conductance,
+    `Rheon.Compressible.faceUpdate,
+    `Rheon.Compressible.shared_face_conservation,
+    `Rheon.Compressible.kineticDensity,
+    `Rheon.Compressible.internalDensity,
+    `Rheon.Compressible.pressure,
+    `Rheon.Compressible.Admissible,
+    `Rheon.Compressible.ideal_gas_pressure_positive,
+    `Rheon.Compressible.admissible_iff_pressure_positive,
+    `Rheon.Compressible.blend_positive,
+    `Rheon.Compressible.kinetic_blend_remainder,
+    `Rheon.Compressible.kinetic_density_convex,
+    `Rheon.Compressible.admissible_blend,
+    `Rheon.Compressible.normalVelocity,
+    `Rheon.Compressible.eulerMassFlux,
+    `Rheon.Compressible.eulerMomentumFlux,
+    `Rheon.Compressible.eulerEnergyFlux,
+    `Rheon.Compressible.stationary_slip_wall_flux,
+    `Rheon.Compressible.cflDensity,
+    `Rheon.Compressible.cfl_density_nonnegative,
+    `Rheon.Compressible.cfl_density_positive]
   for name in expected do
     let _ ← getConstInfo name
     pure ()

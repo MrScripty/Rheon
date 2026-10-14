@@ -1,10 +1,10 @@
 {
   "schema": "rheon-native-sequence-source-v1",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Fresh reconstructed aligned-strain source f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b qualified locally with normal pinned Lean 4.19.0 lake build, kernel audit and normal/optimized rejection and source/pin gates; exact finite-real contracts, without IEEE refinement or approximate-solver guarantees",
-  "proof_inventory_sha256": "be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa",
-  "public_theorems": 106,
-  "audited_declarations": 161,
+  "qualified_lean_source": "Compressible research extension: exact reviewed proof inventory d10ea5e886a6680fef63f6c03624e172fb95fa9d3e00c5db3835e56b3a48fdbd qualified locally with pinned Lean4.19.0 normal lake build, allowed-axiom audit and normal/optimized source and rejection tests; no clean whole-tree or current hosted-run qualification assertion",
+  "proof_inventory_sha256": "d10ea5e886a6680fef63f6c03624e172fb95fa9d3e00c5db3835e56b3a48fdbd",
+  "public_theorems": 116,
+  "audited_declarations": 186,
   "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",
   "labs": [
     {
@@ -78,9 +78,9 @@
     "audited_declarations": 77,
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
-  "local_kernel_receipt_sha256": "dda663582724a7ca4ef4fff9088682d85fca576e23a0a74b1515bbc65784f808",
-  "lean_ci_scope": "Successful hosted Lean workflow associated with f75cd66; exact PR merge checkout identity is not asserted here. The local digest-bound receipt qualifies the immutable f75 source.",
-  "explicit_expected_declarations": 144,
+  "local_kernel_receipt_sha256": "591977fa5315bde898540062bb31563f4a3d62c18cc2765847f291cce469d631",
+  "lean_ci_scope": "Historical f75cd66 hosted run only; current compressible extension is qualified by the local proof-file receipt",
+  "explicit_expected_declarations": 164,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
     "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
@@ -92,6 +92,42 @@
     "explicit_expected_declarations": 118
   },
   "current_reconstruction_proof": {
+    "source_binding_kind": "exact reviewed proof-file SHA256 inventory; whole-tree checkout identity not asserted",
+    "proof_inventory_sha256": "d10ea5e886a6680fef63f6c03624e172fb95fa9d3e00c5db3835e56b3a48fdbd",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "public_theorems": 116,
+    "audited_declarations": 186,
+    "explicit_expected_declarations": 164,
+    "local_qualification": {
+      "schema": "rheon-compressible-proof-file-qualification-v1",
+      "qualified_at_utc": "2026-10-14T00:08:03.171346+00:00",
+      "status": "passed",
+      "lean_checked": true,
+      "receipt_sha256": "591977fa5315bde898540062bb31563f4a3d62c18cc2765847f291cce469d631",
+      "receipt_reference": "External compressible-proof-qualification.json with exact source/log hashes; generated outputs remain outside Git",
+      "scope": "Exact reviewed working-tree Lean bytes; no Git-head or clean-checkout qualification"
+    },
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",
+    "lean_ci_scope": "Historical f75cd66 hosted run only; current compressible extension is qualified by the local proof-file receipt",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "reproduction": [
+      "cd proofs",
+      "python3 scripts/check_sources.py",
+      "lake build",
+      "lake env lean AxiomAudit.lean",
+      "python3 scripts/test_audit.py",
+      "python3 -O scripts/test_audit.py",
+      "python3 scripts/test_check_sources.py",
+      "python3 -O scripts/test_check_sources.py"
+    ],
+    "scope": "Finite exact-real contracts including conservative Euler-component amounts, ideal-gas admissibility and convexity, algebraic stationary-wall flux and donor-density CFL. No whole-tree, geometry, Riemann solver, full Euler positivity, entropy, IEEE or physical validation claim."
+  },
+  "historical_aligned_strain_reconstruction_proof": {
     "source_head": "f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b",
     "source_tree": "bda8ebca0a226e10f03f975ffcf9701df4326095",
     "proof_inventory_sha256": "be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa",

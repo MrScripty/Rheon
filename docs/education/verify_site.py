@@ -21,7 +21,12 @@ for path in ROOT.rglob('*.html'):
         candidate=(path.parent/unquote(u.path)).resolve();count+=1
         if not candidate.is_file():fail.append((str(path),target))
 receipt=json.loads((ROOT/'build-receipt.json').read_text())
-assert receipt['chapters']==31 and receipt['rendered_math_expressions']>=400
+repo=Path(__file__).resolve().parents[2]
+expected_sections={str(p.relative_to(repo)) for directory in ('chapters','appendices') for p in (repo/'docs/research-book'/directory).glob('*.md')}
+actual_sections={item['source'] for item in receipt['sources'] if item['folder']=='chapters'}
+if actual_sections != expected_sections or receipt['chapters'] != len(expected_sections):
+    raise ValueError('Built edition omits or adds a book section')
+if receipt['rendered_math_expressions']<400:raise ValueError('Missing rendered mathematics')
 assert receipt['reference_data_sha256']==hashlib.sha256((ROOT/'reference-data.json').read_bytes()).hexdigest()
 assert not fail,fail
 assert (ROOT/'downloads/Rheon-expanded-book.pdf').stat().st_size>100000

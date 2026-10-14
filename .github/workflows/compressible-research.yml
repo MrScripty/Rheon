@@ -1,0 +1,59 @@
+name: Compressible research book preview
+on:
+  pull_request:
+    paths: ['docs/education/**', 'docs/research-book/**', 'proofs/**', '.github/workflows/compressible-research.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: compressible-research-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  reference-and-book:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Prepare pinned reference and browser tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+          mkdir -p "$RUNNER_TEMP/compressible-assets"
+          cp docs/education/package.json docs/education/package-lock.json "$RUNNER_TEMP/compressible-assets/"
+          npm ci --prefix "$RUNNER_TEMP/compressible-assets" --ignore-scripts --no-audit --no-fund
+          python3 -m pip install -r docs/research-book/companion/requirements.txt -r docs/research-book/expansion/requirements.txt -r docs/education/requirements.txt
+          python3 -m playwright install --with-deps chromium
+      - name: Verify numerical and publication contracts
+        run: |
+          python3 -m unittest discover -s docs/research-book/compressible -p test_reference.py
+          python3 -O -m unittest discover -s docs/research-book/compressible -p test_reference.py
+          python3 -m unittest discover -s docs/education -p test_compressible_lab.py
+          python3 -O -m unittest discover -s docs/education -p test_compressible_lab.py
+          python3 -m unittest discover -s docs/education -p test_pdf_freshness.py
+          python3 -O -m unittest discover -s docs/education -p test_pdf_freshness.py
+          python3 -m unittest discover -s docs/education -p test_publication_gates.py
+          python3 -O -m unittest discover -s docs/education -p test_publication_gates.py
+          python3 -m unittest discover -s docs/education -p test_native_sequence.py
+          python3 -O -m unittest discover -s docs/education -p test_native_sequence.py
+      - name: Build source-only native preview with computed Euler fields
+        run: |
+          python3 docs/education/generate_references.py
+          python3 docs/research-book/compressible/generate.py --output "$RUNNER_TEMP/compressible-records"
+          python3 docs/education/build.py --output-dir "$RUNNER_TEMP/compressible-edition" --asset-dir "$RUNNER_TEMP/compressible-assets/node_modules" --compressible-records-dir "$RUNNER_TEMP/compressible-records"
+          python3 docs/education/verify_browser.py --render-pdf --output-dir "$RUNNER_TEMP/compressible-edition"
+          python3 docs/education/verify_site.py --output-dir "$RUNNER_TEMP/compressible-edition"
+          python3 docs/education/verify_browser.py --check --output-dir "$RUNNER_TEMP/compressible-edition"
+      - name: Retain review artifact without deployment
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: compressible-research-preview-${{ github.sha }}
+          path: ${{ runner.temp }}/compressible-edition/
