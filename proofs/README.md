@@ -1,6 +1,6 @@
 # Rheon exact discrete contracts
 
-This project owns exact finite-dimensional reference definitions and 224 public theorem statements in twenty modules. The combined source is reviewed; fresh pinned kernel qualification is pending. Historical receipts identify their own inventories. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
+This project owns exact finite-dimensional reference definitions and 224 public theorem statements in twenty modules. The combined reviewed proof bytes passed a normal pinned kernel build and 355-declaration audit in [run38493519897](https://github.com/MrScripty/Rheon/actions/runs/38493519897). Historical receipts identify their own inventories. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
 
 ## Reproduce
 
@@ -188,8 +188,11 @@ reviewed source inventory keep the existing axiom allowlist and source gate.
 The following local receipt belongs to PR68's earlier 116-statement inventory,
 not the combined inventory. The combined source retains all PR67 modules and
 adds the twenty explicit compressible audit names: 224 public statements and
-295 explicitly expected declarations. A fresh kernel/audit result is required;
-neither historical receipt is reused as a combined qualification.
+295 explicitly expected declarations. The fresh normal pinned kernel build and 355-declaration audit passed in
+[run38493519897](https://github.com/MrScripty/Rheon/actions/runs/38493519897),
+including both negative-probe runs. Checked merge `d427059b16848adbf7e00f30e0e76ac24c021e50`
+has the identical tree as source `1be45f33d52c5e354fccb4080413c1d57f8502be`.
+Neither historical receipt is reused as a combined qualification.
 
 Fresh local qualification on 2026-10-14 used Lean 4.19.0 and mathlib
 `c44e0c8ee63ca166450922a373c7409c5d26b00b`. Normal `lake build` compiles all

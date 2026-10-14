@@ -1,11 +1,11 @@
 {
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Combined PR67 and PR68 reviewed proof bytes; fresh kernel qualification pending",
+  "qualified_lean_source": "1be45f33d52c5e354fccb4080413c1d57f8502be; proof tree identical to checked merge d427059b16848adbf7e00f30e0e76ac24c021e50",
   "proof_inventory_sha256": "4eaa150ae0513844e95da153535b7d23befc048bb6e07adec3ed26eee6bc8a1d",
   "public_theorems": 224,
-  "audited_declarations": null,
-  "lean_ci": null,
+  "audited_declarations": 355,
+  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38493519897",
   "labs": [
     {
       "id": "wall-friction",
@@ -78,7 +78,7 @@
     "audited_declarations": 77,
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
-  "lean_ci_scope": "Historical receipts do not certify the combined proof inventory.",
+  "lean_ci_scope": "Pinned normal kernel build and complete 355-declaration allowed-axiom audit; negative probes passed. Exact same reviewed proof inventory; not a native/IEEE/physical/performance receipt.",
   "explicit_expected_declarations": 295,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
@@ -134,9 +134,9 @@
     "proof_inventory_sha256": "4eaa150ae0513844e95da153535b7d23befc048bb6e07adec3ed26eee6bc8a1d",
     "public_theorems": 224,
     "explicit_expected_declarations": 295,
-    "audited_declarations": null,
-    "lean_ci": null,
-    "status": "reviewed-pending-kernel-qualification",
+    "audited_declarations": 355,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38493519897",
+    "status": "passed",
     "local_qualification": null,
     "scope": "Combined exact finite-dimensional contracts; no Rust/IEEE/geometry/Riemann/physical/performance proof.",
     "lean_toolchain": "leanprover/lean4:v4.19.0",
@@ -145,7 +145,9 @@
       "propext",
       "Classical.choice",
       "Quot.sound"
-    ]
+    ],
+    "source_head": "1be45f33d52c5e354fccb4080413c1d57f8502be",
+    "checkout_head": "d427059b16848adbf7e00f30e0e76ac24c021e50"
   },
   "historical_pr43_reviewed_proof": {
     "status": "passed",

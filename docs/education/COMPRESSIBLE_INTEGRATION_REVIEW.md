@@ -17,9 +17,14 @@ and audit files change. The new Compressible module is byte-identical to
 PR68's reviewed digest. Every shared theorem module is unchanged. The root
 imports all modules; the expected audit list unions the existing 275 names and
 twenty compressible names. Counts are 224 public statements and 295 explicit
-expected declarations. Actual audited declaration count remains unclaimed
-until the combined pinned kernel run. Both historical qualification records
-retain their original inventories; current metadata starts pending.
+expected declarations. The fresh combined pinned kernel run
+[38493519897](https://github.com/MrScripty/Rheon/actions/runs/38493519897)
+passed 355 audited declarations and both negative-probe runs. Its checked merge
+`d427059b16848adbf7e00f30e0e76ac24c021e50` has the identical tree as
+source `1be45f33d52c5e354fccb4080413c1d57f8502be`. Both historical
+qualification records retain their original inventories. Current metadata
+records this new exact-proof-byte receipt; final whole-source qualification
+remains separate.
 
 Both native admission inventories remain byte-identical to PR67, including
 the separately reviewed 73-path runtime epoch. No Rust, Cargo, operator, oracle
