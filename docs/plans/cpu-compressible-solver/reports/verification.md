@@ -1,7 +1,8 @@
 # Plan-delivery verification
 
 This report qualifies a documentation-only plan. Numerical implementation
-acceptance in `plan.md` remains pending; S1 is not implemented.
+acceptance in `plan.md` remains pending. Parent has started S1 separately; this
+planning branch contains no solver implementation or acceptance evidence.
 
 ## Delivery claims
 
@@ -82,3 +83,26 @@ claim a hosted pass or solver validation. The final task report records any
 later observed hosted outcome. No local plan-delivery blocker or denied action.
 S4 recording integration, S5 consumer contract and vehicle physical-validation
 dependencies remain as stated in the implementation plan.
+
+## Parent-authorized S1 lifecycle update
+
+Parent accepted independent review and started worker
+`01a13913-999b-7511-b9cd-f4677019e018` at reviewed head `67baa10`.
+The current plan is `Active` with implementation acceptance `pending`.
+Parent's explicit sole-editor delegation of the minimal S1 compressible export
+block supersedes the earlier parent-application step described in the historical
+review round above. Canonical plan changes remain with the planning agent;
+worker owns its implementation report; validation contracts pass through parent.
+No numerical method, solver source, recording export or acceptance gate changed.
+
+Independent reviewer approved the narrow four-document ownership/lifecycle
+adjustment with no standards blocker and reran `validate_plan` and
+`git diff --check` successfully. Local link/scope checks passed as well.
+
+Hosted readback for exact head `67baa10576a2120f314ec8e56bd7b7129d18d9f0`:
+both bounded dense3D `scoped-contract` runs
+[38521697992](https://github.com/MrScripty/Rheon/actions/runs/38521697992) and
+[38521702365](https://github.com/MrScripty/Rheon/actions/runs/38521702365)
+completed successfully; CodeRabbit status succeeded. New lifecycle-document
+commit checks require their own exact-head observation; these results do not
+transfer to a later head or claim compressible implementation validation.

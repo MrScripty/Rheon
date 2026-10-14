@@ -59,3 +59,28 @@
   or deployment performed here. Branch retained for parent PR disposition,
   with no cleanup; original `work` and `implementation/rust-smoke-milestone`
   still resolve to `6ba41c7cd05d1bf1851bef02048e7634245468e6`.
+
+## 2026-10-14 — parent admission of S1
+
+- Parent accepted the independent plan review and started S1 worker
+  `01a13913-999b-7511-b9cd-f4677019e018` from reviewed plan head
+  `67baa10576a2120f314ec8e56bd7b7129d18d9f0`. Canonical plan and S1 transition
+  `Planned` → `Active`; implementation acceptance remains `pending`.
+- Parent explicitly delegates the minimal additive compressible module/export
+  block in `src/lib.rs` to that worker as sole S1 export editor. Earlier
+  parent-only S1 export application is **Superseded**. Recording and other
+  exports remain untouched; no solver edits occur on this planning branch.
+- This planning agent owns canonical lifecycle/ledger/handoff updates; S1 worker
+  owns its implementation report. Parent coordinates output contracts and gates
+  with independent validation worker `01a13906-b6ec-7398-820a-387f852c3015`.
+- PR72 at head `67baa10576a2120f314ec8e56bd7b7129d18d9f0`: both bounded dense3D
+  scoped checks succeeded, runs
+  [38521697992](https://github.com/MrScripty/Rheon/actions/runs/38521697992) and
+  [38521702365](https://github.com/MrScripty/Rheon/actions/runs/38521702365);
+  CodeRabbit status also succeeded. These are exact-head scoped CI results,
+  not native compressible-solver acceptance.
+- Independent read-only review approved this narrow lifecycle/ownership
+  adjustment with no standards blocker; reviewer reran plan-contract and
+  whitespace checks successfully. Local structure/lifecycle, file-link and
+  diff-scope checks passed. Four planning documents only; numerical design,
+  solver sources, gates and recording exports unchanged.

@@ -1,10 +1,12 @@
 # S1 implementation-worker handoff
 
 Canonical plan: `docs/plans/cpu-compressible-solver/plan.md`.
-Operation for the separate worker: `start` S1 after parent verifies current
-plan state/authority and accepts the review result. This document is a handoff;
-the plan-only branch contains no implementation. The publication prerequisite
-is satisfied at main `8baf459b91bb53ebd4a7230c4d9f3399dd5cb0bc`.
+Parent accepted independent review and admitted operation `start` for S1,
+assigning worker `01a13913-999b-7511-b9cd-f4677019e018` at reviewed head
+`67baa10576a2120f314ec8e56bd7b7129d18d9f0`. S1 is now `Active`; subsequent
+worker execution continues that admitted slice after checking current authority.
+This plan-only branch contains no implementation. Publication prerequisite is
+satisfied at main `8baf459b91bb53ebd4a7230c4d9f3399dd5cb0bc`.
 
 ## Usable outcome and write boundary
 
@@ -19,6 +21,9 @@ Exact implementation-worker write set:
 
 - `src/compressible.rs` — coherent numerical owner, EOS, state/scratch, errors,
   flux/update/CFL/acceptance and borrowed view/report.
+- `src/lib.rs` — solely the minimal additive compressible module/export block;
+  explicit parent delegation names this worker as its sole S1 editor. Recording
+  and all other module/export blocks remain untouched.
 - `tests/compressible_contract.rs` — public-path acceptance and rollback cases.
 - `examples/compressible_reference.rs` — native uniform/acoustic/periodic-planar-Sod
   source and actual evolved field export to fresh ignored storage.
@@ -26,13 +31,13 @@ Exact implementation-worker write set:
 - `docs/plans/cpu-compressible-solver/reports/implementation.md` — worker's
   authored API/export proposal and implementation/check results.
 
-Parent-only shared writes are the additive `src/lib.rs` module/export block
-and canonical `plan.md`, `issues.md`, `execution-ledger.md` and other current
-plan decisions. Worker proposes the exact export patch in its report; parent
-applies it on the admitted implementation branch before public API tests and
-the R1 checkpoint. This is an explicit serial dependency, not concurrent editing
-of the shared export. Parent updates lifecycle/write sets from the worker's
-evidence. The plan-only branch itself remains unchanged by the worker.
+Canonical `plan.md`, `issues.md`, `execution-ledger.md` and other current plan
+decisions remain this planning agent's writes, updated from parent authority
+and worker evidence. Worker owns only `reports/implementation.md` inside the
+plan directory. Its export changes and public API tests stay together on its
+implementation branch; parent integrates serially at R1. The prior parent-only
+S1 export-application step is superseded by explicit sole-editor delegation.
+The plan-only branch itself remains unchanged by the implementation worker.
 
 Independent validation worker `01a13906-b6ec-7398-820a-387f852c3015` owns benchmark
 harnesses and acceptance research, including proposed
@@ -51,8 +56,8 @@ inventories/receipts, Pages/publication gates and workflow files. No new depende
 GPU/remote worker, merge/deployment or destructive history/checkout action.
 
 Owner is the separate implementation worker; parent integrates serially. Use an
-isolated branch/current checkout with a recorded current main base. Recheck
-status and AGENTS.md/standards, PR69/71 heads and shared `src/lib.rs` before edits.
+isolated branch/current checkout pinned to the admitted S1 base above; do not
+consume moving main as a tested checkpoint. Recheck status and AGENTS.md/standards, PR69/71 heads and shared `src/lib.rs` before edits.
 If new shared edits or unavailable capability change this boundary, report and
 re-plan with parent; do not absorb recording/API/schema work as a shortcut.
 
@@ -147,8 +152,8 @@ for actual affected interfaces or newly discovered concerns.
 
 Get independent implementation/standards review; collect findings and repair
 within the valid scope. Store authored commands, scope/results/limitations and
-identities in `reports/implementation.md`; parent records canonical ledger and
-plan changes serially. Large generated data/logs stay ignored.
+identities in `reports/implementation.md`; planning agent records canonical ledger
+and plan changes from parent authority and worker evidence. Large generated data/logs stay ignored.
 Review exact staged/cumulative branch diff, commit/push own branch and create
 a review PR. Parent owns source admission and integration with PR69/71; do not
 merge or refresh their refs. Report commit, PR, actual test results, missing

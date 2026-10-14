@@ -1,15 +1,18 @@
 # Plan: bounded CPU compressible flow and solver-data contracts
 
-**Plan status:** `Planned`
+**Plan status:** `Active`
 
-**Current phase:** reviewed plan; S1 awaiting separate-worker start
+**Current phase:** S1 — native periodic ideal-gas Euler implementation
 
 **Next slice:** S1 — native fixed-Cartesian periodic ideal-gas Euler baseline
 
 **Acceptance status:** `pending`
 
-Implementation has not started. This status/acceptance pair governs the solver
-roadmap; completed plan delivery is tracked separately in [verification](reports/verification.md).
+Parent accepted independent plan review and started S1 worker
+`01a13913-999b-7511-b9cd-f4677019e018` from reviewed head
+`67baa10576a2120f314ec8e56bd7b7129d18d9f0`. This status/acceptance pair
+governs the solver roadmap; plan delivery is tracked separately in
+[verification](reports/verification.md). No implementation acceptance is implied.
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
 
@@ -81,6 +84,7 @@ explicitly inviscid capability; each accepted slice must advertise its own scope
 | Reuse PR69/71 generic recording after their integration, through an explicitly compressible field adapter | recording integration owner | Read-only inspections at `b1acf2e` / `ecfc741`; binary named fields and cold selection are owned there | none |
 | Generic Surrogate Lab projects and data controls, optional Rheon producer, independent Tuldok authority | producer + Tuldok owners | Explicit user direction; existing dense3D v1/v2 are constrained transport formats | none |
 | Lean assumptions and empirical accuracy are separate acceptance domains | proof + numerical owners | `proofs/Rheon/Compressible.lean`; [design proof map](reports/design.md) | none |
+| S1 worker is sole editor of the minimal additive compressible module/export block in `src/lib.rs`; recording and other exports remain untouched | S1 worker; parent integrates | Explicit parent delegation after accepting review and starting S1 at 67baa10; [handoff](reports/first-slice.md) | Earlier parent-only S1 export application; retained in ledger |
 
 Publication prerequisite observed: main
 `8baf459b91bb53ebd4a7230c4d9f3399dd5cb0bc`,
@@ -161,7 +165,7 @@ requirements go through parent before either owner edits.
 
 | Slice / state | One goal and coherent unit | Allowed write set | Preserved/replaced semantics; focused gate | Re-plan condition |
 | --- | --- | --- | --- | --- |
-| S1 / Planned | Native periodic five-field ideal-gas Euler step and reproducible headless reference | Exact list in [first slice](reports/first-slice.md) | Preserve all existing solvers; C1/C2, uniform/asymmetric grids, periodic budgets, acoustic refinement, planar Sod and rollback | Unsupported grid reuse, changed EOS, new dependency, altered CFL/error meaning |
+| S1 / Active | Native periodic five-field ideal-gas Euler step and reproducible headless reference | Exact list in [first slice](reports/first-slice.md) | Preserve all existing solvers; C1/C2, uniform/asymmetric grids, periodic budgets, acoustic refinement, planar Sod and rollback | Unsupported grid reuse, changed EOS, new dependency, altered CFL/error meaning |
 | S2 / Deferred | Accuracy/admissibility upgrade of that operator | `src/compressible.rs`, `tests/compressible_contract.rs`, `examples/compressible_reference.rs`, `tools/verify_compressible.py`, `tools/test_compressible_verifier.py`, `docs/api/compressible.md`, this plan directory | Conservative reconstruction, SSPRK2, method-specific positivity and HLLE fallback; smooth order, near vacuum, expansion/strong shock and Mach sweeps | New theorem assumptions, low-Mach remedy, dual energy or material domain |
 | S3 / Deferred | Elementary open/fitted boundary runs | S2 set plus `src/compressible/boundary.rs`, `tests/compressible_boundary_contract.rs` | C4: fixed-state endpoint Sod, characteristic counts, acoustic reflection, stationary wall pressure forces and oblique wedge | Arbitrary cuts, moving topology or mixed-regime BC requires new admission |
 | S4 / Deferred | Accepted compressible session, recording and desktop inspection | `src/compressible/session.rs`, `src/recording/compressible.rs`, `src/lib.rs`, `tests/compressible_session_contract.rs`, `tests/recording_compressible_contract.rs`, `examples/recorded_compressible.rs`, `src/bin/rheon-desktop.rs`, `src/bin/desktop/inspector.rs`, `src/bin/desktop/archive_view.rs`, `src/bin/desktop/settings.rs`, `docs/api/compressible.md`, `docs/api/recording.md`, this plan directory | C5: actual run/stop/failure, per-step recording, selected ordinal/export and cold native UI; reuse integrated PR69/71 | Pending recording changed, field cap/layout unsuitable, source admission owner unavailable |
@@ -177,20 +181,25 @@ No milestone schedule implies a delivery date or a performance guarantee.
 ## Repository isolation and concurrent work
 
 Plan branch `plan/cpu-compressible-solver` starts at published main `8baf459`.
-Planning agent owns only this directory; target is main; parent is serial
+Planning agent owns the canonical plan documents in this directory; worker owns
+its `reports/implementation.md`. Target is main; parent is serial
 integration owner. Branch is shared for PR review, retained until parent disposition;
 no main merge, force push, checkout reset or branch/worktree deletion is authorized.
 Old `work` and `implementation/rust-smoke-milestone` refs remain intact.
 
 Independent standards reviewer is read-only and reports to the planning owner.
-The separate implementation worker receives S1 after parent admission; it owns
-numerical source, focused Rust tests, native example, API doc and its implementation
-report. Parent alone writes the shared `src/lib.rs` export and canonical active
-plan/ledger/issues; parent applies the worker's proposed export before public API
-checks. Independent validation owns numerical/origin harnesses. The implementation
-worker owns no recording/desktop/schema/lockfile/publication edits. No implementation worker
-is started inside this plan-only task. PR69/71 and all source inventories,
-receipts, workflow files and shared exports remain serial owner writes. Concurrent
+Parent admitted and started S1 worker `01a13913-999b-7511-b9cd-f4677019e018`
+at reviewed head `67baa10576a2120f314ec8e56bd7b7129d18d9f0`. It owns numerical
+source, focused Rust tests, native example, API doc, its implementation report,
+and solely the minimal additive compressible module/export block in `src/lib.rs`.
+No other worker or parent concurrently edits that S1 block. Recording and other
+exports remain untouched. This planning agent owns canonical plan/ledger/issues
+updates; parent routes authority changes and integrates serially. Independent
+validation owns numerical/origin harnesses; output contracts and gates are
+coordinated with `01a13906-b6ec-7398-820a-387f852c3015` through parent.
+The implementation worker owns no recording/desktop/schema/lockfile/publication
+edits. This plan-only branch contains no solver changes. PR69/71 and all source
+inventories, receipts, workflow files and other shared exports remain serial owner writes. Concurrent
 Plan Integration profile is not applicable to a single serial plan proposal plus
 read-only review; if multiple outstanding proposals later share mutable plan
 authority, select that profile at their admission.
@@ -200,7 +209,8 @@ to `01a13906-b6ec-7398-820a-387f852c3015`, Tuldok execution to
 `01a13906-0d11-7681-87b7-439a7097c039`, and lab projects to
 `01a13906-4c49-7097-a9ea-1ba58cd0802f`. Parent routes requirements and integrates
 cross-repository changes. User authorization permits those parallel streams;
-this worker retains plan-only ownership. No shared-file writes are delegated here.
+this worker retains plan-only ownership. The only newly delegated shared write
+is the parent-authorized S1 compressible export block specified above.
 
 ### Pinned release checkpoints
 
@@ -243,4 +253,4 @@ in [issues](issues.md); [verification](reports/verification.md) records plan
 delivery, separate from all future numerical and user-workflow acceptance.
 
 - Acceptance status: `pending`
-- Final status: `Planned`
+- Final status: `Active`
