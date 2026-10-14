@@ -80,6 +80,10 @@ the independent qualification path, rejects changed/added/missing files, and
 requires a fresh clean native/rational receipt whose committed sources and
 inventory match. Historical native admission remains exact; changing a manifest
 is not numerical qualification or authority to reuse a previous packet.
+The separately reviewed runtime and recording/S1 integration epochs preserve
+earlier inventory bytes. The [integration admission review](NATIVE_ADMISSION_INTEGRATION_REVIEW.md)
+describes the complete source closure and new receipt bindings. A present stale
+epoch refuses admission; qualification still requires fresh committed execution.
 
 ## Recomputed sampling and transport lessons
 

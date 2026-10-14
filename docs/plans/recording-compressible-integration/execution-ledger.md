@@ -14,3 +14,27 @@ Private trial merge of immutable recording71 (including69) onto06eb main was cle
 no component/main GitHub merge or branch mutation. Main canonical prospective plan
 remains byte-identical. Candidate merge history retains component lineage; it grants
 no book/native-display acceptance. New integration plan accompanies candidate only.
+
+I1 complete: trial validation merge3a9fc80 clean; S1 merge21d4122 resolves sole
+src/lib.rs conflict additively. All recording/solver/producer/verifier source files
+are byte-identical to their component subjects. Newer canonical prospective plan
+is preserved. Parent renewed final S1 admission at a0efbc1 (documentation only),
+retained by mergec29cb2a; native5a049ed and all numerical criteria unchanged.
+Final A/C independent implementation/allocator evidence is supplied; original
+coarse8/12/20 failures remain failed. No component/main GitHub merge performed.
+
+I2 focused: 53 affected core contracts passed (13S1,7geometry,9simulation,
+19recording,5VTK), desktop39 passed, strict core all-target Clippy and root WASM
+passed. Verifier43 and standalone policy12 pass normally and optimized. Headless
+egui evidence remains separate from unavailable native-window smoke.
+
+I3 review: Sol High independent recording reviewer confirmed unchanged reviewed
+component subjects, no numerical coupling and complete78-path closure. Detected
+stale standalone validation Cargo.lock; repair minimally adds22 required identities,
+with49 prior identities/checksums preserved. New cc/smallvec versions aligned to
+reviewed root using precise offline updates; all additions match root identities.
+Separate license addendum preserves original report and hashes actual local MIT/
+Zlib license texts plus bundled SQLite. Locked metadata succeeds. Fixed v3 epoch
+preserves both previous records, binds review report and complete current native
+closure; builds never refresh it automatically. No old receipt relabelled.
+Clean-source qualification and full exact-head CI still pending.

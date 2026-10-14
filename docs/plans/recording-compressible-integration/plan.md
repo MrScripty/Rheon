@@ -1,7 +1,7 @@
 # Recording and periodic S1 integration
 
-Status: Active. Current phase: component/source discovery and trial composition.
-Next slice: compose pinned recording/validation/S1 candidates and classify overlaps.
+Status: Active. Current phase: clean-source qualification of reviewed composition.
+Next slice: qualify native/rational packet and publish draft for full exact-head CI.
 Acceptance: pending, separate domains below; draft-only delivery before qualification.
 Ledger: [execution-ledger](execution-ledger.md); [issues](issues.md).
 
@@ -22,6 +22,11 @@ ecfc741af733f909c79170530080a98fdc5c78eb; validation73
 5a049ed604b99817a428d10bbc0140732d3421d6. S1 owner finalizing A/C and final review;
 prospective exported-field B/D/E/F/G receipt is independent, not substitute A/C.
 Source pins are reviewed admission inputs, not numerical/publication receipts.
+Fresh parent handoff admits PR74 final documentation head
+a0efbc1aaf67bb65a724de028d4a773270977875. Native qualified subject5a049ed is
+unchanged; A/C independent evidence is supplied alongside B/D/E/F/G. Trial merge
+c29cb2a retains this source-identical update. Canonical checkpoint disposition is
+separate parent/planning authority; this plan does not overwrite that lifecycle.
 
 ## Standards, scope and constraints
 
@@ -79,28 +84,34 @@ contained in existing owners; no registry, queue, migration or fallback solver a
 
 ## Milestones and write sets
 
-I1 discovery/trial composition Active. Writes:this plan directory, integration-branch
+I1 discovery/trial composition complete. Writes:this plan directory, integration-branch
 merge conflict resolution only for src/lib.rs/shared docs/locks. Admit full unchanged
 component write sets via their reviewed proposals; preserve newer main canonical plan.
 Gate: current OIDs/CI/reviews, exact source diff and explicit stale/conflicting/
 dependency-blocked dispositions, no component ref mutation.
-I2 numerical/runtime verification pending I1. Writes:this plan reports and bounded
+I2 affected focused numerical/runtime verification passed; fresh combined-source
+field capture pending. Writes:this plan reports and bounded
 composition repairs in owning source/test/docs, with owner coordination. Gate:R/C
 separately observed, source identity comparisons, affected checks, no S2 scope.
-I3 source/book admission pending reviewed closure. Writes: new education inventory,
+I3 source/book admission reviewed; clean committed qualification pending. Writes: new education inventory,
 explicit epoch selector/tests/contracts and this plan; historical inventories retained.
 Gate: full source review then clean committed fresh native/rational/book qualification.
-I4 draft delivery/CI pending composition. Writes: plan/evidence and own feature ref/PR.
+I4 draft delivery/CI pending qualification commit. Writes: plan/evidence and own feature ref/PR.
 Gate: exact-head outcome reporting, explicit display/source gates, protected refs.
 
 ## Initial classifications and blockers
 
 Recording proposals compatible numerically; book required gate dependency-blocked.
 Validation proposal compatible new files; dense CI does not certify S1 numerical run.
-S1 proposal dependency-blocked on final A/C review/acceptance and current feature CI;
-actual prospective B/D/E/F/G evidence is passed at its original source subject.
+S1 final A/C review and actual prospective B/D/E/F/G evidence pass at their
+original source subjects. Authoritative integration/publication remains
+dependency-blocked on combined-source book/runtime gates and checkpoint disposition.
 Older branch plan trees are stale relative to reviewed main fc2270a; preserve current
 canonical plan and record fresh admission from user rather than overwrite it.
 Native display unavailable in current environment; cold window smoke pending.
-Plan/runtime/source/book acceptance remain separate. Source epoch cannot be admitted
-until exact composition is reviewed and stable; no merge/publication while unqualified.
+Independent composition review found one stale nested validation lock. Repair retains
+49 prior identities/checksums and adds22 required identities matching reviewed root.
+Full 78-path native closure and explicit v3 protocol were independently reviewed;
+historical inventories stay byte-identical. New source epoch admits a qualification
+attempt, never a pass. Plan/runtime/source/book acceptance remain separate; no
+authoritative merge/publication while unqualified.
