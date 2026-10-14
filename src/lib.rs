@@ -54,7 +54,8 @@ pub use tracer_barrier::{
 };
 mod simulation;
 pub use simulation::{
-    Simulation, SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
+    AcceptedIntervalPressure, CarrierStepControls, Simulation, SimulationConfig, SimulationError,
+    SmokeSource, StateView, StepReport, StepStage,
 };
 mod forces;
 pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepReport};
@@ -197,10 +198,16 @@ pub use pressure_session::{
     PressureSessionError, PressureSolveControls, QualifiedPressureSnapshot,
 };
 mod vtk_export;
-pub use vtk_export::{write_material_vtp, write_particles_vtp, write_session_vti};
+pub use vtk_export::{
+    write_carrier_vti, write_material_vtp, write_particles_vtp, write_session_vti,
+};
 
 mod provider_step;
 pub use provider_step::{ProviderStepReport, ProviderStepWorkspace};
 
 mod emitter_controls;
 pub use emitter_controls::{EMITTER_CONTROLS_VERSION, EmitterTurbulence};
+
+/// Native accepted-publication archive; inspection data, not restart checkpoints.
+#[cfg(not(target_arch = "wasm32"))]
+pub mod recording;

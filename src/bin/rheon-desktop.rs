@@ -7,6 +7,8 @@ mod engineering;
 #[path = "desktop/export_ui.rs"]
 mod export_ui;
 
+#[path = "desktop/archive_view.rs"]
+mod archive_view;
 #[path = "desktop/collision_ui.rs"]
 mod collision_ui;
 #[path = "desktop/history.rs"]
@@ -51,6 +53,8 @@ struct Request {
     requested_dt: f64,
     material: Option<rheon::ParticleFluidConfig>,
     material_color: [u8; 3],
+    recording_limits: rheon::recording::RecordingLimits,
+    recording_directory: String,
     #[cfg(test)]
     progress_gate: Option<Arc<ProgressGate>>,
 }
@@ -123,6 +127,15 @@ fn available_threads() -> usize {
     std::thread::available_parallelism().map_or(1, usize::from)
 }
 fn validate_request(request: &Request) -> Result<(), String> {
+    {
+        request
+            .recording_limits
+            .validate()
+            .map_err(|e| e.to_string())?;
+        if request.recording_directory.is_empty() || request.recording_directory.len() > 4096 {
+            return Err("Invalid recording directory".into());
+        }
+    }
     if let Some(mesh) = &request.collision_mesh {
         if request.material.is_none() {
             return Err("Collision mesh requires material simulation".into());
@@ -137,6 +150,8 @@ fn validate_request(request: &Request) -> Result<(), String> {
     if !(1..=maximum).contains(&request.size)
         || !(1..=10000).contains(&request.steps)
         || request.methods.is_empty()
+        || request.methods.len() > 2
+        || (request.methods.len() == 2 && request.methods[0] == request.methods[1])
     {
         return Err("Invalid simulation settings".into());
     }
@@ -218,7 +233,7 @@ fn run_simulations(
         return run_material(request, config, cancel, progress, history);
     }
     let mut rows = Vec::new();
-    for (track, method) in request.methods.into_iter().enumerate() {
+    for (track, method) in request.methods.iter().copied().enumerate() {
         if cancel.load(Ordering::Relaxed) {
             return Err("Cancelled; accepted preview frames retained".into());
         }
@@ -239,72 +254,128 @@ fn run_simulations(
         };
         let mut sim =
             Simulation::with_implementation(grid, config, method).map_err(|e| e.to_string())?;
-        history.publish(
-            track,
-            PreviewFrame::capture(&sim, history.preview_edge, 0, 0.0, None)?,
-        )?;
-        let source = SmokeSource {
-            lower: [0.35, 0.08, 0.35].map(|v| v * request.domain_side),
-            upper: [0.65, 0.30, 0.65].map(|v| v * request.domain_side),
-            tracer_rate: 2.0,
-            vertical_acceleration: 1.0,
-        };
-        let mut iterations = 0;
-        let mut divergence = 0.0_f64;
-        let mut seconds = 0.0;
-        for step in 0..request.steps {
-            history.begin_step(track, step + 1)?;
-            let start = Instant::now();
-            let result = if let Some(emitter) = request.emitter {
-                sim.step_with_emitter(request.requested_dt, emitter, |_| {
-                    cancel.load(Ordering::Relaxed)
-                })
-            } else {
-                sim.step(
-                    request.requested_dt,
-                    (step < request.steps / 2).then_some(source),
-                    |_| cancel.load(Ordering::Relaxed),
-                )
-            };
-            let step_seconds = start.elapsed().as_secs_f64();
-            history.end_step()?;
-            let r = result.map_err(|e| e.to_string())?;
-            iterations += r.pressure.iterations;
-            divergence = divergence.max(r.actual_divergence_max);
-            seconds += step_seconds;
+        let path = new_recording_path(&request.recording_directory, method.id())?;
+        let inspector = &history.carrier_inspectors[track];
+        let mut recorder = inspector
+            .begin_carrier(&sim, &path, request.recording_limits)
+            .map_err(|e| format!("Carrier recording start at {} failed: {e}", path.display()))?;
+        let result: Result<(), String> = (|| {
             history.publish(
                 track,
-                PreviewFrame::capture(&sim, history.preview_edge, step + 1, step_seconds, Some(r))?,
+                PreviewFrame::capture(&sim, history.preview_edge, 0, 0.0, None)?,
             )?;
-            progress.fetch_add(1, Ordering::Relaxed);
-            #[cfg(test)]
-            if progress.load(Ordering::Relaxed) == 1
-                && let Some(gate) = &request.progress_gate
-            {
-                gate.reached.send(()).map_err(|e| e.to_string())?;
-                gate.release
-                    .lock()
-                    .map_err(|e| e.to_string())?
-                    .recv_timeout(Duration::from_secs(10))
-                    .map_err(|e| e.to_string())?;
+            let source = SmokeSource {
+                lower: [0.35, 0.08, 0.35].map(|v| v * request.domain_side),
+                upper: [0.65, 0.30, 0.65].map(|v| v * request.domain_side),
+                tracer_rate: 2.0,
+                vertical_acceleration: 1.0,
+            };
+            let mut iterations = 0;
+            let mut divergence = 0.0_f64;
+            let mut seconds = 0.0;
+            for step in 0..request.steps {
+                history.begin_step(track, step + 1)?;
+                let start = Instant::now();
+                let result = if let Some(emitter) = request.emitter {
+                    sim.step_with_emitter(request.requested_dt, emitter, |_| {
+                        cancel.load(Ordering::Relaxed)
+                    })
+                } else {
+                    sim.step(
+                        request.requested_dt,
+                        (step < request.steps / 2).then_some(source),
+                        |_| cancel.load(Ordering::Relaxed),
+                    )
+                };
+                let step_seconds = start.elapsed().as_secs_f64();
+                history.end_step()?;
+                let r = result.map_err(|e| e.to_string())?;
+                inspector.record_carrier(&mut recorder, &sim)?;
+                iterations += r.pressure.iterations;
+                divergence = divergence.max(r.actual_divergence_max);
+                seconds += step_seconds;
+                history.publish(
+                    track,
+                    PreviewFrame::capture(
+                        &sim,
+                        history.preview_edge,
+                        step + 1,
+                        step_seconds,
+                        Some(r),
+                    )?,
+                )?;
+                progress.fetch_add(1, Ordering::Relaxed);
+                #[cfg(test)]
+                if progress.load(Ordering::Relaxed) == 1
+                    && let Some(gate) = &request.progress_gate
+                {
+                    gate.reached.send(()).map_err(|e| e.to_string())?;
+                    gate.release
+                        .lock()
+                        .map_err(|e| e.to_string())?
+                        .recv_timeout(Duration::from_secs(10))
+                        .map_err(|e| e.to_string())?;
+                }
             }
-        }
-        let pixels = guidance_pixels(&sim, 128 * 128).map_err(|e| e.to_string())?;
-        rows.push(ResultRow {
-            method,
-            seconds,
-            iterations,
-            divergence,
-            bytes: sim.allocated_bytes(),
-            time: sim.state().time,
-            pixels,
-            particle_report: None,
-        });
+            if cancel.load(Ordering::Relaxed) {
+                return Err("Cancelled; accepted recording prefix retained".into());
+            }
+            let pixels = guidance_pixels(&sim, 128 * 128).map_err(|e| e.to_string())?;
+            rows.push(ResultRow {
+                method,
+                seconds,
+                iterations,
+                divergence,
+                bytes: sim.allocated_bytes(),
+                time: sim.state().time,
+                pixels,
+                particle_report: None,
+            });
+            Ok(())
+        })();
+        let outcome = if result.is_ok() {
+            "completed"
+        } else if cancel.load(Ordering::Relaxed) {
+            "cancelled"
+        } else {
+            "failed"
+        };
+        let detail = match &result {
+            Ok(()) => "All accepted carrier steps retained; no restartable checkpoint claim".into(),
+            Err(e) => format!(
+                "{e}; accepted generation {}; acknowledged publications {}; accepted tail may be unrecorded",
+                sim.state().generation,
+                recorder.recorded_count()
+            ),
+        };
+        recorder
+            .finish(outcome, &detail, Some(sim.state().generation))
+            .map_err(|e| {
+                format!(
+                    "{detail}; terminal status not confirmed at {}: {e}",
+                    path.display()
+                )
+            })?;
+        result?;
     }
     if cancel.load(Ordering::Relaxed) {
         return Err("Cancelled; accepted preview frames retained".into());
     }
     Ok(rows)
+}
+fn new_recording_path(directory: &str, label: &str) -> Result<std::path::PathBuf, String> {
+    let directory = std::path::Path::new(directory);
+    std::fs::create_dir_all(directory).map_err(|e| e.to_string())?;
+    static NEXT: AtomicUsize = AtomicUsize::new(0);
+    let timestamp = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_err(|e| e.to_string())?
+        .as_nanos();
+    Ok(directory.join(format!(
+        "{label}-{timestamp}-{}-{}.sqlite",
+        std::process::id(),
+        NEXT.fetch_add(1, Ordering::Relaxed)
+    )))
 }
 fn run_material(
     request: Request,
@@ -322,86 +393,132 @@ fn run_material(
     let mut sim = rheon::ParticleFluidSimulation::new(grid, config).map_err(|e| e.to_string())?;
     sim.set_collision_mesh(request.collision_mesh.clone())
         .map_err(|e| e.to_string())?;
-    history.inspector.capture(&sim)?;
-    history.publish(
-        0,
-        PreviewFrame::capture_particles(
-            &sim,
-            method,
-            history.preview_edge,
-            0,
-            0.0,
-            None,
-            request.material_color,
-        )?,
-    )?;
-    let mut seconds = 0.0;
-    let mut last_report = None;
-    for step in 0..request.steps {
-        history.begin_step(0, step + 1)?;
-        let start = Instant::now();
-        let result = sim.step(request.requested_dt, request.emitter, || {
-            cancel.load(Ordering::Relaxed)
-        });
-        let elapsed = start.elapsed().as_secs_f64();
-        history.end_step()?;
-        let report = result.map_err(|e| e.to_string())?;
-        seconds += elapsed;
-        last_report = Some(report);
-        history.inspector.capture(&sim)?;
+    let path = new_recording_path(&request.recording_directory, "material")?;
+    let mut recorder = history
+        .inspector
+        .begin(&sim, &path, request.recording_limits)
+        .map_err(|e| format!("Recording start at {} failed: {e}", path.display()))?;
+    let result = (|| {
         history.publish(
             0,
             PreviewFrame::capture_particles(
                 &sim,
                 method,
                 history.preview_edge,
-                step + 1,
-                elapsed,
-                Some(report),
+                0,
+                0.0,
+                None,
                 request.material_color,
             )?,
         )?;
-        progress.fetch_add(1, Ordering::Relaxed);
-        #[cfg(test)]
-        if progress.load(Ordering::Relaxed) == 1
-            && let Some(gate) = &request.progress_gate
-        {
-            gate.reached.send(()).map_err(|e| e.to_string())?;
-            gate.release
-                .lock()
-                .map_err(|e| e.to_string())?
-                .recv_timeout(Duration::from_secs(10))
-                .map_err(|e| e.to_string())?;
+        let mut seconds = 0.0;
+        let mut last_report = None;
+        for step in 0..request.steps {
+            history.begin_step(0, step + 1)?;
+            let start = Instant::now();
+            let result = sim.step(request.requested_dt, request.emitter, || {
+                cancel.load(Ordering::Relaxed)
+            });
+            let elapsed = start.elapsed().as_secs_f64();
+            history.end_step()?;
+            let report = result.map_err(|e| e.to_string())?;
+            seconds += elapsed;
+            last_report = Some(report);
+            history.inspector.record(
+                &mut recorder,
+                &sim,
+                report,
+                rheon::MaterialStepControls {
+                    requested_dt: request.requested_dt,
+                    emitter: request
+                        .emitter
+                        .map(|emitter| rheon::MaterialEmitterControl {
+                            source_id: 1,
+                            source_version: 1,
+                            emitter,
+                        }),
+                },
+            )?;
+            history.publish(
+                0,
+                PreviewFrame::capture_particles(
+                    &sim,
+                    method,
+                    history.preview_edge,
+                    step + 1,
+                    elapsed,
+                    Some(report),
+                    request.material_color,
+                )?,
+            )?;
+            progress.fetch_add(1, Ordering::Relaxed);
+            #[cfg(test)]
+            if progress.load(Ordering::Relaxed) == 1
+                && let Some(gate) = &request.progress_gate
+            {
+                gate.reached.send(()).map_err(|e| e.to_string())?;
+                gate.release
+                    .lock()
+                    .map_err(|e| e.to_string())?
+                    .recv_timeout(Duration::from_secs(10))
+                    .map_err(|e| e.to_string())?;
+            }
         }
+        if cancel.load(Ordering::Relaxed) {
+            return Err("Cancelled; accepted preview frames retained".into());
+        }
+        let n = request.size as usize;
+        let mut pixels = vec![0_u8; n * n];
+        for p in sim.particles().iter().filter(|p| p.material == 0) {
+            let x = ((p.position[0] / request.domain_side * n as f64).floor() as usize).min(n - 1);
+            let z = ((p.position[2] / request.domain_side * n as f64).floor() as usize).min(n - 1);
+            pixels[x + n * z] = pixels[x + n * z].saturating_add(32);
+        }
+        Ok(vec![ResultRow {
+            method,
+            seconds,
+            iterations: 0,
+            divergence: 0.0,
+            bytes: sim.allocated_bytes(),
+            time: sim.time(),
+            pixels,
+            particle_report: last_report,
+        }])
+    })();
+    let outcome = if result.is_ok() {
+        "completed"
+    } else if cancel.load(Ordering::Relaxed) {
+        "cancelled"
+    } else {
+        "failed"
+    };
+    let detail = match &result {
+        Ok(_) => "All accepted steps retained; no restartable checkpoint claim".to_owned(),
+        Err(e) => format!(
+            "{e}; accepted generation {}; acknowledged publications {}; an accepted tail may be unrecorded",
+            sim.generation(),
+            recorder.recorded_count()
+        ),
+    };
+    if let Err(e) = recorder.finish(outcome, &detail, Some(sim.generation())) {
+        return Err(format!(
+            "{detail}; recording terminal status not confirmed at {}: {e}",
+            path.display()
+        ));
     }
-    if cancel.load(Ordering::Relaxed) {
-        return Err("Cancelled; accepted preview frames retained".into());
-    }
-    let n = request.size as usize;
-    let mut pixels = vec![0_u8; n * n];
-    for p in sim.particles().iter().filter(|p| p.material == 0) {
-        let x = ((p.position[0] / request.domain_side * n as f64).floor() as usize).min(n - 1);
-        let z = ((p.position[2] / request.domain_side * n as f64).floor() as usize).min(n - 1);
-        pixels[x + n * z] = pixels[x + n * z].saturating_add(32);
-    }
-    Ok(vec![ResultRow {
-        method,
-        seconds,
-        iterations: 0,
-        divergence: 0.0,
-        bytes: sim.allocated_bytes(),
-        time: sim.time(),
-        pixels,
-        particle_report: last_report,
-    }])
+    result
 }
 struct App {
+    archive: archive_view::ArchiveView,
     collision: collision_ui::CollisionControls,
     selected: PressureImplementation,
     domain_side: f64,
     requested_dt: f64,
     material_mode: bool,
     history_budget_mib: usize,
+    recording_database_mib: usize,
+    recording_record_mib: usize,
+    recording_directory: String,
     materials: settings::MaterialControls,
     size: u64,
     steps: usize,
@@ -434,12 +551,16 @@ impl Default for App {
     fn default() -> Self {
         let thread_limit = available_threads();
         Self {
+            archive: archive_view::ArchiveView::default(),
             collision: collision_ui::CollisionControls::default(),
             selected: PressureImplementation::default(),
             domain_side: 1.0,
             requested_dt: 0.02,
             material_mode: true,
             history_budget_mib: history::HISTORY_BUDGET / (1024 * 1024),
+            recording_database_mib: 1024,
+            recording_record_mib: 64,
+            recording_directory: ".generated/recordings".into(),
             materials: settings::MaterialControls::default(),
             size: 32,
             steps: 1024,
@@ -483,6 +604,19 @@ impl App {
                     ui.selectable_value(&mut self.inspector_open, false, "Settings");
                     ui.selectable_value(&mut self.inspector_open, true, "Inspector");
                 });
+                self.archive.controls(
+                    ui,
+                    self.worker.is_none(),
+                    rheon::recording::RecordingLimits {
+                        max_database_bytes: (self.recording_database_mib as u64)
+                            .saturating_mul(1024 * 1024),
+                        max_record_bytes: self.recording_record_mib.saturating_mul(1024 * 1024),
+                        max_records: 10001,
+                    },
+                );
+                if self.archive.active {
+                    return;
+                }
                 ui.separator();
                 egui::ScrollArea::vertical()
                     .id_salt("sidebar-content")
@@ -490,9 +624,21 @@ impl App {
                         if self.inspector_open {
                             ui.heading("Numerical inspector");
                             if let Some(history) = &self.history {
-                                history.inspector.ui(ui);
+                                if self
+                                    .running_request
+                                    .as_ref()
+                                    .is_some_and(|r| r.material.is_none())
+                                {
+                                    if let Some(inspector) =
+                                        history.carrier_inspectors.get(self.track)
+                                    {
+                                        inspector.ui(ui);
+                                    }
+                                } else {
+                                    history.inspector.ui(ui);
+                                }
                             } else {
-                                ui.label("Start a material simulation to inspect particles");
+                                ui.label("Start a simulation or open a numerical archive");
                             }
                         } else {
                             self.controls(ui);
@@ -526,6 +672,25 @@ impl App {
             return;
         }
         self.refresh_threads(available_threads());
+        let (Some(database_bytes), Some(record_bytes), Some(max_records)) = (
+            u64::try_from(self.recording_database_mib)
+                .ok()
+                .and_then(|n| n.checked_mul(1024 * 1024)),
+            self.recording_record_mib.checked_mul(1024 * 1024),
+            self.steps.checked_add(1),
+        ) else {
+            self.status = "Recording limit overflow".into();
+            return;
+        };
+        let recording_limits = rheon::recording::RecordingLimits {
+            max_database_bytes: database_bytes,
+            max_record_bytes: record_bytes,
+            max_records,
+        };
+        if let Err(e) = recording_limits.validate() {
+            self.status = e.to_string();
+            return;
+        }
         let request = Request {
             collision_mesh: self.collision.mesh.clone(),
             size: self.size,
@@ -544,6 +709,8 @@ impl App {
             requested_dt: self.requested_dt,
             material: self.material_mode.then_some(self.materials.config),
             material_color: self.materials.color(),
+            recording_limits,
+            recording_directory: self.recording_directory.clone(),
             #[cfg(test)]
             progress_gate: None,
         };
@@ -628,6 +795,17 @@ impl App {
             Ok((count, frame)) => {
                 if let Some(frame) = &frame {
                     self.timeline_step = frame.step;
+                    {
+                        let inspector = if frame.material_color.is_some() {
+                            &history.inspector
+                        } else {
+                            &history.carrier_inspectors[self.track]
+                        };
+                        if let Err(e) = inspector.ensure_timestep(frame.step) {
+                            self.status =
+                                format!("Selected numerical step {} unavailable: {e}", frame.step);
+                        }
+                    }
                 }
                 if self.playing && self.timeline_step + 1 >= count && self.worker.is_none() {
                     self.playing = false;
@@ -679,6 +857,17 @@ impl App {
                 }
                 ui.horizontal(|ui| {ui.label("Preview grid");ui.add(egui::DragValue::new(&mut self.size).range(4..=if self.material_mode {512}else{128}).suffix("³"));});
                 ui.horizontal(|ui| {ui.label("Steps");ui.add(egui::DragValue::new(&mut self.steps).range(1..=10000));});
+                {
+                    ui.collapsing("Numerical recording (every accepted step)", |ui| {
+                        ui.label("Local recording directory");
+                        ui.text_edit_singleline(&mut self.recording_directory);
+                        ui.add(egui::DragValue::new(&mut self.recording_database_mib).range(1..=16384).suffix(" MiB database cap"));
+                        ui.add(egui::DragValue::new(&mut self.recording_record_mib).range(1..=64).suffix(" MiB per publication"));
+                        ui.small("Retention: keep all; stop at limits. Caps apply per track/database; comparisons create separate archives. Record quota = requested steps + constructor. Files persist after reset; delete explicitly outside Rheon.");
+                        ui.small("Rollback journal uses additional temporary disk, at most approximately one database plus sector/page overhead. SQLite/allocator memory is outside the payload limit.");
+                    });
+                }
+                ui.small("Carrier inventory: native face velocity, cell appearance tracer, accepted interval pressure. Material inventory: particle attributes and preintegration diagnostics. Other Rheon session/lab backends are not recorded here.");
                 ui.horizontal(|ui| {ui.label("Timeline budget");ui.add(egui::DragValue::new(&mut self.history_budget_mib).range(16..=4096).suffix(" MiB"));});
                 if let Ok(plan)=LiveHistory::plan(self.size as usize,self.steps,1,self.history_budget_mib.saturating_mul(1024*1024)) {ui.small(format!("Stored preview {}³ · {:.1} MiB for every step",plan.edge,plan.bytes as f64/1048576.0));}
                 ui.small("Particle samples control physical detail; preview voxels control the image.");
@@ -828,11 +1017,19 @@ impl eframe::App for App {
         if self.closing && self.worker.is_none() {
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
         }
+        if self.archive.active {
+            self.archive.show(ctx);
+            return;
+        }
         if self.playing {
             self.play_time += self.playback_speed * ctx.input(|i| i.stable_dt.min(0.1)) as f64;
         }
         let (count, frame) = self.selected_frame();
         self.sidebar(ctx);
+        if self.archive.active {
+            ctx.request_repaint();
+            return;
+        }
         egui::TopBottomPanel::bottom("timeline")
             .min_height(106.0)
             .show(ctx, |ui| {
@@ -1123,6 +1320,8 @@ mod tests {
             requested_dt: 0.02,
             material: Some(rheon::ParticleFluidConfig::default()),
             material_color: [85, 190, 245],
+            recording_limits: rheon::recording::RecordingLimits::default(),
+            recording_directory: ".generated/recordings".into(),
             progress_gate: None,
         };
         let worker = Worker::start(request).unwrap();
@@ -1135,6 +1334,82 @@ mod tests {
         assert_eq!(frame.edge, 256);
         assert_eq!(frame.density.len(), 256_usize.pow(3));
         assert!(frame.density.iter().any(|v| *v > 0));
+    }
+    #[test]
+    fn archive_opening_frame_suppresses_the_previous_live_inspector() {
+        let ctx = egui::Context::default();
+        let mut app = App::default();
+        app.inspector_open = true;
+        app.history = Some(LiveHistory::with_budget(4, 1, 1, 16 * 1024 * 1024).unwrap());
+        app.archive.path = std::env::temp_dir()
+            .join(format!(
+                "rheon-absent-transition-{}.sqlite",
+                std::process::id()
+            ))
+            .to_str()
+            .unwrap()
+            .into();
+        let render = |app: &mut App, events| {
+            ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(
+                        egui::Pos2::ZERO,
+                        egui::vec2(1400.0, 1600.0),
+                    )),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    app.sidebar(ctx);
+                },
+            )
+        };
+        let click = |app: &mut App, label: &str| {
+            let _ = render(app, vec![]);
+            let output = render(app, vec![]);
+            let pos = output
+                .shapes
+                .iter()
+                .find_map(|s| match &s.shape {
+                    egui::Shape::Text(t) if t.galley.job.text == label => {
+                        Some(t.pos + t.galley.size() * 0.5)
+                    }
+                    _ => None,
+                })
+                .unwrap_or_else(|| panic!("missing sidebar control {label}"));
+            let _ = render(
+                app,
+                vec![
+                    egui::Event::PointerMoved(pos),
+                    egui::Event::PointerButton {
+                        pos,
+                        button: egui::PointerButton::Primary,
+                        pressed: true,
+                        modifiers: Default::default(),
+                    },
+                ],
+            );
+            render(
+                app,
+                vec![egui::Event::PointerButton {
+                    pos,
+                    button: egui::PointerButton::Primary,
+                    pressed: false,
+                    modifiers: Default::default(),
+                }],
+            )
+        };
+        let _ = click(&mut app, "Open numerical archive");
+        let output = render(&mut app, vec![]);
+        assert!(output.shapes.iter().any(
+            |s| matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Numerical inspector")
+        ));
+        let output = click(&mut app, "Open recorded run");
+        assert!(app.archive.active);
+        assert!(!output.shapes.iter().any(
+            |s| matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Numerical inspector")
+        ));
+        assert!(app.archive.inspector.selected_identity().is_none());
     }
     #[test]
     fn docked_inspector_cannot_overlap_viewport_at_supported_window_sizes() {
@@ -1257,6 +1532,8 @@ mod tests {
             requested_dt: 0.02,
             material: Some(rheon::ParticleFluidConfig::default()),
             material_color: [85, 190, 245],
+            recording_limits: rheon::recording::RecordingLimits::default(),
+            recording_directory: ".generated/recordings".into(),
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
@@ -1306,6 +1583,8 @@ mod tests {
             requested_dt: 0.02,
             material: None,
             material_color: [85, 190, 245],
+            recording_limits: rheon::recording::RecordingLimits::default(),
+            recording_directory: ".generated/recordings".into(),
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
@@ -1385,6 +1664,8 @@ mod tests {
             requested_dt: 0.02,
             material: None,
             material_color: [85, 190, 245],
+            recording_limits: rheon::recording::RecordingLimits::default(),
+            recording_directory: ".generated/recordings".into(),
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
@@ -1463,10 +1744,71 @@ mod tests {
             requested_dt: 0.02,
             material: None,
             material_color: [85, 190, 245],
+            recording_limits: rheon::recording::RecordingLimits::default(),
+            recording_directory: ".generated/recordings".into(),
             progress_gate: None,
         };
         let progress = AtomicUsize::new(0);
-        let rows = run(request, &AtomicBool::new(false), &progress).unwrap();
+        let history = LiveHistory::with_budget(8, 4, 2, 96 * 1024 * 1024).unwrap();
+        let rows = run_owned(
+            request.clone(),
+            &AtomicBool::new(false),
+            &progress,
+            &history,
+            None,
+            rheon::CpuScheduler::new(),
+        )
+        .unwrap();
+        let mut ids = Vec::new();
+        for inspector in &history.carrier_inspectors {
+            assert_eq!(inspector.recorded_count().unwrap(), 5);
+            inspector.verify().unwrap();
+            inspector.select_timestep(1).unwrap();
+            ids.push(inspector.selected_identity().unwrap());
+        }
+        assert_ne!(ids[0].0, ids[1].0);
+        history.carrier_inspectors[1].select_timestep(4).unwrap();
+        assert_eq!(
+            history.carrier_inspectors[0].selected_identity(),
+            Some(ids[0])
+        );
+        let mut cold = archive_view::ArchiveView::default();
+        cold.path = history.carrier_inspectors[0]
+            .archive_path()
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .into();
+        cold.open(rheon::recording::RecordingLimits::default())
+            .unwrap();
+        cold.inspector.select_timestep(1).unwrap();
+        assert_eq!(cold.inspector.selected_identity(), Some(ids[0]));
+        let mut limited = request.clone();
+        limited.recording_limits.max_records = 2;
+        let partial = LiveHistory::with_budget(8, 4, 2, 96 * 1024 * 1024).unwrap();
+        assert!(
+            run_owned(
+                limited,
+                &AtomicBool::new(false),
+                &AtomicUsize::new(0),
+                &partial,
+                None,
+                rheon::CpuScheduler::new()
+            )
+            .err()
+            .expect("record quota must stop worker")
+            .contains("not confirmed recorded")
+        );
+        let reader = rheon::recording::RecordingReader::open(
+            &partial.carrier_inspectors[0].archive_path().unwrap(),
+            rheon::recording::RecordingLimits::default(),
+        )
+        .unwrap();
+        reader.verify().unwrap();
+        assert_eq!(reader.count().unwrap(), 2);
+        assert_eq!(reader.status().unwrap().outcome, "failed");
+        assert_eq!(reader.status().unwrap().accepted_generation, Some(2));
+        assert_eq!(partial.view(0, 0, true).unwrap().0, 2);
         assert_eq!(rows.len(), 2);
         assert_eq!(progress.load(Ordering::Relaxed), 8);
         assert_eq!(rows[0].time, rows[1].time);
@@ -1492,6 +1834,8 @@ mod tests {
                     requested_dt: 0.02,
                     material: None,
                     material_color: [85, 190, 245],
+                    recording_limits: rheon::recording::RecordingLimits::default(),
+                    recording_directory: ".generated/recordings".into(),
                     progress_gate: None
                 },
                 &AtomicBool::new(true),

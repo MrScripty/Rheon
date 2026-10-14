@@ -133,6 +133,7 @@ impl PreviewFrame {
 }
 pub struct LiveHistory {
     pub inspector: super::inspector::Inspector,
+    pub carrier_inspectors: Vec<super::inspector::Inspector>,
     tracks: Mutex<Vec<Vec<Arc<PreviewFrame>>>>,
     pub active_track: AtomicUsize,
     pub preview_edge: usize,
@@ -193,6 +194,9 @@ impl LiveHistory {
         }
         Ok(Arc::new(Self {
             inspector: super::inspector::Inspector::default(),
+            carrier_inspectors: (0..tracks)
+                .map(|_| super::inspector::Inspector::default())
+                .collect(),
             tracks: Mutex::new(storage),
             active_track: AtomicUsize::new(0),
             preview_edge: plan.edge,
