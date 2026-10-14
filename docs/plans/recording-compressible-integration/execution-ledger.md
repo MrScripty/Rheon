@@ -38,3 +38,12 @@ Zlib license texts plus bundled SQLite. Locked metadata succeeds. Fixed v3 epoch
 preserves both previous records, binds review report and complete current native
 closure; builds never refresh it automatically. No old receipt relabelled.
 Clean-source qualification and full exact-head CI still pending.
+
+I2/I3 execution: clean4de7f58 tree10c33459 passed native/rational18 commands,
+real packet26 tests normally/-O zero skips, actual12-row primitive refinement
+study and fresh prospective S1 capture with separately pinned-origin recheck.
+All prior numerical metrics reproduced; source/build change qualified freshly,
+not by copied receipts. S1first shortened-OID invocation correctly refused before
+output; full-OID run passed. Strict desktop all-target Clippy and locked repaired
+harness/browser WASM checks pass. Evidence/digests are in reports/verification.md.
+Final hosted build/runtime/publication and native-window gate remain separate.

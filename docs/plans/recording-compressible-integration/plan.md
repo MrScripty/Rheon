@@ -1,7 +1,7 @@
 # Recording and periodic S1 integration
 
 Status: Active. Current phase: clean-source qualification of reviewed composition.
-Next slice: qualify native/rational packet and publish draft for full exact-head CI.
+Next slice: publish draft and observe full exact-head CI; native-window gate pending.
 Acceptance: pending, separate domains below; draft-only delivery before qualification.
 Ledger: [execution-ledger](execution-ledger.md); [issues](issues.md).
 
@@ -89,11 +89,12 @@ merge conflict resolution only for src/lib.rs/shared docs/locks. Admit full unch
 component write sets via their reviewed proposals; preserve newer main canonical plan.
 Gate: current OIDs/CI/reviews, exact source diff and explicit stale/conflicting/
 dependency-blocked dispositions, no component ref mutation.
-I2 affected focused numerical/runtime verification passed; fresh combined-source
-field capture pending. Writes:this plan reports and bounded
+I2 affected focused numerical/runtime verification and fresh combined-source
+field capture passed. Writes:this plan reports and bounded
 composition repairs in owning source/test/docs, with owner coordination. Gate:R/C
 separately observed, source identity comparisons, affected checks, no S2 scope.
-I3 source/book admission reviewed; clean committed qualification pending. Writes: new education inventory,
+I3 source/book admission reviewed; fresh clean native/rational/packet passed;
+full final-head book/runtime qualification pending. Writes: new education inventory,
 explicit epoch selector/tests/contracts and this plan; historical inventories retained.
 Gate: full source review then clean committed fresh native/rational/book qualification.
 I4 draft delivery/CI pending qualification commit. Writes: plan/evidence and own feature ref/PR.
