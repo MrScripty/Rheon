@@ -30,12 +30,22 @@ analytic oracles, generator, and tests. Changing those files requires a fresh
 generation. JSON keeps binary64 round-trip values and rejects NaN serialization.
 
 `generate.validate_results(results)` checks provenance, reconstructed primitive
-fields, conservation diagnostics, and qualification metrics.
+fields, conservation diagnostics, recording origin and qualification metrics.
+`generate.validate_record_origin(results)` replays the declared initializer,
+seven saved times, cumulative step counts, conserved fields and refinement
+probes with the bounded original solver. It compares numerical values with
+relative tolerance `1e-13` and absolute tolerance `1e-14`; the saved time grid
+uses absolute tolerance `1e-15`. This replay checks the relationship between
+records and the stated computation. It supplies no independent solver-accuracy
+or floating-point correctness proof. Self-consistent frozen fields and unrelated
+refinement probes cannot substitute for evolved records.
 `generate.validate_qualification(report)` recomputes acoustic errors, Fourier
 phase speeds, and Sod profile errors from recorded probes using continuum
-formulas. Neither validator reruns the time-stepping solver. These are local
-producer checks; the browser publisher also owns validation of the data it
-consumes. Equality with source hashes proves freshness, not physical accuracy.
+formulas; these separate analytic comparisons assess the declared bounded
+accuracy checks. The publisher performs the same bounded recording replay
+during admission, while browser controls select saved records and run no
+solver. Equality with source hashes establishes a source identity, not physical
+accuracy or recording origin by itself.
 
 ## Equations and discretization
 

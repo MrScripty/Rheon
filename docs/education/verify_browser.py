@@ -67,7 +67,8 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
 
     with sync_playwright() as p:
         browser = p.chromium.launch(executable_path=shutil.which('chromium'), headless=True,
-                                    args=['--no-sandbox', '--enable-unsafe-swiftshader'])
+                                    args=['--no-sandbox', '--enable-unsafe-swiftshader'],
+                                    ignore_default_args=['--disable-back-forward-cache'])
         page = browser.new_page(viewport={'width': 1440, 'height': 1050}, device_scale_factor=1)
         track(page)
         load(page, 'index.html')

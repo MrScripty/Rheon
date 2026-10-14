@@ -24,9 +24,12 @@ def validate_receipt(receipt, published):
         require(receipt.get('records_sha256') == published['records_sha256'], 'browser field source binding')
         require(receipt.get('source_sha256') == published['sources'], 'browser numerical source binding')
         require(receipt.get('webgl') is True and receipt.get('fallback_checked') is True and receipt.get('playback_checked') is True and receipt.get('distinct_case_field_rasters') is True, 'browser render/playback checks')
+        history = receipt.get('history')
+        require(history == {'persisted_round_trips': 2, 'saved_selection_retained': True, 'mesh_and_readouts_checked': True, 'render_loop_resumed': True, 'camera_changes_raster': True, 'playback_remains_paused': True}, 'browser persisted history qualification')
         require(receipt['dynamic_states'] >= 84 and receipt['field_comparisons'] >= 84 * 144 and receipt['metric_comparisons'] >= 84 * 9 and receipt['camera_checks'] >= 4, 'incomplete observed browser evidence')
     else:
         require(receipt.get('records_sha256') is None and receipt.get('source_sha256') is None and receipt.get('screenshots') == [], 'source-only browser invented evidence')
+        require(receipt.get('history') is None, 'source-only browser invented history evidence')
         require(not receipt.get('webgl') and not receipt.get('fallback_checked') and not receipt.get('playback_checked') and not receipt.get('distinct_case_field_rasters'), 'source-only browser invented checks')
     return receipt
 
@@ -98,13 +101,68 @@ def inspect(page, packet):
     return snapshot, len(expected_indices), len(metric_values)
 
 
+def qualify_history(page, packet, load, check_errors, check=None):
+    """Observe actual persisted hide/show events and the restored WebGL scene."""
+    def inspect_state(**expected):
+        snapshot = check(**expected) if check is not None else inspect(page, packet)[0]
+        for key, value in expected.items():
+            require(snapshot[key] == value, 'restored browser selection ' + key)
+        return snapshot
+    page.select_option('#compressible-case', 'oblique_acoustic')
+    page.select_option('#compressible-scalar', 'pressure')
+    page.select_option('#compressible-axis', '0')
+    page.locator('#compressible-frame').fill('3'); page.locator('#compressible-frame').dispatch_event('input')
+    page.locator('#compressible-slice').fill('2'); page.locator('#compressible-slice').dispatch_event('input')
+    page.locator('#compressible-reset').click()
+    page.evaluate("""() => {
+        window.__compressibleHistory = {events: [], marker: {}};
+        addEventListener('pagehide', event => {
+            __compressibleHistory.events.push(['hide', event.persisted]);
+            if (event.persisted) __compressibleHistory.lastHidden = __compressible.snapshot();
+        });
+        addEventListener('pageshow', event => __compressibleHistory.events.push(['show', event.persisted]));
+    }""")
+    page.locator('#compressible-play').click()
+    before = inspect_state(caseId='oblique_acoustic', scalar='pressure', axis=0, slice=2)
+    require(before['playing'], 'history navigation starts from active playback')
+    load(page, 'index.html')
+    page.go_back(wait_until='commit')
+    page.wait_for_function("window.__compressibleHistory?.events.some(([kind, persisted]) => kind === 'show' && persisted)")
+    events = page.evaluate('window.__compressibleHistory.events')
+    require(events == [['hide', True], ['show', True]], 'real persisted history restoration: ' + str(events))
+    # Playback can advance between a click and navigation on a slow runner.
+    # Compare with the actual paused pagehide state, not an earlier sample.
+    before = page.evaluate('window.__compressibleHistory.lastHidden')
+    restored = inspect_state(caseId='oblique_acoustic', frame=before['frame'], scalar='pressure', axis=0, slice=2)
+    require(not restored['playing'] and not restored['suspended'], 'restored playback remains paused')
+    require(restored['renderedColors'] == before['renderedColors'] and restored['renderedPositions'] == before['renderedPositions'], 'restored retained mesh')
+    page.wait_for_function('(count) => window.__compressible.snapshot().renderedFrames > count', arg=restored['renderedFrames'])
+    raster_before = hashlib.sha256(page.locator('#compressible-scene canvas').screenshot()).hexdigest()
+    page.locator('#compressible-scene').focus(); page.keyboard.press('ArrowRight')
+    moved = inspect_state(caseId='oblique_acoustic', frame=before['frame'], scalar='pressure')
+    require(moved['camera'] != restored['camera'], 'restored camera interaction')
+    raster_after = hashlib.sha256(page.locator('#compressible-scene canvas').screenshot()).hexdigest()
+    require(raster_after != raster_before, 'restored camera changes actual rendered pixels')
+    page.wait_for_timeout(650)
+    require(inspect_state()['frame'] == before['frame'], 'history restoration does not restart saved-frame playback')
+    # A second round trip proves pagehide ownership is not a one-shot listener.
+    load(page, 'index.html'); page.go_back(wait_until='commit')
+    page.wait_for_function("window.__compressibleHistory?.events.length === 4")
+    require(page.evaluate('window.__compressibleHistory.events') == [['hide', True], ['show', True], ['hide', True], ['show', True]], 'repeated persisted history restoration')
+    again = inspect_state(caseId='oblique_acoustic', frame=before['frame'], scalar='pressure', axis=0, slice=2)
+    page.wait_for_function('(count) => window.__compressible.snapshot().renderedFrames > count', arg=again['renderedFrames'])
+    check_errors()
+    return {'persisted_round_trips': 2, 'saved_selection_retained': True, 'mesh_and_readouts_checked': True,
+            'render_loop_resumed': True, 'camera_changes_raster': True, 'playback_remains_paused': True}
+
+
 def qualify(page, mobile, load, check_errors, packet_dir=None, artifact_dir=None, repo=None):
     load(page, 'compressible-lab.html')
     presentation = page.evaluate("fetch('compressible-presentation.json').then(r=>r.json())")
     receipt = {'schema': SCHEMA, 'included': presentation['included'], 'browser_fluid_solves': 0,
                **{key: 0 for key in COUNTS}, 'mobile_no_overflow': True, 'screenshots': [],
                'webgl': False, 'fallback_checked': False, 'playback_checked': False, 'distinct_case_field_rasters': False,
-               'records_sha256': None, 'source_sha256': None}
+               'records_sha256': None, 'source_sha256': None, 'history': None}
     if not presentation['included']:
         require(page.locator('#compressible-case').count() == 0 and 'fields are absent' in page.locator('main').inner_text(), 'source-only viewer notice')
         load(mobile, 'compressible-lab.html')
@@ -178,6 +236,8 @@ def qualify(page, mobile, load, check_errors, packet_dir=None, artifact_dir=None
     mobile.locator('#compressible-frame').fill('5'); mobile.locator('#compressible-frame').dispatch_event('input'); check(mobile, caseId='oblique_acoustic', frame=5, scalar='pressure', axis=1)
     require(mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'), 'mobile field viewer overflow')
     picture('acoustic-mobile.jpg', mobile)
+    receipt['history'] = qualify_history(page, packet, load, check_errors, check)
+    receipt['camera_checks'] += 1
     # An independent page suppresses WebGL to exercise the declared fallback.
     fallback_context = page.context.browser.new_context()
     fallback = fallback_context.new_page()

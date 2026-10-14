@@ -5,7 +5,7 @@ import unittest
 
 import numpy as np
 
-from generate import build_case, generate, qualify, source_hashes, validate_qualification, validate_results
+from generate import build_case, generate, qualify, source_hashes, validate_qualification, validate_record_origin, validate_results
 from oracles import sod_exact, sod_star
 from reference import Config, acoustic_initial, conservative, integrate, primitive, sod_initial, stable_dt, step
 
@@ -99,6 +99,39 @@ class ReferenceTests(unittest.TestCase):
         corrupted["sod"]["density_l1_errors"][-1] += 0.1
         with self.assertRaisesRegex(ValueError, "qualification mismatch: sod.density_l1_errors"):
             validate_qualification(corrupted)
+
+    def test_recording_origin_rejects_unevolved_frames_and_false_initial_state(self):
+        case = build_case("oblique_acoustic", acoustic_initial, "test", 0.01)
+        report = qualify()
+        report["max_relative_conservation_drift"] = max(frame["diagnostics"]["relative_conservation_drift"] for frame in case["frames"])
+        packet = {"cases": [case], "qualification": report}
+        frozen = copy.deepcopy(packet)
+        for frame in frozen["cases"][0]["frames"][1:]:
+            frame["conserved"] = copy.deepcopy(case["frames"][0]["conserved"])
+        with self.assertRaisesRegex(ValueError, "recording state mismatch.*frame 1"):
+            validate_record_origin(frozen)
+        initial = copy.deepcopy(packet)
+        initial["cases"][0]["frames"][0]["conserved"][0][0] += 0.01
+        with self.assertRaisesRegex(ValueError, "recording state mismatch.*frame 0"):
+            validate_record_origin(initial)
+
+    def test_recording_origin_rejects_incorrect_time_steps_and_refinement_probes(self):
+        case = build_case("oblique_acoustic", acoustic_initial, "test", 0.01)
+        report = qualify()
+        report["max_relative_conservation_drift"] = max(frame["diagnostics"]["relative_conservation_drift"] for frame in case["frames"])
+        packet = {"cases": [case], "qualification": report}
+        time = copy.deepcopy(packet)
+        time["cases"][0]["frames"][-1]["time"] = 0.0099
+        with self.assertRaisesRegex(ValueError, "recording time grid mismatch"):
+            validate_record_origin(time)
+        steps = copy.deepcopy(packet)
+        steps["cases"][0]["frames"][-1]["diagnostics"]["steps"] = 0
+        with self.assertRaisesRegex(ValueError, "recording step count mismatch"):
+            validate_record_origin(steps)
+        probes = copy.deepcopy(packet)
+        probes["qualification"]["sod"]["probes"][-1]["final_density_profile"][0] += 0.01
+        with self.assertRaisesRegex(ValueError, r"qualification replay mismatch: sod.probes\[2\].final_density_profile\[0\]"):
+            validate_record_origin(probes)
 
 
 if __name__ == "__main__":

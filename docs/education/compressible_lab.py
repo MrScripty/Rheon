@@ -48,6 +48,9 @@ def _validate_packet(repo, directory, filename="results.json"):
         count = math.prod(grid['shape'])
         require(len(case['frames']) == 7, 'seven saved evolution frames')
         require(case['frames'][0]['time'] == 0 and all(a['time'] < b['time'] for a, b in zip(case['frames'], case['frames'][1:])), 'saved time order')
+        require(all(type(frame['time']) in (int, float) and math.isfinite(frame['time']) and
+                    math.isclose(frame['time'], index * 0.08 / 6, rel_tol=0, abs_tol=1e-15)
+                    for index, frame in enumerate(case['frames'])), 'qualified saved time grid')
         initial_totals = None
         ranges = {'density': [], 'pressure': [], 'speed': []}
         for frame in case['frames']:

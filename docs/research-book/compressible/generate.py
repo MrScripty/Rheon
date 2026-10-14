@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import platform
 
@@ -66,7 +67,7 @@ def qualify():
             "sod": {"grid_shapes": [[24, 2, 2], [48, 2, 2], [64, 2, 2]], "time": end_time,
                     "comparison_window": [0.2, 0.8], "density_l1_errors": sod_errors,
                     "pressure_l1_errors": pressure_errors, "exact_star_pressure": pstar,
-                    "exact_star_velocity": ustar,
+                    "exact_star_velocity": float(ustar),
                     "probes": sod_probes,
                     "acceptance": "density errors decrease; finest pressure L1 error < 0.04"}}
 
@@ -138,11 +139,66 @@ def validate_results(results):
                     raise ValueError(f"diagnostic mismatch: {key}")
             if actual["relative_conservation_drift"] > 2e-13:
                 raise ValueError("periodic conservation failed")
+    validate_record_origin(results)
     validate_qualification(results["qualification"])
     max_drift = max(frame["diagnostics"]["relative_conservation_drift"]
                     for case in results["cases"] for frame in case["frames"])
     if not np.isclose(max_drift, results["qualification"]["max_relative_conservation_drift"], rtol=1e-13, atol=1e-16):
         raise ValueError("qualification mismatch: max_relative_conservation_drift")
+
+
+def validate_record_origin(results):
+    """Replay bounded records with this solver; analytic accuracy is separate.
+
+    This checks that a packet records the declared computation, rather than
+    accepting self-consistent but unevolved fields. It is neither an independent
+    accuracy oracle nor a proof of floating-point solver correctness.
+    """
+    initializers = {"planar_sod_periodic": sod_initial, "oblique_acoustic": acoustic_initial}
+    for case in results["cases"]:
+        if case["id"] not in initializers:
+            raise ValueError("unsupported recording case")
+        config = Config(tuple(case["grid"]["shape"]), case["parameters"]["gamma"], case["parameters"]["cfl"])
+        end_time = case["parameters"]["dimensionless_end_time"]
+        if not np.isfinite(end_time) or not 0 < end_time <= 1:
+            raise ValueError("invalid recording end time")
+        times = np.linspace(0, end_time, 7)
+        if len(case["frames"]) != len(times) or not np.allclose(
+                [frame["time"] for frame in case["frames"]], times, rtol=0, atol=1e-15):
+            raise ValueError("recording time grid mismatch")
+        expected = integrate(initializers[case["id"]](config), config, times)
+        for index, (frame, (_, state, steps)) in enumerate(zip(case["frames"], expected)):
+            if frame["diagnostics"]["steps"] != steps:
+                raise ValueError(f"recording step count mismatch: {case['id']} frame {index}")
+            if not np.allclose(np.asarray(frame["conserved"]), state.reshape(-1, 5), rtol=1e-13, atol=1e-14):
+                raise ValueError(f"recording state mismatch: {case['id']} frame {index}")
+
+    # Refinement probes must record this computation too; consistent error
+    # summaries from unrelated probe fields do not establish their origin.
+    expected_report = qualify()
+    report = results["qualification"]
+    if set(report) != set(expected_report) | {"max_relative_conservation_drift"}:
+        raise ValueError("qualification replay shape mismatch")
+
+    def match(actual, expected, path):
+        if isinstance(expected, dict):
+            if not isinstance(actual, dict) or set(actual) != set(expected):
+                raise ValueError("qualification replay shape mismatch: " + path)
+            for key, value in expected.items():
+                match(actual[key], value, path + "." + key)
+        elif isinstance(expected, list):
+            if not isinstance(actual, list) or len(actual) != len(expected):
+                raise ValueError("qualification replay shape mismatch: " + path)
+            for index, value in enumerate(expected):
+                match(actual[index], value, path + f"[{index}]")
+        elif isinstance(expected, float):
+            if type(actual) not in (int, float) or not math.isclose(actual, expected, rel_tol=1e-13, abs_tol=1e-14):
+                raise ValueError("qualification replay mismatch: " + path)
+        elif type(actual) is not type(expected) or actual != expected:
+            raise ValueError("qualification replay mismatch: " + path)
+
+    for key, value in expected_report.items():
+        match(report[key], value, key)
 
 
 def validate_qualification(report):

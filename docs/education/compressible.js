@@ -10,6 +10,7 @@ const host = $('scene');
 const number = value => Number(value).toPrecision(6);
 let renderer, controls, mesh, geometry, material;
 let renderMode = 'webgl', playing = null, current, fields = [], indices = [], positions = [];
+let suspended = false, disposed = false, renderedFrames = 0;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xedf3f2);
 const camera = new THREE.PerspectiveCamera(42, 1, .01, 100);
@@ -132,7 +133,10 @@ function refresh() {
   $('error').textContent = `Density L¹ reference difference: ${number(diagnostics.density_l1_reference_error)}${current.id === 'planar_sod_periodic' ? ' · central shock-tube window' : ' · linear acoustic reference'}.`;
   $('error').dataset.value = diagnostics.density_l1_reference_error;
   $('qualification').textContent = `Numerical checks: ${packet.qualification.status}. Compare the finite-grid shock profile and acoustic phase, damping and refinement in the downloadable qualification. The acoustic linear comparison includes small nonlinear effects.`;
-  $('status').textContent = `${renderMode === 'webgl' ? '3D saved field' : 'WebGL unavailable: displaying the authoritative 2D saved slice'}. Frame ${Number($('frame').value) + 1} of ${current.frames.length}, t = ${number(frame.time)}. ${playing ? 'Playing recorded frames.' : 'No fluid computation runs in the browser.'}`;
+  updateStatus();
+}
+function updateStatus() {
+  $('status').textContent = `${renderMode === 'webgl' ? '3D saved field' : 'WebGL unavailable: displaying the authoritative 2D saved slice'}. Frame ${Number($('frame').value) + 1} of ${current.frames.length}, t = ${number(selectedFrame().time)}. ${playing ? 'Playing recorded frames.' : 'No fluid computation runs in the browser.'}`;
 }
 function stop() {
   if (playing !== null) clearInterval(playing);
@@ -176,20 +180,35 @@ host.addEventListener('keydown', event => {
   if (event.key === '-') spherical.radius *= 1.1;
   camera.position.copy(controls.target).add(offset.setFromSpherical(spherical)); controls.update();
 });
-const observer = new ResizeObserver(() => {
-  if (!renderer) return;
+function resizeScene() {
+  if (!renderer || suspended || disposed) return;
   const width = host.clientWidth, height = host.clientHeight;
+  if (!width || !height) return;
   renderer.setSize(width, height); camera.aspect = width / height; camera.updateProjectionMatrix();
-});
+}
+const observer = new ResizeObserver(resizeScene);
 observer.observe(host);
 $('provenance').textContent = `Generator source SHA-256: ${packet.provenance.source_sha256['generate.py']}. Stored frame fields are flattened in C order, z fastest.`;
 choose();
-if (renderer) renderer.setAnimationLoop(() => {controls.update(); renderer.render(scene, camera);});
+function renderFrame() {
+  if (suspended || disposed) return;
+  controls.update(); renderer.render(scene, camera); renderedFrames += 1;
+}
+if (renderer) renderer.setAnimationLoop(renderFrame);
 window.__compressible = {
   snapshot() {
     const renderedColors = renderer ? indices.map((_, i) => {const c = new THREE.Color(); mesh.getColorAt(i, c); return c.toArray();}) : [];
     const renderedPositions = renderer ? indices.map((_, i) => {const m = new THREE.Matrix4(); mesh.getMatrixAt(i, m); return [m.elements[12], m.elements[13], m.elements[14]];}) : positions;
-    return {caseId:current.id, frame:Number($('frame').value), scalar:$('scalar').value, mode:$('mode').value, axis:Number($('axis').value), slice:Number($('slice').value), indices:indices.slice(), values:fields.slice(), renderedPositions, renderedColors, renderMode, camera:camera.position.toArray(), cameraAspect:camera.aspect, viewport:[host.clientWidth,host.clientHeight], playing:playing !== null, cell:Number($('cell').value)};
+    return {caseId:current.id, frame:Number($('frame').value), scalar:$('scalar').value, mode:$('mode').value, axis:Number($('axis').value), slice:Number($('slice').value), indices:indices.slice(), values:fields.slice(), renderedPositions, renderedColors, renderMode, camera:camera.position.toArray(), cameraAspect:camera.aspect, viewport:[host.clientWidth,host.clientHeight], playing:playing !== null, cell:Number($('cell').value), renderedFrames, suspended};
   }
 };
-window.addEventListener('pagehide', () => {stop(); observer.disconnect(); renderer?.setAnimationLoop(null); controls?.dispose(); clearGroup(); renderer?.dispose();}, {once:true});
+window.addEventListener('pagehide', event => {
+  stop(); suspended = true; renderer?.setAnimationLoop(null);
+  // A persisted page keeps its resources for the browser's history cache.
+  if (event.persisted) return;
+  disposed = true; observer.disconnect(); controls?.dispose(); clearGroup(); renderer?.dispose();
+});
+window.addEventListener('pageshow', event => {
+  if (!event.persisted || disposed) return;
+  suspended = false; resizeScene(); updateStatus(); renderer?.setAnimationLoop(renderFrame);
+});

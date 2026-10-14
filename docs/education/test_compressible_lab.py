@@ -7,6 +7,8 @@ import sys
 import tempfile
 import unittest
 
+import numpy as np
+
 from compressible_browser import validate_receipt
 from compressible_lab import publish, validate_packet, verify_published
 
@@ -78,6 +80,40 @@ class CompressiblePublicationTests(unittest.TestCase):
         self.reject(lambda p: p['cases'][1]['field_ranges']['speed'].__setitem__(1, 100), 'field range speed')
         self.reject(lambda p: p['cases'][1]['frames'][1].__setitem__('time', float('nan')), 'saved time order|finite saved time')
         self.reject(lambda p: p['cases'][1]['parameters'].__setitem__('gamma', 1.5), 'physical parameters')
+
+    def test_self_consistent_unevolved_records_are_rejected(self):
+        # Preserve valid fields, ledgers and analytic readouts while falsely
+        # claiming the initial state was evolved at all seven saved times.
+        sys.path.insert(0, str(ROOT/'docs/research-book/compressible'))
+        from oracles import acoustic_density, sod_exact
+        def freeze(packet):
+            for case in packet['cases']:
+                initial = copy.deepcopy(case['frames'][0])
+                shape = tuple(case['grid']['shape'])
+                for index, frame in enumerate(case['frames']):
+                    time = frame['time']
+                    case['frames'][index] = copy.deepcopy(initial)
+                    current = case['frames'][index]
+                    current['time'] = time
+                    rho = np.asarray(current['density']).reshape(shape)
+                    if case['id'] == 'planar_sod_periodic':
+                        x = (np.arange(shape[0])+.5)/shape[0]
+                        exact, _, _ = sod_exact(x, time)
+                        window = (x > .2) & (x < .8)
+                        error = np.mean(np.abs(rho[window,0,0]-exact[window]))
+                    else:
+                        error = np.mean(np.abs(rho-acoustic_density(shape,time,.02)))
+                    current['diagnostics']['density_l1_reference_error'] = float(error)
+                case['field_ranges'] = {name:[min(initial[name]),max(initial[name])]
+                                        for name in ('density','pressure')}
+                speed = np.linalg.norm(np.asarray(initial['velocity']),axis=1)
+                case['field_ranges']['speed'] = [float(speed.min()),float(speed.max())]
+            packet['qualification']['max_relative_conservation_drift'] = 0.0
+        self.reject(freeze, 'recording step count mismatch')
+
+    def test_incorrect_terminal_time_is_rejected(self):
+        self.reject(lambda p: p['cases'][1]['frames'][-1].__setitem__('time',.079),
+                    'qualified saved time grid')
 
     def test_qualification_numbers_are_recomputed(self):
         self.reject(lambda p: p['qualification']['acoustic']['normalized_density_l1_errors'].__setitem__(0, 0), 'numerical producer verification failed')
