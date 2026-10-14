@@ -181,3 +181,13 @@ any future actual distribution must be reported before proceeding. Rheon's
 Apache-2.0 source license remains unchanged. Its Rust dependency license review
 remains separately scoped in dependency-licenses.json. No broader legal
 interpretation or license exception approval is inferred from the runtime pin.
+
+## Prospective versioned-study amendment awaiting final plan pin
+
+Parent subsequently approved preparing 16/24/32 support subject to independent
+methodological review and canonical plan update. The proposed native export adds
+explicit top-level `study_id: "s1-cell-average-acoustic-16-24-32-v2"`; see
+[prospective contract](prospective-study.md). Original missing-ID 8/12/20 exports
+keep their original population and failed disposition. All numerical criteria,
+CFL and initialization conventions remain unchanged. Final plan/native pins and
+actual higher-resolution origin capture are still required before acceptance.

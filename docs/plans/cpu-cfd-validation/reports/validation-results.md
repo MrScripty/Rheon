@@ -118,3 +118,14 @@ External experimental geometry/data rights/access and arbitrary moving-body
 capability remain deferred as recorded in [staged validation](staged-validation.md).
 No aircraft/submarine, experimental agreement or training-label acceptance;
 no GPU, remote-worker or release-tag claim.
+
+## Prospective versioned study support
+
+Parent approved preparing 16/24/32 support subject to independent methodological
+review and canonical-plan update. The verifier now requires explicit prospective
+study ID, preserves legacy original-only behavior and records study identity.
+All 41 tests pass normally/-O; independent implementation review found no
+defects, including unchanged >0.6 rejection on decreasing order-0.55 errors.
+See [prospective contract](prospective-study.md). Actual higher-resolution native
+capture and the final reviewed plan/source pins remain pending; original study
+failures are preserved and no numerical gate has changed.

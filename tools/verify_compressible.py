@@ -28,9 +28,9 @@ END_TIME = 0.08
 MODES = (((1, 1, 1), 1.0, 0.0), ((1, -1, 2), 0.5, math.pi/3))
 EPS = np.finfo(float).eps
 CHANNELS = ["rho", "mx", "my", "mz", "E"]
-EXPECTED_CASES = {("uniform", (3, 2, 1)), ("differential", (3, 4, 2))}
-EXPECTED_CASES |= {("acoustic", (n, n, n)) for n in (8, 12, 20)}
-EXPECTED_CASES |= {("sod", (n, 2, 2)) for n in (24, 48, 64)}
+ORIGINAL_STUDY = "s1-cell-average-acoustic-8-12-20-v1"
+PROSPECTIVE_STUDY = "s1-cell-average-acoustic-16-24-32-v2"
+ACOUSTIC_STUDIES = {ORIGINAL_STUDY: (8, 12, 20), PROSPECTIVE_STUDY: (16, 24, 32)}
 
 
 class ValidationError(ValueError):
@@ -309,6 +309,14 @@ def assess_suite(root):
     suite = read_json(root/"suite.json")
     require(type(suite.get("schema_version")) is int and suite["schema_version"] == 1 and suite.get("method") == "llf-euler-periodic-v1"
             and suite.get("gamma") == GAMMA and suite.get("gas_constant") == 287.0, "format/suite-method-eos")
+    # Existing exports without an ID retain precisely the original population.
+    # A prospective run must identify itself; relabelling old fields cannot pass.
+    study = suite.get("study_id", ORIGINAL_STUDY)
+    require(isinstance(study, str) and study in ACOUSTIC_STUDIES, "format/unknown-study")
+    meshes = ACOUSTIC_STUDIES[study]
+    expected_cases = {("uniform", (3, 2, 1)), ("differential", (3, 4, 2))}
+    expected_cases |= {("acoustic", (n, n, n)) for n in meshes}
+    expected_cases |= {("sod", (n, 2, 2)) for n in (24, 48, 64)}
     cases = suite.get("cases")
     require(isinstance(cases, list) and len(cases) == 8, "format/expected-eight-cases")
     seen, names, artifacts = set(), set(), {"suite.json"}
@@ -321,7 +329,7 @@ def assess_suite(root):
         require(isinstance(shape, list) and len(shape) == 3
                 and all(type(n) is int and 1 <= n <= 64 for n in shape), "format/case-shape")
         key = (kind, tuple(shape))
-        require(key in EXPECTED_CASES, "format/fixture-population")
+        require(key in expected_cases, "format/fixture-population")
         require(key not in seen, "format/duplicate-case")
         seen.add(key)
         name = case.get("id")
@@ -395,18 +403,19 @@ def assess_suite(root):
                         "quadrature_max_difference": uncertainty})
         elif kind == "uniform":
             uniform.append(name)
-    require(seen == EXPECTED_CASES, "format/fixture-population")
+    require(seen == expected_cases, "format/fixture-population")
     require(len(differential) == 1, "differential/expected-one-step")
     acoustic.sort(key=lambda x: x["n"])
     sod.sort(key=lambda x: x["n"])
     errors = [r["normalized_density_l1"] for r in acoustic]
     require(all(0 < b < a for a, b in zip(errors, errors[1:])), "acoustic/density-refinement")
-    orders = [math.log(a/b)/math.log(nb/na) for a, b, na, nb in zip(errors, errors[1:], (8, 12), (12, 20))]
+    orders = [math.log(a/b)/math.log(nb/na) for a, b, na, nb in zip(errors, errors[1:], meshes, meshes[1:])]
     require(min(orders) > 0.6, "acoustic/order-below-0.6")
     require(acoustic[-1]["modes"][0]["relative_speed_error"] < 0.08, "acoustic/phase-speed-error")
     require(all(b["density_l1"] < a["density_l1"] for a, b in zip(sod, sod[1:])), "sod/density-refinement")
     require(sod[-1]["pressure_l1"] < 0.04, "sod/pressure-l1-error")
     return {"status": "satisfied", "scope": "S1-B/D/E/F/G exported native fields only; S1-A/C remain public Rust API checks",
+            "study_id": study,
             "acoustic": acoustic, "acoustic_orders": orders, "sod": sod,
             "acoustic_phase_speed_gate_mode": [1, 1, 1],
             "acoustic_other_mode_speed_scope": "reported only; the admitted aggregate-density gates do not separately bound its phase speed",

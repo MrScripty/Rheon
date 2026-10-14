@@ -98,3 +98,22 @@ Read-only externally pinned verify repeated that failure. Original aea43a5
 Sod failure remains untouched. Both dense3D hosted workflows passed at 6454acf;
 they do not execute S1. No open bounded review findings. Plan is Blocked pending
 parent prospective replan admission; no numerical acceptance or release tag.
+
+Parent read the diagnosis and approved preparing prospective 16/24/32 support,
+subject to independent methodological review and canonical-plan update by its
+planning owner. Original failed studies/pins remain authoritative historical
+failures. Wrote scoped Milestone 3 before code. Proposed explicit study_id with
+fixed populations, unchanged criteria and legacy original-only default; no
+actual higher-resolution acceptance until parent supplies final admitted plan
+and native source pins.
+
+Implemented explicit original/prospective study IDs and fixed populations.
+Legacy missing ID remains original-only; unknown/mismatched/mixed populations
+fail closed. Assessments identify the selected study, with correct nonuniform
+mesh ratios and unchanged criteria. All 41 tests passed normally and under -O,
+including inherited original numerical/layout/time negatives for 16/24/32 and
+the n^-0.55 unchanged-order-gate negatives. Python compilation/diff checks
+passed. Read-only independent review found no defects, confirmed 39-test initial
+runs and the final added frozen-order tests normally/-O. Original external origin
+hashes are unchanged; diagnostic-only current assessment still fails acoustic
+order for both preserved runs. No new native run or canonical-plan edit.

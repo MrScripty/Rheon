@@ -38,7 +38,7 @@ def write_state(path, state):
             writer.writerow([format(float(x), ".17g") for x in row])
 
 
-def synthetic_suite(root):
+def synthetic_suite(root, study=v.ORIGINAL_STUDY):
     """Construct known analytic gate probes with disclosed exterior compensation.
 
     The artificial Sod exterior only balances totals for policy-unit tests; it
@@ -74,7 +74,7 @@ def synthetic_suite(root):
     initial = reference.conservative(density, velocity, pressure)
     config = SimpleNamespace(shape=shape, spacing=np.array([0.2, 0.3, 0.4]), gamma=v.GAMMA, cfl=0.25)
     add("differential", shape, initial, reference.step(initial, 0.001, config), 0.001, "exported-initial-v1")
-    for n in (8, 12, 20):
+    for n in v.ACOUSTIC_STUDIES[study]:
         shape = (n, n, n)
         add("acoustic", shape, v.acoustic_average(shape, 0),
             v.acoustic_average(shape, 0.08, attenuation=(1-0.5/n, 1-0.5/n)),
@@ -92,6 +92,8 @@ def synthetic_suite(root):
         add("sod", shape, initial, final, 0.08, "sod-cell-average-v1")
     suite = {"schema_version": 1, "method": "llf-euler-periodic-v1", "gamma": 1.4,
              "gas_constant": 287.0, "cases": cases}
+    if study != v.ORIGINAL_STUDY:
+        suite["study_id"] = study
     (root/"suite.json").write_text(json.dumps(suite))
     return suite
 
@@ -179,11 +181,13 @@ class OracleTests(unittest.TestCase):
 
 
 class ExportTests(unittest.TestCase):
+    study = v.ORIGINAL_STUDY
+
     @classmethod
     def setUpClass(cls):
         cls.temporary = tempfile.TemporaryDirectory()
         cls.root = Path(cls.temporary.name)
-        cls.suite = synthetic_suite(cls.root)
+        cls.suite = synthetic_suite(cls.root, cls.study)
 
     @classmethod
     def tearDownClass(cls):
@@ -211,6 +215,28 @@ class ExportTests(unittest.TestCase):
         self.assertLess(result["max_normalized_conservation_drift"], 2e-13)
         self.assertGreater(min(result["acoustic_orders"]), 0.6)
         self.assertEqual(result["accepted_steps_checked"], 8)
+        self.assertEqual(result["study_id"], self.study)
+        self.assertEqual([case["n"] for case in result["acoustic"]], list(v.ACOUSTIC_STUDIES[self.study]))
+        errors = [case["normalized_density_l1"] for case in result["acoustic"]]
+        meshes = (8, 12, 20) if self.study == v.ORIGINAL_STUDY else (16, 24, 32)
+        for i in range(2):
+            self.assertEqual(result["acoustic_orders"][i], math.log(errors[i]/errors[i+1])/math.log(meshes[i+1]/meshes[i]))
+
+    def test_unknown_and_mismatched_study_ids_reject_before_numerical_acceptance(self):
+        other = v.PROSPECTIVE_STUDY if self.study == v.ORIGINAL_STUDY else v.ORIGINAL_STUDY
+        for study, diagnostic in ((other, "format/fixture-population"),
+                                  ("unadmitted-study-v3", "format/unknown-study"),
+                                  (None, "format/unknown-study")):
+            with self.changed_suite(lambda suite: suite.update(study_id=study)), \
+                    self.assertRaisesRegex(v.ValidationError, diagnostic):
+                v.assess_suite(self.root)
+
+    def test_mixed_acoustic_families_reject(self):
+        other_n = 16 if self.study == v.ORIGINAL_STUDY else 8
+        def mutate(suite):
+            suite["cases"][2]["shape"] = [other_n]*3
+        with self.changed_suite(mutate), self.assertRaisesRegex(v.ValidationError, "format/fixture-population"):
+            v.assess_suite(self.root)
 
     def test_x_fast_layout_preserves_asymmetric_axes(self):
         state = np.arange(3*4*2*5, dtype=float).reshape(3, 4, 2, 5)*0.00001
@@ -257,6 +283,27 @@ class ExportTests(unittest.TestCase):
                 for path, data in saved:
                     path.write_bytes(data)
 
+    def test_decreasing_errors_below_frozen_order_threshold_reject(self):
+        saved = []
+        try:
+            for case in self.suite["cases"]:
+                if case["kind"] != "acoustic":
+                    continue
+                shape = tuple(case["shape"])
+                exact = v.acoustic_average(shape, 0.08)
+                wave_norm = float(np.mean(abs(exact[..., 0]-1))/v.AMPLITUDE)
+                # Prescribe decreasing error proportional to n^-0.55. The
+                # observed denominator must use this study's actual meshes.
+                damping = 1-0.1/shape[0]**0.55/wave_norm
+                path = self.root/case["frames"][1]["file"]
+                saved.append((path, path.read_bytes()))
+                write_state(path, v.acoustic_average(shape, 0.08, attenuation=(damping, damping)))
+            with self.assertRaisesRegex(v.ValidationError, "acoustic/order-below-0.6"):
+                v.assess_suite(self.root)
+        finally:
+            for path, data in saved:
+                path.write_bytes(data)
+
     def test_axis_permutation_of_final_fields_rejects_numerically(self):
         saved = []
         try:
@@ -286,7 +333,7 @@ class ExportTests(unittest.TestCase):
                     continue
                 shape = tuple(case["shape"])
                 n = shape[0]
-                damping = {8: 0.5, 12: 0.7, 20: 0.9}[n]
+                damping = dict(zip(v.ACOUSTIC_STUDIES[self.study], (0.5, 0.7, 0.9)))[n]
                 state = (v.acoustic_average(shape, 0.08, attenuation=(damping, 0))
                          + v.acoustic_average(shape, 0.064, attenuation=(0, damping))-background)
                 path = self.root/case["frames"][1]["file"]
@@ -342,6 +389,16 @@ class ExportTests(unittest.TestCase):
             v.assess_suite(self.root)
         with self.changed_file(self.root/"suite.json", b'{"schema_version":1,"schema_version":1}'), \
                 self.assertRaisesRegex(v.ValidationError, "format/duplicate-json-key"):
+            v.assess_suite(self.root)
+
+
+class ProspectiveExportTests(ExportTests):
+    """Run the same policy/layout/time negatives for the explicitly versioned family."""
+    study = v.PROSPECTIVE_STUDY
+
+    def test_prospective_population_requires_explicit_study_id(self):
+        with self.changed_suite(lambda suite: suite.pop("study_id")), \
+                self.assertRaisesRegex(v.ValidationError, "format/fixture-population"):
             v.assess_suite(self.root)
 
 
