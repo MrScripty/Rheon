@@ -192,8 +192,25 @@ fn run() -> Result<()> {
         .parent()
         .filter(|p| !p.as_os_str().is_empty())
         .unwrap_or(Path::new("."));
-    let parent = fs::canonicalize(parent)?;
     let checkout = fs::canonicalize(env!("CARGO_MANIFEST_DIR"))?;
+    // The exact-source runner passes a fresh cases/CASE path. Establish its
+    // existing ancestor before creating parent directories; never create them
+    // below the checkout or interpret unresolved parent traversal.
+    if parent
+        .components()
+        .any(|c| matches!(c, std::path::Component::ParentDir))
+    {
+        return Err("capture output must not contain parent traversal".into());
+    }
+    let mut ancestor = parent;
+    while !ancestor.exists() {
+        ancestor = ancestor.parent().ok_or("output has no existing ancestor")?;
+    }
+    if fs::canonicalize(ancestor)?.starts_with(&checkout) {
+        return Err("capture output must be outside the checkout".into());
+    }
+    fs::create_dir_all(parent)?;
+    let parent = fs::canonicalize(parent)?;
     if parent.starts_with(&checkout) {
         return Err("capture output must be outside the checkout".into());
     }
