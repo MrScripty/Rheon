@@ -1,0 +1,148 @@
+# Execution ledger
+
+2026-10-14: Inspected clean saved checkout; refreshed remote refs without reset,
+stash or rewriting. Created isolated validation worktree from main 8baf459.
+Read current public CPU sources, existing pressure/viscosity tests and milestone
+limits. No local AGENTS.md/.agents skills found. Read current Coding-Standards.
+User task admits the scoped plan and implementation. Primary-site research
+found NASA TMR's move to tmbwg.github.io; source rights remain asset-specific.
+
+Plan written before implementation. Acceptance pending; no solver-core edits.
+
+Elementary implementation executed 12 public-CPU refinement points, strict
+Clippy/format, one Rust diagnostic test, 12 Python acceptance/oracle tests and
+18 existing pressure/viscosity contract tests. Development/precommit receipts
+are external at /tmp/rheon-cpu-cfd-development and /tmp/rheon-cpu-cfd-precommit;
+they identify dirty source hashes and are not clean release checkpoints.
+Both pressure methods show spatial orders 1.902/1.976, viscosity spatial
+1.975/1.985 and temporal 1.003/1.002. Actual projected divergence <=4.41e-12;
+viscous <=7.75e-6; wall-normal/flux/energy-growth maxima zero.
+The first new-resolution build hit a transient dependency-download 403 before
+execution; seeding the standalone lock from current root versions and rerunning
+resolved it. Public API compile errors were repaired in harness only. A Python
+mock inadvertently intercepted platform discovery; isolating platform metadata
+in the mock repaired the test. Subsequent named checks passed.
+
+Parent then supplied reviewed solver plan PR72 at 67baa105 and assigned the two
+independent verifier tools. Read S1-A through S1-G and separate educational
+reference/oracles. Replanned the next slice to native S1 validation; no solver
+core, public exports, or canonical solver plan edits. Format and exact acoustic
+cell-average initialization proposed through parent; native evidence pending.
+
+Committed/pushed elementary slice as ef4f8e4a59d119533f0e41cf89fa11f3f94ab759;
+draft PR73 opened. Re-executed the real release suite from that clean commit at
+/tmp/rheon-cpu-cfd-ef4f8e4-clean: all 12 points passed, CSV hash recorded in the
+authored validation-results report. No generated logs/frames committed.
+
+Implemented the two delegated S1 tools in disjoint scope. Exact conservative
+Sod integration splits at waves and derives reference pressure after averaging U;
+linear conservative acoustic averages use analytic sinc factors. Observed Sod
+root bracket 5.55e-17, sampled acoustic nonlinear residual 3.97e-11 with doubling
+ratio 4.0000063. All 19 verifier tests passed normally and -O on NumPy 2.3.5.
+Synthetic reader/policy probes remain explicitly separate from real-native
+acceptance. Corrected one negative test's expected diagnostic to the actual
+intended unresolved-second-mode boundary; no gate was relaxed. Cargo executable
+selection follows reported compiler-artifact identity, not a guessed path.
+
+Native producer format/clean implementation commit has not been supplied/admitted;
+A6 remains blocked pending parent coordination. Installed required NumPy wheel
+license text identifies GPL-with-GCC-exception and LGPL bundled libraries;
+recorded parent policy disposition need without changing/installing runtimes or
+claiming a GPL-free environment. Original worktree/core sources remain untouched.
+
+Parent subsequently admitted the export format/conservative initialization at
+4621d69 and relayed it to the native owner. Parent permits the existing NumPy as
+a separately installed validation tool; no runtime distribution is proposed or
+authorized and component licensing remains disclosed. Inspected PR73 hosted
+push/PR runs at the exact 4621d69 head: both dense3D workflows passed, neither
+executes the new S1 verifier. CodeRabbit skipped review because the PR is draft.
+Launched an explicitly requested read-only independent verifier review.
+
+Review found capture defects: empty sandbox markers rejected allowed output,
+and ignored build.rs could affect a clean-commit build without source binding.
+Repaired the full input boundary using a tracked-only Git archive, complete
+exported-source/archive hashes and unsupported Cargo configuration/compiler
+override rejection. Original ignored work/markers are preserved. A tiny real
+native protocol test verifies exclusion without CFD fields or S1 acceptance.
+Independent follow-up confirmed both original closures and 23 normal/-O passes,
+then found CARGO_BUILD_RUSTFLAGS bypass. Added its guard and exact-diagnostic
+tests; final checks/review pending. No old receipt was refreshed. The admitted
+first-mode-only speed scope and second-mode counterexample are now explicit;
+no threshold/native format change occurred.
+
+Final independent focused review confirmed the build-specific flags repair;
+all findings resolved. Final 23 tests passed normally and under -O, including
+the tiny native capture-protocol probe; py_compile and diff checks passed.
+This is capture mechanics evidence only. Actual S1 source pin/numerical capture
+remains pending; no numerical receipt/source admission was refreshed.
+
+Parent supplied native 1b62ae3 and its reported numerical failures. Created
+read-only retained-protected native input worktree/ref and executed reviewed
+tracked-only origin capture from clean verifier aea43a5. Original failure and
+origin pin 7b53940f...e5c4dbec remain unchanged externally. Diagnosed avoidable
+Sod t=0 quadrature rounding; direct analytic constant-state integration makes
+all native initial differences zero without widening 16-epsilon allowance.
+All 24 tool tests passed normally and under -O. Independent reviewer confirmed
+repair and reproduced acoustic diagnosis with a separate scalar Fourier model.
+Actual acoustic order 0.5614384 is reproduced as 0.5614385 by the independent
+linearized LLF symbol. Documented causal cell-average/resolution evidence and a
+prospective 16/24/32 heuristic requiring parent admission. No threshold, native
+fixture, solver or exporter edit; no acceptance/source admission refreshed.
+
+Committed/pushed the narrow oracle repair and causal report as
+6454acf79279330eb01aaee568f1d347688c84f5. Fresh tracked-only capture of native
+1b62ae3 built and ran, then failed exactly acoustic/order-below-0.6. Origin
+e7c098d13eb19fcc54abb37436c0f0e0ffc7e851cd30487e0a590a712c1866a7 and
+failed assessment are retained in /tmp/rheon-s1-1b62ae3-6454acf-sod-fixed.
+Read-only externally pinned verify repeated that failure. Original aea43a5
+Sod failure remains untouched. Both dense3D hosted workflows passed at 6454acf;
+they do not execute S1. No open bounded review findings. Plan is Blocked pending
+parent prospective replan admission; no numerical acceptance or release tag.
+
+Parent read the diagnosis and approved preparing prospective 16/24/32 support,
+subject to independent methodological review and canonical-plan update by its
+planning owner. Original failed studies/pins remain authoritative historical
+failures. Wrote scoped Milestone 3 before code. Proposed explicit study_id with
+fixed populations, unchanged criteria and legacy original-only default; no
+actual higher-resolution acceptance until parent supplies final admitted plan
+and native source pins.
+
+Implemented explicit original/prospective study IDs and fixed populations.
+Legacy missing ID remains original-only; unknown/mismatched/mixed populations
+fail closed. Assessments identify the selected study, with correct nonuniform
+mesh ratios and unchanged criteria. All 41 tests passed normally and under -O,
+including inherited original numerical/layout/time negatives for 16/24/32 and
+the n^-0.55 unchanged-order-gate negatives. Python compilation/diff checks
+passed. Read-only independent review found no defects, confirmed 39-test initial
+runs and the final added frozen-order tests normally/-O. Original external origin
+hashes are unchanged; diagnostic-only current assessment still fails acoustic
+order for both preserved runs. No new native run or canonical-plan edit.
+
+Parent admits reviewed canonical prospective plan fc2270a85e38080d9943048aaf689d99545d3715
+and native 5a049ed604b99817a428d10bbc0140732d3421d6. Read exact revised S1
+criteria/resolution report and native selector. Wrote Milestone 4 before code:
+explicit forwarding must bind requested study to emitted native identity, with
+no manifest editing. Numerical gates remain exactly those in reviewed 764ca2c.
+
+Implemented explicit selector forwarding, requested/native study identity binding
+in capture and retained-origin verification, and legacy original-only default.
+All 43 tests pass normally/-O, including the actual tiny Rust probe executing both
+selector paths. Python compilation/diff checks pass. Native prospective worktree
+is clean/read-only at5a049ed and protected until parent disposition. Numerical
+criteria/oracles remain unchanged from 764ca2c. Independent read-only review
+found no defects and reran all 43 tests normally/-O, including both real protocol
+selections. Commit this clean verifier before the actual native run.
+
+Committed/pushed reviewed capture selector as 94a831770cb96f0c030b15565e2b5f7cbeb6c916.
+From that clean verifier, captured actual native 5a049ed into a fresh external
+/tmp/rheon-s1-5a049ed-94a8317-prospective. Native build/run completed and all
+exported-field S1-B/D/E/F/G gates satisfied. External origin 61885d7df4cd0827a023af39b6905afeac7ac906b7e8e21c835ffc36072d9455;
+assessment 1adc1d3cfb1477a1bfdc30cf84c336cde91495368fda6175689d2113fd10f3e9.
+Read-only verify using that external origin pin repeated all numerical/hash
+checks and emitted assessment-identical bytes. Observed acoustic orders
+0.7928470982/0.8569980147, finest first-mode speed error 0.0019113042, finest
+Sod pressure L1 0.0373060941, worst normalized conservation drift 1.61487e-16.
+All 179 frames/171 accepted steps checked,1746044 rows. Both original failed
+origin hashes/no-accepted-assessment states are unchanged. No solver/core/
+canonical-plan edit or S2. Both 94a8317 dense3D hosted jobs passed, not S1 jobs.
+Current owned scope accepted; parent owns API/source admission/integration.
