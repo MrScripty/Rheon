@@ -1,0 +1,108 @@
+# Plan-delivery verification
+
+This report qualifies a documentation-only plan. Numerical implementation
+acceptance in `plan.md` remains pending. Parent has started S1 separately; this
+planning branch contains no solver implementation or acceptance evidence.
+
+## Delivery claims
+
+| ID | Observable criterion | Kind | Environment | Mode | Status | Evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| P1 | Published prerequisite and current source/pending-PR ownership established without lost changes | contract | required-real: GitHub + saved checkout | automated | satisfied | Main 8baf459; run 38507276934 success; clean original 6ba41c7; preserved refs; ledger |
+| P2 | Plan covers numerical/contracts/validation boundaries with concrete bounded S1 and independent standards review | contract | not-applicable | manual | satisfied | Independent read-only review and re-review below |
+| P3 | Authored links/scope/whitespace and existing relevant research source checks pass | focused | representative: saved CPU environment | automated | satisfied | Plan-contract validator, local link scan, diff check and checks below |
+| P4 | Plan committed/pushed on separate branch and review PR exists | release-artifact | required-real: GitHub | automated | satisfied | Commit 6463ce7 and [draft PR72](https://github.com/MrScripty/Rheon/pull/72) |
+
+## Supporting evidence and limitations
+
+- `python3 proofs/scripts/check_sources.py`: passed exact reviewed Lean source
+  inventory and toolchain/dependency pins. This is not a new kernel execution.
+- `python3 docs/education/check_native_admission.py`: passed the unchanged 73-path
+  native admission at published main. This is identity/preflight, not numerical
+  qualification; future native changes require owner review/fresh evidence.
+- `python3 -m unittest discover -s docs/research-book/compressible -p test_reference.py`:
+  10 passed. Optimized `python3 -O` execution: 10 passed. Existing original
+  Python reference evidence only, not a native solver test.
+- `python3 -m unittest discover -s docs/education -p test_compressible_lab.py`:
+  10 passed. Optimized `python3 -O` execution: 10 passed. Existing bounded lab
+  packet/consumer checks only, not a new interactive solver.
+- Source `validate_plan` from pinned Coding-Standards
+  `tools/standards_verifier/standards_verifier/checks/plan_contract.py` returned
+  PASS using Python with both the standards root and verifier in `PYTHONPATH`.
+  The first import attempt lacked the root and failed before validation;
+  corrected environment passed. This focused structure/lifecycle check is not
+  a full Standards Engine route or design-conformance certificate.
+- Local Markdown link scan resolved every non-URL file target. Scope comparison
+  confirmed source/tests/proofs/Cargo/workflows/browser/book/education unchanged.
+  Whitespace checks passed; exact staged review is performed before committing.
+- No Rust source/build input changed, so new Rust solver tests are neither
+  available nor claimed. No new book deployment, native GUI run, physical
+  validation, GPU, remote computation or training campaign is performed.
+
+## Independent standards review
+
+Reviewer `/root/standards_review` read the Core/Router and required planning,
+architecture/verification closure, relevant contract/persistence/dependency
+guidance, research Chapters 26–28, Lean source, and PR69/71 contracts separately.
+The first draft received three medium findings:
+
+1. Shared `src/lib.rs` export and canonical active-plan writes had ambiguous
+   implementation-worker versus integration-owner authority. Repaired by making
+   them parent-only, with worker export proposal and parent application before
+   public API checks; worker evidence has one owned report path.
+2. Original physics ownership lacked a concrete adoption comparison. Repaired
+   by comparing existing native projection, original Python reference, documented
+   Clawpack and finite native owner against the actual resource/lifecycle/API
+   requirement, with maintenance owner and scope-expansion revisit condition.
+   Official candidate documents were also independently checked by reviewer;
+   no candidate package/source was incorporated.
+3. Analytic-verifier negatives overclaimed source/copy detection. Repaired by
+   separating wrong-phase/field accuracy checks from fresh pinned execution and
+   independently bound run/source/control/artifact-origin admission. Arbitrary
+   correct same-case copying is explicitly outside analytic detection.
+
+Independent re-review on 2026-10-14: **approved for plan-only delivery**, all
+three findings resolved, no remaining standards blocker. Reviewer independently
+reran the plan-contract validator successfully and confirmed repaired material.
+Evidence-only delivery updates do not alter that reviewed design. This is
+source-guided independent standards review, not an Engine certificate or solver
+implementation approval. S4/S5 and physical/vehicle evidence remain prerequisites.
+
+## Delivery outcome
+
+All P1–P4 plan-delivery claims are satisfied. Reviewed material committed as
+`6463ce7c0b36f350fbd6b420a7848a2677388983`, pushed to
+`plan/cpu-compressible-solver`, and [draft PR72](https://github.com/MrScripty/Rheon/pull/72)
+opened against main. GitHub readback confirmed OPEN/draft, the exact head and
+target. Evidence-only completion notes are a subsequent normal commit; no amend,
+force push or source/semantic change. Both prior 6ba41c7 refs remain protected.
+
+At PR creation GitHub started the existing bounded dense3D metadata
+`scoped-contract` checks; their status was in progress. This report does not
+claim a hosted pass or solver validation. The final task report records any
+later observed hosted outcome. No local plan-delivery blocker or denied action.
+S4 recording integration, S5 consumer contract and vehicle physical-validation
+dependencies remain as stated in the implementation plan.
+
+## Parent-authorized S1 lifecycle update
+
+Parent accepted independent review and started worker
+`01a13913-999b-7511-b9cd-f4677019e018` at reviewed head `67baa10`.
+The current plan is `Active` with implementation acceptance `pending`.
+Parent's explicit sole-editor delegation of the minimal S1 compressible export
+block supersedes the earlier parent-application step described in the historical
+review round above. Canonical plan changes remain with the planning agent;
+worker owns its implementation report; validation contracts pass through parent.
+No numerical method, solver source, recording export or acceptance gate changed.
+
+Independent reviewer approved the narrow four-document ownership/lifecycle
+adjustment with no standards blocker and reran `validate_plan` and
+`git diff --check` successfully. Local link/scope checks passed as well.
+
+Hosted readback for exact head `67baa10576a2120f314ec8e56bd7b7129d18d9f0`:
+both bounded dense3D `scoped-contract` runs
+[38521697992](https://github.com/MrScripty/Rheon/actions/runs/38521697992) and
+[38521702365](https://github.com/MrScripty/Rheon/actions/runs/38521702365)
+completed successfully; CodeRabbit status succeeded. New lifecycle-document
+commit checks require their own exact-head observation; these results do not
+transfer to a later head or claim compressible implementation validation.
