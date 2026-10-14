@@ -49,3 +49,18 @@ owner-held source admission, deploy skipped. PR69 description updated via REST a
 legacy gh GraphQL projectCards query failed; verified no branch/base/merge mutation.
 PR67 remains OPEN at24b3860. New feature may push/open draft only, never merge/book
 publish or refresh source pins. Feature ref retained for serial integration review.
+
+V operation continue:source2cf8499 pushed and draft PR71 created via REST, base
+feature/accepted-step-recording, no merge. Exact2cf VTK/executable/native/rational/
+cloud/bounded checks passed while feature matrices remained running. Fresh committed
+source example and independent VTK comparison passed. Source admission unchanged:
+added archive_view/recording/carrier/material files and nine changed admitted inputs;
+exact owner handoff PR71 comment6159169961. PR67 ref verified unchanged24b3860.
+
+Final transition repair:opening from live sidebar could continue rendering its old
+inspector/viewport in that event frame before cold mode appeared on the next frame.
+Added immediate guards and a real egui pointer regression for failed-open transition;
+all39 desktop tests and strict desktop Clippy/fmt/diff passed, no ignored UI tests.
+Update is inside admitted UI write set; no library/numerical algorithm changed. Final
+exact-head CI must be reported separately from2cf; protected branch/PR remain drafts
+pending serial owner integration/qualification. Generated data/proofs are excluded.

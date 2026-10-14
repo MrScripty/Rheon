@@ -1,7 +1,7 @@
 # Carrier recording and cold desktop inspection
 
 Status: Active. Current phase: delivery/exact-head CI.
-Next slice: commit/push dependent source, open draft PR and report exact-head CI.
+Next slice: monitor final dependent PR71 head CI and hand off source admission to its owner.
 Acceptance: A1–A4 and local A5 satisfied; remote/source-publication gates reported separately.
 
 ## Authority, scope and standards
@@ -87,3 +87,8 @@ are invented. Pressure borrow success stamp is invalidated by every later attemp
 
 Local acceptance evidence: [verification](reports/verification.md). Source-only
 feature delivery is authorized; no merge/publication before owner-qualified admission.
+
+Delivery: draft PR71 exists on repaired PR69. Feature and transition commits are
+protected for review; exact refs/check outcomes live in its handoff. Local A1–A5
+are satisfied. Publication acceptance remains pending owner-qualified source
+admission; no native window claim. No remaining implementation blocker.

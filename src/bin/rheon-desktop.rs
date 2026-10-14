@@ -614,6 +614,9 @@ impl App {
                         max_records: 10001,
                     },
                 );
+                if self.archive.active {
+                    return;
+                }
                 ui.separator();
                 egui::ScrollArea::vertical()
                     .id_salt("sidebar-content")
@@ -1023,6 +1026,10 @@ impl eframe::App for App {
         }
         let (count, frame) = self.selected_frame();
         self.sidebar(ctx);
+        if self.archive.active {
+            ctx.request_repaint();
+            return;
+        }
         egui::TopBottomPanel::bottom("timeline")
             .min_height(106.0)
             .show(ctx, |ui| {
@@ -1327,6 +1334,82 @@ mod tests {
         assert_eq!(frame.edge, 256);
         assert_eq!(frame.density.len(), 256_usize.pow(3));
         assert!(frame.density.iter().any(|v| *v > 0));
+    }
+    #[test]
+    fn archive_opening_frame_suppresses_the_previous_live_inspector() {
+        let ctx = egui::Context::default();
+        let mut app = App::default();
+        app.inspector_open = true;
+        app.history = Some(LiveHistory::with_budget(4, 1, 1, 16 * 1024 * 1024).unwrap());
+        app.archive.path = std::env::temp_dir()
+            .join(format!(
+                "rheon-absent-transition-{}.sqlite",
+                std::process::id()
+            ))
+            .to_str()
+            .unwrap()
+            .into();
+        let render = |app: &mut App, events| {
+            ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(
+                        egui::Pos2::ZERO,
+                        egui::vec2(1400.0, 1600.0),
+                    )),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    app.sidebar(ctx);
+                },
+            )
+        };
+        let click = |app: &mut App, label: &str| {
+            let _ = render(app, vec![]);
+            let output = render(app, vec![]);
+            let pos = output
+                .shapes
+                .iter()
+                .find_map(|s| match &s.shape {
+                    egui::Shape::Text(t) if t.galley.job.text == label => {
+                        Some(t.pos + t.galley.size() * 0.5)
+                    }
+                    _ => None,
+                })
+                .unwrap_or_else(|| panic!("missing sidebar control {label}"));
+            let _ = render(
+                app,
+                vec![
+                    egui::Event::PointerMoved(pos),
+                    egui::Event::PointerButton {
+                        pos,
+                        button: egui::PointerButton::Primary,
+                        pressed: true,
+                        modifiers: Default::default(),
+                    },
+                ],
+            );
+            render(
+                app,
+                vec![egui::Event::PointerButton {
+                    pos,
+                    button: egui::PointerButton::Primary,
+                    pressed: false,
+                    modifiers: Default::default(),
+                }],
+            )
+        };
+        let _ = click(&mut app, "Open numerical archive");
+        let output = render(&mut app, vec![]);
+        assert!(output.shapes.iter().any(
+            |s| matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Numerical inspector")
+        ));
+        let output = click(&mut app, "Open recorded run");
+        assert!(app.archive.active);
+        assert!(!output.shapes.iter().any(
+            |s| matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Numerical inspector")
+        ));
+        assert!(app.archive.inspector.selected_identity().is_none());
     }
     #[test]
     fn docked_inspector_cannot_overlap_viewport_at_supported_window_sizes() {

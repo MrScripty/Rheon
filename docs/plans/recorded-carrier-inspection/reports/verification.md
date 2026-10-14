@@ -22,11 +22,12 @@ evidence; serial publication owner must admit/requalify the committed integratio
   1 existing ignore; child crash helper belongs inside recording_contract15.
   No real AI provider qualification is claimed by this local ignored fixture.
 - Default features recording_carrier4+recording15 passed, none ignored.
-- Desktop serial38 passed, none ignored. Real egui pointer controls open a cold run
+- Desktop serial39 passed, none ignored. Real egui pointer controls open a cold run
   after simulation/writer exit, select next recorded ordinal, copy selected field
   CSV, audit and export selected VTI/VTP bytes. Missing pressure at constructor
   keeps the named field absent; usize::MAX scalar index stays unavailable.
-  Comparison archives retain separate identities/selection; real worker quota
+  Opening-frame transition suppresses the prior live inspector/viewport immediately,
+  including failed opens. Comparison archives retain separate identities/selection; real worker quota
   stops before corresponding visual preview and discloses accepted generation2
   beyond recorded constructor+generation1. Corrupt selected payload, index and
   lifecycle clear caches and remove export/CSV controls. Invalid reopen clears.
@@ -75,3 +76,13 @@ whole-process memory/disk-volume limit, hostile shared filesystem, remote/GPU/ne
 physics, compressed/chunked/spatial-query or publication acceptance claim.
 Exact extension commit/head/PR and hosted outcomes are supplied by publication
 handoff; no generated numerical files, logs or temporary proof tools are committed.
+
+
+Delivery: initial feature2cf8499989ca9801aa2d37cf5027e9e4b49a0ec0 pushed as draft PR71
+on repaired PR69. Exact-head independent VTK/executable/native/rational/cloud/bounded
+checks passed; feature matrices remained running at the subsequent transition repair.
+A fresh committed-source example/independent VTK comparison also passed locally at2cf.
+Final transition commit preserves library/numerical source and reruns desktop39 plus
+strict Clippy; current PR head CI is reported in the PR handoff, not guessed from the
+previous head. Source-admission handoff comment6159169961 records exact admitted-domain
+paths; PR67 remains OPEN at24b3860. No new source pins/receipts or merge/publication.
