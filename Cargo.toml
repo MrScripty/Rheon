@@ -76,3 +76,5 @@ rustix = { version = "=1.1.5", features = ["fs"] }
 gltf = { version = "=1.4.1", default-features = false, features = ["utils", "names"] }
 base64 = "=0.22.1"
 cap-std = "=3.4.5"
+rusqlite = { version = "=0.37.0", features = ["bundled", "limits"] }
+sha2 = "=0.10.9"

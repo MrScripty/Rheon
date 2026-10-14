@@ -1,5 +1,5 @@
 //! Bounded point-glyph cache derived from the inspector's accepted particles.
-//! No pressure interpolation, invented fields, or attachment to appearance history.
+//! Selected numerical timestep is supplied by the inspector; absent fields stay absent.
 use super::{inspector::Inspector, viewport::OrbitCamera};
 use eframe::egui::{self, Color32, Rect, Stroke};
 use rheon::FluidParticle;
@@ -55,7 +55,7 @@ impl ParticleView {
             self.selected = None;
             self.count = 0;
         }
-        ui.label("Accepted particle speed • latest state, independent of timeline scrubber");
+        ui.label("Accepted particle speed at selected recorded timestep");
         if let Some((run, generation)) = self.key {
             ui.small(format!(
                 "Run {run} · generation {generation} · {:.6} s · {} / {} points shown",
@@ -65,12 +65,12 @@ impl ParticleView {
             ));
         }
         if self.count == 0 {
-            ui.label("No particles. Start a material simulation in Settings.");
+            ui.label("No particles at the selected step, or numerical fields unavailable.");
             return;
         }
         ui.horizontal_wrapped(|ui| {
             ui.label(format!(
-                "Full-state speed: {:.6} … {:.6} m/s",
+                "Selected-state speed: {:.6} … {:.6} m/s",
                 self.range[0], self.range[1]
             ));
             for t in [0.0, 0.25, 0.5, 0.75, 1.0] {
@@ -172,7 +172,7 @@ fn color(t: f64) -> Color32 {
 mod tests {
     use super::*;
     #[test]
-    fn latest_points_follow_accepted_state_and_clear_when_run_disappears() {
+    fn selected_recorded_points_follow_timestep_and_clear_when_run_disappears() {
         let grid = rheon::GridGeometry::new([4; 3], [0.25; 3], [0.0; 3]).unwrap();
         let mut sim = rheon::ParticleFluidSimulation::new(
             grid,
@@ -185,13 +185,28 @@ mod tests {
         )
         .unwrap();
         let inspector = Inspector::default();
-        inspector.capture(&sim).unwrap();
+        let path =
+            std::env::temp_dir().join(format!("rheon-particle-view-{}.sqlite", std::process::id()));
+        let mut writer = inspector
+            .begin(&sim, &path, rheon::recording::RecordingLimits::default())
+            .unwrap();
         let mut view = ParticleView::default();
         view.refresh(&inspector);
         assert_eq!(view.count, sim.particles().len());
         assert_eq!(view.range, [0.0, 0.0]);
-        sim.step(1e-5, None, || false).unwrap();
-        inspector.capture(&sim).unwrap();
+        let report = sim.step(1e-5, None, || false).unwrap();
+        inspector
+            .record(
+                &mut writer,
+                &sim,
+                report,
+                rheon::MaterialStepControls {
+                    requested_dt: 1e-5,
+                    emitter: None,
+                },
+            )
+            .unwrap();
+        inspector.select_timestep(1).unwrap();
         view.refresh(&inspector);
         assert_eq!(view.time, sim.time());
         assert_eq!(view.points[0].1, sim.particles()[0]);
@@ -203,5 +218,8 @@ mod tests {
         assert_eq!(view.count, 0);
         assert!(view.points.is_empty());
         assert!(view.selected.is_none());
+        drop(writer);
+        drop(inspector);
+        std::fs::remove_file(path).unwrap();
     }
 }

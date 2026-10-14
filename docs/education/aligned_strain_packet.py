@@ -33,6 +33,10 @@ REVIEWED_BASE = '2209012bc5f902693d0f695ec1c2d854126af317'
 RUNTIME_INVENTORY = 'docs/education/aligned-strain-native-sources-runtime-20261013.json'
 RUNTIME_BASE = 'a3a66b18b34bef2a32ce1b658fce952115b1f7f4'
 HISTORICAL_REVIEWED_SHA256 = '84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a'
+INTEGRATION_INVENTORY = 'docs/education/aligned-strain-native-sources-integration-20261014.json'
+INTEGRATION_BASE = '21d4122c3d0edb2ca5c3ce089175c70035d737a3'
+INTEGRATION_REVIEW = 'docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md'
+RUNTIME_REVIEWED_SHA256 = '6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d'
 QUALIFICATION_INPUTS = ('Cargo.toml', 'Cargo.lock', 'build.rs',
                         'examples/aligned_strain.rs', 'tools/aligned_strain_oracle.py',
                         'tools/qualify_aligned_strain.py', 'tools/test_aligned_strain_oracle.py',
@@ -73,25 +77,52 @@ def committed_native_paths(repo, head):
 
 def admission_inventory(repo):
     """Explicit reviewed epochs, newest present record wins without fallback."""
-    for name, base in ((RUNTIME_INVENTORY, RUNTIME_BASE), (REVIEWED_INVENTORY, REVIEWED_BASE)):
+    for name, base in ((INTEGRATION_INVENTORY, INTEGRATION_BASE),
+                       (RUNTIME_INVENTORY, RUNTIME_BASE), (REVIEWED_INVENTORY, REVIEWED_BASE)):
         path = Path(repo)/name
         if path.exists() or path.is_symlink():
-            if name == RUNTIME_INVENTORY:
+            if name != REVIEWED_INVENTORY:
                 historical = Path(repo)/REVIEWED_INVENTORY
                 require(historical.is_file() and not historical.is_symlink() and
                         sha(historical) == HISTORICAL_REVIEWED_SHA256,
                         'historical reviewed inventory changed or missing')
+            if name == INTEGRATION_INVENTORY:
+                runtime = Path(repo)/RUNTIME_INVENTORY
+                require(runtime.is_file() and not runtime.is_symlink() and
+                        sha(runtime) == RUNTIME_REVIEWED_SHA256,
+                        'runtime reviewed inventory changed or missing')
             return name, base
     return None
+
+
+def admission_manifest_paths(repo):
+    """Receipt bindings for the selected explicit epoch and preserved records."""
+    selected = admission_inventory(repo)
+    if selected is None:
+        return []
+    name, _ = selected
+    if name == INTEGRATION_INVENTORY:
+        return [name, RUNTIME_INVENTORY, REVIEWED_INVENTORY, INTEGRATION_REVIEW]
+    return [name] if name == REVIEWED_INVENTORY else [name, REVIEWED_INVENTORY]
 
 
 def reviewed_source_core(repo, inventory, reviewed_base=REVIEWED_BASE):
     require(inventory.is_file() and not inventory.is_symlink(), 'reviewed inventory regular file')
     data = json.loads(inventory.read_text())
-    schema = ('rheon-reviewed-aligned-strain-native-sources-v2' if reviewed_base == RUNTIME_BASE
-              else 'rheon-reviewed-aligned-strain-native-sources-v1')
-    require(data.get('schema') == schema and
+    schema = {REVIEWED_BASE: 'rheon-reviewed-aligned-strain-native-sources-v1',
+              RUNTIME_BASE: 'rheon-reviewed-aligned-strain-native-sources-v2',
+              INTEGRATION_BASE: 'rheon-reviewed-aligned-strain-native-sources-v3'}.get(reviewed_base)
+    require(schema is not None and data.get('schema') == schema and
             data.get('reviewed_base') == reviewed_base, 'reviewed native inventory identity')
+    if reviewed_base == INTEGRATION_BASE:
+        require(data.get('preserved_inventory_sha256') == {
+                    REVIEWED_INVENTORY: HISTORICAL_REVIEWED_SHA256,
+                    RUNTIME_INVENTORY: RUNTIME_REVIEWED_SHA256},
+                'integration inventory predecessor identity')
+        review = Path(repo)/INTEGRATION_REVIEW
+        require(data.get('review_record') == INTEGRATION_REVIEW and
+                review.is_file() and not review.is_symlink() and
+                data.get('review_sha256') == sha(review), 'integration admission review binding')
     require(subprocess.run(['git', 'merge-base', '--is-ancestor', reviewed_base, 'HEAD'],
                            cwd=repo, capture_output=True).returncode == 0,
             'education source must descend from reviewed native base')
@@ -171,8 +202,7 @@ def trusted_primary(repo, path):
                 'native receipt must descend from reviewed base')
         require(committed_native_paths(repo, head) == set(sources),
                 'native receipt commit inventory added or missing path')
-        manifests = [name] if name == REVIEWED_INVENTORY else [name, REVIEWED_INVENTORY]
-        for manifest in manifests:
+        for manifest in admission_manifest_paths(repo):
             manifest_digest = sha(Path(repo)/manifest)
             require(receipt.get('source_sha256', {}).get(manifest) == manifest_digest and
                     hashlib.sha256(subprocess.check_output(
