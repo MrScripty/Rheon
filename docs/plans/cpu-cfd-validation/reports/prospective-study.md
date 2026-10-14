@@ -76,14 +76,13 @@ original `origin.json` SHA-256 values remain exactly
 `e7c098d13eb19fcc54abb37436c0f0e0ffc7e851cd30487e0a590a712c1866a7`.
 This diagnostic does not replace origin verification with its pinned verifier.
 
-## Exact remaining action
+## Follow-up disposition
 
-Pending, not denied: parent supplies the independently reviewed canonical-plan
-pin and revised native exporter/source pin. Then capture actual native
-16/24/32 fields into a fresh external directory using a clean reviewed verifier
-pin; retain origin/artifact hashes and assess all unchanged gates. Preserve
-original failures alongside any prospective result. Do not infer acceptance
-from linear-symbol forecasts, synthetic probes or hosted dense3D contracts.
+Parent supplied the reviewed canonical-plan and revised native pins, and actual
+higher-resolution capture is now complete as recorded below. Current validation
+execution has no remaining blocker. Parent retains integration/source admission
+and combined native API evidence ownership. Original failures remain preserved;
+forecasts, synthetic probes and hosted dense3D contracts do not supply this result.
 
 ## Admitted execution follow-up
 
@@ -93,9 +92,9 @@ the explicit prospective ID to the unchanged native executable. It records the
 selected study in origin and rejects a different emitted native suite ID before
 numerical assessment, both during capture and retained-origin verification.
 Default capture retains the original native command without a study flag. No
-manifest is edited to select a family. All43 tests pass normally and under -O;
+manifest is edited to select a family. All 43 tests pass normally and under -O;
 the actual tiny protocol probe executes both paths and verifies forwarded ID.
-Independent read-only review found no defects and independently reran all43
+Independent read-only review found no defects and independently reran all 43
 tests normally/-O. Actual native results follow at their exact recorded pins.
 
 The required fresh capture recipe is:
@@ -108,3 +107,11 @@ python3 tools/verify_compressible.py capture \
   --study-id s1-cell-average-acoustic-16-24-32-v2 \
   --output FRESH_EXTERNAL_DIRECTORY
 ```
+
+## Completed actual execution
+
+The remaining action above is complete at clean verifier 94a8317 and native 5a049ed
+under admitted canonical plan fc2270a8. Actual capture and externally pinned repeat
+verify satisfied exported-field checks; no original failure was changed. See
+[native result](native-prospective-results.md) for full exact pins, hashes, commands,
+observed metrics and remaining parent integration scope.

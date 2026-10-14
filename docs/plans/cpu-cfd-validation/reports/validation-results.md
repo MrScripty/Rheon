@@ -63,7 +63,7 @@ hashes; the actual S1 path was subsequently executed as recorded below. Origin
 pin checks prove identity against the external pin, not a
 cryptographic authenticity claim.
 
-## Native capture and outstanding action
+## Original native capture and historical failure
 
 Native source 1b62ae378c2aaa01327055f121ebc0d869f2c4ac is now available.
 A clean reviewed-verifier aea43a5 capture built and ran it; original origin pin
@@ -80,8 +80,9 @@ failed `acoustic/order-below-0.6`; origin SHA-256 is
 `e7c098d13eb19fcc54abb37436c0f0e0ffc7e851cd30487e0a590a712c1866a7`.
 Both failed runs are retained unchanged.
 
-**Pending, not denied:** parent admission of a principled prospective
-resolution/method revision before A6 acceptance.
+At this original checkpoint, prospective resolution/method admission was pending;
+the actual admitted prospective result below resolves that later study. Original
+A6 remains failed.
 S1-A/C remain the solver worker's public Rust API/rollback checks. Parent owns
 checkpoint integration. No native source/exporter/core was changed here.
 
@@ -129,3 +130,19 @@ defects, including unchanged >0.6 rejection on decreasing order-0.55 errors.
 See [prospective contract](prospective-study.md). Actual higher-resolution native
 capture and the final reviewed plan/source pins remain pending; original study
 failures are preserved and no numerical gate has changed.
+
+## Actual admitted prospective native result
+
+The parent subsequently admitted canonical plan fc2270a85e38080d9943048aaf689d99545d3715
+and native 5a049ed604b99817a428d10bbc0140732d3421d6. Clean reviewed capture
+verifier 94a831770cb96f0c030b15565e2b5f7cbeb6c916 executed the explicit prospective
+study. Actual independent exported-field S1-B/D/E/F/G checks satisfied; externally
+pinned read-only repeat verification matched the assessment bytes exactly.
+Origin SHA-256 61885d7df4cd0827a023af39b6905afeac7ac906b7e8e21c835ffc36072d9455.
+Acoustic orders 0.79284710/0.85699801, finest first-mode speed error 0.19113%,
+finest Sod pressure L1 0.03730609, worst conservation drift 1.615e-16. All 43
+normal/-O tests and independent capture review passed. See
+[exact-source native evidence](native-prospective-results.md). Original failures
+remain unchanged. No current validation execution blocker; parent retains API
+evidence, source admission and integration ownership. Earlier pending statements
+in this report describe their corresponding historical checkpoints.

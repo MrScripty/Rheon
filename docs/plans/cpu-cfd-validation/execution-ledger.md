@@ -122,13 +122,27 @@ Parent admits reviewed canonical prospective plan fc2270a85e38080d9943048aaf689d
 and native 5a049ed604b99817a428d10bbc0140732d3421d6. Read exact revised S1
 criteria/resolution report and native selector. Wrote Milestone 4 before code:
 explicit forwarding must bind requested study to emitted native identity, with
-no manifest editing. Numerical gates remain exactly those in reviewed764ca2c.
+no manifest editing. Numerical gates remain exactly those in reviewed 764ca2c.
 
 Implemented explicit selector forwarding, requested/native study identity binding
 in capture and retained-origin verification, and legacy original-only default.
-All43 tests pass normally/-O, including the actual tiny Rust probe executing both
-selector paths. Python compilation/diff checks pass. Native-prospective worktree
+All 43 tests pass normally/-O, including the actual tiny Rust probe executing both
+selector paths. Python compilation/diff checks pass. Native prospective worktree
 is clean/read-only at5a049ed and protected until parent disposition. Numerical
-criteria/oracles remain unchanged from764ca2c. Independent read-only review
-found no defects and reran all43 tests normally/-O, including both real protocol
+criteria/oracles remain unchanged from 764ca2c. Independent read-only review
+found no defects and reran all 43 tests normally/-O, including both real protocol
 selections. Commit this clean verifier before the actual native run.
+
+Committed/pushed reviewed capture selector as 94a831770cb96f0c030b15565e2b5f7cbeb6c916.
+From that clean verifier, captured actual native 5a049ed into a fresh external
+/tmp/rheon-s1-5a049ed-94a8317-prospective. Native build/run completed and all
+exported-field S1-B/D/E/F/G gates satisfied. External origin 61885d7df4cd0827a023af39b6905afeac7ac906b7e8e21c835ffc36072d9455;
+assessment 1adc1d3cfb1477a1bfdc30cf84c336cde91495368fda6175689d2113fd10f3e9.
+Read-only verify using that external origin pin repeated all numerical/hash
+checks and emitted assessment-identical bytes. Observed acoustic orders
+0.7928470982/0.8569980147, finest first-mode speed error 0.0019113042, finest
+Sod pressure L1 0.0373060941, worst normalized conservation drift 1.61487e-16.
+All 179 frames/171 accepted steps checked,1746044 rows. Both original failed
+origin hashes/no-accepted-assessment states are unchanged. No solver/core/
+canonical-plan edit or S2. Both 94a8317 dense3D hosted jobs passed, not S1 jobs.
+Current owned scope accepted; parent owns API/source admission/integration.

@@ -1,9 +1,9 @@
 # Independent CPU CFD validation
 
-**Plan status:** `Active`
-**Current phase:** reviewed plan/native pins received; explicit capture forwarding
-**Next slice:** review/commit capture selector, then fresh actual prospective capture and pinned verification
-**Acceptance status:** `blocked`
+**Plan status:** `Accepted`
+**Current phase:** actual prospective native exported-field checks satisfied and externally pinned verify repeated
+**Next slice:** parent combines native API evidence and coordinates source admission/integration; no further implementation in this scope
+**Acceptance status:** `accepted`
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
 **Issues:** [issues.md](issues.md)
 
@@ -29,7 +29,7 @@ is a staged research destination, not this slice's advertised capability.
 | A5 | Independent S1 cell-average oracles and intended numerical/origin negatives run normally and optimized | focused + contract | Python 3, NumPy 2.3.5, Rust 1.92 for protocol probe | automated | satisfied | 43 normal + 43 optimized across both studies; independent findings closed; reports/independent-review.md |
 | A6 | Real clean pinned native fields pass unchanged S1-D/E/F/G checks with independent origin capture | integration + system | native CPU producer | automated | failed | native capture executed; analytic Sod repair preserves tolerance; frozen acoustic order 0.5614384 fails; reports/native-s1-diagnosis.md |
 | A7 | Explicit versioned prospective study retains original population and unchanged failure gates | focused + contract | Python 3, NumPy 2.3.5 | automated | satisfied | 41 normal/-O tests; reports/prospective-study.md |
-| A8 | Actual prospective native fields pass all unchanged gates under the admitted revised plan and source pins | integration + system | native CPU producer | automated | pending | parent admits plan fc2270a85e38080d9943048aaf689d99545d3715 and native 5a049ed604b99817a428d10bbc0140732d3421d6; fresh capture pending |
+| A8 | Actual prospective native fields pass all unchanged gates under the admitted revised plan and source pins | integration + system | native CPU producer | automated | satisfied | reports/native-prospective-results.md; native 5a049ed/verifier 94a8317, externally pinned repeat verify |
 
 ## Constraints and assumptions
 
@@ -130,7 +130,7 @@ and target-specific negatives must be observed. Run Python normal and -O tests
 and actual native fields after the pinned solver commit arrives. Parent admitted
 the export format at 4621d69747740a950a90d78755fe3bb4e220efe4 and relayed it to the
 implementation owner; no numerical threshold change was requested.
-**Status:** `Blocked`; native source 1b62ae3 was captured with reviewed origin
+**Status:** `Failed original study`; native source 1b62ae3 was captured with reviewed origin
 repairs. The Sod t=0 oracle is repaired without tolerance change and all 24
 normal/-O tests pass. An independent Fourier derivation reproduces the frozen
 acoustic order failure. See [diagnosis](reports/native-s1-diagnosis.md).
@@ -143,11 +143,12 @@ first-mode-only speed scope is explicitly disclosed. See
 
 ## Blockers and replanning triggers
 
-Native source is available and capture executed successfully. A6 fails the
-frozen acoustic coarse-grid order gate (0.5614384 <= 0.6). Parent approved preparing prospective 16/24/32 support, subject to independent
-methodological review and canonical-plan update. Final reviewed plan/native
-pins remain required before prospective native acceptance can proceed.
-The original failed capture is retained; no denied or uncertain action exists.
+Current owned slice has no remaining execution blocker: actual prospective
+exported-field capture and externally pinned repeat verification succeeded.
+The original failed A6 is retained historical evidence, superseded prospectively
+by A8 under parent-admitted plan fc2270a8; it is never reclassified. Parent owns
+combined S1/API acceptance and integration, outside this validation write set.
+No denied, pending or uncertain action remains inside this owned validation slice.
 Parent permits the existing NumPy only as a separately installed
 validation tool here. No runtime packaging/distribution is proposed or authorized;
 component license disclosure remains accurate and no GPL-free runtime is promised.
@@ -174,9 +175,9 @@ directories are retained as evidence, not committed repository artifacts.
 
 ## Final acceptance
 
-- Acceptance status: blocked (A1–A5/A7 satisfied; A6 original study failed; A8 awaits final plan/native pins)
+- Acceptance status: accepted for current owned elementary/prospective exported-field scope (A1–A5/A7/A8 satisfied; original A6 remains failed historical evidence)
 - Deferred follow-ups: experimental geometry/data rights, exterior/moving solver qualification
-- Final status: Blocked
+- Final status: Accepted
 
 ## Milestone 3: prospective resolution-study support
 
@@ -193,11 +194,11 @@ final time and norm unchanged. Derive order denominators from the selected fixed
 mesh family. Retain all original probes and run the same numerical/layout/clock
 negatives against prospective synthetic policy fixtures. Synthetic fields never
 qualify a native run. Gate: normal/-O tests, independent bounded review, scoped
-diff, commit/push/draft update. Actual higher-resolution native capture remains
-pending the parent's reviewed canonical plan pin and revised native source pin.
+diff, commit/push/draft update. At this milestone, actual higher-resolution native capture awaited the parent's
+reviewed canonical plan pin and revised native source pin; Milestone 4 resolves it.
 
 Milestone 3 verifier support status: implemented and independently reviewed;
-41 normal/-O tests pass. Native acceptance remains blocked pending parent pins.
+41 normal/-O tests passed at 764ca2c. Milestone 4 resolves the then-pending pins.
 
 ## Milestone 4: explicit native capture and prospective evidence
 
@@ -220,4 +221,9 @@ pin. Preserve original failures. A8 requires all unchanged numerical gates from
 Native prospective input worktree `/workspace/Rheon-native-prospective`, branch
 `validation/native-prospective-5a049ed`, is retained-protected and read-only in
 this task, owned by validation worker until parent checkpoint/disposition. The
-older native1b62 worktree and all original failed outputs remain untouched.
+older native 1b62 worktree and all original failed outputs remain untouched.
+
+Milestone 4 status: complete. Clean verifier 94a8317 captured native 5a049ed under
+admitted plan fc2270a8; actual exported-field checks and externally pinned repeat
+verify both satisfied. See reports/native-prospective-results.md. Parent remains
+owner of integration/source admission and combined public-API evidence.
