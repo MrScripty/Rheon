@@ -145,7 +145,7 @@ retries, diagnostics and cancellation callbacks, excluding exports.
 `host_kernel_seconds` accumulates candidate flux/update time across attempts.
 Both observations are separate from physical time and imply no speedup or real-time claim.
 
-## Disposable native reference output v1
+## Disposable native reference output v1 and prospective refinement
 
 Parent admitted the independent validator's format at commit
 `4621d69747740a950a90d78755fe3bb4e220efe4`,
@@ -160,14 +160,20 @@ cargo run --locked --release --no-default-features --example compressible_refere
   --output .generated/compressible-suite-fresh
 ```
 
-The only command option is `--output FRESH_DIRECTORY`; parent directories must
-exist. Existing outputs are preserved. The fixed suite contains eight cases:
+`--output FRESH_DIRECTORY` is required; parent directories must exist.
+Optional `--suite` selects `original-8-12-20-v1` (the default) or the separately
+identified `acoustic-16-24-32-v1` prospective study. The latter is prepared under
+parent authority while canonical methodological review and the exact validator
+discriminator agreement are pending. Final qualification requires their reviewed
+pins; preparation does not retroactively pass the original coarse gate.
+Existing outputs are preserved. Each selected suite contains eight cases:
 
 | Kind | Shape | Geometry | Initial data | Final time |
 | --- | --- | --- | --- | --- |
 | uniform | 3x2x1 | h=(.2,.3,.4), origin=(.25,-.5,1) | rho=1.7, u=(.2,-.4,.3), p=.9 | .01 s |
 | differential | 3x4x2 | same asymmetric geometry | smooth nonuniform all-axis field; bounded rho,p and transverse velocities | .001 s, one step |
-| acoustic | 8³, 12³, 20³ | unit cube, zero origin | two linear conservative cell-average modes | .08 s |
+| original acoustic | 8³, 12³, 20³ | unit cube, zero origin | two linear conservative cell-average modes | .08 s |
+| prospective acoustic | 16³, 24³, 32³ | unit cube, zero origin | same two conservative cell-average modes | .08 s |
 | sod | 24x2x2, 48x2x2, 64x2x2 | unit cube, zero origin | face-aligned periodic Sod jump | .08 s |
 
 Gamma=1.4, R=287 and C=.5. Each actual request is the remaining target interval;
@@ -180,7 +186,10 @@ atomic archive, fsync durability or concurrent-writer promise. Only the acquired
 fresh output directory belongs to this run; no outputs belong in commits.
 
 `suite.json` contains `schema_version=1`, `method="llf-euler-periodic-v1"`,
-gamma/R, SI component units, output bounds and `cases`. Each case identifies
+gamma/R, SI component units, output bounds, `suite_id` and `cases`.
+The exact `suite_id` is the selected CLI identifier. Original and prospective
+acoustic populations must remain distinct in a reader; the original failure and
+its pre-discriminator pinned receipts remain preserved as original evidence. Each case identifies
 kind, id, shape, spacing/origin, periodic boundary, x-fast layout, initialization,
 CFL/target and managed capacity. Every accepted frame (including initial) carries
 actual native `generation`, `time_s`, `requested_dt_s`, `accepted_dt_s`, a

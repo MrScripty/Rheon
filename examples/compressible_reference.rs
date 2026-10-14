@@ -24,19 +24,58 @@ struct Fixture {
     target: f64,
 }
 
-fn output_argument() -> Result<PathBuf, Box<dyn Error>> {
-    let args: Vec<_> = std::env::args_os().skip(1).collect();
-    if args.len() != 2 || args[0] != "--output" {
-        return Err("usage: compressible_reference --output FRESH_DIRECTORY".into());
-    }
-    Ok(PathBuf::from(&args[1]))
+#[derive(Clone, Copy)]
+enum ReferenceSuite {
+    Original,
+    Acoustic16_24_32,
 }
+
+impl ReferenceSuite {
+    fn id(self) -> &'static str {
+        match self {
+            Self::Original => "original-8-12-20-v1",
+            Self::Acoustic16_24_32 => "acoustic-16-24-32-v1",
+        }
+    }
+    fn acoustic_sizes(self) -> [u64; 3] {
+        match self {
+            Self::Original => [8, 12, 20],
+            Self::Acoustic16_24_32 => [16, 24, 32],
+        }
+    }
+}
+
+fn controls() -> Result<(PathBuf, ReferenceSuite), Box<dyn Error>> {
+    let mut args = std::env::args_os().skip(1);
+    let mut output = None;
+    let mut suite = None;
+    while let Some(arg) = args.next() {
+        match arg.to_str() {
+            Some("--output") if output.is_none() => {
+                output = Some(PathBuf::from(args.next().ok_or("missing output directory")?));
+            }
+            Some("--suite") if suite.is_none() => {
+                suite = Some(match args.next().ok_or("missing suite identifier")?.to_str() {
+                    Some("original-8-12-20-v1") => ReferenceSuite::Original,
+                    Some("acoustic-16-24-32-v1") => ReferenceSuite::Acoustic16_24_32,
+                    _ => return Err("unsupported suite identifier".into()),
+                });
+            }
+            _ => return Err("usage: compressible_reference [--suite original-8-12-20-v1|acoustic-16-24-32-v1] --output FRESH_DIRECTORY".into()),
+        }
+    }
+    Ok((
+        output.ok_or("--output FRESH_DIRECTORY required")?,
+        suite.unwrap_or(ReferenceSuite::Original),
+    ))
+}
+
 fn fresh_file(path: &Path) -> Result<BufWriter<File>, Box<dyn Error>> {
     Ok(BufWriter::new(
         OpenOptions::new().write(true).create_new(true).open(path)?,
     ))
 }
-fn fixtures() -> Vec<Fixture> {
+fn fixtures(suite: ReferenceSuite) -> Vec<Fixture> {
     let mut cases = vec![
         Fixture {
             id: "uniform".into(),
@@ -57,7 +96,7 @@ fn fixtures() -> Vec<Fixture> {
             target: 0.001,
         },
     ];
-    for n in [8, 12, 20] {
+    for n in suite.acoustic_sizes() {
         cases.push(Fixture {
             id: format!("acoustic-{n}"),
             kind: "acoustic",
@@ -287,7 +326,7 @@ fn run_case(
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let output = output_argument()?;
+    let (output, suite) = controls()?;
     // Acquire a fresh output directory; never overwrite previous artifacts.
     fs::create_dir(&output)?;
     let eos = IdealGas::new(1.4, 287.0)?;
@@ -295,11 +334,14 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut manifest = fresh_file(&staged)?;
     write!(
         manifest,
-        "{{\"schema_version\":1,\"method\":\"{}\",\"gamma\":1.4,\"gas_constant\":287.0,\"units\":[\"kg/m^3\",\"kg/(m^2*s)\",\"kg/(m^2*s)\",\"kg/(m^2*s)\",\"J/m^3\"],\"max_steps_per_case\":{},\"max_raw_field_bytes\":{},\"cases\":[",
+        "{{\"schema_version\":1,\"method\":\"{}\",\"gamma\":1.4,\"gas_constant\":287.0,\"units\":[\"kg/m^3\",\"kg/(m^2*s)\",\"kg/(m^2*s)\",\"kg/(m^2*s)\",\"J/m^3\"],\"max_steps_per_case\":{},\"max_raw_field_bytes\":{},",
         COMPRESSIBLE_METHOD, MAX_STEPS, MAX_OUTPUT_BYTES
     )?;
+    // The prospective family stays distinguishable from the original failed
+    // coarse fixture; a reader must never silently reinterpret its population.
+    write!(manifest, "\"suite_id\":\"{}\",\"cases\":[", suite.id())?;
     let mut bytes = 0;
-    for (i, fixture) in fixtures().iter().enumerate() {
+    for (i, fixture) in fixtures(suite).iter().enumerate() {
         if i > 0 {
             write!(manifest, ",")?;
         }

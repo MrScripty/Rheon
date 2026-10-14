@@ -2,14 +2,17 @@
 
 The native periodic ideal-gas Euler path, public API, 13 focused contract tests,
 eight-case actual-field producer and API documentation are implemented. **S1
-acceptance is pending.** Actual fields expose a failed acoustic coarse-grid order
-gate and an independent Sod initial-oracle roundoff issue. No threshold, CFL,
+acceptance is pending.** Original fields exposed a failed acoustic coarse-grid
+order gate and an independent Sod initial-oracle roundoff issue, since repaired
+by the validator owner. No threshold, CFL,
 EOS or acceptance criterion was tuned to observed output. Canonical lifecycle
 remains the planning worker's responsibility; this report owns only S1 execution.
 Continued diagnosis found that the intended LLF operator predicts the coarse
-acoustic failure. An independently reviewed resolution-domain correction is
-proposed below and remains unapplied. Origin capture is now available at the
-recorded pin; full numerical assessment still fails.
+acoustic failure. The validation owner repaired its Sod initial oracle without
+threshold changes. Fresh committed capture now reaches the exact acoustic gate.
+Parent authorized preparation of a distinct 16³/24³/32³ study; that example is
+prepared below, while reviewed plan/discriminator pins and final qualification
+remain pending. Original failed fixtures and all origin receipts are preserved.
 
 ## Admission, branch and ownership
 
@@ -298,7 +301,7 @@ independent educational/symbol analysis script:
 `f9559329669e386a04c95b53c1e02ddd05bf64ee567e72ded89b0e3e3d498a3d`.
 They are reproducibility/diagnosis artifacts, not newly retained permanent verifiers.
 
-### Proposed correction — requires parent/plan admission
+### Initial correction proposal — superseded for preparation below
 
 Keep the existing 8³/12³/20³ observations and mark the original >.6 adjacent coarse
 order gate failed under the newly admitted cell-average convention. Do not erase
@@ -310,7 +313,9 @@ all existing monotonic-density, original finest mode-(1,1,1) speed, attenuation,
 admissibility/conservation and Sod gates. These finer diagnostic orders are
 approximately .8416 and .8995 and independently predicted by the linear symbol.
 The purpose is to test an asymptotic first-order claim on better-resolved modes,
-not make the original coarse gate pass. This proposal is NOT applied or accepted.
+not make the original coarse gate pass. This initial 20→32→48 proposal was NOT
+applied or accepted. Parent subsequently selected the smaller 16→24→32 study
+for preparation; see the current preparation record below.
 
 Planning owner must disposition S1-E's current acceptance meaning and write the
 canonical correction before producer/validator case populations change. Validation
@@ -388,3 +393,95 @@ lessons also pass. Default/core-only feature contracts remain in progress; their
 completion is not claimed. Subsequent documentation-only delivery does not change
 the tested native numerical/API/fixture input hashes. Parent owns final integration
 and admission of a qualified checkpoint; no PR is merged or site deployed here.
+
+## Prospective 16³/24³/32³ preparation — final qualification awaiting reviewed pins
+
+Parent authorized this **prospective resolution study** with unchanged CFL/method,
+norm/modes/amplitude/time/cell averages and >.6 threshold, while the canonical plan
+owner obtains independent methodological review. The original 8³/12³/20³
+fixtures/failure remain retained and are not retrospectively accepted. The
+validator owner's independent symbol study at PR73
+`b5e868d76aaacf3a538fd1004e0ace7f037edf1b` also identifies a smaller candidate
+16→24→32 family from a spatial modified-gradient resolution heuristic. At n=16,
+mode-two maximum grid phase is pi/4 and the derivative-symbol discrepancy
+`1-sin(pi/4)/(pi/4)=.09968368384`, versus .36338 at n=8. This is a disclosed
+resolution heuristic, not an order theorem or post-hoc threshold relaxation.
+
+A supporting native 16³ diagnostic (same solver/input/control settings) produced
+19 accepted steps and normalized density L1 `.20347124808517567`. Together with
+the preserved 24³/32³ fields, adjacent orders are `.7928470981796805` and
+`.8569980147372906`. Independent educational LLF at the actual 16³ dt sequence
+matches native U within `4.440892098500626e-16`. The independent reviewer confirmed
+those measurements. They support methodological review; they do not replace
+prospective final qualification. Diagnostic files remain ignored at
+`.generated/s1-refinement-16-v1`.
+
+### Exact proposed producer discriminator relayed to parent
+
+Prepared `examples/compressible_reference.rs` adds optional
+`--suite acoustic-16-24-32-v1` and emits top-level
+`suite_id="acoustic-16-24-32-v1"`. Default `--output FRESH_DIRECTORY` retains
+original 8/12/20 cases and emits `suite_id="original-8-12-20-v1"`; the original
+identifier can also be requested explicitly. Each suite has eight cases and
+identical uniform/differential/Sod definitions. Schema version, method, EOS,
+CFL, initial averaging, raw layout, reports and time controls are unchanged.
+The exact discriminator proposal was relayed through parent for validator
+agreement; it is not treated as a frozen consumer contract until that reply.
+No recording/dataset schema, numerical core, test/export block or S2 path changed.
+Old immutable origin receipts are not rewritten to add the discriminator.
+
+Preparation integrity checks executed both selectors into fresh ignored roots:
+`.generated/s1-prospective-preparation-v1` and
+`.generated/s1-original-discriminator-v1`. The prospective output has 179 frames
+and 200,759,557 raw-CSV bytes; original has 142 frames and 27,742,402 bytes.
+Every file parses with expected counts/layout and finite/admissible U. The
+original still rejects exactly `acoustic/order-below-0.6` with the corrected
+verifier; the new family has not been subjected to final acceptance. Invalid,
+missing and duplicate options fail before output creation; existing output is
+rejected and preserved. Strict locked example Clippy passes core-only, default
+and parallel; formatting passes. Independent GPT-6.1 Sol High review confirms
+correct populations, unchanged shared raw fields and unchanged original fields,
+CLI refusal behavior, bounded cost and scope. Core/API tests need no repeat
+because `src/compressible.rs`, `src/lib.rs` and `tests/compressible_contract.rs`
+are byte-unchanged during preparation. Reviewed example SHA256:
+`2310fc1429233838b325835522dcd86d077f2509f9291120b728f273cfaf64c3`.
+
+### Corrected original-suite capture and CI result
+
+Validation revision `b5e868d76aaacf3a538fd1004e0ace7f037edf1b` fixes only the
+Sod zero-time oracle through exact constant-state integration; no deciding
+threshold changed. Its 24 verifier tests pass normally and under `python -O`.
+Fresh committed capture before example preparation:
+
+```
+python3 tools/verify_compressible.py capture --source-repo /workspace/Rheon \
+  --native-commit 23f773e772db61bd60be903b5db2fa126c37c6ce \
+  --output /workspace/scratch/rheon-s1-native-23f773e-b5e868d
+```
+
+Build/run/origin capture succeeded; full assessment now fails exactly
+**`acoustic/order-below-0.6`**, confirming the Sod repair removed the unrelated
+oracle rejection while preserving the actual failed acoustic gate. Recorded pins:
+
+- Native commit `23f773e772db61bd60be903b5db2fa126c37c6ce`, tree
+  `8e975070e848f132f6d4e4350e2e103c6018039d`.
+- Verifier `b5e868d76aaacf3a538fd1004e0ace7f037edf1b`.
+- External origin SHA256
+  `3e703cef8f7cdc8ab28efc452fb8887cd0d4fb308c68e11f6780f09adac9dc02`.
+- Executable SHA256
+  `4d44a255b935c7a8fc58a062aed0befdddc8a8ce79880ffa8521a62870435cf3`.
+
+All original fields/receipts and the failed assessment are retained. This pin
+qualifies the origin of the original failure; it does not qualify the new suite.
+
+Rust CI run `38524774026` at code-identical original pin `1b62ae3` has now completed
+with **all five jobs successful**: default, core-only, desktop, executable contracts
+and core-and-executable aggregate. The earlier in-progress observation is historical.
+Pages remains rejected at reviewed native admission. No workflow/source gate is
+altered, and no merge/publication is performed.
+
+The next dependent action is final qualification of the separately identified
+prospective suite. It is **pending**, not denied: parent must deliver the reviewed
+canonical plan pin and agreed exact discriminator/validator pin. This worker will
+read them before final capture/acceptance, preserve all original failed evidence,
+and repair only in-scope actual defects. No S1 acceptance is claimed meanwhile.
