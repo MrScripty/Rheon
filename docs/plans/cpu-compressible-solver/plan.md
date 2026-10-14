@@ -2,11 +2,11 @@
 
 **Plan status:** `Active`
 
-**Current phase:** S1 — native periodic ideal-gas Euler implementation
+**Current phase:** S1 prospective acoustic resolution revision; numerical acceptance on hold
 
-**Next slice:** S1 — native fixed-Cartesian periodic ideal-gas Euler baseline
+**Next slice:** S1 — fresh native 16³/24³/32³ acoustic study after parent coordinates the reviewed revision
 
-**Acceptance status:** `pending`
+**Acceptance status:** `blocked`
 
 Parent accepted independent plan review and started S1 worker
 `01a13913-999b-7511-b9cd-f4677019e018` from reviewed head
@@ -41,7 +41,7 @@ No numerical or aircraft/submarine acceptance follows from acceptance of this pl
 | ID | Observable criterion | Kind | Environment | Mode | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
 | C1 | Validated five-component state, ideal-gas EOS, bounded allocation and failed-call rollback through native API | focused + contract | representative: pinned Rust CPU | automated | pending | S1 worker; [first slice](reports/first-slice.md) |
-| C2 | Shared-face periodic update preserves uniform state and volume-weighted budgets; evolved acoustic and planar shock records pass declared errors | integration | representative: CPU + pinned NumPy | automated | pending | S1 worker; independent continuum oracles |
+| C2 | Shared-face periodic update preserves uniform state and volume-weighted budgets; evolved acoustic and planar shock records pass declared errors | integration | representative: CPU + pinned NumPy | automated | blocked | Original 8³/12³/20³ study failed; prospective 16³/24³/32³ study awaits parent revision coordination and fresh independently verified native capture; [revision](reports/acoustic-resolution-revision.md) |
 | C3 | Reconstruction/time accuracy, rarefaction/near-vacuum handling and all three directions meet frozen method-specific gates | integration | representative: CPU | automated | pending | S2 numerical owner |
 | C4 | Characteristic/open and fitted slip boundaries satisfy information count, force/work and reflection/error budgets | integration | representative: CPU | automated | pending | S3 boundary owner |
 | C5 | Public session → accepted recording → separate-process selection/export → real desktop inspection preserves model, field, time and missing-data meaning | contract + system + user-workflow | representative: CPU; required-real: native display for UI smoke | either | pending | S4 API/recording/UI owner after PR69/71 |
@@ -85,6 +85,7 @@ explicitly inviscid capability; each accepted slice must advertise its own scope
 | Generic Surrogate Lab projects and data controls, optional Rheon producer, independent Tuldok authority | producer + Tuldok owners | Explicit user direction; existing dense3D v1/v2 are constrained transport formats | none |
 | Lean assumptions and empirical accuracy are separate acceptance domains | proof + numerical owners | `proofs/Rheon/Compressible.lean`; [design proof map](reports/design.md) | none |
 | S1 worker is sole editor of the minimal additive compressible module/export block in `src/lib.rs`; recording and other exports remain untouched | S1 worker; parent integrates | Explicit parent delegation after accepting review and starting S1 at 67baa10; [handoff](reports/first-slice.md) | Earlier parent-only S1 export application; retained in ledger |
+| Prospectively assess S1-E on 16³/24³/32³, ≥8 cells per shortest coordinate wavelength; retain unchanged method, conservative-average convention, controls, norm and strict >0.6 gate | parent admits exact reviewed revision; native and independent validation owners execute | Pinned PR73 b5e868d diagnosis; [methodological revision](reports/acoustic-resolution-revision.md) | Prior 8³/12³/20³ future acceptance population only; its failed evidence remains unchanged |
 
 Publication prerequisite observed: main
 `8baf459b91bb53ebd4a7230c4d9f3399dd5cb0bc`,
@@ -165,7 +166,7 @@ requirements go through parent before either owner edits.
 
 | Slice / state | One goal and coherent unit | Allowed write set | Preserved/replaced semantics; focused gate | Re-plan condition |
 | --- | --- | --- | --- | --- |
-| S1 / Active | Native periodic five-field ideal-gas Euler step and reproducible headless reference | Exact list in [first slice](reports/first-slice.md) | Preserve all existing solvers; C1/C2, uniform/asymmetric grids, periodic budgets, acoustic refinement, planar Sod and rollback | Unsupported grid reuse, changed EOS, new dependency, altered CFL/error meaning |
+| S1 / Active | Native periodic five-field ideal-gas Euler step and reproducible headless reference | Exact list in [first slice](reports/first-slice.md) | Preserve all existing solvers; C1/C2, uniform/asymmetric grids, periodic budgets, prospectively revised acoustic resolution, unchanged Sod and rollback; acceptance blocked until reviewed revision is coordinated and native evidence passes | Unsupported grid reuse, changed EOS, new dependency, altered CFL/error meaning, or revised study fails |
 | S2 / Deferred | Accuracy/admissibility upgrade of that operator | `src/compressible.rs`, `tests/compressible_contract.rs`, `examples/compressible_reference.rs`, `tools/verify_compressible.py`, `tools/test_compressible_verifier.py`, `docs/api/compressible.md`, this plan directory | Conservative reconstruction, SSPRK2, method-specific positivity and HLLE fallback; smooth order, near vacuum, expansion/strong shock and Mach sweeps | New theorem assumptions, low-Mach remedy, dual energy or material domain |
 | S3 / Deferred | Elementary open/fitted boundary runs | S2 set plus `src/compressible/boundary.rs`, `tests/compressible_boundary_contract.rs` | C4: fixed-state endpoint Sod, characteristic counts, acoustic reflection, stationary wall pressure forces and oblique wedge | Arbitrary cuts, moving topology or mixed-regime BC requires new admission |
 | S4 / Deferred | Accepted compressible session, recording and desktop inspection | `src/compressible/session.rs`, `src/recording/compressible.rs`, `src/lib.rs`, `tests/compressible_session_contract.rs`, `tests/recording_compressible_contract.rs`, `examples/recorded_compressible.rs`, `src/bin/rheon-desktop.rs`, `src/bin/desktop/inspector.rs`, `src/bin/desktop/archive_view.rs`, `src/bin/desktop/settings.rs`, `docs/api/compressible.md`, `docs/api/recording.md`, this plan directory | C5: actual run/stop/failure, per-step recording, selected ordinal/export and cold native UI; reuse integrated PR69/71 | Pending recording changed, field cap/layout unsuitable, source admission owner unavailable |
@@ -180,10 +181,12 @@ No milestone schedule implies a delivery date or a performance guarantee.
 
 ## Repository isolation and concurrent work
 
-Plan branch `plan/cpu-compressible-solver` starts at published main `8baf459`.
-Planning agent owns the canonical plan documents in this directory; worker owns
-its `reports/implementation.md`. Target is main; parent is serial
-integration owner. Branch is shared for PR review, retained until parent disposition;
+Original branch `plan/cpu-compressible-solver` merged as PR72 at `919a8fd`.
+Current documentation-only revision branch `plan/s1-acoustic-resolution-study`
+starts at that main commit and changes canonical plan documents/report only.
+Planning agent owns these documents; S1 worker retains its separate
+`reports/implementation.md`. Target is main; parent is serial integration owner.
+Current branch is shared for PR review, retained until parent disposition;
 no main merge, force push, checkout reset or branch/worktree deletion is authorized.
 Old `work` and `implementation/rust-smoke-milestone` refs remain intact.
 
@@ -230,7 +233,14 @@ interface/artifact checkpoints, not a prescribed Git parentage or commit count.
 
 ## Blockers
 
-No known blocker to plan delivery or S1. S4 waits for owner disposition/integration
+S1/C2 acceptance is blocked: the original acoustic study failed its frozen order
+gate. Parent approved a prospective resolution revision, but exact reviewed
+revision coordination, newly pinned exporter/verifier subjects, fresh native
+execution and independent verification remain required. The planning branch
+changes no solver or verifier behavior and does not authorize S2. Preserve both
+original failed origin-pinned receipts and the original coarse-grid limitation;
+see [revision evidence](reports/acoustic-resolution-revision.md).
+No blocker to delivering this reviewed plan revision. S4 waits for owner disposition/integration
 of PR69/71; S5 waits for an observed Tuldok consumer and agreed project contract.
 General vehicle readiness is blocked by missing geometry/physical validation,
 not by research publication. Source-admission changes need the existing book
@@ -247,10 +257,10 @@ composition above. Ordinary repairs remain within a valid admitted slice.
 
 ## Final Acceptance
 
-Implementation acceptance remains pending. Close each bounded milestone only
+Implementation acceptance remains blocked on the S1 numerical evidence above. Close each bounded milestone only
 with its named evidence and advertise only that domain. Follow-ons remain owned
 in [issues](issues.md); [verification](reports/verification.md) records plan
 delivery, separate from all future numerical and user-workflow acceptance.
 
-- Acceptance status: `pending`
+- Acceptance status: `blocked`
 - Final status: `Active`

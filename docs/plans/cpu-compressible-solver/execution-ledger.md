@@ -84,3 +84,32 @@
   whitespace checks successfully. Local structure/lifecycle, file-link and
   diff-scope checks passed. Four planning documents only; numerical design,
   solver sources, gates and recording exports unchanged.
+
+## 2026-10-14 — prospective acoustic resolution re-plan
+
+- PR72 merged as `919a8fde4bb10239055ae6fea3f4e6359a7c5c58`.
+  Clean planning checkout preserved; new docs branch
+  `plan/s1-acoustic-resolution-study` starts there. No implementation branch,
+  native solver, validation tool or saved evidence changed.
+- Read PR73 diagnosis at exact head
+  `b5e868d76aaacf3a538fd1004e0ace7f037edf1b`. Original native source
+  `1b62ae378c2aaa01327055f121ebc0d869f2c4ac`; native acoustic order 0.561438404
+  is reproduced by independent linearized LLF 0.561438498. The unchanged >0.6
+  original study failed. Sod constant-state analytic oracle repair widened no
+  tolerance and is a separate validation-owner change.
+- Parent approves prospectively using 16³/24³/32³ with ≥8 cells per shortest
+  coordinate wavelength, retaining cell-average convention, modes/amplitude,
+  time, CFL, norm and strict threshold. Prior future 8³/12³/20³ acceptance population
+  is **Superseded**; its original failed evidence and coarse-grid limitation are
+  retained unchanged. Exact receipt identities and reasoning are in
+  [revision](reports/acoustic-resolution-revision.md).
+- S1 remains Active; numerical acceptance/C2 is blocked pending exact reviewed
+  revision coordination through parent, pinned exporter/verifier subjects and
+  fresh native higher-resolution execution/independent verification. No S2 or
+  solver behavior change is authorized; no forecast or partial diagnostic is
+  counted as acceptance.
+- Independent methodological review approved the revised limited-domain study
+  with no blocker, separately checking native/verifier source, resolution/defect
+  arithmetic and order ratios. Original failures remain failed; review observes
+  no raw receipts or new numerical execution. Local plan-contract/link/whitespace
+  and scope checks passed; exact staged diff is authored planning documents only.
