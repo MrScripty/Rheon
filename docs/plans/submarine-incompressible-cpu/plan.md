@@ -1,8 +1,8 @@
 # Submerged forward/ascent incompressible CPU implementation plan
 
 **Plan status:** `Active` for the remaining submarine objective; bounded I1 discrete verification is parent-accepted and integrated.
-**Current phase:** I1 acceptance checkpoint and resulting-main CI monitoring after normal validator, test-only repair and native integration.
-**Next slice:** independently qualify I2 readiness and the resource-bounded N3 convergence route before any further solver admission. I2–I7 remain prospective; no further solver work starts here.
+**Current phase:** bounded N3 directional diagnostic, admitted after the merged I1 acceptance checkpoint.
+**Next slice:** implement and independently reproduce the fixed-domain X/Y directional native refinement diagnostic in [N3 directional scope](reports/n3-directional.md). Full N3 and I2–I7 remain prospective; no further solver work is admitted.
 **Acceptance status:** `partial`: N1/N2 satisfied (`Accepted`) for the tiny fixed aligned-body steady creeping-Stokes discrete boundary only. N3–N7 remain pending, including continuum force/mesh/domain convergence and experiment rights/model/uncertainty. No full-submarine, moving/ascent, turbulence, ingestion or recording/Tuldok promotion follows.
 **Canonical identity:** `docs/plans/submarine-incompressible-cpu/plan.md`.
 **Owner/integration owner:** delegated planning lead `/root`; parent owns implementation admission, PR disposition and eventual integration. [Ledger](execution-ledger.md), [issues](issues.md).
@@ -11,7 +11,7 @@
 
 A native CPU host must eventually generate physically identified velocity, pressure, pressure/viscous forces and moments, and wake history for a fully submerged rigid submarine-shaped body moving forward while increasing world elevation. Begin with fixed or body-frame straight/oblique flow, then prescribe smooth forward/ascent translation; add attitude only after translation passes. Keep numerical verification, solution uncertainty, experimental validation and visual guidance distinct.
 
-This checkpoint owns only documentation in this planning directory and records the parent's bounded acceptance; it changes no numerical source or capture. Jet/aircraft flow belongs to the separate compressible plan. [PR76](https://github.com/MrScripty/Rheon/pull/76), inspected at `4bcdb7f49225cd645a0934953ba7d339ff5e168d`, already combines accepted-step recording and initial periodic ideal-gas S1. Consume its recording contracts later; do not duplicate, edit or merge its source here. Its periodic inviscid S1 does not supply vehicle aerodynamics, viscous jets or submarine water physics.
+The merged checkpoint owned only documentation and recorded the parent's bounded acceptance. The current [directional diagnostic](reports/n3-directional.md) admits a second pinned exporter fixture and an independent study wrapper; it changes no solver source or earlier capture. Jet/aircraft flow belongs to the separate compressible plan. [PR76](https://github.com/MrScripty/Rheon/pull/76), inspected at `4bcdb7f49225cd645a0934953ba7d339ff5e168d`, already combines accepted-step recording and initial periodic ideal-gas S1. Consume its recording contracts later; do not duplicate, edit or merge its source here. Its periodic inviscid S1 does not supply vehicle aerodynamics, viscous jets or submarine water physics.
 
 Scope: constant-density Newtonian fully filled fluid, laminar qualification first, fixed-body boundary and loads, then prescribed kinematics, wake storage, geometric conservation and explicit Tuldok generation contracts. Free 6DOF, propellers/propulsors, cavitation, air/water surface waves, acoustics/compressible water and experimental turbulent-submarine readiness are deferred. No free-surface elevation model is implied: elevation is the body's world Z coordinate in an unbounded-fluid approximation.
 
@@ -41,7 +41,7 @@ Main base is `06eb5da`; the [actual API audit](reports/api-gap-audit.md) owns in
 
 ## Milestones and exact write sets
 
-This planning PR contains no solver edits. Parent admitted only the existing bounded I1 implementation and validation sets below; later sets remain prospective. Shared export/Cargo/CI edits require serial integration-owner ownership; workers must report conflicts rather than broaden writes.
+The original planning PR contained no solver edits. Parent admitted bounded I1 implementation/validation and now the exact diagnostic write set in [N3 directional scope](reports/n3-directional.md); later solver sets remain prospective. Shared export/Cargo/CI edits require serial integration-owner ownership; workers must report conflicts rather than broaden writes.
 
 | Slice / lifecycle | Coherent runnable result | Exact prospective write set | Deciding gate |
 | --- | --- | --- | --- |
