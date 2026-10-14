@@ -492,6 +492,10 @@ def verify_origin(run, expected_origin_hash, expected_native_commit):
     require(isinstance(files, dict) and "suite.json" in files, "origin/artifact-inventory")
     for name, digest in files.items():
         require(sha256(safe_file(run/"fields", name)) == digest, "origin/artifact-hash-mismatch: "+name)
+    study = origin.get("study_id", ORIGINAL_STUDY)
+    suite = read_json(safe_file(run/"fields", "suite.json"))
+    require(isinstance(study, str) and study in ACOUSTIC_STUDIES
+            and suite.get("study_id", ORIGINAL_STUDY) == study, "origin/native-study-selection-mismatch")
     result = assess_suite(run/"fields")
     require(set(result["artifacts"]) <= set(files), "origin/unbound-artifact")
     result["origin_manifest_sha256"] = expected_origin_hash
@@ -499,8 +503,9 @@ def verify_origin(run, expected_origin_hash, expected_native_commit):
     return result
 
 
-def capture(source, commit, output):
+def capture(source, commit, output, study=ORIGINAL_STUDY):
     source, output = Path(source).resolve(), Path(output).resolve()
+    require(isinstance(study, str) and study in ACOUSTIC_STUDIES, "origin/unknown-capture-study")
     require(len(commit) == 40 and all(c in "0123456789abcdef" for c in commit), "origin/full-native-commit-required")
     require(git(source, "rev-parse", "HEAD") == commit and not git(source, "status", "--porcelain"), "origin/source-not-clean-pinned-commit")
     require(not inside_checkout(output), "origin/output-inside-checkout")
@@ -534,8 +539,12 @@ def capture(source, commit, output):
     require((output/"build") in executable.parents and executable.is_file(), "origin/executable-outside-fresh-build")
     executable_hash = sha256(executable)
     invocation = [str(executable), "--output", str(output/"fields")]
+    if study != ORIGINAL_STUDY:
+        invocation += ["--study-id", study]
     with (output/"native.log").open("w") as log:
         subprocess.run(invocation, cwd=source_export, stdout=log, stderr=subprocess.STDOUT, timeout=300, check=True)
+    suite = read_json(safe_file(output/"fields", "suite.json"))
+    require(suite.get("study_id", ORIGINAL_STUDY) == study, "origin/native-study-selection-mismatch")
     require(git(source, "rev-parse", "HEAD") == commit and not git(source, "status", "--porcelain")
             and input_hashes == {p: sha256(source_export/p) for p in tracked}, "origin/source-changed-during-capture")
     require(executable_hash == sha256(executable) and verifier == verifier_identity(), "origin/build-or-verifier-changed")
@@ -550,7 +559,7 @@ def capture(source, commit, output):
               "source_commit": commit, "source_tree": git(source, "rev-parse", "HEAD^{tree}"),
               "source_sha256": input_hashes, "verifier": verifier, "executable": str(executable.relative_to(output)),
               "source_export": "tracked-only-git-archive", "source_archive_sha256": sha256(archive),
-              "build_environment": build_environment,
+              "build_environment": build_environment, "study_id": study,
               "executable_sha256": executable_hash, "build_command": build, "run_command": invocation,
               "rustc": subprocess.check_output(["rustc", "+1.92.0", "--version", "--verbose"], text=True),
               "artifacts": artifacts, "origin_limit": "external manifest pin required; not a cryptographic signature or physical-correctness proof"}
@@ -565,6 +574,7 @@ def main():
     start.add_argument("--source-repo", type=Path, required=True)
     start.add_argument("--native-commit", required=True)
     start.add_argument("--output", type=Path, required=True)
+    start.add_argument("--study-id", choices=tuple(ACOUSTIC_STUDIES), default=ORIGINAL_STUDY)
     check = commands.add_parser("verify", help="verify retained fields against an externally pinned origin manifest")
     check.add_argument("--run", type=Path, required=True)
     check.add_argument("--origin-sha256", required=True)
@@ -573,7 +583,7 @@ def main():
     output_existed = args.operation == "capture" and args.output.exists()
     try:
         if args.operation == "capture":
-            pin = capture(args.source_repo, args.native_commit, args.output)
+            pin = capture(args.source_repo, args.native_commit, args.output, args.study_id)
             result = verify_origin(args.output, pin, args.native_commit)
             (args.output/"assessment.json").write_text(json.dumps(result, indent=2, allow_nan=False)+"\n")
         else:

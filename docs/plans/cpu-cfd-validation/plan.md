@@ -1,8 +1,8 @@
 # Independent CPU CFD validation
 
-**Plan status:** `Blocked`
-**Current phase:** prospective verifier support implemented, tested and independently reviewed
-**Next slice:** parent supplies reviewed canonical plan and revised native source pins before actual higher-resolution capture
+**Plan status:** `Active`
+**Current phase:** reviewed plan/native pins received; explicit capture forwarding
+**Next slice:** review/commit capture selector, then fresh actual prospective capture and pinned verification
 **Acceptance status:** `blocked`
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
 **Issues:** [issues.md](issues.md)
@@ -26,10 +26,10 @@ is a staged research destination, not this slice's advertised capability.
 | A2 | Fixed-mesh time study approaches its independent semidiscrete reference; negative metrics fail acceptance | focused | local Python 3 and Rust 1.92 | automated | satisfied | reports/validation-results.md |
 | A3 | Completion receipt binds source files, toolchain, inputs, command, rows and gates; a failed run cannot acquire an accepted receipt | contract | local fresh process | automated | satisfied | clean ef4f8e4 receipt; runner tests |
 | A4 | Staged aircraft/submarine gates, solver requirements, primary sources and access/licensing dispositions are reviewable without imported datasets | focused | repository and primary sites | manual | satisfied | reports/staged-validation.md |
-| A5 | Independent S1 cell-average oracles and intended numerical/origin negatives run normally and optimized | focused + contract | Python 3, NumPy 2.3.5, Rust 1.92 for protocol probe | automated | satisfied | 41 normal + 41 optimized across both studies; independent findings closed; reports/independent-review.md |
+| A5 | Independent S1 cell-average oracles and intended numerical/origin negatives run normally and optimized | focused + contract | Python 3, NumPy 2.3.5, Rust 1.92 for protocol probe | automated | satisfied | 43 normal + 43 optimized across both studies; independent findings closed; reports/independent-review.md |
 | A6 | Real clean pinned native fields pass unchanged S1-D/E/F/G checks with independent origin capture | integration + system | native CPU producer | automated | failed | native capture executed; analytic Sod repair preserves tolerance; frozen acoustic order 0.5614384 fails; reports/native-s1-diagnosis.md |
 | A7 | Explicit versioned prospective study retains original population and unchanged failure gates | focused + contract | Python 3, NumPy 2.3.5 | automated | satisfied | 41 normal/-O tests; reports/prospective-study.md |
-| A8 | Actual prospective native fields pass all unchanged gates under the admitted revised plan and source pins | integration + system | native CPU producer | automated | pending | final canonical plan/native pins required via parent |
+| A8 | Actual prospective native fields pass all unchanged gates under the admitted revised plan and source pins | integration + system | native CPU producer | automated | pending | parent admits plan fc2270a85e38080d9943048aaf689d99545d3715 and native 5a049ed604b99817a428d10bbc0140732d3421d6; fresh capture pending |
 
 ## Constraints and assumptions
 
@@ -198,3 +198,26 @@ pending the parent's reviewed canonical plan pin and revised native source pin.
 
 Milestone 3 verifier support status: implemented and independently reviewed;
 41 normal/-O tests pass. Native acceptance remains blocked pending parent pins.
+
+## Milestone 4: explicit native capture and prospective evidence
+
+Parent accepts reviewed canonical plan
+`fc2270a85e38080d9943048aaf689d99545d3715` and native source
+`5a049ed604b99817a428d10bbc0140732d3421d6`. The native selector intentionally
+preserves original default behavior, so owned capture must explicitly forward
+`--study-id s1-cell-average-acoustic-16-24-32-v2`. Before implementation, admit
+one optional capture selector, recorded in origin and checked against the native
+suite identity, with legacy original-only behavior retained. Never edit a native
+manifest to select another study. Allowed writes are unchanged verifier tools
+and this plan's reports; no native/core/canonical-plan edits. Run normal/-O
+contracts and a real tiny argument-forwarding probe, independent read-only review,
+then commit/push the clean capture verifier. Create a separate read-only protected
+worktree at the exact revised native pin; use a fresh external output directory.
+Capture actual native fields and repeat verification with the external origin
+pin. Preserve original failures. A8 requires all unchanged numerical gates from
+764ca2c plus exact origin identity; report every result, even a failure. No S2.
+
+Native prospective input worktree `/workspace/Rheon-native-prospective`, branch
+`validation/native-prospective-5a049ed`, is retained-protected and read-only in
+this task, owned by validation worker until parent checkpoint/disposition. The
+older native1b62 worktree and all original failed outputs remain untouched.

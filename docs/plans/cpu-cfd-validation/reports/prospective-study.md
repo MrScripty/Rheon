@@ -4,8 +4,10 @@
 
 After reviewing the full native diagnosis, the parent approved preparing a
 16/24/32 resolution-study revision, subject to independent methodological
-review and canonical solver-plan update by its planning owner. Parent admission
-of the final canonical plan pin and a revised native source pin remains pending.
+review and canonical solver-plan update by its planning owner. Parent subsequently admitted canonical plan
+`fc2270a85e38080d9943048aaf689d99545d3715` (PR75) and native source
+`5a049ed604b99817a428d10bbc0140732d3421d6` (PR74). The capture selector
+follow-up and actual native execution are recorded below.
 This report implements verifier support only; it supplies no higher-resolution
 native run or acceptance. The original 8/12/20 study remains failed and its
 external origin records remain unchanged, as recorded in
@@ -82,3 +84,27 @@ pin and revised native exporter/source pin. Then capture actual native
 pin; retain origin/artifact hashes and assess all unchanged gates. Preserve
 original failures alongside any prospective result. Do not infer acceptance
 from linear-symbol forecasts, synthetic probes or hosted dense3D contracts.
+
+## Admitted execution follow-up
+
+Read the exact admitted canonical resolution report/first-slice criteria and
+native selector at the pins above. Capture now accepts `--study-id` and forwards
+the explicit prospective ID to the unchanged native executable. It records the
+selected study in origin and rejects a different emitted native suite ID before
+numerical assessment, both during capture and retained-origin verification.
+Default capture retains the original native command without a study flag. No
+manifest is edited to select a family. All43 tests pass normally and under -O;
+the actual tiny protocol probe executes both paths and verifies forwarded ID.
+Independent read-only review found no defects and independently reran all43
+tests normally/-O. Actual native results follow at their exact recorded pins.
+
+The required fresh capture recipe is:
+
+```sh
+source /workspace/rheon-setup/env.sh
+python3 tools/verify_compressible.py capture \
+  --source-repo /workspace/Rheon-native-prospective \
+  --native-commit 5a049ed604b99817a428d10bbc0140732d3421d6 \
+  --study-id s1-cell-average-acoustic-16-24-32-v2 \
+  --output FRESH_EXTERNAL_DIRECTORY
+```

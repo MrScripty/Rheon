@@ -452,6 +452,20 @@ class OriginTests(unittest.TestCase):
             v.capture(v.REPO, "a"*40, output)
         self.assertFalse(output.exists())
 
+    def test_capture_refuses_unknown_study_without_output(self):
+        output = self.root/"fresh"
+        with self.assertRaisesRegex(v.ValidationError, "origin/unknown-capture-study"):
+            v.capture(v.REPO, "a"*40, output, "unadmitted-study-v3")
+        self.assertFalse(output.exists())
+
+    def test_origin_rejects_native_study_different_from_capture_selection(self):
+        self.origin["study_id"] = v.PROSPECTIVE_STUDY
+        pin = self.write_origin()
+        with patch.object(v, "assess_suite") as analytic, \
+                self.assertRaisesRegex(v.ValidationError, "origin/native-study-selection-mismatch"):
+            v.verify_origin(self.root, pin, "a"*40)
+        analytic.assert_not_called()
+
     def test_empty_git_marker_is_not_a_checkout_but_real_repository_is(self):
         (self.root/".git").mkdir()
         self.assertFalse(v.inside_checkout(self.root/"new-output"))
@@ -485,9 +499,13 @@ class OriginTests(unittest.TestCase):
         (source/".gitignore").write_text('/build.rs\n')
         (source/"examples/compressible_reference.rs").write_text('''#![allow(unexpected_cfgs)]
 fn main() {
-    let path = std::env::args().nth(2).expect("--output PATH");
+    let args: Vec<String> = std::env::args().collect();
+    let path = args.get(2).expect("--output PATH");
+    let study = args.windows(2).find(|pair| pair[0] == "--study-id").map(|pair| &pair[1]);
+    let manifest = study.map(|id| format!("{{\\"study_id\\":\\"{id}\\"}}"))
+        .unwrap_or_else(|| "{}".to_string());
     std::fs::create_dir(&path).unwrap();
-    std::fs::write(format!("{path}/suite.json"), "{}").unwrap();
+    std::fs::write(format!("{path}/suite.json"), manifest).unwrap();
     std::fs::write(format!("{path}/ignored-input-probe.txt"),
         format!("{}", cfg!(unbound_probe))).unwrap();
 }
@@ -508,6 +526,15 @@ fn main() {
         self.assertEqual(origin["source_export"], "tracked-only-git-archive")
         self.assertNotIn("build.rs", origin["source_sha256"])
         self.assertEqual(origin["source_commit"], commit)
+        self.assertEqual(origin["study_id"], v.ORIGINAL_STUDY)
+        self.assertNotIn("--study-id", origin["run_command"])
+        prospective = self.root/"captured-prospective"
+        pin = v.capture(source, commit, prospective, v.PROSPECTIVE_STUDY)
+        self.assertEqual(pin, v.sha256(prospective/"origin.json"))
+        origin = v.read_json(prospective/"origin.json")
+        self.assertEqual(origin["study_id"], v.PROSPECTIVE_STUDY)
+        self.assertEqual(origin["run_command"][-2:], ["--study-id", v.PROSPECTIVE_STUDY])
+        self.assertEqual(v.read_json(prospective/"fields/suite.json")["study_id"], v.PROSPECTIVE_STUDY)
 
 
 if __name__ == "__main__":

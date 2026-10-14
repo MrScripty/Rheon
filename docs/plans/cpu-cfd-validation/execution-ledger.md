@@ -117,3 +117,18 @@ passed. Read-only independent review found no defects, confirmed 39-test initial
 runs and the final added frozen-order tests normally/-O. Original external origin
 hashes are unchanged; diagnostic-only current assessment still fails acoustic
 order for both preserved runs. No new native run or canonical-plan edit.
+
+Parent admits reviewed canonical prospective plan fc2270a85e38080d9943048aaf689d99545d3715
+and native 5a049ed604b99817a428d10bbc0140732d3421d6. Read exact revised S1
+criteria/resolution report and native selector. Wrote Milestone 4 before code:
+explicit forwarding must bind requested study to emitted native identity, with
+no manifest editing. Numerical gates remain exactly those in reviewed764ca2c.
+
+Implemented explicit selector forwarding, requested/native study identity binding
+in capture and retained-origin verification, and legacy original-only default.
+All43 tests pass normally/-O, including the actual tiny Rust probe executing both
+selector paths. Python compilation/diff checks pass. Native-prospective worktree
+is clean/read-only at5a049ed and protected until parent disposition. Numerical
+criteria/oracles remain unchanged from764ca2c. Independent read-only review
+found no defects and reran all43 tests normally/-O, including both real protocol
+selections. Commit this clean verifier before the actual native run.
