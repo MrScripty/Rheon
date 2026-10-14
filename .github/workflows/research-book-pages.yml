@@ -1,10 +1,10 @@
 name: Rheon research book and Pages
 on:
   pull_request:
-    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/compressible/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   push:
     branches: [main]
-    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/compressible/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -141,6 +141,7 @@ jobs:
           echo "RHEON_ASSETS=$RUNNER_TEMP/rheon-assets" >> "$GITHUB_ENV"
           echo "RHEON_OBSTACLE=$RUNNER_TEMP/rheon-obstacle-records" >> "$GITHUB_ENV"
           echo "RHEON_FLOW=$RUNNER_TEMP/rheon-obstacle-flow-records" >> "$GITHUB_ENV"
+          echo "RHEON_COMPRESSIBLE=$RUNNER_TEMP/rheon-compressible-records" >> "$GITHUB_ENV"
           echo "RHEON_STRAIN=$RUNNER_TEMP/rheon-aligned-strain-records" >> "$GITHUB_ENV"
           echo "RHEON_STRAIN_QUALIFICATION=$RUNNER_TEMP/rheon-aligned-strain-qualification" >> "$GITHUB_ENV"
           echo "CARGO_TARGET_DIR=$RUNNER_TEMP/rheon-geometry-target" >> "$GITHUB_ENV"
@@ -192,6 +193,13 @@ jobs:
           python3 -O -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py
           python3 evidence/bounded-physics-contracts/witness.py
           python3 -O evidence/bounded-physics-contracts/witness.py
+      - name: Qualify bounded compressible Euler references
+        run: |
+          python3 -m unittest discover -s docs/research-book/compressible -p test_reference.py
+          python3 -O -m unittest discover -s docs/research-book/compressible -p test_reference.py
+          python3 docs/research-book/compressible/generate.py --output "$RHEON_COMPRESSIBLE"
+          python3 -m unittest discover -s docs/education -p test_compressible_lab.py
+          python3 -O -m unittest discover -s docs/education -p test_compressible_lab.py
       - name: Construct and qualify only static geometry controls
         run: |
           rustup toolchain install 1.92.0 --profile minimal --no-self-update
@@ -239,7 +247,7 @@ jobs:
           python3 -O -m unittest discover -s docs/education -p test_native_sequence.py
           python3 -m unittest discover -s docs/education -p test_static_obstacle.py
           python3 -O -m unittest discover -s docs/education -p test_static_obstacle.py
-          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --obstacle-records-dir "$RHEON_OBSTACLE" --obstacle-flow-records-dir "$RHEON_FLOW" --aligned-strain-records-dir "$RHEON_STRAIN" --solver-dir "$RHEON_SOLVER"
+          python3 docs/education/build.py --output-dir "$RHEON_EDITION" --asset-dir "$RHEON_ASSETS/node_modules" --obstacle-records-dir "$RHEON_OBSTACLE" --obstacle-flow-records-dir "$RHEON_FLOW" --aligned-strain-records-dir "$RHEON_STRAIN" --solver-dir "$RHEON_SOLVER" --compressible-records-dir "$RHEON_COMPRESSIBLE"
           python3 docs/education/verify_browser.py --render-pdf --output-dir "$RHEON_EDITION"
           python3 docs/education/verify_site.py --output-dir "$RHEON_EDITION"
           python3 docs/education/volume_browser.py --output-dir "$RHEON_EDITION"

@@ -12,7 +12,7 @@ REVIEWED_SOURCES = ['build.py', 'labs.js', 'style.css', 'package-lock.json',
                     '../../browser/viewer/view.js', '../../browser/viewer/shell.css',
                     'verify_browser.py', 'browser_qualification.py', 'native_browser.py',
                     'native_sequence.py', 'native-sequence.json', 'markdown_bundle.py', 'requirements.txt',
-                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py', 'aligned_strain_packet.py', 'aligned-strain-native-sources.json', 'aligned_strain_html.py', 'aligned_strain.js', 'aligned_strain.css', 'aligned_strain_browser.py']
+                    'static_obstacle.py', 'obstacle.js', 'obstacle_browser.py', 'obstacle_flow.py', 'obstacle_flow.js', 'obstacle_flow_browser.py', 'aligned_strain_packet.py', 'aligned-strain-native-sources.json', 'aligned_strain_html.py', 'aligned_strain.js', 'aligned_strain.css', 'aligned_strain_browser.py', 'compressible_lab.py', 'compressible.js', 'compressible_browser.py']
 LABS = ['projection', 'collision', 'hydrostatic', 'viscous', 'slip', 'cap']
 
 
@@ -204,6 +204,10 @@ def verify_browser_qualification(repo, artifact_dir=None):
         from aligned_strain_packet import verify_published as verify_strain_published
         strain=verify_strain_published(repo,artifact)
         validate_strain_browser_receipt(receipt.get('aligned_strain',{}),strain)
+        from compressible_lab import verify_published as verify_compressible_published
+        from compressible_browser import validate_receipt as validate_compressible_receipt
+        compressible=verify_compressible_published(repo,artifact)
+        validate_compressible_receipt(receipt.get('compressible',{}),compressible)
 
 
 if __name__ == '__main__':

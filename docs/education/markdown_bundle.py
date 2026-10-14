@@ -42,6 +42,9 @@ def write_bundle(repo, output, front, reading, files, command):
                         if local == repo/'docs/education/native-labs.html':
                             dest = 'README.md'
                             fragment = 'native-playback'
+                        elif local == repo/'docs/education/compressible-lab.html':
+                            dest = 'README.md'
+                            fragment = 'compressible-waves'
                         elif local == repo/'docs/education/aligned-strain-lab.html':
                             dest = 'README.md'
                             fragment = 'interactive-aligned-strain'
@@ -110,6 +113,7 @@ aligned-strain-lab.html in the separately built HTML edition for interactive
 finite algebra when a qualified packet is included. This Markdown companion
 contains documentation and source, not an executing browser lab.
 '''
+    entries['README.md'] += b'\n## Compressible waves\n\nThe chapters on compressible state, discretization and boundaries describe the\noriginal bounded Python Euler reference. The separate HTML edition supplies\ncompressible-lab.html with source-bound computed volume records when included.\nControls select saved fields; neither the archive nor the viewer advances a solver.\n'
     (output/'downloads/Rheon-expanded-book.md').write_bytes(entries['Rheon-expanded-book.md'])
     with zipfile.ZipFile(output/'downloads/Rheon-expanded-markdown.zip', 'w', zipfile.ZIP_DEFLATED) as bundle:
         for name, data in sorted(entries.items()):bundle.writestr(name, data)

@@ -308,3 +308,32 @@ passed their [kernel and 297-declaration audit](https://github.com/MrScripty/Rhe
 on `98abec6`; the synthetic merge proof tree was verified identical. PR60's
 282-declaration evidence is historical.
 Native source admission and all dependency locks remain unchanged.
+
+## Computed compressible fields
+
+Chapters 26–28 introduce conservative Euler/Navier–Stokes state, EOS and waves,
+fluxes and admissibility, boundaries, heat transfer, low Mach and the separate
+requirements for turbulence. The [coverage audit and roadmap](../research-book/implementation/compressible-flow-roadmap.md)
+records the main/PR67 boundary. No production compressible Rust solver is claimed.
+
+Generate and independently qualify the new bounded Python reference in a fresh
+external directory, then supply it to the existing edition build:
+
+```bash
+python3 -m unittest discover -s docs/research-book/compressible -p test_reference.py
+python3 -O -m unittest discover -s docs/research-book/compressible -p test_reference.py
+python3 docs/research-book/compressible/generate.py --output /tmp/rheon-compressible-records
+python3 docs/education/build.py --output-dir /tmp/rheon-compressible-edition --asset-dir "$RHEON_ASSETS/node_modules" --compressible-records-dir /tmp/rheon-compressible-records
+python3 docs/education/verify_browser.py --render-pdf --output-dir /tmp/rheon-compressible-edition
+python3 docs/education/verify_site.py --output-dir /tmp/rheon-compressible-edition
+python3 docs/education/verify_browser.py --check --output-dir /tmp/rheon-compressible-edition
+```
+
+The new `compressible-lab.html` displays actual saved Cartesian ideal-gas Euler
+fields: a planar Sod extrusion and crossing oblique acoustic waves varying in
+all three axes. Time controls select computed records, with field/slice/cell
+inspection and a freely movable 3D camera. No browser physics solve occurs.
+Source-only editions without a packet state absence. Source/data bindings,
+conservative-state reconstruction, ledger comparisons, real browser field and
+control checks, mobile layout and screenshot review are required before release.
+The packet, reading PDF, browser receipts and screenshots stay outside Git.
