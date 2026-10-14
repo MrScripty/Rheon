@@ -30,3 +30,18 @@ I7: material is the first integrated producer; carrier numerical archive and col
 archive opening inside the desktop are deferred follow-ups, owner parent/recording
 integration; trigger a requested next producer/UI slice. Current UI discloses absence.
 Public indexed cold reload/export and generic named-field consumers are implemented.
+
+I8: high, independently reproduced SQLite busy terminal update left append admission
+open; medium, cached poisoned tail allowed completion. Fixed with explicit
+Open/Poisoned/TerminalAttempted writer state; terminal attempt closes before fallible
+reconciliation/write; no retry and no completion after poisoning. Gate: real locked
+read-transaction busy negative fixture and poisoned acknowledged-tail completion.
+
+I9: medium, cancelled/failed accepted generation below recorded generation passed
+verification. Fixed writer durable-tail reconciliation and reader cross-field audit.
+Gate: valid-hash negative fixtures for both outcomes and absent/lower accepted tails.
+
+I10: medium, canonical material decoder admitted constructor diagnostics and accepted
+publications missing the entire triplet. Fixed stage inventory validation; generic
+sparse fields remain supported without fabrication. Gate: both canonical negatives
+and successful sparse generic archive round trip.

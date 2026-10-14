@@ -1,7 +1,7 @@
 # Per-step numerical recording and aligned inspection
 
-Plan status: Accepted. Current phase: M1 implementation acceptance.
-Next slice: none. Acceptance status: satisfied for the admitted CPU-first material slice.
+Plan status: Accepted. Current phase: M1R independent-review repair acceptance.
+Next slice: none. Acceptance status: M1 and M1R satisfied; extended coverage has a separate admission.
 [Ledger](execution-ledger.md) · [Issues](issues.md) · [Design](reports/design.md)
 
 ## Objective and authority
@@ -77,6 +77,19 @@ Allowed writes: `src/recording.rs`, `src/recording/*`, additive `src/lib.rs`,
 `src/bin/rheon-desktop.rs`, `tests/recording_contract.rs`,
 `examples/recorded_material.rs`, `docs/api/recording.md`, this plan directory.
 Gate: A1–A5 satisfied. Status: Accepted.
+
+M1R goal: resolve independently reproduced reliability defects before expanding producers.
+Allowed writes: `src/recording.rs`, `src/recording/material.rs`,
+`tests/recording_contract.rs`, `docs/api/recording.md`, this plan directory.
+Admission: user-authorized continuation, operation start, existing feature branch/PR69.
+Status: Accepted, operation verify, independent re-review resolved all three findings.
+Gate: real SQLite busy terminal attempt blocks further publication; poisoned writers
+cannot claim completion; every declared terminal accepted generation covers the
+durable recorded tail; constructor/accepted material diagnostic inventories match
+their canonical contracts. Negative fixtures must fail at the named boundary.
+Independent review: read-only GPT-6.1 Sol High agent reproduced all three defects;
+existing 11 archive tests passed and therefore did not cover these negative cases.
+After M1R, separately admit measured storage decision and carrier/cold desktop slice.
 
 ## Evidence plan and findings audit
 

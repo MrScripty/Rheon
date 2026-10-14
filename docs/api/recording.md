@@ -34,7 +34,9 @@ The adapters never recompute density, pressure, acceleration or particle state.
 `RecordedStep.time` is simulated publication time, `dt` is the actual accepted
 increment, and each diagnostic field stores its earlier simulated evaluation time.
 These are not wall-clock timestamps. Constructor generation zero has no `dt` or
-diagnostic fields. Missing fields remain absent. Evaluation positions, individual
+diagnostic fields. The canonical material decoder rejects constructor diagnostics and accepted material
+publications missing any diagnostic; generic named-field records may remain sparse.
+Missing fields remain absent. Evaluation positions, individual
 pair forces, wall impulses, solver scratch and complete emission/integrator state
 are not retained. Inspector force is explicitly **derived** mass × acceleration;
 its totals are derived raw totals, not conservation residuals.
@@ -74,16 +76,20 @@ A recording error stops the worker. It cannot undo an already accepted numerical
 step. The terminal status reports the last accepted generation and the recorded
 prefix, including a possible unrecorded accepted tail. Append errors poison further
 append admission so an uncertain commit is never retried on guessed state. `recorded_count()` is acknowledged commits, not proof of a failed append’s outcome. A fresh
-reader determines which transactions committed. Terminal-status failure leaves
-`active`/unknown and is itself reported. `active` on cold reopen means incomplete:
+reader determines which transactions committed. A terminal attempt closes append admission before reconciliation or writing and
+cannot be retried on the same writer. Terminal-status failure has an uncertain
+outcome, is itself reported, and requires fresh-reader reconciliation; an `active`
+status on that reader means unknown/incomplete. `active` on cold reopen means incomplete:
 a crash may have occurred between numerical acceptance and recording. Do not infer
 that every accepted step was recorded merely because the last indexed step is valid.
 No destructor marks a dropped run complete. SQLite rolls back an interrupted partial
 transaction on reopen; committed-prefix integrity is checked independently.
 
 `finish("completed", ..., Some(last_generation))` requires the supplied accepted
-tail to match the writer's committed tail. `failed` and `cancelled` may declare an
-unrecorded tail. An explicit successful finish and complete `verify()` are needed
+tail to match the writer's acknowledged committed tail and requires an unpoisoned
+writer. `failed` and `cancelled` may declare an unrecorded tail, but every terminal
+declaration must cover the durable recorded generation; a lower or absent declared
+tail is rejected when records exist and is independently rejected by full audit. An explicit successful finish and complete `verify()` are needed
 for a completed-archive claim. Error classification preserves I/O/SQLite causes,
 invalid input, unsupported version/type, limit, missing selection and integrity.
 SHA256 detects accidental metadata/data modification; it does not authenticate an

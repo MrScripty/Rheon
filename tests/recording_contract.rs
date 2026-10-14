@@ -671,3 +671,183 @@ fn already_open_reader_detects_changed_header_instead_of_trusting_cached_identit
     drop(reader);
     clean(p);
 }
+
+#[test]
+fn terminal_write_busy_closes_admission_and_requires_cold_reconciliation() {
+    for lock in [
+        "BEGIN; SELECT * FROM steps;",
+        "BEGIN EXCLUSIVE; SELECT * FROM steps;",
+    ] {
+        let mut sim = simulation();
+        let p = path("terminal-busy");
+        let limits = RecordingLimits::default();
+        let mut writer = StepRecorder::create(&p, run(&sim), limits).unwrap();
+        append(&mut writer, &sim, None);
+        let blocker = rusqlite::Connection::open(&p).unwrap();
+        blocker.execute_batch(lock).unwrap();
+        assert!(matches!(writer.finish("completed", "attempt", Some(0)),
+        Err(RecordingError::Sqlite(rusqlite::Error::SqliteFailure(error, _)))
+        if error.code == rusqlite::ErrorCode::DatabaseBusy));
+        blocker.execute_batch("ROLLBACK").unwrap();
+        let report = sim.step(1e-5, None, || false).unwrap();
+        let next = material_publication(
+            &sim,
+            Some(report),
+            Some(controls()),
+            1,
+            limits.max_record_bytes,
+        )
+        .unwrap();
+        assert!(matches!(writer.append(&next), Err(RecordingError::Closed)));
+        assert!(matches!(
+            writer.finish("cancelled", "retry", Some(1)),
+            Err(RecordingError::Closed)
+        ));
+        drop(writer);
+        let reader = RecordingReader::open(&p, limits).unwrap();
+        reader.verify().unwrap();
+        assert_eq!(reader.count().unwrap(), 1);
+        assert_eq!(reader.status().unwrap().outcome, "active");
+        drop(reader);
+        drop(blocker);
+        clean(p);
+    }
+}
+
+#[test]
+fn poisoned_writer_cannot_claim_completion_even_at_acknowledged_tail() {
+    let sim = simulation();
+    let p = path("poisoned-completion");
+    let limits = RecordingLimits::default();
+    let mut writer = StepRecorder::create(&p, run(&sim), limits).unwrap();
+    append(&mut writer, &sim, None);
+    let duplicate = material_publication(&sim, None, None, 0, limits.max_record_bytes).unwrap();
+    assert!(matches!(
+        writer.append(&duplicate),
+        Err(RecordingError::Invalid("ordinal"))
+    ));
+    assert!(matches!(
+        writer.finish("completed", "cached tail", Some(0)),
+        Err(RecordingError::Invalid(
+            "completion must cover accepted tail"
+        ))
+    ));
+    writer
+        .finish("failed", "append rejected; prefix reconciled", Some(0))
+        .unwrap();
+    drop(writer);
+    let reader = RecordingReader::open(&p, limits).unwrap();
+    reader.verify().unwrap();
+    assert_eq!(reader.status().unwrap().outcome, "failed");
+    drop(reader);
+    clean(p);
+}
+
+#[test]
+fn terminal_generation_cannot_contradict_durable_tail_even_with_valid_digest() {
+    use sha2::{Digest, Sha256};
+    for outcome in ["failed", "cancelled"] {
+        for declared in [None, Some(0)] {
+            let mut sim = simulation();
+            let p = path("terminal-tail");
+            let limits = RecordingLimits::default();
+            let mut writer = StepRecorder::create(&p, run(&sim), limits).unwrap();
+            append(&mut writer, &sim, None);
+            let report = sim.step(1e-5, None, || false).unwrap();
+            append(&mut writer, &sim, Some(report));
+            assert!(matches!(
+                writer.finish(outcome, "contradiction", declared),
+                Err(RecordingError::Invalid(
+                    "terminal accepted generation below recorded tail"
+                ))
+            ));
+            assert!(matches!(
+                writer.append(
+                    &material_publication(
+                        &sim,
+                        Some(report),
+                        Some(controls()),
+                        2,
+                        limits.max_record_bytes
+                    )
+                    .unwrap()
+                ),
+                Err(RecordingError::Closed)
+            ));
+            drop(writer);
+            let db = rusqlite::Connection::open(&p).unwrap();
+            let run_digest: Vec<u8> = db
+                .query_row("SELECT digest FROM run", [], |r| r.get(0))
+                .unwrap();
+            let mut hash = Sha256::new();
+            hash.update(&run_digest);
+            for text in [outcome, "contradiction"] {
+                hash.update((text.len() as u64).to_le_bytes());
+                hash.update(text.as_bytes());
+            }
+            hash.update([u8::from(declared.is_some())]);
+            if let Some(generation) = declared {
+                hash.update(generation.to_le_bytes());
+            }
+            db.execute("UPDATE lifecycle SET outcome=?1,detail='contradiction',accepted_generation=?2,digest=?3",
+                rusqlite::params![outcome, declared.map(u64::to_le_bytes).as_ref().map(|b| b.as_slice()), hash.finalize().to_vec()]).unwrap();
+            drop(db);
+            let reader = RecordingReader::open(&p, limits).unwrap();
+            assert!(matches!(
+                reader.verify(),
+                Err(RecordingError::Integrity(
+                    "terminal accepted generation below recorded tail"
+                ))
+            ));
+            drop(reader);
+            clean(p);
+        }
+    }
+}
+
+#[test]
+fn canonical_material_decoder_rejects_stage_incompatible_diagnostics() {
+    let mut sim = simulation();
+    let limit = RecordingLimits::default().max_record_bytes;
+    let mut constructor = material_publication(&sim, None, None, 0, limit).unwrap();
+    let report = sim.step(1e-5, None, || false).unwrap();
+    let mut accepted =
+        material_publication(&sim, Some(report), Some(controls()), 1, limit).unwrap();
+    let (diagnostics, particles): (Vec<_>, Vec<_>) = accepted
+        .fields
+        .into_iter()
+        .partition(|f| ["density", "pressure", "acceleration"].contains(&f.name.as_str()));
+    constructor.fields.extend(diagnostics);
+    accepted.fields = particles;
+    assert!(matches!(
+        RecordedMaterial::decode(&constructor),
+        Err(RecordingError::Invalid(
+            "material stage diagnostic inventory"
+        ))
+    ));
+    accepted
+        .fields
+        .retain(|f| !["density", "pressure", "acceleration"].contains(&f.name.as_str()));
+    assert!(matches!(
+        RecordedMaterial::decode(&accepted),
+        Err(RecordingError::Invalid(
+            "material stage diagnostic inventory"
+        ))
+    ));
+    // Sparse generic records remain valid; canonical material completeness is
+    // a decoder requirement, not an invented field in the storage layer.
+    let p = path("sparse-generic");
+    let limits = RecordingLimits::default();
+    let mut writer = StepRecorder::create(&p, run(&sim), limits).unwrap();
+    accepted.ordinal = 0;
+    writer.append(&accepted).unwrap();
+    writer
+        .finish("completed", "generic sparse publication", Some(1))
+        .unwrap();
+    drop(writer);
+    let reader = RecordingReader::open(&p, limits).unwrap();
+    reader.verify().unwrap();
+    assert!(reader.select(0).unwrap().field("pressure").is_none());
+    drop(reader);
+    clean(p);
+}

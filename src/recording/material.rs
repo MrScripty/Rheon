@@ -387,6 +387,11 @@ impl RecordedMaterial {
             }
             _ => return Err(RecordingError::Invalid("incomplete diagnostic fields")),
         };
+        if matches!(step.stage, SnapshotStage::Constructor) != diagnostics.is_none() {
+            return Err(RecordingError::Invalid(
+                "material stage diagnostic inventory",
+            ));
+        }
         Ok(Self {
             generation: step.generation,
             time: step.time,

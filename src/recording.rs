@@ -321,7 +321,13 @@ pub struct StepRecorder {
     limits: RecordingLimits,
     count: usize,
     last: Option<(u64, f64)>,
-    closed: bool,
+    state: WriterState,
+}
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum WriterState {
+    Open,
+    Poisoned,
+    TerminalAttempted,
 }
 impl StepRecorder {
     /// Create a fresh local database, never replace an existing file. The caller
@@ -382,7 +388,7 @@ impl StepRecorder {
             limits,
             count: 0,
             last: None,
-            closed: false,
+            state: WriterState::Open,
         })
     }
     pub fn path(&self) -> &Path {
@@ -403,12 +409,12 @@ impl StepRecorder {
     /// constructor). Require adjacent generations: omitted accepted steps are
     /// rejected, never silently relabelled as a continuous record.
     pub fn append(&mut self, step: &RecordedStep) -> Result<(), RecordingError> {
-        if self.closed {
+        if self.state != WriterState::Open {
             return Err(RecordingError::Closed);
         }
         let result = self.append_inner(step);
         if result.is_err() {
-            self.closed = true;
+            self.state = WriterState::Poisoned;
         }
         result
     }
@@ -480,26 +486,50 @@ impl StepRecorder {
     }
     /// End lifecycle without deleting data. This remains allowed after append
     /// failure to disclose the last accepted (possibly unrecorded) generation.
-    /// If this also fails, cold reopen remains active/unknown; no success claim.
+    /// A terminal write is attempted at most once; its failure closes admission
+    /// before returning. A fresh reader resolves the durable terminal outcome.
     pub fn finish(
         &mut self,
         outcome: &str,
         detail: &str,
         accepted_generation: Option<u64>,
     ) -> Result<(), RecordingError> {
+        if self.state == WriterState::TerminalAttempted {
+            return Err(RecordingError::Closed);
+        }
         if !["completed", "cancelled", "failed"].contains(&outcome) {
             return Err(RecordingError::Invalid("terminal outcome"));
         }
         valid_text(detail)?;
         if outcome == "completed"
-            && (self.count == 0 || accepted_generation != self.last.map(|v| v.0))
+            && (self.state != WriterState::Open
+                || self.count == 0
+                || accepted_generation != self.last.map(|v| v.0))
         {
             return Err(RecordingError::Invalid(
                 "completion must cover accepted tail",
             ));
         }
+        // Once durable reconciliation or publication is attempted, never admit
+        // another append or retry a terminal write on a guessed outcome.
+        self.state = WriterState::TerminalAttempted;
+        let tail: Option<Vec<u8>> = self
+            .connection
+            .query_row(
+                "SELECT generation FROM steps ORDER BY ordinal DESC LIMIT 1",
+                [],
+                |r| r.get(0),
+            )
+            .optional()?;
+        if let Some(tail) = tail {
+            let tail = u64::from_le_bytes(number(&tail)?);
+            if accepted_generation.is_none_or(|generation| generation < tail) {
+                return Err(RecordingError::Invalid(
+                    "terminal accepted generation below recorded tail",
+                ));
+            }
+        }
         let changed=self.connection.execute("UPDATE lifecycle SET outcome=?1,detail=?2,accepted_generation=?3,digest=?4 WHERE id=1 AND outcome='active'",params![outcome,detail,accepted_generation.map(u64::to_le_bytes).as_ref().map(|b|b.as_slice()),status_digest(&self.run.digest(self.limits),outcome,detail,accepted_generation)])?;
-        self.closed = true;
         if changed != 1 {
             return Err(RecordingError::Closed);
         }
@@ -766,6 +796,17 @@ impl RecordingReader {
             last = Some((s.generation, s.time));
         }
         let status = self.status()?;
+        if status.outcome != "active"
+            && last.is_some_and(|(generation, _)| {
+                status
+                    .accepted_generation
+                    .is_none_or(|accepted| accepted < generation)
+            })
+        {
+            return Err(RecordingError::Integrity(
+                "terminal accepted generation below recorded tail",
+            ));
+        }
         if status.outcome == "completed"
             && (n == 0 || status.accepted_generation != last.map(|v| v.0))
         {

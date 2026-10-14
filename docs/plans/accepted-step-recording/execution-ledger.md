@@ -55,3 +55,31 @@ native dependency declarations/root+nested locks. Source-only commit: generated
 fields, numerical outputs, logs and temporary tools are excluded. Publication uses
 only the protected feature ref and a dependent draft; the PR/final handoff carries
 the actual commit/PR identity. PR67/main integration remains solely parent-owned.
+
+## 2026-10-14 — M1R independent review repair
+
+Operation start/continue/verify: user explicitly authorized independent review and
+three reproduced fixes before further coverage. Read-only GPT-6.1 Sol High reviewer
+reproduced busy terminal admission, contradictory valid-hash terminal tail and
+canonical stage/inventory defects. Repairs distinguish Open/Poisoned/TerminalAttempted,
+close admission before fallible terminal reconciliation, refuse poisoned completion,
+and validate declared accepted generations against durable recorded tail in writer
+and cold audit. Canonical material decoding enforces constructor/accepted inventory;
+generic sparse records remain accepted and absent fields remain absent.
+
+Negative regression coverage uses real SQLite shared/exclusive locks, poisoned cached
+tail, both failed/cancelled outcomes with lower/absent generation and independently
+computed correct hashes, and both material stage variants plus sparse generic reload.
+Archive tests core/default: 15 passed each. Isolated serial desktop: 36 passed.
+Independent re-review: all three findings resolved; an additional exclusive-lock proof
+confirmed admission closes even if the tail query itself fails, before UPDATE.
+These tests qualify observed SQLite failures, not exhaustive power-loss outcomes.
+
+Current original-head PR69 CI has passed numerical, VTK, cloud and bounded lessons;
+feature matrices were still running and book build failed. Local unchanged source
+admission gate independently refuses the added recording source paths. The admitted
+runtime inventory is missing recording.rs and recording/material.rs and has six
+changed crate/desktop inputs. Posted exact evidence and serial-owner handoff in
+PR69 issuecomment-6158642258; no inventory/gate/receipt or PR67 source changed.
+Forbidden remote failure logs were not bypassed. Publication owner owns new committed
+source admission and fresh qualification; this task does not claim book acceptance.
