@@ -127,3 +127,15 @@ The conserved quantity is amount, not concentration. Divide by cell volume only 
 ## Diagnostics
 
 A packet should contain state ID, boundary version, start/end time, accepted substeps, limiting reason, maximum and RMS divergence, true residual, iterations, total tracer or liquid amount, kinetic-energy estimate, allocated bytes and termination reason. Define units and normalization. Missing measurements are unavailable, not zero.
+
+## Execute the iteration contract
+
+Use the two-cell Jacobi mechanism as an executable algorithm specimen. The old x supplies both residual entries before either component is updated. At α = 1/2 inspect one, two and four iterations; record x and the freshly recomputed full residual. A pressure-correction fraction is not this loop. The stated matrix and finite domain make the contract reproducible; larger systems need explicit boundary assembly and stopping rules.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

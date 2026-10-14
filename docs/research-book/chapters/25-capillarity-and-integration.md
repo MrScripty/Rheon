@@ -152,6 +152,10 @@ Use θ < 90° and a finite initial filled length to avoid the unphysical infinit
 
 ### F9 Moving walls and two way solids
 
+This remains a qualification target. The unmerged stationary aligned-box Stokes
+checkpoint described in [Chapter 22](22-viscosity-and-stress.md#draft-checkpoint-stationary-box-stokes-acceptance)
+does not implement moving boundaries, coupled bodies or contact dynamics.
+
 Translate a wall through initially stationary fluid and rotate a paddle with prescribed angular speed. Plot accumulated actuator work against changes in kinetic/potential/surface energy and dissipation. Then move both fluid and obstacle at the same constant velocity; a Galilean-consistent relative-velocity treatment should not generate drag from their common translation. Repeat as the obstacle crosses grid cells.
 
 For a freely moving solid in a closed fluid system without external forces, check combined linear momentum. Check total angular momentum only with compatible rotational geometry and transfer. During a fixed-geometry implicit projection, T4 predicts a particular nonnegative numerical energy loss, not exact kinetic-energy conservation.

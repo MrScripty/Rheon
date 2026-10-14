@@ -1,6 +1,6 @@
 # Rheon exact discrete contracts
 
-This project owns exact finite-dimensional reference definitions and 106 checked public theorem statements in eleven modules. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
+This project owns exact finite-dimensional reference definitions and 138 checked public theorem statements in thirteen modules. The historical reconstruction qualified 106 statements; the expanded inventory passed a fresh normal pinned build, 242-declaration axiom audit and normal/optimized rejection gates, recorded separately in the book metadata. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
 
 ## Reproduce
 
@@ -142,3 +142,18 @@ and run from the repository root:
 
 The destination must be new and outside every Git worktree. The receipt binds
 the clean committed source, executable, actual native records and all logs.
+
+## Material preview and CPU scheduling extension
+
+`Rheon/MaterialPreview.lean` adds 17 exact-real statements about the actual pair
+coefficients, an isolated viscous pair, and the prescribed nozzle/credit ledger.
+`Rheon/CpuScheduling.lean` adds 15 natural-number statements about chunks, wave
+dependencies and exploration under successful nonoverlapping calls with a stable
+workload. Neither module formalizes Rust/Rayon, IEEE execution, global time-step
+stability, continuum convergence, wall-clock fairness or a performance optimum.
+
+The expanded reviewed inventory has 138 public theorem statements and 193
+explicit audit entries. These are source counts; qualification still requires
+the normal pinned build, complete axiom audit and rejection probes above.
+Historical 106/161 and earlier receipts remain tied to their original source.
+See the book's `native-sequence.json` for current qualification status.

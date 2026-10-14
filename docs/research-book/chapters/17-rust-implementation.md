@@ -89,3 +89,103 @@ Use established sparse and numerical libraries for reference solves where licens
 No unsafe code is required for the first bounded CPU implementation. Introduce unsafe indexing or SIMD only after profiling identifies a meaningful contributor and the validated shape contract supports a reviewed safety argument. Bounds-check elimination by the compiler is preferable to a manually duplicated unchecked path when performance is equivalent.
 
 GPU kernels require a separate buffer-layout and dispatch contract, including alignment, workgroup limits, synchronization and readback. A CPU test cannot establish a shader's binding layout or race freedom. Keep backend-independent fixtures but qualify each backend through its real execution path before advertising support.
+
+## Current material and desktop owners
+
+The Rust-shaped interfaces earlier in this chapter remain a design
+specification. The current repository also has compiled owners with narrower,
+explicit contracts. [`ParticleFluidSimulation`](../../../src/particle_fluid.rs)
+owns the bounded material preview, while the original carrier simulation and
+its pressure implementations remain a separate selectable mode. Switching
+the desktop's material mode changes the physical model; it is not a different
+preconditioner for the same pressure problem.
+
+A desktop run takes an immutable copy of settings and creates one joinable
+worker with a scoped Rayon pool. That worker exclusively owns the numerical
+simulation. The renderer consumes immutable accepted `PreviewFrame` values
+published to history; it never borrows candidate particles. Editing settings
+for the next run therefore does not reinterpret the physical scale of frames
+already recorded. The [desktop contract](../../../src/bin/desktop/README.md)
+documents startup, cancellation, joining and retained history.
+
+## Follow one particle step through publication
+
+The material owner first validates the requested interval and emitter. It
+chooses an interval constrained by its acoustic, motion and material scales,
+copies accepted particles to candidate storage, and prepares source parcels
+using candidate reservoir credits. Neighbor bins, density and forces are then
+computed from that candidate. A force check can request preparation again at
+a shorter interval. There are at most 16 preparation attempts in one call;
+exhausting them returns an explicit stability failure.
+
+Only a successful preparation commits the particle arrays, accepted clock,
+generation, source credits and emission-sequence state. This last pair matters:
+if a cancelled attempt kept its source credit or disk-sampling progress, a
+retry could inject a different amount of material or emit it elsewhere even
+when the visible particles had been restored. Scratch may change during a
+failed attempt; accepted state must remain coherent. The
+[material tests](../../../tests/material_contract.rs) exercise cancellation,
+capacity failure and retry through the real public owner.
+
+After commit, the worker captures the accepted state for display. Scrubbing
+history selects an earlier immutable frame while new frames arrive; Follow
+live selects the newest accepted frame. The material image splats parcels
+onto its stored preview grid. It is a visualization, not a full numerical
+checkpoint from which the particle state can be recovered exactly.
+
+## A small acceptance sequence for the new owners
+
+Begin with a vacuum scene with no source and zero gravity: there should be no
+particle mass to display. A filled scene instead starts with mass determined
+by its physical volume and reference density. Enable the source, record actual
+accepted time and emitted mass, then cancel and inspect the retained frames.
+The measurable question is whether retained mass equals initial mass plus
+accepted emitted mass within the declared floating tolerance. A plausible jet
+image alone cannot answer it.
+
+Next keep the physical inputs fixed while changing worker count. Compare
+accepted fields and reports through the numerical fixtures, not only preview
+pixels. The run-owned [`CpuScheduler`](../../../src/scheduling.rs) may choose
+different batch boundaries from timing feedback, but that does not authorize
+different per-item arithmetic or reordered reductions. Finally raise only
+preview resolution and check the stated payload budget: numerical parcel
+spacing should remain fixed. These three exercises isolate physical state,
+execution order and display cost.
+
+The [material-preview contracts](../implementation/material-preview-contracts.md)
+and [CPU-scheduling contracts](../implementation/cpu-scheduling-contracts.md)
+give the bounded formulas, source links and proof boundaries. They do not
+upgrade a native desktop preview into a new browser solver or establish
+equivalence to the paper designs earlier in this chapter.
+
+## Draft checkpoint: borrow one accepted transport snapshot
+
+Unmerged [PR48](https://github.com/MrScripty/Rheon/pull/48), reviewed at
+`f06a1270935b2ac285c68c0e594ab0742220913e`, adds an engine-neutral
+[`SimulationSession`](https://github.com/MrScripty/Rheon/blob/f06a1270935b2ac285c68c0e594ab0742220913e/src/session.rs)
+for the existing full-box transport path. It owns the boundary workspace and
+borrows unchanged native step inputs for each synchronous call. A snapshot
+binds grid, publication number, immutable state, identity and the last accepted
+report. Stages distinguish constructor state from an accepted interval. Pressure
+is the last interval's projection pressure with its existing gauge; it is not
+a reconstructed end-surface pressure.
+
+Try the draft's [headless and game-loop examples](https://github.com/MrScripty/Rheon/blob/f06a1270935b2ac285c68c0e594ab0742220913e/docs/api/simulation-session.md).
+Predict which clock should advance after a CFL-shortened request: the host must
+use accepted report dt, not requested dt. Next cancel an attempt and compare
+the published frame before retry. The draft's
+[contract tests](https://github.com/MrScripty/Rheon/blob/f06a1270935b2ac285c68c0e594ab0742220913e/tests/session_contract.rs)
+check publication preservation, retry, quotas and equivalence to existing
+encoding. Deadlines are checked cooperatively at native stage checkpoints and
+around callbacks; a long kernel or callback can overrun them. They provide no
+preemption, maximum wall time or frame-rate guarantee.
+
+The snapshot borrows its owner. Retention requires an explicit consumer copy or
+encoding; there is no hidden frame archive. Stop is terminal but leaves inspection
+available. Caller-supplied run/revision strings are declarations, not verified
+provenance. Encoded frames alone do not satisfy the separately validated dense3D
+dataset-publication contract. The API is transport-only: it does not yet wrap
+PR47 particle diagnostics, PR45 experimental Stokes, CAD measurement or AI
+providers, and the Rust game-loop sample is not a Godot binding. These are
+separate unmerged drafts; the current embedded browser lesson continues to use
+its existing adapter.

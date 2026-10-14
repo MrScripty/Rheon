@@ -101,3 +101,21 @@ represented world endpoints with explicit arithmetic refusal. A subcell box
 spanning two full axes can split one cell into two fluid pieces, so that topology
 is refused. Existing pressure and viscosity owners do not consume this geometry.
 The matching lab inspects recorded native controls; it advances no fluid.
+
+## Current native import and the remaining fluid geometry gate
+
+The reviewed runtime composition includes static OBJ/glTF/GLB import and a
+CollisionMesh with either validated convex-solid or explicitly two-sided-surface
+policy. Native file loading, triangle/resource validation and collision queries
+are separate capabilities. The fixed WASM browser adapter has no filesystem
+importer. The particle scene can use the static collider; the existing bounded
+obstacle laboratory uses its own admitted box geometry and operator domain.
+Neither path turns arbitrary triangles into shared fluid cell volumes, face
+openings, connected pressure components or embedded symmetric-stress interactions.
+
+Use the [current requirements map](../implementation/requirements-roadmap.md#current-reviewed-runtime-composition)
+to choose the supported native exercise, then return to chapter 8's face-flux
+and reconstruction studies to identify the missing conservative assembly.
+A visually correct surface and a passed segment query cannot supply that assembly.
+The [integration review](../../education/NATIVE_ADMISSION_RUNTIME_REVIEW.md)
+keeps source admission and fresh numerical qualification explicit.

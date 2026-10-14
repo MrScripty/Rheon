@@ -1,0 +1,23 @@
+{
+  "schema": "rheon-authored-book-integration-evidence-v1",
+  "native_source_head": "d35967ec69018af707bc5353ee0bffa0b4934f38",
+  "native_source_tree": "e147cad33343a59d2591ced0eb10f2548b568850",
+  "native_receipt_sha256": "42baf6954aa27d9f5a70a25a8d0a435d1c88df765ad60e6c104a1234a454be69",
+  "native_qualification_status": "passed",
+  "native_clean": true,
+  "native_lean_checked": false,
+  "native_commands": 18,
+  "packet_tests_normal": 22,
+  "packet_tests_optimized": 22,
+  "packet_tests_skipped": 0,
+  "wasm_locked_check": "passed; native filesystem import excluded from wasm32",
+  "native_import_collision_tests": 28,
+  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38478346517",
+  "lean_source_head": "ae4fff0a1a12edb312fb1d1af9a5a4c70f585cc1",
+  "lean_checkout_head": "46a199a2484975c021286a506be81e327783737f",
+  "lean_audited_declarations": 330,
+  "lean_scope": "Exact same proof tree; not a numerical receipt or a proof of Rust/IEEE/physical validity/performance.",
+  "publication_status": "pending final exact integrated hosted checks and coordinated merge",
+  "human_visual_review": "blocked by supported artifact HTTP403; not replaced by automated controls",
+  "generated_evidence_location": "External temporary qualification directories; not repository payloads"
+}

@@ -19,6 +19,11 @@ pub use scheduling::{BatchStatistics, CpuScheduler};
 mod sgs;
 pub use geometry::{Axis, BufferPlan, GeometryError, GridGeometry};
 mod collision;
+pub mod mesh_collision;
+pub use mesh_collision::{CollisionMesh, MeshCollisionError, MeshPolicy};
+// Native filesystem import is unavailable in the wasm32 browser host.
+#[cfg(not(target_arch = "wasm32"))]
+pub mod mesh_import;
 pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
     TriangleSurface,
@@ -59,7 +64,8 @@ mod material;
 pub use material::{DomainFill, FluidMaterial, FluidPhase, FluidPreset, ParticleFluidConfig};
 mod particle_fluid;
 pub use particle_fluid::{
-    FluidParticle, ParticleFluidError, ParticleFluidSimulation, ParticleStepReport,
+    FluidParticle, ParticleDiagnostic, ParticleFluidError, ParticleFluidSimulation,
+    ParticleStepReport,
 };
 #[cfg(feature = "png-export")]
 mod export;
@@ -169,3 +175,32 @@ pub use aligned_strain::{
 };
 mod dense3d_sequence;
 pub use dense3d_sequence::{Dense3dError, Dense3dLimits, Dense3dSequence, write_dense3d_frame};
+
+mod session;
+pub use session::{
+    SESSION_CAPABILITIES, SessionCapabilities, SessionError, SessionIdentity, SessionSnapshot,
+    SimulationSession, SnapshotStage,
+};
+
+mod material_session;
+pub use material_session::{
+    MATERIAL_SESSION_CAPABILITIES, MaterialEmitterControl, MaterialSession,
+    MaterialSessionCapabilities, MaterialSessionError, MaterialSnapshot, MaterialStepControls,
+    ParticleEvaluationStage,
+};
+/// Optional learned pressure components with reference fallback.
+pub mod solver_provider;
+
+mod pressure_session;
+pub use pressure_session::{
+    PRESSURE_SESSION_CAPABILITIES, PressureSession, PressureSessionCapabilities,
+    PressureSessionError, PressureSolveControls, QualifiedPressureSnapshot,
+};
+mod vtk_export;
+pub use vtk_export::{write_material_vtp, write_particles_vtp, write_session_vti};
+
+mod provider_step;
+pub use provider_step::{ProviderStepReport, ProviderStepWorkspace};
+
+mod emitter_controls;
+pub use emitter_controls::{EMITTER_CONTROLS_VERSION, EmitterTurbulence};

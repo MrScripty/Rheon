@@ -54,3 +54,35 @@ These exclusions guide the API. A material enum should describe implemented cons
 ## Splitting errors
 
 Let \(A\) denote transport and \(B\) another evolution operator. One step \(e^{\Delta tB}e^{\Delta tA}\) differs from \(e^{\Delta t(A+B)}\) by commutator terms of order \(\Delta t^2\) locally under suitable smoothness. Over fixed duration, the usual global order is one. Symmetric splitting can improve order under compatible assumptions, but changing fluid regions and boundary handling can invalidate that improvement. Test accuracy on smooth manufactured problems before advertising it for obstacles or free surfaces.
+
+## Wall forces and body work
+
+Consider constant viscosity μ > 0 in a one-metre plate gap with unit area.
+The lower wall is stationary, the upper wall moves at U, and a uniform body
+force G acts along x. The steady solution is
+
+\[
+ u(y)=Uy+\frac{G}{2\mu}y(1-y),\qquad
+ \tau(y)=\mu U+\frac G2(1-2y).
+\]
+
+Traction on the fluid uses its outward normal: bottom traction is
+−μU−G/2 and top traction is μU−G/2. Their sum plus the body force is zero.
+The browser recomputes nine velocity/shear samples, wall traction and work.
+With μ = U = 1 and G = 2, the top traction is zero and the bottom is −2 Pa.
+Body work supplies the dissipation, even though the upper wall moves.
+
+The volume-average speed is U/2 + G/(12μ). Wall power is U(μU−G/2),
+body power is G times that average, and dissipation is μU² + G²/(12μ).
+Their exact balance follows by integrating the polynomial profile and its
+squared derivative. Density does not enter this already specified steady
+unidirectional balance. Arbitrary geometry, unsteady inertia, thermal work
+and solid response require additional equations and boundary data.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

@@ -1,0 +1,58 @@
+{
+  "schema": "rheon-modal-decay-milestone-v1",
+  "source_head": "e42ea00773a9cdd1704d3946bfa7f6e92173e2c7",
+  "proof": {
+    "workflow_url": "https://github.com/MrScripty/Rheon/actions/runs/38383689282",
+    "job_id": 115250099407,
+    "checkout_head": "7324caa806b64c71300b03d9afd6f06e0b6c1d1b",
+    "checkout_proofs_equal_head": true,
+    "proof_inventory_sha256": "ab4ff31031760ae4de577575b4bcdef57d81cea9f55122867ada562c5274a252",
+    "public_theorems": 152,
+    "explicit_expected_declarations": 212,
+    "audited_declarations": 266,
+    "decoded_job_log_sha256": "4691836ef0027a4b80a7b62f5a6c4ed3e4ab5a84ad956c13c28a2c59edd6825f",
+    "status": "passed",
+    "scope": "Scalar amplification only; no PDE, execution, IEEE or performance proof."
+  },
+  "browser": {
+    "workflow_url": "https://github.com/MrScripty/Rheon/actions/runs/38383689207",
+    "job_id": 115250100018,
+    "job_name": "bounded-lessons",
+    "status": "passed",
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        320,
+        740
+      ]
+    ],
+    "checks": [
+      "Actual glyph origins, lengths, directions and integrator labels",
+      "Controls and all three integrators",
+      "Deep links and mobile modes",
+      "Camera state preservation and collapsed proof"
+    ],
+    "artifact_id": 11804896046,
+    "artifact_sha256": "48729956540110d64d76a93e697ee618c82fc40945e3a21cb27ca3bf55639c5e",
+    "artifact_size_bytes": 739828,
+    "visual_review": "blocked: transferring connector-returned screenshot ZIP to execution environment returned Tunnel connection failed: 403 Forbidden; no reroute or bypass attempted",
+    "scope": "Historical e42ea00 qualification; later six-heading reading bindings require a fresh run."
+  },
+  "sources": {
+    "docs/education/decay_reference.js": "68d7e4441f232d312dd3fe95972cf9e66bd658b306734a23e93937f997604e97",
+    "docs/education/decay_labs.js": "68a94e0890d0c624e15cf45f4012eeb27c3039fbdc4a9461a2fa83742c7b8c83",
+    "docs/education/decay_browser.py": "1e406835fef1e2c58ae85f5c4ca861c5c6902302b83ec664bc55925eb8c7fda4",
+    "docs/education/labs.js": "86cda28e473bebb72fb35fd6fc28527ae4815667a367275365b60012de00f8ee",
+    "docs/education/reader.js": "5501cbee985f3352ada11de0e4c3db6766b1247eed81039cd81b08360c785103",
+    "docs/research-book/chapters/12-time-and-error.md": "856df8f38418915a6df28a1800c648358f10f2a7d6fa68c188025d6475344dd8",
+    "proofs/Rheon/ModalDecay.lean": "69c643dfd3a523b8146eedbe918e68f848310d29349bc98ba21a7e71c1a83f2b"
+  },
+  "full_book_ci": "Static edition/PDF/local links passed; final browser-regression step was still running when the reading-binding revision superseded this head. Not a complete publication pass."
+}

@@ -1,0 +1,50 @@
+name: Moving-plate shear coupling
+on:
+  pull_request:
+    paths:
+      - 'experiments/plate_coupling.rs'
+      - 'experiments/outward.rs'
+      - 'examples/plate_coupling.rs'
+      - 'tests/plate_coupling_contract.rs'
+      - 'tools/check_plate_coupling.py'
+      - 'src/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - '.github/workflows/plate-coupling.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-coupling:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      CARGO_BUILD_JOBS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Install pinned Rust
+        run: rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy --no-self-update
+      - name: Build and verify real coupling
+        env:
+          CARGO_TARGET_DIR: ${{ runner.temp }}/plate-target
+        run: |
+          set -euo pipefail
+          mkdir "$RUNNER_TEMP/plate-checks"
+          cargo fmt --all --check
+          cargo clippy --locked --no-default-features --example plate_coupling --test plate_coupling_contract -- -D warnings
+          cargo test --locked --no-default-features --test plate_coupling_contract --test obstacle_flow_contract --test static_obstacle_contract -- --nocapture 2>&1 | tee "$RUNNER_TEMP/plate-checks/rust.log"
+          cargo build --locked --no-default-features --example plate_coupling
+          python3 tools/check_plate_coupling.py --native "$CARGO_TARGET_DIR/debug/examples/plate_coupling" --output "$RUNNER_TEMP/plate-checks/normal"
+          python3 -O tools/check_plate_coupling.py --native "$CARGO_TARGET_DIR/debug/examples/plate_coupling" --output "$RUNNER_TEMP/plate-checks/optimized"
+      - name: Retain source-bound records and checks
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: moving-plate-coupling-${{ github.event.pull_request.head.sha || github.sha }}
+          path: ${{ runner.temp }}/plate-checks
+          if-no-files-found: error

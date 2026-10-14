@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "data_origin_policy": "Analytical and synthetic demonstrations must not be presented as Rheon solver output.",
+  "labs": [
+    {
+      "id": "constant_density_hidden_motion",
+      "title": "A bright volume can hide a moving fluid",
+      "origin": "analytic prescribed field",
+      "controls": [
+        "field type",
+        "slice position",
+        "glyphs",
+        "glyph normalization",
+        "locked range"
+      ],
+      "assertions": [
+        "constant density/fraction images agree across cases",
+        "flux values through unit x-normal face are 0, 1, 0.5 m^3/s",
+        "reversing normal reverses flux"
+      ],
+      "prerequisites": [
+        "analytic sampler",
+        "slice",
+        "glyphs",
+        "section integral"
+      ],
+      "rheon_status": "Can be a teaching fixture independently of solver.",
+      "required_visible_metadata": [
+        "data origin",
+        "field and units",
+        "physical time if applicable",
+        "range policy",
+        "sampling/reconstruction method",
+        "invalid-data state"
+      ],
+      "guide_section": "15, Lab 1"
+    },
+    {
+      "id": "planar_channel",
+      "title": "Pressure-driven planar channel",
+      "origin": "analytic reference; solver overlay only after qualification",
+      "controls": [
+        "resolution",
+        "pressure gradient",
+        "viscosity",
+        "slice",
+        "profile overlay",
+        "pressure gauge shift"
+      ],
+      "assertions": [
+        "Umax/Umean=1.5",
+        "flow, pressure drop, wall shear match declared analytical assumptions",
+        "gauge shift preserves valid pressure drop"
+      ],
+      "fixture_key": "planar_channel",
+      "prerequisites": [
+        "supported viscous/boundary model",
+        "field export",
+        "native flux",
+        "wall derivative if shear is shown"
+      ],
+      "rheon_status": "Conditional; current SPH box-contact preview is not automatically this model.",
+      "required_visible_metadata": [
+        "data origin",
+        "field and units",
+        "physical time if applicable",
+        "range policy",
+        "sampling/reconstruction method",
+        "invalid-data state"
+      ],
+      "guide_section": "15, Lab 2"
+    },
+    {
+      "id": "gradient_invariants",
+      "title": "Vorticity is not a vortex detector",
+      "origin": "analytic prescribed field",
+      "controls": [
+        "rotation/shear/strain/expansion",
+        "rate",
+        "uniform translation",
+        "gradient method",
+        "invariant"
+      ],
+      "assertions": [
+        "tensor fixture values match",
+        "translation leaves derivatives/invariants unchanged",
+        "Q conventions differ for expansion"
+      ],
+      "fixture_key": "tensor_cases",
+      "prerequisites": [
+        "sampler",
+        "gradient",
+        "symmetric eigenvalues"
+      ],
+      "rheon_status": "Analytic lesson first; branch-specific gradients require validation.",
+      "required_visible_metadata": [
+        "data origin",
+        "field and units",
+        "physical time if applicable",
+        "range policy",
+        "sampling/reconstruction method",
+        "invalid-data state"
+      ],
+      "guide_section": "15, Lab 3"
+    },
+    {
+      "id": "unsteady_curves",
+      "title": "Streamline, pathline, and streakline disagree",
+      "origin": "analytic time-dependent field",
+      "controls": [
+        "observation time",
+        "release interval",
+        "snapshot spacing",
+        "integration step",
+        "curve type"
+      ],
+      "assertions": [
+        "three curve types agree with formulas",
+        "pathline and streakline oldest-particle endpoint is (2,2) at T=2",
+        "instantaneous streamline is not relabeled particle history"
+      ],
+      "fixture_key": "time_dependent_curves",
+      "prerequisites": [
+        "temporal sampler",
+        "integrator",
+        "seed/release records"
+      ],
+      "rheon_status": "Current preview history cannot generate full particle trajectories; use analytic fixture or new quantitative snapshots.",
+      "required_visible_metadata": [
+        "data origin",
+        "field and units",
+        "physical time if applicable",
+        "range policy",
+        "sampling/reconstruction method",
+        "invalid-data state"
+      ],
+      "guide_section": "15, Lab 4"
+    },
+    {
+      "id": "honest_color_range",
+      "title": "The color legend can conceal a tenfold change",
+      "origin": "synthetic scalar field",
+      "controls": [
+        "amplitude",
+        "autoscale/locked range",
+        "probe x",
+        "invalid region",
+        "out-of-range region"
+      ],
+      "assertions": [
+        "probe at x=.5 changes .5 to 5",
+        "locked legend reveals amplitude change",
+        "invalid data differs from zero/endpoint"
+      ],
+      "prerequisites": [
+        "legend",
+        "scalar map",
+        "probe"
+      ],
+      "rheon_status": "Can ship as teaching lesson with no solver claim.",
+      "required_visible_metadata": [
+        "data origin",
+        "field and units",
+        "physical time if applicable",
+        "range policy",
+        "sampling/reconstruction method",
+        "invalid-data state"
+      ],
+      "guide_section": "15, Lab 5"
+    },
+    {
+      "id": "manufactured_convergence",
+      "title": "Does the analysis converge, or only look smoother?",
+      "origin": "synthetic convergence sequence",
+      "controls": [
+        "higher-order error",
+        "constant model bias",
+        "small perturbation",
+        "nonmonotone sequence",
+        "display interpolation"
+      ],
+      "assertions": [
+        "observed order=2",
+        "extrapolated=1",
+        "fine GCI about .968992248 percent",
+        "model bias persists under refinement"
+      ],
+      "fixture_key": "convergence",
+      "prerequisites": [
+        "chart",
+        "formula display",
+        "guarded convergence calculator"
+      ],
+      "rheon_status": "Not evidence about actual Rheon errors.",
+      "required_visible_metadata": [
+        "data origin",
+        "field and units",
+        "physical time if applicable",
+        "range policy",
+        "sampling/reconstruction method",
+        "invalid-data state"
+      ],
+      "guide_section": "15, Lab 6"
+    },
+    {
+      "id": "particle_kernel_coverage",
+      "title": "Particle density, coverage, and appearance are different",
+      "origin": "synthetic static particle lattice",
+      "controls": [
+        "probe",
+        "kernel support",
+        "display resolution",
+        "density/normalized attribute",
+        "point/voxel/slice view"
+      ],
+      "assertions": [
+        "total mass=125 kg",
+        "reference volume=.125 m^3",
+        "center density about1009.775167 kg/m^3",
+        "outer-face density about816.999908 kg/m^3",
+        "normalized attribute does not fix physical support deficiency"
+      ],
+      "fixture_key": "poly6_lattice",
+      "prerequisites": [
+        "neighbor search",
+        "kernel sampler",
+        "support diagnostics",
+        "native particle data"
+      ],
+      "rheon_status": "Directly relevant next lesson; exact solver conventions must be matched before using as Rheon regression.",
+      "required_visible_metadata": [
+        "data origin",
+        "field and units",
+        "physical time if applicable",
+        "range policy",
+        "sampling/reconstruction method",
+        "invalid-data state"
+      ],
+      "guide_section": "15, Lab 7"
+    }
+  ],
+  "implementation_status": "Proposed teaching specifications; no new live browser controls or native solver features are supplied by this file.",
+  "source_ledger": "../sources/cad-visualization-sources.json",
+  "guide": "../implementation/cad-visualization-contracts.md#seven-interactive-worked-lessons",
+  "analytic_generator": "cad_visualization_fixtures.py"
+}

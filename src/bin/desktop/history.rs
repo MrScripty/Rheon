@@ -132,6 +132,7 @@ impl PreviewFrame {
     }
 }
 pub struct LiveHistory {
+    pub inspector: super::inspector::Inspector,
     tracks: Mutex<Vec<Vec<Arc<PreviewFrame>>>>,
     pub active_track: AtomicUsize,
     pub preview_edge: usize,
@@ -191,6 +192,7 @@ impl LiveHistory {
             storage.push(track);
         }
         Ok(Arc::new(Self {
+            inspector: super::inspector::Inspector::default(),
             tracks: Mutex::new(storage),
             active_track: AtomicUsize::new(0),
             preview_edge: plan.edge,

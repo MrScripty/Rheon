@@ -67,3 +67,12 @@ required-features = ["png-export"]
 [[example]]
 name = "column_mac"
 required-features = ["png-export"]
+
+[target."cfg(unix)".dependencies]
+rustix = { version = "=1.1.5", features = ["fs"] }
+
+# Filesystem import is a native host capability; the browser adapter has no file loader.
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+gltf = { version = "=1.4.1", default-features = false, features = ["utils", "names"] }
+base64 = "=0.22.1"
+cap-std = "=3.4.5"

@@ -33,3 +33,105 @@ State whether replay is bitwise on one backend, tolerance-based across backends,
 Sparse tiles save empty-space cost but add keys, occupancy maps, halos and fragmented work. Benefits depend on active fraction and stencil expansion. A moving plume may activate many tiles at once; reserve or reject before mutating accepted state. Disconnected sparse pressure regions need consistent component gauges.
 
 Begin with dense bounded grids and honest peak reporting. Adopt sparsity when representative scenes show empty-space cost is the limiting resource and topology machinery has a clear owner.
+
+## Three sizes that the desktop keeps separate
+
+The current material scene has three independently meaningful sizes: its
+physical domain in metres, its parcel sampling, and its stored preview grid.
+Doubling the side of a filled cube at the same reference density multiplies
+initial mass by eight. Raising preview resolution changes how accepted parcels
+are displayed; it does not add numerical parcels or improve the fluid update.
+
+The desktop stores an eight-bit preview and metadata for step zero and every
+accepted step. A requested resolution may be reduced before the run so that
+the whole planned history fits its budget. For orientation, one 128³ scalar
+byte array is 2 MiB; 1,025 such arrays already occupy 2,050 MiB before metadata.
+These calculated payload sizes exclude numerical state, meshes, thread stacks
+and allocator overhead. The current sidebar reports the actual stored size
+and planned bytes. Its history budget is not a process-memory cap.
+
+The particle owner has a different budget. It reserves accepted and candidate
+particles, per-particle density/pressure and force scratch, neighbor links and
+bin heads. Capacity accounting uses the compiled element sizes and allocated
+capacities, including padding. A full particle array must cause an explicit
+failure rather than silently drop parcels or neighbors. See the
+[material contract guide](../implementation/material-preview-contracts.md#memory-and-display-are-different-budgets)
+and the [desktop ownership contract](../../../src/bin/desktop/README.md).
+
+## What an adaptive CPU batch changes
+
+Imagine 1,000 independent output entries divided into batches of 256. The four
+jobs own intervals [0,256), [256,512), [512,768) and [768,1000). Every entry has
+one writer; the final job simply has fewer entries. Four jobs do not mean four
+workers will remain busy for the entire pass. Their costs may differ, and a
+join waits for the slowest unfinished job.
+
+Rheon's run-owned [`CpuScheduler`](../../../src/scheduling.rs) chooses bounded
+batch sizes above Rayon's existing work-stealing scheduler. It times complete
+joined passes and periodically compares a small set of candidates. It changes
+work boundaries, while each item's arithmetic and the ordered reductions
+retain their established order. Smaller jobs expose more parallel work but
+also add scheduling overhead. The fastest observed candidate is evidence for
+that workload and timing sample, not a universal best grain size.
+
+The exploration counter also has a scope: for a stable workload with one
+outstanding invocation and exactly one success record per pass, the first
+eight successful calls visit four candidates twice, and the cycle repeats
+after 128 calls. That conditional accounting does not guarantee exploration
+under arbitrary overlapping calls, failures or changing workloads.
+
+SGS sweeps also have dependencies. A tile may read completed predecessor tiles,
+so only a ready wave can run together. In a 2 × 2 × 2 tile box, grouping by
+\(b_x+b_y+b_z\) gives waves containing 1, 3, 3 and 1 tiles. Eight total jobs
+therefore do not provide eight independent jobs at once. Rheon separately
+calibrates its supported SGS tile sizes on scratch and keeps ordered wave
+joins. The [scheduling contract guide](../implementation/cpu-scheduling-contracts.md)
+separates interval coverage, dependency order and timing feedback.
+
+To read the CPU inspector, compare complete-pass wall time before interpreting
+worker boxes. Orange markers sample actual visits at the repaint rate, and
+idle workers may retain their last position. Kernel shares include recorded
+passes only; validation, preview capture and other unrecorded work are outside
+that denominator. A busier display need not mean a faster accepted step.
+The [scheduling evidence](../../../evidence/scheduling/README.md) retains exact
+workloads, build identities and the limits of its historical measurements.
+
+## Checked scheduling proof bridge
+
+Finite-index and dependency statements can establish that a declared partition
+covers its entries and that a predecessor lies in an earlier wave. They do not
+prove that the OS runs every worker, that a timing choice is optimal, or that
+floating reductions may be reordered safely. The current
+[`CpuScheduling.lean`](../../../proofs/Rheon/CpuScheduling.lean) source and its
+[implementation mapping](../implementation/cpu-scheduling-contracts.md) must be
+read alongside actual cross-thread replay and scope-cleanup tests. A source
+listing alone is not a fresh kernel qualification.
+
+## Counting faces and sparse arrays
+
+For n³ cells and c cell-centred scalar fields, all three face families contain
+3n²(n+1) scalars. With w bytes per scalar, fields require
+w[cn³+3n²(n+1)] bytes. The displayed cube and face grids expose the indexing
+shape; they are an allocation diagram, not physical cell dimensions.
+A seven-point Dirichlet stencil has n³+6n²(n−1) nonzeros, including the diagonal.
+CSR uses one scalar and one 32-bit column index per nonzero, plus n³+1
+32-bit row offsets. Five scalar solver vectors are counted separately.
+
+## Doubling resolution and scalar width
+
+Choose n = 16, c = 4 and w = 4. Fields use 117,760 bytes, CSR 233,476 bytes
+and the five vectors 81,920 bytes: included total 433,156 bytes. Doubling n
+and moving to eight-byte scalars changes both the field count and the
+value/index mix; an eightfold or sixteenfold estimate is only a leading-order
+intuition. The actual readout evaluates every term. No allocator padding,
+ghosts, particles, rendering buffers or GPU copies are included. Measured
+peak memory and CPU time require executing the specified runtime; this byte
+model cannot establish a performance claim.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

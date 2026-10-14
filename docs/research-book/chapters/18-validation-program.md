@@ -29,3 +29,47 @@ The highest-value integrated study links coarse simulation error to spatial cond
 Numerical priorities are component-aware pressure, obstacle sampling and bounded liquid volume. Formal priority is connecting array assembly to the abstract model. Non-Newtonian stress, APIC and sparsity follow needed capability rather than the project's name.
 
 Every result should retain its level of certainty: derived identity, checked theorem, executed fixture, measured implementation or proposed design. That distinction makes a small reusable solver dependable.
+
+## Match the benchmark boundary operator
+
+The [research record](../engineering/constitutive-validation-research.md#a-benchmark-is-a-complete-boundary-value-problem)
+works through the official steady DFG Re20 specification. Its outlet uses a
+velocity-gradient traction; substituting full symmetric traction changes the
+problem. Before comparing a drag number, reproduce the declared geometry,
+normal convention, inlet, boundary operator and pressure samples. Reference
+values are not Rheon measurements. The linked record separates remaining
+spatial, iteration and model-validation requirements.
+
+## Midpoint refinement with a known answer
+
+Integrate y² over [0,1] by midpoint quadrature. The exact answer is 1/3.
+With n cells the independently derived sum is 1/3−1/(12n²). The browser
+actually samples and accumulates the rectangles, then computes three grids
+n, 2n and 4n. At n = 4 their values are 0.328125, 0.33203125 and 0.3330078125.
+Successive differences give observed order 2; Richardson extrapolation gives
+1/3. The fine-grid absolute GCI estimate with factor 1.25 is approximately
+0.000406901. The rectangles depict the selected coarse quadrature; the dots
+and curve show the exact integrand. [NASA's spatial-convergence procedure](https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html)
+supplies the GCI context. Here the smooth quadratic fixture establishes the
+error model directly; arbitrary CFD data require a separate asymptotic check.
+
+## Refining a biased model
+
+Add a constant 1/16 to every sampled integrand. The observed order remains 2
+and the GCI estimate is unchanged, but extrapolation now gives 1/3+1/16.
+The spatial estimator measures convergence to this biased model, not agreement
+with the original exact target. Report model/input/measurement discrepancy
+separately from discretization, iteration and temporal error. A GCI safety
+factor is not a probability statement or a universal bound on physical truth.
+Nonmonotonic differences, unresolved changes, varying ratios and nonsmooth
+solutions need explicit refusal or an appropriate alternative analysis.
+The control domain here intentionally contains only the two stated smooth
+fixtures; it does not silently fit an order to arbitrary results.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

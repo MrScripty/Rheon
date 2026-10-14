@@ -45,3 +45,15 @@ The works below provide historical and technical context. Graph definitions, wor
 [S21] Lean community. [Lean 4.19.0](https://github.com/leanprover/lean4/releases/tag/v4.19.0) and [pinned mathlib](https://github.com/leanprover-community/mathlib4/tree/c44e0c8ee63ca166450922a373c7409c5d26b00b). Formal environment.
 
 [S22] Yousef Saad. Iterative Methods for Sparse Linear Systems, second edition. SIAM, 2003. [Author hosted book](https://www-users.cse.umn.edu/~saad/IterMethBook_2ndEd.pdf). Multigrid and iterative-method context. The companion hierarchy and its measured results are independently constructed.
+
+## Read a model variant before using it
+
+Inspect the supplied SST-2003 limiter, then read the primary model/variant record linked from chapter 22. Keep the publication motivation, maintained equation specification and locally executed probe as distinct evidence. The 1992 report does not specify all 2003 coefficients. An inaccessible proceedings text is identified as unread. No figure, code or dataset from those publications is included.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

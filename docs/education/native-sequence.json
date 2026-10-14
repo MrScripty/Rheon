@@ -1,11 +1,11 @@
 {
-  "schema": "rheon-native-sequence-source-v1",
+  "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "Fresh reconstructed aligned-strain source f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b qualified locally with normal pinned Lean 4.19.0 lake build, kernel audit and normal/optimized rejection and source/pin gates; exact finite-real contracts, without IEEE refinement or approximate-solver guarantees",
-  "proof_inventory_sha256": "be5a1ebd0297163f48707ef6487a7ab5372f7b032bd553326d86fc535751cdaa",
-  "public_theorems": 106,
-  "audited_declarations": 161,
-  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",
+  "qualified_lean_source": "ae4fff0a1a12edb312fb1d1af9a5a4c70f585cc1; proof tree identical to checked merge 46a199a2484975c021286a506be81e327783737f and integrated d35967e",
+  "proof_inventory_sha256": "42ca9c2849cfed6894bb67e0b74d1018327eac35c6c6eb459f2caace08545bb2",
+  "public_theorems": 214,
+  "audited_declarations": 330,
+  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38478346517",
   "labs": [
     {
       "id": "wall-friction",
@@ -78,9 +78,8 @@
     "audited_declarations": 77,
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
-  "local_kernel_receipt_sha256": "dda663582724a7ca4ef4fff9088682d85fca576e23a0a74b1515bbc65784f808",
-  "lean_ci_scope": "Successful hosted Lean workflow associated with f75cd66; exact PR merge checkout identity is not asserted here. The local digest-bound receipt qualifies the immutable f75 source.",
-  "explicit_expected_declarations": 144,
+  "lean_ci_scope": "No prior receipt certifies the added engineering contracts.",
+  "explicit_expected_declarations": 275,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
     "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
@@ -130,5 +129,159 @@
       "python3 -O scripts/test_check_sources.py"
     ],
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
+  },
+  "current_reviewed_proof": {
+    "proof_inventory_sha256": "42ca9c2849cfed6894bb67e0b74d1018327eac35c6c6eb459f2caace08545bb2",
+    "public_theorems": 214,
+    "explicit_expected_declarations": 275,
+    "audited_declarations": 330,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38478346517",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Steady wall budgets, fixed two-cell Jacobi modes, one-sample transfer, supplied-field constitutive bounds and conditional extrapolation/residual algebra. No runtime/PDE/IEEE/performance/physical-validation proof.",
+    "source_head": "ae4fff0a1a12edb312fb1d1af9a5a4c70f585cc1",
+    "checkout_head": "46a199a2484975c021286a506be81e327783737f",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "historical_pr43_reviewed_proof": {
+    "status": "passed",
+    "proof_inventory_sha256": "089ace84d29dfc874fad4c8a57f1fe57d7cc801e120e4f5a10f648c9449e75a2",
+    "public_theorems": 138,
+    "explicit_expected_declarations": 193,
+    "audited_declarations": 242,
+    "lean_ci": null,
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "scope": "Finite exact-real material pair/nozzle identities and natural-number batch/dependency/conditional exploration properties. Not a proof of Rust/Rayon execution, IEEE behavior, full-step stability, continuum convergence, wall-clock fairness or performance.",
+    "local_qualification": {
+      "schema": "rheon-expanded-proof-qualification-v1",
+      "receipt_sha256": "3a7219c86df1e1f192f29792528bbb9ffd2fed29ef76bf7ed4e8f5bf157b6db8",
+      "receipt_reference": "External rheon-new-book-review/lean-current-qualification.json; normal pinned source build and logs are generated outputs outside Git.",
+      "binding_scope": "Exact proof-source inventory and pinned dependency files below; the proof-comment change was not yet committed. This is not a clean whole-repository numerical qualification.",
+      "proof_inventory_sha256": "089ace84d29dfc874fad4c8a57f1fe57d7cc801e120e4f5a10f648c9449e75a2",
+      "commands_passed": [
+        "python3 scripts/check_sources.py",
+        "lake build",
+        "lake env lean AxiomAudit.lean",
+        "python3 scripts/test_audit.py",
+        "python3 -O scripts/test_audit.py",
+        "python3 -m unittest discover -s scripts -p test_check_sources.py",
+        "python3 -O -m unittest discover -s scripts -p test_check_sources.py"
+      ],
+      "lean_checked": true,
+      "status": "passed"
+    },
+    "prior_hosted_candidate": {
+      "source_head": "a552d0afda3cf73ff1cc789746898a3ba0f332d3",
+      "checkout_head": "242bd3c441f2ed1d298ddac23b24d72b51a2f25b",
+      "tree": "0b6d6aeef04aede631dc333fc64caa60f53db84d",
+      "proof_inventory_sha256": "5c0c420b12798da7787db5491f9fd37c16c54983e51f311bb7ed38ec4e6a64b0",
+      "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38279556611",
+      "audited_declarations": 242,
+      "scope": "Qualified candidate before the later support-boundary header comment; not an exact-byte qualification of the current inventory."
+    }
+  },
+  "historical_pr44_reviewed_proof": {
+    "proof_inventory_sha256": "cd3575b072b05f5b90b5efabe848f03c36c95dfea461a3acdbb923474665b3f5",
+    "public_theorems": 144,
+    "explicit_expected_declarations": 201,
+    "audited_declarations": 252,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38380599816",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Adds exact-real single-face slab bounds, shared ledger cancellation and clamping witness; not an implementation or multidimensional VOF proof.",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "historical_modal_decay_proof": {
+    "proof_inventory_sha256": "ab4ff31031760ae4de577575b4bcdef57d81cea9f55122867ada562c5274a252",
+    "public_theorems": 152,
+    "explicit_expected_declarations": 212,
+    "audited_declarations": 266,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38383689282",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Adds exact scalar amplification identities and conditional stability/sign statements; no PDE/JS/Rust/IEEE or performance proof.",
+    "checkout_head": "7324caa806b64c71300b03d9afd6f06e0b6c1d1b",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "historical_engineering_flux_proof": {
+    "proof_inventory_sha256": "77c03372a93b9dee89fa8dd27c26472fe18827edd0b12b2bfbb68e432f0f6014",
+    "public_theorems": 166,
+    "explicit_expected_declarations": 227,
+    "audited_declarations": 282,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38449564095",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Finite face algebra and planar constitutive power only; no geometry/solver/PDE/IEEE proof.",
+    "source_head": "dd0d81c5d893801313b7187530176cc00bf10faf",
+    "checkout_head": "829c0da761e82f0adb5e7590cdc777276748c82d",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "historical_pressure_gauge_proof": {
+    "proof_inventory_sha256": "50da921e91fb4fea86e04e35116c4c7ac7ed589dd2e2cb2599cdf51a365cd711",
+    "public_theorems": 181,
+    "explicit_expected_declarations": 242,
+    "audited_declarations": 297,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38463683974",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Exact two-cell Neumann component and gauge algebra; no arbitrary mesh, PDE, Rust/JS/IEEE or performance proof.",
+    "source_head": "98abec68b60b3c6859276ce10d53783852b8a923",
+    "checkout_head": "05c4ed73bda6d420244662180405fadda6156cea",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "historical_coupling_study_proof": {
+    "proof_inventory_sha256": "89a4fe5ac51a4e9e29f50f186236fe1255c137936884a796cd573819b1500320",
+    "public_theorems": 191,
+    "explicit_expected_declarations": 252,
+    "audited_declarations": 307,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38475239514",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Finite affine reconstruction and two-path recurrence; no general collocated convergence, PDE, IEEE or runtime theorem.",
+    "source_head": "b8a26a6d59dd9a87e7efd869decb7f094928a349",
+    "checkout_head": "bef9887b214ebdafc66aab6ab9dc7474d2ea6ba4",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
   }
 }

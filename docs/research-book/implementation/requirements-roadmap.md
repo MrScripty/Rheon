@@ -1,6 +1,6 @@
 # Requirements map and the next solid-fluid geometry contract
 
-This map describes accepted main, the unmerged PR22–24 stack and the bounded static-obstacle geometry feature. The new
+The first table records the earlier PR24/main and bounded static-obstacle checkpoint; the current reviewed runtime composition is described below. The new
 native wall/force sequence is qualified within its fixed-column model; the
 broader liquid capability is incomplete. Source links below freeze the inspected
 PR24 source, so a future implementation cannot silently change these claims.
@@ -42,3 +42,27 @@ come after their coefficient/interface contracts exist. Moving/two-way solids
 add swept geometry and reaction/torque obligations. This sequence connects the
 remaining mesh, force, viscosity, density and adhesion requirements without
 claiming capstone completeness.
+
+## Current reviewed runtime composition
+
+The historical links above remain evidence for their recorded checkpoint.
+[Runtime PR65](https://github.com/MrScripty/Rheon/pull/65) and the
+[book integration PR67](https://github.com/MrScripty/Rheon/pull/67) now provide a
+reviewable combined source. Qualification/publication of that combined source is
+tracked separately; a capability being present is not a physical-validation claim.
+
+| Capability in the combined source | Exact scope and remaining obligation |
+| --- | --- |
+| Native OBJ/glTF/GLB import and CollisionMesh | Finite bounded static geometry, convex watertight solid or explicitly two-sided surface barrier. Native filesystem import is excluded from the WASM browser host. Particle collision is available; general fluid cut-cell topology and swept moving-volume assembly are still absent. |
+| Bounded obstacle and plate laboratories | Owner-derived sealed pressure, separate reduced shear, and finite-mass moving-plate coupling remain their explicitly reduced models. They do not compose arbitrary imported CAD into a general 3D FSI solver. |
+| MaterialSession/SimulationSession/PressureSession | Version-two bounded APIs expose units, immutable accepted snapshots, cooperative cancellation and explicit capability flags. Constructor pressure is unavailable; the particle material model does not call the grid pressure provider. |
+| Qualified pressure provider in a full step | Opt-in sealed full-box carrier path retains pressure and final-step acceptance before publication. Boundary flux, surface modes and viscosity composition are refused on this path. Provider/model/schema/resource provenance and real inference qualification are distinct from physical accuracy and speed. |
+| Quantitative desktop views and VTK | Particle diagnostics, bounded obstacle/transport slices/probes and immutable snapshot exports identify their evaluation/publication stages. A pressure evaluated before integration is not a pressure recomputed at later accepted particle positions. |
+| Vector/moving emitter controls | Jet velocity, source translation and seeded perturbations are independent prescribed controls. The perturbations are not a solved or validated SST turbulence model. |
+
+Consequently, static collision import is no longer the next missing implementation
+in this composition. The remaining geometry gate is conservative fluid topology,
+shared face flux/stress assembly and interval geometry under consistent physical
+boundaries. These requirements differ from collision queries and inspection.
+The [engineering studies](../engineering/practical-methods.md) supply bounded
+worked examples and scoped proofs without presenting that missing backend as done.

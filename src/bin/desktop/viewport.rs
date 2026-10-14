@@ -81,7 +81,7 @@ impl OrbitCamera {
     pub fn zoom(&mut self, log_delta: f32) {
         self.distance = (self.distance * (-log_delta.clamp(-2.0, 2.0)).exp()).clamp(0.35, 12.0);
     }
-    fn project(&self, p: V3, rect: Rect) -> Option<(Pos2, f32)> {
+    pub(super) fn project(&self, p: V3, rect: Rect) -> Option<(Pos2, f32)> {
         self.project_prepared(p, rect, self.basis())
     }
     fn project_prepared(&self, p: V3, rect: Rect, basis: (V3, V3, V3, V3)) -> Option<(Pos2, f32)> {
@@ -115,8 +115,22 @@ struct CachedScene {
     time: f64,
     mesh: Arc<egui::Mesh>,
 }
+#[derive(Clone, Copy, PartialEq, Eq, Default)]
+enum ViewMode {
+    #[default]
+    Appearance,
+    Particles,
+    Obstacle,
+    Transport,
+}
 pub struct Viewport {
+    pub collision_mesh: Option<Arc<rheon::CollisionMesh>>,
     pub camera: OrbitCamera,
+    engineering: Option<super::engineering::EngineeringView>,
+    mode: ViewMode,
+    particles: super::particle_view::ParticleView,
+    transport: Option<Result<super::transport_view::TransportView, String>>,
+    engineering_camera: OrbitCamera,
     pub touchpad_mode: bool,
     pub threshold: u8,
     pub domain_side: f64,
@@ -129,9 +143,18 @@ impl Default for Viewport {
     fn default() -> Self {
         Self {
             camera: OrbitCamera::default(),
+            engineering: None,
+            mode: ViewMode::Appearance,
+            particles: Default::default(),
+            transport: None,
+            engineering_camera: OrbitCamera {
+                distance: 1.8,
+                ..Default::default()
+            },
             touchpad_mode: false,
             threshold: 7,
             domain_side: 1.0,
+            collision_mesh: None,
             frame: None,
             faces: Vec::new(),
             cached_threshold: 0,
@@ -147,14 +170,78 @@ impl Viewport {
         emitter: Option<RotatingCylinderEmitter>,
         workers: &[WorkerVoxel],
         grid_edge: usize,
+        inspector: Option<&super::inspector::Inspector>,
     ) {
+        ui.horizontal_wrapped(|ui| {
+            for (mode, label) in [
+                (ViewMode::Appearance, "Appearance"),
+                (ViewMode::Particles, "Particles"),
+                (ViewMode::Obstacle, "Obstacle lab"),
+                (ViewMode::Transport, "Transport session"),
+            ] {
+                ui.selectable_value(&mut self.mode, mode, label);
+            }
+            if self.mode != ViewMode::Appearance {
+                ui.checkbox(&mut self.engineering_camera.orthographic, "Orthographic");
+                if ui.button("Frame view").clicked() {
+                    self.engineering_camera = OrbitCamera {
+                        distance: 1.8,
+                        ..Default::default()
+                    };
+                }
+            }
+        });
+        match self.mode {
+            ViewMode::Obstacle => self
+                .engineering
+                .get_or_insert_with(Default::default)
+                .controls(ui),
+            ViewMode::Particles => self.particles.controls(ui, inspector),
+            ViewMode::Transport => match self
+                .transport
+                .get_or_insert_with(super::transport_view::TransportView::new)
+            {
+                Ok(view) => view.controls(ui),
+                Err(error) => {
+                    ui.colored_label(Color32::LIGHT_RED, error);
+                }
+            },
+            ViewMode::Appearance => {}
+        }
         let (rect, response) = ui.allocate_exact_size(
-            ui.available_size().max(egui::vec2(150.0, 150.0)),
+            ui.available_size().max(egui::vec2(1.0, 1.0)),
             egui::Sense::click_and_drag(),
         );
         let painter = ui.painter_at(rect);
         painter.rect_filled(rect, 0.0, Color32::from_rgb(14, 20, 29));
-        self.input(ui, &response, rect);
+        if self.mode != ViewMode::Appearance {
+            std::mem::swap(&mut self.camera, &mut self.engineering_camera);
+            self.input(ui, &response, rect, 1.8);
+            match self.mode {
+                ViewMode::Obstacle => {
+                    if let Some(lab) = &mut self.engineering {
+                        lab.paint(ui, rect, &response, &self.camera);
+                    }
+                }
+                ViewMode::Particles => self.particles.paint(
+                    ui,
+                    rect,
+                    &response,
+                    &self.camera,
+                    self.domain_side,
+                    inspector,
+                ),
+                ViewMode::Transport => {
+                    if let Some(Ok(view)) = &mut self.transport {
+                        view.view.paint(ui, rect, &response, &self.camera);
+                    }
+                }
+                ViewMode::Appearance => {}
+            }
+            std::mem::swap(&mut self.camera, &mut self.engineering_camera);
+            return;
+        }
+        self.input(ui, &response, rect, 2.35);
         let changed = match (&self.frame, &frame) {
             (Some(a), Some(b)) => !Arc::ptr_eq(a, b),
             (None, None) => false,
@@ -230,6 +317,74 @@ impl Viewport {
         if let Some(scene) = &self.scene {
             painter.add(egui::Shape::mesh(Arc::clone(&scene.mesh)));
         }
+        if let Some(e) = emitter
+            && let (Ok(center), Ok(axis)) = (e.center_at(time), e.axis_at(time))
+        {
+            let center = center.map(|v| v as f32);
+            for (direction, color, label) in [
+                (
+                    if emitter_strengths(e)[0] > 0.0 {
+                        axis
+                    } else {
+                        [0.0; 3]
+                    },
+                    Color32::from_rgb(80, 220, 230),
+                    "Jet +",
+                ),
+                (
+                    e.motion_velocity,
+                    Color32::from_rgb(245, 170, 80),
+                    "Emitter motion",
+                ),
+            ] {
+                let n = direction[0].hypot(direction[1]).hypot(direction[2]);
+                if n > 0.0 && n.is_finite() {
+                    let end = add(center, direction.map(|v| (0.18 * v / n) as f32));
+                    if let (Some((a, _)), Some((b, _))) = (
+                        self.camera.project(center, rect),
+                        self.camera.project(end, rect),
+                    ) {
+                        painter.arrow(a, b - a, Stroke::new(2.0, color));
+                        painter.text(
+                            b,
+                            egui::Align2::LEFT_BOTTOM,
+                            label,
+                            egui::FontId::proportional(11.0),
+                            color,
+                        );
+                    }
+                }
+            }
+        }
+        if let Some(mesh) = &self.collision_mesh {
+            const DISPLAY_TRIANGLES: usize = 12_000;
+            let stride = mesh.triangles().len().div_ceil(DISPLAY_TRIANGLES).max(1);
+            for triangle in mesh.triangles().iter().step_by(stride) {
+                for edge in 0..3 {
+                    let a = mesh.vertices()[triangle[edge]].map(|v| (v / self.domain_side) as f32);
+                    let b = mesh.vertices()[triangle[(edge + 1) % 3]]
+                        .map(|v| (v / self.domain_side) as f32);
+                    self.line(
+                        &painter,
+                        rect,
+                        a,
+                        b,
+                        Stroke::new(1.0, Color32::from_rgb(245, 180, 65)),
+                    );
+                }
+            }
+            painter.text(
+                rect.left_top() + egui::vec2(14.0, 38.0),
+                egui::Align2::LEFT_TOP,
+                format!(
+                    "Amber: collision wireframe (x-ray), {:?}; showing 1 / {} triangles",
+                    mesh.policy(),
+                    stride
+                ),
+                egui::FontId::proportional(12.0),
+                Color32::from_rgb(245, 180, 65),
+            );
+        }
         self.wire_box(
             &painter,
             rect,
@@ -303,10 +458,15 @@ impl Viewport {
             egui::FontId::monospace(12.0),
             Color32::from_rgb(115, 144, 171),
         );
-        painter.text(rect.left_bottom()+egui::vec2(14.0,-12.0),egui::Align2::LEFT_BOTTOM,
-            "Drag orbit · Shift+drag pan · Ctrl+drag zoom · wheel/pinch zoom · 1/3/7 views · Home frame",egui::FontId::proportional(11.0),Color32::from_rgb(142,158,176));
+        painter.text(
+            rect.left_bottom() + egui::vec2(14.0, -12.0),
+            egui::Align2::LEFT_BOTTOM,
+            "Drag orbit · Shift pan · Ctrl zoom · Home frame",
+            egui::FontId::proportional(11.0),
+            Color32::from_rgb(142, 158, 176),
+        );
     }
-    fn input(&mut self, ui: &egui::Ui, response: &egui::Response, rect: Rect) {
+    fn input(&mut self, ui: &egui::Ui, response: &egui::Response, rect: Rect, frame_distance: f32) {
         if !(response.hovered() || response.dragged()) {
             return;
         }
@@ -353,7 +513,10 @@ impl Viewport {
                 }
             }
             if input.key_pressed(egui::Key::Home) || input.key_pressed(egui::Key::F) {
-                self.camera = OrbitCamera::default();
+                self.camera = OrbitCamera {
+                    distance: frame_distance,
+                    ..Default::default()
+                };
             }
             if input.key_pressed(egui::Key::Num1) {
                 self.camera.yaw = 0.0;
@@ -464,14 +627,20 @@ fn surface_faces(frame: &PreviewFrame, threshold: u8) -> Vec<Face> {
     }
     faces
 }
+fn emitter_strengths(emitter: RotatingCylinderEmitter) -> [f64; 2] {
+    emitter
+        .emitted_velocity
+        .map_or(emitter.pressure_heads, |v| {
+            [v[0].hypot(v[1]).hypot(v[2]); 2]
+        })
+}
+
 fn cylinder_faces(emitter: RotatingCylinderEmitter, time: f64) -> Vec<Face> {
-    let Ok(axis) = emitter.axis_at(time) else {
+    let (Ok(basis), Ok(center)) = (emitter.basis_at(time), emitter.center_at(time)) else {
         return Vec::new();
     };
-    let axis = axis.map(|v| v as f32);
-    let center = emitter.center.map(|v| v as f32);
-    let across = [-axis[2], 0.0, axis[0]];
-    let up = [0.0, 1.0, 0.0];
+    let [axis, up, across] = basis.map(|a| a.map(|v| v as f32));
+    let center = center.map(|v| v as f32);
     let ring = |end: f32, index: usize, radius: f32| {
         let angle = index as f32 / 24.0 * std::f32::consts::TAU;
         add(
@@ -493,18 +662,13 @@ fn cylinder_faces(emitter: RotatingCylinderEmitter, time: f64) -> Vec<Face> {
             ],
             color: Color32::from_rgb(105, 119, 144),
         });
-        for (end, head) in [
-            (1.0, emitter.pressure_heads[0]),
-            (-1.0, emitter.pressure_heads[1]),
-        ] {
+        let strengths = emitter_strengths(emitter);
+        for (end, head) in [(1.0, strengths[0]), (-1.0, strengths[1])] {
             let c = add(center, mul(axis, end * emitter.half_length as f32));
             for level in 0..3 {
                 let inner = level as f32 / 3.0 * emitter.radius as f32;
                 let outer = (level + 1) as f32 / 3.0 * emitter.radius as f32;
-                let strength = ((head
-                    / emitter.pressure_heads[0]
-                        .max(emitter.pressure_heads[1])
-                        .max(1e-12)) as f32)
+                let strength = ((head / strengths[0].max(strengths[1]).max(1e-12)) as f32)
                     * (1.0 - level as f32 * 0.22);
                 let color = Color32::from_rgb(
                     (105.0 + 120.0 * strength) as u8,
@@ -533,6 +697,18 @@ fn cylinder_faces(emitter: RotatingCylinderEmitter, time: f64) -> Vec<Face> {
 mod tests {
     use super::*;
     #[test]
+    fn emitter_visual_strengths_follow_selected_mode_and_zero_disables_jets() {
+        let mut e = RotatingCylinderEmitter::default();
+        assert_eq!(emitter_strengths(e), e.pressure_heads);
+        e.emitted_velocity = Some([3.0, 4.0, 0.0]);
+        assert_eq!(emitter_strengths(e), [5.0; 2]);
+        e.emitted_velocity = Some([0.0; 3]);
+        assert_eq!(emitter_strengths(e), [0.0; 2]);
+        e.emitted_velocity = None;
+        e.pressure_heads = [0.0; 2];
+        assert_eq!(emitter_strengths(e), [0.0; 2]);
+    }
+    #[test]
     fn perspective_projection_and_camera_motion_are_finite_and_independent_of_history() {
         let mut c = OrbitCamera::default();
         let rect = Rect::from_min_size(Pos2::ZERO, egui::vec2(800.0, 600.0));
@@ -547,6 +723,51 @@ mod tests {
             c.zoom(1.0);
         }
         assert_eq!(c.distance, 0.35);
+    }
+    #[test]
+    fn lab_navigation_preserves_the_live_camera_and_uses_its_own_framing() {
+        let ctx = egui::Context::default();
+        let mut viewport = Viewport {
+            mode: ViewMode::Obstacle,
+            ..Default::default()
+        };
+        viewport.camera.yaw = 1.2;
+        viewport.engineering_camera.distance = 4.0;
+        let live = viewport.camera.clone();
+        // egui establishes hit regions on the first frame before accepting hover.
+        let _ = ctx.run(
+            egui::RawInput {
+                screen_rect: Some(Rect::from_min_size(Pos2::ZERO, egui::vec2(800.0, 600.0))),
+                events: vec![egui::Event::PointerMoved(egui::pos2(400.0, 400.0))],
+                ..Default::default()
+            },
+            |ctx| {
+                egui::CentralPanel::default()
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32, None));
+            },
+        );
+        let _ = ctx.run(
+            egui::RawInput {
+                screen_rect: Some(Rect::from_min_size(Pos2::ZERO, egui::vec2(800.0, 600.0))),
+                events: vec![
+                    egui::Event::PointerMoved(egui::pos2(400.0, 400.0)),
+                    egui::Event::Key {
+                        key: egui::Key::Home,
+                        physical_key: None,
+                        pressed: true,
+                        repeat: false,
+                        modifiers: Default::default(),
+                    },
+                ],
+                ..Default::default()
+            },
+            |ctx| {
+                egui::CentralPanel::default()
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32, None));
+            },
+        );
+        assert_eq!(viewport.camera, live);
+        assert_eq!(viewport.engineering_camera.distance, 1.8);
     }
     #[test]
     fn voxel_surface_culls_internal_faces() {
@@ -577,7 +798,7 @@ mod tests {
             };
             let _ = ctx.run(input, |ctx| {
                 egui::CentralPanel::default()
-                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32));
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32, None));
             });
         };
         for (modifiers, mode) in [
@@ -655,7 +876,7 @@ mod tests {
             };
             let _ = ctx.run(input, |ctx| {
                 egui::CentralPanel::default()
-                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32));
+                    .show(ctx, |ui| viewport.show(ui, None, None, &[], 32, None));
             });
         };
         draw(

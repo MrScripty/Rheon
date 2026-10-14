@@ -80,3 +80,127 @@ For comparison with particle methods, the original Weiler et al. viscosity work 
 [R12]: https://animation.rwth-aachen.de/publication/0558/
 
 [R15]: https://mmacklin.com/pbf_sig_preprint.pdf
+
+## Draft checkpoint: stationary-box Stokes acceptance
+
+Unmerged [PR45](https://github.com/MrScripty/Rheon/pull/45), reviewed at
+`bbc6089888e257962b968e70ed84ec61b7668d5b`, implements an opt-in
+[aligned Stokes experiment](https://github.com/MrScripty/Rheon/blob/bbc6089888e257962b968e70ed84ec61b7668d5b/experiments/aligned_stokes.rs).
+It combines bounded explicit symmetric-strain decay with a pressure proposal
+on a fixed aligned-box domain. The obstacle is stationary and no-slip; outer
+walls are sealed and free-slip. It is not the production liquid timestep or a
+moving-body solver, and this book branch does not import that implementation.
+
+The [independent rational controls](https://github.com/MrScripty/Rheon/blob/bbc6089888e257962b968e70ed84ec61b7668d5b/tools/test_aligned_stokes_oracle.py)
+construct a cell cycle around all four sides of the central obstacle in a 3³
+grid with 26 wet cells. With unit density and viscosity, initial energy 1 J and
+dt = 1/32 s, the ideal discrete step ends at **731/1024 J** with exactly zero
+cell flux. Pressure is zero by symmetry in this case. Predict the energy loss
+(293/1024 J), then compare with the separate asymmetric curl: it develops
+nonzero intermediate flux and needs a nonzero pressure correction. The ring
+alone does not demonstrate the ability to solve a nontrivial pressure field.
+
+The qualification driver enumerates 13 one-step cases (eight accepted specimens
+and five refusal specimens) plus two three-step sequences. These are a finite
+acceptance roster, not 15 successful runs or a convergence study. During book
+coordination, ten exact mathematical controls were independently rerun in normal
+and optimized Python; native execution and the draft owner's source-bound native
+receipts remain separate evidence. Exact oracle flux is not a claim that every
+accepted binary64 field has identically zero divergence.
+
+The [experimental Lean statements](https://github.com/MrScripty/Rheon/blob/bbc6089888e257962b968e70ed84ec61b7668d5b/experiments/proofs/AlignedStepAcceptance.lean)
+assume sound enclosures of energy changes, flux and momentum defects. They derive
+conditional acceptance implications; they do not establish Rust/IEEE enclosure
+soundness, compiler correspondence or continuum convergence. They are outside
+this branch's root Lean inventory and theorem counts. The native interval path
+has explicit Linux x86_64/default floating-environment premises and can refuse
+unsupported or unresolved arithmetic. An unenclosed scalar stability estimate
+cannot authorize an actual step.
+
+The experiment has no advection, source forcing, inflow/outflow, free surface,
+variable material, capillarity or moving geometry. It exposes no production
+clock/generation owner and is not integrated into PR48's transport facade.
+Calibrated wall loads, arbitrary meshes and two-way body/contact dynamics still
+need their own geometry, work, impulse and rollback contracts. A stationary
+viscous acceptance case does not complete those broader physics topics.
+
+## Affine rotation and shear
+
+Use a centred unit cube as a measurement region, not a no-slip container.
+Prescribe U=(-s y,s x,0), constant viscosity mu, and pressure zero. This is rigid
+rotation: the velocity gradient is nonzero but D=(grad U+grad U^T)/2 vanishes.
+Consequently tau=2 mu D, traction and constitutive dissipation vanish.
+Teal arrows show actual sampled velocity at a fixed scale; the field is planar
+and independent of z. Camera motion does not advance the field.
+
+## Boundary work supplies shear
+
+Select U=(s y,0,0). Its two off-diagonal strain entries are s/2. The unit-cube
+dissipation is mu s² W, which is 1 W at unit rate and viscosity. Orange arrows
+show tau n at the six face centres, using a separate labelled traction scale.
+The integral of traction dot velocity over those faces is also 1 W.
+
+Constant stress has zero divergence here. Dissipation is supplied by boundary
+work, not an evolving bulk-force calculation. All affine component Laplacians
+are zero. Comparing mu grad U:grad U with 2 mu D:D while omitting the different
+boundary terms would be misleading. These imposed fields do not satisfy
+stationary no-slip conditions on the cube faces.
+
+## Extension control
+
+For U=(s x,-s y,0), dissipation and supplied boundary power are 4 mu s² W.
+Changing the sign of s reverses the velocity and traction but leaves power
+unchanged. Setting viscosity to zero removes traction and dissipation while
+leaving the prescribed velocity intact. Read the complete matrices and
+six-face quadrature in the [research dossier](../engineering/mesh-faces-to-collocated-flux.md).
+Batty and Bridson's [section 3, equations (3.1)–(3.5)](https://arxiv.org/pdf/1010.2832v2)
+provides the constitutive/traction context; this lesson does not implement their
+embedded-boundary solver or inherit its convergence results.
+
+<details><summary>Planar stress proof scope</summary>
+
+[EngineeringFlux.lean](../../../proofs/Rheon/EngineeringFlux.lean) proves the
+planar power formula, nonnegativity when mu>=0, and rotation/shear/extension
+values. The boundary theorem checks the stated finite contraction. Geometric
+quadrature, PDE evolution and code/IEEE refinement remain separate claims.
+
+</details>
+
+## From viscosity to a specified turbulence closure
+
+A turbulence-model name alone is not a reproducible constitutive law. The
+[constitutive research record](../engineering/constitutive-validation-research.md)
+pins the SST-2003 limiter and pressure convention, distinguishes its primary
+1992 motivation from later formulas, and identifies the transport and wall
+requirements still absent from a supplied-field constitutive probe. No SST
+transport or validation result is supplied by this chapter.
+
+## A specified SST-2003 limiter
+
+The supplied-field probe uses density 1, a₁ = 0.31 and the SST-2003 denominator
+max(a₁ω, SF₂). Select k = ω = 1, S = 4 and F₂ = 1: eddy viscosity is 0.0775 Pa s,
+raw production is 1.24 W/m³, and the production cap gives 0.9 W/m³.
+The raw and limited production bars share one fixed scale, so their heights
+show clipping directly. The viscosity bar uses its own unit scale; compare
+the numerical values when comparing production and viscosity. They do not
+depict velocity or resolved eddies. The [variant and primary-reading record](../engineering/constitutive-validation-research.md)
+pins coefficients, stress/pressure convention, source correction and wall data.
+
+## The zero-k constitutive limit
+
+Set k = 0 with positive omega. Eddy viscosity and both production readouts are
+zero, and the denominator stays positive. This verifies the constitutive limit;
+the browser does not evaluate an undefined zero-viscosity omega source.
+A full transport implementation must define that limit, solve k/omega diffusion
+and cross-diffusion, compute wall distance/blending, enforce boundary and
+positivity policies, and report nonlinear residuals. The limiter inequalities
+prove nonnegative bounded algebraic production under stated premises; they
+cannot validate separation, turbulence spectra or a drag prediction.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

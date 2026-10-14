@@ -257,4 +257,136 @@ mod tests {
             })
         });
     }
+
+    #[test]
+    fn successful_nonoverlapping_calls_explore_twice_then_retune_at_128() {
+        let scheduler = CpuScheduler::new();
+        let pool = rayon::ThreadPoolBuilder::new()
+            .num_threads(4)
+            .build()
+            .unwrap();
+        pool.install(|| {
+            scheduler.scope(|| {
+                let candidates = batch_candidates(65536, 4, 1024);
+                let mut visits = [0; 4];
+                for call in 0..256 {
+                    let run = BatchRun::new(CalculationStage::PressureOperator, 65536, 1024);
+                    let phase = call % RETUNE_CALLS;
+                    if phase < TRIAL_CALLS {
+                        let candidate = phase % 4;
+                        assert_eq!(run.trial, Some(candidate));
+                        assert_eq!(run.batch, candidates[candidate]);
+                        visits[candidate] += 1;
+                    } else {
+                        assert!(run.trial.is_none());
+                        assert_eq!(run.batch, candidates[2]);
+                    }
+                    // Synthetic costs test policy only; no timing/performance claim.
+                    run.record([300, 200, 100, 400][phase % 4]);
+                }
+                assert_eq!(visits, [4; 4]);
+                assert_eq!(scheduler.snapshot()[0].calls, 256);
+                assert_eq!(
+                    BatchRun::new(CalculationStage::PressureOperator, 65536, 1024).trial,
+                    Some(0)
+                );
+            })
+        });
+    }
+
+    #[test]
+    fn failed_parallel_pass_does_not_train_and_retry_covers_each_index_once() {
+        use std::sync::atomic::{AtomicUsize, Ordering};
+        let scheduler = CpuScheduler::new();
+        let pool = rayon::ThreadPoolBuilder::new()
+            .num_threads(4)
+            .build()
+            .unwrap();
+        pool.install(|| {
+            scheduler.scope(|| {
+                let mut values = vec![usize::MAX; 17011];
+                let failed = crate::parallel::try_for_each_chunk_mut(
+                    &mut values,
+                    CalculationStage::PressureOperator,
+                    1024,
+                    |_, chunk| {
+                        chunk[0] = 99;
+                        Err::<(), _>("deliberate partial failure")
+                    },
+                );
+                assert!(failed.is_err());
+                assert!(scheduler.snapshot().is_empty());
+                for _ in 0..3 {
+                    let abandoned =
+                        BatchRun::new(CalculationStage::PressureOperator, values.len(), 1024);
+                    assert_eq!(abandoned.trial, Some(0));
+                }
+                let visits: Vec<_> = (0..values.len()).map(|_| AtomicUsize::new(0)).collect();
+                crate::parallel::try_for_each_chunk_mut(
+                    &mut values,
+                    CalculationStage::PressureOperator,
+                    1024,
+                    |start, chunk| {
+                        for (offset, value) in chunk.iter_mut().enumerate() {
+                            let index = start + offset;
+                            visits[index].fetch_add(1, Ordering::Relaxed);
+                            *value = index * 17 + 3;
+                        }
+                        Ok::<(), ()>(())
+                    },
+                )
+                .unwrap();
+                assert_eq!(values, (0..17011).map(|i| i * 17 + 3).collect::<Vec<_>>());
+                assert!(visits.iter().all(|v| v.load(Ordering::Relaxed) == 1));
+                let sample = scheduler.snapshot()[0];
+                assert_eq!(sample.calls, 1);
+                assert_eq!(sample.tasks, values.len().div_ceil(sample.batch_cells));
+                assert_eq!(
+                    BatchRun::new(CalculationStage::PressureOperator, values.len(), 1024).trial,
+                    Some(1)
+                );
+            })
+        });
+    }
+
+    #[test]
+    fn nested_scope_restores_owner_after_unwind_and_releases_bindings() {
+        let outer = CpuScheduler::new();
+        let inner = CpuScheduler::new();
+        outer.scope(|| {
+            BatchRun::new(CalculationStage::PressureOperator, 32768, 1024).record(100);
+            let failed = std::panic::catch_unwind(|| {
+                inner.scope(|| {
+                    BatchRun::new(CalculationStage::PressureOperator, 32768, 1024).record(200);
+                    panic!("deliberate nested scope unwind");
+                })
+            });
+            assert!(failed.is_err());
+            BatchRun::new(CalculationStage::PressureOperator, 32768, 1024).record(300);
+        });
+        assert_eq!(outer.snapshot()[0].calls, 2);
+        assert_eq!(inner.snapshot()[0].calls, 1);
+        assert_eq!(Arc::strong_count(&outer), 1);
+        assert_eq!(Arc::strong_count(&inner), 1);
+        assert!(CURRENT.with(|c| c.borrow().is_none()));
+    }
+
+    #[test]
+    fn exploration_assumption_excludes_overlapping_same_stage_invocations() {
+        // Deliberate counterexample: this owner is not an invocation queue.
+        // Two outstanding calls can observe the same phase. A fairness claim
+        // without the nonoverlap premise would therefore be false.
+        let scheduler = CpuScheduler::new();
+        scheduler.scope(|| {
+            let first = BatchRun::new(CalculationStage::PressureOperator, 32768, 1024);
+            let second = BatchRun::new(CalculationStage::PressureOperator, 32768, 1024);
+            assert_eq!((first.trial, second.trial), (Some(0), Some(0)));
+            first.record(100);
+            second.record(120);
+            assert_eq!(
+                BatchRun::new(CalculationStage::PressureOperator, 32768, 1024).trial,
+                Some(2)
+            );
+        });
+    }
 }

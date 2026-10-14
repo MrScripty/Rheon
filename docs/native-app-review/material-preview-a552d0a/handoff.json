@@ -1,0 +1,82 @@
+{
+  "schema": "rheon-native-ui-review-handoff-v1",
+  "status": "PASS",
+  "verified_source_head": "a552d0afda3cf73ff1cc789746898a3ba0f332d3",
+  "source_tree": "0b6d6aeef04aede631dc333fc64caa60f53db84d",
+  "worktree_clean_at_capture": true,
+  "binary_sha256": "eef52179384e2df667096658fdb56cc35a0d5a46fcce83e3546e33cd0aa99bd1",
+  "capture_receipt": "/workspace/rheon-new-ui-review/capture-a552d0a/provenance.json",
+  "capture_receipt_sha256": "fc539497a3106b5241881245e315e5b27ae86119e0c20da73824f7a52954de56",
+  "native_ui_not_browser": true,
+  "accepted_state_observed": {
+    "completed_step": 1024,
+    "completed_simulated_time_s_displayed": 1.062,
+    "held_step": 1023,
+    "held_simulated_time_s_displayed": 1.061,
+    "particles_displayed": 87,
+    "mass_kg_displayed": 21.202002,
+    "temperature_C_displayed": 20,
+    "same_held_step_before_after_orbit": true
+  },
+  "results_summary_observed": {
+    "scope": "Final completed run, separate from selected historical timeline frame",
+    "simulated_time_s_displayed": 1.0621,
+    "accepted_max_speed_m_s_displayed": 3.175,
+    "max_pressure_used_for_forces_Pa_displayed": 0.0
+  },
+  "visual_review": "Native1250x820UI: full domain and voxel material visible in both camera views; controls/timeline legible; revised result labels legible",
+  "artifacts": [
+    {
+      "path": "/workspace/rheon-new-ui-review/capture-a552d0a/material-completed.png",
+      "sha256": "db453ee566929f41670cbf1ad557136b03beff0d73ad585f9b468b92d7794446",
+      "bytes": 141132
+    },
+    {
+      "path": "/workspace/rheon-new-ui-review/capture-a552d0a/material-completed.jpg",
+      "sha256": "ad753efd3a5d7321f188142578b986502f60c3b1dd41bdab43fadb8243071a36",
+      "bytes": 86227
+    },
+    {
+      "path": "/workspace/rheon-new-ui-review/capture-a552d0a/material-accepted.png",
+      "sha256": "2129d4256185a486ffef0fde46a325af4b06a21a0ad82b44a87f6878914d545f",
+      "bytes": 141484
+    },
+    {
+      "path": "/workspace/rheon-new-ui-review/capture-a552d0a/material-accepted.jpg",
+      "sha256": "9ef02218ed3f4fdd1066d64d567766019e1f6e79a5d84294ca9c5d898820f1ae",
+      "bytes": 86386
+    },
+    {
+      "path": "/workspace/rheon-new-ui-review/capture-a552d0a/material-accepted-orbit.png",
+      "sha256": "bdb46597dde8a274c325f40ba1d34610bda7291a89f66e752979fd7a9bd96341",
+      "bytes": 126249
+    },
+    {
+      "path": "/workspace/rheon-new-ui-review/capture-a552d0a/material-accepted-orbit.jpg",
+      "sha256": "a182b1ead1ec2688c0970c4d954083cd0156656f64b9dfe54fab4a0c5689ea92",
+      "bytes": 83981
+    },
+    {
+      "path": "/workspace/rheon-new-ui-review/capture-a552d0a/material-results.png",
+      "sha256": "0734a3e00bca18149bcaf9075fa20618ea0b077c2a368afc3e373ed7407e8fed",
+      "bytes": 139459
+    },
+    {
+      "path": "/workspace/rheon-new-ui-review/capture-a552d0a/material-results.jpg",
+      "sha256": "b1cd2314018b4e4e7535a98ff315abc61041c15c861be121e7e83ecae4c0c4f7",
+      "bytes": 90486
+    }
+  ],
+  "limits": [
+    "Capture binds actual source/binary and displayed accepted-frame identity; native desktop does not export full particles or full-precision accepted-state metadata.",
+    "Material geometry is a quantized emitted-parcel voxel preview, not CAD/free-surface reconstruction or calibrated material optics.",
+    "Per-particle density/pressure remain private scratch; displayed maximum pressure is from force evaluation before motion/wall-temperature update.",
+    "Concurrent proof/test work means displayed calculation timings are not isolated benchmarks."
+  ],
+  "source_edits": [
+    "src/bin/rheon-desktop.rs: distinguish accepted max speed from max pressure used for forces",
+    "tools/capture_material_desktop.py: native X11 capture and provenance utility"
+  ],
+  "no_browser_launch": true,
+  "no_commits_by_capture_worker": true
+}

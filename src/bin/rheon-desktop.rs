@@ -1,9 +1,26 @@
 //! Native live 3D laboratory. Numerical state stays owned by the worker; the
 //! viewer consumes bounded immutable accepted previews and optional diagnostics.
+#[path = "desktop/emitter_controls.rs"]
+mod emitter_controls;
+#[path = "desktop/engineering.rs"]
+mod engineering;
+#[path = "desktop/export_ui.rs"]
+mod export_ui;
+
+#[path = "desktop/collision_ui.rs"]
+mod collision_ui;
 #[path = "desktop/history.rs"]
 mod history;
+#[path = "desktop/identity.rs"]
+mod identity;
+#[path = "desktop/inspector.rs"]
+mod inspector;
+#[path = "desktop/particle_view.rs"]
+mod particle_view;
 #[path = "desktop/settings.rs"]
 mod settings;
+#[path = "desktop/transport_view.rs"]
+mod transport_view;
 #[path = "desktop/viewport.rs"]
 mod viewport;
 use eframe::egui;
@@ -21,6 +38,7 @@ use std::time::{Duration, Instant};
 
 #[derive(Clone)]
 struct Request {
+    collision_mesh: Option<Arc<rheon::CollisionMesh>>,
     size: u64,
     steps: usize,
     tight: bool,
@@ -105,6 +123,12 @@ fn available_threads() -> usize {
     std::thread::available_parallelism().map_or(1, usize::from)
 }
 fn validate_request(request: &Request) -> Result<(), String> {
+    if let Some(mesh) = &request.collision_mesh {
+        if request.material.is_none() {
+            return Err("Collision mesh requires material simulation".into());
+        }
+        collision_ui::validate_bounds(mesh, request.domain_side)?;
+    }
     let maximum = if request.material.is_some() {
         history::MAX_PREVIEW_EDGE as u64
     } else {
@@ -296,6 +320,9 @@ fn run_material(
     let h = request.domain_side / request.size as f64;
     let grid = GridGeometry::new([request.size; 3], [h; 3], [0.0; 3]).map_err(|e| e.to_string())?;
     let mut sim = rheon::ParticleFluidSimulation::new(grid, config).map_err(|e| e.to_string())?;
+    sim.set_collision_mesh(request.collision_mesh.clone())
+        .map_err(|e| e.to_string())?;
+    history.inspector.capture(&sim)?;
     history.publish(
         0,
         PreviewFrame::capture_particles(
@@ -321,6 +348,7 @@ fn run_material(
         let report = result.map_err(|e| e.to_string())?;
         seconds += elapsed;
         last_report = Some(report);
+        history.inspector.capture(&sim)?;
         history.publish(
             0,
             PreviewFrame::capture_particles(
@@ -368,6 +396,7 @@ fn run_material(
     }])
 }
 struct App {
+    collision: collision_ui::CollisionControls,
     selected: PressureImplementation,
     domain_side: f64,
     requested_dt: f64,
@@ -381,6 +410,7 @@ struct App {
     thread_limit: usize,
     automatic_threads: bool,
     emitter: RotatingCylinderEmitter,
+    emitter_controls: emitter_controls::EmitterControls,
     cylinder: bool,
     show_workers: bool,
     worker: Option<Worker>,
@@ -392,6 +422,7 @@ struct App {
     closing: bool,
     history: Option<Arc<LiveHistory>>,
     viewport: viewport::Viewport,
+    inspector_open: bool,
     timeline_step: usize,
     track: usize,
     follow_live: bool,
@@ -403,6 +434,7 @@ impl Default for App {
     fn default() -> Self {
         let thread_limit = available_threads();
         Self {
+            collision: collision_ui::CollisionControls::default(),
             selected: PressureImplementation::default(),
             domain_side: 1.0,
             requested_dt: 0.02,
@@ -415,6 +447,7 @@ impl Default for App {
             threads: thread_limit,
             thread_limit,
             automatic_threads: true,
+            emitter_controls: emitter_controls::EmitterControls::default(),
             emitter: RotatingCylinderEmitter {
                 pressure_heads: [1000.0, 800.0],
                 ..RotatingCylinderEmitter::default()
@@ -430,6 +463,7 @@ impl Default for App {
             closing: false,
             history: None,
             viewport: viewport::Viewport::default(),
+            inspector_open: false,
             timeline_step: 0,
             track: 0,
             follow_live: true,
@@ -440,6 +474,45 @@ impl Default for App {
     }
 }
 impl App {
+    fn sidebar(&mut self, ctx: &egui::Context) -> egui::Rect {
+        egui::SidePanel::left("settings")
+            .exact_width(280.0)
+            .resizable(false)
+            .show(ctx, |ui| {
+                ui.horizontal(|ui| {
+                    ui.selectable_value(&mut self.inspector_open, false, "Settings");
+                    ui.selectable_value(&mut self.inspector_open, true, "Inspector");
+                });
+                ui.separator();
+                egui::ScrollArea::vertical()
+                    .id_salt("sidebar-content")
+                    .show(ui, |ui| {
+                        if self.inspector_open {
+                            ui.heading("Numerical inspector");
+                            if let Some(history) = &self.history {
+                                history.inspector.ui(ui);
+                            } else {
+                                ui.label("Start a material simulation to inspect particles");
+                            }
+                        } else {
+                            self.controls(ui);
+                        }
+                    });
+            })
+            .response
+            .rect
+    }
+    fn reset_timeline(&mut self) {
+        self.history = None;
+        self.running_request = None;
+        self.rows.clear();
+        self.textures.clear();
+        self.scheduler = None;
+        self.playing = false;
+        self.timeline_step = 0;
+        self.track = 0;
+        self.follow_live = true;
+    }
     fn refresh_threads(&mut self, available: usize) {
         self.thread_limit = available.max(1);
         self.threads = if self.automatic_threads {
@@ -454,6 +527,7 @@ impl App {
         }
         self.refresh_threads(available_threads());
         let request = Request {
+            collision_mesh: self.collision.mesh.clone(),
             size: self.size,
             steps: self.steps,
             tight: self.tight,
@@ -587,20 +661,14 @@ impl App {
                     self.emitter.half_length*=scale;self.emitter.radius*=scale;self.emitter.nozzle_depth*=scale;
                 }
             });
+            if self.collision.show(ui, self.domain_side, self.material_mode) { self.reset_timeline(); }
             egui::CollapsingHeader::new("Fluid material").default_open(true).show(ui, |ui| {
                 ui.add_enabled_ui(self.material_mode,|ui|self.materials.fluid(ui));
             });
             egui::CollapsingHeader::new("Emitter").default_open(false).show(ui, |ui| {
                 ui.checkbox(&mut self.cylinder,"Rotating cylinder / two end jets");
                 if self.cylinder {
-                    for d in 0..3 {settings::quantity(ui,["Center X","Center Y","Center Z"][d],&mut self.emitter.center[d],"m",0.001,0.0..=self.domain_side);}
-                    let mut length=2.0*self.emitter.half_length;
-                    if settings::quantity(ui,"Cylinder length",&mut length,"m",0.001,0.0001..=self.domain_side).changed() {self.emitter.half_length=length*0.5;}
-                    settings::quantity(ui,"Radius",&mut self.emitter.radius,"m",0.001,0.0001..=self.domain_side*0.4);
-                    settings::quantity(ui,"Nozzle depth",&mut self.emitter.nozzle_depth,"m",0.001,0.0001..=self.domain_side*0.4);
-                    settings::quantity(ui,"Spin",&mut self.emitter.rotations_per_second,"rev/s",0.05,0.0..=10.0);
-                    for end in 0..2 {settings::quantity(ui,if end==0 {"End A head"}else{"End B head"},&mut self.emitter.pressure_heads[end],"Pa",10.0,0.0..=1000000.0);}
-                    ui.small("Nonuniform disk profiles · rotation around Y");
+                    self.emitter_controls.show(ui,&mut self.emitter,self.domain_side,if self.material_mode {self.materials.config.material.density}else{1.25});
                 } else if self.material_mode {ui.small("Emission off; only the initial domain contents evolve.");}
                 else {ui.small("Original smoke source; turns off halfway.");}
             });
@@ -635,6 +703,7 @@ impl App {
             });
             ui.add_space(8.0);
             if ui.add_sized([ui.available_width(),32.0],egui::Button::new("▶ Simulate")).clicked() {self.start(false);}
+            if ui.button("Reset timeline (keep mesh)").clicked() { self.reset_timeline(); self.status = "Ready to repeat simulation with accepted mesh".into(); }
             if !self.material_mode && ui.button("Compare both pressure solvers").clicked() {self.start(true);}
         });
         if let Some(w) = &self.worker {
@@ -726,10 +795,15 @@ impl App {
                                 "{} particles · mass {:.6} kg",
                                 r.particles, r.total_mass
                             ));
+                            ui.label(format!("Accepted max speed {:.3} m/s", r.max_speed));
                             ui.label(format!(
-                                "Max speed {:.3} m/s · pressure {:.1} Pa",
-                                r.max_speed, r.max_pressure
-                            ));
+                                "Max pressure used for forces {:.1} Pa",
+                                r.max_pressure
+                            ))
+                            .on_hover_text(
+                                "Evaluated before the position, velocity and wall-temperature update; \
+                                 not pressure recomputed on the displayed accepted particles.",
+                            );
                         } else {
                             ui.label(row.method.label());
                             ui.label(format!(
@@ -758,16 +832,11 @@ impl eframe::App for App {
             self.play_time += self.playback_speed * ctx.input(|i| i.stable_dt.min(0.1)) as f64;
         }
         let (count, frame) = self.selected_frame();
-        egui::SidePanel::left("settings")
-            .exact_width(270.0)
-            .resizable(false)
-            .show(ctx, |ui| {
-                egui::ScrollArea::vertical().show(ui, |ui| self.controls(ui));
-            });
+        self.sidebar(ctx);
         egui::TopBottomPanel::bottom("timeline")
             .min_height(106.0)
             .show(ctx, |ui| {
-                ui.horizontal(|ui| {
+                ui.horizontal_wrapped(|ui| {
                     if ui
                         .button(if self.playing {
                             "❚❚ Pause"
@@ -837,7 +906,7 @@ impl eframe::App for App {
                     self.playing = false;
                 }
                 if let Some(frame) = &frame {
-                    ui.horizontal(|ui| {
+                    ui.horizontal_wrapped(|ui| {
                         ui.label(format!(
                             "{} · Step {} / {}",
                             if frame.material_color.is_some() {
@@ -897,14 +966,27 @@ impl eframe::App for App {
                 e.half_length /= domain_side;
                 e.radius /= domain_side;
                 e.nozzle_depth /= domain_side;
+                e.motion_velocity = e.motion_velocity.map(|v| v / domain_side);
+                e.emitted_velocity = e.emitted_velocity.map(|v| v.map(|x| x / domain_side));
                 e
             });
+        self.viewport.collision_mesh = self
+            .running_request
+            .as_ref()
+            .map_or_else(|| self.collision.mesh.clone(), |r| r.collision_mesh.clone());
         let grid = self.running_request.as_ref().map_or(self.size, |r| r.size) as usize;
         let (_, frame) = self.selected_frame();
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE)
             .show(ctx, |ui| {
-                self.viewport.show(ui, frame, emitter, &workers, grid)
+                self.viewport.show(
+                    ui,
+                    frame,
+                    emitter,
+                    &workers,
+                    grid,
+                    self.history.as_ref().map(|h| &h.inspector),
+                )
             });
         if self.worker.is_some() || self.playing {
             ctx.request_repaint_after(Duration::from_millis(16));
@@ -934,7 +1016,38 @@ fn main() -> eframe::Result {
             style.visuals.selection.bg_fill = egui::Color32::from_rgb(22, 98, 138);
             style.spacing.item_spacing = egui::vec2(8.0, 7.0);
             cc.egui_ctx.set_style(style);
-            Ok(Box::new(App::default()))
+            let mut app = App::default();
+            let mut args = std::env::args().skip(1);
+            let mut run = false;
+            while let Some(arg) = args.next() {
+                match arg.as_str() {
+                    "--collision-mesh" => {
+                        app.collision.path = args
+                            .next()
+                            .filter(|p| !p.is_empty() && !p.starts_with("--"))
+                            .ok_or("--collision-mesh requires a local path")?;
+                    }
+                    "--collision-policy" => match args.next().as_deref() {
+                        Some("solid") => app.collision.solid = true,
+                        Some("surface") => app.collision.solid = false,
+                        _ => return Err("--collision-policy requires solid or surface".into()),
+                    },
+                    "--collision-run" => {
+                        run = true;
+                        app.steps = 180;
+                    }
+                    _ => return Err(format!("Unknown argument: {arg}").into()),
+                }
+            }
+            if !app.collision.path.is_empty() {
+                app.collision
+                    .apply(app.domain_side)
+                    .map_err(std::io::Error::other)?;
+            }
+            if run {
+                app.start(false);
+            }
+            Ok(Box::new(app))
         }),
     )
 }
@@ -942,8 +1055,58 @@ fn main() -> eframe::Result {
 mod tests {
     use super::*;
     #[test]
+    fn collision_run_retains_geometry_and_reset_repeats_real_worker() {
+        let mesh = Arc::new(
+            rheon::CollisionMesh::new(
+                vec![[0.1, 0.3, 0.1], [0.9, 0.3, 0.1], [0.1, 0.3, 0.9]],
+                vec![[0, 1, 2]],
+                rheon::MeshPolicy::TwoSidedSurface,
+            )
+            .unwrap(),
+        );
+        let mut app = App::default();
+        app.steps = 2;
+        app.size = 8;
+        app.collision.mesh = Some(mesh.clone());
+        app.start(false);
+        assert!(Arc::ptr_eq(
+            app.running_request
+                .as_ref()
+                .unwrap()
+                .collision_mesh
+                .as_ref()
+                .unwrap(),
+            &mesh
+        ));
+        let worker = app.worker.take().unwrap();
+        wait_until(|| worker.handle.is_finished());
+        assert_eq!(worker.handle.join().unwrap().unwrap().len(), 1);
+        assert_eq!(app.history.as_ref().unwrap().view(0, 0, true).unwrap().0, 3);
+        app.collision.mesh = None;
+        assert!(
+            app.running_request
+                .as_ref()
+                .unwrap()
+                .collision_mesh
+                .is_some()
+        );
+        app.reset_timeline();
+        assert!(app.history.is_none());
+        assert!(app.running_request.is_none());
+        app.collision.mesh = Some(mesh);
+        app.start(false);
+        let worker = app.worker.take().unwrap();
+        wait_until(|| worker.handle.is_finished());
+        assert!(worker.handle.join().unwrap().is_ok());
+        app.material_mode = false;
+        app.start(false);
+        assert!(app.worker.is_none());
+        assert!(app.status.contains("Collision mesh requires material"));
+    }
+    #[test]
     fn material_worker_accepts_and_captures_a_genuine_256_cube_preview() {
         let request = Request {
+            collision_mesh: None,
             size: 256,
             steps: 1,
             tight: false,
@@ -972,6 +1135,36 @@ mod tests {
         assert_eq!(frame.edge, 256);
         assert_eq!(frame.density.len(), 256_usize.pow(3));
         assert!(frame.density.iter().any(|v| *v > 0));
+    }
+    #[test]
+    fn docked_inspector_cannot_overlap_viewport_at_supported_window_sizes() {
+        for size in [egui::vec2(900.0, 650.0), egui::vec2(1250.0, 820.0)] {
+            let ctx = egui::Context::default();
+            let mut app = App::default();
+            app.inspector_open = true;
+            let mut dock = egui::Rect::NOTHING;
+            let mut center = egui::Rect::NOTHING;
+            let output = ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, size)),
+                    ..Default::default()
+                },
+                |ctx| {
+                    dock = app.sidebar(ctx);
+                    center = egui::CentralPanel::default()
+                        .show(ctx, |ui| {
+                            ui.label("CAD viewport");
+                        })
+                        .response
+                        .rect;
+                },
+            );
+            assert!(dock.right() <= center.left());
+            assert!(center.width() >= 600.0);
+            assert!(dock.bottom() <= size.y);
+            assert!(output.shapes.iter().any(|s| matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Numerical inspector")));
+            assert!(!output.shapes.iter().any(|s|s.clip_rect.left()<center.left() && s.clip_rect.right()>center.left()+1.0 && matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Numerical inspector")));
+        }
     }
     #[test]
     fn sidebar_sections_collapse_and_preserve_their_state_through_real_egui_input() {
@@ -1047,6 +1240,7 @@ mod tests {
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
+            collision_mesh: None,
             size: 32,
             steps: 64,
             tight: false,
@@ -1099,6 +1293,7 @@ mod tests {
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
+            collision_mesh: None,
             size: 32,
             steps: 3,
             tight: false,
@@ -1177,6 +1372,7 @@ mod tests {
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
+            collision_mesh: None,
             size: app.size,
             steps: app.steps,
             tight: app.tight,
@@ -1254,6 +1450,7 @@ mod tests {
     #[test]
     fn worker_runs_selected_and_equal_input_comparison() {
         let request = Request {
+            collision_mesh: None,
             size: 8,
             steps: 4,
             tight: false,
@@ -1282,6 +1479,7 @@ mod tests {
         assert!(
             run(
                 Request {
+                    collision_mesh: None,
                     size: 8,
                     steps: 4,
                     tight: false,

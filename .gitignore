@@ -60,3 +60,5 @@ rheon-comparisons/
 /evidence/**/*.jpg
 # Accidental local aligned-strain receipts; generators require external paths.
 /evidence/reconstructed-aligned-strain/
+# Lean dependency/build cache, including an external-cache symlink.
+/proofs/.lake

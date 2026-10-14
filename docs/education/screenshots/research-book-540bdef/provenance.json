@@ -1,0 +1,50 @@
+{
+  "source_commit": "540bdef8fcbc0d0a55567325eba570589666bf80",
+  "browser": "Chromium 151.0.7922.173",
+  "renderer": "headless Chromium with SwiftShader",
+  "capture_script": "docs/education/teaching_browser.py",
+  "qualification": "36 numerical states, 27 rendered arrow states, 6 cap shape invariance comparisons, 12 tour scroll stops; 390/320px mobile modes",
+  "permission": "User explicitly requested publishing these current desktop/mobile screenshots on this teaching branch; narrow exception to generated-output policy.",
+  "files": {
+    "desktop-reading.jpg": {
+      "sha256": "c1e31610c7966ca606af4013f4dc6fb3dd8d6f5cb34f5ffcec7ae36d369d35e5",
+      "pixels": [
+        1440,
+        1050
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none"
+    },
+    "phone-example.jpg": {
+      "sha256": "42a0a57be9ce8b051f4015b9749b335231d0df0ece6ee6842d14eb97510f43a2",
+      "pixels": [
+        390,
+        844
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none"
+    },
+    "phone-split.jpg": {
+      "sha256": "0f7ac288f7689077fb92e86dd0bc797536e14a27174709ef8582d2d7526c1cfd",
+      "pixels": [
+        320,
+        844
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none"
+    },
+    "phone-text.jpg": {
+      "sha256": "b767410611f0e5cd252b7fd7e1856955f56b48361f19f855ead9a1d3b8ba194b",
+      "pixels": [
+        390,
+        844
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none"
+    }
+  }
+}
