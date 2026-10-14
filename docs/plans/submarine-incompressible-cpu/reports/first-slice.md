@@ -1,6 +1,6 @@
 # I1 implementation and independent acceptance handoff
 
-Status: prospective bounded runnable proposal, not implemented or numerically accepted. Canonical decisions/write authority are [plan.md](../plan.md). Parent must assign/admit I1 implementation and independent validation before source changes. This report freezes the proposed usable behavior and the smallest adequate method; it does not execute it.
+Status: parent-admitted `Active` bounded I1, numerical acceptance pending. Canonical decisions and exact disjoint write authority are [plan.md](../plan.md). Implementation owner is `01a139a7-da3b-71b3-b155-ddca2f780005`; independent validator is `01a139a7-fc1b-7384-9200-e10dd033f016`. This lifecycle update executes no numerical code and changes no numerical scope, cap, method, fixture or gate.
 
 ## Native behavior and explicit finite limits
 
@@ -34,7 +34,7 @@ Threshold definitions and MMS/refinement uncertainties are owned by [validation 
 
 ## Native export contract and independent owner
 
-Prospective independent validation owner `/root/validation_design` (GPT-6.1 Sol High) owns the separate `validation/submarine/` write set. It does not share flux, row assembly, stress quadrature or expectations with the numerical implementation. The parent pins both revisions and agrees the export interface before parallel implementation/validation source work. A later independent executor must be assigned if this worker is unavailable; self-review never closes a deciding gate.
+Assigned independent validation owner `01a139a7-fc1b-7384-9200-e10dd033f016` (GPT-6.1 Sol High) owns the exact separate `validation/submarine/` and I1 validation report write set in the canonical plan; `01a139a7-da3b-71b3-b155-ddca2f780005` owns only its admitted experiment/example/test/implementation-report paths. `/root/validation_design` authored the prospective acceptance design and is not the active executor. It does not share flux, row assembly, stress quadrature or expectations with the numerical implementation. The parent pins both revisions and agrees the export interface before parallel implementation/validation source work. A later independent executor must be assigned if this worker is unavailable; self-review never closes a deciding gate.
 
 Fixture exporter writes to fresh ignored output. Each accepted **solve** supplies actual velocity/pressure and geometry/wall trace data, dimensions, x-fast ordering and face offsets, rho/mu, outer vector, pressure convention, load reference/frame, accepted solve ID, matrix/physical residuals and cap. Export actual wall patch positions, body normals and areas, raw reconstructed pressure/gradient, and discrete reactions so a verifier can integrate traction and compare it independently. Do not export only the already summed force or derive expectations from current fields.
 

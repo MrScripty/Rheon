@@ -4,9 +4,11 @@ Status: proposed acceptance design; no new solver, harness, dataset import, or
 submarine simulation was executed for this report. Source review date:
 2026-10-14. Baseline: `main` at
 `06eb5daee9e77e2b0843a5ee0a4105f6950e9b1b`.
-Acceptance owner: `/root/validation_design`, independent of solver/API authors;
-integration owner: parent planning worker. Future implementation must retain a
-separate acceptance executor with authority to reject a milestone. A solver
+Acceptance-design author: `/root/validation_design`. Active I1 independent
+acceptance executor: `01a139a7-fc1b-7384-9200-e10dd033f016`; implementation owner:
+`01a139a7-da3b-71b3-b155-ddca2f780005`. Parent owns serial integration. These
+assignments admit only the canonical existing disjoint I1 write sets and retain
+a separate acceptance executor with authority to reject a milestone. A solver
 author's self-report is input to review, not acceptance authority.
 
 ## Claim boundary and admission
@@ -49,7 +51,7 @@ Verification and its Independent Test Oracles detail, and Documentation.
 | I2 finite laminar-Re stationary or constant-velocity body frame | `stationary`: inertial manufactured solution, convection conservation, laminar reference and wake quantities | Pending; no inherited turbulence claim |
 | I3 smooth prescribed forward/ascent in accelerating body frame | `translation`: acceleration source, physical-pressure recovery, time histories and frame controls | Pending; constant-velocity equivalence alone is insufficient |
 | I4 prescribed moving embedded body in world frame | `gcl`: swept volume, remapping/topology, moving wall impulse/work and frame comparison | Pending; reduced tangential plate tests cannot close this gate |
-| I5 matched physical experiment | `experiment`: approved provenance, experimental/input/numerical uncertainty and predeclared accuracy targets | Blocked pending capable model and authorized matched data |
+| I5 matched physical experiment | `experiment`: approved provenance, experimental/input/numerical uncertainty and predeclared accuracy targets | Pending future capable-model and data-rights gates; ingestion remains unavailable until authorized matched data |
 | I6 optional prescribed attitude | `attitude`: rotating-frame sources or world-frame rotation, torque, power and rotation/refinement controls | Deferred; translation tests do not qualify rotation |
 
 ## Future executable procedure and evidence contract
