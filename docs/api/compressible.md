@@ -161,12 +161,15 @@ cargo run --locked --release --no-default-features --example compressible_refere
 ```
 
 `--output FRESH_DIRECTORY` is required; parent directories must exist.
-Optional `--suite` selects `original-8-12-20-v1` (the default) or the separately
-identified `acoustic-16-24-32-v1` prospective study. The latter is prepared under
-parent authority while canonical methodological review and the exact validator
-discriminator agreement are pending. Final qualification requires their reviewed
-pins; preparation does not retroactively pass the original coarse gate.
-Existing outputs are preserved. Each selected suite contains eight cases:
+Optional `--study-id` selects `s1-cell-average-acoustic-8-12-20-v1` or
+`s1-cell-average-acoustic-16-24-32-v2`. With no selector, the original study is
+unchanged and `study_id` is omitted, retaining its original format meaning.
+An explicit selector emits that exact `study_id`. Parent approved the prospective
+study's preparation and reviewed verifier contract at
+`764ca2c7cba1fed123a7f9097fad819098479efc`; final qualification still requires
+the independently reviewed canonical plan pin and coordinated capture selector.
+Preparation does not retroactively pass the original coarse gate.
+Existing outputs are preserved. Each selected study contains eight cases:
 
 | Kind | Shape | Geometry | Initial data | Final time |
 | --- | --- | --- | --- | --- |
@@ -186,10 +189,11 @@ atomic archive, fsync durability or concurrent-writer promise. Only the acquired
 fresh output directory belongs to this run; no outputs belong in commits.
 
 `suite.json` contains `schema_version=1`, `method="llf-euler-periodic-v1"`,
-gamma/R, SI component units, output bounds, `suite_id` and `cases`.
-The exact `suite_id` is the selected CLI identifier. Original and prospective
-acoustic populations must remain distinct in a reader; the original failure and
-its pre-discriminator pinned receipts remain preserved as original evidence. Each case identifies
+gamma/R, SI component units, output bounds, optional `study_id` and `cases`.
+The `study_id` is the selected CLI identifier. Missing ID means only the original
+8/12/20 population; prospective 16/24/32 requires its explicit ID. Unknown,
+malformed or mixed populations must reject at the independent reader. Original
+failed receipts stay unchanged; a new ID cannot reclassify them. Each case identifies
 kind, id, shape, spacing/origin, periodic boundary, x-fast layout, initialization,
 CFL/target and managed capacity. Every accepted frame (including initial) carries
 actual native `generation`, `time_s`, `requested_dt_s`, `accepted_dt_s`, a

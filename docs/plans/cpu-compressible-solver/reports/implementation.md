@@ -416,7 +416,7 @@ those measurements. They support methodological review; they do not replace
 prospective final qualification. Diagnostic files remain ignored at
 `.generated/s1-refinement-16-v1`.
 
-### Exact proposed producer discriminator relayed to parent
+### First prepared discriminator — superseded by reviewed study contract below
 
 Prepared `examples/compressible_reference.rs` adds optional
 `--suite acoustic-16-24-32-v1` and emits top-level
@@ -485,3 +485,51 @@ prospective suite. It is **pending**, not denied: parent must deliver the review
 canonical plan pin and agreed exact discriminator/validator pin. This worker will
 read them before final capture/acceptance, preserve all original failed evidence,
 and repair only in-scope actual defects. No S1 acceptance is claimed meanwhile.
+
+## Reviewed study discriminator alignment
+
+Parent relayed independent verifier support reviewed at
+`764ca2c7cba1fed123a7f9097fad819098479efc`,
+`docs/plans/cpu-cfd-validation/reports/prospective-study.md`. The first preparation's
+provisional `suite_id`/`--suite` naming was replaced in a coordinated change;
+no compatibility shim or overlapping selector remains. Current producer uses:
+
+```
+compressible_reference --output FRESH_ORIGINAL_DIRECTORY
+compressible_reference --study-id s1-cell-average-acoustic-16-24-32-v2 \
+  --output FRESH_PROSPECTIVE_DIRECTORY
+```
+
+Default `--output` alone retains the original eight-case 8/12/20 population and
+omits `study_id`, exactly preserving the missing-ID original meaning. Explicit
+original selection `--study-id s1-cell-average-acoustic-8-12-20-v1` emits its
+known original ID. Prospective selection emits exactly
+`study_id="s1-cell-average-acoustic-16-24-32-v2"` and 16/24/32 acoustic grids;
+all other cases/controls/fields remain unchanged. Unknown/malformed/mixed
+studies are rejected by the independently owned reader. The selected CLI controls
+and manifest identity will be bound by future origin capture; no original
+receipt, failure or accepted native field was rewritten.
+
+Both selected producers were executed for **preparation integrity** into ignored
+`.generated/s1-prospective-study-id-v2` and `.generated/s1-original-missing-id-v1`:
+179 prospective and 142 original frames, with correct IDs/populations. No new
+final numerical assessment was run before canonical methodological admission.
+Strict locked example Clippy passes core-only/default/parallel; formatting and
+diff checks pass. Semantic ID constants share CLI decoding and JSON emission.
+Solver/core/export/test source hashes remain unchanged. Current example SHA256:
+`6eaad82dae42b7c6cd38fe45b2a8a1c140d9cbbd1d4b097fec607b6d7307900e`.
+
+Capture coordination remains explicit: reviewed verifier 764ca2c currently
+invokes the native binary with only `--output`, which selects the preserved
+original default. This fact was relayed through parent with the proposed
+validator-owned capture selector forwarding `--study-id` for prospective capture.
+Changing the native default to hide this mismatch is not selected. This worker
+owns no verifier edit. Final prospective capture/acceptance is **pending** the
+reviewed canonical plan pin and compatible pinned capture selector, not denied.
+The clean native preparation pin is delivered with the draft PR for parent/validator
+coordination; those remaining inputs must arrive before final qualification.
+
+The exact reviewed 764ca2c verifier was checked in a separate clean checkout:
+all **41** policy/oracle/origin-protocol tests pass normally and under `python -O`
+with pinned Rust/NumPy environment. These include unchanged frozen-order negatives
+for both studies. No prospective native acceptance was inferred from those probes.

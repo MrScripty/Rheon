@@ -11,6 +11,8 @@ use std::{
 };
 
 const AMPLITUDE: f64 = 1e-6;
+const ORIGINAL_STUDY_ID: &str = "s1-cell-average-acoustic-8-12-20-v1";
+const PROSPECTIVE_STUDY_ID: &str = "s1-cell-average-acoustic-16-24-32-v2";
 const MAX_STEPS: usize = 10_000;
 const MAX_OUTPUT_BYTES: u64 = 2_000_000_000;
 
@@ -25,16 +27,16 @@ struct Fixture {
 }
 
 #[derive(Clone, Copy)]
-enum ReferenceSuite {
+enum ReferenceStudy {
     Original,
     Acoustic16_24_32,
 }
 
-impl ReferenceSuite {
+impl ReferenceStudy {
     fn id(self) -> &'static str {
         match self {
-            Self::Original => "original-8-12-20-v1",
-            Self::Acoustic16_24_32 => "acoustic-16-24-32-v1",
+            Self::Original => ORIGINAL_STUDY_ID,
+            Self::Acoustic16_24_32 => PROSPECTIVE_STUDY_ID,
         }
     }
     fn acoustic_sizes(self) -> [u64; 3] {
@@ -45,7 +47,7 @@ impl ReferenceSuite {
     }
 }
 
-fn controls() -> Result<(PathBuf, ReferenceSuite), Box<dyn Error>> {
+fn controls() -> Result<(PathBuf, Option<ReferenceStudy>), Box<dyn Error>> {
     let mut args = std::env::args_os().skip(1);
     let mut output = None;
     let mut suite = None;
@@ -54,20 +56,17 @@ fn controls() -> Result<(PathBuf, ReferenceSuite), Box<dyn Error>> {
             Some("--output") if output.is_none() => {
                 output = Some(PathBuf::from(args.next().ok_or("missing output directory")?));
             }
-            Some("--suite") if suite.is_none() => {
-                suite = Some(match args.next().ok_or("missing suite identifier")?.to_str() {
-                    Some("original-8-12-20-v1") => ReferenceSuite::Original,
-                    Some("acoustic-16-24-32-v1") => ReferenceSuite::Acoustic16_24_32,
-                    _ => return Err("unsupported suite identifier".into()),
+            Some("--study-id") if suite.is_none() => {
+                suite = Some(match args.next().ok_or("missing study identifier")?.to_str() {
+                    Some(ORIGINAL_STUDY_ID) => ReferenceStudy::Original,
+                    Some(PROSPECTIVE_STUDY_ID) => ReferenceStudy::Acoustic16_24_32,
+                    _ => return Err("unsupported study identifier".into()),
                 });
             }
-            _ => return Err("usage: compressible_reference [--suite original-8-12-20-v1|acoustic-16-24-32-v1] --output FRESH_DIRECTORY".into()),
+            _ => return Err("usage: compressible_reference [--study-id s1-cell-average-acoustic-8-12-20-v1|s1-cell-average-acoustic-16-24-32-v2] --output FRESH_DIRECTORY".into()),
         }
     }
-    Ok((
-        output.ok_or("--output FRESH_DIRECTORY required")?,
-        suite.unwrap_or(ReferenceSuite::Original),
-    ))
+    Ok((output.ok_or("--output FRESH_DIRECTORY required")?, suite))
 }
 
 fn fresh_file(path: &Path) -> Result<BufWriter<File>, Box<dyn Error>> {
@@ -75,7 +74,7 @@ fn fresh_file(path: &Path) -> Result<BufWriter<File>, Box<dyn Error>> {
         OpenOptions::new().write(true).create_new(true).open(path)?,
     ))
 }
-fn fixtures(suite: ReferenceSuite) -> Vec<Fixture> {
+fn fixtures(suite: ReferenceStudy) -> Vec<Fixture> {
     let mut cases = vec![
         Fixture {
             id: "uniform".into(),
@@ -326,7 +325,8 @@ fn run_case(
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let (output, suite) = controls()?;
+    let (output, selected_study) = controls()?;
+    let suite = selected_study.unwrap_or(ReferenceStudy::Original);
     // Acquire a fresh output directory; never overwrite previous artifacts.
     fs::create_dir(&output)?;
     let eos = IdealGas::new(1.4, 287.0)?;
@@ -339,7 +339,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     )?;
     // The prospective family stays distinguishable from the original failed
     // coarse fixture; a reader must never silently reinterpret its population.
-    write!(manifest, "\"suite_id\":\"{}\",\"cases\":[", suite.id())?;
+    if let Some(study) = selected_study {
+        write!(manifest, "\"study_id\":\"{}\",", study.id())?;
+    }
+    write!(manifest, "\"cases\":[")?;
     let mut bytes = 0;
     for (i, fixture) in fixtures(suite).iter().enumerate() {
         if i > 0 {
