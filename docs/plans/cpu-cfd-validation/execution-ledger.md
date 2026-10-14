@@ -75,3 +75,16 @@ all findings resolved. Final 23 tests passed normally and under -O, including
 the tiny native capture-protocol probe; py_compile and diff checks passed.
 This is capture mechanics evidence only. Actual S1 source pin/numerical capture
 remains pending; no numerical receipt/source admission was refreshed.
+
+Parent supplied native 1b62ae3 and its reported numerical failures. Created
+read-only retained-protected native input worktree/ref and executed reviewed
+tracked-only origin capture from clean verifier aea43a5. Original failure and
+origin pin 7b53940f...e5c4dbec remain unchanged externally. Diagnosed avoidable
+Sod t=0 quadrature rounding; direct analytic constant-state integration makes
+all native initial differences zero without widening 16-epsilon allowance.
+All 24 tool tests passed normally and under -O. Independent reviewer confirmed
+repair and reproduced acoustic diagnosis with a separate scalar Fourier model.
+Actual acoustic order 0.5614384 is reproduced as 0.5614385 by the independent
+linearized LLF symbol. Documented causal cell-average/resolution evidence and a
+prospective 16/24/32 heuristic requiring parent admission. No threshold, native
+fixture, solver or exporter edit; no acceptance/source admission refreshed.

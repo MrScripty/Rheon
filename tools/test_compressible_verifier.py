@@ -97,6 +97,17 @@ def synthetic_suite(root):
 
 
 class OracleTests(unittest.TestCase):
+    def test_sod_initial_constant_cells_use_direct_analytic_averages(self):
+        for n in (24, 48, 64):
+            initial = v.sod_average(n, 0)
+            expected = np.zeros((n, 5))
+            expected[:n//2, 0], expected[n//2:, 0] = 1, 0.125
+            expected[:n//2, 4] = 1/(v.GAMMA-1)
+            expected[n//2:, 4] = 0.1/(v.GAMMA-1)
+            np.testing.assert_array_equal(initial, expected)
+        middle = v.sod_average(3, 0)[1]
+        np.testing.assert_array_equal(middle, [0.5625, 0, 0, 0, 0.55/(v.GAMMA-1)])
+
     def test_sod_star_bracket_and_rankine_hugoniot(self):
         pressure, velocity, bracket = v.sod_star()
         self.assertAlmostEqual(pressure, 0.3031301780506468, places=14)

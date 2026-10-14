@@ -196,8 +196,18 @@ def sod_point(x, time):
 
 def sod_average(n, time, quadrature_order=8):
     require(type(n) is int and n > 0 and finite_number(time) and 0 <= time <= END_TIME, "oracle/sod-domain")
+    if time == 0:
+        # Integrate the two constant initial states directly. In cell-index
+        # coordinates the left fraction is exact for integer n, including the
+        # native face-aligned cases; Gauss weights/endpoints add no information
+        # and used to inject several ulps into otherwise constant cells.
+        left_fraction = np.clip(0.5*n-np.arange(n, dtype=float), 0.0, 1.0)
+        result = np.zeros((n, 5))
+        result[:, 0] = 0.125+0.875*left_fraction
+        result[:, 4] = (0.1+0.9*left_fraction)/(GAMMA-1)
+        return result
     nodes, weights = np.polynomial.legendre.leggauss(quadrature_order)
-    splits = sod_waves(time) if time else [0.5]
+    splits = sod_waves(time)
     result = np.empty((n, 5))
     for i in range(n):
         low, high = i/n, (i+1)/n

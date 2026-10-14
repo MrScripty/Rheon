@@ -1,8 +1,8 @@
 # Independent CPU CFD validation
 
 **Plan status:** `Active`
-**Current phase:** native 1b62ae3 origin capture and diagnosis of reported numerical failures
-**Next slice:** capture the pinned native candidate with reviewed origin repairs and preserve original failed assessment
+**Current phase:** corrected Sod oracle and independently diagnosed frozen acoustic failure
+**Next slice:** fresh capture with the corrected oracle, retaining both failures; parent admits any subsequent fixture/method revision
 **Acceptance status:** `blocked`
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
 **Issues:** [issues.md](issues.md)
@@ -26,8 +26,8 @@ is a staged research destination, not this slice's advertised capability.
 | A2 | Fixed-mesh time study approaches its independent semidiscrete reference; negative metrics fail acceptance | focused | local Python 3 and Rust 1.92 | automated | satisfied | reports/validation-results.md |
 | A3 | Completion receipt binds source files, toolchain, inputs, command, rows and gates; a failed run cannot acquire an accepted receipt | contract | local fresh process | automated | satisfied | clean ef4f8e4 receipt; runner tests |
 | A4 | Staged aircraft/submarine gates, solver requirements, primary sources and access/licensing dispositions are reviewable without imported datasets | focused | repository and primary sites | manual | satisfied | reports/staged-validation.md |
-| A5 | Independent S1 cell-average oracles and intended numerical/origin negatives run normally and optimized | focused + contract | Python 3, NumPy 2.3.5, Rust 1.92 for protocol probe | automated | satisfied | 23 normal + 23 optimized; independent findings closed; reports/independent-review.md |
-| A6 | Real clean pinned native fields pass unchanged S1-D/E/F/G checks with independent origin capture | integration + system | native CPU producer | automated | pending | native 1b62ae3 supplied; reported Sod oracle/order failures require independent diagnosis |
+| A5 | Independent S1 cell-average oracles and intended numerical/origin negatives run normally and optimized | focused + contract | Python 3, NumPy 2.3.5, Rust 1.92 for protocol probe | automated | satisfied | 24 normal + 24 optimized; independent findings closed; reports/independent-review.md |
+| A6 | Real clean pinned native fields pass unchanged S1-D/E/F/G checks with independent origin capture | integration + system | native CPU producer | automated | failed | native capture executed; analytic Sod repair preserves tolerance; frozen acoustic order 0.5614384 fails; reports/native-s1-diagnosis.md |
 
 ## Constraints and assumptions
 
@@ -128,10 +128,10 @@ and target-specific negatives must be observed. Run Python normal and -O tests
 and actual native fields after the pinned solver commit arrives. Parent admitted
 the export format at 4621d69747740a950a90d78755fe3bb4e220efe4 and relayed it to the
 implementation owner; no numerical threshold change was requested.
-This gate remains pending if native fields are unavailable; do not substitute
-synthetic fixtures. **Status:** `Blocked`; tools and 19-test normal/-O checks
-implemented at admitted pin; 23-test normal/-O review repair checks passed and
-independent findings closed. Native source commit remains pending.
+**Status:** `Blocked`; native source 1b62ae3 was captured with reviewed origin
+repairs. The Sod t=0 oracle is repaired without tolerance change and all 24
+normal/-O tests pass. An independent Fourier derivation reproduces the frozen
+acoustic order failure. See [diagnosis](reports/native-s1-diagnosis.md).
 
 Parent requested independent review and CI inspection after format admission.
 Capture-origin findings are repaired within this owner and independently
@@ -141,10 +141,11 @@ first-mode-only speed scope is explicitly disclosed. See
 
 ## Blockers and replanning triggers
 
-Native S1 capture is pending a clean pinned solver implementation commit. The
-parent admitted the format and relayed it to its implementation owner. This is
-a pending dependency, not a denied or uncertain action; no native capture was
-attempted. Parent permits the existing NumPy only as a separately installed
+Native source is available and capture executed successfully. A6 fails the
+frozen acoustic coarse-grid order gate (0.5614384 <= 0.6). Parent must admit a
+prospective resolution/method revision before native acceptance can proceed.
+The original failed capture is retained; no denied or uncertain action exists.
+Parent permits the existing NumPy only as a separately installed
 validation tool here. No runtime packaging/distribution is proposed or authorized;
 component license disclosure remains accurate and no GPL-free runtime is promised.
 Full physical cases depend on solver capabilities and exact asset rights/access.
@@ -161,10 +162,15 @@ Branch is a short-lived shared draft proposal; never rewrite after push. No tags
 Worktree `/workspace/Rheon-validation` is retained-protected for parent review,
 owned by validation worker; remove only after parent records integration or
 another terminal disposition and confirms reachable commits. Original worktree
-and unrelated refs are outside cleanup authority.
+and unrelated refs are outside cleanup authority. Native input worktree
+`/workspace/Rheon-native-s1`, branch `validation/native-s1-input-1b62ae3`, pins
+1b62ae3 for reproducible capture. It is read-only in this task and retained-protected
+by the validation worker until parent checkpoint/disposition coordination; do not
+remove its ref or worktree before that disposition. External failed capture
+directories are retained as evidence, not committed repository artifacts.
 
 ## Final acceptance
 
-- Acceptance status: blocked (A1–A5 satisfied; A6 pending native producer)
+- Acceptance status: blocked (A1–A5 satisfied; A6 failed frozen acoustic gate; parent replan pending)
 - Deferred follow-ups: experimental geometry/data rights, exterior/moving solver qualification
 - Final status: Blocked

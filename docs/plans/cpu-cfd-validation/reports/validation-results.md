@@ -59,20 +59,26 @@ simulation or S1 acceptance. Root/quadrature/linearization observations and
 gamma_512 roundoff policy are in the proposal; thresholds remain those in
 reviewed solver plan 67baa105. Native capture uses Cargo JSON's reported exact
 example executable, fresh build/output, clean source commit/tree and artifact
-hashes; that real path has not been executed because the native dependency is
-pending. Origin pin checks prove identity against the external pin, not a
+hashes; the actual S1 path was subsequently executed as recorded below. Origin
+pin checks prove identity against the external pin, not a
 cryptographic authenticity claim.
 
-## Exact outstanding action and owner
+## Native capture and outstanding action
 
-**Pending, not denied:** parent has admitted/relayed the exporter convention at
-4621d69747740a950a90d78755fe3bb4e220efe4; its implementation owner must provide a
-clean pinned S1 implementation commit with
-`examples/compressible_reference.rs` producing the agreed format. Then execute
-`verify_compressible.py capture` against that checkout and pin its origin hash;
-verify actual fields with unchanged S1-E/F/G gates and S1-D translation. No
-native S1 field has been substituted or invented here. S1-A/C remain the solver
-worker's public Rust API/rollback checks. Parent owns checkpoint integration.
+Native source 1b62ae378c2aaa01327055f121ebc0d869f2c4ac is now available.
+A clean reviewed-verifier aea43a5 capture built and ran it; original origin pin
+is `7b53940fd168ae26e9cd0b29ffde0c191dab5b0d01a5be2953de21eae5c4dbec`.
+The preserved original assessment failed Sod initial rounding. A direct analytic
+t=0 repair leaves the tolerance unchanged and passes all 24 tests normally/-O.
+The corrected assessment still fails frozen acoustic order (0.5614384 < 0.6),
+independently reproduced by a linearized Fourier model. No accepted S1 receipt.
+See [exact-source diagnosis](native-s1-diagnosis.md) for actual metrics, proposed
+parent replan, preserved evidence and executable diagnostic source.
+
+**Pending, not denied:** fresh capture at a clean corrected-verifier pin, then
+parent admission of a principled resolution/method revision before A6 acceptance.
+S1-A/C remain the solver worker's public Rust API/rollback checks. Parent owns
+checkpoint integration. No native source/exporter/core was changed here.
 
 **Runtime disposition:** parent permits the existing NumPy as a separately
 installed validation tool for this task; its bundled GCC/quadmath terms remain

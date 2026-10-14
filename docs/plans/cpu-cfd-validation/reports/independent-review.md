@@ -59,3 +59,15 @@ Report any future distribution before proceeding.
 Both hosted push/PR dense3D workflows passed at 4621d69. They do not execute this
 verifier and supply compatibility observations only. Report repair-head CI at
 its actual commit rather than projecting success from a prior head.
+
+## Native-failure diagnosis review
+
+After native 1b62ae3 capture, a separate read-only follow-up checked the narrow
+Sod t=0 repair and independently reproduced the acoustic symbol calculation.
+It found no defect: exact constant-state integration preserves the tolerance,
+native initial differences become zero and focused tests pass normally/-O.
+Its scalar Fourier calculation reproduces order 0.561438498 versus native
+0.561438404. It agrees 16/24/32 is a defensible prospective replan but the new
+10% resolution heuristic requires explicit parent admission and guarantees no
+order. No threshold change approved or native acceptance established. Historical
+source-pending statements above describe earlier review checkpoints only.
