@@ -1,18 +1,22 @@
-# S1 native implementation — diagnosed numerical qualification failure
+# S1 native implementation — focused and prospective field gates passed
 
 The native periodic ideal-gas Euler path, public API, 13 focused contract tests,
-eight-case actual-field producer and API documentation are implemented. **S1
-acceptance is pending.** Original fields exposed a failed acoustic coarse-grid
-order gate and an independent Sod initial-oracle roundoff issue, since repaired
-by the validator owner. No threshold, CFL,
-EOS or acceptance criterion was tuned to observed output. Canonical lifecycle
-remains the planning worker's responsibility; this report owns only S1 execution.
-Continued diagnosis found that the intended LLF operator predicts the coarse
-acoustic failure. The validation owner repaired its Sod initial oracle without
-threshold changes. Fresh committed capture now reaches the exact acoustic gate.
-Parent authorized preparation of a distinct 16³/24³/32³ study; that example is
-prepared below, while reviewed plan/discriminator pins and final qualification
-remain pending. Original failed fixtures and all origin receipts are preserved.
+eight-case actual-field producer and API documentation are implemented. **Focused
+S1-A/C evidence and independently captured prospective S1-B/D/E/F/G gates pass**
+at clean native `5a049ed604b99817a428d10bbc0140732d3421d6`, under parent-admitted
+canonical plan `fc2270a85e38080d9943048aaf689d99545d3715`. Final evidence and
+integration handoff are recorded below. Parent owns checkpoint admission and
+integration; canonical lifecycle remains the planning worker's responsibility.
+This report does not update that lifecycle or claim release/publication readiness.
+
+The original 8³/12³/20³ acoustic study failed its first coarse-grid order gate.
+That failure, the diagnosis, the validator-owned Sod initial-oracle repair and
+the prospective methodological admission remain disclosed. No numerical kernel,
+threshold, CFL, EOS or norm was tuned to observed output. All original failed
+fixtures and origin receipts are preserved. Sections preceding the final evidence
+record are chronological observations; their pending states are superseded only
+by the exact final subjects below. Pages integration remains blocked by the
+unchanged reviewed-source admission gate, with a precise owner handoff below.
 
 ## Admission, branch and ownership
 
@@ -533,3 +537,204 @@ The exact reviewed 764ca2c verifier was checked in a separate clean checkout:
 all **41** policy/oracle/origin-protocol tests pass normally and under `python -O`
 with pinned Rust/NumPy environment. These include unchanged frozen-order negatives
 for both studies. No prospective native acceptance was inferred from those probes.
+
+## Final scoped evidence: exact native S1 subject
+
+Parent delivered the reviewed canonical prospective resolution admission before
+final capture. This is a distinct `s1-cell-average-acoustic-16-24-32-v2` study;
+the missing-ID/default original study and its failed receipts remain unchanged.
+The numerical owner/kernel, EOS, CFL, retry policy, amplitude, time, norm,
+strict order gate and pressure/conservation gates are unchanged. Numerical
+qualification is pinned to the clean committed native subject below; subsequent
+report/API evidence wording changes do not replace it.
+
+| Subject | Exact identity |
+| --- | --- |
+| Canonical parent-admitted plan, PR75 | `fc2270a85e38080d9943048aaf689d99545d3715` |
+| Native producer/API/contracts, PR74 | `5a049ed604b99817a428d10bbc0140732d3421d6` |
+| Native tree | `565318387acba7ef7612e3d5aa98a1042cd78867` |
+| Independent capture/verification tool, PR73 | `94a831770cb96f0c030b15565e2b5f7cbeb6c916` |
+| Independent evidence report, PR73 | `27193c77b173a7437494584438847fedc8ecf552` |
+| Primary externally delivered origin SHA256 | `61885d7df4cd0827a023af39b6905afeac7ac906b7e8e21c835ffc36072d9455` |
+| Primary executable SHA256 | `62a319429206b25be911f616c973d7327a62675188a64157931489d8251b9646` |
+| Primary assessment SHA256 | `1adc1d3cfb1477a1bfdc30cf84c336cde91495368fda6175689d2113fd10f3e9` |
+
+The independent validation owner records exact commands, controls, provenance
+and uncertainty in [native-prospective-results.md](https://github.com/MrScripty/Rheon/blob/27193c77b173a7437494584438847fedc8ecf552/docs/plans/cpu-cfd-validation/reports/native-prospective-results.md).
+It executed a fresh pinned release core-only binary with explicit prospective
+`--study-id`, then separately verified using the externally pinned origin digest.
+Capture and separate assessment are byte-identical. Its retained run is
+`/tmp/rheon-s1-5a049ed-94a8317-prospective` in the validator environment; raw fields
+and receipts are not tracked repository deliverables.
+
+### S1-A/C: public API and accepted-state behavior
+
+Fresh exact-native checks used pinned Rust 1.92.0, locked unchanged dependencies
+and the commands in the focused-check section. Formatting and strict all-target
+Clippy pass core-only/default/parallel. Each configuration passes **13 compressible,
+7 geometry and 9 simulation contracts**. Exact Lean source/pin inventory checks
+pass normally and under `python -O`; no new Lean source/theorem/kernel claim.
+These are separate public API/error evidence, not conclusions inferred from
+exported numerical fields.
+
+| Gate/behavior | Independently observable evidence |
+| --- | --- |
+| S1-A SI EOS, round trip and all-axis flux | `si_roundtrip_and_all_axis_pressure_work_and_orientation`: explicit independent rho/p/T/c and physical-flux formulas, every axis and reversed orientation; declared operation roundoff allowance |
+| EOS/state/dt/CFL invalid inputs | `eos_and_cfl_parameters_reject_invalid_values`, `eos_rejects_overflow_underflow_and_lost_internal_energy`, `invalid_initialization_and_preflight_preserve_accepted_bits_and_report`: otherwise-valid setups, exact typed outcomes for nonfinite/zero/negative/overflow/underflow and lost internal energy |
+| Initialization/publication lifecycle | `nonuniform_constructor_publishes_initial_generation_zero_only_after_validation` and initialization tests establish initial gen/time zero and invalid replacement rollback; source review confirms successful replacement resets initial budgets and clears the last report |
+| Capacity and clock boundary | `clock_nonadvance_and_capacity_fail_before_publication`: checked capacity overflow, exact cap boundary and nonadvancing clock, with no accepted publication |
+| Actual candidate retry/exhaustion | `real_conditioning_failure_retries_from_same_state_and_can_accept`, `real_candidate_exhaustion_preserves_accepted_state_and_time`: real finite conditioning fixtures, success matches a fresh direct step at accepted dt, nine-attempt exhaustion rolls back |
+| Cancellation and terminal arithmetic | `cancellation_before_during_and_at_publication_rolls_back`, cancellation on retry in the conditioning test, `dt_independent_flux_arithmetic_is_terminal_and_preserves_state`: stage-aware cancellation and terminal raw flux/divergence arithmetic preserve accepted state |
+
+Rollback stamps compare all five accepted arrays as binary64 bits, time bits,
+generation, diagnostics and the previous accepted report. Scratch is private;
+no failed attempted report replaces the last accepted report. Successful retries
+are conditioning/error-control evidence, not high-Mach accuracy qualification.
+
+The otherwise difficult actual `Allocation` path was observed in a disposable
+isolated public-API child probe, **not counted as a fourteenth committed test**.
+For `[128;3]`, valid gas/state/CFL, required payload 268,435,456 bytes fits the
+1,073,741,824-byte caller cap. A Linux child `RLIMIT_AS=67,108,864` bytes forces
+the first 83,886,080-byte fallible vector reservation to fail before page
+touching. The public constructor returned exactly `CompressibleError::Allocation`,
+exit zero; no owner could be published. This isolates allocator refusal from
+`BufferLimit` without triggering an OOM-killer experiment. Probe source/result
+are retained in ignored `.generated/s1-allocation-boundary-probe`; source SHA256
+`8b787fca6dbe941cfc708d093a4b88ba47dc581de92c79203ab6e0cfd5ebd0f6`.
+Initialization/steps allocate no vectors, so this constructor observation does
+not assert a reachable allocation failure during a live step, process RSS cap
+or operating-system overcommit guarantee. The payload contract excludes allocator
+metadata and caller/output resources as documented.
+The independent reviewer reran all 13 core-only contracts and observed the exact
+allocation outcome both from this retained probe and from a separately rebuilt
+probe against its own origin-captured pinned release library. Both isolated
+children exited zero. No repository source or committed test count changed.
+
+### S1-B/D/E/F/G: independently recomputed native fields
+
+Both independent runs contain eight cases, **179 frames, 171 accepted steps and
+1,746,044 conservative cell-state rows**. Every accepted step is finite/admissible,
+with zero candidate rejections and zero flux fallbacks in these fixtures. Uniform
+asymmetric/degenerate periodic behavior passes; the differential educational LLF
+comparison uses explicit x-fast/z-fast mapping at identical input/dt and has
+maximum discrepancy `5.551115123125783e-17`. This is a translation check, separate
+from continuum accuracy. The field-export gates observe real U, clocks, controls
+and recomputed budgets at every retained step.
+
+| Acoustic grid | Normalized density L1 | First-mode relative speed error | First-mode amplitude retention | Second-mode relative speed error | Second-mode amplitude retention |
+| --- | --- | --- | --- | --- | --- |
+| 16³ | .20347124808517567 | .007788383112755981 | .7256930721642721 | .040881359098354886 | .5303585242886318 |
+| 24³ | .14753314663362563 | .003417660424172464 | .8073364551933938 | .01818127874983777 | .6531741039400679 |
+| 32³ | .11529682712965958 | .001911304158718985 | .8516573568857542 | .010223938753778916 | .7259737398351822 |
+
+Adjacent observed density orders are **.7928470981796805/.8569980147372906**,
+both strictly greater than .6. Finest first-mode relative phase-speed error is
+**.1911304159%**, below 8%. Second-mode phase speed remains reported-only.
+Grids provide 8/12/16 cells per shortest **coordinate** wavelength, not an
+eight-cell oblique wave-normal claim or universal/asymptotic order theorem.
+The original first coarse order **.5614384036983551** still fails and remains
+a disclosed resolution/damping limitation of the initial cell-average study.
+
+| Sod shape | Density L1 | Pressure L1 |
+| --- | --- | --- |
+| 24x2x2 | .038436133232651666 | .05448703952865247 |
+| 48x2x2 | .028884473581600432 | .04271663871527951 |
+| 64x2x2 | .02823249991117378 | .037306094143767975 |
+
+Density errors decrease; finest pressure L1 is below .04 on the declared
+`.2<x<.8` isolated-fan cell window at t=.08. Maximum normalized five-budget
+drift is **1.6148698540002275e-16**, below the unchanged `2e-13` fixture gate.
+Sod root bracket is `5.551115123125783e-17`; split quadrature comparison is
+`1.3322676295501878e-15`. Acoustic local nonlinear PDE defect is
+`3.9722182496520564e-11`, scaling by `4.000006313929694` when amplitude doubles.
+That local defect is not a global error bound or a finite-amplitude exact-Euler
+claim. The largest managed native payload is 4,194,304 bytes, separate from RSS,
+CSV storage, artifact retention and timing/performance claims.
+
+### Independent standards/implementation and verifier review
+
+GPT-6.1 Sol High `/root/s1_review` performed read-only standards/implementation
+review, independently located genuine retry/exhaustion fixtures, and confirmed
+the earlier P2 dt-independent arithmetic retry defect was repaired with a public
+rollback regression. No outstanding implementation finding remains. Subsequent
+selector/identity review found no defect and independently reran the full
+prospective capture and separate origin-pinned verification at the exact native,
+canonical plan and verifier subjects above.
+
+That second independently retained run is
+`/workspace/scratch/rheon-s1-independent-5a049ed-94a8317`. It binds 1,062 tracked
+source hashes and 180 artifact hashes, with 200,759,557 raw CSV bytes. Its origin
+SHA256 is `4665e0a0e988960faeb1d625b15a0a5ad1693f8bf2bf762af0cff92c418565aa`;
+executable SHA256 `28963ec0e7fcc89e27595bc20e71f5b900220cf29f29e15a7edf400bc4e9030b`;
+suite SHA256 `ae4207a3fe1521861e30cf3189588ccc864c9e7acee1b055449b1e26e3e80c89`.
+Assessment and separate recheck are byte-identical SHA256
+`de62dab8c25a34e6ad14e54876cbfd801b54c4a0f46d3217b9230d28fc9ace96`;
+`independent-review.json` SHA256
+`60c66ce22cda3be673812f944f17aba82488ebd7dad288ebfdcb37d4a660b86d`.
+Build/executable/run digests differ between independently produced runs; each
+is bound by its own externally checked origin and yields the same field metrics.
+
+The verifier's **43 tests pass normally and under `python -O`**. Expected
+negatives reject wrong phase/time/axis, below-threshold convergence, missing
+pressure work, nonfinite/corrupted fields, mixed/unknown study identity and
+origin/source/executable/artifact/build-configuration mismatches. These support
+reader/oracle integrity but do not substitute for the actual captured fields.
+No solver implementation is imported into the continuum oracles; only the
+explicit educational differential comparison reproduces the admitted LLF method.
+
+## Integration handoff and final cumulative scope
+
+Draft [PR74](https://github.com/MrScripty/Rheon/pull/74) retains branch
+`implementation/cpu-compressible-s1` against main. Relative to admitted base
+`919a8fde4bb10239055ae6fea3f4e6359a7c5c58`, the cumulative write set is exactly
+the six delegated files listed above. `src/lib.rs` changes by the additive
+seven-line compressible block shown above; no recording exports change.
+Canonical plan/lifecycle, verifier files, dependencies/lockfiles, workflows,
+source admission, existing solver and recording/desktop files remain owner writes.
+No merge, force push, deployment, publication or S2 advancement is performed.
+
+The unchanged Pages admission selects
+`docs/education/aligned-strain-native-sources-runtime-20261013.json`, reviewed
+base `a3a66b18b34bef2a32ce1b658fce952115b1f7f4`. Read-only comparison identifies
+exactly these native input differences at the frozen S1 subject:
+
+| Input | Existing admission | Frozen S1 SHA256 |
+| --- | --- | --- |
+| `src/compressible.rs` | Added path; currently absent from the exact inventory | `dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3` |
+| `src/lib.rs` | Expected `abd590c3f199020bc8dbdd1a215571f1c2dee600c1dc1eee19e5a5fa2c934cbd` | `8491909a0b470d0e9aa5406dfe163f912cbc9b50ca74b1e142273a8142a5b379` |
+
+No other admitted native input is modified or missing. The historical
+`docs/education/aligned-strain-native-sources.json` must remain unchanged; the
+active epoch and fresh receipt must bind the actual owner-integrated source.
+The current admission scope covers `src`, `.cargo`, Rust toolchain files and its
+explicit qualification inputs. `examples/compressible_reference.rs` is bound by
+S1 tracked-source capture but is not in that Pages-specific admission input set;
+any publication-scope extension belongs to the source-admission owner.
+
+Parent/source-admission owner must review the new module and minimal crate-root
+export, admit the exact combined bytes through the current inventory/epoch,
+then freshly run clean native/rational qualification and the relevant Pages
+source/build checks. `python3 docs/education/check_native_admission.py`,
+`tools/qualify_aligned_strain.py` and packet/receipt checks in
+`.github/workflows/research-book-pages.yml` require mutually consistent combined
+commit/source/inventory/receipt identities. Updating digests alone is not
+qualification. Integrating PR69/71 or other source changes requires a fresh
+combined-source review and qualification. This worker edits none of these gates.
+
+At frozen native `5a049ed`, hosted Rust run `38528098252` completed **all five
+jobs successfully**: core-only/default/desktop feature contracts, executable
+contracts and the core-and-executable aggregate. Earlier code-identical run
+`38524774026` also completed all five Rust jobs successfully. Hosted Pages run
+`38528098274`, build job `115733296675`,
+fails **Check reviewed native admission before expensive qualification**; later
+build/qualification steps and deployment are skipped. This exact stage is
+confirmed by GitHub job metadata; no unavailable log text is invented. Hosted
+scoped successes do not substitute for independent native S1 numerical evidence.
+
+The numerical capture blocker is resolved. Remaining action is **pending owner
+source admission/integration**, not denied and not attempted by this worker.
+Parent decides the frozen R1 checkpoint and planning owner records canonical
+acceptance. This path is a bounded serial inviscid periodic ideal-gas baseline:
+no general positivity theorem, finite-amplitude wave exactness, near-vacuum or
+arbitrary/high-Mach accuracy, general convergence/performance, vehicle readiness,
+boundary/viscous physics, recordings, desktop workflow or learned-model claim.
