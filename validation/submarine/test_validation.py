@@ -460,11 +460,21 @@ class Validation(unittest.TestCase):
             self.fails("fresh-output", lambda: run.output_directory(d, Path("/nonexistent-repo")))
 
     def test_missing_native_is_unavailable_not_skip_or_capture(self):
-        repo = Path(__file__).resolve().parents[2]
-        source = subprocess.check_output(["git", "-C", str(repo), "rev-parse", "HEAD"], text=True).strip()
         with tempfile.TemporaryDirectory() as d:
+            repo = Path(d)/"no-native-repo"
+            subprocess.run(["git", "init", "--quiet", str(repo)], check=True)
+            (repo/"README.md").write_text("Original no-native availability fixture.\n")
+            subprocess.run(["git", "-C", str(repo), "add", "README.md"], check=True)
+            subprocess.run(["git", "-C", str(repo), "-c", "user.name=I1AvailabilityFixture",
+                            "-c", "user.email=i1-test@example.invalid", "-c", "commit.gpgsign=false", "commit", "--quiet",
+                            "-m", "Create no-native availability fixture"], check=True)
+            source = subprocess.check_output(["git", "-C", str(repo), "rev-parse", "HEAD"], text=True).strip()
+            self.assertEqual(subprocess.check_output(["git", "-C", str(repo), "ls-tree", "--name-only", source,
+                                                     "examples/submarine_stokes.rs"], text=True).strip(), "")
             out = Path(d)/"capture"
-            p = subprocess.run([sys.executable, str(Path(__file__).with_name("run.py")), "--suite", "stokes", "--source", source, "--output", str(out)], capture_output=True, text=True)
+            p = subprocess.run([sys.executable, str(Path(__file__).with_name("run.py")), "--suite", "stokes",
+                                "--repo", str(repo), "--source", source, "--native-contract-sha256", FIXTURE_SHA,
+                                "--output", str(out)], capture_output=True, text=True)
             self.assertEqual(p.returncode, 2)
             self.assertEqual(json.loads(p.stderr)["claim_id"], "native-capability")
             self.assertEqual(json.loads(p.stderr)["failure_kind"], "unavailable")
