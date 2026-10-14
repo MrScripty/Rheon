@@ -8,6 +8,13 @@ worker execution continues that admitted slice after checking current authority.
 This plan-only branch contains no implementation. Publication prerequisite is
 satisfied at main `8baf459b91bb53ebd4a7230c4d9f3399dd5cb0bc`.
 
+Parent prospectively approves the [S1-E resolution revision](acoustic-resolution-revision.md)
+after the original native study failed. Before any new numerical acceptance,
+parent coordinates this exact reviewed revision with both owners and pins their
+new exporter/verifier commits. The original admission/head and failed receipts
+remain historical identities; no amended origin or retroactive pass is allowed.
+S1 remains Active, with numerical acceptance blocked pending fresh verification.
+
 ## Usable outcome and write boundary
 
 A Rust host can construct an ideal-gas five-component state on a bounded fixed
@@ -108,12 +115,13 @@ must address a named reachable failure, not mirror the implementation.
 | S1-B | Uniform state stays within declared binary64 roundoff; asymmetrical grid/origin/spacing; transverse momenta and periodic wraps incl. one/two-cell axes | focused/native actual fields; all five weighted totals, no transpose ambiguity |
 | S1-C | Zero/negative/nonfinite EOS/state/dt, overflow/cap/allocation, clock nonadvance, failed candidate/exhaustion and cancellation leave accepted bits/time/generation/report unchanged | one invalid condition per otherwise valid setup, exact typed outcome; cancellation before/during candidate and retry |
 | S1-D | Step agrees with educational LLF at identical input/dt after explicit x-fast↔z-fast mapping, conservative relative/absolute tolerances derived from operation roundoff | differential translation only; choose dt satisfying both bounds on asymmetric small grids, never use this as continuum accuracy |
-| S1-E | Two nonparallel small acoustic modes, amplitude 1e-6, grids 8³/12³/20³, t=0.08: decreasing normalized density L1 errors, observed order>0.6, finest isolated phase-speed error<8%; disclose amplitude attenuation | reproduce research's bounded sanity gate with independent analytic wave projection; not finite-amplitude exact Euler or asymptotic/all-speed result |
+| S1-E | Two nonparallel small acoustic modes, amplitude 1e-6, prospective grids 16³/24³/32³ with ≥8 cells per shortest coordinate wavelength, t=0.08: decreasing normalized density L1 errors, both adjacent observed orders strictly >0.6, finest first-mode isolated phase-speed error<8%; disclose both-mode phase/amplitude observations | Same conservative cell-average linear reference and L1/amplitude norm; original 8³/12³/20³ failure retained; second-mode speed reported only; [revision](acoustic-resolution-revision.md); not finite-amplitude exact Euler or an asymptotic/order theorem |
 | S1-F | Periodic planar Sod, gamma=1.4, jump x=.5, left (1,0,1), right (.125,0,.1), t=.08, shapes 24x2x2/48x2x2/64x2x2: decreasing density L1 and finest pressure L1<.04 in .2<x<.8 | initial jump aligned to faces; integrate exact conservative cell averages, derive reference primitives from them; bounds adopted as initial coarse gate, confirm tighter oracle uncertainty |
 | S1-G | All accepted fixtures finite/admissible; normalized volume-integrated five-component drift <=2e-13 for these small periodic cases, scale=max(abs(initial total),1) in their declared unit system | independently recompute from exported native U at every retained step; disclose this fixture-sized tolerance, not arbitrary-scale guarantee |
 
-S1-E/F numerical thresholds are initial published-reference sanity bounds for
-the explicitly tiny cases. The worker must measure reference root/quadrature/
+S1-E retains its frozen numerical thresholds while prospectively changing only
+the resolution family after a disclosed coarse-grid failure. S1-F/S1-G and all
+other gates remain unchanged. The worker must measure reference root/quadrature/
 linearization uncertainty and report errors under the declared cell-average
 convention, rather than copying center-sampled expectations. If those inputs
 change the deciding meaning or make thresholds inappropriate, re-plan before
@@ -121,6 +129,16 @@ qualification; never tune criteria to observed output. No universal accuracy
 percentage or benchmark speedup is imposed. Sod is planar extrusion; acoustic
 modes exercise actual 3D variation. Open-tube t=.2 with momentum .18 belongs
 to S3, not this periodic case.
+
+The native owner may change only the example's acoustic fixture population for
+this adjustment; no numerical kernel, flux, reconstruction, time integrator,
+EOS, retry/CFL policy or higher-order S2 change is authorized. The independent
+validation owner coordinates its admitted population and correct logarithmic
+refinement ratios through parent. Freeze reviewed revisions before executing
+the new study; record every grid/result, including failures. A fresh actual
+native capture and independently origin-pinned verification are mandatory;
+Fourier forecasts, hosted scoped CI and prior passing Sod diagnostics cannot
+substitute. Updated exporter/verifier code is separate work, not this docs PR.
 
 Normal and `python3 -O` analytic-verifier negatives must reject frozen fields
 with wrong evolved phase/time, axis swaps, missing pressure energy flux and

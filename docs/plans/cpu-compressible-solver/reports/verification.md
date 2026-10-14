@@ -1,8 +1,10 @@
 # Plan-delivery verification
 
 This report qualifies a documentation-only plan. Numerical implementation
-acceptance in `plan.md` remains pending. Parent has started S1 separately; this
+acceptance in `plan.md` is blocked. Parent has started S1 separately; this
 planning branch contains no solver implementation or acceptance evidence.
+S1 numerical acceptance is currently blocked by the original acoustic study;
+the prospective resolution revision requires fresh independently verified runs.
 
 ## Delivery claims
 
@@ -88,7 +90,8 @@ dependencies remain as stated in the implementation plan.
 
 Parent accepted independent review and started worker
 `01a13913-999b-7511-b9cd-f4677019e018` at reviewed head `67baa10`.
-The current plan is `Active` with implementation acceptance `pending`.
+At that parent admission the plan became `Active` with acceptance `pending`;
+the acoustic revision below records the current acceptance hold.
 Parent's explicit sole-editor delegation of the minimal S1 compressible export
 block supersedes the earlier parent-application step described in the historical
 review round above. Canonical plan changes remain with the planning agent;
@@ -106,3 +109,28 @@ both bounded dense3D `scoped-contract` runs
 completed successfully; CodeRabbit status succeeded. New lifecycle-document
 commit checks require their own exact-head observation; these results do not
 transfer to a later head or claim compressible implementation validation.
+
+## Prospective acoustic-resolution revision
+
+The planning agent read the exact PR73 b5e868d diagnosis and verifier; no raw
+native capture or higher-resolution execution occurred in this planning task.
+Both failed receipt identities are retained in the [revision](acoustic-resolution-revision.md).
+Parent-approved future 16³/24³/32³ study retains all non-resolution controls and
+strict thresholds. S1/C2 acceptance remains blocked until parent coordinates the
+reviewed revision and fresh pinned native/independent verification passes.
+
+Independent methodological reviewer `/root/standards_review` approved this
+separate docs-only revision with no review blocker. Reviewer independently
+inspected pinned diagnosis/verifier/native example, checked the original order,
+coordinate-wavelength rule/defect table and new logarithmic ratios, and confirmed
+unchanged gates/controls, explicit post-diagnosis selection and preserved failed
+origin identities. A current-branch documentation cleanup was applied. No raw
+receipt inspection or new native numerical execution was performed by reviewer.
+
+Local `validate_plan` passes with Active/blocked state and one next S1 slice;
+all local Markdown targets resolve; whitespace and exact documentation-only scope
+checks pass. Scalar resolution calculations independently reproduce the table;
+they are supporting methodological evidence, not a numerical solver run.
+Numerical source/tools/proofs/Cargo/browser/book/workflows remain unchanged.
+Earlier scoped CI/reviews concern their stated subjects only; current revision
+delivery and CI are reported with their actual commit/PR identities.
