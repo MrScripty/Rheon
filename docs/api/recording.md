@@ -8,11 +8,20 @@ Neither API consults the current simulation or substitutes a newer publication.
 `verify()` checks the entire committed sequence in one read transaction using one bounded step at a time. Pause the producer for long audits: its commits can otherwise reach the bounded SQLite busy timeout.
 This is inspection/interchange data, **not a restartable integrator checkpoint**.
 
-The integrated desktop producer is the existing material/SPH preview, including
-its accepted collision response. Carrier mode still records appearance previews
-only and explicitly discloses unavailable numerical history. The generic named-field
-archive also accepts native f32/f64/u64/u8 fields from other hosts; it does not claim
-that every Rheon backend or browser producer is connected to recording.
+The integrated desktop producers are the existing material/SPH preview (including
+accepted collision response) and the fixed sealed-box native carrier using either
+Jacobi PCG v1 or symmetric Gauss-Seidel PCG v1. Coverage is the exact inventory below,
+not all numerical fields in all Rheon solvers. Other session/lab/provider/surface/
+volume/viscosity/browser producers are not connected. The generic named-field archive
+also accepts native f32/f64/u64/u8 fields from independent hosts.
+
+Canonical storage is **SQLite with indexed metadata and contiguous binary field
+BLOBs, one row per field per step**; no per-cell SQL rows, compression or quantization.
+CSV is an explicit sample/particle export. Selection loads and hashes a complete
+bounded publication; efficient spatial subsets/field-only verified reads/time-series
+scans are not implemented. Append is synchronous FULL/DELETE-journal I/O. See the
+[measured storage decision](../plans/recorded-carrier-inspection/reports/storage-decision.md)
+for32³/64³ file size, latency, process RSS and host/cache qualification.
 
 ## Material field authority
 
@@ -51,6 +60,71 @@ counts; mesh source bytes are not embedded. Inspection and existing VTK export n
 no mesh lookup. Desktop source/build/toolchain identities are explicitly unspecified
 unless supplied by an external host; process-local run ID is not globally unique.
 No reproducibility or authenticity claim follows from a declared revision/hash.
+
+## Fixed-box carrier field authority
+
+`carrier_run` binds actual Simulation config/grid/method; `carrier_publication` borrows
+accepted state and a success-stamped interval pressure view. Admitted methods are
+`Simulation::step` (optional SmokeSource) and `step_with_emitter`, with both current
+PressureImplementation variants. Actual requested dt, source/emitter inputs, accepted
+report and actual previous-time bits are copied only after acceptance. No array or
+physics algorithm/allocation inventory changes; the extra stamp is small metadata.
+
+| Field | Native bits / units | Association / stage |
+|---|---|---|
+|velocity_x|f32, m/s|(Nx+1,Ny,Nz), offset(0,½,½), x-fast; constructor/accepted|
+|velocity_y|f32, m/s|(Nx,Ny+1,Nz), offset(½,0,½); constructor/accepted|
+|velocity_z|f32, m/s|(Nx,Ny,Nz+1), offset(½,½,0); constructor/accepted|
+|tracer|f32, dimensionless1|(Nx,Ny,Nz), offset(½,½,½); appearance concentration[0,1]|
+|interval_pressure|f64, Pa|same cell centers; accepted projection interval; cell0 gauge=0|
+
+Lab Cartesian XYZ positions are origin+(indices+offset)×spacing in m. Constructor
+has exactly 4 fields and no pressure. Accepted has exactly 5, with publication time/dt;
+pressure evaluation_time means **actual interval start**, interval end is publication
+time, and stage explicitly identifies interval projection pressure. It is not endpoint,
+absolute/free-surface pressure or temperature/buoyancy. Actual controls/report Debug
+text remains opaque provenance. The decoder binds all dimensions to recorded geometry,
+checks inventory/types/units/associations/stages/tracer range/pressure gauge/interval.
+
+Any later prepare/reset/commit attempt invalidates pressure inspection, including a
+rejected/cancelled attempt which preserves accepted velocity/tracer. Capture immediately
+after an admitted success, before another attempt. Generation>0 without a success
+stamp is refused, never emitted as partial canonical carrier state. Other Simulation
+APIs do not receive this stamp. Reset increments generation while zeroing time; create
+a fresh Simulation and run instead of treating reset as constructor zero. Rejected
+candidates add no recording; gaps/duplicate acceptance remain refused by StepRecorder.
+Pressure residuals/Krylov scratch, masks/fraction, other domains/backends, complete
+emitter/integrator state and restart capability are not retained.
+
+## Desktop live and cold selection
+
+Every accepted material/carrier step commits before its matching appearance preview.
+Carrier comparisons use independent archives/readers/identities, caps **per track**;
+changing active track does not overwrite another track's selected data. Settings expose
+directory/database/record caps and keep-all/stop policy for both modes. 64³ full-pressure
+1025 records require about6.05 GiB raw and do not fit the default 1 GiB database cap.
+A configured run may stop at capacity; no automatic downsampling, eviction or loss
+of numerical precision is used to fit it.
+
+Open numerical archive→local SQLite path→Open recorded run is available when no
+worker is active. Uses the displayed recording import caps (maximum 10001 publications),
+starts at recorded ordinal 0, and supports previous/next/slider selection, raw named-field
+sample inspection/CSV, canonical material VTP or carrier VTI export, and explicit full
+integrity audit. Unknown generic solvers expose their actual named fields/sample CSV;
+no canonical material/carrier export is fabricated. Field selection persists **by name**;
+absent fields/indices stay unavailable. Typed scalar values use round-trip Display;
+CSV includes exact selected generation/publication/evaluation times, units, association,
+stage/type/dimensions/components. Particle IDs remain run-scoped append-only indices.
+
+Cold opening uses archive geometry/provenance and no live simulation. It provides
+numerical inspection, not a reconstructed appearance scene/emitter/collision mesh.
+Back to simulation explicitly returns to the retained live timeline. Failed open,
+explicit selection, count/status read or audit clears raw/decoded caches and export
+controls; same-ordinal explicit selection revalidates. Repainting alone reuses the
+owned previously verified publication until selection/reload/audit changes it; it does
+not continuously poll externally modified bytes. Opening quick_check and full audit
+are synchronous; audit may block a producer, so pause it first. Native-window graphics
+remain unqualified in the display-less environment; headless egui controls are tested.
 
 ## Publication, failure and retention
 
@@ -118,9 +192,12 @@ bytes. It accepts at most 64 MiB per record, 32 fields, 16 components per field 
 16 KiB per metadata text. Selected readers preflight summed blob/text size before
 allocating field data; SQLite also has a row-length limit (record cap + 64 KiB
 metadata margin), a 1 MiB page-cache target per connection, no mmap and file-backed
-temporary storage. Cache targets are not hard allocator caps. One encoded record,
-one decoded selected material publication, bounded glyph cache, SQLite copies,
-allocator/connection overhead and the live simulation may coexist. Caller-owned
+temporary storage. Cache targets are not hard allocator caps. One encoded record, one raw and one decoded selected publication per supported
+comparison track (desktop admits at most two distinct pressure methods), the retained
+cold inspector, bounded glyph cache, SQLite copies, allocator/connection overhead and
+the live simulation may coexist. Returning from cold inspection may retain its selected
+raw/decoded publication until another archive replaces it. Payload limits are per
+publication/connection, not the sum of these bounded caches. Caller-owned
 archives/Vecs are outside this limit. Memory does not grow with recorded step count
 unless the caller deliberately retains returned steps. No whole-process/RSS,
 performance, power-loss-on-faulty-storage or hostile-file parsing cap is claimed.
@@ -143,8 +220,8 @@ existing `write_particles_vtp` contract. `.vtp` bytes and CSV in the inspector u
 selected publication/evaluation times. CSV includes run ID and particle ID; an ID
 absent at an older step stays absent rather than selecting a different particle. Desktop selection does not change when the
 worker records another step; Follow live explicitly selects the matching latest
-preview. Cold desktop archive opening is not exposed yet; the public API/example
-provides cold reload and selection/export.
+preview. The cold desktop view and public API/examples provide indexed reload and
+selected export after the producer exits.
 
 ## Generic SQLite consumer contract
 
@@ -198,3 +275,17 @@ with sqlite3.connect(".generated/recording-demo/run.sqlite") as db:
 
 The legacy `MaterialSnapshot`, session dense3D and VTK formats remain independently
 versioned. This archive is not a completed dense3D dataset or a replacement VTK format.
+
+The small carrier CPU example records a non-cubic grid, constructor plus three
+accepted smoke-source steps. In separate processes:
+
+```sh
+cargo run --locked --no-default-features --example recorded_carrier -- \
+  record NEW.sqlite SOURCE_REVISION
+cargo run --locked --no-default-features --example recorded_carrier -- \
+  inspect RUN.sqlite 1 NEW.vti
+```
+
+Every named field is inventoried, the full committed prefix is audited, ordinal 1 is
+selected exactly, and carrier VTI retains native face/tracer/pressure precision and
+interval associations without inventing represented volume.

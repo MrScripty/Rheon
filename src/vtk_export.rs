@@ -483,3 +483,184 @@ pub fn write_particles_vtp<W: Write>(
     array(out, "Int64", "offsets", 1, count, 1..=count)?;
     writeln!(out, "</Verts>\n</Piece>\n</PolyData>\n</VTKFile>")
 }
+
+/// Export fixed-box carrier inspection using contract-v1 face layout and scalar
+/// precision. No represented fraction, solid mask or session stamps are invented.
+/// Pressure is the accepted projection interval in Pa, cell0 gauge, not endpoint
+/// pressure. Validates all inputs before emitting bytes; caller owns flush/replace.
+pub fn write_carrier_vti<W: Write>(
+    out: &mut W,
+    id: &SessionIdentity,
+    g: &crate::GridGeometry,
+    state: crate::StateView<'_>,
+    dt: Option<f64>,
+    pressure: Option<(f64, &[f64])>,
+) -> io::Result<()> {
+    identity_valid(id)?;
+    let initial = state.generation == 0;
+    if !state.time.is_finite()
+        || state.time < 0.0
+        || state.tracer.len() != g.cell_len()
+        || state
+            .tracer
+            .iter()
+            .any(|v| !v.is_finite() || !(0.0..=1.0).contains(v))
+        || (initial && (state.time != 0.0 || dt.is_some() || pressure.is_some()))
+        || (!initial && (dt.is_none() || pressure.is_none()))
+    {
+        return Err(invalid("VTK carrier publication invalid"));
+    }
+    let faces = [state.x, state.y, state.z];
+    for (d, axis) in [Axis::X, Axis::Y, Axis::Z].into_iter().enumerate() {
+        if faces[d].len() != g.face_len(axis) || faces[d].iter().any(|v| !v.is_finite()) {
+            return Err(invalid("VTK carrier face field invalid"));
+        }
+    }
+    if let Some((start, p)) = pressure {
+        let dt = dt.ok_or_else(|| invalid("VTK carrier interval invalid"))?;
+        if !start.is_finite()
+            || start < 0.0
+            || start >= state.time
+            || !dt.is_finite()
+            || dt <= 0.0
+            || (state.time - start - dt).abs() > 8.0 * f64::EPSILON * state.time.max(dt)
+            || p.len() != g.cell_len()
+            || p.iter().any(|v| !v.is_finite())
+            || p[0] != 0.0
+        {
+            return Err(invalid("VTK carrier interval invalid"));
+        }
+    }
+    let n = g.counts();
+    let o = g.origin();
+    let h = g.spacing();
+    writeln!(
+        out,
+        "<?xml version=\"1.0\"?>\n<VTKFile type=\"ImageData\" version=\"1.0\" byte_order=\"LittleEndian\">\n<ImageData WholeExtent=\"0 {} 0 {} 0 {}\" Origin=\"{} {} {}\" Spacing=\"{} {} {}\">\n<FieldData>",
+        n[0], n[1], n[2], o[0], o[1], o[2], h[0], h[1], h[2]
+    )?;
+    identity(out, id, state.generation, state.time)?;
+    text(
+        out,
+        "model_utf8",
+        "sealed full-box carrier projection and appearance transport; no represented fraction/solid mask",
+    )?;
+    text(
+        out,
+        "stage_utf8",
+        if initial { "constructor" } else { "accepted" },
+    )?;
+    text(
+        out,
+        "array_order_utf8",
+        "x-fast; index = i + Nx * (j + Ny * k)",
+    )?;
+    text(
+        out,
+        "native_velocity_semantics_utf8",
+        "m/s; lab frame; face positions = origin + (indices + offset) * spacing",
+    )?;
+    text(
+        out,
+        "velocity_cell_semantics_utf8",
+        "derived adjacent-face average; lab velocity m/s; full-fluid box cells",
+    )?;
+    text(
+        out,
+        "scalar_semantics_utf8",
+        "tracer: dimensionless appearance; represented fraction unavailable",
+    )?;
+    if let Some((start, _)) = pressure {
+        array(
+            out,
+            "Float64",
+            "pressure_interval_s",
+            2,
+            1,
+            [start, state.time],
+        )?;
+        array(out, "UInt64", "pressure_gauge_cell", 1, 1, [0])?;
+        text(
+            out,
+            "pressure_semantics_utf8",
+            "available: last accepted interval projection pressure Pa; cell 0 gauge = 0; not end-surface pressure",
+        )?;
+    } else {
+        text(
+            out,
+            "pressure_semantics_utf8",
+            "unavailable: constructor has no accepted pressure interval",
+        )?;
+    }
+    for (d, label) in ["x", "y", "z"].into_iter().enumerate() {
+        let mut offset = [0.5; 3];
+        offset[d] = 0.0;
+        array(
+            out,
+            "Float32",
+            &format!("velocity_{label}"),
+            1,
+            faces[d].len(),
+            faces[d].iter(),
+        )?;
+        array(
+            out,
+            "UInt64",
+            &format!("velocity_{label}_dimensions"),
+            3,
+            1,
+            g.face_counts([Axis::X, Axis::Y, Axis::Z][d]),
+        )?;
+        array(
+            out,
+            "Float64",
+            &format!("velocity_{label}_offset"),
+            3,
+            1,
+            offset,
+        )?;
+    }
+    writeln!(
+        out,
+        "</FieldData>\n<Piece Extent=\"0 {} 0 {} 0 {}\">\n<CellData Scalars=\"tracer\" Vectors=\"velocity_cell_m_s\">",
+        n[0], n[1], n[2]
+    )?;
+    array(
+        out,
+        "Float32",
+        "tracer",
+        1,
+        g.cell_len(),
+        state.tracer.iter(),
+    )?;
+    if let Some((_, p)) = pressure {
+        array(
+            out,
+            "Float64",
+            "interval_pressure_pa",
+            1,
+            g.cell_len(),
+            p.iter(),
+        )?;
+    }
+    let velocity = (0..g.cell_len()).flat_map(|i| {
+        let c = [i % n[0], i / n[0] % n[1], i / (n[0] * n[1])];
+        std::array::from_fn::<_, 3, _>(|d| {
+            let axis = [Axis::X, Axis::Y, Axis::Z][d];
+            let mut upper = c;
+            upper[d] += 1;
+            (f64::from(faces[d][g.face_index(axis, c).unwrap()])
+                + f64::from(faces[d][g.face_index(axis, upper).unwrap()]))
+                * 0.5
+        })
+    });
+    array(
+        out,
+        "Float64",
+        "velocity_cell_m_s",
+        3,
+        g.cell_len(),
+        velocity,
+    )?;
+    writeln!(out, "</CellData>\n</Piece>\n</ImageData>\n</VTKFile>")
+}

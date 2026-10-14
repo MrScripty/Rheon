@@ -1,8 +1,10 @@
 //! Disk-backed accepted publications. Version 1 is native, local, single-writer,
 //! keep-all/stop-at-limit storage. This preserves inspection fields, not complete
 //! integrator state. See `docs/api/recording.md` for the SQLite consumer contract.
+mod carrier;
 mod material;
 use crate::{GridGeometry, SessionIdentity, SnapshotStage};
+pub use carrier::{RecordedCarrier, carrier_publication, carrier_run};
 pub use material::{
     RecordedMaterial, material_publication, material_run, material_snapshot_publication,
     material_snapshot_run,

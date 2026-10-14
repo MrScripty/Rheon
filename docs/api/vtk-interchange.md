@@ -42,3 +42,22 @@ coordinates, exact native float bits (including signed zero), UInt64 identities,
 field associations, Unicode, raw faces and reconstruction, missing constructor
 pressure, and separately staged real material diagnostics. Fixtures explicitly
 mark synthetic interchange values; desktop views never use fixture data.
+
+
+`write_carrier_vti(out, identity, grid, StateView, dt, interval_pressure)` is additive
+contract-v1 ImageData interchange for the recorded fixed sealed-box carrier. It
+shares physical coordinates, native Float32 face dimensions/offsets, tracer,
+derived adjacent-face velocity, identity and optional Float64 pressure interval/gauge
+semantics above. It writes no fraction, volume/carrier stamp or solid mask: those
+fields do not exist in this producer. Constructor pressure is absent; accepted
+interval pressure and actual interval start/dt must be provided together. Malformed
+input is rejected before output. `RecordedCarrier::write_vti` uses selected archive
+values; the desktop default suffix is `.vti`. Coverage and storage are defined in
+[recording](recording.md), not a claim of complete integrator checkpoint data.
+
+The independent reader also verifies the carrier example's constructor and historical
+ordinal1 exports against SQLite native bits (all faces, tracer and pressure), asymmetric
+geometry/stagger offsets, interval times, independently reconstructed cell velocity,
+and absence of fraction/session stamps. Run `tools/verify_recorded_carrier_vtk.py
+RUN.sqlite CONSTRUCTOR.vti STEP1.vti`; the VTK CI job performs fresh separate-process
+record/inspect commands and this comparison on the exact PR head.

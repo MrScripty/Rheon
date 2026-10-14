@@ -2,12 +2,12 @@
 use super::export_ui::ExportFile;
 use eframe::egui;
 use rheon::recording::{
-    RecordedMaterial, RecordingLimits, RecordingReader, StepRecorder, material_publication,
-    material_run,
+    RecordedCarrier, RecordedMaterial, RecordedStep, RecordingLimits, RecordingReader,
+    StepRecorder, carrier_publication, carrier_run, material_publication, material_run,
 };
 use rheon::{
     FluidParticle, MaterialStepControls, ParticleFluidSimulation, ParticleStepReport,
-    SessionIdentity,
+    SessionIdentity, Simulation,
 };
 use std::{
     path::{Path, PathBuf},
@@ -20,9 +20,14 @@ struct State {
     limits: RecordingLimits,
     selected_step: Option<usize>,
     material: Option<Arc<RecordedMaterial>>,
+    carrier: Option<Arc<RecordedCarrier>>,
+    record: Option<Arc<RecordedStep>>,
+    field_name: String,
+    scalar_index: usize,
     selected: usize,
     feedback: String,
     export: ExportFile,
+    carrier_export: ExportFile,
 }
 impl Default for State {
     fn default() -> Self {
@@ -32,16 +37,34 @@ impl Default for State {
             limits: RecordingLimits::default(),
             selected_step: None,
             material: None,
+            carrier: None,
+            record: None,
+            field_name: String::new(),
+            scalar_index: 0,
             selected: 0,
-            feedback: "No numerical recording. Carrier previews do not retain numerical fields."
-                .into(),
+            feedback: "No numerical recording selected".into(),
             export: ExportFile::new(".generated/selected-particles.vtp"),
+            carrier_export: ExportFile::new(".generated/selected-carrier.vti"),
         }
     }
 }
 #[derive(Default)]
 pub struct Inspector(Mutex<State>);
 impl Inspector {
+    #[cfg(test)]
+    pub fn selected_identity(&self) -> Option<(u64, u64, f64)> {
+        let s = self.0.lock().ok()?;
+        let record = s.record.as_ref()?;
+        Some((
+            s.reader.as_ref()?.run().identity.run_id,
+            record.generation,
+            record.time,
+        ))
+    }
+    #[cfg(test)]
+    pub fn archive_path(&self) -> Option<PathBuf> {
+        self.0.lock().ok()?.path.clone()
+    }
     pub fn with_particles<R>(
         &self,
         read: impl FnOnce(&SessionIdentity, u64, f64, &[FluidParticle], usize) -> R,
@@ -91,11 +114,93 @@ impl Inspector {
         self.select_timestep(0)?;
         Ok(recorder)
     }
+    pub fn begin_carrier(
+        &self,
+        sim: &Simulation,
+        path: &Path,
+        limits: RecordingLimits,
+    ) -> Result<StepRecorder, String> {
+        let run=carrier_run(super::identity::new_identity("carrier"),sim,
+            "native desktop; source revision/build/toolchain not supplied; fixed sealed box; no restart guarantee").map_err(|e|e.to_string())?;
+        let mut recorder = StepRecorder::create(path, run, limits).map_err(|e| e.to_string())?;
+        recorder
+            .append(
+                &carrier_publication(sim, 0, limits.max_record_bytes).map_err(|e| e.to_string())?,
+            )
+            .map_err(|e| e.to_string())?;
+        self.reload(path, limits)?;
+        self.select_timestep(0)?;
+        Ok(recorder)
+    }
+    pub fn record_carrier(
+        &self,
+        recorder: &mut StepRecorder,
+        sim: &Simulation,
+    ) -> Result<(), String> {
+        let actual = carrier_run(
+            recorder.run().identity.clone(),
+            sim,
+            &recorder.run().provenance,
+        )
+        .map_err(|e| e.to_string())?;
+        if &actual != recorder.run() {
+            return Err("Carrier configuration/geometry changed; accepted step unrecorded".into());
+        }
+        let step = carrier_publication(
+            sim,
+            recorder.recorded_count(),
+            recorder.limits().max_record_bytes,
+        )
+        .map_err(|e| e.to_string())?;
+        recorder.append(&step).map_err(|e| {
+            format!(
+                "Accepted carrier generation {} not confirmed recorded: {e}",
+                sim.state().generation
+            )
+        })
+    }
+    pub fn recorded_count(&self) -> Result<usize, String> {
+        let mut s = self.0.lock().map_err(|_| "Inspector owner failed")?;
+        let result = s
+            .reader
+            .as_ref()
+            .ok_or("No archive selected")?
+            .count()
+            .map_err(|e| e.to_string());
+        if let Err(e) = &result {
+            s.record = None;
+            s.material = None;
+            s.carrier = None;
+            s.feedback = e.clone();
+        }
+        result
+    }
+    pub fn verify(&self) -> Result<(), String> {
+        let mut s = self.0.lock().map_err(|_| "Inspector owner failed")?;
+        let result = s
+            .reader
+            .as_ref()
+            .ok_or("No archive selected")?
+            .verify()
+            .map_err(|e| e.to_string());
+        if let Err(e) = &result {
+            s.record = None;
+            s.material = None;
+            s.carrier = None;
+            s.feedback = e.clone();
+        }
+        result
+    }
     /// Cold reload is also used by tests/API-host integrations. Keeps no live sim.
     pub fn reload(&self, path: &Path, limits: RecordingLimits) -> Result<(), String> {
         let mut s = self.0.lock().map_err(|_| "Inspector owner failed")?;
         // Invalidate selection before I/O, including failed reloads.
         s.material = None;
+        s.carrier = None;
+        s.record = None;
+        s.path = None;
+        s.field_name.clear();
+        s.scalar_index = 0;
         s.selected_step = None;
         s.reader = None;
         match RecordingReader::open(path, limits) {
@@ -148,20 +253,44 @@ impl Inspector {
     /// Missing/corrupt selected steps clear values. Never substitute a latest step.
     pub fn select_timestep(&self, step: usize) -> Result<(), String> {
         let mut s = self.0.lock().map_err(|_| "Inspector owner failed")?;
-        if s.selected_step == Some(step) && s.material.is_some() {
-            return Ok(());
-        }
         s.selected_step = Some(step);
         s.material = None;
+        s.carrier = None;
+        s.record = None;
         let result = s
             .reader
             .as_ref()
             .ok_or_else(|| s.feedback.clone())
             .and_then(|r| r.select(step).map_err(|e| e.to_string()))
-            .and_then(|record| RecordedMaterial::decode(&record).map_err(|e| e.to_string()));
+            .and_then(|record| {
+                let run = s.reader.as_ref().ok_or("No archive selected")?.run();
+                let material = if run.solver.starts_with("rheon-sph-preview/") {
+                    Some(Arc::new(
+                        RecordedMaterial::decode(&record).map_err(|e| e.to_string())?,
+                    ))
+                } else {
+                    None
+                };
+                let carrier = if run.solver.starts_with("rheon-carrier-full-box-v1/") {
+                    Some(Arc::new(
+                        RecordedCarrier::decode(run, &record).map_err(|e| e.to_string())?,
+                    ))
+                } else {
+                    None
+                };
+                Ok((Arc::new(record), material, carrier))
+            });
         match result {
-            Ok(m) => {
-                s.material = Some(Arc::new(m));
+            Ok((record, material, carrier)) => {
+                s.material = material;
+                s.carrier = carrier;
+                if s.field_name.is_empty() {
+                    s.field_name = record
+                        .fields
+                        .first()
+                        .map_or_else(String::new, |f| f.name.clone());
+                }
+                s.record = Some(record);
                 s.feedback.clear();
                 Ok(())
             }
@@ -170,6 +299,17 @@ impl Inspector {
                 Err(e)
             }
         }
+    }
+    /// Repaint-only reuse of an immutable verified selection. Explicit selection,
+    /// reload and audit perform I/O; any observed error clears cached values.
+    pub fn ensure_timestep(&self, step: usize) -> Result<(), String> {
+        {
+            let s = self.0.lock().map_err(|_| "Inspector owner failed")?;
+            if s.selected_step == Some(step) && s.record.is_some() {
+                return Ok(());
+            }
+        }
+        self.select_timestep(step)
     }
     pub fn ui(&self, ui: &mut egui::Ui) {
         let Ok(mut s) = self.0.lock() else {
@@ -180,6 +320,7 @@ impl Inspector {
         if let Some(path) = &s.path {
             ui.small(format!("Archive: {}", path.display()));
         }
+        let mut metadata_error = None;
         if let Some(reader) = &s.reader {
             ui.small(format!(
                 "Run {} · source {}",
@@ -193,6 +334,7 @@ impl Inspector {
                     ));
                 }
                 Err(e) => {
+                    metadata_error = Some(e.to_string());
                     ui.label(e.to_string());
                 }
             }
@@ -204,12 +346,28 @@ impl Inspector {
                     }
                 }
                 Err(e) => {
+                    metadata_error = Some(e.to_string());
                     ui.label(format!("Recording status unavailable: {e}"));
                 }
             }
         }
+        if let Some(error) = metadata_error {
+            s.record = None;
+            s.material = None;
+            s.carrier = None;
+            s.feedback = error;
+        }
         if !s.feedback.is_empty() {
             ui.label(&s.feedback);
+        }
+        raw_fields_ui(&mut s, ui);
+        if let (Some(carrier), Some(reader)) = (&s.carrier, &s.reader) {
+            let carrier = Arc::clone(carrier);
+            let identity = reader.run().identity.clone();
+            s.carrier_export
+                .show(ui, "Save selected timestep carrier (.vti)", |out| {
+                    carrier.write_vti(out, &identity)
+                });
         }
         let State {
             material,
@@ -219,7 +377,9 @@ impl Inspector {
             ..
         } = &mut *s;
         let (Some(m), Some(reader)) = (material, reader) else {
-            ui.label("Selected numerical fields unavailable");
+            if s.record.is_none() {
+                ui.label("Selected numerical fields unavailable");
+            }
             return;
         };
         ui.small("Particle IDs are append-only indices scoped to this recorded run.");
@@ -268,6 +428,149 @@ impl Inspector {
         });
     }
 }
+fn sample_value(field: &rheon::recording::RecordedField, index: usize) -> Option<String> {
+    let width = match field.scalar_type.as_str() {
+        "f64" | "u64" => 8,
+        "f32" => 4,
+        "u8" => 1,
+        _ => return None,
+    };
+    let offset = index.checked_mul(width)?;
+    let bytes = field.data.get(offset..offset.checked_add(width)?)?;
+    Some(match field.scalar_type.as_str() {
+        "f64" => f64::from_le_bytes(bytes.try_into().ok()?).to_string(),
+        "f32" => f32::from_le_bytes(bytes.try_into().ok()?).to_string(),
+        "u64" => u64::from_le_bytes(bytes.try_into().ok()?).to_string(),
+        "u8" => bytes[0].to_string(),
+        _ => return None,
+    })
+}
+fn field_csv(
+    run_id: u64,
+    step: &RecordedStep,
+    field_index: usize,
+    scalar_index: usize,
+) -> Option<String> {
+    let field = step.fields.get(field_index)?;
+    let value = sample_value(field, scalar_index)?;
+    let quote = |text: &str| format!("\"{}\"", text.replace('"', "\"\""));
+    let row = [
+        run_id.to_string(),
+        step.ordinal.to_string(),
+        step.generation.to_string(),
+        step.time.to_string(),
+        field
+            .evaluation_time
+            .map_or_else(String::new, |t| t.to_string()),
+        quote(&field.name),
+        scalar_index.to_string(),
+        value,
+        quote(&field.units),
+        quote(&field.association),
+        quote(&field.stage),
+        quote(&field.scalar_type),
+        field.dimensions[0].to_string(),
+        field.dimensions[1].to_string(),
+        field.dimensions[2].to_string(),
+        field.components.to_string(),
+    ]
+    .join(",");
+    Some(format!(
+        "run_id,ordinal,generation,publication_time_s,evaluation_time_s,field,scalar_index,value,units,association,stage,scalar_type,nx,ny,nz,components\n{row}\n"
+    ))
+}
+fn raw_fields_ui(s: &mut State, ui: &mut egui::Ui) {
+    let Some(reader) = &s.reader else {
+        return;
+    };
+    ui.collapsing("Recorded model, geometry and provenance",|ui| {
+        let run=reader.run();ui.label(&run.solver);ui.monospace(format!("counts {:?}\nspacing {:?} m\norigin {:?} m",run.counts,run.spacing,run.origin));
+        ui.label(&run.configuration);ui.label(&run.provenance);
+        ui.small("Opaque configuration/provenance; absent fields stay absent. No restart or universal-field completeness claim.");
+    });
+    let Some(step) = &s.record else {
+        return;
+    };
+    let mut body = |ui: &mut egui::Ui| {
+        ui.monospace(format!(
+            "ordinal {} · generation {}\npublication {} s · dt {:?} s",
+            step.ordinal, step.generation, step.time, step.dt
+        ));
+        ui.small(format!(
+            "{} fields actually recorded; field order/index scopes to this publication",
+            step.fields.len()
+        ));
+        egui::ComboBox::from_id_salt("recorded-field")
+            .selected_text(
+                step.fields
+                    .iter()
+                    .find(|f| f.name == s.field_name)
+                    .map_or("Selected field unavailable", |f| f.name.as_str()),
+            )
+            .show_ui(ui, |ui| {
+                for field in &step.fields {
+                    ui.selectable_value(&mut s.field_name, field.name.clone(), &field.name);
+                }
+            });
+        let Some(field) = step.field(&s.field_name) else {
+            ui.label("Selected field absent at this timestep");
+            return;
+        };
+        ui.small(format!(
+            "{} · {} · dimensions {:?} · {} components",
+            field.scalar_type, field.units, field.dimensions, field.components
+        ));
+        ui.label(&field.association);
+        ui.label(&field.stage);
+        ui.small(format!(
+            "evaluation/interval-start {:?} s; publication {} s",
+            field.evaluation_time, step.time
+        ));
+        ui.horizontal(|ui| {
+            ui.label("Scalar index (x-fast, components interleaved)");
+            ui.add(
+                egui::DragValue::new(&mut s.scalar_index)
+                    .range(0..=usize::MAX)
+                    .clamp_existing_to_range(false),
+            );
+        });
+        if let Some(value) = sample_value(field, s.scalar_index) {
+            ui.monospace(format!("value {value} {}", field.units));
+            let tuple = s.scalar_index / field.components;
+            let dims = field.dimensions.map(|n| n as usize);
+            if dims.iter().all(|n| *n > 0) {
+                ui.small(format!(
+                    "indices [{},{},{}], component {}",
+                    tuple % dims[0],
+                    tuple / dims[0] % dims[1],
+                    tuple / (dims[0] * dims[1]),
+                    s.scalar_index % field.components
+                ));
+            }
+            if ui.button("Copy selected field sample CSV").clicked()
+                && let Some(csv) = field_csv(
+                    reader.run().identity.run_id,
+                    step,
+                    step.fields
+                        .iter()
+                        .position(|f| f.name == s.field_name)
+                        .unwrap(),
+                    s.scalar_index,
+                )
+            {
+                ui.ctx().copy_text(csv);
+            }
+        } else {
+            ui.label("No scalar at this index in selected field; no substituted value");
+        }
+    };
+    if s.material.is_some() {
+        ui.collapsing("Exact recorded field sample", body);
+    } else {
+        body(ui);
+    }
+}
+
 fn csv(m: &RecordedMaterial, id: usize, run_id: u64) -> String {
     use std::fmt::Write;
     let mut text = String::from(
@@ -463,5 +766,168 @@ mod tests {
         assert!(inspector.with_particles(|_, _, _, _, _| ()).is_none());
         drop(inspector);
         std::fs::remove_file(path).unwrap();
+    }
+    #[test]
+    fn carrier_field_selection_absence_real_egui_vti_export_and_metadata_errors() {
+        let archive_path = test_path("carrier-fields");
+        let mut sim = rheon::Simulation::new(
+            rheon::GridGeometry::new([3, 2, 4], [0.2, 0.3, 0.4], [0.0; 3]).unwrap(),
+            rheon::SimulationConfig {
+                density: 1.0,
+                memory_limit: 16 * 1024 * 1024,
+                pressure: rheon::PressureSettings {
+                    relative_residual: 1e-10,
+                    absolute_residual: 1e-12,
+                    divergence_limit: 1e-8,
+                    max_iterations: 1000,
+                },
+                actual_divergence_limit: 1e-5,
+                max_courant: 1.0,
+            },
+        )
+        .unwrap();
+        let inspector = Inspector::default();
+        let limits = RecordingLimits::default();
+        let mut writer = inspector
+            .begin_carrier(&sim, &archive_path, limits)
+            .unwrap();
+        for _ in 0..2 {
+            sim.step(0.01, None, |_| false).unwrap();
+            inspector.record_carrier(&mut writer, &sim).unwrap();
+        }
+        writer
+            .finish("completed", "UI carrier fields", Some(2))
+            .unwrap();
+        drop(writer);
+        drop(sim);
+        inspector.select_timestep(1).unwrap();
+        let mut expected = Vec::new();
+        {
+            let mut state = inspector.0.lock().unwrap();
+            state.field_name = "interval_pressure".into();
+            state.scalar_index = 1;
+            let carrier = state.carrier.as_ref().unwrap();
+            carrier
+                .write_vti(
+                    &mut expected,
+                    &state.reader.as_ref().unwrap().run().identity,
+                )
+                .unwrap();
+        }
+        let ctx = egui::Context::default();
+        let render = |events| {
+            ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(
+                        egui::Pos2::ZERO,
+                        egui::vec2(1400.0, 1600.0),
+                    )),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    egui::CentralPanel::default().show(ctx, |ui| inspector.ui(ui));
+                },
+            )
+        };
+        let output = render(vec![]);
+        assert!(output.shapes.iter().any(|s|matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text==".generated/selected-carrier.vti")));
+        let output_path = archive_path.with_extension("vti");
+        inspector.0.lock().unwrap().carrier_export = ExportFile::new(output_path.to_str().unwrap());
+        let click = |label: &str| {
+            let _ = render(vec![]);
+            let output = render(vec![]);
+            let pos = output
+                .shapes
+                .iter()
+                .find_map(|s| match &s.shape {
+                    egui::Shape::Text(t) if t.galley.job.text == label => {
+                        Some(t.pos + t.galley.size() * 0.5)
+                    }
+                    _ => None,
+                })
+                .unwrap_or_else(|| panic!("missing carrier control {label}"));
+            let _ = render(vec![
+                egui::Event::PointerMoved(pos),
+                egui::Event::PointerButton {
+                    pos,
+                    button: egui::PointerButton::Primary,
+                    pressed: true,
+                    modifiers: Default::default(),
+                },
+            ]);
+            render(vec![egui::Event::PointerButton {
+                pos,
+                button: egui::PointerButton::Primary,
+                pressed: false,
+                modifiers: Default::default(),
+            }])
+        };
+        let output = click("Copy selected field sample CSV");
+        assert!(output.platform_output.commands.iter().any(|c|matches!(c,egui::OutputCommand::CopyText(text) if text.contains("\"interval_pressure\"") && text.lines().nth(1).unwrap().split(',').nth(2)==Some("1"))));
+        let _ = click("Save selected timestep carrier (.vti)");
+        assert_eq!(std::fs::read(&output_path).unwrap(), expected);
+        inspector.select_timestep(0).unwrap();
+        let _ = render(vec![]);
+        {
+            let state = inspector.0.lock().unwrap();
+            assert_eq!(state.field_name, "interval_pressure");
+            assert!(
+                state
+                    .record
+                    .as_ref()
+                    .unwrap()
+                    .field(&state.field_name)
+                    .is_none()
+            );
+        }
+        let output = render(vec![]);
+        assert!(!output.shapes.iter().any(|s|matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Copy selected field sample CSV")));
+        inspector.select_timestep(1).unwrap();
+        inspector.0.lock().unwrap().scalar_index = usize::MAX;
+        let _ = render(vec![]);
+        assert_eq!(inspector.0.lock().unwrap().scalar_index, usize::MAX);
+        let db = rusqlite::Connection::open(&archive_path).unwrap();
+        db.execute("UPDATE lifecycle SET detail='corrupt lifecycle'", [])
+            .unwrap();
+        let output = render(vec![]);
+        assert!(inspector.selected_identity().is_none());
+        assert!(!output.shapes.iter().any(|s|matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Save selected timestep carrier (.vti)")));
+        drop(db);
+        drop(inspector);
+        std::fs::remove_file(archive_path).unwrap();
+        std::fs::remove_file(output_path).unwrap();
+        for mutation in [
+            "UPDATE lifecycle SET detail='corrupt lifecycle'",
+            "UPDATE steps SET ordinal=2 WHERE ordinal=0",
+        ] {
+            let path = test_path("metadata-error");
+            let sim = ParticleFluidSimulation::new(
+                rheon::GridGeometry::new([4; 3], [0.25; 3], [0.0; 3]).unwrap(),
+                rheon::ParticleFluidConfig {
+                    fill: rheon::DomainFill::EmittedFluid,
+                    samples_per_axis: 4,
+                    max_particles: 64,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+            let inspector = Inspector::default();
+            let mut writer = inspector.begin(&sim, &path, limits).unwrap();
+            writer.finish("completed", "initial", Some(0)).unwrap();
+            drop(writer);
+            let db = rusqlite::Connection::open(&path).unwrap();
+            db.execute_batch("PRAGMA foreign_keys=OFF").unwrap();
+            db.execute_batch(mutation).unwrap();
+            drop(db);
+            let output = ctx.run(egui::RawInput::default(), |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| inspector.ui(ui));
+            });
+            assert!(inspector.with_particles(|_, _, _, _, _| ()).is_none());
+            assert!(inspector.selected_identity().is_none());
+            assert!(!output.shapes.iter().any(|s|matches!(&s.shape,egui::Shape::Text(t) if t.galley.job.text=="Copy selected particle CSV")));
+            drop(inspector);
+            std::fs::remove_file(path).unwrap();
+        }
     }
 }
