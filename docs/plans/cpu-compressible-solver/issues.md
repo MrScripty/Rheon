@@ -1,0 +1,18 @@
+# Findings and deferred work
+
+| ID / severity | Evidence and relation to objective | Owner / boundary | Disposition and verification / revisit trigger |
+| --- | --- | --- | --- |
+| CPU-COMP-1 / high | Main has no native Euler thermodynamic owner; research LLF/Lean identities do not provide it | S1 numerical owner | Fix in S1; native C1/C2 evidence. No solver capability claimed by plan |
+| CPU-COMP-2 / high | `cfl_density_positive` concerns a donor-density definition, not Rusanov Euler; endpoint speed labels do not establish invariant domain | numerical/proof owners | Runtime admissibility/rollback in S1; defer method-specific positivity theorem to S2; revisit on flux/CFL/reconstruction/domain change |
+| CPU-COMP-3 / high | Current collision/reduced obstacle/plate models omit arbitrary swept fluid topology; no validated submarine/aircraft result | geometry/physics owner | Deferred: design vehicle gates; revisit before arbitrary CAD, moving bodies or vehicle advertising |
+| CPU-COMP-4 / medium | Open PR69 b1acf2e and PR71 ecfc741 own archive and exact selected inspection; not integrated main | recording integration owner | Defer S4 until owner disposition; re-read current contracts, then real record/cold reload/UI proof |
+| CPU-COMP-5 / high | Existing dense3D v2 capture is fixed transport; verified arbitrary compressible Tuldok consumer unavailable in this checkout | producer/Tuldok owners | Defer S5 contract/schema; smallest real native→consumer path before generation; revisit when consumer source and accepted contract identified |
+| CPU-COMP-6 / high | Native source admission pins intentionally bind broader crate inputs; implementation changes will invalidate old receipts | book integration owner | Preserve gate; future reviewed inventory + fresh committed-source native/rational/publication evidence; revisit before publishing implementation claims |
+| CPU-COMP-7 / medium | No hardware/error budget or physical benchmark fixes vehicle real-time/accuracy target | benchmark/physics owners | No speed/vehicle acceptance claim; freeze workload, data license/regime/uncertainty and independent oracles before promotion |
+| CPU-COMP-8 / medium | Pending archive config Debug text is opaque, not a reproducible project codec/checkpoint | producer/API/recording owners | S5 needs complete controls/EOS/boundary/source capture and independently verified consumer; archive remains inspection only |
+| CPU-COMP-9 / medium | f64 does not eliminate high-Mach internal-energy cancellation or low-Mach LLF damping | numerical owner | Negative conditioning tests S1; Mach/refinement regimes S2; new dual-energy/all-speed design requires re-plan |
+
+No systemic defect is repaired by this documentation change. The future shared
+geometry/field/control invariant families are explicitly scoped in design; a
+discovered repeated authority/consumer defect requires the standards' systemic
+finding audit before local patches resume.
