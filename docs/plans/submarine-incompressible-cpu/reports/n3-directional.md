@@ -45,7 +45,7 @@ One dense matrix per solve, unchanged native 4096 cap and 256 MiB exporter retai
 
 ## Execution evidence
 
-Pending implementation and independent source/capture review. No directional trend or continuum acceptance is asserted at admission.
+At admission, implementation and source/capture review were pending and no trend was asserted. The frozen implementation and complete ten-case diagnostic now pass separate source review and independent cold recheck; [draft PR83](https://github.com/MrScripty/Rheon/pull/83) awaits parent disposition. Full N3–N7 remain pending.
 
 Pre-capture supporting checks: original 13 Rust contracts pass (61.58 s); original 31 Python tests pass normal (10.373 s) and optimized (10.121 s); strict core-only exporter Clippy and formatting pass. Independent fixture/exporter admission review passes: baseline controls remain exact copies, refinements change only counts/spacings, and geometry-derived DOF enumeration confirms the table. New fixture SHA256 is `06889b4dc2c059a8d1d10f7d9805f2506e5e2a59da95c4f9ac47fe56d3afc992`; exporter SHA256 is `229287012e30d454ccfc6c160db6d2cdf783da36c43c27275c76b54e2b7c897b`. These supporting checks do not prove native refinement execution.
 
@@ -53,11 +53,11 @@ Reproduction uses the pinned scientific source commit recorded below after captu
 
 ```sh
 python3 validation/submarine/directional.py capture \
-  --source FULL_SOURCE_COMMIT \
+  --source 4b98877039a9e5d4b73620337e9f21e573b6db4b \
   --fixtures-sha256 06889b4dc2c059a8d1d10f7d9805f2506e5e2a59da95c4f9ac47fe56d3afc992 \
   --output FRESH_ABSOLUTE_OUTSIDE_CAPTURE
 python3 validation/submarine/directional.py recheck \
-  --source FULL_SOURCE_COMMIT \
+  --source 4b98877039a9e5d4b73620337e9f21e573b6db4b \
   --fixtures-sha256 06889b4dc2c059a8d1d10f7d9805f2506e5e2a59da95c4f9ac47fe56d3afc992 \
   --capture ORIGINAL_CAPTURE --origin-sha256 EXTERNALLY_SUPPLIED_ORIGIN_SHA256 \
   --output FRESH_ABSOLUTE_OUTSIDE_RECHECK
@@ -65,4 +65,56 @@ python3 validation/submarine/directional.py recheck \
 
 Use Rust 1.92.0 and the environment expected by the existing provenance runner. The capture command supplies a candidate origin digest; a separate executor supplies that observed digest to the cold recheck. Neither step authenticates remote execution or implies parent signature/authority. All six validator/study input files must match their bytes at the selected source; later report-only commits do not relabel the original capture.
 
-Settled source-boundary independent review passes. Wrapper SHA256 `c9bd70ac8234821f16f47aab27a8468eaf37d44b1672974797ed9218a79bbdad`, focused-test SHA256 `160246dfcc32b356ad50a04c64542e8b3f071ea3545d52d59c577103790ed2b8`; nine focused tests independently pass (0.144 s), full 40 normal (9.515 s) and optimized (9.563 s) pass. The nested unsigned-integrity wording was reviewed directly; no assurance-specific test is claimed. Default core/oracle/runner/fixture/native contract hashes remain the accepted I1 bytes. This source freeze precedes native execution; capture and diagnostic acceptance are still pending.
+Settled source-boundary independent review passes. Wrapper SHA256 `c9bd70ac8234821f16f47aab27a8468eaf37d44b1672974797ed9218a79bbdad`, focused-test SHA256 `160246dfcc32b356ad50a04c64542e8b3f071ea3545d52d59c577103790ed2b8`; nine focused tests independently pass (0.144 s), full 40 normal (9.515 s) and optimized (9.563 s) pass. The nested unsigned-integrity wording was reviewed directly; no assurance-specific test is claimed. Default core/oracle/runner/fixture/native contract hashes remain the accepted I1 bytes. At that source-freeze checkpoint, native execution and diagnostic acceptance were pending.
+
+
+### Actual frozen execution and review
+
+Scientific source `4b98877039a9e5d4b73620337e9f21e573b6db4b`, tree `59d2b29e1251a099045afcab112ec90f697c9bcc`, is the exact clean archive build/execution subject. Later report-only commits preserve its code and do not relabel these captures.
+
+| Subject | Path / SHA256 |
+| --- | --- |
+| Terminal completed origin; ten outputs, 13 successful commands | `/tmp/rheon-n3-directional-4b98877/origin.json`; `ebc1a18974cfd2be96bc4887583b751f338a8c343757be0d188942d33d262993` |
+| Exact Git archive | `/tmp/rheon-n3-directional-4b98877/source.tar`; `96550badde849dc36f3ae7fabaab8594e3cb8a3e1cbbf92617a61a7ad3f89d78` |
+| Actual release executable, 1,138,832 bytes | `/tmp/rheon-n3-directional-4b98877/target/release/examples/submarine_stokes`; `51aac36d1491e6fc633ab486efb6df1fbfc41141fcaac2ad3a767467a2da9e7e` |
+| Original capture assessment | `/tmp/rheon-n3-directional-4b98877/assessment.json`; `f571fe13522f1ea9fa81e27eb7d6e95a576265e068f5da23daf6a441fb34afdd` |
+| Wrapper source-binding envelope | `/tmp/rheon-n3-directional-4b98877/directional-capture.json`; `9708a606df8177102908c8aedaa3a619d73f6392f0554d6162c16a6ddac7fc2e` |
+| Independent cold-process study | `/tmp/rheon-n3-independent-recheck-4b98877/directional-study.json`; `e0ca9c89fd980982b129222912f5c6e9dbf68040d103ccb159c4989bf895119d` |
+
+Independent reviewer verified all 1,137 extracted tracked files against the archive, source/tree/archive/executable/stream/output bindings, all ten unchanged-oracle assessments (exactly matching the original capture assessment), and all 34 constitutive controls per record. The maximum momentum defect is `2.3036273316486455e-16 N`; maximum physical cell divergence is `1.5411120730252081e-15 /s`. Every original scale/operation-based gate remains unchanged. Maximum retained solver payload is 65,327,772 bytes; maximum raw record is 1,171,782 bytes, within the unchanged 256 MiB/16 MiB caps. These are retained-payload/record bounds, not RSS or speed certification.
+
+After the ten-run family completed, a separate manual default-exporter regression used the same captured executable once with original fixtures and once with a whitespace-tampered fixture. Original `tiny-straight` raw record is byte-identical to the retained d7a3c01 original capture, SHA256 `6e9bae2d99af34a235644714e76b01a42b0d73db2cd443a02ffefe90fab07274`; tampering returns 2 before output creation. Evidence `/tmp/rheon-n3-default-compat-4b98877/proof.json`, SHA256 `84cacd972469f4e2c99d70c80aa013eabd3e2b14099facd438f8de836a60e7ab`. This is a focused default-admission regression, not a new full original-suite capture; earlier I1 origins and raw pending assessment templates remain unchanged.
+
+### Actual directional findings
+
+Stream components in N; forces are fluid-on-body with the original convention. Full vectors, moments, all raw fields/traces/reactions, per-case residuals/pivots/resources and descriptive series are retained in the pinned records/study.
+
+| Straight grid | Physical pressure | Physical shear | Algebraic total | Absolute gap / F_ref | Relative gap (%) |
+| --- | --- | --- | --- | --- | --- |
+| baseline | −0.01353017931 | −0.08394639597 | −0.09124856246 | 0.6228012825 | 6.825327059 |
+| X medium | −0.01872723956 | −0.08274036599 | −0.08800419177 | 1.3463413780 | 15.298605111 |
+| X fine | −0.02264423910 | −0.07955893840 | −0.08714439999 | 1.5058777515 | 17.280258418 |
+| Y medium | −0.01445946658 | −0.09197425806 | −0.10325971702 | 0.3174007630 | 3.073810119 |
+| Y fine | −0.01475842308 | −0.09290211811 | −0.10763697615 | 0.0023565042 | 0.021893073 |
+
+The Y-fine stream discrepancy is `2.356504151732053e-5 N`, locally below the unchanged `5e-5 N` component target. X-fine disagrees more than the retained baseline. A locally small net discrepancy can include cancellation of reconstruction errors and cannot certify continuum accuracy, all-direction fine-grid qualification, domain independence, or V05/full N3 acceptance.
+
+Actual manufactured volume-weighted L2 norms below are unnormalized integral norms (velocity units `(m/s)*m^(3/2)`, pressure units `Pa*m^(3/2)`), not dimensionless errors or error uncertainty bounds.
+
+| MMS grid | Velocity L2 | Pressure L2 |
+| --- | --- | --- |
+| baseline | 2.52605341465863e-8 | 2.3611373596309016e-7 |
+| X medium | 3.598443388765919e-8 | 9.094777354853161e-7 |
+| X fine | 3.82353377581845e-8 | 2.3077607250268064e-6 |
+| Y medium | 2.233778617410216e-8 | 5.147953346733589e-7 |
+| Y fine | 2.3855988774536352e-8 | 1.5511434543814682e-6 |
+
+Pressure errors worsen in both directional families. X velocity error increases; Y velocity error is nonmonotone. The machine-reported X velocity increment-fit `p=2.252253286616018` fits contracting increments while the error values increase; it does not establish a limiting value and is **not** method accuracy order or error convergence toward zero. No V07 or full spatial uncertainty pass follows. These observations require further operator/coupled-family investigation; their cause is not established by this diagnostic.
+
+The scalar order-resolution heuristic is `4096*epsilon*sum(abs(three QoIs))`, with no unit floor. It does not bound cancellation in gross pressure/shear/wall sums or reference/iterative errors. Exclude symmetry-zero transverse forces, centroid moments and unresolved near-zero components from physical accuracy/order inference even if a descriptive machine field has positive order. Report all raw values and classifications, and do not replace or filter failed trends. No extrapolation/GCI or statistical confidence interval is supplied. Z/coupled/domain/geometry/model uncertainty remains unresolved; steady time discretization is N/A. This is numerical verification, not experiment validation or engineering qualification.
+
+Independent GPT-6.1 Sol High source and cold numerical review returns PASS for this bounded diagnostic evidence only. N3–N7, downstream force feedback, moving/ascent capability, experiment rights/model matching and production/Tuldok promotion remain pending.
+
+### CI and delivery boundary
+
+At scientific source `4b988770`, [Rust CI38614284984](https://github.com/MrScripty/Rheon/actions/runs/38614284984) is terminal success, including all three feature profiles, strict Clippy/core dependencies and executable contracts. [Push scope38614240330](https://github.com/MrScripty/Rheon/actions/runs/38614240330) and [PR scope38614284594](https://github.com/MrScripty/Rheon/actions/runs/38614284594) are terminal success. Later documentation-only head checks are tracked separately; these executions keep their original source identities. No source/scientific input changed after the capture. Draft PR83 remains unmerged; no tags, merges, force pushes or cleanup occur.

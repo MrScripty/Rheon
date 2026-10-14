@@ -1,8 +1,8 @@
 # Submerged forward/ascent incompressible CPU implementation plan
 
 **Plan status:** `Active` for the remaining submarine objective; bounded I1 discrete verification is parent-accepted and integrated.
-**Current phase:** bounded N3 directional diagnostic, admitted after the merged I1 acceptance checkpoint.
-**Next slice:** implement and independently reproduce the fixed-domain X/Y directional native refinement diagnostic in [N3 directional scope](reports/n3-directional.md). Full N3 and I2–I7 remain prospective; no further solver work is admitted.
+**Current phase:** bounded N3 directional diagnostic implemented and independently cold-verified; draft PR83 awaits parent review.
+**Next slice:** parent review and disposition of [draft PR83](https://github.com/MrScripty/Rheon/pull/83) and its [directional evidence](reports/n3-directional.md), before admitting a coupled refinement/resource route. Full N3 and I2–I7 remain prospective; no further solver work is admitted.
 **Acceptance status:** `partial`: N1/N2 satisfied (`Accepted`) for the tiny fixed aligned-body steady creeping-Stokes discrete boundary only. N3–N7 remain pending, including continuum force/mesh/domain convergence and experiment rights/model/uncertainty. No full-submarine, moving/ascent, turbulence, ingestion or recording/Tuldok promotion follows.
 **Canonical identity:** `docs/plans/submarine-incompressible-cpu/plan.md`.
 **Owner/integration owner:** delegated planning lead `/root`; parent owns implementation admission, PR disposition and eventual integration. [Ledger](execution-ledger.md), [issues](issues.md).
