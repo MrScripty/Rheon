@@ -1,10 +1,10 @@
 # Plan-delivery verification
 
-This report qualifies a documentation-only plan. Numerical implementation
-acceptance in `plan.md` is blocked. Parent has started S1 separately; this
-planning branch contains no solver implementation or acceptance evidence.
-S1 numerical acceptance is currently blocked by the original acoustic study;
-the prospective resolution revision requires fresh independently verified runs.
+This report preserves historical documentation-only plan delivery. Pending states
+below describe their original observations. The subsequent parent-authorized
+[release baseline](release-baseline.md) records bounded S1/C1/C2 acceptance after
+independent native/public API and complete combined-source qualification. Original
+coarse-study failures remain failed. Other roadmap domains stay unaccepted.
 
 ## Delivery claims
 

@@ -1,118 +1,136 @@
-# Recording and periodic S1 integration
+# Plan: recording and periodic S1 integration
 
-Status: Active. Current phase: clean-source qualification of reviewed composition.
-Next slice: publish draft and observe full exact-head CI; native-window gate pending.
-Acceptance: pending, separate domains below; draft-only delivery before qualification.
-Ledger: [execution-ledger](execution-ledger.md); [issues](issues.md).
+**Plan status:** `Verifying`
 
-## Authority and admitted state
+**Current phase:** qualified source integrated; checkpoint/evidence handoff
 
-User delegated sole serial integration ownership, ongoing development, ready merges
-and qualified book publication. No component/main merge before required gates pass.
-Private trial composition is reviewable candidate preparation, not authoritative
-component acceptance. Preserve all component refs, failures and immutable receipts.
-Main admitted06eb5daee9e77e2b0843a5ee0a4105f6950e9b1b; canonical prospective plan
-fc2270a85e38080d9943048aaf689d99545d3715 (merged via PR75). Compare heads again before
-shared-authority mutation and every eventual merge. Moving heads require renewed
-admission and source comparison, not automatic latest selection/rebase.
+**Next slice:** final metadata-only checkpoint-document checks and ready-PR disposition
 
-Pinned proposals: recording69 b1acf2e514b88b528cf43e873035a598a1080ae1; carrier/cold71
-ecfc741af733f909c79170530080a98fdc5c78eb; validation73
-27193c77b173a7437494584438847fedc8ecf552; S1-74
-5a049ed604b99817a428d10bbc0140732d3421d6. S1 owner finalizing A/C and final review;
-prospective exported-field B/D/E/F/G receipt is independent, not substitute A/C.
-Source pins are reviewed admission inputs, not numerical/publication receipts.
-Fresh parent handoff admits PR74 final documentation head
-a0efbc1aaf67bb65a724de028d4a773270977875. Native qualified subject5a049ed is
-unchanged; A/C independent evidence is supplied alongside B/D/E/F/G. Trial merge
-c29cb2a retains this source-identical update. Canonical checkpoint disposition is
-separate parent/planning authority; this plan does not overwrite that lifecycle.
+**Acceptance status:** `partial`
 
-## Standards, scope and constraints
+**Execution ledger:** [execution-ledger.md](execution-ledger.md)
 
-Coding-Standards188beda1fa477d21d576c233dd8c7f4c4c267d23 Core/Router and planning,
-discovery, implementation, build, verification/oracles/GUI, commit/documentation,
-library/persistence/Rust/API/security/dependencies and architecture/contracts/
-concurrency/resilience/performance/licensing/cross-platform owners apply.
+**Issues:** [issues.md](issues.md)
+
+## Objective
+
+Compose reviewed recording, carrier inspection, independent validation and periodic
+S1 proposals on reviewed main without changing their refs or losing history.
+Qualify the actual combined source before authoritative integration. Parent
+assigns sole serial integration ownership, ready merges and qualified book
+publication; the continuation authorizes the canonical S1 checkpoint only after
+combined-source gates pass. No S2 or later implementation starts here.
+
+Original admitted main is `06eb5daee9e77e2b0843a5ee0a4105f6950e9b1b`; prospective
+plan is `fc2270a85e38080d9943048aaf689d99545d3715`. Pinned proposals: recording69
+`b1acf2e514b88b528cf43e873035a598a1080ae1`, carrier71
+`ecfc741af733f909c79170530080a98fdc5c78eb`, validation73
+`27193c77b173a7437494584438847fedc8ecf552`, native74 numerical subject
+`5a049ed604b99817a428d10bbc0140732d3421d6` and documentation-only final handoff
+`a0efbc1aaf67bb65a724de028d4a773270977875`. Trial merges preserve every ancestor.
+Compare current authority/OIDs before shared writes and merge. Moving heads need
+source comparison and fresh admission, never automatic latest selection or rebase.
+
+## Objective Acceptance
+
+| ID | Observable criterion | Kind | Environment | Mode | Status | Evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| R | Material/carrier accepted-step durability, precise historical/cold selection/export, limits/integrity/crash/failure disclosure and actual native reopen/select/export | contract + user-workflow | CPU; required-real native window, software rendering sufficient for functionality | either | satisfied | [Focused checks](reports/verification.md); [Native software display](reports/native-display.md) |
+| C | Periodic first-order ideal-gas S1 public API/rollback and actual prospective fields meet unchanged gates; original coarse failures stay failed | contract + numerical integration | pinned Rust CPU/NumPy | automated | satisfied | [Native handoff](../cpu-compressible-solver/reports/implementation.md); [fresh capture](reports/verification.md) |
+| B | Complete source review, preserved historical inventories, fresh clean native/rational/packet and full final-head book/browser/runtime qualification | contract + numerical integration + system | CPU; required-real hosted Chromium/book build | automated | satisfied | [Admission review](../../education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md); full run38532464608/job115747322162 passed on4bcdb7f |
+| D | Reviewed plan, exact-head terminal CI and gate-qualified PR disposition preserve refs/authority, with checkpoint and limitations recorded | release-artifact + contract | required-real GitHub | either | pending | [PR76](https://github.com/MrScripty/Rheon/pull/76) merged58d647d; metadata follow-up disposition pending |
+
+## Scope and constraints
+
+Coding-Standards `188beda1fa477d21d576c233dd8c7f4c4c267d23` Core/Router,
+planning/discovery, implementation/build/verification/oracles/GUI, commit/docs,
+Rust/API/library/persistence, security/dependencies/licensing and architecture/
+contracts/concurrency/resilience/performance/cross-platform owners apply.
 Concurrent-plan-integration applies to outstanding proposals and intervening
-canonical plan/shared-export changes. Explicit Git OIDs are supported revision
-mechanism. Sole actor: this integration task; other workers own their branch proposals.
-All reviews/workers Sol High. No S2, numerical method/gate relaxation, compressible
-recording/session/UI S4, GPU/remote/training/surrogate/vehicle scope expansion.
+canonical-plan/shared-export changes; explicit Git OIDs are the revision mechanism.
+All workers/reviews use GPT-6.1 Sol High. No full Engine certificate.
 
-## Separate acceptance contracts
+No S2, S4 compressible session/recording adapter, new physics, GPU, remote,
+training/surrogate/vehicle work, numerical gate relaxation, universal-field or
+restart claim. Software display functionality is separate from hardware/frame-time/
+RSS/performance evidence. Generated outputs stay external.
 
-R: material/carrier accepted recording, exact historical/cold selection/export,
-transaction/integrity/limits/failure disclosure pass integrated focused tests and
-source-aware review. Native-window smoke requires supported display; headless UI
-is independent evidence. No universal-field or restart claim.
-C: periodic first-order ideal-gas S1 only. A/C public API/rollback from exact native
-owner; B/D/E/F/G actual exported fields from reviewed prospective study. Preserve
-original8/12/20 failures and original criterion. Source-identical reviewed evidence
-may be referenced at its original subject; never relabel old receipts as new source.
-Composition/build/export changes get affected focused checks; truly changed numerical
-subjects require fresh capture/assessment, with explicit original-source comparisons.
-B: deliberate complete source-domain review, separate new admission epoch retaining
-historical inventories, and fresh committed-source native/rational/book qualification
-when its source closure changed. No mechanical hash refresh just to pass early gate.
-D: source-only draft integration PR with exact-head CI/outcomes/blockers; component
-refs protected and no authoritative merge until R/C/B applicable gates qualified.
+## Binding Decisions
 
-## Binding decisions, owners and applicability
+| Decision | Owner | Evidence/consequence | Supersedes |
+| --- | --- | --- | --- |
+| Preserve lineage through isolated trial merges and additive exports | serial integration | Only conflict was src/lib.rs; component source files remain identical | none |
+| Retain newer canonical main plan | parent/integration | Common-ancestor merges preserve fc2270a; compare OIDs before authority changes | stale branch-plan admission |
+| Keep recording, numerics, verifier, source and publication acceptance separate | respective owners | Projection gauge pressure is never EOS pressure; old receipts retain subjects | none |
+| Explicit reviewed v3 epoch; preserve both earlier inventories exactly | integration/education | Full 78-path closure and predecessor/review/committed receipt bindings; no fallback/refresh | earlier epoch's future admission scope only |
+| Minimal standalone lock repair, root-aligned new identities | integration; original validator authority retained | 49 identities/checksums preserved, 22 additions/license texts reviewed | stale combined-graph lock admission |
+| Authenticated official user-space Xvfb and llvmpipe functionality smoke | runtime/integration | Actual native carrier/material cold inspection/export passes; no browser/security/global-install changes | initial missing-display blocker |
+| Canonical S1 checkpoint only after combined-source gates pass | parent delegates integration continuation | S1 only; later numerical milestones remain Deferred | pending checkpoint handoff |
 
-Source/numerical ownership remains separate: recording owns named-field persistence
-and cold selection; S1 owns five conservative Euler components and acceptance; verifier
-owns numerical/origin criteria; canonical plan owns prospective study admission;
-education owns native source inventory and publication receipts. Integration owns
-serial composition, shared src/lib.rs exports, lock compatibility and new epoch
-admission after review. Existing book physical/reference mechanisms stay unchanged.
-No projection pressure is reused as thermodynamic EOS pressure. No S4 adapter added.
+## Simplicity And Ownership Review
 
-Complete architecture probe: (1) concerns/owners above have distinct changes/lifecycles;
-(2) required interleavings are accepted state+time+identity within each publication,
-source hashes+build closure within qualification; model scopes never interleave;
-(3) callers retain existing independent APIs; composition root knows additive exports;
-(4) retention changes recording, EOS changes S1/verifier, admission changes education,
-shared build/export changes integration and affected tests;
-(5) stable contracts connect modules, no hidden vector layout/pressure-policy leakage;
-(6) modules fail/evolve/verify independently, composition is separately qualified;
-(7) deleting integration plan loses gate ownership, deleting archive spreads durability,
-deleting solver loses Euler owner, deleting verifier loses independent actual-field
-oracle; new source epoch is necessary reviewed admission, not a replay engine;
-(8) inherent complexity is bounded state, numerical admission and source identity,
-contained in existing owners; no registry, queue, migration or fallback solver added.
+**Applicability:** `applicable`
 
-## Milestones and write sets
+- Independent concepts and dimensions: recorder persists publications; Euler
+  owner advances conservative contents; verifier owns analytical/origin criteria;
+  education owns admission; UI selects data. Integration owns shared exports/build.
+- State, identity, value, time, policy, and mechanism: accepted state/time/identity
+  publish together within each solver. Evaluation/publication times differ.
+  Retention never selects numerical acceptance; source admission is no receipt.
+- Caller and composition-root knowledge: existing independent APIs stay stable;
+  callers do not reconstruct private layouts or reinterpret pressure policies.
+  Composition root knows additive exports and explicit archive/API contracts.
+- Representative change paths and forced owners: retention changes recorder;
+  EOS/method changes solver/oracle; epoch changes education; shared build/export/
+  checkpoint changes require integration and affected checks.
+- Stable Interfaces versus hidden knowledge: named field/type/unit/association/
+  stage/time carry meaning. No latest substitution, undocumented layout,
+  checkpoint claim or invented absent field crosses a boundary.
+- Independent evolution, testing, failure, and replacement: recorder, solver,
+  verifier and UI verify/fail independently. Recording failure discloses tails;
+  UI read failure invalidates cache. Composition gets clean-source qualification.
+- Necessary complexity and containment: bounded state, numerical admission and
+  identity stay in existing owners. No queue, registry, lease, migration,
+  fallback solver or extra persistence/replay engine is added.
+- Deletion and cumulative machinery result: deleting recording scatters
+  durability; deleting Euler scatters EOS/acceptance; deleting independent
+  verification loses field admission; deleting this plan loses gate ownership.
+  The new epoch is necessary reviewed admission, not a runtime framework.
 
-I1 discovery/trial composition complete. Writes:this plan directory, integration-branch
-merge conflict resolution only for src/lib.rs/shared docs/locks. Admit full unchanged
-component write sets via their reviewed proposals; preserve newer main canonical plan.
-Gate: current OIDs/CI/reviews, exact source diff and explicit stale/conflicting/
-dependency-blocked dispositions, no component ref mutation.
-I2 affected focused numerical/runtime verification and fresh combined-source
-field capture passed. Writes:this plan reports and bounded
-composition repairs in owning source/test/docs, with owner coordination. Gate:R/C
-separately observed, source identity comparisons, affected checks, no S2 scope.
-I3 source/book admission reviewed; fresh clean native/rational/packet passed;
-full final-head book/runtime qualification pending. Writes: new education inventory,
-explicit epoch selector/tests/contracts and this plan; historical inventories retained.
-Gate: full source review then clean committed fresh native/rational/book qualification.
-I4 draft delivery/CI pending qualification commit. Writes: plan/evidence and own feature ref/PR.
-Gate: exact-head outcome reporting, explicit display/source gates, protected refs.
+## Milestones
 
-## Initial classifications and blockers
+| Slice/state | Goal and bounded write set | Preserved semantics and gate | Re-plan trigger |
+| --- | --- | --- | --- |
+| I1 / Accepted | Discover/trial-compose pinned proposals; own plan and lib.rs conflict | Original refs/history/current plan preserved; compatible outcomes reviewed | Changed OID, overlap or missing authority |
+| I2 / Accepted | Affected recording/S1/UI tests, bounded composition repair and reports | Contracts, source-pinned S1/primitive capture and independent native software smoke pass | Numerical mismatch, stale value or unsupported display |
+| I3 / Accepted | Explicit education epoch/tests/review and fresh complete qualification | Old inventories retained; native/rational/packet and full hosted runtime/book passed | Changed closure, stale receipt or gate failure |
+| I4 / Verifying | Own ref/PR/evidence and authorized canonical checkpoint after I3 | Full final-head terminal results/current authority comparison; gate-qualified disposition | Main/component change, unavailable gate or conflicting writer |
 
-Recording proposals compatible numerically; book required gate dependency-blocked.
-Validation proposal compatible new files; dense CI does not certify S1 numerical run.
-S1 final A/C review and actual prospective B/D/E/F/G evidence pass at their
-original source subjects. Authoritative integration/publication remains
-dependency-blocked on combined-source book/runtime gates and checkpoint disposition.
-Older branch plan trees are stale relative to reviewed main fc2270a; preserve current
-canonical plan and record fresh admission from user rather than overwrite it.
-Native display unavailable in current environment; cold window smoke pending.
-Independent composition review found one stale nested validation lock. Repair retains
-49 prior identities/checksums and adds22 required identities matching reviewed root.
-Full 78-path native closure and explicit v3 protocol were independently reviewed;
-historical inventories stay byte-identical. New source epoch admits a qualification
-attempt, never a pass. Plan/runtime/source/book acceptance remain separate; no
-authoritative merge/publication while unqualified.
+## Blockers
+
+Full book and all 18 checks passed at4bcdb7f before standard PR76 merge. Native
+functionality passes independently reviewed software display smoke. An early
+harness XDestroyWindow exposed a winit panic; normal WM_DELETE_WINDOW closes
+successfully. Arbitrary external window/server loss resilience is unclaimed.
+
+Original 8/12/20 acoustic failure remains failed. C1/C2/S1 evidence does not
+accept later roadmap claims, S4 recording adapter or vehicle accuracy. Canonical
+checkpoint is now recorded after B. Only metadata follow-up review/scoped CI and
+disposition remain in this task; main publication pipeline is separately observed.
+
+## Re-Plan Triggers
+
+Changed main/component/plan authority; unsupported/conflicting writes; changed
+EOS/method/study/controls/threshold; new dependency/license issue; unexpected
+source/publication failure; changed retention/interface promise; unavailable
+required observation. Repair within authorization and preserve original evidence.
+
+## Final Acceptance
+
+R/C/B are satisfied for their bounded domains. PR76 merged after all required
+gates passed; the canonical S1 release checkpoint is recorded. D remains pending
+metadata-only follow-up checks/disposition. Main publication success is not yet claimed.
+No component ref or user work is deleted; old failed contexts remain truthful.
+
+- Acceptance status: `partial`
+- Final status: `Verifying`
