@@ -13,6 +13,9 @@ const MAX_RECORD_BYTES: usize = 16 * 1024 * 1024;
 const PAYLOAD_LIMIT: usize = 256 * 1024 * 1024;
 // Parent-admitted v2 fixtures from validator dedf04fb0d094064f5a163a4f7b78e7237e4438f.
 const FIXTURES_SHA256: &str = "3762540394238820ad47ca7ce4f8fc5b140e11abc0d52458a2451a4fe588f160";
+// Separate fixed-domain directional diagnostic; the accepted default stays pinned above.
+const DIRECTIONAL_FIXTURES_SHA256: &str =
+    "06889b4dc2c059a8d1d10f7d9805f2506e5e2a59da95c4f9ac47fe56d3afc992";
 
 type Result<T> = std::result::Result<T, Box<dyn Error>>;
 
@@ -109,7 +112,7 @@ fn gradients(value: &Value) -> Result<[[f64; 3]; 3]> {
     Ok([triple(&v[0])?, triple(&v[1])?, triple(&v[2])?])
 }
 
-fn admitted_fixtures(path: &Path) -> Result<Value> {
+fn admitted_fixtures(path: &Path) -> Result<(Value, &'static str)> {
     let mut file = fs::File::open(path)?;
     use std::io::Read;
     let mut bytes = Vec::new();
@@ -119,19 +122,25 @@ fn admitted_fixtures(path: &Path) -> Result<Value> {
     if bytes.len() > MAX_RECORD_BYTES {
         return Err("fixture exceeds bounded input cap".into());
     }
-    if hash(&bytes) != FIXTURES_SHA256 {
-        return Err("fixture bytes do not match the admitted corrected sector contract".into());
-    }
+    let (digest, status) = match hash(&bytes).as_str() {
+        FIXTURES_SHA256 => (
+            FIXTURES_SHA256,
+            "parent-admitted-sector-correction-native-qualification-pending",
+        ),
+        DIRECTIONAL_FIXTURES_SHA256 => (
+            DIRECTIONAL_FIXTURES_SHA256,
+            "reviewed-directional-n3-diagnostic",
+        ),
+        _ => return Err("fixture bytes do not match either admitted sector contract".into()),
+    };
     let fixture: Value = from_slice(&bytes)?;
     if member(&fixture, "schema")?.as_str() != Some("rheon-submarine-i1-fixtures-v2") {
         return Err("unsupported fixture schema".into());
     }
-    if member(&fixture, "contract_status")?.as_str()
-        != Some("parent-admitted-sector-correction-native-qualification-pending")
-    {
-        return Err("fixture profile lacks parent admission".into());
+    if member(&fixture, "contract_status")?.as_str() != Some(status) {
+        return Err("fixture profile lacks matching admission".into());
     }
-    Ok(fixture)
+    Ok((fixture, digest))
 }
 
 fn write_record(path: &Path, value: &Value) -> Result<()> {
@@ -180,7 +189,8 @@ fn run() -> Result<()> {
             _ => return Err("unknown or duplicate CLI option".into()),
         }
     }
-    let fixtures = admitted_fixtures(Path::new(&fixtures.ok_or("--fixtures is required")?))?;
+    let (fixtures, fixtures_digest) =
+        admitted_fixtures(Path::new(&fixtures.ok_or("--fixtures is required")?))?;
     let case = case.ok_or("--case is required")?;
     let output = output.ok_or("--output is required")?;
     let fixture = member(member(&fixtures, "cases")?, &case)?;
@@ -216,7 +226,7 @@ fn run() -> Result<()> {
     }
     let output = parent.join(name);
     fs::create_dir(&output)?;
-    let record = capture(&case, fixture, &fixtures)?;
+    let record = capture(&case, fixture, &fixtures, fixtures_digest)?;
     write_record(&output.join("record.json"), &record)?;
     println!("accepted native steady solve 1: {case}");
     Ok(())
@@ -394,7 +404,7 @@ fn physical_loads(loads: &stokes::Loads) -> Value {
     ])
 }
 
-fn capture(case: &str, fixture: &Value, fixtures: &Value) -> Result<Value> {
+fn capture(case: &str, fixture: &Value, fixtures: &Value, fixtures_digest: &str) -> Result<Value> {
     let config = config(fixture)?;
     let geometry_owner = obstacle(config)?;
     let mut solver = stokes::Solver::new(config, geometry_owner.as_ref())?;
@@ -469,7 +479,7 @@ fn capture(case: &str, fixture: &Value, fixtures: &Value) -> Result<Value> {
         ("schema", text("rheon-submarine-i1-mac-v2")),
         ("operator_profile", text(stokes::CORNER_RULE)),
         ("fixture_id", text(case)),
-        ("fixtures_sha256", text(FIXTURES_SHA256)),
+        ("fixtures_sha256", text(fixtures_digest)),
         ("controls", fixture.clone()),
         (
             "discretization",
