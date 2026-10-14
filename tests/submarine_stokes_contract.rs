@@ -356,6 +356,13 @@ fn tiny_body_solves_nonzero_drag_and_reversal_without_heap_growth() {
     assert!(s.report.dissipation > 0.0);
     assert!(s.report.min_scaled_pivot >= 1e-12);
     assert!(s.loads.pressure_force[0] + s.loads.shear_force[0] < 0.0);
+    // Body load is fluid-on-body; outer load is boundary-on-fluid. In this
+    // unforced steady fixture their vectors agree by global momentum balance.
+    assert!(s.loads.body_force[0] < 0.0);
+    for a in 0..3 {
+        close(s.loads.outer_force[a], s.loads.body_force[a], 0.01);
+        close(s.loads.outer_moment[a], s.loads.body_moment[a], 0.01);
+    }
     for t in &s.body_traces {
         assert_eq!(t.velocity, [0.0; 3]);
     }
@@ -434,4 +441,50 @@ fn partial_wall_reconstruction_and_precommit_cancel_preserve_body_publication() 
         assert_eq!(accepted.request, prior);
         assert_eq!(solver.allocated_bytes(), payload);
     }
+}
+
+#[test]
+fn tiny_mms_small_velocity_satisfies_physical_budgets_with_large_pressure() {
+    let config = tiny();
+    let geometry = owner(config);
+    let mut solver = Solver::new(config, Some(&geometry)).unwrap();
+    let payload = solver.allocated_bytes();
+    let req = Request {
+        boundary: AnalyticField::PolynomialMms {
+            amplitude: 0.0001,
+            pressure_linear: [1.0, 2.0, -3.0],
+            pressure_quadratic: [1.0, -1.0, 0.5],
+        },
+        ..request([0.0; 3])
+    };
+    let accepted = solver.solve(req, |_, _| false).unwrap();
+    assert_eq!(accepted.report.actual_dofs, 669);
+    assert!(accepted.report.max_residual_ratio <= 1.0);
+    assert!(accepted.report.dissipation > 0.0);
+    assert!(accepted.face_fields[0].iter().any(|u| u.abs() > 1e-8));
+    let before = bits(accepted);
+    let prior_report = accepted.report;
+    let prior_loads = accepted.loads;
+    let mut factor_starts = 0;
+    let refused = solver.solve(req, |stage, index| {
+        if stage == Stage::Factorization && index == 0 {
+            factor_starts += 1;
+        }
+        // Initial factorization has an entry and a k=0 checkpoint; this
+        // checkpoint is reached only when a correction factorization starts.
+        factor_starts == 3
+    });
+    assert!(matches!(
+        refused,
+        Err(Error::Cancelled {
+            stage: Stage::Factorization,
+            index: 0
+        })
+    ));
+    let retained = solver.accepted().unwrap();
+    assert_eq!(bits(retained), before);
+    assert_eq!(retained.report, prior_report);
+    assert_eq!(retained.loads, prior_loads);
+    assert_eq!(retained.request, req);
+    assert_eq!(solver.allocated_bytes(), payload);
 }

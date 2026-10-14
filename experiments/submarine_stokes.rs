@@ -15,6 +15,8 @@ use std::{fmt, mem::size_of};
 pub const MAX_DOFS: usize = 4096;
 pub const PIVOT_FLOOR: f64 = 1e-12;
 pub const RESIDUAL_FACTOR: f64 = 4096.0 * f64::EPSILON;
+/// At most four correction solves after the initial solve, reusing all buffers.
+pub const MAX_REFINEMENT_PASSES: usize = 4;
 pub const CORNER_RULE: &str = "rheon-i1-sector-half-cell-v1";
 const NONE: usize = usize::MAX;
 const AXES: [Axis; 3] = [Axis::X, Axis::Y, Axis::Z];
@@ -169,9 +171,13 @@ pub struct Loads {
     pub shear_force: [f64; 3],
     pub pressure_moment: [f64; 3],
     pub shear_moment: [f64; 3],
+    /// Fluid reaction on the body: minus the functional boundary derivative.
     pub body_force: [f64; 3],
+    /// Force exerted on the fluid by the outer boundary: functional derivative.
     pub outer_force: [f64; 3],
+    /// Fluid reaction moment on the body about the requested reference.
     pub body_moment: [f64; 3],
+    /// Outer boundary moment on the fluid about the requested reference.
     pub outer_moment: [f64; 3],
     pub wall_work: f64,
     pub outer_work: f64,
@@ -1357,28 +1363,41 @@ impl Solver<'_> {
         }
         checkpoint(&mut cancel, Stage::Assembly, 0)?;
         self.assemble(&mut cancel)?;
-        let min_scaled_pivot = self.factor(&mut cancel)?;
+        let mut min_scaled_pivot = self.factor(&mut cancel)?;
         checkpoint(&mut cancel, Stage::Reconstruction, 0)?;
-        for (a, _) in AXES.iter().enumerate() {
-            for face in 0..self.face_masks[a].len() {
-                let variable = self.face_variables[a][face];
-                if variable < self.nv {
-                    let value = self.unknowns[variable];
-                    self.candidate.variable_values[variable] = value;
-                    self.candidate.face_fields[a][face] = value;
-                }
-            }
-        }
-        for cell in 0..self.grid.cell_len() {
-            let pi = self.pressure_unknowns[cell];
-            if pi != NONE {
-                self.candidate.pressure[cell] = self.unknowns[pi];
-            }
-        }
+        self.install_unknowns(false)?;
         // Residuals use the physical sparse functional and every divergence row,
         // independently of the overwritten dense elimination matrix.
         checkpoint(&mut cancel, Stage::Residual, 0)?;
-        self.residuals(&mut cancel)?;
+        for pass in 0..=MAX_REFINEMENT_PASSES {
+            match self.residuals(&mut cancel) {
+                Ok(()) => break,
+                Err(Error::Residual { .. }) if pass < MAX_REFINEMENT_PASSES => {
+                    // Restore the original physical mixed equations, then solve
+                    // A delta = b-A x. Strong pressure/forcing cancellation can
+                    // leave tiny velocities with insufficient local continuity
+                    // precision after one factorization. No acceptance budget
+                    // changes: every corrected candidate passes the same sparse
+                    // physical checks, including the eliminated gauge row.
+                    self.assemble(&mut cancel)?;
+                    for row in 0..self.nd {
+                        checkpoint(&mut cancel, Stage::Assembly, row)?;
+                        let mut residual = self.rhs[row];
+                        for col in 0..self.nd {
+                            let coefficient = self.matrix[row * self.nd + col];
+                            if coefficient != 0.0 {
+                                residual = add(residual, -mul(coefficient, self.unknowns[col])?)?;
+                            }
+                        }
+                        self.rhs[row] = residual;
+                    }
+                    min_scaled_pivot = min_scaled_pivot.min(self.factor(&mut cancel)?);
+                    checkpoint(&mut cancel, Stage::Reconstruction, pass + 1)?;
+                    self.install_unknowns(true)?;
+                }
+                Err(error) => return Err(error),
+            }
+        }
         self.reconstruct_walls(&mut cancel)?;
         checkpoint(&mut cancel, Stage::Loads, 0)?;
         self.loads(&mut cancel)?;
@@ -1392,6 +1411,39 @@ impl Solver<'_> {
         std::mem::swap(&mut self.candidate, &mut self.accepted);
         self.has_accepted = true;
         Ok(&self.accepted)
+    }
+    fn install_unknowns(&mut self, additive: bool) -> Result<(), Error> {
+        for (a, _) in AXES.iter().enumerate() {
+            for face in 0..self.face_masks[a].len() {
+                let variable = self.face_variables[a][face];
+                if variable < self.nv {
+                    let value = if additive {
+                        add(
+                            self.candidate.variable_values[variable],
+                            self.unknowns[variable],
+                        )?
+                    } else {
+                        self.unknowns[variable]
+                    };
+                    self.candidate.variable_values[variable] = value;
+                    self.candidate.face_fields[a][face] = value;
+                    self.unknowns[variable] = value;
+                }
+            }
+        }
+        for cell in 0..self.grid.cell_len() {
+            let pi = self.pressure_unknowns[cell];
+            if pi != NONE {
+                let value = if additive {
+                    add(self.candidate.pressure[cell], self.unknowns[pi])?
+                } else {
+                    self.unknowns[pi]
+                };
+                self.candidate.pressure[cell] = value;
+                self.unknowns[pi] = value;
+            }
+        }
+        Ok(())
     }
     fn assemble(&mut self, cancel: &mut impl FnMut(Stage, usize) -> bool) -> Result<(), Error> {
         let n = self.nd;
@@ -1778,7 +1830,10 @@ impl Solver<'_> {
             checkpoint(cancel, Stage::Loads, i)?;
             let reaction = self.candidate.reactions[i];
             let mut force = [0.0; 3];
-            force[p.component] = -reaction;
+            force[p.component] = match p.owner {
+                Owner::Body => -reaction,
+                Owner::Outer { .. } => reaction,
+            };
             let arm = std::array::from_fn(|a| p.point[a] - reference[a]);
             let moment = cross(arm, force)?;
             let work = mul(reaction, p.value)?;
