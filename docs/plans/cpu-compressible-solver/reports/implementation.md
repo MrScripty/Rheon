@@ -177,3 +177,39 @@ Remaining limits: first-order diffusion/attenuation; tiny periodic fixtures only
 no positivity theorem, arbitrary-scale conservation or unrestricted Mach claim;
 no OOM-killer, hard cancellation latency, speedup or physical vehicle qualification.
 No acceptance state is concealed by this report or by a draft PR.
+
+## Committed capture and delivery
+
+Reviewed native candidate commit:
+`ca8c9361b7725993e080c92b0657fdb53ecd11d8`, tree
+`3768af8702894133a9222ab0211f362795c5860f`. Source checkout was clean before
+attempting the pinned independent capture. The capture commands ran from the
+separate verifier checkout at `4621d69747740a950a90d78755fe3bb4e220efe4`:
+
+```
+python3 tools/verify_compressible.py capture --source-repo /workspace/Rheon \
+  --native-commit ca8c9361b7725993e080c92b0657fdb53ecd11d8 \
+  --output /tmp/rheon-s1-native-ca8c936
+```
+
+Outcome: **refused before any output creation**, exact diagnostic
+`S1 validation failed: origin/output-inside-checkout`. `/tmp/.git` is an empty
+read-only environment sentinel with no HEAD; the pinned verifier tests `.git`
+existence rather than a real checkout. `/workspace/.git` has the same sentinel.
+Neither directory is an actual ancestor checkout of the proposed fresh run.
+This is an independent-validator environment/path-admission blocker. No sentinel
+or verifier file was altered and no weaker origin check was substituted.
+
+A fresh external-storage alternative was attempted with a narrowly granted
+additional write path `/var/tmp/rheon-s1-native-ca8c936`. It failed before output
+creation: `S1 validation failed: [Errno 30] Read-only file system:
+'/var/tmp/rheon-s1-native-ca8c936'`. This is an environment capability failure,
+not an automatic approval denial. `/dev/shm` is also mounted read-only. No
+origin manifest exists, and no source/executable/artifact origin pin is claimed.
+The exact operation is pending a validator-owned compatible path check or a
+writable external storage environment; the candidate/fields and reviewed refs
+are preserved. Numerical S1 qualification still separately requires disposition
+of the Sod initial-oracle arithmetic and acoustic order failure above.
+
+No auto-review approval rejection occurred. The failed capture outcome is known
+not to have created the output; no uncertain remote mutation is pending.
