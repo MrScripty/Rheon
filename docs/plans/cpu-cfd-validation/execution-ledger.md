@@ -88,3 +88,13 @@ Actual acoustic order 0.5614384 is reproduced as 0.5614385 by the independent
 linearized LLF symbol. Documented causal cell-average/resolution evidence and a
 prospective 16/24/32 heuristic requiring parent admission. No threshold, native
 fixture, solver or exporter edit; no acceptance/source admission refreshed.
+
+Committed/pushed the narrow oracle repair and causal report as
+6454acf79279330eb01aaee568f1d347688c84f5. Fresh tracked-only capture of native
+1b62ae3 built and ran, then failed exactly acoustic/order-below-0.6. Origin
+e7c098d13eb19fcc54abb37436c0f0e0ffc7e851cd30487e0a590a712c1866a7 and
+failed assessment are retained in /tmp/rheon-s1-1b62ae3-6454acf-sod-fixed.
+Read-only externally pinned verify repeated that failure. Original aea43a5
+Sod failure remains untouched. Both dense3D hosted workflows passed at 6454acf;
+they do not execute S1. No open bounded review findings. Plan is Blocked pending
+parent prospective replan admission; no numerical acceptance or release tag.

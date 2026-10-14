@@ -75,8 +75,13 @@ independently reproduced by a linearized Fourier model. No accepted S1 receipt.
 See [exact-source diagnosis](native-s1-diagnosis.md) for actual metrics, proposed
 parent replan, preserved evidence and executable diagnostic source.
 
-**Pending, not denied:** fresh capture at a clean corrected-verifier pin, then
-parent admission of a principled resolution/method revision before A6 acceptance.
+Fresh clean-verifier 6454acf capture and externally pinned read-only verify both
+failed `acoustic/order-below-0.6`; origin SHA-256 is
+`e7c098d13eb19fcc54abb37436c0f0e0ffc7e851cd30487e0a590a712c1866a7`.
+Both failed runs are retained unchanged.
+
+**Pending, not denied:** parent admission of a principled prospective
+resolution/method revision before A6 acceptance.
 S1-A/C remain the solver worker's public Rust API/rollback checks. Parent owns
 checkpoint integration. No native source/exporter/core was changed here.
 

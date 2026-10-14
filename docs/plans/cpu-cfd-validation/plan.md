@@ -1,8 +1,8 @@
 # Independent CPU CFD validation
 
-**Plan status:** `Active`
-**Current phase:** corrected Sod oracle and independently diagnosed frozen acoustic failure
-**Next slice:** fresh capture with the corrected oracle, retaining both failures; parent admits any subsequent fixture/method revision
+**Plan status:** `Blocked`
+**Current phase:** fresh corrected-verifier capture failed the frozen acoustic gate
+**Next slice:** parent admits a principled prospective fixture/method revision before further native acceptance
 **Acceptance status:** `blocked`
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
 **Issues:** [issues.md](issues.md)

@@ -21,6 +21,37 @@ was created. Output contains 142 frames, 241596 conservative-state rows and
 134 accepted steps. Generated frames/logs/receipts remain outside Git under the
 repository output policy. No source admission or prior receipt was refreshed.
 
+## Fresh corrected-verifier outcome
+
+Clean verifier `6454acf79279330eb01aaee568f1d347688c84f5` captured the same native
+source into `/tmp/rheon-s1-1b62ae3-6454acf-sod-fixed`. Build/run succeeded; the
+unchanged suite failed exactly `acoustic/order-below-0.6`. Its `origin.json`
+SHA-256 is `e7c098d13eb19fcc54abb37436c0f0e0ffc7e851cd30487e0a590a712c1866a7`;
+`assessment-failed.json` SHA-256 is
+`3f732f84f3b34b5d0e0109fa149c6a041ce9c5a77574e738030dfefb55405279`.
+An explicit read-only `verify` with that external origin pin and native commit
+repeated the same acoustic failure. Neither run has `assessment.json`.
+Both directories remain retained unchanged. This report's subsequent documentation
+commit does not refresh their verifier commit identities.
+
+```sh
+# At clean verifier commit 6454acf79279330eb01aaee568f1d347688c84f5:
+python3 tools/verify_compressible.py capture \
+  --source-repo /workspace/Rheon-native-s1 \
+  --native-commit 1b62ae378c2aaa01327055f121ebc0d869f2c4ac \
+  --output /tmp/rheon-s1-1b62ae3-6454acf-sod-fixed
+python3 tools/verify_compressible.py verify \
+  --run /tmp/rheon-s1-1b62ae3-6454acf-sod-fixed \
+  --origin-sha256 e7c098d13eb19fcc54abb37436c0f0e0ffc7e851cd30487e0a590a712c1866a7 \
+  --native-commit 1b62ae378c2aaa01327055f121ebc0d869f2c4ac
+```
+
+Both hosted dense3D workflows passed at verifier 6454acf: [push run
+38526221559](https://github.com/MrScripty/Rheon/actions/runs/38526221559) and
+[PR run 38526225312](https://github.com/MrScripty/Rheon/actions/runs/38526225312).
+They do not execute S1 and cannot override its failure. CodeRabbit skipped the
+draft. No review findings remain open in this worker's bounded changes.
+
 ## Constant-state oracle repair
 
 At t=0 the Sod solution is two constant conservative states. For cell i of n,
