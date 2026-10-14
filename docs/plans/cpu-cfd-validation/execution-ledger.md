@@ -49,3 +49,29 @@ A6 remains blocked pending parent coordination. Installed required NumPy wheel
 license text identifies GPL-with-GCC-exception and LGPL bundled libraries;
 recorded parent policy disposition need without changing/installing runtimes or
 claiming a GPL-free environment. Original worktree/core sources remain untouched.
+
+Parent subsequently admitted the export format/conservative initialization at
+4621d69 and relayed it to the native owner. Parent permits the existing NumPy as
+a separately installed validation tool; no runtime distribution is proposed or
+authorized and component licensing remains disclosed. Inspected PR73 hosted
+push/PR runs at the exact 4621d69 head: both dense3D workflows passed, neither
+executes the new S1 verifier. CodeRabbit skipped review because the PR is draft.
+Launched an explicitly requested read-only independent verifier review.
+
+Review found capture defects: empty sandbox markers rejected allowed output,
+and ignored build.rs could affect a clean-commit build without source binding.
+Repaired the full input boundary using a tracked-only Git archive, complete
+exported-source/archive hashes and unsupported Cargo configuration/compiler
+override rejection. Original ignored work/markers are preserved. A tiny real
+native protocol test verifies exclusion without CFD fields or S1 acceptance.
+Independent follow-up confirmed both original closures and 23 normal/-O passes,
+then found CARGO_BUILD_RUSTFLAGS bypass. Added its guard and exact-diagnostic
+tests; final checks/review pending. No old receipt was refreshed. The admitted
+first-mode-only speed scope and second-mode counterexample are now explicit;
+no threshold/native format change occurred.
+
+Final independent focused review confirmed the build-specific flags repair;
+all findings resolved. Final 23 tests passed normally and under -O, including
+the tiny native capture-protocol probe; py_compile and diff checks passed.
+This is capture mechanics evidence only. Actual S1 source pin/numerical capture
+remains pending; no numerical receipt/source admission was refreshed.

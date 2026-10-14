@@ -80,7 +80,8 @@ the periodic reference: S1-G uses actual periodic budgets only.
 ## Independent origin capture
 
 Verifier `capture` will require a clean source checkout at the externally
-specified native commit, build locked release core-only example through pinned
+specified native commit, export only its tracked files to fresh storage, build
+that exported locked release core-only example through pinned
 Rust 1.92, execute the fresh binary with fresh output, retain build/run logs,
 and write a verifier-owned origin manifest. It binds source commit/tree and
 input hashes, exact build/run commands, toolchain, executable hash, actual
@@ -91,8 +92,18 @@ as proof of origin. Mutation tests distinguish mismatched origin pin, changed
 artifact and wrong numerical state; copying correct same-case fields cannot be
 detected by analytic accuracy alone. Generated logs/fields remain external.
 
-Native clean source commit and format agreement are pending. Existing elementary
-pressure/viscosity suite does not satisfy S1-E/F/G.
+Independent review strengthened capture without changing native format: empty
+sandbox markers are distinguished from real checkouts; ignored caller files
+cannot enter the tracked-only export; source/archive hashes are bound; Cargo
+configuration and compiler/wrapper/flags/target overrides are unsupported for
+this S1 build recipe. A named origin failure replaces any claim that external
+build inputs came from the pinned tree. The original checkout/ignored work is
+preserved. Python 3.12.14's filtered standard-library tar extraction was executed.
+
+Parent admitted this format at 4621d69747740a950a90d78755fe3bb4e220efe4, including
+conservative cell-average acoustic/Sod initialization, and relayed it to the
+implementation owner. Native clean source commit remains pending. Existing
+elementary pressure/viscosity suite does not satisfy S1-E/F/G.
 
 ## Executable consumer and verified scope
 
@@ -126,6 +137,12 @@ removed pressure energy-work flux fails `differential/conservative-field-mismatc
 changed artifact/source manifest pins fail origin gates before analytic checks.
 No Python `assert` is used for verifier enforcement.
 
+The admitted speed threshold applies to isolated `(1,1,1)` only. Mode two's
+speed/attenuation are reported and both modes affect density L1; aggregate gates
+do not establish a separate mode-two phase-speed bound. Review's concrete
+20%-slow second-mode counterexample is retained as a scope test. Any broader
+speed guarantee requires parent replanning. See [review](independent-review.md).
+
 Observed reference uncertainty: Sod star bracket width 5.551115123125783e-17 Pa;
 p*=0.3031301780506468, u*=0.9274526200489499. Split 8/16-point Gauss comparison
 is required <1e-12 in the evaluator; tests separately check integral budgets at
@@ -150,7 +167,7 @@ reviewed directly. Only mathematical relations were used for original oracle
 code; no third-party code or data was copied. The separate educational Rheon
 reference is existing Apache-2.0 project source and is imported solely for S1-D.
 
-## Runtime license disposition requiring parent attention
+## Runtime license disclosure and parent disposition
 
 The existing explicitly mandated NumPy 2.3.5 runtime is reused, with no new
 dependency manifest or copied runtime. Its installed LICENSE.txt hash is
@@ -158,9 +175,9 @@ dependency manifest or copied runtime. Its installed LICENSE.txt hash is
 It declares NumPy/OpenBLAS under BSD terms, bundled libgfortran under
 GPL-3.0-or-later WITH GCC-exception-3.1 and libquadmath under LGPL-2.1-or-later.
 Consequently no GPL-free claim is made for the installed Python wheel. Parent
-must disposition that existing runtime against the broader no-GPL requirement
-before packaging/distributing a validation environment or admitting a checkpoint
-that promises a GPL-free runtime. This branch distributes neither the wheel nor
-third-party binaries; its Rust dependency license review remains separately
-scoped in dependency-licenses.json. No legal interpretation or automatic exception
-approval is inferred from the runtime pin.
+explicitly permits it as a separately installed validation tool in this task.
+No wheel/runtime packaging or distribution is proposed, performed, or authorized;
+any future actual distribution must be reported before proceeding. Rheon's
+Apache-2.0 source license remains unchanged. Its Rust dependency license review
+remains separately scoped in dependency-licenses.json. No broader legal
+interpretation or license exception approval is inferred from the runtime pin.

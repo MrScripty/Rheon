@@ -1,8 +1,8 @@
 # Independent CPU CFD validation
 
-**Plan status:** `Blocked`
-**Current phase:** independent verifier implemented; native S1 capture awaits parent-coordinated producer
-**Next slice:** capture and assess a clean pinned native S1 exporter after parent admits the format
+**Plan status:** `Active`
+**Current phase:** native 1b62ae3 origin capture and diagnosis of reported numerical failures
+**Next slice:** capture the pinned native candidate with reviewed origin repairs and preserve original failed assessment
 **Acceptance status:** `blocked`
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
 **Issues:** [issues.md](issues.md)
@@ -26,8 +26,8 @@ is a staged research destination, not this slice's advertised capability.
 | A2 | Fixed-mesh time study approaches its independent semidiscrete reference; negative metrics fail acceptance | focused | local Python 3 and Rust 1.92 | automated | satisfied | reports/validation-results.md |
 | A3 | Completion receipt binds source files, toolchain, inputs, command, rows and gates; a failed run cannot acquire an accepted receipt | contract | local fresh process | automated | satisfied | clean ef4f8e4 receipt; runner tests |
 | A4 | Staged aircraft/submarine gates, solver requirements, primary sources and access/licensing dispositions are reviewable without imported datasets | focused | repository and primary sites | manual | satisfied | reports/staged-validation.md |
-| A5 | Independent S1 cell-average oracles and intended numerical/origin negatives run normally and optimized | focused + contract | Python 3, NumPy 2.3.5 | automated | satisfied | 19 normal + 19 optimized tests; reports/s1-export-proposal.md |
-| A6 | Real clean pinned native fields pass unchanged S1-D/E/F/G checks with independent origin capture | integration + system | native CPU producer | automated | blocked | exporter format/native commit pending parent |
+| A5 | Independent S1 cell-average oracles and intended numerical/origin negatives run normally and optimized | focused + contract | Python 3, NumPy 2.3.5, Rust 1.92 for protocol probe | automated | satisfied | 23 normal + 23 optimized; independent findings closed; reports/independent-review.md |
+| A6 | Real clean pinned native fields pass unchanged S1-D/E/F/G checks with independent origin capture | integration + system | native CPU producer | automated | pending | native 1b62ae3 supplied; reported Sod oracle/order failures require independent diagnosis |
 
 ## Constraints and assumptions
 
@@ -58,6 +58,7 @@ CSV/JSON/hash/process facilities rather than adding a scientific runtime.
 | Continuum analytic RHS is derived independently, never formed by applying the production pressure matrix to the expected solution | validation worker | analytic equations in boundary README | none |
 | Separate mesh error, time error, experimental agreement and label readiness | validation worker; future dataset owner | existing book ch. 12/18 and requested scope | none |
 | Hold body-force accuracy and aircraft/submarine claims until their capability and licensing gates pass | solver owner via parent | broader-physics-milestone pressure-load counterexample | none |
+| Build a tracked-only source export; reject unsupported Cargo config/compiler overrides for native capture | validation worker | independent review R1/R2/R4 | building directly from the caller's clean checkout |
 
 ## Evidence and oracle admission
 
@@ -124,18 +125,28 @@ Use unchanged S1-E/F/G thresholds; S1-D imports educational LLF only for the
 explicitly labelled differential check. [Format proposal](reports/s1-export-proposal.md)
 owns the parent-coordination request. Root/quadrature/linearization uncertainty
 and target-specific negatives must be observed. Run Python normal and -O tests
-and actual native fields after pinned solver commit/format agreement arrive.
+and actual native fields after the pinned solver commit arrives. Parent admitted
+the export format at 4621d69747740a950a90d78755fe3bb4e220efe4 and relayed it to the
+implementation owner; no numerical threshold change was requested.
 This gate remains pending if native fields are unavailable; do not substitute
 synthetic fixtures. **Status:** `Blocked`; tools and 19-test normal/-O checks
-implemented, native exporter/commit dependency pending.
+implemented at admitted pin; 23-test normal/-O review repair checks passed and
+independent findings closed. Native source commit remains pending.
+
+Parent requested independent review and CI inspection after format admission.
+Capture-origin findings are repaired within this owner and independently
+rechecked. Numerical thresholds/native exporter format remain unchanged; the
+first-mode-only speed scope is explicitly disclosed. See
+[independent review](reports/independent-review.md).
 
 ## Blockers and replanning triggers
 
-Native S1 capture is pending parent admission of exporter format and a clean
-pinned solver implementation commit. This is a pending dependency, not a denied
-or uncertain action; no native capture was attempted. Runtime distribution policy
-for the existing NumPy wheel's bundled GPL-with-exception/LGPL libraries also
-needs parent disposition before a GPL-free packaged environment is promised.
+Native S1 capture is pending a clean pinned solver implementation commit. The
+parent admitted the format and relayed it to its implementation owner. This is
+a pending dependency, not a denied or uncertain action; no native capture was
+attempted. Parent permits the existing NumPy only as a separately installed
+validation tool here. No runtime packaging/distribution is proposed or authorized;
+component license disclosure remains accurate and no GPL-free runtime is promised.
 Full physical cases depend on solver capabilities and exact asset rights/access.
 Replan if public APIs cannot measure the elementary
 fixtures, source changes overlap another worker, or a new consumer/schema claim

@@ -263,6 +263,32 @@ class ExportTests(unittest.TestCase):
             for path, data in saved:
                 path.write_bytes(data)
 
+    def test_admitted_single_mode_speed_gate_discloses_second_mode_limitation(self):
+        # Independent review's concrete counterexample. This intentionally
+        # documents what the admitted sanity gate cannot decide; it is not
+        # evidence that a 20%-slow second acoustic mode is physically correct.
+        saved = []
+        background = np.array([1, 0, 0, 0, 1/(v.GAMMA-1)])
+        try:
+            for case in self.suite["cases"]:
+                if case["kind"] != "acoustic":
+                    continue
+                shape = tuple(case["shape"])
+                n = shape[0]
+                damping = {8: 0.5, 12: 0.7, 20: 0.9}[n]
+                state = (v.acoustic_average(shape, 0.08, attenuation=(damping, 0))
+                         + v.acoustic_average(shape, 0.064, attenuation=(0, damping))-background)
+                path = self.root/case["frames"][1]["file"]
+                saved.append((path, path.read_bytes()))
+                write_state(path, state)
+            result = v.assess_suite(self.root)
+            self.assertEqual(result["status"], "satisfied")
+            self.assertEqual(result["acoustic_phase_speed_gate_mode"], [1, 1, 1])
+            self.assertAlmostEqual(result["acoustic"][-1]["modes"][1]["relative_speed_error"], 0.2, places=8)
+        finally:
+            for path, data in saved:
+                path.write_bytes(data)
+
     def test_missing_pressure_energy_work_rejects_at_differential_boundary(self):
         case = self.suite["cases"][1]
         first, last = [self.root/f["file"] for f in case["frames"]]
@@ -316,6 +342,7 @@ class OriginTests(unittest.TestCase):
         (self.root/"fields/suite.json").write_text("{}")
         (self.root/"test-executable").write_text("synthetic test marker, not a native binary")
         self.origin = {"schema_version": 1, "status": "captured-native-run", "source_commit": "a"*40,
+                       "source_export": "tracked-only-git-archive",
                        "verifier": v.verifier_identity(), "executable": "test-executable",
                        "executable_sha256": v.sha256(self.root/"test-executable"),
                        "artifacts": {"suite.json": v.sha256(self.root/"fields/suite.json")}}
@@ -356,6 +383,63 @@ class OriginTests(unittest.TestCase):
                 self.assertRaisesRegex(v.ValidationError, "origin/source-not-clean-pinned-commit"):
             v.capture(v.REPO, "a"*40, output)
         self.assertFalse(output.exists())
+
+    def test_empty_git_marker_is_not_a_checkout_but_real_repository_is(self):
+        (self.root/".git").mkdir()
+        self.assertFalse(v.inside_checkout(self.root/"new-output"))
+        repository = self.root/"actual-checkout"
+        repository.mkdir()
+        v.subprocess.run(["git", "init", "-q", str(repository)], check=True)
+        self.assertTrue(v.inside_checkout(repository/"new-output"))
+
+    def test_capture_rejects_unbound_build_configuration(self):
+        for name in ("RUSTFLAGS", "CARGO_BUILD_RUSTFLAGS", "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS"):
+            with patch.dict(v.os.environ, {name: "--cfg unbound_probe"}):
+                with self.assertRaisesRegex(v.ValidationError, "origin/unsupported-build-environment: "+name):
+                    v.capture_build_environment(self.root)
+        cargo_home = self.root/"cargo-home"
+        cargo_home.mkdir()
+        (cargo_home/"config.toml").write_text('[build]\nrustflags=["--cfg", "unbound_probe"]\n')
+        with patch.dict(v.os.environ, {"CARGO_HOME": str(cargo_home)}):
+            with self.assertRaisesRegex(v.ValidationError, "origin/unsupported-cargo-configuration"):
+                v.capture_build_environment(self.root)
+
+    def test_real_capture_protocol_excludes_ignored_build_script(self):
+        # A real tiny native build/run tests capture protocol only. It writes no
+        # CFD fields and is never passed to assess_suite or counted as S1 evidence.
+        (self.root/".git").mkdir()
+        source = self.root/"protocol-source"
+        source.mkdir()
+        v.subprocess.run(["git", "init", "-q", str(source)], check=True)
+        (source/"examples").mkdir()
+        (source/"Cargo.toml").write_text('[package]\nname="capture-protocol-probe"\nversion="0.1.0"\nedition="2024"\n')
+        (source/"Cargo.lock").write_text('version=4\n[[package]]\nname="capture-protocol-probe"\nversion="0.1.0"\n')
+        (source/".gitignore").write_text('/build.rs\n')
+        (source/"examples/compressible_reference.rs").write_text('''#![allow(unexpected_cfgs)]
+fn main() {
+    let path = std::env::args().nth(2).expect("--output PATH");
+    std::fs::create_dir(&path).unwrap();
+    std::fs::write(format!("{path}/suite.json"), "{}").unwrap();
+    std::fs::write(format!("{path}/ignored-input-probe.txt"),
+        format!("{}", cfg!(unbound_probe))).unwrap();
+}
+''')
+        v.subprocess.run(["git", "-C", str(source), "add", "."], check=True)
+        v.subprocess.run(["git", "-C", str(source), "-c", "user.name=Capture protocol test",
+                          "-c", "user.email=capture-test@example.invalid", "commit", "-qm", "test protocol source"], check=True)
+        commit = v.git(source, "rev-parse", "HEAD")
+        (source/"build.rs").write_text('fn main(){println!("cargo:rustc-cfg=unbound_probe");}\n')
+        self.assertEqual(v.git(source, "status", "--porcelain"), "")
+        output = self.root/"captured"
+        pin = v.capture(source, commit, output)
+        self.assertEqual(pin, v.sha256(output/"origin.json"))
+        self.assertEqual((output/"fields/ignored-input-probe.txt").read_text(), "false")
+        self.assertFalse((output/"source/build.rs").exists())
+        self.assertTrue((source/"build.rs").is_file())
+        origin = v.read_json(output/"origin.json")
+        self.assertEqual(origin["source_export"], "tracked-only-git-archive")
+        self.assertNotIn("build.rs", origin["source_sha256"])
+        self.assertEqual(origin["source_commit"], commit)
 
 
 if __name__ == "__main__":

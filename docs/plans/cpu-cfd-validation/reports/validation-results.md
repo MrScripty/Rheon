@@ -65,18 +65,43 @@ cryptographic authenticity claim.
 
 ## Exact outstanding action and owner
 
-**Pending, not denied:** parent must relay/admit the exporter convention and
-provide a clean pinned S1 implementation commit with
+**Pending, not denied:** parent has admitted/relayed the exporter convention at
+4621d69747740a950a90d78755fe3bb4e220efe4; its implementation owner must provide a
+clean pinned S1 implementation commit with
 `examples/compressible_reference.rs` producing the agreed format. Then execute
 `verify_compressible.py capture` against that checkout and pin its origin hash;
 verify actual fields with unchanged S1-E/F/G gates and S1-D translation. No
 native S1 field has been substituted or invented here. S1-A/C remain the solver
 worker's public Rust API/rollback checks. Parent owns checkpoint integration.
 
-**Runtime policy unresolved for distribution:** the mandated NumPy wheel's
-bundled GCC/quadmath terms are recorded in the proposal. No GPL-free Python
-runtime or packaged-validation-environment claim is made. No third-party runtime
-binary is distributed by this branch.
+**Runtime disposition:** parent permits the existing NumPy as a separately
+installed validation tool for this task; its bundled GCC/quadmath terms remain
+disclosed. No runtime packaging/distribution is proposed or authorized; report
+any future distribution before proceeding. No GPL-free runtime claim is made,
+and Rheon's Apache-2.0 source license is unchanged.
+
+## Hosted CI inspection at pinned PR head
+
+At PR73 head 4621d69747740a950a90d78755fe3bb4e220efe4, the
+[pull-request workflow](https://github.com/MrScripty/Rheon/actions/runs/38523280618)
+and [push workflow](https://github.com/MrScripty/Rheon/actions/runs/38523275446)
+both completed successfully. They run the existing bounded dense3D Rust and
+normal/-O Python contracts. They do not execute the new S1 verifier, and cannot
+substitute for its named local tests or the pending actual-native gate.
+CodeRabbit's status is successful but its comment explicitly says the draft PR
+was not reviewed; no independent code-review claim follows from that status.
+
+## Independent review follow-up
+
+The requested separate read-only review found and confirmed closure of three
+provenance defects: sandbox marker handling, ignored compilation inputs and a
+build-specific Rust flags override. Capture now builds an isolated tracked-only
+export and refuses unsupported build configuration. Final 23 tests passed
+normally and under `-O`; independent review confirmed all findings resolved.
+The tiny native capture-protocol test writes no CFD state and supplies no S1
+numerical acceptance. See [review](independent-review.md) for exact dispositions.
+The admitted first-mode speed gate's mode-two limitation is reported/tested;
+no numerical threshold or native format changed.
 
 External experimental geometry/data rights/access and arbitrary moving-body
 capability remain deferred as recorded in [staged validation](staged-validation.md).

@@ -11,9 +11,11 @@ import hashlib
 import importlib.util
 import json
 import math
+import os
 from pathlib import Path
 import subprocess
 import sys
+import tarfile
 from types import SimpleNamespace
 import uuid
 
@@ -396,6 +398,8 @@ def assess_suite(root):
     require(sod[-1]["pressure_l1"] < 0.04, "sod/pressure-l1-error")
     return {"status": "satisfied", "scope": "S1-B/D/E/F/G exported native fields only; S1-A/C remain public Rust API checks",
             "acoustic": acoustic, "acoustic_orders": orders, "sod": sod,
+            "acoustic_phase_speed_gate_mode": [1, 1, 1],
+            "acoustic_other_mode_speed_scope": "reported only; the admitted aggregate-density gates do not separately bound its phase speed",
             "sod_root_bracket_width": sod_star()[2], "max_normalized_conservation_drift": worst_drift,
             "accepted_steps_checked": retained_steps, "differential_max_error": max(differential),
             "artifacts": sorted(artifacts),
@@ -419,12 +423,49 @@ def verifier_identity():
             "numpy": np.__version__}
 
 
+def inside_checkout(path):
+    """A sandbox's empty .git marker is not an actual Git checkout."""
+    path = Path(path).resolve()
+    for parent in (path, *path.parents):
+        if not (parent/".git").exists():
+            continue
+        result = subprocess.run(["git", "-C", str(parent), "rev-parse", "--show-toplevel"],
+                                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                                text=True, check=False)
+        if result.returncode == 0 and Path(result.stdout.strip()).resolve() == parent:
+            return True
+    return False
+
+
+def capture_build_environment(source_export):
+    """S1 admits the pinned default Cargo build, with no config/wrapper overrides.
+
+    Reject unsupported build authority rather than attributing its effects to
+    the source commit. This checks paths only; it never reads credentials.
+    """
+    explicit = {"RUSTFLAGS", "CARGO_ENCODED_RUSTFLAGS", "CARGO_BUILD_RUSTFLAGS", "RUSTC", "RUSTDOC",
+                "RUSTC_WRAPPER", "RUSTC_WORKSPACE_WRAPPER", "CARGO_BUILD_TARGET",
+                "CARGO_BUILD_RUSTC", "CARGO_BUILD_RUSTC_WRAPPER", "CARGO_BUILD_RUSTC_WORKSPACE_WRAPPER"}
+    overrides = [name for name, value in os.environ.items() if value and
+                 (name in explicit or (name.startswith("CARGO_TARGET_")
+                                       and name.endswith(("_RUSTFLAGS", "_LINKER"))))]
+    require(not overrides, "origin/unsupported-build-environment: "+",".join(sorted(overrides)))
+    cargo_home = Path(os.environ.get("CARGO_HOME", str(Path.home()/".cargo"))).resolve()
+    directories = [p/".cargo" for p in (source_export, *source_export.parents)]+[cargo_home]
+    require(not any((p/name).exists() for p in directories for name in ("config", "config.toml")),
+            "origin/unsupported-cargo-configuration")
+    # These conventional profile settings cannot inject code, but affect the
+    # build and therefore remain explicit run inputs rather than ambient facts.
+    return {k: value for k, value in os.environ.items() if k.startswith("CARGO_PROFILE_")}
+
+
 def verify_origin(run, expected_origin_hash, expected_native_commit):
     run = Path(run).resolve()
     origin_path = run/"origin.json"
     require(sha256(origin_path) == expected_origin_hash, "origin/manifest-pin-mismatch")
     origin = read_json(origin_path)
     require(origin.get("schema_version") == 1 and origin.get("status") == "captured-native-run"
+            and origin.get("source_export") == "tracked-only-git-archive"
             and origin.get("source_commit") == expected_native_commit, "origin/native-identity-mismatch")
     require(origin.get("verifier") == verifier_identity(), "origin/verifier-identity-mismatch")
     require(origin.get("executable_sha256") == sha256(safe_file(run, origin.get("executable"))), "origin/executable-mismatch")
@@ -443,19 +484,30 @@ def capture(source, commit, output):
     source, output = Path(source).resolve(), Path(output).resolve()
     require(len(commit) == 40 and all(c in "0123456789abcdef" for c in commit), "origin/full-native-commit-required")
     require(git(source, "rev-parse", "HEAD") == commit and not git(source, "status", "--porcelain"), "origin/source-not-clean-pinned-commit")
-    require(not any((p/".git").exists() for p in [output, *output.parents]), "origin/output-inside-checkout")
+    require(not inside_checkout(output), "origin/output-inside-checkout")
     output.mkdir(parents=True, exist_ok=False)
+    # Compile an immutable tracked-only export, never the caller's checkout.
+    # Ignored/untracked build.rs, include! inputs and local Cargo configuration
+    # must not acquire the pinned commit's source identity through a clean status.
+    archive = output/"source.tar"
+    with archive.open("wb") as stream:
+        subprocess.run(["git", "-C", str(source), "archive", "--format=tar", commit],
+                       stdout=stream, check=True, timeout=60)
+    source_export = output/"source"
+    with tarfile.open(archive) as snapshot:
+        snapshot.extractall(source_export, filter="data")
+    build_environment = capture_build_environment(source_export)
     build = ["cargo", "+1.92.0", "build", "--locked", "--release", "--no-default-features",
              "--example", "compressible_reference", "--target-dir", str(output/"build"),
              "--message-format=json"]
-    tracked = git(source, "ls-files", "--", "src", "examples/compressible_reference.rs", "Cargo.toml", "Cargo.lock", "rust-toolchain.toml").splitlines()
-    input_hashes = {p: sha256(source/p) for p in tracked}
+    tracked = git(source, "ls-tree", "-r", "--name-only", commit).splitlines()
+    input_hashes = {p: sha256(source_export/p) for p in tracked}
     verifier = verifier_identity()
     with (output/"build.jsonl").open("w") as stdout, (output/"build.log").open("w") as stderr:
-        subprocess.run(build, cwd=source, stdout=stdout, stderr=stderr, timeout=600, check=True)
+        subprocess.run(build, cwd=source_export, stdout=stdout, stderr=stderr, timeout=600, check=True)
     messages = [json.loads(line) for line in (output/"build.jsonl").read_text().splitlines()]
     candidates = [m["executable"] for m in messages if m.get("reason") == "compiler-artifact"
-                  and m.get("manifest_path") == str(source/"Cargo.toml")
+                  and m.get("manifest_path") == str(source_export/"Cargo.toml")
                   and m.get("target", {}).get("name") == "compressible_reference"
                   and m["target"].get("kind") == ["example"] and m.get("executable")]
     require(len(candidates) == 1, "origin/exact-cargo-example-executable-required")
@@ -464,9 +516,9 @@ def capture(source, commit, output):
     executable_hash = sha256(executable)
     invocation = [str(executable), "--output", str(output/"fields")]
     with (output/"native.log").open("w") as log:
-        subprocess.run(invocation, cwd=source, stdout=log, stderr=subprocess.STDOUT, timeout=300, check=True)
+        subprocess.run(invocation, cwd=source_export, stdout=log, stderr=subprocess.STDOUT, timeout=300, check=True)
     require(git(source, "rev-parse", "HEAD") == commit and not git(source, "status", "--porcelain")
-            and input_hashes == {p: sha256(source/p) for p in tracked}, "origin/source-changed-during-capture")
+            and input_hashes == {p: sha256(source_export/p) for p in tracked}, "origin/source-changed-during-capture")
     require(executable_hash == sha256(executable) and verifier == verifier_identity(), "origin/build-or-verifier-changed")
     artifacts = {}
     for path in sorted((output/"fields").rglob("*")):
@@ -478,6 +530,8 @@ def capture(source, commit, output):
     origin = {"schema_version": 1, "status": "captured-native-run", "run_id": str(uuid.uuid4()),
               "source_commit": commit, "source_tree": git(source, "rev-parse", "HEAD^{tree}"),
               "source_sha256": input_hashes, "verifier": verifier, "executable": str(executable.relative_to(output)),
+              "source_export": "tracked-only-git-archive", "source_archive_sha256": sha256(archive),
+              "build_environment": build_environment,
               "executable_sha256": executable_hash, "build_command": build, "run_command": invocation,
               "rustc": subprocess.check_output(["rustc", "+1.92.0", "--version", "--verbose"], text=True),
               "artifacts": artifacts, "origin_limit": "external manifest pin required; not a cryptographic signature or physical-correctness proof"}
@@ -497,6 +551,7 @@ def main():
     check.add_argument("--origin-sha256", required=True)
     check.add_argument("--native-commit", required=True)
     args = parser.parse_args()
+    output_existed = args.operation == "capture" and args.output.exists()
     try:
         if args.operation == "capture":
             pin = capture(args.source_repo, args.native_commit, args.output)
@@ -506,6 +561,12 @@ def main():
             result = verify_origin(args.run, args.origin_sha256, args.native_commit)
         print(json.dumps(result, indent=2, allow_nan=False))
     except (OSError, subprocess.SubprocessError, ValueError, KeyError, TypeError) as error:
+        if args.operation == "capture" and not output_existed and args.output.is_dir():
+            failed = {"status": "failed", "diagnostic": str(error), "native_commit": args.native_commit,
+                      "origin_manifest_sha256": sha256(args.output/"origin.json")
+                      if (args.output/"origin.json").is_file() else None}
+            with (args.output/"assessment-failed.json").open("x") as stream:
+                stream.write(json.dumps(failed, indent=2, allow_nan=False)+"\n")
         parser.exit(1, f"S1 validation failed: {error}\n")
 
 
