@@ -1,9 +1,11 @@
 # Research-book interactive coverage
 
-This ledger covers all 25 chapters and six appendices. The sampling/transport
+This ledger covers all 28 chapters and six appendices. The sampling/transport
 follow-on expands the [540bdef teaching checkpoint](https://github.com/MrScripty/Rheon/commit/540bdef8fcbc0d0a55567325eba570589666bf80)
 from 11 to 13 chapters, then the bounded browser timestep adds chapter 17 and the computed volume adds chapter 14.
 There are now **25 chapters and six appendices with partial scroll-linked examples**.
+The three compressible chapters add links to a separate saved-field laboratory
+with two computed Euler cases; they do not add sticky chapter workspaces.
 The practical continuation adds the seven previously missing chapters and all six appendices; its hosted qualification is pending. These counts describe placement,
 not complete coverage of each chapter's topics or qualification of a solver.
 [Heading bindings](teaching.py) fail the build when an expected section moves.
@@ -94,6 +96,9 @@ Every native recording/operator entry is conditional on packet admission.
 | 23 Wetting | Stored constant-volume equilibrium caps | Gravity, reconstructed angles, relaxation, hysteresis and moving contact lines |
 | 24 Wall slip | Stored one-wall Couette; separate native two-wall/no-slip/forced playback | General wall geometry and evolving-boundary traction |
 | 25 Integrated qualification | Stored cap pressure; links to restricted native mechanisms | Dynamic capillarity, parasitic currents, oscillation, penetration and full coupled qualification |
+| 26 Compressible state/waves | Separate saved-field Euler laboratory: Sod extrusion and oblique acoustic waves, conservative/primitive readouts | General EOS, shocks in arbitrary geometry and production compressible APIs |
+| 27 Compressible discretization | Separate computed records, shared-face conservation ledger and conditional exact-real admissibility/CFL contracts | Rust/Riemann refinement, reconstruction/limiter positivity, entropy and full-step qualification |
+| 28 Compressible boundaries/validation | Separate computed periodic waves and explicit validation roadmap | Native inlet/outlet/wall assembly, viscous/thermal/turbulent boundaries and physical validation |
 | A Algorithm reference | Computed two-cell Jacobi algorithm with true residual | General accepted-state lifecycle and arbitrary solver diagnostics |
 | B Reproduction | Executed reduction-order counterexample and source-bound reproduction commands | Complete solver replay/environment reproducibility |
 | C Bibliography | Computed specified constitutive probe with primary source/variant reading | Scientific/model validity is not inferred from a bibliography or limiter |

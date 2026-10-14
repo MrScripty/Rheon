@@ -10,12 +10,13 @@ from obstacle_flow import validate_packet as validate_flow_packet, publish as pu
 from aligned_strain_packet import validate_packet as validate_strain_packet, publish as publish_strain
 from aligned_strain_html import render_lab
 from build_solver import validate_packet as validate_solver_packet, publish as publish_solver
+from compressible_lab import validate_packet as validate_compressible_packet, publish as publish_compressible
 from pdf_freshness import input_hashes
 from markdown_bundle import write_bundle
 import teaching
 ROOT=Path(__file__).resolve().parents[2]; HERE=Path(__file__).resolve().parent
 BOOK=ROOT/'docs/research-book'; OUT=HERE/'_site'
-ASSETS=HERE/'node_modules'; NATIVE_LABS=None; OBSTACLE_RECORDS=None; FLOW_RECORDS=None; STRAIN_RECORDS=None; SOLVER_PACKET=None
+ASSETS=HERE/'node_modules'; NATIVE_LABS=None; OBSTACLE_RECORDS=None; FLOW_RECORDS=None; STRAIN_RECORDS=None; SOLVER_PACKET=None; COMPRESSIBLE_RECORDS=None
 FIGURES={'03':'staggered-grid.svg','04':'pressure-residual.svg','05':'multigrid-mechanism.svg','06':'interpolation-mass.svg','07':'transport-refinement.svg','09':'curvature-refinement.svg','10':'box-diffusion.svg','13':'memory-scaling.svg','15':'rounding-gap.svg','18':'cycle-circulation.svg','19':'expansion/projection.jpg','20':'expansion/mesh-hit.jpg','21':'expansion/density-viscosity.jpg','22':'expansion/density-viscosity.jpg','23':'expansion/slip-wetting.jpg','24':'expansion/slip-wetting.jpg'}
 
 def command(args,**kwargs):
@@ -41,6 +42,7 @@ def build():
     validate_flow_packet(ROOT,FLOW_RECORDS)
     validate_strain_packet(ROOT,STRAIN_RECORDS)
     validate_solver_packet(ROOT,SOLVER_PACKET)
+    validate_compressible_packet(ROOT,COMPRESSIBLE_RECORDS)
     pdf_inputs=input_hashes(ROOT)
     source_base=command(['git','rev-parse','HEAD'],cwd=ROOT).strip()
     if OUT.exists():raise ValueError('Output directory must be fresh; choose a new edition path.')
@@ -85,7 +87,7 @@ def build():
     files=chapter_files+sorted((BOOK/'implementation').glob('*.md'))
     page_paths={p.resolve():('implementation/' if p.parent.name=='implementation' else 'chapters/')+p.stem+'.html' for p in files}
     manifest=[]; pages=[]; markdown=[]; linked_sources={}
-    front='# Rheon — Discrete Fluid Simulation\n\nPuma · Expanded solids and liquids teaching edition · 2026-10-04\n\nOriginal research, finite contracts and local mechanism references. See Appendix F for assumptions, evidence and primary sources.\n\n'
+    front='# Rheon — Discrete Fluid Simulation\n\nPuma · Solids, liquids and compressible-flow research edition · 2026-10-14\n\nOriginal research, finite contracts and local mechanism references. See Appendix F for assumptions, evidence and primary sources.\n\n'
     for path in files:
         text=path.read_text(); title=text.splitlines()[0].removeprefix('# '); slug=path.stem
         fig=FIGURES.get(slug[:2])
@@ -101,6 +103,8 @@ def build():
                 destination=OUT/page_paths[source]
             elif source==HERE/'native-labs.html':
                 destination=OUT/'native-labs.html'
+            elif source==HERE/'compressible-lab.html':
+                destination=OUT/'compressible-lab.html'
             elif source==HERE/'aligned-strain-lab.html':
                 destination=OUT/'aligned-strain-lab.html'
             elif source==HERE/'obstacle-flow-lab.html':
@@ -124,7 +128,7 @@ def build():
     payload=json.dumps(pages)
     node=r'''const katex=require('katex');let raw='';process.stdin.on('data',x=>raw+=x);process.stdin.on('end',()=>{const pages=JSON.parse(raw);let count=0;for(const p of pages)p.html=p.html.replace(/<span\s+class="math (inline|display)">([\s\S]*?)<\/span>/g,(_,kind,tex)=>{count++;tex=tex.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(+n));return katex.renderToString(tex,{displayMode:kind==='display',throwOnError:true,strict:'error',output:'htmlAndMathml'});});process.stdout.write(JSON.stringify({pages,count}));});'''
     rendered=json.loads(command(['node','-e',node],input=payload,cwd=ASSETS.parent)); pages=rendered['pages']
-    def nav(prefix):return '<nav aria-label="Book chapters"><a href="'+prefix+'index.html">Overview</a><a href="'+prefix+'labs.html">3D laboratories</a><a href="'+prefix+'transport-labs.html">Sampling & transport</a><a href="'+prefix+'timestep-lab.html">One Rust timestep</a><a href="'+prefix+'flow-lab.html">Computed 3D flow</a><a href="'+prefix+'proofs.html">Proofs & evidence</a><a href="'+prefix+'native-labs.html">Native wall/force progression</a><a href="'+prefix+'obstacle-lab.html">Static obstacle geometry</a><a href="'+prefix+'obstacle-flow-lab.html">Obstacle pressure & shear</a><a href="'+prefix+'aligned-strain-lab.html">Interactive finite strain</a><input id="search" type="search" aria-label="Filter chapters" placeholder="Find a chapter…">'+''.join(f'<a class="chapter-link" href="{prefix}chapters/{p["slug"]}.html">{html.escape(p["title"])}</a>' for p in pages if p['folder']=='chapters')+'</nav>'
+    def nav(prefix):return '<nav aria-label="Book chapters"><a href="'+prefix+'index.html">Overview</a><a href="'+prefix+'labs.html">3D laboratories</a><a href="'+prefix+'transport-labs.html">Sampling & transport</a><a href="'+prefix+'timestep-lab.html">One Rust timestep</a><a href="'+prefix+'flow-lab.html">Computed 3D flow</a><a href="'+prefix+'proofs.html">Proofs & evidence</a><a href="'+prefix+'native-labs.html">Native wall/force progression</a><a href="'+prefix+'obstacle-lab.html">Static obstacle geometry</a><a href="'+prefix+'obstacle-flow-lab.html">Obstacle pressure & shear</a><a href="'+prefix+'aligned-strain-lab.html">Interactive finite strain</a><a href="'+prefix+'compressible-lab.html">Compressible waves</a><input id="search" type="search" aria-label="Filter chapters" placeholder="Find a chapter…">'+''.join(f'<a class="chapter-link" href="{prefix}chapters/{p["slug"]}.html">{html.escape(p["title"])}</a>' for p in pages if p['folder']=='chapters')+'</nav>'
     def shell(title,body,prefix='',extra='',reader=False):
         return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)} · Rheon</title><link rel="stylesheet" href="{prefix}style.css"><link rel="stylesheet" href="{prefix}vendor/katex/katex.min.css"><link rel="stylesheet" href="{prefix}shared-viewer/shell.css"><link rel="stylesheet" href="{prefix}reader.css">{extra}</head><body class="{'reader-page' if reader else ''}"><a class="skip" href="#main">Skip to content</a><header><a class="brand" href="{prefix}index.html">Rheon</a><button id="menu" aria-expanded="false" aria-controls="navigation">Chapters</button><div class="reading-modes" aria-label="Reading layout"><button data-reading-mode="text" aria-pressed="true">Text</button><button data-reading-mode="split" aria-pressed="false">Split</button><button data-reading-mode="example" aria-pressed="false">Example</button></div><div class="header-links"><a href="{prefix}labs.html">Explore in 3D</a><a href="{prefix}downloads/Rheon-expanded-book.pdf">PDF</a></div></header><aside id="navigation">{nav(prefix)}</aside><main id="main">{body}</main><footer>Puma · Research & teaching edition · Exact contracts and local references; see the evidence map.</footer><script src="{prefix}navigation.js"></script></body></html>'''
     for i,p in enumerate(pages):
@@ -132,13 +136,14 @@ def build():
         body+='<div class="pager">'+(f'<a href="../{pages[i-1]['folder']}/{pages[i-1]['slug']}.html">← {html.escape(pages[i-1]["title"])}</a>' if i else '')+(f'<a href="../{pages[i+1]['folder']}/{pages[i+1]['slug']}.html">{html.escape(pages[i+1]["title"])} →</a>' if i+1<len(pages) else '')+'</div>'
         body, has_example = teaching.chapter(body,p['slug']) if p['folder']=='chapters' else (teaching.compact_proofs(body),False)
         (OUT/p['folder']/f'{p["slug"]}.html').write_text(shell(p['title'],body,'../',extra=teaching.scripts('../') if has_example else '',reader=has_example))
-    home='''<p class="eyebrow">Puma / RESEARCH + TEACHING EDITION</p><h1 class="hero-title">From discrete flow<br>to liquid contact.</h1><p class="lede">A fluid research book with exact mathematical contracts, computed references for geometry, coupling, wall work, transfer, arithmetic, allocation and error assessment, plus one bounded Rust timestep and a connected native wall/force progression.</p><div class="hero-actions"><a class="button" href="chapters/01-purpose-and-model.html">Read the book</a><a class="button secondary" href="labs.html">Explore the laboratories</a></div><figure class="hero-figure"><img src="figures/expansion/slip-wetting.jpg" alt="Original constant-volume cap profiles and Navier-slip Couette curves"><figcaption>Same liquid volume, different contact angles. Wall slip controls a different mechanism.</figcaption></figure><div class="cards"><article><span>01—18 / FOUNDATIONS</span><h2>Understand the structure</h2><p>MAC geometry, projection, transport, interface representation, precision and implementation contracts.</p><a href="chapters/03-staggered-grids.html">Start with the grid →</a></article><article><span>19—25 / EXPANSION</span><h2>Separate the physics</h2><p>Moving meshes, force work, liquid density, tensor viscosity, wetting energy, slip and capillarity.</p><a href="chapters/19-forces-and-moving-boundaries.html">Read the new chapters →</a></article><article><span>APPENDIX F / EVIDENCE</span><h2>Inspect each claim</h2><p>Inspect historical and current source-bound theorems, including planar clipping and derived finite-strain work, beside numerical references and remaining research gaps.</p><a href="proofs.html">Open proofs and evidence →</a></article></div><h2>Keep a reading copy</h2><p><a href="downloads/Rheon-expanded-book.pdf">Illustrated PDF</a> · <a href="downloads/Rheon-expanded-markdown.zip">Markdown + figures (ZIP)</a> · <a href="downloads/Rheon-expanded-book.md">Markdown text</a> · <a href="reference-data.json">Shared reference data</a></p>'''
+    home='''<p class="eyebrow">Puma / RESEARCH + TEACHING EDITION</p><h1 class="hero-title">From discrete flow<br>to waves and contact.</h1><p class="lede">A fluid research book with exact mathematical contracts, computed references for geometry, coupling, wall work, transfer, arithmetic, allocation and error assessment, plus one bounded Rust timestep and a connected native wall/force progression.</p><div class="hero-actions"><a class="button" href="chapters/01-purpose-and-model.html">Read the book</a><a class="button secondary" href="labs.html">Explore the laboratories</a></div><figure class="hero-figure"><img src="figures/expansion/slip-wetting.jpg" alt="Original constant-volume cap profiles and Navier-slip Couette curves"><figcaption>Same liquid volume, different contact angles. Wall slip controls a different mechanism.</figcaption></figure><div class="cards"><article><span>01—18 / FOUNDATIONS</span><h2>Understand the structure</h2><p>MAC geometry, projection, transport, interface representation, precision and implementation contracts.</p><a href="chapters/03-staggered-grids.html">Start with the grid →</a></article><article><span>19—25 / EXPANSION</span><h2>Separate the physics</h2><p>Moving meshes, force work, liquid density, tensor viscosity, wetting energy, slip and capillarity.</p><a href="chapters/19-forces-and-moving-boundaries.html">Read the new chapters →</a></article><article><span>APPENDIX F / EVIDENCE</span><h2>Inspect each claim</h2><p>Inspect historical and current source-bound theorems, including planar clipping and derived finite-strain work, beside numerical references and remaining research gaps.</p><a href="proofs.html">Open proofs and evidence →</a></article></div><h2>Keep a reading copy</h2><p><a href="downloads/Rheon-expanded-book.pdf">Illustrated PDF</a> · <a href="downloads/Rheon-expanded-markdown.zip">Markdown + figures (ZIP)</a> · <a href="downloads/Rheon-expanded-book.md">Markdown text</a> · <a href="reference-data.json">Shared reference data</a></p>'''
     home+='<h2>Follow a computed 3D pulse</h2><p><a href="flow-lab.html">Run the bounded 3D tracer experiment</a>. Orbit the actual volume, compare accepted states and inspect its numerical limits.</p>'
     home+='<h2>Publish one accepted state</h2><p><a href="timestep-lab.html">Run a fixed-box Rust timestep in the browser</a>. Compare the exact four-edge circulation, then test rejection before commit. A compiled solver packet is required.</p>'
     home+='<h2>From finite wall friction to forced no-slip</h2><p><a href="native-labs.html">Follow the three recorded native labs</a> · <a href="implementation/requirements-roadmap.html">Inspect remaining requirements and the next geometry contract</a></p>'
     home+='<h2>Pressure and reduced wall shear</h2><p><a href="obstacle-flow-lab.html">Inspect native field responses</a> · <a href="implementation/static-obstacle-flow.html">Bounded operator contract</a></p>'
     home+='<h2>One static obstacle geometry</h2><p><a href="obstacle-lab.html">Inspect native geometry controls</a> · <a href="implementation/static-obstacle-geometry.html">Shared volumes, openings, connectivity and collision source</a></p>'
     home+='<h2>From strain rows to resisting force</h2><p><a href="aligned-strain-lab.html">Compute strain and dissipation interactively</a> · <a href="implementation/aligned-strain-laboratory.html">Read the specimen and exact algebra</a>. This bounded laboratory recomputes finite rows for selected face velocities; it advances no fluid.</p>'
+    home+='<h2>Conservative compressible flow</h2><p><a href="chapters/26-compressible-state-and-waves.html">Follow state, waves, fluxes and validation</a> · <a href="compressible-lab.html">Explore computed Euler fields in 3D</a> · <a href="implementation/compressible-flow-roadmap.html">Implementation scope and coverage audit</a></p>'
     (OUT/'index.html').write_text(shell('Overview',home))
     (OUT/'native-labs.html').write_text(shell('Native wall and force progression',publish(sequence,OUT,NATIVE_LABS)))
     obstacle_body=publish_obstacle(ROOT,OUT,OBSTACLE_RECORDS)
@@ -149,6 +154,9 @@ def build():
     strain_data=publish_strain(ROOT,OUT,STRAIN_RECORDS)
     for name in ['aligned_strain.css','aligned_strain.js']:shutil.copy2(HERE/name,OUT/name)
     (OUT/'aligned-strain-lab.html').write_text(shell('Interactive finite aligned strain',render_lab(strain_data),extra='<link rel="stylesheet" href="aligned_strain.css"><script type="module" src="aligned_strain.js"></script>' if strain_data is not None else ''))
+    compressible_body=publish_compressible(ROOT,OUT,COMPRESSIBLE_RECORDS)
+    compressible_extra='<script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/controls/OrbitControls.js":"./vendor/OrbitControls.js"}}</script><script type="module" src="compressible.js"></script>' if COMPRESSIBLE_RECORDS is not None else ''
+    (OUT/'compressible-lab.html').write_text(shell('Computed compressible Euler fields',compressible_body,extra=compressible_extra))
     (OUT/'labs.html').write_text(shell('3D laboratories',teaching.tour(),extra=teaching.scripts(),reader=True))
     (OUT/'transport-labs.html').write_text(shell('Sampling and transport',teaching.transport_tour(),extra=teaching.scripts(),reader=True))
     (OUT/'flow-lab.html').write_text(shell('Computed 3D flow',teaching.flow_tour(),extra=teaching.scripts(),reader=True))
@@ -174,7 +182,7 @@ def build():
     write_bundle(ROOT,OUT,front,list(zip(reading_paths,reading_markdown)),files,command)
     # A self-contained print edition: all math is already rendered locally.
     toc='<h1>Contents</h1><ol>'+''.join(f'<li><a href="#{p["slug"]}">{html.escape(p["title"])}</a></li>' for p in reading)+'</ol>'
-    cover='<section class="cover"><p>PUMA / EXPANDED RESEARCH EDITION</p><h1>Rheon</h1><h2>Discrete Fluid Simulation</h2><p>Solids, liquids and contact</p><img src="figures/expansion/slip-wetting.jpg" alt="Original reference profiles"><p>Mathematics · Checked contracts · Numerical references · 3D teaching laboratories</p><p>4 October 2026</p></section>'
+    cover='<section class="cover"><p>PUMA / EXPANDED RESEARCH EDITION</p><h1>Rheon</h1><h2>Discrete Fluid Simulation</h2><p>Solids, liquids and compressible waves</p><img src="figures/expansion/slip-wetting.jpg" alt="Original reference profiles"><p>Mathematics · Checked contracts · Numerical references · 3D teaching laboratories</p><p>14 October 2026</p></section>'
     def print_body(p):
         def root_link(match):
             value=match[2]
@@ -190,6 +198,7 @@ def build():
                 elif absolute.startswith('proofs/'):relative='proofs/Rheon/'+Path(absolute).name
                 elif absolute.startswith('source-files/'):relative=absolute.removeprefix('source-files/')
                 elif absolute=='native-labs.html':relative='docs/education/README.md'
+                elif absolute=='compressible-lab.html':relative='docs/education/README.md'
                 elif absolute=='aligned-strain-lab.html':relative='docs/education/README.md'
                 elif absolute=='obstacle-flow-lab.html':relative='docs/education/README.md'
                 elif absolute=='obstacle-lab.html':relative='docs/education/README.md'
@@ -200,7 +209,7 @@ def build():
     contents=cover+'<section class="toc">'+toc+'</section>'+''.join(f'<section class="book-chapter" id="{p["slug"]}">{print_body(p)}</section>' for p in reading)
     (OUT/'print.html').write_text(f'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Rheon — Expanded research edition</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="vendor/katex/katex.min.css"></head><body class="print-book">{contents}</body></html>')
     if OUT==HERE/'_site' and (HERE/'downloads/Rheon-expanded-book.pdf').exists():shutil.copy2(HERE/'downloads/Rheon-expanded-book.pdf',OUT/'downloads/Rheon-expanded-book.pdf')
-    build_receipt={'schema':'rheon-education-build-v1','chapters':len(chapter_files),'implementation_guides':len(files)-len(chapter_files),'native_bundles_included':NATIVE_LABS is not None,'obstacle_records_included':OBSTACLE_RECORDS is not None,'obstacle_flow_records_included':FLOW_RECORDS is not None,'aligned_strain_packet_included':STRAIN_RECORDS is not None,'solver_packet_included':SOLVER_PACKET is not None,'proof_inventory_sha256':sequence['proof_inventory_sha256'],'rendered_math_expressions':rendered['count'],'sources':manifest,'linked_source_files':linked_sources,'reference_data_sha256':hashlib.sha256((OUT/'reference-data.json').read_bytes()).hexdigest(),'pandoc':command(['pandoc','--version']).splitlines()[0],'source_base':source_base,'historical_proof_status':receipt.get('status'),'current_proof_status':'reviewed-current-source-inventory-matched'}
+    build_receipt={'schema':'rheon-education-build-v1','chapters':len(chapter_files),'implementation_guides':len(files)-len(chapter_files),'native_bundles_included':NATIVE_LABS is not None,'obstacle_records_included':OBSTACLE_RECORDS is not None,'obstacle_flow_records_included':FLOW_RECORDS is not None,'aligned_strain_packet_included':STRAIN_RECORDS is not None,'compressible_records_included':COMPRESSIBLE_RECORDS is not None,'solver_packet_included':SOLVER_PACKET is not None,'proof_inventory_sha256':sequence['proof_inventory_sha256'],'rendered_math_expressions':rendered['count'],'sources':manifest,'linked_source_files':linked_sources,'reference_data_sha256':hashlib.sha256((OUT/'reference-data.json').read_bytes()).hexdigest(),'pandoc':command(['pandoc','--version']).splitlines()[0],'source_base':source_base,'historical_proof_status':receipt.get('status'),'current_proof_status':'reviewed-current-source-inventory-matched'}
     if input_hashes(ROOT)!=pdf_inputs:raise RuntimeError('PDF inputs changed during HTML build; rebuild.')
     build_receipt['pdf_inputs']=pdf_inputs
     (OUT/'build-receipt.json').write_text(json.dumps(build_receipt,indent=2)+'\n');print(json.dumps({k:v for k,v in build_receipt.items() if k not in ['sources','pdf_inputs']},indent=2))
@@ -220,6 +229,7 @@ if __name__=='__main__':
     parser.add_argument('--obstacle-flow-records-dir',type=Path)
     parser.add_argument('--aligned-strain-records-dir',type=Path)
     parser.add_argument('--solver-dir',type=Path,help='Compiled and source-bound fixed timestep adapter packet')
-    args=parser.parse_args(); OUT=args.output_dir.resolve(); ASSETS=args.asset_dir.resolve(); NATIVE_LABS=args.native_labs_dir; OBSTACLE_RECORDS=args.obstacle_records_dir; FLOW_RECORDS=args.obstacle_flow_records_dir; STRAIN_RECORDS=args.aligned_strain_records_dir; SOLVER_PACKET=args.solver_dir
+    parser.add_argument('--compressible-records-dir',type=Path)
+    args=parser.parse_args(); OUT=args.output_dir.resolve(); ASSETS=args.asset_dir.resolve(); NATIVE_LABS=args.native_labs_dir; OBSTACLE_RECORDS=args.obstacle_records_dir; FLOW_RECORDS=args.obstacle_flow_records_dir; STRAIN_RECORDS=args.aligned_strain_records_dir; SOLVER_PACKET=args.solver_dir; COMPRESSIBLE_RECORDS=args.compressible_records_dir
     validate_output(OUT,ROOT)
     build()

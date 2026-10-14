@@ -34,3 +34,13 @@ Chapters 19–25 and Appendix F add forces, moving collision geometry, density/v
 The [native wall/force progression](implementation/native-wall-force-sequence.md) connects the equations, units, proof assumptions and recorded demos. The [requirements roadmap](implementation/requirements-roadmap.md) maps actual collision, force, viscosity, adhesion and density coverage and distinguishes current static collision/import capability from the remaining conservative fluid-topology/stress assembly. Generated site, PDF, assets and qualification receipts stay outside Git. The source-only CI hub explicitly identifies unavailable recorded bundles.
 
 The [practical mechanisms](engineering/practical-methods.md) add wall/work, sparse iteration, memory, arithmetic, transfer, constitutive, refinement and proposal-gate examples. The [coverage ledger](../education/COVERAGE.md) records partial placements in all 25 chapters and six appendices, exact checked proof source and pending publication/UI evidence.
+
+## Compressible research extension
+
+Read Chapters 26–28 in order after the continuum/transport foundations. They
+specify conservative thermodynamic state, gas/liquid EOS, waves, fluxes,
+admissibility, compressible boundaries and a staged validation program. See the
+[coverage audit and implementation roadmap](implementation/compressible-flow-roadmap.md),
+[computed Euler reference](compressible/README.md), and the separately generated
+3D teaching edition described in [education](../education/README.md). This
+research extension does not add a production compressible solver.

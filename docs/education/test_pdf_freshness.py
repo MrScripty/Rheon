@@ -91,6 +91,17 @@ class PdfFreshness(unittest.TestCase):
             write_receipt(self.repo, input_hashes(self.repo))
         self.assertEqual(json.loads((self.here/'pdf-inputs.json').read_text()), self.receipt)
 
+    def test_added_compressible_reference_and_viewer_invalidate_pdf(self):
+        for relative in ['docs/research-book/compressible/reference.py',
+                         'docs/research-book/sources/compressible-sources.json',
+                         'docs/education/compressible.js']:
+            with self.subTest(source=relative):
+                path=self.repo/relative;path.parent.mkdir(parents=True,exist_ok=True)
+                path.write_text('new reviewed input')
+                with self.assertRaisesRegex(ValueError,'Stale PDF inputs'):
+                    verify_pdf(self.repo)
+                path.unlink()
+
     def test_publication_entry_point_rejects_changed_manuscript_and_old_pdf(self):
         source=Path(__file__).resolve().parent
         for name in ['verify_site.py','pdf_freshness.py']:

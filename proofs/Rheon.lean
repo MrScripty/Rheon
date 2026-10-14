@@ -25,3 +25,5 @@ import Rheon.PressureGauge
 import Rheon.CouplingStudy
 
 import Rheon.PracticalStudy
+
+import Rheon.Compressible

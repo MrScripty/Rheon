@@ -21,6 +21,7 @@ from teaching_browser import qualify as qualify_teaching
 from transport_browser import qualify as qualify_transport
 from timestep_browser import qualify as qualify_timestep
 from flow_browser import qualify as qualify_flow
+from compressible_browser import qualify as qualify_compressible
 
 HERE = Path(__file__).resolve().parent
 
@@ -71,7 +72,8 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
 
     with sync_playwright() as p:
         browser = p.chromium.launch(executable_path=os.environ.get('RHEON_CHROMIUM_EXECUTABLE') or shutil.which('chromium'), headless=True,
-                                    chromium_sandbox=True, args=['--enable-unsafe-swiftshader'])
+                                    chromium_sandbox=True, args=['--enable-unsafe-swiftshader'],
+                                    ignore_default_args=['--disable-back-forward-cache'])
         page = browser.new_page(viewport={'width': 1440, 'height': 1050}, device_scale_factor=1)
         track(page)
         load(page, 'index.html')
@@ -139,6 +141,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         obstacle_flow = qualify_obstacle_flow(page, mobile, load, check_errors)
         packet_dir = Path(artifact_dir)/'aligned-strain-packet' if artifact_dir is not None else HERE/'_site/aligned-strain-packet'
         strain = qualify_aligned_strain(page, mobile, load, check_errors, packet_dir if packet_dir.exists() else None, artifact_dir=Path(artifact_dir)/'strain-browser-evidence' if render_pdf and artifact_dir is not None else None)
+        compressible = qualify_compressible(page, mobile, load, check_errors, artifact_dir=Path(artifact_dir)/'compressible-browser-evidence' if render_pdf and artifact_dir is not None else None, repo=HERE.parents[1])
         load(page, 'print.html')
         page.evaluate('document.fonts.ready')
         check_planar_statement(page)
@@ -163,6 +166,7 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         receipt['transport'] = transport
         receipt['timestep'] = timestep
         receipt['flow'] = flow
+        receipt['compressible'] = compressible
         browser.close()
         return receipt
 

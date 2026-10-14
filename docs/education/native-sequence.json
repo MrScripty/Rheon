@@ -1,11 +1,11 @@
 {
   "schema": "rheon-native-sequence-source-v2",
   "scope": "Recorded native fixed-slab progression; no automatic integration or general fluid claim",
-  "qualified_lean_source": "ae4fff0a1a12edb312fb1d1af9a5a4c70f585cc1; proof tree identical to checked merge 46a199a2484975c021286a506be81e327783737f and integrated d35967e",
-  "proof_inventory_sha256": "42ca9c2849cfed6894bb67e0b74d1018327eac35c6c6eb459f2caace08545bb2",
-  "public_theorems": 214,
-  "audited_declarations": 330,
-  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38478346517",
+  "qualified_lean_source": "1be45f33d52c5e354fccb4080413c1d57f8502be; proof tree identical to checked merge d427059b16848adbf7e00f30e0e76ac24c021e50",
+  "proof_inventory_sha256": "4eaa150ae0513844e95da153535b7d23befc048bb6e07adec3ed26eee6bc8a1d",
+  "public_theorems": 224,
+  "audited_declarations": 355,
+  "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38493519897",
   "labs": [
     {
       "id": "wall-friction",
@@ -78,8 +78,8 @@
     "audited_declarations": 77,
     "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37714539571"
   },
-  "lean_ci_scope": "No prior receipt certifies the added engineering contracts.",
-  "explicit_expected_declarations": 275,
+  "lean_ci_scope": "Pinned normal kernel build and complete 355-declaration allowed-axiom audit; negative probes passed. Exact same reviewed proof inventory; not a native/IEEE/physical/performance receipt.",
+  "explicit_expected_declarations": 295,
   "historical_prior_current_proof": {
     "qualified_lean_source": "Current source checked locally with pinned Lean 4.19.0 invoked directly and private dependency artifacts; not a new lake build or hosted CI receipt",
     "proof_inventory_sha256": "d33f1ee1614084b5fce8d6d4a93ed7f539b07c9bea2e14c563618f3720064c61",
@@ -131,23 +131,23 @@
     "scope": "Fixed finite-row real matrices, nonnegative weights, positive masses and the stated exact Euler/projection premises. Geometry assembly, IEEE refinement, approximate pressure solves and global/continuum convergence remain outside the proofs."
   },
   "current_reviewed_proof": {
-    "proof_inventory_sha256": "42ca9c2849cfed6894bb67e0b74d1018327eac35c6c6eb459f2caace08545bb2",
-    "public_theorems": 214,
-    "explicit_expected_declarations": 275,
-    "audited_declarations": 330,
-    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38478346517",
+    "proof_inventory_sha256": "4eaa150ae0513844e95da153535b7d23befc048bb6e07adec3ed26eee6bc8a1d",
+    "public_theorems": 224,
+    "explicit_expected_declarations": 295,
+    "audited_declarations": 355,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38493519897",
     "status": "passed",
     "local_qualification": null,
-    "scope": "Steady wall budgets, fixed two-cell Jacobi modes, one-sample transfer, supplied-field constitutive bounds and conditional extrapolation/residual algebra. No runtime/PDE/IEEE/performance/physical-validation proof.",
-    "source_head": "ae4fff0a1a12edb312fb1d1af9a5a4c70f585cc1",
-    "checkout_head": "46a199a2484975c021286a506be81e327783737f",
+    "scope": "Combined exact finite-dimensional contracts; no Rust/IEEE/geometry/Riemann/physical/performance proof.",
     "lean_toolchain": "leanprover/lean4:v4.19.0",
     "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
     "allowed_axioms": [
       "propext",
       "Classical.choice",
       "Quot.sound"
-    ]
+    ],
+    "source_head": "1be45f33d52c5e354fccb4080413c1d57f8502be",
+    "checkout_head": "d427059b16848adbf7e00f30e0e76ac24c021e50"
   },
   "historical_pr43_reviewed_proof": {
     "status": "passed",
@@ -283,5 +283,60 @@
       "Classical.choice",
       "Quot.sound"
     ]
+  },
+  "historical_pr67_proof": {
+    "proof_inventory_sha256": "42ca9c2849cfed6894bb67e0b74d1018327eac35c6c6eb459f2caace08545bb2",
+    "public_theorems": 214,
+    "explicit_expected_declarations": 275,
+    "audited_declarations": 330,
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/38486207115",
+    "status": "passed",
+    "local_qualification": null,
+    "scope": "Steady wall budgets, fixed two-cell Jacobi modes, one-sample transfer, supplied-field constitutive bounds and conditional extrapolation/residual algebra. No runtime/PDE/IEEE/performance/physical-validation proof.",
+    "source_head": "24b38606e8c8354e56a2f83f1d0c44d6cd7b932e",
+    "checkout_head": "6c015f88b7559592efee80270eb95eeb0e351c09",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ]
+  },
+  "historical_compressible_research_proof": {
+    "source_binding_kind": "exact reviewed proof-file SHA256 inventory; whole-tree checkout identity not asserted",
+    "proof_inventory_sha256": "d10ea5e886a6680fef63f6c03624e172fb95fa9d3e00c5db3835e56b3a48fdbd",
+    "lean_toolchain": "leanprover/lean4:v4.19.0",
+    "mathlib_revision": "c44e0c8ee63ca166450922a373c7409c5d26b00b",
+    "public_theorems": 116,
+    "audited_declarations": 186,
+    "explicit_expected_declarations": 164,
+    "local_qualification": {
+      "schema": "rheon-compressible-proof-file-qualification-v1",
+      "qualified_at_utc": "2026-10-14T00:08:03.171346+00:00",
+      "status": "passed",
+      "lean_checked": true,
+      "receipt_sha256": "591977fa5315bde898540062bb31563f4a3d62c18cc2765847f291cce469d631",
+      "receipt_reference": "External compressible-proof-qualification.json with exact source/log hashes; generated outputs remain outside Git",
+      "scope": "Exact reviewed working-tree Lean bytes; no Git-head or clean-checkout qualification"
+    },
+    "lean_ci": "https://github.com/MrScripty/Rheon/actions/runs/37779093146",
+    "lean_ci_scope": "Historical f75cd66 hosted run only; current compressible extension is qualified by the local proof-file receipt",
+    "allowed_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "reproduction": [
+      "cd proofs",
+      "python3 scripts/check_sources.py",
+      "lake build",
+      "lake env lean AxiomAudit.lean",
+      "python3 scripts/test_audit.py",
+      "python3 -O scripts/test_audit.py",
+      "python3 scripts/test_check_sources.py",
+      "python3 -O scripts/test_check_sources.py"
+    ],
+    "scope": "Finite exact-real contracts including conservative Euler-component amounts, ideal-gas admissibility and convexity, algebraic stationary-wall flux and donor-density CFL. No whole-tree, geometry, Riemann solver, full Euler positivity, entropy, IEEE or physical validation claim."
   }
 }
