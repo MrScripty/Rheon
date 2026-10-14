@@ -1,6 +1,6 @@
 # Native bounded I1 implementation and handoff
 
-Status: implementation source complete; final corrected-profile checks and fresh independent-validator captures are running. N1/N2 numerical acceptance is not claimed; N3 continuum mesh/domain convergence and experiment rights/model/uncertainty remain pending.
+Status: implementation source complete and independently reviewed; all 18 fresh exact-source captures passed the unchanged PR79 validator and an independent full provenance/numerical recheck. N1/N2 numerical acceptance is not claimed; parent acceptance, N3 continuum mesh/domain convergence and experiment rights/model/uncertainty remain pending.
 
 ## Authority, readiness and source ownership
 
@@ -83,3 +83,34 @@ Affected independent Sol High review passed the ledger correction and its balanc
 The repaired MMS working-source preflight passed the unchanged independent oracle: maximum momentum defect `3.364080335042506e-17 N`, maximum physical divergence `1.257314531080602e-22 s^-1`, 669 mixed DOFs. All other 17 cases passed provisional native/oracle checks too. Final release contracts now number 13 and passed in 7.88 s, including actual-body MMS and cancellation specifically at a correction factorization; complete accepted fields/report/loads/request and retained payload survive. Combined example/test Clippy `-D warnings` and focused formatting passed. These provisional records are explicitly non-provenance evidence; a new committed-source full capture is required.
 
 Affected read-only GPT-6.1 Sol High refinement review returned **PASS**, independently reran the final 13 release contracts (7.69 s), and independently checked the provisional MMS record with unchanged PR79 oracle. It verified the fixed four-correction bound, reuse of retained buffers, retry only for residual failures, current-candidate correction RHS, unchanged physical/pivot gates and specific correction cancellation. Reviewed core SHA256 is `ef534615daf2e2f304be064536cf08f54fb42d2ee21ed220d5ed1db524889efa`, exporter `27948d2f45ca555ba8d65bdbdb0c3018a77fb864e122965e9f8b9c6adebd2a06`, and tests `20cb58baf441b56e7b5f72b9424de265c7bf656bb2c3532d4718220b8c291ce2`. No blocking source finding; immutable-source full capture and parent numerical acceptance remain pending.
+
+## Completed exact-source capture
+
+The unmodified PR79 runner at clean validator commit `dedf04fb0d094064f5a163a4f7b78e7237e4438f` archived clean native source `d7a3c01fbab2d78e5404afb84f15cf2cf17505fa` (tree `9ff16940c14ded69f261885ec31b6fbc617357c1`), built it with locked Rust/Cargo 1.92.0 in a fresh isolated target, and executed all 18 fixture cases. Every command returned zero; the durable origin is terminal `completed`, with 18 actual record paths/hashes and no failure. The unchanged assessment is `validated-discrete-captures`; every record is `validated-discrete-record`. All 34 constitutive-only controls per record passed. DOF sizes are 19, 669 and 694: the tiny exact no-body rational solve is independent; larger cases use all independently reconstructed physical rows, rather than claiming a full rational dense solution.
+
+Evidence remains outside the checkout at `/tmp/rheon-i1-capture-d7a3c01`:
+
+- Origin SHA256: `98cc0a4f5a864d45918c87555ebbaf53b5a39af08c835ac55f65f7e9e233cf5e`.
+- Source archive SHA256: `152e9a0ccfb2be29437a87b5b755c1a8edcbe8cb164007fca6996f0f7e872e58`.
+- Built executable SHA256: `975e180cca8a74a14b71f395517c44ca2f9f00824c5be60684468f591af9e4bc` (1,138,624 bytes).
+- Assessment SHA256: `e44356b3c730cfa35a4b713083d3e3ba221975497f6c4911803e685bbd399f52`.
+
+Maximum independently measured momentum defect across the suite is `2.2134156757881024e-16 N`, maximum physical divergence `1.2464495005604731e-15 s^-1`; MMS divergence is `1.257314531080602e-22 s^-1`. These describe this finite discrete suite. The straight-case reconstructed physical stream force is `-0.0974765752821589 N`, versus algebraic body force `-0.09124856245761555 N`, approximately 6.8% difference relative to the algebraic value. This is a visible coarse wall-reconstruction discrepancy, not a continuum force-accuracy certificate or experimental error estimate.
+
+The runner deliberately leaves N1/N2 at `pending-complete-native-controls-and-independent-review`, N3 at `pending-continuum-mesh-domain-family`, and N7 at `pending-experiment-rights-model-uncertainty`. This worker does not rewrite that assessment or transition the canonical ledger. Source/design review, numerical verification, manifest integrity, signed execution authentication and experimental validation are distinct. The origin binds tracked source, actual executable, commands, fixture and validator bytes; the locally observed pin is a handoff for independent integrity checks, not a signed remote build attestation.
+
+Read-only GPT-6.1 Sol High final review returned **PASS** for all 18 immutable-source records. It independently invoked unchanged `verify_origin` with the root-delivered observed origin pin for each record, verified exact source/archive/tree and all 1,127 extracted tracked files, executable/fixture/validator identities, 21 successful commands and their stdout/stderr hashes, and all 18 output associations. It independently reran the frozen numerical oracle on every raw record, checked all 34 unique constitutive controls per record, and matched the captured assessment exactly. Only a fresh external recheck artifact was written: `/tmp/rheon-i1-independent-recheck-d7a3c01/assessment.json`, SHA256 `85b9bdf8d5b14c2d45017a3d49e31d04873b3016952951d126023314904ace33`. The review explicitly distinguishes a root-delivered observed integrity pin from a signed attestation or higher parent authorization; it does not infer parent acceptance from the validator's assurance-template wording. Rust source, validator and completed capture were unchanged.
+
+At the captured source commit, GitHub scoped checks (`38565393584`, `38565388186`), native-rational and conditional-kernel checks (`38565393580`), cloud-acceptance (`38565393604`), and executable-contracts (`38565393569`) passed. Three feature-matrix jobs were still in progress at handoff; no full-green CI or merge eligibility is claimed. The final evidence commit changes only this report; numerical source and its reviewed hashes remain frozen.
+
+Reproduce from the pinned validator checkout using a new, absent output path:
+
+```sh
+source /workspace/rheon-setup/env.sh
+python3 validation/submarine/run.py --suite stokes \
+  --source d7a3c01fbab2d78e5404afb84f15cf2cf17505fa \
+  --native-contract-sha256 3762540394238820ad47ca7ce4f8fc5b140e11abc0d52458a2451a4fe588f160 \
+  --output /tmp/rheon-i1-parent-fresh-capture
+```
+
+Later report-only commits do not change the three reviewed Rust file hashes or the captured implementation; the executable/source identity above remains `d7a3c01`, not a later evidence commit. No generated archive, binary, frame, record, origin or assessment is committed. Retain the native worktree/remote draft branch, clean detached validator worktree at the exact PR79 identity, original `/workspace/Rheon` worktree at `6ba41c7cd05d1bf1851bef02048e7634245468e6`, and planning worktree at `9efef18798d48268d9c5f28ea49e968cde55a39f` for handoff. Parent owns eventual targeted cleanup after verifying remote/ref protection and acceptance; no generic prune/delete is performed here.
