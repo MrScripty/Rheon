@@ -3,6 +3,7 @@
 //! integrator state. See `docs/api/recording.md` for the SQLite consumer contract.
 mod carrier;
 pub mod comparison;
+pub mod diagnostic;
 mod material;
 use crate::{GridGeometry, SessionIdentity, SnapshotStage};
 pub use carrier::{RecordedCarrier, carrier_publication, carrier_run};
@@ -561,6 +562,11 @@ impl RecordingReader {
             return Err(RecordingError::Limit("database bytes"));
         }
         let connection = connect(path, limits)?;
+        let application: i64 =
+            connection.pragma_query_value(None, "application_id", |r| r.get(0))?;
+        if application != 0 {
+            return Err(RecordingError::Unsupported("archive kind"));
+        }
         let version: i64 = connection.pragma_query_value(None, "user_version", |r| r.get(0))?;
         if version != VERSION {
             return Err(RecordingError::Unsupported("archive version"));
@@ -818,6 +824,12 @@ impl RecordingReader {
         Ok(())
     }
     fn verify_header(&self) -> Result<(), RecordingError> {
+        let application: i64 = self
+            .connection
+            .pragma_query_value(None, "application_id", |r| r.get(0))?;
+        if application != 0 {
+            return Err(RecordingError::Unsupported("archive kind"));
+        }
         let version: i64 = self
             .connection
             .pragma_query_value(None, "user_version", |r| r.get(0))?;

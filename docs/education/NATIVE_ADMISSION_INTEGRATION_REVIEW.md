@@ -265,6 +265,37 @@ material source issue in the reviewed correction. Still95 paths; refresh only th
 two owned existing comparison source hashes. Fresh clean qualification required;
 companion/root/previous source receipts are not substituted.
 
+
+### Partial typed diagnostic storage admission
+
+Select independently reviewed new diagnostic archive module and actual SQLite
+contracts from f87a7a2/fb8405a, with serial recording-owned module registration and
+explicit accepted-reader archive-kind rejection. The selected closure is96 paths:
+adds src/recording/diagnostic.rs and updates src/recording.rs only beyond final M3.
+Accepted schema1 writer/publication types are unchanged; default application_id0
+is accepted, while nonzero archive kinds reject on open and subsequent header
+verification. Diagnostic application_id RHDP has distinct typed tables, request/
+attempt ordinals, host-observed qualification/transition and terminal prefix facts.
+No candidate becomes a RecordedStep or accepted Session publication.
+
+Independent GPT-6.1 Sol High review closed three material findings before admission:
+request/header domain matching now preserves exact floating bits (including signed
+zero); known rejected seeds cannot initialize either mode and teacher seed status
+must be explicitly observed Accepted; failed/cancelled unrecorded-tail generation
+claims are checked against seed, produced count and durable prefix with checked
+arithmetic. Regressions cover invalid/legitimate chronology, signed-zero rejected
+append with cold prefix preserved, native teacher Accepted history, biased model
+observations leaving actual native evolution unchanged, and kind/header mutation.
+No remaining material source finding. The reviewer ran no Cargo or runtime.
+
+The existing recording owner supplies bounded SQLite connections, transaction and
+poison lifecycle. Header/request/sample/transition hashes, bounded decoding and cold
+verification preserve honest prefixes; Drop never completes. Native-prefix length
+is explicit caller-observed declaration, not inferred lineage/qualification proof.
+This admits fresh qualification of partial storage only. Engine/model-process/
+worker capture, saved diagnostic specs and full teacher/stop A6 remain pending;
+no measured model, source authenticity, durability or global physics claim follows.
+
 ## Linked native slice/probe root integration, 2026-10-15
 
 This explicit source review admits the 95-to-96-path native M3 extension to
@@ -283,3 +314,70 @@ No numerical, worker, recording, model or qualification owner changes. All96
 conservatively selected inputs are rebound; prior receipts remain historical.
 Admission authorizes fresh clean committed tests/native-window and native/rational
 qualification, not a transferred companion receipt or trained-model acceptance.
+
+## Typed runtime plus linked native composition admission, 2026-10-15
+
+This explicit independent GPT-6.1 Sol review admits the combined103-path source
+closure to attempt fresh qualification. Relative to partial storage96 paths it
+adds diagnostic_runs/view/worker/worker_tests/engine_typed_tests/
+prediction_contract_tests under desktop/ai_comparison and the separately reviewed
+linked comparison_field_view.rs. Existing engine/mod/model_process/record/worker,
+comparison CLI, recording/comparison and recording/diagnostic change; root desktop
+retains the independently reviewed linked registration. No path is removed,
+selector narrowed, numerical qualification input changed or dependency added.
+Historical v1/v2 inventory bytes and v3 ancestry remain unchanged.
+
+The existing engine performs teacher and independent stop policies; exact committed
+endpoints carry history, teacher future stays native, and an independent reference
+uses the identical captured RHS. Requests/candidates/actual host thresholds and
+wall observations are separate typed schema2 attempts, never accepted ordinals.
+Native diagnostic seed origin stays diagnostic. Cancellation before advance retains
+candidate evidence; append precedes JSON/UI, poisoned writes stop execution and
+only a reconciled terminal can pin after close. Legacy policy and JSON remain.
+Typed process failures retain dispatch and actual invalid-wire digests; frozen
+provider identity is checked before spawn. The existing leased Record/Worker and
+SQLite owners retain lifetime/persistence, with fresh frozen intent and create-new
+reruns, exact cold source/category checks and honest unrecorded tails.
+
+Independent review closed cold statistics tampering, persistence/cancellation
+precedence, incorrect offset-gauge labeling, programmatic inspector namespace
+invalidation, typed CLI failure exit and old-frame/new-rerun-geometry findings.
+Actual worker/cold/subprocess tests and the egui5-to6-grid rerun button regression
+exercise those boundaries. The explicit cold inspector caches one request, shares
+native physical slice/probe/common range and displays real availability. Summary
+export reopens the exact manifest/pinned archive, compares the cached attempt and
+publishes create-new. The new stdlib verify_diagnostic_pressure.py derives raw
+SQLite IEEE norms with fsum and explicit checks; changed-metric rejection remains
+active normally, under -O and PYTHONOPTIMIZE=1. The shared reducer preserves existing
+native metric order and semantics, with direct canonical gauge and no offset.
+
+This is source admission, not a transferred fixture/model receipt or completion
+of A1/A2/full generic milestone gates. Freeze this complete composition and run
+fresh native/rational, recording, desktop and actual native-window qualification.
+Measured trained bundle/runtime/parity remain separately blocked as documented.
+
+### Saved-executor provenance correction
+
+Independent review identified an execution provenance gap after the combined
+freeze: a saved old source stamp could be copied into a new archive under a
+different executor. The corrected source shares current_executor_revision between
+capture and an execution-only full-stamp equality guard. Worker.start_saved rejects
+before output/thread/process creation; the execution owner checks again before
+spawn. Historical validate/digest/open/header verification remain unchanged.
+Equal unspecified stamps explicitly do not prove build parity; no frozen intent
+or digest is silently rewritten. Independent GPT-6.1 Sol review approved the four
+changed selected sources (diagnostic_runs, worker, diagnostic_worker and its tests).
+The new real-process regression proves a mismatched stamp has no spawn marker or
+output root, explicit manufactured historical cancelled metadata cold-opens Ready,
+and a matching stamp executes to completion. Focused test and strict binary Clippy
+passed. Still 103 conservative paths; refresh these four pins and the review
+binding, then qualify the clean corrected tree. Earlier receipts remain evidence
+for their exact subjects, not this correction.
+
+The saved-rerun error consumer also retains execution failure in the inspector's
+status, so an existing finished worker's repaint cannot erase the mismatch
+explanation from App.status. Valid historical fields remain inspectable. Independent
+review approved this additive mod/diagnostic_view correction; both affected UI
+contracts and strict binary Clippy passed. Rebind those two selected source hashes
+as well (still 103 paths) before final clean qualification. No solver, context,
+archive, matching-stamp execution or historical-read behavior changes.

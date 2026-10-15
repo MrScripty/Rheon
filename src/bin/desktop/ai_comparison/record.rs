@@ -1,5 +1,9 @@
 //! Atomic external observations and immutable diagnostic frames, never Run custody.
-use super::{engine::Frame, model_process::ProviderIdentity, scene::Scene};
+use super::{
+    engine::{ExecutionPolicy, Frame},
+    model_process::ProviderIdentity,
+    scene::Scene,
+};
 use serde_json::{Value, json};
 use std::{
     fs::{File, OpenOptions},
@@ -13,6 +17,7 @@ pub struct Record {
     scene: Scene,
     identity: Option<ProviderIdentity>,
     sequence: u64,
+    policy: ExecutionPolicy,
 }
 fn atomic(path: &Path, value: &Value) -> Result<(), String> {
     let bytes = serde_json::to_vec(value).map_err(|e| e.to_string())?;
@@ -47,6 +52,13 @@ fn stamp() -> String {
 }
 impl Record {
     pub fn begin(root: &Path, scene: &Scene) -> Result<Self, String> {
+        Self::begin_policy(root, scene, ExecutionPolicy::LegacyRawContinuation)
+    }
+    pub fn begin_policy(
+        root: &Path,
+        scene: &Scene,
+        policy: ExecutionPolicy,
+    ) -> Result<Self, String> {
         std::fs::create_dir_all(root).map_err(|e| e.to_string())?;
         let lease = OpenOptions::new()
             .read(true)
@@ -71,11 +83,15 @@ impl Record {
             scene: scene.clone(),
             identity: None,
             sequence: 0,
+            policy,
         };
-        atomic(
-            &result.directory.join("scene.json"),
-            &json!({"schema":"rheon-live-water-comparison-scene-v1","scene":scene,"density_kg_m3":1000.0,"dynamic_viscosity_pa_s":0.001,"boundary":"sealed_free_slip","dt_s":super::scene::DT,"direction_phase":scene.direction_phase(),"scope":"Shared qualified native prefix, then independent diagnostic AI trajectory; failed pressure states are not accepted Simulation publications"}),
-        )?;
+        let mut scene_value = json!({"schema":"rheon-live-water-comparison-scene-v1","scene":scene,"density_kg_m3":1000.0,"dynamic_viscosity_pa_s":0.001,"boundary":"sealed_free_slip","dt_s":super::scene::DT,"direction_phase":scene.direction_phase(),"scope":"Shared qualified native prefix, then independent diagnostic AI trajectory; failed pressure states are not accepted Simulation publications"});
+        if policy != ExecutionPolicy::LegacyRawContinuation {
+            scene_value["schema"] = json!("rheon-live-water-comparison-scene-v2");
+            scene_value["policy"] = json!(policy);
+            scene_value["scope"] = json!(policy.label());
+        }
+        atomic(&result.directory.join("scene.json"), &scene_value)?;
         Ok(result)
     }
     pub fn model(&mut self, identity: &ProviderIdentity, deployment: &Path) -> Result<(), String> {
@@ -93,7 +109,16 @@ impl Record {
         )
     }
     pub fn frame(&mut self, frame: &Frame) -> Result<(), String> {
-        let value = json!({"schema":if self.identity.as_ref().is_some_and(|p|p.checkpoint_sha256.is_some()) {"rheon-live-water-comparison-frame-v2"}else{"rheon-live-water-comparison-frame-v3"},"run_directory":self.directory,"counts_xyz":self.scene.counts,"cell_size_m":self.scene.h(),"extents_m":self.scene.extents(),"provider":self.identity,"checkpoint_sha256":self.identity.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"frame":frame,"difference":"p_ai - p_reference, Pa; equal gauge at cell zero; shared native warm-up, then independent histories"});
+        let mut value = json!({"schema":if self.identity.as_ref().is_some_and(|p|p.checkpoint_sha256.is_some()) {"rheon-live-water-comparison-frame-v2"}else{"rheon-live-water-comparison-frame-v3"},"run_directory":self.directory,"counts_xyz":self.scene.counts,"cell_size_m":self.scene.h(),"extents_m":self.scene.extents(),"provider":self.identity,"checkpoint_sha256":self.identity.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"frame":frame,"difference":"p_ai - p_reference, Pa; equal gauge at cell zero; shared native warm-up, then independent histories"});
+        if self.policy != ExecutionPolicy::LegacyRawContinuation {
+            value["schema"] = json!("rheon-live-water-comparison-frame-v4");
+            value["policy"] = json!(self.policy);
+            value["difference"] = json!(if self.policy == ExecutionPolicy::TeacherStage {
+                "p_candidate - p_native, Pa; same native request; candidate never enters future native history"
+            } else {
+                "p_candidate - paired native track, Pa; independent histories; equal-request metrics live in typed attempts"
+            });
+        }
         let file = self.directory.join(format!("frame-{:04}.json", frame.step));
         if file.exists() {
             return Err("Frame already published".into());
@@ -103,10 +128,15 @@ impl Record {
         Ok(())
     }
     pub fn finish(&mut self, state: &str, message: &str, steps: usize) -> Result<(), String> {
-        atomic(
-            &self.directory.join("completion.json"),
-            &json!({"state":state,"message":message,"steps":steps,"provider":self.identity,"checkpoint_sha256":self.identity.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"ai_scope":"raw diagnostic, check per-frame verdicts; no fallback or qualification claim"}),
-        )?;
+        let mut value = json!({"state":state,"message":message,"steps":steps,"provider":self.identity,"checkpoint_sha256":self.identity.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"ai_scope":"raw diagnostic, check per-frame verdicts; no fallback or qualification claim"});
+        if self.policy != ExecutionPolicy::LegacyRawContinuation {
+            value["schema"] = json!("rheon-live-water-comparison-completion-v2");
+            value["policy"] = json!(self.policy);
+            value["ai_scope"] = json!(
+                "Diagnostic attempts and actual transitions are in attempts.sqlite; inspect finished.json, or intent.json if finalization was unconfirmed"
+            );
+        }
+        atomic(&self.directory.join("completion.json"), &value)?;
         self.activity(state, message, steps)
     }
 }

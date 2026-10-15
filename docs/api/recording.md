@@ -289,3 +289,15 @@ cargo run --locked --no-default-features --example recorded_carrier -- \
 Every named field is inventoried, the full committed prefix is audited, ordinal 1 is
 selected exactly, and carrier VTI retains native face/tracer/pressure precision and
 interval associations without inventing represented volume.
+
+
+## Archive-kind isolation
+
+Native accepted version1 archives retain SQLite application_id0. Accepted readers
+reject any nonzero application_id as unsupported archive kind before interpreting
+accepted tables, and recheck this on later operations. Existing native writer
+schema/publication semantics are unchanged. Typed diagnostic attempts use separate
+RHDP application identity/tables and [diagnostic-recording.md](diagnostic-recording.md);
+that reader cannot promote requests, candidates or host observations to accepted
+publications. Archive hashes/kind markers prove structural consistency, not source
+authenticity or scientific correctness. Cold diagnostic reads execute no model.

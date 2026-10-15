@@ -1,6 +1,7 @@
 //! One joinable owner. Terminal state follows model kill/wait and reader joins.
 use super::{
-    engine::{Engine, Frame},
+    diagnostic_runs::{FrozenDiagnosticSpec, RunStatistics},
+    engine::{Engine, ExecutionPolicy, Frame},
     model_process::{ChildSlot, ModelProcess, ProviderIdentity, cancel},
     record::Record,
     scene::Scene,
@@ -14,6 +15,10 @@ use std::{
     thread::{self, JoinHandle},
     time::{Duration, Instant},
 };
+pub(super) struct RunOptions {
+    pub policy: ExecutionPolicy,
+    pub saved: Option<(FrozenDiagnosticSpec, [u8; 32])>,
+}
 pub struct Shared {
     pub frames: Vec<Arc<Frame>>,
     pub message: String,
@@ -22,6 +27,10 @@ pub struct Shared {
     pub provider: Option<ProviderIdentity>,
     pub pressure_range: f64,
     pub difference_range: f64,
+    pub policy: ExecutionPolicy,
+    pub last_attempt: Option<Arc<rheon::recording::diagnostic::DiagnosticAttempt>>,
+    pub diagnostic_manifest: Option<PathBuf>,
+    pub statistics: Option<RunStatistics>,
 }
 impl Default for Shared {
     fn default() -> Self {
@@ -33,6 +42,10 @@ impl Default for Shared {
             provider: None,
             pressure_range: 0.0,
             difference_range: 0.0,
+            policy: ExecutionPolicy::LegacyRawContinuation,
+            last_attempt: None,
+            diagnostic_manifest: None,
+            statistics: None,
         }
     }
 }
@@ -44,6 +57,42 @@ pub struct Worker {
 }
 impl Worker {
     pub fn start(scene: Scene, deployment: PathBuf, root: PathBuf) -> Result<Self, String> {
+        Self::start_with_policy(
+            scene,
+            deployment,
+            root,
+            ExecutionPolicy::LegacyRawContinuation,
+        )
+    }
+    pub fn start_with_policy(
+        scene: Scene,
+        deployment: PathBuf,
+        root: PathBuf,
+        policy: ExecutionPolicy,
+    ) -> Result<Self, String> {
+        Self::start_configured(scene, deployment, root, policy, None)
+    }
+    pub fn start_saved(
+        spec: FrozenDiagnosticSpec,
+        parent: [u8; 32],
+        root: PathBuf,
+    ) -> Result<Self, String> {
+        spec.validate_execution()?;
+        Self::start_configured(
+            spec.scene.clone(),
+            PathBuf::from(&spec.deployment),
+            root,
+            spec.policy,
+            Some((spec, parent)),
+        )
+    }
+    fn start_configured(
+        scene: Scene,
+        deployment: PathBuf,
+        root: PathBuf,
+        policy: ExecutionPolicy,
+        saved: Option<(FrozenDiagnosticSpec, [u8; 32])>,
+    ) -> Result<Self, String> {
         scene.validate()?;
         let shared = Arc::new(Mutex::new(Shared::default()));
         let flag = Arc::new(AtomicBool::new(false));
@@ -54,10 +103,19 @@ impl Worker {
         let handle = thread::Builder::new()
             .name("water-ai-comparison".into())
             .spawn(move || {
-                if let Err(error) = run(scene, deployment, root, &view, &cancelled, child)
-                    && let Ok(mut data) = view.lock()
+                if let Err(error) = run_configured(
+                    scene,
+                    deployment,
+                    root,
+                    &view,
+                    &cancelled,
+                    child,
+                    RunOptions { policy, saved },
+                ) && let Ok(mut data) = view.lock()
                 {
-                    data.state = if cancelled.load(Ordering::Relaxed) {
+                    data.state = if policy == ExecutionPolicy::LegacyRawContinuation
+                        && cancelled.load(Ordering::Relaxed)
+                    {
                         "cancelled"
                     } else {
                         "failed"
@@ -122,12 +180,64 @@ pub fn run(
     flag: &AtomicBool,
     slot: ChildSlot,
 ) -> Result<(), String> {
+    run_configured(
+        scene,
+        deployment,
+        root,
+        shared,
+        flag,
+        slot,
+        RunOptions {
+            policy: ExecutionPolicy::LegacyRawContinuation,
+            saved: None,
+        },
+    )
+}
+pub fn run_with_policy(
+    scene: Scene,
+    deployment: PathBuf,
+    root: PathBuf,
+    shared: &Mutex<Shared>,
+    flag: &AtomicBool,
+    slot: ChildSlot,
+    policy: ExecutionPolicy,
+) -> Result<(), String> {
+    run_configured(
+        scene,
+        deployment,
+        root,
+        shared,
+        flag,
+        slot,
+        RunOptions {
+            policy,
+            saved: None,
+        },
+    )
+}
+fn run_configured(
+    scene: Scene,
+    deployment: PathBuf,
+    root: PathBuf,
+    shared: &Mutex<Shared>,
+    flag: &AtomicBool,
+    slot: ChildSlot,
+    options: RunOptions,
+) -> Result<(), String> {
     scene.validate()?;
     let pool = rayon::ThreadPoolBuilder::new()
         .num_threads(1)
         .build()
         .map_err(|e| e.to_string())?;
-    pool.install(|| run_native(scene, deployment, root, shared, flag, slot))
+    pool.install(|| {
+        if options.policy == ExecutionPolicy::LegacyRawContinuation {
+            run_native(scene, deployment, root, shared, flag, slot)
+        } else {
+            super::diagnostic_worker::run_typed(
+                scene, deployment, root, shared, flag, slot, options,
+            )
+        }
+    })
 }
 fn run_native(
     scene: Scene,

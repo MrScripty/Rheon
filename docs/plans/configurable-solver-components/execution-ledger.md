@@ -314,6 +314,67 @@ Draft source remains proposal evidence, not implementation admission.
   all3 interpreter modes.20 numerical+9 page tests and scoped Clippy passed.
   Explicit95-path admission refresh precedes fresh qualification of this subject.
 
+
+## 2026-10-15 — partial diagnostic recording owner
+
+- Separate branch implementation/diagnostic-recording-m3-20261015 contains agent
+  f87a7a2 typed storage plus fb8405a review fixes, serial accepted-kind guard and
+  latest native M3 source. New run/request/attempt/host-observation/native-reference/
+  transition/terminal types stay outside accepted RecordedStep/Session ordinals.
+  Reuse SQLite owner/budgets; no engine/worker/model-process or dependency changes.
+- Independent review closed signed-zero domain round-trip, rejected-seed lineage
+  and impossible unrecorded-terminal generation findings. Actual native teacher
+  fixture retains Accepted priors and unchanged native evolution despite rejected
+  biased model observations. Explicit native-prefix declaration is not preceding
+  trajectory capture or qualification proof. Seventeen diagnostic+15 accepted+4
+  carrier tests and scoped Clippy passed before final serial source composition.
+- Fresh96-path admission preserves historical inventories and conservative gates.
+  Final-owner clean qualification and affected tests follow; partial storage does
+  not close A6. Runtime attempt capture/policy/record-before-UI wiring, typed saved
+  diagnostic intent, trained bundle and linked projection remain pending.
+
+- Final partial diagnostic owner f56a756662711413a4339357956443479425bfc3,
+  treef2d38604329906ed1133f152214ee1e80ac04476, passed clean18-command
+  native/rational qualification (`lean_checked=false`) plus fresh packet26 tests
+  normal/-O with0skips. Combined core tests passed17 diagnostic+15accepted+4carrier
+  +20nativecomparison=56; scoped core Clippy with warnings denied passed. Evidence:
+  /tmp/rheon-diagnostic-owner-qualified and /tmp/rheon-diagnostic-owner-packet.
+  Draft PR92 publishes partial storage, not teacher/stop runtime completion.
+- Corrected native M2 b24e246 passed clean qualification+packet26 normal/-O0skips,
+  full desktop63pass/1model-runtime ignored,17saved contracts and all-target
+  desktop Clippy. Real software-X11 cold rerun from retained producer source now
+  excludes ALL source IDs1/2; both tracks retain native bits/time and source files,
+  and Close exits0. Observation027b75ef3ef193083e3b16c27759865cc53167e2d8235ec9967358b804624689,
+  binary59b5c5e88c59c833c6016f2cdb6357f7bb846da7a106c4018337dee76c4d97b7.
+  Generated evidence stays in /tmp/rheon-m2-native-window-fixed; original failing
+  freshness observation remains separate. PR88 body binds exact results.
+- Native M3 b38c3fe passed clean18 commands+packet26 normal/-O0skips,20 numerical
+  contracts core-only in addition to the20desktop+9page+12archive focused matrix,
+  scoped Clippy and actual binary build. Integrated root-window flow opens exact
+  set→comparison, selects pressure ref1..2/candidate1 (1matched interval plus
+  1unmatched reference), shows actual times/intervals/Pa/gauge/common bounds,
+  exports without overwrite, reopens Unverified then verifies. Hiding an owned
+  test source shows Missing and clears stale metrics; exact bytes restored.
+  Window Close exits0. Actual exported512-sample metrics pass independent stdlib
+  SQLite/native-bit oracle normal/-O/PYTHONOPTIMIZE=1. Observation
+  36e06591f177ed7b72ef9afd0b00c0f8a76bdda999c7086362701740601af550;
+  result0febc3e9004856bab33c7abc946b5a19f3c79364d098ac382e0d1f256bf2d41d;
+  binarye1e5306288bccb32f1437c3caec2847712419deb130730a38596ba4e8968ffdc.
+  Generated material /tmp/rheon-m3-native-window; exact clean receipts
+  /tmp/rheon-m3-values-qualified and /tmp/rheon-m3-values-packet. Software display,
+  bounded native sources and artifact identities only; no trained/GPU/authenticity
+  or linked physical slice/probe claim. PR91 body retains exact evidence.
+- Documentation-only follow-through does not transfer a receipt to another tree.
+  Required hosted checks are still pending; no implementation PR is merged.
+  Preserve every active stack/companion branch. The measured live-water deployment
+  bundle/Torch is still unavailable, and the existing frozen trajectory-v2 CI
+  checkpoint is a distinct consumer. A1/model parity is blocked on that input.
+- Companion06ccf43 exact-value/page hooks are integrated. New linked view module,
+  tests and docs were allocated via PR89 comment6200315546, clarified in6200446821;
+  no new renderer file handoff has been published. Parent can resume the separate
+  companion thread01a140a3-ebca-7436-82cf-94fedc42b036 on that concrete allocation.
+  Existing shared worker/root/admission/merge ownership remains serial.
+
 ## 2026-10-15 — linked native sample root integration
 
 - Selected only companion PR93's three allocated files76cc71af as90ee568;
@@ -335,3 +396,107 @@ Draft source remains proposal evidence, not implementation admission.
   /tmp/rheon-linked-root-packet-final and /tmp/rheon-linked-root-native/observation.json.
   This is native recorded-source slice/probe evidence, not trained model/device
   qualification, accepted learned-provider composition or full generic M1–M3.
+
+## 2026-10-15 — bounded acceptance replan and typed runtime source freeze
+
+- Scope PR87 as configurable adapter/context and real CPU-fixture lifecycle
+  contracts. This narrower independently reviewed slice may merge after applicable
+  exact-head checks; full measured-model M1/A1 stays pending without gate waiver.
+  Native-only M2/M3 and linked-view scopes have their own source/qualification
+  evidence. Accepted learned-provider A2 remains separate and unimplemented.
+- Runtime source27bbd09 reuses existing Engine/Worker/ModelProcess/Record and SQLite
+  owners for teacher-native-history and independent stop-on-reject. Typed schema2
+  retains native diagnostic origins, wall observations and cancelled-before-advance
+  candidates; legacy continuation/JSON remains compatible. Six worker/cold fixtures,
+  actual typed subprocess tests, exact clock/history tests, pressure oracle normal/
+  optimized negatives and actual5-to6-grid saved-rerun UI regression passed.
+- Independent review resolved cold-count tampering, persistence-failure precedence,
+  gauge semantics, inspector namespace invalidation, CLI failure status and rerun
+  snapshot/geometry defects before final admission. The combined linked/runtime
+ 103-path source closure is explicitly reviewed and frozen for fresh qualification;
+  no previous receipt is relabelled for this tree.
+- The exact missing measured checkpoint/deployment/normalization/CPU runtime/parity
+  inputs and adverse retained accuracy observations are specified in
+  docs/api/measured-pressure-bundle-handoff.md. No training, substitute checkpoint,
+  fabricated model acceptance or README90 merge is performed.
+
+## 2026-10-15 — final typed runtime qualification and native workflow
+
+- Clean combined source5cf3ccc082ebd17447bba72b20da6fac1a7b4f93,
+  tree842d4f928469858048839207307267418910b6b9, passed all18 fresh native/rational
+  commands, then26 real-packet tests normally and under -O with zero skips.
+  Forty-four comparison tests passed with one existing measured-deployment test
+  explicitly ignored;61 core recording/carrier/comparison and47 desktop archive/
+  page/run-set/linked-view tests passed. Strict affected desktop/test Clippy,
+  formatting and both native comparison/root binary builds passed.
+- Actual native eframe/llvmpipe teacher fixture:15 native prefix plus3 zero-pressure
+  rejected candidates completed18 native advances. Equal-request4096-cell metric
+  export passed the independent stdlib SQLite oracle normal/-O/PYTHONOPTIMIZE1.
+  Shared slice/probe states retained exact candidate/native/RHS/residual/prior and
+  physical locations; two actual displayed states matched independent raw decoding.
+  A producer-exit0/fresh-process cold open verified the pinned source while its
+  owned fixture manifest was absent; no model child started. Frozen rerun retained
+  parent digest, fresh directory/run identity and every original file; child was
+  observed resident and absent after terminal. Independent policy retained first
+  rejection after15 native steps without publishing generation16 advanced frame.
+- Actual mid-call GUI Cancel, restart to an honest first-rejection terminal and
+  WM_DELETE Close during prediction retained typed requests and drained immediate
+  children: positive-before/negative-after observations, final app exit0. A real
+  typed CLI failure exited1 after preserving Failed evidence. These are fixture,
+  normal Linux immediate-child and software-window observations, not measured
+  checkpoint/device/descendant/deadline or model accuracy acceptance.
+- External evidence: /tmp/rheon-runtime-composed-qualified,
+  /tmp/rheon-runtime-composed-packet and /tmp/rheon-runtime-native/observation.json
+  SHA256 e7def0374915a3fcf8337b99de0bcf853e11252cc071044458b3b30d6a2bf56e.
+  The observer pins binary, generated saved artifacts, screenshots, raw oracles,
+  process exits and actual mode statistics. Generated files remain outside Git.
+- Applicable exact-head checks passed before serial merges: PR87 at630df33,
+  PR88 atf5d5e8d and PR91 at42fa903. Their scoped contract/native acceptance does
+  not close A1 measured model or A2 accepted learned-provider gates. PR94 and the
+  final runtime rollup retain their own hosted checks. Partial storage PR92 is
+  an ancestor of the runtime rollup; retain its source branch until that complete
+  reviewed schema2 path lands rather than forcing an intermediate schema1 merge.
+- Final follow-through is documentation only; all103 selected source pins remain
+  byte-identical to5cf3ccc. The exact missing bundle/runtime/parity contract is in
+  docs/api/measured-pressure-bundle-handoff.md; full model acceptance stays blocked.
+  README90 and active source/dependent branches remain untouched.
+
+## 2026-10-15 — final saved-executor provenance correction
+
+A final independent challenge found that a frozen old build stamp could be
+copied into new execution provenance under a different executor. The execution-only
+full-stamp guard now rejects any mismatch before output/process creation, including
+known/unspecified mismatches. Historical cold decoding stays available and equal
+unspecified stamps retain an explicit lack of build-parity assurance. No old intent
+or digest is rewritten. A focused real-subprocess regression proves rejection
+without side effects, manufactured historical cold readability and successful
+matching execution; strict binary Clippy passed. Independent review approved all
+four changed source files. The 103-path closure is rebound for fresh clean
+qualification and hosted CI; the preceding 5cf3ccc native evidence remains pinned
+to its actual source and is not relabelled for this correction.
+
+## 2026-10-15 — corrected executor freeze and native rerun evidence
+
+- Final corrected source bc7b09b0e94d045ed5c4ffb10fd9b3a9d062709a,
+  tree 749cf942aa3084a13cd39917cd12d1160dcde765, passed a fresh clean
+  18-command qualification and 26 real-packet tests normally and under -O,
+  with zero skips. All 103 reviewed source pins remain frozen. The preceding
+  guard source 50b8514 passed 45 comparison tests with one measured-deployment
+  test explicitly ignored; the final inspector-only correction passed both
+  affected saved-rerun/inspector regressions, strict binary Clippy and builds.
+  Earlier core/archive/native evidence above retains its actual source identity.
+- A fresh native eframe/software-X11 window cold-opened a manufactured historical
+  intent with an old known source stamp as not run, then visibly rejected rerun
+  before any output directory or model process. A matching frozen fixture member
+  subsequently completed a fresh rerun: 15 native prefix steps, three rejected
+  candidates and 18 native advances. Its immediate child was observed present
+  before terminal and absent afterwards. Equal unspecified stamps do not establish
+  source-build parity or authenticity.
+- With that completed worker still present, another old-stamp rerun was rejected
+  without a new output directory or model. The exact explanation remained in the
+  inspector across ordinary repaints. Actual GUI Close exited zero. Evidence:
+  /tmp/rheon-runtime-provenance-native/observation.json SHA256
+  87ef608faa0b70782fded0f3e360517d01109bf049014f5ba81038367103be45.
+  Fresh qualification and packet are /tmp/rheon-runtime-provenance-final-qualified
+  and /tmp/rheon-runtime-provenance-final-packet. This follow-through changes
+  documentation only; hosted checks must qualify the pushed head independently.

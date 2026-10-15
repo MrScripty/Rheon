@@ -2,9 +2,9 @@
 
 **Document status:** Active implementation plan. The user subsequently authorized M1–M3 implementation, separate draft PRs, validated ready merges and safe branch retirement. This supersedes the earlier documentation-only scope recorded in the historical ledger; numerical and environment gates remain mandatory.
 
-**Current phase:** M1 typed diagnostic CPU seam is implemented and independently reviewed on PR87; clean isolated-target native/rational and focused CPU checks pass, and software-X11 fixture interaction is observed. Native M2 worker/save/cold-rerun composition is verifying on PR88; native M3 analysis/persistence and cold comparison-page navigation are integrated on PR91, with linked field projection under composition. PR84 merged at `c85dfee`. No accepted trained-provider production composition is claimed.
+**Current phase:** bounded adapter/context, native saved-run and native quantitative-comparison slices merged as PR87/88/91 after exact-head checks. PR94 integrates the reviewed linked native slice/probe. Typed teacher/stop runtime, schema2 capture, frozen reruns and cold pressure inspection passed clean combined-tree qualification and actual software-X11 fixture workflows; final hosted CI and serial merge disposition remain active. No accepted learned-provider composition is claimed.
 
-**Next slice:** finish corrected cold-rerun and integrated comparison-page/linked-field validation, then separately qualify typed teacher/stop diagnostics and their recording. Diagnostic M1 alone does not satisfy accepted-provider A2.
+**Next slice:** finish combined diagnostic runtime/native validation, monitor and resolve applicable exact-head CI, merge ready bounded slices serially and retire only safe merged branches. The missing measured model bundle blocks its own qualification, not independent validated implementation.
 
 **Implementation acceptance:** pending against A1–A8. Actual stdlib CPU processes qualify the stated protocol/lifecycle fixtures, not the absent measured trained deployment; isolated Xvfb native-window fixture interaction is observed. The measured trained bundle/Torch remains unavailable; required model-parity and full generic milestone claims stay pending.
 
@@ -73,7 +73,7 @@ A0 is current read-only source/design evidence, satisfied within its stated scop
 | A7 | Process failure, cancellation, Close, repeated Start and storage failure reach honest terminal states with no stale publication or owned child left running | lifecycle/system | Supported OS, real runtime/processes/window / automated plus native interaction | pending |
 | A8 | Pinned formatting, lints, affected feature/API/recording/VTK/browser regressions pass for final material; unsupported platforms remain explicit | static/build/regression | Actual supported toolchains/targets / automated | pending |
 
-Native window claims remain pending until actual interaction is observed in an appropriate connected execution environment. This documentation task has not qualified one. Headless egui tests and screenshots of a started window cannot substitute for the requested interactive workflow.
+Actual software-X11 interaction now covers the bounded native saved-run, linked slice/probe and typed diagnostic fixture workflows recorded in the execution ledger, including cold reopen, rerun, Cancel and Close. These observations do not qualify the absent measured deployment or every platform and acceptance criterion above. Headless egui tests and screenshots of a started window alone do not establish an interactive workflow.
 
 ## Proposed decisions and owners
 

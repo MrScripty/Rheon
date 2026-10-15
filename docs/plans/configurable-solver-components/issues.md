@@ -27,3 +27,24 @@ not accepted); R3→Q2 (viscosity); R4→Q2 (spacing/origin); R5→Q4 (diagnosti
 R6→Q4 (separate diagnostic advance); R7→Q5 (provider state); R8→Q7 (rerun/restart).
 Q3/Q8 add findings from this independent repository-side review. This crosswalk
 retains draft dispositions without creating a second issue authority.
+
+## Current bounded implementation disposition, 2026-10-15
+
+The later implementation/validated-merge authority recorded in plan.md supersedes
+the historical documentation-only scope above. Q3/Q4 now have independently
+reviewed and freshly validated teacher/stop capture through the existing Engine,
+worker/process and distinct diagnostic SQLite owner. This closes those runtime
+contract gaps for the declared diagnostic modes, without promoting a candidate
+to accepted Session state. Q7 now has frozen native and diagnostic intent, exact
+cold pins and fresh explicit reruns; integrator resume remains outside scope.
+Q8 has verified nonempty native physical-interval coverage and synchronized exact
+native slice/probe fields, while unmatched coverage remains explicit. Applicable
+exact-head checks allowed serial bounded PR87/88/91 merges. Final linked/runtime
+hosted checks still govern their own disposition.
+
+Q2 accepted learned-provider physical composition and Q10 actual measured bundle/
+Torch/parity remain open. The concrete supplied-material contract, exact required
+checkpoint and retained adverse observations are documented in
+../../api/measured-pressure-bundle-handoff.md. Fixtures and the different frozen
+trajectory-v2 CI consumer are not substitutes. Q5/Q6 recurrence, descendant
+custody and hard shutdown bounds remain explicitly unpromoted capabilities.

@@ -434,7 +434,7 @@ fn compare_fields(
         return Err(Unavailable::Geometry);
     }
     temporal_compatibility(a, b, recipe)?;
-    let mut x = values(a, recipe.field)?;
+    let x = values(a, recipe.field)?;
     let mut y = values(b, recipe.field)?;
     let gauge = if recipe.field == FieldRole::IntervalPressure {
         let reference_canonical = x.first() == Some(&0.0);
@@ -475,10 +475,36 @@ fn compare_fields(
     } else {
         None
     };
+    let support_count = sample_count(a, recipe.field)?;
+    reduce_values(
+        &x,
+        &y,
+        support_count,
+        match recipe.field {
+            FieldRole::Tracer => "1",
+            FieldRole::IntervalPressure => "Pa",
+            FieldRole::VelocityDivergence => "1/s",
+            _ => "m/s",
+        },
+        gauge,
+    )
+}
+/// Shared finite-sample reduction; callers establish their physical source
+/// contract before entering. This function grants no accepted/native profile.
+pub(super) fn reduce_values(
+    x: &[f64],
+    y: &[f64],
+    support_count: usize,
+    units: &'static str,
+    gauge: Option<GaugeReport>,
+) -> Result<FieldComparison, Unavailable> {
+    if x.len() != support_count || y.len() != support_count {
+        return Err(Unavailable::FieldSchema);
+    }
     if x.is_empty() {
         return Err(Unavailable::EmptySupport);
     }
-    if x.iter().chain(&y).any(|v| !v.is_finite()) {
+    if x.iter().chain(y.iter()).any(|v| !v.is_finite()) {
         return Err(Unavailable::ArithmeticRange);
     }
     let mut norm = 0.0_f64;
@@ -486,7 +512,7 @@ fn compare_fields(
     let mut linf = 0.0_f64;
     let mut min = f64::INFINITY;
     let mut max = f64::NEG_INFINITY;
-    for (x, y) in x.drain(..).zip(y) {
+    for (&x, &y) in x.iter().zip(y) {
         let delta = y - x;
         norm = norm.hypot(x);
         error = error.hypot(delta);
@@ -495,7 +521,6 @@ fn compare_fields(
         max = max.max(x).max(y);
     }
     // Number of samples follows the exact native schema, not display pixels.
-    let support_count = sample_count(a, recipe.field)?;
     let rmse = error / (support_count as f64).sqrt();
     let relative_l2 = if norm == 0.0 {
         None
@@ -517,12 +542,7 @@ fn compare_fields(
             linf,
             relative_l2,
         },
-        units: match recipe.field {
-            FieldRole::Tracer => "1",
-            FieldRole::IntervalPressure => "Pa",
-            FieldRole::VelocityDivergence => "1/s",
-            _ => "m/s",
-        },
+        units,
         color_bounds: ColorBounds { min, max },
         gauge,
     })

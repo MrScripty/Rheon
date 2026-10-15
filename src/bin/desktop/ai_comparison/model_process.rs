@@ -1,6 +1,7 @@
 //! One bounded CPU child, owned readers, explicit cancellation and teardown.
-use super::adapter::{AdapterPackage, InputSemantic, OutputRole};
+use super::adapter::{AdapterPackage, InputSemantic, OutputRole, PriorPressure};
 use super::engine::Input;
+use rheon::recording::diagnostic::NoCandidateReason;
 use serde::Deserialize;
 use serde::Serialize;
 use serde_json::{Value, json};
@@ -19,6 +20,39 @@ use std::{
     time::{Duration, Instant},
 };
 const LIMIT: usize = 8 * 1024 * 1024;
+#[derive(Debug)]
+pub(super) struct PredictionFailure {
+    pub reason: NoCandidateReason,
+    pub detail: String,
+    pub dispatched: bool,
+    /// Exact complete received protocol line, including its newline. A bounded
+    /// prefix of an oversized packet is deliberately not called its digest.
+    pub invalid_payload_sha256: Option<[u8; 32]>,
+}
+impl PredictionFailure {
+    fn new(
+        reason: NoCandidateReason,
+        detail: impl AsRef<str>,
+        dispatched: bool,
+        digest: Option<[u8; 32]>,
+    ) -> Self {
+        Self {
+            reason,
+            detail: detail
+                .as_ref()
+                .chars()
+                .filter(|c| !c.is_control())
+                .take(2000)
+                .collect(),
+            dispatched,
+            invalid_payload_sha256: digest,
+        }
+    }
+}
+struct ReceivedReply {
+    reply: Reply,
+    payload_sha256: [u8; 32],
+}
 pub type ChildSlot = Arc<Mutex<Option<Child>>>;
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -168,8 +202,8 @@ pub fn cancel(slot: &ChildSlot, flag: &AtomicBool) {
     kill(slot);
 }
 fn deliver(
-    sender: &SyncSender<Result<Reply, String>>,
-    mut item: Result<Reply, String>,
+    sender: &SyncSender<Result<ReceivedReply, PredictionFailure>>,
+    mut item: Result<ReceivedReply, PredictionFailure>,
     stop: &AtomicBool,
 ) {
     while !stop.load(Ordering::Relaxed) {
@@ -182,7 +216,7 @@ fn deliver(
         }
     }
 }
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub struct ProviderIdentity {
     pub id: String,
     pub version: String,
@@ -279,7 +313,7 @@ fn runtime_config(raw: &[u8], path: &Path) -> Result<RuntimeConfig, String> {
 pub struct ModelProcess {
     sender: Option<SyncSender<Vec<u8>>>,
     writes: Receiver<Result<(), String>>,
-    receiver: Receiver<Result<Reply, String>>,
+    receiver: Receiver<Result<ReceivedReply, PredictionFailure>>,
     slot: ChildSlot,
     stop: Arc<AtomicBool>,
     readers: Vec<JoinHandle<()>>,
@@ -337,9 +371,31 @@ impl ModelProcess {
         path: &Path,
         slot: ChildSlot,
         cancelled: &AtomicBool,
+        progress: impl FnMut(&str) -> Result<(), String>,
+    ) -> Result<Self, String> {
+        Self::start_with_pin(path, slot, cancelled, None, progress)
+    }
+    /// Freeze the complete resolved binding before any model code executes.
+    pub(super) fn start_pinned(
+        path: &Path,
+        slot: ChildSlot,
+        cancelled: &AtomicBool,
+        expected: &ProviderIdentity,
+        progress: impl FnMut(&str) -> Result<(), String>,
+    ) -> Result<Self, String> {
+        Self::start_with_pin(path, slot, cancelled, Some(expected), progress)
+    }
+    fn start_with_pin(
+        path: &Path,
+        slot: ChildSlot,
+        cancelled: &AtomicBool,
+        expected: Option<&ProviderIdentity>,
         mut progress: impl FnMut(&str) -> Result<(), String>,
     ) -> Result<Self, String> {
         let (canonical, runtime) = read_runtime(path)?;
+        if expected.is_some_and(|expected| expected != &runtime.identity) {
+            return Err("CPU provider binding differs from frozen pin".into());
+        }
         let path = canonical.as_path();
         if cancelled.load(Ordering::Relaxed) {
             return Err("Cancelled".into());
@@ -416,10 +472,35 @@ impl ModelProcess {
                     let item = match read {
                         Ok(0) => break,
                         Ok(_) if bytes.len() <= LIMIT && bytes.ends_with(b"\n") => {
-                            serde_json::from_slice(&bytes).map_err(|e| e.to_string())
+                            let digest = Sha256::digest(&bytes).into();
+                            serde_json::from_slice(&bytes)
+                                .map(|reply| ReceivedReply {
+                                    reply,
+                                    payload_sha256: digest,
+                                })
+                                .map_err(|e| {
+                                    PredictionFailure::new(
+                                        NoCandidateReason::InvalidOutput,
+                                        e.to_string(),
+                                        false,
+                                        Some(digest),
+                                    )
+                                })
                         }
-                        Ok(_) => Err("Model output record exceeds bound or is incomplete".into()),
-                        Err(e) => Err(e.to_string()),
+                        Ok(_) => Err(PredictionFailure::new(
+                            NoCandidateReason::InvalidOutput,
+                            "Model output record exceeds bound or is incomplete",
+                            false,
+                            bytes
+                                .ends_with(b"\n")
+                                .then(|| Sha256::digest(&bytes).into()),
+                        )),
+                        Err(e) => Err(PredictionFailure::new(
+                            NoCandidateReason::RuntimeFailure,
+                            e.to_string(),
+                            false,
+                            None,
+                        )),
                     };
                     let failed = item.is_err();
                     deliver(&sender, item, &flag);
@@ -509,69 +590,212 @@ impl ModelProcess {
         }
     }
     fn receive(&mut self, cancelled: &AtomicBool, deadline: Instant) -> Result<Reply, String> {
+        self.receive_typed(cancelled, deadline, false)
+            .map(|r| r.reply)
+            .map_err(|e| e.detail)
+    }
+    fn receive_typed(
+        &mut self,
+        cancelled: &AtomicBool,
+        deadline: Instant,
+        dispatched: bool,
+    ) -> Result<ReceivedReply, PredictionFailure> {
         loop {
             if cancelled.load(Ordering::Relaxed) {
-                return Err("Cancelled".into());
+                return Err(PredictionFailure::new(
+                    NoCandidateReason::Cancelled,
+                    "Cancelled",
+                    dispatched,
+                    None,
+                ));
             }
             if Instant::now() >= deadline {
-                return Err("CPU model reply deadline exceeded".into());
+                return Err(PredictionFailure::new(
+                    NoCandidateReason::RuntimeFailure,
+                    "CPU model reply deadline exceeded",
+                    dispatched,
+                    None,
+                ));
             }
             match self.receiver.recv_timeout(Duration::from_millis(20)) {
-                Ok(v) => return v,
+                Ok(v) => {
+                    return v.map_err(|mut e| {
+                        e.dispatched = dispatched;
+                        if cancelled.load(Ordering::Relaxed)
+                            && e.reason == NoCandidateReason::RuntimeFailure
+                            && e.invalid_payload_sha256.is_none()
+                        {
+                            e.reason = NoCandidateReason::Cancelled;
+                            e.detail = "Cancelled".into();
+                        }
+                        e
+                    });
+                }
                 Err(mpsc::RecvTimeoutError::Timeout) => {}
-                Err(_) => return Err("CPU model closed its output".into()),
+                Err(_) => {
+                    return Err(PredictionFailure::new(
+                        if cancelled.load(Ordering::Relaxed) {
+                            NoCandidateReason::Cancelled
+                        } else {
+                            NoCandidateReason::RuntimeFailure
+                        },
+                        if cancelled.load(Ordering::Relaxed) {
+                            "Cancelled"
+                        } else {
+                            "CPU model closed its output"
+                        },
+                        dispatched,
+                        None,
+                    ));
+                }
             }
         }
     }
+    /// Legacy callers retain their string result; typed consumers keep the
+    /// structured reason/dispatch facts rather than parsing display text.
     pub fn predict(
         &mut self,
         input: Input<'_>,
         cancelled: &AtomicBool,
     ) -> Result<Vec<f64>, String> {
-        let request_id =
-            usize::try_from(input.context.generation()).map_err(|_| "Request id overflow")?;
+        self.predict_typed(input, cancelled).map_err(|e| e.detail)
+    }
+    pub(super) fn predict_typed(
+        &mut self,
+        input: Input<'_>,
+        cancelled: &AtomicBool,
+    ) -> Result<Vec<f64>, PredictionFailure> {
+        let before = |reason, detail| PredictionFailure::new(reason, detail, false, None);
+        if cancelled.load(Ordering::Relaxed) {
+            return Err(before(NoCandidateReason::Cancelled, "Cancelled"));
+        }
+        let request_id = usize::try_from(input.context.generation())
+            .map_err(|_| before(NoCandidateReason::UnsupportedContext, "Request id overflow"))?;
         if input.context.generation() >= (1_u64 << 53) {
-            return Err("Request id exceeds protocol range".into());
+            return Err(before(
+                NoCandidateReason::UnsupportedContext,
+                "Request id exceeds protocol range",
+            ));
+        }
+        let n = input.context.grid().cell_len();
+        if n > 65_536
+            || input.initial_guess.len() != n
+            || input.residual.len() != n
+            || input.initial_guess.first() != Some(&0.0)
+            || input
+                .initial_guess
+                .iter()
+                .chain(input.residual)
+                .any(|v| !v.is_finite())
+        {
+            return Err(before(
+                NoCandidateReason::UnsupportedContext,
+                "Invalid physical input shape, gauge or finiteness",
+            ));
         }
         let request = if let Some(adapter) = &self.adapter {
             adapter_request(adapter, &input, request_id)?
         } else {
+            if request_id - 1 < self.minimum_native_steps {
+                return Err(before(
+                    NoCandidateReason::UnsupportedContext,
+                    "Native prefix required",
+                ));
+            }
             json!({"id":request_id,"counts_xyz":input.context.grid().counts(),"cell_size_m":input.context.grid().spacing()[0],"density_kg_m3":input.context.density(),"dt_s":input.context.dt(),"base_pressure":input.initial_guess,"native_input_residual":input.residual})
         };
-        let mut raw = serde_json::to_vec(&request).map_err(|e| e.to_string())?;
+        let mut raw = serde_json::to_vec(&request).map_err(|e| {
+            PredictionFailure::new(
+                NoCandidateReason::UnsupportedContext,
+                e.to_string(),
+                false,
+                None,
+            )
+        })?;
         if raw.len() + 1 > LIMIT {
-            return Err("CPU request budget exceeded".into());
+            return Err(before(
+                NoCandidateReason::UnsupportedContext,
+                "CPU request budget exceeded",
+            ));
         }
         raw.push(b'\n');
+        if cancelled.load(Ordering::Relaxed) {
+            return Err(before(NoCandidateReason::Cancelled, "Cancelled"));
+        }
         let deadline = Instant::now() + self.prediction_timeout;
         self.sender
             .as_ref()
-            .ok_or("Model input closed")?
+            .ok_or_else(|| before(NoCandidateReason::RuntimeFailure, "Model input closed"))?
             .try_send(raw)
-            .map_err(|_| "Model input unavailable or full")?;
+            .map_err(|_| {
+                before(
+                    NoCandidateReason::RuntimeFailure,
+                    "Model input unavailable or full",
+                )
+            })?;
+        // Dispatch means the existing writer accepted this request, not proof
+        // that the child consumed every byte. All subsequent outcomes retain it.
+        let after = |reason, detail| PredictionFailure::new(reason, detail, true, None);
         loop {
             if cancelled.load(Ordering::Relaxed) {
-                return Err("Cancelled".into());
+                return Err(after(NoCandidateReason::Cancelled, "Cancelled"));
             }
             if Instant::now() >= deadline {
-                return Err("CPU model write deadline exceeded".into());
+                return Err(after(
+                    NoCandidateReason::RuntimeFailure,
+                    "CPU model write deadline exceeded",
+                ));
             }
             match self.writes.recv_timeout(Duration::from_millis(20)) {
                 Ok(result) => {
-                    result?;
+                    result.map_err(|e| {
+                        if cancelled.load(Ordering::Relaxed) {
+                            after(NoCandidateReason::Cancelled, "Cancelled")
+                        } else {
+                            PredictionFailure::new(NoCandidateReason::RuntimeFailure, e, true, None)
+                        }
+                    })?;
                     break;
                 }
                 Err(mpsc::RecvTimeoutError::Timeout) => {}
-                Err(_) => return Err("CPU model input closed".into()),
+                Err(_) => {
+                    return Err(after(
+                        if cancelled.load(Ordering::Relaxed) {
+                            NoCandidateReason::Cancelled
+                        } else {
+                            NoCandidateReason::RuntimeFailure
+                        },
+                        if cancelled.load(Ordering::Relaxed) {
+                            "Cancelled"
+                        } else {
+                            "CPU model input closed"
+                        },
+                    ));
+                }
             }
         }
-        let response = self.receive(cancelled, deadline)?;
-        match response {
+        let received = self.receive_typed(cancelled, deadline, true)?;
+        let digest = Some(received.payload_sha256);
+        match received.reply {
             Reply::Error {
                 code,
                 id: Some(id),
                 message,
-            } if id == request_id => Err(bridge_error(code, message)),
+            } if id == request_id => {
+                let reason = match code {
+                    ErrorCode::Unsupported => NoCandidateReason::Unsupported,
+                    ErrorCode::UnsupportedContext | ErrorCode::Invalid => {
+                        NoCandidateReason::UnsupportedContext
+                    }
+                    ErrorCode::Unavailable => NoCandidateReason::RuntimeFailure,
+                };
+                Err(PredictionFailure::new(
+                    reason,
+                    bridge_error(code, message),
+                    true,
+                    None,
+                ))
+            }
             Reply::Pressure {
                 id,
                 pressure,
@@ -581,7 +805,7 @@ impl ModelProcess {
                 && id == request_id
                 && device == "cpu"
                 && optimizer_updates == 0
-                && pressure.len() == input.initial_guess.len()
+                && pressure.len() == n
                 && pressure.first() == Some(&0.0) =>
             {
                 Ok(pressure)
@@ -599,24 +823,36 @@ impl ModelProcess {
                     .is_some_and(|a| a.output_role() == role)
                 && device == "cpu"
                 && optimizer_updates == 0
-                && pressure.len() == input.context.grid().cell_len()
+                && pressure.len() == n
                 && pressure.first() == Some(&0.0) =>
             {
                 if role == OutputRole::PressureCorrection {
-                    let prior = input
-                        .context
-                        .prior()
-                        .ok_or("Correction requires prior pressure")?;
+                    let prior = input.context.prior().ok_or_else(|| {
+                        after(
+                            NoCandidateReason::UnsupportedContext,
+                            "Correction requires prior pressure",
+                        )
+                    })?;
                     for (p, previous) in pressure.iter_mut().zip(prior.values) {
                         *p += *previous;
                         if !p.is_finite() {
-                            return Err("Nonfinite reconstructed pressure".into());
+                            return Err(PredictionFailure::new(
+                                NoCandidateReason::InvalidOutput,
+                                "Nonfinite reconstructed pressure",
+                                true,
+                                digest,
+                            ));
                         }
                     }
                 }
                 Ok(pressure)
             }
-            _ => Err("CPU pressure reply shape/gauge/correlation mismatch".into()),
+            _ => Err(PredictionFailure::new(
+                NoCandidateReason::InvalidOutput,
+                "CPU pressure reply shape/gauge/correlation mismatch",
+                true,
+                digest,
+            )),
         }
     }
 }
@@ -624,8 +860,21 @@ fn adapter_request(
     adapter: &AdapterPackage,
     input: &Input<'_>,
     id: usize,
-) -> Result<Value, String> {
+) -> Result<Value, PredictionFailure> {
     let c = &input.context;
+    let prior_needed = adapter.context().prior_pressure == PriorPressure::Required
+        || adapter
+            .inputs()
+            .values()
+            .any(|s| *s == InputSemantic::PreviousPressure);
+    if id - 1 < adapter.context().minimum_native_steps || (prior_needed && c.prior().is_none()) {
+        return Err(PredictionFailure::new(
+            NoCandidateReason::UnsupportedContext,
+            "Required native prefix or prior pressure is missing",
+            false,
+            None,
+        ));
+    }
     adapter
         .validate_support(
             c.grid(),
@@ -635,7 +884,9 @@ fn adapter_request(
             id - 1,
             c.prior().is_some(),
         )
-        .map_err(|e| e.to_string())?;
+        .map_err(|e| {
+            PredictionFailure::new(NoCandidateReason::Unsupported, e.to_string(), false, None)
+        })?;
     let counts = c.grid().counts();
     let mut fields = serde_json::Map::new();
     for (name, semantic) in adapter.inputs() {
@@ -644,7 +895,14 @@ fn adapter_request(
             InputSemantic::InitialResidual => (input.residual.to_vec(), "m3/s2", false),
             InputSemantic::PreviousPressure => (
                 c.prior()
-                    .ok_or("Previous pressure unavailable")?
+                    .ok_or_else(|| {
+                        PredictionFailure::new(
+                            NoCandidateReason::UnsupportedContext,
+                            "Previous pressure unavailable",
+                            false,
+                            None,
+                        )
+                    })?
                     .values
                     .to_vec(),
                 "Pa",
@@ -663,9 +921,14 @@ fn adapter_request(
                     for j in 0..counts[1] {
                         for i in 0..counts[0] {
                             values.push(
-                                c.grid()
-                                    .cell_position([i, j, k])
-                                    .ok_or("Coordinate unavailable")?[axis],
+                                c.grid().cell_position([i, j, k]).ok_or_else(|| {
+                                    PredictionFailure::new(
+                                        NoCandidateReason::UnsupportedContext,
+                                        "Coordinate unavailable",
+                                        false,
+                                        None,
+                                    )
+                                })?[axis],
                             );
                         }
                     }
@@ -716,3 +979,6 @@ mod tests {
         assert!(matches!(serde_json::from_str::<Reply>(r#"{"kind":"error","code":"unsupported_context","id":1,"message":"native prefix required"}"#).unwrap(), Reply::Error { code: ErrorCode::UnsupportedContext, id: Some(1), .. }));
     }
 }
+#[cfg(test)]
+#[path = "prediction_contract_tests.rs"]
+mod prediction_contract_tests;
