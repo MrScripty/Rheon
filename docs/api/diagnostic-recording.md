@@ -1,0 +1,176 @@
+# Diagnostic pressure attempt recording
+
+`rheon::recording::diagnostic` records bounded observations of the existing
+`sealed-mac-pressure-context-v1` stage. It is a separate typed SQLite format under
+the recording owner. It does not contain accepted simulation publications,
+accepted ordinals, restart state, an executable configuration, or a model loader.
+No numerical loop, runtime supervisor, background writer, catalog, migration,
+eviction, automatic cleanup or writer resume is provided.
+
+The first schema uses `application_id = 0x52484450` (`RHDP`), `user_version = 1`.
+Both values are required by `DiagnosticReader`. These version numbers belong to
+the diagnostic family; they do not change accepted archive version 1. The tables
+are `diagnostic_run`, `diagnostic_lifecycle`, `attempts` and `pressure_samples`.
+There is no `steps` table. Accepted archive readers reject diagnostic databases;
+diagnostic readers reject accepted databases. Cold inspection executes no Python
+or other model code.
+
+## Capture and append
+
+Create a fresh caller-owned local path with
+`DiagnosticRecorder::create(path, DiagnosticRun, RecordingLimits)`. Existing files
+are refused. The caller protects the path and ancestors from concurrent
+replacement. SQLite local filesystem locking/flush assumptions apply. Network
+filesystems, hostile concurrent mutation and author authentication are outside
+this contract.
+
+`DiagnosticRun` freezes track/run ID, source revision, grid, density, dynamic
+viscosity, fixed actual increment, diagnostic mode, provider binding identity and
+bounded provenance. `native_prefix_steps` is a required caller-observed/declaration
+of warmup length, bounded to 0–512. A nonzero declaration requires an observed
+seed and cannot exceed its generation; its value is not inferred from that generation and does not certify
+that preceding requests were recorded or physically qualified. The binding stores ID/version, manifest SHA256 and optional
+checkpoint SHA256/training-run identity. Identifiers and digests are observations,
+not proof of authorship, reproducibility, model trust or scientific quality.
+Native-only readers do not resolve those references.
+
+The optional `ObservedHistory` seed stores exact pressure values, generation,
+interval end and `PressureHistoryStatus`. Its run/grid/density are those of the
+immutable header. This is an explicitly observed starting state, including a
+possible post-warmup state. It does not invent or certify the preceding warmup
+history. A missing seed requires the first request to have no prior, generation
+one and interval start zero. A seed requires the first request to use that exact
+history. Diagnostic candidate output is never promoted to accepted history.
+
+`DiagnosticRequest::capture(&PressureContext, viscosity, payload_limit)` accepts
+only `DiagnosticCandidate` contexts. It copies the authoritative RHS and optional
+prior and computes `b - A*p0` through the existing context API. It checks the copy
+budget first. Absence of prior remains absence; it is not solved zero pressure.
+Pressure fields use x-fast f64 cell values and cell-zero pressure gauge. RHS and
+residual use the stage contract's finite-volume equation units (`m3/s2`), pressure
+uses Pa, density uses kg/m3, viscosity uses Pa s, grid distances use m and interval
+values use s. Storage does not admit new adapter physics or physical support.
+
+`append(&DiagnosticAttempt)` records a contiguous zero-based **attempt index**,
+physical request, dispatch fact, outcome, optional equal-request native reference
+and actual history transition. Attempt indices have no accepted-generation or
+accepted-ordinal meaning. The request preserves its track generation and actual
+interval separately. No stability retries or request retries are supported in
+this first format.
+
+`PredictionOutcome` is either a finite, correctly shaped, canonical-gauge
+`PressureSample` or an explicit `NoCandidate` with a closed reason, bounded detail
+and optional digest of an invalid reply. Reasons are unsupported support,
+unsupported context, cancellation, runtime failure and invalid output. A malformed
+or nonfinite reply is not encoded as a canonical candidate or replaced with zeros.
+Its optional digest preserves identity only; raw invalid reply bytes are not
+retained. A candidate or invalid-output failure requires dispatch. Runtime
+failure, support/context rejection and cancellation can occur before or after
+dispatch. Dispatch is the host's observation of initiating the provider call,
+not proof that a remote process consumed its bytes.
+
+`NativeReference` carries the request digest, a pressure sample and the native
+owner's explicitly observed `PressureHistoryStatus`. A mismatched
+digest is rejected. This binds the reference to the captured RHS/prior/interval,
+not merely to a matching frame index, shape or physical time. A pressure from a
+separately evolved native track cannot substitute for a same-request solve.
+
+`QualificationObservation` stores the closed `HostPressureGateV1` policy,
+explicit thresholds, measured residual/divergence/Courant/flux values and the
+producer's qualified/hard-stop verdict. Values must be finite, norm/threshold
+quantities nonnegative, and qualified cannot coexist with hard stop. The recorder
+does not execute this policy or certify its verdict. In particular it does not
+reproduce advection/viscosity, wall checks or actual-velocity diagnostics from
+pressure alone. Prepared face velocities are not captured here. Schema coherence,
+hash integrity and a self-declared qualified bit are not independent physics
+qualification or accepted-native status.
+
+The two supported transition policies are:
+
+- `IndependentStopOnReject`: a host-qualified candidate must record
+  `DiagnosticAdvanced`; an unqualified or absent candidate records `NotAdvanced`.
+  Its next prior must be the exact preceding candidate, marked diagnostic. A
+  nonadvance closes append admission for the run.
+- `TeacherStage`: `NativeTeacherAdvanced` requires a same-request native sample
+  reported qualified by the host. Its next prior is that exact native sample
+  with its explicit native-owner history status, regardless of the model candidate's verdict or bias.
+  An observed `Accepted` status is retained as such; the recorder does not infer
+  or grant it from the sample's qualified bit. An observed diagnostic status is
+  likewise retained exactly; a native history explicitly reported unqualified
+  cannot advance the teacher chain.
+  `NotAdvanced` stops the run. The candidate never becomes teacher history.
+
+The recorder checks these declared transition facts; it cannot observe or mutate
+the numerical owner's actual memory. The owner supplies the completed transition,
+then synchronously records it before publishing its matching UI observation.
+Recording failure stops the existing worker and cannot undo an owner transition.
+
+## Lifecycle and cold verification
+
+Each append is one SQLite transaction, including metadata and both pressure roles.
+Any append error poisons further admission, including validation, quota and SQLite
+errors. Never retry an uncertain append. `recorded_count()` counts acknowledged
+commits only. A cold reader reconciles the actual durable prefix. No destructor
+marks completion; dropping a writer leaves active/incomplete status.
+
+`finish(DiagnosticTerminal)` closes admission before validation or writing. It can
+be attempted once, including after append error, to disclose completed horizon,
+stopped-on-rejection, cancelled or failed status. Completed status requires a
+nonempty fully recorded advancing prefix and an unpoisoned writer. A rejection
+terminal requires an independent unqualified candidate with no history advance.
+Both require produced-attempt count and advanced generation to exactly match the
+recorded facts. Failed/cancelled status can disclose an unrecorded produced tail,
+but cannot fall below the durable prefix. Terminal validation/write failure leaves
+an uncertain terminal outcome and requires cold reconciliation. Active on reopen
+means incomplete/unknown, never successful completion.
+
+`DiagnosticReader::open`, `count`, `select`, `status`, `verify` provide indexed
+access. Selection revalidates the immutable header, bounded inventory, request
+context/residual, pressure samples, transition shape and hashes. `verify()` also
+audits the full contiguous history chain, stop boundary, orphan samples, SQLite
+integrity and terminal prefix within one database snapshot. Calling `verify()`
+is required for a completed-archive or complete-lineage claim. An already returned
+owned selection remains unchanged after later database mutation or append.
+
+## Bounds and hash scope
+
+The recorder reuses `RecordingLimits`, the existing recording connection's 250 ms
+busy timeout, approximately 1 MiB page cache, no mmap and file-backed temporary
+storage. It uses DELETE journals and FULL synchronous commits. The database cap
+is floored to 4096-byte pages; active rollback journal/filesystem overhead are
+additional. No whole-process RSS, hard-real-time or hard total-volume quota is
+claimed. SQLite cache settings are targets rather than allocator caps.
+
+At most 65,536 cells are supported. Metadata strings use the existing 16 KiB
+text limit; track/run IDs additionally use the pressure context's 4096-byte limit.
+There are at most two pressure samples per attempt, fixed schema fields and one
+bounded header seed. Header and whole-attempt budgets conservatively include
+fixed descriptors, text, every cell array and both samples; the existing maximum
+record cap is 64 MiB. SQL length checks preflight aggregate selected array/text
+bytes before field copies. A reader enforces both its supplied limits and the
+recorded limits. Quota includes each diagnostic attempt, not the header seed.
+
+Hashes use separate run, request, attempt and terminal domain tags ending in
+`-v1\0`. Integers and f64 bits use little endian. Text/byte strings have LE u64
+byte-length prefixes; f64 arrays have LE u64 value counts. Geometry has three
+fixed count integers and six fixed f64 values. Optional values have an LE u64
+presence value. Run hash
+includes immutable geometry, binding, seed, limits and `keep_all_stop` retention.
+Request hash includes physical stage/domain, lineage, RHS, prior and initial
+residual. Attempt hash binds the run hash, index, entire request, outcome,
+observations, equal-request native reference and transition. Terminal hash binds
+the run hash and declared outcome/tail. The prefix declaration and native history
+status are included in their respective run/attempt hashes. Hashes detect accidental mutation; a writer
+able to replace both values and hashes can forge observations.
+
+`tests/diagnostic_recording_contract.rs` exercises actual SQLite close/reopen,
+teacher/native history versus biased candidates (including multiple requests
+using actual accepted `Simulation` history), stop-on-reject, explicit missing
+candidates, cancellation, incomplete Drop, kind isolation, tampering, real SQLite
+FULL, quotas and terminal admission. These fixtures qualify storage semantics;
+they make no trained-model, window, acceptance, speed or accuracy claim.
+
+Timing/cost samples, complete warmup request sequences and runtime tensor/port
+bytes are not captured by this schema. Their absence means unavailable evidence,
+not zero cost, zero warmup or an inferred execution count. Produced diagnostic
+attempt counts and the declared native-prefix count are separately explicit.
