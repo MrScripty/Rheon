@@ -44,7 +44,11 @@ fn run(mode: DiagnosticMode, seed: bool) -> DiagnosticRun {
     let seed = seed.then(|| ObservedHistory {
         generation: 7,
         interval_end: 0.07,
-        status: PressureHistoryStatus::Diagnostic { qualified: true },
+        status: if mode == DiagnosticMode::TeacherStage {
+            PressureHistoryStatus::Accepted
+        } else {
+            PressureHistoryStatus::Diagnostic { qualified: true }
+        },
         pressure: pressure(grid.cell_len(), 0.125),
     });
     DiagnosticRun {
@@ -938,7 +942,17 @@ fn diagnostic_and_accepted_archive_kinds_are_isolated_and_no_overwrite_is_allowe
     let writer =
         DiagnosticRecorder::create(&diagnostic.0, run.clone(), RecordingLimits::default()).unwrap();
     drop(writer);
-    assert!(RecordingReader::open(&diagnostic.0, RecordingLimits::default()).is_err());
+    let db = Connection::open(&diagnostic.0).unwrap();
+    assert_eq!(
+        db.pragma_query_value::<i64, _>(None, "user_version", |r| r.get(0))
+            .unwrap(),
+        1
+    );
+    drop(db);
+    assert!(matches!(
+        RecordingReader::open(&diagnostic.0, RecordingLimits::default()),
+        Err(RecordingError::Unsupported("archive kind"))
+    ));
     assert!(DiagnosticRecorder::create(&diagnostic.0, run, RecordingLimits::default()).is_err());
     let accepted = Archive::new();
     let mut writer = StepRecorder::create(
@@ -967,6 +981,25 @@ fn diagnostic_and_accepted_archive_kinds_are_isolated_and_no_overwrite_is_allowe
         Err(RecordingError::Unsupported(
             "diagnostic archive kind/version"
         ))
+    ));
+    let live = RecordingReader::open(&accepted.0, RecordingLimits::default()).unwrap();
+    live.verify().unwrap();
+    assert!(matches!(live.select(0), Err(RecordingError::Missing(0))));
+    Connection::open(&accepted.0)
+        .unwrap()
+        .pragma_update(None, "application_id", APPLICATION_ID)
+        .unwrap();
+    assert!(matches!(
+        live.select(0),
+        Err(RecordingError::Unsupported("archive kind"))
+    ));
+    assert!(matches!(
+        live.verify(),
+        Err(RecordingError::Unsupported("archive kind"))
+    ));
+    assert!(matches!(
+        RecordingReader::open(&accepted.0, RecordingLimits::default()),
+        Err(RecordingError::Unsupported("archive kind"))
     ));
 }
 #[test]
@@ -1040,4 +1073,131 @@ fn native_prefix_declaration_is_bounded_hashed_and_never_inferred_from_seed_gene
         .execute("UPDATE diagnostic_run SET native_prefix_steps=3", [])
         .unwrap();
     assert!(reader.verify().is_err());
+}
+#[test]
+fn unqualified_seeds_cannot_resume_and_teacher_seed_requires_observed_accepted_native_history() {
+    for (mode, status) in [
+        (
+            DiagnosticMode::IndependentStopOnReject,
+            PressureHistoryStatus::Diagnostic { qualified: false },
+        ),
+        (
+            DiagnosticMode::TeacherStage,
+            PressureHistoryStatus::Diagnostic { qualified: false },
+        ),
+        (
+            DiagnosticMode::TeacherStage,
+            PressureHistoryStatus::Diagnostic { qualified: true },
+        ),
+    ] {
+        let archive = Archive::new();
+        let mut run = run(mode, true);
+        run.seed.as_mut().unwrap().status = status;
+        assert!(matches!(
+            DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()),
+            Err(RecordingError::Invalid(
+                "unsupported diagnostic seed history"
+            ))
+        ));
+        assert!(!archive.0.exists());
+    }
+}
+#[test]
+fn failed_and_cancelled_terminal_chronology_bounds_declared_unrecorded_advancement() {
+    for outcome in [TerminalOutcome::Failed, TerminalOutcome::Cancelled] {
+        for (seed, produced, advanced, overflow) in [
+            (false, 1, Some(u64::MAX), false),
+            (true, 1, Some(1), false),
+            (true, 1, Some(7), false),
+            (true, 1, Some(9), false),
+            (true, 2, Some(u64::MAX), true),
+        ] {
+            let archive = Archive::new();
+            let mut run = run(DiagnosticMode::IndependentStopOnReject, seed);
+            if overflow {
+                run.seed.as_mut().unwrap().generation = u64::MAX - 1;
+            }
+            let mut writer =
+                DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap();
+            assert!(
+                writer
+                    .finish(terminal(outcome, produced, advanced))
+                    .is_err()
+            );
+            drop(writer);
+            let reader = archive.reader();
+            assert_eq!(reader.status().unwrap(), None);
+            assert_eq!(reader.count().unwrap(), 0);
+            reader.verify().unwrap();
+        }
+        // An explicit unrecorded attempt may have advanced beyond an observed
+        // seed, or may have produced no advance. Neither invents intervening data.
+        for advanced in [None, Some(8)] {
+            let archive = Archive::new();
+            let run = run(DiagnosticMode::IndependentStopOnReject, true);
+            let mut writer =
+                DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap();
+            let status = terminal(outcome, 1, advanced);
+            writer.finish(status.clone()).unwrap();
+            drop(writer);
+            let reader = archive.reader();
+            reader.verify().unwrap();
+            assert_eq!(reader.status().unwrap(), Some(status));
+            assert_eq!(reader.count().unwrap(), 0);
+        }
+    }
+    // A known rejection closes the trajectory, so even a declared unrecorded
+    // attempt cannot claim that the stopped history advanced afterwards.
+    let archive = Archive::new();
+    let run = run_fixture();
+    let a = attempt(&run, 0, None, false);
+    let mut writer =
+        DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap();
+    writer.append(&a).unwrap();
+    assert!(
+        writer
+            .finish(terminal(TerminalOutcome::Failed, 2, Some(1)))
+            .is_err()
+    );
+}
+#[test]
+fn signed_zero_domain_changes_fail_before_commit_and_preserve_cold_prefix() {
+    for viscosity in [true, false] {
+        let archive = Archive::new();
+        let mut run = run_fixture();
+        run.viscosity = 0.0;
+        run.grid = GridGeometry::new([2, 3, 4], run.grid.spacing(), [0.0, 2.0, 3.0]).unwrap();
+        let first = attempt(&run, 0, None, true);
+        let prior = advanced(&first, false);
+        let mut other = run.clone();
+        if viscosity {
+            other.viscosity = -0.0;
+        } else {
+            other.grid =
+                GridGeometry::new([2, 3, 4], run.grid.spacing(), [-0.0, 2.0, 3.0]).unwrap();
+        }
+        assert_eq!(other.grid, run.grid);
+        assert_eq!(other.viscosity, run.viscosity);
+        let changed = attempt(&other, 1, Some(&prior), true);
+        assert_ne!(
+            changed.request.digest(),
+            request(&run, Some(&prior)).digest()
+        );
+        let mut writer =
+            DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap();
+        writer.append(&first).unwrap();
+        assert!(matches!(
+            writer.append(&changed),
+            Err(RecordingError::Invalid("request differs from run domain"))
+        ));
+        assert_eq!(writer.recorded_count(), 1);
+        writer
+            .finish(terminal(TerminalOutcome::Failed, 2, Some(1)))
+            .unwrap();
+        drop(writer);
+        let reader = archive.reader();
+        reader.verify().unwrap();
+        assert_eq!(reader.count().unwrap(), 1);
+        assert_eq!(reader.select(0).unwrap(), first);
+    }
 }

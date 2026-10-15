@@ -207,10 +207,10 @@ impl DiagnosticRequest {
     }
     fn validate(&self, run: &DiagnosticRun) -> Result<(), RecordingError> {
         if self.run_id != run.run_id
-            || self.grid != run.grid
-            || self.density != run.density
-            || self.viscosity != run.viscosity
-            || self.dt != run.dt
+            || !same_grid_bits(&self.grid, &run.grid)
+            || self.density.to_bits() != run.density.to_bits()
+            || self.viscosity.to_bits() != run.viscosity.to_bits()
+            || self.dt.to_bits() != run.dt.to_bits()
         {
             return Err(RecordingError::Invalid("request differs from run domain"));
         }
@@ -358,6 +358,16 @@ impl DiagnosticRun {
         }
         if let Some(seed) = &self.seed {
             validate_history(seed, self.grid.cell_len())?;
+            if matches!(
+                seed.status,
+                PressureHistoryStatus::Diagnostic { qualified: false }
+            ) || (self.mode == DiagnosticMode::TeacherStage
+                && seed.status != PressureHistoryStatus::Accepted)
+            {
+                return Err(RecordingError::Invalid(
+                    "unsupported diagnostic seed history",
+                ));
+            }
         }
         if self.bytes()? > limits.max_record_bytes {
             return Err(RecordingError::Limit("run payload"));
@@ -421,6 +431,14 @@ fn validate_pressure(p: &[f64], n: usize) -> Result<(), RecordingError> {
 }
 fn same_values(a: &[f64], b: &[f64]) -> bool {
     a.len() == b.len() && a.iter().zip(b).all(|(a, b)| a.to_bits() == b.to_bits())
+}
+fn same_grid_bits(a: &GridGeometry, b: &GridGeometry) -> bool {
+    a.counts() == b.counts()
+        && a.spacing()
+            .into_iter()
+            .chain(a.origin())
+            .zip(b.spacing().into_iter().chain(b.origin()))
+            .all(|(a, b)| a.to_bits() == b.to_bits())
 }
 fn same_history(a: Option<&ObservedHistory>, b: Option<&ObservedHistory>) -> bool {
     match (a, b) {
@@ -924,7 +942,7 @@ impl DiagnosticRecorder {
         // rather than treating recorded_count() as authoritative after error.
         let reader = DiagnosticReader::open(&self.path, self.limits)?;
         let (count, progress) = reader.audit()?;
-        validate_terminal(&terminal, count, &progress, self.run.mode)?;
+        validate_terminal(&terminal, count, &progress, &self.run)?;
         let changed=self.connection.execute("UPDATE diagnostic_lifecycle SET outcome=?1,detail=?2,produced_attempts=?3,advanced_generation=?4,digest=?5 WHERE id=1 AND outcome=0",
             params![terminal_id(terminal.outcome),terminal.detail,i64::try_from(terminal.produced_attempts).map_err(|_|RecordingError::Limit("produced attempts"))?,
                 terminal.last_advanced_generation.map(u64::to_le_bytes).as_ref().map(|b|b.as_slice()),terminal_digest(&self.run.digest(self.limits),Some(&terminal)).as_slice()])?;
@@ -1090,7 +1108,7 @@ impl DiagnosticReader {
             progress.observe(&a);
         }
         if let Some(terminal) = self.status()? {
-            validate_terminal(&terminal, count, &progress, self.run.mode)?;
+            validate_terminal(&terminal, count, &progress, &self.run)?;
         }
         Ok((count, progress))
     }
@@ -1253,7 +1271,7 @@ fn validate_terminal(
     t: &DiagnosticTerminal,
     count: usize,
     p: &Progress,
-    mode: DiagnosticMode,
+    run: &DiagnosticRun,
 ) -> Result<(), RecordingError> {
     valid_text(&t.detail)?;
     if t.last_advanced_generation == Some(0)
@@ -1263,6 +1281,26 @@ fn validate_terminal(
     {
         return Err(RecordingError::Invalid(
             "terminal does not cover diagnostic prefix",
+        ));
+    }
+    let seed_generation = run.seed.as_ref().map_or(0, |s| s.generation);
+    let produced = u64::try_from(t.produced_attempts)
+        .map_err(|_| RecordingError::Invalid("terminal chronology overflow"))?;
+    let possible_tail = seed_generation
+        .checked_add(produced)
+        .ok_or(RecordingError::Invalid("terminal chronology overflow"))?;
+    let missing = u64::try_from(t.produced_attempts - count)
+        .map_err(|_| RecordingError::Invalid("terminal chronology overflow"))?;
+    let durable_baseline = p.history.as_ref().map_or(0, |h| h.generation);
+    let possible_unrecorded_tail = durable_baseline
+        .checked_add(missing)
+        .ok_or(RecordingError::Invalid("terminal chronology overflow"))?;
+    if t.last_advanced_generation
+        .is_some_and(|g| g <= seed_generation || g > possible_tail || g > possible_unrecorded_tail)
+        || (p.stopped && t.last_advanced_generation != p.advanced)
+    {
+        return Err(RecordingError::Invalid(
+            "terminal advanced generation chronology",
         ));
     }
     match t.outcome {
@@ -1275,7 +1313,7 @@ fn validate_terminal(
             Err(RecordingError::Invalid("incomplete diagnostic completion"))
         }
         TerminalOutcome::StoppedOnRejection
-            if mode != DiagnosticMode::IndependentStopOnReject
+            if run.mode != DiagnosticMode::IndependentStopOnReject
                 || !p.stopped
                 || !p.rejected
                 || t.produced_attempts != count

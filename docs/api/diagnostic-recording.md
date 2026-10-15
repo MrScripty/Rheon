@@ -11,8 +11,10 @@ The first schema uses `application_id = 0x52484450` (`RHDP`), `user_version = 1`
 Both values are required by `DiagnosticReader`. These version numbers belong to
 the diagnostic family; they do not change accepted archive version 1. The tables
 are `diagnostic_run`, `diagnostic_lifecycle`, `attempts` and `pressure_samples`.
-There is no `steps` table. Accepted archive readers reject diagnostic databases;
-diagnostic readers reject accepted databases. Cold inspection executes no Python
+There is no `steps` table. Accepted archive readers reject diagnostic databases
+as `Unsupported("archive kind")` even though both families use user version one;
+accepted selection/full verification also reject a changed application ID after open.
+Diagnostic readers reject accepted databases. Cold inspection executes no Python
 or other model code.
 
 ## Capture and append
@@ -41,6 +43,11 @@ possible post-warmup state. It does not invent or certify the preceding warmup
 history. A missing seed requires the first request to have no prior, generation
 one and interval start zero. A seed requires the first request to use that exact
 history. Diagnostic candidate output is never promoted to accepted history.
+Unqualified diagnostic seeds are rejected in both modes: this format cannot
+resume a failed diagnostic trajectory. A present teacher seed must have the
+native owner's explicitly observed `Accepted` status. Starting teacher evaluation
+from a qualified diagnostic-native seed is unsupported in this first schema;
+callers must not relabel an experimental engine state as accepted to load it.
 
 `DiagnosticRequest::capture(&PressureContext, viscosity, payload_limit)` accepts
 only `DiagnosticCandidate` contexts. It copies the authoritative RHS and optional
@@ -50,6 +57,9 @@ Pressure fields use x-fast f64 cell values and cell-zero pressure gauge. RHS and
 residual use the stage contract's finite-volume equation units (`m3/s2`), pressure
 uses Pa, density uses kg/m3, viscosity uses Pa s, grid distances use m and interval
 values use s. Storage does not admit new adapter physics or physical support.
+Request/header domain values must match by exact bits, including signed zero in
+viscosity and grid origin. The writer rejects a mismatch before committing;
+hashing and cold reconstruction never silently normalize these values.
 
 `append(&DiagnosticAttempt)` records a contiguous zero-based **attempt index**,
 physical request, dispatch fact, outcome, optional equal-request native reference
@@ -120,7 +130,13 @@ nonempty fully recorded advancing prefix and an unpoisoned writer. A rejection
 terminal requires an independent unqualified candidate with no history advance.
 Both require produced-attempt count and advanced generation to exactly match the
 recorded facts. Failed/cancelled status can disclose an unrecorded produced tail,
-but cannot fall below the durable prefix. Terminal validation/write failure leaves
+but cannot fall below the durable prefix. Any claimed new advanced generation
+must exceed the observed seed generation and fit within seed plus produced
+attempts using checked arithmetic. The durable advanced tail plus missing
+attempt count supplies a further upper bound; a known stop cannot claim a later
+advance. No new advancement beyond the seed is represented by `None`, not by
+repeating its generation. These are chronological consistency checks, not proof
+of the unrecorded tail. Terminal validation/write failure leaves
 an uncertain terminal outcome and requires cold reconciliation. Active on reopen
 means incomplete/unknown, never successful completion.
 
