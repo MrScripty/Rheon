@@ -12,15 +12,8 @@ fn add(a: V3, b: V3) -> V3 {
 fn mul(a: V3, s: f32) -> V3 {
     a.map(|v| v * s)
 }
-fn dot(a: V3, b: V3) -> f32 {
-    a.into_iter().zip(b).map(|(a, b)| a * b).sum()
-}
 pub use super::camera::OrbitCamera;
-#[derive(Clone)]
-struct Face {
-    points: [V3; 4],
-    color: Color32,
-}
+use super::voxel_view::Face;
 struct CachedScene {
     camera: OrbitCamera,
     rect: Rect,
@@ -193,32 +186,7 @@ impl Viewport {
             if let Some(emitter) = emitter {
                 faces.extend(cylinder_faces(emitter, time));
             }
-            let basis = self.camera.basis();
-            let forward = basis.1;
-            faces.sort_unstable_by(|a, b| {
-                let center = |f: &Face| mul(f.points.into_iter().fold([0.0; 3], add), 0.25);
-                dot(center(b), forward).total_cmp(&dot(center(a), forward))
-            });
-            let mut mesh = egui::Mesh::default();
-            for face in faces {
-                let projected = face
-                    .points
-                    .map(|p| self.camera.project_prepared(p, rect, basis));
-                if let [Some((a, _)), Some((b, _)), Some((c, _)), Some((d, _))] = projected {
-                    let first = mesh.vertices.len() as u32;
-                    for pos in [a, b, c, d] {
-                        mesh.colored_vertex(pos, face.color);
-                    }
-                    mesh.indices.extend_from_slice(&[
-                        first,
-                        first + 1,
-                        first + 2,
-                        first,
-                        first + 2,
-                        first + 3,
-                    ]);
-                }
-            }
+            let mesh = super::voxel_view::mesh(faces, &self.camera, rect);
             self.scene = Some(CachedScene {
                 camera: self.camera.clone(),
                 rect,
@@ -469,77 +437,18 @@ impl Viewport {
     }
 }
 fn surface_faces(frame: &PreviewFrame, threshold: u8) -> Vec<Face> {
-    let n = frame.edge;
-    let h = 1.0 / n as f32;
-    let mut faces = Vec::new();
-    let threshold = threshold.max(1);
-    for z in 0..n {
-        for y in 0..n {
-            for x in 0..n {
-                let p = [x, y, z];
-                let row = x + n * (y + n * z);
-                let density = frame.density[row];
-                if density < threshold {
-                    continue;
-                }
-                let lo = p.map(|v| v as f32 * h);
-                let hi = lo.map(|v| v + h);
-                for d in 0..3 {
-                    for positive in [false, true] {
-                        let mut q = p;
-                        let boundary = if positive { p[d] + 1 == n } else { p[d] == 0 };
-                        if !boundary {
-                            if positive {
-                                q[d] += 1;
-                            } else {
-                                q[d] -= 1;
-                            }
-                            if frame.density[q[0] + n * (q[1] + n * q[2])] >= threshold {
-                                continue;
-                            }
-                        }
-                        let a = (d + 1) % 3;
-                        let b = (d + 2) % 3;
-                        let points = std::array::from_fn(|corner| {
-                            let mut v = lo;
-                            v[d] = if positive { hi[d] } else { lo[d] };
-                            if corner == 1 || corner == 2 {
-                                v[a] = hi[a];
-                            }
-                            if corner >= 2 {
-                                v[b] = hi[b];
-                            }
-                            v
-                        });
-                        let shade = match (d, positive) {
-                            (1, true) => 1.0,
-                            (2, true) => 0.83,
-                            (0, true) => 0.73,
-                            _ => 0.55,
-                        };
-                        let t = density as f32 / 255.0;
-                        let color = if let Some(base) = frame.material_color {
-                            let brightness = (0.55 + 0.45 * t) * shade;
-                            Color32::from_rgb(
-                                (base[0] as f32 * brightness) as u8,
-                                (base[1] as f32 * brightness) as u8,
-                                (base[2] as f32 * brightness) as u8,
-                            )
-                        } else {
-                            Color32::from_rgb(
-                                ((24.0 + 85.0 * t) * shade) as u8,
-                                ((136.0 + 90.0 * t) * shade) as u8,
-                                ((210.0 + 44.0 * t) * shade) as u8,
-                            )
-                        };
-                        faces.push(Face { points, color });
-                    }
-                }
-            }
-        }
-    }
-    faces
+    super::voxel_view::faces(
+        [frame.edge; 3],
+        [1.0; 3],
+        &frame.density,
+        threshold,
+        true,
+        |_, shade, density| {
+            super::voxel_view::water_color(density, shade, frame.material_color, 255)
+        },
+    )
 }
+
 fn emitter_strengths(emitter: RotatingCylinderEmitter) -> [f64; 2] {
     emitter
         .emitted_velocity

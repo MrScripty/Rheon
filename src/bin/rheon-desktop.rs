@@ -10,6 +10,8 @@ mod emitter_controls;
 mod engineering;
 #[path = "desktop/export_ui.rs"]
 mod export_ui;
+#[path = "desktop/voxel_view.rs"]
+mod voxel_view;
 
 #[path = "desktop/archive_view.rs"]
 mod archive_view;

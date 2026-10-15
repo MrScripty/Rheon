@@ -85,3 +85,8 @@ sha2 = "=0.10.9"
 name = "rheon-ai-compare"
 path = "src/bin/rheon-ai-compare.rs"
 required-features = ["desktop"]
+
+[[bin]]
+name = "rheon-training-viewer"
+path = "src/bin/rheon-training-viewer.rs"
+required-features = ["desktop"]
