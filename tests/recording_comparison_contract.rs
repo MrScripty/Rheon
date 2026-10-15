@@ -1,0 +1,647 @@
+#![cfg(not(target_arch = "wasm32"))]
+use rheon::{PressureImplementation, SnapshotStage, recording};
+#[path = "../src/recording/comparison.rs"]
+mod comparison;
+use comparison::*;
+use recording::*;
+use rheon::{GridGeometry, SessionIdentity, Simulation, SimulationConfig};
+use std::{
+    path::PathBuf,
+    sync::atomic::{AtomicUsize, Ordering},
+};
+
+struct Archive {
+    path: PathBuf,
+}
+impl Archive {
+    fn empty() -> Self {
+        static NEXT: AtomicUsize = AtomicUsize::new(0);
+        let dir = std::env::temp_dir().join(format!(
+            "rheon-m3-{}-{}",
+            std::process::id(),
+            NEXT.fetch_add(1, Ordering::Relaxed)
+        ));
+        std::fs::create_dir(&dir).unwrap();
+        Self {
+            path: dir.join("archive.sqlite"),
+        }
+    }
+    fn new(run: RecordingRun, steps: &[RecordedStep]) -> Self {
+        let archive = Self::empty();
+        let mut writer =
+            StepRecorder::create(&archive.path, run, RecordingLimits::default()).unwrap();
+        for s in steps {
+            writer.append(s).unwrap();
+        }
+        writer
+            .finish(
+                "completed",
+                "comparison fixture",
+                steps.last().map(|s| s.generation),
+            )
+            .unwrap();
+        archive
+    }
+    fn reader(&self) -> RecordingReader {
+        RecordingReader::open(&self.path, RecordingLimits::default()).unwrap()
+    }
+    fn select(&self, n: usize) -> Selection {
+        Selection::read(&self.reader(), n).unwrap()
+    }
+}
+impl Drop for Archive {
+    fn drop(&mut self) {
+        std::fs::remove_dir_all(self.path.parent().unwrap()).unwrap();
+    }
+}
+fn sim() -> Simulation {
+    Simulation::new(
+        GridGeometry::new([2, 3, 4], [0.25, 0.5, 0.75], [-1.0, 2.0, 3.0]).unwrap(),
+        SimulationConfig {
+            density: 1.0,
+            memory_limit: 64 * 1024 * 1024,
+            pressure: rheon::PressureSettings {
+                relative_residual: 1e-10,
+                absolute_residual: 1e-12,
+                divergence_limit: 1e-8,
+                max_iterations: 2000,
+            },
+            actual_divergence_limit: 1e-5,
+            max_courant: 1.0,
+        },
+    )
+    .unwrap()
+}
+fn fixture(dt: f64, constructor: bool) -> (RecordingRun, Vec<RecordedStep>) {
+    let mut s = sim();
+    let run = carrier_run(
+        SessionIdentity {
+            run_id: 7,
+            source_revision: "comparison-fixture".into(),
+        },
+        &s,
+        "actual native carrier capture; mutations are test data",
+    )
+    .unwrap();
+    let mut steps = Vec::new();
+    if constructor {
+        steps.push(carrier_publication(&s, 0, 1 << 20).unwrap());
+    }
+    s.step(dt, None, |_| false).unwrap();
+    steps.push(carrier_publication(&s, steps.len(), 1 << 20).unwrap());
+    (run, steps)
+}
+fn recipe(field: FieldRole) -> Recipe {
+    Recipe {
+        field,
+        time_tolerance: 0.0,
+        pressure: PressurePolicy::Canonical,
+    }
+}
+fn available(a: &Selection, b: &Selection, role: FieldRole) -> FieldComparison {
+    compare(a, b, recipe(role)).unwrap().outcome.unwrap()
+}
+fn field_mut<'a>(s: &'a mut RecordedStep, name: &str) -> &'a mut RecordedField {
+    s.fields.iter_mut().find(|f| f.name == name).unwrap()
+}
+fn put_f64(s: &mut RecordedStep, name: &str, v: impl Fn(usize) -> f64) {
+    let f = field_mut(s, name);
+    f.data = (0..f.data.len() / 8)
+        .flat_map(|i| v(i).to_le_bytes())
+        .collect();
+}
+fn put_f32(s: &mut RecordedStep, name: &str, v: impl Fn(usize) -> f32) {
+    let f = field_mut(s, name);
+    f.data = (0..f.data.len() / 4)
+        .flat_map(|i| v(i).to_le_bytes())
+        .collect();
+}
+fn hex(v: [u8; 32]) -> String {
+    v.iter().map(|b| format!("{b:02x}")).collect()
+}
+
+#[test]
+fn physical_interval_matches_across_different_ordinals_and_native_cold_sources() {
+    let (run, steps) = fixture(0.01, true);
+    let a = Archive::new(run, &steps);
+    let (run, steps) = fixture(0.01, false);
+    let b = Archive::new(run, &steps);
+    let result = available(&a.select(1), &b.select(0), FieldRole::IntervalPressure);
+    assert_eq!(result.metrics.l2, 0.0);
+    assert_eq!(result.metrics.support_count, 24);
+    let coverage = align(
+        &[a.select(0), a.select(1)],
+        &[b.select(0)],
+        recipe(FieldRole::IntervalPressure),
+    )
+    .unwrap();
+    assert_eq!(coverage.analysis_version, 1);
+    assert_eq!(coverage.recipe, recipe(FieldRole::IntervalPressure));
+    assert_eq!(coverage.pairs[0].analysis_version, 1);
+    assert_eq!(coverage.pairs[0].recipe, coverage.recipe);
+    assert_eq!(coverage.pairs.len(), 1);
+    assert_eq!(coverage.reference_unmatched.len(), 1);
+    assert!(coverage.candidate_unmatched.is_empty());
+}
+#[test]
+fn equal_ordinal_does_not_match_unequal_time_or_projection_interval() {
+    let (run, steps) = fixture(0.01, false);
+    let a = Archive::new(run, &steps);
+    let (run, steps) = fixture(0.02, false);
+    let b = Archive::new(run, &steps);
+    assert_eq!(
+        compare(&a.select(0), &b.select(0), recipe(FieldRole::Tracer))
+            .unwrap()
+            .outcome,
+        Err(Unavailable::PhysicalTime)
+    );
+    let coverage = align(&[a.select(0)], &[b.select(0)], recipe(FieldRole::Tracer)).unwrap();
+    assert_eq!(coverage.reference_unmatched.len(), 1);
+    assert_eq!(coverage.candidate_unmatched.len(), 1);
+    let mut native = sim();
+    native.step(0.01, None, |_| false).unwrap();
+    let first = carrier_publication(&native, 0, 1 << 20).unwrap();
+    native.step(0.01, None, |_| false).unwrap();
+    let second = carrier_publication(&native, 1, 1 << 20).unwrap();
+    let run = carrier_run(
+        SessionIdentity {
+            run_id: 7,
+            source_revision: "interval-fixture".into(),
+        },
+        &native,
+        "two actual native intervals",
+    )
+    .unwrap();
+    let a = Archive::new(run, &[first, second]);
+    assert_eq!(
+        compare(
+            &a.select(1),
+            &b.select(0),
+            recipe(FieldRole::IntervalPressure)
+        )
+        .unwrap()
+        .outcome,
+        Err(Unavailable::PhysicalTime)
+    );
+    assert_eq!(
+        available(&a.select(1), &b.select(0), FieldRole::Tracer)
+            .metrics
+            .l2,
+        0.0
+    );
+}
+#[test]
+fn stage_geometry_and_unknown_profile_are_explicit() {
+    let (run, steps) = fixture(0.01, true);
+    let a = Archive::new(run, &steps);
+    assert_eq!(
+        compare(&a.select(0), &a.select(1), recipe(FieldRole::Tracer))
+            .unwrap()
+            .outcome,
+        Err(Unavailable::PublicationStage)
+    );
+    let (mut run, steps) = fixture(0.01, true);
+    run.origin[0] += 1.0;
+    let b = Archive::new(run, &steps);
+    assert_eq!(
+        compare(&a.select(1), &b.select(1), recipe(FieldRole::Tracer))
+            .unwrap()
+            .outcome,
+        Err(Unavailable::Geometry)
+    );
+    let (mut run, steps) = fixture(0.01, true);
+    run.solver = "future-profile/unknown".into();
+    let b = Archive::new(run, &steps);
+    assert_eq!(
+        compare(&a.select(1), &b.select(1), recipe(FieldRole::Tracer))
+            .unwrap()
+            .outcome,
+        Err(Unavailable::UnsupportedProfile)
+    );
+    let (run, mut steps) = fixture(0.01, true);
+    field_mut(&mut steps[1], "tracer").stage = "tentative".into();
+    let b = Archive::new(run, &steps);
+    assert_eq!(
+        compare(&a.select(1), &b.select(1), recipe(FieldRole::Tracer))
+            .unwrap()
+            .outcome,
+        Err(Unavailable::FieldSchema)
+    );
+}
+#[test]
+fn missing_field_remains_unavailable_inside_matched_coverage() {
+    let (run, steps) = fixture(0.01, false);
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    steps[0].fields.retain(|f| f.name != "tracer");
+    let b = Archive::new(run, &steps);
+    let coverage = align(&[a.select(0)], &[b.select(0)], recipe(FieldRole::Tracer)).unwrap();
+    assert_eq!(coverage.pairs[0].outcome, Err(Unavailable::MissingField));
+    assert!(coverage.reference_unmatched.is_empty());
+}
+#[test]
+fn pressure_offset_diagnostic_retains_canonical_gauge_failure_and_offset() {
+    let (run, mut steps) = fixture(0.01, false);
+    put_f64(&mut steps[0], "interval_pressure", |i| i as f64);
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    put_f64(&mut steps[0], "interval_pressure", |i| i as f64 + 8.0);
+    let b = Archive::new(run, &steps);
+    assert_eq!(
+        compare(
+            &a.select(0),
+            &b.select(0),
+            recipe(FieldRole::IntervalPressure)
+        )
+        .unwrap()
+        .outcome,
+        Err(Unavailable::NoncanonicalGauge)
+    );
+    let mut r = recipe(FieldRole::IntervalPressure);
+    r.pressure = PressurePolicy::RemoveMeanOffsetDiagnostic;
+    let result = compare(&a.select(0), &b.select(0), r)
+        .unwrap()
+        .outcome
+        .unwrap();
+    assert!(result.metrics.linf < 1e-13);
+    let gauge = result.gauge.unwrap();
+    assert!(gauge.reference_canonical);
+    assert!(!gauge.candidate_canonical);
+    assert!(gauge.diagnostic);
+    assert!((gauge.removed_offset_pa - 8.0).abs() < 1e-13);
+    oracle_with_policy(&a, &b, FieldRole::IntervalPressure, &result, true);
+}
+#[test]
+fn analytic_native_f32_metrics_zero_denominator_and_common_bounds() {
+    let (run, steps) = fixture(0.01, false);
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    put_f32(
+        &mut steps[0],
+        "tracer",
+        |i| if i % 2 == 0 { 0.25 } else { 0.5 },
+    );
+    let b = Archive::new(run, &steps);
+    let result = available(&a.select(0), &b.select(0), FieldRole::Tracer);
+    assert_eq!(result.metrics.relative_l2, None);
+    assert!((result.metrics.l2 - (12.0_f64 * 0.3125).sqrt()).abs() < 1e-14);
+    assert!((result.metrics.rmse - 0.15625_f64.sqrt()).abs() < 1e-14);
+    assert_eq!(result.metrics.linf, 0.5);
+    assert_eq!(result.color_bounds, ColorBounds { min: 0.0, max: 0.5 });
+    oracle(&a, &b, FieldRole::Tracer, &result);
+}
+fn analytic_faces(s: &mut RecordedStep, scale: f32) {
+    put_f32(s, "velocity_x", |i| scale * (i % 3) as f32 * 0.25);
+    put_f32(s, "velocity_y", |i| {
+        scale * 2.0 * ((i / 2) % 4) as f32 * 0.5
+    });
+    put_f32(s, "velocity_z", |i| -scale * (i / 6) as f32 * 0.75);
+}
+#[test]
+fn divergence_uses_native_staggered_faces_spacing_and_x_fast_indices() {
+    let (run, mut steps) = fixture(0.01, false);
+    analytic_faces(&mut steps[0], 1.0);
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    analytic_faces(&mut steps[0], 2.0);
+    let b = Archive::new(run, &steps);
+    let result = available(&a.select(0), &b.select(0), FieldRole::VelocityDivergence);
+    assert!((result.metrics.l2 - 2.0 * 24.0_f64.sqrt()).abs() < 1e-13);
+    assert!((result.metrics.rmse - 2.0).abs() < 1e-14);
+    assert_eq!(result.metrics.linf, 2.0);
+    assert_eq!(result.metrics.relative_l2, Some(1.0));
+    assert_eq!(result.units, "1/s");
+    assert_eq!(result.color_bounds, ColorBounds { min: 2.0, max: 4.0 });
+    oracle(&a, &b, FieldRole::VelocityDivergence, &result);
+    for role in [
+        FieldRole::VelocityX,
+        FieldRole::VelocityY,
+        FieldRole::VelocityZ,
+    ] {
+        let result = available(&a.select(0), &b.select(0), role);
+        oracle(&a, &b, role, &result);
+    }
+}
+fn oracle(a: &Archive, b: &Archive, role: FieldRole, result: &FieldComparison) {
+    oracle_with_policy(a, b, role, result, false);
+}
+fn oracle_with_policy(
+    a: &Archive,
+    b: &Archive,
+    role: FieldRole,
+    result: &FieldComparison,
+    diagnostic: bool,
+) {
+    let name = match role {
+        FieldRole::Tracer => "tracer",
+        FieldRole::VelocityDivergence => "divergence",
+        FieldRole::VelocityX => "velocity_x",
+        FieldRole::VelocityY => "velocity_y",
+        FieldRole::VelocityZ => "velocity_z",
+        FieldRole::IntervalPressure => "interval_pressure",
+    };
+    let mut command = std::process::Command::new("python3");
+    command.arg(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/tools/verify_recording_comparison.py"
+    ));
+    if diagnostic {
+        command.arg("--remove-mean-offset");
+    }
+    let status = command
+        .arg(&a.path)
+        .arg(&b.path)
+        .args(["--field", name, "--expect"])
+        .arg(format!("{:.17e}", result.metrics.l2))
+        .arg(format!("{:.17e}", result.metrics.rmse))
+        .arg(format!("{:.17e}", result.metrics.linf))
+        .arg(
+            result
+                .metrics
+                .relative_l2
+                .map_or("undefined".into(), |v| format!("{v:.17e}")),
+        )
+        .arg("--expect-selection")
+        .arg(hex(a.select(0).digest()))
+        .arg("--expect-candidate-selection")
+        .arg(hex(b.select(0).digest()))
+        .status()
+        .unwrap();
+    assert!(status.success());
+}
+#[test]
+fn append_and_terminal_status_do_not_change_selected_identity() {
+    let mut s = sim();
+    let run = carrier_run(
+        SessionIdentity {
+            run_id: 99,
+            source_revision: "append-source".into(),
+        },
+        &s,
+        "append identity",
+    )
+    .unwrap();
+    let archive = Archive::empty();
+    let mut writer = StepRecorder::create(&archive.path, run, RecordingLimits::default()).unwrap();
+    writer
+        .append(&carrier_publication(&s, 0, 1 << 20).unwrap())
+        .unwrap();
+    let reader = archive.reader();
+    let before = Selection::read(&reader, 0).unwrap();
+    s.step(0.01, None, |_| false).unwrap();
+    writer
+        .append(&carrier_publication(&s, 1, 1 << 20).unwrap())
+        .unwrap();
+    writer.finish("completed", "done", Some(1)).unwrap();
+    drop(writer);
+    let after = archive.select(0);
+    assert_eq!(before.identity(), after.identity());
+    assert_eq!(before.run_digest(), after.run_digest());
+    assert_eq!(after.run().identity.run_id, 99);
+    assert_eq!(after.publication().generation, 0);
+}
+#[test]
+fn digest_changes_with_native_bits_and_source_provenance() {
+    let (run, steps) = fixture(0.01, false);
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    put_f32(&mut steps[0], "tracer", |_| f32::from_bits(1));
+    let b = Archive::new(run, &steps);
+    assert_ne!(a.select(0).digest(), b.select(0).digest());
+    assert_eq!(a.select(0).run_digest(), b.select(0).run_digest());
+    let (mut run, steps) = fixture(0.01, false);
+    run.provenance = "different provenance".into();
+    let b = Archive::new(run, &steps);
+    assert_ne!(a.select(0).run_digest(), b.select(0).run_digest());
+}
+#[test]
+fn tolerance_is_explicit_and_ambiguous_matching_never_picks_by_order() {
+    let (run, steps) = fixture(0.01, false);
+    let a = Archive::new(run, &steps);
+    let mut r = recipe(FieldRole::Tracer);
+    r.time_tolerance = f64::NAN;
+    assert_eq!(
+        compare(&a.select(0), &a.select(0), r),
+        Err(RecipeError::InvalidTolerance)
+    );
+    r.time_tolerance = 0.1;
+    assert_eq!(
+        align(&[a.select(0)], &[a.select(0), a.select(0)], r),
+        Err(RecipeError::AmbiguousAlignment)
+    );
+    assert_eq!(
+        align(&[a.select(0), a.select(0)], &[a.select(0)], r),
+        Err(RecipeError::AmbiguousAlignment)
+    );
+}
+
+#[test]
+fn exact_field_schemas_reject_single_mismatches_and_divergence_missing_faces() {
+    let (run, steps) = fixture(0.01, false);
+    let a = Archive::new(run, &steps);
+    for mutation in 0..5 {
+        let (run, mut steps) = fixture(0.01, false);
+        let field = field_mut(&mut steps[0], "tracer");
+        match mutation {
+            0 => field.units = "kg".into(),
+            1 => field.association = "particle".into(),
+            2 => field.dimensions = [3, 2, 4],
+            3 => field.evaluation_time = Some(0.0),
+            4 => field.stage = "diagnostic_rejected".into(),
+            _ => unreachable!(),
+        }
+        let b = Archive::new(run, &steps);
+        assert_eq!(
+            compare(&a.select(0), &b.select(0), recipe(FieldRole::Tracer))
+                .unwrap()
+                .outcome,
+            Err(Unavailable::FieldSchema),
+            "mutation {mutation}"
+        );
+    }
+    let (run, mut steps) = fixture(0.01, false);
+    steps[0].fields.retain(|f| f.name != "velocity_z");
+    let b = Archive::new(run, &steps);
+    assert_eq!(
+        compare(
+            &a.select(0),
+            &b.select(0),
+            recipe(FieldRole::VelocityDivergence)
+        )
+        .unwrap()
+        .outcome,
+        Err(Unavailable::MissingField)
+    );
+}
+#[test]
+fn finite_source_overflow_is_unavailable_and_nonfinite_source_is_rejected() {
+    let (run, mut steps) = fixture(0.01, false);
+    put_f64(&mut steps[0], "interval_pressure", |i| {
+        if i == 0 { 0.0 } else { f64::MAX }
+    });
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    put_f64(&mut steps[0], "interval_pressure", |i| {
+        if i == 0 { 0.0 } else { -f64::MAX }
+    });
+    let b = Archive::new(run, &steps);
+    assert_eq!(
+        compare(
+            &a.select(0),
+            &b.select(0),
+            recipe(FieldRole::IntervalPressure)
+        )
+        .unwrap()
+        .outcome,
+        Err(Unavailable::ArithmeticRange)
+    );
+    for role in [FieldRole::Tracer, FieldRole::IntervalPressure] {
+        let archive = Archive::empty();
+        let (run, mut steps) = fixture(0.01, false);
+        if role == FieldRole::Tracer {
+            put_f32(&mut steps[0], "tracer", |_| f32::NAN);
+        } else {
+            put_f64(&mut steps[0], "interval_pressure", |_| f64::INFINITY);
+        }
+        let mut writer =
+            StepRecorder::create(&archive.path, run, RecordingLimits::default()).unwrap();
+        assert!(matches!(
+            writer.append(&steps[0]),
+            Err(RecordingError::Invalid("nonfinite field"))
+        ));
+        assert_eq!(archive.reader().count().unwrap(), 0);
+    }
+}
+#[test]
+fn positive_tolerance_is_retained_and_constant_bounds_stay_finite() {
+    let (run, steps) = fixture(0.01, false);
+    let a = Archive::new(run, &steps);
+    let (run, steps) = fixture(0.0101, false);
+    let b = Archive::new(run, &steps);
+    let mut r = recipe(FieldRole::Tracer);
+    r.time_tolerance = 0.001;
+    let result = compare(&a.select(0), &b.select(0), r).unwrap();
+    assert_eq!(result.recipe, r);
+    let metrics = result.outcome.unwrap();
+    assert_eq!(metrics.metrics.relative_l2, None);
+    assert_eq!(metrics.metrics.l2, 0.0);
+    assert_eq!(metrics.color_bounds, ColorBounds { min: 0.0, max: 0.0 });
+    assert_eq!(
+        align(&[a.select(0)], &[b.select(0)], r)
+            .unwrap()
+            .pairs
+            .len(),
+        1
+    );
+}
+
+#[test]
+fn real_jacobi_and_sgs_cold_archives_compare_common_source_and_unmatched_horizon() {
+    let record = |method, intervals| {
+        let template = sim();
+        let mut native = Simulation::with_implementation(
+            GridGeometry::new([2, 3, 4], [0.25, 0.5, 0.75], [-1.0, 2.0, 3.0]).unwrap(),
+            template.config(),
+            method,
+        )
+        .unwrap();
+        let run = carrier_run(
+            SessionIdentity {
+                run_id: if method == PressureImplementation::JacobiPcgV1 {
+                    101
+                } else {
+                    102
+                },
+                source_revision: "real-native-comparison-test-source".into(),
+            },
+            &native,
+            "actual CPU native sealed-box source; no manufactured field mutation",
+        )
+        .unwrap();
+        let source = rheon::SmokeSource {
+            lower: [-0.99, 2.1, 3.1],
+            upper: [-0.51, 2.9, 4.4],
+            tracer_rate: 2.0,
+            vertical_acceleration: 1.0,
+        };
+        let mut steps = Vec::new();
+        for ordinal in 0..intervals {
+            native.step(0.003, Some(source), |_| false).unwrap();
+            steps.push(carrier_publication(&native, ordinal, 1 << 20).unwrap());
+        }
+        drop(native);
+        Archive::new(run, &steps)
+    };
+    let jacobi = record(PressureImplementation::JacobiPcgV1, 3);
+    let sgs = record(PressureImplementation::SymmetricGaussSeidelPcgV1, 2);
+    let a = jacobi.reader();
+    let b = sgs.reader();
+    a.verify().unwrap();
+    b.verify().unwrap();
+    assert_eq!(a.status().unwrap().outcome, "completed");
+    assert_eq!(b.status().unwrap().outcome, "completed");
+    let reference: Vec<_> = (0..3).map(|i| Selection::read(&a, i).unwrap()).collect();
+    let candidate: Vec<_> = (0..2).map(|i| Selection::read(&b, i).unwrap()).collect();
+    let coverage = align(&reference, &candidate, recipe(FieldRole::IntervalPressure)).unwrap();
+    assert_eq!(coverage.pairs.len(), 2);
+    assert_eq!(
+        coverage.reference_unmatched,
+        vec![reference[2].identity().clone()]
+    );
+    assert!(coverage.candidate_unmatched.is_empty());
+    assert_eq!(coverage.pairs[0].reference, *reference[0].identity());
+    assert_eq!(coverage.pairs[0].candidate, *candidate[0].identity());
+    assert_ne!(reference[0].digest(), candidate[0].digest());
+    let decoded = RecordedCarrier::decode(a.run(), reference[0].publication()).unwrap();
+    assert!(decoded.tracer.iter().any(|v| *v > 0.0));
+    assert!(
+        decoded
+            .interval_pressure
+            .as_ref()
+            .unwrap()
+            .1
+            .iter()
+            .any(|v| *v != 0.0)
+    );
+    for role in [
+        FieldRole::Tracer,
+        FieldRole::IntervalPressure,
+        FieldRole::VelocityX,
+        FieldRole::VelocityY,
+        FieldRole::VelocityZ,
+        FieldRole::VelocityDivergence,
+    ] {
+        let result = available(&reference[0], &candidate[0], role);
+        assert!(result.metrics.support_count > 0);
+        oracle(&jacobi, &sgs, role, &result);
+    }
+}
+
+#[test]
+fn malformed_pressure_interval_remains_a_paired_schema_failure() {
+    let (run, steps) = fixture(0.01, false);
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    field_mut(&mut steps[0], "interval_pressure").evaluation_time = Some(0.005);
+    let b = Archive::new(run, &steps);
+    assert_eq!(
+        compare(
+            &a.select(0),
+            &b.select(0),
+            recipe(FieldRole::IntervalPressure)
+        )
+        .unwrap()
+        .outcome,
+        Err(Unavailable::FieldSchema)
+    );
+    let coverage = align(
+        &[a.select(0)],
+        &[b.select(0)],
+        recipe(FieldRole::IntervalPressure),
+    )
+    .unwrap();
+    assert_eq!(coverage.pairs.len(), 1);
+    assert_eq!(coverage.pairs[0].outcome, Err(Unavailable::FieldSchema));
+    assert!(coverage.reference_unmatched.is_empty());
+    assert!(coverage.candidate_unmatched.is_empty());
+}
