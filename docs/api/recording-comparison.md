@@ -106,6 +106,69 @@ failure remains visible. Direct pressure metrics require matching canonical
 gauge. Common color bounds are the finite union of both compared arrays after
 any declared transform; constant fields legitimately produce min=max.
 
+## Native presentation data
+
+`compared_values(reference, candidate, recipe)` synchronously materializes a
+single immutable selected pair. It returns `ComparedValues` with owned promoted
+f64 reference/candidate arrays, the exact `PairComparison` summary and identities,
+native `NativeGeometry` (counts XYZ, spacing/origin in metres), and `NativeSampling`.
+The sampling descriptor contains association, actual scalar lattice dimensions,
+and sample offsets in cells. Cartesian XYZ and x-fast ordering are preserved.
+No arrays or descriptors are serialized by this API.
+
+| Association | Sample dimensions | Offset in cells |
+| --- | --- | --- |
+| Cell center (tracer, pressure, divergence) | `[nx, ny, nz]` | `[0.5, 0.5, 0.5]` |
+| Native X face | `[nx+1, ny, nz]` | `[0, 0.5, 0.5]` |
+| Native Y face | `[nx, ny+1, nz]` | `[0.5, 0, 0.5]` |
+| Native Z face | `[nx, ny, nz+1]` | `[0.5, 0.5, 0]` |
+
+The physical sample point is `origin_m + (sample_index + offset_cells)*spacing_m`
+componentwise. Face arrays are never cell-centered, averaged, interpolated or
+remapped. A renderer that supports only cell centers must report its limitation
+for a face association; it cannot relabel faces as cells or fabricate a Frame or
+Scene. The metadata enables an honest native sample projection, not a new
+renderer or physical-operator contract.
+
+The function first calls the existing `compare`, then reuses the existing native
+`values` extraction. For pressure it subtracts only the existing summary's exact
+`GaugeReport.removed_offset_pa` from the candidate array. It does not recompute a
+mean, reduction, divergence stencil or color scale through another algorithm.
+Direct values preserve native f32-to-f64 promotion and raw f64 bits; divergence
+continues to use the established stored-face calculation. Unavailable pairs
+return `ComparedValuesError::Unavailable` with their original reason, and an
+invalid recipe returns `ComparedValuesError::Recipe`. The persisted unavailable
+variants, codec and analysis-version semantics are unchanged.
+
+This deliberately repeats bounded extraction after validation to avoid changing
+the established numerical reduction. Source recording limits bound one selected
+record; they are not a peak RSS limit. Two source records, promoted arrays and
+transient divergence/reduction buffers can coexist. There is no new field cache,
+persistent numerical store or worker, and callers own returned-array lifetimes.
+
+The cold page's `load_selected_fields` is an explicit synchronous consumer. It
+returns no data and performs no source I/O without a current verified matched
+pair. On invocation it reopens M2's exact terminal artifact pins, selects and
+checks both publication identities, calls `compared_values` and checks its summary
+against the currently verified pair. Missing/corrupt/changed sources clear old
+verified presentation and refresh source availability snapshots. A valid but
+unavailable field pair returns its typed unavailable reason while retaining its
+verified analysis status. It never turns missing data into arrays or acceptance.
+The existing `selected_pair` accessor remains cheap. A future linked renderer may
+cache transient returned data by both exact pair identities and full recipe;
+materialization is not a per-frame getter and does not itself register a view.
+
+Pointwise tests independently decode real Jacobi/SGS SQLite field bytes and check
+all six role arrays. Direct scalar outputs are compared bit-for-bit after IEEE
+promotion; the independent coordinate-dictionary/`fsum` oracle bounds the final
+three-term divergence summation as described below. Separate analytical fixtures
+check signed zero/subnormal f32 values, declared pressure-offset transforms and
+constant divergence. The existing metric oracle is unchanged. Mutation fixtures
+retain the original typed stage/time/geometry/schema/gauge/arithmetic failures.
+The cold consumer tests verify no data/source access while Unverified, actual
+native X-face sampling after verification, and invalidation on missing or changed
+whole-file sources; unavailable constructor pressure remains verified-but-absent.
+
 ## Evidence and limits
 
 The Rust contracts use real `Simulation` captures, `carrier_publication`,
@@ -165,3 +228,10 @@ passed 15 tests and carrier contracts passed 4 tests. Focused Clippy with warnin
 denied, Rust formatting and Python compilation passed. These observations cover
 this isolated module and the stated storage regressions; shared export wiring,
 run-set/desktop integration and native interaction remain integration-owner work.
+
+Presentation-seam verification on Linux CPU, Rust 1.92.0 (2026-10-15): 18 native
+comparison tests pass with no default features and with desktop enabled; 9 cold
+page interaction/consumer tests pass with desktop enabled. Focused Clippy with
+warnings denied and formatting pass. These tests establish native data custody
+and the explicit materialization consumer, not linked rendering, shared desktop
+registration or model/runtime acceptance.

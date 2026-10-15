@@ -126,6 +126,41 @@ commands confirmed access, source hashes and the fresh window/reader results.
 
 This is narrow native cold-page interaction, not integrated root navigation,
 linked slice/probe/camera, live worker Cancel/restart/Close or model execution.
+
+### Native presentation-data continuation
+
+The final owned core adds `compared_values`, reusing existing comparison/field
+validation and the already returned gauge offset. It returns promoted native
+arrays, exact pair summary, bit-identical geometry and explicit cell/face sampling.
+Face dimensions retain the extra face, with zero offset along that axis; no
+averaging, interpolation, replacement reduction, Scene/Frame fabrication or
+numerical store is added. The cold page's explicit synchronous
+`load_selected_fields()` rechecks source pins and selected identities. It performs
+no source I/O for Empty/Unverified state, clears verification on source changes,
+and preserves verified unavailable classifications without invented arrays.
+
+Fresh final combined desktop command (the four focused targets) passes
+**17 persistence + 12 saved-comparison + 18 numerical + 9 UI tests**. Independent
+GPT-6.1 Sol High review also freshly passes 18 numerical tests in desktop and
+no-default modes, 9 UI tests, focused Clippy in both modes and formatting. The
+pointwise SQLite/native-bit and coordinate/`math.fsum` oracle checks all six roles;
+the original metric oracle is unchanged. No material finding remains. Final core
+SHA256 `dca8613f68c20b38952d79b872d5233334f778cd467d695ed1d3102a7560edf0`;
+UI SHA256 `a16da2595e1a735ddec98ee05b3364697921b65037649476af992fcecc8c04ed`.
+
+A freshly compiled ordinary-configuration X11 harness (source SHA256
+`2fc09fa4c5594bf1a7cff1bd9d64acc5c6b4ead8eac5adf7c58f740920b55fcc`)
+exercised that final page: Unverified explicit load returned None; after Verify,
+tracer materialization returned 60 cell-centered samples with dimensions [3,4,5]
+and offsets [0.5,0.5,0.5]. Selecting native X velocity and recomputing returned 80
+X-face samples, dimensions [4,4,5], offsets [0,0.5,0.5]. Temporarily moving the
+candidate archive caused explicit loading to return source-missing, clear old
+metrics and show Missing. The exact fixture was restored and the window exited 0.
+Generated log: `/workspace/.rheon-gui/native-page-projection-final.log`.
+This observes the cold-page data consumer, not linked field rendering or final
+root registration. The earlier harness source is preserved as
+`/tmp/rheon-native-page-window-v1.rs`; no generated evidence enters the repository.
+
 Shared existing native `run_owned`/Inspector capture and
 paired-view geometry/scalar/unit projection still await the lead's explicit
 serial allocation or supplied hooks. Root navigation/worker lifecycle remains

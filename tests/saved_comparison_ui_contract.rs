@@ -136,7 +136,11 @@ fn produce(root: &Path, m: &RunSetMember, mode: &str) {
             } else {
                 "completed"
             },
-            "actual accepted native fixture",
+            if mode == "changed" {
+                "changed terminal receipt"
+            } else {
+                "actual accepted native fixture"
+            },
             Some(sim.state().generation),
         )
         .unwrap();
@@ -583,4 +587,98 @@ fn missing_source_refreshes_availability_on_both_compute_and_verify_failures() {
     h.text("root", root.0.join("other-root").to_str().unwrap());
     assert_eq!(h.page.presentation(), Presentation::Empty);
     assert!(h.page.member_summaries().is_empty());
+}
+
+#[test]
+fn explicit_selected_field_materialization_requires_verified_exact_sources() {
+    let root = Directory::new();
+    let set = fixture(&root.0);
+    let recipe = SavedRecipe::capture(
+        &root.0,
+        set,
+        "jacobi",
+        "sgs",
+        &[1],
+        &[1],
+        Recipe {
+            field: FieldRole::VelocityX,
+            time_tolerance: 0.0,
+            pressure: PressurePolicy::Canonical,
+        },
+    )
+    .unwrap();
+    recipe
+        .compute(&root.0)
+        .unwrap()
+        .save_new(&root.0.join("result.json"))
+        .unwrap();
+    let mut h = Harness::new(&root.0);
+    assert!(h.page.load_selected_fields().unwrap().is_none());
+    h.text("saved-path", "result.json");
+    h.click("open-result");
+    std::fs::rename(
+        root.0.join("jacobi.sqlite"),
+        root.0.join("unavailable.sqlite"),
+    )
+    .unwrap();
+    // Missing source is immaterial here: Unverified must not attempt source I/O.
+    assert!(h.page.load_selected_fields().unwrap().is_none());
+    assert_eq!(h.page.presentation(), Presentation::Unverified);
+    std::fs::rename(
+        root.0.join("unavailable.sqlite"),
+        root.0.join("jacobi.sqlite"),
+    )
+    .unwrap();
+    h.click("verify");
+    let data = h.page.load_selected_fields().unwrap().unwrap();
+    assert_eq!(
+        data.sampling.association,
+        native_comparison::SampleAssociation::XFace
+    );
+    assert_eq!(data.sampling.dimensions, [3, 3, 4]);
+    assert_eq!(data.reference.len(), 36);
+    assert_eq!(data.comparison, *h.page.selected_pair().unwrap().pair);
+    std::fs::rename(root.0.join("jacobi.sqlite"), root.0.join("changed.sqlite")).unwrap();
+    assert!(matches!(
+        h.page.load_selected_fields(),
+        Err(SelectedFieldsError::Source(_))
+    ));
+    assert_eq!(h.page.presentation(), Presentation::Empty);
+    assert_eq!(
+        h.page.member_summaries()[0].availability,
+        Availability::Missing
+    );
+    std::fs::rename(root.0.join("changed.sqlite"), root.0.join("jacobi.sqlite")).unwrap();
+    h.click("open-result");
+    h.click("verify");
+    let candidate = h.page.selected_pair().unwrap().recipe.run_set.members[1].clone();
+    std::fs::remove_file(root.0.join("sgs.sqlite")).unwrap();
+    produce(&root.0, &candidate, "changed");
+    assert!(
+        matches!(h.page.load_selected_fields(),Err(SelectedFieldsError::Source(reason)) if reason.contains("finalized archive changed"))
+    );
+    assert_eq!(h.page.presentation(), Presentation::Empty);
+    assert_eq!(
+        h.page.member_summaries()[1].availability,
+        Availability::Invalid
+    );
+}
+#[test]
+fn unavailable_native_fields_remain_verified_analysis_without_materialized_values() {
+    let root = Directory::new();
+    fixture(&root.0);
+    let mut h = Harness::new(&root.0);
+    h.click("open-manifest");
+    h.choice("role", "Interval pressure");
+    h.click("compute");
+    assert!(matches!(
+        h.page.load_selected_fields(),
+        Err(SelectedFieldsError::Comparison(
+            native_comparison::ComparedValuesError::Unavailable(
+                native_comparison::Unavailable::MissingField
+            )
+        ))
+    ));
+    assert_eq!(h.page.presentation(), Presentation::Verified);
+    assert!(h.page.selected_pair().is_some());
 }

@@ -170,6 +170,17 @@ or alternate display reconstruction. Root registration and linked rendering are
 still pending lead allocation. Native-v1 timing/provider-attempt/warmup/fallback/RHS
 facts remain explicitly unavailable.
 
+`load_selected_fields()` is an explicit synchronous I/O/materialization operation
+for that renderer consumer, not a per-frame getter. Empty or Unverified pages
+return no data before source I/O. It reopens both exact archive pins, checks the
+selected publication identities, calls `compared_values`, and checks the returned
+summary against the verified pair. Source changes clear old verification and
+refresh availability. A scientifically unavailable pair remains verified analysis
+with a typed unavailable result and no fabricated arrays. Rendering consumers
+must clear previous fields on every failed/unavailable materialization. Returned
+geometry/sampling preserve native face dimensions and offsets; no cell averaging
+or remapping occurs. Promoted f64 arrays are transient and not an RSS guarantee.
+
 Seven real-producer headless egui interaction tests and focused Clippy/formatting
 pass; independent GPT-6.1 Sol High review approved the exact source. Actual Linux
 X11 interactions exercised this same page in a temporary eframe verification
@@ -180,3 +191,11 @@ recomputed the exported result after the window exited. This is narrow cold-page
 evidence, not final desktop navigation, linked views, live worker lifecycle, model
 runtime, hardware GPU or full M2–M3 acceptance. Exact source/environment identities
 and remaining dependencies are in the [stack report](../plans/configurable-solver-components/reports/m23-persistence-comparison.md).
+
+After the presentation-data addition, the fresh combined desktop run passes
+17 persistence, 12 saved-comparison, 18 numerical-comparison and 9 UI contracts.
+Independent review also passes the 18 numerical contracts without default
+features, focused Clippy in both modes and formatting. Actual X11 materialization
+on the final page returns native cell/face values only after verification and
+clears stale presentation after source disappearance. The final page and core
+hashes are recorded in the stack report.
