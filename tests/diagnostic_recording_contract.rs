@@ -1390,3 +1390,68 @@ fn wall_observation_requires_hard_stop_and_is_strictly_decoded() {
         }
     }
 }
+
+#[test]
+fn equal_request_pressure_reduction_preserves_canonical_gauge_absence_and_overflow() {
+    let run = run(DiagnosticMode::TeacherStage, false);
+    let mut selected = attempt(&run, 0, None, false);
+    let comparison = selected.pressure_comparison().unwrap();
+    let squares = (0..run.grid.cell_len())
+        .map(|i| (i as f64).powi(2))
+        .sum::<f64>();
+    let expected = 7.75 * squares.sqrt();
+    assert!((comparison.metrics.l2 - expected).abs() < expected * 1e-14);
+    assert!((comparison.metrics.relative_l2.unwrap() - 31.0).abs() < 1e-13);
+    let gauge = comparison.gauge.unwrap();
+    assert!(!gauge.diagnostic);
+    assert_eq!(gauge.removed_offset_pa, 0.0);
+    selected.native_reference.as_mut().unwrap().request_digest = [0; 32];
+    assert_eq!(
+        selected.pressure_comparison(),
+        Err(PressureComparisonUnavailable::RequestMismatch)
+    );
+    selected.native_reference = None;
+    assert_eq!(
+        selected.pressure_comparison(),
+        Err(PressureComparisonUnavailable::NoNativeReference)
+    );
+    selected.outcome = PredictionOutcome::NoCandidate {
+        reason: NoCandidateReason::Cancelled,
+        detail: "cancelled".into(),
+        invalid_payload_sha256: None,
+    };
+    assert_eq!(
+        selected.pressure_comparison(),
+        Err(PressureComparisonUnavailable::NoCandidate)
+    );
+    let mut selected = attempt(&run, 0, None, false);
+    if let PredictionOutcome::Candidate(sample) = &mut selected.outcome {
+        sample.pressure[0] = 1.0;
+    }
+    assert_eq!(
+        selected.pressure_comparison(),
+        Err(PressureComparisonUnavailable::NoncanonicalGauge)
+    );
+    let mut selected = attempt(&run, 0, None, false);
+    selected
+        .native_reference
+        .as_mut()
+        .unwrap()
+        .sample
+        .pressure
+        .fill(0.0);
+    assert_eq!(
+        selected.pressure_comparison().unwrap().metrics.relative_l2,
+        None
+    );
+    selected.native_reference.as_mut().unwrap().sample.pressure[1] = f64::MAX;
+    if let PredictionOutcome::Candidate(sample) = &mut selected.outcome {
+        sample.pressure[1] = -f64::MAX;
+    }
+    assert_eq!(
+        selected.pressure_comparison(),
+        Err(PressureComparisonUnavailable::Samples(
+            rheon::recording::comparison::Unavailable::ArithmeticRange
+        ))
+    );
+}

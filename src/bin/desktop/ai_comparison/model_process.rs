@@ -621,14 +621,29 @@ impl ModelProcess {
                 Ok(v) => {
                     return v.map_err(|mut e| {
                         e.dispatched = dispatched;
+                        if cancelled.load(Ordering::Relaxed)
+                            && e.reason == NoCandidateReason::RuntimeFailure
+                            && e.invalid_payload_sha256.is_none()
+                        {
+                            e.reason = NoCandidateReason::Cancelled;
+                            e.detail = "Cancelled".into();
+                        }
                         e
                     });
                 }
                 Err(mpsc::RecvTimeoutError::Timeout) => {}
                 Err(_) => {
                     return Err(PredictionFailure::new(
-                        NoCandidateReason::RuntimeFailure,
-                        "CPU model closed its output",
+                        if cancelled.load(Ordering::Relaxed) {
+                            NoCandidateReason::Cancelled
+                        } else {
+                            NoCandidateReason::RuntimeFailure
+                        },
+                        if cancelled.load(Ordering::Relaxed) {
+                            "Cancelled"
+                        } else {
+                            "CPU model closed its output"
+                        },
                         dispatched,
                         None,
                     ));
@@ -734,15 +749,27 @@ impl ModelProcess {
             match self.writes.recv_timeout(Duration::from_millis(20)) {
                 Ok(result) => {
                     result.map_err(|e| {
-                        PredictionFailure::new(NoCandidateReason::RuntimeFailure, e, true, None)
+                        if cancelled.load(Ordering::Relaxed) {
+                            after(NoCandidateReason::Cancelled, "Cancelled")
+                        } else {
+                            PredictionFailure::new(NoCandidateReason::RuntimeFailure, e, true, None)
+                        }
                     })?;
                     break;
                 }
                 Err(mpsc::RecvTimeoutError::Timeout) => {}
                 Err(_) => {
                     return Err(after(
-                        NoCandidateReason::RuntimeFailure,
-                        "CPU model input closed",
+                        if cancelled.load(Ordering::Relaxed) {
+                            NoCandidateReason::Cancelled
+                        } else {
+                            NoCandidateReason::RuntimeFailure
+                        },
+                        if cancelled.load(Ordering::Relaxed) {
+                            "Cancelled"
+                        } else {
+                            "CPU model input closed"
+                        },
                     ));
                 }
             }

@@ -318,6 +318,48 @@ pub struct DiagnosticAttempt {
     pub native_reference: Option<NativeReference>,
     pub transition: HistoryTransition,
 }
+/// Explicit absence/mismatch for equal-request diagnostic pressure reduction.
+/// No accepted publication profile is inferred from a diagnostic attempt.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PressureComparisonUnavailable {
+    NoCandidate,
+    NoNativeReference,
+    RequestMismatch,
+    NoncanonicalGauge,
+    Samples(super::comparison::Unavailable),
+}
+impl DiagnosticAttempt {
+    pub fn pressure_comparison(
+        &self,
+    ) -> Result<super::comparison::FieldComparison, PressureComparisonUnavailable> {
+        use PressureComparisonUnavailable as U;
+        let PredictionOutcome::Candidate(candidate) = &self.outcome else {
+            return Err(U::NoCandidate);
+        };
+        let native = self.native_reference.as_ref().ok_or(U::NoNativeReference)?;
+        if native.request_digest != self.request.digest() {
+            return Err(U::RequestMismatch);
+        }
+        if candidate.pressure.first().copied() != Some(0.0)
+            || native.sample.pressure.first().copied() != Some(0.0)
+        {
+            return Err(U::NoncanonicalGauge);
+        }
+        super::comparison::reduce_values(
+            &native.sample.pressure,
+            &candidate.pressure,
+            self.request.grid().cell_len(),
+            "Pa",
+            Some(super::comparison::GaugeReport {
+                reference_canonical: true,
+                candidate_canonical: true,
+                removed_offset_pa: 0.0,
+                diagnostic: false,
+            }),
+        )
+        .map_err(U::Samples)
+    }
+}
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TerminalOutcome {
     Completed,

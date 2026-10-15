@@ -2,7 +2,11 @@
 mod adapter;
 #[cfg(test)]
 mod cpu_contract_tests;
+mod diagnostic_runs;
+mod diagnostic_view;
+mod diagnostic_worker;
 mod engine;
+pub use engine::ExecutionPolicy;
 mod model_process;
 mod record;
 mod scene;
@@ -37,6 +41,10 @@ pub struct ComparisonApp {
     status: String,
     preflight_status: Option<String>,
     closing: bool,
+    policy: engine::ExecutionPolicy,
+    active_policy: engine::ExecutionPolicy,
+    inspector: diagnostic_view::Inspector,
+    show_attempt: bool,
 }
 impl ComparisonApp {
     pub fn new(deployment: String, project_directory: PathBuf) -> Self {
@@ -61,6 +69,10 @@ impl ComparisonApp {
             preflight_status: None,
             status: "Choose a CPU deployment and start a fresh paired simulation".into(),
             closing: false,
+            policy: Default::default(),
+            active_policy: Default::default(),
+            inspector: Default::default(),
+            show_attempt: false,
         }
     }
     fn check_package(&mut self) {
@@ -80,18 +92,36 @@ impl ComparisonApp {
     pub fn set_steps(&mut self, steps: usize) {
         self.scene.steps = steps;
     }
+    #[allow(
+        dead_code,
+        reason = "Standalone comparison CLI entry, shared with desktop UI"
+    )]
+    pub fn set_policy(&mut self, policy: engine::ExecutionPolicy) {
+        self.policy = policy;
+    }
     pub fn start(&mut self) {
         if self.running() {
             return;
         }
-        match Worker::start(
-            self.scene.clone(),
-            PathBuf::from(&self.deployment),
-            self.project_directory.clone(),
-        ) {
+        let worker = if self.policy == ExecutionPolicy::LegacyRawContinuation {
+            Worker::start(
+                self.scene.clone(),
+                PathBuf::from(&self.deployment),
+                self.project_directory.clone(),
+            )
+        } else {
+            Worker::start_with_policy(
+                self.scene.clone(),
+                PathBuf::from(&self.deployment),
+                self.project_directory.clone(),
+                self.policy,
+            )
+        };
+        match worker {
             Ok(worker) => {
                 self.worker = Some(worker);
                 self.active_scene = self.scene.clone();
+                self.active_policy = self.policy;
                 self.selected = 0;
                 self.cut = self.cut.min(self.scene.counts[2] - 1);
                 self.probe = None;
@@ -124,7 +154,10 @@ impl ComparisonApp {
         egui::SidePanel::left("ai-comparison-controls").resizable(true).default_width(300.0).show(ctx,|ui|{
             ui.heading("Water pressure comparison");if ui.add_enabled(!running,egui::Button::new("Back to simulation")).clicked(){stay=false;}
             ui.label("Filled sealed water · 1000 kg/m³ · 0.001 Pa·s · free-slip walls");
+            ui.checkbox(&mut self.inspector.visible,"Inspect saved diagnostic attempts");
+            ui.checkbox(&mut self.show_attempt,"Inspect latest live attempt");
             ui.add_enabled_ui(!running,|ui|{
+                egui::ComboBox::from_label("Execution policy").selected_text(self.policy.label()).show_ui(ui,|ui|{ for policy in [engine::ExecutionPolicy::LegacyRawContinuation,engine::ExecutionPolicy::TeacherStage,engine::ExecutionPolicy::IndependentStopOnReject]{ui.selectable_value(&mut self.policy,policy,policy.label());}});
                 ui.collapsing("CPU adapter package", |ui| {
                     ui.text_edit_singleline(&mut self.deployment);
                     if ui.button("Check package support").clicked() { self.check_package(); }
@@ -135,7 +168,7 @@ impl ComparisonApp {
                 ui.label("Cell counts X / Y / Z");ui.horizontal(|ui|{for count in &mut self.scene.counts{ui.add(egui::DragValue::new(count).range(5..=128));}});
                 ui.horizontal(|ui|{ui.label("Cells per metre");ui.add(egui::DragValue::new(&mut self.scene.cells_per_metre).range(1..=128));});
                 ui.small(format!("Domain {:?} m · cubic cell {:.5} m",self.scene.extents(),self.scene.h()));ui.small("Training: 5–16 cells/axis; 8 or 16 cells/m. Larger grids are extrapolation.");
-                ui.horizontal(|ui|{ui.label("Timesteps");ui.add(egui::DragValue::new(&mut self.scene.steps).range(1..=512));});ui.horizontal(|ui|{ui.label("Native warm-up steps");ui.add(egui::DragValue::new(&mut self.scene.warmup_steps).range(0..=511));});ui.small("Fixed Δt = 1/60 s. Shared native prefix, then independent AI history. Checkpoint minimum is enforced.");
+                ui.horizontal(|ui|{ui.label("Timesteps");ui.add(egui::DragValue::new(&mut self.scene.steps).range(1..=512));});ui.horizontal(|ui|{ui.label("Native warm-up steps");ui.add(egui::DragValue::new(&mut self.scene.warmup_steps).range(0..=511));});ui.small("Fixed Δt = 1/60 s. Native prefix and model support are checked before execution.");
                 ui.add(egui::Slider::new(&mut self.scene.acceleration,0.0..=4.0).text("Acceleration (m/s²)"));
                 ui.collapsing("Force location and fluctuations",|ui|{for d in 0..3{ui.add(egui::Slider::new(&mut self.scene.center[d],0.0..=1.0).text(format!("{} center fraction",["X","Y","Z"][d])));}ui.add(egui::Slider::new(&mut self.scene.radius,0.1..=0.5).text("Radius fraction"));ui.add(egui::Slider::new(&mut self.scene.swirl,-1.0..=1.0).text("Swirl"));ui.add(egui::Slider::new(&mut self.scene.fluctuation,0.0..=0.8).text("Fluctuation"));ui.add(egui::Slider::new(&mut self.scene.frequency,0.0..=4.0).text("Frequency (Hz)"));});
                 ui.checkbox(&mut self.scene.sgs,"SGS PCG reference (otherwise Jacobi)");
@@ -147,13 +180,15 @@ impl ComparisonApp {
             ui.checkbox(&mut self.fixed_range,"Fixed color scale");if self.fixed_range{ui.add(egui::DragValue::new(&mut self.manual_range).range(1e-9..=1e12).speed(1.0).prefix("± ").suffix(" Pa"));ui.small("Colors clamp at endpoints; voxel probes keep exact values.");}else{ui.checkbox(&mut self.whole_run_range,"Whole-run color range");ui.small(if self.whole_run_range{"Range over all retained frames, shared across slices."}else{"Current frame full-volume range, shared across slices."});}
             ui.horizontal(|ui|{if ui.button("Frame view").clicked(){self.camera=Default::default();}ui.checkbox(&mut self.camera.orthographic,"Orthographic");});
             ui.small("Drag: orbit · Shift-drag: pan · wheel: zoom · click voxel: probe");
-            ui.separator();ui.label("AI is a raw diagnostic track. Failed pressure checks stay visible. Courant, nonfinite or wall/flux failure stops the paired run.");
+            ui.separator();ui.label(self.active_policy.label()); ui.small(match self.active_policy { engine::ExecutionPolicy::LegacyRawContinuation=>"Raw continuation retains failed states until a hard stop.", engine::ExecutionPolicy::TeacherStage=>"Candidate is measured on native requests; only native history advances.", engine::ExecutionPolicy::IndependentStopOnReject=>"First rejected candidate is recorded without advancing state or history."});
         });
         let mut selected_frame = None;
         let mut count = 0;
         let mut pressure_range = 0.0;
         let mut delta_range = 0.0;
         let mut provider = None;
+        let mut latest_attempt = None;
+        let mut diagnostic_manifest = None;
         let playback_delta = self.speed * f64::from(ctx.input(|i| i.stable_dt.min(0.1)));
         if let Some(worker) = &self.worker
             && let Ok(shared) = worker.shared.lock()
@@ -162,6 +197,8 @@ impl ComparisonApp {
             pressure_range = shared.pressure_range;
             delta_range = shared.difference_range;
             provider = shared.provider.clone();
+            latest_attempt = shared.last_attempt.clone();
+            diagnostic_manifest = shared.diagnostic_manifest.clone();
             self.status = format!("{} · {}", shared.state, shared.message);
             if count > 0 {
                 if self.follow {
@@ -179,9 +216,56 @@ impl ComparisonApp {
                 selected_frame = shared.frames.get(self.selected).cloned();
             }
         }
+        if let Some((spec, parent)) = self.inspector.show(ctx, running) {
+            match Worker::start_saved(spec.clone(), parent, self.project_directory.clone()) {
+                Ok(worker) => {
+                    self.worker = Some(worker);
+                    self.active_scene = spec.scene;
+                    self.active_policy = spec.policy;
+                    self.selected = 0;
+                    self.probe = None;
+                    self.follow = true;
+                    self.playing = false;
+                    self.cut = self.cut.min(self.active_scene.counts[2] - 1);
+                    // All local snapshots above belong to the previous owner.
+                    // Paint the new scene only after taking its own snapshots.
+                    ctx.request_repaint();
+                    return true;
+                }
+                Err(e) => self.status = e,
+            }
+        }
+        if self.show_attempt {
+            egui::Window::new("Latest live diagnostic request")
+                .open(&mut self.show_attempt)
+                .vscroll(true)
+                .default_size([1050.0, 700.0])
+                .show(ctx, |ui| {
+                    if let Some(attempt) = &latest_attempt {
+                        diagnostic_view::attempt_ui(
+                            ui,
+                            attempt,
+                            &mut self.cut,
+                            &mut self.probe,
+                            &mut self.difference,
+                        );
+                    } else {
+                        ui.label("No typed request recorded yet");
+                    }
+                });
+        }
         egui::TopBottomPanel::top("ai-comparison-status").show(ctx, |ui| {
             ui.heading("Rheon solver / AI solver · fresh water simulations");
             ui.label(&self.status);
+            if let Some(path) = &diagnostic_manifest {
+                ui.horizontal(|ui| {
+                    ui.small(path.display().to_string());
+                    if ui.button("Inspect saved run").clicked() {
+                        self.inspector.set_path(path.to_string_lossy().into_owned());
+                        self.inspector.visible = true;
+                    }
+                });
+            }
             if let Some(provider) = &provider {
                 ui.small(format!(
                     "CPU provider {} · optimizer updates during comparison: 0",
@@ -239,25 +323,154 @@ impl eframe::App for ComparisonApp {
     reason = "Companion rheon-ai-compare CLI entry; this shared UI module is also compiled into rheon-desktop"
 )]
 pub fn headless(deployment: PathBuf, directory: PathBuf, steps: usize) -> Result<(), String> {
+    headless_with_policy(
+        deployment,
+        directory,
+        steps,
+        engine::ExecutionPolicy::LegacyRawContinuation,
+    )
+}
+#[allow(dead_code, reason = "CLI entry also compiled in the desktop binary")]
+pub fn headless_with_policy(
+    deployment: PathBuf,
+    directory: PathBuf,
+    steps: usize,
+    policy: engine::ExecutionPolicy,
+) -> Result<(), String> {
     let scene = scene::Scene {
         steps,
         ..Default::default()
     };
     let shared = Mutex::new(worker::Shared::default());
     let cancel = AtomicBool::new(false);
-    worker::run(
-        scene,
-        deployment,
-        directory,
-        &shared,
-        &cancel,
-        Arc::new(Mutex::new(None)),
-    )?;
+    if policy == ExecutionPolicy::LegacyRawContinuation {
+        worker::run(
+            scene,
+            deployment,
+            directory,
+            &shared,
+            &cancel,
+            Arc::new(Mutex::new(None)),
+        )?;
+    } else {
+        worker::run_with_policy(
+            scene,
+            deployment,
+            directory,
+            &shared,
+            &cancel,
+            Arc::new(Mutex::new(None)),
+            policy,
+        )?;
+    }
     let data = shared.lock().map_err(|_| "History lock")?;
-    let last = data.frames.last().ok_or("No frames")?;
+    let last = data.frames.last();
     println!(
         "{}",
-        serde_json::json!({"state":data.state,"message":data.message,"frames":data.frames.len(),"step":last.step,"time_s":last.time_s,"reference_qualified":last.reference_quality.as_ref().map(|q|q.qualified),"ai_qualified":last.ai_quality.as_ref().map(|q|q.qualified),"provider":data.provider,"checkpoint_sha256":data.provider.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"directory":data.directory})
+        serde_json::json!({"state":data.state,"message":data.message,"frames":data.frames.len(),"step":last.map(|f|f.step),"time_s":last.map(|f|f.time_s),"reference_qualified":last.and_then(|f|f.reference_quality.as_ref().map(|q|q.qualified)),"ai_qualified":last.and_then(|f|f.ai_quality.as_ref().map(|q|q.qualified)),"provider":data.provider,"checkpoint_sha256":data.provider.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"directory":data.directory})
     );
+    if data.state == "failed" {
+        return Err(data.message.clone());
+    }
     Ok(())
+}
+
+#[cfg(test)]
+mod saved_rerun_tests {
+    use super::*;
+    use eframe::egui::{Event, Modifiers, PointerButton, Pos2, RawInput, Rect, Vec2};
+    fn worker(package: &cpu_contract_tests::Fixture, counts: [usize; 3]) -> Worker {
+        let mut worker = Worker::start_with_policy(
+            scene::Scene {
+                counts,
+                steps: 3,
+                warmup_steps: 1,
+                ..Default::default()
+            },
+            package.manifest.clone(),
+            package.root.join("runs"),
+            ExecutionPolicy::TeacherStage,
+        )
+        .unwrap();
+        let end = std::time::Instant::now() + Duration::from_secs(10);
+        while !worker.finished() {
+            assert!(std::time::Instant::now() < end);
+            std::thread::sleep(Duration::from_millis(5));
+        }
+        worker.join_finished();
+        worker
+    }
+    #[test]
+    fn actual_saved_rerun_button_never_renders_old_arrays_with_new_grid() {
+        let package = cpu_contract_tests::Fixture::new(false);
+        let old = worker(&package, [5; 3]);
+        let new = worker(&package, [6; 3]);
+        let path = new
+            .shared
+            .lock()
+            .unwrap()
+            .diagnostic_manifest
+            .clone()
+            .unwrap();
+        drop(new);
+        let old_shared = old.shared.clone();
+        let mut app = ComparisonApp::new(
+            package.manifest.to_string_lossy().into_owned(),
+            package.root.join("reruns"),
+        );
+        app.worker = Some(old);
+        app.active_scene = scene::Scene {
+            counts: [5; 3],
+            steps: 3,
+            warmup_steps: 1,
+            ..Default::default()
+        };
+        app.inspector.set_path(path.to_string_lossy().into_owned());
+        app.inspector.load_for_test();
+        let context = egui::Context::default();
+        let mut paint = |events: Vec<Event>| {
+            let _ = context.run(
+                RawInput {
+                    screen_rect: Some(Rect::from_min_size(Pos2::ZERO, Vec2::new(1500.0, 1100.0))),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    assert!(app.show(ctx));
+                },
+            );
+            app.inspector.rerun_rect
+        };
+        for _ in 0..3 {
+            paint(vec![]);
+        }
+        let position = paint(vec![]).unwrap().center();
+        paint(vec![
+            Event::PointerMoved(position),
+            Event::PointerButton {
+                pos: position,
+                button: PointerButton::Primary,
+                pressed: true,
+                modifiers: Modifiers::NONE,
+            },
+        ]);
+        paint(vec![
+            Event::PointerMoved(position),
+            Event::PointerButton {
+                pos: position,
+                button: PointerButton::Primary,
+                pressed: false,
+                modifiers: Modifiers::NONE,
+            },
+        ]);
+        assert_eq!(app.active_scene.counts, [6; 3]);
+        assert!(!Arc::ptr_eq(
+            &old_shared,
+            &app.worker.as_ref().unwrap().shared
+        ));
+        // Also paint the next frame, now using only the new owner's snapshots.
+        let _ = context.run(RawInput::default(), |ctx| {
+            assert!(app.show(ctx));
+        });
+    }
 }
