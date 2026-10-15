@@ -559,3 +559,25 @@ The complete conservative selector grows106 to107: one new recording module,
 one registration-only changed source and105 unchanged selected paths. The
 selector, old inventories, mathematical oracle and qualification runner stay
 unchanged. No automated inventory refresh or old receipt reuse occurs.
+
+
+### Explicit RCP2 applied-stage and cold-header correction
+
+Independent GPT-6.1 Sol lead review approves exact PR103beb69f6 follow-up.
+The actual accepted LiquidStepReport viscosity presence is retained as its own
+boolean; Newtonian zero and Disabled remain distinct. RCP2 explicitly refuses
+RCP1 instead of inferring the lost stage. Applied zero enforces density identity;
+disabled noncanonical/nonzero and nonzero subnormal coefficients are refused.
+The public typed header accessor validates constructor controls without a row
+or numerical/runtime construction. Review:
+../plans/configurable-solver-components/reports/configured-recording-stage-review.md.
+
+- src/recording/provider.rs: 91e69991e352013be0ecc48bf7fc0b6c1c75e4a7564d9c7f9ed7d2f312c52ff3
+- tests/recording_provider_contract.rs: cc1bf048c06054a8be52449383e215d73fb00c430d5d181186a4e8592043e6d2
+- docs/api/configured-provider-recording.md: bed659ef1e03bd8b5121afd589f9bb4e795bfa4afdf8674ef3e97c5edbb76c60
+
+All107 selected paths remain present; only provider.rs changes, with106
+unchanged selected paths. Source/qualification selectors and older inventories
+are unchanged. The previously assigned stage/header gap is closed in source;
+fresh combined qualification and subsequent frozen/production integration
+remain required. Earlierfc5a704 evidence is explicitly RCP1, not this RCP2 source.

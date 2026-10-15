@@ -789,3 +789,25 @@ to its actual source and is not relabelled for this correction.
 - Fresh clean combined qualification/packet, actual recording/cold-process and
   process/Session contracts follow this source freeze. Production package
   bridge and worker/UI integration remain separate acceptance items.
+
+## 2026-10-15 — present RCP1 evidence and corrected RCP2 composition
+
+- Clean combinedfc5a704569d8261ed735bf94551d37bd057a7ef2,
+  treee2c22f55c2c0d79c6c75859422a1fffcac34fd9c, passed18 fresh
+  native/rational commands,26 normal and26 optimized packet tests, zero skips;
+  Lean was not checked. It passed134 core/library/recording contracts with
+  actual modal consumers and zero ignored,54 default recording contracts, and
+  58 CPU application tests with one measured-deployment ignore. Counts overlap
+  and are not additive independent results. Strict affected desktop Clippy and
+  both native builds passed; producer plus four independent cold readers exit0.
+  Receipts/logs: /tmp/rheon-accepted-combined-*. These cover RCP1 only.
+- Required RCP2 follow-upbeb69f65589fbca1005096a6457a540cb33f3d88
+  merged without conflict at ef4e1284. Lead independent exact-five-path review
+  approves actual viscosity_applied, public configured_configuration and closed
+  RCP2 versioning with zero-stage/domain/cold-process negatives. Only the
+  provider.rs selected pin changes within the complete107-path inventory.
+  This closes the assigned source gap; earlier receipts are not transferred.
+- Publish this corrected combination for the separately allocated real process/
+  recording cross-composition contracts. Fresh final source admission and
+  qualification follow those tests; production bridge/worker wiring and
+  detailed durable runtime-failure custody remain separate active work.
