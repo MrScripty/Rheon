@@ -47,7 +47,7 @@ Absent initial rows, controls, runtime details or model artifacts stay absent.
 ## Owned receipt codec
 
 Run configuration uses independently versioned `RSC1:` lowercase hexadecimal
-binary metadata. Publication controls use `RCP1:`. The existing envelope hashes
+binary metadata. Publication controls use `RCP2:`. The existing envelope hashes
 and budgets both texts together with their fields. Integer and floating values
 use little-endian fixed-width bytes; f64 values use their IEEE754 bits, without
 JSON conversions or floating-point text formatting. Counts are u64 on disk with
@@ -69,7 +69,8 @@ The owned receipt preserves:
   and declared source revision.
 - Optional actual host context: generation, exact interval/dt, native prefix,
   prior generation/time/pressure hash and observed RHS hash.
-- Actual applied dynamic viscosity and `prediction_called`, meaning host trait
+- Actual `viscosity_applied` stage presence (including applied μ=0), dynamic
+  viscosity and `prediction_called`, meaning host trait
   method entry. It does not attest IPC dispatch or external execution.
 - Closed native/configured selection and rejection codes, bounded rejection
   detail, attempted role metadata, rejected candidate diagnostics and accepted
@@ -126,3 +127,8 @@ unrecorded tails and cancellation. Final validation results belong to the
 source-bound PR evidence, not these command examples. This slice does not prove
 the missing measured `aa82` package, external runtime parity, model accuracy,
 hardware behavior, saved run-set integration or complete M2/M3 acceptance.
+
+`configured_configuration(&RecordingRun)` validates and decodes every immutable
+constructor control directly from the header, including empty/failed-start
+archives. No Session or first publication is needed. RCP2 adds actual viscosity
+stage presence; RCP1 publications are explicitly unsupported rather than guessed.
