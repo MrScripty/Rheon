@@ -1,9 +1,9 @@
 # Saved native specifications and run sets, version 1
 
 `src/bin/desktop/run_sets.rs` owns immutable application intent and manifests over
-existing [numerical SQLite recordings](recording.md). In this draft the module is
-compiled through `tests/saved_run_set_contract.rs`; it is not yet registered in
-the desktop. Integration and all merges belong to the configurable-solver lead.
+existing [numerical SQLite recordings](recording.md). The desktop registers the
+module and reuses its existing worker/Inspector/StepRecorder for native saved
+runs. Integration and all merges belong to the configurable-solver lead.
 
 The admitted first configuration is constructor-zero native sealed-box carrier
 with Jacobi PCG v1 or SGS PCG v1, constant requested dt, bounded requested interval
@@ -91,3 +91,52 @@ These establish the bounded native automated contracts. They do not establish
 accepted-provider provenance, generic diagnostic storage, native-window operation,
 model runtime/lifecycle behavior, crash durability, physical accuracy or M2–M3
 acceptance as a whole.
+
+## Native desktop workflow
+
+In carrier mode without cylinder emitter or collision mesh, select **Save immutable
+native run set**, then Simulate or Compare both pressure solvers. Before execution,
+the app freezes the exact geometry, tolerances, requested dt/horizon, source schedule
+and budgets in a fresh protected run-set directory. The existing worker constructs
+Simulation from that frozen intent and applies its dt/source schedule. It records
+each accepted publication through the existing Inspector/StepRecorder owner. It
+closes the writer before pinning; no second numerical loop or archive is added.
+
+`intent.json`, member-started/member-finished revisions and `completed.json` are
+create-new immutable files. Each changed revision links the exact previous content
+digest. Completion may use the same revision content as the last finished member.
+An in-memory acknowledged-path receipt changes only after successful publication;
+after joining success, cancellation or failure, the UI shows that exact path.
+An uncertain terminal recording/publication retains its last acknowledged manifest,
+raw archive and diagnostic error; it does not invent a finalized member. Cancelled
+prefixes retain cancelled status, and unstarted members remain NotRun.
+
+The v1 saved contract requires actual accepted dt to equal requested dt. Native
+Simulation can legitimately shorten it. The worker first records that accepted
+state, then stops this fixed-dt workflow with an explicit unsupported-intent message.
+The exact archive remains available for ordinary numerical inspection; this does
+not call valid shortened physics corrupt or silently relabel the intended schedule.
+
+Open an explicit manifest under Saved native run sets. Member identity/integrity
+and terminal status are checked once on open and cached for repaint; Inspect
+rechecks the pinned artifact before opening the existing selected-field inspector
+and its CSV/VTK exports. Failed open clears previous member capability. No runtime
+is loaded and no current Debug configuration is interpreted.
+
+**Rerun saved native set from zero** creates a new set/attempt/archive directory
+and links the original revision digest. It uses the captured FrozenSpecs, not
+current UI defaults, and never restores fields or mutates the source artifacts.
+This desktop execution envelope supports at most two distinct native pressure
+methods with cubic zero-origin common geometry, requested dt/horizon and recording
+budgets. Unsupported saved intent stays cold-inspectable. Existing native physics,
+allocation and worker limits still apply; typed file support is broader than this
+particular preview composer.
+
+Fresh integration evidence: a real two-variant worker is joined through App::poll,
+then cold-opened and rendered with egui; a captured-intent rerun has fresh run and
+attempt IDs and identical native field/time bits while preserving original bytes.
+A gate-controlled cancellation after a real accepted publication passes through
+actual App::poll and reopens its cancelled pinned prefix with the second member
+NotRun. The separate codec contracts include producer-process exit before a fresh
+reader. These are automated Linux CPU/headless UI claims; native window/other-OS,
+trained provider recording and full generic M2/M3 acceptance remain separate.

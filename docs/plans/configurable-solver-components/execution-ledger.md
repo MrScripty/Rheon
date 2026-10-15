@@ -148,3 +148,48 @@ Draft source remains proposal evidence, not implementation admission.
   remain here. Parent assigned strict educational admission refresh/qualification
   to this lead; PR86 comment records coordination. No gate weakening or stale
   receipts permitted.
+- M1 clean committed native/rational qualification completed successfully on
+  `33a083a1fdf63c169c9bf68c71009d495d505f64`, tree
+  `34fc18bc29095450c2d8be31e5af68dc6457fb18`, in a separate detached checkout.
+  Receipt `clean=true`, `status=passed`, `lean_checked=false`; native records hash
+  `ecdd0877f17997c577d5183cd928c27c802f9ffdcee8324f0802fe3841fddb45`.
+  Fresh education packet construction passed and its 26 adversarial tests passed
+  both normally and under Python `-O`. Generated evidence retained externally at
+  `/tmp/rheon-m1-qualification-33a083a` and `/tmp/rheon-m1-packet-33a083a`; no old
+  receipts, qualifier changes or automatic source refresh used.
+- Draft [PR87](https://github.com/MrScripty/Rheon/pull/87) publishes the M1 source.
+  This receipt is pinned to the above commit; hosted whole-book/publication,
+  broader Rust suites and unavailable model/window gates remain distinct.
+- Companion next allocation is exact bounded immutable native comparison recipes/
+  results in three new files, posted on PR86 comment6198894245. Shared worker/UI,
+  source admission and merges remain lead-owned. Direct cloud session-ID messaging
+  is unavailable; GitHub handoff plus parent relay supplies coordination.
+- Full `cargo test --locked --features desktop` completed successfully with no
+  failing tests, including existing numerical, recording, worker/camera and
+  desktop regressions; environment-specific model tests remained explicitly
+  ignored. Public context tests also passed in no-default and default builds;
+  corresponding library Clippy checks with `-D warnings` passed. No model/window
+  claim follows from ignored tests. GitHub M1 native-cpu, native/rational, cloud,
+  VTK and executable checks are green; remaining hosted book/features are pending.
+
+## 2026-10-15 — native M2 serial composition
+
+- Isolated branch `implementation/configurable-native-m2-integration-20261015`
+  selects companion `755e2b4` → `372e013` onto M1, with no unrelated renderer work.
+  Registered native specs/sets and a cold manifest view; existing worker/Inspector/
+  recorder own execution and accepted capture. No numerical kernel/schema change.
+- Native controls freeze before execution. New immutable intent/start/finish/final
+  revisions preserve parent identities and acknowledged-path handoff. A legitimate
+  shortened dt is recorded then reported unsupported by fixed-intent v1, retaining
+  raw archive. No uncertain terminal result becomes a pin. Cold rerun uses captured
+  intent from zero with fresh set/run/attempt identities; no integrator restart.
+- Independent source review closed terminal path and attempt identity findings;
+  current delta has no unresolved material finding. Scoped real App::poll worker
+  test passed two variants, cold egui, captured-intent rerun/native bits/no overwrite
+  and cancellation after publication with a Ready cancelled prefix + NotRun member.
+  Existing saved contracts: 12 passed, including real producer process exit. Scoped
+  desktop/contract Clippy `-D warnings` and formatting passed. Fresh clean-source
+  native/rational and broader affected desktop checks remain pending.
+- Admission review explicitly selects all 92 current paths and preserves strict
+  gates/oracles/predecessors. This supports qualification attempts, not trained
+  model, accepted-provider A3, native-window or complete M2/M3 acceptance.

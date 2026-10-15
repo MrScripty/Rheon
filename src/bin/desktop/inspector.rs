@@ -122,6 +122,15 @@ impl Inspector {
     ) -> Result<StepRecorder, String> {
         let run=carrier_run(super::identity::new_identity("carrier"),sim,
             "native desktop; source revision/build/toolchain not supplied; fixed sealed box; no restart guarantee").map_err(|e|e.to_string())?;
+        self.begin_bound_carrier(sim, path, limits, run)
+    }
+    pub fn begin_bound_carrier(
+        &self,
+        sim: &Simulation,
+        path: &Path,
+        limits: RecordingLimits,
+        run: rheon::recording::RecordingRun,
+    ) -> Result<StepRecorder, String> {
         let mut recorder = StepRecorder::create(path, run, limits).map_err(|e| e.to_string())?;
         recorder
             .append(

@@ -23,6 +23,10 @@ mod identity;
 mod inspector;
 #[path = "desktop/particle_view.rs"]
 mod particle_view;
+#[path = "desktop/run_set_view.rs"]
+mod run_set_view;
+#[path = "desktop/run_sets.rs"]
+pub mod run_sets;
 #[path = "desktop/settings.rs"]
 mod settings;
 #[path = "desktop/transport_view.rs"]
@@ -59,6 +63,8 @@ struct Request {
     material_color: [u8; 3],
     recording_limits: rheon::recording::RecordingLimits,
     recording_directory: String,
+    saved_set: Option<run_sets::RunSetRevision>,
+    manifest_receipt: Option<Arc<std::sync::Mutex<std::path::PathBuf>>>,
     #[cfg(test)]
     progress_gate: Option<Arc<ProgressGate>>,
 }
@@ -228,7 +234,7 @@ fn run_owned(
         .map_err(|e| format!("Cannot start CPU pool: {e}"))?
 }
 fn run_simulations(
-    request: Request,
+    mut request: Request,
     cancel: &AtomicBool,
     progress: &AtomicUsize,
     history: &LiveHistory,
@@ -236,6 +242,7 @@ fn run_simulations(
     if let Some(config) = request.material {
         return run_material(request, config, cancel, progress, history);
     }
+    let mut saved_set = request.saved_set.take();
     let mut rows = Vec::new();
     for (track, method) in request.methods.iter().copied().enumerate() {
         if cancel.load(Ordering::Relaxed) {
@@ -256,13 +263,46 @@ fn run_simulations(
             actual_divergence_limit: 1e-5,
             max_courant: 1.0,
         };
-        let mut sim =
-            Simulation::with_implementation(grid, config, method).map_err(|e| e.to_string())?;
+        let frozen = saved_set
+            .as_ref()
+            .map(|set| set.members[track].spec.clone());
+        let mut sim = if let Some(spec) = &frozen {
+            spec.spec.create_simulation().map_err(|e| e.to_string())?
+        } else {
+            Simulation::with_implementation(grid, config, method).map_err(|e| e.to_string())?
+        };
         let path = new_recording_path(&request.recording_directory, method.id())?;
         let inspector = &history.carrier_inspectors[track];
-        let mut recorder = inspector
-            .begin_carrier(&sim, &path, request.recording_limits)
-            .map_err(|e| format!("Carrier recording start at {} failed: {e}", path.display()))?;
+        let mut recorder = if let Some(spec) = &frozen {
+            let identity = identity::new_identity("saved-carrier");
+            let run = run_sets::bound_native_run(
+                spec,
+                &sim,
+                identity.clone(),
+                "native desktop saved specification v1; build revision unspecified",
+            )
+            .map_err(|e| e.to_string())?;
+            let set = saved_set.as_mut().expect("saved spec owner");
+            let parent = set.sha256().map_err(|e| e.to_string())?;
+            set.members[track].attempt = Some(run_sets::RunAttempt {
+                attempt_id: format!("{}-run-{}", set.set_id, identity.run_id),
+                archive_relative_path: path
+                    .file_name()
+                    .and_then(|n| n.to_str())
+                    .ok_or("archive name")?
+                    .into(),
+                expected_run_id: identity.run_id,
+                expected_source_revision: identity.source_revision,
+                finalized: None,
+            });
+            set.parent_sha256 = Some(parent);
+            publish_saved_revision(&request, set, &format!("member-{track}-started.json"))?;
+            inspector.begin_bound_carrier(&sim, &path, request.recording_limits, run)?
+        } else {
+            inspector
+                .begin_carrier(&sim, &path, request.recording_limits)
+                .map_err(|e| format!("Carrier recording start at {} failed: {e}", path.display()))?
+        };
         let result: Result<(), String> = (|| {
             history.publish(
                 track,
@@ -287,7 +327,10 @@ fn run_simulations(
                 } else {
                     sim.step(
                         request.requested_dt,
-                        (step < request.steps / 2).then_some(source),
+                        frozen.as_ref().map_or_else(
+                            || (step < request.steps / 2).then_some(source),
+                            |spec| spec.spec.source_at(step),
+                        ),
                         |_| cancel.load(Ordering::Relaxed),
                     )
                 };
@@ -295,6 +338,9 @@ fn run_simulations(
                 history.end_step()?;
                 let r = result.map_err(|e| e.to_string())?;
                 inspector.record_carrier(&mut recorder, &sim)?;
+                if frozen.is_some() && r.dt.to_bits() != request.requested_dt.to_bits() {
+                    return Err("Native step shortened dt; fixed-dt saved specification unsupported. Exact accepted archive retained for direct inspection".into());
+                }
                 iterations += r.pressure.iterations;
                 divergence = divergence.max(r.actual_divergence_max);
                 seconds += step_seconds;
@@ -360,13 +406,142 @@ fn run_simulations(
                     path.display()
                 )
             })?;
+        drop(recorder);
+        if let Some(set) = saved_set.as_mut() {
+            let parent = set.sha256().map_err(|e| e.to_string())?;
+            let member = &mut set.members[track];
+            let pin = member
+                .attempt
+                .as_mut()
+                .expect("started attempt")
+                .pin_closed(
+                    std::path::Path::new(&request.recording_directory),
+                    &member.spec,
+                );
+            set.parent_sha256 = Some(parent);
+            publish_saved_revision(&request, set, &format!("member-{track}-finished.json"))?;
+            pin.map_err(|e| {
+                format!(
+                    "Saved member unavailable: {e}; preserve archive and started/finished manifests"
+                )
+            })?;
+        }
         result?;
+    }
+    if let Some(set) = &saved_set {
+        publish_saved_revision(&request, set, "completed.json")?;
     }
     if cancel.load(Ordering::Relaxed) {
         return Err("Cancelled; accepted preview frames retained".into());
     }
     Ok(rows)
 }
+/// Publish immutable data first, then hand the exact acknowledged path to the UI.
+fn publish_saved_revision(
+    request: &Request,
+    set: &run_sets::RunSetRevision,
+    name: &str,
+) -> Result<(), String> {
+    let path = std::path::Path::new(&request.recording_directory).join(name);
+    set.save_new(&path).map_err(|e| {
+        format!(
+            "Saved revision {}: {e}; preserve and reconcile this exact path",
+            path.display()
+        )
+    })?;
+    if let Some(receipt) = &request.manifest_receipt {
+        let mut acknowledged = receipt.lock().map_err(|_| {
+            format!(
+                "Saved revision {} published; UI receipt unavailable",
+                path.display()
+            )
+        })?;
+        *acknowledged = path;
+    }
+    Ok(())
+}
+/// Freeze the exact ordinary native controls before the existing worker starts.
+fn freeze_native_set(request: &mut Request) -> Result<std::path::PathBuf, String> {
+    use run_sets::*;
+    validate_request(request)?;
+    if request.material.is_some() || request.emitter.is_some() || request.collision_mesh.is_some() {
+        return Err(
+            "Saved native specifications require carrier mode without emitter or collision mesh"
+                .into(),
+        );
+    }
+    let mut members = Vec::new();
+    for (track, method) in request.methods.iter().enumerate() {
+        let spec = FrozenSpec::new(NativeCarrierSpec {
+            counts_xyz: [request.size; 3],
+            spacing_m: [request.domain_side / request.size as f64; 3],
+            origin_m: [0.0; 3],
+            density_kg_m3: 1.0,
+            pressure_method: match method {
+                PressureImplementation::JacobiPcgV1 => NativePressureMethod::JacobiPcgV1,
+                PressureImplementation::SymmetricGaussSeidelPcgV1 => {
+                    NativePressureMethod::SymmetricGaussSeidelPcgV1
+                }
+            },
+            tolerances: NativeTolerances {
+                relative_residual: if request.tight { 1e-11 } else { 1e-9 },
+                absolute_residual_m3_s2: 1e-12,
+                predicted_divergence_per_s: if request.tight { 1e-9 } else { 1e-7 },
+                actual_divergence_per_s: 1e-5,
+                max_courant: 1.0,
+                max_pressure_iterations: 2000,
+            },
+            requested_dt_s: request.requested_dt,
+            requested_steps: request.steps,
+            source: Some(SourceSpec {
+                lower_m: [0.35, 0.08, 0.35].map(|v| v * request.domain_side),
+                upper_m: [0.65, 0.30, 0.65].map(|v| v * request.domain_side),
+                tracer_rate_per_s: 2.0,
+                vertical_acceleration_m_s2: 1.0,
+                active_steps: request.steps / 2,
+            }),
+            simulation_memory_limit_bytes: 192 * 1024 * 1024,
+            recording: ArchiveBudget {
+                max_database_bytes: request.recording_limits.max_database_bytes,
+                max_record_bytes: request.recording_limits.max_record_bytes,
+                max_records: request.recording_limits.max_records,
+            },
+        })
+        .map_err(|e| e.to_string())?;
+        members.push(RunSetMember {
+            member_id: format!("native-{track}"),
+            spec,
+            differences_from_baseline: if track == 0 {
+                vec![]
+            } else {
+                vec![SpecDifference::PressureMethod]
+            },
+            attempt: None,
+        });
+    }
+    let root =
+        new_recording_path(&request.recording_directory, "run-set")?.with_extension("runset");
+    let set = RunSetRevision {
+        schema_version: 1,
+        set_id: root
+            .file_name()
+            .and_then(|s| s.to_str())
+            .ok_or("set directory")?
+            .into(),
+        parent_sha256: None,
+        baseline_member: "native-0".into(),
+        members,
+    };
+    set.validate().map_err(|e| e.to_string())?;
+    std::fs::create_dir(&root).map_err(|e| e.to_string())?;
+    set.save_new(&root.join("intent.json"))
+        .map_err(|e| e.to_string())?;
+    request.saved_set = Some(set);
+    request.manifest_receipt = Some(Arc::new(std::sync::Mutex::new(root.join("intent.json"))));
+    request.recording_directory = root.to_string_lossy().into();
+    Ok(root.join("intent.json"))
+}
+
 fn new_recording_path(directory: &str, label: &str) -> Result<std::path::PathBuf, String> {
     let directory = std::path::Path::new(directory);
     std::fs::create_dir_all(directory).map_err(|e| e.to_string())?;
@@ -515,6 +690,8 @@ fn run_material(
 struct App {
     ai_comparison: Option<ai_comparison::ComparisonApp>,
     archive: archive_view::ArchiveView,
+    run_sets: run_set_view::RunSetView,
+    save_native_set: bool,
     collision: collision_ui::CollisionControls,
     selected: PressureImplementation,
     domain_side: f64,
@@ -558,6 +735,8 @@ impl Default for App {
         Self {
             ai_comparison: None,
             archive: archive_view::ArchiveView::default(),
+            run_sets: run_set_view::RunSetView::default(),
+            save_native_set: false,
             collision: collision_ui::CollisionControls::default(),
             selected: PressureImplementation::default(),
             domain_side: 1.0,
@@ -620,7 +799,8 @@ impl App {
                         max_records: 10001,
                     },
                 );
-                if self.archive.active {
+                self.run_sets.controls(ui, self.worker.is_none());
+                if self.archive.active || self.run_sets.active {
                     return;
                 }
                 ui.separator();
@@ -697,7 +877,7 @@ impl App {
             self.status = e.to_string();
             return;
         }
-        let request = Request {
+        let mut request = Request {
             collision_mesh: self.collision.mesh.clone(),
             size: self.size,
             steps: self.steps,
@@ -717,9 +897,93 @@ impl App {
             material_color: self.materials.color(),
             recording_limits,
             recording_directory: self.recording_directory.clone(),
+            saved_set: None,
+            manifest_receipt: None,
             #[cfg(test)]
             progress_gate: None,
         };
+        if self.save_native_set {
+            match freeze_native_set(&mut request) {
+                Ok(path) => self.run_sets.path = path.to_string_lossy().into(),
+                Err(e) => {
+                    self.status = e;
+                    return;
+                }
+            }
+        }
+        let _ = self.launch_request(request);
+    }
+    /// Re-execute captured native intent from constructor zero; never resume fields.
+    fn rerun_saved(&mut self, original: run_sets::RunSetRevision) -> Result<(), String> {
+        if self.worker.is_some() {
+            return Err("Finish the active worker first".into());
+        }
+        original.validate().map_err(|e| e.to_string())?;
+        let baseline = &original.members[0].spec.spec;
+        if original.members.len() > 2
+            || baseline.counts_xyz != [baseline.counts_xyz[0]; 3]
+            || baseline.spacing_m != [baseline.spacing_m[0]; 3]
+            || baseline.origin_m != [0.0; 3]
+            || original.members.iter().any(|m| {
+                let s = &m.spec.spec;
+                s.counts_xyz != baseline.counts_xyz
+                    || s.spacing_m != baseline.spacing_m
+                    || s.origin_m != baseline.origin_m
+                    || s.requested_steps != baseline.requested_steps
+                    || s.requested_dt_s != baseline.requested_dt_s
+                    || s.recording != baseline.recording
+            })
+        {
+            return Err("Desktop rerun supports up to two cubic zero-origin members with common geometry, requested horizon and budgets; cold inspection remains available".into());
+        }
+        let mut request = Request {
+            collision_mesh: None,
+            size: baseline.counts_xyz[0],
+            steps: baseline.requested_steps,
+            tight: false,
+            threads: self.threads.min(available_threads()).max(1),
+            methods: original
+                .members
+                .iter()
+                .map(|m| m.spec.spec.pressure_method.implementation())
+                .collect(),
+            emitter: None,
+            observe: self.show_workers,
+            history_budget_mib: self.history_budget_mib,
+            domain_side: baseline.spacing_m[0] * baseline.counts_xyz[0] as f64,
+            requested_dt: baseline.requested_dt_s,
+            material: None,
+            material_color: self.materials.color(),
+            recording_limits: baseline.recording.limits(),
+            recording_directory: self.recording_directory.clone(),
+            saved_set: None,
+            manifest_receipt: None,
+            #[cfg(test)]
+            progress_gate: None,
+        };
+        validate_request(&request)?;
+        let root =
+            new_recording_path(&request.recording_directory, "rerun")?.with_extension("runset");
+        let mut next = original.clone();
+        next.parent_sha256 = Some(original.sha256().map_err(|e| e.to_string())?);
+        next.set_id = root
+            .file_name()
+            .and_then(|s| s.to_str())
+            .ok_or("set directory")?
+            .into();
+        for member in &mut next.members {
+            member.attempt = None;
+        }
+        std::fs::create_dir(&root).map_err(|e| e.to_string())?;
+        next.save_new(&root.join("intent.json"))
+            .map_err(|e| e.to_string())?;
+        request.recording_directory = root.to_string_lossy().into();
+        request.manifest_receipt = Some(Arc::new(std::sync::Mutex::new(root.join("intent.json"))));
+        request.saved_set = Some(next);
+        self.run_sets.path = root.join("intent.json").to_string_lossy().into();
+        self.launch_request(request)
+    }
+    fn launch_request(&mut self, request: Request) -> Result<(), String> {
         match Worker::start(request.clone()) {
             Ok(worker) => {
                 self.scheduler = Some(Arc::clone(&worker.scheduler));
@@ -733,8 +997,13 @@ impl App {
                 self.follow_live = true;
                 self.playing = false;
                 self.status = "Simulating — accepted steps appear live.".into();
+                Ok(())
             }
-            Err(e) => self.status = format!("Cannot start worker: {e}"),
+            Err(e) => {
+                let message = format!("Cannot start worker: {e}");
+                self.status = message.clone();
+                Err(message)
+            }
         }
     }
     fn cancel(&self) {
@@ -774,6 +1043,22 @@ impl App {
                         format!("Simulation stopped: {e}. Accepted preview frames retained.")
                 }
                 Err(_) => self.status = "Worker failed; accepted preview frames retained.".into(),
+            }
+            if let Some(receipt) = self
+                .running_request
+                .as_ref()
+                .and_then(|r| r.manifest_receipt.as_ref())
+            {
+                match receipt.lock() {
+                    Ok(path) => {
+                        self.run_sets.path = path.to_string_lossy().into();
+                        self.status
+                            .push_str(&format!(" Saved revision: {}", path.display()));
+                    }
+                    Err(_) => self.status.push_str(
+                        " Saved revision UI receipt unavailable; preserve the run-set directory.",
+                    ),
+                }
             }
         }
     }
@@ -899,7 +1184,11 @@ impl App {
             ui.add_space(8.0);
             if ui.add_sized([ui.available_width(),32.0],egui::Button::new("▶ Simulate")).clicked() {self.start(false);}
             if ui.button("Reset timeline (keep mesh)").clicked() { self.reset_timeline(); self.status = "Ready to repeat simulation with accepted mesh".into(); }
-            if !self.material_mode && ui.button("Compare both pressure solvers").clicked() {self.start(true);}
+            if !self.material_mode {
+                ui.checkbox(&mut self.save_native_set, "Save immutable native run set");
+                ui.small("Fixed actual dt; a shortened step retains its archive and reports unsupported saved intent.");
+                if ui.button("Compare both pressure solvers").clicked() {self.start(true);}
+            }
             if ui.add_enabled(self.worker.is_none(), egui::Button::new("Compare Rheon / trained AI")).clicked() {
                 let mut comparison = ai_comparison::ComparisonApp::new(String::new(),std::env::current_dir().unwrap_or_default().join(".generated/ai-comparison"));
                 comparison.set_steps(self.steps.clamp(1,512));
@@ -1035,6 +1324,14 @@ impl eframe::App for App {
         if self.closing && self.worker.is_none() {
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
         }
+        if self.run_sets.active {
+            if let Some(revision) = self.run_sets.show(ctx, &mut self.archive)
+                && let Err(e) = self.rerun_saved(revision)
+            {
+                self.status = e;
+            }
+            return;
+        }
         if self.archive.active {
             self.archive.show(ctx);
             return;
@@ -1044,7 +1341,7 @@ impl eframe::App for App {
         }
         let (count, frame) = self.selected_frame();
         self.sidebar(ctx);
-        if self.archive.active {
+        if self.archive.active || self.run_sets.active {
             ctx.request_repaint();
             return;
         }
@@ -1270,6 +1567,158 @@ fn main() -> eframe::Result {
 mod tests {
     use super::*;
     #[test]
+    fn saved_native_worker_closes_and_cold_opens_exact_two_member_set() {
+        let root = std::env::temp_dir().join(format!(
+            "rheon-saved-worker-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        let mut app = App::default();
+        app.material_mode = false;
+        app.cylinder = false;
+        app.size = 8;
+        app.steps = 2;
+        app.requested_dt = 0.003;
+        app.threads = 1;
+        app.automatic_threads = false;
+        app.show_workers = false;
+        app.save_native_set = true;
+        app.recording_directory = root.to_string_lossy().into();
+        app.start(true);
+        assert!(app.worker.is_some(), "{}", app.status);
+        wait_until(|| app.worker.as_ref().unwrap().handle.is_finished());
+        app.poll(&egui::Context::default());
+        assert!(app.worker.is_none());
+        assert_eq!(app.rows.len(), 2, "{}", app.status);
+        let manifest = std::path::PathBuf::from(&app.run_sets.path);
+        assert!(manifest.ends_with("completed.json"));
+        let mut retry = app.running_request.as_ref().unwrap().clone();
+        drop(app);
+        let set = run_sets::RunSetRevision::open(&manifest).unwrap();
+        assert_eq!(set.members.len(), 2);
+        for member in &set.members {
+            let run_sets::MemberState::Ready(reader) =
+                run_sets::open_member(manifest.parent().unwrap(), member)
+            else {
+                panic!("cold member unavailable");
+            };
+            assert_eq!(reader.count().unwrap(), 3);
+            assert_eq!(reader.status().unwrap().outcome, "completed");
+            assert_eq!(reader.select(2).unwrap().generation, 2);
+        }
+        let mut view = run_set_view::RunSetView::default();
+        view.path = manifest.to_string_lossy().into();
+        view.open().unwrap();
+        let context = egui::Context::default();
+        let mut archive = archive_view::ArchiveView::default();
+        let _ = context.run(egui::RawInput::default(), |ctx| {
+            let _ = view.show(ctx, &mut archive);
+        });
+        // Opening an invalid manifest invalidates the previous member capability.
+        view.path = root.join("missing.json").to_string_lossy().into();
+        assert!(view.open().is_err());
+        assert!(!view.active);
+        let original_bytes = std::fs::read(&manifest).unwrap();
+        let mut again = App::default();
+        again.threads = 1;
+        again.show_workers = false;
+        again.recording_directory = root.to_string_lossy().into();
+        again.rerun_saved(set.clone()).unwrap();
+        wait_until(|| again.worker.as_ref().unwrap().handle.is_finished());
+        again.poll(&egui::Context::default());
+        assert_eq!(again.rows.len(), 2, "{}", again.status);
+        let repeated_path = std::path::PathBuf::from(&again.run_sets.path);
+        assert_ne!(repeated_path, manifest);
+        let intent =
+            run_sets::RunSetRevision::open(&repeated_path.parent().unwrap().join("intent.json"))
+                .unwrap();
+        assert_eq!(intent.parent_sha256, Some(set.sha256().unwrap()));
+        let repeated = run_sets::RunSetRevision::open(&repeated_path).unwrap();
+        for (old, new) in set.members.iter().zip(&repeated.members) {
+            assert_eq!(old.spec, new.spec);
+            assert_ne!(
+                old.attempt.as_ref().unwrap().attempt_id,
+                new.attempt.as_ref().unwrap().attempt_id
+            );
+            let run_sets::MemberState::Ready(a) =
+                run_sets::open_member(manifest.parent().unwrap(), old)
+            else {
+                panic!("original member");
+            };
+            let run_sets::MemberState::Ready(b) =
+                run_sets::open_member(repeated_path.parent().unwrap(), new)
+            else {
+                panic!("rerun member");
+            };
+            assert_ne!(a.run().identity.run_id, b.run().identity.run_id);
+            let a = a.select(2).unwrap();
+            let b = b.select(2).unwrap();
+            assert_eq!(a.time.to_bits(), b.time.to_bits());
+            for (a, b) in a.fields.iter().zip(&b.fields) {
+                assert_eq!(a.data, b.data);
+            }
+        }
+        drop(again);
+        assert_eq!(std::fs::read(&manifest).unwrap(), original_bytes);
+        retry.recording_directory = root.to_string_lossy().into();
+        retry.saved_set = None;
+        let retry_initial = freeze_native_set(&mut retry).unwrap();
+        let retry_receipt = Arc::clone(retry.manifest_receipt.as_ref().unwrap());
+        let retry_completed = retry_initial.parent().unwrap().join("completed.json");
+        let (reached, wait) = std::sync::mpsc::sync_channel(1);
+        let (release, proceed) = std::sync::mpsc::sync_channel(1);
+        retry.progress_gate = Some(Arc::new(ProgressGate {
+            reached,
+            release: std::sync::Mutex::new(proceed),
+        }));
+        let mut cancelled_app = App::default();
+        cancelled_app.running_request = Some(retry.clone());
+        cancelled_app.worker = Some(Worker::start(retry).unwrap());
+        wait.recv_timeout(Duration::from_secs(10)).unwrap();
+        cancelled_app.cancel();
+        release.send(()).unwrap();
+        wait_until(|| cancelled_app.worker.as_ref().unwrap().handle.is_finished());
+        cancelled_app.poll(&egui::Context::default());
+        assert!(cancelled_app.worker.is_none());
+        assert!(
+            cancelled_app.status.contains("Cancelled")
+                || cancelled_app.status.contains("cancelled")
+        );
+        assert_eq!(
+            std::path::Path::new(&cancelled_app.run_sets.path),
+            retry_receipt.lock().unwrap().as_path()
+        );
+        drop(cancelled_app);
+        assert!(!retry_completed.exists());
+        let terminal_path = retry_receipt.lock().unwrap().clone();
+        assert!(terminal_path.ends_with("member-0-finished.json"));
+        assert!(terminal_path.exists());
+        let cancelled = run_sets::RunSetRevision::open(
+            &retry_completed
+                .parent()
+                .unwrap()
+                .join("member-0-finished.json"),
+        )
+        .unwrap();
+        let run_sets::MemberState::Ready(reader) =
+            run_sets::open_member(retry_completed.parent().unwrap(), &cancelled.members[0])
+        else {
+            panic!("cancelled prefix unavailable");
+        };
+        assert_eq!(reader.status().unwrap().outcome, "cancelled");
+        assert_eq!(reader.count().unwrap(), 2);
+        assert!(matches!(
+            run_sets::open_member(retry_completed.parent().unwrap(), &cancelled.members[1]),
+            run_sets::MemberState::NotRun
+        ));
+        drop(reader);
+        std::fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
     fn collision_run_retains_geometry_and_reset_repeats_real_worker() {
         let mesh = Arc::new(
             rheon::CollisionMesh::new(
@@ -1340,6 +1789,8 @@ mod tests {
             material_color: [85, 190, 245],
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
+            saved_set: None,
+            manifest_receipt: None,
             progress_gate: None,
         };
         let worker = Worker::start(request).unwrap();
@@ -1552,6 +2003,8 @@ mod tests {
             material_color: [85, 190, 245],
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
+            saved_set: None,
+            manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
@@ -1603,6 +2056,8 @@ mod tests {
             material_color: [85, 190, 245],
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
+            saved_set: None,
+            manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
@@ -1684,6 +2139,8 @@ mod tests {
             material_color: [85, 190, 245],
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
+            saved_set: None,
+            manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
@@ -1764,6 +2221,8 @@ mod tests {
             material_color: [85, 190, 245],
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
+            saved_set: None,
+            manifest_receipt: None,
             progress_gate: None,
         };
         let progress = AtomicUsize::new(0);
@@ -1854,6 +2313,8 @@ mod tests {
                     material_color: [85, 190, 245],
                     recording_limits: rheon::recording::RecordingLimits::default(),
                     recording_directory: ".generated/recordings".into(),
+                    saved_set: None,
+                    manifest_receipt: None,
                     progress_gate: None
                 },
                 &AtomicBool::new(true),
