@@ -89,3 +89,10 @@ The producer-retained measured deployment observations report this test passed: 
 completed 16 steps with a separate retained run and another drained child slot.
 
 Those retained observations were hash-audited during M0, not rerun in this environment. The actual deployment and Torch are absent here. New stdlib CPU fixture tests freshly exercise cancellation after predictions, immediate-child drain and restart; they do not qualify the trained checkpoint. Headless egui checks do not establish native-window behavior.
+
+A later isolated Xvfb software-X11 workflow ran the actual native window with a
+stdlib analytic CPU package. It rendered inert support and failed diagnostic
+pressure, completed 64 steps, cancelled after predictions, restarted to 32-step
+completion and closed during a further prediction with owned child termination.
+This supplements headless tests; it does not qualify the absent measured trained
+bundle or a physical GPU. Evidence subject/digests are recorded in the plan ledger.

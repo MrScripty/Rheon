@@ -183,3 +183,26 @@ Draft source remains proposal evidence, not implementation admission.
   A real window rendered inert support feedback and a complete 64-step analytic
   fixture run with failed pressure diagnostics visible; this is not trained-model
   or hardware/GPU qualification. Native lifecycle observation is still underway.
+- Final M1 isolated-target qualification on clean `f75a714`, tree
+  `38026daa5f4eaa7633fe01c1e5e02c01ba3db264`, passed all 18 native/rational commands;
+  packet construction and 26 adversarial tests passed normally and under -O.
+  Separate target rebuilt Rheon source, without any Rheon artifact/fingerprint
+  seeding. Focused CPU suite passed 21/1 ignored plus 2 public context tests;
+  scoped Clippy passed. External receipts: `/tmp/rheon-m1-isolated-f75a714` and
+  `/tmp/rheon-m1-isolated-packet-f75a714`; no receipt transfer from another tree.
+- Real software-X11 native-window fixture observation completed. The analytic
+  package includes an explicit delay for interaction, not a trained checkpoint.
+  Inert support did not create observations; the window showed native qualified
+  versus AI failed-pressure fields, an initial 64-step completion, cancellation
+  after predictions, restart32 completion, then Close at step17 with2 predictions.
+  Observer saw child liveness positively and later all four observed child IDs
+  absent via OS kill-zero; app exit0. Binary SHA256
+  `ad5838a409bc68419f923c47a8eef58e1dc1b4f187085de42a8622c72d9fe7d8`,
+  manifest `fc93e8867a3f71bf45f3b25882f86876c9be257fbe7608df263ddee1123b6907`,
+  observer JSON `5f5b06b40a94125eac2881dfbfaa0fad87e46fa58ecce8d80cef125b853ff830`.
+  Generated screenshots/observations remain in `/tmp/rheon-m1-native-window`.
+  This binds observed software-display/fixture material, not source authenticity,
+  trained-runtime parity, a physical GPU, descendants or a hard teardown bound.
+- Required measured deployment/Torch input was requested explicitly and remains
+  unavailable. A1 trained-runtime and full generic/provider acceptance stay pending;
+  CI's separate frozen-checkpoint check is not relabelled as this absent bundle.
