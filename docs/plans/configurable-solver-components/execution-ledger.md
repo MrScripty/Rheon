@@ -55,4 +55,18 @@ Draft source remains proposal evidence, not implementation admission.
   procedures and were not run for this prose-only change. Source inspection is not
   acceptance of these capabilities. No permanent validation harness added.
 
-Publication outcome and exact staged/range scope will be recorded after confirmation.
+## 2026-10-15 — publication confirmed
+
+- Reviewed exact staged diff and branch range `origin/main..HEAD`: seven authored
+  Markdown files in the declared directory, no implementation or generated outputs;
+  clean worktree and passing staged/range `diff --check`.
+- Commit `50f43ce` (`docs(plan): design configurable solver components and saved
+  comparisons`) pushed normally to
+  `origin/docs/configurable-solver-experiments-20261015`.
+- Confirmed `MrScripty/Rheon` is public and opened
+  [draft PR #84](https://github.com/MrScripty/Rheon/pull/84), base `main`. GitHub
+  returned the public PR URL and subsequent inspection confirms open/draft status.
+  No merge, production implementation, training or user-data change performed.
+- D-A1–D-A5 documentation delivery evidence satisfied. This final record changes
+  publication status only; future A0–A8 implementation evidence remains blocked/
+  pending. Parent owns review disposition and eventual branch retirement.

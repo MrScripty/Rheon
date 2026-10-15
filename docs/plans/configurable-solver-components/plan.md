@@ -2,7 +2,7 @@
 
 **Document status:** Independently reviewed research/design proposal. Documentation publication is authorized; production implementation is not. This document has not entered the implementation-plan lifecycle. It is not `Planned`, `Active` or `Accepted` implementation merely because it exists.
 
-**Current phase:** Documentation publication; future implementation remains blocked/deferred.
+**Current phase:** Documentation published for review; future implementation remains blocked/deferred.
 
 **Next proposed slice:** M0, reconcile the exact new Rheon integration and admit one bounded vertical slice.
 
@@ -235,10 +235,11 @@ Record trigger/evidence, replace the candidate/binding decision, disposition aff
 
 ## Documentation delivery acceptance
 
-This section concerns the present documentation task only. Exactly one current
-publication slice D1 packages/reviews the proposal; M0 remains the next **proposed**
-implementation slice, blocked as above. The [ledger](execution-ledger.md) records
-actual publication rather than inferring it from authored files.
+This section concerns the present documentation task only. D1 is complete: the
+proposal was independently reviewed, committed, pushed and opened as public
+[draft PR #84](https://github.com/MrScripty/Rheon/pull/84). Next documentation slice:
+`none`. M0 remains the next **proposed** implementation slice, blocked as above.
+The [ledger](execution-ledger.md) records actual publication evidence.
 
 | ID | Observable criterion | Kind / environment / mode | Status |
 | --- | --- | --- | --- |
@@ -246,6 +247,7 @@ actual publication rather than inferring it from authored files.
 | D-A2 | Typed stage/model/history/runtime/recording boundaries preserve existing authority | contract / not-applicable / independent manual review | satisfied: [review](reports/review.md) |
 | D-A3 | Saved scenarios/run sets, physical-time metrics and phased handoff are reviewable | contract / not-applicable / independent manual review | satisfied: [review](reports/review.md) |
 | D-A4 | Local links/fences, whitespace and staged/range scope contain only authorized authored prose | focused / not-applicable / automated and manual | satisfied: [ledger](execution-ledger.md) |
-| D-A5 | Authorized commit pushed and public documentation PR confirmed, without merge | release-artifact / required-real GitHub / either | pending |
+| D-A5 | Authorized commit pushed and public documentation PR confirmed, without merge | release-artifact / required-real GitHub / either | satisfied: [PR #84](https://github.com/MrScripty/Rheon/pull/84) |
 
 Documentation acceptance cannot satisfy A0–A8 or authorize implementation.
+Documentation delivery acceptance is satisfied; PR disposition belongs to the parent.
