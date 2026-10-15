@@ -122,6 +122,22 @@ and hosted checks on this exact source. Existing missing trained deployment and
 native window cannot be qualified by source admission. Future M2/M3 source wiring
 requires its own explicit reviewed inventory refresh and fresh receipt.
 
+### M1 liveness-oracle correction
+
+The selected environment's /proc mount does not reflect the child PID namespace:
+a live owned child may already have no /proc/PID entry. Consequently this
+execution environment's previous negative /proc checks cannot prove termination.
+Independent GPT-6.1 Sol High source review approved strengthening both selected
+test-source files (cpu_contract_tests.rs and worker.rs): a fixed `/usr/bin/kill
+-0 -- PID` probe must first succeed while the child is resident and fail only
+after owned Drop/join. Probe spawn/abnormal-status errors fail the test. Fresh
+focused CPU tests passed these positive-before-negative checks. The 90-path M1
+closure and all production/numerical/dependency/qualifier/oracle bytes are unchanged;
+only the two test-source digests and review binding change. This is immediate-child
+evidence with existing wait/join ordering, not descendant custody or a hard bound.
+Historical M0 producer receipts remain historical and are not rewritten. Refresh
+pins and run fresh clean qualification for this exact test-source revision.
+
 ## Saved native intent and desktop M2 admission, 2026-10-15
 
 Relative to the reviewed M1 90-path closure, this explicitly reviewed composition
@@ -147,3 +163,17 @@ This is the native slice only. Typed accepted provider/diagnostic storage, train
 Torch, native window, Lean/book publication and broader generic milestone gates
 remain distinct. Final inventory/review digests are committed before fresh clean
 qualification, and evidence is recorded outside this fixed admission review.
+
+### M2 final composition follow-through
+
+The serial composition retains M1's reviewed positive-before-negative OS liveness
+probes and selects the companion's newer constructor-capture and real storage-
+failure contracts (`33a689d`, `c1079bc`). Independent review confirms constructor
+capture is generation/time-zero only and reads actual typed controls; shared
+app-private bounded read/publication helpers preserve version/duplicate-key,
+byte-limit and no-overwrite checks. Actual capacity, terminal-busy and cold
+interleaving tests cover retained accepted tails and honest incomplete states.
+There is no new dependency, numerical arithmetic or archive-schema change.
+The closure is still exactly 92 paths; current run-set and two PID-test source
+digests are refreshed explicitly. Source review admits a fresh clean isolated-
+target qualification attempt, not any previous receipt or full generic acceptance.

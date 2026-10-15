@@ -6,7 +6,7 @@
 
 **Next slice:** serial integration of the independently published native M2/M3 contracts, then actual saved-set/comparison desktop composition and affected qualification. Diagnostic M1 alone does not satisfy accepted-provider A2.
 
-**Implementation acceptance:** pending against A1–A8. Actual stdlib CPU processes qualify the stated protocol/lifecycle fixtures, not the absent measured trained deployment or native window. Missing environment inputs remain explicit.
+**Implementation acceptance:** pending against A1–A8. Actual stdlib CPU processes qualify the stated protocol/lifecycle fixtures, not the absent measured trained deployment; isolated Xvfb native-window qualification is in progress. Missing environment inputs remain explicit.
 
 **Canonical repository path:** `docs/plans/configurable-solver-components/plan.md`. Exact M1 ownership and cross-thread consumer handoff: [M1 admission](reports/m1-handoff.md). The integration lead owns shared source and all merges; unrelated renderer/training work is excluded.
 

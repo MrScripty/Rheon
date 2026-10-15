@@ -171,6 +171,19 @@ Draft source remains proposal evidence, not implementation admission.
   corresponding library Clippy checks with `-D warnings` passed. No model/window
   claim follows from ignored tests. GitHub M1 native-cpu, native/rational, cloud,
   VTK and executable checks are green; remaining hosted book/features are pending.
+- Evidence correction: this environment's /proc mount is not aligned with child
+  PIDs; earlier negative /proc observations are insufficient OS liveness evidence.
+  Replaced all six checks with fixed kill-zero probes, requiring positive liveness
+  while resident and negative after owned wait/join. Independent source review
+  approved; focused CPU suite freshly passed 21 tests/1 ignored, and scoped Clippy
+  passed. This strengthens immediate-child evidence without changing production
+  code, numerical gates, original retained M0 receipts or descendant guarantees.
+  The changed test-source admission requires fresh clean qualification below.
+- Native X11 software display is now available through workspace-local Xvfb.
+  A real window rendered inert support feedback and a complete 64-step analytic
+  fixture run with failed pressure diagnostics visible; this is not trained-model
+  or hardware/GPU qualification. Native lifecycle observation is still underway.
+
 
 ## 2026-10-15 — native M2 serial composition
 
@@ -193,3 +206,19 @@ Draft source remains proposal evidence, not implementation admission.
 - Admission review explicitly selects all 92 current paths and preserves strict
   gates/oracles/predecessors. This supports qualification attempts, not trained
   model, accepted-provider A3, native-window or complete M2/M3 acceptance.
+- Selected later companion storage contracts `33a689d` → `97344a2` and typed
+  constructor capture `c1079bc` → `31733ef`; independent review confirms retained
+  bounded/no-overwrite semantics and actual capacity/terminal-busy failure coverage.
+  Replayed M1 `f75a714` with its nonvacuous OS liveness oracle. Resolved documentation
+  append conflicts by retaining both evidence histories and explicitly refreshing
+  the final 92-path admission, not selecting a stale side's hashes.
+- Earlier M2 clean `67186ce` native/rational + packet 26 normal/-O passed on its
+  exact subject. A parallel desktop run hit the unchanged live-emitter gate's
+  10-second timeout during heavy simultaneous UI/build work. No timeout/test was
+  weakened; final source is rerun serially. The first attempted exact-name command
+  lacked its module prefix and ran zero tests; it is not counted as evidence.
+- Integration worktrees now use unique targets seeded with dependency artifacts
+  only. A shared-target library-export mismatch exposed the risk of cross-checkout
+  Cargo reuse; final fresh source qualification/tests are run in isolated targets.
+  Earlier source-specific observations are retained as history, not transferred to
+  this new combined source or substituted for required final passes.

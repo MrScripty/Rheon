@@ -238,6 +238,8 @@ fn run_native(
 
 #[cfg(test)]
 mod tests {
+    #[cfg(target_os = "linux")]
+    use super::super::cpu_contract_tests::assert_child_liveness;
     use super::*;
 
     fn wait_for(worker: &Worker, mut ready: impl FnMut(&Shared) -> bool) {
@@ -271,6 +273,8 @@ mod tests {
         });
         let first_directory = first.shared.lock().unwrap().directory.clone();
         let first_pid = first.slot.lock().unwrap().as_ref().unwrap().id();
+        #[cfg(target_os = "linux")]
+        assert_child_liveness(first_pid, true);
         first.cancel();
         let deadline = Instant::now() + Duration::from_secs(10);
         while !first.finished() {
@@ -287,16 +291,14 @@ mod tests {
         .unwrap();
         assert_eq!(terminal["state"], "cancelled");
         #[cfg(target_os = "linux")]
-        assert!(
-            !std::path::Path::new("/proc")
-                .join(first_pid.to_string())
-                .exists()
-        );
+        assert_child_liveness(first_pid, false);
         drop(first);
         let mut second =
             Worker::start(Scene { steps: 16, ..scene }, package.manifest.clone(), root).unwrap();
         wait_for(&second, |data| !data.frames.is_empty());
         let second_pid = second.slot.lock().unwrap().as_ref().unwrap().id();
+        #[cfg(target_os = "linux")]
+        assert_child_liveness(second_pid, true);
         let deadline = Instant::now() + Duration::from_secs(20);
         while !second.finished() {
             assert!(Instant::now() < deadline);
@@ -316,11 +318,7 @@ mod tests {
         );
         assert_ne!(data.directory, first_directory);
         #[cfg(target_os = "linux")]
-        assert!(
-            !std::path::Path::new("/proc")
-                .join(second_pid.to_string())
-                .exists()
-        );
+        assert_child_liveness(second_pid, false);
     }
 
     #[test]
@@ -350,6 +348,8 @@ mod tests {
             .as_ref()
             .expect("resident CPU child")
             .id();
+        #[cfg(target_os = "linux")]
+        assert_child_liveness(child_id, true);
         let first_directory = first.shared.lock().unwrap().directory.clone().unwrap();
         first.cancel();
         let deadline = Instant::now() + Duration::from_secs(30);
@@ -360,12 +360,7 @@ mod tests {
         first.join_finished();
         assert!(first.slot.lock().unwrap().is_none());
         #[cfg(target_os = "linux")]
-        assert!(
-            !std::path::Path::new("/proc")
-                .join(child_id.to_string())
-                .exists(),
-            "cancelled CPU child remains alive or unreaped"
-        );
+        assert_child_liveness(child_id, false);
         assert_eq!(first.shared.lock().unwrap().state, "cancelled");
         assert!(first.shared.lock().unwrap().frames.len() >= 18);
         let completion: serde_json::Value = serde_json::from_slice(
@@ -384,6 +379,8 @@ mod tests {
             .as_ref()
             .expect("resident restart CPU child")
             .id();
+        #[cfg(target_os = "linux")]
+        assert_child_liveness(restart_child_id, true);
         let deadline = Instant::now() + Duration::from_secs(120);
         while !second.finished() {
             assert!(Instant::now() < deadline, "restart deadline");
@@ -392,12 +389,7 @@ mod tests {
         second.join_finished();
         assert!(second.slot.lock().unwrap().is_none());
         #[cfg(target_os = "linux")]
-        assert!(
-            !std::path::Path::new("/proc")
-                .join(restart_child_id.to_string())
-                .exists(),
-            "restart CPU child remains alive or unreaped"
-        );
+        assert_child_liveness(restart_child_id, false);
         let view = second.shared.lock().unwrap();
         assert_eq!(view.state, "completed", "{}", view.message);
         assert_eq!(view.frames.len(), 17);
@@ -423,7 +415,7 @@ mod tests {
                 .all(|frame| frame.ai_quality.is_none())
         );
         println!(
-            "Cancelled resident CPU child {child_id}; terminal record and retained frames verified; restart child {restart_child_id} completed 16 steps with {restart_ai_predictions} AI prediction; child slots empty; Linux /proc absence checked: {}",
+            "Cancelled resident CPU child {child_id}; terminal record and retained frames verified; restart child {restart_child_id} completed 16 steps with {restart_ai_predictions} AI prediction; child slots empty; Linux OS liveness positive-before-negative checked: {}",
             cfg!(target_os = "linux")
         );
     }
