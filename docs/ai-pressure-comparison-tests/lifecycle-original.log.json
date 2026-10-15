@@ -1,0 +1,5 @@
+{
+  "encoding": "utf-8",
+  "captured_log_sha256": "a79a24e52d4357ca62d38183cdc84e6ee0abc3d312635e83b7d4cc7107619778",
+  "text": "   Compiling rheon v0.1.0 (/media/jeremy/OrangeCream/Linux Software/repos/owned/graphics-3d/rheon-surrogate-lab/runs/live-ai-comparison/Rheon)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.38s\n     Running unittests src/bin/rheon-ai-compare.rs (runs/live-integration/native-target/debug/deps/rheon_ai_compare-d18a909c681204c3)\n\nrunning 1 test\nCancelled resident CPU child 1089543; terminal record and retained frames verified; restart completed; child slots empty\ntest ai_comparison::worker::tests::real_cpu_deployment_cancellation_drains_child_and_allows_restart ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 11.96s\n\n"
+}

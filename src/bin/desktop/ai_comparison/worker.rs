@@ -294,6 +294,13 @@ mod tests {
         }
         first.join_finished();
         assert!(first.slot.lock().unwrap().is_none());
+        #[cfg(target_os = "linux")]
+        assert!(
+            !std::path::Path::new("/proc")
+                .join(child_id.to_string())
+                .exists(),
+            "cancelled CPU child remains alive or unreaped"
+        );
         assert_eq!(first.shared.lock().unwrap().state, "cancelled");
         assert!(first.shared.lock().unwrap().frames.len() >= 18);
         let completion: serde_json::Value = serde_json::from_slice(
@@ -304,6 +311,14 @@ mod tests {
         drop(first);
         let mut second =
             Worker::start(Scene { steps: 16, ..scene }, deployment, root.clone()).unwrap();
+        wait_for(&second, |data| !data.frames.is_empty());
+        let restart_child_id = second
+            .slot
+            .lock()
+            .unwrap()
+            .as_ref()
+            .expect("resident restart CPU child")
+            .id();
         let deadline = Instant::now() + Duration::from_secs(120);
         while !second.finished() {
             assert!(Instant::now() < deadline, "restart deadline");
@@ -311,12 +326,40 @@ mod tests {
         }
         second.join_finished();
         assert!(second.slot.lock().unwrap().is_none());
+        #[cfg(target_os = "linux")]
+        assert!(
+            !std::path::Path::new("/proc")
+                .join(restart_child_id.to_string())
+                .exists(),
+            "restart CPU child remains alive or unreaped"
+        );
         let view = second.shared.lock().unwrap();
         assert_eq!(view.state, "completed", "{}", view.message);
         assert_eq!(view.frames.len(), 17);
         assert_ne!(view.directory.as_ref(), Some(&first_directory));
+        let restart_ai_predictions = view
+            .frames
+            .iter()
+            .filter(|frame| frame.ai_quality.is_some())
+            .count();
+        assert_eq!(
+            restart_ai_predictions, 1,
+            "16 steps must include AI inference after 15 native steps"
+        );
+        assert_eq!(
+            view.frames.last().unwrap().phase,
+            super::super::engine::FramePhase::AiPrediction
+        );
+        assert_eq!(view.frames.last().unwrap().step, 16);
+        assert!(
+            view.frames
+                .iter()
+                .take(16)
+                .all(|frame| frame.ai_quality.is_none())
+        );
         println!(
-            "Cancelled resident CPU child {child_id}; terminal record and retained frames verified; restart completed; child slots empty"
+            "Cancelled resident CPU child {child_id}; terminal record and retained frames verified; restart child {restart_child_id} completed 16 steps with {restart_ai_predictions} AI prediction; child slots empty; Linux /proc absence checked: {}",
+            cfg!(target_os = "linux")
         );
     }
 }

@@ -1,5 +1,11 @@
 # Native / trained AI pressure comparison
 
+The published [configurable-solver integration handoff](ai-pressure-comparison-integration.md)
+maps the complete worker/adapter, distinguishes enforced physical restrictions
+from assumptions, retains lifecycle receipts and identifies the matching lab
+revision. Original commit `66e50388ec7a788dbda0ad1227e330996edf506e` is preserved
+in the publication branch's ancestry; it was previously local, not replaced.
+
 The desktop's **Compare Rheon / trained AI** entry and the dedicated
 `rheon-ai-compare` binary run fresh filled-water scenes with a qualified native
 reference and a separate raw AI diagnostic trajectory. The ordinary accepted

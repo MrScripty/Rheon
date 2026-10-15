@@ -1,0 +1,134 @@
+{
+  "schema": "rheon-ai-comparison-integration-handoff-v1",
+  "status": "passed",
+  "original_commit": "66e50388ec7a788dbda0ad1227e330996edf506e",
+  "original_commit_replaced": false,
+  "base_source_commit": "fe9d58648f15a5aefd9e33fe47d4e6bc5f855b82",
+  "worker_test_source_sha256": "b4f4e2fc0ef2dad94279a70e67015b6f8caa4e5e62dc0a612b38a44cd9d146ec",
+  "publication_branch": "integration/ai-pressure-comparison-20261015",
+  "matching_lab_branch": "feat/sealed-water-pressure-training",
+  "matching_lab_commit": "a8426061380e82951b4dba1bbfa38ff93dc7ebb2",
+  "checkpoint_sha256": "aa82bd122fde9406d9e6b92114b3e6ba77281f5ee8b9c726aa168dacbd93a62d",
+  "deployment_descriptor_sha256": "be4eef1f051206205598e6876c83edaf5246138e17613f1aa787f3df183a761f",
+  "lifecycle": {
+    "runs": [
+      {
+        "state": "cancelled",
+        "steps": 17,
+        "retained_frames": 18,
+        "warmup_steps": 15,
+        "ai_predictions": 2,
+        "last_phase": "ai_prediction",
+        "scene_sha256": "d88968d3371fba7334fd6c1ab597b5a87615f1b87084d87a8903f6290570450a",
+        "completion_sha256": "1154d531bea6eebb84b0429d79dbb602b36f3b66c1acc9cf1d8751ce9974b8d5",
+        "grid_counts_xyz": [
+          8,
+          6,
+          5
+        ],
+        "same_project_directory": true
+      },
+      {
+        "state": "completed",
+        "steps": 16,
+        "retained_frames": 17,
+        "warmup_steps": 15,
+        "ai_predictions": 1,
+        "last_phase": "ai_prediction",
+        "scene_sha256": "2ec0818341430200dbbe001e8996323739f29522787215d3b6a26b016e7b2838",
+        "completion_sha256": "4aca0160d5dbd72c2d1f4a415e77944f6d5189bba876d65081c238f2b9c8ad5c",
+        "grid_counts_xyz": [
+          8,
+          6,
+          5
+        ],
+        "same_project_directory": true
+      }
+    ],
+    "child_slots_empty_after_both_runs": true,
+    "linux_proc_pid_absent_after_both_joins": true,
+    "reader_threads_joined_before_terminal_worker_state": true,
+    "restart_has_one_post_warmup_ai_prediction": true,
+    "independent_new_run_directory": true,
+    "test_elapsed_s": 11.3
+  },
+  "environment": {
+    "os": "Linux Mint 22.2",
+    "kernel": "7.0.0-31-generic",
+    "architecture": "x86_64",
+    "rustc": "1.92.0 (ded5c06cf 2025-12-08)",
+    "python": "3.14.7",
+    "torch": "2.14.0+cu132",
+    "numpy": "2.5.3",
+    "inference_device": "cpu",
+    "child_env": {
+      "PATH": "/usr/bin:/bin",
+      "CUDA_VISIBLE_DEVICES": "",
+      "TULDOK_TORCH_DEVICE": "cpu",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "parent_inference_env_cleared_before_child_spawn": true
+  },
+  "checks": {
+    "comparison_tests_passed": 7,
+    "comparison_ignored_test_run_explicitly": true,
+    "ordinary_desktop_tests_passed": 47,
+    "training_viewer_tests_passed": 5,
+    "python_bridge_tests_passed": 4,
+    "strict_clippy_selected_bins_and_tests": "passed"
+  },
+  "logs": {
+    "bridge-tests.log.json": {
+      "file_sha256": "e4c2e1d82a622dd39da4723e7eb5ff251c89afce457e5061ba7a07cd476668b7",
+      "captured_log_sha256": "56e03afda220e7ba78bbcecf9a2e53a0149cfc3e311fa10bbd01b25e8e5ba671"
+    },
+    "lifecycle-original.log.json": {
+      "file_sha256": "eb667e8217cf88cdbc122110762331d1f4d21b121bdc08f4c1c0e3308675e367",
+      "captured_log_sha256": "a79a24e52d4357ca62d38183cdc84e6ee0abc3d312635e83b7d4cc7107619778"
+    },
+    "desktop-tests.log.json": {
+      "file_sha256": "87a716ee8c82950322a55d1f586bfa35e4231f26fb124b7dbe512d6d2ba06ddf",
+      "captured_log_sha256": "3a9c41425e094a6444653388acedf37b456b4771b43bb6b721b9e1e835d792fe"
+    },
+    "clippy.log.json": {
+      "file_sha256": "0631f016a75550d01f8a269dbc8d77f454801f2a649267a53415a806b94e52f9",
+      "captured_log_sha256": "30772dd0eeb59cfee62960cb74e8534f76128c1807a93518515f0c541b892b1d"
+    },
+    "lifecycle-publication.log.json": {
+      "file_sha256": "dbd0be384c3854e089ffccb6768fbad04e8f92c081036ad12356f4907fd6ba84",
+      "captured_log_sha256": "16abd22c69bacdfca353a7034eb4ccd05cdd9e77c582018def06c2bda787a0f4"
+    }
+  },
+  "scope_limits": [
+    "Immediate trusted child only; no process-tree containment.",
+    "Cleanup errors are best-effort; see integration document for failure/race coverage limits.",
+    "16-step restart is one AI inference, not a long rollout or model-accuracy qualification.",
+    "No weights, simulation arrays, datasets or installed runtime are included."
+  ],
+  "log_representation": "JSON wraps exact UTF-8 captured output; decode text to recover original bytes, including trailing empty lines.",
+  "reproduction_command_template": "RHEON_AI_TEST_DEPLOYMENT=\"$LAB/runs/live-ai-comparison/deployment-2/deployment.json\" RHEON_AI_TEST_OUTPUT=\"$LAB/runs/live-ai-comparison/publication-lifecycle-1\" CARGO_TARGET_DIR=\"$LAB/runs/live-integration/native-target\" cargo +1.92.0 test --manifest-path \"$RHEON/Cargo.toml\" --offline --locked --features desktop --bin rheon-ai-compare real_cpu_deployment_cancellation_drains_child_and_allows_restart -- --ignored --nocapture",
+  "executed_argv": [
+    "/home/jeremy/.rustup/toolchains/1.92.0-x86_64-unknown-linux-gnu/bin/cargo",
+    "test",
+    "--manifest-path",
+    "/media/jeremy/OrangeCream/Linux Software/repos/owned/graphics-3d/rheon-surrogate-lab/runs/water-learning-sequence-v1/Rheon/Cargo.toml",
+    "--offline",
+    "--locked",
+    "--features",
+    "desktop",
+    "--bin",
+    "rheon-ai-compare",
+    "real_cpu_deployment_cancellation_drains_child_and_allows_restart",
+    "--",
+    "--ignored",
+    "--nocapture"
+  ],
+  "executed_parent_environment_overrides": {
+    "RHEON_AI_TEST_DEPLOYMENT": "/media/jeremy/OrangeCream/Linux Software/repos/owned/graphics-3d/rheon-surrogate-lab/runs/live-ai-comparison/deployment-2/deployment.json",
+    "RHEON_AI_TEST_OUTPUT": "/media/jeremy/OrangeCream/Linux Software/repos/owned/graphics-3d/rheon-surrogate-lab/runs/live-ai-comparison/publication-lifecycle-1",
+    "CARGO_TARGET_DIR": "/media/jeremy/OrangeCream/Linux Software/repos/owned/graphics-3d/rheon-surrogate-lab/runs/live-integration/native-target"
+  },
+  "executed_cwd": "/media/jeremy/OrangeCream/Linux Software/repos/owned/graphics-3d/rheon-surrogate-lab"
+}
