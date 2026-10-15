@@ -270,7 +270,7 @@ companion/root/previous source receipts are not substituted.
 This explicit source review admits the 95-to-96-path native M3 extension to
 attempt fresh qualification. Selected companion PR93 source76cc71af is retained
 as90ee568: new comparison_field_view.rs SHA256
-911b7095d6d36e2b21aae0c7cdaf6998c160f49715fa1ee267dfdd609f53bdd3;
+911b7095ccc2897d811b7946a5fabadc31703263879bec73d9b8f082573d1106;
 contract tests and API documentation retain their frozen companion bytes.
 Independent GPT-6.1 Sol review checked the actual source and tiny root registration:
 identity includes root, captured set, both members and complete recipe/pair;
