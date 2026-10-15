@@ -689,3 +689,30 @@ to its actual source and is not relabelled for this correction.
   public contracts with actual modal consumers and zero ignored, strict affected
   desktop Clippy and both native builds. Those receipts remain pinned to that
   preceding source in /tmp/rheon-session-config-qualified and related logs.
+
+## 2026-10-15 — frozen configured Session pure intent
+
+- A separately owned pure-intent module captures actual immutable constructor
+  Session configuration plus declared future dt/count, force units/regions,
+  volume/viscosity controls, native-prefix/provider policy, budgets and host
+  executor identity. Explicit schema2 spec/set kinds cannot pass native schema1
+  readers. Disabled viscosity differs from applied Newtonian zero; host source
+  differs from package source; cold intent open needs no package or execution.
+- Nine configured contracts and17 existing native saved-set contracts pass,
+  zero ignored/filtered, with strict affected desktop/public-test Clippy,
+  formatting and diff checks. Review corrected a malformed unsupported-kind
+  test to independently challenge both actual envelope kinds. Clippy's large
+  enum finding was resolved by boxing the provider pin without changing its
+  serialized representation; existing test import has a scoped unused-module
+  allowance, with no production warning suppression.
+- Independent exact-source review approves all four module/registration/test
+  pins in [configured intent review](reports/configured-intent-review.md).
+  Complete conservative admission grows105 to106 selected paths: one new
+  module, one registration-only source change,104 unchanged. Selector, older
+  inventories, numerical kernels, oracle and qualification runner are unchanged.
+- This slice has no configured archive pin/open/Ready API and no interval,
+  model or worker loop. Attempt/finalized values remain declared observations
+  pending concrete recording verification. Actual production runtime bridge,
+  codec-backed closed archive binding, cold member states, worker/UI execution
+  and A4 acceptance remain active integration work. Fresh committed-source
+  qualification and exact-head hosted gates are required before integration.

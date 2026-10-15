@@ -504,3 +504,25 @@ retention/retry/quota. Review: ../plans/configurable-solver-components/reports/s
 The unchanged105-path selector rebinds only these two numerical-owner source
 pins. Other103 selected paths, old inventories, mathematical oracle and runner
 remain unchanged. This admits fresh clean qualification, not old receipt reuse.
+
+
+### Frozen configured Session constructor and future intent
+
+Independent GPT-6.1 Sol read-only review approves the distinct schema2 pure
+intent module, bounded immutable constructor/future controls, exact host versus
+provider declarations and explicit parent registration. Native schema1 bytes and
+meaning remain unchanged. This module executes no interval/provider and grants
+no archive Ready state. Recording binding, runtime admission, production worker
+composition and A4 acceptance remain separate gates. Review:
+../plans/configurable-solver-components/reports/configured-intent-review.md.
+
+- src/bin/desktop/run_sets/configured.rs: 606e435e27f6138df93c7d7ddc205e921c066da70c476a4a40232ac0c72c53a4
+- src/bin/desktop/run_sets.rs: 405332f953a31e476a704ce189b85781faf19620a2c54e5b4cb077fdd95f2a5f
+- tests/configured_run_sets_contract.rs: 29b29888112126677262bdd05792cad70170338eaac8c4767fc2ab0292a9e927
+- tests/saved_run_set_contract.rs: 6e001075a4307da0e51df04c4521bc8599194ce06fbf010c08e34bab8f693ef9
+
+The complete conservative selector grows105 to106: one added module, one
+registration-only changed source and104 unchanged selected paths. Existing
+historical inventories, selector, mathematical oracle and qualification runner
+are unchanged. Only these explicitly reviewed hashes are admitted; no automatic
+refresh occurs. This permits fresh clean qualification, not receipt transfer.

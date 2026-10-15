@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed accepted Session/context, sealed Newtonian composition, immutable constructor controls and exact accepted interval starts; complete105-path conservative closure. Fresh clean qualification admission only; external runtime/persistence/model gates remain separate.",
+  "scope": "Explicit independently reviewed frozen configured Session pure intent and prior accepted Session/context closure; complete106-path conservative inventory. Fresh clean qualification only; archive binding, production runtime/UI and measured model acceptance remain separate.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "37c35da78327139b01704ad326e647af2d0e74e07f543435f7a621c13af47a04",
+  "review_sha256": "7372cd7488b8b9e9e39bcd26b35d0b8309262eb16afc94b0040d101bfba8c6dd",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
@@ -45,7 +45,8 @@
     "src/bin/desktop/inspector.rs": "8cd508bcfc0c912164416b2e918121894d3a43a16d944e012019d6dda88969ce",
     "src/bin/desktop/particle_view.rs": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
     "src/bin/desktop/run_set_view.rs": "e3afdad23aefb3f4c68245953aaee26ec7f67a977729114c87a2bc9337167da8",
-    "src/bin/desktop/run_sets.rs": "6a38faf297fbf454a939d8bfacfca594a4624e5ca93408044b184f858cb08aff",
+    "src/bin/desktop/run_sets.rs": "405332f953a31e476a704ce189b85781faf19620a2c54e5b4cb077fdd95f2a5f",
+    "src/bin/desktop/run_sets/configured.rs": "606e435e27f6138df93c7d7ddc205e921c066da70c476a4a40232ac0c72c53a4",
     "src/bin/desktop/settings.rs": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
     "src/bin/desktop/transport_view.rs": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
     "src/bin/desktop/viewport.rs": "ff654a1032531d8f5dd756787214ef8d395e6b742278f814c2811f5808d9bb6d",
