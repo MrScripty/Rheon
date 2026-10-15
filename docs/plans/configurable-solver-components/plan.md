@@ -73,7 +73,7 @@ A0 is current read-only source/design evidence, satisfied within its stated scop
 | A7 | Process failure, cancellation, Close, repeated Start and storage failure reach honest terminal states with no stale publication or owned child left running | lifecycle/system | Supported OS, real runtime/processes/window / automated plus native interaction | pending |
 | A8 | Pinned formatting, lints, affected feature/API/recording/VTK/browser regressions pass for final material; unsupported platforms remain explicit | static/build/regression | Actual supported toolchains/targets / automated | pending |
 
-Native window claims remain pending until actual interaction is observed in an appropriate connected execution environment. This documentation task has not qualified one. Headless egui tests and screenshots of a started window cannot substitute for the requested interactive workflow.
+Actual software-X11 interaction now covers the bounded native saved-run, linked slice/probe and typed diagnostic fixture workflows recorded in the execution ledger, including cold reopen, rerun, Cancel and Close. These observations do not qualify the absent measured deployment or every platform and acceptance criterion above. Headless egui tests and screenshots of a started window alone do not establish an interactive workflow.
 
 ## Proposed decisions and owners
 
