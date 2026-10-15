@@ -183,6 +183,29 @@ Draft source remains proposal evidence, not implementation admission.
   A real window rendered inert support feedback and a complete 64-step analytic
   fixture run with failed pressure diagnostics visible; this is not trained-model
   or hardware/GPU qualification. Native lifecycle observation is still underway.
+- Final M1 isolated-target qualification on clean `f75a714`, tree
+  `38026daa5f4eaa7633fe01c1e5e02c01ba3db264`, passed all 18 native/rational commands;
+  packet construction and 26 adversarial tests passed normally and under -O.
+  Separate target rebuilt Rheon source, without any Rheon artifact/fingerprint
+  seeding. Focused CPU suite passed 21/1 ignored plus 2 public context tests;
+  scoped Clippy passed. External receipts: `/tmp/rheon-m1-isolated-f75a714` and
+  `/tmp/rheon-m1-isolated-packet-f75a714`; no receipt transfer from another tree.
+- Real software-X11 native-window fixture observation completed. The analytic
+  package includes an explicit delay for interaction, not a trained checkpoint.
+  Inert support did not create observations; the window showed native qualified
+  versus AI failed-pressure fields, an initial 64-step completion, cancellation
+  after predictions, restart32 completion, then Close at step17 with2 predictions.
+  Observer saw child liveness positively and later all four observed child IDs
+  absent via OS kill-zero; app exit0. Binary SHA256
+  `ad5838a409bc68419f923c47a8eef58e1dc1b4f187085de42a8622c72d9fe7d8`,
+  manifest `fc93e8867a3f71bf45f3b25882f86876c9be257fbe7608df263ddee1123b6907`,
+  observer JSON `5f5b06b40a94125eac2881dfbfaa0fad87e46fa58ecce8d80cef125b853ff830`.
+  Generated screenshots/observations remain in `/tmp/rheon-m1-native-window`.
+  This binds observed software-display/fixture material, not source authenticity,
+  trained-runtime parity, a physical GPU, descendants or a hard teardown bound.
+- Required measured deployment/Torch input was requested explicitly and remains
+  unavailable. A1 trained-runtime and full generic/provider acceptance stay pending;
+  CI's separate frozen-checkpoint check is not relabelled as this absent bundle.
 
 
 ## 2026-10-15 — native M2 serial composition
@@ -222,3 +245,71 @@ Draft source remains proposal evidence, not implementation admission.
   Cargo reuse; final fresh source qualification/tests are run in isolated targets.
   Earlier source-specific observations are retained as history, not transferred to
   this new combined source or substituted for required final passes.
+
+- Final clean M2 `d8b0eb11c85de2efdeb522865d90a3b86fb52985`, tree
+  `797022111c896ee5cef026b6ba22db1dcdb5ce18`, passed all 18 native/rational
+  qualification commands with `lean_checked=false`; the fresh education packet
+  passed 26 adversarial tests normally and under Python -O. External receipts:
+  `/tmp/rheon-m2-isolated-d8b0eb1` and `/tmp/rheon-m2-isolated-packet-d8b0eb1`.
+  Its 17 saved-contract tests passed. A strict desktop run hit the unchanged
+  live-emitter 10-second wait under concurrent build load; the exact test then
+  passed alone (8.79 s), and a complete idle serial rerun passed 61 tests,
+  1 intentionally ignored model-runtime test, 0 failures (30.67 s). All-target
+  desktop Clippy with warnings denied passed. No timeout or test was weakened.
+  This evidence is pinned to d8b0eb1, not a trained bundle or a new source tree.
+
+
+## 2026-10-15 — native M3 analysis and immutable comparison evidence
+
+- Selected companion numerical analysis and saved recipe/result ownership into
+  the serial M3 branch. Public recording::comparison is the actual app/test API;
+  the desktop aliases it and registers its saved-comparison owner. No unrelated
+  renderer ancestry, second numerical worker or accepted-schema change.
+- Independent source review found public derived-divergence overflow; fixed with
+  explicit ArithmeticRange and finite-face/extreme-spacing regression. Review
+  confirms no remaining material source finding. Independent SQLite/native-bit
+  oracle now fails closed normally and under -O/PYTHONOPTIMIZE for wrong identity
+  and metric; no production numerical bounds/formulas were weakened.
+- Unique-target validation passed 16 numerical +12 saved-comparison contracts and
+  scoped desktop Clippy/formatting. Native desktop comparison-page interaction is
+  still pending the companion new-file handoff; no GUI acceptance is inferred.
+- Explicit final M3 source admission includes all 94 selected paths, preserving
+  both historical inventories and current conservative selector. A fresh clean
+  qualification starts after this commit; earlier receipts are not transferred.
+- Native software-X11 M2 flow on d8b0eb1 created a two-solver 8-cube set with
+  2 steps at0.003s, closed producer, cold-opened Ready members, audited ordinal2,
+  exported actual VTI and reran exact intent from a fresh material-default App.
+  Native bits/time and originals matched, but process-local source IDs1/2 were
+  reused. This is a finding, not freshness acceptance. Exact failed-freshness
+  observation SHA256 `37f32ab2dd80bb0a3dd5cdffaf0fdc27325e8ec544c171eb9d9de3071139e6e4`
+  remains outside Git in /tmp/rheon-m2-native-window/observation-before-fix.json.
+- Fixed root-only direct-source exclusion. Independent review approved source and
+  regression fidelity: actual separate producer/cold-rerun processes, full source
+  ID disjointness, original-file BEFORE snapshot, typed intent/native bits/time.
+  Focused fresh regression passed. Refreshed92 source admission precedes renewed
+  qualification; corrected binary/native-window observation follows separately.
+
+- Clean M3 bc1fc90360ffae12559a80624c4f15fbd3f8a67d (tree
+  6f9a52d024942c100c29777bb183e3b86de8c06a) passed 18 native/rational commands,
+  fresh packet construction and all26 adversarial tests normally/-O with real
+  packet supplied (0skips). 12 saved-comparison +16 numerical contracts passed;
+  the16 also pass core-only. Scoped desktop Clippy passed. External evidence:
+  /tmp/rheon-m3-isolated-bc1fc90 and /tmp/rheon-m3-isolated-packet-bc1fc90.
+- Selected companion bb48cee new cold page and7 headless interaction fixtures.
+  Lead wires actual root/sidebar/run-set navigation and actual public analysis in
+  tests. Independent source review found no material page/navigation finding.
+  Seven integrated page tests passed; initial Clippy caught unused imports after
+  replacing the private test numerical path with the public API; imports removed.
+  New95-path source admission committed before fresh qualification. Companion
+  harness/window evidence is historical and does not qualify this root binary.
+
+- Integrated page source3584749 (tree62f0957488476a4b4bc0faa1bebbc78641f9f3f7)
+  passed clean18-command native/rational, packet26 normal/-O0skips,12 saved+16
+  numerical+7 page contracts, scoped Clippy and native binary build. Receipts in
+  /tmp/rheon-m3-page-3584749 and /tmp/rheon-m3-page-packet-3584749. These pin that
+  source only, not subsequent values/renderer changes or native root interaction.
+- Selected independently reviewed06ccf43 exact-value and explicit materialization
+  hooks, retaining public raw samples/overflow test. Fixed its pointwise Python
+  oracle assertion stripping with explicit failures and negative perturbation in
+  all3 interpreter modes.20 numerical+9 page tests and scoped Clippy passed.
+  Explicit95-path admission refresh precedes fresh qualification of this subject.

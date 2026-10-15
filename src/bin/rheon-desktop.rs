@@ -29,6 +29,8 @@ mod particle_view;
 mod run_set_view;
 #[path = "desktop/run_sets.rs"]
 pub mod run_sets;
+#[path = "desktop/comparison.rs"]
+pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 #[path = "desktop/settings.rs"]
 mod settings;
@@ -67,6 +69,8 @@ struct Request {
     recording_limits: rheon::recording::RecordingLimits,
     recording_directory: String,
     saved_set: Option<run_sets::RunSetRevision>,
+    /// Direct source run IDs to avoid even after producer-process restart.
+    prior_run_ids: Vec<u64>,
     manifest_receipt: Option<Arc<std::sync::Mutex<std::path::PathBuf>>>,
     #[cfg(test)]
     progress_gate: Option<Arc<ProgressGate>>,
@@ -277,7 +281,10 @@ fn run_simulations(
         let path = new_recording_path(&request.recording_directory, method.id())?;
         let inspector = &history.carrier_inspectors[track];
         let mut recorder = if let Some(spec) = &frozen {
-            let identity = identity::new_identity("saved-carrier");
+            let mut identity = identity::new_identity("saved-carrier");
+            while request.prior_run_ids.contains(&identity.run_id) {
+                identity = identity::new_identity("saved-carrier");
+            }
             let run = run_sets::bound_native_run(
                 spec,
                 &sim,
@@ -695,6 +702,8 @@ struct App {
     archive: archive_view::ArchiveView,
     run_sets: run_set_view::RunSetView,
     save_native_set: bool,
+    saved_comparison: saved_comparison::SavedComparisonPage,
+    saved_comparison_active: bool,
     collision: collision_ui::CollisionControls,
     selected: PressureImplementation,
     domain_side: f64,
@@ -740,6 +749,8 @@ impl Default for App {
             archive: archive_view::ArchiveView::default(),
             run_sets: run_set_view::RunSetView::default(),
             save_native_set: false,
+            saved_comparison: saved_comparison::SavedComparisonPage::default(),
+            saved_comparison_active: false,
             collision: collision_ui::CollisionControls::default(),
             selected: PressureImplementation::default(),
             domain_side: 1.0,
@@ -803,7 +814,16 @@ impl App {
                     },
                 );
                 self.run_sets.controls(ui, self.worker.is_none());
-                if self.archive.active || self.run_sets.active {
+                if ui
+                    .add_enabled(
+                        self.worker.is_none(),
+                        egui::Button::new("Open saved comparisons"),
+                    )
+                    .clicked()
+                {
+                    self.saved_comparison_active = true;
+                }
+                if self.archive.active || self.run_sets.active || self.saved_comparison_active {
                     return;
                 }
                 ui.separator();
@@ -901,6 +921,7 @@ impl App {
             recording_limits,
             recording_directory: self.recording_directory.clone(),
             saved_set: None,
+            prior_run_ids: Vec::new(),
             manifest_receipt: None,
             #[cfg(test)]
             progress_gate: None,
@@ -960,6 +981,11 @@ impl App {
             recording_limits: baseline.recording.limits(),
             recording_directory: self.recording_directory.clone(),
             saved_set: None,
+            prior_run_ids: original
+                .members
+                .iter()
+                .filter_map(|member| member.attempt.as_ref().map(|a| a.expected_run_id))
+                .collect(),
             manifest_receipt: None,
             #[cfg(test)]
             progress_gate: None,
@@ -1327,7 +1353,32 @@ impl eframe::App for App {
         if self.closing && self.worker.is_none() {
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
         }
+        if self.saved_comparison_active {
+            egui::TopBottomPanel::top("comparison-navigation").show(ctx, |ui| {
+                if ui.button("Back to simulation").clicked() {
+                    self.saved_comparison_active = false;
+                }
+            });
+            egui::CentralPanel::default().show(ctx, |ui| self.saved_comparison.show(ui));
+            return;
+        }
         if self.run_sets.active {
+            let mut compare = false;
+            egui::TopBottomPanel::bottom("run-set-comparison-action").show(ctx, |ui| {
+                compare = ui.button("Compare exact saved members").clicked();
+            });
+            if compare {
+                let path = std::path::Path::new(&self.run_sets.path);
+                if let (Some(parent), Some(name)) = (path.parent(), path.file_name()) {
+                    self.saved_comparison
+                        .set_location(parent.to_string_lossy(), name.to_string_lossy());
+                    self.saved_comparison.load_manifest();
+                    self.saved_comparison_active = true;
+                    self.run_sets.active = false;
+                    ctx.request_repaint();
+                }
+                return;
+            }
             if let Some(revision) = self.run_sets.show(ctx, &mut self.archive)
                 && let Err(e) = self.rerun_saved(revision)
             {
@@ -1344,7 +1395,7 @@ impl eframe::App for App {
         }
         let (count, frame) = self.selected_frame();
         self.sidebar(ctx);
-        if self.archive.active || self.run_sets.active {
+        if self.archive.active || self.run_sets.active || self.saved_comparison_active {
             ctx.request_repaint();
             return;
         }
@@ -1570,6 +1621,126 @@ fn main() -> eframe::Result {
 mod tests {
     use super::*;
     #[test]
+    fn saved_native_cold_rerun_process() {
+        let Ok(root) = std::env::var("RHEON_SAVED_COLD_RERUN") else {
+            return;
+        };
+        let root = std::path::PathBuf::from(root);
+        let mut app = App::default();
+        app.threads = 1;
+        app.automatic_threads = false;
+        app.show_workers = false;
+        app.recording_directory = root.to_string_lossy().into();
+        let pointer = root.join("source-path.txt");
+        if std::env::var("RHEON_SAVED_COLD_PHASE").unwrap() == "produce" {
+            app.material_mode = false;
+            app.cylinder = false;
+            app.size = 8;
+            app.steps = 2;
+            app.requested_dt = 0.003;
+            app.save_native_set = true;
+            app.start(true);
+        } else {
+            let path = std::fs::read_to_string(&pointer).unwrap();
+            let source = run_sets::RunSetRevision::open(std::path::Path::new(&path)).unwrap();
+            app.rerun_saved(source).unwrap();
+        }
+        wait_until(|| app.worker.as_ref().unwrap().handle.is_finished());
+        app.poll(&egui::Context::default());
+        assert_eq!(app.rows.len(), 2, "{}", app.status);
+        let target = if pointer.exists() {
+            root.join("rerun-path.txt")
+        } else {
+            pointer
+        };
+        std::fs::write(target, &app.run_sets.path).unwrap();
+    }
+    #[test]
+    fn saved_native_rerun_after_producer_exit_avoids_all_source_ids() {
+        let root = std::env::temp_dir().join(format!(
+            "rheon-cold-rerun-{}-{}",
+            std::process::id(),
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
+        std::fs::create_dir(&root).unwrap();
+        let exe = std::env::current_exe().unwrap();
+        let mut original_files = Vec::new();
+        for phase in ["produce", "rerun"] {
+            let status = std::process::Command::new(&exe)
+                .args([
+                    "--exact",
+                    "tests::saved_native_cold_rerun_process",
+                    "--nocapture",
+                ])
+                .env("RHEON_SAVED_COLD_RERUN", &root)
+                .env("RHEON_SAVED_COLD_PHASE", phase)
+                .status()
+                .unwrap();
+            assert!(status.success(), "fresh {phase} process failed");
+            if phase == "produce" {
+                let source = std::path::PathBuf::from(
+                    std::fs::read_to_string(root.join("source-path.txt")).unwrap(),
+                );
+                original_files = std::fs::read_dir(source.parent().unwrap())
+                    .unwrap()
+                    .map(|entry| {
+                        let path = entry.unwrap().path();
+                        let bytes = std::fs::read(&path).unwrap();
+                        (path, bytes)
+                    })
+                    .collect();
+            }
+        }
+        let source_path = std::path::PathBuf::from(
+            std::fs::read_to_string(root.join("source-path.txt")).unwrap(),
+        );
+        let rerun_path =
+            std::path::PathBuf::from(std::fs::read_to_string(root.join("rerun-path.txt")).unwrap());
+        let source = run_sets::RunSetRevision::open(&source_path).unwrap();
+        let rerun = run_sets::RunSetRevision::open(&rerun_path).unwrap();
+        let source_ids: Vec<_> = source
+            .members
+            .iter()
+            .map(|m| m.attempt.as_ref().unwrap().expected_run_id)
+            .collect();
+        assert_eq!(source_ids, [1, 2]);
+        let intent =
+            run_sets::RunSetRevision::open(&rerun_path.parent().unwrap().join("intent.json"))
+                .unwrap();
+        assert_eq!(intent.parent_sha256, Some(source.sha256().unwrap()));
+        for (old, new) in source.members.iter().zip(&rerun.members) {
+            let attempt = new.attempt.as_ref().unwrap();
+            assert!(!source_ids.contains(&attempt.expected_run_id));
+            assert_ne!(old.attempt.as_ref().unwrap().attempt_id, attempt.attempt_id);
+            assert_eq!(old.spec, new.spec);
+            let run_sets::MemberState::Ready(a) =
+                run_sets::open_member(source_path.parent().unwrap(), old)
+            else {
+                panic!("source member unavailable");
+            };
+            let run_sets::MemberState::Ready(b) =
+                run_sets::open_member(rerun_path.parent().unwrap(), new)
+            else {
+                panic!("rerun member unavailable");
+            };
+            for ordinal in 0..3 {
+                let a = a.select(ordinal).unwrap();
+                let b = b.select(ordinal).unwrap();
+                assert_eq!(a.time.to_bits(), b.time.to_bits());
+                for (a, b) in a.fields.iter().zip(&b.fields) {
+                    assert_eq!(a.data, b.data);
+                }
+            }
+        }
+        for (path, before) in original_files {
+            assert_eq!(std::fs::read(path).unwrap(), before);
+        }
+        std::fs::remove_dir_all(root).unwrap();
+    }
+    #[test]
     fn saved_native_worker_closes_and_cold_opens_exact_two_member_set() {
         let root = std::env::temp_dir().join(format!(
             "rheon-saved-worker-{}-{}",
@@ -1793,6 +1964,7 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: None,
         };
@@ -2007,6 +2179,7 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
@@ -2060,6 +2233,7 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
@@ -2143,6 +2317,7 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
@@ -2225,6 +2400,7 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: None,
         };
@@ -2317,6 +2493,7 @@ mod tests {
                     recording_limits: rheon::recording::RecordingLimits::default(),
                     recording_directory: ".generated/recordings".into(),
                     saved_set: None,
+                    prior_run_ids: Vec::new(),
                     manifest_receipt: None,
                     progress_gate: None
                 },

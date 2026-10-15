@@ -2,11 +2,11 @@
 
 **Document status:** Active implementation plan. The user subsequently authorized M1–M3 implementation, separate draft PRs, validated ready merges and safe branch retirement. This supersedes the earlier documentation-only scope recorded in the historical ledger; numerical and environment gates remain mandatory.
 
-**Current phase:** M1 typed diagnostic CPU seam implemented and independently source-reviewed; full validation and fresh educational admission qualification are in progress. PR84 merged at `c85dfee`. No production accepted-provider composition is claimed.
+**Current phase:** M1 typed diagnostic CPU seam is implemented and independently reviewed on PR87; clean isolated-target native/rational and focused CPU checks pass, and software-X11 fixture interaction is observed. Native M2 worker/save/cold-rerun composition is verifying on PR88; native M3 analysis/persistence and cold comparison-page navigation are integrated on PR91, with linked field projection under composition. PR84 merged at `c85dfee`. No accepted trained-provider production composition is claimed.
 
-**Next slice:** serial integration of the independently published native M2/M3 contracts, then actual saved-set/comparison desktop composition and affected qualification. Diagnostic M1 alone does not satisfy accepted-provider A2.
+**Next slice:** finish corrected cold-rerun and integrated comparison-page/linked-field validation, then separately qualify typed teacher/stop diagnostics and their recording. Diagnostic M1 alone does not satisfy accepted-provider A2.
 
-**Implementation acceptance:** pending against A1–A8. Actual stdlib CPU processes qualify the stated protocol/lifecycle fixtures, not the absent measured trained deployment; isolated Xvfb native-window qualification is in progress. Missing environment inputs remain explicit.
+**Implementation acceptance:** pending against A1–A8. Actual stdlib CPU processes qualify the stated protocol/lifecycle fixtures, not the absent measured trained deployment; isolated Xvfb native-window fixture interaction is observed. The measured trained bundle/Torch remains unavailable; required model-parity and full generic milestone claims stay pending.
 
 **Canonical repository path:** `docs/plans/configurable-solver-components/plan.md`. Exact M1 ownership and cross-thread consumer handoff: [M1 admission](reports/m1-handoff.md). The integration lead owns shared source and all merges; unrelated renderer/training work is excluded.
 
@@ -59,7 +59,7 @@ The reviewed lab network is stateless but pressure-conditioned; 15 native warmup
 
 ## Objective acceptance claims
 
-A0 is current read-only source/design evidence, satisfied within its stated scope. A1–A8 are future implementation claims. No implementation, accuracy or fresh model/runtime execution acceptance follows from A0 or retained producer logs.
+A0 is current read-only source/design evidence, satisfied within its stated scope. A1–A8 are implementation acceptance claims with the bounded progress recorded in the ledger. No implementation, accuracy or fresh model/runtime execution acceptance follows from A0 or retained producer logs.
 
 | ID | Observable criterion | Kind | Environment / mode | Current status |
 |---|---|---|---|---|
@@ -232,15 +232,15 @@ Specific triggers: bypassed acceptance; teacher leakage; a generic archive accep
 
 Record trigger/evidence, replace the candidate/binding decision, disposition affected consumers and milestones, rerun the composed-design probe when composition changes, and ask the smallest necessary question only when evidence and existing authority cannot settle it. Do not reduce numerical gates or relabel lower-fidelity evidence to close a milestone.
 
-**Completion rule:** implementation can be accepted only when every non-deferred milestone has its named evidence, all A0–A8 claims are satisfied for the admitted scope, final material/consumer disposition is reviewed, required terminal lifecycle results are observed, and final evidence/publication status is linked. Until then keep the appropriate pending, blocked or verifying status. This proposal closes only research/design and authorized documentation publication.
+**Completion rule:** implementation can be accepted only when every non-deferred milestone has its named evidence, all A0–A8 claims are satisfied for the admitted scope, final material/consumer disposition is reviewed, required terminal lifecycle results are observed, and final evidence/publication status is linked. Until then keep the appropriate pending, blocked or verifying status. Research/design publication is complete. Implementation remains Active until its admitted claims have their required evidence; bounded native slices do not close unimplemented provider/diagnostic claims.
 
 ## Documentation delivery acceptance
 
-This section concerns the present documentation task only. D1 is complete: the
-proposal was independently reviewed, committed, pushed and opened as public
-[draft PR #84](https://github.com/MrScripty/Rheon/pull/84). Next documentation slice:
-`none`. M0's source/design gate is now satisfied by the [reconciliation](reports/m0-reconciliation.md). M1 remains the next **proposed** implementation slice; no code work is authorized.
-The [ledger](execution-ledger.md) records actual publication evidence.
+This section preserves the completed original documentation delivery. D1 was
+independently reviewed, committed, pushed and published as [PR84](https://github.com/MrScripty/Rheon/pull/84), subsequently merged under the user's later authority.
+M0 source/design reconciliation is complete. Subsequent M1–M3 implementation and
+validated merge authority supersede the original prose-only scope; their active
+status and remaining gates are recorded above and in the [ledger](execution-ledger.md).
 
 | ID | Observable criterion | Kind / environment / mode | Status |
 | --- | --- | --- | --- |
