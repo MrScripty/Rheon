@@ -716,3 +716,21 @@ to its actual source and is not relabelled for this correction.
   codec-backed closed archive binding, cold member states, worker/UI execution
   and A4 acceptance remain active integration work. Fresh committed-source
   qualification and exact-head hosted gates are required before integration.
+
+## 2026-10-15 — frozen configured intent clean qualification
+
+- Clean sourcef5bd8b5cc468415df2ab5c3347d8046f813602ef,
+  treef15489069450af18ee444ac144df9a56f2ceba6e, passed all18 fresh
+  native/rational commands with the complete106-path admission. Lean checking
+  was not run. Real-packet suites passed26 normal and26 optimized, zero skips.
+  Receipts: /tmp/rheon-configured-intent-qualified and
+  /tmp/rheon-configured-intent-packet.
+- Final-source nine configured and17 native saved-set contracts passed, zero
+  ignored/filtered; strict affected desktop/public-test Clippy passed. Both
+  native binaries built with full declared revision
+  f5bd8b5cc468415df2ab5c3347d8046f813602ef. The first build invocation used an
+  invalid binary target name and performed no build; correcting it to the
+  actual rheon-ai-compare target passed without source changes. Logs share
+  /tmp/rheon-configured-intent-frozen-*. No numerical/model/GUI or archive
+  readiness claim is added. Follow-through is ledger-only; current-head hosted
+  gates and serial composition remain mandatory.
