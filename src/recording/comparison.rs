@@ -20,6 +20,8 @@ const PRESSURE_STAGE: &str = "accepted_interval_projection; cell0 gauge=0; not e
 
 /// Identity of one exact publication, stable when its archive is appended or closed.
 /// The digest is analysis-v1 SHA256, not an archive-file hash or authentication.
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(deny_unknown_fields))]
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SelectionIdentity {
     pub run_id: u64,
@@ -70,6 +72,8 @@ impl Selection {
     }
 }
 
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(rename_all = "snake_case"))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FieldRole {
     Tracer,
@@ -79,6 +83,8 @@ pub enum FieldRole {
     VelocityZ,
     VelocityDivergence,
 }
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(rename_all = "snake_case"))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PressurePolicy {
     /// Both fields must actually have cell0=0; no transform is applied.
@@ -86,6 +92,8 @@ pub enum PressurePolicy {
     /// Diagnostic only: subtract mean(candidate-reference), retaining gauge failures.
     RemoveMeanOffsetDiagnostic,
 }
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(deny_unknown_fields))]
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Recipe {
     pub field: FieldRole,
@@ -93,6 +101,13 @@ pub struct Recipe {
     pub time_tolerance: f64,
     pub pressure: PressurePolicy,
 }
+impl Recipe {
+    pub fn validate(self) -> Result<(), RecipeError> {
+        validate_recipe(self)
+    }
+}
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(rename_all = "snake_case"))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Unavailable {
     UnsupportedProfile,
@@ -117,6 +132,8 @@ impl std::fmt::Display for RecipeError {
 }
 impl std::error::Error for RecipeError {}
 
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(deny_unknown_fields))]
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Metrics {
     pub support_count: usize,
@@ -126,13 +143,21 @@ pub struct Metrics {
     pub rmse: f64,
     pub linf: f64,
     /// None precisely when the reference norm is zero; no epsilon denominator.
+    #[cfg_attr(
+        feature = "desktop",
+        serde(deserialize_with = "deserialize_explicit_option")
+    )]
     pub relative_l2: Option<f64>,
 }
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(deny_unknown_fields))]
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ColorBounds {
     pub min: f64,
     pub max: f64,
 }
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(deny_unknown_fields))]
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct GaugeReport {
     pub reference_canonical: bool,
@@ -141,6 +166,8 @@ pub struct GaugeReport {
     pub removed_offset_pa: f64,
     pub diagnostic: bool,
 }
+#[cfg_attr(feature = "desktop", derive(serde::Serialize))]
+#[cfg_attr(feature = "desktop", serde(deny_unknown_fields))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct FieldComparison {
     pub metrics: Metrics,
@@ -149,6 +176,8 @@ pub struct FieldComparison {
     pub color_bounds: ColorBounds,
     pub gauge: Option<GaugeReport>,
 }
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(deny_unknown_fields))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct PairComparison {
     pub analysis_version: u32,
@@ -157,6 +186,8 @@ pub struct PairComparison {
     pub candidate: SelectionIdentity,
     pub outcome: Result<FieldComparison, Unavailable>,
 }
+#[cfg_attr(feature = "desktop", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "desktop", serde(deny_unknown_fields))]
 #[derive(Debug, Clone, PartialEq)]
 pub struct Coverage {
     pub analysis_version: u32,
@@ -173,7 +204,7 @@ pub fn compare(
     candidate: &Selection,
     recipe: Recipe,
 ) -> Result<PairComparison, RecipeError> {
-    validate_recipe(recipe)?;
+    recipe.validate()?;
     Ok(PairComparison {
         analysis_version: ANALYSIS_VERSION,
         recipe,
@@ -191,7 +222,7 @@ pub fn align(
     candidate: &[Selection],
     recipe: Recipe,
 ) -> Result<Coverage, RecipeError> {
-    validate_recipe(recipe)?;
+    recipe.validate()?;
     let mut result = Coverage {
         analysis_version: ANALYSIS_VERSION,
         recipe,
@@ -555,4 +586,46 @@ fn hash_optional(h: &mut Sha256, v: Option<f64>) {
     if let Some(v) = v {
         h.update(v.to_le_bytes());
     }
+}
+
+#[cfg(feature = "desktop")]
+impl<'de> serde::Deserialize<'de> for FieldComparison {
+    fn deserialize<D: serde::Deserializer<'de>>(deserializer: D) -> Result<Self, D::Error> {
+        #[derive(serde::Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct WireField {
+            metrics: Metrics,
+            units: String,
+            color_bounds: ColorBounds,
+            #[serde(deserialize_with = "deserialize_explicit_option")]
+            gauge: Option<GaugeReport>,
+        }
+        let field = WireField::deserialize(deserializer)?;
+        let units = match field.units.as_str() {
+            "1" => "1",
+            "Pa" => "Pa",
+            "m/s" => "m/s",
+            "1/s" => "1/s",
+            _ => {
+                return Err(serde::de::Error::custom(
+                    "unsupported native comparison units",
+                ));
+            }
+        };
+        Ok(Self {
+            metrics: field.metrics,
+            units,
+            color_bounds: field.color_bounds,
+            gauge: field.gauge,
+        })
+    }
+}
+
+#[cfg(feature = "desktop")]
+fn deserialize_explicit_option<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+    T: serde::Deserialize<'de>,
+{
+    serde::Deserialize::deserialize(deserializer)
 }
