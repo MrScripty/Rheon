@@ -177,3 +177,30 @@ There is no new dependency, numerical arithmetic or archive-schema change.
 The closure is still exactly 92 paths; current run-set and two PID-test source
 digests are refreshed explicitly. Source review admits a fresh clean isolated-
 target qualification attempt, not any previous receipt or full generic acceptance.
+
+
+### M3 native comparison composition admission
+
+Independent GPT-6.1 Sol High source review admits the integrated native analysis
+and saved comparison owners to attempt fresh qualification. The closure is 94
+paths: adds src/recording/comparison.rs and src/bin/desktop/comparison_archive.rs;
+none removed. Refresh src/recording.rs and src/bin/rheon-desktop.rs registrations
+and retain the final M2 and nonvacuous M1 liveness source bindings. Historical v1/v2
+inventories, conservative selector, numerical gates and qualifier are unchanged.
+
+Native analysis uses exact publication identities, physical-time/stage alignment,
+bit-identical geometry, explicit units/gauge and unavailable/unmatched coverage.
+Its public sample wrapper now rejects derived nonfinite divergence as
+ArithmeticRange; a finite-face/extreme-spacing regression covers this review fix.
+A separate stdlib native-bit/SQLite oracle rejects wrong identities and metrics
+normally and under Python optimization without relying on assert statements.
+
+Saved recipes embed exact M2 revision and selected-publication identities. Cold
+results remain Unverified until exact pinned archives are reopened and all
+coverage/metrics recomputed. Bounded codec/publication helpers preserve schema,
+duplicate-key, selection/work limits and no-overwrite/uncertain publication.
+No numerical loop, model execution, accepted schema or dependency was added.
+Actual tests use the public analysis API, not a copied private module. Source
+review has no remaining material finding. Native comparison-page interaction,
+measured trained runtime, accepted-provider and diagnostic-mode acceptance remain
+separate gates; this admission grants no stale receipt or milestone acceptance.

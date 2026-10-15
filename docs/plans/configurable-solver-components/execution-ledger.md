@@ -257,3 +257,22 @@ Draft source remains proposal evidence, not implementation admission.
   1 intentionally ignored model-runtime test, 0 failures (30.67 s). All-target
   desktop Clippy with warnings denied passed. No timeout or test was weakened.
   This evidence is pinned to d8b0eb1, not a trained bundle or a new source tree.
+
+
+## 2026-10-15 — native M3 analysis and immutable comparison evidence
+
+- Selected companion numerical analysis and saved recipe/result ownership into
+  the serial M3 branch. Public recording::comparison is the actual app/test API;
+  the desktop aliases it and registers its saved-comparison owner. No unrelated
+  renderer ancestry, second numerical worker or accepted-schema change.
+- Independent source review found public derived-divergence overflow; fixed with
+  explicit ArithmeticRange and finite-face/extreme-spacing regression. Review
+  confirms no remaining material source finding. Independent SQLite/native-bit
+  oracle now fails closed normally and under -O/PYTHONOPTIMIZE for wrong identity
+  and metric; no production numerical bounds/formulas were weakened.
+- Unique-target validation passed 16 numerical +12 saved-comparison contracts and
+  scoped desktop Clippy/formatting. Native desktop comparison-page interaction is
+  still pending the companion new-file handoff; no GUI acceptance is inferred.
+- Explicit final M3 source admission includes all 94 selected paths, preserving
+  both historical inventories and current conservative selector. A fresh clean
+  qualification starts after this commit; earlier receipts are not transferred.
