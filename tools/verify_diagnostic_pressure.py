@@ -27,6 +27,17 @@ def number(raw):
     return struct.unpack('<d', raw)[0]
 
 
+def l2_norm(values):
+    """Scaled fsum is independent of streaming hypot and preserves finite range."""
+    require(all(math.isfinite(value) for value in values), 'finite norm input')
+    scale = max(map(abs, values), default=0.0)
+    if scale == 0.0:
+        return 0.0
+    norm = scale * math.sqrt(math.fsum((value / scale) ** 2 for value in values))
+    require(math.isfinite(norm), 'representable norm')
+    return norm
+
+
 def verify(path):
     summary = json.loads(path.read_bytes())
     require(summary['schema'] == 'rheon-diagnostic-pressure-comparison-v1' and summary['analysis_version'] == 1, 'analysis schema')
@@ -54,8 +65,8 @@ def verify(path):
     require(len(x) == len(y) == n and n > 0 and all(math.isfinite(v) for v in x + y), 'finite native support')
     require(x[0] == y[0] == 0.0, 'canonical pressure gauge')
     delta = [b - a for a, b in zip(x, y, strict=True)]
-    error = math.sqrt(math.fsum(v * v for v in delta))
-    norm = math.sqrt(math.fsum(v * v for v in x))
+    error = l2_norm(delta)
+    norm = l2_norm(x)
     expected = dict(support_count=n, l2=error, rmse=error / math.sqrt(n), linf=max(map(abs, delta)), relative_l2=None if norm == 0 else error / norm)
     comparison = summary['comparison']
     require(summary['unavailable'] is None and comparison['units'] == 'Pa', 'pressure units/availability')

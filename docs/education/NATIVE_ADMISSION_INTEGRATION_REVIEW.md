@@ -381,3 +381,62 @@ review approved this additive mod/diagnostic_view correction; both affected UI
 contracts and strict binary Clippy passed. Rebind those two selected source hashes
 as well (still 103 paths) before final clean qualification. No solver, context,
 archive, matching-stamp execution or historical-read behavior changes.
+
+
+### Diagnostic custody, chronology and oracle composition, 2026-10-15
+
+The lead selected only PR96 d58044a and PR97 68b8bd1's five allocated files onto
+frozen PR95 34f3d1d. Independent GPT-6.1 Sol review approved the scaled-fsum oracle
+and saved-intent-before-mutable-preflight ordering. A remaining app-only chronology
+gap was found and corrected before admission: the generic recorder deliberately
+allows broader seeds, whereas this app begins at its actual zero-origin native
+prefix. The app now requires no seed at prefix zero, and otherwise native-qualified
+diagnostic origin/status, exact prefix generation and repeated-DT end time.
+The produced horizon and full-prefix checks apply before Ready/Unpinned/Incomplete
+classification. Genuine within-horizon capacity tails remain permitted.
+
+The independent reviewer approved the completed guard and public-recorder
+regression: generic verification succeeds first, then the app rejects shifted
+generation, one-ULP time, zero-prefix-with-seed and AcceptedNative-origin sources
+across Failed, Cancelled and genuinely appended incomplete archives, without
+observations or pins. Existing valid history and capacity-tail coverage is retained.
+Reviewed final SHA256:
+
+- diagnostic_runs.rs: 7038fff60a8dc88a64236aa12e88c2d4ce856cf93cc4261adf29743644663bf5
+- diagnostic_worker.rs: a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b
+- diagnostic_worker_tests.rs: fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8
+- tools/verify_diagnostic_pressure.py: afa9845b1513a4119777f9564e5020e8503e0eabaed897aead8e2a11e9f5a299
+- tests/diagnostic_pressure_oracle_contract.rs: b492194a384779fd15ba967bac93a5068d1635d5ff5b443d13a31252716134d7
+
+Only the first three files belong to the unchanged conservative native selector;
+the complete closure remains 103 paths. The oracle and automatically discovered
+Cargo contract are reviewed explicitly above, not added to or hidden by a changed
+selector. The qualification path, numerical gates, generic archive/schema, accepted
+Session/provider semantics and source companion branches remain unchanged. This
+admits fresh composed qualification; it transfers no earlier receipt or model gate.
+
+
+### Cached inspector and synchronized projection composition
+
+PR98 249b66b contributes only diagnostic_view.rs and mod.rs. Independent GPT-6.1
+Sol read-only review found no material source issue in its composition with529a9e22.
+The display cache retains a strong Arc to the exact immutable attempt, builds the
+request comparison only on replacement, and draws retained metric/range values
+without full-volume digest/reduction or archive I/O. Visible slice drawing still
+visits the plane's cells. New/absent publications, failed loads and changed owner/
+grid clear the appropriate state. Live diagnostic controls have independent
+ownership from the legacy frame controls. The selected probe's X/Y remap onto the
+current Z before both panes and physical readout. Actual native reference gate/
+history labels remain distinct from candidate gate observations. Explicit export
+and rerun reopen and verify source custody independently of the projection cache.
+
+Reviewed exact SHA256:
+
+- diagnostic_view.rs: 1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2
+- mod.rs: f419a639e07f30da0e039897a2496584d083fcb347c40d370e0e1168c7cfdfb2
+
+The complete selector remains103 paths, with these two reviewed pins rebound in
+addition to the three custody pins above. No numerical/schema/provider/accepted
+archive semantics, source selectors or qualification gates change. Earlier529a
+receipts remain pinned to that earlier subject; the final seven-file proposal
+composition requires fresh clean qualification and current native-window evidence.

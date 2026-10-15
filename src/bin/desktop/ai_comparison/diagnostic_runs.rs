@@ -9,8 +9,10 @@ use crate::run_sets::{
     ArchiveBudget, archive_path, file_digest, publish_new, read_versioned, relative_path,
 };
 use rheon::recording::diagnostic::{
-    BindingIdentity, DiagnosticReader, DiagnosticRun, PredictionOutcome, TerminalOutcome,
+    BindingIdentity, DiagnosticReader, DiagnosticRun, PredictionOutcome, SeedOrigin,
+    TerminalOutcome,
 };
+use rheon::solver_provider::context::PressureHistoryStatus;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::path::Path;
@@ -194,6 +196,22 @@ impl FrozenDiagnosticSpec {
             || run.provenance != self.provenance()?
         {
             return Err("Diagnostic archive differs from captured intent".into());
+        }
+        // This application's archive starts at the actual native warmup prefix.
+        // Generic diagnostic archives may deliberately use other observed seeds.
+        let prefix_end = (0..run.native_prefix_steps).fold(0.0, |time, _| time + DT);
+        let seed_matches = match (&run.seed, run.seed_origin) {
+            (None, None) => run.native_prefix_steps == 0,
+            (Some(seed), Some(SeedOrigin::QualifiedNativeDiagnostic)) => {
+                run.native_prefix_steps > 0
+                    && seed.generation == run.native_prefix_steps as u64
+                    && seed.interval_end.to_bits() == prefix_end.to_bits()
+                    && seed.status == PressureHistoryStatus::Diagnostic { qualified: true }
+            }
+            _ => false,
+        };
+        if !seed_matches {
+            return Err("Diagnostic native seed differs from captured prefix".into());
         }
         Ok(())
     }
@@ -425,6 +443,13 @@ impl DiagnosticRunSet {
             }
             let count = reader.count().map_err(|e| e.to_string())?;
             let status = reader.status().map_err(|e| e.to_string())?;
+            let produced = status.as_ref().map_or(count, |s| s.produced_attempts);
+            if produced > m.spec.scene.steps - m.spec.scene.warmup_steps {
+                return Err("Diagnostic produced request horizon exceeds intent".into());
+            }
+            if produced > 0 && reader.run().native_prefix_steps != m.spec.scene.warmup_steps {
+                return Err("Diagnostic attempts require completed native prefix".into());
+            }
             if let Some(pin) = &m.finalized {
                 let status = status.ok_or("Pinned diagnostic archive is incomplete")?;
                 if count != pin.recorded_count || status.outcome != pin.terminal.recording() {

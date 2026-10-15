@@ -97,6 +97,18 @@ per request payload, additionally constrained by the existing Scene history
 budget. SQLite's metadata/page overhead remains part of the database limit.
 The actual native prefix is recorded even if cancellation occurs before the
 requested prefix completes; a zero-attempt archive is meaningful.
+Saved reruns publish the exact frozen intent and parent link before checking
+mutable runtime package contents or support. Missing, changed or unsupported
+packages retain a Failed finished observation with no invented archive, provider
+or inference. Executor-stamp mismatches still refuse before output creation.
+
+Cold app run-set verification binds every archive, including unpinned and
+incomplete sources, to the frozen requested horizon. Any produced attempt requires
+a completed native prefix. A nonzero prefix must have qualified native diagnostic
+seed history at that exact generation and repeated-DT end time; prefix zero has
+no seed. Generic diagnostic archives retain their broader observed-seed contract.
+An honest within-horizon produced-but-unrecorded capacity tail remains valid.
+
 
 ## Cold inspection and synchronized quantitative pressure
 
@@ -105,6 +117,15 @@ and explicitly **Open / verify**, then **Load attempt**. Reading imports no mode
 code. The inspector caches one selected attempt; namespace/member/load failures
 clear old fields. The live attempt inspector is separate from the advanced frame
 timeline. A fresh saved rerun replaces its owner before repainting any snapshots.
+Cold and live displays cache comparison/range reductions by exact strongly retained
+immutable attempt identity; retained painting does no full-volume reduction,
+request digest or archive I/O. Visible slice drawing still visits its cells.
+Replacement, absence, failed loading and changed owner/grid invalidate that cache.
+Diagnostic controls are separate from legacy frame controls. Changing Z preserves
+the probe's X/Y on the displayed plane, and labels distinguish the native
+reference's actual gate/history from the candidate's observations. Export and rerun
+always revalidate source custody independently of the display cache.
+
 
 Two cell-pressure slices share Z index, physical probe, cell-zero gauge, units and
 common full-volume range. Candidate-minus-native uses its own signed delta range.
@@ -134,8 +155,9 @@ python3 tools/verify_diagnostic_pressure.py /absolute/run/diagnostic-comparison-
 python3 -O tools/verify_diagnostic_pressure.py /absolute/run/diagnostic-comparison-0-0.json
 ```
 
-The stdlib oracle derives norms with `math.fsum`, independently of the Rust
-streaming-hypot reduction. It checks source/selection/time/gauge/units/bounds and
+The stdlib oracle derives norms with a maximum-magnitude scaled `math.fsum`,
+independently of the Rust streaming-hypot reduction. Scaling avoids premature
+square underflow or overflow when the finite L2 norm is representable. It checks source/selection/time/gauge/units/bounds and
 rejects deliberately changed metrics even under Python optimization. It is a
 reduction/custody check, not a replacement for `DiagnosticReader::verify`, model
 accuracy or a hostile-author authenticity proof.

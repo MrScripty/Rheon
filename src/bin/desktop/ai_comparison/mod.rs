@@ -45,6 +45,10 @@ pub struct ComparisonApp {
     active_policy: engine::ExecutionPolicy,
     inspector: diagnostic_view::Inspector,
     show_attempt: bool,
+    live_attempt: diagnostic_view::AttemptCache,
+    attempt_cut: usize,
+    attempt_probe: Option<usize>,
+    attempt_difference: bool,
 }
 impl ComparisonApp {
     pub fn new(deployment: String, project_directory: PathBuf) -> Self {
@@ -73,6 +77,10 @@ impl ComparisonApp {
             active_policy: Default::default(),
             inspector: Default::default(),
             show_attempt: false,
+            live_attempt: Default::default(),
+            attempt_cut: 0,
+            attempt_probe: None,
+            attempt_difference: true,
         }
     }
     fn check_package(&mut self) {
@@ -125,6 +133,8 @@ impl ComparisonApp {
                 self.selected = 0;
                 self.cut = self.cut.min(self.scene.counts[2] - 1);
                 self.probe = None;
+                self.live_attempt
+                    .update(None, &mut self.attempt_cut, &mut self.attempt_probe);
                 self.follow = true;
                 self.playing = false;
                 self.status = "Starting native warm-up, then independent tracks".into();
@@ -224,6 +234,8 @@ impl ComparisonApp {
                     self.active_policy = spec.policy;
                     self.selected = 0;
                     self.probe = None;
+                    self.live_attempt
+                        .update(None, &mut self.attempt_cut, &mut self.attempt_probe);
                     self.follow = true;
                     self.playing = false;
                     self.cut = self.cut.min(self.active_scene.counts[2] - 1);
@@ -238,19 +250,28 @@ impl ComparisonApp {
                 }
             }
         }
+        self.live_attempt.update(
+            if self.show_attempt {
+                latest_attempt
+            } else {
+                None
+            },
+            &mut self.attempt_cut,
+            &mut self.attempt_probe,
+        );
         if self.show_attempt {
             egui::Window::new("Latest live diagnostic request")
                 .open(&mut self.show_attempt)
                 .vscroll(true)
                 .default_size([1050.0, 700.0])
                 .show(ctx, |ui| {
-                    if let Some(attempt) = &latest_attempt {
+                    if let Some(projection) = self.live_attempt.get() {
                         diagnostic_view::attempt_ui(
                             ui,
-                            attempt,
-                            &mut self.cut,
-                            &mut self.probe,
-                            &mut self.difference,
+                            projection,
+                            &mut self.attempt_cut,
+                            &mut self.attempt_probe,
+                            &mut self.attempt_difference,
                         );
                     } else {
                         ui.label("No typed request recorded yet");
@@ -402,6 +423,81 @@ mod saved_rerun_tests {
         }
         worker.join_finished();
         worker
+    }
+    #[test]
+    fn live_attempt_cache_reuses_published_arc_and_clears_on_absence_or_new_worker() {
+        let package = cpu_contract_tests::Fixture::new(false);
+        let first = worker(&package, [5; 3]);
+        let snapshot = first.shared.lock().unwrap().last_attempt.clone().unwrap();
+        let shared = Arc::clone(&first.shared);
+        let mut app = ComparisonApp::new(
+            package.manifest.to_string_lossy().into_owned(),
+            package.root.join("live-cache"),
+        );
+        app.worker = Some(first);
+        app.active_scene = scene::Scene {
+            counts: [5; 3],
+            steps: 3,
+            warmup_steps: 1,
+            ..Default::default()
+        };
+        app.active_policy = ExecutionPolicy::TeacherStage;
+        app.show_attempt = true;
+        let context = egui::Context::default();
+        let paint = |app: &mut ComparisonApp| {
+            let _ = context.run(
+                RawInput {
+                    screen_rect: Some(Rect::from_min_size(Pos2::ZERO, Vec2::new(1500.0, 1400.0))),
+                    ..Default::default()
+                },
+                |ctx| {
+                    assert!(app.show(ctx));
+                },
+            );
+        };
+        paint(&mut app);
+        assert!(app.live_attempt.get().unwrap().is_for(&snapshot));
+        app.attempt_cut = 2;
+        app.attempt_probe = Some(3);
+        app.cut = 4;
+        app.probe = Some(7);
+        for _ in 0..3 {
+            paint(&mut app);
+        }
+        assert_eq!(app.live_attempt.constructions(), 1);
+        assert_eq!(app.attempt_probe, Some(53));
+        assert_eq!(
+            (app.cut, app.probe),
+            (4, Some(7)),
+            "live diagnostic probe has independent owner from legacy frames"
+        );
+        shared.lock().unwrap().last_attempt = None;
+        paint(&mut app);
+        assert!(app.live_attempt.get().is_none());
+        assert!(app.attempt_probe.is_none());
+        shared.lock().unwrap().last_attempt = Some(Arc::clone(&snapshot));
+        paint(&mut app);
+        assert_eq!(app.live_attempt.constructions(), 2);
+        let second = worker(&package, [5; 3]);
+        let other = second.shared.lock().unwrap().last_attempt.clone().unwrap();
+        assert_eq!(snapshot.attempt_index, other.attempt_index);
+        assert_ne!(snapshot.request.run_id(), other.request.run_id());
+        app.attempt_cut = 3;
+        app.attempt_probe = Some(78);
+        app.worker = Some(second);
+        paint(&mut app);
+        assert!(app.live_attempt.get().unwrap().is_for(&other));
+        assert_eq!(app.live_attempt.constructions(), 3);
+        assert_eq!((app.attempt_cut, app.attempt_probe), (0, None));
+        app.show_attempt = false;
+        paint(&mut app);
+        assert!(app.live_attempt.get().is_none());
+        app.show_attempt = true;
+        paint(&mut app);
+        assert_eq!(app.live_attempt.constructions(), 4);
+        app.worker = None;
+        paint(&mut app);
+        assert!(app.live_attempt.get().is_none());
     }
     #[test]
     fn actual_saved_rerun_button_never_renders_old_arrays_with_new_grid() {

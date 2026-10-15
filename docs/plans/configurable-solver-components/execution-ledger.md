@@ -500,3 +500,93 @@ to its actual source and is not relabelled for this correction.
   Fresh qualification and packet are /tmp/rheon-runtime-provenance-final-qualified
   and /tmp/rheon-runtime-provenance-final-packet. This follow-through changes
   documentation only; hosted checks must qualify the pushed head independently.
+
+
+## 2026-10-15 — independent custody/oracle challenge and composed review
+
+- PR94 merged at bbea4b2ef06096f005e654d69f19c2c25a8cc0d3 after all 18 applicable
+  exact-head checks and all ten workflows passed. PR95 remains frozen at34f3d1d,
+  retargeted to main with the identical proposed merge tree; its numerical,
+  recording, process and desktop checks pass while publication CI is monitored.
+- Selected only PR96 d58044a's oracle/test and PR97 68b8bd1's three existing
+  diagnostic-owner files into a separate follow-up. Independent review approved
+  scaled-fsum range handling and preservation of frozen intent/parent before
+  mutable runtime package checks, without fabricating an archive or inference.
+- Review identified a further app chronology gap: generic valid seed generation,
+  time and origin could contradict the actual zero-origin native prefix. The lead
+  added app-only exact seed/prefix/clock/origin/status verification. Independent
+  GPT-6.1 Sol source review approved final hashes in the admission review. Public
+  recorder regressions first verify generic validity, then reject shifted
+  generation/time, zero-prefix seed and AcceptedNative origin across Failed,
+  Cancelled and genuinely appended incomplete sources without observations/pins.
+- Corrected isolated target validation passed 48 application tests, 22 recording
+  contracts and the pressure-oracle contract (12 positive and60 perturbed checks
+  across normal/-O/PYTHONOPTIMIZE=1). One actual measured-deployment test remains
+  explicitly ignored. The existing produced2/recorded1/capacity1 failure remains
+  valid. An initial cache-seeding run included local artifacts and is discarded;
+  the clean run excludes226 local artifacts and all Rheon fingerprints, uses a
+  unique target and recompiles the application. No receipt from that initial run
+  is used. Full fresh qualification and native validation follow the clean freeze.
+- Root-owned merged documentation and linked integration branches were retired
+  only after main ancestry, clean worktree and zero open dependencies were checked.
+  Qualified files/evidence remain available at detached exact commits. Active
+  source/companion branches and README90 remain untouched.
+
+
+## 2026-10-15 — cached inspector source composition
+
+- Source529a9e22/tree5bb1574bd5097b0426ff94d2b67cda6ce328d9a5 passed a clean
+  18-command qualification,26 real-packet tests normal/-O with zero skips and both
+  native binary builds. Its receipts are retained as evidence for that source.
+- PR98 249b66b then supplied two allocated consumer files. Independent read-only
+  GPT-6.1 Sol review approved exact hashes for strong-Arc projection caching,
+  explicit invalidation, separate live controls, Z/probe remapping, actual native
+  gate/history labeling and source-revalidated export/rerun. No material finding.
+- Rebind these additional two source pins within the unchanged103-path closure,
+  then freshly qualify the full seven-file proposal composition plus app-only
+  seed correction. The added consumer tests challenge exact identity, equal request/
+  index replacements, changed owner/grid, absence, missing source, corrupted cache
+  versus independently reopened export and actual producer-backed slider behavior.
+  This remains fixture/contract evidence; measured A1 and accepted composition A2
+  are separate gates. All source companions and README90 remain intact.
+
+
+## 2026-10-15 — final composed diagnostic validation
+
+- Clean source7f393815e23238ee6e07fe509cd993f6a40ba3fe,
+  tree9acd04b4ecfa6e7c87f37b07a3cab8d63a39bd8f, passed all18 fresh native/rational
+  commands and26 real-packet tests normally and under -O, with zero skips. All103
+  conservative source pins and the independent review binding match. The combined
+  source passed51 application tests,22 recording contracts and the oracle contract;
+  one actual measured-deployment test remains explicitly ignored. Strict affected
+  Clippy, formatting and both native builds passed. Native binaries declare the
+  exact7f393815 revision; prior tests declared the recorded preceding build stamp.
+- Actual native eframe/software-X11 initial teacher fixture completed15 native
+  prefix steps plus3 rejected predictions with18 native advances. The immediate
+  model child was observed present before terminal and absent afterwards. The
+  displayed native reference qualified while the candidate did not. Exported4096
+  cell metrics pass the independent SQLite oracle normal/-O/PYTHONOPTIMIZE1;
+  changed RMSE fails at its named metric in all modes.
+- Clicking an actual native pane selected[6,9,0]. Changing the real Z slider to11
+  retained X/Y and remapped both pane highlights/readout to[6,9,11]. Independent
+  SQLite/IEEE decoding matches both physical locations, candidate/native pressure,
+  RHS, initial residual and prior. This observes functional synchronization, not
+  a measured painting-latency or hardware claim.
+- Hiding only the owned fixture manifest and clicking frozen rerun retained the
+  exact spec/parent in intent and finished documents, Failed with zero produced/
+  recorded calls, no archive and no new child. Cold-opening this failure showed
+  Failed/zero observations and no cached fields. Original run files stayed exact;
+  the fixture manifest was restored byte-for-byte. GUI Close exited0. A fresh
+  native process then cold-opened the original pinned archive with the deployment
+  manifest absent and no new model child; its Close also exited0.
+- /tmp/rheon-validation-native/observation.json SHA256
+  622d2f3bae768269991f6e51a084f71e40d4b9222a3ef46cc342783f74a29139 binds the
+  source/binaries, native screenshots, exact saved artifacts, raw probes, oracles
+  and process observations. Fresh qualification/packet are in
+  /tmp/rheon-validation-composed-qualified and /tmp/rheon-validation-composed-packet.
+  Generated evidence remains outside Git. Final follow-through is documentation
+  only; applicable pushed-head hosted checks and serial merge gates remain required.
+- This closes the reviewed companion findings within their fixture/native scope.
+  It does not close absent measured A1, accepted learned-provider A2, unsupported
+  platforms or all generic milestone criteria. No training, replacement checkpoint,
+  user data change, README90 merge or unmerged source branch retirement occurred.
