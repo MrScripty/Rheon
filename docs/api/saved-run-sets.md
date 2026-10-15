@@ -23,6 +23,13 @@ and build strings remain caller-declared provenance. This binds intent; it does
 not authenticate a producer or independently prove its source schedule was applied.
 Recorded native fields and actual intervals remain the numerical observations.
 
+An existing native worker can instead use `FrozenSpec::capture_constructor` to
+freeze the actual Simulation's typed geometry, configuration and implementation
+before its first step. The caller supplies its explicit future dt, step count,
+source schedule and recording budget. A progressed or reset simulation is rejected;
+the helper neither owns the worker loop nor interprets Debug text or accepted
+state as a checkpoint.
+
 `RunSetRevision` embeds exact frozen member specs, baseline, an optional parent
 content identity and an ordered exact list of intentional differences. Editing
 membership or intent creates a fresh revision; there is no mutable latest alias.
@@ -140,3 +147,8 @@ actual App::poll and reopens its cancelled pinned prefix with the second member
 NotRun. The separate codec contracts include producer-process exit before a fresh
 reader. These are automated Linux CPU/headless UI claims; native window/other-OS,
 trained provider recording and full generic M2/M3 acceptance remain separate.
+The app-private bounded publication/versioned-read/path/digest helpers are reused
+by the saved-comparison document owner. Each caller supplies its own expected
+schema version and practical byte budget; these are not executable configuration
+or numerical archive versions. The native spec/run-set document budget remains
+1 MiB. Zero and maximum-u64 budgets are invalid before oversize-read arithmetic.

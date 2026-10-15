@@ -103,3 +103,60 @@ for provider recording, diagnostic schema, selected/fallback behavior and timing
 M3 comparison is a separate reviewed branch. Native GUI/model/lifecycle/other-OS
 and full A0–A8 acceptance are not claimed. Existing archives are not restart
 checkpoints and raw diagnostic JSON is untouched.
+
+## Continued acceptance preparation after first draft
+
+Parent directed continuation through the full M2–M3 assignment after initial
+contract publication; these drafts are not the terminal milestone outcome.
+Current lead source is diagnostic M1 draft PR87 at
+`33a083a1fdf63c169c9bf68c71009d495d505f64`. It is main-based and deliberately
+excludes unrelated training-viewer/voxel work from the older `0fbadbe` ancestry.
+Only selected owned new files should enter its serial integration. Preserve the
+original drafts and their exact source/review records; no ancestry-wide merge is
+performed by this worker.
+
+The next local acceptance delta exposes the existing private manifest I/O helpers
+at application crate scope for the real saved-comparison consumer. The caller
+supplies its expected schema version and practical byte budget; zero and
+`u64::MAX` budgets reject before oversize-detection arithmetic/I/O. Typed payload
+validation remains with each document owner. Path checks and streamed file
+identity reuse the same owner; this adds no numerical store or public Rust API.
+
+Four added tests use the existing numerical/recording owners:
+
+- A real numerical step reaches accepted generation 2 after recording capacity
+  admits only constructor and generation 1. The writer is poisoned, cannot claim
+  completion, and records failed terminal status with the unrecorded accepted
+  tail. A separately spawned cold reader observes that exact distinction;
+  missing ordinal/unknown field stays missing.
+- A closed pinned member's ordinal 1 stays bit-identical while a second real
+  native track advances. This is in-process interleaving, not a threaded GUI
+  interaction claim. The old run-set revision never acquires the later final pin.
+- Real SQLite `BEGIN IMMEDIATE` contention makes terminal publication fail busy.
+  The writer refuses retry, cold reopen stays active/incomplete, and pinning does
+  not overwrite/delete the archive. This proves the sampled lock failure, not
+  every possible uncertain commit outcome.
+
+Focused tests now pass 16/16 with warnings-denied Clippy. Independent GPT-6.1 Sol
+High review found no remaining material finding in this delta. Reviewed source
+SHA256 `1e73a290ae1b96a7bb295372bb276c2c992e17ca3295075321cfef73f428b692`;
+test SHA256 `d9c1e521256b5e8cbf3550726d7e882eb370069dae5667d0d9de628673b2d995`.
+Shared producer/UI and source-inventory integration are still serial lead writes
+pending its concrete allocation. Saved recipe/result implementation is continuing
+against these actual helpers and the reviewed native comparison source.
+
+### Existing-producer capture adapter
+
+`FrozenSpec::capture_constructor` reads the existing native owner's actual typed
+geometry, configuration and implementation before the first accepted step. Its
+caller supplies the future schedule and archive limits. It does not add a loop,
+parse Debug strings, or permit accepted-state restart. A seventeenth real-native
+test checks both implementations, exact frozen controls and rejection after a
+step. Independent GPT-6.1 Sol High review found no material finding, independently
+reran 17/17 tests, and confirmed reset generations are also refused. Focused
+Clippy passed. Reviewed source SHA256
+`1c83658b8fea93cde74f7b2e12c8709fa21b8610595b35591f6fffb8a424d78e`;
+test SHA256
+`0f38b3da20c6469023538284d34d1db32e8fa5e9a558a78fb75aa6580326b91f`.
+This makes the producer hook concrete; desktop composition is still pending its
+shared-path allocation and does not follow from this test.

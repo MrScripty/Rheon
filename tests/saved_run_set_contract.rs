@@ -664,3 +664,310 @@ fn concurrent_manifest_publication_has_one_winner_and_no_overwrite() {
     assert!(saved == first || saved == second);
     std::fs::remove_dir_all(root).unwrap();
 }
+
+fn fresh_native_writer(root: &Path, m: &RunSetMember) -> (rheon::Simulation, StepRecorder) {
+    let a = m.attempt.as_ref().unwrap();
+    let simulation = m.spec.spec.create_simulation().unwrap();
+    let run = bound_native_run(
+        &m.spec,
+        &simulation,
+        SessionIdentity {
+            run_id: a.expected_run_id,
+            source_revision: a.expected_source_revision.clone(),
+        },
+        "real native acceptance host",
+    )
+    .unwrap();
+    let limits = m.spec.spec.recording.limits();
+    let mut writer =
+        StepRecorder::create(&root.join(&a.archive_relative_path), run, limits).unwrap();
+    writer
+        .append(&carrier_publication(&simulation, 0, limits.max_record_bytes).unwrap())
+        .unwrap();
+    (simulation, writer)
+}
+
+#[test]
+fn accepted_native_capacity_failure_cold_reopens_honest_unrecorded_tail() {
+    let root = directory();
+    let mut m = member(NativePressureMethod::JacobiPcgV1);
+    m.spec.spec.recording.max_records = 2;
+    m.spec = FrozenSpec::new(m.spec.spec).unwrap();
+    let (mut simulation, mut writer) = fresh_native_writer(&root, &m);
+    let s = &m.spec.spec;
+    for interval in 0..2 {
+        simulation
+            .step(s.requested_dt_s, s.source_at(interval), |_| false)
+            .unwrap();
+        let publication =
+            carrier_publication(&simulation, interval + 1, s.recording.max_record_bytes).unwrap();
+        let result = writer.append(&publication);
+        if interval == 0 {
+            result.unwrap();
+        } else {
+            assert!(matches!(result, Err(RecordingError::Limit("record count"))));
+            assert_eq!(
+                simulation.state().generation,
+                2,
+                "recording cannot roll physics back"
+            );
+            assert!(matches!(
+                writer.append(&publication),
+                Err(RecordingError::Closed)
+            ));
+        }
+    }
+    assert!(matches!(
+        writer.finish(
+            "completed",
+            "cannot conceal accepted unrecorded tail",
+            Some(2)
+        ),
+        Err(RecordingError::Invalid(
+            "completion must cover accepted tail"
+        ))
+    ));
+    writer
+        .finish(
+            "failed",
+            "accepted generation2 is unrecorded after capacity",
+            Some(2),
+        )
+        .unwrap();
+    drop(writer);
+    drop(simulation);
+    m.attempt
+        .as_mut()
+        .unwrap()
+        .pin_closed(&root, &m.spec)
+        .unwrap();
+    let revision = RunSetRevision {
+        schema_version: 1,
+        set_id: "capacity-unrecorded-tail".into(),
+        parent_sha256: None,
+        baseline_member: m.member_id.clone(),
+        members: vec![m],
+    };
+    revision.save_new(&root.join("failed-set.json")).unwrap();
+    let reader = Command::new(std::env::current_exe().unwrap())
+        .args(["--exact", "failed_tail_reader_child", "--nocapture"])
+        .env("RHEON_FAILED_TAIL_READER", &root)
+        .output()
+        .unwrap();
+    assert!(
+        reader.status.success(),
+        "{}\n{}",
+        String::from_utf8_lossy(&reader.stdout),
+        String::from_utf8_lossy(&reader.stderr)
+    );
+    assert!(
+        String::from_utf8_lossy(&reader.stdout)
+            .contains("accepted unrecorded native tail retained")
+    );
+    std::fs::remove_dir_all(root).unwrap();
+}
+#[test]
+fn failed_tail_reader_child() {
+    let Some(root) = std::env::var_os("RHEON_FAILED_TAIL_READER") else {
+        return;
+    };
+    let root = PathBuf::from(root);
+    let revision = RunSetRevision::open(&root.join("failed-set.json")).unwrap();
+    let reader = ready(&root, &revision.members[0]);
+    assert_eq!(reader.status().unwrap().outcome, "failed");
+    assert_eq!(reader.status().unwrap().accepted_generation, Some(2));
+    assert_eq!(reader.count().unwrap(), 2);
+    let selected = reader.select(1).unwrap();
+    assert_eq!(selected.generation, 1);
+    RecordedCarrier::decode(reader.run(), &selected).unwrap();
+    assert!(
+        selected.field("temperature").is_none(),
+        "unknown fields cannot become zeros"
+    );
+    assert!(matches!(reader.select(2), Err(RecordingError::Missing(2))));
+    println!("accepted unrecorded native tail retained");
+}
+#[test]
+fn cold_selected_member_is_stable_while_another_native_track_advances() {
+    let root = directory();
+    let mut first = member(NativePressureMethod::JacobiPcgV1);
+    produce(&root, &first, true);
+    first
+        .attempt
+        .as_mut()
+        .unwrap()
+        .pin_closed(&root, &first.spec)
+        .unwrap();
+    let first_reader = ready(&root, &first);
+    let selected = first_reader.select(1).unwrap();
+    let mut second = member(NativePressureMethod::SymmetricGaussSeidelPcgV1);
+    let (mut simulation, mut writer) = fresh_native_writer(&root, &second);
+    let original = RunSetRevision {
+        schema_version: 1,
+        set_id: "independent-native-tracks".into(),
+        parent_sha256: None,
+        baseline_member: first.member_id.clone(),
+        members: vec![first.clone(), second.clone()],
+    };
+    original.save_new(&root.join("set-active.json")).unwrap();
+    for interval in 0..second.spec.spec.requested_steps {
+        let s = &second.spec.spec;
+        simulation
+            .step(s.requested_dt_s, s.source_at(interval), |_| false)
+            .unwrap();
+        writer
+            .append(
+                &carrier_publication(&simulation, interval + 1, s.recording.max_record_bytes)
+                    .unwrap(),
+            )
+            .unwrap();
+        let stable = first_reader.select(1).unwrap();
+        assert_eq!(stable.generation, selected.generation);
+        assert_eq!(stable.time.to_bits(), selected.time.to_bits());
+        assert_eq!(stable.fields, selected.fields);
+        let reopened = RunSetRevision::open(&root.join("set-active.json")).unwrap();
+        match open_member(&root, &reopened.members[1]) {
+            MemberState::Incomplete {
+                recorded_count,
+                status,
+            } => {
+                assert_eq!(recorded_count, interval + 2);
+                assert_eq!(status.outcome, "active");
+            }
+            _ => panic!("advancing native track silently became a completed selection"),
+        }
+    }
+    writer
+        .finish("completed", "three native intervals", Some(3))
+        .unwrap();
+    drop(writer);
+    drop(simulation);
+    second
+        .attempt
+        .as_mut()
+        .unwrap()
+        .pin_closed(&root, &second.spec)
+        .unwrap();
+    let mut closed = original.clone();
+    closed.parent_sha256 = Some(original.sha256().unwrap());
+    closed.members[1] = second;
+    closed.save_new(&root.join("set-closed.json")).unwrap();
+    let old = RunSetRevision::open(&root.join("set-active.json")).unwrap();
+    assert!(
+        matches!(
+            open_member(&root, &old.members[1]),
+            MemberState::Unpinned { .. }
+        ),
+        "old revision cannot acquire a new final artifact binding"
+    );
+    let completed = RunSetRevision::open(&root.join("set-closed.json")).unwrap();
+    assert_eq!(
+        ready(&root, &completed.members[1])
+            .select(1)
+            .unwrap()
+            .generation,
+        1
+    );
+    assert_eq!(first_reader.select(1).unwrap().fields, selected.fields);
+    drop(first_reader);
+    std::fs::remove_dir_all(root).unwrap();
+}
+#[test]
+fn real_native_terminal_busy_stays_incomplete_without_overwrite_recovery() {
+    let root = directory();
+    let mut m = member(NativePressureMethod::JacobiPcgV1);
+    let (mut simulation, mut writer) = fresh_native_writer(&root, &m);
+    simulation
+        .step(m.spec.spec.requested_dt_s, m.spec.spec.source_at(0), |_| {
+            false
+        })
+        .unwrap();
+    writer
+        .append(
+            &carrier_publication(&simulation, 1, m.spec.spec.recording.max_record_bytes).unwrap(),
+        )
+        .unwrap();
+    let path = root.join(&m.attempt.as_ref().unwrap().archive_relative_path);
+    let lock = rusqlite::Connection::open(&path).unwrap();
+    lock.execute_batch("BEGIN IMMEDIATE").unwrap();
+    assert!(
+        matches!(writer.finish("cancelled","real writer collision",Some(1)),Err(RecordingError::Sqlite(error)) if error.sqlite_error_code()==Some(rusqlite::ErrorCode::DatabaseBusy))
+    );
+    lock.execute_batch("ROLLBACK").unwrap();
+    drop(lock);
+    assert!(matches!(
+        writer.finish("cancelled", "cannot retry uncertain terminal", Some(1)),
+        Err(RecordingError::Closed)
+    ));
+    drop(writer);
+    drop(simulation);
+    let exact = std::fs::read(&path).unwrap();
+    match open_member(&root, &m) {
+        MemberState::Incomplete {
+            recorded_count,
+            status,
+        } => {
+            assert_eq!(recorded_count, 2);
+            assert_eq!(status.outcome, "active");
+        }
+        _ => panic!("failed terminal status inferred completion from valid tail"),
+    }
+    assert!(matches!(
+        m.attempt.as_mut().unwrap().pin_closed(&root, &m.spec),
+        Err(RunSetError::Invalid("archive is not terminal"))
+    ));
+    assert_eq!(
+        std::fs::read(&path).unwrap(),
+        exact,
+        "reconciliation cannot overwrite or delete native evidence"
+    );
+    std::fs::remove_dir_all(root).unwrap();
+}
+
+#[test]
+fn capture_actual_constructor_feeds_existing_native_producer_without_debug_configuration() {
+    for method in [
+        NativePressureMethod::JacobiPcgV1,
+        NativePressureMethod::SymmetricGaussSeidelPcgV1,
+    ] {
+        let expected = spec(method);
+        let mut simulation = expected.create_simulation().unwrap();
+        let captured = FrozenSpec::capture_constructor(
+            &simulation,
+            expected.requested_dt_s,
+            expected.requested_steps,
+            expected.source.clone(),
+            expected.recording.limits(),
+        )
+        .unwrap();
+        assert_eq!(captured.spec, expected);
+        let run = bound_native_run(
+            &captured,
+            &simulation,
+            SessionIdentity {
+                run_id: 9,
+                source_revision: "existing-native-owner".into(),
+            },
+            "captured actual constructor",
+        )
+        .unwrap();
+        assert_eq!(run.counts, expected.counts_xyz);
+        assert_eq!(
+            run.solver.rsplit('/').next(),
+            Some(method.implementation().id())
+        );
+        simulation
+            .step(expected.requested_dt_s, expected.source_at(0), |_| false)
+            .unwrap();
+        assert!(matches!(
+            FrozenSpec::capture_constructor(
+                &simulation,
+                expected.requested_dt_s,
+                expected.requested_steps,
+                expected.source.clone(),
+                expected.recording.limits()
+            ),
+            Err(RunSetError::Invalid("native intent requires constructor"))
+        ));
+    }
+}
