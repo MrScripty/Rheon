@@ -232,7 +232,10 @@ impl ComparisonApp {
                     ctx.request_repaint();
                     return true;
                 }
-                Err(e) => self.status = e,
+                Err(e) => {
+                    self.inspector.report_execution_failure(&e);
+                    self.status = e;
+                }
             }
         }
         if self.show_attempt {

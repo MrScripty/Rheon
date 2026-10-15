@@ -24,6 +24,9 @@ pub(super) struct Inspector {
     pub(super) rerun_rect: Option<egui::Rect>,
 }
 impl Inspector {
+    pub fn report_execution_failure(&mut self, error: &str) {
+        self.status = format!("Frozen rerun unavailable: {error}");
+    }
     #[cfg(test)]
     pub(super) fn load_for_test(&mut self) {
         self.open().unwrap();

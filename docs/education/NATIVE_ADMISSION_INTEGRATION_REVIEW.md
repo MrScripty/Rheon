@@ -373,3 +373,11 @@ and a matching stamp executes to completion. Focused test and strict binary Clip
 passed. Still 103 conservative paths; refresh these four pins and the review
 binding, then qualify the clean corrected tree. Earlier receipts remain evidence
 for their exact subjects, not this correction.
+
+The saved-rerun error consumer also retains execution failure in the inspector's
+status, so an existing finished worker's repaint cannot erase the mismatch
+explanation from App.status. Valid historical fields remain inspectable. Independent
+review approved this additive mod/diagnostic_view correction; both affected UI
+contracts and strict binary Clippy passed. Rebind those two selected source hashes
+as well (still 103 paths) before final clean qualification. No solver, context,
+archive, matching-stamp execution or historical-read behavior changes.
