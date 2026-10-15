@@ -121,3 +121,29 @@ clean-source native/rational execution, packet rejection tests normally/under -O
 and hosted checks on this exact source. Existing missing trained deployment and
 native window cannot be qualified by source admission. Future M2/M3 source wiring
 requires its own explicit reviewed inventory refresh and fresh receipt.
+
+## Saved native intent and desktop M2 admission, 2026-10-15
+
+Relative to the reviewed M1 90-path closure, this explicitly reviewed composition
+has 92 paths: added desktop/run_sets.rs and desktop/run_set_view.rs; changed desktop/
+inspector.rs and src/bin/rheon-desktop.rs; none removed. All paths are included by
+the unchanged conservative selector. The recording schema, numerical kernels,
+aligned-strain example, oracle and qualifier, root dependency identities and all
+other selected bytes remain unchanged. Historical v1/v2 digests remain preserved.
+
+Independent GPT-6.1 Sol High review admits this source to attempt qualification:
+new app modules own immutable intent/member custody and explicit cached cold views;
+Inspector only delegates a bound constructor run to existing StepRecorder. The
+existing worker remains the sole numerical loop, using the exact frozen dt/source
+schedule and recording accepted states before any fixed-dt unsupported return.
+Writer closure precedes file pinning. Successful publication alone updates the UI
+path receipt; cancellation/uncertainty retains exact honest member state. Reruns
+create fresh roots/run/attempt identities from captured intent, never resume fields
+or overwrite artifacts. Tests cover actual joined app success/cancellation,
+constructor-zero rerun bits, cold identity and immutable originals. Source review
+fixed terminal path handoff and fresh attempt identity before acceptance.
+
+This is the native slice only. Typed accepted provider/diagnostic storage, trained
+Torch, native window, Lean/book publication and broader generic milestone gates
+remain distinct. Final inventory/review digests are committed before fresh clean
+qualification, and evidence is recorded outside this fixed admission review.

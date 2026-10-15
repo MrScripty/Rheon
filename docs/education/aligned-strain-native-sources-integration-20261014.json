@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed configurable diagnostic pressure M1 source admission. Permission to attempt fresh clean committed qualification only; no model, native-window, numerical or production-provider acceptance.",
+  "scope": "Explicit independently reviewed native M2 saved intent/worker/cold inspection composition after M1. Admission to attempt fresh clean qualification only; no trained provider or generic milestone acceptance.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "f13bef807e990c26b465ae8d37039a15e127b08a32a7f4a04158cde982232784",
+  "review_sha256": "8d075db282e096d1ddc1cf85123ffd858d8dca0acef57a02fdabe49428db5b8b",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
@@ -33,13 +33,15 @@
     "src/bin/desktop/export_ui.rs": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d",
     "src/bin/desktop/history.rs": "4f90192c776c9205d8052843ec271ef58541b85d55afdcd51c3606eff4179189",
     "src/bin/desktop/identity.rs": "1d6a12aec9d03cb573453a589c5389ca21488633fdb2fb2d1785bd87e87ad182",
-    "src/bin/desktop/inspector.rs": "bb3d8d2b3f7f41ace50ce64a09ce7eb6b19e4fab28b7e438f3b48db5a5ff7646",
+    "src/bin/desktop/inspector.rs": "8cd508bcfc0c912164416b2e918121894d3a43a16d944e012019d6dda88969ce",
     "src/bin/desktop/particle_view.rs": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
+    "src/bin/desktop/run_set_view.rs": "e3afdad23aefb3f4c68245953aaee26ec7f67a977729114c87a2bc9337167da8",
+    "src/bin/desktop/run_sets.rs": "69310b651e690214403185d90332b7b9e0c38086b19ae4c12680cf2eab780f25",
     "src/bin/desktop/settings.rs": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
     "src/bin/desktop/transport_view.rs": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
     "src/bin/desktop/viewport.rs": "ff654a1032531d8f5dd756787214ef8d395e6b742278f814c2811f5808d9bb6d",
     "src/bin/rheon-ai-compare.rs": "e0bbf0359d4584b75af7126913e12185badb4abce18b979238a8bcd10676b413",
-    "src/bin/rheon-desktop.rs": "b1901665a4bb947f2b987e78bc98bc773cb2d34fa5bc63a89fe16457e7db096f",
+    "src/bin/rheon-desktop.rs": "8f0f9a3d900e292d4121a44fef4c8b6268e14079ce550e1455454454674b15b6",
     "src/bin/rheon.rs": "93f662452c3d9208bc130d17a4266f65981228f621566dade274a90b899a5547",
     "src/box_flux.rs": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
     "src/box_flux_step.rs": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",

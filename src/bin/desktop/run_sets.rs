@@ -614,11 +614,14 @@ fn validate_native_publications(
     for ordinal in 0..count {
         let step = reader.select(ordinal)?;
         RecordedCarrier::decode(reader.run(), &step)?;
+        if ordinal > 0 && step.dt.map(f64::to_bits) != Some(spec.requested_dt_s.to_bits()) {
+            return Err(RunSetError::Unsupported(
+                "actual dt differs from fixed native intent; inspect retained archive directly",
+            ));
+        }
         if step.generation != ordinal as u64
             || (ordinal == 0 && step.stage != SnapshotStage::Constructor)
-            || (ordinal > 0
-                && (step.stage != SnapshotStage::Accepted
-                    || step.dt.map(f64::to_bits) != Some(spec.requested_dt_s.to_bits())))
+            || (ordinal > 0 && step.stage != SnapshotStage::Accepted)
         {
             return Err(RunSetError::Integrity("native publication schedule"));
         }

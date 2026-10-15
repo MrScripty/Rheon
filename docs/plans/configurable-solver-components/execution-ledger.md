@@ -171,3 +171,25 @@ Draft source remains proposal evidence, not implementation admission.
   corresponding library Clippy checks with `-D warnings` passed. No model/window
   claim follows from ignored tests. GitHub M1 native-cpu, native/rational, cloud,
   VTK and executable checks are green; remaining hosted book/features are pending.
+
+## 2026-10-15 — native M2 serial composition
+
+- Isolated branch `implementation/configurable-native-m2-integration-20261015`
+  selects companion `755e2b4` → `372e013` onto M1, with no unrelated renderer work.
+  Registered native specs/sets and a cold manifest view; existing worker/Inspector/
+  recorder own execution and accepted capture. No numerical kernel/schema change.
+- Native controls freeze before execution. New immutable intent/start/finish/final
+  revisions preserve parent identities and acknowledged-path handoff. A legitimate
+  shortened dt is recorded then reported unsupported by fixed-intent v1, retaining
+  raw archive. No uncertain terminal result becomes a pin. Cold rerun uses captured
+  intent from zero with fresh set/run/attempt identities; no integrator restart.
+- Independent source review closed terminal path and attempt identity findings;
+  current delta has no unresolved material finding. Scoped real App::poll worker
+  test passed two variants, cold egui, captured-intent rerun/native bits/no overwrite
+  and cancellation after publication with a Ready cancelled prefix + NotRun member.
+  Existing saved contracts: 12 passed, including real producer process exit. Scoped
+  desktop/contract Clippy `-D warnings` and formatting passed. Fresh clean-source
+  native/rational and broader affected desktop checks remain pending.
+- Admission review explicitly selects all 92 current paths and preserves strict
+  gates/oracles/predecessors. This supports qualification attempts, not trained
+  model, accepted-provider A3, native-window or complete M2/M3 acceptance.
