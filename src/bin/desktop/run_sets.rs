@@ -266,10 +266,10 @@ impl FrozenSpec {
     }
     pub fn save_new(&self, path: &Path) -> Result<(), RunSetError> {
         self.validate()?;
-        publish_new(path, &serde_json::to_vec(self)?)
+        publish_new(path, &serde_json::to_vec(self)?, MAX_MANIFEST_BYTES)
     }
     pub fn open(path: &Path) -> Result<Self, RunSetError> {
-        let result: Self = read_versioned(path)?;
+        let result: Self = read_versioned(path, MANIFEST_VERSION, MAX_MANIFEST_BYTES)?;
         result.validate()?;
         Ok(result)
     }
@@ -476,10 +476,10 @@ impl RunSetRevision {
             sha256: digest(self)?,
             revision: self.clone(),
         };
-        publish_new(path, &serde_json::to_vec(&envelope)?)
+        publish_new(path, &serde_json::to_vec(&envelope)?, MAX_MANIFEST_BYTES)
     }
     pub fn open(path: &Path) -> Result<Self, RunSetError> {
-        let envelope: Manifest = read_versioned(path)?;
+        let envelope: Manifest = read_versioned(path, MANIFEST_VERSION, MAX_MANIFEST_BYTES)?;
         envelope.revision.validate()?;
         if envelope.sha256 != digest(&envelope.revision)? {
             return Err(RunSetError::Integrity("run-set digest"));
@@ -673,7 +673,7 @@ fn text(value: &str) -> Result<(), RunSetError> {
         Ok(())
     }
 }
-fn relative_path(value: &str) -> Result<(), RunSetError> {
+pub(crate) fn relative_path(value: &str) -> Result<(), RunSetError> {
     text(value)?;
     if value
         .split('/')
@@ -688,7 +688,7 @@ fn relative_path(value: &str) -> Result<(), RunSetError> {
     }
     Ok(())
 }
-fn archive_path(root: &Path, relative: &str) -> Result<std::path::PathBuf, RunSetError> {
+pub(crate) fn archive_path(root: &Path, relative: &str) -> Result<std::path::PathBuf, RunSetError> {
     relative_path(relative)?;
     let mut path = root.to_owned();
     for component in Path::new(relative).components() {
@@ -703,7 +703,10 @@ fn archive_path(root: &Path, relative: &str) -> Result<std::path::PathBuf, RunSe
 fn digest<T: Serialize>(value: &T) -> Result<[u8; 32], RunSetError> {
     Ok(Sha256::digest(serde_json::to_vec(value)?).into())
 }
-fn file_digest(path: &Path, max_bytes: u64) -> Result<[u8; 32], RunSetError> {
+pub(crate) fn file_digest(path: &Path, max_bytes: u64) -> Result<[u8; 32], RunSetError> {
+    if max_bytes == 0 || max_bytes == u64::MAX {
+        return Err(RunSetError::Invalid("document byte limit"));
+    }
     let metadata = fs::symlink_metadata(path)?;
     if !metadata.is_file() || metadata.file_type().is_symlink() {
         return Err(RunSetError::Invalid("regular file required"));
@@ -728,19 +731,26 @@ fn file_digest(path: &Path, max_bytes: u64) -> Result<[u8; 32], RunSetError> {
     }
     Ok(hash.finalize().into())
 }
-fn read_versioned<T: DeserializeOwned>(path: &Path) -> Result<T, RunSetError> {
+pub(crate) fn read_versioned<T: DeserializeOwned>(
+    path: &Path,
+    expected_version: u32,
+    max_bytes: u64,
+) -> Result<T, RunSetError> {
+    if max_bytes == 0 || max_bytes == u64::MAX {
+        return Err(RunSetError::Invalid("document byte limit"));
+    }
     let metadata = fs::symlink_metadata(path)?;
     if !metadata.is_file() || metadata.file_type().is_symlink() {
         return Err(RunSetError::Invalid("regular manifest required"));
     }
-    if metadata.len() > MAX_MANIFEST_BYTES {
+    if metadata.len() > max_bytes {
         return Err(RunSetError::Invalid("manifest byte limit"));
     }
     let mut bytes = Vec::new();
     File::open(path)?
-        .take(MAX_MANIFEST_BYTES + 1)
+        .take(max_bytes + 1)
         .read_to_end(&mut bytes)?;
-    if bytes.len() as u64 > MAX_MANIFEST_BYTES {
+    if bytes.len() as u64 > max_bytes {
         return Err(RunSetError::Invalid("manifest byte limit"));
     }
     #[derive(Deserialize)]
@@ -748,7 +758,7 @@ fn read_versioned<T: DeserializeOwned>(path: &Path) -> Result<T, RunSetError> {
         schema_version: u64,
     }
     let header: Header = serde_json::from_slice(&bytes)?;
-    if header.schema_version != u64::from(MANIFEST_VERSION) {
+    if header.schema_version != u64::from(expected_version) {
         return Err(RunSetError::Unsupported("manifest version"));
     }
     // Decode the original bytes so duplicate required keys are not erased by a
@@ -759,8 +769,11 @@ fn read_versioned<T: DeserializeOwned>(path: &Path) -> Result<T, RunSetError> {
 /// hard links and directory sync. Protect every path component from concurrent
 /// replacement throughout use. Existing data and abandoned temporary files are
 /// never overwritten as recovery. Interrupted staging is not authoritative.
-fn publish_new(path: &Path, bytes: &[u8]) -> Result<(), RunSetError> {
-    if bytes.len() as u64 > MAX_MANIFEST_BYTES {
+pub(crate) fn publish_new(path: &Path, bytes: &[u8], max_bytes: u64) -> Result<(), RunSetError> {
+    if max_bytes == 0 || max_bytes == u64::MAX {
+        return Err(RunSetError::Invalid("document byte limit"));
+    }
+    if bytes.len() as u64 > max_bytes {
         return Err(RunSetError::Invalid("manifest byte limit"));
     }
     let parent = path

@@ -140,3 +140,8 @@ actual App::poll and reopens its cancelled pinned prefix with the second member
 NotRun. The separate codec contracts include producer-process exit before a fresh
 reader. These are automated Linux CPU/headless UI claims; native window/other-OS,
 trained provider recording and full generic M2/M3 acceptance remain separate.
+The app-private bounded publication/versioned-read/path/digest helpers are reused
+by the saved-comparison document owner. Each caller supplies its own expected
+schema version and practical byte budget; these are not executable configuration
+or numerical archive versions. The native spec/run-set document budget remains
+1 MiB. Zero and maximum-u64 budgets are invalid before oversize-read arithmetic.
