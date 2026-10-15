@@ -190,3 +190,13 @@ Timing/cost samples, complete warmup request sequences and runtime tensor/port
 bytes are not captured by this schema. Their absence means unavailable evidence,
 not zero cost, zero warmup or an inferred execution count. Produced diagnostic
 attempt counts and the declared native-prefix count are separately explicit.
+
+
+Final serial-owner validation on f56a756: clean native/rational qualification and
+fresh packet26 tests in normal/-O modes (zero skips),17 diagnostic+15accepted
+recording+4carrier+20nativecomparison contracts, and scoped core Clippy all pass.
+The final reviewed source closes signed-zero domain, rejected-seed and impossible
+terminal-tail findings before admission. This remains a storage/API slice:
+Engine/ModelProcess/worker capture, explicit policy execution, saved diagnostic
+intent/membership and record-before-UI integration have not been implemented here.
+It cannot supply missing trained-runtime, linked-field or complete A6 evidence.

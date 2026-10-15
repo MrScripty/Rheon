@@ -332,3 +332,45 @@ Draft source remains proposal evidence, not implementation admission.
   Final-owner clean qualification and affected tests follow; partial storage does
   not close A6. Runtime attempt capture/policy/record-before-UI wiring, typed saved
   diagnostic intent, trained bundle and linked projection remain pending.
+
+- Final partial diagnostic owner f56a756662711413a4339357956443479425bfc3,
+  treef2d38604329906ed1133f152214ee1e80ac04476, passed clean18-command
+  native/rational qualification (`lean_checked=false`) plus fresh packet26 tests
+  normal/-O with0skips. Combined core tests passed17 diagnostic+15accepted+4carrier
+  +20nativecomparison=56; scoped core Clippy with warnings denied passed. Evidence:
+  /tmp/rheon-diagnostic-owner-qualified and /tmp/rheon-diagnostic-owner-packet.
+  Draft PR92 publishes partial storage, not teacher/stop runtime completion.
+- Corrected native M2 b24e246 passed clean qualification+packet26 normal/-O0skips,
+  full desktop63pass/1model-runtime ignored,17saved contracts and all-target
+  desktop Clippy. Real software-X11 cold rerun from retained producer source now
+  excludes ALL source IDs1/2; both tracks retain native bits/time and source files,
+  and Close exits0. Observation027b75ef3ef193083e3b16c27759865cc53167e2d8235ec9967358b804624689,
+  binary59b5c5e88c59c833c6016f2cdb6357f7bb846da7a106c4018337dee76c4d97b7.
+  Generated evidence stays in /tmp/rheon-m2-native-window-fixed; original failing
+  freshness observation remains separate. PR88 body binds exact results.
+- Native M3 b38c3fe passed clean18 commands+packet26 normal/-O0skips,20 numerical
+  contracts core-only in addition to the20desktop+9page+12archive focused matrix,
+  scoped Clippy and actual binary build. Integrated root-window flow opens exact
+  set→comparison, selects pressure ref1..2/candidate1 (1matched interval plus
+  1unmatched reference), shows actual times/intervals/Pa/gauge/common bounds,
+  exports without overwrite, reopens Unverified then verifies. Hiding an owned
+  test source shows Missing and clears stale metrics; exact bytes restored.
+  Window Close exits0. Actual exported512-sample metrics pass independent stdlib
+  SQLite/native-bit oracle normal/-O/PYTHONOPTIMIZE=1. Observation
+  36e06591f177ed7b72ef9afd0b00c0f8a76bdda999c7086362701740601af550;
+  result0febc3e9004856bab33c7abc946b5a19f3c79364d098ac382e0d1f256bf2d41d;
+  binarye1e5306288bccb32f1437c3caec2847712419deb130730a38596ba4e8968ffdc.
+  Generated material /tmp/rheon-m3-native-window; exact clean receipts
+  /tmp/rheon-m3-values-qualified and /tmp/rheon-m3-values-packet. Software display,
+  bounded native sources and artifact identities only; no trained/GPU/authenticity
+  or linked physical slice/probe claim. PR91 body retains exact evidence.
+- Documentation-only follow-through does not transfer a receipt to another tree.
+  Required hosted checks are still pending; no implementation PR is merged.
+  Preserve every active stack/companion branch. The measured live-water deployment
+  bundle/Torch is still unavailable, and the existing frozen trajectory-v2 CI
+  checkpoint is a distinct consumer. A1/model parity is blocked on that input.
+- Companion06ccf43 exact-value/page hooks are integrated. New linked view module,
+  tests and docs were allocated via PR89 comment6200315546, clarified in6200446821;
+  no new renderer file handoff has been published. Parent can resume the separate
+  companion thread01a140a3-ebca-7436-82cf-94fedc42b036 on that concrete allocation.
+  Existing shared worker/root/admission/merge ownership remains serial.

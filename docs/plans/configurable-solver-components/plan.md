@@ -2,9 +2,9 @@
 
 **Document status:** Active implementation plan. The user subsequently authorized M1–M3 implementation, separate draft PRs, validated ready merges and safe branch retirement. This supersedes the earlier documentation-only scope recorded in the historical ledger; numerical and environment gates remain mandatory.
 
-**Current phase:** M1 typed diagnostic CPU seam is implemented and independently reviewed on PR87; clean isolated-target native/rational and focused CPU checks pass, and software-X11 fixture interaction is observed. Native M2 worker/save/cold-rerun composition is verifying on PR88; native M3 analysis/persistence and cold comparison-page navigation are integrated on PR91, with linked field projection under composition. PR84 merged at `c85dfee`. No accepted trained-provider production composition is claimed.
+**Current phase:** M1 typed diagnostic CPU seam is implemented and independently reviewed on PR87; clean isolated-target native/rational and focused CPU checks pass, and software-X11 fixture interaction is observed. Native M2 worker/save/cold-rerun composition is verifying on PR88; native M3 analysis/persistence and cold comparison-page navigation are integrated on PR91, with actual software-window cold comparison observed. Partial typed diagnostic storage is reviewed/qualified on PR92; linked field projection remains under composition. PR84 merged at `c85dfee`. No accepted trained-provider production composition is claimed.
 
-**Next slice:** finish corrected cold-rerun and integrated comparison-page/linked-field validation, then separately qualify typed teacher/stop diagnostics and their recording. Diagnostic M1 alone does not satisfy accepted-provider A2.
+**Next slice:** compose the allocated linked native field view, wire typed diagnostic attempt capture and teacher/stop policies through the existing engine/worker, and qualify the actual measured deployment once supplied. Diagnostic M1 alone does not satisfy accepted-provider A2.
 
 **Implementation acceptance:** pending against A1–A8. Actual stdlib CPU processes qualify the stated protocol/lifecycle fixtures, not the absent measured trained deployment; isolated Xvfb native-window fixture interaction is observed. The measured trained bundle/Torch remains unavailable; required model-parity and full generic milestone claims stay pending.
 
