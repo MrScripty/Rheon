@@ -627,3 +627,26 @@ to its actual source and is not relabelled for this correction.
   adds the two existing real-checkpoint consumer targets to ai-pressure.yml.
   Its source-reviewed17/17 actual-model consumer result does not establish aa82
   parity. PR99 remains governed by its independent exact-head hosted gate.
+
+## 2026-10-15 — accepted Session clean qualification
+
+- Committed source684f1e097c33d1709d5505fe059c7dae3ac690c1,
+  tree788b4fca86943f019b0e1672e0dcbc90398ae1ab, passed all18 fresh native/rational
+  commands with a clean source tree. Lean checking was not run. Real-packet
+  suites passed26 normal and26 optimized with zero skips. The full105-path
+  conservative admission and independent source pins match; no old receipt was
+  transferred. /tmp/rheon-accepted-session-qualified and
+  /tmp/rheon-accepted-session-packet retain the receipts and raw records.
+- Frozen-source execution passed55 contracts:22 library units plus33 affected
+  public contracts, with zero ignored. The latter include the actual existing
+  modal export's provider and accepted Session/transport consumers. Strict
+  affected desktop Clippy and both native binary builds passed with explicit
+  RHEON_SOURCE_REVISION=684f1e097c33d1709d5505fe059c7dae3ac690c1.
+  Logs: /tmp/rheon-accepted-session-frozen-contracts.log,
+  /tmp/rheon-accepted-session-desktop-clippy.log and
+  /tmp/rheon-accepted-session-desktop-build.log. This is an API/numerical slice;
+  no new GUI workflow or external configured package connection is claimed.
+- Draft [PR102](https://github.com/MrScripty/Rheon/pull/102) publishes this slice.
+  This final follow-through changes only the plan/ledger; all105 selected source
+  pins remain byte-identical. Exact-head hosted checks and serial integration
+  remain required. The missing measured bundle remains only its specific gate.
