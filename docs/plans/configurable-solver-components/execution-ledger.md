@@ -116,3 +116,93 @@ Draft source remains proposal evidence, not implementation admission.
   normal push to PR84, without merge or rewriting earlier published commits.
 - CI for this update is observed after push through PR84; no inherited scoped
   metadata success is represented as new lifecycle, runtime or model evidence.
+
+## 2026-10-15 — M1 admitted and implemented
+
+- Subsequent user authorization admits M1–M3, separate draft PRs, validated ready
+  merges and safe retirement only after dependents clear. PR84 merged at
+  `c85dfee`; fresh M1 branch `implementation/configurable-pressure-m1-20261015`.
+  Selected comparison `6c38078` → `20b451d`, lifecycle `66e5038` → `d448563`;
+  unrelated renderer/training commit `fe9d586` excluded. Stronger lifecycle
+  assertions from `0fbadbe` retained at the original worker owner.
+- Added borrowed pressure context and two independently authored stdlib CPU
+  adapter packages. Existing Engine/ModelProcess/Worker/Record/UI owners remain;
+  inert support checks precede execution, declared ports/output role configure
+  package changes, prediction budget now covers stdin writing as well as reply.
+  Legacy v2 frame consumer compatibility and honest generic provider identity
+  are preserved. Core Session, accepted recording and physical gates unchanged.
+- Independent GPT-6.1 Sol High source review closed four findings with actual
+  negative/regression cases; no unresolved material M1 source issue. See review.
+- Fresh focused command `cargo test --locked --features desktop --bin
+  rheon-ai-compare --test pressure_context_contract`: 21 passed/1 explicitly
+  ignored trained-deployment test plus 2 public context tests passed. Actual CPU
+  children prove full/correction port selection, inert unsupported preflight,
+  blocked-write timeout/drain, cancel after predictions/restart, and headless
+  finished-worker preflight rendering. No model training, Torch/native-window
+  pass or new trained-checkpoint accuracy claim.
+- `cargo fmt --all --check` and desktop all-target Clippy `-D warnings` passed.
+  Full desktop/core/default suites and clean-source educational qualification
+  are still running/pending; no merge acceptance follows from focused results.
+- Companion published M2 `755e2b4` (PR85) and M3 `c17efaa` (PR86), each four new
+  isolated files. Fetched read-only; serial shared wiring and independent review
+  remain here. Parent assigned strict educational admission refresh/qualification
+  to this lead; PR86 comment records coordination. No gate weakening or stale
+  receipts permitted.
+- M1 clean committed native/rational qualification completed successfully on
+  `33a083a1fdf63c169c9bf68c71009d495d505f64`, tree
+  `34fc18bc29095450c2d8be31e5af68dc6457fb18`, in a separate detached checkout.
+  Receipt `clean=true`, `status=passed`, `lean_checked=false`; native records hash
+  `ecdd0877f17997c577d5183cd928c27c802f9ffdcee8324f0802fe3841fddb45`.
+  Fresh education packet construction passed and its 26 adversarial tests passed
+  both normally and under Python `-O`. Generated evidence retained externally at
+  `/tmp/rheon-m1-qualification-33a083a` and `/tmp/rheon-m1-packet-33a083a`; no old
+  receipts, qualifier changes or automatic source refresh used.
+- Draft [PR87](https://github.com/MrScripty/Rheon/pull/87) publishes the M1 source.
+  This receipt is pinned to the above commit; hosted whole-book/publication,
+  broader Rust suites and unavailable model/window gates remain distinct.
+- Companion next allocation is exact bounded immutable native comparison recipes/
+  results in three new files, posted on PR86 comment6198894245. Shared worker/UI,
+  source admission and merges remain lead-owned. Direct cloud session-ID messaging
+  is unavailable; GitHub handoff plus parent relay supplies coordination.
+- Full `cargo test --locked --features desktop` completed successfully with no
+  failing tests, including existing numerical, recording, worker/camera and
+  desktop regressions; environment-specific model tests remained explicitly
+  ignored. Public context tests also passed in no-default and default builds;
+  corresponding library Clippy checks with `-D warnings` passed. No model/window
+  claim follows from ignored tests. GitHub M1 native-cpu, native/rational, cloud,
+  VTK and executable checks are green; remaining hosted book/features are pending.
+- Evidence correction: this environment's /proc mount is not aligned with child
+  PIDs; earlier negative /proc observations are insufficient OS liveness evidence.
+  Replaced all six checks with fixed kill-zero probes, requiring positive liveness
+  while resident and negative after owned wait/join. Independent source review
+  approved; focused CPU suite freshly passed 21 tests/1 ignored, and scoped Clippy
+  passed. This strengthens immediate-child evidence without changing production
+  code, numerical gates, original retained M0 receipts or descendant guarantees.
+  The changed test-source admission requires fresh clean qualification below.
+- Native X11 software display is now available through workspace-local Xvfb.
+  A real window rendered inert support feedback and a complete 64-step analytic
+  fixture run with failed pressure diagnostics visible; this is not trained-model
+  or hardware/GPU qualification. Native lifecycle observation is still underway.
+- Final M1 isolated-target qualification on clean `f75a714`, tree
+  `38026daa5f4eaa7633fe01c1e5e02c01ba3db264`, passed all 18 native/rational commands;
+  packet construction and 26 adversarial tests passed normally and under -O.
+  Separate target rebuilt Rheon source, without any Rheon artifact/fingerprint
+  seeding. Focused CPU suite passed 21/1 ignored plus 2 public context tests;
+  scoped Clippy passed. External receipts: `/tmp/rheon-m1-isolated-f75a714` and
+  `/tmp/rheon-m1-isolated-packet-f75a714`; no receipt transfer from another tree.
+- Real software-X11 native-window fixture observation completed. The analytic
+  package includes an explicit delay for interaction, not a trained checkpoint.
+  Inert support did not create observations; the window showed native qualified
+  versus AI failed-pressure fields, an initial 64-step completion, cancellation
+  after predictions, restart32 completion, then Close at step17 with2 predictions.
+  Observer saw child liveness positively and later all four observed child IDs
+  absent via OS kill-zero; app exit0. Binary SHA256
+  `ad5838a409bc68419f923c47a8eef58e1dc1b4f187085de42a8622c72d9fe7d8`,
+  manifest `fc93e8867a3f71bf45f3b25882f86876c9be257fbe7608df263ddee1123b6907`,
+  observer JSON `5f5b06b40a94125eac2881dfbfaa0fad87e46fa58ecce8d80cef125b853ff830`.
+  Generated screenshots/observations remain in `/tmp/rheon-m1-native-window`.
+  This binds observed software-display/fixture material, not source authenticity,
+  trained-runtime parity, a physical GPU, descendants or a hard teardown bound.
+- Required measured deployment/Torch input was requested explicitly and remains
+  unavailable. A1 trained-runtime and full generic/provider acceptance stay pending;
+  CI's separate frozen-checkpoint check is not relabelled as this absent bundle.

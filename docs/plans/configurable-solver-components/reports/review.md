@@ -67,3 +67,17 @@ process/worker/JSON/UI are reused, not replaced by another loop or archive.
 M0 can close. Source access and diagnostic viscosity/no-fallback ownership are
 resolved. Generic contracts, production composition, persistence and environment-
 qualified implementation evidence remain pending and outside this task's authority.
+
+## M1 implementation source review
+
+After explicit implementation admission, the same independent read-only GPT-6.1
+Sol High reviewer inspected the typed context, inert manifest, existing Engine/
+ModelProcess/Worker integration and contract/lifecycle fixtures. Four findings
+were fixed and re-reviewed: retain legacy frame-v2 for the actual lab reader;
+bind prior grid/density; reject constructor pressure as solved prior; retain inert
+preflight status after finished-worker rendering. Focused regressions cover each.
+
+Final source outcome: no unresolved material M1 finding. The owned writer queue
+is coherent for trusted immediate-child runtime execution. Descendant custody and
+hard shutdown remain outside its guarantees. The reviewer ran no Cargo, model,
+Torch or native-window execution; serial-writer validation is separate evidence.

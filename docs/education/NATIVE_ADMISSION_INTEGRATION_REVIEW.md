@@ -79,3 +79,61 @@ Lean proof bytes are unchanged; no new kernel claim follows from these additions
 Native window inspection is pending until a supported display is available.
 Execution receipts and final review outcomes belong in the integration plan's
 evidence report, separate from this fixed admission decision.
+
+## Configurable diagnostic pressure M1 admission, 2026-10-15
+
+The previous 78-path v3 review above remains historical evidence. This explicit
+review refreshes that same integration epoch after PR84 main `c85dfee` and selected
+comparison imports `20b451d`/`d448563`. The independent GPT-6.1 Sol High reviewer
+confirmed the complete current closure: 90 paths, 12 added, 6 changed, 72 unchanged,
+none removed. The unchanged v3 schema/base ancestry and v1/v2 predecessor hashes
+remain authoritative. Prior qualification receipts are not evidence for this tree.
+
+Added paths are `desktop/ai_comparison/{adapter,cpu_contract_tests,engine,mod,
+model_process,record,scene,view,worker}.rs`, `desktop/camera.rs`,
+`src/bin/rheon-ai-compare.rs` and `src/solver_provider/context.rs` (desktop paths
+under `src/bin`). Changed paths are Cargo.toml/lock, desktop/README.md,
+desktop/viewport.rs, src/bin/rheon-desktop.rs and src/solver_provider.rs.
+
+The selected original comparison imports retain the existing sealed-water native
+operator and add an independent diagnostic trajectory/UI, shared camera and owned
+worker/process. They do not modify Session, Simulation, accepted recording or
+aligned-strain numerical kernels. The new public context is additive and checks
+borrowed physical/lineage coherence; it is not upstream composition acceptance.
+Manifest/CPU protocol uses closed bounded trusted-local contracts and existing
+process ownership, now with queued input writes inside prediction deadlines.
+Generic frame-v3 does not invent a trained checkpoint; legacy frame-v2 remains.
+Source review closed history/domain, legacy-reader and finished-worker UI findings.
+Focused actual stdlib CPU tests and desktop Clippy passed before admission; they
+are not trained Torch/model, native-window or descendant-cleanup qualification.
+
+Cargo adds the comparison binary and pinned optional serde 1.0.229 / serde_json
+1.0.154 (float_roundtrip), activated only by desktop; no new crate identity or version is
+introduced into the lock (only the root package dependency list changes).
+Viewport camera movement was extracted into the shared owner with existing tests;
+unrelated training/voxel work is excluded. All conservative selector paths,
+including test-only desktop modules, are inventoried without projecting an assumed
+transitive numerical subset. Independent review found no material admission issue.
+
+This authorizes attempting fresh qualification only. The reviewed bytes are bound
+by the refreshed inventory and this record's digest, committed together. Require
+clean-source native/rational execution, packet rejection tests normally/under -O
+and hosted checks on this exact source. Existing missing trained deployment and
+native window cannot be qualified by source admission. Future M2/M3 source wiring
+requires its own explicit reviewed inventory refresh and fresh receipt.
+
+### M1 liveness-oracle correction
+
+The selected environment's /proc mount does not reflect the child PID namespace:
+a live owned child may already have no /proc/PID entry. Consequently this
+execution environment's previous negative /proc checks cannot prove termination.
+Independent GPT-6.1 Sol High source review approved strengthening both selected
+test-source files (cpu_contract_tests.rs and worker.rs): a fixed `/usr/bin/kill
+-0 -- PID` probe must first succeed while the child is resident and fail only
+after owned Drop/join. Probe spawn/abnormal-status errors fail the test. Fresh
+focused CPU tests passed these positive-before-negative checks. The 90-path M1
+closure and all production/numerical/dependency/qualifier/oracle bytes are unchanged;
+only the two test-source digests and review binding change. This is immediate-child
+evidence with existing wait/join ordering, not descendant custody or a hard bound.
+Historical M0 producer receipts remain historical and are not rewritten. Refresh
+pins and run fresh clean qualification for this exact test-source revision.

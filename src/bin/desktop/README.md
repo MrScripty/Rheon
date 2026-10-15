@@ -211,3 +211,9 @@ and optionally `--collision-policy surface` (default `solid`). `--collision-run`
 starts the real default material solver for 180 steps. Import errors fail startup
 instead of silently rendering an uncollidable visual model. These options do not
 replace the interactive controls or imply performance on a GPU.
+
+## Native / trained AI comparison
+
+Use **Compare Rheon / trained AI** or the dedicated `rheon-ai-compare` binary for
+fresh paired water simulations, native warm-up and a signed voxel error legend.
+See [deployment, context, controls and diagnostic limits](../../../docs/ai-pressure-comparison.md).

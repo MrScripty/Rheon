@@ -1,5 +1,9 @@
 //! Native live 3D laboratory. Numerical state stays owned by the worker; the
 //! viewer consumes bounded immutable accepted previews and optional diagnostics.
+#[path = "desktop/ai_comparison/mod.rs"]
+mod ai_comparison;
+#[path = "desktop/camera.rs"]
+mod camera;
 #[path = "desktop/emitter_controls.rs"]
 mod emitter_controls;
 #[path = "desktop/engineering.rs"]
@@ -509,6 +513,7 @@ fn run_material(
     result
 }
 struct App {
+    ai_comparison: Option<ai_comparison::ComparisonApp>,
     archive: archive_view::ArchiveView,
     collision: collision_ui::CollisionControls,
     selected: PressureImplementation,
@@ -551,6 +556,7 @@ impl Default for App {
     fn default() -> Self {
         let thread_limit = available_threads();
         Self {
+            ai_comparison: None,
             archive: archive_view::ArchiveView::default(),
             collision: collision_ui::CollisionControls::default(),
             selected: PressureImplementation::default(),
@@ -894,6 +900,12 @@ impl App {
             if ui.add_sized([ui.available_width(),32.0],egui::Button::new("▶ Simulate")).clicked() {self.start(false);}
             if ui.button("Reset timeline (keep mesh)").clicked() { self.reset_timeline(); self.status = "Ready to repeat simulation with accepted mesh".into(); }
             if !self.material_mode && ui.button("Compare both pressure solvers").clicked() {self.start(true);}
+            if ui.add_enabled(self.worker.is_none(), egui::Button::new("Compare Rheon / trained AI")).clicked() {
+                let mut comparison = ai_comparison::ComparisonApp::new(String::new(),std::env::current_dir().unwrap_or_default().join(".generated/ai-comparison"));
+                comparison.set_steps(self.steps.clamp(1,512));
+                self.ai_comparison = Some(comparison);
+            }
+
         });
         if let Some(w) = &self.worker {
             ui.add_space(8.0);
@@ -1008,6 +1020,12 @@ impl App {
 }
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        if let Some(comparison) = self.ai_comparison.as_mut() {
+            if !comparison.show(ctx) {
+                self.ai_comparison = None;
+            }
+            return;
+        }
         self.poll(ctx);
         if ctx.input(|i| i.viewport().close_requested()) && self.worker.is_some() {
             self.closing = true;
