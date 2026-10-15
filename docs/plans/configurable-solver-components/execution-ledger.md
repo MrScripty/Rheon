@@ -116,3 +116,35 @@ Draft source remains proposal evidence, not implementation admission.
   normal push to PR84, without merge or rewriting earlier published commits.
 - CI for this update is observed after push through PR84; no inherited scoped
   metadata success is represented as new lifecycle, runtime or model evidence.
+
+## 2026-10-15 — M1 admitted and implemented
+
+- Subsequent user authorization admits M1–M3, separate draft PRs, validated ready
+  merges and safe retirement only after dependents clear. PR84 merged at
+  `c85dfee`; fresh M1 branch `implementation/configurable-pressure-m1-20261015`.
+  Selected comparison `6c38078` → `20b451d`, lifecycle `66e5038` → `d448563`;
+  unrelated renderer/training commit `fe9d586` excluded. Stronger lifecycle
+  assertions from `0fbadbe` retained at the original worker owner.
+- Added borrowed pressure context and two independently authored stdlib CPU
+  adapter packages. Existing Engine/ModelProcess/Worker/Record/UI owners remain;
+  inert support checks precede execution, declared ports/output role configure
+  package changes, prediction budget now covers stdin writing as well as reply.
+  Legacy v2 frame consumer compatibility and honest generic provider identity
+  are preserved. Core Session, accepted recording and physical gates unchanged.
+- Independent GPT-6.1 Sol High source review closed four findings with actual
+  negative/regression cases; no unresolved material M1 source issue. See review.
+- Fresh focused command `cargo test --locked --features desktop --bin
+  rheon-ai-compare --test pressure_context_contract`: 21 passed/1 explicitly
+  ignored trained-deployment test plus 2 public context tests passed. Actual CPU
+  children prove full/correction port selection, inert unsupported preflight,
+  blocked-write timeout/drain, cancel after predictions/restart, and headless
+  finished-worker preflight rendering. No model training, Torch/native-window
+  pass or new trained-checkpoint accuracy claim.
+- `cargo fmt --all --check` and desktop all-target Clippy `-D warnings` passed.
+  Full desktop/core/default suites and clean-source educational qualification
+  are still running/pending; no merge acceptance follows from focused results.
+- Companion published M2 `755e2b4` (PR85) and M3 `c17efaa` (PR86), each four new
+  isolated files. Fetched read-only; serial shared wiring and independent review
+  remain here. Parent assigned strict educational admission refresh/qualification
+  to this lead; PR86 comment records coordination. No gate weakening or stale
+  receipts permitted.

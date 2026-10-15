@@ -67,16 +67,7 @@ cubic geometry, signed differences, zero scales and picking. Existing desktop
 camera/worker regressions also pass. The current frozen checkpoint still fails
 pressure qualification after a valid warm-up; this UI exposes the result.
 
-Source ownership: `desktop/ai_comparison` owns the comparison; `desktop/camera.rs`
-owns shared navigation; the ordinary viewport reexports that same camera. Core
-physics and provider acceptance are unchanged. Integration work is retained on
-`feat/live-ai-pressure-comparison`, based on `origin/main` 43ed26b. Its owner is the
-local surrogate-lab integration task; consumers are the active desktop binary and
-lab project references. The checkout stays pinned while it serves that UI. Sync
-requires stopping the app, reviewing upstream changes and repeating affected
-checks. Retire the worktree after accepted integration and migration of the active
-binary/project source pointers. No push, merge or original dirty checkout update
-was performed by this slice.
+Source ownership: `desktop/ai_comparison` retains the numerical/process/worker/UI owners; shared camera navigation remains in `desktop/camera.rs`. Integration selects original comparison/lifecycle commits onto `implementation/configurable-pressure-m1-20261015` after PR84; unrelated training-viewer/voxel-renderer work is excluded. The public [pressure context and CPU adapter contract](api/pressure-context.md) describes inert support checking, named physical ports, full/correction outputs and the legacy deployment path. No Session acceptance or SQLite schema is changed.
 
 ## Real checkpoint lifecycle verification
 
@@ -93,6 +84,8 @@ cargo test --offline --locked --features desktop --bin rheon-ai-compare \
   real_cpu_deployment_cancellation_drains_child_and_allows_restart -- --ignored --nocapture
 ```
 
-The local measured deployment passed this test: cancellation retained at least
+The producer-retained measured deployment observations report this test passed: cancellation retained at least
 18 frames, terminal state was `cancelled`, the child slot was drained, and restart
 completed 16 steps with a separate retained run and another drained child slot.
+
+Those retained observations were hash-audited during M0, not rerun in this environment. The actual deployment and Torch are absent here. New stdlib CPU fixture tests freshly exercise cancellation after predictions, immediate-child drain and restart; they do not qualify the trained checkpoint. Headless egui checks do not establish native-window behavior.

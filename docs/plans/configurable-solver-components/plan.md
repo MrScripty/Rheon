@@ -1,14 +1,14 @@
 # Configurable Rheon components and saved comparisons
 
-**Document status:** Independently reviewed research/design proposal. Documentation publication is authorized; production implementation is not. This document has not entered the implementation-plan lifecycle. It is not `Planned`, `Active` or `Accepted` implementation merely because it exists.
+**Document status:** Active implementation plan. The user subsequently authorized M1–M3 implementation, separate draft PRs, validated ready merges and safe branch retirement. This supersedes the earlier documentation-only scope recorded in the historical ledger; numerical and environment gates remain mandatory.
 
-**Current phase:** M0 source/design reconciliation completed and independently reviewed; documentation update ready for PR84. Production implementation remains unapproved.
+**Current phase:** M1 typed diagnostic CPU seam implemented and independently source-reviewed; full validation and fresh educational admission qualification are in progress. PR84 merged at `c85dfee`. No production accepted-provider composition is claimed.
 
-**Next proposed slice:** M1, a typed CPU pressure-context/adapter seam that reuses the reconciled diagnostic engine, process and worker; owner admission is required before code work.
+**Next slice:** serial integration of the independently published native M2/M3 contracts, then actual saved-set/comparison desktop composition and affected qualification. Diagnostic M1 alone does not satisfy accepted-provider A2.
 
-**Future implementation acceptance:** `pending`, not authorized: source access is resolved at integration `0fbadbe733b5b521e192dc8a2aa980d6d69a1e01`, retaining original `66e50388...`. M0 source/design evidence is satisfied; A1–A8 implementation claims remain pending. Producer-retained lifecycle receipts were audited, not rerun. The production viscous-session plan, generic contract/storage work and environment-qualified runtime/GUI evidence remain separate admission gates.
+**Implementation acceptance:** pending against A1–A8. Actual stdlib CPU processes qualify the stated protocol/lifecycle fixtures, not the absent measured trained deployment or native window. Missing environment inputs remain explicit.
 
-**Canonical repository path:** `docs/plans/configurable-solver-components/plan.md`, selected by the parent for this documentation task. Parent/integration owner must admit a concrete implementation operation and exact write set before code work; existing unambiguous authorization may be reused without ceremonial reapproval.
+**Canonical repository path:** `docs/plans/configurable-solver-components/plan.md`. Exact M1 ownership and cross-thread consumer handoff: [M1 admission](reports/m1-handoff.md). The integration lead owns shared source and all merges; unrelated renderer/training work is excluded.
 
 **Supporting records:** [Research/design report](reports/research.md), [proposed typed contracts](reports/contracts.md), [M0 source reconciliation](reports/m0-reconciliation.md), [execution ledger](execution-ledger.md), [issues](issues.md), [standards route](reports/standards-and-design.md), [independent review](reports/review.md). The report is reviewed research evidence; this plan owns the current proposal and handoff, while contracts detail boundary semantics. Their review is not implementation acceptance.
 
@@ -51,7 +51,7 @@ Repository constraints are concrete: [Rust 1.92.0](https://github.com/MrScripty/
 - Promotion of the existing experimental failed-AI-state continuation to a generic contract, until its typed diagnostic advance/hard-stop/history policy is independently qualified. Preserve and label the current raw diagnostic behavior; initial generic comparison policy remains stop-on-reject.
 - Viscosity/provider composition beyond current main, arbitrary stage graphs, new physical operators, variable-density/free-surface support and obstacle coupling.
 - Recurrent provider state, learned initial-guess/preconditioner roles, GPU IPC, new runtime families, a marketplace, distributed scheduling, browser plugin panels and integrator restart.
-- Model retraining, new benchmark/speed/physical-accuracy claims, production deployment and main merge.
+- Model retraining, new benchmark/speed/physical-accuracy claims and production deployment. Main merges are authorized only after applicable validation and independent review.
 
 Existing numerical gates and accepted-publication semantics remain authoritative. Existing archive v1 and VTK/dense3D versions are not relabeled. A rejected standalone candidate cannot become an accepted archive ordinal. A finite rejected-candidate metric may accompany a genuinely accepted fallback publication through its provider report.
 
@@ -125,7 +125,7 @@ No new package is selected by this draft. Prefer current approved Rust/SQLite/ha
 
 ## Milestones and integration sequence
 
-M0 source reconciliation below is complete as documentation; no implementation has been admitted. M1–M3 remain proposals, with M1 the next proposed slice. Existing integration paths are now mapped and reusable. Before code work, the parent and actual owners must assign exact primary/adjacent/forbidden paths; conditional public/core/schema writes below are not authority for broad directory edits.
+M0 source reconciliation is complete and its documentation PR is merged. M1–M3 are now admitted under the serial boundaries in the M1 handoff. M1 is active; independently authored new native M2/M3 contracts await integration. Conditional production writes still require physical qualification and are not authority for broad directory edits.
 
 ### M0: reconcile source and prepare vertical-slice admission
 

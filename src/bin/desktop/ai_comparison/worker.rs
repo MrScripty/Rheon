@@ -1,7 +1,7 @@
 //! One joinable owner. Terminal state follows model kill/wait and reader joins.
 use super::{
     engine::{Engine, Frame},
-    model_process::{ChildSlot, ModelProcess, cancel},
+    model_process::{ChildSlot, ModelProcess, ProviderIdentity, cancel},
     record::Record,
     scene::Scene,
 };
@@ -19,7 +19,7 @@ pub struct Shared {
     pub message: String,
     pub state: String,
     pub directory: Option<PathBuf>,
-    pub checkpoint: String,
+    pub provider: Option<ProviderIdentity>,
     pub pressure_range: f64,
     pub difference_range: f64,
 }
@@ -30,7 +30,7 @@ impl Default for Shared {
             message: "Preparing CPU checkpoint".into(),
             state: "running".into(),
             directory: None,
-            checkpoint: String::new(),
+            provider: None,
             pressure_range: 0.0,
             difference_range: 0.0,
         }
@@ -143,16 +143,13 @@ fn run_native(
     }
     record.activity("running", "Validating CPU deployment", 0)?;
     let result = (|| -> Result<String, String> {
+        ModelProcess::preflight(&deployment, &scene)?;
         let mut model = ModelProcess::start(&deployment, slot, flag, |phase| {
             update(shared, phase)?;
             record.activity("running", phase, 0)
         })?;
-        record.model(
-            &model.checkpoint,
-            &model.training_run,
-            &model.deployment_path,
-        )?;
-        shared.lock().map_err(|_| "Comparison lock")?.checkpoint = model.checkpoint.clone();
+        record.model(&model.identity, &model.deployment_path)?;
+        shared.lock().map_err(|_| "Comparison lock")?.provider = Some(model.identity.clone());
         if scene.warmup_steps < model.minimum_native_steps {
             return Err(format!(
                 "Unsupported testing setup: checkpoint requires at least {} native warm-up steps; configured {}",
@@ -259,6 +256,74 @@ mod tests {
     }
 
     #[test]
+    fn configurable_cpu_adapter_cancels_after_predictions_and_restarts() {
+        let package = super::super::cpu_contract_tests::Fixture::new(false);
+        let root = package.root.join("observations");
+        let scene = Scene {
+            counts: [8, 6, 5],
+            steps: 64,
+            ..Default::default()
+        };
+        let mut first =
+            Worker::start(scene.clone(), package.manifest.clone(), root.clone()).unwrap();
+        wait_for(&first, |data| {
+            data.frames.last().is_some_and(|f| f.step >= 17)
+        });
+        let first_directory = first.shared.lock().unwrap().directory.clone();
+        let first_pid = first.slot.lock().unwrap().as_ref().unwrap().id();
+        first.cancel();
+        let deadline = Instant::now() + Duration::from_secs(10);
+        while !first.finished() {
+            assert!(Instant::now() < deadline);
+            thread::sleep(Duration::from_millis(10));
+        }
+        first.join_finished();
+        assert!(first.slot.lock().unwrap().is_none());
+        assert_eq!(first.shared.lock().unwrap().state, "cancelled");
+        assert!(first.shared.lock().unwrap().frames.len() >= 18);
+        let terminal: serde_json::Value = serde_json::from_slice(
+            &std::fs::read(first_directory.as_ref().unwrap().join("completion.json")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(terminal["state"], "cancelled");
+        #[cfg(target_os = "linux")]
+        assert!(
+            !std::path::Path::new("/proc")
+                .join(first_pid.to_string())
+                .exists()
+        );
+        drop(first);
+        let mut second =
+            Worker::start(Scene { steps: 16, ..scene }, package.manifest.clone(), root).unwrap();
+        wait_for(&second, |data| !data.frames.is_empty());
+        let second_pid = second.slot.lock().unwrap().as_ref().unwrap().id();
+        let deadline = Instant::now() + Duration::from_secs(20);
+        while !second.finished() {
+            assert!(Instant::now() < deadline);
+            thread::sleep(Duration::from_millis(10));
+        }
+        second.join_finished();
+        assert!(second.slot.lock().unwrap().is_none());
+        let data = second.shared.lock().unwrap();
+        assert_eq!(data.state, "completed", "{}", data.message);
+        assert_eq!(data.frames.len(), 17);
+        assert_eq!(
+            data.frames
+                .iter()
+                .filter(|f| f.ai_quality.is_some())
+                .count(),
+            1
+        );
+        assert_ne!(data.directory, first_directory);
+        #[cfg(target_os = "linux")]
+        assert!(
+            !std::path::Path::new("/proc")
+                .join(second_pid.to_string())
+                .exists()
+        );
+    }
+
+    #[test]
     #[ignore = "Requires an exported measured CPU deployment; see docs/ai-pressure-comparison.md"]
     fn real_cpu_deployment_cancellation_drains_child_and_allows_restart() {
         let deployment =
@@ -294,6 +359,13 @@ mod tests {
         }
         first.join_finished();
         assert!(first.slot.lock().unwrap().is_none());
+        #[cfg(target_os = "linux")]
+        assert!(
+            !std::path::Path::new("/proc")
+                .join(child_id.to_string())
+                .exists(),
+            "cancelled CPU child remains alive or unreaped"
+        );
         assert_eq!(first.shared.lock().unwrap().state, "cancelled");
         assert!(first.shared.lock().unwrap().frames.len() >= 18);
         let completion: serde_json::Value = serde_json::from_slice(
@@ -304,6 +376,14 @@ mod tests {
         drop(first);
         let mut second =
             Worker::start(Scene { steps: 16, ..scene }, deployment, root.clone()).unwrap();
+        wait_for(&second, |data| !data.frames.is_empty());
+        let restart_child_id = second
+            .slot
+            .lock()
+            .unwrap()
+            .as_ref()
+            .expect("resident restart CPU child")
+            .id();
         let deadline = Instant::now() + Duration::from_secs(120);
         while !second.finished() {
             assert!(Instant::now() < deadline, "restart deadline");
@@ -311,12 +391,40 @@ mod tests {
         }
         second.join_finished();
         assert!(second.slot.lock().unwrap().is_none());
+        #[cfg(target_os = "linux")]
+        assert!(
+            !std::path::Path::new("/proc")
+                .join(restart_child_id.to_string())
+                .exists(),
+            "restart CPU child remains alive or unreaped"
+        );
         let view = second.shared.lock().unwrap();
         assert_eq!(view.state, "completed", "{}", view.message);
         assert_eq!(view.frames.len(), 17);
         assert_ne!(view.directory.as_ref(), Some(&first_directory));
+        let restart_ai_predictions = view
+            .frames
+            .iter()
+            .filter(|frame| frame.ai_quality.is_some())
+            .count();
+        assert_eq!(
+            restart_ai_predictions, 1,
+            "16 steps must include AI inference after 15 native steps"
+        );
+        assert_eq!(
+            view.frames.last().unwrap().phase,
+            super::super::engine::FramePhase::AiPrediction
+        );
+        assert_eq!(view.frames.last().unwrap().step, 16);
+        assert!(
+            view.frames
+                .iter()
+                .take(16)
+                .all(|frame| frame.ai_quality.is_none())
+        );
         println!(
-            "Cancelled resident CPU child {child_id}; terminal record and retained frames verified; restart completed; child slots empty"
+            "Cancelled resident CPU child {child_id}; terminal record and retained frames verified; restart child {restart_child_id} completed 16 steps with {restart_ai_predictions} AI prediction; child slots empty; Linux /proc absence checked: {}",
+            cfg!(target_os = "linux")
         );
     }
 }

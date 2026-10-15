@@ -1,5 +1,5 @@
 //! Atomic external observations and immutable diagnostic frames, never Run custody.
-use super::{engine::Frame, scene::Scene};
+use super::{engine::Frame, model_process::ProviderIdentity, scene::Scene};
 use serde_json::{Value, json};
 use std::{
     fs::{File, OpenOptions},
@@ -11,7 +11,7 @@ pub struct Record {
     root: PathBuf,
     _lease: File,
     scene: Scene,
-    checkpoint: String,
+    identity: Option<ProviderIdentity>,
     sequence: u64,
 }
 fn atomic(path: &Path, value: &Value) -> Result<(), String> {
@@ -69,7 +69,7 @@ impl Record {
             root: root.to_owned(),
             _lease: lease,
             scene: scene.clone(),
-            checkpoint: String::new(),
+            identity: None,
             sequence: 0,
         };
         atomic(
@@ -78,11 +78,11 @@ impl Record {
         )?;
         Ok(result)
     }
-    pub fn model(&mut self, checkpoint: &str, run: &str, deployment: &Path) -> Result<(), String> {
-        self.checkpoint = checkpoint.into();
+    pub fn model(&mut self, identity: &ProviderIdentity, deployment: &Path) -> Result<(), String> {
+        self.identity = Some(identity.clone());
         atomic(
             &self.directory.join("model.json"),
-            &json!({"checkpoint_sha256":checkpoint,"training_run_id":run,"deployment":deployment,"inference_device":"cpu","optimizer_updates":0}),
+            &json!({"schema":"rheon-provider-binding-v1","identity":identity,"checkpoint_sha256":identity.checkpoint_sha256,"training_run_id":identity.training_run_id,"deployment":deployment,"inference_device":"cpu","optimizer_updates":0}),
         )
     }
     pub fn activity(&mut self, state: &str, message: &str, done: usize) -> Result<(), String> {
@@ -93,7 +93,7 @@ impl Record {
         )
     }
     pub fn frame(&mut self, frame: &Frame) -> Result<(), String> {
-        let value = json!({"schema":"rheon-live-water-comparison-frame-v2","run_directory":self.directory,"counts_xyz":self.scene.counts,"cell_size_m":self.scene.h(),"extents_m":self.scene.extents(),"checkpoint_sha256":self.checkpoint,"frame":frame,"difference":"p_ai - p_reference, Pa; equal gauge at cell zero; shared native warm-up, then independent histories"});
+        let value = json!({"schema":if self.identity.as_ref().is_some_and(|p|p.checkpoint_sha256.is_some()) {"rheon-live-water-comparison-frame-v2"}else{"rheon-live-water-comparison-frame-v3"},"run_directory":self.directory,"counts_xyz":self.scene.counts,"cell_size_m":self.scene.h(),"extents_m":self.scene.extents(),"provider":self.identity,"checkpoint_sha256":self.identity.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"frame":frame,"difference":"p_ai - p_reference, Pa; equal gauge at cell zero; shared native warm-up, then independent histories"});
         let file = self.directory.join(format!("frame-{:04}.json", frame.step));
         if file.exists() {
             return Err("Frame already published".into());
@@ -105,7 +105,7 @@ impl Record {
     pub fn finish(&mut self, state: &str, message: &str, steps: usize) -> Result<(), String> {
         atomic(
             &self.directory.join("completion.json"),
-            &json!({"state":state,"message":message,"steps":steps,"checkpoint_sha256":self.checkpoint,"ai_scope":"raw diagnostic, check per-frame verdicts; no fallback or qualification claim"}),
+            &json!({"state":state,"message":message,"steps":steps,"provider":self.identity,"checkpoint_sha256":self.identity.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"ai_scope":"raw diagnostic, check per-frame verdicts; no fallback or qualification claim"}),
         )?;
         self.activity(state, message, steps)
     }

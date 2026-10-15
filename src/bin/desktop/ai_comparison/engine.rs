@@ -1,11 +1,17 @@
 //! Independent raw-AI diagnostic and strictly qualified native reference tracks.
 //! These experimental frames are never published as accepted Simulation snapshots.
 use super::scene::{DT, MU, RHO, Scene};
+use rheon::solver_provider::context::{
+    PressureContext, PressureContextInput, PressureContextMode, PressureHistory,
+    PressureHistoryStatus,
+};
 use rheon::{
     Axis, GridGeometry, PressureImplementation, PressureOperator, PressureSettings,
     PressureWorkspace, ViscosityWorkspace, advect_tracer, advect_velocity,
 };
 use serde::Serialize;
+use std::sync::atomic::AtomicU64;
+static NEXT_ENGINE: AtomicU64 = AtomicU64::new(1);
 use std::sync::atomic::{AtomicBool, Ordering};
 
 const AXES: [Axis; 3] = [Axis::X, Axis::Y, Axis::Z];
@@ -62,7 +68,6 @@ struct Prepared {
     velocity: Velocity,
     tracer: Vec<f32>,
     rhs: Vec<f64>,
-    residual: Vec<f64>,
 }
 pub struct Engine {
     pub scene: Scene,
@@ -73,12 +78,14 @@ pub struct Engine {
     viscosity: ViscosityWorkspace,
     step: usize,
     halted: bool,
+    run_id: String,
+    previous_ai_qualified: bool,
 }
 pub struct Input<'a> {
-    pub scene: &'a Scene,
-    pub base: &'a [f64],
+    pub context: PressureContext<'a>,
+    pub initial_guess: &'a [f64],
     pub residual: &'a [f64],
-    pub step: usize,
+    pub viscosity: f64,
 }
 impl Engine {
     pub fn new(scene: Scene) -> Result<Self, String> {
@@ -124,6 +131,12 @@ impl Engine {
             viscosity,
             step: 0,
             halted: false,
+            run_id: format!(
+                "engine:{}:{}",
+                std::process::id(),
+                NEXT_ENGINE.fetch_add(1, Ordering::Relaxed)
+            ),
+            previous_ai_qualified: true,
         })
     }
     pub fn initial(&self) -> Frame {
@@ -212,17 +225,42 @@ impl Engine {
             self.step,
             cancel,
         )?;
+        let context = PressureContext::new(PressureContextInput {
+            grid: &self.grid,
+            density: RHO,
+            dt: DT,
+            interval_start: self.step as f64 * DT,
+            rhs: &prepared.rhs,
+            prior: (self.step > 0).then_some(PressureHistory {
+                values: &self.ai.pressure,
+                grid: &self.grid,
+                density: RHO,
+                run_id: &self.run_id,
+                generation: self.step as u64,
+                interval_end: self.step as f64 * DT,
+                status: PressureHistoryStatus::Diagnostic {
+                    qualified: self.previous_ai_qualified,
+                },
+            }),
+            run_id: &self.run_id,
+            generation: (self.step + 1) as u64,
+            mode: PressureContextMode::DiagnosticCandidate,
+        })
+        .map_err(error)?;
+        let mut residual = vec![0.0; self.grid.cell_len()];
+        context.initial_residual(&mut residual).map_err(error)?;
         let pressure = predict(Input {
-            scene: &self.scene,
-            base: &self.ai.pressure,
-            residual: &prepared.residual,
-            step: self.step + 1,
+            context,
+            initial_guess: &self.ai.pressure,
+            residual: &residual,
+            viscosity: MU,
         })?;
         let (ai, qai) = finish(&self.grid, &prepared, pressure, 1e-6)?;
         if cancel.load(Ordering::Relaxed) {
             return Err("Cancelled".into());
         }
         self.halted = qai.hard_stop;
+        self.previous_ai_qualified = qai.qualified;
         self.reference = reference;
         self.ai = ai;
         self.step += 1;
@@ -266,21 +304,13 @@ fn prepare(
         .map_err(error)?;
     let operator = PressureOperator::new(grid, RHO).map_err(error)?;
     let mut rhs = vec![0.0; grid.cell_len()];
-    let mut residual = rhs.clone();
     operator
         .build_rhs(refs(&velocity), DT, &mut rhs)
         .map_err(error)?;
-    operator
-        .apply_full(&track.pressure, &mut residual)
-        .map_err(error)?;
-    for (r, b) in residual.iter_mut().zip(&rhs) {
-        *r = *b - *r;
-    }
     Ok(Prepared {
         velocity,
         tracer,
         rhs,
-        residual,
     })
 }
 fn finish(
@@ -457,9 +487,9 @@ mod tests {
         assert!(previous.iter().any(|p| p.abs() > 0.0));
         let frame = engine
             .advance(&cancel, |input| {
-                assert_eq!(input.step, 3);
-                assert_eq!(input.base, previous);
-                Ok(vec![0.0; input.base.len()])
+                assert_eq!(input.context.generation(), 3);
+                assert_eq!(input.initial_guess, previous);
+                Ok(vec![0.0; input.initial_guess.len()])
             })
             .unwrap();
         assert_eq!(frame.phase, FramePhase::AiPrediction);
@@ -478,7 +508,9 @@ mod tests {
         let mut b = Engine::new(scene).unwrap();
         let cancel = AtomicBool::new(false);
         for _ in 0..2 {
-            let one = a.advance(&cancel, |r| Ok(vec![0.0; r.base.len()])).unwrap();
+            let one = a
+                .advance(&cancel, |r| Ok(vec![0.0; r.initial_guess.len()]))
+                .unwrap();
             let two = b
                 .advance(&cancel, |r| {
                     let mut p = r.residual.to_vec();
@@ -505,10 +537,16 @@ mod tests {
         })
         .unwrap();
         let cancel = AtomicBool::new(false);
-        let frame = engine.advance(&cancel, |r| Ok(r.base.to_vec())).unwrap();
+        let frame = engine
+            .advance(&cancel, |r| Ok(r.initial_guess.to_vec()))
+            .unwrap();
         assert!(frame.ai_quality.unwrap().qualified);
         assert_eq!(frame.reference_pressure, frame.ai_pressure);
         cancel.store(true, Ordering::Relaxed);
-        assert!(engine.advance(&cancel, |r| Ok(r.base.to_vec())).is_err());
+        assert!(
+            engine
+                .advance(&cancel, |r| Ok(r.initial_guess.to_vec()))
+                .is_err()
+        );
     }
 }

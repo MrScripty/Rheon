@@ -1,4 +1,7 @@
 //! Fresh paired native / CPU-checkpoint water laboratory with explicit AI verdicts.
+mod adapter;
+#[cfg(test)]
+mod cpu_contract_tests;
 mod engine;
 mod model_process;
 mod record;
@@ -32,6 +35,7 @@ pub struct ComparisonApp {
     whole_run_range: bool,
     manual_range: f64,
     status: String,
+    preflight_status: Option<String>,
     closing: bool,
 }
 impl ComparisonApp {
@@ -54,9 +58,24 @@ impl ComparisonApp {
             fixed_range: false,
             whole_run_range: false,
             manual_range: 100.0,
+            preflight_status: None,
             status: "Choose a CPU deployment and start a fresh paired simulation".into(),
             closing: false,
         }
+    }
+    fn check_package(&mut self) {
+        self.preflight_status = Some(
+            match model_process::ModelProcess::preflight(
+                std::path::Path::new(&self.deployment),
+                &self.scene,
+            ) {
+                Ok(p) => format!(
+                    "Supported CPU package {} {} (no code executed)",
+                    p.id, p.version
+                ),
+                Err(e) => e,
+            },
+        );
     }
     pub fn set_steps(&mut self, steps: usize) {
         self.scene.steps = steps;
@@ -106,7 +125,12 @@ impl ComparisonApp {
             ui.heading("Water pressure comparison");if ui.add_enabled(!running,egui::Button::new("Back to simulation")).clicked(){stay=false;}
             ui.label("Filled sealed water · 1000 kg/m³ · 0.001 Pa·s · free-slip walls");
             ui.add_enabled_ui(!running,|ui|{
-                ui.collapsing("CPU checkpoint deployment",|ui|{ui.text_edit_singleline(&mut self.deployment);ui.small("Select the exported deployment.json from the qualified training Run.");});
+                ui.collapsing("CPU adapter package", |ui| {
+                    ui.text_edit_singleline(&mut self.deployment);
+                    if ui.button("Check package support").clicked() { self.check_package(); }
+                    if let Some(result) = &self.preflight_status { ui.label(format!("Last inert support check: {result}")); }
+                    ui.small("Select a measured v2 deployment or configurable CPU adapter manifest.");
+                });
                 ui.horizontal(|ui|{ui.label("Seed");ui.add(egui::DragValue::new(&mut self.scene.seed).range(0..=((1_u64<<53)-1)));if ui.button("New seed").clicked(){self.scene.seed=self.scene.seed.wrapping_add(0x9e3779b97f4a7c15)&((1_u64<<53)-1);}});
                 ui.label("Cell counts X / Y / Z");ui.horizontal(|ui|{for count in &mut self.scene.counts{ui.add(egui::DragValue::new(count).range(5..=128));}});
                 ui.horizontal(|ui|{ui.label("Cells per metre");ui.add(egui::DragValue::new(&mut self.scene.cells_per_metre).range(1..=128));});
@@ -129,7 +153,7 @@ impl ComparisonApp {
         let mut count = 0;
         let mut pressure_range = 0.0;
         let mut delta_range = 0.0;
-        let mut checkpoint = String::new();
+        let mut provider = None;
         let playback_delta = self.speed * f64::from(ctx.input(|i| i.stable_dt.min(0.1)));
         if let Some(worker) = &self.worker
             && let Ok(shared) = worker.shared.lock()
@@ -137,7 +161,7 @@ impl ComparisonApp {
             count = shared.frames.len();
             pressure_range = shared.pressure_range;
             delta_range = shared.difference_range;
-            checkpoint = shared.checkpoint.clone();
+            provider = shared.provider.clone();
             self.status = format!("{} · {}", shared.state, shared.message);
             if count > 0 {
                 if self.follow {
@@ -158,10 +182,10 @@ impl ComparisonApp {
         egui::TopBottomPanel::top("ai-comparison-status").show(ctx, |ui| {
             ui.heading("Rheon solver / AI solver · fresh water simulations");
             ui.label(&self.status);
-            if !checkpoint.is_empty() {
+            if let Some(provider) = &provider {
                 ui.small(format!(
-                    "Frozen CPU checkpoint {} · optimizer updates during comparison: 0",
-                    &checkpoint[..12]
+                    "CPU provider {} · optimizer updates during comparison: 0",
+                    provider.id.chars().take(24).collect::<String>()
                 ));
             }
         });
@@ -233,7 +257,7 @@ pub fn headless(deployment: PathBuf, directory: PathBuf, steps: usize) -> Result
     let last = data.frames.last().ok_or("No frames")?;
     println!(
         "{}",
-        serde_json::json!({"state":data.state,"message":data.message,"frames":data.frames.len(),"step":last.step,"time_s":last.time_s,"reference_qualified":last.reference_quality.as_ref().map(|q|q.qualified),"ai_qualified":last.ai_quality.as_ref().map(|q|q.qualified),"checkpoint_sha256":data.checkpoint,"directory":data.directory})
+        serde_json::json!({"state":data.state,"message":data.message,"frames":data.frames.len(),"step":last.step,"time_s":last.time_s,"reference_qualified":last.reference_quality.as_ref().map(|q|q.qualified),"ai_qualified":last.ai_quality.as_ref().map(|q|q.qualified),"provider":data.provider,"checkpoint_sha256":data.provider.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"directory":data.directory})
     );
     Ok(())
 }
