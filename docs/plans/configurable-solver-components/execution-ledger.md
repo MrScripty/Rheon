@@ -171,3 +171,15 @@ Draft source remains proposal evidence, not implementation admission.
   corresponding library Clippy checks with `-D warnings` passed. No model/window
   claim follows from ignored tests. GitHub M1 native-cpu, native/rational, cloud,
   VTK and executable checks are green; remaining hosted book/features are pending.
+- Evidence correction: this environment's /proc mount is not aligned with child
+  PIDs; earlier negative /proc observations are insufficient OS liveness evidence.
+  Replaced all six checks with fixed kill-zero probes, requiring positive liveness
+  while resident and negative after owned wait/join. Independent source review
+  approved; focused CPU suite freshly passed 21 tests/1 ignored, and scoped Clippy
+  passed. This strengthens immediate-child evidence without changing production
+  code, numerical gates, original retained M0 receipts or descendant guarantees.
+  The changed test-source admission requires fresh clean qualification below.
+- Native X11 software display is now available through workspace-local Xvfb.
+  A real window rendered inert support feedback and a complete 64-step analytic
+  fixture run with failed pressure diagnostics visible; this is not trained-model
+  or hardware/GPU qualification. Native lifecycle observation is still underway.

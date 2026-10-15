@@ -15,6 +15,26 @@ use std::{
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
+/// Probe in the child's PID namespace; /proc can be mounted from another one.
+#[cfg(target_os = "linux")]
+pub(super) fn assert_child_liveness(pid: u32, expected_alive: bool) {
+    let result = Command::new("/usr/bin/kill")
+        .args(["-0", "--", &pid.to_string()])
+        .output()
+        .expect("Linux lifecycle tests require /usr/bin/kill");
+    assert!(
+        matches!(result.status.code(), Some(0 | 1)),
+        "invalid liveness probe status: {:?}",
+        result.status
+    );
+    assert_eq!(
+        result.status.success(),
+        expected_alive,
+        "child {pid} liveness: {}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+}
+
 pub(super) struct Fixture {
     pub root: PathBuf,
     pub manifest: PathBuf,
@@ -157,10 +177,12 @@ fn two_actual_packages_change_ports_and_output_role_without_host_changes() {
         assert_eq!(pressure, [0.0, 1.0]);
         assert!(process.identity.checkpoint_sha256.is_none());
         let pid = child.lock().unwrap().as_ref().unwrap().id();
+        #[cfg(target_os = "linux")]
+        assert_child_liveness(pid, true);
         drop(process);
         assert!(child.lock().unwrap().is_none());
         #[cfg(target_os = "linux")]
-        assert!(!std::path::Path::new("/proc").join(pid.to_string()).exists());
+        assert_child_liveness(pid, false);
     }
 }
 
@@ -204,10 +226,12 @@ fn stalled_input_write_times_out_and_owned_child_and_io_threads_drain() {
     let result = process.predict(input(&grid, &zero, None, &zero, &zero), &cancel);
     assert!(result.unwrap_err().contains("write deadline"));
     let pid = child.lock().unwrap().as_ref().unwrap().id();
+    #[cfg(target_os = "linux")]
+    assert_child_liveness(pid, true);
     drop(process);
     assert!(child.lock().unwrap().is_none());
     #[cfg(target_os = "linux")]
-    assert!(!std::path::Path::new("/proc").join(pid.to_string()).exists());
+    assert_child_liveness(pid, false);
 }
 
 #[test]
