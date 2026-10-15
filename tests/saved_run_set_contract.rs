@@ -923,3 +923,51 @@ fn real_native_terminal_busy_stays_incomplete_without_overwrite_recovery() {
     );
     std::fs::remove_dir_all(root).unwrap();
 }
+
+#[test]
+fn capture_actual_constructor_feeds_existing_native_producer_without_debug_configuration() {
+    for method in [
+        NativePressureMethod::JacobiPcgV1,
+        NativePressureMethod::SymmetricGaussSeidelPcgV1,
+    ] {
+        let expected = spec(method);
+        let mut simulation = expected.create_simulation().unwrap();
+        let captured = FrozenSpec::capture_constructor(
+            &simulation,
+            expected.requested_dt_s,
+            expected.requested_steps,
+            expected.source.clone(),
+            expected.recording.limits(),
+        )
+        .unwrap();
+        assert_eq!(captured.spec, expected);
+        let run = bound_native_run(
+            &captured,
+            &simulation,
+            SessionIdentity {
+                run_id: 9,
+                source_revision: "existing-native-owner".into(),
+            },
+            "captured actual constructor",
+        )
+        .unwrap();
+        assert_eq!(run.counts, expected.counts_xyz);
+        assert_eq!(
+            run.solver.rsplit('/').next(),
+            Some(method.implementation().id())
+        );
+        simulation
+            .step(expected.requested_dt_s, expected.source_at(0), |_| false)
+            .unwrap();
+        assert!(matches!(
+            FrozenSpec::capture_constructor(
+                &simulation,
+                expected.requested_dt_s,
+                expected.requested_steps,
+                expected.source.clone(),
+                expected.recording.limits()
+            ),
+            Err(RunSetError::Invalid("native intent requires constructor"))
+        ));
+    }
+}

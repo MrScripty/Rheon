@@ -248,6 +248,51 @@ pub struct FrozenSpec {
     pub spec: NativeCarrierSpec,
 }
 impl FrozenSpec {
+    /// Freeze the existing native producer's actual constructor configuration.
+    /// The worker retains its loop and supplies only its explicit future time
+    /// and source schedule; accepted state is never interpreted as a checkpoint.
+    pub fn capture_constructor(
+        simulation: &Simulation,
+        requested_dt_s: f64,
+        requested_steps: usize,
+        source: Option<SourceSpec>,
+        recording: RecordingLimits,
+    ) -> Result<Self, RunSetError> {
+        if simulation.state().generation != 0 || simulation.state().time != 0.0 {
+            return Err(RunSetError::Invalid("native intent requires constructor"));
+        }
+        let actual = simulation.config();
+        let pressure_method = match simulation.implementation() {
+            PressureImplementation::JacobiPcgV1 => NativePressureMethod::JacobiPcgV1,
+            PressureImplementation::SymmetricGaussSeidelPcgV1 => {
+                NativePressureMethod::SymmetricGaussSeidelPcgV1
+            }
+        };
+        Self::new(NativeCarrierSpec {
+            counts_xyz: simulation.grid().counts().map(|value| value as u64),
+            spacing_m: simulation.grid().spacing(),
+            origin_m: simulation.grid().origin(),
+            density_kg_m3: actual.density,
+            pressure_method,
+            tolerances: NativeTolerances {
+                relative_residual: actual.pressure.relative_residual,
+                absolute_residual_m3_s2: actual.pressure.absolute_residual,
+                predicted_divergence_per_s: actual.pressure.divergence_limit,
+                actual_divergence_per_s: actual.actual_divergence_limit,
+                max_courant: actual.max_courant,
+                max_pressure_iterations: actual.pressure.max_iterations,
+            },
+            requested_dt_s,
+            requested_steps,
+            source,
+            simulation_memory_limit_bytes: actual.memory_limit,
+            recording: ArchiveBudget {
+                max_database_bytes: recording.max_database_bytes,
+                max_record_bytes: recording.max_record_bytes,
+                max_records: recording.max_records,
+            },
+        })
+    }
     pub fn new(spec: NativeCarrierSpec) -> Result<Self, RunSetError> {
         spec.validate()?;
         Ok(Self {

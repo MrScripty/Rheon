@@ -144,3 +144,19 @@ test SHA256 `d9c1e521256b5e8cbf3550726d7e882eb370069dae5667d0d9de628673b2d995`.
 Shared producer/UI and source-inventory integration are still serial lead writes
 pending its concrete allocation. Saved recipe/result implementation is continuing
 against these actual helpers and the reviewed native comparison source.
+
+### Existing-producer capture adapter
+
+`FrozenSpec::capture_constructor` reads the existing native owner's actual typed
+geometry, configuration and implementation before the first accepted step. Its
+caller supplies the future schedule and archive limits. It does not add a loop,
+parse Debug strings, or permit accepted-state restart. A seventeenth real-native
+test checks both implementations, exact frozen controls and rejection after a
+step. Independent GPT-6.1 Sol High review found no material finding, independently
+reran 17/17 tests, and confirmed reset generations are also refused. Focused
+Clippy passed. Reviewed source SHA256
+`1c83658b8fea93cde74f7b2e12c8709fa21b8610595b35591f6fffb8a424d78e`;
+test SHA256
+`0f38b3da20c6469023538284d34d1db32e8fa5e9a558a78fb75aa6580326b91f`.
+This makes the producer hook concrete; desktop composition is still pending its
+shared-path allocation and does not follow from this test.
