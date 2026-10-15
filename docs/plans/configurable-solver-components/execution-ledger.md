@@ -474,3 +474,29 @@ matching execution; strict binary Clippy passed. Independent review approved all
 four changed source files. The 103-path closure is rebound for fresh clean
 qualification and hosted CI; the preceding 5cf3ccc native evidence remains pinned
 to its actual source and is not relabelled for this correction.
+
+## 2026-10-15 — corrected executor freeze and native rerun evidence
+
+- Final corrected source bc7b09b0e94d045ed5c4ffb10fd9b3a9d062709a,
+  tree 749cf942aa3084a13cd39917cd12d1160dcde765, passed a fresh clean
+  18-command qualification and 26 real-packet tests normally and under -O,
+  with zero skips. All 103 reviewed source pins remain frozen. The preceding
+  guard source 50b8514 passed 45 comparison tests with one measured-deployment
+  test explicitly ignored; the final inspector-only correction passed both
+  affected saved-rerun/inspector regressions, strict binary Clippy and builds.
+  Earlier core/archive/native evidence above retains its actual source identity.
+- A fresh native eframe/software-X11 window cold-opened a manufactured historical
+  intent with an old known source stamp as not run, then visibly rejected rerun
+  before any output directory or model process. A matching frozen fixture member
+  subsequently completed a fresh rerun: 15 native prefix steps, three rejected
+  candidates and 18 native advances. Its immediate child was observed present
+  before terminal and absent afterwards. Equal unspecified stamps do not establish
+  source-build parity or authenticity.
+- With that completed worker still present, another old-stamp rerun was rejected
+  without a new output directory or model. The exact explanation remained in the
+  inspector across ordinary repaints. Actual GUI Close exited zero. Evidence:
+  /tmp/rheon-runtime-provenance-native/observation.json SHA256
+  87ef608faa0b70782fded0f3e360517d01109bf049014f5ba81038367103be45.
+  Fresh qualification and packet are /tmp/rheon-runtime-provenance-final-qualified
+  and /tmp/rheon-runtime-provenance-final-packet. This follow-through changes
+  documentation only; hosted checks must qualify the pushed head independently.
