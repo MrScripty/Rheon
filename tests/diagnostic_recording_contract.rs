@@ -69,6 +69,10 @@ fn run(mode: DiagnosticMode, seed: bool) -> DiagnosticRun {
         },
         provenance: "manufactured bounded storage fixture; qualification is a host observation"
             .into(),
+        seed_origin: seed.as_ref().map(|p| match p.status {
+            PressureHistoryStatus::Accepted => SeedOrigin::AcceptedNative,
+            _ => SeedOrigin::QualifiedDiagnostic,
+        }),
         seed,
     }
 }
@@ -119,6 +123,7 @@ fn sample(run: &DiagnosticRun, scale: f64, qualified: bool) -> PressureSample {
             flux_limit: 1e-12,
             qualified,
             hard_stop: false,
+            walls_closed: true,
         },
     }
 }
@@ -285,6 +290,16 @@ fn teacher_history_uses_native_equal_request_sample_despite_biased_rejected_mode
 }
 #[test]
 fn teacher_multi_attempts_preserve_actual_accepted_native_history_status() {
+    teacher_native_sequence(PressureHistoryStatus::Accepted, SeedOrigin::AcceptedNative);
+}
+#[test]
+fn qualified_native_diagnostic_warmup_preserves_teacher_history_and_native_control() {
+    teacher_native_sequence(
+        PressureHistoryStatus::Diagnostic { qualified: true },
+        SeedOrigin::QualifiedNativeDiagnostic,
+    );
+}
+fn teacher_native_sequence(history_status: PressureHistoryStatus, origin: SeedOrigin) {
     use rheon::{
         PressureSettings, PressureWorkspace, ProviderStepWorkspace, Simulation, SimulationConfig,
         SmokeSource,
@@ -420,10 +435,11 @@ fn teacher_multi_attempts_preserve_actual_accepted_native_history_status() {
     let mut prior = ObservedHistory {
         generation: native.state().generation,
         interval_end: native.state().time,
-        status: PressureHistoryStatus::Accepted,
+        status: history_status,
         pressure: provider.output.clone(),
     };
     run.seed = Some(prior.clone());
+    run.seed_origin = Some(origin);
     run.native_prefix_steps = 1;
     let mut writer =
         DiagnosticRecorder::create(&archive.0, run.clone(), RecordingLimits::default()).unwrap();
@@ -446,10 +462,7 @@ fn teacher_multi_attempts_preserve_actual_accepted_native_history_status() {
         assert_eq!(native.state().y, control.state().y);
         assert_eq!(native.state().z, control.state().z);
         let request = provider.request.take().unwrap();
-        assert_eq!(
-            request.prior().unwrap().status,
-            PressureHistoryStatus::Accepted
-        );
+        assert_eq!(request.prior().unwrap().status, history_status);
         let mut observed = sample(&run, 0.0, true).observation;
         observed.residual_l2 = report.provider.accepted.true_residual_l2;
         let norm = request.rhs().iter().fold(0.0_f64, |n, v| n.hypot(*v));
@@ -471,7 +484,7 @@ fn teacher_multi_attempts_preserve_actual_accepted_native_history_status() {
                 pressure: provider.output.clone(),
                 observation: observed,
             },
-            history_status: PressureHistoryStatus::Accepted,
+            history_status,
         };
         // This biased model pressure is only an observation. It is never passed
         // to either native owner or used to build the next teacher request.
@@ -488,7 +501,7 @@ fn teacher_multi_attempts_preserve_actual_accepted_native_history_status() {
         prior = ObservedHistory {
             generation: state.generation,
             interval_end: state.time,
-            status: PressureHistoryStatus::Accepted,
+            status: history_status,
             pressure: provider.output.clone(),
         };
     }
@@ -505,14 +518,8 @@ fn teacher_multi_attempts_preserve_actual_accepted_native_history_status() {
     assert_eq!(reader.run().native_prefix_steps, 1);
     for index in 0..2 {
         let a = reader.select(index).unwrap();
-        assert_eq!(
-            a.request.prior().unwrap().status,
-            PressureHistoryStatus::Accepted
-        );
-        assert_eq!(
-            a.native_reference.unwrap().history_status,
-            PressureHistoryStatus::Accepted
-        );
+        assert_eq!(a.request.prior().unwrap().status, history_status);
+        assert_eq!(a.native_reference.unwrap().history_status, history_status);
     }
 }
 #[test]
@@ -946,8 +953,9 @@ fn diagnostic_and_accepted_archive_kinds_are_isolated_and_no_overwrite_is_allowe
     assert_eq!(
         db.pragma_query_value::<i64, _>(None, "user_version", |r| r.get(0))
             .unwrap(),
-        1
+        VERSION
     );
+    db.pragma_update(None, "user_version", 1).unwrap();
     drop(db);
     assert!(matches!(
         RecordingReader::open(&diagnostic.0, RecordingLimits::default()),
@@ -1075,7 +1083,7 @@ fn native_prefix_declaration_is_bounded_hashed_and_never_inferred_from_seed_gene
     assert!(reader.verify().is_err());
 }
 #[test]
-fn unqualified_seeds_cannot_resume_and_teacher_seed_requires_observed_accepted_native_history() {
+fn unqualified_or_mismatched_seed_status_cannot_initialize_diagnostics() {
     for (mode, status) in [
         (
             DiagnosticMode::IndependentStopOnReject,
@@ -1199,5 +1207,186 @@ fn signed_zero_domain_changes_fail_before_commit_and_preserve_cold_prefix() {
         reader.verify().unwrap();
         assert_eq!(reader.count().unwrap(), 1);
         assert_eq!(reader.select(0).unwrap(), first);
+    }
+}
+#[test]
+fn seed_origin_is_paired_closed_and_teacher_rejects_qualified_model_origin() {
+    for (status, origin, mode) in [
+        (
+            PressureHistoryStatus::Accepted,
+            Some(SeedOrigin::QualifiedNativeDiagnostic),
+            DiagnosticMode::TeacherStage,
+        ),
+        (
+            PressureHistoryStatus::Diagnostic { qualified: true },
+            Some(SeedOrigin::AcceptedNative),
+            DiagnosticMode::TeacherStage,
+        ),
+        (
+            PressureHistoryStatus::Diagnostic { qualified: true },
+            Some(SeedOrigin::QualifiedDiagnostic),
+            DiagnosticMode::TeacherStage,
+        ),
+        (
+            PressureHistoryStatus::Diagnostic { qualified: false },
+            Some(SeedOrigin::QualifiedDiagnostic),
+            DiagnosticMode::IndependentStopOnReject,
+        ),
+        (
+            PressureHistoryStatus::Accepted,
+            None,
+            DiagnosticMode::TeacherStage,
+        ),
+    ] {
+        let archive = Archive::new();
+        let mut run = run(mode, true);
+        run.seed.as_mut().unwrap().status = status;
+        run.seed_origin = origin;
+        assert!(DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).is_err());
+        assert!(!archive.0.exists());
+    }
+    let archive = Archive::new();
+    let mut extra_origin = run_fixture();
+    extra_origin.seed_origin = Some(SeedOrigin::QualifiedDiagnostic);
+    assert!(
+        DiagnosticRecorder::create(&archive.0, extra_origin, RecordingLimits::default()).is_err()
+    );
+    for altered in [Some(99), Some(2), None] {
+        let archive = Archive::new();
+        let mut run = run(DiagnosticMode::TeacherStage, true);
+        run.seed.as_mut().unwrap().status = PressureHistoryStatus::Diagnostic { qualified: true };
+        run.seed_origin = Some(SeedOrigin::QualifiedNativeDiagnostic);
+        drop(DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap());
+        let reader = archive.reader();
+        reader.verify().unwrap();
+        Connection::open(&archive.0)
+            .unwrap()
+            .execute("UPDATE diagnostic_run SET seed_origin=?1", [altered])
+            .unwrap();
+        assert!(reader.verify().is_err());
+    }
+    let archive = Archive::new();
+    drop(
+        DiagnosticRecorder::create(&archive.0, run_fixture(), RecordingLimits::default()).unwrap(),
+    );
+    Connection::open(&archive.0)
+        .unwrap()
+        .pragma_update(None, "user_version", 1)
+        .unwrap();
+    assert!(matches!(
+        DiagnosticReader::open(&archive.0, RecordingLimits::default()),
+        Err(RecordingError::Unsupported(
+            "diagnostic archive kind/version"
+        ))
+    ));
+}
+#[test]
+fn cancelled_qualified_candidate_is_retained_without_advance_and_requires_cancelled_or_failed_terminal()
+ {
+    for mode in [
+        DiagnosticMode::TeacherStage,
+        DiagnosticMode::IndependentStopOnReject,
+    ] {
+        for outcome in [
+            TerminalOutcome::Cancelled,
+            TerminalOutcome::Failed,
+            TerminalOutcome::Completed,
+            TerminalOutcome::StoppedOnRejection,
+        ] {
+            let archive = Archive::new();
+            let run = run(mode, true);
+            let mut a = attempt(&run, 0, run.seed.as_ref(), true);
+            a.transition = HistoryTransition::CancelledBeforeAdvance;
+            let mut writer =
+                DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap();
+            writer.append(&a).unwrap();
+            let result = writer.finish(terminal(outcome, 1, None));
+            if matches!(
+                outcome,
+                TerminalOutcome::Cancelled | TerminalOutcome::Failed
+            ) {
+                result.unwrap();
+            } else {
+                assert!(result.is_err());
+            }
+            drop(writer);
+            let reader = archive.reader();
+            reader.verify().unwrap();
+            assert_eq!(reader.select(0).unwrap(), a);
+            assert_eq!(
+                reader.status().unwrap().map(|t| t.last_advanced_generation),
+                if matches!(
+                    outcome,
+                    TerminalOutcome::Cancelled | TerminalOutcome::Failed
+                ) {
+                    Some(None)
+                } else {
+                    None
+                }
+            );
+        }
+        let archive = Archive::new();
+        let run = run(mode, true);
+        let mut a = attempt(&run, 0, run.seed.as_ref(), true);
+        a.transition = HistoryTransition::CancelledBeforeAdvance;
+        let mut writer =
+            DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap();
+        writer.append(&a).unwrap();
+        a.attempt_index = 1;
+        assert!(matches!(writer.append(&a), Err(RecordingError::Closed)));
+        writer
+            .finish(terminal(TerminalOutcome::Cancelled, 1, None))
+            .unwrap();
+    }
+    let archive = Archive::new();
+    let run = run_fixture();
+    let mut a = attempt(&run, 0, None, false);
+    a.outcome = PredictionOutcome::NoCandidate {
+        reason: NoCandidateReason::Cancelled,
+        detail: "cancelled before output".into(),
+        invalid_payload_sha256: None,
+    };
+    a.transition = HistoryTransition::CancelledBeforeAdvance;
+    let mut writer =
+        DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap();
+    assert!(writer.append(&a).is_err());
+}
+#[test]
+fn wall_observation_requires_hard_stop_and_is_strictly_decoded() {
+    for (qualified, hard_stop, valid) in [
+        (true, false, false),
+        (false, false, false),
+        (true, true, false),
+        (false, true, true),
+    ] {
+        let archive = Archive::new();
+        let run = run_fixture();
+        let mut a = attempt(&run, 0, None, false);
+        if let PredictionOutcome::Candidate(s) = &mut a.outcome {
+            s.observation.walls_closed = false;
+            s.observation.qualified = qualified;
+            s.observation.hard_stop = hard_stop;
+        }
+        let mut writer =
+            DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap();
+        let result = writer.append(&a);
+        if valid {
+            result.unwrap();
+            writer
+                .finish(terminal(TerminalOutcome::StoppedOnRejection, 1, None))
+                .unwrap();
+            drop(writer);
+            let reader = archive.reader();
+            reader.verify().unwrap();
+            assert_eq!(reader.select(0).unwrap(), a);
+            Connection::open(&archive.0)
+                .unwrap()
+                .execute("UPDATE pressure_samples SET walls_closed=2", [])
+                .unwrap();
+            assert!(reader.select(0).is_err());
+        } else {
+            assert!(result.is_err());
+            assert_eq!(writer.recorded_count(), 0);
+        }
     }
 }

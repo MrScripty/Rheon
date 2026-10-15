@@ -20,19 +20,19 @@ use std::{
 
 /// Separate SQLite family; accepted archive version 1 is not this format.
 pub const APPLICATION_ID: i64 = 0x52484450; // RHDP
-pub const VERSION: i64 = 1;
+pub const VERSION: i64 = 2;
 const MAX_CELLS: usize = 65_536;
 pub const MAX_NATIVE_PREFIX_STEPS: usize = 512;
 const SCHEMA: &str = "
 PRAGMA application_id=1380467792;
-PRAGMA user_version=1;
+PRAGMA user_version=2;
 CREATE TABLE diagnostic_run(id INTEGER PRIMARY KEY CHECK(id=1),run_id TEXT NOT NULL,
  revision TEXT NOT NULL,geometry BLOB NOT NULL,density BLOB NOT NULL,viscosity BLOB NOT NULL,
  dt BLOB NOT NULL,mode INTEGER NOT NULL,binding_id TEXT NOT NULL,binding_version TEXT NOT NULL,
  manifest BLOB NOT NULL,checkpoint BLOB,training_run TEXT,provenance TEXT NOT NULL,
  seed_generation BLOB,seed_end BLOB,seed_status INTEGER,seed_pressure BLOB,
  max_database_bytes INTEGER NOT NULL,max_record_bytes INTEGER NOT NULL,max_records INTEGER NOT NULL,
- stage TEXT NOT NULL,retention TEXT NOT NULL,digest BLOB NOT NULL,native_prefix_steps INTEGER NOT NULL);
+ stage TEXT NOT NULL,retention TEXT NOT NULL,digest BLOB NOT NULL,native_prefix_steps INTEGER NOT NULL,seed_origin INTEGER);
 CREATE TABLE diagnostic_lifecycle(id INTEGER PRIMARY KEY CHECK(id=1),outcome INTEGER NOT NULL,
  detail TEXT NOT NULL,produced_attempts INTEGER,advanced_generation BLOB,digest BLOB NOT NULL);
 CREATE TABLE attempts(attempt_index INTEGER PRIMARY KEY,generation BLOB NOT NULL,
@@ -47,12 +47,20 @@ CREATE TABLE pressure_samples(attempt_index INTEGER NOT NULL REFERENCES attempts
  actual_divergence BLOB NOT NULL,courant BLOB NOT NULL,net_flux BLOB NOT NULL,
  relative_limit BLOB NOT NULL,absolute_limit BLOB NOT NULL,predicted_limit BLOB NOT NULL,
  actual_limit BLOB NOT NULL,courant_limit BLOB NOT NULL,flux_limit BLOB NOT NULL,
- qualified INTEGER NOT NULL,hard_stop INTEGER NOT NULL,history_status INTEGER,PRIMARY KEY(attempt_index,role));";
+ qualified INTEGER NOT NULL,hard_stop INTEGER NOT NULL,history_status INTEGER,walls_closed INTEGER NOT NULL,PRIMARY KEY(attempt_index,role));";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DiagnosticMode {
     TeacherStage,
     IndependentStopOnReject,
+}
+/// Explicit native/candidate origin observed by the owner, never inferred from
+/// qualification or promoted to accepted history by the recorder.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SeedOrigin {
+    AcceptedNative,
+    QualifiedNativeDiagnostic,
+    QualifiedDiagnostic,
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct BindingIdentity {
@@ -84,6 +92,7 @@ pub struct DiagnosticRun {
     pub binding: BindingIdentity,
     pub provenance: String,
     pub seed: Option<ObservedHistory>,
+    pub seed_origin: Option<SeedOrigin>,
 }
 
 /// Immutable physical request captured before a prediction consumes its input.
@@ -261,6 +270,7 @@ pub struct QualificationObservation {
     pub flux_limit: f64,
     pub qualified: bool,
     pub hard_stop: bool,
+    pub walls_closed: bool,
 }
 #[derive(Clone, Debug, PartialEq)]
 pub struct PressureSample {
@@ -296,6 +306,7 @@ pub enum HistoryTransition {
     NotAdvanced,
     DiagnosticAdvanced,
     NativeTeacherAdvanced,
+    CancelledBeforeAdvance,
 }
 #[derive(Clone, Debug, PartialEq)]
 pub struct DiagnosticAttempt {
@@ -356,13 +367,23 @@ impl DiagnosticRun {
         if let Some(training) = &self.binding.training_run_id {
             valid_text(training)?;
         }
+        if self.seed.is_some() != self.seed_origin.is_some() {
+            return Err(RecordingError::Invalid("seed and origin must be paired"));
+        }
         if let Some(seed) = &self.seed {
             validate_history(seed, self.grid.cell_len())?;
-            if matches!(
-                seed.status,
-                PressureHistoryStatus::Diagnostic { qualified: false }
-            ) || (self.mode == DiagnosticMode::TeacherStage
-                && seed.status != PressureHistoryStatus::Accepted)
+            let origin = self
+                .seed_origin
+                .ok_or(RecordingError::Invalid("seed origin missing"))?;
+            let status_matches = match origin {
+                SeedOrigin::AcceptedNative => seed.status == PressureHistoryStatus::Accepted,
+                SeedOrigin::QualifiedNativeDiagnostic | SeedOrigin::QualifiedDiagnostic => {
+                    seed.status == PressureHistoryStatus::Diagnostic { qualified: true }
+                }
+            };
+            if !status_matches
+                || (self.mode == DiagnosticMode::TeacherStage
+                    && origin == SeedOrigin::QualifiedDiagnostic)
             {
                 return Err(RecordingError::Invalid(
                     "unsupported diagnostic seed history",
@@ -385,7 +406,7 @@ impl DiagnosticRun {
         add_bytes(base, self.seed.as_ref().map_or(0, |s| s.pressure.len()))
     }
     fn digest(&self, limits: RecordingLimits) -> [u8; 32] {
-        let mut h = Hash::new(b"rheon-diagnostic-run-v1\0");
+        let mut h = Hash::new(b"rheon-diagnostic-run-v2\0");
         h.text(STAGE_CONTRACT);
         h.text(&self.run_id);
         h.text(&self.source_revision);
@@ -407,6 +428,10 @@ impl DiagnosticRun {
         h.optional_bytes(self.binding.training_run_id.as_ref().map(|x| x.as_bytes()));
         h.text(&self.provenance);
         hash_history(&mut h, self.seed.as_ref());
+        h.u(u64::from(self.seed_origin.is_some()));
+        if let Some(origin) = self.seed_origin {
+            h.u(seed_origin_id(origin) as u64);
+        }
         h.u(limits.max_database_bytes);
         h.u(limits.max_record_bytes as u64);
         h.u(limits.max_records as u64);
@@ -474,6 +499,7 @@ impl PressureSample {
             || q.relative_residual
                 .is_some_and(|v| !v.is_finite() || v < 0.0)
             || (q.qualified && q.hard_stop)
+            || (!q.walls_closed && !q.hard_stop)
         {
             return Err(RecordingError::Invalid("qualification observation"));
         }
@@ -501,6 +527,7 @@ impl PressureSample {
         }
         h.u(u64::from(q.qualified));
         h.u(u64::from(q.hard_stop));
+        h.u(u64::from(q.walls_closed));
     }
     fn bytes(&self) -> Result<usize, RecordingError> {
         add_bytes(256, self.pressure.len())
@@ -538,6 +565,13 @@ impl DiagnosticAttempt {
             }
         }
         match (run.mode, self.transition) {
+            (_, HistoryTransition::CancelledBeforeAdvance) => {
+                if !matches!(self.outcome, PredictionOutcome::Candidate(_)) {
+                    return Err(RecordingError::Invalid(
+                        "cancelled advance requires dispatched candidate",
+                    ));
+                }
+            }
             (DiagnosticMode::IndependentStopOnReject, HistoryTransition::DiagnosticAdvanced) => {
                 if !matches!(&self.outcome,PredictionOutcome::Candidate(sample) if sample.observation.qualified)
                 {
@@ -591,7 +625,7 @@ impl DiagnosticAttempt {
                 .native_reference
                 .as_ref()
                 .map(|r| (&r.sample, r.history_status)),
-            HistoryTransition::NotAdvanced => None,
+            HistoryTransition::NotAdvanced | HistoryTransition::CancelledBeforeAdvance => None,
         }?;
         Some(ObservedHistory {
             generation: self.request.generation,
@@ -725,6 +759,21 @@ fn mode_id(v: DiagnosticMode) -> i64 {
         DiagnosticMode::IndependentStopOnReject => 1,
     }
 }
+fn seed_origin_id(v: SeedOrigin) -> i64 {
+    match v {
+        SeedOrigin::AcceptedNative => 0,
+        SeedOrigin::QualifiedNativeDiagnostic => 1,
+        SeedOrigin::QualifiedDiagnostic => 2,
+    }
+}
+fn parse_seed_origin(v: i64) -> Result<SeedOrigin, RecordingError> {
+    match v {
+        0 => Ok(SeedOrigin::AcceptedNative),
+        1 => Ok(SeedOrigin::QualifiedNativeDiagnostic),
+        2 => Ok(SeedOrigin::QualifiedDiagnostic),
+        _ => Err(RecordingError::Unsupported("diagnostic seed origin")),
+    }
+}
 fn history_id(v: PressureHistoryStatus) -> i64 {
     match v {
         PressureHistoryStatus::Accepted => 0,
@@ -737,6 +786,7 @@ fn transition_id(v: HistoryTransition) -> i64 {
         HistoryTransition::NotAdvanced => 0,
         HistoryTransition::DiagnosticAdvanced => 1,
         HistoryTransition::NativeTeacherAdvanced => 2,
+        HistoryTransition::CancelledBeforeAdvance => 3,
     }
 }
 fn reason_id(v: NoCandidateReason) -> i64 {
@@ -774,6 +824,7 @@ struct Progress {
     advanced: Option<u64>,
     stopped: bool,
     rejected: bool,
+    cancelled_before_advance: bool,
 }
 impl Progress {
     fn new(run: &DiagnosticRun) -> Self {
@@ -782,6 +833,7 @@ impl Progress {
             advanced: None,
             stopped: false,
             rejected: false,
+            cancelled_before_advance: false,
         }
     }
     fn observe(&mut self, a: &DiagnosticAttempt) {
@@ -789,7 +841,11 @@ impl Progress {
             self.advanced = Some(history.generation);
             self.history = Some(history);
         }
-        self.stopped = a.transition == HistoryTransition::NotAdvanced;
+        self.stopped = matches!(
+            a.transition,
+            HistoryTransition::NotAdvanced | HistoryTransition::CancelledBeforeAdvance
+        );
+        self.cancelled_before_advance = a.transition == HistoryTransition::CancelledBeforeAdvance;
         self.rejected =
             matches!(&a.outcome,PredictionOutcome::Candidate(s) if !s.observation.qualified);
     }
@@ -820,13 +876,13 @@ impl DiagnosticRecorder {
         tx.execute_batch(SCHEMA)?;
         let seed = run.seed.as_ref();
         let seed_data = seed.map(|s| encode_values(&s.pressure));
-        tx.execute("INSERT INTO diagnostic_run VALUES(1,?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,'keep_all_stop',?22,?23)",
+        tx.execute("INSERT INTO diagnostic_run VALUES(1,?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,'keep_all_stop',?22,?23,?24)",
             params![run.run_id,run.source_revision,encode_grid(&run.grid),run.density.to_le_bytes().as_slice(),run.viscosity.to_le_bytes().as_slice(),
                 run.dt.to_le_bytes().as_slice(),mode_id(run.mode),run.binding.id,run.binding.version,run.binding.manifest_sha256.as_slice(),
                 run.binding.checkpoint_sha256.as_ref().map(|x|x.as_slice()),run.binding.training_run_id,run.provenance,
                 seed.map(|s|s.generation.to_le_bytes()).as_ref().map(|b|b.as_slice()),seed.map(|s|s.interval_end.to_le_bytes()).as_ref().map(|b|b.as_slice()),
                 seed.map(|s|history_id(s.status)),seed_data,limits.max_database_bytes as i64,limits.max_record_bytes as i64,limits.max_records as i64,STAGE_CONTRACT,
-                run.digest(limits).as_slice(),run.native_prefix_steps as i64])?;
+                run.digest(limits).as_slice(),run.native_prefix_steps as i64,run.seed_origin.map(seed_origin_id)])?;
         tx.execute(
             "INSERT INTO diagnostic_lifecycle VALUES(1,0,?1,NULL,NULL,?2)",
             params![
@@ -961,13 +1017,13 @@ fn write_sample(
     history_status: Option<PressureHistoryStatus>,
 ) -> Result<(), RecordingError> {
     let q = &sample.observation;
-    c.execute("INSERT INTO pressure_samples VALUES(?1,?2,?3,?4,1,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19)",
+    c.execute("INSERT INTO pressure_samples VALUES(?1,?2,?3,?4,1,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20)",
         params![index as i64,role,request.as_slice(),encode_values(&sample.pressure),q.residual_l2.to_le_bytes().as_slice(),
             q.relative_residual.map(f64::to_le_bytes).as_ref().map(|b|b.as_slice()),q.predicted_divergence.to_le_bytes().as_slice(),
             q.actual_divergence.to_le_bytes().as_slice(),q.courant.to_le_bytes().as_slice(),q.net_flux.to_le_bytes().as_slice(),
             q.relative_limit.to_le_bytes().as_slice(),q.absolute_limit.to_le_bytes().as_slice(),q.predicted_limit.to_le_bytes().as_slice(),
             q.actual_limit.to_le_bytes().as_slice(),q.courant_limit.to_le_bytes().as_slice(),q.flux_limit.to_le_bytes().as_slice(),
-            i64::from(q.qualified),i64::from(q.hard_stop),history_status.map(history_id)])?;
+            i64::from(q.qualified),i64::from(q.hard_stop),history_status.map(history_id),i64::from(q.walls_closed)])?;
     Ok(())
 }
 
@@ -1208,7 +1264,7 @@ impl DiagnosticReader {
         cap: usize,
         expected_request: &[u8; 32],
     ) -> Result<(Option<PressureSample>, Option<NativeReference>), RecordingError> {
-        let mut statement=self.connection.prepare("SELECT role,request_digest,pressure,policy,residual_l2,relative_residual,predicted_divergence,actual_divergence,courant,net_flux,relative_limit,absolute_limit,predicted_limit,actual_limit,courant_limit,flux_limit,qualified,hard_stop,history_status FROM pressure_samples WHERE attempt_index=?1 ORDER BY role")?;
+        let mut statement=self.connection.prepare("SELECT role,request_digest,pressure,policy,residual_l2,relative_residual,predicted_divergence,actual_divergence,courant,net_flux,relative_limit,absolute_limit,predicted_limit,actual_limit,courant_limit,flux_limit,qualified,hard_stop,history_status,walls_closed FROM pressure_samples WHERE attempt_index=?1 ORDER BY role")?;
         let mut rows = statement.query([index as i64])?;
         let mut candidate = None;
         let mut native = None;
@@ -1239,6 +1295,7 @@ impl DiagnosticReader {
                     flux_limit: read_f(r, 15)?,
                     qualified: read_bool(r, 16)?,
                     hard_stop: read_bool(r, 17)?,
+                    walls_closed: read_bool(r, 19)?,
                 },
             };
             let digest = read_digest(r, 1)?;
@@ -1274,6 +1331,16 @@ fn validate_terminal(
     run: &DiagnosticRun,
 ) -> Result<(), RecordingError> {
     valid_text(&t.detail)?;
+    if p.cancelled_before_advance
+        && !matches!(
+            t.outcome,
+            TerminalOutcome::Cancelled | TerminalOutcome::Failed
+        )
+    {
+        return Err(RecordingError::Invalid(
+            "cancelled candidate requires cancelled or failed terminal",
+        ));
+    }
     if t.last_advanced_generation == Some(0)
         || t.produced_attempts < count
         || (p.advanced.is_some() && t.last_advanced_generation < p.advanced)
@@ -1362,7 +1429,7 @@ fn read_header(
     {
         return Err(RecordingError::Limit("diagnostic header payload"));
     }
-    let mut statement=c.prepare("SELECT run_id,revision,geometry,density,viscosity,dt,mode,binding_id,binding_version,manifest,checkpoint,training_run,provenance,seed_generation,seed_end,seed_status,seed_pressure,max_database_bytes,max_record_bytes,max_records,stage,retention,digest,native_prefix_steps FROM diagnostic_run WHERE id=1")?;
+    let mut statement=c.prepare("SELECT run_id,revision,geometry,density,viscosity,dt,mode,binding_id,binding_version,manifest,checkpoint,training_run,provenance,seed_generation,seed_end,seed_status,seed_pressure,max_database_bytes,max_record_bytes,max_records,stage,retention,digest,native_prefix_steps,seed_origin FROM diagnostic_run WHERE id=1")?;
     let mut rows = statement.query([])?;
     let r = rows
         .next()?
@@ -1401,6 +1468,11 @@ fn read_header(
         },
         provenance: bounded_text(r, 12)?,
         seed: read_history(r, 13, grid.cell_len(), cap)?,
+        seed_origin: if is_null(r, 24)? {
+            None
+        } else {
+            Some(parse_seed_origin(r.get(24)?)?)
+        },
     };
     run.validate(recorded)?;
     if run.bytes()? > cap {
@@ -1557,6 +1629,7 @@ fn parse_transition(v: i64) -> Result<HistoryTransition, RecordingError> {
         0 => Ok(HistoryTransition::NotAdvanced),
         1 => Ok(HistoryTransition::DiagnosticAdvanced),
         2 => Ok(HistoryTransition::NativeTeacherAdvanced),
+        3 => Ok(HistoryTransition::CancelledBeforeAdvance),
         _ => Err(RecordingError::Unsupported("diagnostic transition")),
     }
 }

@@ -7,15 +7,17 @@ accepted ordinals, restart state, an executable configuration, or a model loader
 No numerical loop, runtime supervisor, background writer, catalog, migration,
 eviction, automatic cleanup or writer resume is provided.
 
-The first schema uses `application_id = 0x52484450` (`RHDP`), `user_version = 1`.
+The current schema uses `application_id = 0x52484450` (`RHDP`), `user_version = 2`.
 Both values are required by `DiagnosticReader`. These version numbers belong to
 the diagnostic family; they do not change accepted archive version 1. The tables
 are `diagnostic_run`, `diagnostic_lifecycle`, `attempts` and `pressure_samples`.
 There is no `steps` table. Accepted archive readers reject diagnostic databases
-as `Unsupported("archive kind")` even though both families use user version one;
+as `Unsupported("archive kind")`, including when a diagnostic header claims user version one;
 accepted selection/full verification also reject a changed application ID after open.
 Diagnostic readers reject accepted databases. Cold inspection executes no Python
 or other model code.
+Diagnostic schema one is unsupported by this reader. There is no automatic
+migration or modification of existing user data to add schema-two seed origins.
 
 ## Capture and append
 
@@ -43,11 +45,16 @@ possible post-warmup state. It does not invent or certify the preceding warmup
 history. A missing seed requires the first request to have no prior, generation
 one and interval start zero. A seed requires the first request to use that exact
 history. Diagnostic candidate output is never promoted to accepted history.
+The mandatory `seed_origin: Option<SeedOrigin>` is paired with seed presence.
+`AcceptedNative` requires observed `Accepted` history. `QualifiedNativeDiagnostic`
+and `QualifiedDiagnostic` require observed diagnostic history with `qualified=true`.
+Teacher mode permits only the two native origins; qualified model-origin history
+cannot initialize its trajectory. Independent mode permits all three origins.
 Unqualified diagnostic seeds are rejected in both modes: this format cannot
-resume a failed diagnostic trajectory. A present teacher seed must have the
-native owner's explicitly observed `Accepted` status. Starting teacher evaluation
-from a qualified diagnostic-native seed is unsupported in this first schema;
-callers must not relabel an experimental engine state as accepted to load it.
+resume a failed diagnostic trajectory. A qualified experimental native engine
+uses `QualifiedNativeDiagnostic` and retains diagnostic status throughout; it is
+never relabeled as accepted Session state. Origins and qualification remain
+explicit owner observations, not independently proven scientific facts.
 
 `DiagnosticRequest::capture(&PressureContext, viscosity, payload_limit)` accepts
 only `DiagnosticCandidate` contexts. It copies the authoritative RHS and optional
@@ -89,7 +96,9 @@ separately evolved native track cannot substitute for a same-request solve.
 explicit thresholds, measured residual/divergence/Courant/flux values and the
 producer's qualified/hard-stop verdict. Values must be finite, norm/threshold
 quantities nonnegative, and qualified cannot coexist with hard stop. The recorder
-does not execute this policy or certify its verdict. In particular it does not
+also records `walls_closed`. A false wall observation requires `hard_stop=true`
+and `qualified=false`, matching the declared gate's structural wall rule.
+The recorder does not execute this policy or certify its verdict. In particular it does not
 reproduce advection/viscosity, wall checks or actual-velocity diagnostics from
 pressure alone. Prepared face velocities are not captured here. Schema coherence,
 hash integrity and a self-declared qualified bit are not independent physics
@@ -114,6 +123,15 @@ The recorder checks these declared transition facts; it cannot observe or mutate
 the numerical owner's actual memory. The owner supplies the completed transition,
 then synchronously records it before publishing its matching UI observation.
 Recording failure stops the existing worker and cannot undo an owner transition.
+
+`CancelledBeforeAdvance` records a dispatched candidate whose host qualification
+finished before cancellation prevented state/history commit. It is legal in
+either mode and retains the candidate and its actual observations, including a
+qualified verdict. It closes append admission and creates no next history.
+`NotAdvanced` still rejects a qualified independent candidate; cancellation is
+represented by this explicit variant instead of relabeling output as absent.
+Its terminal outcome must be cancelled, or failed if recording/terminal work
+subsequently fails; completed and stopped-on-rejection outcomes are forbidden.
 
 ## Lifecycle and cold verification
 
@@ -166,8 +184,8 @@ record cap is 64 MiB. SQL length checks preflight aggregate selected array/text
 bytes before field copies. A reader enforces both its supplied limits and the
 recorded limits. Quota includes each diagnostic attempt, not the header seed.
 
-Hashes use separate run, request, attempt and terminal domain tags ending in
-`-v1\0`. Integers and f64 bits use little endian. Text/byte strings have LE u64
+The run hash uses `rheon-diagnostic-run-v2\0`; request, attempt and terminal
+hash framing retains its separate `-v1\0` tags. Integers and f64 bits use little endian. Text/byte strings have LE u64
 byte-length prefixes; f64 arrays have LE u64 value counts. Geometry has three
 fixed count integers and six fixed f64 values. Optional values have an LE u64
 presence value. Run hash
@@ -176,7 +194,8 @@ Request hash includes physical stage/domain, lineage, RHS, prior and initial
 residual. Attempt hash binds the run hash, index, entire request, outcome,
 observations, equal-request native reference and transition. Terminal hash binds
 the run hash and declared outcome/tail. The prefix declaration and native history
-status are included in their respective run/attempt hashes. Hashes detect accidental mutation; a writer
+status, seed origin, wall observation and transition are included in their respective
+run/attempt hashes. Hashes detect accidental mutation; a writer
 able to replace both values and hashes can forge observations.
 
 `tests/diagnostic_recording_contract.rs` exercises actual SQLite close/reopen,
@@ -190,6 +209,30 @@ Timing/cost samples, complete warmup request sequences and runtime tensor/port
 bytes are not captured by this schema. Their absence means unavailable evidence,
 not zero cost, zero warmup or an inferred execution count. Produced diagnostic
 attempt counts and the declared native-prefix count are separately explicit.
+
+## Existing CPU runtime boundary
+
+The desktop model process exposes `predict_typed(Input, cancel)` and retains
+`predict(Input, cancel)` as the legacy string-error wrapper. `PredictionFailure`
+preserves a closed no-candidate reason, sanitized bounded detail, whether the
+existing writer accepted dispatch, and an optional invalid-payload SHA256. The
+reason comes from typed support/context, protocol, pipe and deadline branches;
+display text is never parsed to classify a failure. Dispatch does not prove the
+child consumed bytes. Pre-dispatch failure stays false; cancellation, transport
+or deadline failure after initiation stays true. Bridge `invalid` means invalid
+request context; malformed/wrong-correlation/wrong-shape/nonfinite replies mean invalid
+output. For complete invalid wire replies the digest includes the exact received
+protocol line and its newline; an incomplete oversized prefix has no claimed full
+payload digest. The existing child, bounded channels, readers, writer and Drop
+remain the only runtime owners. Real stdlib subprocess fixtures exercise this
+boundary without claiming trained-checkpoint qualification.
+
+Frozen reruns call `ModelProcess::start_pinned` with the expected complete
+`ProviderIdentity`. It shares the existing startup path and compares the inertly
+resolved identity before `Command::spawn`; changed bindings cannot execute model
+code merely to discover a handshake mismatch. The legacy `start` remains available.
+The trusted-local no-concurrent-package-mutation assumption still applies through
+validation and execution. The identity's serialized shape is unchanged.
 
 
 Final serial-owner validation on f56a756: clean native/rational qualification and
