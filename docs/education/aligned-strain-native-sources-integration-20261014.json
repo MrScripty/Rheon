@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed final native M2 composition including OS liveness probes, immutable desktop worker/rerun and real storage-failure contracts. Admission to fresh clean isolated-target qualification only.",
+  "scope": "Explicit independently reviewed native M2 cold-rerun source-relative identity correction and producer-exit regression. Admission to fresh clean isolated-target qualification only.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "76452fcb6fdfa677f18ef8a66b68bf720867f693ed18a5e1d1dbcbc0e7cc15fe",
+  "review_sha256": "1219101fff0cd70c13168780c3626b498240252eae66d826bc8c0b9664822be3",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
@@ -41,7 +41,7 @@
     "src/bin/desktop/transport_view.rs": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
     "src/bin/desktop/viewport.rs": "ff654a1032531d8f5dd756787214ef8d395e6b742278f814c2811f5808d9bb6d",
     "src/bin/rheon-ai-compare.rs": "e0bbf0359d4584b75af7126913e12185badb4abce18b979238a8bcd10676b413",
-    "src/bin/rheon-desktop.rs": "8f0f9a3d900e292d4121a44fef4c8b6268e14079ce550e1455454454674b15b6",
+    "src/bin/rheon-desktop.rs": "225b32930071c7e50abe78dedee94557aee711d7f19d55ea5f75c80d2876fd1e",
     "src/bin/rheon.rs": "93f662452c3d9208bc130d17a4266f65981228f621566dade274a90b899a5547",
     "src/box_flux.rs": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
     "src/box_flux_step.rs": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",

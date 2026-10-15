@@ -177,3 +177,22 @@ There is no new dependency, numerical arithmetic or archive-schema change.
 The closure is still exactly 92 paths; current run-set and two PID-test source
 digests are refreshed explicitly. Source review admits a fresh clean isolated-
 target qualification attempt, not any previous receipt or full generic acceptance.
+
+
+### Cold native rerun identity correction
+
+Actual software-window producer-exit/cold-rerun interaction exposed source run-ID
+reuse when the existing process-local counter restarted. Root Request now retains
+ALL direct source member run IDs before clearing attempts, and the existing worker
+skips those IDs when assigning a saved rerun identity. Ordinary process-local
+identity/provenance semantics remain unchanged; this is freshness relative to the
+selected source revision, not global or full-ancestry uniqueness. No numerical,
+archive-schema, dependency, qualifier or timeout change.
+
+Independent GPT-6.1 Sol High review confirms all Request constructors and the
+source-relative exclusion. New regression invokes actual App execution in separate
+producer and cold-rerun processes, requires the new-ID set disjoint from all source
+IDs, preserves typed specs/native time/field bits and snapshots EVERY source file
+before rerun to verify no overwrite afterward. The closure remains 92 paths; only
+the root desktop source hash changes. This admits fresh qualification, not transfer
+of d8b0eb1 evidence or trained/generic acceptance.
