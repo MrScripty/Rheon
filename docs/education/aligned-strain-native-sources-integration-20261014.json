@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed accepted Session/context, sealed Newtonian composition and immutable constructor configuration readback; complete105-path conservative closure. Admission to fresh clean qualification only; external runtime/persistence/model gates remain separate.",
+  "scope": "Explicit independently reviewed accepted Session/context, sealed Newtonian composition, immutable constructor controls and exact accepted interval starts; complete105-path conservative closure. Fresh clean qualification admission only; external runtime/persistence/model gates remain separate.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "49a9a18daebe916096b307e23ee5270cf8aa04cf4fbd39ac65368c55db0f8c84",
+  "review_sha256": "37c35da78327139b01704ad326e647af2d0e74e07f543435f7a621c13af47a04",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
@@ -94,8 +94,8 @@
     "src/recording/material.rs": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
     "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
     "src/scheduling.rs": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
-    "src/session.rs": "2caa26be33d5497609bfe1b6f16456d217372119d0720a989697fbf5debb0544",
-    "src/session/configured.rs": "f8a8b7687de99884ad2b7790e9fb3da9c9674d0bcc1a19a21b1e6f7751ac4187",
+    "src/session.rs": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",
+    "src/session/configured.rs": "d99ae990e9c7ddc956f95f414a25832411a4dc84ab434df95ff9f8f68cf52a83",
     "src/sgs.rs": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
     "src/simulation.rs": "8dea790daf2a2d0801db3003094f9fffe034c9b87946d520a1eacc266c95f078",
     "src/solver_provider.rs": "0ab7db08a9016e73d664c730e4ff513d42599a84c680ea061e6604859432a5a5",

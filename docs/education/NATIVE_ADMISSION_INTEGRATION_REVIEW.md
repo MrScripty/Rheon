@@ -486,3 +486,21 @@ and stop. Review: ../plans/configurable-solver-components/reports/session-config
 The selector remains105 paths. Only these two selected source pins change;
 103 other selected paths, historical inventories, oracle and qualification
 runner remain unchanged. This is admission for fresh clean qualification only.
+
+
+### Exact accepted Session interval-start authority
+
+Independent GPT-6.1 Sol review approved owner-captured pre-step time for
+all three accepted Session paths. Constructor is None; rejected/cancelled
+attempts and stop preserve the last accepted start. The public regression
+executes64 nonbinary1/60 intervals for all3 paths and both native methods,
+requires a genuine end-minus-dt bit counterexample and verifies failed-attempt
+retention/retry/quota. Review: ../plans/configurable-solver-components/reports/session-interval-review.md.
+
+- src/session.rs: 367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e
+- src/session/configured.rs: d99ae990e9c7ddc956f95f414a25832411a4dc84ab434df95ff9f8f68cf52a83
+- tests/session_interval_start_contract.rs: 4cdc0a85d21d77784ef142ba04f1ef20fb0333555d7bbb15b43465f475934769
+
+The unchanged105-path selector rebinds only these two numerical-owner source
+pins. Other103 selected paths, old inventories, mathematical oracle and runner
+remain unchanged. This admits fresh clean qualification, not old receipt reuse.

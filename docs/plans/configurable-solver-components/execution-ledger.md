@@ -671,3 +671,21 @@ to its actual source and is not relabelled for this correction.
   after4 checks/3 successful workflows. PR102 incorporates that validated CI
   coverage without altering its prior105 source pins. Public allocation: PR102
   comment6203994017. Saved accepted spec/run-set integration remains lead-owned.
+
+## 2026-10-15 — owner-provided exact accepted interval starts
+
+- Recording integration correctly refused to invent native-only interval
+  starts by subtracting dt from the end. Lead added accepted_interval_start to
+  SessionSnapshot, captured from actual pre-step carrier time on all3 accepted
+  paths, None at constructor and unchanged on failed/cancelled/stopped calls.
+- Independent source/test/docs review approved exact pins. New public
+  contract covers64 nonbinary1/60 steps across all3 paths and both methods,
+  requires actual end-dt bit mismatch, and checks failure/retry/quota. All33
+  affected library/configured/configuration/time contracts plus strict scoped
+  Clippy passed. Complete105-source admission rebinds only session.rs and
+  session/configured.rs; fresh committed-source qualification follows.
+- Earlier cleana161844/treeb262ad42db36f1be403a01f9f041d39b4fded374 passed18
+  fresh commands,26 normal/26 optimized packet tests with zero skips,57 core/
+  public contracts with actual modal consumers and zero ignored, strict affected
+  desktop Clippy and both native builds. Those receipts remain pinned to that
+  preceding source in /tmp/rheon-session-config-qualified and related logs.
