@@ -1,10 +1,8 @@
 #![cfg(not(target_arch = "wasm32"))]
-use rheon::{PressureImplementation, SnapshotStage, recording};
-#[path = "../src/recording/comparison.rs"]
-mod comparison;
-use comparison::*;
 use recording::*;
+use rheon::recording::comparison::*;
 use rheon::{GridGeometry, SessionIdentity, Simulation, SimulationConfig};
+use rheon::{PressureImplementation, recording};
 use std::{
     path::PathBuf,
     sync::atomic::{AtomicUsize, Ordering},
@@ -332,6 +330,19 @@ fn oracle_with_policy(
     result: &FieldComparison,
     diagnostic: bool,
 ) {
+    let status = oracle_command(a, b, role, result, diagnostic, false)
+        .status()
+        .unwrap();
+    assert!(status.success());
+}
+fn oracle_command(
+    a: &Archive,
+    b: &Archive,
+    role: FieldRole,
+    result: &FieldComparison,
+    diagnostic: bool,
+    optimized: bool,
+) -> std::process::Command {
     let name = match role {
         FieldRole::Tracer => "tracer",
         FieldRole::VelocityDivergence => "divergence",
@@ -341,6 +352,10 @@ fn oracle_with_policy(
         FieldRole::IntervalPressure => "interval_pressure",
     };
     let mut command = std::process::Command::new("python3");
+    command.env_remove("PYTHONOPTIMIZE");
+    if optimized {
+        command.arg("-O");
+    }
     command.arg(concat!(
         env!("CARGO_MANIFEST_DIR"),
         "/tools/verify_recording_comparison.py"
@@ -348,7 +363,7 @@ fn oracle_with_policy(
     if diagnostic {
         command.arg("--remove-mean-offset");
     }
-    let status = command
+    command
         .arg(&a.path)
         .arg(&b.path)
         .args(["--field", name, "--expect"])
@@ -364,10 +379,59 @@ fn oracle_with_policy(
         .arg("--expect-selection")
         .arg(hex(a.select(0).digest()))
         .arg("--expect-candidate-selection")
-        .arg(hex(b.select(0).digest()))
-        .status()
-        .unwrap();
-    assert!(status.success());
+        .arg(hex(b.select(0).digest()));
+    command
+}
+#[test]
+fn independent_oracle_rejects_wrong_identities_and_metrics_with_python_optimization() {
+    let (run, steps) = fixture(0.01, false);
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    put_f32(&mut steps[0], "tracer", |_| 0.5);
+    let b = Archive::new(run, &steps);
+    let role = FieldRole::Tracer;
+    let result = available(&a.select(0), &b.select(0), role);
+    // Each mode first proves the same valid native-bit fixture reaches success.
+    // Negative invocations then reach the intended identity or metric check.
+    for (optimized, environment) in [(false, false), (true, false), (false, true)] {
+        let command = || {
+            let mut command = oracle_command(&a, &b, role, &result, false, optimized);
+            if environment {
+                command.env("PYTHONOPTIMIZE", "1");
+            }
+            command
+        };
+        let valid = command().output().unwrap();
+        assert!(valid.status.success(), "{valid:?}");
+        for (flag, archive, message) in [
+            (
+                "--expect-selection",
+                &a,
+                "selection digest differs from independent byte oracle",
+            ),
+            (
+                "--expect-candidate-selection",
+                &b,
+                "candidate selection digest differs",
+            ),
+        ] {
+            let mut wrong_digest = archive.select(0).digest();
+            wrong_digest[0] ^= 1;
+            let output = command().arg(flag).arg(hex(wrong_digest)).output().unwrap();
+            assert!(!output.status.success(), "{output:?}");
+            assert!(String::from_utf8_lossy(&output.stderr).contains(message));
+        }
+        let output = command()
+            .arg("--expect")
+            .arg(format!("{:.17e}", result.metrics.l2 + 1.0))
+            .arg(format!("{:.17e}", result.metrics.rmse))
+            .arg(format!("{:.17e}", result.metrics.linf))
+            .arg("undefined")
+            .output()
+            .unwrap();
+        assert!(!output.status.success(), "{output:?}");
+        assert!(String::from_utf8_lossy(&output.stderr).contains("ValueError: L2:"));
+    }
 }
 #[test]
 fn append_and_terminal_status_do_not_change_selected_identity() {
