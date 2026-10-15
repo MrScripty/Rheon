@@ -355,3 +355,21 @@ This is source admission, not a transferred fixture/model receipt or completion
 of A1/A2/full generic milestone gates. Freeze this complete composition and run
 fresh native/rational, recording, desktop and actual native-window qualification.
 Measured trained bundle/runtime/parity remain separately blocked as documented.
+
+### Saved-executor provenance correction
+
+Independent review identified an execution provenance gap after the combined
+freeze: a saved old source stamp could be copied into a new archive under a
+different executor. The corrected source shares current_executor_revision between
+capture and an execution-only full-stamp equality guard. Worker.start_saved rejects
+before output/thread/process creation; the execution owner checks again before
+spawn. Historical validate/digest/open/header verification remain unchanged.
+Equal unspecified stamps explicitly do not prove build parity; no frozen intent
+or digest is silently rewritten. Independent GPT-6.1 Sol review approved the four
+changed selected sources (diagnostic_runs, worker, diagnostic_worker and its tests).
+The new real-process regression proves a mismatched stamp has no spawn marker or
+output root, explicit manufactured historical cancelled metadata cold-opens Ready,
+and a matching stamp executes to completion. Focused test and strict binary Clippy
+passed. Still 103 conservative paths; refresh these four pins and the review
+binding, then qualify the clean corrected tree. Earlier receipts remain evidence
+for their exact subjects, not this correction.

@@ -460,3 +460,17 @@ Draft source remains proposal evidence, not implementation admission.
   byte-identical to5cf3ccc. The exact missing bundle/runtime/parity contract is in
   docs/api/measured-pressure-bundle-handoff.md; full model acceptance stays blocked.
   README90 and active source/dependent branches remain untouched.
+
+## 2026-10-15 — final saved-executor provenance correction
+
+A final independent challenge found that a frozen old build stamp could be
+copied into new execution provenance under a different executor. The execution-only
+full-stamp guard now rejects any mismatch before output/process creation, including
+known/unspecified mismatches. Historical cold decoding stays available and equal
+unspecified stamps retain an explicit lack of build-parity assurance. No old intent
+or digest is rewritten. A focused real-subprocess regression proves rejection
+without side effects, manufactured historical cold readability and successful
+matching execution; strict binary Clippy passed. Independent review approved all
+four changed source files. The 103-path closure is rebound for fresh clean
+qualification and hosted CI; the preceding 5cf3ccc native evidence remains pinned
+to its actual source and is not relabelled for this correction.

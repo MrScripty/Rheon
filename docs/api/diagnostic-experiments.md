@@ -65,7 +65,13 @@ budgets. The archive header binds this entire canonical specification by digest.
 Startup compares the inert loaded provider identity to the frozen pin **before
 child execution**. Changed or absent runtime material is a failed rerun, not a
 substitute model. A build without `RHEON_SOURCE_REVISION` says its revision is
-unspecified; that string is not executable authenticity evidence.
+unspecified; that string is not executable authenticity evidence. Saved execution
+requires exact equality with this executor's declared stamp before output/process
+creation. Any mismatch, including known-versus-unspecified, rejects the frozen
+rerun; historical cold inspection remains available. Matching unspecified stamps
+are allowed but establish no build parity. Retarget a new specification explicitly
+rather than silently rewriting frozen intent or attributing a new build to an old
+stamp.
 
 `attempts.sqlite` is diagnostic RHDP schema **2**, separate from accepted archive
 v1. The Engine advances only under the declared policy; its writer appends each

@@ -15,6 +15,13 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::path::Path;
 const MAX_DOCUMENT: u64 = 1024 * 1024;
+fn current_executor_revision() -> String {
+    format!(
+        "rheon-diagnostic-engine/{}; {}",
+        env!("CARGO_PKG_VERSION"),
+        option_env!("RHEON_SOURCE_REVISION").unwrap_or("build revision unspecified")
+    )
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -120,11 +127,7 @@ impl FrozenDiagnosticSpec {
             policy,
             deployment,
             provider: ProviderPin::capture(identity)?,
-            source_revision: format!(
-                "rheon-diagnostic-engine/{}; {}",
-                env!("CARGO_PKG_VERSION"),
-                option_env!("RHEON_SOURCE_REVISION").unwrap_or("build revision unspecified")
-            ),
+            source_revision: current_executor_revision(),
         };
         spec.validate()?;
         Ok(spec)
@@ -146,6 +149,15 @@ impl FrozenDiagnosticSpec {
             .map_err(|e| e.to_string())?;
         if self.recording.max_records > 512 {
             return Err("Diagnostic attempt budget exceeds supported horizon".into());
+        }
+        Ok(())
+    }
+    /// Execution cannot attribute this executor to a different captured stamp.
+    /// Historical decoding deliberately uses validate(), never this check.
+    pub fn validate_execution(&self) -> Result<(), String> {
+        self.validate()?;
+        if self.source_revision != current_executor_revision() {
+            return Err("Saved diagnostic executor revision differs; cold inspection remains available, but this build cannot execute the frozen intent".into());
         }
         Ok(())
     }

@@ -86,7 +86,7 @@ pub(super) fn run_typed(
                 None,
             )
         };
-        spec.validate()?;
+        spec.validate_execution()?;
         let run_id = record
             .directory
             .file_name()

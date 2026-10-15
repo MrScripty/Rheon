@@ -77,7 +77,7 @@ impl Worker {
         parent: [u8; 32],
         root: PathBuf,
     ) -> Result<Self, String> {
-        spec.validate()?;
+        spec.validate_execution()?;
         Self::start_configured(
             spec.scene.clone(),
             PathBuf::from(&spec.deployment),

@@ -333,3 +333,90 @@ fn typed_headless_failure_returns_error_after_preserving_terminal_observation() 
         serde_json::from_slice(&std::fs::read(directory.join("completion.json")).unwrap()).unwrap();
     assert_eq!(completion["state"], "failed");
 }
+
+#[test]
+fn changed_executor_stamp_blocks_saved_execution_but_historical_cold_source_stays_readable() {
+    use crate::ai_comparison::engine::Engine;
+    use rheon::recording::diagnostic::DiagnosticTerminal;
+    let source = include_str!("../../../../tests/fixtures/pressure_adapter_full.py").replace(
+        "path = Path(sys.argv[-1])",
+        "path = Path(sys.argv[-1])\n(path.parent/'spawn-marker').write_text('child executed')",
+    );
+    let p = Fixture::source(&source, false);
+    let identity = ModelProcess::preflight(&p.manifest, &scene()).unwrap();
+    let matching = FrozenDiagnosticSpec::capture(
+        scene(),
+        ExecutionPolicy::TeacherStage,
+        &p.manifest,
+        &identity,
+    )
+    .unwrap();
+    let mut historical = matching.clone();
+    historical.source_revision = "rheon-diagnostic-engine/old; older-known-build".into();
+    historical.validate().unwrap();
+    assert!(historical.validate_execution().is_err());
+    assert!(
+        super::super::worker::Worker::start_saved(
+            historical.clone(),
+            [1; 32],
+            p.root.join("refused")
+        )
+        .is_err()
+    );
+    assert!(!p.root.join("spawn-marker").exists());
+    assert!(!p.root.join("refused").exists());
+    // A manufactured historical metadata fixture verifies that inspection does
+    // not require source/runtime availability or reinterpret historical stamps.
+    let directory = p.root.join("historical");
+    std::fs::create_dir(&directory).unwrap();
+    let engine = Engine::with_policy(
+        scene(),
+        ExecutionPolicy::TeacherStage,
+        "historical-fixture".into(),
+    )
+    .unwrap();
+    let mut header = engine
+        .diagnostic_run(
+            historical.provider.binding(),
+            historical.source_revision.clone(),
+        )
+        .unwrap();
+    historical.bind_header(&mut header).unwrap();
+    let mut recorder = DiagnosticRecorder::create(
+        &directory.join("attempts.sqlite"),
+        header,
+        historical.recording.limits(),
+    )
+    .unwrap();
+    recorder
+        .finish(DiagnosticTerminal {
+            outcome: RunTerminal::Cancelled.recording(),
+            detail: "Manufactured historical source fixture".into(),
+            produced_attempts: 0,
+            last_advanced_generation: None,
+        })
+        .unwrap();
+    drop(recorder);
+    let mut set = DiagnosticRunSet::single("historical-fixture".into(), historical, None);
+    set.pin_closed(
+        &directory,
+        0,
+        RunObservation {
+            terminal: RunTerminal::Cancelled,
+            detail: "Manufactured historical source fixture".into(),
+            statistics: RunStatistics::default(),
+        },
+    )
+    .unwrap();
+    let path = directory.join("finished.json");
+    set.save_new(&path).unwrap();
+    let loaded = DiagnosticRunSet::open(&path).unwrap();
+    drop(ready(&loaded, &path));
+    assert!(!p.root.join("spawn-marker").exists());
+    let mut worker =
+        super::super::worker::Worker::start_saved(matching, [2; 32], p.root.join("matching"))
+            .unwrap();
+    wait(&mut worker);
+    assert!(p.root.join("spawn-marker").exists());
+    assert_eq!(worker.shared.lock().unwrap().state, "completed");
+}
