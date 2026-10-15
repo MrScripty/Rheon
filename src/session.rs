@@ -5,6 +5,7 @@ use crate::{
     LiquidTransportSimulation, LiquidTransportView, PressureImplementation, write_dense3d_frame,
 };
 use std::{fmt, io::Write, time::Instant};
+mod configured;
 
 /// Caller-assigned run and source identity, not proof of provenance or independence.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -67,6 +68,7 @@ pub struct SessionSnapshot<'a> {
     state: LiquidTransportView<'a>,
     report: Option<&'a LiquidStepReport>,
     provider: Option<&'a crate::solver_provider::ProviderReport>,
+    configured: Option<&'a crate::solver_provider::configured::ConfiguredProviderReport>,
     frame: usize,
 }
 impl<'a> SessionSnapshot<'a> {
@@ -113,6 +115,7 @@ pub enum SessionError {
     Deadline,
     Step(LiquidStepError),
     Workspace(crate::SimulationError),
+    PressureBinding(crate::solver_provider::ProviderRejection),
 }
 impl fmt::Display for SessionError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -130,6 +133,8 @@ pub struct SimulationSession {
     workspace: BoxFluxStepWorkspace,
     report: Option<LiquidStepReport>,
     provider: Option<crate::solver_provider::ProviderReport>,
+    configured: Option<crate::solver_provider::configured::ConfiguredProviderReport>,
+    pressure_history: Option<crate::solver_provider::configured::AcceptedHistoryStamp>,
     steps: usize,
     max_steps: usize,
     stopped: bool,
@@ -162,6 +167,8 @@ impl SimulationSession {
             workspace,
             report: None,
             provider: None,
+            configured: None,
+            pressure_history: None,
             steps: 0,
             max_steps,
             stopped: false,
@@ -183,6 +190,7 @@ impl SimulationSession {
             state: self.simulation.state(),
             report: self.report.as_ref(),
             provider: self.provider.as_ref(),
+            configured: self.configured.as_ref(),
             frame: self.steps,
         }
     }
@@ -260,6 +268,8 @@ impl SimulationSession {
         self.steps += 1;
         self.report = Some(report);
         self.provider = Some(provider.clone());
+        self.configured = None;
+        self.accept_pressure_history(report, &provider, 0.0);
         Ok((report, provider))
     }
 
@@ -302,6 +312,8 @@ impl SimulationSession {
         self.steps += 1;
         self.report = Some(report);
         self.provider = None;
+        self.configured = None;
+        self.pressure_history = None;
         Ok(report)
     }
 }

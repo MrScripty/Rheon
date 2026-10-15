@@ -669,7 +669,7 @@ impl Simulation {
             viscosity,
             mut provider,
         } = domains;
-        if provider.is_some() && (boundary.is_some() || surface.is_some() || viscosity.is_some()) {
+        if provider.is_some() && (boundary.is_some() || surface.is_some()) {
             return Err(SimulationError::UnsupportedProviderDomain);
         }
         if provider.as_ref().is_some_and(|p| {

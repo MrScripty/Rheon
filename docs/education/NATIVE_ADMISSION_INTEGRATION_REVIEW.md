@@ -440,3 +440,30 @@ addition to the three custody pins above. No numerical/schema/provider/accepted
 archive semantics, source selectors or qualification gates change. Earlier529a
 receipts remain pinned to that earlier subject; the final seven-file proposal
 composition requires fresh clean qualification and current native-window evidence.
+
+
+### Accepted Session/context and sealed Newtonian composition
+
+Independent GPT-6.1 Sol read-only source and fixture review approved the
+six numerical/API files and public contract tests. The complete conservative
+closure grows from103 to105 paths: two added modules, four changed sources,
+99 unchanged paths and none removed. The selector, qualification runner,
+independent rational oracle, historical inventories and numerical gates stay
+unchanged. This admits fresh clean qualification only, not model or full-plan
+acceptance. Review and limits: ../plans/configurable-solver-components/reports/accepted-session-review.md.
+
+The existing accepted pressure array supplies borrowed prior history; the
+Session owns context lineage, physical composition and atomic publication.
+The existing viscosity kernel precedes actual RHS formation. Invalid identity
+metadata is dropped before accepted receipts. Eight public native-fixture
+contracts and a deterministic final-callback deadline regression retain
+pressure/volume/cancellation gates and bounded allocations. Runtime bridge,
+typed persistence and measured aa82 parity remain separate gates.
+
+- src/liquid_step.rs: f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93
+- src/session.rs: 604e579bf4a2c780c4941889230654432a2e491059013a94f20300b5ecbe665d
+- src/session/configured.rs: f8a8b7687de99884ad2b7790e9fb3da9c9674d0bcc1a19a21b1e6f7751ac4187
+- src/simulation.rs: 8dea790daf2a2d0801db3003094f9fffe034c9b87946d520a1eacc266c95f078
+- src/solver_provider.rs: 0ab7db08a9016e73d664c730e4ff513d42599a84c680ea061e6604859432a5a5
+- src/solver_provider/configured.rs: 124ca65dd1dec3a8a89043198fb085453a42ca8aff0dc87c67b04b6a986109be
+- tests/configured_provider_session_contract.rs: ba4a8f26fbf0324d705a80a4b108b1e9d09a293ac2eb29a8278fe01f65dc5a00

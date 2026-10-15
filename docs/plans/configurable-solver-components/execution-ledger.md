@@ -590,3 +590,40 @@ to its actual source and is not relabelled for this correction.
   It does not close absent measured A1, accepted learned-provider A2, unsupported
   platforms or all generic milestone criteria. No training, replacement checkpoint,
   user data change, README90 merge or unmerged source branch retirement occurred.
+## 2026-10-15 — accepted Session/context composition slice
+
+- Parent audit explicitly identified cloud-testable A2–A4 acceptance beyond the
+  measured-bundle gate. The numerical owner implemented the bounded accepted
+  Session binding and existing sealed Newtonian composition separately from the
+  diagnostic Engine. The Session supplies actual dt/interval, post-viscosity RHS,
+  accepted prior and composition prefix; adapters own no host history.
+- No new numerical kernel or pressure-history volume. The existing pressure,
+  corrected-velocity, volume and final-commit gates remain authoritative. Support
+  and pressure-candidate rejection retain same-request native fallback; later
+  whole-interval failure retains fields, reports, history and quota.
+- Independent GPT-6.1 Sol source review found an invalid-identity receipt issue;
+  the corrected path rejects before provider callbacks and never publishes that
+  binding. Final review approved all six API/core files, the eight public
+  contracts, deterministic injected-clock regression and bounded documentation.
+  [Exact pins and review limits](reports/accepted-session-review.md).
+- Eight new public contracts, eight existing viscosity contracts and17 existing
+  provider/Session/transport contracts passed; the latter used actual checkpoint
+  25533a2fbaa5ab0f5fb574dc6307a2b8d6a686deb7db867d0d03338d4d70d5a9
+  and export902ad8d77b16ae42f22f90bf71c22c19ae2e3cbe0cc0f4cc3d770930d4049aea.
+  All33 passed with zero ignored. Four Session deadline units, including the
+  configured final-callback clock crossing, passed. Strict affected core Clippy,
+  formatting and diff checks passed. Logs are in /tmp/rheon-accepted-session-*.
+- Complete conservative source admission grows from103 to105 paths, with two
+  added modules, four changed sources and99 unchanged paths. Selector, old
+  inventories, mathematical oracle and qualification runner remain unchanged.
+  This source freeze requires fresh clean qualification and hosted checks;
+  admission/source review alone is not a numerical or model receipt.
+- Runtime package connection, typed accepted report persistence, frozen accepted
+  spec/run-set integration and fresh-process coverage remain subsequent work.
+  The missing measured aa82 bundle blocks its own parity/accuracy qualification;
+  it does not block these independently testable accepted-path slices. Native
+  fixture candidates are explicitly native solves, not fabricated model evidence.
+- Separate CI-only draft [PR101](https://github.com/MrScripty/Rheon/pull/101)
+  adds the two existing real-checkpoint consumer targets to ai-pressure.yml.
+  Its source-reviewed17/17 actual-model consumer result does not establish aa82
+  parity. PR99 remains governed by its independent exact-head hosted gate.
