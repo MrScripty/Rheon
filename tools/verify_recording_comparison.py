@@ -97,6 +97,18 @@ def roundoff_bounds(source, field):
     return math.hypot(*bounds), max(bounds)
 
 
+def l2_norm(values):
+    if not all(math.isfinite(value) for value in values):
+        raise ValueError("nonfinite norm input")
+    scale = max(abs(value) for value in values)
+    if scale == 0:
+        return 0.0
+    # Normalize before squaring: finite native fields may have representable
+    # norms even when their unscaled squares overflow or underflow. Keep this
+    # independent of Rust's streaming hypot reducer.
+    return scale * math.sqrt(math.fsum((value / scale)**2 for value in values))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("reference")
@@ -123,10 +135,10 @@ def main():
             raise ValueError("mean-offset removal requires interval pressure")
         offset = math.fsum(candidate-reference for reference, candidate in zip(x, y, strict=True)) / len(x)
         y = [value-offset for value in y]
-    squares = [(candidate-reference)**2 for reference, candidate in zip(x, y, strict=True)]
-    l2 = math.sqrt(math.fsum(squares))
-    norm = math.sqrt(math.fsum(v*v for v in x))
-    results = [l2, math.sqrt(math.fsum(squares)/len(x)), max(abs(candidate-reference) for reference, candidate in zip(x, y, strict=True)), None if norm == 0 else l2/norm]
+    differences = [candidate-reference for reference, candidate in zip(x, y, strict=True)]
+    l2 = l2_norm(differences)
+    norm = l2_norm(x)
+    results = [l2, l2/math.sqrt(len(x)), max(map(abs, differences)), None if norm == 0 else l2/norm]
     expected = [None if v == "undefined" else float(v) for v in args.expect]
     reference_bound, reference_max = roundoff_bounds(a, args.field)
     candidate_bound, candidate_max = roundoff_bounds(b, args.field)
