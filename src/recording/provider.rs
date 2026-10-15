@@ -15,7 +15,7 @@ use std::time::Duration;
 
 pub const PROFILE: &str = "rheon-configured-session-v1";
 const CONFIG: &str = "RSC1:";
-const RECEIPT: &str = "RCP1:";
+const RECEIPT: &str = "RCP2:";
 const CELL: &str = "cell_center; offset [0.5,0.5,0.5]; Cartesian XYZ; x-fast";
 const FACE: [&str; 3] = [
     "x_face; offset [0,0.5,0.5]; Cartesian XYZ; x-fast",
@@ -62,6 +62,8 @@ pub struct RecordedSolverMetadata {
 pub struct RecordedConfiguredReceipt {
     pub binding: Option<ContextProviderIdentity>,
     pub context: Option<AcceptedPressureContextStamp>,
+    /// Actual accepted transport stage presence; applied zero differs from disabled.
+    pub viscosity_applied: bool,
     pub dynamic_viscosity: f64,
     pub prediction_called: bool,
     pub selected: RecordedPressureSelection,
@@ -117,7 +119,7 @@ pub fn configured_run(
         provenance: provenance.into(),
     };
     run.validate()?;
-    configuration(&run)?;
+    configured_configuration(&run)?;
     Ok(run)
 }
 /// Capture the Session's accepted arrays and receipt, never provider scratch.
@@ -137,6 +139,7 @@ pub fn configured_publication(
     {
         return Err(RecordingError::Unsupported("configured recording geometry"));
     }
+    let report = snapshot.report();
     let initial = snapshot.stage() == SnapshotStage::Constructor;
     let receipt = if initial {
         if snapshot.configured_provider_report().is_some() {
@@ -150,9 +153,9 @@ pub fn configured_publication(
                 .ok_or(RecordingError::Unsupported(
                     "accepted step has no configured receipt",
                 ))?,
+            report.is_some_and(|r| r.viscosity.is_some()),
         )?)
     };
-    let report = snapshot.report();
     let dt = report.map(|r| r.carrier.step.dt);
     if report.is_some_and(|r| {
         r.carrier.step.generation != state.carrier.generation
@@ -302,7 +305,7 @@ impl RecordedConfiguredSession {
     pub fn decode(run: &RecordingRun, step: &RecordedStep) -> Result<Self, RecordingError> {
         run.validate()?;
         step.payload_bytes()?;
-        let configuration = configuration(run)?;
+        let configuration = configured_configuration(run)?;
         let grid = GridGeometry::new(run.counts, run.spacing, run.origin)
             .map_err(|_| RecordingError::Invalid("configured geometry"))?;
         let mut d = Decoder::text(&step.controls, RECEIPT)?;
@@ -399,7 +402,7 @@ impl RecordedConfiguredSession {
         {
             return Err(RecordingError::Invalid("configured scalar range"));
         }
-        if receipt.as_ref().is_some_and(|r| r.dynamic_viscosity > 0.0)
+        if receipt.as_ref().is_some_and(|r| r.viscosity_applied)
             && configuration.transport.carrier.density.to_bits()
                 != configuration.transport.represented_density.to_bits()
         {
@@ -471,7 +474,7 @@ pub fn verify_configured_recording(
 ) -> Result<ConfiguredHistoryCoverage, RecordingError> {
     reader.verify()?;
     // Empty archives and unrecorded terminal tails still have a typed contract.
-    let cfg = configuration(reader.run())?;
+    let cfg = configured_configuration(reader.run())?;
     if reader
         .status()?
         .accepted_generation
@@ -552,7 +555,11 @@ fn validate_receipt(
     step: &RecordedStep,
     start: f64,
 ) -> Result<(), RecordingError> {
-    if !r.dynamic_viscosity.is_finite() || r.dynamic_viscosity < 0.0 {
+    if !r.dynamic_viscosity.is_finite()
+        || r.dynamic_viscosity < 0.0
+        || !(r.dynamic_viscosity == 0.0 || r.dynamic_viscosity.is_normal())
+        || (!r.viscosity_applied && r.dynamic_viscosity.to_bits() != 0.0_f64.to_bits())
+    {
         return Err(RecordingError::Invalid("configured viscosity"));
     }
     validate_pressure(r.accepted, true)?;
@@ -681,7 +688,12 @@ fn source_binding(run: &RecordingRun) -> [u8; 32] {
     hash.finalize().into()
 }
 
-fn configuration(run: &RecordingRun) -> Result<SessionConfiguration, RecordingError> {
+/// Decode and validate actual constructor controls without reading a publication
+/// or constructing a Session. This also supports empty and failed-start archives.
+pub fn configured_configuration(
+    run: &RecordingRun,
+) -> Result<SessionConfiguration, RecordingError> {
+    run.validate()?;
     if run.solver != PROFILE {
         return Err(RecordingError::Unsupported("configured session profile"));
     }
@@ -780,6 +792,7 @@ fn method(id: u8) -> Result<PressureImplementation, RecordingError> {
 }
 fn owned_receipt(
     r: &ConfiguredProviderReport,
+    viscosity_applied: bool,
 ) -> Result<RecordedConfiguredReceipt, RecordingError> {
     let selected = if r.pressure.selected == ROLE {
         RecordedPressureSelection::Configured
@@ -806,6 +819,7 @@ fn owned_receipt(
     Ok(RecordedConfiguredReceipt {
         binding: r.binding.as_deref().cloned(),
         context: r.context,
+        viscosity_applied,
         dynamic_viscosity: r.dynamic_viscosity,
         prediction_called: r.prediction_called,
         selected,
@@ -898,6 +912,7 @@ fn put_receipt(e: &mut Encoder, r: &RecordedConfiguredReceipt) -> Result<(), Rec
         }
         e.0.extend_from_slice(&c.rhs_sha256);
     }
+    e.boolean(r.viscosity_applied);
     e.f64(r.dynamic_viscosity);
     e.boolean(r.prediction_called);
     e.u8(match r.selected {
@@ -988,6 +1003,7 @@ fn get_receipt(d: &mut Decoder) -> Result<RecordedConfiguredReceipt, RecordingEr
     } else {
         None
     };
+    let viscosity_applied = d.boolean()?;
     let dynamic_viscosity = d.f64()?;
     let prediction_called = d.boolean()?;
     let selected = match d.u8()? {
@@ -1044,6 +1060,7 @@ fn get_receipt(d: &mut Decoder) -> Result<RecordedConfiguredReceipt, RecordingEr
     Ok(RecordedConfiguredReceipt {
         binding,
         context,
+        viscosity_applied,
         dynamic_viscosity,
         prediction_called,
         selected,
