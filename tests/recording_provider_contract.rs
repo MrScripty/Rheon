@@ -283,6 +283,7 @@ struct Expected {
     fraction: Vec<f64>,
     pressure: Option<(f64, Vec<f64>)>,
     receipt: Option<ConfiguredProviderReport>,
+    viscosity_applied: bool,
     generation: u64,
     time: f64,
     dt: Option<f64>,
@@ -305,6 +306,7 @@ impl Expected {
                 .accepted_interval_start()
                 .map(|start| (start, state.pressure.to_vec())),
             receipt: snapshot.configured_provider_report().cloned(),
+            viscosity_applied: snapshot.report().is_some_and(|r| r.viscosity.is_some()),
             generation: state.carrier.generation,
             time: state.carrier.time,
             dt,
@@ -392,7 +394,10 @@ impl Expected {
             self.pressure.as_ref().map(|(t, p)| (t.to_bits(), bits(p)))
         );
         match (&actual.receipt, &self.receipt) {
-            (Some(actual), Some(expected)) => assert_receipt(actual, expected),
+            (Some(actual), Some(expected)) => {
+                assert_eq!(actual.viscosity_applied, self.viscosity_applied);
+                assert_receipt(actual, expected);
+            }
             (None, None) => {}
             _ => panic!("constructor/accepted receipt availability changed"),
         }
@@ -697,8 +702,8 @@ fn typed_decoder_rejects_generic_valid_wrong_profile_descriptors_and_native_valu
             run.solver = "future-configured-session-v99".into()
         }),
         ("version", |_, step| {
-            assert!(step.controls.starts_with("RCP1"));
-            step.controls.replace_range(..4, "RCP2");
+            assert!(step.controls.starts_with("RCP2"));
+            step.controls.replace_range(..4, "RCP3");
         }),
         ("geometry", |run, _| run.counts[0] += 1),
         ("units", |_, step| {
@@ -1382,4 +1387,250 @@ fn composition_reset_context_absence_cannot_bypass_retained_same_viscosity_histo
             "configured missing available context"
         ))
     ));
+}
+
+#[test]
+fn constructor_header_accessor_validates_failed_start_without_publications() {
+    let directory = Directory::new();
+    let session = session();
+    let run = configured_run(&session.snapshot(), "empty failed-start header").unwrap();
+    let mut recorder = StepRecorder::create(
+        &directory.archive(),
+        run.clone(),
+        RecordingLimits::default(),
+    )
+    .unwrap();
+    recorder
+        .finish("failed", "start failed before any publication", Some(0))
+        .unwrap();
+    drop(recorder);
+    let reader = RecordingReader::open(&directory.archive(), RecordingLimits::default()).unwrap();
+    assert_eq!(reader.count().unwrap(), 0);
+    verify_configured_recording(&reader).unwrap();
+    let header = configured_configuration(reader.run()).unwrap();
+    let row = configured_publication(
+        &session.snapshot(),
+        0,
+        RecordingLimits::default().max_record_bytes,
+    )
+    .unwrap();
+    let mut decoded = RecordedConfiguredSession::decode(&run, &row).unwrap();
+    decoded.configuration = header;
+    // Existing bitwise comparator covers every constructor control.
+    Expected::snapshot(&session.snapshot()).check(&decoded);
+    for mutation in 0..4 {
+        let mut changed = run.clone();
+        match mutation {
+            0 => changed.solver = "future-profile".into(),
+            1 => changed.configuration.push_str("00"),
+            2 => changed.counts = [0; 3],
+            _ => changed.identity.source_revision.clear(),
+        }
+        assert!(configured_configuration(&changed).is_err());
+    }
+}
+
+#[test]
+fn disabled_and_applied_zero_viscosity_reopen_in_separate_processes() {
+    for applied in [false, true] {
+        let directory = Directory::new();
+        let mut session = session();
+        let mut workspace = workspace();
+        let mut viscosity = ViscosityWorkspace::new(grid(), CAP).unwrap();
+        let force = forces();
+        let run = configured_run(&session.snapshot(), "actual zero versus disabled stage").unwrap();
+        let limits = RecordingLimits::default();
+        let mut recorder = StepRecorder::create(&directory.archive(), run, limits).unwrap();
+        recorder
+            .append(
+                &configured_publication(&session.snapshot(), 0, limits.max_record_bytes).unwrap(),
+            )
+            .unwrap();
+        session
+            .step_with_configured_pressure(
+                inputs(&force),
+                &mut workspace,
+                applied.then_some((&mut viscosity, 0.0)),
+                None,
+                None,
+                |_| false,
+            )
+            .unwrap();
+        assert_eq!(
+            session.snapshot().report().unwrap().viscosity.is_some(),
+            applied
+        );
+        recorder
+            .append(
+                &configured_publication(&session.snapshot(), 1, limits.max_record_bytes).unwrap(),
+            )
+            .unwrap();
+        recorder
+            .finish(
+                "completed",
+                "actual accepted zero or disabled stage",
+                Some(1),
+            )
+            .unwrap();
+        drop(recorder);
+        drop(session);
+        let output = Command::new(std::env::current_exe().unwrap())
+            .args(["--exact", "viscosity_stage_cold_child", "--nocapture"])
+            .env("RHEON_STAGE_COLD_PATH", directory.archive())
+            .env(
+                "RHEON_STAGE_COLD_APPLIED",
+                if applied { "true" } else { "false" },
+            )
+            .output()
+            .unwrap();
+        assert!(
+            output.status.success(),
+            "{}\n{}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert!(String::from_utf8_lossy(&output.stdout).contains("cold viscosity stage verified"));
+    }
+}
+
+#[test]
+fn viscosity_stage_cold_child() {
+    let Some(path) = std::env::var_os("RHEON_STAGE_COLD_PATH") else {
+        return;
+    };
+    // Only a reader and typed codecs: no Session/workspace/provider/runtime.
+    let reader = RecordingReader::open(&PathBuf::from(path), RecordingLimits::default()).unwrap();
+    verify_configured_recording(&reader).unwrap();
+    let initial =
+        RecordedConfiguredSession::decode(reader.run(), &reader.select(0).unwrap()).unwrap();
+    assert!(initial.receipt.is_none());
+    let accepted =
+        RecordedConfiguredSession::decode(reader.run(), &reader.select(1).unwrap()).unwrap();
+    let receipt = accepted.receipt.unwrap();
+    assert_eq!(
+        receipt.viscosity_applied,
+        std::env::var("RHEON_STAGE_COLD_APPLIED").unwrap() == "true"
+    );
+    assert_eq!(receipt.dynamic_viscosity.to_bits(), 0.0_f64.to_bits());
+    assert!(receipt.binding.is_none());
+    println!("cold viscosity stage verified");
+}
+
+#[test]
+fn cold_typed_decode_refuses_nonzero_viscosity_without_stage_and_old_receipt_version() {
+    let mut session = session();
+    let mut workspace = workspace();
+    let mut viscosity = ViscosityWorkspace::new(grid(), CAP).unwrap();
+    let force = forces();
+    let limits = RecordingLimits::default();
+    let run = configured_run(&session.snapshot(), "authored stage absence negative").unwrap();
+    session
+        .step_with_configured_pressure(
+            inputs(&force),
+            &mut workspace,
+            Some((&mut viscosity, MU)),
+            None,
+            None,
+            |_| false,
+        )
+        .unwrap();
+    for old_version in [false, true] {
+        let directory = Directory::new();
+        let mut row =
+            configured_publication(&session.snapshot(), 0, limits.max_record_bytes).unwrap();
+        if old_version {
+            row.controls.replace_range(..4, "RCP1");
+        } else {
+            // RCP2 source/stamps/time then receipt/binding/context/stage flags.
+            // This native-only receipt has neither binding nor context.
+            let offset = 5 + (32 + 16 + 16 + 8) * 2;
+            assert_eq!(&row.controls[offset..offset + 8], "01000001");
+            row.controls.replace_range(offset + 6..offset + 8, "00");
+        }
+        let mut recorder = StepRecorder::create(&directory.archive(), run.clone(), limits).unwrap();
+        recorder.append(&row).unwrap();
+        recorder
+            .finish(
+                "completed",
+                "authored generic-valid semantic negative",
+                Some(1),
+            )
+            .unwrap();
+        drop(recorder);
+        let reader = RecordingReader::open(&directory.archive(), limits).unwrap();
+        reader.verify().unwrap();
+        assert!(
+            RecordedConfiguredSession::decode(reader.run(), &reader.select(0).unwrap()).is_err()
+        );
+        assert!(verify_configured_recording(&reader).is_err());
+    }
+}
+
+#[test]
+fn cold_decode_enforces_applied_zero_density_domain_and_normal_viscosity() {
+    let limits = RecordingLimits::default();
+    for unequal_density in [false, true] {
+        let directory = Directory::new();
+        let mut config = configuration();
+        if unequal_density {
+            config.represented_density = 1.0;
+        }
+        let mut session = SimulationSession::new(
+            SessionIdentity {
+                run_id: 901,
+                source_revision: "actual viscosity domain fixture".into(),
+            },
+            grid(),
+            config,
+            PressureImplementation::JacobiPcgV1,
+            vec![1.0; grid().cell_len()],
+            CAP,
+            8,
+        )
+        .unwrap();
+        let run = configured_run(
+            &session.snapshot(),
+            "authored generic-valid viscosity domain negative",
+        )
+        .unwrap();
+        let mut workspace = workspace();
+        let force = forces();
+        // Unequal densities are legitimate without a viscosity stage.
+        session
+            .step_with_configured_pressure(inputs(&force), &mut workspace, None, None, None, |_| {
+                false
+            })
+            .unwrap();
+        let mut row =
+            configured_publication(&session.snapshot(), 0, limits.max_record_bytes).unwrap();
+        RecordedConfiguredSession::decode(&run, &row).unwrap();
+        let flag = 5 + (32 + 16 + 16 + 8 + 3) * 2;
+        assert_eq!(&row.controls[flag..flag + 2], "00");
+        row.controls.replace_range(flag..flag + 2, "01");
+        if !unequal_density {
+            // Positive subnormal: finite but forbidden by the real stage.
+            assert_eq!(&row.controls[flag + 2..flag + 18], "0000000000000000");
+            row.controls
+                .replace_range(flag + 2..flag + 18, "0100000000000000");
+        }
+        let mut recorder = StepRecorder::create(&directory.archive(), run, limits).unwrap();
+        recorder.append(&row).unwrap();
+        recorder
+            .finish(
+                "completed",
+                "authored impossible applied-stage domain",
+                Some(1),
+            )
+            .unwrap();
+        drop(recorder);
+        let reader = RecordingReader::open(&directory.archive(), limits).unwrap();
+        reader.verify().unwrap();
+        assert!(matches!(
+            RecordedConfiguredSession::decode(reader.run(), &reader.select(0).unwrap()),
+            Err(RecordingError::Invalid(
+                "configured viscous domain" | "configured viscosity"
+            ))
+        ));
+        assert!(verify_configured_recording(&reader).is_err());
+    }
 }
