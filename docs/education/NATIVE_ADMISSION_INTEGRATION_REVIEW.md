@@ -504,3 +504,22 @@ retention/retry/quota. Review: ../plans/configurable-solver-components/reports/s
 The unchanged105-path selector rebinds only these two numerical-owner source
 pins. Other103 selected paths, old inventories, mathematical oracle and runner
 remain unchanged. This admits fresh clean qualification, not old receipt reuse.
+
+
+### Portable accepted Session hash dependency
+
+Hosted browser-fixture qualification exposed a real compile regression: the new
+unconditional core configured context imports sha2 while Cargo declared it only
+for native targets. Independent GPT-6.1 Sol review approves moving the existing
+exactsha2=0.10.9 dependency to the common table, with no version/feature/default
+change. Both lockfiles already contain the same package and remain unchanged.
+The fixed actual wasm32 library build passes; complete fresh browser/native
+qualification is still required. Review:
+../plans/configurable-solver-components/reports/portable-session-hash-review.md.
+
+- Cargo.toml: 10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e
+
+The complete selector remains105 paths, only this manifest pin changes and104
+selected paths are unchanged. Native-only filesystem/SQLite/process capabilities,
+numerical kernels/gates, selectors and historical inventories remain unchanged.
+Native qualification alone does not establish this browser regression fixed.
