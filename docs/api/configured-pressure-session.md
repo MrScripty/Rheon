@@ -62,6 +62,13 @@ they do not reconstruct a future experiment recipe. Per-call requested forces,
 timestep, viscosity and provider schedule remain separate intent. The accepted
 receipt supplies the actual applied viscosity and actual pressure interval.
 
+`SessionSnapshot::accepted_interval_start()` retains the exact pre-step carrier
+time for every accepted Session path, including native-only configured calls
+whose provider context is absent. It returns None at construction and preserves
+the prior value after failed/cancelled attempts or stop. A recorder must use this
+owner-provided value: subtracting dt from the recorded end can change its IEEE
+bits after repeated nonbinary timesteps.
+
 The viscous composition requires sealed full liquid fractions, represented
 density equal to the carrier density, no phase source, and the existing
 Newtonian stage. The inviscid path retains the existing passive represented-volume

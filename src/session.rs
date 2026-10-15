@@ -76,6 +76,7 @@ pub struct SessionConfiguration {
 pub struct SessionSnapshot<'a> {
     identity: &'a SessionIdentity,
     configuration: &'a SessionConfiguration,
+    interval_start: Option<f64>,
     grid: &'a GridGeometry,
     state: LiquidTransportView<'a>,
     report: Option<&'a LiquidStepReport>,
@@ -89,6 +90,11 @@ impl<'a> SessionSnapshot<'a> {
     }
     pub fn configuration(&self) -> &'a SessionConfiguration {
         self.configuration
+    }
+    /// Exact carrier time before the last completely accepted interval. None
+    /// at construction; never reconstructed by subtracting dt from its end.
+    pub fn accepted_interval_start(&self) -> Option<f64> {
+        self.interval_start
     }
     pub fn grid(&self) -> &'a GridGeometry {
         self.grid
@@ -145,6 +151,7 @@ impl std::error::Error for SessionError {}
 pub struct SimulationSession {
     identity: SessionIdentity,
     configuration: SessionConfiguration,
+    interval_start: Option<f64>,
     simulation: LiquidTransportSimulation,
     workspace: BoxFluxStepWorkspace,
     report: Option<LiquidStepReport>,
@@ -185,6 +192,7 @@ impl SimulationSession {
                 boundary_workspace_limit: workspace_limit,
                 max_steps,
             },
+            interval_start: None,
             simulation,
             workspace,
             report: None,
@@ -209,6 +217,7 @@ impl SimulationSession {
         SessionSnapshot {
             identity: &self.identity,
             configuration: &self.configuration,
+            interval_start: self.interval_start,
             grid: self.simulation.grid(),
             state: self.simulation.state(),
             report: self.report.as_ref(),
@@ -269,6 +278,7 @@ impl SimulationSession {
         if deadline.is_some_and(|d| now() >= d) {
             return Err(SessionError::Deadline);
         }
+        let interval_start = self.simulation.state().carrier.time;
         let mut expired = false;
         let result =
             self.simulation
@@ -288,6 +298,7 @@ impl SimulationSession {
                 SessionError::Step(e)
             }
         })?;
+        self.interval_start = Some(interval_start);
         self.steps += 1;
         self.report = Some(report);
         self.provider = Some(provider.clone());
@@ -313,6 +324,7 @@ impl SimulationSession {
         if deadline.is_some_and(|d| now() >= d) {
             return Err(SessionError::Deadline);
         }
+        let interval_start = self.simulation.state().carrier.time;
         let mut expired = false;
         let result =
             self.simulation
@@ -332,6 +344,7 @@ impl SimulationSession {
                 SessionError::Step(e)
             }
         })?;
+        self.interval_start = Some(interval_start);
         self.steps += 1;
         self.report = Some(report);
         self.provider = None;

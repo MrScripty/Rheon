@@ -71,10 +71,11 @@ impl SimulationSession {
                 ),
             ))?;
         let run_id = self.identity.run_id.to_string();
+        let interval_start = self.simulation.state().carrier.time;
         let configured = AcceptedContextInput {
             run_id,
             generation,
-            interval_start: self.simulation.state().carrier.time,
+            interval_start,
             history: self.pressure_history,
             dynamic_viscosity: viscosity.as_ref().map_or(0.0, |(_, mu)| *mu),
             provider: preferred,
@@ -105,6 +106,7 @@ impl SimulationSession {
         // All fallible/allocating work and callbacks ended before the physics
         // commit. Arc receipt clones are bounded ownership updates, not arrays.
         self.accept_pressure_history(report, &provider.pressure, provider.dynamic_viscosity);
+        self.interval_start = Some(interval_start);
         self.steps += 1;
         self.report = Some(report);
         self.provider = Some(provider.pressure.clone());
