@@ -486,3 +486,29 @@ and stop. Review: ../plans/configurable-solver-components/reports/session-config
 The selector remains105 paths. Only these two selected source pins change;
 103 other selected paths, historical inventories, oracle and qualification
 runner remain unchanged. This is admission for fresh clean qualification only.
+
+
+### Accepted Session / actual CPU context fixture contracts
+
+Independent GPT-6.1 Sol review approved the optional cooperative poll in
+the existing ModelProcess owner, its legacy false-callback entry points, child
+contract registration and new Rust/Python two-cell fixture contracts. This is
+actual analytic CPU execution through accepted Session contexts, not a learned
+model, GUI runtime connection or durable typed failure recorder. The unchanged
+20ms wait checkpoints are cooperative opportunities, not a response guarantee.
+Cancellation kills that runtime; retry uses a fresh process owner. Existing
+consumed malformed-response digest precedence remains unchanged.
+
+Review: ../plans/configurable-solver-components/reports/accepted-cpu-context-review.md.
+
+- src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs: 040ffd5ad5500ffa0275a61f99d0f3105618597175355db526393645c94bbf56
+- src/bin/desktop/ai_comparison/cpu_contract_tests.rs: d7f2be7ea559891450f4dc1baae47183615bab8b999bc9bfe9d0151bb4d27580
+- src/bin/desktop/ai_comparison/model_process.rs: 77070b2ae78dabf8f2d046a0b83f97053ef6460f8c2f19f47dcc3264e34f9754
+- tests/fixtures/accepted_pressure_adapter.py: 958ba74ebde596aac8375eb436898a1e2342ba1b7868c08bfee99c09c02dc27c
+
+The conservative selector grows105 to106 paths: one added test module,
+two changed selected sources,103 unchanged paths, none removed. The separately
+reviewed Python compiler fixture remains explicitly pinned above and in the
+fresh whole-Git qualification manifest. No selector, gate, old inventory,
+mathematical oracle, protocol schema or numerical kernel changes. This admits
+fresh clean composed qualification only; earlier receipts stay source-bound.

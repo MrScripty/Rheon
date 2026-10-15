@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed accepted Session/context, sealed Newtonian composition and immutable constructor configuration readback; complete105-path conservative closure. Admission to fresh clean qualification only; external runtime/persistence/model gates remain separate.",
+  "scope": "Explicit independently reviewed accepted Session/constructor controls and real analytic CPU context/poll contracts; complete106-path conservative closure. Fresh clean qualification admission only; production GUI/runtime, durable persistence and measured model gates remain separate.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "49a9a18daebe916096b307e23ee5270cf8aa04cf4fbd39ac65368c55db0f8c84",
+  "review_sha256": "414a5fd1aaac07c7ee4b4e0e84ba938294753ce192f52c0e0872f9ded1c32a21",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
@@ -16,8 +16,9 @@
     "src/advection.rs": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
     "src/aligned_strain.rs": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
     "src/bin/desktop/README.md": "a50f69e258487345c8b9f15da011dbbefab70742cab9e4fff9af455a98fca56f",
+    "src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs": "040ffd5ad5500ffa0275a61f99d0f3105618597175355db526393645c94bbf56",
     "src/bin/desktop/ai_comparison/adapter.rs": "33a4c3da7c1864052755b0c63b648d4ad6f06c36415251102de8c4a4ba2fa70b",
-    "src/bin/desktop/ai_comparison/cpu_contract_tests.rs": "9413b796f108fc6e6106bf8829f88f7c425d37cd83e2573742eb00e3a7e4f03b",
+    "src/bin/desktop/ai_comparison/cpu_contract_tests.rs": "d7f2be7ea559891450f4dc1baae47183615bab8b999bc9bfe9d0151bb4d27580",
     "src/bin/desktop/ai_comparison/diagnostic_runs.rs": "7038fff60a8dc88a64236aa12e88c2d4ce856cf93cc4261adf29743644663bf5",
     "src/bin/desktop/ai_comparison/diagnostic_view.rs": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2",
     "src/bin/desktop/ai_comparison/diagnostic_worker.rs": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
@@ -25,7 +26,7 @@
     "src/bin/desktop/ai_comparison/engine.rs": "d475ed3235f8ff73603037f0355dfec5bf326db647f8b23b119548764d6d18bd",
     "src/bin/desktop/ai_comparison/engine_typed_tests.rs": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
     "src/bin/desktop/ai_comparison/mod.rs": "f419a639e07f30da0e039897a2496584d083fcb347c40d370e0e1168c7cfdfb2",
-    "src/bin/desktop/ai_comparison/model_process.rs": "78b156b51e83a4f1027f9fbf9435976e9fbf9cdfa6ea54d1a8fb85d6d538dc0f",
+    "src/bin/desktop/ai_comparison/model_process.rs": "77070b2ae78dabf8f2d046a0b83f97053ef6460f8c2f19f47dcc3264e34f9754",
     "src/bin/desktop/ai_comparison/prediction_contract_tests.rs": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3",
     "src/bin/desktop/ai_comparison/record.rs": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d",
     "src/bin/desktop/ai_comparison/scene.rs": "c9e40ec2ce5712594d40372087d7ec8d51f2123c350af5c7220825f9ec5f058a",

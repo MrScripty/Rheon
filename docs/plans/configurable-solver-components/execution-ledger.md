@@ -671,3 +671,26 @@ to its actual source and is not relabelled for this correction.
   after4 checks/3 successful workflows. PR102 incorporates that validated CI
   coverage without altering its prior105 source pins. Public allocation: PR102
   comment6203994017. Saved accepted spec/run-set integration remains lead-owned.
+
+## 2026-10-15 — accepted Session / actual CPU context slice
+
+- Existing ModelProcess now permits a synchronous cooperative cancellation/
+  deadline callback in its20ms writer/reply checkpoints, using the existing
+  flag, child and Drop wait/join owner. Legacy paths use a false callback; no
+  competing supervisor, wire schema or numerical gate is introduced.
+- Seven new actual stdlib CPU fixture contracts pass: independent nonzero
+  two-cell full/correction candidates match native accepted field bits after
+  real native prefix; physical refusal, quality fallback/prior, actual child
+  exit, in-flight Session cancellation/deadline and fresh-owner retry, before-
+  dispatch cancellation and blocked writer cleanup retain typed observations.
+  Full intermediate application suite passed58 with one existing measured
+  deployment test explicitly ignored; strict both-bin/all-test desktop Clippy
+  passed. These tests used the declared preceding parent build stamp, and
+  require a fresh final-source run after this commit.
+- Independent source/fixture review approved all four files and exact pins.
+  Native closure grows105 to106 by one test module, with two changed selected
+  files and103 unchanged. The Python compiler fixture is explicitly reviewed;
+  fresh whole-Git qualification also binds its bytes. Source selectors, old
+  inventories, mathematical oracle and pressure/transport gates stay unchanged.
+  The driver is deliberately test-only: production GUI/runtime binding, typed
+  durable process failure and missing aa82 parity remain separate work.
