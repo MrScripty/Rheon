@@ -74,13 +74,11 @@ pub(super) fn run_typed(
     let wall = Instant::now();
     let result = (|| -> Result<(RunTerminal, String), String> {
         record.activity("running", "Validating typed CPU deployment", 0)?;
-        let identity = ModelProcess::preflight(&deployment, &scene)?;
+        let saved_rerun = saved.is_some();
         let (spec, parent) = if let Some((spec, parent)) = saved {
-            if ProviderPin::capture(&identity)? != spec.provider {
-                return Err("Saved diagnostic provider pin changed; no model code executed".into());
-            }
             (spec, Some(parent))
         } else {
+            let identity = ModelProcess::preflight(&deployment, &scene)?;
             (
                 FrozenDiagnosticSpec::capture(scene.clone(), policy, &deployment, &identity)?,
                 None,
@@ -100,6 +98,14 @@ pub(super) fn run_typed(
             .map_err(|_| "Comparison lock")?
             .diagnostic_manifest = Some(record.directory.join("intent.json"));
         manifest = Some(intent);
+        if saved_rerun {
+            // Preserve the frozen inputs and parent before inspecting mutable
+            // runtime material. Support and pin failures still execute no child.
+            let identity = ModelProcess::preflight(&deployment, &scene)?;
+            if ProviderPin::capture(&identity)? != spec.provider {
+                return Err("Saved diagnostic provider pin changed; no model code executed".into());
+            }
+        }
         let start = Instant::now();
         let mut startup_publication_failed = false;
         let model = ModelProcess::start_pinned(
