@@ -467,3 +467,22 @@ typed persistence and measured aa82 parity remain separate gates.
 - src/solver_provider.rs: 0ab7db08a9016e73d664c730e4ff513d42599a84c680ea061e6604859432a5a5
 - src/solver_provider/configured.rs: 124ca65dd1dec3a8a89043198fb085453a42ca8aff0dc87c67b04b6a986109be
 - tests/configured_provider_session_contract.rs: ba4a8f26fbf0324d705a80a4b108b1e9d09a293ac2eb29a8278fe01f65dc5a00
+
+
+### Immutable accepted constructor configuration readback
+
+Independent GPT-6.1 Sol review approved the additive SessionConfiguration
+readback and its tests. The Session stores the same validated constructor inputs
+used for its owners and returns only an immutable borrow. Original logical
+memory limits remain constructor controls, distinct from internal budget splits;
+per-call viscosity/provider/forcing schedules are not inferred. Both native
+implementations are covered across constructor, acceptance, failure, cancellation
+and stop. Review: ../plans/configurable-solver-components/reports/session-configuration-review.md.
+
+- src/lib.rs: 91f3cdc1a9b0f782e2efcc647eb956230b201e6b0a3429e4b2cd4955f5f2a2eb
+- src/session.rs: 2caa26be33d5497609bfe1b6f16456d217372119d0720a989697fbf5debb0544
+- tests/session_configuration_contract.rs: 4f53c8d35eeb44819791341b8ce1a80421d9562ab8413f528a3234da233632f7
+
+The selector remains105 paths. Only these two selected source pins change;
+103 other selected paths, historical inventories, oracle and qualification
+runner remain unchanged. This is admission for fresh clean qualification only.

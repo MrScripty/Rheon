@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed accepted Session/context and sealed Newtonian composition; complete105-path conservative closure. Admission to fresh clean qualification only; runtime/persistence/model gates remain separate.",
+  "scope": "Explicit independently reviewed accepted Session/context, sealed Newtonian composition and immutable constructor configuration readback; complete105-path conservative closure. Admission to fresh clean qualification only; external runtime/persistence/model gates remain separate.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "273ab5bf5f4eb077f3f497099a6a76bdc7402e532259259c45b6fc25024d8f0e",
+  "review_sha256": "49a9a18daebe916096b307e23ee5270cf8aa04cf4fbd39ac65368c55db0f8c84",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
@@ -70,7 +70,7 @@
     "src/forces.rs": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb",
     "src/free_surface.rs": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
     "src/geometry.rs": "882ff1af358417a18c00ed8058a9138362d019c6bcc97c0687959d819cc76af2",
-    "src/lib.rs": "59836ed43409a0144e94978d67a0a7b5b5a3d7b89c4c9e9fea3ef318e38bdca5",
+    "src/lib.rs": "91f3cdc1a9b0f782e2efcc647eb956230b201e6b0a3429e4b2cd4955f5f2a2eb",
     "src/liquid_step.rs": "f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93",
     "src/liquid_volume.rs": "24623038f62261ce6a17b034e9b6d82c5f0aba02dd0df7aad174c885ed2a8c96",
     "src/material.rs": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
@@ -94,7 +94,7 @@
     "src/recording/material.rs": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
     "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
     "src/scheduling.rs": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
-    "src/session.rs": "604e579bf4a2c780c4941889230654432a2e491059013a94f20300b5ecbe665d",
+    "src/session.rs": "2caa26be33d5497609bfe1b6f16456d217372119d0720a989697fbf5debb0544",
     "src/session/configured.rs": "f8a8b7687de99884ad2b7790e9fb3da9c9674d0bcc1a19a21b1e6f7751ac4187",
     "src/sgs.rs": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
     "src/simulation.rs": "8dea790daf2a2d0801db3003094f9fffe034c9b87946d520a1eacc266c95f078",

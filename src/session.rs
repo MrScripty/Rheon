@@ -58,12 +58,24 @@ pub enum SnapshotStage {
     Accepted,
 }
 
+/// Immutable constructor controls supplied to the Session's actual numerical
+/// and boundary-workspace owners. Per-call inputs and provider bindings are
+/// separate; this value does not infer a future experiment recipe.
+#[derive(Debug, Clone, Copy)]
+pub struct SessionConfiguration {
+    pub transport: LiquidTransportConfig,
+    pub implementation: PressureImplementation,
+    pub boundary_workspace_limit: usize,
+    pub max_steps: usize,
+}
+
 /// Immutable borrow of one publication. Rust prevents stepping while it is used.
 /// Pressure is the last interval projection pressure, not end-surface pressure.
 /// Copy fields explicitly if they must outlive the next step; that storage belongs
 /// to the consumer. There is no hidden snapshot history or unbounded queue.
 pub struct SessionSnapshot<'a> {
     identity: &'a SessionIdentity,
+    configuration: &'a SessionConfiguration,
     grid: &'a GridGeometry,
     state: LiquidTransportView<'a>,
     report: Option<&'a LiquidStepReport>,
@@ -74,6 +86,9 @@ pub struct SessionSnapshot<'a> {
 impl<'a> SessionSnapshot<'a> {
     pub fn identity(&self) -> &'a SessionIdentity {
         self.identity
+    }
+    pub fn configuration(&self) -> &'a SessionConfiguration {
+        self.configuration
     }
     pub fn grid(&self) -> &'a GridGeometry {
         self.grid
@@ -129,6 +144,7 @@ impl std::error::Error for SessionError {}
 /// Physics memory and boundary scratch have separate explicit constructor limits.
 pub struct SimulationSession {
     identity: SessionIdentity,
+    configuration: SessionConfiguration,
     simulation: LiquidTransportSimulation,
     workspace: BoxFluxStepWorkspace,
     report: Option<LiquidStepReport>,
@@ -163,6 +179,12 @@ impl SimulationSession {
             .map_err(SessionError::Step)?;
         Ok(Self {
             identity,
+            configuration: SessionConfiguration {
+                transport: config,
+                implementation,
+                boundary_workspace_limit: workspace_limit,
+                max_steps,
+            },
             simulation,
             workspace,
             report: None,
@@ -186,6 +208,7 @@ impl SimulationSession {
     pub fn snapshot(&self) -> SessionSnapshot<'_> {
         SessionSnapshot {
             identity: &self.identity,
+            configuration: &self.configuration,
             grid: self.simulation.grid(),
             state: self.simulation.state(),
             report: self.report.as_ref(),
