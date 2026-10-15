@@ -4,15 +4,97 @@ use super::{
     view,
 };
 use eframe::egui;
-use rheon::recording::diagnostic::{DiagnosticAttempt, DiagnosticReader, PredictionOutcome};
-use std::path::Path;
+use rheon::recording::{
+    comparison::FieldComparison,
+    diagnostic::{
+        DiagnosticAttempt, DiagnosticReader, PredictionOutcome, PressureComparisonUnavailable,
+    },
+};
+use std::{path::Path, sync::Arc};
+
+/// One reduction over an exact immutable publication. The retained strong Arc
+/// prevents address reuse and mutation through Arc::get_mut while displayed.
+pub(super) struct AttemptProjection {
+    attempt: Arc<DiagnosticAttempt>,
+    comparison: Result<FieldComparison, PressureComparisonUnavailable>,
+}
+impl AttemptProjection {
+    fn new(attempt: Arc<DiagnosticAttempt>) -> Self {
+        let comparison = attempt.pressure_comparison();
+        Self {
+            attempt,
+            comparison,
+        }
+    }
+    pub(super) fn is_for(&self, attempt: &Arc<DiagnosticAttempt>) -> bool {
+        Arc::ptr_eq(&self.attempt, attempt)
+    }
+}
+
+/// Shared by cold and live callers. No arrays are copied and no file/digest is
+/// read on a retained publication's paint path.
+#[derive(Default)]
+pub(super) struct AttemptCache {
+    projection: Option<AttemptProjection>,
+    #[cfg(test)]
+    constructions: usize,
+}
+impl AttemptCache {
+    pub(super) fn get(&self) -> Option<&AttemptProjection> {
+        self.projection.as_ref()
+    }
+    #[cfg(test)]
+    pub(super) fn constructions(&self) -> usize {
+        self.constructions
+    }
+    pub(super) fn update(
+        &mut self,
+        attempt: Option<Arc<DiagnosticAttempt>>,
+        cut: &mut usize,
+        probe: &mut Option<usize>,
+    ) {
+        if self
+            .projection
+            .as_ref()
+            .zip(attempt.as_ref())
+            .is_some_and(|(previous, current)| previous.is_for(current))
+        {
+            return;
+        }
+        let same_owner_grid =
+            self.projection
+                .as_ref()
+                .zip(attempt.as_ref())
+                .is_some_and(|(previous, current)| {
+                    let a = &previous.attempt.request;
+                    let b = &current.request;
+                    a.run_id() == b.run_id()
+                        && a.grid().counts() == b.grid().counts()
+                        && a.grid().spacing().map(f64::to_bits)
+                            == b.grid().spacing().map(f64::to_bits)
+                        && a.grid().origin().map(f64::to_bits)
+                            == b.grid().origin().map(f64::to_bits)
+                });
+        if !same_owner_grid {
+            *cut = 0;
+            *probe = None;
+        }
+        self.projection = attempt.map(|attempt| {
+            #[cfg(test)]
+            {
+                self.constructions += 1;
+            }
+            AttemptProjection::new(attempt)
+        });
+    }
+}
 #[derive(Default)]
 pub(super) struct Inspector {
     pub path: String,
     pub visible: bool,
     set: Option<DiagnosticRunSet>,
     reader: Option<DiagnosticReader>,
-    attempt: Option<DiagnosticAttempt>,
+    attempt: AttemptCache,
     member: usize,
     ordinal: usize,
     count: usize,
@@ -42,7 +124,7 @@ impl Inspector {
     }
     fn clear(&mut self) {
         self.reader = None;
-        self.attempt = None;
+        self.attempt.update(None, &mut self.cut, &mut self.probe);
         self.count = 0;
         self.probe = None;
     }
@@ -79,18 +161,27 @@ impl Inspector {
         self.load_attempt()
     }
     fn load_attempt(&mut self) -> Result<(), String> {
-        self.attempt = None;
-        self.probe = None;
-        if self.count > 0 {
-            self.attempt = Some(
-                self.reader
-                    .as_ref()
-                    .ok_or("No archive")?
-                    .select(self.ordinal)
-                    .map_err(|e| e.to_string())?,
-            );
+        let selected = (|| {
+            if self.count == 0 {
+                return Ok(None);
+            }
+            self.reader
+                .as_ref()
+                .ok_or("No archive")?
+                .select(self.ordinal)
+                .map(|attempt| Some(Arc::new(attempt)))
+                .map_err(|e| e.to_string())
+        })();
+        match selected {
+            Ok(attempt) => {
+                self.attempt.update(attempt, &mut self.cut, &mut self.probe);
+                Ok(())
+            }
+            Err(error) => {
+                self.attempt.update(None, &mut self.cut, &mut self.probe);
+                Err(error)
+            }
         }
-        Ok(())
     }
     pub fn show(
         &mut self,
@@ -124,7 +215,7 @@ impl Inspector {
                 ui.label(format!("{} · native prefix requested {} · horizon {} · recording budget {} attempts",member.spec.policy.label(),member.spec.scene.warmup_steps,member.spec.scene.steps,member.spec.recording.max_records));
                 if let Some(o)=&member.observed{let s=&o.statistics;ui.label(format!("Observed {:?}: prefix {}, produced {}, dispatched {}, qualified {}, rejected {}, unavailable {}, durable {}",o.terminal,s.native_prefix_steps,s.produced_attempts,s.dispatched_calls,s.qualified,s.rejected,s.unavailable,s.recorded_attempts));ui.small(format!("Wall costs: startup {:.6}s · model calls {:.6}s · execution before finalization {:.6}s; includes protocol/waits and100ms UI pacing, no isolated model/device benchmark",s.model_start_seconds,s.model_prediction_seconds,s.run_wall_seconds));if s.produced_attempts>s.recorded_attempts{ui.colored_label(egui::Color32::YELLOW,"Unrecorded tail: observed category totals beyond the durable prefix cannot be reconstructed");}}
                 if ui.button("Export exact selected attempt summary (new file)").clicked() {
-                    let result=self.attempt.as_ref().ok_or_else(||"Load an attempt first".to_owned()).and_then(|attempt|export_attempt(Path::new(&self.path),&set,self.member,attempt));
+                    let result=self.attempt.get().ok_or_else(||"Load an attempt first".to_owned()).and_then(|projection|export_attempt(Path::new(&self.path),&set,self.member,&projection.attempt));
                     match result {Ok(path)=>self.status=format!("Published {}",path.display()),Err(error)=>{self.clear();self.status=error;}}
                 }
                 let rerun_response=ui.add_enabled(!running,egui::Button::new("Rerun frozen member in fresh directory"));
@@ -138,7 +229,7 @@ impl Inspector {
                 }
             }
             if self.count>0{ui.horizontal(|ui|{ui.add(egui::DragValue::new(&mut self.ordinal).range(0..=self.count-1).prefix("Attempt index "));if ui.button("Load attempt").clicked()&&let Err(e)=self.load_attempt(){self.status=e;}});}
-            if let Some(attempt)=&self.attempt{attempt_ui(ui,attempt,&mut self.cut,&mut self.probe,&mut self.difference);}
+            if let Some(projection)=self.attempt.get(){attempt_ui(ui,projection,&mut self.cut,&mut self.probe,&mut self.difference);}
         });
         self.visible = visible;
         rerun
@@ -187,11 +278,12 @@ fn export_attempt(
 }
 pub(super) fn attempt_ui(
     ui: &mut egui::Ui,
-    attempt: &DiagnosticAttempt,
+    projection: &AttemptProjection,
     cut: &mut usize,
     probe: &mut Option<usize>,
     difference: &mut bool,
 ) {
+    let attempt = &projection.attempt;
     let r = &attempt.request;
     let counts = r.grid().counts();
     *cut = (*cut).min(counts[2] - 1);
@@ -210,27 +302,40 @@ pub(super) fn attempt_ui(
         ui.add(egui::Slider::new(cut, 0..=counts[2] - 1).text("Shared Z slice"));
         ui.checkbox(difference, "Candidate − native");
     });
+    // Keep the shared probe on the displayed plane, including programmatic cuts.
+    // Preserve X/Y; invalid previous indices carry no reusable sample identity.
+    let plane_len = counts[0] * counts[1];
+    *probe = probe
+        .filter(|index| *index < r.rhs().len())
+        .map(|index| index % plane_len + plane_len * *cut);
+    if let Some(native) = &attempt.native_reference {
+        let q = &native.sample.observation;
+        ui.small(format!(
+            "Native same-request reference: host pressure gate qualified {} · hard stop {} · walls closed {} · history {:?}. This diagnostic disagreement is not an accuracy acceptance result.",
+            q.qualified, q.hard_stop, q.walls_closed, native.history_status
+        ));
+    } else {
+        ui.small("Native same-request reference unavailable; no qualification is inferred.");
+    }
     let PredictionOutcome::Candidate(candidate) = &attempt.outcome else {
         ui.label(format!("No candidate: {:?}", attempt.outcome));
         ui.label("Candidate/native comparison unavailable; no replacement field is drawn.");
         return;
     };
     let q = &candidate.observation;
-    ui.label(format!("Host pressure gate: qualified {} · hard stop {} · walls closed {} · residual {:.6e} (relative {:?}, limit {:.3e}; absolute {:.3e})",q.qualified,q.hard_stop,q.walls_closed,q.residual_l2,q.relative_residual,q.relative_limit,q.absolute_limit));
+    ui.label(format!("Candidate host pressure gate: qualified {} · hard stop {} · walls closed {} · residual {:.6e} (relative {:?}, limit {:.3e}; absolute {:.3e})",q.qualified,q.hard_stop,q.walls_closed,q.residual_l2,q.relative_residual,q.relative_limit,q.absolute_limit));
     ui.small(format!("Predicted divergence {:.3e}/{:.3e} s⁻¹ · actual {:.3e}/{:.3e} s⁻¹ · Courant {:.3e}/{:.3e} · net flux {:.3e}, limit {:.3e}",q.predicted_divergence,q.predicted_limit,q.actual_divergence,q.actual_limit,q.courant,q.courant_limit,q.net_flux,q.flux_limit));
-    match attempt.pressure_comparison() {
+    match &projection.comparison {
         Ok(comparison) => {
             let m = comparison.metrics;
             ui.label(format!("Equal-request pressure: L2 {:.9e} Pa · RMSE {:.9e} Pa · L∞ {:.9e} Pa · relative {:?} · {} cells",m.l2,m.rmse,m.linf,m.relative_l2,m.support_count));
             let native = &attempt.native_reference.as_ref().unwrap().sample.pressure;
-            let scale = native
-                .iter()
-                .chain(&candidate.pressure)
-                .fold(0.0_f64, |a, v| a.max(v.abs()));
-            let delta = native
-                .iter()
-                .zip(&candidate.pressure)
-                .fold(0.0_f64, |a, (x, y)| a.max((y - x).abs()));
+            let scale = comparison
+                .color_bounds
+                .min
+                .abs()
+                .max(comparison.color_bounds.max.abs());
+            let delta = comparison.metrics.linf;
             ui.columns(2, |columns| {
                 slice(
                     &mut columns[0],
@@ -258,6 +363,7 @@ pub(super) fn attempt_ui(
         }
         Err(e) => {
             ui.label(format!("Equal-request comparison unavailable: {e:?}"));
+            return;
         }
     }
     if let Some(index) = probe.filter(|i| *i < r.rhs().len()) {
@@ -322,9 +428,7 @@ mod tests {
     use crate::ai_comparison::{
         cpu_contract_tests::Fixture, engine::ExecutionPolicy, scene::Scene, worker::Worker,
     };
-    #[test]
-    fn programmatic_namespace_change_and_failed_reopen_clear_old_attempts() {
-        let p = Fixture::new(false);
+    fn producer(p: &Fixture) -> Worker {
         let mut w = Worker::start_with_policy(
             Scene {
                 counts: [5; 3],
@@ -343,6 +447,43 @@ mod tests {
             std::thread::sleep(std::time::Duration::from_millis(5));
         }
         w.join_finished();
+        w
+    }
+    fn render(
+        cache: &AttemptCache,
+        cut: &mut usize,
+        probe: &mut Option<usize>,
+    ) -> egui::FullOutput {
+        egui::Context::default().run(
+            egui::RawInput {
+                screen_rect: Some(egui::Rect::from_min_size(
+                    egui::Pos2::ZERO,
+                    egui::vec2(1000.0, 1600.0),
+                )),
+                ..Default::default()
+            },
+            |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    attempt_ui(ui, cache.get().unwrap(), cut, probe, &mut false);
+                });
+            },
+        )
+    }
+    fn text(output: &egui::FullOutput) -> String {
+        output
+            .shapes
+            .iter()
+            .filter_map(|shape| match &shape.shape {
+                egui::epaint::Shape::Text(text) => Some(text.galley.text()),
+                _ => None,
+            })
+            .collect::<Vec<_>>()
+            .join("\n")
+    }
+    #[test]
+    fn programmatic_namespace_change_and_failed_reopen_clear_old_attempts() {
+        let p = Fixture::new(false);
+        let w = producer(&p);
         let path = w
             .shared
             .lock()
@@ -354,14 +495,122 @@ mod tests {
         let mut inspector = Inspector::default();
         inspector.set_path(path.to_string_lossy().into_owned());
         inspector.open().unwrap();
-        assert!(inspector.attempt.is_some());
+        assert!(inspector.attempt.get().is_some());
         assert!(inspector.reader.is_some());
         assert!(inspector.status.contains("verified"));
+        // Exercise the actual slider, then verify that the text probe and both
+        // pane highlights identify the newly displayed plane in the same frame.
+        let context = egui::Context::default();
+        let mut cut = 0;
+        let mut probe = Some(0);
+        let mut difference = false;
+        let projection = inspector.attempt.get().unwrap();
+        let attempt = &projection.attempt;
+        let mut frame = |events| {
+            context.run(
+                egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(
+                        egui::Pos2::ZERO,
+                        egui::vec2(1000.0, 1400.0),
+                    )),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    egui::CentralPanel::default().show(ctx, |ui| {
+                        attempt_ui(ui, projection, &mut cut, &mut probe, &mut difference);
+                    });
+                },
+            )
+        };
+        let first = frame(vec![]);
+        let label = first
+            .shapes
+            .iter()
+            .find_map(|shape| match &shape.shape {
+                egui::epaint::Shape::Text(text) if text.galley.text() == "Shared Z slice" => {
+                    Some(text.pos)
+                }
+                _ => None,
+            })
+            .expect("actual shared Z slider label");
+        let pointer = label + egui::vec2(-64.0, 7.0);
+        let modifiers = egui::Modifiers::default();
+        let _ = frame(vec![
+            egui::Event::PointerMoved(pointer),
+            egui::Event::PointerButton {
+                pos: pointer,
+                button: egui::PointerButton::Primary,
+                pressed: true,
+                modifiers,
+            },
+        ]);
+        let rendered = frame(vec![egui::Event::PointerButton {
+            pos: pointer,
+            button: egui::PointerButton::Primary,
+            pressed: false,
+            modifiers,
+        }]);
+        assert!(cut > 0, "the actual slider must move the slice");
+        let counts = attempt.request.grid().counts();
+        assert_eq!(probe, Some(counts[0] * counts[1] * cut));
+        assert_eq!(
+            rendered
+                .shapes
+                .iter()
+                .filter(|shape| matches!(
+                    &shape.shape, egui::epaint::Shape::Rect(rect)
+                    if rect.stroke.color == egui::Color32::YELLOW && rect.stroke.width == 2.0
+                ))
+                .count(),
+            2,
+            "both visible panes must highlight the remapped probe"
+        );
+        let expected = format!("Cell [0, 0, {cut}]");
+        assert!(rendered.shapes.iter().any(|shape| matches!(
+            &shape.shape, egui::epaint::Shape::Text(text)
+            if text.galley.text().starts_with(&expected)
+        )));
+
+        let expected_candidate = match &attempt.outcome {
+            PredictionOutcome::Candidate(candidate) => format!(
+                "Candidate host pressure gate: qualified {}",
+                candidate.observation.qualified
+            ),
+            _ => panic!("producer candidate expected"),
+        };
+        assert!(text(&rendered).contains(&expected_candidate));
+
+        let native = attempt.native_reference.as_ref().unwrap();
+        let expected_native = format!(
+            "Native same-request reference: host pressure gate qualified {}",
+            native.sample.observation.qualified
+        );
+        let expected_history = format!("history {:?}", native.history_status);
+        assert!(rendered.shapes.iter().any(|shape| matches!(
+            &shape.shape, egui::epaint::Shape::Text(text)
+            if text.galley.text().contains(&expected_native)
+                && text.galley.text().contains(&expected_history)
+                && text.galley.text().contains("not an accuracy acceptance result")
+        )));
+
+        // Export must reduce the reopened exact attempt, never the display cache.
+        // Test-only corruption makes accidental cache authority observable.
+        inspector
+            .attempt
+            .projection
+            .as_mut()
+            .unwrap()
+            .comparison
+            .as_mut()
+            .unwrap()
+            .metrics
+            .l2 += 1234.0;
         let summary = export_attempt(
             &path,
             inspector.set.as_ref().unwrap(),
             0,
-            inspector.attempt.as_ref().unwrap(),
+            &inspector.attempt.get().unwrap().attempt,
         )
         .unwrap();
         assert!(
@@ -369,7 +618,7 @@ mod tests {
                 &path,
                 inspector.set.as_ref().unwrap(),
                 0,
-                inspector.attempt.as_ref().unwrap()
+                &inspector.attempt.get().unwrap().attempt
             )
             .is_err()
         );
@@ -403,6 +652,35 @@ mod tests {
             assert!(String::from_utf8_lossy(&invalid.stderr).contains("metric rmse"));
         }
 
+        drop(inspector.reader.take());
+        let archive = Path::new(&inspector.path)
+            .parent()
+            .unwrap()
+            .join(&inspector.set.as_ref().unwrap().members[0].archive_file);
+        let hidden = archive.with_extension("hidden");
+        std::fs::rename(&archive, &hidden).unwrap();
+        let cached_paint = render(&inspector.attempt, &mut inspector.cut, &mut inspector.probe);
+        assert!(text(&cached_paint).contains("Equal-request pressure:"));
+        assert!(
+            export_attempt(
+                &path,
+                inspector.set.as_ref().unwrap(),
+                0,
+                &inspector.attempt.get().unwrap().attempt
+            )
+            .is_err()
+        );
+        std::fs::rename(&hidden, &archive).unwrap();
+        inspector.load_member().unwrap();
+        inspector.ordinal = inspector.count;
+        assert!(inspector.load_attempt().is_err());
+        assert!(inspector.attempt.get().is_none());
+        assert!(inspector.probe.is_none());
+        inspector.member = inspector.set.as_ref().unwrap().members.len();
+        assert!(inspector.load_member().is_err());
+        assert!(inspector.attempt.get().is_none());
+        assert!(inspector.reader.is_none());
+
         // Same entry point used by the actual live-run 'Inspect saved run' action.
         inspector.set_path(
             p.root
@@ -411,17 +689,188 @@ mod tests {
                 .into_owned(),
         );
         assert!(inspector.reader.is_none());
-        assert!(inspector.attempt.is_none());
+        assert!(inspector.attempt.get().is_none());
         assert!(inspector.set.is_none());
         assert_eq!(inspector.count, 0);
         assert!(inspector.status.starts_with("Unverified"));
         assert!(inspector.open().is_err());
-        assert!(inspector.attempt.is_none());
+        assert!(inspector.attempt.get().is_none());
         inspector.visible = true;
         let context = egui::Context::default();
         let _ = context.run(egui::RawInput::default(), |ctx| {
             assert!(inspector.show(ctx, false).is_none());
         });
         assert!(inspector.reader.is_none());
+    }
+
+    #[test]
+    fn projection_cache_uses_exact_arc_retention_and_caches_unavailable_outcomes() {
+        let package = Fixture::new(false);
+        let worker = producer(&package);
+        let mut snapshot = worker.shared.lock().unwrap().last_attempt.clone().unwrap();
+        let weak = Arc::downgrade(&snapshot);
+        let mut cache = AttemptCache::default();
+        let mut cut = 2;
+        let mut probe = Some(3);
+        cache.update(Some(Arc::clone(&snapshot)), &mut cut, &mut probe);
+        assert_eq!(cache.constructions(), 1);
+        assert_eq!((cut, probe), (0, None));
+        assert!(cache.get().unwrap().is_for(&snapshot));
+        assert!(
+            Arc::get_mut(&mut snapshot).is_none(),
+            "cache must retain immutable strong ownership"
+        );
+        let original = cache.get().unwrap().comparison.clone().unwrap();
+        let native_ptr = snapshot
+            .native_reference
+            .as_ref()
+            .unwrap()
+            .sample
+            .pressure
+            .as_ptr();
+        assert_eq!(
+            native_ptr,
+            cache
+                .get()
+                .unwrap()
+                .attempt
+                .native_reference
+                .as_ref()
+                .unwrap()
+                .sample
+                .pressure
+                .as_ptr()
+        );
+        cut = 2;
+        probe = Some(3);
+        for _ in 0..3 {
+            cache.update(Some(Arc::clone(&snapshot)), &mut cut, &mut probe);
+            let output = render(&cache, &mut cut, &mut probe);
+            assert!(text(&output).contains("Cell [3, 0, 2]"));
+            assert_eq!(probe, Some(3 + 25 * 2));
+        }
+        assert_eq!(
+            cache.constructions(),
+            1,
+            "retained paint must not rebuild projection"
+        );
+        drop(worker);
+        drop(snapshot);
+        assert_eq!(
+            weak.strong_count(),
+            1,
+            "only display cache now retains publication"
+        );
+        let snapshot = weak.upgrade().unwrap();
+        let request = snapshot.request.digest();
+        let equal = Arc::new(snapshot.as_ref().clone());
+        cache.update(Some(Arc::clone(&equal)), &mut cut, &mut probe);
+        assert_eq!(
+            cache.constructions(),
+            2,
+            "new equal Arc is a new immutable publication"
+        );
+        assert_eq!(cache.get().unwrap().comparison.as_ref().unwrap(), &original);
+        let mut changed = equal.as_ref().clone();
+        let PredictionOutcome::Candidate(candidate) = &mut changed.outcome else {
+            panic!("candidate")
+        };
+        candidate.pressure[1] += 1000.0;
+        assert_eq!(changed.request.digest(), request);
+        assert_eq!(changed.attempt_index, snapshot.attempt_index);
+        let changed = Arc::new(changed);
+        cache.update(Some(Arc::clone(&changed)), &mut cut, &mut probe);
+        assert_eq!(cache.constructions(), 3);
+        assert_ne!(cache.get().unwrap().comparison.as_ref().unwrap(), &original);
+        assert_eq!(
+            probe,
+            Some(53),
+            "same owner/grid keeps the physical location"
+        );
+        let mut missing = changed.as_ref().clone();
+        missing.native_reference = None;
+        let missing = Arc::new(missing);
+        let missing_weak = Arc::downgrade(&missing);
+        for _ in 0..3 {
+            cache.update(Some(Arc::clone(&missing)), &mut cut, &mut probe);
+            assert_eq!(
+                cache.get().unwrap().comparison,
+                Err(PressureComparisonUnavailable::NoNativeReference)
+            );
+            let labels = text(&render(&cache, &mut cut, &mut probe));
+            assert!(labels.contains("Equal-request comparison unavailable: NoNativeReference"));
+            assert!(!labels.contains("Native same request · Pa"));
+            assert!(!labels.contains("Cell ["));
+        }
+        assert_eq!(
+            cache.constructions(),
+            4,
+            "unavailable comparisons are cached too"
+        );
+        drop(missing);
+        assert_eq!(missing_weak.strong_count(), 1);
+        cache.update(None, &mut cut, &mut probe);
+        assert!(cache.get().is_none());
+        assert!(missing_weak.upgrade().is_none());
+        assert_eq!((cut, probe), (0, None));
+    }
+
+    #[test]
+    fn changed_grid_clears_physical_probe_and_native_labels_report_actual_failed_gate() {
+        use rheon::{
+            GridGeometry,
+            solver_provider::context::{
+                PressureContext, PressureContextInput, PressureContextMode, PressureHistoryStatus,
+            },
+        };
+        let package = Fixture::new(false);
+        let worker = producer(&package);
+        let original = worker.shared.lock().unwrap().last_attempt.clone().unwrap();
+        let mut cache = AttemptCache::default();
+        let mut cut = 0;
+        let mut probe = None;
+        cache.update(Some(Arc::clone(&original)), &mut cut, &mut probe);
+        cut = 3;
+        probe = Some(78);
+        let mut changed = original.as_ref().clone();
+        let grid = GridGeometry::new([6, 5, 5], [0.125; 3], [0.0; 3]).unwrap();
+        let rhs = vec![0.0; grid.cell_len()];
+        let context = PressureContext::new(PressureContextInput {
+            grid: &grid,
+            density: 1000.0,
+            dt: original.request.dt(),
+            interval_start: 0.0,
+            rhs: &rhs,
+            prior: None,
+            run_id: original.request.run_id(),
+            generation: 1,
+            mode: PressureContextMode::DiagnosticCandidate,
+        })
+        .unwrap();
+        changed.request =
+            rheon::recording::diagnostic::DiagnosticRequest::capture(&context, 0.001, 1 << 20)
+                .unwrap();
+        let native = changed.native_reference.as_mut().unwrap();
+        native.request_digest = changed.request.digest();
+        native.sample.pressure.resize(grid.cell_len(), 0.0);
+        native.sample.observation.qualified = false;
+        native.history_status = PressureHistoryStatus::Diagnostic { qualified: false };
+        changed.transition = rheon::recording::diagnostic::HistoryTransition::NotAdvanced;
+        let PredictionOutcome::Candidate(candidate) = &mut changed.outcome else {
+            panic!("candidate")
+        };
+        candidate.pressure.resize(grid.cell_len(), 0.0);
+        candidate.observation.qualified = true;
+        // Explicit adversarial metadata variant over a real producer publication;
+        // this does not claim that the adapter observed either altered gate.
+        cache.update(Some(Arc::new(changed)), &mut cut, &mut probe);
+        assert_eq!((cut, probe), (0, None));
+        let labels = text(&render(&cache, &mut cut, &mut probe));
+        assert!(
+            labels.contains("Native same-request reference: host pressure gate qualified false")
+        );
+        assert!(labels.contains("history Diagnostic { qualified: false }"));
+        assert!(labels.contains("Candidate host pressure gate: qualified true"));
+        assert!(labels.contains("not an accuracy acceptance result"));
     }
 }
