@@ -276,3 +276,15 @@ Draft source remains proposal evidence, not implementation admission.
 - Explicit final M3 source admission includes all 94 selected paths, preserving
   both historical inventories and current conservative selector. A fresh clean
   qualification starts after this commit; earlier receipts are not transferred.
+- Native software-X11 M2 flow on d8b0eb1 created a two-solver 8-cube set with
+  2 steps at0.003s, closed producer, cold-opened Ready members, audited ordinal2,
+  exported actual VTI and reran exact intent from a fresh material-default App.
+  Native bits/time and originals matched, but process-local source IDs1/2 were
+  reused. This is a finding, not freshness acceptance. Exact failed-freshness
+  observation SHA256 `37f32ab2dd80bb0a3dd5cdffaf0fdc27325e8ec544c171eb9d9de3071139e6e4`
+  remains outside Git in /tmp/rheon-m2-native-window/observation-before-fix.json.
+- Fixed root-only direct-source exclusion. Independent review approved source and
+  regression fidelity: actual separate producer/cold-rerun processes, full source
+  ID disjointness, original-file BEFORE snapshot, typed intent/native bits/time.
+  Focused fresh regression passed. Refreshed92 source admission precedes renewed
+  qualification; corrected binary/native-window observation follows separately.

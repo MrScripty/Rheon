@@ -133,6 +133,11 @@ is loaded and no current Debug configuration is interpreted.
 **Rerun saved native set from zero** creates a new set/attempt/archive directory
 and links the original revision digest. It uses the captured FrozenSpecs, not
 current UI defaults, and never restores fields or mutates the source artifacts.
+All direct source-member run IDs are excluded when assigning new process-local
+run IDs, including after producer-process restart. This proves freshness relative
+to that selected source revision and distinct new IDs within this process; it does
+not assert global uniqueness across unrelated sets or the full ancestral chain.
+Attempt/set identities and exact archive/publication pins remain separate facts.
 This desktop execution envelope supports at most two distinct native pressure
 methods with cubic zero-origin common geometry, requested dt/horizon and recording
 budgets. Unsupported saved intent stays cold-inspectable. Existing native physics,
@@ -152,3 +157,15 @@ by the saved-comparison document owner. Each caller supplies its own expected
 schema version and practical byte budget; these are not executable configuration
 or numerical archive versions. The native spec/run-set document budget remains
 1 MiB. Zero and maximum-u64 budgets are invalid before oversize-read arithmetic.
+
+
+Actual software-X11 integration observation on the pre-fix d8b0eb1 binary created
+an 8-cube, two-step/0.003 s two-solver saved set, closed its producer, cold-opened
+both Ready members in a fresh process, audited and exported selected ordinal2 VTI,
+and reran captured intent despite fresh material-mode defaults. Native field/time
+bits and original artifacts were identical. It also exposed source run-ID reuse
+because the process-local counter restarted; that observation fails freshness and
+is retained as a finding, not a pass. The root exclusion fix is covered by a
+separate actual producer-exit/cold-App-rerun regression with a BEFORE snapshot of
+all source files. Corrected native-window repetition remains pending. No numerical
+kernel, accepted archive schema, global provenance or timeout was changed.
