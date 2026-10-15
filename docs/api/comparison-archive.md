@@ -147,3 +147,18 @@ and 16 numerical-comparison contracts, with scoped Clippy/formatting. Historical
 isolated helper hashes above are not substituted for the integrated source.
 Native desktop comparison interaction and the measured trained runtime remain
 separate acceptance gates; a saved result is still unverified until recomputed.
+
+
+## Integrated cold comparison page
+
+The desktop registers the cached saved-comparison page at **Open saved comparisons**.
+An explicit opened native run set also offers **Compare exact saved members**,
+which passes that manifest and parent directory. The page opens a manifest, exact
+recipe or Unverified result; explicit compute/verify rechecks pinned sources and
+publication identities. Reference/candidate members, ordinal ranges, field,
+physical-time tolerance and pressure gauge are typed selections. Editing source
+locations clears source binding; changing analysis inputs clears stale metrics.
+Routine repaint does not reread archives. Back navigation preserves page state;
+the existing worker remains the owner of poll/cancel/join/close. Linked field views
+and actual integrated-window acceptance remain separate from these source and
+headless page contracts. Test code aliases the actual public numerical API.

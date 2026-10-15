@@ -288,3 +288,17 @@ Draft source remains proposal evidence, not implementation admission.
   ID disjointness, original-file BEFORE snapshot, typed intent/native bits/time.
   Focused fresh regression passed. Refreshed92 source admission precedes renewed
   qualification; corrected binary/native-window observation follows separately.
+
+- Clean M3 bc1fc90360ffae12559a80624c4f15fbd3f8a67d (tree
+  6f9a52d024942c100c29777bb183e3b86de8c06a) passed 18 native/rational commands,
+  fresh packet construction and all26 adversarial tests normally/-O with real
+  packet supplied (0skips). 12 saved-comparison +16 numerical contracts passed;
+  the16 also pass core-only. Scoped desktop Clippy passed. External evidence:
+  /tmp/rheon-m3-isolated-bc1fc90 and /tmp/rheon-m3-isolated-packet-bc1fc90.
+- Selected companion bb48cee new cold page and7 headless interaction fixtures.
+  Lead wires actual root/sidebar/run-set navigation and actual public analysis in
+  tests. Independent source review found no material page/navigation finding.
+  Seven integrated page tests passed; initial Clippy caught unused imports after
+  replacing the private test numerical path with the public API; imports removed.
+  New95-path source admission committed before fresh qualification. Companion
+  harness/window evidence is historical and does not qualify this root binary.
