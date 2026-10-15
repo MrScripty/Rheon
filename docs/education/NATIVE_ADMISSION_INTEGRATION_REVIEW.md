@@ -295,3 +295,63 @@ is explicit caller-observed declaration, not inferred lineage/qualification proo
 This admits fresh qualification of partial storage only. Engine/model-process/
 worker capture, saved diagnostic specs and full teacher/stop A6 remain pending;
 no measured model, source authenticity, durability or global physics claim follows.
+
+## Linked native slice/probe root integration, 2026-10-15
+
+This explicit source review admits the 95-to-96-path native M3 extension to
+attempt fresh qualification. Selected companion PR93 source76cc71af is retained
+as90ee568: new comparison_field_view.rs SHA256
+911b7095ccc2897d811b7946a5fabadc31703263879bec73d9b8f082573d1106;
+contract tests and API documentation retain their frozen companion bytes.
+Independent GPT-6.1 Sol review checked the actual source and tiny root registration:
+identity includes root, captured set, both members and complete recipe/pair;
+changed/absent/unavailable selections and failed reloads clear cached fields;
+source/payload/sample/plane limits precede materialization. Native cells/faces,
+physical XYZ/time/stage/pressure intervals, gauge diagnostics and common bounds
+remain explicit; repaint performs no I/O. The root owns one persistent field view,
+updates page controls before selection and wraps both views in a scroll region.
+No numerical, worker, recording, model or qualification owner changes. All96
+conservatively selected inputs are rebound; prior receipts remain historical.
+Admission authorizes fresh clean committed tests/native-window and native/rational
+qualification, not a transferred companion receipt or trained-model acceptance.
+
+## Typed runtime plus linked native composition admission, 2026-10-15
+
+This explicit independent GPT-6.1 Sol review admits the combined103-path source
+closure to attempt fresh qualification. Relative to partial storage96 paths it
+adds diagnostic_runs/view/worker/worker_tests/engine_typed_tests/
+prediction_contract_tests under desktop/ai_comparison and the separately reviewed
+linked comparison_field_view.rs. Existing engine/mod/model_process/record/worker,
+comparison CLI, recording/comparison and recording/diagnostic change; root desktop
+retains the independently reviewed linked registration. No path is removed,
+selector narrowed, numerical qualification input changed or dependency added.
+Historical v1/v2 inventory bytes and v3 ancestry remain unchanged.
+
+The existing engine performs teacher and independent stop policies; exact committed
+endpoints carry history, teacher future stays native, and an independent reference
+uses the identical captured RHS. Requests/candidates/actual host thresholds and
+wall observations are separate typed schema2 attempts, never accepted ordinals.
+Native diagnostic seed origin stays diagnostic. Cancellation before advance retains
+candidate evidence; append precedes JSON/UI, poisoned writes stop execution and
+only a reconciled terminal can pin after close. Legacy policy and JSON remain.
+Typed process failures retain dispatch and actual invalid-wire digests; frozen
+provider identity is checked before spawn. The existing leased Record/Worker and
+SQLite owners retain lifetime/persistence, with fresh frozen intent and create-new
+reruns, exact cold source/category checks and honest unrecorded tails.
+
+Independent review closed cold statistics tampering, persistence/cancellation
+precedence, incorrect offset-gauge labeling, programmatic inspector namespace
+invalidation, typed CLI failure exit and old-frame/new-rerun-geometry findings.
+Actual worker/cold/subprocess tests and the egui5-to6-grid rerun button regression
+exercise those boundaries. The explicit cold inspector caches one request, shares
+native physical slice/probe/common range and displays real availability. Summary
+export reopens the exact manifest/pinned archive, compares the cached attempt and
+publishes create-new. The new stdlib verify_diagnostic_pressure.py derives raw
+SQLite IEEE norms with fsum and explicit checks; changed-metric rejection remains
+active normally, under -O and PYTHONOPTIMIZE=1. The shared reducer preserves existing
+native metric order and semantics, with direct canonical gauge and no offset.
+
+This is source admission, not a transferred fixture/model receipt or completion
+of A1/A2/full generic milestone gates. Freeze this complete composition and run
+fresh native/rational, recording, desktop and actual native-window qualification.
+Measured trained bundle/runtime/parity remain separately blocked as documented.

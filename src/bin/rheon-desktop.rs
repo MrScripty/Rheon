@@ -17,6 +17,8 @@ mod archive_view;
 mod collision_ui;
 #[path = "desktop/comparison_archive.rs"]
 pub mod comparison_archive;
+#[path = "desktop/comparison_field_view.rs"]
+pub mod comparison_field_view;
 #[path = "desktop/history.rs"]
 mod history;
 #[path = "desktop/identity.rs"]
@@ -32,6 +34,7 @@ pub mod run_sets;
 #[path = "desktop/comparison.rs"]
 pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
+use saved_comparison as comparison;
 #[path = "desktop/settings.rs"]
 mod settings;
 #[path = "desktop/transport_view.rs"]
@@ -704,6 +707,7 @@ struct App {
     save_native_set: bool,
     saved_comparison: saved_comparison::SavedComparisonPage,
     saved_comparison_active: bool,
+    comparison_fields: comparison_field_view::ComparisonFieldView,
     collision: collision_ui::CollisionControls,
     selected: PressureImplementation,
     domain_side: f64,
@@ -751,6 +755,7 @@ impl Default for App {
             save_native_set: false,
             saved_comparison: saved_comparison::SavedComparisonPage::default(),
             saved_comparison_active: false,
+            comparison_fields: Default::default(),
             collision: collision_ui::CollisionControls::default(),
             selected: PressureImplementation::default(),
             domain_side: 1.0,
@@ -1359,7 +1364,15 @@ impl eframe::App for App {
                     self.saved_comparison_active = false;
                 }
             });
-            egui::CentralPanel::default().show(ctx, |ui| self.saved_comparison.show(ui));
+            egui::CentralPanel::default().show(ctx, |ui| {
+                egui::ScrollArea::vertical()
+                    .id_salt("saved-comparison-and-fields")
+                    .show(ui, |ui| {
+                        self.saved_comparison.show(ui);
+                        self.comparison_fields
+                            .show(ui, self.saved_comparison.selected_pair());
+                    });
+            });
             return;
         }
         if self.run_sets.active {

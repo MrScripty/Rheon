@@ -374,3 +374,48 @@ Draft source remains proposal evidence, not implementation admission.
   no new renderer file handoff has been published. Parent can resume the separate
   companion thread01a140a3-ebca-7436-82cf-94fedc42b036 on that concrete allocation.
   Existing shared worker/root/admission/merge ownership remains serial.
+
+## 2026-10-15 — linked native sample root integration
+
+- Selected only companion PR93's three allocated files76cc71af as90ee568;
+  independently reviewed root registration and96-path source admission at60ef327,
+  tree dcb9f3d8a9c5fd341ac59cf17ab249441b5b9168. One cached view follows the
+  exact saved page selection after controls update; both share root scrolling.
+- Fresh clean qualification at60ef327 passed all18commands;26 real-packet tests
+  passed normally and under Python -O with zero skips. The earlier attempt was
+  invalidated when a review-document digest transcription was corrected; its
+  receipt is refused and is not used. Qualification kernel/oracle unchanged.
+- Fresh67focused desktop contracts and strict root/view Clippy passed. Actual
+  root1250x820 X11/llvmpipe window reopened stored result Unverified, verified exact
+  sources, explicitly loaded linked fields, edited shared Z slice and probed both
+  panes. A nonzero physical probe/time/stage matched independent raw SQLite/IEEE
+  decoding normally, under -O and PYTHONOPTIMIZE=1; deliberately changed probe
+  rejected in all modes. Hidden owned source retained declared cached paint;
+  explicit reload cleared both panes, byte-exact restoration recovered. Close0.
+- Executor evidence /tmp/rheon-linked-root-qualified-final,
+  /tmp/rheon-linked-root-packet-final and /tmp/rheon-linked-root-native/observation.json.
+  This is native recorded-source slice/probe evidence, not trained model/device
+  qualification, accepted learned-provider composition or full generic M1–M3.
+
+## 2026-10-15 — bounded acceptance replan and typed runtime source freeze
+
+- Scope PR87 as configurable adapter/context and real CPU-fixture lifecycle
+  contracts. This narrower independently reviewed slice may merge after applicable
+  exact-head checks; full measured-model M1/A1 stays pending without gate waiver.
+  Native-only M2/M3 and linked-view scopes have their own source/qualification
+  evidence. Accepted learned-provider A2 remains separate and unimplemented.
+- Runtime source27bbd09 reuses existing Engine/Worker/ModelProcess/Record and SQLite
+  owners for teacher-native-history and independent stop-on-reject. Typed schema2
+  retains native diagnostic origins, wall observations and cancelled-before-advance
+  candidates; legacy continuation/JSON remains compatible. Six worker/cold fixtures,
+  actual typed subprocess tests, exact clock/history tests, pressure oracle normal/
+  optimized negatives and actual5-to6-grid saved-rerun UI regression passed.
+- Independent review resolved cold-count tampering, persistence-failure precedence,
+  gauge semantics, inspector namespace invalidation, CLI failure status and rerun
+  snapshot/geometry defects before final admission. The combined linked/runtime
+ 103-path source closure is explicitly reviewed and frozen for fresh qualification;
+  no previous receipt is relabelled for this tree.
+- The exact missing measured checkpoint/deployment/normalization/CPU runtime/parity
+  inputs and adverse retained accuracy observations are specified in
+  docs/api/measured-pressure-bundle-handoff.md. No training, substitute checkpoint,
+  fabricated model acceptance or README90 merge is performed.
