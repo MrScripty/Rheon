@@ -238,3 +238,85 @@ fn run_native(
     }
     result.map(|_| ())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn wait_for(worker: &Worker, mut ready: impl FnMut(&Shared) -> bool) {
+        let deadline = Instant::now() + Duration::from_secs(120);
+        loop {
+            if ready(&worker.shared.lock().unwrap()) {
+                return;
+            }
+            assert!(
+                !worker.finished(),
+                "worker ended before requested observation"
+            );
+            assert!(Instant::now() < deadline, "comparison observation deadline");
+            thread::sleep(Duration::from_millis(10));
+        }
+    }
+
+    #[test]
+    #[ignore = "Requires an exported measured CPU deployment; see docs/ai-pressure-comparison.md"]
+    fn real_cpu_deployment_cancellation_drains_child_and_allows_restart() {
+        let deployment =
+            PathBuf::from(std::env::var_os("RHEON_AI_TEST_DEPLOYMENT").expect("deployment path"));
+        let root =
+            PathBuf::from(std::env::var_os("RHEON_AI_TEST_OUTPUT").expect("fresh output path"));
+        assert!(
+            !root.exists(),
+            "lifecycle evidence needs a fresh output directory"
+        );
+        let scene = Scene {
+            counts: [8, 6, 5],
+            steps: 64,
+            ..Default::default()
+        };
+        let mut first = Worker::start(scene.clone(), deployment.clone(), root.clone()).unwrap();
+        wait_for(&first, |data| {
+            data.frames.last().is_some_and(|f| f.step >= 17)
+        });
+        let child_id = first
+            .slot
+            .lock()
+            .unwrap()
+            .as_ref()
+            .expect("resident CPU child")
+            .id();
+        let first_directory = first.shared.lock().unwrap().directory.clone().unwrap();
+        first.cancel();
+        let deadline = Instant::now() + Duration::from_secs(30);
+        while !first.finished() {
+            assert!(Instant::now() < deadline, "cancel did not drain owned work");
+            thread::sleep(Duration::from_millis(10));
+        }
+        first.join_finished();
+        assert!(first.slot.lock().unwrap().is_none());
+        assert_eq!(first.shared.lock().unwrap().state, "cancelled");
+        assert!(first.shared.lock().unwrap().frames.len() >= 18);
+        let completion: serde_json::Value = serde_json::from_slice(
+            &std::fs::read(first_directory.join("completion.json")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(completion["state"], "cancelled");
+        drop(first);
+        let mut second =
+            Worker::start(Scene { steps: 16, ..scene }, deployment, root.clone()).unwrap();
+        let deadline = Instant::now() + Duration::from_secs(120);
+        while !second.finished() {
+            assert!(Instant::now() < deadline, "restart deadline");
+            thread::sleep(Duration::from_millis(10));
+        }
+        second.join_finished();
+        assert!(second.slot.lock().unwrap().is_none());
+        let view = second.shared.lock().unwrap();
+        assert_eq!(view.state, "completed", "{}", view.message);
+        assert_eq!(view.frames.len(), 17);
+        assert_ne!(view.directory.as_ref(), Some(&first_directory));
+        println!(
+            "Cancelled resident CPU child {child_id}; terminal record and retained frames verified; restart completed; child slots empty"
+        );
+    }
+}

@@ -77,3 +77,22 @@ requires stopping the app, reviewing upstream changes and repeating affected
 checks. Retire the worktree after accepted integration and migration of the active
 binary/project source pointers. No push, merge or original dirty checkout update
 was performed by this slice.
+
+## Real checkpoint lifecycle verification
+
+The explicit environment test uses a separate fresh observation directory and the
+actual measured CPU checkpoint. It waits for two AI predictions after warm-up,
+cancels the resident child, checks joined terminal state and retained frames, then
+restarts and completes a new paired run in the same project directory. It does not
+send input to an active desktop window.
+
+```bash
+RHEON_AI_TEST_DEPLOYMENT=/path/to/deployment.json \
+RHEON_AI_TEST_OUTPUT=/path/to/FRESH-lifecycle-evidence \
+cargo test --offline --locked --features desktop --bin rheon-ai-compare \
+  real_cpu_deployment_cancellation_drains_child_and_allows_restart -- --ignored --nocapture
+```
+
+The local measured deployment passed this test: cancellation retained at least
+18 frames, terminal state was `cancelled`, the child slot was drained, and restart
+completed 16 steps with a separate retained run and another drained child slot.
