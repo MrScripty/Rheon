@@ -54,6 +54,14 @@ it adds no pressure-history volume. The step's array-byte report includes the
 existing provider and viscosity workspaces. External providers must bound their
 own allocations and honor the cooperative cancellation callback.
 
+`SessionSnapshot::configuration()` borrows immutable `SessionConfiguration`:
+the original constructor transport controls, native implementation, separate
+boundary-workspace limit and step quota supplied to the validated owners. These
+are actual constructor controls, including their original logical memory limits;
+they do not reconstruct a future experiment recipe. Per-call requested forces,
+timestep, viscosity and provider schedule remain separate intent. The accepted
+receipt supplies the actual applied viscosity and actual pressure interval.
+
 The viscous composition requires sealed full liquid fractions, represented
 density equal to the carrier density, no phase source, and the existing
 Newtonian stage. The inviscid path retains the existing passive represented-volume

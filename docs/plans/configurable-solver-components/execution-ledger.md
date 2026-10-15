@@ -650,3 +650,24 @@ to its actual source and is not relabelled for this correction.
   This final follow-through changes only the plan/ledger; all105 selected source
   pins remain byte-identical. Exact-head hosted checks and serial integration
   remain required. The missing measured bundle remains only its specific gate.
+
+## 2026-10-15 — accepted recording allocation and constructor authority
+
+- Parent explicitly allocated the external recording worker after PR102.
+  Lead assigned only new provider-profile codec/tests/cold-process example/docs
+  and minimal recording registration; worker retains the existing StepRecorder/
+  RecordingReader v1 envelope, transaction, limits and hashes. Versioned typed
+  controls preserve rejected candidate NaN/Inf bits and exact durations; no native
+  carrier/material/diagnostic relabel or invented IPC dispatch.
+- Source authority is the additive immutable SessionConfiguration readback,
+  stored from the same validated constructor arguments and exposed through the
+  SessionSnapshot. Both native implementations pass two new contracts across
+  constructor/acceptance/failure/cancellation/stop; all22 library units and8
+  configured Session contracts plus strict scoped Clippy passed. Independent
+  source/test/docs review approved exact pins. Only lib.rs/session.rs rebind
+  within the unchanged105-path selector; fresh clean qualification follows.
+- PR99 merged97119a60298f9491028234aaa20bc2522c14db16 after18 checks/10
+  successful workflows. PR101 mergedbca6ef8c2a593fe4bf15fb873580bab3d10f86e4
+  after4 checks/3 successful workflows. PR102 incorporates that validated CI
+  coverage without altering its prior105 source pins. Public allocation: PR102
+  comment6203994017. Saved accepted spec/run-set integration remains lead-owned.
