@@ -1,16 +1,16 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed frozen configured Session pure intent and prior accepted Session/context closure; complete106-path conservative inventory. Fresh clean qualification only; archive binding, production runtime/UI and measured model acceptance remain separate.",
+  "scope": "Explicit reviewed pure configured intent plus portable core hash dependency; conservative106-path previously admitted source. Added recording/archive composition requires separate complete admission.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "7372cd7488b8b9e9e39bcd26b35d0b8309262eb16afc94b0040d101bfba8c6dd",
+  "review_sha256": "f8fc82cd98377b76459b683bbeaaf47375c993cc3dcca895260b35785bbcd831",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
-    "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
+    "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
     "examples/aligned_strain.rs": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
     "rust-toolchain.toml": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
     "src/advection.rs": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
