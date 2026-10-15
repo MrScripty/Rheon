@@ -1,0 +1,118 @@
+# Execution ledger
+
+## 2026-10-15 — parent research and roadmap drafting
+
+Parent's supplied draft ledger records reading pinned Rheon/lab interfaces, independent
+review and source/authority corrections to the research report, and source-guided
+Core/Router/Planning/composed-design/toolchain/feature/CI/output-policy review at
+standards `188beda1`. No implementation, test, benchmark or publication occurred
+in that drafting phase. Earlier execution setup failures were superseded by this
+working repository task, not converted into successful historical evidence.
+
+The parent supplied the 234-line draft roadmap, 13-line ledger and 16-line issue
+record. Their content is integrated here: the canonical plan retains the detailed
+M0–M3 handoff, proposed write boundaries and A0–A8 future gates, corrected for
+actual current observations; the issue crosswalk preserves every draft finding.
+Draft source remains proposal evidence, not implementation admission.
+
+## 2026-10-15 — D1 documentation proposal
+
+- Scope: authorized research/design, commit/push and public documentation PR;
+  production implementation, model training, user-data changes and merge excluded.
+- Inspected clean `/workspace/Rheon` on original `work` branch, fetched main at
+  `43ed26b645dd42de906d0fac7d1ec7d5ab6e351a`, and created
+  `docs/configurable-solver-experiments-20261015`. No new worktree or shared-history
+  rewrite. Adopted standards fetched/read at `188beda1fa477d21d576c233dd8c7f4c4c267d23`.
+- Reviewed parent-supplied research report transferred from Library in full
+  (381 lines / 50,822 bytes) into `reports/research.md`; source review confirms
+  baseline. Report is research evidence; plan owns proposal decisions.
+- Cloned lab read-only at `a8426061380e82951b4dba1bbfa38ff93dc7ebb2`; inspected
+  bridge/model/export source only. No model inference/training/build was run.
+- `git ls-remote origin refs/heads/feat/live-ai-pressure-comparison` returned no
+  branch; `git fetch origin 66e50388ec7a788dbda0ad1227e330996edf506e` returned
+  `not our ref`. Q1 blocks implementation reconciliation, not documentation.
+- Added typed contracts and standards-guided composed design, saved specs/sets,
+  physical-time metrics and prospective implementation handoff under one directory.
+- Parent selected canonical directory `docs/plans/configurable-solver-components/`.
+  Relocated only this task's uncommitted authored documents; branch name remains
+  `docs/configurable-solver-experiments-20261015`. Integrated the supplied roadmap
+  with reviewed typed contracts and corrected stage-capture/diagnostic gates.
+- Independent read-only GPT-6.1 Sol reviewer inspected source and documents.
+  Initial findings added explicit stage capture and no-fallback diagnostic attempt
+  requirements (Q3), and nonempty matched-interval evidence (Q8). Final review
+  recommends documentation acceptance with no unresolved material design finding;
+  [review](reports/review.md) records evidence and dispositions. No numerical or
+  runtime acceptance claimed.
+
+- Re-reviewed the integrated parent M0–M3 roadmap as a material design revision;
+  independent reviewer again found no unresolved material design issue. Kept all
+  implementation A0–A8 claims blocked/pending and future write sets prospective.
+- Supporting validation: one-off Python standard-library check inspected all 7
+  Markdown files, all 23 relative file/anchor links and balanced code fences:
+  passed. `git diff --check` passed. Source report retained exactly; no generated
+  fields, archives, binaries, logs, credentials or model artifacts included.
+- Numerical, GUI, runtime and benchmark commands listed in the roadmap are future
+  procedures and were not run for this prose-only change. Source inspection is not
+  acceptance of these capabilities. No permanent validation harness added.
+
+## 2026-10-15 — publication confirmed
+
+- Reviewed exact staged diff and branch range `origin/main..HEAD`: seven authored
+  Markdown files in the declared directory, no implementation or generated outputs;
+  clean worktree and passing staged/range `diff --check`.
+- Commit `50f43ce` (`docs(plan): design configurable solver components and saved
+  comparisons`) pushed normally to
+  `origin/docs/configurable-solver-experiments-20261015`.
+- Confirmed `MrScripty/Rheon` is public and opened
+  [draft PR #84](https://github.com/MrScripty/Rheon/pull/84), base `main`. GitHub
+  returned the public PR URL and subsequent inspection confirms open/draft status.
+  No merge, production implementation, training or user-data change performed.
+- D-A1–D-A5 documentation delivery evidence satisfied. This final record changes
+  publication status only; future A0–A8 implementation evidence remains blocked/
+  pending. Parent owns review disposition and eventual branch retirement.
+
+## 2026-10-15 — M0 reconciliation after integration publication
+
+- User reported integration pushed and authorized documentation reconciliation on
+  PR84. Inspected clean docs checkout, refreshed main (`43ed26b`), discovered and
+  fetched `integration/ai-pressure-comparison-20261015` at
+  `0fbadbe733b5b521e192dc8a2aa980d6d69a1e01`. Exact original `66e50388...` fetch
+  now succeeds and `merge-base --is-ancestor` passes. Q1 access blocker resolved.
+- Read complete engine/scene/model-process/worker/UI/record sources and matching
+  lab Git objects at remote `a8426061380e82951b4dba1bbfa38ff93dc7ebb2`. No checkout
+  of the lab clone was performed. Examined relevant instructions: no AGENTS.md or
+  repository `.agents/skills` in the integration tree; workspace `.agents` empty.
+  Used isolated ignored temporary source material; no implementation-agent edits,
+  serving pointers, production code, runtime install, training or user data touched.
+- Empty scoped diff verifies public session/provider/recording/simulation/provider-
+  step/liquid-step owners unchanged. Diagnostic engine actually composes viscosity,
+  native prefix and independent no-fallback continuation. [M0](reports/m0-reconciliation.md)
+  maps exact source, scientific restrictions and limits; original research retained.
+- Independent source/receipt review and a separate one-off Python stdlib audit both
+  verify worker hash `b4f4e2fc...` and five log-wrapper plus decoded-text SHA256s.
+  Retained publication observation is 17 steps / 18 frames cancelled then 16 steps /
+  17 frames completed with 1 AI prediction, drained slots and Linux immediate-PID
+  absence. Original assertions use ≥17/≥18. Source shows best-effort immediate-
+  child kill/wait/readers, blocking writes and no hard teardown watchdog/descendants.
+  These are retained local observations and source evidence, not fresh execution.
+- Measured deployment, installed runtime and referenced scene/completion payloads
+  are absent from the published Rheon snapshot. Ignored real-CPU test not rerun;
+  no inference/GUI/numerical test or accuracy claim. Hash audit does not authenticate
+  measurements or bind the entire executable/build graph.
+- Revised plan handoff reuses actual engine/process/worker/record/UI owners.
+  Independent review caught and resolved diagnostic-only M1 versus production A2/
+  accepted-provider M2 dependency. A0/M0 source-design gate closes; production
+  admission, generic contract/storage work and fresh environment evidence stay pending.
+- Prior PR84 head `4176435` had successful scoped metadata CI and CodeRabbit status;
+  integration `0fbadbe` had successful metadata run `38751946726`. Those are not
+  measured CPU lifecycle or model-accuracy CI. Final update checks recorded below.
+- Final independent review found no unresolved material finding. Its two low
+  wording findings (historical inaccessible-branch label and one numerical owner
+  per explicit mode) were corrected; no new implementation authority is implied.
+- Local supporting checks passed: 8 Markdown files, 40 relative file/anchor links,
+  balanced code fences, unchanged original research bytes, `git diff --check`,
+  exact documentation-only stage/range inspection. No permanent test harness or
+  generated numerical output was added. This update is one forward docs commit;
+  normal push to PR84, without merge or rewriting earlier published commits.
+- CI for this update is observed after push through PR84; no inherited scoped
+  metadata success is represented as new lifecycle, runtime or model evidence.
