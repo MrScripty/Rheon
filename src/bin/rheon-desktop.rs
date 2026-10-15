@@ -15,6 +15,8 @@ mod export_ui;
 mod archive_view;
 #[path = "desktop/collision_ui.rs"]
 mod collision_ui;
+#[path = "desktop/comparison_archive.rs"]
+pub mod comparison_archive;
 #[path = "desktop/history.rs"]
 mod history;
 #[path = "desktop/identity.rs"]
@@ -27,6 +29,7 @@ mod particle_view;
 mod run_set_view;
 #[path = "desktop/run_sets.rs"]
 pub mod run_sets;
+use rheon::recording::comparison as native_comparison;
 #[path = "desktop/settings.rs"]
 mod settings;
 #[path = "desktop/transport_view.rs"]

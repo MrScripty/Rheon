@@ -12,8 +12,10 @@ module, focused tests and this API document, plus desktop-only serialization in
 `recording/comparison.rs`. The original PR86 commit remains intact. Shared module
 exports, Cargo, desktop composition, the plan and all merges remain lead-owned.
 The application module expects `super::native_comparison` to name the numerical
-analysis module and `super::run_sets` to name the M2 source owner. Focused tests
-path-load those modules while shared integration is pending.
+analysis module and `super::run_sets` to name the M2 source owner. The desktop
+now registers that alias to the actual public `rheon::recording::comparison` API
+and registers the comparison archive owner; focused tests use that same numerical
+API and the tracked M2 source module.
 
 ## Identity and source custody
 
@@ -139,10 +141,9 @@ cargo test --locked --no-default-features --test recording_comparison_contract
 cargo clippy --locked --features desktop --test comparison_archive_contract --test recording_comparison_contract -- -D warnings
 ```
 
-At this isolated-branch verification boundary the M2 helper source is an exact
-untracked local copy, SHA256
-`1e73a290ae1b96a7bb295372bb276c2c992e17ca3295075321cfef73f428b692`.
-It is not part of this slice's write set or staged patch. The integration owner
-must combine the admitted M2 helper version and shared module wiring before
-publishing the new dependent artifacts. Native desktop interaction and the
-actual external model/runtime workflow remain separate acceptance evidence.
+The serial integration includes tracked M2 helpers and actual public analysis
+registration. Fresh isolated-target validation passed 12 saved-comparison contracts
+and 16 numerical-comparison contracts, with scoped Clippy/formatting. Historical
+isolated helper hashes above are not substituted for the integrated source.
+Native desktop comparison interaction and the measured trained runtime remain
+separate acceptance gates; a saved result is still unverified until recomputed.

@@ -1,11 +1,8 @@
 #![cfg(all(feature = "desktop", not(target_arch = "wasm32")))]
-use rheon::{PressureImplementation, SnapshotStage, recording};
+use rheon::recording;
 #[path = "../src/bin/desktop/comparison_archive.rs"]
 mod comparison_archive;
-// These path-loaded sibling modules retain APIs covered by their own contracts.
-#[allow(dead_code)]
-#[path = "../src/recording/comparison.rs"]
-mod native_comparison;
+use rheon::recording::comparison as native_comparison;
 #[allow(dead_code)]
 #[path = "../src/bin/desktop/run_sets.rs"]
 mod run_sets;

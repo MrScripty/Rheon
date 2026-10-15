@@ -211,6 +211,10 @@ fn stage_geometry_and_unknown_profile_are_explicit() {
     run.solver = "future-profile/unknown".into();
     let b = Archive::new(run, &steps);
     assert_eq!(
+        native_samples(&b.select(1), FieldRole::Tracer),
+        Err(Unavailable::UnsupportedProfile)
+    );
+    assert_eq!(
         compare(&a.select(1), &b.select(1), recipe(FieldRole::Tracer))
             .unwrap()
             .outcome,
@@ -280,6 +284,11 @@ fn analytic_native_f32_metrics_zero_denominator_and_common_bounds() {
         |i| if i % 2 == 0 { 0.25 } else { 0.5 },
     );
     let b = Archive::new(run, &steps);
+    let samples = native_samples(&b.select(0), FieldRole::Tracer).unwrap();
+    assert_eq!(samples.len(), 24);
+    for (i, sample) in samples.iter().enumerate() {
+        assert_eq!(*sample, if i % 2 == 0 { 0.25 } else { 0.5 });
+    }
     let result = available(&a.select(0), &b.select(0), FieldRole::Tracer);
     assert_eq!(result.metrics.relative_l2, None);
     assert!((result.metrics.l2 - (12.0_f64 * 0.3125).sqrt()).abs() < 1e-14);
@@ -557,6 +566,19 @@ fn finite_source_overflow_is_unavailable_and_nonfinite_source_is_rejected() {
         )
         .unwrap()
         .outcome,
+        Err(Unavailable::ArithmeticRange)
+    );
+    // Valid metadata and finite face bytes can still overflow the derived rate.
+    // This is a synthetic read-only arithmetic fixture, not accepted physics.
+    let (mut run, mut steps) = fixture(0.01, false);
+    run.spacing = [1e-300, 1e150, 1e150];
+    run.origin = [0.0; 3];
+    put_f32(&mut steps[0], "velocity_x", |i| {
+        if i % 3 == 0 { -f32::MAX } else { f32::MAX }
+    });
+    let overflowing = Archive::new(run, &steps);
+    assert_eq!(
+        native_samples(&overflowing.select(0), FieldRole::VelocityDivergence),
         Err(Unavailable::ArithmeticRange)
     );
     for role in [FieldRole::Tracer, FieldRole::IntervalPressure] {

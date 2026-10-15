@@ -1,8 +1,8 @@
 # Native recording comparison, analysis v1
 
 `src/recording/comparison.rs` is an additive read-only analysis module. It is
-compiled through the isolated `recording_comparison_contract` integration test
-until the integration owner admits its `recording::comparison` export. It owns
+exported as `rheon::recording::comparison`; integration tests use that actual
+public API. It owns
 neither accepted publication, recording storage, runtime execution nor a worker.
 The canonical implementation operation is M3 of
 `docs/plans/configurable-solver-components/plan.md` at PR84 `f45cd91`, admitted
@@ -165,3 +165,17 @@ passed 15 tests and carrier contracts passed 4 tests. Focused Clippy with warnin
 denied, Rust formatting and Python compilation passed. These observations cover
 this isolated module and the stated storage regressions; shared export wiring,
 run-set/desktop integration and native interaction remain integration-owner work.
+
+The public `native_samples(selection, role)` inspection hook returns untransformed
+x-fast native samples after profile/schema and finiteness checks. Dimensions are
+run counts, adding one along the selected native face axis; divergence uses the
+stored staggered faces. It does not align sources or apply pressure gauge offsets.
+Callers own aggregate memory and rendering budgets. Finite input faces can overflow
+derived divergence on valid extreme spacing; this returns ArithmeticRange rather
+than exposing nonfinite values to a renderer. A synthetic native-bit fixture
+checks this separately from physical qualification.
+
+The independent Python verifier now uses explicit checked failures throughout;
+identity and metric negatives fail in normal Python, `-O` and PYTHONOPTIMIZE=1.
+Fresh isolated-target source tests passed 16 comparison contracts, including the
+public sample/schema/overflow boundaries, and 12 saved comparison contracts.

@@ -450,6 +450,29 @@ fn field_values(field: &RecordedField) -> Result<Vec<f64>, Unavailable> {
     }
     Ok(values)
 }
+/// Schema-checked untransformed native x-fast samples for bounded inspection.
+/// Dimensions equal run counts, adding one along the selected velocity face axis.
+/// Divergence uses stored staggered faces; no display reconstruction enters metrics.
+/// This validates the native profile/schema, not physical acceptance or alignment.
+/// Callers own aggregate memory; a pressure gauge transform must remain explicit.
+pub fn native_samples(s: &Selection, role: FieldRole) -> Result<Vec<f64>, Unavailable> {
+    if !s.run.solver.starts_with("rheon-carrier-full-box-v1/")
+        || s.run
+            .solver
+            .rsplit('/')
+            .next()
+            .and_then(PressureImplementation::from_id)
+            .is_none()
+    {
+        return Err(Unavailable::UnsupportedProfile);
+    }
+    let samples = values(s, role)?;
+    if samples.iter().any(|v| !v.is_finite()) {
+        return Err(Unavailable::ArithmeticRange);
+    }
+    Ok(samples)
+}
+
 fn values(s: &Selection, role: FieldRole) -> Result<Vec<f64>, Unavailable> {
     if role == FieldRole::VelocityDivergence {
         return divergence(s);
