@@ -53,14 +53,32 @@ material findings; their review does not transfer numerical implementation autho
 - Lab branch cloned read-only at the exact report revision. CPU bridge/model/export
   source is source evidence; no package import, inference or training was run.
 - Reported integration branch was absent from remote branch discovery; fetching its
-  exact reported OID returned `not our ref`. This limits M0, not the generic proposal.
+  exact reported OID initially returned `not our ref`. This historical observation
+  is superseded by successful original/descendant fetch and [M0](m0-reconciliation.md).
 - Primary FMI, BMI, ParaView and PETSc documentation reopened to verify the patterns
   used. Their concepts inform original design; no external framework/spec prose is
   copied into implementation and no numerical theorem transfers to Rheon adapters.
 - [Independent review](review.md) and [ledger](../execution-ledger.md) record the
   deciding review findings and actual supporting validation/publication outcomes.
 
-Research stopping condition is met: present source boundaries, adapter restrictions,
+Initial research stopped after identifying source boundaries, adapter restrictions,
 source-backed alternatives, concrete first contracts and unresolved integration
-facts are identified. More framework survey, model execution or production prototyping
-would not resolve the missing target and exceeds this task's authority.
+facts. The later source follow-up below supersedes the access limit. Further model
+execution or production prototyping exceeds this documentation task's authority.
+
+## M0 source-access follow-up
+
+The later authorized documentation update resolves source access at `0fbadbe` and
+re-runs the composed-design change-path review against actual Engine, ModelProcess,
+Worker, Record, UI and lab package owners. Typed generic contracts now reference
+existing diagnostic composition and continuation instead of inventing replacements.
+Production Session/Provider/SQLite APIs are unchanged. Existing JSON evidence stays
+immutable and outside accepted-v1 semantics. Source/report lineage is retained;
+original research is historical rather than silently rewritten.
+
+Verification adds only a one-off standard-library SHA256 audit of the supplied
+worker/log receipts and source ancestry/core-scope observations. That proves
+retained consistency, not fresh runtime behavior or authenticated full build custody.
+No verifier, runtime dependency, generated field or test log is added to this PR.
+Current source, package envelope, ownership and decisive limits are established;
+no model execution or production prototype is needed for this documentation scope.

@@ -70,3 +70,49 @@ Draft source remains proposal evidence, not implementation admission.
 - D-A1–D-A5 documentation delivery evidence satisfied. This final record changes
   publication status only; future A0–A8 implementation evidence remains blocked/
   pending. Parent owns review disposition and eventual branch retirement.
+
+## 2026-10-15 — M0 reconciliation after integration publication
+
+- User reported integration pushed and authorized documentation reconciliation on
+  PR84. Inspected clean docs checkout, refreshed main (`43ed26b`), discovered and
+  fetched `integration/ai-pressure-comparison-20261015` at
+  `0fbadbe733b5b521e192dc8a2aa980d6d69a1e01`. Exact original `66e50388...` fetch
+  now succeeds and `merge-base --is-ancestor` passes. Q1 access blocker resolved.
+- Read complete engine/scene/model-process/worker/UI/record sources and matching
+  lab Git objects at remote `a8426061380e82951b4dba1bbfa38ff93dc7ebb2`. No checkout
+  of the lab clone was performed. Examined relevant instructions: no AGENTS.md or
+  repository `.agents/skills` in the integration tree; workspace `.agents` empty.
+  Used isolated ignored temporary source material; no implementation-agent edits,
+  serving pointers, production code, runtime install, training or user data touched.
+- Empty scoped diff verifies public session/provider/recording/simulation/provider-
+  step/liquid-step owners unchanged. Diagnostic engine actually composes viscosity,
+  native prefix and independent no-fallback continuation. [M0](reports/m0-reconciliation.md)
+  maps exact source, scientific restrictions and limits; original research retained.
+- Independent source/receipt review and a separate one-off Python stdlib audit both
+  verify worker hash `b4f4e2fc...` and five log-wrapper plus decoded-text SHA256s.
+  Retained publication observation is 17 steps / 18 frames cancelled then 16 steps /
+  17 frames completed with 1 AI prediction, drained slots and Linux immediate-PID
+  absence. Original assertions use ≥17/≥18. Source shows best-effort immediate-
+  child kill/wait/readers, blocking writes and no hard teardown watchdog/descendants.
+  These are retained local observations and source evidence, not fresh execution.
+- Measured deployment, installed runtime and referenced scene/completion payloads
+  are absent from the published Rheon snapshot. Ignored real-CPU test not rerun;
+  no inference/GUI/numerical test or accuracy claim. Hash audit does not authenticate
+  measurements or bind the entire executable/build graph.
+- Revised plan handoff reuses actual engine/process/worker/record/UI owners.
+  Independent review caught and resolved diagnostic-only M1 versus production A2/
+  accepted-provider M2 dependency. A0/M0 source-design gate closes; production
+  admission, generic contract/storage work and fresh environment evidence stay pending.
+- Prior PR84 head `4176435` had successful scoped metadata CI and CodeRabbit status;
+  integration `0fbadbe` had successful metadata run `38751946726`. Those are not
+  measured CPU lifecycle or model-accuracy CI. Final update checks recorded below.
+- Final independent review found no unresolved material finding. Its two low
+  wording findings (historical inaccessible-branch label and one numerical owner
+  per explicit mode) were corrected; no new implementation authority is implied.
+- Local supporting checks passed: 8 Markdown files, 40 relative file/anchor links,
+  balanced code fences, unchanged original research bytes, `git diff --check`,
+  exact documentation-only stage/range inspection. No permanent test harness or
+  generated numerical output was added. This update is one forward docs commit;
+  normal push to PR84, without merge or rewriting earlier published commits.
+- CI for this update is observed after push through PR84; no inherited scoped
+  metadata success is represented as new lifecycle, runtime or model evidence.

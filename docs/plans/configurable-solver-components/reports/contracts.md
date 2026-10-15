@@ -4,6 +4,9 @@ Design notation only: these records are not implemented Rust APIs, executable
 configuration or a new wire format. The implementation owner chooses a codec and
 public API evolution strategy after phase 0. The [research](research.md) gives
 source evidence and alternatives; [plan](../plan.md) owns current decisions.
+The [M0 reconciliation](m0-reconciliation.md) now establishes an existing private
+diagnostic Engine/process/worker/JSON path at `0fbadbe`; these proposed generic
+contracts extend those owners rather than describing all such capability as missing.
 
 ## Authority and version boundaries
 
@@ -36,6 +39,7 @@ where they match. Optional fields carry an explicit absence reason.
 | FieldLineage | Application run/attempt ID, source generation, producing stage, field content identity; never another track's implicit latest frame |
 | PressureContext | Qualified sealed constant-density plan/operator identity, grid, rho kg/m³, actual dt s, full ungauged integrated RHS m³/s², explicit prior context, authoritative optional initial residual, cancellation/deadline and resource bounds |
 | PriorPressure | `Absent(constructor-or-policy)` / `Accepted(field, interval, gauge, lineage)`; presence requires this track's committed generation and compatible geometry |
+| DiagnosticPrior | Separate diagnostic-context value with field/interval/track lineage and previous quality/continuation-policy identity; cannot construct production Accepted history |
 | InitialResidual | Named initial guess p0 Pa and host-computed r0=b−A*p0 m³/s² with operator/RHS/guess identities; distinct from RHS and final candidate residual |
 | PressureCandidate | Full cell-centered x-fast f64 pressure Pa, exact required length, canonical p[0]=0, context/attempt identity; no mutable core state or operator replacement |
 | QualifiedStep | Existing final accepted session publication and authoritative reports; pressure qualification alone cannot construct this value |
@@ -99,7 +103,10 @@ Its 15 native steps establish prior-pressure context; it is not a recurrent
 the bridge's counts/volume/density/dt/spacing limits remain explicit. Nonzero origin
 is unqualified. Deployment mu=0.001 Pa·s is incompatible with simply claiming the
 current viscosity-free full-step provider plan reproduces that physical setup.
-Phase 0 must resolve this before admission, not silently set viscosity to zero.
+M0 resolves the local diagnostic setup: existing Engine explicitly applies that
+viscosity with fixed dt/rho before pressure. The unchanged public full-step provider
+still has no such composition; its promotion requires qualification, not silently
+setting viscosity to zero. Current origin/spacing/profile restrictions remain.
 
 Stateless adapters with explicit context come first. Hidden evolving state needs
 tested prepare/commit/abort or full snapshot/restore including RNG and caches;
@@ -170,9 +177,21 @@ and cannot reconstruct equal-input requests. A diagnostic candidate-attempt path
 must return rejection without native fallback and retain bounded candidate evidence:
 current ProviderWorkspace always falls back and overwrites rejected pressure.
 Observing that completed production call cannot implement stop-on-reject.
+The reconciled experimental Engine already prepares its own residual and consumes
+raw no-fallback candidates. Reuse its numerical/worker owners; persistent teacher
+fixtures and public typed candidate-attempt support are not automatically present.
 Rejected attempts require a versioned diagnostic schema/producer
 inside the current recording owner with separate typed reader/append paths;
 accepted-v1 decoders remain strict. Failed-state continuation additionally needs
 a Rheon-owned diagnostic advance contract and hard-stop rules. Diagnostic payloads
 never acquire accepted-publication meaning. Preserve bounded nonfinite rejection
 details without normalizing bad values into accepted finite fields.
+
+Existing experimental continuation is now source-reviewed: pressure-equation or
+divergence failure remains marked and advances its own diagnostic history, while
+hard Courant/wall/flux or invalid output stops. Preserve and label that policy/raw
+JSON evidence; its generic promotion requires explicit DiagnosticPrior/advance
+semantics and independent qualification. It neither advances a rejected
+SimulationSession nor supplies accepted-v1 SQLite records. Current paired fixed-dt
+pressure/tracer views are useful reuse, not completed generic saved-set/alignment
+or all native-field metric coverage.

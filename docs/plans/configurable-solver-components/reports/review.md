@@ -39,3 +39,31 @@ contracts, schemas, fixtures, locks and workflows retain serial ownership. Cold
 persistence, diagnostic isolation and nonempty matched-interval evidence remain
 deciding gates. Q1/Q2 still block future implementation admission. No files edited
 or numerical/runtime execution performed by the reviewer.
+
+## M0 published-source reconciliation review
+
+The earlier Q1 source-access and Q2 diagnostic-physics findings above are historical.
+The same independent read-only GPT-6.1 Sol reviewer inspected the now-accessible
+integration at `0fbadbe733b5b521e192dc8a2aa980d6d69a1e01`, full process/worker/UI
+lifecycle, original and strengthened test, matching lab and retained receipts,
+then reviewed [M0](m0-reconciliation.md) plus changed plan/contracts/issues/standards.
+Original `66e50388...` ancestry is verified. Worker SHA256 and all five wrapper/
+decoded log hashes independently match. No model/runtime/GUI execution was rerun.
+
+Review confirms original cancellation step≥17/frames≥18 and restart16steps/17frames;
+publication additionally asserts Linux immediate-PID absence and one restart AI
+prediction. Normal Drop ordering supports reader teardown attempts before terminal
+publication; no separate reader instrumentation, descendant custody, guaranteed
+cleanup success or hard shutdown bound is established. Receipts bind worker/log
+material, not authentication/full executable closure or absent deployment payloads.
+
+One medium handoff inconsistency was fixed: diagnostic-only M1 does not satisfy
+production A2 or M2 accepted-provider recording prerequisites. Unsupported viscosity
+means values outside the diagnostic's actual mu=0.001 Pa·s; diagnostic retained
+history and production acceptance rollback are separate policies. Existing Engine/
+process/worker/JSON/UI are reused, not replaced by another loop or archive.
+
+**Outcome:** no unresolved material findings after these corrections; source/design
+M0 can close. Source access and diagnostic viscosity/no-fallback ownership are
+resolved. Generic contracts, production composition, persistence and environment-
+qualified implementation evidence remain pending and outside this task's authority.
