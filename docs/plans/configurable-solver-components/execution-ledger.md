@@ -313,3 +313,25 @@ Draft source remains proposal evidence, not implementation admission.
   oracle assertion stripping with explicit failures and negative perturbation in
   all3 interpreter modes.20 numerical+9 page tests and scoped Clippy passed.
   Explicit95-path admission refresh precedes fresh qualification of this subject.
+
+## 2026-10-15 — linked native sample root integration
+
+- Selected only companion PR93's three allocated files76cc71af as90ee568;
+  independently reviewed root registration and96-path source admission at60ef327,
+  tree dcb9f3d8a9c5fd341ac59cf17ab249441b5b9168. One cached view follows the
+  exact saved page selection after controls update; both share root scrolling.
+- Fresh clean qualification at60ef327 passed all18commands;26 real-packet tests
+  passed normally and under Python -O with zero skips. The earlier attempt was
+  invalidated when a review-document digest transcription was corrected; its
+  receipt is refused and is not used. Qualification kernel/oracle unchanged.
+- Fresh67focused desktop contracts and strict root/view Clippy passed. Actual
+  root1250x820 X11/llvmpipe window reopened stored result Unverified, verified exact
+  sources, explicitly loaded linked fields, edited shared Z slice and probed both
+  panes. A nonzero physical probe/time/stage matched independent raw SQLite/IEEE
+  decoding normally, under -O and PYTHONOPTIMIZE=1; deliberately changed probe
+  rejected in all modes. Hidden owned source retained declared cached paint;
+  explicit reload cleared both panes, byte-exact restoration recovered. Close0.
+- Executor evidence /tmp/rheon-linked-root-qualified-final,
+  /tmp/rheon-linked-root-packet-final and /tmp/rheon-linked-root-native/observation.json.
+  This is native recorded-source slice/probe evidence, not trained model/device
+  qualification, accepted learned-provider composition or full generic M1–M3.

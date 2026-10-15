@@ -264,3 +264,22 @@ contracts and scoped Clippy passed; the reviewer ran no tests. No remaining
 material source issue in the reviewed correction. Still95 paths; refresh only the
 two owned existing comparison source hashes. Fresh clean qualification required;
 companion/root/previous source receipts are not substituted.
+
+## Linked native slice/probe root integration, 2026-10-15
+
+This explicit source review admits the 95-to-96-path native M3 extension to
+attempt fresh qualification. Selected companion PR93 source76cc71af is retained
+as90ee568: new comparison_field_view.rs SHA256
+911b7095ccc2897d811b7946a5fabadc31703263879bec73d9b8f082573d1106;
+contract tests and API documentation retain their frozen companion bytes.
+Independent GPT-6.1 Sol review checked the actual source and tiny root registration:
+identity includes root, captured set, both members and complete recipe/pair;
+changed/absent/unavailable selections and failed reloads clear cached fields;
+source/payload/sample/plane limits precede materialization. Native cells/faces,
+physical XYZ/time/stage/pressure intervals, gauge diagnostics and common bounds
+remain explicit; repaint performs no I/O. The root owns one persistent field view,
+updates page controls before selection and wraps both views in a scroll region.
+No numerical, worker, recording, model or qualification owner changes. All96
+conservatively selected inputs are rebound; prior receipts remain historical.
+Admission authorizes fresh clean committed tests/native-window and native/rational
+qualification, not a transferred companion receipt or trained-model acceptance.
