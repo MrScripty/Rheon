@@ -189,6 +189,140 @@ fn cancellation_during_real_prediction_retains_dispatched_request_and_drains_chi
     assert_eq!(a.transition, HistoryTransition::NotAdvanced);
 }
 #[test]
+fn cold_native_seed_matches_actual_prefix_in_closed_and_incomplete_archives() {
+    use rheon::{
+        recording::diagnostic::{
+            DiagnosticAttempt, DiagnosticReader, DiagnosticRequest, SeedOrigin,
+        },
+        solver_provider::context::{
+            PressureContext, PressureContextInput, PressureContextMode, PressureHistory,
+            PressureHistoryStatus,
+        },
+    };
+    let p = zero();
+    let identity = ModelProcess::preflight(&p.manifest, &scene()).unwrap();
+    let spec = FrozenDiagnosticSpec::capture(
+        scene(),
+        ExecutionPolicy::TeacherStage,
+        &p.manifest,
+        &identity,
+    )
+    .unwrap();
+    let mut engine =
+        Engine::with_policy(spec.scene.clone(), spec.policy, "seed-template".into()).unwrap();
+    for _ in 0..spec.scene.warmup_steps {
+        engine
+            .advance_typed(&AtomicBool::new(false), |_| {
+                panic!("Native prefix must not infer")
+            })
+            .unwrap();
+    }
+    let template = engine
+        .diagnostic_run(spec.provider.binding(), spec.source_revision.clone())
+        .unwrap();
+    for mutation in [
+        "valid",
+        "generation",
+        "time",
+        "zero-prefix",
+        "accepted-origin",
+    ] {
+        for terminal in [
+            None,
+            Some(RunTerminal::Failed),
+            Some(RunTerminal::Cancelled),
+        ] {
+            let id = format!("seed-{mutation}-{terminal:?}");
+            let root = p.root.join(&id);
+            std::fs::create_dir(&root).unwrap();
+            let mut header = template.clone();
+            header.run_id = id.clone();
+            let seed = header.seed.as_mut().unwrap();
+            match mutation {
+                "generation" => seed.generation = 100,
+                "time" => seed.interval_end = f64::from_bits(seed.interval_end.to_bits() + 1),
+                "zero-prefix" => header.native_prefix_steps = 0,
+                "accepted-origin" => {
+                    seed.status = PressureHistoryStatus::Accepted;
+                    header.seed_origin = Some(SeedOrigin::AcceptedNative);
+                }
+                _ => {}
+            }
+            spec.bind_header(&mut header).unwrap();
+            let prior = header.seed.as_ref().unwrap();
+            let rhs = vec![0.0; header.grid.cell_len()];
+            let context = PressureContext::new(PressureContextInput {
+                grid: &header.grid,
+                density: header.density,
+                dt: header.dt,
+                interval_start: prior.interval_end,
+                rhs: &rhs,
+                prior: Some(PressureHistory {
+                    values: &prior.pressure,
+                    grid: &header.grid,
+                    density: header.density,
+                    run_id: &header.run_id,
+                    generation: prior.generation,
+                    interval_end: prior.interval_end,
+                    status: prior.status,
+                }),
+                run_id: &header.run_id,
+                generation: prior.generation + 1,
+                mode: PressureContextMode::DiagnosticCandidate,
+            })
+            .unwrap();
+            let attempt = DiagnosticAttempt {
+                attempt_index: 0,
+                request: DiagnosticRequest::capture(&context, header.viscosity, 1 << 20).unwrap(),
+                dispatched: true,
+                outcome: PredictionOutcome::NoCandidate {
+                    reason: NoCandidateReason::RuntimeFailure,
+                    detail: "Manufactured cold custody fixture".into(),
+                    invalid_payload_sha256: None,
+                },
+                native_reference: None,
+                transition: HistoryTransition::NotAdvanced,
+            };
+            let path = root.join("attempts.sqlite");
+            let mut writer =
+                DiagnosticRecorder::create(&path, header, spec.recording.limits()).unwrap();
+            writer.append(&attempt).unwrap();
+            if let Some(terminal) = terminal {
+                writer
+                    .finish(DiagnosticTerminal {
+                        outcome: terminal.recording(),
+                        detail: "Manufactured cold custody fixture".into(),
+                        produced_attempts: 1,
+                        last_advanced_generation: None,
+                    })
+                    .unwrap();
+            }
+            drop(writer);
+            // These are valid generic archives, including a genuinely appended
+            // request with no terminal. Only the application's prefix is false.
+            let reader = DiagnosticReader::open(&path, spec.recording.limits()).unwrap();
+            reader.verify().unwrap();
+            assert_eq!(reader.count().unwrap(), 1);
+            assert_eq!(reader.status().unwrap().is_some(), terminal.is_some());
+            drop(reader);
+            let set = DiagnosticRunSet::single(id, spec.clone(), None);
+            if mutation == "valid" {
+                assert!(matches!(
+                    (terminal, set.open_member(&root, 0)),
+                    (None, MemberState::Incomplete(_)) | (Some(_), MemberState::Unpinned(_))
+                ));
+            } else {
+                assert!(matches!(
+                    set.open_member(&root, 0),
+                    MemberState::Invalid(error)
+                        if error == "Diagnostic native seed differs from captured prefix"
+                ));
+            }
+        }
+    }
+}
+
+#[test]
 fn cold_terminal_attempts_respect_actual_prefix_and_requested_horizon() {
     let p = zero();
     let identity = ModelProcess::preflight(&p.manifest, &scene()).unwrap();

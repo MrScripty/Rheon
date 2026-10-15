@@ -97,6 +97,18 @@ per request payload, additionally constrained by the existing Scene history
 budget. SQLite's metadata/page overhead remains part of the database limit.
 The actual native prefix is recorded even if cancellation occurs before the
 requested prefix completes; a zero-attempt archive is meaningful.
+Saved reruns publish the exact frozen intent and parent link before checking
+mutable runtime package contents or support. Missing, changed or unsupported
+packages retain a Failed finished observation with no invented archive, provider
+or inference. Executor-stamp mismatches still refuse before output creation.
+
+Cold app run-set verification binds every archive, including unpinned and
+incomplete sources, to the frozen requested horizon. Any produced attempt requires
+a completed native prefix. A nonzero prefix must have qualified native diagnostic
+seed history at that exact generation and repeated-DT end time; prefix zero has
+no seed. Generic diagnostic archives retain their broader observed-seed contract.
+An honest within-horizon produced-but-unrecorded capacity tail remains valid.
+
 
 ## Cold inspection and synchronized quantitative pressure
 
@@ -134,8 +146,9 @@ python3 tools/verify_diagnostic_pressure.py /absolute/run/diagnostic-comparison-
 python3 -O tools/verify_diagnostic_pressure.py /absolute/run/diagnostic-comparison-0-0.json
 ```
 
-The stdlib oracle derives norms with `math.fsum`, independently of the Rust
-streaming-hypot reduction. It checks source/selection/time/gauge/units/bounds and
+The stdlib oracle derives norms with a maximum-magnitude scaled `math.fsum`,
+independently of the Rust streaming-hypot reduction. Scaling avoids premature
+square underflow or overflow when the finite L2 norm is representable. It checks source/selection/time/gauge/units/bounds and
 rejects deliberately changed metrics even under Python optimization. It is a
 reduction/custody check, not a replacement for `DiagnosticReader::verify`, model
 accuracy or a hostile-author authenticity proof.

@@ -500,3 +500,34 @@ to its actual source and is not relabelled for this correction.
   Fresh qualification and packet are /tmp/rheon-runtime-provenance-final-qualified
   and /tmp/rheon-runtime-provenance-final-packet. This follow-through changes
   documentation only; hosted checks must qualify the pushed head independently.
+
+
+## 2026-10-15 — independent custody/oracle challenge and composed review
+
+- PR94 merged at bbea4b2ef06096f005e654d69f19c2c25a8cc0d3 after all 18 applicable
+  exact-head checks and all ten workflows passed. PR95 remains frozen at34f3d1d,
+  retargeted to main with the identical proposed merge tree; its numerical,
+  recording, process and desktop checks pass while publication CI is monitored.
+- Selected only PR96 d58044a's oracle/test and PR97 68b8bd1's three existing
+  diagnostic-owner files into a separate follow-up. Independent review approved
+  scaled-fsum range handling and preservation of frozen intent/parent before
+  mutable runtime package checks, without fabricating an archive or inference.
+- Review identified a further app chronology gap: generic valid seed generation,
+  time and origin could contradict the actual zero-origin native prefix. The lead
+  added app-only exact seed/prefix/clock/origin/status verification. Independent
+  GPT-6.1 Sol source review approved final hashes in the admission review. Public
+  recorder regressions first verify generic validity, then reject shifted
+  generation/time, zero-prefix seed and AcceptedNative origin across Failed,
+  Cancelled and genuinely appended incomplete sources without observations/pins.
+- Corrected isolated target validation passed 48 application tests, 22 recording
+  contracts and the pressure-oracle contract (12 positive and60 perturbed checks
+  across normal/-O/PYTHONOPTIMIZE=1). One actual measured-deployment test remains
+  explicitly ignored. The existing produced2/recorded1/capacity1 failure remains
+  valid. An initial cache-seeding run included local artifacts and is discarded;
+  the clean run excludes226 local artifacts and all Rheon fingerprints, uses a
+  unique target and recompiles the application. No receipt from that initial run
+  is used. Full fresh qualification and native validation follow the clean freeze.
+- Root-owned merged documentation and linked integration branches were retired
+  only after main ancestry, clean worktree and zero open dependencies were checked.
+  Qualified files/evidence remain available at detached exact commits. Active
+  source/companion branches and README90 remain untouched.

@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed combined diagnostic runtime/linked view with execution-only saved-source-stamp guard, complete103-path conservative closure. Admission to fresh clean qualification only.",
+  "scope": "Explicit independently reviewed diagnostic custody/chronology and scaled-oracle composition on the complete103-path conservative closure. Admission to fresh clean qualification only.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "86d89cd41e052bc924bd775b279cc2b82ac769c76cc5b4fce60c12c8744ed5e2",
+  "review_sha256": "48beb4395de6dd7f4f958d0613a84ffe8fa5c1aa1e51928acf5c08fab68b4e7e",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
@@ -18,10 +18,10 @@
     "src/bin/desktop/README.md": "a50f69e258487345c8b9f15da011dbbefab70742cab9e4fff9af455a98fca56f",
     "src/bin/desktop/ai_comparison/adapter.rs": "33a4c3da7c1864052755b0c63b648d4ad6f06c36415251102de8c4a4ba2fa70b",
     "src/bin/desktop/ai_comparison/cpu_contract_tests.rs": "9413b796f108fc6e6106bf8829f88f7c425d37cd83e2573742eb00e3a7e4f03b",
-    "src/bin/desktop/ai_comparison/diagnostic_runs.rs": "e1aeb270ce8c8f36b60d90a631a6df596306905e4ac9d27f9bf3264fb6af4c11",
+    "src/bin/desktop/ai_comparison/diagnostic_runs.rs": "7038fff60a8dc88a64236aa12e88c2d4ce856cf93cc4261adf29743644663bf5",
     "src/bin/desktop/ai_comparison/diagnostic_view.rs": "dfbb9c607dfe3cc022055b82fc2bd9c91a45a16a2ceefee125d665d216071845",
-    "src/bin/desktop/ai_comparison/diagnostic_worker.rs": "93765dd197c90633ae2d7b62d80a84f26582049888345b9d629209087db812af",
-    "src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs": "d2477ff40b3f911c21963335dcd0cad52ef0e2abc0e52148aa55f2661457da9d",
+    "src/bin/desktop/ai_comparison/diagnostic_worker.rs": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
+    "src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8",
     "src/bin/desktop/ai_comparison/engine.rs": "d475ed3235f8ff73603037f0355dfec5bf326db647f8b23b119548764d6d18bd",
     "src/bin/desktop/ai_comparison/engine_typed_tests.rs": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
     "src/bin/desktop/ai_comparison/mod.rs": "2dfe829f9ef7476e3dddb56482a7629c4f975b24055c506713a95b96bfde8e5b",
