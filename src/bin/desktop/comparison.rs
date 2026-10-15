@@ -3,8 +3,8 @@
 //! their existing owners. Root registration and linked field rendering are separate.
 use super::comparison_archive::{SavedRecipe, UnverifiedComparison, VerifiedComparison};
 use super::native_comparison::{
-    Coverage, FieldComparison, FieldRole, PairComparison, PressurePolicy, Recipe, Selection,
-    Unavailable,
+    ComparedValues, ComparedValuesError, Coverage, FieldComparison, FieldRole, PairComparison,
+    PressurePolicy, Recipe, Selection, Unavailable, compared_values,
 };
 use super::run_sets::{
     MemberState, RunSetRevision, SpecDifference, archive_path, open_member, relative_path,
@@ -65,6 +65,28 @@ pub struct SelectedNativePair<'a> {
     pub root: &'a Path,
     pub recipe: &'a SavedRecipe,
     pub pair: &'a PairComparison,
+}
+
+#[derive(Debug)]
+pub enum SelectedFieldsError {
+    Source(String),
+    Comparison(ComparedValuesError),
+}
+impl std::fmt::Display for SelectedFieldsError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Source(reason) => write!(f, "selected native source: {reason}"),
+            Self::Comparison(error) => write!(f, "selected native fields: {error}"),
+        }
+    }
+}
+impl std::error::Error for SelectedFieldsError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::Comparison(error) => Some(error),
+            Self::Source(_) => None,
+        }
+    }
 }
 
 pub struct SavedComparisonPage {
@@ -154,6 +176,78 @@ impl SavedComparisonPage {
             recipe: result.recipe(),
             pair: result.coverage().pairs.get(self.selected)?,
         })
+    }
+    /// Explicit synchronous materialization, not a per-frame getter. An
+    /// unverified/no-pair page returns None without source I/O. Callers may cache
+    /// successful arrays by the exact pair identities and recipe for rendering.
+    pub fn load_selected_fields(&mut self) -> Result<Option<ComparedValues>, SelectedFieldsError> {
+        let result = (|| {
+            let Some(selected) = self.selected_pair() else {
+                return Ok(None);
+            };
+            let mut sources = Vec::new();
+            for (member_id, expected) in [
+                (
+                    &selected.recipe.reference.member_id,
+                    &selected.pair.reference,
+                ),
+                (
+                    &selected.recipe.candidate.member_id,
+                    &selected.pair.candidate,
+                ),
+            ] {
+                let member = selected
+                    .recipe
+                    .run_set
+                    .members
+                    .iter()
+                    .find(|m| &m.member_id == member_id)
+                    .ok_or_else(|| SelectedFieldsError::Source("selected member missing".into()))?;
+                let reader = match open_member(selected.root, member) {
+                    MemberState::Ready(reader) => reader,
+                    MemberState::Missing => {
+                        return Err(SelectedFieldsError::Source("exact archive missing".into()));
+                    }
+                    MemberState::Invalid(error) => {
+                        return Err(SelectedFieldsError::Source(error.to_string()));
+                    }
+                    MemberState::Unsupported(reason) => {
+                        return Err(SelectedFieldsError::Source(reason.into()));
+                    }
+                    _ => {
+                        return Err(SelectedFieldsError::Source(
+                            "exact archive is not ready and pinned".into(),
+                        ));
+                    }
+                };
+                let source = Selection::read(&reader, expected.ordinal)
+                    .map_err(|e| SelectedFieldsError::Source(e.to_string()))?;
+                if source.identity() != expected {
+                    return Err(SelectedFieldsError::Source(
+                        "exact selected publication changed".into(),
+                    ));
+                }
+                sources.push(source);
+            }
+            let data = compared_values(&sources[0], &sources[1], selected.recipe.recipe)
+                .map_err(SelectedFieldsError::Comparison)?;
+            if data.comparison != *selected.pair {
+                return Err(SelectedFieldsError::Source(
+                    "materialized summary differs from verified comparison".into(),
+                ));
+            }
+            Ok(Some(data))
+        })();
+        if let Err(error) = &result
+            && matches!(
+                error,
+                SelectedFieldsError::Source(_)
+                    | SelectedFieldsError::Comparison(ComparedValuesError::Recipe(_))
+            )
+        {
+            self.fail(error);
+        }
+        result
     }
     fn clear_presented(&mut self) {
         self.verified = None;

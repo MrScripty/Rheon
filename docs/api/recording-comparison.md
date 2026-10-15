@@ -179,3 +179,24 @@ The independent Python verifier now uses explicit checked failures throughout;
 identity and metric negatives fail in normal Python, `-O` and PYTHONOPTIMIZE=1.
 Fresh isolated-target source tests passed 16 comparison contracts, including the
 public sample/schema/overflow boundaries, and 12 saved comparison contracts.
+
+
+### Exact native presentation values
+
+`compared_values(reference, candidate, recipe)` first obtains the existing exact
+PairComparison. Available output carries unaveraged x-fast native samples, typed
+cell/face sampling dimensions/offsets, physical geometry and the exact comparison.
+Only its explicitly declared pressure offset is applied to candidate presentation
+values; raw native_samples remains untransformed. Derived nonfinite values return
+ArithmeticRange. This is transient derived presentation data, not accepted fields
+or another numerical store. Caller recording/selection budgets apply; promoted
+arrays and transient extraction do not constitute a process RSS bound.
+
+The cached page's explicit `load_selected_fields` reopens both exact archive pins
+and selected identities, then requires the returned comparison equal its verified
+pair. Unverified/no selected pair returns None without archive reads. Source failure
+clears verification; scientific unavailability can retain honest verified analysis
+without arrays. Linked views must clear prior arrays on every Err/None and bind
+both selection identities plus the full recipe when caching. Native views/physical
+qualification remain separate acceptance gates. Twenty numerical and nine page
+contracts passed after serial selection; fresh source qualification is separate.

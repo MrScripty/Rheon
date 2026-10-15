@@ -302,3 +302,14 @@ Draft source remains proposal evidence, not implementation admission.
   replacing the private test numerical path with the public API; imports removed.
   New95-path source admission committed before fresh qualification. Companion
   harness/window evidence is historical and does not qualify this root binary.
+
+- Integrated page source3584749 (tree62f0957488476a4b4bc0faa1bebbc78641f9f3f7)
+  passed clean18-command native/rational, packet26 normal/-O0skips,12 saved+16
+  numerical+7 page contracts, scoped Clippy and native binary build. Receipts in
+  /tmp/rheon-m3-page-3584749 and /tmp/rheon-m3-page-packet-3584749. These pin that
+  source only, not subsequent values/renderer changes or native root interaction.
+- Selected independently reviewed06ccf43 exact-value and explicit materialization
+  hooks, retaining public raw samples/overflow test. Fixed its pointwise Python
+  oracle assertion stripping with explicit failures and negative perturbation in
+  all3 interpreter modes.20 numerical+9 page tests and scoped Clippy passed.
+  Explicit95-path admission refresh precedes fresh qualification of this subject.

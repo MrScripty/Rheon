@@ -242,3 +242,25 @@ qualifier and physical thresholds stay unchanged. This admits fresh qualificatio
 of this source, not transfer of companion harness or prior integration receipts.
 Linked field projection, actual root-window interaction and typed diagnostic modes
 remain separately qualified work; no full M3 acceptance follows from page wiring.
+
+
+### Exact native presentation values
+
+Independently reviewed selected additive 06ccf43 numerical/page hooks retain
+actual public raw native_samples and its overflow regression. compared_values
+first authorizes through existing compare, then applies only the returned declared
+pressure offset; it carries exact native geometry/lattice dimensions/associations,
+not cell-averaged faces. Page materialization explicitly reopens both whole-file
+pins and exact selected-publication identities and matches the verified summary.
+Source failures clear capability; scientifically unavailable pairs retain analysis
+but return no materialized array. Renderer caches must clear on every Err/None.
+Caller/source budgets bound selected payload; no peak RSS promise is introduced.
+
+Source review caught assert-only decisive checks in the new independent pointwise
+Python oracle. Replaced them with explicit checked failures and tested valid pass
+plus perturbed sample rejection in normal, -O and PYTHONOPTIMIZE=1 modes. The
+existing independent metric oracle remains unchanged. Focused20 numerical+9 page
+contracts and scoped Clippy passed; the reviewer ran no tests. No remaining
+material source issue in the reviewed correction. Still95 paths; refresh only the
+two owned existing comparison source hashes. Fresh clean qualification required;
+companion/root/previous source receipts are not substituted.

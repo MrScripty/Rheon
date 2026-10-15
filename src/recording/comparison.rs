@@ -214,6 +214,124 @@ pub fn compare(
     })
 }
 
+/// Actual native geometry, in metres. Field lattice dimensions are separate.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct NativeGeometry {
+    pub counts_xyz: [u64; 3],
+    pub spacing_m: [f64; 3],
+    pub origin_m: [f64; 3],
+}
+/// Native sample locations; face values are never averaged onto cells.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum SampleAssociation {
+    CellCenter,
+    XFace,
+    YFace,
+    ZFace,
+}
+/// Cartesian XYZ, x-fast scalar samples. Offsets are measured in cells from origin.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct NativeSampling {
+    pub association: SampleAssociation,
+    pub dimensions: [u64; 3],
+    pub offset_cells: [f64; 3],
+}
+/// Owned presentation values and the exact reduction that authorized them.
+/// Pressure candidates include only the summary's declared gauge transform.
+/// This is transient derived data, not accepted state or a persisted field store.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ComparedValues {
+    pub reference: Vec<f64>,
+    pub candidate: Vec<f64>,
+    pub comparison: PairComparison,
+    pub geometry: NativeGeometry,
+    pub sampling: NativeSampling,
+}
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ComparedValuesError {
+    Recipe(RecipeError),
+    Unavailable(Unavailable),
+}
+impl std::fmt::Display for ComparedValuesError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Recipe(e) => write!(f, "native comparison values: {e}"),
+            Self::Unavailable(reason) => {
+                write!(f, "native comparison values unavailable: {reason:?}")
+            }
+        }
+    }
+}
+impl std::error::Error for ComparedValuesError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Self::Recipe(e) => Some(e),
+            Self::Unavailable(_) => None,
+        }
+    }
+}
+impl From<Unavailable> for ComparedValuesError {
+    fn from(value: Unavailable) -> Self {
+        Self::Unavailable(value)
+    }
+}
+
+/// Synchronously materialize one already bounded immutable native pair.
+/// Reuses the comparison/field validators and exact returned gauge offset. The
+/// extra extraction intentionally avoids a second mean or reduction algorithm.
+/// Recording limits bound source records, not peak RSS or promoted f64 allocations.
+pub fn compared_values(
+    reference: &Selection,
+    candidate: &Selection,
+    recipe: Recipe,
+) -> Result<ComparedValues, ComparedValuesError> {
+    let comparison = compare(reference, candidate, recipe).map_err(ComparedValuesError::Recipe)?;
+    let summary = comparison
+        .outcome
+        .as_ref()
+        .map_err(|reason| ComparedValuesError::Unavailable(*reason))?;
+    let x = values(reference, recipe.field)?;
+    let mut y = values(candidate, recipe.field)?;
+    if let Some(gauge) = summary.gauge {
+        for value in &mut y {
+            *value -= gauge.removed_offset_pa;
+        }
+    }
+    if x.iter().chain(&y).any(|value| !value.is_finite()) {
+        return Err(Unavailable::ArithmeticRange.into());
+    }
+    let mut dimensions = reference.run.counts;
+    let mut offset_cells = [0.5; 3];
+    let association = if let Some(axis) = face_axis(recipe.field) {
+        dimensions[axis] = dimensions[axis]
+            .checked_add(1)
+            .ok_or(Unavailable::FieldSchema)?;
+        offset_cells[axis] = 0.0;
+        [
+            SampleAssociation::XFace,
+            SampleAssociation::YFace,
+            SampleAssociation::ZFace,
+        ][axis]
+    } else {
+        SampleAssociation::CellCenter
+    };
+    Ok(ComparedValues {
+        reference: x,
+        candidate: y,
+        comparison,
+        geometry: NativeGeometry {
+            counts_xyz: reference.run.counts,
+            spacing_m: reference.run.spacing,
+            origin_m: reference.run.origin,
+        },
+        sampling: NativeSampling {
+            association,
+            dimensions,
+            offset_cells,
+        },
+    })
+}
+
 /// One-to-one alignment of caller-bounded selections. Multiple matches within
 /// tolerance reject as ambiguous; input order never chooses a scientific match.
 /// No interpolation, remapping or cross-run particle pairing is performed.

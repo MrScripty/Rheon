@@ -731,3 +731,385 @@ fn malformed_pressure_interval_remains_a_paired_schema_failure() {
     assert!(coverage.reference_unmatched.is_empty());
     assert!(coverage.candidate_unmatched.is_empty());
 }
+
+fn presentation_archive(method: PressureImplementation) -> Archive {
+    let mut native = Simulation::with_implementation(
+        GridGeometry::new([2, 3, 4], [0.25, 0.5, 0.75], [-1.0, 2.0, 3.0]).unwrap(),
+        sim().config(),
+        method,
+    )
+    .unwrap();
+    let run = carrier_run(
+        SessionIdentity {
+            run_id: if method == PressureImplementation::JacobiPcgV1 {
+                301
+            } else {
+                302
+            },
+            source_revision: "actual-native-presentation-source".into(),
+        },
+        &native,
+        "native fields; no presentation remapping",
+    )
+    .unwrap();
+    native
+        .step(
+            0.003,
+            Some(rheon::SmokeSource {
+                lower: [-0.99, 2.1, 3.1],
+                upper: [-0.51, 2.9, 4.4],
+                tracer_rate: 2.0,
+                vertical_acceleration: 1.0,
+            }),
+            |_| false,
+        )
+        .unwrap();
+    Archive::new(run, &[carrier_publication(&native, 0, 1 << 20).unwrap()])
+}
+fn native_bits(s: &Selection, name: &str) -> Vec<u64> {
+    let field = s.publication().field(name).unwrap();
+    if field.scalar_type == "f64" {
+        field
+            .data
+            .chunks_exact(8)
+            .map(|b| f64::from_le_bytes(b.try_into().unwrap()).to_bits())
+            .collect()
+    } else {
+        field
+            .data
+            .chunks_exact(4)
+            .map(|b| (f32::from_le_bytes(b.try_into().unwrap()) as f64).to_bits())
+            .collect()
+    }
+}
+fn value_oracle_status(
+    a: &Archive,
+    b: &Archive,
+    role: FieldRole,
+    data: &ComparedValues,
+    diagnostic: bool,
+    mode: u8,
+    perturb: bool,
+) -> bool {
+    use std::io::Write;
+    use std::process::Stdio;
+    // Independent coordinate dictionaries, IEEE unpacking and fsum; this adds
+    // pointwise evidence without changing the existing metric oracle.
+    let script = r#"
+import math, sqlite3, struct, sys
+
+def samples(path, role):
+    with sqlite3.connect(path) as db:
+        geometry=db.execute('SELECT geometry FROM run WHERE id=1').fetchone()[0]
+        fields={name:(kind,raw) for name,kind,raw in db.execute('SELECT name,scalar_type,data FROM fields WHERE ordinal=0')}
+    values={name:[v[0] for v in struct.iter_unpack('<f' if kind=='f32' else '<d',raw)] for name,(kind,raw) in fields.items()}
+    if role!='divergence': return values[role], [0.0]*len(values[role])
+    nx,ny,nz=struct.unpack('<3Q',geometry[:24]);spacing=struct.unpack('<3d',geometry[24:48])
+    faces=[]
+    for axis,name in enumerate(('velocity_x','velocity_y','velocity_z')):
+        shape=[nx,ny,nz];shape[axis]+=1
+        coords=((i,j,k) for k in range(shape[2]) for j in range(shape[1]) for i in range(shape[0]))
+        faces.append(dict(zip(coords,values[name],strict=True)))
+    result=[];bounds=[]
+    for k in range(nz):
+        for j in range(ny):
+            for i in range(nx):
+                lower=(i,j,k);terms=[]
+                for axis in range(3):
+                    upper=list(lower);upper[axis]+=1
+                    terms.append((faces[axis][tuple(upper)]-faces[axis][lower])/spacing[axis])
+                result.append(math.fsum(terms));bounds.append(4*math.ulp(1.0)*math.fsum(map(abs,terms))+4*math.ulp(0.0))
+    return result,bounds
+
+x,xb=samples(sys.argv[1],sys.argv[3]);y,yb=samples(sys.argv[2],sys.argv[3])
+if sys.argv[4]=='diagnostic':
+    offset=math.fsum(b-a for a,b in zip(x,y,strict=True))/len(x)
+    y=[v-offset for v in y];yb=[1e-13]*len(y)
+actual=[v[0] for v in struct.iter_unpack('<d',sys.stdin.buffer.read())]
+if len(actual)!=len(x)+len(y): raise ValueError('native sample count')
+for actual,expected,bound in zip(actual,x+y,xb+yb,strict=True):
+    if not all(map(math.isfinite,(actual,expected,bound))): raise ValueError('nonfinite native sample')
+    if bound==0:
+        if struct.pack('<d',actual)!=struct.pack('<d',expected): raise ValueError(('native bits',actual,expected))
+    elif abs(actual-expected)>bound: raise ValueError(('native value bound',actual,expected,bound))
+print('independent native presentation values passed:',sys.argv[3])
+"#;
+    let name = match role {
+        FieldRole::Tracer => "tracer",
+        FieldRole::IntervalPressure => "interval_pressure",
+        FieldRole::VelocityX => "velocity_x",
+        FieldRole::VelocityY => "velocity_y",
+        FieldRole::VelocityZ => "velocity_z",
+        FieldRole::VelocityDivergence => "divergence",
+    };
+    let mut command = std::process::Command::new("python3");
+    command.env_remove("PYTHONOPTIMIZE");
+    if mode == 1 {
+        command.arg("-O");
+    } else if mode == 2 {
+        command.env("PYTHONOPTIMIZE", "1");
+    }
+    let mut child = command
+        .args(["-c", script])
+        .arg(&a.path)
+        .arg(&b.path)
+        .arg(name)
+        .arg(if diagnostic { "diagnostic" } else { "direct" })
+        .stdin(Stdio::piped())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .unwrap();
+    let mut bytes: Vec<_> = data
+        .reference
+        .iter()
+        .chain(&data.candidate)
+        .flat_map(|v| v.to_le_bytes())
+        .collect();
+    if perturb {
+        let original = f64::from_le_bytes(bytes[..8].try_into().unwrap());
+        bytes[..8].copy_from_slice(&(original + 1.0).to_le_bytes());
+    }
+    child.stdin.take().unwrap().write_all(&bytes).unwrap();
+    child.wait().unwrap().success()
+}
+fn value_oracle(
+    a: &Archive,
+    b: &Archive,
+    role: FieldRole,
+    data: &ComparedValues,
+    diagnostic: bool,
+) {
+    assert!(value_oracle_status(a, b, role, data, diagnostic, 0, false));
+}
+#[test]
+fn independent_pointwise_oracle_rejects_changed_samples_with_python_optimization() {
+    let a = presentation_archive(PressureImplementation::JacobiPcgV1);
+    let b = presentation_archive(PressureImplementation::SymmetricGaussSeidelPcgV1);
+    let role = FieldRole::Tracer;
+    let data = compared_values(&a.select(0), &b.select(0), recipe(role)).unwrap();
+    for mode in 0..3 {
+        assert!(value_oracle_status(&a, &b, role, &data, false, mode, false));
+        assert!(!value_oracle_status(&a, &b, role, &data, false, mode, true));
+    }
+}
+#[test]
+fn presentation_preserves_all_real_native_arrays_sampling_and_existing_oracle_metrics() {
+    let a = presentation_archive(PressureImplementation::JacobiPcgV1);
+    let b = presentation_archive(PressureImplementation::SymmetricGaussSeidelPcgV1);
+    let reference = a.select(0);
+    let candidate = b.select(0);
+    for (role, association, dimensions, offset, name) in [
+        (
+            FieldRole::Tracer,
+            SampleAssociation::CellCenter,
+            [2, 3, 4],
+            [0.5, 0.5, 0.5],
+            Some("tracer"),
+        ),
+        (
+            FieldRole::IntervalPressure,
+            SampleAssociation::CellCenter,
+            [2, 3, 4],
+            [0.5, 0.5, 0.5],
+            Some("interval_pressure"),
+        ),
+        (
+            FieldRole::VelocityX,
+            SampleAssociation::XFace,
+            [3, 3, 4],
+            [0.0, 0.5, 0.5],
+            Some("velocity_x"),
+        ),
+        (
+            FieldRole::VelocityY,
+            SampleAssociation::YFace,
+            [2, 4, 4],
+            [0.5, 0.0, 0.5],
+            Some("velocity_y"),
+        ),
+        (
+            FieldRole::VelocityZ,
+            SampleAssociation::ZFace,
+            [2, 3, 5],
+            [0.5, 0.5, 0.0],
+            Some("velocity_z"),
+        ),
+        (
+            FieldRole::VelocityDivergence,
+            SampleAssociation::CellCenter,
+            [2, 3, 4],
+            [0.5, 0.5, 0.5],
+            None,
+        ),
+    ] {
+        let data = compared_values(&reference, &candidate, recipe(role)).unwrap();
+        assert_eq!(
+            data.comparison,
+            compare(&reference, &candidate, recipe(role)).unwrap()
+        );
+        assert_eq!(
+            data.geometry,
+            NativeGeometry {
+                counts_xyz: [2, 3, 4],
+                spacing_m: [0.25, 0.5, 0.75],
+                origin_m: [-1.0, 2.0, 3.0]
+            }
+        );
+        assert_eq!(
+            data.sampling,
+            NativeSampling {
+                association,
+                dimensions,
+                offset_cells: offset
+            }
+        );
+        assert_eq!(
+            data.reference.len(),
+            dimensions.into_iter().product::<u64>() as usize
+        );
+        assert_eq!(data.candidate.len(), data.reference.len());
+        if let Some(name) = name {
+            assert_eq!(
+                data.reference
+                    .iter()
+                    .map(|v| v.to_bits())
+                    .collect::<Vec<_>>(),
+                native_bits(&reference, name)
+            );
+            assert_eq!(
+                data.candidate
+                    .iter()
+                    .map(|v| v.to_bits())
+                    .collect::<Vec<_>>(),
+                native_bits(&candidate, name)
+            );
+        }
+        oracle(&a, &b, role, data.comparison.outcome.as_ref().unwrap());
+        value_oracle(&a, &b, role, &data, false);
+    }
+}
+#[test]
+fn presentation_keeps_native_bits_and_uses_only_declared_pressure_offset_and_divergence() {
+    let (run, mut steps) = fixture(0.01, false);
+    put_f32(&mut steps[0], "tracer", |i| match i % 3 {
+        0 => -0.0,
+        1 => f32::from_bits(1),
+        _ => f32::from_bits(0.25_f32.to_bits() + 1),
+    });
+    put_f64(&mut steps[0], "interval_pressure", |i| i as f64);
+    analytic_faces(&mut steps[0], 1.0);
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    put_f64(&mut steps[0], "interval_pressure", |i| i as f64 + 8.0);
+    analytic_faces(&mut steps[0], 2.0);
+    let b = Archive::new(run, &steps);
+    let x = a.select(0);
+    let y = b.select(0);
+    let tracer = compared_values(&x, &y, recipe(FieldRole::Tracer)).unwrap();
+    assert_eq!(tracer.reference[0].to_bits(), (-0.0_f64).to_bits());
+    assert_eq!(tracer.reference[1], f32::from_bits(1) as f64);
+    value_oracle(&a, &b, FieldRole::Tracer, &tracer, false);
+    let mut r = recipe(FieldRole::IntervalPressure);
+    r.pressure = PressurePolicy::RemoveMeanOffsetDiagnostic;
+    let pressure = compared_values(&x, &y, r).unwrap();
+    let summary = pressure.comparison.outcome.as_ref().unwrap();
+    let gauge = summary.gauge.unwrap();
+    assert!(gauge.reference_canonical);
+    assert!(!gauge.candidate_canonical);
+    assert!(gauge.diagnostic);
+    assert_eq!(gauge.removed_offset_pa, 8.0);
+    assert_eq!(pressure.reference, pressure.candidate);
+    assert_eq!(
+        summary.color_bounds,
+        ColorBounds {
+            min: 0.0,
+            max: 23.0
+        }
+    );
+    value_oracle(&a, &b, FieldRole::IntervalPressure, &pressure, true);
+    let divergence = compared_values(&x, &y, recipe(FieldRole::VelocityDivergence)).unwrap();
+    assert!(divergence.reference.iter().all(|v| *v == 2.0));
+    assert!(divergence.candidate.iter().all(|v| *v == 4.0));
+    value_oracle(&a, &b, FieldRole::VelocityDivergence, &divergence, false);
+}
+#[test]
+fn presentation_refuses_recipe_and_native_pair_mutations_with_original_failure_meaning() {
+    let (run, steps) = fixture(0.01, true);
+    let a = Archive::new(run, &steps);
+    let reference = a.select(1);
+    let mut invalid = recipe(FieldRole::Tracer);
+    invalid.time_tolerance = f64::NAN;
+    assert_eq!(
+        compared_values(&reference, &reference, invalid).unwrap_err(),
+        ComparedValuesError::Recipe(RecipeError::InvalidTolerance)
+    );
+    assert_eq!(
+        compared_values(&a.select(0), &reference, recipe(FieldRole::Tracer)).unwrap_err(),
+        ComparedValuesError::Unavailable(Unavailable::PublicationStage)
+    );
+    for mutation in 0..7 {
+        let (mut run, mut steps) = fixture(0.01, false);
+        let mut role = FieldRole::Tracer;
+        let expected = match mutation {
+            0 => {
+                run.solver = "future-profile/unknown".into();
+                Unavailable::UnsupportedProfile
+            }
+            1 => {
+                run.spacing[0] *= 2.0;
+                Unavailable::Geometry
+            }
+            2 => {
+                steps[0].time = 0.02;
+                steps[0].dt = Some(0.02);
+                Unavailable::PhysicalTime
+            }
+            3 => {
+                steps[0].fields.retain(|f| f.name != "tracer");
+                Unavailable::MissingField
+            }
+            4 => {
+                role = FieldRole::VelocityX;
+                field_mut(&mut steps[0], "velocity_x").association = "cell_center".into();
+                Unavailable::FieldSchema
+            }
+            5 => {
+                role = FieldRole::IntervalPressure;
+                put_f64(&mut steps[0], "interval_pressure", |_| 1.0);
+                Unavailable::NoncanonicalGauge
+            }
+            6 => {
+                role = FieldRole::IntervalPressure;
+                field_mut(&mut steps[0], "interval_pressure").evaluation_time = Some(0.005);
+                Unavailable::FieldSchema
+            }
+            _ => unreachable!(),
+        };
+        let b = Archive::new(run, &steps);
+        assert_eq!(
+            compared_values(&reference, &b.select(0), recipe(role)).unwrap_err(),
+            ComparedValuesError::Unavailable(expected),
+            "mutation {mutation}"
+        );
+    }
+    let (run, mut steps) = fixture(0.01, false);
+    put_f64(&mut steps[0], "interval_pressure", |i| {
+        if i == 0 { 0.0 } else { f64::MAX }
+    });
+    let a = Archive::new(run, &steps);
+    let (run, mut steps) = fixture(0.01, false);
+    put_f64(&mut steps[0], "interval_pressure", |i| {
+        if i == 0 { 0.0 } else { -f64::MAX }
+    });
+    let b = Archive::new(run, &steps);
+    assert_eq!(
+        compared_values(
+            &a.select(0),
+            &b.select(0),
+            recipe(FieldRole::IntervalPressure)
+        )
+        .unwrap_err(),
+        ComparedValuesError::Unavailable(Unavailable::ArithmeticRange)
+    );
+}
