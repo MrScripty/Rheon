@@ -690,6 +690,33 @@ to its actual source and is not relabelled for this correction.
   desktop Clippy and both native builds. Those receipts remain pinned to that
   preceding source in /tmp/rheon-session-config-qualified and related logs.
 
+## 2026-10-15 — exact interval authority clean-source verification
+
+- Clean source45fc1e92332bbbece3501c9327b920bf57ce5e37,
+  tree7c8a2f0300ff595f0fdb8f8483d4be2d15a5e3c0, passed all18 fresh
+  native/rational qualification commands. Lean checking was not run. The
+  complete105-source conservative inventory matches independently reviewed
+  pins; neither selector narrowing nor automatic admission was used.
+- Real-packet tests passed26 normally and26 under optimized Python, zero
+  skips. Frozen core/API execution passed58 contracts, zero ignored:22 library,
+  eight configured Session, four actual modal Session, seven actual modal
+  transport, two constructor-configuration, one exact interval-start, six
+  solver-provider and eight viscosity contracts. Strict affected desktop
+  Clippy and both native binary builds passed with this exact declared revision.
+- Receipts: /tmp/rheon-session-interval-qualified and
+  /tmp/rheon-session-interval-packet; logs share
+  /tmp/rheon-session-interval-*. This evidence supersedes the preceding source
+  only for the exercised source/contract slice; it does not transfer measured
+  deployment, learned accuracy or GUI acceptance. Final follow-through changes
+  only planning documentation; exact pushed-head hosted gates still apply.
+- Separate runtime [PR104](https://github.com/MrScripty/Rheon/pull/104) has
+  its own106-source qualification. Recording
+  [PR103](https://github.com/MrScripty/Rheon/pull/103) preserves a distinct
+  configured Session profile; lead admission and composed verification remain
+  required, including explicit disabled versus applied zero-viscosity semantics.
+  Frozen configured intent and production runtime bridge remain active work.
+
+
 ## 2026-10-15 — frozen configured Session pure intent
 
 - A separately owned pure-intent module captures actual immutable constructor
