@@ -419,3 +419,44 @@ Draft source remains proposal evidence, not implementation admission.
   inputs and adverse retained accuracy observations are specified in
   docs/api/measured-pressure-bundle-handoff.md. No training, substitute checkpoint,
   fabricated model acceptance or README90 merge is performed.
+
+## 2026-10-15 — final typed runtime qualification and native workflow
+
+- Clean combined source5cf3ccc082ebd17447bba72b20da6fac1a7b4f93,
+  tree842d4f928469858048839207307267418910b6b9, passed all18 fresh native/rational
+  commands, then26 real-packet tests normally and under -O with zero skips.
+  Forty-four comparison tests passed with one existing measured-deployment test
+  explicitly ignored;61 core recording/carrier/comparison and47 desktop archive/
+  page/run-set/linked-view tests passed. Strict affected desktop/test Clippy,
+  formatting and both native comparison/root binary builds passed.
+- Actual native eframe/llvmpipe teacher fixture:15 native prefix plus3 zero-pressure
+  rejected candidates completed18 native advances. Equal-request4096-cell metric
+  export passed the independent stdlib SQLite oracle normal/-O/PYTHONOPTIMIZE1.
+  Shared slice/probe states retained exact candidate/native/RHS/residual/prior and
+  physical locations; two actual displayed states matched independent raw decoding.
+  A producer-exit0/fresh-process cold open verified the pinned source while its
+  owned fixture manifest was absent; no model child started. Frozen rerun retained
+  parent digest, fresh directory/run identity and every original file; child was
+  observed resident and absent after terminal. Independent policy retained first
+  rejection after15 native steps without publishing generation16 advanced frame.
+- Actual mid-call GUI Cancel, restart to an honest first-rejection terminal and
+  WM_DELETE Close during prediction retained typed requests and drained immediate
+  children: positive-before/negative-after observations, final app exit0. A real
+  typed CLI failure exited1 after preserving Failed evidence. These are fixture,
+  normal Linux immediate-child and software-window observations, not measured
+  checkpoint/device/descendant/deadline or model accuracy acceptance.
+- External evidence: /tmp/rheon-runtime-composed-qualified,
+  /tmp/rheon-runtime-composed-packet and /tmp/rheon-runtime-native/observation.json
+  SHA256 e7def0374915a3fcf8337b99de0bcf853e11252cc071044458b3b30d6a2bf56e.
+  The observer pins binary, generated saved artifacts, screenshots, raw oracles,
+  process exits and actual mode statistics. Generated files remain outside Git.
+- Applicable exact-head checks passed before serial merges: PR87 at630df33,
+  PR88 atf5d5e8d and PR91 at42fa903. Their scoped contract/native acceptance does
+  not close A1 measured model or A2 accepted learned-provider gates. PR94 and the
+  final runtime rollup retain their own hosted checks. Partial storage PR92 is
+  an ancestor of the runtime rollup; retain its source branch until that complete
+  reviewed schema2 path lands rather than forcing an intermediate schema1 merge.
+- Final follow-through is documentation only; all103 selected source pins remain
+  byte-identical to5cf3ccc. The exact missing bundle/runtime/parity contract is in
+  docs/api/measured-pressure-bundle-handoff.md; full model acceptance stays blocked.
+  README90 and active source/dependent branches remain untouched.

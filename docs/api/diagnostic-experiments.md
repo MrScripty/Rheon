@@ -68,8 +68,8 @@ substitute model. A build without `RHEON_SOURCE_REVISION` says its revision is
 unspecified; that string is not executable authenticity evidence.
 
 `attempts.sqlite` is diagnostic RHDP schema **2**, separate from accepted archive
-v1. Its writer appends each attempt before JSON/live publication and advances only
-under the declared policy. Rejected/cancelled attempts remain distinct from
+v1. The Engine advances only under the declared policy; its writer appends each
+attempt and actual transition before JSON/live publication. Rejected/cancelled attempts remain distinct from
 advanced frames. Produced and acknowledged durable counts are separate. Append
 failure stops execution; a cold-reconciled Failed terminal may disclose an
 unrecorded tail. Uncertain terminal writes leave an incomplete committed prefix.
@@ -119,8 +119,9 @@ Arithmetic overflow is unavailable, not an infinity/zero metric.
 rechecks the exact cached attempt, then creates a new
 `diagnostic-comparison-MEMBERINDEX-ATTEMPTINDEX.json`. Existing outputs are refused.
 The summary captures manifest/member/run/archive/request identities, physical
-interval/support and the actual metrics or explicit absence. It can be checked
-independently from raw SQLite/IEEE arrays:
+interval/support and the actual metrics or explicit absence. Available candidate
+and native reductions can be checked independently from raw SQLite/IEEE arrays;
+unavailable summaries preserve absence and are not numerical oracle inputs:
 
 ```sh
 python3 tools/verify_diagnostic_pressure.py /absolute/run/diagnostic-comparison-0-0.json

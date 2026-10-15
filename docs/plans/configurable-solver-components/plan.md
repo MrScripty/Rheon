@@ -2,7 +2,7 @@
 
 **Document status:** Active implementation plan. The user subsequently authorized M1–M3 implementation, separate draft PRs, validated ready merges and safe branch retirement. This supersedes the earlier documentation-only scope recorded in the historical ledger; numerical and environment gates remain mandatory.
 
-**Current phase:** bounded adapter/context contracts and native saved-run/quantitative comparison slices are independently reviewed and validated; exact-head CI and serial merge disposition remain active. Typed teacher/stop runtime, schema2 capture, frozen reruns and cold pressure inspection are implemented and source-reviewed; final combined-tree qualification is in progress. PR94 integrates the linked native slice/probe. No accepted learned-provider composition is claimed.
+**Current phase:** bounded adapter/context, native saved-run and native quantitative-comparison slices merged as PR87/88/91 after exact-head checks. PR94 integrates the reviewed linked native slice/probe. Typed teacher/stop runtime, schema2 capture, frozen reruns and cold pressure inspection passed clean combined-tree qualification and actual software-X11 fixture workflows; final hosted CI and serial merge disposition remain active. No accepted learned-provider composition is claimed.
 
 **Next slice:** finish combined diagnostic runtime/native validation, monitor and resolve applicable exact-head CI, merge ready bounded slices serially and retire only safe merged branches. The missing measured model bundle blocks its own qualification, not independent validated implementation.
 
