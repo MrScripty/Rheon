@@ -93,11 +93,40 @@ fetch and completed combined test run. Workspace-only official Debian signed
 packages provided Xvfb/xdotool; the existing snapshot endpoints failed through
 the proxy, while signed Debian trixie live indexes/packages succeeded. An
 authenticated local X11 display, 1600×1100, reports Mesa 25.0.7 llvmpipe software
-OpenGL 4.5. This is only development-display availability. No Rheon native-window
-workflow or hardware GPU test has run here; no startup screenshot is acceptance.
+OpenGL 4.5. This qualifies the stated software-display environment; no hardware
+GPU test is claimed.
 
-The cold saved-comparison page and headless interaction fixtures are in progress
-in new owned files. Shared existing native `run_owned`/Inspector capture and
+The cold saved-comparison page and seven headless egui interaction fixtures are
+implemented in new owned files. Independent GPT-6.1 Sol High review reran those
+seven tests, focused Clippy with warnings denied and formatting, and approved
+exact source SHA256
+`32ce4a6c43cfd35a5ec4c3142ddae375fb60c4e87493c905dd71056f6e3d7934`
+and test SHA256
+`dd1f625c696ca4542db38f837216ac0f234b5570e50abe647ced99d8773e33ff`.
+
+The exact page was also compiled with ordinary non-test configuration into a
+temporary eframe verification harness (SHA256
+`3433b4bc45b8e81a2455d72b2a278f3ebc24f1db4359c5311183c6885ce3f010`).
+Actual X11 pointer/keyboard interaction cold-opened an exported result as
+Unverified, verified its pinned sources, changed field/ranges and computed three
+pressure intervals with actual endpoint/dt/interval-start, Pa bounds and canonical
+gauge labels. Other selected tracer data showed exact-zero relative-error
+unavailability. A subsequent fresh window process exported a result, refused a
+duplicate export while preserving its complete SHA256, then removed stale metrics
+and showed Missing after a test archive was temporarily moved. The archive was
+restored byte-for-byte. This final window exited with status 0; a fresh non-UI
+reader process recomputed its four tracer pairs and zero unmatched publications.
+Exported artifact SHA256:
+`b59ef95a186b178b02dfed2436fe5f28d5d0627dc09d2660a4e2e6fadd8024b4`.
+Generated logs/screens/fixtures remain outside the repository under
+`/workspace/.rheon-gui`; harnesses remain under `/tmp/rheon-native-page-*`.
+An earlier window process ended during another environment transition; that
+interrupted process is not counted as a clean lifecycle pass. Subsequent actual
+commands confirmed access, source hashes and the fresh window/reader results.
+
+This is narrow native cold-page interaction, not integrated root navigation,
+linked slice/probe/camera, live worker Cancel/restart/Close or model execution.
+Shared existing native `run_owned`/Inspector capture and
 paired-view geometry/scalar/unit projection still await the lead's explicit
 serial allocation or supplied hooks. Root navigation/worker lifecycle remains
 lead-owned. These are concrete composition dependencies, not permission to add a

@@ -139,10 +139,44 @@ cargo test --locked --no-default-features --test recording_comparison_contract
 cargo clippy --locked --features desktop --test comparison_archive_contract --test recording_comparison_contract -- -D warnings
 ```
 
-At this isolated-branch verification boundary the M2 helper source is an exact
-untracked local copy, SHA256
-`1e73a290ae1b96a7bb295372bb276c2c992e17ca3295075321cfef73f428b692`.
-It is not part of this slice's write set or staged patch. The integration owner
-must combine the admitted M2 helper version and shared module wiring before
-publishing the new dependent artifacts. Native desktop interaction and the
-actual external model/runtime workflow remain separate acceptance evidence.
+The clean combined stack includes the admitted M2 source directly; no untracked
+helper copy is needed. Root module wiring remains lead-owned. The actual external
+model/runtime workflow remains separate acceptance evidence.
+
+## Cold comparison page
+
+`desktop/comparison.rs` owns `SavedComparisonPage`. The parent supplies navigation
+and calls `show(&mut egui::Ui)` within its panel; the page adds no worker or field
+renderer. `set_location(root, manifest_relative_path)` binds a protected local
+dataset namespace. Manifest, saved artifact and export paths are explicit relative
+paths. The page shows saved baseline/differences, member intent/terminal facts,
+missing/incomplete/unpinned/invalid states and accepted-but-unrecorded tails.
+Availability is refreshed on explicit load, compute, verify or failed operations;
+sources are not monitored in the background.
+
+Members, inclusive ordinal ranges (at most 128 publications per side), six field
+roles, physical-time tolerance and pressure policy are explicit controls. Source
+or scientific edits invalidate previous presentation. Decoded results display
+Unverified until source verification succeeds; actual source times/stages are not
+claimed from stored identities alone. Failed operations clear previously verified
+metrics and refresh member states. Recipe/result exports reuse no-replace atomic
+publication, including duplicate-path refusal.
+
+`selected_pair()` returns only the current verified pair, its exact saved recipe
+and root. A linked-field consumer must also check the pair's typed outcome and
+resolve the recipe's pinned source identities. This is the integration seam for
+the existing paired renderer; it supplies no synthetic Scene/Frame, model output
+or alternate display reconstruction. Root registration and linked rendering are
+still pending lead allocation. Native-v1 timing/provider-attempt/warmup/fallback/RHS
+facts remain explicitly unavailable.
+
+Seven real-producer headless egui interaction tests and focused Clippy/formatting
+pass; independent GPT-6.1 Sol High review approved the exact source. Actual Linux
+X11 interactions exercised this same page in a temporary eframe verification
+harness: cold result Unverified→Verify, pressure interval/time/unit/gauge labels,
+export, duplicate export without replacement and missing-source invalidation.
+The harness uses authenticated Xvfb and Mesa llvmpipe software GL. A fresh process
+recomputed the exported result after the window exited. This is narrow cold-page
+evidence, not final desktop navigation, linked views, live worker lifecycle, model
+runtime, hardware GPU or full M2–M3 acceptance. Exact source/environment identities
+and remaining dependencies are in the [stack report](../plans/configurable-solver-components/reports/m23-persistence-comparison.md).
