@@ -264,3 +264,34 @@ contracts and scoped Clippy passed; the reviewer ran no tests. No remaining
 material source issue in the reviewed correction. Still95 paths; refresh only the
 two owned existing comparison source hashes. Fresh clean qualification required;
 companion/root/previous source receipts are not substituted.
+
+
+### Partial typed diagnostic storage admission
+
+Select independently reviewed new diagnostic archive module and actual SQLite
+contracts from f87a7a2/fb8405a, with serial recording-owned module registration and
+explicit accepted-reader archive-kind rejection. The selected closure is96 paths:
+adds src/recording/diagnostic.rs and updates src/recording.rs only beyond final M3.
+Accepted schema1 writer/publication types are unchanged; default application_id0
+is accepted, while nonzero archive kinds reject on open and subsequent header
+verification. Diagnostic application_id RHDP has distinct typed tables, request/
+attempt ordinals, host-observed qualification/transition and terminal prefix facts.
+No candidate becomes a RecordedStep or accepted Session publication.
+
+Independent GPT-6.1 Sol High review closed three material findings before admission:
+request/header domain matching now preserves exact floating bits (including signed
+zero); known rejected seeds cannot initialize either mode and teacher seed status
+must be explicitly observed Accepted; failed/cancelled unrecorded-tail generation
+claims are checked against seed, produced count and durable prefix with checked
+arithmetic. Regressions cover invalid/legitimate chronology, signed-zero rejected
+append with cold prefix preserved, native teacher Accepted history, biased model
+observations leaving actual native evolution unchanged, and kind/header mutation.
+No remaining material source finding. The reviewer ran no Cargo or runtime.
+
+The existing recording owner supplies bounded SQLite connections, transaction and
+poison lifecycle. Header/request/sample/transition hashes, bounded decoding and cold
+verification preserve honest prefixes; Drop never completes. Native-prefix length
+is explicit caller-observed declaration, not inferred lineage/qualification proof.
+This admits fresh qualification of partial storage only. Engine/model-process/
+worker capture, saved diagnostic specs and full teacher/stop A6 remain pending;
+no measured model, source authenticity, durability or global physics claim follows.

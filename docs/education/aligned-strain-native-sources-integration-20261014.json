@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed native M3 exact presentation values and fail-closed independent pointwise oracle, with cached cold page/root navigation. Admission to fresh clean isolated-target qualification only.",
+  "scope": "Explicit independently reviewed partial typed diagnostic SQLite archive/accepted-reader isolation on final native M3. Admission to fresh clean isolated-target qualification only; runtime/A6 remain pending.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "454c5558488c97e3395822da7bc9debec38f6f69e343800d5ad618f0fb9e912c",
+  "review_sha256": "4941d3760db46654062fb33564058ddbd7ed673da58530de47ec7bdfdf577646",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
@@ -80,9 +80,10 @@
     "src/pressure.rs": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
     "src/pressure_session.rs": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8",
     "src/provider_step.rs": "79167b70a8d164a2367f43816feab443eefb41f23bc4bd940716dd5fd32d495b",
-    "src/recording.rs": "78cf77f57a9f27b069ce669156e8bb5126ab889e8ed072603c5d787bd13ca4f1",
+    "src/recording.rs": "6e019fd9150934872dc2a81e038023f03357fecbc86d65f2fe4fbc5dfa9c8190",
     "src/recording/carrier.rs": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509",
     "src/recording/comparison.rs": "97b4bf042b329401d42d0567ea88ddf287cee95ea5bd815deb162578f3e3f93d",
+    "src/recording/diagnostic.rs": "53675cccb57410764e813e3cc29098d934b2025233325d05b8d3e1a32f9300f1",
     "src/recording/material.rs": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
     "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
     "src/scheduling.rs": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",

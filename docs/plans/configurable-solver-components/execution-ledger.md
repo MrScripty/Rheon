@@ -313,3 +313,22 @@ Draft source remains proposal evidence, not implementation admission.
   oracle assertion stripping with explicit failures and negative perturbation in
   all3 interpreter modes.20 numerical+9 page tests and scoped Clippy passed.
   Explicit95-path admission refresh precedes fresh qualification of this subject.
+
+
+## 2026-10-15 — partial diagnostic recording owner
+
+- Separate branch implementation/diagnostic-recording-m3-20261015 contains agent
+  f87a7a2 typed storage plus fb8405a review fixes, serial accepted-kind guard and
+  latest native M3 source. New run/request/attempt/host-observation/native-reference/
+  transition/terminal types stay outside accepted RecordedStep/Session ordinals.
+  Reuse SQLite owner/budgets; no engine/worker/model-process or dependency changes.
+- Independent review closed signed-zero domain round-trip, rejected-seed lineage
+  and impossible unrecorded-terminal generation findings. Actual native teacher
+  fixture retains Accepted priors and unchanged native evolution despite rejected
+  biased model observations. Explicit native-prefix declaration is not preceding
+  trajectory capture or qualification proof. Seventeen diagnostic+15 accepted+4
+  carrier tests and scoped Clippy passed before final serial source composition.
+- Fresh96-path admission preserves historical inventories and conservative gates.
+  Final-owner clean qualification and affected tests follow; partial storage does
+  not close A6. Runtime attempt capture/policy/record-before-UI wiring, typed saved
+  diagnostic intent, trained bundle and linked projection remain pending.
