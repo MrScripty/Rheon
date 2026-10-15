@@ -258,6 +258,24 @@ Draft source remains proposal evidence, not implementation admission.
   desktop Clippy with warnings denied passed. No timeout or test was weakened.
   This evidence is pinned to d8b0eb1, not a trained bundle or a new source tree.
 
+
+## 2026-10-15 — native M3 analysis and immutable comparison evidence
+
+- Selected companion numerical analysis and saved recipe/result ownership into
+  the serial M3 branch. Public recording::comparison is the actual app/test API;
+  the desktop aliases it and registers its saved-comparison owner. No unrelated
+  renderer ancestry, second numerical worker or accepted-schema change.
+- Independent source review found public derived-divergence overflow; fixed with
+  explicit ArithmeticRange and finite-face/extreme-spacing regression. Review
+  confirms no remaining material source finding. Independent SQLite/native-bit
+  oracle now fails closed normally and under -O/PYTHONOPTIMIZE for wrong identity
+  and metric; no production numerical bounds/formulas were weakened.
+- Unique-target validation passed 16 numerical +12 saved-comparison contracts and
+  scoped desktop Clippy/formatting. Native desktop comparison-page interaction is
+  still pending the companion new-file handoff; no GUI acceptance is inferred.
+- Explicit final M3 source admission includes all 94 selected paths, preserving
+  both historical inventories and current conservative selector. A fresh clean
+  qualification starts after this commit; earlier receipts are not transferred.
 - Native software-X11 M2 flow on d8b0eb1 created a two-solver 8-cube set with
   2 steps at0.003s, closed producer, cold-opened Ready members, audited ordinal2,
   exported actual VTI and reran exact intent from a fresh material-default App.
@@ -270,3 +288,28 @@ Draft source remains proposal evidence, not implementation admission.
   ID disjointness, original-file BEFORE snapshot, typed intent/native bits/time.
   Focused fresh regression passed. Refreshed92 source admission precedes renewed
   qualification; corrected binary/native-window observation follows separately.
+
+- Clean M3 bc1fc90360ffae12559a80624c4f15fbd3f8a67d (tree
+  6f9a52d024942c100c29777bb183e3b86de8c06a) passed 18 native/rational commands,
+  fresh packet construction and all26 adversarial tests normally/-O with real
+  packet supplied (0skips). 12 saved-comparison +16 numerical contracts passed;
+  the16 also pass core-only. Scoped desktop Clippy passed. External evidence:
+  /tmp/rheon-m3-isolated-bc1fc90 and /tmp/rheon-m3-isolated-packet-bc1fc90.
+- Selected companion bb48cee new cold page and7 headless interaction fixtures.
+  Lead wires actual root/sidebar/run-set navigation and actual public analysis in
+  tests. Independent source review found no material page/navigation finding.
+  Seven integrated page tests passed; initial Clippy caught unused imports after
+  replacing the private test numerical path with the public API; imports removed.
+  New95-path source admission committed before fresh qualification. Companion
+  harness/window evidence is historical and does not qualify this root binary.
+
+- Integrated page source3584749 (tree62f0957488476a4b4bc0faa1bebbc78641f9f3f7)
+  passed clean18-command native/rational, packet26 normal/-O0skips,12 saved+16
+  numerical+7 page contracts, scoped Clippy and native binary build. Receipts in
+  /tmp/rheon-m3-page-3584749 and /tmp/rheon-m3-page-packet-3584749. These pin that
+  source only, not subsequent values/renderer changes or native root interaction.
+- Selected independently reviewed06ccf43 exact-value and explicit materialization
+  hooks, retaining public raw samples/overflow test. Fixed its pointwise Python
+  oracle assertion stripping with explicit failures and negative perturbation in
+  all3 interpreter modes.20 numerical+9 page tests and scoped Clippy passed.
+  Explicit95-path admission refresh precedes fresh qualification of this subject.

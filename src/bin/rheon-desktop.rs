@@ -15,6 +15,8 @@ mod export_ui;
 mod archive_view;
 #[path = "desktop/collision_ui.rs"]
 mod collision_ui;
+#[path = "desktop/comparison_archive.rs"]
+pub mod comparison_archive;
 #[path = "desktop/history.rs"]
 mod history;
 #[path = "desktop/identity.rs"]
@@ -27,6 +29,9 @@ mod particle_view;
 mod run_set_view;
 #[path = "desktop/run_sets.rs"]
 pub mod run_sets;
+#[path = "desktop/comparison.rs"]
+pub mod saved_comparison;
+use rheon::recording::comparison as native_comparison;
 #[path = "desktop/settings.rs"]
 mod settings;
 #[path = "desktop/transport_view.rs"]
@@ -697,6 +702,8 @@ struct App {
     archive: archive_view::ArchiveView,
     run_sets: run_set_view::RunSetView,
     save_native_set: bool,
+    saved_comparison: saved_comparison::SavedComparisonPage,
+    saved_comparison_active: bool,
     collision: collision_ui::CollisionControls,
     selected: PressureImplementation,
     domain_side: f64,
@@ -742,6 +749,8 @@ impl Default for App {
             archive: archive_view::ArchiveView::default(),
             run_sets: run_set_view::RunSetView::default(),
             save_native_set: false,
+            saved_comparison: saved_comparison::SavedComparisonPage::default(),
+            saved_comparison_active: false,
             collision: collision_ui::CollisionControls::default(),
             selected: PressureImplementation::default(),
             domain_side: 1.0,
@@ -805,7 +814,16 @@ impl App {
                     },
                 );
                 self.run_sets.controls(ui, self.worker.is_none());
-                if self.archive.active || self.run_sets.active {
+                if ui
+                    .add_enabled(
+                        self.worker.is_none(),
+                        egui::Button::new("Open saved comparisons"),
+                    )
+                    .clicked()
+                {
+                    self.saved_comparison_active = true;
+                }
+                if self.archive.active || self.run_sets.active || self.saved_comparison_active {
                     return;
                 }
                 ui.separator();
@@ -1335,7 +1353,32 @@ impl eframe::App for App {
         if self.closing && self.worker.is_none() {
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
         }
+        if self.saved_comparison_active {
+            egui::TopBottomPanel::top("comparison-navigation").show(ctx, |ui| {
+                if ui.button("Back to simulation").clicked() {
+                    self.saved_comparison_active = false;
+                }
+            });
+            egui::CentralPanel::default().show(ctx, |ui| self.saved_comparison.show(ui));
+            return;
+        }
         if self.run_sets.active {
+            let mut compare = false;
+            egui::TopBottomPanel::bottom("run-set-comparison-action").show(ctx, |ui| {
+                compare = ui.button("Compare exact saved members").clicked();
+            });
+            if compare {
+                let path = std::path::Path::new(&self.run_sets.path);
+                if let (Some(parent), Some(name)) = (path.parent(), path.file_name()) {
+                    self.saved_comparison
+                        .set_location(parent.to_string_lossy(), name.to_string_lossy());
+                    self.saved_comparison.load_manifest();
+                    self.saved_comparison_active = true;
+                    self.run_sets.active = false;
+                    ctx.request_repaint();
+                }
+                return;
+            }
             if let Some(revision) = self.run_sets.show(ctx, &mut self.archive)
                 && let Err(e) = self.rerun_saved(revision)
             {
@@ -1352,7 +1395,7 @@ impl eframe::App for App {
         }
         let (count, frame) = self.selected_frame();
         self.sidebar(ctx);
-        if self.archive.active || self.run_sets.active {
+        if self.archive.active || self.run_sets.active || self.saved_comparison_active {
             ctx.request_repaint();
             return;
         }

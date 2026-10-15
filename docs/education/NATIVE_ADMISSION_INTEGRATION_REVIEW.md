@@ -179,6 +179,31 @@ digests are refreshed explicitly. Source review admits a fresh clean isolated-
 target qualification attempt, not any previous receipt or full generic acceptance.
 
 
+### M3 native comparison composition admission
+
+Independent GPT-6.1 Sol High source review admits the integrated native analysis
+and saved comparison owners to attempt fresh qualification. The closure is 94
+paths: adds src/recording/comparison.rs and src/bin/desktop/comparison_archive.rs;
+none removed. Refresh src/recording.rs and src/bin/rheon-desktop.rs registrations
+and retain the final M2 and nonvacuous M1 liveness source bindings. Historical v1/v2
+inventories, conservative selector, numerical gates and qualifier are unchanged.
+
+Native analysis uses exact publication identities, physical-time/stage alignment,
+bit-identical geometry, explicit units/gauge and unavailable/unmatched coverage.
+Its public sample wrapper now rejects derived nonfinite divergence as
+ArithmeticRange; a finite-face/extreme-spacing regression covers this review fix.
+A separate stdlib native-bit/SQLite oracle rejects wrong identities and metrics
+normally and under Python optimization without relying on assert statements.
+
+Saved recipes embed exact M2 revision and selected-publication identities. Cold
+results remain Unverified until exact pinned archives are reopened and all
+coverage/metrics recomputed. Bounded codec/publication helpers preserve schema,
+duplicate-key, selection/work limits and no-overwrite/uncertain publication.
+No numerical loop, model execution, accepted schema or dependency was added.
+Actual tests use the public analysis API, not a copied private module. Source
+review has no remaining material finding. Native comparison-page interaction,
+measured trained runtime, accepted-provider and diagnostic-mode acceptance remain
+separate gates; this admission grants no stale receipt or milestone acceptance.
 ### Cold native rerun identity correction
 
 Actual software-window producer-exit/cold-rerun interaction exposed source run-ID
@@ -196,3 +221,46 @@ IDs, preserves typed specs/native time/field bits and snapshots EVERY source fil
 before rerun to verify no overwrite afterward. The closure remains 92 paths; only
 the root desktop source hash changes. This admits fresh qualification, not transfer
 of d8b0eb1 evidence or trained/generic acceptance.
+
+
+### Native cold comparison page and root navigation
+
+Select companion bb48cee's new cached page and seven headless interaction
+contracts, binding tests to the actual public recording::comparison API. Existing
+root app registers the page and supplies explicit sidebar/run-set navigation and
+Back handling. The existing worker's poll/cancel/close path precedes page routing;
+new entry is disabled during work. Run-set action passes that exact manifest/root,
+not live/latest data. Independent GPT-6.1 Sol High review confirms selection edits
+invalidate stale capability, Unverified cannot supply a pair, compute/verify reopen
+exact pins, and source reads occur on explicit actions rather than each repaint.
+No remaining material source/navigation finding in this reviewed delta.
+
+The closure is 95 paths: adds src/bin/desktop/comparison.rs and refreshes desktop
+root with navigation plus the reviewed cold-rerun ID correction. No removed paths;
+predecessor inventories, numerical/runtime/recording owners, conservative selector,
+qualifier and physical thresholds stay unchanged. This admits fresh qualification
+of this source, not transfer of companion harness or prior integration receipts.
+Linked field projection, actual root-window interaction and typed diagnostic modes
+remain separately qualified work; no full M3 acceptance follows from page wiring.
+
+
+### Exact native presentation values
+
+Independently reviewed selected additive 06ccf43 numerical/page hooks retain
+actual public raw native_samples and its overflow regression. compared_values
+first authorizes through existing compare, then applies only the returned declared
+pressure offset; it carries exact native geometry/lattice dimensions/associations,
+not cell-averaged faces. Page materialization explicitly reopens both whole-file
+pins and exact selected-publication identities and matches the verified summary.
+Source failures clear capability; scientifically unavailable pairs retain analysis
+but return no materialized array. Renderer caches must clear on every Err/None.
+Caller/source budgets bound selected payload; no peak RSS promise is introduced.
+
+Source review caught assert-only decisive checks in the new independent pointwise
+Python oracle. Replaced them with explicit checked failures and tested valid pass
+plus perturbed sample rejection in normal, -O and PYTHONOPTIMIZE=1 modes. The
+existing independent metric oracle remains unchanged. Focused20 numerical+9 page
+contracts and scoped Clippy passed; the reviewer ran no tests. No remaining
+material source issue in the reviewed correction. Still95 paths; refresh only the
+two owned existing comparison source hashes. Fresh clean qualification required;
+companion/root/previous source receipts are not substituted.
