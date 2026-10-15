@@ -164,3 +164,10 @@ Draft source remains proposal evidence, not implementation admission.
   results in three new files, posted on PR86 comment6198894245. Shared worker/UI,
   source admission and merges remain lead-owned. Direct cloud session-ID messaging
   is unavailable; GitHub handoff plus parent relay supplies coordination.
+- Full `cargo test --locked --features desktop` completed successfully with no
+  failing tests, including existing numerical, recording, worker/camera and
+  desktop regressions; environment-specific model tests remained explicitly
+  ignored. Public context tests also passed in no-default and default builds;
+  corresponding library Clippy checks with `-D warnings` passed. No model/window
+  claim follows from ignored tests. GitHub M1 native-cpu, native/rational, cloud,
+  VTK and executable checks are green; remaining hosted book/features are pending.
