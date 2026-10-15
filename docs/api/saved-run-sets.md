@@ -91,3 +91,9 @@ These establish the bounded native automated contracts. They do not establish
 accepted-provider provenance, generic diagnostic storage, native-window operation,
 model runtime/lifecycle behavior, crash durability, physical accuracy or M2–M3
 acceptance as a whole.
+
+The app-private bounded publication/versioned-read/path/digest helpers are reused
+by the saved-comparison document owner. Each caller supplies its own expected
+schema version and practical byte budget; these are not executable configuration
+or numerical archive versions. The native spec/run-set document budget remains
+1 MiB. Zero and maximum-u64 budgets are invalid before oversize-read arithmetic.
