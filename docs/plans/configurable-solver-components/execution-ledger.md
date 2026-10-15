@@ -713,3 +713,33 @@ to its actual source and is not relabelled for this correction.
   inventories, mathematical oracle and pressure/transport gates stay unchanged.
   The driver is deliberately test-only: production GUI/runtime binding, typed
   durable process failure and missing aa82 parity remain separate work.
+
+## 2026-10-15 — accepted CPU context contract qualification
+
+- Clean sourceaac620db3abb652019dc9c44884928e75bab06ee,
+  treec177cd2f9e85b565b6a4cf0b9500266ecd378c42, passed18 fresh
+  native/rational qualification commands; Lean checking was not run. The
+  complete106-path conservative source inventory and four independently
+  reviewed production/test/fixture pins match. Real-packet suites passed26
+  normally and26 optimized, zero skips. Receipts remain in
+  /tmp/rheon-accepted-cpu-qualified and /tmp/rheon-accepted-cpu-packet.
+- Final-source full AI application execution passed58 tests, with one existing
+  measured-deployment test explicitly ignored. All seven new real stdlib CPU
+  contracts passed, including independent nonzero two-cell physics, full versus
+  correction ports, physical refusal, real child failure, cancellation before
+  dispatch and during writer/reply waits, retained Session publication and
+  fresh-owner retry. The driver is test-only and not a production GUI adapter.
+- Strict both-bin/all-test desktop Clippy and both native binary builds passed
+  with RHEON_SOURCE_REVISION=aac620db3abb652019dc9c44884928e75bab06ee.
+  Logs: /tmp/rheon-accepted-cpu-frozen-{contracts,clippy,build}.log.
+  Independent exact-source review is retained in
+  [accepted CPU context review](reports/accepted-cpu-context-review.md).
+- Draft [PR104](https://github.com/MrScripty/Rheon/pull/104) remains stacked
+  on PR102. These are analytical process/lifecycle contract fixtures, not
+  missing measured aa82 parity, learned accuracy, production runtime binding,
+  native-window integration, performance or hard-shutdown guarantees. The20ms
+  waits offer cooperative checkpoints only. Cancellation kills that process
+  owner; Session retryability requires a fresh runtime.
+- This follow-through changes only the ledger. Exact pushed-head hosted gates
+  and serial composition remain mandatory; no old qualification transfer or
+  source-admission shortcut is authorized.
