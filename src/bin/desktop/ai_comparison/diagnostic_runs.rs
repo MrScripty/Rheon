@@ -425,6 +425,13 @@ impl DiagnosticRunSet {
             }
             let count = reader.count().map_err(|e| e.to_string())?;
             let status = reader.status().map_err(|e| e.to_string())?;
+            let produced = status.as_ref().map_or(count, |s| s.produced_attempts);
+            if produced > m.spec.scene.steps - m.spec.scene.warmup_steps {
+                return Err("Diagnostic produced request horizon exceeds intent".into());
+            }
+            if produced > 0 && reader.run().native_prefix_steps != m.spec.scene.warmup_steps {
+                return Err("Diagnostic attempts require completed native prefix".into());
+            }
             if let Some(pin) = &m.finalized {
                 let status = status.ok_or("Pinned diagnostic archive is incomplete")?;
                 if count != pin.recorded_count || status.outcome != pin.terminal.recording() {
