@@ -148,3 +148,19 @@ Draft source remains proposal evidence, not implementation admission.
   remain here. Parent assigned strict educational admission refresh/qualification
   to this lead; PR86 comment records coordination. No gate weakening or stale
   receipts permitted.
+- M1 clean committed native/rational qualification completed successfully on
+  `33a083a1fdf63c169c9bf68c71009d495d505f64`, tree
+  `34fc18bc29095450c2d8be31e5af68dc6457fb18`, in a separate detached checkout.
+  Receipt `clean=true`, `status=passed`, `lean_checked=false`; native records hash
+  `ecdd0877f17997c577d5183cd928c27c802f9ffdcee8324f0802fe3841fddb45`.
+  Fresh education packet construction passed and its 26 adversarial tests passed
+  both normally and under Python `-O`. Generated evidence retained externally at
+  `/tmp/rheon-m1-qualification-33a083a` and `/tmp/rheon-m1-packet-33a083a`; no old
+  receipts, qualifier changes or automatic source refresh used.
+- Draft [PR87](https://github.com/MrScripty/Rheon/pull/87) publishes the M1 source.
+  This receipt is pinned to the above commit; hosted whole-book/publication,
+  broader Rust suites and unavailable model/window gates remain distinct.
+- Companion next allocation is exact bounded immutable native comparison recipes/
+  results in three new files, posted on PR86 comment6198894245. Shared worker/UI,
+  source admission and merges remain lead-owned. Direct cloud session-ID messaging
+  is unavailable; GitHub handoff plus parent relay supplies coordination.
