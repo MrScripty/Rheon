@@ -770,3 +770,22 @@ to its actual source and is not relabelled for this correction.
 - This follow-through changes only the ledger. Exact pushed-head hosted gates
   and serial composition remain mandatory; no old qualification transfer or
   source-admission shortcut is authorized.
+
+## 2026-10-15 — reconciled runtime and current recording composition
+
+- Parent requested exact combined verification after PR102 moved. Lead merged
+  qualified Session follow-through into PR104 (af1bc99), resolving only the
+  ledger by preserving both subject-bound records, then merged exact PR103
+  recording5e6d3c7 without source conflict (42aa1302). Prior CPU/source checks
+  remain attached to their original subjects and are not combined acceptance.
+- Lead independent review additionally approves all five exact recording inputs
+  for the current bounded closure. Existing SQL schema and numerical kernels
+  remain unchanged. Source admission now includes107 conservative paths: one
+  added recording module, one registration change,105 unchanged paths.
+- Assigned recording follow-ups explicitly remain actual applied viscosity
+  presence/versioning and public typed constructor-header access. Until those
+  are implemented/reviewed, no complete physical recipe binding or frozen Ready
+  claim is made. They do not prevent present-closure mathematical qualification.
+- Fresh clean combined qualification/packet, actual recording/cold-process and
+  process/Session contracts follow this source freeze. Production package
+  bridge and worker/UI integration remain separate acceptance items.

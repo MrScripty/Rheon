@@ -530,3 +530,32 @@ reviewed Python compiler fixture remains explicitly pinned above and in the
 fresh whole-Git qualification manifest. No selector, gate, old inventory,
 mathematical oracle, protocol schema or numerical kernel changes. This admits
 fresh clean composed qualification only; earlier receipts stay source-bound.
+
+
+### Combined accepted CPU context and configured recording closure
+
+Lead independent GPT-6.1 Sol read-only review of PR103 exact5e6d3c7 approves
+the bounded current recording/math closure for fresh qualification, composed
+with separately reviewed CPU context contracts and current Session authority.
+The configured profile retains raw rejected IEEE diagnostics independently of
+finite accepted fields, actual interval starts, source/config/geometry binding
+and cold prior/prefix validation. Existing SQL/native/material/diagnostic meanings
+are unchanged. Review:
+../plans/configurable-solver-components/reports/configured-recording-review.md.
+
+Known assigned follow-ups remain: actual applied viscosity-stage presence
+(Disabled differs from Newtonian zero), its versioned codec, and a public typed
+header accessor for empty-archive constructor binding. These block their complete
+physical/frozen Ready claims. This source admission makes none of those claims
+and authorizes only fresh present-closure mathematical qualification.
+
+- src/recording/provider.rs: c42fab3fb955ec3002cf9aaabf348edc46d47893dc367790ef92716b339ed86d
+- src/recording.rs: d022f8f46c288538298896ae444c9780265a6bf77fa9a4e1ba4b9732cf026eb2
+- tests/recording_provider_contract.rs: f65865366bd2918a7308e7337df7985a345f7a5facf8caf1ee1e7996b09bfa6d
+- examples/recorded_configured_provider.rs: d00e9504f395e3e46d016e157eb68bc2b95124a69c1fb8cf88f2b10da58c4ffa
+- docs/api/configured-provider-recording.md: f11c5e693a5ce82ce98d546ea74007f9a040ef27470d7c814fc0eeb1ec6df165
+
+The complete conservative selector grows106 to107: one new recording module,
+one registration-only changed source and105 unchanged selected paths. The
+selector, old inventories, mathematical oracle and qualification runner stay
+unchanged. No automated inventory refresh or old receipt reuse occurs.

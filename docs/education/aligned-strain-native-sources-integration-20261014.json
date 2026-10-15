@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit independently reviewed accepted Session/context, immutable constructor/interval authority and actual analytic CPU context/poll contracts; complete106-path conservative closure. Fresh clean qualification admission only; production GUI/runtime, durable persistence and measured model gates remain separate.",
+  "scope": "Explicit independently reviewed combined accepted CPU context and current configured recording/math closure; complete107-path conservative inventory. Fresh clean qualification only. Known stage/header follow-ups, frozen binding, production worker/UI and measured model acceptance remain separate.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "80885037677d0a476ee9d307fefa6ef2910d1fa3b4a14775654453ec19bb704d",
+  "review_sha256": "a4754b4524de62cb06bbb5a9ca4813234a466e19369f057b61693d9bfc1fcc20",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "21ea9e27808b45009610318a4be38e67d5425492dce1758e2b1afdf2a80298cb",
@@ -88,11 +88,12 @@
     "src/pressure.rs": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
     "src/pressure_session.rs": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8",
     "src/provider_step.rs": "79167b70a8d164a2367f43816feab443eefb41f23bc4bd940716dd5fd32d495b",
-    "src/recording.rs": "6e019fd9150934872dc2a81e038023f03357fecbc86d65f2fe4fbc5dfa9c8190",
+    "src/recording.rs": "d022f8f46c288538298896ae444c9780265a6bf77fa9a4e1ba4b9732cf026eb2",
     "src/recording/carrier.rs": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509",
     "src/recording/comparison.rs": "e48ac3094b5d1ebfbd75a7521d0bd9faf880289b891e7eefeaec24ec86699f6a",
     "src/recording/diagnostic.rs": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
     "src/recording/material.rs": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
+    "src/recording/provider.rs": "c42fab3fb955ec3002cf9aaabf348edc46d47893dc367790ef92716b339ed86d",
     "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
     "src/scheduling.rs": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
     "src/session.rs": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",
