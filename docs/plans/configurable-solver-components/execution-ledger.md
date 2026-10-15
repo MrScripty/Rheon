@@ -183,6 +183,29 @@ Draft source remains proposal evidence, not implementation admission.
   A real window rendered inert support feedback and a complete 64-step analytic
   fixture run with failed pressure diagnostics visible; this is not trained-model
   or hardware/GPU qualification. Native lifecycle observation is still underway.
+- Final M1 isolated-target qualification on clean `f75a714`, tree
+  `38026daa5f4eaa7633fe01c1e5e02c01ba3db264`, passed all 18 native/rational commands;
+  packet construction and 26 adversarial tests passed normally and under -O.
+  Separate target rebuilt Rheon source, without any Rheon artifact/fingerprint
+  seeding. Focused CPU suite passed 21/1 ignored plus 2 public context tests;
+  scoped Clippy passed. External receipts: `/tmp/rheon-m1-isolated-f75a714` and
+  `/tmp/rheon-m1-isolated-packet-f75a714`; no receipt transfer from another tree.
+- Real software-X11 native-window fixture observation completed. The analytic
+  package includes an explicit delay for interaction, not a trained checkpoint.
+  Inert support did not create observations; the window showed native qualified
+  versus AI failed-pressure fields, an initial 64-step completion, cancellation
+  after predictions, restart32 completion, then Close at step17 with2 predictions.
+  Observer saw child liveness positively and later all four observed child IDs
+  absent via OS kill-zero; app exit0. Binary SHA256
+  `ad5838a409bc68419f923c47a8eef58e1dc1b4f187085de42a8622c72d9fe7d8`,
+  manifest `fc93e8867a3f71bf45f3b25882f86876c9be257fbe7608df263ddee1123b6907`,
+  observer JSON `5f5b06b40a94125eac2881dfbfaa0fad87e46fa58ecce8d80cef125b853ff830`.
+  Generated screenshots/observations remain in `/tmp/rheon-m1-native-window`.
+  This binds observed software-display/fixture material, not source authenticity,
+  trained-runtime parity, a physical GPU, descendants or a hard teardown bound.
+- Required measured deployment/Torch input was requested explicitly and remains
+  unavailable. A1 trained-runtime and full generic/provider acceptance stay pending;
+  CI's separate frozen-checkpoint check is not relabelled as this absent bundle.
 
 
 ## 2026-10-15 — native M2 serial composition
@@ -222,3 +245,15 @@ Draft source remains proposal evidence, not implementation admission.
   Cargo reuse; final fresh source qualification/tests are run in isolated targets.
   Earlier source-specific observations are retained as history, not transferred to
   this new combined source or substituted for required final passes.
+
+- Final clean M2 `d8b0eb11c85de2efdeb522865d90a3b86fb52985`, tree
+  `797022111c896ee5cef026b6ba22db1dcdb5ce18`, passed all 18 native/rational
+  qualification commands with `lean_checked=false`; the fresh education packet
+  passed 26 adversarial tests normally and under Python -O. External receipts:
+  `/tmp/rheon-m2-isolated-d8b0eb1` and `/tmp/rheon-m2-isolated-packet-d8b0eb1`.
+  Its 17 saved-contract tests passed. A strict desktop run hit the unchanged
+  live-emitter 10-second wait under concurrent build load; the exact test then
+  passed alone (8.79 s), and a complete idle serial rerun passed 61 tests,
+  1 intentionally ignored model-runtime test, 0 failures (30.67 s). All-target
+  desktop Clippy with warnings denied passed. No timeout or test was weakened.
+  This evidence is pinned to d8b0eb1, not a trained bundle or a new source tree.

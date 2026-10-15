@@ -108,6 +108,10 @@ saved-run-set implementation. Cold accepted analysis and diagnostic persistence
 remain separate contracts.
 
 Fresh automated tests use actual stdlib CPU children and headless egui rendering.
-The measured trained deployment/Torch and native window environment are absent
-here; their explicit tests and workflow gates remain pending. Retained trained
+The measured trained deployment/Torch is absent here; its explicit runtime gate
+remains pending. A subsequent real X11 window on workspace-local Xvfb software
+rendering exercised inert support, visible failed diagnostics, cancellation,
+restart completion and Close during prediction with immediate-child liveness
+observations. This is fixture/software-display evidence, not trained-model or
+hardware/GPU qualification. Retained trained
 checkpoint accuracy failures are not converted into passes by protocol tests.
