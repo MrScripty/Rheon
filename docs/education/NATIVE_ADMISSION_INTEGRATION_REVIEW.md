@@ -414,3 +414,29 @@ Cargo contract are reviewed explicitly above, not added to or hidden by a change
 selector. The qualification path, numerical gates, generic archive/schema, accepted
 Session/provider semantics and source companion branches remain unchanged. This
 admits fresh composed qualification; it transfers no earlier receipt or model gate.
+
+
+### Cached inspector and synchronized projection composition
+
+PR98 249b66b contributes only diagnostic_view.rs and mod.rs. Independent GPT-6.1
+Sol read-only review found no material source issue in its composition with529a9e22.
+The display cache retains a strong Arc to the exact immutable attempt, builds the
+request comparison only on replacement, and draws retained metric/range values
+without full-volume digest/reduction or archive I/O. Visible slice drawing still
+visits the plane's cells. New/absent publications, failed loads and changed owner/
+grid clear the appropriate state. Live diagnostic controls have independent
+ownership from the legacy frame controls. The selected probe's X/Y remap onto the
+current Z before both panes and physical readout. Actual native reference gate/
+history labels remain distinct from candidate gate observations. Explicit export
+and rerun reopen and verify source custody independently of the projection cache.
+
+Reviewed exact SHA256:
+
+- diagnostic_view.rs: 1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2
+- mod.rs: f419a639e07f30da0e039897a2496584d083fcb347c40d370e0e1168c7cfdfb2
+
+The complete selector remains103 paths, with these two reviewed pins rebound in
+addition to the three custody pins above. No numerical/schema/provider/accepted
+archive semantics, source selectors or qualification gates change. Earlier529a
+receipts remain pinned to that earlier subject; the final seven-file proposal
+composition requires fresh clean qualification and current native-window evidence.

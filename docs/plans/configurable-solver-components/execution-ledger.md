@@ -531,3 +531,21 @@ to its actual source and is not relabelled for this correction.
   only after main ancestry, clean worktree and zero open dependencies were checked.
   Qualified files/evidence remain available at detached exact commits. Active
   source/companion branches and README90 remain untouched.
+
+
+## 2026-10-15 — cached inspector source composition
+
+- Source529a9e22/tree5bb1574bd5097b0426ff94d2b67cda6ce328d9a5 passed a clean
+  18-command qualification,26 real-packet tests normal/-O with zero skips and both
+  native binary builds. Its receipts are retained as evidence for that source.
+- PR98 249b66b then supplied two allocated consumer files. Independent read-only
+  GPT-6.1 Sol review approved exact hashes for strong-Arc projection caching,
+  explicit invalidation, separate live controls, Z/probe remapping, actual native
+  gate/history labeling and source-revalidated export/rerun. No material finding.
+- Rebind these additional two source pins within the unchanged103-path closure,
+  then freshly qualify the full seven-file proposal composition plus app-only
+  seed correction. The added consumer tests challenge exact identity, equal request/
+  index replacements, changed owner/grid, absence, missing source, corrupted cache
+  versus independently reopened export and actual producer-backed slider behavior.
+  This remains fixture/contract evidence; measured A1 and accepted composition A2
+  are separate gates. All source companions and README90 remain intact.

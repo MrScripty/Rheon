@@ -117,6 +117,15 @@ and explicitly **Open / verify**, then **Load attempt**. Reading imports no mode
 code. The inspector caches one selected attempt; namespace/member/load failures
 clear old fields. The live attempt inspector is separate from the advanced frame
 timeline. A fresh saved rerun replaces its owner before repainting any snapshots.
+Cold and live displays cache comparison/range reductions by exact strongly retained
+immutable attempt identity; retained painting does no full-volume reduction,
+request digest or archive I/O. Visible slice drawing still visits its cells.
+Replacement, absence, failed loading and changed owner/grid invalidate that cache.
+Diagnostic controls are separate from legacy frame controls. Changing Z preserves
+the probe's X/Y on the displayed plane, and labels distinguish the native
+reference's actual gate/history from the candidate's observations. Export and rerun
+always revalidate source custody independently of the display cache.
+
 
 Two cell-pressure slices share Z index, physical probe, cell-zero gauge, units and
 common full-volume range. Candidate-minus-native uses its own signed delta range.
