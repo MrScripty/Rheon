@@ -137,3 +137,62 @@ only the two test-source digests and review binding change. This is immediate-ch
 evidence with existing wait/join ordering, not descendant custody or a hard bound.
 Historical M0 producer receipts remain historical and are not rewritten. Refresh
 pins and run fresh clean qualification for this exact test-source revision.
+
+## Saved native intent and desktop M2 admission, 2026-10-15
+
+Relative to the reviewed M1 90-path closure, this explicitly reviewed composition
+has 92 paths: added desktop/run_sets.rs and desktop/run_set_view.rs; changed desktop/
+inspector.rs and src/bin/rheon-desktop.rs; none removed. All paths are included by
+the unchanged conservative selector. The recording schema, numerical kernels,
+aligned-strain example, oracle and qualifier, root dependency identities and all
+other selected bytes remain unchanged. Historical v1/v2 digests remain preserved.
+
+Independent GPT-6.1 Sol High review admits this source to attempt qualification:
+new app modules own immutable intent/member custody and explicit cached cold views;
+Inspector only delegates a bound constructor run to existing StepRecorder. The
+existing worker remains the sole numerical loop, using the exact frozen dt/source
+schedule and recording accepted states before any fixed-dt unsupported return.
+Writer closure precedes file pinning. Successful publication alone updates the UI
+path receipt; cancellation/uncertainty retains exact honest member state. Reruns
+create fresh roots/run/attempt identities from captured intent, never resume fields
+or overwrite artifacts. Tests cover actual joined app success/cancellation,
+constructor-zero rerun bits, cold identity and immutable originals. Source review
+fixed terminal path handoff and fresh attempt identity before acceptance.
+
+This is the native slice only. Typed accepted provider/diagnostic storage, trained
+Torch, native window, Lean/book publication and broader generic milestone gates
+remain distinct. Final inventory/review digests are committed before fresh clean
+qualification, and evidence is recorded outside this fixed admission review.
+
+### M2 final composition follow-through
+
+The serial composition retains M1's reviewed positive-before-negative OS liveness
+probes and selects the companion's newer constructor-capture and real storage-
+failure contracts (`33a689d`, `c1079bc`). Independent review confirms constructor
+capture is generation/time-zero only and reads actual typed controls; shared
+app-private bounded read/publication helpers preserve version/duplicate-key,
+byte-limit and no-overwrite checks. Actual capacity, terminal-busy and cold
+interleaving tests cover retained accepted tails and honest incomplete states.
+There is no new dependency, numerical arithmetic or archive-schema change.
+The closure is still exactly 92 paths; current run-set and two PID-test source
+digests are refreshed explicitly. Source review admits a fresh clean isolated-
+target qualification attempt, not any previous receipt or full generic acceptance.
+
+
+### Cold native rerun identity correction
+
+Actual software-window producer-exit/cold-rerun interaction exposed source run-ID
+reuse when the existing process-local counter restarted. Root Request now retains
+ALL direct source member run IDs before clearing attempts, and the existing worker
+skips those IDs when assigning a saved rerun identity. Ordinary process-local
+identity/provenance semantics remain unchanged; this is freshness relative to the
+selected source revision, not global or full-ancestry uniqueness. No numerical,
+archive-schema, dependency, qualifier or timeout change.
+
+Independent GPT-6.1 Sol High review confirms all Request constructors and the
+source-relative exclusion. New regression invokes actual App execution in separate
+producer and cold-rerun processes, requires the new-ID set disjoint from all source
+IDs, preserves typed specs/native time/field bits and snapshots EVERY source file
+before rerun to verify no overwrite afterward. The closure remains 92 paths; only
+the root desktop source hash changes. This admits fresh qualification, not transfer
+of d8b0eb1 evidence or trained/generic acceptance.

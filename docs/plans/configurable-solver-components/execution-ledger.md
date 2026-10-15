@@ -206,3 +206,67 @@ Draft source remains proposal evidence, not implementation admission.
 - Required measured deployment/Torch input was requested explicitly and remains
   unavailable. A1 trained-runtime and full generic/provider acceptance stay pending;
   CI's separate frozen-checkpoint check is not relabelled as this absent bundle.
+
+
+## 2026-10-15 — native M2 serial composition
+
+- Isolated branch `implementation/configurable-native-m2-integration-20261015`
+  selects companion `755e2b4` → `372e013` onto M1, with no unrelated renderer work.
+  Registered native specs/sets and a cold manifest view; existing worker/Inspector/
+  recorder own execution and accepted capture. No numerical kernel/schema change.
+- Native controls freeze before execution. New immutable intent/start/finish/final
+  revisions preserve parent identities and acknowledged-path handoff. A legitimate
+  shortened dt is recorded then reported unsupported by fixed-intent v1, retaining
+  raw archive. No uncertain terminal result becomes a pin. Cold rerun uses captured
+  intent from zero with fresh set/run/attempt identities; no integrator restart.
+- Independent source review closed terminal path and attempt identity findings;
+  current delta has no unresolved material finding. Scoped real App::poll worker
+  test passed two variants, cold egui, captured-intent rerun/native bits/no overwrite
+  and cancellation after publication with a Ready cancelled prefix + NotRun member.
+  Existing saved contracts: 12 passed, including real producer process exit. Scoped
+  desktop/contract Clippy `-D warnings` and formatting passed. Fresh clean-source
+  native/rational and broader affected desktop checks remain pending.
+- Admission review explicitly selects all 92 current paths and preserves strict
+  gates/oracles/predecessors. This supports qualification attempts, not trained
+  model, accepted-provider A3, native-window or complete M2/M3 acceptance.
+- Selected later companion storage contracts `33a689d` → `97344a2` and typed
+  constructor capture `c1079bc` → `31733ef`; independent review confirms retained
+  bounded/no-overwrite semantics and actual capacity/terminal-busy failure coverage.
+  Replayed M1 `f75a714` with its nonvacuous OS liveness oracle. Resolved documentation
+  append conflicts by retaining both evidence histories and explicitly refreshing
+  the final 92-path admission, not selecting a stale side's hashes.
+- Earlier M2 clean `67186ce` native/rational + packet 26 normal/-O passed on its
+  exact subject. A parallel desktop run hit the unchanged live-emitter gate's
+  10-second timeout during heavy simultaneous UI/build work. No timeout/test was
+  weakened; final source is rerun serially. The first attempted exact-name command
+  lacked its module prefix and ran zero tests; it is not counted as evidence.
+- Integration worktrees now use unique targets seeded with dependency artifacts
+  only. A shared-target library-export mismatch exposed the risk of cross-checkout
+  Cargo reuse; final fresh source qualification/tests are run in isolated targets.
+  Earlier source-specific observations are retained as history, not transferred to
+  this new combined source or substituted for required final passes.
+
+- Final clean M2 `d8b0eb11c85de2efdeb522865d90a3b86fb52985`, tree
+  `797022111c896ee5cef026b6ba22db1dcdb5ce18`, passed all 18 native/rational
+  qualification commands with `lean_checked=false`; the fresh education packet
+  passed 26 adversarial tests normally and under Python -O. External receipts:
+  `/tmp/rheon-m2-isolated-d8b0eb1` and `/tmp/rheon-m2-isolated-packet-d8b0eb1`.
+  Its 17 saved-contract tests passed. A strict desktop run hit the unchanged
+  live-emitter 10-second wait under concurrent build load; the exact test then
+  passed alone (8.79 s), and a complete idle serial rerun passed 61 tests,
+  1 intentionally ignored model-runtime test, 0 failures (30.67 s). All-target
+  desktop Clippy with warnings denied passed. No timeout or test was weakened.
+  This evidence is pinned to d8b0eb1, not a trained bundle or a new source tree.
+
+- Native software-X11 M2 flow on d8b0eb1 created a two-solver 8-cube set with
+  2 steps at0.003s, closed producer, cold-opened Ready members, audited ordinal2,
+  exported actual VTI and reran exact intent from a fresh material-default App.
+  Native bits/time and originals matched, but process-local source IDs1/2 were
+  reused. This is a finding, not freshness acceptance. Exact failed-freshness
+  observation SHA256 `37f32ab2dd80bb0a3dd5cdffaf0fdc27325e8ec544c171eb9d9de3071139e6e4`
+  remains outside Git in /tmp/rheon-m2-native-window/observation-before-fix.json.
+- Fixed root-only direct-source exclusion. Independent review approved source and
+  regression fidelity: actual separate producer/cold-rerun processes, full source
+  ID disjointness, original-file BEFORE snapshot, typed intent/native bits/time.
+  Focused fresh regression passed. Refreshed92 source admission precedes renewed
+  qualification; corrected binary/native-window observation follows separately.
