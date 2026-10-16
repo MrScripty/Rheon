@@ -829,3 +829,25 @@ to its actual source and is not relabelled for this correction.
   tests plus native qualification follow; no merge gate is waived or previous
   receipt transferred. Tool provisioning is root-owned under .rheon-tools and
   generated packet/build outputs remain outside every checkout.
+
+
+## 2026-10-16 — portable RCP2 CPU/recording cross-contract union
+
+- Retain PR102770e26 portable context dependency and exact PR10616157372
+  cross-module test ancestry on reviewed RCP2ed4346da. Production code gains
+  only the already reviewed portable manifest correction in this union.
+- Independent source review approves the two test-path delta; the external
+  owner separately reports final committed64 application passes/one unchanged
+  missing measured-deployment ignore,20 provider and4 carrier passes. Those
+  executions remain pinned to16157372 and are not combined-source receipts.
+- Complete conservative admission grows107 to108 selected paths, one addition,
+  one changed registration and106 unchanged. Nine real recording scenarios
+  and fresh executable readers distinguish accepted native fallback from whole-
+  interval rollback and coarse durable core facts from live-only process detail.
+  Linux blocked-write phase evidence and fresh-owner/newarchive retry limits
+  are explicit in reports/accepted-recording-cross-review.md.
+- Fresh clean native/rational, packet, actual modal/API/recording/application
+  contracts, strict desktop Clippy and both binary builds follow this committed
+  union. Earlier fc5a receipts are RCP1 only; ed4346 RCP2 admission and PR106
+  execution do not substitute for that new qualification. Typed production
+  runtime observations remain separately allocated recording-owner work.

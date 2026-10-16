@@ -600,3 +600,31 @@ The complete selector remains105 paths, only this manifest pin changes and104
 selected paths are unchanged. Native-only filesystem/SQLite/process capabilities,
 numerical kernels/gates, selectors and historical inventories remain unchanged.
 Native qualification alone does not establish this browser regression fixed.
+
+
+### Accepted CPU and RCP2 recording cross-contract composition
+
+Independent GPT-6.1 Sol source review approves PR106 exact16157372 versus
+reviewed RCP2 parented4346da. The new test module uses the existing test-only
+Driver/ModelProcess/SQLite owners; the sole parent change is explicit child
+registration. Review and scope:
+../plans/configurable-solver-components/reports/accepted-recording-cross-review.md.
+
+Nine recording scenarios cover accepted native fallback and rejected whole
+intervals across consumed replies, predispatch cancellation and Linux x86_64
+proven blocked writes. Exact child readers run after runtime/Session/writer
+drainage with the owned manifest hidden, requiring verified markers and
+unchanged field/selection/file hashes. Producer parent process remains alive.
+Retries create fresh Sessions/archives, with changed restored blocked-fixture
+pins; this is not checkpoint resume or same-owner quota evidence. Fine process
+reason/dispatch/payload hashes remain live-only in this RCP2 slice. No hard
+shutdown, descendant, portability, learned-accuracy or production-UI claim.
+
+- src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs: 6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942
+- src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs: 643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729
+
+Complete conservative closure grows107 to108 paths: one new test module,
+one registration-only changed path,106 unchanged, none removed. Portable
+Cargo pin10a7b438 is retained from independently reviewed PR102770e26.
+Selectors, old inventories, kernels, oracle and qualifier are unchanged. This
+authorizes fresh clean composed qualification, not transfer of older receipts.

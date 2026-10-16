@@ -792,3 +792,6 @@ fn cooperative_poll_cancels_blocked_writer_after_initiation_and_joins_io() {
     assert!(start.elapsed() < Duration::from_secs(2));
     drop_process(process, &slot);
 }
+
+#[path = "accepted_recording_contract_tests.rs"]
+mod accepted_recording_contract_tests;
