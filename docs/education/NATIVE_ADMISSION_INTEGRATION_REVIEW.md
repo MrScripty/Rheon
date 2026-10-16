@@ -899,3 +899,19 @@ Fresh clean union qualification and existing desktop quantitative consumer
 integration/native-window acceptance remain required. This merge also retains
 current main8bf7a3e and separately reviewed CI11250732f5 setup ancestry; neither
 changes these121 selected source pins or transfers prior whole-Git receipts.
+
+
+### Shared saved native/configured source adapter
+
+Exact independently reviewed PR1141c32eb0 source is retained by ancestry.
+Review: ../plans/configurable-solver-components/reports/saved-source-review.md.
+One new module and one bounded parent registration extend121 to122 selected
+paths,120 unchanged. Native inner serialization/digest stays byte-identical;
+existing typed manifest/archive owners retain validation and readiness.
+Consumers must separately bind their envelope version to the source variant.
+Latest reviewed cold terminal-clock policy, quantitative page wiring and fresh
+final-source/window validation remain required. Exact source pins:
+
+- src/bin/desktop/run_sets/source.rs: c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11
+- src/bin/desktop/run_sets.rs: e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1
+- tests/saved_source_contract.rs: 39cb5152583c1662f8dfb71217409025084c4e05be1a18e1b7b3912fa4d21ca5

@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Reviewed actual configured desktop Worker plus PR111 shared typed comparison library; complete121-path conservative admission before fresh union qualification and remaining app comparison/window acceptance.",
+  "scope": "Reviewed configured production source plus shared saved-source adapter; complete122-path conservative admission before app comparison consumption and fresh final qualification.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "75e681e1cc9ff1068c1f5fe6abb6bd1063148f4de946b76bfa1add177156987c",
+  "review_sha256": "6e5e9c93117abc84b04641c7407362d693f9b2ed09a42cb40d3fe7d6f0d28469",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
@@ -56,9 +56,10 @@
     "src/bin/desktop/inspector.rs": "bb6bb83529896323fbf5414d6e7f41f8462b21e80a6d1f620edb6eecd2fc6649",
     "src/bin/desktop/particle_view.rs": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
     "src/bin/desktop/run_set_view.rs": "a646384025669447cf61852b37dcdbc9189359e1180e372dc3d4042ae7a82527",
-    "src/bin/desktop/run_sets.rs": "405332f953a31e476a704ce189b85781faf19620a2c54e5b4cb077fdd95f2a5f",
+    "src/bin/desktop/run_sets.rs": "e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1",
     "src/bin/desktop/run_sets/configured.rs": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9",
     "src/bin/desktop/run_sets/configured/archive.rs": "51a2ac2952c6dfd8881e3a5abb6080a5e785f99c5d24b67685aaa3ae01b7bf4f",
+    "src/bin/desktop/run_sets/source.rs": "c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11",
     "src/bin/desktop/settings.rs": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
     "src/bin/desktop/transport_view.rs": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
     "src/bin/desktop/viewport.rs": "ff654a1032531d8f5dd756787214ef8d395e6b742278f814c2811f5808d9bb6d",
