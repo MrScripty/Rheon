@@ -43,14 +43,34 @@ does not hold that lock or borrow simulation fields. Cancellation/failure leaves
 accepted frames available. Close cancels and waits for the worker; Drop joins
 as a backstop. New runs replace the previous timeline after worker startup succeeds.
 
-History defaults to a 96 MiB preview-payload and metadata budget; Simulation
-allows selecting up to 4,096 MiB. Material preview requests support up to 512³
-eight-bit cells. Carrier previews max-pool concentration over source cells;
-material previews splat physical parcels. The sidebar reports actual stored
-resolution and planned bytes before starting. Long runs reduce resolution to
-fit the selected budget while retaining every accepted step. This is a visualization rather
-than a retained full-resolution numerical checkpoint. Simulation budgets,
-allocator overhead, thread stacks, renderer meshes and process RSS are separate.
+History defaults to a 96 MiB preview-payload/metadata budget; the Simulation
+section allows up to 4096 MiB. Numerical density and preview resolution have
+independent controls. New physical sampling/density requests support at most
+1000 samples/m; carrier axis counts support up to 10000, subject to the existing
+192 MiB retained-array budget. Particle samples retain their own 4–64/side limit.
+Counts and density are different: 16 cells at 1000/m occupy 0.016 m per side.
+New count-mode requests also check realized density; historical frozen specs
+retain their recorded exact geometry when cold-opened/rerun.
+
+Preview has three modes: the unchanged adaptive mode (at most 512/axis, reduced
+explicitly to fit all frames), exact density 1–1000/m, and exact edge 1–10000.
+For a fixed physical extent, density requests use ceil(side×density), report
+realized spacing/density and reject rounding above 1000/m. Exact edge mode also
+checks realized density. Exact requests either fit every constructor/accepted
+frame and track or fail before worker/output allocation; they never silently
+reduce resolution. Carrier preview conservatively max-resamples source cells,
+replicating appearance for finer voxels without changing physical fields;
+material previews splat physical parcels.
+
+The sidebar reports actual preview count/density and checked history payload.
+It also reports scan visits and worst-case surface payload. Appearance has a
+separate policy: at most 512³ voxel visits and 262144 exposed faces. Exceeding
+these bounds explicitly makes Appearance unavailable; numerical fields, stored
+preview, recording, Inspector and exports retain their resolution. Actual mesh
+allocations are fallible and bounded. See [density and resource contracts](../../../docs/api/domain-density.md).
+Simulation arrays, recording, renderer/UI/GPU/allocator overhead, thread stacks
+and process RSS are separate; these are payload/work estimates, not RSS or
+elapsed-time guarantees.
 
 `viewport.rs` owns only camera, display settings and cached surface geometry.
 Scrubbing holds the selected accepted step while new steps arrive; Follow live

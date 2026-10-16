@@ -49,13 +49,18 @@ impl Scene {
         {
             return Err("Choose 5–128 cells per axis, at most 65,536 cells total".into());
         }
-        if !(1..=128).contains(&self.cells_per_metre) || !(1..=512).contains(&self.steps) {
-            return Err("Resolution/step budget exceeded".into());
+        if !(1..=rheon::MAX_CELLS_PER_METRE).contains(&self.cells_per_metre)
+            || !(1..=512).contains(&self.steps)
+        {
+            return Err(
+                "Choose 1–1000 cells/m and 1–512 steps; density is independent of grid counts"
+                    .into(),
+            );
         }
         if self.warmup_steps >= self.steps {
             return Err("Native warm-up must leave at least one AI step".into());
         }
-        if (self.steps + 1) * self.counts.iter().product::<usize>() * 24 > HISTORY_BYTES {
+        if self.history_bytes()? > HISTORY_BYTES {
             return Err(
                 "Full-resolution paired history exceeds 96 MiB; reduce steps or counts".into(),
             );
@@ -79,6 +84,14 @@ impl Scene {
             return Err("Force center must lie within the domain".into());
         }
         Ok(())
+    }
+    pub fn history_bytes(&self) -> Result<usize, String> {
+        self.counts
+            .iter()
+            .try_fold(1_usize, |n, &v| n.checked_mul(v))
+            .and_then(|n| self.steps.checked_add(1).and_then(|s| s.checked_mul(n)))
+            .and_then(|n| n.checked_mul(24))
+            .ok_or_else(|| "Paired history size overflow".into())
     }
     pub fn h(&self) -> f64 {
         1.0 / f64::from(self.cells_per_metre)
@@ -108,6 +121,24 @@ impl Scene {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn density_and_geometry_round_trip_without_widening_other_budgets() {
+        let mut s = Scene {
+            cells_per_metre: 1000,
+            ..Default::default()
+        };
+        s.validate().unwrap();
+        assert_eq!(s.h(), 0.001);
+        assert_eq!(s.extents(), [0.016; 3]);
+        let copy: Scene = serde_json::from_slice(&serde_json::to_vec(&s).unwrap()).unwrap();
+        assert_eq!(copy.cells_per_metre, 1000);
+        assert_eq!(copy.extents(), s.extents());
+        assert_eq!(copy.history_bytes().unwrap(), s.history_bytes().unwrap());
+        s.cells_per_metre = 1001;
+        assert!(s.validate().is_err());
+        s.counts = [usize::MAX; 3];
+        assert!(s.history_bytes().is_err());
+    }
     #[test]
     fn rectangular_domain_has_one_cell_size_and_bounded_history() {
         let mut s = Scene {

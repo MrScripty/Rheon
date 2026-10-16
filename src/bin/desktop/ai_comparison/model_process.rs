@@ -382,6 +382,8 @@ impl ModelProcess {
                     scene.warmup_steps > 0,
                 )
                 .map_err(|e| e.to_string())?;
+        } else if scene.cells_per_metre > 128 {
+            return Err("Unsupported testing setup: legacy v2 package supports at most 128 cells/m (cell spacing at least 1/128 m); use a qualified adapter declaring the actual physical support".into());
         } else if scene.warmup_steps < runtime.minimum_native_steps {
             return Err(format!(
                 "Unsupported testing setup: checkpoint requires at least {} native warm-up steps; configured {}",

@@ -5,6 +5,22 @@ use eframe::egui::{self, Color32, Rect, Stroke};
 use rheon::{RotatingCylinderEmitter, WorkerVoxel};
 use std::sync::Arc;
 
+// Appearance payload policy, independent of physical sampling/history budget.
+// At most 262144 surface faces: two face buffers plus two projected meshes
+// (including the previous cached mesh) retain at most ~78 MiB of array payload.
+// egui/GPU/allocator/other views are outside this bound.
+const MAX_SURFACE_FACES: usize = 262_144;
+const MAX_RENDER_VOXELS: usize = 512 * 512 * 512;
+pub fn resource_estimate(edge: usize) -> String {
+    let voxels = edge as u128 * edge as u128 * edge as u128;
+    let bytes_per_face = 2 * std::mem::size_of::<Face>()
+        + 8 * std::mem::size_of::<egui::epaint::Vertex>()
+        + 12 * std::mem::size_of::<u32>();
+    format!(
+        "Appearance scan: {voxels} voxel visits; worst surface payload {:.1} MiB. Renderer refuses above {MAX_RENDER_VOXELS} visits or {MAX_SURFACE_FACES} exposed faces; preview is never silently reduced.",
+        voxels as f64 * 6.0 * bytes_per_face as f64 / 1048576.0
+    )
+}
 type V3 = [f32; 3];
 fn add(a: V3, b: V3) -> V3 {
     std::array::from_fn(|d| a[d] + b[d])
@@ -16,7 +32,7 @@ fn dot(a: V3, b: V3) -> f32 {
     a.into_iter().zip(b).map(|(a, b)| a * b).sum()
 }
 pub use super::camera::OrbitCamera;
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 struct Face {
     points: [V3; 4],
     color: Color32,
@@ -49,6 +65,7 @@ pub struct Viewport {
     pub domain_side: f64,
     frame: Option<Arc<PreviewFrame>>,
     faces: Vec<Face>,
+    surface_error: Option<String>,
     cached_threshold: u8,
     scene: Option<CachedScene>,
 }
@@ -70,6 +87,7 @@ impl Default for Viewport {
             collision_mesh: None,
             frame: None,
             faces: Vec::new(),
+            surface_error: None,
             cached_threshold: 0,
             scene: None,
         }
@@ -161,12 +179,31 @@ impl Viewport {
             _ => true,
         };
         if changed || self.cached_threshold != self.threshold {
-            self.faces = frame
+            match frame
                 .as_ref()
-                .map_or_else(Vec::new, |f| surface_faces(f, self.threshold));
+                .map_or_else(|| Ok(Vec::new()), |f| surface_faces(f, self.threshold))
+            {
+                Ok(faces) => {
+                    self.faces = faces;
+                    self.surface_error = None;
+                }
+                Err(error) => {
+                    self.faces.clear();
+                    self.surface_error = Some(error);
+                }
+            }
             self.frame = frame.clone();
             self.cached_threshold = self.threshold;
             self.scene = None;
+        }
+        if let Some(error) = &self.surface_error {
+            painter.text(
+                rect.left_top() + egui::vec2(12.0, 12.0),
+                egui::Align2::LEFT_TOP,
+                error,
+                egui::FontId::proportional(13.0),
+                Color32::LIGHT_RED,
+            );
         }
         for i in 0..=10 {
             let p = i as f32 / 10.0;
@@ -189,17 +226,33 @@ impl Viewport {
         if self.scene.as_ref().is_none_or(|c| {
             c.camera != self.camera || c.rect != rect || c.emitter != emitter || c.time != time
         }) {
-            let mut faces = self.faces.clone();
-            if let Some(emitter) = emitter {
-                faces.extend(cylinder_faces(emitter, time));
+            let emitter_faces = emitter.map_or_else(Vec::new, |e| cylinder_faces(e, time));
+            let count = self.faces.len() + emitter_faces.len();
+            let mut faces = Vec::new();
+            let mut mesh = egui::Mesh::default();
+            let reserved = faces
+                .try_reserve_exact(count)
+                .and_then(|()| mesh.vertices.try_reserve_exact(count * 4))
+                .and_then(|()| mesh.indices.try_reserve_exact(count * 6));
+            if let Err(error) = reserved {
+                self.scene = None;
+                painter.text(
+                    rect.center(),
+                    egui::Align2::CENTER_CENTER,
+                    format!("Cannot allocate appearance mesh: {error}"),
+                    egui::FontId::proportional(13.0),
+                    Color32::LIGHT_RED,
+                );
+                return;
             }
+            faces.extend_from_slice(&self.faces);
+            faces.extend(emitter_faces);
             let basis = self.camera.basis();
             let forward = basis.1;
             faces.sort_unstable_by(|a, b| {
                 let center = |f: &Face| mul(f.points.into_iter().fold([0.0; 3], add), 0.25);
                 dot(center(b), forward).total_cmp(&dot(center(a), forward))
             });
-            let mut mesh = egui::Mesh::default();
             for face in faces {
                 let projected = face
                     .points
@@ -468,7 +521,14 @@ impl Viewport {
         }
     }
 }
-fn surface_faces(frame: &PreviewFrame, threshold: u8) -> Vec<Face> {
+fn surface_faces(frame: &PreviewFrame, threshold: u8) -> Result<Vec<Face>, String> {
+    let count = frame
+        .edge
+        .checked_pow(3)
+        .ok_or("Appearance voxel count overflow")?;
+    if count > MAX_RENDER_VOXELS || count != frame.density.len() || frame.edge == 0 {
+        return Err("Appearance unavailable: voxel scan exceeds renderer policy or frame shape is invalid; numerical fields and stored preview retain their resolution".into());
+    }
     let n = frame.edge;
     let h = 1.0 / n as f32;
     let mut faces = Vec::new();
@@ -532,13 +592,24 @@ fn surface_faces(frame: &PreviewFrame, threshold: u8) -> Vec<Face> {
                                 ((210.0 + 44.0 * t) * shade) as u8,
                             )
                         };
+                        if faces.len() >= MAX_SURFACE_FACES {
+                            return Err(format!(
+                                "Appearance unavailable: more than {MAX_SURFACE_FACES} exposed faces; lower preview density or raise the visibility threshold. Numerical resolution is unchanged"
+                            ));
+                        }
+                        if faces.len() == faces.capacity() {
+                            let additional = (MAX_SURFACE_FACES - faces.len()).min(1024);
+                            faces
+                                .try_reserve_exact(additional)
+                                .map_err(|e| format!("Cannot allocate appearance faces: {e}"))?;
+                        }
                         faces.push(Face { points, color });
                     }
                 }
             }
         }
     }
-    faces
+    Ok(faces)
 }
 fn emitter_strengths(emitter: RotatingCylinderEmitter) -> [f64; 2] {
     emitter
@@ -610,6 +681,37 @@ fn cylinder_faces(emitter: RotatingCylinderEmitter, time: f64) -> Vec<Face> {
 mod tests {
     use super::*;
     use eframe::egui::Pos2;
+    #[test]
+    fn excessive_surface_is_refused_without_downsampling() {
+        let n = 64;
+        let frame = PreviewFrame {
+            method: rheon::PressureImplementation::default(),
+            step: 0,
+            time: 0.0,
+            seconds: 0.0,
+            edge: n,
+            nonzero_tracer_cells: 0,
+            density: (0..n * n * n)
+                .map(|i| {
+                    if (i % n + i / n % n + i / n / n) % 2 == 0 {
+                        255
+                    } else {
+                        0
+                    }
+                })
+                .collect(),
+            report: None,
+            particle_report: None,
+            material_color: None,
+        };
+        assert!(
+            surface_faces(&frame, 1)
+                .unwrap_err()
+                .contains("exposed faces")
+        );
+        assert_eq!(frame.edge, 64);
+        assert!(resource_estimate(10000).contains("1000000000000 voxel visits"));
+    }
     #[test]
     fn emitter_visual_strengths_follow_selected_mode_and_zero_disables_jets() {
         let mut e = RotatingCylinderEmitter::default();
@@ -697,7 +799,7 @@ mod tests {
             particle_report: None,
             material_color: None,
         };
-        assert_eq!(surface_faces(&frame, 1).len(), 24);
+        assert_eq!(surface_faces(&frame, 1).unwrap().len(), 24);
     }
     #[test]
     fn primary_drag_orbits_pans_and_zooms_without_alt() {

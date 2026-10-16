@@ -82,6 +82,7 @@ struct Request {
     emitter: Option<RotatingCylinderEmitter>,
     observe: bool,
     history_budget_mib: usize,
+    preview_resolution: history::PreviewResolution,
     domain_side: f64,
     requested_dt: f64,
     material: Option<rheon::ParticleFluidConfig>,
@@ -106,6 +107,21 @@ struct ConfiguredRequest {
     runtime: Option<(Arc<AtomicBool>, accepted_session::model_process::ChildSlot)>,
 }
 impl Request {
+    fn preview_edge(&self) -> Result<usize, String> {
+        self.preview_resolution
+            .edge(self.domain_side, self.size as usize)
+    }
+    fn preview_history(&self) -> Result<Arc<LiveHistory>, String> {
+        LiveHistory::with_resolution(
+            self.preview_edge()?,
+            self.steps,
+            self.methods.len(),
+            self.history_budget_mib
+                .checked_mul(1024 * 1024)
+                .ok_or("Preview budget overflow")?,
+            self.preview_resolution.exact(),
+        )
+    }
     fn track_label(&self, index: usize) -> String {
         if let Some(configured) = &self.configured_set {
             let Some(member) = configured.revision.members.get(index) else {
@@ -178,13 +194,7 @@ impl Worker {
             slot
         });
         let progress = Arc::new(AtomicUsize::new(0));
-        let history = LiveHistory::with_budget(
-            request.size as usize,
-            request.steps,
-            request.methods.len(),
-            request.history_budget_mib * 1024 * 1024,
-        )
-        .map_err(std::io::Error::other)?;
+        let history = request.preview_history().map_err(std::io::Error::other)?;
         let h = request.domain_side / request.size as f64;
         let grid = GridGeometry::new([request.size; 3], [h; 3], [0.0; 3])
             .map_err(std::io::Error::other)?;
@@ -271,9 +281,9 @@ fn validate_request(request: &Request) -> Result<(), String> {
         collision_ui::validate_bounds(mesh, request.domain_side)?;
     }
     let maximum = if request.material.is_some() {
-        history::MAX_PREVIEW_EDGE as u64
+        512
     } else {
-        128
+        rheon::MAX_GRID_EDGE
     };
     if !(1..=maximum).contains(&request.size)
         || !(1..=10000).contains(&request.steps)
@@ -300,6 +310,37 @@ fn validate_request(request: &Request) -> Result<(), String> {
     {
         return Err("Invalid physical domain size or step duration".into());
     }
+    // Frozen native/configured intent retains its historical spacing; all new
+    // requests, including private non-UI callers, obey the physical edit cap.
+    if request.saved_set.is_none() && request.configured_set.is_none() {
+        let samples = request
+            .material
+            .map_or(request.size as usize, |m| m.samples_per_axis);
+        let actual = samples as f64 / request.domain_side;
+        if actual > f64::from(rheon::MAX_CELLS_PER_METRE).next_up() {
+            return Err(format!(
+                "Requested physical sampling {actual:.6}/m exceeds 1000/m; adjust extent or counts"
+            ));
+        }
+    }
+    // Preflight before a worker, recorder or numerical field is allocated.
+    let edge = request.preview_edge()?;
+    LiveHistory::plan_resolution(
+        edge,
+        request.steps,
+        request.methods.len(),
+        request.history_budget_mib * 1024 * 1024,
+        request.preview_resolution.exact(),
+    )?;
+    if request.material.is_none() {
+        let grid = GridGeometry::new(
+            [request.size; 3],
+            [request.domain_side / request.size as f64; 3],
+            [0.0; 3],
+        )
+        .map_err(|e| e.to_string())?;
+        rheon::BufferPlan::for_grid(&grid, 192 * 1024 * 1024).map_err(|e| e.to_string())?;
+    }
     if request.threads == 0 || request.threads > available_threads() {
         return Err("CPU threads must be between 1 and the available CPU count".into());
     }
@@ -312,12 +353,7 @@ fn run(
     progress: &AtomicUsize,
 ) -> Result<Vec<ResultRow>, String> {
     validate_request(&request)?;
-    let history = LiveHistory::with_budget(
-        request.size as usize,
-        request.steps,
-        request.methods.len(),
-        request.history_budget_mib * 1024 * 1024,
-    )?;
+    let history = request.preview_history()?;
     run_owned(
         request,
         cancel,
@@ -982,10 +1018,12 @@ struct App {
     comparison_fields: comparison_field_view::ComparisonFieldView,
     collision: collision_ui::CollisionControls,
     selected: PressureImplementation,
+    numerical_cells_per_metre: Option<u32>,
     domain_side: f64,
     requested_dt: f64,
     material_mode: bool,
     history_budget_mib: usize,
+    preview_resolution: history::PreviewResolution,
     recording_database_mib: usize,
     recording_record_mib: usize,
     recording_directory: String,
@@ -1031,10 +1069,12 @@ impl Default for App {
             comparison_fields: Default::default(),
             collision: collision_ui::CollisionControls::default(),
             selected: PressureImplementation::default(),
+            numerical_cells_per_metre: None,
             domain_side: 1.0,
             requested_dt: 0.02,
             material_mode: true,
             history_budget_mib: history::HISTORY_BUDGET / (1024 * 1024),
+            preview_resolution: history::PreviewResolution::Adaptive,
             recording_database_mib: 1024,
             recording_record_mib: 64,
             recording_directory: ".generated/recordings".into(),
@@ -1196,12 +1236,9 @@ impl App {
             .and_then(|s| s.to_str())
             .ok_or("Configured set directory")?
             .to_owned();
-        let grid = GridGeometry::new(
-            [self.size; 3],
-            [self.domain_side / self.size as f64; 3],
-            [0.0; 3],
-        )
-        .map_err(|e| e.to_string())?;
+        let size = self.selected_carrier_count()?;
+        let grid = GridGeometry::new([size; 3], [self.domain_side / size as f64; 3], [0.0; 3])
+            .map_err(|e| e.to_string())?;
         let revision =
             self.configured_controls
                 .freeze(configured_controls::ConfiguredLaunchInputs {
@@ -1258,6 +1295,7 @@ impl App {
             emitter: None,
             observe: self.show_workers,
             history_budget_mib: self.history_budget_mib,
+            preview_resolution: self.preview_resolution,
             domain_side: baseline.constructor.spacing_m[0]
                 * baseline.constructor.counts_xyz[0] as f64,
             requested_dt: baseline.future.requested_dt_s,
@@ -1329,6 +1367,43 @@ impl App {
             .collect();
         self.publish_and_launch_configured(revision, &root, prior_run_ids)
     }
+    /// New edits obey the physical density cap. Historical frozen geometry is
+    /// decoded/rerun through its existing exact-spacing path without this edit.
+    fn check_sampling_density(&self, count: usize) -> Result<(), String> {
+        let actual = count as f64 / self.domain_side;
+        if !actual.is_finite() || actual > f64::from(rheon::MAX_CELLS_PER_METRE).next_up() {
+            return Err(format!(
+                "{count} samples across {:.9} m resolves to {actual:.6} samples/m, above the 1000/m physical sampling limit. Adjust extent or counts; covering rounding never silently lowers a density request",
+                self.domain_side
+            ));
+        }
+        Ok(())
+    }
+    fn selected_carrier_count(&self) -> Result<u64, String> {
+        let edge = self
+            .numerical_cells_per_metre
+            .map_or(Ok(self.size as usize), |d| {
+                history::edge_at_density(self.domain_side, d)
+            })?;
+        self.check_sampling_density(edge)?;
+        Ok(edge as u64)
+    }
+    /// Density preferences survive domain edits; counts freeze only at launch.
+    fn selected_sampling(&self) -> Result<(u64, Option<rheon::ParticleFluidConfig>), String> {
+        if !self.material_mode {
+            return Ok((self.selected_carrier_count()?, None));
+        }
+        let mut config = self.materials.config;
+        if let Some(density) = self.numerical_cells_per_metre {
+            let edge = history::edge_at_density(self.domain_side, density)?;
+            if !(4..=64).contains(&edge) {
+                return Err("Requested particle density requires 4–64 samples per side; reduce domain extent or density".into());
+            }
+            config.samples_per_axis = edge;
+        }
+        self.check_sampling_density(config.samples_per_axis)?;
+        Ok((self.size, Some(config)))
+    }
     fn start(&mut self, all: bool) {
         if self.worker.is_some() {
             return;
@@ -1341,9 +1416,16 @@ impl App {
                 return;
             }
         };
+        let (size, material) = match self.selected_sampling() {
+            Ok(value) => value,
+            Err(error) => {
+                self.status = error;
+                return;
+            }
+        };
         let mut request = Request {
             collision_mesh: self.collision.mesh.clone(),
-            size: self.size,
+            size,
             steps: self.steps,
             tight: self.tight,
             threads: self.threads,
@@ -1355,9 +1437,10 @@ impl App {
             emitter: self.cylinder.then_some(self.emitter),
             observe: self.show_workers,
             history_budget_mib: self.history_budget_mib,
+            preview_resolution: self.preview_resolution,
             domain_side: self.domain_side,
             requested_dt: self.requested_dt,
-            material: self.material_mode.then_some(self.materials.config),
+            material,
             material_color: self.materials.color(),
             recording_limits,
             recording_directory: self.recording_directory.clone(),
@@ -1418,6 +1501,7 @@ impl App {
             emitter: None,
             observe: self.show_workers,
             history_budget_mib: self.history_budget_mib,
+            preview_resolution: self.preview_resolution,
             domain_side: baseline.spacing_m[0] * baseline.counts_xyz[0] as f64,
             requested_dt: baseline.requested_dt_s,
             material: None,
@@ -1620,9 +1704,31 @@ impl App {
             egui::CollapsingHeader::new("Simulation").default_open(false).show(ui, |ui| {
                 if ui.checkbox(&mut self.material_mode,"Liquid / gas material simulation").changed() {
                     self.emitter.pressure_heads=if self.material_mode {[1000.0,800.0]} else {[0.12,0.08]};
-                    if !self.material_mode {self.size=self.size.min(128);}
                 }
-                ui.horizontal(|ui| {ui.label("Preview grid");ui.add(egui::DragValue::new(&mut self.size).range(4..=if self.material_mode {512}else{128}).suffix("³"));});
+                ui.horizontal(|ui| {ui.label(if self.material_mode {"Adaptive preview edge"} else {"Numerical cells / axis (count mode)"});ui.add_enabled(self.material_mode || self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.size).range(4..=if self.material_mode {512}else{rheon::MAX_GRID_EDGE}).suffix("³"));});
+                let mut physical = self.numerical_cells_per_metre.is_some();
+                if ui.checkbox(&mut physical,"Select physical sampling density").changed() {
+                    self.numerical_cells_per_metre = physical.then_some(32);
+                }
+                if let Some(density) = &mut self.numerical_cells_per_metre {
+                    ui.add(egui::DragValue::new(density).range(1..=rheon::MAX_CELLS_PER_METRE).suffix(if self.material_mode {" particle samples/m"} else {" cells/m"}));
+                    ui.small("Counts = ceil(domain side × requested density); exact physical extent retained.");
+                }
+                egui::ComboBox::from_id_salt("preview-resolution-mode").selected_text(match self.preview_resolution {
+                    history::PreviewResolution::Adaptive => "Adaptive preview (legacy)",
+                    history::PreviewResolution::CellsPerMetre(_) => "Exact preview density",
+                    history::PreviewResolution::Edge(_) => "Exact preview edge count",
+                }).show_ui(ui,|ui| {
+                    if ui.selectable_label(self.preview_resolution == history::PreviewResolution::Adaptive,"Adaptive preview (legacy)").clicked() {self.preview_resolution=history::PreviewResolution::Adaptive;}
+                    if ui.selectable_label(matches!(self.preview_resolution,history::PreviewResolution::CellsPerMetre(_)),"Exact preview density").clicked() {self.preview_resolution=history::PreviewResolution::CellsPerMetre(32);}
+                    if ui.selectable_label(matches!(self.preview_resolution,history::PreviewResolution::Edge(_)),"Exact preview edge count").clicked() {self.preview_resolution=history::PreviewResolution::Edge(32);}
+                });
+                match &mut self.preview_resolution {
+                    history::PreviewResolution::CellsPerMetre(density) => {ui.add(egui::DragValue::new(density).range(1..=rheon::MAX_CELLS_PER_METRE).suffix(" preview cells/m"));}
+                    history::PreviewResolution::Edge(edge) => {ui.add(egui::DragValue::new(edge).range(1..=history::MAX_PREVIEW_EDGE).suffix(" preview cells / axis"));}
+                    history::PreviewResolution::Adaptive => {}
+                }
+                ui.small("Preview is display resampling only. Finer voxels replicate appearance; physical sampling stays unchanged.");
                 ui.horizontal(|ui| {ui.label("Steps");ui.add(egui::DragValue::new(&mut self.steps).range(1..=10000));});
                 {
                     ui.collapsing("Numerical recording (every accepted step)", |ui| {
@@ -1636,13 +1742,33 @@ impl App {
                 }
                 ui.small("Carrier inventory: native face velocity, cell appearance tracer, accepted interval pressure. Material inventory: particle attributes and preintegration diagnostics. Other Rheon session/lab backends are not recorded here.");
                 ui.horizontal(|ui| {ui.label("Timeline budget");ui.add(egui::DragValue::new(&mut self.history_budget_mib).range(16..=4096).suffix(" MiB"));});
-                if let Ok(plan)=LiveHistory::plan(self.size as usize,self.steps,1,self.history_budget_mib.saturating_mul(1024*1024)) {ui.small(format!("Stored preview {}³ · {:.1} MiB for every step",plan.edge,plan.bytes as f64/1048576.0));}
+                let sampling = self.selected_sampling();
+                match &sampling {
+                    Ok((size, material)) => {
+                        let numerical = material.map_or(*size as usize, |m|m.samples_per_axis);
+                        ui.small(format!("Physical sampling: {numerical} per axis · {:.3} samples/m · {:.9} m spacing", numerical as f64 / self.domain_side, self.domain_side / numerical as f64));
+                        if material.is_none() && let Ok(grid) = GridGeometry::new([*size;3],[self.domain_side / *size as f64;3],[0.0;3]) {
+                                match rheon::BufferPlan::for_grid(&grid,192*1024*1024) {
+                                    Ok(plan) => {ui.small(format!("{} numerical cells · {:.1} MiB retained native arrays / track; pressure work ≤ {} cell-iterations / track",grid.cell_len(),plan.total_bytes as f64/1048576.0,grid.cell_len() as u128*self.steps as u128*2000));},
+                                    Err(e) => {ui.colored_label(egui::Color32::LIGHT_RED,e.to_string());}
+                                }
+                        }
+                        let edge = self.preview_resolution.edge(self.domain_side,*size as usize);
+                        match edge.and_then(|n|LiveHistory::plan_resolution(n,self.steps,1,self.history_budget_mib*1024*1024,self.preview_resolution.exact())) {
+                            Ok(plan) => {ui.small(format!("Stored preview {}³ · {:.3} cells/m · {:.1} MiB for every step / track{}",plan.edge,plan.edge as f64/self.domain_side,plan.bytes as f64/1048576.0,if !self.preview_resolution.exact() {" (adaptive)"} else {" (exact)"}));
+                                ui.small(viewport::resource_estimate(plan.edge));},
+                            Err(e) => {ui.colored_label(egui::Color32::LIGHT_RED,e);}
+                        }
+                        ui.small("Payload/work estimates exclude allocator, recording, UI and model memory. Comparisons multiply tracks; actual launch preflights all tracks.");
+                    }
+                    Err(e) => {ui.colored_label(egui::Color32::LIGHT_RED,e);}
+                }
                 ui.small("Particle samples control physical detail; preview voxels control the image.");
                 settings::quantity(ui,"Maximum step",&mut self.requested_dt,"s",0.001,0.000001..=0.1);
                 ui.small("Accepted time steps adapt to physical stability limits.");
                 if self.material_mode {
-                    ui.horizontal(|ui| {ui.label("Particle samples / side");ui.add(egui::DragValue::new(&mut self.materials.config.samples_per_axis).range(4..=64));});
-                    ui.small(format!("Particle spacing {:.4} m",self.domain_side/self.materials.config.samples_per_axis as f64));
+                    ui.horizontal(|ui| {ui.label("Particle samples / side");ui.add_enabled(self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.materials.config.samples_per_axis).range(4..=64));});
+
                     ui.horizontal(|ui| {ui.label("Particle limit");ui.add(egui::DragValue::new(&mut self.materials.config.max_particles).range(32768..=262144));});
                     settings::quantity(ui,"Liquid preview stiffness",&mut self.materials.config.liquid_sound_speed,"m/s",1.0,1.0..=100.0).on_hover_text("Reduced acoustic speed for a weakly compressible preview; higher stiffness needs shorter steps. Gas pressure uses the ideal-gas equation.");
                 } else {
@@ -2087,6 +2213,70 @@ fn main() -> eframe::Result {
 mod tests {
     use super::*;
     #[test]
+    fn configured_carrier_density_freezes_independently_of_particle_mode_and_preview() {
+        let root = configured_worker_tests::Output::new();
+        for side in [0.01, 0.02] {
+            let mut app = App::default();
+            app.domain_side = side;
+            app.numerical_cells_per_metre = Some(1000);
+            app.preview_resolution = history::PreviewResolution::Edge(5);
+            app.material_mode = true;
+            app.size = 32;
+            app.steps = 1;
+            app.requested_dt = 0.000001;
+            app.threads = 1;
+            app.automatic_threads = false;
+            app.show_workers = false;
+            app.recording_directory = root.0.to_string_lossy().into();
+            app.start_configured().unwrap();
+            let request = app.running_request.as_ref().unwrap();
+            let expected = (side * 1000.0) as u64;
+            assert_eq!(request.size, expected);
+            assert!(request.material.is_none());
+            assert_eq!(request.preview_edge().unwrap(), 5);
+            let spec = &request.configured_set.as_ref().unwrap().revision.members[0].spec;
+            assert_eq!(spec.constructor.counts_xyz, [expected; 3]);
+            assert_eq!(spec.constructor.spacing_m, [0.001; 3]);
+            app.cancel();
+            drop(app); // Existing App/Worker owns cancel and join before output cleanup.
+        }
+    }
+    #[test]
+    fn density_request_survives_domain_edits_and_does_not_follow_preview_count() {
+        let mut app = App::default();
+        app.material_mode = false;
+        app.domain_side = 0.016;
+        app.numerical_cells_per_metre = Some(1000);
+        app.preview_resolution = history::PreviewResolution::Edge(5);
+        assert_eq!(app.selected_sampling().unwrap().0, 16);
+        app.domain_side = 0.032;
+        assert_eq!(app.selected_sampling().unwrap().0, 32);
+        assert_eq!(app.numerical_cells_per_metre, Some(1000));
+        app.preview_resolution = history::PreviewResolution::Edge(10000);
+        assert_eq!(app.selected_sampling().unwrap().0, 32);
+        app.material_mode = true;
+        let (_, material) = app.selected_sampling().unwrap();
+        assert_eq!(material.unwrap().samples_per_axis, 32);
+        app.domain_side = 1.0;
+        assert!(app.selected_sampling().is_err());
+        app.domain_side = 0.0015;
+        assert!(
+            app.selected_carrier_count()
+                .unwrap_err()
+                .contains("1333.333333")
+        );
+        app.domain_side = 0.002;
+        assert_eq!(app.selected_carrier_count().unwrap(), 2);
+        for count in 1..=64 {
+            app.domain_side = count as f64 / 1000.0;
+            assert_eq!(app.selected_carrier_count().unwrap(), count);
+        }
+        app.numerical_cells_per_metre = None;
+        app.size = 32;
+        app.domain_side = 0.016;
+        assert!(app.selected_carrier_count().is_err());
+    }
+    #[test]
     fn saved_native_cold_rerun_process() {
         let Ok(root) = std::env::var("RHEON_SAVED_COLD_RERUN") else {
             return;
@@ -2208,6 +2398,13 @@ mod tests {
     }
     #[test]
     fn saved_native_worker_closes_and_cold_opens_exact_two_member_set() {
+        saved_native_worker_case(false);
+    }
+    #[test]
+    fn thousand_per_metre_zero_flow_cold_reruns_with_independent_preview_and_unchanged_archive() {
+        saved_native_worker_case(true);
+    }
+    fn saved_native_worker_case(high_density: bool) {
         let root = std::env::temp_dir().join(format!(
             "rheon-saved-worker-{}-{}",
             std::process::id(),
@@ -2220,8 +2417,14 @@ mod tests {
         app.material_mode = false;
         app.cylinder = false;
         app.size = 8;
-        app.steps = 2;
-        app.requested_dt = 0.003;
+        if high_density {
+            app.domain_side = 0.008;
+            app.numerical_cells_per_metre = Some(1000);
+            app.preview_resolution = history::PreviewResolution::Edge(5);
+        }
+        app.steps = if high_density { 1 } else { 2 };
+        let last_ordinal = app.steps;
+        app.requested_dt = if high_density { 0.000001 } else { 0.003 };
         app.threads = 1;
         app.automatic_threads = false;
         app.show_workers = false;
@@ -2236,6 +2439,11 @@ mod tests {
         let manifest = std::path::PathBuf::from(&app.run_sets.path);
         assert!(manifest.ends_with("completed.json"));
         let mut retry = app.running_request.as_ref().unwrap().clone();
+        if high_density {
+            assert_eq!(retry.size, 8);
+            assert_eq!(retry.domain_side / retry.size as f64, 0.001);
+            assert_eq!(app.history.as_ref().unwrap().preview_edge, 5);
+        }
         drop(app);
         let set = run_sets::RunSetRevision::open(&manifest).unwrap();
         assert_eq!(set.members.len(), 2);
@@ -2245,9 +2453,12 @@ mod tests {
             else {
                 panic!("cold member unavailable");
             };
-            assert_eq!(reader.count().unwrap(), 3);
+            assert_eq!(reader.count().unwrap(), last_ordinal + 1);
             assert_eq!(reader.status().unwrap().outcome, "completed");
-            assert_eq!(reader.select(2).unwrap().generation, 2);
+            assert_eq!(
+                reader.select(last_ordinal).unwrap().generation,
+                last_ordinal as u64
+            );
         }
         let mut view = run_set_view::RunSetView::default();
         view.path = manifest.to_string_lossy().into();
@@ -2265,11 +2476,17 @@ mod tests {
         let mut again = App::default();
         again.threads = 1;
         again.show_workers = false;
+        if high_density {
+            again.preview_resolution = history::PreviewResolution::Edge(7);
+        }
         again.recording_directory = root.to_string_lossy().into();
         again.rerun_saved(set.clone()).unwrap();
         wait_until(|| again.worker.as_ref().unwrap().handle.is_finished());
         again.poll(&egui::Context::default());
         assert_eq!(again.rows.len(), 2, "{}", again.status);
+        if high_density {
+            assert_eq!(again.history.as_ref().unwrap().preview_edge, 7);
+        }
         let repeated_path = std::path::PathBuf::from(&again.run_sets.path);
         assert_ne!(repeated_path, manifest);
         let intent =
@@ -2294,8 +2511,8 @@ mod tests {
                 panic!("rerun member");
             };
             assert_ne!(a.run().identity.run_id, b.run().identity.run_id);
-            let a = a.select(2).unwrap();
-            let b = b.select(2).unwrap();
+            let a = a.select(last_ordinal).unwrap();
+            let b = b.select(last_ordinal).unwrap();
             assert_eq!(a.time.to_bits(), b.time.to_bits());
             for (a, b) in a.fields.iter().zip(&b.fields) {
                 assert_eq!(a.data, b.data);
@@ -2303,6 +2520,10 @@ mod tests {
         }
         drop(again);
         assert_eq!(std::fs::read(&manifest).unwrap(), original_bytes);
+        if high_density {
+            std::fs::remove_dir_all(root).unwrap();
+            return;
+        }
         retry.recording_directory = root.to_string_lossy().into();
         retry.saved_set = None;
         let retry_initial = freeze_native_set(&mut retry).unwrap();
@@ -2423,6 +2644,7 @@ mod tests {
             }),
             observe: true,
             history_budget_mib: 96,
+            preview_resolution: history::PreviewResolution::Adaptive,
             domain_side: 1.0,
             requested_dt: 0.02,
             material: Some(rheon::ParticleFluidConfig::default()),
@@ -2641,6 +2863,7 @@ mod tests {
             }),
             observe: true,
             history_budget_mib: 96,
+            preview_resolution: history::PreviewResolution::Adaptive,
             domain_side: 1.0,
             requested_dt: 0.02,
             material: Some(rheon::ParticleFluidConfig::default()),
@@ -2697,6 +2920,7 @@ mod tests {
             emitter: Some(RotatingCylinderEmitter::default()),
             observe: true,
             history_budget_mib: 96,
+            preview_resolution: history::PreviewResolution::Adaptive,
             domain_side: 1.0,
             requested_dt: 0.02,
             material: None,
@@ -2783,6 +3007,7 @@ mod tests {
             emitter: None,
             observe: false,
             history_budget_mib: 96,
+            preview_resolution: history::PreviewResolution::Adaptive,
             domain_side: 1.0,
             requested_dt: 0.02,
             material: None,
@@ -2869,6 +3094,7 @@ mod tests {
             emitter: None,
             observe: false,
             history_budget_mib: 96,
+            preview_resolution: history::PreviewResolution::Adaptive,
             domain_side: 1.0,
             requested_dt: 0.02,
             material: None,
@@ -2965,6 +3191,7 @@ mod tests {
                     emitter: None,
                     observe: false,
                     history_budget_mib: 96,
+                    preview_resolution: history::PreviewResolution::Adaptive,
                     domain_side: 1.0,
                     requested_dt: 0.02,
                     material: None,

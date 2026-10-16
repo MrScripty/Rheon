@@ -65,6 +65,10 @@ fn bad_cli_values_and_cap_fail_before_output_creation() {
     for extra in [
         ["--size", "0"],
         ["--size", "-1"],
+        ["--size", "10001"],
+        ["--size", "1001"],
+        ["--cells-per-metre", "1001"],
+        ["--cells-per-metre", "0"],
         ["--dt", "NaN"],
         ["--memory-mib", "0"],
         ["--steps", "-1"],
@@ -145,4 +149,60 @@ fn explicit_original_selection_replays_default_and_unknown_is_rejected() {
     assert!(!bad.status.success());
     assert!(!base.join("invalid").exists());
     std::fs::remove_dir_all(base).unwrap();
+}
+
+#[test]
+fn explicit_density_runs_on_a_small_domain_and_large_axis_preflight_never_allocates() {
+    let dir = directory("density");
+    let out = run(
+        &dir,
+        &[
+            "--size",
+            "16",
+            "--cells-per-metre",
+            "1000",
+            "--dt",
+            "0.000001",
+        ],
+    );
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let metadata = std::fs::read_to_string(dir.join("run.json")).unwrap();
+    assert!(metadata.contains("\"cell_size_m\": 1.00000000000000002e-3"));
+    assert!(metadata.contains("\"domain_side_m\": 1.60000000000000003e-2"));
+    std::fs::remove_dir_all(dir).unwrap();
+    let absent = directory("preflight");
+    let small = run(
+        &absent,
+        &["--size", "16", "--cells-per-metre", "1000", "--preflight"],
+    );
+    assert!(
+        small.status.success(),
+        "{}",
+        String::from_utf8_lossy(&small.stderr)
+    );
+    assert!(String::from_utf8_lossy(&small.stdout).contains("\"cells\":4096"));
+    assert!(!absent.exists());
+    let huge = run(
+        &absent,
+        &[
+            "--size",
+            "10000",
+            "--cells-per-metre",
+            "1000",
+            "--preflight",
+        ],
+    );
+    assert!(!huge.status.success());
+    #[cfg(target_pointer_width = "64")]
+    {
+        let stdout = String::from_utf8_lossy(&huge.stdout);
+        assert!(stdout.contains("\"cells\":1000000000000"));
+        assert!(stdout.contains("\"fits_memory_limit\":false"));
+        assert!(String::from_utf8_lossy(&huge.stderr).contains("buffer payload requires"));
+    }
+    assert!(!absent.exists());
 }

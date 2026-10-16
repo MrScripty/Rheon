@@ -494,6 +494,7 @@ fn actual_runtime_failure_terminal_is_not_relabelled_by_late_worker_cancel() {
         emitter: None,
         observe: false,
         history_budget_mib: 16,
+        preview_resolution: history::PreviewResolution::Adaptive,
         domain_side: 0.5,
         requested_dt: 1.0 / 16.0,
         material: None,

@@ -7,7 +7,74 @@ use std::sync::{Arc, Mutex};
 use std::time::Instant;
 
 pub const HISTORY_BUDGET: usize = 96 * 1024 * 1024;
-pub const MAX_PREVIEW_EDGE: usize = 512;
+pub const MAX_PREVIEW_EDGE: usize = 10_000;
+/// View configuration is independent of saved numerical geometry.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(
+    tag = "mode",
+    content = "value",
+    rename_all = "snake_case",
+    deny_unknown_fields
+)]
+pub enum PreviewResolution {
+    #[default]
+    Adaptive,
+    CellsPerMetre(u32),
+    Edge(usize),
+}
+impl PreviewResolution {
+    pub fn edge(self, side_m: f64, fallback: usize) -> Result<usize, String> {
+        let edge = match self {
+            Self::Adaptive => return Ok(fallback),
+            Self::CellsPerMetre(density) => edge_at_density(side_m, density)?,
+            Self::Edge(edge) => {
+                voxel_count(edge)?;
+                edge
+            }
+        };
+        // One representational ulp admits decimal SI extents such as 9 mm;
+        // it does not admit another cell or alter a numerical acceptance gate.
+        let actual = edge as f64 / side_m;
+        if !side_m.is_finite()
+            || side_m <= 0.0
+            || actual > f64::from(rheon::MAX_CELLS_PER_METRE).next_up()
+        {
+            return Err(format!(
+                "Exact preview {edge} cells across {side_m:.9} m resolves to {actual:.6} cells/m, above the 1000/m limit. Adjust extent/counts; preview is never silently reduced"
+            ));
+        }
+        Ok(edge)
+    }
+    pub fn exact(self) -> bool {
+        self != Self::Adaptive
+    }
+}
+/// Convert physical density to a covering cubic preview. Rounding is explicit:
+/// ceil(side * density), so the resolved density can exceed the request slightly.
+pub fn edge_at_density(side_m: f64, cells_per_metre: u32) -> Result<usize, String> {
+    if !side_m.is_finite()
+        || side_m <= 0.0
+        || !(1..=rheon::MAX_CELLS_PER_METRE).contains(&cells_per_metre)
+    {
+        return Err("Preview requires a positive domain and 1–1000 cells/m".into());
+    }
+    let edge = (side_m * f64::from(cells_per_metre)).ceil();
+    if !edge.is_finite() || edge > MAX_PREVIEW_EDGE as f64 {
+        return Err(
+            "Requested preview exceeds 10000 cells per axis; reduce physical extent or density"
+                .into(),
+        );
+    }
+    Ok((edge as usize).max(1))
+}
+fn voxel_count(edge: usize) -> Result<usize, String> {
+    if !(1..=MAX_PREVIEW_EDGE).contains(&edge) {
+        return Err("Preview edge must be 1–10000".into());
+    }
+    edge.checked_pow(3)
+        .ok_or_else(|| "Preview voxel count overflow".into())
+}
+#[derive(Debug)]
 pub struct PreviewPlan {
     pub edge: usize,
     pub bytes: usize,
@@ -52,7 +119,7 @@ impl PreviewFrame {
         seconds: f64,
         report: Option<StepReport>,
     ) -> Result<Arc<Self>, String> {
-        let count = edge * edge * edge;
+        let count = voxel_count(edge)?;
         let mut density = Vec::new();
         density
             .try_reserve_exact(count)
@@ -61,20 +128,36 @@ impl PreviewFrame {
         let [nx, ny, nz] = grid.counts();
         let tracer = state.tracer;
         let mut nonzero_tracer_cells = 0;
-        // Maximum concentration over each preview cell preserves narrow jets;
-        // simulation values remain untouched, including at non-divisible edges.
-        for z in 0..nz {
-            for y in 0..ny {
-                for x in 0..nx {
-                    let cell = x + nx * (y + ny * z);
-                    nonzero_tracer_cells += usize::from(tracer[cell] != 0.0);
-                    let preview =
-                        (x * edge / nx) + edge * ((y * edge / ny) + edge * (z * edge / nz));
-                    let value = (tracer[cell].clamp(0.0, 1.0) * 255.0).round() as u8;
-                    density[preview] = density[preview].max(value);
+        // Display-only conservative max resampling. Each target voxel covers
+        // at least one source cell, including finer/nondivisible preview grids.
+        // This replicates appearance; it never creates numerical samples.
+        for z in 0..edge {
+            for y in 0..edge {
+                for x in 0..edge {
+                    let p = [x, y, z];
+                    let counts = [nx, ny, nz];
+                    let lo = std::array::from_fn::<_, 3, _>(|d| {
+                        (p[d] as u128 * counts[d] as u128 / edge as u128) as usize
+                    });
+                    let hi = std::array::from_fn::<_, 3, _>(|d| {
+                        (((p[d] + 1) as u128 * counts[d] as u128).div_ceil(edge as u128) as usize)
+                            .min(counts[d])
+                    });
+                    let mut value = 0_u8;
+                    for sz in lo[2]..hi[2] {
+                        for sy in lo[1]..hi[1] {
+                            for sx in lo[0]..hi[0] {
+                                let cell = sx + nx * (sy + ny * sz);
+                                value =
+                                    value.max((tracer[cell].clamp(0.0, 1.0) * 255.0).round() as u8);
+                            }
+                        }
+                    }
+                    density[x + edge * (y + edge * z)] = value;
                 }
             }
         }
+        nonzero_tracer_cells += tracer.iter().filter(|&&v| v != 0.0).count();
         Ok(Arc::new(Self {
             method,
             step,
@@ -97,11 +180,12 @@ impl PreviewFrame {
         report: Option<ParticleStepReport>,
         color: [u8; 3],
     ) -> Result<Arc<Self>, String> {
+        let count = voxel_count(edge)?;
         let mut density = Vec::new();
         density
-            .try_reserve_exact(edge.pow(3))
+            .try_reserve_exact(count)
             .map_err(|e| format!("Cannot allocate preview: {e}"))?;
-        density.resize(edge.pow(3), 0_u8);
+        density.resize(count, 0_u8);
         let grid = sim.grid();
         let extent = std::array::from_fn::<_, 3, _>(|d| grid.upper()[d] - grid.origin()[d]);
         // Only the emitted material is highlighted. The initial surrounding
@@ -166,44 +250,74 @@ impl LiveHistory {
     pub fn new(grid_edge: usize, steps: usize, tracks: usize) -> Result<Arc<Self>, String> {
         Self::with_budget(grid_edge, steps, tracks, HISTORY_BUDGET)
     }
+    #[cfg(test)]
     pub fn plan(
         grid_edge: usize,
         steps: usize,
         tracks: usize,
         budget: usize,
     ) -> Result<PreviewPlan, String> {
+        Self::plan_resolution(grid_edge, steps, tracks, budget, false)
+    }
+    pub fn plan_resolution(
+        requested_edge: usize,
+        steps: usize,
+        tracks: usize,
+        budget: usize,
+        exact: bool,
+    ) -> Result<PreviewPlan, String> {
         let frame_count = steps
             .checked_add(1)
             .and_then(|n| n.checked_mul(tracks))
             .ok_or("Preview budget overflow")?;
-        if grid_edge == 0 || frame_count == 0 {
+        if requested_edge == 0 || frame_count == 0 {
             return Err("Invalid preview settings".into());
+        }
+        if exact && requested_edge > MAX_PREVIEW_EDGE {
+            return Err("Preview edge exceeds 10000".into());
         }
         let overhead = std::mem::size_of::<PreviewFrame>()
             + 2 * std::mem::size_of::<usize>()
             + std::mem::size_of::<Arc<PreviewFrame>>();
-        let mut edge = grid_edge.min(MAX_PREVIEW_EDGE);
-        while frame_count
-            .checked_mul(edge.pow(3) + overhead)
-            .is_none_or(|n| n > budget)
-        {
+        // Preserve the previous adaptive default's 512-axis ceiling. Explicit
+        // physical density requests have their own larger checked ceiling.
+        let mut edge = requested_edge.min(if exact { MAX_PREVIEW_EDGE } else { 512 });
+        loop {
+            let bytes = voxel_count(edge)?
+                .checked_add(overhead)
+                .and_then(|n| frame_count.checked_mul(n));
+            if let Some(bytes) = bytes.filter(|&n| n <= budget) {
+                return Ok(PreviewPlan { edge, bytes });
+            }
+            if exact {
+                return Err(format!(
+                    "Exact preview {edge}³ for {frame_count} frames needs {} bytes; timeline budget {budget} bytes. Reduce preview density, horizon or tracks, or raise the timeline budget",
+                    bytes.map_or_else(|| "more than addressable".into(), |n| n.to_string())
+                ));
+            }
             if edge == 1 {
                 return Err("Requested timeline exceeds the preview budget".into());
             }
             edge -= 1;
         }
-        Ok(PreviewPlan {
-            edge,
-            bytes: frame_count * (edge.pow(3) + overhead),
-        })
     }
+    #[cfg(test)]
     pub fn with_budget(
         grid_edge: usize,
         steps: usize,
         tracks: usize,
         budget: usize,
     ) -> Result<Arc<Self>, String> {
-        let plan = Self::plan(grid_edge, steps, tracks, budget)?;
+        Self::with_resolution(grid_edge, steps, tracks, budget, false)
+    }
+    pub fn with_resolution(
+        grid_edge: usize,
+        steps: usize,
+        tracks: usize,
+        budget: usize,
+        exact: bool,
+    ) -> Result<Arc<Self>, String> {
+        let plan = Self::plan_resolution(grid_edge, steps, tracks, budget, exact)?;
         let mut storage = Vec::new();
         for _ in 0..tracks {
             let mut track = Vec::new();
@@ -272,6 +386,109 @@ impl LiveHistory {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn explicit_preview_counts_density_and_serialization_are_independent() {
+        let a = PreviewResolution::CellsPerMetre(1000);
+        assert_eq!(a.edge(0.016, 32).unwrap(), 16);
+        assert!(
+            a.edge(0.0171, 32)
+                .unwrap_err()
+                .contains("above the 1000/m limit")
+        );
+        assert_eq!(
+            PreviewResolution::CellsPerMetre(500)
+                .edge(0.0171, 32)
+                .unwrap(),
+            9
+        );
+        assert_eq!(a.edge(0.032, 32).unwrap(), 32);
+        for count in 1..=64 {
+            assert_eq!(a.edge(count as f64 / 1000.0, 32).unwrap(), count);
+        }
+        assert!(PreviewResolution::Edge(17).edge(0.016, 32).is_err());
+        assert!(
+            PreviewResolution::CellsPerMetre(1001)
+                .edge(0.016, 32)
+                .is_err()
+        );
+        for value in [
+            PreviewResolution::Adaptive,
+            a,
+            PreviewResolution::Edge(10000),
+        ] {
+            let bytes = serde_json::to_vec(&value).unwrap();
+            assert_eq!(
+                serde_json::from_slice::<PreviewResolution>(&bytes).unwrap(),
+                value
+            );
+        }
+        assert_eq!(
+            PreviewResolution::Edge(10000).edge(10.0, 32).unwrap(),
+            10000
+        );
+        assert!(PreviewResolution::Edge(10001).edge(0.016, 32).is_err());
+        assert!(
+            LiveHistory::plan_resolution(10000, 1, 1, HISTORY_BUDGET, true)
+                .unwrap_err()
+                .contains("Exact preview 10000³")
+        );
+        assert!(LiveHistory::plan_resolution(16, usize::MAX, 1, HISTORY_BUDGET, true).is_err());
+        let exact = LiveHistory::plan_resolution(16, 2, 2, HISTORY_BUDGET, true).unwrap();
+        assert_eq!(exact.edge, 16);
+        assert!(LiveHistory::plan_resolution(16, 2, 2, exact.bytes - 1, true).is_err());
+        assert_eq!(
+            LiveHistory::plan_resolution(16, 2, 2, exact.bytes, true)
+                .unwrap()
+                .bytes,
+            exact.bytes
+        );
+        assert!(LiveHistory::plan_resolution(usize::MAX, 1, 1, HISTORY_BUDGET, true).is_err());
+    }
+    #[test]
+    fn finer_nondivisible_preview_has_no_holes_and_does_not_change_numerical_state() {
+        let grid = rheon::GridGeometry::at_cell_density([8; 3], 1000, [0.0; 3]).unwrap();
+        let mut sim = rheon::Simulation::new(
+            grid,
+            rheon::SimulationConfig {
+                density: 1.0,
+                memory_limit: 1024 * 1024,
+                pressure: rheon::PressureSettings {
+                    relative_residual: 1e-9,
+                    absolute_residual: 1e-12,
+                    divergence_limit: 1e-7,
+                    max_iterations: 2000,
+                },
+                actual_divergence_limit: 1e-5,
+                max_courant: 1.0,
+            },
+        )
+        .unwrap();
+        sim.step(
+            0.001,
+            Some(rheon::SmokeSource {
+                lower: [0.0; 3],
+                upper: [0.008; 3],
+                tracer_rate: 2.0,
+                vertical_acceleration: 0.0,
+            }),
+            |_| false,
+        )
+        .unwrap();
+        let before = sim.state().tracer.to_vec();
+        for edge in [5, 8, 11] {
+            let frame = PreviewFrame::capture(&sim, edge, 1, 0.0, None).unwrap();
+            assert_eq!(frame.density.len(), edge.pow(3));
+            assert!(
+                frame
+                    .density
+                    .iter()
+                    .all(|&v| v == frame.density[0] && v > 0)
+            );
+            assert_eq!(frame.nonzero_tracer_cells, 512);
+            assert_eq!(sim.state().tracer, before);
+        }
+        assert!(PreviewFrame::capture(&sim, usize::MAX, 1, 0.0, None).is_err());
+    }
     #[test]
     fn previews_above_128_are_real_and_long_timelines_obey_the_selected_budget() {
         let short = LiveHistory::new(256, 1, 1).unwrap();
