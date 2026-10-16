@@ -71,6 +71,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             [0.0; 3],
         )?;
         let plan = rheon::BufferPlan::for_grid(&grid, usize::MAX)?;
+        let native_solves = policy
+            .native_pressure_solve_budget(&scene)
+            .map_err(std::io::Error::other)?;
         let support = if deployment.is_empty() {
             None
         } else {
@@ -84,7 +87,26 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         };
         println!(
             "{}",
-            serde_json::json!({"counts_xyz":scene.counts,"cells_per_metre":scene.cells_per_metre,"cell_size_m":scene.h(),"extents_m":scene.extents(),"cells":grid.cell_len(),"native_array_payload_bytes_per_track":plan.total_bytes,"paired_history_payload_bytes":scene.history_bytes()?,"pressure_cell_iteration_budget_per_track":grid.cell_len() as u128*scene.steps as u128*2000,"model_support_checked":support.is_some(),"model_executed":false,"whole_process_memory_cap_claimed":false})
+            serde_json::json!({
+                "counts_xyz": scene.counts,
+                "cells_per_metre": scene.cells_per_metre,
+                "cell_size_m": scene.h(),
+                "extents_m": scene.extents(),
+                "cells": grid.cell_len(),
+                "native_simulation_array_payload_reference_bytes": plan.total_bytes,
+                "paired_history_payload_bytes": scene.history_bytes()?,
+                "execution_policy": policy,
+                "requested_steps": scene.steps,
+                "warmup_steps": scene.warmup_steps,
+                "native_pressure_iteration_limit": ai_comparison::engine::PRESSURE_ITERATION_LIMIT,
+                "native_pressure_solve_budget": native_solves,
+                "native_pressure_cell_iteration_budget_total": grid.cell_len() as u128
+                    * native_solves as u128
+                    * ai_comparison::engine::PRESSURE_ITERATION_LIMIT as u128,
+                "model_support_checked": support.is_some(),
+                "model_executed": false,
+                "whole_process_memory_cap_claimed": false,
+            })
         );
         return Ok(());
     }

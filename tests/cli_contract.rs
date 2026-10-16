@@ -206,3 +206,61 @@ fn explicit_density_runs_on_a_small_domain_and_large_axis_preflight_never_alloca
     }
     assert!(!absent.exists());
 }
+
+#[cfg(feature = "desktop")]
+#[test]
+fn comparison_preflight_counts_native_solves_for_each_execution_policy() {
+    for (mode, solves, budget) in [
+        ("legacy", 64, 786_432_000_u64),
+        ("teacher", 64, 786_432_000_u64),
+        ("stop-on-reject", 113, 1_388_544_000_u64),
+    ] {
+        let absent = directory(mode);
+        let out = Command::new(env!("CARGO_BIN_EXE_rheon-ai-compare"))
+            .args([
+                "--counts",
+                "16,16,16",
+                "--cells-per-metre",
+                "1000",
+                "--steps",
+                "64",
+                "--warmup-steps",
+                "15",
+                "--mode",
+                mode,
+                "--preflight",
+                "--project-dir",
+            ])
+            .arg(&absent)
+            .output()
+            .unwrap();
+        assert!(
+            out.status.success(),
+            "{}",
+            String::from_utf8_lossy(&out.stderr)
+        );
+        let report: serde_json::Value = serde_json::from_slice(&out.stdout).unwrap();
+        assert_eq!(report["native_pressure_iteration_limit"], 3000);
+        assert_eq!(report["native_pressure_solve_budget"], solves);
+        assert_eq!(
+            report["native_pressure_cell_iteration_budget_total"],
+            budget
+        );
+        assert_eq!(report["requested_steps"], 64);
+        assert_eq!(report["warmup_steps"], 15);
+        assert_eq!(report["model_executed"], false);
+        assert_eq!(report["model_support_checked"], false);
+        assert_eq!(report["whole_process_memory_cap_claimed"], false);
+        assert_eq!(
+            report["native_simulation_array_payload_reference_bytes"],
+            333824
+        );
+        assert!(
+            report
+                .get("pressure_cell_iteration_budget_per_track")
+                .is_none()
+        );
+        assert!(report.get("native_array_payload_bytes_per_track").is_none());
+        assert!(!absent.exists());
+    }
+}

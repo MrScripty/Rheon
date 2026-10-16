@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Independently reviewed1000cells/m and10000-axis native/independent-preview controls; complete124-path closure with14approved rebindings and110unchanged inputs. Fresh committed-source native/rational and hosted acceptance remain required; model support and measured A1 blocker unchanged.",
+  "scope": "Independently reviewed 1000 cells/m and 10000-axis native/independent-preview controls, including honest diagnostic preflight work/reference-memory accounting; complete 124-path closure with 15 approved changes and 109 unchanged inputs. Fresh committed-source native/rational and hosted acceptance required; measured A1 remains blocked.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "26fb2ebb3f132cb0a0c68bbbcadf6d7d1cc13136985f57a7b5500377d6093cdc",
+  "review_sha256": "5836c3fa71bf20b72dbde79a2f5d27dd281ffc3930e0af7ad81f9039fd3edd42",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
@@ -29,7 +29,7 @@
     "src/bin/desktop/ai_comparison/diagnostic_view.rs": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2",
     "src/bin/desktop/ai_comparison/diagnostic_worker.rs": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
     "src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8",
-    "src/bin/desktop/ai_comparison/engine.rs": "d475ed3235f8ff73603037f0355dfec5bf326db647f8b23b119548764d6d18bd",
+    "src/bin/desktop/ai_comparison/engine.rs": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55",
     "src/bin/desktop/ai_comparison/engine_typed_tests.rs": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
     "src/bin/desktop/ai_comparison/mod.rs": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076",
     "src/bin/desktop/ai_comparison/model_process.rs": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d",
@@ -65,7 +65,7 @@
     "src/bin/desktop/settings.rs": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
     "src/bin/desktop/transport_view.rs": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
     "src/bin/desktop/viewport.rs": "599046403df150499064337c2ce3b6996f1ece69f4e876f882200f079b7cd530",
-    "src/bin/rheon-ai-compare.rs": "64281e09b9fb0c8fe4037c5d8bf2e9f7ded1d0c12f43a79016a14847f0b7d821",
+    "src/bin/rheon-ai-compare.rs": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9",
     "src/bin/rheon-desktop.rs": "76a92d5c928919f832904395319644f14eb36bc2e1c33aeab1146d4b1480ce48",
     "src/bin/rheon.rs": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51",
     "src/box_flux.rs": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",

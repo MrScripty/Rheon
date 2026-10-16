@@ -29,7 +29,8 @@ support is not widened; unsupported high density rejects before child launch.
 Write set: geometry/lib density convenience and tests; native CLI/options/tests; unit-box comparison manifest geometry guard/tests;
 desktop Request/UI/history/viewport/carrier thumbnail and owner tests; comparison Scene/UI/CLI and
 legacy inert support and CPU contract tests; API/desktop docs; this plan/ledger/review; independently
-reviewed complete native source admission inventory. No numerical kernel,
+reviewed complete native source admission inventory; comparison engine pressure-limit
+constant ownership and mode-specific preflight solve accounting. No numerical kernel,
 mathematical tolerance, recorder codec/schema, Tuldok or surrogate-lab changes.
 
 ## Acceptance and sequence
@@ -68,3 +69,13 @@ Pressure(IncompatibleRhs), sum 2.03378186350074e-23 versus rounding budget
 numerical owner follow-up; do not promote geometry/storage/setting evidence to
 scientific qualification. Nonzero continuously forced CLI and zero-flow cold
 reruns have distinct claims. The measured A1 blocker remains unchanged.
+
+Final pre-merge audit found comparison preflight had borrowed the ordinary
+native CLI's 2000-iteration estimate although the diagnostic engine permits
+3000. Independent mode also performs a second native solve for each post-warmup
+request. Correct both estimates before merge using the engine's shared,
+unchanged 3000 limit and mode-specific solve budget. Name its core Simulation
+buffer plan as a reference, not an actual diagnostic Engine allocation. Review
+the exact follow-up bytes, re-admit the complete selected source closure and
+repeat committed-source qualification and hosted gates on the corrected head.
+Prior receipts retain their original source identities.

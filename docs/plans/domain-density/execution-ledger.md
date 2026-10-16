@@ -56,3 +56,30 @@ and external task receipts; earlier working-source checks are not relabelled as
 final whole-Git evidence. Publication and merge are authorized after current
 required checks pass. Retire only this task's clean branch/worktree after accepted
 ancestry and dependency checks; preserve all other owners.
+
+## Pre-merge preflight correction
+
+The initial committed implementation was 94062f6e75cdbdd8828fcbe4e9dd3a4d01f1426f,
+tree 877afa76b3728e15e00715799ced54c0e5e27bcb. Its clean native/rational
+qualification passed 18 commands; its source-stamped software-window controls,
+bit-identical saved numerical fields across two previews, release comparison
+checks and hosted gates passed. Those external receipts retain that identity.
+They are not whole-Git acceptance of a later head.
+
+Before merge, audit found its comparison preflight used 2000 pressure iterations
+while the existing engine permits 3000, and omitted independent mode's extra
+same-request native solves. The correction moves the unchanged 3000 limit to
+an engine-owned constant, reports a mode-specific total, and distinguishes the
+core Simulation array-plan reference from actual diagnostic Engine allocation.
+For 16³ cells, 64 steps and 15 warmup steps, legacy/teacher permit 64 native
+solves (786432000 cell-iterations); independent mode permits 113
+(1388544000). No pressure algorithm, threshold, model or physical semantics
+change. The executable CLI regression covers all three modes without creating
+output or executing a model.
+
+The original source review/pins remain immutable. Exact follow-up review and
+explicit source admission now cover 15 changed and 109 unchanged selected
+paths out of the same 124. Fresh clean committed native/rational qualification
+and all hosted checks must pass on the corrected head before merge. The earlier
+GUI controls retain their bounded 94062 claim; the follow-up changes only
+preflight metadata and ownership of an unchanged engine setting.

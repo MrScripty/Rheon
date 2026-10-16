@@ -46,6 +46,17 @@ selected budget and pressure cell-iteration budget without allocating fields or
 outputs. Oversized payload returns nonzero. Comparison `--preflight` reports
 geometry/history and, when a deployment is supplied, performs its inert support
 check. Neither predicts solver success, elapsed time, RSS or model accuracy.
+Comparison work uses the engine's unchanged 3000-iteration pressure limit and
+counts every possible native solve: one per requested interval plus one per
+post-warmup independent request in `stop-on-reject` mode. For 16³ cells, 64
+intervals and 15 warmup intervals this is 786432000 pressure cell-iterations for
+legacy/teacher or 1388544000 for independent mode (113 native solves). Early
+termination may reduce work. This excludes viscosity, advection, checks,
+reductions, model execution and other non-pressure work. Its
+`native_simulation_array_payload_reference_bytes` is the core Simulation buffer
+plan for this grid, not the diagnostic Engine's actual working allocation;
+paired history is reported separately. Engine tracks, pressure/viscosity
+workspaces, preparation scratch and model memory are outside that reference.
 CLI completion schema 2 adds `cell_size_m` and `domain_side_m`. The existing
 unit-box comparison qualifier accepts historical absent geometry; any new explicit
 geometry declaration must be complete and match its unit-box workload before

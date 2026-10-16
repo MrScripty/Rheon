@@ -1056,3 +1056,26 @@ zero-flow archive custody and the source-stop IncompatibleRhs rejection have
 separate claims; none supplies learned accuracy or new physics qualification.
 The measured A1 owner-input blocker is unchanged. No training, replacement
 checkpoint, Tuldok/surrogate-lab mutation or tolerance relaxation is admitted.
+
+
+## Density comparison preflight correction, 2026-10-16
+
+Independent GPT-6.1 Sol [follow-up review](../plans/domain-density/preflight-followup.md)
+SHA256 `ff9648b5a8d79f2920ee06fa0be644598c5aefc10ef39306d94022fc0fde72bc` approves the exact
+[supplemental pins](../plans/domain-density/preflight-approved-pins.json), SHA256
+`4b36340a69d1a02b7a22fd74df121c83cd34eb3b5f6452f276cc718e3d50c6ee`.
+The original source review and inventories remain immutable. Explicitly rebind
+only the following two selected paths from the initial density admission:
+
+- `src/bin/desktop/ai_comparison/engine.rs`: `610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55`
+- `src/bin/rheon-ai-compare.rs`: `00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9`
+
+The same 124-path closure now has 15 changed and 109 unchanged inputs versus
+ad888bdbbbd5cae362439458af342196f51c58e2, with no added or removed path.
+The engine keeps its existing 3000-iteration pressure policy in a shared
+constant. Preflight counts independent post-warmup native witnesses and names
+its core Simulation array plan as a reference, not actual Engine memory.
+No numerical kernel, tolerance, recorder/model contract, selector, qualification
+gate, historical inventory or A1 status changes. Initial 94062 execution receipts
+retain that historical subject; fresh clean committed qualification, affected
+checks and current-head hosted gates are required before integration.
