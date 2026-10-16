@@ -733,3 +733,17 @@ to its actual source and is not relabelled for this correction.
   tests plus native qualification follow; no merge gate is waived or previous
   receipt transferred. Tool provisioning is root-owned under .rheon-tools and
   generated packet/build outputs remain outside every checkout.
+
+
+## 2026-10-16 — accepted Session CI setup dependency
+
+- Root retains reviewed CI11250732f5 ancestry on portable Session1026b3f7b1,
+  without changing any of the105 conservatively admitted source hashes.
+  The exact four-path setup change and independent7normal/7optimized bootstrap
+  contracts are reviewed in reports/isolated-ci-toolchain-review.md.
+- Official pinned fresh tool homes fix observed partial cargo-clippy install
+  conflicts; hosted core strict lints and book geometry/strain qualification
+  have passed on112. Remaining hosted readiness is separate.
+- Root owns this branch update and eventual ready-gated main merge. Fresh
+  clean-source numerical/packet/core/desktop qualification follows; original
+  770/6b3 component receipts retain their subjects and are not transferred.
