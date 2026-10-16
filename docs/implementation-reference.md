@@ -1,6 +1,6 @@
 # Rheon implementation reference
 
-Detailed entrypoints retained from the repository README at audit snapshot `c85dfee85597dd75acff5622c07d96b0368d8b89`. Run commands from the repository root. Follow each linked contract for its current scope.
+Detailed entrypoints originally collected from the repository README at audit snapshot `c85dfee85597dd75acff5622c07d96b0368d8b89`. Run commands from the repository root. The scope notes below follow the current API contracts; follow each linked contract for its details.
 
 ## Coherent carrier and liquid-volume transport
 
@@ -8,9 +8,10 @@ Detailed entrypoints retained from the repository README at audit snapshot `c85d
 and conservative represented liquid fractions together. Failure or cancellation
 preserves both accepted states; candidates reuse the existing owners and capped
 workspaces. The optional PNG path exports accepted fraction-integral guidance.
-This is a transport-only coupled step on a fixed all-fluid box; free-surface
-pressure, variable-density feedback, viscosity/adhesion and geometric surface
-reconstruction remain open. See the [API and equations](../docs/research-book/implementation/coupled-liquid-transport.md)
+The base `step` is transport-only on a fixed all-fluid box. A separate
+`step_viscous` path supports fully filled Newtonian liquid in a sealed box with
+stationary free-slip walls. Free-surface pressure, variable-density feedback,
+adhesion and geometric surface reconstruction remain open. See the [API and equations](../docs/research-book/implementation/coupled-liquid-transport.md)
 and [native tests, replay and 3D numerical evidence](../evidence/liquid-step/README.md).
 
 ## Implementation comparison
@@ -41,7 +42,8 @@ See the
 [viewer, timeline and emitter contracts](../src/bin/desktop/README.md).
 See [emitter vector, motion and seeded perturbation controls](../docs/emitter-controls.md)
 for shared SI controls and a headless material-generation example.
-Use `default-features = false` for a standard-library-only library consumer.
+Use `default-features = false` to omit the default PNG-export feature; mandatory
+dependencies and explicitly selected features still apply.
 
 The desktop's **CPU threads** control detects the available logical CPU threads.
 **Automatic** selects the detected count and refreshes the limit before each
