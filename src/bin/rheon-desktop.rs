@@ -16,6 +16,9 @@ mod configured_comparison_tests;
 #[path = "desktop/configured_controls.rs"]
 mod configured_controls;
 #[cfg(test)]
+#[path = "desktop/configured_producer_exit_tests.rs"]
+mod configured_producer_exit_tests;
+#[cfg(test)]
 #[path = "desktop/configured_worker_tests.rs"]
 mod configured_worker_tests;
 #[path = "desktop/emitter_controls.rs"]
