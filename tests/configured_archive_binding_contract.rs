@@ -1537,7 +1537,7 @@ fn terminal_unaccepted_request_obeys_frozen_future_not_larger_session_quota() {
                 {
                     let mut identity = fixture_identity();
                     identity.manifest_sha256[0] ^= 1;
-                    *provider = Box::new(ConfiguredProviderPin::capture(&identity).unwrap());
+                    **provider = ConfiguredProviderPin::capture(&identity).unwrap();
                 }
             }
             4 => {
