@@ -697,3 +697,24 @@ No selector, historical inventory, numerical gate, oracle or qualifier changes.
 Fresh combined qualification remains required; component receipts retain their
 original subjects. This isolated branch is a lead-owned integration base for
 disjoint cold/comparison consumer acceptance, not full production UI readiness.
+
+
+### Explicit RCP3/RCT1 consumer-base source admission
+
+Exact independently reviewed PR1085c8326a is retained on the preceding
+lead-owned PR10796dd2c3 + PR1049d2011e ancestry union. The committed review
+at ../plans/configurable-solver-components/reports/configured-runtime-recording-review.md
+approves optional explicitly versioned runtime observations and typed terminal
+custody, unchanged RCP2 absence, and the five-path regression/document scope.
+Actual operational metadata in that core fixture is authored, not actual IPC.
+
+- src/recording/provider.rs: c4d48af7de2769349292819c48494f5a248edfb53eb58c9d53a535c165f5b427
+- src/recording/provider/runtime.rs: d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb
+
+The complete selector grows110 to111 paths, one added runtime module, one
+changed provider codec,109 unchanged, none removed. Existing selector, prior
+inventories, numerical kernels, oracle and qualification runner stay unchanged.
+Only exact reviewed hashes are admitted. This base unblocks disjoint configured
+cold/comparison consumer contracts; it is not source/GUI acceptance of the
+separately developed production desktop caller. Fresh committed union checks
+remain required and component receipts retain their original subjects.

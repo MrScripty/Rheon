@@ -703,7 +703,7 @@ fn typed_decoder_rejects_generic_valid_wrong_profile_descriptors_and_native_valu
         }),
         ("version", |_, step| {
             assert!(step.controls.starts_with("RCP2"));
-            step.controls.replace_range(..4, "RCP3");
+            step.controls.replace_range(..4, "RCP9");
         }),
         ("geometry", |run, _| run.counts[0] += 1),
         ("units", |_, step| {

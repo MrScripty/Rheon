@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Lead-owned cold configured archive and portable accepted CPU/recording cross-contract consumer base; complete110-path reviewed conservative admission before RCP3 composition.",
+  "scope": "Lead-owned PR107 cold + PR104 portable/cross-contract + PR108 RCP3/RCT1 consumer base; complete111-path reviewed conservative admission for fresh component consumer acceptance.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "cfd2f7530696acc0feb5b8cbd9d5a55136326735f212950836d8ab715786a779",
+  "review_sha256": "ec777370582430b8090806bc9188540270b568946bb0e31431643bf42e4b2254",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
@@ -96,7 +96,8 @@
     "src/recording/comparison.rs": "e48ac3094b5d1ebfbd75a7521d0bd9faf880289b891e7eefeaec24ec86699f6a",
     "src/recording/diagnostic.rs": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
     "src/recording/material.rs": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
-    "src/recording/provider.rs": "91e69991e352013be0ecc48bf7fc0b6c1c75e4a7564d9c7f9ed7d2f312c52ff3",
+    "src/recording/provider.rs": "c4d48af7de2769349292819c48494f5a248edfb53eb58c9d53a535c165f5b427",
+    "src/recording/provider/runtime.rs": "d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb",
     "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
     "src/scheduling.rs": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
     "src/session.rs": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",

@@ -1,5 +1,7 @@
 //! Typed configured-Session publications inside the existing SQLite v1 envelope.
 //! This is inspection evidence, not a restart checkpoint or an executable recipe.
+pub mod runtime;
+
 use super::*;
 use crate::{
     Axis, LiquidTransportConfig, PressureImplementation, PressureReport, PressureSettings,
@@ -16,6 +18,7 @@ use std::time::Duration;
 pub const PROFILE: &str = "rheon-configured-session-v1";
 const CONFIG: &str = "RSC1:";
 const RECEIPT: &str = "RCP2:";
+const RUNTIME_RECEIPT: &str = "RCP3:";
 const CELL: &str = "cell_center; offset [0.5,0.5,0.5]; Cartesian XYZ; x-fast";
 const FACE: [&str; 3] = [
     "x_face; offset [0,0.5,0.5]; Cartesian XYZ; x-fast",
@@ -93,6 +96,8 @@ pub struct RecordedConfiguredSession {
     pub fraction: Vec<f64>,
     pub interval_pressure: Option<(f64, Vec<f64>)>,
     pub receipt: Option<RecordedConfiguredReceipt>,
+    /// Separately observed application/runtime facts. Legacy RCP2 has None.
+    pub runtime: Option<runtime::RuntimeObservation>,
 }
 #[derive(Debug, Default, PartialEq, Eq)]
 pub struct ConfiguredHistoryCoverage {
@@ -301,6 +306,120 @@ pub fn configured_publication(
     Ok(step)
 }
 
+/// Capture an accepted publication with separately observed runtime custody.
+/// None preserves the exact RCP2 representation. Some uses explicit RCP3 and
+/// must match the actual current predicted request and published core receipt;
+/// runtime failure details are never inferred from a core rejection.
+pub fn configured_publication_with_runtime(
+    snapshot: &SessionSnapshot<'_>,
+    ordinal: usize,
+    limit: usize,
+    observation: Option<&runtime::RuntimeObservation>,
+) -> Result<RecordedStep, RecordingError> {
+    if let Some(observation) = observation {
+        let receipt = owned_receipt(
+            snapshot
+                .configured_provider_report()
+                .ok_or(RecordingError::Invalid(
+                    "runtime observation without accepted receipt",
+                ))?,
+            snapshot.report().is_some_and(|r| r.viscosity.is_some()),
+        )?;
+        runtime::validate_publication(
+            observation,
+            &configured_run(snapshot, "runtime binding")?,
+            &receipt,
+        )?;
+    }
+    let mut step = configured_publication(snapshot, ordinal, limit)?;
+    if let Some(observation) = observation {
+        let decoded = Decoder::text(&step.controls, RECEIPT)?;
+        let mut encoder = Encoder(decoded.data);
+        runtime::put_observation(&mut encoder, observation)?;
+        step.controls = encoder.text(RUNTIME_RECEIPT)?;
+        if step.payload_bytes()? > limit {
+            return Err(RecordingError::Limit("configured runtime publication"));
+        }
+    }
+    Ok(step)
+}
+
+struct PublicationControls {
+    carrier_stamp: VolumeStamp,
+    fraction_stamp: VolumeStamp,
+    fraction_time: f64,
+    receipt: Option<RecordedConfiguredReceipt>,
+    runtime: Option<runtime::RuntimeObservation>,
+}
+fn decode_controls(
+    run: &RecordingRun,
+    step: &RecordedStep,
+) -> Result<PublicationControls, RecordingError> {
+    let has_runtime = step.controls.starts_with(RUNTIME_RECEIPT);
+    let mut d = Decoder::text(
+        &step.controls,
+        if has_runtime {
+            RUNTIME_RECEIPT
+        } else {
+            RECEIPT
+        },
+    )?;
+    if d.array::<32>()? != source_binding(run) {
+        return Err(RecordingError::Invalid("configured source binding"));
+    }
+    let carrier_stamp = VolumeStamp {
+        id: d.u64()?,
+        version: d.u64()?,
+    };
+    let fraction_stamp = VolumeStamp {
+        id: d.u64()?,
+        version: d.u64()?,
+    };
+    let fraction_time = d.f64()?;
+    let receipt = if d.boolean()? {
+        Some(get_receipt(&mut d)?)
+    } else {
+        None
+    };
+    let runtime = if has_runtime {
+        Some(runtime::get_observation(&mut d)?)
+    } else {
+        None
+    };
+    d.end()?;
+    if let Some(observation) = &runtime {
+        runtime::validate_publication(
+            observation,
+            run,
+            receipt.as_ref().ok_or(RecordingError::Invalid(
+                "runtime observation without accepted receipt",
+            ))?,
+        )?;
+    }
+    Ok(PublicationControls {
+        carrier_stamp,
+        fraction_stamp,
+        fraction_time,
+        receipt,
+        runtime,
+    })
+}
+// Shared bounded metadata parser for terminal auditing AFTER complete typed
+// recording verification. This alone does not validate fields or host gates.
+fn recorded_metadata(
+    run: &RecordingRun,
+    step: &RecordedStep,
+) -> Result<
+    (
+        Option<RecordedConfiguredReceipt>,
+        Option<runtime::RuntimeObservation>,
+    ),
+    RecordingError,
+> {
+    let controls = decode_controls(run, step)?;
+    Ok((controls.receipt, controls.runtime))
+}
+
 impl RecordedConfiguredSession {
     pub fn decode(run: &RecordingRun, step: &RecordedStep) -> Result<Self, RecordingError> {
         run.validate()?;
@@ -308,25 +427,13 @@ impl RecordedConfiguredSession {
         let configuration = configured_configuration(run)?;
         let grid = GridGeometry::new(run.counts, run.spacing, run.origin)
             .map_err(|_| RecordingError::Invalid("configured geometry"))?;
-        let mut d = Decoder::text(&step.controls, RECEIPT)?;
-        if d.array::<32>()? != source_binding(run) {
-            return Err(RecordingError::Invalid("configured source binding"));
-        }
-        let carrier_stamp = VolumeStamp {
-            id: d.u64()?,
-            version: d.u64()?,
-        };
-        let fraction_stamp = VolumeStamp {
-            id: d.u64()?,
-            version: d.u64()?,
-        };
-        let fraction_time = d.f64()?;
-        let receipt = if d.boolean()? {
-            Some(get_receipt(&mut d)?)
-        } else {
-            None
-        };
-        d.end()?;
+        let PublicationControls {
+            carrier_stamp,
+            fraction_stamp,
+            fraction_time,
+            receipt,
+            runtime,
+        } = decode_controls(run, step)?;
         let initial = step.stage == SnapshotStage::Constructor;
         if initial != receipt.is_none()
             || step.fields.len() != if initial { 5 } else { 6 }
@@ -463,6 +570,7 @@ impl RecordedConfiguredSession {
             fraction,
             interval_pressure,
             receipt,
+            runtime,
         })
     }
 }

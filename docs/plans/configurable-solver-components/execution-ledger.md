@@ -946,3 +946,20 @@ to its actual source and is not relabelled for this correction.
   union. Earlier fc5a receipts are RCP1 only; ed4346 RCP2 admission and PR106
   execution do not substitute for that new qualification. Typed production
   runtime observations remain separately allocated recording-owner work.
+
+
+## 2026-10-16 — lead-owned configured consumer integration base
+
+- This isolated source retains exact PR10796dd2c3 cold binding, PR1049d2011e
+  portable accepted CPU/recording cross-contracts and PR1085c8326a RCP3/RCT1
+  ancestry. Complete111-path conservative admission matches exact independently
+  reviewed pins; no selector narrowing or automatic source refresh.
+- Purpose: unblock separately allocated three-path cold runtime policy and
+  shared comparison consumer acceptance against the real combined APIs.
+  Root owns this integration branch, all merges and its eventual incorporation
+  into the production worker branch. Retain it until those consumers and root
+  caller are accepted; then retire it under the task's safe cleanup authority.
+- Earlier component receipts remain subject-pinned. Fresh clean union checks
+  follow; actual production bridge observation mapping and existing desktop
+  outer-loop/UI work remain separate active root changes, not claimed by this
+  consumer-base publication. No learned/model/GUI/full-plan acceptance follows.
