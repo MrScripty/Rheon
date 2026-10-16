@@ -874,3 +874,76 @@ to its actual source and is not relabelled for this correction.
   fixture is analytical evidence, not learned accuracy. Typed durable runtime
   custody, configured worker/UI/cold comparison acceptance and native-window
   evidence remain separate work.
+
+## 2026-10-15 — accepted CPU context contract qualification
+
+- Clean sourceaac620db3abb652019dc9c44884928e75bab06ee,
+  treec177cd2f9e85b565b6a4cf0b9500266ecd378c42, passed18 fresh
+  native/rational qualification commands; Lean checking was not run. The
+  complete106-path conservative source inventory and four independently
+  reviewed production/test/fixture pins match. Real-packet suites passed26
+  normally and26 optimized, zero skips. Receipts remain in
+  /tmp/rheon-accepted-cpu-qualified and /tmp/rheon-accepted-cpu-packet.
+- Final-source full AI application execution passed58 tests, with one existing
+  measured-deployment test explicitly ignored. All seven new real stdlib CPU
+  contracts passed, including independent nonzero two-cell physics, full versus
+  correction ports, physical refusal, real child failure, cancellation before
+  dispatch and during writer/reply waits, retained Session publication and
+  fresh-owner retry. The driver is test-only and not a production GUI adapter.
+- Strict both-bin/all-test desktop Clippy and both native binary builds passed
+  with RHEON_SOURCE_REVISION=aac620db3abb652019dc9c44884928e75bab06ee.
+  Logs: /tmp/rheon-accepted-cpu-frozen-{contracts,clippy,build}.log.
+  Independent exact-source review is retained in
+  [accepted CPU context review](reports/accepted-cpu-context-review.md).
+- Draft [PR104](https://github.com/MrScripty/Rheon/pull/104) remains stacked
+  on PR102. These are analytical process/lifecycle contract fixtures, not
+  missing measured aa82 parity, learned accuracy, production runtime binding,
+  native-window integration, performance or hard-shutdown guarantees. The20ms
+  waits offer cooperative checkpoints only. Cancellation kills that process
+  owner; Session retryability requires a fresh runtime.
+- This follow-through changes only the ledger. Exact pushed-head hosted gates
+  and serial composition remain mandatory; no old qualification transfer or
+  source-admission shortcut is authorized.
+
+
+## 2026-10-15 — reconciled runtime and current recording composition
+
+- Parent requested exact combined verification after PR102 moved. Lead merged
+  qualified Session follow-through into PR104 (af1bc99), resolving only the
+  ledger by preserving both subject-bound records, then merged exact PR103
+  recording5e6d3c7 without source conflict (42aa1302). Prior CPU/source checks
+  remain attached to their original subjects and are not combined acceptance.
+- Lead independent review additionally approves all five exact recording inputs
+  for the current bounded closure. Existing SQL schema and numerical kernels
+  remain unchanged. Source admission now includes107 conservative paths: one
+  added recording module, one registration change,105 unchanged paths.
+- Assigned recording follow-ups explicitly remain actual applied viscosity
+  presence/versioning and public typed constructor-header access. Until those
+  are implemented/reviewed, no complete physical recipe binding or frozen Ready
+  claim is made. They do not prevent present-closure mathematical qualification.
+- Fresh clean combined qualification/packet, actual recording/cold-process and
+  process/Session contracts follow this source freeze. Production package
+  bridge and worker/UI integration remain separate acceptance items.
+
+
+## 2026-10-15 — present RCP1 evidence and corrected RCP2 composition
+
+- Clean combinedfc5a704569d8261ed735bf94551d37bd057a7ef2,
+  treee2c22f55c2c0d79c6c75859422a1fffcac34fd9c, passed18 fresh
+  native/rational commands,26 normal and26 optimized packet tests, zero skips;
+  Lean was not checked. It passed134 core/library/recording contracts with
+  actual modal consumers and zero ignored,54 default recording contracts, and
+  58 CPU application tests with one measured-deployment ignore. Counts overlap
+  and are not additive independent results. Strict affected desktop Clippy and
+  both native builds passed; producer plus four independent cold readers exit0.
+  Receipts/logs: /tmp/rheon-accepted-combined-*. These cover RCP1 only.
+- Required RCP2 follow-upbeb69f65589fbca1005096a6457a540cb33f3d88
+  merged without conflict at ef4e1284. Lead independent exact-five-path review
+  approves actual viscosity_applied, public configured_configuration and closed
+  RCP2 versioning with zero-stage/domain/cold-process negatives. Only the
+  provider.rs selected pin changes within the complete107-path inventory.
+  This closes the assigned source gap; earlier receipts are not transferred.
+- Publish this corrected combination for the separately allocated real process/
+  recording cross-composition contracts. Fresh final source admission and
+  qualification follow those tests; production bridge/worker wiring and
+  detailed durable runtime-failure custody remain separate active work.

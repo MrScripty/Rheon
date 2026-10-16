@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Reviewed one-interval configured Session/CPU component on cold/archive/build union; complete114-path conservative admission before existing outer-worker wiring.",
+  "scope": "Reviewed RCP3/RCT1 codec and accepted CPU/recording cross-contracts on configured component union; committed116-path conservative admission before separate actual caller/mapping review.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "3fc49e33f8fbeb6d84bc89e8ae77689a87f42edb72425094ee9c882f200960b5",
+  "review_sha256": "794cf0d0ef22604a0b4caa76a4159cd4d3839e61961be3757dbd3f1c4c04064e",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
@@ -17,8 +17,9 @@
     "src/aligned_strain.rs": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
     "src/bin/desktop/README.md": "a50f69e258487345c8b9f15da011dbbefab70742cab9e4fff9af455a98fca56f",
     "src/bin/desktop/ai_comparison/accepted_provider.rs": "662e1def1b50332fa00a7aa1deded481b84ccfad1a98ffca2c7e062adbae79bd",
-    "src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs": "040ffd5ad5500ffa0275a61f99d0f3105618597175355db526393645c94bbf56",
+    "src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729",
     "src/bin/desktop/ai_comparison/accepted_provider_tests.rs": "35607bb996208614933e8b1aa2c462403dba7f9c99ec322038bc4c791afaf371",
+    "src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942",
     "src/bin/desktop/ai_comparison/adapter.rs": "33a4c3da7c1864052755b0c63b648d4ad6f06c36415251102de8c4a4ba2fa70b",
     "src/bin/desktop/ai_comparison/configured_track.rs": "9f677e5782a1547f4f46ca2280462bba08b479377a0fb00a5830a8a874872a7b",
     "src/bin/desktop/ai_comparison/configured_track_tests.rs": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c",
@@ -100,7 +101,8 @@
     "src/recording/comparison.rs": "e48ac3094b5d1ebfbd75a7521d0bd9faf880289b891e7eefeaec24ec86699f6a",
     "src/recording/diagnostic.rs": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
     "src/recording/material.rs": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
-    "src/recording/provider.rs": "91e69991e352013be0ecc48bf7fc0b6c1c75e4a7564d9c7f9ed7d2f312c52ff3",
+    "src/recording/provider.rs": "c4d48af7de2769349292819c48494f5a248edfb53eb58c9d53a535c165f5b427",
+    "src/recording/provider/runtime.rs": "d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb",
     "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
     "src/scheduling.rs": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
     "src/session.rs": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",

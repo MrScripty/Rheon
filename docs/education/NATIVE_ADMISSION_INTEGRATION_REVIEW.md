@@ -684,3 +684,77 @@ inventory, numerical kernel, oracle or qualifier changes. This is source
 admission only: production caller/recording/UI integration and strict Clippy
 remain pending. The unwired graph currently has dead-code diagnostics; no
 gate is waived or old qualification transferred.
+
+### Combined accepted CPU context and configured recording closure
+
+Lead independent GPT-6.1 Sol read-only review of PR103 exact5e6d3c7 approves
+the bounded current recording/math closure for fresh qualification, composed
+with separately reviewed CPU context contracts and current Session authority.
+The configured profile retains raw rejected IEEE diagnostics independently of
+finite accepted fields, actual interval starts, source/config/geometry binding
+and cold prior/prefix validation. Existing SQL/native/material/diagnostic meanings
+are unchanged. Review:
+../plans/configurable-solver-components/reports/configured-recording-review.md.
+
+Known assigned follow-ups remain: actual applied viscosity-stage presence
+(Disabled differs from Newtonian zero), its versioned codec, and a public typed
+header accessor for empty-archive constructor binding. These block their complete
+physical/frozen Ready claims. This source admission makes none of those claims
+and authorizes only fresh present-closure mathematical qualification.
+
+- src/recording/provider.rs: c42fab3fb955ec3002cf9aaabf348edc46d47893dc367790ef92716b339ed86d
+- src/recording.rs: d022f8f46c288538298896ae444c9780265a6bf77fa9a4e1ba4b9732cf026eb2
+- tests/recording_provider_contract.rs: f65865366bd2918a7308e7337df7985a345f7a5facf8caf1ee1e7996b09bfa6d
+- examples/recorded_configured_provider.rs: d00e9504f395e3e46d016e157eb68bc2b95124a69c1fb8cf88f2b10da58c4ffa
+- docs/api/configured-provider-recording.md: f11c5e693a5ce82ce98d546ea74007f9a040ef27470d7c814fc0eeb1ec6df165
+
+The complete conservative selector grows106 to107: one new recording module,
+one registration-only changed source and105 unchanged selected paths. The
+selector, old inventories, mathematical oracle and qualification runner stay
+unchanged. No automated inventory refresh or old receipt reuse occurs.
+
+
+
+### Explicit RCP2 applied-stage and cold-header correction
+
+Independent GPT-6.1 Sol lead review approves exact PR103beb69f6 follow-up.
+The actual accepted LiquidStepReport viscosity presence is retained as its own
+boolean; Newtonian zero and Disabled remain distinct. RCP2 explicitly refuses
+RCP1 instead of inferring the lost stage. Applied zero enforces density identity;
+disabled noncanonical/nonzero and nonzero subnormal coefficients are refused.
+The public typed header accessor validates constructor controls without a row
+or numerical/runtime construction. Review:
+../plans/configurable-solver-components/reports/configured-recording-stage-review.md.
+
+- src/recording/provider.rs: 91e69991e352013be0ecc48bf7fc0b6c1c75e4a7564d9c7f9ed7d2f312c52ff3
+- tests/recording_provider_contract.rs: cc1bf048c06054a8be52449383e215d73fb00c430d5d181186a4e8592043e6d2
+- docs/api/configured-provider-recording.md: bed659ef1e03bd8b5121afd589f9bb4e795bfa4afdf8674ef3e97c5edbb76c60
+
+All107 selected paths remain present; only provider.rs changes, with106
+unchanged selected paths. Source/qualification selectors and older inventories
+are unchanged. The previously assigned stage/header gap is closed in source;
+fresh combined qualification and subsequent frozen/production integration
+remain required. Earlierfc5a704 evidence is explicitly RCP1, not this RCP2 source.
+
+
+### RCP3 runtime and RCT1 terminal custody on configured component union
+
+Independent GPT-6.1 Sol reviews approve exact PR106 cross-contract source and
+PR1085c8326a runtime/terminal codec. Reviews are retained in
+../plans/configurable-solver-components/reports/accepted-recording-cross-review.md
+and configured-runtime-recording-review.md in the same directory. The codec
+retains exact RCP2 absence, explicit RCP3 current-request observations and typed
+RCT1 retained accepted/next-unaccepted terminal association with honest tail
+coverage. Tests with authored runtime metadata are not actual IPC evidence.
+
+- src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs: 6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942
+- src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs: 643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729
+- src/recording/provider.rs: c4d48af7de2769349292819c48494f5a248edfb53eb58c9d53a535c165f5b427
+- src/recording/provider/runtime.rs: d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb
+
+Complete committed-index closure grows114 to116 paths: two additions, two
+changed sources,112 unchanged. Only exact reviewed pins are admitted; old
+inventories, selector, oracle and qualifier stay unchanged. Root's separate
+working-tree production caller changes are not included or admitted by this
+merge. Actual process mapping, configured cold-consumer extension and fresh
+final whole-source qualification remain required.
