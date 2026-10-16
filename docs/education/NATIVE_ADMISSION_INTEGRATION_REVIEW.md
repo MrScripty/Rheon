@@ -758,3 +758,46 @@ inventories, selector, oracle and qualifier stay unchanged. Root's separate
 working-tree production caller changes are not included or admitted by this
 merge. Actual process mapping, configured cold-consumer extension and fresh
 final whole-source qualification remain required.
+
+
+### Actual configured desktop Worker source admission
+
+Independent GPT-6.1 Sol review in
+../plans/configurable-solver-components/reports/configured-desktop-composed-review.md
+approves the exact production process bridge, existing Worker/Session/recorder
+composition, frozen controls, fresh saved reruns and cold Inspector changes.
+All four review findings are resolved: sticky typed failure, constructor
+recording under terminal ownership, distinct labels and metadata-only zero-row
+inspection. Native carrier allocation is boxed to keep the dispatch enum small;
+strict lints are retained. Exact reviewed source pins:
+
+- src/bin/desktop/accepted_session.rs: 7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31
+- src/bin/desktop/ai_comparison/accepted_provider.rs: 922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc
+- src/bin/desktop/ai_comparison/accepted_provider_tests.rs: 11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237
+- src/bin/desktop/ai_comparison/adapter.rs: 7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2
+- src/bin/desktop/ai_comparison/configured_track.rs: 3959018b52697ef072884864c01de4682d1b4cd351c273426d914d02f0641fa1
+- src/bin/desktop/ai_comparison/cpu_contract_tests.rs: 4d6d333c7428e0a8a2a15f5b25365c1ce1e5ce3b328d183c3f43656ac48246c9
+- src/bin/desktop/ai_comparison/mod.rs: a0def0814e19e43e2d5134dc2b739a6c00f60be763bb5c615b522e21785dd0f6
+- src/bin/desktop/ai_comparison/model_process.rs: e0ffa8d47466f030ecd51e2f4ab44e64787d7c91347e11ac456d1ac688d75a1a
+- src/bin/desktop/archive_view.rs: 9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff
+- src/bin/desktop/carrier_execution.rs: fd77b9b00085cda58aac8056fe35ad0fd36b9058c82a8023a313e677da390ffc
+- src/bin/desktop/configured_controls.rs: 05d317554c4db033dd35c5e153dceaea34367eed33125ec8c7f59466f83ede36
+- src/bin/desktop/configured_worker_tests.rs: bf8b0c0900bfd2d1fb01b93b10cab6acef27913415bfcec929b559fa0243b9c4
+- src/bin/desktop/history.rs: 49dfc0cb697e2e861f8fbc5d3c0b67ded8a233283d24732344d7c4beebdab9c2
+- src/bin/desktop/inspector.rs: bb6bb83529896323fbf5414d6e7f41f8462b21e80a6d1f620edb6eecd2fc6649
+- src/bin/desktop/run_set_view.rs: a646384025669447cf61852b37dcdbc9189359e1180e372dc3d4042ae7a82527
+- src/bin/rheon-desktop.rs: 3c03e4ff19fc9d392dcac74f682ff05d95960f668aa68abeef24ab6ea31947a3
+
+Complete conservative closure grows116 to120 paths: four additions, twelve
+changed,104 unchanged, none removed. Only the independently reviewed hashes
+above are admitted; no source selector, historical inventory, numerical gate,
+oracle or qualification runner changes. The accepted graph is registered in
+its actual desktop consumer rather than suppressed as unused in the AI lab.
+
+Actual focused Worker tests exercise production ModelProcess calls and durable
+runtime/terminal association. Component and working-source execution receipts
+retain their subjects. Fresh committed whole-source qualification is required.
+Configured comparison UI and final native-window acceptance remain active
+work; PR110's separately reviewed frozen terminal-clock fix is still required
+before its extension is admitted. No learned accuracy, performance, restart
+or final-plan completion follows from this bounded source admission.

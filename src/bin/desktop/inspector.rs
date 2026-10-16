@@ -1,6 +1,9 @@
 //! Exact selected disk publication. The worker owns recording; UI owns selection.
 use super::export_ui::ExportFile;
 use eframe::egui;
+use rheon::recording::provider::{
+    RecordedConfiguredSession, configured_publication_with_runtime, configured_run,
+};
 use rheon::recording::{
     RecordedCarrier, RecordedMaterial, RecordedStep, RecordingLimits, RecordingReader,
     StepRecorder, carrier_publication, carrier_run, material_publication, material_run,
@@ -21,6 +24,7 @@ struct State {
     selected_step: Option<usize>,
     material: Option<Arc<RecordedMaterial>>,
     carrier: Option<Arc<RecordedCarrier>>,
+    configured: Option<Arc<RecordedConfiguredSession>>,
     record: Option<Arc<RecordedStep>>,
     field_name: String,
     scalar_index: usize,
@@ -38,6 +42,7 @@ impl Default for State {
             selected_step: None,
             material: None,
             carrier: None,
+            configured: None,
             record: None,
             field_name: String::new(),
             scalar_index: 0,
@@ -51,6 +56,34 @@ impl Default for State {
 #[derive(Default)]
 pub struct Inspector(Mutex<State>);
 impl Inspector {
+    pub fn record_configured(
+        &self,
+        recorder: &mut StepRecorder,
+        snapshot: &rheon::SessionSnapshot<'_>,
+        runtime: Option<&rheon::recording::provider::runtime::RuntimeObservation>,
+    ) -> Result<(), String> {
+        let run =
+            configured_run(snapshot, &recorder.run().provenance).map_err(|e| e.to_string())?;
+        if &run != recorder.run() {
+            return Err(
+                "Configured constructor/header changed; accepted interval unrecorded".into(),
+            );
+        }
+        let step = configured_publication_with_runtime(
+            snapshot,
+            recorder.recorded_count(),
+            recorder.limits().max_record_bytes,
+            runtime,
+        )
+        .map_err(|e| e.to_string())?;
+        recorder.append(&step).map_err(|e| {
+            format!(
+                "Accepted configured generation {} is not confirmed recorded: {e}",
+                snapshot.state().carrier.generation
+            )
+        })?;
+        Ok(())
+    }
     #[cfg(test)]
     pub fn selected_identity(&self) -> Option<(u64, u64, f64)> {
         let s = self.0.lock().ok()?;
@@ -180,22 +213,34 @@ impl Inspector {
             s.record = None;
             s.material = None;
             s.carrier = None;
+            s.configured = None;
             s.feedback = e.clone();
         }
         result
     }
     pub fn verify(&self) -> Result<(), String> {
         let mut s = self.0.lock().map_err(|_| "Inspector owner failed")?;
-        let result = s
-            .reader
-            .as_ref()
-            .ok_or("No archive selected")?
-            .verify()
-            .map_err(|e| e.to_string());
+        let reader = s.reader.as_ref().ok_or("No archive selected")?;
+        let result = if reader.run().solver == rheon::recording::provider::PROFILE {
+            match reader.status() {
+                Ok(status) if status.detail.starts_with("RCT1:") => {
+                    rheon::recording::provider::runtime::audit_runtime_termination(reader)
+                        .map(|_| ())
+                }
+                Ok(_) => {
+                    rheon::recording::provider::verify_configured_recording(reader).map(|_| ())
+                }
+                Err(error) => Err(error),
+            }
+        } else {
+            reader.verify()
+        }
+        .map_err(|e| e.to_string());
         if let Err(e) = &result {
             s.record = None;
             s.material = None;
             s.carrier = None;
+            s.configured = None;
             s.feedback = e.clone();
         }
         result
@@ -206,6 +251,7 @@ impl Inspector {
         // Invalidate selection before I/O, including failed reloads.
         s.material = None;
         s.carrier = None;
+        s.configured = None;
         s.record = None;
         s.path = None;
         s.field_name.clear();
@@ -265,6 +311,7 @@ impl Inspector {
         s.selected_step = Some(step);
         s.material = None;
         s.carrier = None;
+        s.configured = None;
         s.record = None;
         let result = s
             .reader
@@ -287,12 +334,21 @@ impl Inspector {
                 } else {
                     None
                 };
-                Ok((Arc::new(record), material, carrier))
+                let configured = if run.solver == rheon::recording::provider::PROFILE {
+                    Some(Arc::new(
+                        RecordedConfiguredSession::decode(run, &record)
+                            .map_err(|e| e.to_string())?,
+                    ))
+                } else {
+                    None
+                };
+                Ok((Arc::new(record), material, carrier, configured))
             });
         match result {
-            Ok((record, material, carrier)) => {
+            Ok((record, material, carrier, configured)) => {
                 s.material = material;
                 s.carrier = carrier;
+                s.configured = configured;
                 if s.field_name.is_empty() {
                     s.field_name = record
                         .fields
@@ -349,7 +405,26 @@ impl Inspector {
             }
             match reader.status() {
                 Ok(status) => {
-                    ui.small(format!("{}: {}", status.outcome, status.detail));
+                    if reader.run().solver == rheon::recording::provider::PROFILE
+                        && status.detail.starts_with("RCT1:")
+                    {
+                        match rheon::recording::provider::runtime::RuntimeTermination::decode(
+                            reader.run(),
+                            &status,
+                        ) {
+                            Ok(terminal) => {
+                                ui.small(format!("{} · terminal declaration {:?} · accepted generation {} at {} s",status.outcome,terminal.cause,terminal.accepted_generation,terminal.accepted_time));
+                                ui.small(terminal.detail);
+                                ui.small("Full audit verifies available terminal/prefix associations; an unrecorded accepted tail remains unavailable.");
+                            }
+                            Err(error) => {
+                                metadata_error = Some(error.to_string());
+                                ui.label(error.to_string());
+                            }
+                        }
+                    } else {
+                        ui.small(format!("{}: {}", status.outcome, status.detail));
+                    }
                     if status.outcome == "active" {
                         ui.small("Incomplete until producer declares completion. A crash may leave an unrecorded accepted tail.");
                     }
@@ -364,12 +439,65 @@ impl Inspector {
             s.record = None;
             s.material = None;
             s.carrier = None;
+            s.configured = None;
             s.feedback = error;
         }
         if !s.feedback.is_empty() {
             ui.label(&s.feedback);
         }
         raw_fields_ui(&mut s, ui);
+        if let Some(configured) = &s.configured {
+            if let Some(receipt) = &configured.receipt {
+                ui.label(format!(
+                    "Accepted configured pressure: {:?}; rejection {:?}",
+                    receipt.selected, receipt.rejection
+                ));
+                ui.small(format!(
+                    "Newtonian stage applied: {}; μ {} Pa·s; provider method entered: {}",
+                    receipt.viscosity_applied, receipt.dynamic_viscosity, receipt.prediction_called
+                ));
+                ui.small("The accepted pressure receipt alone does not establish external request dispatch.");
+            } else {
+                ui.label("Configured constructor: no accepted pressure interval");
+            }
+            match &configured.runtime {
+                Some(observation) => {
+                    ui.small(format!(
+                        "Observed runtime request generation {} · [{}, {}] s · native prefix {}",
+                        observation.request.context.generation,
+                        observation.request.context.interval_start,
+                        observation.request.context.interval_end,
+                        observation.request.context.native_prefix_steps
+                    ));
+                    match &observation.outcome {
+                        rheon::recording::provider::runtime::RuntimeOutcome::CandidateReturned => {
+                            ui.label("Runtime returned a candidate; host acceptance is reported separately.");
+                        }
+                        rheon::recording::provider::runtime::RuntimeOutcome::NoCandidate {
+                            reason,
+                            detail,
+                            dispatched,
+                            invalid_payload_sha256,
+                        } => {
+                            ui.label(format!("No candidate: {reason:?} · {detail}"));
+                            ui.small(format!("Writer accepted request: {dispatched}; child consumption is not established by this flag."));
+                            if let Some(digest) = invalid_payload_sha256 {
+                                ui.small(format!(
+                                    "Complete invalid payload SHA256: {}",
+                                    digest
+                                        .iter()
+                                        .map(|b| format!("{b:02x}"))
+                                        .collect::<String>()
+                                ));
+                            }
+                        }
+                    }
+                }
+                None => {
+                    ui.small("No retained runtime observation for this publication; no dispatch fact is inferred.");
+                }
+            }
+        }
         if let (Some(carrier), Some(reader)) = (&s.carrier, &s.reader) {
             let carrier = Arc::clone(carrier);
             let identity = reader.run().identity.clone();

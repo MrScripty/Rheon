@@ -1,7 +1,9 @@
 //! One frozen accepted interval through existing Session and CPU owners.
 //! This component owns no outer loop, recorder, model history or supervisor.
 use super::{
-    accepted_provider::AcceptedCpuProvider, adapter::AdapterPackage, model_process::ChildSlot,
+    accepted_provider::AcceptedCpuProvider,
+    adapter::AdapterPackage,
+    model_process::{ChildSlot, StartupFailure},
 };
 use crate::run_sets::configured::{
     DeploymentLocator, ExecutorDeclaration, ForceSpec, FrozenConfiguredSpec, PressureIntent,
@@ -61,6 +63,7 @@ pub(crate) struct ConfiguredTrack {
     cancelled: Arc<AtomicBool>,
     provider: Option<AcceptedCpuProvider>,
     failure: Option<ConfiguredFailure>,
+    runtime_observation: Option<rheon::recording::provider::runtime::RuntimeObservation>,
 }
 impl ConfiguredTrack {
     /// Validate exact executor custody before allocating state. No filesystem
@@ -130,6 +133,7 @@ impl ConfiguredTrack {
             cancelled,
             provider: None,
             failure: None,
+            runtime_observation: None,
         })
     }
 
@@ -142,7 +146,7 @@ impl ConfiguredTrack {
         project_root: &Path,
         slot: &ChildSlot,
         progress: impl FnMut(&str) -> Result<(), String>,
-    ) -> Result<(), String> {
+    ) -> Result<(), StartupFailure> {
         let PressureIntent::NativePrefixThenConfigured {
             provider,
             deployment,
@@ -208,6 +212,7 @@ impl ConfiguredTrack {
         deadline: Option<Instant>,
     ) -> Result<LiquidStepReport, SessionError> {
         self.failure = None;
+        self.runtime_observation = None;
         if let Some(provider) = &mut self.provider {
             provider.begin_interval_observation();
         }
@@ -258,6 +263,11 @@ impl ConfiguredTrack {
                 |_| self.cancelled.load(Ordering::Relaxed),
             )
             .map(|(report, _)| report);
+        self.runtime_observation = self
+            .provider
+            .as_ref()
+            .and_then(AcceptedCpuProvider::last_observation)
+            .cloned();
         self.failure = self
             .provider
             .as_ref()
@@ -288,6 +298,12 @@ impl ConfiguredTrack {
     pub(crate) fn current_failure(&self) -> Option<&ConfiguredFailure> {
         self.failure.as_ref()
     }
+    pub(crate) fn runtime_observation(
+        &self,
+    ) -> Option<&rheon::recording::provider::runtime::RuntimeObservation> {
+        self.runtime_observation.as_ref()
+    }
+    #[cfg(test)]
     pub(crate) fn runtime_ready(&self) -> bool {
         self.provider.is_some()
     }
@@ -303,6 +319,7 @@ impl ConfiguredTrack {
     pub(crate) fn native_implementation(&self) -> PressureImplementation {
         self.frozen.constructor.pressure_method.implementation()
     }
+    #[cfg(test)]
     pub(crate) fn inlet(&self) -> LiquidInlet {
         self.inlet
     }

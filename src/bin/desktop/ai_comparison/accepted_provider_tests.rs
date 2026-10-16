@@ -628,7 +628,7 @@ fn arbitrary_supported_shape_uses_bounded_zero_guess_and_rejects_diagnostic_mode
             interval_start: 0.0,
             rhs: &rhs,
             prior: None,
-            run_id: "generic-supported-shape",
+            run_id: "771",
             generation: 1,
             mode,
         })

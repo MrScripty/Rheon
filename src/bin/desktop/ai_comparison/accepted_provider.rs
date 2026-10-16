@@ -4,10 +4,11 @@
 use super::{
     adapter::{AdapterError, AdapterPackage},
     engine::Input,
-    model_process::{ChildSlot, ModelProcess, PredictionFailure, ProviderIdentity},
+    model_process::{ChildSlot, ModelProcess, PredictionFailure, ProviderIdentity, StartupFailure},
 };
 use rheon::{
     recording::diagnostic::NoCandidateReason,
+    recording::provider::runtime::{RuntimeObservation, RuntimeOutcome, RuntimeRequestStamp},
     solver_provider::{
         ProviderRejection,
         configured::{ContextPressureProvider, ContextPressureRequest, ContextProviderIdentity},
@@ -27,6 +28,7 @@ pub(super) struct AcceptedCpuProvider {
     guess: Vec<f64>,
     residual: Vec<f64>,
     last_failure: Option<PredictionFailure>,
+    last_observation: Option<RuntimeObservation>,
 }
 fn hex(bytes: &[u8; 32]) -> String {
     bytes.iter().map(|b| format!("{b:02x}")).collect()
@@ -53,7 +55,7 @@ impl AcceptedCpuProvider {
         cancelled: Arc<AtomicBool>,
         scratch_limit_bytes: usize,
         progress: impl FnMut(&str) -> Result<(), String>,
-    ) -> Result<Self, String> {
+    ) -> Result<Self, StartupFailure> {
         identity
             .validate()
             .map_err(|_| "Invalid CPU provider identity")?;
@@ -92,7 +94,8 @@ impl AcceptedCpuProvider {
             .map_err(|_| "CPU residual scratch allocation failed")?;
         guess.resize(count, 0.0);
         residual.resize(count, 0.0);
-        let process = ModelProcess::start_pinned(path, slot, &cancelled, &expected, progress)?;
+        let process =
+            ModelProcess::start_pinned_typed(path, slot, &cancelled, &expected, progress)?;
         Ok(Self {
             package,
             process,
@@ -101,12 +104,17 @@ impl AcceptedCpuProvider {
             guess,
             residual,
             last_failure: None,
+            last_observation: None,
         })
     }
     /// Clear bounded observations before a new owned interval, including one
     /// that support declines. This never resets or revives the process owner.
     pub(super) fn begin_interval_observation(&mut self) {
         self.last_failure = None;
+        self.last_observation = None;
+    }
+    pub(super) fn last_observation(&self) -> Option<&RuntimeObservation> {
+        self.last_observation.as_ref()
     }
     /// Most recent prediction failure, including actual process dispatch facts.
     /// A successful prediction clears it. Inert supports calls do not change it.
@@ -123,6 +131,14 @@ impl AcceptedCpuProvider {
             dispatched: false,
             invalid_payload_sha256: None,
         });
+        if let Some(observation) = &mut self.last_observation {
+            observation.outcome = RuntimeOutcome::NoCandidate {
+                reason,
+                detail: detail.into(),
+                dispatched: false,
+                invalid_payload_sha256: None,
+            };
+        }
         rejection(reason)
     }
 }
@@ -164,6 +180,25 @@ impl ContextPressureProvider for AcceptedCpuProvider {
         poll: &mut dyn FnMut() -> bool,
     ) -> Result<(), ProviderRejection> {
         self.last_failure = None;
+        self.last_observation = None;
+        let stamp = match RuntimeRequestStamp::capture(request, &self.identity) {
+            Ok(stamp) => stamp,
+            Err(_) => {
+                return Err(self.fail(
+                    NoCandidateReason::UnsupportedContext,
+                    "Cannot retain accepted runtime request association",
+                ));
+            }
+        };
+        self.last_observation = Some(RuntimeObservation {
+            request: stamp,
+            outcome: RuntimeOutcome::NoCandidate {
+                reason: NoCandidateReason::UnsupportedContext,
+                detail: "CPU request validation incomplete".into(),
+                dispatched: false,
+                invalid_payload_sha256: None,
+            },
+        });
         if self.supports(request).is_err() {
             return Err(self.fail(
                 NoCandidateReason::UnsupportedContext,
@@ -221,10 +256,21 @@ impl ContextPressureProvider for AcceptedCpuProvider {
             Ok(values) => {
                 // ModelProcess validates finite shape and canonical gauge.
                 pressure.copy_from_slice(&values);
+                if let Some(observation) = &mut self.last_observation {
+                    observation.outcome = RuntimeOutcome::CandidateReturned;
+                }
                 Ok(())
             }
             Err(failure) => {
                 let coarse = rejection(failure.reason);
+                if let Some(observation) = &mut self.last_observation {
+                    observation.outcome = RuntimeOutcome::NoCandidate {
+                        reason: failure.reason,
+                        detail: super::recording_detail(&failure.detail),
+                        dispatched: failure.dispatched,
+                        invalid_payload_sha256: failure.invalid_payload_sha256,
+                    };
+                }
                 self.last_failure = Some(failure);
                 Err(coarse)
             }

@@ -947,3 +947,35 @@ to its actual source and is not relabelled for this correction.
   recording cross-composition contracts. Fresh final source admission and
   qualification follow those tests; production bridge/worker wiring and
   detailed durable runtime-failure custody remain separate active work.
+
+
+## 2026-10-16 — actual configured desktop Worker composition
+
+- Root owns branch implementation/configured-session-worker-20261016, eventual
+  main integration and serial ready-gated merge/cleanup. The branch retains
+  the reviewed controls/track, PR106 cross-contracts and PR108 runtime codec;
+  separately published consumer-base ancestry and CI repair are integrated next.
+- The existing App/Worker now runs frozen native or configured Session members
+  in its existing outer loop. Actual process observations bind to RCP3 rows and
+  RCT1 terminals; same cancellation owner, native fallback/history and numerical
+  qualification remain with their existing owners. Immutable intent precedes
+  execution; recorder close precedes pin; reruns preserve originals.
+- Independent source review resolved four lifecycle/UI findings and approves
+  exact16Rust+oneAPI-document pins. Complete conservative admission120 paths
+  adds4/changes12/retains104, with no selector or gate weakening. Review and
+  separate CI setup review are retained in reports.
+- Focused production Worker6/6 passed, including actual full/correction pairs,
+  consumed-request cancellation, sticky known runtime failure after late cancel,
+  constructor cap failure with real metadata-only egui cold view, changed-host
+  refusal and cold subprocess with model package hidden. The reader subprocess
+  is fresh; its parent OS process remains alive after its owners drain.
+- Final boxed-native working-source desktop regression passed136/one unchanged
+  measured-checkpoint ignore; AI regression passed64/one same ignore before
+  the desktop-only boxing change. Strict both-bin/all-test desktop Clippy passed.
+  Fresh clean-source qualification follows; these are not receipts for a later
+  whole-Git revision.
+- Active next slice: retain corrected PR110 cold runtime policy and approved
+  PR111 shared comparison ancestry; complete existing quantitative page/linked
+  fields, saved artifacts and native-window acceptance with the production
+  caller. PR110 impossible accepted-time bound remains with its allocated owner.
+  The full plan is not complete at this publication boundary.
