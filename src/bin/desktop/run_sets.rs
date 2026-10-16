@@ -4,6 +4,8 @@
 //! Opening inherits RecordingReader's SQLite hot-journal recovery contract.
 #[path = "run_sets/configured.rs"]
 pub mod configured;
+#[path = "run_sets/source.rs"]
+pub mod source;
 
 use rheon::{
     GridGeometry, PressureImplementation, PressureSettings, SessionIdentity, Simulation,
