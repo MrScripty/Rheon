@@ -576,3 +576,124 @@ changed source paths and104 unchanged selected paths. The portable hash fix is
 already inherited. Source selectors, old inventories, numerical kernels/gates
 and mathematical oracle remain unchanged. Fresh clean final-source qualification
 is required; production worker/UI/runtime custody and complete A4 are separate.
+
+### Accepted Session / actual CPU context fixture contracts
+
+Independent GPT-6.1 Sol review approved the optional cooperative poll in
+the existing ModelProcess owner, its legacy false-callback entry points, child
+contract registration and new Rust/Python two-cell fixture contracts. This is
+actual analytic CPU execution through accepted Session contexts, not a learned
+model, GUI runtime connection or durable typed failure recorder. The unchanged
+20ms wait checkpoints are cooperative opportunities, not a response guarantee.
+Cancellation kills that runtime; retry uses a fresh process owner. Existing
+consumed malformed-response digest precedence remains unchanged.
+
+Review: ../plans/configurable-solver-components/reports/accepted-cpu-context-review.md.
+
+- src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs: 040ffd5ad5500ffa0275a61f99d0f3105618597175355db526393645c94bbf56
+- src/bin/desktop/ai_comparison/cpu_contract_tests.rs: d7f2be7ea559891450f4dc1baae47183615bab8b999bc9bfe9d0151bb4d27580
+- src/bin/desktop/ai_comparison/model_process.rs: 77070b2ae78dabf8f2d046a0b83f97053ef6460f8c2f19f47dcc3264e34f9754
+- tests/fixtures/accepted_pressure_adapter.py: 958ba74ebde596aac8375eb436898a1e2342ba1b7868c08bfee99c09c02dc27c
+
+The conservative selector grows105 to106 paths: one added test module,
+two changed selected sources,103 unchanged paths, none removed. The separately
+reviewed Python compiler fixture remains explicitly pinned above and in the
+fresh whole-Git qualification manifest. No selector, gate, old inventory,
+mathematical oracle, protocol schema or numerical kernel changes. This admits
+fresh clean composed qualification only; earlier receipts stay source-bound.
+
+
+
+### Combined accepted CPU context and configured recording closure
+
+Lead independent GPT-6.1 Sol read-only review of PR103 exact5e6d3c7 approves
+the bounded current recording/math closure for fresh qualification, composed
+with separately reviewed CPU context contracts and current Session authority.
+The configured profile retains raw rejected IEEE diagnostics independently of
+finite accepted fields, actual interval starts, source/config/geometry binding
+and cold prior/prefix validation. Existing SQL/native/material/diagnostic meanings
+are unchanged. Review:
+../plans/configurable-solver-components/reports/configured-recording-review.md.
+
+Known assigned follow-ups remain: actual applied viscosity-stage presence
+(Disabled differs from Newtonian zero), its versioned codec, and a public typed
+header accessor for empty-archive constructor binding. These block their complete
+physical/frozen Ready claims. This source admission makes none of those claims
+and authorizes only fresh present-closure mathematical qualification.
+
+- src/recording/provider.rs: c42fab3fb955ec3002cf9aaabf348edc46d47893dc367790ef92716b339ed86d
+- src/recording.rs: d022f8f46c288538298896ae444c9780265a6bf77fa9a4e1ba4b9732cf026eb2
+- tests/recording_provider_contract.rs: f65865366bd2918a7308e7337df7985a345f7a5facf8caf1ee1e7996b09bfa6d
+- examples/recorded_configured_provider.rs: d00e9504f395e3e46d016e157eb68bc2b95124a69c1fb8cf88f2b10da58c4ffa
+- docs/api/configured-provider-recording.md: f11c5e693a5ce82ce98d546ea74007f9a040ef27470d7c814fc0eeb1ec6df165
+
+The complete conservative selector grows106 to107: one new recording module,
+one registration-only changed source and105 unchanged selected paths. The
+selector, old inventories, mathematical oracle and qualification runner stay
+unchanged. No automated inventory refresh or old receipt reuse occurs.
+
+
+
+### Explicit RCP2 applied-stage and cold-header correction
+
+Independent GPT-6.1 Sol lead review approves exact PR103beb69f6 follow-up.
+The actual accepted LiquidStepReport viscosity presence is retained as its own
+boolean; Newtonian zero and Disabled remain distinct. RCP2 explicitly refuses
+RCP1 instead of inferring the lost stage. Applied zero enforces density identity;
+disabled noncanonical/nonzero and nonzero subnormal coefficients are refused.
+The public typed header accessor validates constructor controls without a row
+or numerical/runtime construction. Review:
+../plans/configurable-solver-components/reports/configured-recording-stage-review.md.
+
+- src/recording/provider.rs: 91e69991e352013be0ecc48bf7fc0b6c1c75e4a7564d9c7f9ed7d2f312c52ff3
+- tests/recording_provider_contract.rs: cc1bf048c06054a8be52449383e215d73fb00c430d5d181186a4e8592043e6d2
+- docs/api/configured-provider-recording.md: bed659ef1e03bd8b5121afd589f9bb4e795bfa4afdf8674ef3e97c5edbb76c60
+
+All107 selected paths remain present; only provider.rs changes, with106
+unchanged selected paths. Source/qualification selectors and older inventories
+are unchanged. The previously assigned stage/header gap is closed in source;
+fresh combined qualification and subsequent frozen/production integration
+remain required. Earlierfc5a704 evidence is explicitly RCP1, not this RCP2 source.
+
+
+
+### Accepted CPU and RCP2 recording cross-contract composition
+
+Independent GPT-6.1 Sol source review approves PR106 exact16157372 versus
+reviewed RCP2 parented4346da. The new test module uses the existing test-only
+Driver/ModelProcess/SQLite owners; the sole parent change is explicit child
+registration. Review and scope:
+../plans/configurable-solver-components/reports/accepted-recording-cross-review.md.
+
+Nine recording scenarios cover accepted native fallback and rejected whole
+intervals across consumed replies, predispatch cancellation and Linux x86_64
+proven blocked writes. Exact child readers run after runtime/Session/writer
+drainage with the owned manifest hidden, requiring verified markers and
+unchanged field/selection/file hashes. Producer parent process remains alive.
+Retries create fresh Sessions/archives, with changed restored blocked-fixture
+pins; this is not checkpoint resume or same-owner quota evidence. Fine process
+reason/dispatch/payload hashes remain live-only in this RCP2 slice. No hard
+shutdown, descendant, portability, learned-accuracy or production-UI claim.
+
+- src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs: 6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942
+- src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs: 643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729
+
+Complete conservative closure grows107 to108 paths: one new test module,
+one registration-only changed path,106 unchanged, none removed. Portable
+Cargo pin10a7b438 is retained from independently reviewed PR102770e26.
+Selectors, old inventories, kernels, oracle and qualifier are unchanged. This
+authorizes fresh clean composed qualification, not transfer of older receipts.
+
+
+### Lead-owned cold and accepted-runtime consumer base
+
+This union retains PR10796dd2c3 and exact portable/cross-contract PR1049d2011e
+ancestry. Complete conservative closure is110 paths: two added accepted CPU
+contract modules, two changed CPU/test sources and106 unchanged relative to
+the cold108-path closure. Native run-set registration is retained, not replaced
+by the older native-only consumer parent. Exact admitted pins above retain
+independent CPU and cross-contract source reviews; all source hashes match.
+No selector, historical inventory, numerical gate, oracle or qualifier changes.
+Fresh combined qualification remains required; component receipts retain their
+original subjects. This isolated branch is a lead-owned integration base for
+disjoint cold/comparison consumer acceptance, not full production UI readiness.

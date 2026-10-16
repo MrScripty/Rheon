@@ -324,3 +324,6 @@ fn inert_preflight_result_survives_finished_worker_rendering() {
     assert_eq!(app.preflight_status, diagnostic);
     assert!(app.status.contains("completed"));
 }
+
+#[path = "accepted_provider_contract_tests.rs"]
+mod accepted_provider_contract_tests;
