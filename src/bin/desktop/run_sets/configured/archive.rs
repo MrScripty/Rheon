@@ -81,6 +81,18 @@ pub fn runtime_custody(
             "configured runtime terminal horizon",
         ));
     }
+    // This frozen profile starts at +0 and every accepted interval is at most
+    // requested_dt. Repeat the same IEEE additions as the owner: multiplying
+    // generation by dt can underestimate a valid accumulated clock.
+    let mut latest_accepted_time = 0.0;
+    for _ in 0..audit.termination.accepted_generation {
+        latest_accepted_time += future.requested_dt_s;
+    }
+    if audit.termination.accepted_time > latest_accepted_time {
+        return Err(RunSetError::Integrity(
+            "configured runtime terminal clock exceeds intent",
+        ));
+    }
     if let Some(observation) = &audit.termination.observation {
         let request = &observation.request;
         if request.context.generation > future.requested_steps as u64 {

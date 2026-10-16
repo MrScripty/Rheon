@@ -2129,3 +2129,126 @@ fn frozen_native_seed_lower_bound_survives_unrecorded_tail_without_exact_prefix_
         }
     }
 }
+
+#[test]
+fn frozen_terminal_clock_bounds_observation_free_tails_by_repeated_requested_addition() {
+    let root = Directory::new();
+    for case in ["excess", "honest", "shortened", "nonbinary"] {
+        let mut m = member(&format!("runtime-clock-{case}"), false);
+        m.spec.future.recording.max_records = 1;
+        m.spec.future.requested_steps = if case == "nonbinary" { 64 } else { 2 };
+        if case == "shortened" {
+            m.spec.constructor.tolerances.max_courant = 1.0 / 128.0;
+            m.spec.future.requested_dt_s = 2.0;
+        }
+        if case == "nonbinary" {
+            m.spec.future.requested_dt_s = 1.0 / 60.0;
+            m.spec.future.forces.clear();
+        }
+        reseal(&mut m);
+        let mut fixture = RuntimeFixture::new(&root.0, &m, RuntimeMode::Candidate);
+        let forces: Vec<_> = m
+            .spec
+            .future
+            .forces
+            .iter()
+            .map(ForceSpec::body_force)
+            .collect();
+        let mut repeated_upper = 0.0_f64;
+        for interval in 0..m.spec.future.requested_steps {
+            fixture
+                .session
+                .step_with_configured_pressure(
+                    inputs(&m, &forces, m.spec.future.requested_dt_s),
+                    &mut fixture.pressure,
+                    Some((&mut fixture.viscosity, MU)),
+                    None,
+                    None,
+                    |_| false,
+                )
+                .unwrap();
+            repeated_upper += m.spec.future.requested_dt_s;
+            if interval == 0 {
+                assert!(matches!(
+                    fixture.append(false),
+                    Err(RecordingError::Limit("record count"))
+                ));
+            }
+        }
+        // The actual numerical owner can advance independently of a poisoned
+        // recorder. This fixture is not a production worker continuation claim.
+        assert_eq!(fixture.writer.recorded_count(), 1);
+        assert!(fixture.provider.observation.is_none());
+        let generation = fixture.session.snapshot().state().carrier.generation;
+        let actual_time = fixture.session.snapshot().state().carrier.time;
+        assert_eq!(generation, m.spec.future.requested_steps as u64);
+        match case {
+            "shortened" => assert!(actual_time < repeated_upper),
+            "nonbinary" => {
+                assert_eq!(actual_time.to_bits(), repeated_upper.to_bits());
+                assert!(
+                    actual_time > m.spec.future.requested_dt_s * generation as f64,
+                    "actual 64-step accumulation must distinguish repeated addition from multiplication"
+                );
+            }
+            _ => assert_eq!(actual_time.to_bits(), (2.0 * DT).to_bits()),
+        }
+        let mut terminal = RuntimeTermination::capture(
+            &fixture.session.snapshot(),
+            RuntimeTerminationCause::StorageFailure,
+            "actual record-cap failure; constructor-only durable prefix; no runtime observation",
+            None,
+        )
+        .unwrap();
+        if case == "excess" {
+            terminal.accepted_time = 4.0 * DT;
+        }
+        terminal.finish(&mut fixture.writer).unwrap();
+        drop(fixture);
+        let reader = raw_reader(&root.0, &m);
+        assert_eq!(reader.count().unwrap(), 1);
+        assert_eq!(reader.select(0).unwrap().generation, 0);
+        let core = rheon::recording::provider::runtime::audit_runtime_termination(&reader).unwrap();
+        assert!(core.termination.observation.is_none());
+        assert_eq!(
+            core.coverage,
+            RuntimeTerminalCoverage::UnrecordedAcceptedTail {
+                last_recorded_generation: Some(0),
+            }
+        );
+        if case == "excess" {
+            assert_eq!(
+                core.termination.accepted_time.to_bits(),
+                (4.0 * DT).to_bits()
+            );
+            assert!(matches!(
+                runtime_custody(&reader, &m.spec),
+                Err(run_sets::RunSetError::Integrity(
+                    "configured runtime terminal clock exceeds intent"
+                ))
+            ));
+            drop(reader);
+            refused_before_pin(&root.0, &mut m, false);
+        } else {
+            let audit = typed_custody(&root.0, &m);
+            assert_eq!(
+                audit.termination.accepted_time.to_bits(),
+                actual_time.to_bits()
+            );
+            assert_eq!(
+                audit.coverage,
+                RuntimeTerminalCoverage::UnrecordedAcceptedTail {
+                    last_recorded_generation: Some(0),
+                }
+            );
+            drop(reader);
+            pin(&root.0, &mut m);
+            let ready = ready(&root.0, &m);
+            assert_eq!(ready.count().unwrap(), 1);
+            assert_eq!(
+                ready.status().unwrap().accepted_generation,
+                Some(generation)
+            );
+        }
+    }
+}

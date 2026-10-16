@@ -87,6 +87,16 @@ retain `VerifiedLastPublication`, `UnrecordedAcceptedTail` and
 its absent final fields, clock and runtime association are not independently
 verified. Any available retained prior link is still checked.
 
+Typed terminal accepted time must also fit the frozen rest-state clock. Starting
+at exact positive zero, cold validation adds the frozen requested dt once per
+accepted generation, using repeated IEEE floating-point addition for at most
+10,000 steps. A terminal time above that upper bound is refused, including when
+no runtime observation or accepted tail fields were recorded. Multiplication is
+not substituted for accumulation. Actual host-shortened intervals and nonbinary
+accumulated clocks remain allowed within this bound. This is a consistency check
+against declared intent; it does not independently verify the missing actual
+intervals, clock or dispatch history.
+
 A retained terminal request must also fit the frozen requested horizon and
 interval-size bound. Native-only intent and the requested native-prefix phase
 cannot introduce a configured runtime attempt; post-prefix attempts must match
@@ -109,5 +119,5 @@ Nine configured contracts and17 existing native saved-set contracts exercise
 constructor fidelity, native implementations, immutable publication, schema
 separation, bounded declarations, executor/package drift, historical opening,
 explicit differences, unknown kinds/fields, duplicate keys and tampering. These
-checks, plus eight real archive binding contracts, do not establish complete A4 workflow acceptance, native-window
+checks, plus seventeen real archive binding contracts, do not establish complete A4 workflow acceptance, native-window
 interaction, package execution, learned-model parity or performance.
