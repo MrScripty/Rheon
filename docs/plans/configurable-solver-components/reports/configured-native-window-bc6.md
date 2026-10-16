@@ -18,7 +18,7 @@ Executed through actual controls:
 - inspected typed StartupFailure at generation0time0 and audited all committed publications.
 - original10 saved files SHA256-identical after comparison/Inspector/rerun.
 
-The verified comparison selected ordinals2 and3, with two temporal pairs and eight native cell samples. At ordinal2: actual endpoint0.125s, owner interval[0.0625,0.125]s, dt0.0625s, accepted stage. The common pressure probe at native cell[1,0,0], physical x0.375m, reported0.0625Pa within IEEE roundoff for both sides. L2 was3.4018082047995906e-17Pa and RMS1.20272075978808231e-17Pa; these analytic fixture quantities establish integration, not learned accuracy. Runtime receipt/provider-method-entry, actual returned candidate and RHS availability remained separately displayed; no runtime absence-to-no-dispatch inference was made.
+The verified comparison selected ordinals2 and3, with two temporal pairs and eight native cell samples per selected pair (16 scalar comparisons across the two pairs). At ordinal2: actual endpoint0.125s, owner interval[0.0625,0.125]s, dt0.0625s, accepted stage. The common pressure probe at native cell[1,0,0], physical x0.375m, reported0.0625Pa within IEEE roundoff for both sides. L2 was3.40180802047995906e-17Pa and RMS1.20272075978808231e-17Pa; these analytic fixture quantities establish integration, not learned accuracy. Runtime receipt/provider-method-entry, actual returned candidate and RHS availability remained separately displayed; no runtime absence-to-no-dispatch inference was made.
 
 The actual X11 clipboard CSV row read:
 
