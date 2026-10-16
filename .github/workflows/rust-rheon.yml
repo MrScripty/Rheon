@@ -5,6 +5,8 @@ on:
       - 'Cargo.toml'
       - 'Cargo.lock'
       - 'rust-toolchain.toml'
+      - 'tools/setup_ci_rust.py'
+      - 'tools/test_setup_ci_rust.py'
       - 'src/**'
       - 'tests/**'
       - 'examples/**'
@@ -36,6 +38,8 @@ on:
       - 'Cargo.toml'
       - 'Cargo.lock'
       - 'rust-toolchain.toml'
+      - 'tools/setup_ci_rust.py'
+      - 'tools/test_setup_ci_rust.py'
       - 'src/**'
       - 'tests/**'
       - 'examples/**'
@@ -86,10 +90,7 @@ jobs:
       with:
         persist-credentials: false
     - name: Select official pinned Rust toolchain
-      run: |
-        rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
-        rustc --version --verbose
-        cargo --version
+      run: python3 tools/setup_ci_rust.py
     - name: Strict lints for selected features
       run: |
         cargo clippy --locked ${{ matrix.flags }} --all-targets -- -D warnings
@@ -113,11 +114,12 @@ jobs:
       run: |
         python3 -m venv "$RUNNER_TEMP/rheon-tests"
         "$RUNNER_TEMP/rheon-tests/bin/python" -m pip install --index-url https://pypi.org/simple --only-binary=:all: Pillow==12.3.0 numpy==2.3.5
-    - name: Select official pinned Rust toolchain
+    - name: Check isolated Rust bootstrap contracts
       run: |
-        rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
-        rustc --version --verbose
-        cargo --version
+        python3 -m unittest discover -s tools -p test_setup_ci_rust.py
+        python3 -O -m unittest discover -s tools -p test_setup_ci_rust.py
+    - name: Select official pinned Rust toolchain
+      run: python3 tools/setup_ci_rust.py
     - name: Formatting
       run: |
         cargo fmt --all --check
