@@ -1,4 +1,5 @@
 //! Fresh paired native / CPU-checkpoint water laboratory with explicit AI verdicts.
+mod accepted_provider;
 mod adapter;
 #[cfg(test)]
 mod cpu_contract_tests;
