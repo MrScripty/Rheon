@@ -5,6 +5,7 @@ use crate::{
     LiquidTransportSimulation, LiquidTransportView, PressureImplementation, write_dense3d_frame,
 };
 use std::{fmt, io::Write, time::Instant};
+mod configured;
 
 /// Caller-assigned run and source identity, not proof of provenance or independence.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -57,21 +58,43 @@ pub enum SnapshotStage {
     Accepted,
 }
 
+/// Immutable constructor controls supplied to the Session's actual numerical
+/// and boundary-workspace owners. Per-call inputs and provider bindings are
+/// separate; this value does not infer a future experiment recipe.
+#[derive(Debug, Clone, Copy)]
+pub struct SessionConfiguration {
+    pub transport: LiquidTransportConfig,
+    pub implementation: PressureImplementation,
+    pub boundary_workspace_limit: usize,
+    pub max_steps: usize,
+}
+
 /// Immutable borrow of one publication. Rust prevents stepping while it is used.
 /// Pressure is the last interval projection pressure, not end-surface pressure.
 /// Copy fields explicitly if they must outlive the next step; that storage belongs
 /// to the consumer. There is no hidden snapshot history or unbounded queue.
 pub struct SessionSnapshot<'a> {
     identity: &'a SessionIdentity,
+    configuration: &'a SessionConfiguration,
+    interval_start: Option<f64>,
     grid: &'a GridGeometry,
     state: LiquidTransportView<'a>,
     report: Option<&'a LiquidStepReport>,
     provider: Option<&'a crate::solver_provider::ProviderReport>,
+    configured: Option<&'a crate::solver_provider::configured::ConfiguredProviderReport>,
     frame: usize,
 }
 impl<'a> SessionSnapshot<'a> {
     pub fn identity(&self) -> &'a SessionIdentity {
         self.identity
+    }
+    pub fn configuration(&self) -> &'a SessionConfiguration {
+        self.configuration
+    }
+    /// Exact carrier time before the last completely accepted interval. None
+    /// at construction; never reconstructed by subtracting dt from its end.
+    pub fn accepted_interval_start(&self) -> Option<f64> {
+        self.interval_start
     }
     pub fn grid(&self) -> &'a GridGeometry {
         self.grid
@@ -113,6 +136,7 @@ pub enum SessionError {
     Deadline,
     Step(LiquidStepError),
     Workspace(crate::SimulationError),
+    PressureBinding(crate::solver_provider::ProviderRejection),
 }
 impl fmt::Display for SessionError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -126,10 +150,14 @@ impl std::error::Error for SessionError {}
 /// Physics memory and boundary scratch have separate explicit constructor limits.
 pub struct SimulationSession {
     identity: SessionIdentity,
+    configuration: SessionConfiguration,
+    interval_start: Option<f64>,
     simulation: LiquidTransportSimulation,
     workspace: BoxFluxStepWorkspace,
     report: Option<LiquidStepReport>,
     provider: Option<crate::solver_provider::ProviderReport>,
+    configured: Option<crate::solver_provider::configured::ConfiguredProviderReport>,
+    pressure_history: Option<crate::solver_provider::configured::AcceptedHistoryStamp>,
     steps: usize,
     max_steps: usize,
     stopped: bool,
@@ -158,10 +186,19 @@ impl SimulationSession {
             .map_err(SessionError::Step)?;
         Ok(Self {
             identity,
+            configuration: SessionConfiguration {
+                transport: config,
+                implementation,
+                boundary_workspace_limit: workspace_limit,
+                max_steps,
+            },
+            interval_start: None,
             simulation,
             workspace,
             report: None,
             provider: None,
+            configured: None,
+            pressure_history: None,
             steps: 0,
             max_steps,
             stopped: false,
@@ -179,10 +216,13 @@ impl SimulationSession {
     pub fn snapshot(&self) -> SessionSnapshot<'_> {
         SessionSnapshot {
             identity: &self.identity,
+            configuration: &self.configuration,
+            interval_start: self.interval_start,
             grid: self.simulation.grid(),
             state: self.simulation.state(),
             report: self.report.as_ref(),
             provider: self.provider.as_ref(),
+            configured: self.configured.as_ref(),
             frame: self.steps,
         }
     }
@@ -238,6 +278,7 @@ impl SimulationSession {
         if deadline.is_some_and(|d| now() >= d) {
             return Err(SessionError::Deadline);
         }
+        let interval_start = self.simulation.state().carrier.time;
         let mut expired = false;
         let result =
             self.simulation
@@ -257,9 +298,12 @@ impl SimulationSession {
                 SessionError::Step(e)
             }
         })?;
+        self.interval_start = Some(interval_start);
         self.steps += 1;
         self.report = Some(report);
         self.provider = Some(provider.clone());
+        self.configured = None;
+        self.accept_pressure_history(report, &provider, 0.0);
         Ok((report, provider))
     }
 
@@ -280,6 +324,7 @@ impl SimulationSession {
         if deadline.is_some_and(|d| now() >= d) {
             return Err(SessionError::Deadline);
         }
+        let interval_start = self.simulation.state().carrier.time;
         let mut expired = false;
         let result =
             self.simulation
@@ -299,9 +344,12 @@ impl SimulationSession {
                 SessionError::Step(e)
             }
         })?;
+        self.interval_start = Some(interval_start);
         self.steps += 1;
         self.report = Some(report);
         self.provider = None;
+        self.configured = None;
+        self.pressure_history = None;
         Ok(report)
     }
 }

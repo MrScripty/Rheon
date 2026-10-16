@@ -440,3 +440,86 @@ addition to the three custody pins above. No numerical/schema/provider/accepted
 archive semantics, source selectors or qualification gates change. Earlier529a
 receipts remain pinned to that earlier subject; the final seven-file proposal
 composition requires fresh clean qualification and current native-window evidence.
+
+
+### Accepted Session/context and sealed Newtonian composition
+
+Independent GPT-6.1 Sol read-only source and fixture review approved the
+six numerical/API files and public contract tests. The complete conservative
+closure grows from103 to105 paths: two added modules, four changed sources,
+99 unchanged paths and none removed. The selector, qualification runner,
+independent rational oracle, historical inventories and numerical gates stay
+unchanged. This admits fresh clean qualification only, not model or full-plan
+acceptance. Review and limits: ../plans/configurable-solver-components/reports/accepted-session-review.md.
+
+The existing accepted pressure array supplies borrowed prior history; the
+Session owns context lineage, physical composition and atomic publication.
+The existing viscosity kernel precedes actual RHS formation. Invalid identity
+metadata is dropped before accepted receipts. Eight public native-fixture
+contracts and a deterministic final-callback deadline regression retain
+pressure/volume/cancellation gates and bounded allocations. Runtime bridge,
+typed persistence and measured aa82 parity remain separate gates.
+
+- src/liquid_step.rs: f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93
+- src/session.rs: 604e579bf4a2c780c4941889230654432a2e491059013a94f20300b5ecbe665d
+- src/session/configured.rs: f8a8b7687de99884ad2b7790e9fb3da9c9674d0bcc1a19a21b1e6f7751ac4187
+- src/simulation.rs: 8dea790daf2a2d0801db3003094f9fffe034c9b87946d520a1eacc266c95f078
+- src/solver_provider.rs: 0ab7db08a9016e73d664c730e4ff513d42599a84c680ea061e6604859432a5a5
+- src/solver_provider/configured.rs: 124ca65dd1dec3a8a89043198fb085453a42ca8aff0dc87c67b04b6a986109be
+- tests/configured_provider_session_contract.rs: ba4a8f26fbf0324d705a80a4b108b1e9d09a293ac2eb29a8278fe01f65dc5a00
+
+
+### Immutable accepted constructor configuration readback
+
+Independent GPT-6.1 Sol review approved the additive SessionConfiguration
+readback and its tests. The Session stores the same validated constructor inputs
+used for its owners and returns only an immutable borrow. Original logical
+memory limits remain constructor controls, distinct from internal budget splits;
+per-call viscosity/provider/forcing schedules are not inferred. Both native
+implementations are covered across constructor, acceptance, failure, cancellation
+and stop. Review: ../plans/configurable-solver-components/reports/session-configuration-review.md.
+
+- src/lib.rs: 91f3cdc1a9b0f782e2efcc647eb956230b201e6b0a3429e4b2cd4955f5f2a2eb
+- src/session.rs: 2caa26be33d5497609bfe1b6f16456d217372119d0720a989697fbf5debb0544
+- tests/session_configuration_contract.rs: 4f53c8d35eeb44819791341b8ce1a80421d9562ab8413f528a3234da233632f7
+
+The selector remains105 paths. Only these two selected source pins change;
+103 other selected paths, historical inventories, oracle and qualification
+runner remain unchanged. This is admission for fresh clean qualification only.
+
+
+### Exact accepted Session interval-start authority
+
+Independent GPT-6.1 Sol review approved owner-captured pre-step time for
+all three accepted Session paths. Constructor is None; rejected/cancelled
+attempts and stop preserve the last accepted start. The public regression
+executes64 nonbinary1/60 intervals for all3 paths and both native methods,
+requires a genuine end-minus-dt bit counterexample and verifies failed-attempt
+retention/retry/quota. Review: ../plans/configurable-solver-components/reports/session-interval-review.md.
+
+- src/session.rs: 367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e
+- src/session/configured.rs: d99ae990e9c7ddc956f95f414a25832411a4dc84ab434df95ff9f8f68cf52a83
+- tests/session_interval_start_contract.rs: 4cdc0a85d21d77784ef142ba04f1ef20fb0333555d7bbb15b43465f475934769
+
+The unchanged105-path selector rebinds only these two numerical-owner source
+pins. Other103 selected paths, old inventories, mathematical oracle and runner
+remain unchanged. This admits fresh clean qualification, not old receipt reuse.
+
+
+### Portable accepted Session hash dependency
+
+Hosted browser-fixture qualification exposed a real compile regression: the new
+unconditional core configured context imports sha2 while Cargo declared it only
+for native targets. Independent GPT-6.1 Sol review approves moving the existing
+exactsha2=0.10.9 dependency to the common table, with no version/feature/default
+change. Both lockfiles already contain the same package and remain unchanged.
+The fixed actual wasm32 library build passes; complete fresh browser/native
+qualification is still required. Review:
+../plans/configurable-solver-components/reports/portable-session-hash-review.md.
+
+- Cargo.toml: 10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e
+
+The complete selector remains105 paths, only this manifest pin changes and104
+selected paths are unchanged. Native-only filesystem/SQLite/process capabilities,
+numerical kernels/gates, selectors and historical inventories remain unchanged.
+Native qualification alone does not establish this browser regression fixed.

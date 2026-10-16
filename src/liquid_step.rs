@@ -1,5 +1,8 @@
 //! Transactional fixed-box carrier and represented-volume transport. Fractions
 //! classify pressure only on opt-in surface modes; inertia remains one constant.
+use crate::solver_provider::configured::{
+    AcceptedContextInput, ConfiguredProviderReport, ContextAdapter,
+};
 use crate::{
     Axis, BodyForce, BoxFluxStepBoundary, BoxFluxStepReport, BoxFluxStepWorkspace, BufferPlan,
     ForcedStepReport, GridGeometry, LiquidFlowInterval, LiquidInlet, LiquidVolumeError,
@@ -8,6 +11,11 @@ use crate::{
     SmokeSource, StateView, StepStage, VolumeStage, VolumeStamp,
 };
 use std::fmt;
+struct LiquidProviderInput<'a, 'p> {
+    workspace: &'a mut crate::ProviderStepWorkspace,
+    preferred: Option<&'p mut dyn crate::solver_provider::PressureProvider>,
+    configured: Option<AcceptedContextInput<'p>>,
+}
 
 #[derive(Debug, Clone, Copy)]
 pub struct LiquidTransportConfig {
@@ -477,11 +485,10 @@ impl LiquidTransportSimulation {
         inputs: LiquidStepInputs<'_>,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
-        self.step_impl(inputs, None, None, None, None, cancel)
-            .map(|(report, _)| report)
+        self.step_impl(inputs, None, None, None, cancel)
+            .map(|(report, _, _)| report)
     }
-    /// End-of-step prescribed carrier box flux and explicit liquid inflow
-    /// donors. Appearance tracer follows the existing selected boundary policy.
+    /// End-of-step prescribed carrier box flux and explicit liquid inflow donors.
     pub fn step_with_box_flux(
         &mut self,
         inputs: LiquidStepInputs<'_>,
@@ -489,26 +496,14 @@ impl LiquidTransportSimulation {
         boundary: BoxFluxStepBoundary,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
-        self.step_impl(
-            inputs,
-            Some((workspace, boundary)),
-            None,
-            None,
-            None,
-            cancel,
-        )
-        .map(|(report, _)| report)
+        self.step_impl(inputs, Some((workspace, boundary)), None, None, cancel)
+            .map(|(report, _, _)| report)
     }
-    /// Fully filled Newtonian liquid in a sealed box with free-slip stationary
-    /// walls. mu is dynamic viscosity (Pa s). Surface geometry, box flux,
-    /// unequal material density and phase sources require another model.
-    pub fn step_viscous(
-        &mut self,
-        inputs: LiquidStepInputs<'_>,
-        workspace: &mut crate::ViscosityWorkspace,
-        dynamic_viscosity: f64,
-        cancel: impl FnMut(LiquidStepStage) -> bool,
-    ) -> Result<LiquidStepReport, LiquidStepError> {
+    fn validate_viscous_domain(
+        &self,
+        inputs: &LiquidStepInputs<'_>,
+        workspace: &crate::ViscosityWorkspace,
+    ) -> Result<(), LiquidStepError> {
         if self.surface.is_some()
             || self.columns.is_some()
             || inputs.source.is_some()
@@ -520,19 +515,27 @@ impl LiquidTransportSimulation {
                 SimulationError::Viscosity(crate::ViscosityError::UnsupportedDomain).into(),
             );
         }
+        Ok(())
+    }
+    /// Fully filled Newtonian liquid, sealed stationary free-slip walls.
+    pub fn step_viscous(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        workspace: &mut crate::ViscosityWorkspace,
+        dynamic_viscosity: f64,
+        cancel: impl FnMut(LiquidStepStage) -> bool,
+    ) -> Result<LiquidStepReport, LiquidStepError> {
+        self.validate_viscous_domain(&inputs, workspace)?;
         self.step_impl(
             inputs,
             None,
             Some((workspace, dynamic_viscosity)),
             None,
-            None,
             cancel,
         )
-        .map(|(report, _)| report)
+        .map(|(report, _, _)| report)
     }
-    /// Sealed full-box carrier with opt-in pressure selection. Liquid transport
-    /// and accepted pressure publish atomically after every original gate. Free
-    /// surfaces, column modes and boundary flux are not supported on this path.
+    /// Sealed full-box carrier with existing qualified pressure selection.
     pub fn step_with_pressure_provider(
         &mut self,
         inputs: LiquidStepInputs<'_>,
@@ -540,11 +543,47 @@ impl LiquidTransportSimulation {
         preferred: Option<&mut dyn crate::solver_provider::PressureProvider>,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<(LiquidStepReport, crate::solver_provider::ProviderReport), LiquidStepError> {
-        let (report, provider) =
-            self.step_impl(inputs, None, None, Some(workspace), preferred, cancel)?;
+        let (report, provider, _) = self.step_impl(
+            inputs,
+            None,
+            None,
+            Some(LiquidProviderInput {
+                workspace,
+                preferred,
+                configured: None,
+            }),
+            cancel,
+        )?;
         Ok((
             report,
             provider.expect("provider path qualified before commit"),
+        ))
+    }
+    pub(crate) fn step_with_configured_pressure(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        workspace: &mut crate::ProviderStepWorkspace,
+        viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
+        configured: AcceptedContextInput<'_>,
+        cancel: impl FnMut(LiquidStepStage) -> bool,
+    ) -> Result<(LiquidStepReport, ConfiguredProviderReport), LiquidStepError> {
+        if let Some((workspace, _)) = viscosity.as_ref() {
+            self.validate_viscous_domain(&inputs, workspace)?;
+        }
+        let (report, _, configured) = self.step_impl(
+            inputs,
+            None,
+            viscosity,
+            Some(LiquidProviderInput {
+                workspace,
+                preferred: None,
+                configured: Some(configured),
+            }),
+            cancel,
+        )?;
+        Ok((
+            report,
+            configured.expect("configured receipt prepared before commit"),
         ))
     }
     fn step_impl(
@@ -552,16 +591,24 @@ impl LiquidTransportSimulation {
         inputs: LiquidStepInputs<'_>,
         mut boundary: Option<(&mut BoxFluxStepWorkspace, BoxFluxStepBoundary)>,
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
-        mut provider_workspace: Option<&mut crate::ProviderStepWorkspace>,
-        preferred: Option<&mut dyn crate::solver_provider::PressureProvider>,
+        provider: Option<LiquidProviderInput<'_, '_>>,
         mut cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<
         (
             LiquidStepReport,
             Option<crate::solver_provider::ProviderReport>,
+            Option<ConfiguredProviderReport>,
         ),
         LiquidStepError,
     > {
+        let (mut provider_workspace, mut preferred, configured) = match provider {
+            Some(provider) => (
+                Some(provider.workspace),
+                provider.preferred,
+                provider.configured,
+            ),
+            None => (None, None, None),
+        };
         if provider_workspace.is_some()
             && (self.surface.is_some() || self.columns.is_some() || self.flat_column_mac)
         {
@@ -617,6 +664,20 @@ impl LiquidTransportSimulation {
             .and_then(|n| n.checked_add(viscosity_bytes))
             .and_then(|n| n.checked_add(provider_bytes))
             .ok_or(LiquidStepError::AllocationFailed)?;
+        let mut context_adapter = configured.map(|configured| {
+            ContextAdapter::new(configured, &self.pressure, self.carrier.grid().counts())
+        });
+        let preferred = if let Some(adapter) = context_adapter.as_mut() {
+            if adapter.has_provider() {
+                Some(adapter as &mut dyn crate::solver_provider::PressureProvider)
+            } else {
+                None
+            }
+        } else {
+            preferred.as_mut().map(|provider| {
+                &mut **provider as &mut dyn crate::solver_provider::PressureProvider
+            })
+        };
         let candidate = self.carrier.prepare_liquid_carrier(
             inputs.requested_dt,
             inputs.smoke_source,
@@ -639,6 +700,19 @@ impl LiquidTransportSimulation {
             }),
             |stage| cancel(LiquidStepStage::Carrier(stage)),
         )?;
+        // Capture only bounded metadata before final publication. No prior
+        // pressure copy is added: the adapter borrows this owner's accepted array.
+        let configured_report = context_adapter.map(|adapter| ConfiguredProviderReport {
+            dynamic_viscosity: candidate.viscosity.map_or(0.0, |v| v.dynamic_viscosity),
+            binding: adapter.binding,
+            context: adapter.stamp.get(),
+            prediction_called: adapter.prediction_called,
+            pressure: candidate
+                .provider
+                .as_ref()
+                .expect("configured pressure path")
+                .clone(),
+        });
         let step = candidate.legacy.step.step;
         let mut flow = LiquidFlowInterval::new(
             self.carrier.grid(),
@@ -715,6 +789,7 @@ impl LiquidTransportSimulation {
                 viscosity_workspace_array_bytes: viscosity_bytes,
             },
             candidate.provider,
+            configured_report,
         ))
     }
 }

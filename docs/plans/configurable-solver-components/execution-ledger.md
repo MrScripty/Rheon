@@ -590,3 +590,165 @@ to its actual source and is not relabelled for this correction.
   It does not close absent measured A1, accepted learned-provider A2, unsupported
   platforms or all generic milestone criteria. No training, replacement checkpoint,
   user data change, README90 merge or unmerged source branch retirement occurred.
+## 2026-10-15 — accepted Session/context composition slice
+
+- Parent audit explicitly identified cloud-testable A2–A4 acceptance beyond the
+  measured-bundle gate. The numerical owner implemented the bounded accepted
+  Session binding and existing sealed Newtonian composition separately from the
+  diagnostic Engine. The Session supplies actual dt/interval, post-viscosity RHS,
+  accepted prior and composition prefix; adapters own no host history.
+- No new numerical kernel or pressure-history volume. The existing pressure,
+  corrected-velocity, volume and final-commit gates remain authoritative. Support
+  and pressure-candidate rejection retain same-request native fallback; later
+  whole-interval failure retains fields, reports, history and quota.
+- Independent GPT-6.1 Sol source review found an invalid-identity receipt issue;
+  the corrected path rejects before provider callbacks and never publishes that
+  binding. Final review approved all six API/core files, the eight public
+  contracts, deterministic injected-clock regression and bounded documentation.
+  [Exact pins and review limits](reports/accepted-session-review.md).
+- Eight new public contracts, eight existing viscosity contracts and17 existing
+  provider/Session/transport contracts passed; the latter used actual checkpoint
+  25533a2fbaa5ab0f5fb574dc6307a2b8d6a686deb7db867d0d03338d4d70d5a9
+  and export902ad8d77b16ae42f22f90bf71c22c19ae2e3cbe0cc0f4cc3d770930d4049aea.
+  All33 passed with zero ignored. Four Session deadline units, including the
+  configured final-callback clock crossing, passed. Strict affected core Clippy,
+  formatting and diff checks passed. Logs are in /tmp/rheon-accepted-session-*.
+- Complete conservative source admission grows from103 to105 paths, with two
+  added modules, four changed sources and99 unchanged paths. Selector, old
+  inventories, mathematical oracle and qualification runner remain unchanged.
+  This source freeze requires fresh clean qualification and hosted checks;
+  admission/source review alone is not a numerical or model receipt.
+- Runtime package connection, typed accepted report persistence, frozen accepted
+  spec/run-set integration and fresh-process coverage remain subsequent work.
+  The missing measured aa82 bundle blocks its own parity/accuracy qualification;
+  it does not block these independently testable accepted-path slices. Native
+  fixture candidates are explicitly native solves, not fabricated model evidence.
+- Separate CI-only draft [PR101](https://github.com/MrScripty/Rheon/pull/101)
+  adds the two existing real-checkpoint consumer targets to ai-pressure.yml.
+  Its source-reviewed17/17 actual-model consumer result does not establish aa82
+  parity. PR99 remains governed by its independent exact-head hosted gate.
+
+## 2026-10-15 — accepted Session clean qualification
+
+- Committed source684f1e097c33d1709d5505fe059c7dae3ac690c1,
+  tree788b4fca86943f019b0e1672e0dcbc90398ae1ab, passed all18 fresh native/rational
+  commands with a clean source tree. Lean checking was not run. Real-packet
+  suites passed26 normal and26 optimized with zero skips. The full105-path
+  conservative admission and independent source pins match; no old receipt was
+  transferred. /tmp/rheon-accepted-session-qualified and
+  /tmp/rheon-accepted-session-packet retain the receipts and raw records.
+- Frozen-source execution passed55 contracts:22 library units plus33 affected
+  public contracts, with zero ignored. The latter include the actual existing
+  modal export's provider and accepted Session/transport consumers. Strict
+  affected desktop Clippy and both native binary builds passed with explicit
+  RHEON_SOURCE_REVISION=684f1e097c33d1709d5505fe059c7dae3ac690c1.
+  Logs: /tmp/rheon-accepted-session-frozen-contracts.log,
+  /tmp/rheon-accepted-session-desktop-clippy.log and
+  /tmp/rheon-accepted-session-desktop-build.log. This is an API/numerical slice;
+  no new GUI workflow or external configured package connection is claimed.
+- Draft [PR102](https://github.com/MrScripty/Rheon/pull/102) publishes this slice.
+  This final follow-through changes only the plan/ledger; all105 selected source
+  pins remain byte-identical. Exact-head hosted checks and serial integration
+  remain required. The missing measured bundle remains only its specific gate.
+
+## 2026-10-15 — accepted recording allocation and constructor authority
+
+- Parent explicitly allocated the external recording worker after PR102.
+  Lead assigned only new provider-profile codec/tests/cold-process example/docs
+  and minimal recording registration; worker retains the existing StepRecorder/
+  RecordingReader v1 envelope, transaction, limits and hashes. Versioned typed
+  controls preserve rejected candidate NaN/Inf bits and exact durations; no native
+  carrier/material/diagnostic relabel or invented IPC dispatch.
+- Source authority is the additive immutable SessionConfiguration readback,
+  stored from the same validated constructor arguments and exposed through the
+  SessionSnapshot. Both native implementations pass two new contracts across
+  constructor/acceptance/failure/cancellation/stop; all22 library units and8
+  configured Session contracts plus strict scoped Clippy passed. Independent
+  source/test/docs review approved exact pins. Only lib.rs/session.rs rebind
+  within the unchanged105-path selector; fresh clean qualification follows.
+- PR99 merged97119a60298f9491028234aaa20bc2522c14db16 after18 checks/10
+  successful workflows. PR101 mergedbca6ef8c2a593fe4bf15fb873580bab3d10f86e4
+  after4 checks/3 successful workflows. PR102 incorporates that validated CI
+  coverage without altering its prior105 source pins. Public allocation: PR102
+  comment6203994017. Saved accepted spec/run-set integration remains lead-owned.
+
+## 2026-10-15 — owner-provided exact accepted interval starts
+
+- Recording integration correctly refused to invent native-only interval
+  starts by subtracting dt from the end. Lead added accepted_interval_start to
+  SessionSnapshot, captured from actual pre-step carrier time on all3 accepted
+  paths, None at constructor and unchanged on failed/cancelled/stopped calls.
+- Independent source/test/docs review approved exact pins. New public
+  contract covers64 nonbinary1/60 steps across all3 paths and both methods,
+  requires actual end-dt bit mismatch, and checks failure/retry/quota. All33
+  affected library/configured/configuration/time contracts plus strict scoped
+  Clippy passed. Complete105-source admission rebinds only session.rs and
+  session/configured.rs; fresh committed-source qualification follows.
+- Earlier cleana161844/treeb262ad42db36f1be403a01f9f041d39b4fded374 passed18
+  fresh commands,26 normal/26 optimized packet tests with zero skips,57 core/
+  public contracts with actual modal consumers and zero ignored, strict affected
+  desktop Clippy and both native builds. Those receipts remain pinned to that
+  preceding source in /tmp/rheon-session-config-qualified and related logs.
+
+## 2026-10-15 — exact interval authority clean-source verification
+
+- Clean source45fc1e92332bbbece3501c9327b920bf57ce5e37,
+  tree7c8a2f0300ff595f0fdb8f8483d4be2d15a5e3c0, passed all18 fresh
+  native/rational qualification commands. Lean checking was not run. The
+  complete105-source conservative inventory matches independently reviewed
+  pins; neither selector narrowing nor automatic admission was used.
+- Real-packet tests passed26 normally and26 under optimized Python, zero
+  skips. Frozen core/API execution passed58 contracts, zero ignored:22 library,
+  eight configured Session, four actual modal Session, seven actual modal
+  transport, two constructor-configuration, one exact interval-start, six
+  solver-provider and eight viscosity contracts. Strict affected desktop
+  Clippy and both native binary builds passed with this exact declared revision.
+- Receipts: /tmp/rheon-session-interval-qualified and
+  /tmp/rheon-session-interval-packet; logs share
+  /tmp/rheon-session-interval-*. This evidence supersedes the preceding source
+  only for the exercised source/contract slice; it does not transfer measured
+  deployment, learned accuracy or GUI acceptance. Final follow-through changes
+  only planning documentation; exact pushed-head hosted gates still apply.
+- Separate runtime [PR104](https://github.com/MrScripty/Rheon/pull/104) has
+  its own106-source qualification. Recording
+  [PR103](https://github.com/MrScripty/Rheon/pull/103) preserves a distinct
+  configured Session profile; lead admission and composed verification remain
+  required, including explicit disabled versus applied zero-viscosity semantics.
+  Frozen configured intent and production runtime bridge remain active work.
+
+## 2026-10-15 — browser compile gate and portable context dependency
+
+- Hosted PR102 source da2e12c failed the bounded browser-fixture build. Detailed
+  action-log redirect downloads returned403; the job API identified the step,
+  and local reproduction established compiler E0432: configured context uses
+  sha2 unconditionally, while Cargo declared it only for native targets.
+- Move the existing exactsha2=0.10.9 entry into common dependencies. No new
+  crate/version/feature/default, numerical kernel or model changes; both root
+  and browser lockfiles remain unchanged. Independent exact manifest review
+  approves this target-scope correction. Only Cargo.toml changes within the
+  unchanged105-path conservative admission.
+- Actual release browser contracts passed six cycle plus three flow tests;
+  the unfixed WASM build reproduced E0432, and the fixed wasm32 library build
+  passed. Complete fresh committed-source browser packet/normal/optimized
+  tests plus native qualification follow; no merge gate is waived or previous
+  receipt transferred. Tool provisioning is root-owned under .rheon-tools and
+  generated packet/build outputs remain outside every checkout.
+
+
+## 2026-10-16 — accepted Session CI setup dependency
+
+- Root retains reviewed CI11250732f5 ancestry on portable Session1026b3f7b1,
+  without changing any of the105 conservatively admitted source hashes.
+  The exact four-path setup change and independent7normal/7optimized bootstrap
+  contracts are reviewed in reports/isolated-ci-toolchain-review.md.
+- Official pinned fresh tool homes fix observed partial cargo-clippy install
+  conflicts; hosted core strict lints and book geometry/strain qualification
+  have passed on112. Remaining hosted readiness is separate.
+- Root owns this branch update and eventual ready-gated main merge. Fresh
+  clean-source numerical/packet/core/desktop qualification follows; original
+  770/6b3 component receipts retain their subjects and are not transferred.
+
+
+### Final isolated-setup CI guard reconciliation (2026-10-16)
+
+Retain reviewed PR112ad8564c ancestry on the accepted Session branch. Only the exact historical CI-budget guard changes, with its independently reviewed literal helper substitution and additive normal/optimized bootstrap checks. Numerical methods, workflow workloads, matrices, budgets, status gates, frozen historical files and all105 admitted numerical source pins remain unchanged. Root independently reran3+3 optimized guard contracts with21 rejection controls per mode and7+7 optimized bootstrap contracts. This supersedes no failed hosted result; new exact-source qualification and hosted readiness are required. The preceding clean e6 source independently passed18 qualification,26+26 optimized packet,58actual core/model cases, strict desktop Clippy/both builds and fresh browser release9/builder12/flow13/timestep11actual+3skips per mode; its whole-Git receipt remains tied to e6.

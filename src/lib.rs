@@ -179,8 +179,8 @@ pub use dense3d_sequence::{Dense3dError, Dense3dLimits, Dense3dSequence, write_d
 
 mod session;
 pub use session::{
-    SESSION_CAPABILITIES, SessionCapabilities, SessionError, SessionIdentity, SessionSnapshot,
-    SimulationSession, SnapshotStage,
+    SESSION_CAPABILITIES, SessionCapabilities, SessionConfiguration, SessionError, SessionIdentity,
+    SessionSnapshot, SimulationSession, SnapshotStage,
 };
 
 mod material_session;
