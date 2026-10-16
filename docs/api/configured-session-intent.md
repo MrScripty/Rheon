@@ -49,18 +49,34 @@ existing bounded publication owner. Readers reject unknown versions, fields,
 kinds, duplicate keys and altered digests. Opening historical intent does not
 compare it against the current host or require the old deployment to exist.
 
-Attempt status and `FinalizedArchive` are declarations in this slice. There is
-no configured `pin_closed`, `open_member` or archive Ready result yet. The
-configured SQLite profile must independently verify actual constructor binding,
-fields, exact accepted intervals, applied stage presence, provider identity and
-history, budgets, closed-file hash and terminal tails before those operations can
-be admitted. Generic/native archive verification cannot substitute for the
-configured typed decoder. Missing, incomplete, unpinned, unsupported and invalid
-artifacts must remain distinguishable in that integration.
+The `configured::archive` child binds an actual constructor to the frozen spec
+in the existing recording header. `ConfiguredRunAttempt::pin_closed` closes the
+custody boundary only after typed header/publication validation and matching
+before/after file hashes. The composer must close its writer first and protect
+immutable local paths throughout pinning and inspection. A caller-assigned
+`FinalizedArchive` alone grants no readiness.
+
+`archive::open_member` explicitly reports NotRun, Missing, Incomplete, Unpinned,
+Unsupported, Invalid or Ready. Historical opening creates no Session/provider or
+runtime and never resolves the deployment. Ready requires exact constructor,
+source, geometry, recording budget, intent digest and host declaration; a known
+terminal accepted tail; actual applied viscosity and native-prefix/provider
+policy; full configured profile validation; and the pinned artifact hash. A
+completed run must cover the entire requested horizon. Failed/Cancelled outcomes
+may retain an explicit unrecorded accepted tail within that horizon. Missing
+accepted-generation knowledge cannot become Ready. Actual owner-provided interval
+starts and shortened dt are retained; cold validation permits dt at most the
+requested value rather than reconstructing start by subtraction.
+
+Cold inspection compares the observable physical/identity facts. Force controls,
+requested scheduling and package execution remain producer declarations; neither
+an RHS digest nor a header proves those future operations independently. Generic
+or native archive validation cannot replace the configured typed audit. The new
+profile is inspection evidence and cannot be used as a restart checkpoint.
 
 Nine configured contracts and17 existing native saved-set contracts exercise
 constructor fidelity, native implementations, immutable publication, schema
 separation, bounded declarations, executor/package drift, historical opening,
 explicit differences, unknown kinds/fields, duplicate keys and tampering. These
-pure-intent checks do not establish A4 workflow acceptance, native-window
+checks, plus eight real archive binding contracts, do not establish complete A4 workflow acceptance, native-window
 interaction, package execution, learned-model parity or performance.

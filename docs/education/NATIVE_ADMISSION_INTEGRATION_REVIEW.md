@@ -546,3 +546,33 @@ registration-only changed source and104 unchanged selected paths. Existing
 historical inventories, selector, mathematical oracle and qualification runner
 are unchanged. Only these explicitly reviewed hashes are admitted; no automatic
 refresh occurs. This permits fresh clean qualification, not receipt transfer.
+
+
+### RCP2 configured recording and cold immutable member binding
+
+Independent GPT-6.1 Sol lead reviews approve the exact RCP2 profile and cold
+archive binding over the existing accepted SQLite envelope. The profile captures
+actual viscosity-stage presence, full constructor controls, exact interval starts
+and typed bounded accepted/fallback lineage. Closed frozen members additionally
+compare every constructor/header control even when empty; requested versus actual
+interval policy; exact applied viscosity and provider/prefix facts; known terminal
+tail and completed horizon; and protected closed-file hashes before/after audit.
+Cold opening creates no Session/provider/runtime or deployment resolution.
+Force/request scheduling remains a producer declaration, not reconstructed RHS
+proof. Failed/Cancelled may retain a declared unrecorded accepted tail; unknown
+accepted tail cannot become Ready. Reviews:
+../plans/configurable-solver-components/reports/configured-recording-stage-review.md
+and ../plans/configurable-solver-components/reports/configured-archive-review.md.
+
+- src/bin/desktop/run_sets/configured.rs: 45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9
+- src/bin/desktop/run_sets/configured/archive.rs: 51a2ac2952c6dfd8881e3a5abb6080a5e785f99c5d24b67685aaa3ae01b7bf4f
+- tests/configured_archive_binding_contract.rs: 16a239f34960677ab65c8106c0b21e06ecd9929a04d496938dd919eb11962004
+- docs/api/configured-session-intent.md: 6c1c694d4ff06bec4117e1a78518a35e402445c96efc45f05a7c973928effce5
+- src/recording/provider.rs: 91e69991e352013be0ecc48bf7fc0b6c1c75e4a7564d9c7f9ed7d2f312c52ff3
+- src/recording.rs: d022f8f46c288538298896ae444c9780265a6bf77fa9a4e1ba4b9732cf026eb2
+
+The complete conservative selector grows106 to108: two added modules, two
+changed source paths and104 unchanged selected paths. The portable hash fix is
+already inherited. Source selectors, old inventories, numerical kernels/gates
+and mathematical oracle remain unchanged. Fresh clean final-source qualification
+is required; production worker/UI/runtime custody and complete A4 are separate.

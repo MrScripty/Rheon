@@ -1,7 +1,10 @@
 //! Closed accepted-Session intent, distinct from native carrier schema one.
 //! This module captures constructor facts and future declarations. It never
 //! loads a model, advances time, restores state, or infers a recording outcome.
-//! Archive binding awaits the recording owner's concrete typed codec.
+//! The archive child separately audits typed recording custody and readiness.
+#[path = "configured/archive.rs"]
+pub mod archive;
+
 use super::{
     ArchiveBudget, FinalizedArchive, MAX_MANIFEST_BYTES, MAX_MEMBERS, NativePressureMethod,
     NativeTolerances, RunSetError, TerminalOutcome, digest, publish_new, read_versioned,
@@ -297,18 +300,26 @@ impl ConfiguredConstructor {
                 "configured intent requires sealed full constructor rest",
             ));
         }
+        Self::from_configuration(snapshot.grid(), snapshot.configuration())
+    }
+    // Shared pure conversion for actual constructor capture and a cold typed
+    // recording header. It allocates no numerical owner and infers no schedule.
+    fn from_configuration(
+        grid: &GridGeometry,
+        configuration: &SessionConfiguration,
+    ) -> Result<Self, RunSetError> {
         let SessionConfiguration {
             transport,
             implementation,
             boundary_workspace_limit,
             max_steps,
-        } = *snapshot.configuration();
+        } = *configuration;
         let c = transport.carrier;
         let t = c.pressure;
         Ok(Self {
-            counts_xyz: snapshot.grid().counts().map(|n| n as u64),
-            spacing_m: snapshot.grid().spacing(),
-            origin_m: snapshot.grid().origin(),
+            counts_xyz: grid.counts().map(|n| n as u64),
+            spacing_m: grid.spacing(),
+            origin_m: grid.origin(),
             density_kg_m3: c.density,
             represented_density_kg_m3: transport.represented_density,
             pressure_method: match implementation {
@@ -640,8 +651,8 @@ impl ConfiguredSpecDifference {
         Ok(result)
     }
 }
-/// Declaration only. Final pins do not become verified until the recording
-/// owner supplies configured archive binding/decoding; no native pin_closed API.
+/// A declaration alone grants no readiness. The archive child verifies typed
+/// publications and the closed artifact before pinning or returning Ready.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ConfiguredRunAttempt {

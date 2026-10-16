@@ -761,3 +761,26 @@ to its actual source and is not relabelled for this correction.
   codec-backed closed archive binding, cold member states, worker/UI execution
   and A4 acceptance remain active integration work. Fresh committed-source
   qualification and exact-head hosted gates are required before integration.
+
+## 2026-10-15 — typed configured archive binding and cold states
+
+- Bound actual constructor headers to frozen configured intent, preserving
+  the real RCP2 profile, raw logical constructor budgets, actual viscosity
+  presence/coefficient, source/package and native-prefix facts. Cold opening
+  creates no numerical/runtime owner and never resolves deployment files.
+- Typed header audit applies even to empty failed-start archives. Ready requires
+  terminal status, known accepted tail, complete profile/recipe associations and
+  stable closed-file pins; completed horizon is exact, while Failed/Cancelled
+  may retain an explicit unrecorded accepted tail within the request. Actual
+  shortened/nonbinary intervals are retained, not reconstructed by subtraction.
+  Future force execution remains producer-declared, not cold RHS reconstruction.
+- Independent source review approves parent/helper, archive module, test and API
+  documentation pins.54 affected contracts pass: eight archive binding, nine
+  intent,20 RCP2 recording and17 native saved-set, zero ignored; strict focused
+  Clippy/fmt pass. A real producer exits before a distinct cold inspector process,
+  with Session/provider constructors guarded against use in inspect phase.
+- Complete conservative admission grows106 to108: two new modules, two changed
+  sources,104 unchanged selected paths. Portable Session dependency770e26b is
+  inherited. This source freeze requires fresh clean qualification/current-head
+  hosted gates; no production worker/UI, external runtime custody, A4 completion
+  or missing measured-model acceptance is claimed.
