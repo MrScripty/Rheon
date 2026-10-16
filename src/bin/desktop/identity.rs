@@ -4,9 +4,6 @@ static NEXT_RUN: AtomicU64 = AtomicU64::new(1);
 pub fn new_identity(backend: &str) -> rheon::SessionIdentity {
     rheon::SessionIdentity {
         run_id: NEXT_RUN.fetch_add(1, Ordering::Relaxed),
-        source_revision: format!(
-            "desktop-{backend}/{}; revision unspecified",
-            env!("CARGO_PKG_VERSION")
-        ),
+        source_revision: super::build_identity::executor_revision(&format!("desktop-{backend}")),
     }
 }

@@ -2,6 +2,8 @@
 //! viewer consumes bounded immutable accepted previews and optional diagnostics.
 #[path = "desktop/ai_comparison/mod.rs"]
 mod ai_comparison;
+#[path = "desktop/build_identity.rs"]
+mod build_identity;
 #[path = "desktop/camera.rs"]
 mod camera;
 #[path = "desktop/emitter_controls.rs"]
@@ -292,7 +294,7 @@ fn run_simulations(
                 spec,
                 &sim,
                 identity.clone(),
-                "native desktop saved specification v1; build revision unspecified",
+                &build_identity::executor_revision("desktop-saved-native-v1"),
             )
             .map_err(|e| e.to_string())?;
             let set = saved_set.as_mut().expect("saved spec owner");

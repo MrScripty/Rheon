@@ -1,6 +1,8 @@
 //! Native Rheon water comparison: qualified reference and raw CPU AI diagnostic.
 #[path = "desktop/ai_comparison/mod.rs"]
 mod ai_comparison;
+#[path = "desktop/build_identity.rs"]
+mod build_identity;
 #[path = "desktop/camera.rs"]
 mod camera;
 #[path = "desktop/run_sets.rs"]
