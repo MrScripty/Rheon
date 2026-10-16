@@ -747,3 +747,8 @@ to its actual source and is not relabelled for this correction.
 - Root owns this branch update and eventual ready-gated main merge. Fresh
   clean-source numerical/packet/core/desktop qualification follows; original
   770/6b3 component receipts retain their subjects and are not transferred.
+
+
+### Final isolated-setup CI guard reconciliation (2026-10-16)
+
+Retain reviewed PR112ad8564c ancestry on the accepted Session branch. Only the exact historical CI-budget guard changes, with its independently reviewed literal helper substitution and additive normal/optimized bootstrap checks. Numerical methods, workflow workloads, matrices, budgets, status gates, frozen historical files and all105 admitted numerical source pins remain unchanged. Root independently reran3+3 optimized guard contracts with21 rejection controls per mode and7+7 optimized bootstrap contracts. This supersedes no failed hosted result; new exact-source qualification and hosted readiness are required. The preceding clean e6 source independently passed18 qualification,26+26 optimized packet,58actual core/model cases, strict desktop Clippy/both builds and fresh browser release9/builder12/flow13/timestep11actual+3skips per mode; its whole-Git receipt remains tied to e6.
