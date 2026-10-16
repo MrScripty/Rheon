@@ -1,0 +1,47 @@
+[
+  {
+    "local": "cpu_bridge-source.py",
+    "source_path": "experiments/live-water-comparison-v1/cpu_bridge.py",
+    "revision": "a8426061380e82951b4dba1bbfa38ff93dc7ebb2",
+    "git_blob_sha1": "b56d01c06171b9e15435bd11d61b8c522289f249",
+    "sha256": "6938d5c0a326fb3c2dca7b874c8f1430b7f4e5a0d7209be9705f0c3e074ad412",
+    "bytes": 7814,
+    "url": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/experiments/live-water-comparison-v1/cpu_bridge.py"
+  },
+  {
+    "local": "project-source.py",
+    "source_path": "experiments/sealed-water-v1/project.py",
+    "revision": "a8426061380e82951b4dba1bbfa38ff93dc7ebb2",
+    "git_blob_sha1": "07bb266acb98888fb3e058b7a0513fdc974d4bfd",
+    "sha256": "f757dbff1a570219fa8fcb144deac7116585987efc4148a5490d86c607c586c1",
+    "bytes": 9822,
+    "url": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/experiments/sealed-water-v1/project.py"
+  },
+  {
+    "local": "data-source.py",
+    "source_path": "experiments/sealed-water-v1/data.py",
+    "revision": "a8426061380e82951b4dba1bbfa38ff93dc7ebb2",
+    "git_blob_sha1": "ab71c7946c7f25edad4c451029589d053d691da3",
+    "sha256": "eef8719bf4c17685f564529c4ecf0a2c7c4f3b8834818ab4c8397343bcc178fe",
+    "bytes": 7962,
+    "url": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/experiments/sealed-water-v1/data.py"
+  },
+  {
+    "local": "train-source.py",
+    "source_path": "experiments/sealed-water-v1/train.py",
+    "revision": "a8426061380e82951b4dba1bbfa38ff93dc7ebb2",
+    "git_blob_sha1": "7be4810da8c50cc4b4ee442ffa2f1c03b3688e6b",
+    "sha256": "ec0a28b88bafa3c69ca9d7ca2fd1db9bc838d6a1142bc01dce2d286359de933d",
+    "bytes": 19725,
+    "url": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/experiments/sealed-water-v1/train.py"
+  },
+  {
+    "local": "portable-model-source.py",
+    "source_path": "experiments/cuda-pressure-v1/model.py",
+    "revision": "a8426061380e82951b4dba1bbfa38ff93dc7ebb2",
+    "git_blob_sha1": "a79f54141b19c52bf21bf9cf85c24939616547ef",
+    "sha256": "64fae71821a497932fb73b270b75d06d76f6dd9e5438d29d2245d0ca2ae87935",
+    "bytes": 12236,
+    "url": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/experiments/cuda-pressure-v1/model.py"
+  }
+]

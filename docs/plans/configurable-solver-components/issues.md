@@ -79,8 +79,8 @@ CandidateReturned does not manufacture the missing generation2 pressure verdict,
 quality metric or fields. A bounded shared-page correction preserves unavailable
 legacy accepted generation rather than displaying tail absent, and does not call
 zero accepted generation with zero rows an accepted tail. Actual closed legacy
-and constructor-cap regressions keep normal owner validation in force. Final
-combined-source execution/hosted gates and Root-owned serial integration remain.
+and constructor-cap regressions keep normal owner validation in force. Final62 combined-source execution/hosted gates passed and the exact reviewed
+source reached main through PR115; see [bounded acceptance](reports/bounded-acceptance.md).
 
 Q10 is an exact availability limit, not a new training request. Pinned lab
 `a8426061380e82951b4dba1bbfa38ff93dc7ebb2` identifies checkpoint
@@ -103,3 +103,22 @@ never ran. Independent source/consumer review found no evidence of a new wiring
 defect, and the archive cannot establish an exact roundoff cause. Preserve this
 failed case alongside successful bounded workflows; new numerical semantics or
 relaxed fraction bounds require separate qualification.
+
+
+## Final bounded acceptance and remaining A1 owner inputs
+
+The accepted bounded implementation is integrated in main through PR112, PR102,
+PR113 and PR115. Exact source, merge, test and cleanup dispositions are in
+[bounded acceptance](reports/bounded-acceptance.md); no unmerged companion or
+README90 was accepted or retired by inference. Q2’s actual Session composition,
+Q3/Q4 recording/isolation, Q7 constructor rerun and Q8 configured quantitative
+consumers are accepted in their declared scopes. Q5 recurrence and Q6 descendant/
+hard-shutdown promises remain outside supported scope.
+
+Q10 and the measured part of A1 remain blocked. The
+[exact owner-input checklist](reports/measured-a1-owner-inputs.md) distinguishes
+weights, normalization, descriptor, runtime assets, source/Run custody, packet
+arrays and prediction witnesses. Unknown owner inventory hashes remain unknown.
+A second compatible measured revision and current executor admission also need
+their stated evidence; the plan is not Complete. Preserve the original0/49
+accuracy outcome and the nonzero4³ native refusal under unchanged gates.

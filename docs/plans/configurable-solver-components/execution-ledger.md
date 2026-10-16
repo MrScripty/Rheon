@@ -1230,3 +1230,37 @@ Retain final producer6291ce ancestry, including accepted Session ec46127, final 
   acceptance units remains exact-head hosted-gated. Root owns final consumer
   publication, serial merges and safe terminal cleanup; no README90 or
   unmerged companion is retired by this reconciliation.
+
+
+## 2026-10-16 — final bounded acceptance and measured A1 handoff
+
+The bounded acceptance units reached main after independent review, fresh
+source-specific validation, all applicable exact-head hosted gates, readiness
+recheck and exact prospective/actual merge-tree proof:
+
+- CI112ad8564c → e8417055d408d654d1d635fad9ab292381d56fbd.
+- Session102ec46127 →76142a80c780c219ffc1dfee12db36e55c425b81.
+- Producer1136291ce →c1916e5a32ed8e5170344a3fac7f5e7ca8976620.
+- Consumer11562d73f1 →60eca79a688167532e71faa17b9e5b2bc5ce2b3d, exact treebad2a72d28a78a3a67a7dc3b590a7462be48b60f.
+
+Consumer62 is an ancestry-only descendant of27 with all1278 tracked files and124
+selected source pins unchanged. It received its own source-stamped native and
+browser executions. Root rehashed the final source and44 evidence artifacts.
+The earlier27 default/isolated emitter timeouts remain retained; unchanged idle
+and serial runs passed, and hosted final62 desktop also passed the unchanged
+emitter test. No deadline/assertion/workload or numerical gate was relaxed.
+
+See [bounded acceptance](reports/bounded-acceptance.md) for precise results,
+subjects, ignored/overlapping cases, actual window attribution and cleanup.
+Native/recording/model/worker owners and original v1/v2 inventories are retained.
+Exact covered component heads were verified in main before their standalone
+proposals/resources were retired. All still-unmerged companions, README90 and
+user-owned Root state remain preserved. Generated recordings, model fixtures,
+controlled dfde artifacts and source-specific ordinary binaries were preserved.
+
+The overall plan remains blocked by measured A1. The independently reviewed
+[owner checklist](reports/measured-a1-owner-inputs.md) records exact aa82/bee9/be4
+identities, original source/Run/catalog coordinates, required actual runtime
+assets and the train-validation parity packet/predictions. No missing hash,
+second measured revision, model result or full-plan completion is fabricated.
+No model was trained or user data changed.
