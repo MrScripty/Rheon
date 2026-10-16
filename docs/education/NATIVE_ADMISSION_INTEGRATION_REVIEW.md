@@ -915,3 +915,21 @@ final-source/window validation remain required. Exact source pins:
 - src/bin/desktop/run_sets/source.rs: c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11
 - src/bin/desktop/run_sets.rs: e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1
 - tests/saved_source_contract.rs: 39cb5152583c1662f8dfb71217409025084c4e05be1a18e1b7b3912fa4d21ca5
+
+
+### Final reviewed frozen runtime custody and clock guard
+
+PR110c230cf7 is retained by ancestry. The superseding independent review in
+../plans/configurable-solver-components/reports/configured-runtime-cold-final-review.md
+resolves the impossible-clock finding using repeated IEEE requested-duration
+addition from the frozen +0 constructor, independent of observation presence.
+Known RCT1 full audit, optional legacy custody, frozen package/phase/prefix/dt/
+coefficient bounds and honest unavailable tail coverage retain their owners.
+Complete committed-index closure stays122: one changed reviewed archive source,
+121 unchanged. Root caller working-tree mutations remain separate and unadmitted
+until their own final review; this merge does not silently refresh those pins.
+Fresh composed qualification remains required. Exact final three-path pins:
+
+- src/bin/desktop/run_sets/configured/archive.rs: eb1d8e77019eb57afd9e5fd5f57af55f8ff320527ec8efc935945bd7ff477806
+- tests/configured_archive_binding_contract.rs: 821ddd7d173c84453650d2cde938bf024d907e2f062a894ea2b182e44ac56932
+- docs/api/configured-session-intent.md: 0b3debf93ebacca8e45df814fd67694eac52f5bcac95a89c193b392b2e77b71d

@@ -68,6 +68,47 @@ accepted-generation knowledge cannot become Ready. Actual owner-provided interva
 starts and shortened dt are retained; cold validation permits dt at most the
 requested value rather than reconstructing start by subtraction.
 
+`archive::runtime_custody(reader, spec)` reports `LegacyUnavailable` or
+`Typed(RuntimeTerminationAudit)`. It inspects runtime terminal custody and the
+frozen request policy; it does not independently grant member readiness or
+replace the path, header, immutable-file and finalized-pin checks above. Generic
+historical terminal detail remains inspectable with unavailable typed runtime
+custody, including RCP2 publications and an RCP3 publication whose terminal
+detail is generic. Absence of typed custody is not evidence that no process was
+called. A typed termination with no observation likewise supplies no invented
+request or dispatch.
+
+Known RCT1 terminal payloads must pass the existing full configured runtime
+termination audit before pinning or closed-member inspection. Malformed known
+payloads refuse inspection; unknown reserved runtime terminal versions remain
+Unsupported. They cannot fall back to generic legacy handling. Typed results
+retain `VerifiedLastPublication`, `UnrecordedAcceptedTail` and
+`NoRecordedPublication` coverage. An accepted-but-unrecorded tail stays explicit;
+its absent final fields, clock and runtime association are not independently
+verified. Any available retained prior link is still checked.
+
+Typed terminal accepted time must also fit the frozen rest-state clock. Starting
+at exact positive zero, cold validation adds the frozen requested dt once per
+accepted generation, using repeated IEEE floating-point addition for at most
+10,000 steps. A terminal time above that upper bound is refused, including when
+no runtime observation or accepted tail fields were recorded. Multiplication is
+not substituted for accumulation. Actual host-shortened intervals and nonbinary
+accumulated clocks remain allowed within this bound. This is a consistency check
+against declared intent; it does not independently verify the missing actual
+intervals, clock or dispatch history.
+
+A retained terminal request must also fit the frozen requested horizon and
+interval-size bound. Native-only intent and the requested native-prefix phase
+cannot introduce a configured runtime attempt; post-prefix attempts must match
+the exact frozen provider identity and viscosity coefficient. The observed native
+prefix must be at least the requested seed; fallback can increase it, so exact
+prefix length is not inferred from missing history. These checks include an
+unaccepted next attempt, even when the Session quota permits more
+steps than the frozen request. They do not reconstruct an RHS, force schedule or
+private history. An aborted request's zero coefficient does not establish
+whether a Newtonian stage was applied. Applied-stage presence is an accepted
+receipt fact and remains unavailable for an unaccepted attempt.
+
 Cold inspection compares the observable physical/identity facts. Force controls,
 requested scheduling and package execution remain producer declarations; neither
 an RHS digest nor a header proves those future operations independently. Generic
@@ -78,5 +119,5 @@ Nine configured contracts and17 existing native saved-set contracts exercise
 constructor fidelity, native implementations, immutable publication, schema
 separation, bounded declarations, executor/package drift, historical opening,
 explicit differences, unknown kinds/fields, duplicate keys and tampering. These
-checks, plus eight real archive binding contracts, do not establish complete A4 workflow acceptance, native-window
+checks, plus seventeen real archive binding contracts, do not establish complete A4 workflow acceptance, native-window
 interaction, package execution, learned-model parity or performance.
