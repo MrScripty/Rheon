@@ -649,7 +649,16 @@ fn explicit_selected_field_materialization_requires_verified_exact_sources() {
     std::fs::rename(root.0.join("changed.sqlite"), root.0.join("jacobi.sqlite")).unwrap();
     h.click("open-result");
     h.click("verify");
-    let candidate = h.page.selected_pair().unwrap().recipe.run_set.members[1].clone();
+    let candidate = h
+        .page
+        .selected_pair()
+        .unwrap()
+        .recipe
+        .run_set
+        .native()
+        .unwrap()
+        .members[1]
+        .clone();
     std::fs::remove_file(root.0.join("sgs.sqlite")).unwrap();
     produce(&root.0, &candidate, "changed");
     assert!(

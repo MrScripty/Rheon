@@ -1084,3 +1084,35 @@ to its actual source and is not relabelled for this correction.
   resolver/recipe/page integration is ready; it is not routed through a native
   recipe. Corrected PR110 terminal-clock policy and its ancestry remain pending
   the allocated owner's fix. No full-plan/model/performance acceptance yet.
+
+
+## 2026-10-16 — configured quantitative consumer integration
+
+- Root owns branch implementation/configured-comparison-ui-20261016, stacked
+  on published production Worker1133012154. It retains reviewed PR111ea6e5da,
+  saved-source PR1141c32eb0 and corrected cold runtime PR110c230cf7 ancestry.
+  Target is the production Worker branch until serial parent acceptance; final
+  main integration and ready-gated merge/cleanup remain root-owned.
+- The existing saved comparison page/artifact/linked-field owners now consume
+  configured sets through the shared source adapter. Native payload/digests
+  remain unchanged; explicit recipe/result version2 binds configured sources.
+  Core pressure receipts, actual runtime observations, authoritative RHS hash
+  relations and sampled pressure-call durations retain their separate scopes.
+- Independent eleven-path source/doc review approves one added source/six
+  changed/116 unchanged, complete123 conservative pins. Native tests retain
+  assertions and use explicit native fixture access. No selector, numerical
+  gate, reducer, gauge policy, store or worker-loop replacement.
+- Working-source five actual Worker comparison contracts and63 affected
+  archive/page/linked/source/cold/library contracts passed, no ignored tests.
+  Test-only egui time sequencing and a pure needless-borrow lint were fixed
+  without weakening assertions. Strict both-bin/all-test Clippy, formatting and diff checks passed after
+  the borrow-only fix. Fresh committed source qualification follows; no301 or
+  component receipt is transferred to this head.
+- Actual producer OS exit precedes a new reader with no runtime on PATH for
+  saved pressure-result verification, linked probes and Inspector CSV after
+  package removal. Full/correction and typed quality/invalid-output cases use
+  actual production Worker/process owners. No learned accuracy/performance
+  claim. Latest native-window evidence remains required.
+- External disjoint allocation113#6206122892 owns only a new real after-accept
+  recording-limit/unrecorded-tail producer-exit fixture; root registers it after
+  this source is published. That gap is not silently counted as accepted here.

@@ -933,3 +933,40 @@ Fresh composed qualification remains required. Exact final three-path pins:
 - src/bin/desktop/run_sets/configured/archive.rs: eb1d8e77019eb57afd9e5fd5f57af55f8ff320527ec8efc935945bd7ff477806
 - tests/configured_archive_binding_contract.rs: 821ddd7d173c84453650d2cde938bf024d907e2f062a894ea2b182e44ac56932
 - docs/api/configured-session-intent.md: 0b3debf93ebacca8e45df814fd67694eac52f5bcac95a89c193b392b2e77b71d
+
+
+### Existing saved comparison consumes configured Session sources
+
+Independent GPT-6.1 Sol review in
+../plans/configurable-solver-components/reports/configured-comparison-consumer-final-review.md
+approves exact eleven-path caller/document/test scope. Existing SavedRecipe,
+verified/unverified results, page, physical-time alignment, gauges, metrics,
+linked fields/probes and Inspector exports retain their owners. Native inner
+bytes/digests remain unchanged; recipe/result envelopes bind schema1 to native
+and schema2 to configured sources. Configured typed facts, RHS hash relation
+and sampled pressure-call summaries reuse PR111. Paint caches metadata and
+never resolves sources. Latest reviewed PR110c230 custody is retained.
+
+Exact independently reviewed Rust pins:
+
+- src/bin/desktop/comparison.rs: 724ccf90e49bf3cbd7fa144fcee6acc91d72301651b99f2ed2f26d08c664ff5f
+- src/bin/desktop/comparison_archive.rs: 813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9
+- src/bin/desktop/comparison_field_view.rs: ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82
+- src/bin/desktop/configured_comparison_tests.rs: e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46
+- src/bin/desktop/configured_worker_tests.rs: 8e6fd169186fe91b5e5eb6105716f29b56cc22e049d668de502def129607a51c
+- src/bin/desktop/run_set_view.rs: ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b
+- src/bin/rheon-desktop.rs: 13cf1812ef2988cbd6484a830cb3ff5081912f9fee1508042d08ae15e244267c
+
+Complete conservative closure grows122 to123: one added actual-Worker
+comparison test module, six changed caller/test-helper sources,116 unchanged,
+none removed. Only reviewed hashes are admitted; no source selector, historical
+inventory, numerical gate, field arithmetic or qualifier change. Old native
+contracts retain every behavioral assertion, with explicit source-variant
+access in their fixture setup. Borrow-only lint repair suppresses nothing.
+
+Five actual production comparison contracts and63 affected contracts passed
+on the reviewed working source. They include actual producer-OS-exit and a
+fresh reader with no model runtime on PATH; analytic fixtures are not learned
+accuracy/performance evidence. Final strict lint, committed whole-source and
+native-window evidence remain separately subject-bound. A separately allocated
+actual after-accept recording-limit/unrecorded-tail fixture is still pending.

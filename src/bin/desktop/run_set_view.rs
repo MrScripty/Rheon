@@ -1,78 +1,9 @@
 //! Explicit immutable manifest selection; cold inspection never starts a model.
-use super::{
-    archive_view::ArchiveView,
-    run_sets::{self, *},
-};
+use super::{archive_view::ArchiveView, run_sets::*};
 use eframe::egui;
 use std::path::{Path, PathBuf};
 
-#[derive(Clone)]
-pub enum SavedRunSet {
-    Native(RunSetRevision),
-    Configured(configured::ConfiguredRunSetRevision),
-}
-impl SavedRunSet {
-    fn open(path: &Path) -> Result<Self, RunSetError> {
-        match RunSetRevision::open(path) {
-            Ok(set) => Ok(Self::Native(set)),
-            Err(RunSetError::Unsupported("manifest version")) => {
-                configured::ConfiguredRunSetRevision::open(path).map(Self::Configured)
-            }
-            Err(error) => Err(error),
-        }
-    }
-    fn count(&self) -> usize {
-        match self {
-            Self::Native(s) => s.members.len(),
-            Self::Configured(s) => s.members.len(),
-        }
-    }
-    fn heading(&self) -> String {
-        match self {
-            Self::Native(s) => format!("{} · native baseline {}", s.set_id, s.baseline_member),
-            Self::Configured(s) => format!(
-                "{} · configured Session baseline {}",
-                s.set_id, s.baseline_member
-            ),
-        }
-    }
-    fn member(&self, index: usize) -> (String, &str, rheon::recording::RecordingLimits) {
-        match self {
-            Self::Native(s) => {
-                let m = &s.members[index];
-                (
-                    format!(
-                        "{} · {:?} · changes {:?}",
-                        m.member_id, m.spec.spec.pressure_method, m.differences_from_baseline
-                    ),
-                    m.attempt
-                        .as_ref()
-                        .map_or("", |a| a.archive_relative_path.as_str()),
-                    m.spec.spec.recording.limits(),
-                )
-            }
-            Self::Configured(s) => {
-                let m = &s.members[index];
-                (
-                    format!(
-                        "{} · {:?} · changes {:?}",
-                        m.member_id, m.spec.future.pressure, m.differences_from_baseline
-                    ),
-                    m.attempt
-                        .as_ref()
-                        .map_or("", |a| a.archive_relative_path.as_str()),
-                    m.spec.future.recording.limits(),
-                )
-            }
-        }
-    }
-    fn open_member(&self, root: &Path, index: usize) -> MemberState {
-        match self {
-            Self::Native(s) => run_sets::open_member(root, &s.members[index]),
-            Self::Configured(s) => configured::archive::open_member(root, &s.members[index]),
-        }
-    }
-}
+pub use super::run_sets::source::SavedRunSet;
 
 #[derive(Default)]
 pub struct RunSetView {
@@ -85,9 +16,6 @@ pub struct RunSetView {
     ready: Vec<bool>,
 }
 impl RunSetView {
-    pub fn is_configured(&self) -> bool {
-        matches!(self.revision, Some(SavedRunSet::Configured(_)))
-    }
     pub fn open(&mut self) -> Result<(), String> {
         self.revision = None;
         self.statuses.clear();
@@ -101,8 +29,8 @@ impl RunSetView {
             .filter(|p| !p.as_os_str().is_empty())
             .unwrap_or_else(|| Path::new("."));
         self.root = parent.canonicalize().map_err(|e| e.to_string())?;
-        for index in 0..revision.count() {
-            let state = revision.open_member(&self.root, index);
+        for member in revision.members() {
+            let state = member.open(&self.root);
             self.ready.push(matches!(state, MemberState::Ready(_)));
             self.statuses.push(match state {
                 MemberState::Ready(reader) => format!(
@@ -155,15 +83,18 @@ impl RunSetView {
         });
         egui::CentralPanel::default().show(ctx,|ui| {
             let Some(revision)=&self.revision else{return;};
-            ui.label(revision.heading());
+            ui.small(format!("{} saved members",revision.member_count()));
+            ui.label(format!("{} · {} baseline {}", revision.set_id(), if revision.is_configured(){"configured Session"}else{"native"}, revision.baseline_member_id()));
             if ui.button("Rerun saved set from zero").clicked(){rerun=Some(revision.clone());self.active=false;}
             ui.small("Ready verifies the exact closed artifact and typed intent; failed/cancelled outcomes retain their meaning. Archives are inspection data, not restart checkpoints.");
             ui.small("Status is cached from explicit open. Inspect rechecks the exact pinned member before selection.");
-            for index in 0..revision.count() {
-                let (description,relative,limits)=revision.member(index);
+            for (index,member) in revision.members().enumerate() {
+                let description=member.description();
+                let relative=member.attempt().map_or("", |a| a.archive_relative_path);
+                let limits=member.limits();
                 ui.separator();ui.label(description);ui.label(&self.statuses[index]);
                 if ui.add_enabled(self.ready[index],egui::Button::new(format!("Inspect member {}",index+1))).clicked() {
-                    if !matches!(revision.open_member(&self.root,index),MemberState::Ready(_)) {
+                    if !matches!(member.open(&self.root),MemberState::Ready(_)) {
                         self.feedback="Saved member changed or is unavailable; reopen the exact manifest".into();self.ready[index]=false;continue;
                     }
                     archive.path=self.root.join(relative).to_string_lossy().into();

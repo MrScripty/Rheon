@@ -18,9 +18,9 @@ use std::{
 };
 
 const CAP: usize = 16 * 1024 * 1024;
-struct Output(PathBuf);
+pub(super) struct Output(pub(super) PathBuf);
 impl Output {
-    fn new() -> Self {
+    pub(super) fn new() -> Self {
         static NEXT: AtomicUsize = AtomicUsize::new(0);
         let path = std::env::temp_dir().join(format!(
             "rheon-configured-worker-{}-{}",
@@ -36,7 +36,7 @@ impl Drop for Output {
         std::fs::remove_dir_all(&self.0).unwrap();
     }
 }
-fn package(correction: bool, behavior: &str) -> Fixture {
+pub(super) fn package(correction: bool, behavior: &str) -> Fixture {
     let source = include_str!("../../../tests/fixtures/configured_box_pressure_adapter.py")
         .replace("BEHAVIOR = \"solve\"", &format!("BEHAVIOR = {behavior:?}"));
     let fixture = Fixture::source(&source, correction);
@@ -48,7 +48,7 @@ fn package(correction: bool, behavior: &str) -> Fixture {
     std::fs::write(&fixture.manifest, serde_json::to_vec(&manifest).unwrap()).unwrap();
     fixture
 }
-fn set(fixture: &Fixture) -> ConfiguredRunSetRevision {
+pub(super) fn set(fixture: &Fixture) -> ConfiguredRunSetRevision {
     let package = AdapterPackage::load(&fixture.manifest).unwrap();
     let manifest = package.manifest_sha256();
     let pin = ConfiguredProviderPin {
@@ -156,7 +156,7 @@ fn set(fixture: &Fixture) -> ConfiguredRunSetRevision {
         ],
     }
 }
-fn app(output: &Output) -> App {
+pub(super) fn app(output: &Output) -> App {
     let mut app = App::default();
     app.recording_directory = output.0.to_string_lossy().into();
     app.threads = 1;
@@ -170,17 +170,17 @@ fn wait(mut condition: impl FnMut() -> bool) {
         std::thread::sleep(Duration::from_millis(2));
     }
 }
-fn launch(app: &mut App, set: ConfiguredRunSetRevision, root: &Path) {
+pub(super) fn launch(app: &mut App, set: ConfiguredRunSetRevision, root: &Path) {
     app.publish_and_launch_configured(set, root, vec![])
         .unwrap();
 }
-fn finish(app: &mut App) -> ConfiguredRunSetRevision {
+pub(super) fn finish(app: &mut App) -> ConfiguredRunSetRevision {
     wait(|| app.worker.as_ref().unwrap().handle.is_finished());
     app.poll(&egui::Context::default());
     assert!(app.worker.is_none());
     ConfiguredRunSetRevision::open(Path::new(&app.run_sets.path)).unwrap()
 }
-fn member(root: &Path, set: &ConfiguredRunSetRevision, index: usize) -> RecordingReader {
+pub(super) fn member(root: &Path, set: &ConfiguredRunSetRevision, index: usize) -> RecordingReader {
     match archive::open_member(root, &set.members[index]) {
         MemberState::Ready(reader) => *reader,
         MemberState::Invalid(error) => panic!("configured member invalid: {error}"),

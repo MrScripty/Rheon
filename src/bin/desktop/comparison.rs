@@ -7,10 +7,14 @@ use super::native_comparison::{
     PressurePolicy, Recipe, Selection, Unavailable, compared_values,
 };
 use super::run_sets::{
-    MemberState, RunSetRevision, SpecDifference, archive_path, open_member, relative_path,
+    MemberState, SpecDifference, archive_path, relative_path,
+    source::{SavedMember, SavedRunSet},
 };
 use eframe::egui::{self, Color32};
 use rheon::SnapshotStage;
+use rheon::recording::provider::comparison::{
+    self as configured_facts, ConfiguredAggregate, ConfiguredSelectionFacts, RhsRelation,
+};
 use std::{
     collections::BTreeMap,
     path::{Path, PathBuf},
@@ -53,10 +57,16 @@ struct PublicationTime {
     interval_start: Option<f64>,
     stage: SnapshotStage,
 }
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 struct PairTime {
     reference: PublicationTime,
     candidate: PublicationTime,
+    configured: [Option<ConfiguredSelectionFacts>; 2],
+    rhs: RhsRelation,
+}
+struct SourcePresentation {
+    times: Vec<PairTime>,
+    aggregates: [Option<ConfiguredAggregate>; 2],
 }
 
 /// Minimal seam for a future linked view; unavailable until exact verification.
@@ -94,7 +104,7 @@ pub struct SavedComparisonPage {
     manifest_path: String,
     saved_artifact_path: String,
     export_path: String,
-    loaded: Option<RunSetRevision>,
+    loaded: Option<SavedRunSet>,
     origin: String,
     members: Vec<MemberSummary>,
     reference: String,
@@ -110,6 +120,7 @@ pub struct SavedComparisonPage {
     unverified: Option<UnverifiedComparison>,
     verified: Option<VerifiedComparison>,
     times: Vec<PairTime>,
+    aggregates: [Option<ConfiguredAggregate>; 2],
     selected: usize,
     message: String,
     failed: bool,
@@ -139,6 +150,7 @@ impl Default for SavedComparisonPage {
             unverified: None,
             verified: None,
             times: Vec::new(),
+            aggregates: [None, None],
             selected: 0,
             message: "Open an immutable run-set manifest or saved comparison.".into(),
             failed: false,
@@ -196,14 +208,11 @@ impl SavedComparisonPage {
                     &selected.pair.candidate,
                 ),
             ] {
-                let member = selected
-                    .recipe
-                    .run_set
-                    .members
-                    .iter()
-                    .find(|m| &m.member_id == member_id)
-                    .ok_or_else(|| SelectedFieldsError::Source("selected member missing".into()))?;
-                let reader = match open_member(selected.root, member) {
+                let member =
+                    selected.recipe.run_set.member(member_id).ok_or_else(|| {
+                        SelectedFieldsError::Source("selected member missing".into())
+                    })?;
+                let reader = match member.open(selected.root) {
                     MemberState::Ready(reader) => reader,
                     MemberState::Missing => {
                         return Err(SelectedFieldsError::Source("exact archive missing".into()));
@@ -253,6 +262,7 @@ impl SavedComparisonPage {
         self.verified = None;
         self.unverified = None;
         self.times.clear();
+        self.aggregates = [None, None];
         self.selected = 0;
     }
     fn invalidate_analysis(&mut self) {
@@ -301,15 +311,14 @@ impl SavedComparisonPage {
         self.invalidate_binding();
         let result = self
             .source_path(&self.manifest_path)
-            .and_then(|p| RunSetRevision::open(&p).map_err(|e| e.to_string()));
+            .and_then(|p| SavedRunSet::open(&p).map_err(|e| e.to_string()));
         match result {
             Ok(set) => {
-                self.reference = set.baseline_member.clone();
+                self.reference = set.baseline_member_id().to_owned();
                 self.candidate = set
-                    .members
-                    .iter()
-                    .find(|m| m.member_id != self.reference)
-                    .map_or_else(|| self.reference.clone(), |m| m.member_id.clone());
+                    .member_ids()
+                    .find(|id| *id != self.reference)
+                    .map_or_else(|| self.reference.clone(), str::to_owned);
                 self.members = summaries(&set, Some(Path::new(&self.root)));
                 self.loaded = Some(set);
                 self.reset_ranges();
@@ -437,16 +446,27 @@ impl SavedComparisonPage {
                     .loaded
                     .as_ref()
                     .ok_or("Open an immutable source revision first")?;
-                SavedRecipe::capture(
-                    Path::new(&self.root),
-                    set.clone(),
-                    &self.reference,
-                    &self.candidate,
-                    &ordinals(&self.reference_start, &self.reference_end)?,
-                    &ordinals(&self.candidate_start, &self.candidate_end)?,
-                    self.input_recipe()?,
-                )
-                .map_err(|e| e.to_string())?
+                let capture = match set {
+                    SavedRunSet::Native(native) => SavedRecipe::capture(
+                        Path::new(&self.root),
+                        native.clone(),
+                        &self.reference,
+                        &self.candidate,
+                        &ordinals(&self.reference_start, &self.reference_end)?,
+                        &ordinals(&self.candidate_start, &self.candidate_end)?,
+                        self.input_recipe()?,
+                    ),
+                    SavedRunSet::Configured(_) => SavedRecipe::capture_source(
+                        Path::new(&self.root),
+                        set.clone(),
+                        &self.reference,
+                        &self.candidate,
+                        &ordinals(&self.reference_start, &self.reference_end)?,
+                        &ordinals(&self.candidate_start, &self.candidate_end)?,
+                        self.input_recipe()?,
+                    ),
+                };
+                capture.map_err(|e| e.to_string())?
             };
             recipe
                 .compute(Path::new(&self.root))
@@ -491,7 +511,8 @@ impl SavedComparisonPage {
                 }
                 self.pending_recipe = Some(verified.recipe().clone());
                 self.verified = Some(verified);
-                self.times = times;
+                self.times = times.times;
+                self.aggregates = times.aggregates;
                 self.failed = false;
                 self.message="Verified against exact recorded sources. Derived analysis; physics acceptance is separate.".into();
             }
@@ -547,7 +568,7 @@ impl SavedComparisonPage {
         #[cfg(test)]
         self.controls.clear();
         egui::ScrollArea::vertical().id_salt("saved-native-comparison").show(ui,|ui|{
-            ui.heading("Saved native comparisons");
+            ui.heading("Saved recorded comparisons");
             ui.label("Inspect immutable run sets and compare exact recorded publications.");
             ui.horizontal(|ui|{ui.label("Dataset root");let r=ui.add(egui::TextEdit::singleline(&mut self.root).char_limit(PATH_CHARACTERS));if self.remember("root",r).changed(){self.invalidate_binding();}});
             ui.horizontal(|ui|{ui.label("Manifest relative path");let r=ui.add(egui::TextEdit::singleline(&mut self.manifest_path).char_limit(PATH_CHARACTERS));if self.remember("manifest",r).changed(){self.invalidate_binding();}let r=ui.button("Open manifest");if self.remember("open-manifest",r).clicked(){self.load_manifest();}});
@@ -558,19 +579,30 @@ impl SavedComparisonPage {
             });
             ui.separator();
             if let Some(set)=&self.loaded {
-                ui.label(format!("{} · set {} · baseline {}",self.origin,set.set_id,set.baseline_member));
-                for m in &set.members {
-                    let summary=self.members.iter().find(|s|s.member_id==m.member_id);
-                    ui.collapsing(format!("{} · {}",m.member_id,summary.map_or("Not checked",|s|availability_label(s.availability))),|ui|{
+                ui.label(format!("{} · set {} · baseline {}",self.origin,set.set_id(),set.baseline_member_id()));
+                for m in set.members() {
+                    let summary=self.members.iter().find(|s|s.member_id==m.id());
+                    ui.collapsing(format!("{} · {}",m.id(),summary.map_or("Not checked",|s|availability_label(s.availability))),|ui|{
                         if let Some(s)=summary {ui.label(&s.detail);}
-                        ui.label(format!("Declared differences: {}",if m.differences_from_baseline.is_empty(){"none".into()}else{m.differences_from_baseline.iter().map(|d|difference_label(*d)).collect::<Vec<_>>().join(", ")}));
-                        ui.label(format!("Intended method {} · {} intervals at {:.17e} s",m.spec.spec.pressure_method.implementation().label(),m.spec.spec.requested_steps,m.spec.spec.requested_dt_s));
-                        ui.label(format!("Intended grid {:?}, spacing {:?} m, origin {:?} m",m.spec.spec.counts_xyz,m.spec.spec.spacing_m,m.spec.spec.origin_m));
-                        if let Some(a)=&m.attempt {ui.monospace(format!("attempt {} · run {} · source {}\narchive {}",a.attempt_id,a.expected_run_id,a.expected_source_revision,a.archive_relative_path));if let Some(pin)=&a.finalized {ui.monospace(format!("archive SHA256 {}",hex(pin.sha256)));}}
+                        let differences=match m {
+                            SavedMember::Native(native)=>native.differences_from_baseline.iter().map(|d|difference_label(*d)).collect::<Vec<_>>(),
+                            SavedMember::Configured(_)=>m.difference_labels(),
+                        };
+                        ui.label(format!("Declared differences: {}",if differences.is_empty(){"none".into()}else{differences.join(", ")}));
+                        ui.label(m.description());
+                        let (counts,spacing,origin,steps,dt)=match m {
+                            SavedMember::Native(m)=>{let s=&m.spec.spec;(s.counts_xyz,s.spacing_m,s.origin_m,s.requested_steps,s.requested_dt_s)},
+                            SavedMember::Configured(m)=>{let c=&m.spec.constructor;let f=&m.spec.future;
+                                ui.label(format!("Density {} kg/m³ · viscosity {:?} · forces {:?}",c.density_kg_m3,f.viscosity,f.forces));
+                                (c.counts_xyz,c.spacing_m,c.origin_m,f.requested_steps,f.requested_dt_s)},
+                        };
+                        ui.label(format!("Intended {} intervals at {:.17e} s",steps,dt));
+                        ui.label(format!("Intended grid {:?}, spacing {:?} m, origin {:?} m",counts,spacing,origin));
+                        if let Some(a)=m.attempt() {ui.monospace(format!("attempt {} · run {} · source {}\narchive {}",a.attempt_id,a.expected_run_id,a.expected_source_revision,a.archive_relative_path));if let Some(pin)=a.finalized {ui.monospace(format!("archive SHA256 {}",hex(pin.sha256)));}}
                     });
                 }
             }
-            let ids:Vec<_>=self.loaded.as_ref().map_or_else(Vec::new,|set|set.members.iter().map(|m|m.member_id.clone()).collect());
+            let ids:Vec<_>=self.loaded.as_ref().map_or_else(Vec::new,|set|set.member_ids().map(str::to_owned).collect());
             if !self.members.is_empty(){ui.small("Availability is checked on explicit load, compute or verification; sources are not monitored in the background.");}
             let mut changed=false;
             ui.horizontal(|ui|{
@@ -603,7 +635,11 @@ impl SavedComparisonPage {
                 let r=ui.add_enabled(self.verified.is_some(),egui::Button::new("Export result"));if self.remember("export-result",r).clicked(){self.export_result();}
             });
             ui.colored_label(if self.failed {Color32::LIGHT_RED}else{Color32::LIGHT_BLUE},&self.message);
-            ui.small("Native archive v1 has no typed timing, provider-attempt, warmup, fallback or RHS diagnostics. Those facts are unavailable.");
+            if self.loaded.as_ref().is_none_or(|set|!set.is_configured()) {
+                ui.small("Native archive v1 has no typed timing, provider-attempt, warmup, fallback or RHS diagnostics. Those facts are unavailable.");
+            } else {
+                ui.small("Configured core acceptance, optional runtime custody and pressure-call timing have separate scopes. Missing runtime facts remain unavailable; matching physical time does not establish equal RHS or trajectory.");
+            }
             ui.separator();self.show_coverage(ui);
         });
     }
@@ -628,6 +664,20 @@ impl SavedComparisonPage {
                 "UNVERIFIED stored evidence — exact sources have not been checked"
             },
         );
+        if verified {
+            for (side, summary) in [
+                ("Reference", &self.aggregates[0]),
+                ("Candidate", &self.aggregates[1]),
+            ] {
+                if let Some(s) = summary {
+                    ui.collapsing(format!("{side} sampled pressure facts"),|ui|{
+                    ui.small(format!("{} selected publications · {} constructors · {} accepted · {} attempted bindings · {} method calls · {} configured selected · {} native selected · {} host rejections · {} runtime observations",s.selections.len(),s.constructor_count,s.accepted_count,s.attempted_count,s.prediction_called_count,s.configured_selected_count,s.native_selected_count,s.rejected_count,s.runtime_observed_count));
+                    ui.small(format!("Pressure-call durations: total {:?} · inference {:?} · qualification {:?} · fallback {:?}",s.durations.total,s.durations.inference,s.durations.qualification,s.durations.fallback));
+                    ui.small("Exactly the selected subset, including gaps. Pressure-call timing is not full-step wall time, isolated model compute, warmup, throughput or speedup. Missing history and terminal tails are not reconstructed.");
+                });
+                }
+            }
+        }
         ui.label(format!(
             "{} temporal pairs · {} reference unmatched · {} candidate unmatched",
             coverage.pairs.len(),
@@ -685,6 +735,17 @@ impl SavedComparisonPage {
         } else {
             ui.label("Actual source time/stage has not been reopened for this stored result.");
         }
+        if let Some(time) = self.times.get(self.selected).filter(|_| verified)
+            && time.configured.iter().any(Option::is_some)
+        {
+            ui.label(format!(
+                "Authoritative RHS payload hash relation: {:?}",
+                time.rhs
+            ));
+            ui.small("Equal hashes do not establish equal operators, requests, trajectories or authenticated execution.");
+            show_configured_facts(ui, "Reference", time.configured[0].as_ref());
+            show_configured_facts(ui, "Candidate", time.configured[1].as_ref());
+        }
         match &pair.outcome {
             Ok(field) => show_field(ui, field),
             Err(reason) => {
@@ -731,11 +792,11 @@ fn ordinals(start: &str, end: &str) -> Result<Vec<usize>, String> {
         .ok_or("Select an increasing inclusive range of at most 128 publications")?;
     Ok((0..count).map(|i| start + i).collect())
 }
-fn summaries(set: &RunSetRevision, root: Option<&Path>) -> Vec<MemberSummary> {
-    set.members.iter().map(|m|{
-        let mut view=MemberSummary {member_id:m.member_id.clone(),availability:Availability::Unchecked,detail:"Source not checked in this operation".into(),recorded_count:None,recorded_generation:None,accepted_generation:None,unrecorded_tail:None};
+fn summaries(set: &SavedRunSet, root: Option<&Path>) -> Vec<MemberSummary> {
+    set.members().map(|m|{
+        let mut view=MemberSummary {member_id:m.id().into(),availability:Availability::Unchecked,detail:"Source not checked in this operation".into(),recorded_count:None,recorded_generation:None,accepted_generation:None,unrecorded_tail:None};
         let Some(root)=root else{return view;};
-        match open_member(root,m) {
+        match m.open(root) {
             MemberState::Ready(reader)=>{
                 let facts=(||{let count=reader.count()?;let last=if count==0{None}else{Some(reader.select(count-1)?.generation)};Ok::<_,rheon::recording::RecordingError>((count,last,reader.status()?))})();
                 match facts {Ok((count,last,status))=>{
@@ -757,61 +818,132 @@ fn pair_times(
     root: &Path,
     recipe: &SavedRecipe,
     coverage: &Coverage,
-) -> Result<Vec<PairTime>, String> {
-    let mut sources = Vec::new();
-    for selected in [&recipe.reference, &recipe.candidate] {
-        let member = recipe
-            .run_set
-            .members
-            .iter()
-            .find(|m| m.member_id == selected.member_id)
-            .ok_or("Selected member missing")?;
-        let reader = match open_member(root, member) {
-            MemberState::Ready(r) => r,
-            MemberState::Missing => {
-                return Err("Exact source missing while reading actual publication times".into());
-            }
-            MemberState::Invalid(e) => return Err(e.to_string()),
-            MemberState::Unsupported(e) => return Err(e.into()),
-            _ => return Err("Exact source is no longer a ready pinned archive".into()),
-        };
-        let mut times = BTreeMap::new();
-        for expected in &selected.selections {
-            let source = Selection::read(&reader, expected.ordinal).map_err(|e| e.to_string())?;
-            if source.identity() != expected {
-                return Err("Exact source changed while reading publication times".into());
-            }
-            let p = source.publication();
-            times.insert(
-                expected.ordinal,
-                PublicationTime {
-                    endpoint: p.time,
-                    dt: p.dt,
-                    interval_start: if recipe.recipe.field == FieldRole::IntervalPressure {
-                        p.field("interval_pressure").and_then(|f| f.evaluation_time)
-                    } else {
-                        None
-                    },
-                    stage: p.stage,
-                },
-            );
+) -> Result<SourcePresentation, String> {
+    let sources = recipe.sources(root).map_err(|e| e.to_string())?;
+    let mut aggregates = [None, None];
+    for (side, selected) in sources.iter().enumerate() {
+        if selected
+            .first()
+            .is_some_and(|s| s.run().solver == rheon::recording::provider::PROFILE)
+        {
+            aggregates[side] =
+                Some(configured_facts::summarize(selected).map_err(|e| e.to_string())?);
         }
-        sources.push(times);
     }
-    coverage
-        .pairs
+    let maps = sources
         .iter()
-        .map(|p| {
-            Ok(PairTime {
-                reference: *sources[0]
-                    .get(&p.reference.ordinal)
-                    .ok_or("Reference publication time missing")?,
-                candidate: *sources[1]
-                    .get(&p.candidate.ordinal)
-                    .ok_or("Candidate publication time missing")?,
-            })
+        .map(|side| {
+            side.iter()
+                .map(|s| (s.identity().ordinal, s))
+                .collect::<BTreeMap<_, _>>()
         })
-        .collect()
+        .collect::<Vec<_>>();
+    let mut times = Vec::new();
+    for pair in &coverage.pairs {
+        let mut selected = Vec::new();
+        for (side, expected) in [&pair.reference, &pair.candidate].into_iter().enumerate() {
+            let source = *maps[side]
+                .get(&expected.ordinal)
+                .ok_or("Exact selected publication missing")?;
+            if source.identity() != expected {
+                return Err("Exact selected publication changed".into());
+            }
+            selected.push(source);
+        }
+        let time = |s: &Selection| {
+            let p = s.publication();
+            PublicationTime {
+                endpoint: p.time,
+                dt: p.dt,
+                stage: p.stage,
+                interval_start: if recipe.recipe.field == FieldRole::IntervalPressure {
+                    p.field("interval_pressure").and_then(|f| f.evaluation_time)
+                } else {
+                    None
+                },
+            }
+        };
+        let facts = |s: &Selection| {
+            if s.run().solver == rheon::recording::provider::PROFILE {
+                configured_facts::inspect(s)
+                    .map(Some)
+                    .map_err(|e| e.to_string())
+            } else {
+                Ok(None)
+            }
+        };
+        times.push(PairTime {
+            reference: time(selected[0]),
+            candidate: time(selected[1]),
+            configured: [facts(selected[0])?, facts(selected[1])?],
+            rhs: if selected
+                .iter()
+                .any(|s| s.run().solver == rheon::recording::provider::PROFILE)
+            {
+                configured_facts::rhs_relation(selected[0], selected[1])
+                    .map_err(|e| e.to_string())?
+            } else {
+                RhsRelation::Unavailable
+            },
+        });
+    }
+    Ok(SourcePresentation { times, aggregates })
+}
+fn show_configured_facts(ui: &mut egui::Ui, side: &str, facts: Option<&ConfiguredSelectionFacts>) {
+    let Some(facts) = facts else {
+        ui.small(format!(
+            "{side}: configured pressure/runtime facts unavailable for this profile"
+        ));
+        return;
+    };
+    if let Some(receipt) = &facts.receipt {
+        ui.label(format!(
+            "{side}: accepted pressure {:?} · host rejection {:?} · provider method entered {}",
+            receipt.selected, receipt.rejection, receipt.prediction_called
+        ));
+        ui.small(format!(
+            "Viscosity applied {} · dynamic viscosity {} Pa·s",
+            receipt.viscosity_applied, receipt.dynamic_viscosity
+        ));
+        if let Some(context) = &receipt.context {
+            ui.small(format!(
+                "Accepted request native prefix {}",
+                context.native_prefix_steps
+            ));
+        }
+    } else {
+        ui.small(format!(
+            "{side}: constructor; no accepted pressure interval"
+        ));
+    }
+    if let Some(runtime) = &facts.runtime {
+        ui.small(format!(
+            "Runtime request generation {}",
+            runtime.request.context.generation
+        ));
+        match &runtime.outcome {
+            rheon::recording::provider::runtime::RuntimeOutcome::CandidateReturned => {
+                ui.small("Candidate returned from the external runtime; host acceptance is reported separately.");
+            }
+            rheon::recording::provider::runtime::RuntimeOutcome::NoCandidate {
+                reason,
+                detail,
+                dispatched,
+                invalid_payload_sha256,
+            } => {
+                ui.small(format!(
+                    "Runtime {:?} · writer dispatch {} · {}",
+                    reason, dispatched, detail
+                ));
+                if let Some(hash) = invalid_payload_sha256 {
+                    ui.monospace(format!("Complete invalid reply SHA256 {}", hex(*hash)));
+                }
+            }
+        }
+        ui.small("Runtime outcome and writer dispatch have a different scope from core method entry and pressure acceptance.");
+    } else {
+        ui.small("Runtime observation unavailable; no dispatch conclusion follows.");
+    }
 }
 fn show_field(ui: &mut egui::Ui, field: &FieldComparison) {
     let m = field.metrics;

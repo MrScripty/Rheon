@@ -10,6 +10,9 @@ mod build_identity;
 mod camera;
 #[path = "desktop/carrier_execution.rs"]
 mod carrier_execution;
+#[cfg(test)]
+#[path = "desktop/configured_comparison_tests.rs"]
+mod configured_comparison_tests;
 #[path = "desktop/configured_controls.rs"]
 mod configured_controls;
 #[cfg(test)]
@@ -1813,11 +1816,9 @@ impl eframe::App for App {
         }
         if self.run_sets.active {
             let mut compare = false;
-            if !self.run_sets.is_configured() {
-                egui::TopBottomPanel::bottom("run-set-comparison-action").show(ctx, |ui| {
-                    compare = ui.button("Compare exact saved members").clicked();
-                });
-            }
+            egui::TopBottomPanel::bottom("run-set-comparison-action").show(ctx, |ui| {
+                compare = ui.button("Compare exact saved members").clicked();
+            });
             if compare {
                 let path = std::path::Path::new(&self.run_sets.path);
                 if let (Some(parent), Some(name)) = (path.parent(), path.file_name()) {
