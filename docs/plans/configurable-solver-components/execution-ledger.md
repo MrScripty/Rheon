@@ -979,3 +979,87 @@ to its actual source and is not relabelled for this correction.
   fields, saved artifacts and native-window acceptance with the production
   caller. PR110 impossible accepted-time bound remains with its allocated owner.
   The full plan is not complete at this publication boundary.
+
+## 2026-10-15 — frozen configured intent clean qualification
+
+- Clean sourcef5bd8b5cc468415df2ab5c3347d8046f813602ef,
+  treef15489069450af18ee444ac144df9a56f2ceba6e, passed all18 fresh
+  native/rational commands with the complete106-path admission. Lean checking
+  was not run. Real-packet suites passed26 normal and26 optimized, zero skips.
+  Receipts: /tmp/rheon-configured-intent-qualified and
+  /tmp/rheon-configured-intent-packet.
+- Final-source nine configured and17 native saved-set contracts passed, zero
+  ignored/filtered; strict affected desktop/public-test Clippy passed. Both
+  native binaries built with full declared revision
+  f5bd8b5cc468415df2ab5c3347d8046f813602ef. The first build invocation used an
+  invalid binary target name and performed no build; correcting it to the
+  actual rheon-ai-compare target passed without source changes. Logs share
+  /tmp/rheon-configured-intent-frozen-*. No numerical/model/GUI or archive
+  readiness claim is added. Follow-through is ledger-only; current-head hosted
+  gates and serial composition remain mandatory.
+
+
+
+
+## 2026-10-16 — cold configured archive clean qualification
+
+- Clean source29bdd7fa6aafd124a4285138dc722349d410346d,
+  treebe0608f98963008533067282a09bffae4974c717, passed all18 fresh
+  native/rational commands with its complete108-path reviewed source closure.
+  Lean checking was not run. Packet contracts passed26 normal plus26 optimized,
+  zero skips. Receipts: /tmp/rheon-configured-archive-qualified and
+  /tmp/rheon-configured-archive-packet.
+- Actual cold binding8, pure configured intent9, RCP2 recording20 and existing
+  native saved-set17 contracts passed:54 total, zero ignored/filtered. Strict
+  affected both-bin/public-test desktop Clippy and both native binary builds
+  passed with the full declared29bdd7f revision. Logs share
+  /tmp/rheon-configured-archive-*. Independent review is retained in
+  reports/configured-archive-review.md. A real producer process exits before a
+  fresh model-absent cold reader; Ready requires full typed audit and a closed
+  immutable file pin, not a declared manifest outcome.
+- Follow-through reconciles current pure-intent parent documentation and adds
+  this exact receipt record. All108 selected hashes remain unchanged. The
+  qualification remains pinned to29bdd7f rather than the later documentation
+  merge. Production worker/UI, detailed runtime persistence and exact-head
+  hosted gates remain separate; no model accuracy, resume or hard shutdown
+  claim is added.
+
+
+## 2026-10-16 — portable RCP2 CPU/recording cross-contract union
+
+- Retain PR102770e26 portable context dependency and exact PR10616157372
+  cross-module test ancestry on reviewed RCP2ed4346da. Production code gains
+  only the already reviewed portable manifest correction in this union.
+- Independent source review approves the two test-path delta; the external
+  owner separately reports final committed64 application passes/one unchanged
+  missing measured-deployment ignore,20 provider and4 carrier passes. Those
+  executions remain pinned to16157372 and are not combined-source receipts.
+- Complete conservative admission grows107 to108 selected paths, one addition,
+  one changed registration and106 unchanged. Nine real recording scenarios
+  and fresh executable readers distinguish accepted native fallback from whole-
+  interval rollback and coarse durable core facts from live-only process detail.
+  Linux blocked-write phase evidence and fresh-owner/newarchive retry limits
+  are explicit in reports/accepted-recording-cross-review.md.
+- Fresh clean native/rational, packet, actual modal/API/recording/application
+  contracts, strict desktop Clippy and both binary builds follow this committed
+  union. Earlier fc5a receipts are RCP1 only; ed4346 RCP2 admission and PR106
+  execution do not substitute for that new qualification. Typed production
+  runtime observations remain separately allocated recording-owner work.
+
+
+
+## 2026-10-16 — lead-owned configured consumer integration base
+
+- This isolated source retains exact PR10796dd2c3 cold binding, PR1049d2011e
+  portable accepted CPU/recording cross-contracts and PR1085c8326a RCP3/RCT1
+  ancestry. Complete111-path conservative admission matches exact independently
+  reviewed pins; no selector narrowing or automatic source refresh.
+- Purpose: unblock separately allocated three-path cold runtime policy and
+  shared comparison consumer acceptance against the real combined APIs.
+  Root owns this integration branch, all merges and its eventual incorporation
+  into the production worker branch. Retain it until those consumers and root
+  caller are accepted; then retire it under the task's safe cleanup authority.
+- Earlier component receipts remain subject-pinned. Fresh clean union checks
+  follow; actual production bridge observation mapping and existing desktop
+  outer-loop/UI work remain separate active root changes, not claimed by this
+  consumer-base publication. No learned/model/GUI/full-plan acceptance follows.

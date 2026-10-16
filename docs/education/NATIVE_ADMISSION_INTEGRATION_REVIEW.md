@@ -801,3 +801,78 @@ Configured comparison UI and final native-window acceptance remain active
 work; PR110's separately reviewed frozen terminal-clock fix is still required
 before its extension is admitted. No learned accuracy, performance, restart
 or final-plan completion follows from this bounded source admission.
+
+### Accepted CPU and RCP2 recording cross-contract composition
+
+Independent GPT-6.1 Sol source review approves PR106 exact16157372 versus
+reviewed RCP2 parented4346da. The new test module uses the existing test-only
+Driver/ModelProcess/SQLite owners; the sole parent change is explicit child
+registration. Review and scope:
+../plans/configurable-solver-components/reports/accepted-recording-cross-review.md.
+
+Nine recording scenarios cover accepted native fallback and rejected whole
+intervals across consumed replies, predispatch cancellation and Linux x86_64
+proven blocked writes. Exact child readers run after runtime/Session/writer
+drainage with the owned manifest hidden, requiring verified markers and
+unchanged field/selection/file hashes. Producer parent process remains alive.
+Retries create fresh Sessions/archives, with changed restored blocked-fixture
+pins; this is not checkpoint resume or same-owner quota evidence. Fine process
+reason/dispatch/payload hashes remain live-only in this RCP2 slice. No hard
+shutdown, descendant, portability, learned-accuracy or production-UI claim.
+
+- src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs: 6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942
+- src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs: 643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729
+
+Complete conservative closure grows107 to108 paths: one new test module,
+one registration-only changed path,106 unchanged, none removed. Portable
+Cargo pin10a7b438 is retained from independently reviewed PR102770e26.
+Selectors, old inventories, kernels, oracle and qualifier are unchanged. This
+authorizes fresh clean composed qualification, not transfer of older receipts.
+
+
+
+### Lead-owned cold and accepted-runtime consumer base
+
+This union retains PR10796dd2c3 and exact portable/cross-contract PR1049d2011e
+ancestry. Complete conservative closure is110 paths: two added accepted CPU
+contract modules, two changed CPU/test sources and106 unchanged relative to
+the cold108-path closure. Native run-set registration is retained, not replaced
+by the older native-only consumer parent. Exact admitted pins above retain
+independent CPU and cross-contract source reviews; all source hashes match.
+No selector, historical inventory, numerical gate, oracle or qualifier changes.
+Fresh combined qualification remains required; component receipts retain their
+original subjects. This isolated branch is a lead-owned integration base for
+disjoint cold/comparison consumer acceptance, not full production UI readiness.
+
+
+
+### Explicit RCP3/RCT1 consumer-base source admission
+
+Exact independently reviewed PR1085c8326a is retained on the preceding
+lead-owned PR10796dd2c3 + PR1049d2011e ancestry union. The committed review
+at ../plans/configurable-solver-components/reports/configured-runtime-recording-review.md
+approves optional explicitly versioned runtime observations and typed terminal
+custody, unchanged RCP2 absence, and the five-path regression/document scope.
+Actual operational metadata in that core fixture is authored, not actual IPC.
+
+- src/recording/provider.rs: c4d48af7de2769349292819c48494f5a248edfb53eb58c9d53a535c165f5b427
+- src/recording/provider/runtime.rs: d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb
+
+The complete selector grows110 to111 paths, one added runtime module, one
+changed provider codec,109 unchanged, none removed. Existing selector, prior
+inventories, numerical kernels, oracle and qualification runner stay unchanged.
+Only exact reviewed hashes are admitted. This base unblocks disjoint configured
+cold/comparison consumer contracts; it is not source/GUI acceptance of the
+separately developed production desktop caller. Fresh committed union checks
+remain required and component receipts retain their original subjects.
+
+
+### Production Worker retains the published consumer dependency union
+
+The lead-owned be0ed8e consumer base is retained by ancestry, including exact
+PR10796dd2c3, PR1049d2011e and PR1085c8326a. All120 reviewed production
+source hashes remain unchanged; only append-only review/ledger histories are
+composed. No older source inventory replaces the reviewed desktop closure.
+Fresh committed production qualification follows; this ancestry merge does
+not transfer component receipts or accept pending configured comparison/window
+work or the separately owned PR110 terminal-clock extension.
