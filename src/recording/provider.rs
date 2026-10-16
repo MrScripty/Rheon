@@ -1,5 +1,6 @@
 //! Typed configured-Session publications inside the existing SQLite v1 envelope.
 //! This is inspection evidence, not a restart checkpoint or an executable recipe.
+pub mod comparison;
 pub mod runtime;
 
 use super::*;
