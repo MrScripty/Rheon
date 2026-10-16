@@ -1063,3 +1063,24 @@ to its actual source and is not relabelled for this correction.
   follow; actual production bridge observation mapping and existing desktop
   outer-loop/UI work remain separate active root changes, not claimed by this
   consumer-base publication. No learned/model/GUI/full-plan acceptance follows.
+
+
+## 2026-10-16 — production bridge and shared-library publication boundary
+
+- Actual production Worker source00042f7 now retains the published dependency
+  unionbe0ed8e, current main8bf7a3e and reviewed isolated toolchain repair
+  PR11250732f5. All merge topology is preserved; global integration is root-owned.
+- PR111ea6e5da shared comparison library is independently source-approved and
+  retained by ancestry. Complete121-path conservative admission adds1/changes2/
+  retains118 relative to the120-path Worker closure. Exact six-path review
+  includes its bounded documentation corrections and meaningful cold/analytic
+  tests. External97core/41desktop receipts retain their exact111 subject and
+  overlap; no whole-Git result is transferred to this production union.
+- Fresh committed qualification/affected contracts/strict lints/builds now bind
+  this real combined source. A draft publication unblocks independent actual
+  production bridge acceptance while root completes the existing saved
+  quantitative page/linked-field adapters and native-window evidence.
+- The configured comparison button remains unavailable until that app-owned
+  resolver/recipe/page integration is ready; it is not routed through a native
+  recipe. Corrected PR110 terminal-clock policy and its ancestry remain pending
+  the allocated owner's fix. No full-plan/model/performance acceptance yet.

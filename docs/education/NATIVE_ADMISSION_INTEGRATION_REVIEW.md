@@ -876,3 +876,26 @@ composed. No older source inventory replaces the reviewed desktop closure.
 Fresh committed production qualification follows; this ancestry merge does
 not transfer component receipts or accept pending configured comparison/window
 work or the separately owned PR110 terminal-clock extension.
+
+
+### Configured shared comparison library on actual production Worker union
+
+Exact independently reviewed PR111ea6e5da is retained by ancestry. Source
+review in ../plans/configurable-solver-components/reports/configured-recording-comparison-review.md
+approves explicit typed configured eligibility, owner-supplied intervals, bounded
+selection facts and pressure-call duration summaries beside the unchanged
+shared field metrics/alignment/sampling engine. Exact reviewed source pins:
+
+- src/recording/comparison.rs: 5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307
+- src/recording/provider.rs: 980ea5af7094016b13e7d0f39110aa2ff673b0173416e0fe583e6266b7c27f57
+- src/recording/provider/comparison.rs: 90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75
+
+Complete conservative closure grows120 to121: one added module, two changed
+codec/comparison sources,118 unchanged, none removed. Existing selector,
+historical inventories, numerical gates, oracle and qualification runner are
+unchanged. Runtime metadata in the separate library fixtures is authored,
+not actual IPC; actual bridge mapping belongs to the reviewed root Worker.
+Fresh clean union qualification and existing desktop quantitative consumer
+integration/native-window acceptance remain required. This merge also retains
+current main8bf7a3e and separately reviewed CI11250732f5 setup ancestry; neither
+changes these121 selected source pins or transfers prior whole-Git receipts.

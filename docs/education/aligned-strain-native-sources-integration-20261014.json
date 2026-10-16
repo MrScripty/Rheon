@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Reviewed actual configured desktop Worker/Session/process/recording composition and frozen controls; complete120-path conservative admission before final shared comparison/window acceptance.",
+  "scope": "Reviewed actual configured desktop Worker plus PR111 shared typed comparison library; complete121-path conservative admission before fresh union qualification and remaining app comparison/window acceptance.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "814703f51c3e95d3ba9921a9a28d9d7b994ee5992f8a25318d9a091ab820ae70",
+  "review_sha256": "75e681e1cc9ff1068c1f5fe6abb6bd1063148f4de946b76bfa1add177156987c",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
@@ -102,10 +102,11 @@
     "src/provider_step.rs": "79167b70a8d164a2367f43816feab443eefb41f23bc4bd940716dd5fd32d495b",
     "src/recording.rs": "d022f8f46c288538298896ae444c9780265a6bf77fa9a4e1ba4b9732cf026eb2",
     "src/recording/carrier.rs": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509",
-    "src/recording/comparison.rs": "e48ac3094b5d1ebfbd75a7521d0bd9faf880289b891e7eefeaec24ec86699f6a",
+    "src/recording/comparison.rs": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307",
     "src/recording/diagnostic.rs": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
     "src/recording/material.rs": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
-    "src/recording/provider.rs": "c4d48af7de2769349292819c48494f5a248edfb53eb58c9d53a535c165f5b427",
+    "src/recording/provider.rs": "980ea5af7094016b13e7d0f39110aa2ff673b0173416e0fe583e6266b7c27f57",
+    "src/recording/provider/comparison.rs": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75",
     "src/recording/provider/runtime.rs": "d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb",
     "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
     "src/scheduling.rs": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
