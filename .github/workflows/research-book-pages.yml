@@ -1,10 +1,10 @@
 name: Rheon research book and Pages
 on:
   pull_request:
-    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/compressible/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/compressible/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'tools/setup_ci_rust.py', 'tools/test_setup_ci_rust.py', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   push:
     branches: [main]
-    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/compressible/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
+    paths: ['browser/viewer/**', 'browser/solver/**', 'tests/forces_contract.rs', 'tests/simulation_contract.rs', 'docs/education/**', 'docs/research-book/companion/**', 'docs/research-book/compressible/**', 'docs/research-book/chapters/**', 'docs/research-book/engineering/**', 'docs/research-book/implementation/**', 'docs/research-book/sources/**', 'docs/research-book/appendices/**', 'docs/research-book/figures/**', 'docs/research-book/expansion/**', 'proofs/**', 'src/**', 'examples/aligned_strain.rs', 'tests/aligned_strain_contract.rs', 'tools/aligned_strain_oracle.py', 'tools/test_aligned_strain_oracle.py', 'tools/qualify_aligned_strain.py', 'tools/test_qualify_aligned_strain.py', 'rust-toolchain.toml', 'tools/setup_ci_rust.py', 'tools/test_setup_ci_rust.py', 'examples/static_obstacle.rs', 'examples/obstacle_flow.rs', 'tests/obstacle_flow_contract.rs', 'Cargo.*', 'evidence/bounded-physics-contracts/**', '.github/workflows/research-book-pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -145,9 +145,8 @@ jobs:
           echo "RHEON_STRAIN=$RUNNER_TEMP/rheon-aligned-strain-records" >> "$GITHUB_ENV"
           echo "RHEON_STRAIN_QUALIFICATION=$RUNNER_TEMP/rheon-aligned-strain-qualification" >> "$GITHUB_ENV"
           echo "CARGO_TARGET_DIR=$RUNNER_TEMP/rheon-geometry-target" >> "$GITHUB_ENV"
-          echo "CARGO_HOME=$RUNNER_TEMP/rheon-cargo" >> "$GITHUB_ENV"
-          echo "$RUNNER_TEMP/rheon-cargo/bin" >> "$GITHUB_PATH"
-          echo "RUSTUP_HOME=$RUNNER_TEMP/rheon-rustup" >> "$GITHUB_ENV"
+      - name: Install isolated official pinned Rust toolchain
+        run: python3 tools/setup_ci_rust.py
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24'
@@ -202,7 +201,6 @@ jobs:
           python3 -O -m unittest discover -s docs/education -p test_compressible_lab.py
       - name: Construct and qualify only static geometry controls
         run: |
-          rustup toolchain install 1.92.0 --profile minimal --no-self-update
           mkdir -p "$RHEON_OBSTACLE"
           cargo +1.92.0 build --locked --no-default-features --example static_obstacle
           "$CARGO_TARGET_DIR/debug/examples/static_obstacle" "$RHEON_OBSTACLE/records.json"
