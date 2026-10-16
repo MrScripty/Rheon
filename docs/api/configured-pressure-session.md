@@ -83,3 +83,19 @@ cancellation/deadline/post-pressure rollback; bounded workspaces/domains; and
 invalid-identity receipts. Their candidate fixture performs real native pressure
 solves. These tests do not establish learned-model accuracy, measured-bundle
 parity, a subprocess adapter connection, or durable typed-report persistence.
+
+Actual CPU fixture contracts additionally connect this public Session seam to
+the existing ModelProcess owner through a test-only driver. Independently
+authored Python solves the nonzero two-cell sealed equation, checks accepted
+lineage/named ports/residuals and supplies full-pressure or correction outputs.
+The tests compare native accepted field bits, observe physical/context support
+refusal before inference, quality fallback, real child failure, in-flight
+cancellation/deadline and fresh-owner retry. They also challenge pre-dispatch
+and blocked-writer cancellation. This remains analytic fixture evidence; the
+production GUI/package bridge and durable process-failure receipts are separate.
+
+The process owner offers cooperative polling in its existing20ms write/reply
+waits, reusing the same cancellation flag and immediate-child slot. This is not
+a response-time or hard-shutdown guarantee. A reply can win before another poll,
+so the Session retains its later publication checkpoints. Cancellation terminates
+that runtime; a retry must construct a fresh runtime owner.

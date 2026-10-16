@@ -1,5 +1,6 @@
 #![cfg(all(feature = "desktop", not(target_arch = "wasm32")))]
 #[path = "../src/bin/desktop/run_sets.rs"]
+#[allow(dead_code)] // Configured owner contracts are exercised by configured_run_sets_contract.
 mod run_sets;
 
 use rheon::{SessionIdentity, recording::*};

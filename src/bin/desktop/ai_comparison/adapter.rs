@@ -15,8 +15,8 @@ use std::{
     path::{Component, Path, PathBuf},
 };
 
-pub(super) const SCHEMA: &str = "rheon-pressure-adapter-v1";
-pub(super) const STAGE: &str = "sealed-mac-pressure-context-v1";
+pub(crate) const SCHEMA: &str = "rheon-pressure-adapter-v1";
+pub(crate) const STAGE: &str = "sealed-mac-pressure-context-v1";
 const MANIFEST_BYTES: u64 = 1024 * 1024;
 const MAX_FILES: usize = 64;
 const MAX_FILE_BYTES: u64 = 256 * 1024 * 1024;
@@ -27,7 +27,7 @@ const MAX_CELLS: usize = 65_536;
 const MAX_NATIVE_STEPS: usize = 512;
 
 #[derive(Debug)]
-pub(super) enum AdapterError {
+pub(crate) enum AdapterError {
     Invalid(String),
     Unsupported(String),
     Unavailable(String),
@@ -53,7 +53,7 @@ fn unavailable(operation: &str, error: std::io::Error) -> AdapterError {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
-pub(super) enum InputSemantic {
+pub(crate) enum InputSemantic {
     Rhs,
     PreviousPressure,
     InitialResidual,
@@ -66,21 +66,21 @@ pub(super) enum InputSemantic {
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(rename_all = "snake_case")]
-pub(super) enum OutputRole {
+pub(crate) enum OutputRole {
     FullPressure,
     PressureCorrection,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub(super) enum PriorPressure {
+pub(crate) enum PriorPressure {
     Required,
     Optional,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct ContextPolicy {
+pub(crate) struct ContextPolicy {
     pub minimum_native_steps: usize,
     pub prior_pressure: PriorPressure,
 }
@@ -88,7 +88,7 @@ pub(super) struct ContextPolicy {
 /// Exact physical scalars and inclusive geometry bounds, not tensor metadata.
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub(super) struct Support {
+pub(crate) struct Support {
     pub density_kg_m3: f64,
     pub dynamic_viscosity_pa_s: f64,
     pub dt_s: f64,
@@ -181,7 +181,7 @@ fn unique_inputs<'de, D: serde::Deserializer<'de>>(
 }
 
 /// Validated immutable package metadata consumed by the existing process owner.
-pub(super) struct AdapterPackage {
+pub(crate) struct AdapterPackage {
     manifest: Manifest,
     python: PathBuf,
     entrypoint: PathBuf,

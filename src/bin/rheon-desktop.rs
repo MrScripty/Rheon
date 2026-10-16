@@ -1,9 +1,20 @@
 //! Native live 3D laboratory. Numerical state stays owned by the worker; the
 //! viewer consumes bounded immutable accepted previews and optional diagnostics.
+#[path = "desktop/accepted_session.rs"]
+mod accepted_session;
 #[path = "desktop/ai_comparison/mod.rs"]
 mod ai_comparison;
+#[path = "desktop/build_identity.rs"]
+mod build_identity;
 #[path = "desktop/camera.rs"]
 mod camera;
+#[path = "desktop/carrier_execution.rs"]
+mod carrier_execution;
+#[path = "desktop/configured_controls.rs"]
+mod configured_controls;
+#[cfg(test)]
+#[path = "desktop/configured_worker_tests.rs"]
+mod configured_worker_tests;
 #[path = "desktop/emitter_controls.rs"]
 mod emitter_controls;
 #[path = "desktop/engineering.rs"]
@@ -45,7 +56,7 @@ use eframe::egui;
 use history::{LiveHistory, PreviewFrame};
 use rheon::{
     CalculationObserver, GridGeometry, PressureImplementation, PressureSettings,
-    RotatingCylinderEmitter, Simulation, SimulationConfig, SmokeSource, guidance_pixels,
+    RotatingCylinderEmitter, Simulation, SimulationConfig, SmokeSource,
 };
 use std::sync::{
     Arc,
@@ -72,11 +83,51 @@ struct Request {
     recording_limits: rheon::recording::RecordingLimits,
     recording_directory: String,
     saved_set: Option<run_sets::RunSetRevision>,
+    configured_set: Option<ConfiguredRequest>,
     /// Direct source run IDs to avoid even after producer-process restart.
     prior_run_ids: Vec<u64>,
     manifest_receipt: Option<Arc<std::sync::Mutex<std::path::PathBuf>>>,
     #[cfg(test)]
     progress_gate: Option<Arc<ProgressGate>>,
+    #[cfg(test)]
+    failure_gate: Option<Arc<ProgressGate>>,
+}
+#[derive(Clone)]
+struct ConfiguredRequest {
+    revision: run_sets::configured::ConfiguredRunSetRevision,
+    project_root: std::path::PathBuf,
+    /// Filled once by the existing Worker with its own cancellation/child handles.
+    runtime: Option<(Arc<AtomicBool>, accepted_session::model_process::ChildSlot)>,
+}
+impl Request {
+    fn track_label(&self, index: usize) -> String {
+        if let Some(configured) = &self.configured_set {
+            let Some(member) = configured.revision.members.get(index) else {
+                return "Unavailable configured member".into();
+            };
+            match &member.spec.future.pressure {
+                run_sets::configured::PressureIntent::NativeOnly => format!(
+                    "{} · native {}",
+                    member.member_id,
+                    member
+                        .spec
+                        .constructor
+                        .pressure_method
+                        .implementation()
+                        .id()
+                ),
+                run_sets::configured::PressureIntent::NativePrefixThenConfigured {
+                    provider,
+                    ..
+                } => format!("{} · configured {}", member.member_id, provider.id),
+            }
+        } else {
+            self.methods
+                .get(index)
+                .map_or("Unavailable track", |method| method.id())
+                .into()
+        }
+    }
 }
 #[cfg(test)]
 struct ProgressGate {
@@ -85,6 +136,7 @@ struct ProgressGate {
 }
 struct ResultRow {
     method: PressureImplementation,
+    label: String,
     seconds: f64,
     iterations: usize,
     divergence: f64,
@@ -100,12 +152,25 @@ struct Worker {
     scheduler: Arc<rheon::CpuScheduler>,
     history: Arc<LiveHistory>,
     observer: Option<Arc<CalculationObserver>>,
+    child: Option<accepted_session::model_process::ChildSlot>,
     handle: JoinHandle<Result<Vec<ResultRow>, String>>,
 }
 impl Worker {
-    fn start(request: Request) -> std::io::Result<Self> {
+    fn cancel(&self) {
+        if let Some(slot) = &self.child {
+            accepted_session::model_process::cancel(slot, &self.cancel);
+        } else {
+            self.cancel.store(true, Ordering::Relaxed);
+        }
+    }
+    fn start(mut request: Request) -> std::io::Result<Self> {
         validate_request(&request).map_err(std::io::Error::other)?;
         let cancel = Arc::new(AtomicBool::new(false));
+        let child = request.configured_set.as_mut().map(|configured| {
+            let slot = Arc::new(std::sync::Mutex::new(None));
+            configured.runtime = Some((Arc::clone(&cancel), Arc::clone(&slot)));
+            slot
+        });
         let progress = Arc::new(AtomicUsize::new(0));
         let history = LiveHistory::with_budget(
             request.size as usize,
@@ -139,6 +204,7 @@ impl Worker {
             scheduler,
             history,
             observer,
+            child,
             handle,
         })
     }
@@ -146,7 +212,43 @@ impl Worker {
 fn available_threads() -> usize {
     std::thread::available_parallelism().map_or(1, usize::from)
 }
+fn configured_executor() -> run_sets::configured::ExecutorDeclaration {
+    run_sets::configured::ExecutorDeclaration {
+        id: "rheon-desktop-configured-session-v1".into(),
+        source_revision: build_identity::executor_revision("desktop-configured-session"),
+        build_provenance: build_identity::material_sha256().map(str::to_owned),
+    }
+}
 fn validate_request(request: &Request) -> Result<(), String> {
+    if let Some(configured) = &request.configured_set {
+        configured.revision.validate().map_err(|e| e.to_string())?;
+        if request.saved_set.is_some()
+            || request.material.is_some()
+            || request.emitter.is_some()
+            || request.collision_mesh.is_some()
+            || configured.revision.members.len() != request.methods.len()
+        {
+            return Err(
+                "Configured desktop execution requires its own closed accepted Session set".into(),
+            );
+        }
+        for (member, method) in configured.revision.members.iter().zip(&request.methods) {
+            let spec = &member.spec;
+            spec.validate_execution(&configured_executor())
+                .map_err(|e| e.to_string())?;
+            if spec.constructor.counts_xyz != [request.size; 3]
+                || spec.constructor.spacing_m != [request.domain_side / request.size as f64; 3]
+                || spec.constructor.origin_m != [0.0; 3]
+                || spec.constructor.pressure_method.implementation() != *method
+                || spec.future.requested_steps != request.steps
+                || spec.future.requested_dt_s.to_bits() != request.requested_dt.to_bits()
+                || spec.future.recording.limits() != request.recording_limits
+                || !spec.future.capture_constructor
+            {
+                return Err("Configured desktop supports up to two cubic zero-origin members with common requested horizon/budgets and constructor capture; cold inspection remains available".into());
+            }
+        }
+    }
     {
         request
             .recording_limits
@@ -171,7 +273,9 @@ fn validate_request(request: &Request) -> Result<(), String> {
         || !(1..=10000).contains(&request.steps)
         || request.methods.is_empty()
         || request.methods.len() > 2
-        || (request.methods.len() == 2 && request.methods[0] == request.methods[1])
+        || (request.configured_set.is_none()
+            && request.methods.len() == 2
+            && request.methods[0] == request.methods[1])
     {
         return Err("Invalid simulation settings".into());
     }
@@ -253,6 +357,7 @@ fn run_simulations(
         return run_material(request, config, cancel, progress, history);
     }
     let mut saved_set = request.saved_set.take();
+    let mut configured_set = request.configured_set.as_ref().map(|c| c.revision.clone());
     let mut rows = Vec::new();
     for (track, method) in request.methods.iter().copied().enumerate() {
         if cancel.load(Ordering::Relaxed) {
@@ -276,23 +381,79 @@ fn run_simulations(
         let frozen = saved_set
             .as_ref()
             .map(|set| set.members[track].spec.clone());
-        let mut sim = if let Some(spec) = &frozen {
-            spec.spec.create_simulation().map_err(|e| e.to_string())?
+        let configured_frozen = configured_set
+            .as_ref()
+            .map(|set| set.members[track].spec.clone());
+        let mut sim = if let Some(spec) = &configured_frozen {
+            let runtime = request
+                .configured_set
+                .as_ref()
+                .and_then(|c| c.runtime.as_ref())
+                .ok_or("Configured execution requires the existing Worker's cancellation owner")?;
+            let mut identity = identity::new_identity("configured-session");
+            while request.prior_run_ids.contains(&identity.run_id) {
+                identity = identity::new_identity("configured-session");
+            }
+            carrier_execution::CarrierExecution::Configured(Box::new(
+                accepted_session::configured_track::ConfiguredTrack::prepare(
+                    spec.clone(),
+                    identity,
+                    &configured_executor(),
+                    Arc::clone(&runtime.0),
+                )?,
+            ))
+        } else if let Some(spec) = &frozen {
+            carrier_execution::CarrierExecution::Native(Box::new(
+                spec.spec.create_simulation().map_err(|e| e.to_string())?,
+            ))
         } else {
-            Simulation::with_implementation(grid, config, method).map_err(|e| e.to_string())?
+            carrier_execution::CarrierExecution::Native(Box::new(
+                Simulation::with_implementation(grid, config, method).map_err(|e| e.to_string())?,
+            ))
         };
         let path = new_recording_path(&request.recording_directory, method.id())?;
         let inspector = &history.carrier_inspectors[track];
-        let mut recorder = if let Some(spec) = &frozen {
+        let mut recorder = if configured_frozen.is_some() {
+            let configured = sim.configured().ok_or("Configured owner required")?;
+            let snapshot = configured.snapshot();
+            let run =
+                run_sets::configured::archive::bound_configured_run(configured.frozen(), &snapshot)
+                    .map_err(|e| e.to_string())?;
+            let set = configured_set
+                .as_mut()
+                .ok_or("Configured set owner required")?;
+            let parent = set.digest().map_err(|e| e.to_string())?;
+            set.members[track].attempt = Some(run_sets::configured::ConfiguredRunAttempt {
+                attempt_id: format!("{}-run-{}", set.set_id, run.identity.run_id),
+                archive_relative_path: path
+                    .file_name()
+                    .and_then(|s| s.to_str())
+                    .ok_or("Configured archive filename")?
+                    .into(),
+                expected_run_id: run.identity.run_id,
+                expected_source_revision: run.identity.source_revision.clone(),
+                finalized: None,
+            });
+            set.parent_sha256 = Some(parent);
+            publish_configured_revision(&request, set, &format!("member-{track}-started.json"))?;
+            rheon::recording::StepRecorder::create(&path, run, request.recording_limits).map_err(
+                |e| {
+                    format!(
+                        "Configured recording start at {} failed: {e}",
+                        path.display()
+                    )
+                },
+            )?
+        } else if let Some(spec) = &frozen {
             let mut identity = identity::new_identity("saved-carrier");
             while request.prior_run_ids.contains(&identity.run_id) {
                 identity = identity::new_identity("saved-carrier");
             }
             let run = run_sets::bound_native_run(
                 spec,
-                &sim,
+                sim.native()?,
                 identity.clone(),
-                "native desktop saved specification v1; build revision unspecified",
+                &build_identity::executor_revision("desktop-saved-native-v1"),
             )
             .map_err(|e| e.to_string())?;
             let set = saved_set.as_mut().expect("saved spec owner");
@@ -310,17 +471,41 @@ fn run_simulations(
             });
             set.parent_sha256 = Some(parent);
             publish_saved_revision(&request, set, &format!("member-{track}-started.json"))?;
-            inspector.begin_bound_carrier(&sim, &path, request.recording_limits, run)?
+            inspector.begin_bound_carrier(sim.native()?, &path, request.recording_limits, run)?
         } else {
             inspector
-                .begin_carrier(&sim, &path, request.recording_limits)
+                .begin_carrier(sim.native()?, &path, request.recording_limits)
                 .map_err(|e| format!("Carrier recording start at {} failed: {e}", path.display()))?
         };
+        use rheon::recording::provider::runtime::{RuntimeTermination, RuntimeTerminationCause};
+        let mut termination_cause = RuntimeTerminationCause::StorageFailure;
         let result: Result<(), String> = (|| {
-            history.publish(
-                track,
-                PreviewFrame::capture(&sim, history.preview_edge, 0, 0.0, None)?,
-            )?;
+            if let Some(configured) = sim.configured() {
+                inspector.record_configured(&mut recorder, &configured.snapshot(), None)?;
+                inspector.reload(&path, request.recording_limits)?;
+                inspector.select_timestep(0)?;
+            }
+            history.publish(track, sim.preview(history.preview_edge, 0, 0.0, None)?)?;
+            if let Some(configured) = sim.configured_mut() {
+                termination_cause = RuntimeTerminationCause::StartupFailure;
+                let context = request
+                    .configured_set
+                    .as_ref()
+                    .ok_or("Configured execution metadata")?;
+                let (_, slot) = context.runtime.as_ref().ok_or("Configured runtime owner")?;
+                configured
+                    .start_provider(&context.project_root, slot, |_| Ok(()))
+                    .map_err(|error| {
+                        if matches!(
+                            error,
+                            accepted_session::model_process::StartupFailure::Cancelled
+                        ) {
+                            termination_cause = RuntimeTerminationCause::Cancelled;
+                        }
+                        error.to_string()
+                    })?;
+            }
+            termination_cause = RuntimeTerminationCause::NumericalFailure;
             let source = SmokeSource {
                 lower: [0.35, 0.08, 0.35].map(|v| v * request.domain_side),
                 upper: [0.65, 0.30, 0.65].map(|v| v * request.domain_side),
@@ -333,24 +518,31 @@ fn run_simulations(
             for step in 0..request.steps {
                 history.begin_step(track, step + 1)?;
                 let start = Instant::now();
-                let result = if let Some(emitter) = request.emitter {
-                    sim.step_with_emitter(request.requested_dt, emitter, |_| {
-                        cancel.load(Ordering::Relaxed)
-                    })
-                } else {
-                    sim.step(
-                        request.requested_dt,
-                        frozen.as_ref().map_or_else(
-                            || (step < request.steps / 2).then_some(source),
-                            |spec| spec.spec.source_at(step),
-                        ),
-                        |_| cancel.load(Ordering::Relaxed),
-                    )
-                };
+                let result = sim.advance(
+                    &request,
+                    frozen.as_ref().map_or_else(
+                        || (step < request.steps / 2).then_some(source),
+                        |spec| spec.spec.source_at(step),
+                    ),
+                    cancel,
+                );
                 let step_seconds = start.elapsed().as_secs_f64();
                 history.end_step()?;
+                if let Err(error) = &result {
+                    termination_cause = error.termination_cause();
+                }
                 let r = result.map_err(|e| e.to_string())?;
-                inspector.record_carrier(&mut recorder, &sim)?;
+                termination_cause = RuntimeTerminationCause::StorageFailure;
+                if let Some(configured) = sim.configured() {
+                    inspector.record_configured(
+                        &mut recorder,
+                        &configured.snapshot(),
+                        configured.runtime_observation(),
+                    )?;
+                } else {
+                    inspector.record_carrier(&mut recorder, sim.native()?)?;
+                }
+                termination_cause = RuntimeTerminationCause::NumericalFailure;
                 if frozen.is_some() && r.dt.to_bits() != request.requested_dt.to_bits() {
                     return Err("Native step shortened dt; fixed-dt saved specification unsupported. Exact accepted archive retained for direct inspection".into());
                 }
@@ -359,15 +551,22 @@ fn run_simulations(
                 seconds += step_seconds;
                 history.publish(
                     track,
-                    PreviewFrame::capture(
-                        &sim,
-                        history.preview_edge,
-                        step + 1,
-                        step_seconds,
-                        Some(r),
-                    )?,
+                    sim.preview(history.preview_edge, step + 1, step_seconds, Some(r))?,
                 )?;
                 progress.fetch_add(1, Ordering::Relaxed);
+                if let Some(failure) = sim.configured().and_then(|c| c.current_failure())
+                    && matches!(
+                        failure.reason,
+                        rheon::recording::diagnostic::NoCandidateReason::RuntimeFailure
+                            | rheon::recording::diagnostic::NoCandidateReason::InvalidOutput
+                    )
+                {
+                    termination_cause = RuntimeTerminationCause::RuntimeFailure;
+                    return Err(format!(
+                        "Configured runtime retired after accepted native fallback: {:?}: {}; dispatch {}",
+                        failure.reason, failure.detail, failure.dispatched
+                    ));
+                }
                 #[cfg(test)]
                 if progress.load(Ordering::Relaxed) == 1
                     && let Some(gate) = &request.progress_gate
@@ -381,21 +580,38 @@ fn run_simulations(
                 }
             }
             if cancel.load(Ordering::Relaxed) {
+                termination_cause = RuntimeTerminationCause::Cancelled;
                 return Err("Cancelled; accepted recording prefix retained".into());
             }
-            let pixels = guidance_pixels(&sim, 128 * 128).map_err(|e| e.to_string())?;
+            let pixels = sim.guidance()?;
             rows.push(ResultRow {
                 method,
+                label: request.track_label(track),
                 seconds,
                 iterations,
                 divergence,
-                bytes: sim.allocated_bytes(),
+                bytes: sim.bytes(),
                 time: sim.state().time,
                 pixels,
                 particle_report: None,
             });
+            termination_cause = RuntimeTerminationCause::Completed;
             Ok(())
         })();
+        #[cfg(test)]
+        if result.is_err()
+            && let Some(gate) = &request.failure_gate
+        {
+            gate.reached.send(()).map_err(|e| e.to_string())?;
+            gate.release
+                .lock()
+                .map_err(|e| e.to_string())?
+                .recv_timeout(Duration::from_secs(10))
+                .map_err(|e| e.to_string())?;
+        }
+        if let Some(configured) = sim.configured_mut() {
+            configured.retire_runtime();
+        }
         let outcome = if result.is_ok() {
             "completed"
         } else if cancel.load(Ordering::Relaxed) {
@@ -411,14 +627,23 @@ fn run_simulations(
                 recorder.recorded_count()
             ),
         };
-        recorder
-            .finish(outcome, &detail, Some(sim.state().generation))
-            .map_err(|e| {
-                format!(
-                    "{detail}; terminal status not confirmed at {}: {e}",
-                    path.display()
-                )
-            })?;
+        let terminal = if let Some(configured) = sim.configured() {
+            RuntimeTermination::capture(
+                &configured.snapshot(),
+                termination_cause,
+                &accepted_session::recording_detail(&detail),
+                configured.runtime_observation(),
+            )
+            .and_then(|termination| termination.finish(&mut recorder))
+        } else {
+            recorder.finish(outcome, &detail, Some(sim.state().generation))
+        };
+        terminal.map_err(|e| {
+            format!(
+                "{detail}; terminal status not confirmed at {}: {e}",
+                path.display()
+            )
+        })?;
         drop(recorder);
         if let Some(set) = saved_set.as_mut() {
             let parent = set.sha256().map_err(|e| e.to_string())?;
@@ -439,10 +664,28 @@ fn run_simulations(
                 )
             })?;
         }
+        if let Some(set) = configured_set.as_mut() {
+            let parent = set.digest().map_err(|e| e.to_string())?;
+            let member = &mut set.members[track];
+            let pin = member
+                .attempt
+                .as_mut()
+                .ok_or("Configured started attempt")?
+                .pin_closed(
+                    std::path::Path::new(&request.recording_directory),
+                    &member.spec,
+                );
+            set.parent_sha256 = Some(parent);
+            publish_configured_revision(&request, set, &format!("member-{track}-finished.json"))?;
+            pin.map_err(|e|format!("Configured member unavailable: {e}; preserve archive and immutable started/finished manifests"))?;
+        }
         result?;
     }
     if let Some(set) = &saved_set {
         publish_saved_revision(&request, set, "completed.json")?;
+    }
+    if let Some(set) = &configured_set {
+        publish_configured_revision(&request, set, "completed.json")?;
     }
     if cancel.load(Ordering::Relaxed) {
         return Err("Cancelled; accepted preview frames retained".into());
@@ -455,8 +698,22 @@ fn publish_saved_revision(
     set: &run_sets::RunSetRevision,
     name: &str,
 ) -> Result<(), String> {
+    publish_set_revision(request, name, |path| set.save_new(path))
+}
+fn publish_configured_revision(
+    request: &Request,
+    set: &run_sets::configured::ConfiguredRunSetRevision,
+    name: &str,
+) -> Result<(), String> {
+    publish_set_revision(request, name, |path| set.save_new(path))
+}
+fn publish_set_revision(
+    request: &Request,
+    name: &str,
+    write: impl FnOnce(&std::path::Path) -> Result<(), run_sets::RunSetError>,
+) -> Result<(), String> {
     let path = std::path::Path::new(&request.recording_directory).join(name);
-    set.save_new(&path).map_err(|e| {
+    write(&path).map_err(|e| {
         format!(
             "Saved revision {}: {e}; preserve and reconcile this exact path",
             path.display()
@@ -558,6 +815,13 @@ fn freeze_native_set(request: &mut Request) -> Result<std::path::PathBuf, String
 fn new_recording_path(directory: &str, label: &str) -> Result<std::path::PathBuf, String> {
     let directory = std::path::Path::new(directory);
     std::fs::create_dir_all(directory).map_err(|e| e.to_string())?;
+    recording_candidate_path(directory, label)
+}
+/// Allocate a fresh name without creating output before intent/host validation.
+fn recording_candidate_path(
+    directory: &std::path::Path,
+    label: &str,
+) -> Result<std::path::PathBuf, String> {
     static NEXT: AtomicUsize = AtomicUsize::new(0);
     let timestamp = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
@@ -668,6 +932,7 @@ fn run_material(
         }
         Ok(vec![ResultRow {
             method,
+            label: request.track_label(0),
             seconds,
             iterations: 0,
             divergence: 0.0,
@@ -705,6 +970,7 @@ struct App {
     archive: archive_view::ArchiveView,
     run_sets: run_set_view::RunSetView,
     save_native_set: bool,
+    configured_controls: configured_controls::ConfiguredControls,
     saved_comparison: saved_comparison::SavedComparisonPage,
     saved_comparison_active: bool,
     comparison_fields: comparison_field_view::ComparisonFieldView,
@@ -753,6 +1019,7 @@ impl Default for App {
             archive: archive_view::ArchiveView::default(),
             run_sets: run_set_view::RunSetView::default(),
             save_native_set: false,
+            configured_controls: Default::default(),
             saved_comparison: saved_comparison::SavedComparisonPage::default(),
             saved_comparison_active: false,
             comparison_fields: Default::default(),
@@ -855,6 +1122,11 @@ impl App {
                                 ui.label("Start a simulation or open a numerical archive");
                             }
                         } else {
+                            if self.configured_controls.show(ui, self.worker.is_none())
+                                && let Err(error) = self.start_configured()
+                            {
+                                self.status = error;
+                            }
                             self.controls(ui);
                         }
                     });
@@ -881,30 +1153,188 @@ impl App {
             self.threads.clamp(1, self.thread_limit)
         };
     }
+    fn selected_recording_limits(&self) -> Result<rheon::recording::RecordingLimits, String> {
+        let max_database_bytes = u64::try_from(self.recording_database_mib)
+            .ok()
+            .and_then(|n| n.checked_mul(1024 * 1024))
+            .ok_or("Recording database limit overflow")?;
+        let max_record_bytes = self
+            .recording_record_mib
+            .checked_mul(1024 * 1024)
+            .ok_or("Recording publication limit overflow")?;
+        let max_records = self
+            .steps
+            .checked_add(1)
+            .ok_or("Recording count overflow")?;
+        let limits = rheon::recording::RecordingLimits {
+            max_database_bytes,
+            max_record_bytes,
+            max_records,
+        };
+        limits.validate().map_err(|e| e.to_string())?;
+        Ok(limits)
+    }
+    fn start_configured(&mut self) -> Result<(), String> {
+        if self.worker.is_some() {
+            return Err("Finish the active worker first".into());
+        }
+        self.refresh_threads(available_threads());
+        let limits = self.selected_recording_limits()?;
+        let root = recording_candidate_path(
+            std::path::Path::new(&self.recording_directory),
+            "configured-set",
+        )?
+        .with_extension("runset");
+        let set_id = root
+            .file_name()
+            .and_then(|s| s.to_str())
+            .ok_or("Configured set directory")?
+            .to_owned();
+        let grid = GridGeometry::new(
+            [self.size; 3],
+            [self.domain_side / self.size as f64; 3],
+            [0.0; 3],
+        )
+        .map_err(|e| e.to_string())?;
+        let revision =
+            self.configured_controls
+                .freeze(configured_controls::ConfiguredLaunchInputs {
+                    set_id,
+                    grid,
+                    pressure_implementation: self.selected,
+                    pressure: PressureSettings {
+                        relative_residual: if self.tight { 1e-11 } else { 1e-9 },
+                        absolute_residual: 1e-12,
+                        divergence_limit: if self.tight { 1e-9 } else { 1e-7 },
+                        max_iterations: 2000,
+                    },
+                    actual_divergence_limit: 1e-5,
+                    max_courant: 1.0,
+                    simulation_memory_limit_bytes: 192 * 1024 * 1024,
+                    boundary_workspace_limit_bytes: 64 * 1024 * 1024,
+                    volume_stamp: rheon::VolumeStamp { id: 1, version: 0 },
+                    carrier_id: 2,
+                    requested_dt_s: self.requested_dt,
+                    requested_steps: self.steps,
+                    volume: run_sets::configured::VolumeControls {
+                        max_outward_courant: 0.5,
+                        actual_divergence_per_s: 1e-5,
+                    },
+                    recording: run_sets::ArchiveBudget {
+                        max_database_bytes: limits.max_database_bytes,
+                        max_record_bytes: limits.max_record_bytes,
+                        max_records: limits.max_records,
+                    },
+                    executor: configured_executor(),
+                })?;
+        self.publish_and_launch_configured(revision, &root, Vec::new())
+    }
+    fn publish_and_launch_configured(
+        &mut self,
+        revision: run_sets::configured::ConfiguredRunSetRevision,
+        root: &std::path::Path,
+        prior_run_ids: Vec<u64>,
+    ) -> Result<(), String> {
+        revision.validate().map_err(|e| e.to_string())?;
+        let baseline = &revision.members[0].spec;
+        let intent_path = root.join("intent.json");
+        let request = Request {
+            collision_mesh: None,
+            size: baseline.constructor.counts_xyz[0],
+            steps: baseline.future.requested_steps,
+            tight: false,
+            threads: self.threads.min(available_threads()).max(1),
+            methods: revision
+                .members
+                .iter()
+                .map(|m| m.spec.constructor.pressure_method.implementation())
+                .collect(),
+            emitter: None,
+            observe: self.show_workers,
+            history_budget_mib: self.history_budget_mib,
+            domain_side: baseline.constructor.spacing_m[0]
+                * baseline.constructor.counts_xyz[0] as f64,
+            requested_dt: baseline.future.requested_dt_s,
+            material: None,
+            material_color: self.materials.color(),
+            recording_limits: baseline.future.recording.limits(),
+            recording_directory: root.to_string_lossy().into(),
+            saved_set: None,
+            configured_set: Some(ConfiguredRequest {
+                revision,
+                project_root: std::env::current_dir().map_err(|e| e.to_string())?,
+                runtime: None,
+            }),
+            prior_run_ids,
+            manifest_receipt: Some(Arc::new(std::sync::Mutex::new(intent_path.clone()))),
+            #[cfg(test)]
+            progress_gate: None,
+            #[cfg(test)]
+            failure_gate: None,
+        };
+        // Exact frozen host/profile checks precede every output and code launch.
+        validate_request(&request)?;
+        let parent = root.parent().ok_or("Configured output parent")?;
+        std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+        std::fs::create_dir(root).map_err(|e| e.to_string())?;
+        request
+            .configured_set
+            .as_ref()
+            .ok_or("Configured intent owner")?
+            .revision
+            .save_new(&intent_path)
+            .map_err(|e| e.to_string())?;
+        self.run_sets.path = intent_path.to_string_lossy().into();
+        self.launch_request(request)
+    }
+    fn rerun_configured(
+        &mut self,
+        original: run_sets::configured::ConfiguredRunSetRevision,
+    ) -> Result<(), String> {
+        if self.worker.is_some() {
+            return Err("Finish the active worker first".into());
+        }
+        original.validate().map_err(|e| e.to_string())?;
+        for member in &original.members {
+            member
+                .spec
+                .validate_execution(&configured_executor())
+                .map_err(|e| e.to_string())?;
+        }
+        let root = recording_candidate_path(
+            std::path::Path::new(&self.recording_directory),
+            "configured-rerun",
+        )?
+        .with_extension("runset");
+        let mut revision = original.clone();
+        revision.parent_sha256 = Some(original.digest().map_err(|e| e.to_string())?);
+        revision.set_id = root
+            .file_name()
+            .and_then(|s| s.to_str())
+            .ok_or("Configured rerun directory")?
+            .into();
+        for member in &mut revision.members {
+            member.attempt = None;
+        }
+        let prior_run_ids = original
+            .members
+            .iter()
+            .filter_map(|m| m.attempt.as_ref().map(|a| a.expected_run_id))
+            .collect();
+        self.publish_and_launch_configured(revision, &root, prior_run_ids)
+    }
     fn start(&mut self, all: bool) {
         if self.worker.is_some() {
             return;
         }
         self.refresh_threads(available_threads());
-        let (Some(database_bytes), Some(record_bytes), Some(max_records)) = (
-            u64::try_from(self.recording_database_mib)
-                .ok()
-                .and_then(|n| n.checked_mul(1024 * 1024)),
-            self.recording_record_mib.checked_mul(1024 * 1024),
-            self.steps.checked_add(1),
-        ) else {
-            self.status = "Recording limit overflow".into();
-            return;
+        let recording_limits = match self.selected_recording_limits() {
+            Ok(limits) => limits,
+            Err(error) => {
+                self.status = error;
+                return;
+            }
         };
-        let recording_limits = rheon::recording::RecordingLimits {
-            max_database_bytes: database_bytes,
-            max_record_bytes: record_bytes,
-            max_records,
-        };
-        if let Err(e) = recording_limits.validate() {
-            self.status = e.to_string();
-            return;
-        }
         let mut request = Request {
             collision_mesh: self.collision.mesh.clone(),
             size: self.size,
@@ -926,10 +1356,13 @@ impl App {
             recording_limits,
             recording_directory: self.recording_directory.clone(),
             saved_set: None,
+            configured_set: None,
             prior_run_ids: Vec::new(),
             manifest_receipt: None,
             #[cfg(test)]
             progress_gate: None,
+            #[cfg(test)]
+            failure_gate: None,
         };
         if self.save_native_set {
             match freeze_native_set(&mut request) {
@@ -986,6 +1419,7 @@ impl App {
             recording_limits: baseline.recording.limits(),
             recording_directory: self.recording_directory.clone(),
             saved_set: None,
+            configured_set: None,
             prior_run_ids: original
                 .members
                 .iter()
@@ -994,6 +1428,8 @@ impl App {
             manifest_receipt: None,
             #[cfg(test)]
             progress_gate: None,
+            #[cfg(test)]
+            failure_gate: None,
         };
         validate_request(&request)?;
         let root =
@@ -1042,7 +1478,7 @@ impl App {
     }
     fn cancel(&self) {
         if let Some(w) = &self.worker {
-            w.cancel.store(true, Ordering::Relaxed);
+            w.cancel();
         }
     }
     fn poll(&mut self, ctx: &egui::Context) {
@@ -1059,7 +1495,7 @@ impl App {
                         .iter()
                         .map(|r| {
                             ctx.load_texture(
-                                r.method.id(),
+                                r.label.as_str(),
                                 egui::ColorImage::from_gray([size, size], &r.pixels),
                                 egui::TextureOptions::NEAREST,
                             )
@@ -1329,7 +1765,7 @@ impl App {
                                  not pressure recomputed on the displayed accepted particles.",
                             );
                         } else {
-                            ui.label(row.method.label());
+                            ui.label(&row.label).on_hover_text(format!("Native baseline/fallback implementation: {}",row.method.label()));
                             ui.label(format!(
                                 "{} iterations · divergence {:.2e}",
                                 row.iterations, row.divergence
@@ -1377,9 +1813,11 @@ impl eframe::App for App {
         }
         if self.run_sets.active {
             let mut compare = false;
-            egui::TopBottomPanel::bottom("run-set-comparison-action").show(ctx, |ui| {
-                compare = ui.button("Compare exact saved members").clicked();
-            });
+            if !self.run_sets.is_configured() {
+                egui::TopBottomPanel::bottom("run-set-comparison-action").show(ctx, |ui| {
+                    compare = ui.button("Compare exact saved members").clicked();
+                });
+            }
             if compare {
                 let path = std::path::Path::new(&self.run_sets.path);
                 if let (Some(parent), Some(name)) = (path.parent(), path.file_name()) {
@@ -1392,10 +1830,14 @@ impl eframe::App for App {
                 }
                 return;
             }
-            if let Some(revision) = self.run_sets.show(ctx, &mut self.archive)
-                && let Err(e) = self.rerun_saved(revision)
-            {
-                self.status = e;
+            if let Some(revision) = self.run_sets.show(ctx, &mut self.archive) {
+                let result = match revision {
+                    run_set_view::SavedRunSet::Native(set) => self.rerun_saved(set),
+                    run_set_view::SavedRunSet::Configured(set) => self.rerun_configured(set),
+                };
+                if let Err(error) = result {
+                    self.status = error;
+                }
             }
             return;
         }
@@ -1457,11 +1899,15 @@ impl eframe::App for App {
                         && request.material.is_none()
                     {
                         egui::ComboBox::from_id_salt("timeline-track")
-                            .selected_text(request.methods[self.track].id())
+                            .selected_text(request.track_label(self.track))
                             .show_ui(ui, |ui| {
-                                for (track, method) in request.methods.iter().enumerate() {
+                                for track in 0..request.methods.len() {
                                     if ui
-                                        .selectable_value(&mut self.track, track, method.id())
+                                        .selectable_value(
+                                            &mut self.track,
+                                            track,
+                                            request.track_label(track),
+                                        )
                                         .clicked()
                                     {
                                         self.follow_live = false;
@@ -1489,9 +1935,12 @@ impl eframe::App for App {
                         ui.label(format!(
                             "{} · Step {} / {}",
                             if frame.material_color.is_some() {
-                                "Material fluid"
+                                "Material fluid".to_owned()
                             } else {
-                                frame.method.id()
+                                self.running_request.as_ref().map_or_else(
+                                    || frame.method.id().to_owned(),
+                                    |request| request.track_label(self.track),
+                                )
                             },
                             frame.step,
                             count.saturating_sub(1)
@@ -1575,7 +2024,7 @@ impl eframe::App for App {
 impl Drop for App {
     fn drop(&mut self) {
         if let Some(worker) = self.worker.take() {
-            worker.cancel.store(true, Ordering::Relaxed);
+            worker.cancel();
             let _ = worker.handle.join();
         }
     }
@@ -1977,9 +2426,12 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            configured_set: None,
             prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: None,
+            #[cfg(test)]
+            failure_gate: None,
         };
         let worker = Worker::start(request).unwrap();
         wait_until(|| worker.handle.is_finished());
@@ -2192,12 +2644,14 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            configured_set: None,
             prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
             })),
+            failure_gate: None,
         };
         let worker = Worker::start(request.clone()).unwrap();
         let mut app = App::default();
@@ -2246,12 +2700,14 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            configured_set: None,
             prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
             })),
+            failure_gate: None,
         };
         let worker = Worker::start(request.clone()).unwrap();
         let mut app = App::default();
@@ -2330,12 +2786,14 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            configured_set: None,
             prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
                 release: std::sync::Mutex::new(resume),
             })),
+            failure_gate: None,
         };
         app.running_request = Some(request.clone());
         app.worker = Some(Worker::start(request).unwrap());
@@ -2388,6 +2846,7 @@ mod tests {
             total: 1,
             history: LiveHistory::new(4, 1, 1).unwrap(),
             observer: None,
+            child: None,
             handle,
         });
         drop(app);
@@ -2413,9 +2872,12 @@ mod tests {
             recording_limits: rheon::recording::RecordingLimits::default(),
             recording_directory: ".generated/recordings".into(),
             saved_set: None,
+            configured_set: None,
             prior_run_ids: Vec::new(),
             manifest_receipt: None,
             progress_gate: None,
+            #[cfg(test)]
+            failure_gate: None,
         };
         let progress = AtomicUsize::new(0);
         let history = LiveHistory::with_budget(8, 4, 2, 96 * 1024 * 1024).unwrap();
@@ -2506,9 +2968,11 @@ mod tests {
                     recording_limits: rheon::recording::RecordingLimits::default(),
                     recording_directory: ".generated/recordings".into(),
                     saved_set: None,
+                    configured_set: None,
                     prior_run_ids: Vec::new(),
                     manifest_receipt: None,
-                    progress_gate: None
+                    progress_gate: None,
+                    failure_gate: None
                 },
                 &AtomicBool::new(true),
                 &AtomicUsize::new(0)

@@ -1,4 +1,4 @@
-//! Native, read-only comparison of exact accepted-v1 archive selections.
+//! Native, read-only comparison of exact carrier/configured archive selections.
 //! Recipe/version semantics and limitations are documented in
 //! `docs/api/recording-comparison.md`. No live simulation or model is consulted.
 use crate::recording::{
@@ -389,6 +389,11 @@ fn temporal_compatibility(a: &Selection, b: &Selection, recipe: Recipe) -> Resul
     }
     if recipe.field == FieldRole::IntervalPressure {
         let start = |s: &Selection| {
+            if s.run.solver == crate::recording::provider::PROFILE {
+                // Configured intervals are owner supplied. A missing start is
+                // unavailable; endpoint minus dt cannot reconstruct this fact.
+                return s.step.field("interval_pressure")?.evaluation_time;
+            }
             let dt = s.step.dt?;
             // Invalid/missing fields cannot erase a temporal match. The step's
             // interval remains authoritative for pairing; values() rejects the field.
@@ -416,16 +421,7 @@ fn compare_fields(
     recipe: Recipe,
 ) -> Result<FieldComparison, Unavailable> {
     for s in [a, b] {
-        if !s.run.solver.starts_with("rheon-carrier-full-box-v1/")
-            || s.run
-                .solver
-                .rsplit('/')
-                .next()
-                .and_then(PressureImplementation::from_id)
-                .is_none()
-        {
-            return Err(Unavailable::UnsupportedProfile);
-        }
+        validate_profile(s)?;
     }
     if a.run.counts != b.run.counts
         || !same_bits(a.run.spacing, b.run.spacing)
@@ -594,6 +590,22 @@ fn field_values(field: &RecordedField) -> Result<Vec<f64>, Unavailable> {
 /// This validates the native profile/schema, not physical acceptance or alignment.
 /// Callers own aggregate memory; a pressure gauge transform must remain explicit.
 pub fn native_samples(s: &Selection, role: FieldRole) -> Result<Vec<f64>, Unavailable> {
+    validate_profile(s)?;
+    let samples = values(s, role)?;
+    if samples.iter().any(|v| !v.is_finite()) {
+        return Err(Unavailable::ArithmeticRange);
+    }
+    Ok(samples)
+}
+
+// This is a source eligibility boundary, not a second field/reduction engine.
+// Configured decode includes its RCP2/RCP3 metadata and source association.
+pub(super) fn validate_profile(s: &Selection) -> Result<(), Unavailable> {
+    if s.run.solver == crate::recording::provider::PROFILE {
+        crate::recording::provider::RecordedConfiguredSession::decode(&s.run, &s.step)
+            .map_err(|_| Unavailable::FieldSchema)?;
+        return Ok(());
+    }
     if !s.run.solver.starts_with("rheon-carrier-full-box-v1/")
         || s.run
             .solver
@@ -604,11 +616,7 @@ pub fn native_samples(s: &Selection, role: FieldRole) -> Result<Vec<f64>, Unavai
     {
         return Err(Unavailable::UnsupportedProfile);
     }
-    let samples = values(s, role)?;
-    if samples.iter().any(|v| !v.is_finite()) {
-        return Err(Unavailable::ArithmeticRange);
-    }
-    Ok(samples)
+    Ok(())
 }
 
 fn values(s: &Selection, role: FieldRole) -> Result<Vec<f64>, Unavailable> {

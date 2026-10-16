@@ -21,7 +21,7 @@ impl ArchiveView {
             .and_then(|()| {
                 let count = self.inspector.recorded_count()?;
                 if count == 0 {
-                    return Err("No committed numerical publications".into());
+                    return Ok(());
                 }
                 self.inspector.select_timestep(0)
             });
@@ -49,7 +49,8 @@ impl ArchiveView {
                 });
                 if (ui.add(egui::Slider::new(&mut self.selected,0..=count-1).text("Recorded ordinal")).changed() || changed)
                     && let Err(e)=self.inspector.select_timestep(self.selected) {self.feedback=e;}
-
+            } else {
+                ui.small("No committed numerical publications. Header and terminal metadata remain available; no numerical selection or export is supplied.");
             }
             if ui.button("Audit all committed publications").clicked() {
                 self.feedback=match self.inspector.verify() {Ok(())=>"Full committed-prefix integrity audit passed; lifecycle still determines completeness".into(),Err(e)=>e};

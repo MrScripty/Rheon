@@ -2,6 +2,9 @@
 //! Native sealed-box carrier v1 only. This module never runs a worker or model,
 //! parses Debug provenance, appends numerical data, or restores integrator state.
 //! Opening inherits RecordingReader's SQLite hot-journal recovery contract.
+#[path = "run_sets/configured.rs"]
+pub mod configured;
+
 use rheon::{
     GridGeometry, PressureImplementation, PressureSettings, SessionIdentity, Simulation,
     SimulationConfig, SmokeSource, SnapshotStage,

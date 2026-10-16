@@ -21,7 +21,30 @@ use std::{
 };
 const LIMIT: usize = 8 * 1024 * 1024;
 #[derive(Debug)]
-pub(super) struct PredictionFailure {
+pub(crate) enum StartupFailure {
+    Cancelled,
+    Failure(String),
+}
+impl std::fmt::Display for StartupFailure {
+    fn fmt(&self, out: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Cancelled => out.write_str("Cancelled"),
+            Self::Failure(detail) => out.write_str(detail),
+        }
+    }
+}
+impl From<String> for StartupFailure {
+    fn from(detail: String) -> Self {
+        Self::Failure(detail)
+    }
+}
+impl From<&str> for StartupFailure {
+    fn from(detail: &str) -> Self {
+        Self::Failure(detail.into())
+    }
+}
+#[derive(Debug)]
+pub(crate) struct PredictionFailure {
     pub reason: NoCandidateReason,
     pub detail: String,
     pub dispatched: bool,
@@ -319,7 +342,7 @@ pub struct ModelProcess {
     readers: Vec<JoinHandle<()>>,
     pub identity: ProviderIdentity,
     adapter: Option<AdapterPackage>,
-    pub(super) prediction_timeout: Duration,
+    pub(crate) prediction_timeout: Duration,
     pub deployment_path: PathBuf,
     pub minimum_native_steps: usize,
 }
@@ -373,16 +396,26 @@ impl ModelProcess {
         cancelled: &AtomicBool,
         progress: impl FnMut(&str) -> Result<(), String>,
     ) -> Result<Self, String> {
-        Self::start_with_pin(path, slot, cancelled, None, progress)
+        Self::start_with_pin(path, slot, cancelled, None, progress).map_err(|e| e.to_string())
     }
     /// Freeze the complete resolved binding before any model code executes.
-    pub(super) fn start_pinned(
+    pub(crate) fn start_pinned(
         path: &Path,
         slot: ChildSlot,
         cancelled: &AtomicBool,
         expected: &ProviderIdentity,
         progress: impl FnMut(&str) -> Result<(), String>,
     ) -> Result<Self, String> {
+        Self::start_pinned_typed(path, slot, cancelled, expected, progress)
+            .map_err(|e| e.to_string())
+    }
+    pub(crate) fn start_pinned_typed(
+        path: &Path,
+        slot: ChildSlot,
+        cancelled: &AtomicBool,
+        expected: &ProviderIdentity,
+        progress: impl FnMut(&str) -> Result<(), String>,
+    ) -> Result<Self, StartupFailure> {
         Self::start_with_pin(path, slot, cancelled, Some(expected), progress)
     }
     fn start_with_pin(
@@ -391,14 +424,14 @@ impl ModelProcess {
         cancelled: &AtomicBool,
         expected: Option<&ProviderIdentity>,
         mut progress: impl FnMut(&str) -> Result<(), String>,
-    ) -> Result<Self, String> {
+    ) -> Result<Self, StartupFailure> {
         let (canonical, runtime) = read_runtime(path)?;
         if expected.is_some_and(|expected| expected != &runtime.identity) {
             return Err("CPU provider binding differs from frozen pin".into());
         }
         let path = canonical.as_path();
         if cancelled.load(Ordering::Relaxed) {
-            return Err("Cancelled".into());
+            return Err(StartupFailure::Cancelled);
         }
         let mut child = Command::new(&runtime.python)
             .args(["-I", "-S", "-B"])
@@ -425,7 +458,7 @@ impl ModelProcess {
             if cancelled.load(Ordering::Relaxed) {
                 let _ = child.kill();
                 let _ = child.wait();
-                return Err("Cancelled".into());
+                return Err(StartupFailure::Cancelled);
             }
             *guard = Some(child);
         }
@@ -534,7 +567,16 @@ impl ModelProcess {
         result.readers.push(err_reader);
         let deadline = Instant::now() + Duration::from_secs(90);
         loop {
-            let message = result.receive(cancelled, deadline)?;
+            let message = result
+                .receive_typed(cancelled, deadline, false)
+                .map_err(|failure| {
+                    if failure.reason == NoCandidateReason::Cancelled {
+                        StartupFailure::Cancelled
+                    } else {
+                        StartupFailure::Failure(failure.detail)
+                    }
+                })?
+                .reply;
             match message {
                 Reply::Loading { phase }
                     if phase.len() <= 2000 && !phase.chars().any(char::is_control) =>
@@ -584,15 +626,10 @@ impl ModelProcess {
                     code,
                     id: None,
                     message,
-                } => return Err(bridge_error(code, message)),
+                } => return Err(bridge_error(code, message).into()),
                 _ => return Err("Unexpected CPU startup record".into()),
             }
         }
-    }
-    fn receive(&mut self, cancelled: &AtomicBool, deadline: Instant) -> Result<Reply, String> {
-        self.receive_typed(cancelled, deadline, false)
-            .map(|r| r.reply)
-            .map_err(|e| e.detail)
     }
     fn receive_typed(
         &mut self,
@@ -600,8 +637,33 @@ impl ModelProcess {
         deadline: Instant,
         dispatched: bool,
     ) -> Result<ReceivedReply, PredictionFailure> {
+        self.receive_typed_with_poll(cancelled, deadline, dispatched, &mut || false)
+    }
+    fn cancellation_requested(
+        &self,
+        cancelled: &AtomicBool,
+        poll: &mut dyn FnMut() -> bool,
+    ) -> bool {
+        if cancelled.load(Ordering::Relaxed) {
+            true
+        } else if poll() {
+            // Reuse the existing immediate-child owner and flag. The outer
+            // owner still performs wait/join through this type's Drop.
+            cancel(&self.slot, cancelled);
+            true
+        } else {
+            false
+        }
+    }
+    fn receive_typed_with_poll(
+        &mut self,
+        cancelled: &AtomicBool,
+        deadline: Instant,
+        dispatched: bool,
+        poll: &mut dyn FnMut() -> bool,
+    ) -> Result<ReceivedReply, PredictionFailure> {
         loop {
-            if cancelled.load(Ordering::Relaxed) {
+            if self.cancellation_requested(cancelled, poll) {
                 return Err(PredictionFailure::new(
                     NoCandidateReason::Cancelled,
                     "Cancelled",
@@ -660,13 +722,23 @@ impl ModelProcess {
     ) -> Result<Vec<f64>, String> {
         self.predict_typed(input, cancelled).map_err(|e| e.detail)
     }
-    pub(super) fn predict_typed(
+    pub(crate) fn predict_typed(
         &mut self,
         input: Input<'_>,
         cancelled: &AtomicBool,
     ) -> Result<Vec<f64>, PredictionFailure> {
+        self.predict_typed_with_poll(input, cancelled, &mut || false)
+    }
+    /// A synchronous accepted Session can supply its cooperative cancellation /
+    /// deadline checkpoint without another thread or a second child owner.
+    pub(crate) fn predict_typed_with_poll(
+        &mut self,
+        input: Input<'_>,
+        cancelled: &AtomicBool,
+        poll: &mut dyn FnMut() -> bool,
+    ) -> Result<Vec<f64>, PredictionFailure> {
         let before = |reason, detail| PredictionFailure::new(reason, detail, false, None);
-        if cancelled.load(Ordering::Relaxed) {
+        if self.cancellation_requested(cancelled, poll) {
             return Err(before(NoCandidateReason::Cancelled, "Cancelled"));
         }
         let request_id = usize::try_from(input.context.generation())
@@ -719,7 +791,7 @@ impl ModelProcess {
             ));
         }
         raw.push(b'\n');
-        if cancelled.load(Ordering::Relaxed) {
+        if self.cancellation_requested(cancelled, poll) {
             return Err(before(NoCandidateReason::Cancelled, "Cancelled"));
         }
         let deadline = Instant::now() + self.prediction_timeout;
@@ -737,7 +809,7 @@ impl ModelProcess {
         // that the child consumed every byte. All subsequent outcomes retain it.
         let after = |reason, detail| PredictionFailure::new(reason, detail, true, None);
         loop {
-            if cancelled.load(Ordering::Relaxed) {
+            if self.cancellation_requested(cancelled, poll) {
                 return Err(after(NoCandidateReason::Cancelled, "Cancelled"));
             }
             if Instant::now() >= deadline {
@@ -774,7 +846,7 @@ impl ModelProcess {
                 }
             }
         }
-        let received = self.receive_typed(cancelled, deadline, true)?;
+        let received = self.receive_typed_with_poll(cancelled, deadline, true, poll)?;
         let digest = Some(received.payload_sha256);
         match received.reply {
             Reply::Error {

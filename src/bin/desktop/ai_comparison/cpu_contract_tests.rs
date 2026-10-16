@@ -17,7 +17,7 @@ use std::{
 
 /// Probe in the child's PID namespace; /proc can be mounted from another one.
 #[cfg(target_os = "linux")]
-pub(super) fn assert_child_liveness(pid: u32, expected_alive: bool) {
+pub(crate) fn assert_child_liveness(pid: u32, expected_alive: bool) {
     let result = Command::new("/usr/bin/kill")
         .args(["-0", "--", &pid.to_string()])
         .output()
@@ -35,7 +35,7 @@ pub(super) fn assert_child_liveness(pid: u32, expected_alive: bool) {
     );
 }
 
-pub(super) struct Fixture {
+pub(crate) struct Fixture {
     pub root: PathBuf,
     pub manifest: PathBuf,
 }
@@ -324,3 +324,6 @@ fn inert_preflight_result_survives_finished_worker_rendering() {
     assert_eq!(app.preflight_status, diagnostic);
     assert!(app.status.contains("completed"));
 }
+
+#[path = "accepted_provider_contract_tests.rs"]
+mod accepted_provider_contract_tests;

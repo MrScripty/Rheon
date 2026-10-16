@@ -43,10 +43,13 @@ outcome from the last record, mutate archives or execute model code.
 
 ## Supported fields and compatibility
 
-Only `rheon-carrier-full-box-v1` records with a recognized native pressure method
-are supported. Unknown profiles return `UnsupportedProfile`; they are not
-interpreted by guessing field names or parsing configuration/controls Debug
-text. Native field schemas must match the existing carrier producer exactly:
+Recognized `rheon-carrier-full-box-v1` native methods and the explicit
+`rheon-configured-session-v1` profile are supported. Configured selections must
+pass the full typed `RecordedConfiguredSession::decode`, including RCP3
+association; see [configured comparison](configured-recording-comparison.md).
+Unknown profiles return `UnsupportedProfile`; they are not interpreted by
+guessing field names or parsing configuration/controls Debug text. Native field
+schemas must match the existing carrier producer exactly:
 
 | Role | Native support | Units/stage |
 | --- | --- | --- |
@@ -73,10 +76,12 @@ input-order tie breaking. The result binds analysis version 1 and the complete
 recipe, and reports paired
 identities plus unmatched identities on both sides. A temporal pair with
 incompatible geometry or an absent/invalid field remains a paired unavailable
-outcome. For a malformed/missing pressure interval field, authoritative
-publication time−dt is used only to retain the temporal pair; field validation
-still returns `FieldSchema`/`MissingField`. Valid actual unequal intervals remain
-unmatched. Thus temporal coverage and usable numerical support are distinguishable.
+outcome. For a malformed/missing legacy native pressure interval field,
+authoritative publication time−dt is used only to retain the temporal pair;
+field validation still returns `FieldSchema`/`MissingField`. Configured intervals
+use the stored owner-supplied start only; a missing start is not reconstructed.
+Valid actual unequal intervals remain unmatched. Thus temporal coverage and
+usable numerical support are distinguishable.
 All source values are validated finite f32/f64 through the recording owner;
 nonfinite intermediate arithmetic returns `ArithmeticRange`.
 

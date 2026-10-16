@@ -32,14 +32,34 @@ impl PreviewFrame {
         seconds: f64,
         report: Option<StepReport>,
     ) -> Result<Arc<Self>, String> {
+        Self::capture_state(
+            sim.grid(),
+            sim.state(),
+            sim.implementation(),
+            edge,
+            step,
+            seconds,
+            report,
+        )
+    }
+    /// Borrow accepted carrier fields from either existing numerical owner.
+    pub fn capture_state(
+        grid: &rheon::GridGeometry,
+        state: rheon::StateView<'_>,
+        method: PressureImplementation,
+        edge: usize,
+        step: usize,
+        seconds: f64,
+        report: Option<StepReport>,
+    ) -> Result<Arc<Self>, String> {
         let count = edge * edge * edge;
         let mut density = Vec::new();
         density
             .try_reserve_exact(count)
             .map_err(|e| format!("Cannot allocate preview: {e}"))?;
         density.resize(count, 0);
-        let [nx, ny, nz] = sim.grid().counts();
-        let tracer = sim.state().tracer;
+        let [nx, ny, nz] = grid.counts();
+        let tracer = state.tracer;
         let mut nonzero_tracer_cells = 0;
         // Maximum concentration over each preview cell preserves narrow jets;
         // simulation values remain untouched, including at non-divisible edges.
@@ -56,9 +76,9 @@ impl PreviewFrame {
             }
         }
         Ok(Arc::new(Self {
-            method: sim.implementation(),
+            method,
             step,
-            time: sim.state().time,
+            time: state.time,
             seconds,
             edge,
             nonzero_tracer_cells,

@@ -735,6 +735,396 @@ to its actual source and is not relabelled for this correction.
   generated packet/build outputs remain outside every checkout.
 
 
+## 2026-10-15 — frozen configured Session pure intent
+
+- A separately owned pure-intent module captures actual immutable constructor
+  Session configuration plus declared future dt/count, force units/regions,
+  volume/viscosity controls, native-prefix/provider policy, budgets and host
+  executor identity. Explicit schema2 spec/set kinds cannot pass native schema1
+  readers. Disabled viscosity differs from applied Newtonian zero; host source
+  differs from package source; cold intent open needs no package or execution.
+- Nine configured contracts and17 existing native saved-set contracts pass,
+  zero ignored/filtered, with strict affected desktop/public-test Clippy,
+  formatting and diff checks. Review corrected a malformed unsupported-kind
+  test to independently challenge both actual envelope kinds. Clippy's large
+  enum finding was resolved by boxing the provider pin without changing its
+  serialized representation; existing test import has a scoped unused-module
+  allowance, with no production warning suppression.
+- Independent exact-source review approves all four module/registration/test
+  pins in [configured intent review](reports/configured-intent-review.md).
+  Complete conservative admission grows105 to106 selected paths: one new
+  module, one registration-only source change,104 unchanged. Selector, older
+  inventories, numerical kernels, oracle and qualification runner are unchanged.
+- This slice has no configured archive pin/open/Ready API and no interval,
+  model or worker loop. Attempt/finalized values remain declared observations
+  pending concrete recording verification. Actual production runtime bridge,
+  codec-backed closed archive binding, cold member states, worker/UI execution
+  and A4 acceptance remain active integration work. Fresh committed-source
+  qualification and exact-head hosted gates are required before integration.
+
+## 2026-10-15 — typed configured archive binding and cold states
+
+- Bound actual constructor headers to frozen configured intent, preserving
+  the real RCP2 profile, raw logical constructor budgets, actual viscosity
+  presence/coefficient, source/package and native-prefix facts. Cold opening
+  creates no numerical/runtime owner and never resolves deployment files.
+- Typed header audit applies even to empty failed-start archives. Ready requires
+  terminal status, known accepted tail, complete profile/recipe associations and
+  stable closed-file pins; completed horizon is exact, while Failed/Cancelled
+  may retain an explicit unrecorded accepted tail within the request. Actual
+  shortened/nonbinary intervals are retained, not reconstructed by subtraction.
+  Future force execution remains producer-declared, not cold RHS reconstruction.
+- Independent source review approves parent/helper, archive module, test and API
+  documentation pins.54 affected contracts pass: eight archive binding, nine
+  intent,20 RCP2 recording and17 native saved-set, zero ignored; strict focused
+  Clippy/fmt pass. A real producer exits before a distinct cold inspector process,
+  with Session/provider constructors guarded against use in inspect phase.
+- Complete conservative admission grows106 to108: two new modules, two changed
+  sources,104 unchanged selected paths. Portable Session dependency770e26b is
+  inherited. This source freeze requires fresh clean qualification/current-head
+  hosted gates; no production worker/UI, external runtime custody, A4 completion
+  or missing measured-model acceptance is claimed.
+
+
+
+## 2026-10-15 — accepted Session / actual CPU context slice
+
+- Existing ModelProcess now permits a synchronous cooperative cancellation/
+  deadline callback in its20ms writer/reply checkpoints, using the existing
+  flag, child and Drop wait/join owner. Legacy paths use a false callback; no
+  competing supervisor, wire schema or numerical gate is introduced.
+- Seven new actual stdlib CPU fixture contracts pass: independent nonzero
+  two-cell full/correction candidates match native accepted field bits after
+  real native prefix; physical refusal, quality fallback/prior, actual child
+  exit, in-flight Session cancellation/deadline and fresh-owner retry, before-
+  dispatch cancellation and blocked writer cleanup retain typed observations.
+  Full intermediate application suite passed58 with one existing measured
+  deployment test explicitly ignored; strict both-bin/all-test desktop Clippy
+  passed. These tests used the declared preceding parent build stamp, and
+  require a fresh final-source run after this commit.
+- Independent source/fixture review approved all four files and exact pins.
+  Native closure grows105 to106 by one test module, with two changed selected
+  files and103 unchanged. The Python compiler fixture is explicitly reviewed;
+  fresh whole-Git qualification also binds its bytes. Source selectors, old
+  inventories, mathematical oracle and pressure/transport gates stay unchanged.
+  The driver is deliberately test-only: production GUI/runtime binding, typed
+  durable process failure and missing aa82 parity remain separate work.
+
+## 2026-10-16 — production configured worker composition boundary
+
+- Merge reviewed CPU provider ef116e4 by ancestry into the separately reviewed
+  frozen/RCP2/cold source29bdd7f, preserving Session, process and SQLite owners.
+  The bridge's actual66 application tests (one measured-deployment ignore)
+  include eight production-provider contracts, but no current desktop caller.
+- Full source admission explicitly composes the reviewed pins:111 paths, three
+  added, three changed,105 unchanged from the cold slice. Source identity does
+  not establish unused component static admission or worker/UI acceptance.
+- Next: a per-interval configured track component inside the existing worker
+  loop, actual frozen controls, typed runtime durability and existing preview/
+  inspector/comparison consumers. No second loop/process supervisor/store.
+  Detailed runtime observations need current-attempt association and explicit
+  codec custody; earlier core receipts cannot infer those facts.
+
+
+## 2026-10-16 — controlled desktop build source admission
+
+- A central bounded compiled declaration now supplies the existing native
+  identity and diagnostic executor consumers in both desktop binaries. Missing
+  or malformed compiled declarations remain independently unspecified. Saved
+  diagnostic execution retains exact stamp admission; historical cold reads
+  remain available. No universal native rerun guard is claimed by this change.
+- The separately reviewed build wrapper exports exact clean Git blobs, fixes
+  the declared recipe/environment, records tracked material before compilation,
+  checks source/tools/export after compilation and records actual binary hashes
+  in a sidecar. Its documented trust limits exclude hermetic or authenticated
+  builds and complete external compiler-read closure.
+- Author and independent wrapper suites each passed8 normal and8 optimized
+  contracts using explicitly fake compiler fixtures. Root precommit validation
+  passed51 AI application contracts with one unchanged missing measured-
+  deployment ignore, nine configured intent and17 native saved-set contracts;
+  strict affected desktop/test Clippy and formatting passed. Logs are
+  /tmp/rheon-qualified-build-precommit-contracts.log and
+  /tmp/rheon-qualified-build-precommit-clippy.log.
+- Independent exact reviews are retained in reports/desktop-build-stamp-review.md
+  and reports/qualified-desktop-wrapper-review.md. Complete source admission
+  grows106 to107 paths by one addition/four changed consumers/102 unchanged.
+  Actual controlled native build, artifact receipt and compiled-consumer
+  evidence follow on the clean committed source; no fake-compiler result is
+  relabelled as native execution.
+
+
+## 2026-10-16 — production one-interval configured component
+
+- ConfiguredTrack prepares exact frozen rest state, separately starts the pinned
+  existing CPU owner and advances one existing Session interval. It owns no
+  outer loop, recording store or supervisor. Disabled/applied-zero viscosity,
+  exact current failures and runtime retirement preserve their distinct meaning.
+- Author execution passed75 application contracts with one unchanged absent
+  measured-deployment ignore, including nine actual production-track contracts.
+  Independent source review then corrected only an overstated quota test name;
+  assertions are unchanged. The review retains exact final source/test/fixture
+  pins and explains the execution-before-rename boundary. Formatting and
+  Python fixture syntax pass.
+- Strict production Clippy currently reports nine dead-code diagnostics for
+  the component before its outer caller exists. No suppression or readiness
+  claim is added. Root must integrate the existing worker loop and rerun strict
+  checks on that final composition. Source admission is114 paths, two added,
+  two changed,110 unchanged; fresh whole-source qualification remains pending.
+- Review: reports/configured-track-review.md. The <=64-cell rational Gaussian
+  fixture is analytical evidence, not learned accuracy. Typed durable runtime
+  custody, configured worker/UI/cold comparison acceptance and native-window
+  evidence remain separate work.
+
+## 2026-10-15 — accepted CPU context contract qualification
+
+- Clean sourceaac620db3abb652019dc9c44884928e75bab06ee,
+  treec177cd2f9e85b565b6a4cf0b9500266ecd378c42, passed18 fresh
+  native/rational qualification commands; Lean checking was not run. The
+  complete106-path conservative source inventory and four independently
+  reviewed production/test/fixture pins match. Real-packet suites passed26
+  normally and26 optimized, zero skips. Receipts remain in
+  /tmp/rheon-accepted-cpu-qualified and /tmp/rheon-accepted-cpu-packet.
+- Final-source full AI application execution passed58 tests, with one existing
+  measured-deployment test explicitly ignored. All seven new real stdlib CPU
+  contracts passed, including independent nonzero two-cell physics, full versus
+  correction ports, physical refusal, real child failure, cancellation before
+  dispatch and during writer/reply waits, retained Session publication and
+  fresh-owner retry. The driver is test-only and not a production GUI adapter.
+- Strict both-bin/all-test desktop Clippy and both native binary builds passed
+  with RHEON_SOURCE_REVISION=aac620db3abb652019dc9c44884928e75bab06ee.
+  Logs: /tmp/rheon-accepted-cpu-frozen-{contracts,clippy,build}.log.
+  Independent exact-source review is retained in
+  [accepted CPU context review](reports/accepted-cpu-context-review.md).
+- Draft [PR104](https://github.com/MrScripty/Rheon/pull/104) remains stacked
+  on PR102. These are analytical process/lifecycle contract fixtures, not
+  missing measured aa82 parity, learned accuracy, production runtime binding,
+  native-window integration, performance or hard-shutdown guarantees. The20ms
+  waits offer cooperative checkpoints only. Cancellation kills that process
+  owner; Session retryability requires a fresh runtime.
+- This follow-through changes only the ledger. Exact pushed-head hosted gates
+  and serial composition remain mandatory; no old qualification transfer or
+  source-admission shortcut is authorized.
+
+
+## 2026-10-15 — reconciled runtime and current recording composition
+
+- Parent requested exact combined verification after PR102 moved. Lead merged
+  qualified Session follow-through into PR104 (af1bc99), resolving only the
+  ledger by preserving both subject-bound records, then merged exact PR103
+  recording5e6d3c7 without source conflict (42aa1302). Prior CPU/source checks
+  remain attached to their original subjects and are not combined acceptance.
+- Lead independent review additionally approves all five exact recording inputs
+  for the current bounded closure. Existing SQL schema and numerical kernels
+  remain unchanged. Source admission now includes107 conservative paths: one
+  added recording module, one registration change,105 unchanged paths.
+- Assigned recording follow-ups explicitly remain actual applied viscosity
+  presence/versioning and public typed constructor-header access. Until those
+  are implemented/reviewed, no complete physical recipe binding or frozen Ready
+  claim is made. They do not prevent present-closure mathematical qualification.
+- Fresh clean combined qualification/packet, actual recording/cold-process and
+  process/Session contracts follow this source freeze. Production package
+  bridge and worker/UI integration remain separate acceptance items.
+
+
+## 2026-10-15 — present RCP1 evidence and corrected RCP2 composition
+
+- Clean combinedfc5a704569d8261ed735bf94551d37bd057a7ef2,
+  treee2c22f55c2c0d79c6c75859422a1fffcac34fd9c, passed18 fresh
+  native/rational commands,26 normal and26 optimized packet tests, zero skips;
+  Lean was not checked. It passed134 core/library/recording contracts with
+  actual modal consumers and zero ignored,54 default recording contracts, and
+  58 CPU application tests with one measured-deployment ignore. Counts overlap
+  and are not additive independent results. Strict affected desktop Clippy and
+  both native builds passed; producer plus four independent cold readers exit0.
+  Receipts/logs: /tmp/rheon-accepted-combined-*. These cover RCP1 only.
+- Required RCP2 follow-upbeb69f65589fbca1005096a6457a540cb33f3d88
+  merged without conflict at ef4e1284. Lead independent exact-five-path review
+  approves actual viscosity_applied, public configured_configuration and closed
+  RCP2 versioning with zero-stage/domain/cold-process negatives. Only the
+  provider.rs selected pin changes within the complete107-path inventory.
+  This closes the assigned source gap; earlier receipts are not transferred.
+- Publish this corrected combination for the separately allocated real process/
+  recording cross-composition contracts. Fresh final source admission and
+  qualification follow those tests; production bridge/worker wiring and
+  detailed durable runtime-failure custody remain separate active work.
+
+
+## 2026-10-16 — actual configured desktop Worker composition
+
+- Root owns branch implementation/configured-session-worker-20261016, eventual
+  main integration and serial ready-gated merge/cleanup. The branch retains
+  the reviewed controls/track, PR106 cross-contracts and PR108 runtime codec;
+  separately published consumer-base ancestry and CI repair are integrated next.
+- The existing App/Worker now runs frozen native or configured Session members
+  in its existing outer loop. Actual process observations bind to RCP3 rows and
+  RCT1 terminals; same cancellation owner, native fallback/history and numerical
+  qualification remain with their existing owners. Immutable intent precedes
+  execution; recorder close precedes pin; reruns preserve originals.
+- Independent source review resolved four lifecycle/UI findings and approves
+  exact16Rust+oneAPI-document pins. Complete conservative admission120 paths
+  adds4/changes12/retains104, with no selector or gate weakening. Review and
+  separate CI setup review are retained in reports.
+- Focused production Worker6/6 passed, including actual full/correction pairs,
+  consumed-request cancellation, sticky known runtime failure after late cancel,
+  constructor cap failure with real metadata-only egui cold view, changed-host
+  refusal and cold subprocess with model package hidden. The reader subprocess
+  is fresh; its parent OS process remains alive after its owners drain.
+- Final boxed-native working-source desktop regression passed136/one unchanged
+  measured-checkpoint ignore; AI regression passed64/one same ignore before
+  the desktop-only boxing change. Strict both-bin/all-test desktop Clippy passed.
+  Fresh clean-source qualification follows; these are not receipts for a later
+  whole-Git revision.
+- Active next slice: retain corrected PR110 cold runtime policy and approved
+  PR111 shared comparison ancestry; complete existing quantitative page/linked
+  fields, saved artifacts and native-window acceptance with the production
+  caller. PR110 impossible accepted-time bound remains with its allocated owner.
+  The full plan is not complete at this publication boundary.
+
+## 2026-10-16 — actual controlled desktop build and consumers
+
+- Clean source dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb, tree
+  dcda9b837cfe5d629af595f04734b356617e1581 passed18 fresh native/rational
+  commands and26 normal plus26 optimized real-packet contracts, zero skips.
+  Lean checking was not run. Receipts: /tmp/rheon-qualified-desktop-qualified
+  and /tmp/rheon-qualified-desktop-packet.
+- The actual controlled wrapper built both release binaries from1,213 exact
+  committed regular source blobs/14,061,263bytes in a fresh external export/
+  target/home/temp, Rust1.92.0, locked desktop recipe/defaults disabled, one job,
+  no incremental compilation and offline cache. Material SHA256
+  9e99d78b18f4edd7ef38b02619b63a893d8583d86caeb6e3b38a7b93ffe1cd7d;
+  completed sidecar SHA256
+  867394d410b8e24f4af20de9c80c7b6b8ab5efa55bc0944421667f68c74adb4f.
+  The first invocation supplied an incorrectly transcribed commit and correctly
+  refused before output/build; the corrected exact committed subject passed.
+- Actual release rheon-desktop:21,878,624bytes, SHA256
+  2d5c0df4a372633bf30f105d8e9d8c4342ac330d85b5f29494eb29a56a53d8a9;
+  rheon-ai-compare:19,403,304bytes, SHA256
+  257af94d14d465cbe35fb590fa375ce17f0509a6e8d44293ca20f57dfab49afe.
+  Independent audit verified all exported Git blob bytes/modes, material/recipe/
+  current launcher/controller bindings, actual fresh Cargo artifacts and both
+  executable hashes/embedded source/material declarations. Durable small sidecar
+  copy: reports/qualified-desktop-build-sidecar.json. Full external output:
+  /tmp/rheon-qualified-desktop-controlled.
+- Four real rustc consumers compiled the exact shared declaration and actual
+  desktop identity sources against Rheon's public identity type, then executed
+  ordinary, malformed, independently valid-source/invalid-material, and fully
+  qualified declaration cases. All passed; the independent reviewer replayed
+  those four actual ELF consumers and verified exact outputs. Durable receipt:
+  reports/qualified-desktop-consumers.json. External harness/compiler evidence:
+  /tmp/rheon-qualified-desktop-consumers.
+- Independent source/tool reviews and actual-build evidence review remain
+  separate. The latter is reports/qualified-desktop-build-evidence-review.md.
+  No GUI/model/full compiler-read closure, hermeticity, authentication, binary
+  reproducibility or whole-plan acceptance follows. Follow-through changes only
+  evidence/ledger documentation, retaining107 selected source pins; qualification
+  and binaries remain pinned todfde6dc. Exact-head hosted gates still govern
+  readiness and integration of this separately reviewed bounded A8 component.
+
+## 2026-10-15 — frozen configured intent clean qualification
+
+- Clean sourcef5bd8b5cc468415df2ab5c3347d8046f813602ef,
+  treef15489069450af18ee444ac144df9a56f2ceba6e, passed all18 fresh
+  native/rational commands with the complete106-path admission. Lean checking
+  was not run. Real-packet suites passed26 normal and26 optimized, zero skips.
+  Receipts: /tmp/rheon-configured-intent-qualified and
+  /tmp/rheon-configured-intent-packet.
+- Final-source nine configured and17 native saved-set contracts passed, zero
+  ignored/filtered; strict affected desktop/public-test Clippy passed. Both
+  native binaries built with full declared revision
+  f5bd8b5cc468415df2ab5c3347d8046f813602ef. The first build invocation used an
+  invalid binary target name and performed no build; correcting it to the
+  actual rheon-ai-compare target passed without source changes. Logs share
+  /tmp/rheon-configured-intent-frozen-*. No numerical/model/GUI or archive
+  readiness claim is added. Follow-through is ledger-only; current-head hosted
+  gates and serial composition remain mandatory.
+
+
+
+
+## 2026-10-16 — cold configured archive clean qualification
+
+- Clean source29bdd7fa6aafd124a4285138dc722349d410346d,
+  treebe0608f98963008533067282a09bffae4974c717, passed all18 fresh
+  native/rational commands with its complete108-path reviewed source closure.
+  Lean checking was not run. Packet contracts passed26 normal plus26 optimized,
+  zero skips. Receipts: /tmp/rheon-configured-archive-qualified and
+  /tmp/rheon-configured-archive-packet.
+- Actual cold binding8, pure configured intent9, RCP2 recording20 and existing
+  native saved-set17 contracts passed:54 total, zero ignored/filtered. Strict
+  affected both-bin/public-test desktop Clippy and both native binary builds
+  passed with the full declared29bdd7f revision. Logs share
+  /tmp/rheon-configured-archive-*. Independent review is retained in
+  reports/configured-archive-review.md. A real producer process exits before a
+  fresh model-absent cold reader; Ready requires full typed audit and a closed
+  immutable file pin, not a declared manifest outcome.
+- Follow-through reconciles current pure-intent parent documentation and adds
+  this exact receipt record. All108 selected hashes remain unchanged. The
+  qualification remains pinned to29bdd7f rather than the later documentation
+  merge. Production worker/UI, detailed runtime persistence and exact-head
+  hosted gates remain separate; no model accuracy, resume or hard shutdown
+  claim is added.
+
+
+## 2026-10-16 — portable RCP2 CPU/recording cross-contract union
+
+- Retain PR102770e26 portable context dependency and exact PR10616157372
+  cross-module test ancestry on reviewed RCP2ed4346da. Production code gains
+  only the already reviewed portable manifest correction in this union.
+- Independent source review approves the two test-path delta; the external
+  owner separately reports final committed64 application passes/one unchanged
+  missing measured-deployment ignore,20 provider and4 carrier passes. Those
+  executions remain pinned to16157372 and are not combined-source receipts.
+- Complete conservative admission grows107 to108 selected paths, one addition,
+  one changed registration and106 unchanged. Nine real recording scenarios
+  and fresh executable readers distinguish accepted native fallback from whole-
+  interval rollback and coarse durable core facts from live-only process detail.
+  Linux blocked-write phase evidence and fresh-owner/newarchive retry limits
+  are explicit in reports/accepted-recording-cross-review.md.
+- Fresh clean native/rational, packet, actual modal/API/recording/application
+  contracts, strict desktop Clippy and both binary builds follow this committed
+  union. Earlier fc5a receipts are RCP1 only; ed4346 RCP2 admission and PR106
+  execution do not substitute for that new qualification. Typed production
+  runtime observations remain separately allocated recording-owner work.
+
+
+
+## 2026-10-16 — lead-owned configured consumer integration base
+
+- This isolated source retains exact PR10796dd2c3 cold binding, PR1049d2011e
+  portable accepted CPU/recording cross-contracts and PR1085c8326a RCP3/RCT1
+  ancestry. Complete111-path conservative admission matches exact independently
+  reviewed pins; no selector narrowing or automatic source refresh.
+- Purpose: unblock separately allocated three-path cold runtime policy and
+  shared comparison consumer acceptance against the real combined APIs.
+  Root owns this integration branch, all merges and its eventual incorporation
+  into the production worker branch. Retain it until those consumers and root
+  caller are accepted; then retire it under the task's safe cleanup authority.
+- Earlier component receipts remain subject-pinned. Fresh clean union checks
+  follow; actual production bridge observation mapping and existing desktop
+  outer-loop/UI work remain separate active root changes, not claimed by this
+  consumer-base publication. No learned/model/GUI/full-plan acceptance follows.
+
+
+## 2026-10-16 — production bridge and shared-library publication boundary
+
+- Actual production Worker source00042f7 now retains the published dependency
+  unionbe0ed8e, current main8bf7a3e and reviewed isolated toolchain repair
+  PR11250732f5. All merge topology is preserved; global integration is root-owned.
+- PR111ea6e5da shared comparison library is independently source-approved and
+  retained by ancestry. Complete121-path conservative admission adds1/changes2/
+  retains118 relative to the120-path Worker closure. Exact six-path review
+  includes its bounded documentation corrections and meaningful cold/analytic
+  tests. External97core/41desktop receipts retain their exact111 subject and
+  overlap; no whole-Git result is transferred to this production union.
+- Fresh committed qualification/affected contracts/strict lints/builds now bind
+  this real combined source. A draft publication unblocks independent actual
+  production bridge acceptance while root completes the existing saved
+  quantitative page/linked-field adapters and native-window evidence.
+- The configured comparison button remains unavailable until that app-owned
+  resolver/recipe/page integration is ready; it is not routed through a native
+  recipe. Corrected PR110 terminal-clock policy and its ancestry remain pending
+  the allocated owner's fix. No full-plan/model/performance acceptance yet.
+
 ## 2026-10-16 — accepted Session CI setup dependency
 
 - Root retains reviewed CI11250732f5 ancestry on portable Session1026b3f7b1,
@@ -752,3 +1142,10 @@ to its actual source and is not relabelled for this correction.
 ### Final isolated-setup CI guard reconciliation (2026-10-16)
 
 Retain reviewed PR112ad8564c ancestry on the accepted Session branch. Only the exact historical CI-budget guard changes, with its independently reviewed literal helper substitution and additive normal/optimized bootstrap checks. Numerical methods, workflow workloads, matrices, budgets, status gates, frozen historical files and all105 admitted numerical source pins remain unchanged. Root independently reran3+3 optimized guard contracts with21 rejection controls per mode and7+7 optimized bootstrap contracts. This supersedes no failed hosted result; new exact-source qualification and hosted readiness are required. The preceding clean e6 source independently passed18 qualification,26+26 optimized packet,58actual core/model cases, strict desktop Clippy/both builds and fresh browser release9/builder12/flow13/timestep11actual+3skips per mode; its whole-Git receipt remains tied to e6.
+
+
+
+
+### Final producer ancestry reconciliation (2026-10-16)
+
+Retain latest accepted Session ec46127 and full qualified-desktop component c02a6cd ancestry, including the literal isolated-bootstrap CI guard correction and historical actual controlled-build evidence. All121 admitted production source pins and their independent review bytes remain exact301; no numerical, Worker, recording or runtime source changed. Historical controlled dfde binaries, sidecar and consumer receipt retain their original subject and are not new producer artifacts. Root owns final clean committed qualification, strict lints, native builds and exact-head hosted/main gates. This final producer union carries the reviewed103/104/105/106/107/108/109/111 components by ancestry;110/114 and saved configured comparison remain the separate consumer unit.
