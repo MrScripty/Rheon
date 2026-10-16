@@ -397,6 +397,26 @@ fn constructor_capture_failure_is_terminal_before_model_start() {
         RuntimeTerminalCoverage::NoRecordedPublication
     ));
     assert!(audit.termination.observation.is_none());
+    let mut page = crate::saved_comparison::SavedComparisonPage::default();
+    page.set_location(
+        root.to_string_lossy(),
+        Path::new(&app.run_sets.path)
+            .file_name()
+            .unwrap()
+            .to_string_lossy(),
+    );
+    page.load_manifest();
+    let summary = &page.member_summaries()[0];
+    assert_eq!(summary.member_id, "native");
+    assert_eq!(
+        summary.availability,
+        crate::saved_comparison::Availability::Ready
+    );
+    assert_eq!(summary.recorded_count, Some(0));
+    assert_eq!(summary.recorded_generation, None);
+    assert_eq!(summary.accepted_generation, Some(0));
+    assert_eq!(summary.unrecorded_tail, Some(false));
+    assert!(summary.detail.contains("unrecorded accepted tail absent"));
     let mut cold = archive_view::ArchiveView::default();
     cold.path = root
         .join(

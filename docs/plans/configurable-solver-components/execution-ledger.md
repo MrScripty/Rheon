@@ -1186,3 +1186,47 @@ Retain latest accepted Session ec46127 and full qualified-desktop component c02a
 ### Native configured comparison window acceptance and retained final parents (2026-10-16)
 
 Retain final producer6291ce ancestry, including accepted Session ec46127, final controlled-build evidence c02a6cd and CI guard ad8564c. All123 admitted source pins and their independent review bytes remain exactbc6. Actual software-native-window acceptance on bc6 passed saved Ready members, Unverified-to-Verified comparison, linked physical pressure probe, cold Inspector CSV and saved rerun after package removal producing typed StartupFailure. All10 original artifact files stayed byte-identical. See reports/configured-native-window-bc6.md for precise source, quantities and receipt hashes. The receipt is bc6-specific; final changed whole-Git source/stamps still require qualification. The disjoint actual storage-limit/unrecorded-tail producer-exit fixture remains allocated and pending. No full-plan/model/performance/ready-main claim is made by this evidence merge.
+
+
+## 2026-10-16 — final configured consumer source and evidence reconciliation
+
+- Root retains exact PR116766c62c ancestry, independently approved two-path
+  actual storage-tail producer-exit fixture and test-only registration. The
+  configured-only full/correction cases retain acceptedg2/durableg1/count2,
+  actual returned candidate and typed StorageFailure; missing fields/verdict
+  stay unavailable. All original file/selection hashes survive fresh model-
+  absent cold readers after actual producer OS exit.
+- Independent review also approves the bounded summary fix for unavailable
+  accepted generation and zero-row generation0. Existing known tail/absent
+  states remain exact. Scope is comparison.rs plus two meaningful existing
+  owner regressions. Initial invalid legacy fixture variants were rejected by
+  the unchanged recording owner and replaced with actual empty Failed/None;
+  no database mutation or validation weakening.
+- Scoped final working-source actual page9, constructor-cap1, storage-tail1
+  and configured comparison5 passed (16 top-level entries), plus strict both-
+  bin/all-test desktop Clippy, formatting and diff. Receipt SHA256
+   012db261d67de35478e55ef7ddde886e3fefb58b45214af8f80976f507d0a3f3.
+  This is not a whole-Git receipt; fresh final committed checks follow.
+- Complete admission now124: one added, three changed,120 unchanged, none
+  removed. Historical inventories, conservative selectors, mathematical
+  oracle, kernels/gates, recording schema and shared worker/process owners
+  remain unchanged. Reports own exact reviewed hashes.
+- Actual bc6 saved-window and live accepted controls/lifecycle evidence passed
+  within distinct scopes, independently audited, with original artifacts
+  unchanged. Live stationary actual IPC, Cancel/repeated Start/refused duplicate,
+  distinct-child restart and Close retain typed terminals and positive exited
+  app status0, without an owning-reap or hard-shutdown claim. Preserve initial
+  nonzero4-cubed native FractionBounds refusal and prior30s RuntimeFailure
+  trials; they are not relabelled successful pressure/Cancelled evidence.
+- Read-only measured A1 availability audit found no complete aa82 package in
+  checked local/public GitHub material. Original owner/catalog/run provenance
+  is known; exact existing runtime/parity/package retrieval is the next step,
+  without training or modal substitution. Bounded feature evidence does not
+  establish measured scientific accuracy or close full A1.
+- CI112ad8564c passed all11 checks/four workflow runs and exact fresh-main
+  merge-tree equality, then merged e8417055d408d654d1d635fad9ab292381d56fbd
+  at03:01:13UTC. Session ec46127 and producer6291ce retain that implementation
+  ancestry and have separate fresh qualification. Main integration of those
+  acceptance units remains exact-head hosted-gated. Root owns final consumer
+  publication, serial merges and safe terminal cleanup; no README90 or
+  unmerged companion is retired by this reconciliation.

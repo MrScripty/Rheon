@@ -801,8 +801,8 @@ fn summaries(set: &SavedRunSet, root: Option<&Path>) -> Vec<MemberSummary> {
                 let facts=(||{let count=reader.count()?;let last=if count==0{None}else{Some(reader.select(count-1)?.generation)};Ok::<_,rheon::recording::RecordingError>((count,last,reader.status()?))})();
                 match facts {Ok((count,last,status))=>{
                     view.availability=Availability::Ready;view.recorded_count=Some(count);view.recorded_generation=last;view.accepted_generation=status.accepted_generation;
-                    view.unrecorded_tail=Some(status.accepted_generation.is_some_and(|g|last.is_none_or(|last|g>last)));
-                    view.detail=format!("Terminal {} · {} recorded publications · recorded generation {:?} · accepted generation {:?} · unrecorded accepted tail {}",status.outcome,count,last,status.accepted_generation,if view.unrecorded_tail==Some(true){"present"}else{"absent"});
+                    view.unrecorded_tail=status.accepted_generation.map(|g|last.map_or(g>0,|last|g>last));
+                    view.detail=format!("Terminal {} · {} recorded publications · recorded generation {:?} · accepted generation {:?} · unrecorded accepted tail {}",status.outcome,count,last,status.accepted_generation,match view.unrecorded_tail{Some(true)=>"present",Some(false)=>"absent",None=>"unavailable"});
                 },Err(e)=>{view.availability=Availability::Invalid;view.detail=e.to_string();}}
             },
             MemberState::NotRun=>{view.availability=Availability::NotRun;view.detail="No run attempt saved".into();},

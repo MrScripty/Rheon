@@ -112,6 +112,13 @@ fn produce(root: &Path, m: &RunSetMember, mode: &str) {
         s.recording.limits(),
     )
     .unwrap();
+    if mode == "unknown-generation" {
+        // A legacy failure can retain neither a publication nor terminal generation.
+        writer
+            .finish("failed", "terminal generation unavailable", None)
+            .unwrap();
+        return;
+    }
     writer
         .append(&carrier_publication(&sim, 0, s.recording.max_record_bytes).unwrap())
         .unwrap();
@@ -457,6 +464,7 @@ fn manifest_source_states_and_real_unrecorded_accepted_tail_are_honest() {
         ("unsupported", "future"),
         ("invalid", "bad"),
         ("tail", "tail"),
+        ("unknown-generation", "unknown-generation"),
     ] {
         let mut m = member(id, NativePressureMethod::JacobiPcgV1);
         match mode {
@@ -482,7 +490,7 @@ fn manifest_source_states_and_real_unrecorded_accepted_tail_are_honest() {
             }
             _ => {
                 produce(&root.0, &m, mode);
-                if mode == "tail" {
+                if matches!(mode, "tail" | "unknown-generation") {
                     m.attempt
                         .as_mut()
                         .unwrap()
@@ -528,6 +536,24 @@ fn manifest_source_states_and_real_unrecorded_accepted_tail_are_honest() {
     assert_eq!(tail.accepted_generation, Some(3));
     assert_eq!(tail.unrecorded_tail, Some(true));
     assert!(tail.detail.contains("failed"));
+    let unknown = h
+        .page
+        .member_summaries()
+        .iter()
+        .find(|s| s.member_id == "unknown-generation")
+        .unwrap();
+    assert_eq!(unknown.availability, Availability::Ready);
+    assert_eq!(unknown.recorded_count, Some(0));
+    assert_eq!(unknown.recorded_generation, None);
+    assert_eq!(unknown.accepted_generation, None);
+    assert_eq!(unknown.unrecorded_tail, None);
+    assert!(unknown.detail.contains("failed"));
+    assert!(
+        unknown
+            .detail
+            .contains("unrecorded accepted tail unavailable")
+    );
+    assert!(!unknown.detail.contains("unrecorded accepted tail absent"));
 }
 
 #[test]

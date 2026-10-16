@@ -1,0 +1,111 @@
+{
+  "binary_package_downloaded": false,
+  "catalog_id": "a7da4a8de53541a2a0e2aad08005bb71",
+  "checked_at_utc": "2026-10-16T02:30:15.075278+00:00",
+  "checkpoint_sha256": "aa82bd122fde9406d9e6b92114b3e6ba77281f5ee8b9c726aa168dacbd93a62d",
+  "evidence_only_retrieval": true,
+  "execution_project_id": "bb9315b6e176491bb6c1eb29a5e9dc89",
+  "github_actions_artifacts_count": 0,
+  "github_releases_count": 0,
+  "lab_revision": "a8426061380e82951b4dba1bbfa38ff93dc7ebb2",
+  "limits": [
+    "Local filename scan /workspace and /tmp pruned Git/build/toolchain/dependency caches; this is not a claim that the original owner assets do not exist elsewhere.",
+    "Pinned source says complete artifacts remain in original ignored runs/sealed-water-v1-3 and existing Tuldok catalog; original /media/jeremy host path and /workspace/rheon-surrogate-lab are absent here.",
+    "No callable Tuldok catalog/runtime download tool is available in this environment.",
+    "No aa82 candidate URL exists in the checked pinned sources/releases/Actions artifacts; no alternate model was substituted."
+  ],
+  "managed_runs": [
+    {
+      "custody_phase": "drained",
+      "material_sha256": "f65b2965f055c95b7f504699e236c734467f5311bca74ad0f088cc270ef1bfd2",
+      "name": "train",
+      "run_id": "fa641802967e4d339ad2d0d82dd54b7c",
+      "state": "completed"
+    },
+    {
+      "custody_phase": "drained",
+      "material_sha256": "ddeea19a9bb2eb666b61c2d10a849eb7382e02c07b211c8a7dff56a215a03b48",
+      "name": "restore",
+      "run_id": "630e12fa31d348e7af584ce125a819bc",
+      "state": "completed"
+    },
+    {
+      "custody_phase": "drained",
+      "material_sha256": "f9de26dcd29be1a188446fc21eb1cc6f526b8745ce6bcc9b2a41d65c61780c3b",
+      "name": "test",
+      "run_id": "4ee8b8c359444202bccf3d67b320e622",
+      "state": "completed"
+    }
+  ],
+  "model_executed": false,
+  "normalization_sha256": "bee9be00a94f0241bc8baf6df2499314918b0a9e708b3f995bea5046c40a3296",
+  "original_deployment_sha256": "be4eef1f051206205598e6876c83edaf5246138e17613f1aa787f3df183a761f",
+  "outcome": "complete_pinned_measured_package_not_available_from_checked_local_or_published_sources",
+  "retrieved_evidence": {
+    "actions-artifacts.json": {
+      "bytes": 32,
+      "sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c",
+      "source": "https://api.github.com/repos/MrScripty/rheon-surrogate-lab/actions/artifacts?per_page=100"
+    },
+    "branches.json": {
+      "bytes": 2622,
+      "sha256": "50ffc5c7abf31f1a8c04b3de3559729b4605cb523a2d95dfa1f5c0ec5222fdfa",
+      "source": "https://api.github.com/repos/MrScripty/rheon-surrogate-lab/branches?per_page=100"
+    },
+    "deployment-exporter-source.py": {
+      "bytes": 4541,
+      "sha256": "0e6767aa0b08073c1a09573a8b94ff5e3787c9bd17ee87062e62bc4442619149",
+      "source": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/experiments/live-water-comparison-v1/deployment.py"
+    },
+    "deployment-readme.md": {
+      "bytes": 5506,
+      "sha256": "1b9838f4a08b0b5b2a73cbe84dfeddb571d664ad128901b6f9160774b5a959bf",
+      "source": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/experiments/live-water-comparison-v1/README.md"
+    },
+    "lab.gitignore": {
+      "bytes": 158,
+      "sha256": "e3b440548dae707fe869f65efb9d24cf595ea4b7bc94a9960d3175432daa1a44",
+      "source": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/.gitignore"
+    },
+    "live-acceptance.json": {
+      "bytes": 8945,
+      "sha256": "0ceb67c7ce47156746b2a6c16c0320a3578de34db08efccaa113e7ad75de6d97",
+      "source": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/docs/plans/live-ai-pressure-comparison/reports/acceptance.json"
+    },
+    "pinned-tree.json": {
+      "bytes": 159913,
+      "sha256": "038071e0b9a7276f228a0ee2f27d35e902d841634269bd8ed89057a3c114c691",
+      "source": "https://api.github.com/repos/MrScripty/rheon-surrogate-lab/git/trees/a8426061380e82951b4dba1bbfa38ff93dc7ebb2?recursive=1"
+    },
+    "releases.json": {
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "source": "https://api.github.com/repos/MrScripty/rheon-surrogate-lab/releases?per_page=100"
+    },
+    "training-acceptance.json": {
+      "bytes": 10686,
+      "sha256": "ea8140c1c2535c9c97ed307139720217a2f802e1977c33206558916d45b58438",
+      "source": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/docs/plans/sealed-water-pressure-v1/acceptance.json"
+    },
+    "training-results.md": {
+      "bytes": 8335,
+      "sha256": "74b0d5f9b05a216721f6378590b418e029e5f1d9869ff440e3cca6b71acb3c51",
+      "source": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/docs/plans/sealed-water-pressure-v1/results.md"
+    },
+    "training-run-custody.json": {
+      "bytes": 1746,
+      "sha256": "8c56f219e53e9d9e4b0a2af9ba40f7248429885a2c4cd4e62136f3e400fbfc9b",
+      "source": "https://github.com/MrScripty/rheon-surrogate-lab/blob/a8426061380e82951b4dba1bbfa38ff93dc7ebb2/docs/plans/sealed-water-pressure-v1/reports/live-final.json"
+    }
+  },
+  "schema": "rheon-measured-a1-availability-v1",
+  "tracked_binary_candidates": [
+    "experiments/final/weights.npz",
+    "experiments/trajectory-v2/model.pt"
+  ],
+  "tracked_binary_sha256": {
+    "experiments/final/weights.npz": "f97ffa3e083e5fbf8f7c8b69b79b2c6176af1ff3b01737664752bb66747d20b9",
+    "experiments/trajectory-v2/model.pt": "25533a2fbaa5ab0f5fb574dc6307a2b8d6a686deb7db867d0d03338d4d70d5a9"
+  },
+  "trained": false
+}
