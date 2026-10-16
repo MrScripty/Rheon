@@ -5,10 +5,10 @@ use super::native_comparison::{
     Selection, SelectionIdentity, align,
 };
 use super::run_sets::{
-    MemberState, RunSetError, RunSetMember, RunSetRevision, open_member, publish_new,
-    read_versioned,
+    MemberState, RunSetError, RunSetRevision, publish_new, read_versioned,
+    source::{SavedMember, SavedRunSet},
 };
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use sha2::{Digest, Sha256};
 use std::{fmt, path::Path};
 
@@ -107,7 +107,7 @@ pub struct SavedRecipe {
     pub analysis_version: u32,
     pub recipe: Recipe,
     /// Full immutable M2 revision; its members retain terminal archive file pins.
-    pub run_set: RunSetRevision,
+    pub run_set: SavedRunSet,
     pub run_set_sha256: [u8; 32],
     pub reference: SelectedMember,
     pub candidate: SelectedMember,
@@ -117,6 +117,26 @@ impl SavedRecipe {
     pub fn capture(
         root: &Path,
         run_set: RunSetRevision,
+        reference_member: &str,
+        candidate_member: &str,
+        reference_ordinals: &[usize],
+        candidate_ordinals: &[usize],
+        recipe: Recipe,
+    ) -> Result<Self> {
+        Self::capture_source(
+            root,
+            SavedRunSet::Native(run_set),
+            reference_member,
+            candidate_member,
+            reference_ordinals,
+            candidate_ordinals,
+            recipe,
+        )
+    }
+    /// Capture exact publications through the source variant's existing owner.
+    pub fn capture_source(
+        root: &Path,
+        run_set: SavedRunSet,
         reference_member: &str,
         candidate_member: &str,
         reference_ordinals: &[usize],
@@ -171,16 +191,26 @@ impl SavedRecipe {
     }
     pub fn save_new(&self, path: &Path) -> Result<()> {
         self.validate()?;
-        save(path, ArtifactKind::Recipe, self)
+        save(
+            path,
+            ArtifactKind::Recipe,
+            self,
+            self.run_set.schema_version(),
+        )
     }
     /// Decode/hash validation only; no archive, worker or model is opened.
     pub fn open(path: &Path) -> Result<Self> {
-        let envelope: Envelope<Self> = read_versioned(path, SCHEMA_VERSION, MAX_DOCUMENT_BYTES)?;
-        validate_envelope(&envelope, ArtifactKind::Recipe)?;
+        let envelope: Envelope<Self> = read_envelope(path)?;
+        validate_envelope(
+            &envelope,
+            ArtifactKind::Recipe,
+            envelope.payload.run_set.schema_version(),
+        )?;
         envelope.payload.validate()?;
         Ok(envelope.payload)
     }
-    pub fn compute(&self, root: &Path) -> Result<VerifiedComparison> {
+    /// Reopen exact pinned sources under the existing combined64MiB field budget.
+    pub(super) fn sources(&self, root: &Path) -> Result<[Vec<Selection>; 2]> {
         self.validate()?;
         let mut selected_bytes = 0;
         let reference = load_selected(
@@ -197,6 +227,10 @@ impl SavedRecipe {
             Side::Candidate,
             &mut selected_bytes,
         )?;
+        Ok([reference, candidate])
+    }
+    pub fn compute(&self, root: &Path) -> Result<VerifiedComparison> {
+        let [reference, candidate] = self.sources(root)?;
         let coverage = align(&reference, &candidate, self.recipe)?;
         let record = ComparisonRecord {
             recipe: self.clone(),
@@ -266,9 +300,12 @@ pub struct UnverifiedComparison {
 }
 impl UnverifiedComparison {
     pub fn open(path: &Path) -> Result<Self> {
-        let envelope: Envelope<ComparisonRecord> =
-            read_versioned(path, SCHEMA_VERSION, MAX_DOCUMENT_BYTES)?;
-        validate_envelope(&envelope, ArtifactKind::Result)?;
+        let envelope: Envelope<ComparisonRecord> = read_envelope(path)?;
+        validate_envelope(
+            &envelope,
+            ArtifactKind::Result,
+            envelope.payload.recipe.run_set.schema_version(),
+        )?;
         envelope.payload.validate()?;
         Ok(Self {
             record: envelope.payload,
@@ -308,7 +345,12 @@ impl VerifiedComparison {
     }
     pub fn save_new(&self, path: &Path) -> Result<()> {
         self.record.validate()?;
-        save(path, ArtifactKind::Result, &self.record)
+        save(
+            path,
+            ArtifactKind::Result,
+            &self.record,
+            self.record.recipe.run_set.schema_version(),
+        )
     }
 }
 
@@ -326,9 +368,14 @@ struct Envelope<T> {
     sha256: [u8; 32],
     payload: T,
 }
-fn save<T: Serialize>(path: &Path, kind: ArtifactKind, payload: &T) -> Result<()> {
+fn save<T: Serialize>(
+    path: &Path,
+    kind: ArtifactKind,
+    payload: &T,
+    source_version: u32,
+) -> Result<()> {
     let envelope = Envelope {
-        schema_version: SCHEMA_VERSION,
+        schema_version: source_version,
         kind,
         sha256: digest(payload)?,
         payload,
@@ -340,7 +387,25 @@ fn save<T: Serialize>(path: &Path, kind: ArtifactKind, payload: &T) -> Result<()
     )?;
     Ok(())
 }
-fn validate_envelope<T: Serialize>(envelope: &Envelope<T>, kind: ArtifactKind) -> Result<()> {
+fn read_envelope<T: DeserializeOwned>(path: &Path) -> Result<Envelope<T>> {
+    match read_versioned(path, SCHEMA_VERSION, MAX_DOCUMENT_BYTES) {
+        Ok(envelope) => Ok(envelope),
+        Err(RunSetError::Unsupported("manifest version")) => {
+            Ok(read_versioned(path, 2, MAX_DOCUMENT_BYTES)?)
+        }
+        Err(error) => Err(error.into()),
+    }
+}
+fn validate_envelope<T: Serialize>(
+    envelope: &Envelope<T>,
+    kind: ArtifactKind,
+    source_version: u32,
+) -> Result<()> {
+    if envelope.schema_version != source_version {
+        return Err(ComparisonArchiveError::Unsupported(
+            "artifact version for source profile",
+        ));
+    }
     if envelope.kind != kind {
         return Err(ComparisonArchiveError::Invalid("artifact kind"));
     }
@@ -359,10 +424,8 @@ fn analysis_version(version: u32) -> Result<()> {
         Ok(())
     }
 }
-fn member<'a>(set: &'a RunSetRevision, id: &str) -> Result<&'a RunSetMember> {
-    set.members
-        .iter()
-        .find(|m| m.member_id == id)
+fn member<'a>(set: &'a SavedRunSet, id: &str) -> Result<SavedMember<'a>> {
+    set.member(id)
         .ok_or(ComparisonArchiveError::Invalid("comparison member missing"))
 }
 fn validate_ordinals(ordinals: &[usize]) -> Result<()> {
@@ -376,15 +439,13 @@ fn validate_ordinals(ordinals: &[usize]) -> Result<()> {
     }
     Ok(())
 }
-fn validate_selected(set: &RunSetRevision, selected: &SelectedMember) -> Result<()> {
+fn validate_selected(set: &SavedRunSet, selected: &SelectedMember) -> Result<()> {
     let m = member(set, &selected.member_id)?;
     let attempt = m
-        .attempt
-        .as_ref()
+        .attempt()
         .ok_or(ComparisonArchiveError::Invalid("selected attempt missing"))?;
     let pin = attempt
         .finalized
-        .as_ref()
         .ok_or(ComparisonArchiveError::Invalid("selected attempt unpinned"))?;
     validate_ordinals(
         &selected
@@ -406,10 +467,10 @@ fn validate_selected(set: &RunSetRevision, selected: &SelectedMember) -> Result<
 }
 fn open_source(
     root: &Path,
-    m: &RunSetMember,
+    m: SavedMember<'_>,
     side: Side,
 ) -> Result<rheon::recording::RecordingReader> {
-    let problem = match open_member(root, m) {
+    let problem = match m.open(root) {
         MemberState::Ready(reader) => return Ok(*reader),
         MemberState::Missing => SourceProblem::Missing,
         MemberState::Incomplete { .. } => SourceProblem::Incomplete,
@@ -449,7 +510,7 @@ fn select(
 }
 fn capture_member(
     root: &Path,
-    set: &RunSetRevision,
+    set: &SavedRunSet,
     id: &str,
     ordinals: &[usize],
     side: Side,
@@ -472,7 +533,7 @@ fn capture_member(
 }
 fn load_selected(
     root: &Path,
-    set: &RunSetRevision,
+    set: &SavedRunSet,
     pin: &SelectedMember,
     side: Side,
     selected_bytes: &mut usize,

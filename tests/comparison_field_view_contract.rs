@@ -598,7 +598,7 @@ fn forged_summary_nonfinite_binding_and_geometry_are_rejected() {
         Err(FieldViewError::Invalid("pair publication membership"))
     ));
     let mut recipe = s.recipe.clone();
-    for m in &mut recipe.run_set.members {
+    for m in &mut native_set_mut(&mut recipe.run_set).members {
         let mut spec = m.spec.spec.clone();
         spec.origin_m[0] -= 0.005;
         m.spec = FrozenSpec::new(spec).unwrap();
@@ -635,7 +635,7 @@ fn preflight_sample_and_publication_budgets_precede_source_io() {
         .unwrap();
     }
     let mut recipe = s.recipe.clone();
-    for m in &mut recipe.run_set.members {
+    for m in &mut native_set_mut(&mut recipe.run_set).members {
         let mut spec = m.spec.spec.clone();
         spec.counts_xyz = [128, 128, 128];
         m.spec = FrozenSpec::new(spec).unwrap();
@@ -649,7 +649,7 @@ fn preflight_sample_and_publication_budgets_precede_source_io() {
         Err(FieldViewError::Limit("estimated promoted samples"))
     ));
     let mut recipe = s.recipe.clone();
-    for m in &mut recipe.run_set.members {
+    for m in &mut native_set_mut(&mut recipe.run_set).members {
         let mut spec = m.spec.spec.clone();
         spec.counts_xyz = [100, 100, 100];
         m.spec = FrozenSpec::new(spec).unwrap();
@@ -663,7 +663,7 @@ fn preflight_sample_and_publication_budgets_precede_source_io() {
         Err(FieldViewError::Limit("estimated native selected payload"))
     ));
     let mut recipe = s.recipe.clone();
-    recipe.run_set.members[0]
+    native_set_mut(&mut recipe.run_set).members[0]
         .attempt
         .as_mut()
         .unwrap()
@@ -759,4 +759,11 @@ fn single_sample_axes_and_slice_work_limit_are_explicit() {
         Err(FieldViewError::Limit("slice work"))
     ));
     assert!(!h.view.is_loaded());
+}
+
+fn native_set_mut(set: &mut source::SavedRunSet) -> &mut RunSetRevision {
+    match set {
+        source::SavedRunSet::Native(set) => set,
+        source::SavedRunSet::Configured(_) => panic!("native fixture required"),
+    }
 }

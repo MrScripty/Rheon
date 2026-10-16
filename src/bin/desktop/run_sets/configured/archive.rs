@@ -5,8 +5,8 @@ use super::super::{
     FinalizedArchive, MemberState, RunSetError, TerminalOutcome, archive_path, file_digest, text,
 };
 use super::{
-    ConfiguredConstructor, ConfiguredRunAttempt, ConfiguredRunSetMember, ExecutorDeclaration,
-    FrozenConfiguredSpec, PressureIntent, ViscosityIntent, same,
+    ConfiguredConstructor, ConfiguredProviderPin, ConfiguredRunAttempt, ConfiguredRunSetMember,
+    ExecutorDeclaration, FrozenConfiguredSpec, PressureIntent, ViscosityIntent, same,
 };
 use rheon::{
     SessionSnapshot, SnapshotStage,
@@ -14,7 +14,9 @@ use rheon::{
         RecordingError, RecordingReader, RecordingRun,
         provider::{
             PROFILE, RecordedConfiguredSession, RecordedPressureSelection,
-            configured_configuration, configured_run, verify_configured_recording,
+            configured_configuration, configured_run,
+            runtime::{RuntimeTerminationAudit, audit_runtime_termination},
+            verify_configured_recording,
         },
     },
 };
@@ -30,6 +32,125 @@ struct IntentBinding {
     executor: ExecutorDeclaration,
 }
 const BINDING_KIND: &str = "configured-accepted-session-intent-v1";
+
+/// Runtime custody is separate from physical acceptance and member readiness.
+#[derive(Debug, Clone)]
+pub enum ConfiguredRuntimeCustody {
+    /// No typed terminal custody is available. This does not imply that no
+    /// request was dispatched or that no accepted publication has RCP3 metadata.
+    LegacyUnavailable,
+    /// Preserve the core audit's last-publication, unrecorded-tail, or empty
+    /// coverage without promoting any of them to execution authentication.
+    Typed(Box<RuntimeTerminationAudit>),
+}
+
+/// Audit available runtime custody and bind terminal requests to frozen intent.
+/// This does not establish complete member readiness: `open_member` separately
+/// checks the header, provenance, publication schedule, path and immutable hash.
+/// Inspection never resolves a deployment or constructs a Session or process.
+pub fn runtime_custody(
+    reader: &RecordingReader,
+    spec: &FrozenConfiguredSpec,
+) -> Result<ConfiguredRuntimeCustody, RunSetError> {
+    spec.validate()?;
+    let status = reader.status()?;
+    let typed_tag = status.detail.strip_prefix("RCT").map(|suffix| {
+        let digits = suffix.bytes().take_while(u8::is_ascii_digit).count();
+        suffix.split_at(digits)
+    });
+    let Some((version, payload)) =
+        typed_tag.filter(|(version, _)| !version.is_empty() && status.outcome != "active")
+    else {
+        verify_configured_recording(reader)?;
+        return Ok(ConfiguredRuntimeCustody::LegacyUnavailable);
+    };
+    if version != "1" {
+        return Err(RunSetError::Unsupported(
+            "configured runtime termination version",
+        ));
+    }
+    if !payload.starts_with(':') {
+        return Err(RunSetError::Invalid(
+            "configured runtime termination payload",
+        ));
+    }
+    let audit = audit_runtime_termination(reader)?;
+    let future = &spec.future;
+    if audit.termination.accepted_generation > future.requested_steps as u64 {
+        return Err(RunSetError::Integrity(
+            "configured runtime terminal horizon",
+        ));
+    }
+    // This frozen profile starts at +0 and every accepted interval is at most
+    // requested_dt. Repeat the same IEEE additions as the owner: multiplying
+    // generation by dt can underestimate a valid accumulated clock.
+    let mut latest_accepted_time = 0.0;
+    for _ in 0..audit.termination.accepted_generation {
+        latest_accepted_time += future.requested_dt_s;
+    }
+    if audit.termination.accepted_time > latest_accepted_time {
+        return Err(RunSetError::Integrity(
+            "configured runtime terminal clock exceeds intent",
+        ));
+    }
+    if let Some(observation) = &audit.termination.observation {
+        let request = &observation.request;
+        if request.context.generation > future.requested_steps as u64 {
+            return Err(RunSetError::Integrity("configured runtime request horizon"));
+        }
+        if request.context.dt > future.requested_dt_s {
+            return Err(RunSetError::Integrity(
+                "configured runtime dt exceeds request",
+            ));
+        }
+        if request.dynamic_viscosity.to_bits() != declared_viscosity(spec).1.to_bits() {
+            return Err(RunSetError::Integrity(
+                "configured runtime viscosity differs",
+            ));
+        }
+        let pin = expected_provider(spec, request.context.generation).ok_or(
+            RunSetError::Integrity("configured runtime request in native phase"),
+        )?;
+        if let PressureIntent::NativePrefixThenConfigured {
+            requested_native_prefix_steps,
+            ..
+        } = &future.pressure
+            && request.context.native_prefix_steps < *requested_native_prefix_steps
+        {
+            return Err(RunSetError::Integrity(
+                "configured runtime native prefix below intent",
+            ));
+        }
+        pin.validate_resolved_identity(&request.binding)?;
+        // The request records mu, not whether an aborted viscosity stage ran.
+        // In particular, zero mu does not prove Disabled or applied presence.
+    }
+    Ok(ConfiguredRuntimeCustody::Typed(Box::new(audit)))
+}
+
+fn declared_viscosity(spec: &FrozenConfiguredSpec) -> (bool, f64) {
+    match spec.future.viscosity {
+        ViscosityIntent::Disabled => (false, 0.0),
+        ViscosityIntent::NewtonianConstant {
+            dynamic_viscosity_pa_s,
+        } => (true, dynamic_viscosity_pa_s),
+    }
+}
+
+fn expected_provider(
+    spec: &FrozenConfiguredSpec,
+    generation: u64,
+) -> Option<&ConfiguredProviderPin> {
+    match &spec.future.pressure {
+        PressureIntent::NativeOnly => None,
+        PressureIntent::NativePrefixThenConfigured {
+            provider,
+            requested_native_prefix_steps,
+            ..
+        } if generation > *requested_native_prefix_steps as u64 => Some(provider),
+        PressureIntent::NativePrefixThenConfigured { .. } => None,
+    }
+}
 
 /// Bind a real constructor to immutable intent before numerical/model execution.
 /// This is a producer declaration, not authentication or proof of future forces.
@@ -133,7 +254,7 @@ fn open_inner(root: &Path, member: &ConfiguredRunSetMember) -> Result<MemberStat
     let count = reader.count()?;
     // Even active/unpinned states retain typed profile and publication checks;
     // neither returns numerical arrays to a Ready consumer.
-    verify_configured_recording(&reader)?;
+    runtime_custody(&reader, &member.spec)?;
     let Some(pin) = &attempt.finalized else {
         return Ok(if status.outcome == "active" {
             MemberState::Incomplete {
@@ -210,7 +331,7 @@ fn validate_publications(
     spec: &FrozenConfiguredSpec,
     outcome: TerminalOutcome,
 ) -> Result<(), RunSetError> {
-    verify_configured_recording(reader)?;
+    runtime_custody(reader, spec)?;
     let count = reader.count()?;
     let future = &spec.future;
     let constructor_count = usize::from(future.capture_constructor);
@@ -222,12 +343,7 @@ fn validate_publications(
     if count > horizon || accepted > future.requested_steps as u64 {
         return Err(RunSetError::Integrity("configured publication horizon"));
     }
-    let (viscosity_applied, mu) = match future.viscosity {
-        ViscosityIntent::Disabled => (false, 0.0),
-        ViscosityIntent::NewtonianConstant {
-            dynamic_viscosity_pa_s,
-        } => (true, dynamic_viscosity_pa_s),
-    };
+    let (viscosity_applied, mu) = declared_viscosity(spec);
     let mut last_generation = 0;
     for ordinal in 0..count {
         let step = reader.select(ordinal)?;
@@ -280,16 +396,7 @@ fn validate_publications(
                     "configured applied viscosity differs",
                 ));
             }
-            let expected_provider = match &future.pressure {
-                PressureIntent::NativeOnly => None,
-                PressureIntent::NativePrefixThenConfigured {
-                    provider,
-                    requested_native_prefix_steps,
-                    ..
-                } if generation > *requested_native_prefix_steps as u64 => Some(provider),
-                PressureIntent::NativePrefixThenConfigured { .. } => None,
-            };
-            match expected_provider {
+            match expected_provider(spec, generation) {
                 Some(pin) => {
                     let actual = receipt
                         .binding

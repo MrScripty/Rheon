@@ -282,7 +282,7 @@ fn changed_terminal_artifact_and_corrupt_source_are_explicit() {
     std::fs::remove_file(root.0.join("sgs.sqlite")).unwrap();
     produce_member(
         &root.0,
-        &r.run_set.members[1],
+        &r.run_set.native().unwrap().members[1],
         "different terminal receipt; exact publication fields unchanged",
     );
     assert!(matches!(

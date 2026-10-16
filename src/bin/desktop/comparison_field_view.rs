@@ -1,7 +1,7 @@
 //! Bounded linked native sample slices. Numerical reduction, gauge and recording
 //! custody remain with the existing public comparison and M2 source contracts.
 use super::comparison::SelectedNativePair;
-use super::run_sets::{MemberState, RunSetMember, archive_path, open_member};
+use super::run_sets::{MemberState, archive_path, source::SavedMember};
 use eframe::egui::{self, Color32, Pos2, Rect, Sense, Stroke};
 use rheon::SnapshotStage;
 use rheon::recording::comparison::{
@@ -254,9 +254,7 @@ impl ComparisonFieldView {
             let member = current
                 .recipe
                 .run_set
-                .members
-                .iter()
-                .find(|m| m.member_id == selected.member_id)
+                .member(&selected.member_id)
                 .ok_or(FieldViewError::Invalid("selected member missing"))?;
             let estimate = preflight_member(member, current.recipe.recipe.field)?;
             native_bytes = native_bytes
@@ -268,10 +266,9 @@ impl ComparisonFieldView {
         // Check both sources and all declared work before opening either SQLite reader.
         for (side, member, _) in &members {
             let attempt = member
-                .attempt
-                .as_ref()
+                .attempt()
                 .ok_or(FieldViewError::Invalid("attempt missing"))?;
-            let path = archive_path(current.root, &attempt.archive_relative_path)
+            let path = archive_path(current.root, attempt.archive_relative_path)
                 .map_err(|e| source_error(side, e))?;
             let metadata = std::fs::metadata(path).map_err(|e| source_error(side, e))?;
             if metadata.len() > MAX_ARCHIVE_BYTES {
@@ -280,7 +277,7 @@ impl ComparisonFieldView {
         }
         let mut sources = Vec::new();
         for (side, member, expected) in members {
-            let reader = match open_member(current.root, member) {
+            let reader = match member.open(current.root) {
                 MemberState::Ready(r) => r,
                 MemberState::Missing => return Err(source_error(side, "missing exact archive")),
                 MemberState::Invalid(e) => return Err(source_error(side, e)),
@@ -583,19 +580,20 @@ fn product(d: [usize; 3]) -> Result<usize, FieldViewError> {
             .ok_or(FieldViewError::Limit("sample product"))
     })
 }
-fn preflight_member(member: &RunSetMember, role: FieldRole) -> Result<usize, FieldViewError> {
+fn preflight_member(member: SavedMember<'_>, role: FieldRole) -> Result<usize, FieldViewError> {
     let attempt = member
-        .attempt
-        .as_ref()
+        .attempt()
         .ok_or(FieldViewError::Invalid("attempt missing"))?;
     let pin = attempt
         .finalized
-        .as_ref()
         .ok_or(FieldViewError::Invalid("terminal pin missing"))?;
     if pin.recorded_count > MAX_SOURCE_PUBLICATIONS {
         return Err(FieldViewError::Limit("source publication count"));
     }
-    let counts = dimensions(member.spec.spec.counts_xyz)?;
+    let counts = dimensions(match member {
+        SavedMember::Native(m) => m.spec.spec.counts_xyz,
+        SavedMember::Configured(m) => m.spec.constructor.counts_xyz,
+    })?;
     let cells = product(counts)?;
     let mut faces = 0usize;
     let mut selected = counts;
@@ -618,10 +616,15 @@ fn preflight_member(member: &RunSetMember, role: FieldRole) -> Result<usize, Fie
     if n > MAX_SAMPLES || n.checked_mul(16).is_none_or(|n| n > MAX_PROMOTED_BYTES) {
         return Err(FieldViewError::Limit("estimated promoted samples"));
     }
+    // Configured publications additionally retain f64 liquid fraction.
+    let cell_bytes = if matches!(member, SavedMember::Configured(_)) {
+        20
+    } else {
+        12
+    };
     faces
-        .checked_add(cells)
-        .and_then(|n| n.checked_mul(4))
-        .and_then(|n| cells.checked_mul(8).and_then(|p| n.checked_add(p)))
+        .checked_mul(4)
+        .and_then(|n| cells.checked_mul(cell_bytes).and_then(|p| n.checked_add(p)))
         .ok_or(FieldViewError::Limit("estimated native selected payload"))
 }
 fn facts(s: &Selection, role: FieldRole) -> PublicationFacts {

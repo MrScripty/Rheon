@@ -899,3 +899,123 @@ Fresh clean union qualification and existing desktop quantitative consumer
 integration/native-window acceptance remain required. This merge also retains
 current main8bf7a3e and separately reviewed CI11250732f5 setup ancestry; neither
 changes these121 selected source pins or transfers prior whole-Git receipts.
+
+
+### Shared saved native/configured source adapter
+
+Exact independently reviewed PR1141c32eb0 source is retained by ancestry.
+Review: ../plans/configurable-solver-components/reports/saved-source-review.md.
+One new module and one bounded parent registration extend121 to122 selected
+paths,120 unchanged. Native inner serialization/digest stays byte-identical;
+existing typed manifest/archive owners retain validation and readiness.
+Consumers must separately bind their envelope version to the source variant.
+Latest reviewed cold terminal-clock policy, quantitative page wiring and fresh
+final-source/window validation remain required. Exact source pins:
+
+- src/bin/desktop/run_sets/source.rs: c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11
+- src/bin/desktop/run_sets.rs: e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1
+- tests/saved_source_contract.rs: 39cb5152583c1662f8dfb71217409025084c4e05be1a18e1b7b3912fa4d21ca5
+
+
+### Final reviewed frozen runtime custody and clock guard
+
+PR110c230cf7 is retained by ancestry. The superseding independent review in
+../plans/configurable-solver-components/reports/configured-runtime-cold-final-review.md
+resolves the impossible-clock finding using repeated IEEE requested-duration
+addition from the frozen +0 constructor, independent of observation presence.
+Known RCT1 full audit, optional legacy custody, frozen package/phase/prefix/dt/
+coefficient bounds and honest unavailable tail coverage retain their owners.
+Complete committed-index closure stays122: one changed reviewed archive source,
+121 unchanged. Root caller working-tree mutations remain separate and unadmitted
+until their own final review; this merge does not silently refresh those pins.
+Fresh composed qualification remains required. Exact final three-path pins:
+
+- src/bin/desktop/run_sets/configured/archive.rs: eb1d8e77019eb57afd9e5fd5f57af55f8ff320527ec8efc935945bd7ff477806
+- tests/configured_archive_binding_contract.rs: 821ddd7d173c84453650d2cde938bf024d907e2f062a894ea2b182e44ac56932
+- docs/api/configured-session-intent.md: 0b3debf93ebacca8e45df814fd67694eac52f5bcac95a89c193b392b2e77b71d
+
+
+### Existing saved comparison consumes configured Session sources
+
+Independent GPT-6.1 Sol review in
+../plans/configurable-solver-components/reports/configured-comparison-consumer-final-review.md
+approves exact eleven-path caller/document/test scope. Existing SavedRecipe,
+verified/unverified results, page, physical-time alignment, gauges, metrics,
+linked fields/probes and Inspector exports retain their owners. Native inner
+bytes/digests remain unchanged; recipe/result envelopes bind schema1 to native
+and schema2 to configured sources. Configured typed facts, RHS hash relation
+and sampled pressure-call summaries reuse PR111. Paint caches metadata and
+never resolves sources. Latest reviewed PR110c230 custody is retained.
+
+Exact independently reviewed Rust pins:
+
+- src/bin/desktop/comparison.rs: 724ccf90e49bf3cbd7fa144fcee6acc91d72301651b99f2ed2f26d08c664ff5f
+- src/bin/desktop/comparison_archive.rs: 813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9
+- src/bin/desktop/comparison_field_view.rs: ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82
+- src/bin/desktop/configured_comparison_tests.rs: e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46
+- src/bin/desktop/configured_worker_tests.rs: 8e6fd169186fe91b5e5eb6105716f29b56cc22e049d668de502def129607a51c
+- src/bin/desktop/run_set_view.rs: ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b
+- src/bin/rheon-desktop.rs: 13cf1812ef2988cbd6484a830cb3ff5081912f9fee1508042d08ae15e244267c
+
+Complete conservative closure grows122 to123: one added actual-Worker
+comparison test module, six changed caller/test-helper sources,116 unchanged,
+none removed. Only reviewed hashes are admitted; no source selector, historical
+inventory, numerical gate, field arithmetic or qualifier change. Old native
+contracts retain every behavioral assertion, with explicit source-variant
+access in their fixture setup. Borrow-only lint repair suppresses nothing.
+
+Five actual production comparison contracts and63 affected contracts passed
+on the reviewed working source. They include actual producer-OS-exit and a
+fresh reader with no model runtime on PATH; analytic fixtures are not learned
+accuracy/performance evidence. Final strict lint, committed whole-source and
+native-window evidence remain separately subject-bound. A separately allocated
+actual after-accept recording-limit/unrecorded-tail fixture is still pending.
+
+
+### Actual storage tail and truthful optional comparison custody
+
+Independent GPT-6.1 Sol reviews approve the exact PR116766c62c producer-exit
+fixture/three-line test registration and the bounded shared-summary correction:
+../plans/configurable-solver-components/reports/configured-storage-producer-exit-review.md
+and ../plans/configurable-solver-components/reports/configured-tail-summary-review.md.
+
+PR116 uses existing production App/Worker/Session/model/SQLite owners. Actual
+max_records2 leaves accepted generation2 beyond durable generation1/count2,
+with typed StorageFailure and actual CandidateReturned observation; missing
+pressure verdict, fields and preview remain unavailable. Producer OS exit
+precedes a fresh environment-cleared/PATH-empty cold reader after package
+removal. Full and correction cases bind all four immutable files and selected
+publication hashes. Retention owns only an exclusive new task-prefixed /tmp child.
+
+The shared page retains unknown accepted generation as unavailable, and does
+not label known generation0/zero publications as an accepted tail. Existing
+positive/absent known tails remain unchanged. Real owner-supported empty Failed
+legacy finish(None) and actual Worker constructor-cap regressions exercise
+these distinctions without database mutation or relaxed recording validation.
+The three-path scope includes tests/saved_comparison_ui_contract.rs, explicitly
+reviewed SHA256 f3bf401a00ccb9ba67de70ff72c6c3a0b7216525073a6f6c8239ec022e0bec1f.
+
+Exact independently approved selected-source pins:
+
+- src/bin/desktop/comparison.rs: ef52e29f4d9c59007c11ff973ed6a43c33ac9e1d583819ede11ebd7aea9ec0a5
+- src/bin/desktop/configured_producer_exit_tests.rs: 7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb
+- src/bin/desktop/configured_worker_tests.rs: 5ba01091e267e2ce51e61626807faf773426ec6243d586007c698bc2388c88ff
+- src/bin/rheon-desktop.rs: 9488869f732dc43ce163002b8b24a9f6fb316ac3ded950d27b8afce97e565cfe
+
+Complete conservative closure grows123 to124: one added test module,
+three changed selected callers/test sources and120 unchanged; none removed.
+No selector, historical inventory, numerical acceptance gate, codec, metric
+engine, field arithmetic, worker loop or model supervisor changes. Source
+admission only permits fresh clean committed qualification. Scoped actual
+validation passed saved page9, constructor cap1, storage producer-exit1 and
+configured comparison5, strict both-bin/all-tests desktop Clippy, fmt and diff.
+One storage entry includes two cases and nested OS harnesses, not extra unique
+tests. Prior rejected fixture variants were corrected without changing owners.
+
+Actual bc6 saved/live software-window receipts and their independent reviews
+retain bc6, while final Session ec46127 and producer6291ce have separate fresh
+qualification. None is transferred to this later whole-Git consumer subject.
+Final committed-source qualification, builds/stamps, final consumer controls
+and all applicable hosted/main gates remain separate acceptance obligations.
+The measured aa82 package remains unavailable; no learned accuracy/performance,
+restart checkpoint, new physics, descendant custody or hard shutdown claim.

@@ -1,0 +1,50 @@
+{
+  "head": "254dd4913a7b89e376996feccca6f3427834e2db",
+  "scope": "root frozen composed working delta, not a new commit qualification",
+  "files": [
+    {
+      "path": "docs/api/configured-saved-comparison.md",
+      "sha256": "4733d9f56839059ba90ab55330fe9b7089c5a3cfd0aa494991697e62b09e5cf6"
+    },
+    {
+      "path": "src/bin/desktop/comparison.rs",
+      "sha256": "724ccf90e49bf3cbd7fa144fcee6acc91d72301651b99f2ed2f26d08c664ff5f"
+    },
+    {
+      "path": "src/bin/desktop/comparison_archive.rs",
+      "sha256": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9"
+    },
+    {
+      "path": "src/bin/desktop/comparison_field_view.rs",
+      "sha256": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82"
+    },
+    {
+      "path": "src/bin/desktop/configured_comparison_tests.rs",
+      "sha256": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46"
+    },
+    {
+      "path": "src/bin/desktop/configured_worker_tests.rs",
+      "sha256": "8e6fd169186fe91b5e5eb6105716f29b56cc22e049d668de502def129607a51c"
+    },
+    {
+      "path": "src/bin/desktop/run_set_view.rs",
+      "sha256": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b"
+    },
+    {
+      "path": "src/bin/rheon-desktop.rs",
+      "sha256": "13cf1812ef2988cbd6484a830cb3ff5081912f9fee1508042d08ae15e244267c"
+    },
+    {
+      "path": "tests/comparison_archive_contract.rs",
+      "sha256": "ddb88a1faba015e1f636d66d6dbc8a770a1875ad52ada6d6a0a773b5c0e4f0e2"
+    },
+    {
+      "path": "tests/comparison_field_view_contract.rs",
+      "sha256": "2bfcf188fbde8ba9908c90365eb10a3e708853d0a928267541a5cfb5358b22f2"
+    },
+    {
+      "path": "tests/saved_comparison_ui_contract.rs",
+      "sha256": "4d06976c97a9aa559375af43ad1f39ee2dda7342f7c376adfe42287f8dfca0e8"
+    }
+  ]
+}

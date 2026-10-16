@@ -1125,6 +1125,38 @@ to its actual source and is not relabelled for this correction.
   recipe. Corrected PR110 terminal-clock policy and its ancestry remain pending
   the allocated owner's fix. No full-plan/model/performance acceptance yet.
 
+
+## 2026-10-16 — configured quantitative consumer integration
+
+- Root owns branch implementation/configured-comparison-ui-20261016, stacked
+  on published production Worker1133012154. It retains reviewed PR111ea6e5da,
+  saved-source PR1141c32eb0 and corrected cold runtime PR110c230cf7 ancestry.
+  Target is the production Worker branch until serial parent acceptance; final
+  main integration and ready-gated merge/cleanup remain root-owned.
+- The existing saved comparison page/artifact/linked-field owners now consume
+  configured sets through the shared source adapter. Native payload/digests
+  remain unchanged; explicit recipe/result version2 binds configured sources.
+  Core pressure receipts, actual runtime observations, authoritative RHS hash
+  relations and sampled pressure-call durations retain their separate scopes.
+- Independent eleven-path source/doc review approves one added source/six
+  changed/116 unchanged, complete123 conservative pins. Native tests retain
+  assertions and use explicit native fixture access. No selector, numerical
+  gate, reducer, gauge policy, store or worker-loop replacement.
+- Working-source five actual Worker comparison contracts and63 affected
+  archive/page/linked/source/cold/library contracts passed, no ignored tests.
+  Test-only egui time sequencing and a pure needless-borrow lint were fixed
+  without weakening assertions. Strict both-bin/all-test Clippy, formatting and diff checks passed after
+  the borrow-only fix. Fresh committed source qualification follows; no301 or
+  component receipt is transferred to this head.
+- Actual producer OS exit precedes a new reader with no runtime on PATH for
+  saved pressure-result verification, linked probes and Inspector CSV after
+  package removal. Full/correction and typed quality/invalid-output cases use
+  actual production Worker/process owners. No learned accuracy/performance
+  claim. Latest native-window evidence remains required.
+- External disjoint allocation113#6206122892 owns only a new real after-accept
+  recording-limit/unrecorded-tail producer-exit fixture; root registers it after
+  this source is published. That gap is not silently counted as accepted here.
+
 ## 2026-10-16 — accepted Session CI setup dependency
 
 - Root retains reviewed CI11250732f5 ancestry on portable Session1026b3f7b1,
@@ -1149,3 +1181,52 @@ Retain reviewed PR112ad8564c ancestry on the accepted Session branch. Only the e
 ### Final producer ancestry reconciliation (2026-10-16)
 
 Retain latest accepted Session ec46127 and full qualified-desktop component c02a6cd ancestry, including the literal isolated-bootstrap CI guard correction and historical actual controlled-build evidence. All121 admitted production source pins and their independent review bytes remain exact301; no numerical, Worker, recording or runtime source changed. Historical controlled dfde binaries, sidecar and consumer receipt retain their original subject and are not new producer artifacts. Root owns final clean committed qualification, strict lints, native builds and exact-head hosted/main gates. This final producer union carries the reviewed103/104/105/106/107/108/109/111 components by ancestry;110/114 and saved configured comparison remain the separate consumer unit.
+
+
+### Native configured comparison window acceptance and retained final parents (2026-10-16)
+
+Retain final producer6291ce ancestry, including accepted Session ec46127, final controlled-build evidence c02a6cd and CI guard ad8564c. All123 admitted source pins and their independent review bytes remain exactbc6. Actual software-native-window acceptance on bc6 passed saved Ready members, Unverified-to-Verified comparison, linked physical pressure probe, cold Inspector CSV and saved rerun after package removal producing typed StartupFailure. All10 original artifact files stayed byte-identical. See reports/configured-native-window-bc6.md for precise source, quantities and receipt hashes. The receipt is bc6-specific; final changed whole-Git source/stamps still require qualification. The disjoint actual storage-limit/unrecorded-tail producer-exit fixture remains allocated and pending. No full-plan/model/performance/ready-main claim is made by this evidence merge.
+
+
+## 2026-10-16 — final configured consumer source and evidence reconciliation
+
+- Root retains exact PR116766c62c ancestry, independently approved two-path
+  actual storage-tail producer-exit fixture and test-only registration. The
+  configured-only full/correction cases retain acceptedg2/durableg1/count2,
+  actual returned candidate and typed StorageFailure; missing fields/verdict
+  stay unavailable. All original file/selection hashes survive fresh model-
+  absent cold readers after actual producer OS exit.
+- Independent review also approves the bounded summary fix for unavailable
+  accepted generation and zero-row generation0. Existing known tail/absent
+  states remain exact. Scope is comparison.rs plus two meaningful existing
+  owner regressions. Initial invalid legacy fixture variants were rejected by
+  the unchanged recording owner and replaced with actual empty Failed/None;
+  no database mutation or validation weakening.
+- Scoped final working-source actual page9, constructor-cap1, storage-tail1
+  and configured comparison5 passed (16 top-level entries), plus strict both-
+  bin/all-test desktop Clippy, formatting and diff. Receipt SHA256
+   012db261d67de35478e55ef7ddde886e3fefb58b45214af8f80976f507d0a3f3.
+  This is not a whole-Git receipt; fresh final committed checks follow.
+- Complete admission now124: one added, three changed,120 unchanged, none
+  removed. Historical inventories, conservative selectors, mathematical
+  oracle, kernels/gates, recording schema and shared worker/process owners
+  remain unchanged. Reports own exact reviewed hashes.
+- Actual bc6 saved-window and live accepted controls/lifecycle evidence passed
+  within distinct scopes, independently audited, with original artifacts
+  unchanged. Live stationary actual IPC, Cancel/repeated Start/refused duplicate,
+  distinct-child restart and Close retain typed terminals and positive exited
+  app status0, without an owning-reap or hard-shutdown claim. Preserve initial
+  nonzero4-cubed native FractionBounds refusal and prior30s RuntimeFailure
+  trials; they are not relabelled successful pressure/Cancelled evidence.
+- Read-only measured A1 availability audit found no complete aa82 package in
+  checked local/public GitHub material. Original owner/catalog/run provenance
+  is known; exact existing runtime/parity/package retrieval is the next step,
+  without training or modal substitution. Bounded feature evidence does not
+  establish measured scientific accuracy or close full A1.
+- CI112ad8564c passed all11 checks/four workflow runs and exact fresh-main
+  merge-tree equality, then merged e8417055d408d654d1d635fad9ab292381d56fbd
+  at03:01:13UTC. Session ec46127 and producer6291ce retain that implementation
+  ancestry and have separate fresh qualification. Main integration of those
+  acceptance units remains exact-head hosted-gated. Root owns final consumer
+  publication, serial merges and safe terminal cleanup; no README90 or
+  unmerged companion is retired by this reconciliation.
