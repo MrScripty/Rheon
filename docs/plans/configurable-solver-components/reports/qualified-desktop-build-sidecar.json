@@ -1,0 +1,48 @@
+{
+  "binaries": {
+    "rheon-ai-compare": {
+      "bytes": 19403304,
+      "path": "build/release/rheon-ai-compare",
+      "sha256": "257af94d14d465cbe35fb590fa375ce17f0509a6e8d44293ca20f57dfab49afe"
+    },
+    "rheon-desktop": {
+      "bytes": 21878624,
+      "path": "build/release/rheon-desktop",
+      "sha256": "2d5c0df4a372633bf30f105d8e9d8c4342ac330d85b5f29494eb29a56a53d8a9"
+    }
+  },
+  "invocation": {
+    "environment": {
+      "CARGO_BUILD_JOBS": "1",
+      "CARGO_HOME": "/workspace/.rheon-tools/cargo",
+      "CARGO_INCREMENTAL": "0",
+      "CARGO_TARGET_DIR": "/tmp/rheon-qualified-desktop-controlled/build",
+      "HOME": "/tmp/rheon-qualified-desktop-controlled/home",
+      "LANG": "C",
+      "LC_ALL": "C",
+      "PATH": "/workspace/.rheon-tools/cargo/bin:/usr/bin:/usr/bin",
+      "RHEON_BUILD_MATERIAL_SHA256": "9e99d78b18f4edd7ef38b02619b63a893d8583d86caeb6e3b38a7b93ffe1cd7d",
+      "RHEON_SOURCE_REVISION": "dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb",
+      "RUSTUP_HOME": "/workspace/.rheon-tools/rustup",
+      "RUSTUP_TOOLCHAIN": "1.92.0",
+      "TMPDIR": "/tmp/rheon-qualified-desktop-controlled/tmp",
+      "TZ": "UTC"
+    },
+    "output": "/tmp/rheon-qualified-desktop-controlled",
+    "source_export": "/tmp/rheon-qualified-desktop-controlled/source",
+    "source_repository": "/workspace/rheon-qualified-desktop-build",
+    "target": "/tmp/rheon-qualified-desktop-controlled/build",
+    "timeout_seconds": 1800
+  },
+  "kind": "rheon-qualified-desktop-build-v1",
+  "material": {
+    "path": "build-material.json",
+    "sha256": "9e99d78b18f4edd7ef38b02619b63a893d8583d86caeb6e3b38a7b93ffe1cd7d"
+  },
+  "provenance_limit": "tracked source material and declared trusted tools only; external reads by committed code unsupported; not hermetic, authenticated, reproducible, model or hardware qualification",
+  "recipe_sha256": "e06f94c9c244346c40bb4f5a943379e7d6c672eaac2b670fdc5955c33c7d31df",
+  "schema_version": 1,
+  "source_commit": "dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb",
+  "source_tree": "dcda9b837cfe5d629af595f04734b356617e1581",
+  "status": "completed"
+}

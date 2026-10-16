@@ -788,3 +788,44 @@ to its actual source and is not relabelled for this correction.
   Actual controlled native build, artifact receipt and compiled-consumer
   evidence follow on the clean committed source; no fake-compiler result is
   relabelled as native execution.
+
+
+## 2026-10-16 — actual controlled desktop build and consumers
+
+- Clean source dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb, tree
+  dcda9b837cfe5d629af595f04734b356617e1581 passed18 fresh native/rational
+  commands and26 normal plus26 optimized real-packet contracts, zero skips.
+  Lean checking was not run. Receipts: /tmp/rheon-qualified-desktop-qualified
+  and /tmp/rheon-qualified-desktop-packet.
+- The actual controlled wrapper built both release binaries from1,213 exact
+  committed regular source blobs/14,061,263bytes in a fresh external export/
+  target/home/temp, Rust1.92.0, locked desktop recipe/defaults disabled, one job,
+  no incremental compilation and offline cache. Material SHA256
+  9e99d78b18f4edd7ef38b02619b63a893d8583d86caeb6e3b38a7b93ffe1cd7d;
+  completed sidecar SHA256
+  867394d410b8e24f4af20de9c80c7b6b8ab5efa55bc0944421667f68c74adb4f.
+  The first invocation supplied an incorrectly transcribed commit and correctly
+  refused before output/build; the corrected exact committed subject passed.
+- Actual release rheon-desktop:21,878,624bytes, SHA256
+  2d5c0df4a372633bf30f105d8e9d8c4342ac330d85b5f29494eb29a56a53d8a9;
+  rheon-ai-compare:19,403,304bytes, SHA256
+  257af94d14d465cbe35fb590fa375ce17f0509a6e8d44293ca20f57dfab49afe.
+  Independent audit verified all exported Git blob bytes/modes, material/recipe/
+  current launcher/controller bindings, actual fresh Cargo artifacts and both
+  executable hashes/embedded source/material declarations. Durable small sidecar
+  copy: reports/qualified-desktop-build-sidecar.json. Full external output:
+  /tmp/rheon-qualified-desktop-controlled.
+- Four real rustc consumers compiled the exact shared declaration and actual
+  desktop identity sources against Rheon's public identity type, then executed
+  ordinary, malformed, independently valid-source/invalid-material, and fully
+  qualified declaration cases. All passed; the independent reviewer replayed
+  those four actual ELF consumers and verified exact outputs. Durable receipt:
+  reports/qualified-desktop-consumers.json. External harness/compiler evidence:
+  /tmp/rheon-qualified-desktop-consumers.
+- Independent source/tool reviews and actual-build evidence review remain
+  separate. The latter is reports/qualified-desktop-build-evidence-review.md.
+  No GUI/model/full compiler-read closure, hermeticity, authentication, binary
+  reproducibility or whole-plan acceptance follows. Follow-through changes only
+  evidence/ledger documentation, retaining107 selected source pins; qualification
+  and binaries remain pinned todfde6dc. Exact-head hosted gates still govern
+  readiness and integration of this separately reviewed bounded A8 component.
