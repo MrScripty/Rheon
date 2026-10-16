@@ -627,3 +627,33 @@ This explicitly admitted merge grows108 to111 selected paths (three added,
 three changed,105 unchanged). No selectors, old inventories, numerical kernels
 or gates change. This is source admission only: production caller wiring and
 full static/runtime/recording validation remain required before integration.
+
+
+### Controlled desktop tracked-material build and compiled declaration
+
+Independent GPT-6.1 Sol reviews approve the five Rust declaration/consumer
+paths and separate controlled-build wrapper, contracts and documentation.
+The complete conservative selector grows106 to107 paths: one new central
+module, four changed registrations/consumers,102 unchanged, none removed.
+Only the exact independently reviewed source hashes below are rebound; the
+selector, old inventories, numerical kernels, oracle and runner are unchanged.
+
+Ordinary Cargo builds retain explicit unspecified source/material values when
+compiled declarations are missing or malformed. The controlled wrapper exports
+exact clean committed regular Git blobs into a fresh external tree, discards
+inherited build overrides, records trusted tool declarations and tracked-source
+material before building both binaries, and binds actual artifacts in an
+external receipt. This is bounded custody, not hermeticity, authentication,
+complete compiler-read closure, reproducibility or numerical/model acceptance.
+Reviews: ../plans/configurable-solver-components/reports/desktop-build-stamp-review.md
+and ../plans/configurable-solver-components/reports/qualified-desktop-wrapper-review.md.
+
+- src/bin/desktop/build_identity.rs: a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b
+- src/bin/desktop/identity.rs: df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184
+- src/bin/desktop/ai_comparison/diagnostic_runs.rs: 80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c
+- src/bin/rheon-ai-compare.rs: e102cccdc1a86afbdcf5a942ec6b1125655b9d1fcc7f4eb479935940633082bc
+- src/bin/rheon-desktop.rs: b484c75de20df8cb36010e31cd9cbab879e4f348050b2d551f2bcf553cb25d3f
+
+This admits a fresh clean qualification attempt. Fake-compiler wrapper
+contracts do not establish an actual native build; exact committed-source
+wrapper execution and native consumers remain required evidence.

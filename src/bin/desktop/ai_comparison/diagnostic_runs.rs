@@ -18,11 +18,7 @@ use sha2::{Digest, Sha256};
 use std::path::Path;
 const MAX_DOCUMENT: u64 = 1024 * 1024;
 fn current_executor_revision() -> String {
-    format!(
-        "rheon-diagnostic-engine/{}; {}",
-        env!("CARGO_PKG_VERSION"),
-        option_env!("RHEON_SOURCE_REVISION").unwrap_or("build revision unspecified")
-    )
+    crate::build_identity::executor_revision("diagnostic-engine")
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

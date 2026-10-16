@@ -824,3 +824,30 @@ to its actual source and is not relabelled for this correction.
   inspector/comparison consumers. No second loop/process supervisor/store.
   Detailed runtime observations need current-attempt association and explicit
   codec custody; earlier core receipts cannot infer those facts.
+
+
+## 2026-10-16 — controlled desktop build source admission
+
+- A central bounded compiled declaration now supplies the existing native
+  identity and diagnostic executor consumers in both desktop binaries. Missing
+  or malformed compiled declarations remain independently unspecified. Saved
+  diagnostic execution retains exact stamp admission; historical cold reads
+  remain available. No universal native rerun guard is claimed by this change.
+- The separately reviewed build wrapper exports exact clean Git blobs, fixes
+  the declared recipe/environment, records tracked material before compilation,
+  checks source/tools/export after compilation and records actual binary hashes
+  in a sidecar. Its documented trust limits exclude hermetic or authenticated
+  builds and complete external compiler-read closure.
+- Author and independent wrapper suites each passed8 normal and8 optimized
+  contracts using explicitly fake compiler fixtures. Root precommit validation
+  passed51 AI application contracts with one unchanged missing measured-
+  deployment ignore, nine configured intent and17 native saved-set contracts;
+  strict affected desktop/test Clippy and formatting passed. Logs are
+  /tmp/rheon-qualified-build-precommit-contracts.log and
+  /tmp/rheon-qualified-build-precommit-clippy.log.
+- Independent exact reviews are retained in reports/desktop-build-stamp-review.md
+  and reports/qualified-desktop-wrapper-review.md. Complete source admission
+  grows106 to107 paths by one addition/four changed consumers/102 unchanged.
+  Actual controlled native build, artifact receipt and compiled-consumer
+  evidence follow on the clean committed source; no fake-compiler result is
+  relabelled as native execution.
