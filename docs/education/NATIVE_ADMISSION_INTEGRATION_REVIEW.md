@@ -581,3 +581,22 @@ unchanged selected paths. Source/qualification selectors and older inventories
 are unchanged. The previously assigned stage/header gap is closed in source;
 fresh combined qualification and subsequent frozen/production integration
 remain required. Earlierfc5a704 evidence is explicitly RCP1, not this RCP2 source.
+
+
+### Portable accepted Session hash dependency
+
+Hosted browser-fixture qualification exposed a real compile regression: the new
+unconditional core configured context imports sha2 while Cargo declared it only
+for native targets. Independent GPT-6.1 Sol review approves moving the existing
+exactsha2=0.10.9 dependency to the common table, with no version/feature/default
+change. Both lockfiles already contain the same package and remain unchanged.
+The fixed actual wasm32 library build passes; complete fresh browser/native
+qualification is still required. Review:
+../plans/configurable-solver-components/reports/portable-session-hash-review.md.
+
+- Cargo.toml: 10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e
+
+The complete selector remains105 paths, only this manifest pin changes and104
+selected paths are unchanged. Native-only filesystem/SQLite/process capabilities,
+numerical kernels/gates, selectors and historical inventories remain unchanged.
+Native qualification alone does not establish this browser regression fixed.

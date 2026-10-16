@@ -811,3 +811,21 @@ to its actual source and is not relabelled for this correction.
   recording cross-composition contracts. Fresh final source admission and
   qualification follow those tests; production bridge/worker wiring and
   detailed durable runtime-failure custody remain separate active work.
+
+## 2026-10-15 — browser compile gate and portable context dependency
+
+- Hosted PR102 source da2e12c failed the bounded browser-fixture build. Detailed
+  action-log redirect downloads returned403; the job API identified the step,
+  and local reproduction established compiler E0432: configured context uses
+  sha2 unconditionally, while Cargo declared it only for native targets.
+- Move the existing exactsha2=0.10.9 entry into common dependencies. No new
+  crate/version/feature/default, numerical kernel or model changes; both root
+  and browser lockfiles remain unchanged. Independent exact manifest review
+  approves this target-scope correction. Only Cargo.toml changes within the
+  unchanged105-path conservative admission.
+- Actual release browser contracts passed six cycle plus three flow tests;
+  the unfixed WASM build reproduced E0432, and the fixed wasm32 library build
+  passed. Complete fresh committed-source browser packet/normal/optimized
+  tests plus native qualification follow; no merge gate is waived or previous
+  receipt transferred. Tool provisioning is root-owned under .rheon-tools and
+  generated packet/build outputs remain outside every checkout.
