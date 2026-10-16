@@ -851,3 +851,26 @@ to its actual source and is not relabelled for this correction.
   Actual controlled native build, artifact receipt and compiled-consumer
   evidence follow on the clean committed source; no fake-compiler result is
   relabelled as native execution.
+
+
+## 2026-10-16 — production one-interval configured component
+
+- ConfiguredTrack prepares exact frozen rest state, separately starts the pinned
+  existing CPU owner and advances one existing Session interval. It owns no
+  outer loop, recording store or supervisor. Disabled/applied-zero viscosity,
+  exact current failures and runtime retirement preserve their distinct meaning.
+- Author execution passed75 application contracts with one unchanged absent
+  measured-deployment ignore, including nine actual production-track contracts.
+  Independent source review then corrected only an overstated quota test name;
+  assertions are unchanged. The review retains exact final source/test/fixture
+  pins and explains the execution-before-rename boundary. Formatting and
+  Python fixture syntax pass.
+- Strict production Clippy currently reports nine dead-code diagnostics for
+  the component before its outer caller exists. No suppression or readiness
+  claim is added. Root must integrate the existing worker loop and rerun strict
+  checks on that final composition. Source admission is114 paths, two added,
+  two changed,110 unchanged; fresh whole-source qualification remains pending.
+- Review: reports/configured-track-review.md. The <=64-cell rational Gaussian
+  fixture is analytical evidence, not learned accuracy. Typed durable runtime
+  custody, configured worker/UI/cold comparison acceptance and native-window
+  evidence remain separate work.

@@ -103,6 +103,11 @@ impl AcceptedCpuProvider {
             last_failure: None,
         })
     }
+    /// Clear bounded observations before a new owned interval, including one
+    /// that support declines. This never resets or revives the process owner.
+    pub(super) fn begin_interval_observation(&mut self) {
+        self.last_failure = None;
+    }
     /// Most recent prediction failure, including actual process dispatch facts.
     /// A successful prediction clears it. Inert supports calls do not change it.
     pub(super) fn last_failure(&self) -> Option<&PredictionFailure> {

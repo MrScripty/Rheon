@@ -1,6 +1,7 @@
 //! Fresh paired native / CPU-checkpoint water laboratory with explicit AI verdicts.
 mod accepted_provider;
 mod adapter;
+pub(crate) mod configured_track;
 #[cfg(test)]
 mod cpu_contract_tests;
 mod diagnostic_runs;

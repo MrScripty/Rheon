@@ -657,3 +657,30 @@ and ../plans/configurable-solver-components/reports/qualified-desktop-wrapper-re
 This admits a fresh clean qualification attempt. Fake-compiler wrapper
 contracts do not establish an actual native build; exact committed-source
 wrapper execution and native consumers remain required evidence.
+
+
+### One-interval configured Session and CPU owner composition
+
+Independent GPT-6.1 Sol source review approves the bounded ConfiguredTrack
+component, contracts, separate independent analytical fixture, bridge interval
+observation reset and explicit registration. Review:
+../plans/configurable-solver-components/reports/configured-track-review.md.
+It reuses the existing Session, pressure/viscosity workspaces and ModelProcess;
+separate inert construction/startup allows intent/constructor recording before
+mutable package checks. Actual context support, fallback and whole-interval
+commit stay with existing owners. Current typed failures are owned before
+retirement; host quality rejection does not retire a healthy runtime.
+
+- src/bin/desktop/ai_comparison/configured_track.rs: 9f677e5782a1547f4f46ca2280462bba08b479377a0fb00a5830a8a874872a7b
+- src/bin/desktop/ai_comparison/configured_track_tests.rs: a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c
+- src/bin/desktop/ai_comparison/accepted_provider.rs: 662e1def1b50332fa00a7aa1deded481b84ccfad1a98ffca2c7e062adbae79bd
+- src/bin/desktop/ai_comparison/mod.rs: ca7f6af6aa04986bb5401383b059c1efd8ffedb672c7eb29a6895e41bc0ec370
+
+The complete selector grows112 to114 paths: two added, two changed,110
+unchanged, none removed. The Python fixture is outside that unchanged selector
+and independently reviewed at01ad2acb063b21c29cc379191c1048f5a365d707de428693cec7ae30c744e98f;
+whole-source committed qualification additionally binds it. No selector, old
+inventory, numerical kernel, oracle or qualifier changes. This is source
+admission only: production caller/recording/UI integration and strict Clippy
+remain pending. The unwired graph currently has dead-code diagnostics; no
+gate is waived or old qualification transferred.
