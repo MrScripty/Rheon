@@ -1,0 +1,37 @@
+{
+  "source_commit": "dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb",
+  "sidecar_sha256": "867394d410b8e24f4af20de9c80c7b6b8ab5efa55bc0944421667f68c74adb4f",
+  "material_sha256": "9e99d78b18f4edd7ef38b02619b63a893d8583d86caeb6e3b38a7b93ffe1cd7d",
+  "actual_release_binary_hashes_and_embedded_declarations_verified": true,
+  "actual_native_identity_consumer_executions": [
+    {
+      "case": "ordinary",
+      "compiled_source_declaration": null,
+      "compiled_material_declaration": null,
+      "actual_identity_consumer_output": "rheon-desktop-configured-session/0.1.0; source=build revision unspecified; tracked-material=unspecified",
+      "exit_code": 0
+    },
+    {
+      "case": "malformed",
+      "compiled_source_declaration": "not-a-source",
+      "compiled_material_declaration": "bad-material",
+      "actual_identity_consumer_output": "rheon-desktop-configured-session/0.1.0; source=build revision unspecified; tracked-material=unspecified",
+      "exit_code": 0
+    },
+    {
+      "case": "independent-fields",
+      "compiled_source_declaration": "dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb",
+      "compiled_material_declaration": "bad-material",
+      "actual_identity_consumer_output": "rheon-desktop-configured-session/0.1.0; source=dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb; tracked-material=unspecified",
+      "exit_code": 0
+    },
+    {
+      "case": "qualified-declarations",
+      "compiled_source_declaration": "dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb",
+      "compiled_material_declaration": "9e99d78b18f4edd7ef38b02619b63a893d8583d86caeb6e3b38a7b93ffe1cd7d",
+      "actual_identity_consumer_output": "rheon-desktop-configured-session/0.1.0; source=dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb; tracked-material=9e99d78b18f4edd7ef38b02619b63a893d8583d86caeb6e3b38a7b93ffe1cd7d",
+      "exit_code": 0
+    }
+  ],
+  "limits": "External rustc harness compiles the exact shared declaration and actual desktop identity source against actual Rheon library. Both controlled release artifacts contain matching declarations. No GUI/frozen-executor user-workflow/model/complete compiler-read closure claim."
+}

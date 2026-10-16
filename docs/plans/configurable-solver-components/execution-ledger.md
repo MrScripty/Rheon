@@ -980,6 +980,46 @@ to its actual source and is not relabelled for this correction.
   caller. PR110 impossible accepted-time bound remains with its allocated owner.
   The full plan is not complete at this publication boundary.
 
+## 2026-10-16 — actual controlled desktop build and consumers
+
+- Clean source dfde6dcb889e561ad0e3e4d7fd7f00bbffde21bb, tree
+  dcda9b837cfe5d629af595f04734b356617e1581 passed18 fresh native/rational
+  commands and26 normal plus26 optimized real-packet contracts, zero skips.
+  Lean checking was not run. Receipts: /tmp/rheon-qualified-desktop-qualified
+  and /tmp/rheon-qualified-desktop-packet.
+- The actual controlled wrapper built both release binaries from1,213 exact
+  committed regular source blobs/14,061,263bytes in a fresh external export/
+  target/home/temp, Rust1.92.0, locked desktop recipe/defaults disabled, one job,
+  no incremental compilation and offline cache. Material SHA256
+  9e99d78b18f4edd7ef38b02619b63a893d8583d86caeb6e3b38a7b93ffe1cd7d;
+  completed sidecar SHA256
+  867394d410b8e24f4af20de9c80c7b6b8ab5efa55bc0944421667f68c74adb4f.
+  The first invocation supplied an incorrectly transcribed commit and correctly
+  refused before output/build; the corrected exact committed subject passed.
+- Actual release rheon-desktop:21,878,624bytes, SHA256
+  2d5c0df4a372633bf30f105d8e9d8c4342ac330d85b5f29494eb29a56a53d8a9;
+  rheon-ai-compare:19,403,304bytes, SHA256
+  257af94d14d465cbe35fb590fa375ce17f0509a6e8d44293ca20f57dfab49afe.
+  Independent audit verified all exported Git blob bytes/modes, material/recipe/
+  current launcher/controller bindings, actual fresh Cargo artifacts and both
+  executable hashes/embedded source/material declarations. Durable small sidecar
+  copy: reports/qualified-desktop-build-sidecar.json. Full external output:
+  /tmp/rheon-qualified-desktop-controlled.
+- Four real rustc consumers compiled the exact shared declaration and actual
+  desktop identity sources against Rheon's public identity type, then executed
+  ordinary, malformed, independently valid-source/invalid-material, and fully
+  qualified declaration cases. All passed; the independent reviewer replayed
+  those four actual ELF consumers and verified exact outputs. Durable receipt:
+  reports/qualified-desktop-consumers.json. External harness/compiler evidence:
+  /tmp/rheon-qualified-desktop-consumers.
+- Independent source/tool reviews and actual-build evidence review remain
+  separate. The latter is reports/qualified-desktop-build-evidence-review.md.
+  No GUI/model/full compiler-read closure, hermeticity, authentication, binary
+  reproducibility or whole-plan acceptance follows. Follow-through changes only
+  evidence/ledger documentation, retaining107 selected source pins; qualification
+  and binaries remain pinned todfde6dc. Exact-head hosted gates still govern
+  readiness and integration of this separately reviewed bounded A8 component.
+
 ## 2026-10-15 — frozen configured intent clean qualification
 
 - Clean sourcef5bd8b5cc468415df2ab5c3347d8046f813602ef,
@@ -1116,3 +1156,33 @@ to its actual source and is not relabelled for this correction.
 - External disjoint allocation113#6206122892 owns only a new real after-accept
   recording-limit/unrecorded-tail producer-exit fixture; root registers it after
   this source is published. That gap is not silently counted as accepted here.
+
+## 2026-10-16 — accepted Session CI setup dependency
+
+- Root retains reviewed CI11250732f5 ancestry on portable Session1026b3f7b1,
+  without changing any of the105 conservatively admitted source hashes.
+  The exact four-path setup change and independent7normal/7optimized bootstrap
+  contracts are reviewed in reports/isolated-ci-toolchain-review.md.
+- Official pinned fresh tool homes fix observed partial cargo-clippy install
+  conflicts; hosted core strict lints and book geometry/strain qualification
+  have passed on112. Remaining hosted readiness is separate.
+- Root owns this branch update and eventual ready-gated main merge. Fresh
+  clean-source numerical/packet/core/desktop qualification follows; original
+  770/6b3 component receipts retain their subjects and are not transferred.
+
+
+### Final isolated-setup CI guard reconciliation (2026-10-16)
+
+Retain reviewed PR112ad8564c ancestry on the accepted Session branch. Only the exact historical CI-budget guard changes, with its independently reviewed literal helper substitution and additive normal/optimized bootstrap checks. Numerical methods, workflow workloads, matrices, budgets, status gates, frozen historical files and all105 admitted numerical source pins remain unchanged. Root independently reran3+3 optimized guard contracts with21 rejection controls per mode and7+7 optimized bootstrap contracts. This supersedes no failed hosted result; new exact-source qualification and hosted readiness are required. The preceding clean e6 source independently passed18 qualification,26+26 optimized packet,58actual core/model cases, strict desktop Clippy/both builds and fresh browser release9/builder12/flow13/timestep11actual+3skips per mode; its whole-Git receipt remains tied to e6.
+
+
+
+
+### Final producer ancestry reconciliation (2026-10-16)
+
+Retain latest accepted Session ec46127 and full qualified-desktop component c02a6cd ancestry, including the literal isolated-bootstrap CI guard correction and historical actual controlled-build evidence. All121 admitted production source pins and their independent review bytes remain exact301; no numerical, Worker, recording or runtime source changed. Historical controlled dfde binaries, sidecar and consumer receipt retain their original subject and are not new producer artifacts. Root owns final clean committed qualification, strict lints, native builds and exact-head hosted/main gates. This final producer union carries the reviewed103/104/105/106/107/108/109/111 components by ancestry;110/114 and saved configured comparison remain the separate consumer unit.
+
+
+### Native configured comparison window acceptance and retained final parents (2026-10-16)
+
+Retain final producer6291ce ancestry, including accepted Session ec46127, final controlled-build evidence c02a6cd and CI guard ad8564c. All123 admitted source pins and their independent review bytes remain exactbc6. Actual software-native-window acceptance on bc6 passed saved Ready members, Unverified-to-Verified comparison, linked physical pressure probe, cold Inspector CSV and saved rerun after package removal producing typed StartupFailure. All10 original artifact files stayed byte-identical. See reports/configured-native-window-bc6.md for precise source, quantities and receipt hashes. The receipt is bc6-specific; final changed whole-Git source/stamps still require qualification. The disjoint actual storage-limit/unrecorded-tail producer-exit fixture remains allocated and pending. No full-plan/model/performance/ready-main claim is made by this evidence merge.
