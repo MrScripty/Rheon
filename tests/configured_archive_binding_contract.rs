@@ -1545,7 +1545,6 @@ fn terminal_unaccepted_request_obeys_frozen_future_not_larger_session_quota() {
                     dynamic_viscosity_pa_s: MU / 2.0,
                 }
             }
-            5 => m.spec.future.requested_dt_s = DT / 2.0,
             _ => {}
         }
         reseal(&mut m);
@@ -1565,6 +1564,13 @@ fn terminal_unaccepted_request_obeys_frozen_future_not_larger_session_quota() {
         } else {
             RuntimeTerminationCause::Cancelled
         });
+        if case == 5 {
+            // Keep the actual accepted seed clock within frozen intent and
+            // isolate the excessive dt to the next unaccepted request.
+            let context = &mut terminal.observation.as_mut().unwrap().request.context;
+            context.dt = 2.0 * DT;
+            context.interval_end = context.interval_start + context.dt;
+        }
         if case == 6 {
             terminal
                 .observation
