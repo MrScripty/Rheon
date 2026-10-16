@@ -576,3 +576,54 @@ changed source paths and104 unchanged selected paths. The portable hash fix is
 already inherited. Source selectors, old inventories, numerical kernels/gates
 and mathematical oracle remain unchanged. Fresh clean final-source qualification
 is required; production worker/UI/runtime custody and complete A4 are separate.
+
+
+
+### Accepted Session / actual CPU context fixture contracts
+
+Independent GPT-6.1 Sol review approved the optional cooperative poll in
+the existing ModelProcess owner, its legacy false-callback entry points, child
+contract registration and new Rust/Python two-cell fixture contracts. This is
+actual analytic CPU execution through accepted Session contexts, not a learned
+model, GUI runtime connection or durable typed failure recorder. The unchanged
+20ms wait checkpoints are cooperative opportunities, not a response guarantee.
+Cancellation kills that runtime; retry uses a fresh process owner. Existing
+consumed malformed-response digest precedence remains unchanged.
+
+Review: ../plans/configurable-solver-components/reports/accepted-cpu-context-review.md.
+
+- src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs: 040ffd5ad5500ffa0275a61f99d0f3105618597175355db526393645c94bbf56
+- src/bin/desktop/ai_comparison/cpu_contract_tests.rs: d7f2be7ea559891450f4dc1baae47183615bab8b999bc9bfe9d0151bb4d27580
+- src/bin/desktop/ai_comparison/model_process.rs: 77070b2ae78dabf8f2d046a0b83f97053ef6460f8c2f19f47dcc3264e34f9754
+- tests/fixtures/accepted_pressure_adapter.py: 958ba74ebde596aac8375eb436898a1e2342ba1b7868c08bfee99c09c02dc27c
+
+The conservative selector grows105 to106 paths: one added test module,
+two changed selected sources,103 unchanged paths, none removed. The separately
+reviewed Python compiler fixture remains explicitly pinned above and in the
+fresh whole-Git qualification manifest. No selector, gate, old inventory,
+mathematical oracle, protocol schema or numerical kernel changes. This admits
+fresh clean composed qualification only; earlier receipts stay source-bound.
+
+
+### Reviewed CPU provider component composed with frozen cold binding
+
+The independently reviewed CPU poll/context inputs and production provider
+component are composed by ancestry with the separately reviewed RCP2/frozen
+cold binding. Eight actual production-provider contracts passed within66 AI
+application tests (one existing measured-deployment ignore) on the bridge source;
+these are analytical stdlib fixtures, not production worker/UI acceptance.
+The component retains a bounded latest failure only; its consumer must associate
+it with the current prediction. Existing process/callback/Drop owners remain.
+Review: ../plans/configurable-solver-components/reports/accepted-provider-bridge-review.md.
+
+- src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs: 040ffd5ad5500ffa0275a61f99d0f3105618597175355db526393645c94bbf56
+- src/bin/desktop/ai_comparison/model_process.rs: 77070b2ae78dabf8f2d046a0b83f97053ef6460f8c2f19f47dcc3264e34f9754
+- src/bin/desktop/ai_comparison/cpu_contract_tests.rs: d7f2be7ea559891450f4dc1baae47183615bab8b999bc9bfe9d0151bb4d27580
+- src/bin/desktop/ai_comparison/accepted_provider.rs: f86d624e4324af9f257ef2b9643b2f116443c18d3f39e34cafd2a0de6a92868f
+- src/bin/desktop/ai_comparison/accepted_provider_tests.rs: 35607bb996208614933e8b1aa2c462403dba7f9c99ec322038bc4c791afaf371
+- src/bin/desktop/ai_comparison/mod.rs: 81ea11b59ca3bd78efcc224be946fd55c4672d049a0b94d901b798a237a8ddb4
+
+This explicitly admitted merge grows108 to111 selected paths (three added,
+three changed,105 unchanged). No selectors, old inventories, numerical kernels
+or gates change. This is source admission only: production caller wiring and
+full static/runtime/recording validation remain required before integration.

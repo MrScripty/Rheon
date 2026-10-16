@@ -784,3 +784,43 @@ to its actual source and is not relabelled for this correction.
   inherited. This source freeze requires fresh clean qualification/current-head
   hosted gates; no production worker/UI, external runtime custody, A4 completion
   or missing measured-model acceptance is claimed.
+
+
+
+## 2026-10-15 — accepted Session / actual CPU context slice
+
+- Existing ModelProcess now permits a synchronous cooperative cancellation/
+  deadline callback in its20ms writer/reply checkpoints, using the existing
+  flag, child and Drop wait/join owner. Legacy paths use a false callback; no
+  competing supervisor, wire schema or numerical gate is introduced.
+- Seven new actual stdlib CPU fixture contracts pass: independent nonzero
+  two-cell full/correction candidates match native accepted field bits after
+  real native prefix; physical refusal, quality fallback/prior, actual child
+  exit, in-flight Session cancellation/deadline and fresh-owner retry, before-
+  dispatch cancellation and blocked writer cleanup retain typed observations.
+  Full intermediate application suite passed58 with one existing measured
+  deployment test explicitly ignored; strict both-bin/all-test desktop Clippy
+  passed. These tests used the declared preceding parent build stamp, and
+  require a fresh final-source run after this commit.
+- Independent source/fixture review approved all four files and exact pins.
+  Native closure grows105 to106 by one test module, with two changed selected
+  files and103 unchanged. The Python compiler fixture is explicitly reviewed;
+  fresh whole-Git qualification also binds its bytes. Source selectors, old
+  inventories, mathematical oracle and pressure/transport gates stay unchanged.
+  The driver is deliberately test-only: production GUI/runtime binding, typed
+  durable process failure and missing aa82 parity remain separate work.
+
+## 2026-10-16 — production configured worker composition boundary
+
+- Merge reviewed CPU provider ef116e4 by ancestry into the separately reviewed
+  frozen/RCP2/cold source29bdd7f, preserving Session, process and SQLite owners.
+  The bridge's actual66 application tests (one measured-deployment ignore)
+  include eight production-provider contracts, but no current desktop caller.
+- Full source admission explicitly composes the reviewed pins:111 paths, three
+  added, three changed,105 unchanged from the cold slice. Source identity does
+  not establish unused component static admission or worker/UI acceptance.
+- Next: a per-interval configured track component inside the existing worker
+  loop, actual frozen controls, typed runtime durability and existing preview/
+  inspector/comparison consumers. No second loop/process supervisor/store.
+  Detailed runtime observations need current-attempt association and explicit
+  codec custody; earlier core receipts cannot infer those facts.

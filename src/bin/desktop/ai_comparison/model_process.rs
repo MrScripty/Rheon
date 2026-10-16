@@ -600,8 +600,33 @@ impl ModelProcess {
         deadline: Instant,
         dispatched: bool,
     ) -> Result<ReceivedReply, PredictionFailure> {
+        self.receive_typed_with_poll(cancelled, deadline, dispatched, &mut || false)
+    }
+    fn cancellation_requested(
+        &self,
+        cancelled: &AtomicBool,
+        poll: &mut dyn FnMut() -> bool,
+    ) -> bool {
+        if cancelled.load(Ordering::Relaxed) {
+            true
+        } else if poll() {
+            // Reuse the existing immediate-child owner and flag. The outer
+            // owner still performs wait/join through this type's Drop.
+            cancel(&self.slot, cancelled);
+            true
+        } else {
+            false
+        }
+    }
+    fn receive_typed_with_poll(
+        &mut self,
+        cancelled: &AtomicBool,
+        deadline: Instant,
+        dispatched: bool,
+        poll: &mut dyn FnMut() -> bool,
+    ) -> Result<ReceivedReply, PredictionFailure> {
         loop {
-            if cancelled.load(Ordering::Relaxed) {
+            if self.cancellation_requested(cancelled, poll) {
                 return Err(PredictionFailure::new(
                     NoCandidateReason::Cancelled,
                     "Cancelled",
@@ -665,8 +690,18 @@ impl ModelProcess {
         input: Input<'_>,
         cancelled: &AtomicBool,
     ) -> Result<Vec<f64>, PredictionFailure> {
+        self.predict_typed_with_poll(input, cancelled, &mut || false)
+    }
+    /// A synchronous accepted Session can supply its cooperative cancellation /
+    /// deadline checkpoint without another thread or a second child owner.
+    pub(super) fn predict_typed_with_poll(
+        &mut self,
+        input: Input<'_>,
+        cancelled: &AtomicBool,
+        poll: &mut dyn FnMut() -> bool,
+    ) -> Result<Vec<f64>, PredictionFailure> {
         let before = |reason, detail| PredictionFailure::new(reason, detail, false, None);
-        if cancelled.load(Ordering::Relaxed) {
+        if self.cancellation_requested(cancelled, poll) {
             return Err(before(NoCandidateReason::Cancelled, "Cancelled"));
         }
         let request_id = usize::try_from(input.context.generation())
@@ -719,7 +754,7 @@ impl ModelProcess {
             ));
         }
         raw.push(b'\n');
-        if cancelled.load(Ordering::Relaxed) {
+        if self.cancellation_requested(cancelled, poll) {
             return Err(before(NoCandidateReason::Cancelled, "Cancelled"));
         }
         let deadline = Instant::now() + self.prediction_timeout;
@@ -737,7 +772,7 @@ impl ModelProcess {
         // that the child consumed every byte. All subsequent outcomes retain it.
         let after = |reason, detail| PredictionFailure::new(reason, detail, true, None);
         loop {
-            if cancelled.load(Ordering::Relaxed) {
+            if self.cancellation_requested(cancelled, poll) {
                 return Err(after(NoCandidateReason::Cancelled, "Cancelled"));
             }
             if Instant::now() >= deadline {
@@ -774,7 +809,7 @@ impl ModelProcess {
                 }
             }
         }
-        let received = self.receive_typed(cancelled, deadline, true)?;
+        let received = self.receive_typed_with_poll(cancelled, deadline, true, poll)?;
         let digest = Some(received.payload_sha256);
         match received.reply {
             Reply::Error {
