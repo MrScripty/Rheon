@@ -847,4 +847,3 @@ to its actual source and is not relabelled for this correction.
   /tmp/rheon-configured-intent-frozen-*. No numerical/model/GUI or archive
   readiness claim is added. Follow-through is ledger-only; current-head hosted
   gates and serial composition remain mandatory.
-
