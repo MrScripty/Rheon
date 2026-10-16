@@ -136,6 +136,30 @@ class ResultQualification(unittest.TestCase):
             with self.subTest(missing=field):
                 self.reject(manifest=lambda data: data.pop(field))
 
+    def test_unit_box_reciprocal_roundoff_does_not_change_declared_extent(self):
+        with tempfile.TemporaryDirectory() as root:
+            job = Comparison(BINARY, Path(root) / 'unit-box-49', ['jacobi-pcg-v1'],
+                             size=49, steps=1, repeats=1)
+            try:
+                while job.poll() in ('running', 'cancelling', 'timing_out'):
+                    if job.process is not None:
+                        job.process.wait(timeout=20)
+                self.assertEqual(job.status, 'completed', job.error)
+                data = json.loads((job.run_dir / 'run.json').read_text())
+                self.assertEqual(data['domain_side_m'], 1.0)
+                self.assertEqual(data['cell_size_m'], 1.0 / 49)
+            finally:
+                self.cleanup(job)
+
+    def test_explicit_geometry_must_match_unit_box_before_residual_conversion(self):
+        for field, value in (('cell_size_m', 0.001), ('domain_side_m', 0.004),
+                             ('cell_size_m', True), ('domain_side_m', math.nan)):
+            with self.subTest(field=field, value=value):
+                self.reject(manifest=lambda data: data.__setitem__(field, value))
+        for field in ('cell_size_m', 'domain_side_m'):
+            with self.subTest(missing=field):
+                self.reject(manifest=lambda data: data.pop(field))
+
     def test_unrepresentable_manifest_number_has_terminal_failure(self):
         self.reject(manifest=lambda data: data.__setitem__('measured_step_seconds', 10 ** 400))
 

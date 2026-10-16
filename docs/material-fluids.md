@@ -108,15 +108,19 @@ at construction and are reused during stepping. Library callers can supply
 their own scoped pool; particle density/force passes parallelize from 512 items,
 while cheaper grid/vector passes retain their previous threshold.
 
-Material preview requests range up to 512³; physical particle sampling ranges
-up to 64 per side. The Simulation section reports the actual stored preview
-resolution and its planned payload before starting. The timeline budget defaults
-to 96 MiB and can be raised to 4,096 MiB. Every accepted step remains available,
-so longer histories reduce the stored resolution to fit the chosen budget.
-For example, 256³ fits a two-frame history under the default budget, while
-1,025 frames at 128³ require a little more than 2 GiB. Raising preview resolution
-does not increase physical particle detail. The original carrier grid remains
-limited to 128³ by its existing numerical-array budget.
+Preview defaults retain their adaptive 512-axis ceiling, independently of
+physical particle sampling (4–64 per side). New density requests support up
+to 1000 samples/m, subject to the particle owner's bounds. Exact preview density
+(1–1000/m) and exact preview edge (1–10000) are separate display controls and
+also check realized density, history and rendering limits. Increasing preview
+resolution does not add physical particle detail. Every accepted step remains
+available within the chosen 16–4096 MiB history (default 96 MiB) budget; explicit exact requests
+are refused rather than downsampled. For example, 256³ fits a two-frame history
+under the default budget; 1025 frames at 128³ require slightly over 2 GiB. Carrier
+counts now allow up to 10000/axis, with independent physical-density and 192 MiB
+native-array preflight. These settings do not promise a 10000³ allocation.
+See [density/resource contracts](api/domain-density.md) for rounding, independent
+preview, rendering refusal and retained historical geometry.
 
 ## Presets and verification
 

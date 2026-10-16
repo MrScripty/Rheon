@@ -7,6 +7,9 @@ use std::sync::{
     atomic::{AtomicBool, Ordering},
 };
 
+// A thumbnail has its own payload budget, independent of the former128-axis
+// numerical control. The native192MiB array budget admits >128-axis carriers.
+const GUIDANCE_PIXEL_BUDGET: usize = 1024 * 1024;
 pub(crate) enum AdvanceError {
     Native(rheon::SimulationError),
     Session(rheon::SessionError),
@@ -147,7 +150,9 @@ impl CarrierExecution {
     }
     pub(crate) fn guidance(&self) -> Result<Vec<u8>, String> {
         match self {
-            Self::Native(sim) => rheon::guidance_pixels(sim, 128 * 128).map_err(|e| e.to_string()),
+            Self::Native(sim) => {
+                rheon::guidance_pixels(sim, GUIDANCE_PIXEL_BUDGET).map_err(|e| e.to_string())
+            }
             Self::Configured(_) => {
                 // The declared closed profile starts with zero appearance tracer
                 // and has no appearance source. Its tracer projection is zero;
@@ -158,10 +163,42 @@ impl CarrierExecution {
                 let [nx, ny, _] = self.grid().counts();
                 let count = nx
                     .checked_mul(ny)
-                    .filter(|n| *n <= 128 * 128)
+                    .filter(|n| *n <= GUIDANCE_PIXEL_BUDGET)
                     .ok_or("Guidance pixel budget")?;
                 Ok(vec![0; count])
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn admitted_carrier_above_old_axis_limit_can_finish_its_thumbnail() {
+        let grid = GridGeometry::new([129; 3], [0.001; 3], [0.0; 3]).unwrap();
+        let sim = Simulation::new(
+            grid,
+            rheon::SimulationConfig {
+                density: 1.0,
+                memory_limit: 192 * 1024 * 1024,
+                pressure: rheon::PressureSettings {
+                    relative_residual: 1e-9,
+                    absolute_residual: 1e-12,
+                    divergence_limit: 1e-7,
+                    max_iterations: 2000,
+                },
+                actual_divergence_limit: 1e-5,
+                max_courant: 1.0,
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            CarrierExecution::Native(Box::new(sim))
+                .guidance()
+                .unwrap()
+                .len(),
+            129 * 129
+        );
     }
 }

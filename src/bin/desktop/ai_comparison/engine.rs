@@ -21,6 +21,7 @@ static NEXT_ENGINE: AtomicU64 = AtomicU64::new(1);
 use std::sync::atomic::{AtomicBool, Ordering};
 
 const AXES: [Axis; 3] = [Axis::X, Axis::Y, Axis::Z];
+pub(crate) const PRESSURE_ITERATION_LIMIT: usize = 3000;
 type Velocity = [Vec<f32>; 3];
 fn refs(v: &Velocity) -> [&[f32]; 3] {
     [&v[0], &v[1], &v[2]]
@@ -56,6 +57,23 @@ pub enum ExecutionPolicy {
     IndependentStopOnReject,
 }
 impl ExecutionPolicy {
+    /// Upper bound before early termination; independent AI requests also solve
+    /// a same-request native reference after the shared warm-up.
+    #[allow(
+        dead_code,
+        reason = "Standalone CLI preflight; module also used by desktop"
+    )]
+    pub(crate) fn native_pressure_solve_budget(self, scene: &Scene) -> Result<usize, String> {
+        scene.validate()?;
+        let additional = match self {
+            Self::IndependentStopOnReject => scene.steps - scene.warmup_steps,
+            Self::LegacyRawContinuation | Self::TeacherStage => 0,
+        };
+        scene
+            .steps
+            .checked_add(additional)
+            .ok_or_else(|| "Native pressure solve budget overflow".into())
+    }
     pub fn diagnostic_mode(self) -> Option<DiagnosticMode> {
         match self {
             Self::LegacyRawContinuation => None,
@@ -589,7 +607,7 @@ fn native_solve(
                 relative_residual: 1e-8,
                 absolute_residual: 1e-12,
                 divergence_limit: 1e-7,
-                max_iterations: 3000,
+                max_iterations: PRESSURE_ITERATION_LIMIT,
             },
             || cancel.load(Ordering::Relaxed),
         )

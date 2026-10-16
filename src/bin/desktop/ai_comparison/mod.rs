@@ -9,7 +9,7 @@ pub(crate) mod engine;
 pub use engine::ExecutionPolicy;
 pub(crate) mod model_process;
 mod record;
-mod scene;
+pub(crate) mod scene;
 mod view;
 mod worker;
 use crate::camera::OrbitCamera;
@@ -97,6 +97,14 @@ impl ComparisonApp {
             },
         );
     }
+    #[allow(dead_code, reason = "Standalone CLI also compiled into desktop")]
+    pub fn set_scene(&mut self, scene: scene::Scene) {
+        self.scene = scene;
+    }
+    #[allow(
+        dead_code,
+        reason = "Embedded desktop entry also compiled into standalone CLI"
+    )]
     pub fn set_steps(&mut self, steps: usize) {
         self.scene.steps = steps;
     }
@@ -176,8 +184,8 @@ impl ComparisonApp {
                 });
                 ui.horizontal(|ui|{ui.label("Seed");ui.add(egui::DragValue::new(&mut self.scene.seed).range(0..=((1_u64<<53)-1)));if ui.button("New seed").clicked(){self.scene.seed=self.scene.seed.wrapping_add(0x9e3779b97f4a7c15)&((1_u64<<53)-1);}});
                 ui.label("Cell counts X / Y / Z");ui.horizontal(|ui|{for count in &mut self.scene.counts{ui.add(egui::DragValue::new(count).range(5..=128));}});
-                ui.horizontal(|ui|{ui.label("Cells per metre");ui.add(egui::DragValue::new(&mut self.scene.cells_per_metre).range(1..=128));});
-                ui.small(format!("Domain {:?} m · cubic cell {:.5} m",self.scene.extents(),self.scene.h()));ui.small("Training: 5–16 cells/axis; 8 or 16 cells/m. Larger grids are extrapolation.");
+                ui.horizontal(|ui|{ui.label("Cells per metre");ui.add(egui::DragValue::new(&mut self.scene.cells_per_metre).range(1..=rheon::MAX_CELLS_PER_METRE));});
+                ui.small(format!("Domain {:?} m · cubic cell {:.5} m",self.scene.extents(),self.scene.h()));ui.small("Training: 5–16 cells/axis; 8 or 16 cells/m. Other spacings/counts require declared package support; density selection does not qualify a model.");
                 ui.horizontal(|ui|{ui.label("Timesteps");ui.add(egui::DragValue::new(&mut self.scene.steps).range(1..=512));});ui.horizontal(|ui|{ui.label("Native warm-up steps");ui.add(egui::DragValue::new(&mut self.scene.warmup_steps).range(0..=511));});ui.small("Fixed Δt = 1/60 s. Native prefix and model support are checked before execution.");
                 ui.add(egui::Slider::new(&mut self.scene.acceleration,0.0..=4.0).text("Acceleration (m/s²)"));
                 ui.collapsing("Force location and fluctuations",|ui|{for d in 0..3{ui.add(egui::Slider::new(&mut self.scene.center[d],0.0..=1.0).text(format!("{} center fraction",["X","Y","Z"][d])));}ui.add(egui::Slider::new(&mut self.scene.radius,0.1..=0.5).text("Radius fraction"));ui.add(egui::Slider::new(&mut self.scene.swirl,-1.0..=1.0).text("Swirl"));ui.add(egui::Slider::new(&mut self.scene.fluctuation,0.0..=0.8).text("Fluctuation"));ui.add(egui::Slider::new(&mut self.scene.frequency,0.0..=4.0).text("Frequency (Hz)"));});
@@ -361,10 +369,24 @@ pub fn headless_with_policy(
     steps: usize,
     policy: engine::ExecutionPolicy,
 ) -> Result<(), String> {
-    let scene = scene::Scene {
-        steps,
-        ..Default::default()
-    };
+    headless_scene(
+        deployment,
+        directory,
+        scene::Scene {
+            steps,
+            ..Default::default()
+        },
+        policy,
+    )
+}
+#[allow(dead_code, reason = "CLI entry also compiled in desktop")]
+pub fn headless_scene(
+    deployment: PathBuf,
+    directory: PathBuf,
+    scene: scene::Scene,
+    policy: engine::ExecutionPolicy,
+) -> Result<(), String> {
+    scene.validate()?;
     let shared = Mutex::new(worker::Shared::default());
     let cancel = AtomicBool::new(false);
     if policy == ExecutionPolicy::LegacyRawContinuation {

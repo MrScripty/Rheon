@@ -1,5 +1,13 @@
 use std::fmt;
 
+/// Maximum density offered by the application controls, in cells per metre.
+/// This is independent of axis counts and allocation budgets. Explicit-spacing
+/// `GridGeometry::new` keeps its existing, more general contract.
+pub const MAX_CELLS_PER_METRE: u32 = 1000;
+/// Maximum axis count offered by native application controls. Total cells and
+/// allocation budgets are checked independently; this promises no allocation.
+pub const MAX_GRID_EDGE: u64 = 10_000;
+
 /// Cartesian velocity component and its corresponding face orientation.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Axis {
@@ -23,6 +31,7 @@ impl Axis {
 /// Rejected geometry or buffer-payload request.
 #[derive(Debug, Clone, PartialEq)]
 pub enum GeometryError {
+    CellDensity { requested: u32, maximum: u32 },
     ZeroDimension { axis: usize },
     IntegerRange,
     ArithmeticOverflow,
@@ -36,6 +45,10 @@ pub enum GeometryError {
 impl fmt::Display for GeometryError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
+            Self::CellDensity { requested, maximum } => write!(
+                f,
+                "requested {requested} cells/m; supported density is 1–{maximum} cells/m"
+            ),
             Self::ZeroDimension { axis } => write!(f, "cell count is zero on axis {axis}"),
             Self::IntegerRange => write!(f, "cell count does not fit the target index domain"),
             Self::ArithmeticOverflow => write!(f, "grid capacity arithmetic overflowed"),
@@ -80,6 +93,21 @@ pub struct GridGeometry {
 }
 
 impl GridGeometry {
+    /// Construct cubic cells at an explicit SI density without changing counts
+    /// or allocating fields. Extents are `counts / cells_per_metre` metres.
+    pub fn at_cell_density(
+        counts: [u64; 3],
+        cells_per_metre: u32,
+        origin: [f64; 3],
+    ) -> Result<Self, GeometryError> {
+        if !(1..=MAX_CELLS_PER_METRE).contains(&cells_per_metre) {
+            return Err(GeometryError::CellDensity {
+                requested: cells_per_metre,
+                maximum: MAX_CELLS_PER_METRE,
+            });
+        }
+        Self::new(counts, [1.0 / f64::from(cells_per_metre); 3], origin)
+    }
     /// Validate source-domain counts before target conversion, arithmetic or
     /// allocation. The source integer type cannot represent negative counts;
     /// CLI adapters must reject a leading minus sign rather than cast it.

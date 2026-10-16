@@ -201,6 +201,43 @@ fn support_preflight_is_inert_and_rejects_before_execution() {
 }
 
 #[test]
+fn higher_density_does_not_widen_legacy_or_adapter_physical_support() {
+    let source =
+        "from pathlib import Path\nPath(__file__).with_suffix('.executed').write_text('bad')\n";
+    let package = Fixture::source(source, false);
+    let scene = Scene {
+        cells_per_metre: 1000,
+        ..Default::default()
+    };
+    assert!(
+        ModelProcess::preflight(&package.manifest, &scene)
+            .unwrap_err()
+            .contains("outside declared support")
+    );
+    // A package may explicitly declare a smaller spacing. This is an inert
+    // contract check only, not a numerical/model qualification.
+    package.edit(|m| m["support"]["spacing_min_m"] = json!(0.001));
+    assert!(ModelProcess::preflight(&package.manifest, &scene).is_ok());
+    assert!(!package.root.join("adapter.executed").exists());
+    let adapter: Value =
+        serde_json::from_slice(&std::fs::read(&package.manifest).unwrap()).unwrap();
+    std::fs::write(package.root.join("cpu_bridge.py"), source).unwrap();
+    let legacy = json!({"schema":"rheon-pressure-cpu-deployment-v2","python":adapter["python"]["executable"],"bridge":"cpu_bridge.py","python_sha256":adapter["python"]["sha256"],
+        "files":{"cpu_bridge.py":{"sha256":format!("{:x}",Sha256::digest(source.as_bytes())),"bytes":source.len()}},
+        "checkpoint_sha256":"a".repeat(64),"normalization_sha256":"b".repeat(64),"source_commit":"c".repeat(40),"training_run_id":"d".repeat(32),"training_updates":1,
+        "profile":"sealed-water-seven-channel-float32","physical_contract":{"density_kg_m3":1000.0,"dynamic_viscosity_pa_s":0.001,"cells":"cubic"},
+        "context_policy":{"mode":"native_prefix","minimum_native_steps":0,"training_snapshot_indices":[0]},"assumption":"Synthetic inert descriptor, no trained model"});
+    std::fs::write(&package.manifest, serde_json::to_vec(&legacy).unwrap()).unwrap();
+    assert!(ModelProcess::preflight(&package.manifest, &Scene::default()).is_ok());
+    assert!(
+        ModelProcess::preflight(&package.manifest, &scene)
+            .unwrap_err()
+            .contains("legacy v2 package supports at most 128 cells/m")
+    );
+    assert!(!package.root.join("cpu_bridge.executed").exists());
+}
+
+#[test]
 fn stalled_input_write_times_out_and_owned_child_and_io_threads_drain() {
     let package = Fixture::new(false);
     let original = std::fs::read_to_string(package.root.join("adapter.py")).unwrap();

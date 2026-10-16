@@ -41,9 +41,17 @@ sealed free-slip walls and no mass source. Seed changes direction and phase of
 localized smooth directional/swirl/fluctuating acceleration. This is controlled
 forcing, not a claim of resolved turbulence or new solid/free-surface physics.
 Integer XYZ cell counts and one cells-per-metre value determine physical size.
-Cells remain cubic. Budgets: at most 65,536 cells, 512 steps and 96 MiB of retained
-numeric frame payload. Current training coverage is 5–16 cells per axis and 8 or
-16 cells per metre; larger shapes are extrapolation.
+Cells remain cubic. Density selection is 1–1000 cells/m, independently of the
+comparison owner's 5–128 cells/axis, 65536 total cells, 512 steps and 96 MiB retained
+numeric-frame payload. These model-comparison count limits are narrower than
+the general native application's 10000-axis setting. CLI `--counts X,Y,Z`,
+`--cells-per-metre N`, `--steps N`, `--warmup-steps N` and `--preflight` expose
+the same Scene contract; preflight allocates no numerical fields and executes
+no model. Current training coverage remains 5–16 cells/axis and 8 or 16 cells/m.
+Selecting a new density does not qualify a model: dynamic adapters must declare
+the actual spacing/counts/material/dt/context; legacy v2 retains its at-most 128/m
+support and rejects higher density inertly before a child starts. The measured
+A1 package remains unavailable. See [density contracts](api/domain-density.md).
 
 Both panes share one orbit camera, selected timestamp, Z cut and numeric probe.
 The AI pane selects pressure or signed `p_AI − p_reference` in Pa. A zero-centered

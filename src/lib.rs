@@ -17,7 +17,9 @@ mod scheduling;
 pub use scheduling::{BatchStatistics, CpuScheduler};
 #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
 mod sgs;
-pub use geometry::{Axis, BufferPlan, GeometryError, GridGeometry};
+pub use geometry::{
+    Axis, BufferPlan, GeometryError, GridGeometry, MAX_CELLS_PER_METRE, MAX_GRID_EDGE,
+};
 mod collision;
 pub mod mesh_collision;
 pub use mesh_collision::{CollisionMesh, MeshCollisionError, MeshPolicy};

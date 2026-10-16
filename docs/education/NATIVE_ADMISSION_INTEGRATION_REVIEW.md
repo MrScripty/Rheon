@@ -1019,3 +1019,63 @@ Final committed-source qualification, builds/stamps, final consumer controls
 and all applicable hosted/main gates remain separate acceptance obligations.
 The measured aa82 package remains unavailable; no learned accuracy/performance,
 restart checkpoint, new physics, descendant custody or hard shutdown claim.
+
+
+### Independent domain density and preview controls, 2026-10-16
+
+Independent GPT-6.1 Sol source review in
+[the density plan](../plans/domain-density/review.md) approves the revised
+1000 cells/m, 10000 native-axis and 10000 independent-preview-axis settings.
+Its [approved pins](../plans/domain-density/approved-pins.json) bind the exact
+14 selected rebindings and complete 124-path closure: 110 unchanged, none
+added or removed against main ad888bdbbbd5cae362439458af342196f51c58e2.
+The selector, historical v1/v2 inventories, Cargo/lock/toolchain, numerical
+kernels and scientific gates retain their bytes. This is explicit reviewed
+admission, not automatic hash refresh or transfer of earlier receipts.
+
+The changes reuse GridGeometry/BufferPlan, the existing App/Worker, numerical
+and particle owners, recording and configured Session/PressureProvider.
+Density/count/extent and exact/adaptive preview have separate contracts.
+New actual physical sampling and explicit preview requests check the 1000/m
+cap; historical frozen geometry remains exact. Checked history includes all
+tracks and constructor frames. Conservative appearance resampling leaves
+fields untouched. Renderer scan/face limits and fallible allocation explicitly
+refuse unsupported display work without reducing stored/numerical resolution.
+A separate thumbnail pixel budget removes the old late 128-axis failure.
+
+Comparison density does not widen model support. Legacy v2 refuses higher
+than 128/m inertly; dynamic declarations still validate actual support.
+The unit-box qualifier rejects incompatible explicit geometry before residual
+conversion. An independently found ordinary-count reciprocal-roundoff issue
+was fixed while preserving original unit-box sources; the actual size49
+comparison regression covers it.
+
+The review is source-only. Root's fresh clean committed qualification and
+exact-head hosted gates remain required. Continuously forced native CLI,
+zero-flow archive custody and the source-stop IncompatibleRhs rejection have
+separate claims; none supplies learned accuracy or new physics qualification.
+The measured A1 owner-input blocker is unchanged. No training, replacement
+checkpoint, Tuldok/surrogate-lab mutation or tolerance relaxation is admitted.
+
+
+## Density comparison preflight correction, 2026-10-16
+
+Independent GPT-6.1 Sol [follow-up review](../plans/domain-density/preflight-followup.md)
+SHA256 `ff9648b5a8d79f2920ee06fa0be644598c5aefc10ef39306d94022fc0fde72bc` approves the exact
+[supplemental pins](../plans/domain-density/preflight-approved-pins.json), SHA256
+`4b36340a69d1a02b7a22fd74df121c83cd34eb3b5f6452f276cc718e3d50c6ee`.
+The original source review and inventories remain immutable. Explicitly rebind
+only the following two selected paths from the initial density admission:
+
+- `src/bin/desktop/ai_comparison/engine.rs`: `610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55`
+- `src/bin/rheon-ai-compare.rs`: `00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9`
+
+The same 124-path closure now has 15 changed and 109 unchanged inputs versus
+ad888bdbbbd5cae362439458af342196f51c58e2, with no added or removed path.
+The engine keeps its existing 3000-iteration pressure policy in a shared
+constant. Preflight counts independent post-warmup native witnesses and names
+its core Simulation array plan as a reference, not actual Engine memory.
+No numerical kernel, tolerance, recorder/model contract, selector, qualification
+gate, historical inventory or A1 status changes. Initial 94062 execution receipts
+retain that historical subject; fresh clean committed qualification, affected
+checks and current-head hosted gates are required before integration.
