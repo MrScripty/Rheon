@@ -7,7 +7,7 @@ accepted ordinals, restart state, an executable configuration, or a model loader
 No numerical loop, runtime supervisor, background writer, catalog, migration,
 eviction, automatic cleanup or writer resume is provided.
 
-The current schema uses `application_id = 0x52484450` (`RHDP`), `user_version = 2`.
+The current schema uses `application_id = 0x52484450` (`RHDP`), `user_version = 3`.
 Both values are required by `DiagnosticReader`. These version numbers belong to
 the diagnostic family; they do not change accepted archive version 1. The tables
 are `diagnostic_run`, `diagnostic_lifecycle`, `attempts` and `pressure_samples`.
@@ -16,8 +16,12 @@ as `Unsupported("archive kind")`, including when a diagnostic header claims user
 accepted selection/full verification also reject a changed application ID after open.
 Diagnostic readers reject accepted databases. Cold inspection executes no Python
 or other model code.
-Diagnostic schema one is unsupported by this reader. There is no automatic
-migration or modification of existing user data to add schema-two seed origins.
+Diagnostic schemas one and two are unsupported by this reader. Original archives
+remain byte-preserved historical evidence; any material needed by current
+readers requires explicit offline conversion with old/new identity mapping.
+There is no startup migration or obsolete-format decoder. Schema three stores
+and hashes each explicit interval endpoint, preserving an indexed fixed-step
+clock through cold inspection.
 
 ## Capture and append
 
@@ -184,8 +188,9 @@ record cap is 64 MiB. SQL length checks preflight aggregate selected array/text
 bytes before field copies. A reader enforces both its supplied limits and the
 recorded limits. Quota includes each diagnostic attempt, not the header seed.
 
-The run hash uses `rheon-diagnostic-run-v2\0`; request, attempt and terminal
-hash framing retains its separate `-v1\0` tags. Integers and f64 bits use little endian. Text/byte strings have LE u64
+The run hash uses `rheon-diagnostic-run-v2\0`; request uses
+`rheon-diagnostic-request-v2\0`, while attempt and terminal retain their
+separate `-v1\0` tags. Integers and f64 bits use little endian. Text/byte strings have LE u64
 byte-length prefixes; f64 arrays have LE u64 value counts. Geometry has three
 fixed count integers and six fixed f64 values. Optional values have an LE u64
 presence value. Run hash
@@ -243,3 +248,8 @@ terminal-tail findings before admission. This remains a storage/API slice:
 Engine/ModelProcess/worker capture, explicit policy execution, saved diagnostic
 intent/membership and record-before-UI integration have not been implemented here.
 It cannot supply missing trained-runtime, linked-field or complete A6 evidence.
+
+Schema three extends each attempt with an explicit `interval_end` binary64 blob.
+The request digest domain is `rheon-diagnostic-request-v2\0` and covers that exact
+endpoint as well as start and dt. Cold validation reuses the public context
+validator: one ULP rounding allowance from start + dt, exact prior alignment.

@@ -1,5 +1,5 @@
 //! Numeric-range regression for the independent diagnostic-pressure oracle.
-//! Real schema-2 recorder/reader custody is exercised; the consumed manifest is
+//! Real schema-3 recorder/reader custody is exercised; the consumed manifest is
 //! deliberately a minimal oracle wrapper, not FrozenRunSet admission evidence.
 //! Pressures and host qualification observations are manufactured storage facts,
 //! without a model-runtime, hardware, or scientific-qualification claim.
@@ -224,7 +224,7 @@ impl PythonMode {
 }
 
 #[test]
-fn closed_schema2_extremes_match_analytic_norms_and_oracle_in_every_python_mode() {
+fn closed_schema3_extremes_match_analytic_norms_and_oracle_in_every_python_mode() {
     let oracle = Path::new(env!("CARGO_MANIFEST_DIR")).join("tools/verify_diagnostic_pressure.py");
     for scale in [1e-200, 1e200, 0.125, 0.0] {
         let root = Directory::new();

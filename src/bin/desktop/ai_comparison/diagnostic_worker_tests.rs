@@ -735,3 +735,41 @@ fn changed_executor_stamp_blocks_saved_execution_but_historical_cold_source_stay
     assert!(p.root.join("spawn-marker").exists());
     assert_eq!(worker.shared.lock().unwrap().state, "completed");
 }
+
+#[test]
+fn indexed_fifteen_step_prefix_survives_current_cold_verification() {
+    let p = zero();
+    let mut worker = super::super::worker::Worker::start_with_policy(
+        Scene {
+            steps: 16,
+            warmup_steps: 15,
+            ..scene()
+        },
+        p.manifest.clone(),
+        p.root.join("indexed-prefix"),
+        ExecutionPolicy::IndependentStopOnReject,
+    )
+    .unwrap();
+    wait(&mut worker);
+    assert_eq!(worker.shared.lock().unwrap().state, "stopped_on_rejection");
+    let (path, set) = cold(worker);
+    std::fs::rename(&p.manifest, p.root.join("hidden-manifest.json")).unwrap();
+    let reader = ready(&set, &path);
+    reader.verify().unwrap();
+    assert_eq!(reader.run().native_prefix_steps, 15);
+    assert_eq!(
+        reader.run().seed.as_ref().unwrap().interval_end.to_bits(),
+        (15.0 * super::super::scene::DT).to_bits()
+    );
+    assert_eq!(reader.count().unwrap(), 1);
+    let attempt = reader.select(0).unwrap();
+    assert_eq!(attempt.request.generation(), 16);
+    assert_eq!(
+        attempt.request.interval_start().to_bits(),
+        (15.0 * super::super::scene::DT).to_bits()
+    );
+    assert_eq!(
+        attempt.request.interval_end().to_bits(),
+        (16.0 * super::super::scene::DT).to_bits()
+    );
+}

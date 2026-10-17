@@ -195,7 +195,7 @@ impl FrozenDiagnosticSpec {
         }
         // This application's archive starts at the actual native warmup prefix.
         // Generic diagnostic archives may deliberately use other observed seeds.
-        let prefix_end = (0..run.native_prefix_steps).fold(0.0, |time, _| time + DT);
+        let prefix_end = run.native_prefix_steps as f64 * DT;
         let seed_matches = match (&run.seed, run.seed_origin) {
             (None, None) => run.native_prefix_steps == 0,
             (Some(seed), Some(SeedOrigin::QualifiedNativeDiagnostic)) => {

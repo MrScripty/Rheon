@@ -11,14 +11,14 @@ cargo run --offline --locked --features desktop --bin rheon-ai-compare -- \
   --deployment /path/to/deployment.json --project-dir /path/to/observations --auto-run
 ```
 
-Deployment schema `rheon-pressure-cpu-deployment-v2` binds measured source,
-checkpoint, train-only normalization, installed runtime and context policy.
-The companion exporter is owned by rheon-surrogate-lab's
-`experiments/live-water-comparison-v1`. No artifact hashes or machine-specific
-Python paths are compiled into Rheon. The measured Python bridge speaks bounded
-newline-delimited JSON. Its closed replies are decoded and correlated in Rust.
-CPU float32 weights, zero optimizer updates and no CUDA initialization are checked
-at the handshake. GPU training happens upstream, outside this app.
+Current package schema `rheon-pressure-adapter-v1` binds measured interpreter,
+entrypoint and inventoried model assets. The lab owns packaging and exact
+preprocessing/reconstruction; Rheon owns bounded process I/O and lifecycle.
+No artifact hashes or machine-specific Python paths are compiled into Rheon.
+The bridge uses bounded, closed, correlated newline-delimited JSON. The handshake
+requires CPU execution and zero optimizer updates. GPU training happens upstream.
+Older deployment descriptors are offline conversion inputs, rejected by normal
+execution.
 
 The current checkpoint needs a native prefix matching its training context:
 15 qualified steps before the first AI call at step 16. Each prefix frame shows
@@ -49,8 +49,8 @@ the general native application's 10000-axis setting. CLI `--counts X,Y,Z`,
 the same Scene contract; preflight allocates no numerical fields and executes
 no model. Current training coverage remains 5–16 cells/axis and 8 or 16 cells/m.
 Selecting a new density does not qualify a model: dynamic adapters must declare
-the actual spacing/counts/material/dt/context; legacy v2 retains its at-most 128/m
-support and rejects higher density inertly before a child starts. The measured
+the actual spacing/counts/material/dt/context; unsupported contexts are rejected
+inertly before a child starts. The measured
 A1 package remains unavailable. See [density contracts](api/domain-density.md).
 
 Both panes share one orbit camera, selected timestamp, Z cut and numeric probe.
@@ -75,7 +75,13 @@ cubic geometry, signed differences, zero scales and picking. Existing desktop
 camera/worker regressions also pass. The current frozen checkpoint still fails
 pressure qualification after a valid warm-up; this UI exposes the result.
 
-Source ownership: `desktop/ai_comparison` retains the numerical/process/worker/UI owners; shared camera navigation remains in `desktop/camera.rs`. Integration selects original comparison/lifecycle commits onto `implementation/configurable-pressure-m1-20261015` after PR84; unrelated training-viewer/voxel-renderer work is excluded. The public [pressure context and CPU adapter contract](api/pressure-context.md) describes inert support checking, named physical ports, full/correction outputs and the legacy deployment path. No Session acceptance or SQLite schema is changed.
+Source ownership: `src/diagnostic` retains numerical advancement, scene and
+history; desktop aliases that same owner. `desktop/ai_comparison` owns package
+validation, model process, worker and UI. Shared camera navigation remains in
+`desktop/camera.rs`. The public [pressure context and CPU adapter
+contract](api/pressure-context.md) describes named physical ports and
+full/correction outputs. Accepted Session publication and SQLite schema are
+unchanged.
 
 ## Real checkpoint lifecycle verification
 
@@ -86,10 +92,10 @@ restarts and completes a new paired run in the same project directory. It does n
 send input to an active desktop window.
 
 ```bash
-RHEON_AI_TEST_DEPLOYMENT=/path/to/deployment.json \
+RHEON_AI_TEST_PACKAGE=/path/to/adapter.json \
 RHEON_AI_TEST_OUTPUT=/path/to/FRESH-lifecycle-evidence \
 cargo test --offline --locked --features desktop --bin rheon-ai-compare \
-  real_cpu_deployment_cancellation_drains_child_and_allows_restart -- --ignored --nocapture
+  trained_current_package_cancellation_drains_child_and_allows_restart -- --ignored --nocapture
 ```
 
 The producer-retained measured deployment observations report this test passed: cancellation retained at least
@@ -104,3 +110,46 @@ pressure, completed 64 steps, cancelled after predictions, restarted to 32-step
 completion and closed during a further prediction with owned child termination.
 This supplements headless tests; it does not qualify the absent measured trained
 bundle or a physical GPU. Evidence subject/digests are recorded in the plan ledger.
+
+## Current package and public diagnostic boundary
+
+Current execution accepts only `rheon-pressure-adapter-v1` packages. Convert
+older deployments offline; the ordinary process owner does not decode them.
+The measured package inventories unchanged weights, normalization, entrypoint and
+interpreter. Its entrypoint receives `--deployment` with the current manifest
+path. The CPU owner checks the correlated `adapter_ready` handshake and each
+`candidate` response. A full-pressure package owns its complete reconstruction;
+a pressure-correction package receives exactly one prior addition in the host.
+
+The `diagnostic` Cargo feature exposes `rheon::diagnostic::DiagnosticSession`,
+`Scene`, typed `Input`/`PredictionFailure`, frames and advance outcomes without
+eframe. Desktop aliases these same numerical owners. The lab calls
+`with_policy(scene, IndependentStopOnReject, run_id)` and `advance_typed`;
+`Input.context` supplies validated physical geometry, RHS and actual solved
+history. Every typed result retains its raw attempt and same-request native
+reference. Rejection stops before history advancement and performs zero native
+fallback/refinement. Configured accepted Sessions retain their separate visible
+native-fallback contract.
+
+The fixed-step clock uses `step_index * DT` throughout force sampling, frames
+and typed request endpoints. `PressureContext::with_interval_end` retains that
+explicit endpoint, allowing at most one ULP of ordinary binary rounding from
+`start + DT`; dt stays unchanged and prior-end/next-start alignment stays exact.
+The diagnostic archive format 3 persists and hashes the explicit endpoint.
+Accepted Sessions with adaptive dt retain their existing clock authority. A 32-step focused comparison checks exact
+pressure, velocity and tracer values against the original numerical policy,
+including 15 actual native steps before the first prediction at step 16. This
+fixture does not establish trained-model parity or the 74-scene acceptance gate.
+
+The real current-package lifecycle selector is
+`trained_current_package_cancellation_drains_child_and_allows_restart`, enabled
+with `--ignored --nocapture`, `RHEON_AI_TEST_PACKAGE` naming the measured current
+manifest and `RHEON_AI_TEST_OUTPUT` naming a fresh evidence directory. It copies
+measured package bytes into that owned evidence directory so cold inspection can
+hide its package without changing a shared package. It checks
+consumed predictions, cancellation/reaping, a fresh run identity, and exactly one
+AI prediction after 15 native steps in the 16-step restart. A third typed
+16-step run retains the known raw rejection in schema 3, then hides the owned
+package copy and verifies the saved attempt through current cold readers.
+Model accuracy remains
+an independent observed result.

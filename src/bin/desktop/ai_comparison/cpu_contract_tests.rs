@@ -201,7 +201,7 @@ fn support_preflight_is_inert_and_rejects_before_execution() {
 }
 
 #[test]
-fn higher_density_does_not_widen_legacy_or_adapter_physical_support() {
+fn higher_density_requires_declared_support_and_obsolete_packages_are_rejected() {
     let source =
         "from pathlib import Path\nPath(__file__).with_suffix('.executed').write_text('bad')\n";
     let package = Fixture::source(source, false);
@@ -228,11 +228,10 @@ fn higher_density_does_not_widen_legacy_or_adapter_physical_support() {
         "profile":"sealed-water-seven-channel-float32","physical_contract":{"density_kg_m3":1000.0,"dynamic_viscosity_pa_s":0.001,"cells":"cubic"},
         "context_policy":{"mode":"native_prefix","minimum_native_steps":0,"training_snapshot_indices":[0]},"assumption":"Synthetic inert descriptor, no trained model"});
     std::fs::write(&package.manifest, serde_json::to_vec(&legacy).unwrap()).unwrap();
-    assert!(ModelProcess::preflight(&package.manifest, &Scene::default()).is_ok());
     assert!(
-        ModelProcess::preflight(&package.manifest, &scene)
+        ModelProcess::preflight(&package.manifest, &Scene::default())
             .unwrap_err()
-            .contains("legacy v2 package supports at most 128 cells/m")
+            .contains("Unsupported CPU adapter package schema")
     );
     assert!(!package.root.join("cpu_bridge.executed").exists());
 }
@@ -272,56 +271,31 @@ fn stalled_input_write_times_out_and_owned_child_and_io_threads_drain() {
 }
 
 #[test]
-fn legacy_records_still_match_the_actual_lab_v2_reader_contract() {
+fn current_records_identify_the_generic_package_without_obsolete_frame_production() {
     let package = Fixture::new(false);
     let scene = Scene {
         counts: [5; 3],
         steps: 16,
         ..Default::default()
     };
-    let mut record = super::record::Record::begin(&package.root.join("legacy"), &scene).unwrap();
-    let identity = super::model_process::ProviderIdentity {
-        id: "a".repeat(64),
-        version: "legacy-v2".into(),
-        manifest_sha256: "b".repeat(64),
-        checkpoint_sha256: Some("a".repeat(64)),
-        training_run_id: Some("c".repeat(32)),
-    };
+    let mut record = super::record::Record::begin(&package.root.join("current"), &scene).unwrap();
+    let identity = ModelProcess::preflight(&package.manifest, &scene).unwrap();
     record.model(&identity, &package.manifest).unwrap();
-    let frame = super::engine::Engine::new(scene.clone()).unwrap().initial();
-    record.frame(&frame).unwrap();
-    let model: Value =
-        serde_json::from_slice(&std::fs::read(record.directory.join("model.json")).unwrap())
-            .unwrap();
+    record
+        .frame(&super::engine::Engine::new(scene.clone()).unwrap().initial())
+        .unwrap();
     let packet: Value =
         serde_json::from_slice(&std::fs::read(record.directory.join("frame-0000.json")).unwrap())
             .unwrap();
-    // Independent consumer conditions from pinned lab a842606 export_fields.py.
-    assert_eq!(packet["schema"], "rheon-live-water-comparison-frame-v2");
+    assert_eq!(packet["schema"], "rheon-live-water-comparison-frame-v3");
     assert_eq!(packet["counts_xyz"], json!(scene.counts));
     assert_eq!(packet["cell_size_m"], json!(scene.h()));
-    assert_eq!(packet["checkpoint_sha256"], model["checkpoint_sha256"]);
-    assert_eq!(packet["frame"]["step"], 0);
-    record
-        .model(
-            &super::model_process::ProviderIdentity {
-                checkpoint_sha256: None,
-                training_run_id: None,
-                id: "generic".into(),
-                ..identity
-            },
-            &package.manifest,
-        )
-        .unwrap();
-    let mut next = frame;
-    next.step = 1;
-    record.frame(&next).unwrap();
-    let generic: Value =
-        serde_json::from_slice(&std::fs::read(record.directory.join("frame-0001.json")).unwrap())
-            .unwrap();
-    assert_eq!(generic["schema"], "rheon-live-water-comparison-frame-v3");
-    assert!(generic["checkpoint_sha256"].is_null());
-    assert_eq!(generic["provider"]["id"], "generic");
+    assert_eq!(
+        packet["provider"]["manifest_sha256"],
+        identity.manifest_sha256
+    );
+    assert_eq!(packet["provider"]["id"], "analytic-full");
+    assert!(packet["checkpoint_sha256"].is_null());
 }
 
 #[test]

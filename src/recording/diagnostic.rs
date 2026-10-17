@@ -20,12 +20,12 @@ use std::{
 
 /// Separate SQLite family; accepted archive version 1 is not this format.
 pub const APPLICATION_ID: i64 = 0x52484450; // RHDP
-pub const VERSION: i64 = 2;
+pub const VERSION: i64 = 3;
 const MAX_CELLS: usize = 65_536;
 pub const MAX_NATIVE_PREFIX_STEPS: usize = 512;
 const SCHEMA: &str = "
 PRAGMA application_id=1380467792;
-PRAGMA user_version=2;
+PRAGMA user_version=3;
 CREATE TABLE diagnostic_run(id INTEGER PRIMARY KEY CHECK(id=1),run_id TEXT NOT NULL,
  revision TEXT NOT NULL,geometry BLOB NOT NULL,density BLOB NOT NULL,viscosity BLOB NOT NULL,
  dt BLOB NOT NULL,mode INTEGER NOT NULL,binding_id TEXT NOT NULL,binding_version TEXT NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE attempts(attempt_index INTEGER PRIMARY KEY,generation BLOB NOT NULL
  prior_generation BLOB,prior_end BLOB,prior_status INTEGER,prior_pressure BLOB,
  dispatched INTEGER NOT NULL,outcome INTEGER NOT NULL,reason INTEGER,detail TEXT,
  invalid_payload_digest BLOB,transition INTEGER NOT NULL,request_digest BLOB NOT NULL,
- payload_bytes INTEGER NOT NULL,digest BLOB NOT NULL);
+ payload_bytes INTEGER NOT NULL,digest BLOB NOT NULL,interval_end BLOB NOT NULL);
 CREATE TABLE pressure_samples(attempt_index INTEGER NOT NULL REFERENCES attempts(attempt_index),
  role INTEGER NOT NULL,request_digest BLOB NOT NULL,pressure BLOB NOT NULL,policy INTEGER NOT NULL,
  residual_l2 BLOB NOT NULL,relative_residual BLOB,predicted_divergence BLOB NOT NULL,
@@ -104,6 +104,7 @@ pub struct DiagnosticRequest {
     viscosity: f64,
     generation: u64,
     interval_start: f64,
+    interval_end: f64,
     dt: f64,
     rhs: Vec<f64>,
     prior: Option<ObservedHistory>,
@@ -143,6 +144,7 @@ impl DiagnosticRequest {
             viscosity,
             generation: context.generation(),
             interval_start: context.interval_start(),
+            interval_end: context.interval_end(),
             dt: context.dt(),
             rhs: context.rhs().to_vec(),
             prior: context.prior().map(|p| ObservedHistory {
@@ -173,7 +175,7 @@ impl DiagnosticRequest {
         self.interval_start
     }
     pub fn interval_end(&self) -> f64 {
-        self.interval_start + self.dt
+        self.interval_end
     }
     pub fn dt(&self) -> f64 {
         self.dt
@@ -188,30 +190,33 @@ impl DiagnosticRequest {
         &self.initial_residual
     }
     pub fn digest(&self) -> [u8; 32] {
-        let mut h = Hash::new(b"rheon-diagnostic-request-v1\0");
+        let mut h = Hash::new(b"rheon-diagnostic-request-v2\0");
         self.hash(&mut h);
         h.finish()
     }
     fn context(&self) -> Result<PressureContext<'_>, RecordingError> {
-        PressureContext::new(PressureContextInput {
-            grid: &self.grid,
-            density: self.density,
-            dt: self.dt,
-            interval_start: self.interval_start,
-            rhs: &self.rhs,
-            prior: self.prior.as_ref().map(|p| PressureHistory {
-                values: &p.pressure,
+        PressureContext::with_interval_end(
+            PressureContextInput {
                 grid: &self.grid,
                 density: self.density,
+                dt: self.dt,
+                interval_start: self.interval_start,
+                rhs: &self.rhs,
+                prior: self.prior.as_ref().map(|p| PressureHistory {
+                    values: &p.pressure,
+                    grid: &self.grid,
+                    density: self.density,
+                    run_id: &self.run_id,
+                    generation: p.generation,
+                    interval_end: p.interval_end,
+                    status: p.status,
+                }),
                 run_id: &self.run_id,
-                generation: p.generation,
-                interval_end: p.interval_end,
-                status: p.status,
-            }),
-            run_id: &self.run_id,
-            generation: self.generation,
-            mode: PressureContextMode::DiagnosticCandidate,
-        })
+                generation: self.generation,
+                mode: PressureContextMode::DiagnosticCandidate,
+            },
+            self.interval_end,
+        )
         .map_err(|_| RecordingError::Invalid("request context"))
     }
     fn validate(&self, run: &DiagnosticRun) -> Result<(), RecordingError> {
@@ -241,6 +246,7 @@ impl DiagnosticRequest {
         h.f(self.viscosity);
         h.u(self.generation);
         h.f(self.interval_start);
+        h.f(self.interval_end);
         h.f(self.dt);
         h.values(&self.rhs);
         hash_history(h, self.prior.as_ref());
@@ -996,12 +1002,12 @@ impl DiagnosticRecorder {
             ),
         };
         let tx = self.connection.transaction()?;
-        tx.execute("INSERT INTO attempts VALUES(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19)",
+        tx.execute("INSERT INTO attempts VALUES(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20)",
             params![a.attempt_index as i64,a.request.generation.to_le_bytes().as_slice(),a.request.interval_start.to_le_bytes().as_slice(),
                 a.request.dt.to_le_bytes().as_slice(),encode_values(&a.request.rhs),encode_values(&a.request.initial_residual),
                 prior.map(|p|p.generation.to_le_bytes()).as_ref().map(|b|b.as_slice()),prior.map(|p|p.interval_end.to_le_bytes()).as_ref().map(|b|b.as_slice()),
                 prior.map(|p|history_id(p.status)),prior_data,i64::from(a.dispatched),outcome,reason,detail,invalid_digest,
-                transition_id(a.transition),a.request.digest().as_slice(),bytes as i64,a.digest(&self.run.digest(self.limits)).as_slice()])?;
+                transition_id(a.transition),a.request.digest().as_slice(),bytes as i64,a.digest(&self.run.digest(self.limits)).as_slice(),a.request.interval_end.to_le_bytes().as_slice()])?;
         if let PredictionOutcome::Candidate(sample) = &a.outcome {
             write_sample(&tx, a.attempt_index, 0, &a.request.digest(), sample, None)?;
         }
@@ -1234,7 +1240,7 @@ impl DiagnosticReader {
         {
             return Err(RecordingError::Limit("diagnostic selected payload"));
         }
-        let mut statement=self.connection.prepare("SELECT generation,start,dt,rhs,residual,prior_generation,prior_end,prior_status,prior_pressure,dispatched,outcome,reason,detail,invalid_payload_digest,transition,request_digest,payload_bytes,digest FROM attempts WHERE attempt_index=?1")?;
+        let mut statement=self.connection.prepare("SELECT generation,start,dt,rhs,residual,prior_generation,prior_end,prior_status,prior_pressure,dispatched,outcome,reason,detail,invalid_payload_digest,transition,request_digest,payload_bytes,digest,interval_end FROM attempts WHERE attempt_index=?1")?;
         let mut rows = statement.query([i])?;
         let r = rows.next()?.ok_or(RecordingError::Missing(index))?;
         let request = DiagnosticRequest {
@@ -1244,6 +1250,7 @@ impl DiagnosticReader {
             viscosity: self.run.viscosity,
             generation: read_u(r, 0)?,
             interval_start: read_f(r, 1)?,
+            interval_end: read_f(r, 18)?,
             dt: read_f(r, 2)?,
             rhs: read_values(r, 3, self.run.grid.cell_len(), cap)?,
             initial_residual: read_values(r, 4, self.run.grid.cell_len(), cap)?,

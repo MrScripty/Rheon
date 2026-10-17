@@ -1,5 +1,5 @@
 use super::*;
-use rheon::recording::{
+use crate::recording::{
     RecordingLimits,
     diagnostic::{DiagnosticReader, DiagnosticRecorder, DiagnosticTerminal, TerminalOutcome},
 };
@@ -64,7 +64,7 @@ fn scene() -> Scene {
         ..Default::default()
     }
 }
-fn warmup(e: &mut Engine, flag: &AtomicBool) {
+fn warmup(e: &mut DiagnosticSession, flag: &AtomicBool) {
     for _ in 0..e.scene.warmup_steps {
         assert!(
             e.advance_typed(flag, |_| panic!("warmup dispatch"))
@@ -77,13 +77,13 @@ fn warmup(e: &mut Engine, flag: &AtomicBool) {
 #[test]
 fn teacher_bias_never_changes_native_request_history_and_exact_clock_cold_verifies() {
     let flag = AtomicBool::new(false);
-    let mut control = Engine::with_policy(
+    let mut control = DiagnosticSession::with_policy(
         scene(),
         ExecutionPolicy::TeacherStage,
         "same-test-request-identity".into(),
     )
     .unwrap();
-    let mut biased = Engine::with_policy(
+    let mut biased = DiagnosticSession::with_policy(
         scene(),
         ExecutionPolicy::TeacherStage,
         "same-test-request-identity".into(),
@@ -144,12 +144,16 @@ fn teacher_bias_never_changes_native_request_history_and_exact_clock_cold_verifi
         let a = reader.select(i).unwrap();
         assert_eq!(a.request.interval_start().to_bits(), prior_end.to_bits());
         prior_end = a.request.interval_end();
+        assert_eq!(
+            prior_end.to_bits(),
+            (a.request.generation() as f64 * DT).to_bits()
+        );
     }
 }
 #[test]
 fn independent_first_rejection_preserves_both_histories_and_equal_request_reference() {
     let flag = AtomicBool::new(false);
-    let mut e = Engine::with_policy(
+    let mut e = DiagnosticSession::with_policy(
         scene(),
         ExecutionPolicy::IndependentStopOnReject,
         "stop-fixture".into(),
@@ -201,7 +205,7 @@ fn independent_first_rejection_preserves_both_histories_and_equal_request_refere
 #[test]
 fn independent_qualified_multistep_context_and_time_survive_cold_verification() {
     let flag = AtomicBool::new(false);
-    let mut e = Engine::with_policy(
+    let mut e = DiagnosticSession::with_policy(
         scene(),
         ExecutionPolicy::IndependentStopOnReject,
         "qualified-fixture".into(),
@@ -246,7 +250,7 @@ fn cancelled_qualified_candidate_is_retained_without_committing_or_publishing_fr
         ExecutionPolicy::IndependentStopOnReject,
     ] {
         let flag = AtomicBool::new(false);
-        let mut e = Engine::with_policy(
+        let mut e = DiagnosticSession::with_policy(
             Scene {
                 warmup_steps: 0,
                 ..scene()
@@ -301,7 +305,7 @@ fn cancelled_qualified_candidate_is_retained_without_committing_or_publishing_fr
 #[test]
 fn malformed_output_is_explicit_unavailable_with_digest_and_no_advanced_frame() {
     let flag = AtomicBool::new(false);
-    let mut e = Engine::with_policy(
+    let mut e = DiagnosticSession::with_policy(
         Scene {
             warmup_steps: 0,
             ..scene()
@@ -327,4 +331,55 @@ fn malformed_output_is_explicit_unavailable_with_digest_and_no_advanced_frame() 
             ..
         }
     ));
+}
+
+#[test]
+fn indexed_force_sampling_preserves_original_trajectory_values_through_32_steps() {
+    let scene = Scene {
+        counts: [5; 3],
+        steps: 32,
+        warmup_steps: 15,
+        ..Default::default()
+    };
+    let mut original = DiagnosticSession::new(scene.clone()).unwrap();
+    let mut typed = DiagnosticSession::with_policy(
+        scene,
+        ExecutionPolicy::IndependentStopOnReject,
+        "indexed-force-parity".into(),
+    )
+    .unwrap();
+    let flag = AtomicBool::new(false);
+    let mut calls = 0;
+    for step in 1..=32 {
+        let old = original
+            .advance(&flag, |input| {
+                native(input).map_err(|failure| failure.detail)
+            })
+            .unwrap();
+        let new = typed
+            .advance_typed(&flag, |input| {
+                calls += 1;
+                assert_eq!(input.context.generation() as usize, step);
+                assert!(step >= 16, "inference before 15 actual native steps");
+                native(input)
+            })
+            .unwrap();
+        assert_eq!(new.stop, None);
+        let current = new.frame.unwrap();
+        assert_eq!(old.reference_pressure, current.reference_pressure);
+        assert_eq!(old.ai_pressure, current.ai_pressure);
+        assert_eq!(old.time_s.to_bits(), current.time_s.to_bits());
+        assert_eq!(current.time_s.to_bits(), (step as f64 * DT).to_bits());
+        assert_eq!(old.reference_tracer, current.reference_tracer);
+        assert_eq!(old.ai_tracer, current.ai_tracer);
+        assert_eq!(original.reference.velocity, typed.reference.velocity);
+        assert_eq!(original.ai.velocity, typed.ai.velocity);
+        if step == 16 {
+            let attempt = new.attempt.unwrap();
+            assert!(attempt.dispatched);
+            assert_eq!(attempt.request.generation(), 16);
+            assert_eq!(attempt.request.prior().unwrap().generation, 15);
+        }
+    }
+    assert_eq!(calls, 17);
 }

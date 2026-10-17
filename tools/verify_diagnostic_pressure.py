@@ -48,16 +48,18 @@ def verify(path):
     require(digest(archive) == summary['archive_sha256'] == member['finalized']['sha256'], 'archive identity')
     with sqlite3.connect(archive.resolve().as_uri() + '?mode=ro', uri=True) as db:
         require(db.execute('PRAGMA application_id').fetchone()[0] == 0x52484450, 'diagnostic application ID')
-        require(db.execute('PRAGMA user_version').fetchone()[0] == 2, 'diagnostic schema version')
+        require(db.execute('PRAGMA user_version').fetchone()[0] == 3, 'diagnostic schema version')
         run_id, geometry = db.execute('SELECT run_id,geometry FROM diagnostic_run WHERE id=1').fetchone()
-        row = db.execute('SELECT start,dt,request_digest FROM attempts WHERE attempt_index=?', (summary['attempt_index'],)).fetchone()
+        row = db.execute('SELECT start,dt,request_digest,interval_end FROM attempts WHERE attempt_index=?', (summary['attempt_index'],)).fetchone()
         samples = dict(db.execute('SELECT role,pressure FROM pressure_samples WHERE attempt_index=?', (summary['attempt_index'],)))
         request_pins = [v[0] for v in db.execute('SELECT request_digest FROM pressure_samples WHERE attempt_index=?', (summary['attempt_index'],))]
     require(run_id == summary['run_id'] == member['run_id'], 'run identity')
     require(list(struct.unpack('<3Q', geometry[:24])) == summary['counts'], 'native cell geometry')
-    start, dt, request_pin = row
+    start, dt, request_pin, end = row
     require(list(request_pin) == summary['request_sha256'] and all(pin == request_pin for pin in request_pins), 'request identity')
-    require(number(start) == summary['interval_start'] and number(dt) == summary['dt'] and number(start) + number(dt) == summary['interval_end'], 'physical interval')
+    require(number(start) == summary['interval_start'] and number(dt) == summary['dt'] and number(end) == summary['interval_end'], 'physical interval')
+    expected_end = number(start) + number(dt)
+    require(math.isfinite(expected_end) and math.isfinite(number(end)) and number(dt) > 0 and number(end) > number(start) and math.nextafter(expected_end, -math.inf) <= number(end) <= math.nextafter(expected_end, math.inf), 'interval rounding bound')
     require(0 in samples and 1 in samples, 'candidate/native unavailable')
     x = [v[0] for v in struct.iter_unpack('<d', samples[1])]
     y = [v[0] for v in struct.iter_unpack('<d', samples[0])]

@@ -109,7 +109,7 @@ impl Record {
         )
     }
     pub fn frame(&mut self, frame: &Frame) -> Result<(), String> {
-        let mut value = json!({"schema":if self.identity.as_ref().is_some_and(|p|p.checkpoint_sha256.is_some()) {"rheon-live-water-comparison-frame-v2"}else{"rheon-live-water-comparison-frame-v3"},"run_directory":self.directory,"counts_xyz":self.scene.counts,"cell_size_m":self.scene.h(),"extents_m":self.scene.extents(),"provider":self.identity,"checkpoint_sha256":self.identity.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"frame":frame,"difference":"p_ai - p_reference, Pa; equal gauge at cell zero; shared native warm-up, then independent histories"});
+        let mut value = json!({"schema":"rheon-live-water-comparison-frame-v3","run_directory":self.directory,"counts_xyz":self.scene.counts,"cell_size_m":self.scene.h(),"extents_m":self.scene.extents(),"provider":self.identity,"checkpoint_sha256":self.identity.as_ref().and_then(|p|p.checkpoint_sha256.as_ref()),"frame":frame,"difference":"p_ai - p_reference, Pa; equal gauge at cell zero; shared native warm-up, then independent histories"});
         if self.policy != ExecutionPolicy::LegacyRawContinuation {
             value["schema"] = json!("rheon-live-water-comparison-frame-v4");
             value["policy"] = json!(self.policy);

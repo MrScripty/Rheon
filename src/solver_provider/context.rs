@@ -82,12 +82,25 @@ pub struct PressureContext<'a> {
 impl<'a> PressureContext<'a> {
     pub fn new(input: PressureContextInput<'a>) -> Result<Self, PressureContextError> {
         let end = input.interval_start + input.dt;
+        Self::with_interval_end(input, end)
+    }
+    /// Retain the caller's explicit interval endpoint. Fixed-step clocks may
+    /// compute it as generation * dt, differing from start + dt by one ULP.
+    /// Prior endpoint alignment stays exact; dt is never reconstructed.
+    pub fn with_interval_end(
+        input: PressureContextInput<'a>,
+        end: f64,
+    ) -> Result<Self, PressureContextError> {
+        let expected = input.interval_start + input.dt;
         if !input.dt.is_finite()
             || input.dt <= 0.0
             || !input.interval_start.is_finite()
             || input.interval_start < 0.0
             || !end.is_finite()
+            || !expected.is_finite()
+            || expected <= input.interval_start
             || end <= input.interval_start
+            || end.to_bits().abs_diff(expected.to_bits()) > 1
         {
             return Err(PressureContextError::InvalidInterval);
         }

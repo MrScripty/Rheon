@@ -30,8 +30,9 @@ are not durable saved-run identities or authentication.
 
 ## Inert package selection
 
-The desktop accepts existing closed `rheon-pressure-cpu-deployment-v2` bundles and
-new closed `rheon-pressure-adapter-v1` JSON manifests through the same selector.
+The desktop accepts closed `rheon-pressure-adapter-v1` JSON manifests. Obsolete
+deployment descriptors require offline conversion and are rejected at preflight;
+ordinary execution has no legacy deployment decoder.
 **Check package support** verifies material and scene support without executing
 adapter code. Starting a run repeats preflight before spawning Python. Unknown
 fields/versions, duplicate inventory/input keys, bad hashes, path escapes, special
@@ -100,8 +101,8 @@ custody, sandbox or guaranteed hard shutdown bound is promised.
 
 ## Recording and qualification limits
 
-Legacy checkpoint identities retain raw JSON frame-v2 for the pinned lab reader.
-Generic packages emit frame-v3 with provider identity and null checkpoint; no
+Current raw trajectory packages emit frame-v3 with provider identity and null
+checkpoint; no
 checkpoint/training provenance is invented. Binding metadata is versioned
 `rheon-provider-binding-v1`. Neither is accepted SQLite archive-v1 or a typed
 saved-run-set implementation. Cold accepted analysis and diagnostic persistence
@@ -115,3 +116,25 @@ restart completion and Close during prediction with immediate-child liveness
 observations. This is fixture/software-display evidence, not trained-model or
 hardware/GPU qualification. Retained trained
 checkpoint accuracy failures are not converted into passes by protocol tests.
+
+The library's `diagnostic` feature exposes the shared bounded numerical owner
+through `rheon::diagnostic::DiagnosticSession`; it requires no desktop UI. Typed
+stop-on-reject attempts retain their own same-request native reference and raw
+rejection, independently of accepted Session native fallback. Indexed physical
+force sampling and indexed context interval endpoints are described in
+[the diagnostic lifecycle contract](../ai-pressure-comparison.md#current-package-and-public-diagnostic-boundary).
+
+`PressureContext::with_interval_end(input, end)` retains an explicit host-owned
+endpoint. It validates a finite increasing interval and at most one ULP from
+`start + dt`, admitting the ordinary rounding difference of indexed fixed-step
+multiplication. It never changes dt or relaxes exact previous-end/next-start
+alignment. `PressureContext::new` continues to derive `start + dt`, so accepted
+Sessions with adaptive dt keep their existing authority.
+
+The pure public methods `rheon::diagnostic::Input::adapter_request` and
+`adapter_reply` own the current named-port wire projection and closed candidate
+decoding for both desktop and lab. Callers provide the selected manifest's typed
+`InputSemantic` mapping and `OutputRole`; they own package support selection and
+bounded transport. Protocol errors retain typed reasons/dispatch, and complete
+invalid lines retain their exact digest. These methods load no package, start no
+child and perform no pressure solve.

@@ -28,7 +28,8 @@ default = ["png-export"]
 png-export = ["dep:png"]
 parallel = ["dep:rayon"]
 work-observation = ["parallel"]
-desktop = ["dep:serde", "dep:serde_json", "dep:eframe", "png-export", "parallel", "work-observation"]
+diagnostic = ["dep:serde", "dep:serde_json"]
+desktop = ["diagnostic", "dep:eframe", "png-export", "parallel", "work-observation"]
 
 [[bin]]
 name = "rheon"

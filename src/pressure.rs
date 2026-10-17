@@ -52,6 +52,10 @@ pub struct PressureReport {
 pub enum PressureError {
     Operator(OperatorError),
     InvalidSettings,
+    /// This entry point supports only sealed domains with a cell-zero gauge.
+    UnsupportedInitialPressureDomain,
+    /// The caller must explicitly supply pressure[0] == 0; no shift is applied.
+    InvalidInitialPressureGauge,
     BufferLimit {
         required: usize,
         limit: usize,
@@ -78,6 +82,12 @@ impl fmt::Display for PressureError {
         match self {
             Self::Operator(e) => write!(f, "{e}"),
             Self::InvalidSettings => write!(f, "pressure settings must be finite and nonnegative"),
+            Self::UnsupportedInitialPressureDomain => {
+                write!(f, "initial pressure requires a sealed, gauge-fixed domain")
+            }
+            Self::InvalidInitialPressureGauge => {
+                write!(f, "initial pressure must have pressure[0] equal to zero")
+            }
             Self::BufferLimit { required, limit } => write!(
                 f,
                 "pressure buffers require {required} bytes, limit is {limit}"
@@ -342,7 +352,7 @@ impl PressureWorkspace {
         cancelled: impl FnMut() -> bool,
     ) -> Result<PressureReport, PressureError> {
         operator.build_rhs(velocity, dt, &mut self.rhs)?;
-        self.solve_loaded(operator, dt, settings, cancelled)
+        self.solve_loaded(operator, None, dt, settings, cancelled)
     }
 
     /// Explicit RHS entry point for independently assembled fixtures/consumers.
@@ -367,7 +377,40 @@ impl PressureWorkspace {
             }
         }
         self.rhs.copy_from_slice(rhs);
-        self.solve_loaded(operator, dt, settings, cancelled)
+        self.solve_loaded(operator, None, dt, settings, cancelled)
+    }
+
+    /// Solve a sealed-domain RHS from a caller-supplied pressure estimate.
+    ///
+    /// The estimate must match the grid, be finite, and have pressure[0] == 0.
+    /// It is copied without a gauge shift. Free-surface domains are explicitly
+    /// unsupported by this entry point. The initial residual is full b - A p,
+    /// including the gauge row, and relative tolerance uses the original b.
+    /// Krylov scratch is reset: no search direction survives a previous solve.
+    /// As with solve_rhs, success precedes the separate actual f32 divergence
+    /// gate, and pressure scratch after an error is not an accepted result.
+    pub fn solve_rhs_with_initial_pressure(
+        &mut self,
+        operator: &PressureOperator<'_>,
+        rhs: &[f64],
+        initial_pressure: &[f64],
+        dt: f64,
+        settings: PressureSettings,
+        cancelled: impl FnMut() -> bool,
+    ) -> Result<PressureReport, PressureError> {
+        operator.validate_cells(rhs)?;
+        operator.validate_cells(initial_pressure)?;
+        if self.rhs.len() != rhs.len() {
+            return Err(OperatorError::LengthMismatch.into());
+        }
+        if !operator.has_gauge() {
+            return Err(PressureError::UnsupportedInitialPressureDomain);
+        }
+        if initial_pressure[0] != 0.0 {
+            return Err(PressureError::InvalidInitialPressureGauge);
+        }
+        self.rhs.copy_from_slice(rhs);
+        self.solve_loaded(operator, Some(initial_pressure), dt, settings, cancelled)
     }
 
     fn true_report(
@@ -518,6 +561,7 @@ impl PressureWorkspace {
     fn solve_loaded(
         &mut self,
         operator: &PressureOperator<'_>,
+        initial_pressure: Option<&[f64]>,
         dt: f64,
         settings: PressureSettings,
         mut cancelled: impl FnMut() -> bool,
@@ -552,7 +596,17 @@ impl PressureWorkspace {
                 rounding_budget,
             });
         }
-        self.pressure.fill(0.0);
+        if let Some(initial_pressure) = initial_pressure {
+            self.pressure.copy_from_slice(initial_pressure);
+            self.residual.fill(0.0);
+            self.direction.fill(0.0);
+            self.product.fill(0.0);
+            for i in 0..self.rhs.len() {
+                self.preconditioned.set(i, 0.0);
+            }
+        } else {
+            self.pressure.fill(0.0);
+        }
         let rhs_l2 = dot(&self.rhs, &self.rhs).sqrt();
         let threshold = settings
             .absolute_residual

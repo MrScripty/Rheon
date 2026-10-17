@@ -220,3 +220,7 @@ pub use compressible::{
     CompressibleError, CompressibleFailure, CompressiblePrimitive, CompressibleSimulation,
     CompressibleStage, CompressibleStepReport, CompressibleView, ConservativeState, IdealGas,
 };
+
+/// Bounded sealed-water diagnostics; separate from accepted Session publication.
+#[cfg(all(feature = "diagnostic", not(target_arch = "wasm32")))]
+pub mod diagnostic;

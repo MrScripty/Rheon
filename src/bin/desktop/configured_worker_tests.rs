@@ -531,7 +531,7 @@ fn actual_runtime_failure_terminal_is_not_relabelled_by_late_worker_cancel() {
     assert!(matches!(
         audit.termination.observation.unwrap().outcome,
         RuntimeOutcome::NoCandidate {
-            reason: diagnostic::NoCandidateReason::RuntimeFailure,
+            reason: rheon::recording::diagnostic::NoCandidateReason::RuntimeFailure,
             dispatched: true,
             ..
         }
@@ -581,7 +581,7 @@ fn consumed_request_worker_cancel_retains_native_seed_and_unaccepted_runtime_ter
     assert!(matches!(
         observation.outcome,
         RuntimeOutcome::NoCandidate {
-            reason: diagnostic::NoCandidateReason::Cancelled,
+            reason: rheon::recording::diagnostic::NoCandidateReason::Cancelled,
             dispatched: true,
             ..
         }

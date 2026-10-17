@@ -180,7 +180,7 @@ impl ComparisonApp {
                     ui.text_edit_singleline(&mut self.deployment);
                     if ui.button("Check package support").clicked() { self.check_package(); }
                     if let Some(result) = &self.preflight_status { ui.label(format!("Last inert support check: {result}")); }
-                    ui.small("Select a measured v2 deployment or configurable CPU adapter manifest.");
+                    ui.small("Select a measured current CPU adapter manifest.");
                 });
                 ui.horizontal(|ui|{ui.label("Seed");ui.add(egui::DragValue::new(&mut self.scene.seed).range(0..=((1_u64<<53)-1)));if ui.button("New seed").clicked(){self.scene.seed=self.scene.seed.wrapping_add(0x9e3779b97f4a7c15)&((1_u64<<53)-1);}});
                 ui.label("Cell counts X / Y / Z");ui.horizontal(|ui|{for count in &mut self.scene.counts{ui.add(egui::DragValue::new(count).range(5..=128));}});

@@ -152,3 +152,95 @@ fn rejected_cross_track_stale_and_diagnostic_accepted_history() {
         Err(PressureContextError::InvalidLineage)
     ));
 }
+
+#[test]
+fn explicit_indexed_endpoints_keep_exact_history_without_accumulated_clock_drift() {
+    let grid = GridGeometry::new([2, 1, 1], [1.0; 3], [0.0; 3]).unwrap();
+    let zero = [0.0; 2];
+    let dt = 1.0 / 60.0;
+    let mut previous_end: f64 = 0.0;
+    let mut accumulated: f64 = 0.0;
+    let mut observed_rounding = false;
+    for generation in 1..=10_000_u64 {
+        let start = (generation - 1) as f64 * dt;
+        let end = generation as f64 * dt;
+        assert_eq!(start.to_bits(), previous_end.to_bits());
+        let context = PressureContext::with_interval_end(
+            PressureContextInput {
+                grid: &grid,
+                density: 1000.0,
+                dt,
+                interval_start: start,
+                rhs: &zero,
+                run_id: "indexed-clock",
+                generation,
+                mode: PressureContextMode::DiagnosticCandidate,
+                prior: (generation > 1).then_some(PressureHistory {
+                    values: &zero,
+                    grid: &grid,
+                    density: 1000.0,
+                    run_id: "indexed-clock",
+                    generation: generation - 1,
+                    interval_end: previous_end,
+                    status: PressureHistoryStatus::Diagnostic { qualified: true },
+                }),
+            },
+            end,
+        )
+        .unwrap();
+        observed_rounding |= (start + dt).to_bits() != end.to_bits();
+        assert_eq!(context.interval_start().to_bits(), start.to_bits());
+        assert_eq!(context.interval_end().to_bits(), end.to_bits());
+        assert_eq!(context.dt().to_bits(), dt.to_bits());
+        previous_end = context.interval_end();
+        accumulated += dt;
+    }
+    assert!(
+        observed_rounding,
+        "fixture must exercise indexed endpoint rounding"
+    );
+    assert_ne!(accumulated.to_bits(), previous_end.to_bits());
+}
+
+#[test]
+fn explicit_end_rejects_material_interval_errors_and_never_relaxes_prior_alignment() {
+    let grid = GridGeometry::new([2, 1, 1], [1.0; 3], [0.0; 3]).unwrap();
+    let zero = [0.0; 2];
+    let make = || PressureContextInput {
+        grid: &grid,
+        density: 1000.0,
+        dt: 0.25,
+        interval_start: 0.25,
+        rhs: &zero,
+        run_id: "endpoint-negatives",
+        generation: 2,
+        mode: PressureContextMode::DiagnosticCandidate,
+        prior: Some(PressureHistory {
+            values: &zero,
+            grid: &grid,
+            density: 1000.0,
+            run_id: "endpoint-negatives",
+            generation: 1,
+            interval_end: 0.25,
+            status: PressureHistoryStatus::Diagnostic { qualified: true },
+        }),
+    };
+    for end in [
+        0.25,
+        0.75,
+        f64::NAN,
+        f64::INFINITY,
+        f64::from_bits(0.5_f64.to_bits() + 2),
+    ] {
+        assert!(matches!(
+            PressureContext::with_interval_end(make(), end),
+            Err(PressureContextError::InvalidInterval)
+        ));
+    }
+    let mut input = make();
+    input.prior.as_mut().unwrap().interval_end = f64::from_bits(0.25_f64.to_bits() + 1);
+    assert!(matches!(
+        PressureContext::with_interval_end(input, 0.5),
+        Err(PressureContextError::InvalidLineage)
+    ));
+}

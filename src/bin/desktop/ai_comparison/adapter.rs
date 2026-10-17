@@ -5,7 +5,7 @@
 //! interpreter mutation from validation through child execution; canonical paths
 //! are not a sandbox or a capability against concurrent replacement.
 use rheon::GridGeometry;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use sha2::{Digest, Sha256};
 use std::{
     collections::{BTreeMap, BTreeSet},
@@ -51,25 +51,9 @@ fn unavailable(operation: &str, error: std::io::Error) -> AdapterError {
     AdapterError::Unavailable(format!("{operation}: {error}"))
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
-#[serde(rename_all = "snake_case")]
-pub(crate) enum InputSemantic {
-    Rhs,
-    PreviousPressure,
-    InitialResidual,
-    X,
-    Y,
-    Z,
-    Density,
-    Dt,
-}
+pub use rheon::diagnostic::InputSemantic;
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize, Serialize)]
-#[serde(rename_all = "snake_case")]
-pub(crate) enum OutputRole {
-    FullPressure,
-    PressureCorrection,
-}
+pub use rheon::diagnostic::OutputRole;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Deserialize)]
 #[serde(rename_all = "snake_case")]

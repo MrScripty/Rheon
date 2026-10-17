@@ -1455,3 +1455,39 @@ fn equal_request_pressure_reduction_preserves_canonical_gauge_absence_and_overfl
         ))
     );
 }
+
+#[test]
+fn explicit_endpoint_is_hashed_and_obsolete_schema_two_is_rejected() {
+    let archive = Archive::new();
+    let run = run(DiagnosticMode::TeacherStage, true);
+    let first = attempt(&run, 0, run.seed.as_ref(), false);
+    let mut writer =
+        DiagnosticRecorder::create(&archive.0, run, RecordingLimits::default()).unwrap();
+    writer.append(&first).unwrap();
+    drop(writer);
+    let reader = archive.reader();
+    assert_eq!(
+        reader.select(0).unwrap().request.interval_end().to_bits(),
+        first.request.interval_end().to_bits()
+    );
+    // Alter only the endpoint by one ULP: interval validation allows its normal
+    // rounding range, but the captured request/sample association must detect it.
+    let changed = f64::from_bits(first.request.interval_end().to_bits() + 1);
+    let db = Connection::open(&archive.0).unwrap();
+    db.execute(
+        "UPDATE attempts SET interval_end=?1 WHERE attempt_index=0",
+        [changed.to_le_bytes().as_slice()],
+    )
+    .unwrap();
+    assert!(matches!(
+        reader.select(0),
+        Err(RecordingError::Integrity("sample request digest"))
+    ));
+    db.pragma_update(None, "user_version", 2).unwrap();
+    assert!(matches!(
+        DiagnosticReader::open(&archive.0, RecordingLimits::default()),
+        Err(RecordingError::Unsupported(
+            "diagnostic archive kind/version"
+        ))
+    ));
+}

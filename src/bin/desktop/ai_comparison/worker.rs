@@ -432,10 +432,11 @@ mod tests {
     }
 
     #[test]
-    #[ignore = "Requires an exported measured CPU deployment; see docs/ai-pressure-comparison.md"]
-    fn real_cpu_deployment_cancellation_drains_child_and_allows_restart() {
-        let deployment =
-            PathBuf::from(std::env::var_os("RHEON_AI_TEST_DEPLOYMENT").expect("deployment path"));
+    #[ignore = "Requires an exported measured current CPU adapter package; see docs/ai-pressure-comparison.md"]
+    fn trained_current_package_cancellation_drains_child_and_allows_restart() {
+        let deployment = PathBuf::from(
+            std::env::var_os("RHEON_AI_TEST_PACKAGE").expect("current package manifest path"),
+        );
         let root =
             PathBuf::from(std::env::var_os("RHEON_AI_TEST_OUTPUT").expect("fresh output path"));
         assert!(
@@ -447,7 +448,34 @@ mod tests {
             steps: 64,
             ..Default::default()
         };
-        let mut first = Worker::start(scene.clone(), deployment.clone(), root.clone()).unwrap();
+        // Copy measured package bytes into this test's owned evidence root so
+        // the cold inspection can hide its package without changing a shared one.
+        ModelProcess::preflight(&deployment, &scene).unwrap();
+        let package_root = root.join("owned-current-package");
+        std::fs::create_dir_all(&package_root).unwrap();
+        let manifest: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&deployment).unwrap()).unwrap();
+        for relative in manifest["files"].as_object().unwrap().keys() {
+            let target = package_root.join(relative);
+            std::fs::create_dir_all(target.parent().unwrap()).unwrap();
+            std::fs::copy(deployment.parent().unwrap().join(relative), target).unwrap();
+        }
+        let copied = package_root.join("manifest.json");
+        std::fs::copy(&deployment, &copied).unwrap();
+        let deployment = copied;
+        let binding = ModelProcess::preflight(&deployment, &scene).unwrap();
+        assert!(
+            binding.checkpoint_sha256.is_none(),
+            "current generic package required"
+        );
+        assert!(!binding.id.is_empty());
+        let mut first = Worker::start_with_policy(
+            scene.clone(),
+            deployment.clone(),
+            root.clone(),
+            ExecutionPolicy::TeacherStage,
+        )
+        .unwrap();
         wait_for(&first, |data| {
             data.frames.last().is_some_and(|f| f.step >= 17)
         });
@@ -479,8 +507,16 @@ mod tests {
         .unwrap();
         assert_eq!(completion["state"], "cancelled");
         drop(first);
-        let mut second =
-            Worker::start(Scene { steps: 16, ..scene }, deployment, root.clone()).unwrap();
+        let mut second = Worker::start_with_policy(
+            Scene {
+                steps: 16,
+                ..scene.clone()
+            },
+            deployment.clone(),
+            root.clone(),
+            ExecutionPolicy::TeacherStage,
+        )
+        .unwrap();
         wait_for(&second, |data| !data.frames.is_empty());
         let restart_child_id = second
             .slot
@@ -524,8 +560,69 @@ mod tests {
                 .take(16)
                 .all(|frame| frame.ai_quality.is_none())
         );
+        drop(view);
+        drop(second);
+        let mut diagnostic = Worker::start_with_policy(
+            Scene { steps: 16, ..scene },
+            deployment.clone(),
+            root.clone(),
+            ExecutionPolicy::IndependentStopOnReject,
+        )
+        .unwrap();
+        let deadline = Instant::now() + Duration::from_secs(120);
+        while !diagnostic.finished() {
+            assert!(
+                Instant::now() < deadline,
+                "typed checkpoint diagnostic deadline"
+            );
+            thread::sleep(Duration::from_millis(10));
+        }
+        diagnostic.join_finished();
+        assert!(diagnostic.slot.lock().unwrap().is_none());
+        let shared = diagnostic.shared.lock().unwrap();
+        assert_eq!(shared.state, "stopped_on_rejection", "{}", shared.message);
+        let diagnostic_manifest = shared.diagnostic_manifest.clone().unwrap();
+        assert_eq!(shared.frames.last().unwrap().step, 15);
+        assert_eq!(shared.statistics.as_ref().unwrap().produced_attempts, 1);
+        drop(shared);
+        drop(diagnostic);
+        // Only the owned byte-for-byte package copy is hidden. Cold readers
+        // must not start a child, import Python, or reopen the missing manifest.
+        std::fs::rename(&package_root, root.join("hidden-current-package")).unwrap();
+        assert!(!deployment.exists());
+        let set =
+            super::super::diagnostic_runs::DiagnosticRunSet::open(&diagnostic_manifest).unwrap();
+        let reader = match set.open_member(diagnostic_manifest.parent().unwrap(), 0) {
+            super::super::diagnostic_runs::MemberState::Ready(reader) => reader,
+            _ => panic!("trained current diagnostic must be cold-readable"),
+        };
+        reader.verify().unwrap();
+        assert_eq!(reader.count().unwrap(), 1);
+        let attempt = reader.select(0).unwrap();
+        assert!(attempt.dispatched);
+        assert_eq!(attempt.request.generation(), 16);
+        assert_eq!(attempt.request.prior().unwrap().generation, 15);
+        assert_eq!(
+            attempt.request.interval_end().to_bits(),
+            (16.0 * super::super::scene::DT).to_bits()
+        );
+        assert_eq!(
+            attempt.transition,
+            rheon::recording::diagnostic::HistoryTransition::NotAdvanced
+        );
+        assert!(matches!(attempt.outcome,
+            rheon::recording::diagnostic::PredictionOutcome::Candidate(sample)
+                if !sample.observation.qualified));
+        assert!(
+            attempt
+                .native_reference
+                .unwrap()
+                .sample
+                .observation
+                .qualified
+        );
         println!(
-            "Cancelled resident CPU child {child_id}; terminal record and retained frames verified; restart child {restart_child_id} completed 16 steps with {restart_ai_predictions} AI prediction; child slots empty; Linux OS liveness positive-before-negative checked: {}",
+            "Cancelled resident CPU child {child_id}; terminal record and retained frames verified; restart child {restart_child_id} completed 16 steps with {restart_ai_predictions} AI prediction; typed current-schema cold archive retained raw rejection with package hidden; child slots empty; Linux OS liveness positive-before-negative checked: {}",
             cfg!(target_os = "linux")
         );
     }

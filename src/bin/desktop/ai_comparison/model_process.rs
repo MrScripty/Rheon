@@ -1,13 +1,13 @@
 //! One bounded CPU child, owned readers, explicit cancellation and teardown.
-use super::adapter::{AdapterPackage, InputSemantic, OutputRole, PriorPressure};
+use super::adapter::{AdapterPackage, InputSemantic, PriorPressure};
 use super::engine::Input;
 use rheon::recording::diagnostic::NoCandidateReason;
-use serde::Deserialize;
 use serde::Serialize;
-use serde_json::{Value, json};
+use serde_json::Value;
+#[cfg(test)]
+use serde_json::json;
 use sha2::{Digest, Sha256};
 use std::{
-    collections::BTreeMap,
     io::{BufRead, BufReader, Read, Write},
     path::{Path, PathBuf},
     process::{Child, Command, Stdio},
@@ -43,33 +43,23 @@ impl From<&str> for StartupFailure {
         Self::Failure(detail.into())
     }
 }
-#[derive(Debug)]
-pub(crate) struct PredictionFailure {
-    pub reason: NoCandidateReason,
-    pub detail: String,
-    pub dispatched: bool,
-    /// Exact complete received protocol line, including its newline. A bounded
-    /// prefix of an oversized packet is deliberately not called its digest.
-    pub invalid_payload_sha256: Option<[u8; 32]>,
-}
-impl PredictionFailure {
-    fn new(
-        reason: NoCandidateReason,
-        detail: impl AsRef<str>,
-        dispatched: bool,
-        digest: Option<[u8; 32]>,
-    ) -> Self {
-        Self {
-            reason,
-            detail: detail
-                .as_ref()
-                .chars()
-                .filter(|c| !c.is_control())
-                .take(2000)
-                .collect(),
-            dispatched,
-            invalid_payload_sha256: digest,
-        }
+pub use rheon::diagnostic::PredictionFailure;
+fn prediction_failure(
+    reason: NoCandidateReason,
+    detail: impl AsRef<str>,
+    dispatched: bool,
+    digest: Option<[u8; 32]>,
+) -> PredictionFailure {
+    PredictionFailure {
+        reason,
+        detail: detail
+            .as_ref()
+            .chars()
+            .filter(|c| !c.is_control())
+            .take(2000)
+            .collect(),
+        dispatched,
+        invalid_payload_sha256: digest,
     }
 }
 struct ReceivedReply {
@@ -77,141 +67,9 @@ struct ReceivedReply {
     payload_sha256: [u8; 32],
 }
 pub type ChildSlot = Arc<Mutex<Option<Child>>>;
-#[derive(Deserialize)]
-#[serde(deny_unknown_fields)]
-struct FileSpec {
-    sha256: String,
-    bytes: u64,
-}
-#[derive(Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Deployment {
-    schema: String,
-    python: String,
-    bridge: String,
-    python_sha256: String,
-    files: BTreeMap<String, FileSpec>,
-    checkpoint_sha256: String,
-    normalization_sha256: String,
-    source_commit: String,
-    training_run_id: String,
-    training_updates: usize,
-    profile: String,
-    physical_contract: Value,
-    context_policy: ContextPolicy,
-    assumption: String,
-}
-#[derive(Deserialize)]
-#[serde(deny_unknown_fields)]
-struct ContextPolicy {
-    mode: String,
-    minimum_native_steps: usize,
-    training_snapshot_indices: Vec<usize>,
-}
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "snake_case")]
-enum ErrorCode {
-    Invalid,
-    Unavailable,
-    Unsupported,
-    UnsupportedContext,
-}
-#[derive(Debug, Deserialize)]
-#[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
-enum Reply {
-    AdapterReady {
-        id: String,
-        version: String,
-        manifest_sha256: String,
-        device: String,
-        optimizer_updates: u64,
-    },
-    Candidate {
-        id: usize,
-        role: OutputRole,
-        #[serde(deserialize_with = "bounded_pressure")]
-        pressure: Vec<f64>,
-        device: String,
-        optimizer_updates: u64,
-    },
-    Loading {
-        phase: String,
-    },
-    Ready {
-        checkpoint_sha256: String,
-        training_run_id: String,
-        device: String,
-        model_dtype: String,
-        channels: u32,
-        optimizer_updates: u64,
-        cuda_initialized: bool,
-        minimum_native_steps: usize,
-    },
-    Pressure {
-        id: usize,
-        #[serde(deserialize_with = "bounded_pressure")]
-        pressure: Vec<f64>,
-        device: String,
-        optimizer_updates: u64,
-    },
-    Error {
-        code: ErrorCode,
-        id: Option<usize>,
-        message: String,
-    },
-}
-fn bounded_pressure<'de, D: serde::Deserializer<'de>>(
-    deserializer: D,
-) -> Result<Vec<f64>, D::Error> {
-    struct Values;
-    impl<'de> serde::de::Visitor<'de> for Values {
-        type Value = Vec<f64>;
-        fn expecting(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-            f.write_str("at most 65,536 finite pressure values")
-        }
-        fn visit_seq<A: serde::de::SeqAccess<'de>>(
-            self,
-            mut seq: A,
-        ) -> Result<Self::Value, A::Error> {
-            let mut values = Vec::new();
-            while let Some(value) = seq.next_element::<f64>()? {
-                if values.len() == 65_536 || !value.is_finite() {
-                    return Err(serde::de::Error::custom(
-                        "Pressure array exceeds finite value budget",
-                    ));
-                }
-                values.push(value);
-            }
-            Ok(values)
-        }
-    }
-    deserializer.deserialize_seq(Values)
-}
-fn is_hex(value: &str, len: usize) -> bool {
-    value.len() == len && value.bytes().all(|b| b.is_ascii_hexdigit())
-}
+use rheon::diagnostic::{AdapterErrorCode as ErrorCode, AdapterReply as Reply};
 fn bridge_error(code: ErrorCode, message: String) -> String {
-    format!(
-        "CPU bridge {code:?}: {}",
-        message
-            .chars()
-            .filter(|c| !c.is_control())
-            .take(2000)
-            .collect::<String>()
-    )
-}
-fn file_hash(path: &Path) -> Result<String, String> {
-    let mut file = std::fs::File::open(path).map_err(|e| e.to_string())?;
-    let mut hash = Sha256::new();
-    let mut buffer = [0_u8; 65536];
-    loop {
-        let n = file.read(&mut buffer).map_err(|e| e.to_string())?;
-        if n == 0 {
-            break;
-        }
-        hash.update(&buffer[..n]);
-    }
-    Ok(format!("{:x}", hash.finalize()))
+    code.detail(message)
 }
 fn kill(slot: &ChildSlot) {
     if let Ok(mut guard) = slot.lock()
@@ -252,85 +110,29 @@ struct RuntimeConfig {
     bridge: PathBuf,
     identity: ProviderIdentity,
     minimum_native_steps: usize,
-    adapter: Option<AdapterPackage>,
+    adapter: AdapterPackage,
 }
 fn runtime_config(raw: &[u8], path: &Path) -> Result<RuntimeConfig, String> {
     let value: Value = serde_json::from_slice(raw).map_err(|e| e.to_string())?;
-    if value.get("schema").and_then(Value::as_str) == Some(super::adapter::SCHEMA) {
-        let adapter = AdapterPackage::load(path).map_err(|e| e.to_string())?;
-        return Ok(RuntimeConfig {
-            python: adapter.python().to_owned(),
-            bridge: adapter.entrypoint().to_owned(),
-            identity: ProviderIdentity {
-                id: adapter.id().into(),
-                version: adapter.version().into(),
-                manifest_sha256: adapter.manifest_sha256().into(),
-                checkpoint_sha256: None,
-                training_run_id: None,
-            },
-            minimum_native_steps: adapter.context().minimum_native_steps,
-            adapter: Some(adapter),
-        });
+    if value.get("schema").and_then(Value::as_str) != Some(super::adapter::SCHEMA) {
+        return Err(
+            "Unsupported CPU adapter package schema; convert offline to rheon-pressure-adapter-v1"
+                .into(),
+        );
     }
-    let deployment: Deployment = serde_json::from_slice(raw).map_err(|e| e.to_string())?;
-    if deployment.schema != "rheon-pressure-cpu-deployment-v2"
-        || deployment.profile != "sealed-water-seven-channel-float32"
-        || deployment.bridge != "cpu_bridge.py"
-        || deployment.physical_contract["density_kg_m3"] != 1000.0
-        || deployment.physical_contract["dynamic_viscosity_pa_s"] != 0.001
-        || deployment.physical_contract["cells"] != "cubic"
-        || deployment.training_updates == 0
-        || !is_hex(&deployment.normalization_sha256, 64)
-        || !is_hex(&deployment.checkpoint_sha256, 64)
-        || !is_hex(&deployment.training_run_id, 32)
-        || !is_hex(&deployment.source_commit, 40)
-        || deployment.context_policy.mode != "native_prefix"
-        || deployment.context_policy.minimum_native_steps > 512
-        || deployment
-            .context_policy
-            .training_snapshot_indices
-            .is_empty()
-        || deployment.context_policy.training_snapshot_indices.len() > 512
-        || deployment
-            .context_policy
-            .training_snapshot_indices
-            .iter()
-            .any(|n| *n > 512)
-        || deployment
-            .context_policy
-            .training_snapshot_indices
-            .iter()
-            .min()
-            != Some(&deployment.context_policy.minimum_native_steps)
-        || deployment.assumption.is_empty()
-    {
-        return Err("Unsupported water CPU deployment contract".into());
-    }
-    let root = path.parent().ok_or("Deployment parent")?;
-    let bridge = root.join(&deployment.bridge);
-    let expected = deployment
-        .files
-        .get(&deployment.bridge)
-        .ok_or("Measured bridge required")?;
-    if expected.bytes > 2 * 1024 * 1024
-        || file_hash(&bridge)? != expected.sha256
-        || std::fs::metadata(&bridge).map_err(|e| e.to_string())?.len() != expected.bytes
-        || file_hash(Path::new(&deployment.python))? != deployment.python_sha256
-    {
-        return Err("Interpreter/bridge drift".into());
-    }
+    let adapter = AdapterPackage::load(path).map_err(|e| e.to_string())?;
     Ok(RuntimeConfig {
-        python: PathBuf::from(deployment.python),
-        bridge,
+        python: adapter.python().to_owned(),
+        bridge: adapter.entrypoint().to_owned(),
         identity: ProviderIdentity {
-            id: deployment.checkpoint_sha256.clone(),
-            version: "legacy-v2".into(),
-            manifest_sha256: format!("{:x}", Sha256::digest(raw)),
-            checkpoint_sha256: Some(deployment.checkpoint_sha256),
-            training_run_id: Some(deployment.training_run_id),
+            id: adapter.id().into(),
+            version: adapter.version().into(),
+            manifest_sha256: adapter.manifest_sha256().into(),
+            checkpoint_sha256: None,
+            training_run_id: None,
         },
-        minimum_native_steps: deployment.context_policy.minimum_native_steps,
-        adapter: None,
+        minimum_native_steps: adapter.context().minimum_native_steps,
+        adapter,
     })
 }
 pub struct ModelProcess {
@@ -341,7 +143,7 @@ pub struct ModelProcess {
     stop: Arc<AtomicBool>,
     readers: Vec<JoinHandle<()>>,
     pub identity: ProviderIdentity,
-    adapter: Option<AdapterPackage>,
+    adapter: AdapterPackage,
     pub(crate) prediction_timeout: Duration,
     pub deployment_path: PathBuf,
     pub minimum_native_steps: usize,
@@ -371,25 +173,17 @@ impl ModelProcess {
         let grid =
             rheon::GridGeometry::new(scene.counts.map(|n| n as u64), [scene.h(); 3], [0.0; 3])
                 .map_err(|e| e.to_string())?;
-        if let Some(adapter) = &runtime.adapter {
-            adapter
-                .validate_support(
-                    &grid,
-                    super::scene::RHO,
-                    super::scene::MU,
-                    super::scene::DT,
-                    scene.warmup_steps,
-                    scene.warmup_steps > 0,
-                )
-                .map_err(|e| e.to_string())?;
-        } else if scene.cells_per_metre > 128 {
-            return Err("Unsupported testing setup: legacy v2 package supports at most 128 cells/m (cell spacing at least 1/128 m); use a qualified adapter declaring the actual physical support".into());
-        } else if scene.warmup_steps < runtime.minimum_native_steps {
-            return Err(format!(
-                "Unsupported testing setup: checkpoint requires at least {} native warm-up steps; configured {}",
-                runtime.minimum_native_steps, scene.warmup_steps
-            ));
-        }
+        runtime
+            .adapter
+            .validate_support(
+                &grid,
+                super::scene::RHO,
+                super::scene::MU,
+                super::scene::DT,
+                scene.warmup_steps,
+                scene.warmup_steps > 0,
+            )
+            .map_err(|e| e.to_string())?;
         Ok(runtime.identity)
     }
     pub fn start(
@@ -514,7 +308,7 @@ impl ModelProcess {
                                     payload_sha256: digest,
                                 })
                                 .map_err(|e| {
-                                    PredictionFailure::new(
+                                    prediction_failure(
                                         NoCandidateReason::InvalidOutput,
                                         e.to_string(),
                                         false,
@@ -522,7 +316,7 @@ impl ModelProcess {
                                     )
                                 })
                         }
-                        Ok(_) => Err(PredictionFailure::new(
+                        Ok(_) => Err(prediction_failure(
                             NoCandidateReason::InvalidOutput,
                             "Model output record exceeds bound or is incomplete",
                             false,
@@ -530,7 +324,7 @@ impl ModelProcess {
                                 .ends_with(b"\n")
                                 .then(|| Sha256::digest(&bytes).into()),
                         )),
-                        Err(e) => Err(PredictionFailure::new(
+                        Err(e) => Err(prediction_failure(
                             NoCandidateReason::RuntimeFailure,
                             e.to_string(),
                             false,
@@ -585,38 +379,13 @@ impl ModelProcess {
                 {
                     progress(&phase)?
                 }
-                Reply::Ready {
-                    checkpoint_sha256,
-                    training_run_id,
-                    device,
-                    model_dtype,
-                    channels,
-                    optimizer_updates,
-                    cuda_initialized,
-                    minimum_native_steps,
-                } => {
-                    if result.adapter.is_some()
-                        || Some(&checkpoint_sha256) != result.identity.checkpoint_sha256.as_ref()
-                        || Some(&training_run_id) != result.identity.training_run_id.as_ref()
-                        || device != "cpu"
-                        || model_dtype != "float32"
-                        || channels != 7
-                        || cuda_initialized
-                        || optimizer_updates != 0
-                        || minimum_native_steps != result.minimum_native_steps
-                    {
-                        return Err("CPU model handshake mismatch".into());
-                    }
-                    return Ok(result);
-                }
                 Reply::AdapterReady {
                     id,
                     version,
                     manifest_sha256,
                     device,
                     optimizer_updates,
-                } if result.adapter.is_some()
-                    && id == result.identity.id
+                } if id == result.identity.id
                     && version == result.identity.version
                     && manifest_sha256 == result.identity.manifest_sha256
                     && device == "cpu"
@@ -666,7 +435,7 @@ impl ModelProcess {
     ) -> Result<ReceivedReply, PredictionFailure> {
         loop {
             if self.cancellation_requested(cancelled, poll) {
-                return Err(PredictionFailure::new(
+                return Err(prediction_failure(
                     NoCandidateReason::Cancelled,
                     "Cancelled",
                     dispatched,
@@ -674,7 +443,7 @@ impl ModelProcess {
                 ));
             }
             if Instant::now() >= deadline {
-                return Err(PredictionFailure::new(
+                return Err(prediction_failure(
                     NoCandidateReason::RuntimeFailure,
                     "CPU model reply deadline exceeded",
                     dispatched,
@@ -697,7 +466,7 @@ impl ModelProcess {
                 }
                 Err(mpsc::RecvTimeoutError::Timeout) => {}
                 Err(_) => {
-                    return Err(PredictionFailure::new(
+                    return Err(prediction_failure(
                         if cancelled.load(Ordering::Relaxed) {
                             NoCandidateReason::Cancelled
                         } else {
@@ -739,7 +508,7 @@ impl ModelProcess {
         cancelled: &AtomicBool,
         poll: &mut dyn FnMut() -> bool,
     ) -> Result<Vec<f64>, PredictionFailure> {
-        let before = |reason, detail| PredictionFailure::new(reason, detail, false, None);
+        let before = |reason, detail| prediction_failure(reason, detail, false, None);
         if self.cancellation_requested(cancelled, poll) {
             return Err(before(NoCandidateReason::Cancelled, "Cancelled"));
         }
@@ -767,19 +536,9 @@ impl ModelProcess {
                 "Invalid physical input shape, gauge or finiteness",
             ));
         }
-        let request = if let Some(adapter) = &self.adapter {
-            adapter_request(adapter, &input, request_id)?
-        } else {
-            if request_id - 1 < self.minimum_native_steps {
-                return Err(before(
-                    NoCandidateReason::UnsupportedContext,
-                    "Native prefix required",
-                ));
-            }
-            json!({"id":request_id,"counts_xyz":input.context.grid().counts(),"cell_size_m":input.context.grid().spacing()[0],"density_kg_m3":input.context.density(),"dt_s":input.context.dt(),"base_pressure":input.initial_guess,"native_input_residual":input.residual})
-        };
+        let request = adapter_request(&self.adapter, &input, request_id)?;
         let mut raw = serde_json::to_vec(&request).map_err(|e| {
-            PredictionFailure::new(
+            prediction_failure(
                 NoCandidateReason::UnsupportedContext,
                 e.to_string(),
                 false,
@@ -809,7 +568,7 @@ impl ModelProcess {
             })?;
         // Dispatch means the existing writer accepted this request, not proof
         // that the child consumed every byte. All subsequent outcomes retain it.
-        let after = |reason, detail| PredictionFailure::new(reason, detail, true, None);
+        let after = |reason, detail| prediction_failure(reason, detail, true, None);
         loop {
             if self.cancellation_requested(cancelled, poll) {
                 return Err(after(NoCandidateReason::Cancelled, "Cancelled"));
@@ -826,7 +585,7 @@ impl ModelProcess {
                         if cancelled.load(Ordering::Relaxed) {
                             after(NoCandidateReason::Cancelled, "Cancelled")
                         } else {
-                            PredictionFailure::new(NoCandidateReason::RuntimeFailure, e, true, None)
+                            prediction_failure(NoCandidateReason::RuntimeFailure, e, true, None)
                         }
                     })?;
                     break;
@@ -849,85 +608,11 @@ impl ModelProcess {
             }
         }
         let received = self.receive_typed_with_poll(cancelled, deadline, true, poll)?;
-        let digest = Some(received.payload_sha256);
-        match received.reply {
-            Reply::Error {
-                code,
-                id: Some(id),
-                message,
-            } if id == request_id => {
-                let reason = match code {
-                    ErrorCode::Unsupported => NoCandidateReason::Unsupported,
-                    ErrorCode::UnsupportedContext | ErrorCode::Invalid => {
-                        NoCandidateReason::UnsupportedContext
-                    }
-                    ErrorCode::Unavailable => NoCandidateReason::RuntimeFailure,
-                };
-                Err(PredictionFailure::new(
-                    reason,
-                    bridge_error(code, message),
-                    true,
-                    None,
-                ))
-            }
-            Reply::Pressure {
-                id,
-                pressure,
-                device,
-                optimizer_updates,
-            } if self.adapter.is_none()
-                && id == request_id
-                && device == "cpu"
-                && optimizer_updates == 0
-                && pressure.len() == n
-                && pressure.first() == Some(&0.0) =>
-            {
-                Ok(pressure)
-            }
-            Reply::Candidate {
-                id,
-                role,
-                mut pressure,
-                device,
-                optimizer_updates,
-            } if id == request_id
-                && self
-                    .adapter
-                    .as_ref()
-                    .is_some_and(|a| a.output_role() == role)
-                && device == "cpu"
-                && optimizer_updates == 0
-                && pressure.len() == n
-                && pressure.first() == Some(&0.0) =>
-            {
-                if role == OutputRole::PressureCorrection {
-                    let prior = input.context.prior().ok_or_else(|| {
-                        after(
-                            NoCandidateReason::UnsupportedContext,
-                            "Correction requires prior pressure",
-                        )
-                    })?;
-                    for (p, previous) in pressure.iter_mut().zip(prior.values) {
-                        *p += *previous;
-                        if !p.is_finite() {
-                            return Err(PredictionFailure::new(
-                                NoCandidateReason::InvalidOutput,
-                                "Nonfinite reconstructed pressure",
-                                true,
-                                digest,
-                            ));
-                        }
-                    }
-                }
-                Ok(pressure)
-            }
-            _ => Err(PredictionFailure::new(
-                NoCandidateReason::InvalidOutput,
-                "CPU pressure reply shape/gauge/correlation mismatch",
-                true,
-                digest,
-            )),
-        }
+        input.validate_adapter_reply(
+            received.reply,
+            self.adapter.output_role(),
+            received.payload_sha256,
+        )
     }
 }
 fn adapter_request(
@@ -942,7 +627,7 @@ fn adapter_request(
             .values()
             .any(|s| *s == InputSemantic::PreviousPressure);
     if id - 1 < adapter.context().minimum_native_steps || (prior_needed && c.prior().is_none()) {
-        return Err(PredictionFailure::new(
+        return Err(prediction_failure(
             NoCandidateReason::UnsupportedContext,
             "Required native prefix or prior pressure is missing",
             false,
@@ -959,65 +644,11 @@ fn adapter_request(
             c.prior().is_some(),
         )
         .map_err(|e| {
-            PredictionFailure::new(NoCandidateReason::Unsupported, e.to_string(), false, None)
+            prediction_failure(NoCandidateReason::Unsupported, e.to_string(), false, None)
         })?;
-    let counts = c.grid().counts();
-    let mut fields = serde_json::Map::new();
-    for (name, semantic) in adapter.inputs() {
-        let (values, units, scalar) = match semantic {
-            InputSemantic::Rhs => (c.rhs().to_vec(), "m3/s2", false),
-            InputSemantic::InitialResidual => (input.residual.to_vec(), "m3/s2", false),
-            InputSemantic::PreviousPressure => (
-                c.prior()
-                    .ok_or_else(|| {
-                        PredictionFailure::new(
-                            NoCandidateReason::UnsupportedContext,
-                            "Previous pressure unavailable",
-                            false,
-                            None,
-                        )
-                    })?
-                    .values
-                    .to_vec(),
-                "Pa",
-                false,
-            ),
-            InputSemantic::Density => (vec![c.density()], "kg/m3", true),
-            InputSemantic::Dt => (vec![c.dt()], "s", true),
-            InputSemantic::X | InputSemantic::Y | InputSemantic::Z => {
-                let axis = match semantic {
-                    InputSemantic::X => 0,
-                    InputSemantic::Y => 1,
-                    _ => 2,
-                };
-                let mut values = Vec::with_capacity(c.grid().cell_len());
-                for k in 0..counts[2] {
-                    for j in 0..counts[1] {
-                        for i in 0..counts[0] {
-                            values.push(
-                                c.grid().cell_position([i, j, k]).ok_or_else(|| {
-                                    PredictionFailure::new(
-                                        NoCandidateReason::UnsupportedContext,
-                                        "Coordinate unavailable",
-                                        false,
-                                        None,
-                                    )
-                                })?[axis],
-                            );
-                        }
-                    }
-                }
-                (values, "m", false)
-            }
-        };
-        fields.insert(name.clone(),json!({"semantic":semantic,"units":units,"association":if scalar {"global"}else{"cell"},"dimensions":if scalar {[1,1,1]}else{counts},"scalar":"f64","layout":"x_fast","values":values}));
-    }
-    Ok(
-        json!({"kind":"predict","schema":"rheon-pressure-context-request-v1","id":id,"stage":rheon::solver_provider::context::STAGE_CONTRACT,
-        "context":{"run_id":c.run_id(),"generation":c.generation(),"mode":match c.mode(){rheon::solver_provider::context::PressureContextMode::AcceptedCandidate=>"accepted_candidate",rheon::solver_provider::context::PressureContextMode::DiagnosticCandidate=>"diagnostic_candidate"},"interval_start_s":c.interval_start(),"interval_end_s":c.interval_end(),"dt_s":c.dt(),"grid":{"counts_xyz":counts,"spacing_xyz_m":c.grid().spacing(),"origin_xyz_m":c.grid().origin()},
-        "prior":c.prior().map(|p|json!({"generation":p.generation,"interval_end_s":p.interval_end,"status":match p.status {rheon::solver_provider::context::PressureHistoryStatus::Accepted=>json!({"kind":"accepted"}),rheon::solver_provider::context::PressureHistoryStatus::Diagnostic{qualified}=>json!({"kind":"diagnostic","qualified":qualified})}}))},"inputs":fields}),
-    )
+    input.adapter_request(adapter.inputs())
 }
+
 impl Drop for ModelProcess {
     fn drop(&mut self) {
         self.stop.store(true, Ordering::Relaxed);
@@ -1048,7 +679,7 @@ mod tests {
             )
             .is_err()
         );
-        let invalid = json!({"kind":"pressure","id":16,"device":"cpu","optimizer_updates":0,"pressure":vec![0.0;65537]});
+        let invalid = json!({"kind":"candidate","role":"full_pressure","id":16,"device":"cpu","optimizer_updates":0,"pressure":vec![0.0;65537]});
         assert!(serde_json::from_value::<Reply>(invalid).is_err());
         assert!(matches!(serde_json::from_str::<Reply>(r#"{"kind":"error","code":"unsupported_context","id":1,"message":"native prefix required"}"#).unwrap(), Reply::Error { code: ErrorCode::UnsupportedContext, id: Some(1), .. }));
     }
