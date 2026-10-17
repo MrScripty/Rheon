@@ -5,6 +5,56 @@ The desktop keeps the existing CPU solver and egui/eframe renderer. It displays
 perspective voxel concentration surfaces, the rotating emitter, the unit box
 and sampled worker positions. Surface threshold changes only the preview.
 
+## External live experiment
+
+Open an independently published current experiment beside Tuldok:
+
+```sh
+cargo run --offline --locked --release --features desktop --bin rheon-desktop -j 2 -- \
+  --live-project ../live-migration/frame.json \
+  --live-activity ../live-migration/activity.json
+```
+
+`--live-project` selects the atomic frame JSON publication directly. Activity
+defaults to `activity.json` beside that file; `--live-activity` selects a different
+current activity publication. This mode does not open a Tuldok project manifest,
+execute a model, start a solver or grant Run custody. Collision execution/config
+cannot be combined with live observation. The smaller 500×400 minimum window
+allows a separate Tuldok window beside it. Back to simulation returns to the
+ordinary desktop controls without submitting work.
+
+The reader accepts the current observer's schema-1 frame and activity JSON.
+Progress/state/timestamps are external observations; the displayed scientific
+frame has its own session/sequence/state and may be older than current progress.
+Failure and missing publications remain visible while the last valid frame stays
+available. Pressure labels and source metadata are preserved, including rejection
+or fallback descriptions. Observing a completed publication does not establish a
+successful AI solve, model qualification or execution under a new runtime.
+
+The frame supplies exact XYZ counts, physical extents and X-fast field order.
+The orbit view preserves physical aspect ratio; the XY voxel map and marked Z
+cell-centre plane use the same geometry. Hover a voxel for its supplied numeric
+value. Pressure uses Pa and a symmetric signed colour scale. Cubic spacing is
+shown from extents/counts; a noncubic source is explicitly outside cubic-model
+qualification. An explicitly supplied `cell_size_m` must agree with all axes.
+The frame contract has zero origin. Unsupported geometries are not resampled.
+
+Tracer and pressure fields are optional individually. A pressure-only scientific
+capture explicitly says tracer was not supplied; it does not fabricate zeros or
+substitute a different field. Optional `forcing` contains only declared `regime`
+and `amplitude_m_s2`; the UI does not infer a measured force vector or forcing
+field. Missing force metadata is labelled. Optional finite positive timestep and
+density and a bounded source-provenance object retain the producer's declarations.
+
+Only one dense frame is retained and a file is decoded only when its identity,
+size or modification time changes. No history directory is scanned or loaded.
+Frame input is capped at 2 MiB and 65,536 cells; activity is capped at 64 KiB and
+source metadata at 8 KiB. Dense tracer/pressure payload is at most 768 KiB;
+temporary JSON, painting and allocator overhead are additional. Malformed,
+nonfinite, wrong-shape, oversized or symlink publications are refused. Input
+errors never start replacement execution. Current-window and scientific parity
+qualification remain separate from headless egui/parser tests.
+
 The default material scene uses water, a 1 m cube, initial vacuum and Earth
 gravity. Domain, Fluid material, Emitter, Simulation, CPU workers, Viewport,
 Diagnostics and Results have independently collapsible sections. Material controls

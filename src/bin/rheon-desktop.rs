@@ -42,6 +42,8 @@ mod history;
 mod identity;
 #[path = "desktop/inspector.rs"]
 mod inspector;
+#[path = "desktop/live_project.rs"]
+mod live_project;
 #[path = "desktop/particle_view.rs"]
 mod particle_view;
 #[path = "desktop/run_set_view.rs"]
@@ -1008,6 +1010,7 @@ fn run_material(
     result
 }
 struct App {
+    live_project: Option<live_project::LiveProject>,
     ai_comparison: Option<ai_comparison::ComparisonApp>,
     archive: archive_view::ArchiveView,
     run_sets: run_set_view::RunSetView,
@@ -1059,6 +1062,7 @@ impl Default for App {
     fn default() -> Self {
         let thread_limit = available_threads();
         Self {
+            live_project: None,
             ai_comparison: None,
             archive: archive_view::ArchiveView::default(),
             run_sets: run_set_view::RunSetView::default(),
@@ -1911,6 +1915,12 @@ impl App {
 }
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        if let Some(live) = self.live_project.as_mut() {
+            if !live.show(ctx) {
+                self.live_project = None;
+            }
+            return;
+        }
         if let Some(comparison) = self.ai_comparison.as_mut() {
             if !comparison.show(ctx) {
                 self.ai_comparison = None;
@@ -2165,7 +2175,11 @@ fn main() -> eframe::Result {
         eframe::NativeOptions {
             viewport: egui::ViewportBuilder::default()
                 .with_inner_size([1250.0, 820.0])
-                .with_min_inner_size([900.0, 650.0]),
+                .with_min_inner_size(if std::env::args().any(|arg| arg == "--live-project") {
+                    [500.0, 400.0]
+                } else {
+                    [900.0, 650.0]
+                }),
             ..Default::default()
         },
         Box::new(|cc| {
@@ -2177,8 +2191,24 @@ fn main() -> eframe::Result {
             let mut app = App::default();
             let mut args = std::env::args().skip(1);
             let mut run = false;
+            let mut live_path = None;
+            let mut activity_path = None;
             while let Some(arg) = args.next() {
                 match arg.as_str() {
+                    "--live-project" => {
+                        live_path = Some(
+                            args.next()
+                                .filter(|p| !p.is_empty() && !p.starts_with("--"))
+                                .ok_or("--live-project requires a frame publication path")?,
+                        );
+                    }
+                    "--live-activity" => {
+                        activity_path = Some(
+                            args.next()
+                                .filter(|p| !p.is_empty() && !p.starts_with("--"))
+                                .ok_or("--live-activity requires an activity publication path")?,
+                        );
+                    }
                     "--collision-mesh" => {
                         app.collision.path = args
                             .next()
@@ -2196,6 +2226,19 @@ fn main() -> eframe::Result {
                     }
                     _ => return Err(format!("Unknown argument: {arg}").into()),
                 }
+            }
+            if let Some(path) = live_path {
+                if run || !app.collision.path.is_empty() {
+                    return Err(
+                        "Live observation cannot launch or configure a collision simulation".into(),
+                    );
+                }
+                app.live_project = Some(live_project::LiveProject::new(
+                    path.into(),
+                    activity_path.map(Into::into),
+                ));
+            } else if activity_path.is_some() {
+                return Err("--live-activity requires --live-project".into());
             }
             if !app.collision.path.is_empty() {
                 app.collision
