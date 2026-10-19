@@ -58,3 +58,11 @@ Generated output goes outside Git, under /workspace/rheon-fluid-audit-evidence.
 Authored probes/protocol/report and compact hash manifest go in Git. Exact
 commands and actual logs retained externally and archived durably if possible.
 No CUDA, GUI, Lean-kernel or scientific validation claims without execution.
+
+Pre-MMS extension (before the added pressure MMS is evaluated; the original
+probe campaign has run and its criteria remain unchanged): pressure MMS on
+sealed 0.5 m Neumann interval, p=1000*cos(pi*y/0.5) Pa plus arbitrary gauge, zero
+wall-normal derivative. Continuum source -lap(p)/rho integrated over each cell
+is assembled directly (never via the production operator). n=8/16/32/64,
+both pressure implementations. Require RMS error ratio 0.22–0.28 per doubling;
+compare gauge-subtracted analytic values, not pressure magnitude.
