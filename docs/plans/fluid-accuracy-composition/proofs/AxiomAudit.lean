@@ -1,5 +1,5 @@
-import FollowOn.Publication
-import FollowOn.StokesWork
+import Publication
+import StokesWork
 import Lean.Util.CollectAxioms
 
 open Lean Elab Command

@@ -13,8 +13,8 @@
   "source_files": [
     {
       "path": "docs/plans/fluid-accuracy-composition/execution-ledger.md",
-      "bytes": 2408,
-      "sha256": "8e90540bd0ba7f339b76cd175ae4466378c2bd559cc20eb6b05824d0c15d36e0"
+      "bytes": 3021,
+      "sha256": "839f29b69accfbfa8687a089ba87fee64f32efecc00ac8b268bee84e854cc64f"
     },
     {
       "path": "docs/plans/fluid-accuracy-composition/issues.md",
@@ -23,8 +23,33 @@
     },
     {
       "path": "docs/plans/fluid-accuracy-composition/plan.md",
-      "bytes": 18348,
-      "sha256": "82b9224097141ab4e319b10630d7411f3835d9f6e8dd97e3b38fea83bbfcada0"
+      "bytes": 18343,
+      "sha256": "0e94fafc9d48219a7faab3704650b17c66c15c0c62a425e9f8650e2a168ba561"
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/proofs/AxiomAudit.lean",
+      "bytes": 2097,
+      "sha256": "34c181e188f90675f63a36007d62bb22d3b97f58dd51c4a42f112df1067ba96f"
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/proofs/Publication.lean",
+      "bytes": 2626,
+      "sha256": "aa42e9da0517bf36b9cd8660511939f1f21f3669a9e998398a9995df830370f7"
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/proofs/README.md",
+      "bytes": 1481,
+      "sha256": "49cc25b6a75a4ba7024b2fe82067528995c20e355fb5b9c2eb810dd52255eb62"
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/proofs/StokesWork.lean",
+      "bytes": 5241,
+      "sha256": "25c7c92eb4df604276cc349da03cdc35c9d17069dbb9af7d023c0637aee24fa5"
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/proofs/check.py",
+      "bytes": 2464,
+      "sha256": "48ca2f98bc19133af47356b1da2e3ef181f8761cbdce8075a0c40c066a224460"
     },
     {
       "path": "docs/plans/fluid-accuracy-composition/reports/architecture.md",
@@ -38,13 +63,13 @@
     },
     {
       "path": "docs/plans/fluid-accuracy-composition/reports/qualification.md",
-      "bytes": 7974,
-      "sha256": "27b104a7129af3c254e552f4d4b6e7f90eaf5c66f5b6d4633738e5b298676171"
+      "bytes": 8874,
+      "sha256": "d382aa2a6efc15ef0421e93c09265f9458caf3c484b09b64a098105aa7201eef"
     },
     {
       "path": "docs/plans/fluid-accuracy-composition/reports/reviews.md",
-      "bytes": 3956,
-      "sha256": "def317309645f9215037eb0431775a9845a30860c4d09fd6f0c31eb5d853a73d"
+      "bytes": 4314,
+      "sha256": "3eb980aa2a3aacff44e712338bd4127f505d73b4f239be80930bf27e7ad95d6a"
     },
     {
       "path": "docs/plans/fluid-accuracy-composition/reports/verification.md",
@@ -55,31 +80,6 @@
       "path": "docs/plans/fluid-accuracy-composition/reports/workflow-preview.html",
       "bytes": 31477,
       "sha256": "b729ea0da75cbde9a322a0760fb962347b561d0cd6dced4d279ce3a13818ebfe"
-    },
-    {
-      "path": "proofs/FollowOn/AxiomAudit.lean",
-      "bytes": 2115,
-      "sha256": "b168416650d849064553a13dbcc20d8dcc51ca3fea30023618e09166d1f785ab"
-    },
-    {
-      "path": "proofs/FollowOn/Publication.lean",
-      "bytes": 2626,
-      "sha256": "aa42e9da0517bf36b9cd8660511939f1f21f3669a9e998398a9995df830370f7"
-    },
-    {
-      "path": "proofs/FollowOn/README.md",
-      "bytes": 1393,
-      "sha256": "f950581266ce20e4a9080a9f9faafbcd3e919c0b82304edb5b4aab3b734ba7bc"
-    },
-    {
-      "path": "proofs/FollowOn/StokesWork.lean",
-      "bytes": 5241,
-      "sha256": "25c7c92eb4df604276cc349da03cdc35c9d17069dbb9af7d023c0637aee24fa5"
-    },
-    {
-      "path": "proofs/FollowOn/check.py",
-      "bytes": 2410,
-      "sha256": "577d8a6df741fb1fbcd9332ad5f9b4b69ea2695ae4eda959a94cf9fc93215d3e"
     }
   ],
   "evidence_files": [
@@ -94,9 +94,19 @@
       "sha256": "a1e60c644d3e8728e86800bd70bd2b04134d357f43f55863f96c0e91d9d28a22"
     },
     {
+      "path": "follow-on-check-final.log",
+      "bytes": 191,
+      "sha256": "1615b7d307fe25cc1978ecd5c9eb5cd343d1b819901d7644b0fa18cb108f01e3"
+    },
+    {
       "path": "follow-on-check-first-attempt.log",
       "bytes": 89,
       "sha256": "9b91bc870eb76098fcafc46d797c43984cc0cc6d1b3792289218c2ea829095fc"
+    },
+    {
+      "path": "follow-on-check-placement-attempt.log",
+      "bytes": 79,
+      "sha256": "cb6d9617ec2316a26275ca842051fa949aa95dc460eea4fdf046a4e1283fba2e"
     },
     {
       "path": "follow-on-check-second-attempt.log",
@@ -164,6 +174,61 @@
       "sha256": "111a33401cdb19e7264f79c2a2327828e3e22cb2b6c41bc6aa7b705e87201ec6"
     },
     {
+      "path": "kernel-final/Publication.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "kernel-final/Publication.olean",
+      "bytes": 59768,
+      "sha256": "bb3032b091a6ff858663932576e1493203897282632ec5795323076ed3a4ccb0"
+    },
+    {
+      "path": "kernel-final/StokesWork.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "kernel-final/StokesWork.olean",
+      "bytes": 288104,
+      "sha256": "af1e4097ecb51fa6b75bf3278a4c18ac907bbbe176547c57d21e5dd526c21b4e"
+    },
+    {
+      "path": "kernel-final/admitted-proof.lean",
+      "bytes": 2178,
+      "sha256": "2b22724b093fc1ec38c1f5bf0d35d095540417aac116baf6ec7d7fea4a1287bb"
+    },
+    {
+      "path": "kernel-final/admitted-proof.log",
+      "bytes": 243,
+      "sha256": "61b6202a5c45678b447edf0983691723b81811e922f862c984d105452df85950"
+    },
+    {
+      "path": "kernel-final/axiom-audit.log",
+      "bytes": 1959,
+      "sha256": "49b1346d6df3d0ee42a8ed7442c575eaf6f55ffa819587a5cc133f4f066001a5"
+    },
+    {
+      "path": "kernel-final/custom-axiom.lean",
+      "bytes": 2164,
+      "sha256": "7649e7168a4abf85a106ae2907df2888695dfd7d7553f7b970a8f15cddd84421"
+    },
+    {
+      "path": "kernel-final/custom-axiom.log",
+      "bytes": 148,
+      "sha256": "523d59c210792eeb0cbc5f08b9631873bfa1e2a857fe3b608523a823f165e07e"
+    },
+    {
+      "path": "kernel-final/skipped-expected.lean",
+      "bytes": 2111,
+      "sha256": "e26711b833ec95d8d1fa075de45643d7c5c56f7aca27bbbf598f6c3bcf98b345"
+    },
+    {
+      "path": "kernel-final/skipped-expected.log",
+      "bytes": 2041,
+      "sha256": "de2aecb91941cb0e921180ff3e151b89bd9808549c6b5aed956c8734374e3d47"
+    },
+    {
       "path": "kernel-first-attempt/FollowOn/Publication.olean",
       "bytes": 59896,
       "sha256": "37f197740301a8f2cb5738c53ec19c1b7e2512b7678f8f810afe235902a37241"
@@ -177,6 +242,11 @@
       "path": "kernel-first-attempt/StokesWork.log",
       "bytes": 212,
       "sha256": "1c4133580cc4c5270af3ddfb250441cf9641c4d3d12fe5240d5afd8b144393de"
+    },
+    {
+      "path": "kernel-placement-attempt/Publication.log",
+      "bytes": 177,
+      "sha256": "125483a9380f64299ed9f89a62fd9375255f4836d59ebbb32ff2f53218ffe4a7"
     },
     {
       "path": "kernel-second-attempt/FollowOn/Publication.olean",
@@ -269,6 +339,11 @@
       "sha256": "90f38f05070c036f5650f558ae9c9a728b8527ba71529a3c93cb9ea9fa100f35"
     },
     {
+      "path": "root-source-gate.log",
+      "bytes": 62,
+      "sha256": "5cc67e5a907b0c750d5722ca1e16ee5ba6ad261f77f17a12cd378acb1bc0c812"
+    },
+    {
       "path": "workflow-preview-check.py",
       "bytes": 3355,
       "sha256": "b31a43bcbcc194624e196097b23e8cbc013b5ee9a425c62dcf8f020c489a2ec6"
@@ -279,5 +354,7 @@
       "sha256": "deb883e33b81cfa0315f9bbd040e034a5bef599ff40941a55ab3c2d4449e46f0"
     }
   ],
-  "excluded": "This manifest excludes itself; screenshots are local only and excluded from Library bundle. Dependency/build caches and tools are not Git inputs."
+  "excluded": "This manifest excludes itself; screenshots are local only and excluded from Library bundle. Dependency/build caches and tools are not Git inputs.",
+  "accepted_proof_evidence": "follow-on-check-final.log",
+  "accepted_kernel_directory": "kernel-final"
 }

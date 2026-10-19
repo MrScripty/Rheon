@@ -3,11 +3,11 @@
 These sources are deliberately outside `Rheon.lean` and the historical
 `source-inventory.json`. They do not extend the root's old qualification receipt.
 Use the root `lean-toolchain` and pinned `lake-manifest.json` dependencies.
-From `proofs/`, after dependencies are available:
+From the repository root `proofs/` directory (the Lake project), after dependencies are available:
 
 ```sh
 lake build Mathlib.Data.Real.Basic Mathlib.Algebra.BigOperators.Ring.Finset Mathlib.Algebra.Order.BigOperators.Group.Finset Mathlib.Data.Fintype.Fin Mathlib.Tactic.Linarith Mathlib.Tactic.Ring
-python3 FollowOn/check.py ../.generated/fluid-plan-proofs
+python3 ../docs/plans/fluid-accuracy-composition/proofs/check.py ../.generated/fluid-plan-proofs
 ```
 
 Publication models checked immutable candidates and checked-predicate preservation;

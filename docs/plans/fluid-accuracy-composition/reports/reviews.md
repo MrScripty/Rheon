@@ -24,3 +24,5 @@ Math review found no high-severity equation/sign/unit formulation error beyond t
 - All production resolution claims remain pending. Reviews qualify this proposal, not native implementations or experiments.
 
 standards_review final recheck: S1–S3 resolved, no material standards blocker. Rechecked pre-final plan SHA256 `3cbeccf50939f71544740162d985fb63f190ec9a19eabd997de8f5d14a3db472`; verification `8f61deaee458c491eef69c091524aaeab032f17b31796d6c4c207db5d40ddcb9`. Subsequent changes only finalize actual qualification/status and correct Markdown flux notation.
+
+Final delivery correction: the root Lean inventory checker recursively inventories all root `proofs/` files. Opt-in sources moved beside this plan, not into that tree; no checker/inventory change. Final-location kernel/axiom and unchanged root inventory gates passed. This is source placement and qualification, not new mathematics or production admission.

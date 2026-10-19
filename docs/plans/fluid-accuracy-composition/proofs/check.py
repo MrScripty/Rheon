@@ -9,10 +9,10 @@ import argparse, os, subprocess
 parser = argparse.ArgumentParser()
 parser.add_argument('output', type=Path)
 args = parser.parse_args()
-root = Path(__file__).resolve().parents[1]
+source = Path(__file__).resolve().parent
+root = source.parents[3] / 'proofs'
 out = args.output.resolve()
 out.mkdir(parents=True, exist_ok=True)
-(out / 'FollowOn').mkdir(exist_ok=True)
 env = os.environ.copy()
 # lake env prepends its configured paths, retaining this additional import root.
 env['LEAN_PATH'] = str(out) + os.pathsep + env.get('LEAN_PATH', '')
@@ -29,10 +29,10 @@ def run(name, command, expected_error=None):
     print(f'PASS {name}')
 
 for module in ['Publication', 'StokesWork']:
-    run(module, ['lake', 'env', 'lean', '-o', str(out/'FollowOn'/f'{module}.olean'),
-                 f'FollowOn/{module}.lean'])
-run('axiom-audit', ['lake', 'env', 'lean', 'FollowOn/AxiomAudit.lean'])
-audit = (root/'FollowOn/AxiomAudit.lean').read_text()
+    run(module, ['lake', 'env', 'lean', '--root='+str(source), '-o', str(out/f'{module}.olean'),
+                 str(source / f'{module}.lean')])
+run('axiom-audit', ['lake', 'env', 'lean', '--root='+str(source), str(source / 'AxiomAudit.lean')])
+audit = (source / 'AxiomAudit.lean').read_text()
 probes = [
     ('custom-axiom', audit.replace('open Lean Elab Command',
       'namespace Rheon.FollowOn\naxiom injected : False\nend Rheon.FollowOn\nopen Lean Elab Command'),
@@ -46,5 +46,5 @@ probes = [
 for name, source, expected in probes:
     path = out / f'{name}.lean'
     path.write_text(source)
-    run(name, ['lake', 'env', 'lean', str(path)], expected)
+    run(name, ['lake', 'env', 'lean', '--root='+str(out), str(path)], expected)
 print('PASS isolated follow-on kernel/axiom qualification (not Rust/physics validation)')

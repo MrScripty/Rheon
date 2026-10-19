@@ -13,3 +13,7 @@ Next implementation slice remains G1. Method-selection and experimental-validati
 
 - Final pinned kernel checks passed both modules (12 theorem statements), a 25-declaration axiom audit and all 3 actual negative probes. Three normal dependency source-build commands succeeded after unavailable cache retrieval. Development import/tactic failures retained separately. No full-root qualification or Rust/physics/native graph claim added.
 - Prototype source-bound browser checks passed; 41 local links, Markdown tables, Python syntax, protected source/pins and staged whitespace checked. Content is qualified; focused draft publication follows.
+
+- Opened draft PR120 from content commit 788d5e5163d7153b726b71a7168da9311bc60850. Final gate inspection found root source-inventory recursively rejects extra Lean files, so opt-in proofs moved beside the plan; root checker/inventory remain unchanged. Requalified final paths and recorded the correction rather than weakening the gate.
+
+- Final plan-local kernel run returned exit 0: both modules, 25-declaration audit and 3 negative probes passed; unchanged root exact-source/dependency gate passed. P0 proposal/proof artifact accepted for delivery in draft PR120; production stays Deferred, next G1 unstarted.
