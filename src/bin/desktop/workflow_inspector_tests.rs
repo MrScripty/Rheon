@@ -107,8 +107,8 @@ fn c1b2_projection_profile_refusal_clears_cached_g1_evidence_and_gesture() {
         } else {
             projection::ProjectionTermination::capture(
                 &owner.snapshot(),
-                RuntimeTerminationCause::Completed,
-                "no attempted interval",
+                RuntimeTerminationCause::Cancelled,
+                "cancelled before any numerical attempt",
                 None,
             )
             .unwrap()
@@ -146,7 +146,7 @@ fn c1b2_projection_profile_refusal_clears_cached_g1_evidence_and_gesture() {
         drop(source);
         let mut future_writer = StepRecorder::create(&future, future_run, limits).unwrap();
         future_writer
-            .finish("completed", "unsupported future profile fixture", Some(0))
+            .finish("cancelled", "unsupported future profile fixture", Some(0))
             .unwrap();
         drop(future_writer);
         assert!(
