@@ -316,6 +316,8 @@ impl RuntimeTermination {
     }
 
     pub fn decode(run: &RecordingRun, status: &RecordingStatus) -> Result<Self, RecordingError> {
+        let workflow = crate::recording::workflow::split_terminal_status(status)?;
+        let status = workflow.as_ref().map_or(status, |(status, _, _)| status);
         if status.outcome == "active" {
             return Err(RecordingError::Unsupported("runtime active termination"));
         }
@@ -353,6 +355,14 @@ impl RuntimeTermination {
             source,
         };
         termination.validate(run)?;
+        if let Some((_, attempt, source)) = &workflow {
+            crate::recording::workflow::validate_terminal_binding(
+                run,
+                &termination,
+                attempt,
+                *source,
+            )?;
+        }
         if status.outcome != cause.outcome()
             || status.accepted_generation != Some(accepted_generation)
         {
@@ -407,7 +417,7 @@ impl RuntimeTermination {
         Ok(())
     }
 
-    fn encode(&self) -> Result<String, RecordingError> {
+    pub(in crate::recording) fn encode(&self) -> Result<String, RecordingError> {
         let mut encoder = Encoder::default();
         encoder.0.extend_from_slice(&self.source);
         encoder.u8(match self.cause {
@@ -789,7 +799,7 @@ fn get_context(decoder: &mut Decoder) -> Result<AcceptedPressureContextStamp, Re
         rhs_sha256: decoder.array()?,
     })
 }
-fn put_binding(
+pub(in crate::recording) fn put_binding(
     encoder: &mut Encoder,
     binding: &ContextProviderIdentity,
 ) -> Result<(), RecordingError> {
@@ -807,7 +817,9 @@ fn put_binding(
     encoder.string(&binding.runtime)?;
     encoder.string(&binding.source_revision)
 }
-fn get_binding(decoder: &mut Decoder) -> Result<ContextProviderIdentity, RecordingError> {
+pub(in crate::recording) fn get_binding(
+    decoder: &mut Decoder,
+) -> Result<ContextProviderIdentity, RecordingError> {
     Ok(ContextProviderIdentity {
         id: decoder.string()?,
         version: decoder.string()?,

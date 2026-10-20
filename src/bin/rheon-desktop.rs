@@ -58,6 +58,8 @@ mod settings;
 mod transport_view;
 #[path = "desktop/viewport.rs"]
 mod viewport;
+#[path = "desktop/workflow_inspector.rs"]
+mod workflow_inspector;
 use eframe::egui;
 use history::{LiveHistory, PreviewFrame};
 use rheon::{
@@ -519,7 +521,7 @@ fn run_simulations(
                 .begin_carrier(sim.native()?, &path, request.recording_limits)
                 .map_err(|e| format!("Carrier recording start at {} failed: {e}", path.display()))?
         };
-        use rheon::recording::provider::runtime::{RuntimeTermination, RuntimeTerminationCause};
+        use rheon::recording::provider::runtime::RuntimeTerminationCause;
         let mut termination_cause = RuntimeTerminationCause::StorageFailure;
         let result: Result<(), String> = (|| {
             if let Some(configured) = sim.configured() {
@@ -670,11 +672,12 @@ fn run_simulations(
             ),
         };
         let terminal = if let Some(configured) = sim.configured() {
-            RuntimeTermination::capture(
+            rheon::recording::workflow::WorkflowTermination::capture(
                 &configured.snapshot(),
                 termination_cause,
                 &accepted_session::recording_detail(&detail),
                 configured.runtime_observation(),
+                configured.workflow_attempt(),
             )
             .and_then(|termination| termination.finish(&mut recorder))
         } else {
@@ -1015,6 +1018,7 @@ struct App {
     configured_controls: configured_controls::ConfiguredControls,
     saved_comparison: saved_comparison::SavedComparisonPage,
     saved_comparison_active: bool,
+    workflow: workflow_inspector::WorkflowInspector,
     comparison_fields: comparison_field_view::ComparisonFieldView,
     collision: collision_ui::CollisionControls,
     selected: PressureImplementation,
@@ -1066,6 +1070,7 @@ impl Default for App {
             configured_controls: Default::default(),
             saved_comparison: saved_comparison::SavedComparisonPage::default(),
             saved_comparison_active: false,
+            workflow: Default::default(),
             comparison_fields: Default::default(),
             collision: collision_ui::CollisionControls::default(),
             selected: PressureImplementation::default(),
@@ -1132,6 +1137,10 @@ impl App {
                     },
                 );
                 self.run_sets.controls(ui, self.worker.is_none());
+                let workflow = ui.button("Inspect executed workflow");
+                if workflow.clicked() {
+                    self.workflow.open_from(workflow.id);
+                }
                 if ui
                     .add_enabled(
                         self.worker.is_none(),
@@ -1190,6 +1199,25 @@ impl App {
         self.timeline_step = 0;
         self.track = 0;
         self.follow_live = true;
+    }
+    fn workflow_window(&mut self, ctx: &egui::Context) {
+        let inspector = if self.archive.active {
+            Some(&self.archive.inspector)
+        } else {
+            self.history.as_ref().and_then(|history| {
+                if self
+                    .running_request
+                    .as_ref()
+                    .is_some_and(|r| r.material.is_none())
+                {
+                    history.carrier_inspectors.get(self.track)
+                } else {
+                    Some(&history.inspector)
+                }
+            })
+        };
+        self.workflow.select(inspector);
+        self.workflow.show(ctx);
     }
     fn refresh_threads(&mut self, available: usize) {
         self.thread_limit = available.max(1);
@@ -1927,10 +1955,31 @@ impl eframe::App for App {
             ctx.send_viewport_cmd(egui::ViewportCommand::Close);
         }
         if self.saved_comparison_active {
+            let mut workflow_action = None;
             egui::TopBottomPanel::top("comparison-navigation").show(ctx, |ui| {
                 if ui.button("Back to simulation").clicked() {
                     self.saved_comparison_active = false;
                 }
+                ui.horizontal(|ui| {
+                    for (side, label) in [
+                        (
+                            comparison_archive::Side::Reference,
+                            "Inspect reference workflow",
+                        ),
+                        (
+                            comparison_archive::Side::Candidate,
+                            "Inspect candidate workflow",
+                        ),
+                    ] {
+                        let response = ui.add_enabled(
+                            self.saved_comparison.selected_pair().is_some(),
+                            egui::Button::new(label),
+                        );
+                        if response.clicked() {
+                            workflow_action = Some((side, response.id));
+                        }
+                    }
+                });
             });
             egui::CentralPanel::default().show(ctx, |ui| {
                 egui::ScrollArea::vertical()
@@ -1941,6 +1990,17 @@ impl eframe::App for App {
                             .show(ui, self.saved_comparison.selected_pair());
                     });
             });
+            if let Some((side, trigger)) = workflow_action {
+                let loaded = self.saved_comparison.load_selected_workflow(side);
+                self.workflow.load_comparison(loaded);
+                self.workflow.open_from(trigger);
+            }
+            let key = self
+                .workflow
+                .comparison_side()
+                .and_then(|side| self.saved_comparison.workflow_key(side));
+            self.workflow.validate_comparison(key.as_ref());
+            self.workflow.show(ctx);
             return;
         }
         if self.run_sets.active {
@@ -1972,7 +2032,14 @@ impl eframe::App for App {
             return;
         }
         if self.archive.active {
+            egui::TopBottomPanel::bottom("archive-workflow-action").show(ctx, |ui| {
+                let workflow = ui.button("Inspect executed workflow");
+                if workflow.clicked() {
+                    self.workflow.open_from(workflow.id);
+                }
+            });
             self.archive.show(ctx);
+            self.workflow_window(ctx);
             return;
         }
         if self.playing {
@@ -2146,6 +2213,7 @@ impl eframe::App for App {
                     self.history.as_ref().map(|h| &h.inspector),
                 )
             });
+        self.workflow_window(ctx);
         if self.worker.is_some() || self.playing {
             ctx.request_repaint_after(Duration::from_millis(16));
         }

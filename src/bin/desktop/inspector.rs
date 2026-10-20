@@ -1,9 +1,7 @@
 //! Exact selected disk publication. The worker owns recording; UI owns selection.
 use super::export_ui::ExportFile;
 use eframe::egui;
-use rheon::recording::provider::{
-    RecordedConfiguredSession, configured_publication_with_runtime, configured_run,
-};
+use rheon::recording::provider::{RecordedConfiguredSession, configured_run};
 use rheon::recording::{
     RecordedCarrier, RecordedMaterial, RecordedStep, RecordingLimits, RecordingReader,
     StepRecorder, carrier_publication, carrier_run, material_publication, material_run,
@@ -26,6 +24,7 @@ struct State {
     carrier: Option<Arc<RecordedCarrier>>,
     configured: Option<Arc<RecordedConfiguredSession>>,
     record: Option<Arc<RecordedStep>>,
+    workflow: Option<Arc<rheon::workflow::WorkflowAttempt>>,
     field_name: String,
     scalar_index: usize,
     selected: usize,
@@ -44,6 +43,7 @@ impl Default for State {
             carrier: None,
             configured: None,
             record: None,
+            workflow: None,
             field_name: String::new(),
             scalar_index: 0,
             selected: 0,
@@ -52,6 +52,11 @@ impl Default for State {
             carrier_export: ExportFile::new(".generated/selected-carrier.vti"),
         }
     }
+}
+pub struct WorkflowSelection {
+    pub run: rheon::recording::RecordingRun,
+    pub step: Arc<RecordedStep>,
+    pub attempt: Option<Arc<rheon::workflow::WorkflowAttempt>>,
 }
 #[derive(Default)]
 pub struct Inspector(Mutex<State>);
@@ -69,7 +74,7 @@ impl Inspector {
                 "Configured constructor/header changed; accepted interval unrecorded".into(),
             );
         }
-        let step = configured_publication_with_runtime(
+        let step = rheon::recording::workflow::configured_publication_with_workflow(
             snapshot,
             recorder.recorded_count(),
             recorder.limits().max_record_bytes,
@@ -83,6 +88,41 @@ impl Inspector {
             )
         })?;
         Ok(())
+    }
+    /// Immutable selected publication for the workflow view. This performs no
+    /// I/O and never substitutes a newer publication when selection is absent.
+    pub fn workflow_selection(&self) -> Result<Option<WorkflowSelection>, String> {
+        let s = self.0.lock().map_err(|_| "Inspector owner failed")?;
+        if s.selected_step.is_some() && s.record.is_none() && !s.feedback.is_empty() {
+            return Err(s.feedback.clone());
+        }
+        Ok(match (&s.reader, &s.record) {
+            (Some(reader), Some(record)) => Some(WorkflowSelection {
+                run: reader.run().clone(),
+                step: Arc::clone(record),
+                attempt: s.workflow.clone(),
+            }),
+            _ => None,
+        })
+    }
+    pub fn workflow_identity(&self) -> Option<SessionIdentity> {
+        self.0
+            .lock()
+            .ok()?
+            .reader
+            .as_ref()
+            .map(|reader| reader.run().identity.clone())
+    }
+    /// Explicit terminal-evidence load. Call only on a user load/refresh action,
+    /// then retain the immutable result for paint.
+    pub fn load_workflow_terminal(
+        &self,
+    ) -> Result<Option<Arc<rheon::workflow::WorkflowAttempt>>, String> {
+        let s = self.0.lock().map_err(|_| "Inspector owner failed")?;
+        let reader = s.reader.as_ref().ok_or("No archive selected")?;
+        rheon::recording::workflow::terminal(reader)
+            .map(|audit| audit.and_then(|audit| audit.attempt))
+            .map_err(|error| error.to_string())
     }
     #[cfg(test)]
     pub fn selected_identity(&self) -> Option<(u64, u64, f64)> {
@@ -214,6 +254,7 @@ impl Inspector {
             s.material = None;
             s.carrier = None;
             s.configured = None;
+            s.workflow = None;
             s.feedback = e.clone();
         }
         result
@@ -223,10 +264,16 @@ impl Inspector {
         let reader = s.reader.as_ref().ok_or("No archive selected")?;
         let result = if reader.run().solver == rheon::recording::provider::PROFILE {
             match reader.status() {
+                Ok(status) if status.detail.starts_with("RCT2:") => {
+                    rheon::recording::workflow::terminal(reader).map(|_| ())
+                }
                 Ok(status) if status.detail.starts_with("RCT1:") => {
                     rheon::recording::provider::runtime::audit_runtime_termination(reader)
                         .map(|_| ())
                 }
+                Ok(status) if status.detail.starts_with("RCT") => Err(
+                    rheon::recording::RecordingError::Unsupported("runtime termination version"),
+                ),
                 Ok(_) => {
                     rheon::recording::provider::verify_configured_recording(reader).map(|_| ())
                 }
@@ -241,6 +288,7 @@ impl Inspector {
             s.material = None;
             s.carrier = None;
             s.configured = None;
+            s.workflow = None;
             s.feedback = e.clone();
         }
         result
@@ -252,6 +300,7 @@ impl Inspector {
         s.material = None;
         s.carrier = None;
         s.configured = None;
+        s.workflow = None;
         s.record = None;
         s.path = None;
         s.field_name.clear();
@@ -312,6 +361,7 @@ impl Inspector {
         s.material = None;
         s.carrier = None;
         s.configured = None;
+        s.workflow = None;
         s.record = None;
         let result = s
             .reader
@@ -342,10 +392,20 @@ impl Inspector {
                 } else {
                     None
                 };
-                Ok((Arc::new(record), material, carrier, configured))
+                let workflow = if run.solver == rheon::recording::provider::PROFILE {
+                    rheon::recording::workflow::selection(
+                        s.reader.as_ref().ok_or("No archive selected")?,
+                        &record,
+                    )
+                    .map_err(|e| e.to_string())?
+                } else {
+                    None
+                };
+                Ok((Arc::new(record), material, carrier, configured, workflow))
             });
         match result {
-            Ok((record, material, carrier, configured)) => {
+            Ok((record, material, carrier, configured, workflow)) => {
+                s.workflow = workflow;
                 s.material = material;
                 s.carrier = carrier;
                 s.configured = configured;
@@ -406,7 +466,8 @@ impl Inspector {
             match reader.status() {
                 Ok(status) => {
                     if reader.run().solver == rheon::recording::provider::PROFILE
-                        && status.detail.starts_with("RCT1:")
+                        && (status.detail.starts_with("RCT1:")
+                            || status.detail.starts_with("RCT2:"))
                     {
                         match rheon::recording::provider::runtime::RuntimeTermination::decode(
                             reader.run(),
@@ -422,6 +483,12 @@ impl Inspector {
                                 ui.label(error.to_string());
                             }
                         }
+                    } else if reader.run().solver == rheon::recording::provider::PROFILE
+                        && status.detail.starts_with("RCT")
+                    {
+                        let error = "Unsupported runtime termination version".to_string();
+                        ui.label(&error);
+                        metadata_error = Some(error);
                     } else {
                         ui.small(format!("{}: {}", status.outcome, status.detail));
                     }
@@ -440,6 +507,7 @@ impl Inspector {
             s.material = None;
             s.carrier = None;
             s.configured = None;
+            s.workflow = None;
             s.feedback = error;
         }
         if !s.feedback.is_empty() {

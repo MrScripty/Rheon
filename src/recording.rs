@@ -6,6 +6,7 @@ pub mod comparison;
 pub mod diagnostic;
 mod material;
 pub mod provider;
+pub mod workflow;
 use crate::{GridGeometry, SessionIdentity, SnapshotStage};
 pub use carrier::{RecordedCarrier, carrier_publication, carrier_run};
 pub use material::{

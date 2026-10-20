@@ -356,9 +356,13 @@ fn decode_controls(
     run: &RecordingRun,
     step: &RecordedStep,
 ) -> Result<PublicationControls, RecordingError> {
-    let has_runtime = step.controls.starts_with(RUNTIME_RECEIPT);
+    let workflow = super::workflow::split_publication_controls(&step.controls)?;
+    let controls = workflow
+        .as_ref()
+        .map_or(step.controls.as_str(), |(controls, _, _)| controls.as_str());
+    let has_runtime = controls.starts_with(RUNTIME_RECEIPT);
     let mut d = Decoder::text(
-        &step.controls,
+        controls,
         if has_runtime {
             RUNTIME_RECEIPT
         } else {
@@ -396,6 +400,12 @@ fn decode_controls(
                 "runtime observation without accepted receipt",
             ))?,
         )?;
+    }
+    if let Some((_, attempt, source)) = &workflow {
+        if *source != source_binding(run) {
+            return Err(RecordingError::Invalid("workflow publication source"));
+        }
+        super::workflow::validate_publication(run, step, attempt, receipt.as_ref())?;
     }
     Ok(PublicationControls {
         carrier_stamp,
@@ -595,10 +605,25 @@ pub fn verify_configured_recording(
     // Only a digest and lineage survive each iteration, not a second field set.
     let mut previous: Option<(u64, f64, [u8; 32])> = None;
     let mut previous_time: Option<f64> = None;
+    let mut previous_native: Option<[u8; 32]> = None;
+    let mut previous_attempt_id: Option<u64> = None;
     let mut history: Option<(f64, usize, bool)> = None;
     for ordinal in 0..reader.count()? {
         let step = reader.select(ordinal)?;
         let current = RecordedConfiguredSession::decode(reader.run(), &step)?;
+        if let Some((_, attempt, _)) = super::workflow::split_publication_controls(&step.controls)?
+        {
+            if previous_native.is_some_and(|digest| digest != attempt.input_sha256) {
+                return Err(RecordingError::Invalid("workflow prior native input"));
+            }
+            if previous_attempt_id.is_some_and(|prior| attempt.attempt_id <= prior) {
+                return Err(RecordingError::Invalid(
+                    "workflow attempt identity sequence",
+                ));
+            }
+            previous_attempt_id = Some(attempt.attempt_id);
+        }
+        previous_native = Some(super::workflow::native_state_digest(&current)?);
         if let Some((start, _)) = &current.interval_pressure
             && previous_time.is_some_and(|time| time.to_bits() != start.to_bits())
         {
@@ -782,7 +807,7 @@ fn validate_pressure(p: PressureReport, accepted: bool) -> Result<(), RecordingE
 }
 // Bind each publication to its actual Session identity and immutable source
 // configuration/geometry. Caller provenance is intentionally not an identity.
-fn source_binding(run: &RecordingRun) -> [u8; 32] {
+pub(super) fn source_binding(run: &RecordingRun) -> [u8; 32] {
     let mut hash = Sha256::new();
     hash.update(run.identity.run_id.to_le_bytes());
     hash_text(&mut hash, &run.identity.source_revision);
@@ -1198,33 +1223,33 @@ fn get_pressure(d: &mut Decoder) -> Result<PressureReport, RecordingError> {
 }
 
 #[derive(Default)]
-struct Encoder(Vec<u8>);
+pub(super) struct Encoder(pub(super) Vec<u8>);
 impl Encoder {
-    fn u8(&mut self, v: u8) {
+    pub(super) fn u8(&mut self, v: u8) {
         self.0.push(v);
     }
-    fn boolean(&mut self, v: bool) {
+    pub(super) fn boolean(&mut self, v: bool) {
         self.u8(u8::from(v));
     }
-    fn u32(&mut self, v: u32) {
+    pub(super) fn u32(&mut self, v: u32) {
         self.0.extend_from_slice(&v.to_le_bytes());
     }
-    fn u64(&mut self, v: u64) {
+    pub(super) fn u64(&mut self, v: u64) {
         self.0.extend_from_slice(&v.to_le_bytes());
     }
-    fn usize(&mut self, v: usize) {
+    pub(super) fn usize(&mut self, v: usize) {
         self.u64(v as u64);
     }
-    fn f64(&mut self, v: f64) {
+    pub(super) fn f64(&mut self, v: f64) {
         self.u64(v.to_bits());
     }
-    fn string(&mut self, v: &str) -> Result<(), RecordingError> {
+    pub(super) fn string(&mut self, v: &str) -> Result<(), RecordingError> {
         bounded(v)?;
         self.u32(v.len() as u32);
         self.0.extend_from_slice(v.as_bytes());
         Ok(())
     }
-    fn text(self, prefix: &str) -> Result<String, RecordingError> {
+    pub(super) fn text(self, prefix: &str) -> Result<String, RecordingError> {
         if self.0.len() > (MAX_TEXT - prefix.len()) / 2 {
             return Err(RecordingError::Limit("configured receipt text"));
         }
@@ -1237,12 +1262,12 @@ impl Encoder {
         Ok(out)
     }
 }
-struct Decoder {
-    data: Vec<u8>,
+pub(super) struct Decoder {
+    pub(super) data: Vec<u8>,
     at: usize,
 }
 impl Decoder {
-    fn text(value: &str, prefix: &str) -> Result<Self, RecordingError> {
+    pub(super) fn text(value: &str, prefix: &str) -> Result<Self, RecordingError> {
         if value.len() > MAX_TEXT {
             return Err(RecordingError::Limit("configured metadata"));
         }
@@ -1268,7 +1293,7 @@ impl Decoder {
         }
         Ok(Self { data, at: 0 })
     }
-    fn array<const N: usize>(&mut self) -> Result<[u8; N], RecordingError> {
+    pub(super) fn array<const N: usize>(&mut self) -> Result<[u8; N], RecordingError> {
         let end = self
             .at
             .checked_add(N)
@@ -1282,29 +1307,29 @@ impl Decoder {
         self.at = end;
         Ok(value)
     }
-    fn u8(&mut self) -> Result<u8, RecordingError> {
+    pub(super) fn u8(&mut self) -> Result<u8, RecordingError> {
         Ok(self.array::<1>()?[0])
     }
-    fn boolean(&mut self) -> Result<bool, RecordingError> {
+    pub(super) fn boolean(&mut self) -> Result<bool, RecordingError> {
         match self.u8()? {
             0 => Ok(false),
             1 => Ok(true),
             _ => Err(RecordingError::Invalid("configured boolean")),
         }
     }
-    fn u32(&mut self) -> Result<u32, RecordingError> {
+    pub(super) fn u32(&mut self) -> Result<u32, RecordingError> {
         Ok(u32::from_le_bytes(self.array()?))
     }
-    fn u64(&mut self) -> Result<u64, RecordingError> {
+    pub(super) fn u64(&mut self) -> Result<u64, RecordingError> {
         Ok(u64::from_le_bytes(self.array()?))
     }
-    fn usize(&mut self) -> Result<usize, RecordingError> {
+    pub(super) fn usize(&mut self) -> Result<usize, RecordingError> {
         usize::try_from(self.u64()?).map_err(|_| RecordingError::Limit("configured integer"))
     }
-    fn f64(&mut self) -> Result<f64, RecordingError> {
+    pub(super) fn f64(&mut self) -> Result<f64, RecordingError> {
         Ok(f64::from_bits(self.u64()?))
     }
-    fn string(&mut self) -> Result<String, RecordingError> {
+    pub(super) fn string(&mut self) -> Result<String, RecordingError> {
         let len = self.u32()? as usize;
         if len > 1000 {
             return Err(RecordingError::Invalid("configured text"));
@@ -1323,7 +1348,7 @@ impl Decoder {
         self.at = end;
         Ok(text.into())
     }
-    fn end(self) -> Result<(), RecordingError> {
+    pub(super) fn end(self) -> Result<(), RecordingError> {
         if self.at != self.data.len() {
             Err(RecordingError::Invalid("configured trailing metadata"))
         } else {

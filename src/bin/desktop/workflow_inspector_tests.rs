@@ -1,0 +1,787 @@
+use super::*;
+
+fn fixture() -> Arc<WorkflowAttempt> {
+    observed_fixture(false).0
+}
+fn observed_fixture(cancel_before: bool) -> (Arc<WorkflowAttempt>, rheon::SimulationSession) {
+    use rheon::*;
+    const CAP: usize = 4 * 1024 * 1024;
+    let grid = GridGeometry::new([2; 3], [0.25; 3], [0.0; 3]).unwrap();
+    let mut session = SimulationSession::new(
+        SessionIdentity {
+            run_id: 42,
+            source_revision: "native-workflow-interaction-fixture".into(),
+        },
+        grid.clone(),
+        LiquidTransportConfig {
+            carrier: SimulationConfig {
+                density: 2.0,
+                memory_limit: CAP,
+                pressure: PressureSettings {
+                    relative_residual: 1e-10,
+                    absolute_residual: 1e-12,
+                    divergence_limit: 1e-8,
+                    max_iterations: 100,
+                },
+                actual_divergence_limit: 1e-5,
+                max_courant: 0.5,
+            },
+            represented_density: 2.0,
+            volume_stamp: VolumeStamp { id: 1, version: 0 },
+            carrier_id: 2,
+        },
+        PressureImplementation::JacobiPcgV1,
+        vec![1.0; 8],
+        CAP,
+        3,
+    )
+    .unwrap();
+    let mut workspace =
+        ProviderStepWorkspace::new(&grid, 2.0, CAP, PressureImplementation::JacobiPcgV1).unwrap();
+    let mut viscosity = ViscosityWorkspace::new(grid, CAP).unwrap();
+    let forces = [BodyForce {
+        value: [0.125, 0.0, 0.0],
+        units: ForceUnits::Acceleration,
+        region: None,
+    }];
+    let mut evidence = None;
+    let result = session.step_with_configured_pressure_observed(
+        LiquidStepInputs {
+            requested_dt: 0.0625,
+            smoke_source: None,
+            forces: &forces,
+            inlet: LiquidInlet::new(VolumeStamp { id: 3, version: 0 }, [[0.0; 2]; 3]).unwrap(),
+            source: None,
+            volume: LiquidVolumeSettings {
+                max_outward_courant: 0.5,
+                actual_divergence_limit: 1e-5,
+            },
+        },
+        &mut workspace,
+        Some((&mut viscosity, 0.0)),
+        None,
+        None,
+        |_| cancel_before,
+        7,
+        &mut evidence,
+    );
+    assert_eq!(result.is_err(), cancel_before);
+    (evidence.unwrap(), session)
+}
+
+struct Harness {
+    context: egui::Context,
+    view: WorkflowInspector,
+    time: f64,
+}
+impl Harness {
+    fn new() -> Self {
+        let mut view = WorkflowInspector::default();
+        view.set_attempt(fixture());
+        view.open();
+        Self {
+            context: egui::Context::default(),
+            view,
+            time: 0.0,
+        }
+    }
+    fn frame(&mut self, events: Vec<egui::Event>) -> egui::FullOutput {
+        self.time += 0.016;
+        self.context.run(
+            egui::RawInput {
+                time: Some(self.time),
+                screen_rect: Some(egui::Rect::from_min_size(
+                    egui::Pos2::ZERO,
+                    egui::vec2(1500.0, 1200.0),
+                )),
+                events,
+                ..Default::default()
+            },
+            |ctx| self.view.show(ctx),
+        )
+    }
+    fn click(&mut self, id: &str) -> egui::FullOutput {
+        self.frame(vec![]);
+        self.frame(vec![]);
+        let pos = self
+            .view
+            .controls
+            .get(id)
+            .unwrap_or_else(|| panic!("missing {id}"))
+            .center();
+        self.at(pos)
+    }
+    fn at(&mut self, pos: egui::Pos2) -> egui::FullOutput {
+        self.frame(vec![
+            egui::Event::PointerMoved(pos),
+            egui::Event::PointerButton {
+                pos,
+                button: egui::PointerButton::Primary,
+                pressed: true,
+                modifiers: Default::default(),
+            },
+        ]);
+        self.frame(vec![egui::Event::PointerButton {
+            pos,
+            button: egui::PointerButton::Primary,
+            pressed: false,
+            modifiers: Default::default(),
+        }])
+    }
+    fn key(&mut self, key: egui::Key) -> egui::FullOutput {
+        self.frame(vec![egui::Event::Key {
+            key,
+            physical_key: None,
+            pressed: true,
+            repeat: false,
+            modifiers: Default::default(),
+        }])
+    }
+}
+fn contains(output: &egui::FullOutput, text: &str) -> bool {
+    output.shapes.iter().any(
+        |shape| matches!(&shape.shape,egui::Shape::Text(t) if t.galley.job.text.contains(text)),
+    )
+}
+#[test]
+fn pointer_keyboard_focus_evidence_close_and_reopen_use_real_egui_events() {
+    let mut h = Harness::new();
+    h.frame(vec![]);
+    h.frame(vec![]);
+    h.click("node-1");
+    assert_eq!(h.view.selected, 1);
+    let out = h.key(egui::Key::ArrowRight);
+    assert_eq!(h.view.selected, 2);
+    assert!(contains(&out, "Requested dt"));
+    assert!(contains(&out, "6.250000000e-2 s"));
+    h.key(egui::Key::End);
+    assert_eq!(
+        h.view.attempt.as_ref().unwrap().descriptor.nodes()[h.view.selected],
+        NodeKind::Publication
+    );
+    h.key(egui::Key::Home);
+    assert_eq!(h.view.selected, 0);
+    h.click("evidence");
+    assert!(h.view.evidence);
+    assert!(contains(&h.frame(vec![]), "Input RHS SHA-256"));
+    h.click("close");
+    assert!(!h.view.open);
+    h.view.open();
+    h.frame(vec![]);
+    assert!(h.view.open);
+    assert_eq!(h.view.attempt.as_ref().unwrap().attempt_id, 7);
+    h.click("node-0");
+    h.key(egui::Key::Escape);
+    assert!(!h.view.open);
+    assert!(!h.view.evidence);
+}
+#[test]
+fn missing_and_invalid_sources_clear_the_previous_graph_and_no_node_status_is_inferred() {
+    let mut h = Harness::new();
+    assert_eq!(
+        status(
+            h.view.attempt.as_ref().unwrap(),
+            NodeKind::PressureCandidate
+        ),
+        "execution unavailable"
+    );
+    h.view.select(None);
+    assert!(h.view.attempt.is_none());
+    assert!(h.view.source.is_none());
+    h.frame(vec![]);
+    assert!(contains(&h.frame(vec![]), "no exact recorded publication"));
+    let mut bad = (*fixture()).clone();
+    bad.descriptor_sha256[0] ^= 1;
+    h.view.set_attempt(Arc::new(bad));
+    assert!(h.view.attempt.is_none());
+    assert!(
+        h.view
+            .message
+            .contains("Invalid workflow execution evidence: workflow descriptor digest")
+    );
+}
+#[test]
+fn actual_worker_archive_projection_survives_provider_removal_and_cached_paint_needs_no_source() {
+    use crate::configured_worker_tests::{Output, app, finish, launch, package, set};
+    let output = Output::new();
+    let provider = package(false, "bad_once");
+    let mut application = app(&output);
+    let root = output.0.join("workflow");
+    launch(&mut application, set(&provider), &root);
+    let revision = finish(&mut application);
+    let member = revision
+        .members
+        .iter()
+        .find(|m| m.member_id == "configured")
+        .unwrap();
+    let attempt = member.attempt.as_ref().unwrap();
+    let archive = root.join(&attempt.archive_relative_path);
+    drop(application);
+    drop(provider);
+    let inspector = Inspector::default();
+    inspector
+        .reload(&archive, rheon::recording::RecordingLimits::default())
+        .unwrap();
+    inspector.select_timestep(2).unwrap();
+    let mut h = Harness::new();
+    h.view.select(Some(&inspector));
+    let retained = h
+        .view
+        .attempt
+        .clone()
+        .expect("actual accepted workflow receipt");
+    assert_eq!(retained.publication, Some(2));
+    assert!(retained.pressure.as_ref().unwrap().rejection.is_some());
+    assert!(
+        retained
+            .nodes
+            .iter()
+            .any(|n| n.node == NodeKind::NativeFallback && n.status == NodeStatus::Selected)
+    );
+    drop(inspector);
+    std::fs::rename(&archive, archive.with_extension("retained-outside-source")).unwrap();
+    h.frame(vec![]);
+    let out = h.frame(vec![]);
+    assert!(contains(&out, "Actual pressure provider:"));
+    assert_eq!(
+        h.view.attempt.as_ref().unwrap().descriptor_sha256,
+        retained.descriptor_sha256
+    );
+}
+
+/// This prepares retained inputs only. Native qualification still operates the
+/// ordinary application through its real display, pointer and keyboard paths.
+#[test]
+#[ignore = "explicit native smoke fixture preparation; requires exclusive temporary root"]
+fn prepare_native_workflow_fixture() {
+    use crate::configured_worker_tests::{Output, app, finish, launch, package, set};
+    use sha2::{Digest, Sha256};
+    let root = std::path::PathBuf::from(
+        std::env::var_os("RHEON_WORKFLOW_NATIVE_ROOT").expect("explicit temporary output root"),
+    );
+    assert!(root.starts_with(std::env::temp_dir()));
+    std::fs::create_dir(&root).unwrap();
+    let mut provider = package(false, "bad_once");
+    let retained_provider = root.join("provider");
+    std::fs::rename(&provider.root, &retained_provider).unwrap();
+    provider.root = retained_provider;
+    provider.manifest = provider.root.join("adapter.json");
+    let code_path = provider.root.join("adapter.py");
+    let code = std::fs::read_to_string(&code_path).unwrap().replace(
+        "    result = solve(a, rhs)",
+        "    if (root / 'slow').exists(): time.sleep(0.4)\n    result = solve(a, rhs)",
+    );
+    std::fs::write(code_path, &code).unwrap();
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&provider.manifest).unwrap()).unwrap();
+    manifest["files"]["adapter.py"]["bytes"] = serde_json::json!(code.len());
+    manifest["files"]["adapter.py"]["sha256"] =
+        serde_json::json!(format!("{:x}", Sha256::digest(code.as_bytes())));
+    std::fs::write(&provider.manifest, serde_json::to_vec(&manifest).unwrap()).unwrap();
+    let mut revision = set(&provider);
+    for member in &mut revision.members {
+        member.spec.constructor.max_steps = 64;
+        member.spec.future.requested_steps = 64;
+        member.spec.future.recording.max_records = 65;
+        member.spec = crate::run_sets::configured::FrozenConfiguredSpec::new(
+            member.spec.constructor.clone(),
+            member.spec.future.clone(),
+        )
+        .unwrap();
+    }
+    revision.validate().unwrap();
+    let output = Output::new();
+    let mut application = app(&output);
+    launch(&mut application, revision, &root.join("set"));
+    let completed = finish(&mut application);
+    std::fs::write(root.join("manifest-path.txt"), &application.run_sets.path).unwrap();
+    assert_eq!(completed.members.len(), 2);
+    drop(application);
+    std::fs::remove_file(provider.root.join("first-request-observed")).unwrap();
+    std::fs::write(
+        provider.root.join("slow"),
+        b"bounded native interaction delay",
+    )
+    .unwrap();
+    // The external native procedure owns this retained disposable root and its
+    // eventual cleanup; the provider must remain available for the live rerun.
+    std::mem::forget(provider);
+    println!("NATIVE_WORKFLOW_FIXTURE_READY {}", root.display());
+}
+
+#[test]
+fn interval_replacement_preserves_node_focus_pan_zoom_and_text_loop_equivalence() {
+    let mut h = Harness::new();
+    h.frame(vec![]);
+    h.frame(vec![]);
+    h.click("node-2");
+    h.view.zoom = 1.1;
+    h.view.pan = egui::vec2(-30.0, -30.0);
+    let focused = h.context.memory(|memory| memory.focused());
+    let mut next = (*fixture()).clone();
+    next.attempt_id = 8;
+    next.accepted_generation = 1;
+    next.attempted_generation = 2;
+    next.publication = Some(2);
+    next.interval_start = 0.0625;
+    h.view.set_attempt(Arc::new(next));
+    h.frame(vec![]);
+    assert_eq!(h.view.selected, 2);
+    assert_eq!(h.view.zoom, 1.1);
+    assert_eq!(h.view.pan, egui::vec2(-30.0, -30.0));
+    assert_eq!(h.context.memory(|memory| memory.focused()), focused);
+    h.key(egui::Key::ArrowRight);
+    assert_eq!(h.view.selected, 3);
+    h.view.pan = egui::vec2(-30.0, -280.0);
+    let output = h.frame(vec![]);
+    assert!(contains(&output, "pressure iteration loop"));
+    h.click("reset");
+    assert_eq!(h.view.zoom, 0.85);
+    assert_eq!(h.view.pan, egui::Vec2::ZERO);
+    h.click("node-2");
+    h.key(egui::Key::ArrowRight);
+    assert_eq!(h.view.selected, 3);
+}
+
+#[test]
+fn existing_carrier_and_material_archives_remain_selectable_with_workflow_unavailable() {
+    use rheon::*;
+    let root = crate::configured_worker_tests::Output::new();
+    let grid = GridGeometry::new([4; 3], [0.25; 3], [0.0; 3]).unwrap();
+    let carrier = Simulation::new(
+        grid.clone(),
+        SimulationConfig {
+            density: 2.0,
+            memory_limit: 4 * 1024 * 1024,
+            pressure: PressureSettings {
+                relative_residual: 1e-10,
+                absolute_residual: 1e-12,
+                divergence_limit: 1e-8,
+                max_iterations: 100,
+            },
+            actual_divergence_limit: 1e-5,
+            max_courant: 0.5,
+        },
+    )
+    .unwrap();
+    let material = ParticleFluidSimulation::new(
+        grid,
+        ParticleFluidConfig {
+            fill: DomainFill::EmittedFluid,
+            samples_per_axis: 4,
+            max_particles: 64,
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    for (name, is_material) in [("carrier", false), ("material", true)] {
+        let inspector = Inspector::default();
+        let path = root.0.join(format!("{name}.sqlite"));
+        let writer = if is_material {
+            inspector
+                .begin(
+                    &material,
+                    &path,
+                    rheon::recording::RecordingLimits::default(),
+                )
+                .unwrap()
+        } else {
+            inspector
+                .begin_carrier(
+                    &carrier,
+                    &path,
+                    rheon::recording::RecordingLimits::default(),
+                )
+                .unwrap()
+        };
+        drop(writer);
+        inspector.select_timestep(0).unwrap();
+        let mut view = WorkflowInspector::default();
+        view.select(Some(&inspector));
+        assert!(view.attempt.is_none());
+        assert!(view.source.is_some());
+        assert!(view.message.contains("legacy archive"));
+    }
+}
+
+#[test]
+#[ignore = "release-only frozen G1 capture plus cached native projection protocol"]
+fn paired_capture_and_cached_projection_overhead_protocol() {
+    use rheon::*;
+    use std::time::Instant;
+    assert!(
+        !std::hint::black_box(cfg!(debug_assertions)),
+        "run optimized release protocol"
+    );
+    const CAP: usize = 16 * 1024 * 1024;
+    let make = |run_id| {
+        let grid = GridGeometry::new([16; 3], [1.0 / 16.0; 3], [0.0; 3]).unwrap();
+        let session = SimulationSession::new(
+            SessionIdentity {
+                run_id,
+                source_revision: "g1-fixed-overhead-fixture".into(),
+            },
+            grid.clone(),
+            LiquidTransportConfig {
+                carrier: SimulationConfig {
+                    density: 998.2,
+                    memory_limit: CAP,
+                    pressure: PressureSettings {
+                        relative_residual: 1e-10,
+                        absolute_residual: 1e-12,
+                        divergence_limit: 1e-8,
+                        max_iterations: 2000,
+                    },
+                    actual_divergence_limit: 1e-5,
+                    max_courant: 1.0,
+                },
+                represented_density: 998.2,
+                volume_stamp: VolumeStamp { id: 1, version: 0 },
+                carrier_id: 2,
+            },
+            PressureImplementation::JacobiPcgV1,
+            vec![0.5; 16usize.pow(3)],
+            CAP,
+            1000,
+        )
+        .unwrap();
+        let workspace =
+            ProviderStepWorkspace::new(&grid, 998.2, CAP, PressureImplementation::JacobiPcgV1)
+                .unwrap();
+        (session, workspace)
+    };
+    let (mut baseline, mut bw) = make(100);
+    let (mut observed, mut ow) = make(101);
+    let force = [BodyForce {
+        value: [0.001, 0.0, 0.0],
+        units: ForceUnits::Acceleration,
+        region: None,
+    }];
+    let inputs = || LiquidStepInputs {
+        requested_dt: 0.001,
+        smoke_source: None,
+        forces: &force,
+        source: None,
+        inlet: LiquidInlet::new(VolumeStamp { id: 3, version: 0 }, [[0.0; 2]; 3]).unwrap(),
+        volume: LiquidVolumeSettings {
+            max_outward_courant: 1.0,
+            actual_divergence_limit: 1e-5,
+        },
+    };
+    let state_bits = |session: &SimulationSession| {
+        let snapshot = session.snapshot();
+        let state = snapshot.state();
+        let mut bits = vec![
+            state.carrier.generation,
+            state.carrier.time.to_bits(),
+            state.liquid.time.to_bits(),
+            state.liquid.density.to_bits(),
+            state.carrier_stamp.id,
+            state.carrier_stamp.version,
+            state.liquid.stamp.id,
+            state.liquid.stamp.version,
+        ];
+        for field in [
+            state.carrier.x,
+            state.carrier.y,
+            state.carrier.z,
+            state.carrier.tracer,
+        ] {
+            bits.extend(field.iter().map(|v| v.to_bits() as u64));
+        }
+        for field in [state.pressure, state.liquid.fraction] {
+            bits.extend(field.iter().map(|v| v.to_bits()));
+        }
+        bits
+    };
+    let mut view = WorkflowInspector::default();
+    let mut pairs = Vec::new();
+    for interval in 0..35u64 {
+        let mut ns = [0u128; 2];
+        for mode in if interval % 2 == 0 { [0, 1] } else { [1, 0] } {
+            let start = Instant::now();
+            if mode == 0 {
+                baseline
+                    .step_with_pressure_provider(inputs(), &mut bw, None, None, |_| false)
+                    .unwrap();
+            } else {
+                let mut evidence = None;
+                observed
+                    .step_with_configured_pressure_observed(
+                        inputs(),
+                        &mut ow,
+                        None,
+                        None,
+                        None,
+                        |_| false,
+                        interval + 1,
+                        &mut evidence,
+                    )
+                    .unwrap();
+                view.set_attempt(evidence.unwrap());
+                assert!(view.attempt.is_some());
+            }
+            ns[mode] = start.elapsed().as_nanos();
+        }
+        assert_eq!(state_bits(&baseline), state_bits(&observed));
+        if interval >= 5 {
+            pairs.push(ns);
+        }
+    }
+    let mut ratios: Vec<_> = pairs
+        .iter()
+        .map(|pair| pair[1] as f64 / pair[0] as f64 - 1.0)
+        .collect();
+    ratios.sort_by(f64::total_cmp);
+    let median = (ratios[14] + ratios[15]) * 0.5;
+    println!("G1_CAPTURE_AND_CACHED_PROJECTION_PAIRED_NS={pairs:?}");
+    println!("G1_MEDIAN_CAPTURE_AND_CACHED_PROJECTION_OVERHEAD={median:.8}");
+    println!(
+        "SCOPE=actual capture plus cached native WorkflowInspector::set_attempt; excludes disk I/O and rasterization"
+    );
+    assert!(
+        median <= 0.05,
+        "fixed <=5% capture+projection gate failed; retain paired evidence and investigate"
+    );
+}
+
+#[test]
+fn ordered_text_focus_uses_stable_node_ids_and_canvas_controls_accept_pointer_events() {
+    let mut h = Harness::new();
+    h.frame(vec![]);
+    h.frame(vec![]);
+    let zoom = h.view.controls["zoom"];
+    h.at(egui::pos2(zoom.left() + 25.0, zoom.center().y));
+    assert_ne!(h.view.zoom, 0.85);
+    let rect = h.view.controls["canvas"];
+    let start = rect.left_bottom() + egui::vec2(18.0, -18.0);
+    let end = start + egui::vec2(25.0, -70.0);
+    h.frame(vec![
+        egui::Event::PointerMoved(start),
+        egui::Event::PointerButton {
+            pos: start,
+            button: egui::PointerButton::Primary,
+            pressed: true,
+            modifiers: Default::default(),
+        },
+    ]);
+    h.frame(vec![egui::Event::PointerMoved(end)]);
+    h.frame(vec![egui::Event::PointerButton {
+        pos: end,
+        button: egui::PointerButton::Primary,
+        pressed: false,
+        modifiers: Default::default(),
+    }]);
+    assert_ne!(h.view.pan, egui::Vec2::ZERO);
+    h.click("reset");
+    assert_eq!(h.view.pan, egui::Vec2::ZERO);
+    assert_eq!(h.view.zoom, 0.85);
+    // The same restoration transition used by keyboard navigation scrolls the
+    // complete text list into view before actual pointer activation.
+    h.view.focus_text = true;
+    h.view.restore_focus = true;
+    h.view.selected = 2;
+    h.frame(vec![]);
+    h.frame(vec![]);
+    h.frame(vec![]);
+    h.click("text-2");
+    assert!(h.view.focus_text);
+    h.key(egui::Key::ArrowRight);
+    assert_eq!(h.view.selected, 3);
+    h.frame(vec![]);
+    h.key(egui::Key::End);
+    assert_eq!(
+        h.view.attempt.as_ref().unwrap().descriptor.nodes()[h.view.selected],
+        NodeKind::Publication
+    );
+    assert!(h.view.focus_text);
+}
+
+#[test]
+fn verified_comparison_sides_load_exact_workflows_and_pair_or_source_changes_clear_them() {
+    use crate::{
+        comparison_archive::{SavedRecipe, Side},
+        configured_worker_tests::{Output, app, finish, launch, package, set},
+        run_sets::source::SavedRunSet,
+        saved_comparison::*,
+    };
+    use rheon::recording::comparison::{FieldRole, PressurePolicy, Recipe};
+    let output = Output::new();
+    let provider = package(false, "bad_once");
+    let mut application = app(&output);
+    let root = output.0.join("comparison-workflow");
+    launch(&mut application, set(&provider), &root);
+    let revision = finish(&mut application);
+    drop(application);
+    drop(provider);
+    let recipe = SavedRecipe::capture_source(
+        &root,
+        SavedRunSet::Configured(revision.clone()),
+        "native",
+        "configured",
+        &[2, 3],
+        &[2, 3],
+        Recipe {
+            field: FieldRole::IntervalPressure,
+            time_tolerance: 0.0,
+            pressure: PressurePolicy::Canonical,
+        },
+    )
+    .unwrap();
+    recipe.save_new(&root.join("comparison.json")).unwrap();
+    let mut page = SavedComparisonPage::default();
+    page.set_location(root.to_string_lossy(), "ignored-manifest.json");
+    page.open_saved_recipe();
+    page.compute();
+    assert_eq!(
+        page.presentation(),
+        Presentation::Verified,
+        "{}",
+        page.message()
+    );
+    let mut view = WorkflowInspector::default();
+    let mut run_ids = Vec::new();
+    for side in [Side::Reference, Side::Candidate] {
+        view.terminal_request = true;
+        view.load_comparison(page.load_selected_workflow(side));
+        assert!(!view.terminal_request);
+        assert!(view.comparison_context);
+        let key = page.workflow_key(side).unwrap();
+        view.validate_comparison(Some(&key));
+        let attempt = view.attempt.as_ref().unwrap();
+        assert_eq!(attempt.publication, Some(2));
+        run_ids.push(attempt.run_id);
+    }
+    assert_ne!(run_ids[0], run_ids[1]);
+    let ctx = egui::Context::default();
+    let mut frame = |events| {
+        ctx.run(
+            egui::RawInput {
+                screen_rect: Some(egui::Rect::from_min_size(
+                    egui::Pos2::ZERO,
+                    egui::vec2(1800.0, 2600.0),
+                )),
+                events,
+                ..Default::default()
+            },
+            |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| page.show(ui));
+            },
+        )
+    };
+    frame(vec![]);
+    frame(vec![]);
+    let rect = page.control_rect("matched-pair").unwrap();
+    let pos = egui::pos2(rect.left() + 95.0, rect.center().y);
+    let mut frame = |events| {
+        ctx.run(
+            egui::RawInput {
+                screen_rect: Some(egui::Rect::from_min_size(
+                    egui::Pos2::ZERO,
+                    egui::vec2(1800.0, 2600.0),
+                )),
+                events,
+                ..Default::default()
+            },
+            |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| page.show(ui));
+            },
+        )
+    };
+    frame(vec![
+        egui::Event::PointerMoved(pos),
+        egui::Event::PointerButton {
+            pos,
+            button: egui::PointerButton::Primary,
+            pressed: true,
+            modifiers: Default::default(),
+        },
+    ]);
+    frame(vec![egui::Event::PointerButton {
+        pos,
+        button: egui::PointerButton::Primary,
+        pressed: false,
+        modifiers: Default::default(),
+    }]);
+    frame(vec![egui::Event::Key {
+        key: egui::Key::ArrowRight,
+        physical_key: None,
+        pressed: true,
+        repeat: false,
+        modifiers: Default::default(),
+    }]);
+    assert_eq!(page.selected_pair().unwrap().pair.candidate.ordinal, 3);
+    let key = page.workflow_key(Side::Candidate);
+    view.validate_comparison(key.as_ref());
+    assert!(view.attempt.is_none());
+    assert!(!view.evidence);
+    view.load_comparison(page.load_selected_workflow(Side::Candidate));
+    assert_eq!(view.attempt.as_ref().unwrap().publication, Some(3));
+    page.set_location(root.join("new-namespace").to_string_lossy(), "missing.json");
+    view.validate_comparison(page.workflow_key(Side::Candidate).as_ref());
+    assert!(view.attempt.is_none());
+    page.set_location(root.to_string_lossy(), "ignored.json");
+    page.open_saved_recipe();
+    page.compute();
+    let archive = root.join(
+        &revision.members[1]
+            .attempt
+            .as_ref()
+            .unwrap()
+            .archive_relative_path,
+    );
+    std::fs::rename(&archive, archive.with_extension("unavailable")).unwrap();
+    view.load_comparison(page.load_selected_workflow(Side::Candidate));
+    assert!(view.attempt.is_none());
+    assert!(view.message.contains("Invalid or unavailable"));
+}
+
+#[test]
+fn generation_zero_cancelled_terminal_loads_via_native_action_without_an_accepted_row() {
+    use rheon::recording::{
+        RecordingLimits, StepRecorder,
+        provider::{configured_run, runtime::RuntimeTerminationCause},
+        workflow::WorkflowTermination,
+    };
+    let output = crate::configured_worker_tests::Output::new();
+    let path = output.0.join("zero.sqlite");
+    let (attempt, session) = observed_fixture(true);
+    let run = configured_run(
+        &session.snapshot(),
+        "actual generation-zero cancelled workflow fixture",
+    )
+    .unwrap();
+    let mut writer = StepRecorder::create(&path, run, RecordingLimits::default()).unwrap();
+    WorkflowTermination::capture(
+        &session.snapshot(),
+        RuntimeTerminationCause::Cancelled,
+        "actual cancellation before numerical publication",
+        None,
+        Some(&attempt),
+    )
+    .unwrap()
+    .finish(&mut writer)
+    .unwrap();
+    assert_eq!(writer.recorded_count(), 0);
+    drop(writer);
+    drop(session);
+    let inspector = Inspector::default();
+    inspector.reload(&path, RecordingLimits::default()).unwrap();
+    let mut h = Harness::new();
+    h.view.select(Some(&inspector));
+    h.frame(vec![]);
+    h.frame(vec![]);
+    h.click("terminal");
+    assert!(h.view.terminal_request);
+    h.view.select(Some(&inspector));
+    let selected = h.view.attempt.as_ref().unwrap();
+    assert_eq!(selected.accepted_generation, 0);
+    assert_eq!(selected.attempted_generation, 1);
+    assert!(selected.publication.is_none());
+    assert_eq!(selected.outcome, rheon::workflow::AttemptOutcome::Cancelled);
+    h.frame(vec![]);
+    assert!(contains(&h.frame(vec![]), "Cancelled"));
+    h.view.select(Some(&inspector));
+    assert!(h.view.terminal_mode);
+    assert!(h.view.attempt.is_some());
+}

@@ -1,21 +1,42 @@
 # G1 implementation qualification protocol
 
-Authority: plan.md G1 admission; fixed acceptance in verification.md. This protocol is frozen before native workflow and overhead evaluation. No numerical formula/order/domain, pressure-v1 meaning, original audit criteria, or old archive meaning may change. Failures remain evidence.
+Authority: `plan.md` G1 admission and the fixed acceptance in `verification.md`. This protocol was frozen before native workflow and overhead evaluation. No numerical formula, stage order, supported domain, pressure-v1 meaning, audit criterion or old archive meaning may change. Retain failed evaluations.
 
-Source base is plan120 8422f77 on main bc2f472. Rust1.92.0, CPU binary64 pressure/fraction and existing f32 carrier. Material preset does not confer physical validation. Authored native fixtures use the existing Session and Worker, deterministic classical zero/rejected candidates, exact configured intent and the existing process supervisor.
+Source base: plan120 `8422f77` on main `bc2f472`. Use Rust 1.92.0, existing binary64 pressure/fractions and f32 carrier. The material preset does not confer physical validation. Native fixtures use the existing Session, Worker, process supervisor, immutable configured intent and deterministic classical candidates.
 
-## Required contract checks
+## Contract checks
 
-Run focused core/workflow and additive SQLite tests, then affected existing pressure, Session, configured recording/runtime and desktop worker/producer/archive/selection tests. Exercise viscosity off/appliedzero/nonzero; actual shortened interval; accepted/rejected/support-refused/provider-error/native fallback; cancellation beforeprovider, afterreturn, afterqualification, duringnativefallback and beforecommit, including acceptedgeneration0/attemptedgeneration1. Verify immutable state and absent accepted row on failure. Preserve explicit accepted unrecorded tails. Mutate actual source, interval, nativeinput, requestedcontrols, descriptor digest, orderednodes, bound runtime outcome and publication association. Unknown versions/kinds, oversized inputs and corrupt controls reject; known missing/legacy execution evidence remains unavailable.
+Run focused workflow and additive SQLite tests, then affected existing pressure, Session, recording/runtime and desktop worker/producer/archive/selection tests. Cover viscosity off, applied zero and nonzero; shortened actual interval; accepted, rejected, support-refused and failed providers; native fallback; cancellation before provider, after return, after qualification, during native fallback and before commit. Include accepted generation zero and attempted generation one.
 
-## Native workflow procedure
+Assert immutable accepted state and no accepted row for failed intervals. Preserve explicit accepted but unrecorded tails. Mutate source, interval, native input, request controls, descriptor digest, ordered nodes, runtime outcome and publication association. Unknown versions/kinds, oversized inputs and corrupt controls must reject. Known missing or legacy workflow evidence remains unavailable.
 
-Use the normal native App with an isolated `/tmp` project/settings/output root. Prepare saved intent and real native fixture-provider archives through the existing Worker in a test-only fixture-preparation function. Native interaction uses an isolated Xorg dummy display, GLX/softwaregraphics and XTEST input; do not use an ambient desktop session. Through normal controls: open saved configured runset, rerunfromzero, openliveworkflow, pointerselect and keyboardnavigate nodes with visiblefocus, inspect actual interval/provider/fallback/candidate/accepted residuals andunits, change selected acceptedinterval, openretainedevidence, Cancel and Close, removeprovider executable, coldreopen savedrun and inspect the identical retained descriptor/receipts, then exit/reap ownedprocesses. Include generationzero terminal inspection and explicit invalid/missing/legacy states in focused real-egui tests. Native startup/screenshots alone cannot pass the workflow gate. Retain screenshots/interaction/assertion logs outside Git with exact binary/source hashes in a compact source manifest.
+## Native workflow
+
+Use the normal native App with isolated temporary project, settings and output roots. Prepare saved intent and actual fixture-provider archives through the existing Worker in the test-only fixture preparation function. Use an isolated Xorg dummy display with software graphics and XTEST input, without an ambient user session.
+
+Through normal controls:
+
+1. Open a saved configured run set and rerun from zero.
+2. Open the live workflow. Select nodes by pointer and keyboard with visible focus.
+3. Inspect actual interval, provider/fallback, candidate/accepted residuals, limits and units; change the selected accepted interval and open retained evidence.
+4. Cancel and close. Remove the provider executable, then cold reopen the saved run and inspect the same retained descriptor/receipts.
+5. Exit and reap owned application/provider processes.
+
+Focused real-egui tests also cover generation-zero terminal inspection, invalid/missing/legacy states, source changes, pan/zoom/reset, text navigation, focus and close/reopen. Startup and screenshots alone cannot pass the workflow gate. Keep screenshots, interaction/assertion logs and archives outside Git; commit only compact source/binary hash manifests.
 
 ## Fixed capture plus cached projection budget
 
-Workload: native sealed16³ grid over1m³, rho998.2kg/m³, representedfraction0.5, fixedfaceforce acceleration[0.001,0,0]m/s², requesteddt0.001s, default fixturepressure limits (relative1e-10, absolute1e-12m³/s², predicted1e-8/s, actual1e-5/s, maxiterations2000); JacobiPCGv1; no viscosity/provider. Baseline uses existing `Session::step_with_pressure_provider(None)`; candidate uses `step_with_configured_pressure_observed(None)` plus the actual `WorkflowInspector::set_attempt` validated cached projection used by the UI. This metric excludes disk I/O and rasterization; those are separately covered by bounded selection and cached paint tests.
+Workload: sealed 16³ grid over 1 m³, density 998.2 kg/m³, represented fraction 0.5, force acceleration [0.001, 0, 0] m/s², requested dt 0.001 s, Jacobi PCG v1, no viscosity/provider. Pressure limits: relative 1e-10, absolute 1e-12 m³/s², predicted divergence 1e-8 s⁻¹, actual divergence 1e-5 s⁻¹, maximum 2,000 iterations.
 
-Use optimized release, same CPU/process, five warmup intervals followed by exactly thirty paired intervals; alternate which path runs first. Record every pair in nanoseconds and compute the median of perpair `(candidate/baseline)-1`. Assert identical accepted native state/pressure/fraction/time outside timers after every pair. Fixed target ≤5% median added capture+cachedprojection intervaltime. Report environment/variability and raw pairs. If variability dominates, result is unresolved; do not pass from a core-only timer, replace the workload, tune physics or relax threshold. Descriptor≤1MiB, summaries≤256/interval and existing persisted16KiB metadata limit also apply.
+Baseline: existing `Session::step_with_pressure_provider(None)`. Candidate: `step_with_configured_pressure_observed(None)` plus the actual validated cached `WorkflowInspector::set_attempt` projection. Disk I/O and rasterization are outside this metric; bounded selection and cached-paint tests cover them separately.
 
-Required formatting and Clippy checks cover affected library/desktop features. Independent architecture, persistence and nativeUI review must dispose material findings before G1 qualification. C1 remains dependency-gated until G1 qualification.
+Use optimized release, the same CPU/process, five warmup intervals, then exactly thirty paired intervals with alternating first path. Record each pair in nanoseconds. Compute the median of the paired `(candidate / baseline) - 1` values. Outside the timers, assert identical accepted state, pressure, fractions and time after every pair. The fixed target is at most 5% median added capture-plus-projection time. Report environment, variability and raw pairs. If variability dominates, classify the result unresolved. Do not change physics, workload or threshold to obtain a pass.
+
+Reproduction:
+
+```
+cargo test --release --locked --features desktop --bin rheon-desktop \
+  paired_capture_and_cached_projection_overhead_protocol -- --ignored --nocapture
+```
+
+The descriptor must remain at most 1 MiB and node summaries at most 256 per interval; the existing 16 KiB persisted metadata limit also applies. Formatting and strict Clippy cover library/desktop features. Independent architecture, persistence and native UI reviews must dispose material findings. C1 remains dependency-gated until G1 qualification.

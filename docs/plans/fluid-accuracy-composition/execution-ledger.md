@@ -28,3 +28,7 @@ Independent architecture review caught incomplete cancellation/fallback observat
 ### G1 core observation checkpoint
 
 Seven focused core contracts pass: actual candidate/fallback/appliedzero, short actualdt and exact baseline trajectory, before/after/in-stage cancellation and immutable state, canonical actual control/native state identity, illegal prefix/crossfield/limit rejection. Independent architecture review passes after reproducing and correcting missing-node, nativeRHS, cancellation and partial-diagnostic defects. Eight additive persistence contracts and sixty existing persistence integration tests pass independently; separate persistence review has no remaining findings. Native UI and fixed capture+cachedprojection budget remain pending; no G1 acceptance asserted.
+
+### G1 source implementation checkpoint
+
+Additive RCP4/RCT2 custody and native canvas/text/details/evidence integration are implemented. Independent architecture and persistence reviews pass; native UI source review has no remaining findings after six focused real-egui interaction/cache tests pass. Existing worker/runtime/producer-exit and old persistence contracts pass. Source moved Active → Implemented, then `verify` → Verifying. Actual native display workflow and fixed release capture+projection budget remain pending and must pass before acceptance. The core observation checkpoint b3db38d is pushed; the branch remains retained for the repository lead, with no merge/cleanup action.
