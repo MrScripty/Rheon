@@ -12,7 +12,7 @@ The frozen audit remains authoritative for baseline observations; this table is 
 | F6 coarse channel/interface diffusion | Medium | Q1 measured accuracy envelope retains old failure; Q2 transport selection. Open. |
 | F7 area-lumped obstacle pressure/load | Medium | Q2 common B/M/S and independent flux/traction/refinement; new weight alone insufficient. Open. |
 | F8 uncalibrated cohesion/contact work | Medium | Q3 capillary stress/drop/wave + impulse/work ledger; moving/coupled capability separate. Open. |
-| Workflow visibility gap | New architecture requirement | G1 descriptor + actual receipts and native inspection; HTML only a provisional design aid. Open production requirement. |
+| Workflow visibility gap | New architecture requirement | Closed for existing configured sealed MAC by [qualified G1](reports/g1-qualification.md): authoritative descriptor, real receipts, native live/cold interaction and independent review. Other families/editing remain outside that acceptance; HTML is still only a design aid. |
 | Hidden provider state/side effects | Contract risk | C1 explicit prepare/commit/abort or stateless/disposable candidate; old pressure seam cannot roll back external side effects. Open implementation gate. |
 | MARIN numeric observations | Specific missing input | V1 physical validation only blocked; no block to reference/graph/contract work. |
 
