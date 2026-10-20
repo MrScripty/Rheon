@@ -1,0 +1,13 @@
+# Independent G1 cancellation repair review
+
+Reviewed subject: `70da36d0f4a58c464a6ad32ed2557e3dfb3d8b52`, tree `114ab60ff25f2d637eac1a06a3b02bb99a55bd15`. All reviewers were read-only and ran no duplicate Cargo builds. Root authored source/tests and owned deciding executions. Frozen protocol `ff51205` was approved before the production edit.
+
+| Independent role | Disposition |
+| --- | --- |
+| `/root/architecture_review` — architecture/contracts | PASS. Exact three-line cancellation matcher; no numerical/order/publication/codec change. Real two-stage/generation matrix preserves accepted state, receipt and partial trace; no publication, cold custody, retry and numerical failure distinction covered. Red evidence is scoped to actually executed generation-zero assertions. Recommends bounded classical C1-B3 selection, with distinct admission/hosted gates. |
+| `/root/persistence_independent` — persistence/contracts | PASS. No persisted version or validator reinterpretation. Actual RCT2 cold inspection retains exact attempt/generation and prior row; authored historical Failed stays Failed; real numerical failure remains Failed. Reviewed 26 workflow and 13 inspector passes. |
+| `/root/native_ui_independent` — native consumer | PASS. Actual live receipts and cold RCT2 explicit terminal action use existing consumer correctly; no UI implementation change. Finding: initial helper discarded typed result, weakening actual-failure provenance. Disposed before final source: return actual typed error, restore original wrapper assertion and assert exact cancellation/IterationLimit in the new cases. Reviewed completed 13-pass/2-existing-ignore native suite and 26-pass workflow suite. |
+
+The root's later complete compatibility/strict results remain bound to the same exact source; the manifest records them. Reviews do not confer hosted, complete-source admission, physical, GPU, performance or new native-window acceptance. No unresolved source finding remains.
+
+Final independent execution/artifact audit by `/root/persistence_independent`: PASS, no blockers. Rehashed all 28 artifacts and 11 retained green executables; eight deciding command logs total 226/0/5. All 140 pins match the committed source, worktree and fresh read-only selector; exactly three changes relative to PR136, 137 unchanged, no added/removed paths. All five checkpoint trees match; admission inputs are unchanged. All 28 ZIP members byte-match retained originals; 42,886,489 bytes, SHA256 `c3f8052c6e98774e36c2faff6660b936ace7f2f1c80b42ec459a5fcb90f6390b`. The manifest records the audited pre-audit manifest hash; adding this disposition changes report metadata only.
