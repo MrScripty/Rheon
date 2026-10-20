@@ -42,11 +42,18 @@ fn same_report(a: &ProviderReport, b: &ProviderReport) {
     assert_eq!(numerical(a.accepted), numerical(b.accepted));
 }
 
+#[derive(Debug, Clone, PartialEq)]
+struct Observation {
+    grid: GridGeometry,
+    density: u64,
+    dt: u64,
+    rhs: Vec<u64>,
+}
 #[derive(Clone)]
 struct Candidate {
     values: Vec<f64>,
     fail: Option<ProviderRejection>,
-    seen: RefCell<Vec<(GridGeometry, u64, u64, Vec<u64>)>>,
+    seen: RefCell<Vec<Observation>>,
     predictions: usize,
 }
 impl Candidate {
@@ -59,12 +66,12 @@ impl Candidate {
         }
     }
     fn observe(&self, request: &PressureRequest<'_>) {
-        self.seen.borrow_mut().push((
-            request.grid.clone(),
-            request.density.to_bits(),
-            request.dt.to_bits(),
-            bits(request.rhs),
-        ));
+        self.seen.borrow_mut().push(Observation {
+            grid: request.grid.clone(),
+            density: request.density.to_bits(),
+            dt: request.dt.to_bits(),
+            rhs: bits(request.rhs),
+        });
     }
 }
 impl PressureProvider for Candidate {
@@ -189,7 +196,12 @@ fn c1a_pressure_exact_and_adversarial_candidates_match_original_dispatch() {
             for observation in b.seen.into_inner() {
                 assert_eq!(
                     observation,
-                    (g.clone(), 1.25f64.to_bits(), 0.01f64.to_bits(), bits(&rhs))
+                    Observation {
+                        grid: g.clone(),
+                        density: 1.25f64.to_bits(),
+                        dt: 0.01f64.to_bits(),
+                        rhs: bits(&rhs),
+                    }
                 );
             }
         }

@@ -538,11 +538,19 @@ fn c1a_mac_errors_deadline_and_cancellation_preserve_the_native_publication() {
     ));
     for final_commit in [false, true] {
         let mut callbacks = 0;
+        let mut first = None;
         let result = native.step(mac_request(&identity, 1, &mut workspace), |point| {
             callbacks += 1;
+            first.get_or_insert(point);
             !final_commit || point == NativeCancellationPoint::Mac(LiquidStepStage::BeforeCommit)
         });
         assert!(callbacks > 0);
+        assert_eq!(
+            first,
+            Some(NativeCancellationPoint::Mac(LiquidStepStage::Carrier(
+                StepStage::BeforeAdvection
+            )))
+        );
         if final_commit {
             assert!(matches!(
                 result,
@@ -553,7 +561,11 @@ fn c1a_mac_errors_deadline_and_cancellation_preserve_the_native_publication() {
         } else {
             assert!(matches!(
                 result,
-                Err(NativeStepError::Mac(SessionError::Step(_)))
+                Err(NativeStepError::Mac(SessionError::Step(
+                    LiquidStepError::Carrier(SimulationError::Cancelled {
+                        stage: StepStage::BeforeAdvection
+                    })
+                )))
             ));
         }
         let NativeSnapshot::Mac(snapshot) = native.snapshot() else {

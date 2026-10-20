@@ -68,6 +68,10 @@ pub enum NativeCancellationPoint {
 /// Original numerical reports, including actual shortened dt and native
 /// pressure selection. Elapsed timings retain their original owner and scope.
 #[derive(Debug)]
+#[allow(
+    clippy::large_enum_variant,
+    reason = "Native reports stay by value; boxing would allocate after the owner's publication"
+)]
 pub enum NativeStepReport {
     Mac {
         step: LiquidStepReport,
