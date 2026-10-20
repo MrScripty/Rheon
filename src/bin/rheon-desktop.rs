@@ -1895,7 +1895,7 @@ impl App {
                     egui::CollapsingHeader::new(recording_label)
                         .id_salt("Numerical recording (every accepted step)").show(ui, |ui| {
                         ui.label("Local recording directory");
-                        ui.text_edit_singleline(&mut self.recording_directory);
+                        ui.add(egui::TextEdit::singleline(&mut self.recording_directory).desired_width(ui.available_width()));
                         ui.add(egui::DragValue::new(&mut self.recording_database_mib).range(1..=16384).suffix(" MiB database cap"));
                         ui.add(egui::DragValue::new(&mut self.recording_record_mib).range(1..=64).suffix(" MiB per publication"));
                         ui.small("Retention: keep all; stop at limits. Caps apply per track/database; comparisons create separate archives. Record quota = requested steps + constructor. Files persist after reset; delete explicitly outside Rheon.");
@@ -1938,7 +1938,11 @@ impl App {
                     ui.horizontal_wrapped(|ui| {ui.label("Particle limit");ui.add(egui::DragValue::new(&mut self.materials.config.max_particles).range(32768..=262144));});
                     settings::quantity(ui,"Liquid preview stiffness",&mut self.materials.config.liquid_sound_speed,"m/s",1.0,1.0..=100.0).on_hover_text("Reduced acoustic speed for a weakly compressible preview; higher stiffness needs shorter steps. Gas pressure uses the ideal-gas equation.");
                 } else {
-                    egui::ComboBox::from_id_salt("implementation").selected_text(self.selected.label()).width(240.0).show_ui(ui,|ui| {
+                    let pressure_label = egui::WidgetText::from(self.selected.label()).into_galley(
+                        ui, Some(egui::TextWrapMode::Wrap),
+                        (ui.available_width() - 2.0 * ui.spacing().button_padding.x - ui.spacing().icon_spacing - ui.spacing().icon_width).max(1.0),
+                        egui::TextStyle::Button);
+                    egui::ComboBox::from_id_salt("implementation").selected_text(pressure_label).width(ui.available_width().min(240.0)).show_ui(ui,|ui| {
                         for method in PressureImplementation::ALL {ui.selectable_value(&mut self.selected,method,method.label());}
                     });
                     ui.checkbox(&mut self.tight,"Tight pressure tolerance");
