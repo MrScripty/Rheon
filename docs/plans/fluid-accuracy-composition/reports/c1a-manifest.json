@@ -1,0 +1,166 @@
+{
+  "profile": "rheon-c1a-local-qualification-v1",
+  "claim": "C1-A bounded adapter/facade locally qualified; integration pending, C1-R incomplete",
+  "pull_request": "https://github.com/MrScripty/Rheon/pull/125",
+  "branch": "implement/c1a-typed-native-boundary-20261020",
+  "base": "67ef1e9f1b7e741c3fb06b7c037b874aa8d5be75",
+  "frozen_admission": "e5b1f8811ce3c4f6519d70fc2c8e2de149f587bc",
+  "initial_implementation": "5c9fb96d7ebbc49638afbe812ac1db69b5dfc643",
+  "final_source": "ac6ed17003279e7078751a4390f2ee28200d4d5f",
+  "final_patch_runtime_semantics": "Unchanged: local enum lint annotation and test-only refinements",
+  "coding_standards": "0fc92a24279f3a4574c80af0a2f31ea347a21597",
+  "rust": "1.92.0",
+  "source_sha256": {
+    "src/lib.rs": "c208229fd3f1d15a1597a2f85ec95c51a305b92232a1bfdd18a30d57e45f5510",
+    "src/solver_provider.rs": "204682fc6540cb812d7d9200dd61085e5dcb827a6c77981e081046ef353c0838",
+    "src/native_family.rs": "070721db5250b429bf6f1147b71de1b84fd010eceb17d0814f9b9d299c9a09e5",
+    "src/native_family/tests.rs": "6904cbfa816d754410f18fe4281d29729e492ac47e2905474afa30cb97edb7d5",
+    "src/solver_provider/composition.rs": "f754b4ec78cfca408239687b4ddee2b39170835cdf7800370cb640a4d8daf9e8",
+    "src/solver_provider/composition_tests.rs": "363b5f5192225d7187cf64bd458f9691e3f041ef8ed1282babc5c5c2a9eb2adb",
+    "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c"
+  },
+  "protocol_sha256": "d101561280391aeafc945ce2fb7397a1b101da1942605096401cb6e7d49e1d8e",
+  "evidence_root": "/workspace/rheon-c1a-evidence",
+  "evidence": [
+    {
+      "file": "pressure-initial.log",
+      "sha256": "ba9a1dff91df9300cb81a7b055bc1b5e179511bb3aebd15c3f71cd775988e3cf",
+      "source": "pre-5c9fb96 working tree; differs from checkpoint only in lib.rs declaration ordering",
+      "result": "PASS preliminary pressure-only 2 tests"
+    },
+    {
+      "file": "c1a-no-default.log",
+      "sha256": "0938c49f4965ad5e221187bf413b8ce2716986ef4e504f78f72df054888b5544",
+      "source": "pre-5c9fb96 working tree; differs from checkpoint only in lib.rs declaration ordering",
+      "result": "PASS 12 tests, 0 failed, 49.05s"
+    },
+    {
+      "file": "c1a-default.log",
+      "sha256": "a5d8609f26e71f9773538f10319287aeb64e2c3c20e7cd749f9b66f73fc1b342",
+      "source": "5c9fb96d7ebbc49638afbe812ac1db69b5dfc643",
+      "result": "PASS 12 tests, 0 failed, 53.49s"
+    },
+    {
+      "file": "existing-contracts.log",
+      "sha256": "eb4e963193df0497979f10f17867073bc084e2d4d2f6c8c02664d22a451415ab",
+      "source": "5c9fb96d7ebbc49638afbe812ac1db69b5dfc643",
+      "result": "PASS 33 tests, 0 failed, 3 real-model tests ignored"
+    },
+    {
+      "file": "rustdoc.log",
+      "sha256": "5ceba9475aa21c89601d10bd4e276a4d61fcb258aef30d15249b350f31e1638c",
+      "source": "5c9fb96d7ebbc49638afbe812ac1db69b5dfc643",
+      "result": "PASS 2 borrow compile-fail tests"
+    },
+    {
+      "file": "fmt-initial.log",
+      "sha256": "1e154d8cadd5b89b41face3ee2f0ba2f969f1e01f547be09f098277f58ccbe94",
+      "source": "working-tree before 5c9fb96",
+      "result": "FAIL declaration ordering; repaired before 5c9fb96"
+    },
+    {
+      "file": "clippy-initial.log",
+      "sha256": "b73a8b756aa6382d73962d0f8f3281a8ecedd52f820a24dd43a126a807ebdb82",
+      "source": "5c9fb96d7ebbc49638afbe812ac1db69b5dfc643",
+      "result": "FAIL large enum and test tuple complexity; repaired in ac6ed17"
+    },
+    {
+      "file": "c1a-final-no-default.log",
+      "sha256": "dcef3c14c7b13b311590760923841235803d505ac2af96f1d76861951fd3ce7e",
+      "source": "ac6ed17003279e7078751a4390f2ee28200d4d5f",
+      "result": "PASS 11 affected tests, 0 failed, 2.34s; unchanged 100-interval test excluded"
+    },
+    {
+      "file": "c1a-final-default.log",
+      "sha256": "bb21b6018621fa46b021dced1b2d97d20829c7d90d6e26afa916e6da83d948a6",
+      "source": "ac6ed17003279e7078751a4390f2ee28200d4d5f",
+      "result": "PASS 11 affected tests, 0 failed, 1.17s; unchanged 100-interval test excluded"
+    },
+    {
+      "file": "clippy-core-final.log",
+      "sha256": "be368bf1e232bb5db679a2e7313bc02f717d3761be9b71269a34758ddef2b7d4",
+      "source": "ac6ed17003279e7078751a4390f2ee28200d4d5f",
+      "result": "PASS no-default all-target -D warnings"
+    },
+    {
+      "file": "clippy-desktop-final.log",
+      "sha256": "d7835f5a3f7bed075320b2b31d5ab82443c1ee21487b2153664fdb2f4ff43fd0",
+      "source": "ac6ed17003279e7078751a4390f2ee28200d4d5f",
+      "result": "PASS desktop all-target -D warnings"
+    },
+    {
+      "file": "fmt-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "ac6ed17003279e7078751a4390f2ee28200d4d5f",
+      "result": "PASS"
+    },
+    {
+      "file": "commands.txt",
+      "sha256": "1ec7811d709b8f812bf8870d9cca8e9ba35e8d9179d6acb228a792233f9c2af2",
+      "source": "5c9fb96 then ac6ed17",
+      "result": "Exact commands and environment"
+    },
+    {
+      "file": "c1a-final-100-no-default.log",
+      "sha256": "6f758a1d0400e3024d5777fba320fe4444c1de00e5810606b8bbb35088965083",
+      "source": "ac6ed17003279e7078751a4390f2ee28200d4d5f",
+      "result": "PASS 1 deciding 100-interval test, 0 failed, 46.94s; combined with final 11-test run covers all 12 C1-A cases"
+    },
+    {
+      "file": "c1a-final-100-default.log",
+      "sha256": "1cb7925be2e92c4d014d224f28010c874835da992be7b2be0f8fea4f5332227a",
+      "source": "ac6ed17003279e7078751a4390f2ee28200d4d5f",
+      "result": "PASS 1 deciding 100-interval test, 0 failed, 48.26s; combined with final 11-test run covers all 12 C1-A cases"
+    }
+  ],
+  "independent_reviews": {
+    "architecture": "PASS at ac6ed17",
+    "contracts": "PASS at ac6ed17",
+    "reviewers_authored_implementation": false,
+    "reviewers_ran_duplicate_tests": false
+  },
+  "exclusions": [
+    "merged/release acceptance",
+    "C1-R",
+    "subgraph candidates",
+    "whole-family candidates",
+    "transfers",
+    "arbitrary provider hidden-state rollback",
+    "learned-model qualification",
+    "new physical accuracy",
+    "GPU",
+    "new native GUI",
+    "new performance"
+  ],
+  "integration": "Repository lead owns hosted CI, stacked dependency integration and merges. No merge/rebase/cleanup performed.",
+  "final_source_results": {
+    "no_default": {
+      "passed": 12,
+      "failed": 0,
+      "logs": [
+        "c1a-final-no-default.log",
+        "c1a-final-100-no-default.log"
+      ]
+    },
+    "default": {
+      "passed": 12,
+      "failed": 0,
+      "logs": [
+        "c1a-final-default.log",
+        "c1a-final-100-default.log"
+      ]
+    },
+    "existing_contracts": {
+      "passed": 33,
+      "failed": 0,
+      "ignored": 3
+    },
+    "borrow_doctests": {
+      "passed": 2,
+      "failed": 0
+    },
+    "clippy_core": "PASS",
+    "clippy_desktop": "PASS",
+    "fmt": "PASS"
+  }
+}

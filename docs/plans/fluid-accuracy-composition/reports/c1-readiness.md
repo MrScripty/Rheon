@@ -1,6 +1,6 @@
 # C1 bounded composition readiness
 
-Status: **C1-A Active**, admitted by the [frozen C1-A protocol](c1a-protocol.md) at `e5b1f88`, after locally qualified G1 at `f6b7c8c`. PR122 remains unmerged and subject to hosted CI/integration. This readiness document retains the bounded sequence; implementation/evidence status belongs to the protocol and qualification report. C1-B/C and transfers remain planned, and C1-R is not accepted. Repository lead coordinates shared declarations, plan status and integration with the separate numerical instance.
+Status: **C1-A locally qualified / integration pending** at `ac6ed17`; [qualification](c1a-qualification.md), [frozen protocol](c1a-protocol.md) and [independent reviews](c1a-review.md). PR125 is stacked on unmerged PR122; hosted CI/integration and merges remain with the repository lead. This readiness document retains the bounded sequence. C1-B/C and transfers remain planned, and C1-R is not accepted. Repository lead coordinates shared declarations, plan status and integration with the separate numerical instance.
 
 ## Selected boundary and sequence
 
@@ -8,7 +8,7 @@ Reuse PR115/D1 immutable configured intent, runtime pins, Session publication, s
 
 | Slice | Concrete direction | Admission boundary |
 | --- | --- | --- |
-| C1-A — active | Closed typed stage/native-family boundary; adapt pressure v1 and delegate native baseline calls to existing owners. Distinct MAC/particle requests and snapshots retain their own fields and precision. | No new method, provider support outside pressure v1, persisted profile, interpreter or implicit conversion. Subgraph/whole-candidate variants stay explicitly unavailable until their gates execute. |
+| C1-A — locally qualified | Closed typed stage/native-family boundary; adapt pressure v1 and delegate native baseline calls to existing owners. Distinct MAC/particle requests and snapshots retain their own fields and precision. | No new method, provider support outside pressure v1, persisted profile, interpreter or implicit conversion. Subgraph/whole-candidate variants stay explicitly unavailable until their gates execute. |
 | C1-B | Existing sealed-MAC pressure/projection subgraph: tentative cell pressure/staggered velocity, actual RHS/dt, geometry/operator/gauge and projection witnesses. | Host recomputes actual equations/constraints. Shape compatibility is insufficient. This is existing projection, not newly qualified traction-coupled Stokes. Freeze residual/roundoff criteria before evaluation. |
 | C1-C | Whole existing sealed-MAC interval candidate, tentative native carrier/tracer/pressure/fraction state and history. Classical fixtures precede learned assets. | Session remains sole publisher. Full native-state, actual interval, mass/source, momentum/operator and history gates precede advertised support. Invariants do not confer accuracy. |
 | Separate transfer admission | Versioned MAC→particle or particle→MAC operators with explicit support/reconstruction/budgets. | Initially unavailable. No facade/archive/comparison silently converts families. Implementing transfer requires its own frozen protocol and review. |
@@ -37,4 +37,4 @@ At every admitted stage/subgraph/family level test correct candidates; nonfinite
 
 Later transfer admission needs positive mass, closed-domain binary64 relative mass/momentum defect ≤1e-12, translated/rotated constant/linear reconstruction tests, separately measured energy/work and target reconstruction order ≥0.9. No exact-energy/reversibility or index-based physical particle identity is implied.
 
-Architecture/contracts review qualifies C1-A; persistence/native UI reviewers join custody/consumer work; independent numerics review owns method-specific gates. Publish focused checkpoints/PRs and coordinate merges with the lead. C1-A is ready to start within this bound; C1-R acceptance remains pending implementation/evidence.
+Architecture/contracts review qualifies C1-A; persistence/native UI reviewers join custody/consumer work; independent numerics review owns method-specific gates. C1-A is locally qualified within this bound and published in draft PR125, integration pending. C1-B/C require their separately frozen protocols and evidence before implementation; C1-R acceptance remains pending.
