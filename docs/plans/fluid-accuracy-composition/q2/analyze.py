@@ -1,8 +1,14 @@
 """Frozen Q2 geometry-only gates; no coupled PDE acceptance."""
 import csv,json,math,pathlib,sys
+# Evaluator tooling v2. Frozen scientific criteria and original bytes are
+# retained under ../evaluator-tooling/. Guards remain active under -O / -OO.
+def require(condition, message):
+    if not condition:
+        raise SystemExit("evaluator input refused: " + message)
+
 root=pathlib.Path(sys.argv[1])
 rows=list(csv.DictReader((root/'summary.csv').open()))
-assert len(rows)==24
+require(len(rows)==24, 'q2: input contract at original line 5')
 results=[]
 for row in rows:
  r={k:(v if k=='case' else float(v)) for k,v in row.items()}
@@ -16,7 +22,7 @@ for row in rows:
 convergence=[]
 for mu in [.1,.001002]:
  group=sorted([r for r in results if r['case']=='disk' and r['mu']==mu],key=lambda r:r['n'])
- assert len(group)==3
+ require(len(group)==3, 'q2: input contract at original line 19')
  for metric in ['area_error','radial_error','flux_error']:
   errors=[r[metric] for r in group]
   p=[math.log(a/b,2) for a,b in zip(errors,errors[1:])]

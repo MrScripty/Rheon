@@ -1,10 +1,16 @@
 """Frozen native Q1 criteria; geometry/discretization independent review remains separate."""
 import csv,json,math,pathlib,sys
+# Evaluator tooling v2. Frozen scientific criteria and original bytes are
+# retained under ../evaluator-tooling/. Guards remain active under -O / -OO.
+def require(condition, message):
+    if not condition:
+        raise SystemExit("evaluator input refused: " + message)
+
 root=pathlib.Path(sys.argv[1])
 def read(name):
     with (root/name).open() as f:return list(csv.DictReader(f))
 c=read('channel-summary.csv');t=read('transport-summary.csv');g=read('geometry.csv');controls=read('constant-controls.csv')
-assert len(c)==6 and len(t)==18 and len(g)==9 and len(controls)==18
+require(len(c)==6 and len(t)==18 and len(g)==9 and len(controls)==18, 'q1: input contract at original line 7')
 steady=sorted((r for r in c if r['case']=='steady'),key=lambda r:int(r['n']))
 time=sorted((r for r in c if r['case']=='temporal'),key=lambda r:int(r['steps']))
 orders=lambda e:[math.log(a/b,2) for a,b in zip(e,e[1:])]
@@ -20,7 +26,7 @@ transport=[]
 for case in ['translation','vortex-adapted']:
  for courant in [.1,.25,.5]:
   rows=sorted((r for r in t if r['case']==case and float(r['requested_courant'])==courant),key=lambda r:int(r['n']))
-  assert len(rows)==3
+  require(len(rows)==3, 'q1: input contract at original line 23')
   completed=all(r['status']=='complete' and abs(float(r['time'])-1)<=16*sys.float_info.epsilon for r in rows)
   item={'case':case,'courant':courant,'complete':completed,'statuses':[r['status'] for r in rows],
    'conservation_bounds_pass':all(float(r['relative_drift'])<=1e-10 and float(r['min'])>=-1e-12 and float(r['max'])<=1+1e-12 for r in rows),
