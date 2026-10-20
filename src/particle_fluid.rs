@@ -68,7 +68,7 @@ pub struct ParticleStepReport {
 pub struct ParticleDiagnostic {
     pub density: f64,
     pub pressure: f64,
-    /// Includes gravity and pair forces, excludes subsequent wall response.
+    /// Includes gravity, authored fields and pair forces; excludes wall response.
     pub acceleration: [f64; 3],
 }
 
@@ -379,11 +379,40 @@ impl ParticleFluidSimulation {
         &mut self,
         requested_dt: f64,
         emitter: Option<RotatingCylinderEmitter>,
+        cancel: impl FnMut() -> bool,
+    ) -> Result<ParticleStepReport, ParticleFluidError> {
+        self.step_fields_impl(requested_dt, emitter, None, cancel)
+    }
+
+    /// Add authored fields to existing gravity/pair forces at pre-integration
+    /// particle positions (including newly emitted particles). Force density is
+    /// divided by the same evaluated local density used by the pressure stage.
+    /// Static field time is the accepted interval start, including every retry.
+    pub fn step_with_force_fields(
+        &mut self,
+        requested_dt: f64,
+        emitter: Option<RotatingCylinderEmitter>,
+        fields: &crate::ForceSnapshot,
+        cancel: impl FnMut() -> bool,
+    ) -> Result<ParticleStepReport, ParticleFluidError> {
+        self.step_fields_impl(
+            requested_dt,
+            emitter,
+            (!fields.scene().objects.is_empty()).then_some(fields),
+            cancel,
+        )
+    }
+
+    fn step_fields_impl(
+        &mut self,
+        requested_dt: f64,
+        emitter: Option<RotatingCylinderEmitter>,
+        fields: Option<&crate::ForceSnapshot>,
         mut cancel: impl FnMut() -> bool,
     ) -> Result<ParticleStepReport, ParticleFluidError> {
         let mut interval = requested_dt;
         for _ in 0..16 {
-            match self.prepare_step(interval, emitter, &mut cancel) {
+            match self.prepare_step(interval, emitter, fields, &mut cancel) {
                 Err(ParticleFluidError::StabilityLimit { recommended_dt }) => {
                     interval = recommended_dt
                 }
@@ -398,6 +427,7 @@ impl ParticleFluidSimulation {
         &mut self,
         requested_dt: f64,
         emitter: Option<RotatingCylinderEmitter>,
+        fields: Option<&crate::ForceSnapshot>,
         cancel: &mut impl FnMut() -> bool,
     ) -> Result<ParticleStepReport, ParticleFluidError> {
         if !requested_dt.is_finite() || requested_dt <= 0.0 {
@@ -639,6 +669,14 @@ impl ParticleFluidSimulation {
                             acceleration: self.config.gravity,
                             damping_rate: 0.0,
                         };
+                        if let Some(fields) = fields {
+                            let external = fields
+                                .acceleration(p.position, self.time, t.density)
+                                .map_err(|_| ParticleFluidError::ArithmeticFailure)?;
+                            for (a, external) in f.acceleration.iter_mut().zip(external) {
+                                *a += external;
+                            }
+                        }
                         neighbors(p.position, grid, h, bins, heads, next, |j| {
                             if i == j {
                                 return;
