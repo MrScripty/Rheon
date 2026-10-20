@@ -44,3 +44,21 @@ free-surface MMS/annulus, exterior-obstacle hydrostatics or physical boundary
 traction convergence is admitted. Independent post-run correspondence and final
 qualification are recorded separately. Only a bounded geometry prerequisite can
 advance; canonical full Q2 criteria remain unchanged and pending.
+
+## Exact topology finding — carry before operator assembly
+
+Independent exact-rational half-plane intersection using the ACTUAL exported
+f64 polygon identifies five native positive apertures on exact-source zero-measure
+faces: disk32/Y143=9.70770e-19m; disk64/X2088=1.87503e-20m; disk128/X8272=
+1.78856e-20m,Y2111=2.68284e-20m,Y14400=8.94279e-21m. The maximum aperture/h is
+1.55324e-17, below the unchanged1e-10 interval-error budget. The finite numerical
+geometry gates pass, but exact connectivity/active-DOF semantics are UNADMITTED.
+These are native artifacts, distinct from independently audited float-oracle
+presence mismatches. Full source-derived rational bounds and input hashes are
+retained, not suppressed by a tolerance or clamped native field.
+
+Stop widening here. Before B/M/S/W assembly, return source-topology predicate and
+ownership decisions to method selection and independently verify exact-zero face
+classification alongside cut volumes and velocity extension. A tiny positive
+native aperture must not become an exact connectivity/DOF decision. No version3,
+native rerun or production geometry promotion is made by this slice.

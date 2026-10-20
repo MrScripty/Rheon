@@ -1,0 +1,39 @@
+{
+  "scientific_v1": "652383e0b9f59c39bfd6a6367f324fa2c0d4fcf0",
+  "scientific_v2": "8b9c3b294c63527db33c8f5faccfb24f19b4217f",
+  "v1_native_exit": 1,
+  "v2_native_exit": 0,
+  "v2_case_count": 24,
+  "focused_debug_release_passed": 4,
+  "strict_clippy_exit": 0,
+  "archive": {
+    "path": "/workspace/rheon-q2-grid-geometry-8b9c3b2.zip",
+    "bytes": 19457063,
+    "sha256": "e386b3991b444d86600a68a403965a579b3a84db4f0e7d5b88af41771d45351f"
+  },
+  "library": {
+    "library_file_id": "libfile_c610792d49f08191b36364e767442556",
+    "file_id": "file_000000009a5882308de3e76f89210c83",
+    "version": 0
+  },
+  "binary_v1": {
+    "sha256": "c6306956e2d43b4fdc8a7981c0143dfde307940db4bc414731f8ab541144eb3a",
+    "bytes": 695288
+  },
+  "binary_v2": {
+    "sha256": "899f2fdf3ba38503c08710a245aca8fd5810b0d6b3899fb6771423e6fc4d39d3",
+    "bytes": 699656
+  },
+  "independent": {
+    "review.md": "9e9a746577a758a5466ba427c719666c332c7447abc90eeaf16623232e5c35dc",
+    "reconstruct.py": "497c3dd3634dc495ac7714f59ff742115ddda1a5cf609c58ca53c3e0f71dbfa3",
+    "summary.json": "56ce5f2c77f0879b867288e362d7388b971dafad6875c3d456b679df917bddc6",
+    "tangent_audit.py": "d812b9600b54f76edf82b916dfc8800ef89783de6db7207ffcd4f18d440a6cab",
+    "tangent-audit.json": "a540735452913a6a9e91b9e81a3e92319dc683fb3251315ef0b0b0c1506b92ee"
+  },
+  "finite_error_geometry_supported": true,
+  "native_exact_topology_artifacts": 5,
+  "exact_topology_or_active_dof_admitted": false,
+  "B_M_S_W_or_coupled_stokes_or_production_water_admitted": false,
+  "no_numerical_campaign_retry": true
+}

@@ -29,3 +29,11 @@ Frozen plan120/audit119 and earlier P1 evidence remain immutable.
 - G1/native workflow and later C1 retain their separate owner and write set.
   No Session/recording/UI/provider edits, root-plan overwrite, merge, rebase or
   branch cleanup performed by this numerical instance.
+
+New material blocker before operator assembly: independent rational audit finds
+five native positive apertures on exact-source zero-measure disk faces. Magnitudes
+pass finite numerical1e-10h interval criteria, but exact connectivity/DOF support
+is unadmitted. See results.md / final independent review and tangent-audit.json.
+Return robust source-topology/ownership decisions to bounded method selection
+before activating B/M/S/W, rather than flooring masses or treating all positive
+native apertures as connections. This instance stops widening at that gate.

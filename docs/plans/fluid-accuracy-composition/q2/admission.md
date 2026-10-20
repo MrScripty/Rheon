@@ -36,3 +36,9 @@ mass alone is not geometry accuracy. Our planar clipping/moment reference is an
 explicit prerequisite, not a claim of implementing either full solver.
 - https://cs.uwaterloo.ca/~c2batty/papers/Larionov2017/supplemental.pdf
 - https://www.cs.ubc.ca/~rbridson/docs/batty-siggraph2007-variationalcoupling.pdf
+
+Final bounded lifecycle: native finite-error geometry/integration campaign and
+independent checks complete; see qualification.md/review.md. Exact native topology
+is blocked by five retained aperture artifacts before B/M/S/W assembly. Full Q2
+and production water remain unadmitted. No further method/native rerun or widening
+is undertaken. Shared canonical lifecycle reconciliation remains parent-owned.
