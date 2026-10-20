@@ -23,7 +23,8 @@ The 24-case CV2 success and PR142 software passes are not PDE/physical acceptanc
 - Fetched/inspected main is `718469beedb9a949f4bb6f3299c7b880b4c47e47`.
   A separate worktree `/workspace/Rheon-paper` and local documentation branch
   `docs/research-paper-audit-20261020` isolate this work.
-- Book-source commit: `4a78007571932ffbf46ab2ef3e34cb5bd08526dd`.
+- Final book-source commit: `750352e3f56abc156d81799d32f94096e8884689`.
+  First-pass source `4a78007` and its qualification remain separately retained.
   Proposed base/diff: `718469b...docs/research-paper-audit-20261020`.
   Later handoff-report commits do not alter book or renderer inputs.
 - GitHub Pages API and successful deployment `7116715012` both identify
@@ -42,7 +43,8 @@ The 24-case CV2 success and PR142 software passes are not PDE/physical acceptanc
 
 ## Exact changed files
 
-The 13 book sources changed in `4a78007` are:
+The final diff contains **16 Markdown files**: 14 book sources and two authored
+audit records. The book sources are:
 
 1. `docs/research-book/chapters/01-purpose-and-model.md`
 2. `docs/research-book/chapters/04-pressure-projection.md`
@@ -54,14 +56,21 @@ The 13 book sources changed in `4a78007` are:
 8. `docs/research-book/chapters/19-forces-and-moving-boundaries.md`
 9. `docs/research-book/chapters/20-collision-mesh-pipeline.md`
 10. `docs/research-book/chapters/22-viscosity-and-stress.md`
-11. `docs/research-book/chapters/29-liquid-solid-interaction.md` (new)
-12. `docs/research-book/appendices/C-bibliography.md`
-13. `docs/research-book/appendices/G-paper-audit-and-corrections.md` (new)
+11. `docs/research-book/chapters/25-capillarity-and-integration.md`
+12. `docs/research-book/chapters/29-liquid-solid-interaction.md` (new)
+13. `docs/research-book/appendices/C-bibliography.md`
+14. `docs/research-book/appendices/G-paper-audit-and-corrections.md` (new)
 
 This report and `independent-review.md` are two additional authored audit files.
 No solver, lockfile, proof, renderer, README, active plan or protected numerical
 evidence changed. Existing source discovery includes the new chapter/appendix
-without a new book or workflow. The book commit is 548 additions / 15 deletions.
+without a new book or workflow. Chapters 19/20/22/23/24/25 were reconciled with
+the lead's handoff; the six base chapters and relevant native collision sources
+are unchanged between main `718469b` and PR142. Chapter 29 now cross-links their
+existing coverage. Chapter 25's stale PR45 status and renamed section link are
+corrected. The supplement derives the separate pressure-work/volume-partition
+condition and distinguishes absolute open-traction pressure and Larionov's
+zero-total-traction disk from the prospective CV3-A polygon.
 
 ## Review, tests and artifact
 
@@ -70,7 +79,7 @@ mathematics/source corrections and records exact reviewed hashes and citation
 limits. Main-source admission still matches all 124 selected paths; this check
 is source identity only, not new numerical qualification.
 
-Fresh completed checks:
+First-pass completed checks (retained at their original source identity):
 
 - Existing reference generators complete; strict existing Pandoc/KaTeX builder
   produces 36 sections and 917 rendered mathematics expressions.
@@ -113,11 +122,37 @@ No host security setting or renderer gate was changed. No action was denied by
 automatic approval review in this task.
 
 External artifacts, logs and screenshot review live in
-`/workspace/rheon-paper-review/`; the local site is
-`/workspace/rheon-paper-preview/`. Generated assets, PDFs, logs, simulation data
+`/workspace/rheon-paper-review/`; the final local site is
+`/workspace/rheon-paper-preview-final/`. The first-pass preview is preserved.
+Generated assets, PDFs, logs, simulation data
 and archives stay outside Git. No native solver packet/recorded bundles were
 provided to this source-only preview, and it labels their absence. This does
 not substitute for native/hosted CI qualification of another solver branch.
+
+## Final supplemental qualification at 750352e
+
+The lead handoff was corroborated against pinned source and the primary
+Larionov–Batty–Bridson supplement, then independently reviewed. All final
+substantive source hashes match the supplemental review. Fresh qualification
+uses `/workspace/rheon-paper-review/final/`, separate from first-pass logs:
+
+- All 150 selected tests pass again; all 26 commands exit zero, including proof
+  source identity and 124-path native admission checks.
+- The existing builder renders 36 sections and **924 equations**. Full sandboxed
+  browser/PDF qualification passes with zero page errors/HTTP failures and
+  produces the **213-page** final reading PDF.
+- All 20 corrected-page desktop/mobile inspections pass again. The added local
+  fragment check verifies **452 targets with zero failures**, including the
+  corrected Chapter 25 link.
+- `verify_site.py` passes **6,645 local targets**, **546 packaged Markdown
+  links/images**, 18 figure paths and **401 portable PDF URI links**, with no
+  localhost PDF destination. Source/PDF/linked-file freshness hashes match.
+- Every PDF page contains extractable text with no replacement character.
+  Thirteen final raster pages were inspected, covering the revised chapter,
+  partition/pressure derivations, audit tables and new primary citation.
+- Final read-only browser replay passes all six labs with no page errors or
+  HTTP failures, and confirms unchanged PDF/receipt bytes and final source
+  bindings. No final local documentation blocker remains.
 
 ## Publication disposition
 
@@ -137,10 +172,10 @@ to the new local commit become publicly reachable only after the lead elects to
 publish that branch. The self-contained preview and Markdown ZIP contain the
 local source copies; no remote write is needed to review them.
 
-To inspect the local site, serve `/workspace/rheon-paper-preview/` with a local
+To inspect the final local site, serve `/workspace/rheon-paper-preview-final/` with a local
 HTTP server. The portable reading copy is
-`/workspace/rheon-paper-preview/downloads/Rheon-expanded-book.pdf`.
-`/workspace/rheon-paper-review/research-paper-site.zip` packages the site;
+`/workspace/rheon-paper-preview-final/downloads/Rheon-expanded-book.pdf`.
+`/workspace/rheon-paper-review/research-paper-site-final.zip` packages the site;
 `/workspace/rheon-paper-review/research-paper-audit.patch` is the proposed diff.
 `source-manifest.json`, `artifact-receipts.json` and `handoff-manifest.json`
 bind source and external artifact identities. These are local handoff artifacts,
