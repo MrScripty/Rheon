@@ -217,6 +217,9 @@ impl SimulationSession {
                         crate::SimulationError::Cancelled { .. },
                     ))
                     | SessionError::Step(crate::LiquidStepError::Carrier(
+                        crate::SimulationError::Advection(crate::AdvectionError::Cancelled),
+                    ))
+                    | SessionError::Step(crate::LiquidStepError::Carrier(
                         crate::SimulationError::Pressure(crate::PressureError::Cancelled {
                             ..
                         }),

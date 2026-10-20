@@ -162,6 +162,19 @@ fn fixture() -> Arc<WorkflowAttempt> {
     observed_fixture(false).0
 }
 fn observed_fixture(cancel_before: bool) -> (Arc<WorkflowAttempt>, rheon::SimulationSession) {
+    let (attempt, session, error) = observed_fixture_with(100, |_| cancel_before);
+    assert_eq!(error.is_some(), cancel_before);
+    (attempt, session)
+}
+
+fn observed_fixture_with(
+    max_iterations: usize,
+    cancel: impl FnMut(rheon::LiquidStepStage) -> bool,
+) -> (
+    Arc<WorkflowAttempt>,
+    rheon::SimulationSession,
+    Option<rheon::SessionError>,
+) {
     use rheon::*;
     const CAP: usize = 4 * 1024 * 1024;
     let grid = GridGeometry::new([2; 3], [0.25; 3], [0.0; 3]).unwrap();
@@ -179,7 +192,7 @@ fn observed_fixture(cancel_before: bool) -> (Arc<WorkflowAttempt>, rheon::Simula
                     relative_residual: 1e-10,
                     absolute_residual: 1e-12,
                     divergence_limit: 1e-8,
-                    max_iterations: 100,
+                    max_iterations,
                 },
                 actual_divergence_limit: 1e-5,
                 max_courant: 0.5,
@@ -219,12 +232,11 @@ fn observed_fixture(cancel_before: bool) -> (Arc<WorkflowAttempt>, rheon::Simula
         Some((&mut viscosity, 0.0)),
         None,
         None,
-        |_| cancel_before,
+        cancel,
         7,
         &mut evidence,
     );
-    assert_eq!(result.is_err(), cancel_before);
-    (evidence.unwrap(), session)
+    (evidence.unwrap(), session, result.err())
 }
 
 struct Harness {
@@ -1264,4 +1276,102 @@ fn only_background_press_owns_pan_and_prepress_motion_is_excluded() {
         before + delta,
         "reopening preserves the view without a stale drag"
     );
+}
+
+#[test]
+fn advection_cancel_native_live_and_cold_consumer_distinguishes_numerical_failure() {
+    use rheon::recording::{
+        RecordingLimits, StepRecorder,
+        provider::{configured_run, runtime::RuntimeTerminationCause},
+        workflow::WorkflowTermination,
+    };
+    use rheon::{LiquidStepStage, StepStage, workflow::AttemptOutcome};
+    let output = crate::configured_worker_tests::Output::new();
+    for (name, checkpoint, cap, outcome, cause) in [
+        (
+            "velocity",
+            Some(StepStage::VelocitySlice),
+            100,
+            AttemptOutcome::Cancelled,
+            RuntimeTerminationCause::Cancelled,
+        ),
+        (
+            "tracer",
+            Some(StepStage::TracerSlice),
+            100,
+            AttemptOutcome::Cancelled,
+            RuntimeTerminationCause::Cancelled,
+        ),
+        (
+            "pressure-failure",
+            None,
+            0,
+            AttemptOutcome::Failed,
+            RuntimeTerminationCause::NumericalFailure,
+        ),
+    ] {
+        let (attempt, session, error) = observed_fixture_with(cap, |stage| {
+            checkpoint.is_some_and(|target| stage == LiquidStepStage::Carrier(target))
+        });
+        let error = error.expect("actual unpublished error");
+        if checkpoint.is_some() {
+            assert!(
+                matches!(
+                    error,
+                    rheon::SessionError::Step(rheon::LiquidStepError::Carrier(
+                        rheon::SimulationError::Advection(rheon::AdvectionError::Cancelled)
+                    ))
+                ),
+                "{error:?}"
+            );
+        } else {
+            assert!(
+                matches!(
+                    error,
+                    rheon::SessionError::Step(rheon::LiquidStepError::Carrier(
+                        rheon::SimulationError::Pressure(rheon::PressureError::IterationLimit {
+                            iterations: 0,
+                            ..
+                        })
+                    ))
+                ),
+                "{error:?}"
+            );
+        }
+        assert_eq!(attempt.outcome, outcome);
+        assert_eq!(attempt.publication, None);
+        let label = format!("{outcome:?}");
+        let mut h = Harness::new();
+        h.view.set_attempt(attempt.clone());
+        h.frame(vec![]);
+        assert!(contains(&h.frame(vec![]), &label));
+        let path = output.0.join(format!("advection-{name}.sqlite"));
+        let run =
+            configured_run(&session.snapshot(), "actual cancellation/failure consumer").unwrap();
+        let mut writer = StepRecorder::create(&path, run, RecordingLimits::default()).unwrap();
+        WorkflowTermination::capture(
+            &session.snapshot(),
+            cause,
+            "actual terminal",
+            None,
+            Some(&attempt),
+        )
+        .unwrap()
+        .finish(&mut writer)
+        .unwrap();
+        assert_eq!(writer.recorded_count(), 0);
+        drop(writer);
+        drop(session);
+        drop(attempt);
+        let inspector = Inspector::default();
+        inspector.reload(&path, RecordingLimits::default()).unwrap();
+        h.view.select(Some(&inspector));
+        h.click("terminal");
+        h.view.select(Some(&inspector));
+        let selected = h.view.attempt.as_ref().unwrap();
+        assert_eq!(selected.outcome, outcome);
+        assert_eq!(selected.publication, None);
+        h.frame(vec![]);
+        assert!(contains(&h.frame(vec![]), &label));
+    }
 }
