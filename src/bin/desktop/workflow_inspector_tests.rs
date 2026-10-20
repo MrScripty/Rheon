@@ -179,7 +179,7 @@ fn c1b2_projection_profile_refusal_clears_cached_g1_evidence_and_gesture() {
             for ordinal in 0..source.count().unwrap() {
                 assert!(
                     source
-                        .select_record(ordinal)
+                        .select(ordinal)
                         .unwrap()
                         .controls
                         .starts_with(&format!("RPP{version}:"))
