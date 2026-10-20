@@ -1,0 +1,1512 @@
+{
+  "schema": "rheon-c1b3-complete-selected-source-readiness-independent-review-v1",
+  "status": "APPROVED_EXACT140_SOURCE_FOR_SEPARATE_EXPLICIT_ADMISSION_AND_FRESH_COMPOSED_QUALIFICATION",
+  "reviewed_at_utc": "2026-10-20T04:52:19.215407+00:00",
+  "subject": {
+    "head": "5dc1741feffa88b857194559b3e7e79be5369a64",
+    "tree": "3192914b27bed0bff9c07320b0ee2145656d5f53",
+    "base_pr137": "d3e62377acde6641c8133cf9a9356cc046cfd02a",
+    "qualified_lead_stage": "186dc0a18f787748eb723d91321e44ffd0e374d5",
+    "descends_pr137": true,
+    "descends_qualified186": false
+  },
+  "selected_count": 140,
+  "source_map_sha256": "6cf9712dbebbec79309d9ead4b6514d5cec3cf7559452d0ff16824735d49d22d",
+  "delta_vs_both_pr137_and_qualified186": {
+    "changed": 8,
+    "unchanged": 132,
+    "added": 0,
+    "removed": 0
+  },
+  "complete_committed_selector_and_all140pins_verified": true,
+  "paths": [
+    {
+      "path": "Cargo.lock",
+      "sha256": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+      "pr137_and_qualified186_sha256": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
+      "pr137_and_qualified186_sha256": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "examples/aligned_strain.rs",
+      "sha256": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
+      "pr137_and_qualified186_sha256": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "sha256": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+      "pr137_and_qualified186_sha256": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/advection.rs",
+      "sha256": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+      "pr137_and_qualified186_sha256": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/aligned_strain.rs",
+      "sha256": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
+      "pr137_and_qualified186_sha256": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/README.md",
+      "sha256": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d",
+      "pr137_and_qualified186_sha256": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/accepted_session.rs",
+      "sha256": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31",
+      "pr137_and_qualified186_sha256": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/accepted_provider.rs",
+      "sha256": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc",
+      "pr137_and_qualified186_sha256": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs",
+      "sha256": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729",
+      "pr137_and_qualified186_sha256": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/accepted_provider_tests.rs",
+      "sha256": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237",
+      "pr137_and_qualified186_sha256": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs",
+      "sha256": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942",
+      "pr137_and_qualified186_sha256": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/adapter.rs",
+      "sha256": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2",
+      "pr137_and_qualified186_sha256": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/configured_track.rs",
+      "sha256": "c1dbb4053031065563762b1f538acb4959f30662bd98e646cf9e74ac94752117",
+      "pr137_and_qualified186_sha256": "c1dbb4053031065563762b1f538acb4959f30662bd98e646cf9e74ac94752117",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/configured_track_tests.rs",
+      "sha256": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c",
+      "pr137_and_qualified186_sha256": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/cpu_contract_tests.rs",
+      "sha256": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e",
+      "pr137_and_qualified186_sha256": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/diagnostic_runs.rs",
+      "sha256": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c",
+      "pr137_and_qualified186_sha256": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/diagnostic_view.rs",
+      "sha256": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2",
+      "pr137_and_qualified186_sha256": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/diagnostic_worker.rs",
+      "sha256": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
+      "pr137_and_qualified186_sha256": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs",
+      "sha256": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8",
+      "pr137_and_qualified186_sha256": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/engine.rs",
+      "sha256": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55",
+      "pr137_and_qualified186_sha256": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/engine_typed_tests.rs",
+      "sha256": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
+      "pr137_and_qualified186_sha256": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/mod.rs",
+      "sha256": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076",
+      "pr137_and_qualified186_sha256": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/model_process.rs",
+      "sha256": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d",
+      "pr137_and_qualified186_sha256": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/prediction_contract_tests.rs",
+      "sha256": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3",
+      "pr137_and_qualified186_sha256": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/record.rs",
+      "sha256": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d",
+      "pr137_and_qualified186_sha256": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/scene.rs",
+      "sha256": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321",
+      "pr137_and_qualified186_sha256": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/view.rs",
+      "sha256": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d",
+      "pr137_and_qualified186_sha256": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/worker.rs",
+      "sha256": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b",
+      "pr137_and_qualified186_sha256": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/archive_view.rs",
+      "sha256": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff",
+      "pr137_and_qualified186_sha256": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/build_identity.rs",
+      "sha256": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b",
+      "pr137_and_qualified186_sha256": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/camera.rs",
+      "sha256": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d",
+      "pr137_and_qualified186_sha256": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/carrier_execution.rs",
+      "sha256": "0d96fb2acdfd63374e5f0004d9ead8b43d9fe2f6959c0d01f9c828458ae1799e",
+      "pr137_and_qualified186_sha256": "0d96fb2acdfd63374e5f0004d9ead8b43d9fe2f6959c0d01f9c828458ae1799e",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/collision_ui.rs",
+      "sha256": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204",
+      "pr137_and_qualified186_sha256": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/comparison.rs",
+      "sha256": "6adcccf8e85204703de9fd0bcd952b69c9520acacce4657ef96a3dd49eece099",
+      "pr137_and_qualified186_sha256": "6adcccf8e85204703de9fd0bcd952b69c9520acacce4657ef96a3dd49eece099",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/comparison_archive.rs",
+      "sha256": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9",
+      "pr137_and_qualified186_sha256": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/comparison_field_view.rs",
+      "sha256": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82",
+      "pr137_and_qualified186_sha256": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/configured_comparison_tests.rs",
+      "sha256": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46",
+      "pr137_and_qualified186_sha256": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/configured_controls.rs",
+      "sha256": "05d317554c4db033dd35c5e153dceaea34367eed33125ec8c7f59466f83ede36",
+      "pr137_and_qualified186_sha256": "05d317554c4db033dd35c5e153dceaea34367eed33125ec8c7f59466f83ede36",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/configured_producer_exit_tests.rs",
+      "sha256": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb",
+      "pr137_and_qualified186_sha256": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/configured_worker_tests.rs",
+      "sha256": "81e24d69cd5838de3becbc31453ce0a10947e7fe956287862957fcc06eae6e38",
+      "pr137_and_qualified186_sha256": "81e24d69cd5838de3becbc31453ce0a10947e7fe956287862957fcc06eae6e38",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/emitter_controls.rs",
+      "sha256": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9",
+      "pr137_and_qualified186_sha256": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/engineering.rs",
+      "sha256": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d",
+      "pr137_and_qualified186_sha256": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/export_ui.rs",
+      "sha256": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d",
+      "pr137_and_qualified186_sha256": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/history.rs",
+      "sha256": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821",
+      "pr137_and_qualified186_sha256": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/identity.rs",
+      "sha256": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184",
+      "pr137_and_qualified186_sha256": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/inspector.rs",
+      "sha256": "54c68139c0aee8d8bcb24ea3fa303ecff6405ce75689fb440ef3184a75bcbe69",
+      "pr137_and_qualified186_sha256": "fdd4bda089f750d0a26a67782a0852347aefcf4ef418bd0b1a2ce308a7491719",
+      "disposition": "changed",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "explicit desktop consumer refusal",
+      "rationale": "Extends existing pre-adoption refusal/cache invalidation to complete native-projection-selection namespace, including future versions; no graph or native-window feature."
+    },
+    {
+      "path": "src/bin/desktop/particle_view.rs",
+      "sha256": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
+      "pr137_and_qualified186_sha256": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/run_set_view.rs",
+      "sha256": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b",
+      "pr137_and_qualified186_sha256": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/run_sets.rs",
+      "sha256": "e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1",
+      "pr137_and_qualified186_sha256": "e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/run_sets/configured.rs",
+      "sha256": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9",
+      "pr137_and_qualified186_sha256": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/run_sets/configured/archive.rs",
+      "sha256": "c790e634ff8f46fb4b3513530321bf34ad00f80ab717fa66a1afcb003485aef2",
+      "pr137_and_qualified186_sha256": "c790e634ff8f46fb4b3513530321bf34ad00f80ab717fa66a1afcb003485aef2",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/run_sets/source.rs",
+      "sha256": "c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11",
+      "pr137_and_qualified186_sha256": "c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/settings.rs",
+      "sha256": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
+      "pr137_and_qualified186_sha256": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/transport_view.rs",
+      "sha256": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
+      "pr137_and_qualified186_sha256": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/viewport.rs",
+      "sha256": "599046403df150499064337c2ce3b6996f1ece69f4e876f882200f079b7cd530",
+      "pr137_and_qualified186_sha256": "599046403df150499064337c2ce3b6996f1ece69f4e876f882200f079b7cd530",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/workflow_inspector.rs",
+      "sha256": "4176efb859e9ed2e0041a6ca7b9f87c5590ed2aa7541a83fc225ce6e795ddd6f",
+      "pr137_and_qualified186_sha256": "4176efb859e9ed2e0041a6ca7b9f87c5590ed2aa7541a83fc225ce6e795ddd6f",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/desktop/workflow_inspector_tests.rs",
+      "sha256": "1a007629254e7145d6b9a2fca505f42630d05a38e3f9dc4af4f65b23c4fe7922",
+      "pr137_and_qualified186_sha256": "baaff49e09146eb415a1ba7fbe23f9299913fcba6defa971d5acfe3ce839b51d",
+      "disposition": "changed",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "dual-profile consumer contracts",
+      "rationale": "Real builtin/selection accepted and header-only cancelled archives, literal RPS/RPP/RPT versions, future namespace refusal and prior G1 evidence/gesture cache clearing. Single consumer-only repair replaces private select_record with public select; old assertions retained."
+    },
+    {
+      "path": "src/bin/rheon-ai-compare.rs",
+      "sha256": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9",
+      "pr137_and_qualified186_sha256": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/rheon-desktop.rs",
+      "sha256": "cd57bc2c39b6c16b9b92768be2614ec40ce02adbafc5d4992664af2ba291d66c",
+      "pr137_and_qualified186_sha256": "cd57bc2c39b6c16b9b92768be2614ec40ce02adbafc5d4992664af2ba291d66c",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/bin/rheon.rs",
+      "sha256": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51",
+      "pr137_and_qualified186_sha256": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/box_flux.rs",
+      "sha256": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+      "pr137_and_qualified186_sha256": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/box_flux_step.rs",
+      "sha256": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+      "pr137_and_qualified186_sha256": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/collision.rs",
+      "sha256": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+      "pr137_and_qualified186_sha256": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/column_mac.rs",
+      "sha256": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+      "pr137_and_qualified186_sha256": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/column_momentum.rs",
+      "sha256": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0",
+      "pr137_and_qualified186_sha256": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/column_shear.rs",
+      "sha256": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299",
+      "pr137_and_qualified186_sha256": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/column_surface.rs",
+      "sha256": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+      "pr137_and_qualified186_sha256": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/compressible.rs",
+      "sha256": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3",
+      "pr137_and_qualified186_sha256": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/coupled_discrete.rs",
+      "sha256": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7",
+      "pr137_and_qualified186_sha256": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/dense3d_sequence.rs",
+      "sha256": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431",
+      "pr137_and_qualified186_sha256": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/emitter.rs",
+      "sha256": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84",
+      "pr137_and_qualified186_sha256": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/emitter_controls.rs",
+      "sha256": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4",
+      "pr137_and_qualified186_sha256": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/export.rs",
+      "sha256": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3",
+      "pr137_and_qualified186_sha256": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/fitted_height.rs",
+      "sha256": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+      "pr137_and_qualified186_sha256": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/fixed_bottom_ale.rs",
+      "sha256": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47",
+      "pr137_and_qualified186_sha256": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/forces.rs",
+      "sha256": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb",
+      "pr137_and_qualified186_sha256": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/free_surface.rs",
+      "sha256": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+      "pr137_and_qualified186_sha256": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/geometry.rs",
+      "sha256": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634",
+      "pr137_and_qualified186_sha256": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "912ad100d2fa06be6172e660464893b8f7a56b2ad0a22a48b7607e79796f6fd6",
+      "pr137_and_qualified186_sha256": "912ad100d2fa06be6172e660464893b8f7a56b2ad0a22a48b7607e79796f6fd6",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/liquid_step.rs",
+      "sha256": "d78dc80351771ac257f2643017c138709ea174d0e6dc4c4f7e1b92911babb41d",
+      "pr137_and_qualified186_sha256": "d78dc80351771ac257f2643017c138709ea174d0e6dc4c4f7e1b92911babb41d",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/liquid_volume.rs",
+      "sha256": "7f98c25b5e0990a0a9097aa1d3d656f4441123271e5ee1801ee2055de9eed650",
+      "pr137_and_qualified186_sha256": "7f98c25b5e0990a0a9097aa1d3d656f4441123271e5ee1801ee2055de9eed650",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/material.rs",
+      "sha256": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+      "pr137_and_qualified186_sha256": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/material_session.rs",
+      "sha256": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960",
+      "pr137_and_qualified186_sha256": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/mesh_collision.rs",
+      "sha256": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24",
+      "pr137_and_qualified186_sha256": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/mesh_import.rs",
+      "sha256": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890",
+      "pr137_and_qualified186_sha256": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/motion.rs",
+      "sha256": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+      "pr137_and_qualified186_sha256": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/native_family.rs",
+      "sha256": "070721db5250b429bf6f1147b71de1b84fd010eceb17d0814f9b9d299c9a09e5",
+      "pr137_and_qualified186_sha256": "070721db5250b429bf6f1147b71de1b84fd010eceb17d0814f9b9d299c9a09e5",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/native_family/tests.rs",
+      "sha256": "6904cbfa816d754410f18fe4281d29729e492ac47e2905474afa30cb97edb7d5",
+      "pr137_and_qualified186_sha256": "6904cbfa816d754410f18fe4281d29729e492ac47e2905474afa30cb97edb7d5",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/observation.rs",
+      "sha256": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee",
+      "pr137_and_qualified186_sha256": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/obstacle_pressure.rs",
+      "sha256": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07",
+      "pr137_and_qualified186_sha256": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/obstacle_shear.rs",
+      "sha256": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f",
+      "pr137_and_qualified186_sha256": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/operator.rs",
+      "sha256": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+      "pr137_and_qualified186_sha256": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/parallel.rs",
+      "sha256": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e",
+      "pr137_and_qualified186_sha256": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/particle_fluid.rs",
+      "sha256": "ed4ab916e602a55b2245beba5bdbff268fcb704b67fa41248d47ad2598f2468f",
+      "pr137_and_qualified186_sha256": "ed4ab916e602a55b2245beba5bdbff268fcb704b67fa41248d47ad2598f2468f",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/pressure.rs",
+      "sha256": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+      "pr137_and_qualified186_sha256": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/pressure_session.rs",
+      "sha256": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8",
+      "pr137_and_qualified186_sha256": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/projection_step.rs",
+      "sha256": "51fe13c95772d1e3b68f2c261b50d5e2ec49bbc7adf8ff2573e3f36c2c34df1c",
+      "pr137_and_qualified186_sha256": "155d289224ae852227e222d19134a0fe9678642aca37606d88ac57a4797f00e3",
+      "disposition": "changed",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "finite stateless selection and observation owner",
+      "rationale": "Closed distinct producer/fallback enum and positive producer<=host cap; exact workspace match/capped separate scratch. Original native producer on actual immutable request, only actual IterationLimit recoverable into B1 same-input baseline. Successful candidate pressure/velocity or clean fallback adopted through unchanged publication; cancelled/other errors terminate. Versioned success/failure facts mutually exclusive, exact method/cap/iteration/witness0/metrics/selected role and stage-prefix validation; mixed witness fallback remains unpublished."
+    },
+    {
+      "path": "src/provider_step.rs",
+      "sha256": "20cb23abcb30802dbebd6a32f599d20986982bf7aaa9e69e5287e4e448bac54b",
+      "pr137_and_qualified186_sha256": "20cb23abcb30802dbebd6a32f599d20986982bf7aaa9e69e5287e4e448bac54b",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/recording.rs",
+      "sha256": "6e543c95f148e67c6b7a548548785d50084abde60ee079cbbbbb9d6aae0eac66",
+      "pr137_and_qualified186_sha256": "6e543c95f148e67c6b7a548548785d50084abde60ee079cbbbbb9d6aae0eac66",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/recording/carrier.rs",
+      "sha256": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509",
+      "pr137_and_qualified186_sha256": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/recording/comparison.rs",
+      "sha256": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307",
+      "pr137_and_qualified186_sha256": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/recording/diagnostic.rs",
+      "sha256": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
+      "pr137_and_qualified186_sha256": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/recording/material.rs",
+      "sha256": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
+      "pr137_and_qualified186_sha256": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/recording/projection.rs",
+      "sha256": "49323046bc72879a80fae248a3f5f05018f461df4d26c185b7458a05fe225588",
+      "pr137_and_qualified186_sha256": "22e1a6c10d619ea5e84773b39e6e6eeea9ed6e5b3986ded7fe940ba817b23c24",
+      "disposition": "changed",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "additive typed role-bound cold custody",
+      "rationale": "New exact selection profile/RPS2/RPP2/RPT2 while preserving v1 namespaces/byte layout. Outer intent/version and embedded attempt version rejected before foreign payload parsing. Outer source/intent/attempt/selected role validated before private method-only inner adaptation. Authoritative public constructor remains fallback, actual selected receipt method separate. Existing SQLite/16KiB/source/prior/output/terminal/unrecorded-tail guards remain; no runtime/graph/restart inferred."
+    },
+    {
+      "path": "src/recording/projection_tests.rs",
+      "sha256": "5b53bd71f5d4ca21cb51286d059d8041fecc400b3743e02ff22f28eb5fd7ce8d",
+      "pr137_and_qualified186_sha256": "f55313140b5d4cafe747ea25e1877353308cf1f7363613a61a7fbd2fae018338",
+      "disposition": "changed",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "real SQLite and strict version/role contracts",
+      "rationale": "Both producers and actual cap1 fallback roundtrip after close/drop; old inner decoder still rejects producer-versus-fallback header mismatch. Actual producer-failure cancellation, final cancellation, mixed failure and accepted-unrecorded tail. Method/source/cap/profile/size/time/failure metrics/input/output/prior/duplicate-attempt corruption rejects. Both outer intent directions and public publication/cold-terminal embedded foreign versions reject Unsupported before truncated/foreign payload parsing."
+    },
+    {
+      "path": "src/recording/provider.rs",
+      "sha256": "3daa4c37b3f78dcc1c02454e00d5586b3e859c1671766ae0f7fc6984190b7826",
+      "pr137_and_qualified186_sha256": "b0791547d98fbebf803f700155f0e825893b6236cbbc7f40fa7dac9146059fc8",
+      "disposition": "changed",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "private method-only header adapter",
+      "rationale": "Existing capture_native delegates its original constructor method. New private header reconstruction changes only implementation, revalidates/rebinds exact old configuration encoding/source, and runs unchanged configured receipt validator with that explicitly validated method; no loosening of old configured public API."
+    },
+    {
+      "path": "src/recording/provider/comparison.rs",
+      "sha256": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75",
+      "pr137_and_qualified186_sha256": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/recording/provider/runtime.rs",
+      "sha256": "2cff480b60cdae14107541ce07d72afe2e1627684b82d427211df1bff023d381",
+      "pr137_and_qualified186_sha256": "2cff480b60cdae14107541ce07d72afe2e1627684b82d427211df1bff023d381",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/recording/workflow.rs",
+      "sha256": "020b8cd9d63dc5afedfb1b99b316fe584a5f226241abe4be159af960b13d2cc1",
+      "pr137_and_qualified186_sha256": "020b8cd9d63dc5afedfb1b99b316fe584a5f226241abe4be159af960b13d2cc1",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/sampling.rs",
+      "sha256": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+      "pr137_and_qualified186_sha256": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/scheduling.rs",
+      "sha256": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
+      "pr137_and_qualified186_sha256": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/session.rs",
+      "sha256": "fffdcf8728bcc959db384c4567ad8200ec59be800fcb343a7324e208a776088b",
+      "pr137_and_qualified186_sha256": "fffdcf8728bcc959db384c4567ad8200ec59be800fcb343a7324e208a776088b",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/session/configured.rs",
+      "sha256": "25a3478d1408ee98f55fc072fcef97631df5283bd01f13e3ac81d947450e5ce4",
+      "pr137_and_qualified186_sha256": "25a3478d1408ee98f55fc072fcef97631df5283bd01f13e3ac81d947450e5ce4",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/session/projection.rs",
+      "sha256": "b94b144d441730a50f641656dbfd069e7182b8471a73e8aba8b4df17c53cf0a4",
+      "pr137_and_qualified186_sha256": "d58dee5e48a2d534ce23729223eba816e16702abf420799594c525f8843ef0dc",
+      "disposition": "changed",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "immutable Session intent integration",
+      "rationale": "Captures actual immutable intent/version into attempts and checks workspace grid/density/fallback/intent before callbacks/invocation. Reuses existing full-interval owner, atomic publication/accepted Arc/quota and cooperative deadline/cancel behavior; no second commit/history owner."
+    },
+    {
+      "path": "src/session/projection_tests.rs",
+      "sha256": "58fb6694b80e8b87d7fff889c5e3a5adf801f1a2b3e671d37e352c01bbf8053d",
+      "pr137_and_qualified186_sha256": "e778e42dd47ca250b5a76064db549306a2fb20eee6254ec3fec4a0ecb1e717e6",
+      "disposition": "changed",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "actual cancellation/failure/rollback and ingress contracts",
+      "rationale": "Both directions and cap1/fullcap walk every reached checkpoint after prior acceptance; cancellation never retries producer and retains fields/Arc/quota. Same-owner retry equals fresh scratch. Private rejected field/momentum fallback versus unpublished mixed pressure; genuine producer+fallback cap1 failure; inner polls/deadline/late-volume/final/quota/stop/exhaustion and exact workspace/cap/role/version corruptions covered."
+    },
+    {
+      "path": "src/sgs.rs",
+      "sha256": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
+      "pr137_and_qualified186_sha256": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/simulation.rs",
+      "sha256": "c8ee3c84cb0dbdcc4768c560ca66741ec581866e6239d87c4be9e505944e3e18",
+      "pr137_and_qualified186_sha256": "c8ee3c84cb0dbdcc4768c560ca66741ec581866e6239d87c4be9e505944e3e18",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/solver_provider.rs",
+      "sha256": "204682fc6540cb812d7d9200dd61085e5dcb827a6c77981e081046ef353c0838",
+      "pr137_and_qualified186_sha256": "204682fc6540cb812d7d9200dd61085e5dcb827a6c77981e081046ef353c0838",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/solver_provider/composition.rs",
+      "sha256": "f8cceb5a953e45627c2297b9393e557519b3099c4533b5aa1045b0dd0c6a96ef",
+      "pr137_and_qualified186_sha256": "f8cceb5a953e45627c2297b9393e557519b3099c4533b5aa1045b0dd0c6a96ef",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/solver_provider/composition/projection.rs",
+      "sha256": "c122744dfc3b4fccd4c5755df10fef1c12033e51d87c191d73efdb0cdaab28a3",
+      "pr137_and_qualified186_sha256": "c122744dfc3b4fccd4c5755df10fef1c12033e51d87c191d73efdb0cdaab28a3",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/solver_provider/composition/projection_tests.rs",
+      "sha256": "1136781800cb14e301521fe4093fe042f59d17b7e149136dc24ba73bf4500a3e",
+      "pr137_and_qualified186_sha256": "1136781800cb14e301521fe4093fe042f59d17b7e149136dc24ba73bf4500a3e",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/solver_provider/composition_tests.rs",
+      "sha256": "363b5f5192225d7187cf64bd458f9691e3f041ef8ed1282babc5c5c2a9eb2adb",
+      "pr137_and_qualified186_sha256": "363b5f5192225d7187cf64bd458f9691e3f041ef8ed1282babc5c5c2a9eb2adb",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/solver_provider/configured.rs",
+      "sha256": "e75eff2c8c0147b00a07e10e4a2b686b0fcf6a46248dbbcb346c5d485ce93392",
+      "pr137_and_qualified186_sha256": "e75eff2c8c0147b00a07e10e4a2b686b0fcf6a46248dbbcb346c5d485ce93392",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/solver_provider/context.rs",
+      "sha256": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693",
+      "pr137_and_qualified186_sha256": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/solver_provider/modal.rs",
+      "sha256": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796",
+      "pr137_and_qualified186_sha256": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/static_obstacle.rs",
+      "sha256": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080",
+      "pr137_and_qualified186_sha256": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/tracer_barrier.rs",
+      "sha256": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+      "pr137_and_qualified186_sha256": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/translated_viscous.rs",
+      "sha256": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+      "pr137_and_qualified186_sha256": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/viscosity.rs",
+      "sha256": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+      "pr137_and_qualified186_sha256": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/vtk_export.rs",
+      "sha256": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e",
+      "pr137_and_qualified186_sha256": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/workflow.rs",
+      "sha256": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9",
+      "pr137_and_qualified186_sha256": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "src/workflow/tests.rs",
+      "sha256": "5c42f4ed32454e3de1c9638bdab24a9e8309c73b9eea3095b434a16570c00eb5",
+      "pr137_and_qualified186_sha256": "5c42f4ed32454e3de1c9638bdab24a9e8309c73b9eea3095b434a16570c00eb5",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "tests/aligned_strain_contract.rs",
+      "sha256": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16",
+      "pr137_and_qualified186_sha256": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "tests/obstacle_flow_contract.rs",
+      "sha256": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020",
+      "pr137_and_qualified186_sha256": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "tests/static_obstacle_contract.rs",
+      "sha256": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de",
+      "pr137_and_qualified186_sha256": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "tools/aligned_strain_oracle.py",
+      "sha256": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5",
+      "pr137_and_qualified186_sha256": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "tools/qualify_aligned_strain.py",
+      "sha256": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba",
+      "pr137_and_qualified186_sha256": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "tools/test_aligned_strain_oracle.py",
+      "sha256": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f",
+      "pr137_and_qualified186_sha256": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    },
+    {
+      "path": "tools/test_qualify_aligned_strain.py",
+      "sha256": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db",
+      "pr137_and_qualified186_sha256": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db",
+      "disposition": "unchanged",
+      "review_disposition": "APPROVED_BOUNDED_SOURCE_FOR_SEPARATE_ADMISSION_AND_FRESH_QUALIFICATION",
+      "classification": "exact approved PR137/qualified186 source identity reused",
+      "rationale": "Exact previous reviewed source bytes; prior per-path rationale retained in g1-cancel-followup.json. No historical execution transfer to new B3 closure."
+    }
+  ],
+  "extra_reviewed_public_contracts": {
+    "tests/projection_session_contract.rs": "0da2954a1be0ffa516287ee62132589a6900be162015d929c1fe1492a401f1cc",
+    "tests/recording_comparison_contract.rs": "567a33029ba512fd2417555415fa7d8324d7981112c7548917499e596c5a1b61"
+  },
+  "source_evidence_split": {
+    "core": {
+      "commit": "4af3802babe332d8dfeb926c19159b4b656be775",
+      "tree": "7f0ca675efeaec55d9fd03f7311c69f45a29b64c"
+    },
+    "consumer": {
+      "commit": "9ddf8d2fd860c73bbcc35a077e08099d894db07a",
+      "tree": "22f6ed965f0aa0250cbf1b567033e0aaee1d0163"
+    },
+    "only_compiled_difference": "diff --git a/src/bin/desktop/workflow_inspector_tests.rs b/src/bin/desktop/workflow_inspector_tests.rs\nindex a81bd09..1522808 100644\n--- a/src/bin/desktop/workflow_inspector_tests.rs\n+++ b/src/bin/desktop/workflow_inspector_tests.rs\n@@ -179,7 +179,7 @@ fn c1b2_projection_profile_refusal_clears_cached_g1_evidence_and_gesture() {\n             for ordinal in 0..source.count().unwrap() {\n                 assert!(\n                     source\n-                        .select_record(ordinal)\n+                        .select(ordinal)\n                         .unwrap()\n                         .controls\n                         .starts_with(&format!(\"RPP{version}:\"))\n",
+    "consumer_to_final_changes": [
+      "docs/plans/fluid-accuracy-composition/reports/c1b3-manifest.json",
+      "docs/plans/fluid-accuracy-composition/reports/c1b3-qualification.md",
+      "docs/plans/fluid-accuracy-composition/reports/c1b3-review.md"
+    ],
+    "all_source_manifest_hashes_verified": true
+  },
+  "old_formats_and_role_review": {
+    "outer_intent": "get_intent matches tuple(expected outer version,tag) before method/cap payload; old-v1/new-v2cross-intents Unsupported. native_header binds exact namespace/configuration prefix/version.",
+    "embedded_attempt": "get_attempt first reads version and rejects any version different from expected outer intent or outside1/2; both publication decode and terminal call supply outer expected version. No foreign failure byte parsed under oldv1.",
+    "role": "Attempt source/intent validated before adapting inner method. producer success iff supplied selection, exact producer method/cap; actual producer failure iff new NativeBaseline with distinct host fallback and no witness/rejection; regular witness rejection retains separate NativeFallback. selected_native matches actual role/reports; old configured receipt validator unchanged.",
+    "old_inner": "capture_native uses actual constructor method as before; new wrapper private method-only adapter explicitly rebinds source/header. New decoded wrapper restores outer constructor fallback and documents separate selected receipt method; no old consumer reinterpretation."
+  },
+  "mechanism": {
+    "unchanged_owner_pins_vs_pr137": {
+      "docs/education/aligned_strain_packet.py": "361ec0530ad64bbb0f698463a0553ab1c3b4964af3e9cbce547a327456cb8b3a",
+      "docs/education/test_aligned_strain_packet.py": "d53b4a44943782288868bfd2bcab56ca2f24220990a62a749e63a9148550a5f9",
+      "docs/education/check_native_admission.py": "fa315c21355a5eca90f0692f01b4d3a2c1c936cbd6a8e0f8e192d06beac847b2",
+      "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
+      "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d",
+      "docs/education/aligned-strain-native-sources-integration-20261014.json": "3cafdc2a319420089262057f707be259ffd4b3b35a971ea529e853cd431e2330",
+      "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md": "9e583b31ed051f388c636879c90ecb84e4e31b177de42dc39ca7b8acebaa796c",
+      "tools/qualify_aligned_strain.py": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba",
+      "tools/aligned_strain_oracle.py": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5"
+    },
+    "owner_refusal": "Existing owner inventory135 versus complete140: path-set mismatch is exact source-derived expected refusal; reported checker exit1 attributed, no checker rerun on a different checkout.",
+    "lead186_refusal": "Qualified186 inventory already140, but8new hash mismatches: after composition its old inventory correctly refuses changed inputs, not a135/140shape refusal.",
+    "decision": "Existing explicit strict v3 mechanism sufficient. Preserve186boundreview/admission/results ancestry; append bounded review and explicitly pin complete newmap, then fresh clean committed qualification. Do not replace whole owner tree over186 or auto-refresh."
+  },
+  "qualification_attribution": {
+    "reported_passed_executions": 227,
+    "reported_failed": 0,
+    "reported_existing_ignored": 5,
+    "new_test_functions_independently_counted": 15,
+    "new_test_definitions": {
+      "src/bin/desktop/inspector.rs": [],
+      "src/bin/desktop/workflow_inspector_tests.rs": [],
+      "src/projection_step.rs": [],
+      "src/recording/projection.rs": [],
+      "src/recording/projection_tests.rs": [
+        "c1b3_projection_cold_cancel_failed_and_accepted_unrecorded_tails",
+        "c1b3_projection_cold_iteration_failure_corruption_and_history_links_refuse",
+        "c1b3_projection_intent_decoder_refuses_foreign_version_before_payload",
+        "c1b3_projection_publication_and_terminal_refuse_foreign_attempt_version_before_payload",
+        "c1b3_projection_selected_method_source_budget_and_profile_corruptions_refuse",
+        "c1b3_projection_sqlite_both_producers_and_real_iteration_failure_fallback"
+      ],
+      "src/recording/provider.rs": [],
+      "src/session/projection.rs": [],
+      "src/session/projection_tests.rs": [
+        "c1b3_deadlines_inner_iterations_late_volume_and_terminal_guards_do_not_publish",
+        "c1b3_distinct_producer_faults_preserve_clean_host_fallback_and_unpublished_mixed_receipts",
+        "c1b3_each_observed_checkpoint_cancels_without_retry_or_publication_and_reused_scratch_matches_fresh",
+        "c1b3_genuine_fallback_iteration_failure_is_unpublished_and_repeatable",
+        "c1b3_invalid_intents_caps_and_exact_workspace_mismatch_refuse_before_invocation",
+        "c1b3_versioned_receipts_bind_producer_failure_method_cap_and_selected_role"
+      ],
+      "tests/projection_session_contract.rs": [
+        "c1b3_one_hundred_selected_intervals_match_direct_producer_for_each_pair",
+        "c1b3_real_iteration_failure_fallback_matches_direct_fallback_for_both_pairs",
+        "c1b3_shortened_interval_binds_selected_producer_and_fallback"
+      ],
+      "tests/recording_comparison_contract.rs": []
+    },
+    "counts_deliberately_overlap": "12newdefault+3newpublic+97fullno-default+99legacy+3docs+13inspector; default/newunit executions overlap97. Not227distincttests.",
+    "source_200_intervals": "Public test loops100accepted SuppliedCandidate-selected intervals for each ordered distinct pair vs same producer algorithm direct Session; old B2 builtin100-permethod test remains.",
+    "source_actual_shortened_and_lowcap": "Both method directions use actual shorteneddt fixture; real cap1 producer failure publishes fallback for2intervals perpair=4. Source asserts actual failures/identities/fieldbitsequivalence, not fabricated failed facts.",
+    "raw_owner_logs_and_archive_available_locally": false,
+    "owner_independent_artifact_audit": {
+      "reviewer": "/root/persistence_independent",
+      "status": "PASS; no blockers",
+      "audited_pre_audit_manifest_sha256": "5039f58b41d4a342b4dfc39daee6fc4a1985ac60356f55b0e22dc79fe494b144",
+      "artifact_hashes_checked": 68,
+      "deciding_executable_records_checked": 12,
+      "historical_executable_records_checked": 14,
+      "deciding_command_logs_checked": 8,
+      "final_source_pins_checked": 140,
+      "historical_source_maps_checked": [
+        "d7928c8",
+        "4af3802"
+      ],
+      "checkpoint_trees_checked": 15,
+      "equivalent_checkpoint_pairs_checked": 4,
+      "archive_members_checked": 68,
+      "protected_archives_unchanged": true,
+      "admission_inputs_modified": false,
+      "mismatches": 0
+    },
+    "raw_evidence_scope": "Manifest arithmetic/source identity and retained failure-repair code reviewed. No direct227-test log/ELF/68memberZIP rehash or execution claim in this review.",
+    "negative_evidence": "Compiler RecordedStep.clone and private reader-call failures plus actual d792 legacy-version compatibility failure retained; final version dispatch repairs are source-visible, regressions reach both public decode and actual cold terminals. No threshold/assertion weakening found."
+  },
+  "checkpoint_identity_checks": [
+    {
+      "commit": "4cefec089b797d4ef58994c37128fce712c296c5",
+      "tree": "8b6ac71a01e35d8c24ae4b13bbbb942ca1f23b5b",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "02cb2ee68a5a62f12d11a3bb112f2a828affd300",
+      "tree": "2cb8f7fb5ea28881e22d95c0db4eba847c87c3fa",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "2bc59e7c213eeb878653b6eaae3b4befc201250b",
+      "tree": "4b8ba05d388c62c4942a1999aa2dab5a4b6459aa",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "616492f43cfb93bbb3281427d21473513468b51a",
+      "tree": "bfac7729ebbcba8fe4c639fed9d85d73be8c3958",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "3c87312febb1ec8ec4b9199e8f19c94aeb86da53",
+      "tree": "da1eaaa0b1e91560ca5391d5a2c7bc1ccbb673d6",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "cc8be55c1ad67faa1dd75919ce6fbfded9ca69b9",
+      "tree": "69d7e4b9de6fea7a86d59ce93410a795e77540f5",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "f22513e647092ca85eedc2b3eb1a7c7c0fdadf72",
+      "tree": "3b820d9cb13a344adf397cb34dcbe7af7990ab21",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "76841b07718ededa7c9b2b8fe1b0ab9f45be8be4",
+      "tree": "ee410784343955dafeb59e6846e2fb12b1d656ba",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "d7928c8616ce49a2d90685a26636c844913c52b2",
+      "tree": "ee410784343955dafeb59e6846e2fb12b1d656ba",
+      "local_git_verified": true
+    },
+    {
+      "commit": "50c4ad7bffd19b20186dd59cb3be3313b3209cf3",
+      "tree": "38ee17dd7d0ce98f997ef1c4fe0fa4a730fe14e0",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "f2ebaa7c7706e7f0e6bb2e2d5df117a71f42a681",
+      "tree": "38ee17dd7d0ce98f997ef1c4fe0fa4a730fe14e0",
+      "local_git_verified": true
+    },
+    {
+      "commit": "dd387ff1abed1890154a9dc9d5301db268b49f1b",
+      "tree": "7f0ca675efeaec55d9fd03f7311c69f45a29b64c",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "4af3802babe332d8dfeb926c19159b4b656be775",
+      "tree": "7f0ca675efeaec55d9fd03f7311c69f45a29b64c",
+      "local_git_verified": true
+    },
+    {
+      "commit": "ae9dbe567eafbbf33f3889e5faf1418d8b4b3a25",
+      "tree": "22f6ed965f0aa0250cbf1b567033e0aaee1d0163",
+      "local_git_verified": false,
+      "scope": "Owner manifest claim; object unavailable locally."
+    },
+    {
+      "commit": "9ddf8d2fd860c73bbcc35a077e08099d894db07a",
+      "tree": "22f6ed965f0aa0250cbf1b567033e0aaee1d0163",
+      "local_git_verified": true
+    }
+  ],
+  "hosted_snapshot": {
+    "pr": 140,
+    "url": "https://github.com/MrScripty/Rheon/pull/140",
+    "state": "OPEN",
+    "draft": true,
+    "head": "5dc1741feffa88b857194559b3e7e79be5369a64",
+    "base": "fix/g1-advection-cancel-20261020",
+    "mergeable": "MERGEABLE",
+    "exact_head_check_runs": 14,
+    "check_status_counts": {
+      "queued": 14
+    },
+    "exact_head_workflow_runs": 9,
+    "workflow_status_counts": {
+      "queued": 9
+    },
+    "CodeRabbit": "SUCCESS at PRrollup snapshot; not fullhosted acceptance",
+    "receipt_sha256": {
+      "exact-head-hosted.json": "d50f807bbc92b7f23b402d6542ec51d5b779c823843f59bf86c6a307de4bd389",
+      "exact-head-check-runs.json": "e3ebe10303381c1eae26622a5f6ac82ed01cd603b14a99e702ad78067663b773",
+      "exact-head-workflow-runs.json": "fb7d009c06dbe2f425c78ae4827bd229dc56c872e56d61af84a4dbe801c32a5e"
+    }
+  },
+  "findings": [],
+  "remaining_gates": [
+    "Explicitly compose owner history with186/admission/result lineage without source changes orQ2Cargo, review final metadata append/map and freeze clean committed source.",
+    "Fresh native/rational/actual packet normal/-O plus declared full97library/all6projectionpublic/legacy122volume/borrow3 and any scoped consumer composition checks. Owner227 and186213 receipts stay exact original subjects.",
+    "Required exact-head hosted gates and leadserial integration/merge disposition: current PR140 draft withall14checks/9runs queued; MERGEABLE/CodeRabbitSUCCESS are insufficient.",
+    "Graph/nativewindow/performance/model/physical accuracy, external/statefultransactions, learned/particle/whole-family/transfer andfullC1-B/C/R remain separate/unaccepted."
+  ],
+  "limits": [
+    "No builds/tests/campaigns/source/inventory/ref/PR mutations; only external review artifacts andread-only GitHubqueries.",
+    "No new API/runtime/solver implementation; no production numerical formula/order orpublication change admitted beyond closed existingmethod choice.",
+    "Cargo/toolchain/admissionmechanism/privateQ2sources unchanged frompriorclosure. No authentication/bitreproducibility claim."
+  ]
+}

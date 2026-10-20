@@ -1206,3 +1206,47 @@ build-time refresh or skipped gate. Retain failures and outcomes separately;
 never edit these bound bytes after qualification. Hosted/default/desktop/GUI,
 release/performance, model/Lean/GPU and physical gates remain separate. No merge
 authority is supplied by admission; public merge actions remain paused.
+
+
+## Separate closed C1-B3 producer-selection admission, 2026-10-20
+
+This explicit refresh permits a fresh qualification attempt after independent
+complete-source review of final PR140
+`5dc1741feffa88b857194559b3e7e79be5369a64`, tested core4af3802 and consumer9ddf8d2.
+The [independent source review](../plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/source-review/readiness-review.md)
+and [all-path receipt](../plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/source-review/readiness-review.json)
+approve the same 140 regular selected inputs: eight changed, 132 exact reused,
+zero added/removed versus both PR137 and qualified186dc0a. Two additional changed
+public contract targets are reviewed outside the unchanged selector. Canonical
+sorted compact map SHA256 (no trailing newline):
+`6cf9712dbebbec79309d9ead4b6514d5cec3cf7559452d0ff16824735d49d22d`.
+The local composition retains exact owner and qualified186 histories; no old
+execution receipt transfers. Cargo/toolchain and all 132 reused inputs stay exact;
+Q2 Cargo/CV sources remain excluded. Existing v3 schema/base, v1/v2 identities,
+primary ancestry/tree and selector/checker/oracle/qualifier/packet stay unchanged.
+Every previous bound-review byte is preserved as an exact prefix.
+
+ClassicalSelectionV1 selects the other existing native pressure method with
+positive producer cap bounded by the constructor cap. Among producer errors,
+only actual IterationLimit permits same-immutable-input full-cap native fallback;
+other errors and cancellation terminate unpublished. Existing B1 field/momentum
+rejection fallback remains; mixed-pressure witness fallback stays unpublished. Existing qualifier/Liquid/Session atomic
+publication remains sole owner. Additive RPS2/RPP2/RPT2 binds distinct producer,
+fallback and actual selection roles, with strict outer intent and embedded attempt
+version refusal before payload parsing. Private method-only header adaptation
+occurs only after outer validation; legacy configured/version-1 validators remain
+strict. Graph/comparison refuses the new namespace. No stateful/learned/external,
+whole-family/transfer or full C1-R admission is implied. Original failures/repairs
+and owner227/5 execution claims remain their original subjects; no raw owner
+archive audit is asserted.
+
+Commit this append, its bound digest, complete reviewed inventory and
+[prospective protocol](../plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/protocol.md)
+together after final independent metadata/protocol review, then freeze them.
+Execute new clean committed-source native/rational qualification, actual exporter
+and packet with26 normal+26 optimized checks/no skips, plus complete no-default
+library, all B2/B3 public, legacy recording/provider, volume and borrow contracts.
+Retain actual ELFs/logs/source hashes and failures; report outcomes in separate
+files. Admission is an attempt permission, not acceptance from refreshed hashes.
+Hosted/default/desktop/window/release/performance/physical/model/Lean/GPU and
+combined-Q2 qualification remain separate. Public merges remain paused.
