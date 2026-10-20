@@ -359,3 +359,33 @@ Independent plan/source reports record all corrections. No DISPLAY/WAYLAND_DISPL
 new exact revision requires native render/pick/focus/high-DPI evidence separately.
 Runtime/archive force readiness still refuses; T4 handle plan reviewed, not accepted
 as implemented. Original M2a/precision and incident evidence remain unchanged.
+
+##6127 native receipt and separate responsive tab repair —2026-10-20
+
+Parent validator reports exact6127cec/tree4a779f idle authoring passed: force
+editing/validation, selection clearing, accepted model replacement, precision text
+retention, Scene hide/reopen, run refusal including a sole disabled zero force.
+Both sessions closed; no workloads. JPEGs were actually retained by that validator;
+this owner has no Library IDs or local display. First-session stdout was overwritten
+during native capture, and capture labels were corrected/documented: do not claim
+complete native log retention. Retained/timeline playback still lacks an App
+presentation fixture; an archive viewer cannot serve as that scene reconstruction.
+
+Observed900×650/150%, Scene hidden: Transport session label wrapped vertically,
+header consumed about322px (validator report). Repair uses existing named selectable
+buttons with Extend text wrap, preserving whole labels and outer whole-control wrap,
+disabled reason, keyboard/accessibility and change response semantics. Independently
+reviewed. Header-only staged source SHAabbaf658447dcc946fa8c51fe48d6c9597af8f80da4592b220152820042f1eb8.
+Isolated60f3498 worktree with only this repair: list183, individually exact inert
+header test1passed (100/150%, enabled/disabled), strictClippy/check/fmt/diff passed.
+Raw evidence: evidence/responsive-header-20261020/manifest.json. No T4 source is in
+that build/repair commit. Native actual repaired-header verification still pending;
+repeat the reported exact state plus enabled/disabled named-tab keyboard behavior,
+record actual quality85JPEG with revision/state. No numerical lab selection/run is
+needed: Appearance idle is sufficient to see all tab labels and wrapping.
+
+A separately reviewed test-only workerless synthetic presentation harness is now
+authorized for retained/timeline behavior. It must contain a legal frozen Request,
+two ordered literal preview frames with distinct timestamps and two tracks, label
+synthetic data, and remain absent from production launch. No implementation or
+acceptance for that harness is claimed in this header checkpoint.

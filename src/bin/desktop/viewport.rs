@@ -52,6 +52,14 @@ enum ViewMode {
     Obstacle,
     Transport,
 }
+// Whole labelled tabs wrap between controls, never within a label.
+fn view_mode_tabs(ui: &mut egui::Ui, current: &mut ViewMode, blocked: bool) -> [egui::Response; 4] {
+    [(ViewMode::Appearance,"Appearance"),(ViewMode::Particles,"Particles"),(ViewMode::Obstacle,"Obstacle lab"),(ViewMode::Transport,"Transport session")].map(|(mode,label)|{
+        let mut response=ui.add_enabled(!blocked||mode==ViewMode::Appearance,egui::Button::selectable(*current==mode,label).wrap_mode(egui::TextWrapMode::Extend));
+        if response.clicked() && *current!=mode {*current=mode;response.mark_changed();}
+        response.on_disabled_hover_text("Authored-force preview and lab runs are not integrated. Use the scene list and properties to author the draft.")
+    })
+}
 pub struct Viewport {
     /// Draft authored fields have no runtime/preview integration yet.
     pub authored_forces_pending: bool,
@@ -140,16 +148,7 @@ impl Viewport {
             self.mode = ViewMode::Appearance;
         }
         ui.horizontal_wrapped(|ui| {
-            for (mode, label) in [
-                (ViewMode::Appearance, "Appearance"),
-                (ViewMode::Particles, "Particles"),
-                (ViewMode::Obstacle, "Obstacle lab"),
-                (ViewMode::Transport, "Transport session"),
-            ] {
-                ui.add_enabled_ui(!self.authored_forces_pending || mode == ViewMode::Appearance, |ui| {
-                    ui.selectable_value(&mut self.mode, mode, label);
-                }).response.on_disabled_hover_text("Authored-force preview and lab runs are not integrated. Use the scene list and properties to author the draft.");
-            }
+            view_mode_tabs(ui, &mut self.mode, self.authored_forces_pending);
             if self.mode != ViewMode::Appearance {
                 ui.checkbox(&mut self.engineering_camera.orthographic, "Orthographic");
                 if ui.button("Frame view").clicked() {
@@ -1007,5 +1006,69 @@ mod tests {
         let distance = viewport.camera.distance;
         draw(&mut viewport, vec![egui::Event::Zoom(1.2)]);
         assert!(viewport.camera.distance < distance);
+    }
+}
+
+#[cfg(test)]
+mod header_ui_tests {
+    use super::*;
+    #[test]
+    fn responsive_mode_tabs_keep_whole_labels_at_900_650_150_percent() {
+        for scale in [1.0, 1.5] {
+            for blocked in [false, true] {
+                let ctx = egui::Context::default();
+                ctx.set_pixels_per_point(scale);
+                let mut mode = ViewMode::Appearance;
+                for _ in 0..2 {
+                    let _ = ctx.run(
+                        egui::RawInput {
+                            screen_rect: Some(Rect::from_min_size(
+                                egui::Pos2::ZERO,
+                                egui::vec2(900.0 / scale, 650.0 / scale),
+                            )),
+                            ..Default::default()
+                        },
+                        |ctx| {
+                            egui::SidePanel::left("settings")
+                                .exact_width(280.0)
+                                .show(ctx, |ui| {
+                                    ui.label("Setup");
+                                });
+                            egui::SidePanel::right("scene-hidden")
+                                .exact_width(64.0)
+                                .show(ctx, |ui| {
+                                    let _ = ui.button("Scene");
+                                });
+                            egui::CentralPanel::default().show(ctx, |ui| {
+                                let available = ui.available_rect_before_wrap();
+                                let row = ui.horizontal_wrapped(|ui| {
+                                    view_mode_tabs(ui, &mut mode, blocked)
+                                });
+                                assert!(
+                                    row.response.rect.height() <= 60.0,
+                                    "tab rows too tall: {:?}",
+                                    row.response.rect
+                                );
+                                for (i, response) in row.inner.iter().enumerate() {
+                                    assert!(
+                                        response.rect.height()
+                                            <= ui.spacing().interact_size.y + 1.0,
+                                        "label wrapped vertically"
+                                    );
+                                    assert!(
+                                        response.rect.left() >= available.left() - 1.0
+                                            && response.rect.right() <= available.right() + 1.0,
+                                        "whole tab outside header"
+                                    );
+                                    assert_eq!(response.enabled(), !blocked || i == 0);
+                                }
+                                assert!(ui.available_height() > available.height() * 0.7);
+                            });
+                        },
+                    );
+                }
+                assert!(mode == ViewMode::Appearance);
+            }
+        }
     }
 }
