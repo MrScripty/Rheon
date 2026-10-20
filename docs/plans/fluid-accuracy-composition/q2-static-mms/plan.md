@@ -33,10 +33,10 @@ SQLite, Cargo and production code remain outside the write set.
 
 ## Milestones
 
-1. Discovery/reconciliation (Active): exact source inspection, continuum
+1. Discovery/reconciliation (Accepted for preparation): exact source inspection, continuum
    derivation and bounding-box/quadrature/cost reasoning. Gate: independent
    disposition of the additional private dimension guards in [replan.md](replan.md).
-2. Source/oracle/resource preparation (Planned): smallest admitted implementation,
+2. Source/oracle/resource preparation (Active): smallest admitted implementation,
    candidate-free exact loads/norms, validated uncertainty, immutable commands
    and hard caps. Gate: complete separate source/oracle/resource review with
    source hashes, no selected execution.
@@ -62,8 +62,9 @@ No original trace/quadrature implementation is overwritten for the new loads.
 
 ## Blockers and replan triggers
 
-Additional assembly/solver dimension guards need prospective bounded-replan
-review. Guaranteed original-coordinate uncertainty and bounded L1 integration
+The additional assembly/solver dimension guard replan received independent
+prospective acceptance for preparation; its new source still requires the
+remaining reviewed freeze. Guaranteed original-coordinate uncertainty and bounded L1 integration
 must be implemented and independently reviewed, not inferred from highprecision
 agreement. Resource caps require enforceable subprocess ownership and all-nine
 case feasibility, without selected benchmark data. Any missing implementation,

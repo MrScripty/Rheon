@@ -22,3 +22,26 @@ planning/discovery, implementation, verification/oracles, proportionality,
 Rust profile and commit workflow read. No applicable AGENTS.md found in the
 worktree or workspace-owned instruction roots. Existing reviewer and visual
 owners reused; no duplicate solver instance created.
+
+After the recorded bc82e92 checkpoint, the independent reviewer accepted the
+dimension-only replan for preparation. Published draft PR143 on that checkpoint
+before editing shared helpers. Implemented bounded Layout/active/pressure/solver
+guards and checked allocations, plus the new source-pinned continuum/load/H1
+experiment. The selected solver arithmetic and three corrections are unchanged.
+Source inspection and an independent full native-source review found coherent
+force/work/trace formulas; one above-cap test shape was corrected prospectively.
+
+Compile-only cargo check and strict Clippy pass. An initial adapter compile
+failure revealed the old CV2 experiment's implicit fixture-dependent test path;
+the new wrapper now imports only the shared solver and owns factor export.
+Iterator lint failures were repaired before any numerical execution. Formatting
+passed. No test was run. The three new numerical contracts are explicitly
+ignored in ordinary CI pending separate resource-bound execution admission.
+This is a preparation boundary, not a numerical acceptance or waived test.
+
+The candidate-free reviewer selected guaranteed exact rational inverse-defect
+certificates, exact represented target/load construction, bounded Bernstein L1
+and verified H1 spectrum; its implementation remains in progress. A prospective
+resource supervisor has source-level review, including final-deadline and
+accounted-log corrections. All-nine driver/evaluator controls and runtime/RSS
+feasibility remain pending; no scientific launch is admitted.

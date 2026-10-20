@@ -30,7 +30,7 @@ pub fn action(a: &Matrix, x: &[f64]) -> Vec<f64> {
 }
 fn validate(a: &Matrix) -> Result<usize, String> {
     let n = a.len();
-    if n == 0 || n > 256 || a.iter().any(|r| r.len() != n) {
+    if n == 0 || n > 544 || a.iter().any(|r| r.len() != n) {
         return Err("bounded square matrix required".into());
     }
     finite(a.iter().flatten().copied())?;
@@ -59,7 +59,7 @@ pub fn cholesky(a: &Matrix) -> Result<Matrix, String> {
 pub fn qr(z: &Matrix) -> Result<Matrix, String> {
     let n = z.len();
     let m = z.first().map_or(0, Vec::len);
-    if m == 0 || m > n || n > 256 || z.iter().any(|r| r.len() != m) {
+    if m == 0 || m > n || n > 544 || z.iter().any(|r| r.len() != m) {
         return Err("bounded tall QR matrix required".into());
     }
     finite(z.iter().flatten().copied())?;
@@ -143,7 +143,7 @@ impl Factor {
     pub fn new(a: Matrix, b: Matrix) -> Result<Self, String> {
         let n = validate(&a)?;
         let m = b.len();
-        if m == 0 || m > n || b.iter().any(|r| r.len() != n) {
+        if m == 0 || m > 256 || m > n || b.iter().any(|r| r.len() != n) {
             return Err("bounded full-row-rank divergence shape required".into());
         }
         finite(b.iter().flatten().copied())?;

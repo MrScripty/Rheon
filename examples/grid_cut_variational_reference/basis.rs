@@ -26,8 +26,10 @@ pub struct Layout {
 }
 impl Layout {
     pub fn new(n: usize, origin: Point, extent: f64, source: &Polygon) -> Result<Self, String> {
-        if !(2..=8).contains(&n) || !extent.is_finite() || extent <= 0.0 {
-            return Err("bounded CV1 grid n2..8 and positive extent required".into());
+        if !(2..=16).contains(&n) || !extent.is_finite() || extent <= 0.0 {
+            return Err(
+                "bounded private reference grid n2..16 and positive extent required".into(),
+            );
         }
         let h = extent / n as f64;
         let grid = GridGeometry::new(
@@ -48,7 +50,13 @@ impl Layout {
                 }
             }
         }
-        let mut nodes = Vec::new();
+        let capacity = n
+            .checked_add(1)
+            .and_then(|v| n.checked_mul(v))
+            .and_then(|v| v.checked_mul(2))
+            .filter(|&v| v <= 544)
+            .ok_or("private reference nodal allocation overflow/ceiling")?;
+        let mut nodes = Vec::with_capacity(capacity);
         for (axis, native_axis) in [Axis::X, Axis::Y].into_iter().enumerate() {
             let counts = grid.face_counts(native_axis);
             for j in 0..counts[1] {

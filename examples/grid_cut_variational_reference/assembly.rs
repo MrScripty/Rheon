@@ -129,8 +129,8 @@ impl Operators {
             .filter(|p| active_flags[p.global])
             .cloned()
             .collect();
-        if active.is_empty() || active.len() > 256 {
-            return Err("bounded positive active basis n1..256 required".into());
+        if active.is_empty() || active.len() > 544 {
+            return Err("bounded positive active basis n1..544 required".into());
         }
         let mut map = vec![usize::MAX; layout.nodes.len()];
         for (i, p) in active.iter().enumerate() {
@@ -146,6 +146,12 @@ impl Operators {
             cell_map[c] = i;
         }
         let nv = active.len();
+        nv.checked_mul(nv)
+            .filter(|&entries| entries <= 544 * 544)
+            .ok_or("private dense allocation ceiling")?;
+        if cells.len() > 256 {
+            return Err("bounded pressure rows n1..256 required".into());
+        }
         let mut mass = zero(nv, nv);
         let mut divergence = zero(cells.len(), nv);
         let mut stiffness = zero(nv, nv);

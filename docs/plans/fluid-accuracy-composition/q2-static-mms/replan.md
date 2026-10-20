@@ -33,3 +33,14 @@ been changed at the time this replan was recorded. A review rejecting this
 bounded extension stops source implementation and returns the exact write set
 and reason to the repository lead. No numerical execution follows from writing
 or committing this document.
+
+## Subsequent preparation disposition
+
+The section above is the immutable timing account recorded in bc82e92 BEFORE
+source edits. The independent numerical reviewer subsequently accepted this
+bounded cap replan for prospective preparation; its exact external report is
+`/workspace/rheon-q2-static-mms-independent/preparation-proposal.md`. PR143 was
+published at that documentation-only checkpoint to expose the shared write set
+before edits. The child now contains the declared guard changes with the same
+basis/assembly/solver arithmetic. No CV2 ancestor, frozen source or archive was
+modified. Full source/oracle/resource readiness and execution remain separate.
