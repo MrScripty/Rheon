@@ -2,6 +2,30 @@
 use eframe::egui;
 use rheon::{DomainFill, FluidPhase, FluidPreset, ParticleFluidConfig};
 
+const DENSITY_HELP: &str =
+    "Mass per volume. Weight also depends on gravity. 1 g/mL = 1 mg/mm³ = 1,000 kg/m³.";
+const VISCOSITY_HELP: &str = "Dynamic viscosity: resistance to shear. This preview uses a Newtonian fluid; slime has no elastic stretching.";
+const TENSION_HELP: &str =
+    "Liquid cohesion approximation; larger values draw free surfaces together.";
+const WALL_DRAG_HELP: &str = "Stickiness at walls: tangential velocity damping on contact. Separate from viscosity and surface tension; not a contact-angle model.";
+const WALL_HEAT_HELP: &str = "Temperature relaxes toward the wall temperature on contact. Vacuum has no surrounding gas or bulk heat bath.";
+
+/// Combo widths are minimums in egui; bound the complete label as well.
+fn preset_text(ui: &egui::Ui, text: impl Into<egui::WidgetText>) -> egui::WidgetText {
+    text.into()
+        .into_galley(
+            ui,
+            Some(egui::TextWrapMode::Wrap),
+            (ui.available_width()
+                - 2.0 * ui.spacing().button_padding.x
+                - ui.spacing().icon_spacing
+                - ui.spacing().icon_width)
+                .max(1.0),
+            egui::TextStyle::Button,
+        )
+        .into()
+}
+
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum DensityUnit {
     KilogramsPerCubicMetre,
@@ -55,14 +79,19 @@ impl MaterialControls {
     }
     pub fn fluid(&mut self, ui: &mut egui::Ui) {
         let custom = self.config.material != self.preset.material();
-        egui::ComboBox::from_id_salt("material-preset")
-            .selected_text(format!(
+        let preset_label = preset_text(
+            ui,
+            format!(
                 "{}{}",
                 self.preset.label(),
                 if custom { " · edited" } else { "" }
-            ))
-            .width(245.0)
+            ),
+        );
+        egui::ComboBox::from_id_salt("material-preset")
+            .selected_text(preset_label)
+            .width(ui.available_width().min(245.0))
             .show_ui(ui, |ui| {
+                ui.style_mut().wrap_mode = Some(egui::TextWrapMode::Wrap);
                 for preset in FluidPreset::ALL {
                     if ui
                         .selectable_value(&mut self.preset, preset, preset.label())
@@ -72,7 +101,7 @@ impl MaterialControls {
                     }
                 }
             });
-        ui.small("Approximate reference presets; edit values below.");
+        ui.small("Approximate presets · editable");
         let m = &mut self.config.material;
         ui.horizontal_wrapped(|ui| {
             ui.label("State");
@@ -80,9 +109,7 @@ impl MaterialControls {
             ui.selectable_value(&mut m.phase, FluidPhase::Gas, "Gas");
         });
         ui.horizontal_wrapped(|ui| {
-            ui.label("Density").on_hover_text(
-                "Mass per volume. Weight also depends on gravity. 1 g/mL = 1 mg/mm³ = 1,000 kg/m³.",
-            );
+            ui.label("Density").on_hover_text(DENSITY_HELP);
             let mut density = m.density / self.unit.factor();
             if ui
                 .add(
@@ -97,6 +124,7 @@ impl MaterialControls {
             }
             egui::ComboBox::from_id_salt("density-unit")
                 .selected_text(self.unit.label())
+                .width(80.0)
                 .show_ui(ui, |ui| {
                     for unit in [
                         DensityUnit::KilogramsPerCubicMetre,
@@ -108,7 +136,15 @@ impl MaterialControls {
                 });
         });
         ui.small(format!("{:.3} kg/m³", m.density));
-        quantity(ui,"Viscosity",&mut m.viscosity,"Pa·s",0.0001,0.0..=100000.0).on_hover_text("Dynamic viscosity: resistance to shear. This preview uses a Newtonian fluid; slime has no elastic stretching.");
+        quantity(
+            ui,
+            "Viscosity",
+            &mut m.viscosity,
+            "Pa·s",
+            0.0001,
+            0.0..=100000.0,
+        )
+        .on_hover_text(VISCOSITY_HELP);
         ui.add_enabled_ui(m.phase == FluidPhase::Liquid, |ui| {
             quantity(
                 ui,
@@ -118,24 +154,28 @@ impl MaterialControls {
                 0.001,
                 0.0..=10.0,
             )
-            .on_hover_text(
-                "Liquid cohesion approximation; larger values draw free surfaces together.",
-            );
+            .on_hover_text(TENSION_HELP);
         });
-        quantity(ui,"Wall drag",&mut m.wall_drag,"1/s",0.1,0.0..=1000.0).on_hover_text("Stickiness at walls: tangential velocity damping on contact. Separate from viscosity and surface tension; not a contact-angle model.");
+        quantity(ui, "Wall drag", &mut m.wall_drag, "1/s", 0.1, 0.0..=1000.0)
+            .on_hover_text(WALL_DRAG_HELP);
         let mut temperature = m.temperature_kelvin - 273.15;
-        if quantity(
-            ui,
-            "Fluid temperature",
-            &mut temperature,
-            "°C",
-            1.0,
-            -273.14..=4000.0,
-        )
-        .changed()
-        {
-            m.temperature_kelvin = temperature + 273.15;
-        }
+        egui::CollapsingHeader::new(format!("Temperature · {temperature:.2} °C"))
+            .id_salt("fluid-temperature")
+            .show(ui, |ui| {
+                if quantity(
+                    ui,
+                    "Fluid temperature",
+                    &mut temperature,
+                    "°C",
+                    1.0,
+                    -273.14..=4000.0,
+                )
+                .changed()
+                {
+                    m.temperature_kelvin = temperature + 273.15;
+                }
+                ui.small("Temperature affects gas pressure and wall exchange; viscosity stays at the entered value.");
+            });
         if m.phase == FluidPhase::Gas {
             let mut molar_mass = m.molar_mass * 1000.0;
             if quantity(
@@ -156,7 +196,14 @@ impl MaterialControls {
             ));
         }
         ui.small("Phase stays fixed: no boiling, freezing or elastic slime.");
-        ui.small("Temperature affects gas pressure and wall exchange; viscosity stays at the entered value.");
+        egui::CollapsingHeader::new("Property help")
+            .id_salt("material-property-help")
+            .show(ui, |ui| {
+                ui.label(format!("Density: {DENSITY_HELP}"));
+                ui.label(VISCOSITY_HELP);
+                ui.label(format!("Surface tension: {TENSION_HELP}"));
+                ui.label(format!("Wall drag: {WALL_DRAG_HELP}"));
+            });
     }
     pub fn domain(&mut self, ui: &mut egui::Ui, side: &mut f64) {
         quantity(ui, "Domain side", side, "m", 0.01, 0.001..=100.0);
@@ -165,14 +212,19 @@ impl MaterialControls {
             side.powi(3),
             side.powi(3) * 1000.0
         ));
-        egui::ComboBox::from_id_salt("domain-fill")
-            .selected_text(match self.config.fill {
+        let fill_label = preset_text(
+            ui,
+            match self.config.fill {
                 DomainFill::Vacuum => "Empty / vacuum",
                 DomainFill::EmittedFluid => "Filled with emitted fluid",
                 DomainFill::OtherFluid => "Filled with another fluid",
-            })
-            .width(245.0)
+            },
+        );
+        egui::ComboBox::from_id_salt("domain-fill")
+            .selected_text(fill_label)
+            .width(ui.available_width().min(245.0))
             .show_ui(ui, |ui| {
+                ui.style_mut().wrap_mode = Some(egui::TextWrapMode::Wrap);
                 ui.selectable_value(&mut self.config.fill, DomainFill::Vacuum, "Empty / vacuum");
                 ui.selectable_value(
                     &mut self.config.fill,
@@ -186,10 +238,12 @@ impl MaterialControls {
                 );
             });
         if self.config.fill == DomainFill::OtherFluid {
+            let ambient_label = preset_text(ui, self.ambient_preset.label());
             egui::ComboBox::from_id_salt("ambient-material")
-                .selected_text(self.ambient_preset.label())
-                .width(245.0)
+                .selected_text(ambient_label)
+                .width(ui.available_width().min(245.0))
                 .show_ui(ui, |ui| {
+                    ui.style_mut().wrap_mode = Some(egui::TextWrapMode::Wrap);
                     for preset in FluidPreset::ALL {
                         if ui
                             .selectable_value(&mut self.ambient_preset, preset, preset.label())
@@ -212,19 +266,32 @@ impl MaterialControls {
             ui.small(format!("Initial mass {:.3} kg", side.powi(3) * m.density));
         }
         let mut ambient = self.config.ambient_temperature_kelvin - 273.15;
-        if quantity(
-            ui,
-            "Ambient / wall temp",
-            &mut ambient,
-            "°C",
-            1.0,
-            -273.14..=4000.0,
-        )
-        .changed()
-        {
-            self.config.ambient_temperature_kelvin = ambient + 273.15;
-        }
-        quantity(ui,"Wall heat exchange",&mut self.config.wall_heat_exchange,"1/s",0.1,0.0..=100.0).on_hover_text("Temperature relaxes toward the wall temperature on contact. Vacuum has no surrounding gas or bulk heat bath.");
+        egui::CollapsingHeader::new(format!("Wall heat · {ambient:.2} °C"))
+            .id_salt("domain-thermal-environment")
+            .show(ui, |ui| {
+                if quantity(
+                    ui,
+                    "Ambient / wall temp",
+                    &mut ambient,
+                    "°C",
+                    1.0,
+                    -273.14..=4000.0,
+                )
+                .changed()
+                {
+                    self.config.ambient_temperature_kelvin = ambient + 273.15;
+                }
+                quantity(
+                    ui,
+                    "Wall heat exchange",
+                    &mut self.config.wall_heat_exchange,
+                    "1/s",
+                    0.1,
+                    0.0..=100.0,
+                )
+                .on_hover_text(WALL_HEAT_HELP);
+                ui.label(WALL_HEAT_HELP);
+            });
         ui.label("Gravity · m/s²");
         for d in 0..3 {
             quantity(
@@ -282,6 +349,543 @@ pub fn duration(seconds: f64) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn context() -> egui::Context {
+        let ctx = egui::Context::default();
+        ctx.style_mut(|style| style.animation_time = 0.0);
+        ctx
+    }
+    fn frame(
+        ctx: &egui::Context,
+        width: f32,
+        controls: &mut MaterialControls,
+        side: &mut f64,
+        domain: bool,
+        events: Vec<egui::Event>,
+    ) -> egui::FullOutput {
+        let mut right = 0.0;
+        let output = ctx.run(
+            egui::RawInput {
+                screen_rect: Some(egui::Rect::from_min_size(
+                    egui::Pos2::ZERO,
+                    egui::vec2(width, 1600.0),
+                )),
+                events,
+                ..Default::default()
+            },
+            |ctx| {
+                egui::CentralPanel::default().show(ctx, |ui| {
+                    if domain {
+                        controls.domain(ui, side);
+                    } else {
+                        controls.fluid(ui);
+                    }
+                    right = ui.min_rect().right();
+                });
+            },
+        );
+        assert!(
+            right <= width - 7.0,
+            "form overflow {right} at width {width}, domain {domain}, preset {:?}: {:?}",
+            controls.preset,
+            output
+                .shapes
+                .iter()
+                .filter_map(|s| match &s.shape {
+                    egui::Shape::Text(t) if t.pos.x + t.galley.size().x > width - 7.0 =>
+                        Some((t.galley.text(), t.pos.x, t.galley.size().x)),
+                    _ => None,
+                })
+                .collect::<Vec<_>>()
+        );
+        output
+    }
+    fn text_rect(output: &egui::FullOutput, label: &str) -> Option<egui::Rect> {
+        output.shapes.iter().find_map(|s| match &s.shape {
+            egui::Shape::Text(t) if t.galley.text() == label => {
+                Some(egui::Rect::from_min_size(t.pos, t.galley.size()))
+            }
+            _ => None,
+        })
+    }
+    fn pointer(pos: egui::Pos2, pressed: bool) -> Vec<egui::Event> {
+        vec![
+            egui::Event::PointerMoved(pos),
+            egui::Event::PointerButton {
+                pos,
+                button: egui::PointerButton::Primary,
+                pressed,
+                modifiers: Default::default(),
+            },
+        ]
+    }
+    fn key(key: egui::Key, modifiers: egui::Modifiers) -> Vec<egui::Event> {
+        [true, false]
+            .map(|pressed| egui::Event::Key {
+                key,
+                physical_key: None,
+                pressed,
+                repeat: false,
+                modifiers,
+            })
+            .into()
+    }
+    fn click(
+        ctx: &egui::Context,
+        width: f32,
+        controls: &mut MaterialControls,
+        side: &mut f64,
+        domain: bool,
+        output: &egui::FullOutput,
+        label: &str,
+    ) {
+        let pos = text_rect(output, label)
+            .unwrap_or_else(|| panic!("missing {label}"))
+            .center();
+        for pressed in [true, false] {
+            let _ = frame(ctx, width, controls, side, domain, pointer(pos, pressed));
+        }
+    }
+
+    #[test]
+    fn ui_material_thermal_disclosures_preserve_values_and_si_editing() {
+        for domain in [false, true] {
+            let ctx = context();
+            let mut controls = MaterialControls::default();
+            let mut side = 1.0;
+            let before = format!("{:?}", controls.config);
+            let header = if domain {
+                "Wall heat · 20.00 °C"
+            } else {
+                "Temperature · 20.00 °C"
+            };
+            let label = if domain {
+                "Ambient / wall temp"
+            } else {
+                "Fluid temperature"
+            };
+            let _ = frame(&ctx, 240.0, &mut controls, &mut side, domain, vec![]);
+            let output = frame(&ctx, 240.0, &mut controls, &mut side, domain, vec![]);
+            assert!(text_rect(&output, label).is_none());
+            click(
+                &ctx,
+                240.0,
+                &mut controls,
+                &mut side,
+                domain,
+                &output,
+                header,
+            );
+            let output = frame(&ctx, 240.0, &mut controls, &mut side, domain, vec![]);
+            assert!(text_rect(&output, label).is_some());
+            assert_eq!(format!("{:?}", controls.config), before);
+            click(
+                &ctx,
+                240.0,
+                &mut controls,
+                &mut side,
+                domain,
+                &output,
+                "20 °C",
+            );
+            let _ = frame(&ctx, 240.0, &mut controls, &mut side, domain, vec![]);
+            let _ = frame(
+                &ctx,
+                240.0,
+                &mut controls,
+                &mut side,
+                domain,
+                vec![egui::Event::Text("37.25".into())],
+            );
+            let _ = frame(
+                &ctx,
+                240.0,
+                &mut controls,
+                &mut side,
+                domain,
+                key(egui::Key::Enter, Default::default()),
+            );
+            let output = frame(&ctx, 240.0, &mut controls, &mut side, domain, vec![]);
+            let temperature = if domain {
+                controls.config.ambient_temperature_kelvin
+            } else {
+                controls.config.material.temperature_kelvin
+            };
+            assert!(
+                (temperature - 310.4).abs() < 1e-10,
+                "Celsius edit retained in kelvin"
+            );
+            assert!(
+                text_rect(&output, label).is_some(),
+                "editing header value must not close disclosure"
+            );
+            let header = if domain {
+                "Wall heat · 37.25 °C"
+            } else {
+                "Temperature · 37.25 °C"
+            };
+            let edited = format!("{:?}", controls.config);
+            click(
+                &ctx,
+                240.0,
+                &mut controls,
+                &mut side,
+                domain,
+                &output,
+                header,
+            );
+            let output = frame(&ctx, 240.0, &mut controls, &mut side, domain, vec![]);
+            assert!(text_rect(&output, label).is_none());
+            click(
+                &ctx,
+                240.0,
+                &mut controls,
+                &mut side,
+                domain,
+                &output,
+                header,
+            );
+            let output = frame(&ctx, 240.0, &mut controls, &mut side, domain, vec![]);
+            assert!(text_rect(&output, label).is_some());
+            assert_eq!(format!("{:?}", controls.config), edited);
+            click(
+                &ctx,
+                240.0,
+                &mut controls,
+                &mut side,
+                domain,
+                &output,
+                "37.25 °C",
+            );
+            let _ = frame(&ctx, 240.0, &mut controls, &mut side, domain, vec![]);
+            let _ = frame(
+                &ctx,
+                240.0,
+                &mut controls,
+                &mut side,
+                domain,
+                vec![egui::Event::Text("38.5".into())],
+            );
+            let _ = frame(
+                &ctx,
+                240.0,
+                &mut controls,
+                &mut side,
+                domain,
+                key(egui::Key::Enter, Default::default()),
+            );
+            let output = frame(&ctx, 240.0, &mut controls, &mut side, domain, vec![]);
+            let temperature = if domain {
+                controls.config.ambient_temperature_kelvin
+            } else {
+                controls.config.material.temperature_kelvin
+            };
+            assert!((temperature - 311.65).abs() < 1e-10);
+            assert!(text_rect(&output, label).is_some());
+            assert_eq!(side, 1.0);
+        }
+    }
+
+    #[test]
+    fn ui_material_help_is_tab_reachable_and_model_limits_remain_visible() {
+        let ctx = context();
+        let mut controls = MaterialControls {
+            preset: FluidPreset::Air,
+            ..Default::default()
+        };
+        controls.config.material = controls.preset.material();
+        let before = format!("{:?}", controls.config);
+        let mut side = 1.0;
+        let mut output = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+        assert!(
+            text_rect(
+                &output,
+                "Phase stays fixed: no boiling, freezing or elastic slime."
+            )
+            .is_some()
+        );
+        assert!(output.shapes.iter().any(|s| matches!(&s.shape, egui::Shape::Text(t) if t.galley.text().starts_with("Reference gas pressure "))));
+        let help = "Density: Mass per volume. Weight also depends on gravity. 1 g/mL = 1 mg/mm³ = 1,000 kg/m³.";
+        assert!(text_rect(&output, help).is_none());
+        // Reach help through the actual reverse tab order, without focusing numeric
+        // editors. General numeric-focus rounding is a separate existing UI issue.
+        let _ = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+        let _ = frame(
+            &ctx,
+            240.0,
+            &mut controls,
+            &mut side,
+            false,
+            key(egui::Key::Tab, Default::default()),
+        );
+        let _ = frame(
+            &ctx,
+            240.0,
+            &mut controls,
+            &mut side,
+            false,
+            key(
+                egui::Key::Tab,
+                egui::Modifiers {
+                    shift: true,
+                    ..Default::default()
+                },
+            ),
+        );
+        output = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+        let focused = ctx
+            .memory(|m| m.focused())
+            .and_then(|id| ctx.read_response(id))
+            .expect("help has keyboard focus");
+        assert!(
+            focused
+                .rect
+                .contains(text_rect(&output, "Property help").unwrap().center())
+        );
+        let _ = frame(
+            &ctx,
+            240.0,
+            &mut controls,
+            &mut side,
+            false,
+            key(egui::Key::Enter, Default::default()),
+        );
+        output = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+        assert!(text_rect(&output, help).is_some());
+        let help_id = ctx.memory(|m| m.focused()).unwrap();
+        let _ = frame(
+            &ctx,
+            240.0,
+            &mut controls,
+            &mut side,
+            false,
+            key(egui::Key::Space, Default::default()),
+        );
+        output = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+        assert!(text_rect(&output, help).is_none());
+        let _ = frame(
+            &ctx,
+            240.0,
+            &mut controls,
+            &mut side,
+            false,
+            key(egui::Key::Tab, Default::default()),
+        );
+        let _ = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+        assert_ne!(ctx.memory(|m| m.focused()), Some(help_id));
+        assert_eq!(format!("{:?}", controls.config), before);
+    }
+
+    #[test]
+    fn ui_material_selection_updates_only_its_existing_owner() {
+        for width in [240.0, 280.0] {
+            for domain in [false, true] {
+                let ctx = context();
+                let mut controls = MaterialControls::default();
+                controls.config.fill = DomainFill::OtherFluid;
+                let mut expected = controls.config;
+                let mut side = 1.0;
+                let _ = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                let label = if domain {
+                    "Air · 20 °C"
+                } else {
+                    "Water · 20 °C"
+                };
+                click(
+                    &ctx,
+                    width,
+                    &mut controls,
+                    &mut side,
+                    domain,
+                    &output,
+                    label,
+                );
+                let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                click(
+                    &ctx,
+                    width,
+                    &mut controls,
+                    &mut side,
+                    domain,
+                    &output,
+                    "Mercury · 20 °C",
+                );
+                let _ = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                if domain {
+                    expected.ambient_material = FluidPreset::Mercury.material();
+                } else {
+                    expected.material = FluidPreset::Mercury.material();
+                }
+                assert_eq!(format!("{:?}", controls.config), format!("{expected:?}"));
+                if domain {
+                    for (label, fill) in [
+                        ("Filled with emitted fluid", DomainFill::EmittedFluid),
+                        ("Empty / vacuum", DomainFill::Vacuum),
+                    ] {
+                        let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                        let selected = if controls.config.fill == DomainFill::OtherFluid {
+                            "Filled with another fluid"
+                        } else {
+                            "Filled with emitted fluid"
+                        };
+                        click(
+                            &ctx,
+                            width,
+                            &mut controls,
+                            &mut side,
+                            domain,
+                            &output,
+                            selected,
+                        );
+                        let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                        click(
+                            &ctx,
+                            width,
+                            &mut controls,
+                            &mut side,
+                            domain,
+                            &output,
+                            label,
+                        );
+                        let _ = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                        expected.fill = fill;
+                        assert_eq!(format!("{:?}", controls.config), format!("{expected:?}"));
+                    }
+                } else {
+                    for unit in [
+                        DensityUnit::KilogramsPerCubicMetre,
+                        DensityUnit::MilligramsPerCubicMillimetre,
+                    ] {
+                        let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                        let selected = controls.unit.label();
+                        click(
+                            &ctx,
+                            width,
+                            &mut controls,
+                            &mut side,
+                            domain,
+                            &output,
+                            selected,
+                        );
+                        let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                        click(
+                            &ctx,
+                            width,
+                            &mut controls,
+                            &mut side,
+                            domain,
+                            &output,
+                            unit.label(),
+                        );
+                        let _ = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                        assert_eq!(controls.unit.label(), unit.label());
+                        assert_eq!(format!("{:?}", controls.config), format!("{expected:?}"));
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn ui_material_presets_and_open_menus_fit_narrow_forms() {
+        for width in [240.0, 280.0] {
+            for domain in [false, true] {
+                for preset in FluidPreset::ALL {
+                    let ctx = context();
+                    let mut controls = MaterialControls {
+                        preset,
+                        ambient_preset: preset,
+                        ..Default::default()
+                    };
+                    controls.config.material = preset.material();
+                    controls.config.material.viscosity += 0.0001; // longest edited caption too
+                    controls.config.fill = DomainFill::OtherFluid;
+                    controls.config.ambient_material = preset.material();
+                    let before = format!("{:?}", controls.config);
+                    let mut side = 1.0;
+                    let _ = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                    let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                    let label = if domain {
+                        "Filled with another fluid".to_owned()
+                    } else {
+                        format!("{} · edited", preset.label())
+                    };
+                    click(
+                        &ctx,
+                        width,
+                        &mut controls,
+                        &mut side,
+                        domain,
+                        &output,
+                        &label,
+                    );
+                    let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                    assert!(
+                        text_rect(
+                            &output,
+                            if domain {
+                                "Empty / vacuum"
+                            } else {
+                                "Water · 20 °C"
+                            }
+                        )
+                        .is_some(),
+                        "preset/fill menu actually opened"
+                    );
+                    for shape in &output.shapes {
+                        if let egui::Shape::Text(t) = &shape.shape {
+                            assert!(
+                                t.pos.x + t.galley.size().x <= width + 0.5,
+                                "menu text overflow: {}",
+                                t.galley.text()
+                            );
+                        }
+                    }
+                    assert_eq!(format!("{:?}", controls.config), before);
+                    let _ = frame(
+                        &ctx,
+                        width,
+                        &mut controls,
+                        &mut side,
+                        domain,
+                        key(egui::Key::Escape, Default::default()),
+                    );
+                    if domain {
+                        let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                        click(
+                            &ctx,
+                            width,
+                            &mut controls,
+                            &mut side,
+                            domain,
+                            &output,
+                            preset.label(),
+                        );
+                        let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+                        let other = if preset == FluidPreset::Water {
+                            "Mercury · 20 °C"
+                        } else {
+                            "Water · 20 °C"
+                        };
+                        assert!(
+                            text_rect(&output, other).is_some(),
+                            "ambient menu actually opened"
+                        );
+                        for shape in &output.shapes {
+                            if let egui::Shape::Text(t) = &shape.shape {
+                                assert!(
+                                    t.pos.x + t.galley.size().x <= width + 0.5,
+                                    "ambient menu overflow: {}",
+                                    t.galley.text()
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     #[test]
     fn mass_density_units_use_independent_si_conversion() {
         assert_eq!(DensityUnit::GramsPerMillilitre.factor(), 1000.0);

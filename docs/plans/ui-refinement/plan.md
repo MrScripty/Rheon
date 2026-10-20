@@ -1,8 +1,8 @@
 # Focused desktop UI refinement
 
 **Plan status:** `Active`
-**Current phase:** M1 partial native evidence and remaining fixture checks
-**Next slice:** M1 — reviewed supervisor contract; genuine execution remains unadmitted
+**Current phase:** M1 evidence gaps parked; independent M2 material/domain refinement
+**Next slice:** M2a — source review and exact-patch idle native handoff
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -62,7 +62,7 @@ M4 must revalidate that work's final source before admitting Inspector edits.
 | Milestone | Goal and exact production write set | Dependency / gate | State |
 | --- | --- | --- | --- |
 | M1 | One selected setup workflow and persistent run controls. `src/bin/rheon-desktop.rs` (sidebar, presentation methods, UI state/tests only), `src/bin/desktop/configured_controls.rs` (form/action split and labels only), optional `src/bin/desktop/setup_ui_tests.rs` | Independent plan/design review; A1–A3 plus A6 supporting checks; A4 native evidence remains required | Verifying |
-| M2 | Compact optional setup, aligned fields and keyboard-accessible help. `src/bin/desktop/{settings,collision_ui,emitter_controls}.rs`; optional new `src/bin/desktop/form_controls.rs` | M1 native feedback; preserve policy and unit editing; A4–A5 | Planned |
+| M2 | Compact optional setup, aligned fields and keyboard-accessible help. `src/bin/desktop/{settings,collision_ui,emitter_controls}.rs`; optional new `src/bin/desktop/form_controls.rs` | M1 idle native feedback received; preserve policy and unit editing; A4–A5 | M2a source verified, native pending; remaining slices planned |
 | M3 | Camera/transport consistency. `src/bin/desktop/{viewport,particle_view,engineering,transport_view}.rs`; optional `src/bin/desktop/playback_controls.rs` | M1/M2; separately re-admit exact main-file playback regions if needed; focus and session-ownership evidence | Planned |
 | M4 | Promote existing D1 comparison/archive results. `src/bin/desktop/{comparison,comparison_field_view,archive_view,run_set_view,inspector}.rs` and `src/bin/desktop/ai_comparison/{mod,diagnostic_view}.rs` | M3 and final Inspector revision reconciled; re-admit exact composition-root regions; saved-fixture integrity/absence evidence | Planned |
 
@@ -233,3 +233,55 @@ teardown. Only disposable owned test processes/descendants can be terminated.
 Independent source review and non-numerical tests precede any future admission.
 Long-status headless stress can proceed now; native accessibility, genuine worker
 cancellation and whole M1 acceptance remain open. M2–M4 stay Planned.
+
+## Read-only containment preflight and M2a admission — 2026-10-20
+
+Parent authorizes proceeding with the next independent UI milestone while parking
+only live cancellation. Read-only preflight confirms cgroup2 is mounted read-only;
+the only visible child (`init`) is populated and not writable. No exclusively
+delegated empty writable leaf exists. Existing `/tmp` and `/dev/shm` tmpfs mounts
+have capacity 9,441,337,344 bytes and 2,305,014 inodes, no `noswap` option or
+exclusive lease, exceeding the reviewed 32 MiB/1,024-inode contract. No mounts,
+delegation, limits, permissions or process membership changed; no genuine test
+ran. The reviewed supervisor remains unchanged. See
+[preflight and M2a evidence](reports/m2a-material-domain.md).
+
+Serial M2a production write set: **only** `src/bin/desktop/settings.rs`, including
+its UI-only tests. Authored plan/review/evidence files may change. Base is local
+`7318023f04946171d7909119300af76e455c2926`; preserve every existing commit and
+remote branch, with no publication. M1 is not accepted. No Inspector, D1,
+collision/emitter implementation, main-file launch routing, worker, solver,
+recording or numerical default changes are admitted.
+
+Keep material state/density/viscosity/surface tension/wall drag, gas molar mass and
+reference pressure directly visible. Group temperature editing and thermal
+explanations under explicit default-closed disclosures, whose headers retain the
+current temperature in °C. Keep phase/no-boiling/no-freezing/no-elastic-slime
+limitations outside disclosures. Add a named keyboard-reachable Property help
+disclosure containing the existing hover explanations, preserving their meaning.
+Bound all material/domain preset selector minimum widths and wrap full selected
+labels without truncation. Preserve widget IDs for existing selectors, units,
+ranges, conversion, defaults and SI owners; hiding/reopening inputs must not
+change values. Do not alter the shared quantity helper in this slice.
+
+Acceptance evidence: real egui pointer/keyboard input opens and closes both
+thermal disclosures and Property help; disclosure operation/idle painting retains
+all configuration values; values edited through reopened controls preserve SI
+conversion; all preset/fill choices fit 240/280 px form widths; essential model
+limitations and gas reference pressure remain emitted when thermal help is closed.
+Run focused material and existing setup UI tests, formatting, affected locked
+compile and strict Clippy; obtain independent source/design review. These tests
+are headless and cannot accept native appearance, accessibility or the 40% word
+target. Native handoff requires idle material/domain screens, expanded thermal/help
+states and dropdowns at both supported window sizes/scales, exact source seal and
+quality-85 actual JPEGs; no run/cancel workload is needed. Rollback is the isolated
+M2a working diff; no migration or saved-data operation is involved.
+
+Known M2a evidence limit: existing forward-Tab numerical-editor rounding is open
+as UI-5, with exact Air SI values/reproduction in the report. The help test proves
+only its isolated reverse-Tab route; no general keyboard value-immutability or
+accessibility result is claimed. An accidentally broad `ui_` filter executed five
+existing numerical-fixture tests before detection; its full names/effects and log
+are recorded in the report. It is not admitted workload or UI acceptance evidence.
+Subsequent runtime checks use only the inspected `settings::tests::` and
+`setup_ui_tests::ui_setup_` prefixes. The genuine cancellation test remains unrun.

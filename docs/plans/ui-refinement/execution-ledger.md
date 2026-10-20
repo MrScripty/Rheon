@@ -167,3 +167,47 @@
   /tmp/rheon-ui-contract-* and /tmp/rheon-ui-supervisor-tests*.log. These do not
   constitute genuine cancellation, kernel cgroup/tmpfs integration or native
   accessibility verification. Existing native result remains scoped to426fd25.
+
+## 2026-10-20 — read-only containment refusal and independent M2a
+
+- Parent requested inspection of already supplied containment, with no
+  provisioning, delegation/permission changes or genuine execution. Cgroup2 is
+  present but mounted read-only, root/sole child `init` are not writable, `init`
+  is populated and lacks required caps. Existing tmpfs capacity9,441,337,344 bytes
+  and2,305,014 inodes, no `noswap`/exclusive lease, does not meet the reviewed
+  dedicated32 MiB/1,024-inode contract. Only live cancellation is parked; no
+  alternate supervisor, cap changes or genuine test execution.
+- Admitted independent M2a settings.rs-only production refinement from7318023.
+  Original commits/branches and old transfer/native evidence remain intact. No
+  new commit or publication. Stable thermal disclosures retain current°C headers,
+  gas pressure/model limits stay visible, property help shares its hover-copy
+  owner, full selected captions and popup options wrap within available width.
+  No shared quantity-helper, physics/default, launch, worker, recording,
+  Inspector or comparison source edits.
+- Independent admission review required stable IDs, popup wrapping and shared
+  copy, all incorporated. Narrow-form failures found a density-unit selector
+  minimum of100px overflowing Air rows; bounded80px minimum passes all three unit
+  choices at240/280px, without truncating units or changing conversion.
+- Keyboard testing exposed existing forward-Tab Air density/molar-mass rounding.
+  UI-5 records exact before/after SI values and pinned egui lost-focus reparse.
+  General keyboard value preservation remains unresolved. The help test uses
+  actual isolated reverse-Tab reachability plus Enter/Space/Tab and strict config
+  equality; it does not establish full-app/native focus or accessibility.
+- Test-selection incident: the lead accidentally ran substring filter `ui_`,
+  which selected five existing numerical fixture tests alongside UI tests. It
+  completed19pass/1ignored in5.85s before detection. This violated the instruction;
+  it was disclosed promptly and not repeated or counted as inert evidence.
+  Exact tests, numerical scope, fixture-owned teardown and retained complete log
+  are in [M2a report](reports/m2a-material-domain.md). Genuine cancellation stayed
+  ignored. No manual cleanup or workload authority expansion followed.
+- Final narrowly inspected checks:5 settings tests and9 setup UI tests passed;
+  locked affected desktop check, strict desktop/test Clippy, Rust formatting and
+  diff whitespace passed. Clippy's initial test-initializer lint was corrected
+  without allowances. Logs `/tmp/rheon-ui-m2a-final-*.log`; earlier failures
+  retained as `/tmp/rheon-ui-m2a-tests*.log`. These checks are headless only and
+  do not erase the execution incident or close M1/A4/A5.
+- Current production/test file SHA256
+  `0937b5e293fdd024641f46382900debac0b6f8c263d2a3c5d61fc0f8191dc102`.
+  No local display; existing426fd25 native results remain scoped to that source.
+  M2a handoff needs exact-patch idle forms/menus/thermal/help at both window
+  sizes/scales and actual quality85 JPEGs; no solver/cancel workload is needed.
