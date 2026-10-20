@@ -167,3 +167,26 @@ physical/model/Lean/GPU acceptance and full C1-R remain separate. C1-B3 is a nex
 readiness recommendation requiring its own admission, not started implementation.
 Public merges remain paused by PR121's automatic review rejection; no alternate
 path or further retry is used.
+
+
+### Later live owner deliveries after PR141 publication
+
+Draft PR141 publishes the separately qualified 186dc0a stage. A subsequent live
+read is pinned to PR139/d857523 and PR140/9ddf8d2. PR139's source-pinned report
+qualifies the static CV2 reference at numerical source b0a9d52: all 24 fixed cases,
+independent exported-target/exact-integral 80/120-digit comparisons, 15 contracts
+in each debug/release mode and 45 evaluator checks pass. The six unscaled square
+velocity-accuracy failures remain retained despite passing residuals. Original
+mass conditioning remains about 6.53e11; generic stability/PDE/evolving geometry
+and production gates stay open. This is attributed owner evidence; root did not
+rerun the campaign or rehash its raw archive here.
+
+PR140 implements/verifies separate closed C1-B3 producer selection on PR137.
+Its current head adds one desktop test API correction after core `4af3802`. The
+owner retains an initial 94-pass/1-failure old-profile foreign-version refusal-
+category result, a bounded repair and 14 passing focused persistence checks;
+its full qualification is rerunning and final local acceptance is pending.
+Its complete 140-input closure changes eight pins versus PR137. Earlier readiness
+language is historical to the 186dc0a cut; delivery is now Implemented / Verifying,
+not lead-accepted. Neither new source is admitted or included by this fixed
+qualification. No duplicate implementation, run or source-map refresh is started.

@@ -128,14 +128,22 @@ archives were not downloaded or relabelled as this lead execution.
 [C1-B3 readiness](../g1-advection-cancel-next-readiness.md) recommends a separately
 admitted finite stateless classical producer choice with distinct fallback,
 immutable intent/profile, exact provisional/interval/witness/cold provenance and
-integrated comparisons. It is not implementation admission. Full C1-B/C/R,
+integrated comparisons. It is not implementation admission. After this fixed
+stage was published, a live read found separate PR140/9ddf8d2 implementing/
+verifying that choice; its full qualification is pending after a retained
+old-profile refusal-category failure and bounded repair. It changes eight
+selected pins versus PR137 and is excluded from this source. Separate PR139/
+d857523 reports its bounded static CV2 reference locally qualified at source
+b0a9d52; generic stability/PDE/production gates remain open. Both deliveries are
+excluded; neither is promoted by this lead result. Full C1-B/C/R,
 stateful/external transactions/replay, whole-family/transfer, optional viscosity,
 physical/scientific accuracy and default/desktop/release/native-window/performance/
 model/Lean/GPU gates remain separate. Existing grid qualification remains first;
 particle/output-surface and later Lagrangian families remain future/unqualified.
 
 The independent Q2 stage retains its own Cargo closure, scientific subjects and
-CV1 conditioning/stability/PDE limits. Any joint composition must reconcile both
+historical CV1 conditioning limits and later bounded CV2 resolution, with generic
+stability/PDE/evolving-geometry gates still open. Any joint composition must reconcile both
 v3 inventories/review appends, review the entire combined source and qualify that
 actual new committed subject. No source receipt transfers across the combination.
 Hosted Pages/browser/publication remains pending. PR120/119 merges remain verified;
