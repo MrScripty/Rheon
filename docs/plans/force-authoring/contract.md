@@ -149,8 +149,9 @@ retry limits, domain walls and static-mesh response still apply. Diagnostics
 include authored acceleration at their existing pre-integration stage.
 
 Legacy `BodyForce`, regions, smoke, gravity and old entry points remain supported.
-Empty snapshots route through legacy paths. Existing public calls pass no
-snapshot. Failure/cancellation retains accepted fields/particles/time/generation;
+Empty snapshots route through legacy numerical kernels. This does not provide
+the old MAC inspection/recording stamp on the new entry points. Existing public
+calls pass no snapshot. Failure/cancellation retains accepted fields/particles/time/generation;
 scratch is overwritten on retry. Authored sampling errors become each adapter's
 existing ArithmeticFailure error. Sources and material forces remain separate.
 
@@ -180,3 +181,51 @@ pressure inspection controls, which cannot describe authored snapshots yet.
 Combining an authored snapshot with a separate BodyForce list is not exposed.
 No solver retains authoring IDs or scene geometry internally. Archive/session
 custody and desktop visuals require the coordinated UI owner/parent follow-up.
+
+
+## Runtime handoff clarification
+
+This branch is an intermediate backend milestone, not completion of the user's
+force-authoring workflow. Main and the supplied UI branch still call the legacy
+methods: `CarrierExecution::advance` dispatches `Simulation::step` or
+`step_with_emitter`, and `run_material` calls `ParticleFluidSimulation::step`.
+No desktop user flow currently passes a ForceSnapshot. The library can consume
+one through the three opt-in APIs, but that does not establish tested solver
+parity or a finished product flow.
+
+The default material appearance can render particles as voxels. That view is not
+a separate MAC solver. The actual runtime distinction is native carrier versus
+particle material; configured carrier/transport are separate session owners.
+
+There is a blocking dependency for the native carrier recorder: the new force
+methods commit without setting `accepted_interval_pressure`, while
+`recording::carrier::carrier_publication` rejects nonconstructor publications
+without that stamp. Merely changing `CarrierExecution::advance` will cause
+recording to fail after an otherwise accepted force step. This includes an empty
+snapshot passed to the new MAC method. Existing legacy calls are unchanged.
+Before runtime wiring, add force-aware accepted interval control/pressure
+custody and recorder support; do not fake the old control stamp or bypass it.
+
+Minimal coordinated follow-up:
+
+1. UI owner adds the shared scene objects/IDs and draft controls. Freeze once
+   before worker/output creation and retain the same snapshot in Request, live
+   history and run metadata. Historical glyphs must use this frozen scene.
+2. Backend/recording owner extends the accepted carrier interval/control record
+   to describe the snapshot; expose success-qualified pressure after the new
+   force APIs and preserve the old inspection API's contract for legacy calls.
+   Add immutable material run force metadata too; MaterialStepControls currently
+   describes only dt/emitter and cannot disclose these forces.
+3. UI owner dispatches native no-emitter/emitter calls to the corresponding new
+   MAC method and extracts `.step`; material dispatches the particle force call.
+   Empty-field workflows can keep using the existing public methods, including
+   their existing recorder stamps. Configured/transport sessions require their
+   own propagation rather than routing around their owner.
+4. Extend versioned frozen native run specs, intent digests, constructor
+   validation, archive custody/load/rerun and material run metadata with the exact
+   ForceScene. Keep existing records valid through explicit version migration;
+   never attach current drafts to old results or reinterpret old hashes.
+5. Review/run the prepared bounded tests only when authorized; then add pure
+   custody/serialization tests and separately reviewed small end-to-end runtime
+   checks. Existing pure results do not prove adapter equivalence or archive
+   integration. The current five prepared tests do not cover recording custody.
