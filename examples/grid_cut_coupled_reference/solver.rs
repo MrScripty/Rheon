@@ -248,10 +248,15 @@ impl Factor {
             .collect();
         (ru, bu.iter().map(|b| -b).collect())
     }
-    pub fn refined(&self, f: &[f64]) -> Result<Vec<State>, String> {
-        let mut states = vec![self.solve(f, &vec![0.0; self.e.len()])?];
-        for _ in 0..3 {
-            let (u, p) = states.last().unwrap();
+    pub fn refined(
+        &self,
+        f: &[f64],
+        mut observe: impl FnMut(usize, &State) -> Result<(), String>,
+    ) -> Result<State, String> {
+        let mut state = self.solve(f, &vec![0.0; self.e.len()])?;
+        observe(0, &state)?;
+        for i in 1..=3 {
+            let (u, p) = &state;
             let (ru, g) = self.residual(f, u, p);
             let (du, dp) = self.solve(&ru, &g)?;
             let next = (
@@ -259,9 +264,10 @@ impl Factor {
                 p.iter().zip(dp).map(|(p, d)| p + d).collect::<Vec<_>>(),
             );
             finite(next.0.iter().chain(&next.1).copied())?;
-            states.push(next);
+            observe(i, &next)?;
+            state = next;
         }
-        Ok(states)
+        Ok(state)
     }
 }
 /// Diagnostic baseline: established aligned-reference partial-pivot elimination.
@@ -359,5 +365,25 @@ mod qr_contract {
                 assert!((dot(&qi, &qj) - if i == j { 1.0 } else { 0.0 }).abs() < 1e-14);
             }
         }
+    }
+}
+#[cfg(test)]
+mod history_contract {
+    use super::*;
+    #[test]
+    fn correction_observer_keeps_successful_states_on_later_refusal() {
+        let f = Factor::new(vec![vec![2.0, 0.0], vec![0.0, 2.0]], vec![vec![1.0, 1.0]]).unwrap();
+        let mut seen = Vec::new();
+        let result = f.refined(&[1.0, -1.0], |i, state| {
+            seen.push((i, state.clone()));
+            if i == 1 {
+                Err("retained observer refusal".into())
+            } else {
+                Ok(())
+            }
+        });
+        assert!(result.unwrap_err().contains("observer refusal"));
+        assert_eq!(seen.iter().map(|(i, _)| *i).collect::<Vec<_>>(), vec![0, 1]);
+        assert!((seen[0].1.0[0] - 0.5).abs() < 1e-14);
     }
 }

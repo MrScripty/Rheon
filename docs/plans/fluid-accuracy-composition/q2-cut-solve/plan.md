@@ -1,6 +1,6 @@
 # CV2 conditioning and coupled-solve accuracy
 
-Status: Active bounded reference experiment. Implementation authority: explicit
+Status: Verifying bounded reference experiment. Implementation authority: explicit
 2026-10-20delegation continuing CV1. Rootcanonicalplan/sourceadmission owned by
 parent, not rewritten here. Objective: qualify one static planar native coupled
 solve against independent solution accuracy and physical work/boundary checks.
@@ -10,7 +10,7 @@ Binding method: method.md QR variant, prospectively independently admitted.
 Acceptance: protocol.md fixed24case CPU corpus, R1/R2 highprecision targets,
 original-coordinate1e-10 solution/physical gates. Current acceptance: partial;
 CV1 builders accepted, new solver/source/evidence pending. Current phase:
-implementation. Exactly one next slice: CV2 diagonal/QR factored coupled solver,
+source freeze and focused verification. Exactly one current slice: CV2 diagonal/QR factored coupled solver,
 unscaled diagnostic comparator, source-bound fixed physical/accuracy evidence.
 Writeset: discovery.md; all files new. Read-only reuse CV1 operators and archives.
 

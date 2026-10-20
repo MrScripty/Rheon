@@ -17,3 +17,8 @@ all factor coordinates, baseline/selected iteration0..3, physical work/flux and
 source inputs. CSV lower KKT residual is+B*u; correction API takesg=-B*u.
 Preexecutionsource review and independent higherprecision oracle preparation
 are inprogress. Tiny matrix syntax/lints corrected before any selected execution.
+
+Independent full/delta source review admitted final finite norm, incremental
+flushed-state custody and actual summary status repairs. Source freeze precedes
+selected contracts; campaign waits full independent oracle freeze. No new
+selected solve/probe/native/reference run has occurred. See source-review.md.

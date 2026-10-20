@@ -31,10 +31,19 @@ fn scaled(v: f64, s: f64) -> Result<f64, String> {
     }
     finite(v.abs() / s)
 }
-fn norm(a: &Matrix) -> f64 {
-    a.iter()
-        .map(|r| r.iter().map(|x| x.abs()).sum::<f64>())
-        .fold(0.0, f64::max)
+fn norm(a: &Matrix) -> Result<f64, String> {
+    let mut maximum = 0.0_f64;
+    for row in a {
+        if row.iter().any(|v| !v.is_finite()) {
+            return Err("nonfinite matrix norm entry".into());
+        }
+        let sum = row.iter().map(|x| x.abs()).sum::<f64>();
+        if !sum.is_finite() {
+            return Err("nonfinite matrix norm row sum".into());
+        }
+        maximum = maximum.max(sum);
+    }
+    Ok(maximum)
 }
 pub fn assemble(op: &Operators, dt: f64) -> Result<Factor, String> {
     if !dt.is_finite() || dt <= 0.0 {
@@ -98,9 +107,9 @@ pub fn factor_export(root: &Path, f: &Factor) -> Result<(), String> {
         }
     }
     let gates = [
-        ("cholesky_relative_inf", scaled(norm(&le), norm(&sym))?),
-        ("qr_relative_inf", scaled(norm(&qe), norm(&f.z))?),
-        ("q_orthogonality_inf", finite(norm(&orth))?),
+        ("cholesky_relative_inf", scaled(norm(&le)?, norm(&sym)?)?),
+        ("qr_relative_inf", scaled(norm(&qe)?, norm(&f.z)?)?),
+        ("q_orthogonality_inf", norm(&orth)?),
     ];
     let mut w = writer(root, "factor-metrics.csv", "name,value")?;
     for (k, v) in gates {
@@ -216,12 +225,11 @@ pub fn run(
             std::fs::write(root.join("baseline-refusal.txt"), e).map_err(|e| e.to_string())?
         }
     }
-    let history = factor.refined(&rhs)?;
-    for (i, (u, p)) in history.iter().enumerate() {
-        write_state(&mut states, "selected", i, u, p, factor, &rhs)?;
-    }
+    let (u, p) = factor.refined(&rhs, |i, (u, p)| {
+        write_state(&mut states, "selected", i, u, p, factor, &rhs)
+    })?;
     states.flush().map_err(|e| e.to_string())?;
-    let (u, p) = history.last().unwrap();
+    let (u, p) = (&u, &p);
     let delta: Vec<_> = u.iter().zip(&star).map(|(u, v)| u - v).collect();
     let md = action(&op.mass, &delta);
     let ku = action(&op.stiffness, u);
@@ -434,5 +442,22 @@ mod tests {
         .unwrap();
         assert!(assemble(&op, 0.0).err().unwrap().contains("dt"));
         assert!(assemble(&op, f64::NAN).err().unwrap().contains("dt"));
+    }
+}
+#[cfg(test)]
+mod finite_contract {
+    use super::*;
+    #[test]
+    fn nonfinite_matrix_norm_cannot_be_hidden_by_maximum() {
+        assert!(
+            norm(&vec![vec![f64::NAN], vec![1.0]])
+                .unwrap_err()
+                .contains("entry")
+        );
+        assert!(
+            norm(&vec![vec![f64::MAX, f64::MAX]])
+                .unwrap_err()
+                .contains("row sum")
+        );
     }
 }

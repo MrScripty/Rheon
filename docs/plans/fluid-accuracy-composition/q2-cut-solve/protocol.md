@@ -72,7 +72,10 @@ Required finite fixed1e-10 gates for selected B, all24solves:
   retained; independent exactrank full, factor identities/scales/source shape
   consistent within fixed1e-10 norms: ||L L^T-lowersymmetric(DAD)||inf/
   ||lowersymmetric(DAD)||inf, ||Q R-Z||inf/||Z||inf, ||Q^T Q-I||inf.
-  Here Q=Z R^-1 reconstructed by triangular solves; no unstated scale floor. No residual-only accuracy claim.
+  Here Q=Z R^-1 reconstructed by triangular solves; no unstated scale floor.
+  Also require relative∞ identities scaled_A=DAD, LY=DB^T and Z=YE
+  (denominators respective exact right-side∞norms) and max-entry diagonal
+  normalization |Dii²Aii-1|, |Ecc*||Ycol||2-1| <=1e-10. No residual-only accuracy claim.
 
 Report separately originalM, A, KKT and equilibratedA/Z/Schur condition diagnostics,
 iteration histories, baselineA/R1/R2 errors and R1-R2 gaps. No conditioning number

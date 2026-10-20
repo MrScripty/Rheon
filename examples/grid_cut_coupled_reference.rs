@@ -93,9 +93,10 @@ fn run_fixture(
     let report = Report::new(&op, &tr)?;
     export::all(&operator_root, &op, &tr, &report)?;
     let worst = report.gates.values().copied().fold(0.0_f64, f64::max);
+    let status = if worst <= GATE { "passed" } else { "refused" };
     writeln!(
         operators,
-        "{},{},{},{worst:.17e},passed",
+        "{},{},{},{worst:.17e},{status}",
         f.name,
         op.active.len(),
         op.cells.len()
