@@ -438,3 +438,106 @@ fn ui_setup_viewport_caption_wraps_at_narrow_scaled_width() {
         "mesh note spills past viewport"
     );
 }
+
+#[test]
+fn ui_setup_long_recording_path_and_pressure_controls_stay_within_form_width() {
+    for width in [240.0, 280.0] {
+        for method in PressureImplementation::ALL {
+            let ctx = context();
+            let size = egui::vec2(600.0, 6000.0);
+            let mut app = App::default();
+            app.setup_workflow = SetupWorkflow::AcceptedSession;
+            app.selected = method;
+            let path = format!("/retained/{}/recordings", "long-directory/".repeat(150));
+            app.recording_directory = path.clone();
+            let mut bounds = None;
+            let mut paint = |ctx: &egui::Context| {
+                egui::SidePanel::left("bounded-form")
+                    .exact_width(width)
+                    .resizable(false)
+                    .show(ctx, |ui| {
+                        let form = egui::ScrollArea::vertical().show(ui, |ui| app.controls(ui));
+                        bounds = Some((form.content_size.x, form.inner_rect.width()));
+                    });
+            };
+            for _ in 0..3 {
+                let _ = frame(&ctx, size, vec![], &mut paint);
+            }
+            for section in ["Simulation", "Numerical recording (every accepted step)"] {
+                let output = frame(&ctx, size, vec![], &mut paint);
+                click(&ctx, size, &output, section, &mut paint);
+            }
+            let output = frame(&ctx, size, vec![], &mut paint);
+            assert!(has(&output, "Local recording directory"));
+            assert!(has(&output, method.label()));
+            let path_field = output
+                .shapes
+                .iter()
+                .find_map(|shape| match &shape.shape {
+                    egui::Shape::Text(text) if text.galley.text() == path => {
+                        Some(shape.clip_rect.center())
+                    }
+                    _ => None,
+                })
+                .expect("rendered recording path field");
+            for pressed in [true, false] {
+                let _ = frame(
+                    &ctx,
+                    size,
+                    vec![
+                        egui::Event::PointerMoved(path_field),
+                        egui::Event::PointerButton {
+                            pos: path_field,
+                            button: egui::PointerButton::Primary,
+                            pressed,
+                            modifiers: Default::default(),
+                        },
+                    ],
+                    &mut paint,
+                );
+            }
+            let path_id = ctx
+                .memory(|memory| memory.focused())
+                .expect("path has pointer focus");
+            let modifiers = egui::Modifiers {
+                ctrl: true,
+                command: true,
+                ..Default::default()
+            };
+            for key in [egui::Key::End, egui::Key::A] {
+                let _ = frame(
+                    &ctx,
+                    size,
+                    vec![egui::Event::Key {
+                        key,
+                        physical_key: None,
+                        pressed: true,
+                        repeat: false,
+                        modifiers,
+                    }],
+                    &mut paint,
+                );
+                if key == egui::Key::End {
+                    let state = egui::text_edit::TextEditState::load(&ctx, path_id).unwrap();
+                    assert_eq!(
+                        state.cursor.char_range().unwrap().primary.index,
+                        path.chars().count()
+                    );
+                }
+            }
+            let copied = frame(&ctx, size, vec![egui::Event::Copy], &mut paint);
+            assert!(copied.platform_output.commands.iter().any(
+                |command| matches!(command, egui::OutputCommand::CopyText(text) if text == &path)
+            ));
+            let (content, available) = bounds.unwrap();
+            assert!(
+                content <= available + 1.0,
+                "form width {width}, method {}: content {content} exceeds {available}",
+                method.label()
+            );
+            assert_eq!(app.recording_directory, path);
+            assert_eq!(app.selected, method);
+            assert!(app.worker.is_none());
+        }
+    }
+}

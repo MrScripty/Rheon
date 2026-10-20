@@ -71,3 +71,24 @@
 - Only the serial width-repair write set is admitted. No launch/request/worker,
   recording, Inspector, scientific or dependency behavior changed. Preserve all
   branches/artifacts; no publication, merge or cleanup performed.
+
+## 2026-10-20 — explicit recording/pressure field widths
+
+- Parent forwarded exact original native locations after `cb06a14`: count row,
+  recording caption/path field, pressure selector and viewport caption. The
+  prior repair covered rows/captions but left recording desired width implicit
+  and the pressure selector minimum fixed at 240px.
+- Added explicit available-width recording input and pressure selector minimum.
+  The unchanged narrow-form test still failed the long SGS label; pinned egui
+  treats combo width as a minimum. Bound its full selected-label galley to the
+  actual text budget, preserving label/identity and accessible scientific text.
+- Focused coverage uses both pressure options, 240/280px forms and a long retained
+  directory. It checks total content width plus real pointer focus, keyboard tail
+  navigation and exact full-path copying, without dispatching launch intent.
+- Keep `cb06a14` and all its evidence intact. Its native validation remains owned
+  by the existing validator; this incremental follow-up needs its own exact-source
+  native check. No native success, run/cancel or long-status stress is claimed.
+- Final checks passed: all eight `ui_setup_` tests, locked affected desktop
+  compile, strict desktop/test Clippy, formatting and diff whitespace. Logs are
+  retained as `/tmp/rheon-ui-input-width-{tests,check,clippy,fmt}.log`; the before
+  and intermediate after logs preserve the deciding overflow failures.
