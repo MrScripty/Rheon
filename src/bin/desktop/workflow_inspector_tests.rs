@@ -311,7 +311,26 @@ fn missing_and_invalid_sources_clear_the_previous_graph_and_no_node_status_is_in
         ),
         "execution unavailable"
     );
+    for _ in 0..3 {
+        h.frame(vec![]);
+    }
+    let canvas = h.view.controls["canvas"];
+    let background = egui::pos2(canvas.right() - 25.0, canvas.top() + 25.0);
+    h.frame(vec![
+        egui::Event::PointerMoved(background),
+        egui::Event::PointerButton {
+            pos: background,
+            button: egui::PointerButton::Primary,
+            pressed: true,
+            modifiers: Default::default(),
+        },
+    ]);
+    assert!(h.view.pan_drag.is_some());
     h.view.select(None);
+    assert!(
+        h.view.pan_drag.is_none(),
+        "source invalidation drops an in-progress background gesture"
+    );
     assert!(h.view.attempt.is_none());
     assert!(h.view.source.is_none());
     h.frame(vec![]);
@@ -910,4 +929,181 @@ fn generation_zero_cancelled_terminal_loads_via_native_action_without_an_accepte
     h.view.select(Some(&inspector));
     assert!(h.view.terminal_mode);
     assert!(h.view.attempt.is_some());
+}
+
+#[test]
+fn cold_sized_end_and_coalesced_pointer_key_keep_selection_after_idle_frames() {
+    let size = egui::vec2(1600.0, 1000.0);
+    let render = |h: &mut Harness, events| {
+        h.time += 0.016;
+        h.context.run(
+            egui::RawInput {
+                time: Some(h.time),
+                screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, size)),
+                events,
+                ..Default::default()
+            },
+            |ctx| {
+                egui::TopBottomPanel::top("archive-navigation-fixture")
+                    .exact_height(134.0)
+                    .show(ctx, |ui| {
+                        ui.label("Exact recorded ordinal 2");
+                    });
+                h.view.show(ctx);
+            },
+        )
+    };
+    for coalesced in [false, true] {
+        let mut h = Harness::new();
+        for _ in 0..5 {
+            render(&mut h, vec![]);
+        }
+        render(
+            &mut h,
+            vec![egui::Event::PointerMoved(egui::pos2(87.0, 990.0))],
+        );
+        let pan_before = h.view.pan;
+        let pos = h.view.controls["node-1"].center();
+        render(
+            &mut h,
+            vec![
+                egui::Event::PointerMoved(pos),
+                egui::Event::PointerButton {
+                    pos,
+                    button: egui::PointerButton::Primary,
+                    pressed: true,
+                    modifiers: Default::default(),
+                },
+            ],
+        );
+        assert_eq!(
+            h.view.pan, pan_before,
+            "node pointer press must not start background pan"
+        );
+        let release = egui::Event::PointerButton {
+            pos,
+            button: egui::PointerButton::Primary,
+            pressed: false,
+            modifiers: Default::default(),
+        };
+        let end = egui::Event::Key {
+            key: egui::Key::End,
+            physical_key: None,
+            pressed: true,
+            repeat: false,
+            modifiers: Default::default(),
+        };
+        if coalesced {
+            render(&mut h, vec![release, end]);
+        } else {
+            render(&mut h, vec![release]);
+            for _ in 0..2 {
+                render(&mut h, vec![]);
+            }
+            assert_eq!(h.view.selected, 1);
+            render(&mut h, vec![end]);
+        }
+        render(
+            &mut h,
+            vec![egui::Event::Key {
+                key: egui::Key::End,
+                physical_key: None,
+                pressed: false,
+                repeat: false,
+                modifiers: Default::default(),
+            }],
+        );
+        for _ in 0..6 {
+            render(&mut h, vec![]);
+        }
+        assert_eq!(
+            h.view.attempt.as_ref().unwrap().descriptor.nodes()[h.view.selected],
+            NodeKind::Publication,
+            "coalesced={coalesced}"
+        );
+        for _ in 0..4 {
+            for pressed in [true, false] {
+                render(
+                    &mut h,
+                    vec![egui::Event::Key {
+                        key: egui::Key::ArrowLeft,
+                        physical_key: None,
+                        pressed,
+                        repeat: false,
+                        modifiers: Default::default(),
+                    }],
+                );
+            }
+            for _ in 0..3 {
+                render(&mut h, vec![]);
+            }
+        }
+        assert_eq!(
+            h.view.attempt.as_ref().unwrap().descriptor.nodes()[h.view.selected],
+            NodeKind::NativeFallback,
+            "coalesced={coalesced}"
+        );
+    }
+}
+
+#[test]
+fn only_background_press_owns_pan_and_prepress_motion_is_excluded() {
+    let mut h = Harness::new();
+    for _ in 0..4 {
+        h.frame(vec![]);
+    }
+    let button = |pos, pressed| egui::Event::PointerButton {
+        pos,
+        button: egui::PointerButton::Primary,
+        pressed,
+        modifiers: Default::default(),
+    };
+    let outside = egui::pos2(5.0, 1190.0);
+    h.frame(vec![egui::Event::PointerMoved(outside)]);
+    let node = h.view.controls["node-1"].center();
+    let before = h.view.pan;
+    h.frame(vec![egui::Event::PointerMoved(node), button(node, true)]);
+    assert_eq!(
+        h.view.pan, before,
+        "moving onto a node before its press is not a background gesture"
+    );
+    let moved = node + egui::vec2(40.0, 30.0);
+    h.frame(vec![egui::Event::PointerMoved(moved)]);
+    assert_eq!(
+        h.view.pan, before,
+        "a node-origin held motion cannot steal background panning"
+    );
+    h.frame(vec![button(moved, false)]);
+    let canvas = h.view.controls["canvas"];
+    let background = egui::pos2(canvas.right() - 25.0, canvas.top() + 25.0);
+    h.frame(vec![egui::Event::PointerMoved(outside)]);
+    h.frame(vec![
+        egui::Event::PointerMoved(background),
+        button(background, true),
+    ]);
+    assert_eq!(
+        h.view.pan, before,
+        "background press ignores preceding outside-pointer relocation"
+    );
+    let delta = egui::vec2(-40.0, 30.0);
+    h.frame(vec![egui::Event::PointerMoved(background + delta)]);
+    assert_eq!(
+        h.view.pan,
+        before + delta,
+        "held background movement still pans by its actual displacement"
+    );
+    h.frame(vec![button(background + delta, false)]);
+    h.frame(vec![egui::Event::PointerMoved(outside)]);
+    assert_eq!(
+        h.view.pan,
+        before + delta,
+        "released drag has no continuing ownership"
+    );
+    h.view.open();
+    assert!(h.view.pan_drag.is_none());
+    assert_eq!(
+        h.view.pan,
+        before + delta,
+        "reopening preserves the view without a stale drag"
+    );
 }

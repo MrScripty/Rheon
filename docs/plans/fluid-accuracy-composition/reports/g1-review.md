@@ -4,6 +4,10 @@ Separate Codex instances reviewed architecture, persistence and native UI withou
 
 The repair's narrow independent review is approved: viewport-relative bounded body, compact provider identity hashes, footer Close, real configured overflow/scroll/close test and key-release/idle-frame navigation. Nine active UI cases pass, zero fail; two opt-in helpers remain ignored. A fresh source-bound normal-App run remains the acceptance gate.
 
+The fresh native run exposed a second concrete interaction defect: pre-press pointer relocation was applied as canvas pan while clicking a node. Independent image analysis matched the vectors exactly, and a real-egui regression reproduced the failure. Source approval is therefore pending the bounded background-gesture repair and its node-click/node-held/background-drag regressions. No native acceptance is inferred from the earlier successful observations.
+
+Final narrow gesture-source review is approved after those regressions and active-gesture disposal on source invalidation pass. Eleven active UI cases pass, zero fail. The exact reviewed UI/test SHA-256 values are `4176efb859e9ed2e0041a6ca7b9f87c5590ed2aa7541a83fc225ce6e795ddd6f` and `577bc23f06a8cd794b16d42cd347a024d627443f3d1cf5d4a6230b21c76a24e2`. Source approval remains distinct from the final native workflow gate.
+
 | Review | Findings and disposition | Evidence |
 | --- | --- | --- |
 | Architecture/core | Added exact actual-control/native-state/RHS binding; corrected typed dependencies; rejected fabricated accepted traces, premature terminal diagnostics and over-limit claims; fixed pressure/viscosity cancellation classification and zero attempt IDs. No numerical formula, stage-order or domain widening found. | Seven focused core tests and independent executable adversarial harness; review approved. |

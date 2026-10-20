@@ -27,6 +27,7 @@ pub struct WorkflowInspector {
     selected: usize,
     zoom: f32,
     pan: egui::Vec2,
+    pan_drag: Option<(egui::Pos2, egui::Vec2)>,
     evidence: bool,
     restore_focus: bool,
     terminal_request: bool,
@@ -119,6 +120,7 @@ impl WorkflowInspector {
         }
     }
     fn unavailable(&mut self, message: &str) {
+        self.pan_drag = None;
         self.source = None;
         self.attempt = None;
         self.evidence = false;
@@ -169,6 +171,7 @@ impl WorkflowInspector {
         }
     }
     fn set_attempt(&mut self, attempt: Arc<WorkflowAttempt>) {
+        self.pan_drag = None;
         match attempt.validate() {
             Ok(()) => {
                 self.selected = self.selected.min(attempt.descriptor.nodes().len() - 1);
@@ -184,6 +187,7 @@ impl WorkflowInspector {
         }
     }
     pub fn open(&mut self) {
+        self.pan_drag = None;
         self.open = true;
         self.focus_text = false;
         self.restore_focus = true;
@@ -193,6 +197,7 @@ impl WorkflowInspector {
         self.return_focus = Some(trigger);
     }
     fn reset(&mut self) {
+        self.pan_drag = None;
         self.zoom = 0.85;
         self.pan = egui::Vec2::ZERO;
     }
@@ -205,6 +210,7 @@ impl WorkflowInspector {
     }
     pub fn show(&mut self, ctx: &egui::Context) {
         if !self.open {
+            self.pan_drag = None;
             return;
         }
         if ctx.input_mut(|input| input.consume_key(egui::Modifiers::NONE, egui::Key::Escape)) {
@@ -469,12 +475,6 @@ impl WorkflowInspector {
         let size = egui::vec2(ui.available_width().max(300.0), 390.0);
         let (rect, response) = ui.allocate_exact_size(size, egui::Sense::drag());
         let response = self.control("canvas", response);
-        if response.dragged() {
-            self.pan += response.drag_delta();
-            self.pan = self
-                .pan
-                .clamp(egui::vec2(-1500.0, -1500.0), egui::vec2(1500.0, 1500.0));
-        }
         let painter = ui.painter_at(rect);
         painter.rect_filled(rect, 5.0, ui.visuals().extreme_bg_color);
         let position = |node: NodeKind| {
@@ -494,6 +494,31 @@ impl WorkflowInspector {
             };
             egui::pos2(node.lane() as f32 * 200.0 + 12.0, rank as f32 * 72.0 + 32.0)
         };
+        if response.drag_started() {
+            self.pan_drag = ui
+                .input(|input| input.pointer.press_origin())
+                .filter(|origin| {
+                    rect.contains(*origin)
+                        && !attempt.descriptor.nodes().iter().any(|node| {
+                            egui::Rect::from_min_size(
+                                rect.min + self.pan + position(*node).to_vec2() * self.zoom,
+                                (NODE_SIZE * self.zoom).max(egui::vec2(80.0, 36.0)),
+                            )
+                            .contains(*origin)
+                        })
+                })
+                .map(|origin| (origin, self.pan));
+        }
+        if response.dragged() {
+            if let Some(((origin, initial_pan), pointer)) =
+                self.pan_drag.zip(response.interact_pointer_pos())
+            {
+                self.pan = (initial_pan + (pointer - origin))
+                    .clamp(egui::vec2(-1500.0, -1500.0), egui::vec2(1500.0, 1500.0));
+            }
+        } else {
+            self.pan_drag = None;
+        }
         if self.restore_focus && !self.focus_text {
             let node_position = position(attempt.descriptor.nodes()[self.selected]).to_vec2()
                 * self.zoom
