@@ -1,0 +1,181 @@
+{
+  "schema": "rheon-c1b3-native-admission-qualification-v1",
+  "status": "passed-scoped-local-qualification-hosted-pending",
+  "source_head": "3b3b667a8b81942a3ca95c7531b29525ac4494b2",
+  "source_tree": "e0255bc77e935159517482b39d3c542243fe069e",
+  "clean": true,
+  "source_file_count": 1489,
+  "retained_owner_head": "5dc1741feffa88b857194559b3e7e79be5369a64",
+  "fixed_prior_stage": {
+    "PR141_head": "38c40ca7b4b2401e0ac802f12c647f7229072f52",
+    "actual_qualified_source": "186dc0a18f787748eb723d91321e44ffd0e374d5",
+    "unchanged": true
+  },
+  "selected_native": {
+    "count": 140,
+    "added": 0,
+    "changed": 8,
+    "unchanged": 132,
+    "removed": 0,
+    "map_sha256": "6cf9712dbebbec79309d9ead4b6514d5cec3cf7559452d0ff16824735d49d22d"
+  },
+  "admission_inventory_sha256": "8cc04634cb3e7831884273bf3c9a4bac21f52e3b0735be344101cba6bcf058ba",
+  "bound_review_sha256": "a4e27e367c0604fc24c9b3020110832fc7ef85c902fcdd35ad2c5c684de9b97b",
+  "native_qualification": {
+    "commands": 18,
+    "receipt_sha256": "96927dde0106bbf09d2b2489bbfebeda387bd13723aba714949843c5f2a8a366",
+    "executable_sha256": "76564683b20d236c8b6ac0f7240d43f36289485dded8e18dd6b2c62b2a2bb0bb",
+    "lean_checked": false
+  },
+  "packet": {
+    "normal": 26,
+    "optimized": 26,
+    "skipped": 0,
+    "artifacts_sha256": {
+      "data.json": "99bb05fe61844f7ed1a4f8ad3e86ed123679895f696edbd99f396fb23090622c",
+      "native.tsv": "79e4840c57aae1dd704d813302d6c343ee97928781729137af31033cbbdc7566",
+      "primary-qualification.json": "96927dde0106bbf09d2b2489bbfebeda387bd13723aba714949843c5f2a8a366",
+      "qualification.json": "dcfaa61e2bbe0858137ea939bd4c1314f0e8afa07d49d2a33a59dbe8cde98636"
+    }
+  },
+  "focused": {
+    "focused-complete-library": {
+      "passed": 97,
+      "failed": 0,
+      "ignored": 0,
+      "summary_lines": [
+        "test result: ok. 97 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 48.89s"
+      ]
+    },
+    "focused-projection-session": {
+      "passed": 6,
+      "failed": 0,
+      "ignored": 0,
+      "summary_lines": [
+        "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 125.04s"
+      ]
+    },
+    "focused-legacy-recording-volume": {
+      "passed": 122,
+      "failed": 0,
+      "ignored": 3,
+      "summary_lines": [
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s",
+        "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+        "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 3 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 6 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.07s",
+        "test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.84s",
+        "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.60s",
+        "test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.50s",
+        "test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.07s",
+        "test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    "borrow-doctests": {
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0,
+      "summary_lines": [
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+      ]
+    }
+  },
+  "focused_total_passed": 228,
+  "focused_total_ignored": 3,
+  "executing_elf_count": 17,
+  "raw_archive": {
+    "path": "/workspace/rheon-c1b3-stage-3b3b667.zip",
+    "bytes": 28934812,
+    "sha256": "5e40f320799865ba6c3e945499c5da1e6d7a6068deea0ab19b59b511f9d284a1",
+    "member_count": 76,
+    "all_crc_and_member_hashes_verified": true,
+    "library": {
+      "library_file_id": "libfile_61d39f8d955c81918f2c22927e011fa4",
+      "file_id": "file_000000002104823089a3b3eb2c45641d",
+      "path": "/rheon-c1b3-stage-3b3b667.zip",
+      "file_name": "rheon-c1b3-stage-3b3b667.zip",
+      "current_version_number": 0
+    },
+    "library_xattrs_persisted": true
+  },
+  "raw_files_sha256": {
+    "aligned-strain-native-executable": "76564683b20d236c8b6ac0f7240d43f36289485dded8e18dd6b2c62b2a2bb0bb",
+    "ambient-compiler-overrides.json": "5ef0d59aa992da29b9b39219bb5e176069ff08f82dd1482b64e6555d4e099274",
+    "borrow-doctests.log": "b48541ae21c30a52a64e05a1a790d0563edf8097edf4f35b297cc67f11fd6934",
+    "build-cache-retirement.json": "46f612e309501de4f680f568549e00f0008c33434df0fc55a2964a3d15ea7408",
+    "committed-admission-check.log": "6c7012e74731646f8e0096e8fc59a099453fe1acf73624bc139a76c3acae44a1",
+    "committed-format-check.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "committed-locked-metadata.log": "013f1ebdb923726d78e19e40d1a3fddcd63206f129e8ddf5b49aca56704fe96d",
+    "complete-source-review-input.json": "7fa2845366100c768049a482f33d496b2f19c25c4ceed50691cb5ccdbfd9fa2d",
+    "execution-context.json": "00191b291832547e2c037044b56ba6401ed2c993760220db294a46c661986e43",
+    "final-admission-review/final-admission-review.json": "c55e52878f4f357494e75609f5055b8e94063b3d5b7ef6fa027a17d7bfbc5643",
+    "final-admission-review/final-admission-review.md": "8101644a9391537be9ce18fc7b8b8af1c400ebec5de8bc1b4be7ee09b63df3e9",
+    "final141-docs-only-merge-guard.json": "9eca6036aa27782c914995fdcef67fec28af62086175cf997ca75e0d1784cf83",
+    "focused-complete-library.log": "3264e091275a01e4794773926e8cf4f51cd67d28f925ba53d795399ae270af74",
+    "focused-legacy-recording-volume.log": "81c132c72d7ec100d0aa1b87691fe69bd7779cf9e222436e86ac68222d22ef16",
+    "focused-projection-session.log": "7f6678b960001158d63d8d6d971992e64728177f0d603b1cc6bfe618718a8348",
+    "frozen-admission-bindings.json": "c2c574845abfe96e6a1a05b4797a75efe8b60846bb461ea1b73b511587026474",
+    "native-contract-executables.json": "9eedd376eac2d59c2402c73361a2fc0876d3ef4df093d8b3184961ddf2b90ac3",
+    "native-qualified-v1/format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-qualified-v1/large-origin-nonmidpoint-oracle-comparison.log": "5710867d831faf32c5aa6f5f6305a7aedb70d69799d8fa39cc545e23ac7f691d",
+    "native-qualified-v1/large-origin-nonmidpoint-oracle-summary.json": "5710867d831faf32c5aa6f5f6305a7aedb70d69799d8fa39cc545e23ac7f691d",
+    "native-qualified-v1/large-origin-nonmidpoint-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-qualified-v1/large-origin-nonmidpoint.tsv": "38405a03996ba2be5dc952b85b1d7e0b0e7df4d115e30b9bdfe14852e55c3628",
+    "native-qualified-v1/native-oracle-comparison.log": "1bdaf51b2edbe8169d0e93801fcb53a680eb4764c4ab191d1da826551c9752c6",
+    "native-qualified-v1/native-oracle-summary.json": "1bdaf51b2edbe8169d0e93801fcb53a680eb4764c4ab191d1da826551c9752c6",
+    "native-qualified-v1/native-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-qualified-v1/native.tsv": "ecdd0877f17997c577d5183cd928c27c802f9ffdcee8324f0802fe3841fddb45",
+    "native-qualified-v1/oracle-tests-optimized.log": "1ca4aa2c203f4c656f13d33f8ca7dc3ffdce402ef5415f6b3d5b2bc5cf27bdad",
+    "native-qualified-v1/oracle-tests.log": "100d5d055a812c4ededf29c9a685d4a04c2c9794de21a7b161f2610344305b93",
+    "native-qualified-v1/qualification-gate-tests-optimized.log": "4ec5cd67020ce197551adc94edc14e7ed79e34049fab6116b60c2a6c7b5742ae",
+    "native-qualified-v1/qualification-gate-tests.log": "4ec5cd67020ce197551adc94edc14e7ed79e34049fab6116b60c2a6c7b5742ae",
+    "native-qualified-v1/qualification.json": "96927dde0106bbf09d2b2489bbfebeda387bd13723aba714949843c5f2a8a366",
+    "native-qualified-v1/reflected-anisotropic-oracle-comparison.log": "2186139b1e27a96cc78d2248fdbede6f8783b7b3f14df1cca1d257b13e7aea6f",
+    "native-qualified-v1/reflected-anisotropic-oracle-summary.json": "2186139b1e27a96cc78d2248fdbede6f8783b7b3f14df1cca1d257b13e7aea6f",
+    "native-qualified-v1/reflected-anisotropic-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-qualified-v1/reflected-anisotropic.tsv": "04821a0128a562dc796b5ec369e552eff2b867d09c55a7d1333cdfb35048b4d3",
+    "native-qualified-v1/represented-nonmidpoint-oracle-comparison.log": "271172fa04b40b7d53438dafd2a07bcad13f5d4f6a1f91802604345a41b4d7a8",
+    "native-qualified-v1/represented-nonmidpoint-oracle-summary.json": "271172fa04b40b7d53438dafd2a07bcad13f5d4f6a1f91802604345a41b4d7a8",
+    "native-qualified-v1/represented-nonmidpoint-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-qualified-v1/represented-nonmidpoint.tsv": "c7eed9042d4806d437a573ddae91817c692c8cbd77b32e2df296b0e0b38d96f2",
+    "native-qualified-v1/rust-build.log": "db55f073805de2e35019639ba981c36f3a8f95a55a04dcc52b31c2270d03f59f",
+    "native-qualified-v1/rust-clippy.log": "a9dc1909697046ca66616d8fd9070a8926cc3d5c33bc5ec99ebcc5fc8e8938a2",
+    "native-qualified-v1/rust-contracts.log": "7aac9855eba85039d566cc688ecd6397031e8b671a31fdec609ca12302433e4b",
+    "native-qualified-v1/unit-center-cube-oracle-comparison.log": "1437948d56a251ce807b74a8cfae66c47455acef4911d4e1f390b1a4ee90580a",
+    "native-qualified-v1/unit-center-cube-oracle-summary.json": "1437948d56a251ce807b74a8cfae66c47455acef4911d4e1f390b1a4ee90580a",
+    "native-qualified-v1/unit-center-cube-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-qualified-v1/unit-center-cube.tsv": "79e4840c57aae1dd704d813302d6c343ee97928781729137af31033cbbdc7566",
+    "native-qualifier-driver.log": "b8ee8c1a5dbfb2acc2bf99d9139636b048df5bab49f10d9d21e1b584584e16e9",
+    "packet-create.log": "269386682d146441f6bf37cc23c2880bf0173c1aeab68609059579ce419b177f",
+    "packet-tests-normal.log": "44d27f3acd4218cbc45e92373794790edbbfeec18c3bee5c9872323d7818e9f0",
+    "packet-tests-optimized.log": "9849e72fbde1dd4f83ef733bea833958f8e7806fe01c18e2e25c07805500040a",
+    "packet-v1/data.json": "99bb05fe61844f7ed1a4f8ad3e86ed123679895f696edbd99f396fb23090622c",
+    "packet-v1/native.tsv": "79e4840c57aae1dd704d813302d6c343ee97928781729137af31033cbbdc7566",
+    "packet-v1/primary-qualification.json": "96927dde0106bbf09d2b2489bbfebeda387bd13723aba714949843c5f2a8a366",
+    "packet-v1/qualification.json": "dcfaa61e2bbe0858137ea939bd4c1314f0e8afa07d49d2a33a59dbe8cde98636",
+    "pre-admission-expected-refusal.stderr": "e10e268667da451e36d0985f6442d38192a1f4421de651c964f19b9bc765a8f1",
+    "pre-admission-expected-refusal.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "qualified-executables/1d66871fd50c6e17e690de4af830d970ea1a23f7c364a655e8745c7e754e0f4d-liquid_volume_contract-feec3ae32dcbefe5": "1d66871fd50c6e17e690de4af830d970ea1a23f7c364a655e8745c7e754e0f4d",
+    "qualified-executables/251a48387dde81fae81af42b862fe5f1da90198869fc671b2595b42898bfc0d1-recording_comparison_contract-205af27e4f04bdad": "251a48387dde81fae81af42b862fe5f1da90198869fc671b2595b42898bfc0d1",
+    "qualified-executables/3c98f5ffdc3211c4d503ddd60b76bcc516ee498579490ad55a48459ded53143e-rheon-a429e726eb179735": "3c98f5ffdc3211c4d503ddd60b76bcc516ee498579490ad55a48459ded53143e",
+    "qualified-executables/486873ea3032ee5777f0c0f50176ccd4260f375cff5052768dd5bc50bdeaf140-recording_provider_runtime_contract-5507579fbf15a50a": "486873ea3032ee5777f0c0f50176ccd4260f375cff5052768dd5bc50bdeaf140",
+    "qualified-executables/841d8e7f29ff10e0603aa600cb078400039d9225456ed80e0b8b502a018aa035-configured_provider_session_contract-18899f217e5c3858": "841d8e7f29ff10e0603aa600cb078400039d9225456ed80e0b8b502a018aa035",
+    "qualified-executables/9f082291f8120480b312ea471db2981e7516557d647f3b148181665dc48562ba-projection_session_contract-99cd44f78c569f0c": "9f082291f8120480b312ea471db2981e7516557d647f3b148181665dc48562ba",
+    "qualified-executables/be26241d906d86f9a2dd6cb626fc81015d267a3f5f11cdedd017644c46cd006f-recording_provider_contract-4563aa0dbc51be38": "be26241d906d86f9a2dd6cb626fc81015d267a3f5f11cdedd017644c46cd006f",
+    "qualified-executables/bfd5f2f24b273c8019f30b4761f202f87f0a90f1246d42ca08a805aca81b556b-provider_step_contract-952a7149c0ec5a53": "bfd5f2f24b273c8019f30b4761f202f87f0a90f1246d42ca08a805aca81b556b",
+    "qualified-executables/c0c961f403eef7dfbe61aaa338c53d093167a4c90626dd670714ec9c8af3f6ee-solver_provider_contract-c6be55ff3e264ba9": "c0c961f403eef7dfbe61aaa338c53d093167a4c90626dd670714ec9c8af3f6ee",
+    "qualified-executables/ddf6d008a7668da8cb1f08388d66c4d69c064a07b2bc19e52e6a3b405caa239f-liquid_volume_periodic_contract-09940e33b41d83b5": "ddf6d008a7668da8cb1f08388d66c4d69c064a07b2bc19e52e6a3b405caa239f",
+    "qualified-executables/f279d97d83367466737d5e57486ee1b1b6fce06ef21a800be480216d0a46883c-pressure_session_contract-e18df0f878334b98": "f279d97d83367466737d5e57486ee1b1b6fce06ef21a800be480216d0a46883c",
+    "qualified-executables/faff5e7060dfecf7705ebb1092d454e217ceb6d79b181f36e09ffef30566fa5f-recording_contract-db2765a72a4388d0": "faff5e7060dfecf7705ebb1092d454e217ceb6d79b181f36e09ffef30566fa5f",
+    "qualified-native-contract-executables/060183193e6aa352af74279da3ecb1a86b9e4ba4f6477de150c09f1b6ea8b7eb-static_obstacle_contract-b0d0ccb0b94e567b": "060183193e6aa352af74279da3ecb1a86b9e4ba4f6477de150c09f1b6ea8b7eb",
+    "qualified-native-contract-executables/7da18661e6be7924196d00fde9afd0192cf5266c35a3e66b15343bad56ede2fc-obstacle_flow_contract-960c9dc0be44c2f9": "7da18661e6be7924196d00fde9afd0192cf5266c35a3e66b15343bad56ede2fc",
+    "qualified-native-contract-executables/8a2d89690bdb9299c95148fb296229e2216a590fc7a56dfe13fee83b942bee4e-aligned_strain_contract-2260b287e32432c2": "8a2d89690bdb9299c95148fb296229e2216a590fc7a56dfe13fee83b942bee4e",
+    "qualified-native-contract-executables/c4fc04c31ef9b34efa8dfc9badb0608f19a021b16aa682cd5889d1319f024a37-aligned_strain-e0c34e514a40a128": "c4fc04c31ef9b34efa8dfc9badb0608f19a021b16aa682cd5889d1319f024a37",
+    "resource-completed-elf-deduplication.json": "b5b406238777355ea424c9df9ecbd435bea4a38b423308cd367f8e7b4fbb6009",
+    "run-fresh-qualification.py": "797cf4495fa3eb7f3539f22a5a92c0342d6f83663bc409bce6575f1ce93e2163",
+    "seal-qualification.py": "27ec277e07361c692372cdbd14266baf7c6bf7f219bc1aa67f4d8c6d5b5cb3f1",
+    "toolchain-at-launch.json": "d0e531c0d4ae39a5883db763dfded5e4f65aec9e1091225031a48e3c3fbc39c2"
+  },
+  "scope": "unchanged native/rational/real-packet plus complete no-default library, all B2+B3 public projection, legacy/volume/borrow contracts; not owner227 rerun, scientific/physical/default/desktop/release/window/whole-family/hosted/merge acceptance"
+}

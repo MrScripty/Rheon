@@ -216,3 +216,37 @@ load prerequisite reviews, independent norm/reference uncertainty and hard
 resource freeze before one campaign. Resume the existing numerical owner for
 preparation only until those gates pass. No pilot evaluation exists; canonical
 disk, generic stability/PDE, moving geometry and production remain unqualified.
+
+
+### Separate final C1-B3 admission and fresh execution
+
+Normal local composition retains exact PR140/5dc1741 and fixed PR141/38c40ca,
+including qualified186dc0a ancestry. Independent review approves all 140 inputs:
+eight changed, 132 unchanged, zero added/removed. All ten changed source/public
+test paths are reviewed. Explicit v3 admission preserves the exact prior review
+prefix. The corrected protocol distinguishes recoverable producer errors from
+existing B1 field/momentum fallback and unpublished mixed-pressure witness failure.
+Commit `3b3b667a8b81942a3ca95c7531b29525ac4494b2` freezes inventory 8cc04634,
+review a4e27e36, protocol 1a0191d9 and driver 797cf449 before execution.
+
+Fresh unchanged native/rational qualification passes all 18 commands: 35 Rust
+contracts, five specimens, gate 5+5 and oracle 10+10. A new real packet passes 26
+normal and 26 optimized tests without skips. The focused run passes 228 tests:
+97 library, six public B2/B3, 122 legacy/volume and three compile-fail doctests;
+zero fail and three existing artifact tests remain ignored. All 1,489 committed
+file hashes, 140 selected inputs, 17 actual ELFs and the 76-member archive are
+retained. The 28,934,812-byte ZIP has SHA256
+`5e40f320799865ba6c3e945499c5da1e6d7a6068deea0ab19b59b511f9d284a1`.
+Library identity is `libfile_61d39f8d955c81918f2c22927e011fa4`, version 0; all
+returned xattrs are persisted. Summary 68393fd1 was final before the independent
+execution audit. See [qualification](reports/c1b3-admission-20261020/qualification.md).
+
+Bounded scratch handling deduplicated only a completed hash-identical current
+root ELF copy. After all commands passed and all 17 ELFs were retained/verified,
+only that reconstructible target was retired; all retained hashes were verified
+again. Resource receipts are sealed. No source, protocol, driver, threshold,
+prior evidence or other-owner cache changed. No scientific campaign or silent
+rerun occurred. Owner 227/5 and prior failures stay separately attributed.
+Hosted/default/desktop/window/release/performance/full replacement/physical/
+Lean/model/GPU gates remain separate. Fixed PR133/138/141, protected original
+work and the merge pause remain unchanged.

@@ -25,7 +25,7 @@ This report reconciles current implementation and numerical-route facts. It does
 | [136](https://github.com/MrScripty/Rheon/pull/136) | `e56bc7bd31ea8e8121f09cba15eb8a2bc5e514e4` | Bounded C1-B2 native Session/custody stacked on fixed PR133. Owner results retain exact core634404e/consumera6e76a9; combined with final PR137, fresh separate 140-input qualification passes at `186dc0a`. Closed native Session/custody only; full replacement/hosted acceptance remains pending. |
 | [137](https://github.com/MrScripty/Rheon/pull/137) | `d3e62377acde6641c8133cf9a9356cc046cfd02a` | Three-line typed legacy cancellation label repair at tested `70da36d`, plus live/cold/pressure-failure tests. Owner 226 passing executions/5 existing ignores remain separately attributed. Fresh 140-input stage `186dc0a` includes this exact source; historical Failed receipts and no-publication behavior remain. |
 | [139](https://github.com/MrScripty/Rheon/pull/139) | `902f6092de6044419d028f92dabd8e59ae7a87ba` | Separate CV2 static conditioned cut-cell reference on PR135; owner qualification reports 24 fixed cases, independent R1/R2 reconstruction and 45 evaluator checks passing at numerical source b0a9d52. Generic stability/PDE/production gates remain open; excluded from fixed lead stages. |
-| [140](https://github.com/MrScripty/Rheon/pull/140) | `5dc1741feffa88b857194559b3e7e79be5369a64` | Separate C1-B3 producer selection on PR137; owner 227 passing / 5 existing ignored at core4af3802/consumer9ddf8d2. Initial compile/refusal-category failures and bounded repairs retained. Eight selected pins change from PR137; complete-source admission, fresh lead qualification and exact-head hosted gates pending. Excluded from 186dc0a. |
+| [140](https://github.com/MrScripty/Rheon/pull/140) | `5dc1741feffa88b857194559b3e7e79be5369a64` | Separate C1-B3 producer selection on PR137; owner 227 passing / 5 existing ignored at core4af3802/consumer9ddf8d2. Initial compile/refusal-category failures and bounded repairs retained. Eight selected pins change from PR137; separate clean `3b3b667` passes complete 140-input admission and fresh native/rational/packet plus 228 focused contracts. Exact-head hosted gates pending; excluded from 186dc0a. |
 
 An object-only merge preview of C1-A `91b2038` with Q1 `dfcc693` completed without conflicts and produced tree `dbccbf5c0002c33a059e9a355bd25793a9411134`. It changes no branch or worktree and proves only merge-text compatibility, not source admission, runtime correctness or qualification.
 
@@ -91,8 +91,9 @@ failure. A bounded ingress repair and 14 focused persistence checks pass. Final 
 qualification reports 227 passing, zero failing and five existing ignored
 executions, including 200 actually selected native intervals bitwise against the
 same-producer baseline. These are owner-attributed results, not a lead rerun.
-Complete-source admission, fresh lead qualification and exact-head hosted gates
-remain pending; no new composition implementation milestone is admitted. Its 140-input
+The separately reviewed clean stage `3b3b667` now passes complete 140-input
+admission and fresh native/rational/packet plus 228 focused contracts; exact-head
+hosted gates remain pending. No new composition implementation milestone is admitted. Its 140-input
 closure changes eight pins from PR137 and is excluded from the qualified 186dc0a
 stage. Its [separate prospective protocol](https://github.com/MrScripty/Rheon/blob/9ddf8d2fd860c73bbcc35a077e08099d894db07a/docs/plans/fluid-accuracy-composition/reports/c1b3-protocol.md) records its own implementation admission; this fixed-stage report supplies no new source-admission approval.
 Full C1-B/C/R, stateful/external transactions and whole-family/transfer remain
@@ -118,3 +119,21 @@ nine-case static polynomial polygon MMS, source/write set, independent oracle
 and resource freeze before one separately reviewed private campaign. It changes
 no production owner or capability. No numerical result exists. Canonical disk,
 generic stability/PDE, moving geometry and production remain unqualified.
+
+## Separate C1-B3 stage qualification
+
+Fixed [PR141](https://github.com/MrScripty/Rheon/pull/141) is
+`38c40ca7b4b2401e0ac802f12c647f7229072f52`, actual executed source 186dc0a. Its
+frozen evidence and reviewed CV3-A preparation admission remain unchanged.
+The new [C1-B3 result](c1b3-admission-20261020/qualification.md) is independently
+bound to clean `3b3b667a8b81942a3ca95c7531b29525ac4494b2`, retaining both that
+lineage and exact owner 5dc. Same 140 inputs,8 changed / 132 unchanged, explicit reviewed
+v3 append/map and prospective protocol precede fresh 18-command native/rational,
+26+26 no-skip real packet and 228 focused passing executions/3 existing ignores.
+All 17 actual ELFs and 76-member raw archive are retained and Library-saved.
+
+Dependency order remains reviewed owner/component histories → fixed PR141 → this
+separate admission/results stage. PR133/138 remain fixed, and no joint Q2/C1
+qualification is implied. Every public integration requires exact-head hosted
+gates; queued jobs are pending. No public merge or new composition implementation
+is admitted. CV3-A preparation may proceed under its separately reviewed gates.
