@@ -1,4 +1,5 @@
 use super::*;
+use crate::Axis;
 use crate::projection_step::ProjectionFault;
 use crate::solver_provider::composition::projection::{ProjectionCheckpoint, ProjectionSelection};
 use crate::{
