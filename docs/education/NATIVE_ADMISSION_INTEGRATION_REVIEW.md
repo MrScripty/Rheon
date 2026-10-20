@@ -1079,3 +1079,76 @@ No numerical kernel, tolerance, recorder/model contract, selector, qualification
 gate, historical inventory or A1 status changes. Initial 94062 execution receipts
 retain that historical subject; fresh clean committed qualification, affected
 checks and current-head hosted gates are required before integration.
+
+## Staged workflow and composition admission, 2026-10-20
+
+This explicit reviewed refresh admits a fixed staged source only to attempt fresh
+qualification. The source checkpoint is `f995923b84f0e963806654af292bd18073a7dcc9`,
+tree `42e565eb670c1a4d4294fb8043dec287da5ba26e`. Its isolated trial composition
+retains PR119–131 through PR130 `c2fbbea9f19f818b28b6c6863a40220a2bd0bbe5` and
+PR131 `97cdce614c3c4438fa65ac806b48c4de6490583e`; the latter retains tested
+workflow repair `34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2`. No public main or
+component branch is advanced by this trial composition.
+
+Independent GPT-6.1 Sol review covered the complete unchanged conservative
+selection policy: **135 regular files, 11 added, 16 changed, 108 unchanged, none
+removed** versus the 124-path admission at main
+`bc2f472787060d9a69cb619ed2c2fea10fd754b6`. All 124 historical identities were
+verified against that exact main; all 108 reused identities remain exact.
+The [per-path source review](../plans/fluid-accuracy-composition/reports/native-admission-20261020/provisional-readiness.md)
+and [receipt](../plans/fluid-accuracy-composition/reports/native-admission-20261020/provisional-readiness.json)
+retain every path's disposition. The provisional review subject `6137e46` remains
+distinct from the staged checkpoint. The only subsequent selected source delta is
+the independently approved [two-file iteration repair](../plans/fluid-accuracy-composition/reports/native-admission-20261020/iteration-repair-34e2e73-review.md):
+`src/workflow.rs` at SHA256
+`5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9` and
+`src/recording/workflow.rs` at SHA256
+`caa2f224796f8ad6e92fb78d547c70df7dd88fe666843a715e90bd9257a36d34`.
+All other 133 selected identities remain as reviewed. The exact final sorted,
+compact JSON source-map SHA256 is
+`9af9e8fceeb49febc428301ca51f0c428bfc25e38203d6eccd23fdece031e8e8`
+(no trailing newline). Later PR127/130/131 evidence-only commits did not change
+this selected map.
+
+The admitted additions observe existing configured Session execution, add bounded
+RCP4/RCT2 workflow evidence under the existing SQLite owner and present cached
+workflow facts through the existing desktop worker. C1-A borrows existing native
+family/pressure owners. C1-B1 validates supplied immutable pressure and velocity
+arrays in disposable scratch; it does not invoke a candidate or publish Session
+state. Q1 adds the explicit periodic represented-volume policy to its existing
+owner, without admitting periodic pressure or whole-Stokes semantics. No second
+numerical loop, recorder, runtime process supervisor or archive owner is added.
+The iteration repair bounds native counts and requires candidate counts zero,
+including later cancelled/failed attempts, while preserving cap-zero candidate
+acceptance, rejected IEEE diagnostics and legacy RCP2/RCP3/RCT1 semantics.
+
+The [mechanism review](../plans/fluid-accuracy-composition/reports/native-admission-20261020/review.md)
+confirms that the established explicit v3 refresh suffices. Preserve all preceding
+review text and source-bound receipts as history, the v3 schema/base, frozen v1/v2
+bytes and digests, immutable primary tree, ancestry, selector, checker, oracle,
+qualifier and packet refusal behavior. The active v3 map and this appended review's
+SHA256 are committed together. Old receipts do not qualify the new map. This is an
+explicit admission decision following complete review, never a build-time hash
+refresh or a projection to an assumed numerical subset.
+
+PR130 replaces all 15 optimization-sensitive assertions in four evidence
+evaluators with always-on guards. Frozen evaluator bytes, campaign manifests,
+results, failures and archive identities remain historical. Those tools are outside
+the selected native map; independent full-AST reversal verifies unchanged
+predicates/formulas, and the owner's separate tooling evidence reports 129 checks.
+P1 remains stopped/unselected. Q1's incomplete transport/geometry/control evidence
+and Q2's five positive native apertures on exact-zero-measure faces remain
+authoritative. **The ongoing Q2 boundary repair is excluded from this fixed
+checkpoint.** Its future exact source requires separate review and fresh applicable
+qualification; this admission supplies no topology/DOF/B/M/S/W, coupled PDE,
+whole-family replacement, learned-model or physical accuracy acceptance.
+
+Require clean committed-source native/rational execution into a fresh external
+directory with the unchanged qualifier, then a newly generated real native packet
+and all packet/refusal tests normally and under `-O`. Do not use `--allow-dirty`,
+transfer old receipts, suppress failed attempts or skip the stale-inventory gate.
+The native qualifier does not execute every new workflow/native-family/composition
+unit suite; retain fresh focused composed contracts separately. Hosted
+Pages/browser/publication, desktop/native-window, performance and physical gates
+remain separately scoped. Put execution results in a separate integration report;
+do not append them here or change the inventory after qualification.
