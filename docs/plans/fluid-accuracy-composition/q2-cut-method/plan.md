@@ -1,6 +1,6 @@
 # Bounded cut/free-surface operator method selection
 
-Status: Active bounded reference/deciding experiment; production not admitted.
+Status: Verifying bounded reference/deciding experiment; production not admitted.
 Objective: resolve active-basis/physical-trace mathematical correspondence and
 implement the smallest coherent operator/traction reference under the explicitly
 authorized grid-first repair plan. Root canonical lifecycle/source admission
@@ -8,7 +8,7 @@ remains with parent; this local plan does not rewrite it.
 
 Current acceptance: partial — independent research supports candidateC's finite
 functional; source/protocol review and native/independent deciding evidence pending.
-Current phase: implementation following independent method/protocol admission. Exactly one next slice: CV1,
+Current phase: source freeze following independent method/protocol/source admission. Exactly one next slice: CV1,
 basis-integrated M/B/K and physical trace builder on protocol's four fixtures.
 Binding method/owner: decision.md and mathematics.md, numerical owner with
 independent math/source review. Preserved observed facts: PR132 exactgeometry,

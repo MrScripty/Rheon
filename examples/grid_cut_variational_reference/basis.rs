@@ -1,6 +1,6 @@
 //! One declared continuous field for bulk and physical trace.
 use super::geometry::{Point, Polygon};
-use rheon::GridGeometry;
+use rheon::{Axis, GridGeometry};
 #[derive(Clone, Debug)]
 pub struct Node {
     pub global: usize,
@@ -49,20 +49,22 @@ impl Layout {
             }
         }
         let mut nodes = Vec::new();
-        for axis in 0..2 {
-            let counts = if axis == 0 { [n + 1, n] } else { [n, n + 1] };
-            let shift = if axis == 0 { [0.0, 0.5] } else { [0.5, 0.0] };
+        for (axis, native_axis) in [Axis::X, Axis::Y].into_iter().enumerate() {
+            let counts = grid.face_counts(native_axis);
             for j in 0..counts[1] {
                 for i in 0..counts[0] {
+                    let coordinate = [i, j, 0];
+                    let position = grid
+                        .face_position(native_axis, coordinate)
+                        .ok_or("native face position missing")?;
                     nodes.push(Node {
                         global: nodes.len(),
                         axis,
-                        face: i + counts[0] * j,
+                        face: grid
+                            .face_index(native_axis, coordinate)
+                            .ok_or("native face index missing")?,
                         index: [i, j],
-                        point: [
-                            origin[0] + (i as f64 + shift[0]) * h,
-                            origin[1] + (j as f64 + shift[1]) * h,
-                        ],
+                        point: [position[0], position[1]],
                     });
                 }
             }

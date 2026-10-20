@@ -16,3 +16,8 @@ made precise. CV1 implementation is Active. Bulk and physicaltrace modules and
 raw exporter are complete; strict compile-only Clippy found one needless-range
 test lint being corrected. Full source/oracle review pending; no selected tests,
 native campaign, or oracle data evaluation has run.
+
+Independent source review found no blocker at fee53b2 and confirmed the final
+GridGeometry API delta against src/geometry.rs. Source freeze now precedes
+selected debug/release contracts. The fixed campaign still waits for the exact
+oracle/analyzer source freeze; no raw campaign has been inspected or evaluated.
