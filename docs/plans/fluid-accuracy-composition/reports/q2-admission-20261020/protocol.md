@@ -12,7 +12,7 @@ is performed by this protocol. Standards pin `0fc92a2` remains applicable.
 
 ## Complete source boundary
 
-The unchanged selector contains 135 regular inputs: 0 added,2 changed, 133 unchanged, 
+The unchanged selector contains 135 regular inputs: 0 added, 2 changed, 133 unchanged,
 0 removed versus the reviewed fixed stage. Only Cargo.toml and Cargo.lock change;
 all 133 Rust/toolchain/qualification identities remain exact. Complete canonical
 sorted compact map SHA256 is
