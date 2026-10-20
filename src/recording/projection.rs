@@ -1,6 +1,6 @@
 //! Native projection Session inspection in the existing SQLite v1 owner.
 //!
-//! RPS1/RPP1/RPT1 are additive and retain native RSC1/RCP2 bytes. These are
+//! RPS1/RPP1/RPT1 and selection RPS2/RPP2/RPT2 retain native RSC1/RCP2 bytes. These are
 //! observations, not restart state, execution authentication, or a GUI graph.
 //! The older G1 `workflow::terminal` returns None for this profile: G1 evidence
 //! is unavailable, which says neither that this is legacy nor that it has no
@@ -19,6 +19,28 @@ pub const PROFILE: &str = "rheon-native-projection-session-v1";
 pub const CONFIGURATION_PROFILE: &str = "RPS1:";
 pub const PUBLICATION_PROFILE: &str = "RPP1:";
 pub const TERMINAL_PROFILE: &str = "RPT1:";
+/// Finite distinct producer/fallback selection; the v1 namespace is unchanged.
+pub const SELECTION_PROFILE: &str = "rheon-native-projection-selection-v1";
+pub const SELECTION_CONFIGURATION_PROFILE: &str = "RPS2:";
+pub const SELECTION_PUBLICATION_PROFILE: &str = "RPP2:";
+pub const SELECTION_TERMINAL_PROFILE: &str = "RPT2:";
+
+fn profiles(intent: ProjectionIntent) -> (&'static str, &'static str, &'static str, &'static str) {
+    match intent {
+        ProjectionIntent::BuiltinNativeV1 => (
+            PROFILE,
+            CONFIGURATION_PROFILE,
+            PUBLICATION_PROFILE,
+            TERMINAL_PROFILE,
+        ),
+        ProjectionIntent::ClassicalSelectionV1 { .. } => (
+            SELECTION_PROFILE,
+            SELECTION_CONFIGURATION_PROFILE,
+            SELECTION_PUBLICATION_PROFILE,
+            SELECTION_TERMINAL_PROFILE,
+        ),
+    }
+}
 
 fn put_wrapped(encoder: &mut Encoder, text: &str, profile: &str) -> Result<(), RecordingError> {
     let inner = Decoder::text(text, profile)?;
@@ -40,11 +62,23 @@ fn get_wrapped(decoder: &mut Decoder, profile: &str) -> Result<String, Recording
 fn put_intent(encoder: &mut Encoder, intent: ProjectionIntent) {
     match intent {
         ProjectionIntent::BuiltinNativeV1 => encoder.u8(1),
+        ProjectionIntent::ClassicalSelectionV1 {
+            producer,
+            producer_max_iterations,
+        } => {
+            encoder.u8(2);
+            put_method(encoder, producer);
+            encoder.u64(producer_max_iterations as u64);
+        }
     }
 }
 fn get_intent(decoder: &mut Decoder) -> Result<ProjectionIntent, RecordingError> {
     match decoder.u8()? {
         1 => Ok(ProjectionIntent::BuiltinNativeV1),
+        2 => Ok(ProjectionIntent::ClassicalSelectionV1 {
+            producer: get_method(decoder)?,
+            producer_max_iterations: decoder.usize()?,
+        }),
         _ => Err(RecordingError::Unsupported("projection intent version")),
     }
 }
@@ -54,12 +88,17 @@ fn recording_grid(run: &RecordingRun) -> Result<crate::GridGeometry, RecordingEr
 }
 fn native_header(run: &RecordingRun) -> Result<(RecordingRun, ProjectionIntent), RecordingError> {
     run.validate()?;
-    if run.solver != PROFILE {
-        return Err(RecordingError::Unsupported("projection Session profile"));
-    }
-    let mut decoder = Decoder::text(&run.configuration, CONFIGURATION_PROFILE)?;
+    let profile = match run.solver.as_str() {
+        PROFILE => CONFIGURATION_PROFILE,
+        SELECTION_PROFILE => SELECTION_CONFIGURATION_PROFILE,
+        _ => return Err(RecordingError::Unsupported("projection Session profile")),
+    };
+    let mut decoder = Decoder::text(&run.configuration, profile)?;
     let configuration = get_wrapped(&mut decoder, "RSC1:")?;
     let intent = get_intent(&mut decoder)?;
+    if profiles(intent).0 != run.solver {
+        return Err(RecordingError::Invalid("projection profile intent"));
+    }
     decoder.end()?;
     let native = RecordingRun {
         solver: provider::PROFILE.into(),
@@ -94,8 +133,8 @@ pub fn projection_run(
     let mut encoder = Encoder::default();
     put_wrapped(&mut encoder, &native.configuration, "RSC1:")?;
     put_intent(&mut encoder, intent);
-    native.configuration = encoder.text(CONFIGURATION_PROFILE)?;
-    native.solver = PROFILE.into();
+    native.configuration = encoder.text(profiles(intent).1)?;
+    native.solver = profiles(intent).0.into();
     native_header(&native)?;
     Ok(native)
 }
@@ -108,7 +147,24 @@ fn native_receipt(
     let report = snapshot
         .provider_report()
         .ok_or(RecordingError::Invalid("projection native report absent"))?;
-    let method = snapshot.configuration().implementation;
+    let attempt = snapshot
+        .projection_attempt()
+        .ok_or(RecordingError::Invalid(
+            "projection accepted attempt absent",
+        ))?;
+    let run = projection_run(snapshot, "projection selected role")?;
+    validate_attempt_source(
+        &run,
+        snapshot.configuration(),
+        snapshot.projection_intent().unwrap(),
+        snapshot.grid(),
+        attempt,
+    )?;
+    let method = attempt
+        .selected_native
+        .as_ref()
+        .ok_or(RecordingError::Invalid("projection selected method absent"))?
+        .implementation;
     // This is an admissibility check, not stripping a supplied-witness report.
     if report.selected != method.id()
         || report.attempted.is_some()
@@ -147,7 +203,16 @@ pub fn projection_publication(
     if (snapshot.stage() == SnapshotStage::Accepted) != attempt.is_some() {
         return Err(RecordingError::Invalid("projection snapshot receipt stage"));
     }
-    let mut step = provider::capture_native(snapshot, ordinal, limit, native_receipt(snapshot)?)?;
+    let receipt = native_receipt(snapshot)?;
+    let method = receipt
+        .as_ref()
+        .map_or(snapshot.configuration().implementation, |r| {
+            match r.selected {
+                RecordedPressureSelection::Native(method) => method,
+                _ => unreachable!("native_receipt only emits native selection"),
+            }
+        });
+    let mut step = provider::capture_native_with_method(snapshot, ordinal, limit, receipt, method)?;
     let mut encoder = Encoder::default();
     encoder.0.extend_from_slice(&provider::source_binding(&run));
     put_wrapped(&mut encoder, &step.controls, "RCP2:")?;
@@ -160,7 +225,7 @@ pub fn projection_publication(
             snapshot.grid(),
         )?;
     }
-    step.controls = encoder.text(PUBLICATION_PROFILE)?;
+    step.controls = encoder.text(profiles(snapshot.projection_intent().unwrap()).2)?;
     if step.payload_bytes()? > limit {
         return Err(RecordingError::Limit("projection publication"));
     }
@@ -199,6 +264,9 @@ pub fn projection_publication(
 }
 
 /// Exact accepted native fields plus their distinct projection observation.
+/// For the selection profile, `native.configuration` is the authoritative outer
+/// fallback constructor while `native.receipt.selected` identifies the validated
+/// actual producer or fallback. This invariant does not apply to old configured readers.
 pub struct RecordedProjectionSession {
     pub native: RecordedConfiguredSession,
     pub intent: ProjectionIntent,
@@ -209,7 +277,7 @@ impl RecordedProjectionSession {
         let (header, intent) = native_header(run)?;
         let config = provider::configured_configuration(&header)?;
         let grid = recording_grid(run)?;
-        let mut decoder = Decoder::text(&step.controls, PUBLICATION_PROFILE)?;
+        let mut decoder = Decoder::text(&step.controls, profiles(intent).2)?;
         if decoder.array::<32>()? != provider::source_binding(run) {
             return Err(RecordingError::Invalid("projection publication source"));
         }
@@ -220,7 +288,19 @@ impl RecordedProjectionSession {
             None
         };
         decoder.end()?;
-        let native = provider::decode_native_with_controls(&header, step, &controls)?;
+        // Validate the outer role before varying the sole inner constructor field.
+        let method = if let Some(a) = attempt.as_deref() {
+            validate_attempt_source(run, &config, intent, &grid, a)?;
+            a.selected_native
+                .as_ref()
+                .ok_or(RecordingError::Invalid("projection selected method absent"))?
+                .implementation
+        } else {
+            config.implementation
+        };
+        let adapted = provider::native_header_with_method(&header, method)?;
+        let mut native = provider::decode_native_with_controls(&adapted, step, &controls)?;
+        native.configuration = config;
         validate_publication(run, &config, intent, &native, attempt.as_deref())?;
         Ok(Self {
             native,
@@ -287,7 +367,9 @@ fn validate_publication(
         || receipt.candidate.is_some()
         || receipt.viscosity_applied
         || receipt.dynamic_viscosity.to_bits() != 0.0f64.to_bits()
-        || receipt.selected != RecordedPressureSelection::Native(config.implementation)
+        || attempt.selected_native.as_ref().is_none_or(|selected| {
+            receipt.selected != RecordedPressureSelection::Native(selected.implementation)
+        })
         || selected_pressure(attempt).map(report_bits) != Some(report_bits(receipt.accepted))
         || attempt.selected_native.as_ref().is_none_or(|native| {
             native.total != receipt.total
@@ -426,7 +508,11 @@ impl ProjectionTermination {
                 ));
             }
         }
-        value.encode(snapshot.configuration(), snapshot.grid())?;
+        value.encode(
+            snapshot.configuration(),
+            snapshot.grid(),
+            snapshot.projection_intent().unwrap(),
+        )?;
         Ok(value)
     }
     fn validate(&self, run: &RecordingRun) -> Result<(), RecordingError> {
@@ -483,6 +569,7 @@ impl ProjectionTermination {
         &self,
         config: &SessionConfiguration,
         grid: &crate::GridGeometry,
+        intent: ProjectionIntent,
     ) -> Result<String, RecordingError> {
         let mut encoder = Encoder::default();
         encoder.0.extend_from_slice(&self.source);
@@ -494,14 +581,14 @@ impl ProjectionTermination {
         if let Some(attempt) = &self.attempt {
             put_attempt(&mut encoder, attempt, config, grid)?;
         }
-        encoder.text(TERMINAL_PROFILE)
+        encoder.text(profiles(intent).3)
     }
     pub fn finish(&self, recorder: &mut StepRecorder) -> Result<(), RecordingError> {
         self.validate(recorder.run())?;
-        let (config, _) = configuration(recorder.run())?;
+        let (config, intent) = configuration(recorder.run())?;
         recorder.finish(
             cause_outcome(self.cause),
-            &self.encode(&config, &recording_grid(recorder.run())?)?,
+            &self.encode(&config, &recording_grid(recorder.run())?, intent)?,
             Some(self.accepted_generation),
         )
     }
@@ -515,13 +602,13 @@ pub struct ProjectionTerminationAudit {
 /// to G1 or interprets a missing publication as an accepted numerical row.
 pub fn terminal(reader: &RecordingReader) -> Result<ProjectionTerminationAudit, RecordingError> {
     verify_projection_recording(reader)?;
-    let (config, _) = configuration(reader.run())?;
+    let (config, intent) = configuration(reader.run())?;
     let grid = recording_grid(reader.run())?;
     let status = reader.status()?;
     if status.outcome == "active" {
         return Err(RecordingError::Unsupported("projection active termination"));
     }
-    let mut decoder = Decoder::text(&status.detail, TERMINAL_PROFILE)?;
+    let mut decoder = Decoder::text(&status.detail, profiles(intent).3)?;
     let source = decoder.array()?;
     let cause = get_cause(&mut decoder)?;
     let detail = decoder.string()?;
@@ -908,6 +995,24 @@ fn put_attempt(
         e.f64(producer.residual_l2_limit);
         put_duration(e, producer.elapsed);
     }
+    if attempt.version == 2 {
+        e.boolean(attempt.producer_failure.is_some());
+        if let Some(failure) = &attempt.producer_failure {
+            put_method(e, failure.implementation);
+            match failure.failure {
+                crate::projection_step::ProjectionProducerFailure::IterationLimit {
+                    iterations,
+                    residual_max,
+                } => {
+                    e.u8(0);
+                    e.u64(iterations as u64);
+                    e.f64(residual_max);
+                }
+            }
+            e.f64(failure.residual_l2_limit);
+            put_duration(e, failure.elapsed);
+        }
+    }
     e.boolean(attempt.qualification.is_some());
     if let Some(qualification) = &attempt.qualification {
         e.u8(match qualification.selection {
@@ -989,7 +1094,7 @@ fn get_attempt(
     use crate::projection_step::*;
     use crate::solver_provider::composition::projection::ProjectionSelection;
     let version = d.u32()?;
-    if version != 1 {
+    if version != 1 && version != 2 {
         return Err(RecordingError::Unsupported("projection attempt version"));
     }
     let intent = get_intent(d)?;
@@ -1010,6 +1115,22 @@ fn get_attempt(
         Some(NativeProjectionProducerFacts {
             implementation: get_method(d)?,
             pressure: get_report(d)?,
+            residual_l2_limit: d.f64()?,
+            elapsed: get_duration(d)?,
+        })
+    } else {
+        None
+    };
+    let producer_failure = if version == 2 && d.boolean()? {
+        Some(NativeProjectionProducerFailureFacts {
+            implementation: get_method(d)?,
+            failure: match d.u8()? {
+                0 => ProjectionProducerFailure::IterationLimit {
+                    iterations: d.usize()?,
+                    residual_max: d.f64()?,
+                },
+                _ => return Err(RecordingError::Unsupported("projection producer failure")),
+            },
             residual_l2_limit: d.f64()?,
             elapsed: get_duration(d)?,
         })
@@ -1108,6 +1229,7 @@ fn get_attempt(
         controls_sha256,
         provisional_input_id,
         producer,
+        producer_failure,
         qualification,
         selected_native,
         outcome,

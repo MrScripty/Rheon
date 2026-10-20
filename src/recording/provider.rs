@@ -140,6 +140,25 @@ pub(super) fn native_run(
     configured_configuration(&run)?;
     Ok(run)
 }
+/// Adapt only the native algorithm identity for the projection wrapper after
+/// its outer receipt has established the actual selected role. All other
+/// constructor and source fields retain their original values.
+pub(super) fn native_header_with_method(
+    run: &RecordingRun,
+    implementation: PressureImplementation,
+) -> Result<RecordingRun, RecordingError> {
+    let mut configuration = configured_configuration(run)?;
+    configuration.implementation = implementation;
+    let mut encoder = Encoder::default();
+    put_configuration(&mut encoder, &configuration);
+    let adapted = RecordingRun {
+        configuration: encoder.text(CONFIG)?,
+        ..run.clone()
+    };
+    configured_configuration(&adapted)?;
+    Ok(adapted)
+}
+
 /// Capture the Session's accepted arrays and receipt, never provider scratch.
 /// A failed later attempt leaves the same snapshot; callers append only after
 /// a successful interval. Recording failure never rolls physics back.
@@ -179,8 +198,25 @@ pub(super) fn capture_native(
     limit: usize,
     receipt: Option<RecordedConfiguredReceipt>,
 ) -> Result<RecordedStep, RecordingError> {
+    capture_native_with_method(
+        snapshot,
+        ordinal,
+        limit,
+        receipt,
+        snapshot.configuration().implementation,
+    )
+}
+
+pub(super) fn capture_native_with_method(
+    snapshot: &SessionSnapshot<'_>,
+    ordinal: usize,
+    limit: usize,
+    receipt: Option<RecordedConfiguredReceipt>,
+    implementation: PressureImplementation,
+) -> Result<RecordedStep, RecordingError> {
     let state = snapshot.state();
-    let run = native_run(snapshot, "source binding")?;
+    let run = native_header_with_method(&native_run(snapshot, "source binding")?, implementation)?;
+    let configuration = configured_configuration(&run)?;
     if state.pressure_surface.is_some()
         || state.pressure_columns.is_some()
         || state.reconstructed_surface.is_some()
@@ -329,7 +365,7 @@ pub(super) fn capture_native(
     if let Some(receipt) = &receipt {
         validate_receipt(
             receipt,
-            snapshot.configuration(),
+            &configuration,
             snapshot.grid(),
             &step,
             start.ok_or(RecordingError::Invalid("configured interval"))?,

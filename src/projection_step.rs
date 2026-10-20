@@ -7,7 +7,7 @@ use crate::solver_provider::composition::projection::{
 };
 use crate::solver_provider::{PressureRequest, ProviderReport, ProviderWorkspace};
 use crate::{
-    Axis, GridGeometry, LiquidStepReport, LiquidStepStage, PressureImplementation,
+    Axis, GridGeometry, LiquidStepReport, LiquidStepStage, PressureError, PressureImplementation,
     PressureOperator, PressureReport, PressureSettings, SessionConfiguration, SessionError,
     SessionIdentity, SimulationConfig, SimulationError,
 };
@@ -21,10 +21,52 @@ use std::{
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ProjectionIntent {
     BuiltinNativeV1,
+    ClassicalSelectionV1 {
+        producer: PressureImplementation,
+        producer_max_iterations: usize,
+    },
 }
 impl ProjectionIntent {
+    pub fn version(self) -> u32 {
+        match self {
+            Self::BuiltinNativeV1 => 1,
+            Self::ClassicalSelectionV1 { .. } => 2,
+        }
+    }
+    pub fn producer(self, fallback: PressureImplementation) -> PressureImplementation {
+        match self {
+            Self::BuiltinNativeV1 => fallback,
+            Self::ClassicalSelectionV1 { producer, .. } => producer,
+        }
+    }
+    pub fn producer_cap(self, host_max_iterations: usize) -> usize {
+        match self {
+            Self::BuiltinNativeV1 => host_max_iterations,
+            Self::ClassicalSelectionV1 {
+                producer_max_iterations,
+                ..
+            } => producer_max_iterations,
+        }
+    }
+    fn validate_workspace(self, fallback: PressureImplementation) -> Result<(), &'static str> {
+        if let Self::ClassicalSelectionV1 {
+            producer,
+            producer_max_iterations,
+        } = self
+            && (producer == fallback || producer_max_iterations == 0)
+        {
+            return Err(
+                "classical projection requires a distinct producer and positive iteration cap",
+            );
+        }
+        Ok(())
+    }
     pub fn validate_configuration(self, c: &SessionConfiguration) -> Result<(), &'static str> {
+        self.validate_workspace(c.implementation)?;
         let config = c.transport.carrier;
+        if self.producer_cap(config.pressure.max_iterations) > config.pressure.max_iterations {
+            return Err("classical projection producer cap exceeds host cap");
+        }
         if config.memory_limit == 0
             || c.boundary_workspace_limit == 0
             || !config.density.is_finite()
@@ -127,6 +169,21 @@ pub struct NativeProjectionProducerFacts {
     /// Complete builtin call: RHS, native solve and copied-input correction.
     pub elapsed: Duration,
 }
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum ProjectionProducerFailure {
+    IterationLimit {
+        iterations: usize,
+        residual_max: f64,
+    },
+}
+#[derive(Debug, Clone)]
+pub struct NativeProjectionProducerFailureFacts {
+    pub implementation: PressureImplementation,
+    pub failure: ProjectionProducerFailure,
+    pub residual_l2_limit: f64,
+    /// Complete producer call through its observed iteration exhaustion.
+    pub elapsed: Duration,
+}
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ProjectionWitnessOutcome {
     Accepted,
@@ -210,6 +267,7 @@ pub struct ProjectionAttempt {
     pub controls_sha256: [u8; 32],
     pub provisional_input_id: Option<[u8; 32]>,
     pub producer: Option<NativeProjectionProducerFacts>,
+    pub producer_failure: Option<NativeProjectionProducerFailureFacts>,
     pub qualification: Option<ProjectionQualificationFacts>,
     pub selected_native: Option<NativePressureDispatchFacts>,
     pub outcome: ProjectionAttemptOutcome,
@@ -225,7 +283,8 @@ impl ProjectionAttempt {
         grid: &GridGeometry,
     ) -> Result<(), &'static str> {
         self.intent.validate_configuration(configuration)?;
-        if self.version != 1
+        if self.version != self.intent.version()
+            || self.version == 1 && self.producer_failure.is_some()
             || !self.source.is_valid()
             || self.attempt_id == 0
             || self.diagnostic.len() > 960
@@ -249,24 +308,53 @@ impl ProjectionAttempt {
         {
             return Err("projection actual interval");
         }
+        let producer_observed = self.producer.is_some() || self.producer_failure.is_some();
         if self.provisional_input_id.is_some() != self.actual_dt.is_some()
-            || self.producer.is_some() && self.provisional_input_id.is_none()
-            || self.qualification.is_some() && self.producer.is_none()
+            || producer_observed && self.provisional_input_id.is_none()
+            || self.producer.is_some() && self.producer_failure.is_some()
+            || self.qualification.is_some() && !producer_observed
             || self.selected_native.is_some() && self.qualification.is_none()
         {
             return Err("projection observation order");
         }
         let settings = configuration.transport.carrier.pressure;
+        let producer_settings = PressureSettings {
+            max_iterations: self.intent.producer_cap(settings.max_iterations),
+            ..settings
+        };
+        let producer_method = self.intent.producer(configuration.implementation);
         if let Some(p) = &self.producer
-            && (p.implementation != configuration.implementation
+            && (p.implementation != producer_method
                 || !p.residual_l2_limit.is_finite()
                 || p.residual_l2_limit < 0.0
-                || !native_metrics(p.pressure, settings, p.residual_l2_limit))
+                || !native_metrics(p.pressure, producer_settings, p.residual_l2_limit))
         {
             return Err("projection producer metrics");
         }
+        if let Some(failure) = &self.producer_failure {
+            let ProjectionProducerFailure::IterationLimit {
+                iterations,
+                residual_max,
+            } = failure.failure;
+            if !matches!(self.intent, ProjectionIntent::ClassicalSelectionV1 { .. })
+                || failure.implementation != producer_method
+                || iterations != producer_settings.max_iterations
+                || !residual_max.is_finite()
+                || residual_max < 0.0
+                || !failure.residual_l2_limit.is_finite()
+                || failure.residual_l2_limit < 0.0
+            {
+                return Err("projection producer failure facts");
+            }
+        }
+        let residual_l2_limit = self
+            .producer
+            .as_ref()
+            .map(|p| p.residual_l2_limit)
+            .or_else(|| self.producer_failure.as_ref().map(|f| f.residual_l2_limit));
         if let Some(q) = &self.qualification {
-            let producer = self.producer.as_ref().ok_or("projection producer absent")?;
+            let residual_l2_limit =
+                residual_l2_limit.ok_or("projection producer observation absent")?;
             if !q.actual_divergence_max.is_finite()
                 || q.actual_divergence_max < 0.0
                 || q.actual_divergence_max > configuration.transport.carrier.actual_divergence_limit
@@ -279,9 +367,9 @@ impl ProjectionAttempt {
                 }
                 match w.outcome {
                     ProjectionWitnessOutcome::Accepted => {
-                        if w.diagnostics.is_none_or(|p| {
-                            !native_metrics(p, settings, producer.residual_l2_limit)
-                        }) {
+                        if w.diagnostics
+                            .is_none_or(|p| !native_metrics(p, settings, residual_l2_limit))
+                        {
                             return Err("projection accepted witness metrics");
                         }
                     }
@@ -301,7 +389,7 @@ impl ProjectionAttempt {
             }
             if let Some(f) = &q.native_fallback
                 && (f.implementation != configuration.implementation
-                    || !native_metrics(f.pressure, settings, producer.residual_l2_limit))
+                    || !native_metrics(f.pressure, settings, residual_l2_limit))
             {
                 return Err("projection fallback metrics");
             }
@@ -314,15 +402,20 @@ impl ProjectionAttempt {
                     if q.rejection.is_some()
                         || q.native_fallback.is_some()
                         || witness.outcome != ProjectionWitnessOutcome::Accepted
-                        || witness
-                            .diagnostics
-                            .is_none_or(|p| metric_bits(p) != metric_bits(producer.pressure))
+                        || witness.diagnostics.is_none_or(|p| {
+                            self.producer.as_ref().is_none_or(|producer| {
+                                metric_bits(p) != metric_bits(producer.pressure)
+                            })
+                        })
                     {
                         return Err("projection candidate association");
                     }
                 }
                 ProjectionSelection::NativeFallback => {
-                    if q.native_fallback.is_none() {
+                    if self.producer.is_none()
+                        || self.producer_failure.is_some()
+                        || q.native_fallback.is_none()
+                    {
                         return Err("projection fallback absent");
                     }
                     match q.rejection.as_ref().ok_or("projection fallback rejection absent")? {
@@ -353,7 +446,14 @@ impl ProjectionAttempt {
                     }
                 }
                 ProjectionSelection::NativeBaseline => {
-                    return Err("projection builtin must be attempted");
+                    if self.producer_failure.is_none()
+                        || self.producer.is_some()
+                        || q.native_fallback.is_none()
+                        || q.rejection.is_some()
+                        || q.witness.is_some()
+                    {
+                        return Err("projection failed producer baseline association");
+                    }
                 }
             }
         }
@@ -362,26 +462,31 @@ impl ProjectionAttempt {
                 .qualification
                 .as_ref()
                 .ok_or("projection native qualification absent")?;
-            let p = self
-                .producer
-                .as_ref()
-                .ok_or("projection native producer absent")?;
-            let expected = if q.selection == ProjectionSelection::SuppliedCandidate {
-                p.pressure
-            } else {
-                q.native_fallback
-                    .as_ref()
-                    .ok_or("projection native fallback absent")?
-                    .pressure
-            };
-            if native.implementation != configuration.implementation
-                || !native_metrics(native.pressure, settings, p.residual_l2_limit)
+            let (expected_method, expected, scope_elapsed) =
+                if q.selection == ProjectionSelection::SuppliedCandidate {
+                    let p = self
+                        .producer
+                        .as_ref()
+                        .ok_or("projection successful producer absent")?;
+                    (producer_method, p.pressure, p.elapsed)
+                } else {
+                    let f = q
+                        .native_fallback
+                        .as_ref()
+                        .ok_or("projection native fallback absent")?;
+                    (configuration.implementation, f.pressure, q.elapsed)
+                };
+            if native.implementation != expected_method
+                || !native_metrics(
+                    native.pressure,
+                    settings,
+                    residual_l2_limit.ok_or("projection residual limit absent")?,
+                )
                 || report_bits(native.pressure) != report_bits(expected)
                 || native.inference != Duration::ZERO
                 || native.qualification != Duration::ZERO
                 || native.fallback > native.total
-                || q.selection == ProjectionSelection::SuppliedCandidate && native.total > p.elapsed
-                || q.selection == ProjectionSelection::NativeFallback && native.total > q.elapsed
+                || native.total > scope_elapsed
                 || q.native_fallback
                     .as_ref()
                     .is_some_and(|f| native.fallback != f.elapsed)
@@ -393,17 +498,19 @@ impl ProjectionAttempt {
             ProjectionAttemptStage::SessionGuard | ProjectionAttemptStage::CarrierPreparation => {
                 self.actual_dt.is_none()
                     && self.producer.is_none()
+                    && self.producer_failure.is_none()
                     && self.qualification.is_none()
                     && self.selected_native.is_none()
             }
             ProjectionAttemptStage::NativeProducer => {
                 self.actual_dt.is_some()
                     && self.producer.is_none()
+                    && self.producer_failure.is_none()
                     && self.qualification.is_none()
                     && self.selected_native.is_none()
             }
             ProjectionAttemptStage::HostQualification => {
-                self.producer.is_some() && self.selected_native.is_none()
+                producer_observed && self.selected_native.is_none()
             }
             ProjectionAttemptStage::CarrierTransport
             | ProjectionAttemptStage::VolumeTransport
@@ -639,6 +746,7 @@ pub struct ProjectionStepWorkspace {
     grid: GridGeometry,
     density: f64,
     implementation: PressureImplementation,
+    intent: ProjectionIntent,
     producer: ProviderWorkspace,
     rhs: Vec<f64>,
     velocity: [Vec<f32>; 3],
@@ -654,7 +762,28 @@ impl ProjectionStepWorkspace {
         limit: usize,
         implementation: PressureImplementation,
     ) -> Result<Self, SimulationError> {
+        Self::new_with_intent(
+            grid,
+            density,
+            limit,
+            implementation,
+            ProjectionIntent::BuiltinNativeV1,
+        )
+    }
+    /// Construct disposable scratch for an immutable closed producer selection.
+    /// The Session additionally validates this cap against its host settings.
+    pub fn new_with_intent(
+        grid: &GridGeometry,
+        density: f64,
+        limit: usize,
+        fallback: PressureImplementation,
+        intent: ProjectionIntent,
+    ) -> Result<Self, SimulationError> {
+        intent
+            .validate_workspace(fallback)
+            .map_err(|_| SimulationError::InvalidConfig)?;
         PressureOperator::new(grid, density)?;
+        let implementation = fallback;
         let mut remaining = limit;
         let rhs = allocate(grid.cell_len(), 0.0_f64, &mut remaining)?;
         let velocity = [
@@ -662,7 +791,7 @@ impl ProjectionStepWorkspace {
             allocate(grid.face_len(Axis::Y), 0.0_f32, &mut remaining)?,
             allocate(grid.face_len(Axis::Z), 0.0_f32, &mut remaining)?,
         ];
-        let producer = ProviderWorkspace::new(grid, remaining, implementation)?;
+        let producer = ProviderWorkspace::new(grid, remaining, intent.producer(implementation))?;
         remaining = remaining
             .checked_sub(producer.allocated_bytes())
             .ok_or(SimulationError::AllocationFailed)?;
@@ -675,6 +804,7 @@ impl ProjectionStepWorkspace {
             grid: grid.clone(),
             density,
             implementation,
+            intent,
             producer,
             rhs,
             velocity,
@@ -709,6 +839,15 @@ impl ProjectionStepWorkspace {
             && self.density.to_bits() == density.to_bits()
             && self.implementation == implementation
     }
+    pub(crate) fn matches_intent(
+        &self,
+        grid: &GridGeometry,
+        density: f64,
+        fallback: PressureImplementation,
+        intent: ProjectionIntent,
+    ) -> bool {
+        self.matches(grid, density, fallback) && self.intent == intent
+    }
     pub(crate) fn pressure(&self) -> &[f64] {
         self.qualifier_pressure()
     }
@@ -732,6 +871,9 @@ impl ProjectionStepWorkspace {
         capture: &mut ProjectionCapture,
         mut cancel: impl FnMut(ProjectionStepStage) -> bool,
     ) -> Result<ProviderReport, SimulationError> {
+        if self.intent != capture.attempt.intent {
+            return Err(SimulationError::ProviderWorkspaceMismatch);
+        }
         let request = ProjectionRequest::new(ProjectionInput {
             grid: &self.grid,
             density: self.density,
@@ -757,40 +899,71 @@ impl ProjectionStepWorkspace {
             .pressure
             .absolute_residual
             .max(config.pressure.relative_residual * compensated_norm(&self.rhs));
-        let producer = self.producer.solve(
+        let producer_method = self.intent.producer(self.implementation);
+        let producer_settings = PressureSettings {
+            max_iterations: self.intent.producer_cap(config.pressure.max_iterations),
+            ..config.pressure
+        };
+        let producer_result = self.producer.solve(
             PressureRequest {
                 grid: &self.grid,
                 density: self.density,
                 dt,
                 rhs: &self.rhs,
             },
-            config.pressure,
+            producer_settings,
             None,
             || cancel(ProjectionStepStage::ProducerPressurePoll),
-        )?;
-        for (output, input) in self.velocity.iter_mut().zip(provisional) {
-            output.copy_from_slice(input);
+        );
+        let producer = match producer_result {
+            Ok(report) => Some(report),
+            Err(PressureError::IterationLimit {
+                iterations,
+                residual_max,
+            }) if matches!(self.intent, ProjectionIntent::ClassicalSelectionV1 { .. }) => {
+                capture.update(|a| {
+                    a.producer_failure = Some(NativeProjectionProducerFailureFacts {
+                        implementation: producer_method,
+                        failure: ProjectionProducerFailure::IterationLimit {
+                            iterations,
+                            residual_max,
+                        },
+                        residual_l2_limit,
+                        elapsed: begin.elapsed(),
+                    })
+                })?;
+                None
+            }
+            Err(error) => return Err(error.into()),
+        };
+        if let Some(producer) = &producer {
+            for (output, input) in self.velocity.iter_mut().zip(provisional) {
+                output.copy_from_slice(input);
+            }
+            let [x, y, z] = &mut self.velocity;
+            operator.correct_candidate_in_place(self.producer.pressure(), dt, [x, y, z])?;
+            capture.update(|a| {
+                a.producer = Some(NativeProjectionProducerFacts {
+                    implementation: producer_method,
+                    pressure: producer.accepted,
+                    residual_l2_limit,
+                    elapsed: begin.elapsed(),
+                })
+            })?;
         }
-        let [x, y, z] = &mut self.velocity;
-        operator.correct_candidate_in_place(self.producer.pressure(), dt, [x, y, z])?;
-        capture.update(|a| {
-            a.producer = Some(NativeProjectionProducerFacts {
-                implementation: self.implementation,
-                pressure: producer.accepted,
-                residual_l2_limit,
-                elapsed: begin.elapsed(),
-            })
-        })?;
         #[cfg(test)]
-        self.fault.apply(&mut self.velocity);
+        if producer.is_some() {
+            self.fault.apply(&mut self.velocity);
+        }
         #[cfg(test)]
         let mut fault_pressure = [0.0_f64; 64];
         let candidate_pressure = self.producer.pressure();
         #[cfg(test)]
-        let candidate_pressure = if matches!(
-            self.fault,
-            ProjectionFault::BadGauge | ProjectionFault::BadPressure
-        ) {
+        let candidate_pressure = if producer.is_some()
+            && matches!(
+                self.fault,
+                ProjectionFault::BadGauge | ProjectionFault::BadPressure
+            ) {
             assert_eq!(self.grid.cell_len(), 64, "private fixed fault grid");
             if matches!(self.fault, ProjectionFault::BadGauge) {
                 fault_pressure.fill(1.0);
@@ -806,30 +979,42 @@ impl ProjectionStepWorkspace {
         } else {
             candidate_pressure
         };
-        let supplied = SuppliedProjection {
+        let supplied = producer.as_ref().map(|_| SuppliedProjection {
             input_id: request.input_id(),
             representation: request.representation(),
             identity: ProjectionCandidateIdentity {
-                algorithm: self.implementation.id(),
+                algorithm: producer_method.id(),
                 version: "1",
                 source_revision: "rheon-builtin-native-projection-v1",
             },
             pressure: candidate_pressure,
             velocity: [&self.velocity[0], &self.velocity[1], &self.velocity[2]],
-        };
+        });
         capture.stage = ProjectionAttemptStage::HostQualification;
         let begin = Instant::now();
         let qualified = self
             .qualifier
-            .qualify(&request, Some(&supplied), |stage| {
+            .qualify(&request, supplied.as_ref(), |stage| {
                 cancel(ProjectionStepStage::Qualification(stage))
             })
             .map_err(SimulationError::Projection)?;
         let report = qualified.report();
-        let facts = qualification_facts(report, self.implementation, begin.elapsed())?;
+        let facts = qualification_facts(
+            report,
+            self.implementation,
+            begin.elapsed(),
+            producer.is_none(),
+        )?;
         capture.update(|a| a.qualification = Some(facts))?;
         let selected = match report.selection {
-            ProjectionSelection::SuppliedCandidate => producer,
+            ProjectionSelection::SuppliedCandidate => {
+                producer.expect("supplied candidate requires successful producer")
+            }
+            ProjectionSelection::NativeBaseline
+                if producer.is_none() && clean_native(&report.pressure, self.implementation) =>
+            {
+                report.pressure.clone()
+            }
             ProjectionSelection::NativeFallback
                 if clean_native(&report.pressure, self.implementation) =>
             {
@@ -837,7 +1022,12 @@ impl ProjectionStepWorkspace {
             }
             _ => return Err(SimulationError::ProjectionMixedQualificationFallback),
         };
-        let native = NativePressureDispatchFacts::capture(&selected, self.implementation)?;
+        let selected_method = if report.selection == ProjectionSelection::SuppliedCandidate {
+            producer_method
+        } else {
+            self.implementation
+        };
+        let native = NativePressureDispatchFacts::capture(&selected, selected_method)?;
         capture.update(|a| a.selected_native = Some(native))?;
         Ok(selected)
     }
@@ -852,6 +1042,7 @@ fn qualification_facts(
     report: &crate::solver_provider::composition::projection::ProjectionReport,
     implementation: PressureImplementation,
     elapsed: Duration,
+    producer_failed: bool,
 ) -> Result<ProjectionQualificationFacts, SimulationError> {
     let rejection = report.rejection.as_ref().map(rejection_facts).transpose()?;
     let witness_report = report
@@ -870,13 +1061,13 @@ fn qualification_facts(
     } else {
         None
     };
-    let native_fallback = (report.selection == ProjectionSelection::NativeFallback).then_some(
-        NativePressureSolveFacts {
+    let native_fallback = (report.selection == ProjectionSelection::NativeFallback
+        || report.selection == ProjectionSelection::NativeBaseline && producer_failed)
+        .then_some(NativePressureSolveFacts {
             implementation,
             pressure: report.pressure.accepted,
             elapsed: report.pressure.fallback,
-        },
-    );
+        });
     Ok(ProjectionQualificationFacts {
         selection: report.selection,
         rejection,
