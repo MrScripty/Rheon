@@ -1152,3 +1152,57 @@ unit suite; retain fresh focused composed contracts separately. Hosted
 Pages/browser/publication, desktop/native-window, performance and physical gates
 remain separately scoped. Put execution results in a separate integration report;
 do not append them here or change the inventory after qualification.
+
+## Dependent exact-geometry reference inputs, 2026-10-20
+
+This separately reviewed checkpoint extends the fixed stage above only after
+PR132/e6525a116a07af486e4a682cc2b157241d6b9150 and
+PR134/f84f65104d6a0f6f8f1a9b903412b1e5155f72a2 are composed at
+`cd21a9952dc411e01b77f58e3aae67aff1e473fd`, tree
+`0447da683eecce1330adb563f1ca6e5dabfc0a62`. Tested component sources remain
+`0f4e7e0944a7e0302690a0f71c08c21fe345cc89` and
+`06b31902fd229624080bff1562f80beb1be2449c`. Fixed PR133/8bf542e and its actual
+9c04278 qualification remain unchanged and do not qualify these additions.
+
+The complete unchanged selector still contains **135 regular inputs: 0 added,
+2 changed, 133 unchanged, 0 removed**. Every prior source identity except Cargo.toml
+and Cargo.lock is reused exactly, including all Rust, toolchain, checker,
+qualifier, oracle and qualification-test inputs. New Cargo.toml SHA256 is
+`fc5bccf8799aa579c510d2ff7078a4532f794e61841e327d7d567257589f2409`; Cargo.lock
+is `e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f`.
+The full sorted compact source-map SHA256 is
+`c1baa8b487bdacaa746446a0e21540b9605232c39131b32148253909249cb8f1`
+(no trailing newline). No unrelated source is removed by comparing an incomplete
+component-branch snapshot against the composed stage.
+
+The [bounded source/dependency review](../plans/fluid-accuracy-composition/reports/q2-admission-20261020/source-review/readiness-review.md)
+and [dependency receipt](../plans/fluid-accuracy-composition/reports/q2-admission-20261020/source-review/dependency-review.json)
+pin new dev-only num-rational=0.4.2 and existing num-traits=0.2.19 requirements.
+The lock adds num-bigint 0.4.8, num-integer 0.1.47 and num-rational 0.4.2, preserving
+all prior registry identities/checksums. Actual official crate archives match
+their lock SHA256s and contain MIT OR Apache-2.0 license texts. There is no new
+root build.rs or build-dependency and no production Rust/formula/domain edit in
+this extension. Private example/test files remain separately reviewed component
+source, outside the conservative native selector's explicit qualification inputs.
+
+PR132's represented-source exact predicate repairs five prior aperture artifacts
+within its predeclared fixed corpus; original failed v2 fields and finite-error
+budgets remain historical. PR134's eight aligned direct coupled-algebra cases
+reuse the existing StaticObstacleGeometry/AlignedStrain and conditional exact-real
+StokesWork identity. Neither selects a general cut/free-surface velocity space,
+extension or physical traction/boundary lift. No PDE/physical/production-family
+acceptance is granted here. Root observes the recorded component scientific
+dispositions without rerunning their campaigns or transferring old receipts.
+
+This explicit v3 map refresh authorizes **attempting fresh qualification only**.
+The [frozen dependent protocol](../plans/fluid-accuracy-composition/reports/q2-admission-20261020/protocol.md)
+requires independent composed-source/metadata review, clean committed-source
+native/rational execution and a new real packet with all normal/optimized refusal
+tests, plus separately retained focused composed and private-reference contracts.
+Preserve all previous review text, v3 schema/base, immutable primary tree, frozen
+v1/v2 bytes/digests, ancestry and complete selector/refusal checks. Commit this
+bound review and inventory together. Fresh evidence binds the new exact source,
+not 9c04278. Put outcomes in a separate report; do not change these bound bytes
+after qualifying. Hosted, desktop/native-window, performance, model and physical
+gates remain separate. Further cut/PDE method selection remains with its existing
+numerical owner and requires its own reviewed admission before implementation.

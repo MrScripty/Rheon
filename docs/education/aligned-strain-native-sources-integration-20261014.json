@@ -1,16 +1,16 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Reviewed fixed workflow, C1-A, C1-B1 and Q1 composition with iteration repair: complete 135-path closure (11 added, 16 changed, 108 unchanged, 0 removed). Checkpoint f995923 excludes the ongoing Q2 boundary repair. Fresh committed-source native/rational/packet and separate focused/hosted qualification required; no fluid accuracy promotion.",
+  "scope": "Explicitly reviewed dependent PR132/134 reference build inputs at cd21a995: complete 135-path closure, 0 added, 2 changed Cargo inputs, 133 exact unchanged, 0 removed. Fixed PR133/9c04278 evidence is preserved separately. Fresh committed-source native/rational/real-packet qualification required; no general cut/PDE/physical promotion.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "9e583b31ed051f388c636879c90ecb84e4e31b177de42dc39ca7b8acebaa796c",
+  "review_sha256": "49f7d8e32e29886a22d91b8310e99b961a5e611a0b75f670c1f280e7da29f497",
   "source_sha256": {
-    "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
-    "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
+    "Cargo.lock": "e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f",
+    "Cargo.toml": "fc5bccf8799aa579c510d2ff7078a4532f794e61841e327d7d567257589f2409",
     "examples/aligned_strain.rs": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
     "rust-toolchain.toml": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
     "src/advection.rs": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
