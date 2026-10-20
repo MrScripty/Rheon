@@ -344,14 +344,11 @@ impl ConfiguredControls {
         Ok(set)
     }
 
-    /// Return launch intent only. The caller freezes and saves the immutable
-    /// run-set before runtime preflight or execution in the existing worker.
-    pub(crate) fn show(&mut self, ui: &mut egui::Ui, enabled: bool) -> bool {
-        let mut launch = false;
+    pub(crate) fn show(&mut self, ui: &mut egui::Ui, enabled: bool) {
         ui.add_enabled_ui(enabled, |ui| {
-            ui.label("Accepted Session · sealed full liquid, constructor rest, zero inlet");
+            ui.label("Sealed full liquid · starts at rest · no inlet");
             ui.small("Constant forcing only; no appearance, emitter, phase source, or model accuracy claim.");
-            ui.checkbox(&mut self.paired, "Pair native baseline with configured CPU pressure");
+            ui.checkbox(&mut self.paired, "Compare with CPU adapter");
             ui.horizontal(|ui| {
                 ui.label("Density (kg/m³)");
                 ui.add(egui::DragValue::new(&mut self.density).speed(1.0).range(1e-9..=1e9));
@@ -392,13 +389,31 @@ impl ConfiguredControls {
             if self.paired {
                 self.package_controls(ui);
             }
-            let ready = !self.paired || self.current_inspection().is_ok();
-            let label = if self.paired { "Freeze and run native + configured" } else { "Freeze and run native" };
-            launch = ui.add_enabled(ready, egui::Button::new(label)).clicked();
             if !self.feedback.is_empty() {
                 ui.label(&self.feedback);
             }
         });
+    }
+
+    /// Returns intent only. The caller processes current form edits before
+    /// freezing and saving immutable intent through the existing launch path.
+    pub(crate) fn launch_button(&self, ui: &mut egui::Ui, enabled: bool) -> bool {
+        let ready = !self.paired || self.current_inspection().is_ok();
+        let label = if self.paired {
+            "Save & run pair"
+        } else {
+            "Save & run native"
+        };
+        let launch = ui
+            .add_enabled(
+                enabled && ready,
+                egui::Button::new(label).min_size(egui::vec2(ui.available_width(), 32.0)),
+            )
+            .clicked();
+        ui.small("Saves immutable intent before running.");
+        if !ready {
+            ui.small("Inspect the adapter package before running.");
+        }
         launch
     }
 
