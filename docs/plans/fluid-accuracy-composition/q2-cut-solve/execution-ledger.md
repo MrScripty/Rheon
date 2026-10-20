@@ -22,3 +22,13 @@ Independent full/delta source review admitted final finite norm, incremental
 flushed-state custody and actual summary status repairs. Source freeze precedes
 selected contracts; campaign waits full independent oracle freeze. No new
 selected solve/probe/native/reference run has occurred. See source-review.md.
+
+Frozenb0a9d52 passed15debug/15releasecontracts,strictClippy,fmt,lockedreleasebuild.
+Oracle5382622 froze before04:23:38UTC ONEreleaseCPU24solve campaign, exit0,
+maxnative1.86129e-12. All65oldCV1operatorCSV byte-identical;178totalCSVretained.
+Independent R1/R2/analytic/physical gates all24PASS atfixed1e-10; maxR1v1.0754e-16,
+p1.9435e-16, R2v1.86122e-12,p3.35481e-13. Baselinefails6squarevelocitycases
+despitepassingresidual. No source,criterion,inputgeometryorselectediterationchange.
+All45interpreter/toolingchecksPASS: normal/O/OOcompletebyte-identical,13specific
+malformedrefusals×3, residual-consistentwrongsolution×3failsactualaccuracygate.
+All178CSVhashesunchanged. CV2boundedreferenceaccepted;noPDE/productionclaim.
