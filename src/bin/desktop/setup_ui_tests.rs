@@ -163,122 +163,180 @@ fn ui_setup_accepted_session_uses_carrier_inputs_without_changing_preview_mode()
 #[test]
 fn ui_setup_status_details_are_bounded_and_actions_survive_scroll_and_inspector() {
     for size in [egui::vec2(900.0, 650.0), egui::vec2(1250.0, 820.0)] {
-        let ctx = context();
-        let status = format!(
-            "Recording unavailable: {}\nPrevious data retained; select a writable directory.",
-            "long-path/".repeat(300)
-        );
-        let mut app = App::default();
-        app.status = status.clone();
-        for _ in 0..3 {
+        for status in [
+            format!(
+                "Recording unavailable: {}\nPrevious data retained; select a writable directory.",
+                "long-path/".repeat(300)
+            ),
+            format!(
+                "Blocking error: {}\nAccepted generation 1; acknowledged prefix 2; recording incomplete.",
+                "x".repeat(16_384)
+            ),
+            format!(
+                "Integrity verified; requested recording incomplete.\n{}\nDo not infer completion from integrity.",
+                "Δt 0.02 s · μ Pa·s · 読み取り · e\u{301}\n".repeat(256)
+            ),
+        ] {
+            let ctx = context();
+            let mut app = App::default();
+            app.status = status.clone();
+            for _ in 0..3 {
+                let _ = frame(&ctx, size, vec![], |ctx| {
+                    app.sidebar(ctx);
+                });
+            }
+            let output = frame(&ctx, size, vec![], |ctx| {
+                app.sidebar(ctx);
+            });
+            click(&ctx, size, &output, "Status details", |ctx| {
+                app.sidebar(ctx);
+            });
+            let output = frame(&ctx, size, vec![], |ctx| {
+                app.sidebar(ctx);
+            });
+            let launch = rect(&output, "Simulate");
+            assert!(launch.bottom() <= size.y && launch.top() > 0.0);
+            assert!(rect(&output, "Status details").bottom() < size.y);
+            assert!(output.shapes.iter().any(|shape| matches!(&shape.shape,
+            egui::Shape::Text(text) if text.galley.text() == status && shape.clip_rect.height() <= 100.0)));
+            let form_point = rect(&output, "Rheon").center() + egui::vec2(0.0, 30.0);
+            let _ = frame(
+                &ctx,
+                size,
+                vec![
+                    egui::Event::PointerMoved(form_point),
+                    egui::Event::MouseWheel {
+                        unit: egui::MouseWheelUnit::Point,
+                        delta: egui::vec2(0.0, -2000.0),
+                        modifiers: Default::default(),
+                    },
+                ],
+                |ctx| {
+                    app.sidebar(ctx);
+                },
+            );
+            let output = frame(&ctx, size, vec![], |ctx| {
+                app.sidebar(ctx);
+            });
+            assert_eq!(launch, rect(&output, "Simulate"));
+            assert!(
+                !has(&output, "Rheon"),
+                "setup form should scroll independently"
+            );
+            click(&ctx, size, &output, "Inspector", |ctx| {
+                app.sidebar(ctx);
+            });
+            let output = frame(&ctx, size, vec![], |ctx| {
+                app.sidebar(ctx);
+            });
+            assert!(has(&output, "Numerical inspector"));
+            assert_eq!(launch, rect(&output, "Simulate"));
+            let text_id = egui::Id::new("run-status-text");
+            let status_point = ctx
+                .read_response(text_id)
+                .expect("visible full-status control")
+                .interact_rect
+                .center();
+            for pressed in [true, false] {
+                let _ = frame(
+                    &ctx,
+                    size,
+                    vec![
+                        egui::Event::PointerMoved(status_point),
+                        egui::Event::PointerButton {
+                            pos: status_point,
+                            button: egui::PointerButton::Primary,
+                            pressed,
+                            modifiers: Default::default(),
+                        },
+                    ],
+                    |ctx| {
+                        app.sidebar(ctx);
+                    },
+                );
+            }
+            assert!(ctx.memory(|memory| memory.has_focus(text_id)));
+            let modifiers = egui::Modifiers {
+                ctrl: true,
+                command: true,
+                ..Default::default()
+            };
+            let _ = frame(
+                &ctx,
+                size,
+                vec![egui::Event::Key {
+                    key: egui::Key::End,
+                    physical_key: None,
+                    pressed: true,
+                    repeat: false,
+                    modifiers,
+                }],
+                |ctx| {
+                    app.sidebar(ctx);
+                },
+            );
+            let state = egui::text_edit::TextEditState::load(&ctx, text_id).unwrap();
+            assert_eq!(
+                state.cursor.char_range().unwrap().primary.index,
+                status.chars().count()
+            );
+            let _ = frame(
+                &ctx,
+                size,
+                vec![egui::Event::Key {
+                    key: egui::Key::A,
+                    physical_key: None,
+                    pressed: true,
+                    repeat: false,
+                    modifiers,
+                }],
+                |ctx| {
+                    app.sidebar(ctx);
+                },
+            );
+            let output = frame(
+                &ctx,
+                size,
+                vec![egui::Event::Copy, egui::Event::Text("unwanted edit".into())],
+                |ctx| {
+                    app.sidebar(ctx);
+                },
+            );
+            assert!(
+                output
+                    .platform_output
+                    .commands
+                    .iter()
+                    .any(|command| matches!(command,
+            egui::OutputCommand::CopyText(text) if text == &status))
+            );
+            assert_eq!(app.status, status);
+            assert!(app.worker.is_none());
+            let _ = frame(
+                &ctx,
+                size,
+                vec![egui::Event::Key {
+                    key: egui::Key::Tab,
+                    physical_key: None,
+                    pressed: true,
+                    repeat: false,
+                    modifiers: egui::Modifiers {
+                        shift: true,
+                        ..Default::default()
+                    },
+                }],
+                |ctx| {
+                    app.sidebar(ctx);
+                },
+            );
             let _ = frame(&ctx, size, vec![], |ctx| {
                 app.sidebar(ctx);
             });
+            assert!(
+                !ctx.memory(|memory| memory.has_focus(text_id)),
+                "status must permit keyboard exit"
+            );
         }
-        let output = frame(&ctx, size, vec![], |ctx| {
-            app.sidebar(ctx);
-        });
-        click(&ctx, size, &output, "Status details", |ctx| {
-            app.sidebar(ctx);
-        });
-        let output = frame(&ctx, size, vec![], |ctx| {
-            app.sidebar(ctx);
-        });
-        let launch = rect(&output, "Simulate");
-        assert!(launch.bottom() <= size.y && launch.top() > 0.0);
-        assert!(rect(&output, "Status details").bottom() < size.y);
-        assert!(output.shapes.iter().any(|shape| matches!(&shape.shape,
-            egui::Shape::Text(text) if text.galley.text() == status && shape.clip_rect.height() <= 100.0)));
-        let form_point = rect(&output, "Rheon").center() + egui::vec2(0.0, 30.0);
-        let _ = frame(
-            &ctx,
-            size,
-            vec![
-                egui::Event::PointerMoved(form_point),
-                egui::Event::MouseWheel {
-                    unit: egui::MouseWheelUnit::Point,
-                    delta: egui::vec2(0.0, -2000.0),
-                    modifiers: Default::default(),
-                },
-            ],
-            |ctx| {
-                app.sidebar(ctx);
-            },
-        );
-        let output = frame(&ctx, size, vec![], |ctx| {
-            app.sidebar(ctx);
-        });
-        assert_eq!(launch, rect(&output, "Simulate"));
-        assert!(
-            !has(&output, "Rheon"),
-            "setup form should scroll independently"
-        );
-        click(&ctx, size, &output, "Inspector", |ctx| {
-            app.sidebar(ctx);
-        });
-        let output = frame(&ctx, size, vec![], |ctx| {
-            app.sidebar(ctx);
-        });
-        assert!(has(&output, "Numerical inspector"));
-        assert_eq!(launch, rect(&output, "Simulate"));
-        let text_id = egui::Id::new("run-status-text");
-        ctx.memory_mut(|memory| memory.request_focus(text_id));
-        let modifiers = egui::Modifiers {
-            ctrl: true,
-            command: true,
-            ..Default::default()
-        };
-        let _ = frame(
-            &ctx,
-            size,
-            vec![egui::Event::Key {
-                key: egui::Key::End,
-                physical_key: None,
-                pressed: true,
-                repeat: false,
-                modifiers,
-            }],
-            |ctx| {
-                app.sidebar(ctx);
-            },
-        );
-        let state = egui::text_edit::TextEditState::load(&ctx, text_id).unwrap();
-        assert_eq!(
-            state.cursor.char_range().unwrap().primary.index,
-            status.chars().count()
-        );
-        let _ = frame(
-            &ctx,
-            size,
-            vec![egui::Event::Key {
-                key: egui::Key::A,
-                physical_key: None,
-                pressed: true,
-                repeat: false,
-                modifiers,
-            }],
-            |ctx| {
-                app.sidebar(ctx);
-            },
-        );
-        let output = frame(
-            &ctx,
-            size,
-            vec![egui::Event::Copy, egui::Event::Text("unwanted edit".into())],
-            |ctx| {
-                app.sidebar(ctx);
-            },
-        );
-        assert!(
-            output
-                .platform_output
-                .commands
-                .iter()
-                .any(|command| matches!(command,
-            egui::OutputCommand::CopyText(text) if text == &status))
-        );
-        assert_eq!(app.status, status);
-        assert!(app.worker.is_none());
     }
 }
 
@@ -644,4 +702,169 @@ fn ui_setup_synthetic_active_worker_keeps_progress_frozen_inputs_and_cancel_sign
                 .contains("Synthetic UI fixture")
         );
     }
+}
+
+#[test]
+#[ignore = "Numerical workload: separate admission and sealed external supervisor required"]
+fn bounded_genuine_cancel_contract() {
+    // This case is deliberately excluded from ui_setup_ and every default test run.
+    assert_eq!(
+        std::env::var("RHEON_UI_CANCEL_ADMISSION").as_deref(),
+        Ok("genuine-cancel-v1")
+    );
+    let root = std::path::PathBuf::from(
+        std::env::var("RHEON_UI_CANCEL_ROOT").expect("supervised fresh root"),
+    );
+    assert!(root.is_absolute());
+    let seal_path = root.join("contract.json");
+    assert!(std::fs::metadata(&seal_path).unwrap().len() <= 65_536);
+    let seal: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&seal_path).unwrap()).unwrap();
+    assert_eq!(
+        seal["test"],
+        "setup_ui_tests::bounded_genuine_cancel_contract"
+    );
+    assert_eq!(seal["commit"], build_identity::source_revision());
+    assert_ne!(
+        build_identity::source_revision(),
+        "build revision unspecified"
+    );
+    // Supervisor executes immutable memfd bytes, so current_exe is a memfd, not
+    // the original build pathname. The supervisor binds its SHA256/size to seal.
+    assert_eq!(
+        std::fs::metadata("/proc/self/exe").unwrap().len(),
+        seal["binary_bytes"].as_u64().unwrap()
+    );
+    let recording_root = root.join("recordings");
+    assert_eq!(std::fs::read_dir(&recording_root).unwrap().count(), 0);
+    let limits = rheon::recording::RecordingLimits {
+        max_database_bytes: 8 * 1024 * 1024,
+        max_record_bytes: 1024 * 1024,
+        max_records: 3,
+    };
+    // Preserve each reached stage before any assertion can fail. No cleanup runs.
+    let event = |stage: &str| {
+        use std::io::Write;
+        let mut log = std::fs::OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(root.join("events.jsonl"))
+            .unwrap();
+        writeln!(log, "{}", serde_json::json!({"stage": stage})).unwrap();
+        log.sync_all().unwrap();
+    };
+    event("admission_checked_before_worker_start");
+    let (reached, gate) = std::sync::mpsc::sync_channel(1);
+    let (release, resume) = std::sync::mpsc::sync_channel(1);
+    let request = Request {
+        collision_mesh: None,
+        size: 4,
+        steps: 2,
+        tight: false,
+        threads: 1,
+        methods: vec![PressureImplementation::JacobiPcgV1],
+        emitter: None,
+        observe: false,
+        history_budget_mib: 16,
+        preview_resolution: history::PreviewResolution::Edge(4),
+        domain_side: 1.0,
+        requested_dt: 0.02,
+        material: None,
+        material_color: [85, 190, 245],
+        recording_limits: limits,
+        recording_directory: recording_root.to_str().unwrap().into(),
+        saved_set: None,
+        configured_set: None,
+        prior_run_ids: vec![],
+        manifest_receipt: None,
+        progress_gate: Some(Arc::new(ProgressGate {
+            reached,
+            release: std::sync::Mutex::new(resume),
+        })),
+        failure_gate: None,
+    };
+    let mut app = App::default();
+    app.running_request = Some(request.clone());
+    let worker = Worker::start(request).unwrap();
+    app.history = Some(Arc::clone(&worker.history));
+    let progress = Arc::clone(&worker.progress);
+    let cancel = Arc::clone(&worker.cancel);
+    app.worker = Some(worker);
+    let ctx = context();
+    let size = egui::vec2(900.0, 650.0);
+    let deadline = Instant::now() + Duration::from_secs(10);
+    loop {
+        match gate.try_recv() {
+            Ok(()) => break,
+            Err(std::sync::mpsc::TryRecvError::Empty) => {}
+            Err(error) => panic!("gate disconnected: {error}"),
+        }
+        assert!(Instant::now() < deadline, "first-step observation timeout");
+        assert!(
+            !app.worker.as_ref().unwrap().handle.is_finished(),
+            "worker ended before gate"
+        );
+        let _ = frame(&ctx, size, vec![], |ctx| {
+            app.sidebar(ctx);
+        });
+        std::thread::yield_now();
+    }
+    event("first_accepted_step_gate_held");
+    assert_eq!(progress.load(Ordering::Relaxed), 1);
+    assert!(!app.worker.as_ref().unwrap().handle.is_finished());
+    let output = frame(&ctx, size, vec![], |ctx| {
+        app.sidebar(ctx);
+    });
+    assert!(has(&output, "1/2 steps"));
+    click(&ctx, size, &output, "Cancel simulation", |ctx| {
+        app.sidebar(ctx);
+    });
+    assert!(cancel.load(Ordering::Relaxed));
+    assert!(
+        !app.worker.as_ref().unwrap().handle.is_finished(),
+        "gate must still hold worker"
+    );
+    event("actual_egui_cancel_clicked_while_gate_held");
+    release.send(()).unwrap();
+    let deadline = Instant::now() + Duration::from_secs(10);
+    while !app.worker.as_ref().unwrap().handle.is_finished() {
+        assert!(Instant::now() < deadline, "retirement observation timeout");
+        let _ = frame(&ctx, size, vec![], |ctx| {
+            app.sidebar(ctx);
+        });
+        std::thread::yield_now();
+    }
+    // Join only after is_finished; neither observation loop blocks on recv/join.
+    app.poll(&ctx);
+    event("actual_worker_joined");
+    assert!(app.worker.is_none() && app.rows.is_empty() && app.textures.is_empty());
+    assert_eq!(progress.load(Ordering::Relaxed), 1);
+    assert!(app.status.contains("Cancelled") || app.status.contains("cancelled"));
+    let path = app.history.as_ref().unwrap().carrier_inspectors[0]
+        .archive_path()
+        .unwrap();
+    assert!(path.starts_with(&recording_root));
+    let reader = rheon::recording::RecordingReader::open(&path, limits).unwrap();
+    reader.verify().unwrap();
+    assert_eq!(reader.count().unwrap(), 2);
+    assert_eq!(reader.status().unwrap().outcome, "cancelled");
+    assert_eq!(reader.status().unwrap().accepted_generation, Some(1));
+    let result = serde_json::json!({
+        "contract": "genuine-cancel-v1", "test": "setup_ui_tests::bounded_genuine_cancel_contract",
+        "source": build_identity::source_revision(), "binary_sha256": seal["binary_sha256"],
+        "gate_held": true, "ui_cancel": true, "joined": true, "progress": 1,
+        "integrity_verified": true, "cancelled": true, "record_count": 2,
+        "accepted_generation": 1, "requested_complete": false, "archive": path,
+        "ui_status": app.status,
+    });
+    use std::io::Write;
+    let mut file = std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(root.join("result.json"))
+        .unwrap();
+    file.write_all(serde_json::to_string_pretty(&result).unwrap().as_bytes())
+        .unwrap();
+    file.sync_all().unwrap();
+    event("complete_contract_result_preserved");
 }

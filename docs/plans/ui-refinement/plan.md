@@ -2,7 +2,7 @@
 
 **Plan status:** `Active`
 **Current phase:** M1 partial native evidence and remaining fixture checks
-**Next slice:** M1 — workload-free active-state checks; bound remaining native/live evidence
+**Next slice:** M1 — reviewed supervisor contract; genuine execution remains unadmitted
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -27,7 +27,10 @@ Base remote main revalidated 2026-10-20:
 `fd7c0f0aee63bc8710df99f9bb01154e7619b974`. Local branch
 `implementation/ui-hierarchy-20261020`, worktree `/workspace/Rheon-ui-hierarchy`.
 UI task owns implementation and serial integration; parent owns eventual main
-integration. Branch is private, retained for review/validation. No push, PR,
+integration. That branch is retained for review/validation. Parent later reports
+its remote at `426fd25` after separate user action; do not overwrite it. Current
+local continuation from `e109758` uses `implementation/ui-m1-cancel-contract-20261020`.
+No push, PR,
 merge, rebase, branch deletion or cleanup is authorized in this turn.
 
 ## Scope and non-goals
@@ -212,3 +215,21 @@ is mocked UI-state evidence, not worker cancellation or native verification.
 Propose precise bounds for any actual worker test; do not execute it under this
 admission. No M2–M4 expansion, changed resource budget, model/scientific run,
 publication, cleanup or retry of Forbidden image delivery is admitted.
+
+## M1 cancellation-contract admission — 2026-10-20
+
+Parent requests a complete external supervised cancellation contract, not live
+execution. Serial write set: `src/bin/desktop/setup_ui_tests.rs` (ignored genuine
+case plus inert long-status stress), new `tools/supervise_ui_cancel.py` and its
+unit tests, plus this plan directory. No application production code changes.
+See [reviewed cancellation contract](reports/m1-cancellation-contract.md).
+
+Keep genuine execution ignored/unadmitted. Require exact source/binary seals,
+externally reserved preconfigured cgroup and bounded output tmpfs; fail before GO
+if prerequisites are unavailable. No fallback/provisioning/settings changes.
+The hard resource/disposition contract must distinguish CPU bandwidth, per-process
+limits, observed aggregate trips, kernel allocated storage, and unresolved kernel
+teardown. Only disposable owned test processes/descendants can be terminated.
+Independent source review and non-numerical tests precede any future admission.
+Long-status headless stress can proceed now; native accessibility, genuine worker
+cancellation and whole M1 acceptance remain open. M2–M4 stay Planned.

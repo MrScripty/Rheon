@@ -125,3 +125,45 @@
   affected desktop/test Clippy, locked desktop compile and formatting passed.
   Logs remain `/tmp/rheon-ui-m1-fixture-{tests,clippy,check,fmt}.log`. This is
   synthetic/headless evidence only; no actual worker or native gate was run.
+
+## 2026-10-20 — bounded cancellation contract, no live execution
+
+- Preserved local `implementation/ui-hierarchy-20261020` at e109758 and all old
+  artifacts. Parent reports its remote now426fd25 after separate direct user
+  interaction. Created only local continuation branch
+  `implementation/ui-m1-cancel-contract-20261020`; no remote mutation or fetch.
+- Added Linux external supervisor for a sealed exact ignored test. It requires
+  preconfigured exclusively reserved cgroup2/tmpfs, kernel resource bounds and
+  conservative bounded TERM/KILL/reap disposition. No fallback, mounts, budget
+  expansion, credential/network changes or cleanup. Read-only preflight would
+  refuse ordinary/shared filesystems or cgroup root; no resource leaf is
+  provisioned or admitted in this turn.
+- Added ignored genuine cancellation test, excluded from ui_setup_ and not run.
+  It specifies actual first-step gate, pointer Cancel while gate held, nonblocking
+  UI painting, completed-handle join and verified distinct cancellation/prefix
+  recording evidence. Existing worker/numerical production code is unchanged.
+- Expanded inert status cases to long path,16KiB unbroken text and multiline
+  Unicode, full copy/end/edit refusal, pointer focus and Shift+Tab exit. Initial
+  stress fixture reused UI state across cases and used a text clip rather than
+  actual interact rectangle for clicks; corrected those test-only assumptions,
+  preserving the bounded-height oracle. Nine focused tests pass (new genuine
+  test remains ignored and filtered).
+- Supervisor unit fixtures use no solver/model/native workload. They include
+  an explicitly owned waiting process for TERM/KILL/reap, immutable memfd bytes,
+  kernel pipe capacity, cap/refusal/result checks and injected cleanup failures.
+  Fixture artifacts remain /tmp/rheon-ui-supervisor-tests-*; nothing cleaned.
+  Mocked cgroup/volume checks are not a kernel-containment integration pass.
+- Linux headers verified seal/pipe UAPI constants when this Python build lacked
+  named fcntl constants. Actual memfd seals and pipe-size tests pass. No alternative
+  upload/HTTP route, account, sandbox bypass or system reconfiguration was used.
+- Independent review caught and resolved teardown edge cases: descriptor ownership
+  during signals, old absolute deadlines, stricter inherited rlimits, ECHILD/PID
+  reuse suppression, short receipt writes and close-error acceptance revocation.
+  The owned waiting-process unit cleanup now retains pidfd through its final
+  signal/reap; no post-reap numeric-PID fallback remains.
+- Final inert/static gates: nine Rust UI tests pass; thirteen Python supervisor
+  unit tests pass normally and with -O; strict desktop/test Clippy, locked desktop
+  compile, Rust formatting and diff whitespace checks pass. Logs retained under
+  /tmp/rheon-ui-contract-* and /tmp/rheon-ui-supervisor-tests*.log. These do not
+  constitute genuine cancellation, kernel cgroup/tmpfs integration or native
+  accessibility verification. Existing native result remains scoped to426fd25.
