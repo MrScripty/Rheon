@@ -39,4 +39,51 @@ Supporting pre-campaign checks: 11 focused tests passed, strict affected Clippy
 passed, format/diff checks passed. These check code and experimental contracts;
 they do not decide the water accuracy thresholds.
 
-Final campaign and result review disposition will be added after evaluation.
+Final pre-campaign disposition: adequate to freeze and execute this bounded
+research campaign; no production method admitted. Frozen source checkpoint:
+39098e0e0b0b0f8c966ff7f811d548b6d396ec15.
+
+## Independent campaign disposition
+
+**Return both adaptations to method selection.** Reviewer independently parsed
+all 108 hydro, 162 shear and 36 cloud summaries and raw field files. Every
+hydro density/pressure RMS and every shear velocity RMS agrees to roundoff;
+pressure matches the EOS; all accepted centers remain above the bottom; every
+reduced trajectory reaches .1 s. Direct total-energy reconstruction agrees
+within 8.46e-11 J/m² using an independently evaluated log expression. The
+accumulated ledger closure <=7.25e-12 J/m² verifies accounting, not conservative
+dynamics: integrated pressure-work defects are orders of magnitude larger than
+the fixed characteristic energy target.
+
+Verified decisive failures: perturbed AHA n32/h1.5 speed .167893 m/s and
+pressure 19.0076%; ordered SA same configuration .062635 m/s and 4.64473%; SA
+fine traction 29.33–35.87%, Poiseuille momentum defect 2.93e-4–3.38e-4 kg/(m s),
+and multiple spatial orders below .9. Fourfold diagnostic dt reduction barely
+changes these failures. All 36 raw cloud fields reproduce rates, moments and
+power to summation roundoff; powers are negative and momentum rates negligible.
+Wendland's fine instantaneous rate success does not close consistency:
+fixed-support partition/Laplacian moment biases persist under refinement.
+Nonzero free-slip invariance passes.
+
+The report's counts, values and capability limitations were independently
+reviewed. Two wording findings were corrected: passing density targets does not
+establish improvement against the preview, and a future justified wall-reaction
+derivation remains possible even though post-hoc relabelling of current defects
+is invalid. Final disposition: the necessary-screen implementation and retained
+negative information are reviewable; P1 production remains unaccepted.
+
+Recommended next mathematical work: first establish constant/linear-field
+consistency and neighbor growth; derive continuity, pressure work and wall
+reaction from one discrete construction; derive viscosity/traction from the
+same quadrature and boundary lift; repeat focused algebra/moment/traction gates
+before another trajectory campaign. No independent Lean kernel rerun, native
+GUI, GPU, physical experiment or full production water test is claimed.
+
+## Ordinary test discovery
+
+The reviewer checked the small integration adapter. It only makes
+the existing eleven checks discoverable by ordinary Cargo test; it does not
+execute the campaign CLI or change its numerical sources. All example sources
+remain byte-identical to 39098e0. Scientific review/disposition is unchanged.
+The complete 582-test existing CPU release suite and 11 adapter checks passed;
+the partial debug run is explicitly retained as interrupted, not accepted.

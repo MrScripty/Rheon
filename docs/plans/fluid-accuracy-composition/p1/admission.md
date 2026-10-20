@@ -17,18 +17,23 @@ disposition. No merge, rebase or cleanup authority is taken. Audit119, plan120,
 pressure-warm-start59 and original checkout are untouched.
 
 Exact exclusive write set: `examples/particle_planar_selection.rs`,
-`examples/particle_planar_selection/*.rs`, and this `p1/` report directory.
+`examples/particle_planar_selection/*.rs`,
+`tests/particle_planar_selection_contract.rs`, and this `p1/` report directory.
+The adjacent integration adapter runs the same focused checks under ordinary
+Cargo test/CI discovery without exposing a library API or changing workflows.
 There are **no shared module declarations**, Session, recording, desktop,
 lockfile, public API, existing particle preview or canonical plan edits.
 Experimental numerical source stays outside the library until selection and
 independent review pass. Its native f64 execution is design-selection evidence,
 not a test of the production preview path.
 
-Current phase: bounded native candidate screening. Next slice: evaluate the
-precommitted [protocol](protocol.md). Objective acceptance: partial P1 information
-needed to choose or reject candidate formulations. Full P-W production acceptance
-remains pending. Failed screens return to method selection; neither the target
-criteria nor frozen rest results may be relaxed.
+Current phase: **P1 active method selection, no production winner**. The bounded
+campaign in the precommitted [protocol](protocol.md) is complete;
+[results](results.md) reject both tested adaptations. Next slice: derive and
+independently review one matched pressure/continuity/wall-reaction construction,
+then freeze its version and consistency/work gates before evaluation. Full P-W
+production acceptance remains pending. Failed screens return to method
+selection; neither the target criteria nor frozen rest results may be relaxed.
 
 The initial reduction integrates the 3D kernel exactly over periodic tangential
 planes and discretizes wall-normal parcels per unit area. It is a lower-cost
@@ -50,9 +55,12 @@ D1/G1 architecture remains authoritative.
 Claims: (S1) equation/dimension/refusal and work-defect tests, focused native CPU,
 automated; (S2) matched planar candidate comparison against analytic continuum
 water and 3D cloud moments, numerical selection, native CPU, automated; (S3)
-independent numerical review. S1 satisfied by 11 focused tests and affected Clippy after independent review
-findings were corrected; S2/S3 final campaign disposition pending. No scientific validation,
-mesh, GPU, UI, capillary or moving-wall claim is selected. No new Lean statement
+independent numerical review. S1 satisfied by 11 focused tests and affected
+Clippy after independent review findings were corrected. S2 satisfied as retained negative selection evidence
+(108 reduced hydro, 162 reduced shear, 36 3D operator studies, 18 geometry
+diagnostics), not production accuracy. S3 satisfied by independent code, raw
+field and result review; both formulations return to selection. No scientific
+validation, mesh, GPU, UI, capillary or moving-wall claim is selected. No new Lean statement
 is necessary: existing MaterialPreview antisymmetry is conditional and cannot
 prove the candidates' missing geometry/adjoint hypotheses.
 
