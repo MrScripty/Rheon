@@ -30,131 +30,183 @@ fn c1b2_projection_profile_refusal_clears_cached_g1_evidence_and_gesture() {
         .unwrap();
     drop(writer);
 
-    for terminal_only in [false, true] {
-        let cfg = *old_session.snapshot().configuration();
-        let grid = old_session.snapshot().grid().clone();
-        let mut owner = SimulationSession::new_with_projection(
-            old_session.snapshot().identity().clone(),
-            grid.clone(),
-            cfg.transport,
-            cfg.implementation,
-            vec![1.0; grid.cell_len()],
-            cfg.boundary_workspace_limit,
-            cfg.max_steps,
-            ProjectionIntent::BuiltinNativeV1,
-        )
-        .unwrap();
-        let mut workspace = ProjectionStepWorkspace::new(
-            &grid,
-            cfg.transport.carrier.density,
-            4 * 1024 * 1024,
-            cfg.implementation,
-        )
-        .unwrap();
-        let path = output.0.join(format!("projection-{terminal_only}.sqlite"));
-        let run =
-            projection::projection_run(&owner.snapshot(), "new typed projection source").unwrap();
-        let mut writer = StepRecorder::create(&path, run, limits).unwrap();
-        if !terminal_only {
-            writer
-                .append(
-                    &projection::projection_publication(
-                        &owner.snapshot(),
-                        0,
-                        limits.max_record_bytes,
-                    )
-                    .unwrap(),
-                )
+    for (label, intent) in [
+        ("builtin", ProjectionIntent::BuiltinNativeV1),
+        (
+            "selection",
+            ProjectionIntent::ClassicalSelectionV1 {
+                producer: PressureImplementation::SymmetricGaussSeidelPcgV1,
+                producer_max_iterations: 100,
+            },
+        ),
+    ] {
+        for terminal_only in [false, true] {
+            let cfg = *old_session.snapshot().configuration();
+            let grid = old_session.snapshot().grid().clone();
+            let mut owner = SimulationSession::new_with_projection(
+                old_session.snapshot().identity().clone(),
+                grid.clone(),
+                cfg.transport,
+                cfg.implementation,
+                vec![1.0; grid.cell_len()],
+                cfg.boundary_workspace_limit,
+                cfg.max_steps,
+                intent,
+            )
+            .unwrap();
+            let mut workspace = ProjectionStepWorkspace::new_with_intent(
+                &grid,
+                cfg.transport.carrier.density,
+                4 * 1024 * 1024,
+                cfg.implementation,
+                intent,
+            )
+            .unwrap();
+            let path = output
+                .0
+                .join(format!("projection-{label}-{terminal_only}.sqlite"));
+            let run = projection::projection_run(&owner.snapshot(), "new typed projection source")
                 .unwrap();
-            let accepted = owner
-                .step_with_native_projection(
-                    LiquidStepInputs {
-                        requested_dt: 0.001,
-                        smoke_source: None,
-                        forces: &[],
-                        source: None,
-                        inlet: LiquidInlet::new(VolumeStamp { id: 3, version: 0 }, [[0.0; 2]; 3])
+            let mut writer = StepRecorder::create(&path, run, limits).unwrap();
+            if !terminal_only {
+                writer
+                    .append(
+                        &projection::projection_publication(
+                            &owner.snapshot(),
+                            0,
+                            limits.max_record_bytes,
+                        )
+                        .unwrap(),
+                    )
+                    .unwrap();
+                let accepted = owner
+                    .step_with_native_projection(
+                        LiquidStepInputs {
+                            requested_dt: 0.001,
+                            smoke_source: None,
+                            forces: &[],
+                            source: None,
+                            inlet: LiquidInlet::new(
+                                VolumeStamp { id: 3, version: 0 },
+                                [[0.0; 2]; 3],
+                            )
                             .unwrap(),
-                        volume: LiquidVolumeSettings {
-                            max_outward_courant: 1.0,
-                            actual_divergence_limit: 1e-5,
+                            volume: LiquidVolumeSettings {
+                                max_outward_courant: 1.0,
+                                actual_divergence_limit: 1e-5,
+                            },
                         },
-                    },
-                    &mut workspace,
-                    None,
-                    |_| false,
-                )
-                .unwrap();
-            writer
-                .append(
-                    &projection::projection_publication(
-                        &owner.snapshot(),
-                        1,
-                        limits.max_record_bytes,
+                        &mut workspace,
+                        None,
+                        |_| false,
                     )
-                    .unwrap(),
+                    .unwrap();
+                writer
+                    .append(
+                        &projection::projection_publication(
+                            &owner.snapshot(),
+                            1,
+                            limits.max_record_bytes,
+                        )
+                        .unwrap(),
+                    )
+                    .unwrap();
+                projection::ProjectionTermination::capture(
+                    &owner.snapshot(),
+                    RuntimeTerminationCause::Completed,
+                    "accepted projection",
+                    Some(&accepted.attempt),
                 )
+                .unwrap()
+                .finish(&mut writer)
                 .unwrap();
-            projection::ProjectionTermination::capture(
-                &owner.snapshot(),
-                RuntimeTerminationCause::Completed,
-                "accepted projection",
-                Some(&accepted.attempt),
-            )
-            .unwrap()
-            .finish(&mut writer)
-            .unwrap();
-        } else {
-            projection::ProjectionTermination::capture(
-                &owner.snapshot(),
-                RuntimeTerminationCause::Cancelled,
-                "cancelled before any numerical attempt",
-                None,
-            )
-            .unwrap()
-            .finish(&mut writer)
-            .unwrap();
+            } else {
+                projection::ProjectionTermination::capture(
+                    &owner.snapshot(),
+                    RuntimeTerminationCause::Cancelled,
+                    "cancelled before any numerical attempt",
+                    None,
+                )
+                .unwrap()
+                .finish(&mut writer)
+                .unwrap();
+            }
+            drop(writer);
+            drop(workspace);
+            drop(owner);
+            let inspector = Inspector::default();
+            inspector.reload(&old_path, limits).unwrap();
+            inspector.select_timestep(0).unwrap();
+            let mut h = Harness::new();
+            h.view.select(Some(&inspector));
+            assert!(h.view.attempt.is_some());
+            h.view.evidence = true;
+            h.view.pan_drag = Some((egui::Pos2::ZERO, egui::Vec2::ZERO));
+            let refusal = inspector.reload(&path, limits).unwrap_err();
+            assert!(refusal.contains("typed projection reader"));
+            assert!(inspector.workflow_selection().unwrap().is_none());
+            assert!(inspector.workflow_identity().is_none());
+            h.view.select(Some(&inspector));
+            assert!(h.view.attempt.is_none() && h.view.source.is_none());
+            assert!(!h.view.evidence && h.view.pan_drag.is_none());
+            assert!(!h.view.message.contains("legacy"));
+            assert!(old_attempt.publication.is_some());
+            // The namespace refusal also covers unsupported future versions, without
+            // changing historical raw-profile inspection for unrelated namespaces.
+            let future = output
+                .0
+                .join(format!("future-projection-{label}-{terminal_only}.sqlite"));
+            let source = rheon::recording::RecordingReader::open(&path, limits).unwrap();
+            let (profile, version) = if label == "builtin" {
+                ("rheon-native-projection-session-v1", 1)
+            } else {
+                ("rheon-native-projection-selection-v1", 2)
+            };
+            assert_eq!(source.run().solver, profile);
+            assert!(
+                source
+                    .run()
+                    .configuration
+                    .starts_with(&format!("RPS{version}:"))
+            );
+            assert!(
+                source
+                    .status()
+                    .unwrap()
+                    .detail
+                    .starts_with(&format!("RPT{version}:"))
+            );
+            for ordinal in 0..source.count().unwrap() {
+                assert!(
+                    source
+                        .select(ordinal)
+                        .unwrap()
+                        .controls
+                        .starts_with(&format!("RPP{version}:"))
+                );
+            }
+            let mut future_run = source.run().clone();
+            future_run.solver = format!(
+                "rheon-native-projection-{}-v999",
+                if label == "builtin" {
+                    "session"
+                } else {
+                    "selection"
+                }
+            );
+            drop(source);
+            let mut future_writer = StepRecorder::create(&future, future_run, limits).unwrap();
+            future_writer
+                .finish("cancelled", "unsupported future profile fixture", Some(0))
+                .unwrap();
+            drop(future_writer);
+            assert!(
+                inspector
+                    .reload(&future, limits)
+                    .unwrap_err()
+                    .contains("typed projection reader")
+            );
         }
-        drop(writer);
-        drop(workspace);
-        drop(owner);
-        let inspector = Inspector::default();
-        inspector.reload(&old_path, limits).unwrap();
-        inspector.select_timestep(0).unwrap();
-        let mut h = Harness::new();
-        h.view.select(Some(&inspector));
-        assert!(h.view.attempt.is_some());
-        h.view.evidence = true;
-        h.view.pan_drag = Some((egui::Pos2::ZERO, egui::Vec2::ZERO));
-        let refusal = inspector.reload(&path, limits).unwrap_err();
-        assert!(refusal.contains("typed projection reader"));
-        assert!(inspector.workflow_selection().unwrap().is_none());
-        assert!(inspector.workflow_identity().is_none());
-        h.view.select(Some(&inspector));
-        assert!(h.view.attempt.is_none() && h.view.source.is_none());
-        assert!(!h.view.evidence && h.view.pan_drag.is_none());
-        assert!(!h.view.message.contains("legacy"));
-        assert!(old_attempt.publication.is_some());
-        // The namespace refusal also covers unsupported future versions, without
-        // changing historical raw-profile inspection for unrelated namespaces.
-        let future = output
-            .0
-            .join(format!("future-projection-{terminal_only}.sqlite"));
-        let source = rheon::recording::RecordingReader::open(&path, limits).unwrap();
-        let mut future_run = source.run().clone();
-        future_run.solver = "rheon-native-projection-session-v2".into();
-        drop(source);
-        let mut future_writer = StepRecorder::create(&future, future_run, limits).unwrap();
-        future_writer
-            .finish("cancelled", "unsupported future profile fixture", Some(0))
-            .unwrap();
-        drop(future_writer);
-        assert!(
-            inspector
-                .reload(&future, limits)
-                .unwrap_err()
-                .contains("typed projection reader")
-        );
     }
 }
 

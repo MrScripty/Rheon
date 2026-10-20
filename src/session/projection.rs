@@ -85,11 +85,14 @@ impl SimulationSession {
         let state = self.simulation.state();
         let accepted_generation = state.carrier.generation;
         let interval_start = state.carrier.time;
+        let intent = self
+            .projection_intent
+            .unwrap_or(ProjectionIntent::BuiltinNativeV1);
         let mut capture = ProjectionCapture {
             stage: ProjectionAttemptStage::SessionGuard,
             attempt: Arc::new(ProjectionAttempt {
-                version: 1,
-                intent: ProjectionIntent::BuiltinNativeV1,
+                version: intent.version(),
+                intent,
                 source: self.identity.clone(),
                 attempt_id,
                 accepted_generation,
@@ -101,6 +104,7 @@ impl SimulationSession {
                 controls_sha256: crate::workflow::request_digest(inputs),
                 provisional_input_id: None,
                 producer: None,
+                producer_failure: None,
                 qualification: None,
                 selected_native: None,
                 outcome: ProjectionAttemptOutcome::Failed {
@@ -120,7 +124,7 @@ impl SimulationSession {
             capture
                 .update(|_| {})
                 .map_err(|_| ProjectionStepError::ReceiptAliased)?;
-            if self.projection_intent != Some(ProjectionIntent::BuiltinNativeV1) {
+            if self.projection_intent.is_none() {
                 return Err(ProjectionStepError::IntentMismatch);
             }
             if self.stopped {
@@ -134,10 +138,11 @@ impl SimulationSession {
                     LiquidStepError::Carrier(crate::SimulationError::GenerationOverflow),
                 )));
             }
-            if !workspace.matches(
+            if !workspace.matches_intent(
                 self.simulation.grid(),
                 self.configuration.transport.carrier.density,
                 self.configuration.implementation,
+                intent,
             ) {
                 return Err(ProjectionStepError::WorkspaceMismatch);
             }

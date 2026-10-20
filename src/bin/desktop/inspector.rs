@@ -312,7 +312,11 @@ impl Inspector {
                 if reader
                     .run()
                     .solver
-                    .starts_with("rheon-native-projection-session-") =>
+                    .starts_with("rheon-native-projection-session-")
+                    || reader
+                        .run()
+                        .solver
+                        .starts_with("rheon-native-projection-selection-") =>
             {
                 s.feedback = "Native projection archives require the typed projection reader; workflow graph inspection is unavailable for this profile".into();
                 Err(s.feedback.clone())
