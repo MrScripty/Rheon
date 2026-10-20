@@ -1,5 +1,162 @@
 use super::*;
 
+#[test]
+fn c1b2_projection_profile_refusal_clears_cached_g1_evidence_and_gesture() {
+    use rheon::projection_step::{ProjectionIntent, ProjectionStepWorkspace};
+    use rheon::recording::provider::runtime::RuntimeTerminationCause;
+    use rheon::recording::{RecordingLimits, StepRecorder, projection};
+    use rheon::*;
+    let output = crate::configured_worker_tests::Output::new();
+    let (old_attempt, old_session) = observed_fixture(false);
+    let old_path = output.0.join("old-g1.sqlite");
+    let limits = RecordingLimits::default();
+    let run =
+        rheon::recording::provider::configured_run(&old_session.snapshot(), "retained G1 source")
+            .unwrap();
+    let mut writer = StepRecorder::create(&old_path, run, limits).unwrap();
+    writer
+        .append(
+            &rheon::recording::workflow::configured_publication_with_workflow(
+                &old_session.snapshot(),
+                0,
+                limits.max_record_bytes,
+                None,
+            )
+            .unwrap(),
+        )
+        .unwrap();
+    writer
+        .finish("completed", "prior G1 source", Some(1))
+        .unwrap();
+    drop(writer);
+
+    for terminal_only in [false, true] {
+        let cfg = *old_session.snapshot().configuration();
+        let grid = old_session.snapshot().grid().clone();
+        let mut owner = SimulationSession::new_with_projection(
+            old_session.snapshot().identity().clone(),
+            grid.clone(),
+            cfg.transport,
+            cfg.implementation,
+            vec![1.0; grid.cell_len()],
+            cfg.boundary_workspace_limit,
+            cfg.max_steps,
+            ProjectionIntent::BuiltinNativeV1,
+        )
+        .unwrap();
+        let mut workspace = ProjectionStepWorkspace::new(
+            &grid,
+            cfg.transport.carrier.density,
+            4 * 1024 * 1024,
+            cfg.implementation,
+        )
+        .unwrap();
+        let path = output.0.join(format!("projection-{terminal_only}.sqlite"));
+        let run =
+            projection::projection_run(&owner.snapshot(), "new typed projection source").unwrap();
+        let mut writer = StepRecorder::create(&path, run, limits).unwrap();
+        if !terminal_only {
+            writer
+                .append(
+                    &projection::projection_publication(
+                        &owner.snapshot(),
+                        0,
+                        limits.max_record_bytes,
+                    )
+                    .unwrap(),
+                )
+                .unwrap();
+            let accepted = owner
+                .step_with_native_projection(
+                    LiquidStepInputs {
+                        requested_dt: 0.001,
+                        smoke_source: None,
+                        forces: &[],
+                        source: None,
+                        inlet: LiquidInlet::new(VolumeStamp { id: 3, version: 0 }, [[0.0; 2]; 3])
+                            .unwrap(),
+                        volume: LiquidVolumeSettings {
+                            max_outward_courant: 1.0,
+                            actual_divergence_limit: 1e-5,
+                        },
+                    },
+                    &mut workspace,
+                    None,
+                    |_| false,
+                )
+                .unwrap();
+            writer
+                .append(
+                    &projection::projection_publication(
+                        &owner.snapshot(),
+                        1,
+                        limits.max_record_bytes,
+                    )
+                    .unwrap(),
+                )
+                .unwrap();
+            projection::ProjectionTermination::capture(
+                &owner.snapshot(),
+                RuntimeTerminationCause::Completed,
+                "accepted projection",
+                Some(&accepted.attempt),
+            )
+            .unwrap()
+            .finish(&mut writer)
+            .unwrap();
+        } else {
+            projection::ProjectionTermination::capture(
+                &owner.snapshot(),
+                RuntimeTerminationCause::Completed,
+                "no attempted interval",
+                None,
+            )
+            .unwrap()
+            .finish(&mut writer)
+            .unwrap();
+        }
+        drop(writer);
+        drop(workspace);
+        drop(owner);
+        let inspector = Inspector::default();
+        inspector.reload(&old_path, limits).unwrap();
+        inspector.select_timestep(0).unwrap();
+        let mut h = Harness::new();
+        h.view.select(Some(&inspector));
+        assert!(h.view.attempt.is_some());
+        h.view.evidence = true;
+        h.view.pan_drag = Some((egui::Pos2::ZERO, egui::Vec2::ZERO));
+        let refusal = inspector.reload(&path, limits).unwrap_err();
+        assert!(refusal.contains("typed projection reader"));
+        assert!(inspector.workflow_selection().unwrap().is_none());
+        assert!(inspector.workflow_identity().is_none());
+        h.view.select(Some(&inspector));
+        assert!(h.view.attempt.is_none() && h.view.source.is_none());
+        assert!(!h.view.evidence && h.view.pan_drag.is_none());
+        assert!(!h.view.message.contains("legacy"));
+        assert!(old_attempt.publication.is_some());
+        // The namespace refusal also covers unsupported future versions, without
+        // changing historical raw-profile inspection for unrelated namespaces.
+        let future = output
+            .0
+            .join(format!("future-projection-{terminal_only}.sqlite"));
+        std::fs::copy(&path, &future).unwrap();
+        let db = rusqlite::Connection::open(&future).unwrap();
+        db.execute(
+            "UPDATE run SET solver = ?1",
+            ["rheon-native-projection-session-v2"],
+        )
+        .unwrap();
+        drop(db);
+        assert!(
+            inspector
+                .reload(&future, limits)
+                .unwrap_err()
+                .contains("typed projection reader")
+        );
+    }
+}
+
 fn fixture() -> Arc<WorkflowAttempt> {
     observed_fixture(false).0
 }

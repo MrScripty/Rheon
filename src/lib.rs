@@ -209,6 +209,9 @@ pub use vtk_export::{
 mod provider_step;
 pub use provider_step::{ProviderStepReport, ProviderStepWorkspace};
 
+/// Closed native projection invocation and accepted Session evidence.
+pub mod projection_step;
+
 mod emitter_controls;
 pub use emitter_controls::{EMITTER_CONTROLS_VERSION, EmitterTurbulence};
 

@@ -350,6 +350,17 @@ impl ProjectionWorkspace {
         self.allocated
     }
 
+    /// Integrated owner reads only after successful qualification and before
+    /// the next call. This scratch is never an accepted-state authority.
+    pub(crate) fn pressure_for_integrated_step(&self) -> &[f64] {
+        self.pressure.pressure()
+    }
+
+    /// Shares the same successful-call lifetime as the selected pressure.
+    pub(crate) fn velocity_for_integrated_step(&self) -> [&[f32]; 3] {
+        [&self.velocity[0], &self.velocity[1], &self.velocity[2]]
+    }
+
     /// Qualify immutable supplied arrays or run the declared compatible native
     /// baseline. Header/binding refusals never become fallback acceptance.
     pub fn qualify(

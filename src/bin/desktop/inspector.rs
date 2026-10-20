@@ -308,6 +308,15 @@ impl Inspector {
         s.selected_step = None;
         s.reader = None;
         match RecordingReader::open(path, limits) {
+            Ok(reader)
+                if reader
+                    .run()
+                    .solver
+                    .starts_with("rheon-native-projection-session-") =>
+            {
+                s.feedback = "Native projection archives require the typed projection reader; workflow graph inspection is unavailable for this profile".into();
+                Err(s.feedback.clone())
+            }
             Ok(reader) => {
                 s.reader = Some(reader);
                 s.path = Some(path.to_owned());

@@ -6,6 +6,7 @@ use crate::{
 };
 use std::{fmt, io::Write, time::Instant};
 mod configured;
+mod projection;
 
 /// Caller-assigned run and source identity, not proof of provenance or independence.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -83,6 +84,8 @@ pub struct SessionSnapshot<'a> {
     provider: Option<&'a crate::solver_provider::ProviderReport>,
     configured: Option<&'a crate::solver_provider::configured::ConfiguredProviderReport>,
     frame: usize,
+    projection_intent: Option<crate::projection_step::ProjectionIntent>,
+    projection_attempt: Option<&'a std::sync::Arc<crate::projection_step::ProjectionAttempt>>,
 }
 impl<'a> SessionSnapshot<'a> {
     pub fn identity(&self) -> &'a SessionIdentity {
@@ -161,6 +164,9 @@ pub struct SimulationSession {
     steps: usize,
     max_steps: usize,
     stopped: bool,
+    projection_intent: Option<crate::projection_step::ProjectionIntent>,
+    projection_attempt: Option<std::sync::Arc<crate::projection_step::ProjectionAttempt>>,
+    projection_attempt_counter: u64,
 }
 impl SimulationSession {
     pub fn new(
@@ -202,6 +208,9 @@ impl SimulationSession {
             steps: 0,
             max_steps,
             stopped: false,
+            projection_intent: None,
+            projection_attempt: None,
+            projection_attempt_counter: 0,
         })
     }
     pub fn capabilities(&self) -> SessionCapabilities {
@@ -224,6 +233,8 @@ impl SimulationSession {
             provider: self.provider.as_ref(),
             configured: self.configured.as_ref(),
             frame: self.steps,
+            projection_intent: self.projection_intent,
+            projection_attempt: self.projection_attempt.as_ref(),
         }
     }
     /// Vec-capacity payload only, excluding caller allocations, identity, object
@@ -269,6 +280,7 @@ impl SimulationSession {
         mut cancel: F,
         mut now: N,
     ) -> Result<(LiquidStepReport, crate::solver_provider::ProviderReport), SessionError> {
+        self.require_legacy_intent()?;
         if self.stopped {
             return Err(SessionError::Stopped);
         }
@@ -315,6 +327,7 @@ impl SimulationSession {
         mut cancel: F,
         mut now: N,
     ) -> Result<LiquidStepReport, SessionError> {
+        self.require_legacy_intent()?;
         if self.stopped {
             return Err(SessionError::Stopped);
         }

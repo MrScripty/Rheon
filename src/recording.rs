@@ -5,6 +5,7 @@ mod carrier;
 pub mod comparison;
 pub mod diagnostic;
 mod material;
+pub mod projection;
 pub mod provider;
 pub mod workflow;
 use crate::{GridGeometry, SessionIdentity, SnapshotStage};

@@ -96,6 +96,7 @@ impl SimulationSession {
     ) -> Result<(LiquidStepReport, ConfiguredProviderReport), SessionError> {
         use crate::workflow::{AttemptOutcome, NodeKind, NodeReceipt, NodeStatus, WorkflowAttempt};
         *evidence = None;
+        self.require_legacy_intent()?;
         if attempt_id == 0 {
             return Err(SessionError::PressureBinding(
                 crate::solver_provider::ProviderRejection::Unsupported(
