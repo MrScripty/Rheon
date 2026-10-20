@@ -129,13 +129,15 @@ archives were not downloaded or relabelled as this lead execution.
 admitted finite stateless classical producer choice with distinct fallback,
 immutable intent/profile, exact provisional/interval/witness/cold provenance and
 integrated comparisons. It is not implementation admission. After this fixed
-stage was published, a live read found separate PR140/9ddf8d2 implementing/
-verifying that choice; its full qualification is pending after a retained
-old-profile refusal-category failure and bounded repair. It changes eight
-selected pins versus PR137 and is excluded from this source. Separate PR139/
-d857523 reports its bounded static CV2 reference locally qualified at source
-b0a9d52; generic stability/PDE/production gates remain open. Both deliveries are
-excluded; neither is promoted by this lead result. Full C1-B/C/R,
+stage was published, final PR140/5dc1741 reports separate C1-B3 qualification:
+227 passing/5 existing ignored executions at core4af3802/consumer9ddf8d2, with
+its earlier old-profile refusal-category failure and repair retained. Its eight
+changed selected pins versus PR137 are excluded from this source; complete-source
+admission, fresh lead qualification and exact-head hosted gates remain pending.
+Separate final PR139/902f609 reports its bounded static CV2 reference locally
+qualified at source b0a9d52; generic stability/PDE/production gates remain open.
+[CV3-A](../cv3a-admission.md) prospectively admits next numerical preparation,
+with no result yet. Both deliveries remain excluded from this lead execution. Full C1-B/C/R,
 stateful/external transactions/replay, whole-family/transfer, optional viscosity,
 physical/scientific accuracy and default/desktop/release/native-window/performance/
 model/Lean/GPU gates remain separate. Existing grid qualification remains first;
