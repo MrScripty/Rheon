@@ -1,7 +1,7 @@
 //! Solver-independent, static external fields in SI coordinates.
 //! Authoring data is mutable; only a validated, owned snapshot can be evaluated.
 use crate::ForceUnits;
-use std::fmt;
+use std::{fmt, sync::Arc};
 
 pub const FORCE_SCENE_VERSION: u32 = 1;
 pub const MAX_FORCE_OBJECTS: usize = 256;
@@ -169,7 +169,7 @@ impl std::error::Error for ForceFieldError {}
 /// The host retains this with run metadata, separate from later draft edits.
 #[derive(Debug, Clone)]
 pub struct ForceSnapshot {
-    scene: ForceScene,
+    scene: Arc<ForceScene>,
 }
 impl ForceScene {
     pub fn freeze(&self) -> Result<ForceSnapshot, ForceFieldError> {
@@ -186,7 +186,7 @@ impl ForceScene {
             object.validate()?;
         }
         Ok(ForceSnapshot {
-            scene: self.clone(),
+            scene: Arc::new(self.clone()),
         })
     }
 }

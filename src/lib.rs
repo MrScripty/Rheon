@@ -56,8 +56,8 @@ pub use tracer_barrier::{
 };
 mod simulation;
 pub use simulation::{
-    AcceptedIntervalPressure, CarrierStepControls, Simulation, SimulationConfig, SimulationError,
-    SmokeSource, StateView, StepReport, StepStage,
+    AcceptedForceIntervalPressure, AcceptedIntervalPressure, CarrierStepControls, Simulation,
+    SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
 };
 pub mod force_field;
 pub use force_field::{
@@ -72,8 +72,8 @@ mod material;
 pub use material::{DomainFill, FluidMaterial, FluidPhase, FluidPreset, ParticleFluidConfig};
 mod particle_fluid;
 pub use particle_fluid::{
-    FluidParticle, ParticleDiagnostic, ParticleFluidError, ParticleFluidSimulation,
-    ParticleStepReport,
+    AcceptedParticleForceControls, FluidParticle, ParticleDiagnostic, ParticleFluidError,
+    ParticleFluidSimulation, ParticleStepReport,
 };
 #[cfg(feature = "png-export")]
 mod export;

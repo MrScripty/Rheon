@@ -44,8 +44,8 @@ a separate run-local namespace and are not scene-object IDs.
 
 `ForceObject` carries ID, name, enabled, transform, units, kind, support and time.
 Names have a 256 UTF-8 byte limit; a scene has at most 256 force objects. Disabled
-objects are still validated. Snapshot metadata/allocation is caller-owned and
-outside the solvers' retained-array budgets. Hosts should bound serialized input
+objects are still validated. Snapshot metadata/allocation is outside the solvers' retained-array budgets;
+accepted custody now retains a shared immutable reference to the run document. Hosts should bound serialized input
 bytes before deserialization; freeze's object count limit is not a parser limit.
 
 `ForceTransform` is translation in metres and quaternion `[x,y,z,w]` mapping
@@ -109,7 +109,8 @@ on the next step. Every particle retry samples the same accepted start time.
 The first schema supports static strength/pose and these activation intervals.
 
 `ForceScene::freeze()` validates and independently owns a cloned `ForceScene`
-inside `ForceSnapshot`. Only an immutable view is exposed; no Deserialize or
+inside `ForceSnapshot` (shared immutably by Arc for cheap accepted custody).
+Only an immutable view is exposed; no Deserialize or
 mutable accessor can bypass validation. Draft edits after freeze cannot change
 a run. The host must retain that snapshot with run inputs and use it on every
 step; per-call borrowing alone does not enforce host-level run consistency.
@@ -170,16 +171,17 @@ snapshot in the run request, and dispatch the relevant new adapter. Capture the
 same versioned document with saved run specifications. Old records can map an
 absent force document to an empty scene only through an explicit host migration.
 Gravity remains additive: a gravity authoring object must not accidentally apply
-Earth gravity twice. No desktop or recording schema is changed by this branch.
+Earth gravity twice. No desktop source is changed. Recording now supports the optional versioned
+force metadata described in custody.md; the SQL envelope remains version 1.
 
 Authored fields are initially unsupported in LiquidTransportSimulation,
 MaterialSession/SimulationSession, provider/configured-comparison adapters,
 free-surface/column, box-flux and viscosity combinations. Do not silently display
 fields as applied in those paths; retain their existing APIs or reject unsupported
-requests. New field calls also do not publish the legacy accepted-interval
-pressure inspection controls, which cannot describe authored snapshots yet.
+requests. New field calls publish a separate force-aware accepted interval; the legacy
+pressure accessor still does not mislabel them with incomplete controls.
 Combining an authored snapshot with a separate BodyForce list is not exposed.
-No solver retains authoring IDs or scene geometry internally. Archive/session
+Accepted force custody retains the full immutable authored force document. Archive/session
 custody and desktop visuals require the coordinated UI owner/parent follow-up.
 
 
@@ -197,25 +199,22 @@ The default material appearance can render particles as voxels. That view is not
 a separate MAC solver. The actual runtime distinction is native carrier versus
 particle material; configured carrier/transport are separate session owners.
 
-There is a blocking dependency for the native carrier recorder: the new force
-methods commit without setting `accepted_interval_pressure`, while
-`recording::carrier::carrier_publication` rejects nonconstructor publications
-without that stamp. Merely changing `CarrierExecution::advance` will cause
-recording to fail after an otherwise accepted force step. This includes an empty
-snapshot passed to the new MAC method. Existing legacy calls are unchanged.
-Before runtime wiring, add force-aware accepted interval control/pressure
-custody and recorder support; do not fake the old control stamp or bypass it.
+At milestone d7bffdd, native carrier recording was blocked because the new force
+methods had no qualified pressure stamp. That core dependency is now addressed:
+`accepted_force_interval_pressure` and force-aware publication support capture
+actual inputs, work and pressure. The legacy accessor remains separate. The
+host must still opt into run force binding and constructor metadata before
+switching its runtime dispatcher; see custody.md for the exact sequence.
 
 Minimal coordinated follow-up:
 
 1. UI owner adds the shared scene objects/IDs and draft controls. Freeze once
    before worker/output creation and retain the same snapshot in Request, live
    history and run metadata. Historical glyphs must use this frozen scene.
-2. Backend/recording owner extends the accepted carrier interval/control record
-   to describe the snapshot; expose success-qualified pressure after the new
-   force APIs and preserve the old inspection API's contract for legacy calls.
-   Add immutable material run force metadata too; MaterialStepControls currently
-   describes only dt/emitter and cannot disclose these forces.
+2. Core accepted carrier/particle force custody and optional archive metadata are
+   implemented (custody.md). UI owner must use the run binding and constructor
+   publication APIs before executing force steps. MaterialStepControls remains
+   the source/dt declaration; actual force custody is recorded separately.
 3. UI owner dispatches native no-emitter/emitter calls to the corresponding new
    MAC method and extracts `.step`; material dispatches the particle force call.
    Empty-field workflows can keep using the existing public methods, including
@@ -225,7 +224,7 @@ Minimal coordinated follow-up:
    validation, archive custody/load/rerun and material run metadata with the exact
    ForceScene. Keep existing records valid through explicit version migration;
    never attach current drafts to old results or reinterpret old hashes.
-5. Review/run the prepared bounded tests only when authorized; then add pure
-   custody/serialization tests and separately reviewed small end-to-end runtime
-   checks. Existing pure results do not prove adapter equivalence or archive
-   integration. The current five prepared tests do not cover recording custody.
+5. The five prepared bounded tests passed once on the sealed pre-custody binary
+   under the later explicit authorization. Seven pure custody/codec tests pass.
+   No post-custody solver or end-to-end desktop/SQLite workload was executed;
+   these results do not establish full archive integration or desktop parity.
