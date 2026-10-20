@@ -59,6 +59,11 @@ pub use simulation::{
     AcceptedIntervalPressure, CarrierStepControls, Simulation, SimulationConfig, SimulationError,
     SmokeSource, StateView, StepReport, StepStage,
 };
+pub mod force_field;
+pub use force_field::{
+    FORCE_SCENE_VERSION, ForceFieldError, ForceKind, ForceObject, ForceScene, ForceSnapshot,
+    ForceSupport, ForceTime, ForceTransform, MAX_FORCE_OBJECTS, SceneObjectId,
+};
 mod forces;
 pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepReport};
 mod emitter;

@@ -4,6 +4,10 @@ use crate::{Axis, GridGeometry, SimulationError, StepReport, StepStage};
 /// Acceleration is m/s²; force density is N/m³ and is divided by the
 /// simulation's constant positive density (kg/m³) before the velocity update.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(
+    any(feature = "force-serde", feature = "desktop"),
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub enum ForceUnits {
     Acceleration,
     ForceDensity,
