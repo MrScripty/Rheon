@@ -72,10 +72,10 @@ fn put_intent(encoder: &mut Encoder, intent: ProjectionIntent) {
         }
     }
 }
-fn get_intent(decoder: &mut Decoder) -> Result<ProjectionIntent, RecordingError> {
-    match decoder.u8()? {
-        1 => Ok(ProjectionIntent::BuiltinNativeV1),
-        2 => Ok(ProjectionIntent::ClassicalSelectionV1 {
+fn get_intent(decoder: &mut Decoder, version: u32) -> Result<ProjectionIntent, RecordingError> {
+    match (version, decoder.u8()?) {
+        (1, 1) => Ok(ProjectionIntent::BuiltinNativeV1),
+        (2, 2) => Ok(ProjectionIntent::ClassicalSelectionV1 {
             producer: get_method(decoder)?,
             producer_max_iterations: decoder.usize()?,
         }),
@@ -88,14 +88,14 @@ fn recording_grid(run: &RecordingRun) -> Result<crate::GridGeometry, RecordingEr
 }
 fn native_header(run: &RecordingRun) -> Result<(RecordingRun, ProjectionIntent), RecordingError> {
     run.validate()?;
-    let profile = match run.solver.as_str() {
-        PROFILE => CONFIGURATION_PROFILE,
-        SELECTION_PROFILE => SELECTION_CONFIGURATION_PROFILE,
+    let (profile, version) = match run.solver.as_str() {
+        PROFILE => (CONFIGURATION_PROFILE, 1),
+        SELECTION_PROFILE => (SELECTION_CONFIGURATION_PROFILE, 2),
         _ => return Err(RecordingError::Unsupported("projection Session profile")),
     };
     let mut decoder = Decoder::text(&run.configuration, profile)?;
     let configuration = get_wrapped(&mut decoder, "RSC1:")?;
-    let intent = get_intent(&mut decoder)?;
+    let intent = get_intent(&mut decoder, version)?;
     if profiles(intent).0 != run.solver {
         return Err(RecordingError::Invalid("projection profile intent"));
     }
@@ -598,7 +598,7 @@ pub struct ProjectionTerminationAudit {
     pub termination: ProjectionTermination,
     pub coverage: RuntimeTerminalCoverage,
 }
-/// Typed RPT1 inspection. Unknown source/versions refuse; this never falls back
+/// Typed RPT1/RPT2 inspection. Unknown source/versions refuse; this never falls back
 /// to G1 or interprets a missing publication as an accepted numerical row.
 pub fn terminal(reader: &RecordingReader) -> Result<ProjectionTerminationAudit, RecordingError> {
     verify_projection_recording(reader)?;
@@ -1097,7 +1097,7 @@ fn get_attempt(
     if version != 1 && version != 2 {
         return Err(RecordingError::Unsupported("projection attempt version"));
     }
-    let intent = get_intent(d)?;
+    let intent = get_intent(d, version)?;
     let source = crate::SessionIdentity {
         run_id: d.u64()?,
         source_revision: d.string()?,

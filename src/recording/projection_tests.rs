@@ -1090,3 +1090,22 @@ fn c1b3_projection_cold_iteration_failure_corruption_and_history_links_refuse() 
     drop(reader);
     std::fs::remove_file(archive).unwrap();
 }
+
+#[test]
+fn c1b3_projection_intent_decoder_refuses_foreign_version_before_payload() {
+    // The foreign tag is sufficient for Unsupported: v1 must never consume
+    // the new producer/method payload and turn this into a truncation error.
+    for (version, tag) in [(1, 2), (2, 1)] {
+        let mut decoder =
+            Decoder::text(&Encoder(vec![tag]).text("test:").unwrap(), "test:").unwrap();
+        assert!(matches!(
+            get_intent(&mut decoder, version),
+            Err(RecordingError::Unsupported(_))
+        ));
+    }
+    let mut decoder = Decoder::text(&Encoder(vec![2]).text("test:").unwrap(), "test:").unwrap();
+    assert!(matches!(
+        get_intent(&mut decoder, 2),
+        Err(RecordingError::Invalid(_))
+    ));
+}
