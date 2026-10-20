@@ -24,8 +24,8 @@ This report reconciles current implementation and numerical-route facts. It does
 | [138](https://github.com/MrScripty/Rheon/pull/138) | `a6bfcc94481b1bafbe61be804a1abc3426927bbd` | Separate PR132/134 Cargo closure: actual qualification `9a9904f`, 135 inputs, 18 native commands, 26+26 real packet and 83 focused tests. Independently reviewed public draft on fixed PR133; no physical/PDE promotion. Q2 dependencies and admission bytes are excluded from the current 140-input stage. |
 | [136](https://github.com/MrScripty/Rheon/pull/136) | `e56bc7bd31ea8e8121f09cba15eb8a2bc5e514e4` | Bounded C1-B2 native Session/custody stacked on fixed PR133. Owner results retain exact core634404e/consumera6e76a9; combined with final PR137, fresh separate 140-input qualification passes at `186dc0a`. Closed native Session/custody only; full replacement/hosted acceptance remains pending. |
 | [137](https://github.com/MrScripty/Rheon/pull/137) | `d3e62377acde6641c8133cf9a9356cc046cfd02a` | Three-line typed legacy cancellation label repair at tested `70da36d`, plus live/cold/pressure-failure tests. Owner 226 passing executions/5 existing ignores remain separately attributed. Fresh 140-input stage `186dc0a` includes this exact source; historical Failed receipts and no-publication behavior remain. |
-| [139](https://github.com/MrScripty/Rheon/pull/139) | `d8575238464a5b3f2ea0465bf6da2f71d621413d` | Separate CV2 static conditioned cut-cell reference on PR135; owner qualification reports 24 fixed cases, independent R1/R2 reconstruction and 45 evaluator checks passing at numerical source b0a9d52. Generic stability/PDE/production gates remain open; excluded from fixed lead stages. |
-| [140](https://github.com/MrScripty/Rheon/pull/140) | `9ddf8d2fd860c73bbcc35a077e08099d894db07a` | Separate C1-B3 producer selection on PR137; retained initial old-profile refusal-category failure, bounded repair, full qualification running. Eight selected pins change from PR137; no final local/source/hosted acceptance. Excluded from 186dc0a. |
+| [139](https://github.com/MrScripty/Rheon/pull/139) | `902f6092de6044419d028f92dabd8e59ae7a87ba` | Separate CV2 static conditioned cut-cell reference on PR135; owner qualification reports 24 fixed cases, independent R1/R2 reconstruction and 45 evaluator checks passing at numerical source b0a9d52. Generic stability/PDE/production gates remain open; excluded from fixed lead stages. |
+| [140](https://github.com/MrScripty/Rheon/pull/140) | `5dc1741feffa88b857194559b3e7e79be5369a64` | Separate C1-B3 producer selection on PR137; owner 227 passing / 5 existing ignored at core4af3802/consumer9ddf8d2. Initial compile/refusal-category failures and bounded repairs retained. Eight selected pins change from PR137; complete-source admission, fresh lead qualification and exact-head hosted gates pending. Excluded from 186dc0a. |
 
 An object-only merge preview of C1-A `91b2038` with Q1 `dfcc693` completed without conflicts and produced tree `dbccbf5c0002c33a059e9a355bd25793a9411134`. It changes no branch or worktree and proves only merge-text compatibility, not source admission, runtime correctness or qualification.
 
@@ -80,20 +80,26 @@ reconcile these separate active v3 inventories/review appends and independently
 review the complete combined closure before fresh applicable qualification.
 Neither stage's receipt transfers across that source change.
 
-A later live read found the separately owned C1-B3 implementation in PR140 at
-`9ddf8d2fd860c73bbcc35a077e08099d894db07a`. It adds closed stateless classical
+The final live read confirms the separately owned C1-B3 implementation in PR140
+at `5dc1741feffa88b857194559b3e7e79be5369a64`, tested core
+`4af3802babe332d8dfeb926c19159b4b656be775` and consumer
+`9ddf8d2fd860c73bbcc35a077e08099d894db07a` (one UI test API correction). It adds closed stateless classical
 producer selection, distinct full-cap native fallback and additive RPS2/RPP2/RPT2
 custody. Initial source d7928c8 passed its integrated selection fixtures but a
 wider run retained 94 passes and one old-profile foreign-version refusal-category
-failure. A bounded ingress repair and 14 focused persistence checks pass; full
-qualification is rerunning. No final local acceptance is reported. Its 140-input
+failure. A bounded ingress repair and 14 focused persistence checks pass. Final owner
+qualification reports 227 passing, zero failing and five existing ignored
+executions, including 200 actually selected native intervals bitwise against the
+same-producer baseline. These are owner-attributed results, not a lead rerun.
+Complete-source admission, fresh lead qualification and exact-head hosted gates
+remain pending; no new composition implementation milestone is admitted. Its 140-input
 closure changes eight pins from PR137 and is excluded from the qualified 186dc0a
 stage. Its [separate prospective protocol](https://github.com/MrScripty/Rheon/blob/9ddf8d2fd860c73bbcc35a077e08099d894db07a/docs/plans/fluid-accuracy-composition/reports/c1b3-protocol.md) records its own implementation admission; this fixed-stage report supplies no new source-admission approval.
 Full C1-B/C/R, stateful/external transactions and whole-family/transfer remain
 unaccepted. No production implementation is authored by this lead.
 
-The same read found PR139 at `d8575238464a5b3f2ea0465bf6da2f71d621413d`, stacked
-on PR135. Its [source-pinned qualification](https://github.com/MrScripty/Rheon/blob/d8575238464a5b3f2ea0465bf6da2f71d621413d/docs/plans/fluid-accuracy-composition/q2-cut-solve/qualification.md) and [independent review](https://github.com/MrScripty/Rheon/blob/d8575238464a5b3f2ea0465bf6da2f71d621413d/docs/plans/fluid-accuracy-composition/q2-cut-solve/independent-review.md) report the CV2 static 24-case
+The same read found PR139 at `902f6092de6044419d028f92dabd8e59ae7a87ba`, stacked
+on PR135. Its [source-pinned qualification](https://github.com/MrScripty/Rheon/blob/902f6092de6044419d028f92dabd8e59ae7a87ba/docs/plans/fluid-accuracy-composition/q2-cut-solve/qualification.md) and [independent review](https://github.com/MrScripty/Rheon/blob/902f6092de6044419d028f92dabd8e59ae7a87ba/docs/plans/fluid-accuracy-composition/q2-cut-solve/independent-review.md) report the CV2 static 24-case
 conditioning/coupled-solve reference locally accepted at numerical source
 `b0a9d52cc266cb651c5e67c07ec5f4f82419db55`: native checks, independent 80/120-digit
 R1 exported-target and R2 exact-integral comparisons, 15 contracts in each debug/
@@ -104,3 +110,11 @@ passing residuals. Original mass condition 6.53e11 remains; no basis/support/
 pressure removal, floor or fallback is introduced. Generic stability, finer-mesh/
 PDE convergence, boundary lifting, evolving geometry/transport and production
 acceptance remain open. This source is excluded from both fixed lead stages.
+
+## Next numerical admission
+
+[CV3-A](cv3a-admission.md) admits the existing numerical owner to prepare the
+nine-case static polynomial polygon MMS, source/write set, independent oracle
+and resource freeze before one separately reviewed private campaign. It changes
+no production owner or capability. No numerical result exists. Canonical disk,
+generic stability/PDE, moving geometry and production remain unqualified.

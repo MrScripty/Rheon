@@ -190,3 +190,29 @@ Its complete 140-input closure changes eight pins versus PR137. Earlier readines
 language is historical to the 186dc0a cut; delivery is now Implemented / Verifying,
 not lead-accepted. Neither new source is admitted or included by this fixed
 qualification. No duplicate implementation, run or source-map refresh is started.
+
+
+### Final owner deliveries and next numerical admission
+
+Final live reads confirm PR139 `902f6092de6044419d028f92dabd8e59ae7a87ba`
+and PR140 `5dc1741feffa88b857194559b3e7e79be5369a64`. PR139 retains numerical
+source b0a9d52, all 24 fixed static cases,15 debug + 15 release contracts and 45 evaluator
+checks passing, maximum independent velocity error 1.8612165e-12 against 1e-10,
+six unscaled square accuracy failures and original mass condition 6.53e11. This
+is owner evidence; no lead raw campaign rerun or archive rehash is claimed.
+
+PR140 reports 227 passing / 0 failing / 5 existing ignored at core4af3802 and consumer9ddf8d2
+(one UI-test public API correction). Its 200 actually selected intervals use the
+same-producer bitwise baseline; genuine low-cap fallback/failures/cancel/cold
+custody pass. Initial compile and old-profile refusal-category failures remain
+retained. Full 140-input closure/eight changed pins, independent source admission,
+fresh lead qualification and exact-head hosted gates remain separate. No new
+composition implementation, stateful/learned/external or whole-family scope is
+admitted. Earlier snapshot records above remain historical.
+
+The next numerical milestone is prospectively admitted [CV3-A](reports/cv3a-admission.md):
+static polynomial polygon MMS on nine frozen cases, n16 helper and degree4-exact
+load prerequisite reviews, independent norm/reference uncertainty and hard
+resource freeze before one campaign. Resume the existing numerical owner for
+preparation only until those gates pass. No pilot evaluation exists; canonical
+disk, generic stability/PDE, moving geometry and production remain unqualified.
