@@ -559,6 +559,12 @@ impl LiquidTransportSimulation {
             provider.expect("provider path qualified before commit"),
         ))
     }
+    pub(crate) fn workflow_descriptor(
+        &self,
+        viscosity: Option<f64>,
+    ) -> crate::workflow::WorkflowDescriptor {
+        self.carrier.workflow_descriptor(viscosity)
+    }
     pub(crate) fn step_with_configured_pressure(
         &mut self,
         inputs: LiquidStepInputs<'_>,
@@ -664,6 +670,9 @@ impl LiquidTransportSimulation {
             .and_then(|n| n.checked_add(viscosity_bytes))
             .and_then(|n| n.checked_add(provider_bytes))
             .ok_or(LiquidStepError::AllocationFailed)?;
+        let workflow = configured
+            .as_ref()
+            .map(|configured| configured.workflow.clone());
         let mut context_adapter = configured.map(|configured| {
             ContextAdapter::new(configured, &self.pressure, self.carrier.grid().counts())
         });
@@ -698,11 +707,13 @@ impl LiquidTransportSimulation {
                     preferred,
                 }
             }),
+            workflow.as_deref(),
             |stage| cancel(LiquidStepStage::Carrier(stage)),
         )?;
         // Capture only bounded metadata before final publication. No prior
         // pressure copy is added: the adapter borrows this owner's accepted array.
-        let configured_report = context_adapter.map(|adapter| ConfiguredProviderReport {
+        let mut configured_report = context_adapter.map(|adapter| ConfiguredProviderReport {
+            workflow: None,
             dynamic_viscosity: candidate.viscosity.map_or(0.0, |v| v.dynamic_viscosity),
             binding: adapter.binding,
             context: adapter.stamp.get(),
@@ -757,8 +768,16 @@ impl LiquidTransportSimulation {
         } else {
             None
         };
+        crate::workflow::complete(
+            workflow.as_deref(),
+            crate::workflow::NodeKind::VolumeTransport,
+            crate::workflow::NodeStatus::Completed,
+        );
         if cancel(LiquidStepStage::BeforeCommit) {
             return Err(LiquidStepError::Cancelled);
+        }
+        if let (Some(trace), Some(report)) = (workflow.as_deref(), configured_report.as_mut()) {
+            report.workflow = Some(crate::workflow::accepted(trace));
         }
         // All sizes, times, versions and numeric gates have already passed.
         // Pressure copy and owner swaps are infallible and invoke no callbacks.

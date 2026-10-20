@@ -185,6 +185,9 @@ pub struct LiquidVolumeSource<'a> {
     rate: &'a [f64],
 }
 impl<'a> LiquidVolumeSource<'a> {
+    pub(crate) fn workflow_parts(self) -> (VolumeStamp, &'a [f64]) {
+        (self.stamp, self.rate)
+    }
     pub fn new(stamp: VolumeStamp, rate: &'a [f64]) -> Result<Self, LiquidVolumeError> {
         if rate.iter().any(|v| !v.is_finite()) {
             return Err(LiquidVolumeError::InvalidSource);

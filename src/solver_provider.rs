@@ -152,7 +152,17 @@ impl ProviderWorkspace {
         request: PressureRequest<'_>,
         settings: PressureSettings,
         preferred: Option<&mut dyn PressureProvider>,
+        cancelled: impl FnMut() -> bool,
+    ) -> Result<ProviderReport, PressureError> {
+        self.solve_observed(request, settings, preferred, cancelled, None)
+    }
+    pub(crate) fn solve_observed(
+        &mut self,
+        request: PressureRequest<'_>,
+        settings: PressureSettings,
+        preferred: Option<&mut dyn PressureProvider>,
         mut cancelled: impl FnMut() -> bool,
+        workflow: Option<&crate::workflow::Capture>,
     ) -> Result<ProviderReport, PressureError> {
         let start = Instant::now();
         if request.grid != &self.grid {
@@ -180,6 +190,11 @@ impl ProviderWorkspace {
             .max(settings.relative_residual * norm);
         if !sum.is_finite() || !sum_abs.is_finite() || !norm.is_finite() || !threshold.is_finite() {
             return Err(PressureError::Breakdown { iteration: 0 });
+        }
+        if let Some(trace) = workflow
+            && let Some(p) = trace.borrow_mut().pressure.as_mut()
+        {
+            p.residual_l2_limit = Some(threshold);
         }
         let rounding_budget = 64.0 * f64::EPSILON * sum_abs;
         if sum.abs() > rounding_budget {
@@ -253,6 +268,21 @@ impl ProviderWorkspace {
                 Ok(candidate)
             });
             report.qualification = begin.elapsed();
+            if let Some(trace) = workflow {
+                if let Some(p) = trace.borrow_mut().pressure.as_mut() {
+                    p.candidate = report.candidate;
+                    p.rejection = qualified.as_ref().err().map(|r| format!("{r:?}"));
+                }
+                crate::workflow::complete(
+                    Some(trace),
+                    crate::workflow::NodeKind::PressureQualification,
+                    if qualified.is_ok() {
+                        crate::workflow::NodeStatus::Accepted
+                    } else {
+                        crate::workflow::NodeStatus::Rejected
+                    },
+                );
+            }
             if cancelled() {
                 return Err(PressureError::Cancelled { iterations: 0 });
             }
@@ -266,6 +296,16 @@ impl ProviderWorkspace {
                 Err(reason) => report.rejection = Some(reason),
             }
         }
+        if let Some(trace) = workflow {
+            if let Some(p) = trace.borrow_mut().pressure.as_mut() {
+                p.selected = self.fallback.id().into();
+            }
+            crate::workflow::complete(
+                Some(trace),
+                crate::workflow::NodeKind::NativeFallback,
+                crate::workflow::NodeStatus::Started,
+            );
+        }
         let begin = Instant::now();
         report.accepted = self.reference.solve_rhs(
             &operator,
@@ -275,6 +315,11 @@ impl ProviderWorkspace {
             &mut cancelled,
         )?;
         self.pressure.copy_from_slice(self.reference.pressure());
+        crate::workflow::complete(
+            workflow,
+            crate::workflow::NodeKind::NativeFallback,
+            crate::workflow::NodeStatus::Selected,
+        );
         report.fallback = begin.elapsed();
         report.total = start.elapsed();
         Ok(report)

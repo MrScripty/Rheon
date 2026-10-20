@@ -17,3 +17,14 @@ Next implementation slice remains G1. Method-selection and experimental-validati
 - Opened draft PR120 from content commit 788d5e5163d7153b726b71a7168da9311bc60850. Final gate inspection found root source-inventory recursively rejects extra Lean files, so opt-in proofs moved beside the plan; root checker/inventory remain unchanged. Requalified final paths and recorded the correction rather than weakening the gate.
 
 - Final plan-local kernel run returned exit 0: both modules, 25-declaration audit and 3 negative probes passed; unchanged root exact-source/dependency gate passed. P0 proposal/proof artifact accepted for delivery in draft PR120; production stays Deferred, next G1 unstarted.
+
+
+## 2026-10-20 — G1 admitted
+
+Explicit user implementation direction resolves prior G1 deferral. Frozen main remains bc2f472, PR115 included; protected audit119/plan120/pressurewarmstart59 untouched. New branch implement/g1-native-workflow-20261020. Source discovery required the bounded write-set correction recorded in plan.md before edits. Additive workflow controls/terminal profiles preserve current archives. Native interaction and performance remain prospective; no physical/GPU claim.
+
+Independent architecture review caught incomplete cancellation/fallback observation and incomplete request-control identity before qualification. Bounded re-plan in plan.md admits existing provider dispatcher/workspace observation hooks and an internal source accessor; no numerical-method change. Rejection, fallback initiation and cancellation remain distinct observed facts.
+
+### G1 core observation checkpoint
+
+Seven focused core contracts pass: actual candidate/fallback/appliedzero, short actualdt and exact baseline trajectory, before/after/in-stage cancellation and immutable state, canonical actual control/native state identity, illegal prefix/crossfield/limit rejection. Independent architecture review passes after reproducing and correcting missing-node, nativeRHS, cancellation and partial-diagnostic defects. Eight additive persistence contracts and sixty existing persistence integration tests pass independently; separate persistence review has no remaining findings. Native UI and fixed capture+cachedprojection budget remain pending; no G1 acceptance asserted.

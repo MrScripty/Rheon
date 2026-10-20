@@ -55,6 +55,7 @@ pub use tracer_barrier::{
     VisibleTracerSample, advect_tracer_with_barrier,
 };
 mod simulation;
+pub mod workflow;
 pub use simulation::{
     AcceptedIntervalPressure, CarrierStepControls, Simulation, SimulationConfig, SimulationError,
     SmokeSource, StateView, StepReport, StepStage,

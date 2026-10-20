@@ -141,6 +141,7 @@ struct BoundaryStepInput<'a> {
     boundary: crate::BoxFluxStepBoundary,
 }
 struct StepDomains<'a, 'p> {
+    workflow: Option<&'a crate::workflow::Capture>,
     emitter: Option<crate::RotatingCylinderEmitter>,
     barrier: Option<&'a crate::TriangleSurface>,
     boundary: Option<BoundaryStepInput<'a>>,
@@ -401,6 +402,7 @@ impl Simulation {
             None,
             &[],
             StepDomains {
+                workflow: None,
                 emitter: Some(emitter),
                 barrier: None,
                 boundary: None,
@@ -482,6 +484,7 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                workflow: None,
                 emitter: None,
                 barrier: None,
                 boundary: None,
@@ -518,6 +521,7 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                workflow: None,
                 emitter: None,
                 barrier,
                 boundary,
@@ -540,6 +544,7 @@ impl Simulation {
         surface: Option<crate::column_surface::PressureSurface<'_>>,
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         provider: Option<crate::provider_step::ProviderStepInput<'_, '_>>,
+        workflow: Option<&crate::workflow::Capture>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.prepare_impl(
@@ -547,6 +552,7 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                workflow,
                 emitter: None,
                 barrier: None,
                 surface,
@@ -559,6 +565,21 @@ impl Simulation {
             },
             cancel,
         )
+    }
+    pub(crate) fn workflow_descriptor(
+        &self,
+        viscosity: Option<f64>,
+    ) -> crate::workflow::WorkflowDescriptor {
+        crate::workflow::WorkflowDescriptor {
+            version: crate::workflow::DESCRIPTOR_VERSION,
+            grid: self.grid.clone(),
+            density: self.config.density,
+            viscosity,
+            implementation: self.implementation,
+            pressure: self.config.pressure,
+            actual_divergence_limit: self.config.actual_divergence_limit,
+            max_courant: self.config.max_courant,
+        }
     }
     pub(crate) fn density(&self) -> f64 {
         self.config.density
@@ -662,6 +683,7 @@ impl Simulation {
     ) -> Result<StepOutcome, SimulationError> {
         self.inspection_pressure = None;
         let StepDomains {
+            workflow,
             emitter,
             barrier,
             mut boundary,
@@ -788,6 +810,14 @@ impl Simulation {
         if dt <= 0.0 || !next_time.is_finite() || next_time <= self.time {
             return Err(SimulationError::TimeResolution);
         }
+        if let Some(trace) = workflow {
+            trace.borrow_mut().actual_dt = Some(dt);
+        }
+        crate::workflow::complete(
+            workflow,
+            crate::workflow::NodeKind::Interval,
+            crate::workflow::NodeStatus::Completed,
+        );
         checkpoint(&mut cancel, StepStage::BeforeAdvection)?;
         advect_velocity(
             &self.grid,
@@ -796,6 +826,11 @@ impl Simulation {
             self.candidate.velocity_mut(),
             || cancel(StepStage::VelocitySlice),
         )?;
+        crate::workflow::complete(
+            workflow,
+            crate::workflow::NodeKind::Advection,
+            crate::workflow::NodeStatus::Completed,
+        );
         if let Some(surface) = surface {
             match surface {
                 crate::column_surface::PressureSurface::Slab(s) => {
@@ -862,6 +897,11 @@ impl Simulation {
                 )?
             })
         };
+        crate::workflow::complete(
+            workflow,
+            crate::workflow::NodeKind::Forces,
+            crate::workflow::NodeStatus::Completed,
+        );
         let viscosity = if let Some((workspace, mu)) = viscosity {
             let report = workspace
                 .prepare(
@@ -873,6 +913,11 @@ impl Simulation {
                 )
                 .map_err(SimulationError::Viscosity)?;
             workspace.publish(self.candidate.velocity_mut());
+            crate::workflow::complete(
+                workflow,
+                crate::workflow::NodeKind::Viscosity,
+                crate::workflow::NodeStatus::Completed,
+            );
             Some(report)
         } else {
             None
@@ -929,8 +974,10 @@ impl Simulation {
                     dt,
                     self.config.pressure,
                     input.preferred.take(),
+                    workflow,
                     || cancel(StepStage::PressureIteration),
                 )?;
+                crate::workflow::pressure_completed(workflow, &report);
                 let pressure = report.accepted;
                 operator.correct_candidate_in_place(
                     input.workspace.pressure(),
@@ -965,6 +1012,14 @@ impl Simulation {
                     limit: self.config.actual_divergence_limit,
                 });
             }
+            if let Some(trace) = workflow {
+                trace.borrow_mut().actual_divergence_max = Some(actual_divergence_max);
+            }
+            crate::workflow::complete(
+                workflow,
+                crate::workflow::NodeKind::Projection,
+                crate::workflow::NodeStatus::Completed,
+            );
             (pressure, actual_divergence_max, None)
         };
         if let (Some(work), Some(report)) = (&mut boundary_work, projection) {
@@ -1077,6 +1132,11 @@ impl Simulation {
         if !tracer_integral.is_finite() || !kinetic_energy.is_finite() {
             return Err(SimulationError::ArithmeticFailure);
         }
+        crate::workflow::complete(
+            workflow,
+            crate::workflow::NodeKind::TracerTransport,
+            crate::workflow::NodeStatus::Completed,
+        );
         checkpoint(&mut cancel, StepStage::BeforeCommit)?;
         let legacy = crate::BarrierStepReport {
             step: ForcedStepReport {

@@ -1,0 +1,21 @@
+# G1 implementation qualification protocol
+
+Authority: plan.md G1 admission; fixed acceptance in verification.md. This protocol is frozen before native workflow and overhead evaluation. No numerical formula/order/domain, pressure-v1 meaning, original audit criteria, or old archive meaning may change. Failures remain evidence.
+
+Source base is plan120 8422f77 on main bc2f472. Rust1.92.0, CPU binary64 pressure/fraction and existing f32 carrier. Material preset does not confer physical validation. Authored native fixtures use the existing Session and Worker, deterministic classical zero/rejected candidates, exact configured intent and the existing process supervisor.
+
+## Required contract checks
+
+Run focused core/workflow and additive SQLite tests, then affected existing pressure, Session, configured recording/runtime and desktop worker/producer/archive/selection tests. Exercise viscosity off/appliedzero/nonzero; actual shortened interval; accepted/rejected/support-refused/provider-error/native fallback; cancellation beforeprovider, afterreturn, afterqualification, duringnativefallback and beforecommit, including acceptedgeneration0/attemptedgeneration1. Verify immutable state and absent accepted row on failure. Preserve explicit accepted unrecorded tails. Mutate actual source, interval, nativeinput, requestedcontrols, descriptor digest, orderednodes, bound runtime outcome and publication association. Unknown versions/kinds, oversized inputs and corrupt controls reject; known missing/legacy execution evidence remains unavailable.
+
+## Native workflow procedure
+
+Use the normal native App with an isolated `/tmp` project/settings/output root. Prepare saved intent and real native fixture-provider archives through the existing Worker in a test-only fixture-preparation function. Native interaction uses an isolated Xorg dummy display, GLX/softwaregraphics and XTEST input; do not use an ambient desktop session. Through normal controls: open saved configured runset, rerunfromzero, openliveworkflow, pointerselect and keyboardnavigate nodes with visiblefocus, inspect actual interval/provider/fallback/candidate/accepted residuals andunits, change selected acceptedinterval, openretainedevidence, Cancel and Close, removeprovider executable, coldreopen savedrun and inspect the identical retained descriptor/receipts, then exit/reap ownedprocesses. Include generationzero terminal inspection and explicit invalid/missing/legacy states in focused real-egui tests. Native startup/screenshots alone cannot pass the workflow gate. Retain screenshots/interaction/assertion logs outside Git with exact binary/source hashes in a compact source manifest.
+
+## Fixed capture plus cached projection budget
+
+Workload: native sealed16³ grid over1m³, rho998.2kg/m³, representedfraction0.5, fixedfaceforce acceleration[0.001,0,0]m/s², requesteddt0.001s, default fixturepressure limits (relative1e-10, absolute1e-12m³/s², predicted1e-8/s, actual1e-5/s, maxiterations2000); JacobiPCGv1; no viscosity/provider. Baseline uses existing `Session::step_with_pressure_provider(None)`; candidate uses `step_with_configured_pressure_observed(None)` plus the actual `WorkflowInspector::set_attempt` validated cached projection used by the UI. This metric excludes disk I/O and rasterization; those are separately covered by bounded selection and cached paint tests.
+
+Use optimized release, same CPU/process, five warmup intervals followed by exactly thirty paired intervals; alternate which path runs first. Record every pair in nanoseconds and compute the median of perpair `(candidate/baseline)-1`. Assert identical accepted native state/pressure/fraction/time outside timers after every pair. Fixed target ≤5% median added capture+cachedprojection intervaltime. Report environment/variability and raw pairs. If variability dominates, result is unresolved; do not pass from a core-only timer, replace the workload, tune physics or relax threshold. Descriptor≤1MiB, summaries≤256/interval and existing persisted16KiB metadata limit also apply.
+
+Required formatting and Clippy checks cover affected library/desktop features. Independent architecture, persistence and nativeUI review must dispose material findings before G1 qualification. C1 remains dependency-gated until G1 qualification.
