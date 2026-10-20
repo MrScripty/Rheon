@@ -1,4 +1,4 @@
-//! Private planar common-geometry reference, version 2. No production DOF policy.
+//! Private planar common-geometry reference, version 3. No production DOF policy.
 use rheon::GridGeometry;
 pub type Point = [f64; 2];
 #[derive(Clone, Copy, Debug, Default)]
@@ -34,9 +34,16 @@ fn cross(a: Point, b: Point) -> f64 {
 }
 #[derive(Clone)]
 pub struct Polygon {
-    pub vertices: Vec<Point>,
+    vertices: Vec<Point>,
+    exact: super::exact::ExactPolygon,
 }
 impl Polygon {
+    pub fn vertices(&self) -> &[Point] {
+        &self.vertices
+    }
+    pub fn line(&self, axis: usize, position: f64) -> Result<super::exact::LineSection, String> {
+        self.exact.line(axis, position)
+    }
     pub fn new(vertices: Vec<Point>) -> Result<Self, String> {
         if vertices.len() < 3 || vertices.iter().flatten().any(|x| !x.is_finite()) {
             return Err("finite convex CCW polygon with at least three vertices required".into());
@@ -58,7 +65,8 @@ impl Polygon {
         if moments(&vertices)?.area <= 0.0 {
             return Err("positive polygon area required".into());
         }
-        Ok(Self { vertices })
+        let exact = super::exact::ExactPolygon::new(&vertices)?;
+        Ok(Self { vertices, exact })
     }
     pub fn clip(&self, lo: Point, hi: Point) -> Result<Vec<Point>, String> {
         if (0..2).any(|d| !lo[d].is_finite() || !hi[d].is_finite() || lo[d] >= hi[d]) {
@@ -90,42 +98,6 @@ impl Polygon {
             }
         }
         Ok(v)
-    }
-    /// Independent source half-plane interval; no per-cell face reconstruction.
-    pub fn face(&self, axis: usize, position: f64, lo: f64, hi: f64) -> Option<Segment> {
-        let tangent = 1 - axis;
-        let mut lower = lo;
-        let mut upper = hi;
-        for (a, b) in edges(&self.vertices) {
-            let e = [b[0] - a[0], b[1] - a[1]];
-            let base = if axis == 0 {
-                -e[1] * (position - a[0]) - e[0] * a[1]
-            } else {
-                e[0] * (position - a[1]) + e[1] * a[0]
-            };
-            let slope = if axis == 0 { e[0] } else { -e[1] };
-            if slope > 0.0 {
-                lower = lower.max(-base / slope);
-            } else if slope < 0.0 {
-                upper = upper.min(-base / slope);
-            } else if base < 0.0 {
-                return None;
-            }
-        }
-        if upper <= lower {
-            return None;
-        }
-        let mut a = [0.0; 2];
-        let mut b = [0.0; 2];
-        a[axis] = position;
-        b[axis] = position;
-        a[tangent] = lower;
-        b[tangent] = upper;
-        // Orient so outward normal is +axis, matching one unique positive flux.
-        if axis == 1 {
-            std::mem::swap(&mut a, &mut b);
-        }
-        Some(Segment { a, b })
     }
 }
 pub fn edges(v: &[Point]) -> impl Iterator<Item = (Point, Point)> + '_ {
@@ -209,21 +181,36 @@ pub struct BoundaryPiece {
     pub edge: usize,
     pub segment: Segment,
 }
-pub struct Cell {
+pub struct Region {
     pub moments: Moments,
+    pub lo: Point,
+    pub hi: Point,
+}
+impl Region {
+    fn clip(source: &Polygon, lo: Point, hi: Point) -> Result<Self, String> {
+        Ok(Self {
+            moments: moments(&source.clip(lo, hi)?)?,
+            lo,
+            hi,
+        })
+    }
+}
+pub struct Cell {
+    pub region: Region,
     pub physical: Vec<BoundaryPiece>,
     pub clipped: Vec<Point>,
 }
 pub struct Face {
     pub segment: Option<Segment>,
-    pub dual: Moments,
+    pub dual: Region,
+    pub exact: super::exact::ExactFace,
 }
 pub struct Geometry {
     pub grid: GridGeometry,
     pub source: Polygon,
     pub cells: Vec<Cell>,
     pub faces: [Vec<Face>; 2],
-    pub shear: Vec<Moments>,
+    pub shear: Vec<Region>,
 }
 impl Geometry {
     pub fn new(n: usize, origin: Point, extent: f64, source: Polygon) -> Result<Self, String> {
@@ -276,7 +263,7 @@ impl Geometry {
                     })
                     .collect();
                 cells.push(Cell {
-                    moments: m,
+                    region: Region { moments: m, lo, hi },
                     physical,
                     clipped,
                 });
@@ -284,6 +271,9 @@ impl Geometry {
         }
         let mut faces: [Vec<Face>; 2] = std::array::from_fn(|_| Vec::with_capacity(n * (n + 1)));
         for (axis, collection) in faces.iter_mut().enumerate() {
+            let lines: Vec<_> = (0..=n)
+                .map(|i| source.line(axis, origin[axis] + i as f64 * h))
+                .collect::<Result<_, _>>()?;
             let counts = grid.face_counts(if axis == 0 {
                 rheon::Axis::X
             } else {
@@ -295,17 +285,26 @@ impl Geometry {
                     let position = origin[axis] + i as f64 * h;
                     let lo = origin[1 - axis] + j as f64 * h;
                     let hi = origin[1 - axis] + (j + 1) as f64 * h;
-                    let segment = source.face(axis, position, lo, hi);
+                    let exact = lines[i].clip(lo, hi)?;
+                    let segment = exact
+                        .segment(axis, position)
+                        .map_err(|e| format!("face axis{axis} ({x},{y}): {e}"))?;
                     let center = if axis == 0 {
                         [position, (lo + hi) / 2.0]
                     } else {
                         [(lo + hi) / 2.0, position]
                     };
-                    let dual = moments(
-                        &source.clip(center.map(|x| x - h / 2.0), center.map(|x| x + h / 2.0))?,
+                    let dual = Region::clip(
+                        &source,
+                        center.map(|x| x - h / 2.0),
+                        center.map(|x| x + h / 2.0),
                     )
                     .map_err(|e| format!("face axis{axis} ({x},{y}) dual moments: {e}"))?;
-                    collection.push(Face { segment, dual });
+                    collection.push(Face {
+                        segment,
+                        dual,
+                        exact,
+                    });
                 }
             }
         }
@@ -314,7 +313,7 @@ impl Geometry {
             for i in 0..=n {
                 let c = [origin[0] + i as f64 * h, origin[1] + j as f64 * h];
                 shear.push(
-                    moments(&source.clip(c.map(|x| x - h / 2.0), c.map(|x| x + h / 2.0))?)
+                    Region::clip(&source, c.map(|x| x - h / 2.0), c.map(|x| x + h / 2.0))
                         .map_err(|e| format!("shear ({i},{j}) moments: {e}"))?,
                 );
             }

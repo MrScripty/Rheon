@@ -1,4 +1,4 @@
-use super::geometry::{Geometry, Moments, Point, Segment};
+use super::geometry::{Geometry, Moments, Point, Region, Segment};
 use std::{io::Write, path::Path};
 pub fn cubic(p: Point) -> Point {
     [p[0].powi(3), p[1].powi(3)]
@@ -30,6 +30,17 @@ fn moment_row(out: &mut impl Write, kind: &str, index: usize, m: Moments) -> std
         m.area, m.first[0], m.first[1], m.second[0], m.second[1], m.second[2]
     )
 }
+fn domain_row(out: &mut impl Write, kind: &str, index: usize, r: &Region) -> std::io::Result<()> {
+    writeln!(
+        out,
+        "{kind},{index},{},{},{},{},{}",
+        r.lo[0].to_bits(),
+        r.lo[1].to_bits(),
+        r.hi[0].to_bits(),
+        r.hi[1].to_bits(),
+        r.moments.area.to_bits()
+    )
+}
 #[derive(Default)]
 pub struct Metrics {
     pub area: f64,
@@ -55,23 +66,73 @@ pub fn run(root: &Path, g: &Geometry, mu: f64) -> Result<Metrics, Box<dyn std::e
     let origin = g.grid.origin();
     let mut source = std::io::BufWriter::new(std::fs::File::create(root.join("source.csv"))?);
     writeln!(source, "vertex,x,y")?;
-    for (i, p) in g.source.vertices.iter().enumerate() {
+    for (i, p) in g.source.vertices().iter().enumerate() {
         writeln!(source, "{i},{:.17e},{:.17e}", p[0], p[1])?;
     }
     let mut moments = std::io::BufWriter::new(std::fs::File::create(root.join("moments.csv"))?);
     writeln!(moments, "kind,index,volume,mx,my,mxx,mxy,myy")?;
+    let mut domains = std::io::BufWriter::new(std::fs::File::create(root.join("domains.csv"))?);
+    writeln!(
+        domains,
+        "kind,index,lo_x_bits,lo_y_bits,hi_x_bits,hi_y_bits,volume_bits"
+    )?;
     let mut faces = std::io::BufWriter::new(std::fs::File::create(root.join("faces.csv"))?);
     writeln!(
         faces,
         "axis,index,ax,ay,bx,by,area,mx,my,cubic_flux,solenoidal_flux"
     )?;
+    let mut topology = std::io::BufWriter::new(std::fs::File::create(root.join("topology.csv"))?);
+    writeln!(
+        topology,
+        "axis,index,position_bits,lo_bits,hi_bits,status,lower_num,lower_den,upper_num,upper_den,represented_length,dual_volume"
+    )?;
     for axis in 0..2 {
         for (index, f) in g.faces[axis].iter().enumerate() {
+            let (normal, tangent) = if axis == 0 {
+                (index % (n + 1), index / (n + 1))
+            } else {
+                (index / n, index % n)
+            };
+            let position = origin[axis] + normal as f64 * h;
+            let lo = origin[1 - axis] + tangent as f64 * h;
+            let hi = origin[1 - axis] + (tangent + 1) as f64 * h;
+            let bounds = f
+                .exact
+                .bounds()
+                .map(|(l, u)| {
+                    [
+                        l.numer().to_string(),
+                        l.denom().to_string(),
+                        u.numer().to_string(),
+                        u.denom().to_string(),
+                    ]
+                })
+                .unwrap_or_default();
+            writeln!(
+                topology,
+                "{axis},{index},{},{},{},{},{},{},{},{},{:.17e},{:.17e}",
+                position.to_bits(),
+                lo.to_bits(),
+                hi.to_bits(),
+                f.exact.status(),
+                bounds[0],
+                bounds[1],
+                bounds[2],
+                bounds[3],
+                f.segment.map_or(0.0, |s| s.normal_measure()[axis]),
+                f.dual.moments.area
+            )?;
             moment_row(
                 &mut moments,
                 if axis == 0 { "dual-x" } else { "dual-y" },
                 index,
-                f.dual,
+                f.dual.moments,
+            )?;
+            domain_row(
+                &mut domains,
+                if axis == 0 { "dual-x" } else { "dual-y" },
+                index,
+                &f.dual,
             )?;
             if let Some(s) = f.segment {
                 let length = s.normal_measure()[axis];
@@ -92,7 +153,8 @@ pub fn run(root: &Path, g: &Geometry, mu: f64) -> Result<Metrics, Box<dyn std::e
         }
     }
     for (index, m) in g.shear.iter().enumerate() {
-        moment_row(&mut moments, "shear", index, *m)?;
+        moment_row(&mut moments, "shear", index, m.moments)?;
+        domain_row(&mut domains, "shear", index, m)?;
     }
     let mut boundary = std::io::BufWriter::new(std::fs::File::create(root.join("boundary.csv"))?);
     writeln!(
@@ -109,7 +171,8 @@ pub fn run(root: &Path, g: &Geometry, mu: f64) -> Result<Metrics, Box<dyn std::e
         ..Metrics::default()
     };
     for (index, cell) in g.cells.iter().enumerate() {
-        moment_row(&mut moments, "cell", index, cell.moments)?;
+        moment_row(&mut moments, "cell", index, cell.region.moments)?;
+        domain_row(&mut domains, "cell", index, &cell.region)?;
         let i = index % n;
         let j = index / n;
         let mut normal = [0.0; 2];
@@ -189,8 +252,8 @@ pub fn run(root: &Path, g: &Geometry, mu: f64) -> Result<Metrics, Box<dyn std::e
                 m.wrong_pressure_force[d] += z[d];
             }
         }
-        let area = cell.moments.area;
-        let cubic_expected = 3.0 * (cell.moments.second[0] + cell.moments.second[2]);
+        let area = cell.region.moments.area;
+        let cubic_expected = 3.0 * (cell.region.moments.second[0] + cell.region.moments.second[2]);
         writeln!(
             ledger,
             "{index},{area:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{cubic_flux:.17e},{cubic_expected:.17e},{div_free_flux:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{:.17e},{face_error:.17e}",
@@ -208,10 +271,10 @@ pub fn run(root: &Path, g: &Geometry, mu: f64) -> Result<Metrics, Box<dyn std::e
         )?;
         m.area += area;
         for d in 0..2 {
-            m.first[d] += cell.moments.first[d];
+            m.first[d] += cell.region.moments.first[d];
         }
-        m.radial_second += cell.moments.second[0] + cell.moments.second[2];
-        for (d, value) in cell.moments.second.into_iter().enumerate() {
+        m.radial_second += cell.region.moments.second[0] + cell.region.moments.second[2];
+        for (d, value) in cell.region.moments.second.into_iter().enumerate() {
             m.second[d] += value;
         }
         if area > 0.0 {
@@ -235,16 +298,18 @@ pub fn run(root: &Path, g: &Geometry, mu: f64) -> Result<Metrics, Box<dyn std::e
         m.solenoidal_defect = m.solenoidal_defect.max(div_free_flux.abs() / (h * h));
     }
     let dual_sums = [
-        g.faces[0].iter().map(|f| f.dual.area).sum::<f64>(),
-        g.faces[1].iter().map(|f| f.dual.area).sum::<f64>(),
-        g.shear.iter().map(|m| m.area).sum::<f64>(),
+        g.faces[0].iter().map(|f| f.dual.moments.area).sum::<f64>(),
+        g.faces[1].iter().map(|f| f.dual.moments.area).sum::<f64>(),
+        g.shear.iter().map(|r| r.moments.area).sum::<f64>(),
     ];
     for sum in dual_sums {
         m.dual_relative_defect = m.dual_relative_defect.max((sum - m.area).abs() / m.area);
     }
     source.flush()?;
     moments.flush()?;
+    domains.flush()?;
     faces.flush()?;
+    topology.flush()?;
     boundary.flush()?;
     ledger.flush()?;
     Ok(m)

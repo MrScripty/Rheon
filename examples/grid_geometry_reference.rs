@@ -1,31 +1,33 @@
 //! Q2 common-geometry prerequisite; no coupled or production-water claim.
 mod grid_geometry_reference {
     pub mod diagnostics;
+    pub mod exact;
     pub mod geometry;
 }
 use grid_geometry_reference::{diagnostics, geometry::Polygon};
 use std::{io::Write, path::Path};
-fn disk(n: usize) -> Polygon {
-    Polygon::new(
-        (0..8 * n)
-            .map(|k| {
-                let theta = std::f64::consts::TAU * k as f64 / (8 * n) as f64;
-                [0.75 * theta.cos(), 0.75 * theta.sin()]
-            })
-            .collect(),
-    )
-    .unwrap()
+fn disk_vertices(n: usize) -> Vec<[f64; 2]> {
+    (0..8 * n)
+        .map(|k| {
+            let theta = std::f64::consts::TAU * k as f64 / (8 * n) as f64;
+            [0.75 * theta.cos(), 0.75 * theta.sin()]
+        })
+        .collect()
 }
+fn square_vertices(degrees: f64) -> Vec<[f64; 2]> {
+    let (s, c) = degrees.to_radians().sin_cos();
+    [[-0.15, -0.15], [0.15, -0.15], [0.15, 0.15], [-0.15, 0.15]]
+        .into_iter()
+        .map(|[x, y]| [0.537 + c * x - s * y, 0.479 + s * x + c * y])
+        .collect()
+}
+#[cfg(test)]
+fn disk(n: usize) -> Polygon {
+    Polygon::new(disk_vertices(n)).unwrap()
+}
+#[cfg(test)]
 fn square(degrees: f64) -> Polygon {
-    let a = degrees.to_radians();
-    let (s, c) = a.sin_cos();
-    Polygon::new(
-        [[-0.15, -0.15], [0.15, -0.15], [0.15, 0.15], [-0.15, 0.15]]
-            .into_iter()
-            .map(|[x, y]| [0.537 + c * x - s * y, 0.479 + s * x + c * y])
-            .collect(),
-    )
-    .unwrap()
+    Polygon::new(square_vertices(degrees)).unwrap()
 }
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let out = std::env::args_os()
@@ -48,7 +50,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             let (source, origin, extent, exact_area, center, exact_radial) = if case == "disk" {
                 let area = std::f64::consts::PI * 0.75_f64.powi(2);
                 (
-                    disk(n),
+                    disk_vertices(n),
                     [-1.0, -1.0],
                     2.0,
                     area,
@@ -58,7 +60,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             } else {
                 let degrees = case.strip_prefix("square-").unwrap().parse::<f64>()?;
                 (
-                    square(degrees),
+                    square_vertices(degrees),
                     [0.0, 0.0],
                     1.0,
                     0.09,
@@ -66,16 +68,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     0.09 * (0.537_f64.powi(2) + 0.479_f64.powi(2) + 0.3_f64.powi(2) / 6.0),
                 )
             };
-            let vertices = source.vertices.len();
+            let vertices = source.len();
             // Retain exact round-trip inputs even when geometry construction refuses.
             let mut inputs = std::io::BufWriter::new(std::fs::File::create(
                 root.join(format!("inputs-{case}-n{n}.csv")),
             )?);
             writeln!(inputs, "vertex,x,y")?;
-            for (id, p) in source.vertices.iter().enumerate() {
+            for (id, p) in source.iter().enumerate() {
                 writeln!(inputs, "{id},{:.17e},{:.17e}", p[0], p[1])?;
             }
             inputs.flush()?;
+            let source =
+                Polygon::new(source).map_err(|e| format!("{case}/n{n} source admission: {e}"))?;
             let g = grid_geometry_reference::geometry::Geometry::new(n, origin, extent, source)?;
             for mu in [0.1, 0.001002] {
                 let tag = format!("{case}-n{n}-mu{mu}");
@@ -200,5 +204,38 @@ mod tests {
         let full = diagnostics::traction(s, 0.1, true);
         let wrong = diagnostics::traction(s, 0.1, false);
         assert!((full[1] - wrong[1] - 1.05).abs() < 1e-15);
+    }
+}
+
+#[cfg(test)]
+mod exact_tangent_regressions {
+    use super::*;
+    use grid_geometry_reference::exact::ExactFace;
+    #[test]
+    fn all_five_frozen_native_aperture_artifacts_are_exact_points() {
+        let sources = [(32, disk(32)), (64, disk(64)), (128, disk(128))];
+        for (n, axis, id) in [
+            (32, 1, 143),
+            (64, 0, 2088),
+            (128, 0, 8272),
+            (128, 1, 2111),
+            (128, 1, 14400),
+        ] {
+            let p = &sources.iter().find(|(size, _)| *size == n).unwrap().1;
+            let h = 2.0 / n as f64;
+            let (normal, tangent) = if axis == 0 {
+                (id % (n + 1), id / (n + 1))
+            } else {
+                (id / n, id % n)
+            };
+            let position = -1.0 + normal as f64 * h;
+            let face = p
+                .line(axis, position)
+                .unwrap()
+                .clip(-1.0 + tangent as f64 * h, -1.0 + (tangent + 1) as f64 * h)
+                .unwrap();
+            assert!(matches!(face, ExactFace::Point(_)));
+            assert!(face.segment(axis, position).unwrap().is_none());
+        }
     }
 }
