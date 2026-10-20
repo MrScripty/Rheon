@@ -1,8 +1,8 @@
 # Desktop scene authoring and compact playback
 
 **Plan status:** `Active`
-**Current phase:** T4 bounded source checkpoint; native validation separate
-**Next slice:** workerless native presentation harness, then T5 runtime/archive custody
+**Current phase:** T4 source published; synthetic retained presentation handoff ready
+**Next slice:** T5 interface coordination and pure versioned frozen-intent codecs
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -98,6 +98,7 @@ Inspector slice before any overlapping changes; T1 excludes Inspector entirely.
 | T2 | new desktop/scene_ui.rs; main App scene composition/context/model-ID transactions and draft launch refusal; exact inert scene tests; viewport.rs mode-control guard only (no lab dispatch/picking changes) | Canonical domain received; reviewed [authoring admission](reports/scene-authoring-admission.md); one ForceScene/selection owner; viewport mode refusal only, no runtime dispatch | Completed (bounded source) |
 | T3 | new scene_view.rs geometry/picking; viewport.rs aggregate-input composition and thin geometry outline; existing SceneUi selection and main routing | [Exact selection admission](reports/viewport-selection-admission.md), inert camera/geometry/UI tests; no lab initialization, then native | Bounded source complete; native pending |
 | T4 | desktop/scene_handles.rs, viewport exclusive gesture routing, scene_ui validated draft transaction; force-only (model placement deferred) | [Force-only handle admission](reports/force-handles-admission.md); same IDs/domain types; no physics; exact Escape rollback and terminal-frame ownership | Bounded source complete; native pending |
+| T4a | cfg(test) native_presentation_harness.rs, cfg-gated main and viewport containment; no production launch/Cargo change | [Workerless contract](reports/synthetic-retained-presentation-contract.md), one exact pure UI probe, standalone compile/sealed artifact; existing validator native only | Bounded source complete; native pending |
 | T5 | main Request/run_material, carrier_execution.rs, desktop run_sets versioned intent/load/rerun; exact backend recording bridge and native fixes | Qualified canonical custody source + reviewed immutable intent/version compatibility + separately bounded integration evidence. Unsupported owner paths refuse | Planned |
 
 
@@ -215,3 +216,13 @@ long captions, popup keyboard/window bounds and native behavior remain unaccepte
 No complete UI, force parity, native/accessibility, M1 or scientific acceptance is
 claimed. Accept only exact staged source/test/native evidence once its objective
 criteria are met. Publish/merge only after separate coordination/authorization.
+
+## T5 interface preflight
+
+[Runtime/archive boundary](reports/runtime-force-integration-admission.md) records
+agreed Request/dispatch/run-set ownership and the newly identified minimal Inspector
+recorder entry-point coordination. No Inspector, core or runtime T5 source changed.
+Force launch refusal remains until corresponding runtime/archive custody is wired
+and validated. Native425a986 handles and the separately labelled synthetic timeline
+harness have distinct evidence; neither accepts worker cancellation or scientific
+runtime parity. Preserve historical hashes and legacy spec versions exactly.

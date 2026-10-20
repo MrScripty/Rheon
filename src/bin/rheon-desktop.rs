@@ -52,6 +52,9 @@ pub mod run_sets;
 pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
+#[cfg(test)]
+#[path = "desktop/native_presentation_harness.rs"]
+mod native_presentation_harness;
 #[path = "desktop/scene_handles.rs"]
 mod scene_handles;
 #[path = "desktop/scene_ui.rs"]
@@ -2543,6 +2546,7 @@ impl Drop for App {
         }
     }
 }
+#[cfg(not(test))]
 fn main() -> eframe::Result {
     eframe::run_native(
         "Rheon / Live 3D",
@@ -3628,4 +3632,9 @@ mod tests {
         assert!(app.rows.is_empty());
         assert!(app.status.starts_with("Cancelled"));
     }
+}
+
+#[cfg(test)]
+fn main() -> eframe::Result {
+    native_presentation_harness::run_native_presentation()
 }

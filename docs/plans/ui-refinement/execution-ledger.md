@@ -418,3 +418,41 @@ model manipulation/force runtime/archive test occurred here. Native handoff:
 reports/native-force-handles-handoff.md. Force-enabled run refusal remains. Next:
 separately reviewed workerless synthetic retained/timeline presentation fixture,
 then agreed T5 runtime/immutable archive custody; no scientific workload authorized.
+
+## Test-only synthetic retained presentation handoff —2026-10-20
+
+Separate increment after425a986. No production CLI/launch feature, Cargo/dependency
+change or native run. cfg(test) module/main supplies a main-thread standalone native
+presentation build; ordinary cargo test uses its generated runner and enumerates only
+ONE pure harness probe (190total). The exact pure probe passed; literal4×8-byte frames,
+metadata-only legal Request, in-memory history/default readerNone, no Worker/solver/
+model/recorder/capture. Existing Appearance rendering is disabled and additionally
+hard-guarded before numerical-mode dispatch. This is not a physics/archive fixture.
+Source and plan independently reviewed, dark8×7 geometry/sidebar reservation and
+post-control frame refetch match production. Synthetic/unmeasured-time annotations
+persist. Monotonic300s close is cooperative, external native supervision required.
+
+Standalone `cargo rustc ... -- --cfg test` without --test compiled; final guarded
+binary uniquely copied/sealed before ordinary production build restored normal target.
+235185520bytes SHA040715719f4e34e04951c8ad428024cbdbd219d7b65ac95d64d54e3e6e8d5cbd,
+never executed.258unused-code/import warnings in this special cfg(test) build are
+retained, no suppression/fix. Ordinary production build/strictClippy/check/fmt/diff
+pass. Three source seals and9raw logs (8accepted plus initialcompilefailure) are in
+evidence/synthetic-presentation-20261020/manifest.json SHA
+72df6b803271253cdaede05edfcf48cf9b6318a2fc61946a61abdca18b1e09c8.
+Initial compile rejected App Drop struct-update and unavailable eframe winit reexport;
+corrected by value-only assignments and main-thread standalone design, no dependency
+or permission change. Earlier unguarded artifact preserved but excluded from handoff.
+
+Nativeharness procedure: reports/native-synthetic-presentation-handoff.md. No native
+Play/Pause/speed/track/retained↔Draft screenshot, canvas/key interaction usability,
+worker/cancellation or scientific acceptance is claimed. Original6127 first-session
+stdout overwrite and corrected capture labels remain explicit. JPEG/Library delivery
+is still owned by existing validator; this owner invents no image/Library identity.
+
+Next T5 preflight identifies Inspector::begin/record as a necessary snapshot-binding
+seam beyond the agreed Request/carrier/run-set write set. Minimal interface proposal
+is in reports/runtime-force-integration-admission.md; coordination is pending before
+Inspector edits. No numerical workload or force launch was enabled. Independent pure
+versioned intent-codec work may follow after that interface/dependency agreement;
+preserve legacy global manifest/schema/hash contracts rather than blind version bump.

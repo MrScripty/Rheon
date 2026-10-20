@@ -61,6 +61,8 @@ fn view_mode_tabs(ui: &mut egui::Ui, current: &mut ViewMode, blocked: bool) -> [
     })
 }
 pub struct Viewport {
+    #[cfg(test)]
+    presentation_only: bool,
     scene_handles: super::scene_handles::SceneHandles,
     /// Draft authored fields have no runtime/preview integration yet.
     pub authored_forces_pending: bool,
@@ -83,6 +85,8 @@ pub struct Viewport {
 impl Default for Viewport {
     fn default() -> Self {
         Self {
+            #[cfg(test)]
+            presentation_only: false,
             scene_handles: Default::default(),
             authored_forces_pending: false,
             camera: OrbitCamera::default(),
@@ -116,6 +120,16 @@ pub struct ViewInputs<'a> {
     pub editable_scene: bool,
 }
 impl Viewport {
+    #[cfg(test)]
+    pub(super) fn presentation_only_appearance(&mut self) {
+        self.presentation_only = true;
+        self.mode = ViewMode::Appearance;
+    }
+    #[cfg(test)]
+    pub(super) fn presentation_is_inert(&self) -> bool {
+        self.mode == ViewMode::Appearance && self.engineering.is_none() && self.transport.is_none()
+    }
+
     #[cfg(test)]
     pub fn show(
         &mut self,
@@ -168,6 +182,10 @@ impl Viewport {
                 }
             }
         });
+        #[cfg(test)]
+        if self.presentation_only {
+            self.mode = ViewMode::Appearance;
+        }
         if self.mode == ViewMode::Appearance
             && let Some(scene) = scene.as_deref()
         {
