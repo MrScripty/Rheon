@@ -8,7 +8,7 @@ use std::{
 };
 
 // Own exactly one fresh directory; never remove an existing directory on create
-// failure. Normal cleanup is asserted, with a drop fallback during unwinding.
+// failure. Only explicit successful cleanup removes it; failures retain evidence.
 struct Archive {
     directory: Option<PathBuf>,
 }
@@ -48,7 +48,38 @@ impl Archive {
 impl Drop for Archive {
     fn drop(&mut self) {
         if let Some(path) = &self.directory {
-            let _ = std::fs::remove_dir_all(path);
+            eprintln!("preserved recording evidence: {}", path.display());
+        }
+    }
+}
+
+// Each test runs alone in an owned child. On panic retain open SQLite resources
+// until process exit so their destructors cannot modify the original failure
+// recording/journal before the supervisor preserves the logged owned directory.
+// Successful explicit drops retain their normal behavior; no unsafe code.
+struct KeepOnPanic<T>(Option<T>);
+impl<T> KeepOnPanic<T> {
+    fn new(value: T) -> Self {
+        Self(Some(value))
+    }
+}
+impl<T> std::ops::Deref for KeepOnPanic<T> {
+    type Target = T;
+    fn deref(&self) -> &T {
+        self.0.as_ref().unwrap()
+    }
+}
+impl<T> std::ops::DerefMut for KeepOnPanic<T> {
+    fn deref_mut(&mut self) -> &mut T {
+        self.0.as_mut().unwrap()
+    }
+}
+impl<T> Drop for KeepOnPanic<T> {
+    fn drop(&mut self) {
+        if std::thread::panicking()
+            && let Some(value) = self.0.take()
+        {
+            std::mem::forget(value);
         }
     }
 }
@@ -167,7 +198,8 @@ fn carrier_force_archive_round_trip_and_failed_attempt_invalidation() {
         .unwrap()
         .with_force_fields(&force)
         .unwrap();
-    let mut writer = StepRecorder::create(&archive.path(), run.clone(), bounds).unwrap();
+    let mut writer =
+        KeepOnPanic::new(StepRecorder::create(&archive.path(), run.clone(), bounds).unwrap());
     writer
         .append(
             &carrier_publication_with_force_fields(&sim, &force, 0, bounds.max_record_bytes)
@@ -226,7 +258,7 @@ fn carrier_force_archive_round_trip_and_failed_attempt_invalidation() {
         )
         .unwrap();
     drop(writer);
-    let reader = RecordingReader::open(&archive.path(), bounds).unwrap();
+    let reader = KeepOnPanic::new(RecordingReader::open(&archive.path(), bounds).unwrap());
     reader.verify().unwrap();
     assert_eq!(reader.run(), &run);
     assert_eq!(reader.count().unwrap(), 2);
@@ -281,7 +313,8 @@ fn particle_force_archive_round_trip_and_rejected_control_custody() {
         .unwrap()
         .with_force_fields(&force)
         .unwrap();
-    let mut writer = StepRecorder::create(&archive.path(), run.clone(), bounds).unwrap();
+    let mut writer =
+        KeepOnPanic::new(StepRecorder::create(&archive.path(), run.clone(), bounds).unwrap());
     writer
         .append(
             &material_publication_with_force_fields(
@@ -416,7 +449,7 @@ fn particle_force_archive_round_trip_and_rejected_control_custody() {
         )
         .unwrap();
     drop(writer);
-    let reader = RecordingReader::open(&archive.path(), bounds).unwrap();
+    let reader = KeepOnPanic::new(RecordingReader::open(&archive.path(), bounds).unwrap());
     reader.verify().unwrap();
     assert_eq!(reader.run(), &run);
     assert_eq!(reader.count().unwrap(), 2);

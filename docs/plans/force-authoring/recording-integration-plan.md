@@ -73,7 +73,12 @@ external fixture, model, subprocess adapter or parallel feature pool is used.
 
 Normal teardown drops recorder/reader/simulation, audits at most3 regular files,
 per-file<=1MiB and total<=3MiB, and asserts deletion of only the owned directory.
-Drop provides best-effort cleanup during unwinding. These audits are post-run
+Drop retains/logs the owned directory on failure instead of deleting it.
+KeepOnPanic retains outer writer/reader resources during assertion unwinding,
+preventing test-owned SQLite destructors from changing the failure-boundary
+recording before the child exits. Successful explicit drops/cleanup are unchanged.
+A synchronous SQL operation may already have rolled back before returning an
+error; this does not promise a pre-error or in-flight database image. These audits are post-run
 checks, not peak resource enforcement. The owned path is logged for reconciliation
 if process termination prevents cleanup.
 
@@ -97,6 +102,9 @@ clearing after an authored call, historical archives, emitters, provider/session
 free-surface/UI paths, raw corruption, large workloads or scientific validation.
 Existing source review and pure golden-hash evidence cover only their stated scope.
 
+Original 1d44 preparation artifacts (superseded for authorized execution by the
+later corrected-head seals):
+
 Compile-only test source SHA-256:
 `5943923df13e26acf03e9b1b0ac3d703158bd641d382471fd8e9217b7a17aea1`.
 Compile-only binary SHA-256:
@@ -104,3 +112,17 @@ Compile-only binary SHA-256:
 These identify preparation artifacts only; any future execution must recheck them.
 Targeted Clippy (lib + this test target, warnings denied), formatting and diff
 checks also passed without executing numerical/SQLite test bodies.
+
+
+## Authorized execution preparation: failure preservation correction
+
+The parent later authorized all five current adapter tests and both recording
+cases once each under the existing process limits. Before execution, inspection
+found that the original Archive Drop removed failed recordings. A reviewed
+test-only correction now retains the logged owned directory on failure and
+suppresses outer SQLite resource destruction only during panic unwinding.
+There are no new solver calls, fixtures, process capabilities or changed limits.
+The exact corrected commit/binary seals and outcomes will be recorded separately.
+No cleanup of unrelated paths is permitted, and failed originals are not repaired
+or rerun. This supersedes the original preparation-only execution hold for these
+seven exact tests, not for other numerical/SQLite workloads.
