@@ -86,14 +86,14 @@ impl Harness {
         }
     }
     fn frame(&mut self, events: Vec<egui::Event>) -> egui::FullOutput {
+        self.frame_on(events, egui::vec2(1500.0, 1200.0))
+    }
+    fn frame_on(&mut self, events: Vec<egui::Event>, size: egui::Vec2) -> egui::FullOutput {
         self.time += 0.016;
         self.context.run(
             egui::RawInput {
                 time: Some(self.time),
-                screen_rect: Some(egui::Rect::from_min_size(
-                    egui::Pos2::ZERO,
-                    egui::vec2(1500.0, 1200.0),
-                )),
+                screen_rect: Some(egui::Rect::from_min_size(egui::Pos2::ZERO, size)),
                 events,
                 ..Default::default()
             },
@@ -135,7 +135,16 @@ impl Harness {
             pressed: true,
             repeat: false,
             modifiers: Default::default(),
-        }])
+        }]);
+        self.frame(vec![egui::Event::Key {
+            key,
+            physical_key: None,
+            pressed: false,
+            repeat: false,
+            modifiers: Default::default(),
+        }]);
+        self.frame(vec![]);
+        self.frame(vec![])
     }
 }
 fn contains(output: &egui::FullOutput, text: &str) -> bool {
@@ -143,6 +152,116 @@ fn contains(output: &egui::FullOutput, text: &str) -> bool {
         |shape| matches!(&shape.shape,egui::Shape::Text(t) if t.galley.job.text.contains(text)),
     )
 }
+#[test]
+fn evidence_overflow_scrolls_to_lower_hashes_and_keeps_close_on_screen() {
+    use crate::configured_worker_tests::{Output, app, finish, launch, package, set};
+    use rheon::solver_provider::configured::ContextProviderIdentity;
+    let output = Output::new();
+    let provider = package(false, "bad_once");
+    let mut application = app(&output);
+    let root = output.0.join("evidence-overflow");
+    launch(&mut application, set(&provider), &root);
+    let revision = finish(&mut application);
+    let member = revision
+        .members
+        .iter()
+        .find(|member| member.member_id == "configured")
+        .unwrap();
+    let inspector = Inspector::default();
+    inspector
+        .reload(
+            &root.join(&member.attempt.as_ref().unwrap().archive_relative_path),
+            rheon::recording::RecordingLimits::default(),
+        )
+        .unwrap();
+    inspector.select_timestep(2).unwrap();
+    let retained = inspector
+        .workflow_selection()
+        .unwrap()
+        .unwrap()
+        .attempt
+        .unwrap();
+    let mut h = Harness::new();
+    let mut attempt = (*retained).clone();
+    // Presentation boundary test: lengthen bounded identity text on a real
+    // configured fallback receipt; numerical and execution facts stay intact.
+    attempt.pressure.as_mut().unwrap().binding = Some(ContextProviderIdentity {
+        id: "bounded provider identity ".repeat(35),
+        version: "1".into(),
+        manifest_sha256: [41; 32],
+        checkpoint_sha256: Some([42; 32]),
+        training_run_id: Some("retained training identity ".repeat(30)),
+        runtime: "retained runtime ".repeat(50),
+        source_revision: "retained source ".repeat(50),
+    });
+    attempt.validate().unwrap();
+    h.view.set_attempt(Arc::new(attempt));
+    h.view.evidence = true;
+    let size = egui::vec2(1000.0, 600.0);
+    for _ in 0..3 {
+        h.frame_on(vec![], size);
+    }
+    let close = h.view.controls["close-evidence"];
+    assert!(
+        egui::Rect::from_min_size(egui::Pos2::ZERO, size).contains_rect(close),
+        "footer must remain reachable on a small native viewport: {close:?}"
+    );
+    let scroll = h.view.controls["evidence-scroll"];
+    assert!(scroll.height() <= 440.0);
+    let visible_rhs = |out: &egui::FullOutput| {
+        out.shapes.iter().any(|shape| {
+        matches!(&shape.shape, egui::Shape::Text(text) if text.galley.job.text.contains("Input RHS SHA-256") && shape.clip_rect.intersect(scroll).intersect(egui::Rect::from_min_size(text.pos,text.galley.size())).is_positive())
+    })
+    };
+    assert!(
+        !visible_rhs(&h.frame_on(vec![], size)),
+        "lower RHS begins outside the bounded evidence viewport"
+    );
+    h.frame_on(
+        vec![
+            egui::Event::PointerMoved(scroll.center()),
+            egui::Event::MouseWheel {
+                unit: egui::MouseWheelUnit::Point,
+                delta: egui::vec2(0.0, -10000.0),
+                modifiers: Default::default(),
+            },
+        ],
+        size,
+    );
+    let mut lower = false;
+    for _ in 0..5 {
+        lower |= visible_rhs(&h.frame_on(vec![], size));
+    }
+    assert!(
+        lower,
+        "real wheel scrolling must reach lower retained RHS evidence"
+    );
+    let pos = h.view.controls["close-evidence"].center();
+    h.frame_on(
+        vec![
+            egui::Event::PointerMoved(pos),
+            egui::Event::PointerButton {
+                pos,
+                button: egui::PointerButton::Primary,
+                pressed: true,
+                modifiers: Default::default(),
+            },
+        ],
+        size,
+    );
+    h.frame_on(
+        vec![egui::Event::PointerButton {
+            pos,
+            button: egui::PointerButton::Primary,
+            pressed: false,
+            modifiers: Default::default(),
+        }],
+        size,
+    );
+    assert!(!h.view.evidence);
+    assert!(h.view.open);
+}
+
 #[test]
 fn pointer_keyboard_focus_evidence_close_and_reopen_use_real_egui_events() {
     let mut h = Harness::new();
@@ -158,6 +277,13 @@ fn pointer_keyboard_focus_evidence_close_and_reopen_use_real_egui_events() {
     assert_eq!(
         h.view.attempt.as_ref().unwrap().descriptor.nodes()[h.view.selected],
         NodeKind::Publication
+    );
+    for _ in 0..4 {
+        h.key(egui::Key::ArrowLeft);
+    }
+    assert_eq!(
+        h.view.attempt.as_ref().unwrap().descriptor.nodes()[h.view.selected],
+        NodeKind::NativeFallback
     );
     h.key(egui::Key::Home);
     assert_eq!(h.view.selected, 0);

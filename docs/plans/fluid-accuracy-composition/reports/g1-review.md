@@ -1,6 +1,8 @@
 # G1 independent review disposition
 
-Separate Codex instances reviewed architecture, persistence and native UI without editing the code under review. Source review is approved after the findings below were corrected. This does not substitute for the pending native display workflow or fixed performance gate.
+Separate Codex instances reviewed architecture, persistence and native UI without editing the code under review. Initial source review approved the corrections below. Subsequent actual display review found an evidence-window overflow requiring a bounded UI repair and narrow independent re-review. Source review does not substitute for native workflow or fixed performance evidence.
+
+The repair's narrow independent review is approved: viewport-relative bounded body, compact provider identity hashes, footer Close, real configured overflow/scroll/close test and key-release/idle-frame navigation. Nine active UI cases pass, zero fail; two opt-in helpers remain ignored. A fresh source-bound normal-App run remains the acceptance gate.
 
 | Review | Findings and disposition | Evidence |
 | --- | --- | --- |
@@ -12,4 +14,4 @@ The numerical owners emit facts directly; cancellation callbacks do not create e
 
 Independent architecture review also approved the first actual fixed release budget evaluation: 30 paired intervals, 0.4037% median added capture plus validated cache adoption against the frozen 5% limit. Raw hashes, variability and scope were independently checked. This does not cover rendering or native interaction; see [G1 qualification](g1-qualification.md).
 
-The first normal-App native evaluation is retained while its End/Left input failure is investigated. Added key-release/idle-frame event coverage passes, but G1-U remains open. Failed harness/evaluation logs remain outside Git with the successful evidence.
+The first normal-App native evaluation is retained while its End/Left input failure remains without a confirmed cause. Added key-release/idle-frame event coverage and the unchanged binary in the explicit evdev environment pass. Independent review confirmed exact live/cold identity, numerical details, cancellation and cleanup, but found unscrolled evidence content hiding lower fields/Close. G1-U remains open for that bounded repair and source-bound rerun. Failed harness/evaluation logs remain outside Git with the successful evidence.

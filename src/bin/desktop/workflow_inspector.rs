@@ -241,6 +241,10 @@ impl WorkflowInspector {
                 .default_width(640.0)
                 .show(ctx, |ui| {
                     ui.label("Exact retained attempt; no provider execution is needed for inspection.");
+                    let scroll = egui::ScrollArea::vertical()
+                        .id_salt("workflow-evidence-scroll")
+                        .max_height((ctx.content_rect().bottom() - ui.cursor().top() - 60.0).clamp(80.0, 600.0))
+                        .show(ui, |ui| {
                     if let Some(attempt) = &self.attempt {
                         ui.monospace(format!("descriptor SHA-256 {}", hex(&attempt.descriptor_sha256)));
                         ui.monospace(format!("Accepted native input state SHA-256 {}", hex(&attempt.input_sha256)));
@@ -258,14 +262,23 @@ impl WorkflowInspector {
                         }
                         if let Some(pressure) = &attempt.pressure {
                             if let Some(binding) = &pressure.binding {
-                                ui.monospace(format!("Provider binding: {binding:#?}"));
+                                ui.label(format!("Provider binding: {} / {}", binding.id, binding.version));
+                                ui.monospace(format!("Provider manifest SHA-256 {}", hex(&binding.manifest_sha256)));
+                                ui.monospace(format!("Provider checkpoint SHA-256 {}", binding.checkpoint_sha256.map_or_else(|| "unavailable".into(), |hash| hex(&hash))));
+                                ui.label(format!("Provider runtime {} · source {} · training run {}", binding.runtime, binding.source_revision, binding.training_run_id.as_deref().unwrap_or("unavailable")));
                             } else {
                                 ui.label("Configured provider binding unavailable; native selection is recorded separately.");
                             }
                             if let Some(hash) = pressure.rhs_sha256 { ui.monospace(format!("Input RHS SHA-256 {}", hex(&hash))); }
                         }
                     }
-                    if ui.button("Close evidence").clicked() { self.evidence = false; }
+                        });
+                    #[cfg(test)]
+                    self.controls.insert("evidence-scroll".into(), scroll.inner_rect);
+                    #[cfg(not(test))]
+                    let _ = scroll;
+                    let close = ui.button("Close evidence");
+                    if self.control("close-evidence", close).clicked() { self.evidence = false; }
                 });
             self.evidence &= open;
             if !self.evidence
