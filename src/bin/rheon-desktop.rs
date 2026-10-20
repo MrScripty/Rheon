@@ -1862,7 +1862,7 @@ impl App {
                     self.emitter.pressure_heads=if self.material_mode {[1000.0,800.0]} else {[0.12,0.08]};
                 }
                 let material_preview = self.material_mode && !configured;
-                ui.horizontal(|ui| {ui.label(if material_preview {"Adaptive preview edge"} else {"Numerical cells / axis (count mode)"});ui.add_enabled(material_preview || self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.size).range(4..=if material_preview {512}else{rheon::MAX_GRID_EDGE}).suffix("³"));});
+                ui.horizontal_wrapped(|ui| {ui.label(if material_preview {"Adaptive preview edge"} else {"Numerical cells / axis (count mode)"});ui.add_enabled(material_preview || self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.size).range(4..=if material_preview {512}else{rheon::MAX_GRID_EDGE}).suffix("³"));});
                 let mut physical = self.numerical_cells_per_metre.is_some();
                 if ui.checkbox(&mut physical,"Select physical sampling density").changed() {
                     self.numerical_cells_per_metre = physical.then_some(32);
@@ -1886,9 +1886,14 @@ impl App {
                     history::PreviewResolution::Adaptive => {}
                 }
                 ui.small("Preview is display resampling only. Finer voxels replicate appearance; physical sampling stays unchanged.");
-                ui.horizontal(|ui| {ui.label("Steps");ui.add(egui::DragValue::new(&mut self.steps).range(1..=10000));});
+                ui.horizontal_wrapped(|ui| {ui.label("Steps");ui.add(egui::DragValue::new(&mut self.steps).range(1..=10000));});
                 {
-                    ui.collapsing("Numerical recording (every accepted step)", |ui| {
+                    let recording_label = egui::WidgetText::from("Numerical recording (every accepted step)")
+                        .into_galley(ui, Some(egui::TextWrapMode::Wrap),
+                            (ui.available_width() - ui.spacing().indent - ui.spacing().button_padding.x).max(1.0),
+                            egui::TextStyle::Button);
+                    egui::CollapsingHeader::new(recording_label)
+                        .id_salt("Numerical recording (every accepted step)").show(ui, |ui| {
                         ui.label("Local recording directory");
                         ui.text_edit_singleline(&mut self.recording_directory);
                         ui.add(egui::DragValue::new(&mut self.recording_database_mib).range(1..=16384).suffix(" MiB database cap"));
@@ -1898,7 +1903,7 @@ impl App {
                     });
                 }
                 ui.small("Carrier inventory: native face velocity, cell appearance tracer, accepted interval pressure. Material inventory: particle attributes and preintegration diagnostics. Other Rheon session/lab backends are not recorded here.");
-                ui.horizontal(|ui| {ui.label("Timeline budget");ui.add(egui::DragValue::new(&mut self.history_budget_mib).range(16..=4096).suffix(" MiB"));});
+                ui.horizontal_wrapped(|ui| {ui.label("Timeline budget");ui.add(egui::DragValue::new(&mut self.history_budget_mib).range(16..=4096).suffix(" MiB"));});
                 let sampling = if configured {
                     self.selected_carrier_count().map(|size| (size, None))
                 } else {
@@ -1928,9 +1933,9 @@ impl App {
                 settings::quantity(ui,"Maximum step",&mut self.requested_dt,"s",0.001,0.000001..=0.1);
                 ui.small("Accepted time steps adapt to physical stability limits.");
                 if material_preview {
-                    ui.horizontal(|ui| {ui.label("Particle samples / side");ui.add_enabled(self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.materials.config.samples_per_axis).range(4..=64));});
+                    ui.horizontal_wrapped(|ui| {ui.label("Particle samples / side");ui.add_enabled(self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.materials.config.samples_per_axis).range(4..=64));});
 
-                    ui.horizontal(|ui| {ui.label("Particle limit");ui.add(egui::DragValue::new(&mut self.materials.config.max_particles).range(32768..=262144));});
+                    ui.horizontal_wrapped(|ui| {ui.label("Particle limit");ui.add(egui::DragValue::new(&mut self.materials.config.max_particles).range(32768..=262144));});
                     settings::quantity(ui,"Liquid preview stiffness",&mut self.materials.config.liquid_sound_speed,"m/s",1.0,1.0..=100.0).on_hover_text("Reduced acoustic speed for a weakly compressible preview; higher stiffness needs shorter steps. Gas pressure uses the ideal-gas equation.");
                 } else {
                     egui::ComboBox::from_id_salt("implementation").selected_text(self.selected.label()).width(240.0).show_ui(ui,|ui| {
@@ -1941,7 +1946,7 @@ impl App {
             });
             egui::CollapsingHeader::new("CPU workers").default_open(false).show(ui, |ui| {
                 if ui.checkbox(&mut self.automatic_threads,"Automatic hardware detection").changed() {self.refresh_threads(available_threads());}
-                ui.horizontal(|ui| {ui.add_enabled(!self.automatic_threads,egui::DragValue::new(&mut self.threads).range(1..=self.thread_limit));ui.label(format!("/ {} available",self.thread_limit));});
+                ui.horizontal_wrapped(|ui| {ui.add_enabled(!self.automatic_threads,egui::DragValue::new(&mut self.threads).range(1..=self.thread_limit));ui.label(format!("/ {} available",self.thread_limit));});
                 ui.checkbox(&mut self.show_workers,"Orange worker voxel boxes").on_hover_text("Sampled actual worker positions; diagnostics add calculation overhead.");
             });
             if !configured {
@@ -1965,7 +1970,7 @@ impl App {
             ui.checkbox(&mut self.viewport.touchpad_mode,"Touchpad scroll / two-finger orbit").on_hover_text("Enable when your touchpad reports wheel events. Shift pans; Ctrl zooms. Native pinch is supported.");
             ui.checkbox(&mut self.viewport.camera.orthographic,"Orthographic");
             if ui.button("Frame scene [Home]").clicked() {self.viewport.camera=viewport::OrbitCamera::default();}
-            ui.horizontal(|ui| {ui.label("Surface threshold");ui.add(egui::Slider::new(&mut self.viewport.threshold,1..=80).show_value(false));});
+            ui.horizontal_wrapped(|ui| {ui.label("Surface threshold");ui.add(egui::Slider::new(&mut self.viewport.threshold,1..=80).show_value(false));});
             ui.label("Mouse: middle drag orbit, Shift+middle pan, wheel zoom.");
             ui.label("Touchpad: left drag orbit, Shift+left pan, Ctrl+left zoom. Two-finger orbit, Shift-scroll pan, pinch/Ctrl-scroll zoom.");
             ui.label("1 front · 3 right · 7 top · 5 perspective/ortho · Home frame");

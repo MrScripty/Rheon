@@ -322,6 +322,17 @@ impl Viewport {
                 }
             }
         }
+        let caption_color = Color32::from_rgb(115, 144, 171);
+        let caption = painter.layout(
+            format!(
+                "3D / ORBIT VIEW · domain {:.3} m · preview voxel {:.3} mm",
+                self.domain_side,
+                self.domain_side * 1000.0 / frame.as_ref().map_or(grid_edge, |f| f.edge) as f64
+            ),
+            egui::FontId::monospace(12.0),
+            caption_color,
+            (rect.width() - 28.0).max(1.0),
+        );
         if let Some(mesh) = &self.collision_mesh {
             const DISPLAY_TRIANGLES: usize = 12_000;
             let stride = mesh.triangles().len().div_ceil(DISPLAY_TRIANGLES).max(1);
@@ -339,16 +350,21 @@ impl Viewport {
                     );
                 }
             }
-            painter.text(
-                rect.left_top() + egui::vec2(14.0, 38.0),
-                egui::Align2::LEFT_TOP,
+            let mesh_color = Color32::from_rgb(245, 180, 65);
+            let mesh_caption = painter.layout(
                 format!(
                     "Amber: collision wireframe (x-ray), {:?}; showing 1 / {} triangles",
                     mesh.policy(),
                     stride
                 ),
                 egui::FontId::proportional(12.0),
-                Color32::from_rgb(245, 180, 65),
+                mesh_color,
+                (rect.width() - 28.0).max(1.0),
+            );
+            painter.galley(
+                rect.left_top() + egui::vec2(14.0, 12.0 + caption.size().y + 8.0),
+                mesh_caption,
+                mesh_color,
             );
         }
         self.wire_box(
@@ -413,24 +429,20 @@ impl Viewport {
                 );
             }
         }
-        painter.text(
+        painter.galley(
             rect.left_top() + egui::vec2(14.0, 12.0),
-            egui::Align2::LEFT_TOP,
-            format!(
-                "3D / ORBIT VIEW · domain {:.3} m · preview voxel {:.3} mm",
-                self.domain_side,
-                self.domain_side * 1000.0 / frame.as_ref().map_or(grid_edge, |f| f.edge) as f64
-            ),
-            egui::FontId::monospace(12.0),
-            Color32::from_rgb(115, 144, 171),
+            caption,
+            caption_color,
         );
-        painter.text(
-            rect.left_bottom() + egui::vec2(14.0, -12.0),
-            egui::Align2::LEFT_BOTTOM,
-            "Drag orbit · Shift pan · Ctrl zoom · Home frame",
+        let help_color = Color32::from_rgb(142, 158, 176);
+        let help = painter.layout(
+            "Drag orbit · Shift pan · Ctrl zoom · Home frame".into(),
             egui::FontId::proportional(11.0),
-            Color32::from_rgb(142, 158, 176),
+            help_color,
+            (rect.width() - 28.0).max(1.0),
         );
+        let help_origin = rect.left_bottom() + egui::vec2(14.0, -12.0 - help.size().y);
+        painter.galley(help_origin, help, help_color);
     }
     fn input(&mut self, ui: &egui::Ui, response: &egui::Response, rect: Rect, frame_distance: f32) {
         if !(response.hovered() || response.dragged()) {
