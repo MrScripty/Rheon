@@ -1,8 +1,8 @@
 # Desktop scene authoring and compact playback
 
 **Plan status:** `Active`
-**Current phase:** T2 authoring source gates complete; native validation pending
-**Next slice:** T3 viewport picking and selected-object outline
+**Current phase:** T3 source checkpoint;6127 native validation separate
+**Next slice:** T4 force translation/rotation/support handles
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -36,7 +36,9 @@ M1 remains incompletely accepted; old native evidence is scoped to426fd25 only.
 Canonical admission is this path, operation `continue`. Sole desktop UI owner:
 this task. A separate task owns the shared force domain and both solver adapters.
 Only independently owned UI work can begin before its exact API is reconciled.
-No optional approval is needed for the reversible T1 slice after plan review.
+No optional approval is needed for admitted reversible UI slices after review.
+Parent authorizes distinct commits, normal pushes and draft PR146 publication;
+no merge, force push or branch deletion.
 
 ## Source, standards and preservation
 
@@ -68,7 +70,7 @@ IDs. T5 wires qualified immutable runtime/archive paths and native evidence.
 
 No competing force physics, backend-specific UI approximations, solver/model/
 scientific execution, unadmitted archive migration, worker/session ownership change, training,
-L1/MMS work, dependency/framework rewrite, publication, PR/merge or cleanup.
+L1/MMS work, dependency/framework rewrite, merge, force push or cleanup.
 Live cancellation stays parked on missing existing containment; no provisioning.
 Canonical domain source is now received and sealed. No fabricated runtime support
 while desktop dispatch/frozen intent/load/rerun integration remains pending.
@@ -94,8 +96,8 @@ Inspector slice before any overlapping changes; T1 excludes Inspector entirely.
 | --- | --- | --- | --- |
 | T1 | main timeline presentation and desktop/timeline_ui_tests.rs; bounded labelled speed editor, ordinary invisible local measurement, unchanged physical context | Four inspected exact UI probes + compile/Clippy/fmt + independent source review; native remains separate | Completed (bounded source) |
 | T2 | new desktop/scene_ui.rs; main App scene composition/context/model-ID transactions and draft launch refusal; exact inert scene tests; viewport.rs mode-control guard only (no lab dispatch/picking changes) | Canonical domain received; reviewed [authoring admission](reports/scene-authoring-admission.md); one ForceScene/selection owner; viewport mode refusal only, no runtime dispatch | Completed (bounded source) |
-| T3 | viewport.rs picking and thin actual-geometry outline; scene_ui.rs same selection API; main projection routing | T2 source gates, reviewed exclusive pick/camera/probe policy; inert projection tests then native | Planned |
-| T4 | desktop/scene_manipulator.rs, viewport gesture routing, scene_ui validated transform intent and collision_ui transactional model placement | Same IDs/domain capabilities; no duplicate force physics; Escape rollback, explicit model Apply | Planned |
+| T3 | new scene_view.rs geometry/picking; viewport.rs aggregate-input composition and thin geometry outline; existing SceneUi selection and main routing | [Exact selection admission](reports/viewport-selection-admission.md), inert camera/geometry/UI tests; no lab initialization, then native | Bounded source complete; native pending |
+| T4 | desktop/scene_handles.rs, viewport exclusive gesture routing, scene_ui validated draft transaction; force-only (model placement deferred) | [Force-only handle admission](reports/force-handles-admission.md); same IDs/domain types; no physics; exact Escape rollback and terminal-frame ownership | Planned |
 | T5 | main Request/run_material, carrier_execution.rs, desktop run_sets versioned intent/load/rerun; exact backend recording bridge and native fixes | Qualified canonical custody source + reviewed immutable intent/version compatibility + separately bounded integration evidence. Unsupported owner paths refuse | Planned |
 
 

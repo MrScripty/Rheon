@@ -96,7 +96,16 @@ impl Default for Viewport {
         }
     }
 }
+pub struct ViewInputs<'a> {
+    pub frame: Option<Arc<PreviewFrame>>,
+    pub emitter: Option<RotatingCylinderEmitter>,
+    pub workers: &'a [WorkerVoxel],
+    pub grid_edge: usize,
+    pub inspector: Option<&'a super::inspector::Inspector>,
+    pub scene: Option<&'a mut super::scene_ui::SceneUi>,
+}
 impl Viewport {
+    #[cfg(test)]
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
@@ -106,6 +115,27 @@ impl Viewport {
         grid_edge: usize,
         inspector: Option<&super::inspector::Inspector>,
     ) {
+        self.show_scene(
+            ui,
+            ViewInputs {
+                frame,
+                emitter,
+                workers,
+                grid_edge,
+                inspector,
+                scene: None,
+            },
+        );
+    }
+    pub fn show_scene(&mut self, ui: &mut egui::Ui, inputs: ViewInputs<'_>) {
+        let ViewInputs {
+            frame,
+            emitter,
+            workers,
+            grid_edge,
+            inspector,
+            mut scene,
+        } = inputs;
         if self.authored_forces_pending {
             self.mode = ViewMode::Appearance;
         }
@@ -181,6 +211,16 @@ impl Viewport {
             return;
         }
         self.input(ui, &response, rect, 2.35);
+        if let Some(scene) = scene.as_deref_mut() {
+            let mesh = self
+                .collision_mesh
+                .as_ref()
+                .map(|m| super::scene_view::MeshRef {
+                    vertices: m.vertices(),
+                    triangles: m.triangles(),
+                });
+            super::scene_view::interact(ui, &response, &self.camera, self.domain_side, mesh, scene);
+        }
         let changed = match (&self.frame, &frame) {
             (Some(a), Some(b)) => !Arc::ptr_eq(a, b),
             (None, None) => false,
@@ -341,6 +381,7 @@ impl Viewport {
             caption_color,
             (rect.width() - 28.0).max(1.0),
         );
+        let mut scene_warning_top = rect.top() + 12.0 + caption.size().y + 8.0;
         if let Some(mesh) = &self.collision_mesh {
             const DISPLAY_TRIANGLES: usize = 12_000;
             let stride = mesh.triangles().len().div_ceil(DISPLAY_TRIANGLES).max(1);
@@ -369,6 +410,7 @@ impl Viewport {
                 mesh_color,
                 (rect.width() - 28.0).max(1.0),
             );
+            scene_warning_top += mesh_caption.size().y + 8.0;
             painter.galley(
                 rect.left_top() + egui::vec2(14.0, 12.0 + caption.size().y + 8.0),
                 mesh_caption,
@@ -451,6 +493,26 @@ impl Viewport {
         );
         let help_origin = rect.left_bottom() + egui::vec2(14.0, -12.0 - help.size().y);
         painter.galley(help_origin, help, help_color);
+        if let Some(scene) = scene {
+            let mesh = self
+                .collision_mesh
+                .as_ref()
+                .map(|m| super::scene_view::MeshRef {
+                    vertices: m.vertices(),
+                    triangles: m.triangles(),
+                });
+            super::scene_view::paint(
+                ui,
+                super::scene_view::PaintArea {
+                    rect,
+                    warning_top: scene_warning_top,
+                },
+                &self.camera,
+                self.domain_side,
+                mesh,
+                scene,
+            );
+        }
     }
     fn input(&mut self, ui: &egui::Ui, response: &egui::Response, rect: Rect, frame_distance: f32) {
         if !(response.hovered() || response.dragged()) {

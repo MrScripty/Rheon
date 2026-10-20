@@ -54,6 +54,8 @@ use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
 #[path = "desktop/scene_ui.rs"]
 mod scene_ui;
+#[path = "desktop/scene_view.rs"]
+mod scene_view;
 #[path = "desktop/settings.rs"]
 mod settings;
 #[cfg(test)]
@@ -2509,16 +2511,20 @@ impl eframe::App for App {
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE)
             .show(ctx, |ui| {
-                self.viewport.show(
+                self.viewport.show_scene(
                     ui,
-                    frame,
-                    emitter,
-                    &workers,
-                    grid,
-                    self.history
-                        .as_ref()
-                        .filter(|_| retained)
-                        .map(|h| &h.inspector),
+                    viewport::ViewInputs {
+                        frame,
+                        emitter,
+                        workers: &workers,
+                        grid_edge: grid,
+                        inspector: self
+                            .history
+                            .as_ref()
+                            .filter(|_| retained)
+                            .map(|h| &h.inspector),
+                        scene: Some(&mut self.scene),
+                    },
                 )
             });
         if self.worker.is_some() || self.playing {

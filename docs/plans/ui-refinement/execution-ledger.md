@@ -339,3 +339,23 @@
   Active progress/Cancel, model rollback/native, actual viewport mode guard and
   whole-app focus/AT behavior remain unverified. Prior incident teardown/scientific
   evidence limits and parked live cancellation are unchanged.
+
+## T3 viewport selection source checkpoint —2026-10-20
+
+Follows immutable6127cec authoring checkpoint; published separately on PR146.
+One canonical SceneUi selection now drives x-ray force markers/support strokes,
+model triangle picking, selected thin outline and properties. Exact-position welded,
+winding-independent model silhouette excludes triangulation seams; non-manifold
+outline and overbudget/unrepresentable projection refuse explicitly. Invalid misses
+retain correction selection. Zero fields remain neutral, signed nonzero markers use
+canonical transform/sign. Force glyphs are authoring geometry, not magnitude samples.
+
+Five inspected names listed from182 total, each executed with full --exact and
+single test thread. Final five each passed. Formatting, strict production Clippy,
+locked offline desktop check and diff checks passed. Raw logs and four source seals:
+`evidence/viewport-selection-20261020/manifest.json`. Earlier intermediate successful
+runs remain under /tmp/rheon-ui-picking-*; no numerical fixture or native test ran.
+Independent plan/source reports record all corrections. No DISPLAY/WAYLAND_DISPLAY;
+new exact revision requires native render/pick/focus/high-DPI evidence separately.
+Runtime/archive force readiness still refuses; T4 handle plan reviewed, not accepted
+as implemented. Original M2a/precision and incident evidence remain unchanged.

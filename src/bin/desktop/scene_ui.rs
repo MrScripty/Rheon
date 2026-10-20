@@ -56,6 +56,15 @@ impl Default for SceneUi {
     }
 }
 impl SceneUi {
+    #[cfg(test)]
+    pub(super) fn geometry_fixture(forces: ForceScene, model: bool) -> Self {
+        Self {
+            forces,
+            model_id: model.then_some(SceneObjectId(u64::MAX)),
+            ..Default::default()
+        }
+    }
+
     pub fn draft(&self) -> &ForceScene {
         &self.forces
     }
