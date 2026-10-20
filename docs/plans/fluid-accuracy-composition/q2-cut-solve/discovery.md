@@ -21,8 +21,9 @@ plan lifecycle/source admission and all merges; no cleanup/rebase/merge.
 Alternatives compared on the same original finite equations:
 A. Existing-style unscaled partial-pivot dense KKT: smallest direct comparator,
    no normalized-block conditioning benefit; retain as diagnostic, not fallback.
-B. SPD diagonal congruence, velocity Cholesky and pressure Schur Gram factor:
-   chosen proposed experiment. Positive pivots only, no floors/deletions/gauges;
+B. SPD diagonal congruence, velocity Cholesky and scaled pressure HouseholderQR:
+   selected experiment; the earlier explicit-Gram idea was superseded BEFORE
+   implementation/data to avoid normal-matrix formation. Positive pivots only, no floors/deletions/gauges;
    original-equation compensated residual refinement and back-transformation.
 C. Full exact A/Schur whitening: ideal bounded spectrum in exact arithmetic, but
    factor/assembly and back-transform errors remain; dense exact work not a
