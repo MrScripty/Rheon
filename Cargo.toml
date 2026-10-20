@@ -86,3 +86,8 @@ rusqlite = { version = "=0.37.0", features = ["bundled", "limits"] }
 name = "rheon-ai-compare"
 path = "src/bin/rheon-ai-compare.rs"
 required-features = ["desktop"]
+
+[dev-dependencies]
+# Private Q2 reference: exact represented-source predicates/constructions only.
+num-rational = "=0.4.2"
+num-traits = "=0.2.19"
