@@ -54,6 +54,9 @@ use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
 #[path = "desktop/settings.rs"]
 mod settings;
+#[cfg(test)]
+#[path = "desktop/setup_ui_tests.rs"]
+mod setup_ui_tests;
 #[path = "desktop/transport_view.rs"]
 mod transport_view;
 #[path = "desktop/viewport.rs"]
@@ -107,6 +110,13 @@ struct ConfiguredRequest {
     runtime: Option<(Arc<AtomicBool>, accepted_session::model_process::ChildSlot)>,
 }
 impl Request {
+    fn setup_workflow(&self) -> SetupWorkflow {
+        if self.configured_set.is_some() {
+            SetupWorkflow::AcceptedSession
+        } else {
+            SetupWorkflow::Preview
+        }
+    }
     fn preview_edge(&self) -> Result<usize, String> {
         self.preview_resolution
             .edge(self.domain_side, self.size as usize)
@@ -1007,7 +1017,54 @@ fn run_material(
     }
     result
 }
+#[derive(Clone, Copy, Default, PartialEq, Eq)]
+enum SetupWorkflow {
+    #[default]
+    Preview,
+    AcceptedSession,
+}
+impl SetupWorkflow {
+    fn label(self) -> &'static str {
+        match self {
+            Self::Preview => "Simulation preview",
+            Self::AcceptedSession => "Accepted Session",
+        }
+    }
+}
+#[derive(Clone, Copy)]
+enum SetupAction {
+    Run(SetupWorkflow),
+    Cancel,
+}
+fn running_setup_ui(ui: &mut egui::Ui, request: &Request) {
+    ui.heading("Running setup");
+    ui.label(request.setup_workflow().label());
+    ui.small("Inputs frozen at launch.");
+    let samples = request
+        .material
+        .map_or(request.size as usize, |material| material.samples_per_axis);
+    ui.label(format!(
+        "{samples} samples/axis · domain {:.3} m",
+        request.domain_side
+    ));
+    ui.label(format!(
+        "{} steps · maximum step {}",
+        request.steps,
+        settings::duration(request.requested_dt)
+    ));
+    if request.configured_set.is_some() {
+        ui.small("Sealed full liquid · starts at rest · no inlet");
+        ui.small(
+            "Constant forcing only; no appearance, emitter, phase source, or model accuracy claim.",
+        );
+    } else if request.material.is_some() {
+        ui.small("Liquid / gas material preview");
+    } else {
+        ui.small("Filled carrier-fluid preview");
+    }
+}
 struct App {
+    setup_workflow: SetupWorkflow,
     ai_comparison: Option<ai_comparison::ComparisonApp>,
     archive: archive_view::ArchiveView,
     run_sets: run_set_view::RunSetView,
@@ -1059,6 +1116,7 @@ impl Default for App {
     fn default() -> Self {
         let thread_limit = available_threads();
         Self {
+            setup_workflow: SetupWorkflow::default(),
             ai_comparison: None,
             archive: archive_view::ArchiveView::default(),
             run_sets: run_set_view::RunSetView::default(),
@@ -1145,8 +1203,31 @@ impl App {
                     return;
                 }
                 ui.separator();
+                let displayed_workflow = self
+                    .running_request
+                    .as_ref()
+                    .filter(|_| self.worker.is_some())
+                    .map_or(self.setup_workflow, Request::setup_workflow);
+                ui.add_enabled_ui(self.worker.is_none() && !self.closing, |ui| {
+                    egui::ComboBox::from_label("Setup")
+                        .selected_text(displayed_workflow.label())
+                        .show_ui(ui, |ui| {
+                            for workflow in [SetupWorkflow::Preview, SetupWorkflow::AcceptedSession]
+                            {
+                                ui.selectable_value(
+                                    &mut self.setup_workflow,
+                                    workflow,
+                                    workflow.label(),
+                                );
+                            }
+                        });
+                });
+                // Keep actions outside scrolling content. Dispatch only after this
+                // frame's form edits and package-readiness invalidation.
+                let action = self.run_controls(ui);
+                ui.separator();
                 egui::ScrollArea::vertical()
-                    .id_salt("sidebar-content")
+                    .id_salt(("sidebar-content", self.setup_workflow as u8))
                     .show(ui, |ui| {
                         if self.inspector_open {
                             ui.heading("Numerical inspector");
@@ -1167,18 +1248,87 @@ impl App {
                             } else {
                                 ui.label("Start a simulation or open a numerical archive");
                             }
+                        } else if let Some(request) = self
+                            .running_request
+                            .as_ref()
+                            .filter(|_| self.worker.is_some())
+                        {
+                            running_setup_ui(ui, request);
                         } else {
-                            if self.configured_controls.show(ui, self.worker.is_none())
-                                && let Err(error) = self.start_configured()
-                            {
-                                self.status = error;
-                            }
                             self.controls(ui);
                         }
                     });
+                if let Some(action) = action {
+                    match action {
+                        SetupAction::Run(SetupWorkflow::Preview) => self.start(false),
+                        SetupAction::Run(SetupWorkflow::AcceptedSession) => {
+                            if let Err(error) = self.start_configured() {
+                                self.status = error;
+                            }
+                        }
+                        SetupAction::Cancel => self.cancel(),
+                    }
+                    ctx.request_repaint();
+                }
             })
             .response
             .rect
+    }
+    fn run_controls(&mut self, ui: &mut egui::Ui) -> Option<SetupAction> {
+        let mut action = None;
+        if let Some(worker) = &self.worker {
+            let n = worker.progress.load(Ordering::Relaxed);
+            ui.add(
+                egui::ProgressBar::new(n as f32 / worker.total as f32)
+                    .text(format!("{n}/{} steps", worker.total)),
+            );
+            if ui
+                .add_sized(
+                    [ui.available_width(), 32.0],
+                    egui::Button::new("Cancel simulation"),
+                )
+                .clicked()
+            {
+                action = Some(SetupAction::Cancel);
+            }
+            if let Some((_, step, elapsed)) = worker.history.timing() {
+                ui.small(format!("Calculating step {step} · {elapsed:.3} s"));
+            }
+        } else {
+            let launch = match self.setup_workflow {
+                SetupWorkflow::Preview => ui
+                    .add_enabled(
+                        !self.closing,
+                        egui::Button::new("Simulate")
+                            .min_size(egui::vec2(ui.available_width(), 32.0)),
+                    )
+                    .clicked(),
+                SetupWorkflow::AcceptedSession => {
+                    self.configured_controls.launch_button(ui, !self.closing)
+                }
+            };
+            if launch {
+                action = Some(SetupAction::Run(self.setup_workflow));
+            }
+        }
+        // Keep long feedback from displacing run controls. The complete original
+        // message is available through a named keyboard-operable disclosure.
+        ui.add(egui::Label::new(&self.status).truncate());
+        ui.collapsing("Status details", |ui| {
+            egui::ScrollArea::vertical()
+                .id_salt("run-status-details")
+                .max_height(96.0)
+                .show(ui, |ui| {
+                    let mut status = self.status.as_str();
+                    ui.add(
+                        egui::TextEdit::multiline(&mut status)
+                            .id(egui::Id::new("run-status-text"))
+                            .font(egui::TextStyle::Body)
+                            .desired_width(f32::INFINITY),
+                    );
+                });
+        });
+        action
     }
     fn reset_timeline(&mut self) {
         self.history = None;
@@ -1670,6 +1820,8 @@ impl App {
         }
     }
     fn controls(&mut self, ui: &mut egui::Ui) {
+        let configured = self.setup_workflow == SetupWorkflow::AcceptedSession;
+        let material_preview = self.material_mode && !configured;
         ui.heading("Rheon");
         ui.label(
             egui::RichText::new("LIVE FLUID LABORATORY")
@@ -1680,9 +1832,9 @@ impl App {
         ui.add_enabled_ui(self.worker.is_none() && !self.closing, |ui| {
             egui::CollapsingHeader::new("Domain & environment").default_open(false).show(ui, |ui| {
                 let previous_side=self.domain_side;
-                if self.material_mode {self.materials.domain(ui, &mut self.domain_side);} else {
+                if material_preview {self.materials.domain(ui, &mut self.domain_side);} else {
                     settings::quantity(ui,"Domain side",&mut self.domain_side,"m",0.01,0.001..=100.0);
-                    ui.small("Original demo: filled carrier fluid throughout the box.");
+                    ui.small("Filled carrier fluid throughout the box.");
                 }
                 if self.domain_side!=previous_side {
                     let scale=self.domain_side/previous_side;
@@ -1690,6 +1842,9 @@ impl App {
                     self.emitter.half_length*=scale;self.emitter.radius*=scale;self.emitter.nozzle_depth*=scale;
                 }
             });
+            if configured {
+                self.configured_controls.show(ui, self.worker.is_none());
+            } else {
             if self.collision.show(ui, self.domain_side, self.material_mode) { self.reset_timeline(); }
             egui::CollapsingHeader::new("Fluid material").default_open(true).show(ui, |ui| {
                 ui.add_enabled_ui(self.material_mode,|ui|self.materials.fluid(ui));
@@ -1701,17 +1856,19 @@ impl App {
                 } else if self.material_mode {ui.small("Emission off; only the initial domain contents evolve.");}
                 else {ui.small("Original smoke source; turns off halfway.");}
             });
+            }
             egui::CollapsingHeader::new("Simulation").default_open(false).show(ui, |ui| {
-                if ui.checkbox(&mut self.material_mode,"Liquid / gas material simulation").changed() {
+                if !configured && ui.checkbox(&mut self.material_mode,"Liquid / gas material simulation").changed() {
                     self.emitter.pressure_heads=if self.material_mode {[1000.0,800.0]} else {[0.12,0.08]};
                 }
-                ui.horizontal(|ui| {ui.label(if self.material_mode {"Adaptive preview edge"} else {"Numerical cells / axis (count mode)"});ui.add_enabled(self.material_mode || self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.size).range(4..=if self.material_mode {512}else{rheon::MAX_GRID_EDGE}).suffix("³"));});
+                let material_preview = self.material_mode && !configured;
+                ui.horizontal(|ui| {ui.label(if material_preview {"Adaptive preview edge"} else {"Numerical cells / axis (count mode)"});ui.add_enabled(material_preview || self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.size).range(4..=if material_preview {512}else{rheon::MAX_GRID_EDGE}).suffix("³"));});
                 let mut physical = self.numerical_cells_per_metre.is_some();
                 if ui.checkbox(&mut physical,"Select physical sampling density").changed() {
                     self.numerical_cells_per_metre = physical.then_some(32);
                 }
                 if let Some(density) = &mut self.numerical_cells_per_metre {
-                    ui.add(egui::DragValue::new(density).range(1..=rheon::MAX_CELLS_PER_METRE).suffix(if self.material_mode {" particle samples/m"} else {" cells/m"}));
+                    ui.add(egui::DragValue::new(density).range(1..=rheon::MAX_CELLS_PER_METRE).suffix(if material_preview {" particle samples/m"} else {" cells/m"}));
                     ui.small("Counts = ceil(domain side × requested density); exact physical extent retained.");
                 }
                 egui::ComboBox::from_id_salt("preview-resolution-mode").selected_text(match self.preview_resolution {
@@ -1742,7 +1899,11 @@ impl App {
                 }
                 ui.small("Carrier inventory: native face velocity, cell appearance tracer, accepted interval pressure. Material inventory: particle attributes and preintegration diagnostics. Other Rheon session/lab backends are not recorded here.");
                 ui.horizontal(|ui| {ui.label("Timeline budget");ui.add(egui::DragValue::new(&mut self.history_budget_mib).range(16..=4096).suffix(" MiB"));});
-                let sampling = self.selected_sampling();
+                let sampling = if configured {
+                    self.selected_carrier_count().map(|size| (size, None))
+                } else {
+                    self.selected_sampling()
+                };
                 match &sampling {
                     Ok((size, material)) => {
                         let numerical = material.map_or(*size as usize, |m|m.samples_per_axis);
@@ -1763,10 +1924,10 @@ impl App {
                     }
                     Err(e) => {ui.colored_label(egui::Color32::LIGHT_RED,e);}
                 }
-                ui.small("Particle samples control physical detail; preview voxels control the image.");
+                ui.small(if material_preview {"Particle samples control physical detail; preview voxels control the image."} else {"Numerical cells control physical detail; preview voxels control the image."});
                 settings::quantity(ui,"Maximum step",&mut self.requested_dt,"s",0.001,0.000001..=0.1);
                 ui.small("Accepted time steps adapt to physical stability limits.");
-                if self.material_mode {
+                if material_preview {
                     ui.horizontal(|ui| {ui.label("Particle samples / side");ui.add_enabled(self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.materials.config.samples_per_axis).range(4..=64));});
 
                     ui.horizontal(|ui| {ui.label("Particle limit");ui.add(egui::DragValue::new(&mut self.materials.config.max_particles).range(32768..=262144));});
@@ -1783,9 +1944,10 @@ impl App {
                 ui.horizontal(|ui| {ui.add_enabled(!self.automatic_threads,egui::DragValue::new(&mut self.threads).range(1..=self.thread_limit));ui.label(format!("/ {} available",self.thread_limit));});
                 ui.checkbox(&mut self.show_workers,"Orange worker voxel boxes").on_hover_text("Sampled actual worker positions; diagnostics add calculation overhead.");
             });
-            ui.add_space(8.0);
-            if ui.add_sized([ui.available_width(),32.0],egui::Button::new("▶ Simulate")).clicked() {self.start(false);}
-            if ui.button("Reset timeline (keep mesh)").clicked() { self.reset_timeline(); self.status = "Ready to repeat simulation with accepted mesh".into(); }
+            if !configured {
+            ui.collapsing("Comparisons & reset", |ui| {
+            if ui.button("Clear timeline").clicked() { self.reset_timeline(); self.status = "Ready to repeat simulation with accepted mesh".into(); }
+            ui.small("Keeps mesh and saved recordings.");
             if !self.material_mode {
                 ui.checkbox(&mut self.save_native_set, "Save immutable native run set");
                 ui.small("Fixed actual dt; a shortened step retains its archive and reports unsupported saved intent.");
@@ -1796,23 +1958,9 @@ impl App {
                 comparison.set_steps(self.steps.clamp(1,512));
                 self.ai_comparison = Some(comparison);
             }
-
+            });
+            }
         });
-        if let Some(w) = &self.worker {
-            ui.add_space(8.0);
-            let n = w.progress.load(Ordering::Relaxed);
-            ui.add(
-                egui::ProgressBar::new(n as f32 / w.total as f32)
-                    .text(format!("{n}/{} steps", w.total)),
-            );
-            if ui.button("■ Cancel simulation").clicked() {
-                self.cancel();
-            }
-            if let Some((_, step, elapsed)) = w.history.timing() {
-                ui.label(format!("Calculating step {step} · {elapsed:.3} s"));
-            }
-        }
-        ui.label(&self.status);
         egui::CollapsingHeader::new("Viewport & navigation").default_open(false).show(ui, |ui| {
             ui.checkbox(&mut self.viewport.touchpad_mode,"Touchpad scroll / two-finger orbit").on_hover_text("Enable when your touchpad reports wheel events. Shift pans; Ctrl zooms. Native pinch is supported.");
             ui.checkbox(&mut self.viewport.camera.orthographic,"Orthographic");
