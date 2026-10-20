@@ -283,7 +283,12 @@ impl RecordedProjectionSession {
         }
         let controls = get_wrapped(&mut decoder, "RCP2:")?;
         let attempt = if decoder.boolean()? {
-            Some(Arc::new(get_attempt(&mut decoder, &config, &grid)?))
+            Some(Arc::new(get_attempt(
+                &mut decoder,
+                &config,
+                &grid,
+                intent.version(),
+            )?))
         } else {
             None
         };
@@ -615,7 +620,12 @@ pub fn terminal(reader: &RecordingReader) -> Result<ProjectionTerminationAudit, 
     let accepted_generation = decoder.u64()?;
     let accepted_time = decoder.f64()?;
     let attempt = if decoder.boolean()? {
-        Some(Arc::new(get_attempt(&mut decoder, &config, &grid)?))
+        Some(Arc::new(get_attempt(
+            &mut decoder,
+            &config,
+            &grid,
+            intent.version(),
+        )?))
     } else {
         None
     };
@@ -1090,11 +1100,12 @@ fn get_attempt(
     d: &mut Decoder,
     config: &SessionConfiguration,
     grid: &crate::GridGeometry,
+    expected_version: u32,
 ) -> Result<ProjectionAttempt, RecordingError> {
     use crate::projection_step::*;
     use crate::solver_provider::composition::projection::ProjectionSelection;
     let version = d.u32()?;
-    if version != 1 && version != 2 {
+    if version != expected_version || (version != 1 && version != 2) {
         return Err(RecordingError::Unsupported("projection attempt version"));
     }
     let intent = get_intent(d, version)?;

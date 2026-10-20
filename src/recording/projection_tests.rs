@@ -96,7 +96,7 @@ fn unwrap_publication(
     run: &RecordingRun,
     row: &RecordedStep,
 ) -> (String, Option<Arc<ProjectionAttempt>>) {
-    let (config, _) = configuration(run).unwrap();
+    let (config, intent) = configuration(run).unwrap();
     let grid = recording_grid(run).unwrap();
     let mut decoder =
         Decoder::text(&row.controls, profiles(configuration(run).unwrap().1).2).unwrap();
@@ -106,7 +106,9 @@ fn unwrap_publication(
     );
     let controls = get_wrapped(&mut decoder, "RCP2:").unwrap();
     let attempt = if decoder.boolean().unwrap() {
-        Some(Arc::new(get_attempt(&mut decoder, &config, &grid).unwrap()))
+        Some(Arc::new(
+            get_attempt(&mut decoder, &config, &grid, intent.version()).unwrap(),
+        ))
     } else {
         None
     };
@@ -1108,4 +1110,64 @@ fn c1b3_projection_intent_decoder_refuses_foreign_version_before_payload() {
         get_intent(&mut decoder, 2),
         Err(RecordingError::Invalid(_))
     ));
+}
+
+#[test]
+fn c1b3_projection_publication_and_terminal_refuse_foreign_attempt_version_before_payload() {
+    for expected_version in [1, 2] {
+        let (session, workspace) = if expected_version == 1 {
+            fixture(PressureImplementation::JacobiPcgV1)
+        } else {
+            selection_fixture(PressureImplementation::JacobiPcgV1, 2000)
+        };
+        let run = projection_run(&session.snapshot(), "foreign embedded attempt version").unwrap();
+        let (_, intent) = configuration(&run).unwrap();
+        for truncated in [true, false] {
+            let mut row = projection_publication(&session.snapshot(), 0, CAP).unwrap();
+            let (inner, _) = unwrap_publication(&run, &row);
+            let foreign_version = if expected_version == 1 { 2 } else { 1 };
+            let mut attempt = Encoder::default();
+            attempt.u32(foreign_version);
+            if !truncated {
+                attempt.0.extend_from_slice(&[0; 128]);
+            }
+            let mut encoder = Encoder::default();
+            encoder.0.extend_from_slice(&provider::source_binding(&run));
+            put_wrapped(&mut encoder, &inner, "RCP2:").unwrap();
+            encoder.boolean(true);
+            encoder.0.extend_from_slice(&attempt.0);
+            row.controls = encoder.text(profiles(intent).2).unwrap();
+            assert!(matches!(
+                RecordedProjectionSession::decode(&run, &row),
+                Err(RecordingError::Unsupported(_))
+            ));
+            let mut encoder = Encoder::default();
+            encoder.0.extend_from_slice(&provider::source_binding(&run));
+            put_cause(&mut encoder, RuntimeTerminationCause::Cancelled);
+            encoder.string("foreign embedded version").unwrap();
+            encoder.u64(0);
+            encoder.f64(0.0);
+            encoder.boolean(true);
+            encoder.0.extend_from_slice(&attempt.0);
+            let archive = path();
+            let limits = RecordingLimits::default();
+            let mut recorder = StepRecorder::create(&archive, run.clone(), limits).unwrap();
+            recorder
+                .finish(
+                    "cancelled",
+                    &encoder.text(profiles(intent).3).unwrap(),
+                    Some(0),
+                )
+                .unwrap();
+            drop(recorder);
+            let reader = RecordingReader::open(&archive, limits).unwrap();
+            assert!(matches!(
+                terminal(&reader),
+                Err(RecordingError::Unsupported(_))
+            ));
+            drop(reader);
+            std::fs::remove_file(archive).unwrap();
+        }
+        drop(workspace);
+    }
 }
