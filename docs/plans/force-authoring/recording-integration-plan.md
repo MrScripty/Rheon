@@ -1,7 +1,9 @@
 # Prepared post-custody integration validation
 
 Draft PR #145 publishes the core at 3e839cbf7c6aca56e8297ef740f7e48543de77b1.
-This follow-up adds only ignored test source and this plan. It changes no core
+This original preparation record is retained; the later authorized execution
+on corrected head 7970a5d is documented in validation.md.
+This follow-up initially added only ignored test source and this plan. It changes no core
 or desktop source and executes no numerical/SQLite tests. The compiled cases
 are proposals for separate review/authorization, not passed integration evidence.
 

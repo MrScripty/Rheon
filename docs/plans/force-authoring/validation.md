@@ -234,3 +234,104 @@ Post-custody source/Cargo/test seal is evidence/custody-source.sha256; its SHA-2
 is `d873dd98d5d59d1f1aac2221cb5f1f30ae574bd6dff91c95d95d82a0c927a9ca`.
 It deliberately differs from the pre-custody runtime test seal; the runtime
 results must not be attributed to this newer source.
+
+## Authorized post-custody validation on corrected head 7970a5d
+
+The parent authorized the five existing adapter tests plus the two independently
+reviewed recording cases once each, serially, with the existing process bounds.
+Before running, source inspection found cleanup-prone failure handling in the
+recording tests. Test-only commit
+`7970a5db8136c3771ea416db86c58753aea95566`, based on authorized
+`1d44c8429701f205f678b602040d4f62ea6457b3`, corrects failure preservation.
+No src/** or adapter-test source changed from 1d44. Independent review confirmed
+unchanged helpers/call counts/limits and no blocking finding before execution.
+
+Archive Drop now retains/logs owned directories on failure. KeepOnPanic suppresses
+outer writer/reader destruction during assertion unwinding, while successful
+explicit closes/cleanup remain unchanged. This preserves test-boundary failure
+files, not a pre-error/in-flight image: API-internal rollback/constructor cleanup
+may already have happened before returning an error. Signals also leave the
+owned directory. No unexpected test failure occurred in this run, so there are
+no failed originals to reconcile. No unrelated cleanup was performed.
+
+Build only (no Cargo test execution):
+
+```sh
+cargo test --locked --offline --no-default-features --features force-serde --test force_field_solver_contract --test force_recording_integration_contract --no-run
+```
+
+Both binaries were copied and sealed; saved Cargo fingerprints report only
+force-serde, with no parallel feature. Exact seals:
+
+```
+adapter_tests:
+ceea9adb9d9023107e7211ca4792d87d6fb7f3d4cc0b6e06f60f313ad1dca773
+recording_tests:
+4ee715678545204a996b70121d26dcb930578e7e5f94cafc27d111372af69e5b
+full source manifest:
+26cce65fa43bab619cd0951dbc523945c37fd0bc955c06b3451448ca82cc5277
+adapter test source:
+9efdf712baaa8e662e77339a81074751ed10ef01b9675f99351fac2a662b41fc
+corrected recording test source:
+e9ca49fdeb0f474cdcddb40930c3773dc71762a709ac7dec6200fd5db31859a7
+```
+
+Artifacts are local under /workspace/force-validation-post-custody-7970a5d.
+Source seals, feature fingerprints, exact executed harnesses, command/result
+JSON and byte-preserved logs are committed under evidence/post-custody-7970a5d.
+The large binary copies are local only. Binary hashes were rechecked before each
+child. The supervisor's bounded() and run() function text is byte-identical to
+the earlier supported harness; only paths, binary seals, exact names/count and
+libtest output flag were configured. No supervisor redesign occurred.
+
+Exact harness invocations (all inherit the explicitly owned scratch root):
+
+```sh
+TMPDIR=/workspace/force-validation-post-custody-7970a5d/scratch python3 /workspace/force-validation-post-custody-7970a5d/adapters/run_bounded.py enumerate
+TMPDIR=/workspace/force-validation-post-custody-7970a5d/scratch python3 /workspace/force-validation-post-custody-7970a5d/recordings/run_bounded.py enumerate
+TMPDIR=/workspace/force-validation-post-custody-7970a5d/scratch python3 /workspace/force-validation-post-custody-7970a5d/adapters/run_bounded.py execute
+TMPDIR=/workspace/force-validation-post-custody-7970a5d/scratch python3 /workspace/force-validation-post-custody-7970a5d/recordings/run_bounded.py execute
+```
+
+Enumeration used each binary's `--list --format terse` and required exactly its
+five/two expected names. Each adapter invocation was the sealed adapter_tests
+path, one exact name and `--exact --ignored --test-threads=1 --nocapture`.
+Each recording invocation used recording_tests, one exact name and
+`--exact --ignored --test-threads=1 --show-output`. The latter keeps successful
+name/result lines verifiable while retaining captured owned-path output.
+
+| Exact test | Result | Log bytes |
+| --- | --- | ---: |
+| authored_mac_matches_legacy_bounded_directional_force | 1 passed; exit0 | 178 |
+| authored_mac_cancellation_retains_accepted_state_and_retry | 1 passed; exit0 | 183 |
+| authored_particle_density_conversion_adds_to_existing_acceleration | 1 passed; exit0 | 191 |
+| authored_particle_cancel_retains_state_and_retry | 1 passed; exit0 | 173 |
+| empty_snapshot_preserves_both_legacy_paths | 1 passed; exit0 | 167 |
+| carrier_force_archive_round_trip_and_failed_attempt_invalidation | 1 passed; exit0 | 477 |
+| particle_force_archive_round_trip_and_rejected_control_custody | 1 passed; exit0 | 471 |
+
+Each child applied/checked hard+soft CPU20s, address space536870912 bytes,
+file/log1048576 bytes, disabled core files, test-threads1 and no parallel pool.
+Parent wall timeout was30s with TERM then owned-child KILL after1s. No timeout,
+signal, unexpected selection or observed bound failure occurred; there was no
+retry/tuning. All seven result/log SHA-256 and byte counts were verified after
+execution without rerunning tests. No cgroup/mount/security setting was changed.
+
+Recording cases used one fresh explicitly owned directory/database each, with
+RecordingLimits database1MiB/record64KiB/max_records3 and two committed rows.
+Each verified its expected mismatched third append rejection before transaction,
+failed-prefix lifecycle, actual custody and exact readback. Carrier used four
+cells, one accepted + one cancelled call, <=200 pressure iterations. Particle
+used64 parcels, one accepted + one callback4-cancelled + one invalid call,
+<=19 preparation entries. After all assertions passed, only those owned
+recordings were successfully torn down. The task's scratch root was verified
+empty afterward; no unrelated path was removed. Existing post-run file audits
+passed; they do not replace process peak-resource enforcement.
+
+A preflight Clippy collapsible-if finding in the new test guard was fixed before
+sealing/execution; no runtime failure was tuned or retried. Targeted Clippy with
+warnings denied, formatting and diff checks passed. This evidence establishes
+bounded current adapter/recording behavior at 7970a5d, not scientific L1/MMS,
+calibrated physics, desktop parity, emitter/provider/free-surface/session paths,
+successful legacy stamp clearing after authored steps or exhaustive historical
+archive compatibility. No additional numerical/SQLite tests were executed.

@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/workspace/force-validation-post-custody-7970a5d/adapter_tests",
+    "authored_mac_matches_legacy_bounded_directional_force",
+    "--exact",
+    "--ignored",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "binary_sha256": "ceea9adb9d9023107e7211ca4792d87d6fb7f3d4cc0b6e06f60f313ad1dca773",
+  "returncode": 0,
+  "wall_seconds": 0.0053261050002220145,
+  "signals": [],
+  "log_bytes": 178,
+  "log_sha256": "88f61a43755daae4b113baff6e001c8a7ed5c0fcc35238104adae17d5775ae05",
+  "limits": {
+    "wall_seconds": 30,
+    "term_to_owned_child_kill_seconds": 1,
+    "cpu_seconds": 20,
+    "address_space_bytes": 536870912,
+    "file_and_log_bytes": 1048576,
+    "test_threads": 1
+  }
+}

@@ -226,5 +226,7 @@ Minimal coordinated follow-up:
    never attach current drafts to old results or reinterpret old hashes.
 5. The five prepared bounded tests passed once on the sealed pre-custody binary
    under the later explicit authorization. Seven pure custody/codec tests pass.
-   No post-custody solver or end-to-end desktop/SQLite workload was executed;
-   these results do not establish full archive integration or desktop parity.
+   The later authorized current-code run passed five adapter and two tiny
+   recording cases on 7970a5d under the existing supervisor (validation.md).
+   Desktop, emitter/provider/session and historical archive workflows remain
+   outside this evidence; these results do not establish desktop parity.

@@ -1,9 +1,9 @@
 # Force-aware accepted custody and archive metadata
 
 This extends the core milestone without editing desktop/request definitions or
-session/provider owners. Source review is independent; runtime tests below apply
-only to the sealed pre-custody adapter binary. Current custody code has pure codec
-coverage and static checks, not executed solver/SQLite/desktop integration.
+session/provider owners. Source review is independent. The later authorized validation on corrected head
+7970a5d passed five adapter and two bounded recording cases once each; exact seals
+and limits are in validation.md. This does not establish desktop integration.
 
 ## Accepted numerical publications
 
