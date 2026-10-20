@@ -541,3 +541,107 @@ fn ui_setup_long_recording_path_and_pressure_controls_stay_within_form_width() {
         }
     }
 }
+
+#[test]
+fn ui_setup_synthetic_active_worker_keeps_progress_frozen_inputs_and_cancel_signal() {
+    // Reuse the inert owned-handle pattern from dropping_app_cancels_and_joins_owned_worker.
+    // The handle waits for explicit test release, not for cancellation. Nothing calls
+    // Worker::start/run_owned, publishes frames, opens recordings or advances physics.
+    for size in [egui::vec2(900.0, 650.0), egui::vec2(1250.0, 820.0)] {
+        let ctx = context();
+        let cancel = Arc::new(AtomicBool::new(false));
+        let progress = Arc::new(AtomicUsize::new(1));
+        let (release, wait) = std::sync::mpsc::sync_channel(1);
+        let handle = std::thread::spawn(move || {
+            let _ = wait.recv_timeout(Duration::from_secs(5));
+            Err("Synthetic UI fixture released; no simulation executed".into())
+        });
+        let history = LiveHistory::with_budget(4, 4, 1, 16 * 1024 * 1024).unwrap();
+        history.begin_step(0, 2).unwrap();
+        let mut app = App::default();
+        app.setup_workflow = SetupWorkflow::AcceptedSession;
+        app.steps = 99;
+        app.requested_dt = 0.001;
+        app.running_request = Some(Request {
+            collision_mesh: None,
+            size: 4,
+            steps: 4,
+            tight: false,
+            threads: 1,
+            methods: vec![PressureImplementation::default()],
+            emitter: None,
+            observe: false,
+            history_budget_mib: 16,
+            preview_resolution: history::PreviewResolution::Adaptive,
+            domain_side: 2.0,
+            requested_dt: 0.013,
+            material: None,
+            material_color: [0; 3],
+            recording_limits: Default::default(),
+            recording_directory: String::new(),
+            saved_set: None,
+            configured_set: None,
+            prior_run_ids: vec![],
+            manifest_receipt: None,
+            progress_gate: None,
+            failure_gate: None,
+        });
+        app.worker = Some(Worker {
+            scheduler: rheon::CpuScheduler::new(),
+            cancel: Arc::clone(&cancel),
+            progress: Arc::clone(&progress),
+            total: 4,
+            history,
+            observer: None,
+            child: None,
+            handle,
+        });
+        for _ in 0..3 {
+            let _ = frame(&ctx, size, vec![], |ctx| {
+                app.sidebar(ctx);
+            });
+        }
+        let output = frame(&ctx, size, vec![], |ctx| {
+            app.sidebar(ctx);
+        });
+        assert!(has(&output, "1/4 steps"));
+        assert!(has(&output, "Simulation preview"));
+        assert!(has(&output, "4 steps · maximum step 13.000 ms"));
+        assert!(has(&output, "4 samples/axis · domain 2.000 m"));
+        assert!(!has(&output, "Simulate") && !has(&output, "Save & run native"));
+        let cancel_rect = rect(&output, "Cancel simulation");
+        let screen = egui::Rect::from_min_size(egui::Pos2::ZERO, size);
+        assert!(screen.contains_rect(cancel_rect));
+        assert!(screen.contains_rect(rect(&output, "1/4 steps")));
+        assert!(cancel_rect.right() <= 280.0);
+        click(&ctx, size, &output, "Inspector", |ctx| {
+            app.sidebar(ctx);
+        });
+        let output = frame(&ctx, size, vec![], |ctx| {
+            app.sidebar(ctx);
+        });
+        assert!(has(&output, "Numerical inspector"));
+        assert_eq!(cancel_rect, rect(&output, "Cancel simulation"));
+        click(&ctx, size, &output, "Cancel simulation", |ctx| {
+            app.sidebar(ctx);
+        });
+        assert!(cancel.load(Ordering::Relaxed));
+        assert_eq!(progress.load(Ordering::Relaxed), 1);
+        assert!(
+            !app.worker.as_ref().unwrap().handle.is_finished(),
+            "Cancel routes a signal; this fixture does not simulate worker retirement"
+        );
+        assert_eq!((app.steps, app.requested_dt), (99, 0.001));
+        release.send(()).unwrap();
+        let worker = app.worker.take().unwrap();
+        assert!(
+            worker
+                .handle
+                .join()
+                .unwrap()
+                .err()
+                .unwrap()
+                .contains("Synthetic UI fixture")
+        );
+    }
+}

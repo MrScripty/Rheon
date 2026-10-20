@@ -92,3 +92,36 @@
   compile, strict desktop/test Clippy, formatting and diff whitespace. Logs are
   retained as `/tmp/rheon-ui-input-width-{tests,check,clippy,fmt}.log`; the before
   and intermediate after logs preserve the deciding overflow failures.
+
+## 2026-10-20 — scoped native receipt and remaining M1 evidence
+
+- Parent reports existing validator confirmed exact `426fd25` and both transfer
+  packets/parent/commit/tree hashes; developer build passed in 110.6s. Native
+  repaired forms/HUD/collision note, both pressure options/dropdowns, scrolling,
+  retained Steps, exact 674-character directory copy in all four size/scale
+  cases, close/reopen passed; both sessions exited 0.
+- Forty-two actual JPEGs retained by validator (quality 85 requested; image
+  metadata not supplied to this task); delivery Forbidden,
+  no confirmed Library IDs. One capture completed decodable files before its
+  completion command timed out; it was not repeated. Parent reports 483 prior
+  evidence files and three original databases unchanged. This task did not
+  inspect/re-hash those remote native artifacts and performs no delivery retry.
+- Plan/issue state now distinguishes observed idle success from A4's remaining
+  active-progress/Cancel/frozen-rerun, long-status and accessibility gaps. A5's
+  counts/user-timing are pending; whole M1 acceptance remains incomplete.
+- Inspected existing deterministic fixtures. `ProgressGate` tests call actual
+  Worker::start/solver/recording paths and were not run. Added only an inert
+  sidebar test using the existing drop-worker owned-handle pattern: one waiting
+  synthetic thread, manual progress/timing and empty 16 MiB-budget history.
+  It tests frozen request projection and actual Cancel flag routing; the handle
+  ignores cancellation until explicit test release. No genuine worker retirement,
+  numerical progress, archive publication or native behavior is implied.
+- Initial compilation needed a test-only result assertion adjustment because
+  ResultRow lacks Debug; no production derive or behavior change was introduced.
+  [Scoped receipt/gap handoff](reports/m1-native-and-gap-handoff.md) specifies a
+  future genuine-worker proposal and exact request/component caps. It explicitly
+  requires separate live-execution authority; it is not executed here.
+- Final source/test gate: nine `ui_setup_` tests passed, strict
+  affected desktop/test Clippy, locked desktop compile and formatting passed.
+  Logs remain `/tmp/rheon-ui-m1-fixture-{tests,clippy,check,fmt}.log`. This is
+  synthetic/headless evidence only; no actual worker or native gate was run.

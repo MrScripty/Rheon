@@ -1,8 +1,8 @@
 # Focused desktop UI refinement
 
 **Plan status:** `Active`
-**Current phase:** M1 native clipping repair (exact repair awaits native verification)
-**Next slice:** M1 — validate the width repair in the existing native environment
+**Current phase:** M1 partial native evidence and remaining fixture checks
+**Next slice:** M1 — workload-free active-state checks; bound remaining native/live evidence
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -108,7 +108,7 @@ may change throughout. Generated logs/renders remain outside Git per
 | A1 | Actual egui pointer selection presents only the selected setup form and one primary launch; switching preserves settings and never launches work | integration / simulated egui input / automated | satisfied | [Verification](reports/verification.md) |
 | A2 | Primary action/status remain outside scroll content, including Inspector mode; shared consumed inputs remain reachable; disabled package launch remains explicit | integration / simulated egui input / automated | satisfied | [Verification](reports/verification.md) |
 | A3 | Launch/request/worker/cancel/recording semantics unchanged; no Inspector/D1/numerical edits; unit and limitation copy retained | focused / not-applicable / manual source review | satisfied | [Verification](reports/verification.md) |
-| A4 | Native 1250×820 and 900×650 at 100% and 150% UI scale: no clipped labels/overlap; mode/action/status visible; scroll/keyboard/focus/help and in-progress cancellation work | user-workflow / required-real supported native display / manual | blocked | No display/session here |
+| A4 | Native 1250×820 and 900×650 at 100% and 150% UI scale: no clipped labels/overlap; mode/action/status visible; scroll/keyboard/focus/help and in-progress cancellation work | user-workflow / required-real supported native display / manual | blocked | [Scoped native receipt and remaining gaps](reports/m1-native-and-gap-handoff.md); idle repaired UI passed per parent, active/native accessibility gaps remain |
 | A5 | Matched current before/after states show materially less text with unchanged values/warnings; target 40% fewer visible explanatory words across full planned refinement, not M1 alone; 4/5 users identify workflow/edit material/find launch within 30s | user-workflow / representative native / manual | pending | No counts/usability results yet |
 | A6 | Rust 1.92 formatting, affected desktop build, strict affected-target Clippy and focused UI tests pass | focused / Linux pinned Rust / automated | satisfied | [Verification](reports/verification.md) |
 
@@ -161,14 +161,17 @@ lint/test failures inside the admitted boundary without restarting design.
 
 ## Blockers
 
-Native display and representative user evidence are unavailable, so objective
-acceptance remains incomplete. No standards application MCP is exposed; direct
+Local native display remains unavailable. The existing validator has reported
+scoped idle native success at exact `426fd25`; active-worker, native long-status,
+accessibility and representative user evidence remain incomplete. JPEG delivery
+is blocked separately (Forbidden; no confirmed Library IDs). No standards application MCP is exposed; direct
 source standards review is used and no engine conformance certificate claimed.
 Build/tool availability and any baseline lint failures are recorded in the ledger.
 
 ## Final Acceptance
 
-Native visual/interaction and matched-state usability claims remain unsatisfied.
+Scoped idle native visual/interaction evidence is recorded; complete native
+active-worker/accessibility and matched-state usability acceptance remain unsatisfied.
 No delivery, standards-engine certification or whole-plan acceptance is claimed.
 
 ## M1 native-feedback repair admission — 2026-10-20
@@ -191,3 +194,21 @@ exercise only under the previously bounded fixture/run authority. Parent reports
 30 retained native JPEGs of the prerequisite; no images or native verification
 of this repair are claimed here. Roll back only the isolated repair commit if
 needed; preserve the accepted prerequisite and unrelated Inspector work.
+
+## Scoped native checkpoint and remaining M1 admission — 2026-10-20
+
+Parent reports exact `426fd25d22975e1259f5543c77dc771a6ac646ff` and both
+incremental transfer/parent/tree hashes validated in the existing native owner.
+The repaired idle workflows passed at both supported sizes/scales. This closes
+those clipping observations only; A4 remains blocked on its unobserved parts and
+A5 remains pending. See [the scoped receipt/gap handoff](reports/m1-native-and-gap-handoff.md).
+
+Continue M1 with test-only synthetic active-state coverage in
+`src/bin/desktop/setup_ui_tests.rs`; no production changes or new runtime fixture
+flags. Reuse the existing inert Worker-handle pattern, empty budgeted history and
+manual progress atoms. Verify actual sidebar Cancel routing/frozen-request
+projection without `Worker::start`, solver calls or recording publication. This
+is mocked UI-state evidence, not worker cancellation or native verification.
+Propose precise bounds for any actual worker test; do not execute it under this
+admission. No M2–M4 expansion, changed resource budget, model/scientific run,
+publication, cleanup or retry of Forbidden image delivery is admitted.
