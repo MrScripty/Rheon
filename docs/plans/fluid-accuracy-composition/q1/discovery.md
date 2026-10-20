@@ -31,3 +31,10 @@ positive shape claim. Unresolved oracle uncertainty cannot pass a threshold.
 No scientific Q1 output is present at this checkpoint. Independent reviewer is
 assessing topology/CFL/ledger, f32 solenoidal construction, geometry oracle and
 smallest Q2 reference scope. Exact protocols/code will be frozen before evaluation.
+
+01:34UTC recovery check: actual shell/git/process access works; the one active
+Clippy/check invocation completed exit0. No tests or scientific Q1 campaign had
+started, no live campaign exists, and nothing was duplicated. Periodic support
+and native fixture source are checkpointed before final protocol/source review;
+this checkpoint is NOT the numerical freeze or qualification result. Both prior
+disconnect notifications have no scientific-evidence impact at this phase.
