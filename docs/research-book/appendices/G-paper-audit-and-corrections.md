@@ -103,6 +103,44 @@ independent tests.
 
 ## What the retained experiments establish
 
+### Pressure work and a volume partition are independent checks
+
+The [PR123 mathematics](https://github.com/MrScripty/Rheon/blob/bc2573f2ba8d51f9f473fb11285b0c26840e4f18/docs/plans/fluid-accuracy-composition/p1-adjoint/mathematics.md)
+can be checked directly. For fixed positive masses and a positive differentiable
+volume map \(V_i(q)\), let \(\rho_i=m_i/V_i\) and
+\(U=\sum_i m_i e_i(\rho_i)\), with \(e_i'=p_i/\rho_i^2\). Then
+
+\[
+ dU=-\sum_i p_i\,dV_i,\qquad
+ F_k=-\partial_{q_k}U=\sum_i p_i\partial_{q_k}V_i.
+\]
+
+At uniform pressure \(p_0\), the force is
+\(F_k=p_0\partial_{q_k}\sum_iV_i\). Thus for interior particle variations
+with fixed physical walls, exact pressure work does not imply constant-pressure
+cancellation: the total-volume partition must also be position independent.
+Moving walls instead have physical pressure reactions and boundary work; this
+interior cancellation statement does not eliminate those loads. Gamma density
+rates and forces must differentiate the same map. Calibrating density values
+with frozen offsets does not calibrate its derivatives. PR123's offset planar
+map is a new diagnostic adaptation, not a literal Mayrhofer implementation or a
+refutation of that primary paper. PR124's successful connected-interface
+construction is a different state family, bounded to the static n8 1D reference.
+
+### Boundary pressure and manufactured-problem identity
+
+CV1/CV2 use a distinct staggered-Q1/P0 restriction with full consistent mass,
+symmetric stress and outward-fluid traction. Prescribed open traction fixes
+absolute pressure; adding a closed-wall pressure gauge would change the problem.
+Their rank/patch/work checks are not a uniform inf-sup theorem. The
+[Larionov–Batty–Bridson supplement](https://cs.uwaterloo.ca/~c2batty/papers/Larionov2017/supplemental.pdf),
+Section 1, explicitly gives nonzero pressure at the disk interface with zero
+total traction. The proposed CV3-A prescribed-traction polygon is a different
+problem and remains preparation-only at PR143. Neither source may be relabeled
+as a Rheon moving-geometry or continuum-convergence result.
+
+### Retained numerical results
+
 These are reported historical results, not a new execution campaign here.
 The [audit report and fixed protocol](../../audits/general-fluid-20261019/report.md)
 retain the actual source, measurement definitions and failures:

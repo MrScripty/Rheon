@@ -7,6 +7,16 @@ connects them to the implemented solver and subsequent negative results.
 claim-to-source audit. All implementation statements refer to main `718469b`
 unless a separate, pinned research branch is named. No new solver is introduced.
 
+This synthesis uses the existing chapters rather than replacing their models:
+[Chapter 19](19-forces-and-moving-boundaries.md) owns force/work conventions,
+[Chapter 20](20-collision-mesh-pipeline.md) the detailed collision contracts,
+and [Chapter 22](22-viscosity-and-stress.md) tensor stress. Equilibrium wetting
+and contact-line regularization remain in [Chapter 23](23-wetting-and-adhesion.md),
+Navier slip and its distinct flat-slab oracles in
+[Chapter 24](24-slip-and-wall-friction.md), and capillarity/combined prospective
+fixtures in [Chapter 25](25-capillarity-and-integration.md). No new wetting,
+friction or surface-tension capability follows from the collision discussion.
+
 ## Contact, boundary conditions and coupling
 
 A collision query asks whether geometry intersects and where contact first
@@ -146,7 +156,10 @@ BVH or SDF.
 
 The private CV1/CV2 progression illustrates the distinction. CV1 uses integrated
 restricted velocity bases, full Gram mass and symmetric strain; it is not the
-old diagonal cut-pressure operator. CV2 improves the numerical solve of those
+old diagonal cut-pressure operator. Its staggered-Q1/P0 pair has no established
+uniform inf-sup guarantee. The prescribed open traction sets absolute pressure:
+the constant-pressure mode is not the closed-wall gauge of Chapter 4. CV2
+improves the numerical solve of those
 unchanged blocks. On 24 fixed planar cases it passes its unchanged accuracy
 gate, while six unscaled square failures and mass conditioning about
 \(6.53\times10^{11}\) remain retained. Conditioning treatment does not establish
@@ -177,7 +190,13 @@ kernel contributions even though center trajectories do not penetrate. Removing
 only density neighbors while keeping the old pressure force would also change
 the potential/derivative relationship. PR121's wall adaptations fail the fixed
 hydrostatic/shear gates; PR123's work-consistent repair still fails consistency
-tests. They are research counterexamples, not enabled boundary methods.
+tests. In a fixed-mass volume map, pressure work can be exact while uniform
+pressure still produces a spurious interior force if total represented volume
+depends on particle positions. [Appendix G](../appendices/G-paper-audit-and-corrections.md)
+derives this separate partition condition. PR123's calibrated-offset planar
+gamma diagnostic is not a literal implementation of Mayrhofer et al.; its failed
+adaptation does not invalidate their paper. These are research counterexamples,
+not enabled boundary methods.
 
 For a proposed boundary method, first test a resolved planar wall: constant and
 affine pressure response, static hydrostatics with matched EOS initialization,
@@ -258,6 +277,15 @@ pockets. Moving tests must check uniform-field/GCL preservation, translated
 displacement, rotating-wall work, neutral buoyancy and light-body stability.
 Keep solver residual, actual field error, geometric error and physical
 observations separate. These are proposed benchmarks, not new passing results.
+
+The primary Larionov–Batty–Bridson supplement [A9, Section 1] supplies a useful
+distinction: its free-surface disk has nonzero interface pressure while total
+pressure-plus-viscous traction is zero. Imposing pressure zero alone changes
+that manufactured problem. Its closed solid-wall annulus is another boundary
+value problem. Rheon's prospective CV3-A prescribed-traction polygon is neither
+benchmark; at PR143 it is preparation-only, without an executed convergence
+result. These references corroborate coupled-stress requirements without
+transferring the authors' convergence results to Rheon.
 
 Kleefsman et al.'s original dam-break/obstacle experiment provides a later
 physical benchmark [A8]. A quantitative comparison needs matching dimensions,

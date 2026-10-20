@@ -120,6 +120,16 @@ These checks do not support a blanket claim
 that unlike density/pressure kernels are always a research error. The actual
 Rheon compression-energy derivation and its branch limits are in Appendix G.
 
+[A9] Egor Larionov, Christopher Batty and Robert Bridson. Variational Stokes:
+A Unified Pressure-Viscosity Solver for Accurate Viscous Liquids, 2017.
+[Author project](https://elrnv.com/projects/variational-stokes-a-unified-pressure-viscosity-solver-for-accurate-viscous-liquids/),
+[primary supplement](https://cs.uwaterloo.ca/~c2batty/papers/Larionov2017/supplemental.pdf).
+Section 1 and the Section 2 free-surface variational argument inspected:
+the disk test has nonzero interface pressure with zero total traction; the
+stationary solid annulus uses different boundary data. These are the authors'
+manufactured convergence problems, not an execution of Rheon's prospective
+CV3-A polygon or proof of its staggered-Q1/P0 stability. Consulted 20 October 2026.
+
 ## Read a model variant before using it
 
 Inspect the supplied SST-2003 limiter, then read the primary model/variant record linked from chapter 22. Keep the publication motivation, maintained equation specification and locally executed probe as distinct evidence. The 1992 report does not specify all 2003 coefficients. An inaccessible proceedings text is identified as unread. No figure, code or dataset from those publications is included.
