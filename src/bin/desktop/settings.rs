@@ -74,12 +74,12 @@ impl MaterialControls {
             });
         ui.small("Approximate reference presets; edit values below.");
         let m = &mut self.config.material;
-        ui.horizontal(|ui| {
+        ui.horizontal_wrapped(|ui| {
             ui.label("State");
             ui.selectable_value(&mut m.phase, FluidPhase::Liquid, "Liquid");
             ui.selectable_value(&mut m.phase, FluidPhase::Gas, "Gas");
         });
-        ui.horizontal(|ui| {
+        ui.horizontal_wrapped(|ui| {
             ui.label("Density").on_hover_text(
                 "Mass per volume. Weight also depends on gravity. 1 g/mL = 1 mg/mm³ = 1,000 kg/m³.",
             );
@@ -236,7 +236,7 @@ impl MaterialControls {
                 -100.0..=100.0,
             );
         }
-        ui.horizontal(|ui| {
+        ui.horizontal_wrapped(|ui| {
             if ui.button("Earth").clicked() {
                 self.config.gravity = [0.0, -9.80665, 0.0];
             }
@@ -255,7 +255,7 @@ pub fn quantity(
     speed: f64,
     range: std::ops::RangeInclusive<f64>,
 ) -> egui::Response {
-    ui.horizontal(|ui| {
+    ui.horizontal_wrapped(|ui| {
         ui.label(label);
         ui.add(
             egui::DragValue::new(value)

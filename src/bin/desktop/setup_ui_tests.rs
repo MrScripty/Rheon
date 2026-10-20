@@ -346,3 +346,95 @@ fn ui_setup_running_summary_uses_frozen_physical_samples_and_timestep() {
     assert!(has(&output, "Liquid / gas material preview"));
     assert!(!has(&output, "Simulate"));
 }
+
+#[test]
+fn ui_setup_expanded_forms_keep_text_inside_sidebar_width() {
+    for workflow in [SetupWorkflow::Preview, SetupWorkflow::AcceptedSession] {
+        let ctx = context();
+        let size = egui::vec2(600.0, 6000.0);
+        let mut app = App::default();
+        app.setup_workflow = workflow;
+        let mut paint = |ctx: &egui::Context| {
+            egui::SidePanel::left("narrow-form")
+                .exact_width(280.0)
+                .resizable(false)
+                .show(ctx, |ui| {
+                    egui::ScrollArea::vertical().show(ui, |ui| app.controls(ui));
+                });
+        };
+        for _ in 0..3 {
+            let _ = frame(&ctx, size, vec![], &mut paint);
+        }
+        for section in [
+            "Domain & environment",
+            "Simulation",
+            "Numerical recording (every accepted step)",
+            "Workspace limits",
+            "Viewport & navigation",
+            "CPU workers",
+        ] {
+            let output = frame(&ctx, size, vec![], &mut paint);
+            if has(&output, section) {
+                click(&ctx, size, &output, section, &mut paint);
+            }
+        }
+        let output = frame(&ctx, size, vec![], &mut paint);
+        let overflow: Vec<_> = output
+            .shapes
+            .iter()
+            .filter_map(|shape| {
+                if let egui::Shape::Text(text) = &shape.shape {
+                    let right = text.pos.x + text.galley.size().x;
+                    (right > shape.clip_rect.right() + 1.0).then(|| text.galley.text().to_owned())
+                } else {
+                    None
+                }
+            })
+            .collect();
+        assert!(
+            overflow.is_empty(),
+            "horizontally clipped form text: {overflow:?}"
+        );
+        assert!(app.worker.is_none());
+    }
+}
+
+#[test]
+fn ui_setup_viewport_caption_wraps_at_narrow_scaled_width() {
+    let ctx = context();
+    let output = frame(&ctx, egui::vec2(300.0, 300.0), vec![], |ctx| {
+        egui::CentralPanel::default().show(ctx, |ui| {
+            let mut viewport = viewport::Viewport::default();
+            viewport.collision_mesh = Some(Arc::new(
+                rheon::CollisionMesh::new(
+                    vec![[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [0.0, 1.0, 0.0]],
+                    vec![[0, 1, 2]],
+                    rheon::MeshPolicy::TwoSidedSurface,
+                )
+                .unwrap(),
+            ));
+            viewport.show(ui, None, None, &[], 32, None);
+        });
+    });
+    let (_, bounds) = labels(&output)
+        .into_iter()
+        .find(|(text, _)| text.starts_with("3D / ORBIT VIEW"))
+        .expect("viewport information caption");
+    assert!(
+        bounds.right() <= 300.0,
+        "caption spills past viewport: {bounds:?}"
+    );
+    assert!(bounds.height() > 12.0, "narrow caption should wrap");
+    let (_, mesh_bounds) = labels(&output)
+        .into_iter()
+        .find(|(text, _)| text.starts_with("Amber: collision wireframe"))
+        .expect("collision mesh caption");
+    assert!(
+        mesh_bounds.top() > bounds.bottom(),
+        "caption overlaps mesh note"
+    );
+    assert!(
+        mesh_bounds.right() <= 300.0,
+        "mesh note spills past viewport"
+    );
+}

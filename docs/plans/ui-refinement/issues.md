@@ -11,3 +11,9 @@ Resolved within M1: active-rerun UI identity mismatch, long-status keyboard acce
 sealed-domain caption preservation and first-frame nested-panel overflow. See
 [implementation review](reports/implementation-review.md) and
 [verification](reports/verification.md); no unresolved material source finding.
+
+M1 native feedback: parent reports prerequisite native inspection complete for
+idle workflows; expanded form and viewport caption horizontal clipping found.
+Width repair implemented with focused regressions; exact repaired revision awaits
+native validation. Active progress/Cancel/frozen rerun and long-status stress are
+still open evidence gaps. See the width-repair source review and latest ledger.

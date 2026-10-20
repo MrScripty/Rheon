@@ -1,8 +1,8 @@
 # Focused desktop UI refinement
 
 **Plan status:** `Active`
-**Current phase:** M1 native verification (source checkpoint complete)
-**Next slice:** M1 — native visual/interaction validation in the existing authorized environment
+**Current phase:** M1 native clipping repair (exact repair awaits native verification)
+**Next slice:** M1 — validate the width repair in the existing native environment
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -170,3 +170,24 @@ Build/tool availability and any baseline lint failures are recorded in the ledge
 
 Native visual/interaction and matched-state usability claims remain unsatisfied.
 No delivery, standards-engine certification or whole-plan acceptance is claimed.
+
+## M1 native-feedback repair admission — 2026-10-20
+
+Parent reports controlled native validation of checkpoint `8bf5f41` found expanded
+form text clipping and viewport information clipping at 900×650 / 150%. Only
+width wrapping is admitted: the existing M1 form files/tests plus the exact
+`settings.rs` form rows and `viewport.rs` appearance captions. This is a serial
+repair admission, not the start of M2 or M3; their remaining work stays Planned.
+Preserve strings, units, warnings, fonts, values, interaction order and worker
+ownership. Keep recording disclosure identity when supplying a wrapped galley.
+
+Accept the repair only after focused UI regressions and compile/lint checks,
+independent source review, then exact-revision native inspection of expanded
+Preview/Accepted Session forms and appearance captions at 1250×820 and 900×650,
+100% / 150%. Recheck independent scroll and input retention; capture actual
+updated JPEGs at quality 85 with revision/state labels. No workload is needed.
+Active progress/Cancel/frozen rerun and long-status stress remain unverified;
+exercise only under the previously bounded fixture/run authority. Parent reports
+30 retained native JPEGs of the prerequisite; no images or native verification
+of this repair are claimed here. Roll back only the isolated repair commit if
+needed; preserve the accepted prerequisite and unrelated Inspector work.
