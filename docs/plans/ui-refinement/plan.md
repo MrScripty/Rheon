@@ -1,315 +1,208 @@
-# Focused desktop UI refinement
+# Desktop scene authoring and compact playback
 
 **Plan status:** `Active`
-**Current phase:** UI-5 precision-only repair; original M2a worktree preserved
-**Next slice:** UI-5 — exact-value focus regression, bounded editor adapter and review
+**Current phase:** T1 source complete; T2 canonical scene authoring admission
+**Next slice:** canonical right scene list and validated properties
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
 
 **Issues:** [issues.md](issues.md)
 
-[Standards/design](reports/standards-and-design.md) · [Plan review](reports/plan-review.md) ·
-[Implementation review](reports/implementation-review.md) · [Verification](reports/verification.md) ·
-[Native handoff](reports/native-validation-handoff.md)
+[Scene integration contract](reports/scene-integration-contract.md) ·
+[Scene plan review](reports/scene-plan-review.md) ·
+[UI-5 precision repair](reports/ui5-precision-repair.md) ·
+[T1 compact checkpoint](reports/timeline-compact-checkpoint.md) ·
+[Backend receipt](reports/backend-integration-receipt.md) ·
+[Current authoring admission](reports/scene-authoring-admission.md)
 
 ## Objective
 
-Reduce visible text and competing controls while making Rheon's actual native
-application easier to use. The user accepted audit
-`libfile_825ba1b07a3c8191a340bb761eea1c89`, version `0`,
-`rheon-ui-audit-2026-10-20.txt`, then authorized a standards-compliant plan and
-implementation. Canonical admission is this path, operation `start` after the
-independent plan review; subsequent implementation uses `continue`. No optional
-approval is required for the reversible first slice.
+Follow the user's new direction: a vertically compact timeline and a collapsible
+right-side scene tree/properties inspector. Forces and existing models are scene
+objects with shared tree/viewport selection, a thin selected-object outline and
+manipulator handles. Keep the accepted audit's clean hierarchy, concise text,
+clear labels and progressive disclosure. Preserve units, errors, limitations,
+immutable run inputs and existing archives.
 
-Base remote main revalidated 2026-10-20:
-`fd7c0f0aee63bc8710df99f9bb01154e7619b974`. Local branch
-`implementation/ui-hierarchy-20261020`, worktree `/workspace/Rheon-ui-hierarchy`.
-UI task owns implementation and serial integration; parent owns eventual main
-integration. That branch is retained for review/validation. Parent later reports
-its remote at `426fd25` after separate user action; do not overwrite it. Current
-local continuation from `e109758` uses `implementation/ui-m1-cancel-contract-20261020`.
-No push, PR,
-merge, rebase, branch deletion or cleanup is authorized in this turn.
+This direction supersedes continuing the former M2–M4 audit milestones unchanged.
+The accepted audit remains libfile_825ba1b07a3c8191a340bb761eea1c89 v0; its40% word
+reduction target is a matched-state secondary measure, never a reason to remove
+needed object/force meaning or a substitute for this new feature's acceptance.
+M1 remains incompletely accepted; old native evidence is scoped to426fd25 only.
+
+Canonical admission is this path, operation `continue`. Sole desktop UI owner:
+this task. A separate task owns the shared force domain and both solver adapters.
+Only independently owned UI work can begin before its exact API is reconciled.
+No optional approval is needed for the reversible T1 slice after plan review.
+
+## Source, standards and preservation
+
+Local HEAD remains7318023f04946171d7909119300af76e455c2926. The original uncommitted
+M2a worktree `/workspace/Rheon-ui-hierarchy`, its exact patch and logs are untouched.
+Detached `/workspace/Rheon-ui-precision` applies that M2a overlay then UI-5; the
+reviewed precision checkpoint is frozen as tree3e1fd57146e2f1a02abe22a09ac317497f39d738
+under `/workspace/scratch/rheon-ui-precision/checkpoint`. No commit/publication.
+The original remote implementation branch is parent-reported426fd25; do not
+fetch/reset/overwrite it or the separate Inspector/numerical branches.
+
+Continue the inspected standards route pinned to Coding-Standards0fc92a24279f3a4574c80af0a2f31ea347a21597:
+Planning/Implementation/Verification-GUI/Proportionality, Rust, Accessibility,
+Diagnostics, Architecture/Code Design and ownership/contracts. No standards-engine
+MCP/certificate is available or claimed. Original standards/design and reviews
+remain historical evidence; current source and this revised admission govern.
 
 ## Scope and non-goals
 
-First: explicit preview versus Accepted Session setup, one primary launch at a
-time, fixed run-action/status area, unchanged launch validation and worker
-ownership. Later: collapse optional setup prose, shared control geometry and
-accessible help, camera/playback consistency, D1 comparison/archive presentation.
-Keep units, relevant limitations, blocking errors, absence/uncertainty, pressure
-stage/time and integrity-versus-completeness distinctions accessible and explicit.
+T1 removes wasted timeline height and isolates its pure painting/input boundary.
+T2 adds the right scene list, one shared selection and canonical force authoring
+properties. T3 adds viewport picking/outlines; T4 adds manipulators on those same
+IDs. T5 wires qualified immutable runtime/archive paths and native evidence.
 
-No numerical/tolerance/default-physics changes, solver/model/evaluator/corpus
-execution, L1/MMS work, storage migration, new framework/dependency, web/Pages
-redesign or wholesale D1 replacement. Do not modify README or local agent work.
-No speculative integration of Inspector changes.
+No competing force physics, backend-specific UI approximations, solver/model/
+scientific execution, unadmitted archive migration, worker/session ownership change, training,
+L1/MMS work, dependency/framework rewrite, publication, PR/merge or cleanup.
+Live cancellation stays parked on missing existing containment; no provisioning.
+Canonical domain source is now received and sealed. No fabricated runtime support
+while desktop dispatch/frozen intent/load/rerun integration remains pending.
 
 ## Dependency strategy and ownership
 
-M1 is based on main alone and does not depend on local Inspector slice
-`241dfb5237db0fa064d1257f4baf12781e0a0d44` or dependency
-`1424f2d55323825c8907cf9209914f29130ec7de511`. Their separate validator task
-`01a15a9f-ffcc-75ee-bd76-02f1c277f027` owns validation and its test-only Clippy
-repair. Preserve its branches; do not copy/rebase/merge their code. Parent relays
-coordination because cross-thread messaging is unavailable in this environment.
-M4 must revalidate that work's final source before admitting Inspector edits.
+See the binding [integration contract](reports/scene-integration-contract.md).
+UI owns desktop composition/rendering/input/selection; UI allocates canonical SceneObjectId values across models/forces; force owner owns
+the type, physical units/support/frame/time semantics, validation/freeze and both
+solver adapters. The exact backend API/source at1d44c842 is received and sealed; desktop runtime
+integration remains pending. See the source receipt and independent review. See exact proposed runtime/custody
+file reservations in the contract; none is edited in T1. Force owner must not edit desktop UI files concurrently. UI must
+not edit force/solver implementations. Exchange a pinned API/patch and serially
+integrate only after source review. No speculative merges or duplicate physics.
+
+Recorded Inspector particle/cell probes retain their existing owner and identity.
+They are not authoring-object selection. Reconcile the separately validated
+Inspector slice before any overlapping changes; T1 excludes Inspector entirely.
 
 ## Milestones
 
-| Milestone | Goal and exact production write set | Dependency / gate | State |
+| Milestone | Exact production write set and outcome | Dependency / gate | State |
 | --- | --- | --- | --- |
-| M1 | One selected setup workflow and persistent run controls. `src/bin/rheon-desktop.rs` (sidebar, presentation methods, UI state/tests only), `src/bin/desktop/configured_controls.rs` (form/action split and labels only), optional `src/bin/desktop/setup_ui_tests.rs` | Independent plan/design review; A1–A3 plus A6 supporting checks; A4 native evidence remains required | Verifying |
-| M2 | Compact optional setup, aligned fields and keyboard-accessible help. `src/bin/desktop/{settings,collision_ui,emitter_controls}.rs`; optional new `src/bin/desktop/form_controls.rs` | M1 idle native feedback received; preserve policy and unit editing; A4–A5 | M2a source verified, native pending; remaining slices planned |
-| M3 | Camera/transport consistency. `src/bin/desktop/{viewport,particle_view,engineering,transport_view}.rs`; optional `src/bin/desktop/playback_controls.rs` | M1/M2; separately re-admit exact main-file playback regions if needed; focus and session-ownership evidence | Planned |
-| M4 | Promote existing D1 comparison/archive results. `src/bin/desktop/{comparison,comparison_field_view,archive_view,run_set_view,inspector}.rs` and `src/bin/desktop/ai_comparison/{mod,diagnostic_view}.rs` | M3 and final Inspector revision reconciled; re-admit exact composition-root regions; saved-fixture integrity/absence evidence | Planned |
+| T1 | main timeline presentation and desktop/timeline_ui_tests.rs; bounded labelled speed editor, ordinary invisible local measurement, unchanged physical context | Four inspected exact UI probes + compile/Clippy/fmt + independent source review; native remains separate | Completed (bounded source) |
+| T2 | new desktop/scene_ui.rs; main App scene composition/context/model-ID transactions and draft launch refusal; exact inert scene tests | Canonical domain received; reviewed [authoring admission](reports/scene-authoring-admission.md); one ForceScene/selection owner; no viewport/runtime changes | Active |
+| T3 | viewport.rs picking and thin actual-geometry outline; scene_ui.rs same selection API; main projection routing | T2 source gates, reviewed exclusive pick/camera/probe policy; inert projection tests then native | Planned |
+| T4 | desktop/scene_manipulator.rs, viewport gesture routing, scene_ui validated transform intent and collision_ui transactional model placement | Same IDs/domain capabilities; no duplicate force physics; Escape rollback, explicit model Apply | Planned |
+| T5 | main Request/run_material, carrier_execution.rs, desktop run_sets versioned intent/load/rerun; exact backend recording bridge and native fixes | Qualified canonical custody source + reviewed immutable intent/version compatibility + separately bounded integration evidence. Unsupported owner paths refuse | Planned |
 
-Production write sets are disjoint across planned milestones. A later need to
-touch earlier integration regions is an explicit serial admission, never
-parallel ownership. Only the UI lead writes this plan directory; reviewers own
-non-authorizing review reports. Authored plan, ledger, issues and review reports
-may change throughout. Generated logs/renders remain outside Git per
-`docs/REPOSITORY_OUTPUTS.md`.
+
+Stages execute serially under the UI owner; T2–T4 reuse some UI regions and are
+not parallel write sets. Every next stage explicitly re-admits its exact regions
+before editing. Force-domain write sets are disjoint throughout. Only the lead
+writes canonical plan/ledger/issues; independent reviewers write their reports.
+Generated logs/screenshots/transfer packets remain outside Git.
 
 ## Binding Decisions
 
-1. `App` owns the setup selection; it does not change `material_mode` or any
-   numerical settings when switched. Preview retains material/carrier choice.
-   Accepted Session exposes its own physics form plus the existing shared
-   domain, grid, steps, maximum dt, pressure, preview, resource and CPU settings
-   that its existing launch consumes. Hide irrelevant emitter/mesh/material
-   controls for that workflow; do not hide consumed launch inputs.
-2. Existing `start`, `start_configured`, validation, immutable intent publication,
-   `Worker`, `poll`, cancellation and child cleanup remain authoritative. UI
-   selection is disabled during active work. No new simulation loop or copied
-   worker state. Settings/Inspector switching must retain run control access.
-   Active work shows only frozen Request facts, not retained next-run form values.
-3. Split configured form painting from its launch button so one fixed action
-   area above the scrolling form can return intent. Paint the current form and
-   process readiness invalidation before executing intent through existing launch
-   validation. Keep package inspection/readiness and
-   invalidation in `ConfiguredControls`; do not expose its private representation.
-4. Preserve full status/error text in keyboard-reachable, height-capped scrolling
-   Status details; keep a concise single-line projection visible outside it so
-   long paths/errors cannot displace Cancel or the form. Shorten routine labels
-   and status copy only.
-   Existing string status is not parsed to invent severity/completion semantics.
-   Compact progress uses the existing worker's actual numerator/denominator;
-   cancellation remains the existing operation, not inferred success.
-5. Keep advanced secondary actions available under task-named disclosures.
-   Preserve relevant limitations and clearing/retention consequences. No
-   unexplained icons or reduced body font/hit targets to meet text targets.
-6. No browser renderer is substituted for actual native validation. The audit's
-   historical `a552d0a` capture is not a current baseline.
+1. App owns one ephemeral typed scene-object selection and current scene context, including import/replacement generation for the current singular model slot.
+   Tree, viewport and properties emit Select/Edit intents against that owner; no
+   duplicated canonical force/model properties. Draft and frozen-run contexts are
+   explicit, and missing/deleted objects clear selection without retargeting.
+2. Right scene panel collapses without losing selection/expanded rows/draft values.
+   Properties belong to the selected object, not a disconnected force form.
+   At narrow logical widths use one open setup/scene drawer at a time while an
+   App-owned global run/status strip keeps the one launch action/Cancel reachable.
+   Maintain usable viewport width; do not solve crowding by shrinking body fonts.
+3. Force units, support, activation/time, coordinate frame, meaningful transforms,
+   density/mass conversions and backend support come only from the domain API.
+   Unsupported backend/object edits show blocking reasons. Do not map existing
+   MAC-only BodyForce to particles or confuse visual anchor with physical support.
+4. Active, paused, completed and cancelled retained-run scene geometry/properties come from immutable Request/snapshot
+   facts and are read-only, independently of worker presence. An explicit Draft
+   scene switch stops displaying retained fluid/run geometry without deleting
+   history; selection clears across contexts. T2 must reconcile this before edits. Draft edits affect a future run through the existing
+   validate/freeze/launch boundary; no mutation of an active session/archive.
+5. Existing collision draft path/scale/translation and accepted Arc<Mesh> remain
+   distinct. Keep transactional Apply/rejection and explicit history consequences.
+   Accepted geometry is never silently replaced by an unvalidated drag preview.
+6. Handle capture has priority over object pick, recorded probe and camera input.
+   One gesture has one owner. Escape cancels preview, release validates/commits one
+   draft authoring edit (models still require explicit transactional Apply), and numeric unit-labelled properties provide a keyboard alternative.
+   A thin geometry-following selection outline accompanies tree/property identity;
+   colour alone does not communicate selection or errors.
+7. T1 retains transport/speed/Live/track/scrub semantics and physical time/step
+   metadata. Replace the height floor with local content measurement; do not discard status/uncertainty or
+   move scientific details until a later measured need justifies that exact change.
+8. Every test path is inspected before list-only enumeration; execute one explicit
+   fully qualified `--exact` UI-only name per command. No substring filters,
+   fallback suites, simulations, model runtimes, archive fixtures or file cleanup.
 
 ## Objective Acceptance
 
 | ID | Observable criterion | Kind / environment / mode | Status | Evidence |
 | --- | --- | --- | --- | --- |
-| A1 | Actual egui pointer selection presents only the selected setup form and one primary launch; switching preserves settings and never launches work | integration / simulated egui input / automated | satisfied | [Verification](reports/verification.md) |
-| A2 | Primary action/status remain outside scroll content, including Inspector mode; shared consumed inputs remain reachable; disabled package launch remains explicit | integration / simulated egui input / automated | satisfied | [Verification](reports/verification.md) |
-| A3 | Launch/request/worker/cancel/recording semantics unchanged; no Inspector/D1/numerical edits; unit and limitation copy retained | focused / not-applicable / manual source review | satisfied | [Verification](reports/verification.md) |
-| A4 | Native 1250×820 and 900×650 at 100% and 150% UI scale: no clipped labels/overlap; mode/action/status visible; scroll/keyboard/focus/help and in-progress cancellation work | user-workflow / required-real supported native display / manual | blocked | [Scoped native receipt and remaining gaps](reports/m1-native-and-gap-handoff.md); idle repaired UI passed per parent, active/native accessibility gaps remain |
-| A5 | Matched current before/after states show materially less text with unchanged values/warnings; target 40% fewer visible explanatory words across full planned refinement, not M1 alone; 4/5 users identify workflow/edit material/find launch within 30s | user-workflow / representative native / manual | pending | No counts/usability results yet |
-| A6 | Rust 1.92 formatting, affected desktop build, strict affected-target Clippy and focused UI tests pass | focused / Linux pinned Rust / automated | satisfied | [Verification](reports/verification.md) |
+| S1 | Empty idle timeline fits <=70 logical px in900/1250px windows with the preceding280px sidebar reserved; selected-frame captions remain present and may naturally wrap/grow; actual Play/Pause/step/Live input keeps prior transitions | integration / isolated egui painting/input / automated | pending | Four exact probes pass: idle48px versus106px, focused speed editing and native-track/literal-report layouts. Native/configured/popup-keyboard coverage remains open |
+| S2 | Right panel collapses/reopens retaining selection; tree/viewport choose the same existing object; deleted/replaced/missing identities never edit another object | integration + user-workflow / inert UI then native / automated + manual | pending | No scene implementation yet |
+| S3 | A force is one canonical scene object in tree, properties, outline and handles; UI exposes only shared supported units/support/transform; unsupported backend blocks with a reason | integration / shared domain contract + inert UI / reviewed + automated | blocked | Exact canonical source received/sealed; desktop dispatch/frozen intent integration pending |
+| S4 | Handle capture prevents simultaneous camera/probe motion; Escape restores exact draft; release commits one validated unit-correct edit; active snapshots stay immutable | integration + user-workflow / inert UI then native / automated + manual | pending | Domain/manipulator stages not admitted yet |
+| S5 |1250×820 and900×650 at100%/150%: usable viewport, no overlap/clipping, visible status/Cancel/errors, thin outline, keyboard alternatives and predictable drawer focus | user-workflow / actual native display / manual | blocked | No local display; prior426fd25 images do not cover this source |
+| S6 | Locked affected check, strict Clippy, formatting and individually selected exact UI tests pass; existing archives/source ownership unchanged | focused / pinned Rust1.92 / automated + source review | pending | T1 focused gates reported in checkpoint; no scientific certificate |
 
-Before expanding beyond M1, native owner observes real default/switched/Inspector
-screens and overflow; that observation can revise panel placement/width, not
-scientific semantics. Run ongoing-worker/cancel UI coverage only with an approved
-UI-only fixture or independently authorized run; this turn authorizes no solver
-or model execution. Headless paint establishes emitted layout/input behavior,
-not human perception, native scaling, accessibility or complete workflows.
+The former M1 A4/A5 and live cancellation remain unsatisfied. UI-5 has a reviewed
+isolated-form exact-bit repair, not native/global keyboard acceptance. Earlier
+accidental numerical-fixture results earn no acceptance credit; automatic test
+teardown removed their disposable outputs before detection and no resource
+measurements/scientific result are claimed. Preserve every incident/failure log.
 
 ## Simplicity And Ownership Review
 
 **Applicability:** `applicable`
 
-The desktop composition root changes.
-
-- Independent concepts and dimensions: App selects displayed setup and routes intent; ConfiguredControls
-   owns package/form readiness; worker owns execution; recording owns durable
-   truth. Only presentation timing/placement changes for desktop users.
-- State, identity, value, time, policy, and mechanism: required interleaving is selected intent plus actual worker busy state.
-   Avoid coupling UI selection to physics mode, timeline selection or archives.
-- Caller and composition-root knowledge: App knows the selected workflow and asks ConfiguredControls to paint its
-   form/action; it does not know package pin details or invent execution status.
-- Representative change paths and forced owners: new workflow label changes only presentation. New configured readiness rule
-   stays in ConfiguredControls. Cancellation still changes only worker owner.
-- Stable Interfaces versus hidden knowledge: the form/action interface carries enabled state and action intent; it does
-   not leak provider layout, source pins or shutdown ordering.
-- Independent evolution, testing, failure, and replacement: forms are paintable/testable without execution. Existing worker failures
-   remain full status feedback; a failed package check cannot enable launch.
-- Deletion and cumulative machinery result: no permanent registry, adapter or generic UI framework is introduced. Removing
-   selection/placement would restore competing launch forms, so that mechanism
-   contains the user-facing hierarchy requirement. Ordinary functions suffice.
-- Necessary complexity and containment: inherent complexity is preserving two existing run profiles and shared
-   inputs; contain it in App's form composition. No new persisted UI schema,
-   parallel state model or solver abstraction is retained.
+- Independent concepts and dimensions: App composes scene context/selection and intent; UI paints
+  canonical projections; force domain validates/freezes physical meaning; solver
+  adapters execute it. Inspector owns recorded numerical probes separately.
+- State, identity, value, time, policy, and mechanism: one selection keyed by stable
+  domain/object ID within draft/frozen context; no parallel force-value registry.
+- Caller and composition-root knowledge: desktop knows capabilities and routes explicit
+  intents, not force integration formulas or backend density/mass policy.
+- Representative change paths and forced owners: new domain force type supplies capabilities/properties;
+  new renderer changes drawing only; new model import retains geometry ownership.
+- Stable Interfaces versus hidden knowledge: typed selection/edit intents and pinned validated freeze API,
+  not string-parsed status or copied provider/worker internals.
+- Independent evolution, testing, failure, and replacement: T1 paints/tests without history access; force
+  validation failure retains draft/accepted values and a visible blocking reason.
+- Deletion and cumulative machinery result: ordinary modules and enums suffice. No ECS,
+  scene framework, duplicate physics schema or universal widget abstraction.
+- Necessary complexity and containment: draft-versus-frozen identity and exclusive gesture capture
+  are inherent; contain them at App/scene boundary rather than inside solvers.
 
 ## Rollback and re-plan
 
-M1 is presentation-only, reversible by reverting its isolated local diff/commit;
-no migration, archive deletion or saved-data rewrite is needed. Preserve branch
-and worktree until parent accepts a terminal disposition. Rollback must not
-reset another worktree or alter the Inspector/numerical branches.
+Preserve all checkpoints. Roll back only a slice's exact incremental working patch,
+never reset the original M2a/Inspector/numerical worktree or delete saved output.
+T1 is presentation-only; no migration. T2–T4 require explicit source/identity
+review before rollback because scene selection may refer to removed draft objects.
+No persistent-data rewrite is admitted.
 
 ## Re-Plan Triggers
 
-Re-plan for missing consumed launch inputs, changed package/worker ownership,
-native evidence contradicting placement, overlap with Inspector integration,
-unintended numerical changes or an inadequate UI-test oracle. Fix ordinary
-lint/test failures inside the admitted boundary without restarting design.
+Re-plan for force API/capability mismatch, UI/force overlapping ownership, silent
+backend approximations, broken active/draft identity, native drawer crowding,
+changed collision admission, lost units/errors, or any uncertain test helper path.
+Ordinary lint/layout failures stay within the current exact slice and retain logs.
 
 ## Blockers
 
-Local native display remains unavailable. The existing validator has reported
-scoped idle native success at exact `426fd25`; active-worker, native long-status,
-accessibility and representative user evidence remain incomplete. JPEG delivery
-is blocked separately (Forbidden; no confirmed Library IDs). No standards application MCP is exposed; direct
-source standards review is used and no engine conformance certificate claimed.
-Build/tool availability and any baseline lint failures are recorded in the ledger.
+Canonical force source is received/sealed in isolated branch; its arrival does not
+implement scene UI or desktop runtime. Desktop dispatch/frozen intent/load/rerun
+and unsupported owner paths still need staged integration and qualified evidence.
+Right-scene
+integration must reconcile exact Inspector work before overlap. Local native
+display unavailable; JPEG delivery of older screenshots remains separately blocked.
+Live cancellation lacks required existing containment and stays parked. No mount,
+cgroup, permission, credential or network changes are authorized.
 
 ## Final Acceptance
 
-Scoped idle native visual/interaction evidence is recorded; complete native
-active-worker/accessibility and matched-state usability acceptance remain unsatisfied.
-No delivery, standards-engine certification or whole-plan acceptance is claimed.
-
-## M1 native-feedback repair admission — 2026-10-20
-
-Parent reports controlled native validation of checkpoint `8bf5f41` found expanded
-form text clipping and viewport information clipping at 900×650 / 150%. Only
-width wrapping is admitted: the existing M1 form files/tests plus the exact
-`settings.rs` form rows and `viewport.rs` appearance captions. This is a serial
-repair admission, not the start of M2 or M3; their remaining work stays Planned.
-Preserve strings, units, warnings, fonts, values, interaction order and worker
-ownership. Keep recording disclosure identity when supplying a wrapped galley.
-
-Accept the repair only after focused UI regressions and compile/lint checks,
-independent source review, then exact-revision native inspection of expanded
-Preview/Accepted Session forms and appearance captions at 1250×820 and 900×650,
-100% / 150%. Recheck independent scroll and input retention; capture actual
-updated JPEGs at quality 85 with revision/state labels. No workload is needed.
-Active progress/Cancel/frozen rerun and long-status stress remain unverified;
-exercise only under the previously bounded fixture/run authority. Parent reports
-30 retained native JPEGs of the prerequisite; no images or native verification
-of this repair are claimed here. Roll back only the isolated repair commit if
-needed; preserve the accepted prerequisite and unrelated Inspector work.
-
-## Scoped native checkpoint and remaining M1 admission — 2026-10-20
-
-Parent reports exact `426fd25d22975e1259f5543c77dc771a6ac646ff` and both
-incremental transfer/parent/tree hashes validated in the existing native owner.
-The repaired idle workflows passed at both supported sizes/scales. This closes
-those clipping observations only; A4 remains blocked on its unobserved parts and
-A5 remains pending. See [the scoped receipt/gap handoff](reports/m1-native-and-gap-handoff.md).
-
-Continue M1 with test-only synthetic active-state coverage in
-`src/bin/desktop/setup_ui_tests.rs`; no production changes or new runtime fixture
-flags. Reuse the existing inert Worker-handle pattern, empty budgeted history and
-manual progress atoms. Verify actual sidebar Cancel routing/frozen-request
-projection without `Worker::start`, solver calls or recording publication. This
-is mocked UI-state evidence, not worker cancellation or native verification.
-Propose precise bounds for any actual worker test; do not execute it under this
-admission. No M2–M4 expansion, changed resource budget, model/scientific run,
-publication, cleanup or retry of Forbidden image delivery is admitted.
-
-## M1 cancellation-contract admission — 2026-10-20
-
-Parent requests a complete external supervised cancellation contract, not live
-execution. Serial write set: `src/bin/desktop/setup_ui_tests.rs` (ignored genuine
-case plus inert long-status stress), new `tools/supervise_ui_cancel.py` and its
-unit tests, plus this plan directory. No application production code changes.
-See [reviewed cancellation contract](reports/m1-cancellation-contract.md).
-
-Keep genuine execution ignored/unadmitted. Require exact source/binary seals,
-externally reserved preconfigured cgroup and bounded output tmpfs; fail before GO
-if prerequisites are unavailable. No fallback/provisioning/settings changes.
-The hard resource/disposition contract must distinguish CPU bandwidth, per-process
-limits, observed aggregate trips, kernel allocated storage, and unresolved kernel
-teardown. Only disposable owned test processes/descendants can be terminated.
-Independent source review and non-numerical tests precede any future admission.
-Long-status headless stress can proceed now; native accessibility, genuine worker
-cancellation and whole M1 acceptance remain open. M2–M4 stay Planned.
-
-## Read-only containment preflight and M2a admission — 2026-10-20
-
-Parent authorizes proceeding with the next independent UI milestone while parking
-only live cancellation. Read-only preflight confirms cgroup2 is mounted read-only;
-the only visible child (`init`) is populated and not writable. No exclusively
-delegated empty writable leaf exists. Existing `/tmp` and `/dev/shm` tmpfs mounts
-have capacity 9,441,337,344 bytes and 2,305,014 inodes, no `noswap` option or
-exclusive lease, exceeding the reviewed 32 MiB/1,024-inode contract. No mounts,
-delegation, limits, permissions or process membership changed; no genuine test
-ran. The reviewed supervisor remains unchanged. See
-[preflight and M2a evidence](reports/m2a-material-domain.md).
-
-Serial M2a production write set: **only** `src/bin/desktop/settings.rs`, including
-its UI-only tests. Authored plan/review/evidence files may change. Base is local
-`7318023f04946171d7909119300af76e455c2926`; preserve every existing commit and
-remote branch, with no publication. M1 is not accepted. No Inspector, D1,
-collision/emitter implementation, main-file launch routing, worker, solver,
-recording or numerical default changes are admitted.
-
-Keep material state/density/viscosity/surface tension/wall drag, gas molar mass and
-reference pressure directly visible. Group temperature editing and thermal
-explanations under explicit default-closed disclosures, whose headers retain the
-current temperature in °C. Keep phase/no-boiling/no-freezing/no-elastic-slime
-limitations outside disclosures. Add a named keyboard-reachable Property help
-disclosure containing the existing hover explanations, preserving their meaning.
-Bound all material/domain preset selector minimum widths and wrap full selected
-labels without truncation. Preserve widget IDs for existing selectors, units,
-ranges, conversion, defaults and SI owners; hiding/reopening inputs must not
-change values. Do not alter the shared quantity helper in this slice.
-
-Acceptance evidence: real egui pointer/keyboard input opens and closes both
-thermal disclosures and Property help; disclosure operation/idle painting retains
-all configuration values; values edited through reopened controls preserve SI
-conversion; all preset/fill choices fit 240/280 px form widths; essential model
-limitations and gas reference pressure remain emitted when thermal help is closed.
-Run focused material and existing setup UI tests, formatting, affected locked
-compile and strict Clippy; obtain independent source/design review. These tests
-are headless and cannot accept native appearance, accessibility or the 40% word
-target. Native handoff requires idle material/domain screens, expanded thermal/help
-states and dropdowns at both supported window sizes/scales, exact source seal and
-quality-85 actual JPEGs; no run/cancel workload is needed. Rollback is the isolated
-M2a working diff; no migration or saved-data operation is involved.
-
-Known M2a evidence limit: existing forward-Tab numerical-editor rounding is open
-as UI-5, with exact Air SI values/reproduction in the report. The help test proves
-only its isolated reverse-Tab route; no general keyboard value-immutability or
-accessibility result is claimed. An accidentally broad `ui_` filter executed five
-existing numerical-fixture tests before detection; its full names/effects and log
-are recorded in the report. It is not admitted workload or UI acceptance evidence.
-Subsequent runtime checks use only the inspected `settings::tests::` and
-`setup_ui_tests::ui_setup_` prefixes. The genuine cancellation test remains unrun.
-
-## UI-5 precision-only continuation — 2026-10-20
-
-Parent reviewed the test-selection incident and admits only the smallest focus
-precision repair. Preserve the original uncommitted M2a worktree and packet:
-new detached worktree `/workspace/Rheon-ui-precision` starts at7318023 and applies
-the exact preserved M2a patch0c8b8d4e4eb87f761ff94f998f58548888ba23aa6b40414605652044816c2a6b,
-whose resulting tree is8740bf155b3db1f3c44e109277605b9411f459fe. No commit or
-publication is admitted. Production scope is only settings.rs: one private
-DragValue formatting adapter at the density editor and shared quantity helper.
-Focused text must roundtrip the exact display value; idle compact formatting,
-IDs, parser, ranges, speeds and `.changed()` SI conversion guards stay unchanged.
-Shared quantity callers include domain/main/emitter controls; record that reach.
-
-UI-5 was observed after M2a, not on a tested pristine baseline. The same pinned
-format/reparse mechanism in prerequisite source is an inference about prior
-cause, not an empirical baseline result. Repair evidence must retain exact-bit
-material equality across focus/forward and reverse Tab without typing, and real
-edits/range enforcement in SI units. Check focused240/280px geometry, not only
-idle labels. No native accessibility/visual acceptance follows from these tests.
-
-Before runtime: inspect each entire test/helper path, enumerate with list-only,
-then execute only an individually named `--exact` UI-only test. No substring or
-fallback suite, simulation/model/numerical fixture, file cleanup or genuine
-cancellation. Stop if a selection is uncertain. Independent source review is
-required. Keep failure logs and original M2a/incident artifacts intact. Automatic
-successful-test teardown removed the accidental disposable numerical outputs
-before detection; no resource measurements or scientific acceptance are claimed.
+T1 focused speed edit-buffer geometry and native carrier track/literal-report probes
+pass after bounded editor and ordinary-layout measurement repairs. Configured
+long captions, popup keyboard/window bounds and native behavior remain unaccepted.
+No complete UI, force parity, native/accessibility, M1 or scientific acceptance is
+claimed. Accept only exact staged source/test/native evidence once its objective
+criteria are met. Publish/merge only after separate coordination/authorization.

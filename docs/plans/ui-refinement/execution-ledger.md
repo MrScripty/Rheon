@@ -239,3 +239,64 @@
 - New scene/timeline direction supersedes continuing old M2–M4 unchanged. Freeze
   this precision evidence before admitting new source regions; independent scene
   contracts must separate UI ownership from the other task's force domain/adapters.
+
+
+## 2026-10-20 — revised scene plan and compact timeline checkpoint
+
+- Superseding user direction admitted as T1 compact playback, T2 shared right
+  scene selection/properties, T3 canonical forces, T4 manipulators, T5 native/
+  integration. Independent plan review, pinned structural validation and exact
+  ownership contract are recorded; no standards-engine certificate is available.
+- Parent supplied shared backend API metadata at d7bffdd5 (f55cf595 authoring,
+  19e0145c adapters). Exact source transfer is pending. Canonical nonzero
+  SceneObjectId allocation belongs to UI across models/forces; force semantics,
+  validation/freeze/adapters and qualified pressure/control custody belong to
+  backend. Exact runtime/archive file reservations require parent coordination.
+  No Request/dispatch/custody implementation changed; MAC stamp gap is explicit.
+- T1 modifies only main's timeline presentation and its new inert exact test file.
+  The106px floor fails the <=70 idle target. Floor removal alone clips cold frames;
+  both logs retained. Local disabled/invisible sizing on disposable scalar copies
+  with disjoint IDs and hidden AccessKit subtree now yields47px at620/970px strip
+  widths. Two exact UI-only probes each pass; no prefix/fallback suite or workload.
+- Source review limits acceptance: disabled DragValue measurement cannot see the
+  real focused editor's buffer. Speed-edit/track popup/report stress and general
+  layout safety are unaccepted. No local display; no new native/JPEG claim. M1,
+  genuine cancellation, scientific and full new scene acceptance remain open.
+- UI-5 precision/settings is unchanged; original M2a/settings and incident log
+  hashes remain exact. Prior accidental fixture teardown removed disposable
+  outputs before detection; no resource measurements or scientific credit.
+  No commit, publication, remote overwrite, cleanup, cgroup/mount change or live
+  workload. See compact checkpoint for tests, native procedure and prerequisites.
+
+- Subsequent parent update confirms UI ownership of desktop Request/dispatch and
+  run_sets frozen-intent/load/rerun files, backend ownership of core recording.
+  Backend reports8d2b4f8a custody APIs and3e839cbf evidence commit; exact source
+  publication/transfer is pending verification. Five solver passes are pre-custody;
+  new custody has pure codec/static evidence only. No unsupported workflow enabled.
+
+- Published source now fetched at exact1d44c8429701f205f678b602040d4f62ea6457b3,
+  tree3a0f00235cd224bfae825bb3f09b4fa599bc46e9; core unchanged from3e839cb.
+  All13 custody seals match Git/local bytes; original35 backend paths and55
+  unchanged desktop paths independently verified. Isolated branch integrates
+  verified M2a/UI-5/T1 prerequisites and backend source; no commit/merge/push.
+  Locked desktop check8.75s passed. No integration tests/workloads executed.
+  Scene inspector/picking/outline/handles are still plan/contract only, not built.
+  Source receipt and review qualify transfer, not desktop/runtime/native acceptance.
+
+
+## 2026-10-20 — completed focused timeline source increment
+
+- Parent authorized continued implementation, distinct commits and normal draft-PR
+  publication after focused gates. Preserve all old work/evidence; no squashing.
+- Bounded accessible playback-speed editor preserves exact focus-only bits, finite
+  parse and0.1–4 clamp, keyboard adjustment; invalid text retains last valid value.
+  New report-state test exposed sizing_pass alignment/Separator mismatch; ordinary
+  invisible/disabled local layout fixes it. Earlier failure log retained.
+- Four individually selected --exact inspected UI-only tests pass; idle48px at
+ 620/970 strip widths, speed focus/Tab/edit/long invalid/clamp/keyboard, track and
+  synthetic report captions. No solver/model/history/Worker/file fixture/cleanup.
+  Clippy53.53s passed; compile/fmt/diff evidence recorded separately. Independent
+  source review has no bounded blocker; native/configured-popup scope stays open.
+- Next admission covers canonical right scene list/properties/force creation,
+  immutable context selection and explicit launch refusal; viewport picking and
+  handles follow in separate bounded slices. No force runtime dispatch yet.

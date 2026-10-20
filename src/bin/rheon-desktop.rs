@@ -57,6 +57,9 @@ mod settings;
 #[cfg(test)]
 #[path = "desktop/setup_ui_tests.rs"]
 mod setup_ui_tests;
+#[cfg(test)]
+#[path = "desktop/timeline_ui_tests.rs"]
+mod timeline_ui_tests;
 #[path = "desktop/transport_view.rs"]
 mod transport_view;
 #[path = "desktop/viewport.rs"]
@@ -1063,6 +1066,180 @@ fn running_setup_ui(ui: &mut egui::Ui, request: &Request) {
         ui.small("Filled carrier-fluid preview");
     }
 }
+/// Per-paint value projection only; App remains the playback state owner.
+#[derive(Clone)]
+struct TimelineControls {
+    timeline_step: usize,
+    track: usize,
+    follow_live: bool,
+    playing: bool,
+    play_time: f64,
+    playback_speed: f64,
+    playback_speed_text: String,
+    playback_speed_invalid: bool,
+}
+impl TimelineControls {
+    fn contents(
+        &mut self,
+        ui: &mut egui::Ui,
+        count: usize,
+        frame: Option<&PreviewFrame>,
+        request: Option<&Request>,
+        track_caption: &str,
+    ) {
+        ui.horizontal_wrapped(|ui| {
+            if ui
+                .button(if self.playing {
+                    "❚❚ Pause"
+                } else {
+                    "▶ Play"
+                })
+                .clicked()
+            {
+                self.follow_live = false;
+                self.playing = !self.playing;
+                if self.timeline_step + 1 >= count {
+                    self.timeline_step = 0;
+                    self.play_time = 0.0;
+                } else {
+                    self.play_time = frame.as_ref().map_or(0.0, |f| f.time);
+                }
+            }
+            if ui.button("◀ Step").clicked() {
+                self.follow_live = false;
+                self.playing = false;
+                self.timeline_step = self.timeline_step.saturating_sub(1);
+            }
+            if ui.button("Step ▶").clicked() {
+                self.follow_live = false;
+                self.playing = false;
+                self.timeline_step = (self.timeline_step + 1).min(count.saturating_sub(1));
+            }
+            ui.checkbox(&mut self.follow_live, "Follow live");
+            if self.follow_live {
+                self.playing = false;
+            }
+            // A bounded editor has the same geometry while disabled, focused or
+            // holding invalid text. DragValue's growing private edit buffer does not.
+            let speed_label = ui.label("Speed");
+            let speed = ui
+                .add(
+                    egui::TextEdit::singleline(&mut self.playback_speed_text)
+                        .id_salt("playback-speed")
+                        .desired_width(44.0)
+                        .clip_text(true),
+                )
+                .labelled_by(speed_label.id)
+                .on_hover_text(
+                    "Playback speed: 0.1–4×. Edit the number; Up/Down changes it by 0.1.",
+                );
+            ui.label("×");
+            // Feedback is projected from the start of this paint, so input cannot
+            // add an unmeasured row partway through bottom-panel placement.
+            let displayed_invalid = self.playback_speed_invalid;
+            if displayed_invalid {
+                ui.colored_label(egui::Color32::LIGHT_RED, "Invalid speed")
+                    .on_hover_text("Enter a finite number. Allowed range: 0.1–4×.");
+            }
+            if speed.changed() {
+                match self.playback_speed_text.parse::<f64>() {
+                    Ok(value) if value.is_finite() => {
+                        self.playback_speed = value.clamp(0.1, 4.0);
+                        self.playback_speed_invalid = false;
+                    }
+                    _ => self.playback_speed_invalid = true,
+                }
+            }
+            if speed.has_focus() {
+                let increment = ui.input(|input| {
+                    i32::from(input.key_pressed(egui::Key::ArrowUp))
+                        - i32::from(input.key_pressed(egui::Key::ArrowDown))
+                });
+                if increment != 0 {
+                    self.playback_speed =
+                        (self.playback_speed + f64::from(increment) * 0.1).clamp(0.1, 4.0);
+                    self.playback_speed_text = self.playback_speed.to_string();
+                    self.playback_speed_invalid = false;
+                }
+            } else if !self.playback_speed_invalid {
+                self.playback_speed_text = self.playback_speed.to_string();
+            }
+            if let Some(request) = request
+                && request.material.is_none()
+            {
+                egui::ComboBox::from_id_salt("timeline-track")
+                    .selected_text(request.track_label(self.track))
+                    .show_ui(ui, |ui| {
+                        for track in 0..request.methods.len() {
+                            if ui
+                                .selectable_value(
+                                    &mut self.track,
+                                    track,
+                                    request.track_label(track),
+                                )
+                                .clicked()
+                            {
+                                self.follow_live = false;
+                                self.playing = false;
+                                self.timeline_step = 0;
+                            }
+                        }
+                    });
+            }
+        });
+        ui.style_mut().spacing.slider_width = (ui.available_width() - 155.0).max(150.0);
+        if ui
+            .add_enabled(
+                count > 0,
+                egui::Slider::new(&mut self.timeline_step, 0..=count.saturating_sub(1))
+                    .text("Step"),
+            )
+            .changed()
+        {
+            self.follow_live = false;
+            self.playing = false;
+        }
+        if let Some(frame) = &frame {
+            ui.horizontal_wrapped(|ui| {
+                ui.label(format!(
+                    "{} · Step {} / {}",
+                    if frame.material_color.is_some() {
+                        "Material fluid".to_owned()
+                    } else {
+                        track_caption.to_owned()
+                    },
+                    frame.step,
+                    count.saturating_sub(1)
+                ));
+                ui.separator();
+                ui.label(format!("Simulated {}", settings::duration(frame.time)));
+                ui.separator();
+                ui.label(if frame.step == 0 {
+                    "Initial state".into()
+                } else {
+                    format!("Step calculation {}", settings::duration(frame.seconds))
+                });
+                if let Some(r) = frame.particle_report {
+                    ui.separator();
+                    ui.label(format!(
+                        "{} particles · {:.6} kg · {:.1} °C",
+                        r.particles,
+                        r.total_mass,
+                        r.mean_temperature_kelvin - 273.15
+                    ));
+                }
+                if let Some(report) = frame.report {
+                    ui.separator();
+                    ui.label(format!(
+                        "{} pressure iterations · divergence {:.2e}",
+                        report.pressure.iterations, report.actual_divergence_max
+                    ));
+                }
+            });
+        }
+    }
+}
+
 struct App {
     setup_workflow: SetupWorkflow,
     ai_comparison: Option<ai_comparison::ComparisonApp>,
@@ -1111,6 +1288,8 @@ struct App {
     playing: bool,
     play_time: f64,
     playback_speed: f64,
+    playback_speed_text: String,
+    playback_speed_invalid: bool,
 }
 impl Default for App {
     fn default() -> Self {
@@ -1166,6 +1345,8 @@ impl Default for App {
             playing: false,
             play_time: 0.0,
             playback_speed: 1.0,
+            playback_speed_text: "1".into(),
+            playback_speed_invalid: false,
         }
     }
 }
@@ -1819,6 +2000,66 @@ impl App {
             }
         }
     }
+    /// Paint playback only; frame/history/worker ownership stays with the caller.
+    fn timeline_ui(
+        &mut self,
+        ctx: &egui::Context,
+        count: usize,
+        frame: Option<&PreviewFrame>,
+    ) -> egui::Rect {
+        let mut controls = TimelineControls {
+            timeline_step: self.timeline_step,
+            track: self.track,
+            follow_live: self.follow_live,
+            playing: self.playing,
+            play_time: self.play_time,
+            playback_speed: self.playback_speed,
+            playback_speed_text: self.playback_speed_text.clone(),
+            playback_speed_invalid: self.playback_speed_invalid,
+        };
+        let request = self.running_request.as_ref();
+        // Freeze display context across sizing and interactive painting. A changed
+        // track is projected on the next frame, without measuring mutable history.
+        let track_caption = request.map_or_else(
+            || frame.map_or_else(String::new, |frame| frame.method.id().to_owned()),
+            |request| request.track_label(controls.track),
+        );
+        let panel_frame = egui::Frame::side_top_panel(&ctx.style());
+        let mut sizing_ui = egui::Ui::new(
+            ctx.clone(),
+            egui::Id::new("timeline-sizing"),
+            egui::UiBuilder::new()
+                .max_rect(ctx.available_rect())
+                .layout(egui::Layout::top_down(egui::Align::Min))
+                .invisible(),
+        );
+        // Invisible widgets still produce AccessKit nodes. Hide the measurement
+        // subtree so assistive technology receives only the real playback controls.
+        ctx.accesskit_node_builder(sizing_ui.id(), |node| node.set_hidden());
+        // Bottom panels reserve height before painting. Measure the same contents
+        // locally so cold frames and changing captions never rely on cached height.
+        // This disabled, disjoint-ID pass edits only a disposable scalar copy.
+        let mut sizing_controls = controls.clone();
+        let measured = panel_frame.show(&mut sizing_ui, |ui| {
+            sizing_controls.contents(ui, count, frame, request, &track_caption);
+        });
+        let response = egui::TopBottomPanel::bottom("timeline")
+            .frame(panel_frame)
+            .exact_height(measured.response.rect.height().ceil())
+            .show(ctx, |ui| {
+                controls.contents(ui, count, frame, request, &track_caption);
+            });
+        // Commit real interaction once. Never rerun App::update to measure layout.
+        self.timeline_step = controls.timeline_step;
+        self.track = controls.track;
+        self.follow_live = controls.follow_live;
+        self.playing = controls.playing;
+        self.play_time = controls.play_time;
+        self.playback_speed = controls.playback_speed;
+        self.playback_speed_text = controls.playback_speed_text;
+        self.playback_speed_invalid = controls.playback_speed_invalid;
+        response.response.rect
+    }
     fn controls(&mut self, ui: &mut egui::Ui) {
         let configured = self.setup_workflow == SetupWorkflow::AcceptedSession;
         let material_preview = self.material_mode && !configured;
@@ -2141,124 +2382,7 @@ impl eframe::App for App {
             ctx.request_repaint();
             return;
         }
-        egui::TopBottomPanel::bottom("timeline")
-            .min_height(106.0)
-            .show(ctx, |ui| {
-                ui.horizontal_wrapped(|ui| {
-                    if ui
-                        .button(if self.playing {
-                            "❚❚ Pause"
-                        } else {
-                            "▶ Play"
-                        })
-                        .clicked()
-                    {
-                        self.follow_live = false;
-                        self.playing = !self.playing;
-                        if self.timeline_step + 1 >= count {
-                            self.timeline_step = 0;
-                            self.play_time = 0.0;
-                        } else {
-                            self.play_time = frame.as_ref().map_or(0.0, |f| f.time);
-                        }
-                    }
-                    if ui.button("◀ Step").clicked() {
-                        self.follow_live = false;
-                        self.playing = false;
-                        self.timeline_step = self.timeline_step.saturating_sub(1);
-                    }
-                    if ui.button("Step ▶").clicked() {
-                        self.follow_live = false;
-                        self.playing = false;
-                        self.timeline_step = (self.timeline_step + 1).min(count.saturating_sub(1));
-                    }
-                    ui.checkbox(&mut self.follow_live, "Follow live");
-                    if self.follow_live {
-                        self.playing = false;
-                    }
-                    ui.add(
-                        egui::DragValue::new(&mut self.playback_speed)
-                            .speed(0.1)
-                            .range(0.1..=4.0)
-                            .suffix("× playback"),
-                    );
-                    if let Some(request) = &self.running_request
-                        && request.material.is_none()
-                    {
-                        egui::ComboBox::from_id_salt("timeline-track")
-                            .selected_text(request.track_label(self.track))
-                            .show_ui(ui, |ui| {
-                                for track in 0..request.methods.len() {
-                                    if ui
-                                        .selectable_value(
-                                            &mut self.track,
-                                            track,
-                                            request.track_label(track),
-                                        )
-                                        .clicked()
-                                    {
-                                        self.follow_live = false;
-                                        self.playing = false;
-                                        self.timeline_step = 0;
-                                    }
-                                }
-                            });
-                    }
-                });
-                ui.style_mut().spacing.slider_width = (ui.available_width() - 155.0).max(150.0);
-                if ui
-                    .add_enabled(
-                        count > 0,
-                        egui::Slider::new(&mut self.timeline_step, 0..=count.saturating_sub(1))
-                            .text("Step"),
-                    )
-                    .changed()
-                {
-                    self.follow_live = false;
-                    self.playing = false;
-                }
-                if let Some(frame) = &frame {
-                    ui.horizontal_wrapped(|ui| {
-                        ui.label(format!(
-                            "{} · Step {} / {}",
-                            if frame.material_color.is_some() {
-                                "Material fluid".to_owned()
-                            } else {
-                                self.running_request.as_ref().map_or_else(
-                                    || frame.method.id().to_owned(),
-                                    |request| request.track_label(self.track),
-                                )
-                            },
-                            frame.step,
-                            count.saturating_sub(1)
-                        ));
-                        ui.separator();
-                        ui.label(format!("Simulated {}", settings::duration(frame.time)));
-                        ui.separator();
-                        ui.label(if frame.step == 0 {
-                            "Initial state".into()
-                        } else {
-                            format!("Step calculation {}", settings::duration(frame.seconds))
-                        });
-                        if let Some(r) = frame.particle_report {
-                            ui.separator();
-                            ui.label(format!(
-                                "{} particles · {:.6} kg · {:.1} °C",
-                                r.particles,
-                                r.total_mass,
-                                r.mean_temperature_kelvin - 273.15
-                            ));
-                        }
-                        if let Some(report) = frame.report {
-                            ui.separator();
-                            ui.label(format!(
-                                "{} pressure iterations · divergence {:.2e}",
-                                report.pressure.iterations, report.actual_divergence_max
-                            ));
-                        }
-                    });
-                }
-            });
+        self.timeline_ui(ctx, count, frame.as_deref());
         let workers = if self.follow_live && self.show_workers {
             self.worker
                 .as_ref()
