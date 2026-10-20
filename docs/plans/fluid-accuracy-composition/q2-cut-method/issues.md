@@ -14,3 +14,10 @@
 - CV-I6: main2017PDF inaccessible at18MB webreader/public403. Accessible primary
   supplement/code/predecessor sufficient for stated own continuum derivation;
   bodyunread, no claim fullpublishedFD reproduction or redistributed paper.
+- CV-I7: frozen independent normal reconstruction reports square-17 fullmass
+  condition about6.533e11, Bcondition about8.115e3. Cholesky/rank and fixed operator
+  errors pass, but this is not a coupled-step/pressure accuracy qualification.
+  Preserve the small cut and full basis; a later prospective conditioning/solve
+  decision must address it without floors, deleting pressure/velocity, or quietly
+  changing quadrature. Condition numbers were diagnostic in CV1, not a new
+  posthoc numerical pass/fail threshold. Ownernumerics/independentreviewer.

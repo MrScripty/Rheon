@@ -27,3 +27,12 @@ Clippy, formatting and locked release build. No native campaign ran. Independent
 driver review then admitted complete four-case continuation and retained refusal
 files, including corrected five-field refusal CSV rows. Final source freeze
 follows this pre-data harness repair; all earlier receipts remain retained.
+
+Final source6d99e779 passed10debug/10release contracts, strictClippy, formatting
+and lockedreleasebuild. Oracle38d4b75 froze before the ONE native campaign;
+03:54:36UTC native releaseCPU exit0 completed all4cases, maxgate6.75016e-14.
+Independent exact reconstruction normal/-O/-OO byte-identical; fullrank66/66,
+fullmassCholesky, exact support/polynomial/nodaltrace/work pass.14malformed
+fixtures×3modes refuse intentionally (45subprocesschecks total);65CSV hashes
+unchanged. SquarecondM6.53316e11 remains next-solve concern. No criteria, source
+geometry, thresholds or native source changed after campaign. See qualification.
