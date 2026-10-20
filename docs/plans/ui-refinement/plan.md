@@ -1,8 +1,8 @@
 # Desktop scene authoring and compact playback
 
 **Plan status:** `Active`
-**Current phase:** T3 source checkpoint;6127 native validation separate
-**Next slice:** T4 force translation/rotation/support handles
+**Current phase:** T4 bounded source checkpoint; native validation separate
+**Next slice:** workerless native presentation harness, then T5 runtime/archive custody
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -97,7 +97,7 @@ Inspector slice before any overlapping changes; T1 excludes Inspector entirely.
 | T1 | main timeline presentation and desktop/timeline_ui_tests.rs; bounded labelled speed editor, ordinary invisible local measurement, unchanged physical context | Four inspected exact UI probes + compile/Clippy/fmt + independent source review; native remains separate | Completed (bounded source) |
 | T2 | new desktop/scene_ui.rs; main App scene composition/context/model-ID transactions and draft launch refusal; exact inert scene tests; viewport.rs mode-control guard only (no lab dispatch/picking changes) | Canonical domain received; reviewed [authoring admission](reports/scene-authoring-admission.md); one ForceScene/selection owner; viewport mode refusal only, no runtime dispatch | Completed (bounded source) |
 | T3 | new scene_view.rs geometry/picking; viewport.rs aggregate-input composition and thin geometry outline; existing SceneUi selection and main routing | [Exact selection admission](reports/viewport-selection-admission.md), inert camera/geometry/UI tests; no lab initialization, then native | Bounded source complete; native pending |
-| T4 | desktop/scene_handles.rs, viewport exclusive gesture routing, scene_ui validated draft transaction; force-only (model placement deferred) | [Force-only handle admission](reports/force-handles-admission.md); same IDs/domain types; no physics; exact Escape rollback and terminal-frame ownership | Planned |
+| T4 | desktop/scene_handles.rs, viewport exclusive gesture routing, scene_ui validated draft transaction; force-only (model placement deferred) | [Force-only handle admission](reports/force-handles-admission.md); same IDs/domain types; no physics; exact Escape rollback and terminal-frame ownership | Bounded source complete; native pending |
 | T5 | main Request/run_material, carrier_execution.rs, desktop run_sets versioned intent/load/rerun; exact backend recording bridge and native fixes | Qualified canonical custody source + reviewed immutable intent/version compatibility + separately bounded integration evidence. Unsupported owner paths refuse | Planned |
 
 

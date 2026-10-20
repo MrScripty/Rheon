@@ -389,3 +389,32 @@ authorized for retained/timeline behavior. It must contain a legal frozen Reques
 two ordered literal preview frames with distinct timestamps and two tracks, label
 synthetic data, and remain absent from production launch. No implementation or
 acceptance for that harness is claimed in this header checkpoint.
+
+## T4 force handle source checkpoint —2026-10-20
+
+Follows distinct8504b3e header repair on PR146. Canonical force objects have named
+Move/Rotate/Size tools, world translation/local rotation/local support axes with
+thin selected outline; models remain read-only. SceneUi owns one validated draft
+transaction. During drag only an explicit preview changes; release revalidates in
+current scene and commits once. Invalid final pointer, Escape, focus/pointer/rect/
+camera/domain/context/identity/base conflict cancels. Capture and cancellation
+latch consume terminal frame through explicit release, so the same gesture cannot
+fall through to camera/picking. Fast same-frame press/release clears cleanly.
+Untouched translation axes/signed zero and zero-motion base retain exact bits.
+Camera shortcuts respect field focus. Historical/frozen runs remain untouched.
+
+Independent source review repaired7 findings. Final source gates:189-name list,
+16 individually exact inspected inert tests (6handles,5scene,5picking) passed, strict
+production Clippy and locked offline desktop check, fmt/diff passed. Manifest
+`evidence/force-handles-20261020/manifest.json` SHA
+ca49f7b8eee55b8ba2e5ecf5745c6f6ad8d763e6893860934254c3a207ccd261 contains5source
+seals,21accepted logs and2preserved compile/style failure logs. Intermediate list4
+failed on an incomplete Ray initializer; final Clippy rejected a local late-init
+style before repair. Both corrected before final accepted source/checks; no test or
+numerical failure is hidden. Earlier intermediate inert UI passes remain in /tmp.
+
+No native display, full Viewport gesture-dispatch run, assistive usability or actual
+model manipulation/force runtime/archive test occurred here. Native handoff:
+reports/native-force-handles-handoff.md. Force-enabled run refusal remains. Next:
+separately reviewed workerless synthetic retained/timeline presentation fixture,
+then agreed T5 runtime/immutable archive custody; no scientific workload authorized.

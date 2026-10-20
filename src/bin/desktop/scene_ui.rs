@@ -31,7 +31,13 @@ impl NewForce {
         }
     }
 }
+struct DraftEdit {
+    base: ForceObject,
+    preview: ForceObject,
+    valid: bool,
+}
 pub struct SceneUi {
+    edit: Option<DraftEdit>,
     forces: ForceScene,
     selected: Option<SceneObjectId>,
     next_id: Option<u64>,
@@ -44,6 +50,7 @@ pub struct SceneUi {
 impl Default for SceneUi {
     fn default() -> Self {
         Self {
+            edit: None,
             forces: ForceScene::default(),
             selected: None,
             next_id: Some(1),
@@ -67,6 +74,107 @@ impl SceneUi {
 
     pub fn draft(&self) -> &ForceScene {
         &self.forces
+    }
+    pub fn selected_force(&self) -> Option<&ForceObject> {
+        (self.context == SceneContext::Draft)
+            .then(|| {
+                self.forces
+                    .objects
+                    .iter()
+                    .find(|o| Some(o.id) == self.selected)
+            })
+            .flatten()
+    }
+    pub fn editing(&self) -> bool {
+        self.edit.is_some()
+    }
+    pub fn display_scene(&self) -> std::borrow::Cow<'_, ForceScene> {
+        if let Some(edit) = &self.edit
+            && self.edit_matches()
+        {
+            let mut scene = self.forces.clone();
+            if let Some(object) = scene.objects.iter_mut().find(|o| o.id == edit.base.id) {
+                *object = edit.preview.clone();
+            }
+            std::borrow::Cow::Owned(scene)
+        } else {
+            std::borrow::Cow::Borrowed(&self.forces)
+        }
+    }
+    pub fn begin_edit(&mut self) -> bool {
+        if self.edit.is_some() || self.forces.freeze().is_err() {
+            return false;
+        }
+        let Some(base) = self.selected_force().cloned() else {
+            return false;
+        };
+        self.edit = Some(DraftEdit {
+            preview: base.clone(),
+            base,
+            valid: true,
+        });
+        true
+    }
+    pub fn edit_matches(&self) -> bool {
+        self.edit.as_ref().is_some_and(|edit| {
+            self.selected_force().is_some_and(|current| {
+                current == &edit.base
+                    && serde_json::to_vec(current)
+                        .ok()
+                        .is_some_and(|bytes| serde_json::to_vec(&edit.base).ok() == Some(bytes))
+            })
+        })
+    }
+    pub fn preview_edit(&mut self, candidate: Option<ForceObject>) -> bool {
+        let Some(edit) = &self.edit else {
+            return false;
+        };
+        let candidate = candidate.filter(|c| c.id == edit.base.id);
+        let valid = candidate.as_ref().is_some_and(|candidate| {
+            let mut scene = self.forces.clone();
+            let Some(object) = scene.objects.iter_mut().find(|o| o.id == candidate.id) else {
+                return false;
+            };
+            *object = candidate.clone();
+            scene.freeze().is_ok()
+        });
+        let edit = self.edit.as_mut().unwrap();
+        edit.valid = valid;
+        if valid {
+            edit.preview = candidate.unwrap();
+        }
+        valid
+    }
+    pub fn finish_edit(&mut self, apply: bool) -> bool {
+        let matches = self.edit_matches();
+        let Some(edit) = self.edit.take() else {
+            return false;
+        };
+        if apply && matches && edit.valid {
+            let mut candidate_scene = self.forces.clone();
+            let Some(candidate) = candidate_scene
+                .objects
+                .iter_mut()
+                .find(|o| o.id == edit.base.id)
+            else {
+                return false;
+            };
+            *candidate = edit.preview.clone();
+            if candidate_scene.freeze().is_err() {
+                return false;
+            }
+            if let Some(object) = self
+                .forces
+                .objects
+                .iter_mut()
+                .find(|o| o.id == edit.base.id)
+            {
+                *object = edit.preview;
+                self.validate();
+                return true;
+            }
+        }
+        false
     }
     pub fn selected(&self) -> Option<SceneObjectId> {
         self.selected
@@ -191,7 +299,7 @@ impl SceneUi {
                 ui.add_enabled_ui(has_run,|ui|{ui.selectable_value(&mut self.context,SceneContext::Retained,"Retained run");});
             });
             if previous!=self.context {self.selected=None;}
-            let editable=self.context==SceneContext::Draft && !active_worker;
+            let editable=self.context==SceneContext::Draft && !active_worker && !self.editing();
             if self.context==SceneContext::Draft && !self.forces.objects.is_empty() {
                 ui.colored_label(egui::Color32::YELLOW,"Authored-force runs unavailable")
                     .on_hover_text("Runtime and archive integration is pending. No authored force will be silently ignored.");
@@ -219,10 +327,14 @@ impl SceneUi {
                 } else {ui.label("Authored-force metadata unavailable").on_hover_text("This legacy retained run has no canonical authored-force document. Its physics is not inferred from the current draft.");}
                 ui.separator();
                 ui.heading("Properties");
+                if self.editing() {ui.small("Drag preview · release applies · Esc cancels");}
                 if self.selected.is_some() && self.selected==self.model_id() {
                     if let Some(model)=model {ui.label(format!("{} triangles",model.triangles));ui.label(format!("Bounds {:?} … {:?} m",model.bounds.0,model.bounds.1));ui.small("Accepted geometry · placement uses Import / apply mesh in setup.");}
                 } else if self.context==SceneContext::Draft {
-                    if let Some(object)=self.forces.objects.iter_mut().find(|o|Some(o.id)==self.selected) {
+                    if self.edit_matches() {
+                        let mut candidate=self.edit.as_ref().unwrap().preview.clone();
+                        ui.add_enabled_ui(false,|ui|force_properties(ui,&mut candidate));
+                    } else if let Some(object)=self.forces.objects.iter_mut().find(|o|Some(o.id)==self.selected) {
                         let changed=ui.push_id(("force-properties",object.id.0), |ui| ui.add_enabled_ui(editable,|ui|force_properties(ui,object)).inner).inner;
                         if changed {self.validate();}
                         if ui.add_enabled(editable,egui::Button::new("Remove force")).clicked(){self.remove_selected();}
@@ -605,6 +717,34 @@ mod tests {
             scene.forces.objects[0].transform.rotation = quaternion(angles);
             assert!(scene.draft().freeze().is_ok());
         }
+        // Revalidate the entire current containing document on release, not only
+        // the earlier candidate. No solver or recording owner is involved.
+        let mut s = SceneUi::default();
+        let id = s.add(NewForce::Directional).unwrap();
+        s.forces.objects[0].transform.translation[1] = -0.0;
+        let base = s.forces.objects[0].clone();
+        assert!(s.begin_edit());
+        let mut candidate = base.clone();
+        candidate.transform.translation[0] = 0.25;
+        assert!(s.preview_edit(Some(candidate)));
+        s.add(NewForce::Radial).unwrap();
+        s.select(Some(id));
+        s.forces.objects[1].support = ForceSupport::Sphere {
+            radius: 0.0,
+            edge_fraction: 0.0,
+        };
+        assert!(!s.finish_edit(true));
+        assert_eq!(
+            s.forces.objects[0].transform.translation.map(f64::to_bits),
+            base.transform.translation.map(f64::to_bits)
+        );
+        s.forces.objects[1].support = ForceSupport::Global;
+        assert!(s.begin_edit());
+        s.forces.objects[0].transform.translation[1] = 0.0;
+        assert!(
+            !s.finish_edit(true),
+            "signed-zero base conflict must not commit"
+        );
     }
     #[test]
     fn scene_force_refusal_projects_disabled_run_without_dispatch() {

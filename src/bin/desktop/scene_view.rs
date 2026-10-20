@@ -18,14 +18,14 @@ pub struct MeshRef<'a> {
     pub triangles: &'a [[usize; 3]],
 }
 #[derive(Clone, Copy, Debug)]
-struct Point {
-    pos: Pos2,
-    depth: f32,
+pub(super) struct Point {
+    pub pos: Pos2,
+    pub depth: f32,
 }
 #[derive(Clone, Copy, Debug)]
-struct Line {
-    a: Point,
-    b: Point,
+pub(super) struct Line {
+    pub a: Point,
+    pub b: Point,
 }
 struct Object {
     id: SceneObjectId,
@@ -68,7 +68,7 @@ fn cross(a: V3, b: V3) -> V3 {
 fn lerp(a: V3, b: V3, t: f32) -> V3 {
     std::array::from_fn(|d| a[d] + (b[d] - a[d]) * t)
 }
-fn normalized(p: [f64; 3], side: f64) -> Option<V3> {
+pub(super) fn normalized(p: [f64; 3], side: f64) -> Option<V3> {
     let p = p.map(|v| v / side);
     (side.is_finite() && side > 0.0 && p.iter().all(|v| v.is_finite() && v.abs() <= 1.0e12))
         .then(|| p.map(|v| v as f32))
@@ -131,7 +131,7 @@ fn clip_line(line: Line, rect: Rect, ortho: bool) -> Option<Line> {
         b: point(upper),
     })
 }
-fn segment(camera: &OrbitCamera, rect: Rect, mut a: V3, mut b: V3) -> Option<Line> {
+pub(super) fn segment(camera: &OrbitCamera, rect: Rect, mut a: V3, mut b: V3) -> Option<Line> {
     let da = depth(camera, a);
     let db = depth(camera, b);
     if !da.is_finite() || !db.is_finite() || (da < NEAR && db < NEAR) {
@@ -179,7 +179,7 @@ fn clipped_triangle(camera: &OrbitCamera, rect: Rect, triangle: [V3; 3]) -> Vec<
         .map(|i| [p[0], p[i], p[i + 1]])
         .collect()
 }
-fn line_hit(line: Line, p: Pos2, ortho: bool) -> Option<(f32, f32)> {
+pub(super) fn line_hit(line: Line, p: Pos2, ortho: bool) -> Option<(f32, f32)> {
     let vector = line.b.pos - line.a.pos;
     let length = vector.length_sq();
     let t = if length > 0.0001 {
@@ -217,7 +217,7 @@ fn triangle_hit(triangle: [Point; 3], p: Pos2, ortho: bool) -> Option<f32> {
     };
     (z.is_finite() && z > 0.0).then_some(z as f32)
 }
-fn rotate([x, y, z, w]: [f64; 4], [a, b, c]: [f64; 3]) -> [f64; 3] {
+pub(super) fn rotate([x, y, z, w]: [f64; 4], [a, b, c]: [f64; 3]) -> [f64; 3] {
     [
         (1.0 - 2.0 * (y * y + z * z)) * a + 2.0 * (x * y - z * w) * b + 2.0 * (x * z + y * w) * c,
         2.0 * (x * y + z * w) * a + (1.0 - 2.0 * (x * x + z * z)) * b + 2.0 * (y * z - x * w) * c,
@@ -363,12 +363,13 @@ impl Projection {
             result.pick_incomplete = true;
             return result;
         }
+        let display_scene = state.display_scene();
         if state.context == SceneContext::Draft {
-            if state.draft().freeze().is_err() {
+            if display_scene.freeze().is_err() {
                 result.warning = Some("Invalid force draft · fix properties to preview");
                 result.pick_incomplete = true;
             } else {
-                for object in &state.draft().objects {
+                for object in &display_scene.objects {
                     let anchor_position = normalized(object.transform.translation, side);
                     let mut unavailable = anchor_position.is_none();
                     let anchor = anchor_position.and_then(|p| project(camera, p, rect));

@@ -61,6 +61,7 @@ fn view_mode_tabs(ui: &mut egui::Ui, current: &mut ViewMode, blocked: bool) -> [
     })
 }
 pub struct Viewport {
+    scene_handles: super::scene_handles::SceneHandles,
     /// Draft authored fields have no runtime/preview integration yet.
     pub authored_forces_pending: bool,
     pub collision_mesh: Option<Arc<rheon::CollisionMesh>>,
@@ -82,6 +83,7 @@ pub struct Viewport {
 impl Default for Viewport {
     fn default() -> Self {
         Self {
+            scene_handles: Default::default(),
             authored_forces_pending: false,
             camera: OrbitCamera::default(),
             engineering: None,
@@ -111,6 +113,7 @@ pub struct ViewInputs<'a> {
     pub grid_edge: usize,
     pub inspector: Option<&'a super::inspector::Inspector>,
     pub scene: Option<&'a mut super::scene_ui::SceneUi>,
+    pub editable_scene: bool,
 }
 impl Viewport {
     #[cfg(test)]
@@ -132,6 +135,7 @@ impl Viewport {
                 grid_edge,
                 inspector,
                 scene: None,
+                editable_scene: false,
             },
         );
     }
@@ -143,12 +147,17 @@ impl Viewport {
             grid_edge,
             inspector,
             mut scene,
+            editable_scene,
         } = inputs;
-        if self.authored_forces_pending {
+        if self.authored_forces_pending || self.scene_handles.busy() {
             self.mode = ViewMode::Appearance;
         }
         ui.horizontal_wrapped(|ui| {
-            view_mode_tabs(ui, &mut self.mode, self.authored_forces_pending);
+            view_mode_tabs(
+                ui,
+                &mut self.mode,
+                self.authored_forces_pending || self.scene_handles.busy(),
+            );
             if self.mode != ViewMode::Appearance {
                 ui.checkbox(&mut self.engineering_camera.orthographic, "Orthographic");
                 if ui.button("Frame view").clicked() {
@@ -159,6 +168,11 @@ impl Viewport {
                 }
             }
         });
+        if self.mode == ViewMode::Appearance
+            && let Some(scene) = scene.as_deref()
+        {
+            self.scene_handles.controls(ui, scene, editable_scene);
+        }
         match self.mode {
             ViewMode::Obstacle => self
                 .engineering
@@ -209,8 +223,20 @@ impl Viewport {
             std::mem::swap(&mut self.camera, &mut self.engineering_camera);
             return;
         }
-        self.input(ui, &response, rect, 2.35);
-        if let Some(scene) = scene.as_deref_mut() {
+        let consumed = scene.as_deref_mut().is_some_and(|scene| {
+            self.scene_handles.update(
+                ui,
+                &response,
+                &self.camera,
+                self.domain_side,
+                scene,
+                editable_scene,
+            )
+        });
+        if !consumed {
+            self.input(ui, &response, rect, 2.35);
+        }
+        if !consumed && let Some(scene) = scene.as_deref_mut() {
             let mesh = self
                 .collision_mesh
                 .as_ref()
@@ -511,6 +537,14 @@ impl Viewport {
                 mesh,
                 scene,
             );
+            self.scene_handles.paint(
+                ui,
+                rect,
+                &self.camera,
+                self.domain_side,
+                scene,
+                editable_scene,
+            );
         }
     }
     fn input(&mut self, ui: &egui::Ui, response: &egui::Response, rect: Rect, frame_distance: f32) {
@@ -559,7 +593,9 @@ impl Viewport {
                     _ => {}
                 }
             }
-            if input.key_pressed(egui::Key::Home) || input.key_pressed(egui::Key::F) {
+            if (response.has_focus() || !ui.ctx().wants_keyboard_input())
+                && (input.key_pressed(egui::Key::Home) || input.key_pressed(egui::Key::F))
+            {
                 self.camera = OrbitCamera {
                     distance: frame_distance,
                     ..Default::default()

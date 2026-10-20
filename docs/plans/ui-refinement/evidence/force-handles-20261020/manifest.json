@@ -1,0 +1,146 @@
+{
+  "parent": "8504b3e7c9e6a02a6e2521b54c1aefc9c0f58ec2",
+  "exact_test_names": [
+    "scene_handles::tests::handles_geometry_ray_translation_units_and_nonidentity_local_rotation",
+    "scene_handles::tests::handles_transaction_invalid_final_position_never_commits_stale_preview",
+    "scene_handles::tests::handles_pointer_release_commits_once_and_escape_consumes_until_release",
+    "scene_handles::tests::handles_pointer_invalid_support_release_restores_base_and_snapshot",
+    "scene_handles::tests::handles_cancellation_context_focus_pointer_and_camera_loss_never_hands_off",
+    "scene_handles::tests::handles_named_controls_fit_narrow_without_touching_authoring_values",
+    "scene_ui::tests::scene_identity_context_removal_and_exhaustion_preserve_canonical_values",
+    "scene_ui::tests::scene_pointer_add_select_edit_collapse_and_retained_context",
+    "scene_ui::tests::scene_invalid_support_and_rotation_are_visible_without_snapshot_mutation",
+    "scene_ui::tests::scene_force_refusal_projects_disabled_run_without_dispatch",
+    "scene_ui::tests::scene_draft_timeline_roundtrip_preserves_retained_index_without_history",
+    "scene_view::tests::geometry_depth_near_clip_and_degenerate_hits",
+    "scene_view::tests::geometry_force_glyphs_preserve_zero_direction_sign_and_support",
+    "scene_view::tests::geometry_two_sided_outline_welds_exact_seams_and_refuses_nonmanifold",
+    "scene_view::tests::scene_pick_identity_overlap_retained_and_unavailable_preview",
+    "scene_view::tests::scene_pointer_selects_same_identity_ignores_drag_and_modified_click"
+  ],
+  "source_sha256": {
+    "src/bin/desktop/scene_handles.rs": "8c2b0a78283aa8948daaeac5accc1d1c642c2af689cc5d85731df602192556db",
+    "src/bin/desktop/scene_ui.rs": "5df230c1da9b0c976ea8839e564e6db0ac95bbc6c965ad20cbf6ae13ec069cc2",
+    "src/bin/desktop/scene_view.rs": "ab55f9a7e5d439211b1c4a4145d9c43adfda15748301055739df5c9251348572",
+    "src/bin/desktop/viewport.rs": "ccdedbdfcd49740a11c5855bdf48267e3645e60c9d6e4475b9c854359db7a2c6",
+    "src/bin/rheon-desktop.rs": "6388514fb5a44f43c0c699534e76487f9f7ee527159b701e72265504d1784fab"
+  },
+  "logs": {
+    "rheon-ui-handles-accepted-check.log": {
+      "sha256": "d3cc552084ac0ffa10df1bc473ea1a7e6c8c97712b638b35e456f494405ad28a",
+      "bytes": 130,
+      "source": "/tmp/rheon-ui-handles-accepted-check.log"
+    },
+    "rheon-ui-handles-accepted-clippy.log": {
+      "sha256": "5e64f21eb14f3450713cc83e0b229228137d11d114ca0a469ac5a7183bf89b4c",
+      "bytes": 130,
+      "source": "/tmp/rheon-ui-handles-accepted-clippy.log"
+    },
+    "rheon-ui-handles-accepted-diff.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/rheon-ui-handles-accepted-diff.log"
+    },
+    "rheon-ui-handles-accepted-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/rheon-ui-handles-accepted-fmt.log"
+    },
+    "rheon-ui-handles-accepted-list.log": {
+      "sha256": "96666448e86eded2bb540f17e5ad0d8b4841d6ad46f4f1a1968eac2b7979bbe5",
+      "bytes": 19983,
+      "source": "/tmp/rheon-ui-handles-accepted-list.log"
+    },
+    "rheon-ui-handles-accepted-scene_handles-tests-handles_cancellation_context_focus_pointer_and_camera_loss_never_hands_off.log": {
+      "sha256": "8024fc20505da490b4fddcd579a879872fc41aa80ebf3c9885adff676d55f874",
+      "bytes": 419,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_handles-tests-handles_cancellation_context_focus_pointer_and_camera_loss_never_hands_off.log"
+    },
+    "rheon-ui-handles-accepted-scene_handles-tests-handles_geometry_ray_translation_units_and_nonidentity_local_rotation.log": {
+      "sha256": "b0f3d01d5eaf82d675b0109f27cc1ae08578e767a829f57e2acc87e0041779d4",
+      "bytes": 414,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_handles-tests-handles_geometry_ray_translation_units_and_nonidentity_local_rotation.log"
+    },
+    "rheon-ui-handles-accepted-scene_handles-tests-handles_named_controls_fit_narrow_without_touching_authoring_values.log": {
+      "sha256": "ba7fe7cb11a96336cef34817947e4c176f603c016c1e473825543d7012583f62",
+      "bytes": 412,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_handles-tests-handles_named_controls_fit_narrow_without_touching_authoring_values.log"
+    },
+    "rheon-ui-handles-accepted-scene_handles-tests-handles_pointer_invalid_support_release_restores_base_and_snapshot.log": {
+      "sha256": "bc52281d5767abbfbbb314a1f7015bb44445f0e045fba847dbcc8f666ec88542",
+      "bytes": 411,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_handles-tests-handles_pointer_invalid_support_release_restores_base_and_snapshot.log"
+    },
+    "rheon-ui-handles-accepted-scene_handles-tests-handles_pointer_release_commits_once_and_escape_consumes_until_release.log": {
+      "sha256": "1929082402ea0627894ad61ef6a36fe8856ca77f7b70dfe5c7f9aa79ca8b8da0",
+      "bytes": 415,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_handles-tests-handles_pointer_release_commits_once_and_escape_consumes_until_release.log"
+    },
+    "rheon-ui-handles-accepted-scene_handles-tests-handles_transaction_invalid_final_position_never_commits_stale_preview.log": {
+      "sha256": "66cc08d468d751534581f9aa7af93a01daea491158467a6c603743205731d590",
+      "bytes": 415,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_handles-tests-handles_transaction_invalid_final_position_never_commits_stale_preview.log"
+    },
+    "rheon-ui-handles-accepted-scene_ui-tests-scene_draft_timeline_roundtrip_preserves_retained_index_without_history.log": {
+      "sha256": "dc9756a7e0ba3436be2294d8301fb0d05218c122d045d4111d8b9fee71f97c42",
+      "bytes": 411,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_ui-tests-scene_draft_timeline_roundtrip_preserves_retained_index_without_history.log"
+    },
+    "rheon-ui-handles-accepted-scene_ui-tests-scene_force_refusal_projects_disabled_run_without_dispatch.log": {
+      "sha256": "5214f2c9a7bd387f8bc385a63ccf285e313d334d1adc2b8594d9191a28e0f2a6",
+      "bytes": 398,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_ui-tests-scene_force_refusal_projects_disabled_run_without_dispatch.log"
+    },
+    "rheon-ui-handles-accepted-scene_ui-tests-scene_identity_context_removal_and_exhaustion_preserve_canonical_values.log": {
+      "sha256": "27d50205f5333945f9c5540098d1aa15a5fde547de42cbbd1c902a4a8e2821f1",
+      "bytes": 411,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_ui-tests-scene_identity_context_removal_and_exhaustion_preserve_canonical_values.log"
+    },
+    "rheon-ui-handles-accepted-scene_ui-tests-scene_invalid_support_and_rotation_are_visible_without_snapshot_mutation.log": {
+      "sha256": "bab04e3c63dded516a21eb6ea866dcbd8929d210d218f9ea5af9ed035f61affb",
+      "bytes": 412,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_ui-tests-scene_invalid_support_and_rotation_are_visible_without_snapshot_mutation.log"
+    },
+    "rheon-ui-handles-accepted-scene_ui-tests-scene_pointer_add_select_edit_collapse_and_retained_context.log": {
+      "sha256": "ba21f97e233c4b98afe5adb2830f217a88a60afd6ce20d43966daf1edaeafb29",
+      "bytes": 399,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_ui-tests-scene_pointer_add_select_edit_collapse_and_retained_context.log"
+    },
+    "rheon-ui-handles-accepted-scene_view-tests-geometry_depth_near_clip_and_degenerate_hits.log": {
+      "sha256": "2a33e529bd306132506d3fe702c105e5605c39b97cf1b0e1f8ec8f36e9594b00",
+      "bytes": 386,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_view-tests-geometry_depth_near_clip_and_degenerate_hits.log"
+    },
+    "rheon-ui-handles-accepted-scene_view-tests-geometry_force_glyphs_preserve_zero_direction_sign_and_support.log": {
+      "sha256": "479a02e21f06ca91356ddadcba3692a72775a2fbd0e1940a97c9cfb26bee884f",
+      "bytes": 404,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_view-tests-geometry_force_glyphs_preserve_zero_direction_sign_and_support.log"
+    },
+    "rheon-ui-handles-accepted-scene_view-tests-geometry_two_sided_outline_welds_exact_seams_and_refuses_nonmanifold.log": {
+      "sha256": "4572efc450d217e8c564217261ffd15c473e7f2c6688e7b3f3311bcaa6edfece",
+      "bytes": 410,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_view-tests-geometry_two_sided_outline_welds_exact_seams_and_refuses_nonmanifold.log"
+    },
+    "rheon-ui-handles-accepted-scene_view-tests-scene_pick_identity_overlap_retained_and_unavailable_preview.log": {
+      "sha256": "f0fdb67659ed543b3b14d80b8738b450f2bb7286d1958b5021a53a329ff60d33",
+      "bytes": 402,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_view-tests-scene_pick_identity_overlap_retained_and_unavailable_preview.log"
+    },
+    "rheon-ui-handles-accepted-scene_view-tests-scene_pointer_selects_same_identity_ignores_drag_and_modified_click.log": {
+      "sha256": "5a87824d9ac799c5c551f12838cf33f397a4b07f363ef261b8779d67be1f1fbf",
+      "bytes": 409,
+      "source": "/tmp/rheon-ui-handles-accepted-scene_view-tests-scene_pointer_selects_same_identity_ignores_drag_and_modified_click.log"
+    },
+    "rheon-ui-handles-final-clippy.log": {
+      "sha256": "e700750e4580978dd53fbbcdb8eab9988cea4b863672a095a31dd5bb5352c23d",
+      "bytes": 1380,
+      "source": "/tmp/rheon-ui-handles-final-clippy.log"
+    },
+    "rheon-ui-handles-list4.log": {
+      "sha256": "5073c4bee51148aa7dd3d416128117a4e0115c2cfc497f8c80d1a2e33c73419f",
+      "bytes": 449,
+      "source": "/tmp/rheon-ui-handles-list4.log"
+    }
+  },
+  "boundary": "inert UI/geometry only; no solver/model/evaluator/workers/IO fixtures/native display"
+}

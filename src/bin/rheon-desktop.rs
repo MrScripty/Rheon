@@ -52,6 +52,8 @@ pub mod run_sets;
 pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
+#[path = "desktop/scene_handles.rs"]
+mod scene_handles;
 #[path = "desktop/scene_ui.rs"]
 mod scene_ui;
 #[path = "desktop/scene_view.rs"]
@@ -2524,6 +2526,7 @@ impl eframe::App for App {
                             .filter(|_| retained)
                             .map(|h| &h.inspector),
                         scene: Some(&mut self.scene),
+                        editable_scene: self.worker.is_none(),
                     },
                 )
             });
