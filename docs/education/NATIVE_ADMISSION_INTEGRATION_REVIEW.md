@@ -1152,3 +1152,57 @@ unit suite; retain fresh focused composed contracts separately. Hosted
 Pages/browser/publication, desktop/native-window, performance and physical gates
 remain separately scoped. Put execution results in a separate integration report;
 do not append them here or change the inventory after qualification.
+
+
+## Separate closed C1-B2 Session/custody admission, 2026-10-20
+
+This explicit independently reviewed refresh authorizes a fresh qualification
+attempt on final PR137 `d3e62377acde6641c8133cf9a9356cc046cfd02a`, tree
+`f8be6e0ef85a6a965545b2882bff11500c7f1dfd`, retaining fixed PR133/8bf542e.
+The [original source/contract review](../plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/source-review/readiness-review.md),
+[three-pin repair follow-up](../plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/source-review/g1-cancel-followup.md)
+and [original 140-path receipt](../plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/source-review/readiness-review.json)
+approve five added, eleven changed, 124 exact reused, zero removed regular inputs
+under the unchanged complete selector. All 140 working/committed identities
+match the final follow-up map; 137 identities are exact PR136 and its three
+changed pins are independently reviewed. Canonical sorted compact source-map
+SHA256 (without trailing newline) is
+`08aa3d1b48617763da61291e788fc985bc5d011d8039f9ebf83fbc4ccc2a05a6`.
+Cargo/toolchain/qualification inputs remain exactly fixed PR133; the separate
+Q2 Cargo/reference/CV1 stage is excluded. Historical 9c/9a receipts remain fixed
+and do not qualify this new source closure.
+
+The new closed immutable BuiltinNativeV1 path reuses existing native producer,
+B1 pressure/velocity qualifier, Liquid gates and atomic Session commit. Capped
+scratch and typed immutable attempts add no accepted-state owner, scheduler,
+process or store. RPS1/RPP1/RPT1 reuse SQLite and unchanged native RSC1/RCP2
+payload validation, complete 16KiB caps, exact binding/prior-link checks and
+explicit accepted-unrecorded tails. Mixed pressure-witness fallback refuses
+publication without stripping observations. Existing capture/desktop/comparison
+paths explicitly refuse the new profile. Optional viscosity, arbitrary/stateful
+external providers, full C1-B/C/R, whole-family/transfer and physical acceptance
+remain excluded. Component core634404e/consumera6e76a9 evidence retains its exact
+three-UI-literal source split; final e56bc7b adds only reporting documents.
+PR137's tested source70da36d and final report d3e6237 remain separately attributed.
+
+PR137 repairs the legacy configured-Session advection cancellation label using
+three matcher lines. Tests retain actual velocity/tracer cancellation before/after
+acceptance, cold RCT2 custody, exact state/receipt, retry, historical Failed labels
+and a true numerical failure control. No numerical formula, accepted order,
+publication point, codec/version or UI implementation changes. The old defect
+remains historical in fixed 9c/9a; no old archive is relabelled. Owner results stay
+at tested70da36d, not this later lead execution. Fresh qualification is still
+required; admission is not complete behavioral coverage of all 140 modules.
+
+The existing v3 mechanism is sufficient. Preserve all prior review bytes,
+schema/base, exact v1/v2 predecessors, immutable primary tree/ancestry and all
+selector/checker/oracle/qualifier/packet refusal behavior. Commit the explicit
+reviewed map and this appended review digest together, freeze them, then follow
+the [prospective protocol](../plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/protocol.md):
+new clean committed-source native/rational execution, newly generated actual
+packet with 26 normal and 26 optimized checks/no skips, plus separately recorded
+B2/legacy/persistence/volume/borrow contracts. No stale receipt, allow-dirty,
+build-time refresh or skipped gate. Retain failures and outcomes separately;
+never edit these bound bytes after qualification. Hosted/default/desktop/GUI,
+release/performance, model/Lean/GPU and physical gates remain separate. No merge
+authority is supplied by admission; public merge actions remain paused.
