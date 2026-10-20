@@ -1,0 +1,106 @@
+{
+  "schema": "rheon-independent-general-fluid-audit-v1",
+  "baseline_commit": "bc2f472787060d9a69cb619ed2c2fea10fd754b6",
+  "baseline_tree": "f875f73279b8bbd4400037db398704040922bc5a",
+  "standards_commit": "0fc92a24279f3a4574c80af0a2f31ea347a21597",
+  "protocol_precommit": "d3370ef40b156df9c8151a276853c5d10323e076",
+  "production_source_unchanged": true,
+  "source_sha256": {
+    "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
+    "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+    "rust-toolchain.toml": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+    "src/lib.rs": "c6dfcf187c1cb2bb64835bd7c72a7094b6127730c55bb6ee47d2e676354317ff",
+    "src/geometry.rs": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634",
+    "src/operator.rs": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+    "src/pressure.rs": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+    "src/advection.rs": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+    "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+    "src/simulation.rs": "8dea790daf2a2d0801db3003094f9fffe034c9b87946d520a1eacc266c95f078",
+    "src/forces.rs": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb",
+    "src/material.rs": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+    "src/particle_fluid.rs": "ed4ab916e602a55b2245beba5bdbff268fcb704b67fa41248d47ad2598f2468f",
+    "src/liquid_volume.rs": "24623038f62261ce6a17b034e9b6d82c5f0aba02dd0df7aad174c885ed2a8c96",
+    "src/liquid_step.rs": "f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93",
+    "src/free_surface.rs": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+    "src/column_surface.rs": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+    "src/viscosity.rs": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+    "src/column_shear.rs": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299",
+    "src/column_momentum.rs": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0",
+    "src/column_mac.rs": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+    "src/fitted_height.rs": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+    "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+    "src/fixed_bottom_ale.rs": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47",
+    "src/coupled_discrete.rs": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7",
+    "src/static_obstacle.rs": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080",
+    "src/obstacle_pressure.rs": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07",
+    "src/obstacle_shear.rs": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f",
+    "src/aligned_strain.rs": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
+    "src/mesh_collision.rs": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24",
+    "src/mesh_import.rs": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890",
+    "src/collision.rs": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+    "src/motion.rs": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+    "src/tracer_barrier.rs": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+    "src/compressible.rs": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3",
+    "src/emitter.rs": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84",
+    "src/material_session.rs": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960",
+    "src/session.rs": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",
+    "experiments/aligned_stokes.rs": "d5b08df55c45c62fe801749746ade40026f53a1c14bce4792587fe0a9ff022a4",
+    "experiments/submarine_stokes.rs": "ef534615daf2e2f304be064536cf08f54fb42d2ee21ed220d5ed1db524889efa",
+    "experiments/plate_coupling.rs": "1c8e16ebdebbbcf15e7b53ff09965f556dae47a6d06e7f5c060bb13959df7de2",
+    "experiments/outward.rs": "226f82a681d1a8c0b0fc89e65de7ec40dcc085883ec7fbc5990f19ae36af292a"
+  },
+  "audit_input_sha256": {
+    "examples/fluid_physics_audit.rs": "a2ce3e4f0d3f8b2bca2ddb0f04f33d462a5ff17912c9264efdc60ef1f630f830",
+    "tools/summarize_fluid_physics_audit.py": "f424ed2b06f0ac1c9c7d91f4a1814a5582e621cdddf3dd705ea7f878984e7f74",
+    "docs/audits/general-fluid-20261019/protocol.md": "8db22e52be198979ec9afdb0b10b00a71d3743660c31f4d3221e2e0adb6802d2",
+    "docs/audits/general-fluid-20261019/report.md": "b44284f090ed26c952fd655765cbc205dbb474412a6351ce38772f2e3836f1cb"
+  },
+  "retained_artifact_root": "/workspace/rheon-fluid-audit-evidence",
+  "artifact_inventory": {
+    "path": "artifact-sha256.json",
+    "files": 159,
+    "sha256": "d4d17258b5e561140fa40e4cbd3aeb2d6912d23e53d4cf8fbaa958b8b1d74ca7"
+  },
+  "final_probe_executable_sha256": "16e6907c1cede3f419ab228b636b4148db8586483341c73719d095aa49d4408a",
+  "results": {
+    "core_tests": {
+      "exit_code": 0,
+      "passed": 582,
+      "failed": 0,
+      "ignored": 3
+    },
+    "focused_tests": {
+      "exit_code": 0,
+      "passed": 125,
+      "failed": 0,
+      "ignored": 0
+    },
+    "audit_probe": {
+      "exit_code": 0,
+      "checks": 98,
+      "passed": 88,
+      "failed_accuracy_or_physical_screens": 10
+    },
+    "liquid_transport_export_and_verifier": {
+      "exit_code": 0,
+      "cases": 8
+    },
+    "clippy_affected_example": {
+      "exit_code": 0
+    },
+    "fmt": {
+      "exit_code": 0
+    },
+    "diff_check": {
+      "exit_code": 0
+    },
+    "experimental_validation": {
+      "status": "not_performed",
+      "specific_blockers": [
+        "No independent numerical MARIN sensor series with measurement/digitization uncertainty retained.",
+        "No matched physical mesh wall-pressure/no-slip traction observation in production preview."
+      ]
+    }
+  },
+  "scope": "Serial CPU source/numerical audit; no GPU/UI/experimental calibration. Unsigned source/output hashes establish identity, not authenticated external execution."
+}
