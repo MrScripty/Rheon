@@ -1,7 +1,9 @@
 //! Closed replacement selection over the existing pressure-v1 dispatcher.
 //!
-//! Only the pressure stage is callable here. Native subgraph and whole-family
-//! replacements require separate request and qualification contracts.
+//! Pressure v1 remains the only callable replacement stage. The projection
+//! submodule qualifies supplied arrays without provider execution or Session
+//! adoption; integrated subgraph/whole-family replacement remains unavailable.
+pub mod projection;
 use super::{PressureProvider, PressureRequest, ProviderReport, ProviderWorkspace};
 use crate::{PressureError, PressureSettings};
 use std::fmt;
