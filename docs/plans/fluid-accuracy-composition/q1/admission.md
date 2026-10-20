@@ -50,3 +50,11 @@ architecture, docs and commits. No AGENTS.md found. Native existing grid owners
 are reused. Before numerical evaluation, freeze exact source/criteria and obtain
 independent discretization review. Actual CPU convergence/flux/stress evidence,
 not positive algebra or small residual alone, governs later Q2 admission.
+
+## Lifecycle checkpoint after frozen execution
+
+The proposed write set was frozen by b9a9d4c and independently reviewed before
+execution. One campaign executed and stopped at a fixed source-geometry refusal.
+See results.md for counts/negative disposition; no accuracy acceptance. Earlier
+phase wording above is historical discovery state, not current execution status.
+Shared canonical lifecycle edits remain with parent/G1 coordination.
