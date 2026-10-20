@@ -106,6 +106,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         summary,
         "case,active,pressure_cells,worst_fixed_gate,status"
     )?;
+    let mut failures = Vec::new();
     for fixture in fixtures() {
         let name = fixture.name;
         match run(root, fixture) {
@@ -117,13 +118,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 );
             }
             Err(e) => {
-                writeln!(summary, "{name},,,refused")?;
+                writeln!(summary, "{name},,,,refused")?;
                 summary.flush()?;
-                return Err(format!("{name}: {e}").into());
+                let failure = format!("{name}: {e}");
+                std::fs::write(root.join(name).join("refusal.txt"), &failure)?;
+                eprintln!("{failure}");
+                failures.push(failure);
             }
         }
     }
-    Ok(())
+    if failures.is_empty() {
+        Ok(())
+    } else {
+        Err(failures.join("\n").into())
+    }
 }
 #[cfg(test)]
 mod tests {

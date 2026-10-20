@@ -27,3 +27,12 @@ absent repository script. Its sources must be frozen before the fixed campaign
 is inspected/evaluated. The qualification record must name exact source hashes,
 command recipes and results for normal Python and -O/-OO. No assert statement
 may serve as an acceptance guard.
+
+Before the first campaign, driver review found that early return could omit
+later immutable fixtures. The final driver now retains per-case refusal.txt,
+continues all four cases and exits nonzero if any fail. Reviewer caught/corrected
+the refusal CSV row to five fields and confirmed the final source. No numerical
+operator, fixture or gate changed. Preliminary 5d352e0 contract/build receipts
+remain separately retained; no campaign ran from that checkpoint. Final source
+freeze and focused checks bind the corrected driver. The prospective analyzer's
+summary-success literal was corrected to the native `passed` before any data.

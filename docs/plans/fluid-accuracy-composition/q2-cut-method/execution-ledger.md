@@ -21,3 +21,9 @@ Independent source review found no blocker at fee53b2 and confirmed the final
 GridGeometry API delta against src/geometry.rs. Source freeze now precedes
 selected debug/release contracts. The fixed campaign still waits for the exact
 oracle/analyzer source freeze; no raw campaign has been inspected or evaluated.
+
+Pre-driver checkpoint 5d352e0 passed 10 debug and 10 release contracts, strict
+Clippy, formatting and locked release build. No native campaign ran. Independent
+driver review then admitted complete four-case continuation and retained refusal
+files, including corrected five-field refusal CSV rows. Final source freeze
+follows this pre-data harness repair; all earlier receipts remain retained.
