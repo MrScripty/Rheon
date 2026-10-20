@@ -211,3 +211,31 @@
   No local display; existing426fd25 native results remain scoped to that source.
   M2a handoff needs exact-patch idle forms/menus/thermal/help at both window
   sizes/scales and actual quality85 JPEGs; no solver/cancel workload is needed.
+
+## 2026-10-20 — isolated UI-5 precision repair
+
+- Parent reviewed the incident and authorized only the minimal precision repair.
+  Preserved original uncommitted M2a worktree, packet and all logs; created a
+  detached `/workspace/Rheon-ui-precision` at7318023 with the exact preserved M2a
+  patch. No commit or remote mutation. UI-5 was observed after M2a; no pristine
+  baseline reproduction. Prior cause is inferred from source, correcting the
+  stronger historical wording without rewriting its preserved evidence.
+- Only settings.rs production changes: private round-trip focused DragValue
+  formatter at density/shared quantity, initial pointer select-all alignment and
+  density-unit next-row guard. Idle formatter, IDs, parser, ranges, speeds and SI
+  guards remain unchanged. Shared helper callers include main/emitter controls;
+  no force physics, numerical defaults, worker/recording or archive changes.
+- Read every selected test/helper path; list-only enumeration preceded each final
+  source execution. Five individually named `--exact` inert UI tests pass. No
+  prefix/fallback suite, numerical/model fixture or cleanup. Focus-bit regression
+  fails against preserved M2a production before repair; focused geometry and
+  click-selection failures are retained and repaired, with strict equality and
+  original no-Ctrl+A edit regression preserved. Locked check, strict Clippy,
+  formatting and diff whitespace pass. Full names/logs in the precision report.
+- Automatic successful-test teardown had removed the accidental numerical outputs
+  before detection; no resource measurements/scientific acceptance are claimed.
+  Incident log hash remains9d1b7245761f461a86dc436f21911f4a5525af3d2b8f7692d6ff8b5e6f2bbba1.
+  Genuine cancellation stays parked, with no cgroup/mount provisioning or run.
+- New scene/timeline direction supersedes continuing old M2–M4 unchanged. Freeze
+  this precision evidence before admitting new source regions; independent scene
+  contracts must separate UI ownership from the other task's force domain/adapters.

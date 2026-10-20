@@ -26,6 +26,37 @@ fn preset_text(ui: &egui::Ui, text: impl Into<egui::WidgetText>) -> egui::Widget
         .into()
 }
 
+/// Egui reparses cached edit text on blur. Only focused text needs lossless
+/// formatting; compact idle formatting must never round the underlying value.
+fn precise_drag(ui: &mut egui::Ui, value: f64, control: egui::DragValue<'_>) -> egui::Response {
+    let id = ui.next_auto_id();
+    let ctx = ui.ctx().clone();
+    let formatter = ui.style().number_formatter.clone();
+    let response = ui.add(control.custom_formatter(move |value, decimals| {
+        // Query when invoked, after DragValue registers keyboard focus.
+        if ctx.memory(|memory| memory.has_focus(id)) {
+            // Debug keeps round-trip precision and uses scientific notation for
+            // tiny values, avoiding hundreds of leading zeroes in the editor.
+            format!("{value:?}")
+        } else {
+            formatter.format(value, decimals)
+        }
+    }));
+    if response.clicked() && response.gained_focus() {
+        // The button selected its compact text; the edit buffer will be longer.
+        // Align this initial selection only, preserving later caret placement.
+        let mut state = egui::TextEdit::load_state(ui.ctx(), id).unwrap_or_default();
+        state
+            .cursor
+            .set_char_range(Some(egui::text::CCursorRange::two(
+                egui::text::CCursor::new(0),
+                egui::text::CCursor::new(format!("{value:?}").chars().count()),
+            )));
+        state.store(ui.ctx(), id);
+    }
+    response
+}
+
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum DensityUnit {
     KilogramsPerCubicMetre,
@@ -111,16 +142,22 @@ impl MaterialControls {
         ui.horizontal_wrapped(|ui| {
             ui.label("Density").on_hover_text(DENSITY_HELP);
             let mut density = m.density / self.unit.factor();
-            if ui
-                .add(
-                    egui::DragValue::new(&mut density)
-                        .speed(0.001)
-                        .range(1e-9 / self.unit.factor()..=1e9 / self.unit.factor())
-                        .max_decimals(8),
-                )
-                .changed()
+            if precise_drag(
+                ui,
+                density,
+                egui::DragValue::new(&mut density)
+                    .speed(0.001)
+                    .range(1e-9 / self.unit.factor()..=1e9 / self.unit.factor())
+                    .max_decimals(8),
+            )
+            .changed()
             {
                 m.density = density * self.unit.factor();
+            }
+            // The focused value can be wider; ComboBox's inner horizontal UI
+            // cannot wrap itself onto the next row.
+            if ui.available_size_before_wrap().x < 80.0 + 2.0 * ui.spacing().button_padding.x {
+                ui.end_row();
             }
             egui::ComboBox::from_id_salt("density-unit")
                 .selected_text(self.unit.label())
@@ -324,7 +361,9 @@ pub fn quantity(
 ) -> egui::Response {
     ui.horizontal_wrapped(|ui| {
         ui.label(label);
-        ui.add(
+        precise_drag(
+            ui,
+            *value,
             egui::DragValue::new(value)
                 .speed(speed)
                 .range(range)
@@ -445,6 +484,309 @@ mod tests {
         for pressed in [true, false] {
             let _ = frame(ctx, width, controls, side, domain, pointer(pos, pressed));
         }
+    }
+
+    // UI-only helpers below use Context/MaterialControls and their pure config
+    // defaults. They never construct a simulation, worker, recording or file.
+    fn material_bits(controls: &MaterialControls) -> [u64; 6] {
+        let m = controls.config.material;
+        [
+            m.density,
+            m.viscosity,
+            m.surface_tension,
+            m.wall_drag,
+            m.temperature_kelvin,
+            m.molar_mass,
+        ]
+        .map(f64::to_bits)
+    }
+    // Density is the only unitless numeric editor in this form; molar mass
+    // has a unique suffix. Do not assume the compact formatter's spelling.
+    fn numeric_label(output: &egui::FullOutput, suffix: &str) -> String {
+        output
+            .shapes
+            .iter()
+            .find_map(|s| match &s.shape {
+                egui::Shape::Text(t)
+                    if t.galley
+                        .text()
+                        .strip_suffix(suffix)
+                        .and_then(|s| s.parse::<f64>().ok())
+                        .is_some() =>
+                {
+                    Some(t.galley.text().to_owned())
+                }
+                _ => None,
+            })
+            .unwrap_or_else(|| panic!("missing numeric editor with suffix {suffix}"))
+    }
+    fn replace_focused(
+        ctx: &egui::Context,
+        controls: &mut MaterialControls,
+        side: &mut f64,
+        text: &str,
+    ) {
+        let _ = frame(
+            ctx,
+            280.0,
+            controls,
+            side,
+            false,
+            key(
+                egui::Key::A,
+                egui::Modifiers {
+                    ctrl: true,
+                    command: true,
+                    ..Default::default()
+                },
+            ),
+        );
+        let _ = frame(
+            ctx,
+            280.0,
+            controls,
+            side,
+            false,
+            vec![egui::Event::Text(text.into())],
+        );
+        let _ = frame(
+            ctx,
+            280.0,
+            controls,
+            side,
+            false,
+            key(egui::Key::Enter, Default::default()),
+        );
+        let _ = frame(ctx, 280.0, controls, side, false, vec![]);
+    }
+
+    #[test]
+    fn ui_precision_tab_and_focus_preserve_material_bits() {
+        for width in [240.0, 280.0] {
+            for unit in [
+                DensityUnit::KilogramsPerCubicMetre,
+                DensityUnit::GramsPerMillilitre,
+                DensityUnit::MilligramsPerCubicMillimetre,
+            ] {
+                for preset in [FluidPreset::Air, FluidPreset::Water] {
+                    let ctx = context();
+                    let mut controls = MaterialControls {
+                        preset,
+                        unit,
+                        ..Default::default()
+                    };
+                    controls.config.material = preset.material();
+                    if preset == FluidPreset::Water {
+                        controls.config.material.viscosity = 1.2345678901234567e-200;
+                        controls.config.material.surface_tension = 0.07281234567890123;
+                        controls.config.material.wall_drag = 5.012345678901234;
+                        controls.config.material.temperature_kelvin = 293.1512345678901;
+                    }
+                    let bits = material_bits(&controls);
+                    let before = format!("{:?}", controls.config);
+                    let mut side = 1.0;
+                    let _ = frame(&ctx, width, &mut controls, &mut side, false, vec![]);
+                    let output = frame(&ctx, width, &mut controls, &mut side, false, vec![]);
+                    let density_label = numeric_label(&output, "");
+                    click(
+                        &ctx,
+                        width,
+                        &mut controls,
+                        &mut side,
+                        false,
+                        &output,
+                        &density_label,
+                    );
+                    let output = frame(&ctx, width, &mut controls, &mut side, false, vec![]);
+                    assert_eq!(material_bits(&controls), bits, "pointer focus without edit");
+                    let header = format!(
+                        "Temperature · {:.2} °C",
+                        controls.config.material.temperature_kelvin - 273.15
+                    );
+                    click(
+                        &ctx,
+                        width,
+                        &mut controls,
+                        &mut side,
+                        false,
+                        &output,
+                        &header,
+                    );
+                    let _ = frame(&ctx, width, &mut controls, &mut side, false, vec![]);
+                    let mut visited = std::collections::HashSet::new();
+                    for shift in [false, true] {
+                        for _ in 0..28 {
+                            let _ = frame(
+                                &ctx,
+                                width,
+                                &mut controls,
+                                &mut side,
+                                false,
+                                key(
+                                    egui::Key::Tab,
+                                    egui::Modifiers {
+                                        shift,
+                                        ..Default::default()
+                                    },
+                                ),
+                            );
+                            let _ = frame(&ctx, width, &mut controls, &mut side, false, vec![]);
+                            if let Some(id) = ctx.memory(|m| m.focused()) {
+                                visited.insert(id);
+                            }
+                            assert_eq!(
+                                material_bits(&controls),
+                                bits,
+                                "focus-only change for {}",
+                                preset.label()
+                            );
+                            assert_eq!(format!("{:?}", controls.config), before);
+                        }
+                    }
+                    assert!(visited.len() >= 10, "traverse actual form controls");
+                    let _ = frame(
+                        &ctx,
+                        width,
+                        &mut controls,
+                        &mut side,
+                        false,
+                        key(egui::Key::Escape, Default::default()),
+                    );
+                    let _ = frame(&ctx, width, &mut controls, &mut side, false, vec![]);
+                    assert_eq!(material_bits(&controls), bits);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn ui_precision_explicit_edits_keep_si_units_and_ranges() {
+        for unit in [
+            DensityUnit::KilogramsPerCubicMetre,
+            DensityUnit::GramsPerMillilitre,
+            DensityUnit::MilligramsPerCubicMillimetre,
+        ] {
+            let ctx = context();
+            let mut controls = MaterialControls {
+                unit,
+                ..Default::default()
+            };
+            let mut side = 1.0;
+            let mut expected = controls.config.material;
+            let _ = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+            let output = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+            let initial = numeric_label(&output, "");
+            click(
+                &ctx,
+                280.0,
+                &mut controls,
+                &mut side,
+                false,
+                &output,
+                &initial,
+            );
+            // Ordinary click-to-replace must select the full precision text.
+            let _ = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+            let _ = frame(
+                &ctx,
+                280.0,
+                &mut controls,
+                &mut side,
+                false,
+                vec![egui::Event::Text("2.5".into())],
+            );
+            let _ = frame(
+                &ctx,
+                280.0,
+                &mut controls,
+                &mut side,
+                false,
+                key(egui::Key::Enter, Default::default()),
+            );
+            let _ = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+            expected.density = 2.5 * unit.factor();
+            assert_eq!(controls.config.material, expected);
+            let output = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+            click(
+                &ctx,
+                280.0,
+                &mut controls,
+                &mut side,
+                false,
+                &output,
+                &numeric_label(&output, ""),
+            );
+            replace_focused(&ctx, &mut controls, &mut side, "1e99");
+            assert_eq!(controls.config.material.density, 1e9);
+        }
+        let ctx = context();
+        let mut controls = MaterialControls {
+            preset: FluidPreset::Air,
+            ..Default::default()
+        };
+        controls.config.material = FluidPreset::Air.material();
+        let mut side = 1.0;
+        let _ = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+        let output = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+        click(
+            &ctx,
+            280.0,
+            &mut controls,
+            &mut side,
+            false,
+            &output,
+            &numeric_label(&output, " g/mol"),
+        );
+        replace_focused(&ctx, &mut controls, &mut side, "32");
+        assert_eq!(controls.config.material.molar_mass, 0.032);
+        let output = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+        click(
+            &ctx,
+            280.0,
+            &mut controls,
+            &mut side,
+            false,
+            &output,
+            &numeric_label(&output, " g/mol"),
+        );
+        let _ = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+        let _ = frame(
+            &ctx,
+            280.0,
+            &mut controls,
+            &mut side,
+            false,
+            key(egui::Key::ArrowUp, Default::default()),
+        );
+        assert_eq!(
+            controls.config.material.molar_mass.to_bits(),
+            (32.1_f64 / 1000.0).to_bits()
+        );
+        replace_focused(&ctx, &mut controls, &mut side, "32");
+        let output = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+        click(
+            &ctx,
+            280.0,
+            &mut controls,
+            &mut side,
+            false,
+            &output,
+            &numeric_label(&output, " g/mol"),
+        );
+        replace_focused(&ctx, &mut controls, &mut side, "not a number");
+        assert_eq!(controls.config.material.molar_mass, 0.032);
+        let output = frame(&ctx, 280.0, &mut controls, &mut side, false, vec![]);
+        click(
+            &ctx,
+            280.0,
+            &mut controls,
+            &mut side,
+            false,
+            &output,
+            &numeric_label(&output, " g/mol"),
+        );
+        replace_focused(&ctx, &mut controls, &mut side, "-4");
+        assert_eq!(controls.config.material.molar_mass, 0.0001);
     }
 
     #[test]

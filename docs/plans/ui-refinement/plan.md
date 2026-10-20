@@ -1,8 +1,8 @@
 # Focused desktop UI refinement
 
 **Plan status:** `Active`
-**Current phase:** M1 evidence gaps parked; independent M2 material/domain refinement
-**Next slice:** M2a — source review and exact-patch idle native handoff
+**Current phase:** UI-5 precision-only repair; original M2a worktree preserved
+**Next slice:** UI-5 — exact-value focus regression, bounded editor adapter and review
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -285,3 +285,31 @@ existing numerical-fixture tests before detection; its full names/effects and lo
 are recorded in the report. It is not admitted workload or UI acceptance evidence.
 Subsequent runtime checks use only the inspected `settings::tests::` and
 `setup_ui_tests::ui_setup_` prefixes. The genuine cancellation test remains unrun.
+
+## UI-5 precision-only continuation — 2026-10-20
+
+Parent reviewed the test-selection incident and admits only the smallest focus
+precision repair. Preserve the original uncommitted M2a worktree and packet:
+new detached worktree `/workspace/Rheon-ui-precision` starts at7318023 and applies
+the exact preserved M2a patch0c8b8d4e4eb87f761ff94f998f58548888ba23aa6b40414605652044816c2a6b,
+whose resulting tree is8740bf155b3db1f3c44e109277605b9411f459fe. No commit or
+publication is admitted. Production scope is only settings.rs: one private
+DragValue formatting adapter at the density editor and shared quantity helper.
+Focused text must roundtrip the exact display value; idle compact formatting,
+IDs, parser, ranges, speeds and `.changed()` SI conversion guards stay unchanged.
+Shared quantity callers include domain/main/emitter controls; record that reach.
+
+UI-5 was observed after M2a, not on a tested pristine baseline. The same pinned
+format/reparse mechanism in prerequisite source is an inference about prior
+cause, not an empirical baseline result. Repair evidence must retain exact-bit
+material equality across focus/forward and reverse Tab without typing, and real
+edits/range enforcement in SI units. Check focused240/280px geometry, not only
+idle labels. No native accessibility/visual acceptance follows from these tests.
+
+Before runtime: inspect each entire test/helper path, enumerate with list-only,
+then execute only an individually named `--exact` UI-only test. No substring or
+fallback suite, simulation/model/numerical fixture, file cleanup or genuine
+cancellation. Stop if a selection is uncertain. Independent source review is
+required. Keep failure logs and original M2a/incident artifacts intact. Automatic
+successful-test teardown removed the accidental disposable numerical outputs
+before detection; no resource measurements or scientific acceptance are claimed.

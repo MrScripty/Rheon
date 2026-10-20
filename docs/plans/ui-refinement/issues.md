@@ -6,7 +6,7 @@
 | UI-2 | No application standards-engine tool; UI lead | Current pinned standards read directly; no automated conformance certification. Revisit if authoritative application tool becomes available. |
 | UI-3 | Separate local Inspector slice/dependency and test-only Clippy fix; Inspector validator | Excluded from M1. Reconcile final validated source before M4; parent relays coordination. |
 | UI-4 | 40% visible-word/usability target needs current matched native baseline; native owner | No result claimed. Preserve warning/numerical context regardless of count; evaluate full staged refinement. |
-| UI-5 | Forward keyboard traversal of existing numeric editors can round canonical Air density/molar mass without typed input | Open. M2a help has isolated reverse-Tab reachability evidence only. Reproduce and repair in a separately admitted numeric-editor slice; see M2a report for exact values/source cause. Do not claim general keyboard value preservation. |
+| UI-5 | Focus traversal rounded Air density/molar mass without typed input, first observed after M2a; prior mechanism is source-inferred only | Exact-bit UI repair verified in isolated continuation; native/full-app acceptance pending. Original M2a worktree/patch remains unchanged. See [precision report](reports/ui5-precision-repair.md); no untouched-baseline result is claimed. |
 | UI-6 | Live M1 cancellation lacks the reviewed existing execution containment | Parked only for live execution: read-only cgroup mount, no exclusive writable leaf, no dedicated bounded noswap tmpfs. Do not provision or weaken the supervisor. |
 
 Resolved within M1: active-rerun UI identity mismatch, long-status keyboard access,
