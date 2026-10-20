@@ -838,6 +838,11 @@ mod tests {
     use std::sync::atomic::{AtomicU64, Ordering};
     const CAP: usize = 1024 * 1024;
     fn fixture() -> (SimulationSession, ProviderStepWorkspace) {
+        fixture_with_iterations(1000)
+    }
+    fn fixture_with_iterations(
+        max_iterations: usize,
+    ) -> (SimulationSession, ProviderStepWorkspace) {
         let grid = GridGeometry::new([2; 3], [0.5; 3], [0.0; 3]).unwrap();
         let config = LiquidTransportConfig {
             carrier: SimulationConfig {
@@ -847,7 +852,7 @@ mod tests {
                     relative_residual: 1e-12,
                     absolute_residual: 1e-12,
                     divergence_limit: 1e-9,
-                    max_iterations: 1000,
+                    max_iterations,
                 },
                 actual_divergence_limit: 1e-5,
                 max_courant: 1.0,
@@ -1462,5 +1467,342 @@ mod tests {
             drop(reader);
             std::fs::remove_file(archive).unwrap();
         }
+    }
+
+    #[derive(Clone, Copy, Debug)]
+    enum IterationTrace {
+        Native,
+        RejectedCandidate,
+        AcceptedCandidate,
+    }
+    fn iteration_trace(
+        kind: IterationTrace,
+        cancelled: bool,
+        max_iterations: usize,
+    ) -> (SimulationSession, Arc<WorkflowAttempt>) {
+        use crate::solver_provider::configured::ContextPressureProvider;
+        let (mut session, mut workspace) = fixture_with_iterations(max_iterations);
+        let mut candidate = CandidateFixture {
+            invalid: false,
+            observation: None,
+        };
+        let forces = [crate::BodyForce {
+            value: [1.0, 0.0, 0.0],
+            units: crate::ForceUnits::Acceleration,
+            region: None,
+        }];
+        let mut request = inputs();
+        if matches!(kind, IterationTrace::RejectedCandidate) {
+            request.forces = &forces;
+        }
+        let preferred: Option<&mut dyn ContextPressureProvider> =
+            if matches!(kind, IterationTrace::Native) {
+                None
+            } else {
+                Some(&mut candidate)
+            };
+        let mut evidence = None;
+        let result = session.step_with_configured_pressure_observed(
+            request,
+            &mut workspace,
+            None,
+            preferred,
+            None,
+            |stage| cancelled && stage == crate::LiquidStepStage::BeforeCommit,
+            1,
+            &mut evidence,
+        );
+        assert_eq!(result.is_err(), cancelled);
+        let evidence = evidence.unwrap();
+        evidence.validate().unwrap();
+        if matches!(kind, IterationTrace::RejectedCandidate) {
+            assert_eq!(
+                evidence.pressure.as_ref().unwrap().rejection.as_deref(),
+                Some("QualityGate")
+            );
+            assert!(evidence.pressure.as_ref().unwrap().candidate.is_some());
+        }
+        (session, evidence)
+    }
+    fn iteration_bad_count(trace: &WorkflowAttempt, kind: IterationTrace) -> WorkflowAttempt {
+        let mut bad = trace.clone();
+        let pressure = bad.pressure.as_mut().unwrap();
+        match kind {
+            IterationTrace::Native => {
+                pressure.accepted.as_mut().unwrap().iterations =
+                    bad.descriptor.pressure.max_iterations + 1
+            }
+            IterationTrace::RejectedCandidate => {
+                let candidate = pressure.candidate.as_mut().unwrap();
+                // Rejected numerical diagnostics retain their IEEE payloads;
+                // their iteration count still belongs to the supplied stage.
+                candidate.true_residual_l2 = f64::NAN;
+                candidate.true_residual_max = f64::INFINITY;
+                candidate.predicted_divergence_max = f64::NEG_INFINITY;
+                candidate.iterations = 1;
+            }
+            IterationTrace::AcceptedCandidate => {
+                pressure.candidate.as_mut().unwrap().iterations = 1;
+                pressure.accepted.as_mut().unwrap().iterations = 1;
+            }
+        }
+        bad
+    }
+    // This negative-fixture helper first uses the real encoder on an admissible
+    // trace, then changes only the serialized iteration u64s. It deliberately
+    // bypasses outbound validation so cold-reader refusal is independently tested.
+    fn iteration_bad_attempt_bytes(attempt: &WorkflowAttempt) -> Vec<u8> {
+        let mut valid = attempt.clone();
+        let pressure = valid.pressure.as_mut().unwrap();
+        if let Some(report) = &mut pressure.candidate {
+            report.iterations = 0;
+        }
+        if let Some(report) = &mut pressure.accepted {
+            report.iterations = 0;
+        }
+        let mut encoder = Encoder::default();
+        put_attempt(&mut encoder, &valid).unwrap();
+        let pressure = attempt.pressure.as_ref().unwrap();
+        // Tail after the accepted report: optional pressure-call ns, optional
+        // residual limit, optional actual divergence, then bounded UTF-8 detail.
+        let tail = 1
+            + usize::from(pressure.pressure_call_ns.is_some()) * 8
+            + 1
+            + usize::from(pressure.residual_l2_limit.is_some()) * 8
+            + 1
+            + usize::from(attempt.actual_divergence_max.is_some()) * 8
+            + 4
+            + attempt.diagnostic.len();
+        let end = encoder.0.len() - tail;
+        if let Some(report) = pressure.accepted {
+            encoder.0[end - 32..end - 24]
+                .copy_from_slice(&(report.iterations as u64).to_le_bytes());
+        }
+        if let Some(report) = pressure.candidate {
+            let candidate_end = end - 1 - usize::from(pressure.accepted.is_some()) * 32;
+            encoder.0[candidate_end - 32..candidate_end - 24]
+                .copy_from_slice(&(report.iterations as u64).to_le_bytes());
+        }
+        encoder.0
+    }
+    fn iteration_rcp4_controls(
+        run: &RecordingRun,
+        inner: &str,
+        attempt: &WorkflowAttempt,
+    ) -> String {
+        let mut encoder = Encoder::default();
+        encoder.0.extend_from_slice(&provider::source_binding(run));
+        encoder.boolean(false);
+        put_wrapped(&mut encoder, inner, "RCP2:").unwrap();
+        encoder
+            .0
+            .extend_from_slice(&iteration_bad_attempt_bytes(attempt));
+        encoder.text(PUBLICATION_PROFILE).unwrap()
+    }
+    fn iteration_check_standalone(kind: IterationTrace) {
+        for cancelled in [false, true] {
+            let (_, trace) = iteration_trace(kind, cancelled, 1000);
+            let mut bad = iteration_bad_count(&trace, kind);
+            assert!(
+                bad.validate().is_err(),
+                "accepted malformed {kind:?}; cancelled={cancelled}"
+            );
+            if cancelled {
+                // A failed later stage has the same completed pressure prefix.
+                bad.outcome = AttemptOutcome::Failed;
+                assert!(
+                    bad.validate().is_err(),
+                    "accepted malformed failed-later {kind:?}"
+                );
+            }
+        }
+    }
+    #[test]
+    fn iteration_limits_standalone_native_pressure_count() {
+        iteration_check_standalone(IterationTrace::Native);
+    }
+    #[test]
+    fn iteration_limits_standalone_rejected_candidate_count() {
+        iteration_check_standalone(IterationTrace::RejectedCandidate);
+    }
+    #[test]
+    fn iteration_limits_standalone_accepted_candidate_count() {
+        iteration_check_standalone(IterationTrace::AcceptedCandidate);
+    }
+    #[test]
+    fn iteration_limits_valid_edges_and_zero_budget_candidate_are_preserved() {
+        let (_, native) = iteration_trace(IterationTrace::Native, false, 1000);
+        let mut at_cap = (*native).clone();
+        at_cap
+            .pressure
+            .as_mut()
+            .unwrap()
+            .accepted
+            .as_mut()
+            .unwrap()
+            .iterations = 1000;
+        at_cap.validate().unwrap();
+        let (_, candidate) = iteration_trace(IterationTrace::AcceptedCandidate, false, 0);
+        assert_eq!(candidate.descriptor.pressure.max_iterations, 0);
+        assert_eq!(
+            candidate
+                .pressure
+                .as_ref()
+                .unwrap()
+                .candidate
+                .unwrap()
+                .iterations,
+            0
+        );
+        assert_eq!(
+            candidate
+                .pressure
+                .as_ref()
+                .unwrap()
+                .accepted
+                .unwrap()
+                .iterations,
+            0
+        );
+        candidate.validate().unwrap();
+        let (_, rejected) = iteration_trace(IterationTrace::RejectedCandidate, true, 1000);
+        let mut ieee = iteration_bad_count(&rejected, IterationTrace::RejectedCandidate);
+        ieee.pressure
+            .as_mut()
+            .unwrap()
+            .candidate
+            .as_mut()
+            .unwrap()
+            .iterations = 0;
+        ieee.validate().unwrap();
+        let mut encoder = Encoder::default();
+        put_attempt(&mut encoder, &ieee).unwrap();
+        let text = encoder.text("TEST:").unwrap();
+        let mut decoder = Decoder::text(&text, "TEST:").unwrap();
+        let decoded = get_attempt(&mut decoder).unwrap();
+        let report = decoded.pressure.as_ref().unwrap().candidate.unwrap();
+        assert_eq!(report.true_residual_l2.to_bits(), f64::NAN.to_bits());
+        assert_eq!(report.true_residual_max.to_bits(), f64::INFINITY.to_bits());
+        assert_eq!(
+            report.predicted_divergence_max.to_bits(),
+            f64::NEG_INFINITY.to_bits()
+        );
+    }
+    #[test]
+    fn iteration_limits_rcp4_matching_inner_counts_already_hit_old_receipt_gate() {
+        for kind in [
+            IterationTrace::Native,
+            IterationTrace::RejectedCandidate,
+            IterationTrace::AcceptedCandidate,
+        ] {
+            let (session, trace) = iteration_trace(kind, false, 1000);
+            let run = provider::configured_run(&session.snapshot(), "old-inner iteration control")
+                .unwrap();
+            let mut row = provider::configured_publication(&session.snapshot(), 0, CAP).unwrap();
+            let mut bad = iteration_bad_count(&trace, kind);
+            // Only counts differ here: the coherent inner and outer diagnostic
+            // values otherwise remain the real, finite producer observations.
+            if matches!(kind, IterationTrace::RejectedCandidate) {
+                bad.pressure.as_mut().unwrap().candidate = trace
+                    .pressure
+                    .as_ref()
+                    .unwrap()
+                    .candidate
+                    .map(|mut report| {
+                        report.iterations = 1;
+                        report
+                    });
+            }
+            let pressure = bad.pressure.as_ref().unwrap();
+            let mut inner = Decoder::text(&row.controls, "RCP2:").unwrap().data;
+            // Unchanged RCP2 receipt ends in accepted PressureReport (32 bytes)
+            // and four duration pairs (u64 seconds, u32 nanoseconds).
+            let accepted_start = inner.len() - 4 * 12 - 32;
+            inner[accepted_start..accepted_start + 8]
+                .copy_from_slice(&(pressure.accepted.unwrap().iterations as u64).to_le_bytes());
+            if let Some(candidate) = pressure.candidate {
+                let candidate_start = accepted_start - 32;
+                inner[candidate_start..candidate_start + 8]
+                    .copy_from_slice(&(candidate.iterations as u64).to_le_bytes());
+            }
+            let inner = Encoder(inner).text("RCP2:").unwrap();
+            row.controls = inner.clone();
+            let expected = if matches!(kind, IterationTrace::Native) {
+                "configured accepted pressure gates"
+            } else {
+                "configured candidate diagnostics"
+            };
+            assert!(
+                matches!(provider::RecordedConfiguredSession::decode(&run, &row), Err(RecordingError::Invalid(reason)) if reason == expected),
+                "unchanged RCP2 failed to refuse {kind:?}"
+            );
+            row.controls = iteration_rcp4_controls(&run, &inner, &bad);
+            assert!(
+                publication(&run, &row).is_err(),
+                "matching forged RCP4 escaped {kind:?}"
+            );
+        }
+    }
+    fn iteration_check_cold_terminal(kind: IterationTrace) {
+        for cancelled in [false, true] {
+            let (session, trace) = iteration_trace(kind, cancelled, 1000);
+            let bad = iteration_bad_count(&trace, kind);
+            let cause = if cancelled {
+                RuntimeTerminationCause::Cancelled
+            } else {
+                RuntimeTerminationCause::StorageFailure
+            };
+            let runtime = RuntimeTermination::capture(
+                &session.snapshot(),
+                cause,
+                "authored malformed iteration evidence",
+                None,
+            )
+            .unwrap();
+            let run =
+                provider::configured_run(&session.snapshot(), "cold iteration negative fixture")
+                    .unwrap();
+            let mut encoder = Encoder::default();
+            encoder.0.extend_from_slice(&provider::source_binding(&run));
+            put_wrapped(&mut encoder, &runtime.encode().unwrap(), "RCT1:").unwrap();
+            encoder.boolean(true);
+            encoder
+                .0
+                .extend_from_slice(&iteration_bad_attempt_bytes(&bad));
+            let archive = path();
+            let limits = RecordingLimits::default();
+            let mut recorder = StepRecorder::create(&archive, run, limits).unwrap();
+            recorder
+                .finish(
+                    if cancelled { "cancelled" } else { "failed" },
+                    &encoder.text(TERMINAL_PROFILE).unwrap(),
+                    Some(session.snapshot().state().carrier.generation),
+                )
+                .unwrap();
+            drop(recorder);
+            drop(session);
+            let reader = RecordingReader::open(&archive, limits).unwrap();
+            assert_eq!(reader.count().unwrap(), 0);
+            let result = terminal(&reader);
+            let refused = matches!(result, Err(RecordingError::Invalid(_)));
+            drop(reader);
+            std::fs::remove_file(archive).unwrap();
+            assert!(
+                refused,
+                "cold RCT2 accepted malformed {kind:?}; cancelled={cancelled}"
+            );
+        }
+    }
+    #[test]
+    fn iteration_limits_rct2_native_pressure_count() {
+        iteration_check_cold_terminal(IterationTrace::Native);
+    }
+    #[test]
+    fn iteration_limits_rct2_rejected_candidate_count() {
+        iteration_check_cold_terminal(IterationTrace::RejectedCandidate);
+    }
+    #[test]
+    fn iteration_limits_rct2_accepted_candidate_count() {
+        iteration_check_cold_terminal(IterationTrace::AcceptedCandidate);
     }
 }

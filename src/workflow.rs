@@ -605,6 +605,17 @@ impl WorkflowAttempt {
                 .nodes
                 .iter()
                 .any(|n| n.node == NativeFallback && n.status == Selected);
+            if p.candidate.is_some_and(|report| report.iterations != 0)
+                || p.accepted.is_some_and(|report| {
+                    if native_selected {
+                        report.iterations > self.descriptor.pressure.max_iterations
+                    } else {
+                        report.iterations != 0
+                    }
+                })
+            {
+                return Err("workflow observed pressure iterations");
+            }
             let within_limits = |r: PressureReport| {
                 [
                     r.true_residual_l2,
