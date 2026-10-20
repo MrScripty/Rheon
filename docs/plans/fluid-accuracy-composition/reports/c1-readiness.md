@@ -1,6 +1,6 @@
 # C1 bounded composition readiness
 
-Status: **Prepared / dependency-ready after independently qualified G1** at `f6b7c8c`. C1 is Planned, not implemented or accepted. The user has supplied implementation direction; no learned assets, universal graph engine or further product-direction question is prerequisite to the first slice. Repository lead coordinates shared declarations, plan status and integration with the separate P1/Q1 instance.
+Status: **C1-A Active**, admitted by the [frozen C1-A protocol](c1a-protocol.md) at `e5b1f88`, after locally qualified G1 at `f6b7c8c`. PR122 remains unmerged and subject to hosted CI/integration. This readiness document retains the bounded sequence; implementation/evidence status belongs to the protocol and qualification report. C1-B/C and transfers remain planned, and C1-R is not accepted. Repository lead coordinates shared declarations, plan status and integration with the separate numerical instance.
 
 ## Selected boundary and sequence
 
@@ -8,7 +8,7 @@ Reuse PR115/D1 immutable configured intent, runtime pins, Session publication, s
 
 | Slice | Concrete direction | Admission boundary |
 | --- | --- | --- |
-| C1-A — next | Closed typed stage/native-family boundary; adapt pressure v1 and delegate native baseline calls to existing owners. Distinct MAC/particle requests and snapshots retain their own fields and precision. | No new method, provider support outside pressure v1, persisted profile, interpreter or implicit conversion. Subgraph/whole-candidate variants stay explicitly unavailable until their gates execute. |
+| C1-A — active | Closed typed stage/native-family boundary; adapt pressure v1 and delegate native baseline calls to existing owners. Distinct MAC/particle requests and snapshots retain their own fields and precision. | No new method, provider support outside pressure v1, persisted profile, interpreter or implicit conversion. Subgraph/whole-candidate variants stay explicitly unavailable until their gates execute. |
 | C1-B | Existing sealed-MAC pressure/projection subgraph: tentative cell pressure/staggered velocity, actual RHS/dt, geometry/operator/gauge and projection witnesses. | Host recomputes actual equations/constraints. Shape compatibility is insufficient. This is existing projection, not newly qualified traction-coupled Stokes. Freeze residual/roundoff criteria before evaluation. |
 | C1-C | Whole existing sealed-MAC interval candidate, tentative native carrier/tracer/pressure/fraction state and history. Classical fixtures precede learned assets. | Session remains sole publisher. Full native-state, actual interval, mass/source, momentum/operator and history gates precede advertised support. Invariants do not confer accuracy. |
 | Separate transfer admission | Versioned MAC→particle or particle→MAC operators with explicit support/reconstruction/budgets. | Initially unavailable. No facade/archive/comparison silently converts families. Implementing transfer requires its own frozen protocol and review. |

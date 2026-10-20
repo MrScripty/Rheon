@@ -54,6 +54,7 @@ pub use tracer_barrier::{
     BarrierStepReport, TracerBarrierError, TracerBarrierReport, TracerBarrierSampler,
     VisibleTracerSample, advect_tracer_with_barrier,
 };
+pub mod native_family;
 mod simulation;
 pub mod workflow;
 pub use simulation::{
