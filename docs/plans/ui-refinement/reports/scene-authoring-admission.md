@@ -14,7 +14,10 @@ no squash of original M2a or imported backend evidence. No numerical/model tests
   preserve history if fresh ID admission fails; include initial CLI admission) and successful run-context changes;
   select draft versus immutable retained geometry consistently; refuse new draft
   launches containing any force object before path/recording integration.
-- Exact UI-only tests in scene_ui.rs or desktop/scene_ui_tests.rs. No viewport,
+- viewport.rs mode-control guard only: pending authored drafts stay in Appearance
+  and cannot enter independent unsupported numerical labs. No picking/painting
+  or lab dispatch changes.
+- Exact UI-only tests in scene_ui.rs or desktop/scene_ui_tests.rs. No other viewport,
   solver/core recording/run_sets changes in this first authoring slice.
 
 ## Behavior and identities

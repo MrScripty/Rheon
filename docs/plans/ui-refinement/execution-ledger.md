@@ -300,3 +300,42 @@
 - Next admission covers canonical right scene list/properties/force creation,
   immutable context selection and explicit launch refusal; viewport picking and
   handles follow in separate bounded slices. No force runtime dispatch yet.
+
+
+## 2026-10-20 — canonical scene authoring checkpoint
+
+- Normal published implementation branch now derives from canonical backend43ec5052.
+  Prerequisite UI commits were cherry-picked with -x, preserving original branches,
+  M2a worktree and incident logs. Distinct current commits:676d8a25 M2a preservation,
+  4604182a precision,7dcbfa67 completed timeline. Draft PR146 bases on backend PR145;
+  no force push/merge/deletion. Backend core unchanged from sealed1d44/3e839.
+- SceneUi owns one ForceScene, checked model/force SceneObjectId allocation and
+  context-scoped selection. Right drawer creates/selects Directional/Radial/Vortex,
+  edits unit-labelled validated properties and shows blocking errors. Names,
+  enabled state, support/falloff, times, translation/orientation retain canonical
+  meanings. New strengths zero; existing gravity remains additive.
+- Draft/Retained run contexts use their actual geometry and separate selected state.
+  Fixed review findings: retained Inspector filtered from Draft, stale selection
+  cleared on every new run, invalid draft error scoped to Draft, and Draft timeline
+  omitted so disabled-slider clamping cannot reset retained index. Pure roundtrip
+  regression preserves index7/track1/time1.25 without any real history.
+- Import/replace ID admission is transactional: failure restores previous accepted
+  mesh and preserves history/selection. Existing CLI import also admits model ID.
+  Model properties currently show accepted geometry; placement remains transactional
+  through setup. No second canonical force/model property store.
+- Nonempty authored drafts, including disabled objects, refuse new preview/configured
+  runs before path/output creation. Independent lab/AI workflows are disabled in
+  authoring context; legacy frozen reruns keep their own original intent. No force
+  runtime, recorder/desktop frozen intent, viewport glyph/pick/outline or handle
+  implementation is claimed by this source slice.
+- Five exact inspected scene tests pass, plus all five exact precision and four
+  exact timeline probes on the combined source. List-only177 enumeration preceded
+  each allowlisted execution; no substring/broad fallback. Pointer1 lookup-only
+  failure retained; numeric+unit lookup fixes format-dependent test targeting.
+  Strict Clippy52.99s passed; current check/fmt/diff logs and source review recorded.
+  No numerical/model/Worker/history/IO fixture/cleanup workload was executed.
+- Native display remains unavailable. Handoff specifies existing idle fixture only,
+  two sizes/scales, quality85 actual JPEGs and explicit unsupported-state coverage.
+  Active progress/Cancel, model rollback/native, actual viewport mode guard and
+  whole-app focus/AT behavior remain unverified. Prior incident teardown/scientific
+  evidence limits and parked live cancellation are unchanged.

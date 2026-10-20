@@ -1,8 +1,8 @@
 # Desktop scene authoring and compact playback
 
 **Plan status:** `Active`
-**Current phase:** T1 source complete; T2 canonical scene authoring admission
-**Next slice:** canonical right scene list and validated properties
+**Current phase:** T2 authoring source gates complete; native validation pending
+**Next slice:** T3 viewport picking and selected-object outline
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -14,7 +14,9 @@
 [UI-5 precision repair](reports/ui5-precision-repair.md) ·
 [T1 compact checkpoint](reports/timeline-compact-checkpoint.md) ·
 [Backend receipt](reports/backend-integration-receipt.md) ·
-[Current authoring admission](reports/scene-authoring-admission.md)
+[Current authoring admission](reports/scene-authoring-admission.md) ·
+[Authoring source review](reports/scene-authoring-source-review.md) ·
+[Native authoring handoff](reports/native-scene-authoring-handoff.md)
 
 ## Objective
 
@@ -38,7 +40,12 @@ No optional approval is needed for the reversible T1 slice after plan review.
 
 ## Source, standards and preservation
 
-Local HEAD remains7318023f04946171d7909119300af76e455c2926. The original uncommitted
+Historical preserved baseline is7318023f04946171d7909119300af76e455c2926.
+Active worktree is /workspace/Rheon-ui-authoring, branch
+implementation/scene-authoring-ui-20261020, based on canonical backend43ec5052.
+The five earlier UI commits and distinct M2a/precision/T1 commits were cherry-picked
+with explicit -x provenance, preserving original branches and every checkpoint.
+Draft PR146 is based on PR145; no merge or force push. The original uncommitted
 M2a worktree `/workspace/Rheon-ui-hierarchy`, its exact patch and logs are untouched.
 Detached `/workspace/Rheon-ui-precision` applies that M2a overlay then UI-5; the
 reviewed precision checkpoint is frozen as tree3e1fd57146e2f1a02abe22a09ac317497f39d738
@@ -86,7 +93,7 @@ Inspector slice before any overlapping changes; T1 excludes Inspector entirely.
 | Milestone | Exact production write set and outcome | Dependency / gate | State |
 | --- | --- | --- | --- |
 | T1 | main timeline presentation and desktop/timeline_ui_tests.rs; bounded labelled speed editor, ordinary invisible local measurement, unchanged physical context | Four inspected exact UI probes + compile/Clippy/fmt + independent source review; native remains separate | Completed (bounded source) |
-| T2 | new desktop/scene_ui.rs; main App scene composition/context/model-ID transactions and draft launch refusal; exact inert scene tests | Canonical domain received; reviewed [authoring admission](reports/scene-authoring-admission.md); one ForceScene/selection owner; no viewport/runtime changes | Active |
+| T2 | new desktop/scene_ui.rs; main App scene composition/context/model-ID transactions and draft launch refusal; exact inert scene tests; viewport.rs mode-control guard only (no lab dispatch/picking changes) | Canonical domain received; reviewed [authoring admission](reports/scene-authoring-admission.md); one ForceScene/selection owner; viewport mode refusal only, no runtime dispatch | Completed (bounded source) |
 | T3 | viewport.rs picking and thin actual-geometry outline; scene_ui.rs same selection API; main projection routing | T2 source gates, reviewed exclusive pick/camera/probe policy; inert projection tests then native | Planned |
 | T4 | desktop/scene_manipulator.rs, viewport gesture routing, scene_ui validated transform intent and collision_ui transactional model placement | Same IDs/domain capabilities; no duplicate force physics; Escape rollback, explicit model Apply | Planned |
 | T5 | main Request/run_material, carrier_execution.rs, desktop run_sets versioned intent/load/rerun; exact backend recording bridge and native fixes | Qualified canonical custody source + reviewed immutable intent/version compatibility + separately bounded integration evidence. Unsupported owner paths refuse | Planned |
@@ -138,8 +145,8 @@ Generated logs/screenshots/transfer packets remain outside Git.
 | ID | Observable criterion | Kind / environment / mode | Status | Evidence |
 | --- | --- | --- | --- | --- |
 | S1 | Empty idle timeline fits <=70 logical px in900/1250px windows with the preceding280px sidebar reserved; selected-frame captions remain present and may naturally wrap/grow; actual Play/Pause/step/Live input keeps prior transitions | integration / isolated egui painting/input / automated | pending | Four exact probes pass: idle48px versus106px, focused speed editing and native-track/literal-report layouts. Native/configured/popup-keyboard coverage remains open |
-| S2 | Right panel collapses/reopens retaining selection; tree/viewport choose the same existing object; deleted/replaced/missing identities never edit another object | integration + user-workflow / inert UI then native / automated + manual | pending | No scene implementation yet |
-| S3 | A force is one canonical scene object in tree, properties, outline and handles; UI exposes only shared supported units/support/transform; unsupported backend blocks with a reason | integration / shared domain contract + inert UI / reviewed + automated | blocked | Exact canonical source received/sealed; desktop dispatch/frozen intent integration pending |
+| S2 | Right panel collapses/reopens retaining selection; tree/viewport choose the same existing object; deleted/replaced/missing identities never edit another object | integration + user-workflow / inert UI then native / automated + manual | pending | Canonical authoring source and five exact UI probes pass; viewport picking/native remain pending |
+| S3 | A force is one canonical scene object in tree, properties, outline and handles; UI exposes only shared supported units/support/transform; unsupported backend blocks with a reason | integration / shared domain contract + inert UI / reviewed + automated | blocked | Canonical authoring source uses one ForceScene and checked IDs; dispatch/frozen intent still pending |
 | S4 | Handle capture prevents simultaneous camera/probe motion; Escape restores exact draft; release commits one validated unit-correct edit; active snapshots stay immutable | integration + user-workflow / inert UI then native / automated + manual | pending | Domain/manipulator stages not admitted yet |
 | S5 |1250×820 and900×650 at100%/150%: usable viewport, no overlap/clipping, visible status/Cancel/errors, thin outline, keyboard alternatives and predictable drawer focus | user-workflow / actual native display / manual | blocked | No local display; prior426fd25 images do not cover this source |
 | S6 | Locked affected check, strict Clippy, formatting and individually selected exact UI tests pass; existing archives/source ownership unchanged | focused / pinned Rust1.92 / automated + source review | pending | T1 focused gates reported in checkpoint; no scientific certificate |

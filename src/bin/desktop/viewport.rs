@@ -53,6 +53,8 @@ enum ViewMode {
     Transport,
 }
 pub struct Viewport {
+    /// Draft authored fields have no runtime/preview integration yet.
+    pub authored_forces_pending: bool,
     pub collision_mesh: Option<Arc<rheon::CollisionMesh>>,
     pub camera: OrbitCamera,
     engineering: Option<super::engineering::EngineeringView>,
@@ -72,6 +74,7 @@ pub struct Viewport {
 impl Default for Viewport {
     fn default() -> Self {
         Self {
+            authored_forces_pending: false,
             camera: OrbitCamera::default(),
             engineering: None,
             mode: ViewMode::Appearance,
@@ -103,6 +106,9 @@ impl Viewport {
         grid_edge: usize,
         inspector: Option<&super::inspector::Inspector>,
     ) {
+        if self.authored_forces_pending {
+            self.mode = ViewMode::Appearance;
+        }
         ui.horizontal_wrapped(|ui| {
             for (mode, label) in [
                 (ViewMode::Appearance, "Appearance"),
@@ -110,7 +116,9 @@ impl Viewport {
                 (ViewMode::Obstacle, "Obstacle lab"),
                 (ViewMode::Transport, "Transport session"),
             ] {
-                ui.selectable_value(&mut self.mode, mode, label);
+                ui.add_enabled_ui(!self.authored_forces_pending || mode == ViewMode::Appearance, |ui| {
+                    ui.selectable_value(&mut self.mode, mode, label);
+                }).response.on_disabled_hover_text("Authored-force preview and lab runs are not integrated. Use the scene list and properties to author the draft.");
             }
             if self.mode != ViewMode::Appearance {
                 ui.checkbox(&mut self.engineering_camera.orthographic, "Orthographic");

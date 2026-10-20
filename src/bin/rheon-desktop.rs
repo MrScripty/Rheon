@@ -52,6 +52,8 @@ pub mod run_sets;
 pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
+#[path = "desktop/scene_ui.rs"]
+mod scene_ui;
 #[path = "desktop/settings.rs"]
 mod settings;
 #[cfg(test)]
@@ -1241,6 +1243,7 @@ impl TimelineControls {
 }
 
 struct App {
+    scene: scene_ui::SceneUi,
     setup_workflow: SetupWorkflow,
     ai_comparison: Option<ai_comparison::ComparisonApp>,
     archive: archive_view::ArchiveView,
@@ -1295,6 +1298,7 @@ impl Default for App {
     fn default() -> Self {
         let thread_limit = available_threads();
         Self {
+            scene: scene_ui::SceneUi::default(),
             setup_workflow: SetupWorkflow::default(),
             ai_comparison: None,
             archive: archive_view::ArchiveView::default(),
@@ -1439,21 +1443,30 @@ impl App {
                             self.controls(ui);
                         }
                     });
-                if let Some(action) = action {
-                    match action {
-                        SetupAction::Run(SetupWorkflow::Preview) => self.start(false),
-                        SetupAction::Run(SetupWorkflow::AcceptedSession) => {
-                            if let Err(error) = self.start_configured() {
-                                self.status = error;
-                            }
-                        }
-                        SetupAction::Cancel => self.cancel(),
-                    }
-                    ctx.request_repaint();
-                }
+                self.dispatch_setup_action(ctx, action);
             })
             .response
             .rect
+    }
+    fn dispatch_setup_action(&mut self, ctx: &egui::Context, action: Option<SetupAction>) {
+        if let Some(action) = action {
+            match action {
+                SetupAction::Run(SetupWorkflow::Preview) => self.start(false),
+                SetupAction::Run(SetupWorkflow::AcceptedSession) => {
+                    if let Err(error) = self.start_configured() {
+                        self.status = error;
+                    }
+                }
+                SetupAction::Cancel => self.cancel(),
+            }
+            ctx.request_repaint();
+        }
+    }
+    fn scene_run_strip(&mut self, ctx: &egui::Context) {
+        egui::TopBottomPanel::top("scene-global-run-strip").show(ctx, |ui| {
+            let action = self.run_controls(ui);
+            self.dispatch_setup_action(ctx, action);
+        });
     }
     fn run_controls(&mut self, ui: &mut egui::Ui) -> Option<SetupAction> {
         let mut action = None;
@@ -1479,15 +1492,19 @@ impl App {
             let launch = match self.setup_workflow {
                 SetupWorkflow::Preview => ui
                     .add_enabled(
-                        !self.closing,
+                        !self.closing && self.scene.launch_readiness().is_ok(),
                         egui::Button::new("Simulate")
                             .min_size(egui::vec2(ui.available_width(), 32.0)),
                     )
                     .clicked(),
-                SetupWorkflow::AcceptedSession => {
-                    self.configured_controls.launch_button(ui, !self.closing)
-                }
+                SetupWorkflow::AcceptedSession => self
+                    .configured_controls
+                    .launch_button(ui, !self.closing && self.scene.launch_readiness().is_ok()),
             };
+            if let Err(error) = self.scene.launch_readiness() {
+                ui.colored_label(egui::Color32::YELLOW, "Authored-force runs unavailable")
+                    .on_hover_text(error);
+            }
             if launch {
                 action = Some(SetupAction::Run(self.setup_workflow));
             }
@@ -1512,6 +1529,7 @@ impl App {
         action
     }
     fn reset_timeline(&mut self) {
+        self.scene.clear_run();
         self.history = None;
         self.running_request = None;
         self.rows.clear();
@@ -1552,6 +1570,7 @@ impl App {
         Ok(limits)
     }
     fn start_configured(&mut self) -> Result<(), String> {
+        self.scene.launch_readiness()?;
         if self.worker.is_some() {
             return Err("Finish the active worker first".into());
         }
@@ -1736,6 +1755,10 @@ impl App {
         Ok((self.size, Some(config)))
     }
     fn start(&mut self, all: bool) {
+        if let Err(error) = self.scene.launch_readiness() {
+            self.status = error;
+            return;
+        }
         if self.worker.is_some() {
             return;
         }
@@ -1880,6 +1903,7 @@ impl App {
                 self.scheduler = Some(Arc::clone(&worker.scheduler));
                 self.history = Some(Arc::clone(&worker.history));
                 self.worker = Some(worker);
+                self.scene.begin_run(request.collision_mesh.is_some());
                 self.running_request = Some(request);
                 self.rows.clear();
                 self.textures.clear();
@@ -2000,6 +2024,19 @@ impl App {
             }
         }
     }
+    /// Draft authoring never clamps or commits retained playback state.
+    fn scene_timeline_ui(
+        &mut self,
+        ctx: &egui::Context,
+        count: usize,
+        frame: Option<&PreviewFrame>,
+    ) -> Option<egui::Rect> {
+        if self.scene.context == scene_ui::SceneContext::Retained {
+            Some(self.timeline_ui(ctx, count, frame))
+        } else {
+            None
+        }
+    }
     /// Paint playback only; frame/history/worker ownership stays with the caller.
     fn timeline_ui(
         &mut self,
@@ -2086,7 +2123,16 @@ impl App {
             if configured {
                 self.configured_controls.show(ui, self.worker.is_none());
             } else {
-            if self.collision.show(ui, self.domain_side, self.material_mode) { self.reset_timeline(); }
+            let previous_mesh = self.collision.mesh.clone();
+            if self.collision.show(ui, self.domain_side, self.material_mode) {
+                match self.scene.replace_model(self.collision.mesh.is_some()) {
+                    Ok(()) => self.reset_timeline(),
+                    Err(error) => {
+                        self.collision.mesh = previous_mesh;
+                        self.collision.status = format!("Import rejected; previous mesh retained: {error}");
+                    }
+                }
+            }
             egui::CollapsingHeader::new("Fluid material").default_open(true).show(ui, |ui| {
                 ui.add_enabled_ui(self.material_mode,|ui|self.materials.fluid(ui));
             });
@@ -2203,7 +2249,7 @@ impl App {
                 ui.small("Fixed actual dt; a shortened step retains its archive and reports unsupported saved intent.");
                 if ui.button("Compare both pressure solvers").clicked() {self.start(true);}
             }
-            if ui.add_enabled(self.worker.is_none(), egui::Button::new("Compare Rheon / trained AI")).clicked() {
+            if ui.add_enabled(self.worker.is_none() && self.scene.launch_readiness().is_ok(), egui::Button::new("Compare Rheon / trained AI")).clicked() {
                 let mut comparison = ai_comparison::ComparisonApp::new(String::new(),std::env::current_dir().unwrap_or_default().join(".generated/ai-comparison"));
                 comparison.set_steps(self.steps.clamp(1,512));
                 self.ai_comparison = Some(comparison);
@@ -2373,17 +2419,50 @@ impl eframe::App for App {
             self.archive.show(ctx);
             return;
         }
+        if self.scene.context == scene_ui::SceneContext::Draft {
+            self.playing = false;
+        }
         if self.playing {
             self.play_time += self.playback_speed * ctx.input(|i| i.stable_dt.min(0.1)) as f64;
         }
-        let (count, frame) = self.selected_frame();
-        self.sidebar(ctx);
+        if self.scene.open && ctx.content_rect().width() < 1100.0 {
+            self.scene_run_strip(ctx);
+        } else {
+            self.sidebar(ctx);
+        }
         if self.archive.active || self.run_sets.active || self.saved_comparison_active {
             ctx.request_repaint();
             return;
         }
-        self.timeline_ui(ctx, count, frame.as_deref());
-        let workers = if self.follow_live && self.show_workers {
+        let model_mesh = if self.scene.context == scene_ui::SceneContext::Retained {
+            self.running_request
+                .as_ref()
+                .and_then(|request| request.collision_mesh.as_ref())
+        } else {
+            self.collision.mesh.as_ref()
+        };
+        let model = model_mesh.map(|mesh| scene_ui::ModelSummary {
+            triangles: mesh.triangles().len(),
+            bounds: mesh.bounds(),
+        });
+        let previous_context = self.scene.context;
+        self.scene.show(
+            ctx,
+            self.running_request.is_some(),
+            self.worker.is_some(),
+            model,
+        );
+        if previous_context != self.scene.context {
+            self.playing = false;
+        }
+        let retained = self.scene.context == scene_ui::SceneContext::Retained;
+        let (count, selected) = if retained {
+            self.selected_frame()
+        } else {
+            (0, None)
+        };
+        self.scene_timeline_ui(ctx, count, selected.as_deref());
+        let workers = if retained && self.follow_live && self.show_workers {
             self.worker
                 .as_ref()
                 .and_then(|w| w.observer.as_ref())
@@ -2394,11 +2473,13 @@ impl eframe::App for App {
         let domain_side = self
             .running_request
             .as_ref()
+            .filter(|_| retained)
             .map_or(self.domain_side, |r| r.domain_side);
         self.viewport.domain_side = domain_side;
         let emitter = self
             .running_request
             .as_ref()
+            .filter(|_| retained)
             .map_or(self.cylinder.then_some(self.emitter), |r| r.emitter)
             .map(|mut e| {
                 e.center = e.center.map(|v| v / domain_side);
@@ -2412,9 +2493,19 @@ impl eframe::App for App {
         self.viewport.collision_mesh = self
             .running_request
             .as_ref()
+            .filter(|_| retained)
             .map_or_else(|| self.collision.mesh.clone(), |r| r.collision_mesh.clone());
-        let grid = self.running_request.as_ref().map_or(self.size, |r| r.size) as usize;
-        let (_, frame) = self.selected_frame();
+        let grid = self
+            .running_request
+            .as_ref()
+            .filter(|_| retained)
+            .map_or(self.size, |r| r.size) as usize;
+        self.viewport.authored_forces_pending = !retained && !self.scene.draft().objects.is_empty();
+        let frame = if retained {
+            self.selected_frame().1
+        } else {
+            None
+        };
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE)
             .show(ctx, |ui| {
@@ -2424,7 +2515,10 @@ impl eframe::App for App {
                     emitter,
                     &workers,
                     grid,
-                    self.history.as_ref().map(|h| &h.inspector),
+                    self.history
+                        .as_ref()
+                        .filter(|_| retained)
+                        .map(|h| &h.inspector),
                 )
             });
         if self.worker.is_some() || self.playing {
@@ -2481,6 +2575,9 @@ fn main() -> eframe::Result {
             if !app.collision.path.is_empty() {
                 app.collision
                     .apply(app.domain_side)
+                    .map_err(std::io::Error::other)?;
+                app.scene
+                    .replace_model(true)
                     .map_err(std::io::Error::other)?;
             }
             if run {

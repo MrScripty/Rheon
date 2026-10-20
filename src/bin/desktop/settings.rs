@@ -360,7 +360,7 @@ pub fn quantity(
     range: std::ops::RangeInclusive<f64>,
 ) -> egui::Response {
     ui.horizontal_wrapped(|ui| {
-        ui.label(label);
+        let label = ui.label(label);
         precise_drag(
             ui,
             *value,
@@ -370,6 +370,7 @@ pub fn quantity(
                 .max_decimals(8)
                 .suffix(format!(" {unit}")),
         )
+        .labelled_by(label.id)
     })
     .inner
 }
