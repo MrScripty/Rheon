@@ -67,6 +67,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 )
             };
             let vertices = source.vertices.len();
+            // Retain exact round-trip inputs even when geometry construction refuses.
+            let mut inputs = std::io::BufWriter::new(std::fs::File::create(
+                root.join(format!("inputs-{case}-n{n}.csv")),
+            )?);
+            writeln!(inputs, "vertex,x,y")?;
+            for (id, p) in source.vertices.iter().enumerate() {
+                writeln!(inputs, "{id},{:.17e},{:.17e}", p[0], p[1])?;
+            }
+            inputs.flush()?;
             let g = grid_geometry_reference::geometry::Geometry::new(n, origin, extent, source)?;
             for mu in [0.1, 0.001002] {
                 let tag = format!("{case}-n{n}-mu{mu}");
@@ -152,7 +161,7 @@ mod tests {
             [0.0, 1.0],
         ];
         assert!(Polygon::new(doubled).is_err());
-        assert!(moments(&[[0.0, 0.0], [1.0, 0.0], [2.0, 0.0]]).is_err());
+        assert!(moments(&[[0.0, 0.0], [1.0, 1.0], [2.0, 2.0]]).is_err());
         let p = Polygon::new(vec![[0.0, 0.0], [0.5, 0.0], [0.5, 0.5], [0.0, 0.5]]).unwrap();
         assert!(
             Geometry::new(4, [0.0, 0.0], 1.0, p)
@@ -161,6 +170,26 @@ mod tests {
                 .contains("coincident")
         );
         assert!(Geometry::new(2, [0.0, 0.0], 0.1, square(17.0)).is_err());
+    }
+    #[test]
+    fn exact_axis_tangent_is_zero_and_positive_sliver_is_retained() {
+        assert_eq!(
+            moments(&[
+                [-1.3877787807814457e-16, -0.75],
+                [-1.3777276490407724e-16, -0.75],
+                [0.0, -0.75]
+            ])
+            .unwrap()
+            .area,
+            0.0
+        );
+        let a = 0.5;
+        let dx = 2.0_f64.powi(-30);
+        let dy = 2.0_f64.powi(-40);
+        assert_eq!(
+            moments(&[[a, a], [a + dx, a], [a, a + dy]]).unwrap().area,
+            dx * dy / 2.0
+        );
     }
     #[test]
     fn nonzero_pressure_traction_and_wrong_boundary_are_distinct() {

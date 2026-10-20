@@ -11,7 +11,7 @@ for row in rows:
  geometry=[abs(a-exact)/exact,abs(r['mx']-r['exact_mx'])/exact,abs(r['my']-r['exact_my'])/exact,abs(r['radial_second']-r['exact_radial_second'])/exact]
  geometry.extend(abs(r[k]-r['exact_'+k])/exact for k in ['mxx','mxy','myy'])
  control=[abs((r['wrong_force_x']-r['force_x'])-mu*a)/(mu*a),abs((r['wrong_force_y']-r['force_y'])+3*mu*a)/(mu*a)]
- item={'case':r['case'],'n':int(r['n']),'mu':mu,'local_geometry_pass':all(math.isfinite(v) and v<=1e-10 for v in defects.values()),'defects':defects,'min_positive_volume':r['min_positive_volume'],'negative_pressure_control_pass':max(control)<=1e-10,'area_error':geometry[0],'radial_error':abs(r['radial_second']/r['exact_radial_second']-1),'first_second_moment_scaled_errors':geometry[1:],'flux_error':abs(r['flux']/r['exact_flux']-1),'force_errors':[abs(r['force_x']/r['exact_force']-1),abs(r['force_y']/r['exact_force']-1)],'global_geometry_pass':r['case']=='disk' or max(geometry)<=1e-10}
+ item={'case':r['case'],'n':int(r['n']),'mu':mu,'local_geometry_pass':all(math.isfinite(v) and v<=1e-10 for v in defects.values()),'defects':defects,'min_positive_volume':r['min_positive_volume'],'negative_pressure_control_pass':max(control)<=1e-10,'area_error':geometry[0],'radial_error':abs(r['radial_second']/r['exact_radial_second']-1),'first_second_moment_scaled_errors':geometry[1:],'flux_error':abs(r['flux']/r['exact_flux']-1),'force_errors':[abs(r['force_x']/r['exact_force']-1),abs(r['force_y']/r['exact_force']-1)],'global_geometry_pass':max(geometry[1:3]+[geometry[5]])<=1e-10 if r['case']=='disk' else max(geometry)<=1e-10}
  results.append(item)
 convergence=[]
 for mu in [.1,.001002]:

@@ -16,3 +16,14 @@ prerequisite campaign. Independent post-run per-cell polygon/face/dual/boundary
 and ledger reconstruction remains necessary. No coupled Stokes/MMS, exterior
 obstacle, certified arbitrary tiny topology or production-water admission.
 Reviewer ran no tests or candidate numerical experiments and edited no source.
+
+## Independent version2 prefreeze review
+
+After v1's retained refusal, reviewer independently reconstructed the exact-zero
+axis tangent. Verified v2's exact area0 AND exact equal-coordinate predicate,
+retained tiny-positive dyadic triangle, continued oblique zero/negative/nonfinite
+refusal, preconstruction input export/flush and diagnostic context. Disk zero
+first/cross moment checks and scales verified before v2 data. Final disposition:
+no blocker to freeze one separate v2 campaign into a fresh output; v1 stays failed.
+No tolerance/floor, general robust-predicate or full solver claim. Post-run
+independent per-cell/face/dual/flux/stress reconstruction remains necessary.

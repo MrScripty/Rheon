@@ -1,4 +1,4 @@
-//! Private planar common-geometry reference, version 1. No production DOF policy.
+//! Private planar common-geometry reference, version 2. No production DOF policy.
 use rheon::GridGeometry;
 pub type Point = [f64; 2];
 #[derive(Clone, Copy, Debug, Default)]
@@ -161,6 +161,11 @@ pub fn moments(v: &[Point]) -> Result<Moments, String> {
         m.second[2] += (a[1] * a[1] + a[1] * b[1] + b[1] * b[1]) * c / 12.0;
     }
     if m.area == 0.0 {
+        // Exact coordinate equality certifies zero measure for represented
+        // horizontal/vertical tangent polygons. No positive area tolerance.
+        if (0..2).any(|d| v.iter().all(|p| p[d] == v[0][d])) {
+            return Ok(Moments::default());
+        }
         return Err("unresolved zero-area cut with three or more represented vertices".into());
     }
     m.second[0] += 2.0 * anchor[0] * m.first[0] + anchor[0] * anchor[0] * m.area;
@@ -245,7 +250,7 @@ impl Geometry {
             for d in 0..2 {
                 if a[d] == b[d] && (0..=n).any(|k| a[d] == origin[d] + k as f64 * h) {
                     return Err(
-                        "source edge coincident with primal grid plane unsupported in reference v1"
+                        "source edge coincident with primal grid plane unsupported in geometry reference"
                             .into(),
                     );
                 }
@@ -259,8 +264,10 @@ impl Geometry {
                     origin[0] + (i + 1) as f64 * h,
                     origin[1] + (j + 1) as f64 * h,
                 ];
-                let clipped = source.clip(lo, hi)?;
-                let m = moments(&clipped)?;
+                let clipped = source
+                    .clip(lo, hi)
+                    .map_err(|e| format!("cell ({i},{j}) clip: {e}"))?;
+                let m = moments(&clipped).map_err(|e| format!("cell ({i},{j}) moments: {e}"))?;
                 let physical = edges(&source.vertices)
                     .enumerate()
                     .filter_map(|(edge, (a, b))| {
@@ -296,7 +303,8 @@ impl Geometry {
                     };
                     let dual = moments(
                         &source.clip(center.map(|x| x - h / 2.0), center.map(|x| x + h / 2.0))?,
-                    )?;
+                    )
+                    .map_err(|e| format!("face axis{axis} ({x},{y}) dual moments: {e}"))?;
                     collection.push(Face { segment, dual });
                 }
             }
@@ -305,9 +313,10 @@ impl Geometry {
         for j in 0..=n {
             for i in 0..=n {
                 let c = [origin[0] + i as f64 * h, origin[1] + j as f64 * h];
-                shear.push(moments(
-                    &source.clip(c.map(|x| x - h / 2.0), c.map(|x| x + h / 2.0))?,
-                )?);
+                shear.push(
+                    moments(&source.clip(c.map(|x| x - h / 2.0), c.map(|x| x + h / 2.0))?)
+                        .map_err(|e| format!("shear ({i},{j}) moments: {e}"))?,
+                );
             }
         }
         Ok(Self {

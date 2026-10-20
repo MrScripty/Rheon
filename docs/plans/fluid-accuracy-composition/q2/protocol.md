@@ -105,3 +105,33 @@ X/Y face arrays both use native GridGeometry indexing (x fastest); shear vertice
 are x fastest with counts(n+1,n+1,1). Export all global mxx/mxy/myy and compare each
 against the analytic source at the fixed nonzero moment scale, independently of
 radial moment convergence. Radial convergence is also evaluated explicitly.
+
+## Separately selected geometry reference version2
+
+Version1 source652383e was frozen/reviewed and tested, then its single native
+campaign exited1 before any case rows. Preserve source-v1/native-v1/execution and
+independent diagnostic in the v1 evidence archive. No v1 rerun or positive result.
+The independent exact-rational reconstruction identifies the first refusal at
+primal cell111(i15,j3), disk32, x[-.0625,0],y[-.8125,-.75]: three distinct
+represented clip points all have y=-.75, and the exact f64-source intersection is
+a single tangent vertex. This is zero measure, not a positive sliver. Native
+source vertices were unavailable in v1, so the diagnostic's trig reconstruction
+assumption remains explicit. Version2 exports input vertices before construction.
+
+Method-selection correction: if computed area is exactly0 AND all represented
+vertices have exactly equal x OR exactly equal y, return exact zero moments.
+Coordinate equality proves that represented polygon has zero2D measure. No epsilon,
+volume floor, clamp, positive-cut deletion or physical threshold relaxation. Other
+>=3vertex zero-area cuts, negative fan orientation and nonfinite moments still
+refuse. Positive represented slivers remain retained. General oblique exact-zero
+classification and certified arbitrary continuous topology remain unsupported.
+Version2 adds exact tangent/tiny-positive contracts and construction-stage context.
+All convergence/flux/stress/independent budgets and cases are unchanged. Freeze
+new source and independent pre-run review, then ONE separate v2 native campaign
+into a fresh output root, preserving v1. Any new failure is retained and returns
+to method selection, never silently retried under v1 or v2.
+
+Disk zero first/cross global moments use A_exact*Lref or A_exact*Lref² and must
+remain within1e-10; positive diagonal moments are retained componentwise against
+analytic disk moments for independent review, with radial geometry convergence
+controlling their aggregate. Rotated-square all individual moments remain1e-10.
