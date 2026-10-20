@@ -45,3 +45,22 @@ and verified H1 spectrum; its implementation remains in progress. A prospective
 resource supervisor has source-level review, including final-deadline and
 accounted-log corrections. All-nine driver/evaluator controls and runtime/RSS
 feasibility remain pending; no scientific launch is admitted.
+
+Final preparation: independent oracle completed twelve Python modules for exact
+operators/loads, R1/R2 certificates, physical norms/uncertainty, H1 spectrum/rank,
+cross-phase reconstruction and normal/-O/-OO plus targeted controls. Independent
+source reviews and complete source/commands are retained with the freeze. Root
+read final sources and used AST-only syntax inspection, without module imports.
+The native binary was built and hash-bound at b9ec50c, never executed. No new
+Rust source changed after that checkpoint. Supervisor/driver handle process-group
+cancellation, creation-window signal ownership, final deadlines and retained
+receipts; a child exiting during cancellation does not bypass wait/reap.
+
+The initial interpretation requiring a measured runtime feasibility demonstration
+before closing preparation was corrected against the contract: prospective
+all-case costs and enforced hard caps close the resource-design gate. Runtime
+remains unmeasured risk, with retained stop/replan at a cap. No known mathematical
+or technical preparation blocker remains. No campaign was started; all numeric
+contracts, certificates, physical metrics, spectra and72 prospective evaluator
+checks remain unrun. The current handoff remains preparation only. Root retains
+the worktree and publishes draft PR143 for lead coordination; no merge/cleanup.

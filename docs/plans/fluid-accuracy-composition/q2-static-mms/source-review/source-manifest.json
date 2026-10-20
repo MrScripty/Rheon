@@ -1,0 +1,210 @@
+{
+  "review_kind": "Final read-only native/interface/resource preparation source review; no selected execution or numerical acceptance",
+  "worktree": "/workspace/Rheon-q2-static-mms",
+  "observed_head": "b9ec50c779122587a5da30318b29b42e1825ec10",
+  "dependency": "902f6092de6044419d028f92dabd8e59ae7a87ba",
+  "admission": "38c40ca7b4b2401e0ac802f12c647f7229072f52",
+  "disposition": "Preparation source reviewed and complete subject to root final complete-source/command custody freeze. Runtime risk is unmeasured, not a required extra benchmark or approval. Current handoff remains preparation only.",
+  "scope": "Native/private algorithms, declared test adapter, build identity files, mathematical/protocol/resource contracts, native driver/supervisor and final command metadata. Not a complete crate/binary custody manifest.",
+  "concurrent_document_note": "Lifecycle plan/issues/ledger/replan intentionally excluded. Included protocol/resources/commands hashes are observed reviewed bytes; later owning-source status updates require a refreshed freeze rather than changing this snapshot implicitly.",
+  "independent_preparation_reference": {
+    "manifest": "/workspace/rheon-q2-static-mms-independent/SHA256SUMS-preparation",
+    "sha256": "043345393a6a418aa2b9be99ca4c74452be218972e314ad91c63001af701cdbe",
+    "listed_entries": 16,
+    "all_listed_hashes_checked": true,
+    "review_sources": [
+      "README.md",
+      "readiness-review.md"
+    ],
+    "scope": "Owner/root-reviewed prospective oracle source; custody checking only, no numerical proof execution."
+  },
+  "binary_reference": {
+    "path": "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+    "sha256": "72f4245bf56a56da6e8a8c223c2a7a56220fc914491cf6997416c269945f9ad4",
+    "checkpoint": "b9ec50c779122587a5da30318b29b42e1825ec10",
+    "selected_execution": "UNRUN"
+  },
+  "python_reference": {
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "metadata_hash_checked": true,
+    "execution": "Not invoked by this review"
+  },
+  "files": [
+    {
+      "path": "Cargo.lock",
+      "bytes": 104956,
+      "sha256": "e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f",
+      "base_sha256": "e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f",
+      "same_as_base": true
+    },
+    {
+      "path": "Cargo.toml",
+      "bytes": 2433,
+      "sha256": "fc5bccf8799aa579c510d2ff7078a4532f794e61841e327d7d567257589f2409",
+      "base_sha256": "fc5bccf8799aa579c510d2ff7078a4532f794e61841e327d7d567257589f2409",
+      "same_as_base": true
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/q2-static-mms/admitted-contract.md",
+      "bytes": 11857,
+      "sha256": "8d2a8393c8af2dd3f7489f2c29076da3050c4616543d549fd88b8d1fd4cb8208",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/q2-static-mms/commands.json",
+      "bytes": 8485,
+      "sha256": "cece8bc5cefeea53096cbad355dc6b25004ff52fa88adbbf68d9ee5d66d0b2e3",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/q2-static-mms/mathematics.md",
+      "bytes": 4786,
+      "sha256": "2961ac10ae69b860f3fd9bb71d93b6cb88536c4492b64081cb989648b56697da",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/q2-static-mms/protocol.md",
+      "bytes": 10392,
+      "sha256": "778dc5d55174e3ea623593d5c4c9eef9a0b617e8304ab17c55f27499d8fb0a80",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/q2-static-mms/resource_supervisor.py",
+      "bytes": 7061,
+      "sha256": "4d742c04931e246baddc21dd77254ce78364540c3a719a0721b58259f0eb560b",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/q2-static-mms/resources.md",
+      "bytes": 6262,
+      "sha256": "89082c76e2c4e07ffb36325e8c246c429f69245629ee808fca94ceae4c010762",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "docs/plans/fluid-accuracy-composition/q2-static-mms/run_native.py",
+      "bytes": 2662,
+      "sha256": "20bc38740bdbe9df427bac2247f7b4f3932122d8668a5acb7a7291709a252599",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "examples/grid_cut_coupled_reference/solver.rs",
+      "bytes": 13524,
+      "sha256": "09656e1f1f7baca393e4c4119cc1e0b7d09a1464f6bfd5f6ee6df113b6200116",
+      "base_sha256": "c11dc0a117515c43d7a5862ef5ffe957b18b45c24eb28bf22a336ef1d0fe4e4b",
+      "same_as_base": false
+    },
+    {
+      "path": "examples/grid_cut_variational_reference/assembly.rs",
+      "bytes": 9043,
+      "sha256": "99b833914669019e2d19398a696ea4426be297b71ad116678f0952188e20e8cd",
+      "base_sha256": "b1071a627eeb9017f3a30816b29be5ac45f179a9838b2c18e291c731cb78074c",
+      "same_as_base": false
+    },
+    {
+      "path": "examples/grid_cut_variational_reference/basis.rs",
+      "bytes": 8164,
+      "sha256": "eda120b04a35726d8b77c4ac9671f601b3b647479d47bf7dd582eadd954ae6eb",
+      "base_sha256": "04bb024a4d5e527bedb81c5530082ee7d53bbc36336852125f2651582b593069",
+      "same_as_base": false
+    },
+    {
+      "path": "examples/grid_cut_variational_reference/clip.rs",
+      "bytes": 6889,
+      "sha256": "c7b688bf56300078c2d81c64fdbadd45d36c8492f33b10391470dedeb18a70b4",
+      "base_sha256": "c7b688bf56300078c2d81c64fdbadd45d36c8492f33b10391470dedeb18a70b4",
+      "same_as_base": true
+    },
+    {
+      "path": "examples/grid_cut_variational_reference/export.rs",
+      "bytes": 10095,
+      "sha256": "e7cb49d4d868ab6a95097d57d1078af246d23fd615815d6392b82b5db542b0c7",
+      "base_sha256": "e7cb49d4d868ab6a95097d57d1078af246d23fd615815d6392b82b5db542b0c7",
+      "same_as_base": true
+    },
+    {
+      "path": "examples/grid_cut_variational_reference/observe.rs",
+      "bytes": 11071,
+      "sha256": "8fa6a15fe1a894fca20a0bf57526f80710b662ad8f2649af28e0a4479efc60df",
+      "base_sha256": "8fa6a15fe1a894fca20a0bf57526f80710b662ad8f2649af28e0a4479efc60df",
+      "same_as_base": true
+    },
+    {
+      "path": "examples/grid_cut_variational_reference/trace.rs",
+      "bytes": 7618,
+      "sha256": "1d7b76b36a7cf2e7bcdfe8be0557567c8945411016a27aa946d360db8be39153",
+      "base_sha256": "1d7b76b36a7cf2e7bcdfe8be0557567c8945411016a27aa946d360db8be39153",
+      "same_as_base": true
+    },
+    {
+      "path": "examples/grid_geometry_reference/exact.rs",
+      "bytes": 7896,
+      "sha256": "9e1ecc2cfdf4d3473eb6ba39eec94854c8c45ca90cb51d2722c23fd029b106d2",
+      "base_sha256": "9e1ecc2cfdf4d3473eb6ba39eec94854c8c45ca90cb51d2722c23fd029b106d2",
+      "same_as_base": true
+    },
+    {
+      "path": "examples/grid_geometry_reference/geometry.rs",
+      "bytes": 12501,
+      "sha256": "2f4f4f119e5a848558f92231d17e418c5898164c5bc5d24075e9a3f812297056",
+      "base_sha256": "2f4f4f119e5a848558f92231d17e418c5898164c5bc5d24075e9a3f812297056",
+      "same_as_base": true
+    },
+    {
+      "path": "examples/grid_static_mms_reference.rs",
+      "bytes": 4551,
+      "sha256": "f11ea9047c926b1f91cb1fb3abaeb255aee781763dec694382eaab71f9efa177",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "examples/grid_static_mms_reference/cases.rs",
+      "bytes": 1791,
+      "sha256": "0dc27434dfe4db52519d676a0a0bd04cbd761b7d01574f7b6b99416ba287d3c1",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "examples/grid_static_mms_reference/experiment.rs",
+      "bytes": 13647,
+      "sha256": "68fa852963907bbb05613520295d648258d6b5f25de046bc75ecb79dc32ad53d",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "examples/grid_static_mms_reference/field.rs",
+      "bytes": 1545,
+      "sha256": "450a601bd2af115fbbfafc4f5ecb4cafd24b2183e86234861c36332fecd2f8ea",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "examples/grid_static_mms_reference/loads.rs",
+      "bytes": 4083,
+      "sha256": "62ba68bf93586c3ce465f9484f6de6a51a4dece5fc7350be100ef8e9347ad00f",
+      "base_sha256": null,
+      "same_as_base": null
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "bytes": 86,
+      "sha256": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+      "base_sha256": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+      "same_as_base": true
+    },
+    {
+      "path": "tests/grid_static_mms_reference_contract.rs",
+      "bytes": 90,
+      "sha256": "71b1e309a7379a060d001c81e0e45ff9195049bfdc4568323db611707988c1eb",
+      "base_sha256": null,
+      "same_as_base": null
+    }
+  ]
+}

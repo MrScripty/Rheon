@@ -65,7 +65,9 @@ def run_child(argv, output_root, receipt, *, kind, frozen_files, total_deadline)
     wall_seconds = cpu_seconds
     started = time.monotonic()
     require(total_deadline > started, 'total wall resource exhausted before case')
+    original_mask = None
     def child_limits():
+        signal.pthread_sigmask(signal.SIG_SETMASK, original_mask)
         resource.setrlimit(resource.RLIMIT_AS, (address_bytes, address_bytes))
         resource.setrlimit(resource.RLIMIT_CPU, (cpu_seconds, cpu_seconds))
         resource.setrlimit(resource.RLIMIT_FSIZE, (output_bytes, output_bytes))
@@ -85,9 +87,15 @@ def run_child(argv, output_root, receipt, *, kind, frozen_files, total_deadline)
     child = None
     with log.open('xb') as stream:
         try:
-            child = subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=stream,
-                stderr=subprocess.STDOUT, env=env, start_new_session=True,
-                preexec_fn=child_limits)
+            original_mask = signal.pthread_sigmask(signal.SIG_BLOCK, {signal.SIGINT, signal.SIGTERM})
+            try:
+                child = subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=stream,
+                    stderr=subprocess.STDOUT, env=env, start_new_session=True,
+                    preexec_fn=child_limits)
+            finally:
+                # Pending termination is delivered only after the child handle
+                # has an owner; the child restores its own mask before exec.
+                signal.pthread_sigmask(signal.SIG_SETMASK, original_mask)
             record.update(status='running', pid=child.pid)
             retain()
             reason = None
@@ -105,11 +113,17 @@ def run_child(argv, output_root, receipt, *, kind, frozen_files, total_deadline)
                 elif size > output_bytes:
                     reason = 'aggregate output resource refusal'
                 if reason:
-                    os.killpg(child.pid, signal.SIGTERM)
+                    try:
+                        os.killpg(child.pid, signal.SIGTERM)
+                    except ProcessLookupError:
+                        pass
                     try:
                         child.wait(timeout=2)
                     except subprocess.TimeoutExpired:
-                        os.killpg(child.pid, signal.SIGKILL)
+                        try:
+                            os.killpg(child.pid, signal.SIGKILL)
+                        except ProcessLookupError:
+                            pass
                         child.wait()
                     break
                 time.sleep(0.1)
@@ -130,7 +144,10 @@ def run_child(argv, output_root, receipt, *, kind, frozen_files, total_deadline)
             require(record['status'] == 'completed', record.get('reason', 'child refusal'))
         except BaseException as error:
             if child is not None and child.poll() is None:
-                os.killpg(child.pid, signal.SIGKILL)
+                try:
+                    os.killpg(child.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
                 child.wait()
             record.update(status='refused', reason=str(error), elapsed=time.monotonic()-started)
             if child is not None:

@@ -1,0 +1,244 @@
+{
+  "cases": [
+    {
+      "case": "rectangle-origin-n4",
+      "counts_are": "exact source-inequality counts",
+      "extent": 1,
+      "kkt_upper_bound": 56,
+      "n": 4,
+      "native_argv": [
+        "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+        "/workspace/rheon-q2-static-mms-evidence/native-v1/rectangle-origin-n4",
+        "rectangle-origin-n4"
+      ],
+      "origin_rule": "zero",
+      "phase": "origin",
+      "pressure_upper_bound": 16,
+      "source_unchanged": true,
+      "velocity_upper_bound": 40
+    },
+    {
+      "case": "rectangle-origin-n8",
+      "counts_are": "exact source-inequality counts",
+      "extent": 1,
+      "kkt_upper_bound": 134,
+      "n": 8,
+      "native_argv": [
+        "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+        "/workspace/rheon-q2-static-mms-evidence/native-v1/rectangle-origin-n8",
+        "rectangle-origin-n8"
+      ],
+      "origin_rule": "zero",
+      "phase": "origin",
+      "pressure_upper_bound": 36,
+      "source_unchanged": true,
+      "velocity_upper_bound": 98
+    },
+    {
+      "case": "rectangle-origin-n16",
+      "counts_are": "exact source-inequality counts",
+      "extent": 1,
+      "kkt_upper_bound": 395,
+      "n": 16,
+      "native_argv": [
+        "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+        "/workspace/rheon-q2-static-mms-evidence/native-v1/rectangle-origin-n16",
+        "rectangle-origin-n16"
+      ],
+      "origin_rule": "zero",
+      "phase": "origin",
+      "pressure_upper_bound": 120,
+      "source_unchanged": true,
+      "velocity_upper_bound": 275
+    },
+    {
+      "case": "square-17-origin-n4",
+      "counts_are": "bounding-box upper bounds",
+      "extent": 1,
+      "kkt_upper_bound": 41,
+      "n": 4,
+      "native_argv": [
+        "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+        "/workspace/rheon-q2-static-mms-evidence/native-v1/square-17-origin-n4",
+        "square-17-origin-n4"
+      ],
+      "origin_rule": "zero",
+      "phase": "origin",
+      "pressure_upper_bound": 9,
+      "source_unchanged": true,
+      "velocity_upper_bound": 32
+    },
+    {
+      "case": "square-17-origin-n8",
+      "counts_are": "bounding-box upper bounds",
+      "extent": 1,
+      "kkt_upper_bound": 66,
+      "n": 8,
+      "native_argv": [
+        "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+        "/workspace/rheon-q2-static-mms-evidence/native-v1/square-17-origin-n8",
+        "square-17-origin-n8"
+      ],
+      "origin_rule": "zero",
+      "phase": "origin",
+      "pressure_upper_bound": 16,
+      "source_unchanged": true,
+      "velocity_upper_bound": 50
+    },
+    {
+      "case": "square-17-origin-n16",
+      "counts_are": "bounding-box upper bounds",
+      "extent": 1,
+      "kkt_upper_bound": 177,
+      "n": 16,
+      "native_argv": [
+        "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+        "/workspace/rheon-q2-static-mms-evidence/native-v1/square-17-origin-n16",
+        "square-17-origin-n16"
+      ],
+      "origin_rule": "zero",
+      "phase": "origin",
+      "pressure_upper_bound": 49,
+      "source_unchanged": true,
+      "velocity_upper_bound": 128
+    },
+    {
+      "case": "square-17-quarter-n4",
+      "counts_are": "bounding-box upper bounds",
+      "extent": 1,
+      "kkt_upper_bound": 41,
+      "n": 4,
+      "native_argv": [
+        "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+        "/workspace/rheon-q2-static-mms-evidence/native-v1/square-17-quarter-n4",
+        "square-17-quarter-n4"
+      ],
+      "origin_rule": "h/4 in both coordinates",
+      "phase": "quarter",
+      "pressure_upper_bound": 9,
+      "source_unchanged": true,
+      "velocity_upper_bound": 32
+    },
+    {
+      "case": "square-17-quarter-n8",
+      "counts_are": "bounding-box upper bounds",
+      "extent": 1,
+      "kkt_upper_bound": 66,
+      "n": 8,
+      "native_argv": [
+        "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+        "/workspace/rheon-q2-static-mms-evidence/native-v1/square-17-quarter-n8",
+        "square-17-quarter-n8"
+      ],
+      "origin_rule": "h/4 in both coordinates",
+      "phase": "quarter",
+      "pressure_upper_bound": 16,
+      "source_unchanged": true,
+      "velocity_upper_bound": 50
+    },
+    {
+      "case": "square-17-quarter-n16",
+      "counts_are": "bounding-box upper bounds",
+      "extent": 1,
+      "kkt_upper_bound": 177,
+      "n": 16,
+      "native_argv": [
+        "/workspace/rheon-q2-static-mms-evidence/grid_static_mms_reference",
+        "/workspace/rheon-q2-static-mms-evidence/native-v1/square-17-quarter-n16",
+        "square-17-quarter-n16"
+      ],
+      "origin_rule": "h/4 in both coordinates",
+      "phase": "quarter",
+      "pressure_upper_bound": 49,
+      "source_unchanged": true,
+      "velocity_upper_bound": 128
+    }
+  ],
+  "contract_pr141_head": "38c40ca7b4b2401e0ac802f12c647f7229072f52",
+  "control_caps": {
+    "address_bytes": 8589934592,
+    "output_bytes": 2147483648,
+    "subprocess_cpu_seconds": 1800,
+    "subprocess_wall_seconds": 1800,
+    "total_wall_seconds": 10800,
+    "workers": 1
+  },
+  "dependency_pr139_head": "902f6092de6044419d028f92dabd8e59ae7a87ba",
+  "execution_order": [
+    "verify committed preparation snapshot and manifest hash from preparation-freeze.md",
+    "native driver completes all nine fresh case directories",
+    "complete oracle harness executes all three full case/aggregate modes then all targeted controls",
+    "retain all results/refusals; tooling pass does not imply physics pass"
+  ],
+  "native_binary_sha256": "72f4245bf56a56da6e8a8c223c2a7a56220fc914491cf6997416c269945f9ad4",
+  "native_caps": {
+    "address_bytes": 4294967296,
+    "case_cpu_seconds": 120,
+    "case_wall_seconds": 120,
+    "output_bytes": 2147483648,
+    "total_wall_seconds": 900,
+    "workers": 1
+  },
+  "native_preparation_checkpoint": "b9ec50c779122587a5da30318b29b42e1825ec10",
+  "prelaunch_source_check": [
+    "sha256sum",
+    "--check",
+    "/workspace/Rheon-q2-static-mms/docs/plans/fluid-accuracy-composition/q2-static-mms/SHA256SUMS-preparation"
+  ],
+  "prospective_subprocess_counts": {
+    "full_case_and_aggregate": 30,
+    "targeted_controls": 42,
+    "total": 72
+  },
+  "python": {
+    "packages_metadata_only": {
+      "mpmath": "1.3.0",
+      "numpy": "2.3.5",
+      "scipy": "1.17.0",
+      "sympy": "1.14.0"
+    },
+    "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "version": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]"
+  },
+  "reference_caps": {
+    "address_bytes": 8589934592,
+    "case_cpu_seconds": 1800,
+    "case_wall_seconds": 1800,
+    "modes": [
+      "normal",
+      "-O",
+      "-OO"
+    ],
+    "output_bytes_all_modes": 8589934592,
+    "total_wall_seconds_all_modes": 32400,
+    "total_wall_seconds_per_mode": 10800,
+    "workers": 1
+  },
+  "rust_contract_disposition": "three compiled contracts remain ignored/unrun; this command requires later resource-bound execution disposition and does not run implicitly with the native driver",
+  "scope": "preparation complete for lead review; no automatic launch from this file; no extra user confirmation requested",
+  "serialized_complete_oracle_and_controls_argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "/workspace/Rheon-q2-static-mms/docs/plans/fluid-accuracy-composition/q2-static-mms/oracle/check_oracle.py",
+    "/workspace/rheon-q2-static-mms-evidence/native-v1",
+    "/workspace/rheon-q2-static-mms-evidence/oracle-checks-v1"
+  ],
+  "serialized_native_driver_argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "/workspace/Rheon-q2-static-mms/docs/plans/fluid-accuracy-composition/q2-static-mms/run_native.py",
+    "/workspace/rheon-q2-static-mms-evidence/native-v1"
+  ],
+  "source_hash_manifest": "/workspace/Rheon-q2-static-mms/docs/plans/fluid-accuracy-composition/q2-static-mms/SHA256SUMS-preparation",
+  "status": "frozen prospective commands only; UNRUN; current handoff preparation only",
+  "unrun_rust_contract_command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--no-default-features",
+    "--test",
+    "grid_static_mms_reference_contract",
+    "--",
+    "--ignored"
+  ],
+  "working_directory": "/workspace/Rheon-q2-static-mms"
+}

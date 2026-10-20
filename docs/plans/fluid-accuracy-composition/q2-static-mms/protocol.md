@@ -2,7 +2,8 @@
 
 All entries here precede selected numerical output. No scenario, phase, finest
 level, integration budget or deciding metric may be removed after execution.
-The exact source/oracle/resource freezes and independent review remain required.
+The exact source/oracle/resource freeze and independent reviews are recorded in
+preparation-freeze.md. Their completion does not expand this handoff to execution.
 
 ## Corpus, identities and coverage
 
@@ -87,16 +88,22 @@ Independently integrate all L2 squared polynomial errors by exact moments.
 For L1, use bounded polynomial-range/subdivision followed by outward-enclosed
 square roots; mere Gauss sample agreement is not acceptance. Freeze its actual
 algorithm, depth/work limits and absolute integration budget in the independent
-oracle before execution. Report L-infinity as a lower/upper supremum enclosure
+oracle before execution. The selected v1 Bernstein algorithm has depth24, a
+case-wide2,000,000-created-piece cap and256-bit outward square roots. Its
+absolute L1 width is at most1e-8 times domain measure times the declared unit
+velocity/pressure/stress scale, followed by the independent relative1% budget;
+this internal measure scaling is not a claim of an exact polynomial L1 rule. Report L-infinity as a lower/upper supremum enclosure
 from piecewise polynomial range bounds and point witnesses, with the exact
 subdivision definition frozen, not as a claimed cut-face convergence order.
 
 Propagate coefficient, assembly, reference and integration uncertainty to every
 error numerator, analytic denominator and traction norm by interval operations.
 Each total numerical uncertainty must be at most1% of the positive lower bound
-of its reported discretization error AND1% of the positive lower bound of each
-used refinement difference. A nonpositive denominator/gap lower bound refuses
-the corresponding decision; no arbitrary positive floor is inserted.
+of its reported discretization error AND1% of the refinement difference
+interval's distance from zero. A resolved negative coarse difference is reported
+with its uncertainty; only the finest-pair order decides. An interval crossing
+zero leaves the difference unresolved. A nonpositive analytic denominator
+refuses the norm decision; no arbitrary positive floor is inserted.
 
 All six finest n16 family metrics (velocity/pressure/traction, L1/L2) must have
 upper bounds<=.05. For each family and each metric report4->8 and8->16 orders;
@@ -141,3 +148,23 @@ rank/certificate failure or unresolved norm/order interval stops the campaign
 with completed outputs retained. No coarsening, posthoc tolerance/precision
 change, hidden backend fallback or selected-phase omission. No numerical
 command is launched under this preparation-only continuation.
+
+## Prepared commands and interpreter evidence
+
+The native preparation checkpoint is b9ec50c779122587a5da30318b29b42e1825ec10.
+Its copied release executable SHA256 is
+`72f4245bf56a56da6e8a8c223c2a7a56220fc914491cf6997416c269945f9ad4`;
+it has not been executed. `run_native.py` prepares one fixed nine-case sequence
+with fresh output, per-case limits, total wall cap and retained stop receipts.
+The three new Rust numerical contracts remain explicitly ignored in ordinary
+CI; eventual admitted `cargo test ... -- --ignored` commands select them.
+
+The independent analyzer's prospective CLI is `analyze.py case CASE OUTPUT`,
+`analyze.py audit CASE OUTPUT`, and `analyze.py aggregate RAW REPORTS OUTPUT`.
+`check_oracle.py RAW FRESH_OUTPUT` prepares all nine full case calculations plus
+aggregate in each of normal/-O/-OO (30 subprocesses), then14 targeted controls
+in each mode (42 subprocesses). Full scientific reports must be byte-identical
+even when the scientific method fails a gate. Tooling success cannot relabel a
+scientific failure; all cases/modes remain retained. Actual fixed source hashes
+and argv are in commands.json and SHA256SUMS-preparation. Check that snapshot
+before any later admitted launch; no command here was numerically executed.

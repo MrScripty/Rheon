@@ -1,8 +1,8 @@
 # CV3-A static polygon MMS preparation
 
-Status: Active, preparation only. No selected numerical execution is admitted
-by the current handoff. Objective acceptance is pending source, independent
-oracle and resource gates; there are no CV3 numerical results.
+Status: preparation complete, source/oracle/resource review frozen for lead
+review. No selected numerical execution is admitted by the current handoff;
+there are no CV3 numerical results. See preparation-freeze.md for exact custody.
 
 ## Authority and dependencies
 
@@ -36,7 +36,7 @@ SQLite, Cargo and production code remain outside the write set.
 1. Discovery/reconciliation (Accepted for preparation): exact source inspection, continuum
    derivation and bounding-box/quadrature/cost reasoning. Gate: independent
    disposition of the additional private dimension guards in [replan.md](replan.md).
-2. Source/oracle/resource preparation (Active): smallest admitted implementation,
+2. Source/oracle/resource preparation (Accepted for preparation): smallest admitted implementation,
    candidate-free exact loads/norms, validated uncertainty, immutable commands
    and hard caps. Gate: complete separate source/oracle/resource review with
    source hashes, no selected execution.
@@ -44,8 +44,9 @@ SQLite, Cargo and production code remain outside the write set.
    Its source freeze and actual separate admission must precede any selected
    native tests, solves, oracle calculations or scientific probes.
 
-Exactly one next slice: finish the prospective preparation gates, retaining any
-unavailable item as a blocker rather than executing to discover an answer.
+The preparation slice is complete. The next numerical slice remains outside this
+handoff; the lead owns its disposition using the committed source/command freeze.
+No additional user confirmation is requested.
 
 ## Exact proposed write set (recorded before source edits)
 
@@ -63,12 +64,12 @@ No original trace/quadrature implementation is overwritten for the new loads.
 ## Blockers and replan triggers
 
 The additional assembly/solver dimension guard replan received independent
-prospective acceptance for preparation; its new source still requires the
-remaining reviewed freeze. Guaranteed original-coordinate uncertainty and bounded L1 integration
-must be implemented and independently reviewed, not inferred from highprecision
-agreement. Resource caps require enforceable subprocess ownership and all-nine
-case feasibility, without selected benchmark data. Any missing implementation,
-uncertainty proof, review or feasible reference keeps execution blocked.
+prospective acceptance for preparation. The independent exact-rational oracle,
+bounded physical norms, spectrum, controls and serialized resource owners are
+prepared and source-reviewed. Mathematical guarantees remain conditional on
+actual successful certificates and interval budgets. Unmeasured runtime is a
+risk under fixed hard caps; no benchmark approval is required. A future cap,
+rank/certificate/integration failure retains its case/stage and returns to the lead.
 Broader basis, backend, boundary, support or pressure changes return to the lead.
 
 The branch/worktree is retained-protected under numerical-owner preparation,
