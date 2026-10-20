@@ -45,6 +45,8 @@ For positive weights, minimize velocity change in the \(W^{-1}\) metric subject 
 
 The matrix can be algebraically correct and geometrically wrong. The theorem accepts arbitrary \(B\); it cannot distinguish a neighboring cell from an incorrectly indexed distant one. Independent geometry and stencil tests are essential.
 
+**Audit clarification, 20 October 2026.** These graph signs agree with the integrated SI operator in `src/operator.rs`: its weight is area divided by density and normal pressure distance; `src/pressure.rs` uses negative outward predicted flux divided by the interval. The true-residual repair at commit `34f6165` fixed scratch-buffer/CG-recurrence handling after a divergence-only rejection, without changing the Poisson equation. The later private cut reference in PR139 also demonstrates that a small original-equation residual can coexist with inaccurate velocity in an ill-conditioned basis. Neither event establishes an error in Chorin's continuum projection. See [Appendix G](../appendices/G-paper-audit-and-corrections.md) for exact sources and retained failures.
+
 ## Assembly by boundary case
 
 Every candidate face should be classified before assembling a pressure row. A fluid-fluid face contributes coefficient w to both diagonals and -w to both off-diagonals. A fluid-solid face with prescribed normal speed supplies known boundary flux; it does not add a fictitious pressure neighbor. A fluid-air face with prescribed pressure contributes w to the fluid diagonal and \(w p_{\mathrm{air}}\) to its right-hand side. An inactive air-air face contributes no liquid pressure equation.

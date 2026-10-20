@@ -81,15 +81,18 @@ For comparison with particle methods, the original Weiler et al. viscosity work 
 
 [R15]: https://mmacklin.com/pbf_sig_preprint.pdf
 
-## Draft checkpoint: stationary-box Stokes acceptance
+## Historical checkpoint: stationary-box Stokes acceptance
 
-Unmerged [PR45](https://github.com/MrScripty/Rheon/pull/45), reviewed at
+[PR45](https://github.com/MrScripty/Rheon/pull/45), originally reviewed at
 `bbc6089888e257962b968e70ed84ec61b7668d5b`, implements an opt-in
 [aligned Stokes experiment](https://github.com/MrScripty/Rheon/blob/bbc6089888e257962b968e70ed84ec61b7668d5b/experiments/aligned_stokes.rs).
 It combines bounded explicit symmetric-strain decay with a pressure proposal
 on a fixed aligned-box domain. The obstacle is stationary and no-slip; outer
 walls are sealed and free-slip. It is not the production liquid timestep or a
-moving-body solver, and this book branch does not import that implementation.
+moving-body solver. **Correction, 20 October 2026:** PR45 is now merged and
+`experiments/aligned_stokes.rs` is present in audited main `718469b`. The pinned
+checkpoint and qualification discussion below remain historical evidence;
+inclusion in main is not new physical or continuum qualification.
 
 The [independent rational controls](https://github.com/MrScripty/Rheon/blob/bbc6089888e257962b968e70ed84ec61b7668d5b/tools/test_aligned_stokes_oracle.py)
 construct a cell cycle around all four sides of the central obstacle in a 3³
