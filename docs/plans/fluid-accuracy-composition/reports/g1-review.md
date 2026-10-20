@@ -10,4 +10,6 @@ Separate Codex instances reviewed architecture, persistence and native UI withou
 
 The numerical owners emit facts directly; cancellation callbacks do not create execution receipts. The Session remains the publication owner, recording remains the custody owner and the UI consumes a cached exact selection. The source uses the existing pressure v1 and native family state. The new view does not supply scientific or universal accessibility validation.
 
-Native interaction and capture-plus-cached-projection results belong in the final G1 qualification report. Failed harness/evaluation logs remain outside Git with the successful evidence.
+Independent architecture review also approved the first actual fixed release budget evaluation: 30 paired intervals, 0.4037% median added capture plus validated cache adoption against the frozen 5% limit. Raw hashes, variability and scope were independently checked. This does not cover rendering or native interaction; see [G1 qualification](g1-qualification.md).
+
+The first normal-App native evaluation is retained while its End/Left input failure is investigated. Added key-release/idle-frame event coverage passes, but G1-U remains open. Failed harness/evaluation logs remain outside Git with the successful evidence.
