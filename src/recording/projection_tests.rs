@@ -53,6 +53,24 @@ fn fixture(method: PressureImplementation) -> (SimulationSession, ProjectionStep
         workspace,
     )
 }
+fn fault_fixture() -> (SimulationSession, ProjectionStepWorkspace) {
+    let grid = GridGeometry::new([4; 3], [0.25; 3], [0.0; 3]).unwrap();
+    let method = PressureImplementation::JacobiPcgV1;
+    let workspace = ProjectionStepWorkspace::new(&grid, 998.2, CAP, method).unwrap();
+    let session = SimulationSession::new_with_projection(
+        identity(),
+        grid,
+        config(),
+        method,
+        vec![0.5; 64],
+        CAP,
+        4,
+        ProjectionIntent::BuiltinNativeV1,
+    )
+    .unwrap();
+    (session, workspace)
+}
+
 fn inputs() -> LiquidStepInputs<'static> {
     LiquidStepInputs {
         requested_dt: 0.03125,
@@ -235,7 +253,7 @@ fn c1b2_projection_real_clean_fallback_and_mixed_failure_are_distinct_cold_facts
         ProjectionFault::BadGauge,
         ProjectionFault::BadPressure,
     ] {
-        let (mut session, mut workspace) = fixture(PressureImplementation::JacobiPcgV1);
+        let (mut session, mut workspace) = fault_fixture();
         workspace.set_fault(fault);
         let run = projection_run(&session.snapshot(), "real bounded fault custody").unwrap();
         let archive = path();

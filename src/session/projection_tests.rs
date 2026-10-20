@@ -217,10 +217,12 @@ fn c1b2_cancellation_at_every_observed_checkpoint_preserves_complete_publication
             unchanged(&session, &before);
             let attempt = failure.attempt.unwrap();
             validate(&session, &attempt);
-            assert!(matches!(
-                attempt.outcome,
-                ProjectionAttemptOutcome::Cancelled { .. }
-            ));
+            assert!(
+                matches!(attempt.outcome, ProjectionAttemptOutcome::Cancelled { .. }),
+                "target={target:?}; error={:?}; outcome={:?}",
+                failure.error,
+                attempt.outcome
+            );
             let accepted = session
                 .step_with_native_projection(inputs(), &mut workspace, None, |_| false)
                 .unwrap();
@@ -411,7 +413,7 @@ fn c1b2_receipt_validator_rejects_crosslinked_reports_and_impossible_phase_prefi
     let accepted = session
         .step_with_native_projection(inputs(), &mut workspace, None, |_| false)
         .unwrap();
-    for case in 0..8 {
+    for case in 0..11 {
         let mut a = (*accepted.attempt).clone();
         match case {
             0 => a.selected_native.as_mut().unwrap().pressure.iterations = 0,
@@ -450,6 +452,21 @@ fn c1b2_receipt_validator_rejects_crosslinked_reports_and_impossible_phase_prefi
             5 => a.qualification.as_mut().unwrap().selection = ProjectionSelection::NativeFallback,
             6 => a.provisional_input_id = None,
             7 => a.actual_dt = Some(a.requested_dt * 2.0),
+            8..=10 => {
+                a.outcome = ProjectionAttemptOutcome::Failed {
+                    stage: ProjectionAttemptStage::HostQualification,
+                    code: if case == 10 {
+                        ProjectionFailureCode::HostQualification
+                    } else {
+                        ProjectionFailureCode::UnrepresentableMixedQualificationFallback
+                    },
+                };
+                a.output_sha256 = None;
+                a.selected_native = None;
+                if case == 8 {
+                    a.qualification = None;
+                }
+            }
             _ => unreachable!(),
         }
         assert!(

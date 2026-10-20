@@ -294,6 +294,7 @@ fn failure_facts(
             LiquidStepError::Cancelled
             | LiquidStepError::Carrier(
                 crate::SimulationError::Cancelled { .. }
+                | crate::SimulationError::Advection(crate::AdvectionError::Cancelled)
                 | crate::SimulationError::Pressure(crate::PressureError::Cancelled { .. })
                 | crate::SimulationError::Projection(
                     crate::solver_provider::composition::projection::ProjectionError::Cancelled

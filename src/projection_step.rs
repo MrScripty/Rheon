@@ -451,6 +451,27 @@ impl ProjectionAttempt {
                 }
             }
             ProjectionAttemptOutcome::Failed { stage, code } => {
+                if stage == ProjectionAttemptStage::HostQualification {
+                    match code {
+                        ProjectionFailureCode::UnrepresentableMixedQualificationFallback => {
+                            if self.qualification.as_ref().is_none_or(|q| {
+                                q.selection != ProjectionSelection::NativeFallback
+                                    || !matches!(
+                                        q.rejection,
+                                        Some(ProjectionRejectionFacts::Pressure(_))
+                                    )
+                            }) {
+                                return Err("projection mixed failure observations absent");
+                            }
+                        }
+                        ProjectionFailureCode::HostQualification => {
+                            if self.qualification.is_some() {
+                                return Err("projection failed qualification has completed result");
+                            }
+                        }
+                        _ => {}
+                    }
+                }
                 let allowed = match stage {
                     ProjectionAttemptStage::SessionGuard => false,
                     ProjectionAttemptStage::CarrierPreparation
