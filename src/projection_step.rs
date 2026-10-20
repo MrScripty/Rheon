@@ -239,16 +239,15 @@ impl ProjectionAttempt {
         {
             return Err("projection attempt input position");
         }
-        if let Some(dt) = self.actual_dt {
-            if !dt.is_finite()
+        if let Some(dt) = self.actual_dt
+            && (!dt.is_finite()
                 || dt <= 0.0
                 || !self.requested_dt.is_finite()
                 || dt > self.requested_dt
                 || self.interval_start + dt <= self.interval_start
-                || !(self.interval_start + dt).is_finite()
-            {
-                return Err("projection actual interval");
-            }
+                || !(self.interval_start + dt).is_finite())
+        {
+            return Err("projection actual interval");
         }
         if self.provisional_input_id.is_some() != self.actual_dt.is_some()
             || self.producer.is_some() && self.provisional_input_id.is_none()
@@ -258,14 +257,13 @@ impl ProjectionAttempt {
             return Err("projection observation order");
         }
         let settings = configuration.transport.carrier.pressure;
-        if let Some(p) = &self.producer {
-            if p.implementation != configuration.implementation
+        if let Some(p) = &self.producer
+            && (p.implementation != configuration.implementation
                 || !p.residual_l2_limit.is_finite()
                 || p.residual_l2_limit < 0.0
-                || !native_metrics(p.pressure, settings, p.residual_l2_limit)
-            {
-                return Err("projection producer metrics");
-            }
+                || !native_metrics(p.pressure, settings, p.residual_l2_limit))
+        {
+            return Err("projection producer metrics");
         }
         if let Some(q) = &self.qualification {
             let producer = self.producer.as_ref().ok_or("projection producer absent")?;
@@ -301,12 +299,11 @@ impl ProjectionAttempt {
                     }
                 }
             }
-            if let Some(f) = &q.native_fallback {
-                if f.implementation != configuration.implementation
-                    || !native_metrics(f.pressure, settings, producer.residual_l2_limit)
-                {
-                    return Err("projection fallback metrics");
-                }
+            if let Some(f) = &q.native_fallback
+                && (f.implementation != configuration.implementation
+                    || !native_metrics(f.pressure, settings, producer.residual_l2_limit))
+            {
+                return Err("projection fallback metrics");
             }
             match q.selection {
                 ProjectionSelection::SuppliedCandidate => {
@@ -331,8 +328,9 @@ impl ProjectionAttempt {
                     match q.rejection.as_ref().ok_or("projection fallback rejection absent")? {
                         ProjectionRejectionFacts::Field(field) => {
                             if q.witness.is_some() {return Err("projection field rejection witness");}
-                            if let ProjectionFieldRejection::NonZeroWallVelocity{axis,index}=field {
-                                if *index>=grid.face_len(*axis) || !wall_index(grid,*axis,*index) {return Err("projection wall index");}
+                            if let ProjectionFieldRejection::NonZeroWallVelocity{axis,index}=field
+                                && (*index>=grid.face_len(*axis) || !wall_index(grid,*axis,*index)) {
+                                return Err("projection wall index");
                             }
                         }
                         ProjectionRejectionFacts::MomentumWitness{axis,index} => {
@@ -872,13 +870,13 @@ fn qualification_facts(
     } else {
         None
     };
-    let native_fallback = (report.selection == ProjectionSelection::NativeFallback).then(|| {
+    let native_fallback = (report.selection == ProjectionSelection::NativeFallback).then_some(
         NativePressureSolveFacts {
             implementation,
             pressure: report.pressure.accepted,
             elapsed: report.pressure.fallback,
-        }
-    });
+        },
+    );
     Ok(ProjectionQualificationFacts {
         selection: report.selection,
         rejection,

@@ -140,14 +140,15 @@ fn c1b2_projection_profile_refusal_clears_cached_g1_evidence_and_gesture() {
         let future = output
             .0
             .join(format!("future-projection-{terminal_only}.sqlite"));
-        std::fs::copy(&path, &future).unwrap();
-        let db = rusqlite::Connection::open(&future).unwrap();
-        db.execute(
-            "UPDATE run SET solver = ?1",
-            ["rheon-native-projection-session-v2"],
-        )
-        .unwrap();
-        drop(db);
+        let source = rheon::recording::RecordingReader::open(&path, limits).unwrap();
+        let mut future_run = source.run().clone();
+        future_run.solver = "rheon-native-projection-session-v2".into();
+        drop(source);
+        let mut future_writer = StepRecorder::create(&future, future_run, limits).unwrap();
+        future_writer
+            .finish("completed", "unsupported future profile fixture", Some(0))
+            .unwrap();
+        drop(future_writer);
         assert!(
             inspector
                 .reload(&future, limits)
