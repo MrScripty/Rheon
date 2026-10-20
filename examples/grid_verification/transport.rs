@@ -17,6 +17,14 @@ fn binary(path: &Path, values: &[f64]) -> Result<()> {
     f.flush()?;
     Ok(())
 }
+fn binary32(path: &Path, values: &[f32]) -> Result<()> {
+    let mut f = BufWriter::new(std::fs::File::create(path)?);
+    for v in values {
+        f.write_all(&v.to_le_bytes())?;
+    }
+    f.flush()?;
+    Ok(())
+}
 struct Fixture {
     fraction: Vec<f64>,
     volume: f64,
@@ -108,6 +116,13 @@ pub fn run(root: &Path) -> Result<()> {
         out,
         "case,n,requested_courant,status,steps,time,initial_volume,final_volume,relative_drift,relative_l1,max_balance,max_divergence,max_courant,min,max,fourier_error"
     )?;
+    let mut control = BufWriter::new(std::fs::File::create(root.join("constant-controls.csv"))?);
+    writeln!(control, "n,requested_courant,fill,status,max_change,error")?;
+    let mut carriers = BufWriter::new(std::fs::File::create(root.join("carriers.csv"))?);
+    writeln!(
+        carriers,
+        "case,n,outward_rate,reverse_outward_rate,divergence,reverse_divergence"
+    )?;
     for n in [16, 32, 64] {
         let h = 1.0 / n as f64;
         let grid = GridGeometry::new([n as u64; 3], [h; 3], [0.0; 3])?;
@@ -155,6 +170,61 @@ pub fn run(root: &Path) -> Result<()> {
             let (reverse_rate, reverse_div) = carrier::rates(&grid, &negative);
             if div != 0.0 || reverse_div != 0.0 {
                 return Err("source-declared discrete curl is not exactly solenoidal".into());
+            }
+            for (d, field) in positive.iter().enumerate() {
+                binary32(&root.join(format!("carrier-{case}-{n}-{d}.f32")), field)?;
+            }
+            writeln!(
+                carriers,
+                "{case},{n},{rate:.17e},{reverse_rate:.17e},{div:.17e},{reverse_div:.17e}"
+            )?;
+            carriers.flush()?;
+            if case != "translation" {
+                for requested in [0.1, 0.25, 0.5] {
+                    for fill in [0.0, 1.0] {
+                        let mut state = LiquidVolumeState::new(
+                            grid.clone(),
+                            RHO,
+                            stamp(400, 0),
+                            vec![fill; grid.cell_len()],
+                            1 << 28,
+                        )?;
+                        let flow = LiquidFlowInterval::new(
+                            &grid,
+                            stamp(401, 0),
+                            positive.each_ref().map(|f| f.as_slice()),
+                            0.0,
+                            requested / rate,
+                        )?;
+                        let result = state.advance_periodic(
+                            flow,
+                            stamp(402, 0),
+                            None,
+                            LiquidVolumeSettings {
+                                max_outward_courant: 1.0,
+                                actual_divergence_limit: 0.0,
+                            },
+                            |_| false,
+                        );
+                        let change = state
+                            .state()
+                            .fraction
+                            .iter()
+                            .map(|f| (f - fill).abs())
+                            .fold(0.0, f64::max);
+                        match result {
+                            Ok(_) => writeln!(
+                                control,
+                                "{n},{requested:.17e},{fill},complete,{change:.17e},"
+                            )?,
+                            Err(e) => writeln!(
+                                control,
+                                "{n},{requested:.17e},{fill},refused,{change:.17e},\"{e:?}\""
+                            )?,
+                        }
+                        control.flush()?;
+                    }
+                }
             }
             for requested in [0.1, 0.25, 0.5] {
                 let tag = format!("{case}-n{n}-c{:03}", (requested * 100.0) as usize);
@@ -231,13 +301,17 @@ pub fn run(root: &Path) -> Result<()> {
                     }
                 }
                 if status == "complete" && case != "translation" {
-                    let count = accepted_dt.len();
-                    for (j, &mirrored) in accepted_dt.iter().rev().enumerate() {
-                        let actual = if j + 1 == count {
-                            1.0 - state.state().time
-                        } else {
-                            mirrored
-                        };
+                    let sequence: Vec<_> = accepted_dt.iter().rev().copied().collect();
+                    let mut j = 0;
+                    while state.state().time < 1.0 {
+                        let remaining = 1.0 - state.state().time;
+                        let actual = sequence
+                            .get(j)
+                            .copied()
+                            .unwrap_or(remaining)
+                            .min(remaining)
+                            .min(dt);
+                        j += 1;
                         let flow = LiquidFlowInterval::new(
                             &grid,
                             stamp(200, steps as u64),
@@ -331,6 +405,8 @@ pub fn run(root: &Path) -> Result<()> {
             }
         }
     }
+    control.flush()?;
+    carriers.flush()?;
     geometry.flush()?;
     out.flush()?;
     Ok(())
