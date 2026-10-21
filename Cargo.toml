@@ -26,6 +26,7 @@ eframe = { version = "=0.33.3", optional = true, default-features = false, featu
 [features]
 default = ["png-export"]
 png-export = ["dep:png"]
+force-serde = ["dep:serde", "dep:serde_json"]
 parallel = ["dep:rayon"]
 work-observation = ["parallel"]
 desktop = ["dep:serde", "dep:serde_json", "dep:eframe", "png-export", "parallel", "work-observation"]
