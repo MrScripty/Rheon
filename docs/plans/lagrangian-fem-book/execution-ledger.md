@@ -1,5 +1,13 @@
 # Execution ledger
 
+## 2026-10-21 — M4 normal publication continuation
+
+Environment execution and provided GitHub authentication recovered. Branch97ba8a9 was pushed successfully and draft PR147 created against main7516a8e. Normal PR workflows started; no merge or deployment is claimed at this checkpoint. Existing reference generators completed and supplied43 ignored assets; the existing source-only book build returned0 with43 sections and1571 rendered expressions. These are preexisting reference workloads, not a new FEM simulation. The actual bundle and seven chapter pages were independently inspected.
+
+The one local browser attempt stopped before PDF rendering: installed Chromium's SUID sandbox helper was not configured correctly and the process aborted. No sandbox change, alternate local browser route or retry was made; the normal remote CI browser checks remain required. The earlier missing generated-figure prerequisite was resolved by the normal generators, without placeholders. Parent now authorizes finishing normal final-head CI, a coordinated merge commit and Pages verification.
+
+Independent artifact review found the archive README's old claim that no reference computation ran "to make this archive" could obscure those separate generation steps. Narrowed only that literal to state that packaging itself runs no computation and that reference data/figures have separate generation/qualification. This does not change packaging behavior or scientific evidence.
+
 ## 2026-10-21 — M0 admission
 
 Inspected clean original checkout `work` at `6ba41c7`; successfully fetched main `fd7c0f0aee63bc8710df99f9bb01154e7619b974`; created isolated task branch/worktree named in plan. GitHub read-only metadata confirms PR145/146 open drafts with separate force/UI ownership. No duplicate workers created.

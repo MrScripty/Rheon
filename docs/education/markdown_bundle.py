@@ -89,7 +89,8 @@ The three native models are recorded playback, described in the
 This Markdown companion contains documentation, not a browser laboratory.
 Open native-labs.html in the separately built static HTML edition for the hub.
 A source-only HTML build explicitly states that playback bundles are absent.
-No example, integration or reference computation was run to make this archive.
+The packaging operation runs no example, integration or reference computation.
+Reference data and figures have separate generation and qualification steps.
 
 ## Static geometry
 

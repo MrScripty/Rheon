@@ -2,6 +2,14 @@
 
 Status: prose/source revision independently reviewed and ready for coordinated normal publication validation. This is not a completed Pages deployment or FEM numerical qualification.
 
+## Publication continuation and resolved prerequisite
+
+PR147 is published against main7516a8e. The earlier missing-figure probe below is historical: normal reference generation subsequently supplied the existing assets, and a source-only build completed with43 sections and1571 rendered mathematical expressions. An independent review of its actual HTML and Markdown ZIP confirmed all seven chapters,647 unchanged chapter expressions, the public source audit, no chapter code blocks, and resolving scoped local links. This is source-only packaging evidence, not the full CI/native edition or FEM numerical validation.
+
+The single local Chromium/PDF attempt aborted because its installed SUID sandbox helper was not configured correctly. It was not retried or weakened. Normal remote pipeline browser/PDF/site checks remain the acceptance path. The archive README now distinguishes computation-free packaging from separate reference generation/qualification; this is a provenance-text correction only. Exact final-head CI, merge and deployment receipts will be recorded outside this self-referential source snapshot.
+
+The reused independent reviewer passed the final four-file correction: Python AST differs by exactly one bytes literal, with no packaging behavior change; chapters, equations and source audit remain unchanged. The actual Markdown packaging function completed with existing figures and verified the revised README and seven chapters. Existing `test_pdf_freshness.py` (10 tests) and `test_publication_gates.py` (18 tests) passed. These tests include fixture-based browser contracts, not an executed Chromium/FEM check. Git whitespace check passed.
+
 ## Exact scope and source decision
 
 Verified current main `7516a8e5d328c6dc8eda8ea577cb03f20b2e343a`, including merged PR145. This main was merged into the isolated research branch in `60812a1d27bb296cb1571716d804a4148f5113d4`, preserving checkpoints9489aa3,5b5b1de andf67ffdc. The task authors no production, admission-manifest or numerical-threshold edits relative to current main. UI/GPU ownership remains separate. Final publication commit is supplied by the completion receipt, avoiding a self-referential hash here.
