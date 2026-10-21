@@ -1,0 +1,102 @@
+# Two-material voxel dynamics and initial-domain brush
+
+**Plan status:** `Deferred` — proposed direction awaiting parent review/admission. The user authorized this plan, not implementation or publication. `Planned` will mean an approved direction, following the repository's Planning lifecycle.
+
+**Current phase:** M0 plan review and parent admission; no implementation has started.
+
+**Next slice:** M1, the bounded variable-density MAC pressure/state contract below, only after this canonical plan is admitted for implementation. No implementation operation is selected now.
+
+**Acceptance status:** `pending` for the feature. Documentation review does not satisfy numerical/native/persistence acceptance.
+
+**Execution ledger:** [execution-ledger.md](execution-ledger.md). **Issues:** [issues.md](issues.md). Detailed owners: [numerical contract](reports/numerical-contract.md), [authoring/persistence](reports/authoring-persistence.md), [verification](reports/verification.md), [standards/design](reports/standards-and-design.md). Provisional discussion aid: [proposed flow](reports/proposed-flow.html). Independent plan review: [review](reports/independent-review.md).
+
+## Objective and outcome
+
+In the native app, author a liquid and a gas-like material into the **voxel/MAC solver's initial domain**, then run a supported two-material flow in which both materials' density, inertia, viscosity and transported volume affect the result. Provide one round brush, Add/Remove/Replace, material/radius, interior slice, preview, atomic stroke undo/redo, validation, save/load and immutable simulation-start input. Retained views identify both materials and their numerical fields.
+
+The previous research's particle adapter is not this plan's backend. Its reviewed interaction and ownership findings are inputs; its particle-first recommendation is not adopted for this explicit voxel request. A display material ID or passive tracer alone cannot close the objective.
+
+## Proposed minimum physical scope
+
+Two **incompressible, immiscible Newtonian materials** share one staggered velocity and cell pressure in a completely occupied, fixed, closed rectangular box. Each has its own positive fixed reference density and nonnegative constant dynamic viscosity. A transported liquid volume fraction determines material coefficients and mass; gas is its physically nonempty complement. First product palette: Water and Air reference density/viscosity from existing presets, captured as values, not mutable preset names. One-phase limits are supported. Other material pairs require their own qualification before being offered.
+
+This is an incompressible approximation for the gas, not ideal-gas thermodynamics: no EOS pressure, gas compression/expansion, acoustics, shocks, boiling, heat or phase conversion. No surface tension in v1: the selected model explicitly says so; other preset parameters are not silently applied. Reference temperatures may remain provenance of selected properties, but are not evolved thermal state. Both materials are distinct through fraction, reference density/viscosity, mass and identity. Initial velocity is zero; optional existing configured gravity is frozen and acts physically, not suppressed by material/force origin.
+
+Both **full occupancy** and the **incompressible gas approximation** are consequential proposed restrictions for parent review, not previously approved user preferences. If evolving vacuum, compressible air or capillary droplets are essential, replan the physics before implementing M1; do not substitute particles or labels. A general surface reconstruction/thermodynamic system is not a hidden dependency of this minimum.
+
+### Authoring-to-solver boundary
+
+The editable grid uses IDs `Vacuum`, `Water`, `Air` on exactly the simulation's cell lattice. At freeze, Water maps to liquid fraction F=1, Air to F=0; gas fraction is 1-F. No supersampling, interpolation, SDF conversion, preview-threshold conversion or particle seeding occurs. Every cell must have a supported material ID. Any Vacuum cell yields an actionable refusal: “This voxel model needs fluid in every cell. Fill vacuum with Air or Water; evolving vacuum is unsupported.” Add/Remove can create incomplete drafts without pretending they are runnable.
+
+For a new draft, Vacuum remains an explicit empty editing state. Offer **Fill domain with Air** as one whole-domain undoable command; never refill erasures automatically. With all-Air contents, Add Water is a no-op; Replace Air with Water is the direct workflow. Remove leaves Vacuum. The exact [editor contract](reports/authoring-persistence.md) controls this behavior. Arbitrary binary arrangements, disconnected regions and enclosed gas pockets are admissible within the stated full-box diffuse-interface model; they do not claim equilibrium or sharp capillary behavior.
+
+## Source basis and mandatory numerical work
+
+Fresh main `d67aec1a4575e0a61aa8cd931c8eeec33c8dc6a3` was fetched on 2026-10-21. It includes PR146 UI and PR148 portal documentation; no production source changed between the prior research's `b921803` and this baseline. Core facts:
+
+| Actual owner | Current limitation | Required change |
+| --- | --- | --- |
+| `operator.rs`, `pressure.rs`, `sgs.rs` | Scalar-density operator; “no surface” fast paths assume constant weights | Positive face-density full-box operator variant and f64 entry points; reuse existing PCG through `solve_rhs`, initially Jacobi only; audit every uniform fast path |
+| `liquid_step.rs`, `liquid_volume.rs` | Fraction transport exists, but carrier inertia is explicitly one constant; represented density is an accounting value | New coupled two-material voxel state; conservative phase flux drives density and momentum, rather than attaching fractions to unchanged carrier inertia |
+| `advection.rs` | Semi-Lagrangian velocity/tracer transport is not conservative mass/momentum transport | Consistent finite-volume staggered momentum update using the same material mass flux |
+| `viscosity.rs` | Constant density/viscosity strain operator on filled free-slip box | Variable-coefficient symmetric-strain stage with current dual masses and an energy/stability gate |
+| `compressible.rs` | Separate single ideal-gas conservative Euler owner | Not a coupled liquid/gas model; extending it would add EOS/interface/energy scope, so do not use it as a shortcut |
+| Native request/history/Inspector/run-set owners | No two-material voxel request, initial recipe or typed fields; configured saved constructor requires all F=1 at rest | New explicit method/intent/field variant, real worker route, both-material view and cold rerun, preserving old formats |
+
+The numerical report defines mass/face centering, pressure coupling, conservative fractions, momentum consistency, variable viscosity, finite-residual handling and actual refusal conditions. Variable-density projection and conservative fraction/momentum coupling are **essential** for different densities. Variable viscosity is essential for the chosen distinct-viscosity materials. Geometric PLIC, surface tension, particle transfer, sparse grids and GPU work are not essential to this scoped first version.
+
+## Objective acceptance claims
+
+All claims are pending. [Verification](reports/verification.md) names fixtures, independent oracles, negative cases and future procedures; none was executed for this plan.
+
+| ID | Observable criterion | Kind | Environment | Mode | Status |
+| --- | --- | --- | --- | --- | --- |
+| A1 | Phase fractions, density and dual masses obey the declared full-box model; pressure responds to distinct densities and stored divergence passes | focused + contract | Pinned native Rust toolchain | automated | pending |
+| A2 | Closed-box phase volumes/masses are conserved within derived cumulative roundoff budgets; momentum uses matched mass flux; variable viscosity dissipates with the correct interface coefficients | focused + integration | Bounded CPU fixtures | automated | pending |
+| A3 | Static and moving-interface numerical cases, stratified hydrostatic rest, and Water/Air density contrast meet predeclared error criteria without clamps, silent fallbacks or relaxed tolerances | numerical integration | Bounded exact/analytic/refinement fixtures | automated | pending |
+| A4 | Real brush input, interior access, interrupted gestures and named undo routing produce the exact intended binary document or an explicit refusal | integration + user workflow | egui input plus native display at supported scales | automated + manual | pending |
+| A5 | Saved draft and frozen run reopen in a fresh process; rerun ignores later draft edits and preserves original material coefficients, initial state, method and boundary policy | contract + system | Local filesystem and SQLite; fresh process | automated | pending |
+| A6 | Native paint→undo/redo→save→Simulate→inspect both materials→cold rerun uses this voxel solver, and retained results are unaffected by Draft edits | system + graphical workflow | Actual native graphics environment | manual plus instrumented integration | pending |
+
+## Binding proposal decisions and responsibility
+
+These decisions bind the candidate plan internally; they acquire implementation authority only on admission.
+
+| Decision | Accountable owner | Reason / preserved contract |
+| --- | --- | --- |
+| New coupled full-box two-material numerical owner; no particle fallback | Numerical implementer | Existing carrier/volume separation cannot provide two-phase inertia; old methods remain valid independent capabilities |
+| Dense f64 numerical fields, first-order conservative interface transport, explicit viscosity, Jacobi PCG | Numerical implementer | Transparent bounded serial baseline; higher-order/GPU/SGS parity is not required for first support |
+| Binary lattice-aligned authoring, full-domain launch validator, two captured palette definitions | Initial-data owner | Exact conversion, useful simple UI; no unqualified fractional authoring or reference-to-mutable-preset replay |
+| One canonical Scene selection and ordered authoring undo route | Desktop implementer | Preserve model/force identities and separate retained Inspector probes |
+| Freeze once, worker owns all mutable numerical state, recorder owns accepted disk publication | Desktop / recording implementers at their boundaries | No retroactive run-intent mutation and no archive-as-integrator restart claim |
+| One serial integration owner reviews exact shared-file edits | Parent/integrator | New solver hooks touch existing operator/desktop/persistence owners; no concurrent writes to those files |
+
+## Staged reversible implementation
+
+All milestones are `Deferred` pending plan admission. Milestone separation contains real numerical, UI and durable-state risks; it does not prescribe a commit count or branch per milestone. Every slice preserves existing carrier/particle/column/provider behavior and old archives. New incomplete capability stays unadvertised/unrunnable; tests or an explicitly scoped headless constructor do not count as native completion.
+
+| Milestone | Goal and exact proposed production write set | Dependency and gate | Reversible boundary |
+| --- | --- | --- | --- |
+| M1 — coefficient/state and pressure path | New `src/voxel_material/{mod,state,pressure}.rs`; additive exports in `src/lib.rs`; additive face-density/f64 paths in `src/operator.rs`; necessary uniform-fast-path classification in `src/sgs.rs`; focused `tests/voxel_material_pressure_contract.rs`. `src/pressure.rs` only if necessary to consume the existing explicit-RHS API without altering legacy solve semantics | Reviewed numerical contract; exact small dense SPD/gauge/projection and hydrostatic tests; constant-density legacy identity; new method not offered in native UI | Remove new mode/exports without rewriting old state or hashes; no saved new runs yet |
+| M2 — complete coupled voxel step | New `src/voxel_material/{transport,viscosity,step}.rs`, the M1 module/state files, `tests/voxel_material_{transport,viscosity,step}_contract.rs` | M1; flux-closure, pure/mixed phase bounds, phase mass, dual-mass/momentum consistency, energy, gravity/projection and rejection/rollback gates. Readiness requires Water/Air contrast, not just equal-density colored fluid | Keep mode unpublished if coupling cannot pass; stop/replan instead of weakening bounds or silently reverting to carrier physics |
+| M3 — authoring and atomic history | New `src/initial_contents.rs`, additive `src/lib.rs` export, new desktop `initial_contents_ui.rs` / `authoring_history.rs`; targeted integration in `scene_ui.rs`, `viewport.rs`, `rheon-desktop.rs`; `tests/initial_contents_contract.rs` and desktop `initial_contents_ui_tests.rs` | M2 data contract; input tests and real native idle edit pass; run stays disabled until M4 | Candidate edits are private and cancellable; no mutation of retained frames, force state or numerical fields |
+| M4 — saved initial input and real native run | New `src/recording/voxel_material.rs`; dispatch changes in `src/recording.rs`; new desktop `voxel_material_execution.rs`, `run_sets/voxel_material.rs`; targeted `rheon-desktop.rs`, `history.rs`, `inspector.rs`, `run_sets/source.rs`, `run_set_view.rs`, `archive_view.rs`, `scene_ui.rs`; `comparison.rs`, `comparison_field_view.rs`, `comparison_archive.rs` only for typed unsupported handling of the new saved variant; new desktop `voxel_material_integration_tests.rs` plus narrow legacy/new-variant regressions in `configured_comparison_tests.rs` | M1–M3 and reconciled ownership; versioned typed records, saved draft/intent, actual worker integration, both-material preview, cancellation/failure and fresh-process save/open/rerun. Enumerate every SavedRunSet/SavedMember consumer; voxel comparisons explicitly refuse before legacy f32 inventory/payload estimates | New recipe variant; no migration of old records or new comparison feature. Failed start retains previous results; append uncertainty is reconciled by existing recorder owner |
+| M5 — objective acceptance and scoped exposure | Only affected tests above plus this plan's evidence reports; same M4 readiness controls only where a passed gate permits enabling. New module-local public Rustdoc may be updated by its owner | A1–A6 passed on the candidate, independent numerical/source review and native user workflow; report actual envelope/limitations | Enable only this admitted mode/palette/envelope. Any failed claim remains pending/blocked and capability stays unavailable |
+
+All paths above are relative to the repository; desktop paths abbreviate `src/bin/desktop/`. The implementer must reconcile current main and reserved owners before each shared-file slice. Additional affected files require an updated exact write set and impact review, not a broad permission to refactor adjacent paths. This task writes **only** the new plan directory.
+
+## Assumptions, blockers and replan triggers
+
+Parent review must accept or change the full-occupancy/incompressible-gas/no-capillarity scope before implementation is admitted. This is the main product decision, not a missing coding detail. No external service, GPU, thermal task, chapter publication or portal implementation is required. Native graphics evidence has not been attempted; M3/A6 need an identified display environment and bounded procedure when their implementation exists.
+
+Numeric stopping condition: if ordinary pure-phase/mixed-interface or Water/Air fixtures cannot satisfy the declared phase bounds, residual-volume/mass budgets, hydrostatic accuracy and momentum/viscous gates within bounded work, stop M2. Choose and independently review a stronger conservative bounded interface/flux method or narrow the *proposed* product scope openly. Do not ship a mode that normally rejects supported drafts, tune tolerances to observations or rename passive fractions as dynamics.
+
+Replan for evolving vacuum/free surfaces, gas compressibility, temperature/phase state, surface tension, more than two materials, different material pairs, open/periodic/mesh boundaries, runtime emitters/authored forces, higher-order interface reconstruction, unsupported memory/conditioning, or a larger shared-state refactor than this source inspection supports. Pressure equilibrium is not inferred from a pretty surface. Accepted numerical evidence is distinct from experimentally realistic water/air prediction.
+
+## Simplicity and ownership admission
+
+**Applicability:** `applicable`. The complete eight-part composed-design probe and adopt-versus-own comparison are in [standards/design](reports/standards-and-design.md). They consider the produced native capability, not just its modules. Main constraints: one numerical owner, one editable document, one freeze boundary, existing worker/recorder, no new solver registry/process/schema generator and no second scene/force authority. Coupled flux and pressure complexity is necessary for the requested density distinction; a generic sculpting framework is not.
+
+## Repository isolation and authority
+
+Private branch `plan/voxel-multimaterial-initial-authoring-20261021`, worktree `/workspace/Rheon-voxel-material-plan`, base `d67aec1`, target main. The plan author serially owns this topic directory; parent owns admission/integration/publication. Preserve the earlier research branch/worktree at `5f7c342`, all unrelated branches, README/chapter/source work and standards checkout. Retain this review worktree/ref until parent disposition; no cleanup, push, PR or merge is authorized by this planning turn. Standards authority is read-only at `0fc92a24279f3a4574c80af0a2f31ea347a21597`; no engine certificate is claimed.
