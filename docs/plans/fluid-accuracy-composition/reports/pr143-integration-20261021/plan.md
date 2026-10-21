@@ -1,6 +1,7 @@
 # PR143 preparation integration
 
-Status: verifying isolated composition; dependency-blocked for final admission.
+Status: preliminary ordinary qualification and independent execution review pass;
+dependency/hosted-gated for final readiness.
 Owner: PR143 worker. Serial integration owner: PR142 lead. Operation: retain the
 complete existing PR143 preparation through ordinary reviewed merge, after PR142
 then PR138. Current target inspected: main
@@ -78,6 +79,17 @@ no new admission record or pin refresh is needed. The next slice is clean-source
 ordinary qualification under [protocol.md](protocol.md), independently reviewed
 in [source-protocol-review.md](source-protocol-review.md). Final ready status
 still waits verified PR142 then PR138 merged-main identity and final gates.
+
+The reviewed ordinary attempt passed on clean `31c1958545a7f29bde4e8aa15c991ede4ade4643`.
+The separate [result report](qualification.md), [compact manifest](qualification.json)
+and [independent execution audit](execution-review.md) retain exact source and
+actual counts: 18 unchanged native commands, 35 native Rust contracts, five real
+specimens, gate 5+5, oracle 10+10, real packet 26+26 with zero skips, strict Clippy
+and 38 private contracts with the three original CV3 numerical ignores retained.
+All 2,029 source hashes, 53 artifact identities and eight actual executing ELF
+copies were independently checked. No scientific campaign or retry occurred.
+The next slice is actual dependency/main revalidation, the lead-owned shared CI
+budget repair plus required hosted gates, and final exact ready-head review.
 
 Preliminary subject `286df732106717d056330b276d6f563e79a447b8` passes
 `cargo fmt --all --check` and
