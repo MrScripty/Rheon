@@ -155,7 +155,7 @@ Generated logs/screenshots/transfer packets remain outside Git.
 | --- | --- | --- | --- | --- |
 | S1 | Empty idle timeline fits <=70 logical px in900/1250px windows with the preceding280px sidebar reserved; selected-frame captions remain present and may naturally wrap/grow; actual Play/Pause/step/Live input keeps prior transitions | integration / isolated egui painting/input / automated | pending | Four exact probes pass: idle48px versus106px, focused speed editing and native-track/literal-report layouts. Native/configured/popup-keyboard coverage remains open |
 | S2 | Right panel collapses/reopens retaining selection; tree/viewport choose the same existing object; deleted/replaced/missing identities never edit another object | integration + user-workflow / inert UI then native / automated + manual | pending | Canonical authoring source and five exact UI probes pass; viewport picking/native remain pending |
-| S3 | A force is one canonical scene object in tree, properties, outline and handles; UI exposes only shared supported units/support/transform; unsupported backend blocks with a reason | integration / shared domain contract + inert UI / reviewed + automated | blocked | Canonical authoring source uses one ForceScene and checked IDs; dispatch/frozen intent source implemented and gated; desktop runtime/archive validation pending |
+| S3 | A force is one canonical scene object in tree, properties, outline and handles; UI exposes only shared supported units/support/transform; unsupported backend blocks with a reason | integration / shared domain contract + inert UI / reviewed + automated | blocked | Canonical authoring source uses one ForceScene and checked IDs; dispatch/frozen intent source implemented and gated; two bounded3b Worker cases pass; native acceptance pending |
 | S4 | Handle capture prevents simultaneous camera/probe motion; Escape restores exact draft; release commits one validated unit-correct edit; active snapshots stay immutable | integration + user-workflow / inert UI then native / automated + manual | pending | T4 reviewed geometry/transaction source and six exact inert tests pass; full Viewport gesture/native evidence pending |
 | S5 |1250×820 and900×650 at100%/150%: usable viewport, no overlap/clipping, visible status/Cancel/errors, thin outline, keyboard alternatives and predictable drawer focus | user-workflow / actual native display / manual | blocked | No local display; prior426fd25 images do not cover this source |
 | S6 | Locked affected check, strict Clippy, formatting and individually selected exact UI tests pass; existing archives/source ownership unchanged | focused / pinned Rust1.92 / automated + source review | pending | T5 thirteen exact inert tests, locked build/check, strict production Clippy and independent source review pass; no archive workload or scientific certificate |
@@ -207,11 +207,11 @@ Ordinary lint/layout failures stay within the current exact slice and retain log
 
 Canonical force source and desktop scene/dispatch/frozen intent/load/rerun source
 are implemented in the isolated owner branch. Production authored-force runs stay
-gated pending separately bounded desktop runtime/archive execution; configured,
+gated pending relevant native acceptance; two bounded3b runtime/archive cases passed. Configured,
 provider/session/transport/free-surface propagation remains explicitly unsupported.
 Minimal Inspector recorder ownership is now assigned and source-reviewed. No core
 recording/solver source changed here. Local native display is unavailable; the
-existing validator owns exact8148fa2 native work and actual JPEG delivery separately.
+existing validator owns exact1b377742 native gestures and actual JPEG delivery separately.
 Live cancellation lacks required existing containment and stays parked. No mount,
 cgroup, permission, credential or network changes are authorized.
 
@@ -235,12 +235,16 @@ validated force metadata, manifest v1 supports independently valid mixed members
 Retained tree/properties and viewport share one render-frame track/document;
 track intents paint consistently next frame and clear reused-ID selection.
 
-No numerical/SQLite/runtime or new native acceptance is claimed. Thirteen exact
-pure/Context tests pass after list-only enumeration. Two ignored worker/SQLite cases are now compiled and individually enumerated
-(201total), with [bounded contract](reports/runtime-force-validation-contract.md)
-and independent worker-test reviews. Neither case has executed. Material rerun
+The historical source checkpoint had thirteen exact pure/Context passes and201
+list-only names. Subsequently both individually admitted ignored Worker/SQLite cases
+ran once serially on sealed3b3fccea3657d711897130643a478adb48b5edd0 and passed under the
+[bounded contract](reports/runtime-force-validation-contract.md). The
+[independent result review](reports/force-worker-runtime-results-review.md) and
+[receipts](evidence/force-worker-execution-20261021/manifest.json) delimit evidence:
+one native8cell and one64particle track, one interval, exact frozen force association,
+coarse effect guards and coldreadback, no general/scientific/cancellation acceptance. Material rerun
 coverage is retained typed Request plus cold force-scene association; a production
 serialized material cold-rerun API does not exist. Keep the production
-force gate until separately admitted runtime/archive evidence qualifies this source.
+force gate until relevant native acceptance and a separately reviewed enabling change.
 Earlier native425a986/8148fa2 and synthetic harness artifacts retain their own exact
 source/evidence; none accepts this changed desktop closure or genuine cancellation.

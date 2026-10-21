@@ -536,3 +536,31 @@ assertion is not a hardaggregatebound. No newsecurity/mount/cgroup requirements.
 Future typed-effective-target gate-removal scope independently reviewed, no code
 until boundedruntime+reachablegatednativeacceptance. ActualenabledUIlaunch needs
 separatecandidate-sourcevalidation aftereligibility. Productiongate stays.
+
+
+## Two bounded T5 Worker cases —2026-10-21
+
+On sealed3b3fccea3657d711897130643a478adb48b5edd0 / tree4cdf4b221bb47704acfcda6b682453ed60344908,
+executed the two separately admitted exact ignored cases ONCE each, native then
+material, from binarySHAaf2da1539521e10407ac73b11cd58494118aa93a3f99ed529b11697ed85727b5.
+Each passed1/exit0; no retry, timeout, signal or observed surviving ownedPID/group.
+Reviewed supervisor applied30s deadline/20CPU/512MiBAS/1MiBper-file+log/core0,
+TERM then1sKILL available. One ownedRayonworker. Fresh separate DATA/capture roots
+retained without test cleanup. Native final5files39527bytes/1296byte log;
+material1file49152bytes/567byte log. Elapsed0.064929/0.032914s includingteardown;
+observedchildCPU0.028593/0.020462s. Limits are not memory measurements; SQLite
+transient/anonymous peak unknown, final8file8MiB guard is not aggregate quota.
+
+Independent [result review](reports/force-worker-runtime-results-review.md) verifies
+14artifact hashes/source/binary seals. [Receipts](evidence/force-worker-execution-20261021/manifest.json)
+copy exact rawlogs/disposition/preflight/supervisor; DBs and480456920byte executable
+remain in scratch with hashes. Archive producer revision is build-unspecified;
+external seals establish3b custody, not embedded authenticated revision provenance.
+Material verifies retained typedRequest+coldForceScene only: no serialized material
+coldrerunAPI. Native prepared rerunclone never launches and retains oldoutputpaths.
+These tiny directional acceleration cases qualify dispatch/effect/custody/coldreadback
+only, not scientific parity/Cancel/generalforce/UIacceptance. Production remains gated.
+
+Parent separately reports exact1b377742 enabledhover/resize/Scene/normalclose exit0
+and synthetic900x650150% timeline labels/popup/captions/DraftRetained passed.
+Viewport gestures remain pending; this owner performed no new native session.

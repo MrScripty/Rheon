@@ -1,4 +1,12 @@
-# T5 bounded worker validation contract — prepared, NOT EXECUTED
+# T5 bounded worker validation contract — historical preparation, executed once
+
+Execution addendum (2026-10-21): the two exact cases below subsequently ran once
+serially on sealed3b3fccea3657d711897130643a478adb48b5edd0, and passed. This document's
+preparation statements and proposed limits describe the earlier checkpoint;
+[the independent results review](force-worker-runtime-results-review.md) and
+[immutable execution receipts](../evidence/force-worker-execution-20261021/manifest.json)
+record actual outcomes, retained bytes, unknown temporary peaks and provenance limits.
+No repeat invocation or production enablement follows from this addendum.
 
 This amendment supersedes the earlier direct-loop/1GiB proposal reviewed at5eab3ac.
 Two ignored bodies now exist in desktop/force_runtime_integration_tests.rs; list-only
