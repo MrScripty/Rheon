@@ -89,3 +89,11 @@ the eventual #142→#138→#143 composition. Existing performance stopping rules
 unchanged. A possible exact whole-executable-identity admission clause was proposed
 to the lead on PR59 before timing; it is pending explicit lead agreement and is not
 authority for acceptance as of this clarification.
+
+For the final fixed cohort, copy each untouched raw executable to the common
+`/workspace/pr59-controls-bin` directory with equal-length names `base-exec` and
+`cand-exec`, verifying SHA256 before/after copying. This removes different argv[0]
+allocation-size classes as a harness setup confound; no code, symbols, metadata or
+layout is modified. Keep the same cwd and environment for both. Freeze these names
+before timing; do not select paths from observed timing. Retain build-output paths
+and copy paths in the manifest. Raw preliminary artifacts stay separately retained.
