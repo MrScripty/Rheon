@@ -1,0 +1,26 @@
+# Standards route and publication design
+
+Authority: Rheon's adopted [Coding-Standards revision 188beda1](https://github.com/MrScripty/Coding-Standards/tree/188beda1fa477d21d576c233dd8c7f4c4c267d23). The actual Core, Router, Planning/discovery, Implementation, Verification, Development Proportionality, Documentation, Commit, Build, Release, Architecture/Code Design, Contracts, immutable replay, Licensing, Library and Persistence guidance was inspected. Selected Core/Router/Planning/Architecture/Documentation files are identical in inspected current `0fc92a24279f3a4574c80af0a2f31ea347a21597`. No application standards-engine tool or AGENTS.md was present. This is source-guided alignment, not automated certification.
+
+The actual requested artifact is a principles-first book chapter plus an implementation proposal. Existing user intent/research already resolves the periodic/reservoir distinction; no new speculative discovery exercise or implementation authorization is needed. Production numerical questions are explicit stage gates. The current write set is declared in [the plan](../plan.md); source code, workflows, admission manifests and numerical thresholds are excluded.
+
+| Routed concern | Concrete effect on these artifacts |
+| --- | --- |
+| Core/Planning | Distinguish desired open-water behavior, current observations, selected minimal proposal and remaining scientific unknowns. Plan owns status, objective acceptance, owners and exactly one next slice; ledger owns outcomes; issues own findings. |
+| Implementation/Development Proportionality | Author the requested documentation; do not run fluid prototypes to make a planning task look implemented. Bound build work to necessary existing publication prerequisites. |
+| Architecture/Code Design | The eight-part composed-design probe assesses the complete core/host/store capability. Retain one validated boundary authority and existing Session/Worker/store, not a global portal framework or duplicate live/frozen state. |
+| Contracts/Replay/Persistence design | Define mode-specific domain validation, immutable snapshots, supported profile/version semantics, consumer matrix, cold inspection versus rerun versus restart, and old sealed-state disposition. No new persistence mechanism is implemented. |
+| Verification | Separate continuous derivations, exact finite algebra, author review, independent reviewer outcome, publication artifacts and future native evidence. Existing proof receipts and numerical gates are not refreshed. |
+| Licensing | No third-party code, figures or substantial prose is incorporated. Exact pinned license/NOTICE audit informs possible future reuse. An excluded code-copying candidate is not an excluded mathematical citation. No blanket dependency clearance. |
+| Documentation/Build/Release | Chapter 40 and new guide are discovered by existing builder; an additive README link is the only shared discovery edit. Check actual Markdown archive/HTML/math/links; normal sandboxed browser/PDF/site qualification remains required for Pages. Parent controls integration/deployment. |
+| Commit/coordination | Separate task branch from verified main f95cac0 containing 24 FEM paths. Preserve chapters30–36, GPU37–39 and unmerged UI PR146. No history rewrite or cleanup authorization. |
+
+No Rust/TypeScript/framework mechanism changes in this documentation PR, so language/framework profiles do not certify a future implementation. At production admission route Rust/API/security/dependencies/tooling, Library, Contracts/Evolution, Persistence, Concurrency, Resilience, Diagnostics, Performance and the real native GUI/platform workflow. Select IPC/provider profiles only if supported provider/runtime behavior is actually added; M1 explicitly refuses sealed providers. New code-facing serializers would select generated-contract rules only if a generator actually owns their executable contract.
+
+Concurrent-plan-integration is not selected: this is a new, single-writer, non-authorizing proposal with no competing update to its canonical plan. Shared main/README/chapter reservations still require parent-owned serial publication and a fresh source check. No standards text is copied into the chapter as a new local policy.
+
+## Scientific review boundaries
+
+Author review independently re-derived incidence signs, half-cell reservoir coefficients, component nullspaces, pressure-substep work/defect identity, hydrostatic cancellation and the negative-part traction energy identity from declared assumptions. The symmetric-stress weak form is explicit. A full-vector traction with zero viscosity can impose unwanted tangential restrictions; the proposal therefore does not infer generic inviscid backflow support from that expression.
+
+A separate source/math reviewer inspected head `4ac466988ce7360b6f766119845e8d355c8af75b`; findings and correction re-review are recorded in the [independent review](independent-review.md). Its deciding subjects are the weak/energy sign convention; boundary test spaces and prescribed-boundary work; periodic/gravity consistency; dual-volume momentum closure; pressure anchoring; particle EOS/identity limits; and exact copying-versus-citation audit. An author second pass is not labelled an independent reviewer pass. Review notes may be added under this report directory without granting feature acceptance.
