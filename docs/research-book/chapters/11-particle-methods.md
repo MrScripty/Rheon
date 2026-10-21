@@ -2,6 +2,8 @@
 
 Dense grids pay for empty space; particles pay for occupied material and neighborhood organization. Include neighbors, sorting, scratch and surface reconstruction when comparing memory. Particle count alone is not a budget.
 
+Connected material-mesh FEM is developed separately in [chapters 30–36](30-material-motion-and-conservation.md). The [method comparison](35-contact-coupling-and-ale.md#distinguish-neighboring-methods) distinguishes SPH/PBF and PIC/FLIP/APIC/MPM from persistent element connectivity and remeshed PFEM; this particle chapter does not itself define a FEM solver.
+
 ## SPH
 
 A smoothing-kernel density estimate is
@@ -266,17 +268,20 @@ continuum accuracy require separate evidence. Qualification status and the
 implementation-to-statement mapping belong to the
 [material contract guide](../implementation/material-preview-contracts.md#proof-and-execution-boundaries).
 
-## Draft checkpoint: inspect the stage that produced a value
+## Historical checkpoint: inspect the stage that produced a value
 
-The unmerged [PR47 inspection checkpoint](https://github.com/MrScripty/Rheon/pull/47),
+The [PR47 inspection checkpoint](https://github.com/MrScripty/Rheon/pull/47), originally
 reviewed at `1923d5bd3442a5369878a1a317b52f4a89026d5b`, adds
 [`particle_diagnostics()`](https://github.com/MrScripty/Rheon/blob/1923d5bd3442a5369878a1a317b52f4a89026d5b/src/particle_fluid.rs).
 Its committed density, pressure and acceleration describe the **post-emission,
 pre-integration** force evaluation. The returned evaluation time is distinct
 from the accepted positions' and velocities' time. Before the first accepted
 step the accessor returns no evaluated diagnostics; a rejected attempt does not
-publish overwritten force scratch. This draft is not part of the current book
-checkout's material API.
+publish overwritten force scratch. **Correction, 20 October 2026:** PR47 is now
+merged, and `particle_diagnostics()` is present in main `718469b` (introduced
+in `392122c`). The pinned checkpoint above is historical, not an absent API.
+Its force-evaluation stage must still be distinguished from final accepted
+positions and from subsequent wall response.
 
 A practical exercise is to compare reported force with mass times the recorded
 acceleration, then inspect a wall-contact step. Gravity and implemented pair

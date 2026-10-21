@@ -1,0 +1,132 @@
+{
+  "canonical_backend": "43ec505218c43594641ecbb80873bec8c88d7d2c",
+  "tested_prerequisite_commit": "7dcbfa67578875dd266020be589e2fbea40467f8",
+  "source_sha256": {
+    "src/bin/rheon-desktop.rs": "32be43dd2ce112e30017b6b9bf706607f942ca574b2415f74237c296f79614c5",
+    "src/bin/desktop/scene_ui.rs": "68d3eed0bdfd1ee424854325349d3e27391cbdf85b352f4c7acb5a0c7d5a11ec",
+    "src/bin/desktop/settings.rs": "72a2e42de38100fa7cb517bfa7c1b9377975d23c3c4cd887615c296549c093c4",
+    "src/bin/desktop/viewport.rs": "a2ae713e3a06f2370e72300593d208c1991aa201b41e0924cd87268a48a296e1",
+    "src/bin/desktop/timeline_ui_tests.rs": "653848ce12986065b966c6ab2d97b23c2e7da4cdf5ec7f5a6b99c1e5a9ef2c35"
+  },
+  "exact_test_names": [
+    "scene_ui::tests::scene_identity_context_removal_and_exhaustion_preserve_canonical_values",
+    "scene_ui::tests::scene_pointer_add_select_edit_collapse_and_retained_context",
+    "scene_ui::tests::scene_invalid_support_and_rotation_are_visible_without_snapshot_mutation",
+    "scene_ui::tests::scene_force_refusal_projects_disabled_run_without_dispatch",
+    "scene_ui::tests::scene_draft_timeline_roundtrip_preserves_retained_index_without_history",
+    "timeline_ui_tests::timeline_empty_idle_uses_content_height_after_sidebar",
+    "timeline_ui_tests::timeline_controls_retain_transitions_and_physical_time",
+    "timeline_ui_tests::timeline_speed_edit_focus_bounds_validation_and_keyboard",
+    "timeline_ui_tests::timeline_track_selection_and_report_rows_fit_cold_and_changed_states",
+    "settings::tests::ui_precision_tab_and_focus_preserve_material_bits",
+    "settings::tests::ui_precision_explicit_edits_keep_si_units_and_ranges",
+    "settings::tests::ui_material_thermal_disclosures_preserve_values_and_si_editing",
+    "settings::tests::ui_material_selection_updates_only_its_existing_owner",
+    "settings::tests::ui_material_presets_and_open_menus_fit_narrow_forms"
+  ],
+  "logs": {
+    "pointer": {
+      "sha256": "821921e701e81a883b6d6d050c3b70c7b347f94b39f101d04ef73c4cae6de08d",
+      "bytes": 453,
+      "source": "/tmp/rheon-ui-scene-authoring-exact-pointer-2.log"
+    },
+    "ids": {
+      "sha256": "0d14716463bb12e599807213cedfc1b54401f90c50f95c7b98228137f6b91411",
+      "bytes": 411,
+      "source": "/tmp/rheon-ui-scene-authoring-final-ids.log"
+    },
+    "validation": {
+      "sha256": "1ebc6a4e67a968a4340955537b3596a52a87e770244d126fa0ab46684a8aa1f5",
+      "bytes": 412,
+      "source": "/tmp/rheon-ui-scene-authoring-final-validation.log"
+    },
+    "refusal": {
+      "sha256": "9a97cd70ad8d5a54eec23af8f54216cac9a9c409ea38c9f6197e9d003069c8bf",
+      "bytes": 398,
+      "source": "/tmp/rheon-ui-scene-authoring-final-refusal.log"
+    },
+    "context": {
+      "sha256": "f788e61f78e06cf66b593de9e4f3b8251f4a25eb2412896453eb2909312e8e05",
+      "bytes": 411,
+      "source": "/tmp/rheon-ui-scene-authoring-final-context.log"
+    },
+    "precision": {
+      "sha256": "356a777c5a9fa7b542b84a2d39112856bcc00ae8af85f17eaf45f011a66e2fc0",
+      "bytes": 389,
+      "source": "/tmp/rheon-ui-scene-authoring-final-precision.log"
+    },
+    "edits": {
+      "sha256": "6169ce8fe341d66cd7f3d2b2f06020c2d0a41824128f24a9f09c1066117b99c3",
+      "bytes": 392,
+      "source": "/tmp/rheon-ui-scene-authoring-final-edits.log"
+    },
+    "thermal": {
+      "sha256": "419a69dd6b2943363028f96fa91758c6d937d3b24c40c2ce9b928b5b1943e89f",
+      "bytes": 402,
+      "source": "/tmp/rheon-ui-scene-authoring-final-thermal.log"
+    },
+    "selection": {
+      "sha256": "5e5b8709c44f77d0f16aefc66f8da1a7df88adeb00e3ded63e08217d82f7c022",
+      "bytes": 393,
+      "source": "/tmp/rheon-ui-scene-authoring-final-selection.log"
+    },
+    "menus": {
+      "sha256": "b6b84be6f1ab267bdd9605da885114ac6df523688df677b4147e5741cdcfe58b",
+      "bytes": 391,
+      "source": "/tmp/rheon-ui-scene-authoring-final-menus.log"
+    },
+    "timeline-idle": {
+      "sha256": "36b73dccd613ba28d16013236e34b8fcbf9cce70bf74356fc33e47d5a44b0977",
+      "bytes": 498,
+      "source": "/tmp/rheon-ui-scene-authoring-final-timeline-idle.log"
+    },
+    "timeline-controls": {
+      "sha256": "86d14aa0580ec48466caad6d49a69943bbce8648c4d95948d3f86e82a6780f08",
+      "bytes": 396,
+      "source": "/tmp/rheon-ui-scene-authoring-final-timeline-controls.log"
+    },
+    "timeline-speed": {
+      "sha256": "6173f273cee320d54647b8cb49e47aeff2fbd4ec4060058faa45adcfc17aeb65",
+      "bytes": 398,
+      "source": "/tmp/rheon-ui-scene-authoring-final-timeline-speed.log"
+    },
+    "timeline-track": {
+      "sha256": "ebc7c05145ec6185915c6742a2a91748f2052596915f5e3298965b162c0bfa89",
+      "bytes": 410,
+      "source": "/tmp/rheon-ui-scene-authoring-final-timeline-track.log"
+    },
+    "clippy": {
+      "sha256": "46564fd1dedbb64a09a3b802bfee55ef24c133b74cde342563e57da1a1d4c524",
+      "bytes": 131,
+      "source": "/tmp/rheon-ui-scene-authoring-clippy-1.log"
+    },
+    "check": {
+      "sha256": "74a7cd182488c042c3d146e06986c705100893aa8f197c1c0e493b11aa5cc5b1",
+      "bytes": 130,
+      "source": "/tmp/rheon-ui-scene-authoring-final-check.log"
+    },
+    "format": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/rheon-ui-scene-authoring-final-fmt.log"
+    },
+    "whitespace": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/rheon-ui-scene-authoring-final-diff-check.log"
+    },
+    "enumeration": {
+      "sha256": "18ab1a20078e6662d8a64b9f3106b8f115034a00c76e8dff080643f1d3af13a6",
+      "bytes": 18867,
+      "source": "/tmp/rheon-ui-scene-authoring-test-list-5.log"
+    },
+    "pointer-before": {
+      "sha256": "cb05b62162a22a422856227116b8a0ee16ca57044bf31aadbbe5e17744dbadf0",
+      "bytes": 811,
+      "source": "/tmp/rheon-ui-scene-authoring-exact-pointer-1.log"
+    }
+  },
+  "execution_scope": "14 individually named inspected UI-only tests; no solver/model/worker/history/filesystem fixture/cleanup",
+  "limitations": "No native/screenshots, actual mesh rollback, active worker/progress/Cancel, viewport picking/outline/handles or authored runtime/archive acceptance",
+  "historical_incident_log_sha256": "9d1b7245761f461a86dc436f21911f4a5525af3d2b8f7692d6ff8b5e6f2bbba1"
+}

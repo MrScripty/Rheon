@@ -26,6 +26,7 @@ use std::{
 };
 
 const MANIFEST_VERSION: u32 = 1;
+const FORCE_SPEC_VERSION: u32 = 2;
 const MAX_MANIFEST_BYTES: u64 = 1024 * 1024;
 const MAX_MEMBERS: usize = 64;
 const MAX_TEXT_BYTES: usize = 1000;
@@ -251,6 +252,12 @@ pub struct FrozenSpec {
     pub schema_version: u32,
     pub sha256: [u8; 32],
     pub spec: NativeCarrierSpec,
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        deserialize_with = "deserialize_force_scene"
+    )]
+    pub force_fields: Option<rheon::ForceScene>,
 }
 impl FrozenSpec {
     /// Freeze the existing native producer's actual constructor configuration.
@@ -304,27 +311,92 @@ impl FrozenSpec {
             schema_version: MANIFEST_VERSION,
             sha256: digest(&spec)?,
             spec,
+            force_fields: None,
         })
     }
+    pub fn with_force_fields(mut self, fields: &rheon::ForceSnapshot) -> Result<Self, RunSetError> {
+        self.validate()?;
+        if self.force_fields.is_some() {
+            return Err(RunSetError::Invalid("force intent already bound"));
+        }
+        self.schema_version = FORCE_SPEC_VERSION;
+        self.force_fields = Some(fields.scene().clone());
+        self.sha256 = force_spec_digest(&self.spec, fields)?;
+        Ok(self)
+    }
+    pub fn force_snapshot(&self) -> Result<Option<rheon::ForceSnapshot>, RunSetError> {
+        self.force_fields
+            .as_ref()
+            .map(|scene| {
+                scene
+                    .freeze()
+                    .map_err(|_| RunSetError::Invalid("frozen force document"))
+            })
+            .transpose()
+    }
     pub fn validate(&self) -> Result<(), RunSetError> {
-        version(self.schema_version)?;
         self.spec.validate()?;
-        if self.sha256 != digest(&self.spec)? {
+        let expected = match (self.schema_version, self.force_fields.as_ref()) {
+            (MANIFEST_VERSION, None) => digest(&self.spec)?,
+            (FORCE_SPEC_VERSION, Some(_)) => force_spec_digest(
+                &self.spec,
+                &self
+                    .force_snapshot()?
+                    .ok_or(RunSetError::Invalid("force intent missing"))?,
+            )?,
+            (MANIFEST_VERSION | FORCE_SPEC_VERSION, _) => {
+                return Err(RunSetError::Invalid("frozen intent version/payload"));
+            }
+            _ => return Err(RunSetError::Unsupported("frozen native intent version")),
+        };
+        if self.sha256 != expected {
             return Err(RunSetError::Integrity("spec digest"));
         }
         Ok(())
+    }
+    pub fn from_bytes(bytes: &[u8]) -> Result<Self, RunSetError> {
+        if bytes.len() as u64 > MAX_MANIFEST_BYTES {
+            return Err(RunSetError::Invalid("manifest byte limit"));
+        }
+        let result: Self = serde_json::from_slice(bytes)?;
+        result.validate()?;
+        Ok(result)
     }
     pub fn save_new(&self, path: &Path) -> Result<(), RunSetError> {
         self.validate()?;
         publish_new(path, &serde_json::to_vec(self)?, MAX_MANIFEST_BYTES)
     }
     pub fn open(path: &Path) -> Result<Self, RunSetError> {
-        let result: Self = read_versioned(path, MANIFEST_VERSION, MAX_MANIFEST_BYTES)?;
-        result.validate()?;
-        Ok(result)
+        Self::from_bytes(&read_document(path, MAX_MANIFEST_BYTES)?)
     }
 }
 
+fn deserialize_force_scene<'de, D: serde::Deserializer<'de>>(
+    deserializer: D,
+) -> Result<Option<rheon::ForceScene>, D::Error> {
+    rheon::ForceScene::deserialize(deserializer).map(Some)
+}
+fn force_spec_digest(
+    spec: &NativeCarrierSpec,
+    fields: &rheon::ForceSnapshot,
+) -> Result<[u8; 32], RunSetError> {
+    let spec = serde_json::to_vec(spec)?;
+    let fields = rheon::recording::encode_force_metadata(fields)?;
+    let mut hash = Sha256::new();
+    hash.update(b"rheon-desktop-native-force-spec-v2\0");
+    hash.update((spec.len() as u64).to_le_bytes());
+    hash.update(spec);
+    hash.update((fields.len() as u64).to_le_bytes());
+    hash.update(fields);
+    Ok(hash.finalize().into())
+}
+fn force_bytes(spec: &FrozenSpec) -> Result<Option<Vec<u8>>, RunSetError> {
+    spec.force_snapshot()?
+        .as_ref()
+        .map(rheon::recording::encode_force_metadata)
+        .transpose()
+        .map_err(Into::into)
+}
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct NativeIntentDeclaration {
@@ -367,11 +439,15 @@ pub fn bound_native_run(
         return Err(RunSetError::Invalid("native constructor/spec binding"));
     }
     let provenance = serde_json::to_string(&NativeIntentDeclaration {
-        schema_version: MANIFEST_VERSION,
+        schema_version: spec.schema_version,
         spec_sha256: spec.sha256,
         build_provenance: build_provenance.into(),
     })?;
-    Ok(carrier_run(identity, simulation, &provenance)?)
+    let run = carrier_run(identity, simulation, &provenance)?;
+    Ok(match spec.force_snapshot()? {
+        Some(fields) => run.with_force_fields(&fields)?,
+        None => run,
+    })
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
@@ -455,6 +531,7 @@ pub enum SpecDifference {
     Source,
     MemoryBudget,
     RecordingBudget,
+    ForceMetadata,
 }
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields)]
@@ -496,7 +573,11 @@ impl RunSetRevision {
             {
                 return Err(RunSetError::Invalid("duplicate member"));
             }
-            if differences(&baseline.spec.spec, &m.spec.spec) != m.differences_from_baseline {
+            let mut declared = differences(&baseline.spec.spec, &m.spec.spec);
+            if force_bytes(&baseline.spec)? != force_bytes(&m.spec)? {
+                declared.push(SpecDifference::ForceMetadata);
+            }
+            if declared != m.differences_from_baseline {
                 return Err(RunSetError::Invalid("declared differences"));
             }
             if let Some(a) = &m.attempt {
@@ -633,7 +714,13 @@ fn validate_binding(
         return Err(RunSetError::Unsupported("saved native carrier profile"));
     }
     let declaration: NativeIntentDeclaration = serde_json::from_str(&run.provenance)?;
-    version(declaration.schema_version)?;
+    if declaration.schema_version != spec.schema_version {
+        return Err(RunSetError::Integrity("archive intent version"));
+    }
+    let expected_force = force_bytes(spec)?.map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)));
+    if run.force_fields_digest()? != expected_force {
+        return Err(RunSetError::Integrity("archive force intent"));
+    }
     text(&declaration.build_provenance)?;
     if run.identity.run_id != a.expected_run_id
         || run.identity.source_revision != a.expected_source_revision
@@ -786,6 +873,20 @@ pub(crate) fn read_versioned<T: DeserializeOwned>(
     expected_version: u32,
     max_bytes: u64,
 ) -> Result<T, RunSetError> {
+    let bytes = read_document(path, max_bytes)?;
+    #[derive(Deserialize)]
+    struct Header {
+        schema_version: u64,
+    }
+    let header: Header = serde_json::from_slice(&bytes)?;
+    if header.schema_version != u64::from(expected_version) {
+        return Err(RunSetError::Unsupported("manifest version"));
+    }
+    // Decode the original bytes so duplicate required keys are not erased by a
+    // generic JSON object representation before strict typed validation.
+    Ok(serde_json::from_slice(&bytes)?)
+}
+fn read_document(path: &Path, max_bytes: u64) -> Result<Vec<u8>, RunSetError> {
     if max_bytes == 0 || max_bytes == u64::MAX {
         return Err(RunSetError::Invalid("document byte limit"));
     }
@@ -803,17 +904,7 @@ pub(crate) fn read_versioned<T: DeserializeOwned>(
     if bytes.len() as u64 > max_bytes {
         return Err(RunSetError::Invalid("manifest byte limit"));
     }
-    #[derive(Deserialize)]
-    struct Header {
-        schema_version: u64,
-    }
-    let header: Header = serde_json::from_slice(&bytes)?;
-    if header.schema_version != u64::from(expected_version) {
-        return Err(RunSetError::Unsupported("manifest version"));
-    }
-    // Decode the original bytes so duplicate required keys are not erased by a
-    // generic JSON object representation before strict typed validation.
-    Ok(serde_json::from_slice(&bytes)?)
+    Ok(bytes)
 }
 /// Atomic no-replace publication on caller-owned local filesystems supporting
 /// hard links and directory sync. Protect every path component from concurrent

@@ -1,0 +1,81 @@
+{
+  "source_commit": "3b3fccea3657d711897130643a478adb48b5edd0",
+  "binary_sha256": "af2da1539521e10407ac73b11cd58494118aa93a3f99ed529b11697ed85727b5",
+  "cases_executed_once": [
+    "native",
+    "material"
+  ],
+  "files": [
+    {
+      "file": "material/DATA/material-1792543046180951263-59778-0.sqlite",
+      "bytes": 49152,
+      "sha256": "17ace71c0ed82ea905b11b90fdb1ff0413afddb5f700ad4a84a249abb26c14d5"
+    },
+    {
+      "file": "material/capture/combined.log",
+      "bytes": 567,
+      "sha256": "822087d8721d2a3da1fe4bb09de5346931338c9011cb0ff291bf1a9609f33d3d"
+    },
+    {
+      "file": "material/capture/disposition.json",
+      "bytes": 2469,
+      "sha256": "4f06fc37a1d1c07b89e6dfe2e674a8e7b098f29ca17081f8bd0f3c7f7c5ef819"
+    },
+    {
+      "file": "material/capture/preflight-seals.json",
+      "bytes": 1093,
+      "sha256": "708130c2b29d3752caaf9c1684565b430c3d144d4489b4f111a1cf01cf8c8ebc"
+    },
+    {
+      "file": "material/capture/supervisor.py",
+      "bytes": 7733,
+      "sha256": "b7f13a3bdee65a6d4345ddbc0a0eaa7ddef7d64e4224633d63e16f8db1046444"
+    },
+    {
+      "file": "native/DATA/completed.json",
+      "bytes": 1883,
+      "sha256": "265e2b4885bcbe41d7af274d42d762f2691fd591511462166c96fe3fa5779b3d"
+    },
+    {
+      "file": "native/DATA/intent.json",
+      "bytes": 1302,
+      "sha256": "71e5d32cd24ed95b5e5ee16caeceddef7c7786e4839ac1bb16a0a75d2720e946"
+    },
+    {
+      "file": "native/DATA/jacobi-pcg-v1-1792543035724545053-59751-0.sqlite",
+      "bytes": 32768,
+      "sha256": "ea8ccde4ec9a94a218443dc2570212f37cd7439c6af73e56d934f73fd4d13279"
+    },
+    {
+      "file": "native/DATA/member-0-finished.json",
+      "bytes": 1883,
+      "sha256": "265e2b4885bcbe41d7af274d42d762f2691fd591511462166c96fe3fa5779b3d"
+    },
+    {
+      "file": "native/DATA/member-0-started.json",
+      "bytes": 1691,
+      "sha256": "29068e832fcdafa3a61e1ac2dd809b1b36fa5515acaf32aaa2ab76a94b94b25e"
+    },
+    {
+      "file": "native/capture/combined.log",
+      "bytes": 1296,
+      "sha256": "b8effeccefde02cb06b78d4dd1c10814c2e6f05ae778654db8b715557873b00d"
+    },
+    {
+      "file": "native/capture/disposition.json",
+      "bytes": 3153,
+      "sha256": "9bb83d4450934309e912903f6d3a9b0c0493007dcd518cd8f717d732eec2bbb1"
+    },
+    {
+      "file": "native/capture/preflight-seals.json",
+      "bytes": 1087,
+      "sha256": "9522942fc315793a41099554858a400d81d7fef658be01a733631f0912656465"
+    },
+    {
+      "file": "native/capture/supervisor.py",
+      "bytes": 7733,
+      "sha256": "b7f13a3bdee65a6d4345ddbc0a0eaa7ddef7d64e4224633d63e16f8db1046444"
+    }
+  ],
+  "index_excludes_itself": true
+}

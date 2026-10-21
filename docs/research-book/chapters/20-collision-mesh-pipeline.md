@@ -1,6 +1,6 @@
 # 20 From collision meshes to fluid boundaries
 
-A rendered triangle soup is not automatically a closed collision solid. Rheon's proposed boundary pipeline accepts an oriented watertight mesh in a declared world transform, or a deliberately separate thin-shell model. It does not invent an inside for open edges. Static and prescribed rigid motion are the first research targets; deforming meshes require vertex velocities and swept geometry.
+A rendered triangle soup is not automatically a closed collision solid. **Correction, 20 October 2026:** Rheon now implements native static OBJ/glTF/GLB import and a BVH triangle collider with distinct validated convex-solid and two-sided-surface policies. The broader mesh-to-fluid-boundary pipeline described here remains a research specification. An open surface does not acquire a closed-solid inside. Prescribed moving fluid boundaries and general dynamic mesh coupling remain separate targets; deforming meshes require vertex velocities and swept geometry. [Chapter 29](29-liquid-solid-interaction.md) compares the methods against current implementation and retained failures.
 
 ## Admission and representation
 
@@ -99,8 +99,12 @@ Its exact-real overlap and complement formulas are checked in
 [StaticObstacle.lean](../../../proofs/Rheon/StaticObstacle.lean); Rust evaluates
 represented world endpoints with explicit arithmetic refusal. A subcell box
 spanning two full axes can split one cell into two fluid pieces, so that topology
-is refused. Existing pressure and viscosity owners do not consume this geometry.
-The matching lab inspects recorded native controls; it advances no fluid.
+is refused. **Correction, 20 October 2026:** the bounded `StaticObstaclePressure`
+owner does consume these shared openings, volumes and components. A distinct
+periodic/invariant reduced shear owner and opt-in aligned Stokes experiment have
+their own restricted domains. None assembles a general imported-mesh liquid
+momentum/free-surface-stress solver. The matching geometry lab inspects recorded
+native controls; that lab itself advances no fluid.
 
 ## Current native import and the remaining fluid geometry gate
 

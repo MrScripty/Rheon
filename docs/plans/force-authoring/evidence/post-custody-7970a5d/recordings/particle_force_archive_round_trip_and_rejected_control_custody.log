@@ -1,0 +1,15 @@
+
+running 1 test
+test particle_force_archive_round_trip_and_rejected_control_custody ... ok
+
+successes:
+
+---- particle_force_archive_round_trip_and_rejected_control_custody stdout ----
+owned recording directory: /workspace/force-validation-post-custody-7970a5d/scratch/rheon-force-custody-7016-0
+
+
+successes:
+    particle_force_archive_round_trip_and_rejected_control_custody
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.02s
+

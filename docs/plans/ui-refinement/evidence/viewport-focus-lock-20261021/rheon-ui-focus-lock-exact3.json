@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f",
+    "viewport::tests::native_touchpad_scroll_pans_orbits_and_pinches_through_the_viewport_input_path",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "limits": {
+    "wall_seconds": 10,
+    "cpu_seconds": 5,
+    "address_space_bytes": 536870912,
+    "log_file_bytes": 1048576,
+    "term_grace_seconds": 1
+  },
+  "pid": 58406,
+  "exit_code": 0,
+  "timed_out": false,
+  "actions": [],
+  "elapsed_seconds": 0.016865763998794137,
+  "binary_sha256": "8935179a6738fd137fd2859bd865d8ddb0e1393586dbe366e9922f279902a008",
+  "captured_bytes": 222,
+  "log_sha256": "3c0596301ef93b916376aba0f466941f6aefb1cd6fe9fd663d70dffe5ef9fc8d"
+}

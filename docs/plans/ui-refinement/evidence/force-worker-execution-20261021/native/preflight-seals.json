@@ -1,0 +1,28 @@
+{
+  "case": "native",
+  "command": [
+    "/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f",
+    "force_runtime_integration_tests::native_force_dispatch_records_and_cold_binds_v2",
+    "--exact",
+    "--ignored",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "limits": {
+    "wall_timeout_seconds": 30,
+    "cpu_seconds": 20,
+    "address_space_bytes": 536870912,
+    "per_file_and_log_bytes": 1048576,
+    "term_grace_seconds": 1,
+    "core_bytes": 0
+  },
+  "source_commit": "3b3fccea3657d711897130643a478adb48b5edd0",
+  "data": "/workspace/scratch/rheon-ui-force-worker-execution-20261021/native/DATA",
+  "capture": "/workspace/scratch/rheon-ui-force-worker-execution-20261021/native/capture",
+  "test_body_invocation_attempted": false,
+  "actions": [],
+  "binary_sha256": "af2da1539521e10407ac73b11cd58494118aa93a3f99ed529b11697ed85727b5",
+  "binary_bytes": 480456920,
+  "source_manifest_sha256": "603a0edf75b255b6ba217aaa6e72632a5e3ab16eb8997fe0013fa7a1175fbafc",
+  "supervisor_sha256": "b7f13a3bdee65a6d4345ddbc0a0eaa7ddef7d64e4224633d63e16f8db1046444"
+}

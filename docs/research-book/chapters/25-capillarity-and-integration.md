@@ -30,6 +30,13 @@ recommends a static closed-obstacle fluid-geometry owner as the next feature,
 connecting triangle queries to shared volumes/open areas/connectivity before
 general pressure, viscous traction or wetting coupling.
 
+**Status clarification, 20 October 2026:** a bounded static axis-aligned box
+geometry and pressure consumer now exist; the general imported-mesh liquid
+assembly remains a gap. This sequence is historical research guidance, not an
+instruction to replace the active PR120/Q2 owners. [Chapter 29](29-liquid-solid-interaction.md)
+reconciles collision, hydrodynamic support and moving-volume/coupling scope;
+wetting, slip and capillary constitutive models remain distinct.
+
 After research review, implement one-way collision geometry and gravity first. Add free-surface classification/transport with volume and spatial metrics, then constant and variable density using a consistent pressure correction. Add tensor viscosity and wall traction, then a declared contact-angle reconstruction and balanced capillarity. Dynamic contact lines and two-way solids come after their assumptions are selected. This is a research implementation sequence, not a merge gate for the existing bounded smoke milestone.
 
 An accepted liquid step must publish interface, material fields, velocity, time and geometry version together. Failure in geometry, transport, nonlinear stress or pressure keeps the last coherent state. Capillary, viscous and Courant restrictions must be reported with the actual accepted interval; no hidden parameter changes should imitate a successful solve.
@@ -152,9 +159,10 @@ Use θ < 90° and a finite initial filled length to avoid the unphysical infinit
 
 ### F9 Moving walls and two way solids
 
-This remains a qualification target. The unmerged stationary aligned-box Stokes
-checkpoint described in [Chapter 22](22-viscosity-and-stress.md#draft-checkpoint-stationary-box-stokes-acceptance)
+This remains a qualification target. The historical stationary aligned-box Stokes
+checkpoint described in [Chapter 22](22-viscosity-and-stress.md#historical-checkpoint-stationary-box-stokes-acceptance)
 does not implement moving boundaries, coupled bodies or contact dynamics.
+PR45 is now merged; that source status does not qualify this moving-wall target.
 
 Translate a wall through initially stationary fluid and rotate a paddle with prescribed angular speed. Plot accumulated actuator work against changes in kinetic/potential/surface energy and dissipation. Then move both fluid and obstacle at the same constant velocity; a Galilean-consistent relative-velocity treatment should not generate drag from their common translation. Repeat as the obstacle crosses grid cells.
 

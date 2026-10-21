@@ -1,0 +1,61 @@
+# Independent ignored Worker integration test source review
+
+## Disposition and authority
+
+Reviewed preparation only in `/workspace/Rheon-ui-authoring`, HEAD `1b377742e2dd2df0cc90c99c3ad735bfd480caad`. The two numerical/SQLite bodies remain ignored and are not admitted for execution by this review. The parent authorized source preparation, complete helper review and compile/list gates; no numerical run, production gate removal, native session, second worker/rerun or filesystem fixture execution is authorized here.
+
+The reviewer read the complete new module and its relevant production/core helper closure and wrote only this report. No build, test, binary, numerical/model/evaluator workload, SQLite open, artifact creation/cleanup or native action was executed by the reviewer. Suitable to seal as an ignored, not-executed preparation checkpoint, with the resource/evidence limits below. No material source-body blocker remains for preparation; this is not execution admission.
+
+## Complete execution path, if separately authorized later
+
+Both ignored tests construct a literal version-1 scene with one enabled Global Directional acceleration `[0.25,0,0]` m/s², id 1, identity quaternion, anchor `[0.5;3]` m and activation from zero without an end. Freeze and canonical metadata encoding preserve the immutable document; no alternate force evaluator appears in the test.
+
+`output_root` requires `RHEON_UI_FORCE_TEST_ROOT` to be an explicit absolute canonical existing nonsymlink directory, with no fallback, and checks it is empty. TMPDIR and SQLITE_TMPDIR must equal it. Supervisor log/receipt/seal destinations therefore must be separate. The source checks do not establish exclusive ownership or protect against concurrent path replacement; the execution owner must supply the already admitted exclusive fresh root. Existing runtime publication may create directories and staging files inside that root. There is no test Drop guard, cancellation cleanup, remove_dir or artifact deletion.
+
+`request` enables only the private cfg(test) temporary force gate bypass; every normal freeze, support, count, budget and snapshot/recording validation remains. It requests one track/step/thread, edge-2 preview, no observer/emitter/mesh/configured/provider/model/child/rendezvous. `worker` directly calls real `Worker::start`, destructures the returned handle/history/progress, joins, then checks the joined result, progress and row count. Other Worker field handles may drop but the worker owns its required Arc clones. There is no App Drop cancellation, detached join, second scheduler construction in the helper or second Worker call. The production start creates one owned Worker thread and one Rayon pool worker at threads=1; this is not a total measured OS-thread count. CpuScheduler construction itself does not spawn a service thread.
+
+The production path is Worker→run_owned→run_simulations, then native or material branch. It uses the existing per-track resolver for the canonical step adapter, Inspector begin/record and retained history; force encoding does not substitute a current draft. Construction, stepping, SQLite recorder/reader creation, immutable manifest publication and cold decode are real operations in these tests, not pure metadata probes. No current admission is given to invoke them.
+
+## Native case
+
+Prepared exact ignored name: `force_runtime_integration_tests::native_force_dispatch_records_and_cold_binds_v2`.
+
+A one-member v2 FrozenSpec controls eight cells, 0.5 m spacing, density 2 kg/m³, no source/emitter, one interval of 1e-6 s, JacobiPcgV1, max 100 pressure iterations and 1 MiB retained-array budget. The saved-spec branch constructs from that spec rather than the normal preview's density/tolerance defaults. Core transient work and SQL/process overhead are separate from retained-array budget. No extra numerical baseline or outer retry is added; fixed-dt saved intent still refuses a shortened step.
+
+The test initially publishes intent, passes it and the same frozen snapshot to Worker, joins, opens the finished immutable manifest/member, verifies the finalized pin/run association and cold reader, then decodes constructor and accepted records. It checks generation/stage/count/completed status, exact document bytes on both publications and actual recorded pressure controls. The predeclared effect guard expects the closed-box hydrostatic X pressure difference `rho*a*0.5m=0.25Pa`, with finite values and ±0.05 Pa margin. That coarse 20% tolerance distinguishes force dispatch from zero-input metadata only; it is not pressure/scientific accuracy validation or a tuned result. It additionally checks accepted fixed dt and preview/result timestamp association.
+
+The subsequent native Request clone prepares constructor-zero intent with the stored v2 hash/snapshot and a cleared attempt, but retains old output/receipt paths and is explicitly not executed or execution-ready. It does not test production App rerun routing or numerical rerun equivalence. A separate mutated draft is then followed by rereads of both archive records; this verifies intended immutable association if the case eventually passes, without a second numerical call.
+
+## Material case
+
+Prepared exact ignored name: `force_runtime_integration_tests::material_force_dispatch_records_immutable_scene`.
+
+The default water/ambient material configuration is narrowed to EmittedFluid, samples-per-axis 4, max particles 64, 1 MiB retained-array limit and gravity `[0,-1,0]` m/s². Core constructor source seeds 4³ stationary emitted-fluid particles for this full 1 m cube. Emitter and collision mesh are absent. There is one public particle step; canonical `step_fields_impl` contains at most 16 internal preparations and no external retry/pressure-solver workload is added.
+
+After join, the test cold-opens and verifies two records, exact force metadata and material configuration/geometry; initial and accepted particle counts are 64. It uses actual positive finite accepted dt≤requested dt, not a fabricated requested endpoint. The predeclared effect threshold is net X momentum within 50–150% of initial total mass×0.25 m/s²×actual dt. Symmetric pair forces and purely vertical gravity do not intentionally supply net X force; this conservative guard excludes merely tiny positive roundoff. Reader verification validates numeric fields and the explicit guard requires finite mass/change. It remains a coarse dispatch symptom, not scientific validation or legacy equivalence.
+
+The test checks accepted timing, diagnostics count, preview/result association and actual force controls. It rebinds a retained Request clone from cold accepted force metadata and checks the original typed material configuration, then mutates an independent draft and rereads both archive documents. There is no serialized material FrozenSpec/cold-rerun API here: this does not reconstruct all material controls from an archive or establish full material rerun/parity.
+
+## Output and failure conditions before any execution handoff
+
+The helper's final inventory is reached only on success, checks regular nonsymlink files, hashes them and asserts at most eight files/8 MiB with 1 MiB each. It is an outcome assertion, not enforcement or a simultaneous-file proof. The supervisor must inventory after every child exit/failure/timeout/panic and retain actual filenames/sizes/hashes, stdout/stderr, binary/source seals and survivor disposition, without automatic deletion or parameter tuning/retry/fallback.
+
+Source-known native names are `intent.json`, `member-0-started.json`, `member-0-finished.json`, `completed.json`, and one fresh method-labelled SQLite archive. Atomic publication uses sequential `.rheon-manifest-PID-counter.tmp` names; success removes its normal staging link, but an I/O/publication error may retain it and propagates. SQLite uses DELETE rollback journaling, not WAL; a journal may remain after failure. Material creates one fresh archive and has no run-set manifests. These are existing owner mechanics, distinct from prohibited fixture cleanup.
+
+SQLite `temp_store=FILE` remains enabled. Readers perform quick/integrity/foreign-key checks and indexed ordered field reads; multiple reader owners can coexist after join. The amended contract now separates the seven native/two material named application paths from SQLite transient stores, explicitly marking the latter's count/peak not statically sealed. It labels the eight-file/8 MiB guard success-only final observation, not a maximum number of simultaneously open or anonymous temporary files, disk blocks or cumulative I/O bytes. This honest limitation resolves the preparation documentation issue; it does not supply an aggregate storage bound or execution assurance. Existing per-file/process/time controls remain proposed for the trusted fixture, with that gap disclosed to the execution owner. This review does not demand new mounts/cgroups/provisioning for preparation or invent a guarantee from the source-known names.
+
+The proposed future envelope is one exact ignored case per supervised disposable process, 30 s wall/20 s CPU/512 MiB address space/1 MiB captured log, existing per-file 1 MiB limits, TERM→owned-group KILL after 1 s, finite source/file accounting and retained post-exit inventory. These are proposed limits, not measured use or an execution grant. No runtime supervisor source has been reviewed for these cases yet. The earlier 10 s pure-UI wrapper is not automatically admitted for numerical/SQLite use.
+
+At initial review `runtime-force-validation-contract.md` still described bodies absent, no Worker::start, direct-loop execution and 1 GiB/aggregate-root semantics. The amendment replaces them with the actual ignored-module/Worker path, 512 MiB proposal, separate capture/data roots, finite named paths and the unsealed SQLite transient limitation, honest material/prepared-rerun scope and 201-name enumeration. The plan review makes preparation-only authority clear. Intended main/libtest/Worker/Rayon roles must not be represented as measured or hard-limited total OS threads. A 30 s timeout followed by TERM/KILL/reap is a deadline plus teardown, not proof of a hard wall-clock process-disappearance guarantee; final supervisor disposition must remain explicit.
+
+## Preparation source and compile receipt
+
+Final inspected test-module SHA-256: `src/bin/desktop/force_runtime_integration_tests.rs` = `da753230b81df85227ab348c39ea4ac97e2ff093cf2da09ff9ac5dce225d0584`. Main's only change is the cfg(test) module declaration; `src/bin/rheon-desktop.rs` = `6e70c7957357611fa4c0610dddd4f1673544882821b9dab47b481dc2c394eff4`. Both bodies retain explicit `#[ignore = "numerical/SQLite worker integration; separate bounded execution admission required"]`. No production launch behavior changes.
+
+Read-only receipt: `/tmp/rheon-ui-force-worker-list2.log` records test compilation success in 13.86 s and lists 201 tests/zero benchmarks, including the two exact names above. Source attributes establish they are ignored; enumeration is not execution. The earlier list1 compilation failed because SnapshotStage was imported through a private recording path; the final source uses its public root re-export. That failure is preserved and superseded by list2. No numerical/SQLite invocation or result log exists as part of this reviewed preparation. Locked compile/static/final binary/source transfer seals beyond this receipt remain owner gates, not inferred successes.
+
+## Remaining gates
+
+Compile/list-only may establish that both exact tests exist and are ignored, without invoking either body. Seal final source/test bytes, Cargo.lock, toolchain/features, exact test executable and actual commit/tree; the older pure/native executable is not this future test binary. Independently review the amended execution contract/supervisor/file proof and obtain the separate execution authority before running either exact ignored name. Production launch remains gated.
+
+Even future passing cases would not establish native/UI usability, live Cancel/join interruption, mixed-member runtime, full cold rerun, legacy equivalence, field accuracy or broad scientific validation. Preserve the prior focus/timeline/native evidence and its limitations separately.
