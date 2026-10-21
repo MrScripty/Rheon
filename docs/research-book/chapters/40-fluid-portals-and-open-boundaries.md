@@ -126,14 +126,24 @@ At intersections, map composition must be unambiguous: two seam crossings must l
 
 ## 40.4 Weak conditions and the meaning of an open boundary
 
-Assume the stationary boundary is partitioned into velocity-prescribed parts \(\Gamma_D\), open parts \(\Gamma_o\), and reciprocal periodic pairs. For viscosity \(\mu\ge0\), use vector test functions \(\mathbf v\) with zero trace on \(\Gamma_D\) and matching periodic traces; scalar pressure tests are \(q\). With sufficient regularity, multiply (40.1) by \(\mathbf v\), integrate stress divergence by parts, and use symmetry of stress. The weak momentum/continuity equations are
+Assume a stationary Lipschitz domain whose boundary is partitioned into full-velocity-prescribed parts \(\Gamma_D\), impermeable slip walls \(\Gamma_s\), open parts \(\Gamma_o\), and reciprocal periodic pairs. For viscosity \(\mu\ge0\), a conforming test space is
+
+\[
+V=\{\mathbf v\in H^1(\Omega)^d:
+\mathbf v|_{\Gamma_D}=0,\quad
+\mathbf v\cdot\mathbf n|_{\Gamma_s}=0,\quad
+\text{matching periodic traces}\}.
+\]
+
+The trial velocity has its prescribed full trace on \(\Gamma_D\), zero normal trace on \(\Gamma_s\), and the same periodic identifications. On slip walls only the tangential traction \(\mathbf t_\tau\) is prescribed; homogeneous free slip means \(\mathbf t_\tau=0\). The normal wall reaction is an unknown, not an additional prescribed pressure. Scalar tests \(q\) lie in \(L^2(\Omega)\) on components with an absolute pressure/traction reference. On each component with only velocity/impermeability and periodic constraints, pressure is determined modulo a constant: use the zero-mean representative and \(L^2_0\) pressure tests there, together with the separate net-flux compatibility condition. These spaces express boundary conditions, not an existence, uniqueness or discrete inf-sup theorem. With sufficient regularity, multiply (40.1) by \(\mathbf v\), integrate stress divergence by parts, and use symmetry of stress. The weak momentum/continuity equations are
 
 \[
 (\rho\partial_t\mathbf u,\mathbf v)_\Omega
 +(\rho(\mathbf u\cdot\nabla)\mathbf u,\mathbf v)_\Omega
 +(2\mu\boldsymbol\varepsilon(\mathbf u),\boldsymbol\varepsilon(\mathbf v))_\Omega
 -(p,\nabla\cdot\mathbf v)_\Omega
-=(\rho\mathbf a,\mathbf v)_\Omega+\langle\mathbf t,\mathbf v\rangle_{\Gamma_o},
+=(\rho\mathbf a,\mathbf v)_\Omega+\langle\mathbf t,\mathbf v\rangle_{\Gamma_o}
++\langle\mathbf t_\tau,\mathbf v_\tau\rangle_{\Gamma_s},
 \]
 
 \[
@@ -143,7 +153,7 @@ Assume the stationary boundary is partitioned into velocity-prescribed parts \(\
 
 The notation \((\cdot,\cdot)_\Omega\) means volume integration; \(\langle\cdot,\cdot\rangle\) is boundary duality, ordinary area integration for smooth traces. Periodic traction contributions cancel because the test traces agree under the map and outward normals oppose. On prescribed-velocity boundaries, their reactions do not disappear physically merely because these test functions vanish there; moving/inlet boundary power must be retained when deriving an energy ledger by a lifting or directly from the strong balance.
 
-**Conditional proof: energy identity.** For homogeneous stationary walls, admissible periodic traces, incompressibility and smooth fields, set \(\mathbf v=\mathbf u\). The pressure volume term vanishes. The advective term is \(\frac12\int_{\partial\Omega}\rho|\mathbf u|^2u_n\,dA\), by the divergence theorem. Symmetric stress gives the nonnegative volume dissipation \(\int 2\mu\boldsymbol\varepsilon:\boldsymbol\varepsilon\,dV\). Rearrangement gives (40.4). Nonhomogeneous inflow/outflow supplies power; the result is not an assertion that every open boundary dissipates energy.
+**Conditional proof: energy identity.** For homogeneous stationary full-Dirichlet walls or impermeable walls with zero tangential traction, admissible periodic traces, incompressibility and smooth fields, set \(\mathbf v=\mathbf u\). The pressure volume term vanishes. The advective term is \(\frac12\int_{\partial\Omega}\rho|\mathbf u|^2u_n\,dA\), by the divergence theorem. Symmetric stress gives the nonnegative volume dissipation \(\int 2\mu\boldsymbol\varepsilon:\boldsymbol\varepsilon\,dV\). Rearrangement gives (40.4). Nonzero prescribed slip-wall tangential traction contributes its retained tangential work. Nonhomogeneous inflow/outflow supplies power; the result is not an assertion that every open boundary dissipates energy.
 
 A traction condition prescribes this weak boundary term. A pressure opening instead fixes a pressure trace with a compatible velocity/viscous treatment. Prescribing all normal velocities and arbitrary pressure independently overconstrains the same momentum/continuity problem. An incompressible characteristic construction cannot remove the elliptic pressure constraint. These distinctions persist in finite-volume and particle formulations even when their weak spaces are not implemented explicitly.
 
@@ -334,16 +344,18 @@ Dong's 2015 formulation adds boundary inertia to an energy-stable open condition
 
 An outgoing linear disturbance \(\psi=f(s-ct)\) satisfies \(\partial_t\psi+c\partial_s\psi=0\). A boundary using \(U_c\ne c\) leaves a mismatch proportional to \((U_c-c)\partial_s\psi\); oblique waves also have different normal propagation. Convective boundaries are therefore approximations to an exterior impedance/transport problem. Orlanski's 1976 paper is the historical primary reference for estimating outgoing propagation; this dossier verified the institutional PDF endpoint but did not extract its scanned body, and does not claim an exact reproduction of its discrete scheme. [P5]
 
-For a linearized barotropic WCSPH fluid about rest, in one normal coordinate, the acoustic subsystem is
+For a barotropic continuum fluid linearized about a uniform rest state of density \(\rho_0>0\), assume the equation of state \(p=p(\rho)\) is differentiable in a neighborhood of that state with \(c_s^2=(dp/d\rho)_{\rho_0}>0\). Linearizing mass continuity and normal momentum, with constant coefficients and no viscous/body-force perturbation, gives the acoustic subsystem
 
 \[
 \partial_t u_n'+\rho_0^{-1}\partial_n p'=0,\qquad
 \partial_t p'+\rho_0c_s^2\partial_n u_n'=0.
 \]
 
-Adding/subtracting these equations yields invariants \(J_\pm=u_n'\pm p'/(\rho_0c_s)\) travelling at \(\pm c_s\). With mean normal speed \(U_n\), characteristic speeds shift to \(U_n\pm c_s\). An incoming invariant comes from the exterior; specifying both pressure and velocity independently can overconstrain the same acoustic subsystem. These relations are a linear illustrative derivation, not a general nonlinear/multiphase SPH boundary specification. Rheon's reduced liquid sound speed changes acoustic impedance and reflection; imported boundary parameters must use that actual model, not water's physical acoustic speed.
+Adding/subtracting these equations yields invariants \(J_\pm=u_n'\pm p'/(\rho_0c_s)\) travelling at \(\pm c_s\). With mean normal speed \(U_n\), characteristic speeds shift to \(U_n\pm c_s\). An incoming invariant comes from the exterior; specifying both pressure and velocity independently can overconstrain the same acoustic subsystem. These relations are a linear illustrative continuum derivation, not a general nonlinear/multiphase SPH boundary specification or a proof about the discrete particle operator.
 
-For a free-surface long wave of depth H, speeds are \(U_n\pm\sqrt{gH}\), not \(U_n\pm c_s\). A shallow-water radiation boundary should not be applied unchanged to a fully submerged 3D incompressible solver. A useful verification diagnostic for rest-state 1D acoustics is the ratio of inward to outward invariant amplitudes, \(\mathcal R=\|J_-\|/\|J_+\|\), measured before the packet is contaminated by other reflections; free-surface wave gauges need the corresponding elevation/velocity decomposition. A claimed low-reflection result must state frequency, angle, amplitude, depth, resolution and measurement window.
+Rheon's liquid preview instead uses \(p=\max(c_{liq}^2(\rho-\rho_{ref}),0)\) in `src/material.rs`. For positive configured \(c_{liq}\), this law has no two-sided derivative at \(\rho_{ref}\) and has zero derivative below it. Substituting that configured speed into the above invariants therefore does not establish an acoustic rest-state oracle at reference density. A compressed base and perturbations remaining strictly in the smooth positive-slope branch could support this particular continuum linearization; that base, its hydrostatic/EOS consistency and the particle discretization would still require qualification. The gas preview has the isothermal derivative \(dp/d\rho=RT\) only when temperature perturbations are absent. No EOS retuning is proposed by this argument. Any future impedance/radiation parameters must follow the actual admitted model rather than water's physical sound speed.
+
+For a free-surface long wave of depth H, speeds are \(U_n\pm\sqrt{gH}\), not \(U_n\pm c_s\). A shallow-water radiation boundary should not be applied unchanged to a fully submerged 3D incompressible solver. A useful verification diagnostic for rest-state 1D acoustics is the ratio of inward to outward invariant amplitudes, \(\mathcal R=\|J_-\|/\|J_+\|\), measured before the packet is contaminated by other reflections; free-surface wave gauges need the corresponding elevation/velocity decomposition. This \(\mathcal R\) diagnostic inherits the smooth positive-slope EOS and one-dimensional linearization assumptions; it is not yet an oracle for Rheon's clipped liquid rest state. A claimed low-reflection result must state frequency, angle, amplitude, depth, resolution and measurement window.
 
 For a sponge, a transparent accounting model is \(\mathbf f_s=-\chi(\mathbf x)(\mathbf u-\mathbf u_{ext})\), with \(\chi\ge0\) in s⁻¹. It damps perturbation energy relative to a stationary uniform reference, but total work \(\int\rho\mathbf u\cdot\mathbf f_s\,dV\) need not be negative for nonzero exterior current. Blending forces or their overlap at corners must be defined once; abrupt ramps can themselves reflect waves. Relaxing the total hydrostatic pressure or water level to the wrong target creates artificial currents. MITgcm's official OBCS documentation provides an operational example of separate radiation, sponge, inflow tracer and transport-balancing controls, including implementation limitations. It is a method reference here, not a copied or audited implementation dependency. [N1]
 

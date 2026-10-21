@@ -227,7 +227,7 @@
   "limitations": [
     "license compatibility assessment is not patent or legal clearance",
     "root licenses do not clear dependencies",
-    "no scientific workloads or external implementations executed"
+    "no portal qualification campaign or external implementation executed; existing bounded Rheon publication reference generators ran as recorded in ../../plans/fluid-portals-open-boundaries/reports/verification.md"
   ],
   "citation_and_copying_distinction": "Scientific citation and independent mathematical derivation are distinct from copying or translating implementation. Excluded copying candidates remain eligible scientific sources; citations do not license code reuse."
 }

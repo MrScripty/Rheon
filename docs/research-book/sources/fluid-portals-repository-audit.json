@@ -9,7 +9,7 @@
     "workspace_dot_agents": "empty",
     "relevant_dot_agents_skills": "none found"
   },
-  "inspection_kind": "read-only source and policy; no solver execution",
+  "inspection_kind": "source-inspection activity: read-only source and policy; separate existing bounded publication reference generation is recorded in ../../plans/fluid-portals-open-boundaries/reports/verification.md",
   "files": [
     {
       "path": "LICENSE",

@@ -4,12 +4,12 @@ This records documentation/publication evidence only. No portal implementation, 
 
 | Claim | Required observation | Current status |
 | --- | --- | --- |
-| D1 / source scope | New chapter/guide/audits/plan plus additive README; all 24 FEM integration paths except the announced README addition preserved; UI/GPU/runtime untouched. | Passed author scope check against f95cac0; repeat on staged diff. |
-| D2 / manuscript | Pandoc AST and strict pinned KaTeX rendering; no code/pseudocode blocks; all local/transitive packaged links and references resolve. | Passed: seven authored Markdown files, 149 mathematical expressions, 42 links, zero code/raw blocks; strict KaTeX0.16.22. |
-| D3 / mathematics and source | Author derivations/source hashes reviewed; separate independent reviewer reads actual manuscript and audit and dispositions findings. | Author review complete; independent reviewer pending. |
+| D1 / source scope | New chapter/guide/audits/plan plus additive README; all 24 FEM integration paths except the announced README addition preserved; UI/GPU/runtime untouched. | Passed against f95cac0, repeated after substantive review corrections; all23 other FEM integration paths unchanged. |
+| D2 / manuscript | Pandoc AST and strict pinned KaTeX rendering; no code/pseudocode blocks; all local/transitive packaged links and references resolve. | Passed after correction review: eight authored Markdown files,163 mathematical expressions,48 links, zero code/raw blocks; strict KaTeX0.16.22. |
+| D3 / mathematics and source | Author derivations/source hashes reviewed; separate independent reviewer reads actual manuscript and audit and dispositions findings. | Passed within stated source/math scope: separate review of4ac4669 and correction re-review resolved R1–R3; see [independent review](independent-review.md). No native acceptance. |
 | D4 / build artifact | Normal existing reference prerequisites and source-only book/Markdown archive built with admitted immutable sources/assets. No fabricated reference data. | Passed: unchanged bounded reference pipeline and actual source-only book/archive build; final-source rebuild required after commit. |
 | D5 / real publication rendering | Existing sandboxed Chromium checks, reading PDF rendering/source freshness and site verification; actual Chapter40 desktop/mobile math/links and PDF inspected. | Blocked locally: one canonical sandboxed Chromium launch aborted with SIGABRT because the SUID helper is not configured. No unsandboxed retry/security change. Normal runner required. |
-| D6 / publication | Draft PR on verified base; normal remote gate outcomes and parent-owned integration/deployment. | Pending draft; no deployment claim. |
+| D6 / publication | Draft PR on verified base; normal remote gate outcomes and parent-owned integration/deployment. | Denied: automatic approval review rejected draft PR creation; no PR created and no retry/workaround. Parent handling explicit authorization; no deployment claim. |
 
 The feature acceptance A1–A8 in the plan remains entirely pending and is not satisfied by any D-row.
 
@@ -35,4 +35,8 @@ Disposable exact logs/manifests are under `/workspace/portal-book-review-2026102
 
 ## Required before parent-owned publication
 
-A separate reviewer must inspect the actual chapter/proposal/source audit and disposition material mathematical/API/license findings. Normal source-specific CI must then build, run sandboxed browser/PDF/freshness/site checks, and retain a reviewable artifact. A successful draft PR is not merge approval. Parent coordinates current main/README compatibility, exact PR/head acceptance, merge and the standard main-triggered Pages deployment; its live Chapter40 URL and artifact lineage must be verified afterward. The historical PR36-reviewed artifact workflow is pinned to old content and cannot publish this chapter.
+The separate reviewer has inspected the chapter/proposal/source audit; the [review disposition](independent-review.md) records substantive corrections and their re-review. Normal source-specific CI must still build, run sandboxed browser/PDF/freshness/site checks, and retain a reviewable artifact. A successful draft PR is not merge approval. Parent coordinates current main/README compatibility, exact PR/head acceptance, merge and the standard main-triggered Pages deployment; its live Chapter40 URL and artifact lineage must be verified afterward. The historical PR36-reviewed artifact workflow is pinned to old content and cannot publish this chapter.
+
+## Independent correction-review checks
+
+The separate reviewer confirmed R1–R3 resolved and found no new substantive defect. Author source checks then parsed all eight authored Markdown documents, strictly rendered163 expressions with the unchanged pinned KaTeX, resolved48 local/external source-link targets structurally (local files checked, no claim of re-fetching remote pages), found no code/raw blocks, reverified37 baseline hashes and23 preserved FEM paths, and passed the documentation-only scope/whitespace check. These are source checks, not browser or native numerical evidence. The final committed source-only edition is rebuilt into a fresh external directory; its exact receipt is retained outside Git for handoff. No reference generator needs repeating for these manuscript-only changes.
