@@ -52,6 +52,11 @@ pub mod run_sets;
 pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
+#[path = "desktop/force_run_policy.rs"]
+mod force_run_policy;
+#[cfg(test)]
+#[path = "desktop/force_run_policy_tests.rs"]
+mod force_run_policy_tests;
 #[cfg(test)]
 #[path = "desktop/force_runtime_integration_tests.rs"]
 mod force_runtime_integration_tests;
@@ -132,6 +137,9 @@ struct ConfiguredRequest {
     runtime: Option<(Arc<AtomicBool>, accepted_session::model_process::ChildSlot)>,
 }
 impl Request {
+    fn force_target(&self) -> force_run_policy::Target {
+        self.setup_workflow().force_target(self.material.is_some())
+    }
     fn fields_for_track(&self, track: usize) -> Option<&rheon::ForceSnapshot> {
         self.force_fields.get(track).and_then(Option::as_ref)
     }
@@ -279,11 +287,12 @@ fn validate_request(request: &Request) -> Result<(), String> {
         rheon::recording::encode_force_metadata(fields).map_err(|e| e.to_string())?;
     }
     let authored = request.force_fields.iter().any(Option::is_some);
-    if authored && request.material.is_some() && request.methods.len() != 1 {
+    let target = request.force_target();
+    if authored
+        && target == force_run_policy::Target::ParticleMaterial
+        && request.methods.len() != 1
+    {
         return Err("Authored particle material requires exactly one material track".into());
-    }
-    if authored && request.configured_set.is_some() {
-        return Err("Authored forces are unsupported for configured/session/provider/free-surface execution".into());
     }
     if let Some(set) = &request.saved_set {
         set.validate().map_err(|e| e.to_string())?;
@@ -303,15 +312,14 @@ fn validate_request(request: &Request) -> Result<(), String> {
         }
     }
     #[cfg(test)]
-    let force_admitted = request.force_validation;
+    let qualification = if request.force_validation {
+        force_run_policy::Qualification::Validated
+    } else {
+        force_run_policy::PRODUCTION_QUALIFICATION
+    };
     #[cfg(not(test))]
-    let force_admitted = false;
-    if authored && !force_admitted {
-        return Err(
-            "Authored forces cannot run yet: bounded desktop runtime/archive validation is pending"
-                .into(),
-        );
-    }
+    let qualification = force_run_policy::PRODUCTION_QUALIFICATION;
+    force_run_policy::check(target, authored, qualification).map_err(str::to_owned)?;
 
     if let Some(configured) = &request.configured_set {
         configured.revision.validate().map_err(|e| e.to_string())?;
@@ -1148,6 +1156,13 @@ enum SetupWorkflow {
     AcceptedSession,
 }
 impl SetupWorkflow {
+    fn force_target(self, material: bool) -> force_run_policy::Target {
+        match self {
+            Self::AcceptedSession => force_run_policy::Target::Unsupported,
+            Self::Preview if material => force_run_policy::Target::ParticleMaterial,
+            Self::Preview => force_run_policy::Target::NativeCarrier,
+        }
+    }
     fn label(self) -> &'static str {
         match self {
             Self::Preview => "Simulation preview",
@@ -1646,19 +1661,23 @@ impl App {
                 ui.small(format!("Calculating step {step} · {elapsed:.3} s"));
             }
         } else {
+            let readiness = self
+                .scene
+                .launch_readiness(self.setup_workflow.force_target(self.material_mode));
+            let can_launch = !self.closing && readiness.is_ok();
             let launch = match self.setup_workflow {
                 SetupWorkflow::Preview => ui
                     .add_enabled(
-                        !self.closing && self.scene.launch_readiness().is_ok(),
+                        can_launch,
                         egui::Button::new("Simulate")
                             .min_size(egui::vec2(ui.available_width(), 32.0)),
                     )
                     .clicked(),
-                SetupWorkflow::AcceptedSession => self
-                    .configured_controls
-                    .launch_button(ui, !self.closing && self.scene.launch_readiness().is_ok()),
+                SetupWorkflow::AcceptedSession => {
+                    self.configured_controls.launch_button(ui, can_launch)
+                }
             };
-            if let Err(error) = self.scene.launch_readiness() {
+            if let Err(error) = readiness {
                 ui.colored_label(egui::Color32::YELLOW, "Authored-force runs unavailable")
                     .on_hover_text(error);
             }
@@ -1727,7 +1746,8 @@ impl App {
         Ok(limits)
     }
     fn start_configured(&mut self) -> Result<(), String> {
-        self.scene.launch_readiness()?;
+        self.scene
+            .launch_readiness(force_run_policy::Target::Unsupported)?;
         if self.worker.is_some() {
             return Err("Finish the active worker first".into());
         }
@@ -1915,7 +1935,10 @@ impl App {
         Ok((self.size, Some(config)))
     }
     fn start(&mut self, all: bool) {
-        if let Err(error) = self.scene.launch_readiness() {
+        if let Err(error) = self
+            .scene
+            .launch_readiness(SetupWorkflow::Preview.force_target(self.material_mode))
+        {
             self.status = error;
             return;
         }
@@ -2458,7 +2481,7 @@ impl App {
                 ui.small("Fixed actual dt; a shortened step retains its archive and reports unsupported saved intent.");
                 if ui.button("Compare both pressure solvers").clicked() {self.start(true);}
             }
-            if ui.add_enabled(self.worker.is_none() && self.scene.launch_readiness().is_ok(), egui::Button::new("Compare Rheon / trained AI")).clicked() {
+            if ui.add_enabled(self.worker.is_none() && self.scene.launch_readiness(force_run_policy::Target::Unsupported).is_ok(), egui::Button::new("Compare Rheon / trained AI")).clicked() {
                 let mut comparison = ai_comparison::ComparisonApp::new(String::new(),std::env::current_dir().unwrap_or_default().join(".generated/ai-comparison"));
                 comparison.set_steps(self.steps.clamp(1,512));
                 self.ai_comparison = Some(comparison);

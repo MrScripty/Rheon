@@ -564,3 +564,27 @@ only, not scientific parity/Cancel/generalforce/UIacceptance. Production remains
 Parent separately reports exact1b377742 enabledhover/resize/Scene/normalclose exit0
 and synthetic900x650150% timeline labels/popup/captions/DraftRetained passed.
 Viewport gestures remain pending; this owner performed no new native session.
+
+
+## Typed force eligibility preparation —2026-10-21
+
+Over separate evidence-only e5e6cff, replaced duplicated readiness strings with one
+small Target(NativeCarrier/ParticleMaterial/Unsupported) and Qualification policy.
+PRODUCTION remains Pending; private cfg(test) admission remains test-only. Any Some
+snapshot counts, including empty/disabled/zero. Configured overrides material;
+Unsupported never becomes supported via qualification. Visible controls, private
+starts, AI and authoritative Request use effective targets. Saved-member bindings,
+per-track snapshots and physics/recording owners unchanged. Invalid draft freezes
+refuse; retained display never supplies new draft launch intent.
+
+Independent plan and full-helper source reviews plus204-name list-only enumeration;
+five individually selected exact pure cases pass. Initial fourth pure case failed
+stale wording; shared PENDING assertion repaired, exact affected case passed.
+StrictClippy initially found now-unused draft accessor; readiness uses that same
+immutable accessor, affected two exact cases reran/passed. Check2/strictClippy2/fmt2
+pass. All failures/logs preserved in evidence/typed-force-policy-20261021. No numerical,
+SQLite, Worker or native execution in this policy slice. OriginalM2a settings hash
+0937b5e293fdd024641f46382900debac0b6f8c263d2a3c5d61fc0f8191dc102 unchanged.
+Gate enablement is a later reviewed increment after native prerequisites, with
+private bypass removal and separately bounded candidate validation. No M1/fullforce
+or accessibility/cancellation acceptance inferred from these scalar/Context tests.

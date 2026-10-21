@@ -268,12 +268,16 @@ impl SceneUi {
             Some(*id) == self.model_id() || self.display_scene().objects.iter().any(|o| o.id == *id)
         });
     }
-    pub fn launch_readiness(&self) -> Result<(), String> {
-        if self.draft().objects.is_empty() {
-            Ok(())
-        } else {
-            Err("Authored forces cannot run yet: runtime and archive integration is pending. Remove authored forces to run the existing setup.".into())
-        }
+    pub fn launch_readiness(&self, target: super::force_run_policy::Target) -> Result<(), String> {
+        self.draft()
+            .freeze()
+            .map_err(|error| format!("Invalid authored force: {error}"))?;
+        super::force_run_policy::check(
+            target,
+            !self.draft().objects.is_empty(),
+            super::force_run_policy::PRODUCTION_QUALIFICATION,
+        )
+        .map_err(str::to_owned)
     }
     fn validate(&mut self) {
         self.error = self.forces.freeze().err().map(|e| {
@@ -712,7 +716,11 @@ mod tests {
             let (output, _) = frame(&ctx, &mut scene, width, vec![]);
             click(&ctx, &mut scene, width, &output, "Enabled", false);
             assert!(!scene.forces.objects[2].enabled);
-            assert!(scene.launch_readiness().is_err());
+            assert!(
+                scene
+                    .launch_readiness(super::super::force_run_policy::Target::NativeCarrier)
+                    .is_err()
+            );
             let (output, _) = frame(&ctx, &mut scene, width, vec![]);
             click(&ctx, &mut scene, width, &output, "Hide scene", false);
             assert!(!scene.open);
@@ -748,7 +756,11 @@ mod tests {
         scene.validate();
         assert!(scene.error.is_some());
         assert!(scene.draft().freeze().is_err());
-        assert!(scene.launch_readiness().is_err());
+        assert!(
+            scene
+                .launch_readiness(super::super::force_run_policy::Target::NativeCarrier)
+                .is_err()
+        );
         assert_eq!(snapshot.scene().objects[0].support, ForceSupport::Global);
         let (output, _) = frame(&ctx, &mut scene, 900.0, vec![]);
         assert!(output.shapes.iter().any(|s|matches!(&s.shape,egui::Shape::Text(t) if t.galley.text().contains("Invalid authored force"))));
@@ -842,7 +854,11 @@ mod tests {
         }
         assert!(app.worker.is_none() && app.history.is_none() && app.running_request.is_none());
         app.scene.forces.objects[0].enabled = false;
-        assert!(app.scene.launch_readiness().is_err());
+        assert!(
+            app.scene
+                .launch_readiness(super::super::force_run_policy::Target::NativeCarrier)
+                .is_err()
+        );
     }
     #[test]
     fn scene_draft_timeline_roundtrip_preserves_retained_index_without_history() {

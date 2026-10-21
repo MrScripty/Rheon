@@ -248,3 +248,24 @@ serialized material cold-rerun API does not exist. Keep the production
 force gate until relevant native acceptance and a separately reviewed enabling change.
 Earlier native425a986/8148fa2 and synthetic harness artifacts retain their own exact
 source/evidence; none accepts this changed desktop closure or genuine cancellation.
+
+
+## T5 typed eligibility preparation and later enablement
+
+One desktop-only policy resolves effective Target (NativeCarrier, ParticleMaterial,
+Unsupported) separately from Qualification (Pending, Validated). Production stays
+Pending. Force presence is authoritative Some metadata, even empty/disabled/zero;
+legacy None remains legacy. Configured/session/provider/free-surface/AI never gain
+eligibility from qualification. Request and visible/private setup adapters use the
+same decision, preserving canonical validation/member binding and per-track custody.
+[Plan review](evidence/typed-force-policy-20261021/plan-review.md),
+[source review](reports/typed-force-policy-source-review.md) and
+[exact pure/static receipts](evidence/typed-force-policy-20261021/manifest.json)
+cover this preparation, without attributing prior3b runtime results to this new closure.
+
+The next small enabling increment may change qualification only after separately
+reviewed native gesture prerequisites; remove the private test bypass/field and
+update its fixtures. Then validate actual force-enabled App launch on that exact
+isolated candidate under separately bounded native ownership. No live execution
+or gate change is implied by this plan. Rollback only the policy/adapters increment;
+preserve original UI/native/runtime evidence, archives and historical hash contracts.

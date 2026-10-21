@@ -255,10 +255,9 @@ fn force_request_track_resolver_gates_before_work_and_binds_saved_members() {
     let fields = scene().freeze().unwrap();
     let mut r = request();
     r.force_fields = vec![Some(fields.clone())];
-    assert!(
-        validate_request(&r)
-            .unwrap_err()
-            .contains("validation is pending")
+    assert_eq!(
+        validate_request(&r),
+        Err(force_run_policy::PENDING.to_owned())
     );
     r.force_validation = true;
     assert!(validate_request(&r).is_ok());
