@@ -1,0 +1,161 @@
+{
+  "schema": "rheon-pr142-completion-qualification-summary-v1",
+  "status": "scoped-composite-qualification-passed-new-head-hosted-pending",
+  "actual_execution_head": "dbd49d3e41c482a753884abc8aaaff7d1b0d0653",
+  "actual_execution_tree": "2f37db7c119b846003f5a01a82d46c4cf965b474",
+  "reviewed_selected_inputs": 152,
+  "canonical_selected_map_sha256": "4d6fbe1927962b23da4c37e32b476b20a2ae7f48bf0d11805c36065c8a8b464d",
+  "admission_inventory_sha256": "a1c59a4d17ccdd1af16ff8ceadc08eedad54e92b1de043147057b7da48774a7f",
+  "bound_review_sha256": "014e19aac55f3fceae1edef9deff8c41337b5c3ca3db655ba07b978b562fb28e",
+  "evidence": {
+    "schema": "rheon-pr142-evidence-reconciliation-v1",
+    "status": "passed-scoped-composite-evidence",
+    "source_head": "dbd49d3e41c482a753884abc8aaaff7d1b0d0653",
+    "source_tree": "2f37db7c119b846003f5a01a82d46c4cf965b474",
+    "original_all_local_attempt": "intentionally-cancelled-after-complete-source-identical-hosted-feature-gates; original failed journal retained unchanged",
+    "local_completed": {
+      "native_commands": 18,
+      "native_rust_tests": 35,
+      "native_specimens": 5,
+      "gate_tests": [
+        5,
+        5
+      ],
+      "oracle_tests": [
+        10,
+        10
+      ],
+      "packet_tests": [
+        26,
+        26
+      ],
+      "packet_skips": 0,
+      "core_tests": {
+        "passed": 722,
+        "failed": 0,
+        "ignored": 10,
+        "top_level_harnesses": 85
+      }
+    },
+    "hosted": {
+      "run_id": 39688034222,
+      "head_sha": "dbd49d3e41c482a753884abc8aaaff7d1b0d0653",
+      "conclusion": "success",
+      "attempt": 1,
+      "actual_checkout": "d5ef6e22322183f34be437a1e9427a2b7d53d9d2",
+      "checkout_tree": "2f37db7c119b846003f5a01a82d46c4cf965b474",
+      "tree_equals_reviewed_head": true,
+      "feature_modes": {
+        "core-only": {
+          "job_id": 119526972309,
+          "passed": 722,
+          "ignored": 10,
+          "top_level_harnesses": 85
+        },
+        "default": {
+          "job_id": 119526972867,
+          "passed": 730,
+          "ignored": 10,
+          "top_level_harnesses": 86
+        },
+        "desktop": {
+          "job_id": 119526972766,
+          "passed": 1114,
+          "ignored": 17,
+          "top_level_harnesses": 88,
+          "nested_child_summaries_excluded": 4
+        }
+      },
+      "jobs": [
+        {
+          "id": 119526972309,
+          "name": "Feature contracts (core-only)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 119526972766,
+          "name": "Feature contracts (desktop)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 119526972855,
+          "name": "executable-contracts",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 119526972867,
+          "name": "Feature contracts (default)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 119536864453,
+          "name": "core-and-executable",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "cancelled_local_default": {
+      "schema": "rheon-pr142-intentional-duplicate-cancellation-v1",
+      "requested_at_utc": "2026-10-21T23:07:41.388486+00:00",
+      "source_head": "dbd49d3e41c482a753884abc8aaaff7d1b0d0653",
+      "reason": "Independently reviewed source-identical hosted full core/default/desktop and aggregate have passed; no deciding value in further local duplication. Original protocol/driver/journal/partial logs remain frozen, no all-local success claim.",
+      "independent_review_task": "/root/pr142_source_review",
+      "driver_pid": 7921,
+      "cargo_pid": 22421,
+      "test_pid": 26575,
+      "test_argv": [
+        "/workspace/pr142-target/debug/deps/material_contract-4052afe5fb62db1a"
+      ],
+      "signal": "SIGINT",
+      "outcome": "confirmed-stopped",
+      "journal_status": "failed",
+      "last_command_exit": 101
+    },
+    "independent_review_task": "/root/pr142_source_review",
+    "independent_review": "Passed complete native/packet/source audit; separately approved source-identical hosted fullfeature recipe and explicit owned cancellation. Not a cryptographic authentication claim.",
+    "claims_excluded": [
+      "whole-application production acceptance",
+      "new physical/scientific accuracy",
+      "GPU/hardware",
+      "native-window",
+      "performance/release",
+      "ignored force/model tests as executed passes"
+    ]
+  },
+  "archive": {
+    "schema": "rheon-pr142-raw-archive-seal-v1",
+    "source_head": "dbd49d3e41c482a753884abc8aaaff7d1b0d0653",
+    "source_tree": "2f37db7c119b846003f5a01a82d46c4cf965b474",
+    "archive": "/workspace/rheon-pr142-dbd49d3-qualification.zip",
+    "sha256": "4d55283ec9894b5c4c742e743913b6bc63fc8fbf413a21b6c6e6098d8e1fa04e",
+    "bytes": 153125915,
+    "members": 191,
+    "all_members_crc_sha256_verified": true,
+    "member_manifest_sha256": "c26fe09fa7d6961415e0113e510e3360c7cd6ce367e6cd187d0e7234ae359bd1"
+  },
+  "actual_executing_elf_paths_retained": 131,
+  "native_receipt_sha256": "c295a810ccc480bd5fd267179f89f9815a419c03fc3ad8f5211d2c188caa3bf7",
+  "packet_receipt_sha256": "59a2c46d1bb0bd2ae2255ab80d146acd1744be6e7e74aa018b22f61218c1d434",
+  "non_source_followup": "Only reviewed outer CI feature-job budget30\u219260 and authored result/status/review docs; selected152 runtime/build/qualifier bytes and admission inputs remain exact. Actual execution identities are not relabelled.",
+  "merge_status": "not yet merged; final reporting head checks and exact-head normal merge required",
+  "library_retention": {
+    "status": "failed-before-preparation",
+    "operation": "Create Library item from new sealed local qualification archive",
+    "target": "rheon-pr142-dbd49d3-qualification.zip",
+    "reason": "hosted apps tools/list request failed: network",
+    "exit_code": 1,
+    "library_id_returned": false,
+    "retried_or_alternate_route": false,
+    "raw_archive_retained_locally": true
+  },
+  "compact_receipts": {
+    "native": "frozen-native-receipt.json",
+    "packet": "frozen-packet-receipt.json",
+    "custody": "custody-manifest.json"
+  }
+}

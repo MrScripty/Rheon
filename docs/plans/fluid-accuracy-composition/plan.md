@@ -1,22 +1,33 @@
 # Water accuracy and inspectable solver composition
 
-Repair-plan status: **Active — preliminary PR138 composition and verification**.
-Current main remains `15026a966265cf9eaedf464e2b5a066bd0fef3d8`; the sole PR142
-integration lead is qualifying its frozen candidate
-`dbd49d3e41c482a753884abc8aaaff7d1b0d0653`. The lead explicitly permits isolated
-PR138 preparation against that candidate. This is preliminary source, not merged
-main or final readiness. Exactly one next integration slice remains **verify and
-land PR142 through the lead**, then revalidate this dependent PR138 composition
-against the verified landed source. The [PR138 protocol](reports/pr138-integration-20261021/protocol.md)
-and [source admission](reports/pr138-integration-20261021/source-admission.json)
-own its bounded reference/dependency write set and fresh validation. The complete
-selector has 152 paths: two Cargo changes and 150 exact dependency identities.
-Preserve PR142 product/thermal/UI/fixture behavior and all historical sources,
-receipts and failed/cancelled outcomes. Integrate #142 → #138 → #143 → #59;
-#150 additionally requires its final artifact gate. Historical no-merge delegation
-is superseded only for this fresh task; denied reads/downloads remain prohibited.
-Normal main merges remain solely with the lead. Whole-application production
-acceptance remains separate from code integration.
+Repair-plan status: **Active — PR142 final hosted integration gates**.
+Continue under fresh 2026-10-21 user authorization to complete and normally merge
+the five retained PRs. Current main is `15026a966265cf9eaedf464e2b5a066bd0fef3d8`;
+PR142 is the sole serial integration lead. Independent complete 152-path source
+admission passes, and actual source `dbd49d3` passes the scoped composite
+native/rational/packet/fullcore plus source-identical hosted feature evidence
+([result](reports/pr142-completion-20261021/qualification.md)). The original
+all-local duplicate attempt is intentionally cancelled, retained as such under
+its [explicit evidence replan](reports/pr142-completion-20261021/evidence-reconciliation.md).
+The next slice is exact reporting-head hosted checks and independent final
+result review, followed by normal expected-head PR142 merge and post-merge
+verification. Historical no-merge delegation is superseded only for this fresh
+task; earlier denied task reads/artifact retrieval remain prohibited. Integrate
+#142 → #138 → #143 → #59; admit #150 only when its final artifact gate is
+satisfied. Every original branch and receipt remains. Whole-application
+production acceptance is separate from code integration.
+
+The dependent PR138 composition remains preliminary at reviewed source `91c4f4b`,
+using its [protocol](reports/pr138-integration-20261021/protocol.md) and
+[source admission](reports/pr138-integration-20261021/source-admission.json).
+Its complete selector has 152 paths: two Cargo changes and 150 exact frozen
+PR142 identities, preserving product/thermal/UI/fixture source and both review
+histories. PR143 preserves that complete admission unchanged and records its
+separate preliminary ordinary attempt on `31c1958` in the
+[result](reports/pr143-integration-20261021/qualification.md). These isolated
+results do not represent merged main. Actual verified PR142 then PR138 landing,
+current-source revalidation and final hosted/review gates remain prerequisites
+for PR143 readiness; normal main merges remain solely with the lead.
 
 The numerical owner delivered Q1 source and retained incomplete qualification in [PR126](https://github.com/MrScripty/Rheon/pull/126), head `dfcc693bf8b66678a924e4a92d299127f6746526`, scientific freeze `b9a9d4ca3ff02c9eae38eb20dced49e87a923380`. The numerical owner has now implemented the separately frozen **Q2 common-geometry reference toward coupled Stokes** in [PR127](https://github.com/MrScripty/Rheon/pull/127), checkpoint `7d7306ad4421e8424f836fd4cfc3c38b52860e2b`. Independent post-run review found five positive native apertures on exact-zero-measure source faces in version 2. PR132/e6525a1 repairs exact represented-source predicates for the fixed corpus; PR134/f84f651 supplies eight aligned coupled-algebra cases. Their separately reviewed Cargo closure passes fresh qualification on `9a9904f`, documented in the [dependent result](https://github.com/MrScripty/Rheon/blob/a6bfcc94481b1bafbe61be804a1abc3426927bbd/docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md). Fixed PR133/9c04278 remains unchanged. Version-1 refusal and version-2 failures remain retained. PR135/4f8bd22 delivers the separately qualified CV1 cut-cell operator/physical-trace reference at frozen source `6d99e77`; later PR139/902f609 reports the bounded CV2 static 24-case conditioning/coupled-solve gate locally satisfied at source `b0a9d52`. Generic mixed-pair stability, PDE/evolving-geometry and production gates remain open; no production Stokes or water-accuracy acceptance is claimed. The bounded P1 production-selection direction is superseded: the two wall adaptations and the later static alternatives did not meet their unchanged gates, and the coherent 1D material reference would require a third production state/geometry family. Preserve all three campaigns and their failures. No particle production method, transport repair or new physical accuracy is admitted by this route decision. Draft [PR128](https://github.com/MrScripty/Rheon/pull/128) has locally qualified bounded C1-B1 supplied-array validation at tested source `f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a`, final evidence head `43a084a66bdfb3731b24bd480909c81e317b1e53`; supporting checks and final architecture/contracts reviews passed within that scope. Hosted integration and full replacement remain pending. C1-B/C/C1-R stay separately gated and numerical work does not wait for a universal composition framework.
 
