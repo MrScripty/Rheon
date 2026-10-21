@@ -29,6 +29,8 @@ A fraction \(f_i\in[0,1]\) gives represented volume
 V_h=\sum_i f_iV_i.
 \]
 
+**Audit clarification, 20 October 2026.** This represented volume, a carrier's appearance tracer, particle parcel mass and the diagnostic \(\sum_i m_i/\rho_i\) are different quantities. Rheon's ordinary `LiquidTransportSimulation` transports a conservative fraction on an all-fluid carrier; only its explicitly selected slab/column variants activate the restricted atmospheric pressure surface. Conservation alone does not establish interface location or a general free-surface momentum/stress solve. The retained native translation experiment conserves represented volume while its interface diffuses; [Appendix G](../appendices/G-paper-audit-and-corrections.md) records that result without changing its acceptance criteria.
+
 Shared liquid-volume fluxes with opposite signs preserve global volume except for sources and boundaries. Hirt and Nichols established the volume-of-fluid approach [S9]. Geometric reconstruction estimates a local interface to determine swept liquid volume; it is substantially more work than advecting a color scalar.
 
 A cell fraction 0.3 and Courant number 0.5 illustrate the risk: an outgoing flux selected without interface geometry can remove more liquid than exists. Bounding available volume must coordinate faces in multiple dimensions. Clamping final fractions can restore range while destroying total volume. Preserve both by construction or disclose the correction.

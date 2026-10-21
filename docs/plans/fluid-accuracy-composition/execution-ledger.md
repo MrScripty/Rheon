@@ -250,3 +250,43 @@ rerun occurred. Owner 227/5 and prior failures stay separately attributed.
 Hosted/default/desktop/window/release/performance/full replacement/physical/
 Lean/model/GPU gates remain separate. Fixed PR133/138/141, protected original
 work and the merge pause remain unchanged.
+
+## 2026-10-21 — fresh serial completion task, PR142 composition
+
+Fresh user instruction authorizes completion and normal reviewed merge of retained
+PR142/138/143/59/150. PR142 is sole integration lead and uses the five PR comments
+as coordination records. Operation is `continue` on this plan. Historical task
+read/resume denial and final GPU artifact-download denial remain binding; neither
+is retried or routed around. No original branch is removed or rewritten.
+
+Fetched current main `15026a966265cf9eaedf464e2b5a066bd0fef3d8` and retained
+PR142 `4f2d55323825c8907cf9209914f29130ec7de511` into an isolated completion
+branch. Inspected current Coding Standards `0fc92a2`; no AGENTS.md found.
+Composing the two parents conflicts in Simulation and both admission records.
+Simulation keeps workflow and force-field inputs together with projection; the
+first preparatory core compile correctly failed E0063 because the force-field
+constructor lacked projection initialization. Adding explicit `projection: None`
+restores the original force-only contract; subsequent no-default cargo check
+passes. This is a preparatory build, not clean committed-source qualification.
+
+Shared cfg(test) CPU fixture relied on wall-clock nanoseconds for directory
+uniqueness. Bounded repair adds atomic sequence and exclusive create/retry only
+for AlreadyExists. A 32-thread identical-timestamp regression owns this defect;
+existing metadata/scratch-cap refusal tests retain all assertions. Old combined
+native-admission check refuses as expected (review binding) and its raw message
+is retained outside Git. The current conservative selector has 152 paths;
+independent complete-source review and explicit v3 refresh precede qualification.
+
+A harmless branch-protection configuration read returned HTTP403, Resource not
+accessible by integration. That read is stopped without alternate route. Normal
+server-enforced merge and visible exact-head checks remain the supported route;
+no protection bypass is requested or inferred. Full hosted/local qualification
+and normal merge are pending. See the [prospective protocol](reports/pr142-completion-20261021/protocol.md).
+
+Preparatory desktop build completed under Rust1.92/jobs2/debug0. The first short
+`--exact` filter executed zero tests (224 filtered), retained as a no-op rather
+than a pass claim. Correct fully qualified runs then execute and pass one new
+same-timestamp/concurrent directory regression and one original
+`invalid_pin_metadata_and_scratch_cap_never_start_a_child` contract. Both full
+logs and actual preparatory desktop ELF remain outside Git. Clean committed
+qualification below will execute the full ordinary feature suites separately.

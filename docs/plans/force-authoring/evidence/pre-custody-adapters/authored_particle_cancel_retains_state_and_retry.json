@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/workspace/force-validation-pre-custody/force_adapter_tests",
+    "authored_particle_cancel_retains_state_and_retry",
+    "--exact",
+    "--ignored",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "binary_sha256": "0042e68eb0de3f63e3d4ef98506a88f417a4f965f63c41b64890f4ee9e9003cd",
+  "returncode": 0,
+  "wall_seconds": 0.021448432000056528,
+  "signals": [],
+  "log_bytes": 173,
+  "log_sha256": "b4e51b96b649205def3c0fd7311c3c5bc89aaf6252812eb1b44f86ab9f873c7b",
+  "limits": {
+    "wall_seconds": 30,
+    "term_to_owned_child_kill_seconds": 1,
+    "cpu_seconds": 20,
+    "address_space_bytes": 536870912,
+    "file_and_log_bytes": 1048576,
+    "test_threads": 1
+  }
+}

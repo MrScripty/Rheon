@@ -1,0 +1,9 @@
+{
+  "artifact": "/workspace/scratch/rheon-ui-presentation/rheon-ui-synthetic-presentation-testcfg-guarded-425a986-increment.bin",
+  "bytes": 235185520,
+  "sha256": "040715719f4e34e04951c8ad428024cbdbd219d7b65ac95d64d54e3e6e8d5cbd",
+  "base": "425a9869fa3f36b7e3133ddbd213a493d7b5bab3",
+  "build_cfg": "test",
+  "rustc_test_harness": false,
+  "executed": false
+}

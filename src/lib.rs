@@ -58,8 +58,13 @@ pub mod native_family;
 mod simulation;
 pub mod workflow;
 pub use simulation::{
-    AcceptedIntervalPressure, CarrierStepControls, Simulation, SimulationConfig, SimulationError,
-    SmokeSource, StateView, StepReport, StepStage,
+    AcceptedForceIntervalPressure, AcceptedIntervalPressure, CarrierStepControls, Simulation,
+    SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
+};
+pub mod force_field;
+pub use force_field::{
+    FORCE_SCENE_VERSION, ForceFieldError, ForceKind, ForceObject, ForceScene, ForceSnapshot,
+    ForceSupport, ForceTime, ForceTransform, MAX_FORCE_OBJECTS, SceneObjectId,
 };
 mod forces;
 pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepReport};
@@ -69,8 +74,8 @@ mod material;
 pub use material::{DomainFill, FluidMaterial, FluidPhase, FluidPreset, ParticleFluidConfig};
 mod particle_fluid;
 pub use particle_fluid::{
-    FluidParticle, ParticleDiagnostic, ParticleFluidError, ParticleFluidSimulation,
-    ParticleStepReport,
+    AcceptedParticleForceControls, FluidParticle, ParticleDiagnostic, ParticleFluidError,
+    ParticleFluidSimulation, ParticleStepReport,
 };
 #[cfg(feature = "png-export")]
 mod export;

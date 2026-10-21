@@ -88,7 +88,31 @@ pub fn material_publication(
     ordinal: usize,
     limit: usize,
 ) -> Result<RecordedStep, RecordingError> {
-    publication(
+    if let Some(actual) = sim.accepted_force_controls() {
+        let supplied = controls.ok_or(RecordingError::Invalid("force material controls absent"))?;
+        let report = report.ok_or(RecordingError::Invalid("force material report absent"))?;
+        let report_bits = |r: ParticleStepReport| {
+            [
+                r.dt,
+                r.emitted_mass,
+                r.total_mass,
+                r.max_speed,
+                r.max_pressure,
+                r.mean_temperature_kelvin,
+            ]
+            .map(f64::to_bits)
+        };
+        if supplied.requested_dt.to_bits() != actual.requested_dt.to_bits()
+            || supplied.emitter.map(|c| c.emitter) != actual.emitter
+            || report.particles != actual.report.particles
+            || report_bits(report) != report_bits(actual.report)
+        {
+            return Err(RecordingError::Invalid(
+                "force material controls/report mismatch",
+            ));
+        }
+    }
+    let mut step = publication(
         sim.generation(),
         sim.time(),
         sim.particles(),
@@ -97,7 +121,25 @@ pub fn material_publication(
         controls,
         ordinal,
         limit,
-    )
+    )?;
+    if let Some(actual) = sim.accepted_force_controls() {
+        step.controls = format!("external-force-metadata-v1; {}", step.controls);
+        force_fields::append_fields(&mut step, &actual.fields, limit)?;
+    }
+    Ok(step)
+}
+/// Construct force input metadata or check it against the actual accepted stamp.
+pub fn material_publication_with_force_fields(
+    sim: &ParticleFluidSimulation,
+    report: Option<ParticleStepReport>,
+    controls: Option<MaterialStepControls>,
+    fields: &crate::ForceSnapshot,
+    ordinal: usize,
+    limit: usize,
+) -> Result<RecordedStep, RecordingError> {
+    let mut step = material_publication(sim, report, controls, ordinal, limit)?;
+    force_fields::require_fields(&mut step, fields, limit)?;
+    Ok(step)
 }
 /// Public API consumers use their canonical immutable snapshot directly.
 pub fn material_snapshot_publication(
@@ -300,6 +342,7 @@ pub struct RecordedMaterial {
     pub dt: Option<f64>,
     pub particles: Vec<FluidParticle>,
     pub diagnostics: Option<(f64, Vec<ParticleDiagnostic>)>,
+    pub force_fields: Option<crate::ForceSnapshot>,
 }
 impl RecordedMaterial {
     pub fn decode(step: &RecordedStep) -> Result<Self, RecordingError> {
@@ -398,6 +441,7 @@ impl RecordedMaterial {
             dt: step.dt,
             particles,
             diagnostics,
+            force_fields: recorded_force_fields(step)?,
         })
     }
     /// Use the existing VTK particle contract with selected values and times.

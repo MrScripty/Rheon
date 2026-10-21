@@ -4,6 +4,10 @@ use crate::{Axis, GridGeometry, SimulationError, StepReport, StepStage};
 /// Acceleration is m/s²; force density is N/m³ and is divided by the
 /// simulation's constant positive density (kg/m³) before the velocity update.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(
+    any(feature = "force-serde", feature = "desktop"),
+    derive(serde::Serialize, serde::Deserialize)
+)]
 pub enum ForceUnits {
     Acceleration,
     ForceDensity,
@@ -107,6 +111,45 @@ pub(crate) fn apply_on_domain(
     surface: Option<crate::column_surface::PressureSurface<'_>>,
     cancel: &mut impl FnMut(StepStage) -> bool,
 ) -> Result<ForceReport, SimulationError> {
+    apply_evaluated(grid, density, dt, velocity, surface, cancel, |position| {
+        let mut sum = [0.0; 3];
+        for force in forces {
+            if force.contains(position) {
+                let a = force.acceleration(density);
+                for d in 0..3 {
+                    sum[d] += a[d];
+                }
+            }
+        }
+        Ok(sum)
+    })
+}
+
+pub(crate) fn apply_fields(
+    grid: &GridGeometry,
+    density: f64,
+    fields: &crate::ForceSnapshot,
+    time: f64,
+    dt: f64,
+    velocity: [&mut [f32]; 3],
+    cancel: &mut impl FnMut(StepStage) -> bool,
+) -> Result<ForceReport, SimulationError> {
+    apply_evaluated(grid, density, dt, velocity, None, cancel, |position| {
+        fields
+            .acceleration(position, time, density)
+            .map_err(|_| SimulationError::ArithmeticFailure)
+    })
+}
+
+fn apply_evaluated(
+    grid: &GridGeometry,
+    density: f64,
+    dt: f64,
+    velocity: [&mut [f32]; 3],
+    surface: Option<crate::column_surface::PressureSurface<'_>>,
+    cancel: &mut impl FnMut(StepStage) -> bool,
+    mut acceleration: impl FnMut([f64; 3]) -> Result<[f64; 3], SimulationError>,
+) -> Result<ForceReport, SimulationError> {
     let mass = density * grid.cell_volume();
     let energy = |fields: &[&mut [f32]; 3]| {
         0.5 * mass
@@ -137,12 +180,7 @@ pub(crate) fn apply_on_domain(
                         continue;
                     }
                     let position = grid.face_position(axis, p).expect("bounded face");
-                    let mut a = 0.0;
-                    for force in forces {
-                        if force.contains(position) {
-                            a += force.acceleration(density)[d];
-                        }
-                    }
+                    let a = acceleration(position)?[d];
                     let index = grid.face_unchecked(axis, p);
                     let old = f64::from(velocity[d][index]);
                     let updated = old + dt * a;
@@ -222,5 +260,49 @@ mod tests {
         assert_eq!(report.kinetic_energy_before, report.kinetic_energy_after);
         assert_eq!(y, [0.0; 4]);
         assert_eq!(z, [0.0; 4]);
+    }
+    #[test]
+    fn authored_field_face_sampling_density_walls_and_work() {
+        let grid = GridGeometry::new([2, 1, 1], [1.0; 3], [0.0; 3]).unwrap();
+        let fields = crate::ForceScene {
+            objects: vec![crate::ForceObject {
+                id: crate::SceneObjectId(1),
+                name: "bounded".into(),
+                enabled: true,
+                transform: crate::ForceTransform {
+                    translation: [1.0, 0.5, 0.5],
+                    ..Default::default()
+                },
+                units: ForceUnits::ForceDensity,
+                kind: crate::ForceKind::Directional {
+                    vector: [8.0, 12.0, -16.0],
+                },
+                support: crate::ForceSupport::Sphere {
+                    radius: 0.1,
+                    edge_fraction: 0.0,
+                },
+                time: crate::ForceTime::default(),
+            }],
+            ..Default::default()
+        }
+        .freeze()
+        .unwrap();
+        let (mut x, mut y, mut z) = ([0.0, 2.0, 0.0], [0.0; 4], [0.0; 4]);
+        let report = apply_fields(
+            &grid,
+            2.0,
+            &fields,
+            0.0,
+            0.25,
+            [&mut x, &mut y, &mut z],
+            &mut |_| false,
+        )
+        .unwrap();
+        assert_eq!(x, [0.0, 3.0, 0.0]);
+        assert_eq!(y, [0.0; 4]);
+        assert_eq!(z, [0.0; 4]);
+        assert_eq!(report.kinetic_energy_before, 4.0);
+        assert_eq!(report.kinetic_energy_after, 9.0);
+        assert_eq!(report.applied_work, 5.0);
     }
 }
