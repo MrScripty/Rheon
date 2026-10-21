@@ -10,3 +10,4 @@
 | GPU-P06 | Older Library upload remains uncertain | Preserve all artifacts/identity state, no retry or alternate route; unrelated to repository publication |
 | GPU-P07 | Older executor may lack fresh artifact/site domain access | Exact target/status to parent fresh verifier if needed; no denied read retry or settings/security change |
 | GPU-P08 | Actual site gate found five valid repository links outside the site copier scope | Pin those inventory links to immutable GitHub source URLs; retain failed run39625662383 and require corrected-head CI/artifact review |
+| GPU-P09 | Full publication job cancelled at90m during late regression probes; full-site upload skipped | Terminal gate remains unsatisfied; measured timing and independent review support parent-authorized build-job cap120m trial; patch applied, new exact-head normal CI pending; no unchanged blind rerun |

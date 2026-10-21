@@ -54,3 +54,41 @@ Changed those five authored links to immutable GitHub URLs at the original
 `fd7c0f0` inventory epoch. No shared builder or workflow gate was changed.
 The first failed run remains evidence; corrected-head CI and actual artifact
 inspection are required. The successful render is not a visual review.
+
+## Preview acceptance and full-job timeout diagnosis
+
+Corrected PR150 headdb6f33d passed exact-head source review and preview run39626898869.
+Actual artifact12357433282 binds its297-page PDF, SHA256
+`5bb728859fab3bb25dacc8591d52a0aff2f93168f26471dda84a9836179edc97`;
+independent visual review covered everyGPU page161–192 and ten full pages.
+Read-only artifact checks verified153 inputs against authored/build source or
+retained generated figures, plus581GPU HTML asset/anchor targets and eight
+packagedGPU Markdown documents. Local Chromium sandbox launch was blocked before
+startup without a settings change or unsandboxed retry; parent verifier later
+confirmed hosted behavior requirements. These results retain their own identities.
+
+Full run39626898860 did not pass: build119314799555 ran90m29s and was cancelled
+during late runtime rejection probes. The actual render/site/retained browser
+check passed; missing terminal regressions/aligned-strain suites and skipped
+full-site artifact remain unsatisfied. Read-only permitted logs/metadata support
+a wall-clock timeout strongly, with unavailable annotation noted. Three complete
+browser traversals consistently took20–21minutes. A bounded publication-job
+cap90→120 is proposed for parent shared-workflow coordination, preserving every
+command, threshold, per-method limit and sandbox. No workflow mutation, rerun,
+push or merge occurred during diagnosis. See the new detailed timing report.
+
+## Parent-coordinated bounded publication trial
+
+The parent explicitly authorized the independently reviewed90→120-minute
+publication-job cap/comment and owned diagnosis/admission records, with every
+command, numerical threshold, per-case limit, sandbox and test unchanged.
+Applied exact candidate patch SHA256
+`7a950a9ee83d86d46e941f5ae16a46279e07670e72fb7591aa70298b13a0f58e`;
+the resulting workflow SHA256 is
+`b1f6b5afd3be0e725808ddd9857460d5ebe111c68ee87061aeb8464dbc214f48`.
+Exact replacement normalization proves the workflow differs only in that
+comment and one timeout scalar. The independent pre-application review is
+retained unchanged in reports/ci-budget-independent-review.md. The old cancelled
+run and missing annotation limit remain explicit. New exact-head normal CI and
+a retained full-site artifact are pending; no manual rerun or merge is made.
+Thermal PR149, GPU chapter/source hashes and all preserved branches are untouched.

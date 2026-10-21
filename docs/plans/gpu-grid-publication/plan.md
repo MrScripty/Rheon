@@ -1,9 +1,10 @@
 # GPU research publication continuation
 
 Status: Active documentation publication preparation.
-Current phase: normal exact-head publication CI and artifact-review preparation.
-Next slice: review and push the five-link generated-site correction to draft
-PR150, then obtain corrected-head CI and actual artifact review.
+Current phase: authorized budget-only publication CI trial.
+Next slice: commit and push the reviewed 120-minute build-job cap normally,
+verify the exact head/tree and observe one matching normal CI run; retain its
+terminal results and full-site artifact before any parent merge.
 
 ## Authority, source and ownership
 
@@ -27,7 +28,10 @@ Write set: GPU Chapters 37–39; GPU implementation/source/license notes and
 bibliographies; original research plan history as inherited unchanged;
 this new publication plan/reports; and one additive GPU paragraph in the book
 README. No production, proof, Cargo, workflow, admission manifest or builder
-edit is planned. FEM 30–36, portal 40 and thermal-owned paths stay unchanged.
+edit was planned for the publication prose. The parent-authorized timeout continuation changes
+only the shared workflow build-job budget/comment;
+tests, ordering, sandbox and numerical limits remain unchanged. FEM 30–36,
+portal 40 and thermal-owned paths stay unchanged.
 Any later shared README collision is reported to the parent's serial integration
 owner rather than overwritten.
 
@@ -64,9 +68,9 @@ current-main reconciliation and explicit conflict reporting before integration.
 | --- | --- | --- |
 | P0 | Isolate from current main; preserve research/FEM/portal/product history; source/output/standards/build-scope review | Complete |
 | P1 | Prose-only GPU chapters, current CPU refresh, source/license/access audit and minimal discovery paragraph; independent source/math review | Complete; no deciding source findings remain |
-| P2 | Exact immutable head pushed normally; draft PR; existing matching native/scientific/book/browser CI | PR150 open; first site gate failed; corrected-head checks required |
-| P3 | Actual generated PDF visual inspection, GPU HTML/Markdown/source links, math, no code blocks, PDF/source freshness and browser evidence | Pending |
-| P4 | Parent handoff with exact PR/head/review/CI/artifact evidence and remaining blockers; no worker merge | Pending |
+| P2 | Exact immutable head pushed normally; draft PR; existing matching native/scientific/book/browser CI | PR150 draft atdb6f33d; preview/dense3D/lessons passed; full build cancelled at90m |
+| P3 | Actual generated PDF visual inspection, GPU HTML/Markdown/source links, math, no code blocks, PDF/source freshness and browser evidence | Preview artifact12357433282 independently visually reviewed; full-site artifact and terminal regression evidence unavailable |
+| P4 | Parent handoff with exact PR/head/review/CI/artifact evidence and remaining blockers; no worker merge | Active; timeout remedy proposed for shared-workflow coordination |
 
 Acceptance is publication-specific: source/math/license scope, original equation
 retention, no pseudocode, correct current-source limits, exact-head normal CI,
@@ -99,5 +103,25 @@ uses a normal corrective/revert PR with new artifact identity and unchanged
 numerical gates, not mutation of retained outputs or history.
 
 See [ledger](execution-ledger.md), [issues](issues.md),
+[budget-only review](reports/ci-budget-independent-review.md),
 [CPU refresh](reports/cpu-refresh.md) and
 [independent publication review](reports/independent-publication-review.md).
+
+## CI cancellation continuation
+
+The [timing diagnosis](reports/ci-timeout-diagnosis.md) records full run39626898860
+with build-job duration90m29s and cancellation during final regression probes.
+Actual render/site/retained-check results passed, but the full gate remains
+unsatisfied and no final full-site artifact exists. The parent explicitly coordinated and authorized the independently reviewed
+120-minute wall-clock cap trial. The exact budget/comment patch is applied;
+new-head CI remains pending. No manual duplicate rerun is planned.
+It preserves all test commands, scientific work limits and sandbox behavior.
+If one corrected run still exhausts the cap, stop and re-plan instead of
+automatically increasing it again. Endpoint allowlist denials and cancellation
+annotation uncertainty remain explicit in the diagnosis.
+
+The new trial is not acceptance of the cancelled run. GPU source review and
+preview visual evidence keep their original db6f33d identities; new exact-head
+CI and artifact evidence are required for this workflow revision. Thermal PR149
+and all branches remain untouched. Parent owns later normal integration and
+merge order, with no merge until required gates pass.
