@@ -18,9 +18,9 @@ force/provider conflicts are resolved in integration/pr59-20261021. Readiness is
 reported on PR59; merging requires the lead's verified exact-head authorization or
 the lead performs it. Dependency order and final main source must be rechecked.
 
-Current phase: integration implementation / preliminary verification.
-Exactly one next slice: freeze source for independent review, then qualify final
-ordered composition. Acceptance: partial; final default controls, source admission,
+Current phase: waiting for ordered integration after preliminary verification.
+Exactly one next slice: compose verified #142→#138→#143 main and qualify that final
+source. Preliminary source review and default/warm regressions passed. Acceptance: partial; final default controls, source admission,
 exact-source review, required CI and post-merge checks remain pending.
 
 ## Agreed scope and admission

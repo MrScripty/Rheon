@@ -66,3 +66,26 @@ No unrelated solver, particle, native UI or scientific campaign changes.
 
 Current phase: implementation / preliminary checks against initial main.
 Next slice: freeze reviewed source and await ordered composition for final controls.
+
+## Pre-timing source-root control clarification
+
+Before any timing, initial-main inspection found736 shared text symbols with
+identical sizes and no added/removed symbols, but a uniform16byte layout shift.
+The separate source roots were embedded in parallel.rs/scheduling.rs panic paths.
+See initial-build-inspection.json and independent-protocol-review.md. This does
+not establish the cause of the historical +2.20% outcome.
+
+Freeze the same literal flags for both independent control builds to remove this
+known build-input confound:
+
+```
+RUSTFLAGS='--remap-path-prefix=/workspace/pr59-base=/rheon --remap-path-prefix=/workspace/Rheon=/rheon'
+```
+
+Use separately retained remapped target directories. Preserve unremapped binaries,
+logs and hashes as preliminary inspection; no timing ran on them. Do not select
+paths/flags/layout after observing timing. Final source/binary hashes still bind
+the eventual #142→#138→#143 composition. Existing performance stopping rules remain
+unchanged. A possible exact whole-executable-identity admission clause was proposed
+to the lead on PR59 before timing; it is pending explicit lead agreement and is not
+authority for acceptance as of this clarification.

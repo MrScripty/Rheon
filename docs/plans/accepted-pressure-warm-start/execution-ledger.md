@@ -104,3 +104,23 @@ blank lines are not altered; scoped source diff-check and formatting pass.
 Native gate refuses added inventory path on committed source, as expected; no
 inventory refreshed or gate bypassed. Final #142→#138→#143 composition, qualified
 source admission, default controls, required CI and lead merge remain pending.
+
+
+Preliminary source-frozen regression completed: release default610pass/10existing
+skips, feature-enabled626pass/10same skips, warm library32pass; no failures. Strict
+core/warm all-target Clippy passes. Seven default skips remain explicitly bounded
+upstream force integrations; three require the real exported checkpoint. Real AI
+hosted qualification39687940496 passed at0b3e3fc. Preliminary book39687940422 fails
+at the source-admission check; preserved, not rerun. Existing code-source review
+remains bound to0b3e3fc; final dependency composition still requires assessment.
+
+Before any timing, separate-root binaries showed embedded path-string confounding;
+identical two-prefix remapping was frozen after independent review. An inspection
+mistake (objcopy --dump-section without output object) rewrote inspected inputs.
+Those artifacts/reviews/hashes are retained as diagnostics, explicitly corrected.
+Raw outputs were regenerated with unchanged source/flags, original raw hashes
+reproduced, and fresh read-only review bound those raw compiler artifacts. Code,
+ordinary data, load layouts match except e_shoff/build-ID metadata; whole-file
+identity does not hold. No timing ran, so no measured cohort was contaminated.
+No evidence exception is approved: proposed narrow image criterion awaits lead
+agreement before eventual final-source fixed controls. No strip/patch/layout tuning.
