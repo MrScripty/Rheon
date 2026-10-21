@@ -44,3 +44,7 @@ The separate reviewer confirmed R1–R3 resolved and found no new substantive de
 ## Authorized publication follow-up
 
 Parent conveyed the conversation sequence: a clarification explicitly naming PR creation, merge and deployment after checks, followed by the user’s yes. The client reply link still pointed to the original research summary; no different reply target is inferred. Current main and UI PR146 were rechecked: main f95cac0, UI open/draft at1adc798 and excluded. Search found no existing portal PR. The single retry created draft PR148 atdcf5b56726aaccefb7ed7fffdd428929f16777bc; its normal CI and final-head checks remain required. The previous denial and uncertain Library receipt are preserved; no sandbox or artifact workaround is authorized.
+
+## Accepted main integration
+
+UI PR146 merged while portal CI was starting, advancing main tob9218038d138d1c73818cf4158757521853a5cd7. The accepted source/admission records are integrated unchanged so final publication CI checks the actual composed source. The original numerical inventory and all FEM paths remain valid; updated host custody/versioning observations are separately pinned. Review6390914 confirmed the explicitly repaired execution-ledger history; the subsequent integration/addendum requires final-head source review and normal CI. No prior-head build or review is relabelled as exact final-head qualification.

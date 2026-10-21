@@ -1,0 +1,10 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
+     Running unittests src/bin/rheon-desktop.rs (/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f)
+
+running 1 test
+idle timeline window=900px strip=620px height=48px
+idle timeline window=1250px strip=970px height=48px
+test timeline_ui_tests::timeline_empty_idle_uses_content_height_after_sidebar ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 176 filtered out; finished in 0.01s
+

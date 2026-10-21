@@ -1,0 +1,36 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-ui-authoring)
+error[E0502]: cannot borrow `*self.scene.context` as immutable because it is also borrowed as mutable
+    --> src/bin/rheon-desktop.rs:2691:32
+     |
+2679 | /                     viewport::ViewInputs {
+2680 | |                         frame,
+2681 | |                         emitter,
+2682 | |                         workers: &workers,
+...    |
+2689 | |                         scene: Some(&mut self.scene),
+     | |                                     --------------- mutable borrow occurs here
+2690 | |                         editable_scene: self.worker.is_none()
+2691 | |                             && self.scene.context == scene_ui::SceneContext::Draft,
+     | |                                ^^^^^^^^^^^^^^^^^^ immutable borrow occurs here
+2692 | |                     },
+     | |_____________________- mutable borrow later used here
+     |
+help: try adding a local storing this...
+    --> src/bin/rheon-desktop.rs:2691:32
+     |
+2691 | ...                   && self.scene.context == scene_ui::SceneContext::Draft,
+     |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: ...and then using that local here
+    --> src/bin/rheon-desktop.rs:2679:21
+     |
+2679 | /                     viewport::ViewInputs {
+2680 | |                         frame,
+2681 | |                         emitter,
+2682 | |                         workers: &workers,
+...    |
+2691 | |                             && self.scene.context == scene_ui::SceneContext::Draft,
+2692 | |                     },
+     | |_____________________^
+
+For more information about this error, try `rustc --explain E0502`.
+error: could not compile `rheon` (bin "rheon-desktop" test) due to 1 previous error

@@ -1,0 +1,62 @@
+{
+  "execution_source_commit": "3b3fccea3657d711897130643a478adb48b5edd0",
+  "execution_tree": "4cdf4b221bb47704acfcda6b682453ed60344908",
+  "binary_sha256": "af2da1539521e10407ac73b11cd58494118aa93a3f99ed529b11697ed85727b5",
+  "binary_preserved": "/workspace/scratch/rheon-ui-force-worker-execution-20261021/sealed-runtime-tests-3b3fcce.bin",
+  "raw_data_preserved": "/workspace/scratch/rheon-ui-force-worker-execution-20261021",
+  "production_gate": "closed",
+  "peak_memory": "not measured",
+  "temporary_file_peak": "unknown",
+  "files": [
+    {
+      "file": "material/combined.log",
+      "bytes": 567,
+      "sha256": "822087d8721d2a3da1fe4bb09de5346931338c9011cb0ff291bf1a9609f33d3d"
+    },
+    {
+      "file": "material/disposition.json",
+      "bytes": 2469,
+      "sha256": "4f06fc37a1d1c07b89e6dfe2e674a8e7b098f29ca17081f8bd0f3c7f7c5ef819"
+    },
+    {
+      "file": "material/preflight-seals.json",
+      "bytes": 1093,
+      "sha256": "708130c2b29d3752caaf9c1684565b430c3d144d4489b4f111a1cf01cf8c8ebc"
+    },
+    {
+      "file": "material/supervisor.py",
+      "bytes": 7733,
+      "sha256": "b7f13a3bdee65a6d4345ddbc0a0eaa7ddef7d64e4224633d63e16f8db1046444"
+    },
+    {
+      "file": "native/combined.log",
+      "bytes": 1296,
+      "sha256": "b8effeccefde02cb06b78d4dd1c10814c2e6f05ae778654db8b715557873b00d"
+    },
+    {
+      "file": "native/disposition.json",
+      "bytes": 3153,
+      "sha256": "9bb83d4450934309e912903f6d3a9b0c0493007dcd518cd8f717d732eec2bbb1"
+    },
+    {
+      "file": "native/preflight-seals.json",
+      "bytes": 1087,
+      "sha256": "9522942fc315793a41099554858a400d81d7fef658be01a733631f0912656465"
+    },
+    {
+      "file": "native/supervisor.py",
+      "bytes": 7733,
+      "sha256": "b7f13a3bdee65a6d4345ddbc0a0eaa7ddef7d64e4224633d63e16f8db1046444"
+    },
+    {
+      "file": "post-exit-artifact-index.json",
+      "bytes": 2638,
+      "sha256": "4b9dc8a8188671cb13ce67a1585a589f012ae8cf7e92a7918b067d59caea8a85"
+    },
+    {
+      "file": "supervisor-review.md",
+      "bytes": 4097,
+      "sha256": "555442228d3fe9f60916a7de771b73fff9088a2a38e58107656856d48dfbfdd6"
+    }
+  ]
+}

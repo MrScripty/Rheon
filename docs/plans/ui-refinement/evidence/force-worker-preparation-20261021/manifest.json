@@ -1,0 +1,73 @@
+{
+  "base": "1b377742e2dd2df0cc90c99c3ad735bfd480caad",
+  "enumerated_total": 201,
+  "ignored_total": 4,
+  "new_ignored_names": [
+    "force_runtime_integration_tests::native_force_dispatch_records_and_cold_binds_v2",
+    "force_runtime_integration_tests::material_force_dispatch_records_immutable_scene"
+  ],
+  "new_test_bodies_executed": false,
+  "production_force_gate": "retained",
+  "source_files": 278,
+  "source_manifest_sha256": "603a0edf75b255b6ba217aaa6e72632a5e3ab16eb8997fe0013fa7a1175fbafc",
+  "features": "desktop (includes parallel/work-observation)",
+  "toolchain": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "binary": {
+    "path": "/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f",
+    "bytes": 480456920,
+    "sha256": "af2da1539521e10407ac73b11cd58494118aa93a3f99ed529b11697ed85727b5",
+    "coverage": "compile/list-only; no test bodies run"
+  },
+  "logs": [
+    {
+      "file": "rheon-ui-force-worker-check.log",
+      "bytes": 130,
+      "sha256": "4a0f564ca3f82fb658024102001a34a6aeb304f4a1e1191c0c7b6261bf93639a"
+    },
+    {
+      "file": "rheon-ui-force-worker-clippy.log",
+      "bytes": 130,
+      "sha256": "9ba41c9e20602bc796c4cd448795b50ce21a662ac08043d9432867337a607780"
+    },
+    {
+      "file": "rheon-ui-force-worker-enumeration-check.log",
+      "bytes": 411,
+      "sha256": "0b6ea05b3f167d44b00d80a84dfeb993701fb0cc073525e0303f3c10513b0778"
+    },
+    {
+      "file": "rheon-ui-force-worker-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-force-worker-ignored-list.log",
+      "bytes": 548,
+      "sha256": "08e2a6dd88187753f71f4cf09acf8822b62ba4544bdf9ff093451d2185673585"
+    },
+    {
+      "file": "rheon-ui-force-worker-list1.log",
+      "bytes": 1025,
+      "sha256": "8e4b6ec273ba481703441b8890566f4d0418efc8ff58408536503a667cbad2de"
+    },
+    {
+      "file": "rheon-ui-force-worker-list2.log",
+      "bytes": 21172,
+      "sha256": "e4b30714a7b61e095bbc1980ec2ae516d034ee04309029a2e42bbe483a5f9c9f"
+    },
+    {
+      "file": "rheon-ui-force-worker-plan-check.log",
+      "bytes": 73,
+      "sha256": "e9c82b35d330356eedfb44a275872ea55dc89b934202099f25236e5cd9baa8cd"
+    },
+    {
+      "file": "rheon-ui-force-worker-toolchain.log",
+      "bytes": 36,
+      "sha256": "ecda74ca828b18debf1624cb36209a5b844fb1e1c1905ffb3d51b56cc275f96f"
+    }
+  ],
+  "document_seals": {
+    "reports/runtime-force-validation-contract.md": "1b96cb00db82e92978282c213c4abea54ee06e382c5f994edb6185f99fd5ad71",
+    "reports/runtime-force-worker-test-plan-review.md": "1855fff92b3c1d89cd4727b84b6a901d1d3f9227d3766fff0cf7ef14137552ce",
+    "reports/runtime-force-worker-test-source-review.md": "bb8dbb93c36ddc4910841550c84f03ddc87b76153b9adcd17fb696fc32653629"
+  }
+}

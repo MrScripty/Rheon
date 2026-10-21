@@ -1,0 +1,83 @@
+{
+  "base_commit": "37ac711a4b7134f628c7a71d54f62056d71ca5f3",
+  "source": "src/bin/desktop/scene_ui.rs",
+  "source_sha256": "46eeaeaf3cce71c7665cde4224ef2ed7e62100047796414c94d07e02dd4b7390",
+  "enumerated_total": 206,
+  "exact_pure_after_cases": [
+    "scene_ui::tests::scene_properties_disclosure_survives_preview_apply_and_cancel",
+    "scene_ui::tests::scene_invalid_radius_can_be_corrected_without_refocus",
+    "scene_ui::tests::scene_pointer_add_select_edit_collapse_and_retained_context"
+  ],
+  "before_failures_preserved": 2,
+  "numerical_execution": false,
+  "native_execution_by_owner": false,
+  "production_qualification": "Pending",
+  "files": [
+    {
+      "file": "rheon-ui-gate-readiness-requirements-review.md",
+      "bytes": 8054,
+      "sha256": "caf279a3cdd779671c3cb800ea9ec3252f0186a116a06bbe6e3bebe71064fc3a"
+    },
+    {
+      "file": "rheon-ui-scene-stability-authoring-regression.log",
+      "bytes": 399,
+      "sha256": "291acbf05100c55ed609432f4874ff88694e68c4eb62469e44653866895f67aa"
+    },
+    {
+      "file": "rheon-ui-scene-stability-check.log",
+      "bytes": 130,
+      "sha256": "5adfe47eb2a9b5b9ef51e4c77d25ade237255a8d7e514d584469a5c7619dee43"
+    },
+    {
+      "file": "rheon-ui-scene-stability-clippy.log",
+      "bytes": 130,
+      "sha256": "8c0e6e0907e6712eabdfcf565baacf868b526e4e3c55103788e4939398bc2251"
+    },
+    {
+      "file": "rheon-ui-scene-stability-diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-scene-stability-disclosure-after.log",
+      "bytes": 401,
+      "sha256": "7920e6fcf08b502ba9a6d3ad8730101200a8384da47ed764fda2ab8a3f289f8e"
+    },
+    {
+      "file": "rheon-ui-scene-stability-disclosure-before.log",
+      "bytes": 918,
+      "sha256": "d7782a15a521fbcfbe400e3538d0c1ab6c6d496f9fb8d1583937a28e5dc89d61"
+    },
+    {
+      "file": "rheon-ui-scene-stability-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-scene-stability-focus-after.log",
+      "bytes": 393,
+      "sha256": "a025239c1e7e2565425f5603b5bd2620af8d9abc0e2193ffd2837b3a5293b2e2"
+    },
+    {
+      "file": "rheon-ui-scene-stability-focus-before.log",
+      "bytes": 970,
+      "sha256": "59c843f1d1298f8f64c8036542d7d5e29d572899c8c6f23bee3cb4f6433af09d"
+    },
+    {
+      "file": "rheon-ui-scene-stability-list-after.log",
+      "bytes": 21605,
+      "sha256": "37f111fa1e4e49623b13d3d31943161d2bd4fa15af48c381c47489ca9aeb27b1"
+    },
+    {
+      "file": "rheon-ui-scene-stability-list-before.log",
+      "bytes": 21606,
+      "sha256": "9918d22dadd297444ca45eb2b2fbab55ee7a0d8747b64129e1d6374b8db6c877"
+    },
+    {
+      "file": "rheon-ui-scene-stability-plan-check.log",
+      "bytes": 83,
+      "sha256": "3f347682033eb0d17ff36cc1b37f9fbd2b1d7b4db01a4b9f596a9e499b2594a5"
+    }
+  ],
+  "source_review_sha256": "a3df4594d6d9daaf2167919c48ce0b184b3f2acb4a6e07717c37666600769904"
+}

@@ -205,6 +205,7 @@ impl<'a> SavedMember<'a> {
                     SpecDifference::TimePolicy => "Requested intervals",
                     SpecDifference::Source => "Smoke source",
                     SpecDifference::MemoryBudget => "Simulation memory limit",
+                    SpecDifference::ForceMetadata => "Force metadata",
                     SpecDifference::RecordingBudget => "Recording budget",
                 })
                 .collect(),

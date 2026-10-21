@@ -408,5 +408,43 @@
       39
     ],
     "portal_chapter": 40
+  },
+  "publication_integration_addendum": {
+    "main_commit": "b9218038d138d1c73818cf4158757521853a5cd7",
+    "merged_pr": 146,
+    "head_commit": "1adc7980a2adbbd09ee63eba48635faf25ef7781",
+    "scope": "Accepted UI main integrated unchanged; original37-file inventory remains tied to f95cac0. No portal production edit. Numerical boundary/pressure/transport/particle/EOS files unchanged. Selected host custody/versioning paths inspected for plan alignment; no new UI execution or feature qualification.",
+    "selected_files": [
+      {
+        "path": "docs/api/saved-run-sets.md",
+        "sha256": "915b45c9e8730f5d496e2132058b769331fee2df7f34adafb4875c2e3eaa1db9",
+        "url": "https://github.com/MrScripty/Rheon/blob/b9218038d138d1c73818cf4158757521853a5cd7/docs/api/saved-run-sets.md"
+      },
+      {
+        "path": "src/bin/desktop/force_run_policy.rs",
+        "sha256": "cbb784c1cc403cfd524b715a52144c662f428b302014af1794bb3131d09bb97a",
+        "url": "https://github.com/MrScripty/Rheon/blob/b9218038d138d1c73818cf4158757521853a5cd7/src/bin/desktop/force_run_policy.rs"
+      },
+      {
+        "path": "src/bin/desktop/inspector.rs",
+        "sha256": "7a6582faf9bfff755d7fade624f6b11cca06813c75310fba25ccbfabff1d2aae",
+        "url": "https://github.com/MrScripty/Rheon/blob/b9218038d138d1c73818cf4158757521853a5cd7/src/bin/desktop/inspector.rs"
+      },
+      {
+        "path": "src/bin/desktop/run_sets.rs",
+        "sha256": "b25f07c5d9f4a27572922956043224c35dde35d9a0d987ab8af4f3f3151c91f0",
+        "url": "https://github.com/MrScripty/Rheon/blob/b9218038d138d1c73818cf4158757521853a5cd7/src/bin/desktop/run_sets.rs"
+      },
+      {
+        "path": "src/bin/desktop/run_sets/source.rs",
+        "sha256": "39e8982fffaf4e9adcd0ca0c60f49eabc96b829957bc6d9c05479c80eee99daf",
+        "url": "https://github.com/MrScripty/Rheon/blob/b9218038d138d1c73818cf4158757521853a5cd7/src/bin/desktop/run_sets/source.rs"
+      },
+      {
+        "path": "src/bin/rheon-desktop.rs",
+        "sha256": "d74cff5459f52d1cb01512b6300d9466411352f73b014491e3678d514844d1b3",
+        "url": "https://github.com/MrScripty/Rheon/blob/b9218038d138d1c73818cf4158757521853a5cd7/src/bin/rheon-desktop.rs"
+      }
+    ]
   }
 }

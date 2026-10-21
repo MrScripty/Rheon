@@ -1,0 +1,94 @@
+{
+  "case": "native",
+  "command": [
+    "/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f",
+    "force_runtime_integration_tests::native_force_dispatch_records_and_cold_binds_v2",
+    "--exact",
+    "--ignored",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "limits": {
+    "wall_timeout_seconds": 30,
+    "cpu_seconds": 20,
+    "address_space_bytes": 536870912,
+    "per_file_and_log_bytes": 1048576,
+    "term_grace_seconds": 1,
+    "core_bytes": 0
+  },
+  "source_commit": "3b3fccea3657d711897130643a478adb48b5edd0",
+  "data": "/workspace/scratch/rheon-ui-force-worker-execution-20261021/native/DATA",
+  "capture": "/workspace/scratch/rheon-ui-force-worker-execution-20261021/native/capture",
+  "test_body_invocation_attempted": true,
+  "actions": [],
+  "binary_sha256": "af2da1539521e10407ac73b11cd58494118aa93a3f99ed529b11697ed85727b5",
+  "binary_bytes": 480456920,
+  "source_manifest_sha256": "603a0edf75b255b6ba217aaa6e72632a5e3ab16eb8997fe0013fa7a1175fbafc",
+  "supervisor_sha256": "b7f13a3bdee65a6d4345ddbc0a0eaa7ddef7d64e4224633d63e16f8db1046444",
+  "pid": 59751,
+  "elapsed_seconds_including_teardown": 0.06492926300052204,
+  "exit_code": 0,
+  "group_present_after_wait": false,
+  "observed_child_cpu_seconds": {
+    "user": 0.020911,
+    "system": 0.007682
+  },
+  "individual_peak_memory": "not measured; address-space limit is not a measurement",
+  "captured_bytes": 1296,
+  "log_sha256": "b8effeccefde02cb06b78d4dd1c10814c2e6f05ae778654db8b715557873b00d",
+  "result": "passed-one-exact-case",
+  "child_pid_present": false,
+  "data_inventory": [
+    {
+      "path": "completed.json",
+      "bytes": 1883,
+      "kind": "file",
+      "sha256": "265e2b4885bcbe41d7af274d42d762f2691fd591511462166c96fe3fa5779b3d"
+    },
+    {
+      "path": "intent.json",
+      "bytes": 1302,
+      "kind": "file",
+      "sha256": "71e5d32cd24ed95b5e5ee16caeceddef7c7786e4839ac1bb16a0a75d2720e946"
+    },
+    {
+      "path": "jacobi-pcg-v1-1792543035724545053-59751-0.sqlite",
+      "bytes": 32768,
+      "kind": "file",
+      "sha256": "ea8ccde4ec9a94a218443dc2570212f37cd7439c6af73e56d934f73fd4d13279"
+    },
+    {
+      "path": "member-0-finished.json",
+      "bytes": 1883,
+      "kind": "file",
+      "sha256": "265e2b4885bcbe41d7af274d42d762f2691fd591511462166c96fe3fa5779b3d"
+    },
+    {
+      "path": "member-0-started.json",
+      "bytes": 1691,
+      "kind": "file",
+      "sha256": "29068e832fcdafa3a61e1ac2dd809b1b36fa5515acaf32aaa2ab76a94b94b25e"
+    }
+  ],
+  "capture_inventory_before_receipt": [
+    {
+      "path": "combined.log",
+      "bytes": 1296,
+      "kind": "file",
+      "sha256": "b8effeccefde02cb06b78d4dd1c10814c2e6f05ae778654db8b715557873b00d"
+    },
+    {
+      "path": "preflight-seals.json",
+      "bytes": 1087,
+      "kind": "file",
+      "sha256": "9522942fc315793a41099554858a400d81d7fef658be01a733631f0912656465"
+    },
+    {
+      "path": "supervisor.py",
+      "bytes": 7733,
+      "kind": "file",
+      "sha256": "b7f13a3bdee65a6d4345ddbc0a0eaa7ddef7d64e4224633d63e16f8db1046444"
+    }
+  ],
+  "temporary_file_peak": "unknown; final inventory is not aggregate or anonymous peak enforcement"
+}

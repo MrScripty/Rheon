@@ -25,3 +25,9 @@ A separate read-only reviewer inspected that exact head, selected primary source
 ## 2026-10-21 — explicit publication follow-up and one PR retry
 
 Parent supplied the full sequence: user requested the chapter/plan, assistant clarified whether creation/merge/deployment after checks were approved, and the user subsequently answered yes. The client reply link remained on the original summary; no different target is inferred. Production implementation remains Deferred. Current mainf95cac0 and unmerged UI PR146 at1adc798 were rechecked; the documentation branch still matched revieweddcf5b56 and no existing portal PR was found. The single retry succeeded, creating [draft PR148](https://github.com/MrScripty/Rheon/pull/148). The first denial remains preserved. Normal source-specific CI, final-head review and main/deployment verification remain required; no local browser, Library or sandbox workaround occurred.
+
+## 2026-10-21 — accepted UI main integration and ledger repair
+
+Main advanced to b9218038d138d1c73818cf4158757521853a5cd7 through approved UI PR146. Integrated that accepted main unchanged before final source-specific publication checks. The portal diff against main remains the same11 documentation paths; FEM/GPU/book/workflow and GUI owners are preserved. Original f95cac0 source hashes remain historical; selected updated host custody/versioning paths are pinned in a separate audit addendum. Native/material authored-force capability is not portal capability.
+
+The final reviewer caught an author-script mistake at1a8be889 that had replaced this ledger with the issues table. Repair6390914 restored the complete3828-byte reviewed ledger prefix and appended only the publication follow-up. The reviewer verified that exact repaired head read-only; no scientific manuscript/audit content or proof assumption changed in that repair. Both the faulty commit and explicit repair remain in history.

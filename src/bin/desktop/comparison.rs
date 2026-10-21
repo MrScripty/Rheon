@@ -998,6 +998,7 @@ fn difference_label(d: SpecDifference) -> &'static str {
         SpecDifference::Source => "source schedule",
         SpecDifference::MemoryBudget => "memory budget",
         SpecDifference::RecordingBudget => "recording budget",
+        SpecDifference::ForceMetadata => "force metadata",
     }
 }
 fn unavailable_label(r: Unavailable) -> &'static str {

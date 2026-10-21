@@ -339,9 +339,12 @@ fn immutable_two_variant_sets_roundtrip_and_native_schema_one_stays_separate() {
         .spec
         .save_new(&dir.0.join("spec-v2.json"))
         .unwrap();
+    // Native force intents also use v2, so the numeric version alone no longer
+    // rejects this configured-domain document. Its kind/constructor/future
+    // shape must still fail the native reader's strict typed decoding.
     assert!(matches!(
         FrozenSpec::open(&dir.0.join("spec-v2.json")),
-        Err(RunSetError::Unsupported(_))
+        Err(RunSetError::Codec(_))
     ));
     assert!(matches!(
         RunSetRevision::open(&dir.0.join("set-v2.json")),

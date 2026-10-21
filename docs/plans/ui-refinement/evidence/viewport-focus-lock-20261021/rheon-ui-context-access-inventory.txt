@@ -1,0 +1,433 @@
+src/bin/desktop/settings.rs-35-    let response = ui.add(control.custom_formatter(move |value, decimals| {
+src/bin/desktop/settings.rs-36-        // Query when invoked, after DragValue registers keyboard focus.
+src/bin/desktop/settings.rs:37:        if ctx.memory(|memory| memory.has_focus(id)) {
+src/bin/desktop/settings.rs-38-            // Debug keeps round-trip precision and uses scientific notation for
+src/bin/desktop/settings.rs-39-            // tiny values, avoiding hundreds of leading zeroes in the editor.
+src/bin/desktop/settings.rs-40-            format!("{value:?}")
+src/bin/desktop/settings.rs-41-        } else {
+src/bin/desktop/settings.rs-42-            formatter.format(value, decimals)
+src/bin/desktop/settings.rs-43-        }
+src/bin/desktop/settings.rs-44-    }));
+src/bin/desktop/settings.rs-45-    if response.clicked() && response.gained_focus() {
+src/bin/desktop/settings.rs-46-        // The button selected its compact text; the edit buffer will be longer.
+src/bin/desktop/settings.rs-47-        // Align this initial selection only, preserving later caret placement.
+src/bin/desktop/settings.rs-48-        let mut state = egui::TextEdit::load_state(ui.ctx(), id).unwrap_or_default();
+src/bin/desktop/settings.rs-49-        state
+src/bin/desktop/settings.rs-50-            .cursor
+src/bin/desktop/settings.rs-51-            .set_char_range(Some(egui::text::CCursorRange::two(
+src/bin/desktop/settings.rs-52-                egui::text::CCursor::new(0),
+src/bin/desktop/settings.rs-53-                egui::text::CCursor::new(format!("{value:?}").chars().count()),
+src/bin/desktop/settings.rs-54-            )));
+src/bin/desktop/settings.rs-55-        state.store(ui.ctx(), id);
+--
+src/bin/desktop/settings.rs-633-                            );
+src/bin/desktop/settings.rs-634-                            let _ = frame(&ctx, width, &mut controls, &mut side, false, vec![]);
+src/bin/desktop/settings.rs:635:                            if let Some(id) = ctx.memory(|m| m.focused()) {
+src/bin/desktop/settings.rs-636-                                visited.insert(id);
+src/bin/desktop/settings.rs-637-                            }
+src/bin/desktop/settings.rs-638-                            assert_eq!(
+src/bin/desktop/settings.rs-639-                                material_bits(&controls),
+src/bin/desktop/settings.rs-640-                                bits,
+src/bin/desktop/settings.rs-641-                                "focus-only change for {}",
+src/bin/desktop/settings.rs-642-                                preset.label()
+src/bin/desktop/settings.rs-643-                            );
+src/bin/desktop/settings.rs-644-                            assert_eq!(format!("{:?}", controls.config), before);
+src/bin/desktop/settings.rs-645-                        }
+src/bin/desktop/settings.rs-646-                    }
+src/bin/desktop/settings.rs-647-                    assert!(visited.len() >= 10, "traverse actual form controls");
+src/bin/desktop/settings.rs-648-                    let _ = frame(
+src/bin/desktop/settings.rs-649-                        &ctx,
+src/bin/desktop/settings.rs-650-                        width,
+src/bin/desktop/settings.rs-651-                        &mut controls,
+src/bin/desktop/settings.rs-652-                        &mut side,
+src/bin/desktop/settings.rs-653-                        false,
+--
+src/bin/desktop/settings.rs-978-        output = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+src/bin/desktop/settings.rs-979-        let focused = ctx
+src/bin/desktop/settings.rs:980:            .memory(|m| m.focused())
+src/bin/desktop/settings.rs-981-            .and_then(|id| ctx.read_response(id))
+src/bin/desktop/settings.rs-982-            .expect("help has keyboard focus");
+src/bin/desktop/settings.rs-983-        assert!(
+src/bin/desktop/settings.rs-984-            focused
+src/bin/desktop/settings.rs-985-                .rect
+src/bin/desktop/settings.rs-986-                .contains(text_rect(&output, "Property help").unwrap().center())
+src/bin/desktop/settings.rs-987-        );
+src/bin/desktop/settings.rs-988-        let _ = frame(
+src/bin/desktop/settings.rs-989-            &ctx,
+src/bin/desktop/settings.rs-990-            240.0,
+src/bin/desktop/settings.rs-991-            &mut controls,
+src/bin/desktop/settings.rs-992-            &mut side,
+src/bin/desktop/settings.rs-993-            false,
+src/bin/desktop/settings.rs-994-            key(egui::Key::Enter, Default::default()),
+src/bin/desktop/settings.rs-995-        );
+src/bin/desktop/settings.rs-996-        output = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+src/bin/desktop/settings.rs-997-        assert!(text_rect(&output, help).is_some());
+src/bin/desktop/settings.rs:998:        let help_id = ctx.memory(|m| m.focused()).unwrap();
+src/bin/desktop/settings.rs-999-        let _ = frame(
+src/bin/desktop/settings.rs-1000-            &ctx,
+src/bin/desktop/settings.rs-1001-            240.0,
+src/bin/desktop/settings.rs-1002-            &mut controls,
+src/bin/desktop/settings.rs-1003-            &mut side,
+src/bin/desktop/settings.rs-1004-            false,
+src/bin/desktop/settings.rs-1005-            key(egui::Key::Space, Default::default()),
+src/bin/desktop/settings.rs-1006-        );
+src/bin/desktop/settings.rs-1007-        output = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+src/bin/desktop/settings.rs-1008-        assert!(text_rect(&output, help).is_none());
+src/bin/desktop/settings.rs-1009-        let _ = frame(
+src/bin/desktop/settings.rs-1010-            &ctx,
+src/bin/desktop/settings.rs-1011-            240.0,
+src/bin/desktop/settings.rs-1012-            &mut controls,
+src/bin/desktop/settings.rs-1013-            &mut side,
+src/bin/desktop/settings.rs-1014-            false,
+src/bin/desktop/settings.rs-1015-            key(egui::Key::Tab, Default::default()),
+src/bin/desktop/settings.rs-1016-        );
+src/bin/desktop/settings.rs-1017-        let _ = frame(&ctx, 240.0, &mut controls, &mut side, false, vec![]);
+src/bin/desktop/settings.rs:1018:        assert_ne!(ctx.memory(|m| m.focused()), Some(help_id));
+src/bin/desktop/settings.rs-1019-        assert_eq!(format!("{:?}", controls.config), before);
+src/bin/desktop/settings.rs-1020-    }
+src/bin/desktop/settings.rs-1021-
+src/bin/desktop/settings.rs-1022-    #[test]
+src/bin/desktop/settings.rs-1023-    fn ui_material_selection_updates_only_its_existing_owner() {
+src/bin/desktop/settings.rs-1024-        for width in [240.0, 280.0] {
+src/bin/desktop/settings.rs-1025-            for domain in [false, true] {
+src/bin/desktop/settings.rs-1026-                let ctx = context();
+src/bin/desktop/settings.rs-1027-                let mut controls = MaterialControls::default();
+src/bin/desktop/settings.rs-1028-                controls.config.fill = DomainFill::OtherFluid;
+src/bin/desktop/settings.rs-1029-                let mut expected = controls.config;
+src/bin/desktop/settings.rs-1030-                let mut side = 1.0;
+src/bin/desktop/settings.rs-1031-                let _ = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+src/bin/desktop/settings.rs-1032-                let output = frame(&ctx, width, &mut controls, &mut side, domain, vec![]);
+src/bin/desktop/settings.rs-1033-                let label = if domain {
+src/bin/desktop/settings.rs-1034-                    "Air · 20 °C"
+src/bin/desktop/settings.rs-1035-                } else {
+src/bin/desktop/settings.rs-1036-                    "Water · 20 °C"
+--
+src/bin/desktop/configured_comparison_tests.rs-113-    let mut view = ComparisonFieldView::default();
+src/bin/desktop/configured_comparison_tests.rs-114-    view.load(selected(root, verified)).unwrap();
+src/bin/desktop/configured_comparison_tests.rs:115:    let data = view.data().unwrap();
+src/bin/desktop/configured_comparison_tests.rs-116-    assert_eq!(data.geometry.counts_xyz, [2; 3]);
+src/bin/desktop/configured_comparison_tests.rs-117-    assert_eq!(data.geometry.spacing_m, [0.25; 3]);
+src/bin/desktop/configured_comparison_tests.rs-118-    assert_eq!(data.sampling.association, SampleAssociation::CellCenter);
+src/bin/desktop/configured_comparison_tests.rs-119-    assert_eq!(data.sampling.dimensions, [2; 3]);
+src/bin/desktop/configured_comparison_tests.rs-120-    assert_eq!(data.reference.len(), 8);
+src/bin/desktop/configured_comparison_tests.rs-121-    assert_eq!(data.candidate.len(), 8);
+src/bin/desktop/configured_comparison_tests.rs-122-    for values in [&data.reference, &data.candidate] {
+src/bin/desktop/configured_comparison_tests.rs-123-        for (index, value) in values.iter().enumerate() {
+src/bin/desktop/configured_comparison_tests.rs-124-            // Independently known sealed hydrostatic solution: dp/dx=rho*a,
+src/bin/desktop/configured_comparison_tests.rs-125-            // rho=2, a=1/8, dx=1/4; cell-zero gauge yields x/16 Pa.
+src/bin/desktop/configured_comparison_tests.rs-126-            assert!((value - (index % 2) as f64 / 16.0).abs() <= EPS);
+src/bin/desktop/configured_comparison_tests.rs-127-        }
+src/bin/desktop/configured_comparison_tests.rs-128-    }
+src/bin/desktop/configured_comparison_tests.rs-129-    view.set_slice(SliceAxis::Z, 1).unwrap();
+src/bin/desktop/configured_comparison_tests.rs-130-    view.set_probe([1, 1, 1]).unwrap();
+src/bin/desktop/configured_comparison_tests.rs-131-    let probe = view.probe().unwrap();
+src/bin/desktop/configured_comparison_tests.rs-132-    assert_eq!(probe.native_index, [1, 1, 1]);
+src/bin/desktop/configured_comparison_tests.rs-133-    assert_eq!(probe.physical_m, [0.375; 3]);
+--
+src/bin/desktop/scene_view.rs-551-) {
+src/bin/desktop/scene_view.rs-552-    if response.clicked_by(egui::PointerButton::Primary)
+src/bin/desktop/scene_view.rs:553:        && ui.input(|i| i.modifiers.is_none())
+src/bin/desktop/scene_view.rs-554-        && let Some(p) = response.interact_pointer_pos()
+src/bin/desktop/scene_view.rs-555-    {
+src/bin/desktop/scene_view.rs-556-        let projection = Projection::build(state, camera, response.rect, side, mesh);
+src/bin/desktop/scene_view.rs-557-        if let Ok(hit) = projection.pick(p, response.rect) {
+src/bin/desktop/scene_view.rs-558-            state.select(hit);
+src/bin/desktop/scene_view.rs-559-            if hit.is_some() {
+src/bin/desktop/scene_view.rs-560-                state.open = true;
+src/bin/desktop/scene_view.rs-561-            }
+src/bin/desktop/scene_view.rs-562-        }
+src/bin/desktop/scene_view.rs-563-        response.request_focus();
+src/bin/desktop/scene_view.rs-564-    }
+src/bin/desktop/scene_view.rs-565-}
+src/bin/desktop/scene_view.rs-566-pub struct PaintArea {
+src/bin/desktop/scene_view.rs-567-    pub rect: Rect,
+src/bin/desktop/scene_view.rs-568-    pub warning_top: f32,
+src/bin/desktop/scene_view.rs-569-}
+src/bin/desktop/scene_view.rs-570-impl From<Rect> for PaintArea {
+src/bin/desktop/scene_view.rs-571-    fn from(rect: Rect) -> Self {
+--
+src/bin/desktop/native_presentation_harness.rs-127-        if self.app.playing {
+src/bin/desktop/native_presentation_harness.rs-128-            self.app.play_time +=
+src/bin/desktop/native_presentation_harness.rs:129:                self.app.playback_speed * f64::from(ctx.input(|i| i.stable_dt.min(0.1)));
+src/bin/desktop/native_presentation_harness.rs-130-        }
+src/bin/desktop/native_presentation_harness.rs-131-        let retained_view = self.app.prepare_scene_presentation();
+src/bin/desktop/native_presentation_harness.rs-132-        let previous = self.app.scene.context;
+src/bin/desktop/native_presentation_harness.rs-133-        self.app.scene.show(ctx, true, false, None);
+src/bin/desktop/native_presentation_harness.rs-134-        if previous != self.app.scene.context {
+src/bin/desktop/native_presentation_harness.rs-135-            self.app.playing = false;
+src/bin/desktop/native_presentation_harness.rs-136-        }
+src/bin/desktop/native_presentation_harness.rs-137-        let retained = self.app.scene.context == scene_ui::SceneContext::Retained;
+src/bin/desktop/native_presentation_harness.rs-138-        let (count, frame) = if retained {
+src/bin/desktop/native_presentation_harness.rs-139-            retained_view.unwrap_or_else(|| self.app.selected_frame_bound_track())
+src/bin/desktop/native_presentation_harness.rs-140-        } else {
+src/bin/desktop/native_presentation_harness.rs-141-            (0, None)
+src/bin/desktop/native_presentation_harness.rs-142-        };
+src/bin/desktop/native_presentation_harness.rs-143-        let timeline = self.app.scene_timeline_ui(ctx, count, frame.as_deref());
+src/bin/desktop/native_presentation_harness.rs-144-        self.app.viewport.domain_side = 1.0;
+src/bin/desktop/native_presentation_harness.rs-145-        self.app.viewport.authored_forces_pending =
+src/bin/desktop/native_presentation_harness.rs-146-            !self.app.scene.display_scene().objects.is_empty();
+src/bin/desktop/native_presentation_harness.rs-147-        // Every frame resets to the fresh default Appearance owner. Disabled UI
+--
+src/bin/desktop/ai_comparison/mod.rs-158-            worker.join_finished();
+src/bin/desktop/ai_comparison/mod.rs-159-        }
+src/bin/desktop/ai_comparison/mod.rs:160:        if ctx.input(|i| i.viewport().close_requested()) && self.running() {
+src/bin/desktop/ai_comparison/mod.rs-161-            self.closing = true;
+src/bin/desktop/ai_comparison/mod.rs-162-            if let Some(worker) = &self.worker {
+src/bin/desktop/ai_comparison/mod.rs-163-                worker.cancel();
+src/bin/desktop/ai_comparison/mod.rs-164-            }
+src/bin/desktop/ai_comparison/mod.rs-165-            ctx.send_viewport_cmd(egui::ViewportCommand::CancelClose);
+src/bin/desktop/ai_comparison/mod.rs-166-        }
+src/bin/desktop/ai_comparison/mod.rs-167-        if self.closing && !self.running() {
+src/bin/desktop/ai_comparison/mod.rs-168-            ctx.send_viewport_cmd(egui::ViewportCommand::Close);
+src/bin/desktop/ai_comparison/mod.rs-169-        }
+src/bin/desktop/ai_comparison/mod.rs-170-        let running = self.running();
+src/bin/desktop/ai_comparison/mod.rs-171-        let mut stay = true;
+src/bin/desktop/ai_comparison/mod.rs-172-        egui::SidePanel::left("ai-comparison-controls").resizable(true).default_width(300.0).show(ctx,|ui|{
+src/bin/desktop/ai_comparison/mod.rs-173-            ui.heading("Water pressure comparison");if ui.add_enabled(!running,egui::Button::new("Back to simulation")).clicked(){stay=false;}
+src/bin/desktop/ai_comparison/mod.rs-174-            ui.label("Filled sealed water · 1000 kg/m³ · 0.001 Pa·s · free-slip walls");
+src/bin/desktop/ai_comparison/mod.rs-175-            ui.checkbox(&mut self.inspector.visible,"Inspect saved diagnostic attempts");
+src/bin/desktop/ai_comparison/mod.rs-176-            ui.checkbox(&mut self.show_attempt,"Inspect latest live attempt");
+src/bin/desktop/ai_comparison/mod.rs-177-            ui.add_enabled_ui(!running,|ui|{
+src/bin/desktop/ai_comparison/mod.rs-178-                egui::ComboBox::from_label("Execution policy").selected_text(self.policy.label()).show_ui(ui,|ui|{ for policy in [engine::ExecutionPolicy::LegacyRawContinuation,engine::ExecutionPolicy::TeacherStage,engine::ExecutionPolicy::IndependentStopOnReject]{ui.selectable_value(&mut self.policy,policy,policy.label());}});
+--
+src/bin/desktop/ai_comparison/mod.rs-208-        let mut latest_attempt = None;
+src/bin/desktop/ai_comparison/mod.rs-209-        let mut diagnostic_manifest = None;
+src/bin/desktop/ai_comparison/mod.rs:210:        let playback_delta = self.speed * f64::from(ctx.input(|i| i.stable_dt.min(0.1)));
+src/bin/desktop/ai_comparison/mod.rs-211-        if let Some(worker) = &self.worker
+src/bin/desktop/ai_comparison/mod.rs-212-            && let Ok(shared) = worker.shared.lock()
+src/bin/desktop/ai_comparison/mod.rs-213-        {
+src/bin/desktop/ai_comparison/mod.rs-214-            count = shared.frames.len();
+src/bin/desktop/ai_comparison/mod.rs-215-            pressure_range = shared.pressure_range;
+src/bin/desktop/ai_comparison/mod.rs-216-            delta_range = shared.difference_range;
+src/bin/desktop/ai_comparison/mod.rs-217-            provider = shared.provider.clone();
+src/bin/desktop/ai_comparison/mod.rs-218-            latest_attempt = shared.last_attempt.clone();
+src/bin/desktop/ai_comparison/mod.rs-219-            diagnostic_manifest = shared.diagnostic_manifest.clone();
+src/bin/desktop/ai_comparison/mod.rs-220-            self.status = format!("{} · {}", shared.state, shared.message);
+src/bin/desktop/ai_comparison/mod.rs-221-            if count > 0 {
+src/bin/desktop/ai_comparison/mod.rs-222-                if self.follow {
+src/bin/desktop/ai_comparison/mod.rs-223-                    self.selected = count - 1;
+src/bin/desktop/ai_comparison/mod.rs-224-                }
+src/bin/desktop/ai_comparison/mod.rs-225-                if self.playing {
+src/bin/desktop/ai_comparison/mod.rs-226-                    self.play_time += playback_delta;
+src/bin/desktop/ai_comparison/mod.rs-227-                    self.selected = (self.play_time / scene::DT).floor() as usize;
+src/bin/desktop/ai_comparison/mod.rs-228-                    if self.selected >= count - 1 {
+--
+src/bin/desktop/ai_comparison/mod.rs-314-            let scale=if self.fixed_range{self.manual_range}else{pressure_range};let error_scale=if self.fixed_range{self.manual_range}else{delta_range};
+src/bin/desktop/ai_comparison/mod.rs-315-            let area=ui.available_rect_before_wrap();
+src/bin/desktop/ai_comparison/mod.rs:316:            ctx.input(|input| {
+src/bin/desktop/ai_comparison/mod.rs-317-                if input.pointer.hover_pos().is_some_and(|p|area.contains(p)) {
+src/bin/desktop/ai_comparison/mod.rs-318-                    if input.pointer.primary_down() && input.pointer.is_decidedly_dragging() {
+src/bin/desktop/ai_comparison/mod.rs-319-                        let delta=input.pointer.delta();
+src/bin/desktop/ai_comparison/mod.rs-320-                        if input.modifiers.shift {self.camera.pan(delta,(area.height()-180.0).max(1.0));}
+src/bin/desktop/ai_comparison/mod.rs-321-                        else if input.modifiers.ctrl {self.camera.zoom(-delta.y*0.01);}
+src/bin/desktop/ai_comparison/mod.rs-322-                        else {self.camera.orbit(delta);}
+src/bin/desktop/ai_comparison/mod.rs-323-                    }
+src/bin/desktop/ai_comparison/mod.rs-324-                    self.camera.zoom(input.smooth_scroll_delta.y*0.003);
+src/bin/desktop/ai_comparison/mod.rs-325-                }
+src/bin/desktop/ai_comparison/mod.rs-326-            });
+src/bin/desktop/ai_comparison/mod.rs-327-            ui.columns(2,|columns|{
+src/bin/desktop/ai_comparison/mod.rs-328-                columns[0].allocate_ui_with_layout(egui::vec2(columns[0].available_width(),180.0),egui::Layout::top_down(egui::Align::Min),|ui|{
+src/bin/desktop/ai_comparison/mod.rs-329-                    ui.heading("Rheon reference pressure");
+src/bin/desktop/ai_comparison/mod.rs-330-                    if let Some(q)=&frame.reference_quality{ui.colored_label(Color32::LIGHT_GREEN,format!("Qualified · relative residual {:.2e}",q.relative_residual.unwrap_or(0.0)));}else{ui.label("Initial state");}
+src/bin/desktop/ai_comparison/mod.rs-331-                    view::legend(ui,scale,"Reference pressure · Pa");
+src/bin/desktop/ai_comparison/mod.rs-332-                });
+src/bin/desktop/ai_comparison/mod.rs-333-                view::voxels(&mut columns[0],view::Display{scene:&self.active_scene,frame:&frame,camera:&self.camera,cut:self.cut,field:view::Field::Reference,scale},&mut self.probe);
+src/bin/desktop/ai_comparison/mod.rs-334-                columns[1].allocate_ui_with_layout(egui::vec2(columns[1].available_width(),180.0),egui::Layout::top_down(egui::Align::Min),|ui|{
+--
+src/bin/desktop/scene_handles.rs-367-        editable: bool,
+src/bin/desktop/scene_handles.rs-368-    ) -> bool {
+src/bin/desktop/scene_handles.rs:369:        let (down, pressed, released, p, focused, gone) = ui.input(|i| {
+src/bin/desktop/scene_handles.rs-370-            (
+src/bin/desktop/scene_handles.rs-371-                i.pointer.button_down(egui::PointerButton::Primary),
+src/bin/desktop/scene_handles.rs-372-                i.pointer.button_pressed(egui::PointerButton::Primary),
+src/bin/desktop/scene_handles.rs-373-                i.events.iter().any(|e| {
+src/bin/desktop/scene_handles.rs-374-                    matches!(
+src/bin/desktop/scene_handles.rs-375-                        e,
+src/bin/desktop/scene_handles.rs-376-                        egui::Event::PointerButton {
+src/bin/desktop/scene_handles.rs-377-                            button: egui::PointerButton::Primary,
+src/bin/desktop/scene_handles.rs-378-                            pressed: false,
+src/bin/desktop/scene_handles.rs-379-                            ..
+src/bin/desktop/scene_handles.rs-380-                        }
+src/bin/desktop/scene_handles.rs-381-                    )
+src/bin/desktop/scene_handles.rs-382-                }),
+src/bin/desktop/scene_handles.rs-383-                i.pointer.latest_pos(),
+src/bin/desktop/scene_handles.rs-384-                i.focused,
+src/bin/desktop/scene_handles.rs-385-                i.events
+src/bin/desktop/scene_handles.rs-386-                    .iter()
+src/bin/desktop/scene_handles.rs-387-                    .any(|e| matches!(e, egui::Event::PointerGone)),
+--
+src/bin/desktop/scene_handles.rs-405-                || response.rect != drag.rect
+src/bin/desktop/scene_handles.rs-406-                || side.to_bits() != drag.side.to_bits();
+src/bin/desktop/scene_handles.rs:407:            let escape = ui.input_mut(|i| i.consume_key(i.modifiers, egui::Key::Escape));
+src/bin/desktop/scene_handles.rs-408-            if lost || escape {
+src/bin/desktop/scene_handles.rs-409-                self.cancel(
+src/bin/desktop/scene_handles.rs-410-                    scene,
+src/bin/desktop/scene_handles.rs-411-                    !released,
+src/bin/desktop/scene_handles.rs-412-                    if escape {
+src/bin/desktop/scene_handles.rs-413-                        "Edit cancelled"
+src/bin/desktop/scene_handles.rs-414-                    } else {
+src/bin/desktop/scene_handles.rs-415-                        "Edit cancelled · context changed"
+src/bin/desktop/scene_handles.rs-416-                    },
+src/bin/desktop/scene_handles.rs-417-                );
+src/bin/desktop/scene_handles.rs-418-                return true;
+src/bin/desktop/scene_handles.rs-419-            }
+src/bin/desktop/scene_handles.rs-420-            let valid = scene.preview_edit(drag.candidate(p.unwrap()));
+src/bin/desktop/scene_handles.rs-421-            self.message = if valid {
+src/bin/desktop/scene_handles.rs-422-                None
+src/bin/desktop/scene_handles.rs-423-            } else {
+src/bin/desktop/scene_handles.rs-424-                Some("Invalid preview · release cancels")
+src/bin/desktop/scene_handles.rs-425-            };
+--
+src/bin/desktop/scene_handles.rs-439-            || !focused
+src/bin/desktop/scene_handles.rs-440-            || !response.contains_pointer()
+src/bin/desktop/scene_handles.rs:441:            || !ui.input(|i| i.modifiers.is_none())
+src/bin/desktop/scene_handles.rs-442-        {
+src/bin/desktop/scene_handles.rs-443-            return false;
+src/bin/desktop/scene_handles.rs-444-        }
+src/bin/desktop/scene_handles.rs-445-        if scene.display_scene().freeze().is_err() {
+src/bin/desktop/scene_handles.rs-446-            return false;
+src/bin/desktop/scene_handles.rs-447-        }
+src/bin/desktop/scene_handles.rs-448-        let Some(p) = p else {
+src/bin/desktop/scene_handles.rs-449-            return false;
+src/bin/desktop/scene_handles.rs-450-        };
+src/bin/desktop/scene_handles.rs-451-        let Some(base) = scene.selected_force().cloned() else {
+src/bin/desktop/scene_handles.rs-452-            return false;
+src/bin/desktop/scene_handles.rs-453-        };
+src/bin/desktop/scene_handles.rs-454-        let Some(index) = hit(
+src/bin/desktop/scene_handles.rs-455-            &handles(&base, self.tool, camera, response.rect, side),
+src/bin/desktop/scene_handles.rs-456-            self.tool,
+src/bin/desktop/scene_handles.rs-457-            p,
+src/bin/desktop/scene_handles.rs-458-            camera.orthographic,
+src/bin/desktop/scene_handles.rs-459-        ) else {
+--
+src/bin/desktop/setup_ui_tests.rs-256-                );
+src/bin/desktop/setup_ui_tests.rs-257-            }
+src/bin/desktop/setup_ui_tests.rs:258:            assert!(ctx.memory(|memory| memory.has_focus(text_id)));
+src/bin/desktop/setup_ui_tests.rs-259-            let modifiers = egui::Modifiers {
+src/bin/desktop/setup_ui_tests.rs-260-                ctrl: true,
+src/bin/desktop/setup_ui_tests.rs-261-                command: true,
+src/bin/desktop/setup_ui_tests.rs-262-                ..Default::default()
+src/bin/desktop/setup_ui_tests.rs-263-            };
+src/bin/desktop/setup_ui_tests.rs-264-            let _ = frame(
+src/bin/desktop/setup_ui_tests.rs-265-                &ctx,
+src/bin/desktop/setup_ui_tests.rs-266-                size,
+src/bin/desktop/setup_ui_tests.rs-267-                vec![egui::Event::Key {
+src/bin/desktop/setup_ui_tests.rs-268-                    key: egui::Key::End,
+src/bin/desktop/setup_ui_tests.rs-269-                    physical_key: None,
+src/bin/desktop/setup_ui_tests.rs-270-                    pressed: true,
+src/bin/desktop/setup_ui_tests.rs-271-                    repeat: false,
+src/bin/desktop/setup_ui_tests.rs-272-                    modifiers,
+src/bin/desktop/setup_ui_tests.rs-273-                }],
+src/bin/desktop/setup_ui_tests.rs-274-                |ctx| {
+src/bin/desktop/setup_ui_tests.rs-275-                    app.sidebar(ctx);
+src/bin/desktop/setup_ui_tests.rs-276-                },
+--
+src/bin/desktop/setup_ui_tests.rs-334-            });
+src/bin/desktop/setup_ui_tests.rs-335-            assert!(
+src/bin/desktop/setup_ui_tests.rs:336:                !ctx.memory(|memory| memory.has_focus(text_id)),
+src/bin/desktop/setup_ui_tests.rs-337-                "status must permit keyboard exit"
+src/bin/desktop/setup_ui_tests.rs-338-            );
+src/bin/desktop/setup_ui_tests.rs-339-        }
+src/bin/desktop/setup_ui_tests.rs-340-    }
+src/bin/desktop/setup_ui_tests.rs-341-}
+src/bin/desktop/setup_ui_tests.rs-342-
+src/bin/desktop/setup_ui_tests.rs-343-#[test]
+src/bin/desktop/setup_ui_tests.rs-344-fn ui_setup_uninspected_adapter_does_not_emit_launch_intent() {
+src/bin/desktop/setup_ui_tests.rs-345-    let ctx = context();
+src/bin/desktop/setup_ui_tests.rs-346-    let size = egui::vec2(900.0, 1800.0);
+src/bin/desktop/setup_ui_tests.rs-347-    let mut controls = configured_controls::ConfiguredControls::default();
+src/bin/desktop/setup_ui_tests.rs-348-    let mut requested = false;
+src/bin/desktop/setup_ui_tests.rs-349-    let mut paint = |ctx: &egui::Context| {
+src/bin/desktop/setup_ui_tests.rs-350-        egui::CentralPanel::default().show(ctx, |ui| {
+src/bin/desktop/setup_ui_tests.rs-351-            controls.show(ui, true);
+src/bin/desktop/setup_ui_tests.rs-352-            requested |= controls.launch_button(ui, true);
+src/bin/desktop/setup_ui_tests.rs-353-        });
+src/bin/desktop/setup_ui_tests.rs-354-    };
+--
+src/bin/desktop/setup_ui_tests.rs-559-            }
+src/bin/desktop/setup_ui_tests.rs-560-            let path_id = ctx
+src/bin/desktop/setup_ui_tests.rs:561:                .memory(|memory| memory.focused())
+src/bin/desktop/setup_ui_tests.rs-562-                .expect("path has pointer focus");
+src/bin/desktop/setup_ui_tests.rs-563-            let modifiers = egui::Modifiers {
+src/bin/desktop/setup_ui_tests.rs-564-                ctrl: true,
+src/bin/desktop/setup_ui_tests.rs-565-                command: true,
+src/bin/desktop/setup_ui_tests.rs-566-                ..Default::default()
+src/bin/desktop/setup_ui_tests.rs-567-            };
+src/bin/desktop/setup_ui_tests.rs-568-            for key in [egui::Key::End, egui::Key::A] {
+src/bin/desktop/setup_ui_tests.rs-569-                let _ = frame(
+src/bin/desktop/setup_ui_tests.rs-570-                    &ctx,
+src/bin/desktop/setup_ui_tests.rs-571-                    size,
+src/bin/desktop/setup_ui_tests.rs-572-                    vec![egui::Event::Key {
+src/bin/desktop/setup_ui_tests.rs-573-                        key,
+src/bin/desktop/setup_ui_tests.rs-574-                        physical_key: None,
+src/bin/desktop/setup_ui_tests.rs-575-                        pressed: true,
+src/bin/desktop/setup_ui_tests.rs-576-                        repeat: false,
+src/bin/desktop/setup_ui_tests.rs-577-                        modifiers,
+src/bin/desktop/setup_ui_tests.rs-578-                    }],
+src/bin/desktop/setup_ui_tests.rs-579-                    &mut paint,
+--
+src/bin/desktop/viewport.rs-217-        if self.mode != ViewMode::Appearance {
+src/bin/desktop/viewport.rs-218-            std::mem::swap(&mut self.camera, &mut self.engineering_camera);
+src/bin/desktop/viewport.rs:219:            self.input(ui, &response, rect, 1.8);
+src/bin/desktop/viewport.rs-220-            match self.mode {
+src/bin/desktop/viewport.rs-221-                ViewMode::Obstacle => {
+src/bin/desktop/viewport.rs-222-                    if let Some(lab) = &mut self.engineering {
+src/bin/desktop/viewport.rs-223-                        lab.paint(ui, rect, &response, &self.camera);
+src/bin/desktop/viewport.rs-224-                    }
+src/bin/desktop/viewport.rs-225-                }
+src/bin/desktop/viewport.rs-226-                ViewMode::Particles => self.particles.paint(
+src/bin/desktop/viewport.rs-227-                    ui,
+src/bin/desktop/viewport.rs-228-                    rect,
+src/bin/desktop/viewport.rs-229-                    &response,
+src/bin/desktop/viewport.rs-230-                    &self.camera,
+src/bin/desktop/viewport.rs-231-                    self.domain_side,
+src/bin/desktop/viewport.rs-232-                    inspector,
+src/bin/desktop/viewport.rs-233-                ),
+src/bin/desktop/viewport.rs-234-                ViewMode::Transport => {
+src/bin/desktop/viewport.rs-235-                    if let Some(Ok(view)) = &mut self.transport {
+src/bin/desktop/viewport.rs-236-                        view.view.paint(ui, rect, &response, &self.camera);
+src/bin/desktop/viewport.rs-237-                    }
+--
+src/bin/desktop/viewport.rs-253-        });
+src/bin/desktop/viewport.rs-254-        if !consumed {
+src/bin/desktop/viewport.rs:255:            self.input(ui, &response, rect, 2.35);
+src/bin/desktop/viewport.rs-256-        }
+src/bin/desktop/viewport.rs-257-        if !consumed && let Some(scene) = scene.as_deref_mut() {
+src/bin/desktop/viewport.rs-258-            let mesh = self
+src/bin/desktop/viewport.rs-259-                .collision_mesh
+src/bin/desktop/viewport.rs-260-                .as_ref()
+src/bin/desktop/viewport.rs-261-                .map(|m| super::scene_view::MeshRef {
+src/bin/desktop/viewport.rs-262-                    vertices: m.vertices(),
+src/bin/desktop/viewport.rs-263-                    triangles: m.triangles(),
+src/bin/desktop/viewport.rs-264-                });
+src/bin/desktop/viewport.rs-265-            super::scene_view::interact(ui, &response, &self.camera, self.domain_side, mesh, scene);
+src/bin/desktop/viewport.rs-266-        }
+src/bin/desktop/viewport.rs-267-        let changed = match (&self.frame, &frame) {
+src/bin/desktop/viewport.rs-268-            (Some(a), Some(b)) => !Arc::ptr_eq(a, b),
+src/bin/desktop/viewport.rs-269-            (None, None) => false,
+src/bin/desktop/viewport.rs-270-            _ => true,
+src/bin/desktop/viewport.rs-271-        };
+src/bin/desktop/viewport.rs-272-        if changed || self.cached_threshold != self.threshold {
+src/bin/desktop/viewport.rs-273-            match frame
+--
+src/bin/desktop/viewport.rs-570-            return;
+src/bin/desktop/viewport.rs-571-        }
+src/bin/desktop/viewport.rs:572:        ui.input(|input| {
+src/bin/desktop/viewport.rs-573-            let middle = input.pointer.button_down(egui::PointerButton::Middle);
+src/bin/desktop/viewport.rs-574-            let primary = input.pointer.button_down(egui::PointerButton::Primary);
+src/bin/desktop/viewport.rs-575-            if (middle || primary) && response.dragged() {
+src/bin/desktop/viewport.rs-576-                let delta = input.pointer.delta();
+src/bin/desktop/viewport.rs-577-                if input.modifiers.ctrl {
+src/bin/desktop/viewport.rs-578-                    self.camera.zoom(-delta.y * 0.01);
+src/bin/desktop/viewport.rs-579-                } else if input.modifiers.shift {
+src/bin/desktop/viewport.rs-580-                    self.camera.pan(delta, rect.height());
+src/bin/desktop/viewport.rs-581-                } else {
+src/bin/desktop/viewport.rs-582-                    self.camera.orbit(delta);
+src/bin/desktop/viewport.rs-583-                }
+src/bin/desktop/viewport.rs-584-            }
+src/bin/desktop/viewport.rs-585-            for event in &input.events {
+src/bin/desktop/viewport.rs-586-                match event {
+src/bin/desktop/viewport.rs-587-                    egui::Event::MouseWheel {
+src/bin/desktop/viewport.rs-588-                        unit,
+src/bin/desktop/viewport.rs-589-                        delta,
+src/bin/desktop/viewport.rs-590-                        modifiers,
