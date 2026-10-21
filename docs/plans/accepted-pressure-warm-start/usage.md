@@ -70,3 +70,9 @@ system's true residual; success still requires the unchanged full residual and
 divergence gates. Cold recurrence remains the reference implementation. This
 opt-in distinction addresses a reproduced64³ localized restart stagnation; the
 original candidate and its lost horizon are retained as rejected evidence.
+
+The configured-provider recording API requires a current configured receipt.
+A successful initialized Session publication clears that receipt, so existing
+configured recording refuses it as unsupported rather than attributing it to a
+stale provider. Frame export still captures accepted arrays; it does not create a
+warm-history restart or a portable warm replay contract.

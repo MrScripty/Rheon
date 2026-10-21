@@ -71,3 +71,10 @@ All original branches and unique source remain preserved. Local task worktrees a
 raw/diagnostic artifacts are retained for this pending integration, not deleted.
 The user-facing production handoff must distinguish merged source from acceptance
 of the full Rheon application and must include the other PR owners' remaining limits.
+
+Current-main persistence composition was also inspected: configured_publication
+requires the current configured-provider receipt and fails Unsupported when absent.
+The initialized Session path clears that receipt only after acceptance, so warm
+publications cannot masquerade as the preceding configured-provider record. Existing
+transition tests prove receipt clearing/preservation; the recording requirement
+provides the refusal by construction. No warm recording/restart codec is introduced.
