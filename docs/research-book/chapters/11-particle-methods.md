@@ -2,6 +2,8 @@
 
 Dense grids pay for empty space; particles pay for occupied material and neighborhood organization. Include neighbors, sorting, scratch and surface reconstruction when comparing memory. Particle count alone is not a budget.
 
+Connected material-mesh FEM is developed separately in [chapters 30–36](30-material-motion-and-conservation.md). The [method comparison](35-contact-coupling-and-ale.md#distinguish-neighboring-methods) distinguishes SPH/PBF and PIC/FLIP/APIC/MPM from persistent element connectivity and remeshed PFEM; this particle chapter does not itself define a FEM solver.
+
 ## SPH
 
 A smoothing-kernel density estimate is
