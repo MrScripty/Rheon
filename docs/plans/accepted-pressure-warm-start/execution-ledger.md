@@ -84,3 +84,23 @@
   round-trip analysis reproduces corrected evidence exactly under Python -O.
 - PR 55 base rechecked unchanged at 3525c979 before publication. No owner branch,
   collision mesh, book binding, main merge or deployment was modified.
+
+## 2026-10-21 fresh authorized PR59 integration
+
+Fresh user instruction authorizes completion and normal serial merge of this PR;
+previous evaluation-only publication limits are superseded. Preserve original
+7f1733f head/ancestry, source-bound receipts and all adverse outcomes. Main fetched
+at15026a9; no AGENTS found. Core/router and applicable current coding standards read.
+Merge commit0b3e3fc resolves force/configured-provider conflicts without rewriting
+history. Warm source is now an explicit non-default Cargo feature, per the user's
+allowed transparent narrowing to qualifying path; historical particle +2.20% is
+unchanged and not excused by a runtime opt-in. Actual default controlled evidence
+remains required. Session new entry point also updates current-main interval and
+configured metadata atomically. Independent exact-source review found no blocking
+source defect;21 material hashes bind0b3e3fc. Preliminary compile, focused35-pass/
+1model-required ignored, and warm strict Clippy outcomes are retained in
+integration-20261021. Inherited EOF blank lines and raw command-output trailing
+blank lines are not altered; scoped source diff-check and formatting pass.
+Native gate refuses added inventory path on committed source, as expected; no
+inventory refreshed or gate bypassed. Final #142→#138→#143 composition, qualified
+source admission, default controls, required CI and lead merge remain pending.
