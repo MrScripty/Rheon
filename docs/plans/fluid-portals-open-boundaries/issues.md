@@ -1,0 +1,17 @@
+# Findings and dispositions
+
+| ID / severity | Finding and evidence | Owner / disposition / revisit gate |
+| --- | --- | --- |
+| P1 / high | Conservative MAC dual-momentum flux must close at the periodic seam and transverse walls; current semi-Lagrangian velocity transport is not conservative. | MAC transport lead; derive/independently test M1's dual-CV completion and CFL before accepting A2. Do not expose scalar-only wrapping as the requested feature. |
+| P2 / high | The continuum backflow identity does not prove stability of Rheon's pressure/force/viscous time splitting. Full vector traction at zero viscosity can force tangential constraints. | Reservoir numerical lead; M2 requires positive-viscosity formulation and discrete work estimate, or an explicitly reviewed alternative. Generic inviscid backflow remains unsupported. |
+| P3 / high | Hydrostatic SPH equilibrium needs density/EOS and kernel-support consistency; current pressure is clipped/reduced-stiffness liquid or ideal-gas preview pressure, not MAC pressure. | Particle numerical lead; M3/M4 controlled rest/seam tests, no pressure-provider reuse. |
+| P4 / high | Birth/exit/slot reuse can alias `(run_id,index)` histories; current diagnostics and accepted positions have different times. | Material/recording lead; explicit new profile/stable IDs and stage-aware cold tests before M4. |
+| P5 / medium | An all-open finite box can remain strongly affected by truncation, dissipation and exterior current assumptions. | Scientific validation lead; separately authorized bounded domain-size/resolution study before isolated-propeller claims. No universal safe distance or invisible sponge. |
+| P6 / medium | UI PR146 owns evolving controls/Worker/recording projections and remains unmerged. | Parent/host owner; reconcile accepted current code before implementation. This documentation branch includes none of its code. |
+| P7 / medium | Shared book numbering37–39 is reserved by GPU research; FEM30–36 is merged. | Parent/publication owner; Chapter40 reported before shared README edit. Preserve the 24 FEM integration paths. |
+| P8 / medium | Normal Pages browser verification explicitly requires a working Chromium sandbox; a previous independent FEM environment reported a sandbox abort. | Publication environment owner; run the canonical launch once for this environment and preserve its outcome. No unsandboxed fallback, security change or forged receipt. |
+| P9 / medium | First locked npm preparation could not write the default `/home/agent/.npm` cache. | Documentation builder; retry with a fresh task-owned asset directory and explicit writable npm cache, same lockfile and disabled install scripts. Preserve original failure. This is an environment repair, not changed asset versions. |
+| P10 / high acceptance limit | Independent reviewer outcome and full normal Pages/PDF/browser qualification are distinct from author/source parsing. | Parent/reviewer/publication owner; keep draft PR and publication acceptance pending until required evidence exists. |
+| P11 / historical delivery | Earlier Library batch failed at network transport; no finalized items/IDs verified, upload-reservation outcome uncertain. | Parent/artifact owner; original attempted file bytes and receipt retained in the prior research worktree. No retry or substitute Library write in this task. |
+
+These are deciding questions and ownership constraints, not newly executed native failures or permissions to broaden the work. All fluid-feature acceptance rows remain pending.

@@ -1,0 +1,412 @@
+{
+  "schema": "rheon-portal-repository-research-audit-v1",
+  "research_date": "2026-10-21",
+  "baseline_commit": "f95cac0dbc7b283370fb0e9a845599db613d79de",
+  "baseline_ref": "origin/main after merged FEM PR147; UI PR146 excluded",
+  "license_verified": "Apache-2.0: LICENSE and Cargo.toml",
+  "instructions_search": {
+    "AGENTS.md": "none found under workspace/repositories",
+    "workspace_dot_agents": "empty",
+    "relevant_dot_agents_skills": "none found"
+  },
+  "inspection_kind": "read-only source and policy; no solver execution",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "size_bytes": 11357,
+      "symbols_or_scope": [
+        "Apache License Version 2.0"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/LICENSE"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae",
+      "size_bytes": 2332,
+      "symbols_or_scope": [
+        "package.license"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/Cargo.toml"
+    },
+    {
+      "path": "docs/REPOSITORY_OUTPUTS.md",
+      "sha256": "91992b4a524542414eaa68b5ab20e2576b7d54ce2eb4b9ad7b83d2523a969d77",
+      "size_bytes": 4436,
+      "symbols_or_scope": [
+        "generated artifact policy"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/docs/REPOSITORY_OUTPUTS.md"
+    },
+    {
+      "path": "docs/research-book/README.md",
+      "sha256": "beb5edde0ed17fb0dee978c8fe68452c118cefc913dba3df85b1a16e4e5d532f",
+      "size_bytes": 5480,
+      "symbols_or_scope": [
+        "source/evidence scope"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/docs/research-book/README.md"
+    },
+    {
+      "path": "docs/research-book/chapters/08-boundary-geometry.md",
+      "sha256": "fe413a603be702d28fa7645d38545f207195e246d1b81cddeaf8fe2a51f18df3",
+      "size_bytes": 6844,
+      "symbols_or_scope": [
+        "weighted adjoint and boundary work"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/docs/research-book/chapters/08-boundary-geometry.md"
+    },
+    {
+      "path": "docs/api/domain-density.md",
+      "sha256": "81f0a5baa8fdc38a07356da3309e0ecbcc308cd89caa838f59242c197a31e90d",
+      "size_bytes": 6638,
+      "symbols_or_scope": [
+        "preview versus physical sampling"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/docs/api/domain-density.md"
+    },
+    {
+      "path": "docs/api/material-session.md",
+      "sha256": "c979df4783dd661b104685188c4c0b7110147c15031389c1d04edb97632cd6fd",
+      "size_bytes": 3335,
+      "symbols_or_scope": [
+        "particle identity and diagnostic timing"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/docs/api/material-session.md"
+    },
+    {
+      "path": "src/operator.rs",
+      "sha256": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+      "size_bytes": 29555,
+      "symbols_or_scope": [
+        "PressureOperator",
+        "has_gauge",
+        "with_free_surface"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/operator.rs"
+    },
+    {
+      "path": "src/pressure.rs",
+      "sha256": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+      "size_bytes": 28790,
+      "symbols_or_scope": [
+        "PressureImplementation",
+        "solve_rhs",
+        "solve_loaded"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/pressure.rs"
+    },
+    {
+      "path": "src/advection.rs",
+      "sha256": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+      "size_bytes": 8961,
+      "symbols_or_scope": [
+        "advect_velocity",
+        "advect_tracer"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/advection.rs"
+    },
+    {
+      "path": "src/sampling.rs",
+      "sha256": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+      "size_bytes": 6347,
+      "symbols_or_scope": [
+        "VelocitySampler::backtrace",
+        "ScalarSampler::sample"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/sampling.rs"
+    },
+    {
+      "path": "src/box_flux.rs",
+      "sha256": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+      "size_bytes": 17346,
+      "symbols_or_scope": [
+        "PrescribedBoxFlux",
+        "BoxFluxWorkspace::project",
+        "BoxFluxWork"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/box_flux.rs"
+    },
+    {
+      "path": "src/box_flux_step.rs",
+      "sha256": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+      "size_bytes": 5487,
+      "symbols_or_scope": [
+        "BoxFluxTracerPolicy",
+        "BoxFluxStepWork"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/box_flux_step.rs"
+    },
+    {
+      "path": "src/liquid_volume.rs",
+      "sha256": "24623038f62261ce6a17b034e9b6d82c5f0aba02dd0df7aad174c885ed2a8c96",
+      "size_bytes": 29752,
+      "symbols_or_scope": [
+        "LiquidInlet",
+        "LiquidVolumeState::advance"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/liquid_volume.rs"
+    },
+    {
+      "path": "src/liquid_step.rs",
+      "sha256": "f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93",
+      "size_bytes": 32240,
+      "symbols_or_scope": [
+        "LiquidTransportSimulation",
+        "step_with_pressure_provider"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/liquid_step.rs"
+    },
+    {
+      "path": "src/free_surface.rs",
+      "sha256": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+      "size_bytes": 3639,
+      "symbols_or_scope": [
+        "SlabFreeSurface",
+        "FreeSurfaceError"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/free_surface.rs"
+    },
+    {
+      "path": "src/particle_fluid.rs",
+      "sha256": "538c498122bbc1045ae59d7363ff87e1dd9a40003fb48eeae835228ad4c65893",
+      "size_bytes": 57483,
+      "symbols_or_scope": [
+        "FluidParticle",
+        "ParticleDiagnostic",
+        "ParticleFluidSimulation",
+        "integration wall response"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/particle_fluid.rs"
+    },
+    {
+      "path": "src/material.rs",
+      "sha256": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+      "size_bytes": 7103,
+      "symbols_or_scope": [
+        "FluidMaterial::pressure",
+        "ParticleFluidConfig"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/material.rs"
+    },
+    {
+      "path": "src/forces.rs",
+      "sha256": "7b3b48c0813c995a937a44ca1b624411c59dde6419b62041b67456cde2d692d9",
+      "size_bytes": 10490,
+      "symbols_or_scope": [
+        "BodyForce",
+        "apply_fields",
+        "apply_evaluated"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/forces.rs"
+    },
+    {
+      "path": "src/force_field.rs",
+      "sha256": "adecbc5f92b89179a2e38885be2acbcddd42df40061f00ffa5d758224ed045a5",
+      "size_bytes": 14833,
+      "symbols_or_scope": [
+        "ForceKind",
+        "ForceScene",
+        "ForceSnapshot"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/force_field.rs"
+    },
+    {
+      "path": "src/simulation.rs",
+      "sha256": "c08ede6330c4bf6ed7e858e556806ec80628522ceb42286cf52714bf7430c9a1",
+      "size_bytes": 48293,
+      "symbols_or_scope": [
+        "prepare_impl",
+        "step_with_box_flux",
+        "SmokeSource"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/simulation.rs"
+    },
+    {
+      "path": "src/session.rs",
+      "sha256": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",
+      "size_bytes": 17759,
+      "symbols_or_scope": [
+        "SimulationSession accepted publication and boundaries"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/session.rs"
+    },
+    {
+      "path": "src/session/configured.rs",
+      "sha256": "d99ae990e9c7ddc956f95f414a25832411a4dc84ab434df95ff9f8f68cf52a83",
+      "size_bytes": 10308,
+      "symbols_or_scope": [
+        "step_with_configured_pressure sealed composition"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/session/configured.rs"
+    },
+    {
+      "path": "src/solver_provider/configured.rs",
+      "sha256": "124ca65dd1dec3a8a89043198fb085453a42ca8aff0dc87c67b04b6a986109be",
+      "size_bytes": 9193,
+      "symbols_or_scope": [
+        "configured pressure domain declaration"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/solver_provider/configured.rs"
+    },
+    {
+      "path": "src/viscosity.rs",
+      "sha256": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+      "size_bytes": 15726,
+      "symbols_or_scope": [
+        "current fixed-box viscosity scope"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/viscosity.rs"
+    },
+    {
+      "path": "src/material_session.rs",
+      "sha256": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960",
+      "size_bytes": 10964,
+      "symbols_or_scope": [
+        "material session and identity"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/material_session.rs"
+    },
+    {
+      "path": "src/recording.rs",
+      "sha256": "47b2b24bbe9af777ceafdefa6f0b82200a60cea590d0b64f326de1d50c6d7d2d",
+      "size_bytes": 38908,
+      "symbols_or_scope": [
+        "SQLite version/profile and accepted publications"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/recording.rs"
+    },
+    {
+      "path": "src/recording/carrier.rs",
+      "sha256": "5a9b10b929f650423ad9e58bd7047bfe80cc7bf18138d74bd628c2f3f17af711",
+      "size_bytes": 13424,
+      "symbols_or_scope": [
+        "carrier publication/profile"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/recording/carrier.rs"
+    },
+    {
+      "path": "src/recording/provider.rs",
+      "sha256": "980ea5af7094016b13e7d0f39110aa2ff673b0173416e0fe583e6266b7c27f57",
+      "size_bytes": 48561,
+      "symbols_or_scope": [
+        "configured profile"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/recording/provider.rs"
+    },
+    {
+      "path": "src/recording/material.rs",
+      "sha256": "e72e256aa3af46fef9002822de5281caf1de66ba070eb2109f77b083e20ae6ce",
+      "size_bytes": 16944,
+      "symbols_or_scope": [
+        "material identity and stages"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/recording/material.rs"
+    },
+    {
+      "path": "src/bin/rheon-desktop.rs",
+      "sha256": "76a92d5c928919f832904395319644f14eb36bc2e1c33aeab1146d4b1480ce48",
+      "size_bytes": 140840,
+      "symbols_or_scope": [
+        "Worker and Request integration"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/bin/rheon-desktop.rs"
+    },
+    {
+      "path": "src/bin/desktop/settings.rs",
+      "sha256": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
+      "size_bytes": 10582,
+      "symbols_or_scope": [
+        "current domain/material controls"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/bin/desktop/settings.rs"
+    },
+    {
+      "path": "src/bin/desktop/inspector.rs",
+      "sha256": "bb6bb83529896323fbf5414d6e7f41f8462b21e80a6d1f620edb6eecd2fc6649",
+      "size_bytes": 42387,
+      "symbols_or_scope": [
+        "selected accepted/cold recording"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/bin/desktop/inspector.rs"
+    },
+    {
+      "path": "src/bin/desktop/run_sets.rs",
+      "sha256": "e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1",
+      "size_bytes": 31991,
+      "symbols_or_scope": [
+        "native saved intent"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/bin/desktop/run_sets.rs"
+    },
+    {
+      "path": "src/bin/desktop/run_sets/source.rs",
+      "sha256": "c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11",
+      "size_bytes": 9589,
+      "symbols_or_scope": [
+        "version dispatch"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/bin/desktop/run_sets/source.rs"
+    },
+    {
+      "path": "src/bin/desktop/run_sets/configured.rs",
+      "sha256": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9",
+      "size_bytes": 30187,
+      "symbols_or_scope": [
+        "configured intent version2"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/bin/desktop/run_sets/configured.rs"
+    },
+    {
+      "path": "src/bin/desktop/configured_controls.rs",
+      "sha256": "05d317554c4db033dd35c5e153dceaea34367eed33125ec8c7f59466f83ede36",
+      "size_bytes": 36907,
+      "symbols_or_scope": [
+        "closed accepted Session controls"
+      ],
+      "url": "https://github.com/MrScripty/Rheon/blob/f95cac0dbc7b283370fb0e9a845599db613d79de/src/bin/desktop/configured_controls.rs"
+    }
+  ],
+  "prior_research_baseline": "7516a8e5d328c6dc8eda8ea577cb03f20b2e343a",
+  "instruction_scope": "No AGENTS.md or .agents/skills found; adopted Coding-Standards 188beda1 inspected; exposed current 0fc92a2 has identical selected Core/Router/Planning/Architecture/Documentation files.",
+  "coordination": {
+    "fem_pr": 147,
+    "fem_head": "91d6e889037833cc02a788015c54c7712111673a",
+    "main_merge": "f95cac0dbc7b283370fb0e9a845599db613d79de",
+    "fem_integration_paths": [
+      "docs/education/markdown_bundle.py",
+      "docs/plans/lagrangian-fem-book/execution-ledger.md",
+      "docs/plans/lagrangian-fem-book/issues.md",
+      "docs/plans/lagrangian-fem-book/plan.md",
+      "docs/plans/lagrangian-fem-book/reports/independent-review.md",
+      "docs/plans/lagrangian-fem-book/reports/publication-review.md",
+      "docs/plans/lagrangian-fem-book/reports/verification.md",
+      "docs/research-book/README.md",
+      "docs/research-book/chapters/11-particle-methods.md",
+      "docs/research-book/chapters/29-liquid-solid-interaction.md",
+      "docs/research-book/chapters/30-material-motion-and-conservation.md",
+      "docs/research-book/chapters/31-stress-and-weak-forms.md",
+      "docs/research-book/chapters/32-finite-elements-and-operators.md",
+      "docs/research-book/chapters/33-time-and-nonlinear-solves.md",
+      "docs/research-book/chapters/34-incompressibility-and-fluids.md",
+      "docs/research-book/chapters/35-contact-coupling-and-ale.md",
+      "docs/research-book/chapters/36-reference-fem-solver.md",
+      "docs/research-book/implementation/fitted-ale-native-step.md",
+      "docs/research-book/implementation/fitted-height-liquid-formulation.md",
+      "docs/research-book/implementation/lagrangian-fem-sources-and-scope.md",
+      "docs/research-book/lagrangian/minimal-solver-completion.md",
+      "docs/research-book/lagrangian/research-status-report.md",
+      "docs/research-book/lagrangian/review-guide.md",
+      "docs/research-book/lagrangian/source-map.md"
+    ],
+    "portal_shared_edit": "additive docs/research-book/README.md paragraph only",
+    "excluded_ui_pr": 146,
+    "excluded_ui_head": "1adc7980a2adbbd09ee63eba48635faf25ef7781",
+    "reserved_gpu_chapters": [
+      37,
+      38,
+      39
+    ],
+    "portal_chapter": 40
+  }
+}
