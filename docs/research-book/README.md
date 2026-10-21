@@ -2,6 +2,8 @@
 
 A research book credited Puma: mathematics, algorithm specifications, worked examples, reproducible numerical fixtures and checked Lean contracts for a low-memory 3D fluid framework.
 
+The dedicated [Lagrangian FEM research expansion](implementation/lagrangian-fem-sources-and-scope.md) adds chapters [30](chapters/30-material-motion-and-conservation.md)–[36](chapters/36-reference-fem-solver.md): material motion and conservation, stress/weak forms, element operators, time/nonlinear solution, compressible and mixed fluids, contact/ALE and two fully specified minimal reference algorithms. The [publication source and scope audit](implementation/lagrangian-fem-sources-and-scope.md) records the solid/gas choices, license exclusions and remaining qualification. Chapters30–36 use prose, formulas, conditional proofs and worked examples without pseudocode. This is a reviewed draft exposition, not a general FEM implementation or new scientific qualification. The audit separates manuscript review from future numerical evidence. Puma's author credit and earlier research remain intact.
+
 The repository contains bounded Rust box/liquid components and separate research prototypes. General moving mesh/interface composition, coupled physical boundaries, particles and GPU sections remain incomplete or scoped research specifications. Exact proofs do not establish floating-point accuracy, geometry assembly, solver convergence, physical calibration or performance.
 
 ## Read and reproduce
