@@ -248,8 +248,6 @@ fn timeline_controls_retain_transitions_and_physical_time() {
 fn inert_carrier_request() -> Request {
     Request {
         force_fields: Vec::new(),
-        #[cfg(test)]
-        force_validation: false,
         collision_mesh: None,
         size: 4,
         steps: 4,

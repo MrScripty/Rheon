@@ -10,8 +10,9 @@ pub enum Qualification {
     Pending,
     Validated,
 }
-// Remains closed until the exact native acceptance is returned and reviewed.
-pub const PRODUCTION_QUALIFICATION: Qualification = Qualification::Pending;
+// Shared production/test admission after reviewed native interaction and custody
+// checkpoints. The enabling candidate still requires actual-App validation before merge.
+pub const PRODUCTION_QUALIFICATION: Qualification = Qualification::Validated;
 pub const PENDING: &str =
     "Authored forces cannot run yet: native interaction acceptance is pending";
 pub const UNSUPPORTED: &str = "Authored forces are unsupported for this workflow (configured/session/provider/free-surface/AI)";
@@ -29,8 +30,9 @@ pub fn check(
     if target == Target::Unsupported {
         return Err(UNSUPPORTED);
     }
-    if qualification != Qualification::Validated {
-        return Err(PENDING);
+    if qualification == Qualification::Pending {
+        Err(PENDING)
+    } else {
+        Ok(())
     }
-    Ok(())
 }

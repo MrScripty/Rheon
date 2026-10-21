@@ -221,7 +221,6 @@ fn force_intent_rejects_mixed_versions_tamper_unknown_duplicate_and_oversize() {
 fn request() -> Request {
     Request {
         force_fields: Vec::new(),
-        force_validation: false,
         collision_mesh: None,
         size: 2,
         steps: 1,
@@ -255,11 +254,6 @@ fn force_request_track_resolver_gates_before_work_and_binds_saved_members() {
     let fields = scene().freeze().unwrap();
     let mut r = request();
     r.force_fields = vec![Some(fields.clone())];
-    assert_eq!(
-        validate_request(&r),
-        Err(force_run_policy::PENDING.to_owned())
-    );
-    r.force_validation = true;
     assert!(validate_request(&r).is_ok());
     let forced = spec().with_force_fields(&fields).unwrap();
     r.methods = PressureImplementation::ALL.to_vec();
@@ -281,7 +275,7 @@ fn force_request_track_resolver_gates_before_work_and_binds_saved_members() {
     r.force_fields = vec![Some(fields)];
     assert!(validate_request(&r).unwrap_err().contains("track count"));
     r.force_fields.clear();
-    r.force_validation = false;
+
     assert!(validate_request(&r).is_ok());
 }
 #[test]
@@ -333,7 +327,15 @@ fn force_retained_track_projection_is_readonly_and_clears_same_id_selection() {
     assert_eq!(ui.selected(), None);
     let ctx = egui::Context::default();
     ui.open = true;
-    let out = ctx.run(Default::default(), |ctx| ui.show(ctx, true, false, None));
+    let out = ctx.run(Default::default(), |ctx| {
+        ui.show(
+            ctx,
+            true,
+            false,
+            None,
+            force_run_policy::Target::NativeCarrier,
+        )
+    });
     assert!(
         out.shapes.iter().any(
             |s| matches!(&s.shape,egui::Shape::Text(t)if t.galley.text().contains("read-only"))

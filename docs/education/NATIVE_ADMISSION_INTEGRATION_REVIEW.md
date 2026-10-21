@@ -1286,3 +1286,94 @@ before atomic commit and publication. No prior review is represented as
 approval of an unseen patch. PR147's separate research-book/FEM changes are
 outside this source admission; current main and dependencies must be checked
 again before any merge.
+
+
+## Reviewed production-force enabling source candidate after qualified 3ce3f29
+
+The preserved review prefix above is byte-identical to the complete reviewed UI
+admission at3ce3f29cdec0613272064eb8df2f4fbad6ee0603: prefix SHA256
+`3e190beb40264f575a54e36ee33160ae3da73e36fa7032c67702ab8a8f2ff48a`.
+Its v3 manifest SHA256 is
+`15e3f33639805229a22822137331e337f7e32b1461373563ecaa4d9ddc716300`.
+That checkpoint's Rust39534833351, native/rational39534867735 and book39534833251
+completed successfully; actual native/rational payload/source bindings and book
+packet26normal+26optimized/no-packet-skips logs were independently reviewed. Its
+PR deployment was skipped. Those receipts stay bound to3ce and are not receipts
+for this new candidate. Historical6153/fe9 failures and cancellation remain evidence.
+
+Parent assigned these desktop paths and admission files to the repository
+integration owner while the original UI owner is idle. The actual eleven-file
+source patch over3ce was independently reviewed as SHA256
+`399db2ece70725d0e66eba4dce7abfeaf9f0d04bdfd710e2ba3009aa5c814f27`.
+It removes every Request force_validation field, literal and cfg(test) branch.
+Production and tests now use the same Validated policy for native-carrier and
+particle-material execution. Configured/session/provider/free-surface/AI paths
+still refuse authored presence, including empty/disabled/zero scenes. Unsupported
+configured precedence, material-only single-track restriction, exact member force
+binding and legacy None behavior remain. No solver equation, core adapter,
+recording schema/hash, source emitter, material stress, closure or threshold changes.
+
+Scene receives the effective target and derives its warning from the same policy;
+the Run action emits intent only for eligible valid input. A live force edit must
+be applied/cancelled before launch, avoiding a snapshot of its pre-edit draft.
+The viewport's reachable stale runtime wording is corrected while alternate
+lab/session restrictions remain. Other modified test/harness files only remove
+obsolete Request fields. Existing historical native property acceptance is on da5;
+this new source candidate still requires its own production App validation.
+
+Strict desktop all-target Clippy and compile-only checking passed. The first new
+Scene test initialization triggered field_reassign_with_default; that original
+failure log was retained and the initializer corrected without suppressing lint.
+A sealed current test binary SHA256
+`6f07fa1e27b8dcd3f007b5722eba414ba6e1228e36d2d6dd8c30aa7645043ca5`
+enumerated208tests. Ten independently reviewed exact pure tests each passed once,
+serially, under30s wall/20sCPU/512MiBAS/1MiBfile+log, TERM then owned-child KILL
+with1s grace, testthreads1 and no parallel feature pool. They cover four force
+policy cases; mixed saved-track custody and recording-header preflight; supported/
+refused Run intent without dispatch; Scene-only warning; disclosure stability;
+and invalid-radius correction without refocus. No Worker, solver, SQLite, model,
+native App, L1/MMS or extra scientific execution was performed locally.
+
+The actual-App input/allocation and admission protocol is
+`docs/plans/ui-refinement/reports/enabled-force-app-validation-contract.md`, SHA256
+`80043585fd578cd625d5b2a24b4b66173fd852eed9643a50d82338a0908f0d10`.
+It explicitly addresses real GUI carrier density1/192MiB/max2000, material's
+minimum32768 allocation cap/default192MiB, recording1MiB/2records, exact small
+finite workloads and separate rendering/process/temporary-disk overhead. It
+requires native-owner existing GUI-compatible enforcement facts and an independent
+actual execution-contract review before any App numerical execution. Managed
+buffer arithmetic and prior Worker caps are not represented as process/RSS/disk
+peak bounds. The native protocol's unresolved fields are not waived by this source
+admission. No material serialized cold-rerun format or scientific parity is claimed.
+
+The complete conservative native selection remains136paths:0added,11changed,
+125unchanged,0removed relative to qualified3ce. Every unchanged selected path was
+verified against its previous pin; only the eleven independently reviewed source
+hashes below are rebound. The v1/v2 inventory files, bindings, historical reviews,
+qualification tools, admission selectors, packet rejection tests and thresholds
+remain unchanged. The new protocol is a documentation input, not a new selected
+native source path.
+
+| Reviewed changed path | Candidate SHA256 |
+| --- | --- |
+| `src/bin/desktop/configured_worker_tests.rs` | `06a9e7f5724b73c101a38dcc2c966d37b640900495643ea7bc04c13f4630f278` |
+| `src/bin/desktop/force_run_policy.rs` | `cbb784c1cc403cfd524b715a52144c662f428b302014af1794bb3131d09bb97a` |
+| `src/bin/desktop/force_run_policy_tests.rs` | `99d6b9e8b2a98eceab0514510d3f54873da50fdabc7626dd3896d45dd3c53383` |
+| `src/bin/desktop/force_runtime_integration_tests.rs` | `04ba4f5883e48c5548cb420e17b6a6736436871d8e6c7792487939bfe5ed29a6` |
+| `src/bin/desktop/force_runtime_ui_tests.rs` | `92475c2b577510a8f8fc11217f7eb1a5361dcaef20ade99f198f60d5b654966c` |
+| `src/bin/desktop/native_presentation_harness.rs` | `8ce8efa63afbe0d09e22996ec00478de331fcbda7a5ac83882f2ed3fff0d8ea1` |
+| `src/bin/desktop/scene_ui.rs` | `8ec81841a2792621205e58d7fdb80078ed75c94b823ddd6cb14976c0decda1a7` |
+| `src/bin/desktop/setup_ui_tests.rs` | `278b7a20f5d48a4e8a6c8ee2a4b18f0377f09f78bd64b34cfb20d4545ebc2563` |
+| `src/bin/desktop/timeline_ui_tests.rs` | `545e109f6d6808cc31482b8cffb4e21f8518d705424327728dc6c5d549a73df5` |
+| `src/bin/desktop/viewport.rs` | `4a365fbb1a0f48bd016b3d673b30e635ad26390205cb22c24d25fa46738b6a08` |
+| `src/bin/rheon-desktop.rs` | `d74cff5459f52d1cb01512b6300d9466411352f73b014491e3678d514844d1b3` |
+
+The appended review, actual complete v3 manifest and execution-contract status
+require independent review before atomic commit/publication; approval of the
+source-only patch is not approval of unseen admission bytes or native execution.
+Fresh native/rational qualification must use the clean committed candidate within
+the existing20minute workflow. Existing hosted Rust and full book qualification,
+including real packet normal/optimized rejection tests, must bind that actual
+source. No receipt refresh, allow-dirty, gate skip, threshold relaxation, budget
+expansion or PR merge is admitted by this source-identity record. FEMPR147 remains
+outside this change; recheck main/dependencies before integration.

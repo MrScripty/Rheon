@@ -13,8 +13,6 @@ fn style(ctx: &egui::Context) {
 fn fixture() -> App {
     let request = Request {
         force_fields: Vec::new(),
-        #[cfg(test)]
-        force_validation: false,
         collision_mesh: None,
         size: 2,
         steps: 1,
@@ -130,7 +128,13 @@ impl Presentation {
         }
         let retained_view = self.app.prepare_scene_presentation();
         let previous = self.app.scene.context;
-        self.app.scene.show(ctx, true, false, None);
+        self.app.scene.show(
+            ctx,
+            true,
+            false,
+            None,
+            force_run_policy::Target::NativeCarrier,
+        );
         if previous != self.app.scene.context {
             self.app.playing = false;
         }

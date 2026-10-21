@@ -57,7 +57,6 @@ fn output_root() -> PathBuf {
 fn request(root: &Path, fields: &ForceSnapshot) -> Request {
     Request {
         force_fields: vec![Some(fields.clone())],
-        force_validation: true,
         collision_mesh: None,
         size: 2,
         steps: 1,

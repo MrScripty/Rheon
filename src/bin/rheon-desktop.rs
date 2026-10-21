@@ -101,8 +101,6 @@ use std::time::{Duration, Instant};
 struct Request {
     /// Empty means legacy on every track; otherwise one immutable option per track.
     force_fields: Vec<Option<rheon::ForceSnapshot>>,
-    #[cfg(test)]
-    force_validation: bool,
     collision_mesh: Option<Arc<rheon::CollisionMesh>>,
     size: u64,
     steps: usize,
@@ -311,13 +309,6 @@ fn validate_request(request: &Request) -> Result<(), String> {
             }
         }
     }
-    #[cfg(test)]
-    let qualification = if request.force_validation {
-        force_run_policy::Qualification::Validated
-    } else {
-        force_run_policy::PRODUCTION_QUALIFICATION
-    };
-    #[cfg(not(test))]
     let qualification = force_run_policy::PRODUCTION_QUALIFICATION;
     force_run_policy::check(target, authored, qualification).map_err(str::to_owned)?;
 
@@ -1810,8 +1801,6 @@ impl App {
         let intent_path = root.join("intent.json");
         let request = Request {
             force_fields: Vec::new(),
-            #[cfg(test)]
-            force_validation: false,
             collision_mesh: None,
             size: baseline.constructor.counts_xyz[0],
             steps: baseline.future.requested_steps,
@@ -1971,8 +1960,6 @@ impl App {
             force_fields: fields.map_or_else(Vec::new, |fields| {
                 vec![Some(fields); if all { 2 } else { 1 }]
             }),
-            #[cfg(test)]
-            force_validation: false,
             collision_mesh: self.collision.mesh.clone(),
             size,
             steps: self.steps,
@@ -2038,8 +2025,6 @@ impl App {
         }
         let mut request = Request {
             force_fields: Vec::new(),
-            #[cfg(test)]
-            force_validation: false,
             collision_mesh: None,
             size: baseline.counts_xyz[0],
             steps: baseline.requested_steps,
@@ -2684,6 +2669,7 @@ impl eframe::App for App {
             self.running_request.is_some(),
             self.worker.is_some(),
             model,
+            self.setup_workflow.force_target(self.material_mode),
         );
         if previous_context != self.scene.context {
             self.playing = false;
@@ -3252,8 +3238,6 @@ mod tests {
     fn material_worker_accepts_and_captures_a_genuine_256_cube_preview() {
         let request = Request {
             force_fields: Vec::new(),
-            #[cfg(test)]
-            force_validation: false,
             collision_mesh: None,
             size: 256,
             steps: 1,
@@ -3474,8 +3458,6 @@ mod tests {
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
             force_fields: Vec::new(),
-            #[cfg(test)]
-            force_validation: false,
             collision_mesh: None,
             size: 32,
             steps: 64,
@@ -3538,8 +3520,6 @@ mod tests {
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
             force_fields: Vec::new(),
-            #[cfg(test)]
-            force_validation: false,
             collision_mesh: None,
             size: 32,
             steps: 3,
@@ -3628,8 +3608,6 @@ mod tests {
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
             force_fields: Vec::new(),
-            #[cfg(test)]
-            force_validation: false,
             collision_mesh: None,
             size: app.size,
             steps: app.steps,
@@ -3718,8 +3696,6 @@ mod tests {
     fn worker_runs_selected_and_equal_input_comparison() {
         let request = Request {
             force_fields: Vec::new(),
-            #[cfg(test)]
-            force_validation: false,
             collision_mesh: None,
             size: 8,
             steps: 4,
@@ -3818,8 +3794,6 @@ mod tests {
             run(
                 Request {
                     force_fields: Vec::new(),
-                    #[cfg(test)]
-                    force_validation: false,
                     collision_mesh: None,
                     size: 8,
                     steps: 4,

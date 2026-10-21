@@ -57,14 +57,15 @@ fn view_mode_tabs(ui: &mut egui::Ui, current: &mut ViewMode, blocked: bool) -> [
     [(ViewMode::Appearance,"Appearance"),(ViewMode::Particles,"Particles"),(ViewMode::Obstacle,"Obstacle lab"),(ViewMode::Transport,"Transport session")].map(|(mode,label)|{
         let mut response=ui.add_enabled(!blocked||mode==ViewMode::Appearance,egui::Button::selectable(*current==mode,label).wrap_mode(egui::TextWrapMode::Extend));
         if response.clicked() && *current!=mode {*current=mode;response.mark_changed();}
-        response.on_disabled_hover_text("Authored-force preview and lab runs are not integrated. Use the scene list and properties to author the draft.")
+        response.on_disabled_hover_text("Authored-force scenes use Appearance here. These alternate lab/session views do not consume the run-bound force document.")
     })
 }
 pub struct Viewport {
     #[cfg(test)]
     presentation_only: bool,
     scene_handles: super::scene_handles::SceneHandles,
-    /// Draft authored fields have no runtime/preview integration yet.
+    /// Authored scenes keep alternate lab/session views unavailable; Appearance
+    /// projects the supported carrier or material preview.
     pub authored_forces_pending: bool,
     pub collision_mesh: Option<Arc<rheon::CollisionMesh>>,
     pub camera: OrbitCamera,

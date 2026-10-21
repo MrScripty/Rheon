@@ -372,8 +372,6 @@ fn ui_setup_running_summary_uses_frozen_physical_samples_and_timestep() {
     };
     let request = Request {
         force_fields: Vec::new(),
-        #[cfg(test)]
-        force_validation: false,
         collision_mesh: None,
         size: 32,
         steps: 37,
@@ -625,8 +623,6 @@ fn ui_setup_synthetic_active_worker_keeps_progress_frozen_inputs_and_cancel_sign
         app.requested_dt = 0.001;
         app.running_request = Some(Request {
             force_fields: Vec::new(),
-            #[cfg(test)]
-            force_validation: false,
             collision_mesh: None,
             size: 4,
             steps: 4,
@@ -764,8 +760,6 @@ fn bounded_genuine_cancel_contract() {
     let (release, resume) = std::sync::mpsc::sync_channel(1);
     let request = Request {
         force_fields: Vec::new(),
-        #[cfg(test)]
-        force_validation: false,
         collision_mesh: None,
         size: 4,
         steps: 2,

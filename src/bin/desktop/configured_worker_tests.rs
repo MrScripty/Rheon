@@ -486,8 +486,6 @@ fn actual_runtime_failure_terminal_is_not_relabelled_by_late_worker_cancel() {
     let (release, resume) = std::sync::mpsc::sync_channel(0);
     let request = Request {
         force_fields: Vec::new(),
-        #[cfg(test)]
-        force_validation: false,
         collision_mesh: None,
         size: 2,
         steps: 3,

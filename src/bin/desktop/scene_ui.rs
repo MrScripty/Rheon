@@ -269,6 +269,9 @@ impl SceneUi {
         });
     }
     pub fn launch_readiness(&self, target: super::force_run_policy::Target) -> Result<(), String> {
+        if self.editing() {
+            return Err("Finish or cancel the force edit before running".into());
+        }
         self.draft()
             .freeze()
             .map_err(|error| format!("Invalid authored force: {error}"))?;
@@ -322,6 +325,7 @@ impl SceneUi {
         has_run: bool,
         active_worker: bool,
         model: Option<ModelSummary>,
+        target: super::force_run_policy::Target,
     ) {
         if !self.open {
             egui::SidePanel::right("scene-collapsed")
@@ -343,9 +347,10 @@ impl SceneUi {
             });
             if previous!=self.context {self.selected=None;}
             let editable=self.context==SceneContext::Draft && !active_worker && !self.editing();
-            if self.context==SceneContext::Draft && !self.forces.objects.is_empty() {
+            if self.context==SceneContext::Draft && !self.forces.objects.is_empty()
+                && let Err(error)=self.launch_readiness(target) {
                 ui.colored_label(egui::Color32::YELLOW,"Authored-force runs unavailable")
-                    .on_hover_text("Runtime and archive integration is pending. No authored force will be silently ignored.");
+                    .on_hover_text(error);
             }
             if self.context==SceneContext::Draft && let Some(error)=&self.error {ui.colored_label(egui::Color32::LIGHT_RED,error);}
             egui::ScrollArea::vertical().id_salt("scene-properties-scroll").show(ui,|ui| {
@@ -542,7 +547,13 @@ mod tests {
                         .exact_width(280.0)
                         .show(ctx, |_| {});
                 }
-                scene.show(ctx, true, false, None);
+                scene.show(
+                    ctx,
+                    true,
+                    false,
+                    None,
+                    super::super::force_run_policy::Target::NativeCarrier,
+                );
                 available = ctx.available_rect();
             },
         );
@@ -950,7 +961,7 @@ mod tests {
         );
     }
     #[test]
-    fn scene_force_refusal_projects_disabled_run_without_dispatch() {
+    fn scene_force_policy_projects_supported_and_refused_intents_without_dispatch() {
         // Paint/capture intent only: even a broken guard cannot start work here.
         fn project(
             ctx: &egui::Context,
@@ -975,36 +986,81 @@ mod tests {
             );
             (output, requested)
         }
-        let ctx = context();
-        let mut app = super::super::App::default();
-        app.scene.add(NewForce::Directional).unwrap();
-        let (output, requested) = project(&ctx, &mut app, vec![]);
-        assert!(!requested);
-        assert!(output.shapes.iter().any(|s|matches!(&s.shape,egui::Shape::Text(t) if t.galley.text()=="Authored-force runs unavailable")));
-        let pos = text_rect(&output, "Simulate", false).center();
-        for pressed in [true, false] {
-            let (_, requested) = project(
-                &ctx,
-                &mut app,
-                vec![
-                    egui::Event::PointerMoved(pos),
-                    egui::Event::PointerButton {
-                        pos,
-                        button: egui::PointerButton::Primary,
-                        pressed,
-                        modifiers: Default::default(),
-                    },
-                ],
-            );
+        use super::super::SetupWorkflow;
+        for (material, workflow, invalid, expected) in [
+            (false, SetupWorkflow::Preview, false, true),
+            (true, SetupWorkflow::Preview, false, true),
+            (false, SetupWorkflow::AcceptedSession, false, false),
+            (true, SetupWorkflow::AcceptedSession, false, false),
+            (false, SetupWorkflow::Preview, true, false),
+        ] {
+            let ctx = context();
+            let mut app = super::super::App::default();
+            app.material_mode = material;
+            app.setup_workflow = workflow;
+            app.scene.add(NewForce::Directional).unwrap();
+            if invalid {
+                app.scene.forces.objects[0].support = ForceSupport::Sphere {
+                    radius: 0.0,
+                    edge_fraction: 0.0,
+                };
+            }
+            let (output, requested) = project(&ctx, &mut app, vec![]);
             assert!(!requested);
+            let unavailable = output.shapes.iter().any(|s|matches!(&s.shape,egui::Shape::Text(t) if t.galley.text()=="Authored-force runs unavailable"));
+            assert_eq!(unavailable, !expected);
+            let label = match workflow {
+                SetupWorkflow::Preview => "Simulate",
+                SetupWorkflow::AcceptedSession => "Save & run native",
+            };
+            let pos = text_rect(&output, label, false).center();
+            let mut captured = false;
+            for pressed in [true, false] {
+                let (_, requested) = project(
+                    &ctx,
+                    &mut app,
+                    vec![
+                        egui::Event::PointerMoved(pos),
+                        egui::Event::PointerButton {
+                            pos,
+                            button: egui::PointerButton::Primary,
+                            pressed,
+                            modifiers: Default::default(),
+                        },
+                    ],
+                );
+                captured |= requested;
+            }
+            assert_eq!(captured, expected);
+            assert!(app.worker.is_none() && app.history.is_none() && app.running_request.is_none());
         }
-        assert!(app.worker.is_none() && app.history.is_none() && app.running_request.is_none());
-        app.scene.forces.objects[0].enabled = false;
-        assert!(
-            app.scene
-                .launch_readiness(super::super::force_run_policy::Target::NativeCarrier)
-                .is_err()
-        );
+    }
+    #[test]
+    fn scene_force_warning_projects_effective_target_without_dispatch() {
+        use super::super::force_run_policy::Target;
+        let ctx = context();
+        let mut scene = SceneUi {
+            open: true,
+            ..Default::default()
+        };
+        scene.add(NewForce::Directional).unwrap();
+        for (target, unavailable) in [
+            (Target::NativeCarrier, false),
+            (Target::ParticleMaterial, false),
+            (Target::Unsupported, true),
+        ] {
+            let output = ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(
+                        egui::Pos2::ZERO,
+                        egui::vec2(900.0, 650.0),
+                    )),
+                    ..Default::default()
+                },
+                |ctx| scene.show(ctx, false, false, None, target),
+            );
+            assert_eq!(output.shapes.iter().any(|s| matches!(&s.shape,egui::Shape::Text(t) if t.galley.text()=="Authored-force runs unavailable")), unavailable);
+        }
     }
     #[test]
     fn scene_draft_timeline_roundtrip_preserves_retained_index_without_history() {
