@@ -1,0 +1,26 @@
+{
+  "schema": "rheon-pr143-hosted-failure-v1",
+  "head": "41c68c80d1d4a64b219c10dd280d2544ef439ea3",
+  "checkout": "7e99fa3bc06ed032ead003ea0b4557642a8ccee5",
+  "tree": "21b9d6fba7713215f835d4c505fa70aca7d393ac",
+  "checkout_tree_matches_head": true,
+  "run_id": 39692570591,
+  "attempt": 1,
+  "job_id": 119542065950,
+  "job_name": "executable-contracts",
+  "job_conclusion": "failure",
+  "job_url": "https://github.com/MrScripty/Rheon/actions/runs/39692570591/job/119542065950",
+  "decoded_log": "/workspace/pr143-hosted-failure-39692570591-executable.log",
+  "decoded_log_sha256": "971e1790afe431ab5e9535bbf23feecfc422e90d13f9929e09d2c0f26384b8cd",
+  "harness_cases": 219,
+  "errors": 2,
+  "conditional_skips": 27,
+  "failing_cases": [
+    "CiBudgetContract.test_ci_budget_preserves_every_existing_job_check",
+    "CiBudgetContract.test_only_exact_reviewed_isolated_setup_and_additive_contracts_are_allowed"
+  ],
+  "diagnosis": "Exact source-only prefix verifier still requires old30min feature header; reviewed workflow uses60min plus two comments. Both errors are runner/budget/matrix/dependencies: feature-contracts at verifier line102.",
+  "disposition": "Preserve failure. Adopt independently reviewed lead-owned exact-header contract repair with unchanged workloads/matrix/gates and strict negative budget controls; then publish a new head for fresh ordinary CI. No automatic retry of this failed head.",
+  "scientific_campaign_or_ignored_cv3_tests_run": false,
+  "other_jobs": "Still running at failure inspection; no pass inferred. Later outcomes must be recorded separately."
+}

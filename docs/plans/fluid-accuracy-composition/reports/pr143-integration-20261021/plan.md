@@ -91,6 +91,18 @@ copies were independently checked. No scientific campaign or retry occurred.
 The next slice is actual dependency/main revalidation, the lead-owned shared CI
 budget repair plus required hosted gates, and final exact ready-head review.
 
+The lead's exact 30-to-60 outer CI budget was adopted at `41c68c8` without any
+selected/private/admission change and published to the original draft PR branch
+by normal fast-forward. Hosted run39692570591 then failed its executable path:
+two exact source-header guards still expected the old 30-minute prefix. The
+[failure and recovery](ci-budget-recovery.md) preserve that outcome and log.
+The independently reviewed strict guard repair from lead/`3cd735f` was normally
+merged at `79d5a82`; all four source-only guard cases pass normally and optimized,
+with added 30/59/61/missing negatives. Full 152-input admission and all private
+preparation bytes remain unchanged. No automatic retry or campaign occurred.
+The next slice is independent recovery/publication review and new-head ordinary
+hosted CI, followed by actual dependency/main revalidation and final ready review.
+
 Preliminary subject `286df732106717d056330b276d6f563e79a447b8` passes
 `cargo fmt --all --check` and
 `cargo check --locked --no-default-features --all-targets` with Rust/Cargo 1.92.0.
