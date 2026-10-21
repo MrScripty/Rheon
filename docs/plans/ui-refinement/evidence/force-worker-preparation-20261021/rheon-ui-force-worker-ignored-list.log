@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.22s
+     Running unittests src/bin/rheon-desktop.rs (/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f)
+ai_comparison::worker::tests::real_cpu_deployment_cancellation_drains_child_and_allows_restart: test
+force_runtime_integration_tests::material_force_dispatch_records_immutable_scene: test
+force_runtime_integration_tests::native_force_dispatch_records_and_cold_binds_v2: test
+setup_ui_tests::bounded_genuine_cancel_contract: test
+
+4 tests, 0 benchmarks

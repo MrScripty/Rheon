@@ -344,21 +344,18 @@ impl ConfiguredControls {
         Ok(set)
     }
 
-    /// Return launch intent only. The caller freezes and saves the immutable
-    /// run-set before runtime preflight or execution in the existing worker.
-    pub(crate) fn show(&mut self, ui: &mut egui::Ui, enabled: bool) -> bool {
-        let mut launch = false;
+    pub(crate) fn show(&mut self, ui: &mut egui::Ui, enabled: bool) {
         ui.add_enabled_ui(enabled, |ui| {
-            ui.label("Accepted Session · sealed full liquid, constructor rest, zero inlet");
+            ui.label("Sealed full liquid · starts at rest · no inlet");
             ui.small("Constant forcing only; no appearance, emitter, phase source, or model accuracy claim.");
-            ui.checkbox(&mut self.paired, "Pair native baseline with configured CPU pressure");
-            ui.horizontal(|ui| {
+            ui.checkbox(&mut self.paired, "Compare with CPU adapter");
+            ui.horizontal_wrapped(|ui| {
                 ui.label("Density (kg/m³)");
                 ui.add(egui::DragValue::new(&mut self.density).speed(1.0).range(1e-9..=1e9));
             });
             ui.checkbox(&mut self.newtonian, "Apply constant Newtonian viscosity");
             if self.newtonian {
-                ui.horizontal(|ui| {
+                ui.horizontal_wrapped(|ui| {
                     ui.label("Dynamic viscosity (Pa·s)");
                     ui.add(egui::DragValue::new(&mut self.dynamic_viscosity).speed(0.001).range(0.0..=1e5));
                 });
@@ -392,13 +389,31 @@ impl ConfiguredControls {
             if self.paired {
                 self.package_controls(ui);
             }
-            let ready = !self.paired || self.current_inspection().is_ok();
-            let label = if self.paired { "Freeze and run native + configured" } else { "Freeze and run native" };
-            launch = ui.add_enabled(ready, egui::Button::new(label)).clicked();
             if !self.feedback.is_empty() {
                 ui.label(&self.feedback);
             }
         });
+    }
+
+    /// Returns intent only. The caller processes current form edits before
+    /// freezing and saving immutable intent through the existing launch path.
+    pub(crate) fn launch_button(&self, ui: &mut egui::Ui, enabled: bool) -> bool {
+        let ready = !self.paired || self.current_inspection().is_ok();
+        let label = if self.paired {
+            "Save & run pair"
+        } else {
+            "Save & run native"
+        };
+        let launch = ui
+            .add_enabled(
+                enabled && ready,
+                egui::Button::new(label).min_size(egui::vec2(ui.available_width(), 32.0)),
+            )
+            .clicked();
+        ui.small("Saves immutable intent before running.");
+        if !ready {
+            ui.small("Inspect the adapter package before running.");
+        }
         launch
     }
 
@@ -440,7 +455,7 @@ impl ConfiguredControls {
         if let Some(inspection) = &self.inspection {
             ui.label(&inspection.description);
         }
-        ui.horizontal(|ui| {
+        ui.horizontal_wrapped(|ui| {
             ui.label("Requested native prefix (intervals)");
             ui.add(
                 egui::DragValue::new(&mut self.requested_native_prefix_steps)
@@ -451,7 +466,7 @@ impl ConfiguredControls {
 }
 
 fn vector_control(ui: &mut egui::Ui, label: &str, values: &mut [f64; 3]) {
-    ui.horizontal(|ui| {
+    ui.horizontal_wrapped(|ui| {
         ui.label(label);
         for value in values {
             ui.add(egui::DragValue::new(value).speed(0.01));
@@ -459,7 +474,7 @@ fn vector_control(ui: &mut egui::Ui, label: &str, values: &mut [f64; 3]) {
     });
 }
 fn byte_control(ui: &mut egui::Ui, label: &str, bytes: &mut usize) {
-    ui.horizontal(|ui| {
+    ui.horizontal_wrapped(|ui| {
         ui.label(label);
         ui.add(
             egui::DragValue::new(bytes)

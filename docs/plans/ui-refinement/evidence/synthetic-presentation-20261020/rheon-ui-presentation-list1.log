@@ -1,0 +1,280 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-ui-authoring)
+error[E0433]: failed to resolve: could not find `egui_winit` in `egui_glow`
+   --> src/bin/desktop/native_presentation_harness.rs:291:28
+    |
+291 |     use eframe::egui_glow::egui_winit::winit::platform::x11::EventLoopBuilderExtX11;
+    |                            ^^^^^^^^^^ could not find `egui_winit` in `egui_glow`
+
+error[E0599]: no method named `with_any_thread` found for mutable reference `&mut EventLoopBuilder<UserEvent>` in the current scope
+   --> src/bin/desktop/native_presentation_harness.rs:304:25
+    |
+304 |                 builder.with_any_thread(true);
+    |                         ^^^^^^^^^^^^^^^ method not found in `&mut EventLoopBuilder<UserEvent>`
+    |
+    = help: items from traits can only be used if the trait is in scope
+help: the following traits which provide `with_any_thread` are implemented but not in scope; perhaps you want to import one of them
+    |
+  2 + use winit::platform::wayland::EventLoopBuilderExtWayland;
+    |
+  2 + use winit::platform::x11::EventLoopBuilderExtX11;
+    |
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `scene_ui::SceneUi`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `std::option::Option<ai_comparison::ComparisonApp>`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `archive_view::ArchiveView`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `RunSetView`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `configured_controls::ConfiguredControls`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `saved_comparison::SavedComparisonPage`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `comparison_field_view::ComparisonFieldView`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `collision_ui::CollisionControls`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `std::string::String`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `settings::MaterialControls`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `emitter_controls::EmitterControls`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `std::option::Option<Worker>`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `std::option::Option<std::sync::Arc<CpuScheduler>>`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `std::vec::Vec<ResultRow>`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `std::vec::Vec<TextureHandle>`, which does not implement the `Copy` trait
+
+error[E0509]: cannot move out of type `App`, which implements the `Drop` trait
+  --> src/bin/desktop/native_presentation_harness.rs:73:19
+   |
+73 |       let mut app = App {
+   |  ___________________^
+74 | |         history: Some(history),
+75 | |         running_request: Some(request),
+76 | |         follow_live: false,
+...  |
+82 | |         ..Default::default()
+83 | |     };
+   | |     ^
+   | |     |
+   | |_____cannot move out of here
+   |       move occurs because value has type `viewport::Viewport`, which does not implement the `Copy` trait
+
+Some errors have detailed explanations: E0433, E0509, E0599.
+For more information about an error, try `rustc --explain E0433`.
+error: could not compile `rheon` (bin "rheon-desktop" test) due to 18 previous errors

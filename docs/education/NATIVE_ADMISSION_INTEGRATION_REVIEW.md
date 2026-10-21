@@ -1161,3 +1161,276 @@ The separate research-book job performs admission preflight and real packet
 rejection tests normally and under optimized Python within its existing
 90-minute job bound; readiness requires those actual current-head outcomes,
 not an assumption that the standalone qualifier includes packet tests.
+
+
+## Scene authoring and gated force runtime integration, 2026-10-21
+
+This explicit extension admits the complete UI source at
+`da5c68891a7c627007ccb7136c9c9cd6b42fee26`, tree
+`281834746edcb4c84e1d33a9b0eddb9578fda3b0`, for an attempt at fresh
+committed-source qualification. Its complete selected closure is compared
+against merged backend `7516a8e5d328c6dc8eda8ea577cb03f20b2e343a`, whose
+126-path inventory includes the preceding shared-force admission. The UI
+closure has 136 paths: ten added, ten changed, 116 unchanged, none removed.
+The existing selector still includes every `src/` file, including desktop
+tests and README files, plus build/toolchain and qualification inputs.
+
+The complete merged backend review above is preserved byte for byte. The UI
+branch's older 124-path inventory and shorter review do not supersede the
+merged 126-path backend admission. This v3 rebind preserves all 116 unchanged
+backend pins and explicitly adds or replaces only the twenty UI paths listed
+below. Historical v1/v2 records, predecessor digests, reviewed ancestry and
+immutable primary identity remain unchanged.
+
+The reviewed UI scope is:
+
+- `scene_ui.rs` owns canonical authored force objects, shared-domain IDs,
+  validated properties and immutable snapshot freezing. Draft and Retained
+  selection/property contexts remain distinct; retained values are read-only.
+  `scene_view.rs` and `scene_handles.rs` add viewport selection, thin selected
+  outlines and Move/Rotate/Size previews. Handle preview data is temporary;
+  validated release applies through the existing transaction, while cancel
+  leaves canonical draft data unchanged. These UI controls do not define a
+  second force evaluator or alter physical units.
+- `rheon-desktop.rs`, `carrier_execution.rs`, `comparison.rs`, `run_sets.rs`
+  and `run_sets/source.rs` carry immutable track-specific snapshots through
+  native-carrier and particle-material dispatch and retained presentation.
+  Force-aware execution uses the canonical backend adapters and accepted
+  controls. Saved native intents use version two for authored metadata while
+  preserving the legacy no-force version-one bytes/hash path. This does not
+  add a serialized particle-material cold-rerun API.
+- `inspector.rs` binds and verifies the force-scene digest using canonical
+  recording metadata before publication/readback. Historical no-force
+  branches retain their existing controls. `settings.rs` supplies precise
+  numeric editing; `configured_controls.rs` and `viewport.rs` integrate the
+  compact timeline, Scene panel and selection/focus ownership.
+- `force_run_policy.rs` distinguishes eligible native-carrier and
+  particle-material targets from unsupported configured/session/provider/
+  free-surface/AI paths. Production qualification remains `Pending` and
+  authored production launches remain refused. Test qualification cannot
+  grant capability to an unsupported execution owner. The associated policy,
+  runtime, setup and timeline test modules are selected source inputs, not
+  evidence that all runtime or native acceptance is complete.
+- `native_presentation_harness.rs` is a test-configuration presentation
+  harness. Its presence in the conservative closure does not establish native
+  execution results. Backend force equations/evaluator, MAC/particle adapters,
+  accepted recording modules and numerical/pressure policies are unchanged
+  from merged `7516a8e5`.
+
+The final two repairs were independently inspected as actual source diffs.
+`37ac711a4b7134f628c7a71d54f62056d71ca5f3` moves unchanged Inspector custody
+helpers and the test-configuration entry point before their test modules,
+without lint suppression. `da5c6889` gives normal Draft property editing and
+disabled previews one persistent per-object UI identity, preserving disclosure
+state and numeric editor identity when invalid-input feedback adds rows. Its
+two new regressions construct canonical metadata and egui contexts only; they
+do not construct App/Worker or execute solvers, recorders or models.
+
+The published source reviews and bounded execution subjects remain under
+`../plans/ui-refinement/reports/`, particularly
+`runtime-force-integration-source-review.md`,
+`force-worker-runtime-results-review.md`, `typed-force-policy-source-review.md`,
+`ci-item-order-source-review.md` and `scene-properties-stability-source-review.md`.
+Their stated subjects and limits remain authoritative. Independent read-only
+integration review checked the twenty added/changed UI paths, both exact repair
+diffs, all transferred changed-file identities, full reconstructed trees and
+the complete selected-source comparison against merged `7516a8e5`. This is a
+source review; it adds no numerical, hardware or native-interaction result.
+
+Exact added/changed source SHA256 pins relative to merged `7516a8e5`:
+
+- `src/bin/desktop/carrier_execution.rs`: `c4455879373fc71eaaf398fdaa230c4d0b115dc7ff0a9da6356afeb24cba23b2`
+- `src/bin/desktop/comparison.rs`: `27ad4b88db848430a68f5f9fae796fa10eab1df26af9dbae73386e55c9b5c74f`
+- `src/bin/desktop/configured_controls.rs`: `5463e18b3b5a139c448dd327b23318605664e90aea4690187981177e7f68e60b`
+- `src/bin/desktop/configured_worker_tests.rs`: `dabe1c3cf4214ee30ca42102c4c5387564b661f81b810d2c61035b8691669016`
+- `src/bin/desktop/force_run_policy.rs`: `086d4ee8c18ff30f2165b8622a53d649bd9eb8166bbbbcb82dde3a0eb2427cc2`
+- `src/bin/desktop/force_run_policy_tests.rs`: `a518b47b71cb2aff5d7ce46169918c60d534c00ffccdd0ee5c90abcebbdcdebd`
+- `src/bin/desktop/force_runtime_integration_tests.rs`: `da753230b81df85227ab348c39ea4ac97e2ff093cf2da09ff9ac5dce225d0584`
+- `src/bin/desktop/force_runtime_ui_tests.rs`: `1d242eaed1b416e3dfb2577d5610c4e0d6d0ca5040f80293681ae184090cebb9`
+- `src/bin/desktop/inspector.rs`: `7a6582faf9bfff755d7fade624f6b11cca06813c75310fba25ccbfabff1d2aae`
+- `src/bin/desktop/native_presentation_harness.rs`: `38b8b68ebc8a54769bcf8e65b2cf80890c03eac2251b4f838fac29ecbf63ecb6`
+- `src/bin/desktop/run_sets.rs`: `b25f07c5d9f4a27572922956043224c35dde35d9a0d987ab8af4f3f3151c91f0`
+- `src/bin/desktop/run_sets/source.rs`: `39e8982fffaf4e9adcd0ca0c60f49eabc96b829957bc6d9c05479c80eee99daf`
+- `src/bin/desktop/scene_handles.rs`: `4818b85644a2891de562adc00fc203eb59c674bbf46aa88cd440bcab6477eb22`
+- `src/bin/desktop/scene_ui.rs`: `46eeaeaf3cce71c7665cde4224ef2ed7e62100047796414c94d07e02dd4b7390`
+- `src/bin/desktop/scene_view.rs`: `d16851804c3aa727c7fdf658a821ef8c8cd2c167e853b72d02604f2a14dfa02f`
+- `src/bin/desktop/settings.rs`: `72a2e42de38100fa7cb517bfa7c1b9377975d23c3c4cd887615c296549c093c4`
+- `src/bin/desktop/setup_ui_tests.rs`: `db3d1328aa159e79ea4f8a15cd59ebb6cb7c9352854760bd8164587014e35900`
+- `src/bin/desktop/timeline_ui_tests.rs`: `606b0e95edba4a813221af776e7b12f776adcf9645de302ef827aa595111694b`
+- `src/bin/desktop/viewport.rs`: `ee7acacd33ae29af7ec7f592361861315b30891b1637cb2989ba7390fa8320d3`
+- `src/bin/rheon-desktop.rs`: `dfc472b78c46e83b45668a8d99bb82f721fcc771ddc584cdc8fdaf82272003ff`
+
+This two-file admission commit changes no selected native source byte. It
+admits fresh clean committed-source native/rational qualification only; it is
+not a scientific receipt for authored fields, native repair acceptance,
+production enablement or full voxel/particle desktop parity. Earlier bounded
+worker/recording runs and local egui checks retain their own exact subjects.
+The assigned native validator must separately verify the final repair's
+specified window/scaling and interaction cases. A later enabled candidate
+requires its own reviewed source, admission binding and separately bounded
+actual App validation. Unsupported execution paths remain unsupported.
+
+No selector, threshold, mathematical oracle, qualification runner, workflow or
+historical receipt is changed. A stale present inventory must still refuse;
+there is no fallback to older pins. Fresh receipts must bind this actual
+committed complete inventory and review, rather than reuse backend or earlier
+UI receipts. The existing dedicated native/rational workflow has a 20-minute
+job bound; the separate research-book job performs admission preflight and
+real packet rejection tests normally and under optimized Python within its
+existing 90-minute bound. Both actual exact-head outcomes remain required.
+The dedicated workflow is not automatically selected by admission-document
+paths and must be dispatched explicitly for the clean committed branch.
+
+Independent review of the actual complete two-file candidate is required
+before atomic commit and publication. No prior review is represented as
+approval of an unseen patch. PR147's separate research-book/FEM changes are
+outside this source admission; current main and dependencies must be checked
+again before any merge.
+
+
+## Reviewed production-force enabling source candidate after qualified 3ce3f29
+
+The preserved review prefix above is byte-identical to the complete reviewed UI
+admission at3ce3f29cdec0613272064eb8df2f4fbad6ee0603: prefix SHA256
+`3e190beb40264f575a54e36ee33160ae3da73e36fa7032c67702ab8a8f2ff48a`.
+Its v3 manifest SHA256 is
+`15e3f33639805229a22822137331e337f7e32b1461373563ecaa4d9ddc716300`.
+That checkpoint's Rust39534833351, native/rational39534867735 and book39534833251
+completed successfully; actual native/rational payload/source bindings and book
+packet26normal+26optimized/no-packet-skips logs were independently reviewed. Its
+PR deployment was skipped. Those receipts stay bound to3ce and are not receipts
+for this new candidate. Historical6153/fe9 failures and cancellation remain evidence.
+
+Parent assigned these desktop paths and admission files to the repository
+integration owner while the original UI owner is idle. The actual eleven-file
+source patch over3ce was independently reviewed as SHA256
+`399db2ece70725d0e66eba4dce7abfeaf9f0d04bdfd710e2ba3009aa5c814f27`.
+It removes every Request force_validation field, literal and cfg(test) branch.
+Production and tests now use the same Validated policy for native-carrier and
+particle-material execution. Configured/session/provider/free-surface/AI paths
+still refuse authored presence, including empty/disabled/zero scenes. Unsupported
+configured precedence, material-only single-track restriction, exact member force
+binding and legacy None behavior remain. No solver equation, core adapter,
+recording schema/hash, source emitter, material stress, closure or threshold changes.
+
+Scene receives the effective target and derives its warning from the same policy;
+the Run action emits intent only for eligible valid input. A live force edit must
+be applied/cancelled before launch, avoiding a snapshot of its pre-edit draft.
+The viewport's reachable stale runtime wording is corrected while alternate
+lab/session restrictions remain. Other modified test/harness files only remove
+obsolete Request fields. Existing historical native property acceptance is on da5;
+this new source candidate still requires its own production App validation.
+
+Strict desktop all-target Clippy and compile-only checking passed. The first new
+Scene test initialization triggered field_reassign_with_default; that original
+failure log was retained and the initializer corrected without suppressing lint.
+A sealed current test binary SHA256
+`6f07fa1e27b8dcd3f007b5722eba414ba6e1228e36d2d6dd8c30aa7645043ca5`
+enumerated208tests. Ten independently reviewed exact pure tests each passed once,
+serially, under30s wall/20sCPU/512MiBAS/1MiBfile+log, TERM then owned-child KILL
+with1s grace, testthreads1 and no parallel feature pool. They cover four force
+policy cases; mixed saved-track custody and recording-header preflight; supported/
+refused Run intent without dispatch; Scene-only warning; disclosure stability;
+and invalid-radius correction without refocus. No Worker, solver, SQLite, model,
+native App, L1/MMS or extra scientific execution was performed locally.
+
+The actual-App input/allocation and admission protocol is
+`docs/plans/ui-refinement/reports/enabled-force-app-validation-contract.md`, SHA256
+`80043585fd578cd625d5b2a24b4b66173fd852eed9643a50d82338a0908f0d10`.
+It explicitly addresses real GUI carrier density1/192MiB/max2000, material's
+minimum32768 allocation cap/default192MiB, recording1MiB/2records, exact small
+finite workloads and separate rendering/process/temporary-disk overhead. It
+requires native-owner existing GUI-compatible enforcement facts and an independent
+actual execution-contract review before any App numerical execution. Managed
+buffer arithmetic and prior Worker caps are not represented as process/RSS/disk
+peak bounds. The native protocol's unresolved fields are not waived by this source
+admission. No material serialized cold-rerun format or scientific parity is claimed.
+
+The complete conservative native selection remains136paths:0added,11changed,
+125unchanged,0removed relative to qualified3ce. Every unchanged selected path was
+verified against its previous pin; only the eleven independently reviewed source
+hashes below are rebound. The v1/v2 inventory files, bindings, historical reviews,
+qualification tools, admission selectors, packet rejection tests and thresholds
+remain unchanged. The new protocol is a documentation input, not a new selected
+native source path.
+
+| Reviewed changed path | Candidate SHA256 |
+| --- | --- |
+| `src/bin/desktop/configured_worker_tests.rs` | `06a9e7f5724b73c101a38dcc2c966d37b640900495643ea7bc04c13f4630f278` |
+| `src/bin/desktop/force_run_policy.rs` | `cbb784c1cc403cfd524b715a52144c662f428b302014af1794bb3131d09bb97a` |
+| `src/bin/desktop/force_run_policy_tests.rs` | `99d6b9e8b2a98eceab0514510d3f54873da50fdabc7626dd3896d45dd3c53383` |
+| `src/bin/desktop/force_runtime_integration_tests.rs` | `04ba4f5883e48c5548cb420e17b6a6736436871d8e6c7792487939bfe5ed29a6` |
+| `src/bin/desktop/force_runtime_ui_tests.rs` | `92475c2b577510a8f8fc11217f7eb1a5361dcaef20ade99f198f60d5b654966c` |
+| `src/bin/desktop/native_presentation_harness.rs` | `8ce8efa63afbe0d09e22996ec00478de331fcbda7a5ac83882f2ed3fff0d8ea1` |
+| `src/bin/desktop/scene_ui.rs` | `8ec81841a2792621205e58d7fdb80078ed75c94b823ddd6cb14976c0decda1a7` |
+| `src/bin/desktop/setup_ui_tests.rs` | `278b7a20f5d48a4e8a6c8ee2a4b18f0377f09f78bd64b34cfb20d4545ebc2563` |
+| `src/bin/desktop/timeline_ui_tests.rs` | `545e109f6d6808cc31482b8cffb4e21f8518d705424327728dc6c5d549a73df5` |
+| `src/bin/desktop/viewport.rs` | `4a365fbb1a0f48bd016b3d673b30e635ad26390205cb22c24d25fa46738b6a08` |
+| `src/bin/rheon-desktop.rs` | `d74cff5459f52d1cb01512b6300d9466411352f73b014491e3678d514844d1b3` |
+
+The appended review, actual complete v3 manifest and execution-contract status
+require independent review before atomic commit/publication; approval of the
+source-only patch is not approval of unseen admission bytes or native execution.
+Fresh native/rational qualification must use the clean committed candidate within
+the existing20minute workflow. Existing hosted Rust and full book qualification,
+including real packet normal/optimized rejection tests, must bind that actual
+source. No receipt refresh, allow-dirty, gate skip, threshold relaxation, budget
+expansion or PR merge is admitted by this source-identity record. FEMPR147 remains
+outside this change; recheck main/dependencies before integration.
+
+## Reviewed Pending-era Scene test assertion repair after 21e70bd
+
+The entire preceding review is preserved byte-for-byte from
+`21e70bdeb42f529b63ee3cab5a08331c09646c9f`: 92814 bytes, SHA256
+`fe11734e336ae2527aa8f96cac81c284da3d50229317a2c1fb5a0c6b79e97510`. Its v3 manifest SHA256 remains
+`3a2e70e515adc69ac3ce5b2713538bb0096c85505e8ac0f0142de0611fd7ba3b` in Git history.
+The new repair does not reinterpret the fully qualified3ce checkpoint or21e's
+fresh dedicated qualification receipts as receipts for the next source revision.
+
+Actual21e Rust run39543779071 desktop job119037237201 failed its contract step:
+`scene_ui::tests::scene_pointer_add_select_edit_collapse_and_retained_context`
+still asserted NativeCarrier readiness was an error at scene_ui.rs741. The actual
+checkout ccd3514e431f20aa7a53806ed90462c56f44b0c2 has the exact21e tree
+cfadc610a1299a4e1fc84d68dba2ed3daeb4f7c6. Its desktop result was203passed,
+1failed,4ignored; it stopped before integration targets. Strict lints had passed.
+Original logs,21e receipts and the prior sealed local binary remain preserved.
+
+The exact minimal source patch SHA256
+`cbe01f17a79d9c9367c532778d4380865352dda214ce60aa4d4d068bf1ee7d90`
+replaces this Pending-era expectation with exact NativeCarrier `Ok(())` and exact
+Unsupported `Err(UNSUPPORTED.into())`. The valid scene contains three authored
+objects after normal egui edits, with its Vortex disabled. Authored presence stays
+unsupported for the unsupported owner; successful supported readiness now matches
+the intentionally enabled shared production policy. This is a changed eligibility
+contract assertion, not weakened numerical validation or acceptance of any error.
+
+Only assertions inside `#[cfg(test)] mod tests` change. The production prefix of
+scene_ui.rs before that module is byte-identical to21e, SHA256
+`0e952e9d717d4b0ed9e6491d53ca334cf386d78d885fee33864aeade5a88d746`. No production control, solver, evaluator, recording, force-scene,
+App input protocol, threshold, selector or qualification tool changes. The existing
+actual-App contract remains SHA256
+`80043585fd578cd625d5b2a24b4b66173fd852eed9643a50d82338a0908f0d10`.
+Native process/graphics/SQLite/output/termination review and A/B/C execution remain
+separate and pending; no numerical App work was duplicated here.
+
+Independent review inspected the actual patch and complete pure helper closure:
+SceneUi, canonical metadata and egui context/frame/click/key/replace only, widths
+900/1250. No App/Worker, solver/evaluator, filesystem, recorder, model or subprocess
+helper is reached. The newly compiled sealed test binary SHA256
+`50b03c3df9af47e943c2f502f3d7835336d3d7c4786fda6daf4787cbd4bc2dfb`
+enumerated208unique tests. The exact failing case passed once,1passed/207filtered,
+exit0, no signals, under30s wall/20sCPU/512MiBAS/1MiBfile+log, TERM then
+owned-child KILL after1s grace, testthreads1 and no parallel feature pool. Its log
+SHA256 is `cfd66d3415f86438f655afefa87eb3c71540bb40926fbe78cb1eadfe8bc75a5f`.
+Compile-only, strict desktop all-target Clippy and formatting passed. No broad local
+tests, scientific L1/MMS or numerical/SQLite workloads were executed for this repair.
+
+The complete conservative inventory remains136paths: only
+`src/bin/desktop/scene_ui.rs` changes to SHA256
+`e98c8aa0449b8f1adac4eb8a5bdc9a0951bd0b054f4dd2575d31dee30990c922`;
+135unchanged pins were checked against actual files and the21e inventory; none
+added or removed. Historical v1/v2 bindings and review bytes remain intact. The
+actual complete three-file candidate requires independent review before atomic
+commit/publication, then fresh clean committed-source existing native/rational
+and normal Rust/book qualification. No stale receipt refresh, dirty-source bypass,
+threshold relaxation, workflow expansion, merge or FEMPR147 changes are admitted.

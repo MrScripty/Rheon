@@ -1,0 +1,132 @@
+{
+  "base": "e5e6cff984d7f220b2b3a741fb8759aa542fccc3",
+  "runtime_evidence_source": "3b3fccea3657d711897130643a478adb48b5edd0",
+  "production_qualification": "Pending",
+  "enumerated_total": 204,
+  "exact_unique_pure_tests_passed": 5,
+  "preserved_failures": [
+    "exact4 stale-copy assertion; updated to shared PENDING and exact4-copy-fixed passed",
+    "initial strictClippy unused draft accessor; readiness now uses same immutable accessor and check2/clippy2 pass"
+  ],
+  "new_numerical_execution": false,
+  "sources": {
+    "src/bin/rheon-desktop.rs": "2c614eb7ea5920ee450ffcb344555304146869b332d8f9fe50f8e7a7703f763c",
+    "src/bin/desktop/scene_ui.rs": "73c16415819c5215a797615f5893222c2ec96eebe2bc8d100b95d346bed7d208",
+    "src/bin/desktop/force_run_policy.rs": "086d4ee8c18ff30f2165b8622a53d649bd9eb8166bbbbcb82dde3a0eb2427cc2",
+    "src/bin/desktop/force_run_policy_tests.rs": "a518b47b71cb2aff5d7ce46169918c60d534c00ffccdd0ee5c90abcebbdcdebd",
+    "src/bin/desktop/force_runtime_ui_tests.rs": "1d242eaed1b416e3dfb2577d5610c4e0d6d0ca5040f80293681ae184090cebb9"
+  },
+  "files": [
+    {
+      "file": "plan-review.md",
+      "bytes": 7457,
+      "sha256": "e696a247a5f540554d4a658203f9a8f55da4d353b95f9b3701c49e250846a759"
+    },
+    {
+      "file": "rheon-ui-force-policy-accessor-exact1.log",
+      "bytes": 413,
+      "sha256": "5c2e38fae8927ab6bf15220a3b4f304dd5e276ce7868e467e3f306fecbae9d02"
+    },
+    {
+      "file": "rheon-ui-force-policy-accessor-exact2.log",
+      "bytes": 398,
+      "sha256": "6871aabb59fe618a18da1ebab8d57dbf0271062f20b96087744fdccb239e2001"
+    },
+    {
+      "file": "rheon-ui-force-policy-check.log",
+      "bytes": 492,
+      "sha256": "7f16404930fa761a8b36bfb3c35b76a6a168dd10a33e19c6cc0c91039e8fc1a7"
+    },
+    {
+      "file": "rheon-ui-force-policy-check2.log",
+      "bytes": 130,
+      "sha256": "e05b12393294b621219310fbe0c6f78c2fed1de17b2de9a5dd62ab70a72bd6af"
+    },
+    {
+      "file": "rheon-ui-force-policy-clippy.log",
+      "bytes": 478,
+      "sha256": "b8b7fc67465e48be267d0e45786cca2cdf331e4bd293f3de241b1cfed9c2afbd"
+    },
+    {
+      "file": "rheon-ui-force-policy-clippy2.log",
+      "bytes": 130,
+      "sha256": "b8159f92b8c812a57cba795f95263b24287dd97512c3bc9f20270a644e1273f1"
+    },
+    {
+      "file": "rheon-ui-force-policy-diffcheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-force-policy-exact1.log",
+      "bytes": 462,
+      "sha256": "6ad3a072d9a095e958ec22d7285a230b7c8a38c02288243e34bc2cedd4b6d1cb"
+    },
+    {
+      "file": "rheon-ui-force-policy-exact2.log",
+      "bytes": 403,
+      "sha256": "643268e6dfb58bcbd5c8641079004c472f796947a02effeb6c3d9ae734196375"
+    },
+    {
+      "file": "rheon-ui-force-policy-exact3.log",
+      "bytes": 413,
+      "sha256": "fad64dd12767f86d9bb9d9aaa064983a08a4e1b57830dcec173b29e391913780"
+    },
+    {
+      "file": "rheon-ui-force-policy-exact4-copy-fixed.log",
+      "bytes": 417,
+      "sha256": "286f14a3a666ab52ef68373f575590b06e1f1dd6399a0f83f3615490df1766ac"
+    },
+    {
+      "file": "rheon-ui-force-policy-exact4.log",
+      "bytes": 1054,
+      "sha256": "80c93febaf82092e8cd929709efe081d729be121484d21f92e8f0ea4dfd0a5a6"
+    },
+    {
+      "file": "rheon-ui-force-policy-exact5.log",
+      "bytes": 398,
+      "sha256": "97cf8733e1154197cb0e8a6ca1a51c014b59b86cbb19f8d116e8090660664e74"
+    },
+    {
+      "file": "rheon-ui-force-policy-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-force-policy-fmt2.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-force-policy-list1.log",
+      "bytes": 21444,
+      "sha256": "8a9792df9022fe6af5e7be0807f56ae5c486b56f03e7b93fed425853fb817ab1"
+    },
+    {
+      "file": "rheon-ui-force-policy-list2.log",
+      "bytes": 21443,
+      "sha256": "1f8f3b9be3b4f6d728568a04623e04bcdb4e2eaf0e59f0bb2e3ac121b1bb449f"
+    },
+    {
+      "file": "rheon-ui-force-policy-list3.log",
+      "bytes": 21443,
+      "sha256": "335e5b0e012eda49da8c4f0189401612d920a007cf04124e90700aec76df5446"
+    },
+    {
+      "file": "rheon-ui-force-policy-list4.log",
+      "bytes": 21443,
+      "sha256": "24dd1ce8a43805122accc63c249c21003f4b1ee9dfe4058b73890bd5f9ac325b"
+    },
+    {
+      "file": "rheon-ui-force-policy-list5.log",
+      "bytes": 21443,
+      "sha256": "3d41dae9c22524cdf44afb74d71799b8ec649ac16cad35d6090cfdcb584f63f1"
+    },
+    {
+      "file": "rheon-ui-force-policy-plan-check.log",
+      "bytes": 78,
+      "sha256": "d3f9de8f8ad7079de6beac331d546d3ec455a8b45f62d754ef856c01149ba378"
+    }
+  ],
+  "source_review_sha256": "a4242f495a28f7be564e211262d8f86776f74bdeba5159dc33941dc11ca4132b"
+}
