@@ -1,0 +1,20 @@
+{
+  "source_commit": "ca9e640695d25fa3336b63bf28cc483ca6f11409",
+  "phase": "preliminary PR142 composition",
+  "result": "passed",
+  "totals": {
+    "passed": 55,
+    "failed": 0,
+    "ignored": 0,
+    "measured": 0,
+    "filtered_out": 0
+  },
+  "executed_suites": [
+    "configured_recording_comparison_contract",
+    "recording_carrier_contract",
+    "recording_provider_contract",
+    "recording_provider_runtime_contract"
+  ],
+  "zero_test_target": "configured_archive_binding_contract is desktop-feature gated; no execution claimed in this non-desktop mode",
+  "log_sha256": "5d72815e5d2f3148bda287ef59af8a805d4c9c56cb9df4d4b7ee3a321abb815d"
+}
