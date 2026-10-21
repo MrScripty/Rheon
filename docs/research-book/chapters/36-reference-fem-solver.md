@@ -1,6 +1,6 @@
-# 36 Complete reference FEM solver and verification program
+# 36 Reference FEM algorithms and verification program
 
-This chapter assembles the preceding derivations into implementable solver algorithms. The result is a **complete finite-dimensional core specification** for a fixed-topology hyperelastic solid and a separately selected mixed Newtonian fluid, with bounded nonlinear solution, reactions, diagnostics and failure. Contact/remeshing algorithms remain extensions from [Chapter35](35-contact-coupling-and-ale.md), not hidden capabilities of the core. No program was executed to produce the hand examples, no new Lean theorem is supplied, and no Rheon general FEM implementation is asserted.
+This chapter assembles the preceding derivations into implementable solver algorithms. The result is an **end-to-end core specification in pseudocode** for a fixed-topology hyperelastic solid and a separately selected mixed Newtonian fluid, with bounded nonlinear solution, reactions, diagnostics and failure. Contact/remeshing algorithms remain extensions from [Chapter35](35-contact-coupling-and-ale.md), not hidden capabilities of the core. No program was executed to produce the hand examples, no new Lean theorem is supplied, and no Rheon general FEM implementation is asserted. The [research status report](../lagrangian/research-status-report.md) identifies incomplete compressible-fluid/ALE/coupling coverage and remaining numerical selections; this chapter does not close those gaps.
 
 ## Model contract and data ownership
 

@@ -12,7 +12,7 @@ Research date: 2026-10-21. Book author credit remains **Puma**. This map records
 | 33 Time integration and nonlinear solution | Explicit/implicit update, Newmark, consistent Newton, feasible line search, Krylov/preconditioning and stopping | 32 |
 | 34 Incompressibility and material-mesh fluids | Mixed spaces, locking/inf-sup, complete residual/Jacobian blocks, fluid free boundaries | 30–33 |
 | 35 Contact, coupling and changing meshes | Unilateral contact, interface work, ALE/GCL, conservative transfer and method distinctions | 34 and chapter29 |
-| 36 Complete reference solver and verification | Implementable end-to-end algorithms, dataflow, small worked steps, architecture comparison and bounded qualification agenda | 30–35 |
+| 36 Reference algorithms and verification | Implementable end-to-end algorithms, dataflow, small worked steps, architecture comparison and bounded qualification agenda | 30–35 |
 
 ## Evidence vocabulary
 
@@ -71,3 +71,7 @@ Official [PETSc SNES manual](https://petsc.org/release/manual/snes/) was retriev
 | Kratos `v9.5.0`; DOLFINx `LICENSE`; Rheon `AGENTS.md` | API404 absent ref/file | Not access denials. Actual Kratos commit and DOLFINx COPYING/COPYING.LESSER inspected; no Rheon instruction file fabricated. |
 
 There was no denied repository mutation, uncertain write outcome or sandbox escalation. Source access errors limit review fidelity, not the independent derivations. Remaining full-text primary-source review is an explicitly named follow-up before a publication claiming comprehensive literature verification.
+
+### Research milestone, not closure
+
+The [ordinary-text research status report](research-status-report.md) returns every chapter title, all thirteen reference entries, six pinned studies, exact access gaps, claim-by-claim dispositions and remaining fluid/solid omissions. The `9489aa3` checkpoint is preserved. Several sources have only metadata/abstract access, no new FEM theorem is machine-checked, and neither pseudocode solver has been run. A checked derivation does not validate an unread reference attribution. Chapter36's revised heading narrows the former complete-solver language to reference algorithms; compressible Lagrangian fluid/ALE/coupling closure remains incomplete.

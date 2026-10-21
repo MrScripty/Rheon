@@ -33,3 +33,5 @@ P2 geometry safety needs a real bounded implementation of a sufficient certifica
 ## Integration coordination
 
 The FEM branch owns new chapters30–36, this directory and its plan. Shared edits are additive links in book README, chapters11/29 and fitted-height/fitted-ALE guides. AppendixC, teaching/build scripts, solver source and scientific admission files remain unchanged. A separate CUDA/Vulkan research task owns GPU treatment; it should select chapter numbers with parent to avoid collisions and add cross-links only after both drafts are reviewed. Parent owns publication, merging, deployment and final book-wide qualification.
+
+The follow-up [research status report](research-status-report.md) audits source access and coverage and keeps full research closure open. M1 acceptance records a manuscript milestone only; it must not be presented as complete original-literature review, a fully specified compressible/ALE solver or run-validated implementation.

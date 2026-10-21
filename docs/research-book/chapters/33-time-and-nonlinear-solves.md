@@ -66,6 +66,8 @@ For acceleration-based structural dynamics the Newmark family specifies
 
 For \(\beta>0\), the displacement tangent includes \(M/(\beta h^2)\); constant damping contributes \(\gamma C/(\beta h)\). Average acceleration \(\beta=1/4,\gamma=1/2\) is second order and unconditionally stable for the linear undamped positive system, but neither arbitrarily accurate at large \(h\) nor universally energy-conserving for nonlinear forces/contact. [Newmark (1959), 85(3), 67–94](https://ascelibrary.org/doi/10.1061/JMCEA3.0000098) is the original publication; this research verified its bibliographic record, not restricted full text. The time-integrator discussion is independently derived standard mathematics.
 
+For clarity, the linear average-acceleration claim can be checked without the unread original paper. With constant symmetric positive-definite mass and symmetric positive-definite stiffness on the constrained displacement space, and initial acceleration satisfying the undamped force balance, write the equation as a first-order system \(\dot z=Az\). The average-acceleration update is trapezoidal, \((I-hA/2)z_{n+1}=(I+hA/2)z_n\). Each oscillatory mode has eigenvalue \(i\omega\), so its amplification factor is \((1+i h\omega/2)/(1-i h\omega/2)\), of modulus one for real \(h\omega\). Expanding that factor gives the exact exponential through second order. This is a conditional exact-real linear/modal argument, not a nonlinear stability theorem, original-source proof attribution or executed test.
+
 Midpoint, generalized-alpha and discrete-gradient/energy-momentum methods make different choices about high-frequency damping, conservation and nonlinear work. One must specify both update and force evaluation; a method name is insufficient. [MFEM v4.7 example10](https://github.com/mfem/mfem/blob/v4.7/examples/ex10.cpp) separates its deformation/velocity operator from several selectable ODE integrators. Those examples motivate architecture comparison, not a claim of identical constitutive or damping equations.
 
 ## Consistent Newton, feasible line search and stopping
@@ -89,10 +91,8 @@ For a solid, a sparse direct factorization is a useful small-problem reference; 
 Use one axial element with fixed left endpoint, reference length \(L_0=1\) m, area \(A_0=1\) m\(^2\), density \(\rho_0=1\) kg/m\(^3\). In this explicitly one-dimensional teaching reduction, choose \(\Psi(q)=kq^2/2\), \(k=4\) N/m, lumped free-node mass \(m=1/2\) kg. This is a linear axial model, not a general 3D plane-stress neo-Hookean reduction. At \(q_n=0\), \(v_n=1\) m/s, \(h=1/2\) s and zero external load,
 
 \[
- r(q)=2(q-1/2)+4q=6q-1,\quad q_{n+1}=1/6\ {
-m m},
- \quad v_{n+1}=1/3\ {
-m m/s}.
+ r(q)=2(q-1/2)+4q=6q-1,\quad q_{n+1}=1/6\,\mathrm{m},
+ \quad v_{n+1}=1/3\,\mathrm{m/s}.
 \]
 
 One exact Newton correction gives the solution from any initial guess. Initial energy is \(1/4\) J; final kinetic energy is \(1/36\) J and elastic energy \(1/18\) J, total \(1/12\) J. The decrease includes \(\tfrac12m(\Delta v)^2=1/9\) J plus elastic endpoint convexity gap \(1/18\) J. This checks coefficients and signs; it supplies no convergence measurements for nonlinear 3D FEM.
