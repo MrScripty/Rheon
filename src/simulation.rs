@@ -77,6 +77,10 @@ pub enum SimulationError {
     DivergenceLimit { actual: f64, limit: f64 },
     CourantLimit { actual: f64, limit: f64 },
     ArithmeticFailure,
+    Projection(crate::solver_provider::composition::projection::ProjectionError),
+    ProjectionReceiptAliased,
+    ProjectionReceiptInvalid(&'static str),
+    ProjectionMixedQualificationFallback,
 }
 impl fmt::Display for SimulationError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -143,6 +147,7 @@ struct BoundaryStepInput<'a> {
 struct StepDomains<'a, 'p> {
     #[cfg(feature = "accepted-pressure-warm-start")]
     initial_pressure: Option<&'a [f64]>,
+    workflow: Option<&'a crate::workflow::Capture>,
     fields: Option<&'a crate::ForceSnapshot>,
     emitter: Option<crate::RotatingCylinderEmitter>,
     barrier: Option<&'a crate::TriangleSurface>,
@@ -150,6 +155,7 @@ struct StepDomains<'a, 'p> {
     surface: Option<crate::column_surface::PressureSurface<'a>>,
     viscosity: Option<(&'a mut crate::ViscosityWorkspace, f64)>,
     provider: Option<crate::provider_step::ProviderStepInput<'a, 'p>>,
+    projection: Option<crate::projection_step::ProjectionStepInput<'a>>,
 }
 pub(crate) struct StepOutcome {
     pub(crate) legacy: crate::BarrierStepReport,
@@ -459,6 +465,7 @@ impl Simulation {
             StepDomains {
                 #[cfg(feature = "accepted-pressure-warm-start")]
                 initial_pressure: None,
+                workflow: None,
                 fields: (!fields.scene().objects.is_empty()).then_some(fields),
                 emitter,
                 barrier: None,
@@ -466,6 +473,7 @@ impl Simulation {
                 surface: None,
                 viscosity: None,
                 provider: None,
+                projection: None,
             },
             cancel,
         )?;
@@ -501,6 +509,7 @@ impl Simulation {
             StepDomains {
                 #[cfg(feature = "accepted-pressure-warm-start")]
                 initial_pressure: None,
+                workflow: None,
                 fields: None,
                 emitter: Some(emitter),
                 barrier: None,
@@ -508,6 +517,7 @@ impl Simulation {
                 surface: None,
                 viscosity: None,
                 provider: None,
+                projection: None,
             },
             cancel,
         )?;
@@ -585,12 +595,14 @@ impl Simulation {
             StepDomains {
                 #[cfg(feature = "accepted-pressure-warm-start")]
                 initial_pressure: None,
+                workflow: None,
                 fields: None,
                 emitter: None,
                 barrier: None,
                 boundary: None,
                 surface: None,
                 viscosity: None,
+                projection: None,
                 provider: Some(crate::provider_step::ProviderStepInput {
                     workspace,
                     preferred,
@@ -624,6 +636,7 @@ impl Simulation {
             StepDomains {
                 #[cfg(feature = "accepted-pressure-warm-start")]
                 initial_pressure: None,
+                workflow: None,
                 fields: None,
                 emitter: None,
                 barrier,
@@ -631,6 +644,7 @@ impl Simulation {
                 surface: None,
                 viscosity: None,
                 provider: None,
+                projection: None,
             },
             cancel,
         )?;
@@ -648,6 +662,8 @@ impl Simulation {
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         provider: Option<crate::provider_step::ProviderStepInput<'_, '_>>,
         #[cfg(feature = "accepted-pressure-warm-start")] initial_pressure: Option<&[f64]>,
+        workflow: Option<&crate::workflow::Capture>,
+        projection: Option<crate::projection_step::ProjectionStepInput<'_>>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.prepare_impl(
@@ -657,12 +673,14 @@ impl Simulation {
             StepDomains {
                 #[cfg(feature = "accepted-pressure-warm-start")]
                 initial_pressure,
+                workflow,
                 fields: None,
                 emitter: None,
                 barrier: None,
                 surface,
                 viscosity,
                 provider,
+                projection,
                 boundary: boundary.map(|(workspace, boundary)| BoundaryStepInput {
                     workspace,
                     boundary,
@@ -671,11 +689,36 @@ impl Simulation {
             cancel,
         )
     }
+    pub(crate) fn workflow_descriptor(
+        &self,
+        viscosity: Option<f64>,
+    ) -> crate::workflow::WorkflowDescriptor {
+        crate::workflow::WorkflowDescriptor {
+            version: crate::workflow::DESCRIPTOR_VERSION,
+            grid: self.grid.clone(),
+            density: self.config.density,
+            viscosity,
+            implementation: self.implementation,
+            pressure: self.config.pressure,
+            actual_divergence_limit: self.config.actual_divergence_limit,
+            max_courant: self.config.max_courant,
+        }
+    }
     pub(crate) fn density(&self) -> f64 {
         self.config.density
     }
     pub(crate) fn candidate_velocity(&self) -> [&[f32]; 3] {
         self.candidate.velocity()
+    }
+    pub(crate) fn candidate_state(&self, step: StepReport) -> StateView<'_> {
+        StateView {
+            x: &self.candidate.x,
+            y: &self.candidate.y,
+            z: &self.candidate.z,
+            tracer: &self.candidate.tracer,
+            time: step.time,
+            generation: step.generation,
+        }
     }
     pub(crate) fn candidate_pressure(&self) -> &[f64] {
         self.workspace.pressure()
@@ -779,6 +822,7 @@ impl Simulation {
         let StepDomains {
             #[cfg(feature = "accepted-pressure-warm-start")]
             initial_pressure,
+            workflow,
             fields,
             emitter,
             barrier,
@@ -786,11 +830,24 @@ impl Simulation {
             surface,
             viscosity,
             mut provider,
+            mut projection,
         } = domains;
-        if provider.is_some() && (boundary.is_some() || surface.is_some()) {
+        if (provider.is_some() || projection.is_some()) && (boundary.is_some() || surface.is_some())
+            || projection.is_some()
+                && (provider.is_some()
+                    || viscosity.is_some()
+                    || emitter.is_some()
+                    || barrier.is_some())
+        {
             return Err(SimulationError::UnsupportedProviderDomain);
         }
         if provider.as_ref().is_some_and(|p| {
+            !p.workspace
+                .matches(&self.grid, self.config.density, self.implementation)
+        }) {
+            return Err(SimulationError::ProviderWorkspaceMismatch);
+        }
+        if projection.as_ref().is_some_and(|p| {
             !p.workspace
                 .matches(&self.grid, self.config.density, self.implementation)
         }) {
@@ -920,6 +977,14 @@ impl Simulation {
         if dt <= 0.0 || !next_time.is_finite() || next_time <= self.time {
             return Err(SimulationError::TimeResolution);
         }
+        if let Some(trace) = workflow {
+            trace.borrow_mut().actual_dt = Some(dt);
+        }
+        crate::workflow::complete(
+            workflow,
+            crate::workflow::NodeKind::Interval,
+            crate::workflow::NodeStatus::Completed,
+        );
         checkpoint(&mut cancel, StepStage::BeforeAdvection)?;
         advect_velocity(
             &self.grid,
@@ -928,6 +993,11 @@ impl Simulation {
             self.candidate.velocity_mut(),
             || cancel(StepStage::VelocitySlice),
         )?;
+        crate::workflow::complete(
+            workflow,
+            crate::workflow::NodeKind::Advection,
+            crate::workflow::NodeStatus::Completed,
+        );
         if let Some(surface) = surface {
             match surface {
                 crate::column_surface::PressureSurface::Slab(s) => {
@@ -1005,6 +1075,11 @@ impl Simulation {
                 )?
             })
         };
+        crate::workflow::complete(
+            workflow,
+            crate::workflow::NodeKind::Forces,
+            crate::workflow::NodeStatus::Completed,
+        );
         let viscosity = if let Some((workspace, mu)) = viscosity {
             let report = workspace
                 .prepare(
@@ -1016,13 +1091,49 @@ impl Simulation {
                 )
                 .map_err(SimulationError::Viscosity)?;
             workspace.publish(self.candidate.velocity_mut());
+            crate::workflow::complete(
+                workflow,
+                crate::workflow::NodeKind::Viscosity,
+                crate::workflow::NodeStatus::Completed,
+            );
             Some(report)
         } else {
             None
         };
         checkpoint(&mut cancel, StepStage::BeforePressure)?;
         let mut provider_report = None;
-        let (pressure, actual_divergence_max, projection) = if let Some(input) = &mut boundary {
+        let (pressure, actual_divergence_max, projection) = if let Some(input) = &mut projection {
+            let report = input.workspace.project(
+                self.config,
+                input.source,
+                self.generation,
+                self.time,
+                dt,
+                self.candidate.velocity(),
+                input.capture,
+                |stage| input.control.poll(stage),
+            )?;
+            for (output, qualified) in self
+                .candidate
+                .velocity_mut()
+                .into_iter()
+                .zip(input.workspace.velocity())
+            {
+                output.copy_from_slice(qualified);
+            }
+            input.capture.stage = crate::projection_step::ProjectionAttemptStage::CarrierTransport;
+            checkpoint(&mut cancel, StepStage::BeforeProjectionAcceptance)?;
+            let divergence = input
+                .capture
+                .attempt
+                .qualification
+                .as_ref()
+                .expect("qualified projection facts")
+                .actual_divergence_max;
+            let pressure = report.accepted;
+            provider_report = Some(report);
+            (pressure, divergence, None)
+        } else if let Some(input) = &mut boundary {
             for (scratch, velocity) in input
                 .workspace
                 .provisional
@@ -1072,8 +1183,10 @@ impl Simulation {
                     dt,
                     self.config.pressure,
                     input.preferred.take(),
+                    workflow,
                     || cancel(StepStage::PressureIteration),
                 )?;
+                crate::workflow::pressure_completed(workflow, &report);
                 let pressure = report.accepted;
                 operator.correct_candidate_in_place(
                     input.workspace.pressure(),
@@ -1128,6 +1241,14 @@ impl Simulation {
                     limit: self.config.actual_divergence_limit,
                 });
             }
+            if let Some(trace) = workflow {
+                trace.borrow_mut().actual_divergence_max = Some(actual_divergence_max);
+            }
+            crate::workflow::complete(
+                workflow,
+                crate::workflow::NodeKind::Projection,
+                crate::workflow::NodeStatus::Completed,
+            );
             (pressure, actual_divergence_max, None)
         };
         if let (Some(work), Some(report)) = (&mut boundary_work, projection) {
@@ -1240,6 +1361,11 @@ impl Simulation {
         if !tracer_integral.is_finite() || !kinetic_energy.is_finite() {
             return Err(SimulationError::ArithmeticFailure);
         }
+        crate::workflow::complete(
+            workflow,
+            crate::workflow::NodeKind::TracerTransport,
+            crate::workflow::NodeStatus::Completed,
+        );
         checkpoint(&mut cancel, StepStage::BeforeCommit)?;
         let legacy = crate::BarrierStepReport {
             step: ForcedStepReport {

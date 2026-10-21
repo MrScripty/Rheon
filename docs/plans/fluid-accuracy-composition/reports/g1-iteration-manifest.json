@@ -1,0 +1,219 @@
+{
+  "schema": "rheon-g1-iteration-qualification-v1",
+  "scope": "iteration evidence validator only; educational source admission assigned separately to lead",
+  "base_commit": "43a084a66bdfb3731b24bd480909c81e317b1e53",
+  "red_source_commit": "fe1110cc23050ced5d1a6098d843fc339487165e",
+  "qualified_source_commit": "34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2",
+  "qualified_tree": "5c494bdcb8f1921461aed0daaa5ad8b07f914d7c",
+  "source_files": [
+    {
+      "path": "/workspace/Rheon/src/workflow.rs",
+      "bytes": 30244,
+      "sha256": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9"
+    },
+    {
+      "path": "/workspace/Rheon/src/recording/workflow.rs",
+      "bytes": 69999,
+      "sha256": "caa2f224796f8ad6e92fb78d547c70df7dd88fe666843a715e90bd9257a36d34"
+    }
+  ],
+  "toolchain": {
+    "rustc": "1.92.0 (ded5c06cf 2025-12-08)",
+    "cargo": "1.92.0 (344c4567c 2025-10-21)",
+    "host": "x86_64-unknown-linux-gnu"
+  },
+  "environment": {
+    "RUSTUP_HOME": "/tmp/rheon-rustup",
+    "CARGO_HOME": "/tmp/rheon-cargo",
+    "PATH_prefix": "/tmp/rheon-cargo/bin",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "core_CARGO_TARGET_DIR": "/workspace/rheon-core-target",
+    "desktop_CARGO_TARGET_DIR": "/tmp/rheon-target"
+  },
+  "logs": [
+    {
+      "path": "/workspace/rheon-g1-repair-evidence/admission-baseline.log",
+      "bytes": 406,
+      "sha256": "c1df4c8bb0c2eb605b803033e3b33a92ced50219d906cd00211b4fc4b408ee86",
+      "source_commit": "43a084a66bdfb3731b24bd480909c81e317b1e53",
+      "command": "python3 docs/education/check_native_admission.py",
+      "exit_code": 1,
+      "test_results": []
+    },
+    {
+      "path": "/workspace/rheon-g1-repair-evidence/iteration-baseline-red.log",
+      "bytes": 2916,
+      "sha256": "b783811af660352e790f6a93c1843e3a0d167b9938a49f5ae59aaa272667386a",
+      "source_commit": "fe1110cc23050ced5d1a6098d843fc339487165e",
+      "command": "cargo test --locked --no-default-features --lib iteration_limits_ -- --nocapture",
+      "exit_code": 101,
+      "test_results": [
+        "test result: FAILED. 2 passed; 6 failed; 0 ignored; 0 measured; 60 filtered out; finished in 0.01s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-g1-repair-evidence/workflow-core-green.log",
+      "bytes": 2693,
+      "sha256": "341483fa96930ebe765a568c004194f6243cb91a9af237bc0e827db09d11f17c",
+      "source_commit": "34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2",
+      "command": "cargo test --locked --no-default-features --lib workflow:: -- --nocapture",
+      "exit_code": 0,
+      "test_results": [
+        "test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 45 filtered out; finished in 0.05s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-g1-repair-evidence/workflow-default-green.log",
+      "bytes": 2694,
+      "sha256": "6c48005449e72c51e16a9045e984bf853f3fa828a25a6d7c1de1c474c321a2ac",
+      "source_commit": "34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2",
+      "command": "cargo test --locked --lib workflow:: -- --nocapture",
+      "exit_code": 0,
+      "test_results": [
+        "test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured; 45 filtered out; finished in 0.05s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-g1-repair-evidence/contracts-core-green.log",
+      "bytes": 8599,
+      "sha256": "159d8834c0ca8029236ad22267a05243cc465942360bf45dd4cec404d26ceb36",
+      "source_commit": "34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2",
+      "command": "cargo test --locked --no-default-features --test recording_contract --test recording_provider_contract --test recording_provider_runtime_contract --test configured_provider_session_contract --test provider_step_contract --test solver_provider_contract --test pressure_session_contract",
+      "exit_code": 0,
+      "test_results": [
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s",
+        "test result: ok. 3 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 6 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.07s",
+        "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.55s",
+        "test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.29s",
+        "test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.07s",
+        "test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-g1-repair-evidence/inspector-desktop-green.log",
+      "bytes": 8435,
+      "sha256": "d552c5b5d30b8db4c8ff4e0b62aff2857ad8038a922993548bcde030f88e3657",
+      "source_commit": "34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2",
+      "command": "cargo test --locked --features desktop --bin rheon-desktop workflow_inspector::tests::",
+      "exit_code": 0,
+      "test_results": [
+        "test result: ok. 11 passed; 0 failed; 2 ignored; 0 measured; 152 filtered out; finished in 6.26s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-g1-repair-evidence/clippy-core-green.log",
+      "bytes": 105,
+      "sha256": "0b88459e59fcdc4a0ba600ff617c522be59fb7226501c2897ecbe95f460c93c3",
+      "source_commit": "34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2",
+      "command": "cargo clippy --locked --no-default-features --all-targets -- -D warnings",
+      "exit_code": 0,
+      "test_results": []
+    },
+    {
+      "path": "/workspace/rheon-g1-repair-evidence/clippy-desktop-green.log",
+      "bytes": 106,
+      "sha256": "664f67070650f59e70f45a4649055087b956eac218b2fe203ebf6d7ae490ebd1",
+      "source_commit": "34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2",
+      "command": "cargo clippy --locked --features desktop --all-targets -- -D warnings",
+      "exit_code": 0,
+      "test_results": []
+    },
+    {
+      "path": "/workspace/rheon-g1-repair-evidence/fmt-green.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_commit": "34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2",
+      "command": "cargo fmt --all -- --check",
+      "exit_code": 0,
+      "test_results": []
+    }
+  ],
+  "green_test_executables": {
+    "/workspace/rheon-core-target/debug/deps/rheon-2c0b8f9f964eff45": {
+      "sha256": "c8d994f167e21f4bb76d2bffbb627ccd5c06e2a5535329b114290093c20dac98",
+      "bytes": 26124832,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/c8d994f167e21f4bb76d2bffbb627ccd5c06e2a5535329b114290093c20dac98-rheon-2c0b8f9f964eff45"
+    },
+    "/workspace/rheon-core-target/debug/deps/rheon-d293312d0455f2e1": {
+      "sha256": "e240da7371899470cc6ec994d8bdecd5030f325f1a04f63ecdab50b13df7b390",
+      "bytes": 26170168,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/e240da7371899470cc6ec994d8bdecd5030f325f1a04f63ecdab50b13df7b390-rheon-d293312d0455f2e1"
+    },
+    "/workspace/rheon-core-target/debug/deps/configured_provider_session_contract-7a47e2a64e933952": {
+      "sha256": "4ac9cd90b0b8272de69e2f217eb664e30f3380cafabf75c537d6fb5a12eb7fd7",
+      "bytes": 9858960,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/4ac9cd90b0b8272de69e2f217eb664e30f3380cafabf75c537d6fb5a12eb7fd7-configured_provider_session_contract-7a47e2a64e933952"
+    },
+    "/workspace/rheon-core-target/debug/deps/pressure_session_contract-536f0b07b486b9ae": {
+      "sha256": "cc22ed704bdb7a80909a0ac908d8a18d8660ac057d71b30756b27c3d427a2888",
+      "bytes": 2256840,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/cc22ed704bdb7a80909a0ac908d8a18d8660ac057d71b30756b27c3d427a2888-pressure_session_contract-536f0b07b486b9ae"
+    },
+    "/workspace/rheon-core-target/debug/deps/provider_step_contract-024046052e7e09fc": {
+      "sha256": "b23b1869aa0b8af615f7ca8fecec3f77cd2887f7d3df783409068715206fa64b",
+      "bytes": 7304136,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/b23b1869aa0b8af615f7ca8fecec3f77cd2887f7d3df783409068715206fa64b-provider_step_contract-024046052e7e09fc"
+    },
+    "/workspace/rheon-core-target/debug/deps/recording_contract-01e8969397d0bfcc": {
+      "sha256": "17f12b8a34118b2d90f06a3db6832b1891c196713b484881780f02fac5a55547",
+      "bytes": 5603920,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/17f12b8a34118b2d90f06a3db6832b1891c196713b484881780f02fac5a55547-recording_contract-01e8969397d0bfcc"
+    },
+    "/workspace/rheon-core-target/debug/deps/recording_provider_contract-4fd9d23bc6148b03": {
+      "sha256": "a63d72830c4aea5bf977c2392bfd2b34452d983d3876b1dce626c952b4343689",
+      "bytes": 9488456,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/a63d72830c4aea5bf977c2392bfd2b34452d983d3876b1dce626c952b4343689-recording_provider_contract-4fd9d23bc6148b03"
+    },
+    "/workspace/rheon-core-target/debug/deps/recording_provider_runtime_contract-479509e11f8147d8": {
+      "sha256": "6bba91ca2fb7f3f62d6093ad6f6f87d68d848f611bf760aa3bc6fd31e2eefe21",
+      "bytes": 6317280,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/6bba91ca2fb7f3f62d6093ad6f6f87d68d848f611bf760aa3bc6fd31e2eefe21-recording_provider_runtime_contract-479509e11f8147d8"
+    },
+    "/workspace/rheon-core-target/debug/deps/solver_provider_contract-4f9ffb3b3a91bb87": {
+      "sha256": "033cb194e6a5d0756288edbba9a45b5cdfbac4050c845c237a88e00bf57fcef9",
+      "bytes": 2083560,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/033cb194e6a5d0756288edbba9a45b5cdfbac4050c845c237a88e00bf57fcef9-solver_provider_contract-4f9ffb3b3a91bb87"
+    },
+    "/tmp/rheon-target/debug/deps/rheon_desktop-1f5fbd0763f87c5a": {
+      "sha256": "b785c9098d02407df5393dcf681ec4d419b165af6d84302cfb31eef8f7b7946a",
+      "bytes": 63895080,
+      "retained_path": "/workspace/rheon-g1-repair-evidence/green-test-executables/b785c9098d02407df5393dcf681ec4d419b165af6d84302cfb31eef8f7b7946a-rheon_desktop-1f5fbd0763f87c5a"
+    }
+  },
+  "red_executable_retained": false,
+  "read_only_source_closure_discovery": {
+    "path": "/workspace/rheon-g1-repair-evidence/source-closure-before.json",
+    "bytes": 15413,
+    "sha256": "62fd6c523956f182a181ee7129357a9f769f90a30b147b734d65fa76171994b3"
+  },
+  "green_summary": {
+    "passed_test_executions": 135,
+    "failed": 0,
+    "ignored_existing_opt_in": 5,
+    "workflow_feature_configurations": 2,
+    "new_iteration_tests_per_configuration": 8
+  },
+  "independent_reviews": {
+    "architecture": "PASS /root/architecture_review at qualified_source_commit",
+    "persistence": "PASS /root/persistence_independent at qualified_source_commit",
+    "native_consumer": "APPROVE /root/native_ui_independent at qualified_source_commit"
+  },
+  "not_claimed": [
+    "new educational source admission",
+    "new native window execution",
+    "new performance qualification",
+    "physical validation",
+    "GPU execution",
+    "learned provider qualification",
+    "hosted CI",
+    "merge approval"
+  ],
+  "remaining_owners": {
+    "educational_complete_source_admission": "repository lead",
+    "canonical_plan_and_ledger": "repository lead",
+    "integration_and_merges": "repository lead",
+    "C1-B2": "on hold; no production changes"
+  }
+}

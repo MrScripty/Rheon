@@ -84,6 +84,8 @@ pub struct AcceptedPressureContextStamp {
 /// Only returned/published with the complete accepted transport interval.
 #[derive(Debug, Clone)]
 pub struct ConfiguredProviderReport {
+    /// Actual composed execution evidence; absent only for historical receipts.
+    pub workflow: Option<Arc<crate::workflow::WorkflowAttempt>>,
     pub binding: Option<Arc<ContextProviderIdentity>>,
     pub context: Option<AcceptedPressureContextStamp>,
     pub dynamic_viscosity: f64,
@@ -102,6 +104,7 @@ pub(crate) struct AcceptedHistoryStamp {
     pub all_native: bool,
 }
 pub(crate) struct AcceptedContextInput<'a> {
+    pub workflow: std::rc::Rc<crate::workflow::Capture>,
     pub run_id: String,
     pub generation: u64,
     pub interval_start: f64,
@@ -207,29 +210,44 @@ impl PressureProvider for ContextAdapter<'_, '_> {
         }
     }
     fn supports(&self, request: &PressureRequest<'_>) -> Result<(), ProviderRejection> {
-        self.binding
-            .as_ref()
-            .ok_or(ProviderRejection::Unsupported(
-                "invalid configured provider identity",
-            ))?
-            .validate()?;
-        let context = self.request(request)?;
-        self.stamp.set(Some(AcceptedPressureContextStamp {
-            generation: context.context.generation(),
-            interval_start: context.context.interval_start(),
-            interval_end: context.context.interval_end(),
-            dt: context.context.dt(),
-            native_prefix_steps: context.native_prefix_steps,
-            prior_generation: context.context.prior().map(|p| p.generation),
-            prior_interval_end: context.context.prior().map(|p| p.interval_end),
-            prior_pressure_sha256: context.context.prior().map(|p| hash_values(p.values)),
-            rhs_sha256: hash_values(context.context.rhs()),
-        }));
-        self.input
-            .provider
-            .as_ref()
-            .ok_or(ProviderRejection::Unsupported("no configured provider"))?
-            .supports(&context)
+        let result = (|| {
+            self.binding
+                .as_ref()
+                .ok_or(ProviderRejection::Unsupported(
+                    "invalid configured provider identity",
+                ))?
+                .validate()?;
+            let context = self.request(request)?;
+            self.stamp.set(Some(AcceptedPressureContextStamp {
+                generation: context.context.generation(),
+                interval_start: context.context.interval_start(),
+                interval_end: context.context.interval_end(),
+                dt: context.context.dt(),
+                native_prefix_steps: context.native_prefix_steps,
+                prior_generation: context.context.prior().map(|p| p.generation),
+                prior_interval_end: context.context.prior().map(|p| p.interval_end),
+                prior_pressure_sha256: context.context.prior().map(|p| hash_values(p.values)),
+                rhs_sha256: hash_values(context.context.rhs()),
+            }));
+            self.input
+                .provider
+                .as_ref()
+                .ok_or(ProviderRejection::Unsupported("no configured provider"))?
+                .supports(&context)
+        })();
+        if let Some(p) = self.input.workflow.borrow_mut().pressure.as_mut() {
+            p.binding = self.binding.as_deref().cloned();
+            p.support = Some(result.is_ok());
+            p.rejection = result.as_ref().err().map(|r| format!("{r:?}"));
+        }
+        if result.is_err() {
+            crate::workflow::complete(
+                Some(self.input.workflow.as_ref()),
+                crate::workflow::NodeKind::PressureCandidate,
+                crate::workflow::NodeStatus::Rejected,
+            );
+        }
+        result
     }
     fn predict(
         &mut self,
@@ -238,6 +256,9 @@ impl PressureProvider for ContextAdapter<'_, '_> {
         cancelled: &mut dyn FnMut() -> bool,
     ) -> Result<(), ProviderRejection> {
         self.prediction_called = true;
+        if let Some(p) = self.input.workflow.borrow_mut().pressure.as_mut() {
+            p.prediction_called = true;
+        }
         let provider = self
             .input
             .provider
@@ -247,6 +268,20 @@ impl PressureProvider for ContextAdapter<'_, '_> {
             .request(request)
             .and_then(|context| provider.predict(&context, pressure, cancelled));
         self.input.provider = Some(provider);
+        crate::workflow::complete(
+            Some(self.input.workflow.as_ref()),
+            crate::workflow::NodeKind::PressureCandidate,
+            if result.is_ok() {
+                crate::workflow::NodeStatus::CandidateReturned
+            } else {
+                crate::workflow::NodeStatus::Rejected
+            },
+        );
+        if let Err(e) = &result
+            && let Some(p) = self.input.workflow.borrow_mut().pressure.as_mut()
+        {
+            p.rejection = Some(format!("{e:?}"));
+        }
         result
     }
 }

@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "scope": "P1 static method-selection negative result; no production/timestep admission",
+  "frozen_commit": "e457ac12e874029229c381d30db8481caaee5cf6",
+  "base_pr": 121,
+  "base_commit": "a64d4d3c610d2ea30f2c734e61e86c4bf2bd25c4",
+  "canonical_plan_pr": 120,
+  "canonical_plan_commit": "8422f77bb45e60b95c5694ed0b39e01377b62976",
+  "branch": "implementation/p1-adjoint-selection-20261020",
+  "artifact": {
+    "filename": "rheon-p1-adjoint-selection-e457ac1.zip",
+    "library_path": "/rheon-p1-adjoint-selection-e457ac1.zip",
+    "library_file_id": "libfile_b991f0d5b0ac819187f86e2c0a8a1c0a",
+    "file_id": "file_00000000ead8823083543664969a45d5",
+    "version": 0,
+    "bytes": 6903265,
+    "sha256": "7438979a93edca8830e9b5a92698a93665fdab1544ff42174fc51ed9cd15c658",
+    "indexed_files": 1367,
+    "zip_entries": 1368,
+    "contents": "full frozen source, reference plan, executable, raw fields, frozen evaluator, independent reconstruction, tests and supporting report; custody receipt remains external to avoid a self-hash cycle"
+  },
+  "executable_sha256": "6251bff2cfd82a2768ab2cc049cf33e3b6e2cc2d03c7b989aa6a321487a257db",
+  "counts": {
+    "cases": 16,
+    "sites": 768,
+    "directional_probes": 48
+  },
+  "gates": {
+    "work_pass": 16,
+    "momentum_pass": 16,
+    "derivative_pass": 16,
+    "gamma_uniform_e0_pass": 0,
+    "gamma_uniform_e0_cases": 4,
+    "reference_uniform_e0_pass": 4,
+    "reference_uniform_e0_cases": 4,
+    "production_admitted": false,
+    "acoustic_timestep_admitted": false
+  },
+  "verification": {
+    "focused_debug_passed": 6,
+    "focused_release_passed": 6,
+    "strict_affected_clippy": "pass",
+    "full_regression": "not repeated; unchanged production, PR121 retains 582-test release result",
+    "independent_review": "pre-freeze and post-run pass as negative selection evidence",
+    "lean": "no new kernel qualification",
+    "hosted_ci": "separate pending external evidence"
+  },
+  "preservation": {
+    "original_pr121": "source and results unchanged",
+    "production": "unchanged",
+    "G1": "unchanged",
+    "proofs": "unchanged",
+    "canonical_plan": "lead-owned unchanged"
+  },
+  "access_recovery": {
+    "at_utc": "2026-10-20T00:58:27.915970+00:00",
+    "shell": "working, actual git/fs/ps checks exit0",
+    "campaign_processes": "none running",
+    "duplicate_campaign": false,
+    "archive_sha256": "verified unchanged"
+  }
+}

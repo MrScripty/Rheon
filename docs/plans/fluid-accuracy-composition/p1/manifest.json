@@ -1,0 +1,68 @@
+{
+  "schema": "rheon-p1-selection-evidence-v1",
+  "scientific_source_commit": "39098e0e0b0b0f8c966ff7f811d548b6d396ec15",
+  "base_main": "bc2f472787060d9a69cb619ed2c2fea10fd754b6",
+  "plan_commit": "8422f77bb45e60b95c5694ed0b39e01377b62976",
+  "audit_commit": "3d2bc4ea76dc71dfbb063afec5059d437f8826ce",
+  "coding_standards_commit": "0fc92a24279f3a4574c80af0a2f31ea347a21597",
+  "executable_sha256": "78b5e6d4c93249c4cd9940c987a1d134eac70e5b8b9bdc27b42dd0b63bb02537",
+  "sources": {
+    "examples/particle_planar_selection/cloud.rs": "62eb3d59366421f23b84baf678e7f4e7247112182720c0210b059e49a7669a3c",
+    "examples/particle_planar_selection/eos.rs": "1c40e49c33929af3aac7a52718eedfed181b43efe2993205f22074227b3d15db",
+    "examples/particle_planar_selection/fixtures.rs": "cf0b64c15efc3d0aa0a32664d8a8bb77436c90df09159a265333a41f7078d3be",
+    "examples/particle_planar_selection/isolation.rs": "c8454062461234b3c92afd443372c6ec2afd051006e52c899fdd8d5039e63d45",
+    "examples/particle_planar_selection/kernel.rs": "36edad1b3121dafe87bd4810af0f73c3babc339c85e7b45e1cf367c04047265e",
+    "examples/particle_planar_selection/matrix.rs": "97855af66d96197331e344db09234472b761166bf361a06bb9438453bad7a516",
+    "examples/particle_planar_selection/planar.rs": "e22f868592c5d022609e861f215c885a06b76615bb634beb84082ff805fcbde2",
+    "examples/particle_planar_selection.rs": "b746f302718d81fd64fad4f0f0466462d972b870cf7d67eca3de9f14c8ca6fd6"
+  },
+  "protocol_sha256": "53ea889a1f64a2b34a007e658dc8a5d19f41bf90cdf03b30cdcaf0231ff105ee",
+  "ordinary_test_adapter_sha256": "5b52e344facae609a22dafce7f4e6b129872a481363f4765f476cd20d611795f",
+  "archive": {
+    "filename": "rheon-p1-planar-selection-39098e0.zip",
+    "sha256": "eb3a3886f80686cc97e9674ef65cb7af91b8d43b898d9d1af4f5bcd4d8f7a1fa",
+    "size_bytes": 28207734,
+    "custody": "retained outside Git; Library save recorded in task handoff"
+  },
+  "retained_file_index_sha256": "c079ebff0ec2f17e1501cf7ee72116f629dd283cf4ca5fa4c30f805456c7d49f",
+  "retained_files": 353,
+  "summary_sha256": {
+    "hydro.csv": "946e2f6da2261fe21b9443b67b11dd6afd30d7bf01bdbfff44ce71a159ad8a00",
+    "shear.csv": "2d0b24c8a7b83becf32d3152e544cd328c3f6e7d468b6cdfe584d75d6c25b682",
+    "clouds.csv": "c25bc06e3a536c8cf5df37de6eaedfea2e8fe16a0af0f7b1b3b805609839a6ea",
+    "isolation.csv": "05e5e770e8bd68b486098b8e177af0a9281d83759a52e37eb1e3056061f68b4a"
+  },
+  "analysis_sha256": "a431771fbbf4b992a45bcf5fec14f17626f60bb0a6677f68a2fef9d4372f5954",
+  "context_sha256": "ccb37a7e70e7d7d7a7c211b151a2fbdebd02f30e496229af0c2b32229c1b1768",
+  "verification_sha256": "288b3fdc04c558a4340f126d555b8733d230905f83411a24237803d0003bab96",
+  "verification": {
+    "command": "cargo test --locked --release --no-default-features",
+    "exit_code": 0,
+    "result_groups": 75,
+    "passed": 582,
+    "failed": 0,
+    "ignored": 3,
+    "ignored_tests": [
+      "test frozen_model_selection_and_unsupported_domain_fallback_are_visible ... ignored, requires RHEON_AI_EXPORT from the SHA256-verified frozen checkpoint exporter",
+      "test real_model_advances_production_session_for_twenty_four_intervals ... ignored, requires RHEON_AI_EXPORT from the SHA256-verified checkpoint exporter",
+      "test real_checkpoint_support_replay_and_corruption ... ignored, requires RHEON_AI_EXPORT from the hash-pinned real lab checkpoint"
+    ],
+    "new_adapter_separately": {
+      "default_profile_passed": 11,
+      "release_profile_passed": 11,
+      "clippy": "passed -D warnings"
+    },
+    "full_debug_suite": {
+      "exit_code": 101,
+      "disposition": "interrupted for bounded verification cost; not a full pass"
+    }
+  },
+  "measurements": {
+    "hydro": 108,
+    "shear": 162,
+    "cloud": 36,
+    "isolation": 18
+  },
+  "production_admitted": false,
+  "disposition": "Both tested adaptations return to method selection; no physical/mesh/GPU/UI/Lean qualification inferred."
+}

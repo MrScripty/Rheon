@@ -715,3 +715,36 @@ fn unavailable_native_fields_remain_verified_analysis_without_materialized_value
     assert_eq!(h.page.presentation(), Presentation::Verified);
     assert!(h.page.selected_pair().is_some());
 }
+
+#[test]
+fn legacy_comparison_workflows_keep_exact_sides_and_execution_evidence_unavailable() {
+    let root = Directory::new();
+    fixture(&root.0);
+    let mut h = Harness::new(&root.0);
+    assert!(
+        h.page
+            .load_selected_workflow(Side::Reference)
+            .unwrap()
+            .is_none()
+    );
+    h.click("open-manifest");
+    h.click("compute");
+    let reference = h
+        .page
+        .load_selected_workflow(Side::Reference)
+        .unwrap()
+        .unwrap();
+    let candidate = h
+        .page
+        .load_selected_workflow(Side::Candidate)
+        .unwrap()
+        .unwrap();
+    assert!(reference.key != candidate.key);
+    assert!(h.page.workflow_key(Side::Reference).as_ref() == Some(&reference.key));
+    assert!(h.page.workflow_key(Side::Candidate).as_ref() == Some(&candidate.key));
+    assert!(reference.key.side == Side::Reference && candidate.key.side == Side::Candidate);
+    assert_eq!(reference.run.identity.run_id, 41);
+    assert_eq!(candidate.run.identity.run_id, 42);
+    assert_eq!(reference.ordinal, candidate.ordinal);
+    assert!(reference.attempt.is_none() && candidate.attempt.is_none());
+}

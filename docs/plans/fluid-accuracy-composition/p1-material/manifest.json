@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "scope": "P1 bounded material-map closure; reference only, not SPH/production",
+  "method_version": "material-interface-lumped-linear-eos-planar-reference-v1",
+  "frozen_commit": "3b609ee443a1a704f6aeeb4b836fcf30f7f4d248",
+  "base_pr": 123,
+  "base_commit": "bc2573f2ba8d51f9f473fb11285b0c26840e4f18",
+  "canonical_plan_pr": 120,
+  "canonical_plan_commit": "8422f77bb45e60b95c5694ed0b39e01377b62976",
+  "branch": "implementation/p1-material-gate-20261020",
+  "artifact": {
+    "filename": "rheon-p1-material-gate-3b609ee.zip",
+    "path": "/rheon-p1-material-gate-3b609ee.zip",
+    "library_file_id": "libfile_84afba543f3881918874e646634962e6",
+    "file_id": "file_0000000058e08230b4021f52c574e1ac",
+    "version": 0,
+    "bytes": 6976553,
+    "sha256": "52d1f4a718f70eba807195561d016eafbadc5c8ad297b06cd1071607988fd174",
+    "indexed_files": 1381,
+    "zip_entries": 1382,
+    "contents": "full frozen source, reference plan, actual binary, all raw fields and pointwise failures, execution logs, frozen evaluator, independent Decimal reconstruction, source-integral oracle, replay, reports; external receipt excluded to avoid self-hash cycle"
+  },
+  "executable_sha256": "5abf51717b6d6fc3b893201272079d08c845d908441233b2b6a252026de86418",
+  "independent_review": {
+    "script_sha256": "b71ea21c20ab2276f3f5be27d1e54271d5f8c1798f1889d19221c172388502eb",
+    "summary_sha256": "5dcf05bb72eabf6ff2d8d145d238972dd29a1890af9877ae1ce7032dafce19a0",
+    "source_mass_normalized_max": 2.51615e-16,
+    "source_first_moment_normalized_max": 1.57131e-16,
+    "source_gate_limit": 1e-12,
+    "disposition": "pass reference only"
+  },
+  "counts": {
+    "states": 8,
+    "nodes": 72,
+    "elements": 64,
+    "directional_probes": 24,
+    "translation_probes": 24,
+    "individual_probe_pass": 40,
+    "individual_smallest_step_hessian_fail": 8,
+    "group_pass": 16,
+    "group_count": 16
+  },
+  "verification": {
+    "focused_debug_passed": 5,
+    "focused_release_passed": 5,
+    "strict_clippy": "example and adapter pass",
+    "native_gate": "all frozen necessary native criteria pass",
+    "independent_source_gate": "pass",
+    "pre_post_review": "pass reference only",
+    "new_native_runs": 1,
+    "parameter_sweep": false,
+    "new_trajectory_run": false,
+    "production_admitted": false,
+    "nonlinear_or_production_dt_admitted": false,
+    "hosted_ci": "separate external evidence"
+  },
+  "decision": {
+    "recommendation": "Stop this P1 production-selection attempt; prioritize existing grid Q1 verification then Q2 shared geometry/coupled Stokes via repository lead",
+    "basis": "coherent 1D closure requires substantial new material-mesh representation; 3D promotion adds new geometry/remap/boundary/viscosity/stability/state ownership beyond grid plan",
+    "new_Q_or_G1_writes": false,
+    "canonical_plan_edit": false,
+    "merge": false,
+    "branch_cleanup": false
+  },
+  "preservation": {
+    "PR121_source_and_results": "unchanged",
+    "PR123_source_and_results": "unchanged",
+    "old_archive_hashes": "verified unchanged",
+    "production_preview": "unchanged",
+    "G1": "unchanged",
+    "proofs": "unchanged"
+  }
+}

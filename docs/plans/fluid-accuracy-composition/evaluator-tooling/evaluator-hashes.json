@@ -1,0 +1,26 @@
+{
+  "p1-adjoint": {
+    "path": "docs/plans/fluid-accuracy-composition/p1-adjoint/analyze.py",
+    "original_sha256": "c7ca75747b21d5e85d8f3efdfc116940cf5c95b3f26fd607f86842f3a75f75df",
+    "repaired_sha256": "aadb95d77aed509b45f01690e9c569b70f65ce45559398115db8bc86aa56193d",
+    "always_on_guards": 7
+  },
+  "p1-material": {
+    "path": "docs/plans/fluid-accuracy-composition/p1-material/analyze.py",
+    "original_sha256": "b62ae1a482998e4aef35e1343fc2ac006649142920d0f2911e60c66a1e0f9901",
+    "repaired_sha256": "06eb2ab3fbbe481ec32592a91be8f09c12b34d90813d8af7522c45d7659cb1a1",
+    "always_on_guards": 4
+  },
+  "q1": {
+    "path": "docs/plans/fluid-accuracy-composition/q1/analyze.py",
+    "original_sha256": "c41f7404e06e7171bd9b4e1623f0b175de56b98b0639e1e013603b826f28f5fb",
+    "repaired_sha256": "6af6b5b426139863522f311a869361f266f2ed222960486be89d343c64fa4a6b",
+    "always_on_guards": 2
+  },
+  "q2": {
+    "path": "docs/plans/fluid-accuracy-composition/q2/analyze.py",
+    "original_sha256": "025fb18a265b29b38d2ae0d7d8b0c67b9877562fbef1ad5dc65168814e351634",
+    "repaired_sha256": "f41da58439fe5da8218c3be917476d101f0894268cf9629ef217d9e4b79367fd",
+    "always_on_guards": 2
+  }
+}

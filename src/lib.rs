@@ -61,7 +61,9 @@ pub use tracer_barrier::{
     BarrierStepReport, TracerBarrierError, TracerBarrierReport, TracerBarrierSampler,
     VisibleTracerSample, advect_tracer_with_barrier,
 };
+pub mod native_family;
 mod simulation;
+pub mod workflow;
 pub use simulation::{
     AcceptedForceIntervalPressure, AcceptedIntervalPressure, CarrierStepControls, Simulation,
     SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
@@ -218,6 +220,9 @@ pub use vtk_export::{
 
 mod provider_step;
 pub use provider_step::{ProviderStepReport, ProviderStepWorkspace};
+
+/// Closed native projection invocation and accepted Session evidence.
+pub mod projection_step;
 
 mod emitter_controls;
 pub use emitter_controls::{EMITTER_CONTROLS_VERSION, EmitterTurbulence};

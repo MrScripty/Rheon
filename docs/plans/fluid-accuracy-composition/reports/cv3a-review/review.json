@@ -1,0 +1,74 @@
+{
+  "audit_sha256": "e73f75d1c47686d3a04bfe4ec99fade647dcc22b43159654553c231b0b8005a9",
+  "base_head": "c08df02456a6896b4f9237f62b84e63e1290f9a2",
+  "base_tree": "ef9c694069cd606d836e2174d583dd696174c713",
+  "cv3a_decision": "Prospective preparation permitted; source/write-set/prerequisite/oracle/resource review must precede campaign. No current result or production/source-inventory admission.",
+  "decision": "APPROVED_EXACT_SEVEN_DOCUMENT_PATHS",
+  "findings": [],
+  "frozen_metadata_sha256": {
+    "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md": "caa78be78306aa095a42fd6a54c0c355a4f5dfbc74b7244a0a94bc9242f09941",
+    "docs/education/aligned-strain-native-sources-integration-20261014.json": "a0878b551464f5a05ae29f90aa877a8147e157259f26a1bbedc96cb99a9098df",
+    "docs/plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/protocol.md": "212456439c1f52bd340d85b27d52f176efd126d2bd81f8c5fbd82a665d0d55d1",
+    "docs/plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/qualification.json": "26720302347683f19614ceba4ad3af2a033e7b7ac864b6d14a43080c3e6acae9"
+  },
+  "link_errors": [],
+  "local_link_count": 48,
+  "mathematical_assessment": [
+    "The streamfunction yields u=(Uref*(X^2+2XY),Uref*(-2XY-Y^2)) and exact div(u)=0. Both velocity components contain a pure square and lie outside componentwise bilinear Q1; nonconstant pressure lies outside primal P0.",
+    "For the declared unit scales, div(sigma)=(2mu-1-y,-2mu-2-x), hence f=(x^2+2xy-2mu+1+y,-2xy-y^2+2mu+2+x). Represented mu must remain exact binary64 source primitive in R2. Correct continuum load signs and body plus traction work are required; no unforced energy claim.",
+    "Degree-four boundary load and n16 ceiling extension are genuine source prerequisites, verified against current Layout n2..8 and two-point edge integration; neither silently inherited from CV1/CV2.",
+    "Norm definitions, physical-side traces, L1 integration uncertainty, independent L2 moments, conservative thresholds/orders and numerical-error propagation are prospective requirements. Finite precision agreement/small residual is not a certified forward bound. An estimated budget cannot discharge any guaranteed-bound criterion.",
+    "H1/L2 spectral/rank diagnostics retain every pressure row and are finite-instance diagnostics, not uniform inf-sup proof. Hard all-nine-case resource freeze and stop/replan prohibit partial-finest acceptance or hidden coarsening. Canonical disk, stability, hydrostatics, transport/GCL,3D and production remain open."
+  ],
+  "owner_evidence": {
+    "PR139": {
+      "head": "902f6092de6044419d028f92dabd8e59ae7a87ba",
+      "numerical_source": "b0a9d52cc266cb651c5e67c07ec5f4f82419db55",
+      "reported_scope": "24 fixed static cases;15 debug+15 release contracts;45 evaluator checks;retained six unscaled square accuracy failures and original mass condition about6.53e11"
+    },
+    "PR140": {
+      "consumer": "9ddf8d2fd860c73bbcc35a077e08099d894db07a",
+      "core": "4af3802babe332d8dfeb926c19159b4b656be775",
+      "head": "5dc1741feffa88b857194559b3e7e79be5369a64",
+      "limits": "Overlapping deciding executions, not distinct tests. One consumer UI-test API correction; final head reports only. Earlier failed runs retained. No lead raw archive/campaign audit; source admission/fresh lead/hosted integration still pending.",
+      "reported_counts": {
+        "existing_ignored": 5,
+        "failed": 0,
+        "passed_executions": 227
+      }
+    }
+  },
+  "paths": {
+    "docs/plans/fluid-accuracy-composition/execution-ledger.md": "5cad4d207409cb9acd2eb587e347d7fc9463f25de2f6762c3b3b743a6b50e43c",
+    "docs/plans/fluid-accuracy-composition/issues.md": "66e42f55550c9812f023ec3051364954cc61a90afba0045b50a42ac7437083de",
+    "docs/plans/fluid-accuracy-composition/plan.md": "01982529e3a8ec30038cce8a3c98aeeac748b04d33863371f620a30ef4de1d96",
+    "docs/plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/qualification.md": "f6a8032808693936504bcb2818835754261a2f3293c6beca9d42e6fb1b988347",
+    "docs/plans/fluid-accuracy-composition/reports/cv3a-admission.md": "8d2a8393c8af2dd3f7489f2c29076da3050c4616543d549fd88b8d1fd4cb8208",
+    "docs/plans/fluid-accuracy-composition/reports/integration-20261020.md": "ca6b6747ef3316b325395c9de50bca31bbbb3c1b040beaef8c696d8bd2ededb6",
+    "docs/plans/fluid-accuracy-composition/reports/verification.md": "974d8bb704005d28561a17310125c18e4d18f7ff345228ce640c302a9f114967"
+  },
+  "pinned_blob_link_count": 15,
+  "primary_evidence_sha256": {
+    "/tmp/rheon-cv3-admission-independent-review/recommendation.md": "d54d52efd222b9defc7a37ec2efb43daaef7f31c7ff97c607c6d267e9187f69a",
+    "/workspace/rheon-c1b2-admission-20261020-evidence/final-owner-deliveries/rheon-pr139-final.json": "9dbc2a541ef9ca7109c0dbfc3997eee7b5b13d52ddcc97ca1dd3f2d09a7a2fc7",
+    "/workspace/rheon-c1b2-admission-20261020-evidence/final-owner-deliveries/rheon-pr140-final.json": "d41707443c5af91a9f50708ec7cc77052477731b715fcaa43e258268b94db661",
+    "5dc1741feffa88b857194559b3e7e79be5369a64:docs/plans/fluid-accuracy-composition/reports/c1b3-qualification.md": "4c8ee0a4c2e1b4e36444cf8fa3872afbfe2ba17addde8ffc339d1b595000aba1",
+    "902f6092de6044419d028f92dabd8e59ae7a87ba:docs/plans/fluid-accuracy-composition/q2-cut-solve/evidence-manifest.md": "5efa441a26fd573ca125c4534c7626626663c5843e795ff529f99c5a7e944d68",
+    "902f6092de6044419d028f92dabd8e59ae7a87ba:docs/plans/fluid-accuracy-composition/q2-cut-solve/independent-review.md": "34a437a5018efe908cf49e3fdfe829fb118e290049b13bd9aaf81625d8b6c477",
+    "902f6092de6044419d028f92dabd8e59ae7a87ba:docs/plans/fluid-accuracy-composition/q2-cut-solve/qualification.md": "31077d62b98a8ecc712cc986cd7ab9a917628b1879ce357c8b41bce82363323e"
+  },
+  "primary_external_sources_read": [
+    "https://cs.uwaterloo.ca/~c2batty/papers/Larionov2017/supplemental.pdf",
+    "https://arxiv.org/abs/1408.5165v2"
+  ],
+  "remaining_gates": [
+    "CV3 exact helper/test write set, independently reviewed continuum loads/quadrature/norm/oracle protocol and feasible frozen resource caps before any campaign.",
+    "Separate complete-source admission/fresh qualification and exact-head hosted gates for C1-B3 or other implementation integration.",
+    "Canonical physical/disk/stability/production criteria remain unchanged and unqualified."
+  ],
+  "review_method": "Read-only exact Git objects, final captured owner snapshots, current documentation diff, manual mathematical/ownership assessment, direct SHA256 comparisons and link/fence/whitespace checks. No test/build/campaign/model execution or repo/ref/PR mutation.",
+  "schema": "rheon-independent-final-owner-cv3a-doc-review-v1",
+  "scope": "Six existing documentation deltas versus c08df02456a6896b4f9237f62b84e63e1290f9a2 plus new prospective cv3a-admission.md. Own review receipts excluded from scope.",
+  "selected_source_count": 140,
+  "selected_source_match_frozen186": true
+}

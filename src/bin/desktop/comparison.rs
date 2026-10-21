@@ -77,6 +77,46 @@ pub struct SelectedNativePair<'a> {
     pub pair: &'a PairComparison,
 }
 
+#[derive(Clone, PartialEq)]
+pub struct WorkflowComparisonKey {
+    root: PathBuf,
+    run_set: [u8; 32],
+    recipe_sha256: [u8; 32],
+    analysis_version: u32,
+    reference_member: String,
+    candidate_member: String,
+    recipe: Recipe,
+    pair: PairComparison,
+    pub side: super::comparison_archive::Side,
+}
+impl WorkflowComparisonKey {
+    fn new(
+        selected: &SelectedNativePair<'_>,
+        side: super::comparison_archive::Side,
+    ) -> Result<Self, SelectedFieldsError> {
+        Ok(Self {
+            root: selected.root.into(),
+            run_set: selected.recipe.run_set_sha256,
+            recipe_sha256: selected
+                .recipe
+                .sha256()
+                .map_err(|error| SelectedFieldsError::Source(error.to_string()))?,
+            analysis_version: selected.recipe.analysis_version,
+            reference_member: selected.recipe.reference.member_id.clone(),
+            candidate_member: selected.recipe.candidate.member_id.clone(),
+            recipe: selected.recipe.recipe,
+            pair: selected.pair.clone(),
+            side,
+        })
+    }
+}
+pub struct SelectedWorkflow {
+    pub key: WorkflowComparisonKey,
+    pub run: rheon::recording::RecordingRun,
+    pub ordinal: usize,
+    pub attempt: Option<std::sync::Arc<rheon::workflow::WorkflowAttempt>>,
+}
+
 #[derive(Debug)]
 pub enum SelectedFieldsError {
     Source(String),
@@ -188,6 +228,75 @@ impl SavedComparisonPage {
             recipe: result.recipe(),
             pair: result.coverage().pairs.get(self.selected)?,
         })
+    }
+    pub fn workflow_key(
+        &self,
+        side: super::comparison_archive::Side,
+    ) -> Option<WorkflowComparisonKey> {
+        self.selected_pair()
+            .and_then(|selected| WorkflowComparisonKey::new(&selected, side).ok())
+    }
+    /// Explicit action, with the same pinned source and exact selection proof as
+    /// native field inspection. Only compact graph facts survive the load.
+    pub fn load_selected_workflow(
+        &mut self,
+        side: super::comparison_archive::Side,
+    ) -> Result<Option<SelectedWorkflow>, SelectedFieldsError> {
+        let result = (|| {
+            let Some(selected) = self.selected_pair() else {
+                return Ok(None);
+            };
+            let (member_id, expected) = match side {
+                super::comparison_archive::Side::Reference => (
+                    &selected.recipe.reference.member_id,
+                    &selected.pair.reference,
+                ),
+                super::comparison_archive::Side::Candidate => (
+                    &selected.recipe.candidate.member_id,
+                    &selected.pair.candidate,
+                ),
+            };
+            let member = selected.recipe.run_set.member(member_id).ok_or_else(|| {
+                SelectedFieldsError::Source("selected workflow member missing".into())
+            })?;
+            let reader = match member.open(selected.root) {
+                MemberState::Ready(reader) => reader,
+                MemberState::Invalid(error) => {
+                    return Err(SelectedFieldsError::Source(error.to_string()));
+                }
+                MemberState::Unsupported(reason) => {
+                    return Err(SelectedFieldsError::Source(reason.into()));
+                }
+                _ => {
+                    return Err(SelectedFieldsError::Source(
+                        "exact workflow archive is unavailable or not pinned".into(),
+                    ));
+                }
+            };
+            let source = Selection::read(&reader, expected.ordinal)
+                .map_err(|error| SelectedFieldsError::Source(error.to_string()))?;
+            if source.identity() != expected {
+                return Err(SelectedFieldsError::Source(
+                    "exact selected workflow publication changed".into(),
+                ));
+            }
+            let attempt = if source.run().solver == rheon::recording::provider::PROFILE {
+                rheon::recording::workflow::selection(&reader, source.publication())
+                    .map_err(|error| SelectedFieldsError::Source(error.to_string()))?
+            } else {
+                None
+            };
+            Ok(Some(SelectedWorkflow {
+                key: WorkflowComparisonKey::new(&selected, side)?,
+                run: source.run().clone(),
+                ordinal: expected.ordinal,
+                attempt,
+            }))
+        })();
+        if let Err(error) = &result {
+            self.fail(error);
+        }
+        result
     }
     /// Explicit synchronous materialization, not a per-frame getter. An
     /// unverified/no-pair page returns None without source I/O. Callers may cache
@@ -699,10 +808,14 @@ impl SavedComparisonPage {
             ui.label("No matched physical publications. No numerical metric is available.");
             return;
         }
-        ui.add(
+        let response = ui.add(
             egui::Slider::new(&mut self.selected, 0..=coverage.pairs.len() - 1)
                 .text("Matched pair"),
         );
+        #[cfg(test)]
+        self.controls.insert("matched-pair", response.rect);
+        #[cfg(not(test))]
+        let _ = response;
         let pair = &coverage.pairs[self.selected];
         ui.label(format!(
             "Reference ordinal {}, generation {} · candidate ordinal {}, generation {}",

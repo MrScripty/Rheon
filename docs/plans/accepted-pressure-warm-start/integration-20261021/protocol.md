@@ -97,3 +97,41 @@ allocation-size classes as a harness setup confound; no code, symbols, metadata 
 layout is modified. Keep the same cwd and environment for both. Freeze these names
 before timing; do not select paths from observed timing. Retain build-output paths
 and copy paths in the manifest. Raw preliminary artifacts stay separately retained.
+
+## Lead decision before final timing
+
+PR59 comment [6328853777](https://github.com/MrScripty/Rheon/pull/59#issuecomment-6328853777)
+retains the strict non-adverse fixed-cohort performance rule above. Untouched
+Cargo loadable-code/data/layout comparison, with every metadata exception stated,
+is supporting evidence only. It does not substitute for performance admission,
+establish whole-file identity or waive the historical +2.20% concern. A positive
+or inconclusive final comparison remains blocking; no added cohort or threshold
+change is authorized. The earlier proposed construction-only admission clause is
+therefore not adopted. No final control timing has run.
+
+## Preliminary PR142 composition boundary
+
+An isolated preview merges reviewed PR142 candidate5eb8bf5 for ordinary contract
+preparation only. Native projection must stay Cold and cannot establish reusable
+legacy warm history; initialized Session entries must reject immutable projection
+intent before callback or state changes. New private/public contracts cover both
+policies and projection acceptance/cancellation/retry. Final source admission and
+controls still wait actual ordered #142/#138/#143 merged-main composition. The
+later exact CI-budget guard update and #138/#143 deltas are not yet integrated in
+this preview. No sealed numerical campaign is selected.
+
+## Pre-timing uncertainty analysis clarification
+
+The frozen runner reports twelve paired frame-time percentage deltas per case.
+Before any final timing, specify the paired uncertainty summary as the exact
+order-statistic median interval `[delta_(3), delta_(10)]` after sorting those twelve
+deltas. Under independent representative pairs, its coverage for a continuous
+population median is `1 - 2 * (1 + 12 + 66) / 4096 = 96.142578125%`; state the
+independence/representativeness assumption and host-load limits. Also report every
+pair, median, minimum/maximum and negative/zero/positive counts. Do not pool cases.
+A positive median is adverse. A nonpositive median with an interval upper endpoint
+above zero is inconclusive. Only a nonpositive median and nonpositive upper
+endpoint meet this strict non-adverse control rule, independently for both cases.
+No percent tolerance, cohort extension, outlier removal, optional stopping or
+substitution of construction evidence is introduced. This specifies the existing
+uncertainty requirement prospectively; it does not change its stopping rule.

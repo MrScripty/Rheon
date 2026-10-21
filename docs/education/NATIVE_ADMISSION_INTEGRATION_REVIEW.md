@@ -1080,6 +1080,177 @@ gate, historical inventory or A1 status changes. Initial 94062 execution receipt
 retain that historical subject; fresh clean committed qualification, affected
 checks and current-head hosted gates are required before integration.
 
+## Staged workflow and composition admission, 2026-10-20
+
+This explicit reviewed refresh admits a fixed staged source only to attempt fresh
+qualification. The source checkpoint is `f995923b84f0e963806654af292bd18073a7dcc9`,
+tree `42e565eb670c1a4d4294fb8043dec287da5ba26e`. Its isolated trial composition
+retains PR119–131 through PR130 `c2fbbea9f19f818b28b6c6863a40220a2bd0bbe5` and
+PR131 `97cdce614c3c4438fa65ac806b48c4de6490583e`; the latter retains tested
+workflow repair `34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2`. No public main or
+component branch is advanced by this trial composition.
+
+Independent GPT-6.1 Sol review covered the complete unchanged conservative
+selection policy: **135 regular files, 11 added, 16 changed, 108 unchanged, none
+removed** versus the 124-path admission at main
+`bc2f472787060d9a69cb619ed2c2fea10fd754b6`. All 124 historical identities were
+verified against that exact main; all 108 reused identities remain exact.
+The [per-path source review](../plans/fluid-accuracy-composition/reports/native-admission-20261020/provisional-readiness.md)
+and [receipt](../plans/fluid-accuracy-composition/reports/native-admission-20261020/provisional-readiness.json)
+retain every path's disposition. The provisional review subject `6137e46` remains
+distinct from the staged checkpoint. The only subsequent selected source delta is
+the independently approved [two-file iteration repair](../plans/fluid-accuracy-composition/reports/native-admission-20261020/iteration-repair-34e2e73-review.md):
+`src/workflow.rs` at SHA256
+`5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9` and
+`src/recording/workflow.rs` at SHA256
+`caa2f224796f8ad6e92fb78d547c70df7dd88fe666843a715e90bd9257a36d34`.
+All other 133 selected identities remain as reviewed. The exact final sorted,
+compact JSON source-map SHA256 is
+`9af9e8fceeb49febc428301ca51f0c428bfc25e38203d6eccd23fdece031e8e8`
+(no trailing newline). Later PR127/130/131 evidence-only commits did not change
+this selected map.
+
+The admitted additions observe existing configured Session execution, add bounded
+RCP4/RCT2 workflow evidence under the existing SQLite owner and present cached
+workflow facts through the existing desktop worker. C1-A borrows existing native
+family/pressure owners. C1-B1 validates supplied immutable pressure and velocity
+arrays in disposable scratch; it does not invoke a candidate or publish Session
+state. Q1 adds the explicit periodic represented-volume policy to its existing
+owner, without admitting periodic pressure or whole-Stokes semantics. No second
+numerical loop, recorder, runtime process supervisor or archive owner is added.
+The iteration repair bounds native counts and requires candidate counts zero,
+including later cancelled/failed attempts, while preserving cap-zero candidate
+acceptance, rejected IEEE diagnostics and legacy RCP2/RCP3/RCT1 semantics.
+
+The [mechanism review](../plans/fluid-accuracy-composition/reports/native-admission-20261020/review.md)
+confirms that the established explicit v3 refresh suffices. Preserve all preceding
+review text and source-bound receipts as history, the v3 schema/base, frozen v1/v2
+bytes and digests, immutable primary tree, ancestry, selector, checker, oracle,
+qualifier and packet refusal behavior. The active v3 map and this appended review's
+SHA256 are committed together. Old receipts do not qualify the new map. This is an
+explicit admission decision following complete review, never a build-time hash
+refresh or a projection to an assumed numerical subset.
+
+PR130 replaces all 15 optimization-sensitive assertions in four evidence
+evaluators with always-on guards. Frozen evaluator bytes, campaign manifests,
+results, failures and archive identities remain historical. Those tools are outside
+the selected native map; independent full-AST reversal verifies unchanged
+predicates/formulas, and the owner's separate tooling evidence reports 129 checks.
+P1 remains stopped/unselected. Q1's incomplete transport/geometry/control evidence
+and Q2's five positive native apertures on exact-zero-measure faces remain
+authoritative. **The ongoing Q2 boundary repair is excluded from this fixed
+checkpoint.** Its future exact source requires separate review and fresh applicable
+qualification; this admission supplies no topology/DOF/B/M/S/W, coupled PDE,
+whole-family replacement, learned-model or physical accuracy acceptance.
+
+Require clean committed-source native/rational execution into a fresh external
+directory with the unchanged qualifier, then a newly generated real native packet
+and all packet/refusal tests normally and under `-O`. Do not use `--allow-dirty`,
+transfer old receipts, suppress failed attempts or skip the stale-inventory gate.
+The native qualifier does not execute every new workflow/native-family/composition
+unit suite; retain fresh focused composed contracts separately. Hosted
+Pages/browser/publication, desktop/native-window, performance and physical gates
+remain separately scoped. Put execution results in a separate integration report;
+do not append them here or change the inventory after qualification.
+
+
+## Separate closed C1-B2 Session/custody admission, 2026-10-20
+
+This explicit independently reviewed refresh authorizes a fresh qualification
+attempt on final PR137 `d3e62377acde6641c8133cf9a9356cc046cfd02a`, tree
+`f8be6e0ef85a6a965545b2882bff11500c7f1dfd`, retaining fixed PR133/8bf542e.
+The [original source/contract review](../plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/source-review/readiness-review.md),
+[three-pin repair follow-up](../plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/source-review/g1-cancel-followup.md)
+and [original 140-path receipt](../plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/source-review/readiness-review.json)
+approve five added, eleven changed, 124 exact reused, zero removed regular inputs
+under the unchanged complete selector. All 140 working/committed identities
+match the final follow-up map; 137 identities are exact PR136 and its three
+changed pins are independently reviewed. Canonical sorted compact source-map
+SHA256 (without trailing newline) is
+`08aa3d1b48617763da61291e788fc985bc5d011d8039f9ebf83fbc4ccc2a05a6`.
+Cargo/toolchain/qualification inputs remain exactly fixed PR133; the separate
+Q2 Cargo/reference/CV1 stage is excluded. Historical 9c/9a receipts remain fixed
+and do not qualify this new source closure.
+
+The new closed immutable BuiltinNativeV1 path reuses existing native producer,
+B1 pressure/velocity qualifier, Liquid gates and atomic Session commit. Capped
+scratch and typed immutable attempts add no accepted-state owner, scheduler,
+process or store. RPS1/RPP1/RPT1 reuse SQLite and unchanged native RSC1/RCP2
+payload validation, complete 16KiB caps, exact binding/prior-link checks and
+explicit accepted-unrecorded tails. Mixed pressure-witness fallback refuses
+publication without stripping observations. Existing capture/desktop/comparison
+paths explicitly refuse the new profile. Optional viscosity, arbitrary/stateful
+external providers, full C1-B/C/R, whole-family/transfer and physical acceptance
+remain excluded. Component core634404e/consumera6e76a9 evidence retains its exact
+three-UI-literal source split; final e56bc7b adds only reporting documents.
+PR137's tested source70da36d and final report d3e6237 remain separately attributed.
+
+PR137 repairs the legacy configured-Session advection cancellation label using
+three matcher lines. Tests retain actual velocity/tracer cancellation before/after
+acceptance, cold RCT2 custody, exact state/receipt, retry, historical Failed labels
+and a true numerical failure control. No numerical formula, accepted order,
+publication point, codec/version or UI implementation changes. The old defect
+remains historical in fixed 9c/9a; no old archive is relabelled. Owner results stay
+at tested70da36d, not this later lead execution. Fresh qualification is still
+required; admission is not complete behavioral coverage of all 140 modules.
+
+The existing v3 mechanism is sufficient. Preserve all prior review bytes,
+schema/base, exact v1/v2 predecessors, immutable primary tree/ancestry and all
+selector/checker/oracle/qualifier/packet refusal behavior. Commit the explicit
+reviewed map and this appended review digest together, freeze them, then follow
+the [prospective protocol](../plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/protocol.md):
+new clean committed-source native/rational execution, newly generated actual
+packet with 26 normal and 26 optimized checks/no skips, plus separately recorded
+B2/legacy/persistence/volume/borrow contracts. No stale receipt, allow-dirty,
+build-time refresh or skipped gate. Retain failures and outcomes separately;
+never edit these bound bytes after qualification. Hosted/default/desktop/GUI,
+release/performance, model/Lean/GPU and physical gates remain separate. No merge
+authority is supplied by admission; public merge actions remain paused.
+
+
+## Separate closed C1-B3 producer-selection admission, 2026-10-20
+
+This explicit refresh permits a fresh qualification attempt after independent
+complete-source review of final PR140
+`5dc1741feffa88b857194559b3e7e79be5369a64`, tested core4af3802 and consumer9ddf8d2.
+The [independent source review](../plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/source-review/readiness-review.md)
+and [all-path receipt](../plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/source-review/readiness-review.json)
+approve the same 140 regular selected inputs: eight changed, 132 exact reused,
+zero added/removed versus both PR137 and qualified186dc0a. Two additional changed
+public contract targets are reviewed outside the unchanged selector. Canonical
+sorted compact map SHA256 (no trailing newline):
+`6cf9712dbebbec79309d9ead4b6514d5cec3cf7559452d0ff16824735d49d22d`.
+The local composition retains exact owner and qualified186 histories; no old
+execution receipt transfers. Cargo/toolchain and all 132 reused inputs stay exact;
+Q2 Cargo/CV sources remain excluded. Existing v3 schema/base, v1/v2 identities,
+primary ancestry/tree and selector/checker/oracle/qualifier/packet stay unchanged.
+Every previous bound-review byte is preserved as an exact prefix.
+
+ClassicalSelectionV1 selects the other existing native pressure method with
+positive producer cap bounded by the constructor cap. Among producer errors,
+only actual IterationLimit permits same-immutable-input full-cap native fallback;
+other errors and cancellation terminate unpublished. Existing B1 field/momentum
+rejection fallback remains; mixed-pressure witness fallback stays unpublished. Existing qualifier/Liquid/Session atomic
+publication remains sole owner. Additive RPS2/RPP2/RPT2 binds distinct producer,
+fallback and actual selection roles, with strict outer intent and embedded attempt
+version refusal before payload parsing. Private method-only header adaptation
+occurs only after outer validation; legacy configured/version-1 validators remain
+strict. Graph/comparison refuses the new namespace. No stateful/learned/external,
+whole-family/transfer or full C1-R admission is implied. Original failures/repairs
+and owner227/5 execution claims remain their original subjects; no raw owner
+archive audit is asserted.
+
+Commit this append, its bound digest, complete reviewed inventory and
+[prospective protocol](../plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/protocol.md)
+together after final independent metadata/protocol review, then freeze them.
+Execute new clean committed-source native/rational qualification, actual exporter
+and packet with26 normal+26 optimized checks/no skips, plus complete no-default
+library, all B2/B3 public, legacy recording/provider, volume and borrow contracts.
+Retain actual ELFs/logs/source hashes and failures; report outcomes in separate
+files. Admission is an attempt permission, not acceptance from refreshed hashes.
+Hosted/default/desktop/window/release/performance/physical/model/Lean/GPU and
+combined-Q2 qualification remain separate. Public merges remain paused.
+
 
 ## Shared authored force fields and accepted recording custody, 2026-10-20
 
@@ -1434,3 +1605,48 @@ actual complete three-file candidate requires independent review before atomic
 commit/publication, then fresh clean committed-source existing native/rational
 and normal Rust/book qualification. No stale receipt refresh, dirty-source bypass,
 threshold relaxation, workflow expansion, merge or FEMPR147 changes are admitted.
+
+
+## PR142 current-main composition and fixture admission, 2026-10-21
+
+This explicit v3 refresh admits a fresh qualification attempt on PR142
+`4f2d55323825c8907cf9209914f29130ec7de511` plus current main
+`15026a966265cf9eaedf464e2b5a066bd0fef3d8` and its bounded cfg(test) fixture
+repair. The unchanged conservative selector covers **152 regular inputs**.
+Against PR142 inventory: 12 added, 19 changed,
+121 unchanged, 0 removed; against main inventory:
+16 added, 18 changed, 118 unchanged,
+0 removed. The canonical sorted compact source-map SHA256
+(no trailing newline) is `4d6fbe1927962b23da4c37e32b476b20a2ae7f48bf0d11805c36065c8a8b464d`.
+
+The [independent complete-source review](../plans/fluid-accuracy-composition/reports/pr142-completion-20261021/source-review/review.md)
+approves these exact identities: 94 match both parents, 24 match main, 27 match
+PR142, seven compose both owners or repair the test fixture. Its
+[per-path review](../plans/fluid-accuracy-composition/reports/pr142-completion-20261021/source-review/per-path-review.md)
+and [machine map](../plans/fluid-accuracy-composition/reports/pr142-completion-20261021/source-review/source-map.json)
+record every parent/current identity and disposition. Machine-map file SHA256
+is `ae828885a18fbf5c986b73d65353197a85194f7496337080e88e6198e5558421`.
+
+Simulation retains workflow capture, authored force fields and closed projection
+inputs under their existing owner; all constructors initialize the complete
+private domain. Lib/recording/desktop merges retain both histories and strict
+publication/selection/profile semantics. A shared cfg(test) fixture now uses an
+atomic sequence and exclusive directory creation so repeated clock values
+cannot alias another fixture; an identical-timestamp concurrent regression is
+added. No numerical formula, acceptance threshold, schema interpretation,
+source selector, qualifier, oracle or packet consumer changes.
+
+Both prior review histories above remain intact, including their common
+72,250-byte prefix and complete divergent suffixes. Frozen v1/v2 bytes, primary
+ancestry and every historical receipt remain. This new map cannot use either
+parent's receipt as fresh qualification. The prior stale-review-binding refusal
+is retained outside Git. Commit this explicit inventory/review and the
+[prospective protocol](../plans/fluid-accuracy-composition/reports/pr142-completion-20261021/protocol.md)
+before fresh clean native/rational/real-packet and ordinary supported-feature
+contract execution. Do not rerun sealed numerical campaigns or weaken gates.
+
+Fresh 2026-10-21 user instruction authorizes normal reviewed serial integration
+through PR142 lead, superseding only the historical task's no-merge delegation.
+Cloud-task reads/resumes and the earlier GPU artifact download remain denied.
+No source branch is deleted or rewritten. Source admission is not numerical,
+GUI-window, performance, hardware/model, physical or production acceptance.
