@@ -1079,3 +1079,210 @@ No numerical kernel, tolerance, recorder/model contract, selector, qualification
 gate, historical inventory or A1 status changes. Initial 94062 execution receipts
 retain that historical subject; fresh clean committed qualification, affected
 checks and current-head hosted gates are required before integration.
+
+
+## Shared authored force fields and accepted recording custody, 2026-10-20
+
+This explicit source-admission extension covers the backend force-domain branch
+at `43ec505218c43594641ecbb80873bec8c88d7d2c`, based on main
+`fd7c0f0aee63bc8710df99f9bb01154e7619b974`. The admission commit changes only
+this appended record and its version-three inventory binding; native source
+bytes remain those of the reviewed subject. The complete conservative closure
+grows from 124 to 126 paths: two added, eight changed, 116 unchanged, none
+removed. Every `src/` path, build/toolchain input and existing independent
+qualification input remains selected, including unchanged desktop sources.
+
+The bounded source scope is:
+
+- `src/force_field.rs` adds version-one authoring values, stable object IDs,
+  rigid transforms, enabled state, static half-open activation intervals,
+  directional/radial/vortex fields and global/sphere/box support with optional
+  smooth edge attenuation. Validated immutable snapshots share one evaluator.
+  Acceleration is in m/s²; force density is in N/m³ and requires positive
+  density in kg/m³. Finite-input, zero-distance and bounded-object checks
+  refuse unsupported or nonfinite evaluation.
+- `src/forces.rs` shares the existing MAC face-update loop with authored
+  acceleration evaluation. Closed-box walls retain their existing treatment.
+  `src/simulation.rs` adds explicit force-aware fixed-box stepping and
+  success-stamped pressure/actual-force custody. The legacy pressure accessor
+  cannot expose incomplete force controls; candidate attempts invalidate the
+  scratch pressure stamp before use. Pressure projection itself is unchanged.
+- `src/particle_fluid.rs` adds the same evaluator to gravity and pair forces
+  at pre-integration particle positions, using the evaluated local particle
+  density for force-density conversion. Accepted force controls are stamped
+  only on success; rejected attempts preserve the existing accepted particle
+  publication. Source emitters, constitutive stress and turbulence closures
+  remain distinct owners.
+- `src/recording/force_fields.rs` adds a bounded version-one binary metadata
+  codec with exact float bits and scene validation. Force-aware run identity
+  binds the scene digest; append and read check run/publication agreement.
+  `src/recording.rs`, `recording/carrier.rs` and `recording/material.rs`
+  retain actual accepted force inputs and decode them for selected archives.
+  Historical unforced hash/control paths remain separate and unchanged.
+- `Cargo.toml` adds an opt-in `force-serde` feature using existing dependency
+  identities; `Cargo.lock` is unchanged. `src/lib.rs` adds public exports.
+  No desktop/request/worker source is changed by this backend branch.
+
+Exact added/changed source SHA256 pins:
+
+- `Cargo.toml`: `f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae`
+- `src/force_field.rs`: `adecbc5f92b89179a2e38885be2acbcddd42df40061f00ffa5d758224ed045a5`
+- `src/forces.rs`: `7b3b48c0813c995a937a44ca1b624411c59dde6419b62041b67456cde2d692d9`
+- `src/lib.rs`: `30f5b78a98f6d0c010955a25fc00cc2de4aadf159d260e95afd3f3143dc6f9c3`
+- `src/particle_fluid.rs`: `538c498122bbc1045ae59d7363ff87e1dd9a40003fb48eeae835228ad4c65893`
+- `src/recording.rs`: `47b2b24bbe9af777ceafdefa6f0b82200a60cea590d0b64f326de1d50c6d7d2d`
+- `src/recording/carrier.rs`: `5a9b10b929f650423ad9e58bd7047bfe80cc7bf18138d74bd628c2f3f17af711`
+- `src/recording/force_fields.rs`: `2cf3ec9ec191c35c814d48ace301feaccd6cc73311a66970c9d112dad432c4a9`
+- `src/recording/material.rs`: `e72e256aa3af46fef9002822de5281caf1de66ba070eb2109f77b083e20ae6ce`
+- `src/simulation.rs`: `c08ede6330c4bf6ed7e858e556806ec80628522ceb42286cf52714bf7430c9a1`
+
+This admits an attempt at fresh clean committed-source native/rational
+qualification only. It is not a numerical receipt, scientific validation of the
+new force laws, native-window evidence or completed desktop parity. Pure
+evaluator/codec checks and the seven bounded adapter/recording tests have their
+own pinned subjects under `../plans/force-authoring/`; they do not substitute
+for the fresh independent qualification required here. Later desktop/runtime
+composition must re-establish complete admission and fresh evidence for its
+actual committed source.
+
+The historical v1/v2 inventories and all preceding review text/receipts retain
+their original bytes and subjects. The v3 ancestry/schema and predecessor
+digests remain authoritative. No source selector, numerical threshold,
+qualification runner, mathematical oracle, workflow or immutable primary
+identity is changed. A stale or malformed present inventory must still refuse
+admission rather than fall back. Fresh receipt binding must include the actual
+committed manifest and this complete review record; earlier standalone CI
+success or historical receipts cannot qualify this admission commit.
+
+Independent review of this exact two-file candidate is required before atomic
+commit and publication. This record contains no claim that an unseen patch was
+previously approved. Native/rational CI uses its existing 20-minute job bound.
+The separate research-book job performs admission preflight and real packet
+rejection tests normally and under optimized Python within its existing
+90-minute job bound; readiness requires those actual current-head outcomes,
+not an assumption that the standalone qualifier includes packet tests.
+
+
+## Scene authoring and gated force runtime integration, 2026-10-21
+
+This explicit extension admits the complete UI source at
+`da5c68891a7c627007ccb7136c9c9cd6b42fee26`, tree
+`281834746edcb4c84e1d33a9b0eddb9578fda3b0`, for an attempt at fresh
+committed-source qualification. Its complete selected closure is compared
+against merged backend `7516a8e5d328c6dc8eda8ea577cb03f20b2e343a`, whose
+126-path inventory includes the preceding shared-force admission. The UI
+closure has 136 paths: ten added, ten changed, 116 unchanged, none removed.
+The existing selector still includes every `src/` file, including desktop
+tests and README files, plus build/toolchain and qualification inputs.
+
+The complete merged backend review above is preserved byte for byte. The UI
+branch's older 124-path inventory and shorter review do not supersede the
+merged 126-path backend admission. This v3 rebind preserves all 116 unchanged
+backend pins and explicitly adds or replaces only the twenty UI paths listed
+below. Historical v1/v2 records, predecessor digests, reviewed ancestry and
+immutable primary identity remain unchanged.
+
+The reviewed UI scope is:
+
+- `scene_ui.rs` owns canonical authored force objects, shared-domain IDs,
+  validated properties and immutable snapshot freezing. Draft and Retained
+  selection/property contexts remain distinct; retained values are read-only.
+  `scene_view.rs` and `scene_handles.rs` add viewport selection, thin selected
+  outlines and Move/Rotate/Size previews. Handle preview data is temporary;
+  validated release applies through the existing transaction, while cancel
+  leaves canonical draft data unchanged. These UI controls do not define a
+  second force evaluator or alter physical units.
+- `rheon-desktop.rs`, `carrier_execution.rs`, `comparison.rs`, `run_sets.rs`
+  and `run_sets/source.rs` carry immutable track-specific snapshots through
+  native-carrier and particle-material dispatch and retained presentation.
+  Force-aware execution uses the canonical backend adapters and accepted
+  controls. Saved native intents use version two for authored metadata while
+  preserving the legacy no-force version-one bytes/hash path. This does not
+  add a serialized particle-material cold-rerun API.
+- `inspector.rs` binds and verifies the force-scene digest using canonical
+  recording metadata before publication/readback. Historical no-force
+  branches retain their existing controls. `settings.rs` supplies precise
+  numeric editing; `configured_controls.rs` and `viewport.rs` integrate the
+  compact timeline, Scene panel and selection/focus ownership.
+- `force_run_policy.rs` distinguishes eligible native-carrier and
+  particle-material targets from unsupported configured/session/provider/
+  free-surface/AI paths. Production qualification remains `Pending` and
+  authored production launches remain refused. Test qualification cannot
+  grant capability to an unsupported execution owner. The associated policy,
+  runtime, setup and timeline test modules are selected source inputs, not
+  evidence that all runtime or native acceptance is complete.
+- `native_presentation_harness.rs` is a test-configuration presentation
+  harness. Its presence in the conservative closure does not establish native
+  execution results. Backend force equations/evaluator, MAC/particle adapters,
+  accepted recording modules and numerical/pressure policies are unchanged
+  from merged `7516a8e5`.
+
+The final two repairs were independently inspected as actual source diffs.
+`37ac711a4b7134f628c7a71d54f62056d71ca5f3` moves unchanged Inspector custody
+helpers and the test-configuration entry point before their test modules,
+without lint suppression. `da5c6889` gives normal Draft property editing and
+disabled previews one persistent per-object UI identity, preserving disclosure
+state and numeric editor identity when invalid-input feedback adds rows. Its
+two new regressions construct canonical metadata and egui contexts only; they
+do not construct App/Worker or execute solvers, recorders or models.
+
+The published source reviews and bounded execution subjects remain under
+`../plans/ui-refinement/reports/`, particularly
+`runtime-force-integration-source-review.md`,
+`force-worker-runtime-results-review.md`, `typed-force-policy-source-review.md`,
+`ci-item-order-source-review.md` and `scene-properties-stability-source-review.md`.
+Their stated subjects and limits remain authoritative. Independent read-only
+integration review checked the twenty added/changed UI paths, both exact repair
+diffs, all transferred changed-file identities, full reconstructed trees and
+the complete selected-source comparison against merged `7516a8e5`. This is a
+source review; it adds no numerical, hardware or native-interaction result.
+
+Exact added/changed source SHA256 pins relative to merged `7516a8e5`:
+
+- `src/bin/desktop/carrier_execution.rs`: `c4455879373fc71eaaf398fdaa230c4d0b115dc7ff0a9da6356afeb24cba23b2`
+- `src/bin/desktop/comparison.rs`: `27ad4b88db848430a68f5f9fae796fa10eab1df26af9dbae73386e55c9b5c74f`
+- `src/bin/desktop/configured_controls.rs`: `5463e18b3b5a139c448dd327b23318605664e90aea4690187981177e7f68e60b`
+- `src/bin/desktop/configured_worker_tests.rs`: `dabe1c3cf4214ee30ca42102c4c5387564b661f81b810d2c61035b8691669016`
+- `src/bin/desktop/force_run_policy.rs`: `086d4ee8c18ff30f2165b8622a53d649bd9eb8166bbbbcb82dde3a0eb2427cc2`
+- `src/bin/desktop/force_run_policy_tests.rs`: `a518b47b71cb2aff5d7ce46169918c60d534c00ffccdd0ee5c90abcebbdcdebd`
+- `src/bin/desktop/force_runtime_integration_tests.rs`: `da753230b81df85227ab348c39ea4ac97e2ff093cf2da09ff9ac5dce225d0584`
+- `src/bin/desktop/force_runtime_ui_tests.rs`: `1d242eaed1b416e3dfb2577d5610c4e0d6d0ca5040f80293681ae184090cebb9`
+- `src/bin/desktop/inspector.rs`: `7a6582faf9bfff755d7fade624f6b11cca06813c75310fba25ccbfabff1d2aae`
+- `src/bin/desktop/native_presentation_harness.rs`: `38b8b68ebc8a54769bcf8e65b2cf80890c03eac2251b4f838fac29ecbf63ecb6`
+- `src/bin/desktop/run_sets.rs`: `b25f07c5d9f4a27572922956043224c35dde35d9a0d987ab8af4f3f3151c91f0`
+- `src/bin/desktop/run_sets/source.rs`: `39e8982fffaf4e9adcd0ca0c60f49eabc96b829957bc6d9c05479c80eee99daf`
+- `src/bin/desktop/scene_handles.rs`: `4818b85644a2891de562adc00fc203eb59c674bbf46aa88cd440bcab6477eb22`
+- `src/bin/desktop/scene_ui.rs`: `46eeaeaf3cce71c7665cde4224ef2ed7e62100047796414c94d07e02dd4b7390`
+- `src/bin/desktop/scene_view.rs`: `d16851804c3aa727c7fdf658a821ef8c8cd2c167e853b72d02604f2a14dfa02f`
+- `src/bin/desktop/settings.rs`: `72a2e42de38100fa7cb517bfa7c1b9377975d23c3c4cd887615c296549c093c4`
+- `src/bin/desktop/setup_ui_tests.rs`: `db3d1328aa159e79ea4f8a15cd59ebb6cb7c9352854760bd8164587014e35900`
+- `src/bin/desktop/timeline_ui_tests.rs`: `606b0e95edba4a813221af776e7b12f776adcf9645de302ef827aa595111694b`
+- `src/bin/desktop/viewport.rs`: `ee7acacd33ae29af7ec7f592361861315b30891b1637cb2989ba7390fa8320d3`
+- `src/bin/rheon-desktop.rs`: `dfc472b78c46e83b45668a8d99bb82f721fcc771ddc584cdc8fdaf82272003ff`
+
+This two-file admission commit changes no selected native source byte. It
+admits fresh clean committed-source native/rational qualification only; it is
+not a scientific receipt for authored fields, native repair acceptance,
+production enablement or full voxel/particle desktop parity. Earlier bounded
+worker/recording runs and local egui checks retain their own exact subjects.
+The assigned native validator must separately verify the final repair's
+specified window/scaling and interaction cases. A later enabled candidate
+requires its own reviewed source, admission binding and separately bounded
+actual App validation. Unsupported execution paths remain unsupported.
+
+No selector, threshold, mathematical oracle, qualification runner, workflow or
+historical receipt is changed. A stale present inventory must still refuse;
+there is no fallback to older pins. Fresh receipts must bind this actual
+committed complete inventory and review, rather than reuse backend or earlier
+UI receipts. The existing dedicated native/rational workflow has a 20-minute
+job bound; the separate research-book job performs admission preflight and
+real packet rejection tests normally and under optimized Python within its
+existing 90-minute bound. Both actual exact-head outcomes remain required.
+The dedicated workflow is not automatically selected by admission-document
+paths and must be dispatched explicitly for the clean committed branch.
+
+Independent review of the actual complete two-file candidate is required
+before atomic commit and publication. No prior review is represented as
+approval of an unseen patch. PR147's separate research-book/FEM changes are
+outside this source admission; current main and dependencies must be checked
+again before any merge.
