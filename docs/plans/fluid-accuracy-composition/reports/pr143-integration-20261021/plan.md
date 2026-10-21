@@ -26,7 +26,8 @@ lead. Merge only after verified lead authorization, or leave merging to the lead
 
 The bounded integration write set is this report directory, appended native
 admission review and its complete v3 inventory if the actual dependency delta
-requires them, plus an additive current integration pointer in the CV3 plan.
+requires them. The frozen CV3 plan remains an original source record; this
+integration report supplies current status without changing its frozen payload.
 Frozen preparation payloads and their SHA256 manifests are immutable. Shared CI
 timeout repair belongs to the lead; PR143 does not race that workflow edit.
 
@@ -54,6 +55,18 @@ compile-only checks can run before that event but are not transferred as final
 composed qualification. Failed commands retain their output and require diagnosis
 before a justified bounded retry. Existing cloud task reads/resumes and the denied
 artifact download remain excluded; Git and admitted GitHub actions are used.
+
+The lead subsequently froze PR142's selected source at
+`dbd49d3e41c482a753884abc8aaaff7d1b0d0653` and allowed isolated preliminary
+dependency preparation/testing while its long ordinary checks run. PR138 owns
+its bounded admission refresh. PR143 requests that exact reviewed preliminary
+head for downstream composition, with final admission/ready status still gated
+on actual verified PR142 then PR138 landing. A clean normal preparatory merge of
+frozen PR142 is `7a0f5f006ef766523bf72b422ca11ee985f99d12`: 150 of its 152 selected
+pins remain exact, with only inherited Q2 dev-reference Cargo.toml/lock differing.
+No PR142 source was edited. Compile-only
+`cargo check --locked --no-default-features --all-targets` passes on that subject
+in 15.88 seconds. No native qualification or numerical campaign was executed.
 
 Preliminary subject `286df732106717d056330b276d6f563e79a447b8` passes
 `cargo fmt --all --check` and
