@@ -1,8 +1,5 @@
 //! Visual authoring geometry only: no field evaluation, solver or model loading.
-use super::{
-    camera::OrbitCamera,
-    scene_ui::{SceneContext, SceneUi},
-};
+use super::{camera::OrbitCamera, scene_ui::SceneUi};
 use eframe::egui::{self, Color32, Pos2, Rect, Stroke};
 use rheon::{ForceKind, ForceObject, ForceSupport, SceneObjectId};
 use std::collections::BTreeMap;
@@ -364,7 +361,7 @@ impl Projection {
             return result;
         }
         let display_scene = state.display_scene();
-        if state.context == SceneContext::Draft {
+        {
             if display_scene.freeze().is_err() {
                 result.warning = Some("Invalid force draft · fix properties to preview");
                 result.pick_incomplete = true;

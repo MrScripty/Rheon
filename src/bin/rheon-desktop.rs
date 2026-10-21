@@ -53,6 +53,9 @@ pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
 #[cfg(test)]
+#[path = "desktop/force_runtime_ui_tests.rs"]
+mod force_runtime_ui_tests;
+#[cfg(test)]
 #[path = "desktop/native_presentation_harness.rs"]
 mod native_presentation_harness;
 #[path = "desktop/scene_handles.rs"]
@@ -88,6 +91,10 @@ use std::time::{Duration, Instant};
 
 #[derive(Clone)]
 struct Request {
+    /// Empty means legacy on every track; otherwise one immutable option per track.
+    force_fields: Vec<Option<rheon::ForceSnapshot>>,
+    #[cfg(test)]
+    force_validation: bool,
     collision_mesh: Option<Arc<rheon::CollisionMesh>>,
     size: u64,
     steps: usize,
@@ -122,6 +129,10 @@ struct ConfiguredRequest {
     runtime: Option<(Arc<AtomicBool>, accepted_session::model_process::ChildSlot)>,
 }
 impl Request {
+    fn fields_for_track(&self, track: usize) -> Option<&rheon::ForceSnapshot> {
+        self.force_fields.get(track).and_then(Option::as_ref)
+    }
+
     fn setup_workflow(&self) -> SetupWorkflow {
         if self.configured_set.is_some() {
             SetupWorkflow::AcceptedSession
@@ -258,6 +269,47 @@ fn configured_executor() -> run_sets::configured::ExecutorDeclaration {
     }
 }
 fn validate_request(request: &Request) -> Result<(), String> {
+    if !request.force_fields.is_empty() && request.force_fields.len() != request.methods.len() {
+        return Err("Force snapshots must match the exact track count".into());
+    }
+    for fields in request.force_fields.iter().flatten() {
+        rheon::recording::encode_force_metadata(fields).map_err(|e| e.to_string())?;
+    }
+    let authored = request.force_fields.iter().any(Option::is_some);
+    if authored && request.material.is_some() && request.methods.len() != 1 {
+        return Err("Authored particle material requires exactly one material track".into());
+    }
+    if authored && request.configured_set.is_some() {
+        return Err("Authored forces are unsupported for configured/session/provider/free-surface execution".into());
+    }
+    if let Some(set) = &request.saved_set {
+        set.validate().map_err(|e| e.to_string())?;
+        if set.members.len() != request.methods.len() {
+            return Err("Saved member/track mismatch".into());
+        }
+        for (track, member) in set.members.iter().enumerate() {
+            let intended = member.spec.force_snapshot().map_err(|e| e.to_string())?;
+            let bytes = |f: Option<&rheon::ForceSnapshot>| {
+                f.map(rheon::recording::encode_force_metadata)
+                    .transpose()
+                    .map_err(|e| e.to_string())
+            };
+            if bytes(intended.as_ref())? != bytes(request.fields_for_track(track))? {
+                return Err("Saved member force snapshot mismatch".into());
+            }
+        }
+    }
+    #[cfg(test)]
+    let force_admitted = request.force_validation;
+    #[cfg(not(test))]
+    let force_admitted = false;
+    if authored && !force_admitted {
+        return Err(
+            "Authored forces cannot run yet: bounded desktop runtime/archive validation is pending"
+                .into(),
+        );
+    }
+
     if let Some(configured) = &request.configured_set {
         configured.revision.validate().map_err(|e| e.to_string())?;
         if request.saved_set.is_some()
@@ -535,11 +587,32 @@ fn run_simulations(
             });
             set.parent_sha256 = Some(parent);
             publish_saved_revision(&request, set, &format!("member-{track}-started.json"))?;
-            inspector.begin_bound_carrier(sim.native()?, &path, request.recording_limits, run)?
+            match request.fields_for_track(track) {
+                Some(fields) => inspector.begin_bound_carrier_with_force_fields(
+                    sim.native()?,
+                    &path,
+                    request.recording_limits,
+                    run,
+                    Some(fields),
+                ),
+                None => inspector.begin_bound_carrier(
+                    sim.native()?,
+                    &path,
+                    request.recording_limits,
+                    run,
+                ),
+            }?
         } else {
-            inspector
-                .begin_carrier(sim.native()?, &path, request.recording_limits)
-                .map_err(|e| format!("Carrier recording start at {} failed: {e}", path.display()))?
+            match request.fields_for_track(track) {
+                Some(fields) => inspector.begin_carrier_with_force_fields(
+                    sim.native()?,
+                    &path,
+                    request.recording_limits,
+                    Some(fields),
+                ),
+                None => inspector.begin_carrier(sim.native()?, &path, request.recording_limits),
+            }
+            .map_err(|e| format!("Carrier recording start at {} failed: {e}", path.display()))?
         };
         use rheon::recording::provider::runtime::{RuntimeTermination, RuntimeTerminationCause};
         let mut termination_cause = RuntimeTerminationCause::StorageFailure;
@@ -589,6 +662,7 @@ fn run_simulations(
                         |spec| spec.spec.source_at(step),
                     ),
                     cancel,
+                    request.fields_for_track(track),
                 );
                 let step_seconds = start.elapsed().as_secs_f64();
                 history.end_step()?;
@@ -604,7 +678,14 @@ fn run_simulations(
                         configured.runtime_observation(),
                     )?;
                 } else {
-                    inspector.record_carrier(&mut recorder, sim.native()?)?;
+                    match request.fields_for_track(track) {
+                        Some(fields) => inspector.record_carrier_with_force_fields(
+                            &mut recorder,
+                            sim.native()?,
+                            Some(fields),
+                        ),
+                        None => inspector.record_carrier(&mut recorder, sim.native()?),
+                    }?;
                 }
                 termination_cause = RuntimeTerminationCause::NumericalFailure;
                 if frozen.is_some() && r.dt.to_bits() != request.requested_dt.to_bits() {
@@ -842,6 +923,10 @@ fn freeze_native_set(request: &mut Request) -> Result<std::path::PathBuf, String
             },
         })
         .map_err(|e| e.to_string())?;
+        let spec = match request.fields_for_track(track) {
+            Some(fields) => spec.with_force_fields(fields).map_err(|e| e.to_string())?,
+            None => spec,
+        };
         members.push(RunSetMember {
             member_id: format!("native-{track}"),
             spec,
@@ -914,10 +999,19 @@ fn run_material(
     sim.set_collision_mesh(request.collision_mesh.clone())
         .map_err(|e| e.to_string())?;
     let path = new_recording_path(&request.recording_directory, "material")?;
-    let mut recorder = history
-        .inspector
-        .begin(&sim, &path, request.recording_limits)
-        .map_err(|e| format!("Recording start at {} failed: {e}", path.display()))?;
+    let fields = request.fields_for_track(0);
+    let mut recorder = match fields {
+        Some(fields) => history.inspector.begin_with_force_fields(
+            &sim,
+            &path,
+            request.recording_limits,
+            Some(fields),
+        ),
+        None => history
+            .inspector
+            .begin(&sim, &path, request.recording_limits),
+    }
+    .map_err(|e| format!("Recording start at {} failed: {e}", path.display()))?;
     let result = (|| {
         history.publish(
             0,
@@ -936,29 +1030,44 @@ fn run_material(
         for step in 0..request.steps {
             history.begin_step(0, step + 1)?;
             let start = Instant::now();
-            let result = sim.step(request.requested_dt, request.emitter, || {
-                cancel.load(Ordering::Relaxed)
-            });
+            let result = match fields {
+                Some(fields) => sim.step_with_force_fields(
+                    request.requested_dt,
+                    request.emitter,
+                    fields,
+                    || cancel.load(Ordering::Relaxed),
+                ),
+                None => sim.step(request.requested_dt, request.emitter, || {
+                    cancel.load(Ordering::Relaxed)
+                }),
+            };
             let elapsed = start.elapsed().as_secs_f64();
             history.end_step()?;
             let report = result.map_err(|e| e.to_string())?;
             seconds += elapsed;
             last_report = Some(report);
-            history.inspector.record(
-                &mut recorder,
-                &sim,
-                report,
-                rheon::MaterialStepControls {
-                    requested_dt: request.requested_dt,
-                    emitter: request
-                        .emitter
-                        .map(|emitter| rheon::MaterialEmitterControl {
-                            source_id: 1,
-                            source_version: 1,
-                            emitter,
-                        }),
-                },
-            )?;
+            let controls = rheon::MaterialStepControls {
+                requested_dt: request.requested_dt,
+                emitter: request
+                    .emitter
+                    .map(|emitter| rheon::MaterialEmitterControl {
+                        source_id: 1,
+                        source_version: 1,
+                        emitter,
+                    }),
+            };
+            match fields {
+                Some(fields) => history.inspector.record_with_force_fields(
+                    &mut recorder,
+                    &sim,
+                    report,
+                    controls,
+                    Some(fields),
+                ),
+                None => history
+                    .inspector
+                    .record(&mut recorder, &sim, report, controls),
+            }?;
             history.publish(
                 0,
                 PreviewFrame::capture_particles(
@@ -1639,6 +1748,9 @@ impl App {
         let baseline = &revision.members[0].spec;
         let intent_path = root.join("intent.json");
         let request = Request {
+            force_fields: Vec::new(),
+            #[cfg(test)]
+            force_validation: false,
             collision_mesh: None,
             size: baseline.constructor.counts_xyz[0],
             steps: baseline.future.requested_steps,
@@ -1784,7 +1896,19 @@ impl App {
                 return;
             }
         };
+        let fields = match self.scene.freeze_for_run() {
+            Ok(fields) => fields,
+            Err(error) => {
+                self.status = error;
+                return;
+            }
+        };
         let mut request = Request {
+            force_fields: fields.map_or_else(Vec::new, |fields| {
+                vec![Some(fields); if all { 2 } else { 1 }]
+            }),
+            #[cfg(test)]
+            force_validation: false,
             collision_mesh: self.collision.mesh.clone(),
             size,
             steps: self.steps,
@@ -1849,6 +1973,9 @@ impl App {
             return Err("Desktop rerun supports up to two cubic zero-origin members with common geometry, requested horizon and budgets; cold inspection remains available".into());
         }
         let mut request = Request {
+            force_fields: Vec::new(),
+            #[cfg(test)]
+            force_validation: false,
             collision_mesh: None,
             size: baseline.counts_xyz[0],
             steps: baseline.requested_steps,
@@ -1882,6 +2009,11 @@ impl App {
             #[cfg(test)]
             failure_gate: None,
         };
+        request.force_fields = original
+            .members
+            .iter()
+            .map(|m| m.spec.force_snapshot().map_err(|e| e.to_string()))
+            .collect::<Result<Vec<_>, _>>()?;
         validate_request(&request)?;
         let root =
             new_recording_path(&request.recording_directory, "rerun")?.with_extension("runset");
@@ -1911,6 +2043,9 @@ impl App {
                 self.history = Some(Arc::clone(&worker.history));
                 self.worker = Some(worker);
                 self.scene.begin_run(request.collision_mesh.is_some());
+                let retained_binding = self
+                    .scene
+                    .bind_retained_fields(0, request.fields_for_track(0));
                 self.running_request = Some(request);
                 self.rows.clear();
                 self.textures.clear();
@@ -1918,7 +2053,10 @@ impl App {
                 self.track = 0;
                 self.follow_live = true;
                 self.playing = false;
-                self.status = "Simulating — accepted steps appear live.".into();
+                self.status = retained_binding.map_or_else(
+                    |error| format!("Running; retained force display unavailable: {error}"),
+                    |()| "Simulating — accepted steps appear live.".into(),
+                );
                 Ok(())
             }
             Err(e) => {
@@ -1984,11 +2122,34 @@ impl App {
             }
         }
     }
+    /// One render-frame snapshot of track, appearance and force metadata. Track
+    /// intents painted later apply visually next frame, never to half a frame.
+    fn prepare_scene_presentation(&mut self) -> Option<(usize, Option<Arc<PreviewFrame>>)> {
+        let view =
+            (self.scene.context == scene_ui::SceneContext::Retained).then(|| self.selected_frame());
+        if let Some(request) = &self.running_request
+            && let Err(error) = self
+                .scene
+                .bind_retained_fields(self.track, request.fields_for_track(self.track))
+        {
+            self.status = error;
+        }
+        view
+    }
     fn selected_frame(&mut self) -> (usize, Option<Arc<PreviewFrame>>) {
+        self.selected_frame_inner(true)
+    }
+    fn selected_frame_bound_track(&mut self) -> (usize, Option<Arc<PreviewFrame>>) {
+        self.selected_frame_inner(false)
+    }
+    fn selected_frame_inner(
+        &mut self,
+        resolve_active_track: bool,
+    ) -> (usize, Option<Arc<PreviewFrame>>) {
         let Some(history) = &self.history else {
             return (0, None);
         };
-        if self.follow_live {
+        if self.follow_live && resolve_active_track {
             self.track = history.active_track.load(Ordering::Relaxed);
         }
         if self.playing {
@@ -2441,6 +2602,7 @@ impl eframe::App for App {
             ctx.request_repaint();
             return;
         }
+        let retained_view = self.prepare_scene_presentation();
         let model_mesh = if self.scene.context == scene_ui::SceneContext::Retained {
             self.running_request
                 .as_ref()
@@ -2464,7 +2626,7 @@ impl eframe::App for App {
         }
         let retained = self.scene.context == scene_ui::SceneContext::Retained;
         let (count, selected) = if retained {
-            self.selected_frame()
+            retained_view.unwrap_or_else(|| self.selected_frame_bound_track())
         } else {
             (0, None)
         };
@@ -2507,12 +2669,10 @@ impl eframe::App for App {
             .as_ref()
             .filter(|_| retained)
             .map_or(self.size, |r| r.size) as usize;
-        self.viewport.authored_forces_pending = !retained && !self.scene.draft().objects.is_empty();
-        let frame = if retained {
-            self.selected_frame().1
-        } else {
-            None
-        };
+        self.viewport.authored_forces_pending = !self.scene.display_scene().objects.is_empty();
+        let frame = selected;
+        let editable_scene =
+            self.worker.is_none() && self.scene.context == scene_ui::SceneContext::Draft;
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE)
             .show(ctx, |ui| {
@@ -2529,7 +2689,7 @@ impl eframe::App for App {
                             .filter(|_| retained)
                             .map(|h| &h.inspector),
                         scene: Some(&mut self.scene),
-                        editable_scene: self.worker.is_none(),
+                        editable_scene,
                     },
                 )
             });
@@ -3022,6 +3182,9 @@ mod tests {
     #[test]
     fn material_worker_accepts_and_captures_a_genuine_256_cube_preview() {
         let request = Request {
+            force_fields: Vec::new(),
+            #[cfg(test)]
+            force_validation: false,
             collision_mesh: None,
             size: 256,
             steps: 1,
@@ -3241,6 +3404,9 @@ mod tests {
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
+            force_fields: Vec::new(),
+            #[cfg(test)]
+            force_validation: false,
             collision_mesh: None,
             size: 32,
             steps: 64,
@@ -3302,6 +3468,9 @@ mod tests {
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
+            force_fields: Vec::new(),
+            #[cfg(test)]
+            force_validation: false,
             collision_mesh: None,
             size: 32,
             steps: 3,
@@ -3389,6 +3558,9 @@ mod tests {
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
+            force_fields: Vec::new(),
+            #[cfg(test)]
+            force_validation: false,
             collision_mesh: None,
             size: app.size,
             steps: app.steps,
@@ -3476,6 +3648,9 @@ mod tests {
     #[test]
     fn worker_runs_selected_and_equal_input_comparison() {
         let request = Request {
+            force_fields: Vec::new(),
+            #[cfg(test)]
+            force_validation: false,
             collision_mesh: None,
             size: 8,
             steps: 4,
@@ -3573,6 +3748,9 @@ mod tests {
         assert!(
             run(
                 Request {
+                    force_fields: Vec::new(),
+                    #[cfg(test)]
+                    force_validation: false,
                     collision_mesh: None,
                     size: 8,
                     steps: 4,

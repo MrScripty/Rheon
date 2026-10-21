@@ -1,8 +1,8 @@
 # Desktop scene authoring and compact playback
 
 **Plan status:** `Active`
-**Current phase:** T4 source published; synthetic retained presentation handoff ready
-**Next slice:** T5 interface coordination and pure versioned frozen-intent codecs
+**Current phase:** T5 desktop custody source implemented; bounded validation pending
+**Next slice:** independently reviewed bounded native-carrier/material runtime and archive probes
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -16,7 +16,10 @@
 [Backend receipt](reports/backend-integration-receipt.md) ·
 [Current authoring admission](reports/scene-authoring-admission.md) ·
 [Authoring source review](reports/scene-authoring-source-review.md) ·
-[Native authoring handoff](reports/native-scene-authoring-handoff.md)
+[Native authoring handoff](reports/native-scene-authoring-handoff.md) ·
+[T5 interface and implementation](reports/runtime-force-integration-implementation.md) ·
+[T5 independent review](reports/runtime-force-integration-source-review.md) ·
+[T5 bounded validation contract](reports/runtime-force-validation-contract.md)
 
 ## Objective
 
@@ -72,16 +75,19 @@ No competing force physics, backend-specific UI approximations, solver/model/
 scientific execution, unadmitted archive migration, worker/session ownership change, training,
 L1/MMS work, dependency/framework rewrite, merge, force push or cleanup.
 Live cancellation stays parked on missing existing containment; no provisioning.
-Canonical domain source is now received and sealed. No fabricated runtime support
-while desktop dispatch/frozen intent/load/rerun integration remains pending.
+Canonical domain source is received and sealed. Desktop dispatch/frozen intent/load/
+rerun wiring is source-complete but force-enabled launches remain gated until the
+changed desktop closure receives separately authorized bounded runtime evidence.
 
 ## Dependency strategy and ownership
 
 See the binding [integration contract](reports/scene-integration-contract.md).
 UI owns desktop composition/rendering/input/selection; UI allocates canonical SceneObjectId values across models/forces; force owner owns
 the type, physical units/support/frame/time semantics, validation/freeze and both
-solver adapters. The exact backend API/source at1d44c842 is received and sealed; desktop runtime
-integration remains pending. See the source receipt and independent review. See exact proposed runtime/custody
+solver adapters. Canonical core source is integrated at43ec5052; fetched a4326a78
+changes only backend admission documents, which are not copied or refreshed here.
+Desktop runtime validation remains pending. See the source receipt and independent
+review. See exact runtime/custody
 file reservations in the contract; none is edited in T1. Force owner must not edit desktop UI files concurrently. UI must
 not edit force/solver implementations. Exchange a pinned API/patch and serially
 integrate only after source review. No speculative merges or duplicate physics.
@@ -99,7 +105,7 @@ Inspector slice before any overlapping changes; T1 excludes Inspector entirely.
 | T3 | new scene_view.rs geometry/picking; viewport.rs aggregate-input composition and thin geometry outline; existing SceneUi selection and main routing | [Exact selection admission](reports/viewport-selection-admission.md), inert camera/geometry/UI tests; no lab initialization, then native | Bounded source complete; native pending |
 | T4 | desktop/scene_handles.rs, viewport exclusive gesture routing, scene_ui validated draft transaction; force-only (model placement deferred) | [Force-only handle admission](reports/force-handles-admission.md); same IDs/domain types; no physics; exact Escape rollback and terminal-frame ownership | Bounded source complete; native pending |
 | T4a | cfg(test) native_presentation_harness.rs, cfg-gated main and viewport containment; no production launch/Cargo change | [Workerless contract](reports/synthetic-retained-presentation-contract.md), one exact pure UI probe, standalone compile/sealed artifact; existing validator native only | Bounded source complete; native pending |
-| T5 | main Request/run_material, carrier_execution.rs, desktop run_sets versioned intent/load/rerun; exact backend recording bridge and native fixes | Qualified canonical custody source + reviewed immutable intent/version compatibility + separately bounded integration evidence. Unsupported owner paths refuse | Planned |
+| T5 | main Request/run_material, carrier_execution.rs, minimal Inspector recorder methods, run_sets.rs/source.rs plus exhaustive comparison label, scene retained projection, inert tests/fixture initializers | Canonical custody source + independently reviewed intent/version compatibility + separately bounded runtime/archive evidence. Unsupported owner paths refuse; no core/solver writes | Source implemented; validation gate retained |
 
 
 Stages execute serially under the UI owner; T2–T4 reuse some UI regions and are
@@ -149,10 +155,10 @@ Generated logs/screenshots/transfer packets remain outside Git.
 | --- | --- | --- | --- | --- |
 | S1 | Empty idle timeline fits <=70 logical px in900/1250px windows with the preceding280px sidebar reserved; selected-frame captions remain present and may naturally wrap/grow; actual Play/Pause/step/Live input keeps prior transitions | integration / isolated egui painting/input / automated | pending | Four exact probes pass: idle48px versus106px, focused speed editing and native-track/literal-report layouts. Native/configured/popup-keyboard coverage remains open |
 | S2 | Right panel collapses/reopens retaining selection; tree/viewport choose the same existing object; deleted/replaced/missing identities never edit another object | integration + user-workflow / inert UI then native / automated + manual | pending | Canonical authoring source and five exact UI probes pass; viewport picking/native remain pending |
-| S3 | A force is one canonical scene object in tree, properties, outline and handles; UI exposes only shared supported units/support/transform; unsupported backend blocks with a reason | integration / shared domain contract + inert UI / reviewed + automated | blocked | Canonical authoring source uses one ForceScene and checked IDs; dispatch/frozen intent still pending |
-| S4 | Handle capture prevents simultaneous camera/probe motion; Escape restores exact draft; release commits one validated unit-correct edit; active snapshots stay immutable | integration + user-workflow / inert UI then native / automated + manual | pending | Domain/manipulator stages not admitted yet |
+| S3 | A force is one canonical scene object in tree, properties, outline and handles; UI exposes only shared supported units/support/transform; unsupported backend blocks with a reason | integration / shared domain contract + inert UI / reviewed + automated | blocked | Canonical authoring source uses one ForceScene and checked IDs; dispatch/frozen intent source implemented and gated; desktop runtime/archive validation pending |
+| S4 | Handle capture prevents simultaneous camera/probe motion; Escape restores exact draft; release commits one validated unit-correct edit; active snapshots stay immutable | integration + user-workflow / inert UI then native / automated + manual | pending | T4 reviewed geometry/transaction source and six exact inert tests pass; full Viewport gesture/native evidence pending |
 | S5 |1250×820 and900×650 at100%/150%: usable viewport, no overlap/clipping, visible status/Cancel/errors, thin outline, keyboard alternatives and predictable drawer focus | user-workflow / actual native display / manual | blocked | No local display; prior426fd25 images do not cover this source |
-| S6 | Locked affected check, strict Clippy, formatting and individually selected exact UI tests pass; existing archives/source ownership unchanged | focused / pinned Rust1.92 / automated + source review | pending | T1 focused gates reported in checkpoint; no scientific certificate |
+| S6 | Locked affected check, strict Clippy, formatting and individually selected exact UI tests pass; existing archives/source ownership unchanged | focused / pinned Rust1.92 / automated + source review | pending | T5 thirteen exact inert tests, locked build/check, strict production Clippy and independent source review pass; no archive workload or scientific certificate |
 
 The former M1 A4/A5 and live cancellation remain unsatisfied. UI-5 has a reviewed
 isolated-form exact-bit repair, not native/global keyboard acceptance. Earlier
@@ -199,12 +205,13 @@ Ordinary lint/layout failures stay within the current exact slice and retain log
 
 ## Blockers
 
-Canonical force source is received/sealed in isolated branch; its arrival does not
-implement scene UI or desktop runtime. Desktop dispatch/frozen intent/load/rerun
-and unsupported owner paths still need staged integration and qualified evidence.
-Right-scene
-integration must reconcile exact Inspector work before overlap. Local native
-display unavailable; JPEG delivery of older screenshots remains separately blocked.
+Canonical force source and desktop scene/dispatch/frozen intent/load/rerun source
+are implemented in the isolated owner branch. Production authored-force runs stay
+gated pending separately bounded desktop runtime/archive execution; configured,
+provider/session/transport/free-surface propagation remains explicitly unsupported.
+Minimal Inspector recorder ownership is now assigned and source-reviewed. No core
+recording/solver source changed here. Local native display is unavailable; the
+existing validator owns exact8148fa2 native work and actual JPEG delivery separately.
 Live cancellation lacks required existing containment and stays parked. No mount,
 cgroup, permission, credential or network changes are authorized.
 
@@ -217,12 +224,21 @@ No complete UI, force parity, native/accessibility, M1 or scientific acceptance 
 claimed. Accept only exact staged source/test/native evidence once its objective
 criteria are met. Publish/merge only after separate coordination/authorization.
 
-## T5 interface preflight
+## T5 gated source checkpoint
 
-[Runtime/archive boundary](reports/runtime-force-integration-admission.md) records
-agreed Request/dispatch/run-set ownership and the newly identified minimal Inspector
-recorder entry-point coordination. No Inspector, core or runtime T5 source changed.
-Force launch refusal remains until corresponding runtime/archive custody is wired
-and validated. Native425a986 handles and the separately labelled synthetic timeline
-harness have distinct evidence; neither accepts worker cancellation or scientific
-runtime parity. Preserve historical hashes and legacy spec versions exactly.
+[Implementation admission](reports/runtime-force-integration-implementation.md) and
+[independent source review](reports/runtime-force-integration-source-review.md)
+record the assigned Request/dispatch/run-set/minimal Inspector write set. Native
+carrier and particle material use canonical force adapters and recording wrappers;
+legacy None keeps the old path. FrozenSpec v1 bytes/hashes are pinned, v2 requires
+validated force metadata, manifest v1 supports independently valid mixed members.
+Retained tree/properties and viewport share one render-frame track/document;
+track intents paint consistently next frame and clear reused-ID selection.
+
+No numerical/SQLite/runtime or new native acceptance is claimed. Thirteen exact
+pure/Context tests pass after list-only enumeration. Future two-case validation is
+specified in [bounded contract](reports/runtime-force-validation-contract.md);
+its ignored test bodies are not yet implemented or enumerated. Keep the production
+force gate until separately admitted runtime/archive evidence qualifies this source.
+Earlier native425a986/8148fa2 and synthetic harness artifacts retain their own exact
+source/evidence; none accepts this changed desktop closure or genuine cancellation.

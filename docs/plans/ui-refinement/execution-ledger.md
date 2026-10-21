@@ -456,3 +456,32 @@ is in reports/runtime-force-integration-admission.md; coordination is pending be
 Inspector edits. No numerical workload or force launch was enabled. Independent pure
 versioned intent-codec work may follow after that interface/dependency agreement;
 preserve legacy global manifest/schema/hash contracts rather than blind version bump.
+
+## T5 desktop force custody source —2026-10-21
+
+Parent extended desktop ownership to minimal Inspector begin/record wrappers. On
+isolated PR146 branch after8148fa2, implemented canonical force snapshot dispatch
+and recording for native carrier and particle material, exact per-track immutable
+Request binding, v2 native intent/hash/load/rerun, and read-only retained snapshot
+projection. Production force admission remains false before worker/output; saved
+reruns and unsupported owner paths refuse explicitly. No core/solver/recording
+module changed. Canonical43ec505 core is unchanged in fetched a4326a78; backend
+admission documents are not copied/refreshed or extended to this UI closure.
+
+Independent design/source reviews required/repaired one-render-frame retained
+composition and independent v2 byte/hash goldens. Thirteen individually exact pure/
+Context tests passed vs197 list; no numerical/model/SQLite/file fixture/native run.
+Locked production check1.43s, strict Clippy4.02s, build13.80s, fmt/diff and pinned
+structural plan check passed.14source seals/26logs, including intermediate compile/
+list failures and warnings, are preserved in force-custody-20261021 manifest SHA
+ b73005e773cc7c15eb820509104cf3025c7aa2b565169cefc58cc2b774bc1906.
+See reports/runtime-force-checkpoint.md and independent source review for exact
+binary/source seals, names, meaning and limits; elapsed compiler timings are not
+workload resource measurements. Original M2a source hash remains0937b5e2…dc102.
+
+Future one-step carrier/material cases have an independently reviewed bounded
+contract, but ignored test bodies are not implemented/enumerated and no execution
+is admitted. Production launch gate stays; runtime/archive parity, genuine Cancel,
+long-status/accessibility/full M1 and T5 native acceptance are unqualified. No native
+image/Library claim; existing8148fa2 validator continues independently. Preserve
+all earlier captures, seals, branches, incident evidence and disposable outputs.

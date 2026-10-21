@@ -37,6 +37,8 @@ struct DraftEdit {
     valid: bool,
 }
 pub struct SceneUi {
+    retained_forces: Option<ForceScene>,
+    retained_binding: Option<(usize, Option<[u8; 32]>)>,
     edit: Option<DraftEdit>,
     forces: ForceScene,
     selected: Option<SceneObjectId>,
@@ -50,6 +52,8 @@ pub struct SceneUi {
 impl Default for SceneUi {
     fn default() -> Self {
         Self {
+            retained_forces: None,
+            retained_binding: None,
             edit: None,
             forces: ForceScene::default(),
             selected: None,
@@ -75,6 +79,33 @@ impl SceneUi {
     pub fn draft(&self) -> &ForceScene {
         &self.forces
     }
+    pub fn freeze_for_run(&self) -> Result<Option<rheon::ForceSnapshot>, String> {
+        if self.forces.objects.is_empty() {
+            Ok(None)
+        } else {
+            self.forces.freeze().map(Some).map_err(|e| e.to_string())
+        }
+    }
+    pub fn bind_retained_fields(
+        &mut self,
+        track: usize,
+        fields: Option<&rheon::ForceSnapshot>,
+    ) -> Result<(), String> {
+        use sha2::{Digest, Sha256};
+        let identity = fields
+            .map(rheon::recording::encode_force_metadata)
+            .transpose()
+            .map_err(|e| e.to_string())?
+            .map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)));
+        if self.retained_binding != Some((track, identity)) {
+            if self.context == SceneContext::Retained {
+                self.selected = None;
+            }
+            self.retained_binding = Some((track, identity));
+            self.retained_forces = fields.map(|f| f.scene().clone());
+        }
+        Ok(())
+    }
     pub fn selected_force(&self) -> Option<&ForceObject> {
         (self.context == SceneContext::Draft)
             .then(|| {
@@ -89,6 +120,12 @@ impl SceneUi {
         self.edit.is_some()
     }
     pub fn display_scene(&self) -> std::borrow::Cow<'_, ForceScene> {
+        if self.context == SceneContext::Retained {
+            return self.retained_forces.as_ref().map_or_else(
+                || std::borrow::Cow::Owned(ForceScene::default()),
+                std::borrow::Cow::Borrowed,
+            );
+        }
         if let Some(edit) = &self.edit
             && self.edit_matches()
         {
@@ -207,11 +244,15 @@ impl SceneUi {
         Ok(())
     }
     pub fn begin_run(&mut self, model_present: bool) {
+        self.retained_binding = None;
+        self.retained_forces = None;
         self.selected = None;
         self.retained_model_id = if model_present { self.model_id } else { None };
         self.set_context(SceneContext::Retained);
     }
     pub fn clear_run(&mut self) {
+        self.retained_binding = None;
+        self.retained_forces = None;
         self.retained_model_id = None;
         self.set_context(SceneContext::Draft);
     }
@@ -224,9 +265,7 @@ impl SceneUi {
     /// This is the sole selection owner. Viewport picking will call this same API.
     pub fn select(&mut self, id: Option<SceneObjectId>) {
         self.selected = id.filter(|id| {
-            Some(*id) == self.model_id()
-                || (self.context == SceneContext::Draft
-                    && self.forces.objects.iter().any(|o| o.id == *id))
+            Some(*id) == self.model_id() || self.display_scene().objects.iter().any(|o| o.id == *id)
         });
     }
     pub fn launch_readiness(&self) -> Result<(), String> {
@@ -324,6 +363,10 @@ impl SceneUi {
                         }
                     });
                     ui.small("Gravity remains additive.").on_hover_text("Acceleration fields add to configured gravity. Avoid applying Earth gravity twice. Force density divides once by local mass density, never particle mass.");
+                } else if let Some(scene)=&self.retained_forces {
+                    ui.small(format!("Retained track {} · read-only",self.retained_binding.map_or(1,|b|b.0+1)));
+                    for object in &scene.objects {if ui.push_id(("retained-force",object.id.0),|ui|ui.selectable_label(self.selected==Some(object.id),&object.name)).inner.clicked(){self.selected=Some(object.id);}}
+                    if scene.objects.is_empty(){ui.label("No authored forces");}
                 } else {ui.label("Authored-force metadata unavailable").on_hover_text("This legacy retained run has no canonical authored-force document. Its physics is not inferred from the current draft.");}
                 ui.separator();
                 ui.heading("Properties");
@@ -339,6 +382,8 @@ impl SceneUi {
                         if changed {self.validate();}
                         if ui.add_enabled(editable,egui::Button::new("Remove force")).clicked(){self.remove_selected();}
                     } else {ui.label("Select an object");}
+                } else if let Some(object)=self.retained_forces.as_ref().and_then(|scene|scene.objects.iter().find(|o|Some(o.id)==self.selected)) {
+                    let mut readonly=object.clone();ui.push_id(("retained-properties",object.id.0),|ui|{ui.add_enabled_ui(false,|ui|force_properties(ui,&mut readonly));});
                 } else {ui.label("Select an object");}
             });
         });

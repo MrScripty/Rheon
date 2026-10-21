@@ -12,6 +12,9 @@ fn style(ctx: &egui::Context) {
 }
 fn fixture() -> App {
     let request = Request {
+        force_fields: Vec::new(),
+        #[cfg(test)]
+        force_validation: false,
         collision_mesh: None,
         size: 2,
         steps: 1,
@@ -125,6 +128,7 @@ impl Presentation {
             self.app.play_time +=
                 self.app.playback_speed * f64::from(ctx.input(|i| i.stable_dt.min(0.1)));
         }
+        let retained_view = self.app.prepare_scene_presentation();
         let previous = self.app.scene.context;
         self.app.scene.show(ctx, true, false, None);
         if previous != self.app.scene.context {
@@ -132,19 +136,14 @@ impl Presentation {
         }
         let retained = self.app.scene.context == scene_ui::SceneContext::Retained;
         let (count, frame) = if retained {
-            self.app.selected_frame()
+            retained_view.unwrap_or_else(|| self.app.selected_frame_bound_track())
         } else {
             (0, None)
         };
         let timeline = self.app.scene_timeline_ui(ctx, count, frame.as_deref());
-        let frame = if retained {
-            self.app.selected_frame().1
-        } else {
-            None
-        };
         self.app.viewport.domain_side = 1.0;
         self.app.viewport.authored_forces_pending =
-            !retained && !self.app.scene.draft().objects.is_empty();
+            !self.app.scene.display_scene().objects.is_empty();
         // Every frame resets to the fresh default Appearance owner. Disabled UI
         // prevents user dispatch into numerical labs; no production App::update.
         self.app.viewport.presentation_only_appearance();

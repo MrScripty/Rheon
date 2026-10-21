@@ -6,11 +6,12 @@ use rheon::recording::provider::{
 };
 use rheon::recording::{
     RecordedCarrier, RecordedMaterial, RecordedStep, RecordingLimits, RecordingReader,
-    StepRecorder, carrier_publication, carrier_run, material_publication, material_run,
+    StepRecorder, carrier_publication, carrier_publication_with_force_fields, carrier_run,
+    material_publication, material_publication_with_force_fields, material_run,
 };
 use rheon::{
-    FluidParticle, MaterialStepControls, ParticleFluidSimulation, ParticleStepReport,
-    SessionIdentity, Simulation,
+    FluidParticle, ForceSnapshot, MaterialStepControls, ParticleFluidSimulation,
+    ParticleStepReport, SessionIdentity, Simulation,
 };
 use std::{
     path::{Path, PathBuf},
@@ -133,14 +134,34 @@ impl Inspector {
         path: &Path,
         limits: RecordingLimits,
     ) -> Result<StepRecorder, String> {
+        self.begin_with_force_fields(sim, path, limits, None)
+    }
+    pub fn begin_with_force_fields(
+        &self,
+        sim: &ParticleFluidSimulation,
+        path: &Path,
+        limits: RecordingLimits,
+        fields: Option<&ForceSnapshot>,
+    ) -> Result<StepRecorder, String> {
         let run=material_run(super::identity::new_identity("material"),sim,
             "native desktop; caller-owned local path; source revision/build/toolchain not supplied; no restart guarantee")
             .map_err(|e|e.to_string())?;
+        let run = bind_force_fields(run, fields)?;
         let mut recorder = StepRecorder::create(path, run, limits).map_err(|e| e.to_string())?;
         recorder
             .append(
-                &material_publication(sim, None, None, 0, limits.max_record_bytes)
-                    .map_err(|e| e.to_string())?,
+                &match fields {
+                    Some(fields) => material_publication_with_force_fields(
+                        sim,
+                        None,
+                        None,
+                        fields,
+                        0,
+                        limits.max_record_bytes,
+                    ),
+                    None => material_publication(sim, None, None, 0, limits.max_record_bytes),
+                }
+                .map_err(|e| e.to_string())?,
             )
             .map_err(|e| e.to_string())?;
         self.reload(path, limits)?;
@@ -153,9 +174,24 @@ impl Inspector {
         path: &Path,
         limits: RecordingLimits,
     ) -> Result<StepRecorder, String> {
+        self.begin_carrier_with_force_fields(sim, path, limits, None)
+    }
+    pub fn begin_carrier_with_force_fields(
+        &self,
+        sim: &Simulation,
+        path: &Path,
+        limits: RecordingLimits,
+        fields: Option<&ForceSnapshot>,
+    ) -> Result<StepRecorder, String> {
         let run=carrier_run(super::identity::new_identity("carrier"),sim,
             "native desktop; source revision/build/toolchain not supplied; fixed sealed box; no restart guarantee").map_err(|e|e.to_string())?;
-        self.begin_bound_carrier(sim, path, limits, run)
+        self.begin_bound_carrier_with_force_fields(
+            sim,
+            path,
+            limits,
+            bind_force_fields(run, fields)?,
+            fields,
+        )
     }
     pub fn begin_bound_carrier(
         &self,
@@ -164,10 +200,30 @@ impl Inspector {
         limits: RecordingLimits,
         run: rheon::recording::RecordingRun,
     ) -> Result<StepRecorder, String> {
+        self.begin_bound_carrier_with_force_fields(sim, path, limits, run, None)
+    }
+    pub fn begin_bound_carrier_with_force_fields(
+        &self,
+        sim: &Simulation,
+        path: &Path,
+        limits: RecordingLimits,
+        run: rheon::recording::RecordingRun,
+        fields: Option<&ForceSnapshot>,
+    ) -> Result<StepRecorder, String> {
+        verify_force_fields(&run, fields)?;
         let mut recorder = StepRecorder::create(path, run, limits).map_err(|e| e.to_string())?;
         recorder
             .append(
-                &carrier_publication(sim, 0, limits.max_record_bytes).map_err(|e| e.to_string())?,
+                &match fields {
+                    Some(fields) => carrier_publication_with_force_fields(
+                        sim,
+                        fields,
+                        0,
+                        limits.max_record_bytes,
+                    ),
+                    None => carrier_publication(sim, 0, limits.max_record_bytes),
+                }
+                .map_err(|e| e.to_string())?,
             )
             .map_err(|e| e.to_string())?;
         self.reload(path, limits)?;
@@ -179,20 +235,37 @@ impl Inspector {
         recorder: &mut StepRecorder,
         sim: &Simulation,
     ) -> Result<(), String> {
+        self.record_carrier_with_force_fields(recorder, sim, None)
+    }
+    pub fn record_carrier_with_force_fields(
+        &self,
+        recorder: &mut StepRecorder,
+        sim: &Simulation,
+        fields: Option<&ForceSnapshot>,
+    ) -> Result<(), String> {
         let actual = carrier_run(
             recorder.run().identity.clone(),
             sim,
             &recorder.run().provenance,
         )
         .map_err(|e| e.to_string())?;
+        let actual = bind_force_fields(actual, fields)?;
         if &actual != recorder.run() {
             return Err("Carrier configuration/geometry changed; accepted step unrecorded".into());
         }
-        let step = carrier_publication(
-            sim,
-            recorder.recorded_count(),
-            recorder.limits().max_record_bytes,
-        )
+        let step = match fields {
+            Some(fields) => carrier_publication_with_force_fields(
+                sim,
+                fields,
+                recorder.recorded_count(),
+                recorder.limits().max_record_bytes,
+            ),
+            None => carrier_publication(
+                sim,
+                recorder.recorded_count(),
+                recorder.limits().max_record_bytes,
+            ),
+        }
         .map_err(|e| e.to_string())?;
         recorder.append(&step).map_err(|e| {
             format!(
@@ -279,24 +352,45 @@ impl Inspector {
         report: ParticleStepReport,
         controls: MaterialStepControls,
     ) -> Result<(), String> {
+        self.record_with_force_fields(recorder, sim, report, controls, None)
+    }
+    pub fn record_with_force_fields(
+        &self,
+        recorder: &mut StepRecorder,
+        sim: &ParticleFluidSimulation,
+        report: ParticleStepReport,
+        controls: MaterialStepControls,
+        fields: Option<&ForceSnapshot>,
+    ) -> Result<(), String> {
         let actual = material_run(
             recorder.run().identity.clone(),
             sim,
             &recorder.run().provenance,
         )
         .map_err(|e| e.to_string())?;
+        let actual = bind_force_fields(actual, fields)?;
         if &actual != recorder.run() {
             return Err(
                 "Recording configuration/geometry changed; accepted step is unrecorded".into(),
             );
         }
-        let step = material_publication(
-            sim,
-            Some(report),
-            Some(controls),
-            recorder.recorded_count(),
-            recorder.limits().max_record_bytes,
-        )
+        let step = match fields {
+            Some(fields) => material_publication_with_force_fields(
+                sim,
+                Some(report),
+                Some(controls),
+                fields,
+                recorder.recorded_count(),
+                recorder.limits().max_record_bytes,
+            ),
+            None => material_publication(
+                sim,
+                Some(report),
+                Some(controls),
+                recorder.recorded_count(),
+                recorder.limits().max_record_bytes,
+            ),
+        }
         .map_err(|e| e.to_string())?;
         recorder.append(&step).map_err(|e| {
             format!(
@@ -1067,4 +1161,29 @@ mod tests {
             std::fs::remove_file(path).unwrap();
         }
     }
+}
+
+pub(super) fn bind_force_fields(
+    run: rheon::recording::RecordingRun,
+    fields: Option<&ForceSnapshot>,
+) -> Result<rheon::recording::RecordingRun, String> {
+    match fields {
+        Some(fields) => run.with_force_fields(fields).map_err(|e| e.to_string()),
+        None => Ok(run),
+    }
+}
+pub(super) fn verify_force_fields(
+    run: &rheon::recording::RecordingRun,
+    fields: Option<&ForceSnapshot>,
+) -> Result<(), String> {
+    use sha2::{Digest, Sha256};
+    let expected = fields
+        .map(rheon::recording::encode_force_metadata)
+        .transpose()
+        .map_err(|e| e.to_string())?
+        .map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)));
+    if run.force_fields_digest().map_err(|e| e.to_string())? != expected {
+        return Err("Recording force snapshot does not match immutable request".into());
+    }
+    Ok(())
 }

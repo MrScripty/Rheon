@@ -492,7 +492,7 @@ impl SceneHandles {
         scene: &SceneUi,
         editable: bool,
     ) {
-        if !editable {
+        if !editable || scene.context != super::scene_ui::SceneContext::Draft {
             return;
         }
         let display = scene.display_scene();
