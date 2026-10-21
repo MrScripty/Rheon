@@ -99,6 +99,103 @@ fn recipe(field: FieldRole) -> Recipe {
 fn available(a: &Selection, b: &Selection, role: FieldRole) -> FieldComparison {
     compare(a, b, recipe(role)).unwrap().outcome.unwrap()
 }
+
+#[test]
+fn c1b2_actual_projection_fields_are_not_configured_or_carrier_comparison_evidence() {
+    use rheon::projection_step::{ProjectionIntent, ProjectionStepWorkspace};
+    use rheon::{
+        LiquidInlet, LiquidStepInputs, LiquidTransportConfig, LiquidVolumeSettings,
+        PressureSettings, SimulationSession, VolumeStamp,
+    };
+    let cap = 4 * 1024 * 1024;
+    let grid = GridGeometry::new([2, 3, 4], [0.25, 0.5, 0.75], [-1.0, 2.0, 3.0]).unwrap();
+    let method = PressureImplementation::JacobiPcgV1;
+    for intent in [
+        ProjectionIntent::BuiltinNativeV1,
+        ProjectionIntent::ClassicalSelectionV1 {
+            producer: PressureImplementation::SymmetricGaussSeidelPcgV1,
+            producer_max_iterations: 2000,
+        },
+    ] {
+        let mut owner = SimulationSession::new_with_projection(
+            SessionIdentity {
+                run_id: 8,
+                source_revision: "actual-projection-comparison-refusal".into(),
+            },
+            grid.clone(),
+            LiquidTransportConfig {
+                carrier: SimulationConfig {
+                    density: 1.0,
+                    memory_limit: cap,
+                    pressure: PressureSettings {
+                        relative_residual: 1e-10,
+                        absolute_residual: 1e-12,
+                        divergence_limit: 1e-8,
+                        max_iterations: 2000,
+                    },
+                    actual_divergence_limit: 1e-5,
+                    max_courant: 1.0,
+                },
+                represented_density: 1.0,
+                volume_stamp: VolumeStamp { id: 1, version: 0 },
+                carrier_id: 2,
+            },
+            method,
+            vec![0.5; grid.cell_len()],
+            cap,
+            1,
+            intent,
+        )
+        .unwrap();
+        let mut workspace =
+            ProjectionStepWorkspace::new_with_intent(&grid, 1.0, cap, method, intent).unwrap();
+        let run =
+            projection::projection_run(&owner.snapshot(), "actual typed projection publication")
+                .unwrap();
+        assert_eq!(
+            run.solver,
+            match intent {
+                ProjectionIntent::BuiltinNativeV1 => "rheon-native-projection-session-v1",
+                _ => "rheon-native-projection-selection-v1",
+            }
+        );
+        owner
+            .step_with_native_projection(
+                LiquidStepInputs {
+                    requested_dt: 0.01,
+                    smoke_source: None,
+                    forces: &[],
+                    source: None,
+                    inlet: LiquidInlet::new(VolumeStamp { id: 3, version: 0 }, [[0.0; 2]; 3])
+                        .unwrap(),
+                    volume: LiquidVolumeSettings {
+                        max_outward_courant: 1.0,
+                        actual_divergence_limit: 1e-5,
+                    },
+                },
+                &mut workspace,
+                None,
+                |_| false,
+            )
+            .unwrap();
+        let step = projection::projection_publication(&owner.snapshot(), 0, 1 << 20).unwrap();
+        let new = Archive::new(run, &[step]);
+        drop(workspace);
+        drop(owner);
+        let (run, steps) = fixture(0.01, false);
+        let old = Archive::new(run, &steps);
+        assert_eq!(
+            native_samples(&new.select(0), FieldRole::Tracer),
+            Err(Unavailable::UnsupportedProfile)
+        );
+        assert_eq!(
+            compare(&old.select(0), &new.select(0), recipe(FieldRole::Tracer))
+                .unwrap()
+                .outcome,
+            Err(Unavailable::UnsupportedProfile)
+        );
+    }
+}
 fn field_mut<'a>(s: &'a mut RecordedStep, name: &str) -> &'a mut RecordedField {
     s.fields.iter_mut().find(|f| f.name == name).unwrap()
 }

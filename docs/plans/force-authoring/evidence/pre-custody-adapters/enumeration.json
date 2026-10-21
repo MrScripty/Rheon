@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/workspace/force-validation-pre-custody/force_adapter_tests",
+    "--list",
+    "--format",
+    "terse"
+  ],
+  "binary_sha256": "0042e68eb0de3f63e3d4ef98506a88f417a4f965f63c41b64890f4ee9e9003cd",
+  "returncode": 0,
+  "wall_seconds": 0.007437605000063741,
+  "signals": [],
+  "log_bytes": 302,
+  "log_sha256": "95c1ecca9477fc2f362c688db8122e321d78f516dcbb7bf222f6af6a1da26964",
+  "limits": {
+    "wall_seconds": 30,
+    "term_to_owned_child_kill_seconds": 1,
+    "cpu_seconds": 20,
+    "address_space_bytes": 536870912,
+    "file_and_log_bytes": 1048576,
+    "test_threads": 1
+  }
+}

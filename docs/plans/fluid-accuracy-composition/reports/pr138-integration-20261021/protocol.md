@@ -22,6 +22,17 @@ branch deletion or unrelated feature change. The lead authorizes shared-file
 reconciliation and any main merge through exact-head GitHub comments. Recheck
 current main and that authorization immediately before authoritative integration.
 
+The lead's later [preparation authorization](https://github.com/MrScripty/Rheon/pull/138#issuecomment-6328266160)
+also permits isolated preliminary composition/admission/testing against published
+frozen PR142 `dbd49d3e41c482a753884abc8aaaff7d1b0d0653` while its ordinary gates
+run. The [ownership agreement](https://github.com/MrScripty/Rheon/pull/138#issuecomment-6328139025)
+covers both shared admission records and PR138-specific review/results/status.
+Label every preliminary receipt with its actual executed source. This permission
+does not waive final verification against the verified merged-main dependency or
+authorize a main merge. A later CI-budget-only or result-document change from the
+lead requires an exact selected-source identity comparison before deciding the
+necessary final revalidation; material source changes require renewed admission.
+
 The expected implementation delta after PR142 consists of Cargo.toml/Cargo.lock
 development-only rational dependencies and the existing private exact-geometry
 and aligned coupled reference examples/contracts. Preserve the lead's product,

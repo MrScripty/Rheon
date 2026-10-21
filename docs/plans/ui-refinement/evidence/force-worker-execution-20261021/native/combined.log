@@ -1,0 +1,13 @@
+
+running 1 test
+test force_runtime_integration_tests::native_force_dispatch_records_and_cold_binds_v2 ... retained artifact root: /workspace/scratch/rheon-ui-force-worker-execution-20261021/native/DATA
+artifact=/workspace/scratch/rheon-ui-force-worker-execution-20261021/native/DATA/completed.json bytes=1883 sha256=265e2b4885bcbe41d7af274d42d762f2691fd591511462166c96fe3fa5779b3d
+artifact=/workspace/scratch/rheon-ui-force-worker-execution-20261021/native/DATA/jacobi-pcg-v1-1792543035724545053-59751-0.sqlite bytes=32768 sha256=ea8ccde4ec9a94a218443dc2570212f37cd7439c6af73e56d934f73fd4d13279
+artifact=/workspace/scratch/rheon-ui-force-worker-execution-20261021/native/DATA/intent.json bytes=1302 sha256=71e5d32cd24ed95b5e5ee16caeceddef7c7786e4839ac1bb16a0a75d2720e946
+artifact=/workspace/scratch/rheon-ui-force-worker-execution-20261021/native/DATA/member-0-finished.json bytes=1883 sha256=265e2b4885bcbe41d7af274d42d762f2691fd591511462166c96fe3fa5779b3d
+artifact=/workspace/scratch/rheon-ui-force-worker-execution-20261021/native/DATA/member-0-started.json bytes=1691 sha256=29068e832fcdafa3a61e1ac2dd809b1b36fa5515acaf32aaa2ab76a94b94b25e
+retained files=5 bytes=39527; no cleanup performed
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 200 filtered out; finished in 0.03s
+

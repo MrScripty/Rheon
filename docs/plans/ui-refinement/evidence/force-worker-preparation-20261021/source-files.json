@@ -1,0 +1,1392 @@
+[
+  {
+    "file": "Cargo.lock",
+    "bytes": 104189,
+    "sha256": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c"
+  },
+  {
+    "file": "Cargo.toml",
+    "bytes": 2332,
+    "sha256": "f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae"
+  },
+  {
+    "file": "browser/solver/src/bin/flow-reference.rs",
+    "bytes": 4609,
+    "sha256": "4be0fde70f7babe84e2b736d0515b3b3ff44df8388e2dc9a0c82c0d99fc131fa"
+  },
+  {
+    "file": "browser/solver/src/bin/reference.rs",
+    "bytes": 204,
+    "sha256": "4fbcdf17e81882e22895830149cc3db6a607c1e25276ab5025305f5e527c2e65"
+  },
+  {
+    "file": "browser/solver/src/flow.rs",
+    "bytes": 13616,
+    "sha256": "dce9c79650a69a423ad5bec33cc679274c03471c25639f6be9a353dc5804cdb7"
+  },
+  {
+    "file": "browser/solver/src/lib.rs",
+    "bytes": 9887,
+    "sha256": "144dd1ac312c7d83e91f62dbebe1ed83b3f96b2f9a7d50110b7c0577b6bac2b7"
+  },
+  {
+    "file": "browser/solver/tests/contract.rs",
+    "bytes": 5975,
+    "sha256": "e598f0cccb79dfb94b890579f1e652cd2c9e44c5581ce45969a61c4405cd97e9"
+  },
+  {
+    "file": "browser/solver/tests/flow_contract.rs",
+    "bytes": 7931,
+    "sha256": "2b67707339d47360c7fff71de6ede7cba45185759d08499f6b43e5d96062c70c"
+  },
+  {
+    "file": "docs/plans/emitter-controls/reports/default-baseline-probe.rs",
+    "bytes": 2567,
+    "sha256": "89720995df134c8fcaf4ee15cb8a3fd8954d7eb019397ca32e55eadb0751393c"
+  },
+  {
+    "file": "evidence/coupled-terminal-main/baseline-probe-source.rs",
+    "bytes": 2304,
+    "sha256": "8c47def3bd74d2c12f3035f046fb25a9e3ea01884e54f6de956fe8e768c3356b"
+  },
+  {
+    "file": "evidence/extruded-third-velocity/native-trials/first-export-source.rs",
+    "bytes": 7984,
+    "sha256": "7b493980de835d69f1c367137d14f37636564f90f9fdb80df1a02ad403bff08b"
+  },
+  {
+    "file": "evidence/hit-reconstruction/exact-red-witness.rs",
+    "bytes": 656,
+    "sha256": "8ce5176f109fdfa7eb12eb4d4fafcc77eb77b32d71240bb1bb0ad9a8fb9fa878"
+  },
+  {
+    "file": "evidence/pressure-divergence-restart/probe-pr3.rs",
+    "bytes": 1282,
+    "sha256": "0f7781786a40fcece2b7b01af4e5ad386d9e8e457870e923533d33c5b9d4c1d0"
+  },
+  {
+    "file": "evidence/pressure-divergence-restart/probe.rs",
+    "bytes": 1015,
+    "sha256": "5be8fe73716fed669cb09e46339f0aa3c0f0b188e206d1551adbcf1a66c267e4"
+  },
+  {
+    "file": "evidence/translated-viscous-flow/trials/baseline-source/examples__translated_viscous.rs",
+    "bytes": 4733,
+    "sha256": "cd21ba55572510da15203f2c0b0cfc268a3289248759222b967f20ad51b82c3c"
+  },
+  {
+    "file": "evidence/translated-viscous-flow/trials/baseline-source/src__lib.rs",
+    "bytes": 4187,
+    "sha256": "8f194e2204315c81d907f0ae454b2bd91358ea950f9bd4685ae66225b6222134"
+  },
+  {
+    "file": "evidence/translated-viscous-flow/trials/baseline-source/src__translated_viscous.rs",
+    "bytes": 25274,
+    "sha256": "4702f4e42ab31c3122fa7b1fd332370a43d33d4fd6fd98ec3d52abb97e28fed7"
+  },
+  {
+    "file": "evidence/translated-viscous-flow/trials/baseline-source/tests__translated_viscous_contract.rs",
+    "bytes": 7077,
+    "sha256": "c122407674f191512ba27668d2af5c9e35a0cceb1ece911a3efdfe0c30bcc06d"
+  },
+  {
+    "file": "examples/ai_pressure.rs",
+    "bytes": 6799,
+    "sha256": "1231f6cf933132841fc189f034850797ef25e16dd9850da9106a1e58e48710b4"
+  },
+  {
+    "file": "examples/ai_pressure_trajectory.rs",
+    "bytes": 15279,
+    "sha256": "c4d37c4ab0aa8d10855b687290c2d2ee6df7e5b7390da530dc9da6c8fa767661"
+  },
+  {
+    "file": "examples/aligned_stokes.rs",
+    "bytes": 15894,
+    "sha256": "52c7852f9688c62ba33ac6f0de2fe0df669214d7eda9bd1566332ea211f129f8"
+  },
+  {
+    "file": "examples/aligned_strain.rs",
+    "bytes": 8135,
+    "sha256": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547"
+  },
+  {
+    "file": "examples/box_flux.rs",
+    "bytes": 2519,
+    "sha256": "0f4f642e746644eaaa7fa3742bd3f6e89ef6e8e952a9e3c1bf0830824eada212"
+  },
+  {
+    "file": "examples/box_flux_step.rs",
+    "bytes": 3960,
+    "sha256": "8aa8c3e1168671605a75e96b7cdb17ed01abde9a6cf57300a8664a2fd6698d0e"
+  },
+  {
+    "file": "examples/cloud_frame_lab.rs",
+    "bytes": 3779,
+    "sha256": "083dc1a9464de2f60122a09b1736632059259a3a63a7fe2dec5b416e32fe451e"
+  },
+  {
+    "file": "examples/collision_mesh.rs",
+    "bytes": 5822,
+    "sha256": "a1036f9f9cef2aadc3cf3a7c7f2b8d291860c64c2636e518968ee777599a64ef"
+  },
+  {
+    "file": "examples/column_interface.rs",
+    "bytes": 13526,
+    "sha256": "ad55a5c74a7a857c79b06b4ac44025cce1c11782533499bfca3028a6b1b2af2e"
+  },
+  {
+    "file": "examples/column_mac.rs",
+    "bytes": 13275,
+    "sha256": "b9e6d8e4e3d34fe12b04af40ab5dd9f98fe4ffe16aaad669cf00ab74dd6a81cf"
+  },
+  {
+    "file": "examples/column_momentum.rs",
+    "bytes": 8016,
+    "sha256": "803835cd8c22e58e9087d635cb07e9ac02aaebedcfaff70405ded71e866046f8"
+  },
+  {
+    "file": "examples/column_no_slip.rs",
+    "bytes": 10191,
+    "sha256": "88316856dd6d08453807e67b36035ab848c556435cb55d61222b7bb73abd1ac8"
+  },
+  {
+    "file": "examples/column_poiseuille.rs",
+    "bytes": 14555,
+    "sha256": "d44c8a14e2418c4b04ae9e030117fc08389ab8c701df62313941c816573c26ec"
+  },
+  {
+    "file": "examples/column_shear.rs",
+    "bytes": 10063,
+    "sha256": "2fc9fc6797580365b4c86be0c2de5cb63d22ea062165f85e4a1c1322b121967c"
+  },
+  {
+    "file": "examples/column_wall_shear.rs",
+    "bytes": 8889,
+    "sha256": "49c22a359ac4d512e2b564704e062483173a5dcc31af7d5a2bc409b2da18d72d"
+  },
+  {
+    "file": "examples/compressible_reference.rs",
+    "bytes": 12610,
+    "sha256": "6eaad82dae42b7c6cd38fe45b2a8a1c140d9cbbd1d4b097fec607b6d7307900e"
+  },
+  {
+    "file": "examples/coupled_discrete.rs",
+    "bytes": 5649,
+    "sha256": "01f09d383328da2af3a094d819fcfff75272ca6c812d8bd66516fbd855caa3b0"
+  },
+  {
+    "file": "examples/coupled_discrete_identity.rs",
+    "bytes": 5761,
+    "sha256": "17d07a49f71cdb198706d7569bb222fbcfdf62d25342b9c07c35fe6edc80e7ed"
+  },
+  {
+    "file": "examples/coupled_layout_probe.rs",
+    "bytes": 755,
+    "sha256": "d33838f8f533c9cdb2bb6e9fb6938fcfcac0b24c948da77f521b26f632cf02da"
+  },
+  {
+    "file": "examples/cpu_particle_lab.rs",
+    "bytes": 3262,
+    "sha256": "3e6f4eb91403c285805115733fd423e2ed071b6f3024a49daee35db527539e1c"
+  },
+  {
+    "file": "examples/cpu_pressure_lab.rs",
+    "bytes": 6125,
+    "sha256": "60e0782c88c3e61fbe2723c81b9f9d4863f7c35db02739732570d076af318c18"
+  },
+  {
+    "file": "examples/dense3d_sequence.rs",
+    "bytes": 4751,
+    "sha256": "47a4adc4446a8e084c1fd580f3b08c36a3552d573336f9e7d7b5689c07b50d94"
+  },
+  {
+    "file": "examples/emitter_controls.rs",
+    "bytes": 1751,
+    "sha256": "c411cc0826169dd117c09166c7a5ab30594c873373dc95bf00937ade7f28f0ea"
+  },
+  {
+    "file": "examples/extruded_third.rs",
+    "bytes": 8147,
+    "sha256": "bac7303bda410e3856b6fcd7a9511ab5ebb7ebc8355b72978b66fa8f79cd3ebc"
+  },
+  {
+    "file": "examples/fitted_height.rs",
+    "bytes": 4838,
+    "sha256": "563fd60664a956e2e7049765b70c7752c04c4191d4788e8917042128efce899a"
+  },
+  {
+    "file": "examples/fitted_pressure_path.rs",
+    "bytes": 9988,
+    "sha256": "44144d68df4ac6ccbfcd1432f07216a3cbd45f36e77e2f949dce99e4bcc6fd2a"
+  },
+  {
+    "file": "examples/fixed_bottom_ale.rs",
+    "bytes": 6656,
+    "sha256": "8faec9c41e38e793fad09512632891415959b228d01e0cd8dceb46c84c649089"
+  },
+  {
+    "file": "examples/fluid_physics_audit.rs",
+    "bytes": 22308,
+    "sha256": "a2ce3e4f0d3f8b2bca2ddb0f04f33d462a5ff17912c9264efdc60ef1f630f830"
+  },
+  {
+    "file": "examples/forced_smoke.rs",
+    "bytes": 2607,
+    "sha256": "945462fcc489b492e6df08bf82f396b4f9b6fce4ee96efbc69969b2309c0bcf9"
+  },
+  {
+    "file": "examples/free_surface.rs",
+    "bytes": 9047,
+    "sha256": "24f5d252fe6fb2350c94a773c92482a65a5ebd1f6f8672d4e67fd85b770cded8"
+  },
+  {
+    "file": "examples/game_loop_session.rs",
+    "bytes": 1358,
+    "sha256": "394155c0f3801b070a0e291bd4708d69cf1135e118e7347997d77fa517829cc8"
+  },
+  {
+    "file": "examples/headless_session.rs",
+    "bytes": 682,
+    "sha256": "07b884a8cd399311551db2970f7dd994d8e61ba23206fe79dad37445c601ea19"
+  },
+  {
+    "file": "examples/liquid_step.rs",
+    "bytes": 8170,
+    "sha256": "ea38303027b9c88e5ba8d5f3d7e78f1de7032ce7349795fde6eade97c0c1d777"
+  },
+  {
+    "file": "examples/liquid_volume.rs",
+    "bytes": 3560,
+    "sha256": "5875c7ee5f2fc803a26779e6a824c0844c4ddceefec18648a08edea0fde2168e"
+  },
+  {
+    "file": "examples/material_bounce_lab.rs",
+    "bytes": 2585,
+    "sha256": "8ef3f4dc9db690dea5021ede9ba35c98a349cf2845b7b47f9beca1f83d9ed984"
+  },
+  {
+    "file": "examples/material_session.rs",
+    "bytes": 2306,
+    "sha256": "0f56645f825f137774962bb0e5a77d5d0fcb2163424cad9f49c4efbb7614dc74"
+  },
+  {
+    "file": "examples/obstacle_flow.rs",
+    "bytes": 9512,
+    "sha256": "c153dc8e97f5bb6c7e662a63ee6c76a255356b3cda7b13ea3847d80fbbbb0254"
+  },
+  {
+    "file": "examples/outward_probe.rs",
+    "bytes": 2698,
+    "sha256": "20e6a0c25aec4018ca206d9aab33b57ee58e43e9eb7c22d20da74e9d77d3b1dd"
+  },
+  {
+    "file": "examples/plate_coupling.rs",
+    "bytes": 5222,
+    "sha256": "7ad16deed68aadaea7ca5b03ad30716c75e56d092897dfa6b11394d074cede8c"
+  },
+  {
+    "file": "examples/pressure_session.rs",
+    "bytes": 2329,
+    "sha256": "b81d7358679ec44a019f9ba7cb4912b1a605e6bacbaab4107b3e15b8e04999ac"
+  },
+  {
+    "file": "examples/production_provider_session.rs",
+    "bytes": 3690,
+    "sha256": "74a6b847bd02523f284e51368336cf5f483f9dae19f4550d896d35416d7f8005"
+  },
+  {
+    "file": "examples/recorded_carrier.rs",
+    "bytes": 4112,
+    "sha256": "43b0e7702d8e83341f9d0fa55adac936f578020acab64f4ebf1f4cdfd6b38f60"
+  },
+  {
+    "file": "examples/recorded_configured_provider.rs",
+    "bytes": 8497,
+    "sha256": "d00e9504f395e3e46d016e157eb68bc2b95124a69c1fb8cf88f2b10da58c4ffa"
+  },
+  {
+    "file": "examples/recorded_material.rs",
+    "bytes": 4297,
+    "sha256": "88996ea3a841d089096cbe3826626636a4000d952db4f0e0394bb26f2edfa7ba"
+  },
+  {
+    "file": "examples/recording_storage_probe.rs",
+    "bytes": 6644,
+    "sha256": "3cd82787af8f36da99906f07b696e74fab48fd9ce0aeaeed76f20744d9197a53"
+  },
+  {
+    "file": "examples/scheduling_lab.rs",
+    "bytes": 5790,
+    "sha256": "170db497caa9d8a6101c4966c5b59ebff9f152116a016fdda2b877739106ff6f"
+  },
+  {
+    "file": "examples/session_support/mod.rs",
+    "bytes": 2266,
+    "sha256": "d74419edf6a45fb79ab444eb4977652ed68ffa047bb0f4ecb97866452b287db1"
+  },
+  {
+    "file": "examples/static_obstacle.rs",
+    "bytes": 6869,
+    "sha256": "d6a6b832d9016335310211df215f19621ea01fd6aaded21bf02583d1c0187a66"
+  },
+  {
+    "file": "examples/submarine_stokes.rs",
+    "bytes": 25752,
+    "sha256": "229287012e30d454ccfc6c160db6d2cdf783da36c43c27275c76b54e2b7c897b"
+  },
+  {
+    "file": "examples/surface_queries.rs",
+    "bytes": 2526,
+    "sha256": "863cf617e25af715d8a1dc873a51067ec43b7d191d5cd94f2717c5712eef2be7"
+  },
+  {
+    "file": "examples/tracer_barrier.rs",
+    "bytes": 2831,
+    "sha256": "48501413c3f16d2ffe3c38e2340e5b4d30f3a22454aea1af486f7462bd3cc811"
+  },
+  {
+    "file": "examples/translated_viscous.rs",
+    "bytes": 5002,
+    "sha256": "599188c4f022da4690ac42fa1ffc1f216bb1775dad5f252daa7c42e1ceece62f"
+  },
+  {
+    "file": "examples/translating_surface.rs",
+    "bytes": 1687,
+    "sha256": "b02d9021321929f4f70bc0fe8566a77a0c27680c45bdc26d969be560105b3462"
+  },
+  {
+    "file": "examples/viscosity.rs",
+    "bytes": 11106,
+    "sha256": "2e947a838c36a30a51e0640216c8cf956e4cfcd7d70978552a22161d5da6752d"
+  },
+  {
+    "file": "examples/vtk_export_fixture.rs",
+    "bytes": 7317,
+    "sha256": "32e5ee4e48321e93623f958792657223f535b0034fa5abb456cd6e7fc12ce6b8"
+  },
+  {
+    "file": "experiments/aligned_stokes.rs",
+    "bytes": 25321,
+    "sha256": "d5b08df55c45c62fe801749746ade40026f53a1c14bce4792587fe0a9ff022a4"
+  },
+  {
+    "file": "experiments/outward.rs",
+    "bytes": 8058,
+    "sha256": "226f82a681d1a8c0b0fc89e65de7ec40dcc085883ec7fbc5990f19ae36af292a"
+  },
+  {
+    "file": "experiments/plate_coupling.rs",
+    "bytes": 15343,
+    "sha256": "1c8e16ebdebbbcf15e7b53ff09965f556dae47a6d06e7f5c060bb13959df7de2"
+  },
+  {
+    "file": "experiments/submarine_stokes.rs",
+    "bytes": 69352,
+    "sha256": "ef534615daf2e2f304be064536cf08f54fb42d2ee21ed220d5ed1db524889efa"
+  },
+  {
+    "file": "src/advection.rs",
+    "bytes": 8961,
+    "sha256": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849"
+  },
+  {
+    "file": "src/aligned_strain.rs",
+    "bytes": 22750,
+    "sha256": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f"
+  },
+  {
+    "file": "src/bin/desktop/accepted_session.rs",
+    "bytes": 986,
+    "sha256": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/accepted_provider.rs",
+    "bytes": 11005,
+    "sha256": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs",
+    "bytes": 27732,
+    "sha256": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/accepted_provider_tests.rs",
+    "bytes": 23364,
+    "sha256": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs",
+    "bytes": 36460,
+    "sha256": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/adapter.rs",
+    "bytes": 26707,
+    "sha256": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/configured_track.rs",
+    "bytes": 12926,
+    "sha256": "3959018b52697ef072884864c01de4682d1b4cd351c273426d914d02f0641fa1"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/configured_track_tests.rs",
+    "bytes": 29183,
+    "sha256": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/cpu_contract_tests.rs",
+    "bytes": 14465,
+    "sha256": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/diagnostic_runs.rs",
+    "bytes": 21835,
+    "sha256": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/diagnostic_view.rs",
+    "bytes": 36493,
+    "sha256": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/diagnostic_worker.rs",
+    "bytes": 14292,
+    "sha256": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs",
+    "bytes": 27017,
+    "sha256": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/engine.rs",
+    "bytes": 32246,
+    "sha256": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/engine_typed_tests.rs",
+    "bytes": 10907,
+    "sha256": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/mod.rs",
+    "bytes": 28365,
+    "sha256": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/model_process.rs",
+    "bytes": 40530,
+    "sha256": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/prediction_contract_tests.rs",
+    "bytes": 12980,
+    "sha256": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/record.rs",
+    "bytes": 7107,
+    "sha256": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/scene.rs",
+    "bytes": 5274,
+    "sha256": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/view.rs",
+    "bytes": 9171,
+    "sha256": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d"
+  },
+  {
+    "file": "src/bin/desktop/ai_comparison/worker.rs",
+    "bytes": 18705,
+    "sha256": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b"
+  },
+  {
+    "file": "src/bin/desktop/archive_view.rs",
+    "bytes": 9299,
+    "sha256": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff"
+  },
+  {
+    "file": "src/bin/desktop/build_identity.rs",
+    "bytes": 987,
+    "sha256": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b"
+  },
+  {
+    "file": "src/bin/desktop/camera.rs",
+    "bytes": 3055,
+    "sha256": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d"
+  },
+  {
+    "file": "src/bin/desktop/carrier_execution.rs",
+    "bytes": 8697,
+    "sha256": "c4455879373fc71eaaf398fdaa230c4d0b115dc7ff0a9da6356afeb24cba23b2"
+  },
+  {
+    "file": "src/bin/desktop/collision_ui.rs",
+    "bytes": 7895,
+    "sha256": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204"
+  },
+  {
+    "file": "src/bin/desktop/comparison.rs",
+    "bytes": 46042,
+    "sha256": "27ad4b88db848430a68f5f9fae796fa10eab1df26af9dbae73386e55c9b5c74f"
+  },
+  {
+    "file": "src/bin/desktop/comparison_archive.rs",
+    "bytes": 19518,
+    "sha256": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9"
+  },
+  {
+    "file": "src/bin/desktop/comparison_field_view.rs",
+    "bytes": 32998,
+    "sha256": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82"
+  },
+  {
+    "file": "src/bin/desktop/configured_comparison_tests.rs",
+    "bytes": 31956,
+    "sha256": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46"
+  },
+  {
+    "file": "src/bin/desktop/configured_controls.rs",
+    "bytes": 37252,
+    "sha256": "5463e18b3b5a139c448dd327b23318605664e90aea4690187981177e7f68e60b"
+  },
+  {
+    "file": "src/bin/desktop/configured_producer_exit_tests.rs",
+    "bytes": 17651,
+    "sha256": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb"
+  },
+  {
+    "file": "src/bin/desktop/configured_worker_tests.rs",
+    "bytes": 23533,
+    "sha256": "dabe1c3cf4214ee30ca42102c4c5387564b661f81b810d2c61035b8691669016"
+  },
+  {
+    "file": "src/bin/desktop/emitter_controls.rs",
+    "bytes": 5728,
+    "sha256": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9"
+  },
+  {
+    "file": "src/bin/desktop/engineering.rs",
+    "bytes": 32960,
+    "sha256": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d"
+  },
+  {
+    "file": "src/bin/desktop/export_ui.rs",
+    "bytes": 2539,
+    "sha256": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d"
+  },
+  {
+    "file": "src/bin/desktop/force_runtime_integration_tests.rs",
+    "bytes": 14735,
+    "sha256": "da753230b81df85227ab348c39ea4ac97e2ff093cf2da09ff9ac5dce225d0584"
+  },
+  {
+    "file": "src/bin/desktop/force_runtime_ui_tests.rs",
+    "bytes": 15963,
+    "sha256": "0f8b88db0553cf079c0f78a2e41766fcb6160f6dda1a3d117f1ce93fe17b91f5"
+  },
+  {
+    "file": "src/bin/desktop/history.rs",
+    "bytes": 21523,
+    "sha256": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821"
+  },
+  {
+    "file": "src/bin/desktop/identity.rs",
+    "bytes": 429,
+    "sha256": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184"
+  },
+  {
+    "file": "src/bin/desktop/inspector.rs",
+    "bytes": 46546,
+    "sha256": "aad6760e94582d6512c32387609c3c2874e92728c93c3c7d2089cbf3bc6ee62c"
+  },
+  {
+    "file": "src/bin/desktop/native_presentation_harness.rs",
+    "bytes": 11577,
+    "sha256": "38b8b68ebc8a54769bcf8e65b2cf80890c03eac2251b4f838fac29ecbf63ecb6"
+  },
+  {
+    "file": "src/bin/desktop/particle_view.rs",
+    "bytes": 8253,
+    "sha256": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2"
+  },
+  {
+    "file": "src/bin/desktop/run_set_view.rs",
+    "bytes": 5164,
+    "sha256": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b"
+  },
+  {
+    "file": "src/bin/desktop/run_sets.rs",
+    "bytes": 35607,
+    "sha256": "b25f07c5d9f4a27572922956043224c35dde35d9a0d987ab8af4f3f3151c91f0"
+  },
+  {
+    "file": "src/bin/desktop/run_sets/configured.rs",
+    "bytes": 30187,
+    "sha256": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9"
+  },
+  {
+    "file": "src/bin/desktop/run_sets/configured/archive.rs",
+    "bytes": 17423,
+    "sha256": "eb1d8e77019eb57afd9e5fd5f57af55f8ff320527ec8efc935945bd7ff477806"
+  },
+  {
+    "file": "src/bin/desktop/run_sets/source.rs",
+    "bytes": 9660,
+    "sha256": "39e8982fffaf4e9adcd0ca0c60f49eabc96b829957bc6d9c05479c80eee99daf"
+  },
+  {
+    "file": "src/bin/desktop/scene_handles.rs",
+    "bytes": 35097,
+    "sha256": "4818b85644a2891de562adc00fc203eb59c674bbf46aa88cd440bcab6477eb22"
+  },
+  {
+    "file": "src/bin/desktop/scene_ui.rs",
+    "bytes": 38145,
+    "sha256": "cc866e716876dfee8c9245c2473426c7c3253b2b0787b49b907202a6e1402557"
+  },
+  {
+    "file": "src/bin/desktop/scene_view.rs",
+    "bytes": 37630,
+    "sha256": "d16851804c3aa727c7fdf658a821ef8c8cd2c167e853b72d02604f2a14dfa02f"
+  },
+  {
+    "file": "src/bin/desktop/settings.rs",
+    "bytes": 46529,
+    "sha256": "72a2e42de38100fa7cb517bfa7c1b9377975d23c3c4cd887615c296549c093c4"
+  },
+  {
+    "file": "src/bin/desktop/setup_ui_tests.rs",
+    "bytes": 32765,
+    "sha256": "db3d1328aa159e79ea4f8a15cd59ebb6cb7c9352854760bd8164587014e35900"
+  },
+  {
+    "file": "src/bin/desktop/timeline_ui_tests.rs",
+    "bytes": 18157,
+    "sha256": "606b0e95edba4a813221af776e7b12f776adcf9645de302ef827aa595111694b"
+  },
+  {
+    "file": "src/bin/desktop/transport_view.rs",
+    "bytes": 6248,
+    "sha256": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8"
+  },
+  {
+    "file": "src/bin/desktop/viewport.rs",
+    "bytes": 47028,
+    "sha256": "ee7acacd33ae29af7ec7f592361861315b30891b1637cb2989ba7390fa8320d3"
+  },
+  {
+    "file": "src/bin/rheon-ai-compare.rs",
+    "bytes": 5924,
+    "sha256": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9"
+  },
+  {
+    "file": "src/bin/rheon-desktop.rs",
+    "bytes": 165398,
+    "sha256": "6e70c7957357611fa4c0610dddd4f1673544882821b9dab47b481dc2c394eff4"
+  },
+  {
+    "file": "src/bin/rheon.rs",
+    "bytes": 11640,
+    "sha256": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51"
+  },
+  {
+    "file": "src/box_flux.rs",
+    "bytes": 17346,
+    "sha256": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0"
+  },
+  {
+    "file": "src/box_flux_step.rs",
+    "bytes": 5487,
+    "sha256": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b"
+  },
+  {
+    "file": "src/collision.rs",
+    "bytes": 12262,
+    "sha256": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115"
+  },
+  {
+    "file": "src/column_mac.rs",
+    "bytes": 35637,
+    "sha256": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84"
+  },
+  {
+    "file": "src/column_momentum.rs",
+    "bytes": 22078,
+    "sha256": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0"
+  },
+  {
+    "file": "src/column_shear.rs",
+    "bytes": 37106,
+    "sha256": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299"
+  },
+  {
+    "file": "src/column_surface.rs",
+    "bytes": 15155,
+    "sha256": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0"
+  },
+  {
+    "file": "src/compressible.rs",
+    "bytes": 29786,
+    "sha256": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3"
+  },
+  {
+    "file": "src/coupled_discrete.rs",
+    "bytes": 61268,
+    "sha256": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7"
+  },
+  {
+    "file": "src/dense3d_sequence.rs",
+    "bytes": 20084,
+    "sha256": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431"
+  },
+  {
+    "file": "src/emitter.rs",
+    "bytes": 16400,
+    "sha256": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84"
+  },
+  {
+    "file": "src/emitter_controls.rs",
+    "bytes": 3358,
+    "sha256": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4"
+  },
+  {
+    "file": "src/export.rs",
+    "bytes": 4681,
+    "sha256": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3"
+  },
+  {
+    "file": "src/fitted_height.rs",
+    "bytes": 48528,
+    "sha256": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a"
+  },
+  {
+    "file": "src/fixed_bottom_ale.rs",
+    "bytes": 28202,
+    "sha256": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47"
+  },
+  {
+    "file": "src/force_field.rs",
+    "bytes": 14833,
+    "sha256": "adecbc5f92b89179a2e38885be2acbcddd42df40061f00ffa5d758224ed045a5"
+  },
+  {
+    "file": "src/forces.rs",
+    "bytes": 10490,
+    "sha256": "7b3b48c0813c995a937a44ca1b624411c59dde6419b62041b67456cde2d692d9"
+  },
+  {
+    "file": "src/free_surface.rs",
+    "bytes": 3639,
+    "sha256": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e"
+  },
+  {
+    "file": "src/geometry.rs",
+    "bytes": 11743,
+    "sha256": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634"
+  },
+  {
+    "file": "src/lib.rs",
+    "bytes": 8361,
+    "sha256": "30f5b78a98f6d0c010955a25fc00cc2de4aadf159d260e95afd3f3143dc6f9c3"
+  },
+  {
+    "file": "src/liquid_step.rs",
+    "bytes": 32240,
+    "sha256": "f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93"
+  },
+  {
+    "file": "src/liquid_volume.rs",
+    "bytes": 29752,
+    "sha256": "24623038f62261ce6a17b034e9b6d82c5f0aba02dd0df7aad174c885ed2a8c96"
+  },
+  {
+    "file": "src/material.rs",
+    "bytes": 7103,
+    "sha256": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66"
+  },
+  {
+    "file": "src/material_session.rs",
+    "bytes": 10964,
+    "sha256": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960"
+  },
+  {
+    "file": "src/mesh_collision.rs",
+    "bytes": 19695,
+    "sha256": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24"
+  },
+  {
+    "file": "src/mesh_import.rs",
+    "bytes": 24294,
+    "sha256": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890"
+  },
+  {
+    "file": "src/motion.rs",
+    "bytes": 6031,
+    "sha256": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea"
+  },
+  {
+    "file": "src/observation.rs",
+    "bytes": 6669,
+    "sha256": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee"
+  },
+  {
+    "file": "src/obstacle_pressure.rs",
+    "bytes": 24077,
+    "sha256": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07"
+  },
+  {
+    "file": "src/obstacle_shear.rs",
+    "bytes": 16421,
+    "sha256": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f"
+  },
+  {
+    "file": "src/operator.rs",
+    "bytes": 29555,
+    "sha256": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38"
+  },
+  {
+    "file": "src/parallel.rs",
+    "bytes": 5488,
+    "sha256": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e"
+  },
+  {
+    "file": "src/particle_fluid.rs",
+    "bytes": 57483,
+    "sha256": "538c498122bbc1045ae59d7363ff87e1dd9a40003fb48eeae835228ad4c65893"
+  },
+  {
+    "file": "src/pressure.rs",
+    "bytes": 28790,
+    "sha256": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5"
+  },
+  {
+    "file": "src/pressure_session.rs",
+    "bytes": 11353,
+    "sha256": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8"
+  },
+  {
+    "file": "src/provider_step.rs",
+    "bytes": 3623,
+    "sha256": "79167b70a8d164a2367f43816feab443eefb41f23bc4bd940716dd5fd32d495b"
+  },
+  {
+    "file": "src/recording.rs",
+    "bytes": 38908,
+    "sha256": "47b2b24bbe9af777ceafdefa6f0b82200a60cea590d0b64f326de1d50c6d7d2d"
+  },
+  {
+    "file": "src/recording/carrier.rs",
+    "bytes": 13424,
+    "sha256": "5a9b10b929f650423ad9e58bd7047bfe80cc7bf18138d74bd628c2f3f17af711"
+  },
+  {
+    "file": "src/recording/comparison.rs",
+    "bytes": 27711,
+    "sha256": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307"
+  },
+  {
+    "file": "src/recording/diagnostic.rs",
+    "bytes": 67253,
+    "sha256": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f"
+  },
+  {
+    "file": "src/recording/force_fields.rs",
+    "bytes": 20485,
+    "sha256": "2cf3ec9ec191c35c814d48ace301feaccd6cc73311a66970c9d112dad432c4a9"
+  },
+  {
+    "file": "src/recording/material.rs",
+    "bytes": 16944,
+    "sha256": "e72e256aa3af46fef9002822de5281caf1de66ba070eb2109f77b083e20ae6ce"
+  },
+  {
+    "file": "src/recording/provider.rs",
+    "bytes": 48561,
+    "sha256": "980ea5af7094016b13e7d0f39110aa2ff673b0173416e0fe583e6266b7c27f57"
+  },
+  {
+    "file": "src/recording/provider/comparison.rs",
+    "bytes": 7457,
+    "sha256": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75"
+  },
+  {
+    "file": "src/recording/provider/runtime.rs",
+    "bytes": 31624,
+    "sha256": "d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb"
+  },
+  {
+    "file": "src/sampling.rs",
+    "bytes": 6347,
+    "sha256": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf"
+  },
+  {
+    "file": "src/scheduling.rs",
+    "bytes": 15224,
+    "sha256": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411"
+  },
+  {
+    "file": "src/session.rs",
+    "bytes": 17759,
+    "sha256": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e"
+  },
+  {
+    "file": "src/session/configured.rs",
+    "bytes": 10308,
+    "sha256": "d99ae990e9c7ddc956f95f414a25832411a4dc84ab434df95ff9f8f68cf52a83"
+  },
+  {
+    "file": "src/sgs.rs",
+    "bytes": 14651,
+    "sha256": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d"
+  },
+  {
+    "file": "src/simulation.rs",
+    "bytes": 48293,
+    "sha256": "c08ede6330c4bf6ed7e858e556806ec80628522ceb42286cf52714bf7430c9a1"
+  },
+  {
+    "file": "src/solver_provider.rs",
+    "bytes": 10991,
+    "sha256": "0ab7db08a9016e73d664c730e4ff513d42599a84c680ea061e6604859432a5a5"
+  },
+  {
+    "file": "src/solver_provider/configured.rs",
+    "bytes": 9193,
+    "sha256": "124ca65dd1dec3a8a89043198fb085453a42ca8aff0dc87c67b04b6a986109be"
+  },
+  {
+    "file": "src/solver_provider/context.rs",
+    "bytes": 6332,
+    "sha256": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693"
+  },
+  {
+    "file": "src/solver_provider/modal.rs",
+    "bytes": 6061,
+    "sha256": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796"
+  },
+  {
+    "file": "src/static_obstacle.rs",
+    "bytes": 18098,
+    "sha256": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080"
+  },
+  {
+    "file": "src/tracer_barrier.rs",
+    "bytes": 9936,
+    "sha256": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae"
+  },
+  {
+    "file": "src/translated_viscous.rs",
+    "bytes": 29473,
+    "sha256": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163"
+  },
+  {
+    "file": "src/viscosity.rs",
+    "bytes": 15726,
+    "sha256": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa"
+  },
+  {
+    "file": "src/vtk_export.rs",
+    "bytes": 21304,
+    "sha256": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e"
+  },
+  {
+    "file": "tests/advection_contract.rs",
+    "bytes": 4293,
+    "sha256": "2e6c78e51d457bfe0cda4972dbfec5677e9e3a5e4f42a8647aec8aa1f4b73f2d"
+  },
+  {
+    "file": "tests/aligned_stokes_contract.rs",
+    "bytes": 15996,
+    "sha256": "7b43a757245edc097874bfd23ec0690d1d4a8df9eb6186ab86e843720dc7a687"
+  },
+  {
+    "file": "tests/aligned_strain_contract.rs",
+    "bytes": 12213,
+    "sha256": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16"
+  },
+  {
+    "file": "tests/box_flux_contract.rs",
+    "bytes": 21542,
+    "sha256": "d3a23e9ae3973044183d22c5dbc9b2a00c2d0d731cae1777426337310949133d"
+  },
+  {
+    "file": "tests/box_flux_step_contract.rs",
+    "bytes": 23582,
+    "sha256": "4adc5ddf0e878cffc3e70b47bcb0f98cad07aef4489a41f9fa7d1695304bd94f"
+  },
+  {
+    "file": "tests/cli_contract.rs",
+    "bytes": 8980,
+    "sha256": "83d3c9a839dd2c722b3c509e051350a6ca1c754cbe0ae5dbb521e7d3346c6aef"
+  },
+  {
+    "file": "tests/collision_contract.rs",
+    "bytes": 14667,
+    "sha256": "8625b6a0d01271b90f17fd22b0ea4f5d0869827fad6537720fb631ce565367ac"
+  },
+  {
+    "file": "tests/column_mac_contract.rs",
+    "bytes": 23553,
+    "sha256": "3fc23b6ff935696bb96082e824cc1a5c2cfe32821559074f6ec00b3b8000afdf"
+  },
+  {
+    "file": "tests/column_momentum_contract.rs",
+    "bytes": 14152,
+    "sha256": "4ea859692dc437e98bdce6fc3fdfb55a8821ffc52699c8a7596ddc7d75e8aec7"
+  },
+  {
+    "file": "tests/column_shear_contract.rs",
+    "bytes": 48884,
+    "sha256": "466dab4d7dd6cfa464de3428da8b0b9aadfb3a2699810ca302e9bec90db62f12"
+  },
+  {
+    "file": "tests/column_surface_contract.rs",
+    "bytes": 20247,
+    "sha256": "515f39b3bf06fe23c1115201cefa1d4f1d69660ce4298daf3d4b7e16f5844759"
+  },
+  {
+    "file": "tests/comparison_archive_contract.rs",
+    "bytes": 21129,
+    "sha256": "ddb88a1faba015e1f636d66d6dbc8a770a1875ad52ada6d6a0a773b5c0e4f0e2"
+  },
+  {
+    "file": "tests/comparison_field_view_contract.rs",
+    "bytes": 24168,
+    "sha256": "2bfcf188fbde8ba9908c90365eb10a3e708853d0a928267541a5cfb5358b22f2"
+  },
+  {
+    "file": "tests/compressible_contract.rs",
+    "bytes": 17244,
+    "sha256": "9f1582b436e268a7bef6d42dccc3ff0754b963942301eb26442d7f33790d5b7d"
+  },
+  {
+    "file": "tests/configured_archive_binding_contract.rs",
+    "bytes": 81349,
+    "sha256": "821ddd7d173c84453650d2cde938bf024d907e2f062a894ea2b182e44ac56932"
+  },
+  {
+    "file": "tests/configured_provider_session_contract.rs",
+    "bytes": 28757,
+    "sha256": "ba4a8f26fbf0324d705a80a4b108b1e9d09a293ac2eb29a8278fe01f65dc5a00"
+  },
+  {
+    "file": "tests/configured_recording_comparison_contract.rs",
+    "bytes": 41913,
+    "sha256": "8205a1b5ddb1248d545edc27d4b23f27fb89717f311ec336d01bb3202591f2fa"
+  },
+  {
+    "file": "tests/configured_run_sets_contract.rs",
+    "bytes": 24002,
+    "sha256": "29b29888112126677262bdd05792cad70170338eaac8c4767fc2ab0292a9e927"
+  },
+  {
+    "file": "tests/coupled_discrete_contract.rs",
+    "bytes": 8944,
+    "sha256": "3a730e8dbeaf8fd81a19eee5717b4719f62af83e42c395691535a1ed6f1a0116"
+  },
+  {
+    "file": "tests/dense3d_controls_contract.rs",
+    "bytes": 15542,
+    "sha256": "678058ce656cde9d0b8c5f3ac9de4da5a81ca3f76d5003c1954ff3929d964625"
+  },
+  {
+    "file": "tests/dense3d_sequence_contract.rs",
+    "bytes": 19273,
+    "sha256": "016ba99a4a234ced02a1613d5cc4af6072f3e070f185bf8ad25ca73202b128a7"
+  },
+  {
+    "file": "tests/diagnostic_pressure_oracle_contract.rs",
+    "bytes": 10458,
+    "sha256": "b492194a384779fd15ba967bac93a5068d1635d5ff5b443d13a31252716134d7"
+  },
+  {
+    "file": "tests/diagnostic_recording_contract.rs",
+    "bytes": 54080,
+    "sha256": "3cd9e0a01916ed416cffd93f96aa463447beed404f202e3e2f5783c76122b758"
+  },
+  {
+    "file": "tests/emitter_contract.rs",
+    "bytes": 3338,
+    "sha256": "9288b53744ff31fb4e338be13d8b4e9e68ea58aec2e78a15d5aa8850da0a9d4d"
+  },
+  {
+    "file": "tests/emitter_controls_contract.rs",
+    "bytes": 11641,
+    "sha256": "7b3ad890d44d70652c04e119156dd6ecc32cb79587c87e49b1fd2fc72f6caa66"
+  },
+  {
+    "file": "tests/export_contract.rs",
+    "bytes": 1199,
+    "sha256": "299ace3dc49a9990b52cd2ee55c974769c3acda5fc9ce43331fdb0cbfd34c070"
+  },
+  {
+    "file": "tests/extruded_third_contract.rs",
+    "bytes": 10602,
+    "sha256": "19968c75c9dd95c1c19cc2a4f6a605d4a047bc20290562fe693fc7e8b628fbe2"
+  },
+  {
+    "file": "tests/fitted_height_contract.rs",
+    "bytes": 21420,
+    "sha256": "391e6d3c992442a5a3a2e38f4d1304a20602047808831bd873567b1d8224a61f"
+  },
+  {
+    "file": "tests/fixed_bottom_ale_contract.rs",
+    "bytes": 9344,
+    "sha256": "006968122943cd48290f302cdc33115d7c40058d992f8f38df1d5fbf28f57289"
+  },
+  {
+    "file": "tests/force_field_contract.rs",
+    "bytes": 9056,
+    "sha256": "1f97de31f8db1db38ff581e0ce702ffad7c16284fb29c39e8d61fc51ac9c645c"
+  },
+  {
+    "file": "tests/force_field_solver_contract.rs",
+    "bytes": 7250,
+    "sha256": "9efdf712baaa8e662e77339a81074751ed10ef01b9675f99351fac2a662b41fc"
+  },
+  {
+    "file": "tests/force_recording_integration_contract.rs",
+    "bytes": 15788,
+    "sha256": "e9ca49fdeb0f474cdcddb40930c3773dc71762a709ac7dec6200fd5db31859a7"
+  },
+  {
+    "file": "tests/forces_contract.rs",
+    "bytes": 13633,
+    "sha256": "b8a5da48feab2eef82cc1600945cc30ff15082c0b447d8b5eb0c635821cf27eb"
+  },
+  {
+    "file": "tests/free_surface_contract.rs",
+    "bytes": 16199,
+    "sha256": "8f9584c26f7a816bb53f15bb70ddec168c0949adf9ad7847ad2edcfb0af40e9d"
+  },
+  {
+    "file": "tests/geometry_contract.rs",
+    "bytes": 5402,
+    "sha256": "87b34154f609767f1521a57531f6f45df4d965685113dcb43806069299865f4a"
+  },
+  {
+    "file": "tests/implementation_contract.rs",
+    "bytes": 6301,
+    "sha256": "e8b3b88536bd5d38dfda7d1454e916277e5314bbb9410bda81630faffe76c621"
+  },
+  {
+    "file": "tests/liquid_scale_division_contract.rs",
+    "bytes": 2797,
+    "sha256": "dede02f6a5fc9eff67d87814b1845bfc6295c7a22098121217fee70822a4c3fb"
+  },
+  {
+    "file": "tests/liquid_step_contract.rs",
+    "bytes": 15658,
+    "sha256": "e1aa67f673de131f97a1be651221db3f74a8beeed105076532ceeac2b92b5b12"
+  },
+  {
+    "file": "tests/liquid_volume_contract.rs",
+    "bytes": 28424,
+    "sha256": "9eac2c3feedf24efd3e34f1651ead5ea14f036dbfb238af829650d5b77006ec2"
+  },
+  {
+    "file": "tests/material_contract.rs",
+    "bytes": 10486,
+    "sha256": "c5a1e89205b6cb65df69a1c10fa905f85d5efa6bc11c591211d509cb40161257"
+  },
+  {
+    "file": "tests/material_reference_contract.rs",
+    "bytes": 15134,
+    "sha256": "9db6a8cc0558b4b04b4039ab8b7c74bd57c2f69a15d05b2b553713713a8f387b"
+  },
+  {
+    "file": "tests/material_session_contract.rs",
+    "bytes": 5880,
+    "sha256": "9fadbca17897a93e9dc95be24a42c5181bfeaaf35aad650ea4bf6f477b9e580f"
+  },
+  {
+    "file": "tests/mesh_collision_contract.rs",
+    "bytes": 10440,
+    "sha256": "e8977a66763745cfb807e9bcae392be3aa39ebca113aa3db4c4d4eb39447c8ca"
+  },
+  {
+    "file": "tests/mesh_import_contract.rs",
+    "bytes": 12926,
+    "sha256": "a568e510cb457f8d90bffd2c99eb1c05d64ce5ac4c34949a58479831ffad3da9"
+  },
+  {
+    "file": "tests/native_comparison_oracle_range_contract.rs",
+    "bytes": 10974,
+    "sha256": "290def29e35b9597d1c56757f5fb70d9ac100d95ca67b616c54533d31f8e0f82"
+  },
+  {
+    "file": "tests/observation_contract.rs",
+    "bytes": 2355,
+    "sha256": "54a89d2df244839dec1931cde92117cf1bb832ffb0b6eb2ca32ca9ec28a8f7ed"
+  },
+  {
+    "file": "tests/obstacle_flow_contract.rs",
+    "bytes": 17654,
+    "sha256": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020"
+  },
+  {
+    "file": "tests/operator_contract.rs",
+    "bytes": 3742,
+    "sha256": "b0ea207c02df69aed1f5f3eb6abda8fdeb245b271c325b383c3748d945c5095e"
+  },
+  {
+    "file": "tests/parallel_contract.rs",
+    "bytes": 6972,
+    "sha256": "b91c7c87698c1a7b1d3b92c7b252781d96616df37c8a6ef391d4229a251668f2"
+  },
+  {
+    "file": "tests/particle_inspection_contract.rs",
+    "bytes": 1390,
+    "sha256": "9e36d134d2391786457ff23bb20df63a5aadf29a8ae508cffec2de824528bc93"
+  },
+  {
+    "file": "tests/plate_coupling_contract.rs",
+    "bytes": 10763,
+    "sha256": "3c413b5c903194ba8f1a83970275d066ba93a5568f0d43a27f93788f3c4af5fd"
+  },
+  {
+    "file": "tests/pressure_context_contract.rs",
+    "bytes": 4495,
+    "sha256": "244afca41c35a929588f5dd0168ae682b1ae0457f0edc3f821b95ed93d7f2f36"
+  },
+  {
+    "file": "tests/pressure_contract.rs",
+    "bytes": 10147,
+    "sha256": "f343f7f23965d963df8d734d624c63b12acaf165936ba2635e1b71816ee16c91"
+  },
+  {
+    "file": "tests/pressure_session_contract.rs",
+    "bytes": 7663,
+    "sha256": "a2471a0faa91bac0acd4c824ee4b1175fe6f827357246218684ae47104aea0ce"
+  },
+  {
+    "file": "tests/provider_step_contract.rs",
+    "bytes": 14763,
+    "sha256": "116c03830ed617e585a6eabe1dd9d8e826ed833039e4397de565d218ec9852e5"
+  },
+  {
+    "file": "tests/recording_carrier_contract.rs",
+    "bytes": 12906,
+    "sha256": "8a3a5cd307b9b5e2b646165502029018eeb9e36268986b679094a9a1e43dfba0"
+  },
+  {
+    "file": "tests/recording_comparison_contract.rs",
+    "bytes": 40026,
+    "sha256": "4c27fc27b241c033eeae0903dd143fe1800cc8ea5ab9829c8b13e22105ee133b"
+  },
+  {
+    "file": "tests/recording_contract.rs",
+    "bytes": 30135,
+    "sha256": "3db4e56207de52576aae5838d30e02894590ba843d1af8d10e5e7fd5a772ee8a"
+  },
+  {
+    "file": "tests/recording_provider_contract.rs",
+    "bytes": 59426,
+    "sha256": "0766d5d9ac55fd8102c23b9492e11d41e4caa931249531a8b36824b2a97039c0"
+  },
+  {
+    "file": "tests/recording_provider_runtime_contract.rs",
+    "bytes": 47395,
+    "sha256": "7f02cf7510be8bd9bca9b3af380e80401ead89ee9b5c2e2561de65e31c5f6cd1"
+  },
+  {
+    "file": "tests/sampling_contract.rs",
+    "bytes": 2908,
+    "sha256": "3e99ff52088aa37d4043453a57c82bbe6de0da84e990796df76a3453f1ae004d"
+  },
+  {
+    "file": "tests/saved_comparison_ui_contract.rs",
+    "bytes": 24025,
+    "sha256": "f3bf401a00ccb9ba67de70ff72c6c3a0b7216525073a6f6c8239ec022e0bec1f"
+  },
+  {
+    "file": "tests/saved_run_set_contract.rs",
+    "bytes": 34203,
+    "sha256": "6e001075a4307da0e51df04c4521bc8599194ce06fbf010c08e34bab8f693ef9"
+  },
+  {
+    "file": "tests/saved_source_contract.rs",
+    "bytes": 21328,
+    "sha256": "39cb5152583c1662f8dfb71217409025084c4e05be1a18e1b7b3912fa4d21ca5"
+  },
+  {
+    "file": "tests/session_configuration_contract.rs",
+    "bytes": 8504,
+    "sha256": "4f53c8d35eeb44819791341b8ce1a80421d9562ab8413f528a3234da233632f7"
+  },
+  {
+    "file": "tests/session_contract.rs",
+    "bytes": 4928,
+    "sha256": "50f7a8981d1bc22ad63f990b01027b0ae26c4dc01192dc5dd7d9723f7e44da68"
+  },
+  {
+    "file": "tests/session_interval_start_contract.rs",
+    "bytes": 8936,
+    "sha256": "4cdc0a85d21d77784ef142ba04f1ef20fb0333555d7bbb15b43465f475934769"
+  },
+  {
+    "file": "tests/simulation_contract.rs",
+    "bytes": 7545,
+    "sha256": "f81fb0696307aa07abba0d8b44316430aeab19317c57d38db3222cdc9e33ddc6"
+  },
+  {
+    "file": "tests/solver_provider_contract.rs",
+    "bytes": 11506,
+    "sha256": "0c063df217150bf407af3f6af9d39101bc37aa3192e00e0833b43042ebc06143"
+  },
+  {
+    "file": "tests/static_obstacle_contract.rs",
+    "bytes": 9794,
+    "sha256": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de"
+  },
+  {
+    "file": "tests/submarine_stokes_contract.rs",
+    "bytes": 15839,
+    "sha256": "20cb58baf441b56e7b5f72b9424de265c7bf656bb2c3532d4718220b8c291ce2"
+  },
+  {
+    "file": "tests/tracer_barrier_contract.rs",
+    "bytes": 15648,
+    "sha256": "433edf41b549171f3a3c412e6d9233345f4ca8f45e6f5ebe5468638d3db9aca8"
+  },
+  {
+    "file": "tests/translated_viscous_contract.rs",
+    "bytes": 8782,
+    "sha256": "d6fda116af1ae38a3e9216b97136562c144bfe1a5269734d002c3117c9b65e79"
+  },
+  {
+    "file": "tests/translation_contract.rs",
+    "bytes": 12063,
+    "sha256": "e1fd504cb399b313bbb1df752f79e72cb51556c5af6d85dbb91cb5c690fb5c8d"
+  },
+  {
+    "file": "tests/viscosity_contract.rs",
+    "bytes": 16747,
+    "sha256": "b716ef20283784d9a61bc95702c97c30c8e7d00c80f95530c46d27e667586c9d"
+  },
+  {
+    "file": "tests/vtk_export_contract.rs",
+    "bytes": 7406,
+    "sha256": "3df0cd4bfe900adb855fa65d9ec267e43544961fd5608d4f1ab24258c6a44532"
+  },
+  {
+    "file": "tools/production_recovery_probe.rs",
+    "bytes": 7080,
+    "sha256": "70e248db8c7cccb9a70ce362de29db268a708574920345037887bc1e7110eae3"
+  },
+  {
+    "file": "tools/session_recovery_probe.rs",
+    "bytes": 3516,
+    "sha256": "eab066cb8dff750893c8a2eb9b7bd4efb22f1f4a18daf4fd49106a65bd7743f1"
+  },
+  {
+    "file": "validation/cpu-cfd/src/main.rs",
+    "bytes": 8445,
+    "sha256": "339ee7d2caad1d5350a5cda8bb4968c201a3d1cb62d301ed7b1eedd2d72a32d6"
+  }
+]

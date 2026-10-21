@@ -52,7 +52,21 @@ enum ViewMode {
     Obstacle,
     Transport,
 }
+// Whole labelled tabs wrap between controls, never within a label.
+fn view_mode_tabs(ui: &mut egui::Ui, current: &mut ViewMode, blocked: bool) -> [egui::Response; 4] {
+    [(ViewMode::Appearance,"Appearance"),(ViewMode::Particles,"Particles"),(ViewMode::Obstacle,"Obstacle lab"),(ViewMode::Transport,"Transport session")].map(|(mode,label)|{
+        let mut response=ui.add_enabled(!blocked||mode==ViewMode::Appearance,egui::Button::selectable(*current==mode,label).wrap_mode(egui::TextWrapMode::Extend));
+        if response.clicked() && *current!=mode {*current=mode;response.mark_changed();}
+        response.on_disabled_hover_text("Authored-force scenes use Appearance here. These alternate lab/session views do not consume the run-bound force document.")
+    })
+}
 pub struct Viewport {
+    #[cfg(test)]
+    presentation_only: bool,
+    scene_handles: super::scene_handles::SceneHandles,
+    /// Authored scenes keep alternate lab/session views unavailable; Appearance
+    /// projects the supported carrier or material preview.
+    pub authored_forces_pending: bool,
     pub collision_mesh: Option<Arc<rheon::CollisionMesh>>,
     pub camera: OrbitCamera,
     engineering: Option<super::engineering::EngineeringView>,
@@ -72,6 +86,10 @@ pub struct Viewport {
 impl Default for Viewport {
     fn default() -> Self {
         Self {
+            #[cfg(test)]
+            presentation_only: false,
+            scene_handles: Default::default(),
+            authored_forces_pending: false,
             camera: OrbitCamera::default(),
             engineering: None,
             mode: ViewMode::Appearance,
@@ -93,7 +111,27 @@ impl Default for Viewport {
         }
     }
 }
+pub struct ViewInputs<'a> {
+    pub frame: Option<Arc<PreviewFrame>>,
+    pub emitter: Option<RotatingCylinderEmitter>,
+    pub workers: &'a [WorkerVoxel],
+    pub grid_edge: usize,
+    pub inspector: Option<&'a super::inspector::Inspector>,
+    pub scene: Option<&'a mut super::scene_ui::SceneUi>,
+    pub editable_scene: bool,
+}
 impl Viewport {
+    #[cfg(test)]
+    pub(super) fn presentation_only_appearance(&mut self) {
+        self.presentation_only = true;
+        self.mode = ViewMode::Appearance;
+    }
+    #[cfg(test)]
+    pub(super) fn presentation_is_inert(&self) -> bool {
+        self.mode == ViewMode::Appearance && self.engineering.is_none() && self.transport.is_none()
+    }
+
+    #[cfg(test)]
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
@@ -103,15 +141,38 @@ impl Viewport {
         grid_edge: usize,
         inspector: Option<&super::inspector::Inspector>,
     ) {
+        self.show_scene(
+            ui,
+            ViewInputs {
+                frame,
+                emitter,
+                workers,
+                grid_edge,
+                inspector,
+                scene: None,
+                editable_scene: false,
+            },
+        );
+    }
+    pub fn show_scene(&mut self, ui: &mut egui::Ui, inputs: ViewInputs<'_>) {
+        let ViewInputs {
+            frame,
+            emitter,
+            workers,
+            grid_edge,
+            inspector,
+            mut scene,
+            editable_scene,
+        } = inputs;
+        if self.authored_forces_pending || self.scene_handles.busy() {
+            self.mode = ViewMode::Appearance;
+        }
         ui.horizontal_wrapped(|ui| {
-            for (mode, label) in [
-                (ViewMode::Appearance, "Appearance"),
-                (ViewMode::Particles, "Particles"),
-                (ViewMode::Obstacle, "Obstacle lab"),
-                (ViewMode::Transport, "Transport session"),
-            ] {
-                ui.selectable_value(&mut self.mode, mode, label);
-            }
+            view_mode_tabs(
+                ui,
+                &mut self.mode,
+                self.authored_forces_pending || self.scene_handles.busy(),
+            );
             if self.mode != ViewMode::Appearance {
                 ui.checkbox(&mut self.engineering_camera.orthographic, "Orthographic");
                 if ui.button("Frame view").clicked() {
@@ -122,6 +183,15 @@ impl Viewport {
                 }
             }
         });
+        #[cfg(test)]
+        if self.presentation_only {
+            self.mode = ViewMode::Appearance;
+        }
+        if self.mode == ViewMode::Appearance
+            && let Some(scene) = scene.as_deref()
+        {
+            self.scene_handles.controls(ui, scene, editable_scene);
+        }
         match self.mode {
             ViewMode::Obstacle => self
                 .engineering
@@ -172,7 +242,29 @@ impl Viewport {
             std::mem::swap(&mut self.camera, &mut self.engineering_camera);
             return;
         }
-        self.input(ui, &response, rect, 2.35);
+        let consumed = scene.as_deref_mut().is_some_and(|scene| {
+            self.scene_handles.update(
+                ui,
+                &response,
+                &self.camera,
+                self.domain_side,
+                scene,
+                editable_scene,
+            )
+        });
+        if !consumed {
+            self.input(ui, &response, rect, 2.35);
+        }
+        if !consumed && let Some(scene) = scene.as_deref_mut() {
+            let mesh = self
+                .collision_mesh
+                .as_ref()
+                .map(|m| super::scene_view::MeshRef {
+                    vertices: m.vertices(),
+                    triangles: m.triangles(),
+                });
+            super::scene_view::interact(ui, &response, &self.camera, self.domain_side, mesh, scene);
+        }
         let changed = match (&self.frame, &frame) {
             (Some(a), Some(b)) => !Arc::ptr_eq(a, b),
             (None, None) => false,
@@ -322,6 +414,18 @@ impl Viewport {
                 }
             }
         }
+        let caption_color = Color32::from_rgb(115, 144, 171);
+        let caption = painter.layout(
+            format!(
+                "3D / ORBIT VIEW · domain {:.3} m · preview voxel {:.3} mm",
+                self.domain_side,
+                self.domain_side * 1000.0 / frame.as_ref().map_or(grid_edge, |f| f.edge) as f64
+            ),
+            egui::FontId::monospace(12.0),
+            caption_color,
+            (rect.width() - 28.0).max(1.0),
+        );
+        let mut scene_warning_top = rect.top() + 12.0 + caption.size().y + 8.0;
         if let Some(mesh) = &self.collision_mesh {
             const DISPLAY_TRIANGLES: usize = 12_000;
             let stride = mesh.triangles().len().div_ceil(DISPLAY_TRIANGLES).max(1);
@@ -339,16 +443,22 @@ impl Viewport {
                     );
                 }
             }
-            painter.text(
-                rect.left_top() + egui::vec2(14.0, 38.0),
-                egui::Align2::LEFT_TOP,
+            let mesh_color = Color32::from_rgb(245, 180, 65);
+            let mesh_caption = painter.layout(
                 format!(
                     "Amber: collision wireframe (x-ray), {:?}; showing 1 / {} triangles",
                     mesh.policy(),
                     stride
                 ),
                 egui::FontId::proportional(12.0),
-                Color32::from_rgb(245, 180, 65),
+                mesh_color,
+                (rect.width() - 28.0).max(1.0),
+            );
+            scene_warning_top += mesh_caption.size().y + 8.0;
+            painter.galley(
+                rect.left_top() + egui::vec2(14.0, 12.0 + caption.size().y + 8.0),
+                mesh_caption,
+                mesh_color,
             );
         }
         self.wire_box(
@@ -413,29 +523,56 @@ impl Viewport {
                 );
             }
         }
-        painter.text(
+        painter.galley(
             rect.left_top() + egui::vec2(14.0, 12.0),
-            egui::Align2::LEFT_TOP,
-            format!(
-                "3D / ORBIT VIEW · domain {:.3} m · preview voxel {:.3} mm",
-                self.domain_side,
-                self.domain_side * 1000.0 / frame.as_ref().map_or(grid_edge, |f| f.edge) as f64
-            ),
-            egui::FontId::monospace(12.0),
-            Color32::from_rgb(115, 144, 171),
+            caption,
+            caption_color,
         );
-        painter.text(
-            rect.left_bottom() + egui::vec2(14.0, -12.0),
-            egui::Align2::LEFT_BOTTOM,
-            "Drag orbit · Shift pan · Ctrl zoom · Home frame",
+        let help_color = Color32::from_rgb(142, 158, 176);
+        let help = painter.layout(
+            "Drag orbit · Shift pan · Ctrl zoom · Home frame".into(),
             egui::FontId::proportional(11.0),
-            Color32::from_rgb(142, 158, 176),
+            help_color,
+            (rect.width() - 28.0).max(1.0),
         );
+        let help_origin = rect.left_bottom() + egui::vec2(14.0, -12.0 - help.size().y);
+        painter.galley(help_origin, help, help_color);
+        if let Some(scene) = scene {
+            let mesh = self
+                .collision_mesh
+                .as_ref()
+                .map(|m| super::scene_view::MeshRef {
+                    vertices: m.vertices(),
+                    triangles: m.triangles(),
+                });
+            super::scene_view::paint(
+                ui,
+                super::scene_view::PaintArea {
+                    rect,
+                    warning_top: scene_warning_top,
+                },
+                &self.camera,
+                self.domain_side,
+                mesh,
+                scene,
+            );
+            self.scene_handles.paint(
+                ui,
+                rect,
+                &self.camera,
+                self.domain_side,
+                scene,
+                editable_scene,
+            );
+        }
     }
     fn input(&mut self, ui: &egui::Ui, response: &egui::Response, rect: Rect, frame_distance: f32) {
         if !(response.hovered() || response.dragged()) {
             return;
         }
+        // Response focus and Context keyboard ownership acquire context locks.
+        // Snapshot them before input holds its context guard.
+        let keyboard_owned = response.has_focus() || !ui.ctx().wants_keyboard_input();
         ui.input(|input| {
             let middle = input.pointer.button_down(egui::PointerButton::Middle);
             let primary = input.pointer.button_down(egui::PointerButton::Primary);
@@ -478,7 +615,9 @@ impl Viewport {
                     _ => {}
                 }
             }
-            if input.key_pressed(egui::Key::Home) || input.key_pressed(egui::Key::F) {
+            if keyboard_owned
+                && (input.key_pressed(egui::Key::Home) || input.key_pressed(egui::Key::F))
+            {
                 self.camera = OrbitCamera {
                     distance: frame_distance,
                     ..Default::default()
@@ -880,6 +1019,71 @@ mod tests {
             );
         }
     }
+    /// Execute by exact name under a hard external timeout: the pre-fix nested
+    /// context lock blocks even on plain hover, before any key is pressed.
+    #[test]
+    fn enabled_scene_input_hover_and_keyboard_focus_complete_without_nested_context_lock() {
+        let ctx = egui::Context::default();
+        let mut viewport = Viewport::default();
+        let mut scene =
+            super::super::scene_ui::SceneUi::geometry_fixture(rheon::ForceScene::default(), false);
+        let mut editor = String::from("Keyboard owner");
+        let mut draw = |viewport: &mut Viewport, key: Option<egui::Key>, focus_editor: bool| {
+            let mut events = vec![egui::Event::PointerMoved(egui::pos2(400.0, 300.0))];
+            if let Some(key) = key {
+                events.push(egui::Event::Key {
+                    key,
+                    physical_key: None,
+                    pressed: true,
+                    repeat: false,
+                    modifiers: Default::default(),
+                });
+            }
+            let _ = ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(Rect::from_min_size(Pos2::ZERO, egui::vec2(800.0, 600.0))),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    egui::SidePanel::left("focus-owner")
+                        .exact_width(150.0)
+                        .show(ctx, |ui| {
+                            let response = ui.text_edit_singleline(&mut editor);
+                            if focus_editor {
+                                response.request_focus();
+                            }
+                        });
+                    egui::CentralPanel::default().show(ctx, |ui| {
+                        assert!(ui.is_enabled());
+                        viewport.show_scene(
+                            ui,
+                            ViewInputs {
+                                frame: None,
+                                emitter: None,
+                                workers: &[],
+                                grid_edge: 2,
+                                inspector: None,
+                                scene: Some(&mut scene),
+                                editable_scene: true,
+                            },
+                        );
+                    });
+                },
+            );
+        };
+        draw(&mut viewport, None, false);
+        draw(&mut viewport, None, false); // enabled, hovered, no shortcut needed
+        viewport.camera.distance = 4.0;
+        draw(&mut viewport, Some(egui::Key::Home), false);
+        assert_eq!(viewport.camera.distance, 2.35);
+        draw(&mut viewport, None, true);
+        viewport.camera.distance = 4.0;
+        draw(&mut viewport, Some(egui::Key::F), true);
+        assert_eq!(viewport.camera.distance, 4.0, "text editor owns keyboard");
+        assert!(viewport.engineering.is_none() && viewport.transport.is_none());
+        assert!(!viewport.presentation_only);
+    }
     #[test]
     fn native_touchpad_scroll_pans_orbits_and_pinches_through_the_viewport_input_path() {
         let ctx = egui::Context::default();
@@ -925,5 +1129,69 @@ mod tests {
         let distance = viewport.camera.distance;
         draw(&mut viewport, vec![egui::Event::Zoom(1.2)]);
         assert!(viewport.camera.distance < distance);
+    }
+}
+
+#[cfg(test)]
+mod header_ui_tests {
+    use super::*;
+    #[test]
+    fn responsive_mode_tabs_keep_whole_labels_at_900_650_150_percent() {
+        for scale in [1.0, 1.5] {
+            for blocked in [false, true] {
+                let ctx = egui::Context::default();
+                ctx.set_pixels_per_point(scale);
+                let mut mode = ViewMode::Appearance;
+                for _ in 0..2 {
+                    let _ = ctx.run(
+                        egui::RawInput {
+                            screen_rect: Some(Rect::from_min_size(
+                                egui::Pos2::ZERO,
+                                egui::vec2(900.0 / scale, 650.0 / scale),
+                            )),
+                            ..Default::default()
+                        },
+                        |ctx| {
+                            egui::SidePanel::left("settings")
+                                .exact_width(280.0)
+                                .show(ctx, |ui| {
+                                    ui.label("Setup");
+                                });
+                            egui::SidePanel::right("scene-hidden")
+                                .exact_width(64.0)
+                                .show(ctx, |ui| {
+                                    let _ = ui.button("Scene");
+                                });
+                            egui::CentralPanel::default().show(ctx, |ui| {
+                                let available = ui.available_rect_before_wrap();
+                                let row = ui.horizontal_wrapped(|ui| {
+                                    view_mode_tabs(ui, &mut mode, blocked)
+                                });
+                                assert!(
+                                    row.response.rect.height() <= 60.0,
+                                    "tab rows too tall: {:?}",
+                                    row.response.rect
+                                );
+                                for (i, response) in row.inner.iter().enumerate() {
+                                    assert!(
+                                        response.rect.height()
+                                            <= ui.spacing().interact_size.y + 1.0,
+                                        "label wrapped vertically"
+                                    );
+                                    assert!(
+                                        response.rect.left() >= available.left() - 1.0
+                                            && response.rect.right() <= available.right() + 1.0,
+                                        "whole tab outside header"
+                                    );
+                                    assert_eq!(response.enabled(), !blocked || i == 0);
+                                }
+                                assert!(ui.available_height() > available.height() * 0.7);
+                            });
+                        },
+                    );
+                }
+                assert!(mode == ViewMode::Appearance);
+            }
+        }
     }
 }

@@ -1139,6 +1139,276 @@ mod tests {
         }
     }
     #[test]
+    fn advection_cancel_velocity_live_and_cold() {
+        advection_cancel_live_and_cold(crate::StepStage::VelocitySlice);
+    }
+
+    #[test]
+    fn advection_cancel_tracer_live_and_cold() {
+        advection_cancel_live_and_cold(crate::StepStage::TracerSlice);
+    }
+
+    fn advection_cancel_live_and_cold(checkpoint: crate::StepStage) {
+        for prior_accepted in [false, true] {
+            let (mut session, mut workspace) = fixture();
+            if prior_accepted {
+                session
+                    .step_with_configured_pressure(
+                        inputs(),
+                        &mut workspace,
+                        None,
+                        None,
+                        None,
+                        |_| false,
+                    )
+                    .unwrap();
+            }
+            let snapshot = session.snapshot();
+            let generation = snapshot.state().carrier.generation;
+            let prior_receipt = snapshot
+                .configured_provider_report()
+                .and_then(|report| report.workflow.clone());
+            let prior_metadata = format!(
+                "{:?}:{:?}:{:?}",
+                snapshot.report(),
+                snapshot.provider_report(),
+                snapshot.accepted_interval_start()
+            );
+            let prior_row = prior_accepted
+                .then(|| configured_publication_with_workflow(&snapshot, 0, CAP, None).unwrap());
+            let mut before = Vec::new();
+            snapshot.write_dense3d(&mut before).unwrap();
+            let archive = path();
+            let limits = RecordingLimits::default();
+            let run = provider::configured_run(&snapshot, "advection cancellation").unwrap();
+            let mut recorder = StepRecorder::create(&archive, run, limits).unwrap();
+            if prior_accepted {
+                recorder
+                    .append(&configured_publication_with_workflow(&snapshot, 0, CAP, None).unwrap())
+                    .unwrap();
+            }
+            let mut evidence = None;
+            let error = session
+                .step_with_configured_pressure_observed(
+                    inputs(),
+                    &mut workspace,
+                    None,
+                    None,
+                    None,
+                    |stage| stage == crate::LiquidStepStage::Carrier(checkpoint),
+                    19,
+                    &mut evidence,
+                )
+                .unwrap_err();
+            assert!(
+                matches!(
+                    error,
+                    crate::SessionError::Step(crate::LiquidStepError::Carrier(
+                        crate::SimulationError::Advection(crate::AdvectionError::Cancelled)
+                    ))
+                ),
+                "{error:?}"
+            );
+            let mut after = Vec::new();
+            session.snapshot().write_dense3d(&mut after).unwrap();
+            assert_eq!(after, before);
+            let snapshot = session.snapshot();
+            assert_eq!(
+                format!(
+                    "{:?}:{:?}:{:?}",
+                    snapshot.report(),
+                    snapshot.provider_report(),
+                    snapshot.accepted_interval_start()
+                ),
+                prior_metadata
+            );
+            match (
+                prior_receipt.as_ref(),
+                snapshot
+                    .configured_provider_report()
+                    .and_then(|report| report.workflow.as_ref()),
+            ) {
+                (Some(before), Some(after)) => assert!(Arc::ptr_eq(before, after)),
+                (None, None) => {}
+                _ => panic!("accepted receipt changed on cancellation"),
+            }
+            let attempt = evidence.unwrap();
+            assert_eq!(attempt.accepted_generation, generation);
+            assert_eq!(attempt.attempted_generation, generation + 1);
+            assert_eq!(attempt.publication, None);
+            assert_eq!(attempt.outcome, AttemptOutcome::Cancelled);
+            assert_eq!(
+                attempt.pressure.is_some(),
+                checkpoint == crate::StepStage::TracerSlice
+            );
+            assert!(!attempt.nodes.iter().any(|node| matches!(
+                node.node,
+                NodeKind::TracerTransport | NodeKind::VolumeTransport | NodeKind::Publication
+            )));
+            assert_eq!(
+                attempt
+                    .nodes
+                    .iter()
+                    .any(|node| node.node == NodeKind::Advection),
+                checkpoint == crate::StepStage::TracerSlice
+            );
+            assert_eq!(
+                attempt
+                    .nodes
+                    .iter()
+                    .any(|node| node.node == NodeKind::Projection),
+                checkpoint == crate::StepStage::TracerSlice
+            );
+            attempt.validate().unwrap();
+            WorkflowTermination::capture(
+                &session.snapshot(),
+                RuntimeTerminationCause::Cancelled,
+                "actual advection cancellation",
+                None,
+                Some(&attempt),
+            )
+            .unwrap()
+            .finish(&mut recorder)
+            .unwrap();
+            drop(recorder);
+            // An old explicitly Failed receipt must not be reinterpreted on decode.
+            let old_archive = path();
+            let old_run =
+                provider::configured_run(&session.snapshot(), "historical failed label").unwrap();
+            let mut old_writer = StepRecorder::create(&old_archive, old_run, limits).unwrap();
+            if prior_accepted {
+                old_writer
+                    .append(
+                        &configured_publication_with_workflow(&session.snapshot(), 0, CAP, None)
+                            .unwrap(),
+                    )
+                    .unwrap();
+            }
+            let mut old_attempt = (*attempt).clone();
+            old_attempt.outcome = AttemptOutcome::Failed;
+            let old_attempt = Arc::new(old_attempt);
+            WorkflowTermination::capture(
+                &session.snapshot(),
+                RuntimeTerminationCause::Cancelled,
+                "retained pre-repair receipt meaning",
+                None,
+                Some(&old_attempt),
+            )
+            .unwrap()
+            .finish(&mut old_writer)
+            .unwrap();
+            drop(old_writer);
+            // Cancellation consumed no publication/quota: same owner can accept the next interval.
+            session
+                .step_with_configured_pressure(inputs(), &mut workspace, None, None, None, |_| {
+                    false
+                })
+                .unwrap();
+            assert_eq!(
+                session.snapshot().state().carrier.generation,
+                generation + 1
+            );
+            drop(session);
+            drop(workspace);
+            for (file, expected) in [
+                (archive, AttemptOutcome::Cancelled),
+                (old_archive, AttemptOutcome::Failed),
+            ] {
+                let reader = RecordingReader::open(&file, limits).unwrap();
+                assert_eq!(reader.count().unwrap(), usize::from(prior_accepted));
+                if let Some(expected_row) = &prior_row {
+                    let row = reader.select_record(0).unwrap();
+                    assert_eq!(row.controls, expected_row.controls);
+                    assert_eq!(row.time.to_bits(), expected_row.time.to_bits());
+                }
+                let retained = terminal(&reader).unwrap().unwrap();
+                assert_eq!(retained.runtime.termination.accepted_generation, generation);
+                let retained = retained.attempt.unwrap();
+                assert_eq!(retained.attempt_id, 19);
+                assert_eq!(retained.outcome, expected);
+                assert_eq!(retained.publication, None);
+                assert_eq!(retained.accepted_generation, generation);
+                assert_eq!(retained.attempted_generation, generation + 1);
+                assert_eq!(
+                    retained.pressure.is_some(),
+                    checkpoint == crate::StepStage::TracerSlice
+                );
+                drop(reader);
+                std::fs::remove_file(file).unwrap();
+            }
+        }
+    }
+
+    #[test]
+    fn advection_cancel_repair_keeps_actual_pressure_failure_failed_live_and_cold() {
+        let (mut session, mut workspace) = fixture_with_iterations(0);
+        let forces = [crate::BodyForce {
+            value: [0.125, 0.0, 0.0],
+            units: crate::ForceUnits::Acceleration,
+            region: None,
+        }];
+        let mut input = inputs();
+        input.forces = &forces;
+        let mut before = Vec::new();
+        session.snapshot().write_dense3d(&mut before).unwrap();
+        let mut evidence = None;
+        let error = session
+            .step_with_configured_pressure_observed(
+                input,
+                &mut workspace,
+                None,
+                None,
+                None,
+                |_| false,
+                20,
+                &mut evidence,
+            )
+            .unwrap_err();
+        assert!(
+            matches!(
+                error,
+                crate::SessionError::Step(crate::LiquidStepError::Carrier(
+                    crate::SimulationError::Pressure(crate::PressureError::IterationLimit {
+                        iterations: 0,
+                        ..
+                    })
+                ))
+            ),
+            "{error:?}"
+        );
+        let mut after = Vec::new();
+        session.snapshot().write_dense3d(&mut after).unwrap();
+        assert_eq!(before, after);
+        let attempt = evidence.unwrap();
+        assert_eq!(attempt.outcome, AttemptOutcome::Failed);
+        assert_eq!(attempt.publication, None);
+        let archive = path();
+        let limits = RecordingLimits::default();
+        let run = provider::configured_run(&session.snapshot(), "actual pressure failure").unwrap();
+        let mut recorder = StepRecorder::create(&archive, run, limits).unwrap();
+        WorkflowTermination::capture(
+            &session.snapshot(),
+            RuntimeTerminationCause::NumericalFailure,
+            "actual numerical failure",
+            None,
+            Some(&attempt),
+        )
+        .unwrap()
+        .finish(&mut recorder)
+        .unwrap();
+        drop(recorder);
+        drop(session);
+        let reader = RecordingReader::open(&archive, limits).unwrap();
+        assert_eq!(reader.count().unwrap(), 0);
+        assert_eq!(
+            terminal(&reader).unwrap().unwrap().attempt.unwrap().outcome,
+            AttemptOutcome::Failed
+        );
+        drop(reader);
+        std::fs::remove_file(archive).unwrap();
+    }
+
+    #[test]
     fn malformed_cross_linked_and_unknown_workflow_evidence_is_rejected() {
         let (mut session, mut workspace) = fixture();
         session

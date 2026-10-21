@@ -39,10 +39,20 @@ existing recording owner remains authoritative for all fields and lifecycle data
 
 ## Persistence and reopening
 
-JSON uses explicit schema version 1, fixed typed fields, bounded inputs and exact
-round-trip f64 values through the existing pinned serde_json float-roundtrip
-feature. Spec and run-set digests hash their typed serialized payloads; these are
-content identities, not signatures. Unknown versions return Unsupported; unknown
+Run-set JSON remains schema version 1. Native frozen specs retain version 1 for
+historical no-force intent and use version 2 when an authored force document is
+bound; version-1 bytes and digests remain unchanged. Both use fixed typed fields,
+bounded inputs and exact round-trip f64 values through the existing pinned
+serde_json float-roundtrip feature. Spec and run-set digests hash their typed
+serialized payloads; these are content identities, not signatures.
+
+Configured accepted-Session specs own a separate, kind-tagged version-2 shape.
+The shared number 2 does not make the two document families interchangeable:
+opening a configured spec with the native reader fails strict typed decoding
+with `Codec`. The former `Unsupported` classification relied on native version 2
+being unknown; native force intent now intentionally supports that version.
+An otherwise valid native spec carrying an unsupported future version still
+returns `Unsupported("frozen native intent version")`. Unknown
 keys, variants, duplicates or malformed JSON fail decoding. Changed content with an
 old digest returns Integrity. Files are limited to 1 MiB and sets to 64 members.
 No migration, reinterpretation of saved Debug text, automatic recovery overwrite,

@@ -1,5 +1,7 @@
 # Selected fitted-height liquid formulation
 
+For a broader teaching progression see [material motion](../chapters/30-material-motion-and-conservation.md), [general mixed-fluid reference equations](../chapters/34-incompressibility-and-fluids.md) and [complete reference algorithms](../chapters/36-reference-fem-solver.md). Those are separate manuscript specifications; they do not broaden this fitted-height study's geometry, theorem hypotheses or executed evidence.
+
 This research successor selects one geometry and derives transport, pressure and
 viscosity together. It does not enable the refused advancing-viscosity API or
 change any frozen Rust source, Jacobi fixture, receipt or negative result. The

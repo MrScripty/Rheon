@@ -52,8 +52,34 @@ pub mod run_sets;
 pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
+#[path = "desktop/force_run_policy.rs"]
+mod force_run_policy;
+#[cfg(test)]
+#[path = "desktop/force_run_policy_tests.rs"]
+mod force_run_policy_tests;
+#[cfg(test)]
+#[path = "desktop/force_runtime_integration_tests.rs"]
+mod force_runtime_integration_tests;
+#[cfg(test)]
+#[path = "desktop/force_runtime_ui_tests.rs"]
+mod force_runtime_ui_tests;
+#[cfg(test)]
+#[path = "desktop/native_presentation_harness.rs"]
+mod native_presentation_harness;
+#[path = "desktop/scene_handles.rs"]
+mod scene_handles;
+#[path = "desktop/scene_ui.rs"]
+mod scene_ui;
+#[path = "desktop/scene_view.rs"]
+mod scene_view;
 #[path = "desktop/settings.rs"]
 mod settings;
+#[cfg(test)]
+#[path = "desktop/setup_ui_tests.rs"]
+mod setup_ui_tests;
+#[cfg(test)]
+#[path = "desktop/timeline_ui_tests.rs"]
+mod timeline_ui_tests;
 #[path = "desktop/transport_view.rs"]
 mod transport_view;
 #[path = "desktop/viewport.rs"]
@@ -75,6 +101,8 @@ use std::time::{Duration, Instant};
 
 #[derive(Clone)]
 struct Request {
+    /// Empty means legacy on every track; otherwise one immutable option per track.
+    force_fields: Vec<Option<rheon::ForceSnapshot>>,
     collision_mesh: Option<Arc<rheon::CollisionMesh>>,
     size: u64,
     steps: usize,
@@ -109,6 +137,20 @@ struct ConfiguredRequest {
     runtime: Option<(Arc<AtomicBool>, accepted_session::model_process::ChildSlot)>,
 }
 impl Request {
+    fn force_target(&self) -> force_run_policy::Target {
+        self.setup_workflow().force_target(self.material.is_some())
+    }
+    fn fields_for_track(&self, track: usize) -> Option<&rheon::ForceSnapshot> {
+        self.force_fields.get(track).and_then(Option::as_ref)
+    }
+
+    fn setup_workflow(&self) -> SetupWorkflow {
+        if self.configured_set.is_some() {
+            SetupWorkflow::AcceptedSession
+        } else {
+            SetupWorkflow::Preview
+        }
+    }
     fn preview_edge(&self) -> Result<usize, String> {
         self.preview_resolution
             .edge(self.domain_side, self.size as usize)
@@ -238,6 +280,40 @@ fn configured_executor() -> run_sets::configured::ExecutorDeclaration {
     }
 }
 fn validate_request(request: &Request) -> Result<(), String> {
+    if !request.force_fields.is_empty() && request.force_fields.len() != request.methods.len() {
+        return Err("Force snapshots must match the exact track count".into());
+    }
+    for fields in request.force_fields.iter().flatten() {
+        rheon::recording::encode_force_metadata(fields).map_err(|e| e.to_string())?;
+    }
+    let authored = request.force_fields.iter().any(Option::is_some);
+    let target = request.force_target();
+    if authored
+        && target == force_run_policy::Target::ParticleMaterial
+        && request.methods.len() != 1
+    {
+        return Err("Authored particle material requires exactly one material track".into());
+    }
+    if let Some(set) = &request.saved_set {
+        set.validate().map_err(|e| e.to_string())?;
+        if set.members.len() != request.methods.len() {
+            return Err("Saved member/track mismatch".into());
+        }
+        for (track, member) in set.members.iter().enumerate() {
+            let intended = member.spec.force_snapshot().map_err(|e| e.to_string())?;
+            let bytes = |f: Option<&rheon::ForceSnapshot>| {
+                f.map(rheon::recording::encode_force_metadata)
+                    .transpose()
+                    .map_err(|e| e.to_string())
+            };
+            if bytes(intended.as_ref())? != bytes(request.fields_for_track(track))? {
+                return Err("Saved member force snapshot mismatch".into());
+            }
+        }
+    }
+    let qualification = force_run_policy::PRODUCTION_QUALIFICATION;
+    force_run_policy::check(target, authored, qualification).map_err(str::to_owned)?;
+
     if let Some(configured) = &request.configured_set {
         configured.revision.validate().map_err(|e| e.to_string())?;
         if request.saved_set.is_some()
@@ -515,11 +591,32 @@ fn run_simulations(
             });
             set.parent_sha256 = Some(parent);
             publish_saved_revision(&request, set, &format!("member-{track}-started.json"))?;
-            inspector.begin_bound_carrier(sim.native()?, &path, request.recording_limits, run)?
+            match request.fields_for_track(track) {
+                Some(fields) => inspector.begin_bound_carrier_with_force_fields(
+                    sim.native()?,
+                    &path,
+                    request.recording_limits,
+                    run,
+                    Some(fields),
+                ),
+                None => inspector.begin_bound_carrier(
+                    sim.native()?,
+                    &path,
+                    request.recording_limits,
+                    run,
+                ),
+            }?
         } else {
-            inspector
-                .begin_carrier(sim.native()?, &path, request.recording_limits)
-                .map_err(|e| format!("Carrier recording start at {} failed: {e}", path.display()))?
+            match request.fields_for_track(track) {
+                Some(fields) => inspector.begin_carrier_with_force_fields(
+                    sim.native()?,
+                    &path,
+                    request.recording_limits,
+                    Some(fields),
+                ),
+                None => inspector.begin_carrier(sim.native()?, &path, request.recording_limits),
+            }
+            .map_err(|e| format!("Carrier recording start at {} failed: {e}", path.display()))?
         };
         use rheon::recording::provider::runtime::RuntimeTerminationCause;
         let mut termination_cause = RuntimeTerminationCause::StorageFailure;
@@ -569,6 +666,7 @@ fn run_simulations(
                         |spec| spec.spec.source_at(step),
                     ),
                     cancel,
+                    request.fields_for_track(track),
                 );
                 let step_seconds = start.elapsed().as_secs_f64();
                 history.end_step()?;
@@ -584,7 +682,14 @@ fn run_simulations(
                         configured.runtime_observation(),
                     )?;
                 } else {
-                    inspector.record_carrier(&mut recorder, sim.native()?)?;
+                    match request.fields_for_track(track) {
+                        Some(fields) => inspector.record_carrier_with_force_fields(
+                            &mut recorder,
+                            sim.native()?,
+                            Some(fields),
+                        ),
+                        None => inspector.record_carrier(&mut recorder, sim.native()?),
+                    }?;
                 }
                 termination_cause = RuntimeTerminationCause::NumericalFailure;
                 if frozen.is_some() && r.dt.to_bits() != request.requested_dt.to_bits() {
@@ -823,6 +928,10 @@ fn freeze_native_set(request: &mut Request) -> Result<std::path::PathBuf, String
             },
         })
         .map_err(|e| e.to_string())?;
+        let spec = match request.fields_for_track(track) {
+            Some(fields) => spec.with_force_fields(fields).map_err(|e| e.to_string())?,
+            None => spec,
+        };
         members.push(RunSetMember {
             member_id: format!("native-{track}"),
             spec,
@@ -895,10 +1004,19 @@ fn run_material(
     sim.set_collision_mesh(request.collision_mesh.clone())
         .map_err(|e| e.to_string())?;
     let path = new_recording_path(&request.recording_directory, "material")?;
-    let mut recorder = history
-        .inspector
-        .begin(&sim, &path, request.recording_limits)
-        .map_err(|e| format!("Recording start at {} failed: {e}", path.display()))?;
+    let fields = request.fields_for_track(0);
+    let mut recorder = match fields {
+        Some(fields) => history.inspector.begin_with_force_fields(
+            &sim,
+            &path,
+            request.recording_limits,
+            Some(fields),
+        ),
+        None => history
+            .inspector
+            .begin(&sim, &path, request.recording_limits),
+    }
+    .map_err(|e| format!("Recording start at {} failed: {e}", path.display()))?;
     let result = (|| {
         history.publish(
             0,
@@ -917,29 +1035,44 @@ fn run_material(
         for step in 0..request.steps {
             history.begin_step(0, step + 1)?;
             let start = Instant::now();
-            let result = sim.step(request.requested_dt, request.emitter, || {
-                cancel.load(Ordering::Relaxed)
-            });
+            let result = match fields {
+                Some(fields) => sim.step_with_force_fields(
+                    request.requested_dt,
+                    request.emitter,
+                    fields,
+                    || cancel.load(Ordering::Relaxed),
+                ),
+                None => sim.step(request.requested_dt, request.emitter, || {
+                    cancel.load(Ordering::Relaxed)
+                }),
+            };
             let elapsed = start.elapsed().as_secs_f64();
             history.end_step()?;
             let report = result.map_err(|e| e.to_string())?;
             seconds += elapsed;
             last_report = Some(report);
-            history.inspector.record(
-                &mut recorder,
-                &sim,
-                report,
-                rheon::MaterialStepControls {
-                    requested_dt: request.requested_dt,
-                    emitter: request
-                        .emitter
-                        .map(|emitter| rheon::MaterialEmitterControl {
-                            source_id: 1,
-                            source_version: 1,
-                            emitter,
-                        }),
-                },
-            )?;
+            let controls = rheon::MaterialStepControls {
+                requested_dt: request.requested_dt,
+                emitter: request
+                    .emitter
+                    .map(|emitter| rheon::MaterialEmitterControl {
+                        source_id: 1,
+                        source_version: 1,
+                        emitter,
+                    }),
+            };
+            match fields {
+                Some(fields) => history.inspector.record_with_force_fields(
+                    &mut recorder,
+                    &sim,
+                    report,
+                    controls,
+                    Some(fields),
+                ),
+                None => history
+                    .inspector
+                    .record(&mut recorder, &sim, report, controls),
+            }?;
             history.publish(
                 0,
                 PreviewFrame::capture_particles(
@@ -1010,7 +1143,274 @@ fn run_material(
     }
     result
 }
+#[derive(Clone, Copy, Default, PartialEq, Eq)]
+enum SetupWorkflow {
+    #[default]
+    Preview,
+    AcceptedSession,
+}
+impl SetupWorkflow {
+    fn force_target(self, material: bool) -> force_run_policy::Target {
+        match self {
+            Self::AcceptedSession => force_run_policy::Target::Unsupported,
+            Self::Preview if material => force_run_policy::Target::ParticleMaterial,
+            Self::Preview => force_run_policy::Target::NativeCarrier,
+        }
+    }
+    fn label(self) -> &'static str {
+        match self {
+            Self::Preview => "Simulation preview",
+            Self::AcceptedSession => "Accepted Session",
+        }
+    }
+}
+#[derive(Clone, Copy)]
+enum SetupAction {
+    Run(SetupWorkflow),
+    Cancel,
+}
+fn running_setup_ui(ui: &mut egui::Ui, request: &Request) {
+    ui.heading("Running setup");
+    ui.label(request.setup_workflow().label());
+    ui.small("Inputs frozen at launch.");
+    let samples = request
+        .material
+        .map_or(request.size as usize, |material| material.samples_per_axis);
+    ui.label(format!(
+        "{samples} samples/axis · domain {:.3} m",
+        request.domain_side
+    ));
+    ui.label(format!(
+        "{} steps · maximum step {}",
+        request.steps,
+        settings::duration(request.requested_dt)
+    ));
+    if request.configured_set.is_some() {
+        ui.small("Sealed full liquid · starts at rest · no inlet");
+        ui.small(
+            "Constant forcing only; no appearance, emitter, phase source, or model accuracy claim.",
+        );
+    } else if request.material.is_some() {
+        ui.small("Liquid / gas material preview");
+    } else {
+        ui.small("Filled carrier-fluid preview");
+    }
+}
+/// Per-paint value projection only; App remains the playback state owner.
+#[derive(Clone)]
+struct TimelineControls {
+    timeline_step: usize,
+    track: usize,
+    follow_live: bool,
+    playing: bool,
+    play_time: f64,
+    playback_speed: f64,
+    playback_speed_text: String,
+    playback_speed_invalid: bool,
+}
+// Prewrap against the whole row, then let the wrapped layout place this caption
+// as one widget. Layout against a small row remainder can clip split text.
+fn timeline_caption(ui: &mut egui::Ui, text: String) {
+    let galley = egui::WidgetText::from(text).into_galley(
+        ui,
+        Some(egui::TextWrapMode::Wrap),
+        ui.max_rect().width(),
+        egui::TextStyle::Body,
+    );
+    ui.label(galley);
+}
+impl TimelineControls {
+    fn contents(
+        &mut self,
+        ui: &mut egui::Ui,
+        count: usize,
+        frame: Option<&PreviewFrame>,
+        request: Option<&Request>,
+        track_caption: &str,
+    ) {
+        ui.horizontal_wrapped(|ui| {
+            if ui
+                .button(if self.playing {
+                    "❚❚ Pause"
+                } else {
+                    "▶ Play"
+                })
+                .clicked()
+            {
+                self.follow_live = false;
+                self.playing = !self.playing;
+                if self.timeline_step + 1 >= count {
+                    self.timeline_step = 0;
+                    self.play_time = 0.0;
+                } else {
+                    self.play_time = frame.as_ref().map_or(0.0, |f| f.time);
+                }
+            }
+            if ui.button("◀ Step").clicked() {
+                self.follow_live = false;
+                self.playing = false;
+                self.timeline_step = self.timeline_step.saturating_sub(1);
+            }
+            if ui.button("Step ▶").clicked() {
+                self.follow_live = false;
+                self.playing = false;
+                self.timeline_step = (self.timeline_step + 1).min(count.saturating_sub(1));
+            }
+            ui.checkbox(&mut self.follow_live, "Follow live");
+            if self.follow_live {
+                self.playing = false;
+            }
+            // A bounded editor has the same geometry while disabled, focused or
+            // holding invalid text. DragValue's growing private edit buffer does not.
+            let speed_label = ui.label("Speed");
+            let speed = ui
+                .add(
+                    egui::TextEdit::singleline(&mut self.playback_speed_text)
+                        .id_salt("playback-speed")
+                        .desired_width(44.0)
+                        .clip_text(true),
+                )
+                .labelled_by(speed_label.id)
+                .on_hover_text(
+                    "Playback speed: 0.1–4×. Edit the number; Up/Down changes it by 0.1.",
+                );
+            ui.label("×");
+            // Feedback is projected from the start of this paint, so input cannot
+            // add an unmeasured row partway through bottom-panel placement.
+            let displayed_invalid = self.playback_speed_invalid;
+            if displayed_invalid {
+                ui.colored_label(egui::Color32::LIGHT_RED, "Invalid speed")
+                    .on_hover_text("Enter a finite number. Allowed range: 0.1–4×.");
+            }
+            if speed.changed() {
+                match self.playback_speed_text.parse::<f64>() {
+                    Ok(value) if value.is_finite() => {
+                        self.playback_speed = value.clamp(0.1, 4.0);
+                        self.playback_speed_invalid = false;
+                    }
+                    _ => self.playback_speed_invalid = true,
+                }
+            }
+            if speed.has_focus() {
+                let increment = ui.input(|input| {
+                    i32::from(input.key_pressed(egui::Key::ArrowUp))
+                        - i32::from(input.key_pressed(egui::Key::ArrowDown))
+                });
+                if increment != 0 {
+                    self.playback_speed =
+                        (self.playback_speed + f64::from(increment) * 0.1).clamp(0.1, 4.0);
+                    self.playback_speed_text = self.playback_speed.to_string();
+                    self.playback_speed_invalid = false;
+                }
+            } else if !self.playback_speed_invalid {
+                self.playback_speed_text = self.playback_speed.to_string();
+            }
+            if let Some(request) = request
+                && request.material.is_none()
+            {
+                let decoration = 2.0 * ui.spacing().button_padding.x
+                    + ui.spacing().icon_spacing
+                    + ui.spacing().icon_width;
+                let text = egui::WidgetText::from(request.track_label(self.track)).into_galley(
+                    ui,
+                    Some(egui::TextWrapMode::Wrap),
+                    (ui.max_rect().width() - decoration).max(1.0),
+                    egui::TextStyle::Button,
+                );
+                let width = text.size().x + decoration;
+                // ComboBox's inner horizontal UI cannot move itself to a new row.
+                if ui.available_size_before_wrap().x < width {
+                    ui.end_row();
+                }
+                egui::ComboBox::from_id_salt("timeline-track")
+                    .width(width)
+                    .selected_text(text)
+                    .show_ui(ui, |ui| {
+                        for track in 0..request.methods.len() {
+                            if ui
+                                .selectable_value(
+                                    &mut self.track,
+                                    track,
+                                    request.track_label(track),
+                                )
+                                .clicked()
+                            {
+                                self.follow_live = false;
+                                self.playing = false;
+                                self.timeline_step = 0;
+                            }
+                        }
+                    });
+            }
+        });
+        ui.style_mut().spacing.slider_width = (ui.available_width() - 155.0).max(150.0);
+        if ui
+            .add_enabled(
+                count > 0,
+                egui::Slider::new(&mut self.timeline_step, 0..=count.saturating_sub(1))
+                    .text("Step"),
+            )
+            .changed()
+        {
+            self.follow_live = false;
+            self.playing = false;
+        }
+        if let Some(frame) = &frame {
+            ui.horizontal_wrapped(|ui| {
+                timeline_caption(
+                    ui,
+                    format!(
+                        "{} · Step {} / {}",
+                        if frame.material_color.is_some() {
+                            "Material fluid".to_owned()
+                        } else {
+                            track_caption.to_owned()
+                        },
+                        frame.step,
+                        count.saturating_sub(1)
+                    ),
+                );
+                ui.separator();
+                timeline_caption(ui, format!("Simulated {}", settings::duration(frame.time)));
+                ui.separator();
+                timeline_caption(
+                    ui,
+                    if frame.step == 0 {
+                        "Initial state".into()
+                    } else {
+                        format!("Step calculation {}", settings::duration(frame.seconds))
+                    },
+                );
+                if let Some(r) = frame.particle_report {
+                    ui.separator();
+                    timeline_caption(
+                        ui,
+                        format!(
+                            "{} particles · {:.6} kg · {:.1} °C",
+                            r.particles,
+                            r.total_mass,
+                            r.mean_temperature_kelvin - 273.15
+                        ),
+                    );
+                }
+                if let Some(report) = frame.report {
+                    ui.separator();
+                    timeline_caption(
+                        ui,
+                        format!(
+                            "{} pressure iterations · divergence {:.2e}",
+                            report.pressure.iterations, report.actual_divergence_max
+                        ),
+                    );
+                }
+            });
+        }
+    }
+}
+
 struct App {
+    scene: scene_ui::SceneUi,
+    setup_workflow: SetupWorkflow,
     ai_comparison: Option<ai_comparison::ComparisonApp>,
     archive: archive_view::ArchiveView,
     run_sets: run_set_view::RunSetView,
@@ -1058,11 +1458,15 @@ struct App {
     playing: bool,
     play_time: f64,
     playback_speed: f64,
+    playback_speed_text: String,
+    playback_speed_invalid: bool,
 }
 impl Default for App {
     fn default() -> Self {
         let thread_limit = available_threads();
         Self {
+            scene: scene_ui::SceneUi::default(),
+            setup_workflow: SetupWorkflow::default(),
             ai_comparison: None,
             archive: archive_view::ArchiveView::default(),
             run_sets: run_set_view::RunSetView::default(),
@@ -1113,6 +1517,8 @@ impl Default for App {
             playing: false,
             play_time: 0.0,
             playback_speed: 1.0,
+            playback_speed_text: "1".into(),
+            playback_speed_invalid: false,
         }
     }
 }
@@ -1154,8 +1560,31 @@ impl App {
                     return;
                 }
                 ui.separator();
+                let displayed_workflow = self
+                    .running_request
+                    .as_ref()
+                    .filter(|_| self.worker.is_some())
+                    .map_or(self.setup_workflow, Request::setup_workflow);
+                ui.add_enabled_ui(self.worker.is_none() && !self.closing, |ui| {
+                    egui::ComboBox::from_label("Setup")
+                        .selected_text(displayed_workflow.label())
+                        .show_ui(ui, |ui| {
+                            for workflow in [SetupWorkflow::Preview, SetupWorkflow::AcceptedSession]
+                            {
+                                ui.selectable_value(
+                                    &mut self.setup_workflow,
+                                    workflow,
+                                    workflow.label(),
+                                );
+                            }
+                        });
+                });
+                // Keep actions outside scrolling content. Dispatch only after this
+                // frame's form edits and package-readiness invalidation.
+                let action = self.run_controls(ui);
+                ui.separator();
                 egui::ScrollArea::vertical()
-                    .id_salt("sidebar-content")
+                    .id_salt(("sidebar-content", self.setup_workflow as u8))
                     .show(ui, |ui| {
                         if self.inspector_open {
                             ui.heading("Numerical inspector");
@@ -1176,20 +1605,107 @@ impl App {
                             } else {
                                 ui.label("Start a simulation or open a numerical archive");
                             }
+                        } else if let Some(request) = self
+                            .running_request
+                            .as_ref()
+                            .filter(|_| self.worker.is_some())
+                        {
+                            running_setup_ui(ui, request);
                         } else {
-                            if self.configured_controls.show(ui, self.worker.is_none())
-                                && let Err(error) = self.start_configured()
-                            {
-                                self.status = error;
-                            }
                             self.controls(ui);
                         }
                     });
+                self.dispatch_setup_action(ctx, action);
             })
             .response
             .rect
     }
+    fn dispatch_setup_action(&mut self, ctx: &egui::Context, action: Option<SetupAction>) {
+        if let Some(action) = action {
+            match action {
+                SetupAction::Run(SetupWorkflow::Preview) => self.start(false),
+                SetupAction::Run(SetupWorkflow::AcceptedSession) => {
+                    if let Err(error) = self.start_configured() {
+                        self.status = error;
+                    }
+                }
+                SetupAction::Cancel => self.cancel(),
+            }
+            ctx.request_repaint();
+        }
+    }
+    fn scene_run_strip(&mut self, ctx: &egui::Context) {
+        egui::TopBottomPanel::top("scene-global-run-strip").show(ctx, |ui| {
+            let action = self.run_controls(ui);
+            self.dispatch_setup_action(ctx, action);
+        });
+    }
+    fn run_controls(&mut self, ui: &mut egui::Ui) -> Option<SetupAction> {
+        let mut action = None;
+        if let Some(worker) = &self.worker {
+            let n = worker.progress.load(Ordering::Relaxed);
+            ui.add(
+                egui::ProgressBar::new(n as f32 / worker.total as f32)
+                    .text(format!("{n}/{} steps", worker.total)),
+            );
+            if ui
+                .add_sized(
+                    [ui.available_width(), 32.0],
+                    egui::Button::new("Cancel simulation"),
+                )
+                .clicked()
+            {
+                action = Some(SetupAction::Cancel);
+            }
+            if let Some((_, step, elapsed)) = worker.history.timing() {
+                ui.small(format!("Calculating step {step} · {elapsed:.3} s"));
+            }
+        } else {
+            let readiness = self
+                .scene
+                .launch_readiness(self.setup_workflow.force_target(self.material_mode));
+            let can_launch = !self.closing && readiness.is_ok();
+            let launch = match self.setup_workflow {
+                SetupWorkflow::Preview => ui
+                    .add_enabled(
+                        can_launch,
+                        egui::Button::new("Simulate")
+                            .min_size(egui::vec2(ui.available_width(), 32.0)),
+                    )
+                    .clicked(),
+                SetupWorkflow::AcceptedSession => {
+                    self.configured_controls.launch_button(ui, can_launch)
+                }
+            };
+            if let Err(error) = readiness {
+                ui.colored_label(egui::Color32::YELLOW, "Authored-force runs unavailable")
+                    .on_hover_text(error);
+            }
+            if launch {
+                action = Some(SetupAction::Run(self.setup_workflow));
+            }
+        }
+        // Keep long feedback from displacing run controls. The complete original
+        // message is available through a named keyboard-operable disclosure.
+        ui.add(egui::Label::new(&self.status).truncate());
+        ui.collapsing("Status details", |ui| {
+            egui::ScrollArea::vertical()
+                .id_salt("run-status-details")
+                .max_height(96.0)
+                .show(ui, |ui| {
+                    let mut status = self.status.as_str();
+                    ui.add(
+                        egui::TextEdit::multiline(&mut status)
+                            .id(egui::Id::new("run-status-text"))
+                            .font(egui::TextStyle::Body)
+                            .desired_width(f32::INFINITY),
+                    );
+                });
+        });
+        action
+    }
     fn reset_timeline(&mut self) {
+        self.scene.clear_run();
         self.history = None;
         self.running_request = None;
         self.rows.clear();
@@ -1249,6 +1765,8 @@ impl App {
         Ok(limits)
     }
     fn start_configured(&mut self) -> Result<(), String> {
+        self.scene
+            .launch_readiness(force_run_policy::Target::Unsupported)?;
         if self.worker.is_some() {
             return Err("Finish the active worker first".into());
         }
@@ -1310,6 +1828,7 @@ impl App {
         let baseline = &revision.members[0].spec;
         let intent_path = root.join("intent.json");
         let request = Request {
+            force_fields: Vec::new(),
             collision_mesh: None,
             size: baseline.constructor.counts_xyz[0],
             steps: baseline.future.requested_steps,
@@ -1433,6 +1952,13 @@ impl App {
         Ok((self.size, Some(config)))
     }
     fn start(&mut self, all: bool) {
+        if let Err(error) = self
+            .scene
+            .launch_readiness(SetupWorkflow::Preview.force_target(self.material_mode))
+        {
+            self.status = error;
+            return;
+        }
         if self.worker.is_some() {
             return;
         }
@@ -1451,7 +1977,17 @@ impl App {
                 return;
             }
         };
+        let fields = match self.scene.freeze_for_run() {
+            Ok(fields) => fields,
+            Err(error) => {
+                self.status = error;
+                return;
+            }
+        };
         let mut request = Request {
+            force_fields: fields.map_or_else(Vec::new, |fields| {
+                vec![Some(fields); if all { 2 } else { 1 }]
+            }),
             collision_mesh: self.collision.mesh.clone(),
             size,
             steps: self.steps,
@@ -1516,6 +2052,7 @@ impl App {
             return Err("Desktop rerun supports up to two cubic zero-origin members with common geometry, requested horizon and budgets; cold inspection remains available".into());
         }
         let mut request = Request {
+            force_fields: Vec::new(),
             collision_mesh: None,
             size: baseline.counts_xyz[0],
             steps: baseline.requested_steps,
@@ -1549,6 +2086,11 @@ impl App {
             #[cfg(test)]
             failure_gate: None,
         };
+        request.force_fields = original
+            .members
+            .iter()
+            .map(|m| m.spec.force_snapshot().map_err(|e| e.to_string()))
+            .collect::<Result<Vec<_>, _>>()?;
         validate_request(&request)?;
         let root =
             new_recording_path(&request.recording_directory, "rerun")?.with_extension("runset");
@@ -1577,6 +2119,10 @@ impl App {
                 self.scheduler = Some(Arc::clone(&worker.scheduler));
                 self.history = Some(Arc::clone(&worker.history));
                 self.worker = Some(worker);
+                self.scene.begin_run(request.collision_mesh.is_some());
+                let retained_binding = self
+                    .scene
+                    .bind_retained_fields(0, request.fields_for_track(0));
                 self.running_request = Some(request);
                 self.rows.clear();
                 self.textures.clear();
@@ -1584,7 +2130,10 @@ impl App {
                 self.track = 0;
                 self.follow_live = true;
                 self.playing = false;
-                self.status = "Simulating — accepted steps appear live.".into();
+                self.status = retained_binding.map_or_else(
+                    |error| format!("Running; retained force display unavailable: {error}"),
+                    |()| "Simulating — accepted steps appear live.".into(),
+                );
                 Ok(())
             }
             Err(e) => {
@@ -1650,11 +2199,34 @@ impl App {
             }
         }
     }
+    /// One render-frame snapshot of track, appearance and force metadata. Track
+    /// intents painted later apply visually next frame, never to half a frame.
+    fn prepare_scene_presentation(&mut self) -> Option<(usize, Option<Arc<PreviewFrame>>)> {
+        let view =
+            (self.scene.context == scene_ui::SceneContext::Retained).then(|| self.selected_frame());
+        if let Some(request) = &self.running_request
+            && let Err(error) = self
+                .scene
+                .bind_retained_fields(self.track, request.fields_for_track(self.track))
+        {
+            self.status = error;
+        }
+        view
+    }
     fn selected_frame(&mut self) -> (usize, Option<Arc<PreviewFrame>>) {
+        self.selected_frame_inner(true)
+    }
+    fn selected_frame_bound_track(&mut self) -> (usize, Option<Arc<PreviewFrame>>) {
+        self.selected_frame_inner(false)
+    }
+    fn selected_frame_inner(
+        &mut self,
+        resolve_active_track: bool,
+    ) -> (usize, Option<Arc<PreviewFrame>>) {
         let Some(history) = &self.history else {
             return (0, None);
         };
-        if self.follow_live {
+        if self.follow_live && resolve_active_track {
             self.track = history.active_track.load(Ordering::Relaxed);
         }
         if self.playing {
@@ -1697,7 +2269,82 @@ impl App {
             }
         }
     }
+    /// Draft authoring never clamps or commits retained playback state.
+    fn scene_timeline_ui(
+        &mut self,
+        ctx: &egui::Context,
+        count: usize,
+        frame: Option<&PreviewFrame>,
+    ) -> Option<egui::Rect> {
+        if self.scene.context == scene_ui::SceneContext::Retained {
+            Some(self.timeline_ui(ctx, count, frame))
+        } else {
+            None
+        }
+    }
+    /// Paint playback only; frame/history/worker ownership stays with the caller.
+    fn timeline_ui(
+        &mut self,
+        ctx: &egui::Context,
+        count: usize,
+        frame: Option<&PreviewFrame>,
+    ) -> egui::Rect {
+        let mut controls = TimelineControls {
+            timeline_step: self.timeline_step,
+            track: self.track,
+            follow_live: self.follow_live,
+            playing: self.playing,
+            play_time: self.play_time,
+            playback_speed: self.playback_speed,
+            playback_speed_text: self.playback_speed_text.clone(),
+            playback_speed_invalid: self.playback_speed_invalid,
+        };
+        let request = self.running_request.as_ref();
+        // Freeze display context across sizing and interactive painting. A changed
+        // track is projected on the next frame, without measuring mutable history.
+        let track_caption = request.map_or_else(
+            || frame.map_or_else(String::new, |frame| frame.method.id().to_owned()),
+            |request| request.track_label(controls.track),
+        );
+        let panel_frame = egui::Frame::side_top_panel(&ctx.style());
+        let mut sizing_ui = egui::Ui::new(
+            ctx.clone(),
+            egui::Id::new("timeline-sizing"),
+            egui::UiBuilder::new()
+                .max_rect(ctx.available_rect())
+                .layout(egui::Layout::top_down(egui::Align::Min))
+                .invisible(),
+        );
+        // Invisible widgets still produce AccessKit nodes. Hide the measurement
+        // subtree so assistive technology receives only the real playback controls.
+        ctx.accesskit_node_builder(sizing_ui.id(), |node| node.set_hidden());
+        // Bottom panels reserve height before painting. Measure the same contents
+        // locally so cold frames and changing captions never rely on cached height.
+        // This disabled, disjoint-ID pass edits only a disposable scalar copy.
+        let mut sizing_controls = controls.clone();
+        let measured = panel_frame.show(&mut sizing_ui, |ui| {
+            sizing_controls.contents(ui, count, frame, request, &track_caption);
+        });
+        let response = egui::TopBottomPanel::bottom("timeline")
+            .frame(panel_frame)
+            .exact_height(measured.response.rect.height().ceil())
+            .show(ctx, |ui| {
+                controls.contents(ui, count, frame, request, &track_caption);
+            });
+        // Commit real interaction once. Never rerun App::update to measure layout.
+        self.timeline_step = controls.timeline_step;
+        self.track = controls.track;
+        self.follow_live = controls.follow_live;
+        self.playing = controls.playing;
+        self.play_time = controls.play_time;
+        self.playback_speed = controls.playback_speed;
+        self.playback_speed_text = controls.playback_speed_text;
+        self.playback_speed_invalid = controls.playback_speed_invalid;
+        response.response.rect
+    }
     fn controls(&mut self, ui: &mut egui::Ui) {
+        let configured = self.setup_workflow == SetupWorkflow::AcceptedSession;
+        let material_preview = self.material_mode && !configured;
         ui.heading("Rheon");
         ui.label(
             egui::RichText::new("LIVE FLUID LABORATORY")
@@ -1708,9 +2355,9 @@ impl App {
         ui.add_enabled_ui(self.worker.is_none() && !self.closing, |ui| {
             egui::CollapsingHeader::new("Domain & environment").default_open(false).show(ui, |ui| {
                 let previous_side=self.domain_side;
-                if self.material_mode {self.materials.domain(ui, &mut self.domain_side);} else {
+                if material_preview {self.materials.domain(ui, &mut self.domain_side);} else {
                     settings::quantity(ui,"Domain side",&mut self.domain_side,"m",0.01,0.001..=100.0);
-                    ui.small("Original demo: filled carrier fluid throughout the box.");
+                    ui.small("Filled carrier fluid throughout the box.");
                 }
                 if self.domain_side!=previous_side {
                     let scale=self.domain_side/previous_side;
@@ -1718,7 +2365,19 @@ impl App {
                     self.emitter.half_length*=scale;self.emitter.radius*=scale;self.emitter.nozzle_depth*=scale;
                 }
             });
-            if self.collision.show(ui, self.domain_side, self.material_mode) { self.reset_timeline(); }
+            if configured {
+                self.configured_controls.show(ui, self.worker.is_none());
+            } else {
+            let previous_mesh = self.collision.mesh.clone();
+            if self.collision.show(ui, self.domain_side, self.material_mode) {
+                match self.scene.replace_model(self.collision.mesh.is_some()) {
+                    Ok(()) => self.reset_timeline(),
+                    Err(error) => {
+                        self.collision.mesh = previous_mesh;
+                        self.collision.status = format!("Import rejected; previous mesh retained: {error}");
+                    }
+                }
+            }
             egui::CollapsingHeader::new("Fluid material").default_open(true).show(ui, |ui| {
                 ui.add_enabled_ui(self.material_mode,|ui|self.materials.fluid(ui));
             });
@@ -1729,17 +2388,19 @@ impl App {
                 } else if self.material_mode {ui.small("Emission off; only the initial domain contents evolve.");}
                 else {ui.small("Original smoke source; turns off halfway.");}
             });
+            }
             egui::CollapsingHeader::new("Simulation").default_open(false).show(ui, |ui| {
-                if ui.checkbox(&mut self.material_mode,"Liquid / gas material simulation").changed() {
+                if !configured && ui.checkbox(&mut self.material_mode,"Liquid / gas material simulation").changed() {
                     self.emitter.pressure_heads=if self.material_mode {[1000.0,800.0]} else {[0.12,0.08]};
                 }
-                ui.horizontal(|ui| {ui.label(if self.material_mode {"Adaptive preview edge"} else {"Numerical cells / axis (count mode)"});ui.add_enabled(self.material_mode || self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.size).range(4..=if self.material_mode {512}else{rheon::MAX_GRID_EDGE}).suffix("³"));});
+                let material_preview = self.material_mode && !configured;
+                ui.horizontal_wrapped(|ui| {ui.label(if material_preview {"Adaptive preview edge"} else {"Numerical cells / axis (count mode)"});ui.add_enabled(material_preview || self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.size).range(4..=if material_preview {512}else{rheon::MAX_GRID_EDGE}).suffix("³"));});
                 let mut physical = self.numerical_cells_per_metre.is_some();
                 if ui.checkbox(&mut physical,"Select physical sampling density").changed() {
                     self.numerical_cells_per_metre = physical.then_some(32);
                 }
                 if let Some(density) = &mut self.numerical_cells_per_metre {
-                    ui.add(egui::DragValue::new(density).range(1..=rheon::MAX_CELLS_PER_METRE).suffix(if self.material_mode {" particle samples/m"} else {" cells/m"}));
+                    ui.add(egui::DragValue::new(density).range(1..=rheon::MAX_CELLS_PER_METRE).suffix(if material_preview {" particle samples/m"} else {" cells/m"}));
                     ui.small("Counts = ceil(domain side × requested density); exact physical extent retained.");
                 }
                 egui::ComboBox::from_id_salt("preview-resolution-mode").selected_text(match self.preview_resolution {
@@ -1757,11 +2418,16 @@ impl App {
                     history::PreviewResolution::Adaptive => {}
                 }
                 ui.small("Preview is display resampling only. Finer voxels replicate appearance; physical sampling stays unchanged.");
-                ui.horizontal(|ui| {ui.label("Steps");ui.add(egui::DragValue::new(&mut self.steps).range(1..=10000));});
+                ui.horizontal_wrapped(|ui| {ui.label("Steps");ui.add(egui::DragValue::new(&mut self.steps).range(1..=10000));});
                 {
-                    ui.collapsing("Numerical recording (every accepted step)", |ui| {
+                    let recording_label = egui::WidgetText::from("Numerical recording (every accepted step)")
+                        .into_galley(ui, Some(egui::TextWrapMode::Wrap),
+                            (ui.available_width() - ui.spacing().indent - ui.spacing().button_padding.x).max(1.0),
+                            egui::TextStyle::Button);
+                    egui::CollapsingHeader::new(recording_label)
+                        .id_salt("Numerical recording (every accepted step)").show(ui, |ui| {
                         ui.label("Local recording directory");
-                        ui.text_edit_singleline(&mut self.recording_directory);
+                        ui.add(egui::TextEdit::singleline(&mut self.recording_directory).desired_width(ui.available_width()));
                         ui.add(egui::DragValue::new(&mut self.recording_database_mib).range(1..=16384).suffix(" MiB database cap"));
                         ui.add(egui::DragValue::new(&mut self.recording_record_mib).range(1..=64).suffix(" MiB per publication"));
                         ui.small("Retention: keep all; stop at limits. Caps apply per track/database; comparisons create separate archives. Record quota = requested steps + constructor. Files persist after reset; delete explicitly outside Rheon.");
@@ -1769,8 +2435,12 @@ impl App {
                     });
                 }
                 ui.small("Carrier inventory: native face velocity, cell appearance tracer, accepted interval pressure. Material inventory: particle attributes and preintegration diagnostics. Other Rheon session/lab backends are not recorded here.");
-                ui.horizontal(|ui| {ui.label("Timeline budget");ui.add(egui::DragValue::new(&mut self.history_budget_mib).range(16..=4096).suffix(" MiB"));});
-                let sampling = self.selected_sampling();
+                ui.horizontal_wrapped(|ui| {ui.label("Timeline budget");ui.add(egui::DragValue::new(&mut self.history_budget_mib).range(16..=4096).suffix(" MiB"));});
+                let sampling = if configured {
+                    self.selected_carrier_count().map(|size| (size, None))
+                } else {
+                    self.selected_sampling()
+                };
                 match &sampling {
                     Ok((size, material)) => {
                         let numerical = material.map_or(*size as usize, |m|m.samples_per_axis);
@@ -1791,16 +2461,20 @@ impl App {
                     }
                     Err(e) => {ui.colored_label(egui::Color32::LIGHT_RED,e);}
                 }
-                ui.small("Particle samples control physical detail; preview voxels control the image.");
+                ui.small(if material_preview {"Particle samples control physical detail; preview voxels control the image."} else {"Numerical cells control physical detail; preview voxels control the image."});
                 settings::quantity(ui,"Maximum step",&mut self.requested_dt,"s",0.001,0.000001..=0.1);
                 ui.small("Accepted time steps adapt to physical stability limits.");
-                if self.material_mode {
-                    ui.horizontal(|ui| {ui.label("Particle samples / side");ui.add_enabled(self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.materials.config.samples_per_axis).range(4..=64));});
+                if material_preview {
+                    ui.horizontal_wrapped(|ui| {ui.label("Particle samples / side");ui.add_enabled(self.numerical_cells_per_metre.is_none(),egui::DragValue::new(&mut self.materials.config.samples_per_axis).range(4..=64));});
 
-                    ui.horizontal(|ui| {ui.label("Particle limit");ui.add(egui::DragValue::new(&mut self.materials.config.max_particles).range(32768..=262144));});
+                    ui.horizontal_wrapped(|ui| {ui.label("Particle limit");ui.add(egui::DragValue::new(&mut self.materials.config.max_particles).range(32768..=262144));});
                     settings::quantity(ui,"Liquid preview stiffness",&mut self.materials.config.liquid_sound_speed,"m/s",1.0,1.0..=100.0).on_hover_text("Reduced acoustic speed for a weakly compressible preview; higher stiffness needs shorter steps. Gas pressure uses the ideal-gas equation.");
                 } else {
-                    egui::ComboBox::from_id_salt("implementation").selected_text(self.selected.label()).width(240.0).show_ui(ui,|ui| {
+                    let pressure_label = egui::WidgetText::from(self.selected.label()).into_galley(
+                        ui, Some(egui::TextWrapMode::Wrap),
+                        (ui.available_width() - 2.0 * ui.spacing().button_padding.x - ui.spacing().icon_spacing - ui.spacing().icon_width).max(1.0),
+                        egui::TextStyle::Button);
+                    egui::ComboBox::from_id_salt("implementation").selected_text(pressure_label).width(ui.available_width().min(240.0)).show_ui(ui,|ui| {
                         for method in PressureImplementation::ALL {ui.selectable_value(&mut self.selected,method,method.label());}
                     });
                     ui.checkbox(&mut self.tight,"Tight pressure tolerance");
@@ -1808,44 +2482,31 @@ impl App {
             });
             egui::CollapsingHeader::new("CPU workers").default_open(false).show(ui, |ui| {
                 if ui.checkbox(&mut self.automatic_threads,"Automatic hardware detection").changed() {self.refresh_threads(available_threads());}
-                ui.horizontal(|ui| {ui.add_enabled(!self.automatic_threads,egui::DragValue::new(&mut self.threads).range(1..=self.thread_limit));ui.label(format!("/ {} available",self.thread_limit));});
+                ui.horizontal_wrapped(|ui| {ui.add_enabled(!self.automatic_threads,egui::DragValue::new(&mut self.threads).range(1..=self.thread_limit));ui.label(format!("/ {} available",self.thread_limit));});
                 ui.checkbox(&mut self.show_workers,"Orange worker voxel boxes").on_hover_text("Sampled actual worker positions; diagnostics add calculation overhead.");
             });
-            ui.add_space(8.0);
-            if ui.add_sized([ui.available_width(),32.0],egui::Button::new("▶ Simulate")).clicked() {self.start(false);}
-            if ui.button("Reset timeline (keep mesh)").clicked() { self.reset_timeline(); self.status = "Ready to repeat simulation with accepted mesh".into(); }
+            if !configured {
+            ui.collapsing("Comparisons & reset", |ui| {
+            if ui.button("Clear timeline").clicked() { self.reset_timeline(); self.status = "Ready to repeat simulation with accepted mesh".into(); }
+            ui.small("Keeps mesh and saved recordings.");
             if !self.material_mode {
                 ui.checkbox(&mut self.save_native_set, "Save immutable native run set");
                 ui.small("Fixed actual dt; a shortened step retains its archive and reports unsupported saved intent.");
                 if ui.button("Compare both pressure solvers").clicked() {self.start(true);}
             }
-            if ui.add_enabled(self.worker.is_none(), egui::Button::new("Compare Rheon / trained AI")).clicked() {
+            if ui.add_enabled(self.worker.is_none() && self.scene.launch_readiness(force_run_policy::Target::Unsupported).is_ok(), egui::Button::new("Compare Rheon / trained AI")).clicked() {
                 let mut comparison = ai_comparison::ComparisonApp::new(String::new(),std::env::current_dir().unwrap_or_default().join(".generated/ai-comparison"));
                 comparison.set_steps(self.steps.clamp(1,512));
                 self.ai_comparison = Some(comparison);
             }
-
+            });
+            }
         });
-        if let Some(w) = &self.worker {
-            ui.add_space(8.0);
-            let n = w.progress.load(Ordering::Relaxed);
-            ui.add(
-                egui::ProgressBar::new(n as f32 / w.total as f32)
-                    .text(format!("{n}/{} steps", w.total)),
-            );
-            if ui.button("■ Cancel simulation").clicked() {
-                self.cancel();
-            }
-            if let Some((_, step, elapsed)) = w.history.timing() {
-                ui.label(format!("Calculating step {step} · {elapsed:.3} s"));
-            }
-        }
-        ui.label(&self.status);
         egui::CollapsingHeader::new("Viewport & navigation").default_open(false).show(ui, |ui| {
             ui.checkbox(&mut self.viewport.touchpad_mode,"Touchpad scroll / two-finger orbit").on_hover_text("Enable when your touchpad reports wheel events. Shift pans; Ctrl zooms. Native pinch is supported.");
             ui.checkbox(&mut self.viewport.camera.orthographic,"Orthographic");
             if ui.button("Frame scene [Home]").clicked() {self.viewport.camera=viewport::OrbitCamera::default();}
-            ui.horizontal(|ui| {ui.label("Surface threshold");ui.add(egui::Slider::new(&mut self.viewport.threshold,1..=80).show_value(false));});
+            ui.horizontal_wrapped(|ui| {ui.label("Surface threshold");ui.add(egui::Slider::new(&mut self.viewport.threshold,1..=80).show_value(false));});
             ui.label("Mouse: middle drag orbit, Shift+middle pan, wheel zoom.");
             ui.label("Touchpad: left drag orbit, Shift+left pan, Ctrl+left zoom. Two-finger orbit, Shift-scroll pan, pinch/Ctrl-scroll zoom.");
             ui.label("1 front · 3 right · 7 top · 5 perspective/ortho · Home frame");
@@ -2042,134 +2703,52 @@ impl eframe::App for App {
             self.workflow_window(ctx);
             return;
         }
+        if self.scene.context == scene_ui::SceneContext::Draft {
+            self.playing = false;
+        }
         if self.playing {
             self.play_time += self.playback_speed * ctx.input(|i| i.stable_dt.min(0.1)) as f64;
         }
-        let (count, frame) = self.selected_frame();
-        self.sidebar(ctx);
+        if self.scene.open && ctx.content_rect().width() < 1100.0 {
+            self.scene_run_strip(ctx);
+        } else {
+            self.sidebar(ctx);
+        }
         if self.archive.active || self.run_sets.active || self.saved_comparison_active {
             ctx.request_repaint();
             return;
         }
-        egui::TopBottomPanel::bottom("timeline")
-            .min_height(106.0)
-            .show(ctx, |ui| {
-                ui.horizontal_wrapped(|ui| {
-                    if ui
-                        .button(if self.playing {
-                            "❚❚ Pause"
-                        } else {
-                            "▶ Play"
-                        })
-                        .clicked()
-                    {
-                        self.follow_live = false;
-                        self.playing = !self.playing;
-                        if self.timeline_step + 1 >= count {
-                            self.timeline_step = 0;
-                            self.play_time = 0.0;
-                        } else {
-                            self.play_time = frame.as_ref().map_or(0.0, |f| f.time);
-                        }
-                    }
-                    if ui.button("◀ Step").clicked() {
-                        self.follow_live = false;
-                        self.playing = false;
-                        self.timeline_step = self.timeline_step.saturating_sub(1);
-                    }
-                    if ui.button("Step ▶").clicked() {
-                        self.follow_live = false;
-                        self.playing = false;
-                        self.timeline_step = (self.timeline_step + 1).min(count.saturating_sub(1));
-                    }
-                    ui.checkbox(&mut self.follow_live, "Follow live");
-                    if self.follow_live {
-                        self.playing = false;
-                    }
-                    ui.add(
-                        egui::DragValue::new(&mut self.playback_speed)
-                            .speed(0.1)
-                            .range(0.1..=4.0)
-                            .suffix("× playback"),
-                    );
-                    if let Some(request) = &self.running_request
-                        && request.material.is_none()
-                    {
-                        egui::ComboBox::from_id_salt("timeline-track")
-                            .selected_text(request.track_label(self.track))
-                            .show_ui(ui, |ui| {
-                                for track in 0..request.methods.len() {
-                                    if ui
-                                        .selectable_value(
-                                            &mut self.track,
-                                            track,
-                                            request.track_label(track),
-                                        )
-                                        .clicked()
-                                    {
-                                        self.follow_live = false;
-                                        self.playing = false;
-                                        self.timeline_step = 0;
-                                    }
-                                }
-                            });
-                    }
-                });
-                ui.style_mut().spacing.slider_width = (ui.available_width() - 155.0).max(150.0);
-                if ui
-                    .add_enabled(
-                        count > 0,
-                        egui::Slider::new(&mut self.timeline_step, 0..=count.saturating_sub(1))
-                            .text("Step"),
-                    )
-                    .changed()
-                {
-                    self.follow_live = false;
-                    self.playing = false;
-                }
-                if let Some(frame) = &frame {
-                    ui.horizontal_wrapped(|ui| {
-                        ui.label(format!(
-                            "{} · Step {} / {}",
-                            if frame.material_color.is_some() {
-                                "Material fluid".to_owned()
-                            } else {
-                                self.running_request.as_ref().map_or_else(
-                                    || frame.method.id().to_owned(),
-                                    |request| request.track_label(self.track),
-                                )
-                            },
-                            frame.step,
-                            count.saturating_sub(1)
-                        ));
-                        ui.separator();
-                        ui.label(format!("Simulated {}", settings::duration(frame.time)));
-                        ui.separator();
-                        ui.label(if frame.step == 0 {
-                            "Initial state".into()
-                        } else {
-                            format!("Step calculation {}", settings::duration(frame.seconds))
-                        });
-                        if let Some(r) = frame.particle_report {
-                            ui.separator();
-                            ui.label(format!(
-                                "{} particles · {:.6} kg · {:.1} °C",
-                                r.particles,
-                                r.total_mass,
-                                r.mean_temperature_kelvin - 273.15
-                            ));
-                        }
-                        if let Some(report) = frame.report {
-                            ui.separator();
-                            ui.label(format!(
-                                "{} pressure iterations · divergence {:.2e}",
-                                report.pressure.iterations, report.actual_divergence_max
-                            ));
-                        }
-                    });
-                }
-            });
-        let workers = if self.follow_live && self.show_workers {
+        let retained_view = self.prepare_scene_presentation();
+        let model_mesh = if self.scene.context == scene_ui::SceneContext::Retained {
+            self.running_request
+                .as_ref()
+                .and_then(|request| request.collision_mesh.as_ref())
+        } else {
+            self.collision.mesh.as_ref()
+        };
+        let model = model_mesh.map(|mesh| scene_ui::ModelSummary {
+            triangles: mesh.triangles().len(),
+            bounds: mesh.bounds(),
+        });
+        let previous_context = self.scene.context;
+        self.scene.show(
+            ctx,
+            self.running_request.is_some(),
+            self.worker.is_some(),
+            model,
+            self.setup_workflow.force_target(self.material_mode),
+        );
+        if previous_context != self.scene.context {
+            self.playing = false;
+        }
+        let retained = self.scene.context == scene_ui::SceneContext::Retained;
+        let (count, selected) = if retained {
+            retained_view.unwrap_or_else(|| self.selected_frame_bound_track())
+        } else {
+            (0, None)
+        };
+        self.scene_timeline_ui(ctx, count, selected.as_deref());
+        let workers = if retained && self.follow_live && self.show_workers {
             self.worker
                 .as_ref()
                 .and_then(|w| w.observer.as_ref())
@@ -2180,11 +2759,13 @@ impl eframe::App for App {
         let domain_side = self
             .running_request
             .as_ref()
+            .filter(|_| retained)
             .map_or(self.domain_side, |r| r.domain_side);
         self.viewport.domain_side = domain_side;
         let emitter = self
             .running_request
             .as_ref()
+            .filter(|_| retained)
             .map_or(self.cylinder.then_some(self.emitter), |r| r.emitter)
             .map(|mut e| {
                 e.center = e.center.map(|v| v / domain_side);
@@ -2198,19 +2779,35 @@ impl eframe::App for App {
         self.viewport.collision_mesh = self
             .running_request
             .as_ref()
+            .filter(|_| retained)
             .map_or_else(|| self.collision.mesh.clone(), |r| r.collision_mesh.clone());
-        let grid = self.running_request.as_ref().map_or(self.size, |r| r.size) as usize;
-        let (_, frame) = self.selected_frame();
+        let grid = self
+            .running_request
+            .as_ref()
+            .filter(|_| retained)
+            .map_or(self.size, |r| r.size) as usize;
+        self.viewport.authored_forces_pending = !self.scene.display_scene().objects.is_empty();
+        let frame = selected;
+        let editable_scene =
+            self.worker.is_none() && self.scene.context == scene_ui::SceneContext::Draft;
         egui::CentralPanel::default()
             .frame(egui::Frame::NONE)
             .show(ctx, |ui| {
-                self.viewport.show(
+                self.viewport.show_scene(
                     ui,
-                    frame,
-                    emitter,
-                    &workers,
-                    grid,
-                    self.history.as_ref().map(|h| &h.inspector),
+                    viewport::ViewInputs {
+                        frame,
+                        emitter,
+                        workers: &workers,
+                        grid_edge: grid,
+                        inspector: self
+                            .history
+                            .as_ref()
+                            .filter(|_| retained)
+                            .map(|h| &h.inspector),
+                        scene: Some(&mut self.scene),
+                        editable_scene,
+                    },
                 )
             });
         self.workflow_window(ctx);
@@ -2227,6 +2824,7 @@ impl Drop for App {
         }
     }
 }
+#[cfg(not(test))]
 fn main() -> eframe::Result {
     eframe::run_native(
         "Rheon / Live 3D",
@@ -2269,6 +2867,9 @@ fn main() -> eframe::Result {
                 app.collision
                     .apply(app.domain_side)
                     .map_err(std::io::Error::other)?;
+                app.scene
+                    .replace_model(true)
+                    .map_err(std::io::Error::other)?;
             }
             if run {
                 app.start(false);
@@ -2277,6 +2878,11 @@ fn main() -> eframe::Result {
         }),
     )
 }
+#[cfg(test)]
+fn main() -> eframe::Result {
+    native_presentation_harness::run_native_presentation()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2699,6 +3305,7 @@ mod tests {
     #[test]
     fn material_worker_accepts_and_captures_a_genuine_256_cube_preview() {
         let request = Request {
+            force_fields: Vec::new(),
             collision_mesh: None,
             size: 256,
             steps: 1,
@@ -2918,6 +3525,7 @@ mod tests {
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
+            force_fields: Vec::new(),
             collision_mesh: None,
             size: 32,
             steps: 64,
@@ -2979,6 +3587,7 @@ mod tests {
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
+            force_fields: Vec::new(),
             collision_mesh: None,
             size: 32,
             steps: 3,
@@ -3066,6 +3675,7 @@ mod tests {
         let (reached, first_step) = std::sync::mpsc::sync_channel(1);
         let (release, resume) = std::sync::mpsc::sync_channel(1);
         let request = Request {
+            force_fields: Vec::new(),
             collision_mesh: None,
             size: app.size,
             steps: app.steps,
@@ -3153,6 +3763,7 @@ mod tests {
     #[test]
     fn worker_runs_selected_and_equal_input_comparison() {
         let request = Request {
+            force_fields: Vec::new(),
             collision_mesh: None,
             size: 8,
             steps: 4,
@@ -3250,6 +3861,7 @@ mod tests {
         assert!(
             run(
                 Request {
+                    force_fields: Vec::new(),
                     collision_mesh: None,
                     size: 8,
                     steps: 4,

@@ -1,0 +1,70 @@
+{
+  "case": "material",
+  "command": [
+    "/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f",
+    "force_runtime_integration_tests::material_force_dispatch_records_immutable_scene",
+    "--exact",
+    "--ignored",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "limits": {
+    "wall_timeout_seconds": 30,
+    "cpu_seconds": 20,
+    "address_space_bytes": 536870912,
+    "per_file_and_log_bytes": 1048576,
+    "term_grace_seconds": 1,
+    "core_bytes": 0
+  },
+  "source_commit": "3b3fccea3657d711897130643a478adb48b5edd0",
+  "data": "/workspace/scratch/rheon-ui-force-worker-execution-20261021/material/DATA",
+  "capture": "/workspace/scratch/rheon-ui-force-worker-execution-20261021/material/capture",
+  "test_body_invocation_attempted": true,
+  "actions": [],
+  "binary_sha256": "af2da1539521e10407ac73b11cd58494118aa93a3f99ed529b11697ed85727b5",
+  "binary_bytes": 480456920,
+  "source_manifest_sha256": "603a0edf75b255b6ba217aaa6e72632a5e3ab16eb8997fe0013fa7a1175fbafc",
+  "supervisor_sha256": "b7f13a3bdee65a6d4345ddbc0a0eaa7ddef7d64e4224633d63e16f8db1046444",
+  "pid": 59778,
+  "elapsed_seconds_including_teardown": 0.032914473998971516,
+  "exit_code": 0,
+  "group_present_after_wait": false,
+  "observed_child_cpu_seconds": {
+    "user": 0.010936999999999999,
+    "system": 0.009525
+  },
+  "individual_peak_memory": "not measured; address-space limit is not a measurement",
+  "captured_bytes": 567,
+  "log_sha256": "822087d8721d2a3da1fe4bb09de5346931338c9011cb0ff291bf1a9609f33d3d",
+  "result": "passed-one-exact-case",
+  "child_pid_present": false,
+  "data_inventory": [
+    {
+      "path": "material-1792543046180951263-59778-0.sqlite",
+      "bytes": 49152,
+      "kind": "file",
+      "sha256": "17ace71c0ed82ea905b11b90fdb1ff0413afddb5f700ad4a84a249abb26c14d5"
+    }
+  ],
+  "capture_inventory_before_receipt": [
+    {
+      "path": "combined.log",
+      "bytes": 567,
+      "kind": "file",
+      "sha256": "822087d8721d2a3da1fe4bb09de5346931338c9011cb0ff291bf1a9609f33d3d"
+    },
+    {
+      "path": "preflight-seals.json",
+      "bytes": 1093,
+      "kind": "file",
+      "sha256": "708130c2b29d3752caaf9c1684565b430c3d144d4489b4f111a1cf01cf8c8ebc"
+    },
+    {
+      "path": "supervisor.py",
+      "bytes": 7733,
+      "kind": "file",
+      "sha256": "b7f13a3bdee65a6d4345ddbc0a0eaa7ddef7d64e4224633d63e16f8db1046444"
+    }
+  ],
+  "temporary_file_peak": "unknown; final inventory is not aggregate or anonymous peak enforcement"
+}

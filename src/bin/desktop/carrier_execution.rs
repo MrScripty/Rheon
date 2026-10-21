@@ -13,12 +13,16 @@ const GUIDANCE_PIXEL_BUDGET: usize = 1024 * 1024;
 pub(crate) enum AdvanceError {
     Native(rheon::SimulationError),
     Session(rheon::SessionError),
+    Unsupported,
 }
 impl std::fmt::Display for AdvanceError {
     fn fmt(&self, out: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Native(error) => error.fmt(out),
             Self::Session(error) => error.fmt(out),
+            Self::Unsupported => out.write_str(
+                "Authored fields require native carrier execution; configured owner unsupported",
+            ),
         }
     }
 }
@@ -51,6 +55,7 @@ impl AdvanceError {
                 )
                 | LiquidStepError::Volume(LiquidVolumeError::Cancelled { .. }),
             )) => Cause::Cancelled,
+            Self::Unsupported => Cause::StartupFailure,
             _ => Cause::NumericalFailure,
         }
     }
@@ -128,9 +133,26 @@ impl CarrierExecution {
         request: &Request,
         source: Option<SmokeSource>,
         cancelled: &AtomicBool,
+        fields: Option<&rheon::ForceSnapshot>,
     ) -> Result<StepReport, AdvanceError> {
         match self {
             Self::Native(sim) => {
+                if let Some(fields) = fields {
+                    return if let Some(emitter) = request.emitter {
+                        sim.step_with_emitter_and_force_fields(
+                            request.requested_dt,
+                            emitter,
+                            fields,
+                            |_| cancelled.load(Ordering::Relaxed),
+                        )
+                    } else {
+                        sim.step_with_force_fields(request.requested_dt, source, fields, |_| {
+                            cancelled.load(Ordering::Relaxed)
+                        })
+                    }
+                    .map(|report| report.step)
+                    .map_err(AdvanceError::Native);
+                }
                 let result = if let Some(emitter) = request.emitter {
                     sim.step_with_emitter(request.requested_dt, emitter, |_| {
                         cancelled.load(Ordering::Relaxed)
@@ -142,6 +164,7 @@ impl CarrierExecution {
                 };
                 result.map_err(AdvanceError::Native)
             }
+            Self::Configured(_) if fields.is_some() => Err(AdvanceError::Unsupported),
             Self::Configured(track) => track
                 .advance(None)
                 .map(|report| report.carrier.step)

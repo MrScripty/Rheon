@@ -1,6 +1,14 @@
 # Repository integration disposition — 2026-10-20
 
-This report reconciles current implementation and numerical-route facts. It does not replace frozen protocols, raw fields, failed evaluations or prior qualification. Source and acceptance scopes are separate from hosted integration readiness. Initial main was `bc2f472787060d9a69cb619ed2c2fea10fd754b6`. After direct merge confirmation, PR120 and PR119 merged; verified main is `718469beedb9a949f4bb6f3299c7b880b4c47e47`. The [fixed staged qualification](native-admission-20261020/qualification.md) is separately bound to exact clean `9c04278`; it does not qualify later Q2 inputs. A separate [dependent qualification](q2-admission-20261020/qualification.md) passes on clean `9a9904f`; fixed PR133/8bf542e and its earlier execution remain unchanged.
+Current PR138 work on 2026-10-21 is a **preliminary** isolated composition of its
+retained source with frozen PR142 `dbd49d3`, authorized by the sole integration
+lead. Its complete 152-path closure changes only two Cargo inputs; source review
+and fresh validation are recorded [separately](pr138-integration-20261021/protocol.md).
+PR142 has not yet landed. Final readiness requires the verified merged dependency,
+exact-source revalidation and lead merge. The dated dispositions below retain
+their historical tested sources and do not qualify this preliminary composition.
+
+This report reconciles historical implementation and numerical-route facts. It does not replace frozen protocols, raw fields, failed evaluations or prior qualification. Source and acceptance scopes are separate from hosted integration readiness. Initial main was `bc2f472787060d9a69cb619ed2c2fea10fd754b6`. After direct merge confirmation, PR120 and PR119 merged; verified main is `718469beedb9a949f4bb6f3299c7b880b4c47e47`. The [fixed staged qualification](native-admission-20261020/qualification.md) is separately bound to exact clean `9c04278`; it does not qualify later Q2 inputs. A separate [dependent qualification](https://github.com/MrScripty/Rheon/blob/a6bfcc94481b1bafbe61be804a1abc3426927bbd/docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md) passes on clean `9a9904f`; fixed PR133/8bf542e and its earlier execution remain unchanged.
 
 ## Exact reviewed subjects and dependencies
 
@@ -21,7 +29,11 @@ This report reconciles current implementation and numerical-route facts. It does
 | [132](https://github.com/MrScripty/Rheon/pull/132) | `e6525a116a07af486e4a682cc2b157241d6b9150` | Private exact represented-source face/region predicates; tested source `0f4e7e0`, independently reviewed fixed corpus 0 mismatches / 76,384 faces / 152,780 regions. New exact-reference dev dependencies are separately admitted, not folded into fixed PR133. |
 | [134](https://github.com/MrScripty/Rheon/pull/134) | `f84f65104d6a0f6f8f1a9b903412b1e5155f72a2` | Eight private aligned coupled M/B/S/W/KKT algebra/direct-solve cases at tested source `06b3190`, stacked on 132. Separate complete Cargo-closure qualification passes at `9a9904f`; general cut/free-surface/PDE/production acceptance remains pending. |
 | [135](https://github.com/MrScripty/Rheon/pull/135) | `4f8bd22669efed62e84c0062ee1baec27393e830` | CV1 cut-cell operator/physical-trace reference stacked on 134, frozen numerical source `6d99e7794a6aa69f5886bb15cc662e40ea43cd40`. Four native fixtures and independent exact reconstruction pass bounded gates; all 68 active zero-old-dual coefficients retained. Ten contracts pass in each debug/release mode and 45 evaluator checks pass. Square mass condition 6.53e11 leaves coupled conditioning, mixed-pair stability and PDE accuracy open; no solve/timestep/production admission. Excluded from this stage; source/admission and hosted integration remain separate. |
-| [136](https://github.com/MrScripty/Rheon/pull/136) | `e56bc7bd31ea8e8121f09cba15eb8a2bc5e514e4` | Bounded C1-B2 native Session/custody stacked on fixed PR133. Owner results retained, but separate 140-input admission and assigned legacy G1 advection-cancellation label follow-up remain pending; excluded from this Q2 stage. |
+| [138](https://github.com/MrScripty/Rheon/pull/138) | `a6bfcc94481b1bafbe61be804a1abc3426927bbd` | Separate PR132/134 Cargo closure: actual qualification `9a9904f`, 135 inputs, 18 native commands, 26+26 real packet and 83 focused tests. Independently reviewed public draft on fixed PR133; no physical/PDE promotion. Q2 dependencies and admission bytes are excluded from the current 140-input stage. |
+| [136](https://github.com/MrScripty/Rheon/pull/136) | `e56bc7bd31ea8e8121f09cba15eb8a2bc5e514e4` | Bounded C1-B2 native Session/custody stacked on fixed PR133. Owner results retain exact core634404e/consumera6e76a9; combined with final PR137, fresh separate 140-input qualification passes at `186dc0a`. Closed native Session/custody only; full replacement/hosted acceptance remains pending. |
+| [137](https://github.com/MrScripty/Rheon/pull/137) | `d3e62377acde6641c8133cf9a9356cc046cfd02a` | Three-line typed legacy cancellation label repair at tested `70da36d`, plus live/cold/pressure-failure tests. Owner 226 passing executions/5 existing ignores remain separately attributed. Fresh 140-input stage `186dc0a` includes this exact source; historical Failed receipts and no-publication behavior remain. |
+| [139](https://github.com/MrScripty/Rheon/pull/139) | `902f6092de6044419d028f92dabd8e59ae7a87ba` | Separate CV2 static conditioned cut-cell reference on PR135; owner qualification reports 24 fixed cases, independent R1/R2 reconstruction and 45 evaluator checks passing at numerical source b0a9d52. Generic stability/PDE/production gates remain open; excluded from fixed lead stages. |
+| [140](https://github.com/MrScripty/Rheon/pull/140) | `5dc1741feffa88b857194559b3e7e79be5369a64` | Separate C1-B3 producer selection on PR137; owner 227 passing / 5 existing ignored at core4af3802/consumer9ddf8d2. Initial compile/refusal-category failures and bounded repairs retained. Eight selected pins change from PR137; separate clean `3b3b667` passes complete 140-input admission and fresh native/rational/packet plus 228 focused contracts. Exact-head hosted gates pending; excluded from 186dc0a. |
 
 An object-only merge preview of C1-A `91b2038` with Q1 `dfcc693` completed without conflicts and produced tree `dbccbf5c0002c33a059e9a355bd25793a9411134`. It changes no branch or worktree and proves only merge-text compatibility, not source admission, runtime correctness or qualification.
 
@@ -39,7 +51,7 @@ Q1 source/protocol/results are now delivered by the existing numerical worker in
 
 The old [Pages job118402469851](https://github.com/MrScripty/Rheon/actions/runs/39353360544/job/118402469851) refused a stale complete native inventory before numerical comparison. Intermediate read-only counts were129 for G1 and133 for C1-A. Complete staged composition has135 paths: 11 added, 16 changed, 108 unchanged, 0 removed versus admitted main `bc2f472`. The explicit v3 refresh preserves historical review text, both frozen predecessor inventories, primary tree, complete selector and refusal checks. Independent per-path, mechanism, iteration-delta and final-metadata reviews approve this fixed source.
 
-Fresh qualification on clean `9c04278` passed18 unchanged qualifier commands,35 Rust tests, five actual native specimens with rational/adversarial comparisons, a new real packet and 26 normal + 26 optimized packet tests with no skips. Separate focused no-default composed contracts pass 72 tests. Exact source/tree, inventory/review/ELF/receipt/artifact hashes, environment, archive and limits are in the [staged report](native-admission-20261020/qualification.md). That fixed stage excludes subsequent Q2 boundary work. The separate PR132/134 admission now passes on clean `9a9904f` with 135 inputs (0 added / 2 Cargo changes / 133 unchanged / 0 removed), all 18 native commands, new real packet tests 26 normal + 26 optimized without skips, and 83 focused tests. Exact source, dependency licenses/checksums, executable/receipt/archive identities and independent execution audit are in the [dependent report](q2-admission-20261020/qualification.md). This is not a rerun or relabelling of component scientific campaigns. Hosted Pages/browser/publication, full desktop and physical acceptance remain separate; this local pass does not turn the old failing hosted job green.
+Fresh qualification on clean `9c04278` passed18 unchanged qualifier commands,35 Rust tests, five actual native specimens with rational/adversarial comparisons, a new real packet and 26 normal + 26 optimized packet tests with no skips. Separate focused no-default composed contracts pass 72 tests. Exact source/tree, inventory/review/ELF/receipt/artifact hashes, environment, archive and limits are in the [staged report](native-admission-20261020/qualification.md). That fixed stage excludes subsequent Q2 boundary work. The separate PR132/134 admission now passes on clean `9a9904f` with 135 inputs (0 added / 2 Cargo changes / 133 unchanged / 0 removed), all 18 native commands, new real packet tests 26 normal + 26 optimized without skips, and 83 focused tests. Exact source, dependency licenses/checksums, executable/receipt/archive identities and independent execution audit are in the [dependent report](https://github.com/MrScripty/Rheon/blob/a6bfcc94481b1bafbe61be804a1abc3426927bbd/docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md). This is not a rerun or relabelling of component scientific campaigns. Hosted Pages/browser/publication, full desktop and physical acceptance remain separate; this local pass does not turn the old failing hosted job green.
 
 PR131 reproduces six standalone/cold-terminal workflow iteration failures and fixes native cap/zero candidate-count validation, including later cancellation/failure. Matching forged RCP4 inner/outer counts already failed the legacy gate; no RCP4 bypass is claimed. Source `34e2e73` has owner 135 passing executions and three reviews; stage `9c04278` independently verifies the exact two changed selected files and passes 23 workflow tests. Cap-zero candidates, rejected IEEE diagnostics and old profiles retain their meanings.
 
@@ -47,7 +59,7 @@ PR130/c2fbbea promotes all 15 original assertions in four reusable evaluators to
 
 Historical G1/C1-A raw GUI/performance directories remain with their recorded owners and were not rehashed here. The new native/rational/packet/focused evidence and executable were actually generated here and are source-bound; no old screenshot, performance or physical claim is relabelled.
 
-The later C1-B2 review reproduced a legacy configured-Session advection cancellation label defect: the numerical result is cancellation and no state is published, but the attempt is labelled Failed. That unchanged legacy path also exists in fixed `9c04278` and `9a9904f`; their passing workflow suites do not resolve it. Full G1-C outcome-label acceptance for this path remains open. The assigned small owner repair is separate from all three fixed source closures.
+The later C1-B2 review reproduced a legacy configured-Session advection cancellation label defect: the numerical result is cancellation and no state is published, but the attempt is labelled Failed. That unchanged legacy path also exists in fixed `9c04278` and `9a9904f`; their passing workflow suites do not resolve it. Full G1-C outcome-label acceptance for this path remained open in those fixed subjects. PR137/70da36d subsequently repairs only that classification. The new `186dc0a` stage includes exact final PR137/d3e6237 and passes 26 workflow checks within its full 85-test library run. Earlier fixed 9c/9a remain unchanged; historical Failed archives are not reinterpreted.
 
 ## Authority and protected work
 
@@ -56,3 +68,80 @@ Earlier automatic approval denials remain retained. After direct user confirmati
 The three original owner worktrees and all original local branches are protected by a before snapshot. PR59 remains at `7f1733f0dc956ef8f25d5b110d990117fb765903`, draft and unresolved; this effort changes neither its implementation nor its evidence. No production code, numerical fixture, old manifest, proof, dependency, workflow gate, user data, model or source branch is rewritten by this reconciliation.
 
 V1 physical validation still needs independent numeric observations, sensor geometry/timing/filtering and uncertainty, plus a qualified pressure/load measurement operator when comparing loads. Those missing inputs block V1 only. They do not block Q1/Q2 reference verification or classical composition fixtures. No A1 substitute, physical validation, GPU, new native interaction or performance result is manufactured here.
+
+
+## Separate closed projection and cancellation source qualification
+
+Clean `186dc0a18f787748eb723d91321e44ffd0e374d5`, tree
+`3c19a1c1f4a549c782d619145a841a0b43abedac`, retains exact PR136/137 and
+fixed PR133. Independent complete review covers 140 inputs: five added, eleven
+changed, 124 unchanged, none removed versus PR133. Exactly three existing pins
+change after PR136. Fresh unchanged native/rational qualification and a real
+packet pass; separately recorded no-default library, integrated projection,
+legacy recording/volume and borrow checks are in the
+[new result](c1b2-admission-20261020/qualification.md).
+
+This stage excludes Q2's changed Cargo inputs and all later reference code.
+PR138's independently qualified source and results remain explicit external
+history, linked at its exact documentation head. Future joint composition must
+reconcile these separate active v3 inventories/review appends and independently
+review the complete combined closure before fresh applicable qualification.
+Neither stage's receipt transfers across that source change.
+
+The final live read confirms the separately owned C1-B3 implementation in PR140
+at `5dc1741feffa88b857194559b3e7e79be5369a64`, tested core
+`4af3802babe332d8dfeb926c19159b4b656be775` and consumer
+`9ddf8d2fd860c73bbcc35a077e08099d894db07a` (one UI test API correction). It adds closed stateless classical
+producer selection, distinct full-cap native fallback and additive RPS2/RPP2/RPT2
+custody. Initial source d7928c8 passed its integrated selection fixtures but a
+wider run retained 94 passes and one old-profile foreign-version refusal-category
+failure. A bounded ingress repair and 14 focused persistence checks pass. Final owner
+qualification reports 227 passing, zero failing and five existing ignored
+executions, including 200 actually selected native intervals bitwise against the
+same-producer baseline. These are owner-attributed results, not a lead rerun.
+The separately reviewed clean stage `3b3b667` now passes complete 140-input
+admission and fresh native/rational/packet plus 228 focused contracts; exact-head
+hosted gates remain pending. No new composition implementation milestone is admitted. Its 140-input
+closure changes eight pins from PR137 and is excluded from the qualified 186dc0a
+stage. Its [separate prospective protocol](https://github.com/MrScripty/Rheon/blob/9ddf8d2fd860c73bbcc35a077e08099d894db07a/docs/plans/fluid-accuracy-composition/reports/c1b3-protocol.md) records its own implementation admission; this fixed-stage report supplies no new source-admission approval.
+Full C1-B/C/R, stateful/external transactions and whole-family/transfer remain
+unaccepted. No production implementation is authored by this lead.
+
+The same read found PR139 at `902f6092de6044419d028f92dabd8e59ae7a87ba`, stacked
+on PR135. Its [source-pinned qualification](https://github.com/MrScripty/Rheon/blob/902f6092de6044419d028f92dabd8e59ae7a87ba/docs/plans/fluid-accuracy-composition/q2-cut-solve/qualification.md) and [independent review](https://github.com/MrScripty/Rheon/blob/902f6092de6044419d028f92dabd8e59ae7a87ba/docs/plans/fluid-accuracy-composition/q2-cut-solve/independent-review.md) report the CV2 static 24-case
+conditioning/coupled-solve reference locally accepted at numerical source
+`b0a9d52cc266cb651c5e67c07ec5f4f82419db55`: native checks, independent 80/120-digit
+R1 exported-target and R2 exact-integral comparisons, 15 contracts in each debug/
+release mode and 45 evaluator checks pass. This is owner-reported bounded
+reference evidence, not a lead rerun or new raw-artifact audit. The unscaled
+comparator's six square-case velocity-accuracy failures remain retained despite
+passing residuals. Original mass condition 6.53e11 remains; no basis/support/
+pressure removal, floor or fallback is introduced. Generic stability, finer-mesh/
+PDE convergence, boundary lifting, evolving geometry/transport and production
+acceptance remain open. This source is excluded from both fixed lead stages.
+
+## Next numerical admission
+
+[CV3-A](cv3a-admission.md) admits the existing numerical owner to prepare the
+nine-case static polynomial polygon MMS, source/write set, independent oracle
+and resource freeze before one separately reviewed private campaign. It changes
+no production owner or capability. No numerical result exists. Canonical disk,
+generic stability/PDE, moving geometry and production remain unqualified.
+
+## Separate C1-B3 stage qualification
+
+Fixed [PR141](https://github.com/MrScripty/Rheon/pull/141) is
+`38c40ca7b4b2401e0ac802f12c647f7229072f52`, actual executed source 186dc0a. Its
+frozen evidence and reviewed CV3-A preparation admission remain unchanged.
+The new [C1-B3 result](c1b3-admission-20261020/qualification.md) is independently
+bound to clean `3b3b667a8b81942a3ca95c7531b29525ac4494b2`, retaining both that
+lineage and exact owner 5dc. Same 140 inputs,8 changed / 132 unchanged, explicit reviewed
+v3 append/map and prospective protocol precede fresh 18-command native/rational,
+26+26 no-skip real packet and 228 focused passing executions/3 existing ignores.
+All 17 actual ELFs and 76-member raw archive are retained and Library-saved.
+
+Dependency order remains reviewed owner/component histories → fixed PR141 → this
+separate admission/results stage. PR133/138 remain fixed, and no joint Q2/C1
+qualification is implied. Every public integration requires exact-head hosted
+gates; queued jobs are pending. No public merge or new composition implementation
+is admitted. CV3-A preparation may proceed under its separately reviewed gates.

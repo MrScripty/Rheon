@@ -77,6 +77,10 @@ pub enum SimulationError {
     DivergenceLimit { actual: f64, limit: f64 },
     CourantLimit { actual: f64, limit: f64 },
     ArithmeticFailure,
+    Projection(crate::solver_provider::composition::projection::ProjectionError),
+    ProjectionReceiptAliased,
+    ProjectionReceiptInvalid(&'static str),
+    ProjectionMixedQualificationFallback,
 }
 impl fmt::Display for SimulationError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -142,12 +146,14 @@ struct BoundaryStepInput<'a> {
 }
 struct StepDomains<'a, 'p> {
     workflow: Option<&'a crate::workflow::Capture>,
+    fields: Option<&'a crate::ForceSnapshot>,
     emitter: Option<crate::RotatingCylinderEmitter>,
     barrier: Option<&'a crate::TriangleSurface>,
     boundary: Option<BoundaryStepInput<'a>>,
     surface: Option<crate::column_surface::PressureSurface<'a>>,
     viscosity: Option<(&'a mut crate::ViscosityWorkspace, f64)>,
     provider: Option<crate::provider_step::ProviderStepInput<'a, 'p>>,
+    projection: Option<crate::projection_step::ProjectionStepInput<'a>>,
 }
 pub(crate) struct StepOutcome {
     pub(crate) legacy: crate::BarrierStepReport,
@@ -232,6 +238,16 @@ pub struct AcceptedIntervalPressure<'a> {
     pub report: StepReport,
     pub controls: CarrierStepControls,
 }
+/// Force-aware accepted interval. The legacy accessor never labels these steps
+/// with incomplete controls. Invalidated before the next candidate attempt.
+pub struct AcceptedForceIntervalPressure<'a> {
+    pub values: &'a [f64],
+    pub interval_start: f64,
+    pub report: StepReport,
+    pub controls: CarrierStepControls,
+    pub fields: &'a crate::ForceSnapshot,
+    pub work: Option<crate::ForceReport>,
+}
 /// Actual inputs of the success-stamped fixed-box carrier publication.
 #[derive(Debug, Clone, Copy)]
 pub struct CarrierStepControls {
@@ -252,6 +268,12 @@ pub struct Simulation {
     generation: u64,
     paused: bool,
     inspection_pressure: Option<(f64, StepReport, CarrierStepControls)>,
+    inspection_force_pressure: Option<(
+        f64,
+        ForcedStepReport,
+        CarrierStepControls,
+        crate::ForceSnapshot,
+    )>,
 }
 impl Simulation {
     pub fn new(grid: GridGeometry, config: SimulationConfig) -> Result<Self, SimulationError> {
@@ -298,6 +320,7 @@ impl Simulation {
             generation: 0,
             paused: false,
             inspection_pressure: None,
+            inspection_force_pressure: None,
         })
     }
     pub fn implementation(&self) -> PressureImplementation {
@@ -321,6 +344,19 @@ impl Simulation {
             controls,
         })
     }
+    /// Force-aware counterpart of accepted_interval_pressure. Retains the actual
+    /// immutable scene, source controls and external-stage work on success only.
+    pub fn accepted_force_interval_pressure(&self) -> Option<AcceptedForceIntervalPressure<'_>> {
+        let (interval_start, report, controls, fields) = self.inspection_force_pressure.as_ref()?;
+        Some(AcceptedForceIntervalPressure {
+            values: self.workspace.pressure(),
+            interval_start: *interval_start,
+            report: report.step,
+            controls: *controls,
+            fields,
+            work: report.forces,
+        })
+    }
     pub fn allocated_bytes(&self) -> usize {
         self.allocated_bytes
     }
@@ -339,6 +375,7 @@ impl Simulation {
     }
     pub fn reset(&mut self) -> Result<(), SimulationError> {
         self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         let next = self
             .generation
             .checked_add(1)
@@ -386,6 +423,70 @@ impl Simulation {
         self.step_impl(requested_dt, source, forces, None, None, cancel)
             .map(|report| report.legacy.step)
     }
+    /// Static authored fields sampled at the accepted interval start. Only the
+    /// closed-box carrier is supported; pressure projection remains unchanged.
+    /// The caller retains the immutable snapshot with the run request/metadata.
+    pub fn step_with_force_fields(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        fields: &crate::ForceSnapshot,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<ForcedStepReport, SimulationError> {
+        self.step_fields_impl(requested_dt, source, None, fields, cancel)
+    }
+
+    /// The nozzle remains a separate source, evaluated by its existing kernel.
+    pub fn step_with_emitter_and_force_fields(
+        &mut self,
+        requested_dt: f64,
+        emitter: crate::RotatingCylinderEmitter,
+        fields: &crate::ForceSnapshot,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<ForcedStepReport, SimulationError> {
+        self.step_fields_impl(requested_dt, None, Some(emitter), fields, cancel)
+    }
+
+    fn step_fields_impl(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        emitter: Option<crate::RotatingCylinderEmitter>,
+        fields: &crate::ForceSnapshot,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<ForcedStepReport, SimulationError> {
+        let interval_start = self.time;
+        let outcome = self.prepare_impl(
+            requested_dt,
+            source,
+            &[],
+            StepDomains {
+                workflow: None,
+                fields: (!fields.scene().objects.is_empty()).then_some(fields),
+                emitter,
+                barrier: None,
+                boundary: None,
+                surface: None,
+                viscosity: None,
+                provider: None,
+                projection: None,
+            },
+            cancel,
+        )?;
+        self.commit_prepared(&outcome);
+        self.inspection_force_pressure = Some((
+            interval_start,
+            outcome.legacy.step,
+            CarrierStepControls {
+                requested_dt,
+                source,
+                emitter,
+            },
+            fields.clone(),
+        ));
+        Ok(outcome.legacy.step)
+    }
+
     /// Prescribed rotating, pressure-head-driven two-ended nozzle. Pressure
     /// projection and appearance transport retain the fixed-box model; the
     /// visible cylinder is not a moving collision boundary. Failure preserves
@@ -403,12 +504,14 @@ impl Simulation {
             &[],
             StepDomains {
                 workflow: None,
+                fields: None,
                 emitter: Some(emitter),
                 barrier: None,
                 boundary: None,
                 surface: None,
                 viscosity: None,
                 provider: None,
+                projection: None,
             },
             cancel,
         )?;
@@ -485,11 +588,13 @@ impl Simulation {
             forces,
             StepDomains {
                 workflow: None,
+                fields: None,
                 emitter: None,
                 barrier: None,
                 boundary: None,
                 surface: None,
                 viscosity: None,
+                projection: None,
                 provider: Some(crate::provider_step::ProviderStepInput {
                     workspace,
                     preferred,
@@ -522,12 +627,14 @@ impl Simulation {
             forces,
             StepDomains {
                 workflow: None,
+                fields: None,
                 emitter: None,
                 barrier,
                 boundary,
                 surface: None,
                 viscosity: None,
                 provider: None,
+                projection: None,
             },
             cancel,
         )?;
@@ -545,6 +652,7 @@ impl Simulation {
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         provider: Option<crate::provider_step::ProviderStepInput<'_, '_>>,
         workflow: Option<&crate::workflow::Capture>,
+        projection: Option<crate::projection_step::ProjectionStepInput<'_>>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.prepare_impl(
@@ -553,11 +661,13 @@ impl Simulation {
             forces,
             StepDomains {
                 workflow,
+                fields: None,
                 emitter: None,
                 barrier: None,
                 surface,
                 viscosity,
                 provider,
+                projection,
                 boundary: boundary.map(|(workspace, boundary)| BoundaryStepInput {
                     workspace,
                     boundary,
@@ -587,6 +697,16 @@ impl Simulation {
     pub(crate) fn candidate_velocity(&self) -> [&[f32]; 3] {
         self.candidate.velocity()
     }
+    pub(crate) fn candidate_state(&self, step: StepReport) -> StateView<'_> {
+        StateView {
+            x: &self.candidate.x,
+            y: &self.candidate.y,
+            z: &self.candidate.z,
+            tracer: &self.candidate.tracer,
+            time: step.time,
+            generation: step.generation,
+        }
+    }
     pub(crate) fn candidate_pressure(&self) -> &[f64] {
         self.workspace.pressure()
     }
@@ -606,6 +726,7 @@ impl Simulation {
         crate::ColumnMacError,
     > {
         self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         if self.paused {
             return Err(crate::ColumnMacError::Paused);
         }
@@ -662,6 +783,7 @@ impl Simulation {
     }
     pub(crate) fn commit_column_mac(&mut self, generation: u64) {
         self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         std::mem::swap(&mut self.accepted.x, &mut self.candidate.x);
         std::mem::swap(&mut self.accepted.y, &mut self.candidate.y);
         std::mem::swap(&mut self.accepted.z, &mut self.candidate.z);
@@ -669,6 +791,7 @@ impl Simulation {
     }
     pub(crate) fn commit_prepared(&mut self, outcome: &StepOutcome) {
         self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         std::mem::swap(&mut self.accepted, &mut self.candidate);
         self.time = outcome.legacy.step.step.time;
         self.generation = outcome.legacy.step.step.generation;
@@ -682,19 +805,34 @@ impl Simulation {
         mut cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         let StepDomains {
             workflow,
+            fields,
             emitter,
             barrier,
             mut boundary,
             surface,
             viscosity,
             mut provider,
+            mut projection,
         } = domains;
-        if provider.is_some() && (boundary.is_some() || surface.is_some()) {
+        if (provider.is_some() || projection.is_some()) && (boundary.is_some() || surface.is_some())
+            || projection.is_some()
+                && (provider.is_some()
+                    || viscosity.is_some()
+                    || emitter.is_some()
+                    || barrier.is_some())
+        {
             return Err(SimulationError::UnsupportedProviderDomain);
         }
         if provider.as_ref().is_some_and(|p| {
+            !p.workspace
+                .matches(&self.grid, self.config.density, self.implementation)
+        }) {
+            return Err(SimulationError::ProviderWorkspaceMismatch);
+        }
+        if projection.as_ref().is_some_and(|p| {
             !p.workspace
                 .matches(&self.grid, self.config.density, self.implementation)
         }) {
@@ -709,7 +847,21 @@ impl Simulation {
         if let Some(s) = source {
             validate_source(&self.grid, s)?;
         }
-        let external_rate = crate::forces::validate(&self.grid, self.config.density, forces)?;
+        let field_rate = if let Some(fields) = fields {
+            fields
+                .acceleration_bound(self.time, self.config.density)
+                .map_err(|_| SimulationError::ArithmeticFailure)?
+                * self
+                    .grid
+                    .spacing()
+                    .into_iter()
+                    .map(|h| 1.0 / h)
+                    .sum::<f64>()
+        } else {
+            0.0
+        };
+        let external_rate =
+            crate::forces::validate(&self.grid, self.config.density, forces)? + field_rate;
         let emitter_rate = if let Some(emitter) = emitter {
             emitter.axis_at(self.time)?;
             emitter.validate(&self.grid, self.config.density)?
@@ -872,7 +1024,18 @@ impl Simulation {
             )?;
             work.smoke_force_work = work.kinetic_after_smoke_force - work.kinetic_after_advection;
         }
-        let forces = if forces.is_empty() {
+        let forces = if let Some(fields) = fields {
+            checkpoint(&mut cancel, StepStage::BeforeForces)?;
+            Some(crate::forces::apply_fields(
+                &self.grid,
+                self.config.density,
+                fields,
+                self.time,
+                dt,
+                self.candidate.velocity_mut(),
+                &mut cancel,
+            )?)
+        } else if forces.is_empty() {
             None
         } else {
             checkpoint(&mut cancel, StepStage::BeforeForces)?;
@@ -924,7 +1087,38 @@ impl Simulation {
         };
         checkpoint(&mut cancel, StepStage::BeforePressure)?;
         let mut provider_report = None;
-        let (pressure, actual_divergence_max, projection) = if let Some(input) = &mut boundary {
+        let (pressure, actual_divergence_max, projection) = if let Some(input) = &mut projection {
+            let report = input.workspace.project(
+                self.config,
+                input.source,
+                self.generation,
+                self.time,
+                dt,
+                self.candidate.velocity(),
+                input.capture,
+                |stage| input.control.poll(stage),
+            )?;
+            for (output, qualified) in self
+                .candidate
+                .velocity_mut()
+                .into_iter()
+                .zip(input.workspace.velocity())
+            {
+                output.copy_from_slice(qualified);
+            }
+            input.capture.stage = crate::projection_step::ProjectionAttemptStage::CarrierTransport;
+            checkpoint(&mut cancel, StepStage::BeforeProjectionAcceptance)?;
+            let divergence = input
+                .capture
+                .attempt
+                .qualification
+                .as_ref()
+                .expect("qualified projection facts")
+                .actual_divergence_max;
+            let pressure = report.accepted;
+            provider_report = Some(report);
+            (pressure, divergence, None)
+        } else if let Some(input) = &mut boundary {
             for (scratch, velocity) in input
                 .workspace
                 .provisional

@@ -1,0 +1,22 @@
+fatal: ambiguous argument 'f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b^{tree}': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+Traceback (most recent call last):
+  File "/workspace/Rheon-ui-authoring/docs/education/check_native_admission.py", line 22, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/workspace/Rheon-ui-authoring/docs/education/check_native_admission.py", line 8, in main
+    sources = source_core(ROOT)
+              ^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-ui-authoring/docs/education/aligned_strain_packet.py", line 142, in source_core
+    require(git(repo, 'rev-parse', PRIMARY_SOURCE + '^{tree}') == PRIMARY_TREE,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/Rheon-ui-authoring/docs/education/aligned_strain_packet.py", line 60, in git
+    return subprocess.check_output(['git', *args], cwd=repo, text=True).strip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'f75cd66c6dc4167ad1ec3febb72e6fb2aa6b4d0b^{tree}']' returned non-zero exit status 128.

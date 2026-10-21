@@ -158,9 +158,9 @@ give the bounded formulas, source links and proof boundaries. They do not
 upgrade a native desktop preview into a new browser solver or establish
 equivalence to the paper designs earlier in this chapter.
 
-## Draft checkpoint: borrow one accepted transport snapshot
+## Historical checkpoint: borrow one accepted transport snapshot
 
-Unmerged [PR48](https://github.com/MrScripty/Rheon/pull/48), reviewed at
+[PR48](https://github.com/MrScripty/Rheon/pull/48), originally reviewed at
 `f06a1270935b2ac285c68c0e594ab0742220913e`, adds an engine-neutral
 [`SimulationSession`](https://github.com/MrScripty/Rheon/blob/f06a1270935b2ac285c68c0e594ab0742220913e/src/session.rs)
 for the existing full-box transport path. It owns the boundary workspace and
@@ -179,6 +179,13 @@ check publication preservation, retry, quotas and equivalence to existing
 encoding. Deadlines are checked cooperatively at native stage checkpoints and
 around callbacks; a long kernel or callback can overrun them. They provide no
 preemption, maximum wall time or frame-rate guarantee.
+
+**Correction, 20 October 2026:** this is a description of the pinned early
+checkpoint. Main `718469b` now contains Session, material/diagnostic and
+configured-admission owners. PR45/47 are merged; the transport-only and
+unmerged-status statements below apply to that historical checkpoint, not all
+current APIs. The [source audit](../appendices/G-paper-audit-and-corrections.md)
+keeps later integration qualification separate from physical acceptance.
 
 The snapshot borrows its owner. Retention requires an explicit consumer copy or
 encoding; there is no hidden frame archive. Stop is terminal but leaves inspection

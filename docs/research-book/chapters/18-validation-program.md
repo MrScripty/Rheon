@@ -2,6 +2,15 @@
 
 Formal algebra, numerical fixtures, integration tests and visual review prove different things. A proof build cannot replace camera-export validation; a beautiful render cannot replace divergence or volume checks.
 
+**Evidence update, 20 October 2026.** The original companion measurements below
+remain historical mechanism fixtures. [Appendix G](../appendices/G-paper-audit-and-corrections.md)
+adds the native water/mesh audit, failed particle boundary trials, exact-face
+predicate repair and conditioned cut-reference results with their source
+identities. CV2's 24-case success is not PDE convergence; CV3-A's prospective
+MMS preparation is not an executed result. PR142's 228 focused passes qualify
+software/integration, not physical water. [Chapter 29](29-liquid-solid-interaction.md)
+gives the additional collision, boundary, force and moving-volume checks needed.
+
 ## Executed evidence
 
 The companion builds a closed 8-cubed graph with 512 cells and 1344 faces. It gauge-fixes pressure and projects deterministic random velocity. CG uses 78 iterations at the chosen tolerance. Divergence L2 decreases from 49.74366159 to \(4.4429\times10^{-10}\). Unweighted kinetic energy decreases from 642.9265376 to 401.9458778. The scalar update retains total 512 in the executed binary64 computation.

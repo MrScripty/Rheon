@@ -1,0 +1,2 @@
+# Preserve captured test output bytes, including libtest's trailing blank lines.
+*.log -diff -text

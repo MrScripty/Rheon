@@ -1,0 +1,4 @@
+Confirmed ignored: force_runtime_integration_tests::material_force_dispatch_records_immutable_scene
+Confirmed ignored: force_runtime_integration_tests::native_force_dispatch_records_and_cold_binds_v2
+Four ignored tests total: these two plus two legacy cases. No test body executed.
+Earlier validation expected two total ignored cases and failed its count assertion; this corrects that enumeration-only mistake.

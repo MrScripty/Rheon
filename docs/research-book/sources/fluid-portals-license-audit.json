@@ -1,0 +1,233 @@
+{
+  "schema": "rheon-portal-source-license-audit-v1",
+  "research_date": "2026-10-21",
+  "rheon_license": "Apache-2.0",
+  "policy": "original derivations only; no third-party implementation, pseudocode, illustrations or paper text incorporated",
+  "inspected_repositories": [
+    {
+      "repository": "AMReX-Fluids/incflo",
+      "commit": "ccb90bc41d9def18dddc4e1c4122a7d517add630",
+      "default_branch": "development",
+      "license": {
+        "key": "bsd-3-clause",
+        "name": "BSD 3-Clause \"New\" or \"Revised\" License",
+        "spdx_id": "BSD-3-Clause",
+        "url": "https://api.github.com/licenses/bsd-3-clause",
+        "node_id": "MDc6TGljZW5zZTU="
+      },
+      "license_path": "LICENSE",
+      "license_sha256": "e76c9f7b48ac3b26abd685f9fd4d1d3130105e3e0e7153c536fed974521abbe8",
+      "license_url": "https://github.com/AMReX-Fluids/incflo/blob/ccb90bc41d9def18dddc4e1c4122a7d517add630/LICENSE",
+      "inspected_files": [
+        {
+          "repository": "AMReX-Fluids/incflo",
+          "commit": "ccb90bc41d9def18dddc4e1c4122a7d517add630",
+          "path": "src/boundary_conditions/README.org",
+          "url": "https://raw.githubusercontent.com/AMReX-Fluids/incflo/ccb90bc41d9def18dddc4e1c4122a7d517add630/src/boundary_conditions/README.org",
+          "sha256": "cee48181d4bb94df72d1c3f83959ac5fc91ee39f78bcfcf86ee55f3ccd71c4b7",
+          "size": 3166
+        },
+        {
+          "repository": "AMReX-Fluids/incflo",
+          "commit": "ccb90bc41d9def18dddc4e1c4122a7d517add630",
+          "path": "src/boundary_conditions/incflo_set_bcs.cpp",
+          "url": "https://raw.githubusercontent.com/AMReX-Fluids/incflo/ccb90bc41d9def18dddc4e1c4122a7d517add630/src/boundary_conditions/incflo_set_bcs.cpp",
+          "sha256": "70bbe86c8b5f605d491d50d9183448b79287e77dd1b34c4b11639c35861e7f2d",
+          "size": 20543
+        }
+      ],
+      "recursive_tree_truncated": false,
+      "license_paths_in_tree": [
+        "LICENSE"
+      ],
+      "reuse_decision": "permissive reference candidate; no code copied; dependencies and future selected files require separate review",
+      "license_text_inspected": true,
+      "review_scope": "Pinned listed license and selected source/documentation portions only; no dependency-wide or patent clearance."
+    },
+    {
+      "repository": "pypr/pysph",
+      "commit": "1cd3dea9cfaac7d9f1bda2a2491ce4b42a31dbe5",
+      "default_branch": "main",
+      "license": {
+        "key": "other",
+        "name": "Other",
+        "spdx_id": "NOASSERTION",
+        "url": null,
+        "node_id": "MDc6TGljZW5zZTA="
+      },
+      "license_path": "LICENSE.txt",
+      "license_sha256": "847784f01560064e3ced7e36fe4f02aa45afdf220c38832cff725675bea73007",
+      "license_url": "https://github.com/pypr/pysph/blob/1cd3dea9cfaac7d9f1bda2a2491ce4b42a31dbe5/LICENSE.txt",
+      "inspected_files": [
+        {
+          "repository": "pypr/pysph",
+          "commit": "1cd3dea9cfaac7d9f1bda2a2491ce4b42a31dbe5",
+          "path": "pysph/sph/bc/inlet_outlet_manager.py",
+          "url": "https://raw.githubusercontent.com/pypr/pysph/1cd3dea9cfaac7d9f1bda2a2491ce4b42a31dbe5/pysph/sph/bc/inlet_outlet_manager.py",
+          "sha256": "1047911307dec59e4923c3ed5cb4f49d96b372d2b5df961b3a01270cae2c2b52",
+          "size": 24084
+        },
+        {
+          "repository": "pypr/pysph",
+          "commit": "1cd3dea9cfaac7d9f1bda2a2491ce4b42a31dbe5",
+          "path": "pysph/sph/bc/characteristic/simple_inlet_outlet.py",
+          "url": "https://raw.githubusercontent.com/pypr/pysph/1cd3dea9cfaac7d9f1bda2a2491ce4b42a31dbe5/pysph/sph/bc/characteristic/simple_inlet_outlet.py",
+          "sha256": "c484e9cec0d04c6d9632b633c6f48d5bb529de0ef6533197ef246c7706e2e9d6",
+          "size": 7382
+        },
+        {
+          "repository": "pypr/pysph",
+          "commit": "1cd3dea9cfaac7d9f1bda2a2491ce4b42a31dbe5",
+          "path": "pysph/sph/bc/hybrid/simple_inlet_outlet.py",
+          "url": "https://raw.githubusercontent.com/pypr/pysph/1cd3dea9cfaac7d9f1bda2a2491ce4b42a31dbe5/pysph/sph/bc/hybrid/simple_inlet_outlet.py",
+          "sha256": "1200445bee9dffd989e2b5c5b2337696db5d16e6753d2311c416fbdb64483b13",
+          "size": 9368
+        }
+      ],
+      "recursive_tree_truncated": false,
+      "license_paths_in_tree": [
+        "LICENSE.txt"
+      ],
+      "reuse_decision": "conditional permissive candidate: inspected BSD-style license text; API NOASSERTION discrepancy; recheck exact files before reuse",
+      "license_text_inspected": true,
+      "review_scope": "Pinned listed license and selected source/documentation portions only; no dependency-wide or patent clearance."
+    },
+    {
+      "repository": "mfem/mfem",
+      "commit": "96c4c956093ec6a2551d4664f8b915a7425cbd1b",
+      "default_branch": "master",
+      "license": {
+        "key": "bsd-3-clause",
+        "name": "BSD 3-Clause \"New\" or \"Revised\" License",
+        "spdx_id": "BSD-3-Clause",
+        "url": "https://api.github.com/licenses/bsd-3-clause",
+        "node_id": "MDc6TGljZW5zZTU="
+      },
+      "license_path": "LICENSE",
+      "license_sha256": "e02fd5c34566e96888009d27c4ea0e70fe8cf72f9793fdc1d9272f20f1f05b64",
+      "license_url": "https://github.com/mfem/mfem/blob/96c4c956093ec6a2551d4664f8b915a7425cbd1b/LICENSE",
+      "inspected_files": [
+        {
+          "repository": "mfem/mfem",
+          "commit": "96c4c956093ec6a2551d4664f8b915a7425cbd1b",
+          "path": "mesh/mesh.cpp",
+          "url": "https://raw.githubusercontent.com/mfem/mfem/96c4c956093ec6a2551d4664f8b915a7425cbd1b/mesh/mesh.cpp",
+          "sha256": "401c40394b1bf2959c6252771cec79c967cedf59e3cd4f8638d8907980c985fa",
+          "size": 468289
+        },
+        {
+          "repository": "mfem/mfem",
+          "commit": "96c4c956093ec6a2551d4664f8b915a7425cbd1b",
+          "path": "NOTICE",
+          "url": "https://raw.githubusercontent.com/mfem/mfem/96c4c956093ec6a2551d4664f8b915a7425cbd1b/NOTICE",
+          "sha256": "df7ef1fe8eb77b53a3148485de43e8454d3a262d9e2620666775baca4cbf18af",
+          "size": 1835
+        }
+      ],
+      "recursive_tree_truncated": false,
+      "license_paths_in_tree": [
+        "LICENSE",
+        "tests/unit/LICENSE_1_0.txt"
+      ],
+      "reuse_decision": "permissive reference candidate; no code copied; dependencies and future selected files require separate review",
+      "license_text_inspected": true,
+      "review_scope": "Pinned listed license and selected source/documentation portions only; no dependency-wide or patent clearance.",
+      "notice_review": "Root NOTICE was inspected and lists external components under their own licenses. BSD notice on mesh/mesh.cpp does not clear included/external dependencies."
+    },
+    {
+      "repository": "CliMA/Oceananigans.jl",
+      "commit": "b0c931e6836e8e12f9cd8757d2e415371f344134",
+      "default_branch": "main",
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT",
+        "url": "https://api.github.com/licenses/mit",
+        "node_id": "MDc6TGljZW5zZTEz"
+      },
+      "license_path": "LICENSE",
+      "license_sha256": "ac34828c923cc35640d92fb5e6f1bb02e5211d6f9748586b0c9a0b836f37eb51",
+      "license_url": "https://github.com/CliMA/Oceananigans.jl/blob/b0c931e6836e8e12f9cd8757d2e415371f344134/LICENSE",
+      "inspected_files": [
+        {
+          "repository": "CliMA/Oceananigans.jl",
+          "commit": "b0c931e6836e8e12f9cd8757d2e415371f344134",
+          "path": "docs/src/models/boundary_conditions.md",
+          "url": "https://raw.githubusercontent.com/CliMA/Oceananigans.jl/b0c931e6836e8e12f9cd8757d2e415371f344134/docs/src/models/boundary_conditions.md",
+          "sha256": "ee8a0057e23459f3ee604ff24260fc1785a132d5ab9fd09b70c2f9779e83a3c6",
+          "size": 37204
+        },
+        {
+          "repository": "CliMA/Oceananigans.jl",
+          "commit": "b0c931e6836e8e12f9cd8757d2e415371f344134",
+          "path": "src/BoundaryConditions/open_boundary_schemes/normal_radiation.jl",
+          "url": "https://raw.githubusercontent.com/CliMA/Oceananigans.jl/b0c931e6836e8e12f9cd8757d2e415371f344134/src/BoundaryConditions/open_boundary_schemes/normal_radiation.jl",
+          "sha256": "5bac53193ae15ee6daba1f0d973895f8296db685c68c3b5377af764f56273bcc",
+          "size": 22364
+        },
+        {
+          "repository": "CliMA/Oceananigans.jl",
+          "commit": "b0c931e6836e8e12f9cd8757d2e415371f344134",
+          "path": "src/BoundaryConditions/open_boundary_schemes/tracer_reservoir.jl",
+          "url": "https://raw.githubusercontent.com/CliMA/Oceananigans.jl/b0c931e6836e8e12f9cd8757d2e415371f344134/src/BoundaryConditions/open_boundary_schemes/tracer_reservoir.jl",
+          "sha256": "3cf357137ce0393512e089306f4a9656ac2a98ef94e7da4146841880fcc08615",
+          "size": 7047
+        },
+        {
+          "repository": "CliMA/Oceananigans.jl",
+          "commit": "b0c931e6836e8e12f9cd8757d2e415371f344134",
+          "path": "src/Models/NonhydrostaticModels/enforce_net_zero_transport.jl",
+          "url": "https://raw.githubusercontent.com/CliMA/Oceananigans.jl/b0c931e6836e8e12f9cd8757d2e415371f344134/src/Models/NonhydrostaticModels/enforce_net_zero_transport.jl",
+          "sha256": "e2b717e5c6009ca0aed5ffb87bb2422c5c60da643fc92217508ac22b12dac0ad",
+          "size": 3796
+        }
+      ],
+      "recursive_tree_truncated": false,
+      "license_paths_in_tree": [
+        "LICENSE"
+      ],
+      "reuse_decision": "permissive reference candidate; no code copied; dependencies and future selected files require separate review",
+      "license_text_inspected": true,
+      "review_scope": "Pinned listed license and selected source/documentation portions only; no dependency-wide or patent clearance."
+    },
+    {
+      "repository": "DualSPHysics/DualSPHysics",
+      "commit": "ef3721a861fda961f0e2f9ec4cd317b19de99086",
+      "default_branch": "master",
+      "license": {
+        "key": "lgpl-2.1",
+        "name": "GNU Lesser General Public License v2.1",
+        "spdx_id": "LGPL-2.1",
+        "url": "https://api.github.com/licenses/lgpl-2.1",
+        "node_id": "MDc6TGljZW5zZTEx"
+      },
+      "license_path": "LICENSE",
+      "license_sha256": "20c17d8b8c48a600800dfd14f95d5cb9ff47066a9641ddeab48dc54aec96e331",
+      "license_url": "https://github.com/DualSPHysics/DualSPHysics/blob/ef3721a861fda961f0e2f9ec4cd317b19de99086/LICENSE",
+      "inspected_files": [],
+      "reuse_decision": "excluded as source of copied/translated implementation in this task; no implementation inspected or copied; mathematical papers remain citable and independent derivation remains distinct; LGPL reuse would require separate compliance review",
+      "license_text_inspected": true,
+      "review_scope": "Pinned listed license and selected source/documentation portions only; no dependency-wide or patent clearance."
+    }
+  ],
+  "unverified_implementation_sources_omitted": [
+    "paper-linked GitLab pypr/inlet_outlet manuscript repository",
+    "all unaudited supplemental code"
+  ],
+  "full_text_unavailable_followups": [
+    {
+      "doi": "10.1006/jcph.2001.6715",
+      "title": "Accurate Projection Methods for the Incompressible Navier-Stokes Equations"
+    },
+    {
+      "doi": "10.1016/j.cma.2018.08.004",
+      "title": "A Versatile Algorithm for the Treatment of Open Boundary Conditions in Smoothed Particle Hydrodynamics GPU Models"
+    }
+  ],
+  "limitations": [
+    "license compatibility assessment is not patent or legal clearance",
+    "root licenses do not clear dependencies",
+    "no portal qualification campaign or external implementation executed; existing bounded Rheon publication reference generators ran as recorded in ../../plans/fluid-portals-open-boundaries/reports/verification.md"
+  ],
+  "citation_and_copying_distinction": "Scientific citation and independent mathematical derivation are distinct from copying or translating implementation. Excluded copying candidates remain eligible scientific sources; citations do not license code reuse."
+}

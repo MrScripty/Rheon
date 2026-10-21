@@ -129,3 +129,193 @@ After independent readiness and nine green checks, automatic approval rejected P
 A later exact remote read confirms draft PR135 at 4f8bd22669efed62e84c0062ee1baec27393e830, frozen numerical source 6d99e7794a6aa69f5886bb15cc662e40ea43cd40, stacked on 134. The owner reports four native CV1 fixtures plus independent exact reconstruction, ten contracts in each debug/release configuration, strict Clippy/format and 45 evaluator checks passing. This qualifies only bounded cut-cell operators/physical traces. Square mass condition 6.53e11 leaves coupled conditioning, mixed-pair stability and PDE accuracy open, with the next bounded gate assigned to the numerical owner. PR135 is excluded from the 135-input 9a9904f execution and no physical criterion is changed.
 
 Final independent documentation review clarifies that the later reproduced legacy G1 advection-cancellation label defect also exists in unchanged fixed `9c04278`/`9a9904f` paths: no publication occurs, but the attempt is labelled Failed despite cancellation. Passing 23 workflow tests do not resolve that uncovered path. Full G1-C outcome-label acceptance remains open; only the assigned repair and new B2 source are excluded from these fixed qualification subjects.
+
+
+## 2026-10-20 — stable closed projection and cancellation admission
+
+Q2 publication is retained in draft PR138/a6bfcc9 at its actual executed source
+`9a9904f`; fixed PR133/8bf542e remains unchanged. Before any C1 execution, the
+parent delivered final PR137/d3e6237 (tested `70da36d`) and instructed use of that
+stable repair over PR136-only pins. The uncommitted PR136-only metadata/protocol
+draft was retained outside Git as superseded preparation, with no transferred
+qualification receipt. The task branch fast-forwarded to the retained owner head.
+
+Independent full-source and three-pin follow-up reviews approve 140 inputs:
+5 added / 11 changed / 124 unchanged / 0 removed versus fixed PR133; 137 identities
+remain exact PR136. The production repair is only three typed cancellation matcher
+lines; true numerical failures and historical Failed labels remain. Map SHA256:
+`08aa3d1b48617763da61291e788fc985bc5d011d8039f9ebf83fbc4ccc2a05a6`.
+Inventory SHA256:
+`a0878b551464f5a05ae29f90aa877a8147e157259f26a1bbedc96cb99a9098df`.
+Bound review SHA256:
+`caa78be78306aa095a42fd6a54c0c355a4f5dfbc74b7244a0a94bc9242f09941`.
+The original 9e583 review remains an exact prefix; predecessor inventories and
+all mechanism/Cargo/primary bytes remain. Eight independently reviewed paths
+commit at clean `186dc0a`/tree `3c19a1c` before fresh qualification; those bound
+bytes freeze. Driver review replaced optimization-sensitive guards and required
+exclusive new evidence outputs plus exact 26/no-skip packet cardinality before
+execution. Resource-only disposition retired the lead's old reconstructible 9c
+and later Q2 build caches after verifying retained actual ELFs and raw archives;
+source, real evidence, criteria and other owners' resources remain unchanged.
+
+Actual results, executable/command/archive identities and independent reviews are
+retained separately in reports/c1b2-admission-20261020/qualification.md and its
+compact manifest. They qualify closed native invocation/Session/custody and the
+current cancellation classification only; owner 213/226 executions keep their
+original sources and overlap. Hosted/default/desktop/release/GUI/performance,
+physical/model/Lean/GPU acceptance and full C1-R remain separate. C1-B3 is a next
+readiness recommendation requiring its own admission, not started implementation.
+Public merges remain paused by PR121's automatic review rejection; no alternate
+path or further retry is used.
+
+
+### Later live owner deliveries after PR141 publication
+
+Draft PR141 publishes the separately qualified 186dc0a stage. A subsequent live
+read is pinned to PR139/d857523 and PR140/9ddf8d2. PR139's source-pinned report
+qualifies the static CV2 reference at numerical source b0a9d52: all 24 fixed cases,
+independent exported-target/exact-integral 80/120-digit comparisons, 15 contracts
+in each debug/release mode and 45 evaluator checks pass. The six unscaled square
+velocity-accuracy failures remain retained despite passing residuals. Original
+mass conditioning remains about 6.53e11; generic stability/PDE/evolving geometry
+and production gates stay open. This is attributed owner evidence; root did not
+rerun the campaign or rehash its raw archive here.
+
+PR140 implements/verifies separate closed C1-B3 producer selection on PR137.
+Its current head adds one desktop test API correction after core `4af3802`. The
+owner retains an initial 94-pass/1-failure old-profile foreign-version refusal-
+category result, a bounded repair and 14 passing focused persistence checks;
+its full qualification is rerunning and final local acceptance is pending.
+Its complete 140-input closure changes eight pins versus PR137. Earlier readiness
+language is historical to the 186dc0a cut; delivery is now Implemented / Verifying,
+not lead-accepted. Neither new source is admitted or included by this fixed
+qualification. No duplicate implementation, run or source-map refresh is started.
+
+
+### Final owner deliveries and next numerical admission
+
+Final live reads confirm PR139 `902f6092de6044419d028f92dabd8e59ae7a87ba`
+and PR140 `5dc1741feffa88b857194559b3e7e79be5369a64`. PR139 retains numerical
+source b0a9d52, all 24 fixed static cases,15 debug + 15 release contracts and 45 evaluator
+checks passing, maximum independent velocity error 1.8612165e-12 against 1e-10,
+six unscaled square accuracy failures and original mass condition 6.53e11. This
+is owner evidence; no lead raw campaign rerun or archive rehash is claimed.
+
+PR140 reports 227 passing / 0 failing / 5 existing ignored at core4af3802 and consumer9ddf8d2
+(one UI-test public API correction). Its 200 actually selected intervals use the
+same-producer bitwise baseline; genuine low-cap fallback/failures/cancel/cold
+custody pass. Initial compile and old-profile refusal-category failures remain
+retained. Full 140-input closure/eight changed pins, independent source admission,
+fresh lead qualification and exact-head hosted gates remain separate. No new
+composition implementation, stateful/learned/external or whole-family scope is
+admitted. Earlier snapshot records above remain historical.
+
+The next numerical milestone is prospectively admitted [CV3-A](reports/cv3a-admission.md):
+static polynomial polygon MMS on nine frozen cases, n16 helper and degree4-exact
+load prerequisite reviews, independent norm/reference uncertainty and hard
+resource freeze before one campaign. Resume the existing numerical owner for
+preparation only until those gates pass. No pilot evaluation exists; canonical
+disk, generic stability/PDE, moving geometry and production remain unqualified.
+
+
+### Separate final C1-B3 admission and fresh execution
+
+Normal local composition retains exact PR140/5dc1741 and fixed PR141/38c40ca,
+including qualified186dc0a ancestry. Independent review approves all 140 inputs:
+eight changed, 132 unchanged, zero added/removed. All ten changed source/public
+test paths are reviewed. Explicit v3 admission preserves the exact prior review
+prefix. The corrected protocol distinguishes recoverable producer errors from
+existing B1 field/momentum fallback and unpublished mixed-pressure witness failure.
+Commit `3b3b667a8b81942a3ca95c7531b29525ac4494b2` freezes inventory 8cc04634,
+review a4e27e36, protocol 1a0191d9 and driver 797cf449 before execution.
+
+Fresh unchanged native/rational qualification passes all 18 commands: 35 Rust
+contracts, five specimens, gate 5+5 and oracle 10+10. A new real packet passes 26
+normal and 26 optimized tests without skips. The focused run passes 228 tests:
+97 library, six public B2/B3, 122 legacy/volume and three compile-fail doctests;
+zero fail and three existing artifact tests remain ignored. All 1,489 committed
+file hashes, 140 selected inputs, 17 actual ELFs and the 76-member archive are
+retained. The 28,934,812-byte ZIP has SHA256
+`5e40f320799865ba6c3e945499c5da1e6d7a6068deea0ab19b59b511f9d284a1`.
+Library identity is `libfile_61d39f8d955c81918f2c22927e011fa4`, version 0; all
+returned xattrs are persisted. Summary 68393fd1 was final before the independent
+execution audit. See [qualification](reports/c1b3-admission-20261020/qualification.md).
+
+Bounded scratch handling deduplicated only a completed hash-identical current
+root ELF copy. After all commands passed and all 17 ELFs were retained/verified,
+only that reconstructible target was retired; all retained hashes were verified
+again. Resource receipts are sealed. No source, protocol, driver, threshold,
+prior evidence or other-owner cache changed. No scientific campaign or silent
+rerun occurred. Owner 227/5 and prior failures stay separately attributed.
+Hosted/default/desktop/window/release/performance/full replacement/physical/
+Lean/model/GPU gates remain separate. Fixed PR133/138/141, protected original
+work and the merge pause remain unchanged.
+
+## 2026-10-21 — fresh serial completion task, PR142 composition
+
+Fresh user instruction authorizes completion and normal reviewed merge of retained
+PR142/138/143/59/150. PR142 is sole integration lead and uses the five PR comments
+as coordination records. Operation is `continue` on this plan. Historical task
+read/resume denial and final GPU artifact-download denial remain binding; neither
+is retried or routed around. No original branch is removed or rewritten.
+
+Fetched current main `15026a966265cf9eaedf464e2b5a066bd0fef3d8` and retained
+PR142 `4f2d55323825c8907cf9209914f29130ec7de511` into an isolated completion
+branch. Inspected current Coding Standards `0fc92a2`; no AGENTS.md found.
+Composing the two parents conflicts in Simulation and both admission records.
+Simulation keeps workflow and force-field inputs together with projection; the
+first preparatory core compile correctly failed E0063 because the force-field
+constructor lacked projection initialization. Adding explicit `projection: None`
+restores the original force-only contract; subsequent no-default cargo check
+passes. This is a preparatory build, not clean committed-source qualification.
+
+Shared cfg(test) CPU fixture relied on wall-clock nanoseconds for directory
+uniqueness. Bounded repair adds atomic sequence and exclusive create/retry only
+for AlreadyExists. A 32-thread identical-timestamp regression owns this defect;
+existing metadata/scratch-cap refusal tests retain all assertions. Old combined
+native-admission check refuses as expected (review binding) and its raw message
+is retained outside Git. The current conservative selector has 152 paths;
+independent complete-source review and explicit v3 refresh precede qualification.
+
+A harmless branch-protection configuration read returned HTTP403, Resource not
+accessible by integration. That read is stopped without alternate route. Normal
+server-enforced merge and visible exact-head checks remain the supported route;
+no protection bypass is requested or inferred. Full hosted/local qualification
+and normal merge are pending. See the [prospective protocol](reports/pr142-completion-20261021/protocol.md).
+
+Preparatory desktop build completed under Rust1.92/jobs2/debug0. The first short
+`--exact` filter executed zero tests (224 filtered), retained as a no-op rather
+than a pass claim. Correct fully qualified runs then execute and pass one new
+same-timestamp/concurrent directory regression and one original
+`invalid_pin_metadata_and_scratch_cap_never_start_a_child` contract. Both full
+logs and actual preparatory desktop ELF remain outside Git. Clean committed
+qualification below will execute the full ordinary feature suites separately.
+
+
+## 2026-10-20 — separate exact-reference Cargo closure and fresh qualification
+
+Fixed PR133 remains at `8bf542e` with actual execution `9c04278` unchanged. A separate dependent worktree/branch integration/q2-reference-admission-20261020 retains exact PR132/e6525a1 and PR134/f84f651. Complete independent source/dependency review approves 135 selected inputs: 0 added, 2 Cargo changes, 133 unchanged, 0 removed. All previous registry identities/checksums remain; three new locked dev identities and actual official archive/license bytes were reviewed. Existing v3 schema/base/predecessors/primary/selector/refusals and prior bound review prefix remain exact. Metadata commit ba16197 and independently reviewed protocol-spacing-only follow-up `9a9904f` precede qualification; no history rewrite or later bound-metadata edit.
+
+Clean `9a9904f`/tree `488ab45` passes all 18 unchanged native qualifier commands (35 Rust tests, five fresh native/rational/adversarial specimens, gate 5+5 and oracle 10+10), a new actual packet with 26 normal+26 optimized tests/no skips, and 83 focused no-default checks (23 workflow, 9 native-family, 14 composition, 23 volume, 3 doctests, 2 coupled-reference, 9 exact-geometry). Actual executable/receipt, 1472 committed source identities, 60 raw evidence files, environment and exact commands are retained. The known fixed five-artifact regression completed normally in the 186.08s geometry suite; no scientific campaign was rerun. Independent execution audit verifies all selected/full source and archive/ELF hashes with no findings. Raw 913699-byte ZIP SHA256 fa0db9c9e6f98a8c2d98b89967053537c8a2e74237c34276c84614b76bbff16c is saved privately in Library as libfile_3ee285ef166c8191b648475efb676b1c/version0. Detailed protocol, compact manifest, source and final reviews are in reports/q2-admission-20261020/.
+
+PR132's fixed-corpus exact topology result and PR134's eight aligned coupled-algebra cases remain attributed to their own tested sources `0f4e7e0` and `06b3190`. General cut/free-surface velocity spaces, extension, physical traction/boundary lift and coupled PDE/production-water gates remain with the numerical owner. PR136/e56bc7b C1-B2 runtime/custody is delivered separately; its 140-input admission and assigned legacy G1 cancellation-label repair are pending and excluded here. The grid→particle/output-surface→later Lagrangian priority remains unchanged.
+
+After independent readiness and nine green checks, automatic approval rejected PR121 and the single requested retry, applying the original trusted no-merge delegation over tool-relayed confirmation. PR121 remains unmerged; no alternate path or further retry was used. Earlier verified PR120/119 merges remain facts. Public merges are paused; review, evidence publication and independent admissions continue without changing another owner's implementation.
+
+A later exact remote read confirms draft PR135 at 4f8bd22669efed62e84c0062ee1baec27393e830, frozen numerical source 6d99e7794a6aa69f5886bb15cc662e40ea43cd40, stacked on 134. The owner reports four native CV1 fixtures plus independent exact reconstruction, ten contracts in each debug/release configuration, strict Clippy/format and 45 evaluator checks passing. This qualifies only bounded cut-cell operators/physical traces. Square mass condition 6.53e11 leaves coupled conditioning, mixed-pair stability and PDE accuracy open, with the next bounded gate assigned to the numerical owner. PR135 is excluded from the 135-input 9a9904f execution and no physical criterion is changed.
+
+Final independent documentation review clarifies that the later reproduced legacy G1 advection-cancellation label defect also exists in unchanged fixed `9c04278`/`9a9904f` paths: no publication occurs, but the attempt is labelled Failed despite cancellation. Passing 23 workflow tests do not resolve that uncovered path. Full G1-C outcome-label acceptance remains open; only the assigned repair and new B2 source are excluded from these fixed qualification subjects.
+
+
+## 2026-10-21 — PR138 preliminary serial composition
+
+Fresh user authorization and lead comments6328139025/6328266160 admit a bounded
+PR138 composition against frozen PR142/dbd49d3 while its ordinary gates run.
+The original PR138/a6bfcc9 and exact PR132/134 ancestry remain; product, thermal,
+UI and fixture source comes unchanged from PR142. All seven shared-document
+conflicts preserve later lead dispositions and original Q2 evidence/history.
+The old PR142 inventory refused changed Cargo.lock before numerical execution;
+its failure log remains external. Complete selector review identifies152 paths,
+0 added, 2 Cargo changes, 150 unchanged, 0 removed. Independent admission review
+and fresh committed-source qualification are next; final merged-main verification
+and normal merge remain with the lead. No scientific campaign is rerun.

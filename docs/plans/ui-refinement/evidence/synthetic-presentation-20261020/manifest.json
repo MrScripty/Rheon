@@ -1,0 +1,68 @@
+{
+  "parent": "425a9869fa3f36b7e3133ddbd213a493d7b5bab3",
+  "source_sha256": {
+    "src/bin/desktop/native_presentation_harness.rs": "7ecb3487c24d57eb726e8212d1393bf855ca13125af53021bb0c6237dc056c6e",
+    "src/bin/desktop/viewport.rs": "c79ef51daf9f0079f424f9d6d24343931d70d2f5d4fe233ee978931080aaa462",
+    "src/bin/rheon-desktop.rs": "daf9b7e54d89decfbfbff8ae8dd7cb17cc4fbab3fd50f3323f442f02dd1c55b3"
+  },
+  "exact_test": "native_presentation_harness::synthetic_retained_history_timeline_and_disabled_modes_are_workerless",
+  "native_entry_is_test": false,
+  "native_executed": false,
+  "standalone_build": "cargo rustc --locked --offline --features desktop --bin rheon-desktop -- --cfg test",
+  "binary": {
+    "artifact": "/workspace/scratch/rheon-ui-presentation/rheon-ui-synthetic-presentation-testcfg-guarded-425a986-increment.bin",
+    "bytes": 235185520,
+    "sha256": "040715719f4e34e04951c8ad428024cbdbd219d7b65ac95d64d54e3e6e8d5cbd",
+    "base": "425a9869fa3f36b7e3133ddbd213a493d7b5bab3",
+    "build_cfg": "test",
+    "rustc_test_harness": false,
+    "executed": false
+  },
+  "logs": {
+    "rheon-ui-presentation-list4.log": {
+      "sha256": "1574f9ddcd4c335baf5bb4fa7b5883cc63a4b6d201a6990679590a5dd8016354",
+      "bytes": 20088,
+      "source": "/tmp/rheon-ui-presentation-list4.log"
+    },
+    "rheon-ui-presentation-exact2.log": {
+      "sha256": "e35f03ce95e98aa91a03942256c60f0f6a9d1172b1265ca6a462fbc9e032885a",
+      "bytes": 421,
+      "source": "/tmp/rheon-ui-presentation-exact2.log"
+    },
+    "rheon-ui-presentation-standalone-build2.log": {
+      "sha256": "45a096a0556c6f9712346da4e1c8b77e2ba19b7dcea77d5196aa6765bd286658",
+      "bytes": 55319,
+      "source": "/tmp/rheon-ui-presentation-standalone-build2.log"
+    },
+    "rheon-ui-presentation-production-build2.log": {
+      "sha256": "4f144ddc9d69c6d17c7001e9fca8e6d1a70839f4c43a917e436cd3162792c40e",
+      "bytes": 131,
+      "source": "/tmp/rheon-ui-presentation-production-build2.log"
+    },
+    "rheon-ui-presentation-clippy2.log": {
+      "sha256": "3856eab6f80feb9a95243e537de6199854ef0a153049ab2b61af84441cb51bc9",
+      "bytes": 130,
+      "source": "/tmp/rheon-ui-presentation-clippy2.log"
+    },
+    "rheon-ui-presentation-check2.log": {
+      "sha256": "b8dd291b69b62c0719c18a5c4ae02c0c692d7e36311fa3a586fa4e4b92662e11",
+      "bytes": 130,
+      "source": "/tmp/rheon-ui-presentation-check2.log"
+    },
+    "rheon-ui-presentation-fmt2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/rheon-ui-presentation-fmt2.log"
+    },
+    "rheon-ui-presentation-diff2.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/rheon-ui-presentation-diff2.log"
+    },
+    "rheon-ui-presentation-list1.log": {
+      "sha256": "cbb880f9255700c467f820fdfb0fc6856b3410ce5549fb5d4a90a20b44e313b3",
+      "bytes": 10297,
+      "source": "/tmp/rheon-ui-presentation-list1.log"
+    }
+  }
+}

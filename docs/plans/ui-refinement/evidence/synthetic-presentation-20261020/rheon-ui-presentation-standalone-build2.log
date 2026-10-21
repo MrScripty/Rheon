@@ -1,0 +1,1750 @@
+   Compiling rheon v0.1.0 (/workspace/Rheon-ui-authoring)
+warning: unused import: `Sha256`
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:10:20
+   |
+10 | use sha2::{Digest, Sha256};
+   |                    ^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused imports: `Duration` and `Instant`
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:13:12
+   |
+13 |     time::{Duration, Instant},
+   |            ^^^^^^^^  ^^^^^^^
+
+warning: unused import: `Sha256`
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:10:20
+   |
+10 | use sha2::{Digest, Sha256};
+   |                    ^^^^^^
+
+warning: unused imports: `Duration`, `Instant`, and `thread`
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:13:5
+   |
+13 |     thread,
+   |     ^^^^^^
+14 |     time::{Duration, Instant},
+   |            ^^^^^^^^  ^^^^^^^
+
+warning: unused imports: `ModelProcess` and `scene::Scene`
+ --> src/bin/desktop/ai_comparison/cpu_contract_tests.rs:5:32
+  |
+5 |     model_process::{ChildSlot, ModelProcess},
+  |                                ^^^^^^^^^^^^
+6 |     scene::Scene,
+  |     ^^^^^^^^^^^^
+  |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+ --> src/bin/desktop/ai_comparison/mod.rs:4:1
+  |
+4 | pub(crate) mod cpu_contract_tests;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `Duration` and `atomic::AtomicBool`
+  --> src/bin/desktop/ai_comparison/cpu_contract_tests.rs:14:24
+   |
+14 |     sync::{Arc, Mutex, atomic::AtomicBool},
+   |                        ^^^^^^^^^^^^^^^^^^
+15 |     time::{Duration, SystemTime, UNIX_EPOCH},
+   |            ^^^^^^^^
+   |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+  --> src/bin/desktop/ai_comparison/mod.rs:4:1
+   |
+ 4 | pub(crate) mod cpu_contract_tests;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `Instant`
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:31:22
+    |
+ 31 |     time::{Duration, Instant},
+    |                      ^^^^^^^
+    |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+   --> src/bin/desktop/ai_comparison/cpu_contract_tests.rs:366:1
+    |
+366 | mod accepted_provider_contract_tests;
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `RecordedPressureSelection`, `RecordedProviderRejection`, and `verify_configured_recording`
+   --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:9:36
+    |
+  9 |         RecordedConfiguredSession, RecordedPressureSelection, RecordedProviderRejection,
+    |                                    ^^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 |         configured_publication, configured_run, verify_configured_recording,
+    |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:797:1
+    |
+797 | mod accepted_recording_contract_tests;
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `sync::atomic::Ordering`
+   --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:13:41
+    |
+ 13 | use std::{path::Path, process::Command, sync::atomic::Ordering};
+    |                                         ^^^^^^^^^^^^^^^^^^^^^^
+    |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:797:1
+    |
+797 | mod accepted_recording_contract_tests;
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:687:9
+    |
+687 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `engine::ExecutionPolicy`
+ --> src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs:4:64
+  |
+4 |     cpu_contract_tests::Fixture, diagnostic_runs::MemberState, engine::ExecutionPolicy,
+  |                                                                ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `Digest` and `Sha256`
+ --> src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs:6:12
+  |
+6 | use sha2::{Digest, Sha256};
+  |            ^^^^^^  ^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/ai_comparison/engine.rs:809:9
+    |
+809 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused imports: `DiagnosticReader`, `DiagnosticRecorder`, `DiagnosticTerminal`, `RecordingLimits`, and `TerminalOutcome`
+   --> src/bin/desktop/ai_comparison/engine_typed_tests.rs:3:5
+    |
+  3 |     RecordingLimits,
+    |     ^^^^^^^^^^^^^^^
+  4 |     diagnostic::{DiagnosticReader, DiagnosticRecorder, DiagnosticTerminal, TerminalOutcome},
+    |                  ^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^
+    |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+   --> src/bin/desktop/ai_comparison/engine.rs:900:1
+    |
+900 | mod typed_tests;
+    | ^^^^^^^^^^^^^^^^
+
+warning: unused import: `super::*`
+    --> src/bin/desktop/ai_comparison/model_process.rs:1038:9
+     |
+1038 |     use super::*;
+     |         ^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/ai_comparison/scene.rs:123:9
+    |
+123 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/ai_comparison/view.rs:221:9
+    |
+221 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `super::super::cpu_contract_tests::assert_child_liveness`
+   --> src/bin/desktop/ai_comparison/worker.rs:352:9
+    |
+352 |     use super::super::cpu_contract_tests::assert_child_liveness;
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `Event`, `Modifiers`, `PointerButton`, `Pos2`, `RawInput`, `Rect`, and `Vec2`
+   --> src/bin/desktop/ai_comparison/mod.rs:427:24
+    |
+427 |     use eframe::egui::{Event, Modifiers, PointerButton, Pos2, RawInput, Rect, Vec2};
+    |                        ^^^^^  ^^^^^^^^^  ^^^^^^^^^^^^^  ^^^^  ^^^^^^^^  ^^^^  ^^^^
+    |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+   --> src/bin/desktop/ai_comparison/mod.rs:425:1
+    |
+425 | mod saved_rerun_tests {
+    | ^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/carrier_execution.rs:176:9
+    |
+176 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `member`
+  --> src/bin/desktop/configured_comparison_tests.rs:3:67
+   |
+ 3 | use super::configured_worker_tests::{Output, app, finish, launch, member, package, set};
+   |                                                                   ^^^^^^
+   |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+  --> src/bin/rheon-desktop.rs:15:1
+   |
+15 | mod configured_comparison_tests;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `*`, `diagnostic::NoCandidateReason`, and `runtime::*`
+  --> src/bin/desktop/configured_comparison_tests.rs:13:9
+   |
+13 |         diagnostic::NoCandidateReason,
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+14 |         provider::{runtime::*, *},
+   |                    ^^^^^^^^^^  ^
+   |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+  --> src/bin/rheon-desktop.rs:15:1
+   |
+15 | mod configured_comparison_tests;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `process::Command`
+  --> src/bin/desktop/configured_comparison_tests.rs:21:5
+   |
+21 |     process::Command,
+   |     ^^^^^^^^^^^^^^^^
+   |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+  --> src/bin/rheon-desktop.rs:15:1
+   |
+15 | mod configured_comparison_tests;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::run_sets::NativePressureMethod`
+   --> src/bin/desktop/configured_controls.rs:519:9
+    |
+519 |     use crate::run_sets::NativePressureMethod;
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `rheon::SnapshotStage`
+   --> src/bin/desktop/configured_controls.rs:520:9
+    |
+520 |     use rheon::SnapshotStage;
+    |         ^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `process::Command`
+  --> src/bin/desktop/configured_producer_exit_tests.rs:24:5
+   |
+24 |     process::Command,
+   |     ^^^^^^^^^^^^^^^^
+   |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+  --> src/bin/rheon-desktop.rs:20:1
+   |
+20 | mod configured_producer_exit_tests;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `*` and `runtime::*`
+  --> src/bin/desktop/configured_worker_tests.rs:6:20
+   |
+ 6 |         provider::{runtime::*, *},
+   |                    ^^^^^^^^^^  ^
+   |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+  --> src/bin/rheon-desktop.rs:23:1
+   |
+23 | mod configured_worker_tests;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `sync::Mutex`
+  --> src/bin/desktop/configured_worker_tests.rs:17:5
+   |
+17 |     sync::Mutex,
+   |     ^^^^^^^^^^^
+   |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+  --> src/bin/rheon-desktop.rs:23:1
+   |
+23 | mod configured_worker_tests;
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/emitter_controls.rs:147:9
+    |
+147 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/engineering.rs:549:9
+    |
+549 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `super::*`
+  --> src/bin/desktop/export_ui.rs:57:9
+   |
+57 |     use super::*;
+   |         ^^^^^^^^
+
+warning: unused import: `super::*`
+  --> src/bin/desktop/archive_view.rs:69:9
+   |
+69 |     use super::*;
+   |         ^^^^^^^^
+
+warning: unused import: `rheon::*`
+  --> src/bin/desktop/archive_view.rs:70:9
+   |
+70 |     use rheon::*;
+   |         ^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/collision_ui.rs:117:9
+    |
+117 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/comparison_field_view.rs:852:9
+    |
+852 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/history.rs:388:9
+    |
+388 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/particle_view.rs:173:9
+    |
+173 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/transport_view.rs:148:9
+    |
+148 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `super::*`
+   --> src/bin/desktop/viewport.rs:817:9
+    |
+817 |     use super::*;
+    |         ^^^^^^^^
+
+warning: unused import: `eframe::egui::Pos2`
+   --> src/bin/desktop/viewport.rs:818:9
+    |
+818 |     use eframe::egui::Pos2;
+    |         ^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `super::*`
+    --> src/bin/desktop/viewport.rs:1068:9
+     |
+1068 |     use super::*;
+     |         ^^^^^^^^
+     |
+help: if this is a test module, consider adding a `#[cfg(test)]` to the containing module
+    --> src/bin/desktop/viewport.rs:1067:1
+     |
+1067 | mod header_ui_tests {
+     | ^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `Digest`
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:10:12
+   |
+10 | use sha2::{Digest, Sha256};
+   |            ^^^^^^
+
+warning: unused import: `Digest`
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:10:12
+   |
+10 | use sha2::{Digest, Sha256};
+   |            ^^^^^^
+
+warning: function `run` is never used
+   --> src/bin/rheon-desktop.rs:372:4
+    |
+372 | fn run(
+    |    ^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: constant `CAP` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:16:7
+   |
+16 | const CAP: usize = 1024 * 1024;
+   |       ^^^
+
+warning: constant `RHO` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:17:7
+   |
+17 | const RHO: f64 = 2.0;
+   |       ^^^
+
+warning: constant `MU` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:18:7
+   |
+18 | const MU: f64 = 1.0 / 128.0;
+   |       ^^
+
+warning: constant `DT` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:19:7
+   |
+19 | const DT: f64 = 1.0 / 16.0;
+   |       ^^
+
+warning: function `grid` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:20:4
+   |
+20 | fn grid() -> GridGeometry {
+   |    ^^^^
+
+warning: function `config` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:23:4
+   |
+23 | fn config() -> LiquidTransportConfig {
+   |    ^^^^^^
+
+warning: function `session` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:45:4
+   |
+45 | fn session(quota: usize) -> SimulationSession {
+   |    ^^^^^^^
+
+warning: function `workspaces` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:60:4
+   |
+60 | fn workspaces() -> (ProviderStepWorkspace, ViscosityWorkspace) {
+   |    ^^^^^^^^^^
+
+warning: function `inputs` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:66:4
+   |
+66 | fn inputs() -> LiquidStepInputs<'static> {
+   |    ^^^^^^
+
+warning: function `edit` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:91:4
+   |
+91 | fn edit(fixture: &Fixture, f: impl FnOnce(&mut Value)) {
+   |    ^^^^
+
+warning: function `package` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:97:4
+   |
+97 | fn package(correction: bool, behavior: &str) -> Fixture {
+   |    ^^^^^^^
+
+warning: function `identity` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:150:4
+    |
+150 | fn identity(fixture: &Fixture) -> Arc<ContextProviderIdentity> {
+    |    ^^^^^^^^
+
+warning: function `start` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:165:4
+    |
+165 | fn start(fixture: &Fixture) -> (AcceptedCpuProvider, ChildSlot) {
+    |    ^^^^^
+
+warning: function `drain` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:178:4
+    |
+178 | fn drain(provider: AcceptedCpuProvider, slot: ChildSlot) {
+    |    ^^^^^
+
+warning: function `received` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:185:4
+    |
+185 | fn received(f: &Fixture) -> Vec<Value> {
+    |    ^^^^^^^^
+
+warning: function `state_bits` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:195:4
+    |
+195 | fn state_bits(v: LiquidTransportView<'_>) -> Vec<u64> {
+    |    ^^^^^^^^^^
+
+warning: function `publication` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:220:4
+    |
+220 | fn publication(s: &SimulationSession) -> Vec<u8> {
+    |    ^^^^^^^^^^^
+
+warning: function `receipt_unchanged` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:225:4
+    |
+225 | fn receipt_unchanged(a: &ConfiguredProviderReport, b: &ConfiguredProviderReport) {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: function `seed` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_tests.rs:249:4
+    |
+249 | fn seed(
+    |    ^^^^
+
+warning: methods `runtime_ready` and `inlet` are never used
+   --> src/bin/desktop/ai_comparison/configured_track.rs:307:19
+    |
+ 68 | impl ConfiguredTrack {
+    | -------------------- methods in this implementation
+...
+307 |     pub(crate) fn runtime_ready(&self) -> bool {
+    |                   ^^^^^^^^^^^^^
+...
+323 |     pub(crate) fn inlet(&self) -> LiquidInlet {
+    |                   ^^^^^
+
+warning: constant `CAP` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:17:7
+   |
+17 | const CAP: usize = 1024 * 1024;
+   |       ^^^
+
+warning: constant `RHO` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:18:7
+   |
+18 | const RHO: f64 = 2.0;
+   |       ^^^
+
+warning: constant `MU` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:19:7
+   |
+19 | const MU: f64 = 1.0 / 128.0;
+   |       ^^
+
+warning: constant `DT` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:20:7
+   |
+20 | const DT: f64 = 1.0 / 16.0;
+   |       ^^
+
+warning: function `executor` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:21:4
+   |
+21 | fn executor() -> ExecutorDeclaration {
+   |    ^^^^^^^^
+
+warning: function `identity` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:28:4
+   |
+28 | fn identity(run: u64) -> SessionIdentity {
+   |    ^^^^^^^^
+
+warning: function `geometry` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:34:4
+   |
+34 | fn geometry(counts: [u64; 3]) -> GridGeometry {
+   |    ^^^^^^^^
+
+warning: function `configuration` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:37:4
+   |
+37 | fn configuration() -> LiquidTransportConfig {
+   |    ^^^^^^^^^^^^^
+
+warning: function `edit` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:59:4
+   |
+59 | fn edit(f: &Fixture, action: impl FnOnce(&mut Value)) {
+   |    ^^^^
+
+warning: function `package` is never used
+  --> src/bin/desktop/ai_comparison/configured_track_tests.rs:64:4
+   |
+64 | fn package(
+   |    ^^^^^^^
+
+warning: function `pin` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:119:4
+    |
+119 | fn pin(f: &Fixture) -> ConfiguredProviderPin {
+    |    ^^^
+
+warning: function `spec` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:134:4
+    |
+134 | fn spec(
+    |    ^^^^
+
+warning: function `reseal` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:196:4
+    |
+196 | fn reseal(spec: FrozenConfiguredSpec) -> FrozenConfiguredSpec {
+    |    ^^^^^^
+
+warning: function `prepare` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:199:4
+    |
+199 | fn prepare(spec: FrozenConfiguredSpec, flag: Arc<AtomicBool>) -> ConfiguredTrack {
+    |    ^^^^^^^
+
+warning: function `slot` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:202:4
+    |
+202 | fn slot() -> ChildSlot {
+    |    ^^^^
+
+warning: function `launch` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:205:4
+    |
+205 | fn launch(track: &mut ConfiguredTrack, f: &Fixture, slot: &ChildSlot) {
+    |    ^^^^^^
+
+warning: function `received` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:208:4
+    |
+208 | fn received(f: &Fixture) -> Vec<Value> {
+    |    ^^^^^^^^
+
+warning: function `bits` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:218:4
+    |
+218 | fn bits(v: LiquidTransportView<'_>) -> Vec<u64> {
+    |    ^^^^
+
+warning: function `publication` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:245:4
+    |
+245 | fn publication(t: &ConfiguredTrack) -> Vec<u8> {
+    |    ^^^^^^^^^^^
+
+warning: function `assert_receipt` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:250:4
+    |
+250 | fn assert_receipt(a: &ConfiguredProviderReport, b: &ConfiguredProviderReport) {
+    |    ^^^^^^^^^^^^^^
+
+warning: function `retire` is never used
+   --> src/bin/desktop/ai_comparison/configured_track_tests.rs:274:4
+    |
+274 | fn retire(track: &mut ConfiguredTrack, slot: &ChildSlot) {
+    |    ^^^^^^
+
+warning: static `SERIAL` is never used
+   --> src/bin/desktop/ai_comparison/adapter.rs:483:12
+    |
+483 |     static SERIAL: AtomicU64 = AtomicU64::new(0);
+    |            ^^^^^^
+
+warning: struct `Fixture` is never constructed
+   --> src/bin/desktop/ai_comparison/adapter.rs:484:12
+    |
+484 |     struct Fixture {
+    |            ^^^^^^^
+
+warning: associated items `new` and `load` are never used
+   --> src/bin/desktop/ai_comparison/adapter.rs:489:12
+    |
+488 |     impl Fixture {
+    |     ------------ associated items in this implementation
+489 |         fn new() -> Self {
+    |            ^^^
+...
+523 |         fn load(&self) -> Result<AdapterPackage, AdapterError> {
+    |            ^^^^
+
+warning: function `grid` is never used
+   --> src/bin/desktop/ai_comparison/adapter.rs:534:8
+    |
+534 |     fn grid(counts: [u64; 3], spacing: [f64; 3], origin: [f64; 3]) -> GridGeometry {
+    |        ^^^^
+
+warning: function `assert_child_liveness` is never used
+  --> src/bin/desktop/ai_comparison/cpu_contract_tests.rs:20:15
+   |
+20 | pub(crate) fn assert_child_liveness(pid: u32, expected_alive: bool) {
+   |               ^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `Fixture` is never constructed
+  --> src/bin/desktop/ai_comparison/cpu_contract_tests.rs:38:19
+   |
+38 | pub(crate) struct Fixture {
+   |                   ^^^^^^^
+
+warning: associated items `new`, `source`, and `edit` are never used
+  --> src/bin/desktop/ai_comparison/cpu_contract_tests.rs:43:12
+   |
+42 | impl Fixture {
+   | ------------ associated items in this implementation
+43 |     pub fn new(correction: bool) -> Self {
+   |            ^^^
+...
+53 |     pub fn source(source: &str, correction: bool) -> Self {
+   |            ^^^^^^
+...
+89 |     fn edit(&self, f: impl FnOnce(&mut Value)) {
+   |        ^^^^
+
+warning: function `slot` is never used
+   --> src/bin/desktop/ai_comparison/cpu_contract_tests.rs:101:4
+    |
+101 | fn slot() -> ChildSlot {
+    |    ^^^^
+
+warning: function `input` is never used
+   --> src/bin/desktop/ai_comparison/cpu_contract_tests.rs:104:4
+    |
+104 | fn input<'a>(
+    |    ^^^^^
+
+warning: constant `CAP` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:34:7
+   |
+34 | const CAP: usize = 1024 * 1024;
+   |       ^^^
+
+warning: constant `RHO` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:35:7
+   |
+35 | const RHO: f64 = 2.0;
+   |       ^^^
+
+warning: constant `MU` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:36:7
+   |
+36 | const MU: f64 = 1.0 / 128.0;
+   |       ^^
+
+warning: constant `DT` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:37:7
+   |
+37 | const DT: f64 = 1.0 / 16.0;
+   |       ^^
+
+warning: function `grid` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:38:4
+   |
+38 | fn grid() -> GridGeometry {
+   |    ^^^^
+
+warning: function `config` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:41:4
+   |
+41 | fn config() -> LiquidTransportConfig {
+   |    ^^^^^^
+
+warning: function `session` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:63:4
+   |
+63 | fn session(quota: usize) -> SimulationSession {
+   |    ^^^^^^^
+
+warning: function `workspaces` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:78:4
+   |
+78 | fn workspaces() -> (ProviderStepWorkspace, ViscosityWorkspace) {
+   |    ^^^^^^^^^^
+
+warning: function `inputs` is never used
+  --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:84:4
+   |
+84 | fn inputs() -> LiquidStepInputs<'static> {
+   |    ^^^^^^
+
+warning: function `hash` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:109:4
+    |
+109 | fn hash(values: &[f64]) -> [u8; 32] {
+    |    ^^^^
+
+warning: function `hex_digest` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:116:4
+    |
+116 | fn hex_digest(value: &str) -> [u8; 32] {
+    |    ^^^^^^^^^^
+
+warning: function `publication` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:120:4
+    |
+120 | fn publication(s: &SimulationSession) -> Vec<u8> {
+    |    ^^^^^^^^^^^
+
+warning: function `state_bits` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:125:4
+    |
+125 | fn state_bits(v: LiquidTransportView<'_>) -> Vec<u64> {
+    |    ^^^^^^^^^^
+
+warning: function `package` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:150:4
+    |
+150 | fn package(correction: bool, mode: &str) -> Fixture {
+    |    ^^^^^^^
+
+warning: function `received` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:194:4
+    |
+194 | fn received(fixture: &Fixture) -> Vec<Value> {
+    |    ^^^^^^^^
+
+warning: struct `Observation` is never constructed
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:205:8
+    |
+205 | struct Observation {
+    |        ^^^^^^^^^^^
+
+warning: function `observation` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:213:4
+    |
+213 | fn observation(r: &ContextPressureRequest<'_>) -> Observation {
+    |    ^^^^^^^^^^^
+
+warning: struct `Driver` is never constructed
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:237:8
+    |
+237 | struct Driver {
+    |        ^^^^^^
+
+warning: associated items `new` and `drain` are never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:248:8
+    |
+247 | impl Driver {
+    | ----------- associated items in this implementation
+248 |     fn new(fixture: &Fixture) -> Self {
+    |        ^^^
+...
+288 |     fn drain(self) {
+    |        ^^^^^
+
+warning: function `receipt_unchanged` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:376:4
+    |
+376 | fn receipt_unchanged(before: &ConfiguredProviderReport, after: &ConfiguredProviderReport) {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: function `check_context` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:403:4
+    |
+403 | fn check_context(receipt: &ConfiguredProviderReport, observed: &Observation) {
+    |    ^^^^^^^^^^^^^
+
+warning: function `direct_input` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:707:4
+    |
+707 | fn direct_input<'a>(g: &'a GridGeometry, zeros: &'a [f64]) -> Input<'a> {
+    |    ^^^^^^^^^^^^
+
+warning: function `drop_process` is never used
+   --> src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs:726:4
+    |
+726 | fn drop_process(process: ModelProcess, slot: &ChildSlot) {
+    |    ^^^^^^^^^^^^
+
+warning: constant `COLD_PATH` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:15:7
+   |
+15 | const COLD_PATH: &str = "RHEON_ACCEPTED_RECORDING_COLD_PATH";
+   |       ^^^^^^^^^
+
+warning: constant `COLD_OUTCOME` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:16:7
+   |
+16 | const COLD_OUTCOME: &str = "RHEON_ACCEPTED_RECORDING_COLD_OUTCOME";
+   |       ^^^^^^^^^^^^
+
+warning: constant `COLD_GENERATION` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:17:7
+   |
+17 | const COLD_GENERATION: &str = "RHEON_ACCEPTED_RECORDING_COLD_GENERATION";
+   |       ^^^^^^^^^^^^^^^
+
+warning: constant `COLD_LAST_KIND` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:18:7
+   |
+18 | const COLD_LAST_KIND: &str = "RHEON_ACCEPTED_RECORDING_COLD_LAST_KIND";
+   |       ^^^^^^^^^^^^^^
+
+warning: constant `COLD_SHA` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:19:7
+   |
+19 | const COLD_SHA: &str = "RHEON_ACCEPTED_RECORDING_COLD_SHA";
+   |       ^^^^^^^^
+
+warning: constant `COLD_SELECTIONS` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:20:7
+   |
+20 | const COLD_SELECTIONS: &str = "RHEON_ACCEPTED_RECORDING_COLD_SELECTIONS";
+   |       ^^^^^^^^^^^^^^^
+
+warning: function `file_sha` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:22:4
+   |
+22 | fn file_sha(path: &Path) -> String {
+   |    ^^^^^^^^
+
+warning: function `selection_sha` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:25:4
+   |
+25 | fn selection_sha(reader: &RecordingReader, ordinal: usize) -> String {
+   |    ^^^^^^^^^^^^^
+
+warning: function `pressure_report_bits` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:33:4
+   |
+33 | fn pressure_report_bits(report: PressureReport) -> [u64; 4] {
+   |    ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `append_actual` is never used
+  --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:41:4
+   |
+41 | fn append_actual(recorder: &mut StepRecorder, session: &SimulationSession) {
+   |    ^^^^^^^^^^^^^
+
+warning: function `new_archive` is never used
+   --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:139:4
+    |
+139 | fn new_archive(path: &Path, session: &SimulationSession) -> StepRecorder {
+    |    ^^^^^^^^^^^
+
+warning: function `seed` is never used
+   --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:154:4
+    |
+154 | fn seed(
+    |    ^^^^
+
+warning: function `observed_runtime_files` is never used
+   --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:177:4
+    |
+177 | fn observed_runtime_files(fixture: &Fixture) -> [Option<Vec<u8>>; 2] {
+    |    ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `cold_reopen` is never used
+   --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:190:4
+    |
+190 | fn cold_reopen(fixture: &Fixture, path: &Path, outcome: &str, generation: u64, last_kind: &str) {
+    |    ^^^^^^^^^^^
+
+warning: function `fresh_retry` is never used
+   --> src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs:338:4
+    |
+338 | fn fresh_retry(
+    |    ^^^^^^^^^^^
+
+warning: method `constructions` is never used
+  --> src/bin/desktop/ai_comparison/diagnostic_view.rs:47:19
+   |
+42 | impl AttemptCache {
+   | ----------------- method in this implementation
+...
+47 |     pub(super) fn constructions(&self) -> usize {
+   |                   ^^^^^^^^^^^^^
+
+warning: method `load_for_test` is never used
+   --> src/bin/desktop/ai_comparison/diagnostic_view.rs:113:19
+    |
+108 | impl Inspector {
+    | -------------- method in this implementation
+...
+113 |     pub(super) fn load_for_test(&mut self) {
+    |                   ^^^^^^^^^^^^^
+
+warning: function `producer` is never used
+   --> src/bin/desktop/ai_comparison/diagnostic_view.rs:431:8
+    |
+431 |     fn producer(p: &Fixture) -> Worker {
+    |        ^^^^^^^^
+
+warning: function `render` is never used
+   --> src/bin/desktop/ai_comparison/diagnostic_view.rs:452:8
+    |
+452 |     fn render(
+    |        ^^^^^^
+
+warning: function `text` is never used
+   --> src/bin/desktop/ai_comparison/diagnostic_view.rs:472:8
+    |
+472 |     fn text(output: &egui::FullOutput) -> String {
+    |        ^^^^
+
+warning: function `package` is never used
+ --> src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs:8:4
+  |
+8 | fn package(body: &str) -> Fixture {
+  |    ^^^^^^^
+
+warning: function `zero` is never used
+  --> src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs:23:4
+   |
+23 | fn zero() -> Fixture {
+   |    ^^^^
+
+warning: function `scene` is never used
+  --> src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs:28:4
+   |
+28 | fn scene() -> Scene {
+   |    ^^^^^
+
+warning: function `wait` is never used
+  --> src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs:36:4
+   |
+36 | fn wait(worker: &mut super::super::worker::Worker) {
+   |    ^^^^
+
+warning: function `cold` is never used
+  --> src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs:44:4
+   |
+44 | fn cold(worker: super::super::worker::Worker) -> (std::path::PathBuf, DiagnosticRunSet) {
+   |    ^^^^
+
+warning: function `ready` is never used
+  --> src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs:56:4
+   |
+56 | fn ready(set: &DiagnosticRunSet, path: &Path) -> rheon::recording::diagnostic::DiagnosticReader {
+   |    ^^^^^
+
+warning: struct `Archive` is never constructed
+ --> src/bin/desktop/ai_comparison/engine_typed_tests.rs:8:8
+  |
+8 | struct Archive(PathBuf);
+  |        ^^^^^^^
+
+warning: associated function `new` is never used
+  --> src/bin/desktop/ai_comparison/engine_typed_tests.rs:10:8
+   |
+ 9 | impl Archive {
+   | ------------ associated function in this implementation
+10 |     fn new() -> Self {
+   |        ^^^
+
+warning: function `binding` is never used
+  --> src/bin/desktop/ai_comparison/engine_typed_tests.rs:26:4
+   |
+26 | fn binding() -> BindingIdentity {
+   |    ^^^^^^^
+
+warning: function `native` is never used
+  --> src/bin/desktop/ai_comparison/engine_typed_tests.rs:35:4
+   |
+35 | fn native(input: Input<'_>) -> Result<Vec<f64>, PredictionFailure> {
+   |    ^^^^^^
+
+warning: function `scene` is never used
+  --> src/bin/desktop/ai_comparison/engine_typed_tests.rs:59:4
+   |
+59 | fn scene() -> Scene {
+   |    ^^^^^
+
+warning: function `warmup` is never used
+  --> src/bin/desktop/ai_comparison/engine_typed_tests.rs:67:4
+   |
+67 | fn warmup(e: &mut Engine, flag: &AtomicBool) {
+   |    ^^^^^^
+
+warning: function `slot` is never used
+ --> src/bin/desktop/ai_comparison/prediction_contract_tests.rs:6:4
+  |
+6 | fn slot() -> ChildSlot {
+  |    ^^^^
+
+warning: function `start` is never used
+ --> src/bin/desktop/ai_comparison/prediction_contract_tests.rs:9:4
+  |
+9 | fn start(package: &Fixture, flag: &AtomicBool) -> ModelProcess {
+  |    ^^^^^
+
+warning: function `input` is never used
+  --> src/bin/desktop/ai_comparison/prediction_contract_tests.rs:12:4
+   |
+12 | fn input<'a>(grid: &'a GridGeometry, zero: &'a [f64], prior: Option<&'a [f64]>) -> Input<'a> {
+   |    ^^^^^
+
+warning: function `source` is never used
+  --> src/bin/desktop/ai_comparison/prediction_contract_tests.rs:40:4
+   |
+40 | fn source(body: &str, correction: bool) -> Fixture {
+   |    ^^^^^^
+
+warning: function `packet` is never used
+  --> src/bin/desktop/ai_comparison/prediction_contract_tests.rs:54:4
+   |
+54 | fn packet(raw: &str, correction: bool) -> Fixture {
+   |    ^^^^^^
+
+warning: function `edit` is never used
+  --> src/bin/desktop/ai_comparison/prediction_contract_tests.rs:63:4
+   |
+63 | fn edit(package: &Fixture, change: impl FnOnce(&mut Value)) {
+   |    ^^^^
+
+warning: function `wait_for` is never used
+   --> src/bin/desktop/ai_comparison/worker.rs:355:8
+    |
+355 |     fn wait_for(worker: &Worker, mut ready: impl FnMut(&Shared) -> bool) {
+    |        ^^^^^^^^
+
+warning: function `worker` is never used
+   --> src/bin/desktop/ai_comparison/mod.rs:428:8
+    |
+428 |     fn worker(package: &cpu_contract_tests::Fixture, counts: [usize; 3]) -> Worker {
+    |        ^^^^^^
+
+warning: constant `PHASE` is never used
+  --> src/bin/desktop/configured_comparison_tests.rs:24:7
+   |
+24 | const PHASE: &str = "RHEON_CONFIGURED_COMPARISON_PHASE";
+   |       ^^^^^
+
+warning: constant `ROOT` is never used
+  --> src/bin/desktop/configured_comparison_tests.rs:25:7
+   |
+25 | const ROOT: &str = "RHEON_CONFIGURED_COMPARISON_ROOT";
+   |       ^^^^
+
+warning: constant `PROCESS_TEST` is never used
+  --> src/bin/desktop/configured_comparison_tests.rs:26:7
+   |
+26 | const PROCESS_TEST: &str = "configured_comparison_tests::worker_process_exits_before_fresh_comparison_reader_without_model_runtime";
+   |       ^^^^^^^^^^^^
+
+warning: constant `EPS` is never used
+  --> src/bin/desktop/configured_comparison_tests.rs:27:7
+   |
+27 | const EPS: f64 = 1e-12;
+   |       ^^^
+
+warning: function `produce` is never used
+  --> src/bin/desktop/configured_comparison_tests.rs:29:4
+   |
+29 | fn produce(
+   |    ^^^^^^^
+
+warning: function `pressure_recipe` is never used
+  --> src/bin/desktop/configured_comparison_tests.rs:52:4
+   |
+52 | fn pressure_recipe(
+   |    ^^^^^^^^^^^^^^^
+
+warning: function `check_pressure` is never used
+  --> src/bin/desktop/configured_comparison_tests.rs:72:4
+   |
+72 | fn check_pressure(verified: &VerifiedComparison, ordinals: &[usize]) {
+   |    ^^^^^^^^^^^^^^
+
+warning: function `selected` is never used
+   --> src/bin/desktop/configured_comparison_tests.rs:105:4
+    |
+105 | fn selected<'a>(root: &'a Path, verified: &'a VerifiedComparison) -> SelectedNativePair<'a> {
+    |    ^^^^^^^^
+
+warning: function `check_linked` is never used
+   --> src/bin/desktop/configured_comparison_tests.rs:112:4
+    |
+112 | fn check_linked(root: &Path, verified: &VerifiedComparison, ordinal: usize) {
+    |    ^^^^^^^^^^^^
+
+warning: struct `Harness` is never constructed
+   --> src/bin/desktop/configured_comparison_tests.rs:151:8
+    |
+151 | struct Harness {
+    |        ^^^^^^^
+
+warning: associated items `new`, `frame`, `at`, `click`, `text`, and `choice` are never used
+   --> src/bin/desktop/configured_comparison_tests.rs:157:8
+    |
+156 | impl Harness {
+    | ------------ associated items in this implementation
+157 |     fn new(root: &Path, manifest: &str) -> Self {
+    |        ^^^
+...
+166 |     fn frame(&mut self, events: Vec<egui::Event>) -> egui::FullOutput {
+    |        ^^^^^
+...
+183 |     fn at(&mut self, pos: egui::Pos2) -> egui::FullOutput {
+    |        ^^
+...
+200 |     fn click(&mut self, id: &str) -> egui::FullOutput {
+    |        ^^^^^
+...
+209 |     fn text(&mut self, id: &str, value: &str) {
+    |        ^^^^
+...
+226 |     fn choice(&mut self, id: &str, label: &str) {
+    |        ^^^^^^
+
+warning: function `label_position` is never used
+   --> src/bin/desktop/configured_comparison_tests.rs:232:4
+    |
+232 | fn label_position(output: &egui::FullOutput, label: &str) -> egui::Pos2 {
+    |    ^^^^^^^^^^^^^^
+
+warning: function `shown` is never used
+   --> src/bin/desktop/configured_comparison_tests.rs:245:4
+    |
+245 | fn shown(output: &egui::FullOutput) -> String {
+    |    ^^^^^
+
+warning: function `inspector_csv` is never used
+   --> src/bin/desktop/configured_comparison_tests.rs:256:4
+    |
+256 | fn inspector_csv(root: &Path, revision: &ConfiguredRunSetRevision) {
+    |    ^^^^^^^^^^^^^
+
+warning: struct `HiddenArchives` is never constructed
+   --> src/bin/desktop/configured_comparison_tests.rs:342:8
+    |
+342 | struct HiddenArchives(Vec<(PathBuf, PathBuf)>);
+    |        ^^^^^^^^^^^^^^
+
+warning: associated function `new` is never used
+   --> src/bin/desktop/configured_comparison_tests.rs:344:8
+    |
+343 | impl HiddenArchives {
+    | ------------------- associated function in this implementation
+344 |     fn new(root: &Path, revision: &ConfiguredRunSetRevision) -> Self {
+    |        ^^^
+
+warning: struct `Packet` is never constructed
+   --> src/bin/desktop/configured_comparison_tests.rs:524:8
+    |
+524 | struct Packet<T> {
+    |        ^^^^^^
+
+warning: struct `ResultPayload` is never constructed
+   --> src/bin/desktop/configured_comparison_tests.rs:531:8
+    |
+531 | struct ResultPayload {
+    |        ^^^^^^^^^^^^^
+
+warning: function `write_packet` is never used
+   --> src/bin/desktop/configured_comparison_tests.rs:535:4
+    |
+535 | fn write_packet<T: Serialize>(path: &Path, packet: &mut Packet<T>) {
+    |    ^^^^^^^^^^^^
+
+warning: function `native_declaration` is never used
+   --> src/bin/desktop/configured_comparison_tests.rs:541:4
+    |
+541 | fn native_declaration(recipe: &SavedRecipe) -> SavedRecipe {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: method `density` is never used
+  --> src/bin/desktop/configured_controls.rs:97:19
+   |
+95 | impl ConfiguredControls {
+   | ----------------------- method in this implementation
+96 |     #[cfg(test)]
+97 |     pub(crate) fn density(&self) -> f64 {
+   |                   ^^^^^^^
+
+warning: constant `CAP` is never used
+   --> src/bin/desktop/configured_controls.rs:528:11
+    |
+528 |     const CAP: usize = 1024 * 1024;
+    |           ^^^
+
+warning: function `inputs` is never used
+   --> src/bin/desktop/configured_controls.rs:529:8
+    |
+529 |     fn inputs() -> ConfiguredLaunchInputs {
+    |        ^^^^^^
+
+warning: function `controls` is never used
+   --> src/bin/desktop/configured_controls.rs:564:8
+    |
+564 |     fn controls() -> ConfiguredControls {
+    |        ^^^^^^^^
+
+warning: struct `Package` is never constructed
+   --> src/bin/desktop/configured_controls.rs:576:12
+    |
+576 |     struct Package(PathBuf);
+    |            ^^^^^^^
+
+warning: associated items `new` and `inspect` are never used
+   --> src/bin/desktop/configured_controls.rs:578:12
+    |
+577 |     impl Package {
+    |     ------------ associated items in this implementation
+578 |         fn new() -> Self {
+    |            ^^^
+...
+619 |         fn inspect(&self, controls: &mut ConfiguredControls) {
+    |            ^^^^^^^
+
+warning: constant `STORAGE_TAIL_PROCESS_TEST` is never used
+  --> src/bin/desktop/configured_producer_exit_tests.rs:27:18
+   |
+27 | pub(super) const STORAGE_TAIL_PROCESS_TEST: &str = "configured_producer_exit_tests::worker_storage_tail_survives_producer_exit_then_model...
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `PHASE` is never used
+  --> src/bin/desktop/configured_producer_exit_tests.rs:28:7
+   |
+28 | const PHASE: &str = "RHEON_CONFIGURED_STORAGE_PHASE";
+   |       ^^^^^
+
+warning: constant `ROOT` is never used
+  --> src/bin/desktop/configured_producer_exit_tests.rs:29:7
+   |
+29 | const ROOT: &str = "RHEON_CONFIGURED_STORAGE_ROOT";
+   |       ^^^^
+
+warning: constant `RETAIN_ROOT` is never used
+  --> src/bin/desktop/configured_producer_exit_tests.rs:30:7
+   |
+30 | const RETAIN_ROOT: &str = "RHEON_CONFIGURED_STORAGE_TAIL_RETAIN";
+   |       ^^^^^^^^^^^
+
+warning: constant `DT` is never used
+  --> src/bin/desktop/configured_producer_exit_tests.rs:31:7
+   |
+31 | const DT: f64 = 1.0 / 16.0;
+   |       ^^
+
+warning: struct `ArtifactPin` is never constructed
+  --> src/bin/desktop/configured_producer_exit_tests.rs:34:8
+   |
+34 | struct ArtifactPin {
+   |        ^^^^^^^^^^^
+
+warning: struct `CaseReceipt` is never constructed
+  --> src/bin/desktop/configured_producer_exit_tests.rs:39:8
+   |
+39 | struct CaseReceipt {
+   |        ^^^^^^^^^^^
+
+warning: function `digest` is never used
+  --> src/bin/desktop/configured_producer_exit_tests.rs:51:4
+   |
+51 | fn digest(path: &Path) -> [u8; 32] {
+   |    ^^^^^^
+
+warning: function `artifact_pins` is never used
+  --> src/bin/desktop/configured_producer_exit_tests.rs:54:4
+   |
+54 | fn artifact_pins(root: &Path) -> Vec<ArtifactPin> {
+   |    ^^^^^^^^^^^^^
+
+warning: function `selections` is never used
+  --> src/bin/desktop/configured_producer_exit_tests.rs:76:4
+   |
+76 | fn selections(reader: &RecordingReader) -> [[u8; 32]; 2] {
+   |    ^^^^^^^^^^
+
+warning: function `check_tail` is never used
+  --> src/bin/desktop/configured_producer_exit_tests.rs:79:4
+   |
+79 | fn check_tail(
+   |    ^^^^^^^^^^
+
+warning: function `check_cold_ui` is never used
+   --> src/bin/desktop/configured_producer_exit_tests.rs:164:4
+    |
+164 | fn check_cold_ui(manifest: &Path, revision: &ConfiguredRunSetRevision, reader: &RecordingReader) {
+    |    ^^^^^^^^^^^^^
+
+warning: function `produce` is never used
+   --> src/bin/desktop/configured_producer_exit_tests.rs:233:4
+    |
+233 | fn produce(root: &Path, correction: bool) -> CaseReceipt {
+    |    ^^^^^^^
+
+warning: function `inspect` is never used
+   --> src/bin/desktop/configured_producer_exit_tests.rs:324:4
+    |
+324 | fn inspect(root: &Path) {
+    |    ^^^^^^^
+
+warning: constant `CAP` is never used
+  --> src/bin/desktop/configured_worker_tests.rs:20:7
+   |
+20 | const CAP: usize = 16 * 1024 * 1024;
+   |       ^^^
+
+warning: struct `Output` is never constructed
+  --> src/bin/desktop/configured_worker_tests.rs:21:19
+   |
+21 | pub(super) struct Output(pub(super) PathBuf);
+   |                   ^^^^^^
+
+warning: associated function `new` is never used
+  --> src/bin/desktop/configured_worker_tests.rs:23:19
+   |
+22 | impl Output {
+   | ----------- associated function in this implementation
+23 |     pub(super) fn new() -> Self {
+   |                   ^^^
+
+warning: function `package` is never used
+  --> src/bin/desktop/configured_worker_tests.rs:39:15
+   |
+39 | pub(super) fn package(correction: bool, behavior: &str) -> Fixture {
+   |               ^^^^^^^
+
+warning: function `set` is never used
+  --> src/bin/desktop/configured_worker_tests.rs:51:15
+   |
+51 | pub(super) fn set(fixture: &Fixture) -> ConfiguredRunSetRevision {
+   |               ^^^
+
+warning: function `app` is never used
+   --> src/bin/desktop/configured_worker_tests.rs:159:15
+    |
+159 | pub(super) fn app(output: &Output) -> App {
+    |               ^^^
+
+warning: function `wait` is never used
+   --> src/bin/desktop/configured_worker_tests.rs:166:4
+    |
+166 | fn wait(mut condition: impl FnMut() -> bool) {
+    |    ^^^^
+
+warning: function `launch` is never used
+   --> src/bin/desktop/configured_worker_tests.rs:173:15
+    |
+173 | pub(super) fn launch(app: &mut App, set: ConfiguredRunSetRevision, root: &Path) {
+    |               ^^^^^^
+
+warning: function `finish` is never used
+   --> src/bin/desktop/configured_worker_tests.rs:177:15
+    |
+177 | pub(super) fn finish(app: &mut App) -> ConfiguredRunSetRevision {
+    |               ^^^^^^
+
+warning: function `member` is never used
+   --> src/bin/desktop/configured_worker_tests.rs:183:15
+    |
+183 | pub(super) fn member(root: &Path, set: &ConfiguredRunSetRevision, index: usize) -> RecordingReader {
+    |               ^^^^^^
+
+warning: function `signature` is never used
+   --> src/bin/desktop/configured_worker_tests.rs:191:4
+    |
+191 | fn signature(reader: &RecordingReader) -> String {
+    |    ^^^^^^^^^
+
+warning: function `cold` is never used
+   --> src/bin/desktop/configured_worker_tests.rs:202:4
+    |
+202 | fn cold(manifest: &Path, index: usize, reader: &RecordingReader, hidden: &Path) {
+    |    ^^^^
+
+warning: method `range` is never used
+   --> src/bin/desktop/engineering.rs:190:8
+    |
+ 28 | impl SliceData {
+    | -------------- method in this implementation
+...
+190 |     fn range(&self, pressure: bool) -> [f64; 2] {
+    |        ^^^^^
+
+warning: associated functions `new`, `plan`, and `with_budget` are never used
+   --> src/bin/desktop/history.rs:250:12
+    |
+248 | impl LiveHistory {
+    | ---------------- associated functions in this implementation
+249 |     #[cfg(test)]
+250 |     pub fn new(grid_edge: usize, steps: usize, tracks: usize) -> Result<Arc<Self>, String> {
+    |            ^^^
+...
+254 |     pub fn plan(
+    |            ^^^^
+...
+305 |     pub fn with_budget(
+    |            ^^^^^^^^^^^
+
+warning: methods `selected_identity` and `archive_path` are never used
+  --> src/bin/desktop/inspector.rs:88:12
+   |
+58 | impl Inspector {
+   | -------------- methods in this implementation
+...
+88 |     pub fn selected_identity(&self) -> Option<(u64, u64, f64)> {
+   |            ^^^^^^^^^^^^^^^^^
+...
+98 |     pub fn archive_path(&self) -> Option<PathBuf> {
+   |            ^^^^^^^^^^^^
+
+warning: function `test_path` is never used
+   --> src/bin/desktop/inspector.rs:756:12
+    |
+756 |     pub fn test_path(label: &str) -> PathBuf {
+    |            ^^^^^^^^^
+
+warning: function `object` is never used
+   --> src/bin/desktop/scene_handles.rs:544:8
+    |
+544 |     fn object() -> ForceObject {
+    |        ^^^^^^
+
+warning: function `scene` is never used
+   --> src/bin/desktop/scene_handles.rs:562:8
+    |
+562 |     fn scene() -> SceneUi {
+    |        ^^^^^
+
+warning: function `rect` is never used
+   --> src/bin/desktop/scene_handles.rs:573:8
+    |
+573 |     fn rect() -> Rect {
+    |        ^^^^
+
+warning: function `screen` is never used
+   --> src/bin/desktop/scene_handles.rs:576:8
+    |
+576 |     fn screen(camera: &OrbitCamera, rect: Rect, p: V, side: f64) -> Pos2 {
+    |        ^^^^^^
+
+warning: struct `Harness` is never constructed
+   --> src/bin/desktop/scene_handles.rs:685:12
+    |
+685 |     struct Harness {
+    |            ^^^^^^^
+
+warning: associated items `new`, `frame`, `point`, `button`, and `press` are never used
+   --> src/bin/desktop/scene_handles.rs:696:12
+    |
+695 |     impl Harness {
+    |     ------------ associated items in this implementation
+696 |         fn new(tool: Tool) -> Self {
+    |            ^^^
+...
+719 |         fn frame(
+    |            ^^^^^
+...
+762 |         fn point(&self, x: f64) -> Pos2 {
+    |            ^^^^^
+...
+765 |         fn button(&mut self, p: Pos2, pressed: bool, modifiers: egui::Modifiers) {
+    |            ^^^^^^
+...
+781 |         fn press(&mut self) -> Pos2 {
+    |            ^^^^^
+
+warning: associated function `geometry_fixture` is never used
+  --> src/bin/desktop/scene_ui.rs:67:19
+   |
+65 | impl SceneUi {
+   | ------------ associated function in this implementation
+66 |     #[cfg(test)]
+67 |     pub(super) fn geometry_fixture(forces: ForceScene, model: bool) -> Self {
+   |                   ^^^^^^^^^^^^^^^^
+
+warning: function `context` is never used
+   --> src/bin/desktop/scene_ui.rs:457:8
+    |
+457 |     fn context() -> egui::Context {
+    |        ^^^^^^^
+
+warning: function `frame` is never used
+   --> src/bin/desktop/scene_ui.rs:463:8
+    |
+463 |     fn frame(
+    |        ^^^^^
+
+warning: function `text_rect` is never used
+   --> src/bin/desktop/scene_ui.rs:492:8
+    |
+492 |     fn text_rect(output: &egui::FullOutput, label: &str, last: bool) -> egui::Rect {
+    |        ^^^^^^^^^
+
+warning: function `click` is never used
+   --> src/bin/desktop/scene_ui.rs:511:8
+    |
+511 |     fn click(
+    |        ^^^^^
+
+warning: function `key` is never used
+   --> src/bin/desktop/scene_ui.rs:537:8
+    |
+537 |     fn key(key: egui::Key, modifiers: egui::Modifiers) -> Vec<egui::Event> {
+    |        ^^^
+
+warning: function `replace` is never used
+   --> src/bin/desktop/scene_ui.rs:548:8
+    |
+548 |     fn replace(ctx: &egui::Context, scene: &mut SceneUi, width: f32, text: &str) {
+    |        ^^^^^^^
+
+warning: function `force` is never used
+   --> src/bin/desktop/scene_view.rs:668:8
+    |
+668 |     fn force(id: u64, kind: ForceKind) -> ForceObject {
+    |        ^^^^^
+
+warning: function `camera` is never used
+   --> src/bin/desktop/scene_view.rs:683:8
+    |
+683 |     fn camera() -> OrbitCamera {
+    |        ^^^^^^
+
+warning: function `rect` is never used
+   --> src/bin/desktop/scene_view.rs:691:8
+    |
+691 |     fn rect() -> Rect {
+    |        ^^^^
+
+warning: function `state` is never used
+   --> src/bin/desktop/scene_view.rs:694:8
+    |
+694 |     fn state(objects: Vec<ForceObject>, model: bool) -> SceneUi {
+    |        ^^^^^
+
+warning: function `context` is never used
+   --> src/bin/desktop/settings.rs:393:8
+    |
+393 |     fn context() -> egui::Context {
+    |        ^^^^^^^
+
+warning: function `frame` is never used
+   --> src/bin/desktop/settings.rs:398:8
+    |
+398 |     fn frame(
+    |        ^^^^^
+
+warning: function `text_rect` is never used
+   --> src/bin/desktop/settings.rs:443:8
+    |
+443 |     fn text_rect(output: &egui::FullOutput, label: &str) -> Option<egui::Rect> {
+    |        ^^^^^^^^^
+
+warning: function `pointer` is never used
+   --> src/bin/desktop/settings.rs:451:8
+    |
+451 |     fn pointer(pos: egui::Pos2, pressed: bool) -> Vec<egui::Event> {
+    |        ^^^^^^^
+
+warning: function `key` is never used
+   --> src/bin/desktop/settings.rs:462:8
+    |
+462 |     fn key(key: egui::Key, modifiers: egui::Modifiers) -> Vec<egui::Event> {
+    |        ^^^
+
+warning: function `click` is never used
+   --> src/bin/desktop/settings.rs:473:8
+    |
+473 |     fn click(
+    |        ^^^^^
+
+warning: function `material_bits` is never used
+   --> src/bin/desktop/settings.rs:492:8
+    |
+492 |     fn material_bits(controls: &MaterialControls) -> [u64; 6] {
+    |        ^^^^^^^^^^^^^
+
+warning: function `numeric_label` is never used
+   --> src/bin/desktop/settings.rs:506:8
+    |
+506 |     fn numeric_label(output: &egui::FullOutput, suffix: &str) -> String {
+    |        ^^^^^^^^^^^^^
+
+warning: function `replace_focused` is never used
+   --> src/bin/desktop/settings.rs:524:8
+    |
+524 |     fn replace_focused(
+    |        ^^^^^^^^^^^^^^^
+
+warning: function `frame` is never used
+ --> src/bin/desktop/setup_ui_tests.rs:4:4
+  |
+4 | fn frame(
+  |    ^^^^^
+
+warning: function `labels` is never used
+  --> src/bin/desktop/setup_ui_tests.rs:19:4
+   |
+19 | fn labels(output: &egui::FullOutput) -> Vec<(String, egui::Rect)> {
+   |    ^^^^^^
+
+warning: function `has` is never used
+  --> src/bin/desktop/setup_ui_tests.rs:35:4
+   |
+35 | fn has(output: &egui::FullOutput, label: &str) -> bool {
+   |    ^^^
+
+warning: function `rect` is never used
+  --> src/bin/desktop/setup_ui_tests.rs:38:4
+   |
+38 | fn rect(output: &egui::FullOutput, label: &str) -> egui::Rect {
+   |    ^^^^
+
+warning: function `click` is never used
+  --> src/bin/desktop/setup_ui_tests.rs:45:4
+   |
+45 | fn click(
+   |    ^^^^^
+
+warning: function `context` is never used
+  --> src/bin/desktop/setup_ui_tests.rs:70:4
+   |
+70 | fn context() -> egui::Context {
+   |    ^^^^^^^
+
+warning: function `context` is never used
+ --> src/bin/desktop/timeline_ui_tests.rs:5:4
+  |
+5 | fn context() -> egui::Context {
+  |    ^^^^^^^
+
+warning: function `frame` is never used
+  --> src/bin/desktop/timeline_ui_tests.rs:14:4
+   |
+14 | fn frame(
+   |    ^^^^^
+
+warning: function `text_rect` is never used
+  --> src/bin/desktop/timeline_ui_tests.rs:55:4
+   |
+55 | fn text_rect(output: &egui::FullOutput, label: &str) -> egui::Rect {
+   |    ^^^^^^^^^
+
+warning: function `assert_visible` is never used
+  --> src/bin/desktop/timeline_ui_tests.rs:67:4
+   |
+67 | fn assert_visible(output: &egui::FullOutput, panel: egui::Rect) {
+   |    ^^^^^^^^^^^^^^
+
+warning: function `assert_visible_with_editor` is never used
+  --> src/bin/desktop/timeline_ui_tests.rs:70:4
+   |
+70 | fn assert_visible_with_editor(output: &egui::FullOutput, panel: egui::Rect, editor: Option<&str>) {
+   |    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `click` is never used
+   --> src/bin/desktop/timeline_ui_tests.rs:127:4
+    |
+127 | fn click(
+    |    ^^^^^
+
+warning: function `inert_carrier_request` is never used
+   --> src/bin/desktop/timeline_ui_tests.rs:248:4
+    |
+248 | fn inert_carrier_request() -> Request {
+    |    ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `presentation` is never used
+   --> src/bin/desktop/timeline_ui_tests.rs:274:4
+    |
+274 | fn presentation() -> PreviewFrame {
+    |    ^^^^^^^^^^^^
+
+warning: function `key` is never used
+   --> src/bin/desktop/timeline_ui_tests.rs:288:4
+    |
+288 | fn key(key: egui::Key, modifiers: egui::Modifiers) -> Vec<egui::Event> {
+    |    ^^^
+
+warning: function `replace_speed` is never used
+   --> src/bin/desktop/timeline_ui_tests.rs:299:4
+    |
+299 | fn replace_speed(ctx: &egui::Context, app: &mut App, selected: &PreviewFrame, text: &str) {
+    |    ^^^^^^^^^^^^^
+
+warning: method `show` is never used
+   --> src/bin/desktop/viewport.rs:134:12
+    |
+122 | impl Viewport {
+    | ------------- method in this implementation
+...
+134 |     pub fn show(
+    |            ^^^^
+
+warning: function `saved_native_worker_case` is never used
+    --> src/bin/rheon-desktop.rs:2798:8
+     |
+2798 |     fn saved_native_worker_case(high_density: bool) {
+     |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `wait_until` is never used
+    --> src/bin/rheon-desktop.rs:3376:8
+     |
+3376 |     fn wait_until(mut condition: impl FnMut() -> bool) {
+     |        ^^^^^^^^^^
+
+warning: `rheon` (bin "rheon-desktop") generated 258 warnings (run `cargo fix --bin "rheon-desktop" -p rheon` to apply 41 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.80s

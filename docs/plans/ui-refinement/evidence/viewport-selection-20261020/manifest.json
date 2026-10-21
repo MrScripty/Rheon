@@ -1,0 +1,69 @@
+{
+  "parent": "6127cecbdcfe53270347e59ebe86ff3317528cfe",
+  "test_boundary": "individually exact inert UI/geometry only; no numerical/model runtime or native display",
+  "exact_test_names": [
+    "scene_view::tests::geometry_depth_near_clip_and_degenerate_hits",
+    "scene_view::tests::geometry_force_glyphs_preserve_zero_direction_sign_and_support",
+    "scene_view::tests::geometry_two_sided_outline_welds_exact_seams_and_refuses_nonmanifold",
+    "scene_view::tests::scene_pick_identity_overlap_retained_and_unavailable_preview",
+    "scene_view::tests::scene_pointer_selects_same_identity_ignores_drag_and_modified_click"
+  ],
+  "source_sha256": {
+    "src/bin/desktop/scene_view.rs": "d1ea804559495fe869b143383734afb953b0462e06b12e176840632ac003cb05",
+    "src/bin/desktop/scene_ui.rs": "0dd573b5bb2d7d9af3249a15ee768d5a39ce3381db010d04bccb7f6cee954d40",
+    "src/bin/desktop/viewport.rs": "c4fbdf394accc0b831460a3a1e75d78ee0dea900043bc82b2543619de4aa3a57",
+    "src/bin/rheon-desktop.rs": "af4c6ed921b2fde0a78d5bc2ebeb45f1a8f939b4947de82067e5f4278a537bbb"
+  },
+  "logs": {
+    "rheon-ui-picking-list-final6.log": {
+      "sha256": "ecddbb71371c3fa42c1212379850d8f3290ae0333e3ba4cca011b7affd90b475",
+      "bytes": 19299,
+      "source": "/tmp/rheon-ui-picking-list-final6.log"
+    },
+    "rheon-ui-picking-accepted-check.log": {
+      "sha256": "b8dd291b69b62c0719c18a5c4ae02c0c692d7e36311fa3a586fa4e4b92662e11",
+      "bytes": 130,
+      "source": "/tmp/rheon-ui-picking-accepted-check.log"
+    },
+    "rheon-ui-picking-accepted-clippy.log": {
+      "sha256": "a691eaa7d6c704d296265d3d442ef64f1decc907608bdaed5c59d444129fe754",
+      "bytes": 130,
+      "source": "/tmp/rheon-ui-picking-accepted-clippy.log"
+    },
+    "rheon-ui-picking-accepted-diff.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/rheon-ui-picking-accepted-diff.log"
+    },
+    "rheon-ui-picking-accepted-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "/tmp/rheon-ui-picking-accepted-fmt.log"
+    },
+    "rheon-ui-picking-accepted-geometry_depth_near_clip_and_degenerate_hits.log": {
+      "sha256": "90970cd0c4c61470364a6701fd19a74be9c1e336c52ed5c0f8fe792fe023b992",
+      "bytes": 386,
+      "source": "/tmp/rheon-ui-picking-accepted-geometry_depth_near_clip_and_degenerate_hits.log"
+    },
+    "rheon-ui-picking-accepted-geometry_force_glyphs_preserve_zero_direction_sign_and_support.log": {
+      "sha256": "86486951043707d8bc3e97bb159844ed1a93470a16bad3b815b19515e8285b29",
+      "bytes": 404,
+      "source": "/tmp/rheon-ui-picking-accepted-geometry_force_glyphs_preserve_zero_direction_sign_and_support.log"
+    },
+    "rheon-ui-picking-accepted-geometry_two_sided_outline_welds_exact_seams_and_refuses_nonmanifold.log": {
+      "sha256": "4ab91747e4f8b19664509aaa05fcd30f63927da13a28f92c3b47e9c081949404",
+      "bytes": 410,
+      "source": "/tmp/rheon-ui-picking-accepted-geometry_two_sided_outline_welds_exact_seams_and_refuses_nonmanifold.log"
+    },
+    "rheon-ui-picking-accepted-scene_pick_identity_overlap_retained_and_unavailable_preview.log": {
+      "sha256": "b772c3f70361a8c6a26058c7d25b668aa12c5a5c631a92f4a253cf82c7314c1a",
+      "bytes": 402,
+      "source": "/tmp/rheon-ui-picking-accepted-scene_pick_identity_overlap_retained_and_unavailable_preview.log"
+    },
+    "rheon-ui-picking-accepted-scene_pointer_selects_same_identity_ignores_drag_and_modified_click.log": {
+      "sha256": "c46a4224be5f1b0a47bfb817b1d81a8d5ba5a04c3efe0bd32c3ebfb059e80d3e",
+      "bytes": 409,
+      "source": "/tmp/rheon-ui-picking-accepted-scene_pointer_selects_same_identity_ignores_drag_and_modified_click.log"
+    }
+  }
+}

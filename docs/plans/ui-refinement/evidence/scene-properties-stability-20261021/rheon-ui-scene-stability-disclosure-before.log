@@ -1,0 +1,21 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+     Running unittests src/bin/rheon-desktop.rs (/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f)
+
+running 1 test
+test scene_ui::tests::scene_properties_disclosure_survives_preview_apply_and_cancel ... FAILED
+
+failures:
+
+---- scene_ui::tests::scene_properties_disclosure_survives_preview_apply_and_cancel stdout ----
+
+thread 'scene_ui::tests::scene_properties_disclosure_survives_preview_apply_and_cancel' (65063) panicked at src/bin/desktop/scene_ui.rs:558:28:
+missing visible Position X
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    scene_ui::tests::scene_properties_disclosure_survives_preview_apply_and_cancel
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 205 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `--bin rheon-desktop`

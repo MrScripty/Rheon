@@ -1,0 +1,79 @@
+{
+  "base": "d6e23b36ab618f8873d32c89c67a62e95f775c5b",
+  "source": {
+    "file": "src/bin/desktop/viewport.rs",
+    "sha256": "ee7acacd33ae29af7ec7f592361861315b30891b1637cb2989ba7390fa8320d3"
+  },
+  "enumeration": 199,
+  "exact_passes": 3,
+  "binary_sha256": "8935179a6738fd137fd2859bd865d8ddb0e1393586dbe366e9922f279902a008",
+  "native_verification": false,
+  "numerical_execution": false,
+  "files": [
+    {
+      "file": "rheon-ui-context-access-inventory.txt",
+      "bytes": 33305,
+      "sha256": "289faffc17a1ffbb6c59133032293478638926bea5674901162c734baf2c1dc4"
+    },
+    {
+      "file": "rheon-ui-focus-lock-check.log",
+      "bytes": 130,
+      "sha256": "a2bb21d6ee920a6663de33967befdde3ec5c255b3b4e962ac8f3e3312e204e93"
+    },
+    {
+      "file": "rheon-ui-focus-lock-clippy.log",
+      "bytes": 130,
+      "sha256": "3856eab6f80feb9a95243e537de6199854ef0a153049ab2b61af84441cb51bc9"
+    },
+    {
+      "file": "rheon-ui-focus-lock-diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-focus-lock-exact1.json",
+      "bytes": 740,
+      "sha256": "b9b475e5318a5e44557ce8d907a23bfeda1eb1f9fb21110ecc845b22b5b42942"
+    },
+    {
+      "file": "rheon-ui-focus-lock-exact1.log",
+      "bytes": 225,
+      "sha256": "c217aaf18238a99acd151ed30e2e796699fb59caf025d9f76833304f5cc663d2"
+    },
+    {
+      "file": "rheon-ui-focus-lock-exact2.json",
+      "bytes": 704,
+      "sha256": "e48bf4d77ecc881396459c9a36a43df8b18cd2ffbb4da6e3ca29fa6ac58665a6"
+    },
+    {
+      "file": "rheon-ui-focus-lock-exact2.log",
+      "bytes": 190,
+      "sha256": "dac198eef4cdacc9a2dc17b27ae18d43a003343c316600f5dfccef6f2f274343"
+    },
+    {
+      "file": "rheon-ui-focus-lock-exact3.json",
+      "bytes": 737,
+      "sha256": "dd361f1054c6bb144d4f4892ee1ff140cb4cf2f12361eb31791809f7658bb06a"
+    },
+    {
+      "file": "rheon-ui-focus-lock-exact3.log",
+      "bytes": 222,
+      "sha256": "3c0596301ef93b916376aba0f466941f6aefb1cd6fe9fd663d70dffe5ef9fc8d"
+    },
+    {
+      "file": "rheon-ui-focus-lock-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-focus-lock-list1.log",
+      "bytes": 20997,
+      "sha256": "637b2a6ab2de7a15ba2f5e29f5a5f7d4639acb65a7fc5c3c717351d1672eacf9"
+    },
+    {
+      "file": "rheon_ui_exact_timeout.py",
+      "bytes": 1796,
+      "sha256": "fac641390156cd82a7554253ca27f300d48473b7c9ab8e986f6a26eef8ae27c1"
+    }
+  ]
+}
