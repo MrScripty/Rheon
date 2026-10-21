@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f",
+    "viewport::tests::enabled_scene_input_hover_and_keyboard_focus_complete_without_nested_context_lock",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "limits": {
+    "wall_seconds": 10,
+    "cpu_seconds": 5,
+    "address_space_bytes": 536870912,
+    "log_file_bytes": 1048576,
+    "term_grace_seconds": 1
+  },
+  "pid": 58359,
+  "exit_code": 0,
+  "timed_out": false,
+  "actions": [],
+  "elapsed_seconds": 0.017028679001668934,
+  "binary_sha256": "8935179a6738fd137fd2859bd865d8ddb0e1393586dbe366e9922f279902a008",
+  "captured_bytes": 225,
+  "log_sha256": "c217aaf18238a99acd151ed30e2e796699fb59caf025d9f76833304f5cc663d2"
+}

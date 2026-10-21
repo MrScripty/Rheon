@@ -500,3 +500,16 @@ four prior exact timeline probes pass,198enumeration. Check/strictClippy/fmt/dif
 and independent source review pass.2source seals/17logs manifest1bbfbc8d…50e0cb.
 Native repair/JPEG/force/runtime evidence remain separate and unqualified; production
 force launch gate unchanged. Runtime ignored-test preparation is a subsequent slice.
+
+## Priority enabled viewport focus-lock repair —2026-10-21
+
+After separated6e23b3 timeline repair, snapshot focus/keyboard ownership before
+Ui::input. Pinned egui source confirms425a986 guard re-entered exclusive Context
+lock on plain enabled hover; native stall attribution remains qualified without
+live stack/exact repair verification. Eleven read-input +one input_mut callbacks
+independently inspected, no additional nested acquisition found. New enabled Scene
+hover/Home/editorF exact probe and two prior direct viewport input probes passed
+once each under10s/5CPU/512MiB/1MiB wrapper; no timeout/signal, no surviving childPID.
+199-name enumeration, check/strictClippy/fmt/diff pass. No numerical/model/SQLite or
+native execution. Preserve failed native evidence. This enabled path is distinct
+from disabled synthetic presentation; native picking/handles remain UNVERIFIED.

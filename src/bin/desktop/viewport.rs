@@ -569,6 +569,9 @@ impl Viewport {
         if !(response.hovered() || response.dragged()) {
             return;
         }
+        // Response focus and Context keyboard ownership acquire context locks.
+        // Snapshot them before input holds its context guard.
+        let keyboard_owned = response.has_focus() || !ui.ctx().wants_keyboard_input();
         ui.input(|input| {
             let middle = input.pointer.button_down(egui::PointerButton::Middle);
             let primary = input.pointer.button_down(egui::PointerButton::Primary);
@@ -611,7 +614,7 @@ impl Viewport {
                     _ => {}
                 }
             }
-            if (response.has_focus() || !ui.ctx().wants_keyboard_input())
+            if keyboard_owned
                 && (input.key_pressed(egui::Key::Home) || input.key_pressed(egui::Key::F))
             {
                 self.camera = OrbitCamera {
@@ -1014,6 +1017,71 @@ mod tests {
                 modifiers,
             );
         }
+    }
+    /// Execute by exact name under a hard external timeout: the pre-fix nested
+    /// context lock blocks even on plain hover, before any key is pressed.
+    #[test]
+    fn enabled_scene_input_hover_and_keyboard_focus_complete_without_nested_context_lock() {
+        let ctx = egui::Context::default();
+        let mut viewport = Viewport::default();
+        let mut scene =
+            super::super::scene_ui::SceneUi::geometry_fixture(rheon::ForceScene::default(), false);
+        let mut editor = String::from("Keyboard owner");
+        let mut draw = |viewport: &mut Viewport, key: Option<egui::Key>, focus_editor: bool| {
+            let mut events = vec![egui::Event::PointerMoved(egui::pos2(400.0, 300.0))];
+            if let Some(key) = key {
+                events.push(egui::Event::Key {
+                    key,
+                    physical_key: None,
+                    pressed: true,
+                    repeat: false,
+                    modifiers: Default::default(),
+                });
+            }
+            let _ = ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(Rect::from_min_size(Pos2::ZERO, egui::vec2(800.0, 600.0))),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    egui::SidePanel::left("focus-owner")
+                        .exact_width(150.0)
+                        .show(ctx, |ui| {
+                            let response = ui.text_edit_singleline(&mut editor);
+                            if focus_editor {
+                                response.request_focus();
+                            }
+                        });
+                    egui::CentralPanel::default().show(ctx, |ui| {
+                        assert!(ui.is_enabled());
+                        viewport.show_scene(
+                            ui,
+                            ViewInputs {
+                                frame: None,
+                                emitter: None,
+                                workers: &[],
+                                grid_edge: 2,
+                                inspector: None,
+                                scene: Some(&mut scene),
+                                editable_scene: true,
+                            },
+                        );
+                    });
+                },
+            );
+        };
+        draw(&mut viewport, None, false);
+        draw(&mut viewport, None, false); // enabled, hovered, no shortcut needed
+        viewport.camera.distance = 4.0;
+        draw(&mut viewport, Some(egui::Key::Home), false);
+        assert_eq!(viewport.camera.distance, 2.35);
+        draw(&mut viewport, None, true);
+        viewport.camera.distance = 4.0;
+        draw(&mut viewport, Some(egui::Key::F), true);
+        assert_eq!(viewport.camera.distance, 4.0, "text editor owns keyboard");
+        assert!(viewport.engineering.is_none() && viewport.transport.is_none());
+        assert!(!viewport.presentation_only);
     }
     #[test]
     fn native_touchpad_scroll_pans_orbits_and_pinches_through_the_viewport_input_path() {
