@@ -9,3 +9,4 @@
 | GPU-P05 | Full pipeline includes native/scientific qualification and actual PDF/browser gates | Newly authorized publication checks, normal workflows unchanged; no weaker substitute or GPU-science claim |
 | GPU-P06 | Older Library upload remains uncertain | Preserve all artifacts/identity state, no retry or alternate route; unrelated to repository publication |
 | GPU-P07 | Older executor may lack fresh artifact/site domain access | Exact target/status to parent fresh verifier if needed; no denied read retry or settings/security change |
+| GPU-P08 | Actual site gate found five valid repository links outside the site copier scope | Pin those inventory links to immutable GitHub source URLs; retain failed run39625662383 and require corrected-head CI/artifact review |

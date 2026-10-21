@@ -159,3 +159,59 @@ installation, security change, full book build or deployment was run by this
 reviewer. The reviewer has not edited any chapter, bibliography, production
 source, shared navigation, build or workflow file. Any later normal pipeline or
 deployment evidence belongs to its actual runner and exact revision.
+
+## Generated-site link correction review
+
+Review date: 2026-10-21, after publication head
+`ab41f23cc9fe3950965c028413898a0a23e021b0`. The publication ledger records that
+real generated-site verification in run `39625662383` failed on five inventory
+links after PDF rendering. This review inspects the corrective source diff; it
+does not independently certify that CI run, a visual PDF review or the corrected
+site output. The earlier source-only link check did not establish generated-site
+availability, and its stated limitation remains material.
+
+**Correction disposition: no deciding blocker in the five-link repair.** The
+inventory diff changes only five destination strings, keeping all labels,
+prose, equations, whitespace and other content byte-identical after those exact
+substitutions are reversed. Three experiment links and two workflow links now
+use `https://github.com/MrScripty/Rheon/blob/` followed by the full original
+inventory pin `fd7c0f0aee63bc8710df99f9bb01154e7619b974` and their original
+repository paths. Each target independently exists as a Git blob at that exact
+historical pin:
+
+- `experiments/aligned_stokes.rs`
+- `experiments/submarine_stokes.rs`
+- `experiments/plate_coupling.rs`
+- `.github/workflows/research-book-pages.yml`
+- `.github/workflows/research-book-reviewed-pages.yml`
+
+Direct inspection of `docs/education/build.py:99` confirms that external URLs
+are left intact. Its source-copy branch at line 116 accepts repository-root
+families `docs`, `evidence`, `proofs`, `src`, `examples` and `tests`; it omits
+`experiments` and `.github`. The unchanged fallback at line 122 leaves their
+former relative links unrewritten. The repair therefore addresses the actual
+copy-rule mismatch without broadening the copier or weakening verification.
+Historical source availability is checked locally at the Git pin; successful
+public URL access and corrected generated-site behavior remain output-level
+checks rather than claims from this inspection.
+
+Before this report append, the entire corrective diff comprised the inventory
+link changes and three publication process files only: plan, ledger and issues.
+Those process changes retain the failed run/head and require corrected-head CI
+and actual artifact inspection; they do not declare rendering to be visual
+review or the old source checks to be successful site qualification. No other
+chapter, bibliography, production, workflow, builder, dependency, FEM, portal or
+thermal file changed. Git whitespace checking passed. This reviewer appended
+only this section and did not commit or push.
+
+The original nine-hash table above identifies the pre-correction reviewed
+snapshot. The following corrected inventory identity supersedes that one row;
+the other eight reviewed source identities remain unchanged:
+
+| Corrected path relative to repository | SHA256 |
+| --- | --- |
+| `docs/research-book/implementation/gpu-cpu-oracle-inventory.md` | `7c07f46261ae422fe2c5535d10b5e4718874be1ca9f500659b67955110af8687` |
+
+New committed-head identity confirmation and corrected same-head CI/site/PDF/
+browser evidence remain pending. No reviewer action was denied or left with
+an uncertain mutation outcome.

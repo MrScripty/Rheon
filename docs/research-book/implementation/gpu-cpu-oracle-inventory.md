@@ -336,9 +336,9 @@ Column shear/momentum and the [flat MAC bridge](../../../src/column_mac.rs),
 mechanisms. Their topology, velocity families and parameter restrictions must be
 carried into any comparison. Adding an extruded third velocity component does
 not establish arbitrary three-dimensional geometry or flow.
-The opt-in [aligned Stokes](../../../experiments/aligned_stokes.rs),
-[submarine Stokes](../../../experiments/submarine_stokes.rs) and
-[plate coupling](../../../experiments/plate_coupling.rs) experiments solve different
+The opt-in [aligned Stokes](https://github.com/MrScripty/Rheon/blob/fd7c0f0aee63bc8710df99f9bb01154e7619b974/experiments/aligned_stokes.rs),
+[submarine Stokes](https://github.com/MrScripty/Rheon/blob/fd7c0f0aee63bc8710df99f9bb01154e7619b974/experiments/submarine_stokes.rs) and
+[plate coupling](https://github.com/MrScripty/Rheon/blob/fd7c0f0aee63bc8710df99f9bb01154e7619b974/experiments/plate_coupling.rs) experiments solve different
 restricted problems. They are not the default carrier or a general FEM backend.
 
 ## 7. Particle preview and display voxels
@@ -486,11 +486,11 @@ Markdown/source downloads. [PDF freshness](../../education/pdf_freshness.py)
 binds source inputs, and [browser qualification](../../education/verify_browser.py)
 renders/qualifies the PDF and interactive behavior.
 
-The [full research-book workflow](../../../.github/workflows/research-book-pages.yml)
+The [full research-book workflow](https://github.com/MrScripty/Rheon/blob/fd7c0f0aee63bc8710df99f9bb01154e7619b974/.github/workflows/research-book-pages.yml)
 executes numerical references, native contracts/examples, scientific packet
 qualification, browser/Wasm work and render/publication checks; it is not a
 safe substitute for a source-only documentation check under this task's scope.
-The [reviewed publication workflow](../../../.github/workflows/research-book-reviewed-pages.yml)
+The [reviewed publication workflow](https://github.com/MrScripty/Rheon/blob/fd7c0f0aee63bc8710df99f9bb01154e7619b974/.github/workflows/research-book-reviewed-pages.yml)
 is another publication entry point and likewise is not evidence of a local run.
 No full build was attempted here. Inclusion of a note must not be described as
 successful PDF/Word/browser delivery until those actual outputs and freshness

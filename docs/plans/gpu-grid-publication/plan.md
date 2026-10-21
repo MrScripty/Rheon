@@ -2,8 +2,8 @@
 
 Status: Active documentation publication preparation.
 Current phase: normal exact-head publication CI and artifact-review preparation.
-Next slice: push the reviewed publication head normally and create its draft PR
-for exact-head CI and actual artifact review.
+Next slice: review and push the five-link generated-site correction to draft
+PR150, then obtain corrected-head CI and actual artifact review.
 
 ## Authority, source and ownership
 
@@ -64,7 +64,7 @@ current-main reconciliation and explicit conflict reporting before integration.
 | --- | --- | --- |
 | P0 | Isolate from current main; preserve research/FEM/portal/product history; source/output/standards/build-scope review | Complete |
 | P1 | Prose-only GPU chapters, current CPU refresh, source/license/access audit and minimal discovery paragraph; independent source/math review | Complete; no deciding source findings remain |
-| P2 | Exact immutable head pushed normally; draft PR; existing matching native/scientific/book/browser CI | Active preparation |
+| P2 | Exact immutable head pushed normally; draft PR; existing matching native/scientific/book/browser CI | PR150 open; first site gate failed; corrected-head checks required |
 | P3 | Actual generated PDF visual inspection, GPU HTML/Markdown/source links, math, no code blocks, PDF/source freshness and browser evidence | Pending |
 | P4 | Parent handoff with exact PR/head/review/CI/artifact evidence and remaining blockers; no worker merge | Pending |
 

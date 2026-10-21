@@ -42,3 +42,15 @@ check receipt. No production/proof/workflow/builder, FEM, portal or thermal file
 diff exists against the publication base. Generated checks remain outside Git.
 Real normal CI, generated PDF inspection and browser/source freshness are still
 required before parent integration and are not predeclared passed here.
+
+## Actual site gate correction
+
+Draft PR150 head `ab41f23` passed dense3D CI but compressible run
+`39625662383` failed generated-site verification after its real Chromium PDF
+render. Five inventory links targeted repository `experiments/` and `.github/`
+files that the existing site source copier does not include. Relative file
+existence checks therefore did not establish generated-site availability.
+Changed those five authored links to immutable GitHub URLs at the original
+`fd7c0f0` inventory epoch. No shared builder or workflow gate was changed.
+The first failed run remains evidence; corrected-head CI and actual artifact
+inspection are required. The successful render is not a visual review.
