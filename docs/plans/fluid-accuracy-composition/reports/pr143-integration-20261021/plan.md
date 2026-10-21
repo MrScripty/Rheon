@@ -59,10 +59,20 @@ Preliminary subject `286df732106717d056330b276d6f563e79a447b8` passes
 `cargo fmt --all --check` and
 `cargo check --locked --no-default-features --all-targets` with Rust/Cargo 1.92.0.
 The latter completed in 45.04 seconds; it executes no Rust tests or examples.
+`cargo clippy --locked --no-default-features --all-targets -- -D warnings` passes
+in 19.84 seconds. `cargo build --locked --release --no-default-features --example
+grid_static_mms_reference` passes in 1 minute 22 seconds; its executable was not
+run. These build checks are preliminary and preserve the preparation-only scope.
 The [independent preliminary review](review-preliminary.md) verifies the original
 54 root freeze, 16 oracle and 25 source-review entries, plus AST-only parsing of
 14 Python files. Integrated `Cargo.toml` adds main's `force-serde` feature and is
 the sole variance in those frozen selections. Original seals remain unchanged.
+
+The unchanged `docs/education/check_native_admission.py` refuses the preliminary
+composition with exit 1: `changed qualified native source Cargo.lock`. This
+expected source-identity failure is retained; it is not a numerical comparison
+failure. Final admission must consume the lead's reviewed PR142 then PR138
+composition. No selector, pin or old receipt was changed to clear the failure.
 
 ## Recorded CI diagnosis
 
@@ -77,6 +87,12 @@ jobs passed, while the aggregate failed because desktop did not finish. This
 does not prove that remaining contracts pass. Attempt 1 and attempt 2 outcomes
 are preserved; no stale run retry is selected. A fresh ordinary CI attempt needs
 the reviewed resource-budget repair and actual composed source.
+
+The [check-run annotations](https://api.github.com/repos/MrScripty/Rheon/check-runs/119483887509/annotations)
+explicitly confirm: `The job has exceeded the maximum execution time of 30m0s`.
+Attempt 2 API metadata records `cancelled`, job start 21:07:17Z and completion
+21:37:36Z. Attempt 1 desktop job 118478799152 also remains cancelled, with its
+aggregate failure retained. Neither attempt is a pass or fresh qualification.
 
 ## Standards and evidence boundary
 
