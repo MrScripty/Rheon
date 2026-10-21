@@ -56,5 +56,19 @@
     "members": 10
   },
   "durable_storage": "pending_final_bundle",
-  "final_merged_main_verification": "pending"
+  "final_merged_main_verification": "pending",
+  "hosted_preliminary": {
+    "source_head": "91c4f4bd8bb29e9862f6ee29cd8bdead79e0d57e",
+    "run_id": 39689782274,
+    "desktop_job": 119532815829,
+    "desktop_outcome": "cancelled",
+    "annotation": "The job has exceeded the maximum execution time of 30m0s",
+    "default_feature": "passed",
+    "core_only_feature": "passed",
+    "aggregate_outcome": "failure",
+    "repair_owner": "PR142 lead; reviewed60-minute outer budget and coordinated source-only guard repair",
+    "stale_run_retry_requested": false,
+    "aggregate_job": 119544629626,
+    "workflow_conclusion": "cancelled"
+  }
 }

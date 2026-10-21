@@ -70,3 +70,14 @@ remain distinct; current hosted checks are still pending at this report's creati
 This proves bounded reference/build and named ordinary contracts only. No new
 PDE/physical/production-water, native-window, learned/GPU, performance or
 whole-application production acceptance follows. Final-ready status is pending.
+
+
+A later hosted read records source `91c4f4b` desktop job 119532815829 in run
+39689782274 as cancelled. Its annotation explicitly states the 30-minute job
+budget was exceeded. Default and core-only feature jobs passed. Aggregate job
+119544629626 failed; the workflow records its overall conclusion as cancelled.
+Run/jobs/annotation metadata remains retained. The
+lead's independently reviewed 60-minute outer budget and coordinated source-only
+workflow guard repair are being inherited from PR142. No stale-source retry was
+requested and no assertion/test acceptance was weakened. Final exact-head hosted
+success is still required.

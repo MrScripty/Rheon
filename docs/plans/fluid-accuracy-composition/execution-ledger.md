@@ -361,3 +361,22 @@ aggregate are unchanged; PR142's original exact-head hosted feature jobs already
 passed below30 minutes. Runtime/build/qualifier152-map and frozen admission
 bytes remain unchanged by this workflow/document-only follow-up. Final new-head
 hosted checks, review and normal merge/post-merge verification remain pending.
+
+
+## 2026-10-21 — coordinate exact workflow budget contract after failed hosted gate
+
+Reporting head5eb8bf5 executable job119541101644/run39692282682 failed two
+source-only CiBudgetContract cases: actual approved feature prefix60minutes
+was still expected as30minutes by tools/test_column_interface_verifier.py.
+Fulltools result219tests/2errors/27skips and rawlogSHA
+aec251631819cb28b421ef2e517ec4e13dd697949ba6c1328d40e2ef5e4cd404
+remain retained; no numerical verifier test failed. This is a workflow-contract
+coordination omission, not grounds to waive the gate.
+
+Minimal repair updates the exact expected feature prefix including both reviewed
+comments, preserves the frozen baseline/all workloads/other job budgets, and
+adds explicit30/59/61/missing-budget refusal. Four source-only cases pass normal
+and-O (8executions,0skips), no numerical fixture/campaign. Selected152runtime/
+build/qualifier/admission identities remain unchanged. Independent exact repair
+review and new exact-head full CI remain required before merge. See
+[repair record](reports/pr142-completion-20261021/ci-budget-guard-repair.md).

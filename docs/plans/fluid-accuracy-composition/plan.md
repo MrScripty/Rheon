@@ -23,9 +23,9 @@ on `91c4f4bd8bb29e9862f6ee29cd8bdead79e0d57e`: complete 152-input composition,
 commands, 52 real-packet tests and 143 focused ordinary checks pass with independent
 source/execution/archive review ([results](reports/pr138-integration-20261021/preliminary-results.md)).
 Its isolated branch now reconciles reporting head
-`5eb8bf5607c01f1d59242c604b1d1204882d2eac`, whose only outer changes are the CI
-feature-job budget and reviewed result/status/custody documents; selected source
-and bound admission remain frozen. PR138 is not final-ready: verify the actual
+`3cd735fde7655aedffbd0ffb2f041ca6994961a4`, whose outer follow-ups are the CI
+feature-job budget, its coordinated source-only guard and reviewed authored
+result/status/custody documents; selected source and bound admission remain frozen. PR138 is not final-ready: verify the actual
 PR142 merged-main identity, revalidate final combined source and hosted gates,
 then let the sole lead normally merge it. The [PR138 protocol](reports/pr138-integration-20261021/protocol.md)
 retains its source, scope and outcome boundaries. This does not add a second next
