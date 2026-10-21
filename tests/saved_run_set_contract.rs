@@ -451,6 +451,54 @@ fn corrupt_changed_and_unsupported_members_never_substitute_live_data() {
     std::fs::remove_dir_all(root).unwrap();
 }
 #[test]
+fn native_spec_v1_bytes_force_v2_and_future_version_refusal_are_distinct() {
+    // Literal legacy bytes/digest, independent of the native intent codec.
+    // Only metadata validation, hashing and JSON: no owner, stepping or I/O.
+    const V1_SPEC: &str = r#"{"counts_xyz":[2,2,2],"spacing_m":[0.5,0.5,0.5],"origin_m":[0.0,0.0,0.0],"density_kg_m3":2.0,"pressure_method":"jacobi_pcg_v1","tolerances":{"relative_residual":1.0,"absolute_residual_m3_s2":1.0,"predicted_divergence_per_s":1.0,"actual_divergence_per_s":1.0,"max_courant":1.0,"max_pressure_iterations":4},"requested_dt_s":0.125,"requested_steps":1,"source":null,"simulation_memory_limit_bytes":1048576,"recording":{"max_database_bytes":65536,"max_record_bytes":16384,"max_records":2}}"#;
+    let legacy = FrozenSpec::new(serde_json::from_str(V1_SPEC).unwrap()).unwrap();
+    assert_eq!(serde_json::to_string(&legacy.spec).unwrap(), V1_SPEC);
+    assert_eq!(
+        legacy
+            .sha256
+            .iter()
+            .map(|v| format!("{v:02x}"))
+            .collect::<String>(),
+        "5969e6f1a25728943a3a1119d4f393f33a4bb45af71a5d99a54551d06d569519"
+    );
+    let legacy_bytes = format!(
+        "{{\"schema_version\":1,\"sha256\":{},\"spec\":{V1_SPEC}}}",
+        serde_json::to_string(&legacy.sha256).unwrap()
+    );
+    assert_eq!(
+        serde_json::to_vec(&legacy).unwrap(),
+        legacy_bytes.as_bytes()
+    );
+    assert_eq!(
+        FrozenSpec::from_bytes(legacy_bytes.as_bytes()).unwrap(),
+        legacy
+    );
+
+    // Some(empty) is still an authored native v2 intent, not a configured v2
+    // document or the historical no-force v1 branch.
+    let forced = legacy
+        .clone()
+        .with_force_fields(&rheon::ForceScene::default().freeze().unwrap())
+        .unwrap();
+    assert_eq!(forced.schema_version, 2);
+    assert_ne!(forced.sha256, legacy.sha256);
+    let forced_bytes = serde_json::to_vec(&forced).unwrap();
+    assert_eq!(FrozenSpec::from_bytes(&forced_bytes).unwrap(), forced);
+    for supported in [legacy, forced] {
+        let mut future = serde_json::to_value(supported).unwrap();
+        future["schema_version"] = serde_json::json!(99);
+        assert!(matches!(
+            FrozenSpec::from_bytes(&serde_json::to_vec(&future).unwrap()),
+            Err(RunSetError::Unsupported("frozen native intent version"))
+        ));
+    }
+}
+
+#[test]
 fn bounded_strict_manifests_reject_versions_keys_duplicate_keys_and_mutation() {
     let root = directory();
     let path = root.join("spec.json");
@@ -464,7 +512,7 @@ fn bounded_strict_manifests_reject_versions_keys_duplicate_keys_and_mutation() {
     .unwrap();
     assert!(matches!(
         FrozenSpec::open(&path),
-        Err(RunSetError::Unsupported("manifest version"))
+        Err(RunSetError::Unsupported("frozen native intent version"))
     ));
     std::fs::write(
         &path,
