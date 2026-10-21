@@ -64,6 +64,8 @@ pub(crate) struct ConfiguredTrack {
     provider: Option<AcceptedCpuProvider>,
     failure: Option<ConfiguredFailure>,
     runtime_observation: Option<rheon::recording::provider::runtime::RuntimeObservation>,
+    attempt_id: u64,
+    workflow: Option<Arc<rheon::workflow::WorkflowAttempt>>,
 }
 impl ConfiguredTrack {
     /// Validate exact executor custody before allocating state. No filesystem
@@ -134,6 +136,8 @@ impl ConfiguredTrack {
             provider: None,
             failure: None,
             runtime_observation: None,
+            attempt_id: 0,
+            workflow: None,
         })
     }
 
@@ -213,6 +217,8 @@ impl ConfiguredTrack {
     ) -> Result<LiquidStepReport, SessionError> {
         self.failure = None;
         self.runtime_observation = None;
+        // A pre-execution refusal must never reuse the previous attempt.
+        self.workflow = None;
         if let Some(provider) = &mut self.provider {
             provider.begin_interval_observation();
         }
@@ -245,9 +251,15 @@ impl ConfiguredTrack {
                 dynamic_viscosity_pa_s,
             } => self.viscosity.as_mut().map(|w| (w, dynamic_viscosity_pa_s)),
         };
+        self.attempt_id = self
+            .attempt_id
+            .checked_add(1)
+            .ok_or(SessionError::PressureBinding(
+                ProviderRejection::Unsupported("Workflow attempt identity exhausted"),
+            ))?;
         let result = self
             .session
-            .step_with_configured_pressure(
+            .step_with_configured_pressure_observed(
                 LiquidStepInputs {
                     requested_dt: self.frozen.future.requested_dt_s,
                     smoke_source: None,
@@ -261,6 +273,8 @@ impl ConfiguredTrack {
                 preferred,
                 deadline,
                 |_| self.cancelled.load(Ordering::Relaxed),
+                self.attempt_id,
+                &mut self.workflow,
             )
             .map(|(report, _)| report);
         self.runtime_observation = self
@@ -302,6 +316,9 @@ impl ConfiguredTrack {
         &self,
     ) -> Option<&rheon::recording::provider::runtime::RuntimeObservation> {
         self.runtime_observation.as_ref()
+    }
+    pub(crate) fn workflow_attempt(&self) -> Option<&Arc<rheon::workflow::WorkflowAttempt>> {
+        self.workflow.as_ref()
     }
     #[cfg(test)]
     pub(crate) fn runtime_ready(&self) -> bool {

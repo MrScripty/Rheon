@@ -39,8 +39,50 @@ impl SimulationSession {
             Instant::now,
         )
     }
-    #[allow(clippy::too_many_arguments)] // Explicit workspaces and injectable deadline clock.
+    /// Observe one real attempt, including failures with no accepted publication.
+    /// The caller owns monotonically increasing attempt ids within this run.
+    #[allow(clippy::too_many_arguments)]
+    pub fn step_with_configured_pressure_observed<F: FnMut(LiquidStepStage) -> bool>(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        workspace: &mut crate::ProviderStepWorkspace,
+        viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
+        preferred: Option<&mut dyn ContextPressureProvider>,
+        deadline: Option<Instant>,
+        cancel: F,
+        attempt_id: u64,
+        evidence: &mut Option<std::sync::Arc<crate::workflow::WorkflowAttempt>>,
+    ) -> Result<(LiquidStepReport, ConfiguredProviderReport), SessionError> {
+        self.configured_step_observed_clock(
+            inputs,
+            workspace,
+            viscosity,
+            preferred,
+            deadline,
+            cancel,
+            Instant::now,
+            attempt_id,
+            evidence,
+        )
+    }
+    #[allow(clippy::too_many_arguments)]
     fn configured_step_with_clock<F: FnMut(LiquidStepStage) -> bool, N: FnMut() -> Instant>(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        workspace: &mut crate::ProviderStepWorkspace,
+        viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
+        preferred: Option<&mut dyn ContextPressureProvider>,
+        deadline: Option<Instant>,
+        cancel: F,
+        now: N,
+    ) -> Result<(LiquidStepReport, ConfiguredProviderReport), SessionError> {
+        let attempt_id = self.simulation.state().carrier.generation.saturating_add(1);
+        self.configured_step_observed_clock(
+            inputs, workspace, viscosity, preferred, deadline, cancel, now, attempt_id, &mut None,
+        )
+    }
+    #[allow(clippy::too_many_arguments)]
+    fn configured_step_observed_clock<F: FnMut(LiquidStepStage) -> bool, N: FnMut() -> Instant>(
         &mut self,
         inputs: LiquidStepInputs<'_>,
         workspace: &mut crate::ProviderStepWorkspace,
@@ -49,69 +91,164 @@ impl SimulationSession {
         deadline: Option<Instant>,
         mut cancel: F,
         mut now: N,
+        attempt_id: u64,
+        evidence: &mut Option<std::sync::Arc<crate::workflow::WorkflowAttempt>>,
     ) -> Result<(LiquidStepReport, ConfiguredProviderReport), SessionError> {
-        if self.stopped {
-            return Err(SessionError::Stopped);
-        }
-        if self.steps >= self.max_steps {
-            return Err(SessionError::StepLimit);
-        }
-        if deadline.is_some_and(|d| now() >= d) {
-            return Err(SessionError::Deadline);
-        }
-        let generation = self
-            .simulation
-            .state()
-            .carrier
-            .generation
-            .checked_add(1)
-            .ok_or(SessionError::PressureBinding(
+        use crate::workflow::{AttemptOutcome, NodeKind, NodeReceipt, NodeStatus, WorkflowAttempt};
+        *evidence = None;
+        self.require_legacy_intent()?;
+        if attempt_id == 0 {
+            return Err(SessionError::PressureBinding(
                 crate::solver_provider::ProviderRejection::Unsupported(
-                    "pressure generation exhausted",
+                    "workflow attempt identity must be nonzero",
                 ),
-            ))?;
-        let run_id = self.identity.run_id.to_string();
+            ));
+        }
+        let accepted_generation = self.simulation.state().carrier.generation;
+        let generation =
+            accepted_generation
+                .checked_add(1)
+                .ok_or(SessionError::PressureBinding(
+                    crate::solver_provider::ProviderRejection::Unsupported(
+                        "pressure generation exhausted",
+                    ),
+                ))?;
+        let descriptor = self
+            .simulation
+            .workflow_descriptor(viscosity.as_ref().map(|(_, mu)| *mu));
         let interval_start = self.simulation.state().carrier.time;
-        let configured = AcceptedContextInput {
-            run_id,
-            generation,
+        let trace = std::rc::Rc::new(std::cell::RefCell::new(WorkflowAttempt {
+            descriptor_sha256: descriptor.digest(),
+            descriptor,
+            input_sha256: crate::workflow::input_digest(self.simulation.state()),
+            request_sha256: crate::workflow::request_digest(inputs),
+            force_count: inputs.forces.len(),
+            smoke_source_present: inputs.smoke_source.is_some(),
+            volume_source_present: inputs.source.is_some(),
+            run_id: self.identity.run_id,
+            attempt_id,
+            accepted_generation,
+            attempted_generation: generation,
             interval_start,
-            history: self.pressure_history,
-            dynamic_viscosity: viscosity.as_ref().map_or(0.0, |(_, mu)| *mu),
-            provider: preferred,
-        };
-        let mut expired = false;
-        let result = self.simulation.step_with_configured_pressure(
-            inputs,
-            workspace,
-            viscosity,
-            configured,
-            |stage| {
-                expired = deadline.is_some_and(|d| now() >= d);
-                if expired {
-                    return true;
-                }
-                let cancelled = cancel(stage);
-                expired = deadline.is_some_and(|d| now() >= d);
-                expired || cancelled
-            },
-        );
-        let (report, provider) = result.map_err(|e| {
-            if expired {
-                SessionError::Deadline
-            } else {
-                SessionError::Step(e)
+            requested_dt: inputs.requested_dt,
+            actual_dt: None,
+            publication: None,
+            outcome: AttemptOutcome::Failed,
+            nodes: Vec::with_capacity(NodeKind::ALL.len() + 2),
+            pressure: None,
+            actual_divergence_max: None,
+            diagnostic: String::new(),
+        }));
+        let result = (|| {
+            if self.stopped {
+                return Err(SessionError::Stopped);
             }
-        })?;
-        // All fallible/allocating work and callbacks ended before the physics
-        // commit. Arc receipt clones are bounded ownership updates, not arrays.
-        self.accept_pressure_history(report, &provider.pressure, provider.dynamic_viscosity);
-        self.interval_start = Some(interval_start);
-        self.steps += 1;
-        self.report = Some(report);
-        self.provider = Some(provider.pressure.clone());
-        self.configured = Some(provider.clone());
-        Ok((report, provider))
+            if self.steps >= self.max_steps {
+                return Err(SessionError::StepLimit);
+            }
+            if deadline.is_some_and(|d| now() >= d) {
+                return Err(SessionError::Deadline);
+            }
+            trace.borrow_mut().nodes.extend([
+                NodeReceipt {
+                    node: NodeKind::Geometry,
+                    status: NodeStatus::Completed,
+                },
+                NodeReceipt {
+                    node: NodeKind::AcceptedState,
+                    status: NodeStatus::Completed,
+                },
+            ]);
+            let configured = AcceptedContextInput {
+                workflow: trace.clone(),
+                run_id: self.identity.run_id.to_string(),
+                generation,
+                interval_start,
+                history: self.pressure_history,
+                dynamic_viscosity: viscosity.as_ref().map_or(0.0, |(_, mu)| *mu),
+                provider: preferred,
+            };
+            let mut expired = false;
+            let result = self.simulation.step_with_configured_pressure(
+                inputs,
+                workspace,
+                viscosity,
+                configured,
+                |stage| {
+                    expired = deadline.is_some_and(|d| now() >= d);
+                    if expired {
+                        return true;
+                    }
+                    let cancelled = cancel(stage);
+                    expired = deadline.is_some_and(|d| now() >= d);
+                    expired || cancelled
+                },
+            );
+            let (report, provider) = result.map_err(|e| {
+                if expired {
+                    SessionError::Deadline
+                } else {
+                    SessionError::Step(e)
+                }
+            })?;
+            // In-memory bounded receipt adoption follows the existing atomic commit.
+            self.accept_pressure_history(report, &provider.pressure, provider.dynamic_viscosity);
+            self.interval_start = Some(interval_start);
+            self.steps += 1;
+            self.report = Some(report);
+            self.provider = Some(provider.pressure.clone());
+            self.configured = Some(provider.clone());
+            Ok((report, provider))
+        })();
+        *evidence = Some(match &result {
+            Ok((_, provider)) => provider
+                .workflow
+                .as_ref()
+                .expect("workflow prepared before commit")
+                .clone(),
+            Err(error) => {
+                let mut trace = trace.borrow_mut();
+                let diagnostic = format!("{error}");
+                trace.diagnostic = diagnostic.chars().take(240).collect();
+                trace.outcome = match error {
+                    SessionError::Deadline
+                    | SessionError::Step(crate::LiquidStepError::Cancelled)
+                    | SessionError::Step(crate::LiquidStepError::Carrier(
+                        crate::SimulationError::Cancelled { .. },
+                    ))
+                    | SessionError::Step(crate::LiquidStepError::Carrier(
+                        crate::SimulationError::Advection(crate::AdvectionError::Cancelled),
+                    ))
+                    | SessionError::Step(crate::LiquidStepError::Carrier(
+                        crate::SimulationError::Pressure(crate::PressureError::Cancelled {
+                            ..
+                        }),
+                    ))
+                    | SessionError::Step(crate::LiquidStepError::Carrier(
+                        crate::SimulationError::Viscosity(crate::ViscosityError::Cancelled {
+                            ..
+                        }),
+                    ))
+                    | SessionError::Step(crate::LiquidStepError::Volume(
+                        crate::LiquidVolumeError::Cancelled { .. },
+                    )) => AttemptOutcome::Cancelled,
+                    SessionError::Stopped
+                    | SessionError::StepLimit
+                    | SessionError::PressureBinding(_)
+                    | SessionError::Step(crate::LiquidStepError::Carrier(
+                        crate::SimulationError::UnsupportedProviderDomain
+                        | crate::SimulationError::ProviderWorkspaceMismatch
+                        | crate::SimulationError::InvalidTimeStep,
+                    ))
+                    | SessionError::Step(crate::LiquidStepError::Carrier(
+                        crate::SimulationError::Viscosity(crate::ViscosityError::UnsupportedDomain),
+                    )) => AttemptOutcome::Refused,
+                    _ => AttemptOutcome::Failed,
+                };
+                std::sync::Arc::new(trace.clone())
+            }
+        });
+        result
     }
     pub(super) fn accept_pressure_history(
         &mut self,

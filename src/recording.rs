@@ -10,7 +10,9 @@ pub use force_fields::{
 pub mod comparison;
 pub mod diagnostic;
 mod material;
+pub mod projection;
 pub mod provider;
+pub mod workflow;
 use crate::{GridGeometry, SessionIdentity, SnapshotStage};
 pub use carrier::{
     RecordedCarrier, carrier_publication, carrier_publication_with_force_fields, carrier_run,

@@ -83,6 +83,7 @@ impl ProviderStepWorkspace {
     pub(crate) fn pressure(&self) -> &[f64] {
         self.provider.pressure()
     }
+    #[allow(clippy::too_many_arguments)] // Existing explicit numerical inputs plus optional internal observation.
     pub(crate) fn solve(
         &mut self,
         operator: &PressureOperator<'_>,
@@ -90,10 +91,12 @@ impl ProviderStepWorkspace {
         dt: f64,
         settings: PressureSettings,
         preferred: Option<&mut dyn PressureProvider>,
+        workflow: Option<&crate::workflow::Capture>,
         cancel: impl FnMut() -> bool,
     ) -> Result<ProviderReport, SimulationError> {
         operator.build_rhs(velocity, dt, &mut self.rhs)?;
-        Ok(self.provider.solve(
+        crate::workflow::pressure_requested(workflow, &self.rhs);
+        Ok(self.provider.solve_observed(
             PressureRequest {
                 grid: &self.grid,
                 density: self.density,
@@ -103,6 +106,7 @@ impl ProviderStepWorkspace {
             settings,
             preferred,
             cancel,
+            workflow,
         )?)
     }
 }

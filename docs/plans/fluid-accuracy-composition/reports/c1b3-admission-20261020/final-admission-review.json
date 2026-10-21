@@ -1,0 +1,107 @@
+{
+  "schema": "rheon-c1b3-final-admission-metadata-independent-review-v1",
+  "status": "APPROVED_EXACT_METADATA_PROTOCOL_DRIVER_FOR_CLEAN_COMMIT_AND_FRESH_QUALIFICATION_ATTEMPT",
+  "reviewed_at_utc": "2026-10-20T04:55:53.125270+00:00",
+  "candidate_head": "906928dbbd83286f7a106ac06fe9e377dac785b0",
+  "candidate_tree": "7bf2d474d2351c23599c59984102bed5e2b2a8ee",
+  "candidate_has_uncommitted_reviewed_metadata": true,
+  "retained_ancestors": [
+    "186dc0a18f787748eb723d91321e44ffd0e374d5",
+    "5dc1741feffa88b857194559b3e7e79be5369a64",
+    "38c40ca7b4b2401e0ac802f12c647f7229072f52"
+  ],
+  "selected_count": 140,
+  "selected_map_sha256": "6cf9712dbebbec79309d9ead4b6514d5cec3cf7559452d0ff16824735d49d22d",
+  "selected_delta_vs186": {
+    "changed": 8,
+    "unchanged": 132,
+    "added": 0,
+    "removed": 0
+  },
+  "all140working_candidate_committed_and_owner5dcpins_verified": true,
+  "selected_complete_working_and_committed_sets_verified": true,
+  "proposed_repo_document_count": 6,
+  "proposed_repo_doc_sha256": {
+    "docs/education/aligned-strain-native-sources-integration-20261014.json": "8cc04634cb3e7831884273bf3c9a4bac21f52e3b0735be344101cba6bcf058ba",
+    "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md": "a4e27e367c0604fc24c9b3020110832fc7ef85c902fcdd35ad2c5c684de9b97b",
+    "docs/plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/protocol.md": "1a0191d997fceb54002f647996c609a46387e003dd524c12090a8faeef74c16c",
+    "docs/plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/source-review/readiness-review.json": "6463884e5a2ed9fd079ea72d77d5790dba951efcb08f495330ba0bfcf997b3ab",
+    "docs/plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/source-review/readiness-review.md": "989a54f511e7b9ba69d33bcfbfaa76b93d348c5c3bbff6ee7ab31bed2ae1c7ea",
+    "docs/plans/fluid-accuracy-composition/reports/c1b3-admission-20261020/source-review/source-map-review-input.json": "7fa2845366100c768049a482f33d496b2f19c25c4ceed50691cb5ccdbfd9fa2d"
+  },
+  "external_driver_sha256": "797cf4495fa3eb7f3539f22a5a92c0342d6f83663bc409bce6575f1ce93e2163",
+  "total_reviewed_change_inputs_including_driver": 7,
+  "old186_bound_review_sha256": "caa78be78306aa095a42fd6a54c0c355a4f5dfbc74b7244a0a94bc9242f09941",
+  "old186_review_prefix_bytes": 81227,
+  "full_prefix_byte_preserved": true,
+  "v3_schema_base_predecessors_and_binding_verified": true,
+  "immutable_mechanism_and_cargo_pins": {
+    "docs/education/aligned_strain_packet.py": "361ec0530ad64bbb0f698463a0553ab1c3b4964af3e9cbce547a327456cb8b3a",
+    "docs/education/test_aligned_strain_packet.py": "d53b4a44943782288868bfd2bcab56ca2f24220990a62a749e63a9148550a5f9",
+    "docs/education/check_native_admission.py": "fa315c21355a5eca90f0692f01b4d3a2c1c936cbd6a8e0f8e192d06beac847b2",
+    "tools/qualify_aligned_strain.py": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba",
+    "tools/aligned_strain_oracle.py": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5",
+    "tools/test_aligned_strain_oracle.py": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f",
+    "tools/test_qualify_aligned_strain.py": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db",
+    "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
+    "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d",
+    "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
+    "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+    "rust-toolchain.toml": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800"
+  },
+  "final141_docs_merge": {
+    "guard_sha256": "9eca6036aa27782c914995fdcef67fec28af62086175cf997ca75e0d1784cf83",
+    "head": "38c40ca7b4b2401e0ac802f12c647f7229072f52",
+    "actual11pathdiff": [
+      "docs/plans/fluid-accuracy-composition/execution-ledger.md",
+      "docs/plans/fluid-accuracy-composition/issues.md",
+      "docs/plans/fluid-accuracy-composition/plan.md",
+      "docs/plans/fluid-accuracy-composition/reports/c1b2-admission-20261020/qualification.md",
+      "docs/plans/fluid-accuracy-composition/reports/cv3a-admission.md",
+      "docs/plans/fluid-accuracy-composition/reports/cv3a-review/audit.json",
+      "docs/plans/fluid-accuracy-composition/reports/cv3a-review/recommendation.md",
+      "docs/plans/fluid-accuracy-composition/reports/cv3a-review/review.json",
+      "docs/plans/fluid-accuracy-composition/reports/cv3a-review/review.md",
+      "docs/plans/fluid-accuracy-composition/reports/integration-20261020.md",
+      "docs/plans/fluid-accuracy-composition/reports/verification.md"
+    ],
+    "selected_and_metadata_protocol_unchanged": true
+  },
+  "driver_static_review": {
+    "executed": false,
+    "syntax_ast_checked": true,
+    "assert_nodes": 0,
+    "normal_python_optimization_cleared": true,
+    "packet26eachmode_and_exact_OK_guard": true,
+    "exclusive_initial_journal_logs_nativecopy": true,
+    "actual_native_build_receipt_hash_check": true,
+    "testELF_hashcopy_and_duplicate_identity_check": true,
+    "fresh_target_native_packet_journal_absent_observed": true,
+    "command_failure_stops_and_preserves_results": true,
+    "clean_HEAD_before_after": true,
+    "ambient_compiler_override_observation": {},
+    "scope": "Bounded task-owned recipe, not a hermetic build wrapper or sandbox. Existing inherited environment must remain declared; no auth/reproclaim."
+  },
+  "prospective_protocol_review": {
+    "claim": "Separate closed stateless producer-selection/reference/native-contract attempt, no new whole-C1/physical/model/desktop/runtime capability.",
+    "execution": "Unchanged18native/35Rust/5specimens, newreal26normal+26-Opacket0skip, fullno-default97library expectedsource, all6B2+B3public contracts, legacy99+volume23 andborrow3; actualcountsrecorded, existingignoreshonest.",
+    "custody": "Fullcommittedsource andactualexecutables/rawsource/receipts/packet retained; nativeharness collection/archive/CRC/Library andindependentfinalaudit remain post-driver obligations.",
+    "resource": "New task-ownedtarget/output, jobs2/incremental0/debug0 with unchanged opt-level/debugassertions; disk/RAM/command failure blocked, nootherownerdeletion/skip/stalereceipt.",
+    "failure": "Anyfailed/incomplete driver state isnot final acceptance. No numerical campaign/implicit retry/refresh."
+  },
+  "findings": [],
+  "approval_conditions": [
+    "Commit exactly reviewed metadata/protocol/source-review bytes before invoking driver; actual qualification source is that fresh clean commit, not906 orowner5dc.",
+    "If any selected input/mechanism/Cargo/boundreview/protocol/driver changes, re-review relevant delta before execution.",
+    "Preserve old186/Q2/owner227receipts andfailed evidence; no metadata edits afterqualification.",
+    "Driver command PASSED doesnotitselfseal/archive/collectnestednativeharnesses: complete protocolpostprocessing and independently verify actualfocused/nativeELFcounts+everyartifact/CRC before final evidence acceptance.",
+    "Missing/unreadable parsed testELF isnot finalcustody success: driver only copies observed existing files, so finalactual-executable audit mustrejectmissingrecords.",
+    "Refreshcaptureactualtoolchain/declaredcompiler overrides atlaunch; ambient knownoverride observationwasempty here, butdriverisinheritedenvnothermetic.",
+    "Hosted/default/desktop/nativewindow/release/performance/model/physical/Lean/GPU,combinedQ2andfullC1remainseparate."
+  ],
+  "limits": [
+    "No driver/native/test/campaign execution, source/ref/PR edits, builds or merges by reviewer. Only external review receipts written.",
+    "Actualfinal141docs-onlymergeverifiednow; no futuremergefactsapproved.",
+    "No authenticity or bitreproducibility claim."
+  ]
+}

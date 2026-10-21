@@ -1,0 +1,1275 @@
+{
+  "schema": "rheon-provisional-complete-source-independent-review-v1",
+  "status": "PROVISIONAL_SOURCE_REVIEW_COMPLETE_NOT_ACTIVE_ADMISSION",
+  "reviewed_at_utc": "2026-10-20T02:30:33.854300+00:00",
+  "candidate_head": "6137e46ccfcc576b239dbe34f6700b84f109de38",
+  "candidate_tree": "8fa48084cd9e8af2dde077812fbc5d967efbd8f5",
+  "candidate_clean": true,
+  "review_input": "/workspace/rheon-native-admission-20261020-evidence/provisional-complete-closure.json",
+  "review_input_sha256": "ea0ea4b43b222b20b760d4ac7fc1af6c93e7a5b4467f08b9e0be8c663d873a2a",
+  "source_map_sha256": "de1f61379e0f5ad7dd3ff04180edee4591993fcbb958b805b51ce2df1f6c6e70",
+  "source_map_encoding": "SHA256(JSON source_sha256 sorted keys, compact separators, no trailing newline)",
+  "counts": {
+    "added": 11,
+    "changed": 16,
+    "unchanged": 108,
+    "removed": 0
+  },
+  "all_candidate_hashes_verified": true,
+  "all124_prior_admitted_identities_verified_at": "bc2f472787060d9a69cb619ed2c2fea10fd754b6",
+  "complete_selected_path_set_verified": "All current regular src/ and .cargo/ inputs, rust-toolchain*, and unchanged QUALIFICATION_INPUTS policy; exactly135, no omissions/removals/symlinks.",
+  "prior_inventory_sha256": "75415a192381d0457785526120c120f7ced9217169afbc64f2511e834c0ff20f",
+  "prior_review_sha256": "5836c3fa71bf20b72dbde79a2f5d27dd281ffc3930e0af7ad81f9039fd3edd42",
+  "new_material_findings": [],
+  "known_open_dependency": [
+    {
+      "id": "iteration-count-consistency",
+      "scope": "WorkflowAttempt/RCP4/RCT2 accepted native max-iteration consistency and configured candidate fixed-zero iteration facts",
+      "owner": "separate assigned implementation/reviewer",
+      "disposition": "blocks final admission; review final coordinated patch and exact composed closure. Preserve RCP2/RCP3 legacy semantics."
+    },
+    {
+      "id": "optimized-evaluator-guards",
+      "scope": "Separately owned frozen P1 adjoint/material and Q1 evaluator guard repair outside selected native closure",
+      "disposition": "do not claim final integration repair until delivered and independently reviewed; original frozen numerical failures remain."
+    }
+  ],
+  "qualification_reachability": {
+    "compiled_production": "Native lib registration reaches new workflow and native_family modules; composition registered by solver_provider; desktop registration reaches workflow_inspector and existing Worker recording path. Full native closure includes every src file independently of reachability.",
+    "new_unit_modules": [
+      "workflow::tests",
+      "recording::workflow::tests",
+      "solver_provider::composition::tests",
+      "solver_provider::composition::projection::tests",
+      "native_family::tests",
+      "workflow_inspector::tests (desktop)"
+    ],
+    "unchanged_qualifier": "tools/qualify_aligned_strain.py tests named aligned_strain_contract, obstacle_flow_contract, static_obstacle_contract and example; builds actual library/example and checks independent finite aligned-strain rational/oracle/packet behavior. It does not run all new unit modules.",
+    "required_attribution": "Fresh composed focused unit execution must be separate from18-stage aligned-strain qualification. Prior f6/ac6/f161 component reports remain subject-pinned owner-reported evidence, not candidate execution/UI/physics acceptance.",
+    "explicit_ignored": "Native fixture preparation and release overhead are opt-in ignored desktop procedures; pinned learned-checkpoint ignores remain honest."
+  },
+  "limits": [
+    "Read-only review; no builds, numerical campaigns, active inventory changes, source edits, refs or PR mutations.",
+    "Only outside-Git review receipts/diff snapshots written.",
+    "No authentication, bit reproducibility, physical/model/GPU/UI/performance acceptance inferred.",
+    "Frozen negative P1/Q1 campaign outcomes and original protocols/oracles remain unchanged.",
+    "Final coordinated source heads, exact delta recheck, admission-owner approval, fresh clean committed native/rational/packet and scoped contract runs remain required."
+  ],
+  "paths": [
+    {
+      "path": "Cargo.lock",
+      "disposition": "unchanged",
+      "admitted_sha256": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+      "candidate_sha256": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "Cargo.toml",
+      "disposition": "unchanged",
+      "admitted_sha256": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
+      "candidate_sha256": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "examples/aligned_strain.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
+      "candidate_sha256": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "disposition": "unchanged",
+      "admitted_sha256": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+      "candidate_sha256": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/advection.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+      "candidate_sha256": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/aligned_strain.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
+      "candidate_sha256": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/README.md",
+      "disposition": "unchanged",
+      "admitted_sha256": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d",
+      "candidate_sha256": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/accepted_session.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31",
+      "candidate_sha256": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/accepted_provider.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc",
+      "candidate_sha256": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729",
+      "candidate_sha256": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/accepted_provider_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237",
+      "candidate_sha256": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942",
+      "candidate_sha256": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/adapter.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2",
+      "candidate_sha256": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/configured_track.rs",
+      "disposition": "changed",
+      "admitted_sha256": "3959018b52697ef072884864c01de4682d1b4cd351c273426d914d02f0641fa1",
+      "candidate_sha256": "c1dbb4053031065563762b1f538acb4959f30662bd98e646cf9e74ac94752117",
+      "classification": "production integration",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Adds monotone checked per-track attempt identity and clears previous observation before refusal; calls the existing observed Session path and retains only one bounded attempt. Existing process, cancellation and retirement owners remain."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/configured_track_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c",
+      "candidate_sha256": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/cpu_contract_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e",
+      "candidate_sha256": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/diagnostic_runs.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c",
+      "candidate_sha256": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/diagnostic_view.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2",
+      "candidate_sha256": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/diagnostic_worker.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
+      "candidate_sha256": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8",
+      "candidate_sha256": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/engine.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55",
+      "candidate_sha256": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/engine_typed_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
+      "candidate_sha256": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/mod.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076",
+      "candidate_sha256": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/model_process.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d",
+      "candidate_sha256": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/prediction_contract_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3",
+      "candidate_sha256": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/record.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d",
+      "candidate_sha256": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/scene.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321",
+      "candidate_sha256": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/view.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d",
+      "candidate_sha256": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/ai_comparison/worker.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b",
+      "candidate_sha256": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/archive_view.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff",
+      "candidate_sha256": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/build_identity.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b",
+      "candidate_sha256": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/camera.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d",
+      "candidate_sha256": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/carrier_execution.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "0d96fb2acdfd63374e5f0004d9ead8b43d9fe2f6959c0d01f9c828458ae1799e",
+      "candidate_sha256": "0d96fb2acdfd63374e5f0004d9ead8b43d9fe2f6959c0d01f9c828458ae1799e",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/collision_ui.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204",
+      "candidate_sha256": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/comparison.rs",
+      "disposition": "changed",
+      "admitted_sha256": "ef52e29f4d9c59007c11ff973ed6a43c33ac9e1d583819ede11ebd7aea9ec0a5",
+      "candidate_sha256": "6adcccf8e85204703de9fd0bcd952b69c9520acacce4657ef96a3dd49eece099",
+      "classification": "production read-only consumer",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Loads only exact verified side/publication through existing member/Selection owners; key binds root, recipe, source set, pair and side. Errors invalidate page; no runtime or model loading. Added test rectangle is cfg(test)."
+    },
+    {
+      "path": "src/bin/desktop/comparison_archive.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9",
+      "candidate_sha256": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/comparison_field_view.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82",
+      "candidate_sha256": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/configured_comparison_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46",
+      "candidate_sha256": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/configured_controls.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "05d317554c4db033dd35c5e153dceaea34367eed33125ec8c7f59466f83ede36",
+      "candidate_sha256": "05d317554c4db033dd35c5e153dceaea34367eed33125ec8c7f59466f83ede36",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/configured_producer_exit_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb",
+      "candidate_sha256": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/configured_worker_tests.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "81e24d69cd5838de3becbc31453ce0a10947e7fe956287862957fcc06eae6e38",
+      "candidate_sha256": "81e24d69cd5838de3becbc31453ce0a10947e7fe956287862957fcc06eae6e38",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/emitter_controls.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9",
+      "candidate_sha256": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/engineering.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d",
+      "candidate_sha256": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/export_ui.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d",
+      "candidate_sha256": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/history.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821",
+      "candidate_sha256": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/identity.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184",
+      "candidate_sha256": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/inspector.rs",
+      "disposition": "changed",
+      "admitted_sha256": "bb6bb83529896323fbf5414d6e7f41f8462b21e80a6d1f620edb6eecd2fc6649",
+      "candidate_sha256": "4753401d42674f6fc3a4990dc9acf534ef3b9d1c425c605375f74072fe334068",
+      "classification": "production read-only consumer / recording hook",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Existing recorder emits additive workflow profile; selected immutable cache holds exact attempt. Explicit selection/terminal actions validate evidence, failures clear graph; legacy RCT1 and new RCT2 remain distinct, unknown RCT versions refuse."
+    },
+    {
+      "path": "src/bin/desktop/particle_view.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
+      "candidate_sha256": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/run_set_view.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b",
+      "candidate_sha256": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/run_sets.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1",
+      "candidate_sha256": "e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/run_sets/configured.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9",
+      "candidate_sha256": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/run_sets/configured/archive.rs",
+      "disposition": "changed",
+      "admitted_sha256": "eb1d8e77019eb57afd9e5fd5f57af55f8ff320527ec8efc935945bd7ff477806",
+      "candidate_sha256": "c790e634ff8f46fb4b3513530321bf34ad00f80ab717fa66a1afcb003485aef2",
+      "classification": "production cold intent binding",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Adds RCT2 audit and binds actual workflow call digest, viscosity stage/value, horizon, dt and optional exact provider identity to frozen intent. Uses existing member/archive owner; no new archive or reconstruction of absent RHS."
+    },
+    {
+      "path": "src/bin/desktop/run_sets/source.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11",
+      "candidate_sha256": "c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/settings.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
+      "candidate_sha256": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/transport_view.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
+      "candidate_sha256": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/viewport.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "599046403df150499064337c2ce3b6996f1ece69f4e876f882200f079b7cd530",
+      "candidate_sha256": "599046403df150499064337c2ce3b6996f1ece69f4e876f882200f079b7cd530",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/desktop/workflow_inspector.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "4176efb859e9ed2e0041a6ca7b9f87c5590ed2aa7541a83fc225ce6e795ddd6f",
+      "classification": "production presentation",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Consumes validated cached attempts; explicit terminal load is separate from paint. Exact source/comparison changes invalidate prior graph. Finite typed nodes/units, unavailable facts, keyboard/pointer focus, bounded zoom/pan and evidence scroll preserve read-only scope."
+    },
+    {
+      "path": "src/bin/desktop/workflow_inspector_tests.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "577bc23f06a8cd794b16d42cd347a024d627443f3d1cf5d4a6230b21c76a24e2",
+      "classification": "desktop unit contracts / opt-in procedures",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Real observed Session and existing Worker fixtures cover archive/model removal, legacy unavailability, exact comparison sides, generation-zero terminal and egui events/invalidation. Native-fixture preparation and release overhead procedures are explicitly ignored, not ordinary-suite passes; no learned or physical accuracy claim."
+    },
+    {
+      "path": "src/bin/rheon-ai-compare.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9",
+      "candidate_sha256": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/bin/rheon-desktop.rs",
+      "disposition": "changed",
+      "admitted_sha256": "76a92d5c928919f832904395319644f14eb36bc2e1c33aeab1146d4b1480ce48",
+      "candidate_sha256": "cd57bc2c39b6c16b9b92768be2614ec40ce02adbafc5d4992664af2ba291d66c",
+      "classification": "production caller wiring",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Registers workflow inspector; existing Worker finalizes additive WorkflowTermination with retained runtime/attempt facts. Existing App live/archive/comparison navigation invokes cached view and explicit selection. No second worker, stepping loop, store or process supervisor."
+    },
+    {
+      "path": "src/bin/rheon.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51",
+      "candidate_sha256": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/box_flux.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+      "candidate_sha256": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/box_flux_step.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+      "candidate_sha256": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/collision.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+      "candidate_sha256": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/column_mac.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+      "candidate_sha256": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/column_momentum.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0",
+      "candidate_sha256": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/column_shear.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299",
+      "candidate_sha256": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/column_surface.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+      "candidate_sha256": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/compressible.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3",
+      "candidate_sha256": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/coupled_discrete.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7",
+      "candidate_sha256": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/dense3d_sequence.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431",
+      "candidate_sha256": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/emitter.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84",
+      "candidate_sha256": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/emitter_controls.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4",
+      "candidate_sha256": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/export.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3",
+      "candidate_sha256": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/fitted_height.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+      "candidate_sha256": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/fixed_bottom_ale.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47",
+      "candidate_sha256": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/forces.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb",
+      "candidate_sha256": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/free_surface.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+      "candidate_sha256": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/geometry.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634",
+      "candidate_sha256": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/lib.rs",
+      "disposition": "changed",
+      "admitted_sha256": "c6dfcf187c1cb2bb64835bd7c72a7094b6127730c55bb6ee47d2e676354317ff",
+      "candidate_sha256": "c208229fd3f1d15a1597a2f85ec95c51a305b92232a1bfdd18a30d57e45f5510",
+      "classification": "public module registration",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Only adds native_family and workflow exports; prior exports and numerical implementations remain. Registration makes their non-test dependencies part of the complete compiled crate closure."
+    },
+    {
+      "path": "src/liquid_step.rs",
+      "disposition": "changed",
+      "admitted_sha256": "f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93",
+      "candidate_sha256": "b707f32f0a5c1102ebbde0776316fc5e7daddb23247c2a07e2d2f69355325baa",
+      "classification": "production atomic publication observation",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Passes bounded capture through existing carrier preparation, marks completed represented-volume stage and creates accepted workflow before infallible original pressure/owner publication. Disabled versus applied-zero viscosity stays explicit; failures do not swap accepted owners."
+    },
+    {
+      "path": "src/liquid_volume.rs",
+      "disposition": "changed",
+      "admitted_sha256": "24623038f62261ce6a17b034e9b6d82c5f0aba02dd0df7aad174c885ed2a8c96",
+      "candidate_sha256": "7f98c25b5e0990a0a9097aa1d3d656f4441123271e5ee1801ee2055de9eed650",
+      "classification": "public numerical API / Q1 transport",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Adds explicit periodic represented-volume boundary policy while preserving original box prepare/commit. Requires AllCells/no columns, paired normal seam velocities, computes lower seam transfer once, mirrors exact high seam and excludes periodic seam from external flux. Source and cancellation gates remain; no periodic pressure or coupled-Stokes admission."
+    },
+    {
+      "path": "src/material.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+      "candidate_sha256": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/material_session.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960",
+      "candidate_sha256": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/mesh_collision.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24",
+      "candidate_sha256": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/mesh_import.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890",
+      "candidate_sha256": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/motion.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+      "candidate_sha256": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/native_family.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "070721db5250b429bf6f1147b71de1b84fd010eceb17d0814f9b9d299c9a09e5",
+      "classification": "public borrowed facade / C1-A",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Closed MAC versus particle-preview dispatch checks declared Session identity/generation before owner callbacks, then delegates native validation/time/quota/cancel/publication. Borrowed snapshot prevents concurrent stepping. Transfers and whole-family substitution explicitly unavailable; declaration equality is not authenticity."
+    },
+    {
+      "path": "src/native_family/tests.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "6904cbfa816d754410f18fe4281d29729e492ac47e2905474afa30cb97edb7d5",
+      "classification": "core unit contracts / C1-A",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Direct original-owner comparisons cover 100 MAC intervals, particle controls/short dt, exact field borrows, wrong family/source/generation, cancellation/deadline/final-commit rollback, quota/stop and refused transfers. Classical native equivalence only, not inter-family physical equivalence."
+    },
+    {
+      "path": "src/observation.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee",
+      "candidate_sha256": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/obstacle_pressure.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07",
+      "candidate_sha256": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/obstacle_shear.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f",
+      "candidate_sha256": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/operator.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+      "candidate_sha256": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/parallel.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e",
+      "candidate_sha256": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/particle_fluid.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "ed4ab916e602a55b2245beba5bdbff268fcb704b67fa41248d47ad2598f2468f",
+      "candidate_sha256": "ed4ab916e602a55b2245beba5bdbff268fcb704b67fa41248d47ad2598f2468f",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/pressure.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+      "candidate_sha256": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/pressure_session.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8",
+      "candidate_sha256": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/provider_step.rs",
+      "disposition": "changed",
+      "admitted_sha256": "79167b70a8d164a2367f43816feab443eefb41f23bc4bd940716dd5fd32d495b",
+      "candidate_sha256": "20cb23abcb30802dbebd6a32f599d20986982bf7aaa9e69e5287e4e448bac54b",
+      "classification": "production pressure observation hook",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Existing operator builds actual RHS once; records its digest and delegates to solve_observed with original request/settings/provider/cancel. No new pressure arithmetic or alternative numerical owner."
+    },
+    {
+      "path": "src/recording.rs",
+      "disposition": "changed",
+      "admitted_sha256": "d022f8f46c288538298896ae444c9780265a6bf77fa9a4e1ba4b9732cf026eb2",
+      "candidate_sha256": "08a85d909ef6c566335675fddadbfdc245c42b4c894edf72aa41198036b0cd5f",
+      "classification": "recording module registration",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Only adds public workflow module under existing recording owner. SQLite envelope/application identity, transactions, budgets, field checks and terminal rules otherwise unchanged."
+    },
+    {
+      "path": "src/recording/carrier.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509",
+      "candidate_sha256": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/recording/comparison.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307",
+      "candidate_sha256": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/recording/diagnostic.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
+      "candidate_sha256": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/recording/material.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
+      "candidate_sha256": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/recording/provider.rs",
+      "disposition": "changed",
+      "admitted_sha256": "980ea5af7094016b13e7d0f39110aa2ff673b0173416e0fe583e6266b7c27f57",
+      "candidate_sha256": "ca4abfb98c364cda5d3d830930ebe6773020e0d35aae756a33c718662e239b3d",
+      "classification": "production additive codec validation",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Unwraps RCP4 into original RCP2/3 controls; binds workflow source and receipt, checks consecutive native-state digests and increasing attempt identities during full verification. Existing encoder/decoder helpers are shared within recording; original profile encoding preserved."
+    },
+    {
+      "path": "src/recording/provider/comparison.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75",
+      "candidate_sha256": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/recording/provider/runtime.rs",
+      "disposition": "changed",
+      "admitted_sha256": "d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb",
+      "candidate_sha256": "2cff480b60cdae14107541ce07d72afe2e1627684b82d427211df1bff023d381",
+      "classification": "production additive terminal decode",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Unwraps RCT2 into original RCT1, validates source/attempt/runtime association, and shares only existing bounded binding/encoding helpers. Original runtime observation ownership remains; no model execution on decode."
+    },
+    {
+      "path": "src/recording/workflow.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "b8b19b21b9ddf57917c3471181c9446777e2c0962643fedb4f1869331c2557d6",
+      "classification": "production additive recording codec plus inline contracts",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "RCP4/RCT2 wrap exact prior payload bytes inside existing SQLite v1; strict bounded node/enumeration/text decoding and source, publication, request, runtime, previous-native-state and terminal associations. Tests cover close/reopen, generation-zero cancellation, forged cross-links/IDs, unknown versions, legacy absence and unrecorded accepted tails. Iteration-count consistency is the known separately owned pending repair."
+    },
+    {
+      "path": "src/sampling.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+      "candidate_sha256": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/scheduling.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
+      "candidate_sha256": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/session.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",
+      "candidate_sha256": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/session/configured.rs",
+      "disposition": "changed",
+      "admitted_sha256": "d99ae990e9c7ddc956f95f414a25832411a4dc84ab434df95ff9f8f68cf52a83",
+      "candidate_sha256": "b5c8978e20cf6d1ed2b183a2cb506dc7a15041049b1dfb91935cac954f8070a2",
+      "classification": "public observed Session attempt API",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Wraps actual synchronous Session attempt in bounded metadata capture; separates attempt ID from accepted generation, observes actual interval start/dt, retains failed/cancelled/refused prefixes and publishes accepted receipt only with original atomic interval. Caller owns monotonically increasing explicit IDs; existing default method remains available."
+    },
+    {
+      "path": "src/sgs.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
+      "candidate_sha256": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/simulation.rs",
+      "disposition": "changed",
+      "admitted_sha256": "8dea790daf2a2d0801db3003094f9fffe034c9b87946d520a1eacc266c95f078",
+      "candidate_sha256": "00740d13df6f3ab88e362504bf63b833d693e51c05c95b189c677d2460520a18",
+      "classification": "production numerical-owner observations",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Adds optional capture on existing configured path and emits actual dt/completed numerical stages plus actual projected divergence. Existing advection, forces, viscosity, pressure, tracer arithmetic and acceptance conditions remain; no alternate solver or control loop."
+    },
+    {
+      "path": "src/solver_provider.rs",
+      "disposition": "changed",
+      "admitted_sha256": "0ab7db08a9016e73d664c730e4ff513d42599a84c680ea061e6604859432a5a5",
+      "candidate_sha256": "204682fc6540cb812d7d9200dd61085e5dcb827a6c77981e081046ef353c0838",
+      "classification": "production dispatcher observations / registration",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Registers composition API and adds internal solve_observed while legacy solve delegates with None. Records actual threshold, candidate qualification, fallback start/selection around unchanged pressure dispatcher. Known workflow iteration-count consistency must be repaired without strengthening historical pressure-v1 behavior."
+    },
+    {
+      "path": "src/solver_provider/composition.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "f8cceb5a953e45627c2297b9393e557519b3099c4533b5aa1045b0dd0c6a96ef",
+      "classification": "public borrowed selection / C1-A",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Only PressureV1 selects existing ProviderWorkspace; unsupported subgraph/whole-family labels refuse without workspace changes. QualifiedPressureV1 borrows exact host-qualified pressure; not corrected velocity or Session state. Compile-fail borrow example prevents overwrite."
+    },
+    {
+      "path": "src/solver_provider/composition/projection.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "e9a717ffc318c2345a4863369ff426c1f6d86f6ae4c3a5d312f2bfc459d33e4d",
+      "classification": "public stateless supplied-array qualifier / C1-B1",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Immutable inputs bind exact grid/IEEE fields/settings/source declaration/representation to digest. Strict closed geometry/header refusals precede callbacks. Capped scratch validates supplied pressure and bit-exact in-place momentum witness, original dispatcher gates and actual f32 divergence; native fallback restarts from same immutable input, retaining discarded candidate report. Returns disposable borrowed arrays; no provider execution or Session adoption."
+    },
+    {
+      "path": "src/solver_provider/composition/projection_tests.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "1136781800cb14e301521fe4093fe042f59d17b7e149136dc24ba73bf4500a3e",
+      "classification": "core unit contracts / C1-B1",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Both native methods cover nonzero RHS, 100 independent fixed-input requests, divergence-free wrong momentum, signed-zero/wall bits, exact input/representation binding, bad fields/gauge/residual, all cooperative cancel phases, clean retry, native iteration failure, actual-divergence fallback and aggregate managed-array cap. Explicitly not 100 integrated trajectories."
+    },
+    {
+      "path": "src/solver_provider/composition_tests.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "363b5f5192225d7187cf64bd458f9691e3f041ef8ed1282babc5c5c2a9eb2adb",
+      "classification": "core unit contracts / C1-A",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Matches original pressure dispatcher outcomes/fields/requests for exact and adversarial classical candidates, invalid inputs/cancellation and unavailable scopes. Preserves legacy max_iterations=0 candidate acceptance instead of silently redefining pressure-v1."
+    },
+    {
+      "path": "src/solver_provider/configured.rs",
+      "disposition": "changed",
+      "admitted_sha256": "124ca65dd1dec3a8a89043198fb085453a42ca8aff0dc87c67b04b6a986109be",
+      "candidate_sha256": "e75eff2c8c0147b00a07e10e4a2b686b0fcf6a46248dbbcb346c5d485ce93392",
+      "classification": "production configured-provider observation adapter",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Adds bounded workflow field and support/predict observations around actual existing calls; retains validated package identity and authoritative context stamp. prediction_called remains a trait invocation fact, not IPC dispatch. No runtime or history owner added."
+    },
+    {
+      "path": "src/solver_provider/context.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693",
+      "candidate_sha256": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/solver_provider/modal.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796",
+      "candidate_sha256": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/static_obstacle.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080",
+      "candidate_sha256": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/tracer_barrier.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+      "candidate_sha256": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/translated_viscous.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+      "candidate_sha256": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/viscosity.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+      "candidate_sha256": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/vtk_export.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e",
+      "candidate_sha256": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "src/workflow.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "a04319def8bcb604c81aab6088cb19f4f09043e77542dda583e4782e2e4edd67",
+      "classification": "public bounded observation contract / internal capture",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Finite typed sealed-MAC descriptor/edges and ordered actual-attempt prefixes; exact parameter/native-field/request digests, explicit optional diagnostics and bounded metadata. Source consistency is not physics proof/authentication. No executable graph; existing numerical owners emit facts. Known report-iteration consistency is provisional pending assigned fix."
+    },
+    {
+      "path": "src/workflow/tests.rs",
+      "disposition": "added",
+      "admitted_sha256": null,
+      "candidate_sha256": "5c42f4ed32454e3de1c9638bdab24a9e8309c73b9eea3095b434a16570c00eb5",
+      "classification": "core unit contracts / G1",
+      "review_disposition": "provisionally source reviewed; coordinated final delta required",
+      "rationale": "Real Session fixtures cover support/invalid-output fallback and applied-zero stage, multiple cancellation positions, exact shortened interval/native fields, descriptor/request/control corruption, stage prefixes and generation-zero refusal. Does not establish real-window rendering or continuum accuracy."
+    },
+    {
+      "path": "tests/aligned_strain_contract.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16",
+      "candidate_sha256": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "tests/obstacle_flow_contract.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020",
+      "candidate_sha256": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "tests/static_obstacle_contract.rs",
+      "disposition": "unchanged",
+      "admitted_sha256": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de",
+      "candidate_sha256": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "tools/aligned_strain_oracle.py",
+      "disposition": "unchanged",
+      "admitted_sha256": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5",
+      "candidate_sha256": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "tools/qualify_aligned_strain.py",
+      "disposition": "unchanged",
+      "admitted_sha256": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba",
+      "candidate_sha256": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "tools/test_aligned_strain_oracle.py",
+      "disposition": "unchanged",
+      "admitted_sha256": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f",
+      "candidate_sha256": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    },
+    {
+      "path": "tools/test_qualify_aligned_strain.py",
+      "disposition": "unchanged",
+      "admitted_sha256": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db",
+      "candidate_sha256": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db",
+      "classification": "exact prior admitted identity reused",
+      "review_disposition": "unchanged identity verified",
+      "rationale": "Candidate regular-file SHA256 equals the existing admitted digest and the exact prior admitted bytes at bc2f472787060d9a69cb619ed2c2fea10fd754b6; reuse prior admission/review for this file, without transferring prior execution receipts to the candidate."
+    }
+  ]
+}

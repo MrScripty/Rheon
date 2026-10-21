@@ -112,6 +112,18 @@ pub fn configured_run(
     snapshot: &SessionSnapshot<'_>,
     provenance: &str,
 ) -> Result<RecordingRun, RecordingError> {
+    if snapshot.projection_intent().is_some() {
+        return Err(RecordingError::Unsupported(
+            "configured capture of projection Session",
+        ));
+    }
+    native_run(snapshot, provenance)
+}
+
+pub(super) fn native_run(
+    snapshot: &SessionSnapshot<'_>,
+    provenance: &str,
+) -> Result<RecordingRun, RecordingError> {
     let grid = snapshot.grid();
     let mut e = Encoder::default();
     put_configuration(&mut e, snapshot.configuration());
@@ -128,6 +140,25 @@ pub fn configured_run(
     configured_configuration(&run)?;
     Ok(run)
 }
+/// Adapt only the native algorithm identity for the projection wrapper after
+/// its outer receipt has established the actual selected role. All other
+/// constructor and source fields retain their original values.
+pub(super) fn native_header_with_method(
+    run: &RecordingRun,
+    implementation: PressureImplementation,
+) -> Result<RecordingRun, RecordingError> {
+    let mut configuration = configured_configuration(run)?;
+    configuration.implementation = implementation;
+    let mut encoder = Encoder::default();
+    put_configuration(&mut encoder, &configuration);
+    let adapted = RecordingRun {
+        configuration: encoder.text(CONFIG)?,
+        ..run.clone()
+    };
+    configured_configuration(&adapted)?;
+    Ok(adapted)
+}
+
 /// Capture the Session's accepted arrays and receipt, never provider scratch.
 /// A failed later attempt leaves the same snapshot; callers append only after
 /// a successful interval. Recording failure never rolls physics back.
@@ -136,17 +167,13 @@ pub fn configured_publication(
     ordinal: usize,
     limit: usize,
 ) -> Result<RecordedStep, RecordingError> {
-    let state = snapshot.state();
-    let run = configured_run(snapshot, "source binding")?;
-    if state.pressure_surface.is_some()
-        || state.pressure_columns.is_some()
-        || state.reconstructed_surface.is_some()
-        || state.flat_column_mac
-    {
-        return Err(RecordingError::Unsupported("configured recording geometry"));
+    if snapshot.projection_intent().is_some() {
+        return Err(RecordingError::Unsupported(
+            "configured capture of projection Session",
+        ));
     }
-    let report = snapshot.report();
     let initial = snapshot.stage() == SnapshotStage::Constructor;
+    let report = snapshot.report();
     let receipt = if initial {
         if snapshot.configured_provider_report().is_some() {
             return Err(RecordingError::Invalid("constructor provider receipt"));
@@ -162,6 +189,46 @@ pub fn configured_publication(
             report.is_some_and(|r| r.viscosity.is_some()),
         )?)
     };
+    capture_native(snapshot, ordinal, limit, receipt)
+}
+
+pub(super) fn capture_native(
+    snapshot: &SessionSnapshot<'_>,
+    ordinal: usize,
+    limit: usize,
+    receipt: Option<RecordedConfiguredReceipt>,
+) -> Result<RecordedStep, RecordingError> {
+    capture_native_with_method(
+        snapshot,
+        ordinal,
+        limit,
+        receipt,
+        snapshot.configuration().implementation,
+    )
+}
+
+pub(super) fn capture_native_with_method(
+    snapshot: &SessionSnapshot<'_>,
+    ordinal: usize,
+    limit: usize,
+    receipt: Option<RecordedConfiguredReceipt>,
+    implementation: PressureImplementation,
+) -> Result<RecordedStep, RecordingError> {
+    let state = snapshot.state();
+    let run = native_header_with_method(&native_run(snapshot, "source binding")?, implementation)?;
+    let configuration = configured_configuration(&run)?;
+    if state.pressure_surface.is_some()
+        || state.pressure_columns.is_some()
+        || state.reconstructed_surface.is_some()
+        || state.flat_column_mac
+    {
+        return Err(RecordingError::Unsupported("configured recording geometry"));
+    }
+    let report = snapshot.report();
+    let initial = snapshot.stage() == SnapshotStage::Constructor;
+    if initial != receipt.is_none() {
+        return Err(RecordingError::Invalid("native snapshot receipt stage"));
+    }
     let dt = report.map(|r| r.carrier.step.dt);
     if report.is_some_and(|r| {
         r.carrier.step.generation != state.carrier.generation
@@ -298,7 +365,7 @@ pub fn configured_publication(
     if let Some(receipt) = &receipt {
         validate_receipt(
             receipt,
-            snapshot.configuration(),
+            &configuration,
             snapshot.grid(),
             &step,
             start.ok_or(RecordingError::Invalid("configured interval"))?,
@@ -317,6 +384,11 @@ pub fn configured_publication_with_runtime(
     limit: usize,
     observation: Option<&runtime::RuntimeObservation>,
 ) -> Result<RecordedStep, RecordingError> {
+    if snapshot.projection_intent().is_some() {
+        return Err(RecordingError::Unsupported(
+            "configured capture of projection Session",
+        ));
+    }
     if let Some(observation) = observation {
         let receipt = owned_receipt(
             snapshot
@@ -355,10 +427,15 @@ struct PublicationControls {
 fn decode_controls(
     run: &RecordingRun,
     step: &RecordedStep,
+    encoded_controls: &str,
 ) -> Result<PublicationControls, RecordingError> {
-    let has_runtime = step.controls.starts_with(RUNTIME_RECEIPT);
+    let workflow = super::workflow::split_publication_controls(encoded_controls)?;
+    let controls = workflow
+        .as_ref()
+        .map_or(encoded_controls, |(controls, _, _)| controls.as_str());
+    let has_runtime = controls.starts_with(RUNTIME_RECEIPT);
     let mut d = Decoder::text(
-        &step.controls,
+        controls,
         if has_runtime {
             RUNTIME_RECEIPT
         } else {
@@ -397,6 +474,12 @@ fn decode_controls(
             ))?,
         )?;
     }
+    if let Some((_, attempt, source)) = &workflow {
+        if *source != source_binding(run) {
+            return Err(RecordingError::Invalid("workflow publication source"));
+        }
+        super::workflow::validate_publication(run, step, attempt, receipt.as_ref())?;
+    }
     Ok(PublicationControls {
         carrier_stamp,
         fraction_stamp,
@@ -417,163 +500,171 @@ fn recorded_metadata(
     ),
     RecordingError,
 > {
-    let controls = decode_controls(run, step)?;
+    let controls = decode_controls(run, step, &step.controls)?;
     Ok((controls.receipt, controls.runtime))
 }
 
 impl RecordedConfiguredSession {
     pub fn decode(run: &RecordingRun, step: &RecordedStep) -> Result<Self, RecordingError> {
-        run.validate()?;
-        step.payload_bytes()?;
-        let configuration = configured_configuration(run)?;
-        let grid = GridGeometry::new(run.counts, run.spacing, run.origin)
-            .map_err(|_| RecordingError::Invalid("configured geometry"))?;
-        let PublicationControls {
-            carrier_stamp,
-            fraction_stamp,
-            fraction_time,
-            receipt,
-            runtime,
-        } = decode_controls(run, step)?;
-        let initial = step.stage == SnapshotStage::Constructor;
-        if initial != receipt.is_none()
-            || step.fields.len() != if initial { 5 } else { 6 }
-            || carrier_stamp.id != configuration.transport.carrier_id
-            || carrier_stamp.version != step.generation
-            || fraction_stamp.id != configuration.transport.volume_stamp.id
-            || configuration
-                .transport
-                .volume_stamp
-                .version
-                .checked_add(step.generation)
-                != Some(fraction_stamp.version)
-            || fraction_time.to_bits() != step.time.to_bits()
-            || step.generation > configuration.max_steps as u64
-        {
-            return Err(RecordingError::Invalid(
-                "configured publication association",
-            ));
-        }
-        let numerical_bytes = step
-            .fields
-            .iter()
-            .try_fold(0usize, |n, f| n.checked_add(f.data.len()))
-            .ok_or(RecordingError::Limit("configured field bytes"))?;
-        if numerical_bytes > configuration.transport.carrier.memory_limit {
-            return Err(RecordingError::Invalid(
-                "configured constructor memory bound",
-            ));
-        }
-        let stage = if initial { "constructor" } else { "accepted" };
-        let mut faces = Vec::new();
-        for (i, (name, axis)) in [
-            ("velocity_x", Axis::X),
-            ("velocity_y", Axis::Y),
-            ("velocity_z", Axis::Z),
-        ]
-        .into_iter()
-        .enumerate()
-        {
-            faces.push(f32_values(required(
-                step,
-                name,
-                "f32",
-                "m/s",
-                FACE[i],
-                stage,
-                grid.face_counts(axis),
-                None,
-            )?)?);
-        }
-        let tracer = f32_values(required(
-            step,
-            "tracer",
-            "f32",
-            "1",
-            CELL,
-            stage,
-            grid.counts(),
-            None,
-        )?)?;
-        let fraction = f64_values(required(
-            step,
-            "fraction",
-            "f64",
-            "1",
-            CELL,
-            stage,
-            grid.counts(),
-            None,
-        )?)?;
-        if tracer.iter().any(|v| !(0.0..=1.0).contains(v))
-            || fraction.iter().any(|v| !(0.0..=1.0).contains(v))
-        {
-            return Err(RecordingError::Invalid("configured scalar range"));
-        }
-        if receipt.as_ref().is_some_and(|r| r.viscosity_applied)
-            && configuration.transport.carrier.density.to_bits()
-                != configuration.transport.represented_density.to_bits()
-        {
-            return Err(RecordingError::Invalid("configured viscous domain"));
-        }
-        let interval_pressure = if let Some(r) = &receipt {
-            let p = step
-                .field("interval_pressure")
-                .ok_or(RecordingError::Invalid("configured field inventory"))?;
-            let start = p
-                .evaluation_time
-                .ok_or(RecordingError::Invalid("configured interval"))?;
-            let dt = step
-                .dt
-                .ok_or(RecordingError::Invalid("configured interval"))?;
-            if !start.is_finite()
-                || start < 0.0
-                || start >= step.time
-                || (start + dt).to_bits() != step.time.to_bits()
-                || (step.generation == 1 && start.to_bits() != 0.0_f64.to_bits())
-            {
-                return Err(RecordingError::Invalid("configured interval"));
-            }
-            validate_receipt(r, &configuration, &grid, step, start)?;
-            let values = f64_values(required(
-                step,
-                "interval_pressure",
-                "f64",
-                "Pa",
-                CELL,
-                PRESSURE,
-                grid.counts(),
-                Some(start),
-            )?)?;
-            if values[0] != 0.0 {
-                return Err(RecordingError::Invalid("configured pressure gauge"));
-            }
-            Some((start, values))
-        } else {
-            None
-        };
-        let z = faces.pop().unwrap();
-        let y = faces.pop().unwrap();
-        let x = faces.pop().unwrap();
-        Ok(Self {
-            grid,
-            configuration,
-            generation: step.generation,
-            time: step.time,
-            dt: step.dt,
-            carrier_stamp,
-            fraction_stamp,
-            fraction_time,
-            x,
-            y,
-            z,
-            tracer,
-            fraction,
-            interval_pressure,
-            receipt,
-            runtime,
-        })
+        decode_native_with_controls(run, step, &step.controls)
     }
+}
+
+pub(super) fn decode_native_with_controls(
+    run: &RecordingRun,
+    step: &RecordedStep,
+    controls: &str,
+) -> Result<RecordedConfiguredSession, RecordingError> {
+    run.validate()?;
+    step.payload_bytes()?;
+    let configuration = configured_configuration(run)?;
+    let grid = GridGeometry::new(run.counts, run.spacing, run.origin)
+        .map_err(|_| RecordingError::Invalid("configured geometry"))?;
+    let PublicationControls {
+        carrier_stamp,
+        fraction_stamp,
+        fraction_time,
+        receipt,
+        runtime,
+    } = decode_controls(run, step, controls)?;
+    let initial = step.stage == SnapshotStage::Constructor;
+    if initial != receipt.is_none()
+        || step.fields.len() != if initial { 5 } else { 6 }
+        || carrier_stamp.id != configuration.transport.carrier_id
+        || carrier_stamp.version != step.generation
+        || fraction_stamp.id != configuration.transport.volume_stamp.id
+        || configuration
+            .transport
+            .volume_stamp
+            .version
+            .checked_add(step.generation)
+            != Some(fraction_stamp.version)
+        || fraction_time.to_bits() != step.time.to_bits()
+        || step.generation > configuration.max_steps as u64
+    {
+        return Err(RecordingError::Invalid(
+            "configured publication association",
+        ));
+    }
+    let numerical_bytes = step
+        .fields
+        .iter()
+        .try_fold(0usize, |n, f| n.checked_add(f.data.len()))
+        .ok_or(RecordingError::Limit("configured field bytes"))?;
+    if numerical_bytes > configuration.transport.carrier.memory_limit {
+        return Err(RecordingError::Invalid(
+            "configured constructor memory bound",
+        ));
+    }
+    let stage = if initial { "constructor" } else { "accepted" };
+    let mut faces = Vec::new();
+    for (i, (name, axis)) in [
+        ("velocity_x", Axis::X),
+        ("velocity_y", Axis::Y),
+        ("velocity_z", Axis::Z),
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        faces.push(f32_values(required(
+            step,
+            name,
+            "f32",
+            "m/s",
+            FACE[i],
+            stage,
+            grid.face_counts(axis),
+            None,
+        )?)?);
+    }
+    let tracer = f32_values(required(
+        step,
+        "tracer",
+        "f32",
+        "1",
+        CELL,
+        stage,
+        grid.counts(),
+        None,
+    )?)?;
+    let fraction = f64_values(required(
+        step,
+        "fraction",
+        "f64",
+        "1",
+        CELL,
+        stage,
+        grid.counts(),
+        None,
+    )?)?;
+    if tracer.iter().any(|v| !(0.0..=1.0).contains(v))
+        || fraction.iter().any(|v| !(0.0..=1.0).contains(v))
+    {
+        return Err(RecordingError::Invalid("configured scalar range"));
+    }
+    if receipt.as_ref().is_some_and(|r| r.viscosity_applied)
+        && configuration.transport.carrier.density.to_bits()
+            != configuration.transport.represented_density.to_bits()
+    {
+        return Err(RecordingError::Invalid("configured viscous domain"));
+    }
+    let interval_pressure = if let Some(r) = &receipt {
+        let p = step
+            .field("interval_pressure")
+            .ok_or(RecordingError::Invalid("configured field inventory"))?;
+        let start = p
+            .evaluation_time
+            .ok_or(RecordingError::Invalid("configured interval"))?;
+        let dt = step
+            .dt
+            .ok_or(RecordingError::Invalid("configured interval"))?;
+        if !start.is_finite()
+            || start < 0.0
+            || start >= step.time
+            || (start + dt).to_bits() != step.time.to_bits()
+            || (step.generation == 1 && start.to_bits() != 0.0_f64.to_bits())
+        {
+            return Err(RecordingError::Invalid("configured interval"));
+        }
+        validate_receipt(r, &configuration, &grid, step, start)?;
+        let values = f64_values(required(
+            step,
+            "interval_pressure",
+            "f64",
+            "Pa",
+            CELL,
+            PRESSURE,
+            grid.counts(),
+            Some(start),
+        )?)?;
+        if values[0] != 0.0 {
+            return Err(RecordingError::Invalid("configured pressure gauge"));
+        }
+        Some((start, values))
+    } else {
+        None
+    };
+    let z = faces.pop().unwrap();
+    let y = faces.pop().unwrap();
+    let x = faces.pop().unwrap();
+    Ok(RecordedConfiguredSession {
+        grid,
+        configuration,
+        generation: step.generation,
+        time: step.time,
+        dt: step.dt,
+        carrier_stamp,
+        fraction_stamp,
+        fraction_time,
+        x,
+        y,
+        z,
+        tracer,
+        fraction,
+        interval_pressure,
+        receipt,
+        runtime,
+    })
 }
 
 /// Recompute prior accepted-pressure hashes where the previous publication is
@@ -595,10 +686,25 @@ pub fn verify_configured_recording(
     // Only a digest and lineage survive each iteration, not a second field set.
     let mut previous: Option<(u64, f64, [u8; 32])> = None;
     let mut previous_time: Option<f64> = None;
+    let mut previous_native: Option<[u8; 32]> = None;
+    let mut previous_attempt_id: Option<u64> = None;
     let mut history: Option<(f64, usize, bool)> = None;
     for ordinal in 0..reader.count()? {
         let step = reader.select(ordinal)?;
         let current = RecordedConfiguredSession::decode(reader.run(), &step)?;
+        if let Some((_, attempt, _)) = super::workflow::split_publication_controls(&step.controls)?
+        {
+            if previous_native.is_some_and(|digest| digest != attempt.input_sha256) {
+                return Err(RecordingError::Invalid("workflow prior native input"));
+            }
+            if previous_attempt_id.is_some_and(|prior| attempt.attempt_id <= prior) {
+                return Err(RecordingError::Invalid(
+                    "workflow attempt identity sequence",
+                ));
+            }
+            previous_attempt_id = Some(attempt.attempt_id);
+        }
+        previous_native = Some(super::workflow::native_state_digest(&current)?);
         if let Some((start, _)) = &current.interval_pressure
             && previous_time.is_some_and(|time| time.to_bits() != start.to_bits())
         {
@@ -782,7 +888,7 @@ fn validate_pressure(p: PressureReport, accepted: bool) -> Result<(), RecordingE
 }
 // Bind each publication to its actual Session identity and immutable source
 // configuration/geometry. Caller provenance is intentionally not an identity.
-fn source_binding(run: &RecordingRun) -> [u8; 32] {
+pub(super) fn source_binding(run: &RecordingRun) -> [u8; 32] {
     let mut hash = Sha256::new();
     hash.update(run.identity.run_id.to_le_bytes());
     hash_text(&mut hash, &run.identity.source_revision);
@@ -1198,33 +1304,33 @@ fn get_pressure(d: &mut Decoder) -> Result<PressureReport, RecordingError> {
 }
 
 #[derive(Default)]
-struct Encoder(Vec<u8>);
+pub(super) struct Encoder(pub(super) Vec<u8>);
 impl Encoder {
-    fn u8(&mut self, v: u8) {
+    pub(super) fn u8(&mut self, v: u8) {
         self.0.push(v);
     }
-    fn boolean(&mut self, v: bool) {
+    pub(super) fn boolean(&mut self, v: bool) {
         self.u8(u8::from(v));
     }
-    fn u32(&mut self, v: u32) {
+    pub(super) fn u32(&mut self, v: u32) {
         self.0.extend_from_slice(&v.to_le_bytes());
     }
-    fn u64(&mut self, v: u64) {
+    pub(super) fn u64(&mut self, v: u64) {
         self.0.extend_from_slice(&v.to_le_bytes());
     }
-    fn usize(&mut self, v: usize) {
+    pub(super) fn usize(&mut self, v: usize) {
         self.u64(v as u64);
     }
-    fn f64(&mut self, v: f64) {
+    pub(super) fn f64(&mut self, v: f64) {
         self.u64(v.to_bits());
     }
-    fn string(&mut self, v: &str) -> Result<(), RecordingError> {
+    pub(super) fn string(&mut self, v: &str) -> Result<(), RecordingError> {
         bounded(v)?;
         self.u32(v.len() as u32);
         self.0.extend_from_slice(v.as_bytes());
         Ok(())
     }
-    fn text(self, prefix: &str) -> Result<String, RecordingError> {
+    pub(super) fn text(self, prefix: &str) -> Result<String, RecordingError> {
         if self.0.len() > (MAX_TEXT - prefix.len()) / 2 {
             return Err(RecordingError::Limit("configured receipt text"));
         }
@@ -1237,12 +1343,12 @@ impl Encoder {
         Ok(out)
     }
 }
-struct Decoder {
-    data: Vec<u8>,
+pub(super) struct Decoder {
+    pub(super) data: Vec<u8>,
     at: usize,
 }
 impl Decoder {
-    fn text(value: &str, prefix: &str) -> Result<Self, RecordingError> {
+    pub(super) fn text(value: &str, prefix: &str) -> Result<Self, RecordingError> {
         if value.len() > MAX_TEXT {
             return Err(RecordingError::Limit("configured metadata"));
         }
@@ -1268,7 +1374,7 @@ impl Decoder {
         }
         Ok(Self { data, at: 0 })
     }
-    fn array<const N: usize>(&mut self) -> Result<[u8; N], RecordingError> {
+    pub(super) fn array<const N: usize>(&mut self) -> Result<[u8; N], RecordingError> {
         let end = self
             .at
             .checked_add(N)
@@ -1282,29 +1388,29 @@ impl Decoder {
         self.at = end;
         Ok(value)
     }
-    fn u8(&mut self) -> Result<u8, RecordingError> {
+    pub(super) fn u8(&mut self) -> Result<u8, RecordingError> {
         Ok(self.array::<1>()?[0])
     }
-    fn boolean(&mut self) -> Result<bool, RecordingError> {
+    pub(super) fn boolean(&mut self) -> Result<bool, RecordingError> {
         match self.u8()? {
             0 => Ok(false),
             1 => Ok(true),
             _ => Err(RecordingError::Invalid("configured boolean")),
         }
     }
-    fn u32(&mut self) -> Result<u32, RecordingError> {
+    pub(super) fn u32(&mut self) -> Result<u32, RecordingError> {
         Ok(u32::from_le_bytes(self.array()?))
     }
-    fn u64(&mut self) -> Result<u64, RecordingError> {
+    pub(super) fn u64(&mut self) -> Result<u64, RecordingError> {
         Ok(u64::from_le_bytes(self.array()?))
     }
-    fn usize(&mut self) -> Result<usize, RecordingError> {
+    pub(super) fn usize(&mut self) -> Result<usize, RecordingError> {
         usize::try_from(self.u64()?).map_err(|_| RecordingError::Limit("configured integer"))
     }
-    fn f64(&mut self) -> Result<f64, RecordingError> {
+    pub(super) fn f64(&mut self) -> Result<f64, RecordingError> {
         Ok(f64::from_bits(self.u64()?))
     }
-    fn string(&mut self) -> Result<String, RecordingError> {
+    pub(super) fn string(&mut self) -> Result<String, RecordingError> {
         let len = self.u32()? as usize;
         if len > 1000 {
             return Err(RecordingError::Invalid("configured text"));
@@ -1323,7 +1429,7 @@ impl Decoder {
         self.at = end;
         Ok(text.into())
     }
-    fn end(self) -> Result<(), RecordingError> {
+    pub(super) fn end(self) -> Result<(), RecordingError> {
         if self.at != self.data.len() {
             Err(RecordingError::Invalid("configured trailing metadata"))
         } else {

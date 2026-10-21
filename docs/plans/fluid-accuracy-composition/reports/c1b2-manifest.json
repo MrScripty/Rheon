@@ -1,0 +1,816 @@
+{
+  "schema": "rheon-c1b2-local-native-projection-qualification-v1",
+  "status": "locally qualified closed builtin behavior; integration pending",
+  "base_commit": "8bf542eddd8198008b6d77d52e009e9384998f18",
+  "current_main": "718469beedb9a949f4bb6f3299c7b880b4c47e47",
+  "core_subject": {
+    "commit": "634404e9d07f1dc0319de48e89875128a28466db",
+    "tree": "445eff52cbf732a57702ed2b100d0104011bfa1d"
+  },
+  "consumer_subject": {
+    "commit": "a6e76a91917ec9d85f213fa7387adc2c28feeb33",
+    "tree": "d27113e99884b0bd0d9319c5a5eb82586d005dcd"
+  },
+  "evidence_split": {
+    "difference_paths": [
+      "src/bin/desktop/workflow_inspector_tests.rs"
+    ],
+    "meaning": "three UI-test lifecycle literal corrections only; all production/library/core/public-test/Cargo/toolchain blobs identical",
+    "independent_architecture_approval": true,
+    "commands_not_relabelled_to_later_subject": true
+  },
+  "toolchain": {
+    "rustc": "1.92.0 (ded5c06cf 2025-12-08)",
+    "cargo": "1.92.0 (344c4567c 2025-10-21)",
+    "host": "x86_64-unknown-linux-gnu"
+  },
+  "environment": {
+    "PATH_prefix": "/tmp/rheon-cargo/bin",
+    "RUSTUP_HOME": "/tmp/rheon-rustup",
+    "CARGO_HOME": "/tmp/rheon-cargo",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "core_CARGO_TARGET_DIR": "/workspace/rheon-core-target",
+    "desktop_CARGO_TARGET_DIR": "/tmp/rheon-target"
+  },
+  "green_summary": {
+    "passed_test_executions": 213,
+    "failed": 0,
+    "ignored_existing_opt_in": 5,
+    "distinct_new_c1b2_tests": 19,
+    "actual_integrated_substitution_intervals_per_method": 100,
+    "methods": 2,
+    "deciding_substituted_intervals": 200
+  },
+  "deciding_commands": [
+    {
+      "path": "/workspace/rheon-c1b2-evidence/final-default.log",
+      "bytes": 2748,
+      "sha256": "d95c2cf55940bbf55d1f66b78e598d7b3eb1fc1ea3d3bc2d074202f392544709",
+      "source_commit": "634404e9d07f1dc0319de48e89875128a28466db",
+      "command": "cargo test --locked --lib --test projection_session_contract c1b2_ -- --nocapture",
+      "exit_code": 0,
+      "test_results": [
+        "test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 68 filtered out; finished in 0.29s",
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 104.42s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/final-core-lib.log",
+      "bytes": 9362,
+      "sha256": "0d4348224cd5eaf0450df434c6962e43bce5d915ecb5f5bff7ff52409d8c2b32",
+      "source_commit": "634404e9d07f1dc0319de48e89875128a28466db",
+      "command": "cargo test --locked --no-default-features --lib",
+      "exit_code": 0,
+      "test_results": [
+        "test result: ok. 82 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 45.84s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/final-contracts.log",
+      "bytes": 11802,
+      "sha256": "07cf0cd5494448b9c68634f8c17f8053de805706efa8e551e9a76467b02793ab",
+      "source_commit": "634404e9d07f1dc0319de48e89875128a28466db",
+      "command": "cargo test --locked --no-default-features --test recording_contract --test recording_provider_contract --test recording_provider_runtime_contract --test configured_provider_session_contract --test provider_step_contract --test solver_provider_contract --test pressure_session_contract --test recording_comparison_contract",
+      "exit_code": 0,
+      "test_results": [
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s",
+        "test result: ok. 3 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 6 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.07s",
+        "test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.55s",
+        "test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.55s",
+        "test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.33s",
+        "test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.11s",
+        "test result: ok. 5 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/final-doctests.log",
+      "bytes": 538,
+      "sha256": "1aedb36362c8a6f5471d73982cbbebe9ac993c20b980e575f2ea273f410cf8f8",
+      "source_commit": "634404e9d07f1dc0319de48e89875128a28466db",
+      "command": "cargo test --locked --no-default-features --doc",
+      "exit_code": 0,
+      "test_results": [
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/final-clippy-core.log",
+      "bytes": 106,
+      "sha256": "b437094700b39a18bae31cea4d5f4f5251377a3cdf03fc35fd2442e2b37a6598",
+      "source_commit": "634404e9d07f1dc0319de48e89875128a28466db",
+      "command": "cargo clippy --locked --no-default-features --all-targets -- -D warnings",
+      "exit_code": 0,
+      "test_results": []
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/consumer-ui.log",
+      "bytes": 2056,
+      "sha256": "b60a368e7f0ac16f0b9d55e3c1b964dc52bfb0a491bae477a92a7dc326d11b82",
+      "source_commit": "a6e76a91917ec9d85f213fa7387adc2c28feeb33",
+      "command": "cargo test --locked --features desktop --bin rheon-desktop workflow_inspector::tests::",
+      "exit_code": 0,
+      "test_results": [
+        "test result: ok. 12 passed; 0 failed; 2 ignored; 0 measured; 152 filtered out; finished in 4.47s"
+      ]
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/consumer-clippy-desktop.log",
+      "bytes": 105,
+      "sha256": "a78c749628bbf11676e1bb973c7ca5d83a09c2d9982be039351ad247601d7d77",
+      "source_commit": "a6e76a91917ec9d85f213fa7387adc2c28feeb33",
+      "command": "cargo clippy --locked --features desktop --all-targets -- -D warnings",
+      "exit_code": 0,
+      "test_results": []
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/consumer-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_commit": "a6e76a91917ec9d85f213fa7387adc2c28feeb33",
+      "command": "cargo fmt --all -- --check",
+      "exit_code": 0,
+      "test_results": []
+    }
+  ],
+  "qualified_test_executables": [
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/rheon-d293312d0455f2e1",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/9ea2845b2a0186e9689ec8af83f50ec431157e12685f05027e1556d35962b06b-rheon-d293312d0455f2e1",
+      "sha256": "9ea2845b2a0186e9689ec8af83f50ec431157e12685f05027e1556d35962b06b",
+      "bytes": 46385024,
+      "execution_logs": [
+        "final-default.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/projection_session_contract-a851ff4fba446d75",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/367859752e22bc43950eb0b202b39b2f056e685664a0e271a5fc218ce5ce577d-projection_session_contract-a851ff4fba446d75",
+      "sha256": "367859752e22bc43950eb0b202b39b2f056e685664a0e271a5fc218ce5ce577d",
+      "bytes": 6470488,
+      "execution_logs": [
+        "final-default.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/rheon-2c0b8f9f964eff45",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/416498950dbb1aa6f848a3709c2b4f1e4a1838a8e54c53fe900109de3c664c4b-rheon-2c0b8f9f964eff45",
+      "sha256": "416498950dbb1aa6f848a3709c2b4f1e4a1838a8e54c53fe900109de3c664c4b",
+      "bytes": 46339560,
+      "execution_logs": [
+        "final-core-lib.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/configured_provider_session_contract-7a47e2a64e933952",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/8acbee6de4ae30545f07b5e331cb38dc6013c4f5418621a344255281689b37e0-configured_provider_session_contract-7a47e2a64e933952",
+      "sha256": "8acbee6de4ae30545f07b5e331cb38dc6013c4f5418621a344255281689b37e0",
+      "bytes": 13113400,
+      "execution_logs": [
+        "final-contracts.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/pressure_session_contract-536f0b07b486b9ae",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/bf7fce625d2179aeedc61e78e158ab6c0998cb3962afc06fddb819ccf3784186-pressure_session_contract-536f0b07b486b9ae",
+      "sha256": "bf7fce625d2179aeedc61e78e158ab6c0998cb3962afc06fddb819ccf3784186",
+      "bytes": 2260680,
+      "execution_logs": [
+        "final-contracts.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/provider_step_contract-024046052e7e09fc",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/ea21cc683377a27b5990102a6f963de87ae4c1153d4c9c8275bae41e4da0cf05-provider_step_contract-024046052e7e09fc",
+      "sha256": "ea21cc683377a27b5990102a6f963de87ae4c1153d4c9c8275bae41e4da0cf05",
+      "bytes": 9625400,
+      "execution_logs": [
+        "final-contracts.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/recording_comparison_contract-b830fe95a847344e",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/a8ee2ff625363341d8bbfaea1fc6db94e60dc5acd2a086b54761e095ab7bc58a-recording_comparison_contract-b830fe95a847344e",
+      "sha256": "a8ee2ff625363341d8bbfaea1fc6db94e60dc5acd2a086b54761e095ab7bc58a",
+      "bytes": 8274072,
+      "execution_logs": [
+        "final-contracts.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/recording_contract-01e8969397d0bfcc",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/2b3609929d9a8ffa6975e50a1d477021c07116b001dd69b8fdd16317776fd9c0-recording_contract-01e8969397d0bfcc",
+      "sha256": "2b3609929d9a8ffa6975e50a1d477021c07116b001dd69b8fdd16317776fd9c0",
+      "bytes": 5607672,
+      "execution_logs": [
+        "final-contracts.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/recording_provider_contract-4fd9d23bc6148b03",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/5a1586c7a8bacb0291465788b1df9085819a7ef43aa6161cbcad3f2380efb407-recording_provider_contract-4fd9d23bc6148b03",
+      "sha256": "5a1586c7a8bacb0291465788b1df9085819a7ef43aa6161cbcad3f2380efb407",
+      "bytes": 11340704,
+      "execution_logs": [
+        "final-contracts.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/recording_provider_runtime_contract-479509e11f8147d8",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/3efc5c123a7fe32aeb70192cdc69a1ea0ebd98aa9a9d10df3e308ccb21ac68c9-recording_provider_runtime_contract-479509e11f8147d8",
+      "sha256": "3efc5c123a7fe32aeb70192cdc69a1ea0ebd98aa9a9d10df3e308ccb21ac68c9",
+      "bytes": 6768568,
+      "execution_logs": [
+        "final-contracts.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/workspace/rheon-core-target/debug/deps/solver_provider_contract-4f9ffb3b3a91bb87",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/ae7a267e8f9f137ae4254f00acc955605098dd00192b4e7f6f1d1714c2605b01-solver_provider_contract-4f9ffb3b3a91bb87",
+      "sha256": "ae7a267e8f9f137ae4254f00acc955605098dd00192b4e7f6f1d1714c2605b01",
+      "bytes": 2087376,
+      "execution_logs": [
+        "final-contracts.log"
+      ],
+      "source_commits": [
+        "634404e9d07f1dc0319de48e89875128a28466db"
+      ]
+    },
+    {
+      "built_path": "/tmp/rheon-target/debug/deps/rheon_desktop-1f5fbd0763f87c5a",
+      "retained_path": "/workspace/rheon-c1b2-evidence/qualified-executables/16e1d055d23f9e475b22bad8b7f743fc1e36b819406bf504f3fb58aeb35e62ae-rheon_desktop-1f5fbd0763f87c5a",
+      "sha256": "16e1d055d23f9e475b22bad8b7f743fc1e36b819406bf504f3fb58aeb35e62ae",
+      "bytes": 81673160,
+      "execution_logs": [
+        "consumer-ui.log"
+      ],
+      "source_commits": [
+        "a6e76a91917ec9d85f213fa7387adc2c28feeb33"
+      ]
+    }
+  ],
+  "source_files_changed_from_base": {
+    "docs/plans/fluid-accuracy-composition/reports/c1b2-protocol.md": {
+      "path": "/workspace/Rheon/docs/plans/fluid-accuracy-composition/reports/c1b2-protocol.md",
+      "bytes": 15504,
+      "sha256": "d869f1dbd91be9959eea80c21c296569832039a6b4030e42aa4e8fe984545222"
+    },
+    "src/bin/desktop/inspector.rs": {
+      "path": "/workspace/Rheon/src/bin/desktop/inspector.rs",
+      "bytes": 45960,
+      "sha256": "fdd4bda089f750d0a26a67782a0852347aefcf4ef418bd0b1a2ce308a7491719"
+    },
+    "src/bin/desktop/workflow_inspector_tests.rs": {
+      "path": "/workspace/Rheon/src/bin/desktop/workflow_inspector_tests.rs",
+      "bytes": 44393,
+      "sha256": "36cca640ad182ae9cc16195a2e8a58b110fd731a052047f62794cd004abb0239"
+    },
+    "src/lib.rs": {
+      "path": "/workspace/Rheon/src/lib.rs",
+      "bytes": 8218,
+      "sha256": "912ad100d2fa06be6172e660464893b8f7a56b2ad0a22a48b7607e79796f6fd6"
+    },
+    "src/liquid_step.rs": {
+      "path": "/workspace/Rheon/src/liquid_step.rs",
+      "bytes": 36342,
+      "sha256": "d78dc80351771ac257f2643017c138709ea174d0e6dc4c4f7e1b92911babb41d"
+    },
+    "src/projection_step.rs": {
+      "path": "/workspace/Rheon/src/projection_step.rs",
+      "bytes": 39120,
+      "sha256": "155d289224ae852227e222d19134a0fe9678642aca37606d88ac57a4797f00e3"
+    },
+    "src/recording.rs": {
+      "path": "/workspace/Rheon/src/recording.rs",
+      "bytes": 38513,
+      "sha256": "6e543c95f148e67c6b7a548548785d50084abde60ee079cbbbbb9d6aae0eac66"
+    },
+    "src/recording/projection.rs": {
+      "path": "/workspace/Rheon/src/recording/projection.rs",
+      "bytes": 41730,
+      "sha256": "22e1a6c10d619ea5e84773b39e6e6eeea9ed6e5b3986ded7fe940ba817b23c24"
+    },
+    "src/recording/projection_tests.rs": {
+      "path": "/workspace/Rheon/src/recording/projection_tests.rs",
+      "bytes": 25135,
+      "sha256": "f55313140b5d4cafe747ea25e1877353308cf1f7363613a61a7fbd2fae018338"
+    },
+    "src/recording/provider.rs": {
+      "path": "/workspace/Rheon/src/recording/provider.rs",
+      "bytes": 50926,
+      "sha256": "b0791547d98fbebf803f700155f0e825893b6236cbbc7f40fa7dac9146059fc8"
+    },
+    "src/session.rs": {
+      "path": "/workspace/Rheon/src/session.rs",
+      "bytes": 18461,
+      "sha256": "fffdcf8728bcc959db384c4567ad8200ec59be800fcb343a7324e208a776088b"
+    },
+    "src/session/configured.rs": {
+      "path": "/workspace/Rheon/src/session/configured.rs",
+      "bytes": 16564,
+      "sha256": "4fd4f1783c6508e4a70d34bbb80e51cd5307242db31649188843fe59c7e4a054"
+    },
+    "src/session/projection.rs": {
+      "path": "/workspace/Rheon/src/session/projection.rs",
+      "bytes": 13763,
+      "sha256": "d58dee5e48a2d534ce23729223eba816e16702abf420799594c525f8843ef0dc"
+    },
+    "src/session/projection_tests.rs": {
+      "path": "/workspace/Rheon/src/session/projection_tests.rs",
+      "bytes": 22118,
+      "sha256": "e778e42dd47ca250b5a76064db549306a2fb20eee6254ec3fec4a0ecb1e717e6"
+    },
+    "src/simulation.rs": {
+      "path": "/workspace/Rheon/src/simulation.rs",
+      "bytes": 48355,
+      "sha256": "c8ee3c84cb0dbdcc4768c560ca66741ec581866e6239d87c4be9e505944e3e18"
+    },
+    "src/solver_provider/composition/projection.rs": {
+      "path": "/workspace/Rheon/src/solver_provider/composition/projection.rs",
+      "bytes": 22377,
+      "sha256": "c122744dfc3b4fccd4c5755df10fef1c12033e51d87c191d73efdb0cdaab28a3"
+    },
+    "tests/projection_session_contract.rs": {
+      "path": "/workspace/Rheon/tests/projection_session_contract.rs",
+      "bytes": 12089,
+      "sha256": "7af45f857acc24c13d699f42ca8e1b8452d8be3365da39deb79eb661b28193e1"
+    },
+    "tests/recording_comparison_contract.rs": {
+      "path": "/workspace/Rheon/tests/recording_comparison_contract.rs",
+      "bytes": 42876,
+      "sha256": "80421b875312911e0fb0dd01155712df310b67ae21400bebf3bd686cc7ea56f2"
+    }
+  },
+  "read_only_final_selected_source_map": {
+    "source": "a6e76a91917ec9d85f213fa7387adc2c28feeb33",
+    "selected": 140,
+    "added": [
+      "src/projection_step.rs",
+      "src/recording/projection.rs",
+      "src/recording/projection_tests.rs",
+      "src/session/projection.rs",
+      "src/session/projection_tests.rs"
+    ],
+    "removed": [],
+    "changed": [
+      "src/bin/desktop/inspector.rs",
+      "src/bin/desktop/workflow_inspector_tests.rs",
+      "src/lib.rs",
+      "src/liquid_step.rs",
+      "src/recording.rs",
+      "src/recording/provider.rs",
+      "src/session.rs",
+      "src/session/configured.rs",
+      "src/simulation.rs",
+      "src/solver_provider/composition/projection.rs"
+    ],
+    "unchanged": 125,
+    "source_sha256": {
+      "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+      "Cargo.toml": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e",
+      "examples/aligned_strain.rs": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
+      "rust-toolchain.toml": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+      "src/advection.rs": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+      "src/aligned_strain.rs": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
+      "src/bin/desktop/README.md": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d",
+      "src/bin/desktop/accepted_session.rs": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31",
+      "src/bin/desktop/ai_comparison/accepted_provider.rs": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc",
+      "src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729",
+      "src/bin/desktop/ai_comparison/accepted_provider_tests.rs": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237",
+      "src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942",
+      "src/bin/desktop/ai_comparison/adapter.rs": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2",
+      "src/bin/desktop/ai_comparison/configured_track.rs": "c1dbb4053031065563762b1f538acb4959f30662bd98e646cf9e74ac94752117",
+      "src/bin/desktop/ai_comparison/configured_track_tests.rs": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c",
+      "src/bin/desktop/ai_comparison/cpu_contract_tests.rs": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e",
+      "src/bin/desktop/ai_comparison/diagnostic_runs.rs": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c",
+      "src/bin/desktop/ai_comparison/diagnostic_view.rs": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2",
+      "src/bin/desktop/ai_comparison/diagnostic_worker.rs": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
+      "src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8",
+      "src/bin/desktop/ai_comparison/engine.rs": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55",
+      "src/bin/desktop/ai_comparison/engine_typed_tests.rs": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
+      "src/bin/desktop/ai_comparison/mod.rs": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076",
+      "src/bin/desktop/ai_comparison/model_process.rs": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d",
+      "src/bin/desktop/ai_comparison/prediction_contract_tests.rs": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3",
+      "src/bin/desktop/ai_comparison/record.rs": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d",
+      "src/bin/desktop/ai_comparison/scene.rs": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321",
+      "src/bin/desktop/ai_comparison/view.rs": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d",
+      "src/bin/desktop/ai_comparison/worker.rs": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b",
+      "src/bin/desktop/archive_view.rs": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff",
+      "src/bin/desktop/build_identity.rs": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b",
+      "src/bin/desktop/camera.rs": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d",
+      "src/bin/desktop/carrier_execution.rs": "0d96fb2acdfd63374e5f0004d9ead8b43d9fe2f6959c0d01f9c828458ae1799e",
+      "src/bin/desktop/collision_ui.rs": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204",
+      "src/bin/desktop/comparison.rs": "6adcccf8e85204703de9fd0bcd952b69c9520acacce4657ef96a3dd49eece099",
+      "src/bin/desktop/comparison_archive.rs": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9",
+      "src/bin/desktop/comparison_field_view.rs": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82",
+      "src/bin/desktop/configured_comparison_tests.rs": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46",
+      "src/bin/desktop/configured_controls.rs": "05d317554c4db033dd35c5e153dceaea34367eed33125ec8c7f59466f83ede36",
+      "src/bin/desktop/configured_producer_exit_tests.rs": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb",
+      "src/bin/desktop/configured_worker_tests.rs": "81e24d69cd5838de3becbc31453ce0a10947e7fe956287862957fcc06eae6e38",
+      "src/bin/desktop/emitter_controls.rs": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9",
+      "src/bin/desktop/engineering.rs": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d",
+      "src/bin/desktop/export_ui.rs": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d",
+      "src/bin/desktop/history.rs": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821",
+      "src/bin/desktop/identity.rs": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184",
+      "src/bin/desktop/inspector.rs": "fdd4bda089f750d0a26a67782a0852347aefcf4ef418bd0b1a2ce308a7491719",
+      "src/bin/desktop/particle_view.rs": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
+      "src/bin/desktop/run_set_view.rs": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b",
+      "src/bin/desktop/run_sets.rs": "e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1",
+      "src/bin/desktop/run_sets/configured.rs": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9",
+      "src/bin/desktop/run_sets/configured/archive.rs": "c790e634ff8f46fb4b3513530321bf34ad00f80ab717fa66a1afcb003485aef2",
+      "src/bin/desktop/run_sets/source.rs": "c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11",
+      "src/bin/desktop/settings.rs": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660",
+      "src/bin/desktop/transport_view.rs": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
+      "src/bin/desktop/viewport.rs": "599046403df150499064337c2ce3b6996f1ece69f4e876f882200f079b7cd530",
+      "src/bin/desktop/workflow_inspector.rs": "4176efb859e9ed2e0041a6ca7b9f87c5590ed2aa7541a83fc225ce6e795ddd6f",
+      "src/bin/desktop/workflow_inspector_tests.rs": "36cca640ad182ae9cc16195a2e8a58b110fd731a052047f62794cd004abb0239",
+      "src/bin/rheon-ai-compare.rs": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9",
+      "src/bin/rheon-desktop.rs": "cd57bc2c39b6c16b9b92768be2614ec40ce02adbafc5d4992664af2ba291d66c",
+      "src/bin/rheon.rs": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51",
+      "src/box_flux.rs": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+      "src/box_flux_step.rs": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+      "src/collision.rs": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+      "src/column_mac.rs": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+      "src/column_momentum.rs": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0",
+      "src/column_shear.rs": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299",
+      "src/column_surface.rs": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+      "src/compressible.rs": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3",
+      "src/coupled_discrete.rs": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7",
+      "src/dense3d_sequence.rs": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431",
+      "src/emitter.rs": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84",
+      "src/emitter_controls.rs": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4",
+      "src/export.rs": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3",
+      "src/fitted_height.rs": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+      "src/fixed_bottom_ale.rs": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47",
+      "src/forces.rs": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb",
+      "src/free_surface.rs": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+      "src/geometry.rs": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634",
+      "src/lib.rs": "912ad100d2fa06be6172e660464893b8f7a56b2ad0a22a48b7607e79796f6fd6",
+      "src/liquid_step.rs": "d78dc80351771ac257f2643017c138709ea174d0e6dc4c4f7e1b92911babb41d",
+      "src/liquid_volume.rs": "7f98c25b5e0990a0a9097aa1d3d656f4441123271e5ee1801ee2055de9eed650",
+      "src/material.rs": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+      "src/material_session.rs": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960",
+      "src/mesh_collision.rs": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24",
+      "src/mesh_import.rs": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890",
+      "src/motion.rs": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+      "src/native_family.rs": "070721db5250b429bf6f1147b71de1b84fd010eceb17d0814f9b9d299c9a09e5",
+      "src/native_family/tests.rs": "6904cbfa816d754410f18fe4281d29729e492ac47e2905474afa30cb97edb7d5",
+      "src/observation.rs": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee",
+      "src/obstacle_pressure.rs": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07",
+      "src/obstacle_shear.rs": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f",
+      "src/operator.rs": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+      "src/parallel.rs": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e",
+      "src/particle_fluid.rs": "ed4ab916e602a55b2245beba5bdbff268fcb704b67fa41248d47ad2598f2468f",
+      "src/pressure.rs": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+      "src/pressure_session.rs": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8",
+      "src/projection_step.rs": "155d289224ae852227e222d19134a0fe9678642aca37606d88ac57a4797f00e3",
+      "src/provider_step.rs": "20cb23abcb30802dbebd6a32f599d20986982bf7aaa9e69e5287e4e448bac54b",
+      "src/recording.rs": "6e543c95f148e67c6b7a548548785d50084abde60ee079cbbbbb9d6aae0eac66",
+      "src/recording/carrier.rs": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509",
+      "src/recording/comparison.rs": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307",
+      "src/recording/diagnostic.rs": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
+      "src/recording/material.rs": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00",
+      "src/recording/projection.rs": "22e1a6c10d619ea5e84773b39e6e6eeea9ed6e5b3986ded7fe940ba817b23c24",
+      "src/recording/projection_tests.rs": "f55313140b5d4cafe747ea25e1877353308cf1f7363613a61a7fbd2fae018338",
+      "src/recording/provider.rs": "b0791547d98fbebf803f700155f0e825893b6236cbbc7f40fa7dac9146059fc8",
+      "src/recording/provider/comparison.rs": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75",
+      "src/recording/provider/runtime.rs": "2cff480b60cdae14107541ce07d72afe2e1627684b82d427211df1bff023d381",
+      "src/recording/workflow.rs": "caa2f224796f8ad6e92fb78d547c70df7dd88fe666843a715e90bd9257a36d34",
+      "src/sampling.rs": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+      "src/scheduling.rs": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
+      "src/session.rs": "fffdcf8728bcc959db384c4567ad8200ec59be800fcb343a7324e208a776088b",
+      "src/session/configured.rs": "4fd4f1783c6508e4a70d34bbb80e51cd5307242db31649188843fe59c7e4a054",
+      "src/session/projection.rs": "d58dee5e48a2d534ce23729223eba816e16702abf420799594c525f8843ef0dc",
+      "src/session/projection_tests.rs": "e778e42dd47ca250b5a76064db549306a2fb20eee6254ec3fec4a0ecb1e717e6",
+      "src/sgs.rs": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
+      "src/simulation.rs": "c8ee3c84cb0dbdcc4768c560ca66741ec581866e6239d87c4be9e505944e3e18",
+      "src/solver_provider.rs": "204682fc6540cb812d7d9200dd61085e5dcb827a6c77981e081046ef353c0838",
+      "src/solver_provider/composition.rs": "f8cceb5a953e45627c2297b9393e557519b3099c4533b5aa1045b0dd0c6a96ef",
+      "src/solver_provider/composition/projection.rs": "c122744dfc3b4fccd4c5755df10fef1c12033e51d87c191d73efdb0cdaab28a3",
+      "src/solver_provider/composition/projection_tests.rs": "1136781800cb14e301521fe4093fe042f59d17b7e149136dc24ba73bf4500a3e",
+      "src/solver_provider/composition_tests.rs": "363b5f5192225d7187cf64bd458f9691e3f041ef8ed1282babc5c5c2a9eb2adb",
+      "src/solver_provider/configured.rs": "e75eff2c8c0147b00a07e10e4a2b686b0fcf6a46248dbbcb346c5d485ce93392",
+      "src/solver_provider/context.rs": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693",
+      "src/solver_provider/modal.rs": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796",
+      "src/static_obstacle.rs": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080",
+      "src/tracer_barrier.rs": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+      "src/translated_viscous.rs": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+      "src/viscosity.rs": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+      "src/vtk_export.rs": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e",
+      "src/workflow.rs": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9",
+      "src/workflow/tests.rs": "5c42f4ed32454e3de1c9638bdab24a9e8309c73b9eea3095b434a16570c00eb5",
+      "tests/aligned_strain_contract.rs": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16",
+      "tests/obstacle_flow_contract.rs": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020",
+      "tests/static_obstacle_contract.rs": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de",
+      "tools/aligned_strain_oracle.py": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5",
+      "tools/qualify_aligned_strain.py": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba",
+      "tools/test_aligned_strain_oracle.py": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f",
+      "tools/test_qualify_aligned_strain.py": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db"
+    },
+    "canonical_map_sha256": "880129bcbf5a0f29dd82fe1c3bd4627474a97ec6f073a0c14191a9a596deed03"
+  },
+  "source_admission": {
+    "status": "pending lead-owned new complete-source review/qualification",
+    "command": "python3 docs/education/check_native_admission.py",
+    "subject": "a6e76a91917ec9d85f213fa7387adc2c28feeb33",
+    "exit": 1,
+    "reason": "reviewed native source inventory added or missing path",
+    "log": {
+      "path": "/workspace/rheon-c1b2-evidence/consumer-admission-refusal.log",
+      "bytes": 406,
+      "sha256": "c1df4c8bb0c2eb605b803033e3b33a92ced50219d906cd00211b4fc4b408ee86"
+    },
+    "admission_files_modified": false
+  },
+  "historical_evaluations": [
+    {
+      "path": "/workspace/rheon-c1b2-evidence/first-core-evaluation.log",
+      "bytes": 577,
+      "sha256": "e8688e3d700f37208e0f5ba98dc1448e899125aaae97d80d8d64532d5e5c3e4a",
+      "source_commit": "f14c98c21ac8c259a9aa1c2e0ce230656cc73720",
+      "exit_code": 101,
+      "meaning": "missing Axis import; no executed tests"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/second-core-evaluation.log",
+      "bytes": 2863,
+      "sha256": "f6f9a34675f5b8b4af12c2d51697e7fd42cd5fbb3a6a92575685cdfb5a9598f7",
+      "source_commit": "7cb882b94cf4ec55a48734d75727c41cdbb0c442",
+      "exit_code": 101,
+      "meaning": "12 pass2 fail; public trajectory not executed"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/third-core-evaluation.log",
+      "bytes": 2592,
+      "sha256": "6f822fb689b476e496c10868b01ff1eabc4724085e7f6656cb28ec06ffcbbf42",
+      "source_commit": "28d8b9c83e671a501f31e8f1c981c8a4c4d36c32",
+      "exit_code": 0,
+      "meaning": "14+3 pass; earlier actual200 interval run"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/qualified-default.log",
+      "bytes": 2697,
+      "sha256": "e117cefbe137e39d875736c0b9c3328f19fd78b4c916f9bb85e9856f72d398b9",
+      "source_commit": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "exit_code": 0,
+      "meaning": "earlier default14+3 pass"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/qualified-core-lib.log",
+      "bytes": 9317,
+      "sha256": "d30f5884850a495a4ca5d65a2a77da84f4486702579fa34a3729634d8f3cc0d3",
+      "source_commit": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "exit_code": 0,
+      "meaning": "earlier82 pass"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/qualified-contracts.log",
+      "bytes": 11803,
+      "sha256": "c43d2986387a0a5f5cfdeb13d9f0b28019bf38c589a1a52152be3f1c33f5b3e5",
+      "source_commit": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "exit_code": 0,
+      "meaning": "earlier99 pass3 ignored"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/qualified-doctests.log",
+      "bytes": 538,
+      "sha256": "fff57a27ea5c21eb35867ae071f04304fbdbacbef747a36306b27b7707648905",
+      "source_commit": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "exit_code": 0,
+      "meaning": "earlier3 pass"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/qualified-desktop-inspector.log",
+      "bytes": 2833,
+      "sha256": "b21bf9145dc6da5452db4ad0ec33ebd5ff825e4d46d94fc9df5d98ee9afd39a2",
+      "source_commit": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "exit_code": 101,
+      "meaning": "11 pass1 invalid-header fixture fail2 ignored"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/qualified-clippy-core.log",
+      "bytes": 4949,
+      "sha256": "e3e73ffa179d4b0641acd252c2de9babc1333298875d64e2b903454aaa797613",
+      "source_commit": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "exit_code": 101,
+      "meaning": "5 style lints"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/qualified-clippy-desktop.log",
+      "bytes": 4949,
+      "sha256": "e3e73ffa179d4b0641acd252c2de9babc1333298875d64e2b903454aaa797613",
+      "source_commit": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "exit_code": 101,
+      "meaning": "5 style lints"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/qualified-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_commit": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "exit_code": 0,
+      "meaning": "format pass"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/qualified-admission-refusal.log",
+      "bytes": 406,
+      "sha256": "c1df4c8bb0c2eb605b803033e3b33a92ced50219d906cd00211b4fc4b408ee86",
+      "source_commit": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "exit_code": 1,
+      "meaning": "new source map not admitted"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/final-desktop-inspector.log",
+      "bytes": 2865,
+      "sha256": "36e4cc0523dbf2c0837c5cf172cb8ff67e0dc97b7fba1e3665f86d4f297420d1",
+      "source_commit": "634404e9d07f1dc0319de48e89875128a28466db",
+      "exit_code": 101,
+      "meaning": "11 pass1 invalid-completed-zero-row fixture fail2 ignored"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/final-clippy-desktop.log",
+      "bytes": 106,
+      "sha256": "56a156dae8cb02a0d04b629e36eea5bbceb95e031c54f718208cd9837b2b6f25",
+      "source_commit": "634404e9d07f1dc0319de48e89875128a28466db",
+      "exit_code": 0,
+      "meaning": "strict desktop pass before fixture-only correction"
+    },
+    {
+      "path": "/workspace/rheon-c1b2-evidence/final-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_commit": "634404e9d07f1dc0319de48e89875128a28466db",
+      "exit_code": 0,
+      "meaning": "format pass before fixture-only correction"
+    }
+  ],
+  "initial_subjects_and_failed_executable": {
+    "path": "/workspace/rheon-c1b2-evidence/initial-evaluation-subjects.json",
+    "bytes": 736,
+    "sha256": "ba2e7ae586f16e08b455e40de2e4b5f486760e00b50fc3402d43a0ff3900d757"
+  },
+  "pre_final_exact265_binary_records": {
+    "path": "/workspace/rheon-c1b2-evidence/pre-final-executables.json",
+    "bytes": 5896,
+    "sha256": "5372c00e09c9fd84b2c0f5c8a720b092e87ab630c52e14cb1c935051ca2391ff"
+  },
+  "failed634_desktop_binary_record": {
+    "path": "/workspace/rheon-c1b2-evidence/failed-desktop-634-executable.json",
+    "bytes": 335,
+    "sha256": "dea6dca67b3c6a263d79f5bdce5e42da0cb38bc8f63fae1fd6f8d5ef6a4e776c"
+  },
+  "checkpoint_lineage": [
+    {
+      "local": "510e7736e66094bf7427288e6b626153b26e9ad3",
+      "published": "a515498e04bea1c0593dd50be94f001bd479ad07",
+      "tree": "deec5de0de0e4ce39f44cfd4e21505493791a461",
+      "tree_matches": true
+    },
+    {
+      "local": "ecb7aa5277457a01364e8e3f62ce2194c4f1ba3c",
+      "published": "f392d72da49e8df010f7ba860d26242d0356cde2",
+      "tree": "1bc7b078050f1bf3753096a60a4124de03ff8921",
+      "tree_matches": true
+    },
+    {
+      "local": "78a724c2cc6bd106bcc7c3bf0be8b6163ed5d468",
+      "published": "ef42249ad5db0e82c94482168a78205addda9ccd",
+      "tree": "b684d426ef8d6dd5d25f6d38ab887ae54497dc32",
+      "tree_matches": true
+    },
+    {
+      "local": "25ecd9d36c62d42798768e1acc8af95a5d8523c6",
+      "published": "6326858dfce25d0d77956c3781b7b3a8e51c3961",
+      "tree": "69ad46226b4cbfd5d4322c0f2b54212379b91d10",
+      "tree_matches": true
+    },
+    {
+      "local": "153b538280432da85b3050bf9d3697bf8d0b2f8e",
+      "published": "6521ee56502d0efb70008d9a7dbdd175d8bd5769",
+      "tree": "d7e733380b7bd57f262122fb2b851b0efe26e312",
+      "tree_matches": true
+    },
+    {
+      "local": "f14c98c21ac8c259a9aa1c2e0ce230656cc73720",
+      "published": "20f92a6bffc0be01211e47d8728bb944dddcabc4",
+      "tree": "cedceb8eabc83221c4e2aaabece2a862d0d0c1a9",
+      "tree_matches": true
+    },
+    {
+      "local": "7cb882b94cf4ec55a48734d75727c41cdbb0c442",
+      "published": "112f6fd591b4560e6c33a04c9f375d0183327ecf",
+      "tree": "778ba1048f0ee5c8a76b421fa0fd6da8939a3f94",
+      "tree_matches": true
+    },
+    {
+      "local": "28d8b9c83e671a501f31e8f1c981c8a4c4d36c32",
+      "published": "265ce59edc81cfcd4e17f43d3da022d04feee58a",
+      "tree": "d2fd66fab9ee13dce0a78922dc5550ae72744cc7",
+      "tree_matches": true
+    },
+    {
+      "local": "f6084f457143c0e1420f5eb8fc9e1d12e144d371",
+      "published": "634404e9d07f1dc0319de48e89875128a28466db",
+      "tree": "445eff52cbf732a57702ed2b100d0104011bfa1d",
+      "tree_matches": true
+    },
+    {
+      "local": "898a35383fbdce3f63cd01aab81b263827dc4998",
+      "published": "a6e76a91917ec9d85f213fa7387adc2c28feeb33",
+      "tree": "d27113e99884b0bd0d9319c5a5eb82586d005dcd",
+      "tree_matches": true
+    }
+  ],
+  "archive": {
+    "path": "/workspace/rheon-c1b2-evidence.zip",
+    "bytes": 112256348,
+    "sha256": "d8b83fb55d38eb8c0eafa6f35c460d9b29b2b513b487bc3ca259faec4379c4c5"
+  },
+  "archive_member_count": 63,
+  "archive_contains_only_external_raw_evidence_not_this_manifest": true,
+  "separate_existing_G1_finding": {
+    "meaning": "existing G1 cancellation label defect reproduced, not a passing qualification",
+    "owner": "configured Session/G1 observation follow-up",
+    "metadata": {
+      "path": "/workspace/rheon-c1b2-evidence/legacy-g1-cancel-probe.json",
+      "bytes": 785,
+      "sha256": "fb56620279f568445b23bb2f62ee03fe96735e78d13503a11d96fb003d72877e"
+    },
+    "source": {
+      "path": "/workspace/rheon-c1b2-evidence/legacy-g1-cancel-probe.rs",
+      "bytes": 1673,
+      "sha256": "5b6ea4a78b9a52ea2250df312b935c6f79f57fea7588af93d788bde19f21b2bc"
+    },
+    "build_log": {
+      "path": "/workspace/rheon-c1b2-evidence/legacy-g1-cancel-probe-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "log": {
+      "path": "/workspace/rheon-c1b2-evidence/legacy-g1-cancel-probe.log",
+      "bytes": 133,
+      "sha256": "5b8da83fa9b05b6a607cfe6ad60249e52c8eda745afbce56e14976b1b86c4624"
+    },
+    "executable": {
+      "path": "/workspace/rheon-c1b2-evidence/legacy-g1-cancel-probe",
+      "bytes": 5818592,
+      "sha256": "ff909840650d0a89ba87db7188fd6ec6fdcec447fb28616baeb6de8a99b355a7"
+    },
+    "fixed_in_new_B2_path": true,
+    "fixed_in_legacy_path": false
+  },
+  "independent_reviews": {
+    "architecture": "PASS core634404e and approved exact evidence split",
+    "persistence_contracts": "PASS core634404e; independently rehashed63artifact records,8deciding logs,12retained green executables,140source pins,10checkpoint pairs and63ZIPmembers with0mismatches",
+    "native_consumers": "PASS a6e76a9 completed consumer execution"
+  },
+  "remaining": {
+    "complete_source_admission": "lead",
+    "hosted_checks_and_merges": "lead",
+    "canonical_plan_and_ledger": "lead",
+    "legacy_G1_advection_cancel_label": "reproduced separate follow-up",
+    "full_C1_B_C_R_and_stateful_external_providers": "not accepted"
+  },
+  "not_claimed": [
+    "new native-window execution",
+    "performance qualification",
+    "physical validation",
+    "scientific accuracy",
+    "GPU",
+    "Lean",
+    "learned provider",
+    "fresh140-path native/rational admission",
+    "merge acceptance"
+  ]
+}

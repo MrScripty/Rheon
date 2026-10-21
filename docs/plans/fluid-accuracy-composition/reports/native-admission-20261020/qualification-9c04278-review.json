@@ -1,0 +1,114 @@
+{
+  "schema": "rheon-staged-native-qualification-independent-audit-v1",
+  "status": "APPROVED_EXACT_EXECUTED_RECEIPTS_AND_BOUNDED_COUNTS",
+  "reviewed_at_utc": "2026-10-20T02:51:38.510654+00:00",
+  "executed_source_head": "9c04278e6cdd44418628c35f944c1730cbe6173e",
+  "executed_source_tree": "b2008a22a65246c5a38c632437c1acc30a8cb27a",
+  "source_receipt_hashes_verified": 1437,
+  "selected_closure_count": 135,
+  "selected_map_sha256": "9af9e8fceeb49febc428301ca51f0c428bfc25e38203d6eccd23fdece031e8e8",
+  "selected_delta_since_provisional": {
+    "src/recording/workflow.rs": "caa2f224796f8ad6e92fb78d547c70df7dd88fe666843a715e90bd9257a36d34",
+    "src/workflow.rs": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9"
+  },
+  "admission_inventory_sha256": "3cafdc2a319420089262057f707be259ffd4b3b35a971ea529e853cd431e2330",
+  "bound_review_sha256": "9e583b31ed051f388c636879c90ecb84e4e31b177de42dc39ca7b8acebaa796c",
+  "summary_sha256": "dc028788768c8a2035e85ce1f956d185fdd699ff7657ba2d757213c995369939",
+  "native_receipt_sha256": "6df83df7782357a522cb5a9d645d2934ee902916e762e4c5a3f75e9fe26082d7",
+  "native_commands": 18,
+  "native_all_exits_zero": true,
+  "native_rust_tests": 35,
+  "native_rational_specimens": 5,
+  "focused_contract_total": 72,
+  "packet_tests_each_mode": 26,
+  "all_logged_skips_ignores_failures": 0,
+  "verified_log_counts": {
+    "native-qualified-v1/rust-contracts.log": {
+      "passed": 35,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused-workflow.log": {
+      "passed": 23,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused-native-family.log": {
+      "passed": 9,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused-composition.log": {
+      "passed": 14,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused-volume.log": {
+      "passed": 23,
+      "failed": 0,
+      "ignored": 0
+    },
+    "borrow-doctests.log": {
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    "packet-tests-normal.log": {
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0
+    },
+    "packet-tests-optimized.log": {
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native-qualified-v1/qualification-gate-tests.log": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native-qualified-v1/qualification-gate-tests-optimized.log": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native-qualified-v1/oracle-tests.log": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native-qualified-v1/oracle-tests-optimized.log": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "verified_evidence_file_count": 48,
+  "verified_native_artifact_count": 28,
+  "actual_retained_ELF_sha256": "7eb04fe27e4702a7bae70322d2b98c32a4ab97af0fde15e769bc3bbf2a06bc0e",
+  "archive": {
+    "path": "/workspace/rheon-native-admission-stage-9c04278.zip",
+    "bytes": 726459,
+    "sha256": "d11247940d0365ae1cab1c7e069a19ac15f8672e9ed9274a5f973f9ff0846630",
+    "entries_byte_verified": 48,
+    "crc_ok": true
+  },
+  "current_checkout_observation": {
+    "head": "afa6191cbebb64c298ae4d99d1273b2e079e46e5",
+    "tree": "b2008a22a65246c5a38c632437c1acc30a8cb27a",
+    "same_tree_as_execution": true,
+    "clean": true
+  },
+  "findings": [],
+  "scope_limits": [
+    "Exact executed subject remains 9c04278; later ancestry-only heads do not become newly executed subjects.",
+    "Finite aligned-strain algebra/native/rational/real-packet and focused no-default contracts only; not behavioral coverage of all 135 modules.",
+    "23 workflow includes 7 core workflow and 16 recording workflow; 9 native-family; 14 composition includes 11 projection and 3 facade; 23 volume includes 18 box and 5 periodic; 3 compile-fail borrow doctests.",
+    "No duplicate builds, tests, campaigns or source/ref/PR mutations performed by this reviewer.",
+    "No fresh Lean, default/desktop, hosted Pages/browser, native-window, performance, learned-model or physical qualification.",
+    "Q2 future boundary repair remains excluded; original negative P1/Q1 results retain their subjects.",
+    "Source/artifact digest integrity is not authenticity or bit reproducibility."
+  ],
+  "evidence_root": "/workspace/rheon-native-admission-20261020-evidence"
+}

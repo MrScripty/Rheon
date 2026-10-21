@@ -1,0 +1,158 @@
+{
+  "schema": "rheon-c1b2-qualification-final-independent-audit-v1",
+  "status": "APPROVED_EXACT_EXECUTED_RECEIPTS_AND_BOUNDED_COUNTS",
+  "reviewed_at_utc": "2026-10-20T04:26:57.557336+00:00",
+  "executed_source_head": "186dc0a18f787748eb723d91321e44ffd0e374d5",
+  "executed_source_tree": "3c19a1c1f4a549c782d619145a841a0b43abedac",
+  "executed_driver_clean_before_after": true,
+  "all_tracked_committed_source_hashes_verified": 1464,
+  "preliminary_all1464_working_clean_verified": true,
+  "current_working_selected140_verified": true,
+  "current_result_status_document_delta": [
+    "docs/plans/fluid-accuracy-composition/execution-ledger.md",
+    "docs/plans/fluid-accuracy-composition/issues.md",
+    "docs/plans/fluid-accuracy-composition/plan.md",
+    "docs/plans/fluid-accuracy-composition/reports/integration-20261020.md",
+    "docs/plans/fluid-accuracy-composition/reports/verification.md"
+  ],
+  "selected_count": 140,
+  "selected_map_sha256": "08aa3d1b48617763da61291e788fc985bc5d011d8039f9ebf83fbc4ccc2a05a6",
+  "selected_disposition": {
+    "count": 140,
+    "added": 5,
+    "changed": 11,
+    "unchanged": 124,
+    "removed": 0,
+    "map_sha256": "08aa3d1b48617763da61291e788fc985bc5d011d8039f9ebf83fbc4ccc2a05a6"
+  },
+  "admission_inventory_sha256": "a0878b551464f5a05ae29f90aa877a8147e157259f26a1bbedc96cb99a9098df",
+  "bound_review_sha256": "caa78be78306aa095a42fd6a54c0c355a4f5dfbc74b7244a0a94bc9242f09941",
+  "driver_sha256": "ff037b2d9d81282f0afd4c815a53a1a9ee9169cbe11002e21b6f3834e370c8e3",
+  "summary_sha256": "26720302347683f19614ceba4ad3af2a033e7b7ac864b6d14a43080c3e6acae9",
+  "native_receipt_sha256": "a2e84952172519a8184262b8b877b1a74248ba1f4b3b2b986dc910831b7a9b00",
+  "top_level_commands_passed": 11,
+  "native_qualifier_commands_passed": 18,
+  "native_rust_passes": 35,
+  "native_rational_specimens": 5,
+  "packet_normal": 26,
+  "packet_optimized": 26,
+  "packet_skipped": 0,
+  "gate_tests_per_mode": 5,
+  "oracle_tests_per_mode": 10,
+  "focused_passed": 213,
+  "focused_failed": 0,
+  "focused_existing_ignored": 3,
+  "focused_unique_target_test_entries": 213,
+  "native_plus_focused_unique_target_test_entries": 248,
+  "workflow_within_library": 26,
+  "focused_log_counts": {
+    "native-qualified-v1/rust-contracts.log": {
+      "passed": 35,
+      "failed": 0,
+      "ignored": 0,
+      "runtime_harnesses": [
+        "tests/aligned_strain_contract.rs",
+        "tests/obstacle_flow_contract.rs",
+        "tests/static_obstacle_contract.rs",
+        "examples/aligned_strain.rs"
+      ]
+    },
+    "focused-complete-library.log": {
+      "passed": 85,
+      "failed": 0,
+      "ignored": 0,
+      "runtime_harnesses": [
+        "src/lib.rs"
+      ]
+    },
+    "focused-projection-session.log": {
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0,
+      "runtime_harnesses": [
+        "tests/projection_session_contract.rs"
+      ]
+    },
+    "focused-legacy-recording-volume.log": {
+      "passed": 122,
+      "failed": 0,
+      "ignored": 3,
+      "runtime_harnesses": [
+        "tests/configured_provider_session_contract.rs",
+        "tests/liquid_volume_contract.rs",
+        "tests/liquid_volume_periodic_contract.rs",
+        "tests/pressure_session_contract.rs",
+        "tests/provider_step_contract.rs",
+        "tests/recording_comparison_contract.rs",
+        "tests/recording_contract.rs",
+        "tests/recording_provider_contract.rs",
+        "tests/recording_provider_runtime_contract.rs",
+        "tests/solver_provider_contract.rs"
+      ]
+    },
+    "borrow-doctests.log": {
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0,
+      "runtime_harnesses": [
+        "doctests:rheon"
+      ]
+    }
+  },
+  "ignored_test_names": [
+    [
+      "tests/pressure_session_contract.rs",
+      "frozen_model_selection_and_unsupported_domain_fallback_are_visible"
+    ],
+    [
+      "tests/provider_step_contract.rs",
+      "real_model_advances_production_session_for_twenty_four_intervals"
+    ],
+    [
+      "tests/solver_provider_contract.rs",
+      "real_checkpoint_support_replay_and_corruption"
+    ]
+  ],
+  "actual_B2_substitutions": {
+    "per_method": 100,
+    "methods": 2,
+    "total": 200,
+    "suite_elapsed_seconds": 100.22,
+    "basis": "Committed differential test loops both actual native methods; actual3/3public suite completed normally."
+  },
+  "native_artifacts_hashed": 28,
+  "all_evidence_files_hashed": 98,
+  "native_built_and_retained_ELF_sha256": "f51e8653f2b44019e8622ee316dc665c2c3434de57efe0871e506ccd38bbf51e",
+  "distinct_actual_retained_ELFs": 17,
+  "ELF_custody": "12 focused harnesses+4native contract harnesses (example harness executes2tests)+1native executable;3compile-faildoctests have no runtimeELF",
+  "archive": {
+    "path": "/workspace/rheon-c1b2-stage-186dc0a.zip",
+    "bytes": 27323913,
+    "sha256": "6538e3c27bc75ba41d3bb5ed7894e4eb6a1598fbea5cc3fc77bf03137f6be35b",
+    "entries": 98
+  },
+  "archive_members_CRC_and_exactbytes_verified": 98,
+  "archive_library_fivefields": {
+    "library_file_id": "libfile_13c2351bbe1c8191b19649480d4beeec",
+    "file_id": "file_00000000088481f5ac57f8b3ba159812",
+    "path": "/rheon-c1b2-stage-186dc0a.zip",
+    "current_version_number": 0,
+    "file_name": "rheon-c1b2-stage-186dc0a.zip"
+  },
+  "local_archive_xattrs": {
+    "user.library-file-version": "0",
+    "user.library-file-id": "libfile_13c2351bbe1c8191b19649480d4beeec"
+  },
+  "library_scope": "Owner five-field Library receipt and local bytes/xattrs observed; no independent remote Library download/authentication claim.",
+  "findings": [],
+  "scope_limits": [
+    "213focused=85library+3publicB2+122legacy/volume+3compile-faildoctests;122=99eightlegacy+23volume. Workflow26subsetof85; noadditiveoverlap.35nativeRusttargets disjoint fromdeclaredfocusedtargets.",
+    "Three existing artifact/model ignores remain ignored; no measuredcheckpoint or modal-model execution is claimed inthisrun.",
+    "Current G1 typed cancellation controls passed; historical9c/9a/e56 and original Failed archives retainoriginalmeaning. Full G1-C and all140 behavioral acceptance do notfollow fromthisrecipe.",
+    "Native qualifierClippyscopeisexactcommand; nofreshdesktop/default/release/nativewindow/performance/scientific/physical/model/GPU/Leanacceptance.",
+    "Owner historical213/226executions and unavailableownerrawarchives remain source-attributed; nottransferred tothisleadexecution.",
+    "Independent Q2 Cargo/reference/CV1 stage remains excluded; nofuturecombinedsourcequalification. FullC1-B/C/R,B3/stateful/externaltransactions,whole-family/transferremainunaccepted.",
+    "Only external review artifacts written; no duplicate builds/tests/campaigns/source/metadata/ref/PRmutations or merge/publication retries.",
+    "Integrity/custody hashes are not authentication or bit reproducibility."
+  ]
+}

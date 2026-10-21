@@ -1,0 +1,201 @@
+{
+  "profile": "rheon-c1b1-local-qualification-v1",
+  "claim": "Stateless supplied-array sealed projection qualification foundation only; full C1-B/C1-R/integration pending",
+  "branch": "implement/c1b1-projection-qualification-20261020",
+  "base": "91b20381d4c717299303ac228ffb927af0892256",
+  "pull_request": "https://github.com/MrScripty/Rheon/pull/128",
+  "admission": "ea37b6040b8fb2c5973170e4379565e47357727d",
+  "pre_evaluation_fixed_gate_amendment": "aa3c4352402aeeb2d8873074ede897b0317a1b98",
+  "exact_tested_source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+  "coding_standards": "0fc92a24279f3a4574c80af0a2f31ea347a21597",
+  "rust": "1.92.0",
+  "source_sha256": {
+    "src/solver_provider/composition.rs": "f8cceb5a953e45627c2297b9393e557519b3099c4533b5aa1045b0dd0c6a96ef",
+    "src/solver_provider/composition/projection.rs": "e9a717ffc318c2345a4863369ff426c1f6d86f6ae4c3a5d312f2bfc459d33e4d",
+    "src/solver_provider/composition/projection_tests.rs": "1136781800cb14e301521fe4093fe042f59d17b7e149136dc24ba73bf4500a3e",
+    "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c"
+  },
+  "protocol_sha256": "2847dc9490824ee21f0959ba5a0ce5d2b374d599769653e301b18cbba1b7c26b",
+  "evidence_root": "/workspace/rheon-c1b1-evidence",
+  "evidence": [
+    {
+      "file": "check-initial.log",
+      "sha256": "c80cf81a8f9039d69726399f8347fd493ca542a0c1a617aaec2ea2cd0dec36ae",
+      "source": "pre-checkpoint preliminary working source",
+      "result": "PASS preliminary compile, pre-checkpoint source; not deciding qualification"
+    },
+    {
+      "file": "fmt-initial.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "result": "PASS, exact Rust bytes checkpointed at f161d1a"
+    },
+    {
+      "file": "c1b1-no-default.log",
+      "sha256": "1491dad84cba03f7d45f57d8f7d4e3d690f8cc735aa4a87198620ca64488598c",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "result": "PASS 11 tests, 0 failed, 0 ignored; 0.14s"
+    },
+    {
+      "file": "c1b1-default.log",
+      "sha256": "3e7e4dace809da4f982b14a7e0b090ea5257fee2687bb6c00c63cc58f069f7b5",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "result": "PASS 11 tests, 0 failed, 0 ignored; 0.06s"
+    },
+    {
+      "file": "existing-contracts.log",
+      "sha256": "602af7b0633e3c405b0c918b4928d2bd37cff56385c6a63bbf02dc4e9f07613a",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "result": "PASS 41 tests, 0 failed, 2 pinned-model tests ignored"
+    },
+    {
+      "file": "c1a-compatibility.log",
+      "sha256": "f0541f737422452344fe836d18b3dafa11d5a29de87b374bfbfdaf3bc607b47e",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "result": "PASS 1 preserved pressure-v1/unavailable-scope contract"
+    },
+    {
+      "file": "rustdoc.log",
+      "sha256": "5a8d2c5bd1ae7b7e11ff7f00baac71013af9623223dadec634fe6011e895e854",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "result": "PASS 3 compile-fail borrow contracts"
+    },
+    {
+      "file": "clippy-core.log",
+      "sha256": "18687389fb375aca1f086316d58cc1795e1ca8bafa0e84d9eb4b9a52cc2d444d",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "result": "PASS no-default all-target -D warnings"
+    },
+    {
+      "file": "clippy-desktop-initial.log",
+      "sha256": "5a573eaf5e351e59c513f4cd583ebf11d8dd8d9c2ed60459808b82859e026fd2",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "result": "PASS desktop all-target -D warnings"
+    },
+    {
+      "file": "commands.txt",
+      "sha256": "e252e2d06a9a65e7b2905d35d7d94094f6310176bcde91c3f16a074db382d1a8",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "result": "Exact commands/environment and attribution"
+    }
+  ],
+  "native_test_executables": {
+    "/workspace/rheon-core-target/debug/deps/rheon-2c0b8f9f964eff45": {
+      "sha256": "7ba041f9d3cf95fdecfac5104bbe8512bef8c599f6d89c6b2f55a7455d08c5f6",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "evidence_log": "c1a-compatibility.log"
+    },
+    "/workspace/rheon-core-target/debug/deps/rheon-d293312d0455f2e1": {
+      "sha256": "68e91c1681a0d2ac511e77109d5429fb081e51531cec3f5cc08aa034aab8639c",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "evidence_log": "c1b1-default.log"
+    },
+    "/workspace/rheon-core-target/debug/deps/configured_provider_session_contract-7a47e2a64e933952": {
+      "sha256": "da10dc71a87c20246b00fd5cc22085fc2ea97d0649050041efb0b347722e8c97",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "evidence_log": "existing-contracts.log"
+    },
+    "/workspace/rheon-core-target/debug/deps/operator_contract-690eb3a5f446bc90": {
+      "sha256": "1a3551a38b2fcc06234dad80435929a924cbfa7a935622acec560100bf96f3e6",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "evidence_log": "existing-contracts.log"
+    },
+    "/workspace/rheon-core-target/debug/deps/pressure_context_contract-86284562eb2314a6": {
+      "sha256": "a7b68008f6172417c4b989bb07c37c5eaecb790096353f916edb0a515c187b91",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "evidence_log": "existing-contracts.log"
+    },
+    "/workspace/rheon-core-target/debug/deps/pressure_contract-a752af99edbd98ea": {
+      "sha256": "340c76130a203a940f00f5e1b1449a5d19cbeb0b43a124009e456c7c9b193120",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "evidence_log": "existing-contracts.log"
+    },
+    "/workspace/rheon-core-target/debug/deps/provider_step_contract-024046052e7e09fc": {
+      "sha256": "35dfa902cbefc69468e6e28aae8e66bba54ff7f1ec7349b928e9575a7124ec4a",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "evidence_log": "existing-contracts.log"
+    },
+    "/workspace/rheon-core-target/debug/deps/session_contract-07a33dc1a656083f": {
+      "sha256": "88b8c14d1f0fa40d066565b258495fdc2841475277854539c76fc47e50483bfc",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "evidence_log": "existing-contracts.log"
+    },
+    "/workspace/rheon-core-target/debug/deps/solver_provider_contract-4f9ffb3b3a91bb87": {
+      "sha256": "99c5bbfd0bcf5890e5dfe1b7599e42b8aa576a72fe5cbda9a5c4780aedde1796",
+      "source": "f161d1ad9f8a4acfb1e1d86c63c6a875fca3182a",
+      "evidence_log": "existing-contracts.log"
+    }
+  },
+  "results": {
+    "focused_no_default": {
+      "passed": 11,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused_default": {
+      "passed": 11,
+      "failed": 0,
+      "ignored": 0
+    },
+    "existing_contracts": {
+      "passed": 41,
+      "failed": 0,
+      "ignored": 2
+    },
+    "c1a_compatibility": {
+      "passed": 1,
+      "failed": 0
+    },
+    "borrow_doctests": {
+      "passed": 3,
+      "failed": 0
+    },
+    "clippy_core": "PASS",
+    "clippy_desktop": "PASS",
+    "fmt": "PASS"
+  },
+  "independent_review": {
+    "architecture": "PASS at f161d1a",
+    "contracts": "PASS at f161d1a",
+    "reviewer_edits_or_builds": false
+  },
+  "fixture_limits": {
+    "grid_nonzero": [
+      4,
+      3,
+      2
+    ],
+    "spacing_m": [
+      0.25,
+      0.3,
+      0.4
+    ],
+    "rho_kg_m3": 1.25,
+    "dt_s": 0.01,
+    "relative_pressure_residual": 1e-10,
+    "absolute_pressure_residual": 1e-12,
+    "predicted_divergence_per_s": 1e-08,
+    "actual_divergence_per_s": 1e-05,
+    "max_native_iterations": 1000,
+    "managed_array_cap_bytes": 1048576,
+    "wrong_dynamics_loop_m_s": 0.125,
+    "actual_divergence_candidate_pressure_Pa": 1e-13,
+    "exact_actual_gate_per_s": 0
+  },
+  "claim_limits": [
+    "100 repetitions are independent kernel requests, not integrated trajectories",
+    "declared input source is consistency, not accepted-Session authentication",
+    "supplied arrays only, no candidate provider execution",
+    "no Session adoption",
+    "no persisted intent/attempt/custody version",
+    "no stateful prepare/abort or external runtime qualification",
+    "no learned-model evidence",
+    "no physical/GPU/native-GUI/performance claim",
+    "allocation failure injection not performed"
+  ],
+  "canonical_plan_or_ledger_changed": false,
+  "integration_owner": "repository lead 01a13f94-5c63-7243-abfc-f5474da1902d",
+  "coordination_transport": "Direct lead/Q1 thread messages returned agent not found; exact interface/write set recorded for parent relay. No numerical-owner edits required.",
+  "next_gate": "Freeze native invocation/Session publication and additive intent/attempt/custody contracts before integrated C1-B edits; execute real 100-interval substitution and applicable lifecycle/persistence/native-consumer gates.",
+  "cleanup_or_merge_performed": false
+}

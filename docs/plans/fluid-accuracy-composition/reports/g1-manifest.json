@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "scope": "G1 existing configured sealed-MAC workflow inspection and custody",
+  "claims": {
+    "G1-C": "accepted for recorded CPU/archive contracts",
+    "G1-U": "accepted for recorded native software-display workflow",
+    "performance": "accepted for fixed capture plus validated cached projection workload",
+    "C1-R": "not implemented; C1-A prepared/dependency-ready",
+    "physical_or_GPU_or_learned_accuracy": "not claimed",
+    "release_or_hermetic_artifact": "not claimed"
+  },
+  "implementation": {
+    "commit": "f6b7c8cd4628f6939c41567cecdf4a5231f60386",
+    "tree": "50a4abfae98b26c0b28474dcd19609252bb046ae",
+    "source_inventory": {
+      "path": "/workspace/rheon-g1-evidence/source-material-f6b7c8c.json",
+      "bytes": 21979,
+      "sha256": "6347d65cb3508eba8a0184e6ac2546141d148d80bee35badaa9fc9e663646e85"
+    },
+    "source_revision_environment": "f6b7c8cd4628f6939c41567cecdf4a5231f60386",
+    "build_material_environment": null,
+    "subsequent_acceptance_changes": "documentation only"
+  },
+  "binaries": {
+    "native": {
+      "path": "/workspace/rheon-g1-evidence/bin/rheon-desktop-f6b7c8c",
+      "bytes": 272686560,
+      "sha256": "0e0d284145ced8cbaeb141be58ee2a1aa30034c8db0f54a37a672968608f90e2"
+    },
+    "release_test": {
+      "path": "/workspace/rheon-g1-evidence/bin/rheon-desktop-release-tests-f6b7c8c",
+      "bytes": 24153104,
+      "sha256": "542b872ebbbe9ebfd73897920ce5b52c0ff1fe35a891cd43fdfdad02542cdee6"
+    },
+    "native_fixture_generator_sha256": "4b540640d93dd0f41dfdff5de9f473b95b3fe0dce07a1d1a356f6cd6d5c8090d"
+  },
+  "native": {
+    "environment": "isolated dummy Xorg :91;1600x1000x24;software GLX/llvmpipe;evdev/us;XTEST",
+    "observations": {
+      "path": "/workspace/rheon-g1-evidence/native/final-f6b7c8c-evdev/final-acceptance-run.json",
+      "bytes": 12854,
+      "sha256": "6f19eabd8b1177e571a7de9a3f78eccc0bb8a07e7c4169350790905fc5ba3d99"
+    },
+    "retained_artifact_index": {
+      "path": "/workspace/rheon-g1-evidence/native/final-f6b7c8c-evdev-index.json",
+      "bytes": 10562,
+      "sha256": "8d712f79a175def1b45d81f46b826d055b5cf85e0def01b6b76608d3e9795d7e"
+    },
+    "actual_archives_index": {
+      "path": "/workspace/rheon-g1-evidence/native/rheon-native-final-g-recordings-index.json",
+      "bytes": 2885,
+      "sha256": "a3da6fac32d1c837c0ca5a92f4a97df35ff9f571f384dd1890c99348534caefe"
+    },
+    "fixture_index": {
+      "path": "/workspace/rheon-g1-evidence/native/rheon-native-workflow-20261020g-index.json",
+      "bytes": 2206,
+      "sha256": "e8d669146453683cfbaa7daab866bf06295d6734c91ded289fdfedfdd5786cb9"
+    },
+    "selected_run_ordinal": [
+      4,
+      2
+    ],
+    "archive_sha256": "99835798215557b8cbe85399b075fb9789124a6d887015ecfd1d55e12a970a70",
+    "selected_controls_sha256": "9716f406a0170248c61c0185f2ec3a5c05ca67cf3b087c4c79cc6b382c469a70",
+    "live_cold_identical": true,
+    "cancelled_run_attempt_last_accepted": [
+      6,
+      12,
+      11
+    ],
+    "cancelled_publication": null,
+    "driver_App_display_exit_codes": 0,
+    "cleanup": "independently checked; no remaining Python/native App/owned display; no individual provider PID was sampled",
+    "archive_path_mapping": {
+      "/tmp/rheon-native-final-g-session/.generated/recordings": "/workspace/rheon-g1-evidence/native/rheon-native-final-g-recordings"
+    }
+  },
+  "performance": {
+    "protocol": "docs/plans/fluid-accuracy-composition/reports/g1-protocol.md",
+    "n_warmup": 5,
+    "n_pairs": 30,
+    "limit_median_fraction": 0.05,
+    "measured_median_fraction": 0.018808600471844183,
+    "raw_log": {
+      "path": "/workspace/rheon-g1-evidence/performance-f6b7c8c.log",
+      "bytes": 1080,
+      "sha256": "ddef3f204e78bb43b104e71e059d0b55c04b52e8c5f8edbab579be3689ff8a16"
+    },
+    "summary": {
+      "path": "/workspace/rheon-g1-evidence/performance-f6b7c8c-summary.json",
+      "bytes": 800,
+      "sha256": "34e16ad1f0fd2e45662659bf265825ba8abdac8407beed24927d7e2a6af67104"
+    },
+    "build_log": {
+      "path": "/workspace/rheon-g1-evidence/release-build-f6b7c8c.log",
+      "bytes": 234,
+      "sha256": "3d34e93e39e5a91a52420ea5905f7dc19da80360b7bb5874e60ff37d83fc137c"
+    },
+    "environment": {
+      "path": "/workspace/rheon-g1-evidence/environment.json",
+      "bytes": 1120,
+      "sha256": "09b3b48d55862d14b255a6899df7ec3bb1c5e6bb698d59bd34062942060ce3cc"
+    },
+    "scope": "actual numerical capture plus validated set_attempt cache adoption; excludes disk, layout, paint, rasterization, models and other configurations",
+    "independent_disposition": "pass; variability/order do not obscure margin"
+  },
+  "verification": {
+    "broad_CPU": {
+      "passed": 597,
+      "failed": 0,
+      "ignored": 4,
+      "suites": 74,
+      "log": {
+        "path": "/workspace/rheon-g1-evidence/core-tests.log",
+        "bytes": 69395,
+        "sha256": "d9be2849912216ea1dcdb9ad525ba5fa3cbabe809db347625a7ff5384208353f"
+      }
+    },
+    "workflow_core_persistence": {
+      "passed": 15,
+      "failed": 0,
+      "ignored": 0,
+      "log": {
+        "path": "/workspace/rheon-g1-evidence/workflow-contracts-final.log",
+        "bytes": 3631,
+        "sha256": "6eb37ef087590a3d70ad84a048f1bd40f6cf64f38646e919e43cfbdbe65cedda"
+      }
+    },
+    "focused_UI": {
+      "passed": 11,
+      "failed": 0,
+      "ignored_opt_in": 2,
+      "log": {
+        "path": "/workspace/rheon-g1-evidence/native/final-3a86991-evdev/pointer-pan-fixed-disposal.log",
+        "bytes": 1959,
+        "sha256": "5f6f20c4cc132a434c7cf69ff7c4061e9ae9ef6d7eacb51fa4efe8836a19b8ed"
+      },
+      "tested_UI_sha256": "4176efb859e9ed2e0041a6ca7b9f87c5590ed2aa7541a83fc225ce6e795ddd6f",
+      "tested_tests_sha256": "577bc23f06a8cd794b16d42cd347a024d627443f3d1cf5d4a6230b21c76a24e2",
+      "binding": "tested source bytes match f6b7c8c; log retained before checkpoint"
+    },
+    "legacy_comparison": {
+      "path": "/workspace/rheon-g1-evidence/legacy-comparison-workflow.log",
+      "bytes": 451,
+      "sha256": "f25246ba15cc4de835d174a3b113d673183dbfef3b1c7570865e39d5f009a1d7"
+    },
+    "strict_desktop_Clippy": {
+      "path": "/workspace/rheon-g1-evidence/desktop-all-targets-clippy-gesture-final.log",
+      "bytes": 117,
+      "sha256": "c70b4f8aca042a0d153d1a3a63b1ca9bf67e9d0babf178e13ad5b5b2e322f6b7"
+    },
+    "strict_core_Clippy": {
+      "path": "/workspace/rheon-g1-evidence/core-all-targets-clippy.log",
+      "bytes": 118,
+      "sha256": "ef6ea4a167290ff7512146617e999d535b22dddd3f14dd75d625c7eee5db33c7"
+    },
+    "format": {
+      "path": "/workspace/rheon-g1-evidence/format-gesture-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "retained_prior_evaluations": [
+    {
+      "path": "/workspace/rheon-g1-evidence/native/failure-bc494c1-index.json",
+      "bytes": 2703,
+      "sha256": "e2003623690b7513c495efbe86caea254c319feced49106feae020e4cd112235"
+    },
+    {
+      "path": "/workspace/rheon-g1-evidence/native/final-bc494-evdev-index.json",
+      "bytes": 8742,
+      "sha256": "d6b86598dc5d602fdf5652b1f18046726e74e2c44384183be5788ea27b7a95b5"
+    },
+    {
+      "path": "/workspace/rheon-g1-evidence/native/final-3a86991-evdev-index.json",
+      "bytes": 24290,
+      "sha256": "50ccd5fe6cde88a404393791cb9e04f595fe0170c6d1ed5b983f23b07d9f7c88"
+    },
+    {
+      "path": "/workspace/rheon-g1-evidence/performance-bc494-first.log",
+      "bytes": 1080,
+      "sha256": "31ea8d6f959e1334dca744335adcdeb910b1a49a512b03c49a756dfd2d8e6633"
+    }
+  ],
+  "independent_reviews": {
+    "architecture_core": "pass; no numerical formula/order/domain widening",
+    "persistence": "pass; additive profiles and historical meaning",
+    "native_source_and_workflow": "pass at final implementation",
+    "performance": "pass at final implementation",
+    "C1_readiness": "pass; canonical status synchronized"
+  },
+  "integration": "PR122 stacked on PR120; repository lead owns retarget/merge; no merge or branch cleanup"
+}
