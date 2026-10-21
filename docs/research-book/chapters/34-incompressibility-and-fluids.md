@@ -15,7 +15,7 @@ For example, in an exactly incompressible hyperelastic model choose an isochoric
 
 Here pressure is positive in compression and \(P=\partial_FW_{\mathrm{iso}}-p\operatorname{Cof}F\). Variation in \(p\) imposes volume moments. A nearly incompressible version adds \(-p^2/(2\kappa)\), giving \(p=-\kappa(J-1)\) in this particular volumetric model. Compressing \(J<1\) produces positive pressure. This is a different volumetric law from the logarithmic model of Chapter31.
 
-The [deal.II v9.6.2 step44 source](https://github.com/dealii/dealii/blob/v9.6.2/examples/step-44/step-44.cc) implements a three-field displacement/pressure/dilatation approach with element-level condensation. Its particular spaces, pressure convention and energy should not be replaced by our two-field equations while retaining its stability claims.
+Adding a separate dilatation variable would produce a different three-field formulation. Its elimination, discrete spaces and stability would need their own derivation; the two-field equations above do not inherit another formulation’s guarantees.
 
 ## Inf-sup stability and pressure nullspaces
 

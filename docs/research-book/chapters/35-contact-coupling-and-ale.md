@@ -54,7 +54,7 @@ Let \(x=\mathcal A(\xi,t)\) be a computational map, \(a=\partial_t\mathcal A|_\x
  \frac{Ds}{Dt}=\partial_t s|_\xi+(v-a)\cdot\nabla_xs.
 \]
 
-Lagrangian motion has \(a=v\); a fixed Eulerian mesh has \(a=0\). Choosing a smooth interior mesh extension while matching boundary normal motion generally makes interior relative flux nonzero. The original [Hirt, Amsden and Cook (1974) bibliographic record](https://www.sciencedirect.com/science/article/pii/0021999174900515) concerns a finite-difference ALE algorithm, not automatic evidence for an FEM transfer. Donea, Huerta, Ponthot and Rodríguez-Ferran's 2004 encyclopedia chapter is a primary ALE survey; the [source map](../lagrangian/source-map.md) records its metadata and current access limitations.
+Lagrangian motion has \(a=v\); a fixed Eulerian mesh has \(a=0\). Choosing a smooth interior mesh extension while matching boundary normal motion generally makes interior relative flux nonzero. The original [Hirt, Amsden and Cook (1974) bibliographic record](https://www.sciencedirect.com/science/article/pii/0021999174900515) concerns a finite-difference ALE algorithm, not automatic evidence for an FEM transfer. Donea, Huerta, Ponthot and Rodríguez-Ferran's 2004 encyclopedia chapter is a primary ALE survey; the [source map](../implementation/lagrangian-fem-sources-and-scope.md) records its metadata and current access limitations.
 
 For a moving computational cell \(K(t)\), Reynolds' theorem gives
 
@@ -108,7 +108,7 @@ Two equal one-kilogram cells with velocities \(+1\) and \(-1\) m/s have zero mom
 
 [Chapter11](11-particle-methods.md) contains primary PIC/FLIP/APIC/PBF references and transfer formulas. [Sulsky, Chen and Schreyer (1994)](https://www.sciencedirect.com/science/article/pii/0045782594901120) is an original material-point reference, verified here at bibliographic level only. These method families can share conservation principles and linear algebra while retaining different geometry, quadrature, state and failure modes. Calling every moving particle system a Lagrangian FEM solver would erase precisely the choices a solver implementer must make.
 
-The [research status report](../lagrangian/research-status-report.md) maps every unread reference to its actual manuscript use. In particular, the MPM row is a schematic distinction rather than a verified account of the 1994 Sulsky algorithm; no conservation or stability result is attributed to that unread paper.
+The [publication source and scope audit](../implementation/lagrangian-fem-sources-and-scope.md) distinguishes inspected text from bibliographic provenance. In particular, the MPM row is a schematic distinction rather than a verified account of the 1994 Sulsky algorithm; no conservation or stability result is attributed to that unread paper.
 
 ## Extension choices after the two minimal algorithms
 

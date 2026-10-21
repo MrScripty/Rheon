@@ -33,3 +33,10 @@ Corrections from review: restrict n to2/4 and derive actual reference measures, 
 The reviewer independently checked continuous ALE weak transport signs, triangle capillary gradient/tangent and sphere-pressure sign, plane penalty and fixed-map inviscid normal FSI blocks. Thermal semidiscrete cancellation is conditional, with no fully discrete entropy theorem. It independently read allowed Laghos v3.1 cpp lines985–1018 and matched blob2a04477bca658a5fa7731691a505fc6df25dc3f8; the source's sampled-energy floor is not adopted. Denied sources were not retried. No file edits, numerical/scientific workloads, native/hardware runs or machine proofs were performed by the reviewer.
 
 Final cross-reference review confirmed the restored segment-integral injectivity/determinant/convex-path proof and projection-contraction onto-cube argument in current Chapter36. It independently confirmed13,453 chapter words, removed stale references and retained exact-real/rounded-diagnostic limits; no blocker remained.
+
+
+## M4 publication constraints and source filter
+
+The same independent read-only reviewer compared all647 inline/display TeX expressions in chapters30–36 withf67ffdc and confirmed exact mathematical retention, preserved conditional proofs and zero fenced pseudocode blocks. The two former code blocks are practical prose. Excluded implementation sources are absent from chapter authorities; MFEM/Laghos pins, license boundaries and limited architecture claims remain. The reviewer found no mathematical or source-selection blocker and no introduced numerical/machine-proof claim.
+
+The reviewer confirmed the build's automatic HTML discovery and its explicit implementation-guide print list: all seven chapter bodies enter print/PDF, while the new audit is an HTML/separate Markdown guide whose print links resolve to repository sources. No workflow/builder edit is needed for the website. Review was read-only, with no URL retries, edits or scientific workloads. The final source pointer wording was narrowed to the Sierra chapters actually recorded as read, and FEBio's MIT license was distinguished from its unresolved referenced-notice lookup.

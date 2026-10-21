@@ -1,6 +1,6 @@
 # 30 Material motion, connected meshes and conservation
 
-This begins a principles-first FEM sequence ending in [Chapter 36](36-reference-fem-solver.md). It is research exposition, authored for Puma's book, not a claim that Rheon implements general Lagrangian FEM. [Chapter 11](11-particle-methods.md) owns particle transfers and [Chapter 29](29-liquid-solid-interaction.md) distinguishes material meshes from collision geometry. The [source map](../lagrangian/source-map.md) records primary references, versions and evidence limits.
+This begins a principles-first FEM sequence ending in [Chapter 36](36-reference-fem-solver.md). It is research exposition, authored for Puma's book, not a claim that Rheon implements general Lagrangian FEM. [Chapter 11](11-particle-methods.md) owns particle transfers and [Chapter 29](29-liquid-solid-interaction.md) distinguishes material meshes from collision geometry. The [source map](../implementation/lagrangian-fem-sources-and-scope.md) records primary references, versions and evidence limits.
 
 ## What moves, and what is connected?
 

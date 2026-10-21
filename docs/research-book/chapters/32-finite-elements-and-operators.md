@@ -1,6 +1,6 @@
 # 32 Finite-element spaces, quadrature and element operators
 
-[Chapter 31](31-stress-and-weak-forms.md) supplies the weak equation. We now choose a finite-dimensional motion and derive each array needed to evaluate it. The default solid is a conforming, straight-sided P1 tetrahedral mesh with positive reference volumes, constant density per element, and the specified hyperelastic law. Higher-order and mixed alternatives are stated separately. The [Sierra/SM 5.30 manual](https://www.sandia.gov/files/sierra/SM_Theory_5_30/index.html), chapters 10, 14 and 15, provides a primary account of element choices; our calculations and pseudocode are independently authored.
+[Chapter 31](31-stress-and-weak-forms.md) supplies the weak equation. We now choose a finite-dimensional motion and derive each array needed to evaluate it. The default solid is a conforming, straight-sided P1 tetrahedral mesh with positive reference volumes, constant density per element, and the specified hyperelastic law. Higher-order and mixed alternatives are stated separately. The [Sierra/SM 5.30 manual](https://www.sandia.gov/files/sierra/SM_Theory_5_30/index.html), provides primary weak-form and mechanics context in the selected chapters identified by the publication audit. Element calculations and practical explanations below are independently authored.
 
 ## Three maps that must not be confused
 
@@ -81,19 +81,8 @@ For the Chapter31 energy \(J=1\), so the value of \(\lambda\ge0\) does not affec
 
 ## Element dataflow
 
-~~~text
-for each reference element e:
-    gather X, d using the displacement local-to-global map
-    for each chosen quadrature point q:
-        Ggeom = dX/dxi; require positive reference orientation
-        gradN = inverse_transpose(Ggeom) * gradN_hat
-        F = I + sum_a outer(d[a], gradN[a]); require det(F) > 0
-        (W, P, tangent_action) = material(F, accepted_history[e,q])
-        w = reference_weight[q] * det(Ggeom)
-        energy += w*W
-        residual[a] += w * P * gradN[a]
-        tangent[a,b] += w * contraction(gradN[a], A, gradN[b])
-    scatter-add local arrays; do not overwrite shared-node contributions
-~~~
+An element evaluation starts from its reference coordinates, nodal displacement and chosen quadrature rule. The reference coordinate map supplies the determinant and physical basis gradients; positive reference orientation is a construction requirement. The current displacement determines F, whose determinant must lie in the selected material domain before stress or tangent evaluation.
+
+The same quadrature weights and reference measures multiply the energy, stress–gradient force and derivative contraction written above. Their local nodal contributions are accumulated into the shared global degrees of freedom. Shared nodes receive the sum from every incident element; a later element does not replace an earlier contribution. This consistency is what makes the assembled tangent differentiate the assembled residual.
 
 Constitutive history in nonlinear trial evaluations is candidate scratch derived from the last accepted history, never repeatedly committed during Newton. The selected hyperelastic law needs no evolving history. [Chapter 33](33-time-and-nonlinear-solves.md) adds inertia and nonlinear solution; [Chapter 34](34-incompressibility-and-fluids.md) adds pressure and the fluid geometry derivative.

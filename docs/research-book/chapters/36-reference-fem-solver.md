@@ -1,6 +1,6 @@
 # 36 Two complete minimal FEM algorithms and their verification boundary
 
-This chapter closes the numerical and dataflow choices for **one hyperelastic solid path and one compressible material-mesh fluid path**. Both are finite-dimensional algorithms in original pseudocode, not executable Rheon implementations. Equations, analytic checks and reasoning review are distinct from numerical validation and machine proofs. The earlier mixed incompressible P2/P1 equations remain an advanced candidate in [Chapter34](34-incompressibility-and-fluids.md); they are not silently substituted for this selected fluid.
+This chapter closes the numerical and dataflow choices for **one hyperelastic solid path and one compressible material-mesh fluid path**. Both are finite-dimensional formulations with fully specified solution choices, presented through equations and practical explanation. They are not executable Rheon implementations. Equations, analytic checks and reasoning review are distinct from numerical validation and machine proofs. The earlier mixed incompressible P2/P1 equations remain an advanced candidate in [Chapter34](34-incompressibility-and-fluids.md); they are not silently substituted for this selected fluid.
 
 ## Fixed model, units and run contract
 
@@ -40,7 +40,7 @@ The integration choices are exact for this selected discrete field:
 - **Internal energy, force and tangent:** use one barycentric point \((1/4,1/4,1/4,1/4)\) with physical reference weight \(V_{0,e}\). F and homogeneous material coefficients are constant on an affine P1 tetrahedron, so this integrates W, P times a basis gradient and the tangent contraction exactly for the finite-element field, despite W being nonlinear in F.
 - **External loads:** zero in S/G. No boundary traction quadrature is called. Normal/clamp reactions are recovered from the full residual, including consistent inertia.
 
-Assembly is serial in increasing element ID, then local node/component order; DOFs use node ID then x,y,z. Floating-point summation order is thereby specified at the pseudocode level, without claiming bitwise portability of logarithm/power libraries. All accepted fields are computed from the same nodal motion. The fluid has one geometric density/pressure authority: \(J_e\) determines \(\rho_e,p_e,e_e\); none is independently advected or repaired.
+Assembly is serial in increasing element ID, then local node/component order; DOFs use node ID then x,y,z. Floating-point summation order is thereby specified for the described method, without claiming bitwise portability of logarithm/power libraries. All accepted fields are computed from the same nodal motion. The fluid has one geometric density/pressure authority: \(J_e\) determines \(\rho_e,p_e,e_e\); none is independently advected or repaired.
 
 ## State, constraints and constitutive evaluation
 
@@ -113,82 +113,17 @@ Finite domain-infeasible trials do not evaluate log/power or merit after the fai
 
 The constant1 is the declared force scale, not a dimensionless replacement for an unknown physical load. If residual convergence fails and an accepted update has norm \(\le2^{-40}(1+\|z\|_\infty)\), reject as stagnation. Small displacement alone is never convergence. These fixed values make the reference algorithm concrete; they are not experimentally tuned or certified tolerances and do not alter Rheon thresholds.
 
-## Complete construction, solve and publication pseudocode
+## From reference data to an accepted physical state
 
-~~~text
-construct(kind in {S,G}, n in {2,4}, |U|<=1/16):
-    create the specified structured cube nodes and six-permutation tetrahedra
-    validate oriented reference geometry, counts, incidence and boundary planes
-    build P1 gradients/volumes; assemble analytic consistent full M
-    build exact fixed/free scalar maps from S clamp or G normal-only walls
-    cache M_free; allocate all bounded numeric scratch before stepping
-    accepted = {d=0, v=nodal_bubble(U), t=0}
-    verify fixed velocity components zero and initial geometry/model finite
-    return immutable reference/material/constraints + accepted + scratch
+The reference mesh and selected material are fixed before time integration. Reference orientation, face incidence, boundary labels, node/element counts, actual volumes and basis gradients establish the geometry used by every later integral. The consistent mass and fixed/free maps are assembled once. All required numeric storage fits the declared budget before a state is advanced. The initial displacement is zero and the prescribed nodal bubble velocity satisfies the selected support or wall constraints; invalid input or nonfinite initial state prevents construction.
 
-assemble(d, need_tangent):
-    require fixed d components zero
-    fint=0; Kint=0 if requested; Psi=0
-    for e in increasing element ID:
-        grad_d=sum_a outer(d[node[a]], G[e,a]); F=I+grad_d
-        require finite grad_d and finite squared_Frobenius(grad_d), else INVALID_ARITHMETIC
-        if squared_Frobenius(grad_d)>1/16: return INFEASIBLE
-        J=det(F); require finite J, else INVALID_ARITHMETIC
-        if J<=0: return INFEASIBLE
-        require finite inverse(F), else INVALID_ARITHMETIC
-        (W,P,A)=selected_S_or_G_constitutive(F)  # formulas in ch31/ch34
-        require finite W,P,A and finite positive G rho,p,e, else INVALID_ARITHMETIC
-        Psi += V0[e]*W
-        for local a,i: fint[node[a],i] += V0[e]*(P*G[e,a])[i]
-        if need_tangent:
-            for local a,i,b,j:
-                Kint[ai,bj] += V0[e]*G[a]_A*A[i,A,j,B]*G[b]_B
-    return fint, Kint_if_requested, Psi, element_diagnostics
+An attempted step keeps the previous accepted displacement, velocity and clock immutable. The initial displacement guess is that accepted displacement, which is feasible by construction. It differs from the inertial predictor entering the backward-Euler residual. Each candidate element then determines its displacement gradient, F, J and constitutive fields. Contributions to energy, force and tangent use the identical element state, integration rule and reference measures. The free residual and Jacobian are restrictions of the full inertial-plus-internal system, preserving the full constrained residual for support forces.
 
-attempt_step(accepted):
-    h=1/128; require finite advancing t_new=t_n+h
-    d_pred=d_n+h*v_n; z=free_coordinates(d_n)  # feasible initial guess
-    converged=false
-    for updates in 0..32 inclusive:
-        d=inject_free(z); (fint,Kint,Psi,diag)=assemble(d,true)
-        if INFEASIBLE: reject INVALID_STATE; any arithmetic error: reject INVALID_ARITHMETIC
-        inertia=M*(d-d_pred)/h^2; r_full=inertia+fint
-        r=restrict_free(r_full); K=restrict_free(M/h^2+Kint)
-        require every evaluated scalar finite; honor cancellation
-        if the specified nonlinear residual gate passes:
-            converged=true; break
-        if updates==32: reject NONLINEAR_LIMIT
-        s=equilibrated_partial_pivot_LU(K,-r) or unusable
-        q=r^T*K*s if s usable, otherwise unusable
-        if s unusable or recomputed_linear_gate_nonfinite_or_fails or q_nonfinite_or_nonnegative:
-            g=transpose(K)*r
-            require finite nonzero g; s=-g/max(1,norm_inf(g))
-        s *= min(1,(1/16)/norm_inf(s)); q=r^T*K*s
-        require finite q<0
-        accepted_trial=false
-        for j in 0..19:
-            alpha=2^(-j); trial=inject_free(z+alpha*s)
-            evaluate trial geometry; if finite domain INFEASIBLE: continue to next alpha
-            evaluate selected constitutive model and whole residual from accepted d_n,v_n
-            any nonfinite/model/residual/merit arithmetic: reject INVALID_ARITHMETIC
-            if merit obeys Armijo inequality:
-                delta=alpha*s; z+=delta; accepted_trial=true; break
-        if no accepted_trial: reject LINE_SEARCH_LIMIT
-        if norm_inf(delta)<=2^-40*(1+norm_inf(z)):
-            recompute trial residual gate; if it fails: reject STAGNATION
-    require converged
-    recompute final full residual/model diagnostics independently of cached flags
-    require the same convergence/geometry/finite gates still pass
-    v_new=(d-d_n)/h; a_new=(v_new-v_n)/h
-    compute energy, mass/volume, wall/clamp reactions and balance ledger below
-    require finite derived outputs and exact fixed components in represented state
-    final cancellation barrier
-    publish one state {d,v_new,t_new,diagnostics}; never publish candidate scratch
+The residual convergence condition is evaluated at the initial guess and after each accepted nonlinear update, including the last permitted update. Until convergence, the selected equilibrated direct solve and bounded globalization determine a new candidate. Their pivot, linear-defect, descent, gradient-fallback, direction-size, backtracking and stagnation policies are exactly those stated above. A line-search residual always uses the same previous accepted state and timestep. Neither a rejected trial nor the latest nonlinear iterate becomes a new physical time level.
 
-run:
-    construct once; for ordinal in 1..8: attempt_step or stop with typed failure
-    return exactly the accepted prefix and the terminal outcome
-~~~
+Convergence of the free residual alone is insufficient for publication of a physical state. Final geometry, material fields, full residual and diagnostics are recomputed, and the same finite, admissibility and residual conditions must still hold. Endpoint velocity follows from the displacement increment, acceleration from the velocity increment, and constrained components retain their prescribed represented values. Energy, mass/volume, reactions and the work ledger below are derived from this common endpoint. Nonfinite derived output prevents acceptance.
+
+A final cancellation check separates the candidate from the accepted state. Only a successful complete endpoint replaces the accepted displacement, velocity, clock and diagnostics together. A failed or cancelled attempt leaves the previous state intact; this reference method makes no automatic retry. Eight successful attempts reach the declared final time, while any earlier terminal outcome returns exactly the already accepted prefix. The explanation specifies a bounded solution method, not an executed trajectory or a guarantee that every admitted input converges.
 
 Each residual call inside line search uses the **same accepted** d_n,v_n and h, not the previous rejected trial. An unusable LU attempt or nonfinite direct-direction/linear-defect/descent computation may trigger the specified gradient fallback only when r,K remain finite and valid. This expressly limited algebra-solver recovery differs from invalid geometry/model/residual/merit arithmetic, which terminates the attempt. Nonfinite fallback or scaled-direction arithmetic also terminates; finite domain violations alone skip a line-search candidate. Cancellation at construction, assembly, linear solve, line search and final barrier returns a distinct cancelled outcome with no new accepted clock/state. There is no checkpoint/restart, recorder, GUI or hardware implementation claim.
 
@@ -225,16 +160,12 @@ Direct differentiation verifies \(\rho'_t+\rho_0\partial_1v_1=0\) and \(\rho_0\p
 
 ## Open-source architectures worth studying
 
-The [source map](../lagrangian/source-map.md) pins versions, source paths and license evidence. The comparisons below are source-guided architectural observations, not comparative benchmarks or adoption decisions.
+The [source map](../implementation/lagrangian-fem-sources-and-scope.md) pins versions, source paths and license evidence. The comparisons below are source-guided architectural observations, not comparative benchmarks or adoption decisions.
 
 | Project and inspected version | Common architecture and lesson | Tradeoff/domain boundary |
 | --- | --- | --- |
 | [MFEM v4.7 ex10](https://github.com/mfem/mfem/blob/v4.7/examples/ex10.cpp) | FE forms, mass and hyperelastic operators feed a separate ODE solver; reduced implicit nonlinear operator | Compact mechanics example; its reference diffusion damping is not a full moving-fluid viscous stress |
-| [DOLFINx v0.9.0 hyperelasticity](https://github.com/FEniCS/dolfinx/blob/v0.9.0/cpp/demo/hyperelasticity/hyperelasticity.py) | Symbolic energy/form differentiation generates residual and Jacobian; assembly, boundary constraints and PETSc own numerical execution | Reduces hand-derivative maintenance; generated derivatives still depend on correct form, domains and quadrature |
-| [deal.II v9.6.2 step44](https://github.com/dealii/dealii/blob/v9.6.2/examples/step-44/step-44.cc) | Explicit finite-strain material/quad-point state, mixed blocks, optional static condensation | Makes material and algebra inspectable; three-field conventions/spaces must remain consistent |
 | [Laghos v3.1](https://github.com/CEED/Laghos/blob/v3.1/laghos_solver.hpp) | Continuous kinematic and discontinuous thermodynamic spaces, shared force operator, full/partial assembly | Compressible Euler miniapp; high-order tensor-product action can reduce global matrix traffic, with different preconditioning/work costs |
-| [Kratos PFEM pinned 9452ba2](https://github.com/KratosMultiphysics/Kratos/blob/9452ba205627aa4a182368b2fbcbc41bb68b62ab/applications/PfemFluidDynamicsApplication/python_scripts/pfem_fluid_solver.py) | Python orchestration, ModelParts and separate pressure/velocity strategies with moving-mesh settings | Production application infrastructure is larger than an element loop; remeshing/strategy/stabilization details are formulation-specific |
-| [FEBio v4.7 solid domain](https://github.com/febiosoftware/FEBio/blob/v4.7/FEBioMech/FEElasticSolidDomain.cpp) | Elements/material points and domain-level internal-force/stiffness assembly separated from analysis/solver state | Constitutive history and mechanics domain are first-class; broader mechanics coverage is not proof of this reference fluid branch |
 
 Full assembly stores global sparse operators and enables established factorizations/AMG. Partial assembly stores quadrature/operator data and applies local basis maps; high-order tensor products can reduce work/storage. Neither label alone determines performance. MPI ghost accumulation must gather trial values before element evaluation and sum shared residual contributions afterwards; matrix-free and assembled paths must implement the same constrained action. Quadrature histories need accepted/candidate semantics even when a framework offers convenient mutable material objects.
 
@@ -254,4 +185,4 @@ A complete minimal algorithm is not completed scientific qualification. The sele
 
 For a smooth stable conforming elliptic problem with coercivity constant \(\alpha\), continuity constant \(C\), exact integration and Galerkin orthogonality, Céa's argument yields \(\|u-u_h\|_V\le(C/\alpha)\inf_{w_h}\|u-w_h\|_V\). Proof: test the error relation against \(u_h-w_h\), use coercivity and continuity, then divide by the error norm (zero error is immediate). Interpolation estimates on shape-regular meshes can give order-k energy errors and, with extra regularity/duality assumptions, higher L2 orders. This conditional **linear** result is not a convergence proof for finite-strain contact, moving mixed free surfaces, mesh degeneration or the proposed nonlinear timestep.
 
-A future bounded qualification should start with one owned small mesh, one exact case, explicit maximum DOFs/steps/iterations, wall/CPU/memory/output limits and an independently reviewed oracle. Broader parameter sweeps, adversarial corrupted outputs and native performance follow only through a separate admission. The [review and qualification guide](../lagrangian/review-guide.md) names those pending needs. No existing numerical threshold or proof receipt is broadened by these chapters.
+A future bounded qualification should start with one owned small mesh, one exact case, explicit maximum DOFs/steps/iterations, wall/CPU/memory/output limits and an independently reviewed oracle. Broader parameter sweeps, adversarial corrupted outputs and native performance follow only through a separate admission. The [publication source and scope audit](../implementation/lagrangian-fem-sources-and-scope.md) records these pending needs and the conservative implementation-source selection. No existing numerical threshold or proof receipt is broadened by these chapters.

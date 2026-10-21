@@ -1,6 +1,6 @@
 # 31 Stress, constitutive laws and weak forms
 
-[Chapter 30](30-material-motion-and-conservation.md) fixes coordinates, units and signs. This chapter turns conservation into an equation that finite elements can integrate. The independently derived formulas below use the conventions of that chapter; the [Sierra/SM 5.30 theory manual](https://www.sandia.gov/files/sierra/SM_Theory_5_30/index.html), chapters 3–9, supplies a primary technical reference. A paper using pressure positive in tension requires a sign conversion before comparison.
+[Chapter 30](30-material-motion-and-conservation.md) fixes coordinates, units and signs. This chapter turns conservation into an equation that finite elements can integrate. The independently derived formulas below use the conventions of that chapter; the [Sierra/SM 5.30 theory manual](https://www.sandia.gov/files/sierra/SM_Theory_5_30/index.html), selected chapters 3, 7 and 9, supplies a primary technical reference. A paper using pressure positive in tension requires a sign conversion before comparison.
 
 ## One force, several stress measures
 
@@ -34,7 +34,7 @@ Select a three-dimensional compressible neo-Hookean teaching law, \(J>0\), \(\mu
        +\frac{\lambda}{2}(\ln J)^2.
 \]
 
-This precise variant is also used in the [DOLFINx v0.9.0 hyperelasticity form](https://github.com/FEniCS/dolfinx/blob/v0.9.0/cpp/demo/hyperelasticity/hyperelasticity.py). Other models called neo-Hookean use different volumetric energies; their stresses and tangents differ. Our reference algorithm is derived from this specified energy, not copied from that implementation.
+Other models called neo-Hookean use different volumetric energies; their stresses and tangents differ. The stress and tangent below are derived directly from this specified energy, so the material choice is explicit rather than inferred from a model name.
 
 Let \(H=F^{-T}\), \(a=\lambda\ln J-\mu\). Differentiating \(\delta\ln J=H:\delta F\) and \(\delta H=-H\delta F^TH\) gives
 
@@ -87,7 +87,7 @@ A pressure load on the current surface is a follower load: \(\bar T=-p_{\mathrm{
 
 Total Lagrangian (TL) uses \(\Omega_0\), \(P\), reference gradients and fixed material mass. Updated Lagrangian (UL) uses the last accepted body \(\Omega_n\) as an incremental reference. If \(f=\partial x_{n+1}/\partial x_n\), then \(F_{n+1}=fF_n\), \(J_{n+1}=\det(f)J_n\), and \(\rho_n=\rho_0/J_n\). Incremental reference stress is \(P^{(n)}=\det(f)\sigma_{n+1}f^{-T}\). Transforming all terms consistently makes the continuum descriptions equivalent; discrete quadrature, constitutive integration and finite precision may produce different implementations.
 
-One may also integrate the current weak form \(\int_{\Omega_t}\nabla_xw:\sigma\,dv\). Linearizing it requires derivatives of current volume, gradients, stress and traction. The resulting spatial tangent contains both constitutive and geometric terms. In TL, directly differentiating \(P(F)\) already contains the complete corresponding elastic derivative; adding another geometric stiffness to that derivative double counts. The [deal.II step-44 tutorial](https://dealii.org/current/doxygen/deal.II/step_44.html) is a primary implementation study of finite-strain mixed mechanics, not evidence that every updated-mesh code implements the same model.
+One may also integrate the current weak form \(\int_{\Omega_t}\nabla_xw:\sigma\,dv\). Linearizing it requires derivatives of current volume, gradients, stress and traction. The resulting spatial tangent contains both constitutive and geometric terms. In TL, directly differentiating \(P(F)\) already contains the complete corresponding elastic derivative; adding another geometric stiffness to that derivative double counts. Agreement between total and updated descriptions requires the same material, configuration transformations and complete linearization; moving the mesh alone does not establish that equivalence.
 
 ## Two hand checks before assembly
 

@@ -1,6 +1,6 @@
 # Native nonzero relative transport on the preceding physical flow
 
-The separate [Lagrangian FEM book expansion](../lagrangian/source-map.md) explains [general ALE/remapping](../chapters/35-contact-coupling-and-ale.md) and [mixed pressure/motion equations](../chapters/34-incompressibility-and-fluids.md). It does not extend this native U=(a,0,w), analytic-zero-relative-pressure family or claim that it already solves general 3D Lagrangian FEM.
+The separate [Lagrangian FEM book expansion](lagrangian-fem-sources-and-scope.md) explains [general ALE/remapping](../chapters/35-contact-coupling-and-ale.md) and [mixed pressure/motion equations](../chapters/34-incompressibility-and-fluids.md). It does not extend this native U=(a,0,w), analytic-zero-relative-pressure family or claim that it already solves general 3D Lagrangian FEM.
 
 The restricted material-frame source `96bb0efb5674d5a9505dcfae1d4ee5d2b73df001` and evidence `d8133c302fa61644062d347c3b387e7f6f5d4e8b` remain frozen. The actual finite-transport research source `b8dc1da4c53b06b4837fce0c241a94a70a7058a2` and evidence `d533f6929ad64d0ae3c39dbf9cb450bc6fd81198` supply the independent physical face-integral reference and preserved negative criteria. This successor implements that connected transport criterion, not a new unrelated flow family or a general pressure-coupled simulator.
 

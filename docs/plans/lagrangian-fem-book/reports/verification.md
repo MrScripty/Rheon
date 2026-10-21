@@ -41,3 +41,10 @@ Supported Library batch create succeeded for the current PDFs, followed in the s
 Final local PDF SHA256 values: completion `2764b6d7a431367f3255e47da39d05277e12633c5c9af4a9cb3b4aa7b099ccc9`; solver extract `f42290ac656580d3b8c61e7cc9a098d20fa029105cd9ced5dc195908ee24b24f`. These identify local rendered bytes; Library IDs identify the retained artifacts. No full builder, numerical/scientific/native/hardware/machine-proof execution, push, merge or deployment.
 
 Final cross-reference review restored the actual conditional gradient/injectivity/determinant/path proof beside its use and added a checked projection-contraction same-box proof. Independent review confirmed both and removal of the stale pointer. The current solver PDF was rerendered, all11 pages re-inspected and replaced successfully under its same Library ID with optimistic version0→1; identity helper exit0. No duplicate Library file was created.
+
+
+## M4 publication revision checks
+
+Focused publication checks pass for chapters30–36 and the public audit guide:647 unchanged TeX expressions rendered with strict pinned KaTeX0.16.22, zero CodeBlock AST nodes,26 local file/anchor links, and60 transitively linked Markdown files with no historical FEM audit reachability. Original formulas/proofs remain; excluded implementation studies are absent from chapter authorities. No normal threshold, admission file or builder/workflow changed relative to current main7516a8e.
+
+An actual document-only Markdown bundle probe could not complete because preexisting generated figure output is absent, first observed at chapter24 `figures/expansion/couette-slip-and-power.svg`. No placeholder was created. The coordinated publisher must run the normal generated-asset/book/PDF/browser checks before publication; focused math rendering is not their substitute. Exact checks/artifacts and the scoped publication handoff are recorded in [publication review](publication-review.md). No FEM numerical/native/hardware/machine-proof execution or deployment occurred in this revision.
