@@ -13,7 +13,7 @@ Publish the reviewed thermodynamics research as Chapters 41–47 on Rheon's exis
 
 Preserve research commit `0f9652572b55419424e51dfd4431acd6f19b9321` and its thirteen documents exactly. It descends from fetched main `b9218038d138d1c73818cf4158757521853a5cd7`. Publication branch `documentation/thermodynamics-chapters41-47-20261021`, worktree `/workspace/Rheon-thermal-publication`, includes that commit by fast-forward and adds the publication projection. Original research and initial work checkouts remain untouched. No force-push, branch deletion or history rewrite.
 
-Portal PR148 at `4b0cec9265a968385dc1361de75023e696d8a927` is under separate PDF/publication review. Do not merge or modify its branch. GPU37–39 are reserved; FEM30–36 is published. Prepare on current main; parent coordinates additive README reconciliation and normal current-main integration after portal lands if necessary. Numbering41–47 leaves those slots intact.
+Portal PR148 was merged on main as `d67aec1a4575e0a61aa8cd931c8eeec33c8dc6a3`. Incorporate that main through an ordinary merge while preserving Chapter40 and its source/audit files; do not modify its branch. GPU37–39 remain separate publication work; FEM30–36 is published. The one additive README conflict retains both complete entries. Numbering41–47 leaves those slots intact.
 
 ## Write set and binding decisions
 
@@ -25,8 +25,8 @@ The current builders discover chapter and implementation Markdown automatically.
 
 | ID | Observable claim | Kind / environment / mode | Status | Evidence |
 |---|---|---|---|---|
-| T1 | Seven principles-first chapters, no pseudocode/copied material, exact reviewed equations/hypotheses | manuscript / text / independent | satisfied | Historical [review](../../research-book/drafts/thermodynamics/review-notes.md); publication retention check pending |
-| T2 | Primary identities, actual access limits, Apache license, compatible selected use and exclusions preserved | source / primary authorities / independent | satisfied | Historical review and new scope guide; integration re-review pending |
+| T1 | Seven principles-first chapters, no pseudocode/copied material, exact reviewed equations/hypotheses | manuscript / text / independent | satisfied | Historical [review](../../research-book/drafts/thermodynamics/review-notes.md); publication retention independently passed |
+| T2 | Primary identities, actual access limits, Apache license, compatible selected use and exclusions preserved | source / primary authorities / independent | satisfied | Historical review and new scope guide; integration independently reviewed |
 | T3 | Chapters/guides discovered, relative links/anchors and equations render, old work preserved | artifact / supported document tools / automated + independent | pending | [Verification](reports/verification.md) |
 | T4 | Exact publication head passes normal required CI including PDF/browser/site checks; actual artifacts reviewed | release artifact / normal runner / automated + manual | pending | [Verification](reports/verification.md) |
 | T5 | Draft PR, exact head, independent review and evidence returned before parent-controlled merge | handoff / GitHub / manual | pending | Completion receipt |
@@ -44,6 +44,6 @@ One existing independent reviewer is assigned read-only review of the complete p
 
 ## Blockers, re-plan and retained resources
 
-Normal exact-head publication evidence and portal dependency reconciliation remain pending. If artifact access is denied or stale in this executor, stop that operation and report exact target/action/outcome; do not recreate a worker, change networking, bypass access or retry uncertain Library uploads. Local PDF review and other independent work may continue within the existing publication rules. A source or equation defect, unanticipated production change, incompatible retained material or unsupported publication path triggers scoped re-plan.
+Normal exact-head publication evidence remains pending. Portal main integration is complete locally. Draft PR creation was rejected once by automatic approval review, which cited the original research-only prohibition despite the later parent-relayed user publication authorization; no PR was created and no alternate route or retry was attempted. Further PR creation requires resolution with materially new relevant authority. If artifact access is denied or stale in this executor, stop that operation and report exact target/action/outcome; do not recreate a worker, change networking, bypass access or retry uncertain Library uploads. Local PDF review and other independent work may continue within the existing publication rules. A source or equation defect, unanticipated production change, incompatible retained material or unsupported publication path triggers scoped re-plan.
 
 Both task-created worktrees are retained-protected for parent review with heads reachable from their named branches; no cleanup is attempted. Research commit remains a protected ancestor. Retirement requires parent acceptance/rejection and safe recorded resource disposition. No generic prune or deletion of other worktrees is authorized.
