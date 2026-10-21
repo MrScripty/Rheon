@@ -109,3 +109,90 @@ Two equal one-kilogram cells with velocities \(+1\) and \(-1\) m/s have zero mom
 [Chapter11](11-particle-methods.md) contains primary PIC/FLIP/APIC/PBF references and transfer formulas. [Sulsky, Chen and Schreyer (1994)](https://www.sciencedirect.com/science/article/pii/0045782594901120) is an original material-point reference, verified here at bibliographic level only. These method families can share conservation principles and linear algebra while retaining different geometry, quadrature, state and failure modes. Calling every moving particle system a Lagrangian FEM solver would erase precisely the choices a solver implementer must make.
 
 The [research status report](../lagrangian/research-status-report.md) maps every unread reference to its actual manuscript use. In particular, the MPM row is a schematic distinction rather than a verified account of the 1994 Sulsky algorithm; no conservation or stability result is attributed to that unread paper.
+
+## Extension choices after the two minimal algorithms
+
+[Chapter36](36-reference-fem-solver.md) now fixes complete P1 solid and inviscid isentropic-gas paths. The following original derivations expose the extra equations needed to extend them; they are not flags in those algorithms and have not been executed or machine-checked. The existing incompressible viscous candidate and a full thermal fluid require their own state/evidence, as explained in Chapter34.
+
+### ALE weak transport must use the actual mesh trajectory
+
+Let scalar test \(N_a(x,t)\) move with computational velocity a, so \(\partial_tN_a|_x=-a\cdot\nabla N_a\). Put \(c=v-a\), nodal tested mass \(m_a=\int_{\Omega(t)}\rho N_a\,dv\), and tested momentum \(q_a=\int\rho vN_a\,dv\). Reynolds' theorem and integration by parts give
+
+\[
+ \dot m_a-\int_{\Omega(t)}\rho c\cdot\nabla N_a\,dv
+ +\int_{\partial\Omega(t)}\rho N_ac\cdot n\,da=0,
+\]
+
+\[
+ \dot q_a-\int\rho v(c\cdot\nabla N_a)\,dv
+ +\int\sigma\nabla N_a\,dv
+ +\int_{\partial\Omega}N_a[\rho v(c\cdot n)-\sigma n]\,da
+ -\int\rho N_ab\,dv=0.
+\]
+
+For total energy per current volume \(\mathcal E=\rho e+\rho|v|^2/2\), heat flux \(q_h\) and volumetric heat source Q, define \(E_a=\int\mathcal E N_a\,dv\). Its relative flux is
+
+\[
+ \mathcal F_E=\mathcal E(v-a)-\sigma v+q_h,
+ \quad
+ \dot E_a-\int\mathcal F_E\cdot\nabla N_a\,dv
+ +\int_{\partial\Omega}N_a\mathcal F_E\cdot n\,da
+ =\int N_a(\rho b\cdot v+Q)\,dv.
+\]
+
+These equations distinguish physical stress power from mesh transport. Setting a=v removes only relative advective transport; it does not remove pressure/viscous work from thermal energy. In a fixed mesh a=0 they recover the conservative spatial weak form. They are continuous weak identities, not a chosen upwind, stabilized or fully discrete ALE method. A future scheme must select fluxes, moving-basis quadrature, time integration, boundary states and a discrete GCL on the same trajectory. Choosing new node positions from smoothing alone does not determine those fluxes.
+
+A conservative rezone at one physical time offers another path. On a common old/new intersection tessellation, transfer mass, momentum and (for a thermal model) total energy using their actual old fields. With P1 old velocity and cellwise density/energy, kinetic-energy density is quadratic on old tetrahedra, so even exact overlap volumes alone are insufficient: momentum/energy need corresponding moments or adequate intersection quadrature. Then compute new velocity from a declared mass metric and internal energy from total minus kinetic energy. Require positive mass and internal energy; reject an inadmissible transfer rather than floor it.
+
+The selected isentropic model has no independent thermal energy or entropy degree of freedom. A dissipative remap may preserve mass/momentum while losing kinetic energy, but it cannot both convert that loss to heat and retain the same frozen isentrope without changing the model. Either keep a declared barotropic mechanical-loss ledger, or move to the thermal extension and transfer its entropy/energy consistently. This choice is part of physics/state ownership, not a cosmetic interpolation option.
+
+### Capillarity has a concrete surface residual and tangent
+
+For a current surface triangle with positions \(x_a,x_b,x_c\), define \(u=x_b-x_a\), \(w=x_c-x_a\), \(c_s=u\times w\), area \(A_s=|c_s|/2\), and unit normal \(n=c_s/|c_s|\). Constant surface tension \(\gamma_s\), N/m, has energy \(\gamma_sA_s\). Its **internal residual**, whose negative is the applied capillary force, is
+
+\[
+ f_b^\gamma=\tfrac12\gamma_s(w\times n),\qquad
+ f_c^\gamma=\tfrac12\gamma_s(n\times u),\qquad
+ f_a^\gamma=-f_b^\gamma-f_c^\gamma.
+\]
+
+The derivative in an arbitrary nodal direction is implementable without choosing a separate pointwise curvature sign:
+
+\[
+ \delta c_s=\delta u\times w+u\times\delta w,\quad
+ \delta n=(I-nn^T)\delta c_s/|c_s|,
+\]
+\[
+ \delta f_b^\gamma=\tfrac12\gamma_s(\delta w\times n+w\times\delta n),
+ \quad
+ \delta f_c^\gamma=\tfrac12\gamma_s(\delta n\times u+n\times\delta u),
+ \quad\delta f_a^\gamma=-\delta f_b^\gamma-\delta f_c^\gamma.
+\]
+
+The gradient has force units because \(\nabla_xA_s\) has length units. A degenerate triangle has undefined n and must be rejected, not repaired by an arbitrary area floor. Translation invariance gives zero resultant, and rotation invariance gives zero net internal torque in exact consistent assembly. For the unit right triangle in the xy plane, area1/2 and \(n=e_3\), the gradients are \(f_b^\gamma=\gamma_se_1/2\), \(f_c^\gamma=\gamma_se_2/2\), \(f_a^\gamma=-\gamma_s(e_1+e_2)/2\), a hand sign check.
+
+For a closed interface against constant ambient absolute pressure \(p_{\mathrm{ext}}\), include \(p_{\mathrm{ext}}V+\gamma_sA\) in the potential in addition to the interior energy. On a smooth sphere of radius R, stationarity gives \(-p4\pi R^2+p_{\mathrm{ext}}4\pi R^2+8\pi\gamma_sR=0\), hence \(p-p_{\mathrm{ext}}=2\gamma_s/R\). This conditional continuum calculation fixes the outward-normal/pressure sign; it is not an executed mesh droplet. A contact line adds solid/interface energies and an explicit wall-slip/contact-angle model. Neither the fixed-box gas nor clamped-solid core currently contains these boundaries.
+
+### Contact and FSI require a selected kinematic interface law
+
+A simple fixed-plane node contact could use \(g=n\cdot x-c_0\), \(|n|=1\), g≥0. The active penalty residual \(\epsilon_cg n\) and tangent \(\epsilon_cnn^T\), for g<0, follow from the earlier penalty energy. This closes a point-plane penalty law but deliberately permits penetration. It does not discretize distributed surface contact, Coulomb slip, moving finite facets or global self-contact. A multiplier alternative must solve complementarity, and an IPC alternative needs its own inspected barrier/collision algorithm. Those are separate numerical choices; the source-access caveats remain.
+
+For a fixed discrete FSI interface map, select matrices \(C_s,C_f\) acting on solid/fluid velocities and a multiplier λ. **Normal-only** matching is the natural inviscid impermeability choice for selected gas G; full vector no-slip requires a viscous interface model or an explicitly different welded model. Write semidiscrete balances
+
+\[
+ M_s\dot v_s+f_s^{\mathrm{int}}+C_s^T\lambda=f_s^{\mathrm{ext}},\quad
+ M_f\dot v_f+f_f^{\mathrm{int}}-C_f^T\lambda=f_f^{\mathrm{ext}},\quad
+ C_sv_s-C_fv_f=0.
+\]
+
+The applied interface powers cancel because their sum is \(-\lambda^T(C_sv_s-C_fv_f)\). Matrices must include the actual interpolation, normals and integration metrics. A visual match of interface nodes is not that work proof. With fixed maps and initially compatible positions, backward-Euler displacement coupling uses \(c=C_s\Delta d_s-C_f\Delta d_f=0\). Its Newton blocks have the form
+
+\[
+ \begin{bmatrix}K_s&0&C_s^T\\0&K_f&-C_f^T\\C_s&-C_f&0\end{bmatrix}
+ \begin{bmatrix}\delta d_s\\\delta d_f\\\delta\lambda\end{bmatrix}
+ =-\begin{bmatrix}r_s\\r_f\\c\end{bmatrix}.
+\]
+
+Force and displacement rows have different units and require explicit scaling. For moving normals or changing nonmatching interpolation, differentiate the **actual nonlinear** interface residual including \(\delta C^T\lambda\) and kinematic derivatives; the fixed-map block alone is not a general FSI tangent. The coupling-force multiplier λ is independent of the gas thermodynamic pressure p. That p is EOS-derived in gas G; the mixed incompressible candidate instead has its own pressure multiplier. The FSI λ, EOS pressure and incompressibility multiplier must not be silently interchanged.
+
+A monolithic implementation would require interface constraint rank/gauge checks, compatible initial conditions, a saddle solve/preconditioner and coupled nonlinear feasibility. A partitioned implementation would additionally require a specified iteration, acceleration/relaxation, common convergence/work gate and bounded failure. The earlier scalar added-mass recurrence explains a possible failure mechanism but selects none of those algorithms. Thus the extension equations are more explicit than a survey, while advanced general contact/FSI remains distinct from the two complete minimal core paths.

@@ -1,6 +1,6 @@
 # 34 Incompressibility, locking and material-mesh fluids
 
-A moving connected mesh does not choose the material law. Solids retain deformation-dependent shear stress; Newtonian fluids dissipate through velocity gradients. This chapter first explains mixed stability, then specifies a complete finite-dimensional moving-fluid timestep. It is an independently derived reference formulation, **not a newly validated method or a theorem of nonlinear convergence**. Its derivative is specified so that [Chapter 36](36-reference-fem-solver.md) can give an implementable algorithm. No Rheon production capability is implied.
+A moving connected mesh does not choose the material law. Solids retain deformation-dependent shear stress; Newtonian fluids dissipate through velocity gradients. This chapter first explains mixed stability, then specifies a candidate incompressible moving-fluid timestep. The later isentropic-gas section selects a smaller compressible model for the complete algorithm in Chapter36. It is an independently derived reference formulation, **not a newly validated method or a theorem of nonlinear convergence**. Its derivative is specified so that [Chapter 36](36-reference-fem-solver.md) can give an implementable algorithm. No Rheon production capability is implied.
 
 ## Why displacement-only elements lock
 
@@ -118,3 +118,63 @@ On a material fluid boundary \(\dot x=v\). With no surface tension and relative 
 The new fluid residual is fully specified but has no unconditional energy theorem: endpoint pressure work need not vanish from the endpoint volume moments. Weak volume control permits local compression, and a P2 determinant can fail between samples. Mesh distortion persists even when volume is constant. Before adopting this branch, qualify temporal/spatial consistency, mixed stability on the actual family, pressure/traction convergence, geometric feasibility and finite-step work. None of these is established by a successful nonlinear solve alone.
 
 A compressible extension requires a thermodynamic state, equation of state, internal-energy update and compatible momentum/work assembly. For an abstract force matrix \(F_c\), a pairing \(M_v\dot v=-F_c\mathbf1\), \(M_e\dot e=F_c^Tv\) cancels kinetic/internal power in exact semidiscrete arithmetic. Shock viscosity adds entropy and must be paired consistently; an arbitrary explicit RK integrator need not preserve fully discrete total energy. [Laghos v3.1 operator declaration](https://github.com/CEED/Laghos/blob/v3.1/laghos_solver.hpp) illustrates separate kinematic/thermodynamic spaces and force operators. It does not validate our incompressible equations.
+
+## Selected complete material-mesh fluid: smooth isentropic gas
+
+The mixed incompressible method above remains an advanced candidate whose moving-space stability and finite-step work require further research. To give the reader one closed fluid algorithm now, [Chapter36](36-reference-fem-solver.md) selects a **compressible inviscid barotropic gas** on P1 material tetrahedra. Its pressure is computed from density, not solved as an independent multiplier. It has no mixed inf-sup condition or pressure gauge. This is a deliberately smaller fluid model, not an implementation or validation claim.
+
+Start with the perfect-gas relations from [Chapter26](26-compressible-state-and-waves.md), absolute pressure \(p=(\gamma-1)\rho e\), \(\gamma>1\). For smooth adiabatic inviscid material motion, \(de=p\,d\rho/\rho^2\). Substitution gives \(de/e=(\gamma-1)d\rho/\rho\), so \(e=e_0(\rho/\rho_0)^{\gamma-1}\) on an isentrope. With \(\rho=\rho_0/J\), reference pressure \(p_0=(\gamma-1)\rho_0e_0>0\), and fixed reference density,
+
+\[
+ \rho=\rho_0/J,\qquad e=e_0J^{1-\gamma},\qquad
+ p=p_0J^{-\gamma},\qquad c^2=\gamma p/\rho.
+\]
+
+All powers act on dimensionless \(J\), so no dimensional reference is hidden in a fractional power. \(p\) is absolute thermodynamic pressure in Pa, \(e\) is J/kg and \(c\) is m/s. The material entropy parameter \(p_0/\rho_0^\gamma\) is constant along a trajectory; the selected core uses the same value in all elements. A frozen isentrope does not describe viscous/shock heating.
+
+Define physical internal energy per reference volume
+
+\[
+ W_g(F)=\rho_0e=\frac{p_0}{\gamma-1}J^{1-\gamma},\quad J>0.
+\]
+
+This is volumetric internal energy, not elastic shear energy. Since \(dW_g/dJ=-p\), the variational pressure stress and Cauchy stress are
+
+\[
+ P_g=-p\operatorname{Cof}F=-pJ F^{-T},\qquad
+ \sigma_g=J^{-1}P_gF^T=-pI.
+\]
+
+**Checked constitutive derivative.** Put \(H=F^{-T}\), \(Z=\delta F\), \(q=pJ\). Then \(\delta q=(1-\gamma)q(H:Z)\), \(\delta H=-HZ^TH\), and
+
+\[
+ \mathcal A_g[Z]=(\gamma-1)q(H:Z)H+qHZ^TH,
+ \quad
+ (\mathcal A_g)_{iAjB}=(\gamma-1)qH_{iA}H_{jB}+qH_{iB}H_{jA}.
+\]
+
+For constant element density/entropy and affine P1 motion, \(F,J,p,W_g,P_g,\mathcal A_g\) are constant within a tetrahedron. The element internal force is \(|K_0|P_g\nabla_XN_a\); the tangent is the same contraction as Chapter32 with \(\mathcal A_g\). Reference mass stays constant. No pressure interpolation, density advection, pressure pin, energy clipping or independent volume update is added to this selected model.
+
+At rest \(F=I\), \(P_g=-p_0I\), so gas is **not** stress-free. Rigid rotation keeps \(J,p,W_g\) unchanged and Cauchy stress isotropic, but does not make stress vanish. A closed box supplies normal wall reactions. On the fixed coordinate walls the admissible tests satisfy \(w\cdot n=0\); a uniform pressure gives zero free residual because \(-p_0\int\nabla\cdot w=-p_0\int_{\partial\Omega}w\cdot n=0\). Discarding constrained force components would hide the force on the container.
+
+Although \(W_g''(J)=\gamma p/J>0\), convexity in scalar \(J\) does not imply convexity in nodal displacement because determinant is nonlinear. The earlier conditional backward-Euler energy result is not upgraded to a universal theorem. Near uniform rest on a fixed box, the second variation of total volume vanishes for admissible variations, so the assembled gas stiffness reduces to \(\int\gamma p_0(\nabla\cdot w)(\nabla\cdot z)\,dV_0\). It penalizes compression and has solenoidal zero-stiffness modes, consistent with the absence of elastic shear modulus. Inertia makes the linearized backward-Euler operator positive definite on this finite velocity space; this local observation is not a nonlinear coercivity or convergence theorem.
+
+For \(\rho_0=p_0=1\) in SI and \(\gamma=5/3\), reference specific energy is \(e_0=3/2\) J/kg and sound speed squared is \(5/3\) m\(^2\)/s\(^2\). A material constitutive check at isotropic compression \(F=I/2\) gives \(J=1/8\), \(\rho=8\), \(p=32\), \(e=6\), \(W_g=6\), and \(P_g=-8I\), with corresponding SI units. That compression violates Chapter36's restrictive mesh guard and fixed-wall boundary data; it is an element-law check, not an admissible whole-box step. For an infinitesimal breathing increment \(Z=\epsilon I\) at rest, the tangent gives \(\delta P_g=(3\gamma-2)p_0\epsilon I=3p_0\epsilon I\), agreeing with direct differentiation of \(P_g(sI)=-p_0s^{2-3\gamma}I\).
+
+## From the selected isentrope to a full thermal fluid
+
+The barotropic core closes a smooth material momentum problem with internal energy prescribed by density. It does not independently evolve a thermal degree of freedom, enforce an entropy inequality through shocks or convert numerical time-stepping losses into heat. Pressure/density jumps at shocks, cavitation, heat conduction and viscosity require a larger model. Mesh/admissibility checks cannot certify that a smooth PDE solution still exists; a passing algebraic step is not a shock-detection certificate.
+
+A concrete next semidiscrete thermal choice is continuous P1 velocity and cellwise constant specific energy \(e_e\) on each material tetrahedron, with \(m_e=\rho_{0,e}|K_{0,e}|\). Let \(V_e=J_e|K_{0,e}|\), \(L_e=(\nabla_Xv_e)F_e^{-1}\), \(\vartheta_e=\mathrm{tr}L_e\), \(p_e=(\gamma-1)(m_e/V_e)e_e\). For adiabatic inviscid flow with no external power (including stationary normal walls with v dot n zero), define
+
+\[
+ f^{\mathrm{int}}_{e,a}=|K_{0,e}|(-p_eJ_eF_e^{-T})\nabla_XN_a,
+ \quad M_0\dot v=-f^{\mathrm{int}}+f_{\mathrm{support}},
+ \quad m_e\dot e_e=-p_eV_e\vartheta_e.
+\]
+
+For stationary essential constraints write \(v=Rz\), \(R^Tf_{\mathrm{support}}=0\) and solve \(R^TM_0R\dot z=-R^Tf^{\mathrm{int}}\); the full balance retains the wall reactions rather than setting them to zero. Thus \(v^Tf_{\mathrm{support}}=0\). Dotting momentum with nodal velocity gives \(\dot T=\sum_ep_eV_e\vartheta_e\); summing the cell internal-energy equations cancels this power exactly in the semidiscrete, exact-arithmetic model. Compression \(\vartheta_e<0\) raises internal energy. A fully discrete integrator still needs a compatible work update and positive-energy acceptance; ordinary independent endpoint updates do not inherit exact total-energy conservation.
+
+For a compressible Newtonian stress \(\sigma=-pI+\tau\), with \(\tau=2\eta\operatorname{dev}D+\zeta\vartheta I\), \(\eta,\zeta\ge0\), add the same viscous stress to nodal momentum and \(V_e\tau:D\) to internal heating. The latter equals \(V_e[2\eta|\operatorname{dev}D|^2+\zeta\vartheta^2]\ge0\). Boundary heat flux and intercell heat exchange need their own conservative pairing. Artificial shock viscosity must be separately declared and shown to produce admissible heating; an arbitrary velocity smoother is not a physical thermodynamic closure.
+
+The inspected [Laghos v3.1 operator source](https://github.com/CEED/Laghos/blob/v3.1/laghos_solver.cpp), blob `2a04477bca658a5fa7731691a505fc6df25dc3f8`, contains an explicit position/velocity/specific-energy state and the ideal-gas pressure/sound-speed calculation near lines1005–1008. Its shared force operation connects momentum and energy. This is accessible primary source evidence; no unread Dobrev article theorem is needed for the algebra above. The inspected kernel also floors a sampled energy before evaluating pressure; that implementation choice is **not** imported. Our core rejects nonpositive/invalid constitutive states instead. High-order spaces, artificial viscosity, device kernels and Laghos's own time-integration details remain distinct from this book's low-order implicit algorithm.

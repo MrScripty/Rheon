@@ -4,7 +4,9 @@ author: "Book author: Puma"
 date: "21 October 2026"
 ---
 
-# What this milestone delivers
+# What the M2 milestone delivered
+
+**Historical M2 audit:** the preserved seven-page PDF describes checkpoint `5b5b1de`; it remains unchanged. The later [M3 completion supplement](minimal-solver-completion.md) and current chapters34–36 close selected solid/gas numerical choices and add independent fluid/extension derivations. The omissions listed below describe M2 unless the M3 supplement explicitly carries them forward. Full-text access statuses remain current.
 
 Seven chapters form a connected, principles-first path from material motion to solid and incompressible-fluid FEM algorithms. The preserved draft checkpoint is `9489aa3c1bd6652f9ab1874fce904853b9063dc3`, on the dedicated branch `research/lagrangian-fem-book-20261021`, based on main `fd7c0f0aee63bc8710df99f9bb01154e7619b974`. This report audits that checkpoint and the subsequent attribution clarifications. It is a research milestone, not full research closure or a new general Rheon solver.
 
@@ -101,6 +103,8 @@ These are source studies, not six installed or benchmarked solvers. Retrieval da
 **O6, FEBio v4.7.** [FEElasticSolidDomain.cpp](https://github.com/febiosoftware/FEBio/blob/v4.7/FEBioMech/FEElasticSolidDomain.cpp) separates material-point/domain state and material/geometric stiffness assembly. [LICENSE](https://github.com/febiosoftware/FEBio/blob/v4.7/LICENSE) and the source header use MIT terms. Copyright-FEBio.txt and dependencies would need inspection before reuse. This is not an audit of FEBio fluid modules.
 
 # Coverage audit: fluids and solids are present, research closure is incomplete
+
+This is the **M2 checkpoint inventory**, retained for traceability. M3 closes the selected compressible isentropic gas, exact quadrature and numerical-selection gaps and adds continuous ALE fluxes, discrete triangle capillary derivatives and fixed-interface coupling blocks. The supplement distinguishes those completed pieces from the remaining general solvers; do not read this historical list as an omission of the new chapters.
 
 **Solid core:** the path reaches a specified hyperelastic law, consistent residual/tangent, P1 tetrahedral assembly, explicit/implicit updates and bounded Newton dataflow. It does not give a complete plastic/viscoelastic material integrator, fracture, calibrated material study, general nonconvex large-deformation geometry certificate, or full updated-Lagrangian element implementation. The simple geometry guard intentionally rejects many valid large deformations. The exposition therefore supports a selected reference core, not arbitrary solids.
 
