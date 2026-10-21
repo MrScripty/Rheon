@@ -72,7 +72,9 @@ jobs:
   feature-contracts:
     name: Feature contracts (${{ matrix.mode }})
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    # Full ordinary desktop contracts exceeded the prior outer job budget.
+    # Test commands, per-case bounds and all acceptance gates stay unchanged.
+    timeout-minutes: 60
     env:
       CARGO_BUILD_JOBS: '1'
     strategy:

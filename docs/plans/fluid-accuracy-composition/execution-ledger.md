@@ -319,3 +319,45 @@ its failure log remains external. Complete selector review identifies152 paths,
 0 added, 2 Cargo changes, 150 unchanged, 0 removed. Independent admission review
 and fresh committed-source qualification are next; final merged-main verification
 and normal merge remain with the lead. No scientific campaign is rerun.
+
+
+## 2026-10-21 — PR142 exact source qualification and evidence reconciliation
+
+Committed source `dbd49d3e41c482a753884abc8aaaff7d1b0d0653`, tree
+`2f37db7c119b846003f5a01a82d46c4cf965b474`, retains parents4f2d553 and15026a9.
+Independent review checked all152 committed inputs and explicit existing-v3
+refresh before execution. Fresh native18 commands,35Rust tests,5specimens,
+gate5+5/oracle10+10 and actual packet26+26/no skips pass; local complete
+core-only722/0failed/10ignored and85top-level harnesses pass. Every1903 committed
+file hash and actual exporter/ELF custody remains bound to that source.
+
+All three ordinary hosted feature jobs in run39688034222 attempt1 and its
+executable/aggregate passed. Raw checkoutd5ef6e2 has exactly dbd49d3's tree;
+independent audit verifies core722/10ignored, default730/10ignored and desktop
+1114/17ignored (four nested child summaries excluded). Those counts are per-mode
+top-level results, not distinct tests or ignored acceptance.
+
+The [explicit evidence replan](reports/pr142-completion-20261021/evidence-reconciliation.md)
+accepts those completed source-identical hosted gates with completed local
+native/packet/core. Continued local default/desktop duplication adds no deciding
+claim. The lead intentionally sent SIGINT to its exact owned duplicate default
+material test at23:07:41UTC; Cargo101/signal2 and original `failed` progressive
+journal/traceback/partial logs remain, never relabelled all-local success. Driver,
+Cargo and test process absence was confirmed before report/workflow edits.
+No local desktop execution is claimed. No assertion or gate was weakened.
+
+Sealed191-member raw ZIP is153125915bytes at SHA256
+4d55283ec9894b5c4c742e743913b6bc63fc8fbf413a21b6c6e6098d8e1fa04e;
+CRC and every member SHA256 verified. Independent archive/execution review passes. New-archive Library saving failed
+before preparation (hosted tool-list network failure), returned no identity and
+was not retried or rerouted. Raw archive remains locally intact; compact frozen
+native/packet/custody manifests are retained in Git. Final result-document review
+is separate. Historical receipts and branches remain.
+
+The independently reviewed outer feature-job budget change30→60 in
+rust-rheon.yml addresses actual historical PR143 desktop30-minute cancellation.
+Commands, matrix, all assertions/per-case/scientific bounds, executable and
+aggregate are unchanged; PR142's original exact-head hosted feature jobs already
+passed below30 minutes. Runtime/build/qualifier152-map and frozen admission
+bytes remain unchanged by this workflow/document-only follow-up. Final new-head
+hosted checks, review and normal merge/post-merge verification remain pending.
