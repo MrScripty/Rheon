@@ -1,13 +1,13 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Explicit reviewed production-policy force enabling candidate after fully qualified3ce3f29, preserving all prior backend/UI admission history. Complete136-path selection:11reviewed desktop sources rebound,125unchanged,none added/removed. No equation/schema/threshold/selector changes. New actual-App input/resource protocol remains pending native-owner process/graphics facts and separately reviewed execution; fresh clean committed-source native/rational and full hosted qualification remain required.",
+  "scope": "Reviewed cfg(test)-only Scene readiness assertion repair after production enabling21e: exact supported success and unsupported-owner refusal, preserving all historical reviews. Complete136-path inventory:1reviewed test source rebound,135unchanged,none added/removed. Production bytes,App contract,tools,selectors,thresholds and v1/v2 bindings unchanged. Fresh clean committed-source qualification required; actual-App execution remains separately bounded and pending native-owner review.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "fe11734e336ae2527aa8f96cac81c284da3d50229317a2c1fb5a0c6b79e97510",
+  "review_sha256": "32e81e49279b1a0f0fb7f0f35d3264f504099a856d8c09375af3215b6d424e9a",
   "source_sha256": {
     "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
     "Cargo.toml": "f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae",
@@ -68,7 +68,7 @@
     "src/bin/desktop/run_sets/configured/archive.rs": "eb1d8e77019eb57afd9e5fd5f57af55f8ff320527ec8efc935945bd7ff477806",
     "src/bin/desktop/run_sets/source.rs": "39e8982fffaf4e9adcd0ca0c60f49eabc96b829957bc6d9c05479c80eee99daf",
     "src/bin/desktop/scene_handles.rs": "4818b85644a2891de562adc00fc203eb59c674bbf46aa88cd440bcab6477eb22",
-    "src/bin/desktop/scene_ui.rs": "8ec81841a2792621205e58d7fdb80078ed75c94b823ddd6cb14976c0decda1a7",
+    "src/bin/desktop/scene_ui.rs": "e98c8aa0449b8f1adac4eb8a5bdc9a0951bd0b054f4dd2575d31dee30990c922",
     "src/bin/desktop/scene_view.rs": "d16851804c3aa727c7fdf658a821ef8c8cd2c167e853b72d02604f2a14dfa02f",
     "src/bin/desktop/settings.rs": "72a2e42de38100fa7cb517bfa7c1b9377975d23c3c4cd887615c296549c093c4",
     "src/bin/desktop/setup_ui_tests.rs": "278b7a20f5d48a4e8a6c8ee2a4b18f0377f09f78bd64b34cfb20d4545ebc2563",

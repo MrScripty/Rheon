@@ -738,10 +738,13 @@ mod tests {
             let (output, _) = frame(&ctx, &mut scene, width, vec![]);
             click(&ctx, &mut scene, width, &output, "Enabled", false);
             assert!(!scene.forces.objects[2].enabled);
-            assert!(
-                scene
-                    .launch_readiness(super::super::force_run_policy::Target::NativeCarrier)
-                    .is_err()
+            assert_eq!(
+                scene.launch_readiness(super::super::force_run_policy::Target::NativeCarrier),
+                Ok(())
+            );
+            assert_eq!(
+                scene.launch_readiness(super::super::force_run_policy::Target::Unsupported),
+                Err(super::super::force_run_policy::UNSUPPORTED.into())
             );
             let (output, _) = frame(&ctx, &mut scene, width, vec![]);
             click(&ctx, &mut scene, width, &output, "Hide scene", false);

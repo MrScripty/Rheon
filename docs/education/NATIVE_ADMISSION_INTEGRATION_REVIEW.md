@@ -1377,3 +1377,60 @@ including real packet normal/optimized rejection tests, must bind that actual
 source. No receipt refresh, allow-dirty, gate skip, threshold relaxation, budget
 expansion or PR merge is admitted by this source-identity record. FEMPR147 remains
 outside this change; recheck main/dependencies before integration.
+
+## Reviewed Pending-era Scene test assertion repair after 21e70bd
+
+The entire preceding review is preserved byte-for-byte from
+`21e70bdeb42f529b63ee3cab5a08331c09646c9f`: 92814 bytes, SHA256
+`fe11734e336ae2527aa8f96cac81c284da3d50229317a2c1fb5a0c6b79e97510`. Its v3 manifest SHA256 remains
+`3a2e70e515adc69ac3ce5b2713538bb0096c85505e8ac0f0142de0611fd7ba3b` in Git history.
+The new repair does not reinterpret the fully qualified3ce checkpoint or21e's
+fresh dedicated qualification receipts as receipts for the next source revision.
+
+Actual21e Rust run39543779071 desktop job119037237201 failed its contract step:
+`scene_ui::tests::scene_pointer_add_select_edit_collapse_and_retained_context`
+still asserted NativeCarrier readiness was an error at scene_ui.rs741. The actual
+checkout ccd3514e431f20aa7a53806ed90462c56f44b0c2 has the exact21e tree
+cfadc610a1299a4e1fc84d68dba2ed3daeb4f7c6. Its desktop result was203passed,
+1failed,4ignored; it stopped before integration targets. Strict lints had passed.
+Original logs,21e receipts and the prior sealed local binary remain preserved.
+
+The exact minimal source patch SHA256
+`cbe01f17a79d9c9367c532778d4380865352dda214ce60aa4d4d068bf1ee7d90`
+replaces this Pending-era expectation with exact NativeCarrier `Ok(())` and exact
+Unsupported `Err(UNSUPPORTED.into())`. The valid scene contains three authored
+objects after normal egui edits, with its Vortex disabled. Authored presence stays
+unsupported for the unsupported owner; successful supported readiness now matches
+the intentionally enabled shared production policy. This is a changed eligibility
+contract assertion, not weakened numerical validation or acceptance of any error.
+
+Only assertions inside `#[cfg(test)] mod tests` change. The production prefix of
+scene_ui.rs before that module is byte-identical to21e, SHA256
+`0e952e9d717d4b0ed9e6491d53ca334cf386d78d885fee33864aeade5a88d746`. No production control, solver, evaluator, recording, force-scene,
+App input protocol, threshold, selector or qualification tool changes. The existing
+actual-App contract remains SHA256
+`80043585fd578cd625d5b2a24b4b66173fd852eed9643a50d82338a0908f0d10`.
+Native process/graphics/SQLite/output/termination review and A/B/C execution remain
+separate and pending; no numerical App work was duplicated here.
+
+Independent review inspected the actual patch and complete pure helper closure:
+SceneUi, canonical metadata and egui context/frame/click/key/replace only, widths
+900/1250. No App/Worker, solver/evaluator, filesystem, recorder, model or subprocess
+helper is reached. The newly compiled sealed test binary SHA256
+`50b03c3df9af47e943c2f502f3d7835336d3d7c4786fda6daf4787cbd4bc2dfb`
+enumerated208unique tests. The exact failing case passed once,1passed/207filtered,
+exit0, no signals, under30s wall/20sCPU/512MiBAS/1MiBfile+log, TERM then
+owned-child KILL after1s grace, testthreads1 and no parallel feature pool. Its log
+SHA256 is `cfd66d3415f86438f655afefa87eb3c71540bb40926fbe78cb1eadfe8bc75a5f`.
+Compile-only, strict desktop all-target Clippy and formatting passed. No broad local
+tests, scientific L1/MMS or numerical/SQLite workloads were executed for this repair.
+
+The complete conservative inventory remains136paths: only
+`src/bin/desktop/scene_ui.rs` changes to SHA256
+`e98c8aa0449b8f1adac4eb8a5bdc9a0951bd0b054f4dd2575d31dee30990c922`;
+135unchanged pins were checked against actual files and the21e inventory; none
+added or removed. Historical v1/v2 bindings and review bytes remain intact. The
+actual complete three-file candidate requires independent review before atomic
+commit/publication, then fresh clean committed-source existing native/rational
+and normal Rust/book qualification. No stale receipt refresh, dirty-source bypass,
+threshold relaxation, workflow expansion, merge or FEMPR147 changes are admitted.
