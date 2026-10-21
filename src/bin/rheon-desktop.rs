@@ -2825,6 +2825,11 @@ fn main() -> eframe::Result {
     )
 }
 #[cfg(test)]
+fn main() -> eframe::Result {
+    native_presentation_harness::run_native_presentation()
+}
+
+#[cfg(test)]
 mod tests {
     use super::*;
     #[test]
@@ -3874,9 +3879,4 @@ mod tests {
         assert!(app.rows.is_empty());
         assert!(app.status.starts_with("Cancelled"));
     }
-}
-
-#[cfg(test)]
-fn main() -> eframe::Result {
-    native_presentation_harness::run_native_presentation()
 }

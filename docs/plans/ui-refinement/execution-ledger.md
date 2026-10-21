@@ -588,3 +588,21 @@ SQLite, Worker or native execution in this policy slice. OriginalM2a settings ha
 Gate enablement is a later reviewed increment after native prerequisites, with
 private bypass removal and separately bounded candidate validation. No M1/fullforce
 or accessibility/cancellation acceptance inferred from these scalar/Context tests.
+
+
+## CI diagnosis and item ordering —2026-10-21
+
+Fetched main7516a8e/treefef62baa; preserved tested3b and published9099 source/evidence.
+Hosted desktop failures are strictlint-beforetests; rawlog downloads Forbidden and
+stopped, annotations onlyexit101. Compile-only desktop--tests strictClippy reproduces
+2items_after_test_module: test-harnessmain and2Inspectorhelpers. Literal unchanged
+block relocations repair lint; same strict compileonly command passes27.13s; fmt/diff
+pass. No broad/exact testbody or numerical/native/SQLite workload executed.
+
+Bookbuild fails reviewed-sourceadmission step, notnumerics. Existing124path inventory
+has12added/18changed vs136current conservativepaths. Backendmain126path admission
+is a separate sourceclosure and cannotqualifyUI. Local fullscript insteadstops on
+shallow missingimmutableprimaryrevision; preserve traceback and distinguish from
+unavailable hostedstderr. No hashrefresh/gateweaken/receiptcopy. Exact diagnosis,
+source review and logs underreports/ci-item-order-checkpoint.md and corresponding
+evidence. ProductionPending/fullCI/book/nativeforceacceptance remainopen.

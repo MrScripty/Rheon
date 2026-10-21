@@ -1,0 +1,37 @@
+    Checking rheon v0.1.0 (/workspace/Rheon-ui-authoring)
+error: items after a test module
+    --> src/bin/rheon-desktop.rs:2828:1
+     |
+2828 | mod tests {
+     | ^^^^^^^^^
+...
+3880 | fn main() -> eframe::Result {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+     = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.92.0/index.html#items_after_test_module
+     = note: `-D clippy::items-after-test-module` implied by `-D warnings`
+     = help: to override `-D warnings` add `#[allow(clippy::items_after_test_module)]`
+     = help: move the items to before the test module was defined
+
+error: items after a test module
+    --> src/bin/desktop/inspector.rs:848:1
+     |
+ 848 |   mod tests {
+     |   ^^^^^^^^^
+...
+1166 | / pub(super) fn bind_force_fields(
+1167 | |     run: rheon::recording::RecordingRun,
+1168 | |     fields: Option<&ForceSnapshot>,
+1169 | | ) -> Result<rheon::recording::RecordingRun, String> {
+     | |___________________________________________________^
+...
+1175 | / pub(super) fn verify_force_fields(
+1176 | |     run: &rheon::recording::RecordingRun,
+1177 | |     fields: Option<&ForceSnapshot>,
+1178 | | ) -> Result<(), String> {
+     | |_______________________^
+     |
+     = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.92.0/index.html#items_after_test_module
+     = help: move the items to before the test module was defined
+
+error: could not compile `rheon` (bin "rheon-desktop" test) due to 2 previous errors

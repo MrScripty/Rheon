@@ -844,6 +844,31 @@ fn csv(m: &RecordedMaterial, id: usize, run_id: u64) -> String {
     text
 }
 
+pub(super) fn bind_force_fields(
+    run: rheon::recording::RecordingRun,
+    fields: Option<&ForceSnapshot>,
+) -> Result<rheon::recording::RecordingRun, String> {
+    match fields {
+        Some(fields) => run.with_force_fields(fields).map_err(|e| e.to_string()),
+        None => Ok(run),
+    }
+}
+pub(super) fn verify_force_fields(
+    run: &rheon::recording::RecordingRun,
+    fields: Option<&ForceSnapshot>,
+) -> Result<(), String> {
+    use sha2::{Digest, Sha256};
+    let expected = fields
+        .map(rheon::recording::encode_force_metadata)
+        .transpose()
+        .map_err(|e| e.to_string())?
+        .map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)));
+    if run.force_fields_digest().map_err(|e| e.to_string())? != expected {
+        return Err("Recording force snapshot does not match immutable request".into());
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1161,29 +1186,4 @@ mod tests {
             std::fs::remove_file(path).unwrap();
         }
     }
-}
-
-pub(super) fn bind_force_fields(
-    run: rheon::recording::RecordingRun,
-    fields: Option<&ForceSnapshot>,
-) -> Result<rheon::recording::RecordingRun, String> {
-    match fields {
-        Some(fields) => run.with_force_fields(fields).map_err(|e| e.to_string()),
-        None => Ok(run),
-    }
-}
-pub(super) fn verify_force_fields(
-    run: &rheon::recording::RecordingRun,
-    fields: Option<&ForceSnapshot>,
-) -> Result<(), String> {
-    use sha2::{Digest, Sha256};
-    let expected = fields
-        .map(rheon::recording::encode_force_metadata)
-        .transpose()
-        .map_err(|e| e.to_string())?
-        .map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)));
-    if run.force_fields_digest().map_err(|e| e.to_string())? != expected {
-        return Err("Recording force snapshot does not match immutable request".into());
-    }
-    Ok(())
 }

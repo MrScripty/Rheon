@@ -1,0 +1,56 @@
+{
+  "base": "9099b150e8b80cd750db08276c51e180be4e61f6",
+  "fetched_main": "7516a8e5d328c6dc8eda8ea577cb03f20b2e343a",
+  "fetched_main_tree": "fef62baaeec871ff1d7d7083f73ab843a9cf93df",
+  "tests_executed": false,
+  "production_qualification": "Pending",
+  "admission_modified": false,
+  "ci_raw_log_downloads": "Forbidden; stopped; annotations contain only exit codes",
+  "sources": {
+    "src/bin/rheon-desktop.rs": "dfc472b78c46e83b45668a8d99bb82f721fcc771ddc584cdc8fdaf82272003ff",
+    "src/bin/desktop/inspector.rs": "7a6582faf9bfff755d7fade624f6b11cca06813c75310fba25ccbfabff1d2aae"
+  },
+  "files": [
+    {
+      "file": "rheon-ui-ci-book-9099b15-annotations.json",
+      "bytes": 838,
+      "sha256": "25c4e1d7a31d8d8aee5d04183eb81b897e342e82b3c59ed5b64b3991ec54f2f2"
+    },
+    {
+      "file": "rheon-ui-ci-current-jobs.json",
+      "bytes": 470,
+      "sha256": "8af77b3671e77847358404b9561b222b3f0d6018f1643ec6042b883d6ddddf1f"
+    },
+    {
+      "file": "rheon-ui-ci-desktop-1b37774-annotations.json",
+      "bytes": 842,
+      "sha256": "cdc77942d715d2463df966c3a5e38716c68af18cb9579f498f788ffddd4d6e23"
+    },
+    {
+      "file": "rheon-ui-ci-inventory-diagnosis.json",
+      "bytes": 1410,
+      "sha256": "4bb9dc5e05926f90ba1fce3b4ae826bfa6e83d01c965c14655c5eda7852649f1"
+    },
+    {
+      "file": "rheon-ui-ci-item-order-clippy-tests.log",
+      "bytes": 131,
+      "sha256": "b483aab364793644787ac9d4a26b0f9eba24c3c16592f68e6d0e5925f7d9ee80"
+    },
+    {
+      "file": "rheon-ui-ci-item-order-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-ci-local-admission.log",
+      "bytes": 1646,
+      "sha256": "dc3454e148e2b9908b5c35158a4b0db5fbee703d55e815f331f089a0e9f091e5"
+    },
+    {
+      "file": "rheon-ui-ci-local-tests-clippy.log",
+      "bytes": 1505,
+      "sha256": "6bceabdd4d7a6bd58502e964a36f309c181cc00ebc9797492b6d90d04870a3c3"
+    }
+  ],
+  "source_review_sha256": "b83657790b5110a78ed34b8aa41675026f609871ffd786613ba49f4977f627a8"
+}

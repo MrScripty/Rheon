@@ -1,0 +1,41 @@
+{
+  "head": "9099b150e8b80cd750db08276c51e180be4e61f6",
+  "historical_inventory_paths": 124,
+  "actual_conservative_paths": 136,
+  "added": [
+    "src/bin/desktop/force_run_policy.rs",
+    "src/bin/desktop/force_run_policy_tests.rs",
+    "src/bin/desktop/force_runtime_integration_tests.rs",
+    "src/bin/desktop/force_runtime_ui_tests.rs",
+    "src/bin/desktop/native_presentation_harness.rs",
+    "src/bin/desktop/scene_handles.rs",
+    "src/bin/desktop/scene_ui.rs",
+    "src/bin/desktop/scene_view.rs",
+    "src/bin/desktop/setup_ui_tests.rs",
+    "src/bin/desktop/timeline_ui_tests.rs",
+    "src/force_field.rs",
+    "src/recording/force_fields.rs"
+  ],
+  "removed": [],
+  "changed_pinned": [
+    "Cargo.toml",
+    "src/bin/desktop/carrier_execution.rs",
+    "src/bin/desktop/comparison.rs",
+    "src/bin/desktop/configured_controls.rs",
+    "src/bin/desktop/configured_worker_tests.rs",
+    "src/bin/desktop/inspector.rs",
+    "src/bin/desktop/run_sets.rs",
+    "src/bin/desktop/run_sets/source.rs",
+    "src/bin/desktop/settings.rs",
+    "src/bin/desktop/viewport.rs",
+    "src/bin/rheon-desktop.rs",
+    "src/forces.rs",
+    "src/lib.rs",
+    "src/particle_fluid.rs",
+    "src/recording.rs",
+    "src/recording/carrier.rs",
+    "src/recording/material.rs",
+    "src/simulation.rs"
+  ],
+  "method": "read-only conservative set/hash comparison; not native qualification; does not bypass ancestry gate"
+}
