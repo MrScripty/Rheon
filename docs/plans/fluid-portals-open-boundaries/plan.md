@@ -1,6 +1,6 @@
 # Fluid portals and open reservoir boundaries
 
-**Plan status:** `Deferred` — implementation proposal awaiting explicit admission; the user currently authorized chapter/plan authoring and a documentation draft PR only.
+**Plan status:** `Deferred` — implementation proposal awaiting explicit admission; the user authorized chapter/plan publication, including PR creation, merge and deployment after checks pass; production implementation remains unadmitted.
 
 **Current phase:** M0 scientific, ownership and publication review.
 
@@ -196,7 +196,7 @@ Re-plan for dual-flux closure/CFL or gauge failure; an inconsistent discrete bac
 
 This task may write only new Chapter 40, `docs/research-book/implementation/fluid-portals-sources-and-scope.md`, `docs/research-book/sources/fluid-portals-*.json`, this plan directory, and one additive portal discovery paragraph in `docs/research-book/README.md`. The existing builder discovers chapters/guides automatically: no shared renderer/nav/workflow edit is planned. No root solver, tests, Cargo, proofs, acceptance/admission manifest, FEM chapter/guide, GPU file or PR146 code is owned here.
 
-Task-created worktree `/workspace/Rheon-portals-book`, branch `documentation/fluid-portals-chapter40-plan-20261021`, targets main. It isolates publication text from reviewed research branch `research/fluid-portals-open-boundaries-20261021` and concurrent UI/GPU work. Parent is the serial integration/deployment owner. The documentation branch was pushed. Draft PR creation was subsequently denied by automatic approval review; no retry or alternative creation route is permitted while parent obtains further explicit authorization. No PR, merge, deployment or cleanup is claimed. Retain both worktrees/branches for review and parent-controlled disposition. Chapter number and main/PR scope were reported before shared README editing.
+Task-created worktree `/workspace/Rheon-portals-book`, branch `documentation/fluid-portals-chapter40-plan-20261021`, targets main. It isolates publication text from reviewed research branch `research/fluid-portals-open-boundaries-20261021` and concurrent UI/GPU work. Parent is the serial integration/deployment owner. The documentation branch was pushed. An initial draft-PR attempt was denied and preserved. After explicit clarification and the user’s subsequent yes authorizing documentation creation/merge/deployment after checks, one retry created draft PR148 at reviewed head dcf5b56726aaccefb7ed7fffdd428929f16777bc. Normal source-specific checks and exact final-head verification are required before integration/deployment; no production implementation or cleanup is admitted. Retain both worktrees/branches for review and parent-controlled disposition. Chapter number and main/PR scope were reported before shared README editing.
 
 The concurrent-plan-integration profile is not selected for this single-writer, non-authorizing new proposal: no other actor is editing this canonical plan from the same mutable revision. Shared publication coordination is still real: recheck current main and preserved FEM paths before preparing the PR, and hand off overlap or changed ownership without silently rebasing another owner's work.
 
