@@ -430,6 +430,7 @@ fn liquid_failure_after_qualified_pressure_preserves_pair_and_metadata() {
         .unwrap();
 }
 
+#[cfg(feature = "accepted-pressure-warm-start")]
 #[test]
 fn preferred_and_fallback_remain_cold_after_accepted_native_history() {
     for reject in [false, true] {

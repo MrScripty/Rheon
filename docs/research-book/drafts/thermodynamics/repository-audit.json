@@ -1,0 +1,294 @@
+{
+  "audit_date": "2026-10-21",
+  "repository": "MrScripty/Rheon",
+  "base": "b9218038d138d1c73818cf4158757521853a5cd7",
+  "initial_checkout": "6ba41c7",
+  "worktree": "/workspace/rheon-thermal-research",
+  "branch": "research/thermodynamics-phase-change",
+  "write_set": "docs/research-book/drafts/thermodynamics/**",
+  "chapter_max_on_base": 36,
+  "proposed_chapters": [
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47
+  ],
+  "reserved_by_task": {
+    "GPU": "37-39, separate unmerged draft per user",
+    "portal": "40, PR148 read-only inspection"
+  },
+  "portal_head": "4b0cec9265a968385dc1361de75023e696d8a927",
+  "portal_open_unmerged_at_inspection": true,
+  "source_files": [
+    {
+      "path": "LICENSE",
+      "git_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "Cargo.toml",
+      "git_blob": "7d6846d80bb3d98eace08eb6d6c042642592dbdc",
+      "sha256": "f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae",
+      "bytes": 2332,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "README.md",
+      "git_blob": "c45e4e5a84aae71bcfa19c4872539be4c308e9a4",
+      "sha256": "576954cd220feb32da48a0d76444f890e96d77c9a6a024ec0b1b26f82687bf30",
+      "bytes": 2433,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": ".gitignore",
+      "git_blob": "68376c7654338f91618d309bf1baec8ad9213566",
+      "sha256": "400fafa9dd40470d3ca3871974fb6edc9b9a118069a649b60376ab7e3dded591",
+      "bytes": 1986,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/geometry.rs",
+      "git_blob": "a499e5a06c07584ff3b703037aa4edc8299ef210",
+      "sha256": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634",
+      "bytes": 11743,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/simulation.rs",
+      "git_blob": "b90622371422a6153baa7a78304babfe473bbe22",
+      "sha256": "c08ede6330c4bf6ed7e858e556806ec80628522ceb42286cf52714bf7430c9a1",
+      "bytes": 48293,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/sampling.rs",
+      "git_blob": "e66f1611d7175fa62d54271f44dfa80be23195b0",
+      "sha256": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+      "bytes": 6347,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/advection.rs",
+      "git_blob": "da86a3c28072ca7ca24ea9ac38d5ef25e898c6aa",
+      "sha256": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+      "bytes": 8961,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/operator.rs",
+      "git_blob": "c00052c0371957560a711c4313cb6a2c22833002",
+      "sha256": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+      "bytes": 29555,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/pressure.rs",
+      "git_blob": "1a0dfae6f180fadc4a2f102844e6936eb77720fe",
+      "sha256": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+      "bytes": 28790,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/sgs.rs",
+      "git_blob": "f37e5b3941077bc070f20f4dd048ada6b863b0ea",
+      "sha256": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
+      "bytes": 14651,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/liquid_volume.rs",
+      "git_blob": "1d8cfe9a048ad3ac5a3559cf3e8d6e301b2006dc",
+      "sha256": "24623038f62261ce6a17b034e9b6d82c5f0aba02dd0df7aad174c885ed2a8c96",
+      "bytes": 29752,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/liquid_step.rs",
+      "git_blob": "3c029972102baa12cc2e2c38a1ba28df29d550bc",
+      "sha256": "f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93",
+      "bytes": 32240,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/free_surface.rs",
+      "git_blob": "a23bb3872a00538fde6d10bca7a77aaf3f0f75c6",
+      "sha256": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+      "bytes": 3639,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/column_surface.rs",
+      "git_blob": "5c32d323e556f2be0a4952ce324767540f0a8925",
+      "sha256": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+      "bytes": 15155,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/column_mac.rs",
+      "git_blob": "8c6c3102d691604e35c1586258b3a4e9be8052a1",
+      "sha256": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+      "bytes": 35637,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/box_flux.rs",
+      "git_blob": "7096ad490a95bf6f1ced7a7e0fc9269c5c736509",
+      "sha256": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+      "bytes": 17346,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/box_flux_step.rs",
+      "git_blob": "89af5c53426290eb34ce60bbb7cd31db8b102fff",
+      "sha256": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+      "bytes": 5487,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/viscosity.rs",
+      "git_blob": "b34d186b1e7a482623fd7b9081c28e6c0cb25985",
+      "sha256": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+      "bytes": 15726,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/forces.rs",
+      "git_blob": "3e6069fb7f591e5f419cd3b7847544d4f82feb8d",
+      "sha256": "7b3b48c0813c995a937a44ca1b624411c59dde6419b62041b67456cde2d692d9",
+      "bytes": 10490,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/force_field.rs",
+      "git_blob": "7821e47888f80fdc97c6652401b00bb5c6402279",
+      "sha256": "adecbc5f92b89179a2e38885be2acbcddd42df40061f00ffa5d758224ed045a5",
+      "bytes": 14833,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/material.rs",
+      "git_blob": "50acc6fa8a2a31ed54d703440fd6ed414c8eedc1",
+      "sha256": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+      "bytes": 7103,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/particle_fluid.rs",
+      "git_blob": "9ff431119add487482d1e745b6c6a3963c8d6f55",
+      "sha256": "538c498122bbc1045ae59d7363ff87e1dd9a40003fb48eeae835228ad4c65893",
+      "bytes": 57483,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "src/compressible.rs",
+      "git_blob": "52194461f2edbc05623601a335ecd058ad69b97f",
+      "sha256": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3",
+      "bytes": 29786,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/README.md",
+      "git_blob": "343b78952c4651509d8c4b371e6889d2d50809bd",
+      "sha256": "beb5edde0ed17fb0dee978c8fe68452c118cefc913dba3df85b1a16e4e5d532f",
+      "bytes": 5480,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/build_manuscript.py",
+      "git_blob": "78f8f0e9081b7d0e4040723a13750c111557c469",
+      "sha256": "4809b5dbd7c4adfebf4c170e9f18ece8acc812468b428095083004cc5f123717",
+      "bytes": 13032,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/education/build.py",
+      "git_blob": "96ec934dc723aa2a7ea0ad8e08def994db1cd07c",
+      "sha256": "2a5edbf09bab1027733962feb51264a750efd68dc36037b04148337eec14134c",
+      "bytes": 29303,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/chapters/02-continuum-equations.md",
+      "git_blob": "66411fef007c677b750c5da45ad5b0f5f51e90b6",
+      "sha256": "3297ac6c2b2116bb53e380cff0e318f555ad60b4d1e11a58e7a4fa99af8f2a3f",
+      "bytes": 5876,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/chapters/09-liquid-surfaces.md",
+      "git_blob": "01621ec9ddce264b601487ef04935218fe315003",
+      "sha256": "5b36406b426f3fae0a0610a55591eefe3818aa77ae563f504cae8a046a0f6540",
+      "bytes": 13834,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/chapters/11-particle-methods.md",
+      "git_blob": "531d689d2a12c76829549770fbbe299257c6e300",
+      "sha256": "d0df5596b474638e5fee088e85872157e06058f7cb56101d1a7b2a067a190578",
+      "bytes": 20588,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/chapters/21-density-and-liquid-volume.md",
+      "git_blob": "54a734385142414df55bf97c819d82a9b24a611e",
+      "sha256": "e9c44d0f1e567b892006f6b7888b51e58ed9f51897ef3bdd6e5eb86e08198108",
+      "bytes": 6843,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/chapters/25-capillarity-and-integration.md",
+      "git_blob": "104291c60b0e3e937a7927601aa19accbe6f0c4f",
+      "sha256": "0e53828029a721166193b27f45ce8bbe572c8ab407360d1571a3aa0ef48a3778",
+      "bytes": 17356,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/chapters/26-compressible-state-and-waves.md",
+      "git_blob": "2dcd55c008d8456401b63293ac5737ba83faa29b",
+      "sha256": "0800ab171d3303b982820ff5639d9a536e4fbba53b992b10bfe2ad9d8c264786",
+      "bytes": 10232,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/chapters/27-compressible-discretization.md",
+      "git_blob": "3e77239d1051a46ea9548f35c650f062d8fbe99f",
+      "sha256": "abbd42306e71b6a8c7ed1b936a8c73f6db0faf0830fd2603c045b9ef30b8a9e5",
+      "bytes": 13134,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/chapters/28-compressible-boundaries-and-validation.md",
+      "git_blob": "d19542c672a61cd756aa061272a4f3d4cd6c125e",
+      "sha256": "ce9211c94770feaa1f4bd8f4fd5803b665ee3e838666e69a6e22d9b6fe581f8f",
+      "bytes": 20704,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/chapters/36-reference-fem-solver.md",
+      "git_blob": "8259c5cfcd5667ff570f3317dd8a00efdb26fdcb",
+      "sha256": "196e0ceaa8f27f7d9d933d3aa22d564c40e383a2d862bdd5f02dded8f183f04a",
+      "bytes": 29690,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/implementation/material-preview-contracts.md",
+      "git_blob": "2427d57107d1ecaaa3350519f51e446c7e51d546",
+      "sha256": "6049712d4ede6784943d4d7dadf642a7cdfe98ed4f7cc60b3fb38029db6f80d2",
+      "bytes": 12473,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    },
+    {
+      "path": "docs/research-book/implementation/lagrangian-fem-sources-and-scope.md",
+      "git_blob": "c3c19ef721d62ed6f6cb77e10288f16b4e93f4db",
+      "sha256": "b349d20209c382bd8ee2d50d1be43e0e94b43a8b676fab3792eac063f4b4f193",
+      "bytes": 14246,
+      "scope": "selected source/contract context; identity pin is not exhaustive line review"
+    }
+  ],
+  "claim": "Source identity and scoped inspection only; no numerical, proof, hardware or publication result"
+}

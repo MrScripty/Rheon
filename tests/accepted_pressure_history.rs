@@ -1,3 +1,4 @@
+#![cfg(feature = "accepted-pressure-warm-start")]
 use rheon::*;
 
 fn grid() -> GridGeometry {

@@ -2,7 +2,9 @@
 
 Rheon needs to place a moving three-dimensional fluid shape deliberately while leaving memory available for image-generation models. The repository describes a low-resolution, interactive simulation framework and a standalone demonstration application. This book develops the mathematical and engineering foundation for that framework. The recommended first implementation is a bounded Cartesian staggered-grid solver with explicit diagnostics, followed by a deliberately separate free-surface branch. Neither a rendered fluid image nor a successful pressure solve alone establishes the intended result.
 
-The repository at revision 0cb48429789699578b640d30d9d5dc99c6921ce4 contains a README, license and ignore file. It has no existing solver whose behavior can be assumed. Accordingly, algorithms here are specifications and research recommendations until implemented and qualified. The numerical companion executes small reference experiments; the Lean companion checks selected exact discrete contracts. Proposed architecture must not quietly become a claim about software that does not exist.
+**Historical baseline.** Revision 0cb48429789699578b640d30d9d5dc99c6921ce4 contained a README, license and ignore file. The original research therefore specified algorithms before a solver existed. **Correction, 20 October 2026:** audited main `718469b` contains implemented grid components, a particle material preview and separate bounded experiments. A research recommendation is not evidence that every described method was implemented. The numerical companion executes small reference experiments; the Lean companion checks selected exact discrete contracts.
+
+The [claim-to-evidence audit](../appendices/G-paper-audit-and-corrections.md) distinguishes mathematical error, interpretation, implementation defects, unsupported generalizations and unresolved questions. It finds no demonstrated causal chain from a mistaken original Poisson formula to the observed water failures. [Chapter 29](29-liquid-solid-interaction.md) connects collision geometry to hydrodynamic boundary and coupling requirements. Puma retains authorship of this book; dated corrections preserve the original source history and evidence identities.
 
 ## Spatial accuracy has several meanings
 
@@ -29,3 +31,31 @@ The first acceptance suite should establish finite state, controlled divergence,
 ## Reading the evidence
 
 Each chapter derives discrete contracts before discussing implementation. Worked examples use small systems so sign, scale and conservation failures can be inspected by hand. The experiments extend these checks to a three-dimensional graph and periodic transport. Chapter 16 maps every formal theorem to its assumptions. Chapter 17 defines a Rust implementation sequence; later language ports should inherit verified behavior rather than independently reinterpret the equations.
+
+## Gating a pressure proposal
+
+Start with two cells, unit volumes and conductance, and source b = (1, −1).
+The candidate p = (s, s−1+e) produces shared flux 1−e and full residual
+(e, −e). Set e = 1/4 and tolerance 1/8: the proposal is rejected and the exact
+fallback p = (0, −1) supplies flux 1. The displayed used field is the fallback,
+so its residual is zero. This is a synthetic acceptance example; no AI model
+runs in the browser. A real provider must additionally bind model/schema,
+physical units, source identity, component compatibility and resource limits.
+
+## A gauge shift is not an error
+
+Set e = 0 and vary s. Flux and residual remain unchanged because only the
+pressure jump enters this two-cell operator. Set tolerance 1/8 and e = 1/16:
+acceptance now permits a nonzero residual. A passed tolerance therefore means
+an explicitly bounded error, rather than an exact solve. Inspect the used
+residual and the candidate contract together. A nonfinite or wrong-unit
+proposal fails before numerical acceptance. Camera and reading controls leave
+the candidate and used state unchanged.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

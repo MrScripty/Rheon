@@ -1,3 +1,4 @@
+#![cfg(feature = "accepted-pressure-warm-start")]
 //! Hand-assembled chain oracles; no production operator assembles these RHSs.
 use rheon::{
     GridGeometry, PressureError, PressureImplementation, PressureOperator, PressureSettings,

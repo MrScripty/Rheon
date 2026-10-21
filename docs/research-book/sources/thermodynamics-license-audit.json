@@ -1,0 +1,215 @@
+{
+  "audit_date": "2026-10-21",
+  "purpose": "Original unpublished thermodynamics chapter drafts; no external software/material incorporation or dependency adoption",
+  "repository": {
+    "name": "MrScripty/Rheon",
+    "commit": "b9218038d138d1c73818cf4158757521853a5cd7",
+    "license": "Apache-2.0",
+    "authorities": [
+      "LICENSE",
+      "Cargo.toml"
+    ],
+    "identities": "repository-audit.json"
+  },
+  "use_boundary": {
+    "included": [
+      "original prose",
+      "independent mathematical derivations",
+      "bibliographic facts",
+      "limited factual comparisons with precise primary citations"
+    ],
+    "excluded": [
+      "third-party code",
+      "pseudocode",
+      "figures",
+      "scans",
+      "substantial quotations",
+      "property-table exports",
+      "paper proof text",
+      "external binaries",
+      "new dependencies"
+    ],
+    "citation_is_not_reuse_permission": true,
+    "scientific_ideas_and_standard_equations": "Explained independently; citation does not relicense a paper's expressive material",
+    "future_reuse": "Requires a new exact component/material/use audit and required notices; no blanket compatibility finding for a combined executable",
+    "legal_clearance_claim": false
+  },
+  "retained_sources": [
+    {
+      "ids": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5"
+      ],
+      "owner": "International Association for the Properties of Water and Steam",
+      "versions": [
+        "R6-95(2018)",
+        "R7-97(2012)",
+        "R15-11(2011)",
+        "R12-08(2008), editorial revision2012",
+        "R1-76(2014)"
+      ],
+      "authorities": [
+        "https://iapws.org/technical-guidance/release/IAPWS-95.download",
+        "https://iapws.org/technical-guidance/release/IF97-Rev.download",
+        "https://iapws.org/technical-guidance/release/ThCond.download",
+        "https://iapws.org/technical-guidance/release/viscosity.download",
+        "https://iapws.org/technical-guidance/release/Surf-H2O.download"
+      ],
+      "authority_scope": "Each actual PDF cover inspected; permits publication in whole or part with attribution to IAPWS; not an Apache software license",
+      "activity": "Citation and original factual explanation only; no reproduced coefficient tables, images or release text",
+      "obligation_disposition": "IAPWS credited by name/title/version/direct links in bibliography and relevant chapters",
+      "access": "Selected public PDF text readable through browsing; shell download proxy403 retained separately"
+    },
+    {
+      "id": "T6",
+      "owner": "NIST Chemistry WebBook SRD69",
+      "authority": "https://webbook.nist.gov/chemistry/fluid/",
+      "terms_observed": "Official page reserves Standard Reference Data copyright; no public-domain inference",
+      "activity": "Citation to property categories, units and reference-state interface only",
+      "excluded_material": "No database/table export, values, screenshots or embedded data",
+      "reuse_permission": "Not established for redistribution; none required by the selected factual citation activity"
+    },
+    {
+      "id": "T7",
+      "authority": "https://coolprop.org/citation.html",
+      "activity": "Bibliographic metadata/citation only; article body unread",
+      "article_reuse_permission": "Not inferred from the software license or an OpenAccess label"
+    },
+    {
+      "id": "T8",
+      "owner": "CoolProp developers",
+      "tag": "v7.2.0",
+      "commit": "98b3523d5daa98454618d381d2ae53f7471d216b",
+      "license_authority": "https://github.com/CoolProp/CoolProp/blob/98b3523d5daa98454618d381d2ae53f7471d216b/LICENSE",
+      "license_blob": "2bcd1175645f85feec6ebdb20beb569c9f5a58c3",
+      "license": "MIT",
+      "copyright": "2012-2018 Ian H. Bell and other CoolProp developers",
+      "inspected_files": [
+        {
+          "path": "Web/coolprop/HighLevelAPI.rst",
+          "blob": "d415fda1f5452498add7f7252b272ea9b17239d7",
+          "scope": "selected phase/saturation/reference documentation"
+        },
+        {
+          "path": "src/Backends/Helmholtz/FlashRoutines.h",
+          "blob": "eb211413d9dffd1cd663113c5b547c225a92511b",
+          "scope": "selected state-inversion declarations"
+        }
+      ],
+      "activity": "Permissive-source factual study only; no code/docs copied or executable adopted",
+      "prospective_obligations": "MIT copyright and permission text must accompany copies/substantial portions if later incorporated; review actual components/dependencies/data then",
+      "current_disposition": "No copied portions and no dependency change, so no redistributed CoolProp license payload is created",
+      "live_docs_version": "8.0.0 observed; the pinned research study is explicitly7.2.0"
+    },
+    {
+      "ids": [
+        "N1",
+        "N2",
+        "N3",
+        "N4",
+        "N5"
+      ],
+      "activity": "Selected primary full-text equations/assumptions read for scientific comparison; manuscript uses original exposition and independent derivations",
+      "authorities": [
+        "https://arxiv.org/pdf/1907.00890v2",
+        "https://arxiv.org/pdf/1906.04565v2",
+        "https://arxiv.org/pdf/2001.03477v1",
+        "https://doddm.com/publications/2025-jcp-md-pt-af.pdf",
+        "https://arxiv.org/pdf/1104.1336v1"
+      ],
+      "reuse_permission": "No general permission asserted to copy expressive paper material; arXiv availability is not software/reuse licensing",
+      "excluded_material": "Paper text/figures/tables/code/results are not imported; implementation projects mentioned by papers are not adopted",
+      "specific_limit": "Dodd2025 public author copy was read after publisher403; rights-reserved notice is not a grant to reuse expression. No source implementation or performance extracted."
+    },
+    {
+      "ids": [
+        "N6",
+        "N7",
+        "N8",
+        "N9",
+        "B1",
+        "B2",
+        "B3"
+      ],
+      "activity": "Primary metadata/abstract provenance only; body-level numerical/closure claims withheld",
+      "reuse_permission": "Not established for expressive material; none incorporated",
+      "support_scope": "Bibliography records exact authorities and unread-body limits; no unverified benchmark table, coefficient or numerical tolerance used"
+    }
+  ],
+  "excluded_studies": [
+    {
+      "study": "Bures and Sato2022 microlayer-boiling paper, JFM933 A54",
+      "authority": "https://doi.org/10.1017/jfm.2021.1108",
+      "terms_observed": "CC BY-NC-ND4.0 on official publisher page",
+      "disposition": "Excluded as chapter authority under conservative user rule; no expressive material, closure model, table or specific result reused",
+      "reason": "Noncommercial/no-derivatives terms do not supply the intended unrestricted Apache-licensed adaptation permission",
+      "citation_vs_reuse": "An exclusion pointer is not incorporation, and is not a claim that all scientific citation is legally prohibited"
+    },
+    {
+      "study": "Boyd and Ling preprint2211.16628, Basilisk-based phase change",
+      "disposition": "Not retained as chapter authority or implementation source; no code/license-compatibility inference from the paper",
+      "reason": "No component-level source/license audit performed; unnecessary to the retained comparison"
+    },
+    {
+      "study": "OpenFOAM/Basilisk/PARIS/other solver implementation material",
+      "disposition": "No source code, examples or dependencies retained or adopted",
+      "reason": "Selected scientific citations do not confer a compatible implementation license; no blanket project-license claim made"
+    }
+  ],
+  "access_limits": [
+    {
+      "target": "KTH scapin-jcp.pdf",
+      "operation": "public browser PDF open",
+      "outcome": "timeout",
+      "disposition": "Separate public arXiv author preprint read; no access bypass"
+    },
+    {
+      "target": "Dodd2025 ScienceDirect body",
+      "operation": "public browser open",
+      "outcome": "HTTP403",
+      "disposition": "Separate public author PDF read; no retry of denied target"
+    },
+    {
+      "target": "Tanguy2014 ScienceDirect body",
+      "operation": "public browser open",
+      "outcome": "HTTP403",
+      "disposition": "Not used as authority; accessible N2/N3 chosen"
+    },
+    {
+      "target": "Abgrall1996 queried publisher target",
+      "operation": "public browser open",
+      "outcome": "HTTP403; full bibliographic identity not established",
+      "disposition": "Not retained"
+    },
+    {
+      "target": "iapws.org/relguide/surf.pdf",
+      "operation": "public browser open",
+      "outcome": "HTTP404 old URL",
+      "disposition": "Official current Surf-H2O issuing-body record/download used"
+    },
+    {
+      "target": "Seven public IAPWS/arXiv shell download targets",
+      "operation": "urllib public GET to task-owned /tmp",
+      "outcome": "proxy Tunnel connection failed403 for each; no PDF downloaded",
+      "disposition": "No shell retries or permission changes. Selected public texts had browsing access; no claim of local PDF hashes"
+    },
+    {
+      "target": "Independent reviewer DOI-resolver opens for Cleary-Monaghan, Guo-Lin and Young-Goldstein-Block",
+      "operation": "public DOI open",
+      "outcome": "inaccessible",
+      "disposition": "No retry/bypass; retained limited primary metadata/abstract identities and unread-body status"
+    }
+  ],
+  "not_claimed": [
+    "complete systematic literature review",
+    "legal clearance",
+    "full dependency license audit",
+    "all benchmark bodies read",
+    "solver validation",
+    "hardware/performance evidence",
+    "published book integration"
+  ]
+}

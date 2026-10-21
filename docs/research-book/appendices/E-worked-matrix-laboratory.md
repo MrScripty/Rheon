@@ -87,3 +87,15 @@ These are exact linear-system relations. Floating arithmetic, variable weights a
 Take scalar amounts \((1/3,1/2,1/6)\), cyclic face fluxes \((2/7,-1/5,1/9)\), and time step \(1/10\). Each cell adds incoming minus outgoing amount. The result is \((199/630,96/175,61/450)\), whose sum is exactly one. The companion executes this with rational arithmetic.
 
 This fixture isolates cancellation. It does not prove the selected flux is physically accurate or positivity-preserving for every input. A complete transport validation adds the required flux law, time restriction, geometry and boundary terms. Conservation is a structural property; accuracy depends on how the flux approximates the intended equation.
+
+## A Dirichlet matrix and its error modes
+
+The displayed matrix has diagonal 2 and off-diagonal −1. Its energy is (x−y)²+x²+y², while the Jacobi iteration uses a separate relaxation. Select alternating b and α = 3/2: each iteration changes the alternating error by −5/4 and increases its energy. This explicitly contrasts an SPD operator with an unstable chosen stationary iteration. The diagram and residual arrows describe a two-unknown dimensionless system.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

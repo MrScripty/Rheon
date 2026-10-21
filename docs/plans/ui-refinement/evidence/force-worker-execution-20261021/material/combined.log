@@ -1,0 +1,9 @@
+
+running 1 test
+test force_runtime_integration_tests::material_force_dispatch_records_immutable_scene ... retained artifact root: /workspace/scratch/rheon-ui-force-worker-execution-20261021/material/DATA
+artifact=/workspace/scratch/rheon-ui-force-worker-execution-20261021/material/DATA/material-1792543046180951263-59778-0.sqlite bytes=49152 sha256=17ace71c0ed82ea905b11b90fdb1ff0413afddb5f700ad4a84a249abb26c14d5
+retained files=1 bytes=49152; no cleanup performed
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 200 filtered out; finished in 0.02s
+

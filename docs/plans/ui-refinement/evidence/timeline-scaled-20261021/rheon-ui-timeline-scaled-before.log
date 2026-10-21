@@ -1,0 +1,21 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s
+     Running unittests src/bin/rheon-desktop.rs (/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f)
+
+running 1 test
+test timeline_ui_tests::timeline_narrow_scaled_track_and_time_captions_stay_inside_clip ... FAILED
+
+failures:
+
+---- timeline_ui_tests::timeline_narrow_scaled_track_and_time_captions_stay_inside_clip stdout ----
+
+thread 'timeline_ui_tests::timeline_narrow_scaled_track_and_time_captions_stay_inside_clip' (56302) panicked at src/bin/desktop/timeline_ui_tests.rs:71:5:
+panel outside bounds: [[280.0 6593.7] - [6602.7 6666.7]]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    timeline_ui_tests::timeline_narrow_scaled_track_and_time_captions_stay_inside_clip
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 197 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `--bin rheon-desktop`

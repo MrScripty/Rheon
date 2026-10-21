@@ -53,6 +53,7 @@ pub enum PressureError {
     Operator(OperatorError),
     InvalidSettings,
     /// Initial guesses require a finite, gauge-zero sealed-domain pressure.
+    #[cfg(feature = "accepted-pressure-warm-start")]
     InvalidInitialPressure,
     BufferLimit {
         required: usize,
@@ -79,6 +80,7 @@ impl fmt::Display for PressureError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::Operator(e) => write!(f, "{e}"),
+            #[cfg(feature = "accepted-pressure-warm-start")]
             Self::InvalidInitialPressure => write!(
                 f,
                 "initial pressure requires a sealed operator and zero gauge"
@@ -348,7 +350,14 @@ impl PressureWorkspace {
         cancelled: impl FnMut() -> bool,
     ) -> Result<PressureReport, PressureError> {
         operator.build_rhs(velocity, dt, &mut self.rhs)?;
-        self.solve_loaded(operator, None, dt, settings, cancelled)
+        self.solve_loaded(
+            operator,
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            None,
+            dt,
+            settings,
+            cancelled,
+        )
     }
 
     /// Explicit RHS entry point for independently assembled fixtures/consumers.
@@ -373,12 +382,20 @@ impl PressureWorkspace {
             }
         }
         self.rhs.copy_from_slice(rhs);
-        self.solve_loaded(operator, None, dt, settings, cancelled)
+        self.solve_loaded(
+            operator,
+            #[cfg(feature = "accepted-pressure-warm-start")]
+            None,
+            dt,
+            settings,
+            cancelled,
+        )
     }
 
     /// Explicit caller-supplied initial pressure in Pa for a sealed operator.
     /// This borrows a guess, not proof that any state owner accepted it. No dt
     /// rescaling or recurrence is reused. Full current-RHS qualification applies.
+    #[cfg(feature = "accepted-pressure-warm-start")]
     pub fn solve_velocity_with_initial_pressure(
         &mut self,
         operator: &PressureOperator<'_>,
@@ -394,6 +411,7 @@ impl PressureWorkspace {
 
     /// Explicit compatible RHS and caller-supplied sealed pressure guess in Pa.
     /// The gauge entry must be zero; incompatible RHS values are never shifted.
+    #[cfg(feature = "accepted-pressure-warm-start")]
     pub fn solve_rhs_with_initial_pressure(
         &mut self,
         operator: &PressureOperator<'_>,
@@ -559,7 +577,7 @@ impl PressureWorkspace {
     fn solve_loaded(
         &mut self,
         operator: &PressureOperator<'_>,
-        initial_pressure: Option<&[f64]>,
+        #[cfg(feature = "accepted-pressure-warm-start")] initial_pressure: Option<&[f64]>,
         dt: f64,
         settings: PressureSettings,
         mut cancelled: impl FnMut() -> bool,
@@ -594,6 +612,7 @@ impl PressureWorkspace {
                 rounding_budget,
             });
         }
+        #[cfg(feature = "accepted-pressure-warm-start")]
         if let Some(initial) = initial_pressure {
             operator.validate_cells(initial)?;
             if !operator.has_gauge() || initial[0] != 0.0 {
@@ -603,6 +622,8 @@ impl PressureWorkspace {
         } else {
             self.pressure.fill(0.0);
         }
+        #[cfg(not(feature = "accepted-pressure-warm-start"))]
+        self.pressure.fill(0.0);
         let rhs_l2 = dot(&self.rhs, &self.rhs).sqrt();
         let threshold = settings
             .absolute_residual
@@ -673,11 +694,14 @@ impl PressureWorkspace {
                 // useful conjugate direction before the gauge row converges.
                 // Full residual/divergence acceptance above remains unchanged;
                 // preserve the reference cold recurrence exactly.
+                #[cfg(feature = "accepted-pressure-warm-start")]
                 let replacement_l2 = if initial_pressure.is_some() && operator.has_gauge() {
                     dot(&self.product[1..], &self.product[1..]).sqrt()
                 } else {
                     report.true_residual_l2
                 };
+                #[cfg(not(feature = "accepted-pressure-warm-start"))]
+                let replacement_l2 = report.true_residual_l2;
                 if replacement_l2 > threshold {
                     self.residual.copy_from_slice(&self.product);
                     replaced = true;

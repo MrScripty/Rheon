@@ -1,0 +1,57 @@
+{
+  "disposition": "Stopped local debug duplication; full release matrix replaces it locally. Exact-head CI debug matrix remains required.",
+  "completed_checks": [
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5433926050000082,
+      "passed": 0,
+      "tail": [],
+      "log": "/tmp/cpu-checks/0.log"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--features",
+        "work-observation"
+      ],
+      "exit_code": 0,
+      "seconds": 465.9140378689999,
+      "passed": 342,
+      "tail": [
+        "test large_mesh_compensated_energy_gate_preserves_fixed_budget ... ok",
+        "",
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.79s",
+        "",
+        "   Doc-tests rheon",
+        "",
+        "running 0 tests",
+        "",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        ""
+      ],
+      "log": "/tmp/cpu-checks/1.log"
+    }
+  ],
+  "tail": [
+    "test fixed_grid_time_refinement_and_zero_coefficient ... ok",
+    "test divergence_free_mode_matches_discrete_decay_and_refines ... ok",
+    "test large_mesh_compensated_energy_gate_preserves_fixed_budget ... ok",
+    "",
+    "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.79s",
+    "",
+    "   Doc-tests rheon",
+    "",
+    "running 0 tests",
+    "",
+    "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    ""
+  ]
+}

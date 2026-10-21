@@ -3,7 +3,7 @@ from pathlib import Path
 import hashlib, html, json, re, shutil
 
 GUIDES = ['native-wall-force-sequence', 'column-wall-friction', 'column-no-slip',
-          'column-poiseuille', 'static-obstacle-geometry', 'static-obstacle-flow', 'requirements-roadmap']
+          'column-poiseuille', 'static-obstacle-geometry', 'static-obstacle-flow', 'requirements-roadmap', 'material-preview-contracts', 'cpu-scheduling-contracts', 'cad-visualization-contracts']
 
 def metadata(repo):
     repo = Path(repo)
@@ -14,6 +14,27 @@ def metadata(repo):
     for name, digest in json.loads(pins.read_text()).items():
         if hashlib.sha256((repo/'proofs'/name).read_bytes()).hexdigest() != digest:
             raise ValueError('Current Lean source differs from its inventory: '+name)
+    if data.get('schema') != 'rheon-native-sequence-source-v2':
+        raise ValueError('Unsupported proof metadata schema; current status required')
+    if data.get('schema') == 'rheon-native-sequence-source-v2':
+        current = data.get('current_reviewed_proof')
+        if not isinstance(current, dict):
+            raise ValueError('Missing current reviewed proof status')
+        for key in ('proof_inventory_sha256', 'public_theorems',
+                    'explicit_expected_declarations', 'audited_declarations', 'lean_ci'):
+            if key not in current or current[key] != data.get(key):
+                raise ValueError('Current reviewed proof metadata mismatch: '+key)
+        if current.get('status') == 'reviewed-pending-kernel-qualification':
+            if any(current.get(key) is not None for key in
+                   ('audited_declarations', 'lean_ci', 'local_qualification')) or data.get('local_kernel_receipt_sha256') is not None:
+                raise ValueError('Pending proof status cannot carry qualification evidence')
+        elif current.get('status') == 'passed':
+            if (type(current['audited_declarations']) is not int or
+                    current['audited_declarations'] < current['explicit_expected_declarations'] or
+                    not (current.get('lean_ci') or current.get('local_qualification'))):
+                raise ValueError('Passed proof status requires explicit qualification evidence')
+        else:
+            raise ValueError('Unknown current reviewed proof status')
     if 'historical_native_proof' in data:
         historical=repo/'proofs/source-inventory-pr24.json'
         if hashlib.sha256(historical.read_bytes()).hexdigest()!=data['historical_native_proof']['proof_inventory_sha256']:

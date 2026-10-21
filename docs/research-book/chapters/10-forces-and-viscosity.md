@@ -87,6 +87,8 @@ A simple shear test is the first constitutive oracle. Prescribe a linear velocit
 
 ## Prescribed and dynamic solid coupling
 
+**Correction, 20 October 2026.** The normal in the force equations below points **out of the solid into the fluid**. Thus these are pressure loads on the body. With an outward-fluid normal at the same wall, their sign reverses. Total body traction also includes the symmetric viscous stress; pressure-only force is insufficient for wall shear or viscous drag. Chapter 29 derives the matching fluid/body power and impulse accounting.
+
 A prescribed obstacle has externally given motion. It can inject work into the fluid without receiving a matching reaction in the simulation. This is a valid one-way model if stated. A dynamic rigid body needs pressure forces and torques integrated over the same geometric interface used by the fluid operator.
 
 For pressure traction \(-p\mathbf n\), force and torque are

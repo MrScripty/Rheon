@@ -21,7 +21,7 @@ class PdfFreshness(unittest.TestCase):
         for path, content in [(self.chapter, '# Original manuscript'),
                               (self.figure, '<svg/>'),
                               *[(self.here/name, name) for name in
-                                ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json',
+                                ['build.py', 'verify_browser.py', 'style.css', 'package-lock.json', 'teaching.py', 'reader.css',
                                  'aligned_strain_packet.py','aligned_strain_html.py',
                                  'aligned_strain.js','aligned_strain.css','aligned_strain_browser.py']]]:
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -61,6 +61,18 @@ class PdfFreshness(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Stale PDF inputs.*verify_browser.py'):
             verify_pdf(self.repo)
 
+    def test_added_cad_evidence_rejects_retained_pdf(self):
+        for relative in ['sources/cad-visualization-sources.json',
+                         'companion/cad_visualization_fixtures.py',
+                         'companion/cad-visualization-lessons.json']:
+            with self.subTest(source=relative):
+                path = self.repo/'docs/research-book'/relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('new evidence')
+                with self.assertRaisesRegex(ValueError, 'Stale PDF inputs.*cad'):
+                    verify_pdf(self.repo)
+                path.unlink()
+
     def test_changed_aligned_lab_sources_reject_retained_pdf(self):
         for name in ['aligned_strain_packet.py','aligned_strain_html.py',
                      'aligned_strain.js','aligned_strain.css','aligned_strain_browser.py']:
@@ -78,6 +90,17 @@ class PdfFreshness(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Rendered HTML has stale PDF inputs'):
             write_receipt(self.repo, input_hashes(self.repo))
         self.assertEqual(json.loads((self.here/'pdf-inputs.json').read_text()), self.receipt)
+
+    def test_added_compressible_reference_and_viewer_invalidate_pdf(self):
+        for relative in ['docs/research-book/compressible/reference.py',
+                         'docs/research-book/sources/compressible-sources.json',
+                         'docs/education/compressible.js']:
+            with self.subTest(source=relative):
+                path=self.repo/relative;path.parent.mkdir(parents=True,exist_ok=True)
+                path.write_text('new reviewed input')
+                with self.assertRaisesRegex(ValueError,'Stale PDF inputs'):
+                    verify_pdf(self.repo)
+                path.unlink()
 
     def test_publication_entry_point_rejects_changed_manuscript_and_old_pdf(self):
         source=Path(__file__).resolve().parent

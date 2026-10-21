@@ -1,6 +1,6 @@
 # Rheon exact discrete contracts
 
-This project owns exact finite-dimensional reference definitions and 106 checked public theorem statements in eleven modules. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
+This project owns exact finite-dimensional reference definitions and 224 public theorem statements in twenty modules. The combined reviewed proof bytes passed a normal pinned kernel build and 355-declaration audit in [run38493519897](https://github.com/MrScripty/Rheon/actions/runs/38493519897). Historical receipts identify their own inventories. It does not own the production solver, geometry assembly, IEEE arithmetic, continuum physics or performance claims.
 
 ## Reproduce
 
@@ -142,3 +142,72 @@ and run from the repository root:
 
 The destination must be new and outside every Git worktree. The receipt binds
 the clean committed source, executable, actual native records and all logs.
+
+## Material preview and CPU scheduling extension
+
+`Rheon/MaterialPreview.lean` adds 17 exact-real statements about the actual pair
+coefficients, an isolated viscous pair, and the prescribed nozzle/credit ledger.
+`Rheon/CpuScheduling.lean` adds 15 natural-number statements about chunks, wave
+dependencies and exploration under successful nonoverlapping calls with a stable
+workload. Neither module formalizes Rust/Rayon, IEEE execution, global time-step
+stability, continuum convergence, wall-clock fairness or a performance optimum.
+
+The expanded reviewed inventory has 138 public theorem statements and 193
+explicit audit entries. These are source counts; qualification still requires
+the normal pinned build, complete axiom audit and rejection probes above.
+Historical 106/161 and earlier receipts remain tied to their original source.
+See the book's `native-sequence.json` for current qualification status.
+
+## Compressible finite-volume reference contracts
+
+`Compressible.lean` adds ten definitions and ten public exact-real theorems.
+A balanced shared-face incidence update conserves every extensive component,
+so the same contract covers mass, momentum and total energy. The ideal-gas
+pressure definition is positive exactly when internal energy density is positive
+for `gamma > 1` and positive density. An explicit density-weighted square
+remainder proves kinetic-density convexity, then convexity of the admissible
+set in conservative variables. Neither convexity theorem assumes the conclusion
+as an operator bound.
+
+The stationary slip-wall Euler flux has zero mass and energy flux while its
+momentum flux retains `p*n`. This is an algebraic zero-normal-momentum
+identity; physical use additionally requires positive density and a valid face
+normal, whose geometry is not verified here. A donor-density update stays nonnegative for
+nonnegative donors and coefficients whose sum is at most one; a strictly
+smaller sum preserves strict positivity from the current density. This is an
+explicit convex/CFL density contract. It does not establish positivity of a
+particular Riemann solver or a full Euler time step.
+
+All statements concern finite exact real arithmetic. Mesh and face assembly,
+Riemann solvers, reconstruction and limiters, floating-point refinement,
+entropy stability, shock solutions, viscous/thermal boundaries, reacting or
+multiphase equations of state and continuum convergence remain outside these
+proofs. The root import, twenty-name expected audit extension and current
+reviewed source inventory keep the existing axiom allowlist and source gate.
+
+The following local receipt belongs to PR68's earlier 116-statement inventory,
+not the combined inventory. The combined source retains all PR67 modules and
+adds the twenty explicit compressible audit names: 224 public statements and
+295 explicitly expected declarations. The fresh normal pinned kernel build and 355-declaration audit passed in
+[run38493519897](https://github.com/MrScripty/Rheon/actions/runs/38493519897),
+including both negative-probe runs. Checked merge `d427059b16848adbf7e00f30e0e76ac24c021e50`
+has the identical tree as source `1be45f33d52c5e354fccb4080413c1d57f8502be`.
+Neither historical receipt is reused as a combined qualification.
+
+Fresh local qualification on 2026-10-14 used Lean 4.19.0 and mathlib
+`c44e0c8ee63ca166450922a373c7409c5d26b00b`. Normal `lake build` compiles all
+twelve Rheon modules and the root. The unchanged allowlist passes 186 actual
+declarations, including 164 explicitly expected declarations; 25 audited
+declarations belong to `Rheon.Compressible`, including its generated equations
+and proof declarations. All three actual negative audit probes and four
+source/pin-gate tests pass in both normal and optimized Python. The official
+mathlib cache returned HTTP 403, so dependencies were compiled from their
+pinned Git sources. The only remaining warning is the pre-existing unused
+`hz0` premise in `StaticObstacle.lean`.
+
+The external `compressible-proof-qualification.json` binds this result to
+reviewed source-inventory SHA256
+`d10ea5e886a6680fef63f6c03624e172fb95fa9d3e00c5db3835e56b3a48fdbd`
+and exact source/log digests. It qualifies these working-tree proof bytes,
+without asserting a clean repository checkout or hosted CI run. Prior
+qualification receipts remain tied to their historical source bytes.

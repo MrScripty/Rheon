@@ -141,7 +141,9 @@ struct BoundaryStepInput<'a> {
     boundary: crate::BoxFluxStepBoundary,
 }
 struct StepDomains<'a, 'p> {
+    #[cfg(feature = "accepted-pressure-warm-start")]
     initial_pressure: Option<&'a [f64]>,
+    fields: Option<&'a crate::ForceSnapshot>,
     emitter: Option<crate::RotatingCylinderEmitter>,
     barrier: Option<&'a crate::TriangleSurface>,
     boundary: Option<BoundaryStepInput<'a>>,
@@ -222,6 +224,34 @@ pub struct StateView<'a> {
     pub generation: u64,
 }
 
+/// Borrowed last successful sealed-box `step`/`step_with_emitter` pressure.
+/// Valid only until the next attempt/reset. Rejected scratch never receives this
+/// stamp; this is interval projection pressure, not a restart checkpoint.
+#[derive(Clone, Copy)]
+pub struct AcceptedIntervalPressure<'a> {
+    pub values: &'a [f64],
+    pub interval_start: f64,
+    pub report: StepReport,
+    pub controls: CarrierStepControls,
+}
+/// Force-aware accepted interval. The legacy accessor never labels these steps
+/// with incomplete controls. Invalidated before the next candidate attempt.
+pub struct AcceptedForceIntervalPressure<'a> {
+    pub values: &'a [f64],
+    pub interval_start: f64,
+    pub report: StepReport,
+    pub controls: CarrierStepControls,
+    pub fields: &'a crate::ForceSnapshot,
+    pub work: Option<crate::ForceReport>,
+}
+/// Actual inputs of the success-stamped fixed-box carrier publication.
+#[derive(Debug, Clone, Copy)]
+pub struct CarrierStepControls {
+    pub requested_dt: f64,
+    pub source: Option<SmokeSource>,
+    pub emitter: Option<crate::RotatingCylinderEmitter>,
+}
+
 pub struct Simulation {
     implementation: PressureImplementation,
     grid: GridGeometry,
@@ -233,6 +263,13 @@ pub struct Simulation {
     time: f64,
     generation: u64,
     paused: bool,
+    inspection_pressure: Option<(f64, StepReport, CarrierStepControls)>,
+    inspection_force_pressure: Option<(
+        f64,
+        ForcedStepReport,
+        CarrierStepControls,
+        crate::ForceSnapshot,
+    )>,
 }
 impl Simulation {
     pub fn new(grid: GridGeometry, config: SimulationConfig) -> Result<Self, SimulationError> {
@@ -278,6 +315,8 @@ impl Simulation {
             time: 0.0,
             generation: 0,
             paused: false,
+            inspection_pressure: None,
+            inspection_force_pressure: None,
         })
     }
     pub fn implementation(&self) -> PressureImplementation {
@@ -286,6 +325,33 @@ impl Simulation {
 
     pub fn grid(&self) -> &GridGeometry {
         &self.grid
+    }
+    pub fn config(&self) -> SimulationConfig {
+        self.config
+    }
+    /// Immediate inspection after an admitted successful step. Any later
+    /// attempted step invalidates this view, even if accepted state is preserved.
+    pub fn accepted_interval_pressure(&self) -> Option<AcceptedIntervalPressure<'_>> {
+        let (interval_start, report, controls) = self.inspection_pressure?;
+        Some(AcceptedIntervalPressure {
+            values: self.workspace.pressure(),
+            interval_start,
+            report,
+            controls,
+        })
+    }
+    /// Force-aware counterpart of accepted_interval_pressure. Retains the actual
+    /// immutable scene, source controls and external-stage work on success only.
+    pub fn accepted_force_interval_pressure(&self) -> Option<AcceptedForceIntervalPressure<'_>> {
+        let (interval_start, report, controls, fields) = self.inspection_force_pressure.as_ref()?;
+        Some(AcceptedForceIntervalPressure {
+            values: self.workspace.pressure(),
+            interval_start: *interval_start,
+            report: report.step,
+            controls: *controls,
+            fields,
+            work: report.forces,
+        })
     }
     pub fn allocated_bytes(&self) -> usize {
         self.allocated_bytes
@@ -304,6 +370,8 @@ impl Simulation {
         self.paused = paused;
     }
     pub fn reset(&mut self) -> Result<(), SimulationError> {
+        self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         let next = self
             .generation
             .checked_add(1)
@@ -322,8 +390,20 @@ impl Simulation {
         source: Option<SmokeSource>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepReport, SimulationError> {
-        self.step_with_forces(requested_dt, source, &[], cancel)
-            .map(|report| report.step)
+        let interval_start = self.time;
+        let report = self
+            .step_with_forces(requested_dt, source, &[], cancel)?
+            .step;
+        self.inspection_pressure = Some((
+            interval_start,
+            report,
+            CarrierStepControls {
+                requested_dt,
+                source,
+                emitter: None,
+            },
+        ));
+        Ok(report)
     }
     /// Advance with caller-owned external forces. The legacy smoke force is
     /// applied first; external vectors add on their own face lattices before
@@ -339,6 +419,70 @@ impl Simulation {
         self.step_impl(requested_dt, source, forces, None, None, cancel)
             .map(|report| report.legacy.step)
     }
+    /// Static authored fields sampled at the accepted interval start. Only the
+    /// closed-box carrier is supported; pressure projection remains unchanged.
+    /// The caller retains the immutable snapshot with the run request/metadata.
+    pub fn step_with_force_fields(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        fields: &crate::ForceSnapshot,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<ForcedStepReport, SimulationError> {
+        self.step_fields_impl(requested_dt, source, None, fields, cancel)
+    }
+
+    /// The nozzle remains a separate source, evaluated by its existing kernel.
+    pub fn step_with_emitter_and_force_fields(
+        &mut self,
+        requested_dt: f64,
+        emitter: crate::RotatingCylinderEmitter,
+        fields: &crate::ForceSnapshot,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<ForcedStepReport, SimulationError> {
+        self.step_fields_impl(requested_dt, None, Some(emitter), fields, cancel)
+    }
+
+    fn step_fields_impl(
+        &mut self,
+        requested_dt: f64,
+        source: Option<SmokeSource>,
+        emitter: Option<crate::RotatingCylinderEmitter>,
+        fields: &crate::ForceSnapshot,
+        cancel: impl FnMut(StepStage) -> bool,
+    ) -> Result<ForcedStepReport, SimulationError> {
+        let interval_start = self.time;
+        let outcome = self.prepare_impl(
+            requested_dt,
+            source,
+            &[],
+            StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
+                initial_pressure: None,
+                fields: (!fields.scene().objects.is_empty()).then_some(fields),
+                emitter,
+                barrier: None,
+                boundary: None,
+                surface: None,
+                viscosity: None,
+                provider: None,
+            },
+            cancel,
+        )?;
+        self.commit_prepared(&outcome);
+        self.inspection_force_pressure = Some((
+            interval_start,
+            outcome.legacy.step,
+            CarrierStepControls {
+                requested_dt,
+                source,
+                emitter,
+            },
+            fields.clone(),
+        ));
+        Ok(outcome.legacy.step)
+    }
+
     /// Prescribed rotating, pressure-head-driven two-ended nozzle. Pressure
     /// projection and appearance transport retain the fixed-box model; the
     /// visible cylinder is not a moving collision boundary. Failure preserves
@@ -349,12 +493,15 @@ impl Simulation {
         emitter: crate::RotatingCylinderEmitter,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepReport, SimulationError> {
+        let interval_start = self.time;
         let outcome = self.prepare_impl(
             requested_dt,
             None,
             &[],
             StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
                 initial_pressure: None,
+                fields: None,
                 emitter: Some(emitter),
                 barrier: None,
                 boundary: None,
@@ -365,6 +512,15 @@ impl Simulation {
             cancel,
         )?;
         self.commit_prepared(&outcome);
+        self.inspection_pressure = Some((
+            interval_start,
+            outcome.legacy.step.step,
+            CarrierStepControls {
+                requested_dt,
+                source: None,
+                emitter: Some(emitter),
+            },
+        ));
         Ok(outcome.legacy.step.step)
     }
     /// Opt-in static passive-tracer barrier; velocity/pressure remain the fixed
@@ -427,7 +583,9 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
                 initial_pressure: None,
+                fields: None,
                 emitter: None,
                 barrier: None,
                 boundary: None,
@@ -464,7 +622,9 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
                 initial_pressure: None,
+                fields: None,
                 emitter: None,
                 barrier,
                 boundary,
@@ -487,7 +647,7 @@ impl Simulation {
         surface: Option<crate::column_surface::PressureSurface<'_>>,
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         provider: Option<crate::provider_step::ProviderStepInput<'_, '_>>,
-        initial_pressure: Option<&[f64]>,
+        #[cfg(feature = "accepted-pressure-warm-start")] initial_pressure: Option<&[f64]>,
         cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
         self.prepare_impl(
@@ -495,7 +655,9 @@ impl Simulation {
             source,
             forces,
             StepDomains {
+                #[cfg(feature = "accepted-pressure-warm-start")]
                 initial_pressure,
+                fields: None,
                 emitter: None,
                 barrier: None,
                 surface,
@@ -533,6 +695,8 @@ impl Simulation {
         ),
         crate::ColumnMacError,
     > {
+        self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         if self.paused {
             return Err(crate::ColumnMacError::Paused);
         }
@@ -588,12 +752,16 @@ impl Simulation {
         Ok((transfer, projection, generation))
     }
     pub(crate) fn commit_column_mac(&mut self, generation: u64) {
+        self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         std::mem::swap(&mut self.accepted.x, &mut self.candidate.x);
         std::mem::swap(&mut self.accepted.y, &mut self.candidate.y);
         std::mem::swap(&mut self.accepted.z, &mut self.candidate.z);
         self.generation = generation;
     }
     pub(crate) fn commit_prepared(&mut self, outcome: &StepOutcome) {
+        self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         std::mem::swap(&mut self.accepted, &mut self.candidate);
         self.time = outcome.legacy.step.step.time;
         self.generation = outcome.legacy.step.step.generation;
@@ -606,8 +774,12 @@ impl Simulation {
         domains: StepDomains<'_, '_>,
         mut cancel: impl FnMut(StepStage) -> bool,
     ) -> Result<StepOutcome, SimulationError> {
+        self.inspection_pressure = None;
+        self.inspection_force_pressure = None;
         let StepDomains {
+            #[cfg(feature = "accepted-pressure-warm-start")]
             initial_pressure,
+            fields,
             emitter,
             barrier,
             mut boundary,
@@ -615,7 +787,7 @@ impl Simulation {
             viscosity,
             mut provider,
         } = domains;
-        if provider.is_some() && (boundary.is_some() || surface.is_some() || viscosity.is_some()) {
+        if provider.is_some() && (boundary.is_some() || surface.is_some()) {
             return Err(SimulationError::UnsupportedProviderDomain);
         }
         if provider.as_ref().is_some_and(|p| {
@@ -633,7 +805,21 @@ impl Simulation {
         if let Some(s) = source {
             validate_source(&self.grid, s)?;
         }
-        let external_rate = crate::forces::validate(&self.grid, self.config.density, forces)?;
+        let field_rate = if let Some(fields) = fields {
+            fields
+                .acceleration_bound(self.time, self.config.density)
+                .map_err(|_| SimulationError::ArithmeticFailure)?
+                * self
+                    .grid
+                    .spacing()
+                    .into_iter()
+                    .map(|h| 1.0 / h)
+                    .sum::<f64>()
+        } else {
+            0.0
+        };
+        let external_rate =
+            crate::forces::validate(&self.grid, self.config.density, forces)? + field_rate;
         let emitter_rate = if let Some(emitter) = emitter {
             emitter.axis_at(self.time)?;
             emitter.validate(&self.grid, self.config.density)?
@@ -720,6 +906,16 @@ impl Simulation {
         if acceleration > 0.0 {
             dt = dt.min((0.5 * self.config.max_courant / acceleration).sqrt());
         }
+        if let Some(e) = emitter {
+            if e.turbulence.strength > 0.0 {
+                dt = dt.min(0.25 * e.turbulence.time_scale);
+            }
+            let motion = crate::emitter::length(e.motion_velocity);
+            if motion > 0.0 {
+                dt = dt.min(0.25 * h.into_iter().fold(f64::INFINITY, f64::min) / motion);
+            }
+            e.validate_interval(&self.grid, self.time, dt)?;
+        }
         let next_time = self.time + dt;
         if dt <= 0.0 || !next_time.is_finite() || next_time <= self.time {
             return Err(SimulationError::TimeResolution);
@@ -773,7 +969,18 @@ impl Simulation {
             )?;
             work.smoke_force_work = work.kinetic_after_smoke_force - work.kinetic_after_advection;
         }
-        let forces = if forces.is_empty() {
+        let forces = if let Some(fields) = fields {
+            checkpoint(&mut cancel, StepStage::BeforeForces)?;
+            Some(crate::forces::apply_fields(
+                &self.grid,
+                self.config.density,
+                fields,
+                self.time,
+                dt,
+                self.candidate.velocity_mut(),
+                &mut cancel,
+            )?)
+        } else if forces.is_empty() {
             None
         } else {
             checkpoint(&mut cancel, StepStage::BeforeForces)?;
@@ -877,6 +1084,7 @@ impl Simulation {
                 provider_report = Some(report);
                 pressure
             } else {
+                #[cfg(feature = "accepted-pressure-warm-start")]
                 let pressure = if let Some(initial) = initial_pressure {
                     self.workspace.solve_velocity_with_initial_pressure(
                         &operator,
@@ -895,6 +1103,14 @@ impl Simulation {
                         || cancel(StepStage::PressureIteration),
                     )?
                 };
+                #[cfg(not(feature = "accepted-pressure-warm-start"))]
+                let pressure = self.workspace.solve_velocity(
+                    &operator,
+                    self.candidate.velocity(),
+                    dt,
+                    self.config.pressure,
+                    || cancel(StepStage::PressureIteration),
+                )?;
                 operator.correct_candidate_in_place(
                     self.workspace.pressure(),
                     dt,

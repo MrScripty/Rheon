@@ -1,0 +1,64 @@
+{
+  "schema": "rheon-teaching-screenshots-v1",
+  "capture_source_commit": "ae06472f96d568d2f7077561e7b0080763510366",
+  "capture_source_clean": true,
+  "source_tree": "4f96d068eb780fa22b6eca2481504596d8db75c0",
+  "published_equivalent_commit": "1c14e5787420b4db305abed96863e15535ca8e21",
+  "publication_note": "The actual captures used the clean local commit. GitHub App publication changed commit metadata only: the published equivalent commit has the identical source tree. These images were not recaptured from the remote commit.",
+  "browser": "Chromium 151.0.7922.173",
+  "renderer": "headless Chromium with SwiftShader",
+  "phone_capture": "browser emulation, not a physical device",
+  "capture_script": "docs/education/transport_browser.py",
+  "permission": "The user explicitly requested current screenshots in the GitHub repository. These unaltered documentation images are a narrow exception to the external-only generated-output policy.",
+  "files": {
+    "desktop-sampler.jpg": {
+      "capture_filename": "transport-desktop-sampler.jpg",
+      "sha256": "c47d9036acc42eedccea1c028f8d8e057e757dd23a3c30324d53006240be7ec8",
+      "pixels": [
+        1440,
+        1050
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "Desktop sampler lesson with a deliberate x-face/cell-offset mismatch and the expanded donor table."
+    },
+    "desktop-transport.jpg": {
+      "capture_filename": "transport-desktop-reading.jpg",
+      "sha256": "2f53743fe7cabb85df51cd446768bcc51d4d7acba6118cb9dd5904b0681d3311",
+      "pixels": [
+        1440,
+        1050
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "Desktop reading and sticky periodic-transport comparison for the asymmetric six-sample fixture."
+    },
+    "phone-split.jpg": {
+      "capture_filename": "transport-phone-320-split.jpg",
+      "sha256": "b1fb5ed47da8003ef5af431fca3224ea4313ded351dfecf51b98c863ecd7897e",
+      "pixels": [
+        320,
+        844
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "320-pixel emulated phone Split view with the fixed-scale transport curves, legend and readable comparison text."
+    },
+    "phone-example.jpg": {
+      "capture_filename": "transport-phone-390-example.jpg",
+      "sha256": "3d5c4c089c92ce260d6659c6c0ca808fdc8396a1fe5c09df505338851c2d19e3",
+      "pixels": [
+        390,
+        844
+      ],
+      "format": "JPEG",
+      "quality": 85,
+      "postprocessing": "none",
+      "document_role": "390-pixel emulated phone Example view scrolled to the actual controls and asymmetric-fixture numerical readouts."
+    }
+  },
+  "published_equivalent_url": "https://github.com/MrScripty/Rheon/commit/1c14e5787420b4db305abed96863e15535ca8e21"
+}

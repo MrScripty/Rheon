@@ -7,6 +7,7 @@ from threading import Thread
 import argparse
 import hashlib
 import json
+import os
 import shutil
 from playwright.sync_api import sync_playwright
 from pdf_freshness import input_hashes, verify_pdf, write_receipt
@@ -16,6 +17,11 @@ from native_sequence import metadata
 from obstacle_browser import qualify as qualify_obstacle
 from obstacle_flow_browser import qualify as qualify_obstacle_flow
 from aligned_strain_browser import qualify as qualify_aligned_strain
+from teaching_browser import qualify as qualify_teaching
+from transport_browser import qualify as qualify_transport
+from timestep_browser import qualify as qualify_timestep
+from flow_browser import qualify as qualify_flow
+from compressible_browser import qualify as qualify_compressible
 
 HERE = Path(__file__).resolve().parent
 
@@ -65,8 +71,9 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         check_errors()
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(executable_path=shutil.which('chromium'), headless=True,
-                                    args=['--no-sandbox', '--enable-unsafe-swiftshader'])
+        browser = p.chromium.launch(executable_path=os.environ.get('RHEON_CHROMIUM_EXECUTABLE') or shutil.which('chromium'), headless=True,
+                                    chromium_sandbox=True, args=['--enable-unsafe-swiftshader'],
+                                    ignore_default_args=['--disable-back-forward-cache'])
         page = browser.new_page(viewport={'width': 1440, 'height': 1050}, device_scale_factor=1)
         track(page)
         load(page, 'index.html')
@@ -117,14 +124,24 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         require(mobile.locator('.chapter-link:visible').count() == 1, 'Mobile chapter search failed')
         mobile.screenshot(path='/tmp/rheon-education-mobile.png', full_page=True)
         load(mobile, 'labs.html#cap')
+        mobile.locator('[data-reading-mode="example"]').click()
         mobile.wait_for_selector('#metrics dd')
         require(mobile.evaluate('document.documentElement.scrollWidth <= innerWidth+1'),
                 'Mobile laboratory has horizontal overflow')
+        teaching = qualify_teaching(page, mobile, load, check_errors,
+                                   artifact_dir=Path(artifact_dir)/'teaching-evidence' if render_pdf and artifact_dir is not None else None)
+        transport = qualify_transport(page, mobile, load, check_errors,
+                                      artifact_dir=Path(artifact_dir)/'transport-evidence' if render_pdf and artifact_dir is not None else None)
+        timestep = qualify_timestep(page, mobile, load, check_errors,
+                                    artifact_dir=Path(artifact_dir)/'timestep-evidence' if render_pdf and artifact_dir is not None else None)
+        flow = qualify_flow(page, mobile, load, check_errors,
+                            artifact_dir=Path(artifact_dir)/'flow-evidence' if render_pdf and artifact_dir is not None else None)
         native = qualify_native(page, mobile, load, check_errors, metadata(HERE.parents[1]), base_url)
         obstacle = qualify_obstacle(page, mobile, load, check_errors)
         obstacle_flow = qualify_obstacle_flow(page, mobile, load, check_errors)
         packet_dir = Path(artifact_dir)/'aligned-strain-packet' if artifact_dir is not None else HERE/'_site/aligned-strain-packet'
         strain = qualify_aligned_strain(page, mobile, load, check_errors, packet_dir if packet_dir.exists() else None, artifact_dir=Path(artifact_dir)/'strain-browser-evidence' if render_pdf and artifact_dir is not None else None)
+        compressible = qualify_compressible(page, mobile, load, check_errors, artifact_dir=Path(artifact_dir)/'compressible-browser-evidence' if render_pdf and artifact_dir is not None else None, repo=HERE.parents[1])
         load(page, 'print.html')
         page.evaluate('document.fonts.ready')
         check_planar_statement(page)
@@ -145,6 +162,11 @@ def exercise_browser(base_url, render_pdf=False, artifact_dir=None):
         receipt['static_obstacle'] = obstacle
         receipt['obstacle_flow'] = obstacle_flow
         receipt['aligned_strain'] = strain
+        receipt['teaching'] = teaching
+        receipt['transport'] = transport
+        receipt['timestep'] = timestep
+        receipt['flow'] = flow
+        receipt['compressible'] = compressible
         browser.close()
         return receipt
 

@@ -43,14 +43,34 @@ does not hold that lock or borrow simulation fields. Cancellation/failure leaves
 accepted frames available. Close cancels and waits for the worker; Drop joins
 as a backstop. New runs replace the previous timeline after worker startup succeeds.
 
-History defaults to a 96 MiB preview-payload and metadata budget; Simulation
-allows selecting up to 4,096 MiB. Material preview requests support up to 512³
-eight-bit cells. Carrier previews max-pool concentration over source cells;
-material previews splat physical parcels. The sidebar reports actual stored
-resolution and planned bytes before starting. Long runs reduce resolution to
-fit the selected budget while retaining every accepted step. This is a visualization rather
-than a retained full-resolution numerical checkpoint. Simulation budgets,
-allocator overhead, thread stacks, renderer meshes and process RSS are separate.
+History defaults to a 96 MiB preview-payload/metadata budget; the Simulation
+section allows up to 4096 MiB. Numerical density and preview resolution have
+independent controls. New physical sampling/density requests support at most
+1000 samples/m; carrier axis counts support up to 10000, subject to the existing
+192 MiB retained-array budget. Particle samples retain their own 4–64/side limit.
+Counts and density are different: 16 cells at 1000/m occupy 0.016 m per side.
+New count-mode requests also check realized density; historical frozen specs
+retain their recorded exact geometry when cold-opened/rerun.
+
+Preview has three modes: the unchanged adaptive mode (at most 512/axis, reduced
+explicitly to fit all frames), exact density 1–1000/m, and exact edge 1–10000.
+For a fixed physical extent, density requests use ceil(side×density), report
+realized spacing/density and reject rounding above 1000/m. Exact edge mode also
+checks realized density. Exact requests either fit every constructor/accepted
+frame and track or fail before worker/output allocation; they never silently
+reduce resolution. Carrier preview conservatively max-resamples source cells,
+replicating appearance for finer voxels without changing physical fields;
+material previews splat physical parcels.
+
+The sidebar reports actual preview count/density and checked history payload.
+It also reports scan visits and worst-case surface payload. Appearance has a
+separate policy: at most 512³ voxel visits and 262144 exposed faces. Exceeding
+these bounds explicitly makes Appearance unavailable; numerical fields, stored
+preview, recording, Inspector and exports retain their resolution. Actual mesh
+allocations are fallible and bounded. See [density and resource contracts](../../../docs/api/domain-density.md).
+Simulation arrays, recording, renderer/UI/GPU/allocator overhead, thread stacks
+and process RSS are separate; these are payload/work estimates, not RSS or
+elapsed-time guarantees.
 
 `viewport.rs` owns only camera, display settings and cached surface geometry.
 Scrubbing holds the selected accepted step while new steps arrive; Follow live
@@ -121,8 +141,9 @@ simulation time, and the timestep is capped to resolve at least eight intervals
 per revolution, in addition to the existing CFL limit. Cancellation or rejection
 publishes neither candidate fields nor emitter time. The current cylinder is a
 source visualization, not a solid collision boundary. Appearance concentration
-is not a conservative liquid-volume field; solid interaction and free-surface
-coupling require separate solver work.
+is not a conservative liquid-volume field; arbitrary solid interaction in this carrier path and free-surface
+coupling require separate solver work. The separate particle material path supports
+the static mesh collision milestone described below.
 
 ## Verification
 
@@ -145,3 +166,74 @@ and diff checks passed, and both release binaries built.
 Native Linux interaction verified primary-drag orbit, Shift-pan and Ctrl-zoom
 without moving the window, plus live accepted geometry, worker markers and
 per-step timing in the default 180-step demo.
+
+## Quantitative obstacle projection lab
+
+Select **Obstacle projection lab** above the viewport for a separate accepted
+stationary obstacle projection: native pressure slices in Pa, reconstructed
+speed and scaled velocity arrows, masked solid cells, and click probes. This
+small bounded operator experiment uses actual solver output; it is independent
+of the particle scene and live timeline. The lab has its own camera and framing.
+See [model, acceptance criteria and remaining CAD milestones](../../../docs/implementation/cad-obstacle-lab.md).
+
+## Quantitative views and interchange
+
+The top tabs separate **Appearance** timeline playback, **Particles** latest raw
+material state, the fixed **Obstacle lab**, and a live **Transport session** using
+the public API. Settings and Inspector share a scrollable left dock. Particle
+speed colors use the full latest-state range; click a displayed point to select
+its run-local ID in Inspector. At most 8192 points are drawn, with deterministic
+sampling; the inspector and export retain all points. Arrow length is velocity
+multiplied by the displayed time scale. No pre-integration particle pressure is
+colored onto later accepted positions.
+
+Transport Run/Pause/Advance controls step a bounded 64-cell API session. Fraction,
+speed and accepted pressure slices/probes come from that publication. Constructor
+pressure is unavailable. The display uses physical origin/spacing and preserves
+aspect ratio; **Frame view** and **Orthographic** adjust only the camera. This is a
+separate full-box transport case, not an obstacle/free-surface or SPH coupling.
+
+**VTK grid export** saves the current transport snapshot as `.vti`; **VTK particle
+export** in Inspector saves latest accepted positions as `.vtp`. Enter a new file
+path; existing files are never overwritten. Files default to `.generated/` and
+are not repository source. Exports are synchronous and report success only after
+flush; particle capture may pause while its coherent latest state is written.
+See [VTK contract](../../../docs/api/vtk-interchange.md) for fields and stages.
+
+## Imported static collision mesh
+
+The **Collision mesh (OBJ / glTF / GLB)** section accepts a local path, metres per
+source unit, and XYZ translation in metres. Select **Validated convex watertight
+solid** or explicitly select **Two-sided surface barrier** for an open surface.
+Import/apply validates geometry and domain bounds before replacing the accepted
+mesh. Failed imports retain the previous mesh. The native viewer accepts at most
+12,000 triangles (the library's bounded import limit is larger); simplify a larger
+model before importing. External URLs are never downloaded.
+
+Amber wireframe shows accepted collision vertices through fluid (x-ray), not a
+pressure visualization. The unit-box outline represents the physical domain,
+whose side length is shown by the domain controls. Input placement and path edits
+remain drafts until Import/apply. Applying/removing geometry clears the timeline.
+During and after a run, the viewport uses the immutable mesh and domain from that
+run; draft edits cannot relabel recorded results. Reset timeline keeps the accepted
+mesh; Simulate starts a fresh run. Geometry edits are disabled while a worker runs.
+
+Collision is supported only by the liquid/gas particle material simulation. The
+original grid carrier rejects mesh requests. Convex solids exclude initial interior
+particles. Preview voxels can straddle the boundary even when particle centers do not cross.
+Collision response acts on particle centers: it does not model finite
+particle radius, calibrated pressure/shear, resolved no-slip walls or two-way
+moving-body forces. Importing an arbitrary visual asset does not establish physical
+validity. See [format and physics restrictions](../../../docs/collision-meshes.md).
+
+For reproducible native viewing, pass `--collision-mesh /absolute/path/model.obj`
+and optionally `--collision-policy surface` (default `solid`). `--collision-run`
+starts the real default material solver for 180 steps. Import errors fail startup
+instead of silently rendering an uncollidable visual model. These options do not
+replace the interactive controls or imply performance on a GPU.
+
+## Native / trained AI comparison
+
+Use **Compare Rheon / trained AI** or the dedicated `rheon-ai-compare` binary for
+fresh paired water simulations, native warm-up and a signed voxel error legend.
+See [deployment, context, controls and diagnostic limits](../../../docs/ai-pressure-comparison.md).

@@ -26,7 +26,7 @@ def ci_path_ledger():
     return dict(tracked_examples=examples,additional_paths=required[len(examples):],controls=controls)
 
 def verify_split_ci_budget(frozen,current):
-    """Retain exact former step bodies/pins while allowing the approved partition.
+    """Retain exact workloads/pins with the approved split and isolated setup.
 
     This intentionally verifies this one layout, not general YAML. The original
     snapshot remains immutable. No new Python dependency is required by CI.
@@ -46,6 +46,20 @@ def verify_split_ci_budget(frozen,current):
         return result
     old=steps(frozen.split('    steps:\n',1)[1])
     require(len(old)==8,'immutable former eight-step baseline')
+    # Only this reviewed bootstrap replacement departs from the frozen setup.
+    # Do not discard arbitrary setup steps or normalize their command bodies.
+    require(old[2]==(
+        '- name: Select official pinned Rust toolchain\n'
+        '  run: |\n'
+        '    rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy\n'
+        '    rustc --version --verbose\n'
+        '    cargo --version\n'), 'immutable former Rust setup')
+    isolated_setup='- name: Select official pinned Rust toolchain\n  run: python3 tools/setup_ci_rust.py\n'
+    bootstrap_contracts=(
+        '- name: Check isolated Rust bootstrap contracts\n'
+        '  run: |\n'
+        '    python3 -m unittest discover -s tools -p test_setup_ci_rust.py\n'
+        '    python3 -O -m unittest discover -s tools -p test_setup_ci_rust.py\n')
     matches=list(re.finditer(r'^  ([a-z-]+):\n(.*?)(?=^  [a-z-]+:|\Z)',current.split('jobs:\n',1)[1],re.M|re.S))
     require(len(matches)==3,'exact job inventory without duplicates')
     parsed={m.group(1):m.group(2) for m in matches}
@@ -86,11 +100,12 @@ def verify_split_ci_budget(frozen,current):
     require(list(parsed)==list(expected_prefixes),'exact independent jobs and original required status')
     for name,prefix in expected_prefixes.items():
         require(parsed[name].split('    steps:\n',1)[0]==prefix,'runner/budget/matrix/dependencies: '+name)
-    feature=[old[0],old[2],
+    feature=[old[0],isolated_setup,
         '- name: Strict lints for selected features\n  run: |\n    cargo clippy --locked ${{ matrix.flags }} --all-targets -- -D warnings\n',
         '- name: Contract tests for selected features\n  run: |\n    cargo test --locked ${{ matrix.flags }}\n',
         "- name: Inspect core-only dependency tree\n  if: matrix.mode == 'core-only'\n  run: |\n    cargo tree --locked --no-default-features\n"]
-    common=old[:3]+['- name: Formatting\n  run: |\n    cargo fmt --all --check\n']+old[5:]
+    common=old[:2]+[bootstrap_contracts,isolated_setup,
+        '- name: Formatting\n  run: |\n    cargo fmt --all --check\n']+old[5:]
     gate=['- name: Require every existing qualification path\n  env:\n    FEATURE_RESULT: ${{ needs.feature-contracts.result }}\n    EXECUTABLE_RESULT: ${{ needs.executable-contracts.result }}\n  run: |\n    test "$FEATURE_RESULT" = success\n    test "$EXECUTABLE_RESULT" = success\n']
     for name,expected in [('feature-contracts',feature),('executable-contracts',common),('core-and-executable',gate)]:
         require(steps(parsed[name].split('    steps:\n',1)[1])==expected,'exact retained steps: '+name)
@@ -144,30 +159,6 @@ class ColumnVerifierTest(unittest.TestCase):
         for row in self.path_ledger['controls']:
             with self.subTest(event=row['event'],path=row['path']):
                 self.assertTrue(row['matched_patterns'])
-    def test_ci_budget_preserves_every_existing_job_check(self):
-        frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
-        current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
-        verify_split_ci_budget(frozen,current)
-    def test_split_ci_budget_rejects_removed_checks_and_early_success(self):
-        frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
-        current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
-        mutations={
-            'desktop':("        - mode: desktop\n          flags: --features desktop\n",''),
-            'lint':(' --all-targets -- -D warnings',''),
-            'test':('cargo test --locked ${{ matrix.flags }}','cargo test --locked'),
-            'dependency tree':('cargo tree --locked --no-default-features','cargo tree --locked'),
-            'smoke gate':("assert result['last_divergence_max'] <= 1e-5","assert True"),
-            'early success':('    - executable-contracts\n',''),
-            'skip success':('test "$EXECUTABLE_RESULT" = success','true'),
-            'credential persistence':('persist-credentials: false','persist-credentials: true'),
-            'Python dependency':('Pillow==12.3.0','Pillow'),
-            'time limit':('timeout-minutes: 30','timeout-minutes: 60'),
-        }
-        for name,(before,after) in mutations.items():
-            with self.subTest(change=name):
-                self.assertIn(before,current)
-                with self.assertRaises(ValueError):
-                    verify_split_ci_budget(frozen,current.replace(before,after))
     def test_adversarial_finite_fields_ledgers_geometry_and_pixels(self):
         changes=('nan_pressure','inf_velocity','nan_fraction','nan_geometry','before','inward','outward','balance','budget','carry','nan_ledger','reconstruction_change','end_geometry','held_geometry','pressure_version','air_pressure','pixel','missing_frame','advection_fraction','advection_shape_mass_preserved')
         for change in changes:
@@ -216,4 +207,67 @@ class ColumnVerifierTest(unittest.TestCase):
                     with path.open('w',newline='') as stream:
                         writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerows(rows)
                 with self.assertRaises((ValueError,FileNotFoundError)): verify(demo)
+class CiBudgetContract(unittest.TestCase):
+    # These source-only checks must not construct the numerical verifier fixture.
+    def test_ci_budget_preserves_every_existing_job_check(self):
+        frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
+        current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
+        verify_split_ci_budget(frozen,current)
+    def test_split_ci_budget_rejects_removed_checks_and_early_success(self):
+        frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
+        current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
+        mutations={
+            'desktop':("        - mode: desktop\n          flags: --features desktop\n",''),
+            'lint':(' --all-targets -- -D warnings',''),
+            'test':('cargo test --locked ${{ matrix.flags }}','cargo test --locked'),
+            'dependency tree':('cargo tree --locked --no-default-features','cargo tree --locked'),
+            'smoke gate':("assert result['last_divergence_max'] <= 1e-5","assert True"),
+            'early success':('    - executable-contracts\n',''),
+            'skip success':('test "$EXECUTABLE_RESULT" = success','true'),
+            'credential persistence':('persist-credentials: false','persist-credentials: true'),
+            'Python dependency':('Pillow==12.3.0','Pillow'),
+            'time limit':('timeout-minutes: 30','timeout-minutes: 60'),
+        }
+        for name,(before,after) in mutations.items():
+            with self.subTest(change=name):
+                self.assertIn(before,current)
+                with self.assertRaises(ValueError):
+                    verify_split_ci_budget(frozen,current.replace(before,after))
+    def test_only_exact_reviewed_isolated_setup_and_additive_contracts_are_allowed(self):
+        frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
+        current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
+        verify_split_ci_budget(frozen,current)
+        setup=('    - name: Select official pinned Rust toolchain\n'
+            '      run: python3 tools/setup_ci_rust.py\n')
+        contracts=('    - name: Check isolated Rust bootstrap contracts\n'
+            '      run: |\n'
+            '        python3 -m unittest discover -s tools -p test_setup_ci_rust.py\n'
+            '        python3 -O -m unittest discover -s tools -p test_setup_ci_rust.py\n')
+        self.assertEqual(current.count(setup),2)
+        self.assertEqual(current.count(contracts),1)
+        legacy=('    - name: Select official pinned Rust toolchain\n'
+            '      run: |\n'
+            '        rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy\n'
+            '        rustc --version --verbose\n'
+            '        cargo --version\n')
+        mutations={
+            'ambient setup restored':(setup,legacy),
+            'different helper':('run: python3 tools/setup_ci_rust.py','run: python3 tools/unreviewed_setup.py'),
+            'swallowed setup failure':('run: python3 tools/setup_ci_rust.py','run: python3 tools/setup_ci_rust.py || true'),
+            'conditional setup skip':(setup,setup.replace('      run:', '      if: false\n      run:')),
+            'removed setup':(setup,''),
+            'removed bootstrap contracts':(contracts,''),
+            'removed optimized check':('        python3 -O -m unittest discover -s tools -p test_setup_ci_rust.py\n',''),
+            'contracts after setup':(contracts+setup,setup+contracts),
+            'duplicate bootstrap contracts':(contracts,contracts+contracts),
+            'unreviewed additive step':(contracts,contracts+'    - name: Unreviewed bypass\n      run: true\n'),
+        }
+        for name,(before,after) in mutations.items():
+            with self.subTest(change=name):
+                self.assertIn(before,current)
+                with self.assertRaises(ValueError):
+                    verify_split_ci_budget(frozen,current.replace(before,after,1))
+        with self.assertRaisesRegex(ValueError,'immutable former Rust setup'):
+            verify_split_ci_budget(frozen.replace('rustup toolchain install 1.92.0','rustup toolchain install stable'),current)
+
 if __name__=='__main__': unittest.main()

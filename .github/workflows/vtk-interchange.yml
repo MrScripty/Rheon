@@ -1,0 +1,59 @@
+name: Native VTK interchange
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'examples/vtk_export_fixture.rs'
+      - 'examples/recorded_carrier.rs'
+      - 'examples/session_support/**'
+      - 'tests/vtk_export_contract.rs'
+      - 'tests/recording_carrier_contract.rs'
+      - 'tools/verify_vtk_roundtrip.py'
+      - 'tools/verify_recorded_carrier_vtk.py'
+      - 'Cargo.*'
+      - 'rust-toolchain.toml'
+      - '.github/workflows/vtk-interchange.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'examples/vtk_export_fixture.rs'
+      - 'examples/recorded_carrier.rs'
+      - 'examples/session_support/**'
+      - 'tests/vtk_export_contract.rs'
+      - 'tests/recording_carrier_contract.rs'
+      - 'tools/verify_vtk_roundtrip.py'
+      - 'tools/verify_recorded_carrier_vtk.py'
+      - 'Cargo.*'
+      - 'rust-toolchain.toml'
+      - '.github/workflows/vtk-interchange.yml'
+permissions:
+  contents: read
+jobs:
+  vtk-reader-roundtrip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Install repository Rust toolchain
+        run: rustup toolchain install 1.92.0 --profile minimal --component rustfmt --component clippy
+      - name: Install qualified independent VTK reader
+        run: |
+          python3 -m venv "$RUNNER_TEMP/vtk-reader"
+          "$RUNNER_TEMP/vtk-reader/bin/pip" install vtk==9.3.1 numpy==2.3.5
+      - name: Rust boundary contract and static checks
+        run: |
+          cargo test --locked --no-default-features --test vtk_export_contract --test recording_carrier_contract
+          cargo clippy --locked --no-default-features --test vtk_export_contract --example vtk_export_fixture --example recorded_carrier -- -D warnings
+      - name: Real VTK reader validates native precision and associations
+        run: |
+          cargo run --locked --no-default-features --example vtk_export_fixture -- "$RUNNER_TEMP/rheon-vtk-fixtures"
+          "$RUNNER_TEMP/vtk-reader/bin/python" tools/verify_vtk_roundtrip.py "$RUNNER_TEMP/rheon-vtk-fixtures"
+          mkdir -p "$RUNNER_TEMP/rheon-carrier-fixture"
+          cargo run --locked --no-default-features --example recorded_carrier -- record "$RUNNER_TEMP/rheon-carrier-fixture/run.sqlite" "${{ github.event.pull_request.head.sha || github.sha }}"
+          cargo run --locked --no-default-features --example recorded_carrier -- inspect "$RUNNER_TEMP/rheon-carrier-fixture/run.sqlite" 0 "$RUNNER_TEMP/rheon-carrier-fixture/step0.vti"
+          cargo run --locked --no-default-features --example recorded_carrier -- inspect "$RUNNER_TEMP/rheon-carrier-fixture/run.sqlite" 1 "$RUNNER_TEMP/rheon-carrier-fixture/step1.vti"
+          "$RUNNER_TEMP/vtk-reader/bin/python" tools/verify_recorded_carrier_vtk.py "$RUNNER_TEMP/rheon-carrier-fixture/run.sqlite" "$RUNNER_TEMP/rheon-carrier-fixture/step0.vti" "$RUNNER_TEMP/rheon-carrier-fixture/step1.vti"

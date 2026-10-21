@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/workspace/force-validation-post-custody-7970a5d/recording_tests",
+    "particle_force_archive_round_trip_and_rejected_control_custody",
+    "--exact",
+    "--ignored",
+    "--test-threads=1",
+    "--show-output"
+  ],
+  "binary_sha256": "4ee715678545204a996b70121d26dcb930578e7e5f94cafc27d111372af69e5b",
+  "returncode": 0,
+  "wall_seconds": 0.03394221500002459,
+  "signals": [],
+  "log_bytes": 471,
+  "log_sha256": "f32aa9002de05a1d169d6c8e4a7975df43303f2c70710e7566c7159e0a0212d3",
+  "limits": {
+    "wall_seconds": 30,
+    "term_to_owned_child_kill_seconds": 1,
+    "cpu_seconds": 20,
+    "address_space_bytes": 536870912,
+    "file_and_log_bytes": 1048576,
+    "test_threads": 1
+  }
+}

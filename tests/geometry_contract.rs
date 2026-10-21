@@ -105,3 +105,30 @@ fn conservative_axis_margin_covers_large_origins_and_adjacent_samples() {
         }
     }
 }
+
+#[test]
+fn density_is_spacing_not_axis_count_and_large_requests_preflight_without_fields() {
+    let g = GridGeometry::at_cell_density([16; 3], 1000, [0.0; 3]).unwrap();
+    assert_eq!(g.spacing(), [0.001; 3]);
+    assert_eq!(g.upper(), [0.016; 3]);
+    assert_eq!(g.cell_len(), 4096);
+    assert!(BufferPlan::for_grid(&g, 1024 * 1024).is_ok());
+    for density in [0, 1001, u32::MAX] {
+        assert!(matches!(
+            GridGeometry::at_cell_density([16; 3], density, [0.0; 3]),
+            Err(GeometryError::CellDensity { .. })
+        ));
+    }
+    // Geometry/planning contains no cell fields, even at the advertised axis maximum.
+    #[cfg(target_pointer_width = "64")]
+    {
+        let large =
+            GridGeometry::at_cell_density([rheon::MAX_GRID_EDGE; 3], 1000, [0.0; 3]).unwrap();
+        assert_eq!(large.cell_len(), 1_000_000_000_000);
+        assert_eq!(large.upper(), [10.0; 3]);
+        assert!(matches!(
+            BufferPlan::for_grid(&large, 192 * 1024 * 1024),
+            Err(GeometryError::BufferLimit { .. })
+        ));
+    }
+}

@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+     Running unittests src/bin/rheon-desktop.rs (/workspace/.rheon-tools/target/debug/deps/rheon_desktop-51d01e4509203a9f)
+
+running 1 test
+test scene_view::tests::scene_pick_identity_overlap_retained_and_unavailable_preview ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 196 filtered out; finished in 0.00s
+

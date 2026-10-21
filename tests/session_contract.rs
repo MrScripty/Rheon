@@ -10,6 +10,10 @@ fn lifecycle_identity_export_and_quota() {
     assert_eq!(session.snapshot().identity().run_id, 1);
     assert_eq!(session.capabilities().api_version, 3);
     assert!(!session.capabilities().hard_realtime);
+    assert_eq!(
+        session.capabilities().accepted_previous_pressure_v1,
+        cfg!(feature = "accepted-pressure-warm-start")
+    );
     for frame in 1..=8 {
         let report = session
             .step(support::inputs(), boundary, None, |_| false)

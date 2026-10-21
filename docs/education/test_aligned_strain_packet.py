@@ -12,7 +12,10 @@ from unittest.mock import patch
 
 from aligned_strain_packet import (ROOT, SCHEMA, basis_and_corners, browser_expectation,
                                   encoded, external_new_directory, packet_data,
-                                  sha, source_core, validate_packet, publish, verify_published)
+                                  sha, source_core, validate_packet, publish, verify_published,
+                                  REVIEWED_INVENTORY, RUNTIME_INVENTORY, INTEGRATION_INVENTORY,
+                                  INTEGRATION_REVIEW, admission_inventory, admission_manifest_paths,
+                                  reviewed_native_paths, trusted_primary, git)
 from aligned_strain_oracle import Dump, Geometry, Refusal, reference
 
 
@@ -97,6 +100,60 @@ class ControlBasisTest(unittest.TestCase):
                 with self.assertRaisesRegex(Refusal, 'changed qualified native source'):
                     source_core(ROOT)
 
+    def test_reviewed_extension_binds_added_modules_and_build_inputs(self):
+        sources = source_core(ROOT)
+        for changed in ('Cargo.lock', 'src/scheduling.rs', 'src/particle_fluid.rs',
+                        'src/sgs.rs', 'tools/aligned_strain_oracle.py'):
+            self.assertEqual(sources[changed], sha(ROOT/changed))
+            def tampered(path):
+                return '0'*64 if Path(path) == ROOT/changed else sha(path)
+            with self.subTest(changed=changed), patch('aligned_strain_packet.sha', side_effect=tampered):
+                with self.assertRaisesRegex(Refusal, 'changed qualified native source'):
+                    source_core(ROOT)
+
+    def test_reviewed_extension_rejects_added_or_missing_path(self):
+        paths = reviewed_native_paths(ROOT)
+        for altered in (paths | {'src/unreviewed.rs'}, paths - {'src/particle_fluid.rs'}):
+            with patch('aligned_strain_packet.reviewed_native_paths', return_value=altered):
+                with self.assertRaisesRegex(Refusal, 'added or missing path'):
+                    source_core(ROOT)
+
+    def test_bad_reviewed_inventory_has_no_historical_fallback(self):
+        data = json.loads((ROOT/admission_inventory(ROOT)[0]).read_text())
+        data['reviewed_base'] = '0'*40
+        with patch('aligned_strain_packet.json.loads', return_value=data):
+            with self.assertRaisesRegex(Refusal, 'inventory identity'):
+                source_core(ROOT)
+
+    def primary_receipt(self, directory):
+        sources = source_core(ROOT)
+        data = {'schema': 'rheon-reconstructed-aligned-strain-qualification-v1',
+                'clean': True, 'status': 'passed', 'source_head': git(ROOT, 'rev-parse', 'HEAD'),
+                'source_tree': git(ROOT, 'rev-parse', 'HEAD^{tree}'),
+                'source_sha256': dict(sources, **{name: sha(ROOT/name) for name in admission_manifest_paths(ROOT)}),
+                'executable_sha256': '1'*64}
+        path = Path(directory)/'primary.json'
+        path.write_text(encoded(data))
+        return path, data, sources
+
+    def test_receipt_commit_with_extra_build_input_refuses(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path, _, sources = self.primary_receipt(temp)
+            for extra in ('build.rs', '.cargo/config.toml'):
+                with self.subTest(extra=extra), patch('aligned_strain_packet.committed_native_paths',
+                                                     return_value=set(sources) | {extra}):
+                    with self.assertRaisesRegex(Refusal, 'receipt commit inventory'):
+                        trusted_primary(ROOT, path)
+
+    def test_receipt_must_bind_same_reviewed_inventory(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path, data, sources = self.primary_receipt(temp)
+            data['source_sha256'][admission_inventory(ROOT)[0]] = '0'*64
+            path.write_text(encoded(data))
+            with patch('aligned_strain_packet.committed_native_paths', return_value=set(sources)):
+                with self.assertRaisesRegex(Refusal, 'receipt reviewed inventory binding'):
+                    trusted_primary(ROOT, path)
+
 
 @unittest.skipUnless(os.environ.get('RHEON_ALIGNED_PACKET'),'qualification supplies a real native packet')
 class NativePacketRejectionTest(unittest.TestCase):
@@ -176,6 +233,94 @@ class NativePacketRejectionTest(unittest.TestCase):
                 with self.assertRaises((Refusal,subprocess.CalledProcessError)):
                     validate_packet(ROOT,self.packet)
 
+
+
+class RuntimeAdmissionTest(unittest.TestCase):
+    @unittest.skipUnless((ROOT/RUNTIME_INVENTORY).exists(), 'runtime reviewed epoch not selected')
+    def test_runtime_epoch_preserves_historical_record_and_refuses_tampering(self):
+        selected = admission_inventory(ROOT)
+        self.assertIn(selected[0], (RUNTIME_INVENTORY, INTEGRATION_INVENTORY))
+        def tampered(path):
+            return '0'*64 if Path(path) == ROOT/REVIEWED_INVENTORY else sha(path)
+        with patch('aligned_strain_packet.sha', side_effect=tampered):
+            with self.assertRaisesRegex(Refusal, 'historical reviewed inventory'):
+                source_core(ROOT)
+
+    @unittest.skipUnless((ROOT/RUNTIME_INVENTORY).exists(), 'runtime reviewed epoch not selected')
+    def test_stale_runtime_epoch_cannot_fall_back_to_historical(self):
+        data = json.loads((ROOT/admission_inventory(ROOT)[0]).read_text())
+        data['source_sha256'] = {}
+        with patch('aligned_strain_packet.json.loads', return_value=data):
+            with self.assertRaisesRegex(Refusal, 'added or missing path'):
+                source_core(ROOT)
+
+    @unittest.skipUnless((ROOT/RUNTIME_INVENTORY).exists(), 'runtime reviewed epoch not selected')
+    def test_receipt_must_also_preserve_historical_record(self):
+        helper = ControlBasisTest()
+        with tempfile.TemporaryDirectory() as temp:
+            path, data, sources = helper.primary_receipt(temp)
+            data['source_sha256'][REVIEWED_INVENTORY] = '0'*64
+            path.write_text(encoded(data))
+            with patch('aligned_strain_packet.committed_native_paths', return_value=set(sources)):
+                with self.assertRaisesRegex(Refusal, 'receipt reviewed inventory binding'):
+                    trusted_primary(ROOT, path)
+
+
+@unittest.skipUnless((ROOT/INTEGRATION_INVENTORY).exists(), 'integration reviewed epoch absent')
+class IntegrationAdmissionTest(unittest.TestCase):
+    def test_epoch_preserves_both_predecessors_without_fallback(self):
+        self.assertEqual(admission_inventory(ROOT)[0], INTEGRATION_INVENTORY)
+        for record, diagnostic in ((REVIEWED_INVENTORY, 'historical'),
+                                   (RUNTIME_INVENTORY, 'runtime')):
+            def tampered(path):
+                return '0'*64 if Path(path) == ROOT/record else sha(path)
+            with self.subTest(record=record), patch('aligned_strain_packet.sha', side_effect=tampered):
+                with self.assertRaisesRegex(Refusal, diagnostic+' reviewed inventory'):
+                    source_core(ROOT)
+
+    def test_review_and_predecessor_identity_refuse_tampering(self):
+        original = json.loads((ROOT/INTEGRATION_INVENTORY).read_text())
+        for key, value, diagnostic in (
+                ('preserved_inventory_sha256', {}, 'predecessor identity'),
+                ('review_record', REVIEWED_INVENTORY, 'review binding'),
+                ('review_sha256', '0'*64, 'review binding')):
+            changed = dict(original, **{key: value})
+            with self.subTest(key=key), patch('aligned_strain_packet.json.loads', return_value=changed):
+                with self.assertRaisesRegex(Refusal, diagnostic):
+                    source_core(ROOT)
+        def tampered(path):
+            return '0'*64 if Path(path) == ROOT/INTEGRATION_REVIEW else sha(path)
+        with patch('aligned_strain_packet.sha', side_effect=tampered):
+            with self.assertRaisesRegex(Refusal, 'review binding'):
+                source_core(ROOT)
+
+    def test_complete_native_closure_includes_both_independent_modules(self):
+        sources = source_core(ROOT)
+        for name in ('src/recording.rs', 'src/recording/carrier.rs',
+                     'src/compressible.rs', 'src/bin/desktop/archive_view.rs'):
+            self.assertEqual(sources[name], sha(ROOT/name))
+
+    def test_receipt_binds_predecessor_and_review_bytes_and_committed_blobs(self):
+        helper = ControlBasisTest()
+        with tempfile.TemporaryDirectory() as temp:
+            path, original, sources = helper.primary_receipt(temp)
+            for record in (RUNTIME_INVENTORY, INTEGRATION_REVIEW):
+                data = deepcopy(original)
+                data['source_sha256'][record] = '0'*64
+                path.write_text(encoded(data))
+                with self.subTest(record=record), patch('aligned_strain_packet.committed_native_paths',
+                                                       return_value=set(sources)):
+                    with self.assertRaisesRegex(Refusal, 'receipt reviewed inventory binding'):
+                        trusted_primary(ROOT, path)
+            path.write_text(encoded(original))
+            actual_git = subprocess.check_output
+            def changed_committed_review(command, **kwargs):
+                if command == ['git', 'show', original['source_head']+':'+INTEGRATION_REVIEW]:
+                    return b'unreviewed replacement'
+                return actual_git(command, **kwargs)
+            with patch('aligned_strain_packet.subprocess.check_output', side_effect=changed_committed_review):
+                with self.assertRaisesRegex(Refusal, 'receipt reviewed inventory binding'):
+                    trusted_primary(ROOT, path)
 
 if __name__ == '__main__':
     unittest.main()

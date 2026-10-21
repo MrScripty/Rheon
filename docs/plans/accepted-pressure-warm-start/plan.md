@@ -1,10 +1,27 @@
 # Accepted-state CPU pressure warm starts
 
-Status: Corrected implementation independently admitted for the scoped opt-in path.
-Local qualification is complete; exact-head CI remains the publication gate.
-Base: frozen PR55 head3525c979e16629b295a6865e3abbb2a36803cc93.
-Branch: perf/accepted-pressure-warm-start; separate PR stacked on
-feat/full-step-provider-api. Do not modify PR55's branch or merge main.
+Status: Active — 2026-10-21 current-main integration. Overall acceptance remains open.
+Canonical operation: continue this plan under the fresh user request to complete PR59.
+The original evaluation-only/no-merge instructions below are historical; the new
+request authorizes normal reviewed serial integration after #142 → #138 → #143.
+
+Current binding decisions and prospective protocol:
+[integration-20261021/protocol.md](integration-20261021/protocol.md).
+Explicit Cargo feature `accepted-pressure-warm-start` contains the optimization;
+ordinary builds exclude warm implementation. This transparently narrows the build
+scope in response to the retained adverse default-particle evidence. No universal
+speedup or production acceptance follows from source integration.
+
+Owner: PR59 worker; main integration owner: PR142 lead. Preserve shared branches.
+Initial original head7f1733f and main15026a9 are retained; current-main additive
+force/provider conflicts are resolved in integration/pr59-20261021. Readiness is
+reported on PR59; merging requires the lead's verified exact-head authorization or
+the lead performs it. Dependency order and final main source must be rechecked.
+
+Current phase: integration implementation / preliminary verification.
+Exactly one next slice: freeze source for independent review, then qualify final
+ordered composition. Acceptance: partial; final default controls, source admission,
+exact-source review, required CI and post-merge checks remain pending.
 
 ## Agreed scope and admission
 

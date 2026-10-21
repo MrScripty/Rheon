@@ -31,6 +31,7 @@ pub enum ParticleEvaluationStage {
 #[derive(Debug, Clone, Copy)]
 pub struct MaterialSessionCapabilities {
     pub api_version: u32,
+    pub emitter_controls_version: u32,
     pub crate_version: &'static str,
     pub particle_diagnostics: bool,
     /// This SPH model does not call the grid pressure provider.
@@ -42,7 +43,8 @@ pub struct MaterialSessionCapabilities {
 
 pub const MATERIAL_SESSION_CAPABILITIES: MaterialSessionCapabilities =
     MaterialSessionCapabilities {
-        api_version: 1,
+        api_version: 2,
+        emitter_controls_version: crate::EMITTER_CONTROLS_VERSION,
         crate_version: env!("CARGO_PKG_VERSION"),
         particle_diagnostics: true,
         grid_pressure_provider: false,

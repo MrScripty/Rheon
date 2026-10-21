@@ -1,0 +1,14 @@
+{
+  "scope": "Zero dependency or imported data/code change in engineering teaching slice",
+  "base": "33094fb975753e35645ad807cf01015de041779e",
+  "new_dependencies": [],
+  "new_external_data": [],
+  "copied_external_implementation": false,
+  "locks": {
+    "Cargo.lock": "b6da773967a1aea1db3fe0a26e3e7e990a68f701777a9f261fdb4cf883ca6d7a",
+    "browser/solver/Cargo.lock": "b4e517fa06e1a136d931ed04f370f49d63322ff6f262f3112ff7d3575d223118",
+    "docs/education/package-lock.json": "58883fc3bd9dc3cc343090486038c6a46719c5839cb9dac7d58e35f6656f5659",
+    "proofs/lean-toolchain": "55e97be96000b5e9e290c9e74482e5e317861499a5540353ce845471bded8cea",
+    "proofs/lake-manifest.json": "6fca0fbcd73e55375c73b69fcff247d94bf70753439a2791a1af392d3277d730"
+  }
+}

@@ -46,6 +46,13 @@ def _qualify_settings(data, method, size, steps, accuracy):
     for key, value in expected.items():
         if type(data[key]) is not type(value) or data[key] != value:
             raise ValueError(f'Run {key} differs from requested comparison settings')
+    # Schema2 originally omitted geometry. Retained old packets are unit-box
+    # packets; an explicit geometry declaration must be complete and match the
+    # unit-box workload, otherwise residual conversion would use the wrong h³.
+    if 'cell_size_m' in data or 'domain_side_m' in data:
+        for key, value in (('cell_size_m', 1.0 / size), ('domain_side_m', 1.0)):
+            if type(data.get(key)) not in (int, float) or data[key] != value:
+                raise ValueError(f'Run {key} differs from requested unit-box comparison geometry')
 
 def _finite_nonnegative(value, field):
     if type(value) not in (int, float) or not math.isfinite(value) or value < 0:

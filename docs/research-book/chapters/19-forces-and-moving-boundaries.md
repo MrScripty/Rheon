@@ -21,6 +21,8 @@ A rigid prescribed boundary has world velocity \(u_s(x)=v+\omega\times(x-x_c)\).
 
 For an outward fluid normal, sealed moving-wall flux is positive when fluid-domain volume grows. Reynolds transport gives \(\sum_e Q_e=\dot V\), with \(Q_e=A_e u_s\cdot n_e\). Incompressibility on a moving control volume uses this geometric volume change, rather than imposing a zero sum of all wall fluxes blindly. A translating obstacle inside a fixed sealed container preserves total fluid-domain volume; a piston moving inward does not unless a compensating outlet or source exists.
 
+**Correction, 20 October 2026.** The Reynolds relation is a geometric identity, not a solvability condition by itself. In a closed source-free incompressible component, the divergence theorem and impermeability additionally require \(\sum_e A_e u_s\cdot n_e=0\), hence \(\dot V=0\). An inward sealed piston is incompatible. For a fixed Cartesian cell cut by a moving solid, the relative-flux balance is \(\dot V_i+\sum_{\mathrm{fixed\ open\ faces}}A_fu_f\cdot n_f=0\); swept solid volume supplies \(\dot V_i\). Applying a homogeneous fixed-volume constraint while changing that volume omits this term. [Chapter 29](29-liquid-solid-interaction.md) distinguishes geometric conservation, prescribed motion and dynamic coupling.
+
 For fixed-volume cell constraints choose an outward-positive internal incidence B (the negative of Chapter 16’s head-positive pressure incidence) and write \(Bu+Q=s\), where internal incidence columns sum to zero and \(s\) is an integrated volume source. Summing yields the necessary component condition \(\sum Q=\sum s\). `sealed_flux_compatibility` proves this implication under explicit balance and solved-constraint hypotheses. It does not prove a solution exists. Moving-cell schemes must additionally supply their geometric conservation law.
 
 ## Pressure and external work
@@ -54,3 +56,24 @@ E(v)-E(u)+\tfrac12\|v-u\|_M^2
 The minus sign in actuator work follows from wall force −Λr on the fluid. Laboratory-frame energy can increase while relative friction dissipates. The residual must be taken from this unscaled equation, with its norm and normalization declared. This richer matrix statement is a next proof target, numerically checked in small synthetic systems; it is not one of Physics.lean's thirteen compiled contracts. Prescribed normal-wall pressure work requires its own affine constraint term.
 
 An affine projection M(v-u)+Aᵀλ=0, Av=b gives E(v)-E(u)+½‖v-u‖²M=−λᵀb. Here λ is impulse-scaled. A homogeneous stationary constraint has zero right side; a moving constraint supplies work. Feasibility is separate from pressure gauge uniqueness. For two-way solids, combine fluid and body masses and use one adjoint constraint J. Common translation conserves the corresponding generalized momentum only if J annihilates that mode; angular momentum additionally needs rotation modes and consistent interaction points. These are frozen-geometry specifications, not completed moving-solid proofs.
+
+## Signed work at a moving wall
+
+Use the steady wall-load example with μ = U = 1 and G = −2. Tractions on the
+fluid are bottom 0 Pa and top 2 Pa; mean velocity is 1/3 m/s. The moving wall
+supplies 2 W while the opposing body force removes 2/3 W, leaving dissipation
+4/3 W. Work is signed: body forcing need not inject energy. This one-metre,
+unit-area solution is a teachable traction and power oracle, not a moving
+mesh or two-way coupled body. At general boundaries use total Cauchy traction,
+including pressure, and distinguish the normal pointing out of the fluid from
+the normal pointing out of a solid. Prescribed outlet traction also needs a
+compatible inflow/backflow policy and pressure reference; importing a benchmark
+with a different boundary operator changes the problem.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

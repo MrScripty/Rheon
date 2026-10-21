@@ -1,0 +1,358 @@
+{
+  "scope": "Actual x86_64-unknown-linux-gnu standalone harness graph; no package binaries or third-party source redistributed in this PR",
+  "method": "cargo metadata --offline --locked --manifest-path validation/cpu-cfd/Cargo.toml --filter-platform x86_64-unknown-linux-gnu --format-version 1; read registry package license files and compare versions with root lock",
+  "result": "All selected terms permit use here with Apache-2.0 project; no GPL term selected or GPL-only dependency. Keep notices with any later binary/source redistribution. Unicode-3.0 license applies additionally to unicode-ident. Not a vulnerability/advisory audit or other-target qualification.",
+  "packages": [
+    {
+      "name": "ambient-authority",
+      "version": "0.0.2",
+      "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "base64",
+      "version": "0.22.1",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "0dd882e53de11566d50f8e8e2d5a651bcf3fabee4987d70f306233cf39094ba7"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "bitflags",
+      "version": "2.13.2",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "byteorder",
+      "version": "1.5.0",
+      "declared_license": "Unlicense OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "cap-primitives",
+      "version": "3.4.6",
+      "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "cap-std",
+      "version": "3.4.5",
+      "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "errno",
+      "version": "0.3.14",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "8764a597675778ddfd4e25f81b08a05dbcf089ac05662df7613fe67f150e3aa2"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "fs-set-times",
+      "version": "0.20.3",
+      "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "gltf",
+      "version": "1.4.1",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "0e6c282dfcb08a031c37b8f851fe5813fad63612e88a29dbe5121d727d67bbf2"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "gltf-derive",
+      "version": "1.4.1",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "f71fd5946d6674af304514dc7b3b4272aa9117052dd347fb3a9dc9679f33d95f"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "gltf-json",
+      "version": "1.4.1",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "0e6c282dfcb08a031c37b8f851fe5813fad63612e88a29dbe5121d727d67bbf2"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "inflections",
+      "version": "1.1.1",
+      "declared_license": "MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE": "fe5c9498374de7953275f83f35565b289f377ceab4a28d04c7da87723e02a372"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "io-extras",
+      "version": "0.18.4",
+      "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "io-lifetimes",
+      "version": "2.0.4",
+      "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "ipnet",
+      "version": "2.12.2",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "47dc9ff29128ddfb4d6a0435383c9f89120bc374dbcc1dd00b933a0b28aa7865"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "itoa",
+      "version": "1.0.18",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "lazy_static",
+      "version": "1.5.1",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "libc",
+      "version": "0.2.190",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "123a331b5dbf04c30097fa43b8f858bc85df671fe776de498d01f3d6b7c1f69e"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "linux-raw-sys",
+      "version": "0.12.1",
+      "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "maybe-owned",
+      "version": "0.3.4",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "ef2b3bbd7b718a7881253226313f103e89b379e1279681a3c1ebcb65a27d209d"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "memchr",
+      "version": "2.8.3",
+      "declared_license": "Unlicense OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "once_cell",
+      "version": "1.21.4",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "proc-macro2",
+      "version": "1.0.107",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "quote",
+      "version": "1.0.47",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "rheon",
+      "version": "0.1.0",
+      "declared_license": "Apache-2.0",
+      "selected_terms": "Apache-2.0",
+      "license_text_sha256": {
+        "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "rustix",
+      "version": "1.1.5",
+      "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "rustix-linux-procfs",
+      "version": "0.1.1",
+      "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "serde",
+      "version": "1.0.229",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "serde_core",
+      "version": "1.0.229",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "serde_derive",
+      "version": "1.0.229",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "serde_json",
+      "version": "1.0.154",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "syn",
+      "version": "2.0.119",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "syn",
+      "version": "3.0.6",
+      "declared_license": "MIT OR Apache-2.0",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "unicode-ident",
+      "version": "1.0.26",
+      "declared_license": "(MIT OR Apache-2.0) AND Unicode-3.0",
+      "selected_terms": "MIT AND Unicode-3.0",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+        "LICENSE-UNICODE": "f7db81051789b729fea528a63ec4c938fdcb93d9d61d97dc8cc2e9df6d47f2a1"
+      },
+      "same_version_as_root_lock": true
+    },
+    {
+      "name": "zmij",
+      "version": "1.0.23",
+      "declared_license": "MIT",
+      "selected_terms": "MIT",
+      "license_text_sha256": {
+        "LICENSE-MIT": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+      },
+      "same_version_as_root_lock": true
+    }
+  ]
+}

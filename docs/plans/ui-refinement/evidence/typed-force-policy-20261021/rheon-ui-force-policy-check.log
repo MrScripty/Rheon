@@ -1,0 +1,14 @@
+    Checking rheon v0.1.0 (/workspace/Rheon-ui-authoring)
+warning: method `draft` is never used
+  --> src/bin/desktop/scene_ui.rs:79:12
+   |
+69 | impl SceneUi {
+   | ------------ method in this implementation
+...
+79 |     pub fn draft(&self) -> &ForceScene {
+   |            ^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `rheon` (bin "rheon-desktop") generated 1 warning
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.15s

@@ -1,6 +1,19 @@
 # Opt-in accepted pressure initialization
 
-The native sealed liquid route accepts an explicit initialization policy:
+Enable the non-default Cargo feature `accepted-pressure-warm-start` only for a
+sealed coupled-liquid CPU consumer, then select an explicit initialization policy:
+
+```toml
+rheon = { path = "../Rheon", features = ["accepted-pressure-warm-start"] }
+```
+
+Default builds exclude warm solver branches, owner state, report fields and entry
+points. The original default-particle +2.20% confirmation remains failed performance
+evidence; this build boundary narrows exposure and does not erase that observation.
+Historical gains apply only to their frozen binaries and workloads. Feature-enabled
+mixed particle applications have no performance admission from those gains.
+
+The native sealed liquid route accepts:
 
 ```rust
 let report = session.step_with_initialization(
@@ -41,7 +54,8 @@ not. New owners receive distinct process-local incarnations even with repeated
 caller IDs. Current coupled geometry/density are immutable; future reset/import
 or operator-changing APIs must invalidate through this same owner boundary.
 
-Session capabilities advertise API version3 and `accepted_previous_pressure_v1`.
+Session capabilities advertise API version3 and set `accepted_previous_pressure_v1`
+to whether this Cargo feature is enabled.
 Initialization reports are separate from provider reports. Existing dense3D frames
 do not serialize warm history/provenance; process-local stamps are not portable
 replay IDs. Numerical replay requires matching policy, accepted history and inputs.

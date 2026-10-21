@@ -29,6 +29,8 @@ A fraction \(f_i\in[0,1]\) gives represented volume
 V_h=\sum_i f_iV_i.
 \]
 
+**Audit clarification, 20 October 2026.** This represented volume, a carrier's appearance tracer, particle parcel mass and the diagnostic \(\sum_i m_i/\rho_i\) are different quantities. Rheon's ordinary `LiquidTransportSimulation` transports a conservative fraction on an all-fluid carrier; only its explicitly selected slab/column variants activate the restricted atmospheric pressure surface. Conservation alone does not establish interface location or a general free-surface momentum/stress solve. The retained native translation experiment conserves represented volume while its interface diffuses; [Appendix G](../appendices/G-paper-audit-and-corrections.md) records that result without changing its acceptance criteria.
+
 Shared liquid-volume fluxes with opposite signs preserve global volume except for sources and boundaries. Hirt and Nichols established the volume-of-fluid approach [S9]. Geometric reconstruction estimates a local interface to determine swept liquid volume; it is substantially more work than advecting a color scalar.
 
 A cell fraction 0.3 and Courant number 0.5 illustrate the risk: an outgoing flux selected without interface geometry can remove more liquid than exists. Bounding available volume must coordinate faces in multiple dimensions. Clamping final fractions can restore range while destroying total volume. Preserve both by construction or disclose the correction.
@@ -81,3 +83,77 @@ Implicit tension may relax a stability restriction but introduces coupled geomet
 A level-set volume correction sometimes shifts phi by a constant until a target volume is restored. This moves the interface everywhere, including regions already accurate. It can repair a scalar volume metric while damaging local positional accuracy. If used, record shift magnitude, affected volume and resulting silhouette displacement.
 
 A more informative acceptance report retains both volume drift and a spatial surface metric. Two shapes can have equal volume and completely different placement. Rheon's guidance purpose makes that distinction especially important.
+
+## A shared-face experiment
+
+Start with one unit-metre cube and an empty receiving cube. Prescribe positive
+x transport over one interval, with swept width \(c=u\Delta t/h\) between zero
+and one. The outgoing region is \([1-c,1]\times[0,1]^2\). The interface position,
+not just the liquid fraction, determines how much liquid intersects this slab.
+
+The embedded example places the same fraction \(f\) in either
+\([0,f]\times[0,1]^2\) or \([1-f,1]\times[0,1]^2\). The two transferred volumes,
+in cubic metres for these unit cubes, are
+
+\[
+Q_L=\max(0,f+c-1),\qquad Q_R=\min(f,c).
+\]
+
+Predict before switching **Liquid location**: with \(f=0.3\) and \(c=0.5\),
+the left-filled cell transfers zero, while the right-filled cell transfers
+0.3 m³. A uniform-mixture estimate \(cf=0.15\) cannot distinguish these
+interfaces. It can preserve a shared ledger while giving a different interface
+transport. Teal marks the initial liquid, orange the swept region, and the dark
+intersection the outgoing liquid. Orbit the cube to inspect their spatial
+relationship. Lower cubes encode the resulting amounts with fill heights;
+they do not claim reconstructed post-step geometry.
+
+The receiver starts empty. Subtract the same Q from the donor and add it to
+the receiver: \((f-Q)+Q=f\). Now inspect the deliberately incorrect full-slab
+transfer \(Q=c\): the amounts become −0.2 and 0.5 m³. Independently clamping
+them gives zero and 0.5 m³, creating 0.2 m³. Conservation, bounded fractions
+and geometrically correct transport are three separate questions.
+
+This is a one-face geometric/ledger experiment, not a closed-box divergence-free
+velocity solution. Two liquid-containing cells, several outgoing faces, inflow,
+non-unit cell volumes and arbitrary normals require additional accounting.
+The receiver's capacity must also be respected. Slider width up to one is an
+intersection domain, not a stability recommendation for a multidimensional
+scheme.
+
+## Research connection and native scope
+
+The official [Basilisk VOF implementation](https://basilisk.fr/src/vof.h)
+reconstructs a plane before evaluating liquid in a swept face region. Its
+one-dimensional sweep includes a compression contribution; the multidimensional
+construction follows Weymouth and Yue's conservation treatment and states an
+exactly non-divergent velocity condition. Its documented CFL restriction is
+0.5. These details explain why isolated face cancellation does not establish
+bounded, conservative multidimensional VOF. See its `sweep_x` and
+`vof_advection` implementations (consulted 2026-10-13), alongside Hirt and
+Nichols [S9]. This lesson implements neither complete scheme.
+
+Rheon's existing [liquid-volume owner](../../../src/liquid_volume.rs) and
+[liquid step](../../../src/liquid_step.rs) remain separate native code. This
+browser lesson does not invoke them, change their admission rules, or qualify
+geometric reconstruction in Rust. Its independent equations are visible in
+[volume_reference.js](../../education/volume_reference.js).
+
+## Checked volume-flux proof bridge
+
+[VolumeFlux.lean](../../../proofs/Rheon/VolumeFlux.lean) states exact-real
+properties with explicit hypotheses. For \(0\le f,c\le1\), the left slab
+flux is nonnegative and no greater than either f or c. The right slab has the
+same bounds under nonnegative f and c. A shared transfer cancels from the
+combined ledger for any real donor, receiver and transfer amount. Bounded
+post-transfer amounts additionally require a nonnegative transfer, sufficient
+donor availability, donor amount at most one, nonnegative receiver amount and
+receiver capacity. Exact rational witnesses distinguish the two placements and
+show clamping's 0.2 m³ volume creation.
+
+These statements do not prove that JavaScript implements the geometry, that
+IEEE arithmetic is exact, or that the native liquid algorithm converges. The
+source inventory and kernel qualification status are recorded separately in
+the [coverage ledger](../../education/COVERAGE.md); numerical comparisons and
+browser control checks supply different evidence. Proof text is collapsed by
+default in the interactive chapter.

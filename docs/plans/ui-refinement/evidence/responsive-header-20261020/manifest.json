@@ -1,0 +1,33 @@
+{
+  "base": "60f3498f19403fc449aa2d868a4fdf4238fa786e",
+  "repair_source_sha256": "abbaf658447dcc946fa8c51fe48d6c9597af8f80da4592b220152820042f1eb8",
+  "patch_sha256": "901622bd12cbb09fc5729547ba3c108c85f0dd6abcfc026b9d6bc9139a998a44",
+  "exact_test": "viewport::header_ui_tests::responsive_mode_tabs_keep_whole_labels_at_900_650_150_percent",
+  "isolation": "/workspace/Rheon-ui-header-verify contains only header repair, no T4 code",
+  "logs": {
+    "rheon-ui-responsive-isolated-list2.log": {
+      "sha256": "a884852338452bf14a788c0d8affff9a40f7d258d328846fd807e7d5e5eeae23",
+      "bytes": 19335
+    },
+    "rheon-ui-responsive-isolated-exact.log": {
+      "sha256": "5b3d85052bb8b38f8eeab61d001aba984326c843dd862d1d379de14092697f16",
+      "bytes": 411
+    },
+    "rheon-ui-responsive-isolated-clippy.log": {
+      "sha256": "07573c823e169c26a05658e8988298906e7fe25483512e36d69eb751362e768d",
+      "bytes": 135
+    },
+    "rheon-ui-responsive-isolated-check.log": {
+      "sha256": "bc06d5dfbcf5e2fe7768f0fbfa68a7deeb88fc433cbcfb030c39e784d1cabba1",
+      "bytes": 186
+    },
+    "rheon-ui-responsive-isolated-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "rheon-ui-responsive-isolated-diff.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  }
+}

@@ -17,8 +17,15 @@ mod scheduling;
 pub use scheduling::{BatchStatistics, CpuScheduler};
 #[cfg(all(feature = "parallel", target_has_atomic = "64"))]
 mod sgs;
-pub use geometry::{Axis, BufferPlan, GeometryError, GridGeometry};
+pub use geometry::{
+    Axis, BufferPlan, GeometryError, GridGeometry, MAX_CELLS_PER_METRE, MAX_GRID_EDGE,
+};
 mod collision;
+pub mod mesh_collision;
+pub use mesh_collision::{CollisionMesh, MeshCollisionError, MeshPolicy};
+// Native filesystem import is unavailable in the wasm32 browser host.
+#[cfg(not(target_arch = "wasm32"))]
+pub mod mesh_import;
 pub use collision::{
     ClippedSegment, HitFacing, SurfaceError, SurfaceHit, SurfaceSettings, SurfaceStamp,
     TriangleSurface,
@@ -38,7 +45,9 @@ mod pressure;
 pub use pressure::{
     PressureError, PressureImplementation, PressureReport, PressureSettings, PressureWorkspace,
 };
+#[cfg(feature = "accepted-pressure-warm-start")]
 mod pressure_initialization;
+#[cfg(feature = "accepted-pressure-warm-start")]
 pub use pressure_initialization::{
     PressureColdReason, PressureInitializationPolicy, PressureInitializationReport,
     PressureSeedStage, PressureSeedStamp,
@@ -54,7 +63,13 @@ pub use tracer_barrier::{
 };
 mod simulation;
 pub use simulation::{
-    Simulation, SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
+    AcceptedForceIntervalPressure, AcceptedIntervalPressure, CarrierStepControls, Simulation,
+    SimulationConfig, SimulationError, SmokeSource, StateView, StepReport, StepStage,
+};
+pub mod force_field;
+pub use force_field::{
+    FORCE_SCENE_VERSION, ForceFieldError, ForceKind, ForceObject, ForceScene, ForceSnapshot,
+    ForceSupport, ForceTime, ForceTransform, MAX_FORCE_OBJECTS, SceneObjectId,
 };
 mod forces;
 pub use forces::{BodyForce, ForceRegion, ForceReport, ForceUnits, ForcedStepReport};
@@ -64,8 +79,8 @@ mod material;
 pub use material::{DomainFill, FluidMaterial, FluidPhase, FluidPreset, ParticleFluidConfig};
 mod particle_fluid;
 pub use particle_fluid::{
-    FluidParticle, ParticleDiagnostic, ParticleFluidError, ParticleFluidSimulation,
-    ParticleStepReport,
+    AcceptedParticleForceControls, FluidParticle, ParticleDiagnostic, ParticleFluidError,
+    ParticleFluidSimulation, ParticleStepReport,
 };
 #[cfg(feature = "png-export")]
 mod export;
@@ -178,8 +193,8 @@ pub use dense3d_sequence::{Dense3dError, Dense3dLimits, Dense3dSequence, write_d
 
 mod session;
 pub use session::{
-    SESSION_CAPABILITIES, SessionCapabilities, SessionError, SessionIdentity, SessionSnapshot,
-    SimulationSession, SnapshotStage,
+    SESSION_CAPABILITIES, SessionCapabilities, SessionConfiguration, SessionError, SessionIdentity,
+    SessionSnapshot, SimulationSession, SnapshotStage,
 };
 
 mod material_session;
@@ -196,6 +211,24 @@ pub use pressure_session::{
     PRESSURE_SESSION_CAPABILITIES, PressureSession, PressureSessionCapabilities,
     PressureSessionError, PressureSolveControls, QualifiedPressureSnapshot,
 };
+mod vtk_export;
+pub use vtk_export::{
+    write_carrier_vti, write_material_vtp, write_particles_vtp, write_session_vti,
+};
 
 mod provider_step;
 pub use provider_step::{ProviderStepReport, ProviderStepWorkspace};
+
+mod emitter_controls;
+pub use emitter_controls::{EMITTER_CONTROLS_VERSION, EmitterTurbulence};
+
+/// Native accepted-publication archive; inspection data, not restart checkpoints.
+#[cfg(not(target_arch = "wasm32"))]
+pub mod recording;
+
+mod compressible;
+pub use compressible::{
+    COMPRESSIBLE_METHOD, CompressibleCause, CompressibleCheckpoint, CompressibleDiagnostics,
+    CompressibleError, CompressibleFailure, CompressiblePrimitive, CompressibleSimulation,
+    CompressibleStage, CompressibleStepReport, CompressibleView, ConservativeState, IdealGas,
+};

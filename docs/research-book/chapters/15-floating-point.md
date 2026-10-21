@@ -34,3 +34,30 @@ Natural-number indexing omits machine range. Check dimensions, face counts, byte
 Pressure convergence, geometry classification, interpolation bounds and test comparisons need separate tolerances with units. A global epsilon cannot serve all. A tolerance changes the accepted mathematical set and should be documented.
 
 Use exact rational or higher-precision small oracles. Test both sides of thresholds, zero step, minimum shapes, empty liquid, blocked domains, tiny coefficients and near-contact geometry. Derive tolerances from error models or accepted geometric budgets; never enlarge them merely until a visible defect passes.
+
+## A unit lost in a reduction
+
+Take A = 2²⁴ and sum A, 1, −A. The browser explicitly applies Math.fround to
+each input and addition in its binary32 mode. The trace becomes (A, A, 0),
+so the executed sum differs from the exact result 1. In binary64 mode the same
+finite terms give 1. [ECMAScript's Math.fround specification](https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-math.fround)
+defines conversion through binary32 with ties-to-even rounding. Python's
+independent oracle uses struct conversion to check every trace element.
+
+## Cancel the large pair first
+
+Change only the order to A, −A, 1. The binary32 trace is (A, 0, 1). Inspect
+both bars at the same final-sum scale. This is a concrete counterexample to
+transferring the Lean exact-real associativity identity to floating-point
+reductions. Parallel reductions may choose other orders; compiler flags,
+precision, exceptional values and the executed reduction tree are part of
+the implementation contract. These finite checks do not bound a complete
+solver's accumulated error or license reassociation of production code.
+
+<details><summary>Practical study proof scope</summary>
+
+[PracticalStudy.lean](../../../proofs/Rheon/PracticalStudy.lean) states the
+exact real-arithmetic premises. The pinned [kernel build and 330-declaration audit](https://github.com/MrScripty/Rheon/actions/runs/38478346517) passed; the integrated proof files match that checked source. The independent finite oracle checks the browser formulas; it does
+not prove a Rust refinement, IEEE solver, continuum prediction or runtime speed.
+
+</details>

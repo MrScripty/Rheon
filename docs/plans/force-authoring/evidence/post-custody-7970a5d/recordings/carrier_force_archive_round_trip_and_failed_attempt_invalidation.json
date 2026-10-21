@@ -1,0 +1,24 @@
+{
+  "command": [
+    "/workspace/force-validation-post-custody-7970a5d/recording_tests",
+    "carrier_force_archive_round_trip_and_failed_attempt_invalidation",
+    "--exact",
+    "--ignored",
+    "--test-threads=1",
+    "--show-output"
+  ],
+  "binary_sha256": "4ee715678545204a996b70121d26dcb930578e7e5f94cafc27d111372af69e5b",
+  "returncode": 0,
+  "wall_seconds": 0.03396315300005881,
+  "signals": [],
+  "log_bytes": 477,
+  "log_sha256": "6ca285401870fd486829d2944e68c0b1006ebcb0abd49224f8b731acb0692bde",
+  "limits": {
+    "wall_seconds": 30,
+    "term_to_owned_child_kill_seconds": 1,
+    "cpu_seconds": 20,
+    "address_space_bytes": 536870912,
+    "file_and_log_bytes": 1048576,
+    "test_threads": 1
+  }
+}

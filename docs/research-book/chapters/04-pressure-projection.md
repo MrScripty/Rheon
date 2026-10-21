@@ -45,6 +45,8 @@ For positive weights, minimize velocity change in the \(W^{-1}\) metric subject 
 
 The matrix can be algebraically correct and geometrically wrong. The theorem accepts arbitrary \(B\); it cannot distinguish a neighboring cell from an incorrectly indexed distant one. Independent geometry and stencil tests are essential.
 
+**Audit clarification, 20 October 2026.** These graph signs agree with the integrated SI operator in `src/operator.rs`: its weight is area divided by density and normal pressure distance; `src/pressure.rs` uses negative outward predicted flux divided by the interval. The true-residual repair at commit `34f6165` fixed scratch-buffer/CG-recurrence handling after a divergence-only rejection, without changing the Poisson equation. The later private cut reference in PR139 also demonstrates that a small original-equation residual can coexist with inaccurate velocity in an ill-conditioned basis. Neither event establishes an error in Chorin's continuum projection. See [Appendix G](../appendices/G-paper-audit-and-corrections.md) for exact sources and retained failures.
+
 ## Assembly by boundary case
 
 Every candidate face should be classified before assembling a pressure row. A fluid-fluid face contributes coefficient w to both diagonals and -w to both off-diagonals. A fluid-solid face with prescribed normal speed supplies known boundary flux; it does not add a fictitious pressure neighbor. A fluid-air face with prescribed pressure contributes w to the fluid diagonal and \(w p_{\mathrm{air}}\) to its right-hand side. An inactive air-air face contributes no liquid pressure equation.
@@ -70,3 +72,63 @@ After solving, apply the pressure gradient once using the same transmissibilitie
 Their difference has two sources: floating arithmetic and inconsistent implementation. The companion quantifies a small arithmetic discrepancy on its reference graph. A much larger mismatch is evidence of wrong coefficients, stale geometry, inconsistent density or a boundary overwrite after correction. This paired diagnostic localizes failures better than either pressure residual or divergence alone.
 
 The worked matrix appendix supplies exact chain and cycle fixtures. Add production tests for one closed component, two disconnected components, one prescribed-pressure opening, an isolated cell and incompatible moving-wall flux. These cases test the domain logic that the arbitrary-B theorem intentionally leaves open.
+
+## A collocated checkerboard
+
+The earlier staggered graph argument is not automatically a collocated method.
+Take four periodic cells at spacing 1 m and kinematic pressures (1,-1,1,-1)
+m²/s². Each central cell gradient uses its two neighbours, which have equal
+pressure, so every gradient vanishes. Cell velocities computed as minus r times
+this gradient vanish too; naive face averaging cannot detect this pressure mode.
+
+In the restricted zero-source, constant-response model, form the face response
+by adding r times the averaged cell gradient and subtracting r times the direct
+neighbour pressure difference divided by spacing. At r=1 s, face velocities
+are (2,-2,2,-2) m/s and cell divergences (4,-4,4,-4) /s. Global divergence still
+sums to zero. Inspecting only a global sum would miss the local response.
+The extruded strip is one-dimensional and periodic; end faces are identified.
+
+## Constant pressure control
+
+Switch to constant pressure. Both central and compact responses now vanish.
+The [research dossier](../engineering/mesh-faces-to-collocated-flux.md) derives
+the formula and its periodic quadratic form. The face construction illustrates
+why pressure and momentum interpolation must be designed together, following
+the developer-authored [coupling derivation](https://doc.cfd.direct/notes/cfd-general-principles/pressure-velocity-coupling).
+It is not a complete Rhie–Chow/SIMPLE implementation: variable coefficients,
+relaxation, transient consistency, boundaries and nonorthogonal reconstruction
+are absent. No pressure solve or timestep is performed by these controls.
+
+<details><summary>Checkerboard proof scope</summary>
+
+[EngineeringFlux.lean](../../../proofs/Rheon/EngineeringFlux.lean) checks the
+central-gradient blindness, compact response and four-cell pressure-energy
+identity in exact real arithmetic. It does not prove general pressure–velocity
+stability, nonlinear convergence, native execution or floating-point accuracy.
+
+</details>
+
+## Continuity is not momentum convergence
+
+The embedded two-path network executes a segregated recurrence for
+H=[[2,-1],[-1,2]], H u+(1,1)p=(1,0), u1+u2=0. Its exact solution is
+u=(1/6,-1/6), p=1/2. After four iterations at relaxation 1, u=(5/32,-5/32)
+and p=1/2. Continuity is zero, yet momentum residuals are (1/32,-1/32).
+The arrows are nondimensional path velocities; this is a reduced linear study,
+not a collocated CFD backend or a general SIMPLE implementation.
+
+## An overrelaxed two-path counterexample
+
+Increase relaxation to 3/2. The velocity error multiplies by -5/4 each iteration,
+so its squared magnitude grows by 25/16; pressure error still shrinks by -1/2.
+A good pressure history or zero continuity residual alone cannot qualify the
+coupled state. Compare actual iteration counts at fixed relaxation.
+
+<details><summary>Reconstruction and coupling proof scope</summary>
+
+[CouplingStudy.lean](../../../proofs/Rheon/CouplingStudy.lean) proves the exact
+finite recurrence identities and counterexample, not general algorithmic
+convergence. The [complete derivation](../engineering/coupling-and-reconstruction.md)
+records the predictor/corrector order and primary developer-source context.
+
+</details>

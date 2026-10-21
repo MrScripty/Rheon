@@ -41,3 +41,63 @@ Boundary interpolation must define its extension. Constant extrapolation, mirror
 Test a sealed box with uniform translation, then stationary fluid under gravity with hydrostatic pressure, then moving obstacles with displaced-volume and wall-work accounting. A wall thinner than one cell must be resolved or explicitly unsupported rather than silently leak.
 
 Report flux by boundary category and closed component. Long-term leaks often originate in one inconsistent face update. More pressure iterations help only if pressure residual is responsible; topology, geometry and buffer timing remain separate suspects.
+
+## Two cells and boundary work
+
+Predict the power before changing the controls. The embedded example uses two
+unit cells, a shared opening of area A, prescribed face speed u and balanced
+external outward fluxes (q,-q). The shared flux is phi=A u. With unit volumes,
+the divergences are (phi+q,-phi-q). They sum to zero, even if neither is zero.
+The pressure test values are prescribed probes, not a solved pressure field.
+
+At A=1/2 m², u=1 m/s, q=1/2 m³/s and p=(1,3) Pa, the pressure-divergence
+pairing is -2 W. The interior term -(pR-pL) phi is only -1 W. The remaining
+-1 W is (pL-pR) q, the prescribed boundary work. Set q=0 to recover the
+homogeneous identity; do not drop the term for general data.
+
+## Balanced flow is not zero boundary work
+
+Now q=-1/2 m³/s cancels each cell's divergence. Interior work is -1 W and
+boundary work +1 W. The vanishing total does not imply vanishing contributions.
+The same shared transfer must be used with opposite signs in both cell ledgers.
+Area changes flux; it does not change the velocity arrow's fixed scale.
+
+The [research dossier](../engineering/mesh-faces-to-collocated-flux.md) derives
+units, signs, source applicability and the 81-state domain. This is instantaneous
+finite algebra, not arbitrary mesh assembly, a moving wall or an accepted CFD step.
+
+<details><summary>Exact finite proof and limits</summary>
+
+[EngineeringFlux.lean](../../../proofs/Rheon/EngineeringFlux.lean) proves shared
+face cancellation, the two-cell update, boundary-work identity and the concrete
+omission counterexample. It assumes the declared ledger; it does not prove
+geometry assembly, positivity, numerical execution or physical accuracy.
+Fresh kernel status is recorded separately from these statements.
+
+</details>
+
+## Skew samples and normal gradients
+
+At samples L=(-1/2,0), R=(1/2,1/2), T=(-1/2,1) m, take p=x+y+2 Pa.
+The pressures are (3/2,3,5/2). The two-point contribution along the centre
+vector predicts a face-normal gradient of 6/5 Pa/m although the exact x gradient
+is 1. The rendered patch has normal x; its arrows encode pressure gradient,
+not velocity. Moving the skew control changes the actual sample geometry.
+
+## An affine correction with a third sample
+
+Use the third sample to reconstruct b=(p_T-p_L)/t and then a=p_R-p_L-s b.
+Adding the missing normal component corrects 6/5 by -1/5 to give 1 Pa/m.
+The linearly interpolated face value 9/4 Pa also needs a -1/4 Pa skew correction.
+Two samples alone do not determine both gradient components. This finite affine
+result is not a general nonlinear mesh reconstruction or a collision-mesh reader.
+
+<details><summary>Reconstruction and coupling proof scope</summary>
+
+[CouplingStudy.lean](../../../proofs/Rheon/CouplingStudy.lean) checks the stated
+sample, correction and recurrence identities with explicit nonzero denominators.
+See the [complete research derivation](../engineering/coupling-and-reconstruction.md)
+for primary sources, units, worked numbers and implementation exclusions.
+No general geometry conditioning or production pressure solver is certified.
+
+</details>
