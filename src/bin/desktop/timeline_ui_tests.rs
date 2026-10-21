@@ -444,3 +444,55 @@ fn timeline_track_selection_and_report_rows_fit_cold_and_changed_states() {
         assert_visible(&output, rect);
     }
 }
+
+#[test]
+fn timeline_narrow_scaled_track_and_time_captions_stay_inside_clip() {
+    for pixels_per_point in [1.0, 1.5] {
+        for track in 0..2 {
+            let ctx = context();
+            let mut app = App::default();
+            app.running_request = Some(inert_carrier_request());
+            app.follow_live = false;
+            app.track = track;
+            let mut selected = presentation();
+            selected.method = PressureImplementation::ALL[track];
+            let mut panel = egui::Rect::NOTHING;
+            for _ in 0..2 {
+                let mut input = egui::RawInput {
+                    screen_rect: Some(egui::Rect::from_min_size(
+                        egui::Pos2::ZERO,
+                        egui::vec2(900.0 / pixels_per_point, 650.0 / pixels_per_point),
+                    )),
+                    ..Default::default()
+                };
+                input
+                    .viewports
+                    .get_mut(&egui::ViewportId::ROOT)
+                    .unwrap()
+                    .native_pixels_per_point = Some(pixels_per_point);
+                let output = ctx.run(input, |ctx| {
+                    egui::SidePanel::left("timeline-scaled-sidebar")
+                        .exact_width(280.0)
+                        .resizable(false)
+                        .show(ctx, |_| {});
+                    egui::SidePanel::right("timeline-scaled-scene-collapsed")
+                        .exact_width(64.0)
+                        .resizable(false)
+                        .show(ctx, |_| {});
+                    panel = app.timeline_ui(ctx, 5, Some(&selected));
+                });
+                assert_visible(&output, panel);
+                assert!(panel.bottom() <= 650.0 / pixels_per_point + 0.5);
+                assert!(text_rect(&output, PressureImplementation::ALL[track].id()).is_positive());
+                assert!(text_rect(&output, "Simulated 40.000 ms").is_positive());
+                assert!(text_rect(&output, "Step calculation 2.000 ms").is_positive());
+                assert!(
+                    panel.height() < 180.0,
+                    "narrow timeline should not consume half the logical window: {panel:?}"
+                );
+            }
+            assert!(app.worker.is_none() && app.history.is_none());
+            assert_eq!(app.track, track);
+        }
+    }
+}

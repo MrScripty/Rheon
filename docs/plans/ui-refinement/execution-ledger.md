@@ -485,3 +485,18 @@ is admitted. Production launch gate stays; runtime/archive parity, genuine Cance
 long-status/accessibility/full M1 and T5 native acceptance are unqualified. No native
 image/Library claim; existing8148fa2 validator continues independently. Preserve
 all earlier captures, seals, branches, incident evidence and disposable outputs.
+
+## Narrow scaled timeline repair —2026-10-21
+
+Separate after5eab3ac. Parent's exact8148fa2 native synthetic playback checks passed,
+but900×650/150% track/time clipping was reported. Two production initial-frame
+stalls leave picking/outline/handles/Escape/camera/property synchronization UNVERIFIED;
+existing validator diagnoses them, no duplicate session. Added corrected native-scale
+literal UI probe with setup280/collapsedScene64 geometry. It reproduced real track
+clip before fix; preserve initial scheduled-zoom test-setup failure separately.
+Bound full-row selected galley/ComboBox decoration, explicitly wrap whole control;
+prewrap captions full-row without font/state/ID changes. Both tracks/scales plus
+four prior exact timeline probes pass,198enumeration. Check/strictClippy/fmt/diff
+and independent source review pass.2source seals/17logs manifest1bbfbc8d…50e0cb.
+Native repair/JPEG/force/runtime evidence remain separate and unqualified; production
+force launch gate unchanged. Runtime ignored-test preparation is a subsequent slice.

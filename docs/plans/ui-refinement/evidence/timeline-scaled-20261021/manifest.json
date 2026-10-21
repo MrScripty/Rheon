@@ -1,0 +1,99 @@
+{
+  "base": "5eab3ac4b6d4005ae77b145b3d970b9692debd4c",
+  "test_enumeration": 198,
+  "source_seals": {
+    "src/bin/rheon-desktop.rs": "a704b5dbb9978449187346f4b6eb8f85a9769c96a3f8ddfe85a5dd98f2766282",
+    "src/bin/desktop/timeline_ui_tests.rs": "606b0e95edba4a813221af776e7b12f776adcf9645de302ef827aa595111694b"
+  },
+  "exact_final_passes": 5,
+  "baseline": "true clipping failure in baseline.log; before.log is test setup scheduled-zoom failure",
+  "logs": [
+    {
+      "file": "rheon-ui-timeline-scaled-after1.log",
+      "bytes": 405,
+      "sha256": "6f448a085f5e0583440c572ce89960575e150ac2279ea2b72773c3a62810098b"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-baseline.log",
+      "bytes": 1065,
+      "sha256": "b79ee82d68c555c82b0af22a969f98f1181c6c0d39dd30a2cdc8d51ac7f83e6b"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-before.log",
+      "bytes": 971,
+      "sha256": "7ddb5367499dbbddac573e0cdc0a0a38a44ed272206a7de753bb20956704bbaf"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-check.log",
+      "bytes": 130,
+      "sha256": "e05b12393294b621219310fbe0c6f78c2fed1de17b2de9a5dd62ab70a72bd6af"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-clippy.log",
+      "bytes": 130,
+      "sha256": "711c3f4cbf3d881bb66a345d5cde56e752c9a8105da188e08b3b0e6a6930aab4"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-final1.log",
+      "bytes": 405,
+      "sha256": "f01347d6eefe87fa31050258970697f24af720ad3250860c72c928dc1bf1b997"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-final2.log",
+      "bytes": 395,
+      "sha256": "c428d9d1963816f3a1013e594b36913c04baf5904fb7caac75fc88f61b996ac9"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-final3.log",
+      "bytes": 396,
+      "sha256": "9ed53949650886d830b08860e1d16dd322df3b472cc0cef332afc44d5a2a062c"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-final4.log",
+      "bytes": 398,
+      "sha256": "cf5c8b61d76e58edbb876344086a71b2f8226a6290627d8fd8f8926c2718f04f"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-final5.log",
+      "bytes": 410,
+      "sha256": "e7071fb5345d93542b973a8d043aa57ea8d3f406157c933a283d40bd59432846"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-fmt-final.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-list1.log",
+      "bytes": 20892,
+      "sha256": "539557aebcc07021c8b742b1e90b451c38cea9d8b9f63d3b817cc9ecbc80e151"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-list2.log",
+      "bytes": 20892,
+      "sha256": "b76db6304dc9bd25e017997ced858db0af8bba086b7dfa23c317aea62b642e38"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-list3.log",
+      "bytes": 20892,
+      "sha256": "fcc635807972bbb841f1567f491cad05e716df309295103eef073fa19bc2f5f3"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-list4.log",
+      "bytes": 20892,
+      "sha256": "cca8da2d09bde215c1669ed56a99da8feac810dea9dffce7f840fef86a79d919"
+    },
+    {
+      "file": "rheon-ui-timeline-scaled-list5.log",
+      "bytes": 20892,
+      "sha256": "d1f1e2c4eca3333d484fb94b8583261595571af0d03c767bdc1724cc9dc592e8"
+    }
+  ],
+  "native_verified": false,
+  "numerical_execution": false
+}

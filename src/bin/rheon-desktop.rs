@@ -1196,6 +1196,17 @@ struct TimelineControls {
     playback_speed_text: String,
     playback_speed_invalid: bool,
 }
+// Prewrap against the whole row, then let the wrapped layout place this caption
+// as one widget. Layout against a small row remainder can clip split text.
+fn timeline_caption(ui: &mut egui::Ui, text: String) {
+    let galley = egui::WidgetText::from(text).into_galley(
+        ui,
+        Some(egui::TextWrapMode::Wrap),
+        ui.max_rect().width(),
+        egui::TextStyle::Body,
+    );
+    ui.label(galley);
+}
 impl TimelineControls {
     fn contents(
         &mut self,
@@ -1285,8 +1296,23 @@ impl TimelineControls {
             if let Some(request) = request
                 && request.material.is_none()
             {
+                let decoration = 2.0 * ui.spacing().button_padding.x
+                    + ui.spacing().icon_spacing
+                    + ui.spacing().icon_width;
+                let text = egui::WidgetText::from(request.track_label(self.track)).into_galley(
+                    ui,
+                    Some(egui::TextWrapMode::Wrap),
+                    (ui.max_rect().width() - decoration).max(1.0),
+                    egui::TextStyle::Button,
+                );
+                let width = text.size().x + decoration;
+                // ComboBox's inner horizontal UI cannot move itself to a new row.
+                if ui.available_size_before_wrap().x < width {
+                    ui.end_row();
+                }
                 egui::ComboBox::from_id_salt("timeline-track")
-                    .selected_text(request.track_label(self.track))
+                    .width(width)
+                    .selected_text(text)
                     .show_ui(ui, |ui| {
                         for track in 0..request.methods.len() {
                             if ui
@@ -1319,39 +1345,51 @@ impl TimelineControls {
         }
         if let Some(frame) = &frame {
             ui.horizontal_wrapped(|ui| {
-                ui.label(format!(
-                    "{} · Step {} / {}",
-                    if frame.material_color.is_some() {
-                        "Material fluid".to_owned()
+                timeline_caption(
+                    ui,
+                    format!(
+                        "{} · Step {} / {}",
+                        if frame.material_color.is_some() {
+                            "Material fluid".to_owned()
+                        } else {
+                            track_caption.to_owned()
+                        },
+                        frame.step,
+                        count.saturating_sub(1)
+                    ),
+                );
+                ui.separator();
+                timeline_caption(ui, format!("Simulated {}", settings::duration(frame.time)));
+                ui.separator();
+                timeline_caption(
+                    ui,
+                    if frame.step == 0 {
+                        "Initial state".into()
                     } else {
-                        track_caption.to_owned()
+                        format!("Step calculation {}", settings::duration(frame.seconds))
                     },
-                    frame.step,
-                    count.saturating_sub(1)
-                ));
-                ui.separator();
-                ui.label(format!("Simulated {}", settings::duration(frame.time)));
-                ui.separator();
-                ui.label(if frame.step == 0 {
-                    "Initial state".into()
-                } else {
-                    format!("Step calculation {}", settings::duration(frame.seconds))
-                });
+                );
                 if let Some(r) = frame.particle_report {
                     ui.separator();
-                    ui.label(format!(
-                        "{} particles · {:.6} kg · {:.1} °C",
-                        r.particles,
-                        r.total_mass,
-                        r.mean_temperature_kelvin - 273.15
-                    ));
+                    timeline_caption(
+                        ui,
+                        format!(
+                            "{} particles · {:.6} kg · {:.1} °C",
+                            r.particles,
+                            r.total_mass,
+                            r.mean_temperature_kelvin - 273.15
+                        ),
+                    );
                 }
                 if let Some(report) = frame.report {
                     ui.separator();
-                    ui.label(format!(
-                        "{} pressure iterations · divergence {:.2e}",
-                        report.pressure.iterations, report.actual_divergence_max
-                    ));
+                    timeline_caption(
+                        ui,
+                        format!(
+                            "{} pressure iterations · divergence {:.2e}",
+                            report.pressure.iterations, report.actual_divergence_max
+                        ),
+                    );
                 }
             });
         }
