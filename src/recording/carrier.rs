@@ -49,7 +49,15 @@ pub fn carrier_publication(
     limit: usize,
 ) -> Result<RecordedStep, RecordingError> {
     let state = sim.state();
-    let pressure = sim.accepted_interval_pressure();
+    let authored = sim.accepted_force_interval_pressure();
+    let pressure = sim.accepted_interval_pressure().or_else(|| {
+        authored.as_ref().map(|p| crate::AcceptedIntervalPressure {
+            values: p.values,
+            interval_start: p.interval_start,
+            report: p.report,
+            controls: p.controls,
+        })
+    });
     let constructor = state.generation == 0 && state.time == 0.0;
     if !constructor && pressure.is_none() {
         return Err(RecordingError::Unsupported(
@@ -62,7 +70,14 @@ pub fn carrier_publication(
         }
         (
             Some(p.report.dt),
-            format!("{:?}; report={:?}", p.controls, p.report),
+            if let Some(authored) = &authored {
+                format!(
+                    "external-force-metadata-v1; source_controls={:?}; report={:?}; external_stage_work={:?}",
+                    p.controls, p.report, authored.work
+                )
+            } else {
+                format!("{:?}; report={:?}", p.controls, p.report)
+            },
             Some(p.interval_start),
         )
     } else {
@@ -155,7 +170,7 @@ pub fn carrier_publication(
             data,
         });
     }
-    let step = RecordedStep {
+    let mut step = RecordedStep {
         ordinal,
         generation: state.generation,
         time: state.time,
@@ -168,9 +183,24 @@ pub fn carrier_publication(
         controls,
         fields,
     };
+    if let Some(authored) = authored {
+        force_fields::append_fields(&mut step, authored.fields, limit)?;
+    }
     if step.payload_bytes()? > limit {
         return Err(RecordingError::Limit("carrier record payload"));
     }
+    Ok(step)
+}
+/// Constructor metadata or checked actual accepted metadata. The same fields
+/// must bind the RecordingRun through with_force_fields before recorder creation.
+pub fn carrier_publication_with_force_fields(
+    sim: &Simulation,
+    fields: &crate::ForceSnapshot,
+    ordinal: usize,
+    limit: usize,
+) -> Result<RecordedStep, RecordingError> {
+    let mut step = carrier_publication(sim, ordinal, limit)?;
+    force_fields::require_fields(&mut step, fields, limit)?;
     Ok(step)
 }
 /// Selected owned carrier values; one bounded step, never a live simulation.
@@ -186,6 +216,7 @@ pub struct RecordedCarrier {
     pub tracer: Vec<f32>,
     /// Actual interval start and Pa values; cell0 gauge, not endpoint pressure.
     pub interval_pressure: Option<(f64, Vec<f64>)>,
+    pub force_fields: Option<crate::ForceSnapshot>,
 }
 impl RecordedCarrier {
     pub fn decode(run: &RecordingRun, step: &RecordedStep) -> Result<Self, RecordingError> {
@@ -202,12 +233,14 @@ impl RecordedCarrier {
             .ok_or(RecordingError::Unsupported("carrier method"))?;
         let grid = GridGeometry::new(run.counts, run.spacing, run.origin)
             .map_err(|_| RecordingError::Invalid("carrier geometry"))?;
+        validate_run_force_fields(run, step)?;
+        let force_fields = recorded_force_fields(step)?;
         let initial = step.stage == SnapshotStage::Constructor;
-        if step.fields.len() != if initial { 4 } else { 5 }
+        if step.fields.len() != (if initial { 4 } else { 5 }) + usize::from(force_fields.is_some())
             || step
                 .fields
                 .iter()
-                .any(|f| !NAMES.contains(&f.name.as_str()))
+                .any(|f| !NAMES.contains(&f.name.as_str()) && f.name != force_fields::FIELD)
         {
             return Err(RecordingError::Invalid("carrier field inventory"));
         }
@@ -290,6 +323,7 @@ impl RecordedCarrier {
             z: faces.next().unwrap(),
             tracer,
             interval_pressure,
+            force_fields,
         })
     }
     pub fn state(&self) -> StateView<'_> {

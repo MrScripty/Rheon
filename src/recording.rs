@@ -2,15 +2,22 @@
 //! keep-all/stop-at-limit storage. This preserves inspection fields, not complete
 //! integrator state. See `docs/api/recording.md` for the SQLite consumer contract.
 mod carrier;
+pub mod force_fields;
+pub use force_fields::{
+    FORCE_METADATA_VERSION, MAX_FORCE_METADATA_BYTES, decode_force_metadata, encode_force_metadata,
+    recorded_force_fields, validate_run_force_fields,
+};
 pub mod comparison;
 pub mod diagnostic;
 mod material;
 pub mod provider;
 use crate::{GridGeometry, SessionIdentity, SnapshotStage};
-pub use carrier::{RecordedCarrier, carrier_publication, carrier_run};
+pub use carrier::{
+    RecordedCarrier, carrier_publication, carrier_publication_with_force_fields, carrier_run,
+};
 pub use material::{
-    RecordedMaterial, material_publication, material_run, material_snapshot_publication,
-    material_snapshot_run,
+    RecordedMaterial, material_publication, material_publication_with_force_fields, material_run,
+    material_snapshot_publication, material_snapshot_run,
 };
 use rusqlite::{Connection, OpenFlags, OptionalExtension, limits::Limit, params};
 use sha2::{Digest, Sha256};
@@ -97,6 +104,7 @@ impl RecordingRun {
         for value in [&self.solver, &self.configuration, &self.provenance] {
             valid_text(value)?;
         }
+        self.force_fields_digest()?;
         GridGeometry::new(self.counts, self.spacing, self.origin)
             .map_err(|_| RecordingError::Invalid("recorded geometry"))?;
         Ok(())
@@ -428,6 +436,7 @@ impl StepRecorder {
             return Err(RecordingError::Limit("record count"));
         }
         let bytes = step.payload_bytes()?;
+        validate_run_force_fields(&self.run, step)?;
         if bytes > self.limits.max_record_bytes {
             return Err(RecordingError::Limit("record payload"));
         }
@@ -763,6 +772,7 @@ impl RecordingReader {
         {
             return Err(RecordingError::Integrity("publication digest"));
         }
+        validate_run_force_fields(&self.run, &step)?;
         Ok(step)
     }
     /// Structural integrity plus every publication hash and adjacent generation.

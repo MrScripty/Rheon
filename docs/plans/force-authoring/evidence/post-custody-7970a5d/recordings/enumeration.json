@@ -1,0 +1,22 @@
+{
+  "command": [
+    "/workspace/force-validation-post-custody-7970a5d/recording_tests",
+    "--list",
+    "--format",
+    "terse"
+  ],
+  "binary_sha256": "4ee715678545204a996b70121d26dcb930578e7e5f94cafc27d111372af69e5b",
+  "returncode": 0,
+  "wall_seconds": 0.005066334000275674,
+  "signals": [],
+  "log_bytes": 140,
+  "log_sha256": "6f93a64aa09ed72267da9a802da363485d0cf4072182133304003b2c811f89c2",
+  "limits": {
+    "wall_seconds": 30,
+    "term_to_owned_child_kill_seconds": 1,
+    "cpu_seconds": 20,
+    "address_space_bytes": 536870912,
+    "file_and_log_bytes": 1048576,
+    "test_threads": 1
+  }
+}

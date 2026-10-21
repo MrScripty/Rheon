@@ -1079,3 +1079,85 @@ No numerical kernel, tolerance, recorder/model contract, selector, qualification
 gate, historical inventory or A1 status changes. Initial 94062 execution receipts
 retain that historical subject; fresh clean committed qualification, affected
 checks and current-head hosted gates are required before integration.
+
+
+## Shared authored force fields and accepted recording custody, 2026-10-20
+
+This explicit source-admission extension covers the backend force-domain branch
+at `43ec505218c43594641ecbb80873bec8c88d7d2c`, based on main
+`fd7c0f0aee63bc8710df99f9bb01154e7619b974`. The admission commit changes only
+this appended record and its version-three inventory binding; native source
+bytes remain those of the reviewed subject. The complete conservative closure
+grows from 124 to 126 paths: two added, eight changed, 116 unchanged, none
+removed. Every `src/` path, build/toolchain input and existing independent
+qualification input remains selected, including unchanged desktop sources.
+
+The bounded source scope is:
+
+- `src/force_field.rs` adds version-one authoring values, stable object IDs,
+  rigid transforms, enabled state, static half-open activation intervals,
+  directional/radial/vortex fields and global/sphere/box support with optional
+  smooth edge attenuation. Validated immutable snapshots share one evaluator.
+  Acceleration is in m/s²; force density is in N/m³ and requires positive
+  density in kg/m³. Finite-input, zero-distance and bounded-object checks
+  refuse unsupported or nonfinite evaluation.
+- `src/forces.rs` shares the existing MAC face-update loop with authored
+  acceleration evaluation. Closed-box walls retain their existing treatment.
+  `src/simulation.rs` adds explicit force-aware fixed-box stepping and
+  success-stamped pressure/actual-force custody. The legacy pressure accessor
+  cannot expose incomplete force controls; candidate attempts invalidate the
+  scratch pressure stamp before use. Pressure projection itself is unchanged.
+- `src/particle_fluid.rs` adds the same evaluator to gravity and pair forces
+  at pre-integration particle positions, using the evaluated local particle
+  density for force-density conversion. Accepted force controls are stamped
+  only on success; rejected attempts preserve the existing accepted particle
+  publication. Source emitters, constitutive stress and turbulence closures
+  remain distinct owners.
+- `src/recording/force_fields.rs` adds a bounded version-one binary metadata
+  codec with exact float bits and scene validation. Force-aware run identity
+  binds the scene digest; append and read check run/publication agreement.
+  `src/recording.rs`, `recording/carrier.rs` and `recording/material.rs`
+  retain actual accepted force inputs and decode them for selected archives.
+  Historical unforced hash/control paths remain separate and unchanged.
+- `Cargo.toml` adds an opt-in `force-serde` feature using existing dependency
+  identities; `Cargo.lock` is unchanged. `src/lib.rs` adds public exports.
+  No desktop/request/worker source is changed by this backend branch.
+
+Exact added/changed source SHA256 pins:
+
+- `Cargo.toml`: `f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae`
+- `src/force_field.rs`: `adecbc5f92b89179a2e38885be2acbcddd42df40061f00ffa5d758224ed045a5`
+- `src/forces.rs`: `7b3b48c0813c995a937a44ca1b624411c59dde6419b62041b67456cde2d692d9`
+- `src/lib.rs`: `30f5b78a98f6d0c010955a25fc00cc2de4aadf159d260e95afd3f3143dc6f9c3`
+- `src/particle_fluid.rs`: `538c498122bbc1045ae59d7363ff87e1dd9a40003fb48eeae835228ad4c65893`
+- `src/recording.rs`: `47b2b24bbe9af777ceafdefa6f0b82200a60cea590d0b64f326de1d50c6d7d2d`
+- `src/recording/carrier.rs`: `5a9b10b929f650423ad9e58bd7047bfe80cc7bf18138d74bd628c2f3f17af711`
+- `src/recording/force_fields.rs`: `2cf3ec9ec191c35c814d48ace301feaccd6cc73311a66970c9d112dad432c4a9`
+- `src/recording/material.rs`: `e72e256aa3af46fef9002822de5281caf1de66ba070eb2109f77b083e20ae6ce`
+- `src/simulation.rs`: `c08ede6330c4bf6ed7e858e556806ec80628522ceb42286cf52714bf7430c9a1`
+
+This admits an attempt at fresh clean committed-source native/rational
+qualification only. It is not a numerical receipt, scientific validation of the
+new force laws, native-window evidence or completed desktop parity. Pure
+evaluator/codec checks and the seven bounded adapter/recording tests have their
+own pinned subjects under `../plans/force-authoring/`; they do not substitute
+for the fresh independent qualification required here. Later desktop/runtime
+composition must re-establish complete admission and fresh evidence for its
+actual committed source.
+
+The historical v1/v2 inventories and all preceding review text/receipts retain
+their original bytes and subjects. The v3 ancestry/schema and predecessor
+digests remain authoritative. No source selector, numerical threshold,
+qualification runner, mathematical oracle, workflow or immutable primary
+identity is changed. A stale or malformed present inventory must still refuse
+admission rather than fall back. Fresh receipt binding must include the actual
+committed manifest and this complete review record; earlier standalone CI
+success or historical receipts cannot qualify this admission commit.
+
+Independent review of this exact two-file candidate is required before atomic
+commit and publication. This record contains no claim that an unseen patch was
+previously approved. Native/rational CI uses its existing 20-minute job bound.
+The separate research-book job performs admission preflight and real packet
+rejection tests normally and under optimized Python within its existing
+90-minute job bound; readiness requires those actual current-head outcomes,
+not an assumption that the standalone qualifier includes packet tests.
