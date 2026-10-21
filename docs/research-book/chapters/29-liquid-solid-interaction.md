@@ -1,5 +1,7 @@
 # 29 Liquid–solid interaction and three-dimensional collision meshes
 
+The subsequent [principles-first Lagrangian FEM sequence](30-material-motion-and-conservation.md) derives connected deformable material meshes through a complete reference algorithm. Its [coupling chapter](35-contact-coupling-and-ale.md) builds on the interface signs below. These new research chapters do not turn the collision or restricted fitted-mesh paths described here into a general 3D FEM implementation.
+
 This chapter is a researched synthesis added on 20 October 2026. Chapters 8,
 19 and 20 establish the earlier geometry and work contracts; this chapter
 connects them to the implemented solver and subsequent negative results.
