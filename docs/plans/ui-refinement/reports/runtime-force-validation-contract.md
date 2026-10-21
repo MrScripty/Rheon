@@ -1,123 +1,180 @@
-# T5 bounded desktop validation contract — proposed, not executed
+# T5 bounded worker validation contract — prepared, NOT EXECUTED
 
-Status: source integration is gated. This document specifies the next exact cases;
-those two numerical/SQLite test bodies are **not yet implemented or enumerated**.
-It is not an executable admission, workload authorization or runtime result. The
-current executable probes are the seven pure tests in force_runtime_ui_tests.rs.
-No force-enabled production launch is admitted by source-only evidence.
+This amendment supersedes the earlier direct-loop/1GiB proposal reviewed at5eab3ac.
+Two ignored bodies now exist in desktop/force_runtime_integration_tests.rs; list-only
+compilation enumerates201 tests including their exact names below. No numerical,
+SQLite, Worker or model workload has executed in this preparation slice. Source
+review, final seals and separate execution admission must precede any invocation.
+Production authored-force launches stay gated until runtime and relevant native
+acceptance pass. Do not treat these source/compile receipts as runtime acceptance.
 
-## Ownership and prerequisites
+## Scope and custody
 
-Use canonical backend core at43ec505218c43594641ecbb80873bec8c88d7d2c; fetched
-backend a4326a78a747bc868874fd16e434d780fd5a6d35 differs only in its own admission
-review/inventory. Preserve legacy hashes. UI owns Request/carrier dispatch,
-Inspector begin/record, frozen desktop intent/binding and retained presentation;
-backend remains owner of force evaluation and recording/accepted solver custody.
+Canonical backend ancestor43ec505218c43594641ecbb80873bec8c88d7d2c; fetched backend
+a4326a78a747bc868874fd16e434d780fd5a6d35 only changes its admission documents, not
+core code. UI owns Request/worker dispatch/Inspector wrappers/frozen desktop intent;
+backend owns physics and accepted recording custody. No legacy hash migration.
 
-Before execution, implement the two separately ignored cases in a separate desktop
-test module, independently inspect their complete helpers and enumerate exact names.
-Seal the final commit/tree, complete affected-source SHA256 manifest, Cargo.lock,
-Rust version/feature configuration, test-source bytes and exact compiled binary.
-The current197-name binary does not contain these cases and must not be represented
-as execution-ready integration evidence. Compile/list-only does not step a solver.
-No tuning, retry or fallback suite is implied by this contract.
+Both tests call real Worker::start, not an alternate direct solver loop. It validates
+Request, creates bounded in-memory history, starts the existing one Worker thread
+and a scoped Rayon pool with threads1. Libtest also uses threads1; main/test/Worker/
+Rayon are the4 intended thread roles here, not a measured or OS-enforced thread cap. No new process/model/provider/emitter,
+collision mesh, native window/GPU, observer, progress gate or failure gate exists.
+The helper joins the worker before outcome assertions; normal/error/panic outcomes
+therefore leave no detached numerical worker. External process timeout bounds a
+blocked join. No second worker, baseline run or external retry is included.
 
-The execution owner must revalidate its existing supervisor and fresh bounded
-recording filesystem. Do not provision mounts/cgroups, change delegation or reuse
-a previous output root. If an existing suitable bound is absent, return the exact
-missing prerequisite. Existing live cancellation stays parked; this contract does
-not replace its containment requirements or supervise a native UI session.
+## Exact future execution and process bounds
 
-## Common bounded execution envelope
+Execute each exact ignored name ONCE, serially, from the sealed test binary:
 
-One exact ignored case per disposable process, serially, libtest threads1. Desktop
-features include rayon: use the production run_owned scope with Request.threads=1;
-this makes one owned Rayon pool worker, rather than claiming parallel is disabled.
-No Worker::start, GUI/event loop, model/provider, child command, emitter, collision
-mesh, observer, progress/failure gate or public network input is present.
+```
+SEALED_BINARY force_runtime_integration_tests::native_force_dispatch_records_and_cold_binds_v2 --exact --ignored --test-threads=1 --nocapture
+SEALED_BINARY force_runtime_integration_tests::material_force_dispatch_records_immutable_scene --exact --ignored --test-threads=1 --nocapture
+```
 
-Require the execution owner's already supported controls before dispatch:
+These lines are the contract, not commands run by this task. No substring/broad
+filter, fallback suite, tuning or automatic retry. Seal final source commit/tree,
+affected source manifest, test bytes, Cargo.lock, Rust/feature configuration and
+binary SHA256 before execution. The earlier197/199-name binaries lack these cases.
 
-- wall30s, CPU20s, address space1GiB; TERM then owned process-group KILL after1s;
-- per-file1MiB and aggregate fresh root8MiB, aggregate captured output1MiB;
-- root created once without replacement by the supervisor, exclusive to this case;
-- no automatic success/failure/panic/timeout teardown or cleanup; retain database,
-  sidecars, manifests, stdout/stderr, source/binary seals and disposition;
-- enumerate all retained files/bytes and SHA256 after the child terminates; check
-  no owned descendants remain. Do not infer measured peak resources from limits.
+Use the execution owner's established disposable-child supervision, with no new
+cgroup/mount/permission/network prerequisite:
 
-The test helper must accept an explicit absolute supervisor-owned root with no
-fallback to temp_dir or normal recording_directory. It must not delete existing
-paths or use a Drop cleanup guard. Every path is inside that fresh root. Stop on
-any unexpected selection, file, resource-bound failure or timeout; preserve evidence.
-These are maximum requests, not promised observed consumption.
+- wall timeout deadline30s, CPU20s, address space512MiB, captured combined log1MiB;
+- child per-file limit1MiB and core0; one owned process/session group, TERM at wall
+  expiry then KILL after1s if needed, wait/reap and inspect owned-process disposition;
+  the30s deadline excludes teardown latency and is not a hard reap guarantee;
+- one fresh canonical absolute empty DATA root per case; supervisor stdout/stderr,
+  receipts and seals are in a SEPARATE capture directory, never pre-created in DATA;
+- set RHEON_UI_FORCE_TEST_ROOT, TMPDIR and SQLITE_TMPDIR to that same DATA root;
+  the helper checks all three. No temp fallback or production recording directory;
+- preserve root and capture directory on success, assertion, panic, timeout, signal
+  or uncertain outcome. No Drop deletion, remove_dir_all or test-success teardown;
+- after child exit, the supervisor inventories/hashes all remaining DATA/capture
+  artifacts EVEN on failure (the test's inventory helper runs only on success).
+  Report actual disposition, bytes and any remaining processes. Limits are not
+  measurements. Stop on an unexpected selection/file/bound failure; preserve evidence.
 
-## Case1 — proposed exact name
+512MiB is the proposed hard cap, not an observed runtime result. Current enabled
+UI tests already ran in512MiB; these bounded8cell/64particle fixtures allocate1MiB
+solver arrays plus a small16MiB-capped preview plan and1MiB SQLite cache/connection.
+If that cap rejects execution, retain failure; do not silently raise it.
+
+## Data-file bound and existing protocol behavior
+
+The program has no dynamic step/retry loop around public execution: each case has
+one track, one requested step and at most2 publications. Source paths are fixed:
+
+| Data path class | Native maximum simultaneous entries | Material maximum | Bound/owner |
+| --- | ---: | ---: | --- |
+| intent.json, member-0-started.json, member-0-finished.json, completed.json |4|0| Each manifest <=1MiB via publish_new; no extra revision loop |
+| .rheon-manifest-PID-SEQUENCE.tmp |1|0| One serial publisher at a time; an uncertain publication returns immediately rather than continuing to another staging path |
+| One generated carrier/material SQLite database |1|1| max_page_count caps database at1MiB; no second archive, ATTACH or VACUUM |
+| Its DELETE-mode rollback journal |1|1| One writer/one main database; per-file1MiB hard limit; no WAL/SHM mode |
+| SQLite transient stores | Not statically sealed | Not statically sealed | temp_store=FILE is canonical; child TMPDIR/SQLITE_TMPDIR point into DATA. Fixed indexed/scalar queries and integrity/foreign-key checks, <=2records; readback runs serially |
+| Application-owned path envelope |7|2| Each file <=1MiB under child limit; at most7MiB/2MiB for these named application paths. SQLite transient files are additional |
+| Success-only observed inventory guard |8|8| Test refuses visible final inventory >8files/8MiB; this is NOT a peak/anonymous-temp bound |
+
+The named application paths have the finite source envelope above, not an OS
+aggregate filesystem quota. SQLite transient-store count/peak is not independently
+sealed here: the8-file post-exit assertion must not be described as a proven
+simultaneous/open/anonymous-temp limit. Existing per-file/process/time controls
+remain the proposed proportionate bounds for this trusted fixed fixture; disclose
+this limitation to the execution owner rather than adding mounts/cgroups. No
+numerical execution is admitted by this preparation.
+Normal SQLite commits may unlink journals and successful manifest publication
+unlinks its own staging hard link under the existing production protocol. The tests
+add NO cleanup; abandoned paths from protocol errors remain. Do not claim that
+normal transient files deleted by those existing protocols were retained. Verify
+all unexpected files after any failure rather than claiming the success-only
+inventory proved peak historical disk use. No spill workload/user SQL is added.
+
+Each publication payload <=65536bytes; constructor+accepted logical payload
+<=131072bytes. The single force metadata document is146bytes by its literal codec
+layout. Database/manifests' actual sizes are unavailable before execution and must
+be reported from retained output, never fabricated from these bounds.
+
+## Case1 — exact name
 
 `force_runtime_integration_tests::native_force_dispatch_records_and_cold_binds_v2`
 
-A single JacobiPcgV1 native carrier track, grid2×2×2, spacing[0.5;3]m,
-origin[0;3], density2kg/m³, zero initial velocity/tracer, one requested interval
-0.000001s. Frozen tolerances: relative1e-11, absolute1e-12, predicted divergence
-1e-9/s, actual divergence1e-6/s, Courant1, max pressure iterations100; retained-array
-limit1MiB. No source/emitter. Request preview edge2, history budget16MiB,
-recording max database1MiB/record65536bytes/records2, steps1/threads1.
+Native JacobiPcgV1,2×2×2 grid (8cells), spacing[0.5;3]m, origin[0;3], density2kg/m³,
+zero initial velocity/tracer. One requested1e-6s interval. Tolerances: relative1e-11,
+absolute1e-12, predicted divergence1e-9/s, actual divergence1e-6/s, Courant1,
+pressure max100iterations; retained-array cap1MiB. No source/emitter/gravity input.
+Preview edge2, history budget16MiB, steps1/threads1. Recording cap1MiB database,
+65536bytes/publication,2records. Snapshot frozen before Worker/output binding.
 
-Canonical scene version1 has one enabled force: id1, name“Desktop custody probe”,
-translation[0.5;3]m, identity xyzw quaternion, Acceleration, Directional vector
-[0.25,0,0]m/s², Global support, activation[0,∞). No configured gravity is inserted
-by this test; native carrier has its existing zero-gravity inputs.
+Scene version1: enabled id1 “Desktop custody probe”, translation[0.5;3]m, identity
+xyzw quaternion, Acceleration, Directional[0.25,0,0]m/s², Global, activation[0,∞).
+Bind the same immutable snapshot to Request and FrozenSpec v2 in manifest v1.
+Only private cfg(test) force_validation permits this otherwise gated request.
 
-Freeze once. Build native FrozenSpec v2 and one-member RunSetRevision v1 with no
-prior attempt; bind the same Some snapshot in Request. Permit only the private
-cfg(test) force_validation flag, preserving every other preflight. Through existing
-run_owned → run_simulations → CarrierExecution::advance and Inspector optional
-constructor/record wrappers, request exactly ONE step (max100 pressure iterations).
-No retry loop around the public request. Native saved-intent fixed-dt policy still
-rejects a shortened dt and retains the exact accepted archive.
+Expected: joined worker succeeds with progress1/one row/two ordered previews; final
+native member cold-opens Ready, verifies SQLite status Completed/count2/generation1,
+pin/hash/spec/declaration/header and both exact force documents. Interval pressure
+is present from start0, all8values finite. Predeclared coarse effect guard:
+cell0-gauge p[index] is within0.05Pa of (index%2)×0.25Pa, using dp=rho*a*dx.
+Zero force/metadata-only dispatch cannot pass this20% guard; it is not a pressure
+precision or general scientific acceptance test. Native fixed-dt policy remains:
+accepted dt must equal1e-6; shortened dt refuses and preserves the actual archive.
+Preview/result times must match accepted record bits and force-qualified controls.
 
-Expected evidence: one result row and progress1; two ordered in-memory frames at
-constructor/accepted times; source binding, actual accepted pressure controls and
-same force metadata on constructor and accepted records. Open final immutable member
-through RunSetRevision/open_member, verify pin/hash/status Completed, count2,
-generation1, exact stored force bytes and spec/declaration/run binding. Mutate a
-separate draft after freeze; it must change neither archive nor retained snapshot.
-Existing startup/finished manifests and database remain. This proves dispatch and
-custody for this tiny case, not field physics, legacy equivalence or UI interaction.
+Prepare a constructor-zero rerun intent from the cold v2 member, remove its attempt,
+retain exact force bytes and validate. NO second Worker/step; the prepared clone still
+has prior output/receipt paths and is explicitly NOT an executable rerun request.
+Production rerun must allocate fresh paths through App. Mutate a separate draft,
+then reread constructor+accepted archive metadata and compare exact original bytes.
 
-## Case2 — proposed exact name
+## Case2 — exact name
 
 `force_runtime_integration_tests::material_force_dispatch_records_immutable_scene`
 
-One material track with same2×2×2 preview/grid geometry in a1m cube. Water at
-293.15K; fill EmittedFluid, samples_per_axis4, max_particles64, initially exactly64
-particles, zero velocity, no emitter. Default water material and Air ambient,
-ambient293.15K, gravity[0,-1,0]m/s², liquid sound speed20, wall heat exchange1,
-retained-array limit1MiB. Freeze the same enabled canonical force document as Case1.
-One requested interval1e-6s, at most16 internal preparation/retry attempts; no
-external retry, pressure solver or max-pressure-iteration loop in this path.
-Other Request/recording/preview limits match Case1. No saved native set is claimed
-for material; immutable Request and version1 core force metadata own this path.
+Same1m domain/grid2×2×2/previewedge2. EmittedFluid fill,4³=64 stationary water
+particles; samples_per_axis4/max_particles64, no emitter/collision. Default water
+at293.15K, Air ambient293.15K, gravity[0,-1,0]m/s², sound speed20m/s, wall heat
+exchange1; retained-array cap1MiB. Same force document and Request/recording limits.
+Exactly ONE public particle step1e-6s, <=16 internal preparation/retry attempts;
+no grid pressure loop and no external retry. Actual accepted dt may shorten.
 
-Through existing run_owned → run_material, exactly ONE public particle step, same
-snapshot for begin/step/record. Expected progress1, one result row, constructor and
-accepted previews using the actual accepted state/time, cold core reader verification and
-RecordedMaterial force document matching exact run-bound bytes, accepted dt/emitter/
-report controls and generation1. Assert preview/record time and actual dt association;
-particle preparation may shorten dt, so do not assert a fabricated literal time or
-necessarily the requested1e-6s. Both records must remain associated with that
-snapshot after separate draft mutation. Preserve database/sidecars and metadata;
-no automatic cleanup. Do not describe this as a material frozen-rerun format that
-does not exist in the current application.
+Expected: joined worker progress1/one row; both SQLite records verify under the
+same immutable run-bound scene,64particles, generation1, constructor zero velocities,
+force-qualified actual dt/emitter/report controls. All times associate with the
+actual accepted dt; no literal-time substitution. Fixed coarse effect guard:
+X momentum change lies in[0.5,1.5]×(total initial mass×0.25m/s²×actual dt), with
+finite positive mass/dt and finite momentum. This rejects tiny positive roundoff;
+it is not a general SPH force-equivalence/accuracy certificate. Verify preview and
+result actual time/dt plus64accepted diagnostic entries.
 
-## Subsequent gates, deliberately separate
+Material has NO existing serialized FrozenSpec/cold-rerun API. The test preserves
+the typed Request, checks its configuration/geometry against recorded header facts,
+rebinds the cold force document and validates that retained future-run intent.
+It does not reconstruct a complete executable material request from opaque header
+text or claim a new production rerun format. After separate draft mutation, reread
+both records and verify original exact scene bytes. No second Worker/step.
 
-After the reviewed exact bodies pass once under separately admitted execution,
-review their evidence before removing the temporary production gate. Native active
-force launch, progress/Cancel/join, retained-versus-draft gestures, long status,
-keyboard/accessibility, mixed saved members and frozen rerun still need their own
-bounded evidence. Do not silently add those workloads to the above two-case budget.
-The current no-force workerless synthetic harness cannot establish any of them.
-Existing actual8148fa2 native validation remains owned by the current validator;
-it does not cover this T5 source. JPEGs must come from actual rendered exact-source
-states, labelled with revision and state, quality85, confirmed Library identity.
+## Gate-removal checkpoint, identified but NOT IMPLEMENTED
+
+Only after separately admitted exact runtime results AND relevant reachable native
+acceptance on the gated source (idle authoring, controls and retained/synthetic
+presentation), prepare a small independently reviewed eligibility change in main/
+SceneUi plus focused tests. A real force-enabled UI launch is a subsequent bounded
+candidate-source validation gate; it cannot precede eligibility implementation. Removing just the Request gate would leave SceneUi blocking, while
+removing just SceneUi's blanket refusal would silently let configured/AI setup ignore
+forces. The future patch must use one typed effective-target readiness policy shared by
+visible actions and last pre-output/start checks (native carrier, particle material,
+unsupported); avoid independently passed booleans or a general capability framework.
+That policy permits valid frozen
+forces only in native-carrier/particle-material preview; preserve explicit refusal
+in start_configured, Accepted Session, AI comparison, transport/provider/free-surface
+and unsupported labs. Unsupported paths refuse authored metadata even if empty,
+disabled or zero-valued. Saved native reruns retain stored per-member metadata and
+never depend on current draft. Remove the private test-bypass field/temporary gate
+only with equivalent production eligibility coverage, not a hidden alternate flag.
+
+Native enabled hover/close/picking/outline/handles/Escape/camera ownership/property
+sync and bounded actual force launch/retained view remain separate from these tests.
+Genuine active Cancel/join, mixed members, long status and full material cold-rerun
+capability are not supplied by two one-step probes. Existing native owner validates
+exact1b37774/timeline repair; no duplicate native session or workload is authorized.

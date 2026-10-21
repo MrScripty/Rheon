@@ -53,6 +53,9 @@ pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
 #[cfg(test)]
+#[path = "desktop/force_runtime_integration_tests.rs"]
+mod force_runtime_integration_tests;
+#[cfg(test)]
 #[path = "desktop/force_runtime_ui_tests.rs"]
 mod force_runtime_ui_tests;
 #[cfg(test)]

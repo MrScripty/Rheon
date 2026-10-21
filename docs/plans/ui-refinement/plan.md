@@ -1,8 +1,8 @@
 # Desktop scene authoring and compact playback
 
 **Plan status:** `Active`
-**Current phase:** T5 desktop custody source implemented; bounded validation pending
-**Next slice:** independently reviewed bounded native-carrier/material runtime and archive probes
+**Current phase:** T5 ignored worker/archive tests prepared and enumerated; no execution
+**Next slice:** separately admitted exact native-carrier/material worker/archive validation
 **Acceptance status:** `blocked`
 
 **Execution ledger:** [execution-ledger.md](execution-ledger.md)
@@ -236,9 +236,11 @@ Retained tree/properties and viewport share one render-frame track/document;
 track intents paint consistently next frame and clear reused-ID selection.
 
 No numerical/SQLite/runtime or new native acceptance is claimed. Thirteen exact
-pure/Context tests pass after list-only enumeration. Future two-case validation is
-specified in [bounded contract](reports/runtime-force-validation-contract.md);
-its ignored test bodies are not yet implemented or enumerated. Keep the production
+pure/Context tests pass after list-only enumeration. Two ignored worker/SQLite cases are now compiled and individually enumerated
+(201total), with [bounded contract](reports/runtime-force-validation-contract.md)
+and independent worker-test reviews. Neither case has executed. Material rerun
+coverage is retained typed Request plus cold force-scene association; a production
+serialized material cold-rerun API does not exist. Keep the production
 force gate until separately admitted runtime/archive evidence qualifies this source.
 Earlier native425a986/8148fa2 and synthetic harness artifacts retain their own exact
 source/evidence; none accepts this changed desktop closure or genuine cancellation.

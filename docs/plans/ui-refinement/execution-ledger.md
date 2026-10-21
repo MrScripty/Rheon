@@ -513,3 +513,26 @@ once each under10s/5CPU/512MiB/1MiB wrapper; no timeout/signal, no surviving chi
 199-name enumeration, check/strictClippy/fmt/diff pass. No numerical/model/SQLite or
 native execution. Preserve failed native evidence. This enabled path is distinct
 from disabled synthetic presentation; native picking/handles remain UNVERIFIED.
+
+## T5 real-Worker runtime/SQLite test preparation —2026-10-21
+
+Separate after published1b37774 focus fix. Added2ignored numerical/SQLite bodies,
+real Request→Worker::start with existing scopedRayon1, join beforeassertions,
+1publicstep each: native8cells/max100pressureiterations, material64particles/max16
+preparations. Source guards effects/custody/coldreadback and rereadsmetadata after
+separatedraftmutation. Native rerunclone is prepared/non-executable; materialonly
+retainedRequest+coldForceScene because no serializedcoldrerunAPI exists. No secondrun.
+
+Complete helper and plan reviews admit preparation only. List-only compile201,
+ignored-only4(2new+2legacy). Corrected privateSnapshotStage import and wrong total2
+count assertion; preserved failures, no testbody executed. Check/strictClippy/fmt/
+pinned structural plan gate pass. Source278-file manifest603a0edf…5fbafc;
+compiled testSHAaf2da153…727b5. No numerical/SQLite/Worker/model/native invocation.
+
+Actual contract proposes30s timeout+teardown/20CPU/512MiB/1MiBlog+perfile, fresh
+DATA/capture separation and retained postexit failure inventory. Known7native/2
+material filenames, SQLite transient peak explicitlyunsealed;8file8MiB final
+assertion is not a hardaggregatebound. No newsecurity/mount/cgroup requirements.
+Future typed-effective-target gate-removal scope independently reviewed, no code
+until boundedruntime+reachablegatednativeacceptance. ActualenabledUIlaunch needs
+separatecandidate-sourcevalidation aftereligibility. Productiongate stays.
