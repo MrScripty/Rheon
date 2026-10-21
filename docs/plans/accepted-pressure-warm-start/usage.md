@@ -54,6 +54,12 @@ not. New owners receive distinct process-local incarnations even with repeated
 caller IDs. Current coupled geometry/density are immutable; future reset/import
 or operator-changing APIs must invalidate through this same owner boundary.
 
+Native projection is a distinct immutable Session intent. Its qualified projection
+path stays Cold and never establishes reusable legacy warm history. Both initialized
+legacy policies, including explicit Cold, refuse on a projection Session before
+callbacks or state changes. Use that Session's native projection entry instead;
+the warm feature does not add a projection seed or projection restart contract.
+
 Session capabilities advertise API version3 and set `accepted_previous_pressure_v1`
 to whether this Cargo feature is enabled.
 Initialization reports are separate from provider reports. Existing dense3D frames

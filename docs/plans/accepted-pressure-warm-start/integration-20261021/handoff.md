@@ -78,3 +78,16 @@ The initialized Session path clears that receipt only after acceptance, so warm
 publications cannot masquerade as the preceding configured-provider record. Existing
 transition tests prove receipt clearing/preservation; the recording requirement
 provides the refusal by construction. No warm recording/restart codec is introduced.
+
+
+Preliminary PR142 composition sourceca9e640 (supporting branch retained) additionally
+keeps native projection Cold with no reusable legacy seed and preserves immutable
+projection Session intent: both initialized legacy policies refuse before callbacks
+or mutation. Independent25-file source review/binding found no blocking defect.
+Focused/library149passed/1existing model skip and recording55passed; default/warm
+all-target checks and strict warm plus desktop/warm all-target Clippy pass. These
+remain preliminary source-specific checks, not actual #138/#143 composition or
+final native/performance admission. PR59 comment6329118296 confirms PR59 worker
+ownership of the complete inventory/review append and fresh ordinary native/packet
+qualification only after actual143main. It also confirms the frozen strict per-case
+uncertainty rule; construction evidence cannot waive an adverse/inconclusive result.
