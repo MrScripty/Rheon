@@ -68,6 +68,17 @@ No PR142 source was edited. Compile-only
 `cargo check --locked --no-default-features --all-targets` passes on that subject
 in 15.88 seconds. No native qualification or numerical campaign was executed.
 
+PR138 then published independently reviewed preliminary composition
+`91c4f4bd8bb29e9862f6ee29cd8bdead79e0d57e`, explicitly available for downstream
+isolated preparation/testing. Its normal merge into this branch is
+`3e43f6080e8e0e4b7d77ac7d8c81a10c6eb643e4`. There is no source, Cargo or selected
+qualifier delta against that dependency. The unchanged native admission checker
+now passes all 152 paths with the exact PR138 v3 inventory/review unchanged;
+no new admission record or pin refresh is needed. The next slice is clean-source
+ordinary qualification under [protocol.md](protocol.md), independently reviewed
+in [source-protocol-review.md](source-protocol-review.md). Final ready status
+still waits verified PR142 then PR138 merged-main identity and final gates.
+
 Preliminary subject `286df732106717d056330b276d6f563e79a447b8` passes
 `cargo fmt --all --check` and
 `cargo check --locked --no-default-features --all-targets` with Rust/Cargo 1.92.0.
