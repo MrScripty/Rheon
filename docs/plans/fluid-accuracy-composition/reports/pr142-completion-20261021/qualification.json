@@ -1,6 +1,6 @@
 {
   "schema": "rheon-pr142-completion-qualification-summary-v1",
-  "status": "scoped-composite-qualification-passed-new-head-hosted-pending",
+  "status": "scoped-composite-qualification-passed-ci-budget-guard-coordinated-new-head-pending",
   "actual_execution_head": "dbd49d3e41c482a753884abc8aaaff7d1b0d0653",
   "actual_execution_tree": "2f37db7c119b846003f5a01a82d46c4cf965b474",
   "reviewed_selected_inputs": 152,
@@ -157,5 +157,47 @@
     "native": "frozen-native-receipt.json",
     "packet": "frozen-packet-receipt.json",
     "custody": "custody-manifest.json"
+  },
+  "subsequent_reporting_ci_failure": {
+    "schema": "rheon-pr142-ci-budget-guard-repair-v1",
+    "failed_source_head": "5eb8bf5607c01f1d59242c604b1d1204882d2eac",
+    "failed_run": 39692282682,
+    "failed_job": 119541101644,
+    "actual_checkout": "7ce8a40dfd240bb81c2f7ffcad947138194494b1",
+    "raw_log_sha256": "aec251631819cb28b421ef2e517ec4e13dd697949ba6c1328d40e2ef5e4cd404",
+    "raw_log_retained_locally": "/workspace/pr142-failed-5eb8bf5-executable.log",
+    "result": {
+      "tests": 219,
+      "errors": 2,
+      "skipped": 27,
+      "exit_code": 1,
+      "failure_owner": "source-only CiBudgetContract exact feature-job prefix"
+    },
+    "errors": [
+      "test_ci_budget_preserves_every_existing_job_check",
+      "test_only_exact_reviewed_isolated_setup_and_additive_contracts_are_allowed"
+    ],
+    "diagnostic": "runner/budget/matrix/dependencies: feature-contracts",
+    "repair": "Coordinate the source-only exact expected feature prefix with reviewed actual workflow: exact two comments and60minutes. Frozen baseline and all commands/matrix/aggregate/per-case/scientific checks remain unchanged. Add rejection of30/59/61/missing feature budget.",
+    "guard_source_sha256": "46a9d538ef4680e983099a3dfdcb6eb98b7ca87a5f8c8ec80e02d64508142960",
+    "focused_checks": {
+      "normal": {
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "f4b0bc8cee953e5b29e79e1e007c4d093d73853a350ee94051b37b6500685085"
+      },
+      "optimized": {
+        "passed": 4,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "b835a38207a75d7d44c75f3d31d1727f585e5fc31f4e6c2559058accb76f3f6a"
+      }
+    },
+    "selected_native_input_count": 152,
+    "selected_native_input_delta": 0,
+    "source_formula_or_numerical_verifier_delta": 0,
+    "historical_failed_outcome_preserved": true,
+    "new_head_ci": "required; pending"
   }
 }
