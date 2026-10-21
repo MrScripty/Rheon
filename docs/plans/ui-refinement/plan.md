@@ -156,8 +156,8 @@ Generated logs/screenshots/transfer packets remain outside Git.
 | S1 | Empty idle timeline fits <=70 logical px in900/1250px windows with the preceding280px sidebar reserved; selected-frame captions remain present and may naturally wrap/grow; actual Play/Pause/step/Live input keeps prior transitions | integration / isolated egui painting/input / automated | pending | Four exact probes pass: idle48px versus106px, focused speed editing and native-track/literal-report layouts. Native/configured/popup-keyboard coverage remains open |
 | S2 | Right panel collapses/reopens retaining selection; tree/viewport choose the same existing object; deleted/replaced/missing identities never edit another object | integration + user-workflow / inert UI then native / automated + manual | pending | Canonical authoring source and five exact UI probes pass; viewport picking/native remain pending |
 | S3 | A force is one canonical scene object in tree, properties, outline and handles; UI exposes only shared supported units/support/transform; unsupported backend blocks with a reason | integration / shared domain contract + inert UI / reviewed + automated | blocked | Canonical authoring source uses one ForceScene and checked IDs; dispatch/frozen intent source implemented and gated; two bounded3b Worker cases pass; native acceptance pending |
-| S4 | Handle capture prevents simultaneous camera/probe motion; Escape restores exact draft; release commits one validated unit-correct edit; active snapshots stay immutable | integration + user-workflow / inert UI then native / automated + manual | pending | T4 reviewed geometry/transaction source and six exact inert tests pass; full Viewport gesture/native evidence pending |
-| S5 |1250×820 and900×650 at100%/150%: usable viewport, no overlap/clipping, visible status/Cancel/errors, thin outline, keyboard alternatives and predictable drawer focus | user-workflow / actual native display / manual | blocked | No local display; prior426fd25 images do not cover this source |
+| S4 | Handle capture prevents simultaneous camera/probe motion; Escape restores exact draft; release commits one validated unit-correct edit; active snapshots stay immutable | integration + user-workflow / inert UI then native / automated + manual | pending | T4 inert tests and parent-relayed native1b representative X/Sphere gestures pass; property-state repair native acceptance and broader axes/types remain pending |
+| S5 |1250×820 and900×650 at100%/150%: usable viewport, no overlap/clipping, visible status/Cancel/errors, thin outline, keyboard alternatives and predictable drawer focus | user-workflow / actual native display / manual | blocked | No local display; parent-relayed native1b representative gestures/scale evidence is scoped; current property repair requires exact native acceptance |
 | S6 | Locked affected check, strict Clippy, formatting and individually selected exact UI tests pass; existing archives/source ownership unchanged | focused / pinned Rust1.92 / automated + source review | pending | T5 thirteen exact inert tests, locked build/check, strict production Clippy and independent source review pass; no archive workload or scientific certificate |
 
 The former M1 A4/A5 and live cancellation remain unsatisfied. UI-5 has a reviewed
@@ -269,3 +269,18 @@ update its fixtures. Then validate actual force-enabled App launch on that exact
 isolated candidate under separately bounded native ownership. No live execution
 or gate change is implied by this plan. Rollback only the policy/adapters increment;
 preserve original UI/native/runtime evidence, archives and historical hash contracts.
+
+
+## Property-state repair and enablement checkpoint
+
+Parent reports native1b representative Radial/XMoveRotate/SphereSize/tree/viewport/
+outline/Escape/cameraisolation/close passes. Property collapse and invalid-radius
+refocus were observed there; native focus cause remains untraced. Current local
+repair shares stable per-object Draft UI identity across normal/preview/error-row
+transitions. Two new pure regressions reproduce failures before and pass after;
+one exact existing authoring regression and static checks pass. Exact native repair
+acceptance remains pending. [Native handoff](reports/scene-properties-stability-checkpoint.md)
+and [next candidate requirements](reports/force-gate-next-candidate-requirements.md)
+separate Pending preparation, complete source admission/CI, targeted native repair,
+future narrow enabling diff/pure tests and separately authorized enabled App launch.
+They do not unpark genuine cancellation or admit scientific workloads.

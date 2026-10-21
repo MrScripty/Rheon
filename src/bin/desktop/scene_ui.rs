@@ -380,9 +380,9 @@ impl SceneUi {
                 } else if self.context==SceneContext::Draft {
                     if self.edit_matches() {
                         let mut candidate=self.edit.as_ref().unwrap().preview.clone();
-                        ui.add_enabled_ui(false,|ui|force_properties(ui,&mut candidate));
+                        draft_properties(ui, &mut candidate, false);
                     } else if let Some(object)=self.forces.objects.iter_mut().find(|o|Some(o.id)==self.selected) {
-                        let changed=ui.push_id(("force-properties",object.id.0), |ui| ui.add_enabled_ui(editable,|ui|force_properties(ui,object)).inner).inner;
+                        let changed=draft_properties(ui, object, editable);
                         if changed {self.validate();}
                         if ui.add_enabled(editable,egui::Button::new("Remove force")).clicked(){self.remove_selected();}
                     } else {ui.label("Select an object");}
@@ -392,6 +392,17 @@ impl SceneUi {
             });
         });
     }
+}
+// Normal editing and disabled drag previews are the same object's properties.
+// Explicit Ui identity also keeps numeric auto-IDs stable when errors add rows
+// before the scroll area. Retained properties use their separate existing scope.
+fn draft_properties(ui: &mut egui::Ui, object: &mut ForceObject, enabled: bool) -> bool {
+    let id = ui.make_persistent_id(("force-properties", object.id.0));
+    ui.scope_builder(egui::UiBuilder::new().id(id), |ui| {
+        ui.add_enabled_ui(enabled, |ui| force_properties(ui, object))
+            .inner
+    })
+    .inner
 }
 fn quantity(ui: &mut egui::Ui, label: &str, value: &mut f64, unit: &str) -> bool {
     super::settings::quantity(ui, label, value, unit, 0.01, -f64::MAX..=f64::MAX).changed()
@@ -738,6 +749,141 @@ mod tests {
             click(&ctx, &mut scene, width, &output, "Draft", false);
             assert_eq!(scene.context, SceneContext::Draft);
             assert_eq!(scene.forces, before);
+        }
+    }
+    // Context-only regressions: literal canonical metadata; no App, Worker,
+    // numerical constructors, filesystem, recorder, model or cleanup paths.
+    fn sphere_scene() -> SceneUi {
+        let mut scene = SceneUi {
+            open: true,
+            ..Default::default()
+        };
+        scene.add(NewForce::Radial).unwrap();
+        scene.forces.objects[0].support = ForceSupport::Sphere {
+            radius: 0.25,
+            edge_fraction: 0.25,
+        };
+        scene
+    }
+    #[test]
+    fn scene_properties_disclosure_survives_preview_apply_and_cancel() {
+        for (header, field) in [
+            ("Transform", "Position X"),
+            ("Support & activation", "Radius"),
+        ] {
+            let ctx = context();
+            let mut scene = sphere_scene();
+            let frozen = scene.freeze_for_run().unwrap().unwrap();
+            let (output, _) = frame(&ctx, &mut scene, 1250.0, vec![]);
+            click(&ctx, &mut scene, 1250.0, &output, header, false);
+            let (output, _) = frame(&ctx, &mut scene, 1250.0, vec![]);
+            assert!(text_rect(&output, field, false).is_positive());
+            for apply in [false, true] {
+                let base = scene.draft().clone();
+                let mut preview = scene.selected_force().unwrap().clone();
+                preview.transform.translation[0] += 0.1;
+                preview.support = ForceSupport::Sphere {
+                    radius: 0.4,
+                    edge_fraction: 0.25,
+                };
+                assert!(scene.begin_edit());
+                assert!(scene.preview_edit(Some(preview.clone())));
+                for _ in 0..2 {
+                    let (output, _) = frame(&ctx, &mut scene, 1250.0, vec![]);
+                    assert!(
+                        text_rect(&output, field, false).is_positive(),
+                        "{header} stays expanded during preview"
+                    );
+                    assert_eq!(scene.draft(), &base, "preview cannot mutate draft");
+                }
+                assert_eq!(scene.finish_edit(apply), apply);
+                let (output, _) = frame(&ctx, &mut scene, 1250.0, vec![]);
+                assert!(
+                    text_rect(&output, field, false).is_positive(),
+                    "{header} stays expanded after transaction"
+                );
+                if apply {
+                    assert_eq!(scene.selected_force().unwrap(), &preview);
+                } else {
+                    assert_eq!(scene.draft(), &base);
+                }
+                assert_eq!(
+                    frozen.scene().objects[0].support,
+                    ForceSupport::Sphere {
+                        radius: 0.25,
+                        edge_fraction: 0.25
+                    }
+                );
+            }
+        }
+    }
+    #[test]
+    fn scene_invalid_radius_can_be_corrected_without_refocus() {
+        for width in [900.0, 1250.0] {
+            let ctx = context();
+            let mut scene = sphere_scene();
+            let frozen = scene.freeze_for_run().unwrap().unwrap();
+            let (output, _) = frame(&ctx, &mut scene, width, vec![]);
+            click(
+                &ctx,
+                &mut scene,
+                width,
+                &output,
+                "Support & activation",
+                false,
+            );
+            let (output, _) = frame(&ctx, &mut scene, width, vec![]);
+            let caption = output
+                .shapes
+                .iter()
+                .find_map(|shape| match &shape.shape {
+                    egui::Shape::Text(text)
+                        if text
+                            .galley
+                            .text()
+                            .strip_suffix(" m")
+                            .and_then(|v| v.parse::<f64>().ok())
+                            == Some(0.25) =>
+                    {
+                        Some(text.galley.text().to_owned())
+                    }
+                    _ => None,
+                })
+                .expect("visible radius in metres");
+            click(&ctx, &mut scene, width, &output, &caption, false);
+            let editor = ctx.memory(|m| m.focused()).expect("radius editor focused");
+            replace(&ctx, &mut scene, width, "0");
+            assert!(scene.error.is_some());
+            assert!(scene.freeze_for_run().is_err());
+            let (output, _) = frame(&ctx, &mut scene, width, vec![]);
+            assert!(output.shapes.iter().any(|shape|matches!(&shape.shape,egui::Shape::Text(text) if text.galley.text().contains("Invalid authored force"))));
+            assert_eq!(
+                ctx.memory(|m| m.focused()),
+                Some(editor),
+                "error banner must retain radius focus at {width}"
+            );
+            replace(&ctx, &mut scene, width, "0.4");
+            let _ = frame(&ctx, &mut scene, width, vec![]);
+            assert_eq!(
+                ctx.memory(|m| m.focused()),
+                Some(editor),
+                "correcting without a click retains focus"
+            );
+            assert!(scene.error.is_none());
+            assert_eq!(
+                scene.freeze_for_run().unwrap().unwrap().scene().objects[0].support,
+                ForceSupport::Sphere {
+                    radius: 0.4,
+                    edge_fraction: 0.25
+                }
+            );
+            assert_eq!(
+                frozen.scene().objects[0].support,
+                ForceSupport::Sphere {
+                    radius: 0.25,
+                    edge_fraction: 0.25
+                }
+            );
         }
     }
     #[test]

@@ -606,3 +606,22 @@ shallow missingimmutableprimaryrevision; preserve traceback and distinguish from
 unavailable hostedstderr. No hashrefresh/gateweaken/receiptcopy. Exact diagnosis,
 source review and logs underreports/ci-item-order-checkpoint.md and corresponding
 evidence. ProductionPending/fullCI/book/nativeforceacceptance remainopen.
+
+
+## Draft property disclosure and invalid-radius focus —2026-10-21
+
+Parent-relayed native1b representativeRadial/XMoveRotate/SphereSize/treeviewport/
+outline/Escape/cameraisolation/closeexit0 passes; notallaxes/types. Native found
+previewdisclosurecollapse and refocusrequiredafterinvalidradius; nativefocuscause
+untraced. Two exact admitted Context-only regressions on37ac failedbeforefix:
+missingvisiblePositionX(phaseunidentifiedbyhelper) and focusededitor->None after
+radius0/errorframe at900. Preservebothfailurelogs.
+
+Minimal scene_ui productionhelper shares explicitperobjectUi identity between
+normalDraft and disabledpreview; stable childautoIDs withstand precedingerrorrows.
+Retainedscope/parser/units/validation/transaction/snapshot unchanged. After:2exact
+newtests plus1exactexistingauthoringregression pass,205filtered each.206list-only;
+check1.21s/strictClippywithtests6.84s/fmt/diff pass. No numerical/Worker/SQLite/model/
+filesystemfixture or native session. SourceSHA46eeaeaf3cce71c7665cde4224ef2ed7e62100047796414c94d07e02dd4b7390.
+New exact idle nativehandoff and quality85JPEG requirements are in checkpointreport;
+repairnativepending, productionPending. Authenticationremainsblocked, noretry.
