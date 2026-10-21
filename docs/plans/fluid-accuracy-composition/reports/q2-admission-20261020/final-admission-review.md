@@ -1,0 +1,29 @@
+# Independent dependent-Q2 source-admission review — 2026-10-20
+
+Approved the exact eight prepared metadata/protocol/source-review paths for a clean commit and fresh qualification. No material finding remains in this admission scope. This neither approves a public merge nor qualifies the scientific reference or a production PDE solver.
+
+The source checkpoint is `cd21a9952dc411e01b77f58e3aae67aff1e473fd`, tree `0447da683eecce1330adb563f1ca6e5dabfc0a62`. Prepared admission documents are intentionally uncommitted at this review. The complete unchanged selector yields135 regular nonsymlink inputs: **0 added,2 changed,133 unchanged,0 removed** relative to the fixed reviewed stage. All135 SHA256 identities match both committed checkpoint blobs and current files. Canonical sorted compact map SHA256 is `c1baa8b487bdacaa746446a0e21540b9605232c39131b32148253909249cb8f1`.
+
+Only Cargo.toml and Cargo.lock change in the selected map. The new manifest adds exactly two pinned dev requirements, num-rational0.4.2 and num-traits0.2.19; removing that new table restores the previous parsed root manifest. The latter identity was already locked. The lock adds only num-bigint0.4.8, num-integer0.1.47 and num-rational0.4.2; no prior registry package record, checksum or edge changes, and no identity is removed. The sole prior package-record change is the root's two dev edges. There is no new project-root build.rs, build-dependency, production Rust/formula/domain or selector change. This is bounded CPU reference dependency admission, not a security/performance/WASM assurance.
+
+I independently hashed the three retained official-download crate archives against their exact lock checksums and reviewed manifests, without executing package code or extracting files into the workspace. Each archive includes the declared MIT OR Apache-2.0 license and actual license texts matching the source-review hashes. New package manifests contain no root build.rs or build-dependencies; std/BigInt defaults agree with the declared dependency graph. Archive/license/default identities are recorded in review.json. Hash integrity is not authenticity or reproducibility.
+
+The composed checkpoint retains exact PR132 `e6525a116a07af486e4a682cc2b157241d6b9150`, PR134 `f84f65104d6a0f6f8f1a9b903412b1e5155f72a2` and fixed PR133 ancestry. All28 copied component source pins match current files and original component-head blobs. All five source-review files equal their original external review receipts byte-for-byte. The private reference examples/tests are outside the unchanged selector's explicit aligned qualification inputs; they remain actual committed source requiring separate focused execution, not missing Rust-library modules to omit silently. Composing owner deltas preserves all unrelated G1/C1 inputs.
+
+The old bound review, SHA256 `9e583b31ed051f388c636879c90ecb84e4e31b177de42dc39ca7b8acebaa796c`, is an exact retained prefix. The established explicit v3 refresh remains sufficient: schema/base/predecessor identities, immutable primary ancestry/tree, v1/v2 bytes and selector/checker/qualifier/oracle/packet refusal source remain unchanged. Inventory differences are limited to scope, source map and appended review digest. All local links in the prepared scope resolve and Markdown fences are balanced.
+
+Approved prepared inventory SHA256:
+`fce71cd78045159972f4bd4500bf4f67305ecc074db9a450ef3f3327d2421a09`.
+
+Approved appended admission review SHA256:
+`49f7d8e32e29886a22d91b8310e99b961a5e611a0b75f670c1f280e7da29f497`.
+
+The protocol correctly preserves fixed PR133/9c04278 and requires a new clean committed subject, fresh external target/output, unchanged18-command native/rational qualification, a newly generated real packet with26 normal and26 optimized tests without skips, and separate existing composed plus two private-reference test targets. Old scientific campaigns are not rerun or relabelled. Prior qualification does not transfer across changed Cargo inputs. Commit the exact approved inventory and bound review together, then freeze them throughout qualification; report outcomes separately.
+
+PR132's fixed-corpus exact represented-source positivity and PR134's eight tiny aligned coupled-algebra cases are retained as separately reviewed private-reference claims. They do not select general cut/free-surface velocity spaces, extension, physical traction/boundary lift or production topology/DOF/B/M/S/W/PDE acceptance. Original failed fields and finite-error budgets remain historical. Further numerical method selection stays with its owner. New default/desktop, GUI, performance, Lean, learned or physical acceptance requires separate evidence.
+
+Public merge authority remains separately blocked for the rejected PR121 action; no retry or alternate path is authorized by this review. Reviewer wrote only outside-Git receipts and performed source/hash/archive inspections: no builds, tests, simulations, campaigns, dependency code, refs, PRs or repository edits.
+
+## Post-commit protocol formatting follow-up
+
+Admission commit `ba16197ed6820815db2ec29568265861d3c64052` retains the approved eight initial paths. Before qualification, the owner corrected one prose line in protocol.md: comma spacing and trailing whitespace only. The exact replacement was independently verified; new protocol SHA256 is `9281169f3111421173df205c7a5a9b8188d66c6e1d6194282d9dc2663ae09465`, superseding its original `110814b8796aacc3d3c0a979611c814ce49e73b98ca3629e21f05cb35cbf96a0` for the follow-up. All135 source inputs and the other seven approved file identities remain unchanged. The original eight-pin JSON remains immutable; protocol-spacing-followup.json records this bounded new approval. Commit normally before freezing the clean qualification subject; no history rewrite or earlier receipt relabeling.

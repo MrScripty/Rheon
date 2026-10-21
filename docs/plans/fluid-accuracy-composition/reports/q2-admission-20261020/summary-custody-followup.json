@@ -1,0 +1,11 @@
+{
+  "status": "EXACT_METADATA_ONLY_CUSTODY_EXTENSION",
+  "original_audit_summary_sha256": "7faa36f7bf03cb5234ea9c3eee3207313bf8b20f0367be7f3113ec50062fee21",
+  "current_summary_sha256": "ddad48dbe6ab70d8d4444da3b594b7e9ce5b5bfeaaf942a9060a692147537f3a",
+  "only_added_fields": {
+    "archive.library.current_version_number": 0,
+    "archive.library.file_name": "rheon-q2-reference-stage-9a9904f.zip"
+  },
+  "original_summary_exactly_reconstructed_by_removing_these_fields": true,
+  "raw_artifact_source_archive_hashes_unchanged": true
+}

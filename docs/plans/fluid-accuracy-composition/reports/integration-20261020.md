@@ -1,6 +1,14 @@
 # Repository integration disposition — 2026-10-20
 
-This report reconciles current implementation and numerical-route facts. It does not replace frozen protocols, raw fields, failed evaluations or prior qualification. Source and acceptance scopes are separate from hosted integration readiness. Initial main was `bc2f472787060d9a69cb619ed2c2fea10fd754b6`. After direct merge confirmation, PR120 and PR119 merged; verified main is `718469beedb9a949f4bb6f3299c7b880b4c47e47`. The [fixed staged qualification](native-admission-20261020/qualification.md) is separately bound to exact clean `9c04278`; it does not qualify later Q2 inputs. A separate [dependent qualification](https://github.com/MrScripty/Rheon/blob/a6bfcc94481b1bafbe61be804a1abc3426927bbd/docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md) passes on clean `9a9904f`; fixed PR133/8bf542e and its earlier execution remain unchanged.
+Current PR138 work on 2026-10-21 is a **preliminary** isolated composition of its
+retained source with frozen PR142 `dbd49d3`, authorized by the sole integration
+lead. Its complete 152-path closure changes only two Cargo inputs; source review
+and fresh validation are recorded [separately](pr138-integration-20261021/protocol.md).
+PR142 has not yet landed. Final readiness requires the verified merged dependency,
+exact-source revalidation and lead merge. The dated dispositions below retain
+their historical tested sources and do not qualify this preliminary composition.
+
+This report reconciles historical implementation and numerical-route facts. It does not replace frozen protocols, raw fields, failed evaluations or prior qualification. Source and acceptance scopes are separate from hosted integration readiness. Initial main was `bc2f472787060d9a69cb619ed2c2fea10fd754b6`. After direct merge confirmation, PR120 and PR119 merged; verified main is `718469beedb9a949f4bb6f3299c7b880b4c47e47`. The [fixed staged qualification](native-admission-20261020/qualification.md) is separately bound to exact clean `9c04278`; it does not qualify later Q2 inputs. A separate [dependent qualification](https://github.com/MrScripty/Rheon/blob/a6bfcc94481b1bafbe61be804a1abc3426927bbd/docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md) passes on clean `9a9904f`; fixed PR133/8bf542e and its earlier execution remain unchanged.
 
 ## Exact reviewed subjects and dependencies
 
