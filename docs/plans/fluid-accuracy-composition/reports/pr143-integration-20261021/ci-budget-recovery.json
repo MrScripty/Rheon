@@ -1,0 +1,56 @@
+{
+  "schema": "rheon-pr143-exact-ci-budget-contract-recovery-v1",
+  "source_head": "79d5a82f1f14879aa249590212dd1683b06a4ef7",
+  "source_tree": "0d2983529be4e9f13d933519cb104ccb17b89162",
+  "lead_repair": "3cd735fde7655aedffbd0ffb2f041ca6994961a4",
+  "failure_record": "hosted-ci-failure-39692570591.json",
+  "failure_record_sha256": "86f1534ae6067d2ab137a442ca0981791bd89c848d9eac0cf26f508fbf317cb9",
+  "guard_source_sha256": "46a9d538ef4680e983099a3dfdcb6eb98b7ca87a5f8c8ec80e02d64508142960",
+  "workflow_sha256": "80f732505778a8f7746ca42c52e919c5d7d2cbdf0fe2432c8695079663c8e300",
+  "native_selected_inputs": 152,
+  "native_admission_changed": false,
+  "private_preparation_source_changed": false,
+  "python": "3.12.14",
+  "Pillow_import_version": "12.3.0",
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_column_interface_verifier.CiBudgetContract",
+        "-v"
+      ],
+      "environment": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "tools"
+      },
+      "exit": 0,
+      "cases": 4,
+      "skips": 0,
+      "log": "/workspace/pr143-ci-budget-contract-normal.log",
+      "log_sha256": "8b1e10158d32c5c32e8b421ca010cadb069fa0183e175a960d0020ce21215aad"
+    },
+    {
+      "argv": [
+        "python3",
+        "-O",
+        "-m",
+        "unittest",
+        "test_column_interface_verifier.CiBudgetContract",
+        "-v"
+      ],
+      "environment": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONPATH": "tools"
+      },
+      "exit": 0,
+      "cases": 4,
+      "skips": 0,
+      "log": "/workspace/pr143-ci-budget-contract-optimized.log",
+      "log_sha256": "8b1e10158d32c5c32e8b421ca010cadb069fa0183e175a960d0020ce21215aad"
+    }
+  ],
+  "scope": "Exact reviewed60min feature-header expectation plus strict30/59/61/missing negatives; frozen baseline, all old workload/numerical test methods, commands, matrix, runner, other budgets and gates unchanged. No numerical fixture or selected campaign invocation.",
+  "remaining": "Independent recovery/publication review, fresh actual-head full hosted CI, verified142 then138 main revalidation and final exact-head review/lead merge."
+}

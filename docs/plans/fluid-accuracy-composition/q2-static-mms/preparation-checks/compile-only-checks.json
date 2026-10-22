@@ -1,0 +1,41 @@
+{
+  "admission_contract": "38c40ca7b4b2401e0ac802f12c647f7229072f52",
+  "campaign_output": null,
+  "checks": [
+    {
+      "command": "cargo check --locked --no-default-features --example grid_static_mms_reference --test grid_static_mms_reference_contract",
+      "result": "passed, compilation only"
+    },
+    {
+      "command": "cargo clippy --locked --no-default-features --example grid_static_mms_reference --test grid_static_mms_reference_contract -- -D warnings",
+      "result": "passed, compilation only"
+    },
+    {
+      "command": "cargo fmt --all --check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo build --locked --release --no-default-features --example grid_static_mms_reference",
+      "result": "passed, build only; release-build.log retained"
+    }
+  ],
+  "dependency": "902f6092de6044419d028f92dabd8e59ae7a87ba",
+  "initial_compile_failures": [
+    "CV2 experiment cfg(test) referenced old fixture root; repaired by importing only the shared solver",
+    "Clippy iterator-index lint and unused-variable repairs before any selected execution"
+  ],
+  "native_checkpoint": "b9ec50c779122587a5da30318b29b42e1825ec10",
+  "native_executable_sha256": "72f4245bf56a56da6e8a8c223c2a7a56220fc914491cf6997416c269945f9ad4",
+  "new_numeric_contracts": {
+    "count": 3,
+    "status": "ignored and unrun; future admitted command must explicitly select --ignored"
+  },
+  "qualification": "unavailable; preparation only",
+  "receipt_created_utc": "2026-10-20T05:26:01.702991+00:00",
+  "selected_numerical_execution": false,
+  "source_review_manifest_sha256": "7ab5e6389f6a7e69006533cbade76253b1ee00af1d72e2b5a7d9a629c832bb61",
+  "toolchain": {
+    "cargo": "1.92.0 (344c4567c 2025-10-21)",
+    "rustc": "1.92.0 (ded5c06cf 2025-12-08)"
+  }
+}
