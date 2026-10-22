@@ -1,6 +1,6 @@
 # Acceptance evidence plan and current evidence
 
-**Feature results:** none executed. All numerical, native interaction, persistence-fault and cold-rerun criteria below are future gates. Static planning review, source inspection and document checks establish only the plan's evidence quality. They do not validate a new solver.
+**Feature acceptance:** pending. Executed numerical component evidence is in [M1 verification](m1-verification.md) and [M2 verification](m2-verification.md). [M3 evidence](m3-verification.md) distinguishes headless authoring/input checks from the blocked native display gate. These component results do not satisfy the whole native/persistence feature; the remaining criteria below retain their declared acceptance boundaries.
 
 ## Deciding fixtures and independent oracles
 
@@ -42,7 +42,7 @@ The first accepted native workload should be bounded and purpose-specific. The i
 
 For implementation changes, run affected formatting, strict Clippy, compilation and focused contracts through the relevant default/core/desktop combinations. Broaden only when shared operator/recording changes justify it. Numerical tests/workloads require the authority applicable at implementation time; this plan does not override any existing environment-specific execution restrictions.
 
-## Current planning evidence and review status
+## Evidence at planning admission (historical)
 
 Observed: fresh main and standards pins; actual scalar-density/constant-viscosity/nonconservative-advection source; existing all-full configured intent restriction; existing native ownership and output policies; prior research's separate review corrections. A read-only numerical investigation identified the finite-divergence trap, exact density-continuity defect, pressure fast paths and a bounded proposed response. It ran no numerical/native checks and wrote no source.
 

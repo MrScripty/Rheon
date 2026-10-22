@@ -1,10 +1,10 @@
 # Two-material voxel dynamics and initial-domain brush
 
-**Plan status:** `Active` — user approved the reviewed direction and initial full-box incompressible Water/Air scope; admitted `start` on 2026-10-22 from plan commit `627847915eb97b80da81ec4544bb413bc5f806fa`. This authorizes isolated implementation and review, not a main merge.
+**Plan status:** `Blocked` — isolated implementation began under user approval on 2026-10-22; M1/M2 numerical components passed their bounded gates. M3's required real native idle-edit observation is unavailable because this environment has no X11/Wayland display. No approval or native acceptance is inferred from source review/headless tests.
 
-**Current phase:** M3 authoring admission, following verified M1 pressure and M2 coupled transport/stress components and separate source review. Work remains in isolated worktree `/workspace/Rheon-voxel-material-implementation`, branch `implementation/voxel-multimaterial-authoring-20261022`.
+**Current phase:** M3 reviewed source/headless authoring candidate; blocked at the required native editing gate. Worktree `/workspace/Rheon-voxel-material-implementation`, branch `implementation/voxel-multimaterial-authoring-20261022`. The [M3 evidence and exact blocker](reports/m3-verification.md) distinguishes completed checks from missing native evidence.
 
-**Next slice:** M3 binary initial document, atomic brush transactions/history and native slice interaction. M2 numerical gates passed for the bounded fixtures; native exposure remains gated by M3–M5. M4 run/persistence cannot be substituted by a headless brush test.
+**Next slice:** Parent/environment operator supplies a supported native graphics environment; rebuild the exact candidate and execute the bounded idle paint/undo/redo/cancel/keyboard workflow. Only after that M3 gate passes may M4 implement immutable saved input and the real worker/recording route. M4/M5 are unstarted. Preserve all work and pending integration ownership; do not bypass the denied coordination action.
 
 **Acceptance status:** `pending` for the feature. Documentation review does not satisfy numerical/native/persistence acceptance.
 
@@ -73,7 +73,7 @@ These decisions bind the admitted implementation direction. Feature acceptance r
 
 ## Staged reversible implementation
 
-M1's bounded component is Accepted through [executed component checks](reports/m1-verification.md) and [separate source review](reports/m1-independent-review.md); feature A1–A6 remain pending. M2 is Accepted as a numerical component through [executed checks](reports/m2-verification.md) and [separate review](reports/m2-independent-review.md). M3 is Active; M4–M5 remain Planned and gated in order. Milestone separation contains real numerical, UI and durable-state risks; it does not prescribe a commit count or branch per milestone. Every slice preserves existing carrier/particle/column/provider behavior and old archives. New incomplete capability stays unadvertised/unrunnable; tests or an explicitly scoped headless constructor do not count as native completion.
+M1's bounded component is Accepted through [executed component checks](reports/m1-verification.md) and [separate source review](reports/m1-independent-review.md); feature A1–A6 remain pending. M2 is Accepted as a numerical component through [executed checks](reports/m2-verification.md) and [separate review](reports/m2-independent-review.md). M3 is Blocked at native editing acceptance after its [core](reports/m3-core-independent-review.md) and [UI](reports/m3-ui-independent-review.md) source findings were corrected and focused checks passed. M4–M5 remain Planned and gated in order. Milestone separation contains real numerical, UI and durable-state risks; it does not prescribe a commit count or branch per milestone. Every slice preserves existing carrier/particle/column/provider behavior and old archives. New incomplete capability stays unadvertised/unrunnable; tests or an explicitly scoped headless constructor do not count as native completion.
 
 | Milestone | Goal and exact proposed production write set | Dependency and gate | Reversible boundary |
 | --- | --- | --- | --- |

@@ -52,6 +52,8 @@ pub mod run_sets;
 pub mod saved_comparison;
 use rheon::recording::comparison as native_comparison;
 use saved_comparison as comparison;
+#[path = "desktop/authoring_history.rs"]
+mod authoring_history;
 #[path = "desktop/force_run_policy.rs"]
 mod force_run_policy;
 #[cfg(test)]
@@ -63,6 +65,8 @@ mod force_runtime_integration_tests;
 #[cfg(test)]
 #[path = "desktop/force_runtime_ui_tests.rs"]
 mod force_runtime_ui_tests;
+#[path = "desktop/initial_contents_ui.rs"]
+mod initial_contents_ui;
 #[cfg(test)]
 #[path = "desktop/native_presentation_harness.rs"]
 mod native_presentation_harness;
@@ -1669,8 +1673,15 @@ impl App {
                 }
             };
             if let Err(error) = readiness {
-                ui.colored_label(egui::Color32::YELLOW, "Authored-force runs unavailable")
-                    .on_hover_text(error);
+                ui.colored_label(
+                    egui::Color32::YELLOW,
+                    if self.scene.contents_selected() || self.scene.contents.busy() {
+                        "Initial contents run unavailable"
+                    } else {
+                        "Authored-force runs unavailable"
+                    },
+                )
+                .on_hover_text(error);
             }
             if launch {
                 action = Some(SetupAction::Run(self.setup_workflow));
@@ -2572,6 +2583,13 @@ impl App {
 }
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        if self.ai_comparison.is_some()
+            || self.saved_comparison_active
+            || self.run_sets.active
+            || self.archive.active
+        {
+            self.scene.contents.hidden(ctx);
+        }
         if let Some(comparison) = self.ai_comparison.as_mut() {
             if !comparison.show(ctx) {
                 self.ai_comparison = None;
@@ -2648,6 +2666,7 @@ impl eframe::App for App {
             self.sidebar(ctx);
         }
         if self.archive.active || self.run_sets.active || self.saved_comparison_active {
+            self.scene.contents.hidden(ctx);
             ctx.request_repaint();
             return;
         }
@@ -2671,7 +2690,21 @@ impl eframe::App for App {
             model,
             self.setup_workflow.force_target(self.material_mode),
         );
+        if self.scene.contents.create_requested {
+            self.scene.contents.create_requested = false;
+            let result = GridGeometry::new(
+                [self.size; 3],
+                [self.domain_side / self.size as f64; 3],
+                [0.0; 3],
+            )
+            .map_err(|e| e.to_string())
+            .and_then(|grid| self.scene.create_contents(grid));
+            if let Err(error) = result {
+                self.status = error;
+            }
+        }
         if previous_context != self.scene.context {
+            self.scene.contents.cancel();
             self.playing = false;
         }
         let retained = self.scene.context == scene_ui::SceneContext::Retained;

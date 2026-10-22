@@ -164,30 +164,36 @@ impl Viewport {
             mut scene,
             editable_scene,
         } = inputs;
-        if self.authored_forces_pending || self.scene_handles.busy() {
+        let contents_mode = scene
+            .as_deref()
+            .is_some_and(|s| s.contents_selected() || s.contents.busy());
+        if self.authored_forces_pending || self.scene_handles.busy() || contents_mode {
             self.mode = ViewMode::Appearance;
         }
-        ui.horizontal_wrapped(|ui| {
-            view_mode_tabs(
-                ui,
-                &mut self.mode,
-                self.authored_forces_pending || self.scene_handles.busy(),
-            );
-            if self.mode != ViewMode::Appearance {
-                ui.checkbox(&mut self.engineering_camera.orthographic, "Orthographic");
-                if ui.button("Frame view").clicked() {
-                    self.engineering_camera = OrbitCamera {
-                        distance: 1.8,
-                        ..Default::default()
-                    };
+        ui.add_enabled_ui(!contents_mode, |ui| {
+            ui.horizontal_wrapped(|ui| {
+                view_mode_tabs(
+                    ui,
+                    &mut self.mode,
+                    self.authored_forces_pending || self.scene_handles.busy(),
+                );
+                if self.mode != ViewMode::Appearance {
+                    ui.checkbox(&mut self.engineering_camera.orthographic, "Orthographic");
+                    if ui.button("Frame view").clicked() {
+                        self.engineering_camera = OrbitCamera {
+                            distance: 1.8,
+                            ..Default::default()
+                        };
+                    }
                 }
-            }
+            });
         });
         #[cfg(test)]
         if self.presentation_only {
             self.mode = ViewMode::Appearance;
         }
         if self.mode == ViewMode::Appearance
+            && !contents_mode
             && let Some(scene) = scene.as_deref()
         {
             self.scene_handles.controls(ui, scene, editable_scene);
@@ -240,6 +246,35 @@ impl Viewport {
                 ViewMode::Appearance => {}
             }
             std::mem::swap(&mut self.camera, &mut self.engineering_camera);
+            return;
+        }
+        if contents_mode && let Some(scene) = scene.as_deref_mut() {
+            // The previous force gesture keeps its cancellation/release owner
+            // even after canonical selection changes to Initial contents.
+            let force_consumed = self.scene_handles.busy()
+                && self.scene_handles.update(
+                    ui,
+                    &response,
+                    &self.camera,
+                    self.domain_side,
+                    scene,
+                    false,
+                );
+            if force_consumed {
+                scene.contents.hidden(ui.ctx());
+            }
+            let selected = scene.contents_selected();
+            let consumed = scene.contents.canvas(
+                ui,
+                &response,
+                &self.camera,
+                self.domain_side,
+                selected,
+                editable_scene && scene.open && !force_consumed,
+            );
+            if !consumed && !force_consumed {
+                self.input(ui, &response, rect, 2.35);
+            }
             return;
         }
         let consumed = scene.as_deref_mut().is_some_and(|scene| {
@@ -623,18 +658,18 @@ impl Viewport {
                     ..Default::default()
                 };
             }
-            if input.key_pressed(egui::Key::Num1) {
+            if keyboard_owned && input.key_pressed(egui::Key::Num1) {
                 self.camera.yaw = 0.0;
                 self.camera.pitch = 0.0;
             }
-            if input.key_pressed(egui::Key::Num3) {
+            if keyboard_owned && input.key_pressed(egui::Key::Num3) {
                 self.camera.yaw = std::f32::consts::FRAC_PI_2;
                 self.camera.pitch = 0.0;
             }
-            if input.key_pressed(egui::Key::Num7) {
+            if keyboard_owned && input.key_pressed(egui::Key::Num7) {
                 self.camera.pitch = 1.52;
             }
-            if input.key_pressed(egui::Key::Num5) {
+            if keyboard_owned && input.key_pressed(egui::Key::Num5) {
                 self.camera.orthographic = !self.camera.orthographic;
             }
         });
@@ -820,6 +855,144 @@ fn cylinder_faces(emitter: RotatingCylinderEmitter, time: f64) -> Vec<Face> {
 mod tests {
     use super::*;
     use eframe::egui::Pos2;
+    #[test]
+    fn selecting_contents_cancels_previous_force_gesture_before_brush_or_camera() {
+        use super::super::scene_ui::SceneUi;
+        let force = rheon::ForceObject {
+            id: rheon::SceneObjectId(99),
+            name: "Selection transition".into(),
+            enabled: true,
+            transform: rheon::ForceTransform {
+                translation: [0.5; 3],
+                ..Default::default()
+            },
+            units: rheon::ForceUnits::Acceleration,
+            kind: rheon::ForceKind::Directional { vector: [0.0; 3] },
+            support: rheon::ForceSupport::Global,
+            time: Default::default(),
+        };
+        let mut scene = SceneUi::geometry_fixture(
+            rheon::ForceScene {
+                version: 1,
+                objects: vec![force],
+            },
+            false,
+        );
+        scene.open = true;
+        scene
+            .create_contents(rheon::GridGeometry::new([4; 3], [0.25; 3], [0.0; 3]).unwrap())
+            .unwrap();
+        scene.contents.editor.as_mut().unwrap().fill_air().unwrap();
+        let original_forces = scene.draft().clone();
+        let contents_id = scene.contents.id();
+        scene.select(Some(rheon::SceneObjectId(99)));
+        let mut viewport = Viewport {
+            camera: OrbitCamera {
+                yaw: 0.0,
+                pitch: 0.0,
+                orthographic: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let ctx = egui::Context::default();
+        let draw = |viewport: &mut Viewport, scene: &mut SceneUi, events| {
+            let _ = ctx.run(
+                egui::RawInput {
+                    screen_rect: Some(Rect::from_min_size(Pos2::ZERO, egui::vec2(800.0, 600.0))),
+                    events,
+                    ..Default::default()
+                },
+                |ctx| {
+                    egui::CentralPanel::default().show(ctx, |ui| {
+                        viewport.show_scene(
+                            ui,
+                            ViewInputs {
+                                frame: None,
+                                emitter: None,
+                                workers: &[],
+                                grid_edge: 4,
+                                inspector: None,
+                                scene: Some(scene),
+                                editable_scene: true,
+                            },
+                        )
+                    });
+                },
+            );
+        };
+        draw(&mut viewport, &mut scene, vec![]);
+        draw(&mut viewport, &mut scene, vec![]);
+        let rect = viewport.scene.as_ref().unwrap().rect;
+        let pos = viewport.camera.project([0.68, 0.5, 0.5], rect).unwrap().0;
+        let button = |pressed| egui::Event::PointerButton {
+            pos,
+            button: egui::PointerButton::Primary,
+            pressed,
+            modifiers: Default::default(),
+        };
+        draw(
+            &mut viewport,
+            &mut scene,
+            vec![egui::Event::PointerMoved(pos), button(true)],
+        );
+        assert!(scene.editing() && viewport.scene_handles.busy());
+        let camera = viewport.camera.clone();
+        scene.select(contents_id);
+        draw(
+            &mut viewport,
+            &mut scene,
+            vec![egui::Event::PointerMoved(pos)],
+        );
+        assert!(!scene.editing());
+        assert!(!scene.contents.editor.as_ref().unwrap().active());
+        draw(&mut viewport, &mut scene, vec![button(false), button(true)]);
+        draw(
+            &mut viewport,
+            &mut scene,
+            vec![egui::Event::PointerMoved(pos + egui::vec2(15.0, 0.0))],
+        );
+        assert!(scene.contents.busy());
+        assert_eq!(viewport.camera, camera);
+        draw(&mut viewport, &mut scene, vec![button(false)]);
+        assert!(!viewport.scene_handles.busy());
+        assert_eq!(viewport.camera, camera);
+        assert_eq!(
+            scene
+                .contents
+                .editor
+                .as_ref()
+                .unwrap()
+                .document()
+                .revision(),
+            1
+        );
+        assert_eq!(scene.draft(), &original_forces);
+        // A later fresh press belongs to the brush, after the discarded tail.
+        let pos = viewport.camera.project([0.5, 0.5, 0.625], rect).unwrap().0;
+        let brush_button = |pressed| egui::Event::PointerButton {
+            pos,
+            button: egui::PointerButton::Primary,
+            pressed,
+            modifiers: Default::default(),
+        };
+        draw(
+            &mut viewport,
+            &mut scene,
+            vec![egui::Event::PointerMoved(pos), brush_button(true)],
+        );
+        draw(&mut viewport, &mut scene, vec![brush_button(false)]);
+        assert_eq!(
+            scene
+                .contents
+                .editor
+                .as_ref()
+                .unwrap()
+                .document()
+                .revision(),
+            2
+        );
+    }
     #[test]
     fn excessive_surface_is_refused_without_downsampling() {
         let n = 64;
@@ -1081,6 +1254,23 @@ mod tests {
         viewport.camera.distance = 4.0;
         draw(&mut viewport, Some(egui::Key::F), true);
         assert_eq!(viewport.camera.distance, 4.0, "text editor owns keyboard");
+        let before = viewport.camera.clone();
+        for key in [
+            egui::Key::Num1,
+            egui::Key::Num3,
+            egui::Key::Num5,
+            egui::Key::Num7,
+        ] {
+            draw(&mut viewport, Some(key), true);
+            assert_eq!(viewport.camera, before, "text editor owns {key:?}");
+        }
+        ctx.memory_mut(|m| {
+            if let Some(id) = m.focused() {
+                m.surrender_focus(id)
+            }
+        });
+        draw(&mut viewport, Some(egui::Key::Num5), false);
+        assert_ne!(viewport.camera.orthographic, before.orthographic);
         assert!(viewport.engineering.is_none() && viewport.transport.is_none());
         assert!(!viewport.presentation_only);
     }

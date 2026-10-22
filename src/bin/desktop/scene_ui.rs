@@ -37,6 +37,7 @@ struct DraftEdit {
     valid: bool,
 }
 pub struct SceneUi {
+    pub(super) contents: super::initial_contents_ui::InitialContentsUi,
     retained_forces: Option<ForceScene>,
     retained_binding: Option<(usize, Option<[u8; 32]>)>,
     edit: Option<DraftEdit>,
@@ -52,6 +53,7 @@ pub struct SceneUi {
 impl Default for SceneUi {
     fn default() -> Self {
         Self {
+            contents: Default::default(),
             retained_forces: None,
             retained_binding: None,
             edit: None,
@@ -213,6 +215,17 @@ impl SceneUi {
         }
         false
     }
+    pub fn contents_selected(&self) -> bool {
+        self.context == SceneContext::Draft
+            && self.selected.is_some()
+            && self.selected == self.contents.id()
+    }
+    pub fn create_contents(&mut self, grid: rheon::GridGeometry) -> Result<(), String> {
+        let id = self.allocate()?;
+        self.contents.create(id, grid)?;
+        self.select(Some(id));
+        Ok(())
+    }
     pub fn selected(&self) -> Option<SceneObjectId> {
         self.selected
     }
@@ -265,10 +278,21 @@ impl SceneUi {
     /// This is the sole selection owner. Viewport picking will call this same API.
     pub fn select(&mut self, id: Option<SceneObjectId>) {
         self.selected = id.filter(|id| {
-            Some(*id) == self.model_id() || self.display_scene().objects.iter().any(|o| o.id == *id)
+            Some(*id) == self.model_id()
+                || (self.context == SceneContext::Draft && Some(*id) == self.contents.id())
+                || self.display_scene().objects.iter().any(|o| o.id == *id)
         });
+        if !self.contents_selected() {
+            self.contents.cancel();
+        }
     }
     pub fn launch_readiness(&self, target: super::force_run_policy::Target) -> Result<(), String> {
+        if self.contents.busy() {
+            return Err("Finish or cancel the contents stroke before running".into());
+        }
+        if self.contents_selected() {
+            return Err("Initial contents execution and immutable saved input are unavailable until M4 acceptance; this draft cannot launch a legacy method".into());
+        }
         if self.editing() {
             return Err("Finish or cancel the force edit before running".into());
         }
@@ -358,6 +382,11 @@ impl SceneUi {
                     let response=ui.selectable_label(self.selected()==Some(id),"Collision model");
                     if response.clicked(){self.select(Some(id));}
                 }
+                if self.context==SceneContext::Draft {
+                    if let Some(id)=self.contents.id() {
+                        if ui.selectable_label(self.selected()==Some(id),"Initial contents").clicked(){self.select(Some(id));}
+                    } else if ui.add_enabled(editable,egui::Button::new("New initial contents")).clicked(){self.contents.create_requested=true;}
+                }
                 ui.heading("Authored forces");
                 if self.context==SceneContext::Draft {
                     ui.add_enabled_ui(editable,|ui| {ui.menu_button("Add force",|ui| {
@@ -380,7 +409,9 @@ impl SceneUi {
                 ui.separator();
                 ui.heading("Properties");
                 if self.editing() {ui.small("Drag preview · release applies · Esc cancels");}
-                if self.selected.is_some() && self.selected==self.model_id() {
+                if self.contents_selected() {
+                    self.contents.controls(ui,editable);
+                } else if self.selected.is_some() && self.selected==self.model_id() {
                     if let Some(model)=model {ui.label(format!("{} triangles",model.triangles));ui.label(format!("Bounds {:?} … {:?} m",model.bounds.0,model.bounds.1));ui.small("Accepted geometry · placement uses Import / apply mesh in setup.");}
                 } else if self.context==SceneContext::Draft {
                     if self.edit_matches() {
