@@ -1,4 +1,6 @@
-# M3 authoring candidate evidence and native environment blocker
+# M3 authoring candidate evidence and initial native environment blocker
+
+**Historical blocker superseded for the bounded M3 idle check:** subsequent inspection found installed Xorg dummy/software GLX. See [actual native evidence](m3-native-software-evidence.md) and its [separate review](m3-native-evidence-review.md). The failure/provisioning attempts below remain unchanged history; they are not the current display-capability disposition.
 
 This candidate follows committed M2 `d0e92b7343599703978b660d3c057cf8602cc98f` in the isolated implementation worktree. M3 is not accepted: the required real native idle-edit workflow has not run. M4 saved input/native execution and M5 objective acceptance remain pending. No save/load, complete immutable run recipe, new recording variant or two-material retained-result consumer is present.
 
