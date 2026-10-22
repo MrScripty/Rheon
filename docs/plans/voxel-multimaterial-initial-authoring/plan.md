@@ -2,7 +2,7 @@
 
 **Plan status:** `Active` — parent prospectively authorizes independent M4 persistence/frozen-input work while the original M3 native/end-to-end acceptance remains explicit. This is a work-order adjustment, not acceptance or release permission. Previously denied metadata/comment operations remain stopped.
 
-**Current phase:** M4 real desktop integration. The independently reviewed [saved-input](reports/m4-input-verification.md), [typed recording](reports/m4-recording-verification.md) and [explicit saved-profile/cold-archive](reports/m4-run-set-verification.md) components are Accepted. M3 bounded native idle editing remains Accepted on Xorg dummy/Mesa software rendering. Full worker/save-load/retained-result and A5/A6 remain pending; no physical GPU or whole-feature acceptance is claimed.
+**Current phase:** M4 real desktop integration. The independently reviewed [saved-input](reports/m4-input-verification.md), [typed recording](reports/m4-recording-verification.md) [explicit saved-profile/cold-archive](reports/m4-run-set-verification.md) and [retained Inspector](reports/m4-inspector-verification.md) components are Accepted. M3 bounded native idle editing remains Accepted on Xorg dummy/Mesa software rendering. Full worker/save-load/retained-result and A5/A6 remain pending; no physical GPU or whole-feature acceptance is claimed.
 
 **Next slice:** Integrate the immutable voxel request with the existing desktop worker, bounded preview and typed Inspector/result ownership, then native save/load/adoption and cold rerun. Keep unsupported forces/mesh/emitter/provider explicit and retained input immutable. Original end-to-end gates precede exposure/acceptance. Main stays frozen under the serial integration lead; denied operations stay stopped.
 

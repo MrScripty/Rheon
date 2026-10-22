@@ -1,13 +1,15 @@
 //! Exact selected disk publication. The worker owns recording; UI owns selection.
+#[path = "voxel_material_view.rs"]
+mod voxel_material_view;
 use super::export_ui::ExportFile;
 use eframe::egui;
 use rheon::recording::provider::{
     RecordedConfiguredSession, configured_publication_with_runtime, configured_run,
 };
 use rheon::recording::{
-    RecordedCarrier, RecordedMaterial, RecordedStep, RecordingLimits, RecordingReader,
-    StepRecorder, carrier_publication, carrier_publication_with_force_fields, carrier_run,
-    material_publication, material_publication_with_force_fields, material_run,
+    RecordedCarrier, RecordedMaterial, RecordedStep, RecordedVoxelMaterial, RecordingLimits,
+    RecordingReader, StepRecorder, carrier_publication, carrier_publication_with_force_fields,
+    carrier_run, material_publication, material_publication_with_force_fields, material_run,
 };
 use rheon::{
     FluidParticle, ForceSnapshot, MaterialStepControls, ParticleFluidSimulation,
@@ -26,6 +28,8 @@ struct State {
     material: Option<Arc<RecordedMaterial>>,
     carrier: Option<Arc<RecordedCarrier>>,
     configured: Option<Arc<RecordedConfiguredSession>>,
+    voxel: Option<Arc<RecordedVoxelMaterial>>,
+    voxel_view: voxel_material_view::Slice,
     record: Option<Arc<RecordedStep>>,
     field_name: String,
     scalar_index: usize,
@@ -44,6 +48,8 @@ impl Default for State {
             material: None,
             carrier: None,
             configured: None,
+            voxel: None,
+            voxel_view: Default::default(),
             record: None,
             field_name: String::new(),
             scalar_index: 0,
@@ -57,6 +63,11 @@ impl Default for State {
 #[derive(Default)]
 pub struct Inspector(Mutex<State>);
 impl Inspector {
+    #[cfg(test)]
+    pub fn with_voxel<R>(&self, read: impl FnOnce(&RecordedVoxelMaterial) -> R) -> Option<R> {
+        let voxel = Arc::clone(self.0.lock().ok()?.voxel.as_ref()?);
+        Some(read(&voxel))
+    }
     pub fn record_configured(
         &self,
         recorder: &mut StepRecorder,
@@ -287,6 +298,7 @@ impl Inspector {
             s.material = None;
             s.carrier = None;
             s.configured = None;
+            s.voxel = None;
             s.feedback = e.clone();
         }
         result
@@ -314,6 +326,7 @@ impl Inspector {
             s.material = None;
             s.carrier = None;
             s.configured = None;
+            s.voxel = None;
             s.feedback = e.clone();
         }
         result
@@ -325,6 +338,7 @@ impl Inspector {
         s.material = None;
         s.carrier = None;
         s.configured = None;
+        s.voxel = None;
         s.record = None;
         s.path = None;
         s.field_name.clear();
@@ -406,6 +420,7 @@ impl Inspector {
         s.material = None;
         s.carrier = None;
         s.configured = None;
+        s.voxel = None;
         s.record = None;
         let result = s
             .reader
@@ -436,13 +451,21 @@ impl Inspector {
                 } else {
                     None
                 };
-                Ok((Arc::new(record), material, carrier, configured))
+                let voxel = if run.solver == rheon::recording::VOXEL_MATERIAL_SOLVER {
+                    Some(Arc::new(
+                        RecordedVoxelMaterial::decode(run, &record).map_err(|e| e.to_string())?,
+                    ))
+                } else {
+                    None
+                };
+                Ok((Arc::new(record), material, carrier, configured, voxel))
             });
         match result {
-            Ok((record, material, carrier, configured)) => {
+            Ok((record, material, carrier, configured, voxel)) => {
                 s.material = material;
                 s.carrier = carrier;
                 s.configured = configured;
+                s.voxel = voxel;
                 if s.field_name.is_empty() {
                     s.field_name = record
                         .fields
@@ -534,10 +557,17 @@ impl Inspector {
             s.material = None;
             s.carrier = None;
             s.configured = None;
+            s.voxel = None;
             s.feedback = error;
         }
         if !s.feedback.is_empty() {
             ui.label(&s.feedback);
+        }
+        if let Some(voxel) = s.voxel.clone()
+            && let Some(cell) = voxel_material_view::show(ui, &voxel, &mut s.voxel_view)
+        {
+            s.field_name = "liquid_fraction".into();
+            s.scalar_index = cell;
         }
         raw_fields_ui(&mut s, ui);
         if let Some(configured) = &s.configured {
@@ -1187,3 +1217,7 @@ mod tests {
         }
     }
 }
+
+#[cfg(test)]
+#[path = "voxel_material_inspector_tests.rs"]
+mod voxel_material_tests;
