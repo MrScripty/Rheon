@@ -1,0 +1,1019 @@
+{
+  "schema": "rheon-serial-actual-main-partial-component-summary-v1",
+  "actual_main": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+  "actual_tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+  "status": "partial_components_passed_all_whole_local_attempts_failed",
+  "runs": [
+    {
+      "attempt": 1,
+      "overall_status": "failed",
+      "head": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+      "journal_local_path": "/workspace/pr143-postmerge-local-1/journal.json",
+      "journal_sha256": "0cc6837ed856474124b54a8076fd44eb9043d274363e8aff0a3c194221c74536",
+      "artifact_manifest": {
+        "path": "/workspace/pr143-postmerge-local-1/artifact-manifest.json",
+        "count": 80,
+        "sha256": "b1c8c6b103044d50803ab99bb02b7d6125b358b84b2d9c3875cc9bfb34c09c2a",
+        "excludes": "journal and artifact manifest to avoid recursive hashes"
+      },
+      "driver_sha256": "ddc9583a1b9e30990434080904f93a8c80423b4e0619c4788e6eb314cd3a1098",
+      "protocol_sha256": "dd83d3507684be211ffe18725d6e6b11f9027b5981b1f080a4bc1b88bbf8c8dc",
+      "started": "2026-10-22T02:06:24.481971+00:00",
+      "ended": "2026-10-22T02:06:37.836384+00:00",
+      "source_count": 2052,
+      "source_map_sha256_sorted_compact_ascii_json": "6aebe9dd485c142965bcfda8575f77245e605c4fe768bdbbefa217704efada7c",
+      "source_unchanged": true,
+      "actual_head_after": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "git_status_after": "",
+      "environment": {
+        "PATH": "/workspace/.rheon-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+        "HOME": "/home/agent",
+        "USER": "agent",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SSL_CERT_FILE": "/etc/ssl/certs/ca-certificates.crt",
+        "CARGO_HOME": "/workspace/.rheon-tools/cargo",
+        "RUSTUP_HOME": "/workspace/.rheon-tools/rustup",
+        "CARGO_TARGET_DIR": "/workspace/.rheon-tools/target",
+        "CARGO_BUILD_JOBS": "1",
+        "CARGO_INCREMENTAL": "0",
+        "CARGO_PROFILE_DEV_DEBUG": "0",
+        "CARGO_PROFILE_TEST_DEBUG": "0",
+        "RUSTUP_TOOLCHAIN": "1.92.0",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUNNER_TEMP": "/workspace/pr143-postmerge-local-1",
+        "RHEON_CHROMIUM_EXECUTABLE": "/usr/bin/chromium",
+        "XDG_CACHE_HOME": "/workspace/pr143-postmerge-local-1/xdg-cache",
+        "XDG_CONFIG_HOME": "/workspace/pr143-postmerge-local-1/xdg-config",
+        "XDG_RUNTIME_DIR": "/workspace/pr143-postmerge-local-1/xdg-runtime",
+        "TMPDIR": "/workspace/pr143-postmerge-local-1/tmp",
+        "RHEON_SOLVER": "/workspace/pr143-postmerge-local-1/rheon-solver",
+        "RHEON_EDITION": "/workspace/pr143-postmerge-local-1/rheon-edition",
+        "RHEON_ASSETS": "/workspace/pr143-postmerge-local-1/rheon-assets",
+        "RHEON_OBSTACLE": "/workspace/pr143-postmerge-local-1/rheon-obstacle-records",
+        "RHEON_FLOW": "/workspace/pr143-postmerge-local-1/rheon-obstacle-flow-records",
+        "RHEON_COMPRESSIBLE": "/workspace/pr143-postmerge-local-1/rheon-compressible-records",
+        "RHEON_STRAIN": "/workspace/pr143-postmerge-local-1/rheon-aligned-strain-records",
+        "RHEON_STRAIN_QUALIFICATION": "/workspace/pr143-postmerge-local-1/rheon-aligned-strain-qualification"
+      },
+      "tool_paths": {
+        "bash": "/usr/bin/bash",
+        "python3": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "rustc": "/workspace/.rheon-tools/cargo/bin/rustc",
+        "cargo": "/workspace/.rheon-tools/cargo/bin/cargo",
+        "rustup": "/workspace/.rheon-tools/cargo/bin/rustup",
+        "rustfmt": "/workspace/.rheon-tools/cargo/bin/rustfmt",
+        "cargo-clippy": "/workspace/.rheon-tools/cargo/bin/cargo-clippy",
+        "node": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "npm": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/npm",
+        "pandoc": "/usr/bin/pandoc",
+        "chromium": "/usr/bin/chromium"
+      },
+      "compiled_optional_declarations": {
+        "RHEON_SOURCE_REVISION": null,
+        "RHEON_BUILD_MATERIAL_SHA256": null
+      },
+      "github_event_variables": "unset; actual local checkout, no hosted event",
+      "cache": "Existing task-owned target cache; no cold-build or reproducibility claim",
+      "adaptations": [
+        "Existing exact Python dependencies instead of host apt/pip installation; local Chromium instead of hosted Chrome",
+        "VTK venv python path replaced by actual interpreter with verified same vtk/numpy pins",
+        "Recorded carrier source argument is actual O Git commit; no GitHub event asserted",
+        "Pinned wasm setup moved once before book fixtures; no command/test/gate removed",
+        "Debug symbol emission=0 for local resources; no optimization/debug assertion override"
+      ],
+      "requirements_actual": {
+        "playwright": "1.62.0",
+        "pypdf": "6.10.0",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "matplotlib": "3.10.8",
+        "threadpoolctl": "3.6.0",
+        "sympy": "1.14.0",
+        "vtk": "9.3.1"
+      },
+      "budgets_seconds": {
+        "VTK_total": 900,
+        "book_build_total_including_local_setup": 5400,
+        "tool_and_admission_each": 60
+      },
+      "commands": [
+        {
+          "name": "tool-identities",
+          "script_sha256": "f0631acb8ae72c1053586ef853fae7775827d288bb6e959686c8e8d59ea27903",
+          "script": "rustc -Vv\ncargo -V\nrustfmt --version\ncargo clippy --version\npython3 -V\nnode --version\nnpm --version\npandoc --version\n\"$RHEON_CHROMIUM_EXECUTABLE\" --version",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-1/01.sh"
+          ],
+          "started": "2026-10-22T02:06:24.485574+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-1/01.log",
+          "remaining_phase_budget_seconds": 60.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 1.0437638769999467,
+          "ended": "2026-10-22T02:06:25.531595+00:00",
+          "log_sha256": "5391671274dbac32ef8dc7aef1657d1daebebe427c6686dd6d7942193c21acca"
+        },
+        {
+          "name": "admission",
+          "script_sha256": "105bf938e97489f3e01c246f4c9b6a3b077b33b65515311f2b576f8e4917f98f",
+          "script": "python3 docs/education/check_native_admission.py",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-1/02.sh"
+          ],
+          "started": "2026-10-22T02:06:25.787377+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-1/02.log",
+          "remaining_phase_budget_seconds": 60.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 0.2120227289997274,
+          "ended": "2026-10-22T02:06:26.002674+00:00",
+          "log_sha256": "9af196c66ba85b170f79ac6ee7774b4814a37f8eeea6c31924ff2a49b2e40240"
+        },
+        {
+          "name": "VTK: Rust boundary contract and static checks",
+          "script_sha256": "6fb0831c609ea175ee2c426d803ad23b902fb4f7373d259d9f2a0a4f9cf7ebdd",
+          "script": "cargo test --locked --no-default-features --test vtk_export_contract --test recording_carrier_contract\ncargo clippy --locked --no-default-features --test vtk_export_contract --example vtk_export_fixture --example recorded_carrier -- -D warnings\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-1/03.sh"
+          ],
+          "started": "2026-10-22T02:06:26.045514+00:00",
+          "status": "failed",
+          "log": "/workspace/pr143-postmerge-local-1/03.log",
+          "remaining_phase_budget_seconds": 900.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 101,
+          "seconds": 11.657822316999955,
+          "ended": "2026-10-22T02:06:37.705358+00:00",
+          "log_sha256": "ec6219bc976c5519f121c274a2052db7e6c2e6414f4893e65a921bfcdfa9609a"
+        }
+      ],
+      "elf_snapshot_rows": 6,
+      "elf_snapshot_unique_files": [
+        {
+          "sha256": "699bda0d46e68cbe1fde02653bc8c00ee2cfabf1034a17150a4b8808d741b3b0",
+          "size": 8610464,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-1/elf-snapshots/699bda0d46e68cbe1fde02653bc8c00ee2cfabf1034a17150a4b8808d741b3b0.elf"
+        },
+        {
+          "sha256": "555b12bce404cc459e944071068253ecbb532d2df1e851219310e11ea7f6be0f",
+          "size": 10691592,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-1/elf-snapshots/555b12bce404cc459e944071068253ecbb532d2df1e851219310e11ea7f6be0f.elf"
+        }
+      ],
+      "planned_steps": null,
+      "execution_scope": null,
+      "external_VTK_component": null,
+      "error": "RuntimeError('VTK: Rust boundary contract and static checks exited 101')"
+    },
+    {
+      "attempt": 2,
+      "overall_status": "failed",
+      "head": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+      "journal_local_path": "/workspace/pr143-postmerge-local-2/journal.json",
+      "journal_sha256": "1eea1d70fb87f4dc0cdb287a49d93c4e9043fb9abd940d6207989c3351ac2a46",
+      "artifact_manifest": {
+        "path": "/workspace/pr143-postmerge-local-2/artifact-manifest.json",
+        "count": 610,
+        "sha256": "f619cd07f39e2d04cf0d017aaaaaa53f7bf7a9e5161c8da1a22571d598c94d28",
+        "excludes": "journal and artifact manifest to avoid recursive hashes"
+      },
+      "driver_sha256": "0fd7d6c7a273a642826848f4b2165bfcd6bf56b5a9a29ac19672d61c4ff238d2",
+      "protocol_sha256": "0ef1a000a082c55838a93fb328e07d4c444da1fe6a7fc0c860c155779d14d0b9",
+      "started": "2026-10-22T02:10:18.869765+00:00",
+      "ended": "2026-10-22T02:12:07.725201+00:00",
+      "source_count": 2052,
+      "source_map_sha256_sorted_compact_ascii_json": "6aebe9dd485c142965bcfda8575f77245e605c4fe768bdbbefa217704efada7c",
+      "source_unchanged": true,
+      "actual_head_after": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "git_status_after": "",
+      "environment": {
+        "PATH": "/workspace/.rheon-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+        "HOME": "/home/agent",
+        "USER": "agent",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SSL_CERT_FILE": "/etc/ssl/certs/ca-certificates.crt",
+        "HTTP_PROXY": "<platform transport configured; value withheld>",
+        "HTTPS_PROXY": "<platform transport configured; value withheld>",
+        "NO_PROXY": "<platform transport configured; value withheld>",
+        "http_proxy": "<platform transport configured; value withheld>",
+        "https_proxy": "<platform transport configured; value withheld>",
+        "no_proxy": "<platform transport configured; value withheld>",
+        "NODE_EXTRA_CA_CERTS": "/usr/local/share/ca-certificates/environment-proxy-ca.crt",
+        "REQUESTS_CA_BUNDLE": "/etc/ssl/certs/ca-certificates.crt",
+        "CARGO_HOME": "/workspace/.rheon-tools/cargo",
+        "RUSTUP_HOME": "/workspace/.rheon-tools/rustup",
+        "CARGO_TARGET_DIR": "/workspace/.rheon-tools/target",
+        "CARGO_BUILD_JOBS": "1",
+        "CARGO_INCREMENTAL": "0",
+        "CARGO_PROFILE_DEV_DEBUG": "0",
+        "CARGO_PROFILE_TEST_DEBUG": "0",
+        "RUSTUP_TOOLCHAIN": "1.92.0",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUNNER_TEMP": "/workspace/pr143-postmerge-local-2",
+        "RHEON_CHROMIUM_EXECUTABLE": "/usr/bin/chromium",
+        "XDG_CACHE_HOME": "/workspace/pr143-postmerge-local-2/xdg-cache",
+        "XDG_CONFIG_HOME": "/workspace/pr143-postmerge-local-2/xdg-config",
+        "XDG_RUNTIME_DIR": "/workspace/pr143-postmerge-local-2/xdg-runtime",
+        "TMPDIR": "/workspace/pr143-postmerge-local-2/tmp",
+        "RHEON_SOLVER": "/workspace/pr143-postmerge-local-2/rheon-solver",
+        "RHEON_EDITION": "/workspace/pr143-postmerge-local-2/rheon-edition",
+        "RHEON_ASSETS": "/workspace/pr143-postmerge-local-2/rheon-assets",
+        "RHEON_OBSTACLE": "/workspace/pr143-postmerge-local-2/rheon-obstacle-records",
+        "RHEON_FLOW": "/workspace/pr143-postmerge-local-2/rheon-obstacle-flow-records",
+        "RHEON_COMPRESSIBLE": "/workspace/pr143-postmerge-local-2/rheon-compressible-records",
+        "RHEON_STRAIN": "/workspace/pr143-postmerge-local-2/rheon-aligned-strain-records",
+        "RHEON_STRAIN_QUALIFICATION": "/workspace/pr143-postmerge-local-2/rheon-aligned-strain-qualification"
+      },
+      "tool_paths": {
+        "bash": "/usr/bin/bash",
+        "python3": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "rustc": "/workspace/.rheon-tools/cargo/bin/rustc",
+        "cargo": "/workspace/.rheon-tools/cargo/bin/cargo",
+        "rustup": "/workspace/.rheon-tools/cargo/bin/rustup",
+        "rustfmt": "/workspace/.rheon-tools/cargo/bin/rustfmt",
+        "cargo-clippy": "/workspace/.rheon-tools/cargo/bin/cargo-clippy",
+        "node": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "npm": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/npm",
+        "pandoc": "/usr/bin/pandoc",
+        "chromium": "/usr/bin/chromium"
+      },
+      "compiled_optional_declarations": {
+        "RHEON_SOURCE_REVISION": null,
+        "RHEON_BUILD_MATERIAL_SHA256": null
+      },
+      "github_event_variables": "unset; actual local checkout, no hosted event",
+      "cache": "Existing task-owned target cache; no cold-build or reproducibility claim",
+      "adaptations": [
+        "Existing exact Python dependencies instead of host apt/pip installation; local Chromium instead of hosted Chrome",
+        "VTK venv python path replaced by actual interpreter with verified same vtk/numpy pins",
+        "Recorded carrier source argument is actual O Git commit; no GitHub event asserted",
+        "Pinned wasm setup moved once before book fixtures; no command/test/gate removed",
+        "Debug symbol emission=0 for local resources; no optimization/debug assertion override"
+      ],
+      "requirements_actual": {
+        "playwright": "1.62.0",
+        "pypdf": "6.10.0",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "matplotlib": "3.10.8",
+        "threadpoolctl": "3.6.0",
+        "sympy": "1.14.0",
+        "vtk": "9.3.1"
+      },
+      "budgets_seconds": {
+        "VTK_total": 900,
+        "book_build_total_including_local_setup": 5400,
+        "tool_and_admission_each": 60
+      },
+      "commands": [
+        {
+          "name": "tool-identities",
+          "script_sha256": "f0631acb8ae72c1053586ef853fae7775827d288bb6e959686c8e8d59ea27903",
+          "script": "rustc -Vv\ncargo -V\nrustfmt --version\ncargo clippy --version\npython3 -V\nnode --version\nnpm --version\npandoc --version\n\"$RHEON_CHROMIUM_EXECUTABLE\" --version",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-2/01.sh"
+          ],
+          "started": "2026-10-22T02:10:18.873273+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-2/01.log",
+          "remaining_phase_budget_seconds": 60.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 0.5264482049988146,
+          "ended": "2026-10-22T02:10:19.402024+00:00",
+          "log_sha256": "5391671274dbac32ef8dc7aef1657d1daebebe427c6686dd6d7942193c21acca"
+        },
+        {
+          "name": "admission",
+          "script_sha256": "105bf938e97489f3e01c246f4c9b6a3b077b33b65515311f2b576f8e4917f98f",
+          "script": "python3 docs/education/check_native_admission.py",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-2/02.sh"
+          ],
+          "started": "2026-10-22T02:10:19.467176+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-2/02.log",
+          "remaining_phase_budget_seconds": 60.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 0.21070872500058613,
+          "ended": "2026-10-22T02:10:19.679733+00:00",
+          "log_sha256": "9af196c66ba85b170f79ac6ee7774b4814a37f8eeea6c31924ff2a49b2e40240"
+        },
+        {
+          "name": "VTK: Rust boundary contract and static checks",
+          "script_sha256": "6fb0831c609ea175ee2c426d803ad23b902fb4f7373d259d9f2a0a4f9cf7ebdd",
+          "script": "cargo test --locked --no-default-features --test vtk_export_contract --test recording_carrier_contract\ncargo clippy --locked --no-default-features --test vtk_export_contract --example vtk_export_fixture --example recorded_carrier -- -D warnings\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-2/03.sh"
+          ],
+          "started": "2026-10-22T02:10:19.724147+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-2/03.log",
+          "remaining_phase_budget_seconds": 900.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 95.16672890399968,
+          "ended": "2026-10-22T02:11:54.892609+00:00",
+          "log_sha256": "aac7552b2432d232f87c22aad032ff7327076bef988ba3cac0479e5c646ab89d"
+        },
+        {
+          "name": "VTK: Real VTK reader validates native precision and associations",
+          "script_sha256": "f1a36d47b2a79578b5c05fbe0a911cbb0e2a5429462660cfd52aeff802d7166f",
+          "script": "cargo run --locked --no-default-features --example vtk_export_fixture -- \"$RUNNER_TEMP/rheon-vtk-fixtures\"\n/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 tools/verify_vtk_roundtrip.py \"$RUNNER_TEMP/rheon-vtk-fixtures\"\nmkdir -p \"$RUNNER_TEMP/rheon-carrier-fixture\"\ncargo run --locked --no-default-features --example recorded_carrier -- record \"$RUNNER_TEMP/rheon-carrier-fixture/run.sqlite\" \"20a0e1e20538b859193c08eaf25a3b8cd26135a5\"\ncargo run --locked --no-default-features --example recorded_carrier -- inspect \"$RUNNER_TEMP/rheon-carrier-fixture/run.sqlite\" 0 \"$RUNNER_TEMP/rheon-carrier-fixture/step0.vti\"\ncargo run --locked --no-default-features --example recorded_carrier -- inspect \"$RUNNER_TEMP/rheon-carrier-fixture/run.sqlite\" 1 \"$RUNNER_TEMP/rheon-carrier-fixture/step1.vti\"\n/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 tools/verify_recorded_carrier_vtk.py \"$RUNNER_TEMP/rheon-carrier-fixture/run.sqlite\" \"$RUNNER_TEMP/rheon-carrier-fixture/step0.vti\" \"$RUNNER_TEMP/rheon-carrier-fixture/step1.vti\"\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-2/04.sh"
+          ],
+          "started": "2026-10-22T02:11:55.109411+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-2/04.log",
+          "remaining_phase_budget_seconds": 804.6127079580001,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 5.779645898001036,
+          "ended": "2026-10-22T02:12:00.892744+00:00",
+          "log_sha256": "743c0c7676cf3a3c99b089ad5bb2194de8fa684780420b897d984c1299e345b5"
+        },
+        {
+          "name": "locked-local-browser-assets",
+          "script_sha256": "3a08aa723a8888f6aa893f8aced204f916c2a895496866f6f690f1555a615568",
+          "script": "mkdir -p \"$RHEON_ASSETS\"\ncp docs/education/package.json docs/education/package-lock.json \"$RHEON_ASSETS/\"\nnpm ci --prefix \"$RHEON_ASSETS\" --ignore-scripts --no-audit --no-fund",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-2/05.sh"
+          ],
+          "started": "2026-10-22T02:12:01.021812+00:00",
+          "status": "failed",
+          "log": "/workspace/pr143-postmerge-local-2/05.log",
+          "remaining_phase_budget_seconds": 5400.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 254,
+          "seconds": 6.192958482000904,
+          "ended": "2026-10-22T02:12:07.218592+00:00",
+          "log_sha256": "be95b5369894dac549d1a76508acd4b34e1daff40022c20b4d7a556a17fed36e"
+        }
+      ],
+      "elf_snapshot_rows": 20,
+      "elf_snapshot_unique_files": [
+        {
+          "sha256": "699bda0d46e68cbe1fde02653bc8c00ee2cfabf1034a17150a4b8808d741b3b0",
+          "size": 8610464,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-2/elf-snapshots/699bda0d46e68cbe1fde02653bc8c00ee2cfabf1034a17150a4b8808d741b3b0.elf"
+        },
+        {
+          "sha256": "555b12bce404cc459e944071068253ecbb532d2df1e851219310e11ea7f6be0f",
+          "size": 10691592,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-2/elf-snapshots/555b12bce404cc459e944071068253ecbb532d2df1e851219310e11ea7f6be0f.elf"
+        },
+        {
+          "sha256": "c9e72b9d758c264ed80d8d7efbf89c4f344eaeb851ae48fd3990ff48b83364b7",
+          "size": 3756928,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-2/elf-snapshots/c9e72b9d758c264ed80d8d7efbf89c4f344eaeb851ae48fd3990ff48b83364b7.elf"
+        },
+        {
+          "sha256": "b27e206dc1567fe75b378e604f68146df0a159d83a92d4734611cad8ef37df86",
+          "size": 8335712,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-2/elf-snapshots/b27e206dc1567fe75b378e604f68146df0a159d83a92d4734611cad8ef37df86.elf"
+        },
+        {
+          "sha256": "a6dd715f37239ab21cc1d75a96f4f54ab9ce2599514b2187aabe9eb7da37cc73",
+          "size": 2779264,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-2/elf-snapshots/a6dd715f37239ab21cc1d75a96f4f54ab9ce2599514b2187aabe9eb7da37cc73.elf"
+        },
+        {
+          "sha256": "8f6062597f39e8093794b2b8010d4bb869a8ca86a6d815d8e664a14864768493",
+          "size": 4613072,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-2/elf-snapshots/8f6062597f39e8093794b2b8010d4bb869a8ca86a6d815d8e664a14864768493.elf"
+        }
+      ],
+      "planned_steps": [
+        "tool-identities",
+        "admission",
+        "VTK: Rust boundary contract and static checks",
+        "VTK: Real VTK reader validates native precision and associations",
+        "locked-local-browser-assets",
+        "BOOK: Check local reference mechanisms",
+        "BOOK: Qualify bounded compressible Euler references",
+        "BOOK: Construct and qualify only static geometry controls",
+        "BOOK: Qualify bounded obstacle pressure and reduced shear controls",
+        "BOOK: Capture and independently qualify finite aligned strain",
+        "pinned-wasm-tools",
+        "BOOK: Build the bounded native browser fixtures",
+        "BOOK: Build complete static edition and verify local links",
+        "BOOK: Verify retained browser bindings and current Chromium laboratories"
+      ],
+      "execution_scope": null,
+      "external_VTK_component": null,
+      "error": "RuntimeError('locked-local-browser-assets exited 254')"
+    },
+    {
+      "attempt": 3,
+      "overall_status": "failed",
+      "head": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+      "journal_local_path": "/workspace/pr143-postmerge-local-3/journal.json",
+      "journal_sha256": "dab867b83860b138a41a746c900327b461c07700146d27b3eee15fcc4ce89a9a",
+      "artifact_manifest": {
+        "path": "/workspace/pr143-postmerge-local-3/artifact-manifest.json",
+        "count": 2408,
+        "sha256": "420588b2eee171fdf49e8b1fec19e5e6dfe3079cfecc9e6020dd40f52af316e1",
+        "excludes": "journal and artifact manifest to avoid recursive hashes"
+      },
+      "driver_sha256": "e20ea9518acaddd07e10e602a0f200e33821461f2814e52882a7be36cd38e081",
+      "protocol_sha256": "16c19fbdc446fe7793ef12cfce505bd0a3547ba1d6d4b55b27569ccf9f6c7771",
+      "started": "2026-10-22T02:21:35.382204+00:00",
+      "ended": "2026-10-22T02:41:06.772823+00:00",
+      "source_count": 2052,
+      "source_map_sha256_sorted_compact_ascii_json": "6aebe9dd485c142965bcfda8575f77245e605c4fe768bdbbefa217704efada7c",
+      "source_unchanged": true,
+      "actual_head_after": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "git_status_after": "",
+      "environment": {
+        "PATH": "/workspace/.rheon-tools/cargo/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback",
+        "HOME": "/home/agent",
+        "USER": "agent",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SSL_CERT_FILE": "/etc/ssl/certs/ca-certificates.crt",
+        "HTTP_PROXY": "<platform transport configured; value withheld>",
+        "HTTPS_PROXY": "<platform transport configured; value withheld>",
+        "NO_PROXY": "<platform transport configured; value withheld>",
+        "http_proxy": "<platform transport configured; value withheld>",
+        "https_proxy": "<platform transport configured; value withheld>",
+        "no_proxy": "<platform transport configured; value withheld>",
+        "NODE_EXTRA_CA_CERTS": "/usr/local/share/ca-certificates/environment-proxy-ca.crt",
+        "REQUESTS_CA_BUNDLE": "/etc/ssl/certs/ca-certificates.crt",
+        "CARGO_HOME": "/workspace/.rheon-tools/cargo",
+        "RUSTUP_HOME": "/workspace/.rheon-tools/rustup",
+        "CARGO_TARGET_DIR": "/workspace/.rheon-tools/target",
+        "CARGO_BUILD_JOBS": "1",
+        "CARGO_INCREMENTAL": "0",
+        "CARGO_PROFILE_DEV_DEBUG": "0",
+        "CARGO_PROFILE_TEST_DEBUG": "0",
+        "RUSTUP_TOOLCHAIN": "1.92.0",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUNNER_TEMP": "/workspace/pr143-postmerge-local-3",
+        "RHEON_CHROMIUM_EXECUTABLE": "/usr/bin/chromium",
+        "XDG_CACHE_HOME": "/workspace/pr143-postmerge-local-3/xdg-cache",
+        "XDG_CONFIG_HOME": "/workspace/pr143-postmerge-local-3/xdg-config",
+        "XDG_RUNTIME_DIR": "/workspace/pr143-postmerge-local-3/xdg-runtime",
+        "TMPDIR": "/workspace/pr143-postmerge-local-3/tmp",
+        "NPM_CONFIG_CACHE": "/workspace/pr143-postmerge-local-3/npm-cache",
+        "RHEON_SOLVER": "/workspace/pr143-postmerge-local-3/rheon-solver",
+        "RHEON_EDITION": "/workspace/pr143-postmerge-local-3/rheon-edition",
+        "RHEON_ASSETS": "/workspace/pr143-postmerge-local-3/rheon-assets",
+        "RHEON_OBSTACLE": "/workspace/pr143-postmerge-local-3/rheon-obstacle-records",
+        "RHEON_FLOW": "/workspace/pr143-postmerge-local-3/rheon-obstacle-flow-records",
+        "RHEON_COMPRESSIBLE": "/workspace/pr143-postmerge-local-3/rheon-compressible-records",
+        "RHEON_STRAIN": "/workspace/pr143-postmerge-local-3/rheon-aligned-strain-records",
+        "RHEON_STRAIN_QUALIFICATION": "/workspace/pr143-postmerge-local-3/rheon-aligned-strain-qualification"
+      },
+      "tool_paths": {
+        "bash": "/usr/bin/bash",
+        "python3": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "rustc": "/workspace/.rheon-tools/cargo/bin/rustc",
+        "cargo": "/workspace/.rheon-tools/cargo/bin/cargo",
+        "rustup": "/workspace/.rheon-tools/cargo/bin/rustup",
+        "rustfmt": "/workspace/.rheon-tools/cargo/bin/rustfmt",
+        "cargo-clippy": "/workspace/.rheon-tools/cargo/bin/cargo-clippy",
+        "node": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "npm": "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/npm",
+        "pandoc": "/usr/bin/pandoc",
+        "chromium": "/usr/bin/chromium"
+      },
+      "compiled_optional_declarations": {
+        "RHEON_SOURCE_REVISION": null,
+        "RHEON_BUILD_MATERIAL_SHA256": null
+      },
+      "github_event_variables": "unset; actual local checkout, no hosted event",
+      "cache": "Existing task-owned target cache; no cold-build or reproducibility claim",
+      "adaptations": [
+        "Existing exact Python dependencies instead of host apt/pip installation; local Chromium instead of hosted Chrome",
+        "VTK venv python path replaced by actual interpreter with verified same vtk/numpy pins",
+        "Recorded carrier source argument is actual O Git commit; no GitHub event asserted",
+        "Pinned wasm setup moved once before book fixtures; no command/test/gate removed",
+        "Debug symbol emission=0 for local resources; no optimization/debug assertion override"
+      ],
+      "requirements_actual": {
+        "playwright": "1.62.0",
+        "pypdf": "6.10.0",
+        "numpy": "2.3.5",
+        "scipy": "1.17.0",
+        "matplotlib": "3.10.8",
+        "threadpoolctl": "3.6.0",
+        "sympy": "1.14.0",
+        "vtk": "9.3.1"
+      },
+      "budgets_seconds": {
+        "book_build_total_including_local_setup": 5400,
+        "tool_and_admission_each": 60
+      },
+      "commands": [
+        {
+          "name": "tool-identities",
+          "script_sha256": "f0631acb8ae72c1053586ef853fae7775827d288bb6e959686c8e8d59ea27903",
+          "script": "rustc -Vv\ncargo -V\nrustfmt --version\ncargo clippy --version\npython3 -V\nnode --version\nnpm --version\npandoc --version\n\"$RHEON_CHROMIUM_EXECUTABLE\" --version",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/01.sh"
+          ],
+          "started": "2026-10-22T02:21:35.385434+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/01.log",
+          "remaining_phase_budget_seconds": 60.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 0.5280285720000393,
+          "ended": "2026-10-22T02:21:35.915267+00:00",
+          "log_sha256": "5391671274dbac32ef8dc7aef1657d1daebebe427c6686dd6d7942193c21acca"
+        },
+        {
+          "name": "admission",
+          "script_sha256": "105bf938e97489f3e01c246f4c9b6a3b077b33b65515311f2b576f8e4917f98f",
+          "script": "python3 docs/education/check_native_admission.py",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/02.sh"
+          ],
+          "started": "2026-10-22T02:21:36.104357+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/02.log",
+          "remaining_phase_budget_seconds": 60.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 0.21504739000010886,
+          "ended": "2026-10-22T02:21:36.324284+00:00",
+          "log_sha256": "9af196c66ba85b170f79ac6ee7774b4814a37f8eeea6c31924ff2a49b2e40240"
+        },
+        {
+          "name": "locked-local-browser-assets",
+          "script_sha256": "3a08aa723a8888f6aa893f8aced204f916c2a895496866f6f690f1555a615568",
+          "script": "mkdir -p \"$RHEON_ASSETS\"\ncp docs/education/package.json docs/education/package-lock.json \"$RHEON_ASSETS/\"\nnpm ci --prefix \"$RHEON_ASSETS\" --ignore-scripts --no-audit --no-fund",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/03.sh"
+          ],
+          "started": "2026-10-22T02:21:36.438645+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/03.log",
+          "remaining_phase_budget_seconds": 5400.0,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 2.0823991439992824,
+          "ended": "2026-10-22T02:21:38.523195+00:00",
+          "log_sha256": "1dccb1920ac018e6df5099ad99348e2a00348fe1a53c8f944f5aeb64dff10384"
+        },
+        {
+          "name": "BOOK: Check local reference mechanisms",
+          "script_sha256": "4a3f542cd5f99334902713a2b139627041f75321eebd68945335d77548e9bf18",
+          "script": "python3 -m unittest discover -s docs/research-book/expansion -p test_reference.py\npython3 -O -m unittest discover -s docs/research-book/expansion -p test_reference.py\npython3 -m unittest discover -s docs/education -p test_practical_reference.py\npython3 -O -m unittest discover -s docs/education -p test_practical_reference.py\npython3 -m unittest discover -s docs/education -p test_completion_reference.py\npython3 -O -m unittest discover -s docs/education -p test_completion_reference.py\npython3 -m unittest discover -s docs/education -p test_gauge_reference.py\npython3 -O -m unittest discover -s docs/education -p test_gauge_reference.py\npython3 -m unittest discover -s docs/education -p test_engineering_reference.py\npython3 -O -m unittest discover -s docs/education -p test_engineering_reference.py\npython3 -m unittest discover -s docs/education -p test_decay_reference.py\npython3 -O -m unittest discover -s docs/education -p test_decay_reference.py\npython3 -m unittest discover -s docs/education -p test_volume_reference.py\npython3 -O -m unittest discover -s docs/education -p test_volume_reference.py\npython3 docs/education/generate_references.py\npython3 docs/research-book/companion/cad_visualization_fixtures.py --output \"$RUNNER_TEMP/rheon-cad-fixtures-normal.json\"\npython3 -O docs/research-book/companion/cad_visualization_fixtures.py --output \"$RUNNER_TEMP/rheon-cad-fixtures-optimized.json\"\ncmp \"$RUNNER_TEMP/rheon-cad-fixtures-normal.json\" \"$RUNNER_TEMP/rheon-cad-fixtures-optimized.json\"\nmkdir -p \"$RUNNER_TEMP/rheon-contact-checks/normal\" \"$RUNNER_TEMP/rheon-contact-checks/optimized\"\ncp docs/research-book/expansion/contact/sanity_checks.py docs/research-book/expansion/contact/force_balance.py \"$RUNNER_TEMP/rheon-contact-checks/normal/\"\ncp docs/research-book/expansion/contact/sanity_checks.py docs/research-book/expansion/contact/force_balance.py \"$RUNNER_TEMP/rheon-contact-checks/optimized/\"\npython3 \"$RUNNER_TEMP/rheon-contact-checks/normal/sanity_checks.py\"\npython3 -O \"$RUNNER_TEMP/rheon-contact-checks/optimized/sanity_checks.py\"\npython3 -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py\npython3 -O -m unittest discover -s docs/research-book/expansion/contact -p test_force_balance.py\npython3 evidence/bounded-physics-contracts/witness.py\npython3 -O evidence/bounded-physics-contracts/witness.py\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/04.sh"
+          ],
+          "started": "2026-10-22T02:21:38.617258+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/04.log",
+          "remaining_phase_budget_seconds": 5397.818950156001,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 27.912918502001048,
+          "ended": "2026-10-22T02:22:06.534735+00:00",
+          "log_sha256": "9adecc33d7976f9200950df2a549f9a43f9b2fc1b14e4c23dd6e6b603c2640a5"
+        },
+        {
+          "name": "BOOK: Qualify bounded compressible Euler references",
+          "script_sha256": "dd1931dfa5939cf82487e8f6f5a0f57a7c34a2ddcf03ef14f35f87482cc2e190",
+          "script": "python3 -m unittest discover -s docs/research-book/compressible -p test_reference.py\npython3 -O -m unittest discover -s docs/research-book/compressible -p test_reference.py\npython3 docs/research-book/compressible/generate.py --output \"$RHEON_COMPRESSIBLE\"\npython3 -m unittest discover -s docs/education -p test_compressible_lab.py\npython3 -O -m unittest discover -s docs/education -p test_compressible_lab.py\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/05.sh"
+          ],
+          "started": "2026-10-22T02:22:06.643465+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/05.log",
+          "remaining_phase_budget_seconds": 5369.795538603001,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 35.11532090400033,
+          "ended": "2026-10-22T02:22:41.760572+00:00",
+          "log_sha256": "a6f21d51e13ec779bf1a2fbd8afd229ea81fe81809eab8fcf93708bf5ee484c5"
+        },
+        {
+          "name": "BOOK: Construct and qualify only static geometry controls",
+          "script_sha256": "8cffcd9f8564ed57480bec0e6aaa4e1f0f557986174de5b21a7b41f0493975c5",
+          "script": "mkdir -p \"$RHEON_OBSTACLE\"\ncargo +1.92.0 build --locked --no-default-features --example static_obstacle\n\"$CARGO_TARGET_DIR/debug/examples/static_obstacle\" \"$RHEON_OBSTACLE/records.json\"\npython3 docs/education/static_obstacle.py --records \"$RHEON_OBSTACLE/records.json\" --executable \"$CARGO_TARGET_DIR/debug/examples/static_obstacle\" --receipt \"$RHEON_OBSTACLE/qualification.json\"\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/06.sh"
+          ],
+          "started": "2026-10-22T02:22:41.858614+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/06.log",
+          "remaining_phase_budget_seconds": 5334.580049436001,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 0.7297243030006939,
+          "ended": "2026-10-22T02:22:42.590441+00:00",
+          "log_sha256": "efb370f76d377427510f76d0d981c307a912ad4278cb56fa929c4e44c08828bc"
+        },
+        {
+          "name": "BOOK: Qualify bounded obstacle pressure and reduced shear controls",
+          "script_sha256": "0df95094964c29d0c068347480ee2f8e7fa0a4f00df5f1e5446e6f90b2221d5c",
+          "script": "mkdir -p \"$RHEON_FLOW\"\ncargo +1.92.0 test --locked --no-default-features --test obstacle_flow_contract\ncargo +1.92.0 build --locked --no-default-features --example obstacle_flow\n\"$CARGO_TARGET_DIR/debug/examples/obstacle_flow\" \"$RHEON_FLOW/records.json\"\npython3 docs/education/obstacle_flow.py --records \"$RHEON_FLOW/records.json\" --executable \"$CARGO_TARGET_DIR/debug/examples/obstacle_flow\" --receipt \"$RHEON_FLOW/qualification.json\"\npython3 -m unittest discover -s docs/education -p test_obstacle_flow.py\npython3 -O -m unittest discover -s docs/education -p test_obstacle_flow.py\nnode docs/education/test_obstacle_flow_runtime.mjs \"$RHEON_FLOW/records.json\"\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/07.sh"
+          ],
+          "started": "2026-10-22T02:22:42.686669+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/07.log",
+          "remaining_phase_budget_seconds": 5333.750872050001,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 33.04486153700054,
+          "ended": "2026-10-22T02:23:15.734765+00:00",
+          "log_sha256": "7838a6d4095585eb280cf9b1d87e3caadc06b80dcf1beb525ac855bdfc91f71e"
+        },
+        {
+          "name": "BOOK: Capture and independently qualify finite aligned strain",
+          "script_sha256": "e3b7bcbbf3076461468d159e8b9ce467b063ba62870bfbe2f3c89f1666a1055c",
+          "script": "python3 tools/qualify_aligned_strain.py \"$RHEON_STRAIN_QUALIFICATION\"\npython3 docs/education/aligned_strain_packet.py --output \"$RHEON_STRAIN\" --executable \"$CARGO_TARGET_DIR/debug/examples/aligned_strain\" --primary-qualification \"$RHEON_STRAIN_QUALIFICATION/qualification.json\"\nRHEON_ALIGNED_PACKET=\"$RHEON_STRAIN\" python3 -m unittest discover -s docs/education -p test_aligned_strain_packet.py\nRHEON_ALIGNED_PACKET=\"$RHEON_STRAIN\" python3 -O -m unittest discover -s docs/education -p test_aligned_strain_packet.py\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/08.sh"
+          ],
+          "started": "2026-10-22T02:23:15.854007+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/08.log",
+          "remaining_phase_budget_seconds": 5300.583722216001,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 65.38864145099978,
+          "ended": "2026-10-22T02:24:21.245697+00:00",
+          "log_sha256": "d4c7306ff9071870622cdbbb46262bd7ee06f3d13899bbb42ad33d73607b617f"
+        },
+        {
+          "name": "pinned-wasm-tools",
+          "script_sha256": "5dc373c8d145ac63114882ec6fee5774fb4b6004ff848fecb46fee513a671113",
+          "script": "rustup target add --toolchain 1.92.0 wasm32-unknown-unknown\ncargo +1.92.0 install wasm-bindgen-cli --version 0.2.105 --locked\nwasm-bindgen --version\ntest \"$(wasm-bindgen --version)\" = \"wasm-bindgen 0.2.105\"",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/09.sh"
+          ],
+          "started": "2026-10-22T02:24:21.362805+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/09.log",
+          "remaining_phase_budget_seconds": 5235.075631604001,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 454.00669821799966,
+          "ended": "2026-10-22T02:31:55.371947+00:00",
+          "log_sha256": "99e4e0c20c664e86c3691b8114d4e3689f275af0cec7ac5e7226c6fc057ee459"
+        },
+        {
+          "name": "BOOK: Build the bounded native browser fixtures",
+          "script_sha256": "4475814108f7f652515e3afc99413f186e5c609b4d610221de850f7acbf03339",
+          "script": "cargo +1.92.0 test --locked --no-default-features --test forces_contract --test simulation_contract\npython3 docs/education/build_solver.py --output-dir \"$RHEON_SOLVER\"\npython3 -m unittest discover -s docs/education -p test_build_solver.py\npython3 -O -m unittest discover -s docs/education -p test_build_solver.py\npython3 -m unittest discover -s docs/education -p test_timestep_browser.py\npython3 -O -m unittest discover -s docs/education -p test_timestep_browser.py\nRHEON_FLOW_NATIVE=\"$RHEON_SOLVER\" python3 -m unittest discover -s docs/education -p test_flow_browser.py\nRHEON_FLOW_NATIVE=\"$RHEON_SOLVER\" python3 -O -m unittest discover -s docs/education -p test_flow_browser.py\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/10.sh"
+          ],
+          "started": "2026-10-22T02:31:55.639386+00:00",
+          "status": "passed",
+          "log": "/workspace/pr143-postmerge-local-3/10.log",
+          "remaining_phase_budget_seconds": 4780.798504237,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 0,
+          "seconds": 434.35174588299924,
+          "ended": "2026-10-22T02:39:09.994148+00:00",
+          "log_sha256": "96e118356325bf4cf64ffefef6cba232759dc0d26968ecd0848fda9ffecd80d5"
+        },
+        {
+          "name": "BOOK: Build complete static edition and verify local links",
+          "script_sha256": "54d5343264bc2b14bb1d43e1bbb8b242d74dad8bbb2cd9cc6b6cdbb6b1012eb4",
+          "script": "python3 -m unittest discover -s docs/education -p test_pdf_freshness.py\npython3 -O -m unittest discover -s docs/education -p test_pdf_freshness.py\npython3 -m unittest discover -s docs/education -p test_publication_gates.py\npython3 -O -m unittest discover -s docs/education -p test_publication_gates.py\npython3 -m unittest discover -s docs/education -p test_transport_reference.py\npython3 -O -m unittest discover -s docs/education -p test_transport_reference.py\npython3 -m unittest discover -s docs/education -p test_native_sequence.py\npython3 -O -m unittest discover -s docs/education -p test_native_sequence.py\npython3 -m unittest discover -s docs/education -p test_static_obstacle.py\npython3 -O -m unittest discover -s docs/education -p test_static_obstacle.py\npython3 docs/education/build.py --output-dir \"$RHEON_EDITION\" --asset-dir \"$RHEON_ASSETS/node_modules\" --obstacle-records-dir \"$RHEON_OBSTACLE\" --obstacle-flow-records-dir \"$RHEON_FLOW\" --aligned-strain-records-dir \"$RHEON_STRAIN\" --solver-dir \"$RHEON_SOLVER\" --compressible-records-dir \"$RHEON_COMPRESSIBLE\"\npython3 docs/education/verify_browser.py --render-pdf --output-dir \"$RHEON_EDITION\"\npython3 docs/education/verify_site.py --output-dir \"$RHEON_EDITION\"\npython3 docs/education/volume_browser.py --output-dir \"$RHEON_EDITION\"\npython3 docs/education/decay_browser.py --output-dir \"$RHEON_EDITION\"\npython3 docs/education/engineering_browser.py --output-dir \"$RHEON_EDITION\"\npython3 docs/education/gauge_browser.py --output-dir \"$RHEON_EDITION\"\npython3 docs/education/completion_browser.py --output-dir \"$RHEON_EDITION\"\npython3 docs/education/practical_browser.py --output-dir \"$RHEON_EDITION\"\nRHEON_TIMESTEP_EDITION=\"$RHEON_EDITION\" python3 -O -m unittest discover -s docs/education -p test_timestep_browser.py\n",
+          "argv": [
+            "bash",
+            "--noprofile",
+            "--norc",
+            "-e",
+            "-o",
+            "pipefail",
+            "-x",
+            "/workspace/pr143-postmerge-local-3/11.sh"
+          ],
+          "started": "2026-10-22T02:39:10.536570+00:00",
+          "status": "failed",
+          "log": "/workspace/pr143-postmerge-local-3/11.log",
+          "remaining_phase_budget_seconds": 4345.901836924,
+          "cleanup": {
+            "signals": [],
+            "remaining": {}
+          },
+          "exit": 1,
+          "seconds": 114.9004270839996,
+          "ended": "2026-10-22T02:41:05.439377+00:00",
+          "log_sha256": "3ab09909e996f8adaa4d81e5376683353b181d95007597fa4d0d21f513984450"
+        }
+      ],
+      "elf_snapshot_rows": 94,
+      "elf_snapshot_unique_files": [
+        {
+          "sha256": "a6dd715f37239ab21cc1d75a96f4f54ab9ce2599514b2187aabe9eb7da37cc73",
+          "size": 2779264,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/a6dd715f37239ab21cc1d75a96f4f54ab9ce2599514b2187aabe9eb7da37cc73.elf"
+        },
+        {
+          "sha256": "8f6062597f39e8093794b2b8010d4bb869a8ca86a6d815d8e664a14864768493",
+          "size": 4613072,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/8f6062597f39e8093794b2b8010d4bb869a8ca86a6d815d8e664a14864768493.elf"
+        },
+        {
+          "sha256": "c9e72b9d758c264ed80d8d7efbf89c4f344eaeb851ae48fd3990ff48b83364b7",
+          "size": 3756928,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/c9e72b9d758c264ed80d8d7efbf89c4f344eaeb851ae48fd3990ff48b83364b7.elf"
+        },
+        {
+          "sha256": "b27e206dc1567fe75b378e604f68146df0a159d83a92d4734611cad8ef37df86",
+          "size": 8335712,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/b27e206dc1567fe75b378e604f68146df0a159d83a92d4734611cad8ef37df86.elf"
+        },
+        {
+          "sha256": "699bda0d46e68cbe1fde02653bc8c00ee2cfabf1034a17150a4b8808d741b3b0",
+          "size": 8610464,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/699bda0d46e68cbe1fde02653bc8c00ee2cfabf1034a17150a4b8808d741b3b0.elf"
+        },
+        {
+          "sha256": "555b12bce404cc459e944071068253ecbb532d2df1e851219310e11ea7f6be0f",
+          "size": 10691592,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/555b12bce404cc459e944071068253ecbb532d2df1e851219310e11ea7f6be0f.elf"
+        },
+        {
+          "sha256": "8b6a1fc51e4e811f78c0681aa35aebb86110935aa118d58481e55f7f589b19da",
+          "size": 1383608,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/8b6a1fc51e4e811f78c0681aa35aebb86110935aa118d58481e55f7f589b19da.elf"
+        },
+        {
+          "sha256": "f9ab1612893890773fcaf701fc6cd9ce24dcd77de04b5c6eb0b603d2da3f87eb",
+          "size": 1529200,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/f9ab1612893890773fcaf701fc6cd9ce24dcd77de04b5c6eb0b603d2da3f87eb.elf"
+        },
+        {
+          "sha256": "77d7908834d312ce707d47b83b0746f2241bcce8aeca484521bc6df4d0225e52",
+          "size": 2696528,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/77d7908834d312ce707d47b83b0746f2241bcce8aeca484521bc6df4d0225e52.elf"
+        },
+        {
+          "sha256": "dbb592aeec20a36fd94e2928441e6ebdfe14149b0434d047e65713b0b85dc1f4",
+          "size": 1482280,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/dbb592aeec20a36fd94e2928441e6ebdfe14149b0434d047e65713b0b85dc1f4.elf"
+        },
+        {
+          "sha256": "8a3582a74132e914e0dc69e15045e6d63d63b92ce1421765c025c379384e68b2",
+          "size": 2147504,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/8a3582a74132e914e0dc69e15045e6d63d63b92ce1421765c025c379384e68b2.elf"
+        },
+        {
+          "sha256": "9c7fd5a4d2133386cc983d52db55644c11de48b0741ccce53b429fbb3508c2af",
+          "size": 9361288,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/9c7fd5a4d2133386cc983d52db55644c11de48b0741ccce53b429fbb3508c2af.elf"
+        },
+        {
+          "sha256": "d056a29dad0578b814c4c40ede1878a7cfd8bb6ae17e262040aec93e09d99d05",
+          "size": 8022104,
+          "identity": "post-command file snapshot; not observed running process",
+          "copy_local_path": "/workspace/pr143-postmerge-local-3/elf-snapshots/d056a29dad0578b814c4c40ede1878a7cfd8bb6ae17e262040aec93e09d99d05.elf"
+        }
+      ],
+      "planned_steps": [
+        "tool-identities",
+        "admission",
+        "locked-local-browser-assets",
+        "BOOK: Check local reference mechanisms",
+        "BOOK: Qualify bounded compressible Euler references",
+        "BOOK: Construct and qualify only static geometry controls",
+        "BOOK: Qualify bounded obstacle pressure and reduced shear controls",
+        "BOOK: Capture and independently qualify finite aligned strain",
+        "pinned-wasm-tools",
+        "BOOK: Build the bounded native browser fixtures",
+        "BOOK: Build complete static edition and verify local links",
+        "BOOK: Verify retained browser bindings and current Chromium laboratories"
+      ],
+      "execution_scope": "Local book BUILD job only plus fresh tool/admission checks; no VTK repeat, separate bounded-lessons job, hosted CI or deployment",
+      "external_VTK_component": {
+        "head": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+        "journal": "/workspace/pr143-postmerge-local-2/journal.json",
+        "journal_sha256": "1eea1d70fb87f4dc0cdb287a49d93c4e9043fb9abd940d6207989c3351ac2a46",
+        "manifest_sha256": "f619cd07f39e2d04cf0d017aaaaaa53f7bf7a9e5161c8da1a22571d598c94d28",
+        "component_status": "passed in attempt2; whole original attempt remains failed at npm setup",
+        "committed_source_maps_equal": true
+      },
+      "error": "RuntimeError('BOOK: Build complete static edition and verify local links exited 1')"
+    }
+  ],
+  "not_hosted_publication": true,
+  "not_whole_application_production_acceptance": true,
+  "raw_evidence": "locally retained outside Git; this authored summary is not a remote raw archive",
+  "limits": [
+    "No local PDF/browser assertions accepted after first Chromium sandbox abort",
+    "No original failed recipe relabelled as passed",
+    "No N artifact/commit/build result relabelled O",
+    "No PR59 merge/performance waiver or PR150 denied-artifact recovery"
+  ]
+}

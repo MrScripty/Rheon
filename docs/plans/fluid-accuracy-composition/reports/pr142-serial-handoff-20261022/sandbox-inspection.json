@@ -1,0 +1,9 @@
+{
+  "path": "/usr/lib/chromium/chrome-sandbox",
+  "uid": 65534,
+  "gid": 65534,
+  "mode": "0o4755",
+  "observed_root_owned": false,
+  "inspection_only": true,
+  "privileged_repair_attempted": false
+}

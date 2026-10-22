@@ -1,0 +1,33 @@
+{
+  "schema": "rheon-supported-api-normal-merge-audit-v1",
+  "observed_at": "2026-10-22T01:49:43.261210+00:00",
+  "pr": 143,
+  "head": "159fa74bd271f8fcc07f3837d66e4738925c820c",
+  "prior_main": "7befee45270280d07693b91f4afa934ec1780b66",
+  "merge": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+  "tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+  "parents": [
+    "7befee45270280d07693b91f4afa934ec1780b66",
+    "159fa74bd271f8fcc07f3837d66e4738925c820c"
+  ],
+  "checks": {
+    "pr_number": true,
+    "github_merged_and_closed": true,
+    "github_head": true,
+    "github_merge": true,
+    "main_ref": true,
+    "retained_original_branch": true,
+    "automatic_branch_deletion_disabled": true,
+    "api_merge_object": true,
+    "api_exact_ordered_parents": true,
+    "api_full_tree": true,
+    "local_exact_ordered_parents": true,
+    "local_full_tree": true,
+    "server_valid_signature": true,
+    "head_retained_in_ancestry": true,
+    "prior_main_retained_in_ancestry": true,
+    "original_head_retained_in_ancestry": true
+  },
+  "success": true,
+  "limits": "Graph/tree/source custody only; executing post-merge CI and whole-application production acceptance are separate."
+}
