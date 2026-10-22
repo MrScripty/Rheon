@@ -40,6 +40,7 @@ pub use motion::{TranslatedHit, TranslatedSegment, TranslationError, Translation
 mod operator;
 pub use operator::{OperatorError, PressureOperator};
 mod free_surface;
+pub mod voxel_material;
 pub use free_surface::{FreeSurfaceError, SlabFreeSurface};
 mod pressure;
 pub use pressure::{

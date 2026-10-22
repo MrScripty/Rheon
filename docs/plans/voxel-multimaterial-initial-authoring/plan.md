@@ -1,10 +1,10 @@
 # Two-material voxel dynamics and initial-domain brush
 
-**Plan status:** `Deferred` — proposed direction awaiting parent review/admission. The user authorized this plan, not implementation or publication. `Planned` will mean an approved direction, following the repository's Planning lifecycle.
+**Plan status:** `Active` — user approved the reviewed direction and initial full-box incompressible Water/Air scope; admitted `start` on 2026-10-22 from plan commit `627847915eb97b80da81ec4544bb413bc5f806fa`. This authorizes isolated implementation and review, not a main merge.
 
-**Current phase:** M0 plan review and parent admission; no implementation has started.
+**Current phase:** M2 coupled conservative transport/stress implementation admission, following M1 component verification and separate source review. Work remains in isolated worktree `/workspace/Rheon-voxel-material-implementation`, branch `implementation/voxel-multimaterial-authoring-20261022`.
 
-**Next slice:** M1, the bounded variable-density MAC pressure/state contract below, only after this canonical plan is admitted for implementation. No implementation operation is selected now.
+**Next slice:** Implement M2 matched fraction/mass/momentum transport, variable stress and atomic complete step, with predeclared arithmetic budgets and the mandatory stop/replan gate. UI remains unavailable until its numerical and integration gates pass.
 
 **Acceptance status:** `pending` for the feature. Documentation review does not satisfy numerical/native/persistence acceptance.
 
@@ -22,7 +22,7 @@ Two **incompressible, immiscible Newtonian materials** share one staggered veloc
 
 This is an incompressible approximation for the gas, not ideal-gas thermodynamics: no EOS pressure, gas compression/expansion, acoustics, shocks, boiling, heat or phase conversion. No surface tension in v1: the selected model explicitly says so; other preset parameters are not silently applied. Reference temperatures may remain provenance of selected properties, but are not evolved thermal state. Both materials are distinct through fraction, reference density/viscosity, mass and identity. Initial velocity is zero; optional existing configured gravity is frozen and acts physically, not suppressed by material/force origin.
 
-Both **full occupancy** and the **incompressible gas approximation** are consequential proposed restrictions for parent review, not previously approved user preferences. If evolving vacuum, compressible air or capillary droplets are essential, replan the physics before implementing M1; do not substitute particles or labels. A general surface reconstruction/thermodynamic system is not a hidden dependency of this minimum.
+Full occupancy, incompressible Water/Air and no surface tension are now the approved initial scope. Evolving vacuum, compressible air or capillary droplets require replanning; do not substitute particles or labels. A general surface reconstruction/thermodynamic system is not a hidden dependency of this minimum.
 
 ### Authoring-to-solver boundary
 
@@ -60,7 +60,7 @@ All claims are pending. [Verification](reports/verification.md) names fixtures, 
 
 ## Binding proposal decisions and responsibility
 
-These decisions bind the candidate plan internally; they acquire implementation authority only on admission.
+These decisions bind the admitted implementation direction. Feature acceptance remains pending.
 
 | Decision | Accountable owner | Reason / preserved contract |
 | --- | --- | --- |
@@ -73,7 +73,7 @@ These decisions bind the candidate plan internally; they acquire implementation 
 
 ## Staged reversible implementation
 
-All milestones are `Deferred` pending plan admission. Milestone separation contains real numerical, UI and durable-state risks; it does not prescribe a commit count or branch per milestone. Every slice preserves existing carrier/particle/column/provider behavior and old archives. New incomplete capability stays unadvertised/unrunnable; tests or an explicitly scoped headless constructor do not count as native completion.
+M1's bounded component is Accepted through [executed component checks](reports/m1-verification.md) and [separate source review](reports/m1-independent-review.md); feature A1–A6 remain pending. M2 is Active; M3–M5 are Planned and gated in order. Milestone separation contains real numerical, UI and durable-state risks; it does not prescribe a commit count or branch per milestone. Every slice preserves existing carrier/particle/column/provider behavior and old archives. New incomplete capability stays unadvertised/unrunnable; tests or an explicitly scoped headless constructor do not count as native completion.
 
 | Milestone | Goal and exact proposed production write set | Dependency and gate | Reversible boundary |
 | --- | --- | --- | --- |
@@ -83,11 +83,11 @@ All milestones are `Deferred` pending plan admission. Milestone separation conta
 | M4 — saved initial input and real native run | New `src/recording/voxel_material.rs`; dispatch changes in `src/recording.rs`; new desktop `voxel_material_execution.rs`, `run_sets/voxel_material.rs`; targeted `rheon-desktop.rs`, `history.rs`, `inspector.rs`, `run_sets/source.rs`, `run_set_view.rs`, `archive_view.rs`, `scene_ui.rs`; `comparison.rs`, `comparison_field_view.rs`, `comparison_archive.rs` only for typed unsupported handling of the new saved variant; new desktop `voxel_material_integration_tests.rs` plus narrow legacy/new-variant regressions in `configured_comparison_tests.rs` | M1–M3 and reconciled ownership; versioned typed records, saved draft/intent, actual worker integration, both-material preview, cancellation/failure and fresh-process save/open/rerun. Enumerate every SavedRunSet/SavedMember consumer; voxel comparisons explicitly refuse before legacy f32 inventory/payload estimates | New recipe variant; no migration of old records or new comparison feature. Failed start retains previous results; append uncertainty is reconciled by existing recorder owner |
 | M5 — objective acceptance and scoped exposure | Only affected tests above plus this plan's evidence reports; same M4 readiness controls only where a passed gate permits enabling. New module-local public Rustdoc may be updated by its owner | A1–A6 passed on the candidate, independent numerical/source review and native user workflow; report actual envelope/limitations | Enable only this admitted mode/palette/envelope. Any failed claim remains pending/blocked and capability stays unavailable |
 
-All paths above are relative to the repository; desktop paths abbreviate `src/bin/desktop/`. The implementer must reconcile current main and reserved owners before each shared-file slice. Additional affected files require an updated exact write set and impact review, not a broad permission to refactor adjacent paths. This task writes **only** the new plan directory.
+All paths above are relative to the repository; desktop paths abbreviate `src/bin/desktop/`. The implementer must reconcile current main and reserved owners before shared-source integration. Additional affected files require an updated exact write set and impact review, not a broad permission to refactor adjacent paths. M1 currently writes the listed new module, its boundary-owned `src/voxel_material/README.md`, `src/lib.rs`, `src/operator.rs`, focused tests and this topic's status/evidence; `src/sgs.rs` needs no edit because its existing generic coefficient route is selected by corrected `fixed_box_weights` classification. The new README documents this component's public state/scratch distinction and payload limits, without changing any existing README.
 
 ## Assumptions, blockers and replan triggers
 
-Parent review must accept or change the full-occupancy/incompressible-gas/no-capillarity scope before implementation is admitted. This is the main product decision, not a missing coding detail. No external service, GPU, thermal task, chapter publication or portal implementation is required. Native graphics evidence has not been attempted; M3/A6 need an identified display environment and bounded procedure when their implementation exists.
+The parent supplied user approval of the reviewed initial physical scope. No external service, GPU, thermal task, chapter publication or portal implementation is required. Native graphics evidence has not been attempted; M3/A6 need an identified display environment and bounded procedure when their implementation exists. Integration is reserved to sole lead task `01a16096-15e8-706f-8479-1f318a3c601d`; its PR59 performance baseline is `20a0e1e20538b859193c08eaf25a3b8cd26135a5`. Do not move main or merge this feature during that campaign. The PR59 ownership comment was denied by automatic approval review; no comment was published or retried. Shared-source integration waits supported GitHub coordination with the lead.
 
 Numeric stopping condition: if ordinary pure-phase/mixed-interface or Water/Air fixtures cannot satisfy the declared phase bounds, residual-volume/mass budgets, hydrostatic accuracy and momentum/viscous gates within bounded work, stop M2. Choose and independently review a stronger conservative bounded interface/flux method or narrow the *proposed* product scope openly. Do not ship a mode that normally rejects supported drafts, tune tolerances to observations or rename passive fractions as dynamics.
 
@@ -99,4 +99,4 @@ Replan for evolving vacuum/free surfaces, gas compressibility, temperature/phase
 
 ## Repository isolation and authority
 
-Private branch `plan/voxel-multimaterial-initial-authoring-20261021`, worktree `/workspace/Rheon-voxel-material-plan`, base `d67aec1`, target main. The plan author serially owns this topic directory; parent owns admission/integration/publication. Preserve the earlier research branch/worktree at `5f7c342`, all unrelated branches, README/chapter/source work and standards checkout. Retain this review worktree/ref until parent disposition; no cleanup, push, PR or merge is authorized by this planning turn. Standards authority is read-only at `0fc92a24279f3a4574c80af0a2f31ea347a21597`; no engine certificate is claimed.
+Implementation branch `implementation/voxel-multimaterial-authoring-20261022` starts at the approved plan commit `6278479`, retaining plan/research worktrees unchanged. Root owns serial implementation; independent reviewer owns review findings; the sole integration lead owns future shared-source integration/main merge. Reconcile the older implementation base with lead-admitted main only at an agreed safe boundary; no frozen performance receipt transfers to this feature. Retain the branch/worktree and all prior evidence until disposition. Reviewable PR preparation is authorized; merge/deployment is not. Standards authority remains read-only at `0fc92a24279f3a4574c80af0a2f31ea347a21597`; no engine certificate is claimed. Uncertain Library uploads remain untouched.
