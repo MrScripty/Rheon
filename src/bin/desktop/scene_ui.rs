@@ -226,6 +226,45 @@ impl SceneUi {
         self.select(Some(id));
         Ok(())
     }
+    /// Install a restored session only after every identity admission succeeds.
+    pub(super) fn adopt_loaded_contents(
+        &mut self,
+        editor: rheon::initial_contents::ContentsEditor,
+    ) -> Result<(), String> {
+        if self.context != SceneContext::Draft
+            || self.editing()
+            || self.contents.busy()
+            || self.contents.editor.as_ref().is_some_and(|e| e.active())
+            || editor.active()
+            || editor.undo_label().is_some()
+            || editor.redo_label().is_some()
+        {
+            return Err(
+                "Load needs an idle Draft and fresh contents history; previous draft retained"
+                    .into(),
+            );
+        }
+        let id = editor.document().id();
+        if self.forces.objects.iter().any(|o| o.id == id)
+            || self
+                .retained_forces
+                .as_ref()
+                .is_some_and(|f| f.objects.iter().any(|o| o.id == id))
+            || [self.model_id, self.retained_model_id].contains(&Some(id))
+        {
+            return Err(
+                "Loaded contents ID conflicts with a force/model; previous draft retained".into(),
+            );
+        }
+        let next = match self.next_id {
+            None => None,
+            Some(next) => id.0.checked_add(1).map(|n| n.max(next)),
+        };
+        self.contents.install_loaded(editor);
+        self.next_id = next;
+        self.selected = Some(id);
+        Ok(())
+    }
     pub fn selected(&self) -> Option<SceneObjectId> {
         self.selected
     }
@@ -385,7 +424,10 @@ impl SceneUi {
                 if self.context==SceneContext::Draft {
                     if let Some(id)=self.contents.id() {
                         if ui.selectable_label(self.selected()==Some(id),"Initial contents").clicked(){self.select(Some(id));}
-                    } else if ui.add_enabled(editable,egui::Button::new("New initial contents")).clicked(){self.contents.create_requested=true;}
+                    } else {
+                        if ui.add_enabled(editable,egui::Button::new("New initial contents")).clicked(){self.contents.create_requested=true;}
+                        self.contents.file_controls(ui,editable);
+                    }
                 }
                 ui.heading("Authored forces");
                 if self.context==SceneContext::Draft {
@@ -550,6 +592,42 @@ fn euler_degrees([x, y, z, w]: [f64; 4]) -> [f64; 3] {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn loaded_contents_preserves_unrelated_force_validation_feedback() {
+        use crate::{
+            run_sets::voxel_material::DraftRevision, voxel_material_authoring::DraftFileAction,
+        };
+        let mut app = crate::App::default();
+        app.scene.add(NewForce::Directional).unwrap();
+        app.scene.forces.objects[0].kind = ForceKind::Directional {
+            vector: [f64::INFINITY, 0.0, 0.0],
+        };
+        app.scene.validate();
+        let error = app.scene.error.clone();
+        assert!(error.is_some());
+        let forces = app.scene.forces.clone();
+        let dir =
+            std::env::temp_dir().join(format!("rheon-contents-feedback-{}", std::process::id()));
+        std::fs::create_dir(&dir).unwrap();
+        let path = dir.join("draft.json");
+        let editor = rheon::initial_contents::ContentsEditor::new(
+            rheon::initial_contents::InitialContents::new(
+                SceneObjectId(91),
+                rheon::GridGeometry::new([4; 3], [0.25; 3], [0.0; 3]).unwrap(),
+                rheon::initial_contents::ContentsMaterial::Air,
+            )
+            .unwrap(),
+        );
+        DraftRevision::capture(&editor)
+            .unwrap()
+            .publish(&path)
+            .unwrap();
+        app.draft_file_action(DraftFileAction::Load(path)).unwrap();
+        assert_eq!(app.scene.error, error);
+        assert_eq!(app.scene.forces, forces);
+        assert_eq!(app.scene.contents.id(), Some(SceneObjectId(91)));
+        std::fs::remove_dir_all(dir).unwrap();
+    }
     fn context() -> egui::Context {
         let ctx = egui::Context::default();
         ctx.enable_accesskit();

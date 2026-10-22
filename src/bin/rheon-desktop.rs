@@ -88,6 +88,8 @@ mod timeline_ui_tests;
 mod transport_view;
 #[path = "desktop/viewport.rs"]
 mod viewport;
+#[path = "desktop/voxel_material_authoring.rs"]
+mod voxel_material_authoring;
 #[path = "desktop/voxel_material_execution.rs"]
 mod voxel_material_execution;
 #[cfg(test)]
@@ -2747,6 +2749,7 @@ impl eframe::App for App {
             model,
             self.setup_workflow.force_target(self.material_mode),
         );
+        self.service_draft_file_action(ctx);
         if self.scene.contents.create_requested {
             self.scene.contents.create_requested = false;
             let result = GridGeometry::new(

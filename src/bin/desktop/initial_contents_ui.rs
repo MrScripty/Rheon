@@ -14,11 +14,16 @@ struct Gesture {
 pub struct InitialContentsUi {
     pub(super) editor: Option<ContentsEditor>,
     pub(super) create_requested: bool,
+    pub(super) draft_action: Option<super::voxel_material_authoring::DraftFileAction>,
+    pub(super) file_path: String,
+    pub(super) io_feedback: String,
+    pub(super) uncertain_save: Option<std::path::PathBuf>,
     brush: ContentsBrush,
     keyboard: [f64; 2],
     show_air: bool,
     gesture: Option<Gesture>,
     latch: bool,
+    drain_frame: Option<u64>,
     error: Option<String>,
 }
 impl Default for InitialContentsUi {
@@ -26,6 +31,10 @@ impl Default for InitialContentsUi {
         Self {
             editor: None,
             create_requested: false,
+            draft_action: None,
+            file_path: "initial-contents.json".into(),
+            io_feedback: String::new(),
+            uncertain_save: None,
             brush: ContentsBrush {
                 operation: BrushOperation::Replace,
                 material: ContentsMaterial::Water,
@@ -38,6 +47,7 @@ impl Default for InitialContentsUi {
             show_air: true,
             gesture: None,
             latch: false,
+            drain_frame: None,
             error: None,
         }
     }
@@ -60,6 +70,75 @@ impl InitialContentsUi {
         self.editor = Some(editor);
         self.error = None;
         Ok(())
+    }
+    pub(super) fn install_loaded(&mut self, editor: ContentsEditor) {
+        let grid = editor.document().geometry();
+        self.brush = ContentsBrush {
+            operation: BrushOperation::Replace,
+            material: ContentsMaterial::Water,
+            radius: grid.spacing()[0] * 1.5,
+            axis: 2,
+            layer: grid.counts()[2] / 2,
+            depth: BrushDepth::Layer,
+        };
+        self.keyboard = std::array::from_fn(|d| (grid.origin()[d] + grid.upper()[d]) * 0.5);
+        self.editor = Some(editor);
+        self.gesture = None;
+        self.latch = false;
+        self.drain_frame = None;
+        self.error = None;
+        self.create_requested = false;
+        self.draft_action = None;
+        self.show_air = true;
+    }
+    pub(super) fn drain_loaded_frame(&mut self, ctx: &egui::Context) {
+        self.drain_frame = Some(ctx.cumulative_frame_nr());
+        self.latch = ctx.input(|i| i.pointer.button_down(egui::PointerButton::Primary));
+    }
+    pub(super) fn file_controls(&mut self, ui: &mut egui::Ui, editable: bool) {
+        use super::voxel_material_authoring::DraftFileAction;
+        ui.collapsing("Draft file", |ui| {
+            let ready =
+                editable && !self.busy() && !self.editor.as_ref().is_some_and(|e| e.active());
+            ui.add_enabled_ui(ready, |ui| {
+                let label = ui.label("Local draft path");
+                ui.add(
+                    egui::TextEdit::singleline(&mut self.file_path)
+                        .char_limit(4096)
+                        .desired_width(f32::INFINITY),
+                )
+                .labelled_by(label.id);
+                ui.horizontal_wrapped(|ui| {
+                    if ui
+                        .add_enabled(
+                            self.editor.is_some() && self.uncertain_save.is_none(),
+                            egui::Button::new("Save draft"),
+                        )
+                        .clicked()
+                        && self.draft_action.is_none()
+                    {
+                        self.draft_action =
+                            Some(DraftFileAction::Save(self.file_path.clone().into()));
+                    }
+                    if ui.button("Load draft").clicked() && self.draft_action.is_none() {
+                        self.draft_action =
+                            Some(DraftFileAction::Load(self.file_path.clone().into()));
+                    }
+                });
+            });
+            ui.small(
+                "Save uses a new file. Load replaces contents/domain and clears contents undo.",
+            );
+            if !self.io_feedback.is_empty() {
+                ui.label(&self.io_feedback);
+            }
+            if let Some(path) = &self.uncertain_save {
+                ui.label(format!(
+                    "Save outcome uncertain at {}; further saves paused pending reconciliation",
+                    path.display()
+                ));
+            }
+        });
     }
     pub fn busy(&self) -> bool {
         self.gesture.is_some() || self.latch
@@ -283,6 +362,7 @@ impl InitialContentsUi {
                 ));
             }
         });
+        self.file_controls(ui, editable);
         if ui
             .add_enabled(!busy, egui::Button::new("Validate"))
             .clicked()
@@ -296,7 +376,7 @@ impl InitialContentsUi {
         {
             ui.colored_label(Color32::YELLOW, reason.to_string());
         }
-        ui.add_enabled(false,egui::Button::new("Simulate contents")).on_disabled_hover_text("Native voxel execution and saved initial input are pending the next implementation milestone.");
+        ui.add_enabled(false,egui::Button::new("Simulate contents")).on_disabled_hover_text("Native execution awaits retained-result adoption and actual end-to-end qualification.");
         if let Some(error) = &self.error {
             ui.colored_label(Color32::LIGHT_RED, error);
         }
@@ -372,6 +452,13 @@ impl InitialContentsUi {
                 i.pointer.latest_pos(),
             )
         });
+        if self.drain_frame.take() == Some(ui.ctx().cumulative_frame_nr()) {
+            self.latch = down;
+            if selected {
+                self.paint(ui, response.rect, camera, side, latest);
+            }
+            return true;
+        }
         let released = events.iter().any(|e| {
             matches!(
                 e,
