@@ -1,0 +1,132 @@
+{
+  "schema": "rheon-pr143-postmerge-runtime-checkpoint-v1",
+  "status": "passed for all triggered hosted runtime checks",
+  "merge_commit": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+  "tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+  "parents": [
+    "7befee45270280d07693b91f4afa934ec1780b66",
+    "159fa74bd271f8fcc07f3837d66e4738925c820c"
+  ],
+  "hosted_observation_sha256": "61f2e1553fd3fe8056aad912c53b736a232c0a98b3168f3d14cd1aed4405503d",
+  "logs": {
+    "core": {
+      "path": "/workspace/pr143-postmerge-core-20a0e1e.log",
+      "bytes": 161146,
+      "sha256": "dfa0a792191801fb0363bad3488e3d57ee1c450db1d7d16ccdbba06d172a3269",
+      "top_level_targets": 88,
+      "top_level_passed": 764,
+      "ignored": 13,
+      "separate_doc_passed": 3,
+      "excluded_nested_summaries": [],
+      "checkout": "Actual push checkout and printed Git HEAD20a0e1e; see independent raw-log reviews.",
+      "strict_all_target_clippy": "passed in recorded selected feature mode"
+    },
+    "default": {
+      "path": "/workspace/pr143-postmerge-default-20a0e1e.log",
+      "bytes": 156729,
+      "sha256": "539ebae0b458b59b10d7d63aaddc724c9ab8cc285b20166072e430e8cc3244e0",
+      "top_level_targets": 89,
+      "top_level_passed": 772,
+      "ignored": 13,
+      "separate_doc_passed": 3,
+      "excluded_nested_summaries": [],
+      "checkout": "Actual push checkout and printed Git HEAD20a0e1e; see independent raw-log reviews.",
+      "strict_all_target_clippy": "passed in recorded selected feature mode"
+    },
+    "desktop": {
+      "path": "/workspace/pr143-postmerge-desktop-20a0e1e.log",
+      "bytes": 249114,
+      "sha256": "c2a07217e1a461a78993985b5fa00108ab2a78172f9dfc28db7b70630182e301",
+      "top_level_targets": 91,
+      "top_level_passed": 1156,
+      "ignored": 20,
+      "separate_doc_passed": 3,
+      "excluded_nested_summaries": [
+        {
+          "doc": false,
+          "counts": [
+            1,
+            0,
+            0,
+            0,
+            223
+          ]
+        },
+        {
+          "doc": false,
+          "counts": [
+            1,
+            0,
+            0,
+            0,
+            223
+          ]
+        },
+        {
+          "doc": false,
+          "counts": [
+            1,
+            0,
+            0,
+            0,
+            11
+          ]
+        },
+        {
+          "doc": false,
+          "counts": [
+            1,
+            0,
+            0,
+            0,
+            11
+          ]
+        }
+      ],
+      "checkout": "Actual push checkout and printed Git HEAD20a0e1e; see independent raw-log reviews.",
+      "strict_all_target_clippy": "passed in recorded selected feature mode"
+    },
+    "executable": {
+      "path": "/workspace/pr143-postmerge-executable-20a0e1e.log",
+      "bytes": 76981,
+      "sha256": "6be8f96a9bc1b0c3bcbfbc9bb8f7c6bb854de955bbab143b3614617ebef5d71d",
+      "bootstrap_normal": 7,
+      "bootstrap_optimized": 7,
+      "harness_total": 220,
+      "passed": 193,
+      "conditional_skipped": 27,
+      "smoke": {
+        "size": 16,
+        "steps": 12,
+        "source_off_at": 8,
+        "completion_manifest_all_step_divergence_png_checks": "passed"
+      },
+      "limits": "Logged actual checkout/execution/assertions; no downloaded artifact contents, ELF byte identity, physical/scientific or performance acceptance."
+    }
+  },
+  "independent_review_sha256": {
+    "postmerge-executable-review.md": "5dad50bfb5e67a254180c93593778e4935dcbc86bd2c315999fc2585ef8d54b6",
+    "postmerge-core-default-review.md": "b22d7c6b946c0475a81b5e452a9a64a2b5605b74137038c938337050dd7f5bd4",
+    "postmerge-desktop-review.md": "1123a10d7d2c596a3a7efbbc4d05a13093e01df85350e14cb152b00167e07beb"
+  },
+  "source_sanity_journal_sha256": "d3917d80c2f3d98bbb84fcbe1939f2c596352b34d84e8c39382641e7536e888c",
+  "local_lead_gate": {
+    "prospective_policy": "https://github.com/MrScripty/Rheon/pull/142#issuecomment-6330943452",
+    "vtk": "Fresh actual-merge component independently passed within retained failed local attempt2; lead audit6331084452. Whole attempt2 failed npm setup; no book workload passed there.",
+    "book": "Reviewed book-only continuation output3 under6331134413; no passed result asserted by this checkpoint.",
+    "earlier_failures": "Attempt1 Cargo DNS before tests; attempt2 npm cache setup after passed VTK. Distinct failed whole outcomes preserved; transport/cache recoveries reviewed, passed VTK not repeated."
+  },
+  "publication": {
+    "automatic_book_vtk_push_trigger": "not triggered by existing filters",
+    "book_dispatch": "never attempted or denied; no callable connected-app dispatch action; independently checked browser signed out/no Run control, stopped.",
+    "hosted_book_bounded_lessons_upload_pages_on_merge": "not performed or accepted",
+    "final_actual_main_full_requirements": "remain with integration lead; no whole-application production acceptance"
+  },
+  "scientific_campaign_executed": false,
+  "cv3_numerical_contracts": "original three remain ignored/unrun in all observed feature suites",
+  "limitations": [
+    "Observed actual merge source/event/log identities are preserved; no prior159/N receipt, build, artifact or environment is relabelled.",
+    "Source sanity, actual six hosted runtime checks, local lead components and final publication are distinct gates.",
+    "Optional direct single-job metadata endpoint400 was stopped; supported complete-run/check metadata and existing raw logs supplied deciding evidence. No denied old artifact/log/cloud-task operation was retried."
+  ]
+}

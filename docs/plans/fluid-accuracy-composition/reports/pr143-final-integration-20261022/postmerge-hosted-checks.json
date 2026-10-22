@@ -1,0 +1,99 @@
+{
+  "schema": "rheon-pr143-actual-merge-hosted-observation-v1",
+  "provider": "mcp__codex_apps__github_fetch",
+  "merge_commit": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+  "source_tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+  "workflow_runs": [
+    {
+      "id": 39707942188,
+      "name": "Rheon Rust headless milestone",
+      "head_sha": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "head_branch": "main",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39707942188",
+      "created_at": "2026-10-22T01:50:02Z",
+      "updated_at": "2026-10-22T02:27:31Z"
+    },
+    {
+      "id": 39707942235,
+      "name": "Bounded dense3D producer metadata",
+      "head_sha": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "head_branch": "main",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/MrScripty/Rheon/actions/runs/39707942235",
+      "created_at": "2026-10-22T01:50:02Z",
+      "updated_at": "2026-10-22T01:51:40Z"
+    }
+  ],
+  "check_runs": [
+    {
+      "id": 119603538616,
+      "name": "core-and-executable",
+      "head_sha": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-22T02:27:28Z",
+      "completed_at": "2026-10-22T02:27:31Z",
+      "details_url": "https://github.com/MrScripty/Rheon/actions/runs/39707942188/job/119603538616"
+    },
+    {
+      "id": 119592284582,
+      "name": "executable-contracts",
+      "head_sha": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-22T01:50:06Z",
+      "completed_at": "2026-10-22T01:55:04Z",
+      "details_url": "https://github.com/MrScripty/Rheon/actions/runs/39707942188/job/119592284582"
+    },
+    {
+      "id": 119592284513,
+      "name": "Feature contracts (desktop)",
+      "head_sha": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-22T01:50:06Z",
+      "completed_at": "2026-10-22T02:27:23Z",
+      "details_url": "https://github.com/MrScripty/Rheon/actions/runs/39707942188/job/119592284513"
+    },
+    {
+      "id": 119592284508,
+      "name": "scoped-contract",
+      "head_sha": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-22T01:50:06Z",
+      "completed_at": "2026-10-22T01:51:39Z",
+      "details_url": "https://github.com/MrScripty/Rheon/actions/runs/39707942235/job/119592284508"
+    },
+    {
+      "id": 119592284459,
+      "name": "Feature contracts (core-only)",
+      "head_sha": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-22T01:50:05Z",
+      "completed_at": "2026-10-22T02:11:46Z",
+      "details_url": "https://github.com/MrScripty/Rheon/actions/runs/39707942188/job/119592284459"
+    },
+    {
+      "id": 119592284282,
+      "name": "Feature contracts (default)",
+      "head_sha": "20a0e1e20538b859193c08eaf25a3b8cd26135a5",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-22T01:50:05Z",
+      "completed_at": "2026-10-22T02:17:16Z",
+      "details_url": "https://github.com/MrScripty/Rheon/actions/runs/39707942188/job/119592284282"
+    }
+  ],
+  "scope": "All six actually triggered push checks. Book/VTK did not trigger under existing path filters; this observation does not assert their execution or publication on this merge.",
+  "recorded_utc": "2026-10-22 02:33:02 UTC",
+  "observation_disposition": "Normalized from actual successful GitHub-app GET responses captured earlier in this task, with exact run/check IDs and completion timestamps. Recording time is not a claim of a new fetch."
+}
