@@ -135,6 +135,18 @@ impl VoxelMaterialMetadata {
         })
     }
 }
+/// Check the typed header without allocating numerical or selected-field owners.
+/// This exposes captured declarations, not proof of an external recipe or run.
+pub fn voxel_material_metadata(
+    run: &RecordingRun,
+) -> Result<VoxelMaterialMetadata, RecordingError> {
+    run.validate()?;
+    let grid = GridGeometry::new(run.counts, run.spacing, run.origin)
+        .map_err(|_| RecordingError::Invalid("voxel geometry"))?;
+    let metadata = VoxelMaterialMetadata::decode(run)?;
+    metadata.validate(&grid)?;
+    Ok(metadata)
+}
 /// Actual numerical constructor/configuration; source/build provenance is declared
 /// by the caller. The digest binds an external immutable recipe, not restart state.
 pub fn voxel_material_run(

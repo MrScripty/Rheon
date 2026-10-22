@@ -64,7 +64,7 @@ impl RunSetView {
     }
     pub fn controls(&mut self, ui: &mut egui::Ui, enabled: bool) {
         ui.collapsing("Saved run sets",|ui| {
-            ui.small("Exact immutable native or configured Session manifest. Cold inspection does not execute models.");
+            ui.small("Exact immutable native, configured Session or voxel-material manifest. Cold inspection does not execute models.");
             ui.text_edit_singleline(&mut self.path);
             if ui.add_enabled(enabled,egui::Button::new("Open saved run set")).clicked() {
                 self.feedback=self.open().err().unwrap_or_default();
@@ -84,7 +84,7 @@ impl RunSetView {
         egui::CentralPanel::default().show(ctx,|ui| {
             let Some(revision)=&self.revision else{return;};
             ui.small(format!("{} saved members",revision.member_count()));
-            ui.label(format!("{} · {} baseline {}", revision.set_id(), if revision.is_configured(){"configured Session"}else{"native"}, revision.baseline_member_id()));
+            ui.label(format!("{} · {} baseline {}", revision.set_id(), if revision.voxel().is_some(){"voxel material"}else if revision.is_configured(){"configured Session"}else{"native"}, revision.baseline_member_id()));
             if ui.button("Rerun saved set from zero").clicked(){rerun=Some(revision.clone());self.active=false;}
             ui.small("Ready verifies the exact closed artifact and typed intent; failed/cancelled outcomes retain their meaning. Archives are inspection data, not restart checkpoints.");
             ui.small("Status is cached from explicit open. Inspect rechecks the exact pinned member before selection.");

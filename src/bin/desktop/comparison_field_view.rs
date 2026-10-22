@@ -65,6 +65,7 @@ pub struct ProbeReadout {
 }
 #[derive(Debug)]
 pub enum FieldViewError {
+    Unsupported(&'static str),
     Invalid(&'static str),
     Limit(&'static str),
     Source { side: &'static str, detail: String },
@@ -76,6 +77,7 @@ pub enum FieldViewError {
 impl std::fmt::Display for FieldViewError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            Self::Unsupported(r) => write!(f, "unsupported linked field view: {r}"),
             Self::Invalid(r) => write!(f, "invalid linked field view: {r}"),
             Self::Limit(r) => write!(f, "linked field view limit: {r}"),
             Self::Source { side, detail } => write!(f, "{side} exact source: {detail}"),
@@ -581,6 +583,9 @@ fn product(d: [usize; 3]) -> Result<usize, FieldViewError> {
     })
 }
 fn preflight_member(member: SavedMember<'_>, role: FieldRole) -> Result<usize, FieldViewError> {
+    if matches!(member, SavedMember::Voxel(_)) {
+        return Err(FieldViewError::Unsupported("voxel material comparisons"));
+    }
     let attempt = member
         .attempt()
         .ok_or(FieldViewError::Invalid("attempt missing"))?;
@@ -593,6 +598,9 @@ fn preflight_member(member: SavedMember<'_>, role: FieldRole) -> Result<usize, F
     let counts = dimensions(match member {
         SavedMember::Native(m) => m.spec.spec.counts_xyz,
         SavedMember::Configured(m) => m.spec.constructor.counts_xyz,
+        SavedMember::Voxel(_) => {
+            return Err(FieldViewError::Unsupported("voxel material comparisons"));
+        }
     })?;
     let cells = product(counts)?;
     let mut faces = 0usize;

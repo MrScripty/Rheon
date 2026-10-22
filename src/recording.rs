@@ -12,7 +12,7 @@ pub mod diagnostic;
 mod material;
 mod voxel_material;
 pub use voxel_material::{
-    RecordedVoxelMaterial, VOXEL_MATERIAL_SOLVER, VoxelMaterialMetadata,
+    RecordedVoxelMaterial, VOXEL_MATERIAL_SOLVER, VoxelMaterialMetadata, voxel_material_metadata,
     voxel_material_publication, voxel_material_publication_bytes, voxel_material_run,
 };
 pub mod provider;

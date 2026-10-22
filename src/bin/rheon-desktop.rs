@@ -2643,6 +2643,7 @@ impl eframe::App for App {
                 let result = match revision {
                     run_set_view::SavedRunSet::Native(set) => self.rerun_saved(set),
                     run_set_view::SavedRunSet::Configured(set) => self.rerun_configured(set),
+                    run_set_view::SavedRunSet::Voxel(_) => Err("Voxel material rerun is unavailable until M4 worker integration acceptance".into()),
                 };
                 if let Err(error) = result {
                     self.status = error;

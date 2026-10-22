@@ -447,6 +447,9 @@ impl SavedComparisonPage {
                     .as_ref()
                     .ok_or("Open an immutable source revision first")?;
                 let capture = match set {
+                    SavedRunSet::Voxel(_) => {
+                        return Err("Unsupported: voxel material comparisons".into());
+                    }
                     SavedRunSet::Native(native) => SavedRecipe::capture(
                         Path::new(&self.root),
                         native.clone(),
@@ -586,11 +589,12 @@ impl SavedComparisonPage {
                         if let Some(s)=summary {ui.label(&s.detail);}
                         let differences=match m {
                             SavedMember::Native(native)=>native.differences_from_baseline.iter().map(|d|difference_label(*d)).collect::<Vec<_>>(),
-                            SavedMember::Configured(_)=>m.difference_labels(),
+                            SavedMember::Configured(_)|SavedMember::Voxel(_)=>m.difference_labels(),
                         };
                         ui.label(format!("Declared differences: {}",if differences.is_empty(){"none".into()}else{differences.join(", ")}));
                         ui.label(m.description());
                         let (counts,spacing,origin,steps,dt)=match m {
+                            SavedMember::Voxel(_)=>{ui.label("Voxel material comparisons are unsupported");return;},
                             SavedMember::Native(m)=>{let s=&m.spec.spec;(s.counts_xyz,s.spacing_m,s.origin_m,s.requested_steps,s.requested_dt_s)},
                             SavedMember::Configured(m)=>{let c=&m.spec.constructor;let f=&m.spec.future;
                                 ui.label(format!("Density {} kg/m³ · viscosity {:?} · forces {:?}",c.density_kg_m3,f.viscosity,f.forces));

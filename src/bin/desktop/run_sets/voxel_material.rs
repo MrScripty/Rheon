@@ -1,5 +1,8 @@
 //! Versioned binary draft and immutable constructor-zero input for the new
 //! voxel method. No native execution/dispatch or old-format fallback lives here.
+#[path = "voxel_material/run_set.rs"]
+pub mod run_set;
+
 use super::{
     ArchiveBudget, RunSetError, configured::ExecutorDeclaration, digest, publish_new,
     read_versioned,
