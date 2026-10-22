@@ -135,3 +135,62 @@ endpoint meet this strict non-adverse control rule, independently for both cases
 No percent tolerance, cohort extension, outlier removal, optional stopping or
 substitution of construction evidence is introduced. This specifies the existing
 uncertainty requirement prospectively; it does not change its stopping rule.
+
+## Final ordered-main source and execution stage, 2026-10-22
+
+All earlier phase descriptions above remain historical snapshots. Actual ordered
+main is now PR142/b70dbae, PR138/7befee4, PR143
+`20a0e1e20538b859193c08eaf25a3b8cd26135a5` (fulltree d66c930d), verified from
+GitHub merged state and fetched Git ordered parents/full trees. The PR59 merge
+into prepared c33f029 content needed no Rust conflict or source change: the same
+153 reviewed code/build identities remain at source-map SHA2568055a53c319ddec6aade4bed35fdc642c7ab07839e4e0bb2866a00a4a03d3688.
+The [complete final review input](final-source/source-map.json) and appended bound
+v3 review explicitly propose these identities for fresh independent admission.
+Both historical inventories and every byte of the inherited bound review remain.
+
+After actual143, append only the fourth accepted-pressure-warm-start matrix row
+and its exact literal source contract, plus missing/wrong/duplicate warm row
+negatives. Keep original three feature modes, all commands/assertions, aggregate,
+per-case gates, other budgets and immutable eight-step baseline intact. Staged
+source-only CiBudgetContract passed5 normal+5 optimized; that is not numerical
+qualification. Final exact-head CI must execute all four feature modes and all
+other existing paths successfully.
+
+The frozen [native driver](final-source/final_native_driver.py), SHA256
+`62585bdb57f14a796cad0a1b2b830aa0d22650e448b5ea1e6fc28067532d3449`, requires
+the actual clean published candidate head, actual143 merge, and a positively
+approved exact source/tree binding. Its [initial review](final-source/native-driver-initial-review.md)
+and [repair review](final-source/native-driver-repair-review.md) retain the earlier
+static findings/hash-attribution correction and approve the repaired static
+runner only; final exact source/admission/binding/invocation review is mandatory.
+It executes admission, source-only CI guards normal/optimized, the unchanged
+18-command native/rational qualifier, fresh real packet and26+26 packet tests.
+It atomically journals exact commands/cwds/environment additions, source hashes,
+exit/exception/partial logs, exporter receipt identity and untouched copies of the
+exporter plus exact four native test ELFs, then rechecks source and exporter.
+Seven named GitHub/Rheon source/build/native/packet environment variables are
+explicitly unset; packet tests alone receive their actual new packet path. No
+other runtime/compiler declaration is invented. No ignored test, Lean/scientific
+campaign, performance execution, source-pin refresh or Git write occurs in this
+driver. All outputs go to a new external directory and failures stop that attempt.
+
+Before the SINGLE fixed prospective default cohort, freeze actual main baseline B
+after ordered143 (including any earlier safe150 admission) and clean published
+candidate C that includes B. Keep the already frozen two source roots, literal
+RUSTFLAGS, flags, harness, common equal-length executable paths, twelve balanced
+pairs each1000/4096, uncertainty analysis and blocking rule unchanged. Record exact
+B/C, toolchain, commands, environment, host/quota/affinity and untouched binary
+hashes. Complete local builds/tests and independent read-only binary inspection,
+then leave the local reviewer idle during timing. No concurrent local builds,
+tests, timing or binary hashing/review; no old watcher is running. Preserve all
+raw partial/failing outcomes. An actual source/base change cannot relabel this
+cohort or authorize another one. No final timing has run as of this stage.
+
+Run final ordinary required CI on the published result head and obtain exact-head
+independent source/results/CI review. A positive or inconclusive performance result
+remains a blocker even with passing code/native/CI gates; publish the concrete
+owner tradeoff and retain draft/unmerged state instead of weakening acceptance.
+Only the PR142 lead may normally merge an admitted exact head after serial main
+runtime gates; actual merge identity/ancestry/tree and required final-main full
+CI/browser/publication/deploy checks remain necessary before closure. No overall
+production acceptance is implied by individual PR merge or source admission.

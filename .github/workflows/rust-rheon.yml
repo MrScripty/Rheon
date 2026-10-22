@@ -87,6 +87,8 @@ jobs:
           flags: --no-default-features
         - mode: desktop
           flags: --features desktop
+        - mode: accepted-pressure-warm-start
+          flags: --features accepted-pressure-warm-start
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
