@@ -15,7 +15,29 @@ pub struct RunSetView {
     statuses: Vec<String>,
     ready: Vec<bool>,
 }
+
 impl RunSetView {
+    /// Charge the still-retained source recipe, without reopening its archive.
+    /// Equality compares the complete immutable value, not a path or current UI
+    /// recipe. Inline enum storage is conservatively charged in addition to the
+    /// revision owner's capacity; status/feedback controls remain UI metadata.
+    pub fn related_voxel_payload_bytes(
+        &self,
+        source: &voxel_material::run_set::VoxelRunSetRevision,
+    ) -> Result<usize, String> {
+        let Some(SavedRunSet::Voxel(stored)) = &self.revision else {
+            return Ok(0);
+        };
+        if stored != source {
+            return Ok(0);
+        }
+        stored
+            .owned_capacity()
+            .map_err(|e| e.to_string())?
+            .checked_add(std::mem::size_of::<SavedRunSet>())
+            .and_then(|n| n.checked_add(self.root.capacity()))
+            .ok_or_else(|| "Related saved voxel capacity overflow".into())
+    }
     pub fn open(&mut self) -> Result<(), String> {
         self.revision = None;
         self.statuses.clear();
@@ -85,7 +107,7 @@ impl RunSetView {
             let Some(revision)=&self.revision else{return;};
             ui.small(format!("{} saved members",revision.member_count()));
             ui.label(format!("{} · {} baseline {}", revision.set_id(), if revision.voxel().is_some(){"voxel material"}else if revision.is_configured(){"configured Session"}else{"native"}, revision.baseline_member_id()));
-            if ui.button("Rerun saved set from zero").clicked(){rerun=Some(revision.clone());self.active=false;}
+            if ui.add_enabled(revision.voxel().is_none() || super::voxel_material_setup::AVAILABLE,egui::Button::new("Rerun saved set from zero")).on_disabled_hover_text(super::voxel_material_setup::UNAVAILABLE).clicked(){rerun=Some(revision.clone());self.active=false;}
             ui.small("Ready verifies the exact closed artifact and typed intent; failed/cancelled outcomes retain their meaning. Archives are inspection data, not restart checkpoints.");
             ui.small("Status is cached from explicit open. Inspect rechecks the exact pinned member before selection.");
             for (index,member) in revision.members().enumerate() {
@@ -104,5 +126,44 @@ impl RunSetView {
             if !self.feedback.is_empty(){ui.label(&self.feedback);}
         });
         rerun
+    }
+}
+
+#[cfg(test)]
+mod payload_tests {
+    use super::*;
+    use crate::voxel_material_integration_tests::{recipe, request};
+
+    #[test]
+    fn related_source_compares_values_and_charges_stored_spare_capacity() {
+        let (_, frozen) = recipe(0.001, 1, [0.0; 3], 1024 * 1024);
+        let req = request(frozen, Path::new("unused-capacity-query"));
+        let original = req.voxel.unwrap().revision.as_ref().clone();
+        let mut view = RunSetView {
+            revision: Some(SavedRunSet::Voxel(original.clone())),
+            ..Default::default()
+        };
+        let before = view.related_voxel_payload_bytes(&original).unwrap();
+        assert!(before > 0);
+        let added = {
+            let Some(SavedRunSet::Voxel(stored)) = &mut view.revision else {
+                unreachable!()
+            };
+            let old = stored.owned_capacity().unwrap();
+            stored.set_id.reserve_exact(4096);
+            stored.members.reserve_exact(7);
+            stored.members[0].member_id.reserve_exact(2048);
+            stored.owned_capacity().unwrap() - old
+        };
+        assert!(added > 0);
+        assert_eq!(
+            view.related_voxel_payload_bytes(&original).unwrap(),
+            before + added
+        );
+        let mut different = original.clone();
+        different.set_id.push_str("-different");
+        assert_eq!(view.related_voxel_payload_bytes(&different).unwrap(), 0);
+        view.revision = None;
+        assert_eq!(view.related_voxel_payload_bytes(&original).unwrap(), 0);
     }
 }

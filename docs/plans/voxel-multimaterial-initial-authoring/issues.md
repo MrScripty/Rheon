@@ -21,4 +21,6 @@
 
 | I15 | M4 pending receipt could alias retained path; queued authoring could bypass Pending | Desktop implementer / separate reviewer | Closed for staged ownership component: fresh attempt receipt, guarded production command boundary, real Worker/path and composed legacy-result/input regressions; targeted independent rereview resolves R1/R2. Actual native A5/A6 remain pending |
 
+| I16 | Fresh capture inherited immutable saved-spacing exception | Desktop implementer / separate reviewer | Closed for App-entry component: existing native authoring geometry gate reused; actual high-density refusal preserves draft/results while saved Adaptive replay retains exact bits. Targeted rereview resolves R1. Actual native A5/A6 and normal exposure remain pending |
+
 The uncertain earlier Library upload is preserved and is not retried. No implementation push/PR/merge has occurred. The approved implementation may prepare a reviewable PR, with sole-lead coordination and exact source/test review still required.

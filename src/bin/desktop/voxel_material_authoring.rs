@@ -12,7 +12,7 @@ pub(crate) enum DraftFileAction {
     Save(PathBuf),
     Load(PathBuf),
 }
-fn native_authoring_geometry(grid: &GridGeometry) -> Result<(u64, f64), String> {
+pub(super) fn native_authoring_geometry(grid: &GridGeometry) -> Result<(u64, f64), String> {
     let n = grid.counts();
     let h = grid.spacing();
     let side = h[0] * n[0] as f64;
@@ -23,7 +23,7 @@ fn native_authoring_geometry(grid: &GridGeometry) -> Result<(u64, f64), String> 
         || !(0.001..=100.0).contains(&side)
         || n[0] as f64 / side > f64::from(rheon::MAX_CELLS_PER_METRE).next_up()
     {
-        return Err("Native draft editing requires a 4–64 cubic equal-spacing zero-origin domain, side 0.001–100 m and at most 1000 cells/m. Original file is retained; no resampling was performed".into());
+        return Err("Native draft editing requires a 4–64 cubic equal-spacing zero-origin domain, side 0.001–100 m and at most 1000 cells/m. Original geometry is retained; no resampling was performed".into());
     }
     Ok((n[0] as u64, side))
 }

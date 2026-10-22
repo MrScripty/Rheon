@@ -127,7 +127,24 @@ impl App {
         {
             return Err("Stop the worker, finish or cancel editing, and return to the simulation page before preparing a voxel run".into());
         }
-        let retained = self.retained_payload_for_voxel()?;
+        let source = request.voxel.as_ref().ok_or("Voxel request required")?;
+        let digest = source
+            .revision
+            .members
+            .first()
+            .ok_or("Voxel member required")?
+            .spec
+            .digest();
+        let mut retained = self.retained_payload_for_voxel()?;
+        add(
+            &mut retained,
+            self.run_sets
+                .related_voxel_payload_bytes(&source.revision)?,
+        )?;
+        add(
+            &mut retained,
+            self.archive.inspector.related_voxel_payload_bytes(digest)?,
+        )?;
         request
             .voxel
             .as_mut()

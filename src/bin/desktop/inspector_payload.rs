@@ -63,101 +63,27 @@ impl Inspector {
             .0
             .lock()
             .map_err(|_| "Retained Inspector lock unavailable")?;
-        let mut bytes = Capacity(size_of::<Self>());
-        if let Some(path) = &s.path {
-            bytes.add(path.capacity())?;
+        retained_payload(&s)
+    }
+
+    /// Count a required saved-source Inspector by its retained typed header.
+    /// A malformed voxel header remains conservatively related; no selection,
+    /// numerical decode or source archive audit is required to replay a seed.
+    pub fn related_voxel_payload_bytes(&self, digest: [u8; 32]) -> Result<usize, String> {
+        let s = self
+            .0
+            .lock()
+            .map_err(|_| "Related voxel Inspector lock unavailable")?;
+        let Some(reader) = &s.reader else {
+            return Ok(0);
+        };
+        if reader.run().solver != rheon::recording::VOXEL_MATERIAL_SOLVER {
+            return Ok(0);
         }
-        if let Some(reader) = &s.reader {
-            bytes.add(size_of_val(reader))?;
-            let run = reader.run();
-            bytes.strings([
-                &run.identity.source_revision,
-                &run.solver,
-                &run.configuration,
-                &run.provenance,
-            ])?;
+        match rheon::recording::voxel_material_metadata(reader.run()) {
+            Ok(header) if header.initial_input_sha256 != digest => Ok(0),
+            Ok(_) | Err(_) => retained_payload(&s),
         }
-        if let Some(raw) = &s.record {
-            bytes.arc()?;
-            bytes.add(raw.allocated_bytes().map_err(|e| e.to_string())?)?;
-        }
-        if let Some(voxel) = &s.voxel {
-            bytes.arc()?;
-            bytes.add(voxel.allocated_bytes().map_err(|e| e.to_string())?)?;
-        }
-        if let Some(carrier) = &s.carrier {
-            bytes.arc()?;
-            bytes.add(size_of_val(carrier.as_ref()))?;
-            for field in [&carrier.x, &carrier.y, &carrier.z, &carrier.tracer] {
-                bytes.vector(field)?;
-            }
-            if let Some((_, pressure)) = &carrier.interval_pressure {
-                bytes.vector(pressure)?;
-            }
-            if let Some(fields) = &carrier.force_fields {
-                bytes.force(fields)?;
-            }
-        }
-        if let Some(material) = &s.material {
-            bytes.arc()?;
-            bytes.add(size_of_val(material.as_ref()))?;
-            bytes.vector(&material.particles)?;
-            if let Some((_, diagnostic)) = &material.diagnostics {
-                bytes.vector(diagnostic)?;
-            }
-            if let Some(fields) = &material.force_fields {
-                bytes.force(fields)?;
-            }
-        }
-        if let Some(configured) = &s.configured {
-            bytes.arc()?;
-            bytes.add(size_of_val(configured.as_ref()))?;
-            for field in [
-                &configured.x,
-                &configured.y,
-                &configured.z,
-                &configured.tracer,
-            ] {
-                bytes.vector(field)?;
-            }
-            bytes.vector(&configured.fraction)?;
-            if let Some((_, pressure)) = &configured.interval_pressure {
-                bytes.vector(pressure)?;
-            }
-            if let Some(receipt) = &configured.receipt {
-                if let Some(binding) = &receipt.binding {
-                    bytes.binding(binding)?;
-                }
-                if let Some(attempted) = &receipt.attempted {
-                    bytes.strings([
-                        &attempted.id,
-                        &attempted.version,
-                        &attempted.stage,
-                        &attempted.domain,
-                        &attempted.input.layout,
-                        &attempted.input.scalar,
-                        &attempted.input.units,
-                        &attempted.output.layout,
-                        &attempted.output.scalar,
-                        &attempted.output.units,
-                    ])?;
-                }
-                if let Some(
-                    RecordedProviderRejection::Unsupported(text)
-                    | RecordedProviderRejection::Execution(text),
-                ) = &receipt.rejection
-                {
-                    bytes.add(text.capacity())?;
-                }
-            }
-            if let Some(runtime) = &configured.runtime {
-                bytes.binding(&runtime.request.binding)?;
-                if let RuntimeOutcome::NoCandidate { detail, .. } = &runtime.outcome {
-                    bytes.add(detail.capacity())?;
-                }
-            }
-        }
-        Ok(bytes.0)
     }
 
     /// Read one already verified raw/typed constructor selection under one lock.
@@ -185,9 +111,172 @@ impl Inspector {
     }
 }
 
+fn retained_payload(s: &State) -> Result<usize, String> {
+    let mut bytes = Capacity(size_of::<Inspector>());
+    if let Some(path) = &s.path {
+        bytes.add(path.capacity())?;
+    }
+    if let Some(reader) = &s.reader {
+        bytes.add(size_of_val(reader))?;
+        let run = reader.run();
+        bytes.strings([
+            &run.identity.source_revision,
+            &run.solver,
+            &run.configuration,
+            &run.provenance,
+        ])?;
+    }
+    if let Some(raw) = &s.record {
+        bytes.arc()?;
+        bytes.add(raw.allocated_bytes().map_err(|e| e.to_string())?)?;
+    }
+    if let Some(voxel) = &s.voxel {
+        bytes.arc()?;
+        bytes.add(voxel.allocated_bytes().map_err(|e| e.to_string())?)?;
+    }
+    if let Some(carrier) = &s.carrier {
+        bytes.arc()?;
+        bytes.add(size_of_val(carrier.as_ref()))?;
+        for field in [&carrier.x, &carrier.y, &carrier.z, &carrier.tracer] {
+            bytes.vector(field)?;
+        }
+        if let Some((_, pressure)) = &carrier.interval_pressure {
+            bytes.vector(pressure)?;
+        }
+        if let Some(fields) = &carrier.force_fields {
+            bytes.force(fields)?;
+        }
+    }
+    if let Some(material) = &s.material {
+        bytes.arc()?;
+        bytes.add(size_of_val(material.as_ref()))?;
+        bytes.vector(&material.particles)?;
+        if let Some((_, diagnostic)) = &material.diagnostics {
+            bytes.vector(diagnostic)?;
+        }
+        if let Some(fields) = &material.force_fields {
+            bytes.force(fields)?;
+        }
+    }
+    if let Some(configured) = &s.configured {
+        bytes.arc()?;
+        bytes.add(size_of_val(configured.as_ref()))?;
+        for field in [
+            &configured.x,
+            &configured.y,
+            &configured.z,
+            &configured.tracer,
+        ] {
+            bytes.vector(field)?;
+        }
+        bytes.vector(&configured.fraction)?;
+        if let Some((_, pressure)) = &configured.interval_pressure {
+            bytes.vector(pressure)?;
+        }
+        if let Some(receipt) = &configured.receipt {
+            if let Some(binding) = &receipt.binding {
+                bytes.binding(binding)?;
+            }
+            if let Some(attempted) = &receipt.attempted {
+                bytes.strings([
+                    &attempted.id,
+                    &attempted.version,
+                    &attempted.stage,
+                    &attempted.domain,
+                    &attempted.input.layout,
+                    &attempted.input.scalar,
+                    &attempted.input.units,
+                    &attempted.output.layout,
+                    &attempted.output.scalar,
+                    &attempted.output.units,
+                ])?;
+            }
+            if let Some(
+                RecordedProviderRejection::Unsupported(text)
+                | RecordedProviderRejection::Execution(text),
+            ) = &receipt.rejection
+            {
+                bytes.add(text.capacity())?;
+            }
+        }
+        if let Some(runtime) = &configured.runtime {
+            bytes.binding(&runtime.request.binding)?;
+            if let RuntimeOutcome::NoCandidate { detail, .. } = &runtime.outcome {
+                bytes.add(detail.capacity())?;
+            }
+        }
+    }
+    Ok(bytes.0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn related_header_charges_unselected_and_unclassifiable_voxel_reader_ownership() {
+        let (_, frozen) =
+            crate::voxel_material_integration_tests::recipe(0.001, 1, [0.0; 3], 1024 * 1024);
+        let digest = frozen.digest();
+        let sim = frozen.construct().unwrap();
+        let original = rheon::recording::voxel_material_run(
+            SessionIdentity {
+                run_id: 72,
+                source_revision: "related-header-test".into(),
+            },
+            &sim,
+            digest,
+            "retained header capacity fixture",
+        )
+        .unwrap();
+        let limits = frozen.execution().recording.limits();
+        for mode in ["matching", "unclassifiable", "unrelated"] {
+            let mut run = original.clone();
+            if mode == "unclassifiable" {
+                run.configuration = "RVM1:invalid-header".into();
+            }
+            if mode == "unrelated" {
+                run.solver = "unrelated-recording-profile".into();
+            }
+            let path = super::super::tests::test_path(mode);
+            let mut writer = StepRecorder::create(&path, run, limits).unwrap();
+            writer
+                .finish("failed", "header-only ownership fixture", None)
+                .unwrap();
+            drop(writer);
+            let inspector = Inspector::default();
+            inspector.reload(&path, limits).unwrap();
+            assert!(inspector.selected_identity().is_none());
+            let before = inspector.retained_payload_bytes().unwrap();
+            let added = {
+                let mut state = inspector.0.lock().unwrap();
+                let path = state.path.as_mut().unwrap();
+                let capacity = path.capacity();
+                path.reserve_exact(4096);
+                path.capacity() - capacity
+            };
+            let all = inspector.retained_payload_bytes().unwrap();
+            assert_eq!(all, before + added);
+            assert_eq!(
+                inspector.related_voxel_payload_bytes(digest).unwrap(),
+                if mode == "unrelated" { 0 } else { all }
+            );
+            let mut different = digest;
+            different[0] ^= 1;
+            assert_eq!(
+                inspector.related_voxel_payload_bytes(different).unwrap(),
+                if mode == "unclassifiable" { all } else { 0 }
+            );
+            drop(inspector);
+            std::fs::remove_file(path).unwrap();
+        }
+        assert_eq!(
+            Inspector::default()
+                .related_voxel_payload_bytes(digest)
+                .unwrap(),
+            0
+        );
+    }
 
     #[test]
     fn constructor_acknowledgment_requires_matching_typed_constructor_not_only_raw_record() {

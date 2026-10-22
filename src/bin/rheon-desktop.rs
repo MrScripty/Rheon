@@ -97,6 +97,8 @@ mod voxel_material_execution;
 mod voxel_material_integration_tests;
 #[path = "desktop/voxel_material_launch.rs"]
 mod voxel_material_launch;
+#[path = "desktop/voxel_material_setup.rs"]
+mod voxel_material_setup;
 use eframe::egui;
 use history::{LiveHistory, PreviewFrame};
 use rheon::{
@@ -2165,7 +2167,8 @@ impl App {
     fn service_initial_contents_commands(&mut self, ctx: &egui::Context) {
         if self.worker.is_some() || self.pending_voxel.is_some() {
             let queued = std::mem::take(&mut self.scene.contents.create_requested)
-                | self.scene.contents.draft_action.take().is_some();
+                | self.scene.contents.draft_action.take().is_some()
+                | std::mem::take(&mut self.scene.contents.run_requested);
             if queued {
                 self.scene.contents.io_feedback = "Initial contents command not executed while a run is preparing/running; issue it again in idle Draft.".into();
             }
@@ -2184,6 +2187,11 @@ impl App {
             if let Err(error) = result {
                 self.status = error;
             }
+        }
+        if std::mem::take(&mut self.scene.contents.run_requested)
+            && let Err(error) = self.start_contents()
+        {
+            self.status = error;
         }
     }
     fn launch_request(&mut self, request: Request) -> Result<(), String> {
@@ -2778,7 +2786,7 @@ impl eframe::App for App {
                 let result = match revision {
                     run_set_view::SavedRunSet::Native(set) => self.rerun_saved(set),
                     run_set_view::SavedRunSet::Configured(set) => self.rerun_configured(set),
-                    run_set_view::SavedRunSet::Voxel(_) => Err("Voxel material rerun is unavailable until M4 worker integration acceptance".into()),
+                    run_set_view::SavedRunSet::Voxel(set) => self.rerun_voxel(set),
                 };
                 if let Err(error) = result {
                     self.status = error;

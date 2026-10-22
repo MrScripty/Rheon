@@ -14,6 +14,7 @@ struct Gesture {
 pub struct InitialContentsUi {
     pub(super) editor: Option<ContentsEditor>,
     pub(super) create_requested: bool,
+    pub(super) run_requested: bool,
     pub(super) draft_action: Option<super::voxel_material_authoring::DraftFileAction>,
     pub(super) file_path: String,
     pub(super) io_feedback: String,
@@ -31,6 +32,7 @@ impl Default for InitialContentsUi {
         Self {
             editor: None,
             create_requested: false,
+            run_requested: false,
             draft_action: None,
             file_path: "initial-contents.json".into(),
             io_feedback: String::new(),
@@ -376,7 +378,16 @@ impl InitialContentsUi {
         {
             ui.colored_label(Color32::YELLOW, reason.to_string());
         }
-        ui.add_enabled(false,egui::Button::new("Simulate contents")).on_disabled_hover_text("Native execution awaits retained-result adoption and actual end-to-end qualification.");
+        if ui
+            .add_enabled(
+                super::voxel_material_setup::AVAILABLE && !busy,
+                egui::Button::new("Simulate contents"),
+            )
+            .on_disabled_hover_text(super::voxel_material_setup::UNAVAILABLE)
+            .clicked()
+        {
+            self.run_requested = true;
+        }
         if let Some(error) = &self.error {
             ui.colored_label(Color32::LIGHT_RED, error);
         }
