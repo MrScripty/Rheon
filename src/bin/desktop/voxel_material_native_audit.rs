@@ -144,7 +144,7 @@ fn metric_mask(oracle: &Oracle) -> Vec<u16> {
 
 // Caller owns protected paths and confirms all producers have closed. This is
 // not a hostile-filesystem race guarantee or an OS read-only SQLite handle.
-fn open_finished(
+pub(super) fn open_finished(
     path: &Path,
     archives: &mut Vec<(PathBuf, [u8; 32], u64)>,
 ) -> (VoxelRunSetRevision, Box<RecordingReader>) {

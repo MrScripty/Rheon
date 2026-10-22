@@ -1,5 +1,4 @@
-//! The filled-box voxel method inside the existing desktop Worker. Normal App
-//! exposure remains gated by the canonical M4/A5/A6 adoption/native milestones.
+//! The filled-box voxel method inside the existing desktop Worker.
 use crate::{
     Request, ResultRow, build_identity,
     history::{LiveHistory, PreviewFrame},
@@ -26,8 +25,8 @@ pub(crate) const METHOD: &str = "Voxel Water/Air · matched donor / strain / Jac
 #[derive(Clone)]
 pub(crate) struct VoxelRequest {
     pub revision: Arc<VoxelRunSetRevision>,
-    /// Actual overlapping retained host payload; production App calculation and
-    /// atomic constructor adoption are a separate mandatory admission gate.
+    /// Actual overlapping retained host payload charged by the production App
+    /// before staged constructor adoption.
     pub retained_payload_bytes: usize,
 }
 pub(crate) fn executor() -> ExecutorDeclaration {

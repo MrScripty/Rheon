@@ -319,6 +319,145 @@ fn fresh_process_child() {
 }
 
 #[test]
+fn fresh_process_reopens_complete_and_incomplete_drafts_without_numerical_work() {
+    let root = directory("cold-drafts-only");
+    let complete_path = root.join("complete-draft.json");
+    let incomplete_path = root.join("incomplete-draft.json");
+    let mut e = editor(ContentsMaterial::Air);
+    paint(&mut e, BrushOperation::Replace, ContentsMaterial::Water);
+    assert_eq!(e.document().counts(), [0, 1, 63]);
+    let complete = DraftRevision::capture(&e).unwrap();
+    complete.publish(&complete_path).unwrap();
+    paint(&mut e, BrushOperation::Remove, ContentsMaterial::Air);
+    assert_eq!(e.document().counts(), [1, 0, 63]);
+    let incomplete = DraftRevision::capture(&e).unwrap();
+    incomplete.publish(&incomplete_path).unwrap();
+    let original_complete = fs::read(&complete_path).unwrap();
+    let original_incomplete = fs::read(&incomplete_path).unwrap();
+    let output = std::process::Command::new(std::env::current_exe().unwrap())
+        .args([
+            "--exact",
+            "run_sets::voxel_material::tests::fresh_process_draft_child",
+            "--ignored",
+            "--nocapture",
+        ])
+        .env(
+            "RHEON_VOXEL_COMPLETE_DRAFT_CHILD",
+            fs::canonicalize(&complete_path).unwrap(),
+        )
+        .env(
+            "RHEON_VOXEL_INCOMPLETE_DRAFT_CHILD",
+            fs::canonicalize(&incomplete_path).unwrap(),
+        )
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "child stderr: {}\nchild stdout: {}",
+        String::from_utf8_lossy(&output.stderr),
+        String::from_utf8_lossy(&output.stdout)
+    );
+    assert!(
+        String::from_utf8_lossy(&output.stdout).contains("COLD_COMPLETE_AND_INCOMPLETE_DRAFTS_OK")
+    );
+    assert_eq!(fs::read(&complete_path).unwrap(), original_complete);
+    assert_eq!(fs::read(&incomplete_path).unwrap(), original_incomplete);
+    assert_eq!(DraftRevision::open(&complete_path).unwrap(), complete);
+    assert_eq!(DraftRevision::open(&incomplete_path).unwrap(), incomplete);
+}
+
+#[test]
+#[ignore = "draft-only child entrypoint; executed explicitly with two parent-owned files"]
+fn fresh_process_draft_child() {
+    for (key, incomplete) in [
+        ("RHEON_VOXEL_COMPLETE_DRAFT_CHILD", false),
+        ("RHEON_VOXEL_INCOMPLETE_DRAFT_CHILD", true),
+    ] {
+        let path = std::env::var_os(key).expect("owned draft-only child input");
+        let saved = DraftRevision::open(Path::new(&path)).unwrap();
+        let restored = saved.restore().unwrap();
+        assert_eq!(restored.document().id(), SceneObjectId(13));
+        assert_eq!(
+            restored.document().revision(),
+            if incomplete { 2 } else { 1 }
+        );
+        let expected = (0..64)
+            .map(|i| {
+                if i == 21 {
+                    if incomplete { 0 } else { 1 }
+                } else {
+                    2
+                }
+            })
+            .collect::<Vec<u16>>();
+        assert_eq!(restored.document().cells(), expected);
+        assert_eq!(
+            restored.document().counts(),
+            if incomplete { [1, 0, 63] } else { [0, 1, 63] }
+        );
+        let geometry = restored.document().geometry();
+        assert_eq!(geometry.counts(), [4; 3]);
+        assert_eq!(geometry.spacing().map(f64::to_bits), [0.25f64.to_bits(); 3]);
+        assert_eq!(geometry.origin().map(f64::to_bits), [0.0f64.to_bits(); 3]);
+        assert_eq!(restored.undo_label(), None);
+        assert_eq!(restored.redo_label(), None);
+        assert_eq!(restored.history_bytes(), 0);
+        assert_eq!(restored.evicted_commands(), 0);
+        assert!(!restored.active());
+        assert_eq!(saved.document.palette_version, 1);
+        assert_eq!(
+            [saved.document.palette[0].id, saved.document.palette[1].id],
+            [1, 2]
+        );
+        assert_eq!(
+            [
+                saved.document.palette[0].role,
+                saved.document.palette[1].role
+            ],
+            [MaterialRole::Water, MaterialRole::Air]
+        );
+        assert_eq!(
+            [
+                saved.document.palette[0].color_srgb,
+                saved.document.palette[1].color_srgb
+            ],
+            [[45, 125, 215], [135, 103, 49]]
+        );
+        let pair = restored.document().materials();
+        assert_eq!(
+            [
+                pair.liquid().density(),
+                pair.liquid().viscosity(),
+                pair.gas().density(),
+                pair.gas().viscosity(),
+            ]
+            .map(f64::to_bits),
+            [
+                0x408f31999999999a,
+                0x3f506ab14ec204f3,
+                0x3ff3441c9a98fd61,
+                0x3ef315867a02249d,
+            ]
+        );
+        if incomplete {
+            let error = restored.document().validate().unwrap_err();
+            assert_eq!(
+                error,
+                rheon::initial_contents::ContentsError::Vacuum {
+                    count: 1,
+                    first: [1; 3],
+                }
+            );
+            assert!(error.to_string().contains("Fill vacuum with Air or Water"));
+        } else {
+            restored.document().validate().unwrap();
+        }
+        assert_eq!(DraftRevision::capture(&restored).unwrap(), saved);
+    }
+    println!("COLD_COMPLETE_AND_INCOMPLETE_DRAFTS_OK");
+}
+
+#[test]
 fn frozen_geometry_refuses_unrepresentable_scales_before_constructor_admission() {
     let root = directory("geometry");
     let path = root.join("input.json");

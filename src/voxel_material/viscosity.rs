@@ -487,6 +487,73 @@ mod tests {
         ));
     }
     #[test]
+    fn piecewise_linear_shear_has_constant_traction_and_zero_interior_force() {
+        let n = 6usize;
+        let h = [0.25, 0.5, 0.75];
+        let grid = GridGeometry::new([6; 3], h, [0.0; 3]).unwrap();
+        let viscosity = [0.02, 0.002];
+        let traction = 0.002;
+        let interface = 3.0 * h[1];
+        let sample = |j: usize| {
+            let y = (j as f64 + 0.5) * h[1];
+            traction * (y.min(interface) / viscosity[0] + (y - interface).max(0.0) / viscosity[1])
+        };
+        let fraction = (0..n * n * n)
+            .map(|index| if index / n % n < 3 { 1.0 } else { 0.0 })
+            .collect::<Vec<_>>();
+        let materials = MaterialPair::new(
+            MaterialProperties::new(1000.0, viscosity[0]).unwrap(),
+            MaterialProperties::new(1.0, viscosity[1]).unwrap(),
+        );
+        let mut state = VoxelMaterialState::new(grid.clone(), materials, &fraction, LIMIT).unwrap();
+        // Analytic u_x(y)=integral(tau/mu dy), continuous at y=1.5m.
+        // Only interior x faces are assigned; fixed normal wall faces stay zero.
+        for k in 0..n {
+            for j in 0..n {
+                for i in 1..n {
+                    let face = i + (n + 1) * (j + n * k);
+                    state.velocity[0][face] = sample(j);
+                }
+            }
+        }
+        let mut workspace = MaterialViscosityWorkspace::new(&grid, LIMIT).unwrap();
+        workspace.assemble(&state, || false).unwrap();
+        assert!(workspace.dissipation > 0.0);
+        let volume = h.into_iter().product::<f64>();
+        // Independent half-interval viscous resistance, rather than the
+        // implementation's four-cell harmonic coefficient or strain rows.
+        let resistance = |lower_j: usize| {
+            let lower = (lower_j as f64 + 0.5) * h[1];
+            let upper = lower + h[1];
+            let below = (upper.min(interface) - lower.min(interface)).max(0.0);
+            let above = h[1] - below;
+            below / viscosity[0] + above / viscosity[1]
+        };
+        for j in [2usize, 3] {
+            let lower = sample(j - 1);
+            let center = sample(j);
+            let upper = sample(j + 1);
+            let low_resistance = resistance(j - 1);
+            let high_resistance = resistance(j);
+            let low_traction = (center - lower) / low_resistance;
+            let high_traction = (upper - center) / high_resistance;
+            let low_scale = (center.abs() + lower.abs()) / low_resistance;
+            let high_scale = (upper.abs() + center.abs()) / high_resistance;
+            let epsilon = 256.0 * f64::EPSILON;
+            assert!((low_traction - traction).abs() <= epsilon * (low_scale + traction));
+            assert!((high_traction - traction).abs() <= epsilon * (high_scale + traction));
+            let face = 3 + (n + 1) * (j + n * 3);
+            let absolute_expression = (volume / h[1]) * (low_scale + high_scale + 2.0 * traction);
+            assert!(
+                workspace.ku[0][face].abs() <= epsilon * absolute_expression,
+                "j={j}: interior Kux={} exceeds analytic zero-force allowance {}",
+                workspace.ku[0][face],
+                epsilon * absolute_expression
+            );
+        }
+    }
+
+    #[test]
     fn zero_viscosity_is_exact_identity_and_distinct_mu_changes_stress() {
         let mut zero = fixture([0.0, 0.0]);
         let before = zero.velocity.clone();

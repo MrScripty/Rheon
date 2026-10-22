@@ -136,7 +136,7 @@ impl Presentation {
             false,
             None,
             force_run_policy::Target::NativeCarrier,
-            Err(crate::voxel_material_setup::UNAVAILABLE.into()),
+            Err("Contents execution disabled in this fixture".into()),
         );
         if previous != self.app.scene.context {
             self.app.playing = false;

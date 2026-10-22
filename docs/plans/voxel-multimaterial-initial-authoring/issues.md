@@ -25,4 +25,8 @@
 
 | I17 | Native audit used an existing SQLite reader that permits recovery writes | Implementer / separate reviewer | Closed for clean protected-artifact audit: refuse all recovery sidecars/errors/symlinks before open; verify existing pinned database digest before and after all reads. No recovery, repin or numerical step. Separate rereview resolves R1; actual one-test artifact audit passed and all hashes remained unchanged. This is not an OS read-only descriptor or hostile-filesystem race guarantee |
 
+| I18 | M5 reconciliation found three unexecuted numerical oracles and broader prospective contrast wording | Implementer / separate numerical reviewer | Closed for numerical scope: three focused test-only cases passed with fixed criteria; independent R1/R2 rereview confirms unchanged production prefixes and admits explicit fixed-Q phase-refinement/separate contrast decomposition. No invented five-contrast refinement or calibrated-physics claim |
+
+| I19 | Publisher error-stage and fresh full/incomplete-draft process observations were missing | Implementer / separate desktop reviewer | Closed for focused data scope: six cfg(test) error boundaries in two passing fixtures, plus a passing no-solver fresh parent/child for both draft states. Separate source review finds no required correction. Physical power-loss and hostile-FS guarantees remain excluded |
+
 The uncertain earlier Library upload is preserved and is not retried. No implementation push/PR/merge has occurred. The approved implementation may prepare a reviewable PR, with sole-lead coordination and exact source/test review still required.

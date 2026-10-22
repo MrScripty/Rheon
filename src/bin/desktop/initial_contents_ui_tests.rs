@@ -366,7 +366,7 @@ fn panel_frame(
                 tool.controls(
                     ui,
                     true,
-                    Err(super::super::voxel_material_setup::UNAVAILABLE.into()),
+                    Err("Contents execution disabled in this fixture".into()),
                 )
             });
         },

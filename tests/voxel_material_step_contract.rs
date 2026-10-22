@@ -149,6 +149,70 @@ fn full_viscous_gravity_projection_preserves_hydrostatic_layers_and_pressure() {
 }
 
 #[test]
+fn off_midplane_hydrostatic_layers_preserve_rest_on_a_second_full_step_geometry() {
+    let n = 6usize;
+    let split = 2usize;
+    let spacing = [0.125, 0.2, 0.3];
+    let grid = GridGeometry::new([6; 3], spacing, [0.5, -0.25, 1.0]).unwrap();
+    let materials = MaterialPair::water_air();
+    let cell = |p: [usize; 3]| p[0] + n * (p[1] + n * p[2]);
+    for axis in 0..3 {
+        let fraction = (0..n * n * n)
+            .map(|index| {
+                let p = [index % n, index / n % n, index / (n * n)];
+                if p[axis] < split { 1.0 } else { 0.0 }
+            })
+            .collect::<Vec<_>>();
+        let mut gravity = [0.0; 3];
+        gravity[axis] = -9.81;
+        let mut sim =
+            VoxelMaterialSimulation::new(grid.clone(), materials, &fraction, config(gravity))
+                .unwrap();
+        for _ in 0..2 {
+            let report = sim.step(0.002, |_| false).unwrap();
+            assert!(report.projection.actual_divergence_max <= 1e-8);
+            for component in AXES {
+                assert!(
+                    sim.state()
+                        .velocity(component)
+                        .iter()
+                        .all(|u| u.abs() < 3e-10)
+                );
+            }
+            let pressure = sim.state().pressure().unwrap();
+            // Independent Cartesian half-column integration, including the
+            // off-midplane interface and the first/last interior wall edges.
+            let density = |p: [usize; 3]| {
+                if p[axis] < split {
+                    materials.liquid().density()
+                } else {
+                    materials.gas().density()
+                }
+            };
+            for k in 0..n {
+                for j in 0..n {
+                    for i in 0..n {
+                        let lower = [i, j, k];
+                        if lower[axis] == n - 1 {
+                            continue;
+                        }
+                        let mut upper = lower;
+                        upper[axis] += 1;
+                        let expected =
+                            0.5 * (density(lower) + density(upper)) * gravity[axis] * spacing[axis];
+                        let actual = pressure[cell(upper)] - pressure[cell(lower)];
+                        assert!(
+                            (actual - expected).abs() < 2e-6,
+                            "axis {axis}, lower {lower:?}: {actual} vs {expected}"
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[test]
 fn water_air_moves_and_conserves_each_frozen_phase_in_closed_box() {
     let (g, f) = vertical(8);
     let mut sim = VoxelMaterialSimulation::new(

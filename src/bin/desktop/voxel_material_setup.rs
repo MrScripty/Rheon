@@ -1,43 +1,27 @@
-//! Immutable native entry recipes. Availability remains gated by actual native
-//! end-to-end and whole-feature admission; these are not restart adapters.
+//! Ordinary immutable native entry recipes; these are not restart adapters.
 use crate::{App, Request, run_sets, scene_ui, voxel_material_execution};
 use run_sets::voxel_material::{
     ExecutionPolicy, FrozenInput, PressurePolicy,
     run_set::{VoxelRunSetMember, VoxelRunSetRevision, VoxelSetKind},
 };
 use std::sync::Arc;
-/// Normal UI remains unavailable until the canonical native/whole-feature gates.
-pub(crate) const AVAILABLE: bool = false;
-pub(crate) const UNAVAILABLE: &str =
-    "Voxel contents execution awaits actual native end-to-end qualification.";
 impl App {
-    /// Parse before the existing import/autostart side effects. Qualification is
-    /// temporary local debug UI transport; ordinary startup stays unavailable.
+    /// Parse before the existing import/autostart side effects.
     pub(super) fn configure_arguments(
         &mut self,
         arguments: impl IntoIterator<Item = String>,
     ) -> Result<bool, String> {
         let mut args = arguments.into_iter();
         let mut run = false;
-        let mut qualification = None;
-        let mut collision_option = false;
         while let Some(arg) = args.next() {
             match arg.as_str() {
-                "--qualify-voxel-material" => {
-                    if qualification.is_some() {
-                        return Err("Duplicate --qualify-voxel-material".into());
-                    }
-                    qualification=Some(args.next().filter(|p|!p.is_empty() && !p.starts_with("--")).ok_or("--qualify-voxel-material requires a protected local output directory")?);
-                }
                 "--collision-mesh" => {
-                    collision_option = true;
                     self.collision.path = args
                         .next()
                         .filter(|p| !p.is_empty() && !p.starts_with("--"))
                         .ok_or("--collision-mesh requires a local path")?;
                 }
                 "--collision-policy" => {
-                    collision_option = true;
                     self.collision.solid = match args.next().as_deref() {
                         Some("solid") => true,
                         Some("surface") => false,
@@ -45,44 +29,11 @@ impl App {
                     };
                 }
                 "--collision-run" => {
-                    collision_option = true;
                     run = true;
                     self.steps = 180;
                 }
                 _ => return Err(format!("Unknown argument: {arg}")),
             }
-        }
-        if let Some(output) = qualification {
-            if !cfg!(debug_assertions) {
-                return Err(
-                    "Voxel qualification argument is available only in a debug verification build"
-                        .into(),
-                );
-            }
-            if collision_option || run || !self.collision.path.is_empty() {
-                return Err(
-                    "Voxel qualification cannot be combined with collision or autostart options"
-                        .into(),
-                );
-            }
-            if output.len() > 4096 {
-                return Err("Qualification output directory exceeds 4096 bytes".into());
-            }
-            self.voxel_qualification = true;
-            self.size = 8;
-            self.domain_side = 1.0;
-            self.numerical_cells_per_metre = None;
-            self.steps = 8;
-            self.requested_dt = 0.001;
-            self.materials.config.gravity = [0.0, -9.80665, 0.0];
-            self.cylinder = false;
-            self.history_budget_mib = 16;
-            self.preview_resolution = crate::history::PreviewResolution::Adaptive;
-            self.recording_database_mib = 32;
-            self.recording_record_mib = 4;
-            self.recording_directory = output;
-            self.scene.open = true;
-            self.status="Native voxel qualification · create and paint Initial contents; no seed or simulation was started.".into();
         }
         Ok(run)
     }
@@ -166,17 +117,8 @@ impl App {
             failure_gate: None,
         })
     }
-    pub(super) fn voxel_execution_available(&self) -> bool {
-        AVAILABLE || self.voxel_qualification
-    }
-    pub(super) fn contents_run_readiness(&self) -> Result<(), String> {
-        if !self.voxel_execution_available() {
-            return Err(UNAVAILABLE.into());
-        }
-        self.contents_capture_readiness()
-    }
     /// One read-only structural admission shared by displayed readiness and freeze.
-    pub(super) fn contents_capture_readiness(&self) -> Result<(), String> {
+    pub(super) fn contents_run_readiness(&self) -> Result<(), String> {
         if self.closing
             || self.worker.is_some()
             || self.pending_voxel.is_some()
@@ -210,7 +152,7 @@ impl App {
     }
     /// No publication or numerical construction; a failed freeze preserves all owners.
     pub(super) fn capture_contents_request(&self) -> Result<Request, String> {
-        self.contents_capture_readiness()?;
+        self.contents_run_readiness()?;
         let editor = self
             .scene
             .contents

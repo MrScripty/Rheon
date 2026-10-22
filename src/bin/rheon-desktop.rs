@@ -1505,8 +1505,6 @@ struct App {
     running_request: Option<Request>,
     pending_voxel: Option<voxel_material_launch::PendingVoxel>,
     closing: bool,
-    /// Temporary verification-only availability transport; never saved into intent.
-    voxel_qualification: bool,
     history: Option<Arc<LiveHistory>>,
     viewport: viewport::Viewport,
     inspector_open: bool,
@@ -1566,7 +1564,6 @@ impl Default for App {
             running_request: None,
             pending_voxel: None,
             closing: false,
-            voxel_qualification: false,
             history: None,
             viewport: viewport::Viewport::default(),
             inspector_open: false,
@@ -2757,11 +2754,6 @@ impl App {
 }
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        if self.voxel_qualification {
-            egui::TopBottomPanel::top("voxel-qualification-label").show(ctx,|ui| {
-                ui.colored_label(egui::Color32::YELLOW,"Voxel native qualification · development gate pending · software/display evidence is scoped separately");
-            });
-        }
         if self.ai_comparison.is_some()
             || self.saved_comparison_active
             || self.run_sets.active
@@ -2818,8 +2810,7 @@ impl eframe::App for App {
                 }
                 return;
             }
-            let voxel_available = self.voxel_execution_available();
-            if let Some(revision) = self.run_sets.show(ctx, &mut self.archive, voxel_available) {
+            if let Some(revision) = self.run_sets.show(ctx, &mut self.archive) {
                 let result = match revision {
                     run_set_view::SavedRunSet::Native(set) => self.rerun_saved(set),
                     run_set_view::SavedRunSet::Configured(set) => self.rerun_configured(set),
@@ -3261,7 +3252,7 @@ mod tests {
         let context = egui::Context::default();
         let mut archive = archive_view::ArchiveView::default();
         let _ = context.run(egui::RawInput::default(), |ctx| {
-            let _ = view.show(ctx, &mut archive, false);
+            let _ = view.show(ctx, &mut archive);
         });
         // Opening an invalid manifest invalidates the previous member capability.
         view.path = root.join("missing.json").to_string_lossy().into();

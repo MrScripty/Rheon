@@ -641,6 +641,143 @@ mod tests {
         }
     }
     #[test]
+    fn manufactured_nonzero_dual_defect_has_the_conditional_uniform_velocity_error() {
+        let n = 8usize;
+        let mut state = state(n, materials(1000.0));
+        closed_patch(&mut state);
+        let dt = 0.01;
+        let mut workspace = TransportWorkspace::new(&state.grid, LIMIT).unwrap();
+        workspace.close_flux(&state, 1e-8, || false).unwrap();
+        workspace.build_phase_mass_flux(&state).unwrap();
+        let mut fraction = vec![0.0; n * n * n];
+        workspace.advect_phase(&state, dt, &mut fraction).unwrap();
+        let cell = |p: [usize; 3]| p[0] + n * (p[1] + n * p[2]);
+        let face = |d: usize, p: [usize; 3]| {
+            let mut dims = [n; 3];
+            dims[d] += 1;
+            p[0] + dims[0] * (p[1] + dims[1] * p[2])
+        };
+        let target = [4usize, 4, 3];
+        let lower = [3usize, 4, 3];
+        assert_eq!(state.liquid_fraction[cell(target)], 0.0);
+        let delta = 0.0001;
+        assert!(fraction[cell(target)] + delta < 1.0);
+        fraction[cell(target)] += delta;
+        assert!(fraction.iter().all(|f| (0.0..=1.0).contains(f)));
+        // Isolated algebraic kernel oracle: this deliberate candidate defect
+        // is not an accepted phase update or a new physical mass source.
+        let rho = |f: f64| f * 1000.0 + (1.0 - f) * 1.0;
+        let volume = state.grid.spacing().into_iter().product::<f64>();
+        let old_mass = state
+            .liquid_fraction
+            .iter()
+            .map(|&f| volume * rho(f))
+            .collect::<Vec<_>>();
+        let new_mass = fraction
+            .iter()
+            .map(|&f| volume * rho(f))
+            .collect::<Vec<_>>();
+        let mut defects = vec![0.0; n * n * n];
+        for k in 0..n {
+            for j in 0..n {
+                for i in 0..n {
+                    let p = [i, j, k];
+                    let mut outward = 0.0;
+                    for d in 0..3 {
+                        let mut hi = p;
+                        hi[d] += 1;
+                        outward += workspace.j[d][face(d, hi)] - workspace.j[d][face(d, p)];
+                    }
+                    let c = cell(p);
+                    defects[c] = new_mass[c] - old_mass[c] + dt * outward;
+                }
+            }
+        }
+        workspace.mass_defect.copy_from_slice(&defects);
+        let old_dual_mass = 0.5 * (old_mass[cell(lower)] + old_mass[cell(target)]);
+        let new_dual_mass = 0.5 * (new_mass[cell(lower)] + new_mass[cell(target)]);
+        let uniform = state.velocity[0][face(0, target)];
+        assert_eq!(uniform, 0.25);
+        // Independently assemble the six dual faces from Cartesian primary J.
+        let mut outward_mass = 0.0;
+        let mut outward_momentum = 0.0;
+        let mut absolute_mass_flux = 0.0;
+        let mut absolute_momentum_flux = 0.0;
+        for normal in 0..3 {
+            for upper_side in [false, true] {
+                let (first, second) = if normal == 0 {
+                    let mut neighbor = target;
+                    if upper_side {
+                        neighbor[0] += 1;
+                    } else {
+                        neighbor[0] -= 1;
+                    }
+                    (target, neighbor)
+                } else {
+                    let mut first = lower;
+                    let mut second = target;
+                    if upper_side {
+                        first[normal] += 1;
+                        second[normal] += 1;
+                    }
+                    (first, second)
+                };
+                let flux = 0.5
+                    * (workspace.j[normal][face(normal, first)]
+                        + workspace.j[normal][face(normal, second)]);
+                let signed = if upper_side { flux } else { -flux };
+                let mut donor = target;
+                if upper_side && flux < 0.0 {
+                    donor[normal] += 1;
+                }
+                if !upper_side && flux > 0.0 {
+                    donor[normal] -= 1;
+                }
+                let velocity = state.velocity[0][face(0, donor)];
+                if flux != 0.0 {
+                    assert_eq!(velocity, uniform);
+                }
+                outward_mass += signed;
+                outward_momentum += signed * velocity;
+                absolute_mass_flux += flux.abs();
+                absolute_momentum_flux += (signed * velocity).abs();
+            }
+        }
+        let residual = new_dual_mass - old_dual_mass + dt * outward_mass;
+        let half_cell_residual = 0.5 * (defects[cell(lower)] + defects[cell(target)]);
+        let epsilon = 256.0 * f64::EPSILON;
+        let mass_scale = old_dual_mass + new_dual_mass + dt * absolute_mass_flux;
+        assert!((residual - half_cell_residual).abs() <= epsilon * mass_scale);
+        assert!(
+            residual.abs() > 0.001,
+            "nonzero dual-defect case must be reached"
+        );
+        let mut output = faces(&state.grid).unwrap();
+        workspace
+            .advect_momentum(&state, &fraction, dt, &mut output)
+            .unwrap();
+        let actual_error = output[0][face(0, target)] - uniform;
+        let expected_error = -uniform * residual / new_dual_mass;
+        // Absolute product/evaluation scales cover old/new momentum, flux,
+        // residual cancellation and the final division/subtraction, rather
+        // than scaling only by the small final signed error.
+        let momentum_scale = (old_dual_mass * uniform).abs()
+            + (new_dual_mass * uniform).abs()
+            + dt * absolute_momentum_flux
+            + uniform.abs() * mass_scale
+            + (uniform * residual).abs();
+        let allowance =
+            epsilon * (momentum_scale / new_dual_mass + uniform.abs() + expected_error.abs());
+        assert!(expected_error.abs() > 1e-6 && actual_error.abs() > 1e-6);
+        assert!(
+            (actual_error - expected_error).abs() <= allowance,
+            "actual velocity error {actual_error}, expected {expected_error}, allowance {allowance}"
+        );
+        let direct_momentum = (old_dual_mass * uniform - dt * outward_momentum) / new_dual_mass;
+        assert!((output[0][face(0, target)] - direct_momentum).abs() <= allowance);
+    }
+
+    #[test]
     fn finite_residual_correction_keeps_pure_phase_bounded() {
         let mut s = state(4, MaterialPair::water_air());
         s.liquid_fraction.fill(1.0);

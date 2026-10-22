@@ -335,7 +335,7 @@ fn force_retained_track_projection_is_readonly_and_clears_same_id_selection() {
             false,
             None,
             force_run_policy::Target::NativeCarrier,
-            Err(crate::voxel_material_setup::UNAVAILABLE.into()),
+            Err("Contents execution disabled in this fixture".into()),
         )
     });
     assert!(

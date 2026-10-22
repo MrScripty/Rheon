@@ -963,11 +963,35 @@ fn read_document(path: &Path, max_bytes: u64) -> Result<Vec<u8>, RunSetError> {
     }
     Ok(bytes)
 }
+#[cfg(test)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+enum PublicationFailure {
+    BeforeStage,
+    BeforeFlush,
+    BeforeLink,
+    FirstDirectorySync,
+    RemoveTemporary,
+    FinalDirectorySync,
+}
 /// Atomic no-replace publication on caller-owned local filesystems supporting
 /// hard links and directory sync. Protect every path component from concurrent
 /// replacement throughout use. Existing data and abandoned temporary files are
 /// never overwritten as recovery. Interrupted staging is not authoritative.
 pub(crate) fn publish_new(path: &Path, bytes: &[u8], max_bytes: u64) -> Result<(), RunSetError> {
+    publish_new_impl(
+        path,
+        bytes,
+        max_bytes,
+        #[cfg(test)]
+        None,
+    )
+}
+fn publish_new_impl(
+    path: &Path,
+    bytes: &[u8],
+    max_bytes: u64,
+    #[cfg(test)] failure: Option<PublicationFailure>,
+) -> Result<(), RunSetError> {
     if max_bytes == 0 || max_bytes == u64::MAX {
         return Err(RunSetError::Invalid("document byte limit"));
     }
@@ -985,23 +1009,59 @@ pub(crate) fn publish_new(path: &Path, bytes: &[u8], max_bytes: u64) -> Result<(
         std::process::id(),
         NEXT.fetch_add(1, Ordering::Relaxed)
     ));
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::BeforeStage) {
+        return Err(std::io::Error::other("injected before staging").into());
+    }
     let mut file = OpenOptions::new()
         .write(true)
         .create_new(true)
         .open(&temporary)?;
-    let staged = file.write_all(bytes).and_then(|()| file.sync_all());
+    let staged = file.write_all(bytes).and_then(|()| {
+        #[cfg(test)]
+        if failure == Some(PublicationFailure::BeforeFlush) {
+            return Err(std::io::Error::other("injected staging flush failure"));
+        }
+        file.sync_all()
+    });
     drop(file);
     if let Err(error) = staged {
         return Err(RunSetError::Io(error));
     }
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::BeforeLink) {
+        return Err(std::io::Error::other("injected before publication").into());
+    }
     fs::hard_link(&temporary, path)?;
     // Once linked, errors mean the durable publication outcome needs inspection.
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::FirstDirectorySync) {
+        return Err(RunSetError::PublicationUncertain(std::io::Error::other(
+            "injected first directory sync failure",
+        )));
+    }
     directory
         .sync_all()
         .map_err(RunSetError::PublicationUncertain)?;
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::RemoveTemporary) {
+        return Err(RunSetError::PublicationUncertain(std::io::Error::other(
+            "injected temporary unlink failure",
+        )));
+    }
     fs::remove_file(&temporary).map_err(RunSetError::PublicationUncertain)?;
+    #[cfg(test)]
+    if failure == Some(PublicationFailure::FinalDirectorySync) {
+        return Err(RunSetError::PublicationUncertain(std::io::Error::other(
+            "injected final directory sync failure",
+        )));
+    }
     directory
         .sync_all()
         .map_err(RunSetError::PublicationUncertain)?;
     Ok(())
 }
+
+#[cfg(test)]
+#[path = "run_sets_publish_tests.rs"]
+mod publication_tests;

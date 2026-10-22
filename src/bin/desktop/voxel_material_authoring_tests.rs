@@ -602,7 +602,7 @@ fn scene_frame(
                 false,
                 None,
                 crate::force_run_policy::Target::NativeCarrier,
-                Err(crate::voxel_material_setup::UNAVAILABLE.into()),
+                Err("Contents execution disabled in this fixture".into()),
             );
             if service {
                 app.service_draft_file_action(ctx);

@@ -134,24 +134,41 @@ fn panel(
 }
 
 #[test]
-fn ordinary_startup_and_valid_contents_remain_unavailable_without_qualification() {
+fn ordinary_startup_does_not_seed_and_valid_contents_controls_route_voxel_intent() {
     let mut ordinary = App::default();
     assert!(!ordinary.configure_arguments(Vec::<String>::new()).unwrap());
-    assert!(!ordinary.voxel_qualification);
+    assert_eq!(
+        (ordinary.size, ordinary.steps, ordinary.requested_dt),
+        (32, 1024, 0.02)
+    );
+    assert!(ordinary.cylinder);
     assert!(ordinary.worker.is_none() && ordinary.scene.contents.editor.is_none());
     let mut app = app();
-    app.contents_capture_readiness().unwrap();
-    assert!(
-        app.contents_run_readiness()
-            .unwrap_err()
-            .contains("qualification")
-    );
+    app.contents_run_readiness().unwrap();
     let target = PathBuf::from(&app.recording_directory);
     let ctx = context();
     let _ = global(&mut app, &ctx, vec![]);
     let (output, _) = global(&mut app, &ctx, vec![]);
     let pos = button_center(&output, "Simulate contents");
     assert!(global(&mut app, &ctx, pointer(pos, true)).1.is_none());
+    assert!(matches!(
+        global(&mut app, &ctx, pointer(pos, false)).1,
+        Some(SetupAction::RunContents)
+    ));
+    let ctx = context();
+    let _ = panel(&mut app, &ctx, vec![], true);
+    let output = panel(&mut app, &ctx, vec![], true);
+    let pos = button_center(&output, "Simulate contents");
+    panel(&mut app, &ctx, pointer(pos, true), true);
+    panel(&mut app, &ctx, pointer(pos, false), true);
+    assert!(app.scene.contents.run_requested);
+    app.scene.contents.run_requested = false;
+    remove_cell(&mut app);
+    let ctx = context();
+    let _ = global(&mut app, &ctx, vec![]);
+    let (output, _) = global(&mut app, &ctx, vec![]);
+    let pos = button_center(&output, "Simulate contents");
+    global(&mut app, &ctx, pointer(pos, true));
     assert!(global(&mut app, &ctx, pointer(pos, false)).1.is_none());
     let ctx = context();
     let _ = panel(&mut app, &ctx, vec![], true);
@@ -161,44 +178,6 @@ fn ordinary_startup_and_valid_contents_remain_unavailable_without_qualification(
     panel(&mut app, &ctx, pointer(pos, false), true);
     assert!(!app.scene.contents.run_requested);
     assert!(app.worker.is_none() && app.history.is_none() && !target.exists());
-}
-
-#[cfg(debug_assertions)]
-#[test]
-fn explicit_debug_arguments_select_bounded_defaults_without_document_or_output() {
-    let output = voxel_material_integration_tests::root().join("debug-opt-in-no-output");
-    let mut app = App::default();
-    assert!(
-        !app.configure_arguments(vec![
-            "--qualify-voxel-material".into(),
-            output.to_string_lossy().into()
-        ])
-        .unwrap()
-    );
-    assert!(app.voxel_qualification);
-    assert_eq!(app.recording_directory, output.to_string_lossy());
-    assert_eq!(
-        (app.size, app.domain_side, app.steps, app.requested_dt),
-        (8, 1.0, 8, 0.001)
-    );
-    assert_eq!(app.materials.config.gravity, [0.0, -9.80665, 0.0]);
-    assert_eq!(
-        (
-            app.history_budget_mib,
-            app.recording_database_mib,
-            app.recording_record_mib
-        ),
-        (16, 32, 4)
-    );
-    assert!(!app.cylinder);
-    assert!(
-        app.scene.contents.editor.is_none()
-            && app.worker.is_none()
-            && app.pending_voxel.is_none()
-            && app.running_request.is_none()
-            && app.history.is_none()
-    );
-    assert!(!output.exists());
 }
 
 #[test]
@@ -214,44 +193,24 @@ fn argument_refusals_precede_collision_import_autostart_and_output() {
         .into_owned();
     let cases = [
         arguments(&["--qualify-voxel-material"]),
-        arguments(&["--qualify-voxel-material", ""]),
-        arguments(&["--qualify-voxel-material", "--collision-run"]),
-        arguments(&[
-            "--qualify-voxel-material",
-            &output,
-            "--qualify-voxel-material",
-            &output,
-        ]),
-        arguments(&["--qualify-voxel-material", &output, "--unknown-option"]),
-        arguments(&["--qualify-voxel-material", &output, "--collision-run"]),
-        arguments(&["--collision-run", "--qualify-voxel-material", &output]),
-        arguments(&[
-            "--qualify-voxel-material",
-            &output,
-            "--collision-policy",
-            "surface",
-        ]),
+        arguments(&["--qualify-voxel-material", &output]),
+        arguments(&["--unknown-option"]),
+        arguments(&["--collision-mesh"]),
+        arguments(&["--collision-policy"]),
+        arguments(&["--collision-policy", "invalid"]),
         arguments(&[
             "--collision-mesh",
             &missing_mesh,
             "--qualify-voxel-material",
             &output,
         ]),
-        arguments(&["--collision-policy"]),
     ];
     for values in cases {
         let mut app = App::default();
         let error = app.configure_arguments(values.clone()).unwrap_err();
         assert!(!error.is_empty(), "{values:?}");
-        if values
-            .iter()
-            .any(|value| value == "--qualify-voxel-material")
-            && values.iter().any(|value| value == "--collision-mesh")
-        {
-            assert!(
-                error.to_ascii_lowercase().contains("qualif"),
-                "conflict must precede import: {error}"
-            );
+        if values.iter().any(|v| v == "--qualify-voxel-material") {
+            assert_eq!(error, "Unknown argument: --qualify-voxel-material");
         }
         assert!(
             app.worker.is_none()
@@ -281,7 +240,7 @@ fn legacy_collision_argument_assignment_remains_separate_from_import_and_start()
         ]))
         .unwrap()
     );
-    assert!(!app.voxel_qualification && !app.collision.solid);
+    assert!(!app.collision.solid);
     assert_eq!(app.collision.path, "last-not-imported.obj");
     assert_eq!(app.steps, 180);
     assert!(app.worker.is_none() && app.collision.mesh.is_none());
@@ -291,10 +250,10 @@ fn legacy_collision_argument_assignment_remains_separate_from_import_and_start()
 fn shared_capture_readiness_refuses_current_vacuum_active_unsupported_and_closing_state() {
     let mut app = app();
     let target = PathBuf::from(&app.recording_directory);
-    app.contents_capture_readiness().unwrap();
+    app.contents_run_readiness().unwrap();
     app.cylinder = true;
     assert!(
-        app.contents_capture_readiness()
+        app.contents_run_readiness()
             .unwrap_err()
             .contains("emitter")
     );
@@ -307,17 +266,13 @@ fn shared_capture_readiness_refuses_current_vacuum_active_unsupported_and_closin
     app.cylinder = false;
     app.setup_workflow = SetupWorkflow::AcceptedSession;
     assert!(
-        app.contents_capture_readiness()
+        app.contents_run_readiness()
             .unwrap_err()
             .contains("configured")
     );
     app.setup_workflow = SetupWorkflow::Preview;
     remove_cell(&mut app);
-    assert!(
-        app.contents_capture_readiness()
-            .unwrap_err()
-            .contains("Vacuum")
-    );
+    assert!(app.contents_run_readiness().unwrap_err().contains("Vacuum"));
     assert!(
         app.capture_contents_request()
             .err()
@@ -336,12 +291,12 @@ fn shared_capture_readiness_refuses_current_vacuum_active_unsupported_and_closin
             depth: BrushDepth::Layer,
         })
         .unwrap();
-    assert!(app.contents_capture_readiness().is_err());
+    assert!(app.contents_run_readiness().is_err());
     assert!(app.capture_contents_request().is_err());
     app.scene.contents.editor.as_mut().unwrap().cancel();
-    app.contents_capture_readiness().unwrap();
+    app.contents_run_readiness().unwrap();
     app.closing = true;
-    assert!(app.contents_capture_readiness().is_err());
+    assert!(app.contents_run_readiness().is_err());
     assert!(app.capture_contents_request().is_err());
     assert!(app.worker.is_none() && !target.exists());
 }
@@ -349,7 +304,6 @@ fn shared_capture_readiness_refuses_current_vacuum_active_unsupported_and_closin
 #[test]
 fn enabled_global_button_dispatches_voxel_worker_and_panel_revalidates_queued_intent() {
     let mut app = app();
-    app.voxel_qualification = true;
     app.contents_run_readiness().unwrap();
     let ctx = context();
     let _ = global(&mut app, &ctx, vec![]);
@@ -378,7 +332,6 @@ fn enabled_global_button_dispatches_voxel_worker_and_panel_revalidates_queued_in
     assert!(app.running_request.as_ref().unwrap().material.is_none());
 
     let mut panel_app = self::app();
-    panel_app.voxel_qualification = true;
     let target = PathBuf::from(&panel_app.recording_directory);
     let ctx = context();
     let _ = panel(&mut panel_app, &ctx, vec![], false);
@@ -404,3 +357,6 @@ fn enabled_global_button_dispatches_voxel_worker_and_panel_revalidates_queued_in
 
 #[path = "voxel_material_native_audit.rs"]
 mod audit;
+
+#[path = "voxel_material_ordinary_audit.rs"]
+mod ordinary_audit;

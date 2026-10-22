@@ -366,7 +366,7 @@ impl SceneUi {
             return Err("Finish or cancel the contents stroke before running".into());
         }
         if self.contents_selected() {
-            return Err("Initial contents execution and immutable saved input are unavailable until M4 acceptance; this draft cannot launch a legacy method".into());
+            return Err("Initial contents cannot launch a legacy method; use Simulate contents for the voxel method".into());
         }
         if self.editing() {
             return Err("Finish or cancel the force edit before running".into());
@@ -742,7 +742,7 @@ mod tests {
                     false,
                     None,
                     super::super::force_run_policy::Target::NativeCarrier,
-                    Err(super::super::voxel_material_setup::UNAVAILABLE.into()),
+                    Err("Contents execution disabled in this fixture".into()),
                 );
                 available = ctx.available_rect();
             },
@@ -1257,7 +1257,7 @@ mod tests {
                         false,
                         None,
                         target,
-                        Err(super::super::voxel_material_setup::UNAVAILABLE.into()),
+                        Err("Contents execution disabled in this fixture".into()),
                     )
                 },
             );
