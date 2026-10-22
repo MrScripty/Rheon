@@ -1,0 +1,27 @@
+{
+  "schema": "rheon-pr138-source-admission-review-input-v1",
+  "dependency_head": "dbd49d3e41c482a753884abc8aaaff7d1b0d0653",
+  "retained_pr138_head": "a6bfcc94481b1bafbe61be804a1abc3426927bbd",
+  "authority_comment": "https://github.com/MrScripty/Rheon/pull/138#issuecomment-6328266160",
+  "selector_count": 152,
+  "added": [],
+  "removed": [],
+  "unchanged_count": 150,
+  "changed": {
+    "Cargo.lock": {
+      "lead_sha256": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+      "composed_sha256": "e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f"
+    },
+    "Cargo.toml": {
+      "lead_sha256": "f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae",
+      "composed_sha256": "997fb098f13c60e4f85ead3f5f7f2527f87ad1cba04fdac82d0bfb24959fca3a"
+    }
+  },
+  "canonical_source_map_sha256": "9a10497158827e189fe505f65e1aa203cd8a28fe894c469408977071b055375f",
+  "inventory_sha256": "e3ac26c5c62b909aa1ef1384b8e0baffb5587e14c1794f02f0e68ae655d14195",
+  "review_sha256": "b4e7fcaf0c33b9e220fc7626d04969a95b31767897e9779eee850a9cfd71d0f9",
+  "historical_dependency_review_prefix_bytes": 111676,
+  "preserved_pr138_q2_suffix_sha256": "da0f2cf753fac7ee575474ecc7992e487ffca3c1619d643b39fe4b31ec907dac",
+  "sealed_campaigns_rerun": false,
+  "status": "pending_independent_review"
+}

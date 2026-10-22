@@ -292,6 +292,35 @@ logs and actual preparatory desktop ELF remain outside Git. Clean committed
 qualification below will execute the full ordinary feature suites separately.
 
 
+## 2026-10-20 — separate exact-reference Cargo closure and fresh qualification
+
+Fixed PR133 remains at `8bf542e` with actual execution `9c04278` unchanged. A separate dependent worktree/branch integration/q2-reference-admission-20261020 retains exact PR132/e6525a1 and PR134/f84f651. Complete independent source/dependency review approves 135 selected inputs: 0 added, 2 Cargo changes, 133 unchanged, 0 removed. All previous registry identities/checksums remain; three new locked dev identities and actual official archive/license bytes were reviewed. Existing v3 schema/base/predecessors/primary/selector/refusals and prior bound review prefix remain exact. Metadata commit ba16197 and independently reviewed protocol-spacing-only follow-up `9a9904f` precede qualification; no history rewrite or later bound-metadata edit.
+
+Clean `9a9904f`/tree `488ab45` passes all 18 unchanged native qualifier commands (35 Rust tests, five fresh native/rational/adversarial specimens, gate 5+5 and oracle 10+10), a new actual packet with 26 normal+26 optimized tests/no skips, and 83 focused no-default checks (23 workflow, 9 native-family, 14 composition, 23 volume, 3 doctests, 2 coupled-reference, 9 exact-geometry). Actual executable/receipt, 1472 committed source identities, 60 raw evidence files, environment and exact commands are retained. The known fixed five-artifact regression completed normally in the 186.08s geometry suite; no scientific campaign was rerun. Independent execution audit verifies all selected/full source and archive/ELF hashes with no findings. Raw 913699-byte ZIP SHA256 fa0db9c9e6f98a8c2d98b89967053537c8a2e74237c34276c84614b76bbff16c is saved privately in Library as libfile_3ee285ef166c8191b648475efb676b1c/version0. Detailed protocol, compact manifest, source and final reviews are in reports/q2-admission-20261020/.
+
+PR132's fixed-corpus exact topology result and PR134's eight aligned coupled-algebra cases remain attributed to their own tested sources `0f4e7e0` and `06b3190`. General cut/free-surface velocity spaces, extension, physical traction/boundary lift and coupled PDE/production-water gates remain with the numerical owner. PR136/e56bc7b C1-B2 runtime/custody is delivered separately; its 140-input admission and assigned legacy G1 cancellation-label repair are pending and excluded here. The grid→particle/output-surface→later Lagrangian priority remains unchanged.
+
+After independent readiness and nine green checks, automatic approval rejected PR121 and the single requested retry, applying the original trusted no-merge delegation over tool-relayed confirmation. PR121 remains unmerged; no alternate path or further retry was used. Earlier verified PR120/119 merges remain facts. Public merges are paused; review, evidence publication and independent admissions continue without changing another owner's implementation.
+
+A later exact remote read confirms draft PR135 at 4f8bd22669efed62e84c0062ee1baec27393e830, frozen numerical source 6d99e7794a6aa69f5886bb15cc662e40ea43cd40, stacked on 134. The owner reports four native CV1 fixtures plus independent exact reconstruction, ten contracts in each debug/release configuration, strict Clippy/format and 45 evaluator checks passing. This qualifies only bounded cut-cell operators/physical traces. Square mass condition 6.53e11 leaves coupled conditioning, mixed-pair stability and PDE accuracy open, with the next bounded gate assigned to the numerical owner. PR135 is excluded from the 135-input 9a9904f execution and no physical criterion is changed.
+
+Final independent documentation review clarifies that the later reproduced legacy G1 advection-cancellation label defect also exists in unchanged fixed `9c04278`/`9a9904f` paths: no publication occurs, but the attempt is labelled Failed despite cancellation. Passing 23 workflow tests do not resolve that uncovered path. Full G1-C outcome-label acceptance remains open; only the assigned repair and new B2 source are excluded from these fixed qualification subjects.
+
+
+## 2026-10-21 — PR138 preliminary serial composition
+
+Fresh user authorization and lead comments6328139025/6328266160 admit a bounded
+PR138 composition against frozen PR142/dbd49d3 while its ordinary gates run.
+The original PR138/a6bfcc9 and exact PR132/134 ancestry remain; product, thermal,
+UI and fixture source comes unchanged from PR142. All seven shared-document
+conflicts preserve later lead dispositions and original Q2 evidence/history.
+The old PR142 inventory refused changed Cargo.lock before numerical execution;
+its failure log remains external. Complete selector review identifies152 paths,
+0 added, 2 Cargo changes, 150 unchanged, 0 removed. Independent admission review
+and fresh committed-source qualification are next; final merged-main verification
+and normal merge remain with the lead. No scientific campaign is rerun.
+
+
 ## 2026-10-21 — PR142 exact source qualification and evidence reconciliation
 
 Committed source `dbd49d3e41c482a753884abc8aaaff7d1b0d0653`, tree

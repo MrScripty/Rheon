@@ -1,16 +1,16 @@
 {
   "schema": "rheon-reviewed-aligned-strain-native-sources-v3",
   "reviewed_base": "21d4122c3d0edb2ca5c3ce089175c70035d737a3",
-  "scope": "Independently reviewed PR142 plus main15026a9 and bounded test fixture directory collision repair: complete152-path closure. Explicit v3 refresh requires fresh clean committed native/rational/packet and supported ordinary feature contracts; historical receipts remain source-bound, scientific/GUI/performance/production acceptance separate.",
+  "scope": "Explicit PR138 reference/dev-dependency composition with reviewed PR142 dbd49d3: complete152-path closure,0added/2Cargochanged/150same/0removed. Fresh clean preliminary native/rational/real-packet and affected ordinary qualification required; final merged-main verification and lead merge remain gated. Historical scientific/physical/GUI/performance limits preserved.",
   "preserved_inventory_sha256": {
     "docs/education/aligned-strain-native-sources.json": "84c036618b32de66623d8ded24ae8cf95194457e36b9a130087a9c2bf3bd3f6a",
     "docs/education/aligned-strain-native-sources-runtime-20261013.json": "6ada2133501aab449ed7ee73f802d8a4593db50c857f0a8f8ce2af4507721d6d"
   },
   "review_record": "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md",
-  "review_sha256": "014e19aac55f3fceae1edef9deff8c41337b5c3ca3db655ba07b978b562fb28e",
+  "review_sha256": "b4e7fcaf0c33b9e220fc7626d04969a95b31767897e9779eee850a9cfd71d0f9",
   "source_sha256": {
-    "Cargo.lock": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
-    "Cargo.toml": "f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae",
+    "Cargo.lock": "e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f",
+    "Cargo.toml": "997fb098f13c60e4f85ead3f5f7f2527f87ad1cba04fdac82d0bfb24959fca3a",
     "examples/aligned_strain.rs": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
     "rust-toolchain.toml": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
     "src/advection.rs": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",

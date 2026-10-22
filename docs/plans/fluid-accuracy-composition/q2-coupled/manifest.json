@@ -1,0 +1,26 @@
+{
+  "numerical_source_commit": "06b31902fd229624080bff1562f80beb1be2449c",
+  "binary_sha256": "2e6dce9e317aa157d41ae05f8ba29c6a8ed4df51f8fcb7c88bd96f6294cbef93",
+  "source_archive_sha256": "8cb96557b1b401167d979a3587fa4175b26a9f53a34bcfff93ebdf92e238fff7",
+  "native_exit_code": 0,
+  "cases": 8,
+  "selected_debug_tests": 2,
+  "selected_release_tests": 2,
+  "independent_oracle_sha256": "b76e7c926d5746aa76bbf2a60d768443b97f7cb4c31e5c2f072a82af117b8d3f",
+  "independent_result_sha256": "284417cca5ba7cae4020b475cdeafe8f7ca31f6a88e3e209afc09c17bca5da99",
+  "independent_review_sha256": "159c818739defdb3ebf393469c080c95fb3f3dd251fcf138e7487828a2e9be7c",
+  "independent_hash_manifest_sha256": "89631999bba71d7cd8d17b6b78274d46f89b4e8b67d8fd11f0f3864ed1a82004",
+  "evaluator_sha256": "a129ae79ed54f520883d508a0a3c2cc4d72b5540079d6d28aa7461088d71b336",
+  "custody": "Archive created once, CRC checked, independent review/manifest hashes match final reviewer receipt, saved privately to Library with local identity persisted.",
+  "archive": {
+    "path": "/workspace/rheon-q2-aligned-coupled-06b3190.zip",
+    "bytes": 6469513,
+    "sha256": "550bc5173f14939deed7666e348a95edc0ea1474cd80112578cdd7c3dbc79fa5",
+    "library": {
+      "library_file_id": "libfile_dc54eac485448191815068901b1b2332",
+      "file_id": "file_00000000c4748230aef762e6b63a0be1",
+      "current_version_number": 0,
+      "path": "/rheon-q2-aligned-coupled-06b3190.zip"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "new_dependencies": [
+    {
+      "name": "num-bigint",
+      "version": "0.4.8",
+      "checksum": "c89e69e7e0f03bea5ef08013795c25018e101932225a656383bd384495ecc367",
+      "verified_official_crate_bytes": 109961,
+      "official_archive_url": "https://static.crates.io/crates/num-bigint/num-bigint-0.4.8.crate",
+      "license": "MIT OR Apache-2.0",
+      "license_sha256": {
+        "LICENSE-MIT": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+        "LICENSE-APACHE": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+      },
+      "declared_rust_version": "1.60",
+      "root_build_rs": [],
+      "defaults": [
+        "std"
+      ]
+    },
+    {
+      "name": "num-integer",
+      "version": "0.1.47",
+      "checksum": "7ce2d95d4b3734dc35aa2f45e1aa22cd416814592a4f9d9205e11affd5b8e10b",
+      "verified_official_crate_bytes": 23502,
+      "official_archive_url": "https://static.crates.io/crates/num-integer/num-integer-0.1.47.crate",
+      "license": "MIT OR Apache-2.0",
+      "license_sha256": {
+        "LICENSE-MIT": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+        "LICENSE-APACHE": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+      },
+      "declared_rust_version": "1.31",
+      "root_build_rs": [],
+      "defaults": [
+        "std"
+      ]
+    },
+    {
+      "name": "num-rational",
+      "version": "0.4.2",
+      "checksum": "f83d14da390562dca69fc84082e73e548e1ad308d24accdedd2720017cb37824",
+      "verified_official_crate_bytes": 28159,
+      "official_archive_url": "https://static.crates.io/crates/num-rational/num-rational-0.4.2.crate",
+      "license": "MIT OR Apache-2.0",
+      "license_sha256": {
+        "LICENSE-MIT": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+        "LICENSE-APACHE": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+      },
+      "declared_rust_version": "1.60",
+      "root_build_rs": [],
+      "defaults": [
+        "num-bigint",
+        "std"
+      ]
+    }
+  ],
+  "existing_num_traits": "0.2.19 is unchanged already locked; now direct dev requirement",
+  "removed_identities": [],
+  "old_registry_checksum_changes": [],
+  "only_existing_package_record_changed": "rheon direct dev dependency edges"
+}

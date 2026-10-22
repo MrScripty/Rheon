@@ -21,6 +21,14 @@ Evidence-kind, environment and mode qualify each claim independently; a stronger
 | Q-E | Capillary and wall work correctness | numerical integration | representative native CPU admitted family / automated | Physics owner | pending — production Deferred/unimplemented |
 | V1-X | Agreement with independent water/obstacle experiment | integration — scientific observation comparison | required-real retained observations + representative native solver / automated analysis and independent review | Scientific verification owner | blocked — specified V1 inputs/support only |
 
+PR138's lead-authorized preliminary composition with frozen PR142 `dbd49d3`
+retains every non-Cargo selected identity in that reviewed 152-path closure.
+Fresh complete-source admission, native/rational/real-packet and fixed affected
+contract checks are pending in [its protocol](pr138-integration-20261021/protocol.md).
+The historical Q2 scientific results and later C1/CV dispositions above remain
+source-bound. No combined-source or merged-main qualification is claimed yet;
+final readiness requires verified dependency integration and the lead's merge.
+
 The long-term order is existing voxel/grid qualification, then a particle solver and particle-to-surface reconstruction, then a later Lagrangian finite-element-style family. The future surface output and material volume/connectivity mesh are distinct contracts; neither future phase is implemented or qualified by this register.
 
 No CUDA, release-artifact or arbitrary native/browser parity claim is selected by P0. A later shipped release adds release-artifact checks appropriate to its actual packaging contract. Keep this register synchronized at slice acceptance, not at every commit.

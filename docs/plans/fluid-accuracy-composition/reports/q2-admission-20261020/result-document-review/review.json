@@ -1,0 +1,279 @@
+{
+  "actual_ELF_sha256": "e12fe3ecd5f5f96cd30e30cba9e1f5e25fd9c263033314554cebe44cf97e94d8",
+  "archive": {
+    "bytes": 913699,
+    "library": {
+      "current_version_number": 0,
+      "file_id": "file_00000000657881fdad2fb080f534d06d",
+      "file_name": "rheon-q2-reference-stage-9a9904f.zip",
+      "library_file_id": "libfile_3ee285ef166c8191b648475efb676b1c",
+      "path": "/rheon-q2-reference-stage-9a9904f.zip"
+    },
+    "path": "/workspace/rheon-q2-reference-stage-9a9904f.zip",
+    "sha256": "fa0db9c9e6f98a8c2d98b89967053537c8a2e74237c34276c84614b76bbff16c"
+  },
+  "copied_original_admission_receipts_byte_exact": true,
+  "decision": "APPROVED_EXACT_THIRTEEN_DOCUMENT_PATHS_FOR_RESULT_COMMIT_AND_DRAFT_REVIEW",
+  "evidence_files_and_archive_members_verified": 60,
+  "executed_source_head": "9a9904f3c6f0f96cbe2af9210a0c578f825ccee0",
+  "executed_source_tree": "488ab45ed7151d20d17adba519d587550b1e983e",
+  "findings": [],
+  "local_links": [
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/integration-20261020.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/q2-admission-20261020/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/architecture.md#standards-and-composed-design-admission"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/g1-qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/architecture.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/architecture.md#standards-and-composed-design-admission"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/g1-qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/native-admission-20261020/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/c1a-qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/c1-readiness.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/verification.md#replacement-contract-gates"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/verification.md#particle-wall-and-equilibrium-gates"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/integration-20261020.md#retained-numerical-evidence-and-selected-route"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/c1-readiness.md#frozen-first-slice-write-set"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/verification.md#claim-register"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/architecture.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/mathematics.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/verification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/workflow-preview.html"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "reports/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "issues.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/plan.md",
+      "target": "execution-ledger.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/issues.md",
+      "target": "reports/g1-qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/issues.md",
+      "target": "reports/native-admission-20261020/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/verification.md",
+      "target": "native-admission-20261020/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/verification.md",
+      "target": "g1-qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/verification.md",
+      "target": "c1a-qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/verification.md",
+      "target": "q2-admission-20261020/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/verification.md",
+      "target": "g1-qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/integration-20261020.md",
+      "target": "native-admission-20261020/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/integration-20261020.md",
+      "target": "q2-admission-20261020/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/integration-20261020.md",
+      "target": "native-admission-20261020/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/integration-20261020.md",
+      "target": "q2-admission-20261020/qualification.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md",
+      "target": "final-admission-review.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md",
+      "target": "final-admission-protocol-spacing-followup.json"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md",
+      "target": "source-review/readiness-review.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md",
+      "target": "qualification-9a9904f-review.md"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md",
+      "target": "summary-custody-followup.json"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md",
+      "target": "qualification.json"
+    },
+    {
+      "exists": true,
+      "source": "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification-9a9904f-review.md",
+      "target": "qualification-9a9904f-review.json"
+    }
+  ],
+  "manifest_sha256": "ddad48dbe6ab70d8d4444da3b594b7e9ce5b5bfeaaf942a9060a692147537f3a",
+  "original_deciding_criteria_preserved": true,
+  "prepared_document_sha256": {
+    "docs/plans/fluid-accuracy-composition/execution-ledger.md": "e22f530be954001339d01526328e4931076f60be0b7150ff04d1decb38567e1f",
+    "docs/plans/fluid-accuracy-composition/issues.md": "b2000b2e8f54435ff704608c74a08e5549f1af7fe853c1ded3c6d571a5b70f96",
+    "docs/plans/fluid-accuracy-composition/plan.md": "85d69fa018cb914e02709d2c2058c19a40fa7fc42154a85a2224577e9485f5e0",
+    "docs/plans/fluid-accuracy-composition/reports/integration-20261020.md": "7e92245f9025b9b1b5cc9d14e5bab0d61494d818de28f1210b9ad2193b64f827",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/final-admission-protocol-spacing-followup.json": "617b626ae8084756fd65dc5400057eb6b6b75f16ef15f971d3b8bcfd2f72ff63",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/final-admission-review.json": "cf7d3accfa44c6a3f7b1edba3fae3e15c419cf105163d575578456cc1f1c706b",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/final-admission-review.md": "f59bd164f57565b81d366358292e669bddba0d2aebbaee3d91189892c8ac78e4",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification-9a9904f-review.json": "b84867b128c7d91defd6c974a7f1d270d7cfc2fe155b57420903c432f1138a7c",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification-9a9904f-review.md": "8771da15fe4a8cc4ba0c150f9b8d592da03d6fc1134d5ee670ae602f2bed61e3",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.json": "ddad48dbe6ab70d8d4444da3b594b7e9ce5b5bfeaaf942a9060a692147537f3a",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/qualification.md": "60bc8789f5d0bc06dc00655c053b44c6624310e2af7ca4aa4b46e6b7039aa22f",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/summary-custody-followup.json": "90bb8c6995e36c2f1c66400c46921a34284b98b0ba3eebaa636408de0cf4accc",
+    "docs/plans/fluid-accuracy-composition/reports/verification.md": "63d9d1139231c40338e29989e73dfdd7c4bb141fe4f7ff699506f821cfc08e9d"
+  },
+  "preserved_original_audit_summary_sha256": "7faa36f7bf03cb5234ea9c3eee3207313bf8b20f0367be7f3113ec50062fee21",
+  "qualified_source_hashes_verified": 1472,
+  "raw_log_counts": {
+    "borrow-doctests.log": 3,
+    "focused-composition.log": 14,
+    "focused-native-family.log": 9,
+    "focused-private-references.log": 11,
+    "focused-volume.log": 23,
+    "focused-workflow.log": 23,
+    "native-qualified-v1/rust-contracts.log": 35,
+    "packet-tests-normal.log": 26,
+    "packet-tests-optimized.log": 26
+  },
+  "receipt_command_count": 18,
+  "resolved_findings": [
+    "Known legacy advection cancellation-label bug is acknowledged as present in both9c/9a fixed source paths; passing23 workflow tests do not close full G1-C outcome-label acceptance. Only future repair/new136source is excluded.",
+    "PR132/134/135/136 rows are contiguous with integration table.",
+    "Original audit summary7faa is exactly reconstructed from currentddad by removing only two Library metadata fields; original audit preserved and bounded custody addendum binds current summary."
+  ],
+  "schema": "rheon-independent-q2-result-document-review-v1",
+  "scope_limits": [
+    "No duplicate builds/tests/campaigns or repository/ref/PR edits.",
+    "9a execution is fixed native/rational/packet/no-default83focused contracts; no general cut/PDE/physical/default/desktop/release/hosted/GUI/Lean/model/performance acceptance.",
+    "PR135 source6d99 and head4f8 retain bounded four-fixture CV1 operator/physical-trace result only, square mass condition6.53e11 and next solve/stability/PDE gates. No new local scientific audit is inferred.",
+    "PR136/e56 and its140-input admission remain separate pending.",
+    "Library identity retained from owner/adapter report; remote retrieval not repeated.",
+    "PR121 automatic-review rejection remains a public merge blocker; no retry or bypass performed."
+  ],
+  "selected_input_count": 135,
+  "source_and_admission_frozen": true,
+  "summary_custody_delta_independently_verified": {
+    "archive.library.current_version_number": 0,
+    "archive.library.file_name": "rheon-q2-reference-stage-9a9904f.zip"
+  }
+}
