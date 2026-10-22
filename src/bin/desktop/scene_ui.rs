@@ -425,6 +425,7 @@ impl SceneUi {
         active_worker: bool,
         model: Option<ModelSummary>,
         target: super::force_run_policy::Target,
+        contents_run: Result<(), String>,
     ) {
         if !self.open {
             egui::SidePanel::right("scene-collapsed")
@@ -488,7 +489,7 @@ impl SceneUi {
                 ui.heading("Properties");
                 if self.editing() {ui.small("Drag preview · release applies · Esc cancels");}
                 if self.contents_selected() {
-                    self.contents.controls(ui,editable);
+                    self.contents.controls(ui,editable,contents_run);
                 } else if self.selected.is_some() && self.selected==self.model_id() {
                     if let Some(model)=model {ui.label(format!("{} triangles",model.triangles));ui.label(format!("Bounds {:?} … {:?} m",model.bounds.0,model.bounds.1));ui.small("Accepted geometry · placement uses Import / apply mesh in setup.");}
                 } else if self.context==SceneContext::Draft {
@@ -741,6 +742,7 @@ mod tests {
                     false,
                     None,
                     super::super::force_run_policy::Target::NativeCarrier,
+                    Err(super::super::voxel_material_setup::UNAVAILABLE.into()),
                 );
                 available = ctx.available_rect();
             },
@@ -1248,7 +1250,16 @@ mod tests {
                     )),
                     ..Default::default()
                 },
-                |ctx| scene.show(ctx, false, false, None, target),
+                |ctx| {
+                    scene.show(
+                        ctx,
+                        false,
+                        false,
+                        None,
+                        target,
+                        Err(super::super::voxel_material_setup::UNAVAILABLE.into()),
+                    )
+                },
             );
             assert_eq!(output.shapes.iter().any(|s| matches!(&s.shape,egui::Shape::Text(t) if t.galley.text()=="Authored-force runs unavailable")), unavailable);
         }

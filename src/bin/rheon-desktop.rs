@@ -1204,6 +1204,7 @@ impl SetupWorkflow {
 #[derive(Clone, Copy)]
 enum SetupAction {
     Run(SetupWorkflow),
+    RunContents,
     Cancel,
 }
 fn running_setup_ui(ui: &mut egui::Ui, request: &Request) {
@@ -1504,6 +1505,8 @@ struct App {
     running_request: Option<Request>,
     pending_voxel: Option<voxel_material_launch::PendingVoxel>,
     closing: bool,
+    /// Temporary verification-only availability transport; never saved into intent.
+    voxel_qualification: bool,
     history: Option<Arc<LiveHistory>>,
     viewport: viewport::Viewport,
     inspector_open: bool,
@@ -1563,6 +1566,7 @@ impl Default for App {
             running_request: None,
             pending_voxel: None,
             closing: false,
+            voxel_qualification: false,
             history: None,
             viewport: viewport::Viewport::default(),
             inspector_open: false,
@@ -1684,6 +1688,11 @@ impl App {
                         self.status = error;
                     }
                 }
+                SetupAction::RunContents => {
+                    if let Err(error) = self.start_contents() {
+                        self.status = error;
+                    }
+                }
                 SetupAction::Cancel => self.cancel(),
             }
             ctx.request_repaint();
@@ -1717,6 +1726,24 @@ impl App {
             }
             if let Some((_, step, elapsed)) = worker.history.timing() {
                 ui.small(format!("Calculating step {step} · {elapsed:.3} s"));
+            }
+        } else if self.scene.contents_selected() {
+            let readiness = self.contents_run_readiness();
+            let disabled = readiness.as_ref().err().map_or("", String::as_str);
+            if ui
+                .add_enabled(
+                    readiness.is_ok(),
+                    egui::Button::new("Simulate contents")
+                        .min_size(egui::vec2(ui.available_width(), 32.0)),
+                )
+                .on_disabled_hover_text(disabled)
+                .clicked()
+            {
+                action = Some(SetupAction::RunContents);
+            }
+            if let Err(error) = readiness {
+                ui.colored_label(egui::Color32::YELLOW, "Initial contents run unavailable")
+                    .on_hover_text(error);
             }
         } else {
             let readiness = self
@@ -2464,6 +2491,10 @@ impl App {
         response.response.rect
     }
     fn controls(&mut self, ui: &mut egui::Ui) {
+        if self.scene.contents_selected() {
+            self.contents_setup_ui(ui);
+            return;
+        }
         let configured = self.setup_workflow == SetupWorkflow::AcceptedSession;
         let material_preview = self.material_mode && !configured;
         ui.heading("Rheon");
@@ -2726,6 +2757,11 @@ impl App {
 }
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        if self.voxel_qualification {
+            egui::TopBottomPanel::top("voxel-qualification-label").show(ctx,|ui| {
+                ui.colored_label(egui::Color32::YELLOW,"Voxel native qualification · development gate pending · software/display evidence is scoped separately");
+            });
+        }
         if self.ai_comparison.is_some()
             || self.saved_comparison_active
             || self.run_sets.active
@@ -2782,7 +2818,8 @@ impl eframe::App for App {
                 }
                 return;
             }
-            if let Some(revision) = self.run_sets.show(ctx, &mut self.archive) {
+            let voxel_available = self.voxel_execution_available();
+            if let Some(revision) = self.run_sets.show(ctx, &mut self.archive, voxel_available) {
                 let result = match revision {
                     run_set_view::SavedRunSet::Native(set) => self.rerun_saved(set),
                     run_set_view::SavedRunSet::Configured(set) => self.rerun_configured(set),
@@ -2830,12 +2867,14 @@ impl eframe::App for App {
         if self.pending_voxel.is_some() {
             self.scene.show_preparing(ctx);
         } else {
+            let contents_readiness = self.contents_run_readiness();
             self.scene.show(
                 ctx,
                 self.running_request.is_some(),
                 self.worker.is_some(),
                 model,
                 self.setup_workflow.force_target(self.material_mode),
+                contents_readiness,
             );
         }
         self.service_initial_contents_commands(ctx);
@@ -2944,28 +2983,7 @@ fn main() -> eframe::Result {
             style.spacing.item_spacing = egui::vec2(8.0, 7.0);
             cc.egui_ctx.set_style(style);
             let mut app = App::default();
-            let mut args = std::env::args().skip(1);
-            let mut run = false;
-            while let Some(arg) = args.next() {
-                match arg.as_str() {
-                    "--collision-mesh" => {
-                        app.collision.path = args
-                            .next()
-                            .filter(|p| !p.is_empty() && !p.starts_with("--"))
-                            .ok_or("--collision-mesh requires a local path")?;
-                    }
-                    "--collision-policy" => match args.next().as_deref() {
-                        Some("solid") => app.collision.solid = true,
-                        Some("surface") => app.collision.solid = false,
-                        _ => return Err("--collision-policy requires solid or surface".into()),
-                    },
-                    "--collision-run" => {
-                        run = true;
-                        app.steps = 180;
-                    }
-                    _ => return Err(format!("Unknown argument: {arg}").into()),
-                }
-            }
+            let run = app.configure_arguments(std::env::args().skip(1))?;
             if !app.collision.path.is_empty() {
                 app.collision
                     .apply(app.domain_side)
@@ -3243,7 +3261,7 @@ mod tests {
         let context = egui::Context::default();
         let mut archive = archive_view::ArchiveView::default();
         let _ = context.run(egui::RawInput::default(), |ctx| {
-            let _ = view.show(ctx, &mut archive);
+            let _ = view.show(ctx, &mut archive, false);
         });
         // Opening an invalid manifest invalidates the previous member capability.
         view.path = root.join("missing.json").to_string_lossy().into();

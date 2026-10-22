@@ -362,7 +362,13 @@ fn panel_frame(
             ..Default::default()
         },
         |ctx| {
-            egui::CentralPanel::default().show(ctx, |ui| tool.controls(ui, true));
+            egui::CentralPanel::default().show(ctx, |ui| {
+                tool.controls(
+                    ui,
+                    true,
+                    Err(super::super::voxel_material_setup::UNAVAILABLE.into()),
+                )
+            });
         },
     )
 }

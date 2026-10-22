@@ -224,7 +224,12 @@ impl InitialContentsUi {
         })();
         self.outcome(result);
     }
-    pub fn controls(&mut self, ui: &mut egui::Ui, editable: bool) {
+    pub fn controls(
+        &mut self,
+        ui: &mut egui::Ui,
+        editable: bool,
+        run_readiness: Result<(), String>,
+    ) {
         ui.label("Two incompressible materials · filled closed box · no surface tension");
         let before = self.brush;
         ui.add_enabled_ui(editable, |ui| {
@@ -380,10 +385,10 @@ impl InitialContentsUi {
         }
         if ui
             .add_enabled(
-                super::voxel_material_setup::AVAILABLE && !busy,
+                run_readiness.is_ok() && editable && !busy,
                 egui::Button::new("Simulate contents"),
             )
-            .on_disabled_hover_text(super::voxel_material_setup::UNAVAILABLE)
+            .on_disabled_hover_text(run_readiness.as_ref().err().map_or("", String::as_str))
             .clicked()
         {
             self.run_requested = true;

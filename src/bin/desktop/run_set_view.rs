@@ -94,7 +94,12 @@ impl RunSetView {
             if !self.feedback.is_empty(){ui.label(&self.feedback);}
         });
     }
-    pub fn show(&mut self, ctx: &egui::Context, archive: &mut ArchiveView) -> Option<SavedRunSet> {
+    pub fn show(
+        &mut self,
+        ctx: &egui::Context,
+        archive: &mut ArchiveView,
+        voxel_available: bool,
+    ) -> Option<SavedRunSet> {
         let mut rerun = None;
         egui::TopBottomPanel::top("saved-set-navigation").show(ctx, |ui| {
             ui.heading("Saved run set");
@@ -107,7 +112,7 @@ impl RunSetView {
             let Some(revision)=&self.revision else{return;};
             ui.small(format!("{} saved members",revision.member_count()));
             ui.label(format!("{} · {} baseline {}", revision.set_id(), if revision.voxel().is_some(){"voxel material"}else if revision.is_configured(){"configured Session"}else{"native"}, revision.baseline_member_id()));
-            if ui.add_enabled(revision.voxel().is_none() || super::voxel_material_setup::AVAILABLE,egui::Button::new("Rerun saved set from zero")).on_disabled_hover_text(super::voxel_material_setup::UNAVAILABLE).clicked(){rerun=Some(revision.clone());self.active=false;}
+            if ui.add_enabled(revision.voxel().is_none() || voxel_available,egui::Button::new("Rerun saved set from zero")).on_disabled_hover_text(super::voxel_material_setup::UNAVAILABLE).clicked(){rerun=Some(revision.clone());self.active=false;}
             ui.small("Ready verifies the exact closed artifact and typed intent; failed/cancelled outcomes retain their meaning. Archives are inspection data, not restart checkpoints.");
             ui.small("Status is cached from explicit open. Inspect rechecks the exact pinned member before selection.");
             for (index,member) in revision.members().enumerate() {
