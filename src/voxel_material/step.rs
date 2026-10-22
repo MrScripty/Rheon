@@ -27,6 +27,8 @@ pub enum VoxelMaterialStage {
 
 #[derive(Debug, Clone, Copy)]
 pub struct VoxelMaterialStepReport {
+    /// Original accepted-state clock, preserved before the interval update.
+    pub interval_start: f64,
     pub generation: u64,
     pub time: f64,
     pub dt: f64,
@@ -249,6 +251,7 @@ impl VoxelMaterialSimulation {
             )?,
         ];
         let report = VoxelMaterialStepReport {
+            interval_start: self.state.time,
             generation,
             time,
             dt,

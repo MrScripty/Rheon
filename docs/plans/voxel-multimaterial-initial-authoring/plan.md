@@ -2,9 +2,9 @@
 
 **Plan status:** `Active` — parent prospectively authorizes independent M4 persistence/frozen-input work while the original M3 native/end-to-end acceptance remains explicit. This is a work-order adjustment, not acceptance or release permission. Previously denied metadata/comment operations remain stopped.
 
-**Current phase:** M4 typed recording component. The independently reviewed [saved-input component](reports/m4-input-verification.md) is Accepted with exact versioned draft/frozen bytes and a real fresh-process constructor fixture. M3 bounded native idle editing remains Accepted on installed private Xorg dummy/Mesa software rendering. Full worker/persistence/retained-result and A5/A6 remain pending; no physical GPU or whole-feature acceptance is claimed.
+**Current phase:** M4 immutable voxel run-set / cold archive boundary. The independently reviewed [saved-input](reports/m4-input-verification.md) and [typed recording](reports/m4-recording-verification.md) components are Accepted. M3 bounded native idle editing remains Accepted on Xorg dummy/Mesa software rendering. Full worker/persistence/retained-result and A5/A6 remain pending; no physical GPU or whole-feature acceptance is claimed.
 
-**Next slice:** Add the voxel method’s typed f64 recording publication/decode adapter using the existing SQLite owner; capture actual coefficients/configuration and initial-input digest, with explicit interval pressure and payload admission. Then complete the already enumerated M4 worker/manifest/retained-view composition before native end-to-end acceptance. Main remains frozen under the serial integration lead; denied operations stay stopped.
+**Next slice:** Add the explicit third saved-run profile, exact captured intent/archive binding and typed publication audit, exhaustive source dispatch and unsupported comparison guards. Native rerun remains unavailable until the already enumerated M4 worker/retained-view integration. Main stays frozen under the serial integration lead; denied operations stay stopped.
 
 **Acceptance status:** `pending` for the feature. Documentation review does not satisfy numerical/native/persistence acceptance.
 
