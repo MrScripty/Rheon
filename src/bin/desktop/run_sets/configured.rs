@@ -689,6 +689,51 @@ struct SetEnvelope {
     revision: ConfiguredRunSetRevision,
 }
 impl ConfiguredRunSetRevision {
+    /// Actual immutable profile allocation, including provider/deployment custody.
+    /// Never serializes the profile or constructs a runtime/provider.
+    pub fn owned_capacity(&self) -> Result<usize, RunSetError> {
+        let mut bytes = super::OwnedCapacity(std::mem::size_of::<Self>());
+        bytes.strings([&self.set_id, &self.baseline_member])?;
+        bytes.vector(&self.members)?;
+        for member in &self.members {
+            bytes.add(member.member_id.capacity())?;
+            bytes.vector(&member.differences_from_baseline)?;
+            let future = &member.spec.future;
+            bytes.vector(&future.forces)?;
+            bytes.strings([&future.executor.id, &future.executor.source_revision])?;
+            if let Some(build) = &future.executor.build_provenance {
+                bytes.add(build.capacity())?;
+            }
+            if let PressureIntent::NativePrefixThenConfigured {
+                provider,
+                deployment,
+                ..
+            } = &future.pressure
+            {
+                bytes.add(std::mem::size_of::<ConfiguredProviderPin>())?;
+                bytes.strings([
+                    &provider.id,
+                    &provider.version,
+                    &provider.runtime,
+                    &provider.source_revision,
+                ])?;
+                if let Some(training) = &provider.training_run_id {
+                    bytes.add(training.capacity())?;
+                }
+                let (DeploymentLocator::ProjectRelative(path) | DeploymentLocator::Absolute(path)) =
+                    deployment;
+                bytes.add(path.capacity())?;
+            }
+            if let Some(attempt) = &member.attempt {
+                bytes.strings([
+                    &attempt.attempt_id,
+                    &attempt.archive_relative_path,
+                    &attempt.expected_source_revision,
+                ])?;
+            }
+        }
+        Ok(bytes.0)
+    }
     pub fn validate(&self) -> Result<(), RunSetError> {
         version(self.schema_version)?;
         text(&self.set_id)?;

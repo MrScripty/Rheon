@@ -464,6 +464,20 @@ impl LiveHistory {
             Ok(n)
         })
     }
+    /// Actual retained preview and selected numerical payload, independent of its original budget.
+    pub fn retained_payload_bytes(&self) -> Result<usize, String> {
+        let tracks = self.tracks.lock().map_err(|_| "Timeline owner failed")?;
+        let mut bytes = Self::storage_capacity(&tracks, self.carrier_inspectors.capacity())?;
+        bytes = bytes
+            .checked_add(self.inspector.retained_payload_bytes()?)
+            .ok_or("History payload overflow")?;
+        for inspector in &self.carrier_inspectors {
+            bytes = bytes
+                .checked_add(inspector.retained_payload_bytes()?)
+                .ok_or("History payload overflow")?;
+        }
+        Ok(bytes)
+    }
     pub fn publish(&self, track: usize, frame: Arc<PreviewFrame>) -> Result<(), String> {
         let mut tracks = self.tracks.lock().map_err(|_| "Timeline owner failed")?;
         if let Some(limit) = self.voxel_payload_limit {

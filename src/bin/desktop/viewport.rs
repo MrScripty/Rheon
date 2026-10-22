@@ -121,6 +121,24 @@ pub struct ViewInputs<'a> {
     pub editable_scene: bool,
 }
 impl Viewport {
+    /// Query only: alternate labs and active handles must be closed before preparation.
+    pub fn retained_payload_bytes_for_voxel(&self) -> Result<usize, String> {
+        if self.mode != ViewMode::Appearance || self.scene_handles.busy() {
+            return Err("Choose Appearance and finish or cancel the viewport handle before preparing a voxel run".into());
+        }
+        let mut bytes = self.frame.as_ref().map_or(Ok(0), |f| {
+            f.density
+                .capacity()
+                .checked_add(std::mem::size_of::<PreviewFrame>() + 2 * std::mem::size_of::<usize>())
+                .ok_or("Viewport payload overflow")
+        })?;
+        if let Some(mesh) = &self.collision_mesh {
+            bytes = bytes
+                .checked_add(mesh.allocated_bytes())
+                .ok_or("Viewport payload overflow")?;
+        }
+        Ok(bytes)
+    }
     #[cfg(test)]
     pub(super) fn presentation_only_appearance(&mut self) {
         self.presentation_only = true;
@@ -292,7 +310,10 @@ impl Viewport {
         if !consumed {
             self.input(ui, &response, rect, 2.35);
         }
-        if !consumed && let Some(scene) = scene.as_deref_mut() {
+        if !consumed
+            && ui.is_enabled()
+            && let Some(scene) = scene.as_deref_mut()
+        {
             let mesh = self
                 .collision_mesh
                 .as_ref()
@@ -857,6 +878,26 @@ fn cylinder_faces(emitter: RotatingCylinderEmitter, time: f64) -> Vec<Face> {
 mod tests {
     use super::*;
     use eframe::egui::Pos2;
+    #[test]
+    fn retained_cached_frame_outside_history_is_charged_and_lab_refuses() {
+        let (_, spec) =
+            crate::voxel_material_integration_tests::recipe(0.001, 1, [0.0; 3], 1024 * 1024);
+        let frame = PreviewFrame::capture_voxel(&spec.construct().unwrap(), 4, 0.0).unwrap();
+        let expected = frame.density.capacity()
+            + std::mem::size_of::<PreviewFrame>()
+            + 2 * std::mem::size_of::<usize>();
+        let mut app = crate::App::default();
+        let before = app.retained_payload_for_voxel().unwrap();
+        assert!(app.history.is_none());
+        app.viewport.frame = Some(frame);
+        assert_eq!(app.retained_payload_for_voxel().unwrap(), before + expected);
+        app.viewport.mode = ViewMode::Particles;
+        assert!(
+            app.retained_payload_for_voxel()
+                .unwrap_err()
+                .contains("Appearance")
+        );
+    }
     #[test]
     fn selecting_contents_cancels_previous_force_gesture_before_brush_or_camera() {
         use super::super::scene_ui::SceneUi;

@@ -36,10 +36,16 @@ struct DraftEdit {
     preview: ForceObject,
     valid: bool,
 }
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum RetainedForceBinding {
+    Unavailable,
+    Authored([u8; 32]),
+    KnownNoForces,
+}
 pub struct SceneUi {
     pub(super) contents: super::initial_contents_ui::InitialContentsUi,
     retained_forces: Option<ForceScene>,
-    retained_binding: Option<(usize, Option<[u8; 32]>)>,
+    retained_binding: Option<(usize, RetainedForceBinding)>,
     edit: Option<DraftEdit>,
     forces: ForceScene,
     selected: Option<SceneObjectId>,
@@ -98,7 +104,8 @@ impl SceneUi {
             .map(rheon::recording::encode_force_metadata)
             .transpose()
             .map_err(|e| e.to_string())?
-            .map(|bytes| <[u8; 32]>::from(Sha256::digest(bytes)));
+            .map(|bytes| RetainedForceBinding::Authored(<[u8; 32]>::from(Sha256::digest(bytes))))
+            .unwrap_or(RetainedForceBinding::Unavailable);
         if self.retained_binding != Some((track, identity)) {
             if self.context == SceneContext::Retained {
                 self.selected = None;
@@ -107,6 +114,35 @@ impl SceneUi {
             self.retained_forces = fields.map(|f| f.scene().clone());
         }
         Ok(())
+    }
+    /// Fixed voxel physics has known absent authored forces, unlike legacy unknown metadata.
+    pub fn bind_retained_no_forces(&mut self, track: usize) {
+        let binding = Some((track, RetainedForceBinding::KnownNoForces));
+        if self.retained_binding != binding {
+            if self.context == SceneContext::Retained {
+                self.selected = None;
+            }
+            self.retained_binding = binding;
+            self.retained_forces = Some(ForceScene::default());
+        }
+    }
+    pub fn retained_payload_bytes(&self) -> Result<usize, String> {
+        let mut bytes = force_payload_bytes(&self.forces)?;
+        if let Some(forces) = &self.retained_forces {
+            bytes = bytes
+                .checked_add(force_payload_bytes(forces)?)
+                .ok_or("Scene payload overflow")?;
+        }
+        Ok(bytes)
+    }
+    /// Preparation holds the old selection/context and presents no authoring controls.
+    pub fn show_preparing(&self, ctx: &egui::Context) {
+        if self.open {
+            egui::SidePanel::right("scene-preparing").show(ctx, |ui| {
+                ui.heading("Scene");
+                ui.label("Preparing voxel run; current selection is held.");
+            });
+        }
     }
     pub fn selected_force(&self) -> Option<&ForceObject> {
         (self.context == SceneContext::Draft)
@@ -589,9 +625,52 @@ fn euler_degrees([x, y, z, w]: [f64; 4]) -> [f64; 3] {
     .map(f64::to_degrees)
 }
 
+/// Conservative capacity of the immutable force owner; shared aliases may be charged twice.
+pub(super) fn force_payload_bytes(scene: &ForceScene) -> Result<usize, String> {
+    let base = scene
+        .objects
+        .capacity()
+        .checked_mul(std::mem::size_of::<ForceObject>())
+        .and_then(|n| n.checked_add(std::mem::size_of::<ForceScene>()))
+        .ok_or("Force payload overflow")?;
+    scene.objects.iter().try_fold(base, |n, object| {
+        n.checked_add(object.name.capacity())
+            .ok_or_else(|| "Force payload overflow".into())
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn known_no_forces_binding_stays_distinct_from_unknown_and_authored() {
+        let mut scene = SceneUi::default();
+        scene.begin_run(false);
+        scene.bind_retained_no_forces(0);
+        assert!(matches!(
+            scene.retained_binding,
+            Some((0, RetainedForceBinding::KnownNoForces))
+        ));
+        assert!(scene.retained_forces.as_ref().unwrap().objects.is_empty());
+        scene.bind_retained_no_forces(0);
+        assert!(matches!(
+            scene.retained_binding,
+            Some((0, RetainedForceBinding::KnownNoForces))
+        ));
+        scene.bind_retained_fields(0, None).unwrap();
+        assert!(matches!(
+            scene.retained_binding,
+            Some((0, RetainedForceBinding::Unavailable))
+        ));
+        assert!(scene.retained_forces.is_none());
+        scene
+            .bind_retained_fields(0, Some(&ForceScene::default().freeze().unwrap()))
+            .unwrap();
+        assert!(matches!(
+            scene.retained_binding,
+            Some((0, RetainedForceBinding::Authored(_)))
+        ));
+    }
     #[test]
     fn loaded_contents_preserves_unrelated_force_validation_feedback() {
         use crate::{

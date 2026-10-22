@@ -33,6 +33,40 @@ const MAX_MANIFEST_BYTES: u64 = 1024 * 1024;
 const MAX_MEMBERS: usize = 64;
 const MAX_TEXT_BYTES: usize = 1000;
 
+/// Checked actual retained allocations; inline values are charged by their owner.
+/// This is an enumerated payload policy, not allocator/process memory telemetry.
+pub(super) struct OwnedCapacity(pub usize);
+impl OwnedCapacity {
+    pub fn add(&mut self, count: usize) -> Result<(), RunSetError> {
+        self.0 = self
+            .0
+            .checked_add(count)
+            .ok_or(RunSetError::Invalid("retained run-set capacity overflow"))?;
+        Ok(())
+    }
+    pub fn vector<T>(&mut self, values: &Vec<T>) -> Result<(), RunSetError> {
+        self.add(
+            values
+                .capacity()
+                .checked_mul(std::mem::size_of::<T>())
+                .ok_or(RunSetError::Invalid("retained run-set capacity overflow"))?,
+        )
+    }
+    pub fn strings<const N: usize>(&mut self, values: [&String; N]) -> Result<(), RunSetError> {
+        for text in values {
+            self.add(text.capacity())?;
+        }
+        Ok(())
+    }
+    pub fn force(&mut self, scene: &rheon::ForceScene) -> Result<(), RunSetError> {
+        self.vector(&scene.objects)?;
+        for object in &scene.objects {
+            self.add(object.name.capacity())?;
+        }
+        Ok(())
+    }
+}
+
 #[derive(Debug)]
 pub enum RunSetError {
     Io(std::io::Error),
@@ -554,6 +588,27 @@ pub struct RunSetRevision {
     pub members: Vec<RunSetMember>,
 }
 impl RunSetRevision {
+    /// Includes actual profile/attempt/force Vec and String capacities.
+    pub fn owned_capacity(&self) -> Result<usize, RunSetError> {
+        let mut bytes = OwnedCapacity(std::mem::size_of::<Self>());
+        bytes.strings([&self.set_id, &self.baseline_member])?;
+        bytes.vector(&self.members)?;
+        for member in &self.members {
+            bytes.add(member.member_id.capacity())?;
+            bytes.vector(&member.differences_from_baseline)?;
+            if let Some(fields) = &member.spec.force_fields {
+                bytes.force(fields)?;
+            }
+            if let Some(attempt) = &member.attempt {
+                bytes.strings([
+                    &attempt.attempt_id,
+                    &attempt.archive_relative_path,
+                    &attempt.expected_source_revision,
+                ])?;
+            }
+        }
+        Ok(bytes.0)
+    }
     pub fn validate(&self) -> Result<(), RunSetError> {
         version(self.schema_version)?;
         text(&self.set_id)?;

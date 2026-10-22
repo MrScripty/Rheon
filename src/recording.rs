@@ -229,6 +229,30 @@ pub struct RecordedStep {
     pub fields: Vec<RecordedField>,
 }
 impl RecordedStep {
+    /// Actual owned Vec/String payload plus inline publication metadata.
+    /// Shared references do not duplicate it; allocator/SQLite overhead excluded.
+    pub fn allocated_bytes(&self) -> Result<usize, RecordingError> {
+        let fail = || RecordingError::Limit("record capacity overflow");
+        let base = self
+            .fields
+            .capacity()
+            .checked_mul(std::mem::size_of::<RecordedField>())
+            .and_then(|n| n.checked_add(std::mem::size_of::<Self>()))
+            .and_then(|n| n.checked_add(self.controls.capacity()))
+            .ok_or_else(fail)?;
+        self.fields.iter().try_fold(base, |sum, f| {
+            [
+                f.data.capacity(),
+                f.name.capacity(),
+                f.units.capacity(),
+                f.association.capacity(),
+                f.stage.capacity(),
+                f.scalar_type.capacity(),
+            ]
+            .into_iter()
+            .try_fold(sum, |n, c| n.checked_add(c).ok_or_else(fail))
+        })
+    }
     pub fn field(&self, name: &str) -> Option<&RecordedField> {
         self.fields.iter().find(|f| f.name == name)
     }

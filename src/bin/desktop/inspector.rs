@@ -1,4 +1,6 @@
 //! Exact selected disk publication. The worker owns recording; UI owns selection.
+#[path = "inspector_payload.rs"]
+mod payload;
 #[path = "voxel_material_view.rs"]
 mod voxel_material_view;
 use super::export_ui::ExportFile;

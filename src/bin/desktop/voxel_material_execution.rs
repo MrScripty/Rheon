@@ -183,6 +183,15 @@ pub(crate) fn run(
     }
     set.members[0].attempt = None;
     set.parent_sha256 = Some(parent);
+    #[cfg(test)]
+    if let Some(gate) = &request.failure_gate {
+        gate.reached.send(()).map_err(|e| e.to_string())?;
+        gate.release
+            .lock()
+            .map_err(|e| e.to_string())?
+            .recv_timeout(std::time::Duration::from_secs(10))
+            .map_err(|e| e.to_string())?;
+    }
     // Construct from captured geometry/coefficient bits, never scalar side/n.
     let mut sim = set.members[0].spec.construct().map_err(|e| e.to_string())?;
     let run =

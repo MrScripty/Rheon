@@ -6,7 +6,7 @@ use std::{
     path::{Path, PathBuf},
     sync::{Mutex, mpsc},
 };
-fn root() -> PathBuf {
+pub(super) fn root() -> PathBuf {
     static NEXT: AtomicUsize = AtomicUsize::new(0);
     let p = PathBuf::from(".generated/voxel-material/m4-worker").join(format!(
         "{}-{}",
@@ -16,7 +16,7 @@ fn root() -> PathBuf {
     std::fs::create_dir_all(&p).unwrap();
     p
 }
-fn recipe(
+pub(super) fn recipe(
     dt: f64,
     steps: usize,
     gravity: [f64; 3],
@@ -61,7 +61,7 @@ fn recipe(
     .unwrap();
     (e, spec)
 }
-fn request(spec: FrozenInput, output: &Path) -> Request {
+pub(super) fn request(spec: FrozenInput, output: &Path) -> Request {
     let p = spec.execution();
     Request {
         force_fields: vec![],
