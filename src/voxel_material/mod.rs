@@ -6,9 +6,17 @@
 //! thermal evolution, phase change or surface tension is represented.
 mod pressure;
 mod state;
+mod step;
+mod transport;
+mod viscosity;
 
 pub use pressure::{MaterialProjectionWorkspace, ProjectedVelocity, ProjectionReport};
 pub use state::{MaterialPair, MaterialProperties, VoxelMaterialError, VoxelMaterialState};
+pub use step::{
+    VoxelMaterialConfig, VoxelMaterialSimulation, VoxelMaterialStage, VoxelMaterialStepReport,
+};
+pub use transport::TransportReport;
+pub use viscosity::ViscosityReport;
 
 use crate::{Axis, GridGeometry};
 
@@ -65,4 +73,93 @@ pub(crate) fn check_limit(required: usize, limit: usize) -> Result<(), VoxelMate
     } else {
         Ok(())
     }
+}
+
+// These kernels reject subnormal intermediates instead of applying a relative
+// error bound where gradual underflow invalidates that bound.
+pub(crate) fn checked(x: f64) -> Result<f64, VoxelMaterialError> {
+    if x == 0.0 || x.is_normal() {
+        Ok(x)
+    } else {
+        Err(VoxelMaterialError::ArithmeticFailure)
+    }
+}
+pub(crate) fn multiply(a: f64, b: f64) -> Result<f64, VoxelMaterialError> {
+    let value = checked(a * b)?;
+    if value == 0.0 && a != 0.0 && b != 0.0 {
+        Err(VoxelMaterialError::ArithmeticFailure)
+    } else {
+        Ok(value)
+    }
+}
+pub(crate) fn divide(a: f64, b: f64) -> Result<f64, VoxelMaterialError> {
+    if !b.is_normal() || b == 0.0 {
+        return Err(VoxelMaterialError::ArithmeticFailure);
+    }
+    let value = checked(a / b)?;
+    if value == 0.0 && a != 0.0 {
+        Err(VoxelMaterialError::ArithmeticFailure)
+    } else {
+        Ok(value)
+    }
+}
+pub(crate) fn upper(x: f64) -> Result<f64, VoxelMaterialError> {
+    checked(if x == 0.0 { 0.0 } else { x.next_up() })
+}
+pub(crate) fn gamma(operations: usize) -> Result<f64, VoxelMaterialError> {
+    // All admitted grids/counts keep the integer exactly representable.
+    if operations as u64 > (1u64 << 52) {
+        return Err(VoxelMaterialError::CapacityOverflow);
+    }
+    let k = upper(operations as f64 * f64::EPSILON)?;
+    if k >= 1.0 {
+        return Err(VoxelMaterialError::ArithmeticFailure);
+    }
+    upper(k / (1.0 - k).next_down())
+}
+pub(crate) fn roundoff(operations: usize, scale: f64) -> Result<f64, VoxelMaterialError> {
+    upper(multiply(gamma(operations)?, scale)?)
+}
+pub(crate) fn sum(values: impl Iterator<Item = f64>) -> Result<f64, VoxelMaterialError> {
+    let mut total = 0.0_f64;
+    let mut correction = 0.0_f64;
+    for value in values {
+        checked(value)?;
+        let next = checked(total + value)?;
+        let error = if total.abs() >= value.abs() {
+            checked((total - next) + value)?
+        } else {
+            checked((value - next) + total)?
+        };
+        correction = checked(correction + error)?;
+        total = next;
+    }
+    checked(total + correction)
+}
+pub(crate) fn coordinate(grid: &GridGeometry, cell: usize) -> [usize; 3] {
+    let [nx, ny, _] = grid.counts();
+    [cell % nx, (cell / nx) % ny, cell / (nx * ny)]
+}
+pub(crate) fn face_mass(
+    grid: &GridGeometry,
+    materials: MaterialPair,
+    f: &[f64],
+    axis: Axis,
+    p: [usize; 3],
+) -> Result<f64, VoxelMaterialError> {
+    let d = axis.index();
+    if p[d] == 0 || p[d] == grid.counts()[d] {
+        return Ok(0.0);
+    }
+    let mut lo = p;
+    lo[d] -= 1;
+    let rho = checked(
+        0.5 * materials.density(f[grid.cell_unchecked(lo)])
+            + 0.5 * materials.density(f[grid.cell_unchecked(p)]),
+    )?;
+    let m = multiply(grid.cell_volume(), rho)?;
+    if m <= 0.0 {
+        return Err(VoxelMaterialError::ArithmeticFailure);
+    }
+    Ok(m)
 }

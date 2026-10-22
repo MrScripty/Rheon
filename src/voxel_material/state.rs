@@ -67,6 +67,9 @@ impl MaterialPair {
     pub(crate) fn density(self, f: f64) -> f64 {
         f * self.liquid.density + (1.0 - f) * self.gas.density
     }
+    pub(crate) fn viscosity(self, f: f64) -> f64 {
+        f * self.liquid.viscosity + (1.0 - f) * self.gas.viscosity
+    }
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -74,16 +77,39 @@ pub enum VoxelMaterialError {
     InvalidMaterial,
     UnsupportedCounts,
     LengthMismatch,
-    InvalidFraction { cell: usize },
+    InvalidFraction {
+        cell: usize,
+    },
     GeometryMismatch,
     CapacityOverflow,
-    BufferLimit { required: usize, limit: usize },
+    BufferLimit {
+        required: usize,
+        limit: usize,
+    },
     AllocationFailed,
     Operator(OperatorError),
     Pressure(PressureError),
-    Divergence { actual: f64, limit: f64 },
+    Divergence {
+        actual: f64,
+        limit: f64,
+    },
     Cancelled,
     ArithmeticFailure,
+    InvalidTimeStep,
+    Courant {
+        actual: f64,
+        limit: f64,
+    },
+    Balance {
+        stage: &'static str,
+        actual: f64,
+        budget: f64,
+    },
+    ViscousStability {
+        number: f64,
+    },
+    InvalidSettings,
+    ClockOverflow,
 }
 impl fmt::Display for VoxelMaterialError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -112,6 +138,32 @@ impl fmt::Display for VoxelMaterialError {
             }
             Self::Cancelled => write!(f, "two-material operation cancelled before publication"),
             Self::ArithmeticFailure => write!(f, "two-material arithmetic is not representable"),
+            Self::InvalidTimeStep => {
+                write!(f, "two-material time step must be finite and positive")
+            }
+            Self::Courant { actual, limit } => {
+                write!(f, "two-material Courant number {actual} exceeds {limit}")
+            }
+            Self::Balance {
+                stage,
+                actual,
+                budget,
+            } => write!(
+                f,
+                "two-material {stage} defect {actual} exceeds arithmetic budget {budget}"
+            ),
+            Self::ViscousStability { number } => write!(
+                f,
+                "two-material dt times stress spectral bound {number} exceeds one"
+            ),
+            Self::InvalidSettings => write!(
+                f,
+                "two-material settings must be finite with valid bounded pressure controls"
+            ),
+            Self::ClockOverflow => write!(
+                f,
+                "two-material generation/time cannot advance representably"
+            ),
         }
     }
 }

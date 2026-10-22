@@ -2,9 +2,9 @@
 
 **Plan status:** `Active` — user approved the reviewed direction and initial full-box incompressible Water/Air scope; admitted `start` on 2026-10-22 from plan commit `627847915eb97b80da81ec4544bb413bc5f806fa`. This authorizes isolated implementation and review, not a main merge.
 
-**Current phase:** M2 coupled conservative transport/stress implementation admission, following M1 component verification and separate source review. Work remains in isolated worktree `/workspace/Rheon-voxel-material-implementation`, branch `implementation/voxel-multimaterial-authoring-20261022`.
+**Current phase:** M3 authoring admission, following verified M1 pressure and M2 coupled transport/stress components and separate source review. Work remains in isolated worktree `/workspace/Rheon-voxel-material-implementation`, branch `implementation/voxel-multimaterial-authoring-20261022`.
 
-**Next slice:** Implement M2 matched fraction/mass/momentum transport, variable stress and atomic complete step, with predeclared arithmetic budgets and the mandatory stop/replan gate. UI remains unavailable until its numerical and integration gates pass.
+**Next slice:** M3 binary initial document, atomic brush transactions/history and native slice interaction. M2 numerical gates passed for the bounded fixtures; native exposure remains gated by M3–M5. M4 run/persistence cannot be substituted by a headless brush test.
 
 **Acceptance status:** `pending` for the feature. Documentation review does not satisfy numerical/native/persistence acceptance.
 
@@ -73,7 +73,7 @@ These decisions bind the admitted implementation direction. Feature acceptance r
 
 ## Staged reversible implementation
 
-M1's bounded component is Accepted through [executed component checks](reports/m1-verification.md) and [separate source review](reports/m1-independent-review.md); feature A1–A6 remain pending. M2 is Active; M3–M5 are Planned and gated in order. Milestone separation contains real numerical, UI and durable-state risks; it does not prescribe a commit count or branch per milestone. Every slice preserves existing carrier/particle/column/provider behavior and old archives. New incomplete capability stays unadvertised/unrunnable; tests or an explicitly scoped headless constructor do not count as native completion.
+M1's bounded component is Accepted through [executed component checks](reports/m1-verification.md) and [separate source review](reports/m1-independent-review.md); feature A1–A6 remain pending. M2 is Accepted as a numerical component through [executed checks](reports/m2-verification.md) and [separate review](reports/m2-independent-review.md). M3 is Active; M4–M5 remain Planned and gated in order. Milestone separation contains real numerical, UI and durable-state risks; it does not prescribe a commit count or branch per milestone. Every slice preserves existing carrier/particle/column/provider behavior and old archives. New incomplete capability stays unadvertised/unrunnable; tests or an explicitly scoped headless constructor do not count as native completion.
 
 | Milestone | Goal and exact proposed production write set | Dependency and gate | Reversible boundary |
 | --- | --- | --- | --- |
