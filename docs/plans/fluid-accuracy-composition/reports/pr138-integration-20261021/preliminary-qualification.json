@@ -1,0 +1,74 @@
+{
+  "schema": "rheon-pr138-preliminary-summary-v1",
+  "source_head": "91c4f4bd8bb29e9862f6ee29cd8bdead79e0d57e",
+  "source_tree": "01a550807263a35b8dca51ba7be22a7079b07176",
+  "status": "passed",
+  "commands": 14,
+  "source_files": 1946,
+  "native_receipt_sha256": "40f431b4c56607de99db043f8d5581ebe61bb5d5b901b9ebece39e90c065b7db",
+  "packet_receipt_sha256": "0c5fa5476945117b489bb04568e1c4d88797598f59094f4f54bc2646357de920",
+  "journal_sha256": "eff47c70efde0d5937c9a93632dff59f1c2bd7987a94182d8e031fea9e782c15",
+  "executing_elf_records": 9,
+  "archive": "/workspace/pr138-evidence/rheon-pr138-preliminary-91c4f4b.zip",
+  "archive_bytes": 23871596,
+  "archive_sha256": "8822d40bfedd0cca4013307ee49a689b522ebacae48fc19dc55fd0f2352f2124",
+  "archive_members": 2011,
+  "archive_crc_hash_audit": "passed",
+  "qualification": "preliminary; final merged-main and lead merge remain gated",
+  "selected_native": {
+    "count": 152,
+    "changed": [
+      "Cargo.toml",
+      "Cargo.lock"
+    ],
+    "unchanged": 150,
+    "added": 0,
+    "removed": 0,
+    "canonical_map_sha256": "9a10497158827e189fe505f65e1aa203cd8a28fe894c469408977071b055375f"
+  },
+  "counts": {
+    "native_commands": 18,
+    "native_rust": 35,
+    "native_specimens": 5,
+    "guard_normal": 5,
+    "guard_optimized": 5,
+    "oracle_normal": 10,
+    "oracle_optimized": 10,
+    "packet_normal": 26,
+    "packet_optimized": 26,
+    "packet_skipped": 0,
+    "library": 106,
+    "volume": 23,
+    "borrow_doctests": 3,
+    "private_references": 11,
+    "focused_total": 143
+  },
+  "independent_execution_review": {
+    "reviewer": "/root/review_pr138",
+    "disposition": "pass",
+    "mismatches": 0,
+    "tests_rerun": false
+  },
+  "dependency_archive": {
+    "file_name": "rheon-pr138-dependency-materials.zip",
+    "bytes": 177210,
+    "sha256": "9be980b51ab3247eb7d071812a4f4530c59529c4a7eed095234711d675f02609",
+    "members": 10
+  },
+  "durable_storage": "pending_final_bundle",
+  "final_merged_main_verification": "pending",
+  "hosted_preliminary": {
+    "source_head": "91c4f4bd8bb29e9862f6ee29cd8bdead79e0d57e",
+    "run_id": 39689782274,
+    "desktop_job": 119532815829,
+    "desktop_outcome": "cancelled",
+    "annotation": "The job has exceeded the maximum execution time of 30m0s",
+    "default_feature": "passed",
+    "core_only_feature": "passed",
+    "aggregate_outcome": "failure",
+    "repair_owner": "PR142 lead; reviewed60-minute outer budget and coordinated source-only guard repair",
+    "stale_run_retry_requested": false,
+    "aggregate_job": 119544629626,
+    "workflow_conclusion": "cancelled"
+  }
+}

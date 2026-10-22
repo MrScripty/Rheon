@@ -1,0 +1,54 @@
+[
+  {
+    "mode": "default-warm",
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--all-targets",
+      "--features",
+      "accepted-pressure-warm-start",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "child_returncode": 0,
+    "log": "/tmp/pr59-deps-default-warm-clippy.log",
+    "sha256": "538b24a28645e45ea7a1378d39f4f0297eb95b8da35a90ec529575b87b568c1d"
+  },
+  {
+    "mode": "core-warm",
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--all-targets",
+      "--no-default-features",
+      "--features",
+      "accepted-pressure-warm-start",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "child_returncode": 0,
+    "log": "/tmp/pr59-deps-core-warm-clippy.log",
+    "sha256": "8248d9d4559d81abba97150e3c6951ecb03470f5db63a4f92c642faa37403814"
+  },
+  {
+    "mode": "desktop-warm",
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--all-targets",
+      "--features",
+      "desktop accepted-pressure-warm-start",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "child_returncode": 0,
+    "log": "/tmp/pr59-deps-desktop-warm-clippy.log",
+    "sha256": "2c17f9cd7c63b4152f0ed34964f98dee54032800d2394eccafe1ced557003730"
+  }
+]

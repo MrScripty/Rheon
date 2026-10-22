@@ -1,0 +1,27 @@
+# Independent dependent-Q2 result documentation review — 2026-10-20
+
+Approved the exact **13 prepared documentation paths** for result commit and draft review. No unresolved documentation finding remains. The full per-file SHA256 roster is in [review.json](review.json). Copies of these two independent receipts are outside their own13-path hash scope; exact-byte copies need no source/test rerun. This is documentation/evidence approval, not public merge or scientific-method acceptance.
+
+Executed source remains `9a9904f3c6f0f96cbe2af9210a0c578f825ccee0`, tree `488ab45ed7151d20d17adba519d587550b1e983e`. The working delta contains only five canonical documents and eight new result/review/custody files. All135 selected inputs, Cargo bytes, bound inventory and admission review remain fixed. Later result-document commits must not be represented as newly executed source subjects. Fixed PR133/9c04278 evidence remains separately scoped and unchanged.
+
+## Independent evidence and scope checks
+
+Read-only verification confirmed all1472 receipt source hashes against exact committed9a blobs, all135 current selected identities, and exact inventory/review bindings. The native receipt is clean/passed with18 successful commands. All60 retained evidence hashes and every member/CRC of the60-entry archive match the manifest; archive size913699 and SHA256 `fa0db9c9e6f98a8c2d98b89967053537c8a2e74237c34276c84614b76bbff16c` match. The retained executable has an ELF header and expected SHA256 `e12fe3ecd5f5f96cd30e30cba9e1f5e25fd9c263033314554cebe44cf97e94d8`.
+
+Raw logs support35 Rust native-contract passes;83 separate focused no-default passes (23 workflow,9 native-family,14 composition,23 volume,3 compile-fail doctests,2 private coupled,9 private exact-geometry); and26 real-packet tests in each normal/optimized mode with no skips. The five native/rational specimens and Python guard/oracle tests remain the existing18-command qualifier scope. Filtered tests are not counted. The long exact-geometry regression is correctly disclosed as a fixed existing test, not another scientific campaign. Recorded environment supports actual Python3.12.14, pinned Rust/Cargo1.92, fresh target, debug-information settings and unchanged debug assertions/opt-level.
+
+The original deciding verification sections remain byte-identical. All41 local file links resolve, Markdown fences are balanced, and the changed integration rows form one contiguous table. Original admission review and protocol-spacing receipts are exact-byte copies of their external originals.
+
+## Findings resolved before final pinning
+
+The initial G1 wording incorrectly suggested the legacy advection-cancellation finding was absent from the fixed stages. Direct source inspection confirms the old cancellation wrapper reaches `SimulationError::Advection(AdvectionError::Cancelled)` while the observed Session's cancellation classification omits it. The corrected canonical documents and result report explicitly acknowledge this defect in both9c and9a: no publication occurs, but the attempt is labelled Failed. Passing23 workflow tests do not resolve that uncovered path. Full G1-C outcome-label acceptance remains open; the assigned repair and new PR136 implementation, rather than the existing defect, are excluded from the fixed subjects. No implementation was changed by this documentation review.
+
+The original independent execution audit binds summary SHA256 `7faa36f7bf03cb5234ea9c3eee3207313bf8b20f0367be7f3113ec50062fee21`; the current compact summary is `ddad48dbe6ab70d8d4444da3b594b7e9ce5b5bfeaaf942a9060a692147537f3a`. I independently reproduced the exact original bytes/hash by removing only `archive.library.current_version_number=0` and `archive.library.file_name=rheon-q2-reference-stage-9a9904f.zip` from the current JSON and serializing in its original format. No result, source, raw artifact or archive value changes. The original audit is preserved; the explicit custody addendum and prose correctly bind the metadata-only extension. Remote Library retrieval was not repeated.
+
+## Scientific and operational boundaries
+
+PR132's fixed-corpus exact predicates and PR134's eight aligned algebra cases retain their own tested sources. PR135 head `4f8bd22669efed62e84c0062ee1baec27393e830`/source `6d99e7794a6aa69f5886bb15cc662e40ea43cd40` is separately reported and excluded from9a execution. Its committed qualification/independent review supports only the four-fixture CV1 operator/physical-trace builder result. The square mass condition diagnostic near6.53e11 leaves coupled conditioning, mixed-pair stability, forward-error and PDE gates open. Physical traces do not constitute physical validation. This review did not rerun/reconstruct that campaign or admit a PDE solver.
+
+PR136/e56 and its140-input Session/custody admission remain separate and pending. No fresh default/desktop/release, hosted Pages/browser, native-window/performance, Lean, learned/GPU, full replacement, general cut/free-surface or physical acceptance follows from the dependent qualification. Failed P1/Q1 results and the grid-first/future particle-output-surface/later Lagrangian roadmap remain intact. The fixed acceptance thresholds were not weakened.
+
+The PR121 automatic-review rejection remains a public merge blocker. No additional retry or alternate path was performed or authorized here. Reviewer ran no build, test, model, simulation, evaluator or campaign and made no repository, target, ref or PR mutation; only outside-Git audit receipts were written.

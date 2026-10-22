@@ -1,0 +1,27 @@
+{
+  "admitted_contract_sha256": "8d2a8393c8af2dd3f7489f2c29076da3050c4616543d549fd88b8d1fd4cb8208",
+  "approval_denials": [],
+  "fresh_main": "718469beedb9a949f4bb6f3299c7b880b4c47e47",
+  "independent_snapshot_file_hashes_verified": 16,
+  "independent_source_manifest_sha256": "043345393a6a418aa2b9be99ca4c74452be218972e314ad91c63001af701cdbe",
+  "native_binary_executed": false,
+  "native_case_output_exists": false,
+  "new_numeric_contracts": "3 ignored and unrun",
+  "numerical_acceptance": "unknown",
+  "pr139_head": "902f6092de6044419d028f92dabd8e59ae7a87ba",
+  "pr141_head": "38c40ca7b4b2401e0ac802f12c647f7229072f52",
+  "prospective_checks": "72 unrun",
+  "protected_archives": {
+    "CV1": "ff4cd5b0d265f2ea6d9df5944f3b2043f5c037ade9f4475f4ba0f4a1984a72a7",
+    "CV2": "4c40b60923bac393498388f7702fde0a182a38c09d415d6c41d7d43f43560616"
+  },
+  "protected_worktrees_clean": [
+    "/workspace/Rheon",
+    "/workspace/Rheon-q2-cut-solve",
+    "/workspace/Rheon-q2-cut-method"
+  ],
+  "python_ast_only_files": 14,
+  "runtime": "unmeasured; hard stop caps fixed before data",
+  "selected_module_imports": 0,
+  "status": "preparation-source-inspection-pass; no scientific execution"
+}

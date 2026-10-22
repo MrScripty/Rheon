@@ -1,0 +1,30 @@
+{
+  "numerical_source_commit": "0f4e7e0944a7e0302690a0f71c08c21fe345cc89",
+  "binary_sha256": "336842c96979bcf38fa825410b3f19eb8f67cf428141cbaef1e4c8f6476e5473",
+  "source_archive_sha256": "388d0a5be1b57c28bdc03d0eecaf80e51d7eceff130f8fd1906a72e3f80034da",
+  "native_exit_code": 0,
+  "cases": 24,
+  "selected_debug_tests": 9,
+  "selected_release_tests": 9,
+  "independent_scripts": {
+    "reconstruct_finite.py": "b0d6b21983274a50577ce718d24fa83b8fc46e7d3d389c58ee9b1a9eee936bda",
+    "exact_oracle.py": "23b50794379fa0abfbd358e5d036f8feba014b5651169043c1c00de43dc9cc9b"
+  },
+  "independent_results": {
+    "independent/exact-results/summary.json": "ec4b8923c1332c53e779fb9de72dedcbd2b7a902d76562925c9ab65f8d008d4d",
+    "independent/finite-results/summary.json": "8ac1f66d8188cb6dc0cde3a320a5f40c6a19bf59c4599797319ccbcb684c9b60"
+  },
+  "evaluator_sha256": "6c0920751843469fbc7657b5f8339540fa2e5ec0f98992591426a8360bdb295c",
+  "custody": "Archive created once, CRC checked, saved privately to Library; local identity persisted successfully.",
+  "archive": {
+    "path": "/workspace/rheon-q2-exact-geometry-0f4e7e0.zip",
+    "bytes": 15077327,
+    "sha256": "e0bb0e691ca27feec7991abe980f94013260ad12cda93daf904ba7c7fa9ecc4d",
+    "library": {
+      "library_file_id": "libfile_b04abe9965fc8191843341e158250f25",
+      "file_id": "file_0000000076548230a06e1715a89afc64",
+      "path": "/rheon-q2-exact-geometry-0f4e7e0.zip"
+    }
+  },
+  "independent_review_sha256": "fb77647e717bc30cdafdd9a6446f731474c707e1aa94457028870033105a0ed5"
+}

@@ -1,0 +1,25 @@
+{
+  "all135_selected_inputs_unchanged": true,
+  "approved_sha256": "9281169f3111421173df205c7a5a9b8188d66c6e1d6194282d9dc2663ae09465",
+  "committed_admission_head": "ba16197ed6820815db2ec29568265861d3c64052",
+  "committed_admission_tree": "acd72fdc4fc925b63ec04e333c703ece09d4d9da",
+  "decision": "APPROVED_EXACT_SINGLE_LINE_FORMATTING_FOLLOWUP",
+  "exact_delta": "Add space after first count comma and remove trailing space on the same prose line; no semantic/recipe change.",
+  "execution_performed": false,
+  "findings": [],
+  "original_full_review_json_sha256": "cf7d3accfa44c6a3f7b1edba3fae3e15c419cf105163d575578456cc1f1c706b",
+  "original_sha256": "110814b8796aacc3d3c0a979611c814ce49e73b98ca3629e21f05cb35cbf96a0",
+  "other_seven_approved_pins_unchanged": {
+    "docs/education/NATIVE_ADMISSION_INTEGRATION_REVIEW.md": "49f7d8e32e29886a22d91b8310e99b961a5e611a0b75f670c1f280e7da29f497",
+    "docs/education/aligned-strain-native-sources-integration-20261014.json": "fce71cd78045159972f4bd4500bf4f67305ecc074db9a450ef3f3327d2421a09",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/source-review/dependency-review.json": "955f26fb049e3f676fccef5165210e7056e56e95e0ea03d7496293ac67cd2408",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/source-review/pr132-source-pins.json": "9e828e48dd678c0409b37fb6980b657c70ae373484d64bead442dcaf4cf24ffb",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/source-review/pr134-source-pins.json": "cf53e3a36be99bd292f0e03c6ef2872f50c632d92321e40ccb48582cff5d1119",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/source-review/readiness-review.json": "f75b30d119b71d526f59bd729753ec16c6c409d783d3796c495e5b4a6c06ab5e",
+    "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/source-review/readiness-review.md": "c0ea7f43124b43e5eb37188ac683d4fe718faf28c6e81b95354079d9f9804c6f"
+  },
+  "path": "docs/plans/fluid-accuracy-composition/reports/q2-admission-20261020/protocol.md",
+  "repository_mutation_performed": false,
+  "schema": "rheon-independent-protocol-spacing-followup-v1",
+  "selected_map_sha256": "c1baa8b487bdacaa746446a0e21540b9605232c39131b32148253909249cb8f1"
+}

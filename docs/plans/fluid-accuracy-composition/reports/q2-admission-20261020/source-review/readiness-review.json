@@ -1,0 +1,256 @@
+{
+  "schema": "rheon-q2-numerical-handoff-source-boundary-review-v1",
+  "status": "BOUNDED_HANDOFF_REVIEW_COMPLETE_NOT_COMPOSED_ADMISSION_OR_MERGE_READY",
+  "reviewed_at_utc": "2026-10-20T03:19:17.992898+00:00",
+  "standards": "0fc92a24279f3a4574c80af0a2f31ea347a21597",
+  "prs": {
+    "132": {
+      "base": "c2fbbea9f19f818b28b6c6863a40220a2bd0bbe5",
+      "head": "e6525a116a07af486e4a682cc2b157241d6b9150",
+      "tested": "0f4e7e0944a7e0302690a0f71c08c21fe345cc89",
+      "folder": "q2-exact",
+      "changed_paths": {
+        "Cargo.lock": "e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f",
+        "Cargo.toml": "fc5bccf8799aa579c510d2ff7078a4532f794e61841e327d7d567257589f2409",
+        "docs/plans/fluid-accuracy-composition/q2-exact/admission.md": "c257ea0697cf498eac006531f958f5bf28cb5a28691dee31484112080c40488f",
+        "docs/plans/fluid-accuracy-composition/q2-exact/analyze.py": "6c0920751843469fbc7657b5f8339540fa2e5ec0f98992591426a8360bdb295c",
+        "docs/plans/fluid-accuracy-composition/q2-exact/independent-review.md": "fb77647e717bc30cdafdd9a6446f731474c707e1aa94457028870033105a0ed5",
+        "docs/plans/fluid-accuracy-composition/q2-exact/manifest.json": "9113f2d2accf9353900b4edcacf3448ac6ae38387045f8bbe27fe8558bdb3e85",
+        "docs/plans/fluid-accuracy-composition/q2-exact/mathematics.md": "635d67b8bf830b93cee376855b993341135335791fc6c38fe4b64e794a99528c",
+        "docs/plans/fluid-accuracy-composition/q2-exact/protocol.md": "bb96ae382d0713730dbb58d10209ef4c21530e6ab0b48449264588f97d93a215",
+        "docs/plans/fluid-accuracy-composition/q2-exact/qualification.md": "47ac24e0a5280afcf4759ac8b3091a9e1423beec65a32f8ec83bc6a5bd2501c2",
+        "docs/plans/fluid-accuracy-composition/q2-exact/results.md": "f2c3fefc44304b99408c00f1f9d74a0be1c0002671f1f4ed7d8e4fc6b08c5511",
+        "docs/plans/fluid-accuracy-composition/q2-exact/review.md": "c36946783dd61939396b3e9c08ca2bc9e3874caf0581b561c534d12bc1d19e53",
+        "docs/plans/fluid-accuracy-composition/q2-exact/route-handoff.md": "b7862c160c11ad773f0609b15cbd4b630c1ee756ec7fadc2a00b13b034cbc330",
+        "examples/grid_geometry_reference.rs": "40b0e81dff40738d64174f1726f037e18d26f2fb6076c3b0d78072acbc616c26",
+        "examples/grid_geometry_reference/diagnostics.rs": "16abcc4a2c2fe97bb7c36b9e37f8a2dce0e65f146a2eab8cb6c553fef4b5f4c3",
+        "examples/grid_geometry_reference/exact.rs": "9e1ecc2cfdf4d3473eb6ba39eec94854c8c45ca90cb51d2722c23fd029b106d2",
+        "examples/grid_geometry_reference/geometry.rs": "2f4f4f119e5a848558f92231d17e418c5898164c5bc5d24075e9a3f812297056"
+      },
+      "code_equal_to_tested_freeze": true,
+      "later_head_delta": [
+        "docs/plans/fluid-accuracy-composition/q2-exact/independent-review.md",
+        "docs/plans/fluid-accuracy-composition/q2-exact/manifest.json",
+        "docs/plans/fluid-accuracy-composition/q2-exact/qualification.md",
+        "docs/plans/fluid-accuracy-composition/q2-exact/results.md",
+        "docs/plans/fluid-accuracy-composition/q2-exact/route-handoff.md"
+      ],
+      "manifest": {
+        "numerical_source_commit": "0f4e7e0944a7e0302690a0f71c08c21fe345cc89",
+        "binary_sha256": "336842c96979bcf38fa825410b3f19eb8f67cf428141cbaef1e4c8f6476e5473",
+        "source_archive_sha256": "388d0a5be1b57c28bdc03d0eecaf80e51d7eceff130f8fd1906a72e3f80034da",
+        "native_exit_code": 0,
+        "cases": 24,
+        "selected_debug_tests": 9,
+        "selected_release_tests": 9,
+        "independent_scripts": {
+          "reconstruct_finite.py": "b0d6b21983274a50577ce718d24fa83b8fc46e7d3d389c58ee9b1a9eee936bda",
+          "exact_oracle.py": "23b50794379fa0abfbd358e5d036f8feba014b5651169043c1c00de43dc9cc9b"
+        },
+        "independent_results": {
+          "independent/exact-results/summary.json": "ec4b8923c1332c53e779fb9de72dedcbd2b7a902d76562925c9ab65f8d008d4d",
+          "independent/finite-results/summary.json": "8ac1f66d8188cb6dc0cde3a320a5f40c6a19bf59c4599797319ccbcb684c9b60"
+        },
+        "evaluator_sha256": "6c0920751843469fbc7657b5f8339540fa2e5ec0f98992591426a8360bdb295c",
+        "custody": "Archive created once, CRC checked, saved privately to Library; local identity persisted successfully.",
+        "archive": {
+          "path": "/workspace/rheon-q2-exact-geometry-0f4e7e0.zip",
+          "bytes": 15077327,
+          "sha256": "e0bb0e691ca27feec7991abe980f94013260ad12cda93daf904ba7c7fa9ecc4d",
+          "library": {
+            "library_file_id": "libfile_b04abe9965fc8191843341e158250f25",
+            "file_id": "file_0000000076548230a06e1715a89afc64",
+            "path": "/rheon-q2-exact-geometry-0f4e7e0.zip"
+          }
+        },
+        "independent_review_sha256": "fb77647e717bc30cdafdd9a6446f731474c707e1aa94457028870033105a0ed5"
+      },
+      "evaluator_hash_verified": true,
+      "raw_archive_locally_available": false,
+      "live": {
+        "head": "e6525a116a07af486e4a682cc2b157241d6b9150",
+        "draft": true,
+        "state": "OPEN",
+        "base_branch": "fix/numerical-evaluator-inputs-20261020",
+        "check_snapshot_counts": {
+          "QUEUED": 11,
+          "SUCCESS": 5,
+          "FAILURE": 1,
+          "SKIPPED": 1
+        }
+      }
+    },
+    "134": {
+      "base": "e6525a116a07af486e4a682cc2b157241d6b9150",
+      "head": "f84f65104d6a0f6f8f1a9b903412b1e5155f72a2",
+      "tested": "06b31902fd229624080bff1562f80beb1be2449c",
+      "folder": "q2-coupled",
+      "changed_paths": {
+        "docs/plans/fluid-accuracy-composition/q2-coupled/admission.md": "d15e8f73c0c55a888bead01a50f29c7fb615c19ffce71694ef23e65914d3cbe7",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/analyze.py": "a129ae79ed54f520883d508a0a3c2cc4d72b5540079d6d28aa7461088d71b336",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/independent-review.md": "159c818739defdb3ebf393469c080c95fb3f3dd251fcf138e7487828a2e9be7c",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/manifest.json": "d548cb3eb85c6f6963c1c4407aa01ea0958faaeec7ee46e2969b7f22cdf6b360",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/mathematics.md": "2e42a62277042a4b9fbcc814742d15fe1b6277705f1a44e1fbb42024a6786d4a",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/protocol.md": "7599823e210e3d2a39cec5d6c58d219993d2c7a09b70ab07351353cd4409cb40",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/qualification.md": "ef0772904d0dc7e8bbef345970c736d0f311628987a32ee1df820a355cbe91aa",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/results.md": "9460003a5a2629e86bd57d0c6b42a3aefcffce840822c43fa1bb0281faa6ada9",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/review.md": "993b0211de776eded6f2b3660ca6b51343af747fd2f24263ec70d00b9defc468",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/route-handoff.md": "8f7359ba91bf7e410dcdc0ae055a9f287b98171108532c024d1fdfbcd012cc6d",
+        "examples/grid_coupled_reference.rs": "1bea8f49567aac24e413721ce3d3c03302ef0154248584f958f20d7d784fa0a7",
+        "tests/grid_coupled_reference_contract.rs": "d36504da77f21aa8667d530f304f97e89ff27163a99f3c0b4e161deed42caa56"
+      },
+      "code_equal_to_tested_freeze": true,
+      "later_head_delta": [
+        "docs/plans/fluid-accuracy-composition/q2-coupled/independent-review.md",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/manifest.json",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/qualification.md",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/results.md",
+        "docs/plans/fluid-accuracy-composition/q2-coupled/route-handoff.md"
+      ],
+      "manifest": {
+        "numerical_source_commit": "06b31902fd229624080bff1562f80beb1be2449c",
+        "binary_sha256": "2e6dce9e317aa157d41ae05f8ba29c6a8ed4df51f8fcb7c88bd96f6294cbef93",
+        "source_archive_sha256": "8cb96557b1b401167d979a3587fa4175b26a9f53a34bcfff93ebdf92e238fff7",
+        "native_exit_code": 0,
+        "cases": 8,
+        "selected_debug_tests": 2,
+        "selected_release_tests": 2,
+        "independent_oracle_sha256": "b76e7c926d5746aa76bbf2a60d768443b97f7cb4c31e5c2f072a82af117b8d3f",
+        "independent_result_sha256": "284417cca5ba7cae4020b475cdeafe8f7ca31f6a88e3e209afc09c17bca5da99",
+        "independent_review_sha256": "159c818739defdb3ebf393469c080c95fb3f3dd251fcf138e7487828a2e9be7c",
+        "independent_hash_manifest_sha256": "89631999bba71d7cd8d17b6b78274d46f89b4e8b67d8fd11f0f3864ed1a82004",
+        "evaluator_sha256": "a129ae79ed54f520883d508a0a3c2cc4d72b5540079d6d28aa7461088d71b336",
+        "custody": "Archive created once, CRC checked, independent review/manifest hashes match final reviewer receipt, saved privately to Library with local identity persisted.",
+        "archive": {
+          "path": "/workspace/rheon-q2-aligned-coupled-06b3190.zip",
+          "bytes": 6469513,
+          "sha256": "550bc5173f14939deed7666e348a95edc0ea1474cd80112578cdd7c3dbc79fa5",
+          "library": {
+            "library_file_id": "libfile_dc54eac485448191815068901b1b2332",
+            "file_id": "file_00000000c4748230aef762e6b63a0be1",
+            "current_version_number": 0,
+            "path": "/rheon-q2-aligned-coupled-06b3190.zip"
+          }
+        }
+      },
+      "evaluator_hash_verified": true,
+      "raw_archive_locally_available": false,
+      "live": {
+        "head": "f84f65104d6a0f6f8f1a9b903412b1e5155f72a2",
+        "draft": true,
+        "state": "OPEN",
+        "base_branch": "implementation/q2-exact-face-boundary-20261020",
+        "check_snapshot_counts": {
+          "QUEUED": 7,
+          "SUCCESS": 1
+        }
+      }
+    }
+  },
+  "new_material_source_findings": [],
+  "dependency_review": {
+    "new_dependencies": [
+      {
+        "name": "num-bigint",
+        "version": "0.4.8",
+        "checksum": "c89e69e7e0f03bea5ef08013795c25018e101932225a656383bd384495ecc367",
+        "verified_official_crate_bytes": 109961,
+        "official_archive_url": "https://static.crates.io/crates/num-bigint/num-bigint-0.4.8.crate",
+        "license": "MIT OR Apache-2.0",
+        "license_sha256": {
+          "LICENSE-MIT": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+          "LICENSE-APACHE": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        "declared_rust_version": "1.60",
+        "root_build_rs": [],
+        "defaults": [
+          "std"
+        ]
+      },
+      {
+        "name": "num-integer",
+        "version": "0.1.47",
+        "checksum": "7ce2d95d4b3734dc35aa2f45e1aa22cd416814592a4f9d9205e11affd5b8e10b",
+        "verified_official_crate_bytes": 23502,
+        "official_archive_url": "https://static.crates.io/crates/num-integer/num-integer-0.1.47.crate",
+        "license": "MIT OR Apache-2.0",
+        "license_sha256": {
+          "LICENSE-MIT": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+          "LICENSE-APACHE": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        "declared_rust_version": "1.31",
+        "root_build_rs": [],
+        "defaults": [
+          "std"
+        ]
+      },
+      {
+        "name": "num-rational",
+        "version": "0.4.2",
+        "checksum": "f83d14da390562dca69fc84082e73e548e1ad308d24accdedd2720017cb37824",
+        "verified_official_crate_bytes": 28159,
+        "official_archive_url": "https://static.crates.io/crates/num-rational/num-rational-0.4.2.crate",
+        "license": "MIT OR Apache-2.0",
+        "license_sha256": {
+          "LICENSE-MIT": "6485b8ed310d3f0340bf1ad1f47645069ce4069dcc6bb46c7d5c6faf41de1fdb",
+          "LICENSE-APACHE": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        "declared_rust_version": "1.60",
+        "root_build_rs": [],
+        "defaults": [
+          "num-bigint",
+          "std"
+        ]
+      }
+    ],
+    "existing_num_traits": "0.2.19 is unchanged already locked; now direct dev requirement",
+    "removed_identities": [],
+    "old_registry_checksum_changes": [],
+    "only_existing_package_record_changed": "rheon direct dev dependency edges"
+  },
+  "selected_input_impact": {
+    "policy": "Existing unchanged conservative selected-native closure; apply owner path deltas only, not whole stacked-branch tree substitution.",
+    "relative_to_executed_subject": "9c04278e6cdd44418628c35f944c1730cbe6173e",
+    "existing_selected_count": 135,
+    "PR132": {
+      "Cargo.lock": "e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f",
+      "Cargo.toml": "fc5bccf8799aa579c510d2ff7078a4532f794e61841e327d7d567257589f2409"
+    },
+    "PR134": {},
+    "combined_counts_if_only_reviewed_owner_deltas_are_integrated": {
+      "total": 135,
+      "added": 0,
+      "changed": 2,
+      "unchanged": 133,
+      "removed": 0
+    },
+    "private_reference_inputs_outside_selected_policy": [
+      "examples/grid_geometry_reference.rs",
+      "examples/grid_geometry_reference/geometry.rs",
+      "examples/grid_geometry_reference/diagnostics.rs",
+      "examples/grid_geometry_reference/exact.rs",
+      "examples/grid_coupled_reference.rs",
+      "tests/grid_coupled_reference_contract.rs",
+      "q2-exact/q2-coupled protocols, evaluators and reports"
+    ],
+    "qualification_binding": "Fresh whole-commit receipts must also bind private example/test/evaluator source; selected135 admission does not execute/qualify those reference campaigns. No selector broadening or inventory update performed."
+  },
+  "bounded_disposition": [
+    "132: private exact represented-binary64 face classifier uses pinned BigRational edge crossings with strict empty/point/positive dimension, conservative unrepresentable-positive refusal and existing floating source/moment rejection. Region bounds are stored with moments. No production src, Session, provider, recording or geometry owner is changed by its owner delta.",
+    "134: private tiny fixed aligned CPU algebra assembles M,B,K=mu*S^T*Wgeom*S and symmetric coupled block, first component gauges, <=256 dense partial-pivot solve, full-cell momentum/continuity and residual-work gates; no pivot floor. It does not invoke a Session or replace the preserved split experiment.",
+    "Both tested source freezes remain exact; later heads only append evidence docs. Evaluators have always-on explicit require checks and declare independent exact/block reconstruction REQUIRED; no optimized-assert bypass identified in these new evaluators or repaired q2 dependency.",
+    "Producer/independent reports retain fixed-corpus geometry and eight-case aligned algebra limits and explicitly stop cut/free-surface/DOF/extension/traction/MMS/hydrostatic progression. Their raw archives and external oracle sources were not available locally in this review; those execution and custody results remain attributed, not rehashed or rerun here."
+  ],
+  "admission_blockers": [
+    "Complete exact integration composition and source-map delta review remain required; no whole-branch replacement may drop unrelated G1/C1 files by ancestry.",
+    "Review/admit the two new Cargo inputs and three resolved crate identities under declared private native example/test ownership; append exact license/provenance and selected feature/target records to integration evidence. Official archive/license checks are supporting evidence, not general security or supported-WASM assurance.",
+    "Fresh clean committed qualification is required after dependency/Cargo integration; 9c04278 receipts explicitly exclude all132/134 additions and cannot be transferred. Separately retain or establish exact-subject private-reference qualification and applicable focused/default/desktop/tooling consumer checks.",
+    "Hosted132 Pages build currently fails and other checks remain queued;134 remains draft with queued checks. Neither is ready to merge from this source-boundary review.",
+    "Further cut/free-surface active spaces, velocity extension, stress/traction boundary lifts and coupled MMS/hydrostatic method selection remain unresolved. Parent research authorization is not implementation/physics admission."
+  ],
+  "no_claims": [
+    "No campaign/build/test reruns, composition, source/inventory/ref/PR mutations. Only external review files and official crate archive bytes retrieved to /tmp.",
+    "No new continuum/physical/model/GPU/native-window/performance or kernel/IEEE proof claim.",
+    "1437-source/135-native staged9c qualification stays fixed to its executed subject; future Q2 material is explicitly excluded."
+  ]
+}

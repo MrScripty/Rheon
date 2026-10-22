@@ -1,0 +1,135 @@
+{
+  "schema": "rheon-dependent-q2-qualification-independent-audit-v1",
+  "status": "APPROVED_EXACT_EXECUTED_RECEIPTS_AND_BOUNDED_COUNTS",
+  "reviewed_at_utc": "2026-10-20T03:54:47.528219+00:00",
+  "executed_source_head": "9a9904f3c6f0f96cbe2af9210a0c578f825ccee0",
+  "executed_source_tree": "488ab45ed7151d20d17adba519d587550b1e983e",
+  "source_receipt_hashes_verified": 1472,
+  "selected_closure_count": 135,
+  "selected_map_sha256": "c1baa8b487bdacaa746446a0e21540b9605232c39131b32148253909249cb8f1",
+  "selected_delta_from_9c": {
+    "Cargo.lock": "e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f",
+    "Cargo.toml": "fc5bccf8799aa579c510d2ff7078a4532f794e61841e327d7d567257589f2409"
+  },
+  "admission_inventory_sha256": "fce71cd78045159972f4bd4500bf4f67305ecc074db9a450ef3f3327d2421a09",
+  "bound_review_sha256": "49f7d8e32e29886a22d91b8310e99b961a5e611a0b75f670c1f280e7da29f497",
+  "summary_sha256": "7faa36f7bf03cb5234ea9c3eee3207313bf8b20f0367be7f3113ec50062fee21",
+  "native_receipt_sha256": "b647e5c61f319044067ac10d128bf04e2461677103f1d8f953b7230c02c11739",
+  "native_commands": 18,
+  "native_all_exits_zero": true,
+  "native_rust_tests": 35,
+  "native_rational_specimens": 5,
+  "focused_contract_total": 83,
+  "packet_tests_each_mode": 26,
+  "all_logged_skips_ignores_failures": 0,
+  "verified_log_counts": {
+    "native-qualified-v1/rust-contracts.log": {
+      "passed": 35,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused-workflow.log": {
+      "passed": 23,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused-native-family.log": {
+      "passed": 9,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused-composition.log": {
+      "passed": 14,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused-volume.log": {
+      "passed": 23,
+      "failed": 0,
+      "ignored": 0
+    },
+    "borrow-doctests.log": {
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    "focused-private-references.log": {
+      "passed": 11,
+      "failed": 0,
+      "ignored": 0
+    },
+    "packet-tests-normal.log": {
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0
+    },
+    "packet-tests-optimized.log": {
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native-qualified-v1/qualification-gate-tests.log": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native-qualified-v1/qualification-gate-tests-optimized.log": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native-qualified-v1/oracle-tests.log": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native-qualified-v1/oracle-tests-optimized.log": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "verified_evidence_file_count": 60,
+  "verified_native_artifact_count": 28,
+  "actual_retained_ELF_sha256": "e12fe3ecd5f5f96cd30e30cba9e1f5e25fd9c263033314554cebe44cf97e94d8",
+  "archive": {
+    "path": "/workspace/rheon-q2-reference-stage-9a9904f.zip",
+    "bytes": 913699,
+    "sha256": "fa0db9c9e6f98a8c2d98b89967053537c8a2e74237c34276c84614b76bbff16c",
+    "library": {
+      "library_file_id": "libfile_3ee285ef166c8191b648475efb676b1c",
+      "file_id": "file_00000000657881fdad2fb080f534d06d",
+      "path": "/rheon-q2-reference-stage-9a9904f.zip"
+    },
+    "entries_byte_verified": 60,
+    "crc_ok": true
+  },
+  "current_checkout_observation": {
+    "head": "9a9904f3c6f0f96cbe2af9210a0c578f825ccee0",
+    "tree": "488ab45ed7151d20d17adba519d587550b1e983e",
+    "same_tree_as_execution": true,
+    "clean": true
+  },
+  "findings": [],
+  "scope_limits": [
+    "Exact executed subject remains 9a9904f; later ancestry-only heads do not become newly executed subjects.",
+    "Finite aligned-strain algebra/native/rational/real-packet and focused no-default contracts only; not behavioral coverage of all 135 modules.",
+    "83 focused: 23 workflow (7 core plus 16 recording); 9 native-family; 14 composition (11 projection plus 3 facade); 23 volume (18 box plus 5 periodic); 3 compile-fail borrow doctests; 11 private-reference (2 coupled plus 9 geometry).",
+    "No duplicate builds, tests, campaigns or source/ref/PR mutations performed by this reviewer.",
+    "No fresh Lean, default/desktop, hosted Pages/browser, native-window, performance, learned-model or physical qualification.",
+    "New private exact-geometry and coupled scientific campaigns remain at component subjects; this run only executes their focused contract adapters, not scientific field campaigns. Further cut/free-surface/PDE/physical claims remain excluded; original negative P1/Q1 results retain their subjects.",
+    "Source/artifact digest integrity is not authenticity or bit reproducibility."
+  ],
+  "evidence_root": "/workspace/rheon-q2-reference-admission-20261020-evidence",
+  "execution_metadata_verified": [
+    "execution-context.json",
+    "focused-execution.json",
+    "packet-execution.json"
+  ],
+  "private_geometry_long_regression": {
+    "completed_normally": true,
+    "geometry_suite_elapsed_seconds": 186.08,
+    "over60seconds_notice_retained": true
+  },
+  "archive_library_custody": "Library identity is reported in the owner summary. Local ZIP bytes/hash/CRC/members are independently verified; no independent remote Library download was performed."
+}

@@ -88,3 +88,14 @@ state. Old versions and unsupported desktop namespaces retain explicit refusal.
 No stateful/learned/external/whole-family replacement or new physical accuracy
 is admitted. Q2/CV source, native-window, force opt-in/physical/release/performance
 and whole-application production acceptance remain separately scoped.
+
+
+## Subsequent reporting-head CI diagnosis
+
+Reporting head5eb8bf5 failed two source-only exact workflow-budget contract
+checks because their expectation had not yet been coordinated with the reviewed
+60-minute feature-job budget. The [bounded repair](ci-budget-guard-repair.md)
+keeps all numerical/workload/aggregate checks and the frozen baseline exact,
+and adds specific rejection of every other tested budget. All four source-only
+contracts pass in normal and optimized Python. The original219-test/2-error/
+27-skip failed job remains source-bound; final new-head full CI is still required.

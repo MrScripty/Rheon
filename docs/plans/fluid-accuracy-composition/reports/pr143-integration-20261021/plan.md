@@ -1,0 +1,161 @@
+# PR143 preparation integration
+
+Status: preliminary ordinary qualification and independent execution review pass;
+dependency/hosted-gated for final readiness.
+Owner: PR143 worker. Serial integration owner: PR142 lead. Operation: retain the
+complete existing PR143 preparation through ordinary reviewed merge, after PR142
+then PR138. Current target inspected: main
+`15026a966265cf9eaedf464e2b5a066bd0fef3d8`.
+
+## Authority and scope
+
+The user requested completion and merge of the five remaining PRs on 2026-10-21.
+This task owns PR143, original head
+`c7f76ec45eeceff1d6e63eef16f868323556b418`, branch
+`implementation/q2-static-mms-pilot-20261020`. The CV3-A source is preparation
+only. Its nine-case scientific campaign, selected numerical contracts and oracle
+execution remain unrun and outside this integration task. The preparation and
+source-bound failures, cancellations, reviews and receipts retain their original
+identities. No old numerical result becomes a result for this composition.
+
+Integration work is isolated at `/workspace/Rheon-pr143`, local branch
+`integration/pr143-current-main`. All original branches and workspaces are
+preserved. Normal merge commits retain ancestry; no rebase, force push, branch
+deletion or unrelated implementation is selected. Once final qualification and
+independent exact-head review pass, publish the exact ready head on PR143 for the
+lead. Merge only after verified lead authorization, or leave merging to the lead.
+
+The bounded integration write set is this report directory, appended native
+admission review and its complete v3 inventory if the actual dependency delta
+requires them. The frozen CV3 plan remains an original source record; this
+integration report supplies current status without changing its frozen payload.
+Frozen preparation payloads and their SHA256 manifests are immutable. Shared CI
+timeout repair belongs to the lead; PR143 does not race that workflow edit.
+
+## Source admission and validation
+
+1. Inspect current repository instructions and standards, actual PR/source
+   histories, original preparation seals and the recorded cancelled job.
+2. After verified PR142 then PR138 integration, merge fresh main into this
+   isolated branch; reconcile overlaps while preserving their owners and reviews.
+3. Compare every selected native/build input against the actual admitted v3
+   inventory, classify added/changed/unchanged/removed paths and dependencies,
+   and independently review any explicit admission extension before committing.
+   Preserve all predecessor inventory/review bytes and selectors.
+4. On the clean committed source run the existing admission checker. If a new
+   admission is required, run unchanged fresh native/rational qualification and
+   real packet normal/optimized rejection tests, with fresh external outputs.
+   Required ordinary CI remains binding. Do not rerun sealed numerical campaigns
+   to clear CI, import selected CV3 oracle modules or select ignored CV3 tests.
+5. Obtain independent review of the exact ready head and actual outcomes; post
+   source, dependencies, tests, limits and review on PR143. Recheck target/head
+   before serial merge and check actual post-merge CI and ancestry.
+
+The next slice is dependency reconciliation after PR142 then PR138. Preliminary
+compile-only checks can run before that event but are not transferred as final
+composed qualification. Failed commands retain their output and require diagnosis
+before a justified bounded retry. Existing cloud task reads/resumes and the denied
+artifact download remain excluded; Git and admitted GitHub actions are used.
+
+The lead subsequently froze PR142's selected source at
+`dbd49d3e41c482a753884abc8aaaff7d1b0d0653` and allowed isolated preliminary
+dependency preparation/testing while its long ordinary checks run. PR138 owns
+its bounded admission refresh. PR143 requests that exact reviewed preliminary
+head for downstream composition, with final admission/ready status still gated
+on actual verified PR142 then PR138 landing. A clean normal preparatory merge of
+frozen PR142 is `7a0f5f006ef766523bf72b422ca11ee985f99d12`: 150 of its 152 selected
+pins remain exact, with only inherited Q2 dev-reference Cargo.toml/lock differing.
+No PR142 source was edited. Compile-only
+`cargo check --locked --no-default-features --all-targets` passes on that subject
+in 15.88 seconds. No native qualification or numerical campaign was executed.
+
+PR138 then published independently reviewed preliminary composition
+`91c4f4bd8bb29e9862f6ee29cd8bdead79e0d57e`, explicitly available for downstream
+isolated preparation/testing. Its normal merge into this branch is
+`3e43f6080e8e0e4b7d77ac7d8c81a10c6eb643e4`. There is no source, Cargo or selected
+qualifier delta against that dependency. The unchanged native admission checker
+now passes all 152 paths with the exact PR138 v3 inventory/review unchanged;
+no new admission record or pin refresh is needed. The next slice is clean-source
+ordinary qualification under [protocol.md](protocol.md), independently reviewed
+in [source-protocol-review.md](source-protocol-review.md). Final ready status
+still waits verified PR142 then PR138 merged-main identity and final gates.
+
+The reviewed ordinary attempt passed on clean `31c1958545a7f29bde4e8aa15c991ede4ade4643`.
+The separate [result report](qualification.md), [compact manifest](qualification.json)
+and [independent execution audit](execution-review.md) retain exact source and
+actual counts: 18 unchanged native commands, 35 native Rust contracts, five real
+specimens, gate 5+5, oracle 10+10, real packet 26+26 with zero skips, strict Clippy
+and 38 private contracts with the three original CV3 numerical ignores retained.
+All 2,029 source hashes, 53 artifact identities and eight actual executing ELF
+copies were independently checked. No scientific campaign or retry occurred.
+The next slice is actual dependency/main revalidation, the lead-owned shared CI
+budget repair plus required hosted gates, and final exact ready-head review.
+
+The lead's exact 30-to-60 outer CI budget was adopted at `41c68c8` without any
+selected/private/admission change and published to the original draft PR branch
+by normal fast-forward. Hosted run39692570591 then failed its executable path:
+two exact source-header guards still expected the old 30-minute prefix. The
+[failure and recovery](ci-budget-recovery.md) preserve that outcome and log.
+The independently reviewed strict guard repair from lead/`3cd735f` was normally
+merged at `79d5a82`; all four source-only guard cases pass normally and optimized,
+with added 30/59/61/missing negatives. Full 152-input admission and all private
+preparation bytes remain unchanged. No automatic retry or campaign occurred.
+The next slice is independent recovery/publication review and new-head ordinary
+hosted CI, followed by actual dependency/main revalidation and final ready review.
+
+Preliminary subject `286df732106717d056330b276d6f563e79a447b8` passes
+`cargo fmt --all --check` and
+`cargo check --locked --no-default-features --all-targets` with Rust/Cargo 1.92.0.
+The latter completed in 45.04 seconds; it executes no Rust tests or examples.
+`cargo clippy --locked --no-default-features --all-targets -- -D warnings` passes
+in 19.84 seconds. `cargo build --locked --release --no-default-features --example
+grid_static_mms_reference` passes in 1 minute 22 seconds; its executable was not
+run. These build checks are preliminary and preserve the preparation-only scope.
+The [independent preliminary review](review-preliminary.md) verifies the original
+54 root freeze, 16 oracle and 25 source-review entries, plus AST-only parsing of
+14 Python files. Integrated `Cargo.toml` adds main's `force-serde` feature and is
+the sole variance in those frozen selections. Original seals remain unchanged.
+
+The unchanged `docs/education/check_native_admission.py` refuses the preliminary
+composition with exit 1: `changed qualified native source Cargo.lock`. This
+expected source-identity failure is retained; it is not a numerical comparison
+failure. Final admission must consume the lead's reviewed PR142 then PR138
+composition. No selector, pin or old receipt was changed to clear the failure.
+
+## Recorded CI diagnosis
+
+[Run 39377493085](https://github.com/MrScripty/Rheon/actions/runs/39377493085),
+attempt 2, desktop job 119483887509, checked out historical synthetic merge
+`ea5aa6d8edcec956eebeb6956230aeadfdeb5eed`: original c7f76ec into PR139/902f609,
+not the current main composition. The job starts at 21:07:18Z and is cancelled
+at 21:37:33Z, matching the workflow's 30-minute whole-job limit. Strict Clippy
+passed. Ordinary tests reached `submarine_stokes_contract` with no observed
+assertion failure before runner cancellation. Default, core-only and executable
+jobs passed, while the aggregate failed because desktop did not finish. This
+does not prove that remaining contracts pass. Attempt 1 and attempt 2 outcomes
+are preserved; no stale run retry is selected. A fresh ordinary CI attempt needs
+the reviewed resource-budget repair and actual composed source.
+
+The [check-run annotations](https://api.github.com/repos/MrScripty/Rheon/check-runs/119483887509/annotations)
+explicitly confirm: `The job has exceeded the maximum execution time of 30m0s`.
+Attempt 2 API metadata records `cancelled`, job start 21:07:17Z and completion
+21:37:36Z. Attempt 1 desktop job 118478799152 also remains cancelled, with its
+aggregate failure retained. Neither attempt is a pass or fresh qualification.
+
+## Standards and evidence boundary
+
+No ancestor or repository AGENTS.md was found. Coding-Standards current main is
+`0fc92a24279f3a4574c80af0a2f31ea347a21597`. Core and Router select Implementation,
+Verification, Development Proportionality, Planning, Commit, Documentation, Build
+and Tooling; Rust and dependency/tooling mechanisms apply to composed Cargo
+admission, and Dependencies/Licensing apply if identities change. Concurrent Plan
+Integration applies to the shared native inventory and serial PR prerequisites.
+The source/output policy keeps logs, binaries and generated fields outside Git.
+This is source-guided standards application, not an automated conformance claim.
+
+Preparation integration establishes preservation and ordinary source/dependency
+compatibility. It supplies no CV3 numerical results, uncertainty certificate,
+rank, norm, spectrum, convergence order, physical accuracy, moving geometry/GCL,
+generic cut stability, mesh-water, GPU/native-window or production acceptance.
+The frozen command file still describes its original historical binaries and
+paths; it is not an executable admission for the newly composed source.

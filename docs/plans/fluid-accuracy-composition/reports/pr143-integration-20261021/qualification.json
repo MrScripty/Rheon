@@ -1,0 +1,186 @@
+{
+  "schema": "rheon-pr143-ordinary-integration-result-v1",
+  "status": "preliminary-ordinary-qualification-passed-final-integration-pending",
+  "executed_head": "31c1958545a7f29bde4e8aa15c991ede4ade4643",
+  "executed_tree": "d5cfe181c0d55b8b8b9287bcb11a52b864a312f8",
+  "clean_executed_source": true,
+  "committed_source_files": 2029,
+  "committed_source_map_sha256": "aa2f26c9e2c8943a93c6863f72eebe5f61c9f9c1530d57a1c1d78493f0200152",
+  "dependency_pr142": "dbd49d3e41c482a753884abc8aaaff7d1b0d0653",
+  "dependency_pr138": "91c4f4bd8bb29e9862f6ee29cd8bdead79e0d57e",
+  "selected_source_count": 152,
+  "selected_source_map_sha256": "9a10497158827e189fe505f65e1aa203cd8a28fe894c469408977071b055375f",
+  "inventory_sha256": "e3ac26c5c62b909aa1ef1384b8e0baffb5587e14c1794f02f0e68ae655d14195",
+  "bound_review_sha256": "b4e7fcaf0c33b9e220fc7626d04969a95b31767897e9779eee850a9cfd71d0f9",
+  "environment": {
+    "CARGO_HOME": "/workspace/.rheon-tools/cargo",
+    "RUSTUP_HOME": "/workspace/.rheon-tools/rustup",
+    "RUSTUP_TOOLCHAIN": "1.92.0-x86_64-unknown-linux-gnu",
+    "CARGO_TARGET_DIR": "/workspace/pr143-target",
+    "CARGO_BUILD_JOBS": "2",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "external_evidence_root": "/workspace/pr143-qualification-1",
+  "journal_sha256": "0049f6c7a8093b083de6974e6e77110990d7c5aefc629558f568d07f67546d1c",
+  "native_receipt_sha256": "6ada052ec414fad2823c69946061b8c58103e1ec2b0e2c84f362b7f24c43f9b0",
+  "driver": {
+    "path": "/workspace/pr143-run-qualification.py",
+    "sha256": "3217f552ee1c9d6a2db39abd07f0c3427efb47739aa9b3285006f5752c2c6c12",
+    "log": "/workspace/pr143-qualification-driver-1.log",
+    "log_sha256": "1b45d3c7c88d33eada791361f16721126ed48a02fdfe8e7fefa1b1bdac0ec96d",
+    "pre_execution_review": "Signal cleanup race found and repaired before execution; no initial driver attempt occurred."
+  },
+  "results": {
+    "driver_commands": 11,
+    "driver_commands_exit_zero": true,
+    "native_qualifier_commands": 18,
+    "native_rust_passed": 35,
+    "native_specimens": 5,
+    "gate_python_normal_passed": 5,
+    "gate_python_optimized_passed": 5,
+    "oracle_python_normal_passed": 10,
+    "oracle_python_optimized_passed": 10,
+    "packet_python_normal_passed": 26,
+    "packet_python_optimized_passed": 26,
+    "packet_skipped": 0,
+    "strict_no_default_all_target_clippy": "passed",
+    "private_contracts": [
+      {
+        "target": "grid_cut_coupled_reference_contract",
+        "passed": 15,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "grid_cut_variational_reference_contract",
+        "passed": 10,
+        "failed": 0,
+        "ignored": 0
+      },
+      {
+        "target": "grid_static_mms_reference_contract",
+        "passed": 13,
+        "failed": 0,
+        "ignored": 3
+      }
+    ],
+    "scientific_campaign_executed": false,
+    "selected_cv3_numerical_contracts_executed": false
+  },
+  "packet_sha256": {
+    "data.json": "90a1336fce739d2072e440777a776d47783c7ef2fccc74bffc354035ba80a2ff",
+    "native.tsv": "79e4840c57aae1dd704d813302d6c343ee97928781729137af31033cbbdc7566",
+    "primary-qualification.json": "6ada052ec414fad2823c69946061b8c58103e1ec2b0e2c84f362b7f24c43f9b0",
+    "qualification.json": "dd439716863737514fad77adbad027d70f92802ff9867cc64eb1fcc8f5b48a9c"
+  },
+  "executing_elfs": {
+    "/workspace/pr143-qualification-1/aligned_strain": {
+      "sha256": "ca6a6e62a6177b73b6445b4665b00727569f695228bd89b2706b61199ece4397",
+      "bytes": 1482248,
+      "retained": "/workspace/pr143-qualification-1/executing-elfs/0-aligned_strain"
+    },
+    "/workspace/pr143-target/debug/deps/aligned_strain_contract-8b1d73643b8c4d13": {
+      "sha256": "a50699377e52c439ee222cd5ab3f4e353ebf3f6518552fa381c56cfc3c6af05f",
+      "bytes": 2147472,
+      "retained": "/workspace/pr143-qualification-1/executing-elfs/1-aligned_strain_contract-8b1d73643b8c4d13"
+    },
+    "/workspace/pr143-target/debug/deps/grid_cut_coupled_reference_contract-61551b69e08101f3": {
+      "sha256": "7f91a10335f3b52ac1dc78cfc8b713e1c51b2396a236a153f48bcb5dd2fbd71e",
+      "bytes": 2775768,
+      "retained": "/workspace/pr143-qualification-1/executing-elfs/2-grid_cut_coupled_reference_contract-61551b69e08101f3"
+    },
+    "/workspace/pr143-target/debug/deps/grid_cut_variational_reference_contract-bda665bccad4bb7c": {
+      "sha256": "f97ac600dfc6041327f9c350dba085b329b4d5b1243e5654e5fbb9cc61403862",
+      "bytes": 2801816,
+      "retained": "/workspace/pr143-qualification-1/executing-elfs/3-grid_cut_variational_reference_contract-bda665bccad4bb7c"
+    },
+    "/workspace/pr143-target/debug/deps/grid_static_mms_reference_contract-566d53d766edbc43": {
+      "sha256": "0f26c8ebf98541372949dd296a40fa84c298c468e7433264c3af0502488898e7",
+      "bytes": 2663016,
+      "retained": "/workspace/pr143-qualification-1/executing-elfs/4-grid_static_mms_reference_contract-566d53d766edbc43"
+    },
+    "/workspace/pr143-target/debug/deps/obstacle_flow_contract-d7d69af958e2eaf4": {
+      "sha256": "7a6c5fd6de741219c5a6e4d98257fb8675597abaa44bbc3286e31dbb7f487da4",
+      "bytes": 2696496,
+      "retained": "/workspace/pr143-qualification-1/executing-elfs/5-obstacle_flow_contract-d7d69af958e2eaf4"
+    },
+    "/workspace/pr143-target/debug/deps/static_obstacle_contract-29c0888cbc55cc5f": {
+      "sha256": "117adc358df9b5636efc219a2f124c626633ed0e1a20f9e76acb81871c40369b",
+      "bytes": 2044176,
+      "retained": "/workspace/pr143-qualification-1/executing-elfs/6-static_obstacle_contract-29c0888cbc55cc5f"
+    },
+    "/workspace/pr143-target/debug/examples/aligned_strain-c2ddba1c2ef90e45": {
+      "sha256": "651b7e29c40e6afca84e763aaac8b2d86358a952c32d0185f4696866d594b8b9",
+      "bytes": 1604704,
+      "retained": "/workspace/pr143-qualification-1/executing-elfs/7-aligned_strain-c2ddba1c2ef90e45"
+    }
+  },
+  "retained_artifact_count": 53,
+  "retained_artifacts_sha256": {
+    "core-normal-dependency-tree.log": "81868e815dfe6f14ab7e4490e8ceb8e1c889865a9c6dd04a36ca1a076bb3f5fc",
+    "strict-core-all-target-clippy.log": "58b6cd4e082938aa888d944b4748d8b49e8a6609976010b7ae49d1808a61d680",
+    "native-qualifier.log": "a30714e799197418247b7007c3c99eca6a4cd9f93bf0e8d4f470bd7ed9fe8fcb",
+    "metadata.log": "84418f13340b5585b41be29a6f2e118f6d643dbf294e8ef29a554492b0cacaca",
+    "rustc-version.log": "8f97c91e920ce0d02680e3d01eb87afa0c77290dcd5d19eb901ae194d4700d90",
+    "aligned_strain": "ca6a6e62a6177b73b6445b4665b00727569f695228bd89b2706b61199ece4397",
+    "packet-tests-optimized.log": "484e65914682738ea8b82f818c02969f3ac36b33ee18462aae22194b608a0acd",
+    "private-reference-contracts.log": "5a3437e7872ec66ba1bc96d208efa571997680dfd38bfc36cb954d7fe9d5f6bb",
+    "packet-tests.log": "44154ea5b8e67fbd4c47e8687409e851de0a8af075cf478cc7ac7d4a50ce6454",
+    "build-real-packet.log": "6610cfaf4e4967e8795b1b1fadb5b7fa568fd9eba3d455d89470912b76a00de0",
+    "cargo-version.log": "eb24d517cda02ee331f0f23f3da8150456969a12bcd3f07b531c45a44f67d9aa",
+    "admission.log": "d7771f2f3cb0cbcdf27312f94b51e50e8110247e7eb45e2ee88d14b853b73be3",
+    "native/rust-clippy.log": "b00fe92e24293712deb324b6fbd768015373486301484282f5cf3cef7606bfd2",
+    "native/rust-build.log": "f0b2131f0618225a35e1af290813e8b524190abc8b619b2074c60d28cf23bfee",
+    "native/large-origin-nonmidpoint-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/large-origin-nonmidpoint.tsv": "38405a03996ba2be5dc952b85b1d7e0b0e7df4d115e30b9bdfe14852e55c3628",
+    "native/native-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/reflected-anisotropic-oracle-summary.json": "01817b248b5d93e7e7904dc7c75bde3f97914d907b0d1e0dfed951cfb98e43e5",
+    "native/oracle-tests.log": "70adcdc200e9f596e6a2e91c4059e202b5be5f8e23b7e1a6ca819574ba21a93d",
+    "native/large-origin-nonmidpoint-oracle-comparison.log": "9cd2dd863062aa97c56f292e3434e56a0be9ee11c3f5485d259775d52078880f",
+    "native/unit-center-cube-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/unit-center-cube.tsv": "79e4840c57aae1dd704d813302d6c343ee97928781729137af31033cbbdc7566",
+    "native/qualification.json": "6ada052ec414fad2823c69946061b8c58103e1ec2b0e2c84f362b7f24c43f9b0",
+    "native/represented-nonmidpoint.tsv": "c7eed9042d4806d437a573ddae91817c692c8cbd77b32e2df296b0e0b38d96f2",
+    "native/native.tsv": "ecdd0877f17997c577d5183cd928c27c802f9ffdcee8324f0802fe3841fddb45",
+    "native/qualification-gate-tests.log": "72c88d7fbef769295b96afd9944622f92d5c71a6a9cb5767d115b5f86961a4a2",
+    "native/unit-center-cube-oracle-summary.json": "f7a5e0c78e0c8f41de6cee2a3a3158c840542070648776b6c0ab2f6d5870de77",
+    "native/format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/represented-nonmidpoint-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/oracle-tests-optimized.log": "0cde6658e613a1e83c69dc70ef256dcf3ceee355d0ef3d773b7b32f68f3669dc",
+    "native/native-oracle-comparison.log": "75ea8a6ed6a9c30e0906210295d2e39a83096618117e9fd992b635ec776a5c12",
+    "native/reflected-anisotropic-oracle-comparison.log": "01817b248b5d93e7e7904dc7c75bde3f97914d907b0d1e0dfed951cfb98e43e5",
+    "native/native-oracle-summary.json": "75ea8a6ed6a9c30e0906210295d2e39a83096618117e9fd992b635ec776a5c12",
+    "native/represented-nonmidpoint-oracle-comparison.log": "9f8323de5402ef1bf32e7b59b55e32ca08dfdfd5860beb1f60ce7f3b15b1fea1",
+    "native/large-origin-nonmidpoint-oracle-summary.json": "9cd2dd863062aa97c56f292e3434e56a0be9ee11c3f5485d259775d52078880f",
+    "native/reflected-anisotropic.tsv": "04821a0128a562dc796b5ec369e552eff2b867d09c55a7d1333cdfb35048b4d3",
+    "native/unit-center-cube-oracle-comparison.log": "f7a5e0c78e0c8f41de6cee2a3a3158c840542070648776b6c0ab2f6d5870de77",
+    "native/reflected-anisotropic-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/qualification-gate-tests-optimized.log": "ae9dc6137b4ceace82ead8af34ea04c7aae40dc0404ead18bcd92ad09ef71100",
+    "native/represented-nonmidpoint-oracle-summary.json": "9f8323de5402ef1bf32e7b59b55e32ca08dfdfd5860beb1f60ce7f3b15b1fea1",
+    "native/rust-contracts.log": "c56d114980be78ccf5c1a04f9c10677510d0472d9e70ba5af1df3e21ba1c2c25",
+    "executing-elfs/4-grid_static_mms_reference_contract-566d53d766edbc43": "0f26c8ebf98541372949dd296a40fa84c298c468e7433264c3af0502488898e7",
+    "executing-elfs/7-aligned_strain-c2ddba1c2ef90e45": "651b7e29c40e6afca84e763aaac8b2d86358a952c32d0185f4696866d594b8b9",
+    "executing-elfs/1-aligned_strain_contract-8b1d73643b8c4d13": "a50699377e52c439ee222cd5ab3f4e353ebf3f6518552fa381c56cfc3c6af05f",
+    "executing-elfs/2-grid_cut_coupled_reference_contract-61551b69e08101f3": "7f91a10335f3b52ac1dc78cfc8b713e1c51b2396a236a153f48bcb5dd2fbd71e",
+    "executing-elfs/5-obstacle_flow_contract-d7d69af958e2eaf4": "7a6c5fd6de741219c5a6e4d98257fb8675597abaa44bbc3286e31dbb7f487da4",
+    "executing-elfs/0-aligned_strain": "ca6a6e62a6177b73b6445b4665b00727569f695228bd89b2706b61199ece4397",
+    "executing-elfs/3-grid_cut_variational_reference_contract-bda665bccad4bb7c": "f97ac600dfc6041327f9c350dba085b329b4d5b1243e5654e5fbb9cc61403862",
+    "executing-elfs/6-static_obstacle_contract-29c0888cbc55cc5f": "117adc358df9b5636efc219a2f124c626633ed0e1a20f9e76acb81871c40369b",
+    "packet/data.json": "90a1336fce739d2072e440777a776d47783c7ef2fccc74bffc354035ba80a2ff",
+    "packet/qualification.json": "dd439716863737514fad77adbad027d70f92802ff9867cc64eb1fcc8f5b48a9c",
+    "packet/native.tsv": "79e4840c57aae1dd704d813302d6c343ee97928781729137af31033cbbdc7566",
+    "packet/primary-qualification.json": "6ada052ec414fad2823c69946061b8c58103e1ec2b0e2c84f362b7f24c43f9b0"
+  },
+  "transport_note": "Environment reported starting then ready after execution; former process session70038 was unavailable. Persisted journal, native receipt, logs and all53 artifact hashes plus8 retained ELFs confirm successful completion. No retry occurred.",
+  "remaining_gates": [
+    "verified PR142 then PR138 merged-main identities and complete source revalidation",
+    "required exact-head hosted CI including shared lead-owned budget repair",
+    "independent execution/result and final exact-ready-head review",
+    "serial lead merge and post-merge checks"
+  ],
+  "claim": "Ordinary source/dependency/private-preparation integration only; no CV3 campaign, numerical/physical, hardware/native-window, performance or whole-application production acceptance."
+}

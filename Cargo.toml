@@ -93,3 +93,8 @@ required-features = ["desktop"]
 [[example]]
 name = "accepted_pressure_lab"
 required-features = ["accepted-pressure-warm-start"]
+
+[dev-dependencies]
+# Private Q2 reference: exact represented-source predicates/constructions only.
+num-rational = "=0.4.2"
+num-traits = "=0.2.19"

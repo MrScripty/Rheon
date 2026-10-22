@@ -1,0 +1,19 @@
+{
+  "bytes": 671729,
+  "crc_and_manifest": "pass",
+  "current_version_number": 0,
+  "file_id": "file_00000000dc648230acfe32028111bd3e",
+  "library_file_id": "libfile_5a1ed194bc80819198f26af4cfd6409b",
+  "local_path": "/workspace/rheon-cv3a-preparation-d940f19.zip",
+  "path": "/rheon-cv3a-preparation-d940f19.zip",
+  "payloads": 58,
+  "scope": "preparation-only; no selected numerical execution",
+  "sha256": "2e9e379626f8e35511881880492aee1bddd7ea4639c6dc999d70523cad3378f7",
+  "source_freeze": "d940f194534655c05160eba554e5828e6999b9e5",
+  "xattrs": [
+    {
+      "name": "user.library-file-version",
+      "value": "0"
+    }
+  ]
+}

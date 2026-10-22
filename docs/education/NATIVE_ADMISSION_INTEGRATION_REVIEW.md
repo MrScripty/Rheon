@@ -1650,3 +1650,104 @@ through PR142 lead, superseding only the historical task's no-merge delegation.
 Cloud-task reads/resumes and the earlier GPU artifact download remain denied.
 No source branch is deleted or rewritten. Source admission is not numerical,
 GUI-window, performance, hardware/model, physical or production acceptance.
+
+## Dependent exact-geometry reference inputs, 2026-10-20
+
+This separately reviewed checkpoint extends the fixed stage above only after
+PR132/e6525a116a07af486e4a682cc2b157241d6b9150 and
+PR134/f84f65104d6a0f6f8f1a9b903412b1e5155f72a2 are composed at
+`cd21a9952dc411e01b77f58e3aae67aff1e473fd`, tree
+`0447da683eecce1330adb563f1ca6e5dabfc0a62`. Tested component sources remain
+`0f4e7e0944a7e0302690a0f71c08c21fe345cc89` and
+`06b31902fd229624080bff1562f80beb1be2449c`. Fixed PR133/8bf542e and its actual
+9c04278 qualification remain unchanged and do not qualify these additions.
+
+The complete unchanged selector still contains **135 regular inputs: 0 added,
+2 changed, 133 unchanged, 0 removed**. Every prior source identity except Cargo.toml
+and Cargo.lock is reused exactly, including all Rust, toolchain, checker,
+qualifier, oracle and qualification-test inputs. New Cargo.toml SHA256 is
+`fc5bccf8799aa579c510d2ff7078a4532f794e61841e327d7d567257589f2409`; Cargo.lock
+is `e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f`.
+The full sorted compact source-map SHA256 is
+`c1baa8b487bdacaa746446a0e21540b9605232c39131b32148253909249cb8f1`
+(no trailing newline). No unrelated source is removed by comparing an incomplete
+component-branch snapshot against the composed stage.
+
+The [bounded source/dependency review](../plans/fluid-accuracy-composition/reports/q2-admission-20261020/source-review/readiness-review.md)
+and [dependency receipt](../plans/fluid-accuracy-composition/reports/q2-admission-20261020/source-review/dependency-review.json)
+pin new dev-only num-rational=0.4.2 and existing num-traits=0.2.19 requirements.
+The lock adds num-bigint 0.4.8, num-integer 0.1.47 and num-rational 0.4.2, preserving
+all prior registry identities/checksums. Actual official crate archives match
+their lock SHA256s and contain MIT OR Apache-2.0 license texts. There is no new
+root build.rs or build-dependency and no production Rust/formula/domain edit in
+this extension. Private example/test files remain separately reviewed component
+source, outside the conservative native selector's explicit qualification inputs.
+
+PR132's represented-source exact predicate repairs five prior aperture artifacts
+within its predeclared fixed corpus; original failed v2 fields and finite-error
+budgets remain historical. PR134's eight aligned direct coupled-algebra cases
+reuse the existing StaticObstacleGeometry/AlignedStrain and conditional exact-real
+StokesWork identity. Neither selects a general cut/free-surface velocity space,
+extension or physical traction/boundary lift. No PDE/physical/production-family
+acceptance is granted here. Root observes the recorded component scientific
+dispositions without rerunning their campaigns or transferring old receipts.
+
+This explicit v3 map refresh authorizes **attempting fresh qualification only**.
+The [frozen dependent protocol](../plans/fluid-accuracy-composition/reports/q2-admission-20261020/protocol.md)
+requires independent composed-source/metadata review, clean committed-source
+native/rational execution and a new real packet with all normal/optimized refusal
+tests, plus separately retained focused composed and private-reference contracts.
+Preserve all previous review text, v3 schema/base, immutable primary tree, frozen
+v1/v2 bytes/digests, ancestry and complete selector/refusal checks. Commit this
+bound review and inventory together. Fresh evidence binds the new exact source,
+not 9c04278. Put outcomes in a separate report; do not change these bound bytes
+after qualifying. Hosted, desktop/native-window, performance, model and physical
+gates remain separate. Further cut/PDE method selection remains with its existing
+numerical owner and requires its own reviewed admission before implementation.
+
+## PR138 preliminary composition with reviewed PR142 source, 2026-10-21
+
+The serial lead explicitly authorized isolated preparation against frozen PR142
+`dbd49d3e41c482a753884abc8aaaff7d1b0d0653` in PR138 comment 6328266160,
+without waiving final merged-main verification or authorizing a main merge. This
+checkpoint retains PR138 `a6bfcc94481b1bafbe61be804a1abc3426927bbd`
+and exact PR132/e6525a1 and PR134/f84f651 ancestry and tested reference bytes.
+All prior review text above remains unchanged, including both PR142 histories
+and the complete dependent Q2 admission suffix from PR138.
+
+The unchanged conservative selector contains **152 regular files: 0 added,
+2 changed, 150 unchanged, 0 removed** against the reviewed PR142 dependency.
+Only Cargo.toml and Cargo.lock change; every product, thermal, UI, fixture,
+workflow, toolchain, checker, qualifier and oracle selected identity remains
+exactly PR142's. The complete sorted compact source-map SHA256 is
+`9a10497158827e189fe505f65e1aa203cd8a28fe894c469408977071b055375f` (no trailing newline).
+Cargo.toml SHA256 is `997fb098f13c60e4f85ead3f5f7f2527f87ad1cba04fdac82d0bfb24959fca3a`;
+Cargo.lock SHA256 is `e64beca355b3963812b80d49ac5b17d0b1626f03f5d651b50e4dd25823dce96f`.
+
+The two manifest requirements remain development-only num-rational=0.4.2 and
+num-traits=0.2.19. The lock adds only num-bigint 0.4.8, num-integer 0.1.47 and
+num-rational 0.4.2; all pre-existing registry identities/checksums remain unchanged.
+Actual official crate archives and MIT/Apache license bytes match the retained
+dependency review; no new root build.rs or build-dependency is added. The normal
+no-default production graph excludes all three new crates. Private reference
+implementation/test and scientific source pins remain exact; no sealed campaign
+is rerun, relabelled or promoted to combined-source evidence.
+
+The independently reviewed actual complete source and metadata are recorded in
+`docs/plans/fluid-accuracy-composition/reports/pr138-integration-20261021/`.
+This explicit v3 refresh permits attempting fresh qualification only after that
+review approves the actual staged content. The old PR142 inventory refused the
+changed Cargo.lock before numerical execution; its refusal log is retained.
+Preserve schema/base, primary tree, v1/v2 bytes/digests, ancestry, complete selector
+and all checker/qualifier/oracle/packet refusal contracts. No automatic pin
+refresh, copied receipt, dirty override or omitted source is admitted.
+
+Follow the PR138 prospective protocol: clean committed-source native/rational
+qualification, a new real packet with all 26 normal and 26 optimized tests/no skips,
+affected fixed ordinary contracts and hosted checks; retain failure/partial
+outputs. Results belong in a separate report, not changes to these bound bytes.
+Every receipt names its actual preliminary executed head. Final readiness still
+requires verified PR142 merged-main identity, any necessary exact-source
+revalidation, independent final review and the sole lead's normal merge.
+No general cut/free-surface PDE, physical/production-water, graphical hardware,
+learned/GPU or performance acceptance is granted by this reference/build stage.
