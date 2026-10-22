@@ -6,6 +6,8 @@
 pub mod configured;
 #[path = "run_sets/source.rs"]
 pub mod source;
+#[path = "run_sets/voxel_material.rs"]
+pub mod voxel_material;
 
 use rheon::{
     GridGeometry, PressureImplementation, PressureSettings, SessionIdentity, Simulation,

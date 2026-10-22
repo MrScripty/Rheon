@@ -33,6 +33,8 @@ impl ContentsMaterial {
 pub enum ContentsError {
     InvalidIdentity,
     UnsupportedGeometry,
+    UnsupportedPalette,
+    LengthMismatch,
     UnknownMaterial(u16),
     InvalidBrush,
     InvalidPoint,
@@ -108,12 +110,56 @@ impl InitialContents {
         }
         let mut cells = reserve(grid.cell_len())?;
         cells.resize(grid.cell_len(), fill as u16);
+        Self::restore(id, 0, grid, MaterialPair::water_air(), &cells)
+    }
+    /// Restore a version-one saved document without replaying commands or
+    /// consulting mutable presets. Only the qualified captured Water/Air pair
+    /// is admitted; a later reference-property change needs a new profile.
+    pub fn restore(
+        id: SceneObjectId,
+        revision: u64,
+        grid: GridGeometry,
+        materials: MaterialPair,
+        cells: &[u16],
+    ) -> Result<Self, ContentsError> {
+        if id.0 == 0 {
+            return Err(ContentsError::InvalidIdentity);
+        }
+        if grid.counts().iter().any(|n| !(4..=64).contains(n)) {
+            return Err(ContentsError::UnsupportedGeometry);
+        }
+        if cells.len() != grid.cell_len() {
+            return Err(ContentsError::LengthMismatch);
+        }
+        let actual = [
+            materials.liquid().density(),
+            materials.liquid().viscosity(),
+            materials.gas().density(),
+            materials.gas().viscosity(),
+        ]
+        .map(f64::to_bits);
+        // Exact reference values captured at profile admission, independently
+        // of the current preset lookup used only for a newly authored document.
+        if actual
+            != [
+                0x408f31999999999a,
+                0x3f506ab14ec204f3,
+                0x3ff3441c9a98fd61,
+                0x3ef315867a02249d,
+            ]
+        {
+            return Err(ContentsError::UnsupportedPalette);
+        }
+        for &id in cells {
+            ContentsMaterial::from_id(id)?;
+        }
+        let cells = copied(cells)?;
         limit(bytes(&cells), 2 * 64usize.pow(3))?;
         Ok(Self {
             id,
-            revision: 0,
+            revision,
             grid,
-            materials: MaterialPair::water_air(),
+            materials,
             cells,
         })
     }
