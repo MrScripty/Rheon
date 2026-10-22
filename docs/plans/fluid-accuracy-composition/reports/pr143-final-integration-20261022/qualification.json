@@ -1,0 +1,802 @@
+{
+  "schema": "rheon-pr143-final-ordinary-integration-v1",
+  "status": "passed",
+  "executed_head": "159fa74bd271f8fcc07f3837d66e4738925c820c",
+  "executed_tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+  "candidate_unchanged": true,
+  "authority": "https://github.com/MrScripty/Rheon/pull/143#issuecomment-6329435931",
+  "binding_sha256": "79dacdb28a3584350ccdca19e7041ab470dfa98f18bdde8221d8577d50148002",
+  "committed_source_count": 2052,
+  "committed_source_map_sha256": "6aebe9dd485c142965bcfda8575f77245e605c4fe768bdbbefa217704efada7c",
+  "selected_source_count": 152,
+  "selected_source_map_sha256": "9a10497158827e189fe505f65e1aa203cd8a28fe894c469408977071b055375f",
+  "inventory_sha256": "e3ac26c5c62b909aa1ef1384b8e0baffb5587e14c1794f02f0e68ae655d14195",
+  "bound_review_sha256": "b4e7fcaf0c33b9e220fc7626d04969a95b31767897e9779eee850a9cfd71d0f9",
+  "target_proofs": {
+    "target_proof_before": {
+      "recorded_utc": "2026-10-22T01:11:02.158509+00:00",
+      "authority": "PR143 issuecomment6329435931",
+      "binding_sha256": "79dacdb28a3584350ccdca19e7041ab470dfa98f18bdde8221d8577d50148002",
+      "dependency_merges": [
+        {
+          "commit": "b70dbae515d01ced3762e0fff030df7f8b13363e",
+          "tree": "7431605931aa55f6a83135d3476d02da909fc7e2",
+          "parents": [
+            "15026a966265cf9eaedf464e2b5a066bd0fef3d8",
+            "3cd735fde7655aedffbd0ffb2f041ca6994961a4"
+          ]
+        },
+        {
+          "commit": "7befee45270280d07693b91f4afa934ec1780b66",
+          "tree": "41192cba5adf6d4bc24d4ce80e3d47190e56b1f4",
+          "parents": [
+            "b70dbae515d01ced3762e0fff030df7f8b13363e",
+            "da1708da79fdf3ede4b4e6ee73906e1b9217a48f"
+          ]
+        }
+      ],
+      "actual_main": "7befee45270280d07693b91f4afa934ec1780b66",
+      "head": "159fa74bd271f8fcc07f3837d66e4738925c820c",
+      "tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+      "merge_tree_exit": 0,
+      "merge_tree_stdout": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+      "github_synthetic": {
+        "commit": "088a18227d273e3070b9602f92d9e6fbb31f5a00",
+        "parents": [
+          "7befee45270280d07693b91f4afa934ec1780b66",
+          "159fa74bd271f8fcc07f3837d66e4738925c820c"
+        ],
+        "tree": "d66c930d091f8e84cf445f0920922d65afed8f8e"
+      },
+      "rest_base_sha_observed": {
+        "first": "15026a966265cf9eaedf464e2b5a066bd0fef3d8",
+        "last": "15026a966265cf9eaedf464e2b5a066bd0fef3d8"
+      },
+      "actual_base_authority": "Fresh live main and exact GitHub synthetic first parent; REST base.sha may retain opening-base identity.",
+      "content_equality_is_ancestry": false,
+      "app_remote_snapshot": {
+        "phase": "before",
+        "request_path": "/workspace/pr143-final-qualification-1/remote-proof-before-request.json",
+        "request_sha256": "4dad61f3ccfa76403313c5cc613b09228b06cd6f6a6e04ea2de03c5f7e605b95",
+        "response_path": "/workspace/pr143-final-qualification-1/remote-proof-before-response.json",
+        "response_sha256": "5e3365ba0efb0cf76b6cde104c0222f5909e1edf7036d7bead83ec5c404c0b64",
+        "provider": "mcp__codex_apps__github_fetch",
+        "principal": "MrScripty",
+        "collector_sha256": "1fcc22b4710f21ae6f2fc58b508f708e66a0dcdc7a7fbfc9f832abf9acf20e37",
+        "nonce": "9fc5c87cf5edbe1d024263692b54f3fe",
+        "collected_start_utc": "2026-10-22T01:10:58+00:00",
+        "collected_end_utc": "2026-10-22T01:11:00+00:00"
+      }
+    },
+    "target_proof_after": {
+      "recorded_utc": "2026-10-22T01:11:51.824460+00:00",
+      "authority": "PR143 issuecomment6329435931",
+      "binding_sha256": "79dacdb28a3584350ccdca19e7041ab470dfa98f18bdde8221d8577d50148002",
+      "dependency_merges": [
+        {
+          "commit": "b70dbae515d01ced3762e0fff030df7f8b13363e",
+          "tree": "7431605931aa55f6a83135d3476d02da909fc7e2",
+          "parents": [
+            "15026a966265cf9eaedf464e2b5a066bd0fef3d8",
+            "3cd735fde7655aedffbd0ffb2f041ca6994961a4"
+          ]
+        },
+        {
+          "commit": "7befee45270280d07693b91f4afa934ec1780b66",
+          "tree": "41192cba5adf6d4bc24d4ce80e3d47190e56b1f4",
+          "parents": [
+            "b70dbae515d01ced3762e0fff030df7f8b13363e",
+            "da1708da79fdf3ede4b4e6ee73906e1b9217a48f"
+          ]
+        }
+      ],
+      "actual_main": "7befee45270280d07693b91f4afa934ec1780b66",
+      "head": "159fa74bd271f8fcc07f3837d66e4738925c820c",
+      "tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+      "merge_tree_exit": 0,
+      "merge_tree_stdout": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+      "github_synthetic": {
+        "commit": "088a18227d273e3070b9602f92d9e6fbb31f5a00",
+        "parents": [
+          "7befee45270280d07693b91f4afa934ec1780b66",
+          "159fa74bd271f8fcc07f3837d66e4738925c820c"
+        ],
+        "tree": "d66c930d091f8e84cf445f0920922d65afed8f8e"
+      },
+      "rest_base_sha_observed": {
+        "first": "15026a966265cf9eaedf464e2b5a066bd0fef3d8",
+        "last": "15026a966265cf9eaedf464e2b5a066bd0fef3d8"
+      },
+      "actual_base_authority": "Fresh live main and exact GitHub synthetic first parent; REST base.sha may retain opening-base identity.",
+      "content_equality_is_ancestry": false,
+      "app_remote_snapshot": {
+        "phase": "after",
+        "request_path": "/workspace/pr143-final-qualification-1/remote-proof-after-request.json",
+        "request_sha256": "8cd2e63b0fd68a73c1fb02518c84279d2012541f04229f4f8561022265d1ddbc",
+        "response_path": "/workspace/pr143-final-qualification-1/remote-proof-after-response.json",
+        "response_sha256": "ba67a4b73a8ca6bc7769080d784e9f55be4890a6a50198d6d461bd007dec00e2",
+        "provider": "mcp__codex_apps__github_fetch",
+        "principal": "MrScripty",
+        "collector_sha256": "1fcc22b4710f21ae6f2fc58b508f708e66a0dcdc7a7fbfc9f832abf9acf20e37",
+        "nonce": "d03f1640ab438a96c96d66ea95e02cc4",
+        "collected_start_utc": "2026-10-22T01:11:47+00:00",
+        "collected_end_utc": "2026-10-22T01:11:50+00:00"
+      }
+    }
+  },
+  "execution": {
+    "root": "/workspace/pr143-final-qualification-1",
+    "journal_sha256": "5c981d534e0d95b337e055435fb592407c7ef5d85c48016fc4d0d457298e7c18",
+    "driver_sha256": "aa78bef6b3fbaf524b54bb751a7e3898ebf370e8a82d850a1f24c380f7f67a0b",
+    "collector_sha256": "1fcc22b4710f21ae6f2fc58b508f708e66a0dcdc7a7fbfc9f832abf9acf20e37",
+    "protocol_sha256": "0de6ac12910f0aa97b81dbe5d91fe2dd55efae8759494f9fa4ae5fddffbed65a",
+    "driver_log_sha256": "d8b87d8b90aacefd4575ddba43bc79c3ae8460506c25a93a24cee5dc4c1d7032",
+    "outer_commands": [
+      {
+        "name": "rustc-version",
+        "argv": [
+          "rustc",
+          "-Vv"
+        ],
+        "started_utc": "2026-10-22T01:11:02.159745+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 0.01689491799879761,
+        "log_sha256": "8f97c91e920ce0d02680e3d01eb87afa0c77290dcd5d19eb901ae194d4700d90"
+      },
+      {
+        "name": "cargo-version",
+        "argv": [
+          "cargo",
+          "-V"
+        ],
+        "started_utc": "2026-10-22T01:11:02.178513+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 0.008097349000308895,
+        "log_sha256": "eb24d517cda02ee331f0f23f3da8150456969a12bcd3f07b531c45a44f67d9aa"
+      },
+      {
+        "name": "admission",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "docs/education/check_native_admission.py"
+        ],
+        "started_utc": "2026-10-22T01:11:02.188415+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 0.06411171500076307,
+        "log_sha256": "a292304524dc347622c39202db70fbabebcac1b7ea7e825ebf27dac17aa7371d"
+      },
+      {
+        "name": "metadata",
+        "argv": [
+          "cargo",
+          "metadata",
+          "--locked",
+          "--no-deps",
+          "--format-version",
+          "1"
+        ],
+        "started_utc": "2026-10-22T01:11:02.254584+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 0.01623905199994624,
+        "log_sha256": "84418f13340b5585b41be29a6f2e118f6d643dbf294e8ef29a554492b0cacaca"
+      },
+      {
+        "name": "core-normal-dependency-tree",
+        "argv": [
+          "cargo",
+          "tree",
+          "--locked",
+          "--no-default-features",
+          "-e",
+          "normal"
+        ],
+        "started_utc": "2026-10-22T01:11:02.272749+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 0.1144945590003772,
+        "log_sha256": "81868e815dfe6f14ab7e4490e8ceb8e1c889865a9c6dd04a36ca1a076bb3f5fc"
+      },
+      {
+        "name": "native-qualifier",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/qualify_aligned_strain.py",
+          "/workspace/pr143-final-qualification-1/native"
+        ],
+        "started_utc": "2026-10-22T01:11:02.389611+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 13.144934323001507,
+        "log_sha256": "63dbab845f9715f2d8bf50cbb9838e1f9ce639524fdc863ae8b7d766f11dc00d"
+      },
+      {
+        "name": "build-real-packet",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "docs/education/aligned_strain_packet.py",
+          "--output",
+          "/workspace/pr143-final-qualification-1/packet",
+          "--executable",
+          "/workspace/pr143-final-qualification-1/aligned_strain",
+          "--primary-qualification",
+          "/workspace/pr143-final-qualification-1/native/qualification.json"
+        ],
+        "started_utc": "2026-10-22T01:11:15.540522+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 0.7656024080006318,
+        "log_sha256": "e5701759a7d48f5a00b440b8b4eb5b9689dd7e50f07c5e578535b07936c678db"
+      },
+      {
+        "name": "packet-tests",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-c",
+          "import sys,unittest; suite=unittest.defaultTestLoader.discover('docs/education',pattern='test_aligned_strain_packet.py'); n=suite.countTestCases(); print('exact_packet_test_count',n); result=unittest.TextTestRunner(verbosity=2).run(suite) if n==26 else None; sys.exit(0 if result is not None and result.wasSuccessful() and not result.skipped else 1)"
+        ],
+        "started_utc": "2026-10-22T01:11:16.308483+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 5.430356101000143,
+        "log_sha256": "ed73de6c5ed125a3a6d427de0290abf2a18b48b4e2db38b0c8104d419ec3de2d"
+      },
+      {
+        "name": "packet-tests-optimized",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-O",
+          "-c",
+          "import sys,unittest; suite=unittest.defaultTestLoader.discover('docs/education',pattern='test_aligned_strain_packet.py'); n=suite.countTestCases(); print('exact_packet_test_count',n); result=unittest.TextTestRunner(verbosity=2).run(suite) if n==26 else None; sys.exit(0 if result is not None and result.wasSuccessful() and not result.skipped else 1)"
+        ],
+        "started_utc": "2026-10-22T01:11:21.741390+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 5.635517328999413,
+        "log_sha256": "e3309dfcb7a97388de87ec549632282001f36e022594cccfa6d3d328b6c88e24"
+      },
+      {
+        "name": "strict-core-all-target-clippy",
+        "argv": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--no-default-features",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "started_utc": "2026-10-22T01:11:27.379210+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 0.11458464399947843,
+        "log_sha256": "9ddcb7a97f3589835ba8f354c41d25b0a805bd5f85ddbccaff009e6f6dc7236c"
+      },
+      {
+        "name": "private-reference-contracts",
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "--no-default-features",
+          "--test",
+          "grid_cut_variational_reference_contract",
+          "--test",
+          "grid_cut_coupled_reference_contract",
+          "--test",
+          "grid_static_mms_reference_contract"
+        ],
+        "started_utc": "2026-10-22T01:11:27.496138+00:00",
+        "status": "passed",
+        "exit": 0,
+        "seconds": 0.21501275199989323,
+        "log_sha256": "60def0a6aa873443b22a810d384e4e648ccf6c411f5713ebfb802f9a3fcfde3e"
+      }
+    ],
+    "environment": {
+      "CARGO_HOME": "/workspace/.rheon-tools/cargo",
+      "RUSTUP_HOME": "/workspace/.rheon-tools/rustup",
+      "RUSTUP_TOOLCHAIN": "1.92.0-x86_64-unknown-linux-gnu",
+      "CARGO_TARGET_DIR": "/workspace/pr143-target",
+      "CARGO_BUILD_JOBS": "2",
+      "CARGO_INCREMENTAL": "0",
+      "CARGO_PROFILE_DEV_DEBUG": "0",
+      "CARGO_PROFILE_TEST_DEBUG": "0",
+      "PYTHONDONTWRITEBYTECODE": "1"
+    },
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "compiled_declarations": {
+      "RHEON_SOURCE_REVISION": null,
+      "RHEON_BUILD_MATERIAL_SHA256": null
+    },
+    "compiled_declaration_disposition": "Both optional declarations explicitly removed from child environment; unspecified, not an embedded commit/build attestation.",
+    "checkout_ref_event": {
+      "kind": "local clean committed checkout",
+      "ref": "integration/pr143-current-main",
+      "github_execution_event": null
+    },
+    "cache_disposition": "Existing task-owned target cache; fresh execution/output custody, no cold-build/reproducibility or equal-ELF/environment claim."
+  },
+  "native": {
+    "receipt_sha256": "a7c4c124717d89716fa99f2a6edaa064b030f9a2fe21c05a1c4cfc8a29f5386f",
+    "commands": [
+      {
+        "name": "format",
+        "argv": [
+          "cargo",
+          "fmt",
+          "--check"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "rust-contracts",
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "--no-default-features",
+          "--test",
+          "aligned_strain_contract",
+          "--test",
+          "obstacle_flow_contract",
+          "--test",
+          "static_obstacle_contract",
+          "--example",
+          "aligned_strain"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "rust-build",
+        "argv": [
+          "cargo",
+          "build",
+          "--locked",
+          "--no-default-features",
+          "--example",
+          "aligned_strain"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "rust-clippy",
+        "argv": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--no-default-features",
+          "--lib",
+          "--example",
+          "aligned_strain",
+          "--test",
+          "aligned_strain_contract",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "qualification-gate-tests",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tools",
+          "-p",
+          "test_qualify_aligned_strain.py",
+          "-v"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "qualification-gate-tests-optimized",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-O",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tools",
+          "-p",
+          "test_qualify_aligned_strain.py",
+          "-v"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "native-run",
+        "argv": [
+          "/workspace/pr143-target/debug/examples/aligned_strain",
+          "/workspace/pr143-final-qualification-1/native/native.tsv"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "native-oracle-comparison",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/aligned_strain_oracle.py",
+          "/workspace/pr143-final-qualification-1/native/native.tsv",
+          "--negative-tests",
+          "--output",
+          "/workspace/pr143-final-qualification-1/native/native-oracle-summary.json"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "unit-center-cube-run",
+        "argv": [
+          "/workspace/pr143-target/debug/examples/aligned_strain",
+          "3",
+          "3",
+          "3",
+          "1",
+          "1",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1",
+          "1",
+          "1",
+          "2",
+          "2",
+          "2",
+          "1",
+          "1",
+          "/workspace/pr143-final-qualification-1/native/unit-center-cube.tsv"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "unit-center-cube-oracle-comparison",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/aligned_strain_oracle.py",
+          "/workspace/pr143-final-qualification-1/native/unit-center-cube.tsv",
+          "--negative-tests",
+          "--output",
+          "/workspace/pr143-final-qualification-1/native/unit-center-cube-oracle-summary.json"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "represented-nonmidpoint-run",
+        "argv": [
+          "/workspace/pr143-target/debug/examples/aligned_strain",
+          "4",
+          "5",
+          "3",
+          "0.1",
+          "0.3",
+          "0.7",
+          "0.1",
+          "0.2",
+          "0.3",
+          "1",
+          "2",
+          "1",
+          "3",
+          "3",
+          "2",
+          "2",
+          "0.375",
+          "/workspace/pr143-final-qualification-1/native/represented-nonmidpoint.tsv"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "represented-nonmidpoint-oracle-comparison",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/aligned_strain_oracle.py",
+          "/workspace/pr143-final-qualification-1/native/represented-nonmidpoint.tsv",
+          "--negative-tests",
+          "--output",
+          "/workspace/pr143-final-qualification-1/native/represented-nonmidpoint-oracle-summary.json"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "reflected-anisotropic-run",
+        "argv": [
+          "/workspace/pr143-target/debug/examples/aligned_strain",
+          "5",
+          "4",
+          "3",
+          "2",
+          "3",
+          "5",
+          "-7",
+          "2",
+          "-1",
+          "2",
+          "1",
+          "1",
+          "4",
+          "3",
+          "2",
+          "3",
+          "0.25",
+          "/workspace/pr143-final-qualification-1/native/reflected-anisotropic.tsv"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "reflected-anisotropic-oracle-comparison",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/aligned_strain_oracle.py",
+          "/workspace/pr143-final-qualification-1/native/reflected-anisotropic.tsv",
+          "--negative-tests",
+          "--output",
+          "/workspace/pr143-final-qualification-1/native/reflected-anisotropic-oracle-summary.json"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "large-origin-nonmidpoint-run",
+        "argv": [
+          "/workspace/pr143-target/debug/examples/aligned_strain",
+          "3",
+          "3",
+          "3",
+          "0.3",
+          "0.7",
+          "1.1",
+          "100000000",
+          "-100000000",
+          "0.1",
+          "1",
+          "1",
+          "1",
+          "2",
+          "2",
+          "2",
+          "2",
+          "0.375",
+          "/workspace/pr143-final-qualification-1/native/large-origin-nonmidpoint.tsv"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "large-origin-nonmidpoint-oracle-comparison",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "tools/aligned_strain_oracle.py",
+          "/workspace/pr143-final-qualification-1/native/large-origin-nonmidpoint.tsv",
+          "--negative-tests",
+          "--output",
+          "/workspace/pr143-final-qualification-1/native/large-origin-nonmidpoint-oracle-summary.json"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "oracle-tests",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tools",
+          "-p",
+          "test_aligned_strain_oracle.py",
+          "-v"
+        ],
+        "exit": 0
+      },
+      {
+        "name": "oracle-tests-optimized",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "-O",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tools",
+          "-p",
+          "test_aligned_strain_oracle.py",
+          "-v"
+        ],
+        "exit": 0
+      }
+    ],
+    "base": "b61ae293224ff8262e99984a1b8fa8b2135b8c83",
+    "source_head": "159fa74bd271f8fcc07f3837d66e4738925c820c",
+    "source_tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+    "clean": true,
+    "executable_sha256": "ca6a6e62a6177b73b6445b4665b00727569f695228bd89b2706b61199ece4397",
+    "records_sha256": "ecdd0877f17997c577d5183cd928c27c802f9ffdcee8324f0802fe3841fddb45",
+    "rust_contracts_passed": 35,
+    "real_specimens": 5,
+    "negative_controls_per_specimen": 11,
+    "gate_tests_normal": 5,
+    "gate_tests_optimized": 5,
+    "oracle_tests_normal": 10,
+    "oracle_tests_optimized": 10,
+    "lean_checked": false,
+    "stepping_authorized": false,
+    "floating_point_estimate_enclosed": false,
+    "committed_source_count": 2052
+  },
+  "packet": {
+    "receipt_sha256": "344ea04f492d03276ed7bb247410989cb73cbf0d04caa581a34a3de491707e91",
+    "files_sha256": {
+      "data.json": "9b0792b41bfa43575b5d1538b8938b1b254f5b85532419a8f2c68a3b1fe092cd",
+      "native.tsv": "79e4840c57aae1dd704d813302d6c343ee97928781729137af31033cbbdc7566",
+      "primary-qualification.json": "a7c4c124717d89716fa99f2a6edaa064b030f9a2fe21c05a1c4cfc8a29f5386f",
+      "qualification.json": "344ea04f492d03276ed7bb247410989cb73cbf0d04caa581a34a3de491707e91"
+    },
+    "status": "passed",
+    "source_head": "159fa74bd271f8fcc07f3837d66e4738925c820c",
+    "source_tree": "d66c930d091f8e84cf445f0920922d65afed8f8e",
+    "primary_qualification_sha256": "a7c4c124717d89716fa99f2a6edaa064b030f9a2fe21c05a1c4cfc8a29f5386f",
+    "executable_sha256": "ca6a6e62a6177b73b6445b4665b00727569f695228bd89b2706b61199ece4397",
+    "tests_normal": 26,
+    "tests_optimized": 26,
+    "skips": 0,
+    "fluid_solves": 0,
+    "stepping_authorized": false
+  },
+  "private_reference_contracts": {
+    "coupled_passed": 15,
+    "variational_passed": 10,
+    "static_passed": 13,
+    "static_numerical_ignored": 3,
+    "scientific_campaign_executed": false
+  },
+  "executing_elfs": {
+    "/workspace/pr143-final-qualification-1/aligned_strain": {
+      "sha256": "ca6a6e62a6177b73b6445b4665b00727569f695228bd89b2706b61199ece4397",
+      "bytes": 1482248,
+      "retained": "/workspace/pr143-final-qualification-1/executing-elfs/0-aligned_strain"
+    },
+    "/workspace/pr143-target/debug/deps/aligned_strain_contract-8b1d73643b8c4d13": {
+      "sha256": "a50699377e52c439ee222cd5ab3f4e353ebf3f6518552fa381c56cfc3c6af05f",
+      "bytes": 2147472,
+      "retained": "/workspace/pr143-final-qualification-1/executing-elfs/1-aligned_strain_contract-8b1d73643b8c4d13"
+    },
+    "/workspace/pr143-target/debug/deps/grid_cut_coupled_reference_contract-61551b69e08101f3": {
+      "sha256": "7f91a10335f3b52ac1dc78cfc8b713e1c51b2396a236a153f48bcb5dd2fbd71e",
+      "bytes": 2775768,
+      "retained": "/workspace/pr143-final-qualification-1/executing-elfs/2-grid_cut_coupled_reference_contract-61551b69e08101f3"
+    },
+    "/workspace/pr143-target/debug/deps/grid_cut_variational_reference_contract-bda665bccad4bb7c": {
+      "sha256": "f97ac600dfc6041327f9c350dba085b329b4d5b1243e5654e5fbb9cc61403862",
+      "bytes": 2801816,
+      "retained": "/workspace/pr143-final-qualification-1/executing-elfs/3-grid_cut_variational_reference_contract-bda665bccad4bb7c"
+    },
+    "/workspace/pr143-target/debug/deps/grid_static_mms_reference_contract-566d53d766edbc43": {
+      "sha256": "0f26c8ebf98541372949dd296a40fa84c298c468e7433264c3af0502488898e7",
+      "bytes": 2663016,
+      "retained": "/workspace/pr143-final-qualification-1/executing-elfs/4-grid_static_mms_reference_contract-566d53d766edbc43"
+    },
+    "/workspace/pr143-target/debug/deps/obstacle_flow_contract-d7d69af958e2eaf4": {
+      "sha256": "7a6c5fd6de741219c5a6e4d98257fb8675597abaa44bbc3286e31dbb7f487da4",
+      "bytes": 2696496,
+      "retained": "/workspace/pr143-final-qualification-1/executing-elfs/5-obstacle_flow_contract-d7d69af958e2eaf4"
+    },
+    "/workspace/pr143-target/debug/deps/static_obstacle_contract-29c0888cbc55cc5f": {
+      "sha256": "117adc358df9b5636efc219a2f124c626633ed0e1a20f9e76acb81871c40369b",
+      "bytes": 2044176,
+      "retained": "/workspace/pr143-final-qualification-1/executing-elfs/6-static_obstacle_contract-29c0888cbc55cc5f"
+    },
+    "/workspace/pr143-target/debug/examples/aligned_strain-c2ddba1c2ef90e45": {
+      "sha256": "651b7e29c40e6afca84e763aaac8b2d86358a952c32d0185f4696866d594b8b9",
+      "bytes": 1604704,
+      "retained": "/workspace/pr143-final-qualification-1/executing-elfs/7-aligned_strain-c2ddba1c2ef90e45"
+    }
+  },
+  "retained_artifact_count": 57,
+  "retained_artifacts_sha256": {
+    "core-normal-dependency-tree.log": "81868e815dfe6f14ab7e4490e8ceb8e1c889865a9c6dd04a36ca1a076bb3f5fc",
+    "strict-core-all-target-clippy.log": "9ddcb7a97f3589835ba8f354c41d25b0a805bd5f85ddbccaff009e6f6dc7236c",
+    "native-qualifier.log": "63dbab845f9715f2d8bf50cbb9838e1f9ce639524fdc863ae8b7d766f11dc00d",
+    "metadata.log": "84418f13340b5585b41be29a6f2e118f6d643dbf294e8ef29a554492b0cacaca",
+    "rustc-version.log": "8f97c91e920ce0d02680e3d01eb87afa0c77290dcd5d19eb901ae194d4700d90",
+    "remote-proof-after-response.json": "ba67a4b73a8ca6bc7769080d784e9f55be4890a6a50198d6d461bd007dec00e2",
+    "remote-proof-after-request.json": "8cd2e63b0fd68a73c1fb02518c84279d2012541f04229f4f8561022265d1ddbc",
+    "remote-proof-before-response.json": "5e3365ba0efb0cf76b6cde104c0222f5909e1edf7036d7bead83ec5c404c0b64",
+    "remote-proof-before-request.json": "4dad61f3ccfa76403313c5cc613b09228b06cd6f6a6e04ea2de03c5f7e605b95",
+    "aligned_strain": "ca6a6e62a6177b73b6445b4665b00727569f695228bd89b2706b61199ece4397",
+    "packet-tests-optimized.log": "e3309dfcb7a97388de87ec549632282001f36e022594cccfa6d3d328b6c88e24",
+    "private-reference-contracts.log": "60def0a6aa873443b22a810d384e4e648ccf6c411f5713ebfb802f9a3fcfde3e",
+    "packet-tests.log": "ed73de6c5ed125a3a6d427de0290abf2a18b48b4e2db38b0c8104d419ec3de2d",
+    "build-real-packet.log": "e5701759a7d48f5a00b440b8b4eb5b9689dd7e50f07c5e578535b07936c678db",
+    "cargo-version.log": "eb24d517cda02ee331f0f23f3da8150456969a12bcd3f07b531c45a44f67d9aa",
+    "admission.log": "a292304524dc347622c39202db70fbabebcac1b7ea7e825ebf27dac17aa7371d",
+    "native/rust-clippy.log": "3fe980a0f9709b0a2d093ea2a65202e1e589d4893ac71be4272c165923b9e527",
+    "native/rust-build.log": "a11a1de8037a032bda7e33f88e31dc898d0129cfe94956add639cd289d2ce985",
+    "native/large-origin-nonmidpoint-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/large-origin-nonmidpoint.tsv": "38405a03996ba2be5dc952b85b1d7e0b0e7df4d115e30b9bdfe14852e55c3628",
+    "native/native-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/reflected-anisotropic-oracle-summary.json": "7c9161c78b631b829a46ab18020bd6d89f9af4f6c85b729ead80f1dd931d85a3",
+    "native/oracle-tests.log": "7ee752a2af674db972c4200f2503137401fe56bcb8821771fad830047ffd3e11",
+    "native/large-origin-nonmidpoint-oracle-comparison.log": "ea9921e08f05c874014eca43212177a9d323df62b59fe6a168304145ff7595f9",
+    "native/unit-center-cube-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/unit-center-cube.tsv": "79e4840c57aae1dd704d813302d6c343ee97928781729137af31033cbbdc7566",
+    "native/qualification.json": "a7c4c124717d89716fa99f2a6edaa064b030f9a2fe21c05a1c4cfc8a29f5386f",
+    "native/represented-nonmidpoint.tsv": "c7eed9042d4806d437a573ddae91817c692c8cbd77b32e2df296b0e0b38d96f2",
+    "native/native.tsv": "ecdd0877f17997c577d5183cd928c27c802f9ffdcee8324f0802fe3841fddb45",
+    "native/qualification-gate-tests.log": "0c004fa72b9748397ef5b7bb73ba31a1c5c39c31a93adad55ce1c454286bd168",
+    "native/unit-center-cube-oracle-summary.json": "e73a9be52903590036ec816efebd6c4c39bbeee257e56f81774ed8065c3540df",
+    "native/format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/represented-nonmidpoint-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/oracle-tests-optimized.log": "744d010d49f60ca84297774f2bd388ee25a0692883c9496c4bbae8a7b75ff267",
+    "native/native-oracle-comparison.log": "ff118ec5ee3ce33ad3f0a5457484dda0242dffc643ad5b8ba973ac8ab52e9841",
+    "native/reflected-anisotropic-oracle-comparison.log": "7c9161c78b631b829a46ab18020bd6d89f9af4f6c85b729ead80f1dd931d85a3",
+    "native/native-oracle-summary.json": "ff118ec5ee3ce33ad3f0a5457484dda0242dffc643ad5b8ba973ac8ab52e9841",
+    "native/represented-nonmidpoint-oracle-comparison.log": "ec6e4746556ae27fb87f8712059261747499baac7ac22e1a0b50bd04751f281a",
+    "native/large-origin-nonmidpoint-oracle-summary.json": "ea9921e08f05c874014eca43212177a9d323df62b59fe6a168304145ff7595f9",
+    "native/reflected-anisotropic.tsv": "04821a0128a562dc796b5ec369e552eff2b867d09c55a7d1333cdfb35048b4d3",
+    "native/unit-center-cube-oracle-comparison.log": "e73a9be52903590036ec816efebd6c4c39bbeee257e56f81774ed8065c3540df",
+    "native/reflected-anisotropic-run.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native/qualification-gate-tests-optimized.log": "fe74c5839add866e3e0eb0f70af931c186af39fd1d6ccbc2c971390f3899d8b6",
+    "native/represented-nonmidpoint-oracle-summary.json": "ec6e4746556ae27fb87f8712059261747499baac7ac22e1a0b50bd04751f281a",
+    "native/rust-contracts.log": "8c629cfaf5d3638e1d66f3789ac21686637a8ebec4ac5dbb727942f4419ce931",
+    "executing-elfs/4-grid_static_mms_reference_contract-566d53d766edbc43": "0f26c8ebf98541372949dd296a40fa84c298c468e7433264c3af0502488898e7",
+    "executing-elfs/7-aligned_strain-c2ddba1c2ef90e45": "651b7e29c40e6afca84e763aaac8b2d86358a952c32d0185f4696866d594b8b9",
+    "executing-elfs/1-aligned_strain_contract-8b1d73643b8c4d13": "a50699377e52c439ee222cd5ab3f4e353ebf3f6518552fa381c56cfc3c6af05f",
+    "executing-elfs/2-grid_cut_coupled_reference_contract-61551b69e08101f3": "7f91a10335f3b52ac1dc78cfc8b713e1c51b2396a236a153f48bcb5dd2fbd71e",
+    "executing-elfs/5-obstacle_flow_contract-d7d69af958e2eaf4": "7a6c5fd6de741219c5a6e4d98257fb8675597abaa44bbc3286e31dbb7f487da4",
+    "executing-elfs/0-aligned_strain": "ca6a6e62a6177b73b6445b4665b00727569f695228bd89b2706b61199ece4397",
+    "executing-elfs/3-grid_cut_variational_reference_contract-bda665bccad4bb7c": "f97ac600dfc6041327f9c350dba085b329b4d5b1243e5654e5fbb9cc61403862",
+    "executing-elfs/6-static_obstacle_contract-29c0888cbc55cc5f": "117adc358df9b5636efc219a2f124c626633ed0e1a20f9e76acb81871c40369b",
+    "packet/data.json": "9b0792b41bfa43575b5d1538b8938b1b254f5b85532419a8f2c68a3b1fe092cd",
+    "packet/qualification.json": "344ea04f492d03276ed7bb247410989cb73cbf0d04caa581a34a3de491707e91",
+    "packet/native.tsv": "79e4840c57aae1dd704d813302d6c343ee97928781729137af31033cbbdc7566",
+    "packet/primary-qualification.json": "a7c4c124717d89716fa99f2a6edaa064b030f9a2fe21c05a1c4cfc8a29f5386f"
+  },
+  "historical_execution_not_relabelled": {
+    "head": "31c1958545a7f29bde4e8aa15c991ede4ade4643",
+    "journal_sha256": "0049f6c7a8093b083de6974e6e77110990d7c5aefc629558f568d07f67546d1c",
+    "report": "../pr143-integration-20261021/qualification.json"
+  },
+  "limits": [
+    "Actual fresh execution on frozen159, not a build or execution on actual mainN. Full content equality is not commit ancestry, compilation or artifact equivalence.",
+    "Warm task cache; optional RHEON_SOURCE_REVISION/RHEON_BUILD_MATERIAL_SHA256 actually unspecified, no embedded commit/build attestation.",
+    "Raw logs/ELFs/API responses retained locally outside Git; these authored hashes/receipts are not a remote raw archive or artifact-content acceptance.",
+    "Existing selected source/base/primary ancestry guards remain unchanged. No selected CV3 oracle import, nine-case scientific campaign or ignored numerical test executed.",
+    "No physical/PDE/whole-application production acceptance, moving-boundary/GCL, learned/GPU/native-window or performance claim."
+  ],
+  "independent_reviews": {
+    "source-preflight-review.md": "78449c94fbd5668ac78bac3056c3e6f741bf35b1245e34d47bb8bd41419cf382",
+    "execution-review.md": "3fdfaba96d5a9ae18d3e0a44a5e0206d18fc4540f7d193c938758c1d6c2e3ab9"
+  },
+  "hosted_logs": {
+    "executable": {
+      "path": "/workspace/pr143-hosted-executable-159fa74.log",
+      "sha256": "1bcba28e624d6cd04e744b8aeca2d7f3c629929a611a68062eb8a0b3937503d3"
+    },
+    "core": {
+      "path": "/workspace/pr143-hosted-core-159fa74.log",
+      "sha256": "59733087c0fe07bd8a27cc8c652543cc242c3b1b251c6f5260a0d0530a601b2e"
+    },
+    "default": {
+      "path": "/workspace/pr143-hosted-default-159fa74.log",
+      "sha256": "729262bb955e41c3a0730d11cffa6a5eceac927999aac7a9e3c5cf5d11ae2dca"
+    },
+    "desktop": {
+      "path": "/workspace/pr143-hosted-desktop-159fa74.log",
+      "sha256": "9969cc142f2a8909bdf6680196dabf9f1495c99f75f6713a5f1800f977422cab"
+    },
+    "book": {
+      "path": "/workspace/pr143-hosted-book-159fa74.log",
+      "sha256": "2466e2ad1d15cfdf37ed45a6702e512b5c22c22f55b4776f7c7db496cd010f28"
+    }
+  },
+  "report_review_corrections": [
+    "The initial authored nested native.selected_source_count label counted all2052 committed receipt hashes. A source-only report assertion and independent review caught the misleading name; renamed committed_source_count. Complete admission selection remains152. No execution, receipt, test or candidate changed; no numerical retry."
+  ]
+}
