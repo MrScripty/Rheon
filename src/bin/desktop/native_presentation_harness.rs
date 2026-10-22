@@ -36,6 +36,7 @@ fn fixture() -> App {
         saved_set: None,
         configured_set: None,
         prior_run_ids: vec![],
+        voxel: None,
         manifest_receipt: None,
         progress_gate: None,
         failure_gate: None,
@@ -65,6 +66,7 @@ fn fixture() -> App {
                         density,
                         report: None,
                         particle_report: None,
+                        voxel: None,
                         material_color: None,
                     }),
                 )

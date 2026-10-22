@@ -93,6 +93,33 @@ impl VoxelRunSetRevision {
         }
         Ok(())
     }
+    pub fn owned_capacity(&self) -> Result<usize, RunSetError> {
+        let fail = || RunSetError::Invalid("voxel revision capacity");
+        let base = self
+            .members
+            .capacity()
+            .checked_mul(std::mem::size_of::<VoxelRunSetMember>())
+            .and_then(|n| n.checked_add(std::mem::size_of::<Self>()))
+            .and_then(|n| n.checked_add(self.set_id.capacity()))
+            .and_then(|n| n.checked_add(self.baseline_member.capacity()))
+            .ok_or_else(fail)?;
+        self.members.iter().try_fold(base, |n, m| {
+            let mut n = n
+                .checked_add(m.member_id.capacity())
+                .and_then(|n| n.checked_add(m.spec.owned_capacity().ok()?))
+                .ok_or_else(fail)?;
+            if let Some(a) = &m.attempt {
+                for c in [
+                    a.attempt_id.capacity(),
+                    a.archive_relative_path.capacity(),
+                    a.expected_source_revision.capacity(),
+                ] {
+                    n = n.checked_add(c).ok_or_else(fail)?;
+                }
+            }
+            Ok(n)
+        })
+    }
     pub fn digest(&self) -> Result<[u8; 32], RunSetError> {
         self.validate()?;
         digest(self)

@@ -509,6 +509,7 @@ fn actual_runtime_failure_terminal_is_not_relabelled_by_late_worker_cancel() {
             runtime: None,
         }),
         prior_run_ids: vec![],
+        voxel: None,
         manifest_receipt: Some(Arc::new(Mutex::new(root.join("intent.json")))),
         progress_gate: None,
         failure_gate: Some(Arc::new(ProgressGate {

@@ -88,6 +88,11 @@ mod timeline_ui_tests;
 mod transport_view;
 #[path = "desktop/viewport.rs"]
 mod viewport;
+#[path = "desktop/voxel_material_execution.rs"]
+mod voxel_material_execution;
+#[cfg(test)]
+#[path = "desktop/voxel_material_integration_tests.rs"]
+mod voxel_material_integration_tests;
 use eframe::egui;
 use history::{LiveHistory, PreviewFrame};
 use rheon::{
@@ -125,6 +130,7 @@ struct Request {
     configured_set: Option<ConfiguredRequest>,
     /// Direct source run IDs to avoid even after producer-process restart.
     prior_run_ids: Vec<u64>,
+    voxel: Option<voxel_material_execution::VoxelRequest>,
     manifest_receipt: Option<Arc<std::sync::Mutex<std::path::PathBuf>>>,
     #[cfg(test)]
     progress_gate: Option<Arc<ProgressGate>>,
@@ -158,6 +164,16 @@ impl Request {
             .edge(self.domain_side, self.size as usize)
     }
     fn preview_history(&self) -> Result<Arc<LiveHistory>, String> {
+        if self.voxel.is_some() {
+            return LiveHistory::with_voxel_resolution(
+                self.preview_edge()?,
+                self.steps,
+                self.history_budget_mib
+                    .checked_mul(1024 * 1024)
+                    .ok_or("Voxel history budget overflow")?,
+                self.preview_resolution.exact(),
+            );
+        }
         LiveHistory::with_resolution(
             self.preview_edge()?,
             self.steps,
@@ -169,6 +185,14 @@ impl Request {
         )
     }
     fn track_label(&self, index: usize) -> String {
+        if self.voxel.is_some() {
+            return if index == 0 {
+                voxel_material_execution::METHOD
+            } else {
+                "Unavailable voxel track"
+            }
+            .into();
+        }
         if let Some(configured) = &self.configured_set {
             let Some(member) = configured.revision.members.get(index) else {
                 return "Unavailable configured member".into();
@@ -241,10 +265,10 @@ impl Worker {
         });
         let progress = Arc::new(AtomicUsize::new(0));
         let history = request.preview_history().map_err(std::io::Error::other)?;
-        let h = request.domain_side / request.size as f64;
-        let grid = GridGeometry::new([request.size; 3], [h; 3], [0.0; 3])
-            .map_err(std::io::Error::other)?;
         let observer = if request.observe {
+            let h = request.domain_side / request.size as f64;
+            let grid = GridGeometry::new([request.size; 3], [h; 3], [0.0; 3])
+                .map_err(std::io::Error::other)?;
             Some(CalculationObserver::new(&grid, request.threads).map_err(std::io::Error::other)?)
         } else {
             None
@@ -282,6 +306,9 @@ fn configured_executor() -> run_sets::configured::ExecutorDeclaration {
     }
 }
 fn validate_request(request: &Request) -> Result<(), String> {
+    if request.voxel.is_some() {
+        return voxel_material_execution::validate(request);
+    }
     if !request.force_fields.is_empty() && request.force_fields.len() != request.methods.len() {
         return Err("Force snapshots must match the exact track count".into());
     }
@@ -475,6 +502,9 @@ fn run_simulations(
     progress: &AtomicUsize,
     history: &LiveHistory,
 ) -> Result<Vec<ResultRow>, String> {
+    if request.voxel.is_some() {
+        return voxel_material_execution::run(request, cancel, progress, history);
+    }
     if let Some(config) = request.material {
         return run_material(request, config, cancel, progress, history);
     }
@@ -1186,7 +1216,11 @@ fn running_setup_ui(ui: &mut egui::Ui, request: &Request) {
         request.steps,
         settings::duration(request.requested_dt)
     ));
-    if request.configured_set.is_some() {
+    if request.voxel.is_some() {
+        ui.small(voxel_material_execution::METHOD);
+        ui.small("Filled incompressible Water/Air · starts at rest · closed free-slip walls");
+        ui.small("Actual accepted intervals may be shorter than the requested maximum.");
+    } else if request.configured_set.is_some() {
         ui.small("Sealed full liquid · starts at rest · no inlet");
         ui.small(
             "Constant forcing only; no appearance, emitter, phase source, or model accuracy claim.",
@@ -1362,7 +1396,9 @@ impl TimelineControls {
                     ui,
                     format!(
                         "{} · Step {} / {}",
-                        if frame.material_color.is_some() {
+                        if frame.voxel.is_some() {
+                            voxel_material_execution::METHOD.to_owned()
+                        } else if frame.material_color.is_some() {
                             "Material fluid".to_owned()
                         } else {
                             track_caption.to_owned()
@@ -1391,6 +1427,18 @@ impl TimelineControls {
                             r.particles,
                             r.total_mass,
                             r.mean_temperature_kelvin - 273.15
+                        ),
+                    );
+                }
+                if let Some(report) = frame.voxel.as_ref().and_then(|v| v.report) {
+                    ui.separator();
+                    timeline_caption(
+                        ui,
+                        format!(
+                            "{} pressure iterations · divergence {:.2e} · accepted dt{}s",
+                            report.projection.pressure.iterations,
+                            report.projection.actual_divergence_max,
+                            report.dt
                         ),
                     );
                 }
@@ -1840,6 +1888,7 @@ impl App {
                 runtime: None,
             }),
             prior_run_ids,
+            voxel: None,
             manifest_receipt: Some(Arc::new(std::sync::Mutex::new(intent_path.clone()))),
             #[cfg(test)]
             progress_gate: None,
@@ -1994,6 +2043,7 @@ impl App {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             #[cfg(test)]
             progress_gate: None,
@@ -2063,6 +2113,7 @@ impl App {
                 .iter()
                 .filter_map(|member| member.attempt.as_ref().map(|a| a.expected_run_id))
                 .collect(),
+            voxel: None,
             manifest_receipt: None,
             #[cfg(test)]
             progress_gate: None,
@@ -2230,7 +2281,7 @@ impl App {
                 if let Some(frame) = &frame {
                     self.timeline_step = frame.step;
                     {
-                        let inspector = if frame.material_color.is_some() {
+                        let inspector = if frame.material_color.is_some() && frame.voxel.is_none() {
                             &history.inspector
                         } else {
                             &history.carrier_inspectors[self.track]
@@ -2522,7 +2573,10 @@ impl App {
                     if let Ok((_, Some(frame))) =
                         history.view(self.track, self.timeline_step, self.follow_live)
                     {
-                        if frame.material_color.is_some() {
+                        if frame.voxel.is_some() {
+                            ui.small(format!("Cells with positive liquid fraction: {}", frame.nonzero_tracer_cells));
+                            ui.small("Liquid appearance only; transparent gas remains occupied. Inspect both fractions in Numerical inspector.");
+                        } else if frame.material_color.is_some() {
                             ui.small(format!(
                                 "Occupied preview cells: {}",
                                 frame.nonzero_tracer_cells
@@ -2569,7 +2623,9 @@ impl App {
                                  not pressure recomputed on the displayed accepted particles.",
                             );
                         } else {
-                            ui.label(&row.label).on_hover_text(format!("Native baseline/fallback implementation: {}",row.method.label()));
+                            ui.label(&row.label).on_hover_text(if self.running_request.as_ref().is_some_and(|r| r.voxel.is_some()) {
+                                "Filled-box two-material voxel method; Jacobi is its pressure component".to_owned()
+                            } else { format!("Native baseline/fallback implementation: {}",row.method.label()) });
                             ui.label(format!(
                                 "{} iterations · divergence {:.2e}",
                                 row.iterations, row.divergence
@@ -3295,6 +3351,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: None,
             #[cfg(test)]
@@ -3515,6 +3572,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
@@ -3573,6 +3631,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
@@ -3661,6 +3720,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: Some(Arc::new(ProgressGate {
                 reached,
@@ -3749,6 +3809,7 @@ mod tests {
             saved_set: None,
             configured_set: None,
             prior_run_ids: Vec::new(),
+            voxel: None,
             manifest_receipt: None,
             progress_gate: None,
             #[cfg(test)]
@@ -3847,6 +3908,7 @@ mod tests {
                     saved_set: None,
                     configured_set: None,
                     prior_run_ids: Vec::new(),
+                    voxel: None,
                     manifest_receipt: None,
                     progress_gate: None,
                     failure_gate: None

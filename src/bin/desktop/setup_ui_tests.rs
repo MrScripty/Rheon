@@ -391,6 +391,7 @@ fn ui_setup_running_summary_uses_frozen_physical_samples_and_timestep() {
         saved_set: None,
         configured_set: None,
         prior_run_ids: vec![],
+        voxel: None,
         manifest_receipt: None,
         progress_gate: None,
         failure_gate: None,
@@ -642,6 +643,7 @@ fn ui_setup_synthetic_active_worker_keeps_progress_frozen_inputs_and_cancel_sign
             saved_set: None,
             configured_set: None,
             prior_run_ids: vec![],
+            voxel: None,
             manifest_receipt: None,
             progress_gate: None,
             failure_gate: None,
@@ -779,6 +781,7 @@ fn bounded_genuine_cancel_contract() {
         saved_set: None,
         configured_set: None,
         prior_run_ids: vec![],
+        voxel: None,
         manifest_receipt: None,
         progress_gate: Some(Arc::new(ProgressGate {
             reached,

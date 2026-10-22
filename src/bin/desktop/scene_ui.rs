@@ -1115,6 +1115,7 @@ mod tests {
             density: vec![],
             report: None,
             particle_report: None,
+            voxel: None,
             material_color: None,
         };
         for context in [

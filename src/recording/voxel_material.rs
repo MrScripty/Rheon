@@ -271,29 +271,32 @@ pub fn voxel_material_publication(
         controls,
         fields,
     };
-    let capacity = step
-        .fields
-        .iter()
-        .try_fold(
-            std::mem::size_of::<RecordedStep>()
-                + step.fields.capacity() * std::mem::size_of::<RecordedField>()
-                + step.controls.capacity(),
-            |sum, f| {
-                sum.checked_add(
-                    f.data.capacity()
-                        + f.name.capacity()
-                        + f.units.capacity()
-                        + f.association.capacity()
-                        + f.stage.capacity()
-                        + f.scalar_type.capacity(),
-                )
-            },
-        )
-        .ok_or(RecordingError::Limit("voxel publication capacity"))?;
-    if capacity > limit || step.payload_bytes()? > limit {
+    if publication_capacity(&step)? > limit || step.payload_bytes()? > limit {
         return Err(RecordingError::Limit("voxel publication capacity"));
     }
     Ok(step)
+}
+fn publication_capacity(step: &RecordedStep) -> Result<usize, RecordingError> {
+    let fail = || RecordingError::Limit("voxel publication capacity");
+    let base = step
+        .fields
+        .capacity()
+        .checked_mul(std::mem::size_of::<RecordedField>())
+        .and_then(|n| n.checked_add(std::mem::size_of::<RecordedStep>()))
+        .and_then(|n| n.checked_add(step.controls.capacity()))
+        .ok_or_else(fail)?;
+    step.fields.iter().try_fold(base, |sum, f| {
+        [
+            f.data.capacity(),
+            f.name.capacity(),
+            f.units.capacity(),
+            f.association.capacity(),
+            f.stage.capacity(),
+            f.scalar_type.capacity(),
+        ]
+        .into_iter()
+        .try_fold(sum, |n, c| n.checked_add(c).ok_or_else(fail))
+    })
 }
 #[allow(clippy::too_many_arguments)]
 fn field(
@@ -346,6 +349,10 @@ impl RecordedVoxelMaterial {
         let initial = step.stage == SnapshotStage::Constructor;
         if step.fields.len() != if initial { 4 } else { 5 } {
             return Err(RecordingError::Invalid("voxel field inventory"));
+        }
+        let capacity_limit = voxel_material_publication_bytes(&grid, !initial)?;
+        if publication_capacity(step)? > capacity_limit {
+            return Err(RecordingError::Limit("voxel raw selection capacity"));
         }
         let stage = if initial { "constructor" } else { "accepted" };
         let mut velocity = [Vec::new(), Vec::new(), Vec::new()];
@@ -419,6 +426,18 @@ impl RecordedVoxelMaterial {
             }
             Some((start, p))
         };
+        let decoded_bytes = velocity
+            .iter()
+            .map(Vec::capacity)
+            .chain(std::iter::once(liquid_fraction.capacity()))
+            .chain(interval_pressure.iter().map(|(_, p)| p.capacity()))
+            .try_fold(std::mem::size_of::<Self>(), |n, capacity| {
+                capacity.checked_mul(8).and_then(|c| n.checked_add(c))
+            })
+            .ok_or(RecordingError::Limit("voxel decoded selection capacity"))?;
+        if decoded_bytes > capacity_limit {
+            return Err(RecordingError::Limit("voxel decoded selection capacity"));
+        }
         Ok(Self {
             metadata,
             grid,

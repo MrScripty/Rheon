@@ -79,6 +79,9 @@ pub struct PreviewPlan {
     pub edge: usize,
     pub bytes: usize,
 }
+pub struct VoxelPreview {
+    pub report: Option<rheon::voxel_material::VoxelMaterialStepReport>,
+}
 pub struct PreviewFrame {
     pub method: PressureImplementation,
     pub step: usize,
@@ -89,6 +92,7 @@ pub struct PreviewFrame {
     pub density: Vec<u8>,
     pub report: Option<StepReport>,
     pub particle_report: Option<ParticleStepReport>,
+    pub voxel: Option<VoxelPreview>,
     pub material_color: Option<[u8; 3]>,
 }
 impl PreviewFrame {
@@ -168,7 +172,62 @@ impl PreviewFrame {
             density,
             report,
             particle_report: None,
+            voxel: None,
             material_color: None,
+        }))
+    }
+    /// Display-only max-resampled liquid fraction. Occupied gas is transparent;
+    /// f64 fields in the typed archive remain authoritative for both phases.
+    pub fn capture_voxel(
+        sim: &rheon::voxel_material::VoxelMaterialSimulation,
+        edge: usize,
+        seconds: f64,
+    ) -> Result<Arc<Self>, String> {
+        let count = voxel_count(edge)?;
+        let mut density = Vec::new();
+        density
+            .try_reserve_exact(count)
+            .map_err(|e| format!("Cannot allocate voxel appearance: {e}"))?;
+        density.resize(count, 0);
+        let state = sim.state();
+        let counts = state.geometry().counts();
+        let f = state.liquid_fraction();
+        for z in 0..edge {
+            for y in 0..edge {
+                for x in 0..edge {
+                    let p = [x, y, z];
+                    let lo = std::array::from_fn::<_, 3, _>(|d| p[d] * counts[d] / edge);
+                    let hi = std::array::from_fn::<_, 3, _>(|d| {
+                        ((p[d] + 1) * counts[d]).div_ceil(edge).min(counts[d])
+                    });
+                    let mut value = 0_u8;
+                    for k in lo[2]..hi[2] {
+                        for j in lo[1]..hi[1] {
+                            for i in lo[0]..hi[0] {
+                                value = value
+                                    .max((f[i + counts[0] * (j + counts[1] * k)] * 255.0).round()
+                                        as u8);
+                            }
+                        }
+                    }
+                    density[x + edge * (y + edge * z)] = value;
+                }
+            }
+        }
+        Ok(Arc::new(Self {
+            method: PressureImplementation::JacobiPcgV1,
+            step: usize::try_from(state.generation()).map_err(|_| "Voxel generation overflow")?,
+            time: state.time(),
+            seconds,
+            edge,
+            nonzero_tracer_cells: f.iter().filter(|&&v| v > 0.0).count(),
+            density,
+            report: None,
+            particle_report: None,
+            voxel: Some(VoxelPreview {
+                report: sim.last_report(),
+            }),
+            material_color: Some([45, 125, 215]),
         }))
     }
     pub fn capture_particles(
@@ -231,6 +290,7 @@ impl PreviewFrame {
             density,
             report: None,
             particle_report: report,
+            voxel: None,
             material_color: Some(color),
         }))
     }
@@ -243,6 +303,7 @@ pub struct LiveHistory {
     pub preview_edge: usize,
     pub planned_bytes: usize,
     max_frames: usize,
+    voxel_payload_limit: Option<usize>,
     timing: Mutex<Option<(usize, usize, Instant)>>,
 }
 impl LiveHistory {
@@ -336,11 +397,89 @@ impl LiveHistory {
             preview_edge: plan.edge,
             planned_bytes: plan.bytes,
             max_frames: steps + 1,
+            voxel_payload_limit: None,
             timing: Mutex::new(None),
         }))
     }
+    pub fn with_voxel_resolution(
+        edge: usize,
+        steps: usize,
+        budget: usize,
+        exact: bool,
+    ) -> Result<Arc<Self>, String> {
+        // Additional owner/default-Inspector metadata reserve, beyond the old
+        // nominal frame plan. Dynamic selected fields have separate budgets.
+        let frame_budget = budget
+            .checked_sub(8192)
+            .ok_or("Voxel history metadata budget")?;
+        let mut owner = Self::with_resolution(edge, steps, 1, frame_budget, exact)?;
+        let h = Arc::get_mut(&mut owner).ok_or("Voxel history owner shared before admission")?;
+        let tracks = h.tracks.get_mut().map_err(|_| "Timeline owner failed")?;
+        let base = Self::storage_capacity(tracks, h.carrier_inspectors.capacity())?;
+        let future = (steps + 1)
+            .checked_mul(
+                voxel_count(h.preview_edge)?
+                    + std::mem::size_of::<PreviewFrame>()
+                    + 2 * std::mem::size_of::<usize>(),
+            )
+            .and_then(|n| n.checked_add(base))
+            .ok_or("Voxel history capacity overflow")?;
+        if future > budget {
+            return Err("Voxel history actual slots exceed budget".into());
+        }
+        h.planned_bytes = future;
+        h.voxel_payload_limit = Some(budget);
+        Ok(owner)
+    }
+    fn storage_capacity(
+        tracks: &Vec<Vec<Arc<PreviewFrame>>>,
+        inspectors: usize,
+    ) -> Result<usize, String> {
+        let base = tracks
+            .capacity()
+            .checked_mul(std::mem::size_of::<Vec<Arc<PreviewFrame>>>())
+            .and_then(|n| {
+                inspectors
+                    .checked_mul(std::mem::size_of::<super::inspector::Inspector>())
+                    .and_then(|i| n.checked_add(i))
+            })
+            .and_then(|n| n.checked_add(std::mem::size_of::<Self>() + 4096))
+            .ok_or("Voxel history capacity overflow")?;
+        tracks.iter().try_fold(base, |n, frames| {
+            let mut n = frames
+                .capacity()
+                .checked_mul(std::mem::size_of::<Arc<PreviewFrame>>())
+                .and_then(|c| n.checked_add(c))
+                .ok_or("Voxel history capacity overflow")?;
+            for f in frames {
+                n = n
+                    .checked_add(f.density.capacity())
+                    .and_then(|n| {
+                        n.checked_add(
+                            std::mem::size_of::<PreviewFrame>() + 2 * std::mem::size_of::<usize>(),
+                        )
+                    })
+                    .ok_or("Voxel history capacity overflow")?;
+            }
+            Ok(n)
+        })
+    }
     pub fn publish(&self, track: usize, frame: Arc<PreviewFrame>) -> Result<(), String> {
         let mut tracks = self.tracks.lock().map_err(|_| "Timeline owner failed")?;
+        if let Some(limit) = self.voxel_payload_limit {
+            let expected = voxel_count(self.preview_edge)?;
+            let bytes = Self::storage_capacity(&tracks, self.carrier_inspectors.capacity())?
+                .checked_add(frame.density.capacity())
+                .and_then(|n| {
+                    n.checked_add(
+                        std::mem::size_of::<PreviewFrame>() + 2 * std::mem::size_of::<usize>(),
+                    )
+                })
+                .ok_or("Voxel history capacity overflow")?;
+            if frame.voxel.is_none() || frame.density.len() != expected || bytes > limit {
+                return Err("Voxel preview shape or actual-capacity budget mismatch".into());
+            }
+        }
         let frames = tracks.get_mut(track).ok_or("Unknown timeline track")?;
         if frame.edge != self.preview_edge
             || frame.step != frames.len()
@@ -556,6 +695,7 @@ mod tests {
                 density: vec![step as u8; 64],
                 report: None,
                 particle_report: None,
+                voxel: None,
                 material_color: None,
             })
         };

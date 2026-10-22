@@ -244,6 +244,7 @@ fn request() -> Request {
         saved_set: None,
         configured_set: None,
         prior_run_ids: vec![],
+        voxel: None,
         manifest_receipt: None,
         progress_gate: None,
         failure_gate: None,
@@ -369,6 +370,7 @@ fn force_retained_composition_resolves_once_before_tree_and_defers_track_intents
                     density: vec![0; 8],
                     report: None,
                     particle_report: None,
+                    voxel: None,
                     material_color: None,
                 }),
             )

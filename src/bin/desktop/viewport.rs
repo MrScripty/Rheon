@@ -57,7 +57,7 @@ fn view_mode_tabs(ui: &mut egui::Ui, current: &mut ViewMode, blocked: bool) -> [
     [(ViewMode::Appearance,"Appearance"),(ViewMode::Particles,"Particles"),(ViewMode::Obstacle,"Obstacle lab"),(ViewMode::Transport,"Transport session")].map(|(mode,label)|{
         let mut response=ui.add_enabled(!blocked||mode==ViewMode::Appearance,egui::Button::selectable(*current==mode,label).wrap_mode(egui::TextWrapMode::Extend));
         if response.clicked() && *current!=mode {*current=mode;response.mark_changed();}
-        response.on_disabled_hover_text("Authored-force scenes use Appearance here. These alternate lab/session views do not consume the run-bound force document.")
+        response.on_disabled_hover_text("This retained model uses Appearance here; alternate lab/session views do not consume its run-bound fields.")
     })
 }
 pub struct Viewport {
@@ -167,7 +167,9 @@ impl Viewport {
         let contents_mode = scene
             .as_deref()
             .is_some_and(|s| s.contents_selected() || s.contents.busy());
-        if self.authored_forces_pending || self.scene_handles.busy() || contents_mode {
+        let voxel_mode = frame.as_ref().is_some_and(|f| f.voxel.is_some());
+        if self.authored_forces_pending || self.scene_handles.busy() || contents_mode || voxel_mode
+        {
             self.mode = ViewMode::Appearance;
         }
         ui.add_enabled_ui(!contents_mode, |ui| {
@@ -175,7 +177,7 @@ impl Viewport {
                 view_mode_tabs(
                     ui,
                     &mut self.mode,
-                    self.authored_forces_pending || self.scene_handles.busy(),
+                    self.authored_forces_pending || self.scene_handles.busy() || voxel_mode,
                 );
                 if self.mode != ViewMode::Appearance {
                     ui.checkbox(&mut self.engineering_camera.orthographic, "Orthographic");
@@ -1014,6 +1016,7 @@ mod tests {
                 .collect(),
             report: None,
             particle_report: None,
+            voxel: None,
             material_color: None,
         };
         assert!(
@@ -1109,6 +1112,7 @@ mod tests {
             density: vec![255; 8],
             report: None,
             particle_report: None,
+            voxel: None,
             material_color: None,
         };
         assert_eq!(surface_faces(&frame, 1).unwrap().len(), 24);

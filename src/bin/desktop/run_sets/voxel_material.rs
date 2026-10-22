@@ -421,6 +421,21 @@ impl FrozenInput {
         numerical_geometry(&document)?;
         self.input.execution.validate(document.geometry())
     }
+    /// Owned immutable recipe payload; Arc clones share this allocation.
+    pub fn owned_capacity(&self) -> Result<usize, RunSetError> {
+        let e = &self.input.execution.executor;
+        [
+            self.input.initial.cell_ids_base64.capacity(),
+            e.id.capacity(),
+            e.source_revision.capacity(),
+            e.build_provenance.as_ref().map_or(0, String::capacity),
+        ]
+        .into_iter()
+        .try_fold(std::mem::size_of::<Self>(), |n, c| {
+            n.checked_add(c)
+                .ok_or(RunSetError::Invalid("voxel recipe capacity"))
+        })
+    }
     pub fn digest(&self) -> [u8; 32] {
         self.sha256
     }
