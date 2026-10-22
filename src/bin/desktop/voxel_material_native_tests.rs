@@ -401,3 +401,6 @@ fn enabled_global_button_dispatches_voxel_worker_and_panel_revalidates_queued_in
     assert!(panel_app.status.contains("Vacuum"), "{}", panel_app.status);
     assert!(panel_app.worker.is_none() && panel_app.history.is_none() && !target.exists());
 }
+
+#[path = "voxel_material_native_audit.rs"]
+mod audit;
