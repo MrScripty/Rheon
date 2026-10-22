@@ -67,7 +67,9 @@ def verify_split_ci_budget(frozen,current):
         'feature-contracts': (
             '    name: Feature contracts (${{ matrix.mode }})\n'
             '    runs-on: ubuntu-24.04\n'
-            '    timeout-minutes: 30\n'
+            '    # Full ordinary desktop contracts exceeded the prior outer job budget.\n'
+            '    # Test commands, per-case bounds and all acceptance gates stay unchanged.\n'
+            '    timeout-minutes: 60\n'
             '    env:\n'
             "      CARGO_BUILD_JOBS: '1'\n"
             '    strategy:\n'
@@ -233,6 +235,17 @@ class CiBudgetContract(unittest.TestCase):
                 self.assertIn(before,current)
                 with self.assertRaises(ValueError):
                     verify_split_ci_budget(frozen,current.replace(before,after))
+    def test_feature_job_requires_exact_reviewed_outer_budget(self):
+        frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
+        current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()
+        verify_split_ci_budget(frozen,current)
+        feature=current.split('  feature-contracts:\n',1)[1].split('  executable-contracts:\n',1)[0]
+        self.assertEqual(feature.count('    timeout-minutes: 60\n'),1)
+        for budget in (30,59,61):
+            with self.subTest(budget=budget),self.assertRaisesRegex(ValueError,'runner/budget/matrix/dependencies: feature-contracts'):
+                verify_split_ci_budget(frozen,current.replace('    timeout-minutes: 60\n',f'    timeout-minutes: {budget}\n',1))
+        with self.assertRaisesRegex(ValueError,'runner/budget/matrix/dependencies: feature-contracts'):
+            verify_split_ci_budget(frozen,current.replace('    timeout-minutes: 60\n','',1))
     def test_only_exact_reviewed_isolated_setup_and_additive_contracts_are_allowed(self):
         frozen=(ROOT/'evidence/column-interface-final-artifacts/trials/frozen-workflow.yml').read_text()
         current=(ROOT/'.github/workflows/rust-rheon.yml').read_text()

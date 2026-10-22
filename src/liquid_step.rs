@@ -485,7 +485,7 @@ impl LiquidTransportSimulation {
         inputs: LiquidStepInputs<'_>,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
-        self.step_impl(inputs, None, None, None, cancel)
+        self.step_impl(inputs, None, None, None, None, cancel)
             .map(|(report, _, _)| report)
     }
     /// End-of-step prescribed carrier box flux and explicit liquid inflow donors.
@@ -496,8 +496,15 @@ impl LiquidTransportSimulation {
         boundary: BoxFluxStepBoundary,
         cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<LiquidStepReport, LiquidStepError> {
-        self.step_impl(inputs, Some((workspace, boundary)), None, None, cancel)
-            .map(|(report, _, _)| report)
+        self.step_impl(
+            inputs,
+            Some((workspace, boundary)),
+            None,
+            None,
+            None,
+            cancel,
+        )
+        .map(|(report, _, _)| report)
     }
     fn validate_viscous_domain(
         &self,
@@ -531,6 +538,7 @@ impl LiquidTransportSimulation {
             None,
             Some((workspace, dynamic_viscosity)),
             None,
+            None,
             cancel,
         )
         .map(|(report, _, _)| report)
@@ -552,12 +560,19 @@ impl LiquidTransportSimulation {
                 preferred,
                 configured: None,
             }),
+            None,
             cancel,
         )?;
         Ok((
             report,
             provider.expect("provider path qualified before commit"),
         ))
+    }
+    pub(crate) fn workflow_descriptor(
+        &self,
+        viscosity: Option<f64>,
+    ) -> crate::workflow::WorkflowDescriptor {
+        self.carrier.workflow_descriptor(viscosity)
     }
     pub(crate) fn step_with_configured_pressure(
         &mut self,
@@ -579,11 +594,25 @@ impl LiquidTransportSimulation {
                 preferred: None,
                 configured: Some(configured),
             }),
+            None,
             cancel,
         )?;
         Ok((
             report,
             configured.expect("configured receipt prepared before commit"),
+        ))
+    }
+    pub(crate) fn step_with_native_projection(
+        &mut self,
+        inputs: LiquidStepInputs<'_>,
+        projection: crate::projection_step::ProjectionStepInput<'_>,
+        cancel: impl FnMut(LiquidStepStage) -> bool,
+    ) -> Result<(LiquidStepReport, crate::solver_provider::ProviderReport), LiquidStepError> {
+        let (report, provider, _) =
+            self.step_impl(inputs, None, None, None, Some(projection), cancel)?;
+        Ok((
+            report,
+            provider.expect("native projection selected before commit"),
         ))
     }
     fn step_impl(
@@ -592,6 +621,7 @@ impl LiquidTransportSimulation {
         mut boundary: Option<(&mut BoxFluxStepWorkspace, BoxFluxStepBoundary)>,
         viscosity: Option<(&mut crate::ViscosityWorkspace, f64)>,
         provider: Option<LiquidProviderInput<'_, '_>>,
+        mut projection: Option<crate::projection_step::ProjectionStepInput<'_>>,
         mut cancel: impl FnMut(LiquidStepStage) -> bool,
     ) -> Result<
         (
@@ -601,6 +631,10 @@ impl LiquidTransportSimulation {
         ),
         LiquidStepError,
     > {
+        if let Some(input) = projection.as_mut() {
+            input.capture.stage =
+                crate::projection_step::ProjectionAttemptStage::CarrierPreparation;
+        }
         let (mut provider_workspace, mut preferred, configured) = match provider {
             Some(provider) => (
                 Some(provider.workspace),
@@ -609,7 +643,7 @@ impl LiquidTransportSimulation {
             ),
             None => (None, None, None),
         };
-        if provider_workspace.is_some()
+        if (provider_workspace.is_some() || projection.is_some())
             && (self.surface.is_some() || self.columns.is_some() || self.flat_column_mac)
         {
             return Err(SimulationError::UnsupportedProviderDomain.into());
@@ -657,13 +691,22 @@ impl LiquidTransportSimulation {
         let viscosity_bytes = viscosity.as_ref().map_or(0, |(w, _)| w.allocated_bytes());
         let provider_bytes = provider_workspace
             .as_ref()
-            .map_or(0, |w| w.allocated_bytes());
+            .map_or(0, |w| w.allocated_bytes())
+            .checked_add(
+                projection
+                    .as_ref()
+                    .map_or(0, |p| p.workspace.allocated_bytes()),
+            )
+            .ok_or(LiquidStepError::AllocationFailed)?;
         let total_bytes = self
             .allocated_bytes
             .checked_add(boundary_bytes)
             .and_then(|n| n.checked_add(viscosity_bytes))
             .and_then(|n| n.checked_add(provider_bytes))
             .ok_or(LiquidStepError::AllocationFailed)?;
+        let workflow = configured
+            .as_ref()
+            .map(|configured| configured.workflow.clone());
         let mut context_adapter = configured.map(|configured| {
             ContextAdapter::new(configured, &self.pressure, self.carrier.grid().counts())
         });
@@ -678,6 +721,10 @@ impl LiquidTransportSimulation {
                 &mut **provider as &mut dyn crate::solver_provider::PressureProvider
             })
         };
+        if let Some(input) = projection.as_mut() {
+            input.capture.stage =
+                crate::projection_step::ProjectionAttemptStage::CarrierPreparation;
+        }
         let candidate = self.carrier.prepare_liquid_carrier(
             inputs.requested_dt,
             inputs.smoke_source,
@@ -698,11 +745,22 @@ impl LiquidTransportSimulation {
                     preferred,
                 }
             }),
+            workflow.as_deref(),
+            projection
+                .as_mut()
+                .map(|p| crate::projection_step::ProjectionStepInput {
+                    workspace: &mut *p.workspace,
+                    capture: &mut *p.capture,
+                    source: p.source,
+                    configuration: p.configuration,
+                    control: p.control,
+                }),
             |stage| cancel(LiquidStepStage::Carrier(stage)),
         )?;
         // Capture only bounded metadata before final publication. No prior
         // pressure copy is added: the adapter borrows this owner's accepted array.
-        let configured_report = context_adapter.map(|adapter| ConfiguredProviderReport {
+        let mut configured_report = context_adapter.map(|adapter| ConfiguredProviderReport {
+            workflow: None,
             dynamic_viscosity: candidate.viscosity.map_or(0.0, |v| v.dynamic_viscosity),
             binding: adapter.binding,
             context: adapter.stamp.get(),
@@ -729,6 +787,9 @@ impl LiquidTransportSimulation {
         }
         if let Some(surface) = &self.columns {
             flow = flow.on_columns(surface.state());
+        }
+        if let Some(input) = projection.as_mut() {
+            input.capture.stage = crate::projection_step::ProjectionAttemptStage::VolumeTransport;
         }
         let mut liquid = self.liquid.prepare_advance(
             flow,
@@ -757,16 +818,60 @@ impl LiquidTransportSimulation {
         } else {
             None
         };
+        crate::workflow::complete(
+            workflow.as_deref(),
+            crate::workflow::NodeKind::VolumeTransport,
+            crate::workflow::NodeStatus::Completed,
+        );
+        if let Some(input) = projection.as_mut() {
+            input.capture.stage = crate::projection_step::ProjectionAttemptStage::BeforeCommit;
+        }
         if cancel(LiquidStepStage::BeforeCommit) {
             return Err(LiquidStepError::Cancelled);
         }
+        if let (Some(trace), Some(report)) = (workflow.as_deref(), configured_report.as_mut()) {
+            report.workflow = Some(crate::workflow::accepted(trace));
+        }
+        if let Some(input) = projection.as_mut() {
+            let density = self.liquid.state().density;
+            let prospective = LiquidTransportView {
+                carrier: self.carrier.candidate_state(step),
+                liquid: LiquidVolumeView {
+                    fraction: self.liquid.candidate_fraction_mut(),
+                    stamp: liquid.stamp,
+                    time: liquid.time,
+                    density,
+                },
+                pressure: input.workspace.pressure(),
+                carrier_stamp: VolumeStamp {
+                    id: self.carrier_id,
+                    version: step.generation,
+                },
+                pressure_surface: None,
+                reconstructed_surface: None,
+                pressure_columns: None,
+                flat_column_mac: false,
+            };
+            #[cfg(test)]
+            let _alias = input
+                .workspace
+                .alias_before_seal()
+                .then(|| input.capture.attempt.clone());
+            input
+                .capture
+                .seal(prospective, input.configuration, self.carrier.grid())?;
+        }
         // All sizes, times, versions and numeric gates have already passed.
         // Pressure copy and owner swaps are infallible and invoke no callbacks.
-        let pressure = match &boundary {
-            Some((w, _)) => w.projection.pressure(),
-            None => provider_workspace
-                .as_ref()
-                .map_or_else(|| self.carrier.candidate_pressure(), |w| w.pressure()),
+        let pressure = if let Some(input) = projection.as_ref() {
+            input.workspace.pressure()
+        } else {
+            match &boundary {
+                Some((w, _)) => w.projection.pressure(),
+                None => provider_workspace
+                    .as_ref()
+                    .map_or_else(|| self.carrier.candidate_pressure(), |w| w.pressure()),
+            }
         };
         self.pressure.copy_from_slice(pressure);
         self.carrier.commit_prepared(&candidate);

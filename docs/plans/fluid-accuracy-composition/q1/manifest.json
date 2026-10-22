@@ -1,0 +1,51 @@
+{
+  "scientific_source": "b9a9d4ca3ff02c9eae38eb20dced49e87a923380",
+  "base_main": "bc2f472787060d9a69cb619ed2c2fea10fd754b6",
+  "plan": "8422f77bb45e60b95c5694ed0b39e01377b62976",
+  "native_campaign_exit": 1,
+  "frozen_evaluator_exit": 1,
+  "counts": {
+    "channel": 6,
+    "transport": 12,
+    "geometry": 7,
+    "controls": 12
+  },
+  "required_counts": {
+    "channel": 6,
+    "transport": 18,
+    "geometry": 9,
+    "controls": 18
+  },
+  "regression": {
+    "passed": 613,
+    "failed": 0,
+    "ignored": 3,
+    "targets": 80,
+    "exit_code": 0
+  },
+  "archive": {
+    "path": "/workspace/rheon-q1-grid-verification-b9a9d4c.zip",
+    "bytes": 8376830,
+    "sha256": "bb32e9a749130115e44fa3c43aea5320f10d0cf5490ab4e3f74e81a702d43794"
+  },
+  "library": {
+    "library_file_id": "libfile_1d86dc8b48fc8191aa5fedd8b859b403",
+    "file_id": "file_000000006a608230a699057dc44ee2aa"
+  },
+  "binaries": {
+    "grid_verification": {
+      "sha256": "af1a20cef8d210aeb4a0159a8753f395158db0f8d79d353965b7144d1130ee88",
+      "bytes": 804720
+    },
+    "liquid_volume": {
+      "sha256": "8bc72778f74ccf0ae0538eafc69b48ee690969453311d4b88bb1d01cd8e2edb4",
+      "bytes": 658312
+    }
+  },
+  "review": {
+    "field_summary_sha256": "c974a18a8054ccada3f16e4ce20568bdf4d82d7867321a0e32b9afd39d22119b",
+    "geometry_summary_sha256": "1fb92bdf2e4d26ef05ef523483d78ee484645152bbde2888b25cb253606b2de8",
+    "review_sha256": "f60cb0506ebb45aea2f2889e83511f2e08a36d48d27a6e43cfd711fc2a3dee51"
+  },
+  "production_water_or_Q2_coupled_accuracy_admitted": false
+}

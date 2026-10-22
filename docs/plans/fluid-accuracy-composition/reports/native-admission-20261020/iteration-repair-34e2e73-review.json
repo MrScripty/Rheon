@@ -1,0 +1,42 @@
+{
+  "schema": "rheon-g1-iteration-source-review-v1",
+  "status": "APPROVED_BOUNDED_EXACT_SOURCE_DELTA_EXECUTION_PENDING",
+  "reviewed_at_utc": "2026-10-20T02:36:22.315491+00:00",
+  "base": "43a084a66bdfb3731b24bd480909c81e317b1e53",
+  "head": "34e2e73bd8f25f2c7134ad1f9764fc48733e5ea2",
+  "tree": "5c494bdcb8f1921461aed0daaa5ad8b07f914d7c",
+  "paths": {
+    "docs/plans/fluid-accuracy-composition/reports/g1-admission-iteration-protocol.md": "dc7c0377c546d1138fd12f59e640137fefb28afce00f2223395a35fa9b97f648",
+    "src/recording/workflow.rs": "caa2f224796f8ad6e92fb78d547c70df7dd88fe666843a715e90bd9257a36d34",
+    "src/workflow.rs": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9"
+  },
+  "findings": [],
+  "source_disposition": "The11-line WorkflowAttempt validation addition closes the reviewed iteration consistency gap for new workflow evidence: every candidate diagnostic has iterations0; accepted native pressure is bounded by descriptor max_iterations; accepted configured pressure has iterations0. These checks apply to completed pressure prefixes even if a later interval stage cancels or fails.",
+  "legacy_compatibility": [
+    "No old RCP2/RCP3/RCT1 parser or solver source changes.",
+    "Native iteration count equal to cap remains valid; no blanket positive-cap restriction. Correct configured candidate with cap0/iterations0 remains allowed.",
+    "Rejected candidate IEEE residual payloads remain preservable; only their iteration count is newly constrained.",
+    "RCP4 continues wrapping unchanged old receipt gates; matching forged inner/outer iteration metadata is not misrepresented as a newly discovered RCP4 bypass."
+  ],
+  "test_source_review": [
+    "Three standalone malformed-count tests cover native, rejected and accepted configured diagnostics in accepted and later-cancelled/failed traces.",
+    "Valid-edge test covers native-at-cap, configured zero-cap and rejected nonfinite diagnostic bits through encode/decode.",
+    "RCP4 negative changes matching inner/outer iteration counts and checks existing legacy inner refusal.",
+    "Three real SQLite close/reopen terminal tests cover malformed native/rejected/accepted candidate counts with zero accepted rows, both cancellation and accepted-but-unrecorded tail.",
+    "Negative encoder fixture starts with an admissible real trace and tampers serialized count u64s after outbound validation, ensuring cold-decoder refusal is exercised."
+  ],
+  "execution": "No builds/tests/campaigns run in this independent source review; final owner execution/evidence handoff pending and not presumed.",
+  "admission": "This approves only the exact repair source delta. Final composed135-path hashes/delta, coordinated numerical/evaluator fixes, admission-owner action and fresh committed qualification remain separate; no active inventory approval or old receipt transfer.",
+  "protocol_note": "The historical educational v4 proposal remains text in the frozen protocol, followed by explicit authority amendment excluding all educational implementation from this worker. Lead mechanism decision remains separate.",
+  "mutations": "Only outside-Git review receipts written; no source/ref/PR/inventory changes.",
+  "private_composition_checked": {
+    "head": "d333d54f4eb941e8c9468aeaff36b4758c5efb05",
+    "tree": "f1bb09857f877207142045ea2b026ac209e54da6",
+    "selected_paths": 135,
+    "selected_two_file_delta": {
+      "src/recording/workflow.rs": "caa2f224796f8ad6e92fb78d547c70df7dd88fe666843a715e90bd9257a36d34",
+      "src/workflow.rs": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9"
+    },
+    "remaining133_selected_hashes_unchanged": true
+  }
+}

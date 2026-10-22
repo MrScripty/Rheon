@@ -64,7 +64,7 @@ pub fn runtime_custody(
         verify_configured_recording(reader)?;
         return Ok(ConfiguredRuntimeCustody::LegacyUnavailable);
     };
-    if version != "1" {
+    if version != "1" && version != "2" {
         return Err(RunSetError::Unsupported(
             "configured runtime termination version",
         ));
@@ -74,7 +74,27 @@ pub fn runtime_custody(
             "configured runtime termination payload",
         ));
     }
-    let audit = audit_runtime_termination(reader)?;
+    let workflow = if version == "2" {
+        Some(
+            rheon::recording::workflow::terminal(reader)?.ok_or(RunSetError::Integrity(
+                "configured workflow terminal absent",
+            ))?,
+        )
+    } else {
+        None
+    };
+    let audit = if let Some(workflow) = &workflow {
+        workflow.runtime.clone()
+    } else {
+        audit_runtime_termination(reader)?
+    };
+    if let Some(attempt) = workflow
+        .as_ref()
+        .and_then(|workflow| workflow.attempt.as_ref())
+    {
+        validate_workflow_intent(attempt, spec)?;
+    }
+
     let future = &spec.future;
     if audit.termination.accepted_generation > future.requested_steps as u64 {
         return Err(RunSetError::Integrity(
@@ -126,6 +146,63 @@ pub fn runtime_custody(
         // In particular, zero mu does not prove Disabled or applied presence.
     }
     Ok(ConfiguredRuntimeCustody::Typed(Box::new(audit)))
+}
+
+fn validate_workflow_intent(
+    attempt: &rheon::workflow::WorkflowAttempt,
+    spec: &FrozenConfiguredSpec,
+) -> Result<(), RunSetError> {
+    if attempt.attempted_generation > spec.future.requested_steps as u64
+        || attempt.requested_dt.to_bits() != spec.future.requested_dt_s.to_bits()
+        || attempt.descriptor.viscosity.is_some() != declared_viscosity(spec).0
+        || attempt.descriptor.viscosity.unwrap_or(0.0).to_bits()
+            != declared_viscosity(spec).1.to_bits()
+    {
+        return Err(RunSetError::Integrity(
+            "configured workflow attempt differs from intent",
+        ));
+    }
+    let forces = spec
+        .future
+        .forces
+        .iter()
+        .map(super::ForceSpec::body_force)
+        .collect::<Vec<_>>();
+    let inlet_id = (0..=2)
+        .find(|id| *id != spec.constructor.carrier_id && *id != spec.constructor.volume_stamp.id)
+        .ok_or(RunSetError::Integrity("configured zero inlet identity"))?;
+    let inlet = rheon::LiquidInlet::new(
+        rheon::VolumeStamp {
+            id: inlet_id,
+            version: 0,
+        },
+        [[0.0; 2]; 3],
+    )
+    .map_err(|_| RunSetError::Integrity("configured zero inlet"))?;
+    if !attempt.matches_request(rheon::LiquidStepInputs {
+        requested_dt: spec.future.requested_dt_s,
+        smoke_source: None,
+        forces: &forces,
+        inlet,
+        source: None,
+        volume: spec.future.volume.settings(),
+    }) {
+        return Err(RunSetError::Integrity(
+            "configured workflow actual controls differ from intent",
+        ));
+    }
+    if let Some(actual) = attempt
+        .pressure
+        .as_ref()
+        .and_then(|pressure| pressure.binding.as_ref())
+    {
+        expected_provider(spec, attempt.attempted_generation)
+            .ok_or(RunSetError::Integrity(
+                "configured workflow provider in native phase",
+            ))?
+            .validate_resolved_identity(actual)?;
+    }
+    Ok(())
 }
 
 fn declared_viscosity(spec: &FrozenConfiguredSpec) -> (bool, f64) {
@@ -348,6 +425,9 @@ fn validate_publications(
     for ordinal in 0..count {
         let step = reader.select(ordinal)?;
         let observed = RecordedConfiguredSession::decode(reader.run(), &step)?;
+        if let Some(attempt) = rheon::recording::workflow::publication(reader.run(), &step)? {
+            validate_workflow_intent(&attempt, spec)?;
+        }
         let initial = future.capture_constructor && ordinal == 0;
         let generation = (ordinal + 1 - constructor_count) as u64;
         if observed.generation != generation

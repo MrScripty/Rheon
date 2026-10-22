@@ -11,7 +11,10 @@ use sha2::{Digest, Sha256};
 use std::{
     path::PathBuf,
     process::Command,
-    sync::{Arc, Mutex, atomic::AtomicBool},
+    sync::{
+        Arc, Mutex,
+        atomic::{AtomicBool, AtomicU64, Ordering},
+    },
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
@@ -35,6 +38,42 @@ pub(crate) fn assert_child_liveness(pid: u32, expected_alive: bool) {
     );
 }
 
+// Wall-clock timestamps can repeat on coarse clocks and concurrent test threads.
+// Atomic directory creation owns the path; a stale or competing path is skipped.
+fn fixture_directory(timestamp: u128) -> PathBuf {
+    static NEXT: AtomicU64 = AtomicU64::new(0);
+    loop {
+        let sequence = NEXT.fetch_add(1, Ordering::Relaxed);
+        let root = std::env::temp_dir().join(format!(
+            "rheon-cpu-contract-{}-{timestamp}-{sequence}",
+            std::process::id(),
+        ));
+        match std::fs::create_dir(&root) {
+            Ok(()) => return root,
+            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
+            Err(error) => panic!("create fixture directory {}: {error}", root.display()),
+        }
+    }
+}
+
+#[test]
+fn fixture_directories_are_distinct_with_same_timestamp() {
+    let roots: Vec<_> = std::thread::scope(|scope| {
+        let threads: Vec<_> = (0..32)
+            .map(|_| scope.spawn(|| fixture_directory(0)))
+            .collect();
+        threads
+            .into_iter()
+            .map(|thread| thread.join().unwrap())
+            .collect()
+    });
+    let unique: std::collections::HashSet<_> = roots.iter().collect();
+    assert_eq!(unique.len(), roots.len());
+    for root in roots {
+        std::fs::remove_dir(root).unwrap();
+    }
+}
+
 pub(crate) struct Fixture {
     pub root: PathBuf,
     pub manifest: PathBuf,
@@ -51,15 +90,12 @@ impl Fixture {
         )
     }
     pub fn source(source: &str, correction: bool) -> Self {
-        let root = std::env::temp_dir().join(format!(
-            "rheon-cpu-contract-{}-{}",
-            std::process::id(),
+        let root = fixture_directory(
             SystemTime::now()
                 .duration_since(UNIX_EPOCH)
                 .unwrap()
-                .as_nanos()
-        ));
-        std::fs::create_dir(&root).unwrap();
+                .as_nanos(),
+        );
         let output =
             Command::new(std::env::var_os("RHEON_TEST_PYTHON").unwrap_or_else(|| "python3".into()))
                 .args(["-I", "-S", "-c", "import sys; print(sys.executable)"])

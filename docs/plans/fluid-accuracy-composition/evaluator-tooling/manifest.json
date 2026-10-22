@@ -1,0 +1,56 @@
+{
+  "tooling_source": "7ec6a749b746af5a3ee5c903807c48cdd016d4da",
+  "base": "7d7306a",
+  "subprocess_checks": 129,
+  "malformed_fixtures": 35,
+  "all_15_guards_normal_O_OO": true,
+  "four_original_optimized_bypasses_reproduced": true,
+  "retained_complete_outputs_byte_identical": true,
+  "retained_incomplete_inputs_refused": true,
+  "no_numerical_campaign_executed": true,
+  "evaluator_hashes": {
+    "p1-adjoint": {
+      "path": "docs/plans/fluid-accuracy-composition/p1-adjoint/analyze.py",
+      "original_sha256": "c7ca75747b21d5e85d8f3efdfc116940cf5c95b3f26fd607f86842f3a75f75df",
+      "repaired_sha256": "aadb95d77aed509b45f01690e9c569b70f65ce45559398115db8bc86aa56193d",
+      "always_on_guards": 7
+    },
+    "p1-material": {
+      "path": "docs/plans/fluid-accuracy-composition/p1-material/analyze.py",
+      "original_sha256": "b62ae1a482998e4aef35e1343fc2ac006649142920d0f2911e60c66a1e0f9901",
+      "repaired_sha256": "06eb2ab3fbbe481ec32592a91be8f09c12b34d90813d8af7522c45d7659cb1a1",
+      "always_on_guards": 4
+    },
+    "q1": {
+      "path": "docs/plans/fluid-accuracy-composition/q1/analyze.py",
+      "original_sha256": "c41f7404e06e7171bd9b4e1623f0b175de56b98b0639e1e013603b826f28f5fb",
+      "repaired_sha256": "6af6b5b426139863522f311a869361f266f2ed222960486be89d343c64fa4a6b",
+      "always_on_guards": 2
+    },
+    "q2": {
+      "path": "docs/plans/fluid-accuracy-composition/q2/analyze.py",
+      "original_sha256": "025fb18a265b29b38d2ae0d7d8b0c67b9877562fbef1ad5dc65168814e351634",
+      "repaired_sha256": "f41da58439fe5da8218c3be917476d101f0894268cf9629ef217d9e4b79367fd",
+      "always_on_guards": 2
+    }
+  },
+  "archive": {
+    "path": "/workspace/rheon-evaluator-tooling-7ec6a74.zip",
+    "bytes": 1358394,
+    "sha256": "656a970c038e46c4909cdf669c123682dc0194a44dc4696018f96957dbaac5d6"
+  },
+  "library": {
+    "library_file_id": "libfile_cb30e020d54c8191be14f053a2edee56",
+    "file_id": "file_0000000064a8823083db9d246cb22a4d",
+    "version": 0
+  },
+  "independent_review_sha256": "c028dd658006d24e8b1393c684a28c6eb481fd7aa1702094398ad138f509ea66",
+  "protected_archives_unchanged": {
+    "rheon-p1-planar-selection-39098e0.zip": "eb3a3886f80686cc97e9674ef65cb7af91b8d43b898d9d1af4f5bcd4d8f7a1fa",
+    "rheon-p1-adjoint-selection-e457ac1.zip": "7438979a93edca8830e9b5a92698a93665fdab1544ff42174fc51ed9cd15c658",
+    "rheon-p1-material-gate-3b609ee.zip": "52d1f4a718f70eba807195561d016eafbadc5c8ad297b06cd1071607988fd174",
+    "rheon-q1-grid-verification-b9a9d4c.zip": "bb32e9a749130115e44fa3c43aea5320f10d0cf5490ab4e3f74e81a702d43794",
+    "rheon-q2-grid-geometry-8b9c3b2.zip": "e386b3991b444d86600a68a403965a579b3a84db4f0e7d5b88af41771d45351f"
+  },
+  "scientific_requalification": false
+}

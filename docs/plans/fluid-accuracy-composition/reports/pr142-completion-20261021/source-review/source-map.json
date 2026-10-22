@@ -1,0 +1,2325 @@
+{
+  "disposition_counts": {
+    "identical-both-parents": 94,
+    "identical-main": 24,
+    "identical-pr142": 27,
+    "reviewed-composition-or-fixture-repair": 7
+  },
+  "entries": [
+    {
+      "bytes": 104189,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+        "pr142": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c"
+      },
+      "parent_sha256": {
+        "main": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c",
+        "pr142": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c"
+      },
+      "path": "Cargo.lock",
+      "sha256": "3b5836a7be9f1290c698cadaff010e11b93e33b4af839c8549391c23e7d8ec0c"
+    },
+    {
+      "bytes": 2332,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae",
+        "pr142": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e"
+      },
+      "parent_sha256": {
+        "main": "f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae",
+        "pr142": "10a7b438ec5e7bdb2c8eb95137cf5a42d1cd35687ed47bf63b05a3e42dc1674e"
+      },
+      "path": "Cargo.toml",
+      "sha256": "f925dae7a0d74e6024e6e0d64962a275ae4f28fedec5b016341671021b8239ae"
+    },
+    {
+      "bytes": 8135,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
+        "pr142": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547"
+      },
+      "parent_sha256": {
+        "main": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547",
+        "pr142": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547"
+      },
+      "path": "examples/aligned_strain.rs",
+      "sha256": "11910f4536bbb0057bd7462864f4d2af07d37dcd02103f41d1b93674dcca4547"
+    },
+    {
+      "bytes": 86,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+        "pr142": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800"
+      },
+      "parent_sha256": {
+        "main": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800",
+        "pr142": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800"
+      },
+      "path": "rust-toolchain.toml",
+      "sha256": "09ff66fa19e0cb8bbad00b6032e28f1cf77b0a37a73013648177b35297f98800"
+    },
+    {
+      "bytes": 8961,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+        "pr142": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849"
+      },
+      "parent_sha256": {
+        "main": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849",
+        "pr142": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849"
+      },
+      "path": "src/advection.rs",
+      "sha256": "0163a872c314b2b3bb7f732348aafdbfa7b162dceea74807b7e7e3eb60ab0849"
+    },
+    {
+      "bytes": 22750,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
+        "pr142": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f"
+      },
+      "parent_sha256": {
+        "main": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f",
+        "pr142": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f"
+      },
+      "path": "src/aligned_strain.rs",
+      "sha256": "1541bc444d1b098c5a59a221b7068538b013362db46ed66e37eb4931ad425e4f"
+    },
+    {
+      "bytes": 14382,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d",
+        "pr142": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d"
+      },
+      "parent_sha256": {
+        "main": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d",
+        "pr142": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d"
+      },
+      "path": "src/bin/desktop/README.md",
+      "sha256": "46c12612d5527989d1472711967bf798a88113a7cc662c0185b9749ac572f83d"
+    },
+    {
+      "bytes": 986,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31",
+        "pr142": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31"
+      },
+      "parent_sha256": {
+        "main": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31",
+        "pr142": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31"
+      },
+      "path": "src/bin/desktop/accepted_session.rs",
+      "sha256": "7a42a42bbe8d044f703c2c52d488bf8a4e8e3b3fb1448851efcfb04599d5bf31"
+    },
+    {
+      "bytes": 11005,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc",
+        "pr142": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc"
+      },
+      "parent_sha256": {
+        "main": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc",
+        "pr142": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc"
+      },
+      "path": "src/bin/desktop/ai_comparison/accepted_provider.rs",
+      "sha256": "922c98958bec45dbd4dee199e0bbdbdd6e3fe4ac52d7a70472ce8132461416fc"
+    },
+    {
+      "bytes": 27732,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729",
+        "pr142": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729"
+      },
+      "parent_sha256": {
+        "main": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729",
+        "pr142": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729"
+      },
+      "path": "src/bin/desktop/ai_comparison/accepted_provider_contract_tests.rs",
+      "sha256": "643636776b009337fb80dfdf3d5dbee975e06ed7f7a7cf3f534c07301b61c729"
+    },
+    {
+      "bytes": 23364,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237",
+        "pr142": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237"
+      },
+      "parent_sha256": {
+        "main": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237",
+        "pr142": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237"
+      },
+      "path": "src/bin/desktop/ai_comparison/accepted_provider_tests.rs",
+      "sha256": "11ae34ba76dc93a87f15c8ce9f745403b2d22d0194987d945cf2edc53c624237"
+    },
+    {
+      "bytes": 36460,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942",
+        "pr142": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942"
+      },
+      "parent_sha256": {
+        "main": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942",
+        "pr142": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942"
+      },
+      "path": "src/bin/desktop/ai_comparison/accepted_recording_contract_tests.rs",
+      "sha256": "6cfddefe84a64c89f126598b817d22afe6d1b5731e1d533ea92cecbd1870c942"
+    },
+    {
+      "bytes": 26707,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2",
+        "pr142": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2"
+      },
+      "parent_sha256": {
+        "main": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2",
+        "pr142": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2"
+      },
+      "path": "src/bin/desktop/ai_comparison/adapter.rs",
+      "sha256": "7038fb09ef2bd33a17495414c4c0986a6fb63ba949fe440e9d19927baca712b2"
+    },
+    {
+      "bytes": 13613,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 workflow producer/consumer retained: actual attempt observations, immutable selected publication, explicit terminal reads and frozen-intent checks. No paint-time provider execution or substitution of newer state.",
+      "parent_inventory_pin": {
+        "main": "3959018b52697ef072884864c01de4682d1b4cd351c273426d914d02f0641fa1",
+        "pr142": "c1dbb4053031065563762b1f538acb4959f30662bd98e646cf9e74ac94752117"
+      },
+      "parent_sha256": {
+        "main": "3959018b52697ef072884864c01de4682d1b4cd351c273426d914d02f0641fa1",
+        "pr142": "c1dbb4053031065563762b1f538acb4959f30662bd98e646cf9e74ac94752117"
+      },
+      "path": "src/bin/desktop/ai_comparison/configured_track.rs",
+      "sha256": "c1dbb4053031065563762b1f538acb4959f30662bd98e646cf9e74ac94752117"
+    },
+    {
+      "bytes": 29183,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c",
+        "pr142": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c"
+      },
+      "parent_sha256": {
+        "main": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c",
+        "pr142": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c"
+      },
+      "path": "src/bin/desktop/ai_comparison/configured_track_tests.rs",
+      "sha256": "a0dcc1c09d188ad14fc42e78535cd51bcb9bacae0522f4f95262340e4bd86b7c"
+    },
+    {
+      "bytes": 15702,
+      "disposition": "reviewed-composition-or-fixture-repair",
+      "justification": "Differs from both named parents; exact composed source reviewed. Reviewed local fixture isolation repair: process ID plus AtomicU64 sequence and exclusive create_dir ownership; AlreadyExists retries stale/competing names. Same-timestamp 32-thread regression checks distinct directories and cleanup. No production behavior changes.",
+      "parent_inventory_pin": {
+        "main": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e",
+        "pr142": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e"
+      },
+      "parent_sha256": {
+        "main": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e",
+        "pr142": "6232225760a7646d2b6759f3df7bd2fee34bed00c6a3a1058e68a96fced4311e"
+      },
+      "path": "src/bin/desktop/ai_comparison/cpu_contract_tests.rs",
+      "sha256": "e268555e0ebde7080f0ea8b2e8e398721fd1a65ec60f1925a314ace5f73d3488"
+    },
+    {
+      "bytes": 21835,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c",
+        "pr142": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c"
+      },
+      "parent_sha256": {
+        "main": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c",
+        "pr142": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c"
+      },
+      "path": "src/bin/desktop/ai_comparison/diagnostic_runs.rs",
+      "sha256": "80559d9d69d8164c24b8dd45f71c51b972fc8af9349c9e56b3e36b14b827b41c"
+    },
+    {
+      "bytes": 36493,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2",
+        "pr142": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2"
+      },
+      "parent_sha256": {
+        "main": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2",
+        "pr142": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2"
+      },
+      "path": "src/bin/desktop/ai_comparison/diagnostic_view.rs",
+      "sha256": "1e6b8011f945ba05ce04c8e4c7f88de23bd53fc99c776311fd30d3021a1c7fe2"
+    },
+    {
+      "bytes": 14292,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
+        "pr142": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b"
+      },
+      "parent_sha256": {
+        "main": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b",
+        "pr142": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b"
+      },
+      "path": "src/bin/desktop/ai_comparison/diagnostic_worker.rs",
+      "sha256": "a75e78beff3c85dec528c54c15a29c6ce6db7c918279bda2af7b5af91104991b"
+    },
+    {
+      "bytes": 27017,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8",
+        "pr142": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8"
+      },
+      "parent_sha256": {
+        "main": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8",
+        "pr142": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8"
+      },
+      "path": "src/bin/desktop/ai_comparison/diagnostic_worker_tests.rs",
+      "sha256": "fd39822957fed70fac97bf5025cdb57028817c414175320b901119dac4fa50a8"
+    },
+    {
+      "bytes": 32246,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55",
+        "pr142": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55"
+      },
+      "parent_sha256": {
+        "main": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55",
+        "pr142": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55"
+      },
+      "path": "src/bin/desktop/ai_comparison/engine.rs",
+      "sha256": "610ba29f66eb91083f9bbd26b823b14e4bde4887eb057e929c089d6cd4592e55"
+    },
+    {
+      "bytes": 10907,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
+        "pr142": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad"
+      },
+      "parent_sha256": {
+        "main": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad",
+        "pr142": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad"
+      },
+      "path": "src/bin/desktop/ai_comparison/engine_typed_tests.rs",
+      "sha256": "584b5fd3dc9307f6fbf758474cd3f02e6ffcefb00e90ca3f068b838c15c786ad"
+    },
+    {
+      "bytes": 28365,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076",
+        "pr142": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076"
+      },
+      "parent_sha256": {
+        "main": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076",
+        "pr142": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076"
+      },
+      "path": "src/bin/desktop/ai_comparison/mod.rs",
+      "sha256": "83f8864382f0c0c8c454b54dc0e9c389654a325849c6802b7205a2b031040076"
+    },
+    {
+      "bytes": 40530,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d",
+        "pr142": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d"
+      },
+      "parent_sha256": {
+        "main": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d",
+        "pr142": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d"
+      },
+      "path": "src/bin/desktop/ai_comparison/model_process.rs",
+      "sha256": "bbbe43744cad1791038e07895967f744b86bb77fa9642d0fc80e4b00bee2204d"
+    },
+    {
+      "bytes": 12980,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3",
+        "pr142": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3"
+      },
+      "parent_sha256": {
+        "main": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3",
+        "pr142": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3"
+      },
+      "path": "src/bin/desktop/ai_comparison/prediction_contract_tests.rs",
+      "sha256": "088668d3b29f3650c2145f09199d7ff8cbf38e1de78b1c4d73c882e8fc1610b3"
+    },
+    {
+      "bytes": 7107,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d",
+        "pr142": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d"
+      },
+      "parent_sha256": {
+        "main": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d",
+        "pr142": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d"
+      },
+      "path": "src/bin/desktop/ai_comparison/record.rs",
+      "sha256": "2464e347414d3c75e7568dda6a5fd102896c5f194cf3ba8b3bb34961566fce0d"
+    },
+    {
+      "bytes": 5274,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321",
+        "pr142": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321"
+      },
+      "parent_sha256": {
+        "main": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321",
+        "pr142": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321"
+      },
+      "path": "src/bin/desktop/ai_comparison/scene.rs",
+      "sha256": "c8817ed933ff31c4e9cdd7c0eb2e4c35f50a6868568496e2c67444e11ad80321"
+    },
+    {
+      "bytes": 9171,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d",
+        "pr142": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d"
+      },
+      "parent_sha256": {
+        "main": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d",
+        "pr142": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d"
+      },
+      "path": "src/bin/desktop/ai_comparison/view.rs",
+      "sha256": "568f7b852a21714405e37d55ba00a56b3f4b07e58037ed26f8a67cfd4fbd268d"
+    },
+    {
+      "bytes": 18705,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b",
+        "pr142": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b"
+      },
+      "parent_sha256": {
+        "main": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b",
+        "pr142": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b"
+      },
+      "path": "src/bin/desktop/ai_comparison/worker.rs",
+      "sha256": "6fb6c5b49cf57a473f9911d89965e8812c5d9915ecc1d3b654ca2f7ecfa8cc6b"
+    },
+    {
+      "bytes": 9299,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff",
+        "pr142": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff"
+      },
+      "parent_sha256": {
+        "main": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff",
+        "pr142": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff"
+      },
+      "path": "src/bin/desktop/archive_view.rs",
+      "sha256": "9f96f1d6b11b46e7fd523825e19a8fc0e0ec862669acd129f5e39e91f83c89ff"
+    },
+    {
+      "bytes": 987,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b",
+        "pr142": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b"
+      },
+      "parent_sha256": {
+        "main": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b",
+        "pr142": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b"
+      },
+      "path": "src/bin/desktop/build_identity.rs",
+      "sha256": "a94fea1f039a49f8d0eb79b019b3fbd0f2c9da1762ba854d10cba1e5fd87a25b"
+    },
+    {
+      "bytes": 3055,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d",
+        "pr142": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d"
+      },
+      "parent_sha256": {
+        "main": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d",
+        "pr142": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d"
+      },
+      "path": "src/bin/desktop/camera.rs",
+      "sha256": "b6bcc84a45bd5979de357c965c84426c25e81161ee1f06022e57a93a46643f7d"
+    },
+    {
+      "bytes": 8697,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Native/configured saved execution owner retained; immutable specification, per-track force identity, cold archive binding and explicit unsupported combinations stay owned by their existing boundaries.",
+      "parent_inventory_pin": {
+        "main": "c4455879373fc71eaaf398fdaa230c4d0b115dc7ff0a9da6356afeb24cba23b2",
+        "pr142": "0d96fb2acdfd63374e5f0004d9ead8b43d9fe2f6959c0d01f9c828458ae1799e"
+      },
+      "parent_sha256": {
+        "main": "c4455879373fc71eaaf398fdaa230c4d0b115dc7ff0a9da6356afeb24cba23b2",
+        "pr142": "0d96fb2acdfd63374e5f0004d9ead8b43d9fe2f6959c0d01f9c828458ae1799e"
+      },
+      "path": "src/bin/desktop/carrier_execution.rs",
+      "sha256": "c4455879373fc71eaaf398fdaa230c4d0b115dc7ff0a9da6356afeb24cba23b2"
+    },
+    {
+      "bytes": 7895,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204",
+        "pr142": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204"
+      },
+      "parent_sha256": {
+        "main": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204",
+        "pr142": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204"
+      },
+      "path": "src/bin/desktop/collision_ui.rs",
+      "sha256": "78d7be8e49798e2420ebac5c3fb756e1b195e43ef113ae03ce1b2d3362009204"
+    },
+    {
+      "bytes": 50508,
+      "disposition": "reviewed-composition-or-fixture-repair",
+      "justification": "Differs from both named parents; exact composed source reviewed. Composes PR142 immutable workflow selection/key invalidation with main ForceMetadata difference label. Workflow comparisons retain exact side/publication identity; force intent difference stays visible.",
+      "parent_inventory_pin": {
+        "main": "27ad4b88db848430a68f5f9fae796fa10eab1df26af9dbae73386e55c9b5c74f",
+        "pr142": "6adcccf8e85204703de9fd0bcd952b69c9520acacce4657ef96a3dd49eece099"
+      },
+      "parent_sha256": {
+        "main": "27ad4b88db848430a68f5f9fae796fa10eab1df26af9dbae73386e55c9b5c74f",
+        "pr142": "6adcccf8e85204703de9fd0bcd952b69c9520acacce4657ef96a3dd49eece099"
+      },
+      "path": "src/bin/desktop/comparison.rs",
+      "sha256": "cf8be77bcc46e192d0fcf44e8206d1e0a54a88deefcd178083ff39263ad957dc"
+    },
+    {
+      "bytes": 19518,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9",
+        "pr142": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9"
+      },
+      "parent_sha256": {
+        "main": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9",
+        "pr142": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9"
+      },
+      "path": "src/bin/desktop/comparison_archive.rs",
+      "sha256": "813cc86187ef7313deacbe9d9cd15340f37ecdf62f5234a45f033909415459b9"
+    },
+    {
+      "bytes": 32998,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82",
+        "pr142": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82"
+      },
+      "parent_sha256": {
+        "main": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82",
+        "pr142": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82"
+      },
+      "path": "src/bin/desktop/comparison_field_view.rs",
+      "sha256": "ec8ea0799522d5a7fadac47b06b42f26717f935bbb9a1677fc5052f096c1cc82"
+    },
+    {
+      "bytes": 31956,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46",
+        "pr142": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46"
+      },
+      "parent_sha256": {
+        "main": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46",
+        "pr142": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46"
+      },
+      "path": "src/bin/desktop/configured_comparison_tests.rs",
+      "sha256": "e6716e8c707f30cc20304b16e3201f8fb1fd838650bd08a43a95ab4d68cbbf46"
+    },
+    {
+      "bytes": 37252,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main authoring/presentation owner retained: validated immutable force snapshots and supported-target policy remain distinct from retained results, configured Session execution and workflow evidence. No new capabilities are enabled by this review.",
+      "parent_inventory_pin": {
+        "main": "5463e18b3b5a139c448dd327b23318605664e90aea4690187981177e7f68e60b",
+        "pr142": "05d317554c4db033dd35c5e153dceaea34367eed33125ec8c7f59466f83ede36"
+      },
+      "parent_sha256": {
+        "main": "5463e18b3b5a139c448dd327b23318605664e90aea4690187981177e7f68e60b",
+        "pr142": "05d317554c4db033dd35c5e153dceaea34367eed33125ec8c7f59466f83ede36"
+      },
+      "path": "src/bin/desktop/configured_controls.rs",
+      "sha256": "5463e18b3b5a139c448dd327b23318605664e90aea4690187981177e7f68e60b"
+    },
+    {
+      "bytes": 17651,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb",
+        "pr142": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb"
+      },
+      "parent_sha256": {
+        "main": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb",
+        "pr142": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb"
+      },
+      "path": "src/bin/desktop/configured_producer_exit_tests.rs",
+      "sha256": "7560ff5395acbd50ce111b1e50ae5e8aca1b1bab5356ec195929eec0994f24bb"
+    },
+    {
+      "bytes": 23479,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "06a9e7f5724b73c101a38dcc2c966d37b640900495643ea7bc04c13f4630f278",
+        "pr142": "81e24d69cd5838de3becbc31453ce0a10947e7fe956287862957fcc06eae6e38"
+      },
+      "parent_sha256": {
+        "main": "06a9e7f5724b73c101a38dcc2c966d37b640900495643ea7bc04c13f4630f278",
+        "pr142": "81e24d69cd5838de3becbc31453ce0a10947e7fe956287862957fcc06eae6e38"
+      },
+      "path": "src/bin/desktop/configured_worker_tests.rs",
+      "sha256": "06a9e7f5724b73c101a38dcc2c966d37b640900495643ea7bc04c13f4630f278"
+    },
+    {
+      "bytes": 5728,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9",
+        "pr142": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9"
+      },
+      "parent_sha256": {
+        "main": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9",
+        "pr142": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9"
+      },
+      "path": "src/bin/desktop/emitter_controls.rs",
+      "sha256": "d5eaf6358b037d1f11177abbbd83bfa8aa18c263b195c3911b8f183b3334fba9"
+    },
+    {
+      "bytes": 32960,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d",
+        "pr142": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d"
+      },
+      "parent_sha256": {
+        "main": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d",
+        "pr142": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d"
+      },
+      "path": "src/bin/desktop/engineering.rs",
+      "sha256": "9fc4eaafd1118abda50b70d1cc71c843fc1ca71d420d2cd47f16a20fcc9e8e9d"
+    },
+    {
+      "bytes": 2539,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d",
+        "pr142": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d"
+      },
+      "parent_sha256": {
+        "main": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d",
+        "pr142": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d"
+      },
+      "path": "src/bin/desktop/export_ui.rs",
+      "sha256": "1702f437b17dd42d2bf1311ca14d0301a53712392abc6591ab8962b48cba511d"
+    },
+    {
+      "bytes": 1303,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main authoring/presentation owner retained: validated immutable force snapshots and supported-target policy remain distinct from retained results, configured Session execution and workflow evidence. No new capabilities are enabled by this review.",
+      "parent_inventory_pin": {
+        "main": "cbb784c1cc403cfd524b715a52144c662f428b302014af1794bb3131d09bb97a",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "cbb784c1cc403cfd524b715a52144c662f428b302014af1794bb3131d09bb97a",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/force_run_policy.rs",
+      "sha256": "cbb784c1cc403cfd524b715a52144c662f428b302014af1794bb3131d09bb97a"
+    },
+    {
+      "bytes": 7457,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "99d6b9e8b2a98eceab0514510d3f54873da50fdabc7626dd3896d45dd3c53383",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "99d6b9e8b2a98eceab0514510d3f54873da50fdabc7626dd3896d45dd3c53383",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/force_run_policy_tests.rs",
+      "sha256": "99d6b9e8b2a98eceab0514510d3f54873da50fdabc7626dd3896d45dd3c53383"
+    },
+    {
+      "bytes": 14703,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "04ba4f5883e48c5548cb420e17b6a6736436871d8e6c7792487939bfe5ed29a6",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "04ba4f5883e48c5548cb420e17b6a6736436871d8e6c7792487939bfe5ed29a6",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/force_runtime_integration_tests.rs",
+      "sha256": "04ba4f5883e48c5548cb420e17b6a6736436871d8e6c7792487939bfe5ed29a6"
+    },
+    {
+      "bytes": 15874,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "92475c2b577510a8f8fc11217f7eb1a5361dcaef20ade99f198f60d5b654966c",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "92475c2b577510a8f8fc11217f7eb1a5361dcaef20ade99f198f60d5b654966c",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/force_runtime_ui_tests.rs",
+      "sha256": "92475c2b577510a8f8fc11217f7eb1a5361dcaef20ade99f198f60d5b654966c"
+    },
+    {
+      "bytes": 21523,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821",
+        "pr142": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821"
+      },
+      "parent_sha256": {
+        "main": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821",
+        "pr142": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821"
+      },
+      "path": "src/bin/desktop/history.rs",
+      "sha256": "e4be154bbbf40a36f370b68ec9e15fea663fb589d476a43eb298c0e8c0f0d821"
+    },
+    {
+      "bytes": 429,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184",
+        "pr142": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184"
+      },
+      "parent_sha256": {
+        "main": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184",
+        "pr142": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184"
+      },
+      "path": "src/bin/desktop/identity.rs",
+      "sha256": "df451a986476b9df252a9a4dbc1e33218bf5ab3cb268b83fa78b47dfffdae184"
+    },
+    {
+      "bytes": 50287,
+      "disposition": "reviewed-composition-or-fixture-repair",
+      "justification": "Differs from both named parents; exact composed source reviewed. Composes configured RCP4/RCT2 workflow capture and explicit cached selection with main force-bound material/carrier capture. Constructor and accepted force metadata use their own adapters. Projection profiles remain explicitly unavailable to the old workflow graph. Read/audit failures clear cached workflow and numerical selections.",
+      "parent_inventory_pin": {
+        "main": "7a6582faf9bfff755d7fade624f6b11cca06813c75310fba25ccbfabff1d2aae",
+        "pr142": "54c68139c0aee8d8bcb24ea3fa303ecff6405ce75689fb440ef3184a75bcbe69"
+      },
+      "parent_sha256": {
+        "main": "7a6582faf9bfff755d7fade624f6b11cca06813c75310fba25ccbfabff1d2aae",
+        "pr142": "54c68139c0aee8d8bcb24ea3fa303ecff6405ce75689fb440ef3184a75bcbe69"
+      },
+      "path": "src/bin/desktop/inspector.rs",
+      "sha256": "2e6a9f4f44e4a3843bc1c16953e1fc2f182a08b3a25e70f968084b454af8a438"
+    },
+    {
+      "bytes": 11635,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "8ce8efa63afbe0d09e22996ec00478de331fcbda7a5ac83882f2ed3fff0d8ea1",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "8ce8efa63afbe0d09e22996ec00478de331fcbda7a5ac83882f2ed3fff0d8ea1",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/native_presentation_harness.rs",
+      "sha256": "8ce8efa63afbe0d09e22996ec00478de331fcbda7a5ac83882f2ed3fff0d8ea1"
+    },
+    {
+      "bytes": 8253,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
+        "pr142": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2"
+      },
+      "parent_sha256": {
+        "main": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2",
+        "pr142": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2"
+      },
+      "path": "src/bin/desktop/particle_view.rs",
+      "sha256": "75208acd210d4558a34127b98cf77f2c898a560f991f6bed3bee3a4eb160b9a2"
+    },
+    {
+      "bytes": 5164,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b",
+        "pr142": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b"
+      },
+      "parent_sha256": {
+        "main": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b",
+        "pr142": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b"
+      },
+      "path": "src/bin/desktop/run_set_view.rs",
+      "sha256": "ab2c841612f39b16f5bd1a363593eae5388bf4a81ec495dfb89e43bd7436580b"
+    },
+    {
+      "bytes": 35607,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Native/configured saved execution owner retained; immutable specification, per-track force identity, cold archive binding and explicit unsupported combinations stay owned by their existing boundaries.",
+      "parent_inventory_pin": {
+        "main": "b25f07c5d9f4a27572922956043224c35dde35d9a0d987ab8af4f3f3151c91f0",
+        "pr142": "e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1"
+      },
+      "parent_sha256": {
+        "main": "b25f07c5d9f4a27572922956043224c35dde35d9a0d987ab8af4f3f3151c91f0",
+        "pr142": "e194a48350954edf13cdcd01371d320cc210069b4256ba955f2ddd1132301cc1"
+      },
+      "path": "src/bin/desktop/run_sets.rs",
+      "sha256": "b25f07c5d9f4a27572922956043224c35dde35d9a0d987ab8af4f3f3151c91f0"
+    },
+    {
+      "bytes": 30187,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Native/configured saved execution owner retained; immutable specification, per-track force identity, cold archive binding and explicit unsupported combinations stay owned by their existing boundaries.",
+      "parent_inventory_pin": {
+        "main": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9",
+        "pr142": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9"
+      },
+      "parent_sha256": {
+        "main": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9",
+        "pr142": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9"
+      },
+      "path": "src/bin/desktop/run_sets/configured.rs",
+      "sha256": "45fa8cf6976da7f8ab3eff27fd69ba5511c98c4be541739eefcdf762826abac9"
+    },
+    {
+      "bytes": 20092,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 workflow producer/consumer retained: actual attempt observations, immutable selected publication, explicit terminal reads and frozen-intent checks. No paint-time provider execution or substitution of newer state.",
+      "parent_inventory_pin": {
+        "main": "eb1d8e77019eb57afd9e5fd5f57af55f8ff320527ec8efc935945bd7ff477806",
+        "pr142": "c790e634ff8f46fb4b3513530321bf34ad00f80ab717fa66a1afcb003485aef2"
+      },
+      "parent_sha256": {
+        "main": "eb1d8e77019eb57afd9e5fd5f57af55f8ff320527ec8efc935945bd7ff477806",
+        "pr142": "c790e634ff8f46fb4b3513530321bf34ad00f80ab717fa66a1afcb003485aef2"
+      },
+      "path": "src/bin/desktop/run_sets/configured/archive.rs",
+      "sha256": "c790e634ff8f46fb4b3513530321bf34ad00f80ab717fa66a1afcb003485aef2"
+    },
+    {
+      "bytes": 9660,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Native/configured saved execution owner retained; immutable specification, per-track force identity, cold archive binding and explicit unsupported combinations stay owned by their existing boundaries.",
+      "parent_inventory_pin": {
+        "main": "39e8982fffaf4e9adcd0ca0c60f49eabc96b829957bc6d9c05479c80eee99daf",
+        "pr142": "c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11"
+      },
+      "parent_sha256": {
+        "main": "39e8982fffaf4e9adcd0ca0c60f49eabc96b829957bc6d9c05479c80eee99daf",
+        "pr142": "c948c24fbe3d0bbb4d281c427244f7908a16506236c0f24b194490c64033cd11"
+      },
+      "path": "src/bin/desktop/run_sets/source.rs",
+      "sha256": "39e8982fffaf4e9adcd0ca0c60f49eabc96b829957bc6d9c05479c80eee99daf"
+    },
+    {
+      "bytes": 35097,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main authoring/presentation owner retained: validated immutable force snapshots and supported-target policy remain distinct from retained results, configured Session execution and workflow evidence. No new capabilities are enabled by this review.",
+      "parent_inventory_pin": {
+        "main": "4818b85644a2891de562adc00fc203eb59c674bbf46aa88cd440bcab6477eb22",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "4818b85644a2891de562adc00fc203eb59c674bbf46aa88cd440bcab6477eb22",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/scene_handles.rs",
+      "sha256": "4818b85644a2891de562adc00fc203eb59c674bbf46aa88cd440bcab6477eb22"
+    },
+    {
+      "bytes": 47177,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main authoring/presentation owner retained: validated immutable force snapshots and supported-target policy remain distinct from retained results, configured Session execution and workflow evidence. No new capabilities are enabled by this review.",
+      "parent_inventory_pin": {
+        "main": "e98c8aa0449b8f1adac4eb8a5bdc9a0951bd0b054f4dd2575d31dee30990c922",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "e98c8aa0449b8f1adac4eb8a5bdc9a0951bd0b054f4dd2575d31dee30990c922",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/scene_ui.rs",
+      "sha256": "e98c8aa0449b8f1adac4eb8a5bdc9a0951bd0b054f4dd2575d31dee30990c922"
+    },
+    {
+      "bytes": 37630,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main authoring/presentation owner retained: validated immutable force snapshots and supported-target policy remain distinct from retained results, configured Session execution and workflow evidence. No new capabilities are enabled by this review.",
+      "parent_inventory_pin": {
+        "main": "d16851804c3aa727c7fdf658a821ef8c8cd2c167e853b72d02604f2a14dfa02f",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "d16851804c3aa727c7fdf658a821ef8c8cd2c167e853b72d02604f2a14dfa02f",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/scene_view.rs",
+      "sha256": "d16851804c3aa727c7fdf658a821ef8c8cd2c167e853b72d02604f2a14dfa02f"
+    },
+    {
+      "bytes": 46529,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main authoring/presentation owner retained: validated immutable force snapshots and supported-target policy remain distinct from retained results, configured Session execution and workflow evidence. No new capabilities are enabled by this review.",
+      "parent_inventory_pin": {
+        "main": "72a2e42de38100fa7cb517bfa7c1b9377975d23c3c4cd887615c296549c093c4",
+        "pr142": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660"
+      },
+      "parent_sha256": {
+        "main": "72a2e42de38100fa7cb517bfa7c1b9377975d23c3c4cd887615c296549c093c4",
+        "pr142": "d66735427fc8b6be57d93812d30fb4b8c357419acd70b7b0564aa48216bb2660"
+      },
+      "path": "src/bin/desktop/settings.rs",
+      "sha256": "72a2e42de38100fa7cb517bfa7c1b9377975d23c3c4cd887615c296549c093c4"
+    },
+    {
+      "bytes": 32595,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "278b7a20f5d48a4e8a6c8ee2a4b18f0377f09f78bd64b34cfb20d4545ebc2563",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "278b7a20f5d48a4e8a6c8ee2a4b18f0377f09f78bd64b34cfb20d4545ebc2563",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/setup_ui_tests.rs",
+      "sha256": "278b7a20f5d48a4e8a6c8ee2a4b18f0377f09f78bd64b34cfb20d4545ebc2563"
+    },
+    {
+      "bytes": 18103,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": "545e109f6d6808cc31482b8cffb4e21f8518d705424327728dc6c5d549a73df5",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "545e109f6d6808cc31482b8cffb4e21f8518d705424327728dc6c5d549a73df5",
+        "pr142": null
+      },
+      "path": "src/bin/desktop/timeline_ui_tests.rs",
+      "sha256": "545e109f6d6808cc31482b8cffb4e21f8518d705424327728dc6c5d549a73df5"
+    },
+    {
+      "bytes": 6248,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing desktop integration context retained with exact parent identity; reviewed composition changes its callers only through the explicit worker, inspector and root surfaces above. Existing failure, cancellation and selected-publication contracts remain applicable.",
+      "parent_inventory_pin": {
+        "main": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
+        "pr142": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8"
+      },
+      "parent_sha256": {
+        "main": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8",
+        "pr142": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8"
+      },
+      "path": "src/bin/desktop/transport_view.rs",
+      "sha256": "e8c3d5cc588d4efac9918544fc5012696a05bdfa7adcba7ce18b07c5a260f6b8"
+    },
+    {
+      "bytes": 47109,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main authoring/presentation owner retained: validated immutable force snapshots and supported-target policy remain distinct from retained results, configured Session execution and workflow evidence. No new capabilities are enabled by this review.",
+      "parent_inventory_pin": {
+        "main": "4a365fbb1a0f48bd016b3d673b30e635ad26390205cb22c24d25fa46738b6a08",
+        "pr142": "599046403df150499064337c2ce3b6996f1ece69f4e876f882200f079b7cd530"
+      },
+      "parent_sha256": {
+        "main": "4a365fbb1a0f48bd016b3d673b30e635ad26390205cb22c24d25fa46738b6a08",
+        "pr142": "599046403df150499064337c2ce3b6996f1ece69f4e876f882200f079b7cd530"
+      },
+      "path": "src/bin/desktop/viewport.rs",
+      "sha256": "4a365fbb1a0f48bd016b3d673b30e635ad26390205cb22c24d25fa46738b6a08"
+    },
+    {
+      "bytes": 33985,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 workflow producer/consumer retained: actual attempt observations, immutable selected publication, explicit terminal reads and frozen-intent checks. No paint-time provider execution or substitution of newer state.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "4176efb859e9ed2e0041a6ca7b9f87c5590ed2aa7541a83fc225ce6e795ddd6f"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "4176efb859e9ed2e0041a6ca7b9f87c5590ed2aa7541a83fc225ce6e795ddd6f"
+      },
+      "path": "src/bin/desktop/workflow_inspector.rs",
+      "sha256": "4176efb859e9ed2e0041a6ca7b9f87c5590ed2aa7541a83fc225ce6e795ddd6f"
+    },
+    {
+      "bytes": 50345,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. Desktop test/harness source retained with exact parent identity; existing discovery and fixture paths remain connected through the composed desktop root. Historical GUI or numerical results are not transferred to this composition.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "1a007629254e7145d6b9a2fca505f42630d05a38e3f9dc4af4f65b23c4fe7922"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "1a007629254e7145d6b9a2fca505f42630d05a38e3f9dc4af4f65b23c4fe7922"
+      },
+      "path": "src/bin/desktop/workflow_inspector_tests.rs",
+      "sha256": "1a007629254e7145d6b9a2fca505f42630d05a38e3f9dc4af4f65b23c4fe7922"
+    },
+    {
+      "bytes": 5924,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9",
+        "pr142": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9"
+      },
+      "parent_sha256": {
+        "main": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9",
+        "pr142": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9"
+      },
+      "path": "src/bin/rheon-ai-compare.rs",
+      "sha256": "00000ec93161c04d9ff0515e5ae2ab6855a5467f56f23a4d6fc6c1059ef8ada9"
+    },
+    {
+      "bytes": 168317,
+      "disposition": "reviewed-composition-or-fixture-repair",
+      "justification": "Differs from both named parents; exact composed source reviewed. Composes main Scene/setup/timeline and immutable authored-force Request with PR142 workflow graph actions and WorkflowTermination. Worker validates force track/header binding and refuses configured authored presence before dispatch. Native/material execution uses per-track frozen force input. Workflow window selects configured carrier inspector or reports evidence unavailable; comparison graph identity is independently checked.",
+      "parent_inventory_pin": {
+        "main": "d74cff5459f52d1cb01512b6300d9466411352f73b014491e3678d514844d1b3",
+        "pr142": "cd57bc2c39b6c16b9b92768be2614ec40ce02adbafc5d4992664af2ba291d66c"
+      },
+      "parent_sha256": {
+        "main": "d74cff5459f52d1cb01512b6300d9466411352f73b014491e3678d514844d1b3",
+        "pr142": "cd57bc2c39b6c16b9b92768be2614ec40ce02adbafc5d4992664af2ba291d66c"
+      },
+      "path": "src/bin/rheon-desktop.rs",
+      "sha256": "6d16349502d2ce6bd3a2e07a5285cd1538703a48ec591215d7cb327d435a902a"
+    },
+    {
+      "bytes": 11640,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51",
+        "pr142": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51"
+      },
+      "parent_sha256": {
+        "main": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51",
+        "pr142": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51"
+      },
+      "path": "src/bin/rheon.rs",
+      "sha256": "5116a121256c8bb57d086caedbda8151f3593cb99d3e84b1d04fea25b12dfb51"
+    },
+    {
+      "bytes": 17346,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+        "pr142": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0"
+      },
+      "parent_sha256": {
+        "main": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0",
+        "pr142": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0"
+      },
+      "path": "src/box_flux.rs",
+      "sha256": "554b3cdc916e7527bbfdbd6a54b8cf7e27549c3c661015b259c8b2d18784bbb0"
+    },
+    {
+      "bytes": 5487,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+        "pr142": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b"
+      },
+      "parent_sha256": {
+        "main": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b",
+        "pr142": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b"
+      },
+      "path": "src/box_flux_step.rs",
+      "sha256": "e2ef3afcd8adffe0f79c0030eb56e5bb55943775e474a1dab2a7fe78ac38441b"
+    },
+    {
+      "bytes": 12262,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+        "pr142": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115"
+      },
+      "parent_sha256": {
+        "main": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115",
+        "pr142": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115"
+      },
+      "path": "src/collision.rs",
+      "sha256": "101c91ced5efc250f3a12bc47d5bbf04b812096caf8580c0229362e959839115"
+    },
+    {
+      "bytes": 35637,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+        "pr142": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84"
+      },
+      "parent_sha256": {
+        "main": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84",
+        "pr142": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84"
+      },
+      "path": "src/column_mac.rs",
+      "sha256": "40b86c5bab2d458c8b31b1f8def21c5f715acecb37813fb57417f7fe363aca84"
+    },
+    {
+      "bytes": 22078,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0",
+        "pr142": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0"
+      },
+      "parent_sha256": {
+        "main": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0",
+        "pr142": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0"
+      },
+      "path": "src/column_momentum.rs",
+      "sha256": "373f63ac001fe8e9f8017a912033b3cc431169c6e4c86c2e6b514ee945f1f9b0"
+    },
+    {
+      "bytes": 37106,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299",
+        "pr142": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299"
+      },
+      "parent_sha256": {
+        "main": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299",
+        "pr142": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299"
+      },
+      "path": "src/column_shear.rs",
+      "sha256": "bd2a20a11f927c2a886b524a4a45791100f9c3e8119b7648153b7775cb6a3299"
+    },
+    {
+      "bytes": 15155,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+        "pr142": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0"
+      },
+      "parent_sha256": {
+        "main": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0",
+        "pr142": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0"
+      },
+      "path": "src/column_surface.rs",
+      "sha256": "cd58d4d7d1c3d94092374ebd65fd191e3cf58f7ae68caeaf30ca15d36df666e0"
+    },
+    {
+      "bytes": 29786,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3",
+        "pr142": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3"
+      },
+      "parent_sha256": {
+        "main": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3",
+        "pr142": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3"
+      },
+      "path": "src/compressible.rs",
+      "sha256": "dc0f2a3a8ebcb108c6a094ec59a467f1390b846dd27c505b16248a64dc1031b3"
+    },
+    {
+      "bytes": 61268,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7",
+        "pr142": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7"
+      },
+      "parent_sha256": {
+        "main": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7",
+        "pr142": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7"
+      },
+      "path": "src/coupled_discrete.rs",
+      "sha256": "b296021b8dd2f763b6eeab1e49e78bf06ec2ec801ac9595441e9e3920235d8e7"
+    },
+    {
+      "bytes": 20084,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431",
+        "pr142": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431"
+      },
+      "parent_sha256": {
+        "main": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431",
+        "pr142": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431"
+      },
+      "path": "src/dense3d_sequence.rs",
+      "sha256": "90e9249fd82cc829a84cea9162d680971e660bfc6c32619355b353d17b25a431"
+    },
+    {
+      "bytes": 16400,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84",
+        "pr142": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84"
+      },
+      "parent_sha256": {
+        "main": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84",
+        "pr142": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84"
+      },
+      "path": "src/emitter.rs",
+      "sha256": "57ea2badaeb329fe91647df98be60bff8dbe693e41076979eda4b79ad8f48f84"
+    },
+    {
+      "bytes": 3358,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4",
+        "pr142": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4"
+      },
+      "parent_sha256": {
+        "main": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4",
+        "pr142": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4"
+      },
+      "path": "src/emitter_controls.rs",
+      "sha256": "47d0b180dafc7e57ad1b205f2a12c5a472a78c1d60a7c3f7521ec470211a89c4"
+    },
+    {
+      "bytes": 4681,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3",
+        "pr142": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3"
+      },
+      "parent_sha256": {
+        "main": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3",
+        "pr142": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3"
+      },
+      "path": "src/export.rs",
+      "sha256": "afe2b79d11f1b8c0ccd16dcaae51a22c8d35ba2e7a23c362729fe907b208f0d3"
+    },
+    {
+      "bytes": 48528,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+        "pr142": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a"
+      },
+      "parent_sha256": {
+        "main": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a",
+        "pr142": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a"
+      },
+      "path": "src/fitted_height.rs",
+      "sha256": "0181db7ffbad932b7e3492ce1a8e260736389e4ded3472c81fe2697861f6777a"
+    },
+    {
+      "bytes": 28202,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47",
+        "pr142": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47"
+      },
+      "parent_sha256": {
+        "main": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47",
+        "pr142": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47"
+      },
+      "path": "src/fixed_bottom_ale.rs",
+      "sha256": "3cc724d376d115fccd8b6c658d7f26b6436f4d13d105a5ae8416fd9c04b17a47"
+    },
+    {
+      "bytes": 14833,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main force domain/solver adapter retained: frozen validated scene, SI units/support/time activation and bounded force stage; MAC accepted pressure stamp and particle accepted-control custody retain their distinct failure lifetimes.",
+      "parent_inventory_pin": {
+        "main": "adecbc5f92b89179a2e38885be2acbcddd42df40061f00ffa5d758224ed045a5",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "adecbc5f92b89179a2e38885be2acbcddd42df40061f00ffa5d758224ed045a5",
+        "pr142": null
+      },
+      "path": "src/force_field.rs",
+      "sha256": "adecbc5f92b89179a2e38885be2acbcddd42df40061f00ffa5d758224ed045a5"
+    },
+    {
+      "bytes": 10490,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main force domain/solver adapter retained: frozen validated scene, SI units/support/time activation and bounded force stage; MAC accepted pressure stamp and particle accepted-control custody retain their distinct failure lifetimes.",
+      "parent_inventory_pin": {
+        "main": "7b3b48c0813c995a937a44ca1b624411c59dde6419b62041b67456cde2d692d9",
+        "pr142": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb"
+      },
+      "parent_sha256": {
+        "main": "7b3b48c0813c995a937a44ca1b624411c59dde6419b62041b67456cde2d692d9",
+        "pr142": "c5585940330096890016ff68f25645aa12cdaec2b796a8b234c138e88dd892bb"
+      },
+      "path": "src/forces.rs",
+      "sha256": "7b3b48c0813c995a937a44ca1b624411c59dde6419b62041b67456cde2d692d9"
+    },
+    {
+      "bytes": 3639,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+        "pr142": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e"
+      },
+      "parent_sha256": {
+        "main": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e",
+        "pr142": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e"
+      },
+      "path": "src/free_surface.rs",
+      "sha256": "f43fd9a71da6aac985dfcfb6cc471318227c1727d6e0dad8e2a5feb5b3728a8e"
+    },
+    {
+      "bytes": 11743,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634",
+        "pr142": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634"
+      },
+      "parent_sha256": {
+        "main": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634",
+        "pr142": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634"
+      },
+      "path": "src/geometry.rs",
+      "sha256": "712d04f27d55d7e77f17effefbf2660ca3b8a000de5b7aa51b42b89fe5d3b634"
+    },
+    {
+      "bytes": 8499,
+      "disposition": "reviewed-composition-or-fixture-repair",
+      "justification": "Differs from both named parents; exact composed source reviewed. Additive union of workflow/native projection/native family APIs and authored-force APIs; existing target guards and native-only recording boundary retained. No dispatch, arithmetic, dependency version or selector change.",
+      "parent_inventory_pin": {
+        "main": "30f5b78a98f6d0c010955a25fc00cc2de4aadf159d260e95afd3f3143dc6f9c3",
+        "pr142": "912ad100d2fa06be6172e660464893b8f7a56b2ad0a22a48b7607e79796f6fd6"
+      },
+      "parent_sha256": {
+        "main": "30f5b78a98f6d0c010955a25fc00cc2de4aadf159d260e95afd3f3143dc6f9c3",
+        "pr142": "912ad100d2fa06be6172e660464893b8f7a56b2ad0a22a48b7607e79796f6fd6"
+      },
+      "path": "src/lib.rs",
+      "sha256": "6a9f704b00321be1cb9699e4d81d953030a42e3794f5b5d03ce548490f51f7b5"
+    },
+    {
+      "bytes": 36342,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 full interval composition retained: prepares carrier and volume in scratch, seals projection receipt or bounded workflow metadata before infallible pressure copy and owner swaps; failure preserves accepted fields and quota. Main authored-field entrypoints are separate.",
+      "parent_inventory_pin": {
+        "main": "f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93",
+        "pr142": "d78dc80351771ac257f2643017c138709ea174d0e6dc4c4f7e1b92911babb41d"
+      },
+      "parent_sha256": {
+        "main": "f99dce6a99f6af8a9aef2436af7f33de58dac3be5998a48e9187fbdf2acc3f93",
+        "pr142": "d78dc80351771ac257f2643017c138709ea174d0e6dc4c4f7e1b92911babb41d"
+      },
+      "path": "src/liquid_step.rs",
+      "sha256": "d78dc80351771ac257f2643017c138709ea174d0e6dc4c4f7e1b92911babb41d"
+    },
+    {
+      "bytes": 34771,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 explicit periodic donor-volume boundary retained: only full-cell domain admitted; matching seam velocities required, one seam transfer copied exactly, wrapped upwind donors and zero external boundary budget; existing inlet path preserved.",
+      "parent_inventory_pin": {
+        "main": "24623038f62261ce6a17b034e9b6d82c5f0aba02dd0df7aad174c885ed2a8c96",
+        "pr142": "7f98c25b5e0990a0a9097aa1d3d656f4441123271e5ee1801ee2055de9eed650"
+      },
+      "parent_sha256": {
+        "main": "24623038f62261ce6a17b034e9b6d82c5f0aba02dd0df7aad174c885ed2a8c96",
+        "pr142": "7f98c25b5e0990a0a9097aa1d3d656f4441123271e5ee1801ee2055de9eed650"
+      },
+      "path": "src/liquid_volume.rs",
+      "sha256": "7f98c25b5e0990a0a9097aa1d3d656f4441123271e5ee1801ee2055de9eed650"
+    },
+    {
+      "bytes": 7103,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+        "pr142": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66"
+      },
+      "parent_sha256": {
+        "main": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66",
+        "pr142": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66"
+      },
+      "path": "src/material.rs",
+      "sha256": "49874ff972f16a972d706236b34e62f83e994c57e39b642c6d94a1a6f4b7fb66"
+    },
+    {
+      "bytes": 10964,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960",
+        "pr142": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960"
+      },
+      "parent_sha256": {
+        "main": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960",
+        "pr142": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960"
+      },
+      "path": "src/material_session.rs",
+      "sha256": "4e18e446ad82f10523f72bae1b7cc6007f2ecf5ad05407bb666be3e2ae9be960"
+    },
+    {
+      "bytes": 19695,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24",
+        "pr142": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24"
+      },
+      "parent_sha256": {
+        "main": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24",
+        "pr142": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24"
+      },
+      "path": "src/mesh_collision.rs",
+      "sha256": "71503d2c5939dbb59946bc157eedafecdedd0831f1e81d29e794fba7290dfd24"
+    },
+    {
+      "bytes": 24294,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890",
+        "pr142": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890"
+      },
+      "parent_sha256": {
+        "main": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890",
+        "pr142": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890"
+      },
+      "path": "src/mesh_import.rs",
+      "sha256": "3e8f2d79e59b3f27c7ffeeacc83d9b7d08faafa2fffa7de81dfd8665b36a6890"
+    },
+    {
+      "bytes": 6031,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+        "pr142": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea"
+      },
+      "parent_sha256": {
+        "main": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea",
+        "pr142": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea"
+      },
+      "path": "src/motion.rs",
+      "sha256": "8ab9f26199f36d76cb2f5e4cb58d40905205f0d6fc90988549f7e389c489a3ea"
+    },
+    {
+      "bytes": 9748,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 borrowed native-family facade retained; request family and expected run/generation checked before delegation to real MAC/particle owners. Cross-family transfer remains explicitly unsupported.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "070721db5250b429bf6f1147b71de1b84fd010eceb17d0814f9b9d299c9a09e5"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "070721db5250b429bf6f1147b71de1b84fd010eceb17d0814f9b9d299c9a09e5"
+      },
+      "path": "src/native_family.rs",
+      "sha256": "070721db5250b429bf6f1147b71de1b84fd010eceb17d0814f9b9d299c9a09e5"
+    },
+    {
+      "bytes": 25318,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 borrowed native-family facade retained; request family and expected run/generation checked before delegation to real MAC/particle owners. Cross-family transfer remains explicitly unsupported.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "6904cbfa816d754410f18fe4281d29729e492ac47e2905474afa30cb97edb7d5"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "6904cbfa816d754410f18fe4281d29729e492ac47e2905474afa30cb97edb7d5"
+      },
+      "path": "src/native_family/tests.rs",
+      "sha256": "6904cbfa816d754410f18fe4281d29729e492ac47e2905474afa30cb97edb7d5"
+    },
+    {
+      "bytes": 6669,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee",
+        "pr142": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee"
+      },
+      "parent_sha256": {
+        "main": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee",
+        "pr142": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee"
+      },
+      "path": "src/observation.rs",
+      "sha256": "2c6d4cd75cdb0f2d560d0f79df4e53914e10f340de0740b939311d8cc35d5dee"
+    },
+    {
+      "bytes": 24077,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07",
+        "pr142": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07"
+      },
+      "parent_sha256": {
+        "main": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07",
+        "pr142": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07"
+      },
+      "path": "src/obstacle_pressure.rs",
+      "sha256": "b45262632483ce08773924b407eeffbe99bd62663094ce6fd71b24d132026b07"
+    },
+    {
+      "bytes": 16421,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f",
+        "pr142": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f"
+      },
+      "parent_sha256": {
+        "main": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f",
+        "pr142": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f"
+      },
+      "path": "src/obstacle_shear.rs",
+      "sha256": "745da07d5e949276a2e0cb7ac4bdde4aedf557bf6189d5a51581d8ce79b1dc1f"
+    },
+    {
+      "bytes": 29555,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+        "pr142": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38"
+      },
+      "parent_sha256": {
+        "main": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38",
+        "pr142": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38"
+      },
+      "path": "src/operator.rs",
+      "sha256": "cd98684d5204908e5344b2628a8f93ea2a55a90c6678e03a71f2d75ab1f2be38"
+    },
+    {
+      "bytes": 5488,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e",
+        "pr142": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e"
+      },
+      "parent_sha256": {
+        "main": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e",
+        "pr142": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e"
+      },
+      "path": "src/parallel.rs",
+      "sha256": "ee5420673a59ae4fb247b3542878e74902f7a87056744d4303fb400be074677e"
+    },
+    {
+      "bytes": 57483,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main force domain/solver adapter retained: frozen validated scene, SI units/support/time activation and bounded force stage; MAC accepted pressure stamp and particle accepted-control custody retain their distinct failure lifetimes.",
+      "parent_inventory_pin": {
+        "main": "538c498122bbc1045ae59d7363ff87e1dd9a40003fb48eeae835228ad4c65893",
+        "pr142": "ed4ab916e602a55b2245beba5bdbff268fcb704b67fa41248d47ad2598f2468f"
+      },
+      "parent_sha256": {
+        "main": "538c498122bbc1045ae59d7363ff87e1dd9a40003fb48eeae835228ad4c65893",
+        "pr142": "ed4ab916e602a55b2245beba5bdbff268fcb704b67fa41248d47ad2598f2468f"
+      },
+      "path": "src/particle_fluid.rs",
+      "sha256": "538c498122bbc1045ae59d7363ff87e1dd9a40003fb48eeae835228ad4c65893"
+    },
+    {
+      "bytes": 28790,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+        "pr142": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5"
+      },
+      "parent_sha256": {
+        "main": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5",
+        "pr142": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5"
+      },
+      "path": "src/pressure.rs",
+      "sha256": "39ddb79dd3de196e83545679e556c0cd8ce9afae9db9282161f54b8f22f713a5"
+    },
+    {
+      "bytes": 11353,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8",
+        "pr142": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8"
+      },
+      "parent_sha256": {
+        "main": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8",
+        "pr142": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8"
+      },
+      "path": "src/pressure_session.rs",
+      "sha256": "ae687a8822dd6cfeadf5dc6e13e7983d8d1afcdf9e5db1857d4dce64cd0e3fb8"
+    },
+    {
+      "bytes": 46652,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 closed projection implementation/evidence retained: immutable provisional input binding; host pressure/corrected-velocity qualification; clean native fallback; independent failed-attempt receipt; full carrier/volume and receipt sealing before owner swaps. No authored-field path or arbitrary runtime is added.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "51fe13c95772d1e3b68f2c261b50d5e2ec49bbc7adf8ff2573e3f36c2c34df1c"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "51fe13c95772d1e3b68f2c261b50d5e2ec49bbc7adf8ff2573e3f36c2c34df1c"
+      },
+      "path": "src/projection_step.rs",
+      "sha256": "51fe13c95772d1e3b68f2c261b50d5e2ec49bbc7adf8ff2573e3f36c2c34df1c"
+    },
+    {
+      "bytes": 3888,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": "79167b70a8d164a2367f43816feab443eefb41f23bc4bd940716dd5fd32d495b",
+        "pr142": "20cb23abcb30802dbebd6a32f599d20986982bf7aaa9e69e5287e4e448bac54b"
+      },
+      "parent_sha256": {
+        "main": "79167b70a8d164a2367f43816feab443eefb41f23bc4bd940716dd5fd32d495b",
+        "pr142": "20cb23abcb30802dbebd6a32f599d20986982bf7aaa9e69e5287e4e448bac54b"
+      },
+      "path": "src/provider_step.rs",
+      "sha256": "20cb23abcb30802dbebd6a32f599d20986982bf7aaa9e69e5287e4e448bac54b"
+    },
+    {
+      "bytes": 38946,
+      "disposition": "reviewed-composition-or-fixture-repair",
+      "justification": "Differs from both named parents; exact composed source reviewed. Additive module/export union for workflow, projection and force metadata. Main force run/step association validation is retained on append/read; absent metadata remains valid for legacy configured/projection paths. Existing SQL schema and byte hash algorithms are retained.",
+      "parent_inventory_pin": {
+        "main": "47b2b24bbe9af777ceafdefa6f0b82200a60cea590d0b64f326de1d50c6d7d2d",
+        "pr142": "6e543c95f148e67c6b7a548548785d50084abde60ee079cbbbbb9d6aae0eac66"
+      },
+      "parent_sha256": {
+        "main": "47b2b24bbe9af777ceafdefa6f0b82200a60cea590d0b64f326de1d50c6d7d2d",
+        "pr142": "6e543c95f148e67c6b7a548548785d50084abde60ee079cbbbbb9d6aae0eac66"
+      },
+      "path": "src/recording.rs",
+      "sha256": "4273be1af82f7a1ab9c0f141fc58b663354e5fc96e625835ad1dbcef2588af34"
+    },
+    {
+      "bytes": 13424,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main accepted-force recording custody retained: bit-preserving bounded codec, validated freeze, exact run digest association and actual accepted-control stamp. Legacy absence is preserved and mismatched metadata fails.",
+      "parent_inventory_pin": {
+        "main": "5a9b10b929f650423ad9e58bd7047bfe80cc7bf18138d74bd628c2f3f17af711",
+        "pr142": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509"
+      },
+      "parent_sha256": {
+        "main": "5a9b10b929f650423ad9e58bd7047bfe80cc7bf18138d74bd628c2f3f17af711",
+        "pr142": "b9c83015df214b426315f1840cbd2029d3f4b85525aef2fc8592e97468d54509"
+      },
+      "path": "src/recording/carrier.rs",
+      "sha256": "5a9b10b929f650423ad9e58bd7047bfe80cc7bf18138d74bd628c2f3f17af711"
+    },
+    {
+      "bytes": 27711,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing recording consumer context retained; selected immutable fields, units/stage/time and bounded SQLite integrity remain governed by unchanged parent code.",
+      "parent_inventory_pin": {
+        "main": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307",
+        "pr142": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307"
+      },
+      "parent_sha256": {
+        "main": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307",
+        "pr142": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307"
+      },
+      "path": "src/recording/comparison.rs",
+      "sha256": "5a82201f4583cf9eb4cc38d43c7ee88bc54d10a84df46272c2dd84091aa4a307"
+    },
+    {
+      "bytes": 67253,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing recording consumer context retained; selected immutable fields, units/stage/time and bounded SQLite integrity remain governed by unchanged parent code.",
+      "parent_inventory_pin": {
+        "main": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
+        "pr142": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f"
+      },
+      "parent_sha256": {
+        "main": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f",
+        "pr142": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f"
+      },
+      "path": "src/recording/diagnostic.rs",
+      "sha256": "279aff886f1354af203429a2e43cce73cdb485ee5ddd90201d1498e5e7872b7f"
+    },
+    {
+      "bytes": 20485,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main accepted-force recording custody retained: bit-preserving bounded codec, validated freeze, exact run digest association and actual accepted-control stamp. Legacy absence is preserved and mismatched metadata fails.",
+      "parent_inventory_pin": {
+        "main": "2cf3ec9ec191c35c814d48ace301feaccd6cc73311a66970c9d112dad432c4a9",
+        "pr142": null
+      },
+      "parent_sha256": {
+        "main": "2cf3ec9ec191c35c814d48ace301feaccd6cc73311a66970c9d112dad432c4a9",
+        "pr142": null
+      },
+      "path": "src/recording/force_fields.rs",
+      "sha256": "2cf3ec9ec191c35c814d48ace301feaccd6cc73311a66970c9d112dad432c4a9"
+    },
+    {
+      "bytes": 16944,
+      "disposition": "identical-main",
+      "justification": "Byte-identical to main; inherited owner inspected in composed call path. Main accepted-force recording custody retained: bit-preserving bounded codec, validated freeze, exact run digest association and actual accepted-control stamp. Legacy absence is preserved and mismatched metadata fails.",
+      "parent_inventory_pin": {
+        "main": "e72e256aa3af46fef9002822de5281caf1de66ba070eb2109f77b083e20ae6ce",
+        "pr142": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00"
+      },
+      "parent_sha256": {
+        "main": "e72e256aa3af46fef9002822de5281caf1de66ba070eb2109f77b083e20ae6ce",
+        "pr142": "e01a730b04fd34d7fdc797ede735cb45fa743101dd51e8fd406b02bacdd43d00"
+      },
+      "path": "src/recording/material.rs",
+      "sha256": "e72e256aa3af46fef9002822de5281caf1de66ba070eb2109f77b083e20ae6ce"
+    },
+    {
+      "bytes": 46836,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 separate typed native-projection profile retained: native fields, immutable intent/receipt binding and terminal custody use explicit RPS/RPP/RPT versions. Old G1 graph evidence remains unavailable; no restart or execution authentication promise.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "49323046bc72879a80fae248a3f5f05018f461df4d26c185b7458a05fe225588"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "49323046bc72879a80fae248a3f5f05018f461df4d26c185b7458a05fe225588"
+      },
+      "path": "src/recording/projection.rs",
+      "sha256": "49323046bc72879a80fae248a3f5f05018f461df4d26c185b7458a05fe225588"
+    },
+    {
+      "bytes": 46824,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 separate typed native-projection profile retained: native fields, immutable intent/receipt binding and terminal custody use explicit RPS/RPP/RPT versions. Old G1 graph evidence remains unavailable; no restart or execution authentication promise.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "5b53bd71f5d4ca21cb51286d059d8041fecc400b3743e02ff22f28eb5fd7ce8d"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "5b53bd71f5d4ca21cb51286d059d8041fecc400b3743e02ff22f28eb5fd7ce8d"
+      },
+      "path": "src/recording/projection_tests.rs",
+      "sha256": "5b53bd71f5d4ca21cb51286d059d8041fecc400b3743e02ff22f28eb5fd7ce8d"
+    },
+    {
+      "bytes": 52170,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/workflow codec retained: RCP4 wraps existing RCP2/RCP3 and RCT2 wraps RCT1; complete decoding, source/prior-state binding and legacy/unknown-version handling remain distinct from force metadata.",
+      "parent_inventory_pin": {
+        "main": "980ea5af7094016b13e7d0f39110aa2ff673b0173416e0fe583e6266b7c27f57",
+        "pr142": "3daa4c37b3f78dcc1c02454e00d5586b3e859c1671766ae0f7fc6984190b7826"
+      },
+      "parent_sha256": {
+        "main": "980ea5af7094016b13e7d0f39110aa2ff673b0173416e0fe583e6266b7c27f57",
+        "pr142": "3daa4c37b3f78dcc1c02454e00d5586b3e859c1671766ae0f7fc6984190b7826"
+      },
+      "path": "src/recording/provider.rs",
+      "sha256": "3daa4c37b3f78dcc1c02454e00d5586b3e859c1671766ae0f7fc6984190b7826"
+    },
+    {
+      "bytes": 7457,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. PR142 configured/workflow codec retained: RCP4 wraps existing RCP2/RCP3 and RCT2 wraps RCT1; complete decoding, source/prior-state binding and legacy/unknown-version handling remain distinct from force metadata.",
+      "parent_inventory_pin": {
+        "main": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75",
+        "pr142": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75"
+      },
+      "parent_sha256": {
+        "main": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75",
+        "pr142": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75"
+      },
+      "path": "src/recording/provider/comparison.rs",
+      "sha256": "90c1230c2cbfb2415c74e5d3c9b66e74f68c7b2096bf4063c5513ac2c6feaa75"
+    },
+    {
+      "bytes": 32119,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/workflow codec retained: RCP4 wraps existing RCP2/RCP3 and RCT2 wraps RCT1; complete decoding, source/prior-state binding and legacy/unknown-version handling remain distinct from force metadata.",
+      "parent_inventory_pin": {
+        "main": "d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb",
+        "pr142": "2cff480b60cdae14107541ce07d72afe2e1627684b82d427211df1bff023d381"
+      },
+      "parent_sha256": {
+        "main": "d7b2a1f7cfa866b33887f7c8f804999058d6e70a1c9d71421372d151152ebccb",
+        "pr142": "2cff480b60cdae14107541ce07d72afe2e1627684b82d427211df1bff023d381"
+      },
+      "path": "src/recording/provider/runtime.rs",
+      "sha256": "2cff480b60cdae14107541ce07d72afe2e1627684b82d427211df1bff023d381"
+    },
+    {
+      "bytes": 80771,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/workflow codec retained: RCP4 wraps existing RCP2/RCP3 and RCT2 wraps RCT1; complete decoding, source/prior-state binding and legacy/unknown-version handling remain distinct from force metadata.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "020b8cd9d63dc5afedfb1b99b316fe584a5f226241abe4be159af960b13d2cc1"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "020b8cd9d63dc5afedfb1b99b316fe584a5f226241abe4be159af960b13d2cc1"
+      },
+      "path": "src/recording/workflow.rs",
+      "sha256": "020b8cd9d63dc5afedfb1b99b316fe584a5f226241abe4be159af960b13d2cc1"
+    },
+    {
+      "bytes": 6347,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+        "pr142": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf"
+      },
+      "parent_sha256": {
+        "main": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf",
+        "pr142": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf"
+      },
+      "path": "src/sampling.rs",
+      "sha256": "6bf158f71f795078b5a88a5662ec2169693508e555f0f98d539657873aaabbcf"
+    },
+    {
+      "bytes": 15224,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
+        "pr142": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411"
+      },
+      "parent_sha256": {
+        "main": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411",
+        "pr142": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411"
+      },
+      "path": "src/scheduling.rs",
+      "sha256": "21fa031c06eeff8c2f722beb5553af9ba86d0afab479f4036916480338dc1411"
+    },
+    {
+      "bytes": 18461,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",
+        "pr142": "fffdcf8728bcc959db384c4567ad8200ec59be800fcb343a7324e208a776088b"
+      },
+      "parent_sha256": {
+        "main": "367c370e2257e35de09943e8dc3e1257b994c5e01d1409af1a989682f41c583e",
+        "pr142": "fffdcf8728bcc959db384c4567ad8200ec59be800fcb343a7324e208a776088b"
+      },
+      "path": "src/session.rs",
+      "sha256": "fffdcf8728bcc959db384c4567ad8200ec59be800fcb343a7324e208a776088b"
+    },
+    {
+      "bytes": 16754,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": "d99ae990e9c7ddc956f95f414a25832411a4dc84ab434df95ff9f8f68cf52a83",
+        "pr142": "25a3478d1408ee98f55fc072fcef97631df5283bd01f13e3ac81d947450e5ce4"
+      },
+      "parent_sha256": {
+        "main": "d99ae990e9c7ddc956f95f414a25832411a4dc84ab434df95ff9f8f68cf52a83",
+        "pr142": "25a3478d1408ee98f55fc072fcef97631df5283bd01f13e3ac81d947450e5ce4"
+      },
+      "path": "src/session/configured.rs",
+      "sha256": "25a3478d1408ee98f55fc072fcef97631df5283bd01f13e3ac81d947450e5ce4"
+    },
+    {
+      "bytes": 13897,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 closed projection implementation/evidence retained: immutable provisional input binding; host pressure/corrected-velocity qualification; clean native fallback; independent failed-attempt receipt; full carrier/volume and receipt sealing before owner swaps. No authored-field path or arbitrary runtime is added.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "b94b144d441730a50f641656dbfd069e7182b8471a73e8aba8b4df17c53cf0a4"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "b94b144d441730a50f641656dbfd069e7182b8471a73e8aba8b4df17c53cf0a4"
+      },
+      "path": "src/session/projection.rs",
+      "sha256": "b94b144d441730a50f641656dbfd069e7182b8471a73e8aba8b4df17c53cf0a4"
+    },
+    {
+      "bytes": 48330,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 closed projection implementation/evidence retained: immutable provisional input binding; host pressure/corrected-velocity qualification; clean native fallback; independent failed-attempt receipt; full carrier/volume and receipt sealing before owner swaps. No authored-field path or arbitrary runtime is added.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "58fb6694b80e8b87d7fff889c5e3a5adf801f1a2b3e671d37e352c01bbf8053d"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "58fb6694b80e8b87d7fff889c5e3a5adf801f1a2b3e671d37e352c01bbf8053d"
+      },
+      "path": "src/session/projection_tests.rs",
+      "sha256": "58fb6694b80e8b87d7fff889c5e3a5adf801f1a2b3e671d37e352c01bbf8053d"
+    },
+    {
+      "bytes": 14651,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
+        "pr142": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d"
+      },
+      "parent_sha256": {
+        "main": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d",
+        "pr142": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d"
+      },
+      "path": "src/sgs.rs",
+      "sha256": "0b4140af63144df8ff1839782b3c70295c18b96decc67aba348a37a33e9f996d"
+    },
+    {
+      "bytes": 53095,
+      "disposition": "reviewed-composition-or-fixture-repair",
+      "justification": "Differs from both named parents; exact composed source reviewed. Conflict resolved additively: StepDomains carries workflow, fields and projection. Native field constructors explicitly set workflow/projection None; configured liquid path sets fields None and threads workflow; projection path sets fields/workflow None. Both inspection stamps invalidate before attempts and commit. Force application, projection choice, candidate-only preparation and final commit retain their owning parent behavior.",
+      "parent_inventory_pin": {
+        "main": "c08ede6330c4bf6ed7e858e556806ec80628522ceb42286cf52714bf7430c9a1",
+        "pr142": "c8ee3c84cb0dbdcc4768c560ca66741ec581866e6239d87c4be9e505944e3e18"
+      },
+      "parent_sha256": {
+        "main": "c08ede6330c4bf6ed7e858e556806ec80628522ceb42286cf52714bf7430c9a1",
+        "pr142": "c8ee3c84cb0dbdcc4768c560ca66741ec581866e6239d87c4be9e505944e3e18"
+      },
+      "path": "src/simulation.rs",
+      "sha256": "0abf525a7535e48f04acd3ef408c15c7d93242906195f778fb0e1e8646dff254"
+    },
+    {
+      "bytes": 12820,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": "0ab7db08a9016e73d664c730e4ff513d42599a84c680ea061e6604859432a5a5",
+        "pr142": "204682fc6540cb812d7d9200dd61085e5dcb827a6c77981e081046ef353c0838"
+      },
+      "parent_sha256": {
+        "main": "0ab7db08a9016e73d664c730e4ff513d42599a84c680ea061e6604859432a5a5",
+        "pr142": "204682fc6540cb812d7d9200dd61085e5dcb827a6c77981e081046ef353c0838"
+      },
+      "path": "src/solver_provider.rs",
+      "sha256": "204682fc6540cb812d7d9200dd61085e5dcb827a6c77981e081046ef353c0838"
+    },
+    {
+      "bytes": 3713,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "f8cceb5a953e45627c2297b9393e557519b3099c4533b5aa1045b0dd0c6a96ef"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "f8cceb5a953e45627c2297b9393e557519b3099c4533b5aa1045b0dd0c6a96ef"
+      },
+      "path": "src/solver_provider/composition.rs",
+      "sha256": "f8cceb5a953e45627c2297b9393e557519b3099c4533b5aa1045b0dd0c6a96ef"
+    },
+    {
+      "bytes": 22377,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 closed projection implementation/evidence retained: immutable provisional input binding; host pressure/corrected-velocity qualification; clean native fallback; independent failed-attempt receipt; full carrier/volume and receipt sealing before owner swaps. No authored-field path or arbitrary runtime is added.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "c122744dfc3b4fccd4c5755df10fef1c12033e51d87c191d73efdb0cdaab28a3"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "c122744dfc3b4fccd4c5755df10fef1c12033e51d87c191d73efdb0cdaab28a3"
+      },
+      "path": "src/solver_provider/composition/projection.rs",
+      "sha256": "c122744dfc3b4fccd4c5755df10fef1c12033e51d87c191d73efdb0cdaab28a3"
+    },
+    {
+      "bytes": 39648,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 closed projection implementation/evidence retained: immutable provisional input binding; host pressure/corrected-velocity qualification; clean native fallback; independent failed-attempt receipt; full carrier/volume and receipt sealing before owner swaps. No authored-field path or arbitrary runtime is added.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "1136781800cb14e301521fe4093fe042f59d17b7e149136dc24ba73bf4500a3e"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "1136781800cb14e301521fe4093fe042f59d17b7e149136dc24ba73bf4500a3e"
+      },
+      "path": "src/solver_provider/composition/projection_tests.rs",
+      "sha256": "1136781800cb14e301521fe4093fe042f59d17b7e149136dc24ba73bf4500a3e"
+    },
+    {
+      "bytes": 11454,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "363b5f5192225d7187cf64bd458f9691e3f041ef8ed1282babc5c5c2a9eb2adb"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "363b5f5192225d7187cf64bd458f9691e3f041ef8ed1282babc5c5c2a9eb2adb"
+      },
+      "path": "src/solver_provider/composition_tests.rs",
+      "sha256": "363b5f5192225d7187cf64bd458f9691e3f041ef8ed1282babc5c5c2a9eb2adb"
+    },
+    {
+      "bytes": 10720,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": "124ca65dd1dec3a8a89043198fb085453a42ca8aff0dc87c67b04b6a986109be",
+        "pr142": "e75eff2c8c0147b00a07e10e4a2b686b0fcf6a46248dbbcb346c5d485ce93392"
+      },
+      "parent_sha256": {
+        "main": "124ca65dd1dec3a8a89043198fb085453a42ca8aff0dc87c67b04b6a986109be",
+        "pr142": "e75eff2c8c0147b00a07e10e4a2b686b0fcf6a46248dbbcb346c5d485ce93392"
+      },
+      "path": "src/solver_provider/configured.rs",
+      "sha256": "e75eff2c8c0147b00a07e10e4a2b686b0fcf6a46248dbbcb346c5d485ce93392"
+    },
+    {
+      "bytes": 6332,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693",
+        "pr142": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693"
+      },
+      "parent_sha256": {
+        "main": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693",
+        "pr142": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693"
+      },
+      "path": "src/solver_provider/context.rs",
+      "sha256": "763debfefc6f9375849c8f503995e20660fc25efef9e827d5942d980e14fe693"
+    },
+    {
+      "bytes": 6061,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796",
+        "pr142": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796"
+      },
+      "parent_sha256": {
+        "main": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796",
+        "pr142": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796"
+      },
+      "path": "src/solver_provider/modal.rs",
+      "sha256": "c597450ad73a4dede64a1fedcc65a0b4d5551f594f29b2d0cf7c85b0e2e14796"
+    },
+    {
+      "bytes": 18098,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080",
+        "pr142": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080"
+      },
+      "parent_sha256": {
+        "main": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080",
+        "pr142": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080"
+      },
+      "path": "src/static_obstacle.rs",
+      "sha256": "df50f3761fd7258ca42026ba852d2c326a1a5efa42daa4021967b799493b1080"
+    },
+    {
+      "bytes": 9936,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+        "pr142": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae"
+      },
+      "parent_sha256": {
+        "main": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae",
+        "pr142": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae"
+      },
+      "path": "src/tracer_barrier.rs",
+      "sha256": "1007f35400b5e1b3206653b9f9ccaafbc169617ad896aec54f94fc792eba2fae"
+    },
+    {
+      "bytes": 29473,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+        "pr142": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163"
+      },
+      "parent_sha256": {
+        "main": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163",
+        "pr142": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163"
+      },
+      "path": "src/translated_viscous.rs",
+      "sha256": "6fa240053738411bb93b3e365def39fdc8a93597cd0c0523dcd1af39cbc68163"
+    },
+    {
+      "bytes": 15726,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+        "pr142": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa"
+      },
+      "parent_sha256": {
+        "main": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa",
+        "pr142": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa"
+      },
+      "path": "src/viscosity.rs",
+      "sha256": "3cb7643d321fa94957fafdc101abf0ee9ef273f99c9a512938124e72f32178aa"
+    },
+    {
+      "bytes": 21304,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Existing numerical or host context retained with exact parent identity. No local arithmetic or boundary edit is introduced; composed entrypoints preserve its existing contract. This identity disposition does not transfer prior numerical, physical or performance acceptance.",
+      "parent_inventory_pin": {
+        "main": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e",
+        "pr142": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e"
+      },
+      "parent_sha256": {
+        "main": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e",
+        "pr142": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e"
+      },
+      "path": "src/vtk_export.rs",
+      "sha256": "56c3f03d957df0a7fd0c00a1af229f47f1c21cdf53cbf3770656a9bb0b66735e"
+    },
+    {
+      "bytes": 30244,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9"
+      },
+      "path": "src/workflow.rs",
+      "sha256": "5d902d075f784c9c062d1d5372873b76844d1f8afb06218bff5c619c9d006eb9"
+    },
+    {
+      "bytes": 15862,
+      "disposition": "identical-pr142",
+      "justification": "Byte-identical to pr142; inherited owner inspected in composed call path. PR142 configured/session observation closure retained: accepted state and pressure history stay owned by Session; bounded workflow metadata follows the real attempt and publication. Preferred candidate qualification and native fallback remain at the pressure owner.",
+      "parent_inventory_pin": {
+        "main": null,
+        "pr142": "5c42f4ed32454e3de1c9638bdab24a9e8309c73b9eea3095b434a16570c00eb5"
+      },
+      "parent_sha256": {
+        "main": null,
+        "pr142": "5c42f4ed32454e3de1c9638bdab24a9e8309c73b9eea3095b434a16570c00eb5"
+      },
+      "path": "src/workflow/tests.rs",
+      "sha256": "5c42f4ed32454e3de1c9638bdab24a9e8309c73b9eea3095b434a16570c00eb5"
+    },
+    {
+      "bytes": 12213,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16",
+        "pr142": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16"
+      },
+      "parent_sha256": {
+        "main": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16",
+        "pr142": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16"
+      },
+      "path": "tests/aligned_strain_contract.rs",
+      "sha256": "d2270f86bd04c36501b59f01772656bda264d2c70b8613429701a268a305da16"
+    },
+    {
+      "bytes": 17654,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020",
+        "pr142": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020"
+      },
+      "parent_sha256": {
+        "main": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020",
+        "pr142": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020"
+      },
+      "path": "tests/obstacle_flow_contract.rs",
+      "sha256": "7e5318ca45b6932818accfc748cc70ae6cf1719f6047c2d2f9343eb8cedcd020"
+    },
+    {
+      "bytes": 9794,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de",
+        "pr142": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de"
+      },
+      "parent_sha256": {
+        "main": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de",
+        "pr142": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de"
+      },
+      "path": "tests/static_obstacle_contract.rs",
+      "sha256": "fcc7546886b865ada1641dd7ee3549534f2273d908c19047d886c49a048157de"
+    },
+    {
+      "bytes": 19002,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5",
+        "pr142": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5"
+      },
+      "parent_sha256": {
+        "main": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5",
+        "pr142": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5"
+      },
+      "path": "tools/aligned_strain_oracle.py",
+      "sha256": "902fbbf5fc94b93cfc490a9646eaa4e2233262e704121ea49f4fe6a5ab9744a5"
+    },
+    {
+      "bytes": 9126,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba",
+        "pr142": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba"
+      },
+      "parent_sha256": {
+        "main": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba",
+        "pr142": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba"
+      },
+      "path": "tools/qualify_aligned_strain.py",
+      "sha256": "5b907d7d65f688b41b5c56a2c2f3f2f4cc4a4b7958a4bb3af1a7df5ac448e5ba"
+    },
+    {
+      "bytes": 12003,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f",
+        "pr142": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f"
+      },
+      "parent_sha256": {
+        "main": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f",
+        "pr142": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f"
+      },
+      "path": "tools/test_aligned_strain_oracle.py",
+      "sha256": "4dff74ceef758cc492d6a67f0ef0598a4221b87183f6fb033db591611aca3a3f"
+    },
+    {
+      "bytes": 4547,
+      "disposition": "identical-both-parents",
+      "justification": "Byte-identical to both named parents; retained transitive context, no new source delta. Qualification/build authority retained: exact parent bytes preserve toolchain, dependencies, native specimen and independent rational/rejection oracles. No threshold, selector, receipt or qualification semantics are inferred or relaxed.",
+      "parent_inventory_pin": {
+        "main": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db",
+        "pr142": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db"
+      },
+      "parent_sha256": {
+        "main": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db",
+        "pr142": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db"
+      },
+      "path": "tools/test_qualify_aligned_strain.py",
+      "sha256": "48e0f89d4a12e4d2b8a4a374b36a8bdcf8b2d0250ab449df93ca188d410673db"
+    }
+  ],
+  "parent_inventory_checks": {
+    "main": {
+      "every_pin_matches_parent_blob": true,
+      "path_count": 136,
+      "review_binding_valid": true,
+      "review_sha256": "32e81e49279b1a0f0fb7f0f35d3264f504099a856d8c09375af3215b6d424e9a"
+    },
+    "pr142": {
+      "every_pin_matches_parent_blob": true,
+      "path_count": 140,
+      "review_binding_valid": true,
+      "review_sha256": "a4e27e367c0604fc24c9b3020110832fc7ef85c902fcdd35ad2c5c684de9b97b"
+    }
+  },
+  "path_count": 152,
+  "prior_review_preservation": {
+    "both_complete_divergent_histories_preserved": true,
+    "common_prefix_bytes": 72250,
+    "common_prefix_sha256": "60d006b75bcbf7f709900530e02f9526e0b02f4f35b8b69c1f24f3339a2a2ada",
+    "parent_review_sha256": {
+      "main": "32e81e49279b1a0f0fb7f0f35d3264f504099a856d8c09375af3215b6d424e9a",
+      "pr142": "a4e27e367c0604fc24c9b3020110832fc7ef85c902fcdd35ad2c5c684de9b97b"
+    }
+  },
+  "schema": "rheon-pr142-independent-completion-source-review-v1",
+  "scope": "Unchanged reviewed_native_paths(): all src/.cargo/rust-toolchain and existing qualification inputs; no source selector narrowing.",
+  "selector": {
+    "path": "docs/education/aligned_strain_packet.py",
+    "sha256": "361ec0530ad64bbb0f698463a0553ab1c3b4964af3e9cbce547a327456cb8b3a",
+    "unchanged_from_both_parents": true
+  },
+  "source_parents": {
+    "main": "15026a966265cf9eaedf464e2b5a066bd0fef3d8",
+    "pr142": "4f2d55323825c8907cf9209914f29130ec7de511"
+  }
+}

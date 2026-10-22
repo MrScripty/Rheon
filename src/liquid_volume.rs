@@ -30,6 +30,11 @@ pub enum LiquidVolumeError {
     InvalidInlet,
     InvalidSource,
     InvalidSettings,
+    UnsupportedPeriodicDomain,
+    PeriodicVelocityMismatch {
+        axis: Axis,
+        face: usize,
+    },
     InvalidTimeStep,
     TimeResolution,
     TimeMismatch,
@@ -185,6 +190,9 @@ pub struct LiquidVolumeSource<'a> {
     rate: &'a [f64],
 }
 impl<'a> LiquidVolumeSource<'a> {
+    pub(crate) fn workflow_parts(self) -> (VolumeStamp, &'a [f64]) {
+        (self.stamp, self.rate)
+    }
     pub fn new(stamp: VolumeStamp, rate: &'a [f64]) -> Result<Self, LiquidVolumeError> {
         if rate.iter().any(|v| !v.is_finite()) {
             return Err(LiquidVolumeError::InvalidSource);
@@ -204,7 +212,10 @@ pub struct LiquidVolumeSettings {
 pub struct LiquidVolumeReport {
     pub stamp: VolumeStamp,
     pub flow: VolumeStamp,
+    /// Inlet identity for box transport; periodic boundary-policy identity when periodic=true.
     pub inlet: VolumeStamp,
+    /// Explicit represented-volume boundary version; false preserves the original box policy.
+    pub periodic: bool,
     pub source: Option<VolumeStamp>,
     pub dt: f64,
     pub time: f64,
@@ -234,6 +245,24 @@ pub struct LiquidVolumeView<'a> {
     pub time: f64,
     /// Constant represented-liquid density, not a carrier pressure coefficient.
     pub density: f64,
+}
+
+// Private topology selector keeps existing prepared-volume callers unchanged.
+#[derive(Clone, Copy)]
+enum VolumeBoundary {
+    Inlet(LiquidInlet),
+    Periodic(VolumeStamp),
+}
+impl VolumeBoundary {
+    fn stamp(self) -> VolumeStamp {
+        match self {
+            Self::Inlet(i) => i.stamp,
+            Self::Periodic(s) => s,
+        }
+    }
+    fn is_periodic(self) -> bool {
+        matches!(self, Self::Periodic(_))
+    }
 }
 
 /// Accepted and candidate f64 fraction arrays plus three shared f64 face-transfer
@@ -354,6 +383,29 @@ impl LiquidVolumeState {
         cancel: impl FnMut(VolumeStage) -> bool,
     ) -> Result<LiquidVolumeReport, LiquidVolumeError> {
         let report = self.prepare_advance(flow, inlet, source, settings, cancel)?;
+        self.commit_prepared(&report);
+        Ok(report)
+    }
+    /// Periodic donor-cell represented-volume transport, boundary version 1.
+    /// Each opposite normal face must have equal f32 velocity. The lower seam
+    /// transfer is computed once and mirrored; external boundary ledgers are zero.
+    /// This volume-only policy does not qualify a periodic pressure/solid solver.
+    /// Slab/reconstructed domains refuse; accepted state is unchanged on failure.
+    pub fn advance_periodic(
+        &mut self,
+        flow: LiquidFlowInterval<'_>,
+        boundary_stamp: VolumeStamp,
+        source: Option<LiquidVolumeSource<'_>>,
+        settings: LiquidVolumeSettings,
+        cancel: impl FnMut(VolumeStage) -> bool,
+    ) -> Result<LiquidVolumeReport, LiquidVolumeError> {
+        let report = self.prepare_with_boundary(
+            flow,
+            VolumeBoundary::Periodic(boundary_stamp),
+            source,
+            settings,
+            cancel,
+        )?;
         self.commit_prepared(&report);
         Ok(report)
     }
@@ -493,6 +545,16 @@ impl LiquidVolumeState {
         inlet: LiquidInlet,
         source: Option<LiquidVolumeSource<'_>>,
         settings: LiquidVolumeSettings,
+        cancel: impl FnMut(VolumeStage) -> bool,
+    ) -> Result<LiquidVolumeReport, LiquidVolumeError> {
+        self.prepare_with_boundary(flow, VolumeBoundary::Inlet(inlet), source, settings, cancel)
+    }
+    fn prepare_with_boundary(
+        &mut self,
+        flow: LiquidFlowInterval<'_>,
+        boundary: VolumeBoundary,
+        source: Option<LiquidVolumeSource<'_>>,
+        settings: LiquidVolumeSettings,
         mut cancel: impl FnMut(VolumeStage) -> bool,
     ) -> Result<LiquidVolumeReport, LiquidVolumeError> {
         if flow.grid != &self.grid {
@@ -504,6 +566,37 @@ impl LiquidVolumeState {
         self.validate_advance(source, settings)?;
         let next = self.stamp.version + 1;
         checkpoint(&mut cancel, VolumeStage::BeforeFlux)?;
+        let periodic = boundary.is_periodic();
+        if periodic {
+            if flow.domain != VolumeDivergenceDomain::AllCells || flow.columns.is_some() {
+                return Err(LiquidVolumeError::UnsupportedPeriodicDomain);
+            }
+            for axis in Axis::ALL {
+                let d = axis.index();
+                let dims = self.grid.face_counts(axis);
+                for k in 0..dims[2] {
+                    checkpoint(&mut cancel, VolumeStage::FaceFluxSlice)?;
+                    for j in 0..dims[1] {
+                        for i in 0..dims[0] {
+                            let p = [i, j, k];
+                            if p[d] != 0 {
+                                continue;
+                            }
+                            let mut hi = p;
+                            hi[d] = self.grid.counts()[d];
+                            let low = self.grid.face_unchecked(axis, p);
+                            let high = self.grid.face_unchecked(axis, hi);
+                            if flow.velocity[d][low] != flow.velocity[d][high] {
+                                return Err(LiquidVolumeError::PeriodicVelocityMismatch {
+                                    axis,
+                                    face: low,
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
         let h = self.grid.spacing();
         let area = [
             product(h[1], h[2])?,
@@ -519,10 +612,26 @@ impl LiquidVolumeState {
                     for i in 0..dims[0] {
                         let p = [i, j, k];
                         let face = self.grid.face_unchecked(axis, p);
+                        if periodic && p[d] == self.grid.counts()[d] {
+                            // Lexicographic axis coordinates visit the corresponding lower
+                            // seam first, for X, Y and Z alike. Copy the exact same transfer.
+                            let mut lo = p;
+                            lo[d] = 0;
+                            self.transfer[d][face] =
+                                self.transfer[d][self.grid.face_unchecked(axis, lo)];
+                            continue;
+                        }
                         let velocity = f64::from(flow.velocity[d][face]);
                         let donor = if velocity > 0.0 {
                             if p[d] == 0 {
-                                inlet.fraction[d][0]
+                                match boundary {
+                                    VolumeBoundary::Inlet(inlet) => inlet.fraction[d][0],
+                                    VolumeBoundary::Periodic(_) => {
+                                        let mut low = p;
+                                        low[d] = self.grid.counts()[d] - 1;
+                                        self.accepted[self.grid.cell_unchecked(low)]
+                                    }
+                                }
                             } else {
                                 let mut low = p;
                                 low[d] -= 1;
@@ -530,7 +639,12 @@ impl LiquidVolumeState {
                             }
                         } else if velocity < 0.0 {
                             if p[d] == self.grid.counts()[d] {
-                                inlet.fraction[d][1]
+                                match boundary {
+                                    VolumeBoundary::Inlet(inlet) => inlet.fraction[d][1],
+                                    VolumeBoundary::Periodic(_) => {
+                                        return Err(LiquidVolumeError::ArithmeticFailure);
+                                    }
+                                }
                             } else {
                                 self.accepted[self.grid.cell_unchecked(p)]
                             }
@@ -646,7 +760,7 @@ impl LiquidVolumeState {
                 for j in 0..dims[1] {
                     for i in 0..dims[0] {
                         let p = [i, j, k];
-                        if p[d] != 0 && p[d] != self.grid.counts()[d] {
+                        if periodic || (p[d] != 0 && p[d] != self.grid.counts()[d]) {
                             continue;
                         }
                         let value = self.transfer[d][self.grid.face_unchecked(axis, p)]
@@ -720,7 +834,8 @@ impl LiquidVolumeState {
                 version: next,
             },
             flow: flow.stamp,
-            inlet: inlet.stamp,
+            inlet: boundary.stamp(),
+            periodic,
             source: source.map(|s| s.stamp),
             dt: flow.dt,
             time: flow.end,
